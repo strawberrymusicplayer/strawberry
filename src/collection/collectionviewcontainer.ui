@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CollectionViewContainer</class>
+ <widget class="QWidget" name="CollectionViewContainer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="CollectionFilterWidget" name="filter" native="true"/>
+   </item>
+   <item>
+    <widget class="CollectionView" name="view" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CollectionFilterWidget</class>
+   <extends>QWidget</extends>
+   <header>collection/collectionfilterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CollectionView</class>
+   <extends>QWidget</extends>
+   <header>collection/collectionview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,67 @@
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+#ifndef PLAYLISTPARSER_H
+#define PLAYLISTPARSER_H
+
+#include "config.h"
+
+#include <QDir>
+#include <QObject>
+
+#include "core/song.h"
+#include "playlist/playlist.h"
+
+class ParserBase;
+class CollectionBackendInterface;
+
+class PlaylistParser : public QObject {
+  Q_OBJECT
+
+ public:
+  PlaylistParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+
+  static const int kMagicSize;
+
+  QStringList file_extensions() const;
+  QString filters() const;
+
+  QStringList mime_types() const;
+
+  QString default_extension() const;
+  QString default_filter() const;
+
+  ParserBase *ParserForMagic(const QByteArray &data, const QString &mime_type = QString()) const;
+  ParserBase *ParserForExtension(const QString &suffix) const;
+  ParserBase *ParserForMimeType(const QString &mime) const;
+
+  SongList LoadFromFile(const QString &filename) const;
+  SongList LoadFromDevice(QIODevice *device, const QString &path_hint = QString(), const QDir &dir_hint = QDir()) const;
+  void Save(const SongList &songs, const QString &filename, Playlist::Path) const;
+
+private:
+  QString FilterForParser(const ParserBase *parser, QStringList *all_extensions = nullptr) const;
+
+private:
+  QList<ParserBase*> parsers_;
+  ParserBase *default_parser_;
+};
+
+#endif  // PLAYLISTPARSER_H

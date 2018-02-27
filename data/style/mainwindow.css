@@ -1,0 +1,54 @@
+#playlist {
+  background-color: %palette-base;
+  alternate-background-color: %palette-alternate-base;
+
+}
+
+#playlist[default_background_enabled = "true"] {
+  background-image: url(:/pictures/strawbs-transparent.png);
+  background-attachment: fixed;
+  background-position: bottom right;
+  background-repeat: none;
+  background-clip: content;
+}
+
+QToolButton {
+  border: 2px solid transparent;
+  border-radius: 3px;
+  padding: 1px;
+}
+
+QToolButton::menu-button {
+  width: 16px;
+  border: none;
+}
+
+QToolButton[popupMode="1"] {
+  padding-right: 16px;
+}
+
+QToolButton:hover {
+  border: 2px solid %palette-highlight;
+  background-color: %palette-highlight-lighter;
+}
+
+QToolButton:hover[popupMode="1"] {
+  padding-right: 16px;
+}
+
+QToolButton:pressed {
+  border: 2px solid %palette-highlight-darker;
+  background-color: %palette-highlight-lighter;
+}
+
+QToolButton:pressed[popupMode="1"] {
+  padding-right: 16px;
+}
+
+darwin {
+  font-size: 11pt;
+}
+
+darwin QMenu {
+  font-size: 13pt;
+}

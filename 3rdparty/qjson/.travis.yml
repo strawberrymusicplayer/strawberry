@@ -1,0 +1,22 @@
+language: cpp
+sudo: false
+dist: trusty
+env:
+  - USE_QT4=yes
+  - USE_QT4=no
+compiler:
+  - gcc
+addons:
+  apt:
+    packages:
+      - cmake
+      - make
+      - libqt4-dev
+      - qt5-default
+before_script:
+  - mkdir build
+  - cd build
+  - cmake -DQT4_BUILD=$USE_QT4 -DQJSON_BUILD_TESTS=yes ..
+script:
+  - make
+  - make test

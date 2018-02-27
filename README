@@ -1,2 +1,34 @@
 Strawberry Music Player
-Fork of Clementine Music Player
+=======================
+README
+
+Strawberry is a fork of Clementine for Linux created in 2013, it's written in C++ and Qt5.
+The main goal was to create a player for playing local music files that looked a bit more like Amarok 1.4 amd with advanced soundcard options.
+You will find that Strawberry is lacking internet services and some other features found in Clementine.
+
+Some differences between Strawberry and Clementine are:
+
+- Status widget similar to context in Amarok 1.4
+- Settings have been reorganized
+- Advanced backend settings with support for several backends and advanced options
+- No Smart playlists, visualizations or cd ripping support
+- No LastFM, podcast or internet features except for fetching album covers
+
+There are no plans to add internet streaming features, but if we would add something it has to be a service providing high quality audio and not low audio quality like Spotify. 
+
+You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
+
+Compiling from source
+---------------------
+
+Get the code:
+
+    git clone https://github.com/jonaski/strawberry.git
+
+Compile and install:
+
+    mkdir strawberry-build
+    cd strawberry-build
+    cmake ../strawberry
+    make
+    sudo make install

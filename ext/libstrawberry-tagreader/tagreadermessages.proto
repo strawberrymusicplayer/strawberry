@@ -1,0 +1,110 @@
+package pb.tagreader;
+
+message SongMetadata {
+
+  enum Type {
+    UNKNOWN = 0;
+    ASF = 1;
+    FLAC = 2;
+    MP4 = 3;
+    MPC = 4;
+    MPEG = 5;
+    OGGFLAC = 6;
+    OGGSPEEX = 7;
+    OGGVORBIS = 8;
+    AIFF = 9;
+    WAV = 10;
+    TRUEAUDIO = 11;
+    CDDA = 12;
+    OGGOPUS = 13;
+    //STREAM = 99;
+  }
+
+  optional bool valid = 1;
+  
+  optional string title = 2;
+  optional string album = 3;
+  optional string artist = 4;
+  optional string albumartist = 5;
+  optional int32 track = 6;
+  optional int32 disc = 7;
+  optional int32 year = 8;
+  optional int32 originalyear = 9;
+  optional string genre = 10;
+  optional bool compilation = 11;
+  optional string composer = 12;
+  optional string performer = 13;
+  optional string grouping = 14;
+  optional string comment = 15;
+  
+  optional uint64 length_nanosec = 16;
+  
+  optional int32 bitrate = 17;
+  optional int32 samplerate = 18;
+  optional int32 bitdepth = 19;
+
+  optional string url = 20;
+  optional string basefilename = 21;
+  optional Type filetype = 22;
+  optional int32 filesize = 23;
+  optional int32 mtime = 24;
+  optional int32 ctime = 25;
+
+  optional int32 playcount = 26;
+  optional int32 skipcount = 27;
+  optional int32 lastplayed = 28;
+
+  optional bool suspicious_tags = 29;
+  optional string art_automatic = 30;
+
+}
+
+message ReadFileRequest {
+  optional string filename = 1;
+}
+
+message ReadFileResponse {
+  optional SongMetadata metadata = 1;
+}
+
+message SaveFileRequest {
+  optional string filename = 1;
+  optional SongMetadata metadata = 2;
+}
+
+message SaveFileResponse {
+  optional bool success = 1;
+}
+
+message IsMediaFileRequest {
+  optional string filename = 1;
+}
+
+message IsMediaFileResponse {
+  optional bool success = 1;
+}
+
+message LoadEmbeddedArtRequest {
+  optional string filename = 1;
+}
+
+message LoadEmbeddedArtResponse {
+  optional bytes data = 1;
+}
+
+message Message {
+  optional int32 id = 1;
+
+  optional ReadFileRequest read_file_request = 2;
+  optional ReadFileResponse read_file_response = 3;
+
+  optional SaveFileRequest save_file_request = 4;
+  optional SaveFileResponse save_file_response = 5;
+
+  optional IsMediaFileRequest is_media_file_request = 6;
+  optional IsMediaFileResponse is_media_file_response = 7;
+
+  optional LoadEmbeddedArtRequest load_embedded_art_request = 8;
+  optional LoadEmbeddedArtResponse load_embedded_art_response = 9;
+
+}

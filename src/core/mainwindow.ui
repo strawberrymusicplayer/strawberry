@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1131</width>
+    <height>685</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Strawberry Music Player</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../data/data.qrc">
+    <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout_8">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="sidebar_layout">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="FancyTabWidget" name="tabs" native="true"/>
+        </item>
+        <item>
+         <widget class="PlayingWidget" name="now_playing" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="playlist_layout">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="PlaylistContainer" name="playlist" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <addaction name="action_edit_track"/>
+          <addaction name="action_edit_value"/>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="Line" name="line_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="player_controls_container" native="true">
+            <layout class="QVBoxLayout" name="player_controls_layout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QFrame" name="player_controls">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QToolButton" name="back_button">
+                  <property name="iconSize">
+                   <size>
+                    <width>22</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="pause_play_button">
+                  <property name="iconSize">
+                   <size>
+                    <width>22</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="stop_button">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>22</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="popupMode">
+                   <enum>QToolButton::MenuButtonPopup</enum>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="forward_button">
+                  <property name="iconSize">
+                   <size>
+                    <width>22</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_buttons">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="AnalyzerContainer" name="analyzer" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>100</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>36</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Expanding</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="Line" name="line_volume">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Amarok::VolumeSlider" name="volume">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="status_bar" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <layout class="QVBoxLayout" name="status_bar_layout">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="Line" name="status_bar_line">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="status_bar_internal" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QStackedWidget" name="status_bar_stack">
+                     <widget class="MultiLoadingIndicator" name="multi_loading_indicator"/>
+                     <widget class="QWidget" name="playlist_summary_page">
+                      <layout class="QVBoxLayout" name="playlist_summary_layout">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="playlist_summary">
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="Line" name="line_5">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="PlaylistSequence" name="playlist_sequence" native="true"/>
+                   </item>
+                   <item>
+                    <widget class="Line" name="line_2">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="TrackSlider" name="track_slider" native="true">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>10</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1131</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_music">
+    <property name="title">
+     <string>&amp;Music</string>
+    </property>
+    <addaction name="action_open_file"/>
+    <addaction name="action_open_cd"/>
+    <addaction name="separator"/>
+    <addaction name="action_previous_track"/>
+    <addaction name="action_play_pause"/>
+    <addaction name="action_stop"/>
+    <addaction name="action_next_track"/>
+    <addaction name="separator"/>
+    <addaction name="action_mute"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="action_quit"/>
+   </widget>
+   <widget class="QMenu" name="menu_playlist">
+    <property name="title">
+     <string>&amp;Playlist</string>
+    </property>
+    <addaction name="action_add_file"/>
+    <addaction name="action_add_folder"/>
+    <addaction name="separator"/>
+    <addaction name="action_shuffle_mode"/>
+    <addaction name="action_repeat_mode"/>
+    <addaction name="separator"/>
+    <addaction name="action_new_playlist"/>
+    <addaction name="action_save_playlist"/>
+    <addaction name="action_load_playlist"/>
+    <addaction name="separator"/>
+    <addaction name="action_jump"/>
+    <addaction name="action_clear_playlist"/>
+    <addaction name="action_shuffle"/>
+    <addaction name="action_remove_duplicates"/>
+    <addaction name="action_remove_unavailable"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_about_strawberry"/>
+    <addaction name="action_about_qt"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_tools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="action_cover_manager"/>
+    <addaction name="action_queue_manager"/>
+    <addaction name="action_equalizer"/>
+    <addaction name="separator"/>
+    <addaction name="action_update_collection"/>
+    <addaction name="action_full_collection_scan"/>
+    <addaction name="separator"/>
+    <addaction name="action_settings"/>
+    <addaction name="action_console"/>
+   </widget>
+   <addaction name="menu_music"/>
+   <addaction name="menu_playlist"/>
+   <addaction name="menu_tools"/>
+   <addaction name="menu_help"/>
+  </widget>
+  <action name="action_previous_track">
+   <property name="text">
+    <string>&amp;Previous track</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="action_play_pause">
+   <property name="text">
+    <string>P&amp;lay</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="action_stop">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Stop</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
+  </action>
+  <action name="action_next_track">
+   <property name="text">
+    <string>&amp;Next track</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+  </action>
+  <action name="action_quit">
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
+  </action>
+  <action name="action_stop_after_this_track">
+   <property name="text">
+    <string>Stop after this track</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+V</string>
+   </property>
+  </action>
+  <action name="action_clear_playlist">
+   <property name="text">
+    <string>&amp;Clear playlist</string>
+   </property>
+   <property name="toolTip">
+    <string>Clear playlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="action_edit_track">
+   <property name="text">
+    <string>Edit track information...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="action_renumber_tracks">
+   <property name="text">
+    <string>Renumber tracks in this order...</string>
+   </property>
+  </action>
+  <action name="action_selection_set_value">
+   <property name="text">
+    <string>Set value for all selected tracks...</string>
+   </property>
+  </action>
+  <action name="action_edit_value">
+   <property name="text">
+    <string>Edit tag...</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="action_settings">
+   <property name="text">
+    <string>&amp;Settings...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="action_about_strawberry">
+   <property name="icon">
+    <iconset resource="../../data/data.qrc">
+     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;About Strawberry</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
+  </action>
+  <action name="action_shuffle">
+   <property name="text">
+    <string>S&amp;huffle playlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="action_add_file">
+   <property name="text">
+    <string>&amp;Add file...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="action_open_file">
+   <property name="text">
+    <string>&amp;Open file...</string>
+   </property>
+  </action>
+  <action name="action_open_cd">
+   <property name="text">
+    <string>Open &amp;audio CD...</string>
+   </property>
+  </action>
+  <action name="action_cover_manager">
+   <property name="text">
+    <string>&amp;Cover Manager</string>
+   </property>
+  </action>
+  <action name="action_console">
+   <property name="text">
+    <string>C&amp;onsole</string>
+   </property>
+  </action>
+  <action name="action_shuffle_mode">
+   <property name="text">
+    <string>&amp;Shuffle mode</string>
+   </property>
+  </action>
+  <action name="action_repeat_mode">
+   <property name="text">
+    <string>&amp;Repeat mode</string>
+   </property>
+  </action>
+  <action name="action_remove_from_playlist">
+   <property name="text">
+    <string>Remove from playlist</string>
+   </property>
+  </action>
+  <action name="action_equalizer">
+   <property name="text">
+    <string>&amp;Equalizer</string>
+   </property>
+  </action>
+  <action name="action_add_folder">
+   <property name="text">
+    <string>Add &amp;folder...</string>
+   </property>
+  </action>
+  <action name="action_jump">
+   <property name="text">
+    <string>&amp;Jump to the currently playing track</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+J</string>
+   </property>
+  </action>
+  <action name="action_new_playlist">
+   <property name="text">
+    <string>&amp;New playlist</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_save_playlist">
+   <property name="text">
+    <string>Save &amp;playlist...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_load_playlist">
+   <property name="text">
+    <string>&amp;Load playlist...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+  </action>
+  <action name="action_next_playlist">
+   <property name="text">
+    <string>Go to next playlist tab</string>
+   </property>
+  </action>
+  <action name="action_previous_playlist">
+   <property name="text">
+    <string>Go to previous playlist tab</string>
+   </property>
+  </action>
+  <action name="action_update_collection">
+   <property name="text">
+    <string>&amp;Update changed collection folders</string>
+   </property>
+  </action>
+  <action name="action_queue_manager">
+   <property name="text">
+    <string>&amp;Queue Manager</string>
+   </property>
+  </action>
+  <action name="action_about_qt">
+   <property name="text">
+    <string>About &amp;Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
+   </property>
+  </action>
+  <action name="action_mute">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Mute</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="action_full_collection_scan">
+   <property name="text">
+    <string>&amp;Do a full collection rescan</string>
+   </property>
+  </action>
+  <action name="action_auto_complete_tags">
+   <property name="icon">
+    <iconset resource="../../data/data.qrc">
+     <normaloff>:/pictures/musicbrainz.png</normaloff>:/pictures/musicbrainz.png</iconset>
+   </property>
+   <property name="text">
+    <string>Complete tags automatically...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="action_toggle_scrobbling">
+   <property name="text">
+    <string>Toggle scrobbling</string>
+   </property>
+  </action>
+  <action name="action_remove_duplicates">
+   <property name="text">
+    <string>Remove &amp;duplicates from playlist</string>
+   </property>
+  </action>
+  <action name="action_remove_unavailable">
+   <property name="text">
+    <string>Remove &amp;unavailable tracks from playlist</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>Amarok::VolumeSlider</class>
+   <extends>QSlider</extends>
+   <header>widgets/sliderwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AnalyzerContainer</class>
+   <extends>QWidget</extends>
+   <header>analyzer/analyzercontainer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlaylistContainer</class>
+   <extends>QWidget</extends>
+   <header>playlist/playlistcontainer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TrackSlider</class>
+   <extends>QWidget</extends>
+   <header>widgets/trackslider.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlaylistSequence</class>
+   <extends>QWidget</extends>
+   <header>playlist/playlistsequence.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MultiLoadingIndicator</class>
+   <extends>QWidget</extends>
+   <header>widgets/multiloadingindicator.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlayingWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/playingwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FancyTabWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/fancytabwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../data/data.qrc"/>
+ </resources>
+ <connections/>
+</ui>

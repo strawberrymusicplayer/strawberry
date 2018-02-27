@@ -1,0 +1,279 @@
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+#include "config.h"
+
+#include "albumcoverloader.h"
+
+#include <QPainter>
+#include <QDir>
+#include <QCoreApplication>
+#include <QUrl>
+#include <QNetworkReply>
+
+#include "config.h"
+#include "core/closure.h"
+#include "core/logging.h"
+#include "core/network.h"
+#include "core/tagreaderclient.h"
+#include "core/utilities.h"
+
+AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
+    : QObject(parent),
+      stop_requested_(false),
+      next_id_(1),
+      network_(new NetworkAccessManager(this)){}
+
+QString AlbumCoverLoader::ImageCacheDir() {
+  return Utilities::GetConfigPath(Utilities::Path_AlbumCovers);
+}
+
+void AlbumCoverLoader::CancelTask(quint64 id) {
+    
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+    
+  QMutexLocker l(&mutex_);
+  for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
+    if (it->id == id) {
+      tasks_.erase(it);
+      break;
+    }
+  }
+}
+
+void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
+    
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+    
+  QMutexLocker l(&mutex_);
+  for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end();) {
+    if (ids.contains(it->id)) {
+      it = tasks_.erase(it);
+    }
+    else {
+      ++it;
+    }
+  }
+}
+
+quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions& options, const Song &song) {
+  return LoadImageAsync(options, song.art_automatic(), song.art_manual(), song.url().toLocalFile(), song.image());
+}
+
+quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QString &art_automatic, const QString &art_manual, const QString &song_filename, const QImage &embedded_image) {
+
+  //qLog(Debug) << __PRETTY_FUNCTION__ << art_automatic << art_manual << song_filename;
+
+  Task task;
+  task.options = options;
+  task.art_automatic = art_automatic;
+  task.art_manual = art_manual;
+  task.song_filename = song_filename;
+  task.embedded_image = embedded_image;
+  task.state = State_TryingManual;
+
+  {
+    QMutexLocker l(&mutex_);
+    task.id = next_id_++;
+    tasks_.enqueue(task);
+  }
+
+  metaObject()->invokeMethod(this, "ProcessTasks", Qt::QueuedConnection);
+
+  return task.id;
+}
+
+void AlbumCoverLoader::ProcessTasks() {
+
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+
+  while (!stop_requested_) {
+    // Get the next task
+    Task task;
+    {
+      QMutexLocker l(&mutex_);
+      if (tasks_.isEmpty()) return;
+      task = tasks_.dequeue();
+    }
+
+    ProcessTask(&task);
+  }
+}
+
+void AlbumCoverLoader::ProcessTask(Task *task) {
+
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+
+  TryLoadResult result = TryLoadImage(*task);
+  if (result.started_async) {
+    // The image is being loaded from a remote URL, we'll carry on later
+    // when it's done
+    return;
+  }
+
+  if (result.loaded_success) {
+    QImage scaled = ScaleAndPad(task->options, result.image);
+    emit ImageLoaded(task->id, scaled);
+    emit ImageLoaded(task->id, scaled, result.image);
+    return;
+  }
+
+  NextState(task);
+}
+
+void AlbumCoverLoader::NextState(Task *task) {
+    
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+    
+  if (task->state == State_TryingManual) {
+    // Try the automatic one next
+    task->state = State_TryingAuto;
+    ProcessTask(task);
+  }
+  else {
+    // Give up
+    emit ImageLoaded(task->id, task->options.default_output_image_);
+    emit ImageLoaded(task->id, task->options.default_output_image_, task->options.default_output_image_);
+  }
+}
+
+AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task) {
+    
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+
+  // An image embedded in the song itself takes priority
+  if (!task.embedded_image.isNull())
+    return TryLoadResult(false, true, ScaleAndPad(task.options, task.embedded_image));
+
+  QString filename;
+  switch (task.state) {
+    case State_TryingAuto:   filename = task.art_automatic; break;
+    case State_TryingManual: filename = task.art_manual;    break;
+  }
+
+  if (filename == Song::kManuallyUnsetCover)
+    return TryLoadResult(false, true, task.options.default_output_image_);
+
+  if (filename == Song::kEmbeddedCover && !task.song_filename.isEmpty()) {
+    const QImage taglib_image = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task.song_filename);
+
+    if (!taglib_image.isNull())
+      return TryLoadResult(false, true, ScaleAndPad(task.options, taglib_image));
+  }
+
+  if (filename.toLower().startsWith("http://") || filename.toLower().startsWith("https://")) {
+
+    QUrl url(filename);
+    QNetworkReply* reply = network_->get(QNetworkRequest(url));
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), reply);
+
+    remote_tasks_.insert(reply, task);
+    return TryLoadResult(true, false, QImage());
+  }
+  else if (filename.isEmpty()) {
+    // Avoid "QFSFileEngine::open: No file name specified" messages if we know that the filename is empty
+    return TryLoadResult(false, false, task.options.default_output_image_);
+  }
+
+  QImage image(filename);
+  return TryLoadResult(false, !image.isNull(), image.isNull() ? task.options.default_output_image_ : image);
+  
+}
+
+void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
+    
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+
+  reply->deleteLater();
+
+  Task task = remote_tasks_.take(reply);
+
+  // Handle redirects.
+  QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+  if (redirect.isValid()) {
+    if (++task.redirects > kMaxRedirects) {
+      return;  // Give up.
+    }
+    QNetworkRequest request = reply->request();
+    request.setUrl(redirect.toUrl());
+    QNetworkReply* redirected_reply = network_->get(request);
+    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), redirected_reply);
+
+    remote_tasks_.insert(redirected_reply, task);
+    return;
+  }
+
+  if (reply->error() == QNetworkReply::NoError) {
+    // Try to load the image
+    QImage image;
+    if (image.load(reply, 0)) {
+      QImage scaled = ScaleAndPad(task.options, image);
+      emit ImageLoaded(task.id, scaled);
+      emit ImageLoaded(task.id, scaled, image);
+      return;
+    }
+  }
+
+  NextState(&task);
+}
+
+QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image) {
+
+  //qLog(Debug) << __PRETTY_FUNCTION__;
+
+  if (image.isNull()) return image;
+
+  // Scale the image down
+  QImage copy;
+  if (options.scale_output_image_) {
+    copy = image.scaled(QSize(options.desired_height_, options.desired_height_), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  }
+  else {
+    copy = image;
+  }
+
+  if (!options.pad_output_image_) return copy;
+
+  // Pad the image to height_ x height_
+  QImage padded_image(options.desired_height_, options.desired_height_, QImage::Format_ARGB32);
+  padded_image.fill(0);
+
+  QPainter p(&padded_image);
+  p.drawImage((options.desired_height_ - copy.width()) / 2, (options.desired_height_ - copy.height()) / 2, copy);
+  p.end();
+
+  return padded_image;
+}
+
+QPixmap AlbumCoverLoader::TryLoadPixmap(const QString &automatic, const QString &manual, const QString &filename) {
+
+  //qLog(Debug) << __PRETTY_FUNCTION__ << automatic << manual << filename;
+
+  QPixmap ret;
+  if (manual == Song::kManuallyUnsetCover) return ret;
+  if (!manual.isEmpty()) ret.load(manual);
+  if (ret.isNull()) {
+    if (automatic == Song::kEmbeddedCover && !filename.isNull())
+      ret = QPixmap::fromImage(TagReaderClient::Instance()->LoadEmbeddedArtBlocking(filename));
+    else if (!automatic.isEmpty())
+      ret.load(automatic);
+  }
+  return ret;
+}

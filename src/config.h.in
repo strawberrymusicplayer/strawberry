@@ -1,0 +1,48 @@
+/* This file is part of Strawberry.
+
+   Strawberry is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Strawberry is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef CONFIG_H_IN
+#define CONFIG_H_IN
+
+#define CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
+#define CMAKE_EXECUTABLE_SUFFIX "${CMAKE_EXECUTABLE_SUFFIX}"
+
+#cmakedefine HAVE_GIO
+#cmakedefine HAVE_DBUS
+#cmakedefine HAVE_UDISKS2
+#cmakedefine HAVE_DEVICEKIT
+#cmakedefine HAVE_IMOBILEDEVICE
+#cmakedefine HAVE_LIBARCHIVE
+#cmakedefine HAVE_AUDIOCD
+#cmakedefine HAVE_LIBGPOD
+#cmakedefine HAVE_LIBLASTFM
+#cmakedefine HAVE_LIBLASTFM1
+#cmakedefine HAVE_LIBMTP
+#cmakedefine HAVE_LIBPULSE
+#cmakedefine HAVE_QCA
+#cmakedefine HAVE_SPARKLE
+#cmakedefine IMOBILEDEVICE_USES_UDIDS
+#cmakedefine TAGLIB_HAS_OPUS
+#cmakedefine USE_INSTALL_PREFIX
+#cmakedefine USE_SYSTEM_SHA2
+
+#cmakedefine HAVE_GSTREAMER
+#cmakedefine HAVE_VLC
+#cmakedefine HAVE_XINE
+#cmakedefine HAVE_PHONON
+
+#endif // CONFIG_H_IN
+
