@@ -79,6 +79,8 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       abort_progress_(new QPushButton(this)),
       jobs_(0),
       collection_backend_(collection_backend) {
+	  
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   ui_->setupUi(this);
   ui_->albums->set_cover_manager(this);

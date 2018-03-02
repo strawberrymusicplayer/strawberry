@@ -50,4 +50,3 @@ class MusicbrainzCoverProvider : public CoverProvider {
 };
 
 #endif  // MUSICBRAINZCOVERPROVIDER_H
-

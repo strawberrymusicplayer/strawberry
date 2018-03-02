@@ -20,9 +20,6 @@
 
 #include "config.h"
 
-//#include <qjson/parser.h>
-#include <QJson/Parser>
-
 #include <QCoreApplication>
 #include <QNetworkReply>
 #include <QStringList>

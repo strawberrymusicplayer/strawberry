@@ -56,7 +56,7 @@ include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
 include_directories(${QXT_INCLUDE_DIRS})
 include_directories(${SHA2_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
-include_directories(${QJSON_INCLUDE_DIRS})
+#include_directories(${QJSON_INCLUDE_DIRS})
 
 find_package(OpenGL)
 include_directories(${OPENGL_INCLUDE_DIR})
@@ -920,7 +920,7 @@ target_link_libraries(strawberry_lib
   ${QTSINGLEAPPLICATION_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${SQLITE_LIBRARIES}
-  ${QJSON_LIBRARIES}
+  #${QJSON_LIBRARIES}
   z
   Qocoa
 )
@@ -990,8 +990,8 @@ endif (APPLE)
 set(3RDPARTY_SQLITE_LIBRARY qsqlite)
 target_link_libraries(strawberry_lib qsqlite)
 
-set(3RDPARTY_QJSON_LIBRARY qjson)
-target_link_libraries(strawberry_lib qjson)
+#set(3RDPARTY_QJSON_LIBRARY qjson)
+#target_link_libraries(strawberry_lib qjson)
 
 if (WIN32)
   target_link_libraries(strawberry_lib

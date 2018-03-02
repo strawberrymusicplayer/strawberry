@@ -53,11 +53,11 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
   QNetworkRequest request(url);
 
   QNetworkReply *reply = network_->get(request);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(ReleaseSearchFinished(QNetworkReply*, int)), reply, id);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(ReleaseSearchFinished(QNetworkReply *, int)), reply, id);
 
   cover_names_[id] = QString("%1 - %2").arg(artist, album);
   return true;
-  
+
 }
 
 void MusicbrainzCoverProvider::ReleaseSearchFinished(QNetworkReply *reply, int id) {
@@ -77,22 +77,24 @@ void MusicbrainzCoverProvider::ReleaseSearchFinished(QNetworkReply *reply, int i
     }
   }
 
-  for (const QString& release_id : releases) {
+  for (const QString &release_id : releases) {
     QUrl url(QString(kAlbumCoverUrl).arg(release_id));
     QNetworkReply *reply = network_->head(QNetworkRequest(url));
     image_checks_.insert(id, reply);
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ImageCheckFinished(int)), id);
   }
+
 }
 
 void MusicbrainzCoverProvider::ImageCheckFinished(int id) {
 
-  QList<QNetworkReply*> replies = image_checks_.values(id);
+  QList<QNetworkReply *> replies = image_checks_.values(id);
+
   int finished_count = std::count_if(replies.constBegin(), replies.constEnd(), mem_fun(&QNetworkReply::isFinished));
   if (finished_count == replies.size()) {
     QString cover_name = cover_names_.take(id);
     QList<CoverSearchResult> results;
-    for (QNetworkReply* reply : replies) {
+    for (QNetworkReply *reply : replies) {
       reply->deleteLater();
       if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() < 400) {
         CoverSearchResult result;
@@ -109,8 +111,9 @@ void MusicbrainzCoverProvider::ImageCheckFinished(int id) {
 
 void MusicbrainzCoverProvider::CancelSearch(int id) {
 
-  QList<QNetworkReply*> replies = image_checks_.values(id);
-  for (QNetworkReply* reply : replies) {
+  QList<QNetworkReply *> replies = image_checks_.values(id);
+
+  for (QNetworkReply *reply : replies) {
     reply->abort();
     reply->deleteLater();
   }

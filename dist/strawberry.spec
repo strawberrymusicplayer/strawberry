@@ -83,5 +83,5 @@ make clean
 %{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
 
 %changelog
-* ma. feb. 26 2018 0.1.1
+* fr. mars 02 2018 0.1.1
 - Version 0.1.1

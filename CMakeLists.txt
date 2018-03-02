@@ -143,7 +143,7 @@ if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
 endif()
 
 # QJSON
-CHECK_INCLUDE_FILES(qjson/parser.h QJSON_PARSER_H)
+#CHECK_INCLUDE_FILES(qjson/parser.h QJSON_PARSER_H)
 
 # CHROMAPRINT
 CHECK_INCLUDE_FILES(chromaprint.h CHROMAPRINT_H)
@@ -164,7 +164,7 @@ endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 # Set up definitions and paths
 add_definitions(${QT_DEFINITIONS})
 link_directories(${TAGLIB_LIBRARY_DIRS})
-link_directories(${QJSON_LIBRARY_DIRS})
+#link_directories(${QJSON_LIBRARY_DIRS})
 link_directories(${GSTREAMER_LIBRARY_DIRS})
 
 # Don't try to use webkit if their include directories couldn't be found.
@@ -369,8 +369,8 @@ endif()
 add_subdirectory(3rdparty/qocoa)
 
 # QJSON
-add_subdirectory(3rdparty/qjson)
-set(QJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson/include)
+#add_subdirectory(3rdparty/qjson)
+#set(QJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson/include)
 
 # Subdirectories
 add_subdirectory(src)
