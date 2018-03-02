@@ -45,27 +45,16 @@ struct DiscogsCoverSearchContext {
   QString title;
   int r_count;
 
-  State state;
-
   CoverSearchResults results;
 };
 Q_DECLARE_METATYPE(DiscogsCoverSearchContext)
 
 struct DiscogsCoverReleaseContext {
-  //enum State { State_Init, State_MastersRequested, State_ReleasesRequested };
 
   int id;			// the unique request identifier
   int s_id;			// the search request identifier
 
-  // the search query
-  //QString artist;
-  //QString album;
-  //QString title;
   QString resource_url;
-
-  //State state;
-
-  //CoverSearchResults results;
 };
 Q_DECLARE_METATYPE(DiscogsCoverReleaseContext)
 

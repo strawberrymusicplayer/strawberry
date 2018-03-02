@@ -2,7 +2,7 @@
 
 name=strawberry
 version="0.1.1"
-deb_dist="unstable"
+deb_dist=""
 root=$(cd "${0%/*}/.." && echo $PWD/${0##*/})
 root=`dirname "$root"`
 rootnoslash=`echo $root | sed "s/^\///"`
