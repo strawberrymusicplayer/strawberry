@@ -2,7 +2,8 @@ Strawberry Music Player
 =======================
 README
 
-Strawberry is a fork of Clementine for Linux created in 2013, it's written in C++ and Qt5.
+Strawberry is a modern audio player and music collection organiser. It was forked from Clementine in 2013, and has a diffrent goal.
+It's written in C++ and Qt5 and runs on Linux. The name is inspired by the band Strawbs.
 The main goal was to create a player for playing local music files that looked a bit more like Amarok 1.4 amd with advanced soundcard options.
 You will find that Strawberry is lacking internet services and some other features found in Clementine.
 
