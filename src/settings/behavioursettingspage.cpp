@@ -30,13 +30,6 @@
 
 const char *BehaviourSettingsPage::kSettingsGroup = "Behaviour";
 
-namespace {
-  
-  bool LocaleAwareCompare(const QString& a, const QString& b) {
-    return a.localeAwareCompare(b) < 0;
-  }
-}  // namespace
-
 BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BehaviourSettingsPage) {
 
   ui_->setupUi(this);

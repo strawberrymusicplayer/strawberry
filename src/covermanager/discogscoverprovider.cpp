@@ -231,7 +231,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
 
   for (const QVariant &result : results) {
     QVariantMap result_map = result.toMap();
-    int r_id;
+    int r_id = 0;
     QString title;
     QString resource_url;
     if ((!result_map.contains("id")) || (!result_map.contains("resource_url"))) continue;

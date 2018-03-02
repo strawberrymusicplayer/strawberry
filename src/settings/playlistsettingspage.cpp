@@ -33,13 +33,6 @@
 
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 
-namespace {
-  
-  bool LocaleAwareCompare(const QString &a, const QString &b) {
-    return a.localeAwareCompare(b) < 0;
-  }
-}  // namespace
-
 PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_PlaylistSettingsPage) {
   
   ui_->setupUi(this);
