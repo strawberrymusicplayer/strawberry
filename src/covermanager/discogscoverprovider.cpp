@@ -265,7 +265,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
 
   DiscogsCoverReleaseContext *r_ctx;
   if (!requests_release_.contains(r_id)) {
-    qLog(Error) << "Discogs: Got reply for cancelled request: " << r_id;
+    //qLog(Error) << "Discogs: Got reply for cancelled request: " << r_id;
     return;
   }
   r_ctx = requests_release_.value(r_id);
@@ -337,10 +337,11 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
 }
 
 void DiscogsCoverProvider::CancelSearch(int id) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__ << id;
 
   delete requests_search_.take(id);
+
 }
 
 void DiscogsCoverProvider::SearchRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id) {
@@ -365,7 +366,7 @@ void DiscogsCoverProvider::ReleaseRequestError(QNetworkReply::NetworkError error
 
   DiscogsCoverSearchContext *s_ctx;
   if (!requests_search_.contains(s_id)) {
-    qLog(Error) << "Discogs: got reply for cancelled request: " << s_id << " " << r_id;
+    qLog(Error) << "Discogs: got reply for cancelled request: " << s_id << r_id;
     return;
   }
   s_ctx = requests_search_.value(s_id);
@@ -402,7 +403,7 @@ void DiscogsCoverProvider::EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCo
 
 void DiscogsCoverProvider::EndSearch(DiscogsCoverSearchContext *s_ctx) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << "Discogs: Finished." << s_ctx->id;
 
   (void)requests_search_.remove(s_ctx->id);
   emit SearchFinished(s_ctx->id, s_ctx->results);

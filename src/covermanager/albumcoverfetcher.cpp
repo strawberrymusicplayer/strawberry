@@ -21,10 +21,12 @@
 #include "config.h"
 
 #include <QTimer>
+#include <QDebug>
 
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 #include "core/network.h"
+#include "core/logging.h"
 
 const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
 
@@ -40,9 +42,12 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 
 quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album) {
 
+  QString album2(album);
+  album2 = album2.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
+
   CoverSearchRequest request;
   request.artist = artist;
-  request.album = album;
+  request.album = album2;
   request.search = false;
   request.id = next_id_++;
 
@@ -52,10 +57,13 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
 }
 
 quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString &album) {
+    
+  QString album2(album);
+  album2 = album2.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
 
   CoverSearchRequest request;
   request.artist = artist;
-  request.album = album;
+  request.album = album2;
   request.search = true;
   request.id = next_id_++;
 

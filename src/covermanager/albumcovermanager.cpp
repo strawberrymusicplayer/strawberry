@@ -351,6 +351,7 @@ void AlbumCoverManager::CoverImageLoaded(quint64 id, const QImage &image) {
 
   item->setIcon(QPixmap::fromImage(image));
   UpdateFilter();
+
 }
 
 void AlbumCoverManager::UpdateFilter() {

@@ -171,9 +171,9 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 }
 
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
+
+  qLog(Debug) << __PRETTY_FUNCTION__;
+
   QString album = song->effective_album();
   album = album.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
 

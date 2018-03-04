@@ -250,7 +250,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         // Does it exist already?
         if (!container_nodes_[i].contains(key)) {
           // Create the container
-          qLog(Debug) << "Adding song:" << song.album();
+          //qLog(Debug) << "Adding song:" << song.album();
           container_nodes_[i][key] = ItemFromSong(type, true, i == 0, container, song, i);
         }
         container = container_nodes_[i][key];

@@ -122,7 +122,7 @@ AlbumCoverSearcher::~AlbumCoverSearcher() {
 void AlbumCoverSearcher::Init(AlbumCoverFetcher *fetcher) {
 
   fetcher_ = fetcher;
-  connect(fetcher_, SIGNAL(SearchFinished(quint64,CoverSearchResults,CoverSearchStatistics)), SLOT(SearchFinished(quint64,CoverSearchResults)));
+  connect(fetcher_, SIGNAL(SearchFinished(quint64,CoverSearchResults,CoverSearchStatistics)), SLOT(SearchFinished(quint64, CoverSearchResults)));
 
 }
 

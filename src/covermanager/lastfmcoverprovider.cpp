@@ -53,13 +53,11 @@ LastFmCoverProvider::LastFmCoverProvider(QObject *parent) : CoverProvider("last.
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
   
-  //qLog(Debug) << "LastFmCoverProvider artist:" << artist << "album:" << album;
-  
   QMap<QString, QString> params;
   params["method"] = "album.search";
   params["album"] = album + " " + artist;
 
-  QNetworkReply* reply = lastfm::ws::post(params);
+  QNetworkReply *reply = lastfm::ws::post(params);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(QueryFinished(QNetworkReply*, int)), reply, id);
 
   return true;
@@ -76,10 +74,11 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
     // parse the list of search results
     QList<lastfm::XmlQuery> elements = query["results"]["albummatches"].children("album");
 
-    for (const lastfm::XmlQuery& element : elements) {
+    for (const lastfm::XmlQuery &element : elements) {
       CoverSearchResult result;
       result.description = element["artist"].text() + " - " + element["name"].text();
       result.image_url = QUrl(element["image size=extralarge"].text());
+      if (result.image_url.isEmpty()) continue;
       results << result;
     }
   }
