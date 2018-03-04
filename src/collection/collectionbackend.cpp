@@ -856,11 +856,11 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
   if (compilation) {
     query.AddCompilationRequirement(true);
   }
-  else if (!album_artist.isNull()) {
+  else if (!album_artist.isNull() && !album_artist.isEmpty()) {
     query.AddCompilationRequirement(false);
     query.AddWhere("albumartist", album_artist);
   }
-  else if (!artist.isNull()) {
+  else if (!artist.isNull() && !artist.isEmpty()) {
     query.AddCompilationRequirement(false);
     query.AddWhere("artist", artist);
   }
@@ -944,7 +944,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
   query.AddWhere("album", album);
 
-  if (!albumartist.isNull()) {
+  if (!albumartist.isNull() && !albumartist.isEmpty()) {
     query.AddWhere("albumartist", albumartist);
   }
   else if (!artist.isNull()) {
@@ -963,7 +963,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   // Update the songs
   QString sql(QString("UPDATE %1 SET art_manual = :art WHERE album = :album AND unavailable = 0").arg(songs_table_));
 
-  if (!albumartist.isNull()) {
+  if (!albumartist.isNull() && !albumartist.isEmpty()) {
     sql += " AND albumartist = :albumartist";
   }
   else if (!artist.isNull()) {
@@ -974,7 +974,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   q.prepare(sql);
   q.bindValue(":art", art);
   q.bindValue(":album", album);
-  if (!albumartist.isNull()) {
+  if (!albumartist.isNull() && !albumartist.isEmpty()) {
     q.bindValue(":albumartist", albumartist);
   }
   else if (!artist.isNull()) {
@@ -1012,7 +1012,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
     CollectionQuery query;
     query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
     query.AddWhere("album", album);
-    if (!artist.isNull()) query.AddWhere("artist", artist);
+    if (!artist.isNull() && !artist.isEmpty()) query.AddWhere("artist", artist);
 
     if (!ExecQuery(&query)) return;
 

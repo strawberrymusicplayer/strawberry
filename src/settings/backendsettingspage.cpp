@@ -23,6 +23,8 @@
 #include "ui_backendsettingspage.h"
 
 #include <QVariant>
+#include <QString>
+#include <QSettings>
 #include <QMessageBox>
 #include <QErrorMessage>
 

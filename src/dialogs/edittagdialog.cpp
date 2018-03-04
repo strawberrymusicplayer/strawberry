@@ -67,7 +67,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
     results_dialog_(new TrackSelectionDialog(this))
 {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //QIcon nocover = IconLoader::Load("nocover");
   //cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_,  nocover.pixmap(nocover.availableSizes().last()).toImage());
@@ -197,7 +197,7 @@ EditTagDialog::~EditTagDialog() {
 
 bool EditTagDialog::SetLoading(const QString &message) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   const bool loading = !message.isEmpty();
   if (loading == loading_) return false;
@@ -214,7 +214,7 @@ bool EditTagDialog::SetLoading(const QString &message) {
 
 QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   QList<Data> ret;
 
@@ -236,7 +236,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 
 void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   // Show the loading indicator
   if (!SetLoading(tr("Loading tracks") + "...")) return;
@@ -252,7 +252,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
 
 void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!SetLoading(QString())) return;
 
@@ -291,7 +291,7 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (id == "title") return song.title();
   if (id == "artist") return song.artist();
@@ -312,7 +312,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
 void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (id == "title") current_.set_title(value.toString());
   else if (id == "artist") current_.set_artist(value.toString());
@@ -349,7 +349,7 @@ bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &i
 
 void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList &sel) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   const bool varies = DoesValueVary(sel, field.id_);
 //  const bool modified = IsValueModified(sel, field.id_);
@@ -370,7 +370,7 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
 
 void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexList &sel) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   // Get the value from the field
   QVariant value;
@@ -393,7 +393,7 @@ void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexLi
 
 void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelIndexList &sel) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   const bool modified = IsValueModified(sel, field.id_);
 
@@ -406,7 +406,7 @@ void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelInde
 
 void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexList &sel) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   // Reset each selected song
   for (const QModelIndex &i : sel) {
@@ -420,7 +420,7 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 
 void EditTagDialog::SelectionChanged() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
@@ -442,7 +442,7 @@ void EditTagDialog::SelectionChanged() {
 
 void EditTagDialog::UpdateUI(const QModelIndexList &sel){
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   ignore_edits_ = true;
   for (const FieldData &field : fields_) {
@@ -453,14 +453,14 @@ void EditTagDialog::UpdateUI(const QModelIndexList &sel){
 
 static void SetText(QLabel *label, int value, const QString &suffix, const QString &def = QString()) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   label->setText(value <= 0 ? def : (QString::number(value) + " " + suffix));
 }
 
 static void SetDate(QLabel *label, uint time) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (time == std::numeric_limits<uint>::max()) {  // -1
     label->setText(QObject::tr("Unknown"));
@@ -472,7 +472,7 @@ static void SetDate(QLabel *label, uint time) {
 
 void EditTagDialog::UpdateSummaryTab(const Song &song) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options_, song);
 
@@ -531,7 +531,7 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
 
 void EditTagDialog::UpdateStatisticsTab(const Song &song) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;    
+  //qLog(Debug) << __PRETTY_FUNCTION__;    
     
   ui_->playcount->setText(QString::number(qMax(0, song.playcount())));
   ui_->skipcount->setText(QString::number(qMax(0, song.skipcount())));
@@ -541,7 +541,7 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
 void EditTagDialog::ArtLoaded(quint64 id, const QImage &scaled, const QImage &original) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (id == cover_art_id_) {
     ui_->art->setPixmap(QPixmap::fromImage(scaled));
@@ -551,7 +551,7 @@ void EditTagDialog::ArtLoaded(quint64 id, const QImage &scaled, const QImage &or
 
 void EditTagDialog::FieldValueEdited() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (ignore_edits_) return;
 
@@ -572,7 +572,7 @@ void EditTagDialog::FieldValueEdited() {
 
 void EditTagDialog::ResetField() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
@@ -593,7 +593,7 @@ void EditTagDialog::ResetField() {
 
 Song *EditTagDialog::GetFirstSelected() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty()) return nullptr;
@@ -602,7 +602,7 @@ Song *EditTagDialog::GetFirstSelected() {
 
 void EditTagDialog::LoadCoverFromFile() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -616,7 +616,7 @@ void EditTagDialog::LoadCoverFromFile() {
 
 void EditTagDialog::SaveCoverToFile() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -626,7 +626,7 @@ void EditTagDialog::SaveCoverToFile() {
 
 void EditTagDialog::LoadCoverFromURL() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -640,7 +640,7 @@ void EditTagDialog::LoadCoverFromURL() {
 
 void EditTagDialog::SearchForCover() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -654,7 +654,7 @@ void EditTagDialog::SearchForCover() {
 
 void EditTagDialog::UnsetCover() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   Song *song = GetFirstSelected();
   if (!song) return;
@@ -667,7 +667,7 @@ void EditTagDialog::UnsetCover() {
 
 void EditTagDialog::ShowCover() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   Song *song = GetFirstSelected();
   if (!song) {
@@ -679,7 +679,7 @@ void EditTagDialog::ShowCover() {
 
 void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QString &cover) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (!selected.is_valid() || selected.id() == -1) return;
 
@@ -701,7 +701,7 @@ void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &s
 
 void EditTagDialog::NextSong() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (ui_->song_list->count() == 0) {
     return;
@@ -713,7 +713,7 @@ void EditTagDialog::NextSong() {
 
 void EditTagDialog::PreviousSong() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   if (ui_->song_list->count() == 0) {
     return;
@@ -731,7 +731,7 @@ void EditTagDialog::ButtonClicked(QAbstractButton *button) {
 
 void EditTagDialog::SaveData(const QList<Data> &data) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   for (int i = 0; i < data.count(); ++i) {
     const Data &ref = data[i];
@@ -745,7 +745,7 @@ void EditTagDialog::SaveData(const QList<Data> &data) {
 
 void EditTagDialog::accept() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   // Show the loading indicator
   if (!SetLoading(tr("Saving tracks") + "...")) return;
@@ -757,7 +757,7 @@ void EditTagDialog::accept() {
 
 void EditTagDialog::AcceptFinished() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (!SetLoading(QString())) return;
   QDialog::accept();
@@ -766,7 +766,7 @@ void EditTagDialog::AcceptFinished() {
 
 bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (o == ui_->art) {
     switch (e->type()) {
@@ -804,7 +804,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
 void EditTagDialog::showEvent(QShowEvent *e) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   // Set the dialog's height to the smallest possible
   resize(width(), sizeHint().height());
@@ -819,7 +819,7 @@ void EditTagDialog::showEvent(QShowEvent *e) {
 
 void EditTagDialog::hideEvent(QHideEvent *e) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   // Save the current tab
   QSettings s;
@@ -831,7 +831,7 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
 
 void EditTagDialog::ResetPlayCounts() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
@@ -854,7 +854,7 @@ void EditTagDialog::ResetPlayCounts() {
 #ifdef HAVE_GSTREAMER
 void EditTagDialog::FetchTag() {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
 
@@ -879,7 +879,7 @@ void EditTagDialog::FetchTag() {
 
 void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &new_metadata) {
     
-//  qLog(Debug) << __PRETTY_FUNCTION__;
+  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   const QString filename = original_song.url().toLocalFile();
 
