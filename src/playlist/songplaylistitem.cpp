@@ -37,7 +37,7 @@ SongPlaylistItem::SongPlaylistItem(const Song &song)
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
 
-  song_.InitFromQuery(query, false, (Song::kColumns.count() + 1) * 3);
+  song_.InitFromQuery(query, false, (Song::kColumns.count()+1));
 
   return true;
 }

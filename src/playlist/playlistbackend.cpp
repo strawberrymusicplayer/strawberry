@@ -107,7 +107,6 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(int id) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-
   QSqlQuery q(db);
   q.prepare("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite FROM playlists WHERE ROWID=:id");
 
@@ -126,12 +125,11 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(int id) {
   p.favorite = q.value(5).toBool();
 
   return p;
+
 }
 
 QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -158,8 +156,6 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
 
 QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QSqlQuery q = GetPlaylistRows(playlist);
   // Note that as this only accesses the query, not the db, we don't need the
   // mutex.
@@ -177,8 +173,6 @@ QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
 }
 
 QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QSqlQuery q = GetPlaylistRows(playlist);
   // Note that as this only accesses the query, not the db, we don't need the
@@ -198,12 +192,8 @@ QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
 
 PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   // The song tables get joined first, plus one each for the song ROWIDs
   const int playlist_row = (Song::kColumns.count() + 1) * kSongTableJoins;
-  
-  //qLog(Debug) << row.value(playlist_row).toString();
 
   PlaylistItemPtr item(PlaylistItem::NewFromType(row.value(playlist_row).toString()));
   if (item) {
@@ -217,8 +207,6 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
 }
 
 Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   return NewPlaylistItemFromQuery(row, state)->Metadata();
   
@@ -227,8 +215,6 @@ Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSon
 // If song had a CUE and the CUE still exists, the metadata from it will be applied here.
 
 PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   // we need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
   if (item->type() != "File") return item;
@@ -277,16 +263,12 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
 }
 
 void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemList &items, int last_played) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   metaObject()->invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemList, items), Q_ARG(int, last_played));
 
 }
 
 void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList& items, int last_played) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -327,8 +309,6 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList& items, 
 }
 
 int PlaylistBackend::CreatePlaylist(const QString& name, const QString& special_type) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -345,8 +325,6 @@ int PlaylistBackend::CreatePlaylist(const QString& name, const QString& special_
 }
 
 void PlaylistBackend::RemovePlaylist(int id) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -371,8 +349,6 @@ void PlaylistBackend::RemovePlaylist(int id) {
 }
 
 void PlaylistBackend::RenamePlaylist(int id, const QString &new_name) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -387,8 +363,6 @@ void PlaylistBackend::RenamePlaylist(int id, const QString &new_name) {
 }
 
 void PlaylistBackend::FavoritePlaylist(int id, bool is_favorite) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -403,8 +377,6 @@ void PlaylistBackend::FavoritePlaylist(int id, bool is_favorite) {
 }
 
 void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -428,8 +400,6 @@ void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
 }
 
 void PlaylistBackend::SetPlaylistUiPath(int id, const QString &path) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());

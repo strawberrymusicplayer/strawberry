@@ -695,9 +695,9 @@ void GstEngine::SeekNow() {
 }
 
 void GstEngine::SetEqualizerEnabled(bool enabled) {
-    
+
   //qLog(Debug) << "equalizer ENABLED: " << enabled;
-    
+
   equalizer_enabled_ = enabled;
 
   if (current_pipeline_) current_pipeline_->SetEqualizerEnabled(enabled);
@@ -757,6 +757,7 @@ void GstEngine::timerEvent(QTimerEvent *e) {
       }
     }
   }
+
 }
 
 void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code) {
@@ -766,7 +767,7 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
     return;
 
-  qLog(Warning) << "Gstreamer error:" << message;
+  qLog(Warning) << "Gstreamer error:" << domain << error_code << message;
 
   current_pipeline_.reset();
 

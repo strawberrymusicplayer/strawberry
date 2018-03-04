@@ -530,14 +530,12 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
   //qLog(Debug) << __PRETTY_FUNCTION__;
   //qLog(Debug) << "Song::kColumns.size():" << Song::kColumns.size() << "q.columns_.size():" << q.columns_.size() << "col:" << col;
 
-  int i = 0;
   int x = col;
-
   d->id_ = toint(col);
-  
-  for (i = 0 ; i < Song::kColumns.size(); i++) {
-    x=i+col+1;
-    
+
+  for (int i = 0 ; i < Song::kColumns.size(); i++) {
+    x++;
+
     if (x >= q.columns_.size()) {
       qLog(Error) << "Skipping" << Song::kColumns.value(i);
       break;
@@ -662,7 +660,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     
     else if (Song::kColumns.value(i) == "cue_path") {
-      d->cue_path_ = tostr(col + x);
+      d->cue_path_ = tostr(x);
     }
     
     else {

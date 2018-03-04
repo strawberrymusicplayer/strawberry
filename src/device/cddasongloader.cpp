@@ -40,6 +40,8 @@ CddaSongLoader::~CddaSongLoader() {
 
 QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
 
+  qLog(Debug) << url_;
+
   if (url_.isEmpty()) {
     return QUrl(QString("cdda://%1").arg(track_number));
   }

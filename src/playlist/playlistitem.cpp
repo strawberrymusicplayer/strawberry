@@ -56,7 +56,7 @@ PlaylistItem* PlaylistItem::NewFromSongsTable(const QString &table, const Song &
 
 }
 
-void PlaylistItem::BindToQuery(QSqlQuery* query) const {
+void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
   query->bindValue(":type", type());
   query->bindValue(":collection_id", DatabaseValue(Column_CollectionId));
