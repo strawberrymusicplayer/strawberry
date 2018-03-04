@@ -5,4 +5,4 @@ TODO
 - Fix freeze on exit caused by GStreamer
 - Fix crash when loading playlists from Audio CD
 - Improve status/context
-- Fix album covers not updating in Cover manager.
+- Fix crash when switching backend
