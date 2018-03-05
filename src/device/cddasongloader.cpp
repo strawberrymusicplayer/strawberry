@@ -124,7 +124,8 @@ void CddaSongLoader::LoadSongs() {
     if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TOC) {
       if (msg_toc) gst_message_unref(msg_toc); // Shouldn't happen, but just in case
       msg_toc = msg;
-    } else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {
+    }
+    else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {
       if (msg_tag) gst_message_unref(msg_tag);
       msg_tag = msg;
     }

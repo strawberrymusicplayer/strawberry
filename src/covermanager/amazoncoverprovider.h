@@ -52,9 +52,8 @@ class AmazonCoverProvider : public CoverProvider {
  private:
   void ReadItem(QXmlStreamReader *reader, CoverSearchResults *results);
   void ReadLargeImage(QXmlStreamReader *reader, CoverSearchResults *results);
-
- private:
   QNetworkAccessManager *network_;
+
 };
 
 #endif  // AMAZONCOVERPROVIDER_H

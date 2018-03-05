@@ -79,8 +79,6 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       abort_progress_(new QPushButton(this)),
       jobs_(0),
       collection_backend_(collection_backend) {
-	  
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   ui_->setupUi(this);
   ui_->albums->set_cover_manager(this);
@@ -89,7 +87,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
   ui_->action_fetch->setIcon(IconLoader::Load("download" ));
   ui_->export_covers->setIcon(IconLoader::Load("document-save" ));
   ui_->view->setIcon(IconLoader::Load("view-choose" ));
-  ui_->fetch->setIcon(IconLoader::Load("download" ));
+  ui_->button_fetch->setIcon(IconLoader::Load("download" ));
   ui_->action_add_to_playlist->setIcon(IconLoader::Load("media-play" ));
   ui_->action_load->setIcon(IconLoader::Load("media-play" ));
 
@@ -129,7 +127,6 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
 AlbumCoverManager::~AlbumCoverManager() {
   CancelRequests();
-
   delete ui_;
 }
 
@@ -180,7 +177,7 @@ void AlbumCoverManager::Init() {
   connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(UpdateFilter()));
   connect(filter_group, SIGNAL(triggered(QAction*)), SLOT(UpdateFilter()));
   connect(ui_->view, SIGNAL(clicked()), ui_->view, SLOT(showMenu()));
-  connect(ui_->fetch, SIGNAL(clicked()), SLOT(FetchAlbumCovers()));
+  connect(ui_->button_fetch, SIGNAL(clicked()), SLOT(FetchAlbumCovers()));
   connect(ui_->export_covers, SIGNAL(clicked()), SLOT(ExportCovers()));
   connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QImage, CoverSearchStatistics)), SLOT(AlbumCoverFetched(quint64, QImage, CoverSearchStatistics)));
   connect(ui_->action_fetch, SIGNAL(triggered()), SLOT(FetchSingleCover()));
@@ -211,7 +208,7 @@ void AlbumCoverManager::showEvent(QShowEvent *) {
 }
 
 void AlbumCoverManager::closeEvent(QCloseEvent *e) {
-  
+
   if (!cover_fetching_tasks_.isEmpty()) {
     std::unique_ptr<QMessageBox> message_box(new QMessageBox(QMessageBox::Question, tr("Really cancel?"), tr("Closing this window will stop searching for album covers."), QMessageBox::Abort, this));
     message_box->addButton(tr("Don't stop!"), QMessageBox::AcceptRole);
@@ -276,12 +273,12 @@ void AlbumCoverManager::Reset() {
 }
 
 void AlbumCoverManager::EnableCoversButtons() {
-  ui_->fetch->setEnabled(app_->cover_providers()->HasAnyProviders());
+  ui_->button_fetch->setEnabled(app_->cover_providers()->HasAnyProviders());
   ui_->export_covers->setEnabled(true);
 }
 
 void AlbumCoverManager::DisableCoversButtons() {
-  ui_->fetch->setEnabled(false);
+  ui_->button_fetch->setEnabled(false);
   ui_->export_covers->setEnabled(false);
 }
 
@@ -419,6 +416,8 @@ bool AlbumCoverManager::ShouldHide(const QListWidgetItem &item, const QString &f
 
 void AlbumCoverManager::FetchAlbumCovers() {
 
+  cover_fetcher_->fetchall_ = true;
+
   for (int i = 0; i < ui_->albums->count(); ++i) {
     QListWidgetItem *item = ui_->albums->item(i);
     if (item->isHidden()) continue;
@@ -429,7 +428,7 @@ void AlbumCoverManager::FetchAlbumCovers() {
     jobs_++;
   }
 
-  if (!cover_fetching_tasks_.isEmpty()) ui_->fetch->setEnabled(false);
+  if (!cover_fetching_tasks_.isEmpty()) ui_->button_fetch->setEnabled(false);
 
   progress_bar_->setMaximum(jobs_);
   progress_bar_->show();
@@ -455,6 +454,7 @@ void AlbumCoverManager::AlbumCoverFetched(quint64 id, const QImage &image, const
 
   fetch_statistics_ += statistics;
   UpdateStatusText();
+
 }
 
 void AlbumCoverManager::UpdateStatusText() {
@@ -556,7 +556,9 @@ void AlbumCoverManager::ShowCover() {
 }
 
 void AlbumCoverManager::FetchSingleCover() {
-  
+
+  cover_fetcher_->fetchall_ = false;
+
   for (QListWidgetItem *item : context_menu_items_) {
     quint64 id = cover_fetcher_->FetchAlbumCover(EffectiveAlbumArtistName(*item), item->data(Role_AlbumName).toString());
     cover_fetching_tasks_[id] = item;
@@ -567,9 +569,8 @@ void AlbumCoverManager::FetchSingleCover() {
   progress_bar_->show();
   abort_progress_->show();
   UpdateStatusText();
-  
-}
 
+}
 
 void AlbumCoverManager::UpdateCoverInList(QListWidgetItem *item, const QString &cover) {
   
@@ -595,7 +596,7 @@ void AlbumCoverManager::LoadCoverFromFile() {
 }
 
 void AlbumCoverManager::SaveCoverToFile() {
-  
+
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
@@ -622,7 +623,7 @@ void AlbumCoverManager::SaveCoverToFile() {
 }
 
 void AlbumCoverManager::LoadCoverFromURL() {
-  
+
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
@@ -633,11 +634,11 @@ void AlbumCoverManager::LoadCoverFromURL() {
   if (!cover.isEmpty()) {
     UpdateCoverInList(item, cover);
   }
-  
+
 }
 
 void AlbumCoverManager::SearchForCover() {
-  
+
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 

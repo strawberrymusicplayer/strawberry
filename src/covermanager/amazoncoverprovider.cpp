@@ -41,11 +41,9 @@ const char *AmazonCoverProvider::kAssociateTag = "jonas052-20";
 const char *AmazonCoverProvider::kAccessKeyB64 = "QUtJQUozQ1dIQ0RWSVlYN1JMTFE=";
 const char *AmazonCoverProvider::kSecretAccessKeyB64 = "TjFZU3F2c2hJZDVtUGxKVW1Ka0kvc2E1WkZESG9TYy9ZWkgxYWdJdQ==";
 
-AmazonCoverProvider::AmazonCoverProvider(QObject *parent) : CoverProvider("Amazon", parent), network_(new NetworkAccessManager(this)) {}
+AmazonCoverProvider::AmazonCoverProvider(QObject *parent) : CoverProvider("Amazon", true, parent), network_(new NetworkAccessManager(this)) {}
 
 bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;

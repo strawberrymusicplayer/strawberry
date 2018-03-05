@@ -40,8 +40,7 @@ class QString;
 class AlbumCoverFetcherSearch;
 class CoverProviders;
 
-// This class represents a single search-for-cover request. It identifies
-// and describes the request.
+// This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
   // an unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
@@ -50,17 +49,14 @@ struct CoverSearchRequest {
   QString artist;
   QString album;
 
-  // is this only a search request or should we also fetch the first
-  // cover that's found?
+  // is this only a search request or should we also fetch the first cover that's found?
   bool search;
 };
 
 // This structure represents a single result of some album's cover search request.
-// It contains an URL that leads to a found cover plus its description (usually
-// the "artist - album" string).
+// It contains an URL that leads to a found cover plus its description (usually the "artist - album" string).
 struct CoverSearchResult {
-  // used for grouping in the user interface.  This is set automatically - don't
-  // set it manually in your cover provider.
+  // used for grouping in the user interface.  This is set automatically - don't set it manually in your cover provider.
   QString provider;
 
   // description of this result (we suggest using the "artist - album" format)
@@ -91,6 +87,8 @@ class AlbumCoverFetcher : public QObject {
   quint64 FetchAlbumCover(const QString &artist, const QString &album);
 
   void Clear();
+  
+  bool fetchall_ = false;
 
 signals:
   void AlbumCoverFetched(quint64, const QImage &cover, const CoverSearchStatistics &statistics);
@@ -112,6 +110,7 @@ signals:
   QHash<quint64, AlbumCoverFetcherSearch*> active_requests_;
 
   QTimer *request_starter_;
+  
 };
 
 #endif  // ALBUMCOVERFETCHER_H

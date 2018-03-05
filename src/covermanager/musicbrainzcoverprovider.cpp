@@ -28,6 +28,7 @@
 
 #include "core/closure.h"
 #include "core/network.h"
+#include "core/logging.h"
 
 #include "musicbrainzcoverprovider.h"
 
@@ -39,7 +40,7 @@ static const char *kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
 static const char *kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 }  // namespace
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(QObject *parent): CoverProvider("MusicBrainz", parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(QObject *parent): CoverProvider("MusicBrainz", true, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 

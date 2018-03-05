@@ -36,8 +36,8 @@
 #include "core/logging.h"
 #include "core/network.h"
 
-const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 10000;
-const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 2500;
+const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 12000;
+const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
 const float AlbumCoverFetcherSearch::kGoodScore = 1.85;
 
@@ -48,23 +48,32 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
       image_load_timeout_(new NetworkTimeouts(kImageLoadTimeoutMs, this)),
       network_(network),
       cancel_requested_(false) {
-  // we will terminate the search after kSearchTimeoutMs miliseconds if we are
-  // not
-  // able to find all of the results before that point in time
+
+  // We will terminate the search after kSearchTimeoutMs miliseconds if we are not able to find all of the results before that point in time
   QTimer::singleShot(kSearchTimeoutMs, this, SLOT(TerminateSearch()));
+
 }
 
 void AlbumCoverFetcherSearch::TerminateSearch() {
+
   for (int id : pending_requests_.keys()) {
     pending_requests_.take(id)->CancelSearch(id);
   }
 
   AllProvidersFinished();
+
 }
 
 void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
   for (CoverProvider *provider : cover_providers->List()) {
+
+    // Skip provider if it does not have fetchall set, and we are doing fetchall - "Fetch Missing Covers".
+    if ((provider->fetchall() == false) && (fetchall_ == true)) {
+	//qLog(Debug) << "Skipping provider" << provider->name();
+	continue;
+    }
+
     connect(provider, SIGNAL(SearchFinished(int, QList<CoverSearchResult>)), SLOT(ProviderSearchFinished(int, QList<CoverSearchResult>)));
     const int id = cover_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, id);

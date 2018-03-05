@@ -31,8 +31,7 @@ class AlbumCoverFetcherSearch;
 class CoverProvider;
 
 // This is a repository for cover providers.
-// Providers are automatically unregistered from the repository when they are
-// deleted.  The class is thread safe.
+// Providers are automatically unregistered from the repository when they are deleted.  The class is thread safe.
 class CoverProviders : public QObject {
   Q_OBJECT
 
@@ -64,4 +63,3 @@ class CoverProviders : public QObject {
 };
 
 #endif  // COVERPROVIDERS_H
-

@@ -44,13 +44,15 @@ class AlbumCoverFetcherSearch : public QObject {
  public:
   AlbumCoverFetcherSearch(const CoverSearchRequest &request, QNetworkAccessManager *network, QObject *parent);
 
-  void Start(CoverProviders* cover_providers);
+  void Start(CoverProviders *cover_providers);
 
   // Cancels all pending requests.  No Finished signals will be emitted, and it
   // is the caller's responsibility to delete the AlbumCoverFetcherSearch.
   void Cancel();
 
   CoverSearchStatistics statistics() const { return statistics_; }
+
+  bool fetchall_ = false;
 
 signals:
   // It's the end of search (when there was no fetch-me-a-cover request).
@@ -96,6 +98,7 @@ private:
   QNetworkAccessManager *network_;
 
   bool cancel_requested_;
+  
 };
 
 #endif  // ALBUMCOVERFETCHERSEARCH_H

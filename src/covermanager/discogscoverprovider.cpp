@@ -43,7 +43,7 @@ const char *DiscogsCoverProvider::kUrlReleases = "https://api.discogs.com/releas
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretAccessKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 
-DiscogsCoverProvider::DiscogsCoverProvider(QObject *parent) : CoverProvider("Discogs", parent), network_(new NetworkAccessManager(this)) {}
+DiscogsCoverProvider::DiscogsCoverProvider(QObject *parent) : CoverProvider("Discogs", false, parent), network_(new NetworkAccessManager(this)) {}
 
 bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, int s_id) {
 

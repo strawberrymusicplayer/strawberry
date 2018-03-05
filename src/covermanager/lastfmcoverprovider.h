@@ -43,7 +43,7 @@ public:
   explicit LastFmCoverProvider(QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, int id);
-  
+
   static const char *kApiKey;
   static const char *kSecret;
 
@@ -53,6 +53,7 @@ private slots:
 private:
   QNetworkAccessManager *network_;
   QMap <QNetworkReply *, int> pending_queries_;
+
 };
 
 #endif // LASTFMCOVERPROVIDER_H

@@ -4,8 +4,8 @@ TODO
 
 - Fix freeze on exit caused by GStreamer
 - Fix Audio CD playback
-- Improve status/context
-- Fix crash when switching backend
+- Finalize / Improve status/context
+- Fix crash when switching backend while playing
 
 .
 

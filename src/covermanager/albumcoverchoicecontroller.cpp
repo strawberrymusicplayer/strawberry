@@ -97,8 +97,6 @@ QList<QAction*> AlbumCoverChoiceController::GetAllActions() {
 
 QString AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
     
- //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   QString cover = QFileDialog::getOpenFileName(this, tr("Load cover from disk"), GetInitialPathForFileDialog(*song, QString()), tr(kLoadImageFileFilter) + ";;" + tr(kAllFilesFilter));
 
   if (cover.isNull()) return QString();
@@ -171,8 +169,6 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 }
 
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString album = song->effective_album();
   album = album.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
@@ -345,4 +341,3 @@ QString AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
   return QString();
 
 }
-

@@ -91,7 +91,7 @@ class DiscogsCoverProvider : public CoverProvider {
   QNetworkAccessManager *network_;
   QHash<int, DiscogsCoverSearchContext*> requests_search_;
   QHash<int, DiscogsCoverReleaseContext*> requests_release_;
-  
+
   bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString resource_url);
 
   void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);

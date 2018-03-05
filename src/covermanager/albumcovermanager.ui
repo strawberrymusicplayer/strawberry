@@ -172,7 +172,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="fetch">
+             <widget class="QPushButton" name="button_fetch">
               <property name="text">
                <string>Fetch Missing Covers</string>
               </property>
