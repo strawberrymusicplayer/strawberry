@@ -40,10 +40,8 @@ CddaSongLoader::~CddaSongLoader() {
 
 QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
 
-  qLog(Debug) << url_;
-
   if (url_.isEmpty()) {
-    return QUrl(QString("cdda://%1").arg(track_number));
+    return QUrl(QString("cdda://%1a").arg(track_number));
   }
   else {
     return QUrl(QString("cdda://%1/%2").arg(url_.path()).arg(track_number));
@@ -58,6 +56,7 @@ void CddaSongLoader::LoadSongs() {
   if (cdio_ == nullptr) {
     return;
   }
+
   // Create gstreamer cdda element
   GError *error = nullptr;
   cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
@@ -194,8 +193,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     song.set_id(track_number);
     song.set_filetype(Song::Type_Cdda);
     song.set_valid(true);
-    // We need to set url: that's how playlist will find the correct item to
-    // update
+    // We need to set url: that's how playlist will find the correct item to update
     song.set_url(GetUrlFromTrack(track_number++));
     songs << song;
   }
