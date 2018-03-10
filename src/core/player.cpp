@@ -110,18 +110,18 @@ EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
   for (int i = 1 ; !engine ; i++) {
     switch(enginetype) {
       case Engine::None:
-#ifdef HAVE_XINE
-      case Engine::Xine:
-	engine=true;
-	enginetype=Engine::Xine;
-        enginebase = new XineEngine(app_->task_manager());
-        break;
-#endif
 #ifdef HAVE_GSTREAMER
       case Engine::GStreamer:
 	engine=true;
 	enginetype=Engine::GStreamer;
         enginebase = new GstEngine(app_->task_manager());
+        break;
+#endif
+#ifdef HAVE_XINE
+      case Engine::Xine:
+	engine=true;
+	enginetype=Engine::Xine;
+        enginebase = new XineEngine(app_->task_manager());
         break;
 #endif
 #ifdef HAVE_PHONON
