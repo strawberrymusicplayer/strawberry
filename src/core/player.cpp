@@ -81,7 +81,7 @@ Player::Player(Application *app, QObject *parent)
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", BackendSettingsPage::EngineText_Xine).toString().toLower());
+  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", BackendSettingsPage::EngineText_GStreamer).toString().toLower());
   s.endGroup();
 
   CreateEngine(enginetype);
