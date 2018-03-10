@@ -435,13 +435,10 @@ void PlaylistManager::SelectionChanged(const QItemSelection &selection) {
 }
 
 void PlaylistManager::SongsDiscovered(const SongList &songs) {
-    
-  qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Some songs might've changed in the collection, let's update any playlist items we have that match those songs
 
   for (const Song &song : songs) {
-    qLog(Debug);
     for (const Data &data : playlists_) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
       for (PlaylistItemPtr item : items) {
