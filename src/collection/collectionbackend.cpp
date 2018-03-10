@@ -185,8 +185,6 @@ SubdirectoryList CollectionBackend::SubdirsInDirectory(int id, QSqlDatabase &db)
 }
 
 void CollectionBackend::UpdateTotalSongCount() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -202,8 +200,6 @@ void CollectionBackend::UpdateTotalSongCount() {
 }
 
 void CollectionBackend::UpdateTotalArtistCount() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -221,8 +217,6 @@ void CollectionBackend::UpdateTotalArtistCount() {
 }
 
 void CollectionBackend::UpdateTotalAlbumCount() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());

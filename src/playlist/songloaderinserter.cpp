@@ -134,8 +134,7 @@ void SongLoaderInserter::AsyncLoad() {
   // First, quick load raw songs.
   int async_progress = 0;
   int async_load_id = task_manager_->StartTask(tr("Loading tracks"));
-  task_manager_->SetTaskProgress(async_load_id, async_progress,
-                                 pending_.count());
+  task_manager_->SetTaskProgress(async_load_id, async_progress, pending_.count());
   for (int i = 0; i < pending_.count(); ++i) {
     SongLoader *loader = pending_[i];
     loader->LoadFilenamesBlocking();

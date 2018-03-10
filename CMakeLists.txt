@@ -99,6 +99,10 @@ pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
 pkg_check_modules(GSTREAMER_TAG gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
+#pkg_check_modules(GSTREAMER_QTGLIB Qt5GLib-2.0)
+#pkg_check_modules(GSTREAMER_QTGST Qt5GStreamer-1.0)
+#pkg_check_modules(GSTREAMER_QTGSTUI Qt5GStreamerUi-1.0)
+#pkg_check_modules(GSTREAMER_QTGSTUTILS Qt5GStreamerUtils-1.0)
 pkg_check_modules(LIBXINE libxine)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(PHONON phonon4qt5)
@@ -106,13 +110,10 @@ pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(LIBXML libxml-2.0)
-#pkg_check_modules(QCA qca2)
 pkg_check_modules(TAGLIB REQUIRED taglib>=1.8)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
-#pkg_check_modules(QJSON qjson-qt5)
-find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 
-#find_library(QJSON_LIBRARIES qjson-qt5)
+find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 
 if (WIN32)
   find_package(ZLIB REQUIRED)
@@ -142,9 +143,6 @@ if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
   set(HAVE_LIBLASTFM1 ON)
 endif()
 
-# QJSON
-#CHECK_INCLUDE_FILES(qjson/parser.h QJSON_PARSER_H)
-
 # CHROMAPRINT
 CHECK_INCLUDE_FILES(chromaprint.h CHROMAPRINT_H)
 
@@ -164,7 +162,6 @@ endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 # Set up definitions and paths
 add_definitions(${QT_DEFINITIONS})
 link_directories(${TAGLIB_LIBRARY_DIRS})
-#link_directories(${QJSON_LIBRARY_DIRS})
 link_directories(${GSTREAMER_LIBRARY_DIRS})
 
 # Don't try to use webkit if their include directories couldn't be found.
@@ -183,7 +180,10 @@ include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
 include_directories(${GSTREAMER_BASE_INCLUDE_DIRS})
 include_directories(${GSTREAMER_TAG_INCLUDE_DIRS})
 include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
-#include_directories(${QJSON_INCLUDE_DIRS})
+#include_directories(${GSTREAMER_QTGLIB})
+#include_directories(${GSTREAMER_QTGST})
+#include_directories(${GSTREAMER_QTGSTUI})
+#include_directories(${GSTREAMER_QTGSTUTILS})
 
 if (WIN32)
   # RC compiler
@@ -367,10 +367,6 @@ endif()
 
 # Qocoa
 add_subdirectory(3rdparty/qocoa)
-
-# QJSON
-#add_subdirectory(3rdparty/qjson)
-#set(QJSON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qjson/include)
 
 # Subdirectories
 add_subdirectory(src)

@@ -47,8 +47,6 @@ QString AlbumCoverLoader::ImageCacheDir() {
 
 void AlbumCoverLoader::CancelTask(quint64 id) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   QMutexLocker l(&mutex_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
     if (it->id == id) {
@@ -59,8 +57,6 @@ void AlbumCoverLoader::CancelTask(quint64 id) {
 }
 
 void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   QMutexLocker l(&mutex_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end();) {
@@ -78,8 +74,6 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions& options,
 }
 
 quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QString &art_automatic, const QString &art_manual, const QString &song_filename, const QImage &embedded_image) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << art_automatic << art_manual << song_filename;
 
   Task task;
   task.options = options;
@@ -102,8 +96,6 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
 
 void AlbumCoverLoader::ProcessTasks() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   while (!stop_requested_) {
     // Get the next task
     Task task;
@@ -119,12 +111,9 @@ void AlbumCoverLoader::ProcessTasks() {
 
 void AlbumCoverLoader::ProcessTask(Task *task) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   TryLoadResult result = TryLoadImage(*task);
   if (result.started_async) {
-    // The image is being loaded from a remote URL, we'll carry on later
-    // when it's done
+    // The image is being loaded from a remote URL, we'll carry on later when it's done
     return;
   }
 
@@ -140,8 +129,6 @@ void AlbumCoverLoader::ProcessTask(Task *task) {
 
 void AlbumCoverLoader::NextState(Task *task) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   if (task->state == State_TryingManual) {
     // Try the automatic one next
     task->state = State_TryingAuto;
@@ -155,8 +142,6 @@ void AlbumCoverLoader::NextState(Task *task) {
 }
 
 AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // An image embedded in the song itself takes priority
   if (!task.embedded_image.isNull())
@@ -198,8 +183,6 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
 }
 
 void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   reply->deleteLater();
 
@@ -236,8 +219,6 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
 
 QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (image.isNull()) return image;
 
   // Scale the image down
@@ -263,8 +244,6 @@ QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, con
 }
 
 QPixmap AlbumCoverLoader::TryLoadPixmap(const QString &automatic, const QString &manual, const QString &filename) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << automatic << manual << filename;
 
   QPixmap ret;
   if (manual == Song::kManuallyUnsetCover) return ret;

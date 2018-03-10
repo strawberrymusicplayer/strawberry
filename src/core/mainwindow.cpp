@@ -2191,11 +2191,11 @@ void MainWindow::Exit() {
       return; // Don't quit the application now: wait for the fadeout finished signal
     }
   }
-  
+
 #ifdef HAVE_GSTREAMER
-  gst_deinit();
+  //gst_deinit();
 #endif
-  
+
   qApp->quit();
 
 }

@@ -2,10 +2,5 @@ Strawberry Music Player
 =======================
 TODO
 
-- Fix freeze on exit caused by GStreamer
-- Fix Audio CD playback
 - Finalize / Improve status/context
 - Fix crash when switching backend while playing
-
-.
-

@@ -394,6 +394,7 @@ int DeviceManager::FindDeviceById(const QString &id) const {
       if (backend.unique_id_ == id) return i;
     }
   }
+
   return -1;
 
 }
@@ -406,13 +407,13 @@ int DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
     for (const DeviceInfo::Backend &backend : devices_[i].backends_) {
       if (!backend.lister_) continue;
 
-      QList<QUrl> device_urls =
-          backend.lister_->MakeDeviceUrls(backend.unique_id_);
+      QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
       for (const QUrl &url : device_urls) {
         if (urls.contains(url)) return i;
       }
     }
   }
+
   return -1;
 
 }
@@ -435,7 +436,8 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
     }
 
     emit dataChanged(index(i, 0), index(i, 0));
-  } else {
+  }
+  else {
     // Check if we have another device with the same URL
     i = FindDeviceByUrl(lister->MakeDeviceUrls(id));
     if (i != -1) {
@@ -452,7 +454,8 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       }
 
       emit dataChanged(index(i, 0), index(i, 0));
-    } else {
+    }
+    else {
       // It's a completely new device
       DeviceInfo info;
       info.backends_ << DeviceInfo::Backend(lister, id);

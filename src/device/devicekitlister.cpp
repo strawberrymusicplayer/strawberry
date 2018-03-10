@@ -37,7 +37,6 @@
 
 DeviceKitLister::DeviceKitLister() {}
 DeviceKitLister::~DeviceKitLister() {}
-//qLog(Debug) << __PRETTY_FUNCTION__;
 
 QString DeviceKitLister::DeviceData::unique_id() const {
   return QString("DeviceKit/%1/%2/%3/%4").arg(drive_serial, drive_vendor, drive_model).arg(device_size);

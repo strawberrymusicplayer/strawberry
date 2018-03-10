@@ -106,9 +106,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
   }
 
   if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url) != nullptr) {
-    // The URI scheme indicates that it can't possibly be a playlist, or we have
-    // a custom handler for the URL, so add it as a raw stream.
-    //AddAsRawStream();
+    // The URI scheme indicates that it can't possibly be a playlist, or we have a custom handler for the URL, so add it as a raw stream. AddAsRawStream();
     return Success;
   }
 
@@ -117,6 +115,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
 #endif
 
   return BlockingLoadRequired;
+
 }
 
 void SongLoader::LoadFilenamesBlocking() {
@@ -130,8 +129,7 @@ void SongLoader::LoadFilenamesBlocking() {
 SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
   
   qLog(Debug) << "Fast Loading local file" << filename;
-  // First check to see if it's a directory - if so we can load all the songs
-  // inside right away.
+  // First check to see if it's a directory - if so we can load all the songs inside right away.
   if (QFileInfo(filename).isDir()) {
     LoadLocalDirectory(filename);
     return Success;
@@ -204,15 +202,13 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 
 void SongLoader::LoadLocalAsync(const QString &filename) {
 
-  // First check to see if it's a directory - if so we will load all the songs
-  // inside right away.
+  // First check to see if it's a directory - if so we will load all the songs inside right away.
   if (QFileInfo(filename).isDir()) {
     LoadLocalDirectory(filename);
     return;
   }
 
-  // It's a local file, so check if it looks like a playlist.
-  // Read the first few bytes.
+  // It's a local file, so check if it looks like a playlist. Read the first few bytes.
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) return;
   QByteArray data(file.read(PlaylistParser::kMagicSize));
@@ -277,6 +273,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
     QString filename = song->url().toLocalFile();
     TagReaderClient::Instance()->ReadFileBlocking(filename, song);
   }
+
 }
 
 void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
@@ -297,6 +294,7 @@ static bool CompareSongs(const Song &left, const Song &right) {
   if (left.track() < right.track()) return true;
   if (left.track() > right.track()) return false;
   return left.url() < right.url();
+
 }
 
 void SongLoader::LoadLocalDirectory(const QString &filename) {
@@ -314,16 +312,8 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
   // when adding to playlist" preference behaviour set, it can enjoy the first
   // song being played (seek it, have moodbar, etc.)
   if (!songs_.isEmpty()) EffectiveSongLoad(&(*songs_.begin()));
-}
 
-//void SongLoader::AddAsRawStream() {
-//  Song song;
-//  song.set_valid(true);
-//  song.set_filetype(Song::Type_Stream);
-//  song.set_url(url_);
-//  song.set_title(url_.toString());
-//  songs_ << song;
-//}
+}
 
 void SongLoader::Timeout() {
   state_ = Finished;
@@ -359,6 +349,7 @@ void SongLoader::StopTypefind() {
   }
 
   emit LoadRemoteFinished();
+
 }
 
 #ifdef HAVE_GSTREAMER
@@ -523,8 +514,7 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   free(debugs);
 
   if (state_ == WaitingForType && message_str == gst_error_get_message(GST_STREAM_ERROR, GST_STREAM_ERROR_TYPE_NOT_FOUND)) {
-    // Don't give up - assume it's a playlist and see if one of our parsers can
-    // read it.
+    // Don't give up - assume it's a playlist and see if one of our parsers can read it.
     state_ = WaitingForMagic;
     return;
   }
@@ -569,22 +559,21 @@ void SongLoader::MagicReady() {
   parser_ = playlist_parser_->ParserForMagic(buffer_, mime_type_);
 
   if (!parser_) {
-      qLog(Warning) << url_.toString() << "is text, but not a recognised playlist";
-      // It doesn't look like a playlist, so just finish
-      StopTypefindAsync(false);
-      return;
-    }
+    qLog(Warning) << url_.toString() << "is text, but not a recognised playlist";
+    // It doesn't look like a playlist, so just finish
+    StopTypefindAsync(false);
+    return;
+  }
 
   // We'll get more data and parse the whole thing in EndOfStreamReached
 
-    qLog(Debug) << "Magic says" << parser_->name();
-    if (parser_->name() == "ASX/INI" && url_.scheme() == "http") {
-      // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from
-      // HTTP makes it playable.
-      parser_ = nullptr;
-      url_.setScheme("mms");
-      StopTypefindAsync(true);
-    }
+  qLog(Debug) << "Magic says" << parser_->name();
+  if (parser_->name() == "ASX/INI" && url_.scheme() == "http") {
+    // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from HTTP makes it playable.
+    parser_ = nullptr;
+    url_.setScheme("mms");
+    StopTypefindAsync(true);
+  }
 
   state_ = WaitingForData;
 

@@ -28,6 +28,8 @@
 #include "mtpconnection.h"
 #include "core/song.h"
 #include "core/taskmanager.h"
+#include "core/logging.h"
+
 #include "collection/collectionbackend.h"
 
 MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device)

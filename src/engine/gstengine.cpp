@@ -110,8 +110,6 @@ GstEngine::GstEngine(TaskManager *task_manager)
       has_faded_out_(false),
       scope_chunk_(0),
       have_new_buffer_(false) {
-	  
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
@@ -130,16 +128,9 @@ GstEngine::GstEngine(TaskManager *task_manager)
 
 GstEngine::~GstEngine() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   EnsureInitialised();
 
   current_pipeline_.reset();
-
-  // Save configuration
-  //gst_deinit();
-
-  //qDeleteAll(device_finders_);
 
 #ifdef Q_OS_DARWIN
   g_object_unref(tls_database_);
@@ -147,8 +138,6 @@ GstEngine::~GstEngine() {
 }
 
 bool GstEngine::Init() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   SetEnvironment();
 
@@ -160,58 +149,14 @@ bool GstEngine::Init() {
 
 void GstEngine::InitialiseGStreamer() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
 #if 0
   gst_init(nullptr, nullptr);
   gst_pb_utils_init();
 #endif
 
-#if 0
-  QSet<QString> plugin_names;
-  for (const PluginDetails &plugin : GetPluginList("Sink/Audio")) {
-    plugin_names.insert(plugin.name);
-  }
-#endif
-
-#if 0
-  QList<DeviceFinder*> device_finders;
-
-#ifdef Q_OS_LINUX
-  device_finders.append(new AlsaDeviceFinder);
-#endif
-#ifdef HAVE_LIBPULSE
-  device_finders.append(new PulseDeviceFinder);
-#endif
-#ifdef Q_OS_DARWIN
-  device_finders.append(new OsxDeviceFinder);
-#endif
-#ifdef Q_OS_WIN32
-  device_finders.append(new DirectSoundDeviceFinder);
-#endif
-
-  for (DeviceFinder *finder : device_finders) {
-    if (!plugin_names.contains(finder->gstreamer_sink())) {
-      qLog(Info) << "Skipping DeviceFinder for" << finder->gstreamer_sink() << "known plugins:" << plugin_names;
-      delete finder;
-      continue;
-    }
-    if (!finder->Initialise()) {
-      qLog(Warning) << "Failed to initialise DeviceFinder for" << finder->gstreamer_sink();
-      delete finder;
-      continue;
-    }
-
-    device_finders_.append(finder);
-  }
-  
-#endif
-
 }
 
 void GstEngine::SetEnvironment() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString scanner_path;
   QString plugin_path;
@@ -250,8 +195,6 @@ void GstEngine::SetEnvironment() {
 }
 
 void GstEngine::ReloadSettings() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   Engine::Base::ReloadSettings();
 
@@ -318,8 +261,6 @@ Engine::State GstEngine::state() const {
 }
 
 void GstEngine::ConsumeBuffer(GstBuffer *buffer, int pipeline_id) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the
   // queue and unreffed by UpdateScope.
@@ -330,8 +271,6 @@ void GstEngine::ConsumeBuffer(GstBuffer *buffer, int pipeline_id) {
 }
 
 void GstEngine::AddBufferToScope(GstBuffer *buf, int pipeline_id) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) {
     gst_buffer_unref(buf);
@@ -427,26 +366,24 @@ void GstEngine::StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 
   // pipeline and get gapless playback (hopefully)
   if (current_pipeline_)
     current_pipeline_->SetNextUrl(gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
+
 }
 
 QUrl GstEngine::FixupUrl(const QUrl &url) {
 
   QUrl copy = url;
 
-  // It's a file:// url with a hostname set.  QUrl::fromLocalFile does this
-  // when given a \\host\share\file path on Windows.  Munge it back into a
-  // path that gstreamer will recognise.
+  // It's a file:// url with a hostname set.  QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.  Munge it back into a path that gstreamer will recognise.
   if (url.scheme() == "file" && !url.host().isEmpty()) {
     copy.setPath("//" + copy.host() + copy.path());
     copy.setHost(QString());
   }
 
   return copy;
+
 }
 
 bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   EnsureInitialised();
 
@@ -463,7 +400,7 @@ bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
     // We're not crossfading, and the pipeline is already playing the URI we want, so just do nothing.
     return true;
   }
-  
+
   //SetEqualizerEnabled(equalizer_enabled_);
   //SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
   //SetStereoBalance(stereo_balance_);
@@ -498,6 +435,7 @@ void GstEngine::StartFadeout() {
 
   fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
   connect(fadeout_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutFinished()));
+
 }
 
 void GstEngine::StartFadeoutPause() {
@@ -514,8 +452,6 @@ void GstEngine::StartFadeoutPause() {
 }
 
 bool GstEngine::Play(quint64 offset_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   EnsureInitialised();
 
@@ -532,8 +468,6 @@ bool GstEngine::Play(quint64 offset_nanosec) {
 }
 
 void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 offset_nanosec, const int pipeline_id) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   GstStateChangeReturn ret = future.result();
 
@@ -571,8 +505,6 @@ void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 off
 }
 
 void GstEngine::Stop(bool stop_after) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   StopTimers();
 
@@ -617,8 +549,6 @@ void GstEngine::FadeoutPauseFinished() {
 }
 
 void GstEngine::Pause() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
@@ -646,17 +576,14 @@ void GstEngine::Pause() {
 }
 
 void GstEngine::Unpause() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
   if (current_pipeline_->state() == GST_STATE_PAUSED) {
     current_pipeline_->SetState(GST_STATE_PLAYING);
 
-    // Check if we faded out last time. If yes, fade in no matter what the
-    // settings say. If we pause with fadeout, deactivate fadeout and resume
-    // playback, the player would be muted if not faded in.
+    // Check if we faded out last time. If yes, fade in no matter what the settings say.
+    // If we pause with fadeout, deactivate fadeout and resume playback, the player would be muted if not faded in.
     if (has_faded_out_) {
       disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), 0, 0);
       current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QTimeLine::EaseInOutCurve, false);
@@ -695,8 +622,6 @@ void GstEngine::SeekNow() {
 }
 
 void GstEngine::SetEqualizerEnabled(bool enabled) {
-
-  //qLog(Debug) << "equalizer ENABLED: " << enabled;
 
   equalizer_enabled_ = enabled;
 
@@ -761,8 +686,6 @@ void GstEngine::timerEvent(QTimerEvent *e) {
 }
 
 void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
     return;
@@ -793,8 +716,6 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
 }
 
 void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
     return;
@@ -815,8 +736,6 @@ void GstEngine::NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bun
 }
 
 GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Make a unique name
   QString name = factoryName + "-" + QString::number(next_element_id_++);
@@ -836,14 +755,10 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   PluginDetailsList ret;
 
   GstRegistry *registry = gst_registry_get();
   GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << registry << features;
 
   GList *p = features;
   while (p) {
@@ -864,8 +779,6 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
 }
 
 shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << sink_ << device_;
 
   EnsureInitialised();
 
@@ -892,8 +805,6 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 }
 
 shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &url, qint64 end_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   shared_ptr<GstEnginePipeline> ret = CreatePipeline();
 
@@ -905,6 +816,7 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &url, qint64 
   if (!ret->InitFromUrl(url, end_nanosec)) ret.reset();
 
   return ret;
+
 }
 
 bool GstEngine::ALSADeviceSupport(const QString &name) {
@@ -931,6 +843,7 @@ void GstEngine::BufferingStarted() {
 
   buffering_task_id_ = task_manager_->StartTask(tr("Buffering"));
   task_manager_->SetTaskProgress(buffering_task_id_, 0, 100);
+
 }
 
 void GstEngine::BufferingProgress(int percent) {
@@ -946,24 +859,7 @@ void GstEngine::BufferingFinished() {
 
 EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
-  //const_cast<GstEngine *>(this)->EnsureInitialised();
-
   EngineBase::OutputDetailsList ret;
-
-#if 0
-  for (DeviceFinder *finder : device_finders_) {
-    for (const DeviceFinder::Device &device : finder->ListDevices()) {
-      OutputDetails output;
-      output.description = device.description;
-      output.icon_name = device.icon_name;
-      output.name = finder->gstreamer_sink();
-      output.device_property_value = device.device_property_value;
-      ret.append(output);
-    }
-  }
-#endif
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
   for (const PluginDetails &plugin : plugins) {
@@ -980,5 +876,5 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   }
 
   return ret;
-}
 
+}

@@ -28,6 +28,7 @@
 #include "enginebase.h"
 #include "enginedevice.h"
 #include "core/timeconstants.h"
+#include "core/logging.h"
 
 #include "settings/playbacksettingspage.h"
 

@@ -144,6 +144,7 @@ void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, con
   p->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
 
   p->restore();
+
 }
 
 DeviceView::DeviceView(QWidget *parent)
@@ -232,13 +233,14 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     eject_action_->setEnabled(is_plugged_in);
 
     device_menu_->popup(e->globalPos());
-  } else if (collection_index.isValid()) {
+  }
+  else if (collection_index.isValid()) {
     const QModelIndex parent_device_index = FindParentDevice(menu_index_);
 
     bool is_filesystem_device = false;
     if (parent_device_index.isValid()) {
-      std::shared_ptr<ConnectedDevice> device =
-          app_->device_manager()->GetConnectedDevice(parent_device_index.row());
+      std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(parent_device_index.row());
+      qLog(Debug) << device->LocalPath();
       if (device && !device->LocalPath().isEmpty()) is_filesystem_device = true;
     }
 
@@ -286,8 +288,7 @@ void DeviceView::Connect() {
 
 void DeviceView::DeviceConnected(int row) {
 
-  std::shared_ptr<ConnectedDevice> device =
-      app_->device_manager()->GetConnectedDevice(row);
+  std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(row);
   if (!device) return;
 
   QModelIndex sort_idx = sort_model_->mapFromSource(app_->device_manager()->index(row));
@@ -300,6 +301,7 @@ void DeviceView::DeviceConnected(int row) {
   merged_model_->AddSubModel(sort_idx, sort_model);
 
   expand(menu_index_);
+
 }
 
 void DeviceView::DeviceDisconnected(int row) {

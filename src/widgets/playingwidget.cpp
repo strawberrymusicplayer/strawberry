@@ -47,8 +47,7 @@ const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
 // Space between the cover and the details in small mode
 const int PlayingWidget::kPadding = 2;
 
-// Width of the transparent to black gradient above and below the text in large
-// mode
+// Width of the transparent to black gradient above and below the text in large mode
 const int PlayingWidget::kGradientHead = 40;
 const int PlayingWidget::kGradientTail = 20;
 
@@ -65,7 +64,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
     : QWidget(parent),
       app_(nullptr),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-      //mode_(SmallSongDetails),
+      mode_(SmallSongDetails),
       menu_(new QMenu(this)),
       fit_cover_width_action_(nullptr),
       enabled_(false),
@@ -78,8 +77,6 @@ PlayingWidget::PlayingWidget(QWidget *parent)
       details_(new QTextDocument(this)),
       previous_track_opacity_(0.0),
       downloading_covers_(false) {
-	  
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 	  
   enabled_ = false;
   visible_ = false;
@@ -152,14 +149,9 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 }
 
 PlayingWidget::~PlayingWidget() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
 }
 
 void PlayingWidget::SetApplication(Application *app) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   app_ = app;
 
@@ -180,8 +172,6 @@ void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGrou
 }
 
 void PlayingWidget::set_ideal_height(int height) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   small_ideal_height_ = height;
   UpdateHeight();
@@ -190,15 +180,11 @@ void PlayingWidget::set_ideal_height(int height) {
 
 QSize PlayingWidget::sizeHint() const {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   return QSize(cover_loader_options_.desired_height_, total_height_);
 
 }
 
 void PlayingWidget::UpdateHeight() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (mode_) {
     case SmallSongDetails:
@@ -227,8 +213,6 @@ void PlayingWidget::UpdateHeight() {
 }
 
 void PlayingWidget::Stopped() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   active_ = false;
   SetVisible(false);
@@ -236,8 +220,6 @@ void PlayingWidget::Stopped() {
 }
 
 void PlayingWidget::UpdateDetailsText() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QString html;
 
@@ -279,16 +261,12 @@ void PlayingWidget::UpdateDetailsText() {
 
 void PlayingWidget::ScaleCover() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, original_));
   update();
 
 }
 
 void PlayingWidget::AlbumArtLoaded(const Song &metadata, const QString &, const QImage &image) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   active_ = true;
 
@@ -303,8 +281,6 @@ void PlayingWidget::AlbumArtLoaded(const Song &metadata, const QString &, const 
 }
 
 void PlayingWidget::SetImage(const QImage &image) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   active_ = true;
 
@@ -333,16 +309,11 @@ void PlayingWidget::SetImage(const QImage &image) {
 
 void PlayingWidget::SetHeight(int height) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   setMaximumHeight(height);
   
 }
 
 void PlayingWidget::SetVisible(bool visible) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << visible;
-
-  //if (enabled_ == false) return;
 
   if (visible == visible_) return;
   visible_ = visible;
@@ -353,8 +324,6 @@ void PlayingWidget::SetVisible(bool visible) {
 }
 
 void PlayingWidget::paintEvent(QPaintEvent *e) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QPainter p(this);
 
@@ -368,8 +337,6 @@ void PlayingWidget::paintEvent(QPaintEvent *e) {
 }
 
 void PlayingWidget::DrawContents(QPainter *p) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (mode_) {
     case SmallSongDetails:
@@ -412,8 +379,6 @@ void PlayingWidget::DrawContents(QPainter *p) {
 }
 
 void PlayingWidget::FadePreviousTrack(qreal value) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   previous_track_opacity_ = value;
   if (qFuzzyCompare(previous_track_opacity_, qreal(0.0))) {
@@ -446,8 +411,6 @@ void PlayingWidget::SetMode(int mode) {
 }
 
 void PlayingWidget::resizeEvent(QResizeEvent* e) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (visible_ && e->oldSize() != e->size()) {
     if (mode_ == LargeSongDetails) {
@@ -459,8 +422,6 @@ void PlayingWidget::resizeEvent(QResizeEvent* e) {
 }
 
 void PlayingWidget::contextMenuEvent(QContextMenuEvent* e) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // show the menu
   menu_->popup(mapToGlobal(e->pos()));
@@ -472,8 +433,6 @@ void PlayingWidget::mouseReleaseEvent(QMouseEvent*) {
 }
 
 void PlayingWidget::FitCoverWidth(bool fit) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   fit_width_ = fit;
   UpdateHeight();
@@ -520,8 +479,6 @@ void PlayingWidget::SearchCoverAutomatically() {
 }
 
 void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (AlbumCoverChoiceController::CanAcceptDrag(e)) {
     e->acceptProposedAction();
@@ -532,8 +489,6 @@ void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
 }
 
 void PlayingWidget::dropEvent(QDropEvent *e) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   album_cover_choice_controller_->SaveCover(&metadata_, e);
 
@@ -542,8 +497,6 @@ void PlayingWidget::dropEvent(QDropEvent *e) {
 }
 
 bool PlayingWidget::GetCoverAutomatically() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   // Search for cover automatically?
   bool search =
@@ -570,8 +523,6 @@ bool PlayingWidget::GetCoverAutomatically() {
 
 void PlayingWidget::AutomaticCoverSearchDone() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   downloading_covers_ = false;
   spinner_animation_.reset();
   update();
@@ -579,8 +530,6 @@ void PlayingWidget::AutomaticCoverSearchDone() {
 }
 
 void PlayingWidget::SetEnabled() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (enabled_ == true) return;
   
@@ -591,8 +540,6 @@ void PlayingWidget::SetEnabled() {
 }
 
 void PlayingWidget::SetDisabled() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (enabled_ == false) return;
 

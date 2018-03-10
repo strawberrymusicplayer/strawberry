@@ -76,7 +76,7 @@ QVariantMap CddaLister::DeviceHardwareInfo(const QString &) {
 
 QString CddaLister::MakeFriendlyName(const QString &id) {
 
-  CdIo_t* cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
+  CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);

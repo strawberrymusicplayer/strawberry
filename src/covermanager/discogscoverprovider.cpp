@@ -47,8 +47,6 @@ DiscogsCoverProvider::DiscogsCoverProvider(QObject *parent) : CoverProvider("Dis
 
 bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, int s_id) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__ << artist << album << s_id;
-
   DiscogsCoverSearchContext *s_ctx = new DiscogsCoverSearchContext;
   if (s_ctx == nullptr) return false;
   s_ctx->id = s_id;
@@ -63,8 +61,6 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
 }
 
 bool DiscogsCoverProvider::StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString resource_url) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << resource_url;
 
   DiscogsCoverReleaseContext *r_ctx = new DiscogsCoverReleaseContext;
   if (r_ctx == nullptr) return false;
@@ -84,8 +80,6 @@ bool DiscogsCoverProvider::StartRelease(DiscogsCoverSearchContext *s_ctx, int r_
 }
 
 void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
@@ -135,8 +129,6 @@ void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
 
 void DiscogsCoverProvider::SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
 
@@ -179,8 +171,6 @@ void DiscogsCoverProvider::SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, 
 }
 
 void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //QString text(reply->readAll());
   //qLog(Debug) << "text: " << text << "\n";
@@ -255,8 +245,6 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
 }
 
 void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, int r_id) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //QString text(reply->readAll());
   //qLog(Debug) << "text: " << text << "\n";
@@ -338,15 +326,11 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
 
 void DiscogsCoverProvider::CancelSearch(int id) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__ << id;
-
   delete requests_search_.take(id);
 
 }
 
 void DiscogsCoverProvider::SearchRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   DiscogsCoverSearchContext *s_ctx;
   if (!requests_search_.contains(s_id)) {
@@ -361,8 +345,6 @@ void DiscogsCoverProvider::SearchRequestError(QNetworkReply::NetworkError error,
 }
 
 void DiscogsCoverProvider::ReleaseRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id, int r_id) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   DiscogsCoverSearchContext *s_ctx;
   if (!requests_search_.contains(s_id)) {
@@ -385,8 +367,6 @@ void DiscogsCoverProvider::ReleaseRequestError(QNetworkReply::NetworkError error
 }
 
 void DiscogsCoverProvider::EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   (void)requests_release_.remove(r_ctx->id);
   delete r_ctx;

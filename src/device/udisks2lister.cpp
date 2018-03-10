@@ -112,9 +112,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   if (!device_data_.contains(id)) return;
 
-  OrgFreedesktopUDisks2FilesystemInterface filesystem(
-      udisks2_service_, device_data_[id].dbus_path,
-      QDBusConnection::systemBus());
+  OrgFreedesktopUDisks2FilesystemInterface filesystem(udisks2_service_, device_data_[id].dbus_path, QDBusConnection::systemBus());
 
   if (filesystem.isValid()) {
     auto unmount_result = filesystem.Unmount(QVariantMap());
@@ -177,6 +175,7 @@ void Udisks2Lister::Init() {
 
   connect(udisks2_interface_.get(), SIGNAL(InterfacesAdded(QDBusObjectPath, InterfacesAndProperties)), SLOT(DBusInterfaceAdded(QDBusObjectPath, InterfacesAndProperties)));
   connect(udisks2_interface_.get(), SIGNAL(InterfacesRemoved(QDBusObjectPath, QStringList)), SLOT(DBusInterfaceRemoved(QDBusObjectPath, QStringList)));
+
 }
 
 void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const InterfacesAndProperties &interfaces) {
@@ -223,12 +222,14 @@ void Udisks2Lister::DBusInterfaceRemoved(const QDBusObjectPath &path, const QStr
 }
 
 bool Udisks2Lister::isPendingJob(const QDBusObjectPath &job_path) {
+
   QMutexLocker locker(&jobs_lock_);
 
   if (!mounting_jobs_.contains(job_path)) return false;
 
   mounting_jobs_.remove(job_path);
   return true;
+
 }
 
 void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
@@ -281,6 +282,7 @@ void Udisks2Lister::JobCompleted(bool success, const QString &message) {
 
     mounting_jobs_[jobPath].is_mount ? HandleFinishedMountJob(partition_data) : HandleFinishedUnmountJob(partition_data, mounted_object);
   }
+
 }
 
 void Udisks2Lister::HandleFinishedMountJob(const Udisks2Lister::PartitionData &partition_data) {
@@ -306,8 +308,7 @@ void Udisks2Lister::HandleFinishedUnmountJob(const Udisks2Lister::PartitionData 
   }
 
   if (!id.isEmpty()) {
-    qLog(Debug) << "Partition " << partition_data.dbus_path
-                << " has no more mount points, removing it from device list";
+    qLog(Debug) << "Partition " << partition_data.dbus_path << " has no more mount points, removing it from device list";
     device_data_.remove(id);
     DeviceRemoved(id);
   }

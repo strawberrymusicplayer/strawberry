@@ -219,39 +219,30 @@ signals:
 
   bool mono_playback_;
 
-  // The URL that is currently playing, and the URL that is to be preloaded
-  // when the current track is close to finishing.
+  // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
   QUrl url_;
   QUrl next_url_;
 
-  // If this is > 0 then the pipeline will be forced to stop when playback goes
-  // past this position.
+  // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;
 
-  // We store the beginning and end for the preloading song too, so we can just
-  // carry on without reloading the file if the sections carry on from each
-  // other.
+  // We store the beginning and end for the preloading song too, so we can just carry on without reloading the file if the sections carry on from each other.
   qint64 next_beginning_offset_nanosec_;
   qint64 next_end_offset_nanosec_;
 
-  // Set temporarily when moving to the next contiguous section in a multi-part
-  // file.
+  // Set temporarily when moving to the next contiguous section in a multi-part file.
   bool ignore_next_seek_;
 
-  // Set temporarily when switching out the decode bin, so metadata doesn't
-  // get sent while the Player still thinks it's playing the last song
+  // Set temporarily when switching out the decode bin, so metadata doesn't get sent while the Player still thinks it's playing the last song
   bool ignore_tags_;
 
-  // When the gstreamer source requests a redirect we store the URL here and
-  // callers can pick it up after the state change to PLAYING fails.
+  // When the gstreamer source requests a redirect we store the URL here and callers can pick it up after the state change to PLAYING fails.
   QUrl redirect_url_;
 
   // When we need to specify the device to use as source (for CD device)
   QString source_device_;
 
-  // Seeking while the pipeline is in the READY state doesn't work, so we have
-  // to wait until it goes to PAUSED or PLAYING.
-  // Also we have to wait for the decodebin to be connected.
+  // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING. Also we have to wait for the decodebin to be connected.
   bool pipeline_is_initialised_;
   bool pipeline_is_connected_;
   qint64 pending_seek_nanosec_;

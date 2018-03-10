@@ -57,12 +57,10 @@ const int CollectionModel::kPrettyCoverSize = 32;
 const qint64 CollectionModel::kIconCacheSize = 100000000;  //~100MB
 
 static bool IsArtistGroupBy(const CollectionModel::GroupBy by) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   return by == CollectionModel::GroupBy_Artist || by == CollectionModel::GroupBy_AlbumArtist;
 }
 
 static bool IsCompilationArtistNode(const CollectionItem *node) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   return node == node->parent->compilation_artist_node_;
 }
 
@@ -83,8 +81,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       use_pretty_covers_(false),
       show_dividers_(true)
 {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   root_->lazy_loaded = true;
 
@@ -123,8 +119,6 @@ CollectionModel::~CollectionModel() { delete root_; }
 
 void CollectionModel::set_pretty_covers(bool use_pretty_covers) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (use_pretty_covers != use_pretty_covers_) {
     use_pretty_covers_ = use_pretty_covers;
     Reset();
@@ -133,8 +127,6 @@ void CollectionModel::set_pretty_covers(bool use_pretty_covers) {
 
 void CollectionModel::set_show_dividers(bool show_dividers) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (show_dividers != show_dividers_) {
     show_dividers_ = show_dividers;
     Reset();
@@ -142,8 +134,6 @@ void CollectionModel::set_show_dividers(bool show_dividers) {
 }
 
 void CollectionModel::SaveGrouping(QString name) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   qLog(Debug) << "Model, save to: " << name;
 
@@ -159,8 +149,6 @@ void CollectionModel::SaveGrouping(QString name) {
 
 
 void CollectionModel::Init(bool async) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (async) {
     // Show a loading indicator in the model.
@@ -182,8 +170,6 @@ void CollectionModel::Init(bool async) {
 }
 
 void CollectionModel::SongsDiscovered(const SongList &songs) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   for (const Song &song : songs) {
     // Sanity check to make sure we don't add songs that are outside the user's filter
@@ -212,8 +198,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         container = container->compilation_artist_node_;
       }
       else {
-        // Otherwise find the proper container at this level based on the
-        // item's key
+        // Otherwise find the proper container at this level based on the item's key
         QString key;
         switch (type) {
           case GroupBy_Album:       key = song.album(); break;
@@ -250,7 +235,6 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         // Does it exist already?
         if (!container_nodes_[i].contains(key)) {
           // Create the container
-          //qLog(Debug) << "Adding song:" << song.album();
           container_nodes_[i][key] = ItemFromSong(type, true, i == 0, container, song, i);
         }
         container = container_nodes_[i][key];
@@ -285,8 +269,6 @@ void CollectionModel::SongsSlightlyChanged(const SongList &songs) {
 
 CollectionItem *CollectionModel::CreateCompilationArtistNode(bool signal, CollectionItem *parent) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
 
   parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type_Container, parent);
@@ -302,8 +284,6 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(bool signal, Collec
 }
 
 QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Items which are to be grouped under the same divider must produce the
   // same divider key.  This will only get called for top-level items.
@@ -351,8 +331,6 @@ QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
 
 QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   // Pretty display text for the dividers.
 
   switch (type) {
@@ -392,8 +370,6 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
 }
 
 void CollectionModel::SongsDeleted(const SongList &songs) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Delete the actual song nodes first, keeping track of each parent so we
   // might check to see if they're empty later.
@@ -478,16 +454,12 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
 QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &index) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QStringList path;
   QModelIndex index_copy(index);
   while (index_copy.isValid()) {
     path.prepend(index_copy.data().toString());
     index_copy = index_copy.parent();
   }
-  
-  //qLog(Debug) << __PRETTY_FUNCTION__ << "collectionart:" << path.join("/");
 
   return "collectionart:" + path.join("/");
 
@@ -495,15 +467,11 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &index) const
 
 QVariant CollectionModel::AlbumIcon(const QModelIndex &index) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   CollectionItem *item = IndexToItem(index);
   if (!item) return no_cover_icon_;
 
   // Check the cache for a pixmap we already loaded.
   const QString cache_key = AlbumIconPixmapCacheKey(index);
-  
-  //qLog(Debug) << cache_key ;
 
   QPixmap cached_pixmap;
   if (QPixmapCache::find(cache_key, &cached_pixmap)) {
@@ -540,8 +508,6 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &index) {
 }
 
 void CollectionModel::AlbumArtLoaded(quint64 id, const QImage &image) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   ItemAndCacheKey item_and_cache_key = pending_art_.take(id);
   CollectionItem *item = item_and_cache_key.first;
@@ -585,8 +551,6 @@ void CollectionModel::AlbumArtLoaded(quint64 id, const QImage &image) {
 
 QVariant CollectionModel::data(const QModelIndex &index, int role) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   const CollectionItem *item = IndexToItem(index);
 
   // Handle a special case for returning album artwork instead of a generic CD icon.
@@ -610,8 +574,6 @@ QVariant CollectionModel::data(const QModelIndex &index, int role) const {
 }
 
 QVariant CollectionModel::data(const CollectionItem *item, int role) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   GroupBy container_type = item->type == CollectionItem::Type_Container ? group_by_[item->container_level] : GroupBy_None;
 
@@ -663,8 +625,7 @@ QVariant CollectionModel::data(const CollectionItem *item, int role) const {
       }
 
       if (item->type == CollectionItem::Type_Container) {
-        // if we have even one non editable item as a child, we ourselves
-        // are not available for edit
+        // if we have even one non editable item as a child, we ourselves are not available for edit
         if (!item->children.isEmpty()) {
           for (CollectionItem *child : item->children) {
             if (!data(child, role).toBool()) {
@@ -692,8 +653,6 @@ QVariant CollectionModel::data(const CollectionItem *item, int role) const {
 
 bool CollectionModel::HasCompilations(const CollectionQuery &query) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   CollectionQuery q = query;
   q.AddCompilationRequirement(true);
   q.SetLimit(1);
@@ -707,16 +666,13 @@ bool CollectionModel::HasCompilations(const CollectionQuery &query) {
 
 CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QueryResult result;
 
   // Information about what we want the children to be
   int child_level = parent == root_ ? 0 : parent->container_level + 1;
   GroupBy child_type = child_level >= 3 ? GroupBy_None : group_by_[child_level];
 
-  // Initialise the query.  child_type says what type of thing we want (artists,
-  // songs, etc.)
+  // Initialise the query.  child_type says what type of thing we want (artists, songs, etc.)
   CollectionQuery q(query_options_);
   InitQuery(child_type, &q);
 
@@ -751,8 +707,6 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
 
 void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::QueryResult &result, bool signal) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   // Information about what we want the children to be
   int child_level = parent == root_ ? 0 : parent->container_level + 1;
   GroupBy child_type = child_level >= 3 ? GroupBy_None : group_by_[child_level];
@@ -777,8 +731,6 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
 
 void CollectionModel::LazyPopulate(CollectionItem *parent, bool signal) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
 
@@ -789,16 +741,12 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, bool signal) {
 
 void CollectionModel::ResetAsync() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
   NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
 
 }
 
 void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   const struct QueryResult result = future.result();
 
@@ -818,8 +766,6 @@ void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResu
 
 void CollectionModel::BeginReset() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   beginResetModel();
   delete root_;
   song_nodes_.clear();
@@ -837,8 +783,6 @@ void CollectionModel::BeginReset() {
 
 void CollectionModel::Reset() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   BeginReset();
 
   // Populate top level
@@ -849,8 +793,6 @@ void CollectionModel::Reset() {
 }
 
 void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Say what type of thing we want to get back from the database.
   switch (type) {
@@ -905,10 +847,7 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
 
 void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, CollectionQuery *q) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
-  // Say how we want the query to be filtered.  This is done once for each
-  // parent going up the tree.
+  // Say how we want the query to be filtered.  This is done once for each parent going up the tree.
 
   switch (type) {
     case GroupBy_Artist:
@@ -980,26 +919,20 @@ void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, Collection
 
 CollectionItem *CollectionModel::InitItem(GroupBy type, bool signal, CollectionItem *parent, int container_level) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   CollectionItem::Type item_type = type == GroupBy_None ? CollectionItem::Type_Song : CollectionItem::Type_Container;
 
-  if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(),parent->children.count());
+  if (signal) beginInsertRows(ItemToIndex(parent), parent->children.count(), parent->children.count());
 
   // Initialise the item depending on what type it's meant to be
   CollectionItem *item = new CollectionItem(item_type, parent);
   item->compilation_artist_node_ = nullptr;
   item->container_level = container_level;
 
-  //qLog(Debug) << __PRETTY_FUNCTION__ << "end";
-
   return item;
 
 }
 
 CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const SqlRow &row, int container_level) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
   int year = 0;
@@ -1083,15 +1016,11 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
 
   FinishItem(type, signal, create_divider, parent, item);
 
-  //qLog(Debug) << __PRETTY_FUNCTION__  << "end";
-
   return item;
 
 }
 
 CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const Song &s, int container_level) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
   int year = 0;
@@ -1171,8 +1100,6 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       break;
   }
 
-//  qLog(Debug) << s.url().scheme();
-
   FinishItem(type, signal, create_divider, parent, item);
   if (s.url().scheme() == "cdda") item->lazy_loaded = true;
   return item;
@@ -1180,8 +1107,6 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
 }
 
 void CollectionModel::FinishItem(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, CollectionItem *item) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (type == GroupBy_None) item->lazy_loaded = true;
 
@@ -1211,8 +1136,6 @@ void CollectionModel::FinishItem(GroupBy type, bool signal, bool create_divider,
 
 QString CollectionModel::TextOrUnknown(const QString &text) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (text.isEmpty()) return tr("Unknown");
   return text;
 
@@ -1220,16 +1143,12 @@ QString CollectionModel::TextOrUnknown(const QString &text) {
 
 QString CollectionModel::PrettyYearAlbum(int year, const QString &album) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (year <= 0) return TextOrUnknown(album);
   return QString::number(year) + " - " + TextOrUnknown(album);
 
 }
 
 QString CollectionModel::SortText(QString text) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (text.isEmpty()) {
     text = " unknown";
@@ -1244,8 +1163,6 @@ QString CollectionModel::SortText(QString text) {
 }
 
 QString CollectionModel::SortTextForArtist(QString artist) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   artist = SortText(artist);
 
@@ -1265,14 +1182,10 @@ QString CollectionModel::SortTextForArtist(QString artist) {
 
 QString CollectionModel::SortTextForNumber(int number) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   return QString("%1").arg(number, 4, 10, QChar('0'));
 }
 
 QString CollectionModel::SortTextForYear(int year) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString str = QString::number(year);
   return QString("0").repeated(qMax(0, 4 - str.length())) + str;
@@ -1288,8 +1201,6 @@ QString CollectionModel::SortTextForBitrate(int bitrate) {
 
 QString CollectionModel::SortTextForSong(const Song &song) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QString ret = QString::number(qMax(0, song.disc()) * 1000 + qMax(0, song.track()));
   ret.prepend(QString("0").repeated(6 - ret.length()));
   ret.append(song.url().toString());
@@ -1298,8 +1209,6 @@ QString CollectionModel::SortTextForSong(const Song &song) {
 }
 
 Qt::ItemFlags CollectionModel::flags(const QModelIndex &index) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (IndexToItem(index)->type) {
     case CollectionItem::Type_Song:
@@ -1319,8 +1228,6 @@ QStringList CollectionModel::mimeTypes() const {
 }
 
 QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (indexes.isEmpty()) return nullptr;
 
@@ -1343,8 +1250,6 @@ QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
 
 bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem *b) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QVariant left(data(a, CollectionModel::Role_SortText));
   QVariant right(data(b, CollectionModel::Role_SortText));
 
@@ -1354,8 +1259,6 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 }
 
 void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (item->type) {
     case CollectionItem::Type_Container: {
@@ -1385,8 +1288,6 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
 
 SongList CollectionModel::GetChildSongs(const QModelIndexList &indexes) const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QList<QUrl> dontcare;
   SongList ret;
   QSet<int> song_ids;
@@ -1399,32 +1300,27 @@ SongList CollectionModel::GetChildSongs(const QModelIndexList &indexes) const {
 }
 
 SongList CollectionModel::GetChildSongs(const QModelIndex &index) const {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   return GetChildSongs(QModelIndexList() << index);
 }
 
 void CollectionModel::SetFilterAge(int age) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   query_options_.set_max_age(age);
   ResetAsync();
 }
 
 void CollectionModel::SetFilterText(const QString &text) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   query_options_.set_filter(text);
   ResetAsync();
 
 }
 
 void CollectionModel::SetFilterQueryMode(QueryOptions::QueryMode query_mode) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   query_options_.set_query_mode(query_mode);
   ResetAsync();
 
 }
 
 bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!parent.isValid()) return false;
 
@@ -1435,7 +1331,6 @@ bool CollectionModel::canFetchMore(const QModelIndex &parent) const {
 
 void CollectionModel::SetGroupBy(const Grouping &g) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   group_by_ = g;
 
   ResetAsync();
@@ -1444,8 +1339,6 @@ void CollectionModel::SetGroupBy(const Grouping &g) {
 }
 
 const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](int i) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (i) {
     case 0: return first;
@@ -1458,8 +1351,6 @@ const CollectionModel::GroupBy &CollectionModel::Grouping::operator[](int i) con
 }
 
 CollectionModel::GroupBy &CollectionModel::Grouping::operator[](int i) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch (i) {
     case 0: return first;
@@ -1475,16 +1366,12 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](int i) {
 
 void CollectionModel::TotalSongCountUpdatedSlot(int count) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   total_song_count_ = count;
   emit TotalSongCountUpdated(count);
 
 }
 
 void CollectionModel::TotalArtistCountUpdatedSlot(int count) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   total_artist_count_ = count;
   emit TotalArtistCountUpdated(count);
@@ -1493,22 +1380,18 @@ void CollectionModel::TotalArtistCountUpdatedSlot(int count) {
 
 void CollectionModel::TotalAlbumCountUpdatedSlot(int count) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   total_album_count_ = count;
   emit TotalAlbumCountUpdated(count);
 
 }
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g) {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   s << quint32(g.first) << quint32(g.second) << quint32(g.third);
   return s;
 }
 
 QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   quint32 buf;
   s >> buf;
   g.first = CollectionModel::GroupBy(buf);
