@@ -95,8 +95,6 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       audioscale_(nullptr),
       audiosink_(nullptr) {
 	  
-  //qLog(Info) << __PRETTY_FUNCTION__;
-	  
   if (!sElementDeleter) {
     sElementDeleter = new GstElementDeleter;
   }
@@ -107,16 +105,12 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
 
 void GstEnginePipeline::set_output_device(const QString &sink, const QVariant &device) {
 
-  //qLog(Info) << __PRETTY_FUNCTION__ << sink << device ;
-
   sink_ = sink;
   device_ = device;
 
 }
 
 void GstEnginePipeline::set_replaygain(bool enabled, int mode, float preamp, bool compression) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
     
   rg_enabled_ = enabled;
   rg_mode_ = mode;
@@ -138,8 +132,6 @@ void GstEnginePipeline::set_mono_playback(bool enabled) {
 
 bool GstEnginePipeline::ReplaceDecodeBin(GstElement *new_bin) {
     
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
   if (!new_bin) return false;
 
   // Destroy the old elements if they are set
@@ -156,26 +148,33 @@ bool GstEnginePipeline::ReplaceDecodeBin(GstElement *new_bin) {
   gst_bin_add(GST_BIN(pipeline_), uridecodebin_);
 
   return true;
+
 }
 
-bool GstEnginePipeline::ReplaceDecodeBin(const QUrl& url) {
+bool GstEnginePipeline::ReplaceDecodeBin(const QUrl &url) {
 
-  //qLog(Info) << __PRETTY_FUNCTION__;
+  QByteArray uri;
 
+  if (url.scheme() == "cdda") {
+    QString str = url.toString();
+    str.remove(str.lastIndexOf(QChar('a')), 1);
+    uri = str.toLocal8Bit();;
+  }
+  else {
+    uri = url.toEncoded();
+  }
   GstElement *new_bin = nullptr;
-
   new_bin = engine_->CreateElement("uridecodebin");
-  g_object_set(G_OBJECT(new_bin), "uri", url.toEncoded().constData(), nullptr);
+  g_object_set(G_OBJECT(new_bin), "uri", uri.constData(), nullptr);
   CHECKED_GCONNECT(G_OBJECT(new_bin), "drained", &SourceDrainedCallback, this);
   CHECKED_GCONNECT(G_OBJECT(new_bin), "pad-added", &NewPadCallback, this);
   CHECKED_GCONNECT(G_OBJECT(new_bin), "notify::source", &SourceSetupCallback, this);
 
   return ReplaceDecodeBin(new_bin);
+
 }
 
 GstElement *GstEnginePipeline::CreateDecodeBinFromString(const char *pipeline) {
-
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GError *error = nullptr;
   GstElement *bin = gst_parse_bin_from_description(pipeline, TRUE, &error);
@@ -194,11 +193,10 @@ GstElement *GstEnginePipeline::CreateDecodeBinFromString(const char *pipeline) {
   else {
     return bin;
   }
+
 }
 
 bool GstEnginePipeline::Init() {
-
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   // Here we create all the parts of the gstreamer pipeline - from the source to the sink.  The parts of the pipeline are split up into bins:
   //   uri decode bin -> audio bin
@@ -410,9 +408,7 @@ bool GstEnginePipeline::Init() {
 }
 
 void GstEnginePipeline::MaybeLinkDecodeToAudio() {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
+
   if (!uridecodebin_ || !audiobin_) return;
 
   GstPad *pad = gst_element_get_static_pad(uridecodebin_, "src");
@@ -420,11 +416,10 @@ void GstEnginePipeline::MaybeLinkDecodeToAudio() {
 
   gst_object_unref(pad);
   gst_element_link(uridecodebin_, audiobin_);
+
 }
 
 bool GstEnginePipeline::InitFromString(const QString &pipeline) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   pipeline_ = gst_pipeline_new("pipeline");
 
@@ -437,20 +432,17 @@ bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
   if (!Init()) return false;
   return gst_element_link(new_bin, audiobin_);
+
 }
 
 bool GstEnginePipeline::InitFromUrl(const QUrl &url, qint64 end_nanosec) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   pipeline_ = gst_pipeline_new("pipeline");
 
   if (url.scheme() == "cdda" && !url.path().isEmpty()) {
-    // Currently, Gstreamer can't handle input CD devices inside cdda URL. So
-    // we handle them ourselve: we extract the track number and re-create an
-    // URL with only cdda:// + the track number (which can be handled by
-    // Gstreamer). We keep the device in mind, and we will set it later using
-    // SourceSetupCallback
+    // Currently, Gstreamer can't handle input CD devices inside cdda URL.
+    // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
+    // We keep the device in mind, and we will set it later using SourceSetupCallback
     QStringList path = url.path().split('/');
     url_ = QUrl(QString("cdda://%1").arg(path.takeLast()));
     source_device_ = path.join("/");
@@ -469,19 +461,16 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &url, qint64 end_nanosec) {
 
 GstEnginePipeline::~GstEnginePipeline() {
     
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
   if (pipeline_) {
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
     g_source_remove(bus_cb_id_);
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(pipeline_));
   }
+
 }
 
 gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
@@ -509,8 +498,6 @@ gboolean GstEnginePipeline::BusCallback(GstBus*, GstMessage *msg, gpointer self)
 }
 
 GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer self) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
@@ -562,9 +549,7 @@ GstBusSyncReply GstEnginePipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpo
 }
 
 void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
+
   GstStreamStatusType type;
   GstElement *owner;
   gst_message_parse_stream_status(msg, &type, &owner);
@@ -581,8 +566,6 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::TaskEnterCallback(GstTask*, GThread*, gpointer) {
     
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
 // Bump the priority of the thread only on OS X
 
 #ifdef Q_OS_DARWIN
@@ -596,8 +579,6 @@ void GstEnginePipeline::TaskEnterCallback(GstTask*, GThread*, gpointer) {
 }
 
 void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   const GstStructure *structure = gst_message_get_structure(msg);
 
@@ -613,8 +594,6 @@ void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
 }
 
 void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GError *error;
   gchar *debugs;
@@ -628,9 +607,8 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   free(debugs);
 
   if (!redirect_url_.isEmpty() && debugstr.contains("A redirect message was posted on the bus and should have been handled by the application.")) {
-    // mmssrc posts a message on the bus *and* makes an error message when it
-    // wants to do a redirect.  We handle the message, but now we have to
-    // ignore the error too.
+    // mmssrc posts a message on the bus *and* makes an error message when it wants to do a redirect.
+    // We handle the message, but now we have to ignore the error too.
     return;
   }
 
@@ -641,8 +619,6 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 }
 
 void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
@@ -663,8 +639,6 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 }
 
 QString GstEnginePipeline::ParseTag(GstTagList *list, const char *tag) const {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   gchar *data = nullptr;
   bool success = gst_tag_list_get_string(list, tag, &data);
@@ -679,8 +653,6 @@ QString GstEnginePipeline::ParseTag(GstTagList *list, const char *tag) const {
 }
 
 void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
     
   if (msg->src != GST_OBJECT(pipeline_)) {
     // We only care about state changes of the whole pipeline.
@@ -704,8 +676,6 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 }
 
 void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
     
   // Only handle buffering messages from the queue2 element in audiobin - not
   // the one that's created automatically by uridecodebin.
@@ -745,8 +715,6 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) {
 
-  //qLog(Info) << __PRETTY_FUNCTION__;
-
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
 
@@ -777,8 +745,6 @@ void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) 
 }
 
 GstPadProbeReturn GstEnginePipeline::DecodebinProbe(GstPad *pad, GstPadProbeInfo *info, gpointer data) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(data);
   const GstPadProbeType info_type = GST_PAD_PROBE_INFO_TYPE(info);
@@ -822,8 +788,6 @@ GstPadProbeReturn GstEnginePipeline::DecodebinProbe(GstPad *pad, GstPadProbeInfo
 }
 
 GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
@@ -888,8 +852,6 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
 }
 
 GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   GstEvent *e = gst_pad_probe_info_get_event(info);
@@ -918,8 +880,6 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
 
 void GstEnginePipeline::SourceDrainedCallback(GstURIDecodeBin *bin, gpointer self) {
     
-  //qLog(Info) << __PRETTY_FUNCTION__;
-    
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   if (instance->has_next_valid_url()) {
@@ -929,8 +889,6 @@ void GstEnginePipeline::SourceDrainedCallback(GstURIDecodeBin *bin, gpointer sel
 }
 
 void GstEnginePipeline::SourceSetupCallback(GstURIDecodeBin *bin, GParamSpec *pspec, gpointer self) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   GstElement *element;
@@ -940,10 +898,8 @@ void GstEnginePipeline::SourceSetupCallback(GstURIDecodeBin *bin, GParamSpec *ps
   }
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") && !instance->source_device().isEmpty()) {
-    // Gstreamer is not able to handle device in URL (refering to Gstreamer
-    // documentation, this might be added in the future). Despite that, for now
-    // we include device inside URL: we decompose it during Init and set device
-    // here, when this callback is called.
+    // Gstreamer is not able to handle device in URL (refering to Gstreamer documentation, this might be added in the future).
+    // Despite that, for now we include device inside URL: we decompose it during Init and set device here, when this callback is called.
     g_object_set(element, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
   }
 
@@ -960,8 +916,6 @@ void GstEnginePipeline::SourceSetupCallback(GstURIDecodeBin *bin, GParamSpec *ps
 }
 
 void GstEnginePipeline::TransitionToNext() {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__;
 
   GstElement *old_decode_bin = uridecodebin_;
 
@@ -977,13 +931,11 @@ void GstEnginePipeline::TransitionToNext() {
   next_beginning_offset_nanosec_ = 0;
   next_end_offset_nanosec_ = 0;
 
-  // This function gets called when the source has been drained, even if the
-  // song hasn't finished playing yet.  We'll get a new stream when it really
-  // does finish, so emit TrackEnded then.
+  // This function gets called when the source has been drained, even if the song hasn't finished playing yet. 
+  // We'll get a new stream when it really does finish, so emit TrackEnded then.
   emit_track_ended_on_stream_start_ = true;
 
-  // This has to happen *after* the gst_element_set_state on the new bin to
-  // fix an occasional race condition deadlock.
+  // This has to happen *after* the gst_element_set_state on the new bin to fix an occasional race condition deadlock.
   sElementDeleter->DeleteElementLater(old_decode_bin);
 
   ignore_tags_ = false;
@@ -1041,8 +993,6 @@ bool GstEnginePipeline::Seek(qint64 nanosec) {
 }
 
 void GstEnginePipeline::SetEqualizerEnabled(bool enabled) {
-    
-  //qLog(Info) << __PRETTY_FUNCTION__ << enabled;
   
   eq_enabled_ = enabled;
   UpdateEqualizer();
@@ -1115,16 +1065,14 @@ void GstEnginePipeline::StartFader(qint64 duration_nanosec, QTimeLine::Direction
 
   const int duration_msec = duration_nanosec / kNsecPerMsec;
 
-  // If there's already another fader running then start from the same time
-  // that one was already at.
+  // If there's already another fader running then start from the same time that one was already at.
   int start_time = direction == QTimeLine::Forward ? 0 : duration_msec;
   if (fader_ && fader_->state() == QTimeLine::Running) {
     if (duration_msec == fader_->duration()) {
       start_time = fader_->currentTime();
     }
     else {
-      // Calculate the position in the new fader with the same value from
-      // the old fader, so no volume jumps appear
+      // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
       qreal time = qreal(duration_msec) * (qreal(fader_->currentTime()) / qreal(fader_->duration()));
       start_time = qRound(time);
     }
@@ -1149,16 +1097,13 @@ void GstEnginePipeline::FaderTimelineFinished() {
 
   fader_.reset();
 
-  // Wait a little while longer before emitting the finished signal (and
-  // probably distroying the pipeline) to account for delays in the audio
-  // server/driver.
+  // Wait a little while longer before emitting the finished signal (and probably distroying the pipeline) to account for delays in the audio server/driver.
   if (use_fudge_timer_) {
     fader_fudge_timer_.start(kFaderFudgeMsec, this);
   }
   else {
-    // Even here we cannot emit the signal directly, as it result in a
-    // stutter when resuming playback. So use a quest small time, so you
-    // won't notice the difference when resuming playback
+    // Even here we cannot emit the signal directly, as it result in a stutter when resuming playback.
+    // So use a quest small time, so you won't notice the difference when resuming playback
     // (You get here when the pause fading is active)
     fader_fudge_timer_.start(250, this);
   }
@@ -1191,9 +1136,10 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QUrl& url, qint64 beginning_nanosec, qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QUrl &url, qint64 beginning_nanosec, qint64 end_nanosec) {
+
   next_url_ = url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
-}
 
+}

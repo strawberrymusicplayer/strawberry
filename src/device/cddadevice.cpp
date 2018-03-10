@@ -22,6 +22,8 @@
 
 #include <QMutexLocker>
 
+#include "core/logging.h"
+
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 
@@ -62,4 +64,3 @@ void CddaDevice::SongsLoaded(const SongList &songs) {
   song_count_ = songs.size();
 
 }
-
