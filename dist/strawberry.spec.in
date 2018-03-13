@@ -14,10 +14,10 @@ BuildRequires:  qt5-devel boost-devel gcc-c++ glew-devel libgpod-devel
 BuildRequires:  cmake gstreamer-devel gstreamer-plugins-base-devel
 BuildRequires:  libimobiledevice-devel libplist-devel usbmuxd-devel
 BuildRequires:  libmtp-devel protobuf-devel protobuf-compiler libcdio-devel
-BuildRequires:  qjson-devel qca2-devel fftw-devel sparsehash-devel
+BuildRequires:  qca2-devel sparsehash-devel
 BuildRequires:  libchromaprint-devel
 
-Requires:       libgpod protobuf-lite libcdio qjson qca-ossl sqlite
+Requires:       libgpod protobuf-lite libcdio qca-ossl sqlite
 
 # GStreamer codec dependencies
 Requires:       gstreamer-plugins-ugly
@@ -60,7 +60,6 @@ make %{?_smp_mflags}
 %install
 cd bin
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT/usr/share/icons/ubuntu-mono-{dark,light}/apps/24/strawberry-panel*.png
 
 %clean
 cd bin

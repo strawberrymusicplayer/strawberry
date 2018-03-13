@@ -30,7 +30,6 @@ include(cmake/Summary.cmake)
 include(cmake/Version.cmake)
 include(cmake/Rpm.cmake)
 include(cmake/OptionalSource.cmake)
-include(cmake/Format.cmake)
 
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -379,11 +378,6 @@ add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
 add_subdirectory(ext/strawberry-tagreader)
-
-option(WITH_DEBIAN OFF)
-if(WITH_DEBIAN)
-  add_subdirectory(debian)
-endif(WITH_DEBIAN)
 
 # Uninstall support
 configure_file(
