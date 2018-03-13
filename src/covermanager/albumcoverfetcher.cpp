@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <QTimer>
+#include <QRegExp>
 #include <QDebug>
 
 #include "albumcoverfetcher.h"
@@ -43,7 +44,7 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album) {
 
   QString album2(album);
-  album2 = album2.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
+  album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
 
   CoverSearchRequest request;
   request.artist = artist;
@@ -61,7 +62,7 @@ quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString 
   fetchall_ = false;
 
   QString album2(album);
-  album2 = album2.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
+  album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
 
   CoverSearchRequest request;
   request.artist = artist;

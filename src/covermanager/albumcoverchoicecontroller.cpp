@@ -31,6 +31,7 @@
 #include <QMenu>
 #include <QUrl>
 #include <QMimeData>
+#include <QRegExp>
 
 #include "covermanager/albumcoverchoicecontroller.h"
 
@@ -171,7 +172,7 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
 
   QString album = song->effective_album();
-  album = album.remove(QRegExp(" ?-? ?(\\(|\\[)(Disc|CD)? ?[0-9](\\)|\\])$"));
+  album = album.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
 
   // Get something sensible to stick in the search box
   QImage image = cover_searcher_->Exec(song->effective_albumartist(), album);
