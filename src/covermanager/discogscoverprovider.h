@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
  * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2012, Martin Björklund <mbj4668@gmail.com>
  * Copyright 2016, Jonas Kvinge <jonas@jkvinge.net>
  *
@@ -34,7 +33,6 @@ class QNetworkAccessManager;
 
 // This struct represents a single search-for-cover request. It identifies and describes the request.
 struct DiscogsCoverSearchContext {
-  enum State { State_Init, State_Release };
 
   // the unique request identifier
   int id;
@@ -49,6 +47,8 @@ struct DiscogsCoverSearchContext {
 };
 Q_DECLARE_METATYPE(DiscogsCoverSearchContext)
 
+// This struct represents a single release request. It identifies and describes
+// the request.
 struct DiscogsCoverReleaseContext {
 
   int id;			// the unique request identifier
@@ -64,19 +64,6 @@ class DiscogsCoverProvider : public CoverProvider {
  public:
   explicit DiscogsCoverProvider(QObject *parent = nullptr);
 
-  static const char *kUrlSearch;
-  static const char *kUrlReleases;
-
-  static const char *kRequestTokenURL;
-  static const char *kAuthorizeURL;
-  static const char *kAccessTokenURL;
-
-  static const char *kAccessKey;
-  static const char *kSecretAccessKey;
-
-  static const char *kAccessKeyB64;
-  static const char *kSecretAccessKeyB64;
-
   bool StartSearch(const QString &artist, const QString &album, int s_id);
   
   void CancelSearch(int id);
@@ -85,9 +72,14 @@ class DiscogsCoverProvider : public CoverProvider {
   void SearchRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id);
   void ReleaseRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id, int r_id);
   void HandleSearchReply(QNetworkReply *reply, int s_id);
-  void HandleReleaseReply(QNetworkReply *reply, int sa_id, int si_id);
+  void HandleReleaseReply(QNetworkReply *reply, int s_id, int r_id);
 
  private:
+  static const char *kUrlSearch;
+  static const char *kUrlReleases;
+  static const char *kAccessKeyB64;
+  static const char *kSecretKeyB64;
+
   QNetworkAccessManager *network_;
   QHash<int, DiscogsCoverSearchContext*> requests_search_;
   QHash<int, DiscogsCoverReleaseContext*> requests_release_;
@@ -98,6 +90,7 @@ class DiscogsCoverProvider : public CoverProvider {
   void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
   void EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
   void EndSearch(DiscogsCoverSearchContext *s_ctx);
+  void EndSearch(DiscogsCoverReleaseContext *r_ctx);
 
 };
 

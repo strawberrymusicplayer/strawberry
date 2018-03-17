@@ -69,7 +69,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
   for (CoverProvider *provider : cover_providers->List()) {
 
     // Skip provider if it does not have fetchall set, and we are doing fetchall - "Fetch Missing Covers".
-    if ((provider->fetchall() == false) && (fetchall_ == true)) {
+    if (!provider->fetchall() && request_.fetchall) {
 	//qLog(Debug) << "Skipping provider" << provider->name();
 	continue;
     }

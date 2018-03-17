@@ -41,7 +41,7 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
   connect(request_starter_, SIGNAL(timeout()), SLOT(StartRequests()));
 }
 
-quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album) {
+quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, bool fetchall) {
 
   QString album2(album);
   album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
@@ -51,6 +51,7 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
   request.album = album2;
   request.search = false;
   request.id = next_id_++;
+  request.fetchall = fetchall;
 
   AddRequest(request);
   return request.id;
@@ -58,8 +59,6 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
 }
 
 quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString &album) {
-
-  fetchall_ = false;
 
   QString album2(album);
   album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
@@ -69,6 +68,7 @@ quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString 
   request.album = album2;
   request.search = true;
   request.id = next_id_++;
+  request.fetchall = false;
 
   AddRequest(request);
   return request.id;
@@ -110,7 +110,6 @@ void AlbumCoverFetcher::StartRequests() {
 
     // search objects are this fetcher's children so worst case scenario - they get deleted with it
     AlbumCoverFetcherSearch *search = new AlbumCoverFetcherSearch(request, network_, this);
-    search->fetchall_ = fetchall_;
     active_requests_.insert(request.id, search);
 
     connect(search, SIGNAL(SearchFinished(quint64, CoverSearchResults)), SLOT(SingleSearchFinished(quint64, CoverSearchResults)));
