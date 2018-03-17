@@ -59,7 +59,6 @@ class PlaylistView : public QTreeView {
   Q_OBJECT
  public:
   enum BackgroundImageType {
-    Invalid,
     Default,
     None,
     Custom,
@@ -189,6 +188,7 @@ class PlaylistView : public QTreeView {
   bool read_only_settings_;
   int upgrading_from_version_;
 
+  bool background_initialized_;
   BackgroundImageType background_image_type_;
   // Stores the background image to be displayed. As we want this image to be
   // particular (in terms of format, opacity), you should probably use
