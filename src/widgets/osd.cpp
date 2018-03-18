@@ -85,6 +85,7 @@ void OSD::ReloadSettings() {
   if (!SupportsTrayPopups() && behaviour_ == TrayPopup) behaviour_ = Disabled;
 
   ReloadPrettyOSDSettings();
+
 }
 
 // Reload just Pretty OSD settings, not everything

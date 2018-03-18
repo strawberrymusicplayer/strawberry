@@ -18,7 +18,7 @@
 
 project(strawberry)
 cmake_minimum_required(VERSION 2.8.11)
-cmake_policy(SET CMP0011 OLD)
+#cmake_policy(SET CMP0011 OLD)
 
 #aux_source_directory(. SRC_LIST)
 
@@ -78,10 +78,8 @@ endif(APPLE)
 
 find_package(OpenGL REQUIRED)
 find_package(Boost REQUIRED)
-find_package(Gettext REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(Protobuf REQUIRED)
-find_package(FFTW3)
 find_package(Threads)
 if(LINUX)
   find_package(ALSA REQUIRED)
@@ -193,20 +191,6 @@ endif(WIN32)
 
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
 
-# Translations stuff
-find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext PATHS /target/bin)
-if(NOT GETTEXT_XGETTEXT_EXECUTABLE)
-  message(FATAL_ERROR "Could not find xgettext executable")
-endif(NOT GETTEXT_XGETTEXT_EXECUTABLE)
-find_program(GETTEXT_MSGMERGE_EXECUTABLE msgmerge PATHS /target/bin)
-if(NOT GETTEXT_MSGMERGE_EXECUTABLE)
-  message(FATAL_ERROR "Could not find msgmerge executable")
-endif(NOT GETTEXT_MSGMERGE_EXECUTABLE)
-find_program(GETTEXT_MSGFMT_EXECUTABLE msgfmt PATHS /target/bin)
-if(NOT GETTEXT_MSGFMT_EXECUTABLE)
-  message(FATAL_ERROR "Could not find msgfmt executable")
-endif(NOT GETTEXT_MSGFMT_EXECUTABLE)
-
 # Optional bits
 if(WIN32)
   option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
@@ -276,28 +260,23 @@ else(WIN32)
   set(QT_LIBRARIES Qt5::Core Qt5::OpenGL Qt5::Sql Qt5::Network Qt5::Xml Qt5::Widgets Qt5::Concurrent Qt5::X11Extras Qt5::DBus)
 endif(WIN32)
 
-# Remove GLU and GL from the link line - they're not really required
-# and don't exist on my mingw toolchain
-list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
+# Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
+#list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
-# SQLITE
-#find_path(SQLITE_INCLUDE_DIRS sqlite.h)
-#find_library(SQLITE_LIBRARIES sqlite)
-#if(SQLITE_LIBRARIES AND SQLITE_INCLUDE_DIRS)
-#  message(STATUS "Using system sqlite library")
-#  set(USE_SYSTEM_SQLITE ON)
-#endif ()
+# QSqlLiteDriver:
+# We do this because we can't guarantee that the driver shipped with Qt exposes the raw sqlite3 functions required for FTS support.
+# This way we know that those symbols exist at compile-time and that our code links to the same sqlite library as the Qt driver.
+option(USE_SYSTEM_QSQLITE "Don't set this unless you can guarantee that the driver shipped with Qt exposes the raw sqlite3 functions required for FTS support" OFF)
+if(USE_SYSTEM_QSQLITE)
+  message(STATUS "Using system qsqlite driver")
+else(USE_SYSTEM_QSQLITE)
+  message(STATUS "Using builtin qsqlite driver")
+  add_subdirectory(3rdparty/qsqlite)
+  set(QSQLITE_LIBRARIES qsqlite)
+  set(QSQLITE_INCLUDE_DIRS "3rdparty/qsqlite")
+endif(USE_SYSTEM_QSQLITE)
 
-# Build our copy of QSqlLiteDriver.
-# We do this because we can't guarantee that the driver shipped with Qt exposes the
-# raw sqlite3_ functions required for FTS support. This way we know that those symbols
-# exist at compile-time and that our code links to the same sqlite library as the
-# Qt driver.
-add_subdirectory(3rdparty/qsqlite)
-include_directories("3rdparty/qsqlite")
-
-# When/if upstream accepts our patches then these options can be used to link
-# to system installed qtsingleapplication instead.
+# When/if upstream accepts our patches then these options can be used to link to system installed qtsingleapplication instead.
 option(USE_SYSTEM_QTSINGLEAPPLICATION "Don't set this option unless your system QtSingleApplication library has been compiled with the Strawberry patches in 3rdparty" OFF)
 if(USE_SYSTEM_QTSINGLEAPPLICATION)
   find_path(QTSINGLEAPPLICATION_INCLUDE_DIRS qtsingleapplication.h PATH_SUFFIXES QtSolutions)
@@ -309,17 +288,7 @@ else(USE_SYSTEM_QTSINGLEAPPLICATION)
   set(QTSINGLEAPPLICATION_LIBRARIES qtsingleapplication)
 endif(USE_SYSTEM_QTSINGLEAPPLICATION)
 
-# QtIoCompressor isn't patched, so we can use a system version if it's available
-#find_path(QTIOCOMPRESSOR_INCLUDE_DIRS qtiocompressor.h PATH_SUFFIXES QtSolutions)
-#find_library(QTIOCOMPRESSOR_LIBRARIES QtSolutions_IOCompressor-2.3)
-#if(NOT QTIOCOMPRESSOR_INCLUDE_DIRS OR NOT QTIOCOMPRESSOR_LIBRARIES)
-#  add_subdirectory(3rdparty/qtiocompressor)
-#  set(QTIOCOMPRESSOR_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qtiocompressor)
-#  set(QTIOCOMPRESSOR_LIBRARIES qtiocompressor)
-#endif(NOT QTIOCOMPRESSOR_INCLUDE_DIRS OR NOT QTIOCOMPRESSOR_LIBRARIES)
-
-# When/if upstream accepts our or reimplement our patches then these options can be
-# used to link to system installed qxt instead.
+# When/if upstream accepts our or reimplement our patches then these options can be used to link to system installed qxt instead.
 option(USE_SYSTEM_QXT "Don't set this option unless your system Qxt library has been compiled with the Strawberry patches in 3rdparty" OFF)
 if (USE_SYSTEM_QXT)
   find_path(QXTCORE_INCLUDE_DIRS qxtglobal.h PATH_SUFFIXES QxtCore)
@@ -373,7 +342,6 @@ if (WIN32)
   add_subdirectory(3rdparty/qtwin)
   add_subdirectory(3rdparty/tinysvcmdns)
 endif (WIN32)
-#add_subdirectory(tests)
 add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)

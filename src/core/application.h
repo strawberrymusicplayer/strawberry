@@ -26,6 +26,8 @@
 #include <memory>
 
 #include <QObject>
+#include <QString>
+#include <QThread>
 
 #include "settings/settingsdialog.h"
 

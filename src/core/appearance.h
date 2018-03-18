@@ -23,14 +23,14 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QColor>
 #include <QPalette>
 
 class Appearance : public QObject {
  public:
   explicit Appearance(QObject* parent = nullptr);
-  // Load the user preferred theme, which could the default system theme or a
-  // custom set of colors that user has chosen
+  // Load the user preferred theme, which could the default system theme or a custom set of colors that user has chosen
   void LoadUserTheme();
   void ResetToSystemDefaultTheme();
   void ChangeForegroundColor(const QColor& color);

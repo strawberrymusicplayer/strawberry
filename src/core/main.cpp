@@ -36,13 +36,6 @@
   #include <unistd.h>
 #endif  // Q_OS_UNIX
 
-#ifdef HAVE_DBUS
-  #include "core/mpris.h"
-  #include "core/mpris2.h"
-  #include <QDBusArgument>
-  #include <QImage>
-#endif
-
 #ifdef Q_OS_DARWIN
   #include <sys/resource.h>
   #include <sys/sysctl.h>
@@ -55,7 +48,10 @@
   #include <qtsparkle/Updater>
 #endif  // Q_OS_WIN32
 
+#include <QObject>
+#include <QFile>
 #include <QString>
+#include <QStringList>
 #include <QDir>
 #include <QFont>
 #include <QLibraryInfo>
@@ -65,10 +61,18 @@
 #include <QSqlQuery>
 #include <QSysInfo>
 #include <QTextCodec>
-#include <QTranslator>
 #include <QtConcurrentRun>
 #include <QtDebug>
+#include <QSettings>
+#ifdef HAVE_DBUS
+  #include <QDBusArgument>
+  #include <QImage>
+#endif
 
+#ifdef HAVE_DBUS
+  #include "core/mpris.h"
+  #include "core/mpris2.h"
+#endif
 #include "core/application.h"
 #include "core/mainwindow.h"
 #include "core/commandlineoptions.h"
@@ -89,15 +93,6 @@
 #endif
 #include "version.h"
 #include "widgets/osd.h"
-#if 0
-#ifdef HAVE_LIBLASTFM
-  #include "covermanager/lastfmcoverprovider.h"
-#endif
-#include "covermanager/amazoncoverprovider.h"
-#include "covermanager/coverproviders.h"
-#include "covermanager/musicbrainzcoverprovider.h"
-#include "covermanager/discogscoverprovider.h"
-#endif
 
 #include "tagreadermessages.pb.h"
 
@@ -145,24 +140,19 @@ int main(int argc, char* argv[]) {
 
   RegisterMetaTypes();
 
-  // Initialise logging.  Log levels are set after the commandline options are
-  // parsed below.
+  // Initialise logging.  Log levels are set after the commandline options are parsed below.
   logging::Init();
   g_log_set_default_handler(reinterpret_cast<GLogFunc>(&logging::GLog), nullptr);
 
   CommandlineOptions options(argc, argv);
 
   {
-    // Only start a core application now so we can check if there's another
-    // Strawberry running without needing an X server.
-    // This MUST be done before parsing the commandline options so QTextCodec
-    // gets the right system locale for filenames.
+    // Only start a core application now so we can check if there's another Strawberry running without needing an X server.
+    // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
     QtSingleCoreApplication a(argc, argv);
     Utilities::CheckPortable();
-    //crash_reporting.SetApplicationPath(a.applicationFilePath());
 
-    // Parse commandline options - need to do this before starting the
-    // full QApplication so it works without an X server
+    // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
 
@@ -182,8 +172,7 @@ int main(int argc, char* argv[]) {
   setenv("XDG_CONFIG_HOME", Utilities::GetConfigPath(Utilities::Path_Root).toLocal8Bit().constData(), 1);
 #endif
 
-  // Output the version, so when people attach log output to bug reports they
-  // don't have to tell us which version they're using.
+  // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.
   qLog(Info) << "Strawberry" << STRAWBERRY_VERSION_DISPLAY;
 
   // Seed the random number generators.
@@ -194,14 +183,6 @@ int main(int argc, char* argv[]) {
   Utilities::IncreaseFDLimit();
 
   QtSingleApplication a(argc, argv);
-
-  // A bug in Qt means the wheel_scroll_lines setting gets ignored and replaced
-  // with the default value of 3 in QApplicationPrivate::initialize.
-  {
-    QSettings qt_settings(QSettings::UserScope, "Trolltech");
-    qt_settings.beginGroup("Qt");
-    QApplication::setWheelScrollLines(qt_settings.value("wheelScrollLines", QApplication::wheelScrollLines()).toInt());
-  }
 
 #ifdef Q_OS_DARWIN
   QCoreApplication::setCollectionPaths(
@@ -216,8 +197,7 @@ int main(int argc, char* argv[]) {
   }
 
 #ifndef Q_OS_DARWIN
-  // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad
-  // idea, and makes some menus in Strawberry look confusing.
+  // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 #else
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
@@ -225,8 +205,7 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setAttribute(Qt::AA_NativeWindows, true);
 #endif
 
-// Set the permissions on the config file on Unix - it can contain passwords
-// for internet services so it's important that other users can't read it.
+// Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
 // On Windows these are stored in the registry instead.
 #ifdef Q_OS_UNIX
   {
@@ -254,24 +233,10 @@ int main(int argc, char* argv[]) {
   // Icons
   IconLoader::Init();
 
-  // This is a nasty hack to ensure that everything in libprotobuf is
-  // initialised in the main thread.  It fixes issue 3265 but nobody knows why.
-  // Don't remove this unless you can reproduce the error that it fixes.
-  //ParseAProto();
-  //QtConcurrent::run(&ParseAProto);
-
   Application app;
 
   // Network proxy
   QNetworkProxyFactory::setApplicationProxyFactory(NetworkProxyFactory::Instance());
-
-#if 0
-//#ifdef HAVE_LIBLASTFM
-  app.cover_providers()->AddProvider(new LastFmCoverProvider);
-  app.cover_providers()->AddProvider(new AmazonCoverProvider);
-  app.cover_providers()->AddProvider(new DiscogsCoverProvider);
-  app.cover_providers()->AddProvider(new MusicbrainzCoverProvider);
-#endif
 
   // Create the tray icon and OSD
   std::unique_ptr<SystemTrayIcon> tray_icon(SystemTrayIcon::CreateSystemTrayIcon());

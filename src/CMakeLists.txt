@@ -56,6 +56,7 @@ include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
 include_directories(${QXT_INCLUDE_DIRS})
 include_directories(${SHA2_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
+include_directories(${QSQLITE_INCLUDE_DIRS})
 
 find_package(OpenGL)
 include_directories(${OPENGL_INCLUDE_DIR})
@@ -265,58 +266,26 @@ set(SOURCES
 set(HEADERS
   core/mainwindow.h
   core/application.h
-  core/appearance.h
   core/player.h
-  core/commandlineoptions.h
   core/database.h
-  core/metatypes.h
   core/deletefiles.h
-  core/filesystemmusicstorage.h
   core/filesystemwatcherinterface.h
   core/mergedproxymodel.h
-  core/multisortfilterproxy.h
-  core/musicstorage.h
   core/network.h
-  core/networkproxyfactory.h
   core/qtfslistener.h
-  core/settingsprovider.h
-  core/signalchecker.h
-  core/song.h
   core/songloader.h
-  core/stylesheetloader.h
   core/tagreaderclient.h
   core/taskmanager.h
-  core/thread.h
   core/urlhandler.h
-  core/utilities.h
-  core/scangiomodulepath.h
-  core/flowlayout.h
-  core/iconloader.h
   core/qtsystemtrayicon.h
   core/standarditemiconloader.h
   core/systemtrayicon.h
   core/windows7thumbbar.h
-  core/screensaver.h
-  core/cachedlist.h
   core/mimedata.h
-  core/qhash_qurl.h
-  core/simpletreeitem.h
-  core/simpletreemodel.h
-  core/timeconstants.h
-  core/qt_blurimage.h
-  core/scopedtransaction.h
-  core/scopedgobject.h
-  core/scoped_cftyperef.h
-  core/scoped_nsautorelease_pool.h
-  core/scoped_nsobject.h
-  
-  engine/enginetype.h
+
   engine/enginebase.h
   engine/enginedevice.h
-  engine/devicefinder.h
-  engine/engine_fwd.h
 
-  analyzer/fht.h
   analyzer/analyzerbase.h
   analyzer/analyzercontainer.h
   analyzer/blockanalyzer.h
@@ -332,12 +301,7 @@ set(HEADERS
   collection/collectionviewcontainer.h
   collection/collectiondirectorymodel.h
   collection/collectionfilterwidget.h
-  collection/collectionplaylistitem.h
-  collection/collectionquery.h
-  collection/collectionitem.h
-  collection/sqlrow.h
   collection/savedgroupingmanager.h
-  collection/directory.h
   collection/groupbydialog.h
 
   playlist/playlist.h
@@ -345,7 +309,6 @@ set(HEADERS
   playlist/playlistcontainer.h
   playlist/playlistdelegates.h
   playlist/playlistfilter.h
-  playlist/playlistfilterparser.h
   playlist/playlistheader.h
   playlist/playlistlistcontainer.h
   playlist/playlistlistmodel.h
@@ -354,14 +317,12 @@ set(HEADERS
   playlist/playlistsaveoptionsdialog.h
   playlist/playlistsequence.h
   playlist/playlisttabbar.h
-  playlist/playlistundocommands.h
   playlist/playlistview.h
   playlist/playlistitemmimedata.h
   playlist/queue.h
   playlist/queuemanager.h
   playlist/songloaderinserter.h
   playlist/songmimedata.h
-  playlist/songplaylistitem.h
 
   playlistparsers/asxiniparser.h
   playlistparsers/asxparser.h
@@ -370,14 +331,11 @@ set(HEADERS
   playlistparsers/parserbase.h
   playlistparsers/playlistparser.h
   playlistparsers/plsparser.h
-  playlistparsers/wplparser.h
-  playlistparsers/xmlparser.h
   playlistparsers/xspfparser.h
   
   covermanager/albumcovermanager.h
   covermanager/albumcovermanagerlist.h
   covermanager/albumcoverloader.h
-  covermanager/albumcoverloaderoptions.h
   covermanager/albumcoverfetcher.h
   covermanager/albumcoverfetchersearch.h
   covermanager/albumcoversearcher.h
@@ -387,7 +345,6 @@ set(HEADERS
   covermanager/coverprovider.h
   covermanager/coverproviders.h
   covermanager/coversearchstatisticsdialog.h
-  covermanager/coversearchstatistics.h
   covermanager/coverexportrunnable.h
   covermanager/currentartloader.h
   covermanager/coverfromurldialog.h
@@ -422,7 +379,6 @@ set(HEADERS
   widgets/favoritewidget.h
   widgets/fileview.h
   widgets/fileviewlist.h
-  widgets/forcescrollperpixel.h
   widgets/freespacebar.h
   widgets/groupediconview.h
   widgets/lineedit.h
@@ -440,7 +396,6 @@ set(HEADERS
   widgets/sliderwidget.h
   widgets/stickyslider.h
   widgets/stretchheaderview.h
-  widgets/stylehelper.h
   widgets/trackslider.h
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
@@ -452,7 +407,6 @@ set(HEADERS
   globalshortcuts/globalshortcutbackend.h
   globalshortcuts/globalshortcuts.h
   globalshortcuts/gnomeglobalshortcutbackend.h
-  globalshortcuts/qxtglobalshortcutbackend.h
   globalshortcuts/globalshortcutgrabber.h
   
   device/connecteddevice.h
@@ -532,17 +486,17 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 # Engines
 
 set(GST_ENGINE_SRC engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp)
-set(GST_ENGINE_MOC engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h engine/bufferconsumer.h)
+set(GST_ENGINE_MOC engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h)
 #set(GST_ENGINE_LIB GSTREAMER GSTREAMER_BASE GSTREAMER_APP GSTREAMER_AUDIO GSTREAMER_TAG GSTREAMER_PBUTILS GSTREAMER_QTGLIB GSTREAMER_QTGST GSTREAMER_QTGSTUI GSTREAMER_QTGSTUTILS)
 set(GST_ENGINE_LIB GSTREAMER GSTREAMER_BASE GSTREAMER_APP GSTREAMER_AUDIO GSTREAMER_TAG GSTREAMER_PBUTILS)
 #set(GST_ENGINE_LIB gstreamer-1.0 gstreamer-base-1.0 gstreamer-app-1.0 streamer-audio-1.0 gstreamer-tag-1.0 gstreamer-pbutils-1.0)
 #set(GST_ENGINE_LIB ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES} ${GSTREAMER_PBUTILS_LIBRARIES})
 
 set(XINE_ENGINE_SRC engine/xineengine.cpp engine/xinescope.c)
-set(XINE_ENGINE_MOC engine/xineengine.h engine/xinescope.h)
+set(XINE_ENGINE_MOC engine/xineengine.h)
 
 set(VLC_ENGINE_SRC engine/vlcengine.cpp)
-set(VLC_ENGINE_MOC engine/vlcengine.h engine/vlcscopedref.h)
+set(VLC_ENGINE_MOC engine/vlcengine.h)
 
 set(PHONON_ENGINE_SRC engine/phononengine.cpp)
 set(PHONON_ENGINE_MOC engine/phononengine.h)
@@ -561,15 +515,12 @@ optional_source(HAVE_LIBLASTFM
     covermanager/lastfmcompat.cpp
   HEADERS
     covermanager/lastfmcoverprovider.h
-    covermanager/lastfmcompat.h
 )
 
 # Platform specific - Linux
 optional_source(LINUX
   SOURCES
     engine/alsadevicefinder.cpp
-  HEADERS
-    engine/alsadevicefinder.h
 )
 
 # Platform specific - OS X
@@ -742,8 +693,6 @@ optional_source(HAVE_DBUS
   HEADERS
     core/mpris.h
     core/mpris2.h
-    core/mpris_common.h
-    core/dbusscreensaver.h
 )
 
 optional_source(HAVE_DEVICEKIT
@@ -804,7 +753,6 @@ optional_source(HAVE_LIBMTP
   HEADERS
     device/mtpdevice.h
     device/mtploader.h
-    device/mtpconnection.h
 )
 
 # Pulse audio integration
@@ -813,8 +761,6 @@ optional_source(HAVE_LIBPULSE
     ${LIBPULSE_INCLUDE_DIRS}
   SOURCES
     engine/pulsedevicefinder.cpp
-  HEADERS
-    engine/pulsedevicefinder.h
 )
 
 optional_source(HAVE_GSTREAMER
@@ -838,23 +784,14 @@ SOURCES
   transcoder/transcoderoptionswma.cpp
 HEADERS
   core/organise.h
-  core/organiseformat.h
   settings/transcodersettingspage.h
   dialogs/organisedialog.h
   dialogs/organiseerrordialog.h
-  musicbrainz/chromaprinter.h
   musicbrainz/tagfetcher.h
   transcoder/transcoder.h
   transcoder/transcodedialog.h
-  transcoder/transcoderoptionsaac.h
   transcoder/transcoderoptionsdialog.h
-  transcoder/transcoderoptionsflac.h
-  transcoder/transcoderoptionsinterface.h
   transcoder/transcoderoptionsmp3.h
-  transcoder/transcoderoptionsopus.h
-  transcoder/transcoderoptionsspeex.h
-  transcoder/transcoderoptionsvorbis.h
-  transcoder/transcoderoptionswma.h
 UI
   settings/transcodersettingspage.ui
   dialogs/organisedialog.ui
@@ -986,7 +923,6 @@ else (APPLE)
   target_link_libraries(strawberry_lib ${QXT_LIBRARIES})
 endif (APPLE)
 
-set(3RDPARTY_SQLITE_LIBRARY qsqlite)
 target_link_libraries(strawberry_lib qsqlite)
 
 if (WIN32)
@@ -1014,7 +950,7 @@ if (UNIX AND NOT APPLE)
   endif ()
 endif ()
 
-#add_dependencies(strawberry_lib qtsingleapplication)
+add_dependencies(strawberry_lib qtsingleapplication)
 
 
 ###############################################################################
