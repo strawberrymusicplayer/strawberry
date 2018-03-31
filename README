@@ -19,17 +19,60 @@ There are no plans to add internet streaming features, but if we would add somet
 
 You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
 
+
+Requirements
+------------
+
+To build Strawberry from source you need the following installed on your system:
+
+* glib2, glib2-devel, git, cmake, make, gcc and gcc-c++
+* protobuf and development packages
+* boost development package
+
+* Qt5 components required with additional development packages:
+
+- libQt5Core5
+- libQt5Widgets5
+- libQt5Network5
+- libQt5Sql5
+- libQt5Xml5
+- libQt5OpenGL5
+- libQt5Concurrent5
+- libQt5Test5
+- libQt5X11Extras5
+- libQt5WebKit5
+- libQt5WebKitWidgets
+- libQt5DBus5
+
+* ALSA and libasound2 with development files
+* SQLite3 with development files
+* libchromaprint with development files
+* libglu with development files
+
+Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
+You should also install the gstreamer plugins: gstreamer-plugins-base, gstreamer-plugins-good and gstreamer-plugins-bad
+
+* The Qt5 specific LastFM library and development files are required for fetching album covers from LastFM.
+* To enable CD support for playing audio cd's you need libcdio.
+* If you want MTP support you need libmtp.
+* If you need iPod Classic support you need libgpod.
+
+
 Compiling from source
 ---------------------
 
 Get the code:
 
-    git clone https://github.com/jonaski/strawberry.git
+    git clone https://github.com/jonaski/strawberry
 
 Compile and install:
 
     mkdir strawberry-build
     cd strawberry-build
     cmake ../strawberry
-    make
+    make -j8
     sudo make install
+
+    (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
+    
+
