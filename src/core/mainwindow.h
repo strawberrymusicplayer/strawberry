@@ -28,6 +28,12 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QSystemTrayIcon>
+#include <QAction>
+#include <QTimer>
+#include <QMenu>
+#include <QList>
+#include <QModelIndex>
+#include <QSortFilterProxyModel>
 
 #include "core/lazy.h"
 #include "core/mac_startup.h"

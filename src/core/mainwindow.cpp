@@ -28,6 +28,7 @@
 #include <memory>
 #include <cmath>
 
+#include <QMainWindow>
 #include <QCloseEvent>
 #include <QDir>
 #include <QFileDialog>
@@ -38,11 +39,15 @@
 #include <QSettings>
 #include <QShortcut>
 #include <QSignalMapper>
-#include <QSortFilterProxyModel>
 #include <QStatusBar>
 #include <QtDebug>
 #include <QTimer>
 #include <QUndoStack>
+#include <QSystemTrayIcon>
+#include <QAction>
+#include <QList>
+#include <QModelIndex>
+#include <QSortFilterProxyModel>
 
 #ifdef Q_OS_WIN32
   #include <qtsparkle/Updater>
