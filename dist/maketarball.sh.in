@@ -15,6 +15,7 @@ tar -cJf $name-$version.tar.xz \
     --exclude "$root/dist/*.tar" \
     --exclude "$root/dist/*.tar.*" \
     --exclude "$root/CMakeLists.txt.user" \
+    --exclude ".directory" \
     "$root"
 
 echo "Also creating ${name}_${version}~${deb_dist}.orig.tar.xz..."
