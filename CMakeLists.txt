@@ -306,20 +306,6 @@ else (USE_SYSTEM_QXT)
   endif (NOT APPLE)
 endif (USE_SYSTEM_QXT)
 
-# Use system gmock if it's available
-# We need to look for both gmock and gtest
-find_path(GMOCK_INCLUDE_DIRS gmock/gmock.h)
-find_library(GMOCK_LIBRARIES gmock)
-if (GMOCK_INCLUDE_DIRS)
-  message(STATUS "Using builtin gmock library")
-  find_path(GTEST_INCLUDE_DIRS gtest/gtest.h)
-  find_library(GTEST_LIBRARIES gtest)
-  if(GTEST_INCLUDE_DIRS)
-    set(USE_SYSTEM_GMOCK 1)
-    set(GMOCK_LIBRARIES ${GMOCK_LIBRARIES} ${GTEST_LIBRARIES})
-  endif(GTEST_INCLUDE_DIRS)
-endif(GMOCK_INCLUDE_DIRS)
-
 # Use system sha2 if it's available
 find_path(SHA2_INCLUDE_DIRS sha2.h)
 find_library(SHA2_LIBRARIES sha2)

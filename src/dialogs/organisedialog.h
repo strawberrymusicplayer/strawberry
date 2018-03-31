@@ -30,8 +30,6 @@
 #include <QMap>
 #include <QUrl>
 
-#include "gtest/gtest_prod.h"
-
 #include "core/organise.h"
 #include "core/organiseformat.h"
 #include "core/song.h"
@@ -103,8 +101,6 @@ class OrganiseDialog : public QDialog {
   std::unique_ptr<OrganiseErrorDialog> error_dialog_;
 
   bool resized_by_user_;
-
-  FRIEND_TEST(OrganiseDialogTest, ComputeNewSongsFilenamesTest);
 };
 
 #endif  // ORGANISEDIALOG_H

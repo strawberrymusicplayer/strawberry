@@ -28,7 +28,7 @@ if(BUILD_WERROR)
 endif(BUILD_WERROR)
 
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(../3rdparty/gmock/gtest/include)
+
 if(WIN32)
   include_directories(../3rdparty/qtwin)
 endif(WIN32)

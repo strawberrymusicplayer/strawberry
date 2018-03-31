@@ -27,8 +27,6 @@
 #include <QIcon>
 #include <QModelIndex>
 
-#include "gtest/gtest_prod.h"
-
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/coversearchstatistics.h"
@@ -186,9 +184,6 @@ class AlbumCoverManager : public QMainWindow {
 
   CollectionBackend *collection_backend_;
 
-  FRIEND_TEST(AlbumCoverManagerTest, HidesItemsWithCover);
-  FRIEND_TEST(AlbumCoverManagerTest, HidesItemsWithoutCover);
-  FRIEND_TEST(AlbumCoverManagerTest, HidesItemsWithFilter);
 };
 
 #endif  // ALBUMCOVERMANAGER_H

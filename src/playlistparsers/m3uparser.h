@@ -25,8 +25,6 @@
 
 #include <QUrl>
 
-#include "gtest/gtest_prod.h"
-
 #include "parserbase.h"
 
 class M3UParser : public ParserBase {
@@ -60,13 +58,6 @@ class M3UParser : public ParserBase {
 
   bool ParseMetadata(const QString &line, Metadata *metadata) const;
 
-  FRIEND_TEST(M3UParserTest, ParsesMetadata);
-  FRIEND_TEST(M3UParserTest, ParsesTrackLocation);
-  FRIEND_TEST(M3UParserTest, ParsesTrackLocationRelative);
-  FRIEND_TEST(M3UParserTest, ParsesTrackLocationHttp);
-#ifdef Q_OS_WIN32
-  FRIEND_TEST(M3UParserTest, ParsesTrackLocationAbsoluteWindows);
-#endif  // Q_OS_WIN32
 };
 
 #endif  // M3UPARSER_H

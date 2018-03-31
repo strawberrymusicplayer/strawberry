@@ -32,8 +32,6 @@
 
 #include <sqlite3.h>
 
-#include "gtest/gtest_prod.h"
-
 extern "C" {
 
 struct sqlite3_tokenizer;
@@ -105,8 +103,7 @@ signals:
   QMutex connect_mutex_;
   QMutex mutex_;
 
-  // This ID makes the QSqlDatabase name unique to the object as well as the
-  // thread
+  // This ID makes the QSqlDatabase name unique to the object as well as the thread
   int connection_id_;
 
   static QMutex sNextConnectionIdMutex;
@@ -120,12 +117,6 @@ signals:
 
   // This is the schema version of Strawberry's DB from the app's last run.
   int startup_schema_version_;
-
-  FRIEND_TEST(DatabaseTest, FTSOpenParsesSimpleInput);
-  FRIEND_TEST(DatabaseTest, FTSOpenParsesUTF8Input);
-  FRIEND_TEST(DatabaseTest, FTSOpenParsesMultipleTokens);
-  FRIEND_TEST(DatabaseTest, FTSCursorWorks);
-  FRIEND_TEST(DatabaseTest, FTSOpenLeavesCyrillicQueries);
 
   // Do static initialisation like loading sqlite functions.
   static void StaticInit();
