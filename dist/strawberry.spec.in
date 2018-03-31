@@ -51,7 +51,7 @@ Requires:       libchromaprint
 Requires:       libmtp
 Requires:       libpulse
 Requires:       libxml
-Requires:       Qt5Core)
+Requires:       Qt5Core
 Requires:       Qt5X11Extras
 Requires:       Qt5Network
 Requires:       Qt5Xml
