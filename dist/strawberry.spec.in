@@ -6,21 +6,68 @@ Summary:        A audio player and music collection organiser
 Group:          Applications/Multimedia
 License:        GPLv3
 URL:            http://www.strawbs.org/
-Source0:        %{name}-@STRAWBERRY_VERSION_SPARKLE@.tar.gz
+Source0:        %{name}-@STRAWBERRY_VERSION_SPARKLE@.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  desktop-file-utils liblastfm-devel taglib-devel gettext
-BuildRequires:  qt5-devel boost-devel gcc-c++ glew-devel libgpod-devel
-BuildRequires:  cmake gstreamer-devel gstreamer-plugins-base-devel
-BuildRequires:  libimobiledevice-devel libplist-devel usbmuxd-devel
-BuildRequires:  libmtp-devel protobuf-devel protobuf-compiler libcdio-devel
-BuildRequires:  qca2-devel sparsehash-devel
+BuildRequires:  make
+BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  libprotoc9
+BuildRequires:  glib2-devel
+BuildRequires:  alsa-devel
+BuildRequires:  protobuf-devel
+BuildRequires:  glu-devel
+BuildRequires:  taglib-devel
+BuildRequires:  boost-devel
+BuildRequires:  gstreamer-devel
+BuildRequires:  gstreamer-plugins-base-devel
+BuildRequires:  libmtp-devel
+BuildRequires:  libcdio-devel
+BuildRequires:  libgpod-devel
+BuildRequires:  libimobiledevice-devel
+BuildRequires:  libplist-devel
+BuildRequires:  liblastfm-qt5-devel
 BuildRequires:  libchromaprint-devel
+BuildRequires:  libQt5Core-devel
+BuildRequires:  libQt5Gui-devel
+BuildRequires:  libQt5Widgets-devel
+BuildRequires:  libQt5Network-devel
+BuildRequires:  libQt5Sql-devel
+BuildRequires:  libQt5Xml-devel
+BuildRequires:  libQt5Gui-private-headers-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  update-desktop-files
 
-Requires:       libgpod protobuf-lite libcdio qca-ossl sqlite
+Requires:       glib-2.0
+Requires:       gio-2.0
+Requires:       protobuf
+Requires:       cryptopp
+Requires:       libsqlite3-0
+Requires:       taglib
+Requires:       libcdio
+Requires:       libgpod-1.0
+Requires:       libchromaprint
+Requires:       libmtp
+Requires:       libpulse
+Requires:       libxml
+Requires:       Qt5Core)
+Requires:       Qt5X11Extras
+Requires:       Qt5Network
+Requires:       Qt5Xml
+Requires:       Qt5Widgets
+Requires:       Qt5Concurrent
+Requires:       Qt5Gui
+Requires:       Qt5Sql
+Requires:       Qt5OpenGL
+Requires:       Qt5Test
+Requires:       Qt5WebKit
+Requires:       Qt5WebKitWidgets
 
 # GStreamer codec dependencies
-Requires:       gstreamer-plugins-ugly
+Requires:       gstreamer
+Requires:       gstreamer-plugins-base
+Requires:       gstreamer-plugins-good
 
 %ifarch x86_64
 Requires:       gstreamer1.0(decoder-audio/x-vorbis)()(64bit)
@@ -51,18 +98,16 @@ Features include:
 %prep
 %setup -q -n %{name}-@STRAWBERRY_VERSION_SPARKLE@
 
-
 %build
-cd bin
 %{cmake} .. -DUSE_INSTALL_PREFIX=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 make %{?_smp_mflags}
 
 %install
-cd bin
+cd build
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
-cd bin
+cd build
 make clean
 
 
@@ -72,15 +117,9 @@ make clean
 %{_bindir}/strawberry
 %{_bindir}/strawberry-tagreader
 %{_datadir}/applications/strawberry.desktop
-%{_datadir}/strawberry/projectm-presets
-%{_datadir}/kde4/services/strawberry-itms.protocol
-%{_datadir}/kde4/services/strawberry-itpc.protocol
-%{_datadir}/kde4/services/strawberry-feed.protocol
-%{_datadir}/kde4/services/strawberry-zune.protocol
+%{_datadir}/icons/hicolor/48x48/apps/strawberry.png
 %{_datadir}/icons/hicolor/64x64/apps/strawberry.png
 %{_datadir}/icons/hicolor/128x128/apps/strawberry.png
 %{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
 
 %changelog
-* @RPM_DATE@ @STRAWBERRY_VERSION_RPM_V@
-- Version @STRAWBERRY_VERSION_DISPLAY@
