@@ -109,6 +109,7 @@ pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(LIBXML libxml-2.0)
 pkg_check_modules(TAGLIB REQUIRED taglib>=1.8)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
+pkg_check_modules(LIBGLU REQUIRED glu)
 
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 
