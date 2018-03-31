@@ -21,6 +21,9 @@
 
 #include <unistd.h>
 
+#include "statusview.h"
+
+#include <QObject>
 #include <QApplication>
 #include <QFile>
 #include <QTextDocument>
@@ -32,8 +35,6 @@
 #include <QPaintEvent>
 #include <QMovie>
 #include <QTimeLine>
-
-#include "statusview.h"
 
 #include "core/utilities.h"
 #include "core/logging.h"
@@ -197,7 +198,7 @@ void StatusView::NoSongWidget() {
   
   label_stopped_top_->setFixedHeight(40);
   label_stopped_top_->setFixedWidth(300);
-  label_stopped_top_->setAlignment(Qt::AlignTop & Qt::AlignCenter);
+  label_stopped_top_->setAlignment(Qt::AlignTop|Qt::AlignCenter);
 
   widget_stopped_->setVisible(true);
   widget_stopped_->setLayout(layout_stopped_);
@@ -231,7 +232,7 @@ void StatusView::SongWidget() {
   layout_playing_->addWidget(label_playing_text_);
   layout_playing_->addStretch();
 
-  label_playing_top_->setAlignment(Qt::AlignTop & Qt::AlignCenter);
+  label_playing_top_->setAlignment(Qt::AlignTop|Qt::AlignCenter);
   label_playing_top_->setFixedHeight(40);  
   label_playing_top_->setFixedWidth(300);
   label_playing_top_->setWordWrap(true);
