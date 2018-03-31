@@ -198,7 +198,7 @@ void StatusView::NoSongWidget() {
   
   label_stopped_top_->setFixedHeight(40);
   label_stopped_top_->setFixedWidth(300);
-  label_stopped_top_->setAlignment(Qt::AlignTop|Qt::AlignCenter);
+  label_stopped_top_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
 
   widget_stopped_->setVisible(true);
   widget_stopped_->setLayout(layout_stopped_);
@@ -232,12 +232,12 @@ void StatusView::SongWidget() {
   layout_playing_->addWidget(label_playing_text_);
   layout_playing_->addStretch();
 
-  label_playing_top_->setAlignment(Qt::AlignTop|Qt::AlignCenter);
+  label_playing_top_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
   label_playing_top_->setFixedHeight(40);  
   label_playing_top_->setFixedWidth(300);
   label_playing_top_->setWordWrap(true);
 
-  label_playing_text_->setAlignment(Qt::AlignTop);
+  label_playing_text_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
   label_playing_text_->setFixedWidth(300);
   label_playing_text_->setWordWrap(true);
   
