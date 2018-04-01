@@ -121,3 +121,5 @@ make clean
 %{_mandir}/man1/%{name}-tagreader.1%{?ext_man}
 
 %changelog
+* @RPM_DATE@ Jonas Kvinge <jonas@strawbs.net> - @STRAWBERRY_VERSION_RPM_V@
+- Version @STRAWBERRY_VERSION_PACKAGE@
