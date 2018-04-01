@@ -8,12 +8,5 @@ add_custom_target(rpm
   COMMAND ${CMAKE_SOURCE_DIR}/dist/maketarball.sh
   COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
   COMMAND rpmbuild -bs ${CMAKE_SOURCE_DIR}/dist/strawberry.spec
-  COMMAND ${MOCK_COMMAND}
-      --verbose
-      --root=${MOCK_CHROOT}
-      --resultdir=${CMAKE_BINARY_DIR}/mock_result/
-      ${RPMBUILD_DIR}/SRPMS/strawberry-${STRAWBERRY_VERSION_RPM_V}-${STRAWBERRY_VERSION_RPM_R}.${RPM_DISTRO}.src.rpm
-  COMMAND ${CMAKE_COMMAND} -E copy
-      ${CMAKE_BINARY_DIR}/mock_result/strawberry-${STRAWBERRY_VERSION_RPM_V}-${STRAWBERRY_VERSION_RPM_R}.${RPM_DISTRO}.${RPM_ARCH}.rpm
-      ${CMAKE_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_RPM_V}-${STRAWBERRY_VERSION_RPM_R}.${RPM_DISTRO}.${RPM_ARCH}.rpm
+  COMMAND rpmbuild -bb ${CMAKE_SOURCE_DIR}/dist/strawberry.spec
 )

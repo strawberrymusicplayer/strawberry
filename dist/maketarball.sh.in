@@ -18,7 +18,3 @@ tar -cJf $name-$version.tar.xz \
     --exclude "$root/build" \
     --exclude ".directory" \
     "$root"
-
-if [ -d "$HOME/rpmbuild/SOURCES" ]; then
-  cp -v "$name-$version.tar.xz" "$HOME/rpmbuild/SOURCES"
-fi
