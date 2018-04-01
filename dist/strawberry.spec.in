@@ -118,5 +118,6 @@ make clean
 %{_datadir}/icons/hicolor/128x128/apps/strawberry.png
 %{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
 %{_mandir}/man1/%{name}.1%{?ext_man}
+%{_mandir}/man1/%{name}-tagreader.1%{?ext_man}
 
 %changelog
