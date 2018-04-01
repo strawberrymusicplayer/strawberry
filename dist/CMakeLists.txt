@@ -6,7 +6,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/strawberry.spec.in
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/maketarball.sh.in
                ${CMAKE_CURRENT_SOURCE_DIR}/maketarball.sh @ONLY)
 
-if (NOT APPLE)
+if (UNIX)
   install(FILES ../data/icons/48x48/strawberry.png
     DESTINATION share/icons/hicolor/48x48/apps/
   )
@@ -22,4 +22,7 @@ if (NOT APPLE)
   install(FILES strawberry.desktop
     DESTINATION share/applications
   )
-endif (NOT APPLE)
+  install(FILES strawberry.1
+    DESTINATION share/man/man1
+  )
+endif (UNIX)

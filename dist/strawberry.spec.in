@@ -33,8 +33,14 @@ BuildRequires:  libQt5Core-devel
 BuildRequires:  libQt5Gui-devel
 BuildRequires:  libQt5Widgets-devel
 BuildRequires:  libQt5Network-devel
+BuildRequires:  libQt5Concurrent-devel
 BuildRequires:  libQt5Sql-devel
 BuildRequires:  libQt5Xml-devel
+BuildRequires:  libQt5OpenGL-devel
+BuildRequires:  libQt5Test-devel
+BuildRequires:  libQt5WebKit5-devel
+BuildRequires:  libQt5WebKitWidgets-devel
+BuildRequires:  libqt5-qtx11extras-devel
 BuildRequires:  libQt5Gui-private-headers-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  update-desktop-files
@@ -52,15 +58,15 @@ Requires:       libmtp
 Requires:       libpulse
 Requires:       libxml
 Requires:       Qt5Core
-Requires:       Qt5X11Extras
-Requires:       Qt5Network
-Requires:       Qt5Xml
-Requires:       Qt5Widgets
-Requires:       Qt5Concurrent
 Requires:       Qt5Gui
+Requires:       Qt5Widgets
+Requires:       Qt5Network
+Requires:       Qt5Concurrent
 Requires:       Qt5Sql
+Requires:       Qt5Xml
 Requires:       Qt5OpenGL
 Requires:       Qt5Test
+Requires:       Qt5X11Extras
 Requires:       Qt5WebKit
 Requires:       Qt5WebKitWidgets
 
