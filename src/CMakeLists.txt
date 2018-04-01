@@ -1041,17 +1041,17 @@ if (APPLE)
 
 
   add_custom_command(
-    OUTPUT ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_SPARKLE}.dmg
-    ${CMAKE_COMMAND} -E remove -f ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_SPARKLE}.dmg
+    OUTPUT ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg
+    ${CMAKE_COMMAND} -E remove -f ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../dist/create-dmg.sh ${PROJECT_BINARY_DIR}/strawberry.app
     COMMAND ${CMAKE_COMMAND} -E rename
       ${PROJECT_BINARY_DIR}/strawberry.dmg
-      ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_SPARKLE}.dmg
+      ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg
     DEPENDS strawberry
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
   )
   add_custom_target(dmg
-    DEPENDS ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_SPARKLE}.dmg)
+    DEPENDS ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg)
 else (APPLE)
   install(TARGETS strawberry
     RUNTIME DESTINATION bin

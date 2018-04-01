@@ -552,7 +552,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   qLog(Debug) << "Creating sparkle updater";
   qtsparkle::Updater* updater = new qtsparkle::Updater(QUrl("https://strawberry-data.appspot.com/sparkle-windows"), this);
   updater->SetNetworkAccessManager(new NetworkAccessManager(this));
-  updater->SetVersion(STRAWBERRY_VERSION_SPARKLE);
+  updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
   connect(check_updates, SIGNAL(triggered()), updater, SLOT(CheckNow()));
 #endif
 

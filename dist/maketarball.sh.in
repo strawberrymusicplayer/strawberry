@@ -1,8 +1,7 @@
 #!/bin/bash
 
 name=strawberry
-version="@STRAWBERRY_VERSION_SPARKLE@"
-deb_dist="@DEB_DIST@"
+version="@STRAWBERRY_VERSION_PACKAGE@"
 root=$(cd "${0%/*}/.." && echo $PWD/${0##*/})
 root=`dirname "$root"`
 rootnoslash=`echo $root | sed "s/^\///"`
@@ -15,8 +14,6 @@ tar -cJf $name-$version.tar.xz \
     --exclude "$root/dist/*.tar" \
     --exclude "$root/dist/*.tar.*" \
     --exclude "$root/CMakeLists.txt.user" \
+    --exclude "$root/build" \
     --exclude ".directory" \
     "$root"
-
-echo "Also creating ${name}_${version}~${deb_dist}.orig.tar.xz..."
-cp "$name-$version.tar.xz" "${name}_${version}~${deb_dist}.orig.tar.xz"
