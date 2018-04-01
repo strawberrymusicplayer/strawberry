@@ -22,7 +22,7 @@ if (UNIX)
   install(FILES strawberry.desktop
     DESTINATION share/applications
   )
-  install(FILES strawberry.1
+  install(FILES strawberry.1 strawberry-tagreader.1
     DESTINATION share/man/man1
   )
 endif (UNIX)

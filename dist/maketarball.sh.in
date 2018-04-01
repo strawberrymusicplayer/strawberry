@@ -8,6 +8,7 @@ rootnoslash=`echo $root | sed "s/^\///"`
 
 echo "Creating $name-$version.tar.xz..."
 
+rm -f "$name-$version.tar.xz"
 tar -cJf $name-$version.tar.xz \
     --transform "s,^$rootnoslash,$name-$version," \
     --exclude-vcs \
@@ -17,3 +18,7 @@ tar -cJf $name-$version.tar.xz \
     --exclude "$root/build" \
     --exclude ".directory" \
     "$root"
+
+if [ -d "$HOME/rpmbuild/SOURCES" ]; then
+  cp -v "$name-$version.tar.xz" "$HOME/rpmbuild/SOURCES"
+fi
