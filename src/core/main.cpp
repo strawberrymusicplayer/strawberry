@@ -19,6 +19,7 @@
  */
 
 #include "config.h"
+#include "version.h"
 
 #include <memory>
 
@@ -42,10 +43,11 @@
 #endif
 
 #ifdef Q_OS_WIN32
-  #define _WIN32_WINNT 0x0600
+  #ifndef _WIN32_WINNT
+    #define _WIN32_WINNT 0x0600
+  #endif
   #include <windows.h>
   #include <iostream>
-  #include <qtsparkle/Updater>
 #endif  // Q_OS_WIN32
 
 #include <QObject>
@@ -91,7 +93,7 @@
 #ifdef HAVE_GSTREAMER
 #include "engine/gstengine.h"
 #endif
-#include "version.h"
+
 #include "widgets/osd.h"
 
 #include "tagreadermessages.pb.h"
@@ -185,8 +187,7 @@ int main(int argc, char* argv[]) {
   QtSingleApplication a(argc, argv);
 
 #ifdef Q_OS_DARWIN
-  QCoreApplication::setCollectionPaths(
-      QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
+  QCoreApplication::setCollectionPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
 #endif
 
   a.setQuitOnLastWindowClosed(false);
@@ -224,11 +225,6 @@ int main(int argc, char* argv[]) {
 
   // Resources
   Q_INIT_RESOURCE(data);
-
-#ifdef Q_OS_WIN32
-  // Set the language for qtsparkle
-  qtsparkle::LoadTranslations(language);
-#endif
   
   // Icons
   IconLoader::Init();

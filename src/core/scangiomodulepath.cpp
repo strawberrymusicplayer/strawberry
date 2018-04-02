@@ -21,7 +21,11 @@
 //#ifdef HAVE_GIO
 //#undef signals  // Clashes with GIO, and not needed in this file
 #include <gio/gio.h>
+
+#include <QApplication>
+#include <QCoreApplication>
 #include <QString>
+
 #include "core/logging.h"
 
 //namespace {

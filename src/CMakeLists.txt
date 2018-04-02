@@ -31,6 +31,7 @@ include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURR
 
 if(WIN32)
   include_directories(../3rdparty/qtwin)
+  #include_directories(../3rdparty/qtsparkle)
 endif(WIN32)
 
 # Activate fast QString concatenation
@@ -928,8 +929,6 @@ target_link_libraries(strawberry_lib qsqlite)
 if (WIN32)
   target_link_libraries(strawberry_lib
     ${ZLIB_LIBRARIES}
-    ${QTSPARKLE_LIBRARIES}
-    tinysvcmdns
     qtwin
     dsound
     ${QT_QTGUI_LIBRARY}
@@ -962,10 +961,9 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT ENABLE_WIN32_CONSOLE)
   set(STRAWBERRY-WIN32-FLAG WIN32)
 endif (NOT CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT ENABLE_WIN32_CONSOLE)
 
-# resource file for windows
+# Resource file for windows
 if(WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../dist/windows/windres.rc.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/windres.rc)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../dist/windres.rc.in ${CMAKE_CURRENT_BINARY_DIR}/windres.rc)
   set(STRAWBERRY-WIN32-RESOURCES windres.rc)
 endif(WIN32)
 

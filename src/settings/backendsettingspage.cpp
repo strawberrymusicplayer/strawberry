@@ -36,8 +36,12 @@
 #include "core/iconloader.h"
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
+#ifdef HAVE_GSTREAMER
 #include "engine/gstengine.h"
+#endif
+#ifdef HAVE_XINE
 #include "engine/xineengine.h"
+#endif
 #include "engine/devicefinder.h"
 
 const char *BackendSettingsPage::kSettingsGroup = "Backend";

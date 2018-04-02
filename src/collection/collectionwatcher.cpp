@@ -23,6 +23,11 @@
 #include <fileref.h>
 #include <tag.h>
 
+// This is defined by one of the windows headers that is included by taglib.
+#ifdef RemoveDirectory
+#undef RemoveDirectory
+#endif
+
 #include "collectionwatcher.h"
 
 #include "collectionbackend.h"
@@ -43,11 +48,6 @@
 #include <QSet>
 #include <QSettings>
 #include <QTimer>
-
-// This is defined by one of the windows headers that is included by taglib.
-#ifdef RemoveDirectory
-#undef RemoveDirectory
-#endif
 
 namespace {
 static const char *kNoMediaFile = ".nomedia";
@@ -587,7 +587,7 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
 }
 
-void CollectionWatcher::RemoveDirectory(const Directory& dir) {
+void CollectionWatcher::RemoveDirectory(const Directory &dir) {
 
   rescan_queue_.remove(dir.id);
   watched_dirs_.remove(dir.id);

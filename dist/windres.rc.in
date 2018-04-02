@@ -1,0 +1,25 @@
+strawberry ICON "${CMAKE_CURRENT_SOURCE_DIR}/../dist/strawberry.ico"
+1 VERSIONINFO
+FILEVERSION     ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},0,0
+PRODUCTVERSION  ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "Strawberry"
+      VALUE "FileDescription", "Strawberry Music Player"
+      VALUE "FileVersion", "${STRAWBERRY_VERSION_DISPLAY}"
+      VALUE "InternalName", "strawberry"
+      VALUE "LegalCopyright", "David Sansome"
+      VALUE "OriginalFilename", "strawberry.exe"
+      VALUE "ProductName", "Strawberry"
+      VALUE "ProductVersion", "${STRAWBERRY_VERSION_DISPLAY}"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252
+  END
+END

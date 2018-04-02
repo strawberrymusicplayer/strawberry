@@ -105,6 +105,7 @@ pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(PHONON phonon4qt5)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
+
 pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(LIBXML libxml-2.0)
 pkg_check_modules(TAGLIB REQUIRED taglib>=1.8)
@@ -115,7 +116,6 @@ find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 
 if (WIN32)
   find_package(ZLIB REQUIRED)
-  find_library(QTSPARKLE_LIBRARIES qtsparkle-qt5)
 endif (WIN32)
 
 # LASTFM
@@ -327,7 +327,6 @@ add_subdirectory(3rdparty/qocoa)
 add_subdirectory(src)
 if (WIN32)
   add_subdirectory(3rdparty/qtwin)
-  add_subdirectory(3rdparty/tinysvcmdns)
 endif (WIN32)
 add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)

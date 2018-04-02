@@ -49,10 +49,6 @@
 #include <QModelIndex>
 #include <QSortFilterProxyModel>
 
-#ifdef Q_OS_WIN32
-  #include <qtsparkle/Updater>
-#endif
-
 #include "core/appearance.h"
 #include "core/application.h"
 #include "core/commandlineoptions.h"
@@ -546,14 +542,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   QAction* check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
   check_updates->setMenuRole(QAction::ApplicationSpecificRole);
   connect(check_updates, SIGNAL(triggered(bool)), SLOT(CheckForUpdates()));
-#endif
-
-#ifdef Q_OS_WIN32
-  qLog(Debug) << "Creating sparkle updater";
-  qtsparkle::Updater* updater = new qtsparkle::Updater(QUrl("https://strawberry-data.appspot.com/sparkle-windows"), this);
-  updater->SetNetworkAccessManager(new NetworkAccessManager(this));
-  updater->SetVersion(STRAWBERRY_VERSION_PACKAGE);
-  connect(check_updates, SIGNAL(triggered()), updater, SLOT(CheckNow()));
 #endif
 
   // Global shortcuts
