@@ -138,7 +138,6 @@ class GstEngine : public Engine::Base, public BufferConsumer {
   void BufferingFinished();
 
  private:
-
   PluginDetailsList GetPluginList(const QString &classname) const;
 
   void StartFadeout();
@@ -149,17 +148,17 @@ class GstEngine : public Engine::Base, public BufferConsumer {
 
   std::shared_ptr<GstEnginePipeline> CreatePipeline();
   std::shared_ptr<GstEnginePipeline> CreatePipeline(const QUrl &url, qint64 end_nanosec);
+  std::shared_ptr<GstEnginePipeline> CreatePipeline(const QByteArray &url, qint64 end_nanosec);
 
   void UpdateScope(int chunk_length);
-
-  static QUrl FixupUrl(const QUrl &url);
+  
+  QByteArray FixupUrl(const QUrl &url);
 
  private:
   static const qint64 kTimerIntervalNanosec = 1000  *kNsecPerMsec;  // 1s
-  static const qint64 kPreloadGapNanosec = 2000  *kNsecPerMsec;     // 2s
+  static const qint64 kPreloadGapNanosec = 3000  *kNsecPerMsec;     // 3s
   static const qint64 kSeekDelayNanosec = 100  *kNsecPerMsec;       // 100msec
 
-  static const char *kHypnotoadPipeline;
   static const char *kEnterprisePipeline;
 
   TaskManager *task_manager_;
@@ -214,7 +213,5 @@ class GstEngine : public Engine::Base, public BufferConsumer {
   int scope_chunks_;
 
 };
-
-//Q_DECLARE_METATYPE(GstEngine::OutputDetails)
 
 #endif /* GSTENGINE_H */

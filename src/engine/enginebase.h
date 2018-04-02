@@ -34,6 +34,7 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariant>
+#include <QByteArray>
 
 #include "enginetype.h"
 #include "engine_fwd.h"

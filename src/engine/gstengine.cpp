@@ -262,8 +262,7 @@ Engine::State GstEngine::state() const {
 
 void GstEngine::ConsumeBuffer(GstBuffer *buffer, int pipeline_id) {
 
-  // Schedule this to run in the GUI thread.  The buffer gets added to the
-  // queue and unreffed by UpdateScope.
+  // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
   if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id))) {
     qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
   }
@@ -360,26 +359,47 @@ void GstEngine::StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 
 
   EnsureInitialised();
 
-  QUrl gst_url = FixupUrl(url);
+  QByteArray gst_url = FixupUrl(url);
 
-  // No crossfading, so we can just queue the new URL in the existing
-  // pipeline and get gapless playback (hopefully)
+  // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
   if (current_pipeline_)
     current_pipeline_->SetNextUrl(gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
 
 }
 
-QUrl GstEngine::FixupUrl(const QUrl &url) {
+QByteArray GstEngine::FixupUrl(const QUrl &url) {
 
-  QUrl copy = url;
+  EnsureInitialised();
+
+  QByteArray uri;
 
   // It's a file:// url with a hostname set.  QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.  Munge it back into a path that gstreamer will recognise.
   if (url.scheme() == "file" && !url.host().isEmpty()) {
-    copy.setPath("//" + copy.host() + copy.path());
-    copy.setHost(QString());
+    QString str = "//" + url.host() + url.path();
+    uri = str.toLocal8Bit();
+  }
+  else if (url.scheme() == "cdda") {
+    QString str;
+    if (url.path().isEmpty()) {
+      str = url.toString();
+      str.remove(str.lastIndexOf(QChar('a')), 1);
+    }
+    else {
+      // Currently, Gstreamer can't handle input CD devices inside cdda URL.
+      // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
+      // We keep the device in mind, and we will set it later using SourceSetupCallback
+      QStringList path = url.path().split('/');
+      str = QString("cdda://%1a").arg(path.takeLast());
+      QString device = path.join("/");
+      current_pipeline_->SetSourceDevice(device);
+    }
+    uri = str.toLocal8Bit();
+  }
+  else {
+    uri = url.toEncoded();
   }
 
-  return copy;
+  return uri;
 
 }
 
@@ -389,7 +409,7 @@ bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
 
   Engine::Base::Load(url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
-  QUrl gst_url = FixupUrl(url);
+  QByteArray gst_url = FixupUrl(url);
 
   bool crossfade = current_pipeline_ && ((crossfade_enabled_ && change & Engine::Manual) || (autocrossfade_enabled_ && change & Engine::Auto) || ((crossfade_enabled_ || autocrossfade_enabled_) && change & Engine::Intro));
 
@@ -477,7 +497,7 @@ void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 off
 
   if (ret == GST_STATE_CHANGE_FAILURE) {
     // Failure, but we got a redirection URL - try loading that instead
-    QUrl redirect_url = current_pipeline_->redirect_url();
+    QByteArray redirect_url = current_pipeline_->redirect_url();
     if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->url()) {
       qLog(Info) << "Redirecting to" << redirect_url;
       current_pipeline_ = CreatePipeline(redirect_url, end_nanosec_);
@@ -511,8 +531,7 @@ void GstEngine::Stop(bool stop_after) {
   url_ = QUrl();  // To ensure we return Empty from state()
   beginning_nanosec_ = end_nanosec_ = 0;
 
-  // Check if we started a fade out. If it isn't finished yet and the user
-  // pressed stop, we cancel the fader and just stop the playback.
+  // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (is_fading_out_to_pause_) {
     disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), 0, 0);
     is_fading_out_to_pause_ = false;
@@ -552,8 +571,7 @@ void GstEngine::Pause() {
 
   if (!current_pipeline_ || current_pipeline_->is_buffering()) return;
 
-  // Check if we started a fade out. If it isn't finished yet and the user
-  // pressed play, we inverse the fader and resume the playback.
+  // Check if we started a fade out. If it isn't finished yet and the user pressed play, we inverse the fader and resume the playback.
   if (is_fading_out_to_pause_) {
     disconnect(current_pipeline_.get(), SIGNAL(FaderFinished()), 0, 0);
     current_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Forward, QTimeLine::EaseInOutCurve, false);
@@ -699,9 +717,8 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   // unable to play media stream with this url
   emit InvalidSongRequested(url_);
 
-  // TODO: the types of errors listed below won't be shown to user - they will
-  // get logged and the current song will be skipped; instead of maintaining
-  // the list we should probably:
+  // TODO: the types of errors listed below won't be shown to user
+  // they will get logged and the current song will be skipped; instead of maintaining the list we should probably:
   // - don't report any engine's errors to user (always just log and skip)
   // - come up with a less intrusive error box (not a dialog but a notification
   //   popup of some kind) and then report all errors
@@ -812,6 +829,16 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &url, qint64 
     ret->InitFromString(kEnterprisePipeline);
     return ret;
   }
+
+  if (!ret->InitFromUrl(url.toEncoded(), end_nanosec)) ret.reset();
+
+  return ret;
+
+}
+
+shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &url, qint64 end_nanosec) {
+
+  shared_ptr<GstEnginePipeline> ret = CreatePipeline();
 
   if (!ret->InitFromUrl(url, end_nanosec)) ret.reset();
 

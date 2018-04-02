@@ -33,7 +33,8 @@
 #include <QObject>
 #include <QThreadPool>
 #include <QTimeLine>
-#include <QUrl>
+#include <QByteArray>
+#include <QVariant>
 
 #include "engine_fwd.h"
 
@@ -42,7 +43,7 @@ class GstEngine;
 class BufferConsumer;
 
 struct GstQueue;
-struct GstURIDecodeBin;
+struct GstPlayBin;
 
 class GstEnginePipeline : public QObject {
   Q_OBJECT
@@ -62,7 +63,7 @@ class GstEnginePipeline : public QObject {
   void set_mono_playback(bool enabled);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QUrl &url, qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &url, qint64 end_nanosec);
   bool InitFromString(const QString &pipeline);
 
   // BufferConsumers get fed audio data.  Thread-safe.
@@ -79,30 +80,27 @@ class GstEnginePipeline : public QObject {
   void SetStereoBalance(float value);
   void StartFader(qint64 duration_nanosec, QTimeLine::Direction direction = QTimeLine::Forward, QTimeLine::CurveShape shape = QTimeLine::LinearCurve, bool use_fudge_timer = true);
 
-  // If this is set then it will be loaded automatically when playback finishes
-  // for gapless playback
-  void SetNextUrl(const QUrl &url, qint64 beginning_nanosec, qint64 end_nanosec);
-  bool has_next_valid_url() const { return next_url_.isValid(); }
+  // If this is set then it will be loaded automatically when playback finishes for gapless playback
+  void SetNextUrl(const QByteArray &url, qint64 beginning_nanosec, qint64 end_nanosec);
+  bool has_next_valid_url() const { return !next_url_.isNull() && !next_url_.isEmpty(); }
+
+  void SetSourceDevice(QString device) { source_device_ = device; }
 
   // Get information about the music playback
-  QUrl url() const { return url_; }
+  QByteArray url() const { return url_; }
   bool is_valid() const { return valid_; }
-  // Please note that this method (unlike GstEngine's.position()) is
-  // multiple-section media unaware.
+  // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
   qint64 position() const;
-  // Please note that this method (unlike GstEngine's.length()) is
-  // multiple-section media unaware.
+  // Please note that this method (unlike GstEngine's.length()) is multiple-section media unaware.
   qint64 length() const;
-  // Returns this pipeline's state. May return GST_STATE_NULL if the state check
-  // timed out. The timeout value is a reasonable default.
+  // Returns this pipeline's state. May return GST_STATE_NULL if the state check timed out. The timeout value is a reasonable default.
   GstState state() const;
   qint64 segment_start() const { return segment_start_; }
 
-  // Don't allow the user to change the playback state (playing/paused) while
-  // the pipeline is buffering.
+  // Don't allow the user to change the playback state (playing/paused) while the pipeline is buffering.
   bool is_buffering() const { return buffering_; }
 
-  QUrl redirect_url() const { return redirect_url_; }
+  QByteArray redirect_url() const { return redirect_url_; }
 
   QString source_device() const { return source_device_; }
 
@@ -125,16 +123,15 @@ signals:
   void timerEvent(QTimerEvent*);
 
  private:
-  // Static callbacks.  The GstEnginePipeline instance is passed in the last
-  // argument.
+  // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
   static void NewPadCallback(GstElement*, GstPad*, gpointer);
   static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static void AboutToFinishCallback(GstPlayBin*, gpointer);
   static GstPadProbeReturn DecodebinProbe(GstPad*, GstPadProbeInfo*, gpointer);
-  static void SourceDrainedCallback(GstURIDecodeBin*, gpointer);
-  static void SourceSetupCallback(GstURIDecodeBin*, GParamSpec *pspec, gpointer);
+  static void SourceSetupCallback(GstPlayBin*, GParamSpec* pspec, gpointer);
   static void TaskEnterCallback(GstTask*, GThread*, gpointer);
 
   void TagMessageReceived(GstMessage*);
@@ -143,23 +140,17 @@ signals:
   void StateChangedMessageReceived(GstMessage*);
   void BufferingMessageReceived(GstMessage*);
   void StreamStatusMessageReceived(GstMessage*);
+  void StreamStartMessageReceived();
 
   QString ParseTag(GstTagList *list, const char *tag) const;
 
-  bool Init();
+  bool InitDecodeBin(GstElement* new_bin);
+  bool InitAudioBin();
   GstElement *CreateDecodeBinFromString(const char *pipeline);
 
   void UpdateVolume();
   void UpdateEqualizer();
   void UpdateStereoBalance();
-  bool ReplaceDecodeBin(GstElement *new_bin);
-  bool ReplaceDecodeBin(const QUrl &url);
-
-  void TransitionToNext();
-
-  // If the decodebin is special (ie. not really a uridecodebin) then it'll have
-  // a src pad immediately and we can link it after everything's created.
-  void MaybeLinkDecodeToAudio();
 
  private slots:
   void FaderTimelineFinished();
@@ -174,11 +165,8 @@ signals:
 
   GstEngine *engine_;
 
-  // Using == to compare two pipelines is a bad idea, because new ones often
-  // get created in the same address as old ones.  This ID will be unique for
-  // each pipeline.
-  // Threading warning: access to the static ID field isn't protected by a
-  // mutex because all pipeline creation is currently done in the main thread.
+  // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
+  // Threading warning: access to the static ID field isn't protected by a mutex because all pipeline creation is currently done in the main thread.
   static int sId;
   int id_;
 
@@ -192,9 +180,6 @@ signals:
   QMutex buffer_consumers_mutex_;
   qint64 segment_start_;
   bool segment_start_received_;
-  bool emit_track_ended_on_stream_start_;
-  bool emit_track_ended_on_time_discontinuity_;
-  qint64 last_buffer_offset_;
 
   // Equalizer
   bool eq_enabled_;
@@ -220,8 +205,8 @@ signals:
   bool mono_playback_;
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
-  QUrl url_;
-  QUrl next_url_;
+  QByteArray url_;
+  QByteArray next_url_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;
@@ -237,7 +222,7 @@ signals:
   bool ignore_tags_;
 
   // When the gstreamer source requests a redirect we store the URL here and callers can pick it up after the state change to PLAYING fails.
-  QUrl redirect_url_;
+  QByteArray redirect_url_;
 
   // When we need to specify the device to use as source (for CD device)
   QString source_device_;
@@ -248,11 +233,12 @@ signals:
   qint64 pending_seek_nanosec_;
 
   // We can only use gst_element_query_position() when the pipeline is in
-  // PAUSED nor PLAYING state. Whenever we get a new position (e.g. after a
-  // correct call to gst_element_query_position() or after a seek), we store
-  // it here so that we can use it when using gst_element_query_position() is
-  // not possible.
+  // PAUSED nor PLAYING state. Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store
+  // it here so that we can use it when using gst_element_query_position() is not possible.
   mutable gint64 last_known_position_ns_;
+
+  // Complete the transition to the next song when it starts playing
+  bool next_uri_set_;
 
   int volume_percent_;
   qreal volume_modifier_;
@@ -263,9 +249,7 @@ signals:
 
   GstElement *pipeline_;
 
-  // Bins
-  // uridecodebin ! audiobin
-  GstElement *uridecodebin_;
+  // The audiobin is either linked with a decodebin or set as sink of the playbin pipeline.
   GstElement *audiobin_;
 
   // Elements in the audiobin.  See comments in Init()'s definition.
