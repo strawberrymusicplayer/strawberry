@@ -32,6 +32,8 @@
 #include "engine/engine_fwd.h"
 #include "engine/enginetype.h"
 
+#include "dialogs/errordialog.h"
+
 class Ui_BackendSettingsPage;
 
 class BackendSettingsPage : public SettingsPage {
@@ -40,7 +42,7 @@ class BackendSettingsPage : public SettingsPage {
 public:
   BackendSettingsPage(SettingsDialog *dialog);
   ~BackendSettingsPage();
-
+  
   static const char *kSettingsGroup;
   static const char *EngineText_Xine;
   static const char *EngineText_GStreamer;
@@ -63,39 +65,39 @@ private:
   
   void EngineChanged(Engine::EngineType enginetype);
   void OutputChanged(int index, Engine::EngineType enginetype);
-  
+
   void Load_Engine(Engine::EngineType enginetype);
-  void Load_Device(QString output);
-  
+  void Load_Device(QString output, QVariant device, bool alsa);
+
 #ifdef HAVE_XINE
-  void Xine_Load();
+  void Xine_Load(QString output, QVariant device);
   void Xine_Save();
   void Xine_OutputChanged(int index);
 #endif
 
 #ifdef HAVE_GSTREAMER
-  void Gst_Load();
+  void Gst_Load(QString output, QVariant device);
   void Gst_Save();
   void Gst_OutputChanged(int index);
 #endif
   
 #ifdef HAVE_PHONON
-  void Phonon_Load();
+  void Phonon_Load(QString output, QVariant device);
   void Phonon_Save();
   void Phonon_OutputChanged(int index);
 #endif
 
 #ifdef HAVE_VLC
-  void VLC_Load();
+  void VLC_Load(QString output, QVariant device);
   void VLC_Save();
   void VLC_OutputChanged(int index);
 #endif
   
   bool configloaded_;
   Engine::EngineType engineloaded_;
-  QString output_;
-  QString device_;
   QSettings s_;
+  ErrorDialog errordialog_;
+  bool enginereset_;
   
 };
 

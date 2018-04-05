@@ -81,7 +81,7 @@ void EngineDevice::Init() {
 
   for (DeviceFinder *finder : device_finders) {
     if (!finder->Initialise()) {
-      qLog(Warning) << "Failed to initialise DeviceFinder for" << finder->output();
+      qLog(Warning) << "Failed to initialise DeviceFinder for" << finder->name();
       delete finder;
       continue;
     }

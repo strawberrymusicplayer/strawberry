@@ -168,9 +168,6 @@
      </layout>
     </widget>
    </item>
-
-   
-   
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -195,22 +192,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>replaygain</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>widget</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>89</x>
-     <y>259</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>143</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>fading_auto</sender>
    <signal>toggled(bool)</signal>

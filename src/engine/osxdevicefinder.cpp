@@ -101,8 +101,8 @@ QList<DeviceFinder::Device> OsxDeviceFinder::ListDevices() {
 
     Device dev;
     dev.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
-    dev.device_property_value = id;
-    dev.icon_name = GuessIconName(dev.description);
+    dev.value = id;
+    dev.iconname = GuessIconName(dev.description);
     ret.append(dev);
   }
   return ret;

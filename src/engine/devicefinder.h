@@ -31,18 +31,15 @@ class DeviceFinder {
 
  public:
   struct Device {
-    int card;
-    int device;
-    QVariant device_property_value;
-    QString string;
     QString description;
+    QVariant value;
     QString iconname;
   };
 
   virtual ~DeviceFinder() {}
 
   // The name of the gstreamer sink element that devices found by this class can be used with.
-  QString output() const { return output_; }
+  QString name() const { return name_; }
 
   // Does any necessary setup, returning false if this DeviceFinder cannot be used.
   virtual bool Initialise() = 0;
@@ -51,12 +48,12 @@ class DeviceFinder {
   virtual QList<Device> ListDevices() = 0;
 
  protected:
-  explicit DeviceFinder(const QString &output);
+  explicit DeviceFinder(const QString &name);
 
-  static QString GuessIconName(const QString &, const QString &);
+  static QString GuessIconName(const QString &description);
 
  private:
-  QString output_;
+  QString name_;
 
 };
 

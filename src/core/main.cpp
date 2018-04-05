@@ -28,11 +28,6 @@
 #include <glib-object.h>
 #include <glib.h>
 
-#ifdef HAVE_GSTREAMER
-  #include <gst/gst.h>
-  #include <gst/pbutils/pbutils.h>
-#endif
-
 #ifdef Q_OS_UNIX
   #include <unistd.h>
 #endif  // Q_OS_UNIX
@@ -89,10 +84,6 @@
 #include "core/iconloader.h"
 #include "core/systemtrayicon.h"
 #include "core/scangiomodulepath.h"
-#include "engine/enginebase.h"
-#ifdef HAVE_GSTREAMER
-#include "engine/gstengine.h"
-#endif
 
 #include "widgets/osd.h"
 
@@ -116,12 +107,6 @@ int main(int argc, char* argv[]) {
   // Do Mac specific startup to get media keys working.
   // This must go before QApplication initialisation.
   mac::MacMain();
-
-  if (QSysInfo::MacintoshVersion > QSysInfo::MV_10_8) {
-    // Work around 10.9 issue.
-    // https://bugreports.qt-project.org/browse/QTBUG-32789
-    QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
-  }
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
@@ -240,11 +225,6 @@ int main(int argc, char* argv[]) {
 
 #ifdef HAVE_DBUS
   mpris::Mpris mpris(&app);
-#endif
-  
-#ifdef HAVE_GSTREAMER
-  gst_init(nullptr, nullptr);
-  gst_pb_utils_init();
 #endif
 
   // Window

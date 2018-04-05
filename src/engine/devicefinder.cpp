@@ -23,13 +23,10 @@
 
 #include "core/logging.h"
 
-DeviceFinder::DeviceFinder(const QString &output): output_(output) {
-  //qLog(Debug) << __PRETTY_FUNCTION__ << output;
+DeviceFinder::DeviceFinder(const QString &name): name_(name) {
 }
 
-QString DeviceFinder::GuessIconName(const QString &name, const QString &description) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__ << name << description;
+QString DeviceFinder::GuessIconName(const QString &description) {
 
   QString description_lower = description.toLower();
 

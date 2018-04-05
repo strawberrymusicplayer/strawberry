@@ -90,19 +90,11 @@ class Base : public QObject {
   bool crossfade_same_album() const { return crossfade_same_album_; }
 
   static const int kScopeSize = 1024;
-  
-  struct PluginDetails {
-    QString name;
-    QString description;
-    QString iconname;
-  };
-  typedef QList<PluginDetails> PluginDetailsList;
 
   struct OutputDetails {
     QString name;
     QString description;
     QString iconname;
-    QVariant device_property_value;
   };
   typedef QList<OutputDetails> OutputDetailsList;
 
@@ -159,6 +151,13 @@ signals:
   int next_background_stream_id_;
   bool fadeout_pause_enabled_;
   qint64 fadeout_pause_duration_nanosec_;
+  
+  struct PluginDetails {
+    QString name;
+    QString description;
+    QString iconname;
+  };
+  typedef QList<PluginDetails> PluginDetailsList;
 
  private:
   bool about_to_end_emitted_;

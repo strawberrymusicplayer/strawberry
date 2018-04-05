@@ -85,7 +85,7 @@ StatusView::StatusView(CollectionViewContainer *collectionviewcontainer, QWidget
     widgetstate_(None),
     menu_(new QMenu(this))
  {
-     
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   collectionview_ = collectionviewcontainer->view();
@@ -112,7 +112,7 @@ StatusView::~StatusView() {
 }
 
 void StatusView::AddActions() {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
@@ -130,13 +130,13 @@ void StatusView::AddActions() {
 
   menu_->addActions(actions);
   menu_->addSeparator();
-    
+
 }
 
 void StatusView::CreateWidget() {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
-    
+
   setLayout(layout_);
   setStyleSheet("background-color: white;");
 
@@ -162,7 +162,7 @@ void StatusView::CreateWidget() {
 }
 
 void StatusView::SetApplication(Application *app) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   app_ = app;
@@ -263,7 +263,7 @@ void StatusView::SongWidget() {
 void StatusView::SwitchWidgets(WidgetState state) {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
-    
+
   if (widgetstate_ == None) NoSongWidget();
 
   if ((state == Stopped) && (widgetstate_ != Stopped)) {
@@ -279,7 +279,7 @@ void StatusView::SwitchWidgets(WidgetState state) {
 void StatusView::UpdateSong(const Song &song) {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   SwitchWidgets(Playing);
 
   const Song *song_ = &song;
@@ -331,7 +331,7 @@ void StatusView::UpdateSong(const Song &song) {
 }
 
 void StatusView::NoSong() {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString html;
@@ -368,7 +368,7 @@ void StatusView::NoSong() {
 void StatusView::SongChanged(const Song &song) {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   stopped_ = false;
   metadata_ = song;
   const Song *song_ = &song;
@@ -380,9 +380,9 @@ void StatusView::SongChanged(const Song &song) {
 }
 
 void StatusView::SongFinished() {
-  
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   stopped_ = true;
   SetImage(image_blank_);
   
@@ -391,7 +391,7 @@ void StatusView::SongFinished() {
 bool StatusView::eventFilter(QObject *object, QEvent *event) {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   switch(event->type()) {   
     case QEvent::Paint:{   
       handlePaintEvent(object, event);
@@ -406,7 +406,7 @@ bool StatusView::eventFilter(QObject *object, QEvent *event) {
 }
 
 void StatusView::handlePaintEvent(QObject *object, QEvent *event) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__ << object->objectName();
 
   if (object == label_playing_album_) {
@@ -420,7 +420,7 @@ void StatusView::handlePaintEvent(QObject *object, QEvent *event) {
 void StatusView::paintEvent_album(QEvent *event) {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
-    
+
   QPainter p(label_playing_album_);
 
   DrawImage(&p);
@@ -433,7 +433,7 @@ void StatusView::paintEvent_album(QEvent *event) {
 }
 
 void StatusView::DrawImage(QPainter *p) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   p->drawPixmap(0, 0, 300, 300, pixmap_current_);
@@ -444,9 +444,9 @@ void StatusView::DrawImage(QPainter *p) {
 }
 
 void StatusView::FadePreviousTrack(qreal value) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   pixmap_previous_opacity_ = value;
   if (qFuzzyCompare(pixmap_previous_opacity_, qreal(0.0))) {
     pixmap_previous_ = QPixmap();
@@ -464,17 +464,17 @@ void StatusView::FadePreviousTrack(qreal value) {
 void StatusView::contextMenuEvent(QContextMenuEvent *e) {
 
   // show the menu
-  menu_->popup(mapToGlobal(e->pos()));
+  if (menu_ && widgetstate_ == Playing) menu_->popup(mapToGlobal(e->pos()));
 }
 
 void StatusView::mouseReleaseEvent(QMouseEvent *) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
   
 }
 
 void StatusView::dragEnterEvent(QDragEnterEvent *e) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QWidget::dragEnterEvent(e);
@@ -482,7 +482,7 @@ void StatusView::dragEnterEvent(QDragEnterEvent *e) {
 }
 
 void StatusView::dropEvent(QDropEvent *e) {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QWidget::dropEvent(e);
@@ -541,9 +541,9 @@ void StatusView::SetImage(const QImage &image) {
 }
 
 bool StatusView::GetCoverAutomatically() {
-    
+
   //qLog(Debug) << __PRETTY_FUNCTION__;
-  
+
   SwitchWidgets(Playing);
   
   // Search for cover automatically?

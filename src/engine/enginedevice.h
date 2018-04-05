@@ -41,9 +41,6 @@ class EngineDevice : public QObject {
   void Init();
   
   QList<DeviceFinder*> device_finders_;
-
- protected:
-  //static QString GuessIconName(const QString &, const QString &);
   
  private:
   QString output_;

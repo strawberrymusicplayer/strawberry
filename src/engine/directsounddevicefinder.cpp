@@ -44,15 +44,13 @@ BOOL DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description,
 
   State *state = reinterpret_cast<State*>(state_voidptr);
 
-  if (guid) {
-    Device dev;
-    dev.description = QString::fromUtf8(description);
-    dev.device_property_value = QUuid(*guid).toByteArray();
-    dev.iconname = GuessIconName(dev.string, dev.description);
-    state->devices.append(dev);
-  }
+  Device dev;
+  dev.description = QString::fromUtf8(description);
+  if (guid) dev.value = QUuid(*guid).toByteArray();
+  else dev.value = QVariant();
+  dev.iconname = GuessIconName(dev.description);
+  state->devices.append(dev);
 
   return 1;
 
 }
-

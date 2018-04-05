@@ -60,7 +60,6 @@ void RegisterMetaTypes() {
   qRegisterMetaType<Engine::State>("Engine::State");
   qRegisterMetaType<Engine::TrackChangeFlags>("Engine::TrackChangeFlags");
   qRegisterMetaType<Equalizer::Params>("Equalizer::Params");
-  qRegisterMetaType<EngineBase::PluginDetails>("EngineBase::PluginDetails");
   qRegisterMetaType<EngineBase::OutputDetails>("EngineBase::OutputDetails");
 #ifdef HAVE_GSTREAMER
   qRegisterMetaType<GstBuffer*>("GstBuffer*");

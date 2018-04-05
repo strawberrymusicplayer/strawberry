@@ -149,10 +149,8 @@ bool GstEngine::Init() {
 
 void GstEngine::InitialiseGStreamer() {
 
-#if 0
   gst_init(nullptr, nullptr);
   gst_pb_utils_init();
-#endif
 
 }
 
@@ -435,7 +433,7 @@ bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
 
   SetVolume(volume_);
   SetEqualizerEnabled(equalizer_enabled_);
-  SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
+  if (equalizer_preamp_) SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
   SetStereoBalance(stereo_balance_);
 
   // Maybe fade in this track
@@ -757,7 +755,7 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
   // Make a unique name
   QString name = factoryName + "-" + QString::number(next_element_id_++);
 
-  GstElement *element = gst_element_factory_make(factoryName.toLatin1().constData(), name.toLatin1().constData());
+  GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
 
   if (!element) {
     emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
@@ -889,18 +887,29 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   EngineBase::OutputDetailsList ret;
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
-  for (const PluginDetails &plugin : plugins) {
+  //if (plugins.count() > 0) {
+    for (const PluginDetails &plugin : plugins) {
+      OutputDetails output;
+      output.name = plugin.name;
+      output.description = plugin.description;
+      if (plugin.name == kAutoSink) output.iconname = "soundcard";
+      else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
+      else if (plugin.name== kJackAudioSink) output.iconname = "jack";
+      else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
+      else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
+      else output.iconname = "soundcard";
+      ret.append(output);
+    }
+#if 0
+  }
+  else {
     OutputDetails output;
-    output.name = plugin.name;
-    output.description = plugin.description;
-    if (plugin.name == kAutoSink) output.iconname = "soundcard";
-    else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
-    else if (plugin.name== kJackAudioSink) output.iconname = "jack";
-    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-    else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
-    else output.iconname = "soundcard";
+    output.name = kAutoSink;
+    output.description = "Auto";
+    output.iconname = "soundcard";
     ret.append(output);
   }
+#endif
 
   return ret;
 

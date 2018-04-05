@@ -174,19 +174,25 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupbox_replaygain">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="title">
       <string>Replay Gain</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QCheckBox" name="checkbox_replaygain">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="text">
          <string>Use Replay Gain metadata if it is available</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="widget_replaygain" native="true">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -295,5 +301,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkbox_replaygain</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>widget_replaygain</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>259</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

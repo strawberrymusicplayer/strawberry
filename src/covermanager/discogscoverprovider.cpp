@@ -118,7 +118,7 @@ void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
   }
 
   // Sign the request
-  const QByteArray data_to_sign = QString("GET\n%1\n%2\n%3").arg(url.host(), url.path(), query_items.join("&")).toLatin1();
+  const QByteArray data_to_sign = QString("GET\n%1\n%2\n%3").arg(url.host(), url.path(), query_items.join("&")).toUtf8();
   const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretKeyB64), data_to_sign));
 
   // Add the signature to the request

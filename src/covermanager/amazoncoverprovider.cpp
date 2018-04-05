@@ -77,7 +77,7 @@ bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &albu
 
   // Sign the request
 
-  const QByteArray data_to_sign = QString("GET\n%1\n%2\n%3").arg(url.host(), url.path(), query_items.join("&")).toLatin1();
+  const QByteArray data_to_sign = QString("GET\n%1\n%2\n%3").arg(url.host(), url.path(), query_items.join("&")).toUtf8();
   //const QByteArray signature(Utilities::HmacSha256(kSecretAccessKey, data_to_sign));
   const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretAccessKeyB64), data_to_sign));
 
