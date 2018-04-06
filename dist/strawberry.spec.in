@@ -80,7 +80,7 @@ Requires:       gstreamer1.0(decoder-audio/x-wav)
 %endif
 
 %description
-Strawberry is a modern audio player and music collection organiser.
+Strawberry is a audio player and music collection organiser.
 It is a fork of Clementine. The name is inspired by the band Strawbs.
 
 Features:

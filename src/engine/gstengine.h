@@ -85,7 +85,7 @@ class GstEngine : public Engine::Base, public BufferConsumer {
 
   static bool ALSADeviceSupport(const QString &name);
 
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0);
+  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool showerror = true);
 
   // BufferConsumer
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);

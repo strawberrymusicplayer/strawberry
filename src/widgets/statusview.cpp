@@ -106,6 +106,12 @@ StatusView::StatusView(CollectionViewContainer *collectionviewcontainer, QWidget
   NoSong();
   AddActions();
 
+  // Load settings
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(s.value("search_for_cover_auto", true).toBool());
+  s.endGroup();
+
 }
 
 StatusView::~StatusView() {
@@ -620,7 +626,6 @@ void StatusView::SearchCoverAutomatically() {
   s.beginGroup(kSettingsGroup);
   s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
 
-  // Search for cover automatically?
   GetCoverAutomatically();
 
 }

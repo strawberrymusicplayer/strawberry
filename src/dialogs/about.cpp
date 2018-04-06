@@ -64,8 +64,6 @@ About::About(QWidget *parent):QDialog(parent) {
   title_font.setPointSize(title_font.pointSize() + 4);
   ui_.title->setFont(title_font);
 
-
-
   ui_.text->setWordWrap(true);
   ui_.text->setText(MakeHtml());
 
@@ -76,17 +74,18 @@ About::About(QWidget *parent):QDialog(parent) {
 QString About::MakeHtml() const {
 
   QString ret = "";
-  
- ret = tr("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
- 
+
+  ret = tr("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
+
   ret += tr("<p>");
-  ret += tr("Strawberry is a fork of Clementine created in 2013, it's written in C++ and Qt5. So far it works on Linux, it is currently untested on Mac OS X and Windows.<br />");
-  ret += tr("The main goal was to create a player for playing local music files that looked a bit more like Amarok 1.4.");
+
+  ret += tr("Strawberry is a audio player and music collection organiser.<br />");
+  ret += tr("It is a fork of Clementine. The name is inspired by the band Strawbs.");
   ret += tr("</p>");
 
   //ret += tr("<p><a href=\"%1\">%2</a></p><p><b>%3:</b>").arg(kUrl, kUrl, tr("Authors"));
 
-  ret += QString("<p><b>%1</b>").arg(tr("Authors"));
+  ret += QString("<p><b>%1</b>").arg(tr("Strawberry Authors"));
 
   for (const Person &person : authors_) {
     ret += "<br />" + MakeHtml(person);

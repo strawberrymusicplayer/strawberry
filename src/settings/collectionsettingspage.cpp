@@ -22,16 +22,15 @@
 
 #include <QDir>
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QSettings>
 #include <QtConcurrentRun>
+#include <QStandardPaths>
 
 #include "collectionsettingspage.h"
 #include "ui_collectionsettingspage.h"
 
 #include "settings/settingsdialog.h"
 #include "core/application.h"
-#include "core/utilities.h"
 #include "core/iconloader.h"
 #include "playlist/playlistdelegates.h"
 
@@ -65,7 +64,7 @@ void CollectionSettingsPage::Add() {
   QSettings settings;
   settings.beginGroup(kSettingsGroup);
 
-  QString path(settings.value("last_path", Utilities::GetConfigPath(Utilities::Path_DefaultMusicCollection)).toString());
+  QString path(settings.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString());
   path = QFileDialog::getExistingDirectory(this, tr("Add directory..."), path);
 
   if (!path.isNull()) {

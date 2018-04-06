@@ -230,7 +230,7 @@ bool GstEnginePipeline::InitAudioBin() {
   audio_queue = engine_->CreateElement("queue", audiobin_);
   equalizer_preamp_ = engine_->CreateElement("volume", audiobin_);
   equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_);
-  stereo_panorama_ = engine_->CreateElement("audiopanorama", audiobin_);
+  stereo_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
   volume_ = engine_->CreateElement("volume", audiobin_);
   audioscale_ = engine_->CreateElement("audioresample", audiobin_);
   convert = engine_->CreateElement("audioconvert", audiobin_);

@@ -84,7 +84,7 @@ void BackendSettingsPage::Load() {
   configloaded_ = false;
   engineloaded_ = Engine::None;
 
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineText_Xine).toString());
+  Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineText_GStreamer).toString());
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_XINE
@@ -116,7 +116,7 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_replaygaincompression->setChecked(s_.value("rgcompression", true).toBool());
 
   //if (dialog()->app()->player()->engine()->state() != Engine::Empty) ui_->combobox_engine->setEnabled(false);
-  
+
 #ifdef Q_OS_WIN32
   ui_->combobox_engine->setEnabled(false);
 #endif

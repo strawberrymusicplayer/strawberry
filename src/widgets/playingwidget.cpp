@@ -77,16 +77,12 @@ PlayingWidget::PlayingWidget(QWidget *parent)
       details_(new QTextDocument(this)),
       previous_track_opacity_(0.0),
       downloading_covers_(false) {
-	  
-  enabled_ = false;
-  visible_ = false;
-  active_ = false;
 
   // Load settings
   QSettings s;
   s.beginGroup(kSettingsGroup);
   mode_ = Mode(s.value("mode", LargeSongDetails).toInt());
-  album_cover_choice_controller_->search_cover_auto_action()->setChecked(s.value("search_for_cover_auto", false).toBool());
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(s.value("search_for_cover_auto", true).toBool());
   fit_width_ = s.value("fit_cover_width", false).toBool();
 
   // Accept drops for setting album art
@@ -141,7 +137,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
         "}");
     details_->setHtml(QString("<p align=center><i></i><br/><br/></p>"));
   }
-  
+
   UpdateHeight();
 
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
@@ -161,21 +157,21 @@ void PlayingWidget::SetApplication(Application *app) {
 }
 
 void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper* mapper) {
-  
+
   QAction* action = new QAction(text, group);
   action->setCheckable(true);
   mapper->setMapping(action, mode);
   connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
 
   if (mode == mode_) action->setChecked(true);
-  
+
 }
 
 void PlayingWidget::set_ideal_height(int height) {
-  
+
   small_ideal_height_ = height;
   UpdateHeight();
-  
+
 }
 
 QSize PlayingWidget::sizeHint() const {
@@ -473,7 +469,6 @@ void PlayingWidget::SearchCoverAutomatically() {
   s.beginGroup(kSettingsGroup);
   s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
 
-  // Search for cover automatically?
   GetCoverAutomatically();
 
 }

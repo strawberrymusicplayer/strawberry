@@ -87,8 +87,7 @@ QString PrettyTimeDelta(int seconds) {
 
 QString PrettyTime(int seconds) {
 
-  // last.fm sometimes gets the track length wrong, so you end up with
-  // negative times.
+  // last.fm sometimes gets the track length wrong, so you end up with negative times.
   seconds = qAbs(seconds);
 
   int hours = seconds / (60 * 60);
@@ -181,9 +180,7 @@ quint64 FileSystemCapacity(const QString &path) {
     return quint64(fs_info.f_blocks) * quint64(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
-  if (GetDiskFreeSpaceEx(
-          QDir::toNativeSeparators(path).toLocal8Bit().constData(), nullptr,
-          &ret, nullptr) != 0)
+  if (GetDiskFreeSpaceEx(QDir::toNativeSeparators(path).toLocal8Bit().constData(), nullptr,&ret, nullptr) != 0)
     return ret.QuadPart;
 #endif
 
@@ -199,9 +196,7 @@ quint64 FileSystemFreeSpace(const QString &path) {
     return quint64(fs_info.f_bavail) * quint64(fs_info.f_bsize);
 #elif defined(Q_OS_WIN32)
   _ULARGE_INTEGER ret;
-  if (GetDiskFreeSpaceEx(
-          QDir::toNativeSeparators(path).toLocal8Bit().constData(), &ret,
-          nullptr, nullptr) != 0)
+  if (GetDiskFreeSpaceEx(QDir::toNativeSeparators(path).toLocal8Bit().constData(), &ret, nullptr, nullptr) != 0)
     return ret.QuadPart;
 #endif
 
@@ -343,66 +338,6 @@ QString ColorToRgba(const QColor &c) {
       .arg(c.green())
       .arg(c.blue())
       .arg(c.alpha());
-
-}
-
-QString GetConfigPath(ConfigPath config) {
-  
-  switch (config) {
-    
-    case Path_Root: {
-      if (Application::kIsPortable) {
-        return QString("%1/data").arg(QCoreApplication::applicationDirPath());
-      }
-#ifdef Q_OS_DARWIN
-        return mac::GetApplicationSupportPath() + "/strawberry";
-#else
-        return QString("%1/.config/strawberry").arg(QDir::homePath());
-#endif
-    }
-    break;
-
-    case Path_CacheRoot: {
-      if (Application::kIsPortable) {
-        return GetConfigPath(Path_Root) + "/cache";
-      }
-#if defined(Q_OS_UNIX) && !defined(Q_OS_DARWIN)
-      char *xdg = getenv("XDG_CACHE_HOME");
-      if (!xdg || !*xdg) {
-        return QString("%1/.cache/strawberry").arg(QDir::homePath());
-      }
-      else {
-        return QString("%1/strawberry").arg(xdg);
-      }
-#else
-      return GetConfigPath(Path_Root);
-#endif
-    }
-    break;
-
-    case Path_Icons:
-      return GetConfigPath(Path_Root) + "/customiconset";
-
-    case Path_AlbumCovers:
-      return GetConfigPath(Path_Root) + "/albumcovers";
-
-    case Path_NetworkCache:
-      return GetConfigPath(Path_CacheRoot) + "/networkcache";
-
-    case Path_GstreamerRegistry:
-      return GetConfigPath(Path_Root) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
-
-    case Path_DefaultMusicCollection:
-#ifdef Q_OS_DARWIN
-      return mac::GetMusicDirectory();
-#else
-      return QDir::homePath();
-#endif
-
-    default:
-      qFatal("%s", Q_FUNC_INFO);
-      return QString::null;
-  }
 
 }
 
@@ -801,8 +736,7 @@ void SetEnv(const char *key, const QString &value) {
 void IncreaseFDLimit() {
 
 #ifdef Q_OS_DARWIN
-  // Bump the soft limit for the number of file descriptors from the default of 256 to
-  // the maximum (usually 10240).
+  // Bump the soft limit for the number of file descriptors from the default of 256 to the maximum (usually 10240).
   struct rlimit limit;
   getrlimit(RLIMIT_NOFILE, &limit);
 

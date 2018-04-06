@@ -2,22 +2,22 @@ Strawberry Music Player
 =======================
 README
 
-Strawberry is a modern audio player and music collection organiser. It was forked from Clementine in 2013, and has a diffrent goal.
-It's written in C++ and Qt5 and runs on Linux. The name is inspired by the band Strawbs.
-The main goal was to create a player for playing local music files that looked a bit more like Amarok 1.4 amd with advanced soundcard options.
-You will find that Strawberry is lacking internet services and some other features found in Clementine.
+Strawberry is a audio player and music collection organiser. It was forked from Clementine in 2013 with a diffrent goal.
+It's written in C++ and Qt 5 and runs on Linux. The name is inspired by the band Strawbs.
 
-Some differences between Strawberry and Clementine are:
+Features:
 
-- Status widget similar to context in Amarok 1.4
-- Settings have been reorganized
-- Advanced backend settings with support for several backends and advanced options
-- No Smart playlists, visualizations or cd ripping support
-- No LastFM, podcast or internet features except for fetching album covers
-
-There are no plans to add internet streaming features, but if we would add something it has to be a service providing high quality audio and not low audio quality like Spotify. 
+  * Play and organize music
+  * Edit tags on music files
+  * Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
+  * Native desktop notifications
+  * Playlists in multiple formats
+  * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Support for multiple backends
 
 You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
+
+It has so far been tested on Linux and cross compiled for Windows. I have not had a chance to test it on Mac OS X since I don't have a mac.
 
 
 Requirements
@@ -27,7 +27,7 @@ To build Strawberry from source you need the following installed on your system:
 
 * glib2, glib2-devel, git, cmake, make, gcc and gcc-c++
 * protobuf and development packages
-* boost development package
+* boost development headers
 
 * The following Qt5 components are required with additional development packages:
 

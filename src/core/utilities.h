@@ -126,19 +126,6 @@ void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();
 void CheckPortable();
 
-enum ConfigPath {
-  Path_Root,
-  Path_Icons,
-  Path_AlbumCovers,
-  Path_NetworkCache,
-  Path_GstreamerRegistry,
-  Path_DefaultMusicCollection,
-  Path_LocalSpotifyBlob,
-  Path_MoodbarCache,
-  Path_CacheRoot,
-};
-QString GetConfigPath(ConfigPath config);
-
 // Returns the minor version of OS X (ie. 6 for Snow Leopard, 7 for Lion).
 qint32 GetMacVersion();
 

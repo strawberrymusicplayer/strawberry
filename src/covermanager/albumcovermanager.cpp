@@ -772,6 +772,7 @@ void AlbumCoverManager::SaveAndSetCover(QListWidgetItem *item, const QImage &ima
   quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, QString(), path);
   item->setData(Role_PathManual, path);
   cover_loading_tasks_[id] = item;
+
 }
 
 void AlbumCoverManager::ExportCovers() {

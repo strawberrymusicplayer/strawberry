@@ -22,7 +22,6 @@
 
 #include "database.h"
 #include "scopedtransaction.h"
-#include "utilities.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
@@ -32,6 +31,7 @@
 #include <sqlite3.h>
 
 #include <QCoreApplication>
+#include <QStandardPaths>
 #include <QDir>
 #include <QLibrary>
 #include <QLibraryInfo>
@@ -225,7 +225,7 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
     connection_id_ = sNextConnectionId++;
   }
 
-  directory_ = QDir::toNativeSeparators(Utilities::GetConfigPath(Utilities::Path_Root));
+  directory_ = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
   QMutexLocker l(&mutex_);
   Connect();

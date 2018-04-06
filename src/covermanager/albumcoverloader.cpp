@@ -22,18 +22,22 @@
 
 #include "albumcoverloader.h"
 
-#include <QPainter>
-#include <QDir>
 #include <QCoreApplication>
+#include <QStandardPaths>
+#include <QString>
+#include <QDir>
 #include <QUrl>
 #include <QNetworkReply>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QMutexLocker>
 
 #include "config.h"
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/tagreaderclient.h"
-#include "core/utilities.h"
 
 AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
     : QObject(parent),
@@ -42,7 +46,7 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       network_(new NetworkAccessManager(this)){}
 
 QString AlbumCoverLoader::ImageCacheDir() {
-  return Utilities::GetConfigPath(Utilities::Path_AlbumCovers);
+  return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
 }
 
 void AlbumCoverLoader::CancelTask(quint64 id) {
@@ -128,7 +132,7 @@ void AlbumCoverLoader::ProcessTask(Task *task) {
 }
 
 void AlbumCoverLoader::NextState(Task *task) {
-    
+
   if (task->state == State_TryingManual) {
     // Try the automatic one next
     task->state = State_TryingAuto;
@@ -139,6 +143,7 @@ void AlbumCoverLoader::NextState(Task *task) {
     emit ImageLoaded(task->id, task->options.default_output_image_);
     emit ImageLoaded(task->id, task->options.default_output_image_, task->options.default_output_image_);
   }
+
 }
 
 AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task) {
@@ -179,7 +184,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
 
   QImage image(filename);
   return TryLoadResult(false, !image.isNull(), image.isNull() ? task.options.default_output_image_ : image);
-  
+
 }
 
 void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
@@ -241,6 +246,7 @@ QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, con
   p.end();
 
   return padded_image;
+
 }
 
 QPixmap AlbumCoverLoader::TryLoadPixmap(const QString &automatic, const QString &manual, const QString &filename) {
@@ -255,4 +261,5 @@ QPixmap AlbumCoverLoader::TryLoadPixmap(const QString &automatic, const QString 
       ret.load(automatic);
   }
   return ret;
+
 }

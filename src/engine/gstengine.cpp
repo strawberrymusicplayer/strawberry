@@ -33,14 +33,15 @@
 #include <memory>
 #include <vector>
 
-#include <QTimer>
-#include <QRegExp>
-#include <QFile>
-#include <QSettings>
 #include <QCoreApplication>
-#include <QTimeLine>
-#include <QDir>
+#include <QStandardPaths>
 #include <QtConcurrentRun>
+#include <QSettings>
+#include <QDir>
+#include <QFile>
+#include <QRegExp>
+#include <QTimer>
+#include <QTimeLine>
 
 #include "enginetype.h"
 #include "enginebase.h"
@@ -169,7 +170,7 @@ void GstEngine::SetEnvironment() {
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
-  registry_filename = Utilities::GetConfigPath(Utilities::Path_GstreamerRegistry);
+  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
 #endif
 
   if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
@@ -750,7 +751,7 @@ void GstEngine::NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bun
   emit MetaData(bundle);
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin) {
+GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool showerror) {
 
   // Make a unique name
   QString name = factoryName + "-" + QString::number(next_element_id_++);
@@ -758,7 +759,7 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
   GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
 
   if (!element) {
-    emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
+    if (showerror) emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
     gst_object_unref(GST_OBJECT(bin));
     return nullptr;
   }

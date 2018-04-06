@@ -97,7 +97,7 @@ QList<QAction*> AlbumCoverChoiceController::GetAllActions() {
 }
 
 QString AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
-    
+
   QString cover = QFileDialog::getOpenFileName(this, tr("Load cover from disk"), GetInitialPathForFileDialog(*song, QString()), tr(kLoadImageFileFilter) + ";;" + tr(kAllFilesFilter));
 
   if (cover.isNull()) return QString();
@@ -211,8 +211,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song) {
   // add (WxHpx) to the title before possibly resizing
   title_text += " (" + QString::number(label->pixmap()->width()) + "x" + QString::number(label->pixmap()->height()) + "px)";
 
-  // if the cover is larger than the screen, resize the window
-  // 85% seems to be enough to account for title bar and taskbar etc.
+  // if the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
   QDesktopWidget desktop;
   int current_screen = desktop.screenNumber(this);
   int desktop_height = desktop.screenGeometry(current_screen).height();
@@ -222,15 +221,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song) {
   if (desktop_width < desktop_height) {
     const int new_width = (double)desktop_width * 0.95;
     if (new_width < label->pixmap()->width()) {
-      label->setPixmap(
-          label->pixmap()->scaledToWidth(new_width, Qt::SmoothTransformation));
+      label->setPixmap(label->pixmap()->scaledToWidth(new_width, Qt::SmoothTransformation));
     }
   }
   else {
     const int new_height = (double)desktop_height * 0.85;
     if (new_height < label->pixmap()->height()) {
-      label->setPixmap(label->pixmap()->scaledToHeight(
-          new_height, Qt::SmoothTransformation));
+      label->setPixmap(label->pixmap()->scaledToHeight(new_height, Qt::SmoothTransformation));
     }
   }
 

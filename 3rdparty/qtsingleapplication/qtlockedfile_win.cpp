@@ -49,8 +49,7 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
 {
     if (mutexname.isEmpty()) {
         QFileInfo fi(*this);
-        mutexname = QString::fromLatin1(MUTEX_PREFIX)
-                    + fi.absoluteFilePath().toLower();
+        mutexname = QString::fromLatin1(MUTEX_PREFIX) + fi.absoluteFilePath().toLower();
     }
     QString mname(mutexname);
     if (idx >= 0)
@@ -151,8 +150,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
                 rmutexes.append(mutex);
         }
         if (rmutexes.size()) {
-            DWORD res = WaitForMultipleObjects(rmutexes.size(), rmutexes.constData(),
-                                               TRUE, block ? INFINITE : 0);
+            DWORD res = WaitForMultipleObjects(rmutexes.size(), rmutexes.constData(), TRUE, block ? INFINITE : 0);
             if (res != WAIT_OBJECT_0 && res != WAIT_ABANDONED) {
                 if (res != WAIT_TIMEOUT)
                     qErrnoWarning("QtLockedFile::lock(): WaitForMultipleObjects failed");

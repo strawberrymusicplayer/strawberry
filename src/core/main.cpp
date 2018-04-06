@@ -120,8 +120,8 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setOrganizationDomain("strawbs.org");
 
 // This makes us show up nicely in gnome-volume-control
-#if !GLIB_CHECK_VERSION(2, 36, 0)
-  g_type_init();  // Deprecated in glib 2.36.0
+#if !GLIB_CHECK_VERSION(2, 36, 0) // Deprecated in glib 2.36.0
+  g_type_init();
 #endif
   g_set_application_name(QCoreApplication::applicationName().toLocal8Bit());
 
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
 
 #ifdef Q_OS_DARWIN
   // Must happen after QCoreApplication::setOrganizationName().
-  setenv("XDG_CONFIG_HOME", Utilities::GetConfigPath(Utilities::Path_Root).toLocal8Bit().constData(), 1);
+  setenv("XDG_CONFIG_HOME", QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).toLocal8Bit().constData(), 1);
 #endif
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.

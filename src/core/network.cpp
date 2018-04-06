@@ -23,13 +23,14 @@
 #include "network.h"
 
 #include <QCoreApplication>
+#include <QStandardPaths>
 #include <QDir>
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
 #include <QNetworkReply>
 
 #include "core/closure.h"
-#include "utilities.h"
+#include "core/logging.h"
 
 QMutex ThreadSafeNetworkDiskCache::sMutex;
 QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;
@@ -39,7 +40,11 @@ ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent)
   QMutexLocker l(&sMutex);
   if (!sCache) {
     sCache = new QNetworkDiskCache;
-    sCache->setCacheDirectory(Utilities::GetConfigPath(Utilities::Path_NetworkCache));
+#ifdef Q_OS_WIN32
+    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/strawberry/networkcache");
+#else
+    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/networkcache");
+#endif
   }
 }
 
@@ -93,18 +98,15 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   QByteArray user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
 
   if (request.hasRawHeader("User-Agent")) {
-    // Append the existing user-agent set by a client collection (such as
-    // libmygpo-qt).
+    // Append the existing user-agent set by a client collection (such as libmygpo-qt).
     user_agent += " " + request.rawHeader("User-Agent");
   }
 
   QNetworkRequest new_request(request);
   new_request.setRawHeader("User-Agent", user_agent);
 
-  if (op == QNetworkAccessManager::PostOperation &&
-      !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
-    new_request.setHeader(QNetworkRequest::ContentTypeHeader,
-                          "application/x-www-form-urlencoded");
+  if (op == QNetworkAccessManager::PostOperation && !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
+    new_request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   }
 
   // Prefer the cache unless the caller has changed the setting already

@@ -47,9 +47,6 @@ class PlaylistBackend : public QObject {
     QString ui_path;
     bool favorite;
     int last_played;
-
-    // Special playlists have different behaviour, eg. the "spotify-search"
-    // type has a spotify search box at the top, replacing the ordinary filter.
     QString special_type;
   };
   typedef QList<Playlist> PlaylistList;
