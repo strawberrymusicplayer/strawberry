@@ -206,9 +206,10 @@ void StatusView::NoSongWidget() {
   label_stopped_top_->setFixedWidth(300);
   label_stopped_top_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
 
-  widget_stopped_->setVisible(true);
   widget_stopped_->setLayout(layout_stopped_);
   container_layout_->insertWidget(0, widget_stopped_);
+  widget_stopped_->setVisible(true);
+
   widgetstate_ = Stopped;
 
 }
@@ -251,8 +252,7 @@ void StatusView::SongWidget() {
   label_playing_album_->setFixedWidth(300);
   label_playing_album_->setStyleSheet("background-color: transparent;");
   label_playing_album_->installEventFilter(this);
-  
-  widget_playing_->setVisible(true);
+
   widget_playing_->setLayout(layout_playing_);
   container_layout_->insertWidget(0, widget_playing_);
   
@@ -261,6 +261,8 @@ void StatusView::SongWidget() {
     setStyleSheet(QString::fromLatin1(stylesheet.readAll()));
     label_playing_text_->setStyleSheet(QString::fromLatin1(stylesheet.readAll()));
   }
+  
+  widget_playing_->setVisible(true);
   
   widgetstate_ = Playing;
 
