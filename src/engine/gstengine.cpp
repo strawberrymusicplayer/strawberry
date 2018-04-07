@@ -712,20 +712,8 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   // unable to play media stream with this url
   emit InvalidSongRequested(url_);
 
-#if 0
-  // TODO: the types of errors listed below won't be shown to user
-  // they will get logged and the current song will be skipped; instead of maintaining the list we should probably:
-  // - don't report any engine's errors to user (always just log and skip)
-  // - come up with a less intrusive error box (not a dialog but a notification popup of some kind) and then report all errors
-  if (!(domain == GST_RESOURCE_ERROR &&
-        error_code == GST_RESOURCE_ERROR_NOT_FOUND) &&
-      !(domain == GST_STREAM_ERROR &&
-        error_code == GST_STREAM_ERROR_TYPE_NOT_FOUND) &&
-      !(domain == GST_RESOURCE_ERROR &&
-        error_code == GST_RESOURCE_ERROR_OPEN_READ)) {
-#endif
-    emit Error(message);
-  //}
+  emit Error(message);
+
 }
 
 void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
