@@ -91,11 +91,11 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       rglimiter_(nullptr),
       audioconvert2_(nullptr),
       equalizer_(nullptr),
-      stereo_panorama_(nullptr),
+      audio_panorama_(nullptr),
       volume_(nullptr),
       audioscale_(nullptr),
       audiosink_(nullptr) {
-	  
+
   if (!sElementDeleter) {
     sElementDeleter = new GstElementDeleter;
   }
@@ -228,9 +228,9 @@ bool GstEnginePipeline::InitAudioBin() {
   probe_sink = engine_->CreateElement("fakesink", audiobin_);
 
   audio_queue = engine_->CreateElement("queue", audiobin_);
-  equalizer_preamp_ = engine_->CreateElement("volume", audiobin_);
-  equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_);
-  stereo_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
+  equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false, true);
+  equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false, true);
+  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false, false);
   volume_ = engine_->CreateElement("volume", audiobin_);
   audioscale_ = engine_->CreateElement("audioresample", audiobin_);
   convert = engine_->CreateElement("audioconvert", audiobin_);
@@ -307,7 +307,7 @@ bool GstEnginePipeline::InitAudioBin() {
   }
 
   // Set the stereo balance.
-  if (stereo_panorama_) g_object_set(G_OBJECT(stereo_panorama_), "panorama", stereo_balance_, nullptr);
+  if (audio_panorama_) g_object_set(G_OBJECT(audio_panorama_), "panorama", stereo_balance_, nullptr);
 
   // Set the buffer duration.  We set this on this queue instead of the decode bin (in ReplaceDecodeBin()) because setting it on the decode bin only affects network sources.
   // Disable the default buffer and byte limits, so we only buffer based on time.
@@ -341,7 +341,7 @@ bool GstEnginePipeline::InitAudioBin() {
   // Don't force 16 bit.
   gst_element_link(probe_queue, probe_converter);
 
-  if (engine_->IsEqualizerEnabled() && equalizer_ && equalizer_preamp_ && stereo_panorama_) gst_element_link_many(audio_queue, equalizer_preamp_, equalizer_, stereo_panorama_, volume_, audioscale_, convert, nullptr);
+  if (engine_->IsEqualizerEnabled() && equalizer_ && equalizer_preamp_ && audio_panorama_) gst_element_link_many(audio_queue, equalizer_preamp_, equalizer_, audio_panorama_, volume_, audioscale_, convert, nullptr);
   else gst_element_link_many(audio_queue, volume_, audioscale_, convert, nullptr);
 
   // Let the audio output of the tee autonegotiate the bit depth and format.
@@ -957,8 +957,8 @@ void GstEnginePipeline::UpdateEqualizer() {
 }
 
 void GstEnginePipeline::UpdateStereoBalance() {
-  if (stereo_panorama_) {
-    g_object_set(G_OBJECT(stereo_panorama_), "panorama", stereo_balance_, nullptr);
+  if (audio_panorama_) {
+    g_object_set(G_OBJECT(audio_panorama_), "panorama", stereo_balance_, nullptr);
   }
 }
 

@@ -79,7 +79,7 @@ QString About::MakeHtml() const {
 
   ret += tr("<p>");
 
-  ret += tr("Strawberry is a audio player and music collection organiser.<br />");
+  ret += tr("Strawberry is a audio player and music collection organizer.<br />");
   ret += tr("It is a fork of Clementine. The name is inspired by the band Strawbs.");
   ret += tr("</p>");
 

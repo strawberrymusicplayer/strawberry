@@ -85,7 +85,7 @@ class GstEngine : public Engine::Base, public BufferConsumer {
 
   static bool ALSADeviceSupport(const QString &name);
 
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool showerror = true);
+  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
 
   // BufferConsumer
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
@@ -158,8 +158,6 @@ class GstEngine : public Engine::Base, public BufferConsumer {
   static const qint64 kTimerIntervalNanosec = 1000  *kNsecPerMsec;  // 1s
   static const qint64 kPreloadGapNanosec = 3000  *kNsecPerMsec;     // 3s
   static const qint64 kSeekDelayNanosec = 100  *kNsecPerMsec;       // 100msec
-
-  static const char *kEnterprisePipeline;
 
   TaskManager *task_manager_;
   int buffering_task_id_;

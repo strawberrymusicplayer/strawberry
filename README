@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 README
 
-Strawberry is a audio player and music collection organiser. It was forked from Clementine in 2013 with a diffrent goal.
+Strawberry is a audio player and music collection organizer. It was forked from Clementine in 2013 with a diffrent goal.
 It's written in C++ and Qt 5 and runs on Linux. The name is inspired by the band Strawbs.
 
 Features:

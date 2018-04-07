@@ -29,7 +29,7 @@
 #include "core/logging.h"
 #include "engine/pulsedevicefinder.h"
 
-PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulsesink"), mainloop_(nullptr), context_(nullptr) {
+PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio"), mainloop_(nullptr), context_(nullptr) {
 }
 
 bool PulseDeviceFinder::Initialise() {

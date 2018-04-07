@@ -260,7 +260,7 @@ signals:
   GstElement *audioconvert2_;
   GstElement *equalizer_preamp_;
   GstElement *equalizer_;
-  GstElement *stereo_panorama_;
+  GstElement *audio_panorama_;
   GstElement *volume_;
   GstElement *audioscale_;
   GstElement *audiosink_;

@@ -86,10 +86,6 @@ const char *GstEngine::kPulseSink = "pulsesink";
 const char *GstEngine::kA2DPSink = "a2dpsink";
 const char *GstEngine::kAVDTPSink = "avdtpsink";
 
-const char *GstEngine::kEnterprisePipeline =
-    "audiotestsrc wave=5 ! "
-    "audiocheblimit mode=0 cutoff=120";
-
 GstEngine::GstEngine(TaskManager *task_manager)
     : Engine::Base(),
       task_manager_(task_manager),
@@ -716,19 +712,20 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   // unable to play media stream with this url
   emit InvalidSongRequested(url_);
 
+#if 0
   // TODO: the types of errors listed below won't be shown to user
   // they will get logged and the current song will be skipped; instead of maintaining the list we should probably:
   // - don't report any engine's errors to user (always just log and skip)
-  // - come up with a less intrusive error box (not a dialog but a notification
-  //   popup of some kind) and then report all errors
+  // - come up with a less intrusive error box (not a dialog but a notification popup of some kind) and then report all errors
   if (!(domain == GST_RESOURCE_ERROR &&
         error_code == GST_RESOURCE_ERROR_NOT_FOUND) &&
       !(domain == GST_STREAM_ERROR &&
         error_code == GST_STREAM_ERROR_TYPE_NOT_FOUND) &&
       !(domain == GST_RESOURCE_ERROR &&
         error_code == GST_RESOURCE_ERROR_OPEN_READ)) {
+#endif
     emit Error(message);
-  }
+  //}
 }
 
 void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
@@ -751,7 +748,7 @@ void GstEngine::NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bun
   emit MetaData(bundle);
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool showerror) {
+GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool fatal, bool showerror) {
 
   // Make a unique name
   QString name = factoryName + "-" + QString::number(next_element_id_++);
@@ -759,8 +756,9 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
   GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
 
   if (!element) {
-    if (showerror) emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
-    gst_object_unref(GST_OBJECT(bin));
+    if (showerror)
+      emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
+    if (fatal) gst_object_unref(GST_OBJECT(bin));
     return nullptr;
   }
 
@@ -824,11 +822,6 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &url, qint64 
 
   shared_ptr<GstEnginePipeline> ret = CreatePipeline();
 
-  if (url.scheme() == "enterprise") {
-    ret->InitFromString(kEnterprisePipeline);
-    return ret;
-  }
-
   if (!ret->InitFromUrl(url.toEncoded(), end_nanosec)) ret.reset();
 
   return ret;
@@ -888,29 +881,19 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   EngineBase::OutputDetailsList ret;
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
-  //if (plugins.count() > 0) {
-    for (const PluginDetails &plugin : plugins) {
-      OutputDetails output;
-      output.name = plugin.name;
-      output.description = plugin.description;
-      if (plugin.name == kAutoSink) output.iconname = "soundcard";
-      else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
-      else if (plugin.name== kJackAudioSink) output.iconname = "jack";
-      else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-      else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
-      else output.iconname = "soundcard";
-      ret.append(output);
-    }
-#if 0
-  }
-  else {
+
+  for (const PluginDetails &plugin : plugins) {
     OutputDetails output;
-    output.name = kAutoSink;
-    output.description = "Auto";
-    output.iconname = "soundcard";
+    output.name = plugin.name;
+    output.description = plugin.description;
+    if (plugin.name == kAutoSink) output.iconname = "soundcard";
+    else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
+    else if (plugin.name== kJackAudioSink) output.iconname = "jack";
+    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
+    else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
+    else output.iconname = "soundcard";
     ret.append(output);
   }
-#endif
 
   return ret;
 
