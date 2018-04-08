@@ -31,7 +31,6 @@ include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURR
 
 if(WIN32)
   include_directories(../3rdparty/qtwin)
-  #include_directories(../3rdparty/qtsparkle)
 endif(WIN32)
 
 # Activate fast QString concatenation
