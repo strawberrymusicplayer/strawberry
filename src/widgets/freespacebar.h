@@ -23,7 +23,17 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QPainter>
+#include <QColor>
+#include <QRect>
+#include <QSize>
+#include <QtEvents>
+
+class QPaintEvent;
 
 class FreeSpaceBar : public QWidget {
   Q_OBJECT

@@ -21,7 +21,16 @@
 #ifndef RENAMETABLINEEDIT_H
 #define RENAMETABLINEEDIT_H
 
+#include "config.h"
+
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QLineEdit>
+#include <QtEvents>
+
+class QFocusEvent;
+class QKeyEvent;
 
 class RenameTabLineEdit : public QLineEdit {
   Q_OBJECT

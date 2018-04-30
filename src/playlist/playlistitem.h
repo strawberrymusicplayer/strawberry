@@ -24,16 +24,24 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QFuture>
-#include <QMap>
+#include <QFlags>
 #include <QMetaType>
-#include <QStandardItem>
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QVariant>
+#include <QString>
 #include <QUrl>
+#include <QColor>
+#include <QVector>
+#include <QAction>
+#include <QSqlQuery>
 
 #include "core/song.h"
 
-class QAction;
 class SqlRow;
 
 class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
@@ -87,11 +95,8 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   QColor GetCurrentForegroundColor() const;
   bool HasCurrentForegroundColor() const;
 
-  // Convenience function to find out whether this item is from the local
-  // collection, as opposed to a device, a file on disk, or a stream.
-  // Remember that even if this returns true, the collection item might be
-  // invalid so you might want to check that its id is not equal to -1
-  // before actually using it.
+  // Convenience function to find out whether this item is from the local collection, as opposed to a device, a file on disk, or a stream.
+  // Remember that even if this returns true, the collection item might be invalid so you might want to check that its id is not equal to -1 before actually using it.
   virtual bool IsLocalCollectionItem() const { return false; }
   void SetShouldSkip(bool val);
   bool GetShouldSkip() const;

@@ -23,14 +23,30 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
 #include <QBasicTimer>
+#include <QList>
+#include <QString>
 #include <QIcon>
 #include <QTabBar>
+#include <QAction>
+#include <QMenu>
+#include <QtEvents>
+
+class QEvent;
+class QContextMenuEvent;
+class QDragEnterEvent;
+class QDragLeaveEvent;
+class QDragMoveEvent;
+class QDropEvent;
+class QMouseEvent;
+class QTimerEvent;
 
 class PlaylistManager;
 class RenameTabLineEdit;
-
-class QMenu;
 
 class PlaylistTabBar : public QTabBar {
   Q_OBJECT

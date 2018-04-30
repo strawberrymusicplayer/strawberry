@@ -20,10 +20,17 @@
 
 #include "config.h"
 
-#include "playlistlistmodel.h"
-#include "core/logging.h"
-
+#include <QObject>
+#include <QFlags>
 #include <QMimeData>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QIcon>
+#include <QStandardItemModel>
+#include <QAbstractItemModel>
+
+#include "playlistlistmodel.h"
 
 PlaylistListModel::PlaylistListModel(QObject *parent) : QStandardItemModel(parent), dropping_rows_(false) {
   
@@ -112,7 +119,7 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
 
 }
 
-void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) {
+void PlaylistListModel::RowsAboutToBeRemoved(const QModelIndex &parent, int start, int end) {
 
   for (int i = start; i <= end; ++i) {
     const QModelIndex idx = index(i, 0, parent);

@@ -23,10 +23,14 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
+
 #include "settingspage.h"
 
-#include <QMap>
-
+class SettingsDialog;
 class Ui_BehaviourSettingsPage;
 
 class BehaviourSettingsPage : public SettingsPage {

@@ -23,16 +23,22 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QByteArray>
+#include <QList>
+#include <QNetworkReply>
+
 #ifdef HAVE_LIBLASTFM1
-#include <lastfm5/misc.h>
-#include <lastfm5/User.h>
-#include <lastfm5/ws.h>
-#include <lastfm5/XmlQuery.h>
+#  include <lastfm5/User.h>
+#  include <lastfm5/XmlQuery.h>
+#  include <lastfm5/misc.h>
+#  include <lastfm5/ws.h>
 #else
-#include <lastfm5/misc.h>
-#include <lastfm5/User>
-#include <lastfm5/ws.h>
-#include <lastfm5/XmlQuery>
+#  include <lastfm5/misc.h>
+#  include <lastfm5/ws.h>
+#  include <lastfm5/User>
+#  include <lastfm5/XmlQuery>
 #endif
 
 namespace lastfm {

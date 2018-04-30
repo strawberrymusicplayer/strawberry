@@ -20,34 +20,69 @@
 
 #include "config.h"
 
+#include <algorithm>
+#include <iterator>
 #include <limits>
 
-#include <QDateTime>
-#include <QDir>
+#include <QtGlobal>
+#include <QtConcurrentRun>
 #include <QFuture>
+#include <QObject>
+#include <QWidget>
+#include <QDialog>
+#include <QItemSelectionModel>
+#include <QAbstractItemModel>
+#include <QDir>
+#include <QAction>
+#include <QDateTime>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QUrl>
+#include <QPixmap>
+#include <QPalette>
+#include <QColor>
+#include <QFont>
 #include <QLabel>
+#include <QLineEdit>
+#include <QListWidget>
+#include <QLocale>
 #include <QMenu>
 #include <QMessageBox>
-#include <QPushButton>
 #include <QShortcut>
-#include <QtConcurrentRun>
+#include <QSize>
+#include <QSpinBox>
+#include <QSplitter>
+#include <QTabWidget>
+#include <QTextEdit>
+#include <QPlainTextEdit>
+#include <QKeySequence>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QAbstractButton>
+#include <QtEvents>
+#include <QSettings>
 #include <QtDebug>
 
-#include "edittagdialog.h"
-#include "trackselectiondialog.h"
-#include "ui_edittagdialog.h"
 #include "core/application.h"
+#include "core/closure.h"
+#include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "core/utilities.h"
-#include "collection/collection.h"
+#include "widgets/busyindicator.h"
+#include "widgets/lineedit.h"
 #include "collection/collectionbackend.h"
+#include "playlist/playlist.h"
 #include "playlist/playlistdelegates.h"
-#include "covermanager/albumcovermanager.h"
+#include "musicbrainz/tagfetcher.h"
+#include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/coverproviders.h"
-#include "covermanager/albumcoverchoicecontroller.h"
-#include "covermanager/coverfromurldialog.h"
+#include "edittagdialog.h"
+#include "trackselectiondialog.h"
+#include "ui_edittagdialog.h"
 
 const char *EditTagDialog::kHintText = QT_TR_NOOP("(different across multiple songs)");
 const char *EditTagDialog::kSettingsGroup = "EditTagDialog";
@@ -129,7 +164,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   // Pretend the summary text is just a label
   ui_->summary->setMaximumHeight(ui_->art->height() - ui_->summary_art_button->height() - 4);
 
-  connect(ui_->song_list->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(SelectionChanged()));
+  connect(ui_->song_list->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(SelectionChanged()));
   connect(ui_->button_box, SIGNAL(clicked(QAbstractButton*)), SLOT(ButtonClicked(QAbstractButton*)));
   //connect(ui_->rating, SIGNAL(RatingChanged(float)), SLOT(SongRated(float)));
   connect(ui_->playcount_reset, SIGNAL(clicked()), SLOT(ResetPlayCounts()));
@@ -644,8 +679,7 @@ void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &s
 
   UpdateSummaryTab(selected);
 
-  // Now check if we have any other songs cached that share that artist and
-  // album (and would therefore be changed as well)
+  // Now check if we have any other songs cached that share that artist and album (and would therefore be changed as well)
   for (int i = 0; i < data_.count(); ++i) {
     if (i == sel.first().row())  // Already changed this one
       continue;

@@ -17,20 +17,36 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "config.h"
+
 #include "sliderwidget.h"
 
 #include <QApplication>
-#include <QBitmap>
-#include <QBrush>
+#include <QWidget>
+#include <QMap>
+#include <QString>
+#include <QStringBuilder>
 #include <QImage>
 #include <QPainter>
-#include <QSize>
-#include <QTimer>
-#include <QStyle>
+#include <QPainterPath>
+#include <QPalette>
+#include <QFont>
+#include <QBrush>
+#include <QPen>
+#include <QPoint>
+#include <QPolygon>
+#include <QRect>
+#include <QVector>
 #include <QMenu>
-#include <QWheelEvent>
-#include <QMouseEvent>
-#include <QStyleOptionSlider>
+#include <QStyle>
+#include <QStyleOption>
+#include <QTimer>
+#include <QAction>
+#include <QSlider>
+#include <QLinearGradient>
+#include <QStyleOptionViewItem>
+#include <QFlags>
+#include <QtEvents>
 
 Amarok::Slider::Slider(Qt::Orientation orientation, QWidget* parent, uint max)
     : QSlider(orientation, parent),

@@ -18,20 +18,27 @@
  * 
  */
 
-#include "application.h"
-
 #include "config.h"
 
-#include "core/appearance.h"
-#include "core/database.h"
+#include "application.h"
+
+#include <functional>
+
+#include <QObject>
+#include <QThread>
+#include <QString>
+
+#include "core/closure.h"
 #include "core/lazy.h"
-#include "core/player.h"
 #include "core/tagreaderclient.h"
-#include "core/taskmanager.h"
-#include "engine/enginetype.h"
+
+#include "database.h"
+#include "taskmanager.h"
+#include "player.h"
+#include "appearance.h"
+
 #include "engine/enginedevice.h"
 #include "device/devicemanager.h"
-#include "collection/collectionbackend.h"
 #include "collection/collection.h"
 #include "playlist/playlistbackend.h"
 #include "playlist/playlistmanager.h"
@@ -40,7 +47,7 @@
 #include "covermanager/currentartloader.h"
 #ifdef HAVE_LIBLASTFM
   #include "covermanager/lastfmcoverprovider.h"
-#endif  // HAVE_LIBLASTFM
+#endif
 #include "covermanager/amazoncoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
@@ -77,9 +84,9 @@ class ApplicationImpl {
         cover_providers_([=]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
-        #ifdef HAVE_LIBLASTFM
-          cover_providers->AddProvider(new LastFmCoverProvider(app));
-        #endif
+#ifdef HAVE_LIBLASTFM
+	  cover_providers->AddProvider(new LastFmCoverProvider(app));
+#endif
           cover_providers->AddProvider(new AmazonCoverProvider(app));
 	  cover_providers->AddProvider(new DiscogsCoverProvider(app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
@@ -121,8 +128,7 @@ Application::Application(QObject *parent)
 Application::~Application() {
 
   // It's important that the device manager is deleted before the database.
-  // Deleting the database deletes all objects that have been created in its
-  // thread, including some device collection backends.
+  // Deleting the database deletes all objects that have been created in its thread, including some device collection backends.
   p_->device_manager_.reset();
 
   for (QThread *thread : threads_) {
@@ -150,14 +156,6 @@ void Application::MoveToThread(QObject *object, QThread *thread) {
 }
 
 void Application::AddError(const QString& message) { emit ErrorAdded(message); }
-
-QString Application::language_without_region() const {
-  const int underscore = language_name_.indexOf('_');
-  if (underscore != -1) {
-    return language_name_.left(underscore);
-  }
-  return language_name_;
-}
 
 void Application::ReloadSettings() { emit SettingsChanged(); }
 

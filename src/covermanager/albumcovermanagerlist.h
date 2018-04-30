@@ -23,7 +23,14 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QList>
 #include <QListWidget>
+#include <QListWidgetItem>
+#include <QString>
+#include <QMimeData>
+#include <QDropEvent>
 
 class AlbumCoverManager;
 
@@ -32,7 +39,7 @@ class AlbumCoverManagerList : public QListWidget {
  public:
   AlbumCoverManagerList(QWidget *parent = nullptr);
 
-  void set_cover_manager(AlbumCoverManager* manager) { manager_ = manager; }
+  void set_cover_manager(AlbumCoverManager *manager) { manager_ = manager; }
 
 protected:
   QMimeData *mimeData(const QList<QListWidgetItem*> items) const;

@@ -18,23 +18,24 @@
  * 
  */
 
-//#ifdef HAVE_GIO
-//#undef signals  // Clashes with GIO, and not needed in this file
+#include "config.h"
+
 #include <gio/gio.h>
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDir>
+#include <QByteArray>
 #include <QString>
+#include <QtDebug>
 
 #include "core/logging.h"
-
-//namespace {
 
 void ScanGIOModulePath() {
   QString gio_module_path;
 
 #if defined(Q_OS_WIN32)
-  gio_module_path = QCoreApplication::applicationDirPath() + "/gio-modules";
+  gio_module_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gio-modules");
 #endif
 
   if (!gio_module_path.isEmpty()) {
@@ -43,6 +44,3 @@ void ScanGIOModulePath() {
     g_io_modules_scan_all_in_directory(bytes.data());
   }
 }
-
-//}  // namespace
-//#endif  // HAVE_GIO

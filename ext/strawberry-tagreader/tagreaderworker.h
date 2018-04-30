@@ -19,9 +19,15 @@
 #define TAGREADERWORKER_H
 
 #include "config.h"
+
+#include <stddef.h>
+
+#include <QObject>
+#include <QIODevice>
+
+#include "core/messagehandler.h"
 #include "tagreader.h"
 #include "tagreadermessages.pb.h"
-#include "core/messagehandler.h"
 
 class TagReaderWorker : public AbstractMessageHandler<pb::tagreader::Message> {
 public:

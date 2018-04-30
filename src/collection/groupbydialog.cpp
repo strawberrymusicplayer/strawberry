@@ -22,8 +22,13 @@
 
 #include <functional>
 
+#include <QDialog>
+#include <QComboBox>
+#include <QDialogButtonBox>
 #include <QPushButton>
+#include <QWidget>
 
+#include "collectionmodel.h"
 #include "groupbydialog.h"
 #include "ui_groupbydialog.h"
 
@@ -31,9 +36,13 @@
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/indexed_by.hpp>
 #include <boost/multi_index/member.hpp>
 #include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/tag.hpp>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index_container_fwd.hpp>
+#include <boost/operators.hpp>
 
 using boost::multi_index_container;
 using boost::multi_index::indexed_by;
@@ -70,7 +79,7 @@ class GroupByDialogPrivate {
   MappingContainer mapping_;
 };
 
-GroupByDialog::GroupByDialog(QWidget* parent) : QDialog(parent), ui_(new Ui_GroupByDialog), p_(new GroupByDialogPrivate) {
+GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_GroupByDialog), p_(new GroupByDialogPrivate) {
 
   ui_->setupUi(this);
   Reset();

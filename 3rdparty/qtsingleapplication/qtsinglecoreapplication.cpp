@@ -37,6 +37,9 @@
 **
 ****************************************************************************/
 
+#include <QCoreApplication>
+#include <QString>
+#include <QFlags>
 
 #include "qtsinglecoreapplication.h"
 #include "qtlocalpeer.h"
@@ -70,8 +73,7 @@
 */
 
 QtSingleCoreApplication::QtSingleCoreApplication(int &argc, char **argv)
-    : QCoreApplication(argc, argv)
-{
+    : QCoreApplication(argc, argv) {
     peer = new QtLocalPeer(this);
     connect(peer, SIGNAL(messageReceived(const QString&)), SIGNAL(messageReceived(const QString&)));
 }
@@ -83,8 +85,7 @@ QtSingleCoreApplication::QtSingleCoreApplication(int &argc, char **argv)
     QCoreAppliation constructor.
 */
 QtSingleCoreApplication::QtSingleCoreApplication(const QString &appId, int &argc, char **argv)
-    : QCoreApplication(argc, argv)
-{
+    : QCoreApplication(argc, argv) {
     peer = new QtLocalPeer(this, appId);
     connect(peer, SIGNAL(messageReceived(const QString&)), SIGNAL(messageReceived(const QString&)));
 }
@@ -101,8 +102,7 @@ QtSingleCoreApplication::QtSingleCoreApplication(const QString &appId, int &argc
     \sa sendMessage()
 */
 
-bool QtSingleCoreApplication::isRunning()
-{
+bool QtSingleCoreApplication::isRunning() {
     return peer->isClient();
 }
 
@@ -121,8 +121,7 @@ bool QtSingleCoreApplication::isRunning()
     \sa isRunning(), messageReceived()
 */
 
-bool QtSingleCoreApplication::sendMessage(const QString &message, int timeout)
-{
+bool QtSingleCoreApplication::sendMessage(const QString &message, int timeout) {
     return peer->sendMessage(message, timeout);
 }
 
@@ -132,8 +131,7 @@ bool QtSingleCoreApplication::sendMessage(const QString &message, int timeout)
     identifier will be regarded as instances of the same application.
 */
 
-QString QtSingleCoreApplication::id() const
-{
+QString QtSingleCoreApplication::id() const {
     return peer->applicationId();
 }
 

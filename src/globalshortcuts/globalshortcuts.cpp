@@ -20,24 +20,23 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QAction>
+#include <QShortcut>
+#include <QKeySequence>
+#ifdef QT_DBUS_LIB
+# include <QDBusConnectionInterface>
+#endif
+
 #include "globalshortcuts.h"
+#include "globalshortcutbackend.h"
 #include "gnomeglobalshortcutbackend.h"
-#include "macglobalshortcutbackend.h"
 #include "qxtglobalshortcutbackend.h"
 #include "settings/shortcutssettingspage.h"
 
-#include "core/mac_startup.h"
-
-#include <QAction>
-#include <QShortcut>
-#include <QSignalMapper>
-#include <QtDebug>
-
-#ifdef QT_DBUS_LIB
-#include <QtDBus>
-#endif
-
-GlobalShortcuts::GlobalShortcuts(QWidget* parent)
+GlobalShortcuts::GlobalShortcuts(QWidget *parent)
     : QWidget(parent),
       gnome_backend_(nullptr),
       system_backend_(nullptr),
@@ -77,13 +76,13 @@ GlobalShortcuts::GlobalShortcuts(QWidget* parent)
 
 }
 
-void GlobalShortcuts::AddShortcut(const QString& id, const QString& name, const char* signal, const QKeySequence& default_key) {
+void GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key) {
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
   connect(shortcut.action, SIGNAL(triggered()), this, signal);
 }
 
-GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString& id, const QString& name, const QKeySequence& default_key) {
+GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
 
   Shortcut shortcut;
   shortcut.action = new QAction(name, this);
@@ -106,8 +105,7 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString& id, const 
 bool GlobalShortcuts::IsGsdAvailable() const {
 
 #ifdef QT_DBUS_LIB
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(
-      GnomeGlobalShortcutBackend::kGsdService);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GnomeGlobalShortcutBackend::kGsdService);
 #else  // QT_DBUS_LIB
   return false;
 #endif
@@ -116,8 +114,7 @@ bool GlobalShortcuts::IsGsdAvailable() const {
 
 void GlobalShortcuts::ReloadSettings() {
 
-  // The actual shortcuts have been set in our actions for us by the config
-  // dialog already - we just need to reread the gnome settings.
+  // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
   use_gnome_ = settings_.value("use_gnome", true).toBool();
 
   Unregister();

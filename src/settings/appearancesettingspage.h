@@ -23,12 +23,17 @@
 
 #include "config.h"
 
-#include "settingspage.h"
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QColor>
 
 #include "playlist/playlistview.h"
+#include "settingspage.h"
 
-class QWidget;
-
+class SettingsDialog;
 class Ui_AppearanceSettingsPage;
 
 class AppearanceSettingsPage : public SettingsPage {

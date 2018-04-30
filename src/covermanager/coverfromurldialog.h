@@ -23,11 +23,13 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QString>
 #include <QImage>
 
 class NetworkAccessManager;
-class Song;
 class Ui_CoverFromURLDialog;
 
 // Controller for a dialog which fetches covers from the given URL.
@@ -38,8 +40,7 @@ class CoverFromURLDialog : public QDialog {
   CoverFromURLDialog(QWidget *parent = nullptr);
   ~CoverFromURLDialog();
 
-  // Opens the dialog. This returns an image found at the URL chosen by user
-  // or null image if the dialog got rejected.
+  // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
   QImage Exec();
 
  private slots:

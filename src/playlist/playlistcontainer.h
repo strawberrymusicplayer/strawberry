@@ -23,19 +23,28 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QIcon>
+#include <QTimer>
+#include <QTimeLine>
 #include <QSettings>
+#include <QAction>
+#include <QEvent>
+#include <QLabel>
+#include <QtEvents>
 
-class Ui_PlaylistContainer;
+class QKeyEvent;
+class QResizeEvent;
 
-class LineEditInterface;
 class Playlist;
 class PlaylistManager;
 class PlaylistView;
 
-class QTimeLine;
-class QTimer;
-class QLabel;
+class Ui_PlaylistContainer;
 
 class PlaylistContainer : public QWidget {
   Q_OBJECT

@@ -23,11 +23,28 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
 #include <QWidget>
+#include <QTimer>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QColor>
+#include <QFont>
+#include <QPoint>
+#include <QRect>
+#include <QTimeLine>
+#include <QtEvents>
+
+class QEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QShowEvent;
 
 class Ui_OSDPretty;
-
-class QTimeLine;
 
 class OSDPretty : public QWidget {
   Q_OBJECT
@@ -77,9 +94,8 @@ class OSDPretty : public QWidget {
   QFont font() const { return font_; }
   bool disable_duration() const { return disable_duration_; }
 
-  // When the user has been moving the popup, use these to get its current
-  // position and screen.  Note that these return invalid values if the popup
-  // is hidden.
+  // When the user has been moving the popup, use these to get its current position and screen.
+  // Note that these return invalid values if the popup is hidden.
   int current_display() const;
   QPoint current_pos() const;
 

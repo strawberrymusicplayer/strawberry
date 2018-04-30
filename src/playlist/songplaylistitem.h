@@ -23,17 +23,21 @@
 
 #include "config.h"
 
-#include "playlistitem.h"
+#include <stdbool.h>
+#include <QString>
+#include <QUrl>
+
 #include "core/song.h"
+#include "collection/sqlrow.h"
+#include "playlistitem.h"
 
 class SongPlaylistItem : public PlaylistItem {
  public:
-  SongPlaylistItem(const QString& type);
-  SongPlaylistItem(const Song& song);
+  SongPlaylistItem(const QString &type);
+  SongPlaylistItem(const Song &song);
 
   // Restores a stream- or file-related playlist item using query row.
-  // If it's a file related playlist item, this will restore it's CUE
-  // attributes (if any) but won't parse the CUE!
+  // If it's a file related playlist item, this will restore it's CUE attributes (if any) but won't parse the CUE!
   bool InitFromQuery(const SqlRow& query);
   void Reload();
 

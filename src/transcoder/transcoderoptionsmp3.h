@@ -23,6 +23,10 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QString>
+
 #include "transcoderoptionsinterface.h"
 
 class Ui_TranscoderOptionsMP3;

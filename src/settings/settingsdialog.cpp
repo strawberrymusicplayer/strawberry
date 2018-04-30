@@ -20,40 +20,48 @@
 
 #include "config.h"
 
-#include <QAbstractButton>
+#include <QObject>
+#include <QWidget>
+#include <QApplication>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
 #include <QDesktopWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QIcon>
 #include <QPainter>
+#include <QFlags>
+#include <QFrame>
+#include <QKeySequence>
+#include <QLabel>
+#include <QLayout>
+#include <QRect>
+#include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScrollArea>
+#include <QStackedWidget>
+#include <QTreeWidget>
+
+#include "core/application.h"
+#include "widgets/groupediconview.h"
+#include "collection/collectionmodel.h"
 
 #include "settingsdialog.h"
-
+#include "settingspage.h"
+#include "appearancesettingspage.h"
+#include "backendsettingspage.h"
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
-#include "backendsettingspage.h"
+#include "networkproxysettingspage.h"
+#include "notificationssettingspage.h"
 #include "playbacksettingspage.h"
 #include "playlistsettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
-#include "appearancesettingspage.h"
-#include "networkproxysettingspage.h"
-#include "notificationssettingspage.h"
-
-#include "core/application.h"
-#include "core/mainwindow.h"
-#include "core/player.h"
-#include "core/logging.h"
-#include "core/networkproxyfactory.h"
-#include "core/player.h"
-#include "core/iconloader.h"
-#include "engine/enginebase.h"
-#include "engine/gstengine.h"
-#include "playlist/playlistview.h"
-#include "widgets/groupediconview.h"
-#include "widgets/osdpretty.h"
-
 #include "ui_settingsdialog.h"
 
+class QShowEvent;
 
 SettingsItemDelegate::SettingsItemDelegate(QObject *parent)
   : QStyledItemDelegate(parent)
@@ -154,7 +162,7 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
   if (!parent) parent = ui_->list->invisibleRootItem();
 
   // Connect page's signals to the settings dialog's signals
-  connect(page, SIGNAL(NotificationPreview(OSD::Behaviour,QString,QString)), SIGNAL(NotificationPreview(OSD::Behaviour,QString,QString)));
+  connect(page, SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)), SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)));
 
   // Create the list item
   QTreeWidgetItem *item = new QTreeWidgetItem;

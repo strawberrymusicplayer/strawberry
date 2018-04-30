@@ -20,21 +20,18 @@
 
 #include "config.h"
 
-#include <QtGlobal>
+#ifdef HAVE_DBUS
+#  include <QDBusConnection>
+#  include <QDBusConnectionInterface>
+#  include <QDBusReply>
+#  include "dbusscreensaver.h"
+#endif
 
 #include "screensaver.h"
-
-#ifdef HAVE_DBUS
-  #include "dbusscreensaver.h"
-  #include <QDBusConnection>
-  #include <QDBusConnectionInterface>
-#endif
 
 #ifdef Q_OS_DARWIN
   #include "macscreensaver.h"
 #endif
-
-#include <QtDebug>
 
 const char *Screensaver::kGnomeService   = "org.gnome.ScreenSaver";
 const char *Screensaver::kGnomePath      = "/";

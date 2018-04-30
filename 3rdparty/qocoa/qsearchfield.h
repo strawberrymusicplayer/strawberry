@@ -2,7 +2,11 @@
 #define QSEARCHFIELD_H
 
 #include <QWidget>
+#include <QObject>
 #include <QPointer>
+#include <QString>
+#include <QEvent>
+#include <QResizeEvent>
 
 class QSearchFieldPrivate;
 class QSearchField : public QWidget

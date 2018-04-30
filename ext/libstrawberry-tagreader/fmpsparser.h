@@ -18,8 +18,13 @@
 #ifndef FMPSPARSER_H
 #define FMPSPARSER_H
 
+#include "config.h"
+
+#include <QList>
+#include <QMetaType>
+#include <QVariant>
+#include <QString>
 #include <QRegExp>
-#include <QVariantList>
 
 class FMPSParser {
 public:
@@ -30,7 +35,7 @@ public:
   typedef QList<QVariantList> Result;
 
   // Parses a FMPS value and returns true on success.
-  bool Parse(const QString& data);
+  bool Parse(const QString &data);
 
   // Gets the result of the last successful Parse.
   Result result() const { return result_; }

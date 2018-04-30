@@ -23,10 +23,13 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QPixmap>
+#include <stdbool.h>
 
-class QAction;
+#include <QObject>
+#include <QString>
+#include <QPixmap>
+#include <QAction>
+
 class Song;
 
 class SystemTrayIcon : public QObject {
@@ -43,10 +46,7 @@ class SystemTrayIcon : public QObject {
 
   // Called by the OSD
   virtual void ShowPopup(const QString &summary, const QString &message, int timeout) {}
-  /**
-   * If this get's invoked with image_path equal to nullptr, the tooltip should
-   * still be shown - just without the cover art.
-   */
+  // If this get's invoked with image_path equal to nullptr, the tooltip should still be shown - just without the cover art.
   virtual void SetNowPlaying(const Song &song, const QString &image_path) {}
   virtual void ClearNowPlaying() {}
 

@@ -20,14 +20,21 @@
 
 #include "config.h"
 
-#include "tagreaderclient.h"
+#include <string>
 
-#include <QCoreApplication>
-#include <QFile>
-#include <QProcess>
-#include <QTcpServer>
+#include <QtGlobal>
+#include <QObject>
 #include <QThread>
-#include <QUrl>
+#include <QByteArray>
+#include <QString>
+#include <QImage>
+#include <QtDebug>
+
+#include "core/logging.h"
+#include "core/workerpool.h"
+
+#include "song.h"
+#include "tagreaderclient.h"
 
 const char *TagReaderClient::kWorkerExecutableName = "strawberry-tagreader";
 TagReaderClient *TagReaderClient::sInstance = nullptr;

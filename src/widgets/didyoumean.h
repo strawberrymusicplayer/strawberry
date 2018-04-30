@@ -23,9 +23,19 @@
 
 #include "config.h"
 
-#include <QWidget>
+#include <stdbool.h>
 
-class QToolButton;
+#include <QObject>
+#include <QWidget>
+#include <QFont>
+#include <QString>
+#include <QToolButton>
+#include <QtEvents>
+
+class QEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QShowEvent;
 
 class DidYouMean : public QWidget {
   Q_OBJECT

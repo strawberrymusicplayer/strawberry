@@ -1,9 +1,14 @@
 #include "config.h"
 
+#include <libimobiledevice/afc.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QString>
+
 #include "afcfile.h"
 #include "imobiledeviceconnection.h"
-
-#include <libimobiledevice/afc.h>
 
 AfcFile::AfcFile(iMobileDeviceConnection *connection, const QString &path, QObject *parent)
   : QIODevice(parent),
@@ -34,8 +39,7 @@ bool AfcFile::open(QIODevice::OpenMode mode) {
     default:
       afc_mode = AFC_FOPEN_RW;
   }
-  afc_error_t err = afc_file_open(
-      connection_->afc(), path_.toUtf8().constData(), afc_mode, &handle_);
+  afc_error_t err = afc_file_open(connection_->afc(), path_.toUtf8().constData(), afc_mode, &handle_);
   if (err != AFC_E_SUCCESS) {
     return false;
   }

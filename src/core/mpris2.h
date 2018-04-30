@@ -23,14 +23,28 @@
 
 #include "config.h"
 
-#include "playlist/playlistitem.h"
+#include <stdbool.h>
 
-#include <QMetaObject>
+#include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QMetaType>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QImage>
+#include <QVector>
 #include <QtDBus>
+#include <QDBusArgument>
+#include <qdbusextratypes.h>
+#include <QJsonObject>
+
+#include "engine/engine_fwd.h"
 
 class Application;
-class MainWindow;
+class Song;
 class Playlist;
 
 typedef QList<QVariantMap> TrackMetadata;

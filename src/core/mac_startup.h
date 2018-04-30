@@ -3,17 +3,19 @@
 
 #include "config.h"
 
+#include <QString>
 #include <QKeySequence>
 
-class MacGlobalShortcutBackend;
 class QObject;
 class QWidget;
+
+class MacGlobalShortcutBackend;
 
 class PlatformInterface {
  public:
   // Called when the application should show itself.
   virtual void Activate() = 0;
-  virtual bool LoadUrl(const QString& url) = 0;
+  virtual bool LoadUrl(const QString &url) = 0;
 
   virtual ~PlatformInterface() {}
 };
@@ -21,8 +23,8 @@ class PlatformInterface {
 namespace mac {
 
 void MacMain();
-void SetShortcutHandler(MacGlobalShortcutBackend* handler);
-void SetApplicationHandler(PlatformInterface* handler);
+void SetShortcutHandler(MacGlobalShortcutBackend *handler);
+void SetApplicationHandler(PlatformInterface *handler);
 void CheckForUpdates();
 
 QString GetBundlePath();
@@ -30,7 +32,7 @@ QString GetResourcesPath();
 QString GetApplicationSupportPath();
 QString GetMusicDirectory();
 
-void EnableFullScreen(const QWidget& main_window);
+void EnableFullScreen(const QWidget &main_window);
 
 }  // namespace mac
 

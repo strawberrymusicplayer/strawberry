@@ -23,8 +23,11 @@
 
 #include "config.h"
 
-#include <QStringList>
+#include <stdbool.h>
+
+#include <QList>
 #include <QVariant>
+#include <QString>
 
 // Finds audio output devices
 class DeviceFinder {

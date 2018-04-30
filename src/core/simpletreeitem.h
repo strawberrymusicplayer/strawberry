@@ -23,10 +23,11 @@
 
 #include "config.h"
 
-#include "simpletreemodel.h"
-
-#include <QString>
 #include <QList>
+#include <QString>
+#include <QAbstractItemModel>
+
+#include "simpletreemodel.h"
 
 template <typename T>
 class SimpleTreeItem {

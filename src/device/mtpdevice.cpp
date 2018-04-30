@@ -21,18 +21,31 @@
 #include "config.h"
 
 #include <libmtp.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-#include <QFile>
+#include <QtGlobal>
 #include <QThread>
+#include <QMutex>
+#include <QFile>
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QUrl>
+#include <QtDebug>
 
-#include "devicemanager.h"
+#include "collection/collectionmodel.h"
+#include "collection/collectionbackend.h"
+#include "core/logging.h"
+#include "core/application.h"
+#include "core/musicstorage.h"
+#include "connecteddevice.h"
 #include "mtpconnection.h"
 #include "mtpdevice.h"
 #include "mtploader.h"
-#include "core/application.h"
-#include "core/logging.h"
-#include "collection/collectionbackend.h"
-#include "collection/collectionmodel.h"
+
+class DeviceLister;
+class DeviceManager;
 
 bool MtpDevice::sInitialisedLibMTP = false;
 
@@ -95,10 +108,12 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
 }
 
 static int ProgressCallback(uint64_t const sent, uint64_t const total, void const *const data) {
+
   const MusicStorage::CopyJob *job = reinterpret_cast<const MusicStorage::CopyJob*>(data);
   job->progress_(float(sent) / total);
 
   return 0;
+
 }
 
 bool MtpDevice::CopyToStorage(const CopyJob &job) {

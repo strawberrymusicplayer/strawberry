@@ -23,25 +23,32 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QMap>
+#include <QSize>
+#include <QString>
+#include <QPainter>
+#include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <QAbstractButton>
+#include <QScrollArea>
+#include <QTreeWidgetItem>
 
 #include "widgets/osd.h"
 
-class QAbstractButton;
-class QScrollArea;
-class QTreeWidgetItem;
+class QModelIndex;
+class QShowEvent;
 
-class Application;
-class Player;
 class Appearance;
-class GlobalShortcuts;
+class Application;
 class CollectionDirectoryModel;
+class GlobalShortcuts;
 class SettingsPage;
-class Ui_MainWindow;
-class Ui_SettingsDialog;
 
-class GstEngine;
+class Ui_SettingsDialog;
 
 
 class SettingsItemDelegate : public QStyledItemDelegate {
@@ -81,11 +88,8 @@ public:
   bool is_loading_settings() const { return loading_settings_; }
 
   Application *app() const { return app_; }
-  //Player *player() const { return player_; }
   CollectionDirectoryModel *collection_directory_model() const { return model_; }
   GlobalShortcuts *global_shortcuts_manager() const { return manager_; }
-  //const EngineBase *engine() const { return engine_; }
-  //const GstEngine *gst_engine() const { return gst_engine_; }
   Appearance *appearance() const { return appearance_; }
 
   void OpenAtPage(Page page);
@@ -118,15 +122,11 @@ private:
 
 private:
   Application *app_;
-  //Player *player_;
   CollectionDirectoryModel *model_;
   GlobalShortcuts *manager_;
-  //const EngineBase *engine_;
   Appearance *appearance_;
-  //const GstEngine *gst_engine_;
 
   Ui_SettingsDialog *ui_;
-  //Ui_MainWindow *mui_;
   bool loading_settings_;
 
   QMap<Page, PageData> pages_;

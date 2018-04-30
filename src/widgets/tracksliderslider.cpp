@@ -20,16 +20,20 @@
 
 #include "config.h"
 
-#include "tracksliderpopup.h"
-#include "tracksliderslider.h"
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QSlider>
+#include <QPoint>
+#include <QRect>
+#include <QStyle>
+#include <QStyleOption>
+#include <QtEvents>
+
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-
-#include <QMouseEvent>
-#include <QStyle>
-#include <QStyleOptionSlider>
-#include <QtDebug>
-#include <QWheelEvent>
+#include "tracksliderpopup.h"
+#include "tracksliderslider.h"
 
 TrackSliderSlider::TrackSliderSlider(QWidget* parent)
     : QSlider(parent),
@@ -42,9 +46,8 @@ TrackSliderSlider::TrackSliderSlider(QWidget* parent)
 }
 
 void TrackSliderSlider::mousePressEvent(QMouseEvent* e) {
-  // QSlider asks QStyle which mouse button should do what (absolute move or
-  // page step).  We force our own behaviour here because it makes more sense
-  // for a music player IMO.
+  // QSlider asks QStyle which mouse button should do what (absolute move or page step).
+  // We force our own behaviour here because it makes more sense for a music player IMO.
 
   Qt::MouseButton new_button = e->button();
   if (e->button() == Qt::LeftButton) {

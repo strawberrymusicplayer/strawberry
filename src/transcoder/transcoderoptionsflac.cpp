@@ -20,10 +20,16 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QSlider>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsflac.h"
 #include "ui_transcoderoptionsflac.h"
-
-#include <QSettings>
 
 const char *TranscoderOptionsFlac::kSettingsGroup = "Transcoder/flacenc";
 

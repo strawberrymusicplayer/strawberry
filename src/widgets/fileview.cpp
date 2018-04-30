@@ -20,21 +20,31 @@
 
 #include "config.h"
 
-#include <QKeyEvent>
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QUndoStack>
+#include <QDir>
+#include <QFileInfo>
 #include <QFileSystemModel>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QLineEdit>
+#include <QToolButton>
+#include <QtEvents>
 
-#include "fileview.h"
-
-#include "ui_fileview.h"
 #include "core/deletefiles.h"
 #include "core/filesystemmusicstorage.h"
-#include "core/mimedata.h"
 #include "core/iconloader.h"
-#include "core/mainwindow.h"  // for filter information
+#include "core/mimedata.h"
+#include "fileview.h"
+#include "fileviewlist.h"
+#include "ui_fileview.h"
 #ifdef HAVE_GSTREAMER
-#include "dialogs/organiseerrordialog.h"
+#  include "dialogs/organiseerrordialog.h"
 #endif
 
 const char *FileView::kFileFilter =
@@ -105,8 +115,7 @@ void FileView::FileUp() {
   QDir dir(model_->rootDirectory());
   dir.cdUp();
 
-  // Is this the same as going back?  If so just go back, so we can keep the
-  // view scroll position.
+  // Is this the same as going back?  If so just go back, so we can keep the view scroll position.
   if (undo_stack_->canUndo()) {
     const UndoCommand *last_dir = static_cast<const UndoCommand*>(undo_stack_->command(undo_stack_->index()-1));
     if (last_dir->undo_path() == dir.path()) {

@@ -20,6 +20,12 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QVariant>
+
+#include "devicemanager.h"
 #include "devicestatefiltermodel.h"
 
 DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::State state)
@@ -39,7 +45,7 @@ void DeviceStateFilterModel::ProxyRowCountChanged() {
   emit IsEmptyChanged(rowCount() == 0);
 }
 
-void DeviceStateFilterModel::setSourceModel(QAbstractItemModel* sourceModel) {
+void DeviceStateFilterModel::setSourceModel(QAbstractItemModel *sourceModel) {
   QSortFilterProxyModel::setSourceModel(sourceModel);
   setDynamicSortFilter(true);
   setSortCaseSensitivity(Qt::CaseInsensitive);

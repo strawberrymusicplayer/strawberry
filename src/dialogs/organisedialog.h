@@ -24,22 +24,31 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QAbstractItemModel>
 #include <QFuture>
-#include <QMap>
+#include <QList>
+#include <QSize>
+#include <QString>
+#include <QStringList>
 #include <QUrl>
+#include <QtEvents>
 
+#include "core/song.h"
 #include "core/organise.h"
 #include "core/organiseformat.h"
-#include "core/song.h"
 
-class CollectionWatcher;
-class OrganiseErrorDialog;
+class QResizeEvent;
+class QShowEvent;
+
 class TaskManager;
+class OrganiseErrorDialog;
 class Ui_OrganiseDialog;
-
-class QAbstractItemModel;
 
 class OrganiseDialog : public QDialog {
   Q_OBJECT
@@ -56,8 +65,7 @@ class OrganiseDialog : public QDialog {
   void SetDestinationModel(QAbstractItemModel *model, bool devices = false);
 
   // These functions return true if any songs were actually added to the dialog.
-  // SetSongs returns immediately, SetUrls and SetFilenames load the songs in
-  // the background.
+  // SetSongs returns immediately, SetUrls and SetFilenames load the songs in the background.
   bool SetSongs(const SongList &songs);
   bool SetUrls(const QList<QUrl> &urls);
   bool SetFilenames(const QStringList &filenames);

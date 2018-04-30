@@ -23,9 +23,16 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QDialog>
+#include <QWidget>
 #include <QFuture>
+#include <QAbstractItemModel>
 #include <QPersistentModelIndex>
+#include <QList>
+#include <QString>
 
 #include "core/song.h"
 

@@ -17,19 +17,32 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "config.h"
+
+#include <QObject>
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
+#include <QTimer>
+#include <QBoxLayout>
+#include <QLayout>
+#include <QSignalMapper>
+#include <QSettings>
+#include <QtEvents>
+#include <QtDebug>
+
 #include "analyzercontainer.h"
+
+#include "analyzerbase.h"
 #include "blockanalyzer.h"
 
 #include "core/logging.h"
 
-#include <QMouseEvent>
-#include <QHBoxLayout>
-#include <QSettings>
-#include <QTimer>
-#include <QtDebug>
-
-const char* AnalyzerContainer::kSettingsGroup = "Analyzer";
-const char* AnalyzerContainer::kSettingsFramerate = "framerate";
+const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
+const char *AnalyzerContainer::kSettingsFramerate = "framerate";
 
 // Framerates
 const int AnalyzerContainer::kLowFramerate = 20;
@@ -37,7 +50,7 @@ const int AnalyzerContainer::kMediumFramerate = 25;
 const int AnalyzerContainer::kHighFramerate = 30;
 const int AnalyzerContainer::kSuperHighFramerate = 60;
 
-AnalyzerContainer::AnalyzerContainer(QWidget* parent)
+AnalyzerContainer::AnalyzerContainer(QWidget *parent)
     : QWidget(parent),
       current_framerate_(kMediumFramerate),
       context_menu_(new QMenu(this)),
@@ -51,7 +64,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget* parent)
       ignore_next_click_(false),
       current_analyzer_(nullptr),
       engine_(nullptr) {
-  QHBoxLayout* layout = new QHBoxLayout(this);
+  QHBoxLayout *layout = new QHBoxLayout(this);
   setLayout(layout);
   layout->setContentsMargins(0, 0, 0, 0);
 
@@ -82,19 +95,18 @@ AnalyzerContainer::AnalyzerContainer(QWidget* parent)
   Load();
 }
 
-void AnalyzerContainer::SetActions(QAction* visualisation) {
+void AnalyzerContainer::SetActions(QAction *visualisation) {
   visualisation_action_ = visualisation;
   context_menu_->addAction(visualisation_action_);
 }
 
-void AnalyzerContainer::mouseReleaseEvent(QMouseEvent* e) {
+void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     if (ignore_next_click_) {
       ignore_next_click_ = false;
     }
     else {
-      // Might be the first click in a double click, so wait a while before
-      // actually doing anything
+      // Might be the first click in a double click, so wait a while before actually doing anything
       double_click_timer_->start();
       last_click_pos_ = e->globalPos();
     }
@@ -115,11 +127,11 @@ void AnalyzerContainer::mouseDoubleClickEvent(QMouseEvent*) {
   if (visualisation_action_) visualisation_action_->trigger();
 }
 
-void AnalyzerContainer::wheelEvent(QWheelEvent* e) {
+void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
   emit WheelEvent(e->delta());
 }
 
-void AnalyzerContainer::SetEngine(EngineBase* engine) {
+void AnalyzerContainer::SetEngine(EngineBase *engine) {
   if (current_analyzer_) current_analyzer_->set_engine(engine);
   engine_ = engine;
 }
@@ -132,11 +144,10 @@ void AnalyzerContainer::DisableAnalyzer() {
 }
 
 void AnalyzerContainer::ChangeAnalyzer(int id) {
-  QObject* instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget*, this));
+  QObject *instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget*, this));
 
   if (!instance) {
-    qLog(Warning) << "Couldn't intialise a new"
-                  << analyzer_types_[id]->className();
+    qLog(Warning) << "Couldn't intialise a new" << analyzer_types_[id]->className();
     return;
   }
 
@@ -196,8 +207,7 @@ void AnalyzerContainer::Load() {
 }
 
 void AnalyzerContainer::SaveFramerate(int framerate) {
-  // For now, framerate is common for all analyzers. Maybe each analyzer should
-  // have its own framerate?
+  // For now, framerate is common for all analyzers. Maybe each analyzer should have its own framerate?
   current_framerate_ = framerate;
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -212,7 +222,7 @@ void AnalyzerContainer::Save() {
 }
 
 void AnalyzerContainer::AddFramerate(const QString& name, int framerate) {
-  QAction* action = context_menu_framerate_->addAction(name, mapper_framerate_, SLOT(map()));
+  QAction *action = context_menu_framerate_->addAction(name, mapper_framerate_, SLOT(map()));
   mapper_framerate_->setMapping(action, framerate);
   group_framerate_->addAction(action);
   framerate_list_ << framerate;

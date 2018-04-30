@@ -21,11 +21,22 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QDBusArgument>
+#include <QtGlobal>
+#include <QObject>
 #include <QMutex>
+#include <QList>
+#include <QMap>
+#include <QMetaType>
 #include <QReadWriteLock>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
+#include <QDBusObjectPath>
+#include <QDBusArgument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "dbus/metatypes.h"
 #include "devicelister.h"

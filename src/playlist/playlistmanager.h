@@ -23,11 +23,16 @@
 
 #include "config.h"
 
-#include <QColor>
-#include <QItemSelection>
-#include <QMap>
+#include <stdbool.h>
+
 #include <QObject>
-#include <QSettings>
+#include <QList>
+#include <QMap>
+#include <QFuture>
+#include <QString>
+#include <QUrl>
+#include <QModelIndex>
+#include <QItemSelectionModel>
 
 #include "core/song.h"
 #include "playlist.h"
@@ -38,10 +43,6 @@ class PlaylistBackend;
 class PlaylistContainer;
 class PlaylistParser;
 class PlaylistSequence;
-class TaskManager;
-
-class QModelIndex;
-class QUrl;
 
 class PlaylistManagerInterface : public QObject {
   Q_OBJECT
@@ -76,22 +77,22 @@ public:
   virtual PlaylistContainer *playlist_container() const = 0;
 
 public slots:
-  virtual void New(const QString& name, const SongList& songs = SongList(), const QString& special_type = QString()) = 0;
-  virtual void Load(const QString& filename) = 0;
-  virtual void Save(int id, const QString& filename, Playlist::Path path_type) = 0;
-  virtual void Rename(int id, const QString& new_name) = 0;
+  virtual void New(const QString &name, const SongList& songs = SongList(), const QString &special_type = QString()) = 0;
+  virtual void Load(const QString &filename) = 0;
+  virtual void Save(int id, const QString &filename, Playlist::Path path_type) = 0;
+  virtual void Rename(int id, const QString &new_name) = 0;
   virtual void Delete(int id) = 0;
   virtual bool Close(int id) = 0;
   virtual void Open(int id) = 0;
   virtual void ChangePlaylistOrder(const QList<int>& ids) = 0;
 
-  virtual void SongChangeRequestProcessed(const QUrl& url, bool valid) = 0;
+  virtual void SongChangeRequestProcessed(const QUrl &url, bool valid) = 0;
 
   virtual void SetCurrentPlaylist(int id) = 0;
   virtual void SetActivePlaylist(int id) = 0;
   virtual void SetActiveToCurrent() = 0;
 
-  virtual void SelectionChanged(const QItemSelection& selection) = 0;
+  virtual void SelectionChanged(const QItemSelection &selection) = 0;
 
   // Convenience slots that defer to either current() or active()
   virtual void ClearCurrent() = 0;
@@ -105,22 +106,21 @@ public slots:
 signals:
   void PlaylistManagerInitialized();
 
-  void PlaylistAdded(int id, const QString& name, bool favorite);
+  void PlaylistAdded(int id, const QString &name, bool favorite);
   void PlaylistDeleted(int id);
   void PlaylistClosed(int id);
-  void PlaylistRenamed(int id, const QString& new_name);
+  void PlaylistRenamed(int id, const QString &new_name);
   void PlaylistFavorited(int id, bool favorite);
   void CurrentChanged(Playlist *new_playlist);
   void ActiveChanged(Playlist *new_playlist);
 
-  void Error(const QString& message);
-  void SummaryTextChanged(const QString& summary);
+  void Error(const QString &message);
+  void SummaryTextChanged(const QString &summary);
 
   // Forwarded from individual playlists
   void CurrentSongChanged(const Song& song);
 
-  // Signals that one of manager's playlists has changed (new items, new
-  // ordering etc.) - the argument shows which.
+  // Signals that one of manager's playlists has changed (new items, new ordering etc.) - the argument shows which.
   void PlaylistChanged(Playlist *playlist);
   void EditingFinished(const QModelIndex& index);
   void PlayRequested(const QModelIndex& index);
@@ -168,12 +168,12 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistContainer *playlist_container() const { return playlist_container_; }
 
 public slots:
-  void New(const QString& name, const SongList& songs = SongList(), const QString& special_type = QString());
-  void Load(const QString& filename);
-  void Save(int id, const QString& filename, Playlist::Path path_type);
+  void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString());
+  void Load(const QString &filename);
+  void Save(int id, const QString &filename, Playlist::Path path_type);
   // Display a file dialog to let user choose a file before saving the file
-  void SaveWithUI(int id, const QString& playlist_name);
-  void Rename(int id, const QString& new_name);
+  void SaveWithUI(int id, const QString &playlist_name);
+  void Rename(int id, const QString &new_name);
   void Favorite(int id, bool favorite);
   void Delete(int id);
   bool Close(int id);
@@ -184,7 +184,7 @@ public slots:
   void SetActivePlaylist(int id);
   void SetActiveToCurrent();
 
-  void SelectionChanged(const QItemSelection& selection);
+  void SelectionChanged(const QItemSelection &selection);
 
   // Makes a playlist current if it's open already, or opens it and makes it current if it is hidden.
   void SetCurrentOrOpen(int id);
@@ -216,7 +216,7 @@ public slots:
   void ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString& filename, Playlist::Path path_type);
 
  private:
-  Playlist *AddPlaylist(int id, const QString& name, const QString& special_type, const QString& ui_path, bool favorite);
+  Playlist *AddPlaylist(int id, const QString& name, const QString &special_type, const QString& ui_path, bool favorite);
 
 private:
   struct Data {

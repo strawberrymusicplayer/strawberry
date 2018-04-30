@@ -23,19 +23,20 @@
 
 #include "config.h"
 
-#include <QList>
+#include <stdbool.h>
+
 #include <QObject>
+#include <QList>
+#include <QString>
 #include <QUrl>
 
 #include "core/song.h"
 
-class CollectionBackendInterface;
 class Player;
-class Playlist;
 class SongLoader;
 class TaskManager;
-
-class QModelIndex;
+class CollectionBackendInterface;
+class Playlist;
 
 class SongLoaderInserter : public QObject {
   Q_OBJECT

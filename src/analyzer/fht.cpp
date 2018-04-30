@@ -20,6 +20,7 @@
 
 #include <math.h>
 #include <string.h>
+
 #include "fht.h"
 
 FHT::FHT(int n) : m_buf(0), m_tab(0), m_log(0) {

@@ -23,60 +23,61 @@
 
 #include "config.h"
 
-#include "coversearchstatistics.h"
+#include <stdbool.h>
 
-#include <QHash>
-#include <QImage>
-#include <QList>
-#include <QMetaType>
-#include <QNetworkAccessManager>
+#include <QtGlobal>
 #include <QObject>
 #include <QQueue>
+#include <QTimer>
+#include <QMetaType>
+#include <QHash>
+#include <QList>
+#include <QSet>
+#include <QString>
 #include <QUrl>
+#include <QImage>
+#include <QVector>
+#include <QNetworkAccessManager>
 
-class QNetworkReply;
-class QString;
-
-class AlbumCoverFetcherSearch;
 class CoverProviders;
+class AlbumCoverFetcherSearch;
+struct CoverSearchStatistics;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
-  // an unique (for one AlbumCoverFetcher) request identifier
+  // An unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
 
-  // a search query
+  // A search query
   QString artist;
   QString album;
 
-  // is this only a search request or should we also fetch the first cover that's found?
+  // Is this only a search request or should we also fetch the first cover that's found?
   bool search;
 
-  // is the request part of fetchall (fetching all missing covers)
+  // Is the request part of fetchall (fetching all missing covers)
   bool fetchall;
 };
 
 // This structure represents a single result of some album's cover search request.
 // It contains an URL that leads to a found cover plus its description (usually the "artist - album" string).
 struct CoverSearchResult {
-  // used for grouping in the user interface.  This is set automatically - don't set it manually in your cover provider.
+  // Used for grouping in the user interface.  This is set automatically - don't set it manually in your cover provider.
   QString provider;
 
-  // description of this result (we suggest using the "artist - album" format)
+  // Description of this result (we suggest using the "artist - album" format)
   QString description;
 
-  // an URL of a cover image described by this CoverSearchResult
+  // An URL of a cover image described by this CoverSearchResult
   QUrl image_url;
 };
 Q_DECLARE_METATYPE(CoverSearchResult);
 
-// This is a complete result of a single search request (a list of results, each
-// describing one image, actually).
+// This is a complete result of a single search request (a list of results, each describing one image, actually).
 typedef QList<CoverSearchResult> CoverSearchResults;
 Q_DECLARE_METATYPE(QList<CoverSearchResult>);
 
-// This class searches for album covers for a given query or artist/album and
-// returns URLs. It's NOT thread-safe.
+// This class searches for album covers for a given query or artist/album and returns URLs. It's NOT thread-safe.
 class AlbumCoverFetcher : public QObject {
   Q_OBJECT
 

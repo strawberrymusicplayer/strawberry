@@ -24,20 +24,30 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QModelIndex>
+#include <QStyleOption>
+#include <QStyleOptionViewItem>
+#include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QPainter>
+#include <QAction>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QContextMenuEvent>
 
 #include "core/song.h"
 #include "collection/collectionview.h"
 #include "widgets/autoexpandingtreeview.h"
 
-class QAction;
-class QMenu;
-class QSortFilterProxyModel;
-
 class Application;
-class DeviceManager;
 class DeviceProperties;
-class CollectionModel;
 class MergedProxyModel;
+class OrganiseDialog;
 
 class DeviceItemDelegate : public CollectionItemDelegate {
  public:

@@ -18,14 +18,15 @@
  * 
  */
 
-#ifndef GSTBINDELETER_H
-#define GSTBINDELETER_H
+#ifndef GSTELEMENTDELETER_H
+#define GSTELEMENTDELETER_H
 
 #include "config.h"
 
 #include <gst/gst.h>
 
 #include <QObject>
+#include <QString>
 
 class GstElementDeleter : public QObject {
   Q_OBJECT
@@ -33,16 +34,14 @@ class GstElementDeleter : public QObject {
  public:
   GstElementDeleter(QObject *parent = nullptr);
 
-  // If you call this function with any gstreamer element, the element will get
-  // deleted in the main thread.  This is useful if you need to delete an
-  // element from its own callback.
-  // It's in a separate object so *your* object (GstEnginePipeline) can be
-  // destroyed, and the element that you scheduled for deletion is still
-  // deleted later regardless.
+  // If you call this function with any gstreamer element, the element will get deleted in the main thread.
+  // This is useful if you need to delete an element from its own callback.
+  // It's in a separate object so *your* object (GstEnginePipeline) can be destroyed,
+  // and the element that you scheduled for deletion is still deleted later regardless.
   void DeleteElementLater(GstElement *element);
 
  private slots:
   void DeleteElement(GstElement *element);
 };
 
-#endif  // GSTBINDELETER_H
+#endif  // GSTELEMENTDELETER_H

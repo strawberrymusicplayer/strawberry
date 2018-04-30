@@ -20,14 +20,24 @@
 
 #include "config.h"
 
-#include "widgetfadehelper.h"
+#include <QtGlobal>
+#include <QWidget>
+#include <QString>
+#include <QFont>
+#include <QFontMetrics>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QBrush>
+#include <QRect>
+#include <QSize>
+#include <QTimeLine>
+#include <QtEvents>
 
 #include "core/qt_blurimage.h"
-
-#include <QResizeEvent>
-#include <QPainter>
-#include <QTimeLine>
-#include <QtDebug>
+#include "widgetfadehelper.h"
 
 const int WidgetFadeHelper::kLoadingPadding = 9;
 const int WidgetFadeHelper::kLoadingBorderRadius = 10;
@@ -126,8 +136,7 @@ void WidgetFadeHelper::CaptureParent() {
 
 void WidgetFadeHelper::StartFade() {
   if (blur_timeline_->state() == QTimeLine::Running) {
-    // Blur timeline is still running, so we need render the current state
-    // into a new pixmap.
+    // Blur timeline is still running, so we need render the current state into a new pixmap.
     QPixmap pixmap(original_pixmap_);
     QPainter painter(&pixmap);
     painter.setOpacity(blur_timeline_->currentValue());

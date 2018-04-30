@@ -25,20 +25,28 @@
 
 #include <memory>
 
+#include <QObject>
 #include <QWidget>
-#include <QUndoCommand>
+#include <QFileSystemModel>
+#include <QAbstractItemModel>
+#include <QList>
+#include <QString>
+#include <QStringList>
 #include <QUrl>
-#include <QModelIndex>
+#include <QMimeData>
+#include <QUndoStack>
+#include <QUndoCommand>
+#include <QtEvents>
 
 #include "core/song.h"
 
-class FilesystemMusicStorage;
+class QModelIndex;
+class QKeyEvent;
+class QShowEvent;
+
 class MusicStorage;
 class TaskManager;
 class Ui_FileView;
-
-class QFileSystemModel;
-class QUndoStack;
 
 class FileView : public QWidget {
   Q_OBJECT

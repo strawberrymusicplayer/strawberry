@@ -20,19 +20,35 @@
 
 #include "config.h"
 
-#include "osd.h"
-
+#include <stdbool.h>
 #include <memory>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QByteArray>
+#include <QDateTime>
+#include <QMap>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QImage>
+#include <QColor>
+#ifdef HAVE_DBUS
+#  include <QCoreApplication>
+#  include <QDBusArgument>
+#  include <QDBusConnection>
+#  include <QDBusError>
+#  include <QDBusPendingCall>
+#  include <QDBusPendingReply>
+#endif
+#include <QJsonObject>
 #include <QtDebug>
 
-#include "config.h"
 #include "core/logging.h"
+#include "osd.h"
 
 #ifdef HAVE_DBUS
-#include "dbus/notification.h"
-#include <QCoreApplication>
-#include <QTextDocument>
+#  include "dbus/notification.h"
 
 QDBusArgument& operator<<(QDBusArgument& arg, const QImage& image) {
 
@@ -123,8 +139,7 @@ void OSD::ShowMessageNative(const QString& summary, const QString& message, cons
   int id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec_) {
     // Reuse the existing popup if it's still open.  The reason we don't always
-    // reuse the popup is because the notification daemon on KDE4 won't re-show
-    // the bubble if it's already gone to the tray.  See issue #118
+    // reuse the popup is because the notification daemon on KDE4 won't re-show the bubble if it's already gone to the tray.  See issue #118
     id = notification_id_;
   }
 

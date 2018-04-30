@@ -1,7 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
- *   Portions Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>       *
+ *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,25 +25,28 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <gst/gst.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QFuture>
-#include <QHash>
+#include <QByteArray>
 #include <QList>
+#include <QVariant>
 #include <QString>
-#include <QStringList>
+#include <QUrl>
+#include <QTimer>
 #include <QTimerEvent>
 
-#include "bufferconsumer.h"
-#include "enginebase.h"
 #include "core/timeconstants.h"
+#include "engine_fwd.h"
+#include "enginebase.h"
+#include "gstbufferconsumer.h"
 
-class QTimer;
-class QTimerEvent;
-
-class GstEnginePipeline;
 class TaskManager;
+class GstEnginePipeline;
 
 #ifdef Q_OS_DARWIN
 struct _GTlsDatabase;
@@ -55,7 +58,7 @@ typedef struct _GTlsDatabase GTlsDatabase;
  * @short GStreamer engine plugin
  * @author Mark Kretschmann <markey@web.de>
  */
-class GstEngine : public Engine::Base, public BufferConsumer {
+class GstEngine : public Engine::Base, public GstBufferConsumer {
   Q_OBJECT
 
  public:
@@ -112,8 +115,8 @@ class GstEngine : public Engine::Base, public BufferConsumer {
 
   void ReloadSettings();
 
-  void AddBufferConsumer(BufferConsumer *consumer);
-  void RemoveBufferConsumer(BufferConsumer *consumer);
+  void AddBufferConsumer(GstBufferConsumer *consumer);
+  void RemoveBufferConsumer(GstBufferConsumer *consumer);
 
 #ifdef Q_OS_DARWIN
   GTlsDatabase *tls_database() const { return tls_database_; }
@@ -172,7 +175,7 @@ class GstEngine : public Engine::Base, public BufferConsumer {
   std::shared_ptr<GstEnginePipeline> fadeout_pause_pipeline_;
   QUrl preloaded_url_;
 
-  QList<BufferConsumer*> buffer_consumers_;
+  QList<GstBufferConsumer*> buffer_consumers_;
 
   GstBuffer *latest_buffer_;
 

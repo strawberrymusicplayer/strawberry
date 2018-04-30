@@ -20,11 +20,20 @@
 
 #include "config.h"
 
-#include "playlistfilterparser.h"
-#include "playlist.h"
-#include "core/logging.h"
+#include <stdbool.h>
 
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QChar>
+#include <QScopedPointer>
+#include <QVariant>
+#include <QString>
+#include <QtAlgorithms>
 #include <QAbstractItemModel>
+
+#include "playlist.h"
+#include "playlistfilterparser.h"
 
 class SearchTermComparator {
  public:
@@ -143,11 +152,9 @@ class LeComparator : public SearchTermComparator {
   int search_term_;
 };
 
-// The length field of the playlist (entries) contains a
-// song's running time in nano seconds. However, We don't
-// really care about nano seconds, just seconds. Thus, with
-// this decorator we drop the last 9 digits, if that many
-// are present.
+// The length field of the playlist (entries) contains a song's running time in nano seconds.
+// However, We don't really care about nano seconds, just seconds.
+// Thus, with this decorator we drop the last 9 digits, if that many are present.
 class DropTailComparatorDecorator : public SearchTermComparator {
  public:
   explicit DropTailComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
@@ -178,8 +185,7 @@ class FilterTerm : public FilterTree {
  public:
   explicit FilterTerm(SearchTermComparator *comparator, const QList<int> &columns) : cmp_(comparator), columns_(columns) {}
 
-  virtual bool accept(int row, const QModelIndex &parent,
-                      const QAbstractItemModel *const model) const {
+  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
     for (int i : columns_) {
       QModelIndex idx(model->index(row, i, parent));
       if (cmp_->Matches(idx.data().toString().toLower())) return true;
@@ -399,8 +405,7 @@ FilterTree *FilterParser::parseSearchTerm() {
                  *iter_ == '-') {
         break;
       } else if (buf_.isEmpty()) {
-        // we don't know whether there is a column part in this search term
-        // thus we assume the latter and just try and read a prefix
+        // we don't know whether there is a column part in this search term thus we assume the latter and just try and read a prefix
         if (prefix.isEmpty() && (*iter_ == '>' || *iter_ == '<' || *iter_ == '=' || *iter_ == '!')) {
           prefix += *iter_;
         }
@@ -435,8 +440,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(
     cmp = new NeComparator(search);
   }
   else if (!col.isEmpty() && columns_.contains(col) && numerical_columns_.contains(columns_[col])) {
-    // the length column contains the time in seconds (nano seconds, actually -
-    //  the "nano" part is handled by the DropTailComparatorDecorator,  though).
+    // the length column contains the time in seconds (nano seconds, actually - the "nano" part is handled by the DropTailComparatorDecorator,  though).
     int search_value;
     if (columns_[col] == Playlist::Column_Length) {
       search_value = parseTime(search);

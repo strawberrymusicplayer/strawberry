@@ -25,21 +25,24 @@
 
 #include "config.h"
 
-#include <stdint.h>
 #include <sys/types.h>
-
+#include <cstdint>
 #include <vector>
+#include <stdbool.h>
 
-#include <QList>
+#include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QMetaType>
+#include <QString>
 #include <QUrl>
-#include <QVariant>
-#include <QByteArray>
 
-#include "enginetype.h"
 #include "engine_fwd.h"
+#include "enginetype.h"
 
 namespace Engine {
+
+struct SimpleMetaBundle;
 
 typedef std::vector<int16_t> Scope;
 
@@ -72,10 +75,8 @@ class Base : public QObject {
     end_nanosec_ = end_nanosec;
   }
 
-  // Plays a media stream represented with the URL 'u' from the given 'beginning'
-  // to the given 'end' (usually from 0 to a song's length). Both markers
-  // should be passed in nanoseconds. 'end' can be negative, indicating that the
-  // real length of 'u' stream is unknown.
+  // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
+  // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
   bool Play(const QUrl &u, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
 
   void SetVolume(uint value);
@@ -90,6 +91,9 @@ class Base : public QObject {
   bool crossfade_same_album() const { return crossfade_same_album_; }
 
   static const int kScopeSize = 1024;
+  
+  virtual void SetVolumeSW(uint percent) = 0;
+  static uint MakeVolumeLogarithmic(uint volume);
 
   struct OutputDetails {
     QString name;
@@ -131,8 +135,6 @@ signals:
  protected:
   Base();
 
-  virtual void SetVolumeSW(uint percent) = 0;
-  static uint MakeVolumeLogarithmic(uint volume);
   void EmitAboutToEnd();
 
  protected:
@@ -164,8 +166,6 @@ signals:
   Q_DISABLE_COPY(Base);
   
 };
-//Q_DECLARE_METATYPE(EngineBase::PluginDetails);
-Q_DECLARE_METATYPE(EngineBase::OutputDetails);
 
 struct SimpleMetaBundle {
   QString title;
@@ -182,5 +182,7 @@ struct SimpleMetaBundle {
 };
 
 }  // namespace
+
+Q_DECLARE_METATYPE(EngineBase::OutputDetails);
 
 #endif

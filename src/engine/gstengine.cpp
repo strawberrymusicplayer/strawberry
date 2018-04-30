@@ -21,55 +21,65 @@
 
 #include "config.h"
 
-#include <stdlib.h>
-#include <unistd.h>
+#include <glib.h>
+#include <glib-object.h>
+#include <gio/gio.h>
+#include <memory>
+#include <vector>
 #include <math.h>
-#include <cmath>
+#include <string>
 
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
 
-#include <iostream>
-#include <memory>
-#include <vector>
-
+#include <QtGlobal>
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <QtConcurrentRun>
-#include <QSettings>
-#include <QDir>
-#include <QFile>
-#include <QRegExp>
+#include <QFuture>
 #include <QTimer>
+#include <QDir>
+#include <QList>
+#include <QByteArray>
+#include <QChar>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QUrl>
 #include <QTimeLine>
+#include <QTimerEvent>
+#include <QMetaObject>
+#include <QFlags>
+#include <QSettings>
+#include <QtDebug>
 
-#include "enginetype.h"
-#include "enginebase.h"
-
-#include "gstengine.h"
-
-#include "devicefinder.h"
-#include "gstenginepipeline.h"
 #include "core/closure.h"
+#include "core/utilities.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
-#include "core/utilities.h"
+#include "enginebase.h"
+#include "enginetype.h"
+#include "gstengine.h"
+#include "gstenginepipeline.h"
+#include "gstbufferconsumer.h"
+#ifdef HAVE_IMOBILEDEVICE_ // FIXME
+#  include "ext/gstafc/gstafcsrc.h"
+#endif
 
 #ifdef Q_OS_LINUX
- #include "engine/alsadevicefinder.h"
+#  include "alsadevicefinder.h"
 #endif
 
 #ifdef HAVE_LIBPULSE
-  #include "engine/pulsedevicefinder.h"
+#  include "pulsedevicefinder.h"
 #endif
 
 #ifdef Q_OS_DARWIN
-  #include "engine/osxdevicefinder.h"
+#  include "osxdevicefinder.h"
 #endif
-
 #ifdef Q_OS_WIN32
-  #include "engine/directsounddevicefinder.h"
+#  include "directsounddevicefinder.h"
 #endif
 
 #include "settings/backendsettingspage.h"
@@ -117,7 +127,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
 #ifdef Q_OS_DARWIN
   QDir resources_dir(mac::GetResourcesPath());
   QString ca_cert_path = resources_dir.filePath("cacert.pem");
-  GError* error = nullptr;
+  GError *error = nullptr;
   tls_database_ = g_tls_file_database_new(ca_cert_path.toUtf8().data(), &error);
 #endif
 
@@ -149,6 +159,10 @@ void GstEngine::InitialiseGStreamer() {
   gst_init(nullptr, nullptr);
   gst_pb_utils_init();
 
+#ifdef HAVE_IMOBILEDEVICE_ // FIXME
+  afcsrc_register_static();
+#endif
+
 }
 
 void GstEngine::SetEnvironment() {
@@ -162,7 +176,7 @@ void GstEngine::SetEnvironment() {
   scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
   plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
 #elif defined(Q_OS_WIN32)
-  plugin_path = QCoreApplication::applicationDirPath() + "/gstreamer-plugins";
+  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
@@ -301,6 +315,7 @@ const Engine::Scope &GstEngine::scope(int chunk_length) {
   }
 
   return scope_;
+
 }
 
 void GstEngine::UpdateScope(int chunk_length) {
@@ -348,6 +363,7 @@ void GstEngine::UpdateScope(int chunk_length) {
     gst_buffer_unref(latest_buffer_);
     latest_buffer_ = nullptr;
   }
+
 }
 
 void GstEngine::StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec) {
@@ -464,6 +480,7 @@ void GstEngine::StartFadeoutPause() {
   }
   connect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutPauseFinished()));
   is_fading_out_to_pause_ = true;
+
 }
 
 bool GstEngine::Play(quint64 offset_nanosec) {
@@ -480,6 +497,7 @@ bool GstEngine::Play(quint64 offset_nanosec) {
   }
 
   return true;
+
 }
 
 void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 offset_nanosec, const int pipeline_id) {
@@ -517,6 +535,7 @@ void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 off
   emit StateChanged(Engine::Playing);
   // we've successfully started playing a media stream with this url
   emit ValidSongRequested(url_);
+
 }
 
 void GstEngine::Stop(bool stop_after) {
@@ -541,6 +560,7 @@ void GstEngine::Stop(bool stop_after) {
   current_pipeline_.reset();
   BufferingFinished();
   emit StateChanged(Engine::Empty);
+
 }
 
 void GstEngine::FadeoutFinished() {
@@ -549,6 +569,7 @@ void GstEngine::FadeoutFinished() {
 }
 
 void GstEngine::FadeoutPauseFinished() {
+
   fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
   current_pipeline_->SetState(GST_STATE_PAUSED);
   emit StateChanged(Engine::Paused);
@@ -560,6 +581,7 @@ void GstEngine::FadeoutPauseFinished() {
   fadeout_pipeline_.reset();
 
   emit FadeoutFinishedSignal();
+
 }
 
 void GstEngine::Pause() {
@@ -586,6 +608,7 @@ void GstEngine::Pause() {
       StopTimers();
     }
   }
+
 }
 
 void GstEngine::Unpause() {
@@ -792,7 +815,7 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_mono_playback(mono_playback_);
 
   ret->AddBufferConsumer(this);
-  for (BufferConsumer *consumer : buffer_consumers_) {
+  for (GstBufferConsumer *consumer : buffer_consumers_) {
     ret->AddBufferConsumer(consumer);
   }
 
@@ -832,12 +855,12 @@ bool GstEngine::ALSADeviceSupport(const QString &name) {
 
 }
 
-void GstEngine::AddBufferConsumer(BufferConsumer *consumer) {
+void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
   buffer_consumers_ << consumer;
   if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
 }
 
-void GstEngine::RemoveBufferConsumer(BufferConsumer *consumer) {
+void GstEngine::RemoveBufferConsumer(GstBufferConsumer *consumer) {
   buffer_consumers_.removeAll(consumer);
   if (current_pipeline_) current_pipeline_->RemoveBufferConsumer(consumer);
 }

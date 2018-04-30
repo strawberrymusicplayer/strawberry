@@ -20,13 +20,18 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QSlider>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsopus.h"
 #include "ui_transcoderoptionsopus.h"
 
-#include <QSettings>
-
-// TODO: Add more options than only bitrate as soon as gst doesn't crash
-// anymore while using the cbr parmameter (like cbr=false)
+// TODO: Add more options than only bitrate as soon as gst doesn't crash anymore while using the cbr parmameter (like cbr=false)
 
 const char* TranscoderOptionsOpus::kSettingsGroup = "Transcoder/opusenc";
 

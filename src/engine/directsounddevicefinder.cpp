@@ -26,9 +26,13 @@
 
 #include <dsound.h>
 
+#include <QList>
+#include <QVariant>
+#include <QString>
 #include <QUuid>
 
 #include "directsounddevicefinder.h"
+#include "core/logging.h"
 
 DirectSoundDeviceFinder::DirectSoundDeviceFinder()
     : DeviceFinder("directsoundsink") {
@@ -45,8 +49,9 @@ BOOL DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description,
   State *state = reinterpret_cast<State*>(state_voidptr);
 
   Device dev;
-  dev.description = QString::fromUtf8(description);
-  if (guid) dev.value = QUuid(*guid).toByteArray();
+  dev.description = QString::fromLatin1(description);
+  //if (guid) dev.value = QUuid(*guid).toByteArray();
+  if (guid) dev.value = QUuid(*guid).toString();
   else dev.value = QVariant();
   dev.iconname = GuessIconName(dev.description);
   state->devices.append(dev);

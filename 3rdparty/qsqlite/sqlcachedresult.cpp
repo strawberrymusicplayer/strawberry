@@ -39,9 +39,9 @@
 **
 ****************************************************************************/
 
-#include <qvariant.h>
-#include <qdatetime.h>
-#include <qvector.h>
+#include <QVariant>
+#include <QSqlResult>
+#include <QSqlDriver>
 
 #include "sqlcachedresult.h"
 
@@ -61,8 +61,7 @@ QT_BEGIN_NAMESPACE
 
 static const uint initial_cache_size = 128;
 
-class ClementineSqlCachedResultPrivate
-{
+class ClementineSqlCachedResultPrivate {
 public:
     ClementineSqlCachedResultPrivate();
     bool canSeek(int i) const;
@@ -84,8 +83,7 @@ ClementineSqlCachedResultPrivate::ClementineSqlCachedResultPrivate():
 {
 }
 
-void ClementineSqlCachedResultPrivate::cleanup()
-{
+void ClementineSqlCachedResultPrivate::cleanup() {
     cache.clear();
     forwardOnly = false;
     atEnd = false;
@@ -93,8 +91,7 @@ void ClementineSqlCachedResultPrivate::cleanup()
     rowCacheEnd = 0;
 }
 
-void ClementineSqlCachedResultPrivate::init(int count, bool fo)
-{
+void ClementineSqlCachedResultPrivate::init(int count, bool fo) {
     Q_ASSERT(count);
     cleanup();
     forwardOnly = fo;
@@ -102,13 +99,13 @@ void ClementineSqlCachedResultPrivate::init(int count, bool fo)
     if (fo) {
         cache.resize(count);
         rowCacheEnd = count;
-    } else {
+    }
+    else {
         cache.resize(initial_cache_size * count);
     }
 }
 
-int ClementineSqlCachedResultPrivate::nextIndex()
-{
+int ClementineSqlCachedResultPrivate::nextIndex() {
     if (forwardOnly)
         return 0;
     int newIdx = rowCacheEnd;
@@ -119,15 +116,13 @@ int ClementineSqlCachedResultPrivate::nextIndex()
     return newIdx;
 }
 
-bool ClementineSqlCachedResultPrivate::canSeek(int i) const
-{
+bool ClementineSqlCachedResultPrivate::canSeek(int i) const {
     if (forwardOnly || i < 0)
         return false;
     return rowCacheEnd >= (i + 1) * colCount;
 }
 
-void ClementineSqlCachedResultPrivate::revertLast()
-{
+void ClementineSqlCachedResultPrivate::revertLast() {
     if (forwardOnly)
         return;
     rowCacheEnd -= colCount;
@@ -142,23 +137,19 @@ inline int ClementineSqlCachedResultPrivate::cacheCount() const
 
 //////////////
 
-ClementineSqlCachedResult::ClementineSqlCachedResult(const QSqlDriver * db): QSqlResult (db)
-{
+ClementineSqlCachedResult::ClementineSqlCachedResult(const QSqlDriver * db): QSqlResult (db) {
     d = new ClementineSqlCachedResultPrivate();
 }
 
-ClementineSqlCachedResult::~ClementineSqlCachedResult()
-{
+ClementineSqlCachedResult::~ClementineSqlCachedResult() {
     delete d;
 }
 
-void ClementineSqlCachedResult::init(int colCount)
-{
+void ClementineSqlCachedResult::init(int colCount) {
     d->init(colCount, isForwardOnly());
 }
 
-bool ClementineSqlCachedResult::fetch(int i)
-{
+bool ClementineSqlCachedResult::fetch(int i) {
     if ((!isActive()) || (i < 0))
         return false;
     if (at() == i)
@@ -195,8 +186,7 @@ bool ClementineSqlCachedResult::fetch(int i)
     return true;
 }
 
-bool ClementineSqlCachedResult::fetchNext()
-{
+bool ClementineSqlCachedResult::fetchNext() {
     if (d->canSeek(at() + 1)) {
         setAt(at() + 1);
         return true;
@@ -204,13 +194,11 @@ bool ClementineSqlCachedResult::fetchNext()
     return cacheNext();
 }
 
-bool ClementineSqlCachedResult::fetchPrevious()
-{
+bool ClementineSqlCachedResult::fetchPrevious() {
     return fetch(at() - 1);
 }
 
-bool ClementineSqlCachedResult::fetchFirst()
-{
+bool ClementineSqlCachedResult::fetchFirst() {
     if (d->forwardOnly && at() != QSql::BeforeFirstRow) {
         return false;
     }
@@ -221,8 +209,7 @@ bool ClementineSqlCachedResult::fetchFirst()
     return cacheNext();
 }
 
-bool ClementineSqlCachedResult::fetchLast()
-{
+bool ClementineSqlCachedResult::fetchLast() {
     if (d->atEnd) {
         if (d->forwardOnly)
             return false;
@@ -236,13 +223,13 @@ bool ClementineSqlCachedResult::fetchLast()
     if (d->forwardOnly && at() == QSql::AfterLastRow) {
         setAt(i);
         return true;
-    } else {
+    }
+    else {
         return fetch(i);
     }
 }
 
-QVariant ClementineSqlCachedResult::data(int i)
-{
+QVariant ClementineSqlCachedResult::data(int i) {
     int idx = d->forwardOnly ? i : at() * d->colCount + i;
     if (i >= d->colCount || i < 0 || at() < 0 || idx >= d->rowCacheEnd)
         return QVariant();
@@ -250,8 +237,7 @@ QVariant ClementineSqlCachedResult::data(int i)
     return d->cache.at(idx);
 }
 
-bool ClementineSqlCachedResult::isNull(int i)
-{
+bool ClementineSqlCachedResult::isNull(int i) {
     int idx = d->forwardOnly ? i : at() * d->colCount + i;
     if (i > d->colCount || i < 0 || at() < 0 || idx >= d->rowCacheEnd)
         return true;
@@ -259,22 +245,20 @@ bool ClementineSqlCachedResult::isNull(int i)
     return d->cache.at(idx).isNull();
 }
 
-void ClementineSqlCachedResult::cleanup()
-{
+void ClementineSqlCachedResult::cleanup() {
     setAt(QSql::BeforeFirstRow);
     setActive(false);
     d->cleanup();
 }
 
-void ClementineSqlCachedResult::clearValues()
-{
+void ClementineSqlCachedResult::clearValues() {
     setAt(QSql::BeforeFirstRow);
     d->rowCacheEnd = 0;
     d->atEnd = false;
 }
 
-bool ClementineSqlCachedResult::cacheNext()
-{
+bool ClementineSqlCachedResult::cacheNext() {
+
     if (d->atEnd)
         return false;
 
@@ -292,28 +276,23 @@ bool ClementineSqlCachedResult::cacheNext()
     return true;
 }
 
-int ClementineSqlCachedResult::colCount() const
-{
+int ClementineSqlCachedResult::colCount() const {
     return d->colCount;
 }
 
-ClementineSqlCachedResult::ValueCache &ClementineSqlCachedResult::cache()
-{
+ClementineSqlCachedResult::ValueCache &ClementineSqlCachedResult::cache() {
     return d->cache;
 }
 
-void ClementineSqlCachedResult::virtual_hook(int id, void *data)
-{
+void ClementineSqlCachedResult::virtual_hook(int id, void *data) {
     QSqlResult::virtual_hook(id, data);
 }
 
-void ClementineSqlCachedResult::detachFromResultSet()
-{
+void ClementineSqlCachedResult::detachFromResultSet() {
     cleanup();
 }
 
-void ClementineSqlCachedResult::setNumericalPrecisionPolicy(QSql::NumericalPrecisionPolicy policy)
-{
+void ClementineSqlCachedResult::setNumericalPrecisionPolicy(QSql::NumericalPrecisionPolicy policy) {
     QSqlResult::setNumericalPrecisionPolicy(policy);
     cleanup();
 }

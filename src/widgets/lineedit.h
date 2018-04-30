@@ -23,13 +23,21 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QSpinBox>
+#include <QToolButton>
+#include <QPaintDevice>
+#include <QtEvents>
 
-#include "core/iconloader.h"
-
-class QToolButton;
+class QPaintEvent;
+class QResizeEvent;
 
 class LineEditInterface {
 public:

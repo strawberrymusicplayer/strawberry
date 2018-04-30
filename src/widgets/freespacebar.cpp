@@ -20,11 +20,32 @@
 
 #include "config.h"
 
-#include <QLinearGradient>
-#include <QPainter>
+#include <stdbool.h>
 
-#include "freespacebar.h"
+#include <QtGlobal>
+#include <QWidget>
+#include <QList>
+#include <QString>
+#include <QImage>
+#include <QFont>
+#include <QFontMetrics>
+#include <QPainter>
+#include <QPainterPath>
+#include <QPalette>
+#include <QColor>
+#include <QBrush>
+#include <QPen>
+#include <QPoint>
+#include <QRect>
+#include <QSize>
+#include <QTransform>
+#include <QLinearGradient>
+#include <QtEvents>
+
 #include "core/utilities.h"
+#include "freespacebar.h"
+
+class QPaintEvent;
 
 const int FreeSpaceBar::kBarHeight = 20;
 const int FreeSpaceBar::kBarBorderRadius = 8;

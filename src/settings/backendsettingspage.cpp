@@ -19,30 +19,41 @@
 
 #include "config.h"
 
-#include "backendsettingspage.h"
-#include "ui_backendsettingspage.h"
-
+#include <QtGlobal>
+#include <QSettings>
 #include <QVariant>
 #include <QString>
-#include <QSettings>
+#include <QStringBuilder>
+#include <QFontMetrics>
+#include <QGroupBox>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSlider>
+#include <QSpinBox>
+#include <QLabel>
 
-#include "settingsdialog.h"
+#include "backendsettingspage.h"
+
 #include "core/application.h"
-#include "core/player.h"
-#include "core/logging.h"
-#include "core/utilities.h"
 #include "core/iconloader.h"
-#include "engine/enginetype.h"
+#include "core/player.h"
+#include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
+#include "engine/enginedevice.h"
+#include "engine/enginetype.h"
+#include "engine/devicefinder.h"
 #ifdef HAVE_GSTREAMER
-#include "engine/gstengine.h"
+#  include "engine/gstengine.h"
 #endif
 #ifdef HAVE_XINE
-#include "engine/xineengine.h"
+#  include "engine/xineengine.h"
 #endif
-#include "engine/devicefinder.h"
-
+#include "widgets/lineedit.h"
+#include "widgets/stickyslider.h"
 #include "dialogs/errordialog.h"
+#include "settings/settingspage.h"
+#include "settingsdialog.h"
+#include "ui_backendsettingspage.h"
 
 const char *BackendSettingsPage::kSettingsGroup = "Backend";
 const char *BackendSettingsPage::EngineText_Xine = "Xine";
@@ -491,12 +502,14 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     return;
   }
 
+#if !defined(Q_OS_WIN32)
   QVariant device = ui_->combobox_device->itemData(index).value<QVariant>();
   if (device.type() == QVariant::String) {
     ui_->lineedit_device->setEnabled(true);
     ui_->lineedit_device->setText(device.toString());
     return;
   }
+#endif
 
   ui_->lineedit_device->setEnabled(false);
   ui_->lineedit_device->setText("");
@@ -513,7 +526,7 @@ void BackendSettingsPage::DeviceStringChanged() {
       return;
     }
   }
-  
+
   // Assume this is a custom alsa device string
 
   if (ui_->combobox_device->currentText() != "Custom") {

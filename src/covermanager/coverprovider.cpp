@@ -20,6 +20,9 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QString>
+
 #include "coverprovider.h"
 
 CoverProvider::CoverProvider(const QString &name, const bool &fetchall, QObject *parent)

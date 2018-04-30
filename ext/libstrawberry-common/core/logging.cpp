@@ -14,20 +14,27 @@
    limitations under the License.
 */
 
-#include <glib.h>
-#include <iostream>
-
 #include <QtGlobal>
+#include <QByteArray>
+#include <QList>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
+#include <QDateTime>
+#include <QIODevice>
+#include <QtMessageHandler>
+#include <QMessageLogContext>
 
 #include <cxxabi.h>
+#include <glib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <iostream>
 #ifdef Q_OS_UNIX
   #include <execinfo.h>
 #endif
-
-#include <QCoreApplication>
-#include <QDateTime>
-#include <QStringList>
-#include <QtMessageHandler>
 
 #include "logging.h"
 
@@ -75,7 +82,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext &context, co
     default:            level = Level_Debug;   break;
   }
 
-  for (const QString& line : message.split('\n')) {
+  for (const QString &line : message.split('\n')) {
     CreateLogger(level, "unknown", -1) << line.toLocal8Bit().constData();
   }
 

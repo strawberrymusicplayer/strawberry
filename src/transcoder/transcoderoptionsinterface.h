@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <QWidget>
+#include <QString>
 
 class TranscoderOptionsInterface : public QWidget {
 public:

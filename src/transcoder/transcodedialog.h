@@ -23,14 +23,20 @@
 
 #include "config.h"
 
-#include <QBasicTimer>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
-#include <QFileInfo>
+#include <QBasicTimer>
+#include <QString>
+#include <QStringList>
+#include <QPushButton>
+#include <QTimerEvent>
 
 class Transcoder;
 class Ui_TranscodeDialog;
 class Ui_TranscodeLogDialog;
-
 struct TranscoderPreset;
 
 class TranscodeDialog : public QDialog {

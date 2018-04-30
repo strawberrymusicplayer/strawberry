@@ -20,12 +20,23 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QVariant>
+#include <QStringBuilder>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QRadioButton>
+#include <QSlider>
+#include <QSpinBox>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsmp3.h"
 #include "ui_transcoderoptionsmp3.h"
 
-#include <QSettings>
-
-const char* TranscoderOptionsMP3::kSettingsGroup = "Transcoder/lamemp3enc";
+const char *TranscoderOptionsMP3::kSettingsGroup = "Transcoder/lamemp3enc";
 
 TranscoderOptionsMP3::TranscoderOptionsMP3(QWidget *parent)
     : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsMP3) {

@@ -20,15 +20,20 @@
 
 #include "config.h"
 
-#include <QDir>
-#include <QTemporaryFile>
-#include <QUrl>
+#include <stdbool.h>
 
-#include "currentartloader.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QDir>
+#include <QString>
+#include <QStringBuilder>
+#include <QImage>
+#include <QTemporaryFile>
+
 #include "core/application.h"
-#include "core/iconloader.h"
-#include "covermanager/albumcoverloader.h"
 #include "playlist/playlistmanager.h"
+#include "albumcoverloader.h"
+#include "currentartloader.h"
 
 CurrentArtLoader::CurrentArtLoader(Application *app, QObject *parent)
     : QObject(parent),
@@ -69,8 +74,7 @@ void CurrentArtLoader::TempArtLoaded(quint64 id, const QImage &image) {
     temp_art_->open();
     image.save(temp_art_->fileName(), "JPEG");
 
-    // Scale the image down to make a thumbnail.  It's a bit crap doing it here
-    // since it's the GUI thread, but the alternative is hard.
+    // Scale the image down to make a thumbnail.  It's a bit crap doing it here since it's the GUI thread, but the alternative is hard.
     temp_art_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
     temp_art_thumbnail_->open();
     temp_art_thumbnail_->setAutoRemove(true);

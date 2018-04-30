@@ -20,12 +20,12 @@
 
 #include "config.h"
 
-#include <QFile>
+#include <QObject>
 #include <QThreadPool>
 
+#include "core/song.h"
 #include "albumcoverexporter.h"
 #include "coverexportrunnable.h"
-#include "core/song.h"
 
 const int AlbumCoverExporter::kMaxConcurrentRequests = 3;
 

@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <QVariant>
+#include <QString>
 #include <QSettings>
 
 class SettingsProvider {
@@ -59,4 +60,3 @@ class DefaultSettingsProvider : public SettingsProvider {
 };
 
 #endif // SETTINGSPROVIDER_H
-

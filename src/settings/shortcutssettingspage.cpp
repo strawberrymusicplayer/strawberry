@@ -20,23 +20,30 @@
 
 #include "config.h"
 
-#include <QKeyEvent>
+#include <QtGlobal>
+#include <QWidget>
+#include <QVariant>
+#include <QStringList>
+#include <QAction>
+#include <QHeaderView>
 #include <QMessageBox>
 #include <QProcess>
-#include <QPushButton>
-#include <QSettings>
+#include <QTreeWidget>
+#include <QKeySequence>
 #include <QShortcut>
-#include <QtDebug>
+#include <QSettings>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QPushButton>
+#include <QRadioButton>
 
+#include "core/iconloader.h"
+#include "globalshortcuts/globalshortcutgrabber.h"
+#include "globalshortcuts/globalshortcuts.h"
+#include "settingspage.h"
+#include "settingsdialog.h"
 #include "shortcutssettingspage.h"
 #include "ui_shortcutssettingspage.h"
-
-#include "globalshortcuts/globalshortcuts.h"
-#include "globalshortcuts/globalshortcutgrabber.h"
-#include "core/logging.h"
-#include "core/utilities.h"
-#include "core/iconloader.h"
-#include "settings/settingsdialog.h"
 
 const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 

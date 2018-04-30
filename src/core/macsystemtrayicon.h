@@ -25,6 +25,10 @@
 
 #include <memory>
 
+#include <QObject>
+#include <QAction>
+#include <QPixmap>
+
 #include "systemtrayicon.h"
 
 class MacSystemTrayIconPrivate;

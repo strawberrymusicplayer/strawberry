@@ -42,7 +42,7 @@
 
 #include <QFile>
 #ifdef Q_OS_WIN
-#include <QtCore/QVector>
+#include <QVector>
 #endif
 
 #if defined(Q_WS_WIN) || defined(Q_OS_WIN)

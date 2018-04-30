@@ -20,16 +20,22 @@
 
 #include "config.h"
 
-#include <QDir>
+#include <stdbool.h>
 
-#include "playlistsettingspage.h"
+#include <QVariant>
+#include <QSettings>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QRadioButton>
 
-#include "core/mainwindow.h"
 #include "core/iconloader.h"
-#include "ui_playlistsettingspage.h"
+#include "core/mainwindow.h"
 #include "playlist/playlist.h"
-#include "playlist/playlisttabbar.h"
-#include "settings/playlistsettingspage.h"
+#include "settingspage.h"
+#include "playlistsettingspage.h"
+#include "ui_playlistsettingspage.h"
+
+class SettingsDialog;
 
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 

@@ -18,8 +18,10 @@
 #define LOGGING_H
 
 #include <chrono>
-#include <string>
 
+#include <QtGlobal>
+#include <QIODevice>
+#include <QString>
 #include <QDebug>
 
 #ifdef QT_NO_DEBUG_STREAM
@@ -61,30 +63,30 @@ enum Level {
 
   void DumpStackTrace();
 
-  QString ParsePrettyFunction(const char* pretty_function);
+  QString ParsePrettyFunction(const char *pretty_function);
   QDebug CreateLogger(Level level, const QString &class_name, int line);
 
-QDebug CreateLoggerFatal(int line, const char* class_name);
-QDebug CreateLoggerError(int line, const char* class_name);
+QDebug CreateLoggerFatal(int line, const char *class_name);
+QDebug CreateLoggerError(int line, const char *class_name);
 
 #ifdef QT_NO_WARNING_OUTPUT
 QNoDebug CreateLoggerWarning(int, const char*);
 #else
-QDebug CreateLoggerWarning(int line, const char* class_name);
+QDebug CreateLoggerWarning(int line, const char *class_name);
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
 QNoDebug CreateLoggerInfo(int, const char*);
 QNoDebug CreateLoggerDebug(int, const char*);
 #else
-QDebug CreateLoggerInfo(int line, const char* class_name);
-QDebug CreateLoggerDebug(int line, const char* class_name);
+QDebug CreateLoggerInfo(int line, const char *class_name);
+QDebug CreateLoggerDebug(int line, const char *class_name);
 #endif // QT_NO_DEBUG_OUTPUT
 
 
-void GLog(const char* domain, int level, const char* message, void* user_data);
+void GLog(const char *domain, int level, const char *message, void *user_data);
 
-extern const char* kDefaultLogLevels;
+extern const char *kDefaultLogLevels;
 }
 
 QDebug operator<<(QDebug debug, std::chrono::seconds secs);

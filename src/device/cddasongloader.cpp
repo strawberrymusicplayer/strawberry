@@ -20,11 +20,24 @@
 
 #include "config.h"
 
+#include <stddef.h>
+#include <glib.h>
+#include <glib/gtypes.h>
+#include <glib-object.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QByteArray>
+#include <QString>
+#include <QUrl>
+#include <QtDebug>
+
+#include <cdio/cdio.h>
 #include <gst/gst.h>
 #include <gst/tag/tag.h>
 
 #include "cddasongloader.h"
-
 #include "core/logging.h"
 #include "core/timeconstants.h"
 

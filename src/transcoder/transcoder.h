@@ -24,13 +24,19 @@
 #include "config.h"
 
 #include <memory>
-
+#include <stdbool.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <gst/gst.h>
 
 #include <QObject>
-#include <QStringList>
-#include <QEvent>
+#include <QList>
+#include <QMap>
 #include <QMetaType>
+#include <QSet>
+#include <QString>
+#include <QEvent>
+#include <QVector>
 
 #include "core/song.h"
 
@@ -85,8 +91,7 @@ signals:
     TranscoderPreset preset;
   };
 
-  // State held by a job and shared across gstreamer callbacks - lives in the
-  // job's thread.
+  // State held by a job and shared across gstreamer callbacks - lives in the job's thread.
   struct JobState {
     JobState(const Job &job, Transcoder *parent)
         : job_(job),
@@ -104,8 +109,7 @@ signals:
     GstElement *convert_element_;
   };
 
-  // Event passed from a GStreamer callback to the Transcoder when a job
-  // finishes.
+  // Event passed from a GStreamer callback to the Transcoder when a job finishes.
   struct JobFinishedEvent : public QEvent {
     JobFinishedEvent(JobState *state, bool success);
 

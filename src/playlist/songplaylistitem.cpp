@@ -20,15 +20,14 @@
 
 #include "config.h"
 
-#include "playlistbackend.h"
-#include "songplaylistitem.h"
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+
 #include "core/tagreaderclient.h"
-
 #include "collection/sqlrow.h"
-
-#include <QtDebug>
-#include <QFile>
-#include <QSettings>
+#include "playlistitem.h"
+#include "songplaylistitem.h"
 
 SongPlaylistItem::SongPlaylistItem(const QString &type) : PlaylistItem(type) {}
 

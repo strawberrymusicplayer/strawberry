@@ -16,20 +16,21 @@
 
 #include "config.h"
 
-#include <boost/bind.hpp>
+#include <stddef.h>
+#include <vlc/vlc.h>
 
-#include <QTimer>
-#include <QtDebug>
-#include <QMutexLocker>
-#include <QTime>
+#include <QtGlobal>
+#include <QMutex>
+#include <QByteArray>
+#include <QUrl>
 
+#include "engine_fwd.h"
+#include "enginebase.h"
+#include "enginetype.h"
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
-#include "core/taskmanager.h"
-#include "core/logging.h"
-
-VLCEngine* VLCEngine::sInstance = NULL;
+VLCEngine *VLCEngine::sInstance = NULL;
 
 VLCEngine::VLCEngine(TaskManager *task_manager)
   : instance_(NULL),
@@ -38,10 +39,8 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
     state_(Engine::Empty)
 {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
 #if 1
-  static const char * const args[] = {
+  static const char  *const args[] = {
     "-I", "dummy",        // Don't use any interface
     "--ignore-config",    // Don't use VLC's config
     "--extraintf=logger", // log anything
@@ -71,7 +70,7 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
   HandleErrors();
 
   // Add event handlers
-  libvlc_event_manager_t* player_em = libvlc_media_player_event_manager(player_);
+  libvlc_event_manager_t *player_em = libvlc_media_player_event_manager(player_);
   HandleErrors();
 
   AttachCallback(player_em, libvlc_MediaPlayerEncounteredError, StateChangedCallback);
@@ -89,27 +88,23 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
 
 VLCEngine::~VLCEngine() {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   libvlc_media_player_stop(player_);
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
   HandleErrors();
+
 }
 
-void VLCEngine::AttachCallback(libvlc_event_manager_t* em, libvlc_event_type_t type, libvlc_callback_t callback) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
+void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
     
   libvlc_event_attach(em, type, callback, this);
   HandleErrors();
+
 }
 
-void VLCEngine::StateChangedCallback(const libvlc_event_t* e, void* data) {
+void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
-  VLCEngine* engine = reinterpret_cast<VLCEngine*>(data);
+  VLCEngine *engine = reinterpret_cast<VLCEngine*>(data);
 
   switch (e->type) {
     case libvlc_MediaPlayerNothingSpecial:
@@ -135,11 +130,10 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t* e, void* data) {
   }
 
   emit engine->StateChanged(engine->state_);
+
 }
 
 bool VLCEngine::Init() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   type_ = Engine::VLC;
     
@@ -148,15 +142,11 @@ bool VLCEngine::Init() {
 
 bool VLCEngine::CanDecode(const QUrl &url) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   // TODO
   return true;
 }
 
 bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Create the media object
   VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, url.toEncoded().constData()));
@@ -168,11 +158,10 @@ bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
     //return false;
 
   return true;
+
 }
 
 bool VLCEngine::Play(quint64 offset_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   libvlc_media_player_play(player_);
   //if (libvlc_exception_raised(&exception_))
@@ -187,15 +176,11 @@ bool VLCEngine::Play(quint64 offset_nanosec) {
 
 void VLCEngine::Stop(bool stop_after) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   libvlc_media_player_stop(player_);
   HandleErrors();
 }
 
 void VLCEngine::Pause() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   libvlc_media_player_pause(player_);
   HandleErrors();
@@ -203,15 +188,11 @@ void VLCEngine::Pause() {
 
 void VLCEngine::Unpause() {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   libvlc_media_player_play(player_);
   HandleErrors();
 }
 
 uint VLCEngine::position() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //bool is_playing = libvlc_media_player_is_playing(player_, const_cast<libvlc_exception_t*>(&exception_));
   bool is_playing = libvlc_media_player_is_playing(player_);
@@ -229,8 +210,6 @@ uint VLCEngine::position() const {
 }
 
 uint VLCEngine::length() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //bool is_playing = libvlc_media_player_is_playing(player_, const_cast<libvlc_exception_t*>(&exception_));
   bool is_playing = libvlc_media_player_is_playing(player_);
@@ -248,8 +227,6 @@ uint VLCEngine::length() const {
 }
 
 void VLCEngine::Seek(quint64 offset_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   uint len = length();
   if (len == 0)
@@ -264,15 +241,11 @@ void VLCEngine::Seek(quint64 offset_nanosec) {
 
 void VLCEngine::SetVolumeSW(uint percent) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   libvlc_audio_set_volume(player_, percent);
   HandleErrors();
 }
 
 void VLCEngine::HandleErrors() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   //if (libvlc_exception_raised(&exception_)) {
     //qFatal("libvlc error: %s", libvlc_exception_get_message(&exception_));
@@ -280,9 +253,7 @@ void VLCEngine::HandleErrors() const {
 
 }
 
-void VLCEngine::SetScopeData(float* data, int size) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
+void VLCEngine::SetScopeData(float *data, int size) {
     
   if (!sInstance)
     return;
@@ -297,8 +268,6 @@ void VLCEngine::SetScopeData(float* data, int size) {
 }
 
 const Engine::Scope& VLCEngine::Scope() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMutexLocker l(&scope_mutex_);
 
@@ -319,17 +288,12 @@ const Engine::Scope& VLCEngine::Scope() {
 
 qint64 VLCEngine::position_nanosec() const {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   return 0;
 
 }
 
 qint64 VLCEngine::length_nanosec() const {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   return 0;
 
 }
-

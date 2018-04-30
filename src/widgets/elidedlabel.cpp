@@ -20,7 +20,15 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QString>
+#include <QLabel>
+#include <QFontMetrics>
+#include <QtEvents>
+
 #include "elidedlabel.h"
+
+class QResizeEvent;
 
 ElidedLabel::ElidedLabel(QWidget *parent) : QLabel(parent) {}
 

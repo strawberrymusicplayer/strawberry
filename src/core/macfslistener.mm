@@ -27,7 +27,7 @@
 #include <Foundation/NSString.h>
 
 #include "core/logging.h"
-#include "core/scoped_nsobject.h"
+#include "scoped_nsobject.h"
 
 MacFSListener::MacFSListener(QObject* parent)
     : FileSystemWatcherInterface(parent), run_loop_(nullptr), stream_(nullptr) {

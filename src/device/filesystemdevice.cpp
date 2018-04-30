@@ -20,16 +20,20 @@
 
 #include "config.h"
 
-#include "devicelister.h"
-#include "devicemanager.h"
-#include "filesystemdevice.h"
+#include <QThread>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+
 #include "core/application.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionwatcher.h"
+#include "connecteddevice.h"
+#include "devicemanager.h"
+#include "filesystemdevice.h"
 
-#include <QThread>
-#include <QtDebug>
+class DeviceLister;
 
 FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
       : FilesystemMusicStorage(url.toLocalFile()), ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), watcher_(new CollectionWatcher), watcher_thread_(new QThread(this))

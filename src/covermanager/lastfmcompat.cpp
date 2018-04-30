@@ -20,8 +20,13 @@
 
 #include "config.h"
 
+#include <lastfm5/ws.h>
+
+#include <QByteArray>
+#include <QList>
+#include <QNetworkReply>
+
 #include "lastfmcompat.h"
-#include "core/logging.h"
 
 namespace lastfm {
 namespace compat {

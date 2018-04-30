@@ -15,6 +15,8 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QObject>
+
 #include "workerpool.h"
 
 _WorkerPoolBase::_WorkerPoolBase(QObject *parent) : QObject(parent) {}

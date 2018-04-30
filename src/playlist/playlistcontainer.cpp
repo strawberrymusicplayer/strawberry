@@ -18,25 +18,43 @@
  * 
  */
 
-#include "config.h"
+#include <QApplication>
+#include <QObject>
+#include <QWidget>
+#include <QAction>
+#include <QList>
+#include <QVariant>
+#include <QPoint>
+#include <QString>
+#include <QRegExp>
+#include <QSize>
+#include <QFont>
+#include <QIcon>
+#include <QColor>
+#include <QFrame>
+#include <QPalette>
+#include <QModelIndex>
+#include <QItemSelectionModel>
+#include <QSortFilterProxyModel>
+#include <QTimer>
+#include <QTimeLine>
+#include <QFileDialog>
+#include <QLabel>
+#include <QKeySequence>
+#include <QToolButton>
+#include <QUndoStack>
+#include <QtEvents>
+#include <QSettings>
 
+#include "core/iconloader.h"
+#include "playlist.h"
+#include "playlisttabbar.h"
+#include "playlistview.h"
 #include "playlistcontainer.h"
 #include "playlistmanager.h"
-#include "ui_playlistcontainer.h"
-#include "core/logging.h"
-#include "core/iconloader.h"
 #include "playlistparsers/playlistparser.h"
-
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QKeyEvent>
-#include <QLabel>
-#include <QMessageBox>
-#include <QSettings>
-#include <QSortFilterProxyModel>
-#include <QTimeLine>
-#include <QTimer>
-#include <QUndoStack>
+#include "ui_playlistcontainer.h"
+#include "3rdparty/qocoa/qsearchfield.h"
 
 const char *PlaylistContainer::kSettingsGroup = "Playlist";
 const int PlaylistContainer::kFilterDelayMs = 100;
@@ -127,7 +145,7 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
 }
 
 void PlaylistContainer::SetManager(PlaylistManager *manager) {
-  
+
   manager_ = manager;
   ui_->tab_bar->SetManager(manager);
 
@@ -149,7 +167,7 @@ void PlaylistContainer::SetManager(PlaylistManager *manager) {
 void PlaylistContainer::SetViewModel(Playlist *playlist) {
 
   if (view()->selectionModel()) {
-    disconnect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(SelectionChanged()));
+    disconnect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));
   }
   if (playlist_ && playlist_->proxy()) {
     disconnect(playlist_->proxy(), SIGNAL(modelReset()), this, SLOT(UpdateNoMatchesLabel()));
@@ -172,7 +190,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist) {
   view()->selectionModel()->select(manager_->current_selection(), QItemSelectionModel::ClearAndSelect);
   playlist->IgnoreSorting(false);
 
-  connect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(SelectionChanged()));
+  connect(view()->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(SelectionChanged()));
   emit ViewSelectionModelChanged();
 
   // Update filter
@@ -180,11 +198,11 @@ void PlaylistContainer::SetViewModel(Playlist *playlist) {
 
   // Update the no matches label
   connect(playlist_->proxy(), SIGNAL(modelReset()), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_->proxy(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_->proxy(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(UpdateNoMatchesLabel()));
+  connect(playlist_->proxy(), SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
+  connect(playlist_->proxy(), SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
   connect(playlist_, SIGNAL(modelReset()), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_, SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(UpdateNoMatchesLabel()));
-  connect(playlist_, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(UpdateNoMatchesLabel()));
+  connect(playlist_, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
+  connect(playlist_, SIGNAL(rowsRemoved(QModelIndex, int, int)), SLOT(UpdateNoMatchesLabel()));
   UpdateNoMatchesLabel();
 
   // Ensure that tab is current
@@ -241,13 +259,11 @@ void PlaylistContainer::PlaylistAdded(int id, const QString &name, bool favorite
   }
 
   if (ui_->tab_bar->count() > 1) {
-    // Have to do this here because sizeHint() is only valid when there's a
-    // tab in the bar.
+    // Have to do this here because sizeHint() is only valid when there's a tab in the bar.
     tab_bar_animation_->setFrameRange(0, ui_->tab_bar->sizeHint().height());
 
     if (!isVisible()) {
-      // Skip the animation since the window is hidden (eg. if we're still
-      // loading the UI).
+      // Skip the animation since the window is hidden (eg. if we're still loading the UI).
       tab_bar_visible_ = true;
       ui_->tab_bar->setMaximumHeight(tab_bar_animation_->endFrame());
     } else {
@@ -271,8 +287,6 @@ void PlaylistContainer::PlaylistRenamed(int id, const QString &new_name) {
 void PlaylistContainer::NewPlaylist() { manager_->New(tr("Playlist")); }
 
 void PlaylistContainer::LoadPlaylist() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   QString filename = settings_.value("last_load_playlist").toString();
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters());
@@ -296,8 +310,7 @@ void PlaylistContainer::ClearPlaylist() {
 
 void PlaylistContainer::GoToNextPlaylistTab() {
   // Get the next tab' id
-  int id_next = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + 1) %
-                                    ui_->tab_bar->count());
+  int id_next = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_next);
 }
@@ -330,8 +343,7 @@ void PlaylistContainer::SetTabBarHeight(int height) {
 
 void PlaylistContainer::MaybeUpdateFilter() {
 
-  // delaying the filter update on small playlists is undesirable
-  // and an empty filter applies very quickly, too
+  // delaying the filter update on small playlists is undesirable and an empty filter applies very quickly, too
   if (manager_->current()->rowCount() < kFilterDelayPlaylistSizeThreshold || ui_->filter->text().isEmpty()) {
     UpdateFilter();
   }

@@ -20,29 +20,47 @@
 
 #include "config.h"
 
+#include <stdlib.h>
+#include <memory>
 #include <algorithm>
 
 #include <QApplication>
+#include <QCoreApplication>
+#include <QObject>
+#include <QFile>
+#include <QList>
+#include <QJsonArray>
+#include <QVariant>
+#include <QVariantMap>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 #include <QDBusConnection>
-#include <QtConcurrentRun>
+#include <QDBusMessage>
+#include <QDBusArgument>
+#include <QDBusObjectPath>
+#include <QtDebug>
 
+#include "core/logging.h"
+
+#include "mpris_common.h"
 #include "mpris2.h"
 
-#include "core/application.h"
-#include "core/mainwindow.h"
-#include "core/logging.h"
-#include "core/mpris_common.h"
-#include "core/mpris2_player.h"
-#include "core/mpris2_playlists.h"
-#include "core/mpris2_root.h"
-#include "core/mpris2_tracklist.h"
-#include "core/player.h"
-#include "core/timeconstants.h"
+#include "timeconstants.h"
+#include "song.h"
+#include "application.h"
+#include "player.h"
 #include "engine/enginebase.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
 #include "covermanager/currentartloader.h"
+
+#include <core/mpris2_player.h>
+#include <core/mpris2_playlists.h>
+#include <core/mpris2_root.h>
+#include <core/mpris2_tracklist.h>
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   arg.beginStructure();
@@ -75,11 +93,11 @@ const QDBusArgument &operator>> (const QDBusArgument &arg, MaybePlaylist &playli
 
 namespace mpris {
 
-const char* Mpris2::kMprisObjectPath = "/org/mpris/MediaPlayer2";
-const char* Mpris2::kServiceName = "org.mpris.MediaPlayer2.strawberry";
-const char* Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
+const char *Mpris2::kMprisObjectPath = "/org/mpris/MediaPlayer2";
+const char *Mpris2::kServiceName = "org.mpris.MediaPlayer2.strawberry";
+const char *Mpris2::kFreedesktopPath = "org.freedesktop.DBus.Properties";
 
-Mpris2::Mpris2(Application* app, QObject* parent) : QObject(parent), app_(app) {
+Mpris2::Mpris2(Application *app, QObject *parent) : QObject(parent), app_(app) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -184,8 +202,7 @@ QString Mpris2::DesktopEntryAbsolutePath() const {
   xdg_data_dirs.append("/usr/share/");
 
   for (const QString &directory : xdg_data_dirs) {
-    QString path = QString("%1/applications/%2.desktop").arg(
-        directory, QApplication::applicationName().toLower());
+    QString path = QString("%1/applications/%2.desktop").arg(directory, QApplication::applicationName().toLower());
     if (QFile::exists(path)) return path;
   }
   return QString();
@@ -276,9 +293,11 @@ void Mpris2::SetLoopStatus(const QString &value) {
 
   if (value == "None") {
     mode = PlaylistSequence::Repeat_Off;
-  } else if (value == "Track") {
+  }
+  else if (value == "Track") {
     mode = PlaylistSequence::Repeat_Track;
-  } else if (value == "Playlist") {
+  }
+  else if (value == "Playlist") {
     mode = PlaylistSequence::Repeat_Playlist;
   }
 
@@ -312,8 +331,7 @@ QString Mpris2::current_track_id() const {
   return QString("/org/strawberry/strawberrymusicplayer/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row()));
 }
 
-// We send Metadata change notification as soon as the process of
-// changing song starts...
+// We send Metadata change notification as soon as the process of changing song starts...
 void Mpris2::CurrentSongChanged(const Song &song) {
 
   ArtLoaded(song, "");
@@ -367,8 +385,7 @@ bool Mpris2::CanPlay() const {
   return app_->playlist_manager()->active() && app_->playlist_manager()->active()->rowCount() != 0 && !(app_->player()->GetState() == Engine::Playing);
 }
 
-// This one's a bit different than MPRIS 1 - we want this to be true even when
-// the song is already paused or stopped.
+// This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
 bool Mpris2::CanPause() const {
   return (app_->player()->GetCurrentItem() && app_->player()->GetState() == Engine::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::PauseDisabled)) || PlaybackStatus() == "Paused" || PlaybackStatus() == "Stopped";
 }
@@ -474,7 +491,7 @@ QDBusObjectPath MakePlaylistPath(int id) {
 MaybePlaylist Mpris2::ActivePlaylist() const {
 
   MaybePlaylist maybe_playlist;
-  Playlist* current_playlist = app_->playlist_manager()->current();
+  Playlist *current_playlist = app_->playlist_manager()->current();
   maybe_playlist.valid = current_playlist;
   if (!current_playlist) {
     return maybe_playlist;
@@ -511,7 +528,7 @@ void Mpris2::ActivatePlaylist(const QDBusObjectPath &playlist_id) {
 MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order) {
 
   MprisPlaylistList ret;
-  for (Playlist* p : app_->playlist_manager()->GetAllPlaylists()) {
+  for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
     MprisPlaylist mpris_playlist;
     mpris_playlist.id = MakePlaylistPath(p->id());
     mpris_playlist.name = app_->playlist_manager()->GetPlaylistName(p->id());
@@ -526,7 +543,7 @@ MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const Q
 
 }
 
-void Mpris2::PlaylistChanged(Playlist* playlist) {
+void Mpris2::PlaylistChanged(Playlist *playlist) {
 
   MprisPlaylist mpris_playlist;
   mpris_playlist.id = MakePlaylistPath(playlist->id());
@@ -535,9 +552,8 @@ void Mpris2::PlaylistChanged(Playlist* playlist) {
 
 }
 
-void Mpris2::PlaylistCollectionChanged(Playlist* playlist) {
+void Mpris2::PlaylistCollectionChanged(Playlist *playlist) {
   EmitNotification("PlaylistCount", "", "org.mpris.MediaPlayer2.Playlists");
 }
 
 }  // namespace mpris
-

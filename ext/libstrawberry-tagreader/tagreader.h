@@ -18,17 +18,18 @@
 #ifndef TAGREADER_H
 #define TAGREADER_H
 
+#include "config.h"
+
+#include <string>
+
 #include <QByteArray>
+#include <QString>
+#include <QNetworkAccessManager>
+#include <QTextCodec>
 
 #include <taglib/xiphcomment.h>
 
-#include "config.h"
 #include "tagreadermessages.pb.h"
-
-class QNetworkAccessManager;
-class QString;
-class QTextCodec;
-class QUrl;
 
 namespace TagLib {
   class FileRef;
@@ -44,15 +45,14 @@ class FileRefFactory;
 
 /**
  * This class holds all useful methods to read and write tags from/to files.
- * You should not use it directly in the main process but rather use a
- * TagReaderWorker process (using TagReaderClient)
+ * You should not use it directly in the main process but rather use a TagReaderWorker process (using TagReaderClient)
  */
 class TagReader {
  public:
   TagReader();
 
-  void ReadFile(const QString& filename, pb::tagreader::SongMetadata *song) const;
-  bool SaveFile(const QString& filename, const pb::tagreader::SongMetadata &song) const;
+  void ReadFile(const QString &filename, pb::tagreader::SongMetadata *song) const;
+  bool SaveFile(const QString &filename, const pb::tagreader::SongMetadata &song) const;
 
   bool IsMediaFile(const QString &filename) const;
   QByteArray LoadEmbeddedArt(const QString &filename) const;

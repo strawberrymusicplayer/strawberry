@@ -20,12 +20,17 @@
 
 #include "config.h"
 
-#include <QRegExp>
-#include <QtDebug>
-#include <QUrlQuery>
+#include <stdlib.h>
 
-#include "mtpconnection.h"
+#include <QByteArray>
+#include <QString>
+#include <QRegExp>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QtDebug>
+
 #include "core/logging.h"
+#include "mtpconnection.h"
 
 MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
 

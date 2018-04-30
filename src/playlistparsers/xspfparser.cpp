@@ -18,20 +18,26 @@
  * 
  */
 
-#include "config.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QFileInfo>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QSettings>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
-#include "xspfparser.h"
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-
 #include "playlist/playlist.h"
+#include "playlistparsers/xmlparser.h"
+#include "xspfparser.h"
 
-#include <QDomDocument>
-#include <QFile>
-#include <QIODevice>
-#include <QRegExp>
-#include <QUrl>
-#include <QXmlStreamReader>
+class CollectionBackendInterface;
 
 XSPFParser::XSPFParser(CollectionBackendInterface *collection, QObject *parent)
     : XMLParser(collection, parent) {}
@@ -175,12 +181,12 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
         }
 
         if (!art_filename.isEmpty() && !(art_filename == "(embedded)")) {
-          // Make this filename relative to the directory we're saving the
-          // playlist.
+          // Make this filename relative to the directory we're saving the playlist.
           QUrl url = QUrl(art_filename);
           url.setScheme("file");  // Need to explicitly set this.
           art_filename = URLOrFilename(url, dir, path_type).toUtf8();
-        } else {
+        }
+        else {
           // Just use whatever URL was in the Song.
           art_filename = art;
         }

@@ -40,9 +40,9 @@
 #ifndef QTLOCALPEER_H
 #define QTLOCALPEER_H
 
+#include <QObject>
+#include <QString>
 #include <QLocalServer>
-#include <QLocalSocket>
-#include <QDir>
 
 #include "qtlockedfile.h"
 

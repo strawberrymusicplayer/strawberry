@@ -1,11 +1,17 @@
+#include "config.h"
+
+#include <QWidget>
+#include <QGLWidget>
+#include <QVector>
+
 #include "analyzer.h"
 
-#include "engines/enginebase.h"
+#include "engine/enginebase.h"
 
-AnalyzerBase::AnalyzerBase(QWidget* parent)
+AnalyzerBase::AnalyzerBase(QWidget *parent)
     : QGLWidget(parent), engine_(nullptr) {}
 
-void AnalyzerBase::set_engine(Engine::Base* engine) {
+void AnalyzerBase::set_engine(Engine::Base *engine) {
   disconnect(engine_);
   engine_ = engine;
   if (engine_) {

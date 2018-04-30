@@ -21,23 +21,34 @@
 #ifndef SONG_H
 #define SONG_H
 
-#include <QFuture>
-#include <QImage>
-#include <QMetaType>
-#include <QSharedDataPointer>
-#include <QVariantMap>
-
 #include "config.h"
-#include "engine/engine_fwd.h"
+
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QSharedData>
+#include <QSharedDataPointer>
+#include <QMetaType>
+#include <QList>
+#include <QSet>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
+#include <QUrl>
+#include <QImage>
+#include <QTextCodec>
+#include <QSqlQuery>
+
+namespace Engine {
+struct SimpleMetaBundle;
+}  // namespace Engine
 
 namespace pb {
 namespace tagreader {
 class SongMetadata;
 }  // namespace tagreader
 }  // namespace pb
-
-class QSqlQuery;
-class QUrl;
 
 #ifdef HAVE_LIBGPOD
 struct _Itdb_Track;
@@ -75,11 +86,12 @@ class Song {
 
   static const QString kManuallyUnsetCover;
   static const QString kEmbeddedCover;
+  
+  static const QRegExp kCoverRemoveDisc;
 
   static QString JoinSpec(const QString &table);
 
-  // Don't change these values - they're stored in the database, and defined
-  // in the tag reader protobuf.
+  // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
   // If a new lossless file is added, also add it to IsFileLossless().
   enum FileType {
     Type_Unknown = 0,
@@ -129,9 +141,8 @@ class Song {
   void ToMTP(LIBMTP_track_struct *track) const;
 #endif
 
-  // Copies important statistics from the other song to this one, overwriting
-  // any data that already exists.  Useful when you want updated tags from disk
-  // but you want to keep user stats.
+  // Copies important statistics from the other song to this one, overwriting any data that already exists.
+  // Useful when you want updated tags from disk but you want to keep user stats.
   void MergeUserSetData(const Song &other);
 
   static QString Decode(const QString &tag, const QTextCodec *codec = nullptr);
@@ -204,8 +215,7 @@ class Song {
 
   // Returns true if this Song had it's cover manually unset by user.
   bool has_manually_unset_cover() const;
-  // This method represents an explicit request to unset this song's
-  // cover.
+  // This method represents an explicit request to unset this song's cover.
   void manually_unset_cover();
 
   // Returns true if this song (it's media file) has an embedded cover.
@@ -288,15 +298,15 @@ class Song {
 
   bool operator==(const Song &other) const;
 
-  // Two songs that are on the same album will have the same AlbumKey.  It is
-  // more efficient to use IsOnSameAlbum, but this function can be used when
-  // you need to hash the key to do fast lookups.
+  // Two songs that are on the same album will have the same AlbumKey.
+  // It is more efficient to use IsOnSameAlbum, but this function can be used when you need to hash the key to do fast lookups.
   QString AlbumKey() const;
 
   Song &operator=(const Song &other);
 
  private:
   struct Private;
+
   QSharedDataPointer<Private> d;
 };
 Q_DECLARE_METATYPE(Song);

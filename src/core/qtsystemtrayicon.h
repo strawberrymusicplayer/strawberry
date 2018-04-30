@@ -23,24 +23,36 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QSystemTrayIcon>
+#include <QString>
+#include <QPixmap>
+#include <QAction>
+#include <QMenu>
+#include <QtEvents>
+
 #include "systemtrayicon.h"
 
-#include <QSystemTrayIcon>
+class QEvent;
+
+class Song;
 
 class QtSystemTrayIcon : public SystemTrayIcon {
   Q_OBJECT
 
  public:
-  QtSystemTrayIcon(QObject* parent = nullptr);
+  QtSystemTrayIcon(QObject *parent = nullptr);
   ~QtSystemTrayIcon();
 
-  void SetupMenu(QAction* previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit);
+  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit);
   bool IsVisible() const;
   void SetVisible(bool visible);
 
   void ShowPopup(const QString &summary, const QString &message, int timeout);
 
-  void SetNowPlaying(const Song& song, const QString& image_path);
+  void SetNowPlaying(const Song &song, const QString &image_path);
   void ClearNowPlaying();
 
 protected:

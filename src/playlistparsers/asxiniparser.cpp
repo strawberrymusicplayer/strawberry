@@ -18,13 +18,17 @@
  * 
  */
 
-#include "config.h"
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QDir>
+#include <QString>
+#include <QTextStream>
 
 #include "asxiniparser.h"
-#include "core/logging.h"
+#include "playlistparsers/parserbase.h"
 
-#include <QTextStream>
-#include <QtDebug>
+class CollectionBackendInterface;
 
 AsxIniParser::AsxIniParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}

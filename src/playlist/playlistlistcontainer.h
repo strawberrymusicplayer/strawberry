@@ -23,14 +23,19 @@
 
 #include "config.h"
 
-#include "playlistbackend.h"
+#include <stdbool.h>
 
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QIcon>
+#include <QAction>
+#include <QMenu>
+#include <QSortFilterProxyModel>
+#include <QStandardItem>
+#include <QtEvents>
 
-class QMenu;
-class QSortFilterProxyModel;
-class QStandardItemModel;
-
+class QModelIndex;
 class Application;
 class Playlist;
 class PlaylistListModel;

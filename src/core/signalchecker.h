@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <glib.h>
 #include <glib-object.h>
 
 #include <boost/function_types/function_arity.hpp>

@@ -23,12 +23,21 @@
 
 #include "config.h"
 
-#include "xmlparser.h"
+#include <stdbool.h>
 
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QDir>
+#include <QString>
+#include <QStringList>
 #include <QXmlStreamReader>
 
-class QDomDocument;
-class QDomNode;
+#include "core/song.h"
+#include "playlist/playlist.h"
+#include "xmlparser.h"
+
+class CollectionBackendInterface;
 
 class XSPFParser : public XMLParser {
   Q_OBJECT

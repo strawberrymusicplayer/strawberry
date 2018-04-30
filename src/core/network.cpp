@@ -20,17 +20,23 @@
 
 #include "config.h"
 
-#include "network.h"
-
+#include <QtGlobal>
 #include <QCoreApplication>
+#include <QObject>
 #include <QStandardPaths>
-#include <QDir>
+#include <QMutex>
+#include <QIODevice>
+#include <QString>
+#include <QUrl>
 #include <QNetworkAccessManager>
-#include <QNetworkDiskCache>
+#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkDiskCache>
+#include <QNetworkCacheMetaData>
+#include <QAbstractNetworkCache>
 
 #include "core/closure.h"
-#include "core/logging.h"
+#include "network.h"
 
 QMutex ThreadSafeNetworkDiskCache::sMutex;
 QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;

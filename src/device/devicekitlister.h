@@ -24,14 +24,25 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QMutex>
+#include <QList>
+#include <QMap>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
+#ifdef HAVE_DBUS
+#  include <QDBusObjectPath>
+#endif
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include "devicelister.h"
 
 class OrgFreedesktopUDisksInterface;
-
 class QDBusObjectPath;
 
 class DeviceKitLister : public DeviceLister {

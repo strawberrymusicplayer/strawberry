@@ -25,7 +25,13 @@
 
 #include <libimobiledevice/libimobiledevice.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QMutex>
+#include <QMap>
+#include <QList>
+#include <QString>
+#include <QStringList>
 
 #include "devicelister.h"
 

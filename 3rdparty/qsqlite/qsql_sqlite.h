@@ -42,8 +42,17 @@
 #ifndef QSQL_SQLITE_H
 #define QSQL_SQLITE_H
 
-#include <QtSql/qsqldriver.h>
-#include <QtSql/qsqlresult.h>
+#include <QtGlobal>
+#include <QObject>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QSql>
+#include <QSqlDriver>
+#include <QSqlIndex>
+#include <QSqlRecord>
+#include <QSqlResult>
+
 #include "sqlcachedresult.h"
 
 struct sqlite3;
@@ -57,16 +66,16 @@ struct sqlite3;
 QT_BEGIN_HEADER
 
 QT_BEGIN_NAMESPACE
+class QSQLiteDriver;
 class QSQLiteDriverPrivate;
 class QSQLiteResultPrivate;
-class QSQLiteDriver;
 
 class QSQLiteResult : public ClementineSqlCachedResult
 {
     friend class QSQLiteDriver;
     friend class QSQLiteResultPrivate;
 public:
-    explicit QSQLiteResult(const QSQLiteDriver* db);
+    explicit QSQLiteResult(const QSQLiteDriver *db);
     ~QSQLiteResult();
     QVariant handle() const;
 
@@ -83,7 +92,7 @@ protected:
     void virtual_hook(int id, void *data);
 
 private:
-    QSQLiteResultPrivate* d;
+    QSQLiteResultPrivate *d;
 };
 
 class Q_EXPORT_SQLDRIVER_SQLITE QSQLiteDriver : public QSqlDriver
@@ -95,12 +104,7 @@ public:
     explicit QSQLiteDriver(sqlite3 *connection, QObject *parent = 0);
     ~QSQLiteDriver();
     bool hasFeature(DriverFeature f) const;
-    bool open(const QString & db,
-                   const QString & user,
-                   const QString & password,
-                   const QString & host,
-                   int port,
-                   const QString & connOpts);
+    bool open(const QString & db, const QString & user, const QString & password, const QString & host, int port, const QString & connOpts);
     void close();
     QSqlResult *createResult() const;
     bool beginTransaction();
@@ -114,7 +118,7 @@ public:
     QString escapeIdentifier(const QString &identifier, IdentifierType) const;
 
 private:
-    QSQLiteDriverPrivate* d;
+    QSQLiteDriverPrivate *d;
 };
 
 QT_END_NAMESPACE

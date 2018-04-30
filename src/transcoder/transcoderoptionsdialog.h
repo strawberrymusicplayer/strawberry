@@ -23,11 +23,18 @@
 
 #include "config.h"
 
-#include <QDialog>
+#include <stdbool.h>
 
-#include "transcoderoptionsinterface.h"
+#include <QDialog>
+#include <QWidget>
+#include <QObject>
+#include <QString>
+
 #include "core/song.h"
 
+class QShowEvent;
+
+class TranscoderOptionsInterface;
 class Ui_TranscoderOptionsDialog;
 
 class TranscoderOptionsDialog : public QDialog {

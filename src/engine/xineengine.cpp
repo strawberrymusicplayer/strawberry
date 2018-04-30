@@ -16,30 +16,40 @@
 
 #include "config.h"
 
+#include <cstdlib>
+#include <algorithm>
+#include <climits>
+#include <vector>
+
+#include <QtGlobal>
+#include <QApplication>
+#include <QThread>
+#include <QMutex>
+#include <QByteArray>
+#include <QChar>
+#include <QFile>
+#include <QFileInfo>
+#include <QDateTime>
+#include <QLocale>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QUrl>
+#include <QTimer>
+#include <QtDebug>
+#include <QSettings>
+
+#include "core/logging.h"
+#include "engine_fwd.h"
+#include "enginebase.h"
+#include "enginetype.h"
 #include "xineengine.h"
 #include "xinescope.h"
 
-#include <climits>
-#include <cstdlib>
-#include <cmath>
-
-#include <QtDebug>
-#include <QMessageBox>
-#include <QApplication>
-#include <QDir>
-#include <QTime>
-#include <QMutex>
-#include <QMutexLocker>
-#include <QLocale>
-#include <QTimer>
-
-#include "enginetype.h"
-#include "enginebase.h"
-
-#include "core/logging.h"
-
 extern "C"
 {
+#include <time.h>
 #include <unistd.h>
 }
 
@@ -81,15 +91,11 @@ XineEngine::XineEngine(TaskManager *task_manager)
     , equalizerEnabled_( false )
     , prune_(NULL)
 {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   ReloadSettings();
 }
 
 XineEngine::~XineEngine() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Wait until the fader thread is done
   if( s_fader ) {
@@ -133,8 +139,6 @@ void XineEngine::ReloadSettings() {
 
   QSettings s;
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   Engine::Base::ReloadSettings();
 
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
@@ -152,8 +156,6 @@ void XineEngine::ReloadSettings() {
 }
 
 bool XineEngine::Init() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   type_ = Engine::Xine;
 
@@ -195,8 +197,6 @@ bool XineEngine::Init() {
 
 bool XineEngine::makeNewStream() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   audioPort_ = xine_open_audio_driver(xine_, currentAudioPlugin_.toLocal8Bit().constData(), NULL);
   if( !audioPort_ ) {
     //TODO make engine method that is the same but parents the dialog for us
@@ -215,10 +215,7 @@ bool XineEngine::makeNewStream() {
   if( eventQueue_ )
     xine_event_dispose_queue( eventQueue_ );
 
-  xine_event_create_listener_thread(
-      eventQueue_ = xine_event_new_queue( stream_ ),
-      &XineEngine::XineEventListener,
-      (void*)this );
+  xine_event_create_listener_thread(eventQueue_ = xine_event_new_queue( stream_ ), &XineEngine::XineEventListener, (void*)this );
 
 #ifndef XINE_SAFE_MODE
   //implemented in xine-scope.h
@@ -240,8 +237,6 @@ bool XineEngine::makeNewStream() {
 // Makes sure an audio port and a stream exist.
 bool XineEngine::ensureStream() {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   if(!stream_) return makeNewStream();
 
   return true;
@@ -249,8 +244,6 @@ bool XineEngine::ensureStream() {
 }
 
 bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if( !ensureStream() )
     return false;
@@ -301,10 +294,6 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
   }
   else
   {
-#ifdef XINE_PARAM_GAPLESS_SWITCH
-    //if ( xine_check_version(1,1,1) && !(xfadeLength_ > 0) )
-      //xine_set_param( stream_, XINE_PARAM_GAPLESS_SWITCH, 0);
-#endif
   }
 
   // FAILURE to load!
@@ -315,8 +304,6 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
 }
 
 bool XineEngine::Play(quint64 offset_nanosec) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if( !ensureStream() )
     return false;
@@ -345,8 +332,6 @@ bool XineEngine::Play(quint64 offset_nanosec) {
 }
 
 void XineEngine::determineAndShowErrorMessage() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString body;
   
@@ -396,8 +381,6 @@ void XineEngine::determineAndShowErrorMessage() {
 }
 
 void XineEngine::Stop(bool stop_after) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if( s_fader && s_fader->isRunning())
     s_fader->resume(); // safety call if the engine is in the pause state
@@ -425,8 +408,6 @@ void XineEngine::Stop(bool stop_after) {
 }
 
 void XineEngine::Pause() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ )
     return;
@@ -444,8 +425,6 @@ void XineEngine::Pause() {
 }
 
 void XineEngine::Unpause() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ )
     return;
@@ -461,8 +440,6 @@ void XineEngine::Unpause() {
 }
 
 Engine::State XineEngine::state() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ || fadeOutRunning_ )
     return Engine::Empty;
@@ -512,8 +489,6 @@ uint XineEngine::position() const {
 }
 
 uint XineEngine::length() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ )
     return 0;
@@ -539,8 +514,6 @@ uint XineEngine::length() const {
 
 void XineEngine::Seek(quint64 offset_nanosec) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if( !ensureStream() )
     return;
 
@@ -562,8 +535,6 @@ void XineEngine::SetVolumeSW( uint vol ) {
 }
 
 void XineEngine::fadeOut( uint fadeLength, bool* terminate, bool exiting ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if( fadeOutRunning_ ) //Let us not start another fadeout...
     return;
@@ -608,8 +579,6 @@ void XineEngine::fadeOut( uint fadeLength, bool* terminate, bool exiting ) {
 }
 
 void XineEngine::setEqualizerEnabled( bool enable ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ )
     return;
@@ -637,8 +606,6 @@ pre: (-100..100)
 post: (1..200) - (1 = down, 100 = middle, 200 = up, 0 = off)
  */
 void XineEngine::setEqualizerParameters( int preamp, const QList<int> &gains ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if ( !stream_ )
     return;
@@ -663,8 +630,6 @@ void XineEngine::setEqualizerParameters( int preamp, const QList<int> &gains ) {
 }
 
 bool XineEngine::CanDecode( const QUrl &url ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   static QStringList list;
   if (list.isEmpty()) {
@@ -702,8 +667,7 @@ bool XineEngine::CanDecode( const QUrl &url ) {
 
   QString path = url.path();
 
-  // partial downloads from Konqi and other browsers
-  // tend to have a .part extension
+  // partial downloads from Konqi and other browsers tend to have a .part extension
   if (path.endsWith( ".part" ))
     path = path.left( path.length() - 5 );
 
@@ -713,8 +677,6 @@ bool XineEngine::CanDecode( const QUrl &url ) {
 }
 
 const Engine::Scope & XineEngine::scope(int chunk_length) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if( !post_ || !stream_ || xine_get_status( stream_ ) != XINE_STATUS_PLAY )
     return scope_;
@@ -780,8 +742,6 @@ const Engine::Scope & XineEngine::scope(int chunk_length) {
 }
 
 void XineEngine::PruneScope() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (!stream_) return;
 
@@ -818,8 +778,6 @@ void XineEngine::PruneScope() {
 }
 
 bool XineEngine::event( QEvent *e ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
 #define message static_cast<QString*>(static_cast<XineEvent*>(e)->data())
 #if 0
@@ -870,8 +828,6 @@ bool XineEngine::event( QEvent *e ) {
 
 //SLOT
 void XineEngine::playlistChanged() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // TODO
   /*#ifdef XINE_PARAM_EARLY_FINISHED_EVENT
@@ -896,8 +852,6 @@ static time_t last_error_time = 0; // hysteresis on xine errors
 static int    last_error = XINE_MSG_NO_ERROR;
 
 void XineEngine::XineEventListener( void *p, const xine_event_t* xineEvent ) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   time_t current;
 
@@ -917,16 +871,6 @@ void XineEngine::XineEventListener( void *p, const xine_event_t* xineEvent ) {
 
     case XINE_EVENT_UI_PLAYBACK_FINISHED:
       qDebug() << "XINE_EVENT_UI_PLAYBACK_FINISHED";
-
-#ifdef XINE_PARAM_GAPLESS_SWITCH
-      // TODO
-      /*if ( xine_check_version(1,1,1) && xe->url_.isLocalFile() //Remote media break with gapless
-      //don't prepare for a track that isn't coming
-      && Playlist::instance()
-      && Playlist::instance()->isTrackAfter()
-      && !AmarokConfig::crossfade() )
-      xine_set_param( xe->stream_, XINE_PARAM_GAPLESS_SWITCH, 1);*/
-#endif
       //emit signal from GUI thread
       QApplication::postEvent( xe, new XineEvent(XineEvent::PlaybackFinished) );
       break;
@@ -934,10 +878,8 @@ void XineEngine::XineEventListener( void *p, const xine_event_t* xineEvent ) {
     case XINE_EVENT_PROGRESS: {
       xine_progress_data_t* pd = (xine_progress_data_t*)xineEvent->data;
 
-      QString
-        msg = "%1 %2%";
-      msg = msg.arg( QString::fromUtf8( pd->description ) )
-        .arg( QString::number(pd->percent) + QLocale::system().percent() );
+      QString msg = "%1 %2%";
+      msg = msg.arg( QString::fromUtf8( pd->description ) ).arg( QString::number(pd->percent) + QLocale::system().percent() );
 
       XineEvent *e = new XineEvent( XineEvent::StatusMessage );
       e->setData( new QString( msg ) );
@@ -950,8 +892,7 @@ void XineEngine::XineEventListener( void *p, const xine_event_t* xineEvent ) {
       /// xine has read the stream and found it actually links to something else
       /// so we need to play that instead
 
-      QString message = QString::fromUtf8(
-          static_cast<xine_mrl_reference_data_ext_t*>(xineEvent->data)->mrl);
+      QString message = QString::fromUtf8(static_cast<xine_mrl_reference_data_ext_t*>(xineEvent->data)->mrl);
       XineEvent *e = new XineEvent( XineEvent::Redirecting );
       e->setData( new QString( message ) );
 
@@ -1088,36 +1029,24 @@ XineEngine::fetchMetaData() const
 
 bool XineEngine::metaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   bool result = false;
   xine_stream_t* tmpstream = xine_stream_new(xine_, NULL, NULL);
   if (xine_open(tmpstream, QFile::encodeName(url.toString()))) {
     QString audioCodec = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_SYSTEMLAYER));
 
     if (audioCodec == "CDDA") {
-      QString title = QString::fromUtf8(
-          xine_get_meta_info(tmpstream, XINE_META_INFO_TITLE));
+      QString title = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_TITLE));
       if ((!title.isNull()) && (!title.isEmpty())) { //no meta info
         b.title = title;
-        b.artist =
-          QString::fromUtf8(
-              xine_get_meta_info(tmpstream, XINE_META_INFO_ARTIST));
-        b.album =
-          QString::fromUtf8(
-              xine_get_meta_info(tmpstream, XINE_META_INFO_ALBUM));
-        b.genre =
-          QString::fromUtf8(
-              xine_get_meta_info(tmpstream, XINE_META_INFO_GENRE));
-        b.year =
-          QString::fromUtf8(
-              xine_get_meta_info(tmpstream, XINE_META_INFO_YEAR));
-        b.tracknr =
-          QString::fromUtf8(
-              xine_get_meta_info(tmpstream, XINE_META_INFO_TRACK_NUMBER));
+        b.artist = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_ARTIST));
+        b.album = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_ALBUM));
+        b.genre = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_GENRE));
+        b.year = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_YEAR));
+        b.tracknr = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_TRACK_NUMBER));
         if( b.tracknr.isEmpty() )
           b.tracknr = QFileInfo(url.path()).fileName();
-      } else {
+      }
+      else {
         b.title = QString("Track %1").arg(QFileInfo(url.path()).fileName());
         b.album = "AudioCD";
       }
@@ -1127,8 +1056,7 @@ bool XineEngine::metaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b) {
       result = true;
       int samplerate = xine_get_stream_info( tmpstream, XINE_STREAM_INFO_AUDIO_SAMPLERATE );
 
-      // xine would provide a XINE_STREAM_INFO_AUDIO_BITRATE, but unfortunately not for CDDA or WAV
-      // so we calculate the bitrate by our own
+      // xine would provide a XINE_STREAM_INFO_AUDIO_BITRATE, but unfortunately not for CDDA or WAV so we calculate the bitrate by our own
       int bitsPerSample = xine_get_stream_info( tmpstream, XINE_STREAM_INFO_AUDIO_BITS );
       int nbrChannels = xine_get_stream_info( tmpstream, XINE_STREAM_INFO_AUDIO_CHANNELS );
       int bitrate = (samplerate * bitsPerSample * nbrChannels) / 1000;
@@ -1146,8 +1074,6 @@ bool XineEngine::metaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b) {
 }
 
 bool XineEngine::getAudioCDContents(const QString &device, QList<QUrl> &urls) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   const char * const *xine_urls = NULL;
   int num;
@@ -1205,8 +1131,6 @@ Fader::Fader( XineEngine *engine, uint fadeMs )
     , terminated_( false )
 {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   if( engine->makeNewStream() ) {
     increase_ = engine->stream_;
 
@@ -1219,8 +1143,6 @@ Fader::Fader( XineEngine *engine, uint fadeMs )
 }
 
 Fader::~Fader() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   wait();
 
@@ -1237,8 +1159,6 @@ Fader::~Fader() {
 }
 
 void Fader::run() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // do a volume change in 100 steps (or every 10ms)
   uint stepsCount = fadeLength_ < 1000 ? fadeLength_ / 10 : 100;
@@ -1246,8 +1166,7 @@ void Fader::run() {
 
   float mix = 0.0;
   float elapsedUs = 0.0;
-  while ( mix < 1.0 )
-  {
+  while ( mix < 1.0 ) {
     if ( terminated_ )
       break;
     // sleep a constant amount of time
@@ -1322,8 +1241,6 @@ OutFader::~OutFader() {
 }
 
 void OutFader::run() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   engine_->fadeOut( fadeLength_, &terminated_ );
 
@@ -1336,8 +1253,6 @@ void OutFader::run() {
 
 void OutFader::finish() {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   terminated_ = true;
 }
 
@@ -1347,8 +1262,6 @@ PruneScopeThread::PruneScopeThread(XineEngine *parent)
 }
 
 void PruneScopeThread::run() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QTimer timer;
   connect(&timer, SIGNAL(timeout()), engine_, SLOT(PruneScope()), Qt::DirectConnection);
@@ -1366,8 +1279,6 @@ qint64 XineEngine::length_nanosec() const {
 }
 
 EngineBase::PluginDetailsList XineEngine::GetPluginList() const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   PluginDetailsList ret;
   const char *const *plugins = xine_list_audio_output_plugins(xine_);
@@ -1397,8 +1308,6 @@ EngineBase::PluginDetailsList XineEngine::GetPluginList() const {
 }
 
 EngineBase::OutputDetailsList XineEngine::GetOutputsList() const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   OutputDetailsList ret;
 

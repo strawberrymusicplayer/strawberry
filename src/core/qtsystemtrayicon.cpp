@@ -20,19 +20,22 @@
 
 #include "config.h"
 
-#include "iconloader.h"
-#include "qtsystemtrayicon.h"
-
-#include "core/song.h"
-#include "core/logging.h"
-
+#include <QObject>
 #include <QCoreApplication>
-#include <QTextDocument>
-#include <QStringBuilder>
-#include <QMenu>
-#include <QFile>
 #include <QSystemTrayIcon>
-#include <QWheelEvent>
+#include <QAction>
+#include <QIODevice>
+#include <QFile>
+#include <QMenu>
+#include <QIcon>
+#include <QString>
+#include <QtEvents>
+
+#include "song.h"
+#include "iconloader.h"
+
+#include "systemtrayicon.h"
+#include "qtsystemtrayicon.h"
 
 QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
     : SystemTrayIcon(parent),
@@ -43,8 +46,6 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       action_stop_after_this_track_(nullptr),
     action_mute_(nullptr)
 {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QIcon theme_icon      = IconLoader::Load("strawberry-panel");
   QIcon theme_icon_grey = IconLoader::Load("strawberry-panel-grey");
@@ -79,8 +80,6 @@ QtSystemTrayIcon::~QtSystemTrayIcon() {
 
 bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   if (QObject::eventFilter(object, event)) return true;
 
   if (object != tray_) return false;
@@ -90,7 +89,8 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
     if (e->modifiers() == Qt::ShiftModifier) {
       if (e->delta() > 0) {
         emit SeekForward();
-      } else {
+      }
+      else {
         emit SeekBackward();
       }
     }
@@ -113,12 +113,9 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
 }
 
 void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
-  // Creating new actions and connecting them to old ones. This allows us to
-  // use old actions without displaying shortcuts that can not be used when
-  // Strawberry's window is hidden
+  // Creating new actions and connecting them to old ones.
+  // This allows us to use old actions without displaying shortcuts that can not be used when Strawberry's window is hidden
   menu_->addAction(previous->icon(), previous->text(), previous, SLOT(trigger()));
   action_play_pause_ = menu_->addAction(play->icon(), play->text(), play, SLOT(trigger()));
   action_stop_ = menu_->addAction(stop->icon(), stop->text(), stop, SLOT(trigger()));
@@ -139,8 +136,6 @@ void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop
 }
 
 void QtSystemTrayIcon::Clicked(QSystemTrayIcon::ActivationReason reason) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   switch (reason) {
     case QSystemTrayIcon::DoubleClick:

@@ -20,15 +20,15 @@
 
 #include "config.h"
 
-#include "favoritewidget.h"
+#include <stdbool.h>
 
-#include <QPaintEvent>
-#include <QMouseEvent>
+#include <QWidget>
 #include <QSize>
 #include <QStyle>
 #include <QStylePainter>
+#include <QtEvents>
 
-#include "core/logging.h"
+#include "favoritewidget.h"
 
 const int FavoriteWidget::kStarSize = 15;
 

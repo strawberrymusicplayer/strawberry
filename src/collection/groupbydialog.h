@@ -26,6 +26,9 @@
 #include <memory>
 
 #include <QDialog>
+#include <QObject>
+#include <QWidget>
+#include <QString>
 
 #include "collectionmodel.h"
 

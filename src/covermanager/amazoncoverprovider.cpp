@@ -21,19 +21,30 @@
 
 #include "config.h"
 
-#include <QtGlobal>
+#include <QObject>
+#include <QByteArray>
 #include <QDateTime>
-#include <QNetworkReply>
+#include <QList>
+#include <QPair>
+#include <QSet>
+#include <QString>
+#include <QStringBuilder>
 #include <QStringList>
-#include <QXmlStreamReader>
+#include <QUrl>
 #include <QUrlQuery>
-
-#include "amazoncoverprovider.h"
+#include <QVector>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QXmlStreamReader>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
+#include "coverprovider.h"
+#include "amazoncoverprovider.h"
 
 const char *AmazonCoverProvider::kUrl = "http://ecs.amazonaws.com/onca/xml";
 const char *AmazonCoverProvider::kAssociateTag = "jonas052-20";
@@ -54,7 +65,6 @@ bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &albu
   // Must be sorted by parameter name
   ArgList args = ArgList()
                 << Arg("AWSAccessKeyId", QByteArray::fromBase64(kAccessKeyB64))
-		//<< Arg("AWSAccessKeyId", kAccessKey)
                 << Arg("AssociateTag", kAssociateTag)
                 << Arg("Keywords", artist + " " + album)
                 << Arg("Operation", "ItemSearch")
@@ -78,7 +88,6 @@ bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &albu
   // Sign the request
 
   const QByteArray data_to_sign = QString("GET\n%1\n%2\n%3").arg(url.host(), url.path(), query_items.join("&")).toUtf8();
-  //const QByteArray signature(Utilities::HmacSha256(kSecretAccessKey, data_to_sign));
   const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretAccessKeyB64), data_to_sign));
 
   // Add the signature to the request
@@ -92,24 +101,17 @@ bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &albu
   NewClosure(reply, SIGNAL(finished()), this, SLOT(QueryFinished(QNetworkReply*, int)), reply, id);
 
   return true;
+
 }
 
 void AmazonCoverProvider::QueryError(QNetworkReply::NetworkError error, QNetworkReply *reply, int id) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
-
 }
 
 void AmazonCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   reply->deleteLater();
   
   QString data=(QString)reply->readAll();
-  
-  //qDebug() << data;
 
   CoverSearchResults results;
 
@@ -128,8 +130,6 @@ void AmazonCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
 }
 
 void AmazonCoverProvider::ReadItem(QXmlStreamReader *reader, CoverSearchResults *results) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << "name: " << reader->name() << " text: " << reader->text();
 
   while (!reader->atEnd()) {
     switch (reader->readNext()) {
@@ -152,8 +152,6 @@ void AmazonCoverProvider::ReadItem(QXmlStreamReader *reader, CoverSearchResults 
 }
 
 void AmazonCoverProvider::ReadLargeImage(QXmlStreamReader *reader, CoverSearchResults *results) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   while (!reader->atEnd()) {
     switch (reader->readNext()) {

@@ -18,26 +18,26 @@
 #ifndef MESSAGEREPLY_H
 #define MESSAGEREPLY_H
 
+#include <QtGlobal>
 #include <QObject>
 #include <QSemaphore>
+#include <QString>
 
 #include "core/logging.h"
 
-// Base QObject for a reply future class that is returned immediately for
-// requests that will occur in the background.  Similar to QNetworkReply.
-// Use MessageReply instead.
+// Base QObject for a reply future class that is returned immediately for requests that will occur in the background.
+// Similar to QNetworkReply. Use MessageReply instead.
 class _MessageReplyBase : public QObject {
   Q_OBJECT
 
  public:
-  _MessageReplyBase(QObject* parent = nullptr);
+  _MessageReplyBase(QObject *parent = nullptr);
 
   virtual int id() const = 0;
   bool is_finished() const { return finished_; }
   bool is_successful() const { return success_; }
 
-  // Waits for the reply to finish by waiting on a semaphore.  Never call this
-  // from the MessageHandler's thread or it will block forever.
+  // Waits for the reply to finish by waiting on a semaphore.  Never call this from the MessageHandler's thread or it will block forever.
   // Returns true if the call was successful.
   bool WaitForFinished();
 
@@ -58,7 +58,7 @@ protected:
 template <typename MessageType>
 class MessageReply : public _MessageReplyBase {
  public:
-  MessageReply(const MessageType& request_message, QObject* parent = nullptr);
+  MessageReply(const MessageType& request_message, QObject *parent = nullptr);
 
   int id() const { return request_message_.id(); }
   const MessageType& request_message() const { return request_message_; }
@@ -73,8 +73,7 @@ private:
 
 
 template<typename MessageType>
-MessageReply<MessageType>::MessageReply(const MessageType& request_message,
-                                        QObject* parent)
+MessageReply<MessageType>::MessageReply(const MessageType& request_message, QObject *parent)
   : _MessageReplyBase(parent)
 {
   request_message_.MergeFrom(request_message);
@@ -94,4 +93,3 @@ void MessageReply<MessageType>::SetReply(const MessageType& message) {
 }
 
 #endif  // MESSAGEREPLY_H
-

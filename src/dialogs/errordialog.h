@@ -23,8 +23,13 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QDialog>
+#include <QWidget>
+#include <QString>
+#include <QStringList>
 
+class QHideEvent;
 class Ui_ErrorDialog;
 
 class ErrorDialog : public QDialog {
@@ -35,7 +40,7 @@ class ErrorDialog : public QDialog {
   ~ErrorDialog();
 
 public slots:
-  void ShowMessage(const QString& message);
+  void ShowMessage(const QString &message);
 
 protected:
   void hideEvent(QHideEvent *);

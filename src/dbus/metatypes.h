@@ -2,6 +2,10 @@
 #define DBUS_METATYPES_H
 
 #include <QMetaType>
+#include <QList>
+#include <QByteArray>
+#include <QMap>
+#include <QString>
 #include <QDBusObjectPath>
 
 Q_DECLARE_METATYPE(QList<QByteArray>)

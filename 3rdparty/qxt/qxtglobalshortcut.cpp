@@ -29,9 +29,13 @@
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
 
-#include "qxtglobalshortcut_p.h"
+#include <QtGlobal>
 #include <QAbstractEventDispatcher>
+#include <QHash>
+#include <QPair>
 #include <QtDebug>
+
+#include "qxtglobalshortcut_p.h"
 
 bool QxtGlobalShortcutPrivate::error = false;
 #ifndef Q_WS_MAC

@@ -20,29 +20,45 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QApplication>
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QBitmap>
+#include <QLabel>
+#include <QPainter>
+#include <QPainterPath>
+#include <QPalette>
+#include <QColor>
+#include <QBrush>
+#include <QCursor>
+#include <QPen>
+#include <QRect>
+#include <QPoint>
+#include <QFont>
+#include <QTimer>
+#include <QTimeLine>
+#include <QTransform>
+#include <QLayout>
+#include <QBoxLayout>
+#include <QDesktopWidget>
+#include <QLinearGradient>
+#include <QSettings>
+#include <QFlags>
+#include <QtEvents>
+#ifdef Q_WS_X11
+# include <QX11Info>
+#endif
+
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
-#include <QApplication>
-#include <QBitmap>
-#include <QColor>
-#include <QDesktopWidget>
-#include <QLayout>
-#include <QMouseEvent>
-#include <QPainter>
-#include <QSettings>
-#include <QTimer>
-#include <QTimeLine>
-
-#include <QtDebug>
-
-#ifdef Q_WS_X11
-#  include <QX11Info>
-#endif
-
 #ifdef Q_OS_WIN32
-#  include "qtwin.h"
-#  include <windows.h>
+# include "qtwin.h"
+# include <windows.h>
 #endif
 
 const char *OSDPretty::kSettingsGroup = "OSDPretty";
@@ -324,8 +340,7 @@ void OSDPretty::Reposition() {
   layout()->activate();
   resize(sizeHint());
 
-  // Work out where to place the OSD.  -1 for x or y means "on the right or
-  // bottom edge".
+  // Work out where to place the OSD.  -1 for x or y means "on the right or bottom edge".
   QRect geometry(desktop->availableGeometry(popup_display_));
 
   int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
@@ -342,8 +357,7 @@ void OSDPretty::Reposition() {
   p.drawRoundedRect(BoxBorder().adjusted(-1, -1, 0, 0), kBorderRadius, kBorderRadius);
   p.end();
 
-  // If there's no compositing window manager running then we have to set an
-  // XShape mask.
+  // If there's no compositing window manager running then we have to set an XShape mask.
   if (IsTransparencyAvailable())
     clearMask();
   else {

@@ -25,20 +25,31 @@
 
 #include <memory>
 
-#include <QAbstractListModel>
-#include <QIcon>
+#include <QtGlobal>
+#include <QObject>
+#include <QMetaObject>
 #include <QThreadPool>
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
+#include <QList>
+#include <QMap>
+#include <QMultiMap>
+#include <QMetaType>
+#include <QVariant>
+#include <QUrl>
+#include <QString>
+#include <QStringList>
+#include <QIcon>
 
-#include "devicedatabasebackend.h"
-
+#include "core/song.h"
+#include "core/musicstorage.h"
 #include "collection/collectionmodel.h"
+#include "devicedatabasebackend.h"
 
 class Application;
 class ConnectedDevice;
-class Database;
 class DeviceLister;
 class DeviceStateFilterModel;
-class TaskManager;
 
 class DeviceManager : public QAbstractListModel {
   Q_OBJECT
@@ -124,8 +135,7 @@ signals:
     DeviceInfo();
 
     // A device can be discovered in different ways (devicekit, gio, etc.)
-    // Sometimes the same device is discovered more than once.  In this case
-    // the device will have multiple "backends".
+    // Sometimes the same device is discovered more than once.  In this case the device will have multiple "backends".
     struct Backend {
       Backend(DeviceLister *lister = nullptr, const QString &id = QString())
           : lister_(lister), unique_id_(id) {}

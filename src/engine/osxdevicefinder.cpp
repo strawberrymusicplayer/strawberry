@@ -24,6 +24,9 @@
 
 #include <CoreAudio/AudioHardware.h>
 
+#include <QList>
+#include <QString>
+
 #include "osxdevicefinder.h"
 #include "core/logging.h"
 #include "core/scoped_cftyperef.h"

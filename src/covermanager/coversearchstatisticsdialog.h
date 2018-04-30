@@ -23,13 +23,14 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QDialog>
-
-#include "coversearchstatistics.h"
+#include <QWidget>
+#include <QString>
+#include <QBoxLayout>
 
 class Ui_CoverSearchStatisticsDialog;
-
-class QVBoxLayout;
+struct CoverSearchStatistics;
 
 class CoverSearchStatisticsDialog : public QDialog {
   Q_OBJECT

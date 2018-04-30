@@ -23,9 +23,18 @@
 
 #include "config.h"
 
-#include <QWidget>
+#include <stdbool.h>
 
-class QTimeLine;
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QPixmap>
+#include <QTimeLine>
+#include <QtEvents>
+
+class QEvent;
+class QPaintEvent;
 
 class WidgetFadeHelper : public QWidget {
   Q_OBJECT

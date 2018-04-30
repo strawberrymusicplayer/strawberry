@@ -20,13 +20,23 @@
 
 #include "config.h"
 
-#include "playlistheader.h"
-#include "playlistview.h"
+#include <stdbool.h>
 
-#include <QtDebug>
-#include <QContextMenuEvent>
+#include <QWidget>
+#include <QAbstractItemModel>
+#include <QFlags>
 #include <QMenu>
 #include <QSignalMapper>
+#include <QVariant>
+#include <QString>
+#include <QtAlgorithms>
+#include <QAction>
+#include <QActionGroup>
+#include <QContextMenuEvent>
+#include <QtEvents>
+
+#include "playlistheader.h"
+#include "playlistview.h"
 
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)
     : StretchHeaderView(orientation, parent),

@@ -20,10 +20,17 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QDialog>
+#include <QVariant>
+#include <QString>
+#include <QSettings>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QRadioButton>
+
 #include "albumcoverexport.h"
 #include "ui_albumcoverexport.h"
-
-#include <QSettings>
 
 const char *AlbumCoverExport::kSettingsGroup = "AlbumCoverExport";
 
@@ -42,7 +49,7 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  // restore last accepted settings
+  // Restore last accepted settings
   ui_->fileName->setText(s.value("fileName", "cover").toString());
   ui_->doNotOverwrite->setChecked(s.value("overwrite", OverwriteMode_None).toInt() == OverwriteMode_None);
   ui_->overwriteAll->setChecked(s.value("overwrite", OverwriteMode_All).toInt() == OverwriteMode_All);

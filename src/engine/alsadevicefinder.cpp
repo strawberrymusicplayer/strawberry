@@ -20,13 +20,18 @@
 #include "config.h"
 
 #include <stdio.h>
-#include <string.h>
-#include <QFile>
+#include <errno.h>
 #include <alsa/asoundlib.h>
 
-#include "alsadevicefinder.h"
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QtDebug>
 
 #include <core/logging.h>
+
+#include "devicefinder.h"
+#include "alsadevicefinder.h"
 
 AlsaDeviceFinder::AlsaDeviceFinder()
     : DeviceFinder("alsa") {

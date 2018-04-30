@@ -25,11 +25,16 @@
 
 #include <memory>
 
-#include <QIcon>
+#include <QObject>
 #include <QStandardItemModel>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QIcon>
 
-#include "directory.h"
+class QModelIndex;
 
+struct Directory;
 class CollectionBackend;
 class MusicStorage;
 

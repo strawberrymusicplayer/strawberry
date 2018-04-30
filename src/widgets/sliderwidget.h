@@ -17,15 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AMAROKSLIDER_H
-#define AMAROKSLIDER_H
+#ifndef SLIDERWIDGET_H
+#define SLIDERWIDGET_H
 
-#include <QPixmap>
-#include <QSlider>
+#include "config.h"
+
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QList>
+#include <QString>
+#include <QPixmap>
+#include <QColor>
+#include <QPalette>
+#include <QSlider>
+#include <QTimer>
+#include <QtEvents>
 
-class QPalette;
-class QTimer;
+class QEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QWheelEvent;
+class QContextMenuEvent;
 
 namespace Amarok {
 class Slider : public QSlider {
@@ -36,14 +51,12 @@ class Slider : public QSlider {
 
   virtual void setValue(int);
 
-  // WARNING non-virtual - and thus only really intended for internal use
-  // this is a major flaw in the class presently, however it suits our
-  // current needs fine
+  // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently,
+  // however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }
 
 signals:
-  // we emit this when the user has specifically changed the slider
-  // so connect to it if valueChanged() is too generic
+  // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic
   // Qt also emits valueChanged( int )
   void sliderReleased(int);
 
@@ -79,8 +92,7 @@ class PrettySlider : public Slider {
     Pretty
   } SliderMode;
 
-  PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent,
-               uint max = 0);
+  PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max = 0);
 
  protected:
   virtual void slideEvent(QMouseEvent*);
@@ -138,4 +150,4 @@ class VolumeSlider : public Slider {
 };
 }
 
-#endif
+#endif  // SLIDERWIDGET_H

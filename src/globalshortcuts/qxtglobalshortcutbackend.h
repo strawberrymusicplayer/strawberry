@@ -23,8 +23,13 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QAction>
+#include <QList>
+
 #include "globalshortcutbackend.h"
 
+class GlobalShortcuts;
 class QxtGlobalShortcut;
 
 class QxtGlobalShortcutBackend : public GlobalShortcutBackend {

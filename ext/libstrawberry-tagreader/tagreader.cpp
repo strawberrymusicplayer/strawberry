@@ -15,50 +15,75 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "config.h"
+
 #include "tagreader.h"
 
 #include <memory>
-
-#include <QCoreApplication>
-#include <QDateTime>
-#include <QFileInfo>
-#include <QNetworkAccessManager>
-#include <QTextCodec>
-#include <QUrl>
-#include <QVector>
-
-#include <aifffile.h>
-#include <asffile.h>
-#include <attachedpictureframe.h>
-#include <commentsframe.h>
-#include <fileref.h>
-#include <audioproperties.h>
-#include <flacfile.h>
-#include <flacproperties.h>
-#include <id3v2tag.h>
-#include <mp4file.h>
-#include <mp4tag.h>
-#include <mpcfile.h>
-#include <mpegfile.h>
-#include <oggfile.h>
-#ifdef TAGLIB_HAS_OPUS
-  #include <opusfile.h>
-#endif
-#include <oggflacfile.h>
-#include <popularimeterframe.h>
-#include <speexfile.h>
-#include <tag.h>
-#include <textidentificationframe.h>
-#include <trueaudiofile.h>
-#include <tstring.h>
-#include <vorbisfile.h>
-#include <wavfile.h>
-
+#include <list>
+#include <map>
+#include <utility>
 #include <sys/stat.h>
 
-#include "fmpsparser.h"
+#include <taglib/taglib.h>
+#include <taglib/taglib_config.h>
+#include <taglib/fileref.h>
+#include <taglib/tbytevector.h>
+#include <taglib/tfile.h>
+#include <taglib/tlist.h>
+#include <taglib/tstring.h>
+#include <taglib/tstringlist.h>
+#include <taglib/audioproperties.h>
+#include <taglib/trueaudiofile.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/textidentificationframe.h>
+#include <taglib/xiphcomment.h>
+#include <taglib/commentsframe.h>
+#include <taglib/tag.h>
+#include <taglib/id3v2tag.h>
+#include "taglib/id3v2frame.h"
+#include <taglib/flacfile.h>
+#include <taglib/oggflacfile.h>
+#include <taglib/flacproperties.h>
+#include <taglib/flacpicture.h>
+#include <taglib/vorbisfile.h>
+#include <taglib/speexfile.h>
+#include <taglib/wavfile.h>
+#include <taglib/aifffile.h>
+#include <taglib/asffile.h>
+#include "taglib/asftag.h"
+#include "taglib/asfattribute.h"
+#include "taglib/asfproperties.h"
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
+#include "taglib/mp4item.h"
+#include <taglib/mp4coverart.h>
+#include <taglib/mp4properties.h>
+#include <taglib/mpcfile.h>
+#include <taglib/mpegfile.h>
+
+#ifdef TAGLIB_HAS_OPUS
+  #include <taglib/opusfile.h>
+#endif
+
+#include <QtGlobal>
+#include <QFile>
+#include <QFileInfo>
+#include <QList>
+#include <QByteArray>
+#include <QDateTime>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QTextCodec>
+#include <QVector>
+#include <QNetworkAccessManager>
+#include <QtDebug>
+
 #include "core/logging.h"
 #include "core/messagehandler.h"
+
+#include "fmpsparser.h"
 #include "core/timeconstants.h"
 
 // Taglib added support for FLAC pictures in 1.7.0
@@ -71,12 +96,12 @@
 class FileRefFactory {
  public:
   virtual ~FileRefFactory() {}
-  virtual TagLib::FileRef *GetFileRef(const QString& filename) = 0;
+  virtual TagLib::FileRef *GetFileRef(const QString &filename) = 0;
 };
 
 class TagLibFileRefFactory : public FileRefFactory {
  public:
-  virtual TagLib::FileRef *GetFileRef(const QString& filename) {
+  virtual TagLib::FileRef *GetFileRef(const QString &filename) {
     #ifdef Q_OS_WIN32
     return new TagLib::FileRef(filename.toStdWString().c_str());
     #else
@@ -87,11 +112,11 @@ class TagLibFileRefFactory : public FileRefFactory {
 
 namespace {
 
-TagLib::String StdStringToTaglibString(const std::string& s) {
+TagLib::String StdStringToTaglibString(const std::string &s) {
   return TagLib::String(s.c_str(), TagLib::String::UTF8);
 }
 
-TagLib::String QStringToTaglibString(const QString& s) {
+TagLib::String QStringToTaglibString(const QString &s) {
   return TagLib::String(s.toUtf8().constData(), TagLib::String::UTF8);
 }
 
@@ -508,8 +533,7 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   }
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
-  // apart, so we keep specific behavior for some formats by adding another
-  // "else if" block above.
+  // apart, so we keep specific behavior for some formats by adding another "else if" block above.
   if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
     SetVorbisComments(tag, song);
   }
@@ -625,9 +649,7 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
     TagLib::Ogg::FieldListMap map = xiph_comment->fieldListMap();
 
 #if TAGLIB_MAJOR_VERSION <= 1 && TAGLIB_MINOR_VERSION < 11
-    // Other than the below mentioned non-standard COVERART,
-    // METADATA_BLOCK_PICTURE
-    // is the proposed tag for cover pictures.
+    // Other than the below mentioned non-standard COVERART, METADATA_BLOCK_PICTURE is the proposed tag for cover pictures.
     // (see http://wiki.xiph.org/VorbisComment#METADATA_BLOCK_PICTURE)
     if (map.contains("METADATA_BLOCK_PICTURE")) {
       TagLib::StringList pict_list = map["METADATA_BLOCK_PICTURE"];
@@ -687,10 +709,10 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
   TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file());
   if (aac_file) {
     TagLib::MP4::Tag *tag = aac_file->tag();
-    const TagLib::MP4::ItemListMap& items = tag->itemListMap();
+    const TagLib::MP4::ItemListMap &items = tag->itemListMap();
     TagLib::MP4::ItemListMap::ConstIterator it = items.find("covr");
     if (it != items.end()) {
-      const TagLib::MP4::CoverArtList& art_list = it->second.toCoverArtList();
+      const TagLib::MP4::CoverArtList &art_list = it->second.toCoverArtList();
 
       if (!art_list.isEmpty()) {
         // Just take the first one for now

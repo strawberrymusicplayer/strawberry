@@ -25,15 +25,16 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QObject>
+#include <QString>
+#include <QImage>
+#include <QTemporaryFile>
 
 #include "core/song.h"
-#include "covermanager/albumcoverloaderoptions.h"
+#include "albumcoverloaderoptions.h"
 
 class Application;
-
-class QImage;
-class QTemporaryFile;
 
 class CurrentArtLoader : public QObject {
   Q_OBJECT

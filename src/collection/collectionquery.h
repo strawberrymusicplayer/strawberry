@@ -23,11 +23,14 @@
 
 #include "config.h"
 
-#include <QString>
+#include <stdbool.h>
+
+#include <QMetaType>
 #include <QVariant>
-#include <QSqlQuery>
+#include <QString>
 #include <QStringList>
-#include <QVariantList>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 
 class Song;
 class CollectionBackend;
@@ -36,13 +39,9 @@ class CollectionBackend;
 struct QueryOptions {
   // Modes of CollectionQuery:
   // - use the all songs table
-  // - use the duplicated songs view; by duplicated we mean those songs 
-  //   for which the (artist, album, title) tuple is found more than once 
-  //   in the songs table
-  // - use the untagged songs view; by untagged we mean those for which
-  //   at least one of the (artist, album, title) tags is empty
-  // Please note that additional filtering based on fts table (the filter
-  // attribute) won't work in Duplicates and Untagged modes.
+  // - use the duplicated songs view; by duplicated we mean those songs for which the (artist, album, title) tuple is found more than once in the songs table
+  // - use the untagged songs view; by untagged we mean those for which at least one of the (artist, album, title) tags is empty
+  // Please note that additional filtering based on fts table (the filter attribute) won't work in Duplicates and Untagged modes.
   enum QueryMode {
     QueryMode_All,
     QueryMode_Duplicates,
@@ -83,8 +82,7 @@ class CollectionQuery {
   // Sets an ORDER BY clause on the query.
   void SetOrderBy(const QString &order_by) { order_by_ = order_by; }
 
-  // Adds a fragment of WHERE clause. When executed, this Query will connect all
-  // the fragments with AND operator.
+  // Adds a fragment of WHERE clause. When executed, this Query will connect all the fragments with AND operator.
   // Please note that IN operator expects a QStringList as value.
   void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
 

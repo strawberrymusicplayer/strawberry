@@ -20,11 +20,11 @@
 
 #include "config.h"
 
-#include "scopedtransaction.h"
-#include "core/logging.h"
-
+#include <stdbool.h>
 #include <QSqlDatabase>
-#include <QtDebug>
+
+#include "core/logging.h"
+#include "scopedtransaction.h"
 
 ScopedTransaction::ScopedTransaction(QSqlDatabase* db)
     : db_(db), pending_(true) {

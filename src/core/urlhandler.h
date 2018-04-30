@@ -23,9 +23,11 @@
 
 #include "config.h"
 
-#include <QIcon>
+#include <QtGlobal>
 #include <QObject>
+#include <QString>
 #include <QUrl>
+#include <QIcon>
 
 class UrlHandler : public QObject {
   Q_OBJECT
@@ -37,17 +39,14 @@ class UrlHandler : public QObject {
   virtual QString scheme() const = 0;
   virtual QIcon icon() const;
 
-  // Returned by StartLoading() and LoadNext(), indicates what the player
-  // should do when it wants to load a URL.
+  // Returned by StartLoading() and LoadNext(), indicates what the player should do when it wants to load a URL.
   struct LoadResult {
     enum Type {
-      // There wasn't a track available, and the player should move on to the
-      // next playlist item.
+      // There wasn't a track available, and the player should move on to the next playlist item.
       NoMoreTracks,
 
-      // There might be another track available but the handler needs to do some
-      // work (eg. fetching a remote playlist) to find out.  AsyncLoadComplete
-      // will be emitted later with the same original_url.
+      // There might be another track available but the handler needs to do some work (eg. fetching a remote playlist) to find out.
+      // AsyncLoadComplete will be emitted later with the same original_url.
       WillLoadAsynchronously,
 
       // There was a track available.  Its url is in media_url.
@@ -69,12 +68,10 @@ class UrlHandler : public QObject {
     qint64 length_nanosec_;
   };
 
-  // Called by the Player when a song starts loading - gives the handler
-  // a chance to do something clever to get a playable track.
+  // Called by the Player when a song starts loading - gives the handler a chance to do something clever to get a playable track.
   virtual LoadResult StartLoading(const QUrl &url) { return LoadResult(url); }
 
-  // Called by the player when a song finishes - gives the handler a chance to
-  // get another track to play.
+  // Called by the player when a song finishes - gives the handler a chance to get another track to play.
   virtual LoadResult LoadNext(const QUrl &url) { return LoadResult(url); }
 
   // Functions to be warned when something happen to a track handled by UrlHandler.
@@ -86,4 +83,3 @@ signals:
 };
 
 #endif  // URLHANDLER_H
-

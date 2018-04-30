@@ -20,28 +20,32 @@
 
 #include "config.h"
 
-#include <limits>
+#include <stdlib.h>
+#include <glib.h>
+#include <glib-object.h>
+#include <gst/gst.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QCoreApplication>
-#include <QDir>
-#include <QPair>
+#include <QMutex>
 #include <QByteArray>
+#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QUuid>
-#include <QList>
+#include <QTimeLine>
 #include <QMetaObject>
-#include <QMutexLocker>
+#include <QtDebug>
 
-#include "bufferconsumer.h"
-#include "gstelementdeleter.h"
-#include "gstengine.h"
-#include "gstenginepipeline.h"
 #include "core/concurrentrun.h"
 #include "core/logging.h"
-#include "core/mac_startup.h"
 #include "core/signalchecker.h"
-#include "core/utilities.h"
+#include "core/timeconstants.h"
+#include "enginebase.h"
+#include "gstengine.h"
+#include "gstenginepipeline.h"
+#include "gstbufferconsumer.h"
+#include "gstelementdeleter.h"
 
 const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
 const int GstEnginePipeline::kFaderFudgeMsec = 2000;
@@ -112,11 +116,12 @@ void GstEnginePipeline::set_output_device(const QString &sink, const QVariant &d
 }
 
 void GstEnginePipeline::set_replaygain(bool enabled, int mode, float preamp, bool compression) {
-    
+
   rg_enabled_ = enabled;
   rg_mode_ = mode;
   rg_preamp_ = preamp;
   rg_compression_ = compression;
+
 }
 
 void GstEnginePipeline::set_buffer_duration_nanosec(qint64 buffer_duration_nanosec) {
@@ -203,13 +208,10 @@ bool GstEnginePipeline::InitAudioBin() {
 	if (device_.toString().isEmpty()) break;
 	g_object_set(G_OBJECT(audiosink_), "device", device_.toString().toUtf8().constData(), nullptr);
         break;
-#ifdef Q_OS_WIN32
       case QVariant::ByteArray: {
-        GUID guid = QUuid(device_.toByteArray());
-        g_object_set(G_OBJECT(audiosink_), "device", &guid, nullptr);
+	g_object_set(G_OBJECT(audiosink_), "device", device_.toByteArray().constData(), nullptr);
         break;
       }
-#endif  // Q_OS_WIN32
       default:
         qLog(Warning) << "Unknown device type" << device_;
         break;
@@ -536,8 +538,8 @@ void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
-  GError *error;
-  gchar *debugs;
+  GError *error = nullptr;
+  gchar *debugs = nullptr;
 
   gst_message_parse_error(msg, &error, &debugs);
   QString message = QString::fromLocal8Bit(error->message);
@@ -736,13 +738,13 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
 
-  QList<BufferConsumer*> consumers;
+  QList<GstBufferConsumer*> consumers;
   {
     QMutexLocker l(&instance->buffer_consumers_mutex_);
     consumers = instance->buffer_consumers_;
   }
 
-  for (BufferConsumer *consumer : consumers) {
+  for (GstBufferConsumer *consumer : consumers) {
     gst_buffer_ref(buf);
     consumer->ConsumeBuffer(buf, instance->id());
   }
@@ -1038,12 +1040,12 @@ void GstEnginePipeline::timerEvent(QTimerEvent *e) {
 
 }
 
-void GstEnginePipeline::AddBufferConsumer(BufferConsumer *consumer) {
+void GstEnginePipeline::AddBufferConsumer(GstBufferConsumer *consumer) {
   QMutexLocker l(&buffer_consumers_mutex_);
   buffer_consumers_ << consumer;
 }
 
-void GstEnginePipeline::RemoveBufferConsumer(BufferConsumer *consumer) {
+void GstEnginePipeline::RemoveBufferConsumer(GstBufferConsumer *consumer) {
   QMutexLocker l(&buffer_consumers_mutex_);
   buffer_consumers_.removeAll(consumer);
 }

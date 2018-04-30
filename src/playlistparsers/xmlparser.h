@@ -23,13 +23,14 @@
 
 #include "config.h"
 
-#include "parserbase.h"
-
-#include <QXmlStreamReader>
+#include <QtGlobal>
+#include <QObject>
+#include <QString>
 #include <QXmlStreamWriter>
 
-class QDomDocument;
-class QDomNode;
+#include "parserbase.h"
+
+class CollectionBackendInterface;
 
 class XMLParser : public ParserBase {
  protected:

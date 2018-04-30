@@ -18,14 +18,21 @@
  * 
  */
 
-#include "config.h"
-
-#include "plsparser.h"
-#include "core/logging.h"
-#include "core/timeconstants.h"
-
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QMap>
+#include <QByteArray>
+#include <QString>
+#include <QRegExp>
 #include <QTextStream>
-#include <QtDebug>
+
+#include "core/timeconstants.h"
+#include "playlistparsers/parserbase.h"
+#include "plsparser.h"
+
+class CollectionBackendInterface;
 
 PLSParser::PLSParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}

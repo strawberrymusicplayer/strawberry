@@ -23,10 +23,15 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QSet>
+#include <QString>
+#include <QVector>
 
-#include "core/musicstorage.h"
 #include "core/song.h"
+#include "core/musicstorage.h"
 
 class Database;
 

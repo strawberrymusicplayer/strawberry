@@ -20,12 +20,16 @@
 
 #include "config.h"
 
-#include "playlistsaveoptionsdialog.h"
-
-#include "ui_playlistsaveoptionsdialog.h"
-#include "playlistparsers/parserbase.h"
-
+#include <QWidget>
+#include <QDialog>
+#include <QVariant>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QSettings>
+
+#include "playlist.h"
+#include "playlistsaveoptionsdialog.h"
+#include "ui_playlistsaveoptionsdialog.h"
 
 const char *PlaylistSaveOptionsDialog::kSettingsGroup = "PlaylistSaveOptionsDialog";
 

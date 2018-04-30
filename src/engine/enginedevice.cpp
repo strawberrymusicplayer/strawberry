@@ -20,49 +20,40 @@
 
 #include "config.h"
 
-#include "enginedevice.h"
-#include "devicefinder.h"
+#include <QtGlobal>
+#include <QtAlgorithms>
+#include <QObject>
+#include <QList>
+#include <QtDebug>
 
 #include "core/logging.h"
-
-#include <QMutex>
-#include <QList>
+#include "devicefinder.h"
+#include "enginedevice.h"
 
 #ifdef Q_OS_LINUX
- #include "engine/alsadevicefinder.h"
+#  include "alsadevicefinder.h"
 #endif
 
 #ifdef HAVE_LIBPULSE
-  #include "engine/pulsedevicefinder.h"
+#  include "pulsedevicefinder.h"
 #endif
 
 #ifdef Q_OS_DARWIN
-  #include "engine/osxdevicefinder.h"
+#  include "osxdevicefinder.h"
 #endif
 
 #ifdef Q_OS_WIN32
-  #include "engine/directsounddevicefinder.h"
+#  include "directsounddevicefinder.h"
 #endif
 
-#include "settings/backendsettingspage.h"
-
 EngineDevice::EngineDevice(QObject *parent) : QObject(parent) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
 }
 
 EngineDevice::~EngineDevice() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   qDeleteAll(device_finders_);
-
 }
 
 void EngineDevice::Init() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QList<DeviceFinder*> device_finders;
 

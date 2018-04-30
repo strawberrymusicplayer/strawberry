@@ -474,11 +474,7 @@ set(UI
 
 )
 
-set(RESOURCES
-  ../data/data.qrc
-  #../data/icons.qrc
-)
-
+set(RESOURCES ../data/data.qrc)
 set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
@@ -487,7 +483,6 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
 set(GST_ENGINE_SRC engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp)
 set(GST_ENGINE_MOC engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h)
-#set(GST_ENGINE_LIB GSTREAMER GSTREAMER_BASE GSTREAMER_APP GSTREAMER_AUDIO GSTREAMER_TAG GSTREAMER_PBUTILS GSTREAMER_QTGLIB GSTREAMER_QTGST GSTREAMER_QTGSTUI GSTREAMER_QTGSTUTILS)
 set(GST_ENGINE_LIB GSTREAMER GSTREAMER_BASE GSTREAMER_APP GSTREAMER_AUDIO GSTREAMER_TAG GSTREAMER_PBUTILS)
 #set(GST_ENGINE_LIB gstreamer-1.0 gstreamer-base-1.0 gstreamer-app-1.0 streamer-audio-1.0 gstreamer-tag-1.0 gstreamer-pbutils-1.0)
 #set(GST_ENGINE_LIB ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES} ${GSTREAMER_PBUTILS_LIBRARIES})
@@ -846,6 +841,7 @@ add_library(strawberry_lib STATIC
 target_link_libraries(strawberry_lib
   libstrawberry-common
   libstrawberry-tagreader
+  #gstafc
   ${GLIB_LIBRARIES}
   ${GIO_LIBRARIES}
   ${SHA2_LIBRARIES}
@@ -886,7 +882,6 @@ if(HAVE_IMOBILEDEVICE)
     ${IMOBILEDEVICE_LIBRARIES}
     ${PLIST_LIBRARIES}
     ${USBMUXD_LIBRARIES}
-    gstafcsrc
   )
   link_directories(${IMOBILEDEVICE_LIBRARY_DIRS})
   link_directories(${USBMUXD_LIBRARY_DIRS})

@@ -15,16 +15,23 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "tagreaderworker.h"
-#include "core/logging.h"
+#include "config.h"
 
+#include <sys/time.h>
+#include <iostream>
+
+#include <QtGlobal>
 #include <QCoreApplication>
+#include <QList>
 #include <QLocalSocket>
+#include <QSsl>
+#include <QSslCertificate>
 #include <QSslSocket>
 #include <QStringList>
+#include <QtDebug>
 
-#include <iostream>
-#include <sys/time.h>
+#include "core/logging.h"
+#include "tagreaderworker.h"
 
 int main(int argc, char **argv) {
 

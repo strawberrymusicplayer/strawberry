@@ -19,6 +19,9 @@
 
 #include "clickablelabel.h"
 
+#include <QWidget>
+#include <QLabel>
+
 ClickableLabel::ClickableLabel(QWidget *parent)
   : QLabel(parent)
 {

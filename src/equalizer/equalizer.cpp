@@ -20,18 +20,34 @@
 
 #include "config.h"
 
-#include "equalizer.h"
-#include "ui_equalizer.h"
+#include <algorithm>
 
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QSettings>
+#include <QtGlobal>
+#include <QWidget>
+#include <QDialog>
+#include <QDataStream>
+#include <QByteArray>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QFrame>
+#include <QKeySequence>
+#include <QLayout>
+#include <QLineEdit>
 #include <QShortcut>
-#include <QtDebug>
+#include <QSlider>
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QToolButton>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSettings>
+#include <QtEvents>
 
 #include "core/iconloader.h"
-#include "core/logging.h"
+#include "equalizer.h"
 #include "equalizerslider.h"
+#include "ui_equalizer.h"
 
 const char *Equalizer::kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
 
@@ -39,8 +55,6 @@ const char *Equalizer::kSettingsGroup = "Equalizer";
 
 Equalizer::Equalizer(QWidget *parent)
     : QDialog(parent), ui_(new Ui_Equalizer), loading_(false) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   ui_->setupUi(this);
 
@@ -50,7 +64,7 @@ Equalizer::Equalizer(QWidget *parent)
 
   preamp_ = AddSlider(tr("Pre-amp"));
 
-  QFrame* line = new QFrame(ui_->slider_container);
+  QFrame *line = new QFrame(ui_->slider_container);
   line->setFrameShape(QFrame::VLine);
   line->setFrameShadow(QFrame::Sunken);
   ui_->slider_container->layout()->addWidget(line);
@@ -68,7 +82,7 @@ Equalizer::Equalizer(QWidget *parent)
   connect(ui_->preset_del, SIGNAL(clicked()), SLOT(DelPreset()));
   connect(ui_->balance_slider, SIGNAL(valueChanged(int)), SLOT(StereoSliderChanged(int)));
 
-  QShortcut* close = new QShortcut(QKeySequence::Close, this);
+  QShortcut *close = new QShortcut(QKeySequence::Close, this);
   connect(close, SIGNAL(activated()), SLOT(close()));
 
 }
@@ -78,8 +92,6 @@ Equalizer::~Equalizer() {
 }
 
 void Equalizer::ReloadSettings() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -116,8 +128,6 @@ void Equalizer::ReloadSettings() {
 }
 
 void Equalizer::LoadDefaultPresets() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Custom"),             Params(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
   AddPreset(QT_TRANSLATE_NOOP("Equalizer", "Classical"),          Params(0, 0, 0, 0, 0, 0, -40, -40, -40, -50));
@@ -220,9 +230,9 @@ void Equalizer::DelPreset() {
 
 }
 
-EqualizerSlider* Equalizer::AddSlider(const QString &label) {
+EqualizerSlider *Equalizer::AddSlider(const QString &label) {
 
-  EqualizerSlider* ret = new EqualizerSlider(label, ui_->slider_container);
+  EqualizerSlider *ret = new EqualizerSlider(label, ui_->slider_container);
   ui_->slider_container->layout()->addWidget(ret);
   connect(ret, SIGNAL(ValueChanged(int)), SLOT(ParametersChanged()));
 
@@ -292,7 +302,7 @@ void Equalizer::Save() {
 
 }
 
-void Equalizer::closeEvent(QCloseEvent* e) {
+void Equalizer::closeEvent(QCloseEvent *e) {
   QString name = ui_->preset->currentText();
   if (!presets_.contains(name)) return;
 

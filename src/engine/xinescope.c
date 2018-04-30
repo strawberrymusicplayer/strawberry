@@ -17,8 +17,7 @@
 
 typedef struct scope_plugin_s scope_plugin_t;
 
-struct scope_plugin_s
-{
+struct scope_plugin_s {
     post_plugin_t post;
 
     metronom_t metronom;
@@ -30,9 +29,8 @@ struct scope_plugin_s
  * post plugin functions *
  *************************/
 
-static int
-scope_port_open( xine_audio_port_t *port_gen, xine_stream_t *stream, uint32_t bits, uint32_t rate, int mode )
-{
+static int scope_port_open( xine_audio_port_t *port_gen, xine_stream_t *stream, uint32_t bits, uint32_t rate, int mode ) {
+
     #define port ((post_audio_port_t*)port_gen)
     #define this ((scope_plugin_t*)((post_audio_port_t*)port_gen)->post)
 
@@ -49,9 +47,8 @@ scope_port_open( xine_audio_port_t *port_gen, xine_stream_t *stream, uint32_t bi
     return port->original_port->open( port->original_port, stream, bits, rate, mode );
 }
 
-static void
-scope_port_close( xine_audio_port_t *port_gen, xine_stream_t *stream )
-{
+static void scope_port_close( xine_audio_port_t *port_gen, xine_stream_t *stream ) {
+
     MyNode *node;
 
     /* ensure the buffers are deleted during the next XineEngine::timerEvent() */
@@ -64,9 +61,7 @@ scope_port_close( xine_audio_port_t *port_gen, xine_stream_t *stream )
     _x_post_dec_usage( port );
 }
 
-static void
-scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *buf, xine_stream_t *stream )
-{
+static void scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *buf, xine_stream_t *stream ) {
 /* FIXME With 8-bit samples the scope won't work correctly. For a special 8-bit code path,
          the sample size could be checked like this: if( port->bits == 8 ) */
 
@@ -104,9 +99,7 @@ scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *buf, xine_st
     #undef this
 }
 
-static void
-scope_dispose( post_plugin_t *this )
-{
+static void scope_dispose( post_plugin_t *this ) {
     MyNode *list = ((scope_plugin_t*)this)->list;
     MyNode *prev;
     MyNode *node = list;
@@ -131,9 +124,8 @@ scope_dispose( post_plugin_t *this )
  * plugin init function *
  ************************/
 
-xine_post_t*
-scope_plugin_new( xine_t *xine, xine_audio_port_t *audio_target )
-{
+xine_post_t* scope_plugin_new( xine_t *xine, xine_audio_port_t *audio_target ) {
+
     scope_plugin_t *scope_plugin = calloc( 1, sizeof(scope_plugin_t) );
     post_plugin_t  *post_plugin  = (post_plugin_t*)scope_plugin;
 
@@ -169,20 +161,14 @@ scope_plugin_new( xine_t *xine, xine_audio_port_t *audio_target )
     return &post_plugin->xine_post;
 }
 
-MyNode*
-scope_plugin_list( void *post )
-{
+MyNode* scope_plugin_list( void *post ) {
     return ((scope_plugin_t*)post)->list;
 }
 
-int
-scope_plugin_channels( void *post )
-{
+int scope_plugin_channels( void *post ) {
     return ((scope_plugin_t*)post)->channels;
 }
 
-metronom_t*
-scope_plugin_metronom( void *post )
-{
+metronom_t* scope_plugin_metronom( void *post ) {
     return &((scope_plugin_t*)post)->metronom;
 }

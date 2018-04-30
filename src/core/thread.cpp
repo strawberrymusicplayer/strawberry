@@ -17,7 +17,10 @@
 
 #include "config.h"
 
+#include <QThread>
+
 #include "thread.h"
+#include "utilities.h"
 
 void Thread::run() {
   Utilities::SetThreadIOPriority(io_priority_);

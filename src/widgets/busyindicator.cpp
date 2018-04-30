@@ -20,12 +20,20 @@
 
 #include "config.h"
 
-#include <QHBoxLayout>
-#include <QMovie>
+#include <stdbool.h>
 
-#include "core/logging.h"
+#include <QWidget>
+#include <QString>
+#include <QMovie>
+#include <QLabel>
+#include <QSizePolicy>
+#include <QBoxLayout>
+#include <QtEvents>
 
 #include "busyindicator.h"
+
+class QHideEvent;
+class QShowEvent;
 
 BusyIndicator::BusyIndicator(const QString &text, QWidget* parent)
   : QWidget(parent) {
@@ -38,8 +46,6 @@ BusyIndicator::BusyIndicator(QWidget* parent)
 }
 
 void BusyIndicator::Init(const QString &text) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   movie_ = new QMovie(":pictures/spinner.gif"),
   label_ = new QLabel;

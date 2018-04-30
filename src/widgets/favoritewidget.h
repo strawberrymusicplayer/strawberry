@@ -20,10 +20,18 @@
 
 #include "config.h"
 
-#include <QWidget>
+#include <stdbool.h>
 
-class QPaintEvent;
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QPixmap>
+#include <QRect>
+#include <QSize>
+#include <QtEvents>
+
 class QMouseEvent;
+class QPaintEvent;
 
 class FavoriteWidget : public QWidget {
   Q_OBJECT
@@ -31,8 +39,7 @@ class FavoriteWidget : public QWidget {
  public:
   FavoriteWidget(int tab_id, bool favorite = false, QWidget *parent = nullptr);
 
-  // Change the value if different from the current one and then update display
-  // and emit FavoriteStateChanged signal
+  // Change the value if different from the current one and then update display and emit FavoriteStateChanged signal
   void SetFavorite(bool favorite);
 
   QSize sizeHint() const;

@@ -24,29 +24,31 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QObject>
-#include <QString>
 #include <QThread>
+#include <QList>
+#include <QString>
 
 #include "settings/settingsdialog.h"
 
+class TaskManager;
 class ApplicationImpl;
 class TagReaderClient;
 class Database;
-class Appearance;
-class TaskManager;
+class EngineDevice;
 class Player;
-class DeviceManager;
+class Appearance;
 class Collection;
-class PlaylistBackend;
-class PlaylistManager;
-class AlbumCoverLoader;
-class CoverProviders;
-class CurrentArtLoader;
 class CollectionBackend;
 class CollectionModel;
-class EngineDevice;
+class PlaylistBackend;
+class PlaylistManager;
+class DeviceManager;
+class CoverProviders;
+class AlbumCoverLoader;
+class CurrentArtLoader;
 
 class Application : public QObject {
   Q_OBJECT
@@ -56,11 +58,6 @@ class Application : public QObject {
 
   explicit Application(QObject *parent = nullptr);
   ~Application();
-
-  const QString &language_name() const { return language_name_; }
-  // Same as language_name, but remove the region code at the end if there is one
-  QString language_without_region() const;
-  void set_language_name(const QString &name) { language_name_ = name; }
 
   TagReaderClient *tag_reader_client() const;
   Database *database() const;
@@ -96,7 +93,6 @@ signals:
   void SettingsDialogRequested(SettingsDialog::Page page);
 
  private:
-  QString language_name_;
   std::unique_ptr<ApplicationImpl> p_;
   QList<QThread*> threads_;
 

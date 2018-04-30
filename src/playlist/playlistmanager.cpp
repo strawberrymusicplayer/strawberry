@@ -20,28 +20,44 @@
 
 #include "config.h"
 
+#include <memory>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QDialog>
+#include <QtConcurrentRun>
+#include <QFuture>
+#include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QFuture>
-#include <QMessageBox>
-#include <QtConcurrentRun>
+#include <QList>
+#include <QSet>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QRegExp>
+#include <QUrl>
+#include <QAbstractItemModel>
+#include <QSettings>
 #include <QtDebug>
 
-#include "playlistmanager.h"
-
-#include "playlistbackend.h"
-#include "playlistcontainer.h"
-#include "playlistmanager.h"
-#include "playlistsaveoptionsdialog.h"
-#include "playlistview.h"
 #include "core/application.h"
+#include "core/closure.h"
 #include "core/logging.h"
 #include "core/player.h"
-#include "core/songloader.h"
 #include "core/utilities.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
+#include "playlist.h"
+#include "playlistbackend.h"
+#include "playlistcontainer.h"
+#include "playlistmanager.h"
+#include "playlistitem.h"
+#include "playlistview.h"
+#include "playlistsaveoptionsdialog.h"
 #include "playlistparsers/playlistparser.h"
+
+class ParserBase;
 
 PlaylistManager::PlaylistManager(Application *app, QObject *parent)
     : PlaylistManagerInterface(app, parent),
@@ -176,9 +192,7 @@ void PlaylistManager::Save(int id, const QString &filename, Playlist::Path path_
     parser_->Save(playlist(id)->GetAllSongs(), filename, path_type);
   }
   else {
-    // Playlist is not in the playlist manager: probably save action was
-    // triggered
-    // from the left side bar and the playlist isn't loaded.
+    // Playlist is not in the playlist manager: probably save action was triggered from the left side bar and the playlist isn't loaded.
     QFuture<QList<Song>> future = QtConcurrent::run(playlist_backend_, &PlaylistBackend::GetPlaylistSongs, id);
 
     NewClosure(future, this, SLOT(ItemsLoadedForSavePlaylist(QFuture<SongList>, QString, Playlist::Path)), future, filename, path_type);
@@ -272,17 +286,14 @@ void PlaylistManager::Rename(int id, const QString &new_name) {
 void PlaylistManager::Favorite(int id, bool favorite) {
 
   if (playlists_.contains(id)) {
-    // If playlists_ contains this playlist, its means it's opened: star or
-    // unstar it.
+    // If playlists_ contains this playlist, its means it's opened: star or unstar it.
     playlist_backend_->FavoritePlaylist(id, favorite);
     playlists_[id].p->set_favorite(favorite);
   }
   else {
     Q_ASSERT(!favorite);
-    // Otherwise it means user wants to remove this playlist from the left
-    // panel,
-    // while it's not visible in the playlist tabbar either, because it has been
-    // closed: delete it.
+    // Otherwise it means user wants to remove this playlist from the left panel,
+    // while it's not visible in the playlist tabbar either, because it has been closed: delete it.
     playlist_backend_->RemovePlaylist(id);
   }
   emit PlaylistFavorited(id, favorite);
@@ -359,9 +370,8 @@ void PlaylistManager::SetActivePlaylist(int id) {
 void PlaylistManager::SetActiveToCurrent() {
 
   // Check if we need to update the active playlist.
-  // By calling SetActiveToCurrent, the playlist manager emits the signal
-  // "ActiveChanged". This signal causes the network remote module to
-  // send all playlists to the clients, even no change happend.
+  // By calling SetActiveToCurrent, the playlist manager emits the signal "ActiveChanged".
+  // This signal causes the network remote module to send all playlists to the clients, even no change happend.
   if (current_id() != active_id()) {
     SetActivePlaylist(current_id());
   }

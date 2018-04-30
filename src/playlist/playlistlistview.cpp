@@ -20,9 +20,16 @@
 
 #include "config.h"
 
-#include "playlistlistview.h"
+#include <stdbool.h>
 
+#include <QWidget>
+#include <QFlags>
+#include <QFont>
 #include <QPainter>
+#include <QPalette>
+#include <QRect>
+
+#include "playlistlistview.h"
 
 PlaylistListView::PlaylistListView(QWidget *parent)
     : AutoExpandingTreeView(parent) {}

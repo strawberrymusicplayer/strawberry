@@ -21,14 +21,20 @@
 #ifndef TRACKSELECTIONDIALOG_H
 #define TRACKSELECTIONDIALOG_H
 
-#include "config.h"
+#include <stdbool.h>
 
+#include <QObject>
 #include <QDialog>
+#include <QWidget>
+#include <QList>
+#include <QString>
+#include <QTreeWidget>
+#include <QPushButton>
 
+#include "config.h"
 #include "core/song.h"
 
 class Ui_TrackSelectionDialog;
-class QTreeWidget;
 
 class TrackSelectionDialog : public QDialog {
   Q_OBJECT

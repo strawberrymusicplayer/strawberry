@@ -23,8 +23,20 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QMimeData>
 #include <QListView>
+#include <QList>
 #include <QUrl>
+#include <QString>
+#include <QStringList>
+#include <QMenu>
+#include <QItemSelectionModel>
+#include <QtEvents>
+
+class QMouseEvent;
+class QContextMenuEvent;
 
 class MimeData;
 
@@ -32,7 +44,7 @@ class FileViewList : public QListView {
   Q_OBJECT
 
  public:
-  FileViewList(QWidget* parent = nullptr);
+  FileViewList(QWidget *parent = nullptr);
 
   void mousePressEvent(QMouseEvent *e);
 

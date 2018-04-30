@@ -22,18 +22,18 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QVariant>
 #include <QString>
 #include <QSettings>
 
-#include "backendsettingspage.h"
-
+#include "engine/enginetype.h"
+#include "dialogs/errordialog.h"
 #include "settingspage.h"
 
-#include "engine/engine_fwd.h"
-#include "engine/enginetype.h"
-
-#include "dialogs/errordialog.h"
-
+class SettingsDialog;
 class Ui_BackendSettingsPage;
 
 class BackendSettingsPage : public SettingsPage {

@@ -20,10 +20,14 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QMutex>
+#include <QList>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QtDebug>
 
-#include "config.h"
 #include "ilister.h"
 #include "imobiledeviceconnection.h"
 

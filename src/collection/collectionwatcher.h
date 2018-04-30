@@ -23,22 +23,24 @@
 
 #include "config.h"
 
-#include "directory.h"
+#include <stdbool.h>
 
-#include <QHash>
+#include <QtGlobal>
 #include <QObject>
-#include <QStringList>
+#include <QHash>
 #include <QMap>
+#include <QSet>
+#include <QString>
+#include <QStringList>
+#include <QTimer>
 
+#include "directory.h"
 #include "core/song.h"
 
-class QFileSystemWatcher;
-class QTimer;
-
-class CueParser;
-class FileSystemWatcherInterface;
 class CollectionBackend;
+class FileSystemWatcherInterface;
 class TaskManager;
+class CueParser;
 
 class CollectionWatcher : public QObject {
   Q_OBJECT
@@ -76,14 +78,11 @@ signals:
 
  private:
   // This class encapsulates a full or partial scan of a directory.
-  // Each directory has one or more subdirectories, and any number of
-  // subdirectories can be scanned during one transaction.  ScanSubdirectory()
-  // adds its results to the members of this transaction class, and they are
-  // "committed" through calls to the CollectionBackend in the transaction's dtor.
-  // The transaction also caches the list of songs in this directory according
-  // to the collection.  Multiple calls to FindSongsInSubdirectory during one
-  // transaction will only result in one call to
-  // CollectionBackend::FindSongsInDirectory.
+  // Each directory has one or more subdirectories, and any number of subdirectories can be scanned during one transaction.
+  // ScanSubdirectory() adds its results to the members of this transaction class,
+  // and they are "committed" through calls to the CollectionBackend in the transaction's dtor.
+  // The transaction also caches the list of songs in this directory according to the collection.
+  // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
    public:
     ScanTransaction(CollectionWatcher *watcher, int dir, bool incremental, bool ignores_mtime = false);
@@ -120,10 +119,9 @@ signals:
     int dir_;
     // Incremental scan enters a directory only if it has changed since the last scan.
     bool incremental_;
-    // This type of scan updates every file in a folder that's
-    // being scanned. Even if it detects the file hasn't changed since
-    // the last scan. Also, since it's ignoring mtimes on folders too,
-    // it will go as deep in the folder hierarchy as it's possible.
+    // This type of scan updates every file in a folder that's being scanned.
+    // Even if it detects the file hasn't changed since the last scan.
+    // Also, since it's ignoring mtimes on folders too, it will go as deep in the folder hierarchy as it's possible.
     bool ignores_mtime_;
 
     CollectionWatcher *watcher_;
@@ -153,18 +151,14 @@ signals:
   uint GetMtimeForCue(const QString &cue_path);
   void PerformScan(bool incremental, bool ignore_mtimes);
 
-  // Updates the sections of a cue associated and altered (according to mtime)
-  // media file during a scan.
+  // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
   void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &matching_cue, const QString &image, ScanTransaction *t);
-  // Updates a single non-cue associated and altered (according to mtime) song
-  // during a scan.
+  // Updates a single non-cue associated and altered (according to mtime) song during a scan.
   void UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QString &image, bool cue_deleted, ScanTransaction *t);
-  // Updates a new song with some metadata taken from it's equivalent old
-  // song (for example rating and score).
+  // Updates a new song with some metadata taken from it's equivalent old song (for example rating and score).
   void PreserveUserSetData(const QString &file, const QString &image, const Song &matching_song, Song *out, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
-  // It may result in a multiple files added to the collection when the media file
-  // has many sections (like a CUE related media file).
+  // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
   SongList ScanNewFile(const QString &file, const QString &path, const QString &matching_cue, QSet<QString> *cues_processed);
 
  private:
@@ -175,11 +169,8 @@ signals:
   FileSystemWatcherInterface *fs_watcher_;
   QHash<QString, Directory> subdir_mapping_;
 
-  /* A list of words use to try to identify the (likely) best image
-   * found in an directory to use as cover artwork.
-   * e.g. using ["front", "cover"] would identify front.jpg and
-   * exclude back.jpg.
-   */
+  // A list of words use to try to identify the (likely) best image found in an directory to use as cover artwork.
+  // e.g. using ["front", "cover"] would identify front.jpg and exclude back.jpg.
   QStringList best_image_filters_;
 
   bool stop_requested_;

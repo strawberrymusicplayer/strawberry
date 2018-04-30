@@ -23,17 +23,18 @@
 
 #include "config.h"
 
-#include "gpoddevice.h"
-
-#include <QMutex>
-#include <QWaitCondition>
-
-#include <boost/scoped_ptr.hpp>
-
 #include <gpod/itdb.h>
 
+#include <QObject>
+#include <QMutex>
+#include <QList>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+
+#include "gpoddevice.h"
+
 class AfcTransfer;
-class GPodLoader;
 class iMobileDeviceConnection;
 
 class AfcDevice : public GPodDevice {
@@ -64,7 +65,7 @@ private:
 
 private:
   AfcTransfer *transfer_;
-  boost::scoped_ptr<iMobileDeviceConnection> connection_;
+  std::shared_ptr<iMobileDeviceConnection> connection_;
 
   QString local_path_;
 };

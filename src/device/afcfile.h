@@ -4,10 +4,12 @@
 #include "config.h"
 
 #include <stdint.h>
-
-#include <QIODevice>
-
 #include <libimobiledevice/afc.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QString>
 
 class iMobileDeviceConnection;
 

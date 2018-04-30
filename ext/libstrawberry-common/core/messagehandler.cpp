@@ -15,11 +15,15 @@
 */
 
 #include "messagehandler.h"
-#include "core/logging.h"
 
+#include <QObject>
 #include <QAbstractSocket>
-#include <QLocalSocket>
 #include <QDataStream>
+#include <QIODevice>
+#include <QLocalSocket>
+#include <QByteArray>
+
+#include "core/logging.h"
 
 _MessageHandlerBase::_MessageHandlerBase(QIODevice *device, QObject *parent)
     : QObject(parent),

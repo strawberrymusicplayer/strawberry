@@ -18,16 +18,40 @@
  * 
  */
 
-#include "config.h"
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QWidget>
+#include <QListView>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
+#include <QAbstractItemDelegate>
+#include <QItemSelectionModel>
+#include <QList>
+#include <QArrayData>
+#include <QVariant>
+#include <QString>
+#include <QFont>
+#include <QFontMetrics>
+#include <QLocale>
 #include <QPainter>
-#include <QPaintEvent>
+#include <QPalette>
+#include <QVector>
+#include <QRect>
+#include <QPen>
+#include <QPoint>
 #include <QScrollBar>
-#include <QSortFilterProxyModel>
-#include <QtDebug>
+#include <QSize>
+#include <QStyle>
+#include <QStyleOption>
+#include <QFlags>
+#include <QtEvents>
 
-#include "groupediconview.h"
 #include "core/multisortfilterproxy.h"
+#include "groupediconview.h"
+
+class QModelIndex;
+class QResizeEvent;
 
 const int GroupedIconView::kBarThickness = 2;
 const int GroupedIconView::kBarMarginTop = 3;
@@ -94,8 +118,7 @@ void GroupedIconView::DrawHeader(QPainter *painter, const QRect &rect, const QFo
   const QPoint end(rect.right(), start.y());
 
   painter->setRenderHint(QPainter::Antialiasing, true);
-  painter->setPen(QPen(palette.color(QPalette::Disabled, QPalette::Text),
-                       kBarThickness, Qt::SolidLine, Qt::RoundCap));
+  painter->setPen(QPen(palette.color(QPalette::Disabled, QPalette::Text), kBarThickness, Qt::SolidLine, Qt::RoundCap));
   painter->setOpacity(0.5);
   painter->drawLine(start, end);
 
@@ -208,8 +231,7 @@ QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
 }
 
 void GroupedIconView::paintEvent(QPaintEvent *e) {
-  // This code was adapted from QListView::paintEvent(), changed to use the
-  // visualRect() of items, and to draw headers.
+  // This code was adapted from QListView::paintEvent(), changed to use the visualRect() of items, and to draw headers.
 
   QStyleOptionViewItemV4 option(viewOptions());
   if (isWrapping())

@@ -20,8 +20,9 @@
 
 #include "config.h"
 
-#include "filesystemwatcherinterface.h"
+#include <QObject>
 
+#include "filesystemwatcherinterface.h"
 #include "qtfslistener.h"
 
 #ifdef Q_OS_DARWIN
@@ -43,4 +44,3 @@ FileSystemWatcherInterface *FileSystemWatcherInterface::Create(QObject *parent) 
   return ret;
 
 }
-

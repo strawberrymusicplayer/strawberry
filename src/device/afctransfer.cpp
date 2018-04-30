@@ -20,26 +20,29 @@
 
 #include "config.h"
 
+#include <memory>
+
+#include <QObject>
+#include <QDir>
+#include <QFile>
+#include <QString>
+#include <QtDebug>
+
+#include "core/utilities.h"
+#include "core/taskmanager.h"
 #include "afcfile.h"
 #include "afctransfer.h"
 #include "imobiledeviceconnection.h"
-#include "core/taskmanager.h"
-#include "core/utilities.h"
 
-#include <QDir>
-#include <QtDebug>
-
-#include <boost/scoped_ptr.hpp>
-
-AfcTransfer::AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, boost::shared_ptr<ConnectedDevice> device)
-  : QObject(NULL), device_(device), task_manager_(task_manager), uuid_(uuid), local_destination_(local_destination)
-{
+AfcTransfer::AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, std::shared_ptr<ConnectedDevice> device)
+  : QObject(nullptr), device_(device), task_manager_(task_manager), uuid_(uuid), local_destination_(local_destination) {
 
   original_thread_ = thread();
 
   important_directories_ << "/iTunes_Control/Artwork";
   important_directories_ << "/iTunes_Control/Device";
   important_directories_ << "/iTunes_Control/iTunes";
+
 }
 
 AfcTransfer::~AfcTransfer() {

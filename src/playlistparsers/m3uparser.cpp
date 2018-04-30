@@ -18,16 +18,26 @@
  * 
  */
 
-#include "config.h"
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QBuffer>
+#include <QByteArray>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QSettings>
+#include <QtDebug>
 
-#include "m3uparser.h"
 #include "core/logging.h"
 #include "core/timeconstants.h"
-
+#include "m3uparser.h"
 #include "playlist/playlist.h"
+#include "playlistparsers/parserbase.h"
 
-#include <QBuffer>
-#include <QtDebug>
+class CollectionBackendInterface;
 
 M3UParser::M3UParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}

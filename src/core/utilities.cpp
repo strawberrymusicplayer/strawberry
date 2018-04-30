@@ -23,22 +23,40 @@
 #include <memory>
 #include <stdlib.h>
 
+#include <QtGlobal>
 #include <QApplication>
+#include <QCoreApplication>
+#include <QWidget>
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QMetaObject>
+#include <QChar>
+#include <QCryptographicHash>
+#include <QDate>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFile>
-#include <QIODevice>
-#include <QMetaEnum>
-#include <QMouseEvent>
+#include <QFileInfo>
+#include <QHostAddress>
+#include <QPoint>
+#include <QRect>
+#include <QSize>
+#include <QMap>
+#include <QList>
+#include <QSet>
+#include <QString>
 #include <QStringList>
+#include <QRegExp>
 #include <QTcpServer>
-#include <QtDebug>
 #include <QTemporaryFile>
-#include <QtGlobal>
 #include <QUrl>
-#include <QWidget>
+#include <QMetaEnum>
 #include <QXmlStreamReader>
+#include <QSettings>
+#include <QtEvents>
+#include <QtDebug>
 
 #ifdef Q_OS_LINUX
   #include <unistd.h>
@@ -56,23 +74,25 @@
 
 #ifdef Q_OS_DARWIN
   #include <QProcess>
+
   #include "CoreServices/CoreServices.h"
-  #include "IOKit/ps/IOPowerSources.h"
   #include "IOKit/ps/IOPSKeys.h"
+  #include "IOKit/ps/IOPowerSources.h"
 #elif defined(Q_OS_WIN32)
   #include <QProcess>
 #endif
 
-#include "utilities.h"
-#include "core/application.h"
 #include "core/logging.h"
-#include "timeconstants.h"
+
+#include "utilities.h"
 #include "sha2.h"
+#include "timeconstants.h"
+#include "application.h"
 
 #ifdef Q_OS_DARWIN
-  #include "core/mac_startup.h"
-  #include "core/mac_utilities.h"
-  #include "core/scoped_cftyperef.h"
+  #include "mac_startup.h"
+  #include "mac_utilities.h"
+  #include "scoped_cftyperef.h"
 #endif
 
 namespace Utilities {
@@ -379,8 +399,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     dirs.insert(directory);
     qLog(Debug) << path;
 #ifdef Q_OS_DARWIN
-    // revealing multiple files in the finder only opens one window,
-    // so it also makes sense to reveal at most one per directory
+    // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
     RevealFileInFinder(path);
 #elif defined(Q_OS_WIN32)
     ShowFileInExplorer(path);
@@ -407,8 +426,7 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, HashFunction meth
     return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Md5), QCryptographicHash::Md5);
   }
   else if (Sha1_Algo == method) {
-    return
-            QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha1), QCryptographicHash::Sha1);
+    return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha1), QCryptographicHash::Sha1);
   }
   else {  // Sha256_Algo, currently default
     return Sha256(outer_padding + Sha256(inner_padding + data));
@@ -473,6 +491,8 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
   QCryptographicHash hash(QCryptographicHash::Sha1);
   hash.addData(artist.toLower().toUtf8().constData());
   hash.addData(album.toLower().toUtf8().constData());
+  
+  //qLog(Debug) << artist << album << hash.result();
 
   return hash.result();
 
@@ -538,8 +558,7 @@ bool ParseUntilElement(QXmlStreamReader *reader, const QString &name) {
 
 QDateTime ParseRFC822DateTime(const QString &text) {
 
-  QRegExp regexp(
-      "(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})");
+  QRegExp regexp("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})");
   if (regexp.indexIn(text) == -1) {
     return QDateTime();
   }
@@ -622,11 +641,9 @@ QString DecodeHtmlEntities(const QString &text) {
 int SetThreadIOPriority(IoPriority priority) {
 
 #ifdef Q_OS_LINUX
-  return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(),
-                 4 | priority << IOPRIO_CLASS_SHIFT);
+  return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);
 #elif defined(Q_OS_DARWIN)
-  return setpriority(PRIO_DARWIN_THREAD, 0,
-                     priority == IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
+  return setpriority(PRIO_DARWIN_THREAD, 0, priority == IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
 #else
   return 0;
 #endif

@@ -18,16 +18,18 @@
  * 
  */
 
-#include "config.h"
-
-#include "parserbase.h"
-#include "core/tagreaderclient.h"
-#include "collection/collectionbackend.h"
-#include "collection/collectionquery.h"
-#include "collection/sqlrow.h"
-#include "playlist/playlist.h"
-
+#include <QtGlobal>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QString>
+#include <QRegExp>
 #include <QUrl>
+
+#include "collection/collectionbackend.h"
+#include "core/tagreaderclient.h"
+#include "parserbase.h"
+#include "playlist/playlist.h"
 
 ParserBase::ParserBase(CollectionBackendInterface *collection, QObject *parent)
     : QObject(parent), collection_(collection) {}
@@ -76,8 +78,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
     collection_song = collection_->GetSongByUrl(url, beginning);
   }
 
-  // If it was found in the collection then use it, otherwise load metadata from
-  // disk.
+  // If it was found in the collection then use it, otherwise load metadata from disk.
   if (collection_song.is_valid()) {
     *song = collection_song;
   }

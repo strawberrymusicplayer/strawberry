@@ -20,12 +20,24 @@
 
 #include "config.h"
 
-#include "multiloadingindicator.h"
+#include <QtGlobal>
+#include <QWidget>
+#include <QList>
+#include <QString>
+#include <QStringList>
+#include <QPainter>
+#include <QSize>
+#include <QRect>
+#include <QSizePolicy>
+#include <QStringList>
+#include <QFontMetrics>
+#include <QtEvents>
+
 #include "core/taskmanager.h"
+#include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
 
-#include <QHBoxLayout>
-#include <QPainter>
+class QPaintEvent;
 
 const int MultiLoadingIndicator::kVerticalPadding = 4;
 const int MultiLoadingIndicator::kHorizontalPadding = 6;

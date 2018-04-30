@@ -23,18 +23,28 @@
 
 #include "config.h"
 
-#include "devicelister.h"
-#include "core/scopedgobject.h"
-
 // Work around compile issue with glib >= 2.25
 #ifdef signals
 #undef signals
 #endif
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gio/gio.h>
+#include <stdbool.h>
 
+#include <QtGlobal>
 #include <QMutex>
+#include <QObject>
+#include <QList>
+#include <QMap>
+#include <QMetaType>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
+
+#include "core/scopedgobject.h"
+#include "devicelister.h"
 
 class GioLister : public DeviceLister {
   Q_OBJECT

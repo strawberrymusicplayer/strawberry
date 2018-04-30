@@ -20,12 +20,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include "qbutton.h"
-
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QPointer>
+#include <QString>
+#include <QPixmap>
+#include <QAbstractButton>
+#include <QBoxLayout>
+#include <QPushButton>
 #include <QToolBar>
 #include <QToolButton>
-#include <QPushButton>
-#include <QVBoxLayout>
+
+#include "qbutton.h"
 
 class QButtonPrivate : public QObject
 {

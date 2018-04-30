@@ -18,15 +18,21 @@
  * 
  */
 
-#include "config.h"
+#include <stdbool.h>
 
-#include "devicedatabasebackend.h"
+#include <QObject>
+#include <QMutex>
+#include <QIODevice>
+#include <QFile>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 #include "core/database.h"
 #include "core/scopedtransaction.h"
-
-#include <QFile>
-#include <QSqlQuery>
-#include <QVariant>
+#include "devicedatabasebackend.h"
 
 const int DeviceDatabaseBackend::kDeviceSchemaVersion = 0;
 

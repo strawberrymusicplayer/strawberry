@@ -32,12 +32,21 @@
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 #   include <QX11Info>
 #else
-#   include <QApplication>
 #   include <qpa/qplatformnativeinterface.h>
 #   include <xcb/xcb.h>
+#   include <QApplication>
 #endif
-#include <QVector>
+#include <X11/X.h>
 #include <X11/Xlib.h>
+#include <xcb/xproto.h>
+
+#include <QtGlobal>
+#include <QByteArray>
+#include <QGuiApplication>
+#include <QKeySequence>
+#include <QString>
+#include <QVector>
+
 #include "keymapper_x11.h"
 
 namespace {

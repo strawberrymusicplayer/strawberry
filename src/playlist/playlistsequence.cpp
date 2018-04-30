@@ -20,15 +20,21 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QMenu>
+#include <QSize>
+#include <QVariant>
+#include <QIcon>
+#include <QPixmap>
+#include <QPainter>
+#include <QAction>
+#include <QActionGroup>
+#include <QToolButton>
+
+#include "core/iconloader.h"
+#include "core/settingsprovider.h"
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
-#include "core/iconloader.h"
-
-#include <QMenu>
-#include <QActionGroup>
-#include <QSettings>
-#include <QtDebug>
-#include <QPainter>
 
 const char *PlaylistSequence::kSettingsGroup = "PlaylistSequence";
 
@@ -40,8 +46,7 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
       shuffle_menu_(new QMenu(this)),
       loading_(false),
       repeat_mode_(Repeat_Off),
-      shuffle_mode_(Shuffle_Off),
-    dynamic_(false)
+      shuffle_mode_(Shuffle_Off)
 {
 
   ui_->setupUi(this);
@@ -189,7 +194,6 @@ void PlaylistSequence::SetShuffleMode(ShuffleMode mode) {
     case Shuffle_Albums:      ui_->action_shuffle_albums->setChecked(true);       break;
   }
 
-
   if (mode != shuffle_mode_) {
     shuffle_mode_ = mode;
     emit ShuffleModeChanged(mode);
@@ -199,23 +203,12 @@ void PlaylistSequence::SetShuffleMode(ShuffleMode mode) {
 
 }
 
-void PlaylistSequence::SetUsingDynamicPlaylist(bool dynamic) {
-
-  dynamic_ = dynamic;
-  const QString not_available(tr("Not available while using a dynamic playlist"));
-
-  setEnabled(!dynamic);
-  ui_->shuffle->setToolTip(dynamic ? not_available : tr("Shuffle"));
-  ui_->repeat->setToolTip(dynamic ? not_available : tr("Repeat"));
-
-}
-
 PlaylistSequence::ShuffleMode PlaylistSequence::shuffle_mode() const {
-  return dynamic_ ? Shuffle_Off : shuffle_mode_;
+  return shuffle_mode_;
 }
 
 PlaylistSequence::RepeatMode PlaylistSequence::repeat_mode() const {
-  return dynamic_ ? Repeat_Off : repeat_mode_;
+  return repeat_mode_;
 }
 
 //called from global shortcut

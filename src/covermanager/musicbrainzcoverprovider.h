@@ -23,12 +23,16 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QMap>
 #include <QMultiMap>
+#include <QString>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 #include "coverprovider.h"
-
-class QNetworkAccessManager;
-class QNetworkReply;
 
 class MusicbrainzCoverProvider : public CoverProvider {
   Q_OBJECT

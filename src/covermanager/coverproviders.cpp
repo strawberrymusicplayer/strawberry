@@ -20,10 +20,14 @@
 
 #include "config.h"
 
-#include "coverprovider.h"
-#include "coverproviders.h"
+#include <QObject>
+#include <QMutex>
+#include <QString>
+#include <QtDebug>
 
 #include "core/logging.h"
+#include "coverprovider.h"
+#include "coverproviders.h"
 
 CoverProviders::CoverProviders(QObject *parent) : QObject(parent) {}
 
@@ -43,8 +47,7 @@ void CoverProviders::RemoveProvider(CoverProvider *provider) {
 
   if (!provider) return;
 
-  // It's not safe to dereference provider at this pointbecause it might have
-  // already been destroyed.
+  // It's not safe to dereference provider at this pointbecause it might have already been destroyed.
 
   QString name;
 

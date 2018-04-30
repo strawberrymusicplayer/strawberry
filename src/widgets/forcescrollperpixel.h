@@ -23,9 +23,12 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <QObject>
+#include <QtEvents>
+#include <QAbstractItemView>
 
-class QAbstractItemView;
+class QEvent;
 
 // Some KDE styles override the ScrollMode property of QAbstractItemViews.
 // This helper class forces the mode back to ScrollPerPixel.

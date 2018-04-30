@@ -20,23 +20,35 @@
 
 #include "config.h"
 
+#include <QApplication>
+#include <QWidget>
+#include <QObject>
+#include <QDataStream>
+#include <QIODevice>
+#include <QAction>
 #include <QActionGroup>
-#include <QInputDialog>
-#include <QKeyEvent>
-#include <QMenu>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
 #include <QRegExp>
+#include <QInputDialog>
+#include <QList>
+#include <QTimer>
+#include <QMenu>
 #include <QSettings>
 #include <QSignalMapper>
-#include <QTimer>
+#include <QToolButton>
+#include <QtEvents>
 
-#include "collectionfilterwidget.h"
+#include "core/iconloader.h"
+#include "core/song.h"
 #include "collectionmodel.h"
 #include "collectionquery.h"
+#include "savedgroupingmanager.h"
+#include "collectionfilterwidget.h"
 #include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
-#include "core/song.h"
-#include "core/iconloader.h"
-#include "settings/settingsdialog.h"
 
 CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),
@@ -48,8 +60,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
       delay_behaviour_(DelayedOnLargeLibraries) {
   ui_->setupUi(this);
 
-  // Add the available fields to the tooltip here instead of the ui
-  // file to prevent that they get translated by mistake.
+  // Add the available fields to the tooltip here instead of the ui file to prevent that they get translated by mistake.
   QString available_fields = Song::kFtsColumns.join(", ").replace(QRegExp("\\bfts"), "");
   ui_->filter->setToolTip(ui_->filter->toolTip().arg(available_fields));
 
@@ -125,8 +136,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
   group_by_group_ = CreateGroupByActions(this);
   group_by_menu_->clear();
   group_by_menu_->addActions(group_by_group_->actions());
-  connect(group_by_group_, SIGNAL(triggered(QAction*)),
-          SLOT(GroupByClicked(QAction*)));
+  connect(group_by_group_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
   if (model_) {
     CheckCurrentGrouping(model_->GetGroupBy());
   }
@@ -338,10 +348,9 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
 
 void CollectionFilterWidget::FilterTextChanged(const QString &text) {
 
-  // Searching with one or two characters can be very expensive on the database
-  // even with FTS, so if there are a large number of songs in the database
-  // introduce a small delay before actually filtering the model, so if the
-  // user is typing the first few characters of something it will be quicker.
+  // Searching with one or two characters can be very expensive on the database even with FTS,
+  // so if there are a large number of songs in the database introduce a small delay before actually filtering the model,
+  // so if the user is typing the first few characters of something it will be quicker.
   const bool delay = (delay_behaviour_ == AlwaysDelayed) || (delay_behaviour_ == DelayedOnLargeLibraries && !text.isEmpty() && text.length() < 3 && model_->total_song_count() >= 100000);
 
   if (delay) {

@@ -23,29 +23,41 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QMainWindow>
+#include <QAbstractItemModel>
+#include <QNetworkAccessManager>
+#include <QList>
+#include <QListWidgetItem>
+#include <QMap>
+#include <QString>
+#include <QImage>
 #include <QIcon>
-#include <QModelIndex>
+#include <QAction>
+#include <QMenu>
+#include <QMimeData>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QtEvents>
 
 #include "core/song.h"
-#include "covermanager/albumcoverloaderoptions.h"
-#include "covermanager/coversearchstatistics.h"
+#include "albumcoverloaderoptions.h"
+#include "coversearchstatistics.h"
 
+class Application;
+class CollectionBackend;
+class SongMimeData;
 class AlbumCoverChoiceController;
 class AlbumCoverExport;
 class AlbumCoverExporter;
 class AlbumCoverFetcher;
 class AlbumCoverSearcher;
-class Application;
-class CollectionBackend;
-class SongMimeData;
-class Ui_CoverManager;
 
-class QListWidgetItem;
-class QMenu;
-class QNetworkAccessManager;
-class QPushButton;
-class QProgressBar;
+class Ui_CoverManager;
 
 class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
@@ -130,13 +142,9 @@ class AlbumCoverManager : public QMainWindow {
   QString InitialPathForOpenCoverDialog(const QString &path_automatic, const QString &first_file_name) const;
   QString EffectiveAlbumArtistName(const QListWidgetItem &item) const;
 
-  // Returns the selected element in form of a Song ready to be used
-  // by AlbumCoverChoiceController or invalid song if there's nothing
-  // or multiple elements selected.
+  // Returns the selected element in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing or multiple elements selected.
   Song GetSingleSelectionAsSong();
-  // Returns the first of the selected elements in form of a Song ready
-  // to be used by AlbumCoverChoiceController or invalid song if there's nothing
-  // selected.
+  // Returns the first of the selected elements in form of a Song ready to be used by AlbumCoverChoiceController or invalid song if there's nothing selected.
   Song GetFirstSelectedAsSong();
 
   Song ItemAsSong(QListWidgetItem *item);

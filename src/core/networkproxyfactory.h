@@ -23,9 +23,15 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
 #include <QMutex>
-#include <QNetworkProxyFactory>
+#include <QList>
+#include <QString>
 #include <QUrl>
+#include <QNetworkProxy>
+#include <QNetworkProxyFactory>
 
 class NetworkProxyFactory : public QNetworkProxyFactory {
  public:

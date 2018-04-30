@@ -23,12 +23,14 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
 #include <QMap>
-#include <QModelIndex>
 #include <QSet>
 #include <QString>
+#include <QAbstractItemModel>
 
-class QAbstractItemModel;
+class QModelIndex;
 
 // structure for filter parse tree
 class FilterTree {
@@ -80,9 +82,7 @@ class FilterParser {
   void advance();
   FilterTree *parseOrGroup();
   FilterTree *parseAndGroup();
-  // check if iter is at the start of 'AND'
-  // if so, step over it and return true
-  // it not, return false and leave iter where it was
+  // check if iter is at the start of 'AND' if so, step over it and return true if not, return false and leave iter where it was
   bool checkAnd();
   // check if iter is at the start of 'OR'
   bool checkOr(bool step_over = true);

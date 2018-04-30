@@ -25,8 +25,7 @@
 
 #include <QList>
 #include <QVariant>
-
-class QSqlQuery;
+#include <QSqlQuery>
 
 class CollectionQuery;
 
@@ -37,7 +36,7 @@ class SqlRow {
   SqlRow(const QSqlQuery &query);
   SqlRow(const CollectionQuery &query);
 
-  const QVariant& value(int i) const { return columns_[i]; }
+  const QVariant &value(int i) const { return columns_[i]; }
   
   QList<QVariant> columns_;
 

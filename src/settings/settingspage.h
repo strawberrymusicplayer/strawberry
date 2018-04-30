@@ -23,7 +23,11 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QWidget>
+#include <QString>
 
 #include "widgets/osd.h"
 
@@ -33,7 +37,7 @@ class SettingsPage : public QWidget {
   Q_OBJECT
 
 public:
-  SettingsPage(SettingsDialog* dialog);
+  SettingsPage(SettingsDialog *dialog);
 
   // Return false to grey out the page's item in the list.
   virtual bool IsEnabled() const { return true; }

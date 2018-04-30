@@ -23,11 +23,16 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
-#include <QUrl>
+#include <stdbool.h>
 
-class ConnectedDevice;
-class DeviceManager;
+#include <QtGlobal>
+#include <QObject>
+#include <QThread>
+#include <QList>
+#include <QMetaType>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 
 class DeviceLister : public QObject {
   Q_OBJECT
@@ -36,12 +41,10 @@ class DeviceLister : public QObject {
   DeviceLister();
   virtual ~DeviceLister();
 
-  // Tries to start the thread and initialise the engine.  This object will be
-  // moved to the new thread.
+  // Tries to start the thread and initialise the engine.  This object will be moved to the new thread.
   void Start();
 
-  // If two listers know about the same device, then the metadata will get
-  // taken from the one with the highest priority.
+  // If two listers know about the same device, then the metadata will get taken from the one with the highest priority.
   virtual int priority() const { return 100; }
 
   // Query information about the devices that are available.  Must be thread-safe.
@@ -87,7 +90,7 @@ signals:
   QStringList GuessIconForModel(const QString &vendor, const QString &model);
 
  protected:
-  QThread* thread_;
+  QThread *thread_;
   int next_mount_request_id_;
 
  private slots:

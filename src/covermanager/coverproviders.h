@@ -23,11 +23,16 @@
 
 #include "config.h"
 
-#include <QMap>
-#include <QMutex>
-#include <QObject>
+#include <stdbool.h>
 
-class AlbumCoverFetcherSearch;
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QList>
+#include <QMap>
+#include <QString>
+#include <QAtomicInt>
+
 class CoverProvider;
 
 // This is a repository for cover providers.

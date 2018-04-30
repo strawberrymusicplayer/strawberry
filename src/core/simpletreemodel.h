@@ -23,9 +23,9 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QAbstractItemModel>
-
-class QModelIndex;
+#include <QModelIndex>
 
 template <typename T>
 class SimpleTreeModel : public QAbstractItemModel {

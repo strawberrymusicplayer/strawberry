@@ -23,19 +23,26 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QColor>
+#include <QTextDocument>
+#include <QTextEdit>
 #include <QSyntaxHighlighter>
 #include <QValidator>
-#include <QTextEdit>
 
-#include "core/song.h"
+class Song;
 
 class OrganiseFormat {
 
  public:
   explicit OrganiseFormat(const QString &format = QString());
 
-  static const char* kTagPattern;
-  static const char* kBlockPattern;
+  static const char *kTagPattern;
+  static const char *kBlockPattern;
   static const QStringList kKnownTags;
   static const char kInvalidFatCharacters[];
   static const int kInvalidFatCharactersCount;
@@ -57,7 +64,7 @@ class OrganiseFormat {
 
   class Validator : public QValidator {
    public:
-    explicit Validator(QObject* parent = nullptr);
+    explicit Validator(QObject *parent = nullptr);
     QValidator::State validate(QString &format, int &pos) const;
   };
 
@@ -70,14 +77,14 @@ class OrganiseFormat {
     static const QRgb kInvalidTagColorDark;
     static const QRgb kBlockColorDark;
 
-    explicit SyntaxHighlighter(QObject* parent = nullptr);
-    explicit SyntaxHighlighter(QTextEdit* parent);
-    explicit SyntaxHighlighter(QTextDocument* parent);
+    explicit SyntaxHighlighter(QObject *parent = nullptr);
+    explicit SyntaxHighlighter(QTextEdit *parent);
+    explicit SyntaxHighlighter(QTextDocument *parent);
     void highlightBlock(const QString &format);
   };
 
  private:
-  QString ParseBlock(QString block, const Song &song, bool* any_empty = nullptr) const;
+  QString ParseBlock(QString block, const Song &song, bool *any_empty = nullptr) const;
   QString TagValue(const QString &tag, const Song &song) const;
 
   QString format_;

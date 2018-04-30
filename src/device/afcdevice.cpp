@@ -20,16 +20,20 @@
 
 #include "config.h"
 
+#include <QThread>
+#include <QFile>
+#include <QList>
+#include <QString>
+#include <QUrl>
+
+#include "core/application.h"
+#include "core/utilities.h"
 #include "afcdevice.h"
 #include "afcfile.h"
 #include "afctransfer.h"
 #include "devicemanager.h"
 #include "gpodloader.h"
 #include "imobiledeviceconnection.h"
-#include "core/application.h"
-#include "core/utilities.h"
-
-#include <QThread>
 
 AfcDevice::AfcDevice(const QUrl &url, DeviceLister* lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
       : GPodDevice(url, lister, unique_id, manager, app, database_id, first_time), transfer_(NULL)
@@ -42,8 +46,7 @@ AfcDevice::~AfcDevice() {
 
 void AfcDevice::Init() {
 
-  // Make a new temporary directory for the iTunesDB.  We copy it off the iPod
-  // so that libgpod can have a local directory to use.
+  // Make a new temporary directory for the iTunesDB.  We copy it off the iPod so that libgpod can have a local directory to use.
   local_path_ = Utilities::MakeTempDir();
   InitBackendDirectory(local_path_, first_time_, false);
   model_->Init();
@@ -69,10 +72,9 @@ void AfcDevice::CopyFinished(bool success) {
   }
 
   // Now load the songs from the local database
-  loader_ = new GPodLoader(local_path_, app_->task_manager(), backend_,
-                           shared_from_this());
+  loader_ = new GPodLoader(local_path_, app_->task_manager(), backend_, shared_from_this());
   loader_->set_music_path_prefix("afc://" + url_.host());
-  loader_->set_song_type(Song::Type_Stream);
+  //loader_->set_song_type(Song::Type_Stream);
   loader_->moveToThread(loader_thread_);
 
   connect(loader_, SIGNAL(Error(QString)), SIGNAL(Error(QString)));

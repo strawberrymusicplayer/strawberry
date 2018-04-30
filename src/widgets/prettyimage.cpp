@@ -20,27 +20,49 @@
 
 #include "config.h"
 
-#include "prettyimage.h"
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QWidget>
 #include <QApplication>
-#include <QContextMenuEvent>
-#include <QDesktopWidget>
+#include <QtConcurrentRun>
 #include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QUrl>
+#include <QImage>
+#include <QPixmap>
+#include <QFrame>
 #include <QFuture>
+#include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QBrush>
+#include <QPoint>
+#include <QRect>
 #include <QLabel>
 #include <QMenu>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QPainter>
 #include <QScrollArea>
+#include <QSizePolicy>
+#include <QTransform>
+#include <QDesktopWidget>
+#include <QLinearGradient>
 #include <QSettings>
-#include <QtConcurrentRun>
+#include <QFlags>
+#include <QtDebug>
+#include <QtEvents>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #include "core/closure.h"
+#include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/network.h"
-#include "core/iconloader.h"
+#include "prettyimage.h"
 
 const int PrettyImage::kTotalHeight = 200;
 const int PrettyImage::kReflectionHeight = 40;
@@ -50,7 +72,7 @@ const int PrettyImage::kMaxImageWidth = 300;
 
 const char *PrettyImage::kSettingsGroup = "PrettyImageView";
 
-PrettyImage::PrettyImage(const QUrl& url, QNetworkAccessManager* network, QWidget* parent)
+PrettyImage::PrettyImage(const QUrl &url, QNetworkAccessManager* network, QWidget* parent)
     : QWidget(parent),
       network_(network),
       state_(State_WaitingForLazyLoad),
@@ -96,7 +118,8 @@ void PrettyImage::ImageFetched(RedirectFollower* follower) {
   if (image.isNull()) {
     qLog(Debug) << "Image failed to load" << reply->request().url() << reply->error();
     deleteLater();
-  } else {
+  }
+  else {
     state_ = State_CreatingThumbnail;
     image_ = image;
 

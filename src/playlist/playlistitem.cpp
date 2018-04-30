@@ -20,17 +20,22 @@
 
 #include "config.h"
 
-#include "playlistitem.h"
-#include "songplaylistitem.h"
-#include "core/logging.h"
-#include "core/song.h"
-#include "collection/collection.h"
-#include "collection/collectionplaylistitem.h"
+#include <stdbool.h>
 
-#include <QSqlQuery>
 #include <QtConcurrentRun>
+#include <QFuture>
+#include <QString>
+#include <QColor>
+#include <QSqlQuery>
 #include <QtDebug>
 
+#include "core/logging.h"
+#include "core/song.h"
+
+#include "collection/collection.h"
+#include "collection/collectionplaylistitem.h"
+#include "playlistitem.h"
+#include "songplaylistitem.h"
 
 PlaylistItem::~PlaylistItem() {
 }

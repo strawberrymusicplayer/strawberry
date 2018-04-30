@@ -20,10 +20,14 @@
 
 #include "config.h"
 
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+
 #include "collectionplaylistitem.h"
 #include "core/tagreaderclient.h"
 
-#include <QSettings>
+class SqlRow;
 
 CollectionPlaylistItem::CollectionPlaylistItem(const QString &type)
     : PlaylistItem(type) {}

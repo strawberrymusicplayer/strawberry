@@ -23,22 +23,23 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
+#include <QThread>
+#include <QIODevice>
+#include <QString>
 #include <QStringList>
 
-#include <boost/shared_ptr.hpp>
-
+class TaskManager;
 class ConnectedDevice;
 class iMobileDeviceConnection;
-class TaskManager;
-
-class QIODevice;
 
 class AfcTransfer : public QObject {
   Q_OBJECT
 
 public:
-  AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, boost::shared_ptr<ConnectedDevice> device);
+  AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, std::shared_ptr<ConnectedDevice> device);
   ~AfcTransfer();
 
   bool CopyToDevice(iMobileDeviceConnection *connection);
@@ -57,14 +58,14 @@ private:
   bool CopyFileToDevice(iMobileDeviceConnection *c, const QString &path);
 
 private:
-  boost::shared_ptr<ConnectedDevice> device_;
   QThread *original_thread_;
-
+  std::shared_ptr<ConnectedDevice> device_;
   TaskManager *task_manager_;
   QString uuid_;
   QString local_destination_;
 
   QStringList important_directories_;
+
 };
 
 #endif // AFCTRANSFER_H

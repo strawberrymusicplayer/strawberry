@@ -25,9 +25,10 @@
 
 #include <QObject>
 #include <QRunnable>
+#include <QString>
 
 #include "core/song.h"
-#include "covermanager/albumcoverexport.h"
+#include "albumcoverexport.h"
 
 class AlbumCoverExporter;
 

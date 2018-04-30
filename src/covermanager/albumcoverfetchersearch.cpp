@@ -20,21 +20,28 @@
 
 #include "config.h"
 
-#include "albumcoverfetchersearch.h"
-
+#include <algorithm>
 #include <cmath>
 
-#include <QMutexLocker>
-#include <QNetworkReply>
+#include <QObject>
+#include <QtAlgorithms>
 #include <QTimer>
+#include <QList>
+#include <QString>
+#include <QUrl>
+#include <QImage>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QtDebug>
 
-#include "albumcoverfetcher.h"
-#include "coverprovider.h"
-#include "coverproviders.h"
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
+#include "albumcoverfetcher.h"
+#include "albumcoverfetchersearch.h"
+#include "coverprovider.h"
+#include "coverproviders.h"
 
 const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 12000;
 const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
@@ -84,7 +91,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
     }
   }
 
-  // end this search before it even began if there are no providers...
+  // End this search before it even began if there are no providers...
   if (pending_requests_.isEmpty()) {
     TerminateSearch();
   }
@@ -111,7 +118,7 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(int id, const QList<CoverSe
   results_.append(results_copy);
   statistics_.total_images_by_provider_[provider->name()]++;
 
-  // do we have more providers left?
+  // Do we have more providers left?
   if (!pending_requests_.isEmpty()) {
     return;
   }
@@ -125,13 +132,13 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
     return;
   }
 
-  // if we only wanted to do the search then we're done
+  // If we only wanted to do the search then we're done
   if (request_.search) {
     emit SearchFinished(request_.id, results_);
     return;
   }
 
-  // no results?
+  // No results?
   if (results_.isEmpty()) {
     statistics_.missing_images_++;
     emit AlbumCoverFetched(request_.id, QImage());
@@ -139,10 +146,8 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   }
 
   // Now we have to load some images and figure out which one is the best.
-  // We'll sort the list of results by category, then load the first few images
-  // from each category and use some heuristics to score them.  If no images
-  // are good enough we'll keep loading more images until we find one that is
-  // or we run out of results.
+  // We'll sort the list of results by category, then load the first few images from each category and use some heuristics to score them.
+  // If no images are good enough we'll keep loading more images until we find one that is or we run out of results.
   qStableSort(results_.begin(), results_.end(), CompareProviders);
   FetchMoreImages();
 
@@ -205,8 +210,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(RedirectFollower *reply
   }
 
   if (pending_image_loads_.isEmpty()) {
-    // We've fetched everything we wanted to fetch for now, check if we have an
-    // image that's good enough.
+    // We've fetched everything we wanted to fetch for now, check if we have an image that's good enough.
     float best_score = 0.0;
 
     if (!candidate_images_.isEmpty()) {

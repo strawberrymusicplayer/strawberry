@@ -18,14 +18,22 @@
  * 
  */
 
-#include "config.h"
+#include <QtGlobal>
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QSize>
+#include <QLabel>
+#include <QSettings>
+#include <QtEvents>
 
-#include "trackslider.h"
-#include "ui_trackslider.h"
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-
-#include <QSettings>
+#include "trackslider.h"
+#include "ui_trackslider.h"
+#include "clickablelabel.h"
+#include "tracksliderslider.h"
 
 const char* TrackSlider::kSettingsGroup = "MainWindow";
 
@@ -59,8 +67,7 @@ void TrackSlider::SetApplication(Application* app) {
 }
 
 void TrackSlider::UpdateLabelWidth() {
-  // We set the label's minimum size so it won't resize itself when the user
-  // is dragging the slider.
+  // We set the label's minimum size so it won't resize itself when the user is dragging the slider.
   UpdateLabelWidth(ui_->elapsed, "0:00:00");
   UpdateLabelWidth(ui_->remaining, "-0:00:00");
 }
@@ -103,12 +110,12 @@ void TrackSlider::SetValue(int elapsed, int total) {
 void TrackSlider::UpdateTimes(int elapsed) {
 
   ui_->elapsed->setText(Utilities::PrettyTime(elapsed));
-  //update normally if showing remaining time
+  // Update normally if showing remaining time
   if (show_remaining_time_) {
     ui_->remaining->setText("-" + Utilities::PrettyTime((ui_->slider->maximum() / kMsecPerSec) - elapsed));
   }
   else {
-    // check if slider maximum value is changed before updating
+    // Check if slider maximum value is changed before updating
     if (slider_maximum_value_ != ui_->slider->maximum()) {
       slider_maximum_value_ = ui_->slider->maximum();
       ui_->remaining->setText(Utilities::PrettyTime((ui_->slider->maximum() / kMsecPerSec)));
@@ -165,12 +172,12 @@ void TrackSlider::ToggleTimeDisplay() {
 
   show_remaining_time_ = !show_remaining_time_;
   if (!show_remaining_time_) {
-    //we set the value to -1 because the label must be updated
+    // We set the value to -1 because the label must be updated
     slider_maximum_value_ = -1;
   }
   UpdateTimes(ui_->slider->value() / kMsecPerSec);
 
-  // save this setting
+  // Save this setting
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("show_remaining_time", show_remaining_time_);

@@ -18,29 +18,22 @@
  * 
  */
 
-/*
-
-Application name	Strawberry Music Player
-API key			211990b4c96782c05d1536e7219eb56e
-Shared secret		80fd738f49596e9709b1bf9319c444a8
-Registered to		jonaskvinge
-
-*/
-
 #include "config.h"
 
+#include <QObject>
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QStringBuilder>
+#include <QUrl>
 #include <QNetworkReply>
-#include <QtDebug>
-
-#include "lastfmcoverprovider.h"
-#include "lastfmcompat.h"
-
-#include "coverprovider.h"
-#include "albumcoverfetcher.h"
 
 #include "core/closure.h"
 #include "core/network.h"
-#include "core/logging.h"
+#include "coverprovider.h"
+#include "albumcoverfetcher.h"
+#include "lastfmcompat.h"
+#include "lastfmcoverprovider.h"
 
 const char *LastFmCoverProvider::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";

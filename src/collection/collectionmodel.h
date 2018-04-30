@@ -23,26 +23,40 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
-#include <QIcon>
-#include <QNetworkDiskCache>
+#include <stdbool.h>
 
-#include "collectionitem.h"
-#include "collectionquery.h"
-#include "collectionwatcher.h"
-#include "sqlrow.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QAbstractItemModel>
+#include <QFuture>
+#include <QDataStream>
+#include <QList>
+#include <QMap>
+#include <QMetaType>
+#include <QMimeData>
+#include <QPair>
+#include <QSet>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QImage>
+#include <QIcon>
+#include <QPixmap>
+#include <QNetworkDiskCache>
+#include <QSettings>
+
 #include "core/simpletreemodel.h"
 #include "core/song.h"
+#include "collectionquery.h"
+#include "collectionitem.h"
+#include "sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
-#include "engine/engine_fwd.h"
-#include "playlist/playlistmanager.h"
 
 class Application;
-class AlbumCoverLoader;
-class CollectionDirectoryModel;
 class CollectionBackend;
-
-class QSettings;
+class CollectionDirectoryModel;
+class CollectionItem;
 
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
@@ -190,8 +204,7 @@ signals:
 
  private:
   // Provides some optimisations for loading the list of items in the root.
-  // This gets called a lot when filtering the playlist, so it's nice to be
-  // able to do it in a background thread.
+  // This gets called a lot when filtering the playlist, so it's nice to be able to do it in a background thread.
   QueryResult RunQuery(CollectionItem *parent);
   void PostQuery(CollectionItem *parent, const QueryResult &result, bool signal);
 
@@ -200,24 +213,17 @@ signals:
   void BeginReset();
 
   // Functions for working with queries and creating items.
-  // When the model is reset or when a node is lazy-loaded the Collection
-  // constructs a database query to populate the items.  Filters are added
-  // for each parent item, restricting the songs returned to a particular
-  // album or artist for example.
+  // When the model is reset or when a node is lazy-loaded the Collection constructs a database query to populate the items.
+  // Filters are added for each parent item, restricting the songs returned to a particular album or artist for example.
   static void InitQuery(GroupBy type, CollectionQuery *q);
   void FilterQuery(GroupBy type, CollectionItem *item, CollectionQuery *q);
 
-  // Items can be created either from a query that's been run to populate a
-  // node, or by a spontaneous SongsDiscovered emission from the backend.
+  // Items can be created either from a query that's been run to populate a node, or by a spontaneous SongsDiscovered emission from the backend.
   CollectionItem *ItemFromQuery(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const SqlRow &row, int container_level);
   CollectionItem *ItemFromSong(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const Song &s, int container_level);
 
   // The "Various Artists" node is an annoying special case.
   CollectionItem *CreateCompilationArtistNode(bool signal, CollectionItem *parent);
-
-  // Smart playlists are shown in another top-level node
-
-  void ItemFromSmartPlaylist(const QSettings &s, bool notify) const;
 
   // Helpers for ItemFromQuery and ItemFromSong
   CollectionItem *InitItem(GroupBy type, bool signal, CollectionItem *parent, int container_level);
@@ -256,8 +262,7 @@ signals:
 
   QIcon artist_icon_;
   QIcon album_icon_;
-  // used as a generic icon to show when no cover art is found,
-  // fixed to the same size as the artwork (32x32)
+  // Used as a generic icon to show when no cover art is found, fixed to the same size as the artwork (32x32)
   QPixmap no_cover_icon_;
   QIcon playlists_dir_icon_;
   QIcon playlist_icon_;

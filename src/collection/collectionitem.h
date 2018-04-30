@@ -23,9 +23,6 @@
 
 #include "config.h"
 
-#include <QString>
-#include <QList>
-
 #include "core/simpletreeitem.h"
 #include "core/song.h"
 

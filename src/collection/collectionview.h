@@ -24,20 +24,37 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QObject>
+#include <QWidget>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
+#include <QString>
+#include <QPixmap>
+#include <QPainter>
+#include <QSet>
+#include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QAction>
+#include <QMenu>
+#include <QtEvents>
 
 #include "core/song.h"
-#include "dialogs/edittagdialog.h"
 #include "widgets/autoexpandingtreeview.h"
+
+class QContextMenuEvent;
+class QHelpEvent;
+class QMouseEvent;
+class QPaintEvent;
 
 class Application;
 class CollectionFilterWidget;
+class EditTagDialog;
 #ifdef HAVE_GSTREAMER
 class OrganiseDialog;
 #endif
-
-class QMimeData;
 
 class CollectionItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
@@ -57,11 +74,8 @@ class CollectionView : public AutoExpandingTreeView {
   CollectionView(QWidget *parent = nullptr);
   ~CollectionView();
 
-  //static const char *kSettingsGroup;
-
-  // Returns Songs currently selected in the collection view. Please note that the
-  // selection is recursive meaning that if for example an album is selected
-  // this will return all of it's songs.
+  // Returns Songs currently selected in the collection view.
+  // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
   SongList GetSelectedSongs() const;
 
   void SetApplication(Application *app);

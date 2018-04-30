@@ -17,8 +17,7 @@ public:
        Aqua    = 12
     };
 
-    explicit QProgressIndicatorSpinning(QWidget *parent,
-                                        Thickness thickness = Default);
+    explicit QProgressIndicatorSpinning(QWidget *parent, Thickness thickness = Default);
 public slots:
     void animate(bool animate = true);
 private:

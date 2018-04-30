@@ -20,25 +20,26 @@
 
 #include "config.h"
 
-#include <QDir>
-#include <QFileDialog>
-#include <QSettings>
-#include <QtConcurrentRun>
 #include <QStandardPaths>
+#include <QAbstractItemModel>
+#include <QItemSelectionModel>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QFileDialog>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QListView>
+#include <QPushButton>
+#include <QSettings>
 
-#include "collectionsettingspage.h"
-#include "ui_collectionsettingspage.h"
-
-#include "settings/settingsdialog.h"
-#include "core/application.h"
 #include "core/iconloader.h"
-#include "playlist/playlistdelegates.h"
-
-#include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
-#include "collection/collectionmodel.h"
-#include "collection/collectionview.h"
-#include "collection/collectionwatcher.h"
+#include "collectionsettingspage.h"
+#include "playlist/playlistdelegates.h"
+#include "settings/settingsdialog.h"
+#include "settings/settingspage.h"
+#include "ui_collectionsettingspage.h"
 
 const char *CollectionSettingsPage::kSettingsGroup = "Collection";
 

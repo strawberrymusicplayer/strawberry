@@ -23,12 +23,16 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QObject>
+#include <QString>
+
 #include "settingspage.h"
 
-class Ui_CollectionSettingsPage;
-class CollectionDirectoryModel;
-
 class QModelIndex;
+
+class SettingsDialog;
+class Ui_CollectionSettingsPage;
 
 class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT

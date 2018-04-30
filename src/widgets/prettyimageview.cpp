@@ -20,15 +20,27 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QUrl>
+#include <QFrame>
+#include <QPoint>
+#include <QRect>
+#include <QAbstractSlider>
+#include <QEasingCurve>
+#include <QLayout>
+#include <QLayoutItem>
+#include <QBoxLayout>
+#include <QScrollBar>
+#include <QSizePolicy>
+#include <QPropertyAnimation>
+#include <QScrollArea>
+#include <QNetworkAccessManager>
+#include <QtEvents>
+
 #include "prettyimage.h"
 #include "prettyimageview.h"
-
-#include <QHBoxLayout>
-#include <QMouseEvent>
-#include <QPropertyAnimation>
-#include <QScrollBar>
-#include <QTimer>
-#include <QtDebug>
 
 PrettyImageView::PrettyImageView(QNetworkAccessManager* network, QWidget* parent)
     : QScrollArea(parent),

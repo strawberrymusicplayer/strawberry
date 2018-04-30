@@ -20,10 +20,19 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSlider>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsaac.h"
 #include "ui_transcoderoptionsaac.h"
-
-#include <QSettings>
 
 const char *TranscoderOptionsAAC::kSettingsGroup = "Transcoder/faac";
 

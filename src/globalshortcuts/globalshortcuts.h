@@ -23,22 +23,25 @@
 
 #include "config.h"
 
-#include <QKeySequence>
-#include <QMap>
-#include <QSettings>
-#include <QWidget>
+#include <stdbool.h>
 
-class QAction;
-class QShortcut;
+#include <QObject>
+#include <QWidget>
+#include <QMap>
+#include <QString>
+#include <QAction>
+#include <QShortcut>
+#include <QSignalMapper>
+#include <QKeySequence>
+#include <QSettings>
 
 class GlobalShortcutBackend;
-class QSignalMapper;
 
 class GlobalShortcuts : public QWidget {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcuts(QWidget* parent = nullptr);
+  explicit GlobalShortcuts(QWidget *parent = nullptr);
 
   struct Shortcut {
     QString id;

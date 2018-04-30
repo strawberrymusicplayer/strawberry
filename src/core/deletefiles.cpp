@@ -20,19 +20,21 @@
 
 #include "config.h"
 
-#include "deletefiles.h"
-
-#include <QStringList>
-#include <QTimer>
+#include <QtGlobal>
 #include <QThread>
+#include <QTimer>
+#include <QString>
+#include <QStringList>
 #include <QUrl>
 
-#include "musicstorage.h"
 #include "taskmanager.h"
+#include "song.h"
+#include "deletefiles.h"
+#include "musicstorage.h"
 
 const int DeleteFiles::kBatchSize = 50;
 
-DeleteFiles::DeleteFiles(TaskManager* task_manager, std::shared_ptr<MusicStorage> storage)
+DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage> storage)
     : thread_(nullptr),
       task_manager_(task_manager),
       storage_(storage),
@@ -91,8 +93,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
     emit Finished(songs_with_errors_);
 
-    // Move back to the original thread so deleteLater() can get called in
-    // the main thread's event loop
+    // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
     deleteLater();
 

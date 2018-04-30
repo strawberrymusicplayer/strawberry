@@ -20,13 +20,19 @@
 
 #include "config.h"
 
-#include <QDir>
-
-#include "behavioursettingspage.h"
+#include <QVariant>
+#include <QSettings>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QSpinBox>
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
+#include "settings/settingspage.h"
+#include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
+
+class SettingsDialog;
 
 const char *BehaviourSettingsPage::kSettingsGroup = "Behaviour";
 

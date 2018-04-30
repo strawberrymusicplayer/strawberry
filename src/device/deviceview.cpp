@@ -22,30 +22,50 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QApplication>
-#include <QContextMenuEvent>
-#include <QMenu>
-#include <QMessageBox>
-#include <QPainter>
-#include <QPushButton>
+#include <QObject>
+#include <QWidget>
+#include <QAbstractItemView>
 #include <QSortFilterProxyModel>
+#include <QItemSelectionModel>
+#include <QStyleOptionViewItem>
+#include <QMimeData>
+#include <QAction>
+#include <QVariant>
+#include <QUrl>
+#include <QFont>
+#include <QFontMetrics>
+#include <QString>
+#include <QStringList>
+#include <QPixmap>
+#include <QPainter>
+#include <QPalette>
+#include <QRect>
+#include <QStyle>
+#include <QMenu>
+#include <QFlags>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QtEvents>
 
-#include "deviceview.h"
-
-#include "connecteddevice.h"
-#include "devicelister.h"
-#include "devicemanager.h"
-#include "deviceproperties.h"
+#include "core/logging.h"
+#include "core/iconloader.h"
 #include "core/application.h"
 #include "core/deletefiles.h"
 #include "core/mergedproxymodel.h"
 #include "core/mimedata.h"
-#include "core/iconloader.h"
+#include "core/musicstorage.h"
+#include "dialogs/organisedialog.h"
+#include "dialogs/organiseerrordialog.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionview.h"
-#include "dialogs/organisedialog.h"
-#include "dialogs/organiseerrordialog.h"
+#include "connecteddevice.h"
+#include "devicelister.h"
+#include "devicemanager.h"
+#include "deviceproperties.h"
+#include "deviceview.h"
 
 const int DeviceItemDelegate::kIconPadding = 6;
 

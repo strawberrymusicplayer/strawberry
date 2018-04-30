@@ -20,8 +20,10 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QThread>
-#include "core/utilities.h"
+
+#include "utilities.h"
 
 // Improve QThread by adding a SetIoPriority function
 class Thread : public QThread {

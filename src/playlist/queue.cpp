@@ -20,11 +20,24 @@
 
 #include "config.h"
 
-#include "queue.h"
-
+#include <QObject>
+#include <QIODevice>
+#include <QDataStream>
 #include <QBuffer>
+#include <QFlags>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
 #include <QMimeData>
-#include <QtDebug>
+#include <QtAlgorithms>
+#include <QAbstractItemModel>
+#include <QAbstractProxyModel>
+#include <QPersistentModelIndex>
+
+#include "playlist.h"
+#include "queue.h"
 
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
@@ -63,15 +76,15 @@ QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
 void Queue::setSourceModel(QAbstractItemModel *source_model) {
 
   if (sourceModel()) {
-    disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex,QModelIndex)));
-    disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(SourceLayoutChanged()));
+    disconnect(sourceModel(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex, QModelIndex)));
+    disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(SourceLayoutChanged()));
     disconnect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(SourceLayoutChanged()));
   }
 
   QAbstractProxyModel::setSourceModel(source_model);
 
-  connect(sourceModel(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex,QModelIndex)));
-  connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(SourceLayoutChanged()));
+  connect(sourceModel(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(SourceDataChanged(QModelIndex, QModelIndex)));
+  connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(SourceLayoutChanged()));
   connect(sourceModel(), SIGNAL(layoutChanged()), this, SLOT(SourceLayoutChanged()));
 
 }
@@ -94,7 +107,6 @@ void Queue::SourceLayoutChanged() {
       beginRemoveRows(QModelIndex(), i, i);
       source_indexes_.removeAt(i);
       endRemoveRows();
-
       --i;
     }
   }
@@ -181,8 +193,7 @@ void Queue::Move(const QList<int> &proxy_rows, int pos) {
   layoutAboutToBeChanged();
   QList<QPersistentModelIndex> moved_items;
 
-  // Take the items out of the list first, keeping track of whether the
-  // insertion point changes
+  // Take the items out of the list first, keeping track of whether the insertion point changes
   int offset = 0;
   for (int row : proxy_rows) {
     moved_items << source_indexes_.takeAt(row - offset);
@@ -343,15 +354,15 @@ QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) c
 
 void Queue::Remove(QList<int> &proxy_rows) {
 
-  // order the rows
+  // Order the rows
   qStableSort(proxy_rows);
 
-  // reflects immediately changes in the playlist
+  // Reflects immediately changes in the playlist
   layoutAboutToBeChanged();
 
   int removed_rows = 0;
   for (int row : proxy_rows) {
-    // after the first row, the row number needs to be updated
+    // After the first row, the row number needs to be updated
     const int real_row = row - removed_rows;
     beginRemoveRows(QModelIndex(), real_row, real_row);
     source_indexes_.removeAt(real_row);

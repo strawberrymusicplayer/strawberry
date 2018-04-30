@@ -20,17 +20,30 @@
 
 #include "config.h"
 
-#include "organiseformat.h"
-
+#include <QObject>
 #include <QApplication>
 #include <QFileInfo>
-#include <QPalette>
+#include <QList>
+#include <QChar>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QRegExp>
 #include <QUrl>
+#include <QColor>
+#include <QPalette>
+#include <QValidator>
+#include <QTextEdit>
+#include <QTextFormat>
 
 #include "core/arraysize.h"
-#include "core/timeconstants.h"
-#include "core/utilities.h"
-#include "core/logging.h"
+
+#include "timeconstants.h"
+#include "utilities.h"
+#include "song.h"
+#include "organiseformat.h"
+
+class QTextDocument;
 
 const char *OrganiseFormat::kTagPattern = "\\%([a-zA-Z]*)";
 const char *OrganiseFormat::kBlockPattern = "\\{([^{}]+)\\}";
@@ -95,11 +108,8 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
   QString filename = ParseBlock(format_, song);
 
   if (QFileInfo(filename).completeBaseName().isEmpty()) {
-    // Avoid having empty filenames, or filenames with extension only: in this
-    // case, keep the original filename.
-    // We remove the extension from "filename" if it exists, as
-    // song.basefilename()
-    // also contains the extension.
+    // Avoid having empty filenames, or filenames with extension only: in this case, keep the original filename.
+    // We remove the extension from "filename" if it exists, as song.basefilename() also contains the extension.
     filename =
         Utilities::PathWithoutFilenameExtension(filename) + song.basefilename();
   }
@@ -112,7 +122,8 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
       const QCharRef c = filename[i];
       if (c < 128) {
         stripped.append(c);
-      } else {
+      }
+      else {
         const QString decomposition = c.decomposition();
         if (!decomposition.isEmpty() && decomposition[0] < 128)
           stripped.append(decomposition[0]);

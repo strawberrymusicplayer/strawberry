@@ -20,17 +20,40 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QAction>
+#include <QVariant>
+#include <QImage>
+#include <QColor>
+#include <QMenu>
+#include <QFont>
+#include <QFontDialog>
+#include <QCursor>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QColorDialog>
+#include <QComboBox>
+#include <QCheckBox>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QSlider>
+#include <QSpinBox>
+#include <QToolButton>
+#include <QToolTip>
+#include <QtEvents>
+#include <QSettings>
+
+#include "core/iconloader.h"
+#include "widgets/osd.h"
+#include "widgets/osdpretty.h"
+#include "settingspage.h"
+#include "settingsdialog.h"
 #include "notificationssettingspage.h"
 #include "ui_notificationssettingspage.h"
 
-#include "settingsdialog.h"
-#include "core/iconloader.h"
-#include "widgets/osdpretty.h"
-
-#include <QColorDialog>
-#include <QFontDialog>
-#include <QMenu>
-#include <QToolTip>
+class QHideEvent;
+class QShowEvent;
 
 const char *NotificationsSettingsPage::kSettingsGroup = "Notifications";
 
@@ -45,7 +68,7 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
   ui_->notifications_bg_preset->setItemData(1, QColor(OSDPretty::kPresetOrange), Qt::DecorationRole);
 
   // Create and populate the helper menus
-  QMenu* menu = new QMenu(this);
+  QMenu *menu = new QMenu(this);
   menu->addAction(ui_->action_artist);
   menu->addAction(ui_->action_album);
   menu->addAction(ui_->action_title);

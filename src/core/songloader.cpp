@@ -20,36 +20,46 @@
 
 #include "config.h"
 
-#include "songloader.h"
-
+#include <stdlib.h>
 #include <memory>
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_AUDIOCD)
-  #include <gst/audio/gstaudiocdsrc.h>
+#ifdef HAVE_GSTREAMER
+#  include <gst/gst.h>
 #endif
 
+#include <QObject>
+#include <QIODevice>
 #include <QBuffer>
+#include <QByteArray>
+#include <QtAlgorithms>
+#include <QDir>
 #include <QDirIterator>
+#include <QFile>
 #include <QFileInfo>
+#include <QList>
+#include <QSet>
 #include <QTimer>
+#include <QString>
 #include <QUrl>
+#include <QEventLoop>
 #include <QtDebug>
 
-#include "config.h"
 #include "core/logging.h"
-#include "core/player.h"
-#include "core/signalchecker.h"
-#include "core/song.h"
-#include "core/tagreaderclient.h"
-#include "core/timeconstants.h"
+
+#include "signalchecker.h"
+#include "player.h"
+#include "song.h"
+#include "songloader.h"
+#include "tagreaderclient.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionquery.h"
 #include "collection/sqlrow.h"
 #include "playlistparsers/cueparser.h"
 #include "playlistparsers/parserbase.h"
 #include "playlistparsers/playlistparser.h"
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-  #include "device/cddasongloader.h"
+#  include "device/cddasongloader.h"
 #endif
 
 using std::placeholders::_1;
@@ -98,7 +108,7 @@ SongLoader::~SongLoader() {
 }
 
 SongLoader::Result SongLoader::Load(const QUrl &url) {
-  
+
   url_ = url;
 
   if (url_.scheme() == "file") {
@@ -106,7 +116,8 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
   }
 
   if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url) != nullptr) {
-    // The URI scheme indicates that it can't possibly be a playlist, or we have a custom handler for the URL, so add it as a raw stream. AddAsRawStream();
+    // The URI scheme indicates that it can't possibly be a playlist,
+    // or we have a custom handler for the URL, so add it as a raw stream. AddAsRawStream();
     return Success;
   }
 
@@ -181,7 +192,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   query.AddWhere("filename", url.toEncoded());
 
   if (collection_->ExecQuery(&query) && query.Next()) {
-    // we may have many results when the file has many sections
+    // We may have many results when the file has many sections
     do {
       Song song;
       song.InitFromQuery(query, true);
@@ -195,8 +206,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   }
 
   // It's not in the database, load it asynchronously.
-  preload_func_ =
-      std::bind(&SongLoader::LoadLocalAsync, this, filename);
+  preload_func_ = std::bind(&SongLoader::LoadLocalAsync, this, filename);
   return BlockingLoadRequired;
 }
 
@@ -215,8 +225,7 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
 
   ParserBase *parser = playlist_parser_->ParserForMagic(data);
   if (!parser) {
-    // Check the file extension as well, maybe the magic failed, or it was a
-    // basic M3U file which is just a plain list of filenames.
+    // Check the file extension as well, maybe the magic failed, or it was a basic M3U file which is just a plain list of filenames.
     parser = playlist_parser_->ParserForExtension(QFileInfo(filename).suffix().toLower());
   }
 
@@ -307,10 +316,10 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
 
   qStableSort(songs_.begin(), songs_.end(), CompareSongs);
 
-  // Load the first song: all songs will be loaded async, but we want the first
-  // one in our list to be fully loaded, so if the user has the "Start playing
-  // when adding to playlist" preference behaviour set, it can enjoy the first
-  // song being played (seek it, have moodbar, etc.)
+  // Load the first song:
+  // all songs will be loaded async, but we want the first one in our list to be fully loaded,
+  // so if the user has the "Start playing when adding to playlist" preference behaviour set,
+  // it can enjoy the first song being played (seek it, have moodbar, etc.)
   if (!songs_.isEmpty()) EffectiveSongLoad(&(*songs_.begin()));
 
 }
@@ -357,15 +366,11 @@ void SongLoader::LoadRemote() {
 
   qLog(Debug) << "Loading remote file" << url_;
 
-  // It's not a local file so we have to fetch it to see what it is.  We use
-  // gstreamer to do this since it handles funky URLs for us (http://, ssh://,
-  // etc) and also has typefinder plugins.
-  // First we wait for typefinder to tell us what it is.  If it's not text/plain
-  // or text/uri-list assume it's a song and return success.
-  // Otherwise wait to get 512 bytes of data and do magic on it - if the magic
-  // fails then we don't know what it is so return failure.
-  // If the magic succeeds then we know for sure it's a playlist - so read the
-  // rest of the file, parse the playlist and return success.
+  // It's not a local file so we have to fetch it to see what it is.
+  // We use gstreamer to do this since it handles funky URLs for us (http://, ssh://, etc) and also has typefinder plugins.
+  // First we wait for typefinder to tell us what it is.  If it's not text/plain or text/uri-list assume it's a song and return success.
+  // Otherwise wait to get 512 bytes of data and do magic on it - if the magic fails then we don't know what it is so return failure.
+  // If the magic succeeds then we know for sure it's a playlist - so read the rest of the file, parse the playlist and return success.
 
   timeout_timer_->start(timeout_);
 

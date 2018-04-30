@@ -20,17 +20,28 @@
 
 #include "config.h"
 
-#include "tracksliderpopup.h"
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QWidget>
+#include <QString>
+#include <QImage>
+#include <QFontMetrics>
+#include <QSize>
+#include <QColor>
+#include <QPainter>
+#include <QPalette>
+#include <QBrush>
+#include <QRect>
+#include <QVector>
+#include <QPoint>
+#include <QPolygon>
+#include <QtEvents>
 
 #include "core/qt_blurimage.h"
+#include "tracksliderpopup.h"
 
-#include <QBitmap>
-#include <QCoreApplication>
-#include <QMouseEvent>
-#include <QPainter>
-#include <QTimer>
-#include <QWheelEvent>
-#include <QtDebug>
+class QPaintEvent;
 
 const int TrackSliderPopup::kTextMargin = 4;
 const int TrackSliderPopup::kPointLength = 16;

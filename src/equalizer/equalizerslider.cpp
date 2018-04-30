@@ -20,6 +20,11 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QString>
+#include <QLabel>
+
+#include "widgets/stickyslider.h"
 #include "equalizerslider.h"
 #include "ui_equalizerslider.h"
 

@@ -23,18 +23,21 @@
 
 #include "config.h"
 
-#include <QString>
-#include <QPalette>
+#include <stdbool.h>
+
+#include <QObject>
 #include <QWidget>
+#include <QEvent>
 #include <QMap>
+#include <QPalette>
+#include <QString>
 
 class StyleSheetLoader : public QObject {
  public:
   explicit StyleSheetLoader(QObject *parent = nullptr);
 
   // Sets the given stylesheet on the given widget.
-  // If the stylesheet contains strings like %palette-[role], these get replaced
-  // with actual palette colours.
+  // If the stylesheet contains strings like %palette-[role], these get replaced with actual palette colours.
   // The stylesheet is reloaded when the widget's palette changes.
   void SetStyleSheet(QWidget *widget, const QString& filename);
 
@@ -43,7 +46,7 @@ class StyleSheetLoader : public QObject {
 
  private:
   void UpdateStyleSheet(QWidget *widget);
-  void ReplaceColor(QString *css, const QString& name, const QPalette& palette, QPalette::ColorRole role) const;
+  void ReplaceColor(QString *css, const QString& name, const QPalette &palette, QPalette::ColorRole role) const;
 
  private:
   QMap<QWidget *, QString> filenames_;

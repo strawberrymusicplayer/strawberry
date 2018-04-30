@@ -18,22 +18,27 @@
  * 
  */
 
-#include <sys/statvfs.h>
-
-#include <QtDebug>
-
 #include "config.h"
 
-#include "devicekitlister.h"
-#include "filesystemdevice.h"
+#include <QMutex>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QUrl>
+#include <QDBusConnection>
+#include <QDBusPendingReply>
+#include <QDBusObjectPath>
+#include <QDBusError>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QtDebug>
+
 #include "core/logging.h"
 #include "core/utilities.h"
 #include "dbus/udisks.h"
 #include "dbus/udisksdevice.h"
-
-#ifdef HAVE_LIBGPOD
-#include "gpoddevice.h"
-#endif
+#include "devicekitlister.h"
 
 DeviceKitLister::DeviceKitLister() {}
 DeviceKitLister::~DeviceKitLister() {}

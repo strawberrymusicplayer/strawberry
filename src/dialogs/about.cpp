@@ -21,11 +21,20 @@
 
 #include "config.h"
 
+#include <QCoreApplication>
+#include <QWidget>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QString>
+#include <QStringBuilder>
+#include <QFlags>
+#include <QFont>
+#include <QLabel>
+#include <QPushButton>
+#include <QKeySequence>
+
 #include "about.h"
 #include "ui_about.h"
-
-#include <QCoreApplication>
-#include <QPushButton>
 
 About::About(QWidget *parent):QDialog(parent) {
     

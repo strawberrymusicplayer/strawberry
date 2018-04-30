@@ -23,9 +23,15 @@
 
 #include "config.h"
 
-#include <QWidget>
+#include <stdbool.h>
 
-class QLabel;
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QSize>
+#include <QLabel>
+
+class QEvent;
 
 class Application;
 class Ui_TrackSlider;

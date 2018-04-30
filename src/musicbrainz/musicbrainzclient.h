@@ -23,15 +23,23 @@
 
 #include "config.h"
 
-#include <QHash>
-#include <QMultiMap>
+#include <stdbool.h>
+
+#include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QHash>
+#include <QMap>
+#include <QMultiMap>
+#include <QSet>
+#include <QString>
+#include <QStringList>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QXmlStreamReader>
+#include <QVector>
 
 class NetworkTimeouts;
-
-class QNetworkAccessManager;
-class QNetworkReply;
 
 class MusicBrainzClient : public QObject {
   Q_OBJECT
@@ -39,15 +47,12 @@ class MusicBrainzClient : public QObject {
   // Gets metadata for a particular MBID.
   // An MBID is created from a fingerprint using MusicDnsClient.
   // You can create one MusicBrainzClient and make multiple requests using it.
-  // IDs are provided by the caller when a request is started and included in
-  // the Finished signal - they have no meaning to MusicBrainzClient.
+  // IDs are provided by the caller when a request is started and included in the Finished signal - they have no meaning to MusicBrainzClient.
 
  public:
-  // The second argument allows for specifying a custom network access
-  // manager. It is used in tests. The ownership of network
-  // is not transferred.
-  MusicBrainzClient(QObject* parent = nullptr,
-                    QNetworkAccessManager* network = nullptr);
+  // The second argument allows for specifying a custom network access manager.
+  // It is used in tests. The ownership of network is not transferred.
+  MusicBrainzClient(QObject *parent = nullptr, QNetworkAccessManager *network = nullptr);
 
   struct Result {
     Result() : duration_msec_(0), track_(0), year_(-1) {}
@@ -85,29 +90,24 @@ class MusicBrainzClient : public QObject {
   };
   typedef QList<Result> ResultList;
 
-  // Starts a request and returns immediately.  Finished() will be emitted
-  // later with the same ID.
-  void Start(int id, const QStringList& mbid);
-  void StartDiscIdRequest(const QString& discid);
+  // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
+  void Start(int id, const QStringList &mbid);
+  void StartDiscIdRequest(const QString &discid);
 
-  // Cancels the request with the given ID.  Finished() will never be emitted
-  // for that ID.  Does nothing if there is no request with the given ID.
+  // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
   void Cancel(int id);
 
-  // Cancels all requests.  Finished() will never be emitted for any pending
-  // requests.
+  // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
 signals:
   // Finished signal emitted when fechting songs tags
   void Finished(int id, const MusicBrainzClient::ResultList& result);
   // Finished signal emitted when fechting album's songs tags using DiscId
-  void Finished(const QString& artist, const QString album,
-                const MusicBrainzClient::ResultList& result);
+  void Finished(const QString& artist, const QString album, const MusicBrainzClient::ResultList& result);
 
  private slots:
-  // id identifies the track, and request_number means it's the
-  // 'request_number'th request for this track
+  // id identifies the track, and request_number means it's the 'request_number'th request for this track
   void RequestFinished(QNetworkReply* reply, int id, int request_number);
   void DiscIdRequestFinished(const QString& discid, QNetworkReply* reply);
 
@@ -157,8 +157,7 @@ signals:
     }
 
     bool operator<(const Release& other) const {
-      // Compare status so that "best" status (e.g. Official) will be first
-      // when sorting a list of releases.
+      // Compare status so that "best" status (e.g. Official) will be first when sorting a list of releases.
       return status_ > other.status_;
     }
 
@@ -203,8 +202,7 @@ signals:
 };
 
 inline uint qHash(const MusicBrainzClient::Result& result) {
-  return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^
-         qHash(result.title_) ^ result.track_ ^ result.year_;
+  return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
 }
 
 #endif  // MUSICBRAINZCLIENT_H

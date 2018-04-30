@@ -15,6 +15,11 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QObject>
+#include <QList>
+#include <QTimer>
+#include <QGenericArgument>
+
 #include "closure.h"
 
 #include "core/timeconstants.h"

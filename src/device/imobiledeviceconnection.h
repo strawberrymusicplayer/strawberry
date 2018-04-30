@@ -30,8 +30,9 @@
 #include <gpod/itdb.h>
 
 #include <QDir>
-#include <QStringList>
 #include <QVariant>
+#include <QString>
+#include <QStringList>
 
 #include "core/song.h"
 
@@ -56,7 +57,6 @@ private:
 
   idevice_t device_;
   afc_client_t afc_;
-
   uint16_t afc_port_;
 };
 

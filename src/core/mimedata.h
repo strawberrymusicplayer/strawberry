@@ -23,7 +23,9 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QMimeData>
+#include <QString>
 
 class MimeData : public QMimeData {
   Q_OBJECT
@@ -41,13 +43,11 @@ class MimeData : public QMimeData {
   // If this is set then MainWindow will not touch any of the other flags.
   bool override_user_settings_;
 
-  // If this is set then the playlist will be cleared before these songs
-  // are inserted.
+  // If this is set then the playlist will be cleared before these songs are inserted.
   bool clear_first_;
 
-  // If this is set then the first item that is inserted will start playing
-  // immediately.  Note: this is always overridden with the user's preference
-  // if the MimeData goes via MainWindow, unless you set override_user_settings_.
+  // If this is set then the first item that is inserted will start playing immediately.
+  // Note: this is always overridden with the user's preference if the MimeData goes via MainWindow, unless you set override_user_settings_.
   bool play_now_;
 
   // If this is set then the items are added to the queue after being inserted.
@@ -59,14 +59,12 @@ class MimeData : public QMimeData {
   // This serves as a name for the new playlist in 'open_in_new_playlist_' mode.
   QString name_for_new_playlist_;
 
-  // This can be set if this MimeData goes via MainWindow (ie. it is created
-  // manually in a double-click).  The MainWindow will set the above flags to
-  // the defaults set by the user.
+  // This can be set if this MimeData goes via MainWindow (ie. it is created manually in a double-click).
+  // The MainWindow will set the above flags to the defaults set by the user.
   bool from_doubleclick_;
 
-  // Returns a pretty name for a playlist containing songs described by this MimeData
-  // object. By pretty name we mean the value of 'name_for_new_playlist_' or generic
-  // "Playlist" string if the 'name_for_new_playlist_' attribute is empty.
+  // Returns a pretty name for a playlist containing songs described by this MimeData object.
+  // By pretty name we mean the value of 'name_for_new_playlist_' or generic "Playlist" string if the 'name_for_new_playlist_' attribute is empty.
   QString get_name_for_new_playlist() {
     return name_for_new_playlist_.isEmpty() ? tr("Playlist") : name_for_new_playlist_;
   }

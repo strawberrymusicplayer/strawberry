@@ -20,7 +20,16 @@
 
 #include "config.h"
 
-#include <QKeyEvent>
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QWidget>
+#include <QSize>
+#include <QTextEdit>
+#include <QTextOption>
+#include <QFontMetrics>
+#include <QSizePolicy>
+#include <QtEvents>
 
 #include "linetextedit.h"
 
@@ -51,7 +60,8 @@ QSize LineTextEdit::minimumSizeHint() const {
 void LineTextEdit::keyPressEvent(QKeyEvent *e) {
   if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) {
     e->ignore();
-  } else {
+  }
+  else {
     QTextEdit::keyPressEvent(e);
   }
 }

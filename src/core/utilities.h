@@ -24,19 +24,24 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QColor>
+#include <QtGlobal>
+#include <QWidget>
+#include <QIODevice>
+#include <QByteArray>
 #include <QFile>
-#include <QLocale>
-#include <QCryptographicHash>
 #include <QSize>
+#include <QDateTime>
+#include <QLocale>
+#include <QList>
+#include <QMetaObject>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
-
-class QIODevice;
-class QMouseEvent;
-class QXmlStreamReader;
-struct QMetaObject;
+#include <QColor>
+#include <QXmlStreamReader>
+#include <QtEvents>
 
 namespace Utilities {
 QString PrettyTime(int seconds);
@@ -77,25 +82,21 @@ QByteArray Sha256(const QByteArray &data);
 QByteArray Sha1File(QFile &file);
 QByteArray Sha1CoverHash(const QString &artist, const QString &album);
 
-// Picks an unused ephemeral port number.  Doesn't hold the port open so
-// there's the obvious race condition
+// Picks an unused ephemeral port number.  Doesn't hold the port open so there's the obvious race condition
 quint16 PickUnusedPort();
 
-// Forwards a mouse event to a different widget, remapping the event's widget
-// coordinates relative to those of the target widget.
+// Forwards a mouse event to a different widget, remapping the event's widget coordinates relative to those of the target widget.
 void ForwardMouseEvent(const QMouseEvent *e, QWidget *target);
 
 // Checks if the mouse event was inside the widget's rectangle.
 bool IsMouseEventInWidget(const QMouseEvent *e, const QWidget *widget);
 
-// Reads all children of the current element, and returns with the stream
-// reader either on the EndElement for the current element, or the end of the
-// file - whichever came first.
+// Reads all children of the current element,
+// and returns with the stream reader either on the EndElement for the current element, or the end of the file - whichever came first.
 void ConsumeCurrentElement(QXmlStreamReader *reader);
 
 // Advances the stream reader until it finds an element with the given name.
-// Returns false if the end of the document was reached before finding a
-// matching element.
+// Returns false if the end of the document was reached before finding a matching element.
 bool ParseUntilElement(QXmlStreamReader *reader, const QString &name);
 
 // Parses a string containing an RFC822 time and date.
@@ -105,8 +106,7 @@ QDateTime ParseRFC822DateTime(const QString &text);
 QString DecodeHtmlEntities(const QString &text);
 
 // Shortcut for getting a Qt-aware enum value as a string.
-// Pass in the QMetaObject of the class that owns the enum, the string name of
-// the enum and a valid value from that enum.
+// Pass in the QMetaObject of the class that owns the enum, the string name of the enum and a valid value from that enum.
 const char *EnumToString(const QMetaObject &meta, const char *name, int value);
 
 QStringList Prepend(const QString &text, const QStringList &list);
@@ -172,4 +172,3 @@ class ScopedWCharArray {
 };
 
 #endif  // UTILITIES_H
-

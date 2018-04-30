@@ -23,6 +23,9 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QString>
+
 #include "musicstorage.h"
 
 class FilesystemMusicStorage : public virtual MusicStorage {

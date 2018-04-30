@@ -24,25 +24,29 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QDateTime>
+#include <QtGlobal>
 #include <QObject>
+#include <QMap>
+#include <QDateTime>
+#include <QString>
+#include <QUrl>
 #include <QSettings>
 
-#include "config.h"
-#include "core/song.h"
-#include "core/urlhandler.h"
-#include "covermanager/albumcoverloader.h"
+#include "urlhandler.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginetype.h"
-#include "engine/enginedevice.h"
 #include "playlist/playlistitem.h"
-#include "analyzer/analyzercontainer.h"
-#include "equalizer/equalizer.h"
 
 class Application;
+class Song;
 class AnalyzerContainer;
 class Equalizer;
+
+namespace Engine {
+struct SimpleMetaBundle;
+}  // namespace Engine
 
 class PlayerInterface : public QObject {
   Q_OBJECT
@@ -66,8 +70,7 @@ class PlayerInterface : public QObject {
   // Manual track change to the specified track
   virtual void PlayAt(int i, Engine::TrackChangeFlags change, bool reshuffle) = 0;
 
-  // If there's currently a song playing, pause it, otherwise play the track
-  // that was playing last, or the first one on the playlist
+  // If there's currently a song playing, pause it, otherwise play the track that was playing last, or the first one on the playlist
   virtual void PlayPause() = 0;
   virtual void RestartOrPrevious() = 0;
 
@@ -103,8 +106,8 @@ signals:
   // Emitted when there's a manual change to the current's track position.
   void Seeked(qlonglong microseconds);
 
-  // Emitted when Player has processed a request to play another song. This contains
-  // the URL of the song and a flag saying whether it was able to play the song.
+  // Emitted when Player has processed a request to play another song.
+  // This contains the URL of the song and a flag saying whether it was able to play the song.
   void SongChangeRequestProcessed(const QUrl &url, bool valid);
 
   // The toggle parameter is true when user requests to toggle visibility for Pretty OSD

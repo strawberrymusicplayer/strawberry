@@ -21,16 +21,20 @@
 #ifndef PLAYLISTPARSER_H
 #define PLAYLISTPARSER_H
 
-#include "config.h"
-
-#include <QDir>
 #include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QStringList>
 
+#include "config.h"
 #include "core/song.h"
 #include "playlist/playlist.h"
 
-class ParserBase;
 class CollectionBackendInterface;
+class ParserBase;
 
 class PlaylistParser : public QObject {
   Q_OBJECT

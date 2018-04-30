@@ -20,19 +20,29 @@
 
 #include "config.h"
 
-#include <QCoreApplication>
-#include <QNetworkReply>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QList>
+#include <QByteArray>
+#include <QPair>
+#include <QVariant>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QUrlQuery>
+#include <QtAlgorithms>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QJsonParseError>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
+#include <QJsonValue>
 
 #include "acoustidclient.h"
-
 #include "core/closure.h"
-#include "core/logging.h"
 #include "core/network.h"
 #include "core/timeconstants.h"
 
@@ -47,7 +57,7 @@ AcoustidClient::AcoustidClient(QObject *parent)
 
 void AcoustidClient::SetTimeout(int msec) { timeouts_->SetTimeout(msec); }
 
-void AcoustidClient::Start(int id, const QString& fingerprint, int duration_msec) {
+void AcoustidClient::Start(int id, const QString &fingerprint, int duration_msec) {
 
   typedef QPair<QString, QString> Param;
 

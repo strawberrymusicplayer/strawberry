@@ -23,10 +23,11 @@
 
 #include "config.h"
 
-#include <QDateTime>
 #include <QObject>
-#include <QStringList>
 #include <QVariantMap>
+#include <QDateTime>
+#include <QString>
+#include <QStringList>
 
 namespace mpris {
 

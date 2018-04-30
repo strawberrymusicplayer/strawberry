@@ -23,8 +23,10 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QString>
 
+#include "config.h"
 #include "screensaver.h"
 
 class DBusScreensaver : public Screensaver {

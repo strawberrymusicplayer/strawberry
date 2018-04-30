@@ -24,21 +24,28 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QWidget>
+#include <QObject>
+#include <QString>
+#include <QMenu>
+#include <QSignalMapper>
+#include <QTimer>
+#include <QAction>
+#include <QActionGroup>
+#include <QtEvents>
 
+#include "collectionquery.h"
 #include "collectionmodel.h"
-#include "savedgroupingmanager.h"
+
+class QKeyEvent;
 
 class GroupByDialog;
+class SavedGroupingManager;
 class SettingsDialog;
 class Ui_CollectionFilterWidget;
-
 struct QueryOptions;
-
-class QMenu;
-class QActionGroup;
-class QSignalMapper;
 
 class CollectionFilterWidget : public QWidget {
   Q_OBJECT

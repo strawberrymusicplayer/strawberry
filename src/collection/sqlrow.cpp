@@ -20,11 +20,13 @@
 
 #include "config.h"
 
-#include "collectionquery.h"
-#include "sqlrow.h"
-
+#include <QVariant>
 #include <QSqlQuery>
 #include <QSqlRecord>
+
+#include "sqlrow.h"
+
+#include "collectionquery.h"
 
 SqlRow::SqlRow(const QSqlQuery &query) { Init(query); }
 

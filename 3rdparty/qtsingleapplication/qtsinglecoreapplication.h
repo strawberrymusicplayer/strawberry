@@ -41,6 +41,8 @@
 #define QTSINGLECOREAPPLICATION_H
 
 #include <QCoreApplication>
+#include <QObject>
+#include <QString>
 
 class QtLocalPeer;
 

@@ -20,24 +20,28 @@
 
 #include "config.h"
 
-#include "song.h"
+#include <string>
+#include "tstring.h"
+#include <taglib/id3v1genres.h>
 
-#include <algorithm>
-
+#include <QtGlobal>
 #include <QCoreApplication>
-#include <QDir>
+#include <QObject>
 #include <QFile>
 #include <QFileInfo>
-#include <QLatin1Literal>
 #include <QSharedData>
-#include <QSqlQuery>
-#include <QTextCodec>
-#include <QTime>
+#include <QtAlgorithms>
+#include <QHash>
+#include <QByteArray>
 #include <QVariant>
-#include <QtConcurrentRun>
 #include <QString>
-
-#include <id3v1genres.h>
+#include <QStringList>
+#include <QRegExp>
+#include <QUrl>
+#include <QImage>
+#include <QTextCodec>
+#include <QSqlQuery>
+#include <QtDebug>
 
 #ifdef HAVE_LIBGPOD
 #include <gpod/itdb.h>
@@ -47,17 +51,18 @@
 #include <libmtp.h>
 #endif
 
-#include "core/application.h"
 #include "core/logging.h"
 #include "core/messagehandler.h"
-#include "core/mpris_common.h"
-#include "core/timeconstants.h"
-#include "core/utilities.h"
+
 #include "engine/enginebase.h"
+#include "timeconstants.h"
+#include "utilities.h"
+#include "song.h"
+#include "application.h"
+#include "mpris_common.h"
 #include "collection/sqlrow.h"
-#include "tagreadermessages.pb.h"
-#include "widgets/trackslider.h"
 #include "covermanager/albumcoverloader.h"
+#include "tagreadermessages.pb.h"
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"
@@ -128,6 +133,8 @@ const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).joi
 
 const QString Song::kManuallyUnsetCover = "(unset)";
 const QString Song::kEmbeddedCover = "(embedded)";
+
+const QRegExp Song::kCoverRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
 
 struct Song::Private : public QSharedData {
 
@@ -438,8 +445,6 @@ QString Song::Decode(const QString &tag, const QTextCodec *codec) {
 
 void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
   d->title_ = QStringFromStdString(pb.title());
@@ -483,8 +488,6 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
 }
 
 void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   const QByteArray url(d->url_.toEncoded());
 
@@ -684,9 +687,8 @@ void Song::InitFromFilePartial(const QString &filename) {
 
   set_url(QUrl::fromLocalFile(filename));
   // We currently rely on filename suffix to know if it's a music file or not.
-  // TODO: I know this is not satisfying, but currently, we rely on TagLib
-  // which seems to have the behavior (filename checks). Someday, it would be
-  // nice to perform some magic tests everywhere.
+  // TODO: I know this is not satisfying, but currently, we rely on TagLib which seems to have the behavior (filename checks).
+  // Someday, it would be nice to perform some magic tests everywhere.
   QFileInfo info(filename);
   d->basefilename_ = info.fileName();
   QString suffix = info.suffix().toLower();
@@ -704,9 +706,14 @@ void Song::InitFromFilePartial(const QString &filename) {
 
 void Song::InitArtManual() {
 
+  QString album2 = d->album_;
+  album2.remove(Song::kCoverRemoveDisc);
+
+  //qLog(Debug) << __PRETTY_FUNCTION__ << d->artist_ << d->album_ << album2;
+
   // If we don't have an art, check if we have one in the cache
   if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty()) {
-    QString filename(Utilities::Sha1CoverHash(d->artist_, d->album_).toHex() + ".jpg");
+    QString filename(Utilities::Sha1CoverHash(d->artist_, album2).toHex() + ".jpg");
     QString path(AlbumCoverLoader::ImageCacheDir() + "/" + filename);
     if (QFile::exists(path)) {
       d->art_manual_ = path;
@@ -717,8 +724,6 @@ void Song::InitArtManual() {
 
 #ifdef HAVE_LIBGPOD
 void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   d->valid_ = true;
 
@@ -799,8 +804,6 @@ void Song::ToItdb(Itdb_Track *track) const {
 #ifdef HAVE_LIBMTP
 void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   d->valid_ = true;
 
   d->title_ = QString::fromUtf8(track->title);
@@ -840,8 +843,6 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 }
 
 void Song::ToMTP(LIBMTP_track_t *track) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   track->item_id = 0;
   track->parent_id = 0;
@@ -886,12 +887,9 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
 
 void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (d->init_from_file_ || d->url_.scheme() == "file") {
-    // This Song was already loaded using taglib. Our tags are probably better
-    // than the engine's.  Note: init_from_file_ is used for non-file:// URLs
-    // when the metadata is known to be good, like from Jamendo.
+    // This Song was already loaded using taglib. Our tags are probably better than the engine's.
+    // Note: init_from_file_ is used for non-file:// URLs when the metadata is known to be good, like from Jamendo.
     return;
   }
 
@@ -1050,8 +1048,6 @@ QString Song::SampleRateBitDepthToText() const {
 }
 
 bool Song::IsMetadataEqual(const Song &other) const {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   return d->title_ == other.d->title_ &&
          d->album_ == other.d->album_ &&

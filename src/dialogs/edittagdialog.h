@@ -23,25 +23,37 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
 #include <QDialog>
+#include <QWidget>
+#include <QFuture>
 #include <QModelIndexList>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QImage>
+#include <QMenu>
+#include <QAbstractButton>
+#include <QLabel>
+#include <QPushButton>
+#include <QtEvents>
 
 #include "core/song.h"
-#include "covermanager/albumcoverloaderoptions.h"
-#include "musicbrainz/tagfetcher.h"
 #include "playlist/playlistitem.h"
-#include "widgets/lineedit.h"
-#include "trackselectiondialog.h"
+#include "covermanager/albumcoverloaderoptions.h"
+
+class QEvent;
+class QShowEvent;
+class QHideEvent;
 
 class Application;
+class TagFetcher;
 class AlbumCoverChoiceController;
-class CollectionBackend;
+class TrackSelectionDialog;
 class Ui_EditTagDialog;
-
-class QAbstractButton;
-class QItemSelection;
-class QLabel;
-class QPushButton;
 
 class EditTagDialog : public QDialog {
   Q_OBJECT

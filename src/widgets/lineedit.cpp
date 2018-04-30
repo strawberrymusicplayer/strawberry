@@ -20,14 +20,30 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QWidget>
+#include <QString>
+#include <QFont>
+#include <QFontMetrics>
 #include <QPainter>
-#include <QPaintEvent>
+#include <QPalette>
+#include <QPaintDevice>
+#include <QRect>
+#include <QSize>
 #include <QStyle>
 #include <QStyleOption>
 #include <QToolButton>
-#include <QtDebug>
+#include <QLineEdit>
+#include <QPlainTextEdit>
+#include <QSpinBox>
+#include <QFlags>
+#include <QtEvents>
 
+#include "core/iconloader.h"
 #include "lineedit.h"
+
+class QPaintEvent;
+class QResizeEvent;
 
 ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool draw_hint)
     : LineEditInterface(widget),
@@ -88,8 +104,7 @@ void ExtendedEditor::UpdateButtonGeometry() {
   const int left = frame_width + 1 + (has_clear_button() ? clear_button_->sizeHint().width() : 0);
   const int right = frame_width + 1 + (has_reset_button() ? reset_button_->sizeHint().width() : 0);
 
-  widget_->setStyleSheet(
-      QString("QLineEdit { padding-left: %1px; padding-right: %2px; }").arg(left).arg(right));
+  widget_->setStyleSheet(QString("QLineEdit { padding-left: %1px; padding-right: %2px; }").arg(left).arg(right));
 
   QSize msz = widget_->minimumSizeHint();
   widget_->setMinimumSize(msz.width() + (clear_button_->sizeHint().width() + frame_width + 1) * 2 + extra_right_padding_, qMax(msz.height(), clear_button_->sizeHint().height() + frame_width * 2 + 2));
@@ -153,9 +168,7 @@ void LineEdit::text_changed(const QString& text) {
     set_rtl(false);
   }
   else {
-    // For some reason Qt will detect any text with LTR at the end as LTR, so
-    // instead
-    // compare only the first character
+    // For some reason Qt will detect any text with LTR at the end as LTR, so instead compare only the first character
     set_rtl(QString(text.at(0)).isRightToLeft());
   }
   Resize();

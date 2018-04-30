@@ -23,9 +23,11 @@
 
 #include "config.h"
 
-#include "filesystemwatcherinterface.h"
-
+#include <QObject>
 #include <QFileSystemWatcher>
+#include <QString>
+
+#include "filesystemwatcherinterface.h"
 
 class QtFSListener : public FileSystemWatcherInterface {
   Q_OBJECT

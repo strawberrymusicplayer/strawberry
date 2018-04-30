@@ -19,42 +19,48 @@
 
 #include "config.h"
 
-#include <unistd.h>
-
-#include "statusview.h"
-
+#include <QtGlobal>
 #include <QObject>
-#include <QApplication>
+#include <QWidget>
+#include <QIODevice>
 #include <QFile>
-#include <QTextDocument>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QScrollArea>
-#include <QPainter>
-#include <QPaintEvent>
+#include <QByteArray>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
 #include <QMovie>
+#include <QAction>
+#include <QPainter>
+#include <QPalette>
+#include <QBrush>
+#include <QLabel>
+#include <QLayout>
+#include <QMenu>
+#include <QScrollArea>
+#include <QBoxLayout>
+#include <QSettings>
+#include <QSizePolicy>
 #include <QTimeLine>
+#include <QtEvents>
 
-#include "core/utilities.h"
-#include "core/logging.h"
-#include "core/song.h"
 #include "core/application.h"
+#include "core/logging.h"
 #include "core/player.h"
-#include "core/mainwindow.h"
-
-#include "collection/collection.h"
+#include "core/song.h"
+#include "core/utilities.h"
+#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
+#include "engine/enginetype.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionquery.h"
 #include "collection/collectionview.h"
 #include "collection/collectionviewcontainer.h"
-
-#include "covermanager/albumcoverloader.h"
-#include "covermanager/coverproviders.h"
-#include "covermanager/currentartloader.h"
 #include "covermanager/albumcoverchoicecontroller.h"
-
-#include "engine/enginetype.h"
-#include "engine/enginebase.h"
+#include "covermanager/albumcoverloader.h"
+#include "covermanager/currentartloader.h"
+#include "statusview.h"
 
 const char *StatusView::kSettingsGroup = "StatusView";
 
@@ -284,13 +290,12 @@ void StatusView::SwitchWidgets(WidgetState state) {
     
 }
 
-void StatusView::UpdateSong(const Song &song) {
+void StatusView::UpdateSong() {
 
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   SwitchWidgets(Playing);
 
-  const Song *song_ = &song;
   const QueryOptions opt;
   CollectionBackend::AlbumList albumlist;
   Engine::EngineType enginetype = app_->player()->engine()->type();
@@ -301,15 +306,15 @@ void StatusView::UpdateSong(const Song &song) {
 
   QString html;
   QString html_albums;
-  html += QString("<b>%1 - %2</b><br/>%3").arg(song_->PrettyTitle().toHtmlEscaped(), song_->artist().toHtmlEscaped(), song_->album().toHtmlEscaped());
+  html += QString("<b>%1 - %2</b><br/>%3").arg(metadata_.PrettyTitle().toHtmlEscaped(), metadata_.artist().toHtmlEscaped(), metadata_.album().toHtmlEscaped());
   label_playing_top_->setText(html);
 
   html = "";
   
-  html += QString("Filetype: %1<br />\n").arg(song_->TextForFiletype());
-  html += QString("Length: %1<br />\n").arg(Utilities::PrettyTimeNanosec(song.length_nanosec()));
-  html += QString("Bitrate: %1 kbps<br />\n").arg(song_->bitrate());
-  html += QString("Samplerate: %1 hz / %2 bit<br />\n").arg(song_->samplerate()).arg(song_->bitdepth());
+  html += QString("Filetype: %1<br />\n").arg(metadata_.TextForFiletype());
+  html += QString("Length: %1<br />\n").arg(Utilities::PrettyTimeNanosec(metadata_.length_nanosec()));
+  html += QString("Bitrate: %1 kbps<br />\n").arg(metadata_.bitrate());
+  html += QString("Samplerate: %1 hz / %2 bit<br />\n").arg(metadata_.samplerate()).arg(metadata_.bitdepth());
 
   if (enginetype != Engine::EngineType::None) {
     html += QString("<br />");
@@ -318,9 +323,9 @@ void StatusView::UpdateSong(const Song &song) {
 
   html += QString("<br />");
     
-  html_albums += QString("<b>Albums by %1:</b>").arg( song_->artist().toHtmlEscaped() );
+  html_albums += QString("<b>Albums by %1:</b>").arg( metadata_.artist().toHtmlEscaped() );
 
-  albumlist = app_->collection_backend()->GetAlbumsByArtist(song_->artist(), opt);
+  albumlist = app_->collection_backend()->GetAlbumsByArtist(metadata_.artist(), opt);
 
   html_albums +=      QString("<ul>");
   int i=0;
@@ -379,9 +384,8 @@ void StatusView::SongChanged(const Song &song) {
 
   stopped_ = false;
   metadata_ = song;
-  const Song *song_ = &song;
 
-  UpdateSong(*song_);
+  UpdateSong();
 
   update();
 

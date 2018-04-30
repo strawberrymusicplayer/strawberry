@@ -20,19 +20,20 @@
 
 #include "config.h"
 
-#include "tagfetcher.h"
+#include <QObject>
+#include <QtConcurrentMap>
+#include <QFuture>
+#include <QFutureWatcher>
+#include <QString>
+#include <QUrl>
 
+#include "core/timeconstants.h"
 #include "acoustidclient.h"
 #include "chromaprinter.h"
 #include "musicbrainzclient.h"
-#include "core/timeconstants.h"
+#include "tagfetcher.h"
 
-#include <QFuture>
-#include <QFutureWatcher>
-#include <QUrl>
-#include <QtConcurrentMap>
-
-TagFetcher::TagFetcher(QObject* parent)
+TagFetcher::TagFetcher(QObject *parent)
     : QObject(parent),
       fingerprint_watcher_(nullptr),
       acoustid_client_(new AcoustidClient(this)),

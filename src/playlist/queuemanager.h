@@ -23,13 +23,14 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QString>
 
 class Playlist;
 class PlaylistManager;
 class Ui_QueueManager;
-
-class QModelIndex;
 
 class QueueManager : public QDialog {
   Q_OBJECT
@@ -58,4 +59,3 @@ private:
 };
 
 #endif  // QUEUEMANAGER_H
-

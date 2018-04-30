@@ -20,23 +20,27 @@
 
 #include "config.h"
 
-#include "gnomeglobalshortcutbackend.h"
-#include "globalshortcuts.h"
-#include "core/closure.h"
-#include "core/logging.h"
+#ifdef QT_DBUS_LIB
+# include <QCoreApplication>
+# include <QDBusConnectionInterface>
+# include <QDBusMessage>
+# include <QDBusPendingCall>
+# include <QDBusPendingReply>
+#endif
+#include <QAction>
+#include <QDateTime>
+#include <QMap>
+#include <QtDebug>
 
 #ifdef QT_DBUS_LIB
 #include "dbus/gnomesettingsdaemon.h"
 #endif
 
-#include <QAction>
-#include <QCoreApplication>
-#include <QDateTime>
-#include <QtDebug>
-
-#ifdef QT_DBUS_LIB
-#include <QtDBus>
-#endif
+#include "core/closure.h"
+#include "core/logging.h"
+#include "globalshortcuts.h"
+#include "globalshortcuts/globalshortcutbackend.h"
+#include "gnomeglobalshortcutbackend.h"
 
 const char *GnomeGlobalShortcutBackend::kGsdService = "org.gnome.SettingsDaemon";
 const char *GnomeGlobalShortcutBackend::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
@@ -48,6 +52,7 @@ GnomeGlobalShortcutBackend::GnomeGlobalShortcutBackend(GlobalShortcuts *parent)
       is_connected_(false) {}
 
 bool GnomeGlobalShortcutBackend::DoRegister() {
+
 #ifdef QT_DBUS_LIB
   qLog(Debug) << "registering";
   // Check if the GSD service is available
@@ -70,9 +75,11 @@ bool GnomeGlobalShortcutBackend::DoRegister() {
   qLog(Warning) << "dbus not available";
   return false;
 #endif
+
 }
 
 void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watcher) {
+
 #ifdef QT_DBUS_LIB
   QDBusMessage reply = watcher->reply();
   watcher->deleteLater();
@@ -87,9 +94,11 @@ void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watch
 
   qLog(Debug) << "registered";
 #endif  // QT_DBUS_LIB
+
 }
 
 void GnomeGlobalShortcutBackend::DoUnregister() {
+
   qLog(Debug) << "unregister";
 #ifdef QT_DBUS_LIB
   // Check if the GSD service is available
@@ -100,8 +109,9 @@ void GnomeGlobalShortcutBackend::DoUnregister() {
   is_connected_ = false;
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
-  disconnect(interface_, SIGNAL(MediaPlayerKeyPressed(QString,QString)), this, SLOT(GnomeMediaKeyPressed(QString,QString)));
+  disconnect(interface_, SIGNAL(MediaPlayerKeyPressed(QString, QString)), this, SLOT(GnomeMediaKeyPressed(QString, QString)));
 #endif
+
 }
 
 void GnomeGlobalShortcutBackend::GnomeMediaKeyPressed(const QString&, const QString& key) {

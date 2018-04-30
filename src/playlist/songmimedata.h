@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QMimeData>
 
 #include "core/mimedata.h"

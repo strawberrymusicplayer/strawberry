@@ -18,26 +18,29 @@
  * 
  */
 
-#include "config.h"
-
 #include <QApplication>
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QPalette>
 #include <QColorDialog>
 #include <QFileDialog>
-#include <QPainter>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QSlider>
 #include <QSettings>
 
 #include "appearancesettingspage.h"
-#include "ui_appearancesettingspage.h"
-
-#include "settingsdialog.h"
-
-#include "core/application.h"
-#include "core/mainwindow.h"
 #include "core/appearance.h"
-#include "core/logging.h"
 #include "core/iconloader.h"
 #include "playlist/playlistview.h"
 #include "covermanager/albumcoverchoicecontroller.h"
+#include "settingspage.h"
+#include "settingsdialog.h"
+#include "ui_appearancesettingspage.h"
 
 const char *AppearanceSettingsPage::kSettingsGroup = "Appearance";
 
@@ -222,8 +225,6 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 }
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), playlist_view_background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + ";;" + tr(AlbumCoverChoiceController::kAllFilesFilter));
   if (selected_filename.isEmpty()) return;

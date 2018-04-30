@@ -20,29 +20,55 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QtConcurrentRun>
+#include <QFuture>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
+#include <QCompleter>
 #include <QDateTime>
 #include <QDir>
-#include <QFuture>
+#include <QFont>
+#include <QFontMetrics>
 #include <QHeaderView>
-#include <QHelpEvent>
-#include <QLinearGradient>
-#include <QLineEdit>
+#include <QLocale>
+#include <QMetaType>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QUrl>
+#include <QIcon>
+#include <QPixmap>
 #include <QPainter>
+#include <QColor>
+#include <QPen>
+#include <QBrush>
+#include <QPoint>
+#include <QRect>
+#include <QSize>
+#include <QLineEdit>
 #include <QScrollBar>
-#include <QTextDocument>
 #include <QToolTip>
+#include <QTreeView>
 #include <QWhatsThis>
-#include <QtConcurrentRun>
+#include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QtDebug>
+#include <QtEvents>
+#include <QLinearGradient>
 
-#include "playlistdelegates.h"
-
-#include "queue.h"
+#include "core/closure.h"
+#include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/player.h"
+#include "core/song.h"
+#include "core/urlhandler.h"
 #include "core/utilities.h"
-#include "core/iconloader.h"
 #include "collection/collectionbackend.h"
-#include "widgets/trackslider.h"
+#include "playlist/playlist.h"
+#include "playlistdelegates.h"
 
 #ifdef Q_OS_DARWIN
 #include "core/mac_utilities.h"
@@ -202,8 +228,7 @@ QStyleOptionViewItemV4 PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem
   QStyleOptionViewItemV4 ret(option);
 
   if (index.data(Playlist::Role_IsCurrent).toBool()) {
-    // Move the text in a bit on the first column for the song that's currently
-    // playing
+    // Move the text in a bit on the first column for the song that's currently playing
     ret.rect.setLeft(ret.rect.left() + 20);
   }
 
@@ -213,9 +238,7 @@ QStyleOptionViewItemV4 PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem
 
 bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
 
-  // This function is copied from QAbstractItemDelegate, and changed to show
-  // displayText() in the tooltip, rather than the index's naked
-  // Qt::ToolTipRole text.
+  // This function is copied from QAbstractItemDelegate, and changed to show displayText() in the tooltip, rather than the index's naked Qt::ToolTipRole text.
 
   Q_UNUSED(option);
 
@@ -246,7 +269,8 @@ bool PlaylistDelegateBase::helpEvent(QHelpEvent *event, QAbstractItemView *view,
       is_elided = displayed_text.width() < real_text.width();
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);
-      } else {  // in case that another text was previously displayed
+      }
+      else {  // in case that another text was previously displayed
         QToolTip::hideText();
       }
       return true;

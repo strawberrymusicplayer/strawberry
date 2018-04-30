@@ -22,33 +22,60 @@
 
 #include <math.h>
 
-#include <QCommonStyle>
-#include <QClipboard>
-#include <QPainter>
-#include <QHeaderView>
-#include <QSettings>
-#include <QtDebug>
-#include <QTimer>
-#include <QKeyEvent>
 #include <QApplication>
-#include <QSortFilterProxyModel>
-#include <QScrollBar>
-#include <QTimeLine>
+#include <QObject>
+#include <QWidget>
+#include <QList>
+#include <QAbstractItemView>
+#include <QByteArray>
+#include <QClipboard>
+#include <QCommonStyle>
+#include <QFontMetrics>
+#include <QHeaderView>
+#include <QItemSelectionModel>
+#include <QKeySequence>
 #include <QMimeData>
+#include <QSize>
+#include <QSortFilterProxyModel>
+#include <QTimeLine>
+#include <QTimer>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
+#include <QUrl>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QBrush>
+#include <QPen>
+#include <QPoint>
+#include <QRect>
+#include <QRegion>
+#include <QtAlgorithms>
+#include <QStyleOptionHeader>
+#include <QStyleOptionViewItem>
+#include <QProxyStyle>
+#include <QTreeView>
+#include <QLinearGradient>
+#include <QScrollBar>
+#include <QtEvents>
+#include <QSettings>
 
+#include "core/application.h"
+#include "core/player.h"
+#include "core/qt_blurimage.h"
+#include "core/song.h"
 #include "playlist.h"
-#include "playlistview.h"
 #include "playlistdelegates.h"
 #include "playlistheader.h"
-#include "core/application.h"
-#include "core/logging.h"
-#include "core/player.h"
-#include "core/iconloader.h"
-#include "core/qt_blurimage.h"
+#include "playlistview.h"
 #include "covermanager/currentartloader.h"
+#include "settings/appearancesettingspage.h"
 #include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
-#include "settings/appearancesettingspage.h"
 
 const int PlaylistView::kStateVersion = 6;
 const int PlaylistView::kGlowIntensitySteps = 24;
@@ -72,7 +99,7 @@ void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption 
     const QString &text = header_option->text;
     const QFontMetrics &font_metrics = header_option->fontMetrics;
 
-    // spaces added to make transition less abrupt
+    // Spaces added to make transition less abrupt
     if (rect.width() < font_metrics.width(text + "  ")) {
       const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
       QStyleOptionHeader new_option(*header_option);
@@ -131,8 +158,6 @@ PlaylistView::PlaylistView(QWidget *parent)
       drop_indicator_row_(-1),
       drag_over_(false)
 {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   setHeader(header_);
   header_->setSectionsMovable(true);
@@ -248,8 +273,7 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
     disconnect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
     //disconnect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
     // When changing the model, always invalidate the current pixmap.
-    // If a remote client uses "stop after", without invaliding the stop
-    // mark would not appear.
+    // If a remote client uses "stop after", without invaliding the stop mark would not appear.
     InvalidateCachedCurrentPixmap();
   }
 
@@ -322,8 +346,6 @@ void PlaylistView::SaveGeometry() {
 }
 
 void PlaylistView::ReloadBarPixmaps() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   currenttrack_bar_left_ = LoadBarPixmap(":/pictures/currenttrack_bar_left.png");
   currenttrack_bar_mid_ = LoadBarPixmap(":/pictures/currenttrack_bar_mid.png");
@@ -413,13 +435,11 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
     opt.palette.setColor(QPalette::AlternateBase, Qt::transparent);
     opt.decorationSize = QSize(20, 20);
 
-    // Draw the actual row data on top.  We cache this, because it's fairly
-    // expensive (1-2ms), and we do it many times per second.
+    // Draw the actual row data on top.  We cache this, because it's fairly expensive (1-2ms), and we do it many times per second.
     const bool cache_dirty = cached_current_row_rect_ != opt.rect || cached_current_row_row_ != index.row() || cached_current_row_.isNull();
 
     // We can't update the cache if we're not drawing the entire region,
-    // QTreeView clips its drawing to only the columns in the region, so it
-    // wouldn't update the whole pixmap properly.
+    // QTreeView clips its drawing to only the columns in the region, so it wouldn't update the whole pixmap properly.
     const bool whole_region = current_paint_region_.boundingRect().width() == viewport()->width();
 
     if (!cache_dirty) {
@@ -560,8 +580,7 @@ void PlaylistView::RemoveSelected(bool deleting_from_disk) {
   // Store the last selected row, which is the last in the list
   int last_row = selection.last().top();
 
-  // Sort the selection so we remove the items at the *bottom* first, ensuring
-  // we don't have to mess around with changing row numbers
+  // Sort the selection so we remove the items at the *bottom* first, ensuring we don't have to mess around with changing row numbers
   qSort(selection.begin(), selection.end(), CompareSelectionRanges);
 
   for (const QItemSelectionRange &range : selection) {
@@ -580,8 +599,7 @@ void PlaylistView::RemoveSelected(bool deleting_from_disk) {
 
   // Select the new current item, we want always the item after the last selected
   if (new_index.isValid()) {
-    // Workaround to update keyboard selected row, if it's not the first row
-    // (this also triggers selection)
+    // Workaround to update keyboard selected row, if it's not the first row (this also triggers selection)
     if (new_row != 0)
       keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
     // Update visual selection with the entire row
@@ -677,8 +695,6 @@ void PlaylistView::leaveEvent(QEvent *e) {
 }
 
 void PlaylistView::mousePressEvent(QMouseEvent *event) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   if (editTriggers() & QAbstractItemView::NoEditTriggers) {
     QTreeView::mousePressEvent(event);
@@ -710,8 +726,7 @@ void PlaylistView::scrollContentsBy(int dx, int dy) {
 }
 
 void PlaylistView::InhibitAutoscrollTimeout() {
-  // For 30 seconds after the user clicks on or scrolls the playlist we promise
-  // not to automatically scroll the view to keep up with a track change.
+  // For 30 seconds after the user clicks on or scrolls the playlist we promise not to automatically scroll the view to keep up with a track change.
   inhibit_autoscroll_ = false;
 }
 
@@ -766,11 +781,9 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
 
   // Reimplemented to draw the background image.
   // Reimplemented also to draw the drop indicator
-  // When the user is dragging some stuff over the playlist paintEvent gets
-  // called for the entire viewport every time the user moves the mouse.
-  // The drawTree is kinda expensive, so we cache the result and draw from the
-  // cache while the user is dragging.  The cached pixmap gets invalidated in
-  // dragLeaveEvent, dropEvent and scrollContentsBy.
+  // When the user is dragging some stuff over the playlist paintEvent gets called for the entire viewport every time the user moves the mouse.
+  // The drawTree is kinda expensive, so we cache the result and draw from the cache while the user is dragging.
+  // The cached pixmap gets invalidated in dragLeaveEvent, dropEvent and scrollContentsBy.
 
   // Draw background
   if (background_image_type_ == Custom || background_image_type_ == Album) {
@@ -908,8 +921,6 @@ void PlaylistView::PlaylistDestroyed() {
 }
 
 void PlaylistView::ReloadSettings() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QSettings s;
 
@@ -979,10 +990,9 @@ void PlaylistView::ReloadSettings() {
   int opacity_level = s.value("opacity_level", kDefaultOpacityLevel).toInt();
   s.endGroup();
   // Check if background properties have changed.
-  // We change properties only if they have actually changed, to avoid to call
-  // set_background_image when it is not needed, as this will cause the fading
-  // animation to start again. This also avoid to do useless
-  // "force_background_redraw".
+  // We change properties only if they have actually changed, to avoid to call set_background_image when it is not needed,
+  // as this will cause the fading animation to start again.
+  // This also avoid to do useless "force_background_redraw".
   
   if (!background_initialized_ || background_image_filename != background_image_filename_ || background_type != background_image_type_ || blur_radius_ != blur_radius || opacity_level_ != opacity_level) {
     background_initialized_ = true;
@@ -998,10 +1008,8 @@ void PlaylistView::ReloadSettings() {
       set_background_image(current_song_cover_art_);
     }
     else {
-      // User changed background image type to something that will not be
-      // painted through paintEvent: reset all background images.
-      // This avoid to use old (deprecated) images for fading when selecting
-      // Album or Custom background image type later.
+      // User changed background image type to something that will not be painted through paintEvent: reset all background images.
+      // This avoid to use old (deprecated) images for fading when selecting Album or Custom background image type later.
       //set_background_image(QImage(":/pictures/playlistbg.png"));
       set_background_image(QImage());
       cached_scaled_background_image_ = QPixmap();
@@ -1064,8 +1072,7 @@ void PlaylistView::rowsInserted(const QModelIndex &parent, int start, int end) {
   QTreeView::rowsInserted(parent, start, end);
 
   if (at_end) {
-    // If the rows were inserted at the end of the playlist then let's scroll
-    // the view so the user can see.
+    // If the rows were inserted at the end of the playlist then let's scroll the view so the user can see.
     scrollTo(model()->index(start, 0, parent), QAbstractItemView::PositionAtTop);
   }
 
@@ -1211,10 +1218,8 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
   if (event->reason() == Qt::TabFocusReason ||
       event->reason() == Qt::BacktabFocusReason) {
-    // If there's a current item but no selection it probably means the list was
-    // filtered, and the selected item does not match the filter.  If there's
-    // only 1 item in the view it is now impossible to select that item without
-    // using the mouse.
+    // If there's a current item but no selection it probably means the list was filtered, and the selected item does not match the filter.
+    // If there's only 1 item in the view it is now impossible to select that item without using the mouse.
     const QModelIndex &current = selectionModel()->currentIndex();
     if (current.isValid() && selectionModel()->selectedIndexes().isEmpty()) {
       QItemSelection new_selection(current.sibling(current.row(), 0), current.sibling(current.row(), current.model()->columnCount(current.parent()) - 1));

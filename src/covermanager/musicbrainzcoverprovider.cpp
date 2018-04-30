@@ -23,13 +23,21 @@
 #include <algorithm>
 #include <functional>
 
-#include <QXmlStreamReader>
+#include <QObject>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
 #include <QUrlQuery>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QXmlStreamReader>
 
 #include "core/closure.h"
 #include "core/network.h"
-#include "core/logging.h"
-
+#include "albumcoverfetcher.h"
+#include "coverprovider.h"
 #include "musicbrainzcoverprovider.h"
 
 using std::mem_fun;

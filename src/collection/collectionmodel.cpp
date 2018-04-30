@@ -22,32 +22,44 @@
 
 #include <functional>
 
+#include <QObject>
+#include <QtGlobal>
+#include <QtConcurrentRun>
+#include <QtAlgorithms>
+#include <QMutex>
 #include <QFuture>
+#include <QDataStream>
+#include <QMimeData>
 #include <QIODevice>
-#include <QMetaEnum>
-#include <QNetworkCacheMetaData>
-#include <QNetworkDiskCache>
-#include <QPixmapCache>
-#include <QSettings>
+#include <QByteArray>
+#include <QVariant>
+#include <QList>
+#include <QSet>
+#include <QChar>
+#include <QRegExp>
+#include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QtConcurrentRun>
+#include <QImage>
+#include <QPixmapCache>
+#include <QSettings>
+#include <QtDebug>
 
-#include "collectionmodel.h"
-
-#include "collectionbackend.h"
-#include "collectionitem.h"
-#include "collectiondirectorymodel.h"
-#include "collectionview.h"
-#include "sqlrow.h"
 #include "core/application.h"
+#include "core/closure.h"
 #include "core/database.h"
+#include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
-#include "core/utilities.h"
-#include "core/iconloader.h"
-#include "covermanager/albumcoverloader.h"
+#include "collectionquery.h"
+#include "collectionbackend.h"
+#include "collectiondirectorymodel.h"
+#include "collectionitem.h"
+#include "collectionmodel.h"
+#include "sqlrow.h"
+#include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
+#include "covermanager/albumcoverloader.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -178,11 +190,9 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
     // Hey, we've already got that one!
     if (song_nodes_.contains(song.id())) continue;
 
-    // Before we can add each song we need to make sure the required container
-    // items already exist in the tree.  These depend on which "group by"
-    // settings the user has on the collection.  Eg. if the user grouped by
-    // artist and album, we would need to make sure nodes for the song's artist
-    // and album were already in the tree.
+    // Before we can add each song we need to make sure the required container items already exist in the tree.
+    // These depend on which "group by" settings the user has on the collection.
+    // Eg. if the user grouped by artist and album, we would need to make sure nodes for the song's artist and album were already in the tree.
 
     // Find parent containers in the tree
     CollectionItem *container = root_;
@@ -190,8 +200,7 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
       GroupBy type = group_by_[i];
       if (type == GroupBy_None) break;
 
-      // Special case: if the song is a compilation and the current GroupBy
-      // level is Artists, then we want the Various Artists node :(
+      // Special case: if the song is a compilation and the current GroupBy level is Artists, then we want the Various Artists node :(
       if (IsArtistGroupBy(type) && song.is_compilation()) {
         if (container->compilation_artist_node_ == nullptr)
           CreateCompilationArtistNode(true, container);
@@ -240,15 +249,13 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         container = container_nodes_[i][key];
       }
 
-      // If we just created the damn thing then we don't need to continue into
-      // it any further because it'll get lazy-loaded properly later.
+      // If we just created the damn thing then we don't need to continue into it any further because it'll get lazy-loaded properly later.
       if (!container->lazy_loaded) break;
     }
 
     if (!container->lazy_loaded) continue;
 
-    // We've gone all the way down to the deepest level and everything was
-    // already lazy loaded, so now we have to create the song in the container.
+    // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
     song_nodes_[song.id()] = ItemFromSong(GroupBy_None, true, false, container, song, -1);
   }
 
@@ -256,9 +263,8 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
 
 void CollectionModel::SongsSlightlyChanged(const SongList &songs) {
 
-  // This is called if there was a minor change to the songs that will not
-  // normally require the collection to be restructured.  We can just update our
-  // internal cache of Song objects without worrying about resetting the model.
+  // This is called if there was a minor change to the songs that will not normally require the collection to be restructured.
+  // We can just update our internal cache of Song objects without worrying about resetting the model.
   for (const Song &song : songs) {
     if (song_nodes_.contains(song.id())) {
       song_nodes_[song.id()]->metadata = song;
@@ -285,8 +291,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(bool signal, Collec
 
 QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
 
-  // Items which are to be grouped under the same divider must produce the
-  // same divider key.  This will only get called for top-level items.
+  // Items which are to be grouped under the same divider must produce the same divider key.  This will only get called for top-level items.
 
   if (item->sort_text.isEmpty()) return QString();
 
@@ -371,8 +376,7 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
 
 void CollectionModel::SongsDeleted(const SongList &songs) {
 
-  // Delete the actual song nodes first, keeping track of each parent so we
-  // might check to see if they're empty later.
+  // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
     if (song_nodes_.contains(song.id())) {
@@ -386,11 +390,9 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       endRemoveRows();
     }
     else {
-      // If we get here it means some of the songs we want to delete haven't
-      // been lazy-loaded yet.  This is bad, because it would mean that to
-      // clean up empty parents we would need to lazy-load them all
-      // individually to see if they're empty.  This can take a very long time,
-      // so better to just reset the model and be done with it.
+      // If we get here it means some of the songs we want to delete haven't been lazy-loaded yet.
+      // This is bad, because it would mean that to clean up empty parents we would need to lazy-load them all individually to see if they're empty.
+      // This can take a very long time, so better to just reset the model and be done with it.
       Reset();
       return;
     }
@@ -399,9 +401,8 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
   // Now delete empty parents
   QSet<QString> divider_keys;
   while (!parents.isEmpty()) {
-    // Since we are going to remove elements from the container, we
-    // need a copy to iterate over. If we iterate over the original,
-    // the behavior will be undefined.
+    // Since we are going to remove elements from the container, we need a copy to iterate over.
+    // If we iterate over the original, the behavior will be undefined.
     QSet<CollectionItem*> parents_copy = parents;
     for (CollectionItem *node : parents_copy) {
       parents.remove(node);

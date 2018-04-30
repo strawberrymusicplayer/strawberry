@@ -20,10 +20,19 @@
 
 #include "config.h"
 
-#include "deviceviewcontainer.h"
-#include "ui_deviceviewcontainer.h"
+#include <QWidget>
+#include <QColor>
+#include <QFrame>
+#include <QIcon>
+#include <QLabel>
+#include <QPalette>
+#include <QToolButton>
+#include <QShowEvent>
 
 #include "core/iconloader.h"
+
+#include "deviceviewcontainer.h"
+#include "ui_deviceviewcontainer.h"
 
 DeviceViewContainer::DeviceViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui::DeviceViewContainer), loaded_icons_(false) {
 

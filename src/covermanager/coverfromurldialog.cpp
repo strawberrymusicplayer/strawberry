@@ -20,23 +20,27 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QDialog>
 #include <QApplication>
 #include <QClipboard>
 #include <QImage>
+#include <QLineEdit>
 #include <QMessageBox>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-
-#include "coverfromurldialog.h"
-#include "ui_coverfromurldialog.h"
+#include <QUrl>
 
 #include "core/network.h"
-#include "covermanager/albumcoverloader.h"
+#include "widgets/busyindicator.h"
+#include "coverfromurldialog.h"
+#include "ui_coverfromurldialog.h"
 
 CoverFromURLDialog::CoverFromURLDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_CoverFromURLDialog), network_(new NetworkAccessManager(this)) {
 
   ui_->setupUi(this);
   ui_->busy->hide();
+
 }
 
 CoverFromURLDialog::~CoverFromURLDialog() {
@@ -44,6 +48,7 @@ CoverFromURLDialog::~CoverFromURLDialog() {
 }
 
 QImage CoverFromURLDialog::Exec() {
+
   // reset state
   ui_->url->setText("");;
   last_image_ = QImage();
@@ -53,6 +58,7 @@ QImage CoverFromURLDialog::Exec() {
 
   exec();
   return last_image_;
+
 }
 
 void CoverFromURLDialog::accept() {
@@ -63,6 +69,7 @@ void CoverFromURLDialog::accept() {
 
   QNetworkReply *reply = network_->get(network_request);
   connect(reply, SIGNAL(finished()), SLOT(LoadCoverFromURLFinished()));
+
 }
 
 void CoverFromURLDialog::LoadCoverFromURLFinished() {
@@ -87,5 +94,6 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
   else {
     QMessageBox::information(this, tr("Fetching cover error"), tr("The site you requested is not an image!"));
   }
+
 }
 

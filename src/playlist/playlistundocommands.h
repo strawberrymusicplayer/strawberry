@@ -23,14 +23,18 @@
 
 #include "config.h"
 
-#include <QUndoCommand>
+#include <stdbool.h>
+
 #include <QCoreApplication>
+#include <QList>
+#include <QUndoStack>
 
 #include "playlistitem.h"
 
 class Playlist;
 
 namespace PlaylistUndoCommands {
+
   enum Types {
     Type_RemoveItems = 0,
   };
@@ -52,9 +56,8 @@ namespace PlaylistUndoCommands {
     void undo();
     void redo();
     // When load is async, items have already been pushed, so we need to update them.
-    // This function try to find the equivalent item, and replace it with the
-    // new (completely loaded) one.
-    // return true if the was found (and updated), false otherwise
+    // This function try to find the equivalent item, and replace it with the new (completely loaded) one.
+    // Return true if the was found (and updated), false otherwise
     bool UpdateItem(const PlaylistItemPtr &updated_item);
 
    private:
@@ -110,11 +113,11 @@ namespace PlaylistUndoCommands {
 
   class SortItems : public ReOrderItems {
    public:
-    SortItems(Playlist *playlist, int column, Qt::SortOrder order,  const PlaylistItemList &new_items);
+    SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
 
    private:
-    int column_;
-    Qt::SortOrder order_;
+    //int column_;
+    //Qt::SortOrder order_;
   };
   
   class ShuffleItems : public ReOrderItems {

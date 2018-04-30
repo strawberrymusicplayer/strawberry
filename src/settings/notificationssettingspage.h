@@ -23,8 +23,19 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QObject>
+#include <QString>
+#include <QAction>
+#include <QtEvents>
+
 #include "settingspage.h"
 
+class QHideEvent;
+class QShowEvent;
+
+class OSDPretty;
+class SettingsDialog;
 class Ui_NotificationsSettingsPage;
 
 class NotificationsSettingsPage : public SettingsPage {

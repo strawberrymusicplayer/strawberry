@@ -21,9 +21,23 @@
 #ifndef WPLPARSER_H
 #define WPLPARSER_H
 
-#include "config.h"
+#include <stdbool.h>
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QByteArray>
+#include <QString>
+#include <QStringList>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
+#include "config.h"
+#include "core/song.h"
+#include "playlist/playlist.h"
 #include "xmlparser.h"
+
+class CollectionBackendInterface;
+
 
 class WplParser : public XMLParser {
  public:

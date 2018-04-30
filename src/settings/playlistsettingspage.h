@@ -23,10 +23,12 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QString>
+
 #include "settingspage.h"
 
-#include <QMap>
-
+class SettingsDialog;
 class Ui_PlaylistSettingsPage;
 
 class PlaylistSettingsPage : public SettingsPage {

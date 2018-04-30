@@ -23,18 +23,16 @@
 
 #include "config.h"
 
-#include <QObject>
-
-#include "albumcoverfetcher.h"
-#include "coverproviders.h"
+#include <stdbool.h>
 
 #include <QObject>
+#include <QList>
+#include <QString>
 
-class QNetworkReply;
+struct CoverSearchResult;
 
-// Each implementation of this interface downloads covers from one online
-// service. There are no limitations on what this service might be - last.fm,
-// Amazon, Google Images - you name it.
+// Each implementation of this interface downloads covers from one online service.
+// There are no limitations on what this service might be - last.fm, Amazon, Google Images - you name it.
 class CoverProvider : public QObject {
   Q_OBJECT
 
@@ -45,9 +43,9 @@ public:
   QString name() const { return name_; }
   bool fetchall() const { return fetchall_; }
 
-  // Starts searching for covers matching the given query text.  Returns true
-  // if the query has been started, or false if an error occurred.  The provider
-  // should remember the ID and emit it along with the result when it finishes.
+  // Starts searching for covers matching the given query text.
+  // Returns true if the query has been started, or false if an error occurred.
+  // The provider should remember the ID and emit it along with the result when it finishes.
   virtual bool StartSearch(const QString &artist, const QString &album, int id) = 0;
 
   virtual void CancelSearch(int id) {}

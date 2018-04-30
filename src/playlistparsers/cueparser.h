@@ -23,13 +23,24 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QDir>
+#include <QString>
+#include <QStringList>
+
+#include "core/song.h"
 #include "parserbase.h"
+#include "playlist/playlist.h"
 
-#include <QRegExp>
+class CollectionBackendInterface;
 
-// This parser will try to detect the real encoding of a .cue file but there's
-// a great chance it will fail so it's probably best to assume that the parser
-// is UTF compatible only.
+// This parser will try to detect the real encoding of a .cue file
+// but there's a great chance it will fail so it's probably best to assume that the parser is UTF compatible only.
 class CueParser : public ParserBase {
   Q_OBJECT
 

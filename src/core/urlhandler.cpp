@@ -17,7 +17,13 @@
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+
 #include "config.h"
+
+#include <QtGlobal>
+#include <QObject>
+#include <QUrl>
+#include <QIcon>
 
 #include "urlhandler.h"
 

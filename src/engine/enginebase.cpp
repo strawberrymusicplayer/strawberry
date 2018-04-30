@@ -23,13 +23,14 @@
 #include "config.h"
 
 #include <cmath>
+
+#include <QtGlobal>
+#include <QUrl>
 #include <QSettings>
 
-#include "enginebase.h"
-#include "enginedevice.h"
 #include "core/timeconstants.h"
-#include "core/logging.h"
-
+#include "engine_fwd.h"
+#include "enginebase.h"
 #include "settings/playbacksettingspage.h"
 
 Engine::Base::Base()

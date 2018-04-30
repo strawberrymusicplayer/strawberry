@@ -18,19 +18,28 @@
  * 
  */
 
-#include "config.h"
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QByteArray>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QtAlgorithms>
+#include <QtDebug>
 
-#include "asxparser.h"
 #include "asxiniparser.h"
+#include "asxparser.h"
+#include "core/logging.h"
 #include "cueparser.h"
 #include "m3uparser.h"
 #include "playlistparser.h"
+#include "playlistparsers/parserbase.h"
 #include "plsparser.h"
 #include "wplparser.h"
 #include "xspfparser.h"
-#include "core/logging.h"
-
-#include <QtDebug>
 
 const int PlaylistParser::kMagicSize = 512;
 

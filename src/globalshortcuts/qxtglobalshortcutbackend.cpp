@@ -20,13 +20,17 @@
 
 #include "config.h"
 
-#include "globalshortcuts.h"
-#include "qxtglobalshortcutbackend.h"
-#include "qxtglobalshortcut.h"
-#include "core/logging.h"
-
+#include <QObject>
+#include <QMap>
 #include <QAction>
-#include <QtDebug>
+#include <QKeySequence>
+#include <QtAlgorithms>
+
+#include "core/logging.h"
+#include "globalshortcuts.h"
+#include "globalshortcutbackend.h"
+#include "qxtglobalshortcut.h"
+#include "qxtglobalshortcutbackend.h"
 
 QxtGlobalShortcutBackend::QxtGlobalShortcutBackend(GlobalShortcuts* parent) : GlobalShortcutBackend(parent) {}
 

@@ -23,11 +23,20 @@
 
 #include "config.h"
 
+#include <memory>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QMutex>
 #include <QHash>
 #include <QList>
-#include <QMutex>
-#include <QObject>
+#include <QSet>
+#include <QString>
+#include <QVector>
+#include <QSqlQuery>
 
+#include "core/song.h"
+#include "collection/sqlrow.h"
 #include "playlistitem.h"
 
 class Application;

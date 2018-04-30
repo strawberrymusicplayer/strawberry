@@ -21,8 +21,21 @@
 #ifndef RATINGWIDGET_H
 #define RATINGWIDGET_H
 
-#include <QFrame>
+#include "config.h"
+
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QPixmap>
+#include <QPainter>
+#include <QRect>
+#include <QSize>
+#include <QPoint>
+#include <QtEvents>
+
+class QEvent;
+class QMouseEvent;
+class QPaintEvent;
 
 class RatingPainter {
 public:
@@ -33,7 +46,7 @@ public:
   static QRect Contents(const QRect& rect);
   static double RatingForPos(const QPoint& pos, const QRect& rect);
 
-  void Paint(QPainter* painter, const QRect& rect, float rating) const;
+  void Paint(QPainter *painter, const QRect& rect, float rating) const;
 
 private:
   QPixmap stars_[kStarCount*2+1];
@@ -44,7 +57,7 @@ class RatingWidget : public QWidget {
   Q_PROPERTY(float rating READ rating WRITE set_rating);
 
  public:
-  RatingWidget(QWidget* parent = nullptr);
+  RatingWidget(QWidget *parent = nullptr);
 
   QSize sizeHint() const;
 
@@ -56,8 +69,8 @@ signals:
 
 protected:
   void paintEvent(QPaintEvent*);
-  void mousePressEvent(QMouseEvent* e);
-  void mouseMoveEvent(QMouseEvent* e);
+  void mousePressEvent(QMouseEvent *e);
+  void mouseMoveEvent(QMouseEvent *e);
   void leaveEvent(QEvent*);
 
 private:

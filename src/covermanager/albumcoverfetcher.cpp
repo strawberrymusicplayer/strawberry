@@ -20,14 +20,18 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
 #include <QTimer>
+#include <QString>
 #include <QRegExp>
-#include <QDebug>
+#include <QImage>
+#include <QNetworkAccessManager>
 
+#include "core/network.h"
+#include "core/song.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
-#include "core/network.h"
-#include "core/logging.h"
 
 const int AlbumCoverFetcher::kMaxConcurrentRequests = 5;
 
@@ -43,12 +47,10 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 
 quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, bool fetchall) {
 
-  QString album2(album);
-  album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
-
   CoverSearchRequest request;
   request.artist = artist;
-  request.album = album2;
+  request.album = album;
+  request.album.remove(Song::kCoverRemoveDisc);
   request.search = false;
   request.id = next_id_++;
   request.fetchall = fetchall;
@@ -60,12 +62,10 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
 
 quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString &album) {
 
-  QString album2(album);
-  album2 = album2.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
-
   CoverSearchRequest request;
   request.artist = artist;
-  request.album = album2;
+  request.album = album;
+  request.album.remove(Song::kCoverRemoveDisc);
   request.search = true;
   request.id = next_id_++;
   request.fetchall = false;
@@ -108,7 +108,7 @@ void AlbumCoverFetcher::StartRequests() {
 
     CoverSearchRequest request = queued_requests_.dequeue();
 
-    // search objects are this fetcher's children so worst case scenario - they get deleted with it
+    // Search objects are this fetcher's children so worst case scenario - they get deleted with it
     AlbumCoverFetcherSearch *search = new AlbumCoverFetcherSearch(request, network_, this);
     active_requests_.insert(request.id, search);
 

@@ -20,14 +20,22 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QDialog>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
 #include <QFont>
-#include <QScrollBar>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QScrollBar>
+#include <QTextBrowser>
 
 #include "console.h"
-
 #include "core/application.h"
 #include "core/database.h"
 

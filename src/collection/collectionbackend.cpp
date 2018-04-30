@@ -20,22 +20,32 @@
 
 #include "config.h"
 
-#include <QCoreApplication>
-#include <QDateTime>
-#include <QDir>
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QSet>
+#include <QMap>
+#include <QByteArray>
 #include <QFileInfo>
-#include <QSettings>
+#include <QDateTime>
 #include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QtDebug>
 
+#include "core/application.h"
+#include "core/database.h"
+#include "core/logging.h"
+#include "core/scopedtransaction.h"
+#include "core/utilities.h"
+
+#include "directory.h"
 #include "collectionbackend.h"
 #include "collectionquery.h"
 #include "sqlrow.h"
-#include "core/application.h"
-#include "core/database.h"
-#include "core/scopedtransaction.h"
-#include "core/tagreaderclient.h"
-#include "core/utilities.h"
 
 const char *CollectionBackend::kSettingsGroup = "Collection";
 
@@ -258,6 +268,7 @@ void CollectionBackend::AddDirectory(const QString &path) {
   dir.id = q.lastInsertId().toInt();
 
   emit DirectoryDiscovered(dir, SubdirectoryList());
+
 }
 
 void CollectionBackend::RemoveDirectory(const Directory &dir) {
@@ -287,6 +298,7 @@ void CollectionBackend::RemoveDirectory(const Directory &dir) {
   emit DirectoryDeleted(dir);
 
   transaction.Commit();
+
 }
 
 SongList CollectionBackend::FindSongsInDirectory(int id) {
@@ -307,6 +319,7 @@ SongList CollectionBackend::FindSongsInDirectory(int id) {
     ret << song;
   }
   return ret;
+
 }
 
 void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
@@ -381,8 +394,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
   for (const Song &song : songs) {
     // Do a sanity check first - make sure the song's directory still exists
-    // This is to fix a possible race condition when a directory is removed
-    // while CollectionWatcher is scanning it.
+    // This is to fix a possible race condition when a directory is removed while CollectionWatcher is scanning it.
     if (!dirs_table_.isEmpty()) {
       check_dir.bindValue(":id", song.directory_id());
       check_dir.exec();
@@ -752,8 +764,7 @@ void CollectionBackend::UpdateCompilations() {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  // Look for albums that have songs by more than one 'effective album artist' in the same
-  // directory
+  // Look for albums that have songs by more than one 'effective album artist' in the same directory
 
   QSqlQuery q(db);
   q.prepare(QString("SELECT effective_albumartist, album, filename, compilation_detected FROM %1 WHERE unavailable = 0 ORDER BY album").arg(songs_table_));
@@ -819,8 +830,7 @@ void CollectionBackend::UpdateCompilations() {
 
 void CollectionBackend::UpdateCompilations(QSqlQuery &find_songs, QSqlQuery &update, SongList &deleted_songs, SongList &added_songs, const QString &album, int compilation_detected) {
 
-  // Get songs that were already in that album, so we can tell the model
-  // they've been updated
+  // Get songs that were already in that album, so we can tell the model they've been updated
   find_songs.bindValue(":album", album);
   find_songs.bindValue(":compilation_detected", int(!compilation_detected));
   find_songs.exec();
@@ -1104,6 +1114,7 @@ void CollectionBackend::ResetStatistics(int id) {
 }
 
 void CollectionBackend::DeleteAll() {
+
   {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());

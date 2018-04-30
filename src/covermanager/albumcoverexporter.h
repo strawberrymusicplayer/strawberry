@@ -23,15 +23,15 @@
 
 #include "config.h"
 
-#include "coverexportrunnable.h"
-#include "core/song.h"
-#include "covermanager/albumcoverexport.h"
-
 #include <QObject>
+#include <QThreadPool>
 #include <QQueue>
-#include <QTimer>
+#include <QString>
 
-class QThreadPool;
+#include "albumcoverexport.h"
+
+class Song;
+class CoverExportRunnable;
 
 class AlbumCoverExporter : public QObject {
   Q_OBJECT

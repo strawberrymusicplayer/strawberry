@@ -24,13 +24,16 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QObject>
+#include <QThread>
+#include <QString>
 #include <QUrl>
 
-class ConnectedDevice;
-class CollectionBackend;
 class TaskManager;
+class CollectionBackend;
+class ConnectedDevice;
 
 class MtpLoader : public QObject {
   Q_OBJECT
@@ -52,7 +55,7 @@ signals:
 
  private:
   std::shared_ptr<ConnectedDevice> device_;
-  QThread* original_thread_;
+  QThread *original_thread_;
 
   QUrl url_;
   TaskManager *task_manager_;

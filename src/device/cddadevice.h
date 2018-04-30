@@ -23,16 +23,25 @@
 
 #include "config.h"
 
-#include <QMutex>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 
 // These must come after Qt includes
 #include <cdio/cdio.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
+#include "core/song.h"
+#include "core/musicstorage.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
-#include "core/song.h"
-#include "musicbrainz/musicbrainzclient.h"
+
+class Application;
+class DeviceLister;
+class DeviceManager;
 
 class CddaDevice : public ConnectedDevice {
   Q_OBJECT

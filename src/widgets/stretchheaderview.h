@@ -23,7 +23,20 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QAbstractItemModel>
+#include <QByteArray>
 #include <QHeaderView>
+#include <QList>
+#include <QString>
+#include <QVector>
+#include <QtEvents>
+
+class QMouseEvent;
+class QResizeEvent;
 
 class StretchHeaderView : public QHeaderView {
   Q_OBJECT
@@ -38,14 +51,12 @@ class StretchHeaderView : public QHeaderView {
 
   void setModel(QAbstractItemModel* model);
 
-  // Serialises the proportional and actual column widths.  Use these instead
-  // of QHeaderView::restoreState and QHeaderView::saveState to persist the
-  // proportional values directly and avoid floating point errors over time.
+  // Serialises the proportional and actual column widths.
+  // Use these instead of QHeaderView::restoreState and QHeaderView::saveState to persist the proportional values directly and avoid floating point errors over time.
   bool RestoreState(const QByteArray& data);
   QByteArray SaveState() const;
 
-  // Hides a section and resizes all other sections to fill the gap.  Does
-  // nothing if you try to hide the last section.
+  // Hides a section and resizes all other sections to fill the gap.  Does nothing if you try to hide the last section.
   void HideSection(int logical);
 
   // Shows a section and resizes all other sections to make room.
@@ -79,8 +90,7 @@ protected:
   // Scales column_widths_ values so the total is 1.0.
   void NormaliseWidths(const QList<int>& sections = QList<int>());
 
-  // Resizes the actual columns to make them match the proportional values
-  // in column_widths_.
+  // Resizes the actual columns to make them match the proportional values in column_widths_.
   void UpdateWidths(const QList<int>& sections = QList<int>());
 
 private slots:

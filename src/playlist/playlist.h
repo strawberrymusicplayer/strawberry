@@ -23,13 +23,31 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
-#include <QList>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QFuture>
+#include <QList>
+#include <QMap>
+#include <QMetaType>
+#include <QMimeData>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QColor>
+#include <QModelIndex>
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
+#include <QSortFilterProxyModel>
+#include <QPersistentModelIndex>
+#include <QUndoStack>
+
+#include "core/song.h"
+#include "core/tagreaderclient.h"
 #include "playlistitem.h"
 #include "playlistsequence.h"
-#include "core/tagreaderclient.h"
-#include "core/song.h"
 
 class CollectionBackend;
 class PlaylistBackend;
@@ -37,33 +55,29 @@ class PlaylistFilter;
 class Queue;
 class TaskManager;
 
-class QSortFilterProxyModel;
-class QUndoStack;
-
 namespace PlaylistUndoCommands {
 class InsertItems;
-class RemoveItems;
 class MoveItems;
 class ReOrderItems;
-class SortItems;
+class RemoveItems;
 class ShuffleItems;
+class SortItems;
 }
 
 typedef QMap<int, Qt::Alignment> ColumnAlignmentMap;
 Q_DECLARE_METATYPE(Qt::Alignment);
 Q_DECLARE_METATYPE(ColumnAlignmentMap);
 
-// Objects that may prevent a song being added to the playlist. When there
-// is something about to be inserted into it, Playlist notifies all of it's
-// listeners about the fact and every one of them picks 'invalid' songs.
+// Objects that may prevent a song being added to the playlist.
+// When there is something about to be inserted into it,
+// Playlist notifies all of it's listeners about the fact and every one of them picks 'invalid' songs.
 class SongInsertVetoListener : public QObject {
   Q_OBJECT
 
  public:
-  // Listener returns a list of 'invalid' songs. 'old_songs' are songs that are
-  // currently in the playlist and 'new_songs' are the songs about to be added if
-  // nobody exercises a veto.
-  virtual SongList AboutToInsertSongs(const SongList& old_songs, const SongList& new_songs) = 0;
+  // Listener returns a list of 'invalid' songs.
+  // 'old_songs' are songs that are currently in the playlist and 'new_songs' are the songs about to be added if nobody exercises a veto.
+  virtual SongList AboutToInsertSongs(const SongList &old_songs, const SongList &new_songs) = 0;
 };
 
 class Playlist : public QAbstractListModel {
@@ -75,10 +89,10 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommands::ReOrderItems;
 
  public:
-  Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString& special_type = QString(), bool favorite = false, QObject *parent = nullptr);
+  Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type = QString(), bool favorite = false, QObject *parent = nullptr);
   ~Playlist();
 
-  void SkipTracks(const QModelIndexList& source_indexes);
+  void SkipTracks(const QModelIndexList &source_indexes);
 
   // Always add new columns to the end of this enum - the values are persisted
   enum Column {
@@ -123,8 +137,7 @@ class Playlist : public QAbstractListModel {
     Path_Automatic = 0,  // Automatically select path type
     Path_Absolute,       // Always use absolute paths
     Path_Relative,       // Always use relative paths
-    Path_Ask_User,       // Only used in preferences: to ask user which of the
-                         // previous values he wants to use.
+    Path_Ask_User,       // Only used in preferences: to ask user which of the previous values he wants to use.
   };
 
   static const char *kCddaMimeType;
@@ -151,7 +164,7 @@ class Playlist : public QAbstractListModel {
   static QString abbreviated_column_name(Column column);
 
   static bool column_is_editable(Playlist::Column column);
-  static bool set_column_value(Song& song, Column column, const QVariant& value);
+  static bool set_column_value(Song &song, Column column, const QVariant &value);
 
   // Persistence
   void Save() const;
@@ -162,7 +175,7 @@ class Playlist : public QAbstractListModel {
   Queue *queue() const { return queue_; }
 
   int id() const { return id_; }
-  const QString& ui_path() const { return ui_path_; }
+  const QString &ui_path() const { return ui_path_; }
   void set_ui_path(const QString &path) { ui_path_ = path; }
   bool is_favorite() const { return favorite_; }
   void set_favorite(bool favorite) { favorite_ = favorite; }
@@ -207,14 +220,12 @@ class Playlist : public QAbstractListModel {
   void ReshuffleIndices();
 
   // If this playlist contains the current item, this method will apply the "valid" flag on it.
-  // If the "valid" flag is false, the song will be greyed out. Otherwise the grey color will
-  // be undone.
+  // If the "valid" flag is false, the song will be greyed out. Otherwise the grey color will be undone.
   // If the song is a local file and it's valid but non existent or invalid but exists, the
   // song will be reloaded to even out the situation because obviously something has changed.
   // This returns true if this playlist had current item when the method was invoked.
   bool ApplyValidityOnCurrentSong(const QUrl &url, bool valid);
-  // Grays out and reloads all deleted songs in all playlists. Also, "ungreys" those songs
-  // which were once deleted but now got restored somehow.
+  // Grays out and reloads all deleted songs in all playlists. Also, "ungreys" those songs which were once deleted but now got restored somehow.
   void InvalidateDeletedSongs();
   // Removes from the playlist all local files that don't exist anymore.
   void RemoveDeletedSongs();
@@ -223,8 +234,7 @@ class Playlist : public QAbstractListModel {
   void ReloadItems(const QList<int> &rows);
   void InformOfCurrentSongChange();
 
-  // Registers an object which will get notifications when new songs
-  // are about to be inserted into this playlist.
+  // Registers an object which will get notifications when new songs are about to be inserted into this playlist.
   void AddSongInsertVetoListener(SongInsertVetoListener *listener);
   // Unregisters a SongInsertVetoListener object.
   void RemoveSongInsertVetoListener(SongInsertVetoListener *listener);
@@ -276,15 +286,13 @@ signals:
   void EditingFinished(const QModelIndex &index);
   void PlayRequested(const QModelIndex &index);
 
-  // Signals that the underlying list of items was changed, meaning that
-  // something was added to it, removed from it or the ordering changed.
+  // Signals that the underlying list of items was changed, meaning that something was added to it, removed from it or the ordering changed.
   void PlaylistChanged();
   void DynamicModeChanged(bool dynamic);
 
   void Error(const QString &message);
 
-  // Signals that the queue has changed, meaning that the remaining queued
-  // items should update their position.
+  // Signals that the queue has changed, meaning that the remaining queued items should update their position.
   void QueueChanged();
 
 private:
@@ -296,8 +304,7 @@ private:
   template <typename T>
   void InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue);
 
-  // Modify the playlist without changing the undo stack.  These are used by
-  // our friends in PlaylistUndoCommands
+  // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false);
   PlaylistItemList RemoveItemsWithoutUndo(int pos, int count);
   void MoveItemsWithoutUndo(const QList<int> &source_rows, int pos);
@@ -335,10 +342,9 @@ private:
   bool favorite_;
 
   PlaylistItemList items_;
-  QList<int> virtual_items_;  // Contains the indices into items_ in the order
-                              // that they will be played.
-  // A map of collection ID to playlist item - for fast lookups when collection
-  // items change.
+  // Contains the indices into items_ in the order that they will be played.
+  QList<int> virtual_items_;
+  // A map of collection ID to playlist item - for fast lookups when collection items change.
   QMultiMap<int, PlaylistItemPtr> collection_items_by_id_;
 
   QPersistentModelIndex current_item_index_;

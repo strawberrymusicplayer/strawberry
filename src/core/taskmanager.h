@@ -23,9 +23,14 @@
 
 #include "config.h"
 
-#include <QMap>
-#include <QMutex>
+#include <stdbool.h>
+
+#include <QtGlobal>
 #include <QObject>
+#include <QMutex>
+#include <QList>
+#include <QMap>
+#include <QString>
 
 class TaskManager : public QObject {
   Q_OBJECT

@@ -5,12 +5,19 @@
 
 #include "blockanalyzer.h"
 
-#include <cmath>
-
-#include <QMouseEvent>
-#include <QResizeEvent>
 #include <cstdlib>
+#include <cmath>
+#include <scoped_allocator>
+
+#include <QWidget>
+#include <QPixmap>
 #include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QtEvents>
+
+#include "analyzerbase.h"
+#include "fht.h"
 
 const uint BlockAnalyzer::HEIGHT = 2;
 const uint BlockAnalyzer::WIDTH = 4;
@@ -19,10 +26,10 @@ const uint BlockAnalyzer::MIN_COLUMNS = 32;   // arbituary
 const uint BlockAnalyzer::MAX_COLUMNS = 256;  // must be 2**n
 const uint BlockAnalyzer::FADE_SIZE = 90;
 
-const char* BlockAnalyzer::kName =
+const char *BlockAnalyzer::kName =
     QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
 
-BlockAnalyzer::BlockAnalyzer(QWidget* parent)
+BlockAnalyzer::BlockAnalyzer(QWidget *parent)
     : Analyzer::Base(parent, 9),
       m_columns(0)  // uint
       ,
@@ -43,9 +50,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget* parent)
       ,
       m_fade_intensity(1 << 8, 32)  // vector<uint>
 {
-  setMinimumSize(MIN_COLUMNS * (WIDTH + 1) - 1,
-                 MIN_ROWS * (HEIGHT + 1) -
-                     1);  //-1 is padding, no drawing takes place there
+  setMinimumSize(MIN_COLUMNS * (WIDTH + 1) - 1, MIN_ROWS * (HEIGHT + 1) - 1);  //-1 is padding, no drawing takes place there
   setMaximumWidth(MAX_COLUMNS * (WIDTH + 1) - 1);
 
   // mxcl says null pixmaps cause crashes, so let's play it safe
@@ -54,7 +59,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget* parent)
 
 BlockAnalyzer::~BlockAnalyzer() {}
 
-void BlockAnalyzer::resizeEvent(QResizeEvent* e) {
+void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   QWidget::resizeEvent(e);
 
   m_background = QPixmap(size());
@@ -96,8 +101,7 @@ void BlockAnalyzer::resizeEvent(QResizeEvent* e) {
 }
 
 void BlockAnalyzer::determineStep() {
-  // falltime is dependent on rowcount due to our digital resolution (ie we have
-  // boxes/blocks of pixels)
+  // falltime is dependent on rowcount due to our digital resolution (ie we have boxes/blocks of pixels)
   // I calculated the value 30 based on some trial and error
 
   // the fall time of 30 is too slow on framerates above 50fps
@@ -119,10 +123,7 @@ void BlockAnalyzer::transform(Analyzer::Scope& s)  // pure virtual
   m_fht->spectrum(front);
   m_fht->scale(front, 1.0 / 20);
 
-  // the second half is pretty dull, so only show it if the user has a large
-  // analyzer
-  // by setting to m_scope.size() if large we prevent interpolation of large
-  // analyzers, this is good!
+  // the second half is pretty dull, so only show it if the user has a large analyzer by setting to m_scope.size() if large we prevent interpolation of large analyzers, this is good!
   s.resize(m_scope.size() <= MAX_COLUMNS / 2 ? MAX_COLUMNS / 2 : m_scope.size());
 }
 
@@ -158,15 +159,13 @@ void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
     for (y = 0; m_scope[x] < m_yscale[y]; ++y)
       ;
 
-    // this is opposite to what you'd think, higher than y
-    // means the bar is lower than y (physically)
+    // this is opposite to what you'd think, higher than y means the bar is lower than y (physically)
     if ((float)y > m_store[x])
       y = int(m_store[x] += m_step);
     else
       m_store[x] = y;
 
-    // if y is lower than m_fade_pos, then the bar has exceeded the height of
-    // the fadeout
+    // if y is lower than m_fade_pos, then the bar has exceeded the height of the fadeout
     // if the fadeout is quite faded now, then display the new one
     if (y <= m_fade_pos[x] /*|| m_fade_intensity[x] < FADE_SIZE / 3*/) {
       m_fade_pos[x] = y;
@@ -181,8 +180,7 @@ void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
 
     if (m_fade_intensity[x] == 0) m_fade_pos[x] = m_rows;
 
-    // REMEMBER: y is a number from 0 to m_rows, 0 means all blocks are glowing,
-    // m_rows means none are
+    // REMEMBER: y is a number from 0 to m_rows, 0 means all blocks are glowing, m_rows means none are
     canvas_painter.drawPixmap(x * (WIDTH + 1), y * (HEIGHT + 1) + m_y, *bar(),
                               0, y * (HEIGHT + 1), bar()->width(),
                               bar()->height());
@@ -195,8 +193,7 @@ void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
 }
 
 static inline void adjustToLimits(int& b, int& f, uint& amount) {
-  // with a range of 0-255 and maximum adjustment of amount,
-  // maximise the difference between f and b
+  // with a range of 0-255 and maximum adjustment of amount, maximise the difference between f and b
 
   if (b < f) {
     if (b > 255 - f) {

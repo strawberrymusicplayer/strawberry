@@ -23,20 +23,29 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QStandardItem>
+#include <QStandardItemModel>
+#include <QMap>
+#include <QString>
+#include <QImage>
 #include <QIcon>
+#include <QPainter>
+#include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QtEvents>
 
-#include "covermanager/albumcoverfetcher.h"
-#include "covermanager/albumcoverloaderoptions.h"
-
-class AlbumCoverLoader;
-class Application;
-class Ui_AlbumCoverSearcher;
+#include "albumcoverfetcher.h"
+#include "albumcoverloaderoptions.h"
 
 class QModelIndex;
-class QStandardItem;
-class QStandardItemModel;
+
+class Application;
+class Ui_AlbumCoverSearcher;
 
 class SizeOverlayDelegate : public QStyledItemDelegate {
 public:

@@ -20,23 +20,39 @@
 
 #include "config.h"
 
-#include <QContextMenuEvent>
-#include <QInputDialog>
+#include <QObject>
+#include <QWidget>
+#include <QAction>
+#include <QList>
+#include <QSet>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
 #include <QMenu>
-#include <QMessageBox>
+#include <QPixmap>
 #include <QPainter>
-#include <QSortFilterProxyModel>
+#include <QIcon>
+#include <QSize>
 #include <QStandardItemModel>
+#include <QAbstractItemModel>
+#include <QItemSelectionModel>
+#include <QPersistentModelIndex>
+#include <QSortFilterProxyModel>
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QToolButton>
+#include <QtEvents>
 
+#include "core/application.h"
+#include "core/iconloader.h"
+#include "core/player.h"
 #include "playlist.h"
+#include "playlistbackend.h"
+#include "playlistlistview.h"
 #include "playlistlistcontainer.h"
 #include "playlistlistmodel.h"
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
-#include "core/application.h"
-#include "core/logging.h"
-#include "core/player.h"
-#include "core/iconloader.h"
 
 class PlaylistListSortFilterModel : public QSortFilterProxyModel {
 public:
@@ -50,8 +66,7 @@ public:
     if (ret < 0) return true;
     if (ret > 0) return false;
 
-    // Now use the source model row order to ensure we always get a
-    // deterministic sorting even when two items are named the same.
+    // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
     return left.row() < right.row();
   }
 };
@@ -152,7 +167,7 @@ void PlaylistListContainer::SetApplication(Application *app) {
   connect(manager, SIGNAL(CurrentChanged(Playlist*)), SLOT(CurrentChanged(Playlist*)));
   connect(manager, SIGNAL(ActiveChanged(Playlist*)), SLOT(ActiveChanged(Playlist*)));
 
-  connect(model_, SIGNAL(PlaylistRenamed(int,QString)), manager, SLOT(Rename(int,QString)));
+  connect(model_, SIGNAL(PlaylistRenamed(int, QString)), manager, SLOT(Rename(int, QString)));
 
   connect(player, SIGNAL(Paused()), SLOT(ActivePaused()));
   connect(player, SIGNAL(Playing()), SLOT(ActivePlaying()));
@@ -187,8 +202,7 @@ void PlaylistListContainer::AddPlaylist(int id, const QString &name, bool favori
   }
 
   if (model_->PlaylistById(id)) {
-    // We know about this playlist already - it was probably one of the open
-    // ones that was loaded on startup.
+    // We know about this playlist already - it was probably one of the open ones that was loaded on startup.
     return;
   }
 

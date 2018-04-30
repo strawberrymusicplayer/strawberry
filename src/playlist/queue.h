@@ -23,9 +23,16 @@
 
 #include "config.h"
 
-#include "playlist.h"
+#include <stdbool.h>
 
+#include <QObject>
+#include <QAbstractItemModel>
 #include <QAbstractProxyModel>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QMimeData>
 
 class Queue : public QAbstractProxyModel {
   Q_OBJECT

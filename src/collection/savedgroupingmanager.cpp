@@ -18,18 +18,32 @@
  * 
  */
 
-#include "config.h"
+#include <stdbool.h>
 
+#include <QDialog>
+#include <QWidget>
+#include <QStandardItemModel>
+#include <QItemSelectionModel>
+#include <QAbstractItemModel>
+#include <QIODevice>
+#include <QDataStream>
+#include <QByteArray>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QKeySequence>
+#include <QPushButton>
+#include <QTreeView>
+#include <QSettings>
+#include <QtDebug>
+
+#include "core/logging.h"
 #include "core/iconloader.h"
 #include "collectionfilterwidget.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
-
-#include <QKeySequence>
-#include <QList>
-#include <QSettings>
-#include <QStandardItem>
 
 SavedGroupingManager::SavedGroupingManager(QWidget *parent)
     : QDialog(parent),
@@ -58,6 +72,7 @@ SavedGroupingManager::~SavedGroupingManager() {
 }
 
 QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g) {
+
   switch (g) {
     case CollectionModel::GroupBy_None: {
       return tr("None");
@@ -137,8 +152,7 @@ void SavedGroupingManager::Remove() {
   if (ui_->list->selectionModel()->hasSelection()) {
     QSettings s;
     s.beginGroup(CollectionModel::kSavedGroupingsSettingsGroup);
-    for (const QModelIndex &index :
-         ui_->list->selectionModel()->selectedRows()) {
+    for (const QModelIndex &index : ui_->list->selectionModel()->selectedRows()) {
       if (index.isValid()) {
         qLog(Debug) << "Remove saved grouping: " << model_->item(index.row(), 0)->text();
         s.remove(model_->item(index.row(), 0)->text());

@@ -18,32 +18,37 @@
 #ifndef WORKERPOOL_H
 #define WORKERPOOL_H
 
-#include <QAtomicInt>
-#include <QCoreApplication>
-#include <QFile>
-#include <QLocalServer>
-#include <QLocalSocket>
-#include <QMutex>
+#include <stddef.h>
+
+#include <QtGlobal>
 #include <QObject>
+#include <QCoreApplication>
+#include <QThread>
+#include <QMutex>
 #include <QProcess>
 #include <QQueue>
-#include <QThread>
+#include <QFile>
+#include <QList>
+#include <QLocalServer>
+#include <QLocalSocket>
+#include <QString>
+#include <QStringList>
+#include <QAtomicInt>
 
-#include "core/closure.h"
 #include "core/logging.h"
 
+class QLocalSocket;
 
-// Base class containing signals and slots - required because moc doesn't do
-// templated objects.
+
+// Base class containing signals and slots - required because moc doesn't do templated objects.
 class _WorkerPoolBase : public QObject {
   Q_OBJECT
 
  public:
-  _WorkerPoolBase(QObject* parent = nullptr);
+  _WorkerPoolBase(QObject *parent = nullptr);
 
 signals:
-  // Emitted when a worker failed to start.  This usually happens when the
-  // worker wasn't found, or couldn't be executed.
+  // Emitted when a worker failed to start.  This usually happens when the worker wasn't found, or couldn't be executed.
   void WorkerFailedToStart();
 
 protected slots:
@@ -54,45 +59,41 @@ protected slots:
 };
 
 
-// Manages a pool of one or more external processes.  A local socket server is
-// started for each process, and the address is passed to the process as
-// argv[1].  The process is expected to connect back to the socket server, and
-// when it does a HandlerType is created for it.
+// Manages a pool of one or more external processes.
+// A local socket server is started for each process, and the address is passed to the process as argv[1].
+// The process is expected to connect back to the socket server, and when it does a HandlerType is created for it.
 // Instances of HandlerType are created in the WorkerPool's thread.
 template <typename HandlerType>
 class WorkerPool : public _WorkerPoolBase {
  public:
-  WorkerPool(QObject* parent = nullptr);
+  WorkerPool(QObject *parent = nullptr);
   ~WorkerPool();
 
   typedef typename HandlerType::MessageType MessageType;
   typedef typename HandlerType::ReplyType ReplyType;
 
-  // Sets the name of the worker executable.  This is looked for first in the
-  // current directory, and then in $PATH.  You must call this before calling
-  // Start().
-  void SetExecutableName(const QString& executable_name);
+  // Sets the name of the worker executable.  This is looked for first in the current directory, and then in $PATH.
+  // You must call this before calling Start().
+  void SetExecutableName(const QString &executable_name);
 
-  // Sets the number of worker process to use.  Defaults to
-  // 1 <= (processors / 2) <= 2.
+  // Sets the number of worker process to use.  Defaults to 1 <= (processors / 2) <= 2.
   void SetWorkerCount(int count);
 
-  // Sets the prefix to use for the local server (on unix this is a named pipe
-  // in /tmp).  Defaults to QApplication::applicationName().  A random number
-  // is appended to this name when creating each server.
-  void SetLocalServerName(const QString& local_server_name);
+  // Sets the prefix to use for the local server (on unix this is a named pipe in /tmp).
+  // Defaults to QApplication::applicationName().
+  // A random number is appended to this name when creating each server.
+  void SetLocalServerName(const QString &local_server_name);
 
   // Starts all workers.
   void Start();
 
-  // Fills in the message's "id" field and creates a reply future.  The message
-  // is queued and the WorkerPool's thread will send it to the next available
-  // worker.  Can be called from any thread.
-  ReplyType* SendMessageWithReply(MessageType* message);
+  // Fills in the message's "id" field and creates a reply future.
+  // The message is queued and the WorkerPool's thread will send it to the next available worker.
+  // Can be called from any thread.
+  ReplyType *SendMessageWithReply(MessageType *message);
 
 protected:
-  // These are all reimplemented slots, they are called on the WorkerPool's
-  // thread.
+  // These are all reimplemented slots, they are called on the WorkerPool's thread.
   void DoStart();
   void NewConnection();
   void ProcessError(QProcess::ProcessError error);
@@ -105,14 +106,14 @@ private:
     QLocalServer *local_server_;
     QLocalSocket *local_socket_;
     QProcess *process_;
-    HandlerType* handler_;
+    HandlerType *handler_;
   };
 
   // Must only ever be called on my thread.
-  void StartOneWorker(Worker* worker);
+  void StartOneWorker(Worker *worker);
 
   template <typename T>
-  Worker* FindWorker(T Worker::*member, T value) {
+  Worker *FindWorker(T Worker::*member, T value) {
     for (typename QList<Worker>::iterator it = workers_.begin() ;
          it != workers_.end() ; ++it) {
       if ((*it).*member == value) {
@@ -123,7 +124,7 @@ private:
   }
 
   template <typename T>
-  void DeleteQObjectPointerLater(T** p) {
+  void DeleteQObjectPointerLater(T **p) {
     if (*p) {
       (*p)->deleteLater();
       *p = NULL;
@@ -131,13 +132,11 @@ private:
   }
 
   // Creates a new reply future for the request with the next sequential ID,
-  // and sets the request's ID to the ID of the reply.  Can be called from any
-  // thread
-  ReplyType* NewReply(MessageType* message);
+  // and sets the request's ID to the ID of the reply.  Can be called from any thread
+  ReplyType *NewReply(MessageType *message);
 
-  // Returns the next handler, or NULL if there isn't one.  Must be called from
-  // my thread.
-  HandlerType* NextHandler() const;
+  // Returns the next handler, or NULL if there isn't one.  Must be called from my thread.
+  HandlerType *NextHandler() const;
 
 private:
   QString local_server_name_;
@@ -156,7 +155,7 @@ private:
 
 
 template <typename HandlerType>
-WorkerPool<HandlerType>::WorkerPool(QObject* parent)
+WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   : _WorkerPoolBase(parent),
     next_worker_(0),
     next_id_(0)
@@ -170,7 +169,7 @@ WorkerPool<HandlerType>::WorkerPool(QObject* parent)
 
 template <typename HandlerType>
 WorkerPool<HandlerType>::~WorkerPool() {
-  for (const Worker& worker : workers_) {
+  for (const Worker &worker : workers_) {
     if (worker.local_socket_ && worker.process_) {
       disconnect(worker.process_, SIGNAL(error(QProcess::ProcessError)), this, SLOT(ProcessError(QProcess::ProcessError)));
 
@@ -190,7 +189,7 @@ WorkerPool<HandlerType>::~WorkerPool() {
     }
   }
 
-  for (ReplyType* reply : message_queue_) {
+  for (ReplyType *reply : message_queue_) {
     reply->Abort();
   }
 }
@@ -202,13 +201,13 @@ void WorkerPool<HandlerType>::SetWorkerCount(int count) {
 }
 
 template <typename HandlerType>
-void WorkerPool<HandlerType>::SetLocalServerName(const QString& local_server_name) {
+void WorkerPool<HandlerType>::SetLocalServerName(const QString &local_server_name) {
   Q_ASSERT(workers_.isEmpty());
   local_server_name_ = local_server_name;
 }
 
 template <typename HandlerType>
-void WorkerPool<HandlerType>::SetExecutableName(const QString& executable_name) {
+void WorkerPool<HandlerType>::SetExecutableName(const QString &executable_name) {
   Q_ASSERT(workers_.isEmpty());
   executable_name_ = executable_name;
 }
@@ -233,7 +232,7 @@ void WorkerPool<HandlerType>::DoStart() {
   search_path << qApp->applicationDirPath() + "/../PlugIns";
 #endif
 
-  for (const QString& path_prefix : search_path) {
+  for (const QString &path_prefix : search_path) {
     const QString executable_path = path_prefix + "/" + executable_name_;
     if (QFile::exists(executable_path)) {
       executable_path_ = executable_path;
@@ -290,7 +289,7 @@ void WorkerPool<HandlerType>::NewConnection() {
   QLocalServer *server = qobject_cast<QLocalServer*>(sender());
 
   // Find the worker with this server.
-  Worker* worker = FindWorker(&Worker::local_server_, server);
+  Worker *worker = FindWorker(&Worker::local_server_, server);
   if (!worker) return;
 
   qLog(Debug) << "Worker" << worker << "connected to" << server->fullServerName();
@@ -322,9 +321,8 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
 
   switch (error) {
     case QProcess::FailedToStart:
-      // Failed to start errors are bad - it usually means the worker isn't
-      // installed.  Don't restart the process, but tell our owner, who will
-      // probably want to do something fatal.
+      // Failed to start errors are bad - it usually means the worker isn't installed.
+      // Don't restart the process, but tell our owner, who will probably want to do something fatal.
       qLog(Error) << "Worker failed to start";
       emit WorkerFailedToStart();
       break;
@@ -339,7 +337,7 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
 
 template <typename HandlerType>
 typename WorkerPool<HandlerType>::ReplyType*
-WorkerPool<HandlerType>::NewReply(MessageType* message) {
+WorkerPool<HandlerType>::NewReply(MessageType *message) {
   const int id = next_id_.fetchAndAddOrdered(1);
   message->set_id(id);
 
@@ -348,8 +346,8 @@ WorkerPool<HandlerType>::NewReply(MessageType* message) {
 
 template <typename HandlerType>
 typename WorkerPool<HandlerType>::ReplyType*
-WorkerPool<HandlerType>::SendMessageWithReply(MessageType* message) {
-  ReplyType* reply = NewReply(message);
+WorkerPool<HandlerType>::SendMessageWithReply(MessageType *message) {
+  ReplyType *reply = NewReply(message);
 
   // Add the pending reply to the queue
   {
@@ -371,7 +369,7 @@ void WorkerPool<HandlerType>::SendQueuedMessages() {
     ReplyType *reply = message_queue_.dequeue();
 
     // Find a worker for this message
-    HandlerType* handler = NextHandler();
+    HandlerType *handler = NextHandler();
     if (!handler) {
       // No available handlers - put the message on the front of the queue.
       message_queue_.prepend(reply);

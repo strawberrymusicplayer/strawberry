@@ -20,14 +20,23 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QCheckBox>
+#include <QSlider>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsvorbis.h"
 #include "ui_transcoderoptionsvorbis.h"
 
-#include <QSettings>
+const char *TranscoderOptionsVorbis::kSettingsGroup = "Transcoder/vorbisenc";
 
-const char* TranscoderOptionsVorbis::kSettingsGroup = "Transcoder/vorbisenc";
-
-TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget* parent)
+TranscoderOptionsVorbis::TranscoderOptionsVorbis(QWidget *parent)
     : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsVorbis) {
   ui_->setupUi(this);
 }

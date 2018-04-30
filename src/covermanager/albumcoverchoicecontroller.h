@@ -23,18 +23,25 @@
 
 #include "config.h"
 
-#include <QAction>
-#include <QList>
-#include <QMenu>
-#include <QWidget>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QString>
+#include <QImage>
+#include <QAction>
+#include <QFileDialog>
+#include <QtEvents>
+
+class Song;
+class Application;
 class AlbumCoverFetcher;
 class AlbumCoverSearcher;
-class Application;
 class CoverFromURLDialog;
-class QFileDialog;
-class Song;
-
 struct CoverSearchStatistics;
 
 // Controller for the common album cover related menu options.
@@ -70,23 +77,19 @@ class AlbumCoverChoiceController : public QWidget {
   // 5. showing the cover in original size
   QList<QAction*> GetAllActions();
 
-  // All of the methods below require a currently selected song as an
-  // input parameter. Also - LoadCoverFromFile, LoadCoverFromURL,
-  // SearchForCover, UnsetCover and SaveCover all update manual path
-  // of the given song in collection to the new cover.
+  // All of the methods below require a currently selected song as an input parameter.
+  // Also - LoadCoverFromFile, LoadCoverFromURL, SearchForCover, UnsetCover and SaveCover all update manual path of the given song in collection to the new cover.
 
-  // Lets the user choose a cover from disk. If no cover will be chosen or the chosen
-  // cover will not be a proper image, this returns an empty string. Otherwise, the
-  // path to the chosen cover will be returned.
+  // Lets the user choose a cover from disk. If no cover will be chosen or the chosen cover will not be a proper image, this returns an empty string.
+  // Otherwise, the path to the chosen cover will be returned.
   QString LoadCoverFromFile(Song *song);
 
-  // Shows a dialog that allows user to save the given image on disk. The image
-  // is supposed to be the cover of the given song's album.
+  // Shows a dialog that allows user to save the given image on disk.
+  // The image is supposed to be the cover of the given song's album.
   void SaveCoverToFile(const Song &song, const QImage &image);
 
-  // Downloads the cover from an URL given by user. This returns the downloaded image
-  // or null image if something went wrong for example when user cancelled the
-  // dialog.
+  // Downloads the cover from an URL given by user.
+  // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
   QString LoadCoverFromURL(Song *song);
 
   // Lets the user choose a cover among all that have been found on last.fm.
@@ -108,8 +111,7 @@ class AlbumCoverChoiceController : public QWidget {
   // Saves the cover that the user picked through a drag and drop operation.
   QString SaveCover(Song *song, const QDropEvent *e);
 
-  // Saves the given image in cache as a cover for 'artist' - 'album'.
-  // The method returns path of the cached image.
+  // Saves the given image in cache as a cover for 'artist' - 'album'. The method returns path of the cached image.
   QString SaveCoverInCache(const QString &artist, const QString &album, const QImage &image);
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);

@@ -23,22 +23,22 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <boost/noncopyable.hpp>
 
-class QSqlDatabase;
+#include <QSqlDatabase>
 
 // Opens a transaction on a database.
-// Rolls back the transaction if the object goes out of scope before Commit()
-// is called.
+// Rolls back the transaction if the object goes out of scope before Commit() is called.
 class ScopedTransaction : boost::noncopyable {
  public:
-  ScopedTransaction(QSqlDatabase* db);
+  ScopedTransaction(QSqlDatabase *db);
   ~ScopedTransaction();
 
   void Commit();
 
  private:
-  QSqlDatabase* db_;
+  QSqlDatabase *db_;
   bool pending_;
 };
 

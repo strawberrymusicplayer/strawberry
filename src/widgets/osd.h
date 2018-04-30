@@ -24,25 +24,30 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QString>
 #include <QDateTime>
 #include <QImage>
-#include <QObject>
+#ifdef HAVE_DBUS
+#  include <QDBusArgument>
+#  include <QDBusPendingCall>
+#endif
 
-#include "engine/engine_fwd.h"
 #include "core/song.h"
+#include "engine/engine_fwd.h"
 #include "playlist/playlistsequence.h"
 
 class Application;
-class OrgFreedesktopNotificationsInterface;
 class OSDPretty;
+class OrgFreedesktopNotificationsInterface;
 class SystemTrayIcon;
 
 class QDBusPendingCallWatcher;
 
 #ifdef HAVE_DBUS
-#include <QDBusArgument>
-
   QDBusArgument& operator<< (QDBusArgument &arg, const QImage &image);
   const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
 #endif

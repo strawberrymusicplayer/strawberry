@@ -20,16 +20,22 @@
 
 #include "config.h"
 
-#include "albumcovermanagerlist.h"
-
 #include <memory>
 
-#include <QDropEvent>
+#include <QWidget>
+#include <QList>
+#include <QListView>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QMimeData>
 #include <QUrl>
+#include <QDropEvent>
 
-#include "albumcovermanager.h"
+#include "core/song.h"
 #include "collection/collectionbackend.h"
 #include "playlist/songmimedata.h"
+#include "albumcovermanager.h"
+#include "albumcovermanagerlist.h"
 
 AlbumCoverManagerList::AlbumCoverManagerList(QWidget *parent) : QListWidget(parent), manager_(nullptr) {}
 
@@ -62,9 +68,8 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> items) 
 
 void AlbumCoverManagerList::dropEvent(QDropEvent *e) {
 
-  // Set movement to Static just for this dropEvent so the user can't move the
-  // album covers.  If it's set to Static all the time then the user can't even
-  // drag to the playlist
+  // Set movement to Static just for this dropEvent so the user can't move the album covers.
+  // If it's set to Static all the time then the user can't even drag to the playlist
   QListWidget::Movement old_movement = movement();
   setMovement(QListWidget::Static);
   QListWidget::dropEvent(e);

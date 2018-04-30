@@ -20,12 +20,30 @@
 #ifndef ANALYZERCONTAINER_H
 #define ANALYZERCONTAINER_H
 
-#include <QWidget>
-#include <QMenu>
-#include <QSignalMapper>
+#include "config.h"
 
-#include "analyzerbase.h"
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QPoint>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
+#include <QList>
+#include <QString>
+#include <QSignalMapper>
+#include <QTimer>
+#include <QtEvents>
+
 #include "engine/engine_fwd.h"
+
+class QMouseEvent;
+class QWheelEvent;
+
+namespace Analyzer {
+class Base;
+}  // namespace Analyzer
 
 class AnalyzerContainer : public QWidget {
   Q_OBJECT

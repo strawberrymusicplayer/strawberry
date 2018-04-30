@@ -39,14 +39,27 @@
 
 
 #include "qtlocalpeer.h"
-#include <QCoreApplication>
-#include <QTime>
-#include <QDataStream>
+
 #include <unistd.h>
 
+#include <QtGlobal>
+#include <QCoreApplication>
+#include <QObject>
+#include <QAbstractSocket>
+#include <QByteArray>
+#include <QChar>
+#include <QDataStream>
+#include <QDir>
+#include <QFile>
+#include <QIODevice>
+#include <QLocalServer>
+#include <QLocalSocket>
+#include <QRegExp>
+
 #if defined(Q_OS_WIN)
-#include <QLibrary>
 #include <qt_windows.h>
+#include <QLibrary>
+
 typedef BOOL(WINAPI*PProcessIdToSessionId)(DWORD,DWORD*);
 static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif

@@ -21,54 +21,71 @@
 #include "config.h"
 
 #include <memory>
+#include <functional>
+#include <stdbool.h>
 
 #include <QApplication>
+#include <QObject>
+#include <QMetaObject>
+#include <QThread>
+#include <QAbstractListModel>
+#include <QPersistentModelIndex>
+#include <QModelIndex>
 #include <QDir>
-#include <QIcon>
-#include <QMessageBox>
-#include <QPainter>
-#include <QPushButton>
-#include <QSortFilterProxyModel>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
 #include <QUrl>
+#include <QPixmap>
+#include <QIcon>
+#include <QPainter>
+#include <QJsonArray>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QtDebug>
 
 #include "devicemanager.h"
 
-#include "devicedatabasebackend.h"
-#include "devicekitlister.h"
-#include "devicestatefiltermodel.h"
-#include "filesystemdevice.h"
 #include "core/application.h"
 #include "core/concurrentrun.h"
 #include "core/database.h"
+#include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/musicstorage.h"
 #include "core/taskmanager.h"
 #include "core/utilities.h"
-#include "core/iconloader.h"
+#include "filesystemdevice.h"
+#include "connecteddevice.h"
+#include "devicelister.h"
+#include "devicedatabasebackend.h"
+#include "devicekitlister.h"
+#include "devicestatefiltermodel.h"
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-#include "cddalister.h"
-#include "cddadevice.h"
+#  include "cddalister.h"
+#  include "cddadevice.h"
 #endif
 
 #if defined(Q_OS_DARWIN) and defined(HAVE_LIBMTP)
-#include "macdevicelister.h"
+#  include "macdevicelister.h"
 #endif
 #ifdef HAVE_LIBGPOD
-#include "gpoddevice.h"
+#  include "gpoddevice.h"
 #endif
 #ifdef HAVE_GIO
-#include "giolister.h"
+#  include "giolister.h"
 #endif
 #ifdef HAVE_IMOBILEDEVICE
 #  include "afcdevice.h"
 #  include "ilister.h"
 #endif
 #ifdef HAVE_LIBMTP
-#include "mtpdevice.h"
+#  include "mtpdevice.h"
 #endif
 #ifdef HAVE_UDISKS2
-#include "udisks2lister.h"
+#  include "udisks2lister.h"
 #endif
 
 using std::bind;
@@ -195,8 +212,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   backend_->moveToThread(app_->database()->thread());
   backend_->Init(app_->database());
 
-  // This reads from the database and contends on the database mutex, which can
-  // be very slow on startup.
+  // This reads from the database and contends on the database mutex, which can be very slow on startup.
   ConcurrentRun::Run<void>(&thread_pool_, bind(&DeviceManager::LoadAllDevices, this));
 
   // This proxy model only shows connected devices
@@ -445,8 +461,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       DeviceInfo &info = devices_[i];
       info.backends_ << DeviceInfo::Backend(lister, id);
 
-      // If the user hasn't saved the device in the DB yet then overwrite the
-      // device's name and icon etc.
+      // If the user hasn't saved the device in the DB yet then overwrite the device's name and icon etc.
       if (info.database_id_ == -1 && info.BestBackend()->lister_ == lister) {
         info.friendly_name_ = lister->MakeFriendlyName(id);
         info.size_ = lister->DeviceCapacity(id);
@@ -578,9 +593,8 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
       break;
     }
 
-    // If we get here it means that this URL scheme wasn't supported.  If it
-    // was "ipod" or "mtp" then the user compiled out support and the device
-    // won't work properly.
+    // If we get here it means that this URL scheme wasn't supported.
+    // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
     if (url.scheme() == "mtp" || url.scheme() == "gphoto2") {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + "  " +
@@ -636,8 +650,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(int row)
-    const {
+std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(int row) const {
   return devices_[row].device_;
 }
 
@@ -686,8 +699,7 @@ void DeviceManager::Forget(int row) {
     endRemoveRows();
   }
   else {
-    // It's still attached, set the name and icon back to what they were
-    // originally
+    // It's still attached, set the name and icon back to what they were originally
     const QString id = info.BestBackend()->unique_id_;
 
     info.friendly_name_ = info.BestBackend()->lister_->MakeFriendlyName(id);

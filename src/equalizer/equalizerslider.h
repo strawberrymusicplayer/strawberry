@@ -23,7 +23,9 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
+#include <QString>
 
 class Ui_EqualizerSlider;
 

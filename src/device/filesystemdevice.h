@@ -23,11 +23,21 @@
 
 #include "config.h"
 
-#include "connecteddevice.h"
-#include "core/filesystemmusicstorage.h"
+#include <stdbool.h>
 
-class DeviceManager;
+#include <QObject>
+#include <QThread>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+
+#include "core/filesystemmusicstorage.h"
+#include "connecteddevice.h"
+
+class Application;
 class CollectionWatcher;
+class DeviceLister;
+class DeviceManager;
 
 class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicStorage {
   Q_OBJECT

@@ -20,6 +20,11 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QMutex>
+#include <QList>
+#include <QString>
+
 #include "taskmanager.h"
 
 TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {}

@@ -23,16 +23,36 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QFuture>
 #include <QCompleter>
+#include <QLocale>
+#include <QVariant>
+#include <QUrl>
+#include <QPixmap>
 #include <QPixmapCache>
+#include <QPainter>
+#include <QRect>
+#include <QColor>
+#include <QSize>
+#include <QFont>
+#include <QString>
 #include <QStringListModel>
+#include <QModelIndex>
+#include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <QAbstractItemView>
+#include <QStyleOptionViewItem>
+#include <QHelpEvent>
+#include <QLineEdit>
 #include <QTreeView>
 
 #include "playlist.h"
-#include "collection/collection.h"
-#include "widgets/ratingwidget.h"
 
+class CollectionBackend;
 class Player;
 
 class QueuedItemDelegate : public QStyledItemDelegate {
@@ -142,8 +162,7 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
  public:
   TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
 
-  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-      const QModelIndex &index) const;
+  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  private:
   CollectionBackend *backend_;

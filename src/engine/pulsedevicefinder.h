@@ -23,14 +23,14 @@
 
 #include "config.h"
 
-#include <QMutex>
-#include <QList>
-
+#include <stdbool.h>
 #include <pulse/context.h>
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>
 
-#include "engine/devicefinder.h"
+#include <QList>
+
+#include "devicefinder.h"
 
 class PulseDeviceFinder : public DeviceFinder {
  public:

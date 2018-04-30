@@ -24,25 +24,32 @@
 #include "config.h"
 
 #include <memory>
-
+#include <stdbool.h>
+#include <glib.h>
+#include <glib-object.h>
+#include <glib/gtypes.h>
 #include <gst/gst.h>
 
-#include <QBasicTimer>
-#include <QFuture>
-#include <QMutex>
+#include <QtGlobal>
 #include <QObject>
+#include <QMutex>
 #include <QThreadPool>
+#include <QFuture>
 #include <QTimeLine>
+#include <QBasicTimer>
 #include <QByteArray>
+#include <QList>
 #include <QVariant>
+#include <QString>
+#include <QTimerEvent>
 
-#include "engine_fwd.h"
-
-class GstElementDeleter;
 class GstEngine;
-class BufferConsumer;
+class GstBufferConsumer;
+class GstElementDeleter;
 
-struct GstQueue;
+namespace Engine {
+struct SimpleMetaBundle;
+}  // namespace Engine
 struct GstPlayBin;
 
 class GstEnginePipeline : public QObject {
@@ -66,9 +73,9 @@ class GstEnginePipeline : public QObject {
   bool InitFromUrl(const QByteArray &url, qint64 end_nanosec);
   bool InitFromString(const QString &pipeline);
 
-  // BufferConsumers get fed audio data.  Thread-safe.
-  void AddBufferConsumer(BufferConsumer *consumer);
-  void RemoveBufferConsumer(BufferConsumer *consumer);
+  // GstBufferConsumers get fed audio data.  Thread-safe.
+  void AddBufferConsumer(GstBufferConsumer *consumer);
+  void RemoveBufferConsumer(GstBufferConsumer *consumer);
   void RemoveAllBufferConsumers();
 
   // Control the music playback
@@ -176,7 +183,7 @@ signals:
   QVariant device_;
 
   // These get called when there is a new audio buffer available
-  QList<BufferConsumer*> buffer_consumers_;
+  QList<GstBufferConsumer*> buffer_consumers_;
   QMutex buffer_consumers_mutex_;
   qint64 segment_start_;
   bool segment_start_received_;

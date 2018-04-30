@@ -20,7 +20,15 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QDialog>
+#include <QtAlgorithms>
+#include <QIcon>
+#include <QStyle>
+#include <QStringList>
 #include <QUrl>
+#include <QLabel>
+#include <QListWidget>
 
 #include "organiseerrordialog.h"
 #include "ui_organiseerrordialog.h"

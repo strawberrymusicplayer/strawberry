@@ -20,10 +20,16 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QSlider>
+#include <QSettings>
+
+#include "transcoder/transcoderoptionsinterface.h"
 #include "transcoderoptionswma.h"
 #include "ui_transcoderoptionswma.h"
-
-#include <QSettings>
 
 const char *TranscoderOptionsWma::kSettingsGroup = "Transcoder/ffenc_wmav2";
 

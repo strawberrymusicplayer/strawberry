@@ -30,16 +30,14 @@
 #ifndef STYLEHELPER_H
 #define STYLEHELPER_H
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QIcon>
+#include <QPainter>
 #include <QColor>
-#include <QStyle>
-
-#include "core/qt_blurimage.h"
-
-QT_BEGIN_NAMESPACE
-class QPalette;
-class QPainter;
-class QRect;
-QT_END_NAMESPACE
+#include <QPoint>
+#include <QRect>
 
 // Helper class holding all custom color values
 
@@ -70,9 +68,7 @@ public:
     static void verticalGradient(QPainter *painter, const QRect &spanRect, const QRect &clipRect, bool lightColored = false);
     static bool usePixmapCache() { return true; }
 
-    static void drawIconWithShadow(const QIcon &icon, const QRect &rect, QPainter *p, QIcon::Mode iconMode,
-                                   int radius = 3, const QColor &color = QColor(0, 0, 0, 130),
-                                   const QPoint &offset = QPoint(1, -2));
+    static void drawIconWithShadow(const QIcon &icon, const QRect &rect, QPainter *p, QIcon::Mode iconMode, int radius = 3, const QColor &color = QColor(0, 0, 0, 130), const QPoint &offset = QPoint(1, -2));
 
 private:
     static QColor m_baseColor;

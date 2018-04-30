@@ -15,12 +15,15 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "fmpsparser.h"
+#include "config.h"
 
 #include <functional>
 
-#include <QStringList>
-#include <QtDebug>
+#include <QList>
+#include <QVariant>
+#include <QString>
+
+#include "fmpsparser.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -114,8 +117,7 @@ int FMPSParser::ParseListListRef(const QStringRef &data, Result *ret) const {
   return ParseContainer<';'>(data, std::bind(&FMPSParser::ParseListRef, this, _1, _2), ret);
 }
 
-// Convenience functions that take QStrings instead of QStringRefs.  Use the
-// QStringRef versions if possible, they're faster.
+// Convenience functions that take QStrings instead of QStringRefs.  Use the QStringRef versions if possible, they're faster.
 int FMPSParser::ParseValue(const QString &data, QVariant *ret) const {
   return ParseValueRef(QStringRef(&data), ret);
 }

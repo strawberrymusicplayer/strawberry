@@ -18,23 +18,33 @@
  * 
  */
 
-#include "player.h"
-
 #include "config.h"
+
+#include "player.h"
 
 #include <memory>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QSortFilterProxyModel>
+#include <QList>
+#include <QMap>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QDateTime>
+#include <QSettings>
 #include <QtDebug>
-#include <QtConcurrentRun>
 
-#include "core/application.h"
 #include "core/logging.h"
-#include "core/urlhandler.h"
-#include "core/timeconstants.h"
-#include "engine/enginetype.h"
+
+#include "song.h"
+#include "timeconstants.h"
+#include "urlhandler.h"
+#include "application.h"
+
 #include "engine/enginebase.h"
-#include "engine/enginedevice.h"
+#include "engine/enginetype.h"
 
 #ifdef HAVE_GSTREAMER
 #  include "engine/gstengine.h"
@@ -53,10 +63,9 @@
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
-
-#include "analyzer/analyzercontainer.h"
+#include "playlist/playlistsequence.h"
 #include "equalizer/equalizer.h"
-
+#include "analyzer/analyzercontainer.h"
 #include "settings/backendsettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
@@ -76,8 +85,6 @@ Player::Player(Application *app, QObject *parent)
     menu_previousmode_(PreviousBehaviour_DontRestart),
     seek_step_sec_(10)
   {
-      
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
@@ -101,8 +108,6 @@ Player::Player(Application *app, QObject *parent)
 Player::~Player() {}
 
 EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   bool engine = false;
   EngineBase *enginebase = nullptr;
@@ -170,8 +175,6 @@ EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
 
 void Player::Init() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   connect(engine_.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
   connect(engine_.get(), SIGNAL(ValidSongRequested(QUrl)), SLOT(ValidSongRequested(QUrl)));
   connect(engine_.get(), SIGNAL(InvalidSongRequested(QUrl)), SLOT(InvalidSongRequested(QUrl)));
@@ -213,8 +216,6 @@ void Player::SetEqualizer(Equalizer *equalizer) {
 
 void Player::ReloadSettings() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QSettings s;
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
@@ -230,8 +231,6 @@ void Player::ReloadSettings() {
 }
 
 void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   // Might've been an async load, so check we're still on the same item
   shared_ptr<PlaylistItem> item = app_->playlist_manager()->active()->current_item();
@@ -254,8 +253,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.media_url_;
 
-      // If there was no length info in song's metadata, use the one provided by
-      // URL handler, if there is one
+      // If there was no length info in song's metadata, use the one provided by URL handler, if there is one
     if (item->Metadata().length_nanosec() <= 0 && result.length_nanosec_ != -1) {
         Song song = item->Metadata();
         song.set_length_nanosec(result.length_nanosec_);
@@ -281,8 +279,6 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 void Player::Next() { NextInternal(Engine::Manual); }
 
 void Player::NextInternal(Engine::TrackChangeFlags change) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (HandleStopAfter()) return;
 
@@ -303,8 +299,6 @@ void Player::NextInternal(Engine::TrackChangeFlags change) {
 }
 
 void Player::NextItem(Engine::TrackChangeFlags change) {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   Playlist *active_playlist = app_->playlist_manager()->active();
 
@@ -313,8 +307,7 @@ void Player::NextItem(Engine::TrackChangeFlags change) {
     const PlaylistSequence::RepeatMode repeat_mode = active_playlist->sequence()->repeat_mode();
     if (repeat_mode != PlaylistSequence::Repeat_Off) {
       if ((repeat_mode == PlaylistSequence::Repeat_Track && nb_errors_received_ >= 3) || (nb_errors_received_ >= app_->playlist_manager()->active()->proxy()->rowCount())) {
-        // We received too many "Error" state changes: probably looping over a
-        // playlist which contains only unavailable elements: stop now.
+        // We received too many "Error" state changes: probably looping over a playlist which contains only unavailable elements: stop now.
         nb_errors_received_ = 0;
         Stop();
         return;
@@ -338,12 +331,9 @@ void Player::NextItem(Engine::TrackChangeFlags change) {
 }
 
 bool Player::HandleStopAfter() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (app_->playlist_manager()->active()->stop_after_current()) {
-    // Find what the next track would've been, and mark that one as current
-    // so it plays next time the user presses Play.
+    // Find what the next track would've been, and mark that one as current so it plays next time the user presses Play.
     const int next_row = app_->playlist_manager()->active()->next_row();
     if (next_row != -1) {
       app_->playlist_manager()->active()->set_current_row(next_row, true);
@@ -358,8 +348,6 @@ bool Player::HandleStopAfter() {
 }
 
 void Player::TrackEnded() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (HandleStopAfter()) return;
 
@@ -371,8 +359,6 @@ void Player::TrackEnded() {
 }
 
 void Player::PlayPause() {
-  
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   switch (engine_->state()) {
     case Engine::Paused:
@@ -504,7 +490,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
 
   if (change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
-    const QUrl& url = current_item_->Url();
+    const QUrl &url = current_item_->Url();
     if (url_handlers_.contains(url.scheme())) {
       url_handlers_[url.scheme()]->TrackSkipped();
     }
@@ -541,8 +527,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
 }
 
 void Player::CurrentMetadataChanged(const Song &metadata) {
-  // those things might have changed (especially when a previously invalid
-  // song was reloaded) so we push the latest version into Engine
+  // those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
   engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
 
 }
@@ -551,8 +536,7 @@ void Player::SeekTo(int seconds) {
   
   const qint64 length_nanosec = engine_->length_nanosec();
 
-  // If the length is 0 then either there is no song playing, or the song isn't
-  // seekable.
+  // If the length is 0 then either there is no song playing, or the song isn't seekable.
   if (length_nanosec <= 0) {
     return;
   }
@@ -581,8 +565,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
 
   Engine::SimpleMetaBundle bundle_copy = bundle;
 
-  // Maybe the metadata is from icycast and has "Artist - Title" shoved
-  // together in the title field.
+  // Maybe the metadata is from icycast and has "Artist - Title" shoved together in the title field.
   const int dash_pos = bundle_copy.title.indexOf('-');
   if (dash_pos != -1 && bundle_copy.artist.isEmpty()) {
     // Split on " - " if it exists, otherwise split on "-".
@@ -654,10 +637,8 @@ void Player::TogglePrettyOSD() {
 
 void Player::TrackAboutToEnd() {
 
-  // If the current track was from a URL handler then it might have special
-  // behaviour to queue up a subsequent track.  We don't want to preload (and
-  // scrobble) the next item in the playlist if it's just going to be stopped
-  // again immediately after.
+  // If the current track was from a URL handler then it might have special behaviour to queue up a subsequent track.
+  // We don't want to preload (and scrobble) the next item in the playlist if it's just going to be stopped again immediately after.
   if (app_->playlist_manager()->active()->current_item()) {
     const QUrl url = app_->playlist_manager()->active()->current_item()->Url();
     if (url_handlers_.contains(url.scheme())) {
@@ -674,24 +655,20 @@ void Player::TrackAboutToEnd() {
   }
 
   if (engine_->is_autocrossfade_enabled()) {
-    // Crossfade is on, so just start playing the next track.  The current one
-    // will fade out, and the new one will fade in
+    // Crossfade is on, so just start playing the next track.  The current one will fade out, and the new one will fade in
 
-    // But, if there's no next track and we don't want to fade out, then do
-    // nothing and just let the track finish to completion.
+    // But, if there's no next track and we don't want to fade out, then do nothing and just let the track finish to completion.
     if (!engine_->is_fadeout_enabled() && !has_next_row) return;
 
-    // If the next track is on the same album (or same cue file), and the
-    // user doesn't want to crossfade between tracks on the same album, then
-    // don't do this automatic crossfading.
+    // If the next track is on the same album (or same cue file),
+    // and the user doesn't want to crossfade between tracks on the same album, then don't do this automatic crossfading.
     if (engine_->crossfade_same_album() || !has_next_row || !next_item || !current_item_->Metadata().IsOnSameAlbum(next_item->Metadata())) {
       TrackEnded();
       return;
     }
   }
 
-  // Crossfade is off, so start preloading the next track so we don't get a
-  // gap between songs.
+  // Crossfade is off, so start preloading the next track so we don't get a gap between songs.
   if (!has_next_row || !next_item) return;
 
   QUrl url = next_item->Url();
@@ -726,8 +703,8 @@ void Player::InvalidSongRequested(const QUrl &url) {
 
   // first send the notification to others...
   emit SongChangeRequestProcessed(url, false);
-  // ... and now when our listeners have completed their processing of the
-  // current item we can change the current item by skipping to the next song
+  // ... and now when our listeners have completed their processing of the current item we can change
+  // the current item by skipping to the next song
   //NextItem(Engine::Auto);
 
 }

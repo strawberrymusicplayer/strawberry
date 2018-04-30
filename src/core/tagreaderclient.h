@@ -23,15 +23,21 @@
 
 #include "config.h"
 
-#include "song.h"
-#include "tagreadermessages.pb.h"
+#include <stdbool.h>
+
+#include <QObject>
+#include <QList>
+#include <QString>
+#include <QImage>
+
 #include "core/messagehandler.h"
 #include "core/workerpool.h"
 
-#include <QStringList>
+#include "song.h"
+#include "tagreadermessages.pb.h"
 
-class QLocalServer;
-class QProcess;
+class Song;
+template <typename HandlerType> class WorkerPool;
 
 class TagReaderClient : public QObject {
   Q_OBJECT
@@ -51,9 +57,8 @@ class TagReaderClient : public QObject {
   ReplyType *IsMediaFile(const QString &filename);
   ReplyType *LoadEmbeddedArt(const QString &filename);
 
-  // Convenience functions that call the above functions and wait for a
-  // response.  These block the calling thread with a semaphore, and must NOT
-  // be called from the TagReaderClient's thread.
+  // Convenience functions that call the above functions and wait for a response.
+  // These block the calling thread with a semaphore, and must NOT be called from the TagReaderClient's thread.
   void ReadFileBlocking(const QString &filename, Song *song);
   bool SaveFileBlocking(const QString &filename, const Song &metadata);
   bool IsMediaFileBlocking(const QString &filename);

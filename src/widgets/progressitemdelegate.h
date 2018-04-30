@@ -23,7 +23,14 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QString>
+#include <QPainter>
+#include <QStyleOption>
 #include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+
+class QModelIndex;
 
 class ProgressItemDelegate : public QStyledItemDelegate {
   Q_OBJECT

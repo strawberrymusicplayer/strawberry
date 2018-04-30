@@ -5,12 +5,21 @@
 #ifndef BLOCKANALYZER_H
 #define BLOCKANALYZER_H
 
+#include <stdbool.h>
+#include <vector>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QPixmap>
+#include <QPainter>
+#include <QPalette>
+#include <QtEvents>
+
 #include "analyzerbase.h"
-#include <qcolor.h>
 
 class QResizeEvent;
-class QMouseEvent;
-class QPalette;
 
 /**
  * @author Max Howell

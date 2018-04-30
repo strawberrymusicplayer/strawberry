@@ -20,17 +20,26 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QCoreApplication>
-#include <QtDebug>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
+#include <QImage>
 #include <QSettings>
+#ifdef HAVE_DBUS
+#  include <QDBusPendingCall>
+#endif
 
 #include "osd.h"
+#include "osdpretty.h"
 
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/systemtrayicon.h"
 #include "covermanager/currentartloader.h"
-#include "osdpretty.h"
 
 #ifdef HAVE_DBUS
 # include "dbus/notification.h"
@@ -54,12 +63,13 @@ OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       preview_mode_(false),
       force_show_next_(false),
       ignore_next_stopped_(false),
-    pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup))
-{
-  connect(app_->current_art_loader(), SIGNAL(ThumbnailLoaded(Song,QString,QImage)), SLOT(AlbumArtLoaded(Song,QString,QImage)));
+    pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup)) {
+
+  connect(app_->current_art_loader(), SIGNAL(ThumbnailLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
 
   ReloadSettings();
   Init();
+
 }
 
 OSD::~OSD() {
@@ -179,9 +189,7 @@ void OSD::Stopped() {
 }
 
 void OSD::StopAfterToggle(bool stop) {
-  ShowMessage(
-      QCoreApplication::applicationName(),
-      tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
+  ShowMessage(QCoreApplication::applicationName(), tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
 }
 
 void OSD::PlaylistFinished() {

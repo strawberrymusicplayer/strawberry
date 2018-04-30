@@ -20,11 +20,17 @@
 
 #include "config.h"
 
-#include "stylesheetloader.h"
-#include "core/logging.h"
-
+#include <QObject>
+#include <QWidget>
+#include <QIODevice>
 #include <QFile>
-#include <QEvent>
+#include <QString>
+#include <QColor>
+#include <QPalette>
+#include <QtDebug>
+
+#include "core/logging.h"
+#include "stylesheetloader.h"
 
 StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent) {}
 

@@ -20,22 +20,45 @@
 
 #include "config.h"
 
-#include "deviceproperties.h"
-#include "ui_deviceproperties.h"
-
 #include <functional>
 #include <memory>
 
-#include <QFutureWatcher>
-#include <QScrollBar>
+#include <QtGlobal>
+#include <QWidget>
+#include <QDialog>
+#include <QModelIndex>
 #include <QtConcurrentRun>
+#include <QFuture>
+#include <QMetaType>
+#include <QMap>
+#include <QSize>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QJsonObject>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QScrollBar>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QTableWidgetItem>
+#include <QStackedWidget>
+#include <QTableWidget>
 
+#include "core/closure.h"
+#include "core/iconloader.h"
+#include "core/musicstorage.h"
+#include "widgets/freespacebar.h"
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
-#include "core/utilities.h"
-#include "core/iconloader.h"
+#include "deviceproperties.h"
 #include "transcoder/transcoder.h"
+#include "ui_deviceproperties.h"
 
 DeviceProperties::DeviceProperties(QWidget *parent)
     : QDialog(parent),
@@ -182,12 +205,10 @@ void DeviceProperties::UpdateFormats() {
 
   QString id = index_.data(DeviceManager::Role_UniqueId).toString();
   DeviceLister *lister = manager_->GetLister(index_.row());
-  std::shared_ptr<ConnectedDevice> device =
-      manager_->GetConnectedDevice(index_.row());
+  std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_.row());
 
   // Transcode mode
-  MusicStorage::TranscodeMode mode = MusicStorage::TranscodeMode(
-      index_.data(DeviceManager::Role_TranscodeMode).toInt());
+  MusicStorage::TranscodeMode mode = MusicStorage::TranscodeMode(index_.data(DeviceManager::Role_TranscodeMode).toInt());
   switch (mode) {
     case MusicStorage::Transcode_Always:
       ui_->transcode_all->setChecked(true);
@@ -288,8 +309,8 @@ void DeviceProperties::UpdateFormatsFinished(QFuture<bool> future) {
   // Set the format combobox item
   TranscoderPreset preset = Transcoder::PresetForFileType(Song::FileType(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
   if (preset.type_ == Song::Type_Unknown) {
-    // The user hasn't chosen a format for this device yet, so work our way down
-    // a list of some preferred formats, picking the first one that is supported
+    // The user hasn't chosen a format for this device yet,
+    // so work our way down a list of some preferred formats, picking the first one that is supported
     preset = Transcoder::PresetForFileType(Transcoder::PickBestFormat(supported_formats_));
   }
   ui_->transcode_format->setCurrentIndex(ui_->transcode_format->findText(preset.name_));

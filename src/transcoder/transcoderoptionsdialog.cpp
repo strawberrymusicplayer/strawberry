@@ -20,13 +20,21 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QDialog>
+#include <QString>
+#include <QStringBuilder>
+#include <QBoxLayout>
+#include <QLayout>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsaac.h"
 #include "transcoderoptionsdialog.h"
 #include "transcoderoptionsflac.h"
 #include "transcoderoptionsmp3.h"
+#include "transcoderoptionsopus.h"
 #include "transcoderoptionsspeex.h"
 #include "transcoderoptionsvorbis.h"
-#include "transcoderoptionsopus.h"
 #include "transcoderoptionswma.h"
 #include "ui_transcoderoptionsdialog.h"
 

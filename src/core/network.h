@@ -23,12 +23,26 @@
 
 #include "config.h"
 
-#include <QAbstractNetworkCache>
-#include <QMutex>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+#include <stdbool.h>
 
-class QNetworkDiskCache;
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QIODevice>
+#include <QMap>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkDiskCache>
+#include <QNetworkCacheMetaData>
+#include <QAbstractNetworkCache>
+#include <QtEvents>
+
+class QTimerEvent;
 
 class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
  public:

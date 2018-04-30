@@ -23,9 +23,14 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QString>
+#include <QMovie>
 #include <QLabel>
+#include <QtEvents>
 
-class QMovie;
+class QShowEvent;
+class QHideEvent;
 
 class BusyIndicator : public QWidget {
   Q_OBJECT

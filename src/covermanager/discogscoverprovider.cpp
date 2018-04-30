@@ -21,24 +21,32 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QByteArray>
-#include <QVariant>
-#include <QPair>
 #include <QList>
+#include <QPair>
+#include <QMap>
+#include <QSet>
+#include <QVariant>
 #include <QString>
+#include <QStringBuilder>
 #include <QStringList>
-#include <QNetworkReply>
-#include <QNetworkRequest>
+#include <QUrl>
 #include <QUrlQuery>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
-
-#include "discogscoverprovider.h"
+#include <QVector>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
+#include "coverprovider.h"
+#include "albumcoverfetcher.h"
+#include "discogscoverprovider.h"
 
 const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database/search";
 const char *DiscogsCoverProvider::kUrlReleases = "https://api.discogs.com/releases";

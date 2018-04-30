@@ -20,20 +20,43 @@
 
 #include "config.h"
 
-#include "albumcoversearcher.h"
-#include "ui_albumcoversearcher.h"
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QDialog>
+#include <QStandardItem>
+#include <QStandardItemModel>
+#include <QAbstractItemModel>
+#include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QSize>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QIcon>
+#include <QFont>
+#include <QFontMetrics>
+#include <QColor>
+#include <QRect>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QKeySequence>
+#include <QtEvents>
+
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/utilities.h"
-#include "covermanager/albumcoverfetcher.h"
-#include "covermanager/albumcoverloader.h"
+#include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
-
-#include <QKeyEvent>
-#include <QListWidgetItem>
-#include <QPainter>
-#include <QStandardItemModel>
+#include "3rdparty/qocoa/qsearchfield.h"
+#include "albumcoversearcher.h"
+#include "albumcoverfetcher.h"
+#include "albumcoverloader.h"
+#include "ui_albumcoversearcher.h"
 
 const int SizeOverlayDelegate::kMargin = 4;
 const int SizeOverlayDelegate::kPaddingX = 3;

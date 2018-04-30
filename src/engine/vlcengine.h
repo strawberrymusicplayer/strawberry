@@ -19,14 +19,21 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <boost/circular_buffer.hpp>
+#include <vlc/vlc.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QString>
+#include <QUrl>
+
+#include "engine_fwd.h"
 #include "enginebase.h"
 
-#include <vlc/vlc.h>
-#include <boost/circular_buffer.hpp>
+struct libvlc_event_t;
 
-#include <QMutex>
-
-class QTimer;
 class TaskManager;
 
 class VLCEngine : public Engine::Base {

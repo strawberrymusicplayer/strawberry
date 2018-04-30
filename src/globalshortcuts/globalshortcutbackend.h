@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <QString>
 #include <QObject>
 
 class GlobalShortcuts;
@@ -51,4 +53,3 @@ signals:
 };
 
 #endif  // GLOBALSHORTCUTBACKEND_H
-

@@ -20,14 +20,17 @@
 
 #include "config.h"
 
-#include <QMutexLocker>
+#include <QString>
+#include <QUrl>
 
-#include "core/logging.h"
-
-#include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
-
+#include "cddasongloader.h"
+#include "connecteddevice.h"
 #include "cddadevice.h"
+
+class Application;
+class DeviceLister;
+class DeviceManager;
 
 CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), cdda_song_loader_(url) {

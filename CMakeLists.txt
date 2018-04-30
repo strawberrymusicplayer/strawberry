@@ -96,21 +96,19 @@ pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
 pkg_check_modules(GSTREAMER_TAG gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
-#pkg_check_modules(GSTREAMER_QTGLIB Qt5GLib-2.0)
-#pkg_check_modules(GSTREAMER_QTGST Qt5GStreamer-1.0)
-#pkg_check_modules(GSTREAMER_QTGSTUI Qt5GStreamerUi-1.0)
-#pkg_check_modules(GSTREAMER_QTGSTUTILS Qt5GStreamerUtils-1.0)
 pkg_check_modules(LIBXINE libxine)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(PHONON phonon4qt5)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
-
 pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(LIBXML libxml-2.0)
 pkg_check_modules(TAGLIB REQUIRED taglib>=1.8)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
 pkg_check_modules(LIBGLU REQUIRED glu)
+pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
+pkg_check_modules(USBMUXD libusbmuxd)
+pkg_check_modules(PLIST libplist)
 
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 
@@ -178,10 +176,6 @@ include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
 include_directories(${GSTREAMER_BASE_INCLUDE_DIRS})
 include_directories(${GSTREAMER_TAG_INCLUDE_DIRS})
 include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
-#include_directories(${GSTREAMER_QTGLIB})
-#include_directories(${GSTREAMER_QTGST})
-#include_directories(${GSTREAMER_QTGSTUI})
-#include_directories(${GSTREAMER_QTGSTUTILS})
 
 if (WIN32)
   # RC compiler
@@ -194,8 +188,29 @@ add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
 
 # Optional bits
 if(WIN32)
-  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
+  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" ON)
 endif(WIN32)
+
+optional_component(GSTREAMER ON "Engine: GStreamer backend"
+  DEPENDS "gstreamer-1.0" GSTREAMER_FOUND
+  DEPENDS "gstreamer-base-1.0" GSTREAMER_BASE_FOUND
+  DEPENDS "gstreamer-app-1.0" GSTREAMER_APP_FOUND
+  DEPENDS "gstreamer-audio-1.0" GSTREAMER_AUDIO_FOUND
+  DEPENDS "gstreamer-tag-1.0" GSTREAMER_TAG_FOUND
+  DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
+)
+
+optional_component(XINE ON "Engine: Xine backend"
+  DEPENDS "libxine" LIBXINE_FOUND
+)
+
+optional_component(VLC ON "Engine: VLC backend"
+  DEPENDS "libvlc" LIBVLC_FOUND
+)
+
+optional_component(PHONON OFF "Engine: Phonon backend"
+  DEPENDS "phonon4qt5" PHONON4QT5_FOUND
+)
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" CDIO_FOUND
@@ -262,7 +277,7 @@ else(WIN32)
 endif(WIN32)
 
 # Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
-#list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
+list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
 # QSqlLiteDriver:
 # We do this because we can't guarantee that the driver shipped with Qt exposes the raw sqlite3 functions required for FTS support.
@@ -322,6 +337,10 @@ endif()
 
 # Qocoa
 add_subdirectory(3rdparty/qocoa)
+
+#if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
+  #add_subdirectory(ext/gstafc)
+#endif(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
 
 # Subdirectories
 add_subdirectory(src)

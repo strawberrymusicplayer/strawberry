@@ -22,14 +22,14 @@
 
 #include <cmath>
 
-#include <QApplication>
-#include <QEvent>
-#include <QWheelEvent>
+#include <QObject>
+#include <QPixmap>
 #include <QPainter>
-#include <QWidget>
-#include <QtDebug>
+#include <QPoint>
+#include <QPolygon>
+#include <QRect>
+#include <QVector>
 
-#include "macsystemtrayicon.h"
 #include "qtsystemtrayicon.h"
 #include "systemtrayicon.h"
 

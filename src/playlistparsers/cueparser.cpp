@@ -18,20 +18,26 @@
  * 
  */
 
-#include "config.h"
-
-#include "cueparser.h"
-#include "core/logging.h"
-#include "core/timeconstants.h"
-
-#include <QBuffer>
-#include <QDateTime>
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
 #include <QFileInfo>
-#include <QStringBuilder>
+#include <QDateTime>
+#include <QList>
+#include <QString>
+#include <QStringList>
 #include <QRegExp>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QtDebug>
+
+#include "core/logging.h"
+#include "core/timeconstants.h"
+#include "cueparser.h"
+#include "playlistparsers/parserbase.h"
+
+class CollectionBackendInterface;
 
 const char *CueParser::kFileLineRegExp = "(\\S+)\\s+(?:\"([^\"]+)\"|(\\S+))\\s*(?:\"([^\"]+)\"|(\\S+))?";
 const char *CueParser::kIndexRegExp = "(\\d{2,3}):(\\d{2}):(\\d{2})";
@@ -174,8 +180,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       if (line_name == kTrack) {
 
-        // the beginning of another track's definition - we're saving the current one
-        // for later (if it's valid of course)
+        // the beginning of another track's definition - we're saving the current one for later (if it's valid of course)
         // please note that the same code is repeated just after this 'do-while' loop
         if(valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
           entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, genre, date, disc));
@@ -191,11 +196,10 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
       else if (line_name == kIndex) {
 
-        // we need the index's position field
+        // We need the index's position field
         if (!line_additional.isEmpty()) {
 
-          // if there's none "01" index, we'll just take the first one
-          // also, we'll take the "01" index even if it's the last one
+          // If there's none "01" index, we'll just take the first one also, we'll take the "01" index even if it's the last one
           if (line_value == "01" || index.isEmpty()) {
 
             index = line_additional;
@@ -210,17 +214,18 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
       else if (line_name == kSongWriter) {
         composer = line_value;
-        // end of track's for the current file -> parse next one
+        // End of track's for the current file -> parse next one
       }
       else if (line_name == kFile) {
 
         break;
       }
 
-      // just ignore the rest of possible field types for now...
-    } while (!(line = text_stream.readLine()).isNull());
+      // Just ignore the rest of possible field types for now...
+    }
+    while (!(line = text_stream.readLine()).isNull());
 
-    // we didn't add the last song yet...
+    // We didn't add the last song yet...
     if(valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
       entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, genre, date, disc));
     }
@@ -228,28 +233,26 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   QDateTime cue_mtime = QFileInfo(playlist_path).lastModified();
 
-  // finalize parsing songs
+  // Finalize parsing songs
   for (int i = 0; i < entries.length(); i++) {
     CueEntry entry = entries.at(i);
 
     Song song = LoadSong(entry.file, IndexToMarker(entry.index), dir);
 
-    // cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
+    // Cue song has mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
     if (cue_mtime.isValid()) {
       song.set_mtime(qMax(cue_mtime.toTime_t(), song.mtime()));
     }
     song.set_cue_path(playlist_path);
 
-    // overwrite the stuff, we may have read from the file or collection, using
-    // the current .cue metadata
+    // Overwrite the stuff, we may have read from the file or collection, using the current .cue metadata
 
-    // set track number only in single-file mode
+    // Set track number only in single-file mode
     if (files == 1) {
       song.set_track(i + 1);
     }
 
-    // the last TRACK for every FILE gets it's 'end' marker from the media file's
-    // length
+    // The last TRACK for every FILE gets it's 'end' marker from the media file's length
     if(i + 1 < entries.size() && entries.at(i).file == entries.at(i + 1).file) {
       // incorrect indices?
       if (!UpdateSong(entry, entries.at(i + 1).index, &song)) {
@@ -277,24 +280,23 @@ QStringList CueParser::SplitCueLine(const QString &line) const {
     return QStringList();
   }
 
-  // let's remove the empty entries while we're at it
+  // Let's remove the empty entries while we're at it
   return line_regexp.capturedTexts().filter(QRegExp(".+")).mid(1, -1);
 
 }
 
-// Updates the song with data from the .cue entry. This one mustn't be used for the
-// last song in the .cue file.
+// Updates the song with data from the .cue entry. This one mustn't be used for the last song in the .cue file.
 bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Song *song) const {
 
   qint64 beginning = IndexToMarker(entry.index);
   qint64 end = IndexToMarker(next_index);
 
-  // incorrect indices (we won't be able to calculate beginning or end)
+  // Incorrect indices (we won't be able to calculate beginning or end)
   if (beginning == -1 || end == -1) {
     return false;
   }
 
-  // believe the CUE: Init() forces validity
+  // Believe the CUE: Init() forces validity
   song->Init(entry.title, entry.PrettyArtist(), entry.album, beginning, end);
   song->set_albumartist(entry.album_artist);
   song->set_composer(entry.PrettyComposer());
@@ -306,18 +308,17 @@ bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Son
 
 }
 
-// Updates the song with data from the .cue entry. This one must be used only for the
-// last song in the .cue file.
+// Updates the song with data from the .cue entry. This one must be used only for the last song in the .cue file.
 bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
 
   qint64 beginning = IndexToMarker(entry.index);
 
-  // incorrect index (we won't be able to calculate beginning)
+  // Incorrect index (we won't be able to calculate beginning)
   if (beginning == -1) {
     return false;
   }
 
-  // believe the CUE and force validity (like UpdateSong() does)
+  // Believe the CUE and force validity (like UpdateSong() does)
   song->set_valid(true);
 
   song->set_title(entry.title);
@@ -329,8 +330,7 @@ bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
   song->set_composer(entry.PrettyComposer());
   song->set_disc(entry.disc.toInt());
   
-  // we don't do anything with the end here because it's already set to
-  // the end of the media file (if it exists)
+  // We don't do anything with the end here because it's already set to the end of the media file (if it exists)
   song->set_beginning_nanosec(beginning);
 
   return true;

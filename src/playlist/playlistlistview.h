@@ -18,7 +18,15 @@
  * 
  */
 
+#ifndef PLAYLISTVIEW_H
+#define PLAYLISTVIEW_H
+
 #include "config.h"
+
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QPaintEvent>
 
 #include "widgets/autoexpandingtreeview.h"
 
@@ -31,5 +39,7 @@ class PlaylistListView : public AutoExpandingTreeView {
 
  protected:
   // QWidget
-  void paintEvent(QPaintEvent* event);
+  void paintEvent(QPaintEvent *event);
 };
+
+#endif  // PLAYLISTVIEW_H

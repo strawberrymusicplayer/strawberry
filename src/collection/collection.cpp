@@ -20,19 +20,23 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QThread>
+#include <QList>
 
-#include "collection.h"
-
-#include "collectionmodel.h"
-#include "collectionbackend.h"
 #include "core/application.h"
 #include "core/database.h"
 #include "core/player.h"
 #include "core/tagreaderclient.h"
-#include "core/taskmanager.h"
 #include "core/thread.h"
-#include "core/logging.h"
+#include "core/utilities.h"
+#include "collection.h"
+#include "collectionwatcher.h"
+#include "collectionbackend.h"
+#include "collectionmodel.h"
+#include "playlist/playlistmanager.h"
 
 const char *Collection::kSongsTable = "songs";
 const char *Collection::kDirsTable = "directories";
@@ -47,8 +51,6 @@ Collection::Collection(Application *app, QObject *parent)
       watcher_(nullptr),
       watcher_thread_(nullptr) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   backend_ = new CollectionBackend;
   backend()->moveToThread(app->database()->thread());
 
@@ -62,8 +64,6 @@ Collection::Collection(Application *app, QObject *parent)
 }
 
 Collection::~Collection() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   watcher_->deleteLater();
   watcher_thread_->exit();
@@ -71,8 +71,6 @@ Collection::~Collection() {
 }
 
 void Collection::Init() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   watcher_ = new CollectionWatcher;
   watcher_thread_ = new Thread(this);
@@ -109,8 +107,6 @@ void Collection::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
 void Collection::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
 
 void Collection::ReloadSettings() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   watcher_->ReloadSettingsAsync();
 
@@ -118,14 +114,10 @@ void Collection::ReloadSettings() {
 
 void Collection::Stopped() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   CurrentSongChanged(Song());
 }
 
 void Collection::CurrentSongChanged(const Song &song) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   
   TagReaderReply *reply = nullptr;
 
@@ -139,8 +131,6 @@ void Collection::CurrentSongChanged(const Song &song) {
 }
 
 SongList Collection::FilterCurrentWMASong(SongList songs, Song* queued) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   for (SongList::iterator it = songs.begin(); it != songs.end(); ) {
     if (it->url() == current_wma_song_url_) {

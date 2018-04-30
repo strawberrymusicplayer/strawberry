@@ -23,19 +23,20 @@
 
 #include "config.h"
 
-#include "musicbrainzclient.h"
-#include "core/song.h"
-
-#include <QFutureWatcher>
 #include <QObject>
+#include <QFutureWatcher>
+#include <QString>
+#include <QStringList>
+
+#include "core/song.h"
+#include "musicbrainzclient.h"
 
 class AcoustidClient;
 
 class TagFetcher : public QObject {
   Q_OBJECT
 
-  // High level interface to Fingerprinter, AcoustidClient and
-  // MusicBrainzClient.
+  // High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient.
 
  public:
   TagFetcher(QObject *parent = nullptr);

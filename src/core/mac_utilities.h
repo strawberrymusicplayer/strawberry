@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <QWidget>
 #include <QKeySequence>
 
 #include <CoreFoundation/CFDictionary.h>
@@ -34,5 +35,5 @@ namespace mac {
 
 QKeySequence KeySequenceFromNSEvent(NSEvent* event);
 void DumpDictionary(CFDictionaryRef dict);
-float GetDevicePixelRatio(QWidget* widget);
+float GetDevicePixelRatio(QWidget *widget);
 }

@@ -20,10 +20,17 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
+#include <QRegExp>
+#include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
+
+#include "playlist/playlist.h"
 #include "playlistfilter.h"
 #include "playlistfilterparser.h"
-
-#include <QtDebug>
 
 PlaylistFilter::PlaylistFilter(QObject *parent)
     : QSortFilterProxyModel(parent),

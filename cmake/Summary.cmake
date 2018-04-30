@@ -62,8 +62,7 @@ function(optional_component name default description)
     elseif(${testing_deps})
       string(REPLACE " " ";" arglist "${arg}")
       if(${arglist})
-        # We have to do this instead of if(NOT ${arg}) so that tests may contain
-        # "NOT" themselves.
+        # We have to do this instead of if(NOT ${arg}) so that tests may contain "NOT" themselves.
       else()
         list(APPEND missing_deps "${current_dep_name}")
         set(testing_deps FALSE)

@@ -19,9 +19,9 @@
 
 #include "config.h"
 
-#include "devicefinder.h"
+#include <QString>
 
-#include "core/logging.h"
+#include "devicefinder.h"
 
 DeviceFinder::DeviceFinder(const QString &name): name_(name) {
 }

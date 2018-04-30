@@ -18,19 +18,24 @@
  * 
  */
 
-#include "config.h"
+#include <config.h>
 
+#include <QtGlobal>
 #include <QFileInfo>
-#include <QMutex>
-#include <QThread>
-#include <QWaitCondition>
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QRegExp>
+#include <QUrl>
 
 // This must come after Qt includes
 #include <cdio/cdio.h>
+#include <cdio/device.h>
 
 #include "cddalister.h"
 #include "core/logging.h"
-#include "core/song.h"
 
 QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
 

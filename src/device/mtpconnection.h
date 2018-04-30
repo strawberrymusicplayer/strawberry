@@ -23,8 +23,10 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <libmtp.h>
 
+#include <QtGlobal>
 #include <QUrl>
 
 class MtpConnection {

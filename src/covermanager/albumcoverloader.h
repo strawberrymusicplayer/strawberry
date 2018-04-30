@@ -23,17 +23,24 @@
 
 #include "config.h"
 
-#include "albumcoverloaderoptions.h"
-#include "core/song.h"
+#include <stdbool.h>
 
-#include <QImage>
-#include <QMutex>
+#include <QtGlobal>
 #include <QObject>
+#include <QMutex>
 #include <QQueue>
-#include <QUrl>
+#include <QMap>
+#include <QSet>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QNetworkReply>
 
+#include "core/song.h"
+#include "albumcoverloaderoptions.h"
+
+class Song;
 class NetworkAccessManager;
-class QNetworkReply;
 
 class AlbumCoverLoader : public QObject {
   Q_OBJECT
@@ -60,7 +67,7 @@ signals:
 
  protected slots:
   void ProcessTasks();
-  void RemoteFetchFinished(QNetworkReply* reply);
+  void RemoteFetchFinished(QNetworkReply *reply);
 
  protected:
   enum State {
@@ -90,8 +97,8 @@ signals:
     QImage image;
   };
 
-  void ProcessTask(Task* task);
-  void NextState(Task* task);
+  void ProcessTask(Task *task);
+  void NextState(Task *task);
   TryLoadResult TryLoadImage(const Task &task);
 
   bool stop_requested_;

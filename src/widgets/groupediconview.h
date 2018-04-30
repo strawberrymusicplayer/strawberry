@@ -23,10 +23,26 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
 #include <QListView>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
+#include <QItemSelectionModel>
+#include <QString>
+#include <QFont>
+#include <QPainter>
+#include <QPalette>
+#include <QPoint>
+#include <QRect>
+#include <QRegion>
+#include <QVector>
+#include <QtEvents>
 
+class QModelIndex;
+class QPaintEvent;
+class QResizeEvent;
 class MultiSortFilterProxy;
-
 
 class GroupedIconView : public QListView {
   Q_OBJECT

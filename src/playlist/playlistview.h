@@ -24,25 +24,56 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QBasicTimer>
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QList>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QRect>
+#include <QRegion>
+#include <QStyle>
+#include <QStyleOption>
 #include <QProxyStyle>
 #include <QTreeView>
+#include <QPoint>
+#include <QTimer>
+#include <QBasicTimer>
+#include <QTimeLine>
+#include <QCommonStyle>
+#include <QPainter>
+#include <QAbstractItemDelegate>
+#include <QAbstractItemModel>
+#include <QStyleOptionViewItem>
+#include <QtEvents>
 
 #include "playlist.h"
 
-class QCommonStyle;
+class QEvent;
+class QShowEvent;
+class QContextMenuEvent;
+class QDragEnterEvent;
+class QDragLeaveEvent;
+class QDragMoveEvent;
+class QDropEvent;
+class QFocusEvent;
+class QHideEvent;
+class QKeyEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QTimerEvent;
 
 class Application;
+class Song;
 class CollectionBackend;
 class PlaylistHeader;
-class QTimeLine;
-
 
 // This proxy style works around a bug/feature introduced in Qt 4.7's QGtkStyle
-// that uses Gtk to paint row backgrounds, ignoring any custom brush or palette
-// the caller set in the QStyleOption.  That breaks our currently playing track
-// animation, which relies on the background painted by Qt to be transparent.
+// that uses Gtk to paint row backgrounds, ignoring any custom brush or palette the caller set in the QStyleOption.
+// That breaks our currently playing track animation, which relies on the background painted by Qt to be transparent.
 // This proxy style uses QCommonStyle to paint the affected elements.
 // This class is used by the global search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
@@ -164,8 +195,7 @@ class PlaylistView : public QTreeView {
     background_image_type_ = bg;
     emit BackgroundPropertyChanged();
   }
-  // Save image as the background_image_ after applying some modifications
-  // (opacity, ...).
+  // Save image as the background_image_ after applying some modifications (opacity, ...).
   // Should be used instead of modifying background_image_ directly
   void set_background_image(const QImage &image);
 
@@ -190,9 +220,9 @@ class PlaylistView : public QTreeView {
 
   bool background_initialized_;
   BackgroundImageType background_image_type_;
-  // Stores the background image to be displayed. As we want this image to be
-  // particular (in terms of format, opacity), you should probably use
-  // set_background_image_type instead of modifying background_image_ directly
+  // Stores the background image to be displayed.
+  // As we want this image to be particular (in terms of format, opacity),
+  // you should probably use set_background_image_type instead of modifying background_image_ directly
   QImage background_image_;
   int blur_radius_;
   int opacity_level_;

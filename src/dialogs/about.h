@@ -23,7 +23,13 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QList>
+#include <QString>
 
 #include "ui_about.h"
 
@@ -36,7 +42,7 @@ class About : public QDialog {
   struct Person {
     Person(const QString &n, const QString &e = QString()) : name(n), email(e) {}
 
-    bool operator<(const Person& other) const { return name < other.name; }
+    bool operator<(const Person &other) const { return name < other.name; }
 
     QString name;
     QString email;

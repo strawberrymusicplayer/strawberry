@@ -18,13 +18,20 @@
  * 
  */
 
-#include "config.h"
-
-#include "wplparser.h"
-#include "core/utilities.h"
-#include "version.h"
-
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QByteArray>
+#include <QString>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
+
+#include "core/utilities.h"
+#include "playlistparsers/xmlparser.h"
+#include "version.h"
+#include "wplparser.h"
+
+class CollectionBackendInterface;
 
 WplParser::WplParser(CollectionBackendInterface *collection, QObject *parent)
     : XMLParser(collection, parent) {}

@@ -23,7 +23,11 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QDialog>
+#include <QWidget>
+#include <QString>
+#include <QStringList>
 
 #include "core/song.h"
 

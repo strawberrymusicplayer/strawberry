@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <QWidget>
+
 #include "transcoderoptionsinterface.h"
 
 class Ui_TranscoderOptionsWma;

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QString>
 
 class QButtonPrivate;
 class QButton : public QWidget

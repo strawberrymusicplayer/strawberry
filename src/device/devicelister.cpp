@@ -20,17 +20,20 @@
 
 #include "config.h"
 
+#ifdef HAVE_LIBGPOD
+#  include <gpod/itdb.h>
+#endif
+
+#include <QThread>
 #include <QDir>
 #include <QFile>
+#include <QByteArray>
+#include <QString>
 #include <QStringList>
-#include <QThread>
-#include <QtDebug>
+#include <QStringBuilder>
+#include <QUrl>
 
 #include "devicelister.h"
-
-#ifdef HAVE_LIBGPOD
-#include <gpod/itdb.h>
-#endif
 
 DeviceLister::DeviceLister() : thread_(nullptr) {}
 

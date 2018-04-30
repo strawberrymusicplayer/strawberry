@@ -23,9 +23,21 @@
 
 #include "config.h"
 
-#include <QUrl>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QDir>
+#include <QString>
+#include <QStringList>
+
+#include "core/song.h"
 #include "parserbase.h"
+#include "playlist/playlist.h"
+
+class CollectionBackendInterface;
 
 class M3UParser : public ParserBase {
   Q_OBJECT

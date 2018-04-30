@@ -23,7 +23,17 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QStandardItemModel>
+#include <QMap>
+#include <QIcon>
+#include <QVariant>
+#include <QString>
+#include <QMimeData>
+
+class QModelIndex;
 
 class PlaylistListModel : public QStandardItemModel {
   Q_OBJECT

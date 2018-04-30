@@ -20,11 +20,16 @@
 
 #include "config.h"
 
-#include "appearance.h"
+#include <stdbool.h>
 
 #include <QApplication>
+#include <QObject>
+#include <QVariant>
+#include <QPalette>
+#include <QColor>
 #include <QSettings>
 
+#include "appearance.h"
 #include "settings/appearancesettingspage.h"
 
 const char *Appearance::kUseCustomColorSet = "use-custom-set";

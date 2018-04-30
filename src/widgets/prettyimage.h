@@ -23,19 +23,30 @@
 
 #include "config.h"
 
-#include <QFuture>
-#include <QUrl>
+#include <QObject>
 #include <QWidget>
+#include <QFuture>
+#include <QString>
+#include <QUrl>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QRect>
+#include <QSize>
+#include <QMenu>
+#include <QNetworkAccessManager>
+#include <QtEvents>
 
-class QMenu;
-class QNetworkAccessManager;
+class QContextMenuEvent;
+class QPaintEvent;
+
 class RedirectFollower;
 
 class PrettyImage : public QWidget {
   Q_OBJECT
 
 public:
-  PrettyImage(const QUrl& url, QNetworkAccessManager* network, QWidget* parent = nullptr);
+  PrettyImage(const QUrl &url, QNetworkAccessManager *network, QWidget *parent = nullptr);
 
   static const int kTotalHeight;
   static const int kReflectionHeight;
@@ -43,7 +54,7 @@ public:
 
   static const int kMaxImageWidth;
 
-  static const char* kSettingsGroup;
+  static const char *kSettingsGroup;
 
   QSize sizeHint() const;
   QSize image_size() const;
@@ -61,7 +72,7 @@ protected:
   void paintEvent(QPaintEvent*);
 
  private slots:
-  void ImageFetched(RedirectFollower* reply);
+  void ImageFetched(RedirectFollower *reply);
   void ImageScaled(QFuture<QImage> future);
 
 private:
@@ -72,17 +83,17 @@ private:
     State_Finished,
   };
 
-  void DrawThumbnail(QPainter* p, const QRect& rect);
+  void DrawThumbnail(QPainter *p, const QRect &rect);
 
 private:
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
   State state_;
   QUrl url_;
 
   QImage image_;
   QPixmap thumbnail_;
 
-  QMenu* menu_;
+  QMenu *menu_;
   QString last_save_dir_;
 };
 

@@ -38,9 +38,19 @@
 **
 ****************************************************************************/
 
+#include <QtGlobal>
 #include <QWidget>
+#include <QObject>
+#include <QLayout>
+#include <QLayoutItem>
+#include <QStyle>
+#include <QSize>
+#include <QPoint>
+#include <QRect>
+#include <QSizePolicy>
 
 #include "flowlayout.h"
+
 //! [1]
 FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent), m_hSpace(hSpacing), m_vSpace(vSpacing)
@@ -144,12 +154,10 @@ int FlowLayout::doLayout(const QRect& rect, bool testOnly) const {
     QWidget* wid = item->widget();
     int spaceX = horizontalSpacing();
     if (spaceX == -1)
-      spaceX = wid->style()->layoutSpacing(
-          QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);
+      spaceX = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);
     int spaceY = verticalSpacing();
     if (spaceY == -1)
-      spaceY = wid->style()->layoutSpacing(
-          QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
+      spaceY = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
     //! [10]
     //! [11]
     int nextX = x + item->sizeHint().width() + spaceX;
@@ -173,10 +181,12 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const {
   QObject* parent = this->parent();
   if (!parent) {
     return -1;
-  } else if (parent->isWidgetType()) {
+  }
+  else if (parent->isWidgetType()) {
         QWidget *pw = static_cast<QWidget *>(parent);
     return pw->style()->pixelMetric(pm, 0, pw);
-  } else {
+  }
+  else {
         return static_cast<QLayout *>(parent)->spacing();
   }
 }

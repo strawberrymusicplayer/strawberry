@@ -24,22 +24,37 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QSize>
+#include <QSignalMapper>
+#include <QTextDocument>
+#include <QTimeLine>
+#include <QAction>
+#include <QActionGroup>
+#include <QMenu>
+#include <QMovie>
+#include <QtEvents>
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
+class QContextMenuEvent;
+class QDragEnterEvent;
+class QDropEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QPainter;
+class QResizeEvent;
+
 class AlbumCoverChoiceController;
 class Application;
-
-class QAction;
-class QActionGroup;
-class QMenu;
-class QMovie;
-class QSignalMapper;
-class QTextDocument;
-class QTimeLine;
 
 class PlayingWidget : public QWidget {
   Q_OBJECT

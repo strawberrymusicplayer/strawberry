@@ -22,8 +22,8 @@
 
 #include "config.h"
 
+#include <QMetaType>
 #include <QString>
-#include <QObject>
 
 namespace Engine {
     
@@ -34,11 +34,11 @@ enum EngineType {
   Xine,
   Phonon
 };
-Q_DECLARE_METATYPE(Engine::EngineType);
 
 QString EngineNameFromType(Engine::EngineType enginetype);
 Engine::EngineType EngineTypeFromName(QString enginename);
 
 }
+Q_DECLARE_METATYPE(Engine::EngineType);
 
 #endif

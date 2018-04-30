@@ -20,9 +20,21 @@
 
 #include "config.h"
 
-#include "progressitemdelegate.h"
+#include <stdbool.h>
 
+#include <QObject>
+#include <QAbstractItemModel>
+#include <QStyledItemDelegate>
 #include <QApplication>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QPainter>
+#include <QStyle>
+#include <QRect>
+#include <QStyleOptionProgressBar>
+
+#include "progressitemdelegate.h"
 
 ProgressItemDelegate::ProgressItemDelegate(QObject *parent)
   : QStyledItemDelegate(parent)
@@ -30,6 +42,7 @@ ProgressItemDelegate::ProgressItemDelegate(QObject *parent)
 }
 
 void ProgressItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+
   bool ok = false;
   int progress = index.data().toInt(&ok);
 
@@ -43,8 +56,10 @@ void ProgressItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     opt.textVisible = true;
 
     QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter);
-  } else {
+  }
+  else {
     QStyledItemDelegate::paint(painter, option, index);
   }
+
 }
 

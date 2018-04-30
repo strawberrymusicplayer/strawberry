@@ -20,17 +20,20 @@
 
 #include "config.h"
 
+#include <glib.h>
 #include <gpod/itdb.h>
 
+#include <QObject>
 #include <QDir>
+#include <QByteArray>
+#include <QString>
 #include <QtDebug>
 
-#include "connecteddevice.h"
-#include "gpodloader.h"
+#include "collection/collectionbackend.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/taskmanager.h"
-#include "collection/collectionbackend.h"
+#include "gpodloader.h"
 
 GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device)
     : QObject(nullptr),

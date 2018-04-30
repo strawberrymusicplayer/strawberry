@@ -20,7 +20,13 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QLabel>
+#include <QtEvents>
+
+class QMouseEvent;
 
 class ClickableLabel : public QLabel {
   Q_OBJECT
@@ -32,7 +38,7 @@ signals:
   void Clicked();
 
 protected:
-  void mousePressEvent(QMouseEvent* event);
+  void mousePressEvent(QMouseEvent *event);
 };
 
 #endif  // CLICKABLELABEL_H

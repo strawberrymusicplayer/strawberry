@@ -20,20 +20,31 @@
 
 #include "config.h"
 
-#include "transcoder.h"
-
+#include <glib.h>
+#include <glib/gtypes.h>
+#include <stdlib.h>
 #include <memory>
+#include <gst/gst.h>
 
+#include <QtGlobal>
+#include <QThread>
 #include <QCoreApplication>
+#include <QByteArray>
 #include <QDir>
 #include <QFile>
+#include <QList>
+#include <QMap>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QtAlgorithms>
 #include <QSettings>
-#include <QThread>
 #include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "core/utilities.h"
+#include "transcoder.h"
 
 using std::shared_ptr;
 
@@ -88,8 +99,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
     return CreateElement("ffmux_mp4", bin);
   }
 
-  // Keep track of all the suitable elements we find and figure out which
-  // is the best at the end.
+  // Keep track of all the suitable elements we find and figure out which is the best at the end.
   QList<SuitableElement> suitable_elements_;
 
   // The caps we're trying to find
@@ -141,9 +151,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   LogLine(QString("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
   if (best.name_ == "lamemp3enc") {
-    // Special case: we need to add xingmux and id3v2mux to the pipeline when
-    // using lamemp3enc because it doesn't write the VBR or ID3v2 headers
-    // itself.
+    // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
     LogLine("Adding xingmux and id3v2mux to the pipeline");
 
@@ -278,8 +286,7 @@ void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, co
   job.input = input;
   job.preset = preset;
 
-  // Use the supplied filename if there was one, otherwise take the file
-  // extension off the input filename and append the correct one.
+  // Use the supplied filename if there was one, otherwise take the file extension off the input filename and append the correct one.
   if (!output.isEmpty())
     job.output = output;
   else
@@ -400,8 +407,7 @@ bool Transcoder::StartJob(const Job &job) {
   emit LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
   // Create the pipeline.
-  // This should be a scoped_ptr, but scoped_ptr doesn't support custom
-  // destructors.
+  // This should be a scoped_ptr, but scoped_ptr doesn't support custom destructors.
   state->pipeline_ = gst_pipeline_new("pipeline");
   if (!state->pipeline_) return false;
 
@@ -445,9 +451,8 @@ bool Transcoder::StartJob(const Job &job) {
   // Start the pipeline
   gst_element_set_state(state->pipeline_, GST_STATE_PLAYING);
 
-  // GStreamer now transcodes in another thread, so we can return now and do
-  // something else.  Keep the JobState object around.  It'll post an event
-  // to our event loop when it finishes.
+  // GStreamer now transcodes in another thread, so we can return now and do something else.
+  // Keep the JobState object around.  It'll post an event to our event loop when it finishes.
   current_jobs_ << state;
 
   return true;
@@ -475,16 +480,14 @@ bool Transcoder::event(QEvent *e) {
       ++it;
     }
     if (it == current_jobs_.end()) {
-      // Couldn't find it, maybe GStreamer gave us an event after we'd destroyed
-      // the pipeline?
+      // Couldn't find it, maybe GStreamer gave us an event after we'd destroyed the pipeline?
       return true;
     }
 
     QString input = (*it)->job_.input;
     QString output = (*it)->job_.output;
 
-    // Remove event handlers from the gstreamer pipeline so they don't get
-    // called after the pipeline is shutting down
+    // Remove event handlers from the gstreamer pipeline so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(finished_event->state_->pipeline_)), nullptr, nullptr, nullptr);
 
     // Remove it from the list - this will also destroy the GStreamer pipeline
@@ -513,8 +516,7 @@ void Transcoder::Cancel() {
   while (it != current_jobs_.end()) {
     shared_ptr<JobState> state(*it);
 
-    // Remove event handlers from the gstreamer pipeline so they don't get
-    // called after the pipeline is shutting down
+    // Remove event handlers from the gstreamer pipeline so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(state->pipeline_)), nullptr, nullptr, nullptr);
 
     // Stop the pipeline

@@ -20,11 +20,20 @@
 
 #include "config.h"
 
+#include <QDialog>
+#include <QWidget>
+#include <QString>
+#include <QStringBuilder>
+#include <QLabel>
+#include <QKeySequence>
+#include <QtEvents>
+
 #include "globalshortcutgrabber.h"
 #include "ui_globalshortcutgrabber.h"
 
-#include <QtDebug>
-#include <QKeyEvent>
+class QShowEvent;
+class QHideEvent;
+class QKeyEvent;
 
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
     : QDialog(parent), ui_(new Ui::GlobalShortcutGrabber) {
@@ -95,5 +104,3 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
 void GlobalShortcutGrabber::UpdateText() {
   ui_->combo->setText("<b>" + ret_.toString(QKeySequence::NativeText) + "</b>");
 }
-
-

@@ -15,14 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "analyzerbase.h"
+#include "config.h"
 
-#include <cmath>  //interpolate()
+#include <cmath>
 
-#include <QEvent>  //event()
+#include <QWidget>
 #include <QPainter>
-#include <QPaintEvent>
-#include <QtDebug>
+#include <QPalette>
+#include <QTimerEvent>
+#include <QtEvents>
+
+#include "analyzerbase.h"
 
 #include "engine/enginebase.h"
 
@@ -45,7 +48,7 @@
 template class Analyzer::Base<QWidget>;
 #endif
 
-Analyzer::Base::Base(QWidget* parent, uint scopeSize)
+Analyzer::Base::Base(QWidget *parent, uint scopeSize)
     : QWidget(parent),
       m_timeout(40)  // msec
       ,
@@ -70,9 +73,9 @@ void Analyzer::Base::transform(Scope& scope)  // virtual
   // values
   // scope.resize( m_fht->size() );
 
-  float* front = static_cast<float*>(&scope.front());
+  float *front = static_cast<float*>(&scope.front());
 
-  float* f = new float[m_fht->size()];
+  float *f = new float[m_fht->size()];
   m_fht->copy(&f[0], front);
   m_fht->logSpectrum(front, &f[0]);
   m_fht->scale(front, 1.0 / 20);
@@ -82,7 +85,7 @@ void Analyzer::Base::transform(Scope& scope)  // virtual
 
 }
 
-void Analyzer::Base::paintEvent(QPaintEvent* e) {
+void Analyzer::Base::paintEvent(QPaintEvent *e) {
 
   QPainter p(this);
   p.fillRect(e->rect(), palette().color(QPalette::Window));
@@ -92,8 +95,7 @@ void Analyzer::Base::paintEvent(QPaintEvent* e) {
       const Engine::Scope& thescope = m_engine->scope(m_timeout);
       int i = 0;
 
-      // convert to mono here - our built in analyzers need mono, but the
-      // engines provide interleaved pcm
+      // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
       for (uint x = 0; (int)x < m_fht->size(); ++x) {
         m_lastScope[x] = double(thescope[i] + thescope[i + 1]) / (2 * (1 << 15));
         i += 2;
@@ -180,8 +182,7 @@ void Analyzer::Base::polishEvent() {
   init();  // virtual
 }
 
-void Analyzer::interpolate(const Scope& inVec, Scope& outVec)  // static
-{
+void Analyzer::interpolate(const Scope& inVec, Scope& outVec) {
 
   double pos = 0.0;
   const double step = (double)inVec.size() / outVec.size();
@@ -203,8 +204,7 @@ void Analyzer::interpolate(const Scope& inVec, Scope& outVec)  // static
 
 }
 
-void Analyzer::initSin(Scope& v, const uint size)  // static
-{
+void Analyzer::initSin(Scope& v, const uint size) {
   double step = (M_PI * 2) / size;
   double radian = 0;
 
@@ -214,7 +214,7 @@ void Analyzer::initSin(Scope& v, const uint size)  // static
   }
 }
 
-void Analyzer::Base::timerEvent(QTimerEvent* e) {
+void Analyzer::Base::timerEvent(QTimerEvent *e) {
   QWidget::timerEvent(e);
   if (e->timerId() != m_timer.timerId()) return;
 

@@ -27,27 +27,54 @@
 **
 **************************************************************************/
 
+#include "config.h"
+
 #include "fancytabwidget.h"
-#include "stylehelper.h"
-#include "core/logging.h"
 
-#include <QDebug>
-
-#include <QAnimationGroup>
-#include <QColorDialog>
-#include <QHBoxLayout>
-#include <QMenu>
-#include <QMouseEvent>
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QProxyStyle>
+#include <QApplication>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QIcon>
+#include <QPixmap>
 #include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QColorDialog>
+#include <QBrush>
+#include <QPen>
+#include <QPoint>
+#include <QRect>
+#include <QFont>
+#include <QFontMetrics>
+#include <QAction>
+#include <QActionGroup>
+#include <QCommonStyle>
+#include <QMenu>
+#include <QAbstractAnimation>
 #include <QPropertyAnimation>
 #include <QSignalMapper>
-#include <QSplitter>
+#include <QSizePolicy>
+#include <QLayout>
+#include <QBoxLayout>
+#include <QLayoutItem>
 #include <QStackedLayout>
-#include <QStyleOptionTabV3>
-#include <QToolButton>
+#include <QStyleOption>
 #include <QToolTip>
-#include <QVBoxLayout>
-#include <QCommonStyle>
+#include <QTransform>
+#include <QLinearGradient>
+#include <QTabBar>
+#include <QSpacerItem>
+#include <QtEvents>
+#include <QtDebug>
+
+#include "core/logging.h"
+#include "stylehelper.h"
 
 using namespace Core;
 using namespace Internal;
@@ -146,7 +173,8 @@ void FancyTabProxyStyle::drawControl(ControlElement element, const QStyleOption*
         animation->setEndValue(40);
         animation->start();
       }
-    } else {
+    }
+    else {
       if (animation->state() != QAbstractAnimation::Running && fader != 0) {
         animation->stop();
         animation->setDuration(160);
@@ -239,8 +267,7 @@ void FancyTab::setFader(float value)
 }
 
 FancyTabBar::FancyTabBar(QWidget *parent)
-    : QWidget(parent)
-{
+    : QWidget(parent) {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
   setStyle(new QCommonStyle);
   setMinimumWidth(qMax(2 * m_rounding, 40));
@@ -250,7 +277,7 @@ FancyTabBar::FancyTabBar(QWidget *parent)
   m_triggerTimer.setSingleShot(true);
 
   QVBoxLayout* layout = new QVBoxLayout;
-    layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding));
+  layout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Expanding));
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
@@ -276,8 +303,7 @@ QSize FancyTab::sizeHint() const {
   return ret;
 }
 
-QSize FancyTabBar::tabSizeHint(bool minimum) const
-{
+QSize FancyTabBar::tabSizeHint(bool minimum) const {
   QFont boldFont(font());
   boldFont.setPointSizeF(Utils::StyleHelper::sidebarFontSize());
   boldFont.setBold(true);
@@ -355,9 +381,7 @@ void FancyTabBar::setTabToolTip(int index, const QString& toolTip) {
   m_tabs[index]->setToolTip(toolTip);
 }
 
-// This keeps the sidebar responsive since
-// we get a repaint before loading the
-// mode itself
+// This keeps the sidebar responsive since we get a repaint before loading the mode itself
 void FancyTabBar::emitCurrentIndex()
 {
     emit currentChanged(m_currentIndex);
@@ -427,7 +451,7 @@ void FancyTabBar::paintTab(QPainter *painter, int tabIndex) const
         painter->drawLine(rect.bottomLeft() + QPoint(0,-1), rect.bottomRight()-QPoint(0,1));
   }
 
-    QString tabText(painter->fontMetrics().elidedText(this->tabText(tabIndex), Qt::ElideRight, width()));
+  QString tabText(painter->fontMetrics().elidedText(this->tabText(tabIndex), Qt::ElideRight, width()));
   QRect tabTextRect(tabRect(tabIndex));
   QRect tabIconRect(tabTextRect);
   tabIconRect.adjust(+4, +4, -4, -4);
@@ -675,8 +699,7 @@ void FancyTabWidget::contextMenuEvent(QContextMenuEvent* e) {
   menu_->popup(e->globalPos());
 }
 
-void FancyTabWidget::AddMenuItem(QSignalMapper* mapper, QActionGroup* group,
-                                 const QString& text, Mode mode) {
+void FancyTabWidget::AddMenuItem(QSignalMapper* mapper, QActionGroup* group, const QString& text, Mode mode) {
   QAction* action = group->addAction(text);
   action->setCheckable(true);
   mapper->setMapping(action, mode);

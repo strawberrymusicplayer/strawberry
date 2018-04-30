@@ -20,20 +20,30 @@
 
 #include "config.h"
 
+#include <glib.h>
 #include <gpod/itdb.h>
 
+#include <QtGlobal>
+#include <QThread>
+#include <QMutex>
+#include <QByteArray>
 #include <QDir>
 #include <QFile>
-#include <QThread>
+#include <QList>
+#include <QString>
+#include <QUrl>
 #include <QtDebug>
 
-#include "devicemanager.h"
-#include "gpoddevice.h"
-#include "gpodloader.h"
 #include "core/logging.h"
 #include "core/application.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "connecteddevice.h"
+#include "gpoddevice.h"
+#include "gpodloader.h"
+
+class DeviceLister;
+class DeviceManager;
 
 GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
       : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),

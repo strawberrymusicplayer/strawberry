@@ -20,25 +20,39 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QAbstractItemModel>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QIcon>
+#include <QAction>
+#include <QGridLayout>
+#include <QInputDialog>
+#include <QLayout>
+#include <QLineEdit>
+#include <QMimeData>
+#include <QRect>
+#include <QSize>
+#include <QToolTip>
+#include <QLayoutItem>
+#include <QMenu>
+#include <QMessageBox>
+#include <QTabBar>
+#include <QCheckBox>
+#include <QDialogButtonBox>
+#include <QtEvents>
+#include <QSettings>
+
+#include "core/iconloader.h"
+#include "core/logging.h"
+#include "core/mimedata.h"
+#include "core/song.h"
+#include "widgets/favoritewidget.h"
+#include "widgets/renametablineedit.h"
 #include "playlist.h"
 #include "playlistmanager.h"
 #include "playlisttabbar.h"
-#include "playlistview.h"
-#include "songmimedata.h"
-#include "core/logging.h"
-#include "core/iconloader.h"
-#include "widgets/renametablineedit.h"
-#include "widgets/favoritewidget.h"
-
-#include <QCheckBox>
-#include <QContextMenuEvent>
-#include <QDialogButtonBox>
-#include <QGridLayout>
-#include <QInputDialog>
-#include <QMenu>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QToolTip>
 
 const char *PlaylistTabBar::kSettingsGroup = "PlaylistTabBar";
 
@@ -91,8 +105,7 @@ void PlaylistTabBar::SetManager(PlaylistManager *manager) {
 
 void PlaylistTabBar::PlaylistManagerInitialized() {
 
-  // Signal that we are done loading and thus further changes should be
-  // committed to the db.
+  // Signal that we are done loading and thus further changes should be committed to the db.
   initialized_ = true;
   disconnect(manager_, SIGNAL(PlaylistManagerInitialized()), this, SLOT(PlaylistManagerInitialized()));
 
@@ -100,7 +113,7 @@ void PlaylistTabBar::PlaylistManagerInitialized() {
 
 void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
 
-  //we need to finish the renaming action before showing context menu
+  // We need to finish the renaming action before showing context menu
   if (rename_editor_->isVisible()) {
     //discard any change
     HideEditor();
@@ -128,10 +141,10 @@ void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void PlaylistTabBar::mouseDoubleClickEvent(QMouseEvent *e) {
-  
+
   int index = tabAt(e->pos());
 
-  // discard a double click with the middle button
+  // Discard a double click with the middle button
   if (e->button() != Qt::MidButton) {
     if (index == -1) {
       new_->activate(QAction::Trigger);
@@ -172,10 +185,10 @@ void PlaylistTabBar::RenameInline() {
 
 void PlaylistTabBar::HideEditor() {
 
-  //editingFinished() will be called twice due to Qt bug #40, so we reuse the same instance, don't delete it
+  // editingFinished() will be called twice due to Qt bug #40, so we reuse the same instance, don't delete it
   rename_editor_->setVisible(false);
 
-  // hack to give back focus to playlist view
+  // Hack to give back focus to playlist view
   manager_->SetCurrentPlaylist(manager_->current()->id());
 
 }
@@ -232,10 +245,8 @@ void PlaylistTabBar::Close() {
     }
   }
 
-  // Close the playlist. If the playlist is not a favorite playlist, it will be
-  // deleted, as it will not be visible after being closed. Otherwise, the tab
-  // is closed but the playlist still exists and can be resurrected from the
-  // "Playlists" tab.
+  // Close the playlist. If the playlist is not a favorite playlist, it will be deleted, as it will not be visible after being closed.
+  // Otherwise, the tab is closed but the playlist still exists and can be resurrected from the "Playlists" tab.
   emit Close(playlist_id);
 
   // Select the nearest tab.
@@ -305,8 +316,8 @@ void PlaylistTabBar::CurrentIndexChanged(int index) {
   if (!suppress_current_changed_) emit CurrentIdChanged(tabData(index).toInt());
 }
 
-void PlaylistTabBar::InsertTab(int id, int index, const QString &text,
-                               bool favorite) {
+void PlaylistTabBar::InsertTab(int id, int index, const QString &text, bool favorite) {
+
   suppress_current_changed_ = true;
   insertTab(index, text);
   setTabData(index, id);
@@ -319,8 +330,7 @@ void PlaylistTabBar::InsertTab(int id, int index, const QString &text,
   setTabButton(index, QTabBar::LeftSide, widget);
   suppress_current_changed_ = false;
 
-  // If we are still starting up, we don't need to do this, as the
-  // tab ordering after startup will be the same as was already in the db.
+  // If we are still starting up, we don't need to do this, as the tab ordering after startup will be the same as was already in the db.
   if (initialized_) {
     if (currentIndex() == index) emit CurrentIdChanged(id);
 
@@ -330,11 +340,13 @@ void PlaylistTabBar::InsertTab(int id, int index, const QString &text,
 }
 
 void PlaylistTabBar::TabMoved() {
+
   QList<int> ids;
   for (int i = 0; i < count(); ++i) {
     ids << tabData(i).toInt();
   }
   emit PlaylistOrderChanged(ids);
+
 }
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent *e) {
@@ -364,6 +376,7 @@ void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent*) {
 }
 
 void PlaylistTabBar::timerEvent(QTimerEvent *e) {
+
   QTabBar::timerEvent(e);
 
   if (e->timerId() == drag_hover_timer_.timerId()) {

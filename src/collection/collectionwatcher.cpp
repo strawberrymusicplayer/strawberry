@@ -20,34 +20,42 @@
 
 #include "config.h"
 
-#include <fileref.h>
-#include <tag.h>
+#include <QObject>
+#include <QIODevice>
+#include <QDir>
+#include <QDirIterator>
+#include <QFile>
+#include <QFileInfo>
+#include <QMetaObject>
+#include <QDateTime>
+#include <QHash>
+#include <QMap>
+#include <QList>
+#include <QSet>
+#include <QTimer>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QImage>
+#include <QSettings>
+#include <QtDebug>
 
-// This is defined by one of the windows headers that is included by taglib.
-#ifdef RemoveDirectory
-#undef RemoveDirectory
-#endif
-
-#include "collectionwatcher.h"
-
-#include "collectionbackend.h"
 #include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "core/taskmanager.h"
 #include "core/utilities.h"
+#include "directory.h"
+#include "collectionbackend.h"
+#include "collectionwatcher.h"
 #include "playlistparsers/cueparser.h"
 #include "settings/collectionsettingspage.h"
 
-#include <QDateTime>
-#include <QDirIterator>
-#include <QtDebug>
-#include <QThread>
-#include <QDateTime>
-#include <QHash>
-#include <QSet>
-#include <QSettings>
-#include <QTimer>
+// This is defined by one of the windows headers that is included by taglib.
+#ifdef RemoveDirectory
+#undef RemoveDirectory
+#endif
 
 namespace {
 static const char *kNoMediaFile = ".nomedia";
@@ -218,8 +226,7 @@ void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryLis
     ScanSubdirectory(dir.path, Subdirectory(), &transaction);
   }
   else {
-    // We can do an incremental scan - looking at the mtimes of each
-    // subdirectory and only rescan if the directory has changed.
+    // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
     ScanTransaction transaction(this, dir.id, true);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(subdirs.count());
@@ -268,8 +275,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   QStringList files_on_disk;
   SubdirectoryList my_new_subdirs;
 
-  // If a directory is moved then only its parent gets a changed notification,
-  // so we need to look and see if any of our children don't exist any more.
+  // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist any more.
   // If one has been removed, "rescan" it to get the deleted songs
   SubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const Subdirectory& subdir : previous_subdirs) {
@@ -289,8 +295,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
     if (child_info.isDir()) {
       if (!child_info.isHidden() && !t->HasSeenSubdir(child)) {
-        // We haven't seen this subdirectory before - add it to a list and
-        // later we'll tell the backend about it and scan it.
+        // We haven't seen this subdirectory before - add it to a list and later we'll tell the backend about it and scan it.
         Subdirectory new_subdir;
         new_subdir.directory_id = -1;
         new_subdir.path = child;
@@ -332,8 +337,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       QFileInfo file_info(file);
 
       if (!file_info.exists()) {
-        // Partially fixes race condition - if file was removed between being
-        // added to the list and now.
+        // Partially fixes race condition - if file was removed between being added to the list and now.
         files_on_disk.removeAll(file);
         continue;
       }
@@ -345,8 +349,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       bool cue_deleted = song_cue_mtime == 0 && matching_song.has_cue();
       bool cue_added = matching_cue_mtime != 0 && !matching_song.has_cue();
 
-      // watch out for cue songs which have their mtime equal to
-      // qMax(media_file_mtime, cue_sheet_mtime)
+      // watch out for cue songs which have their mtime equal to qMax(media_file_mtime, cue_sheet_mtime)
       bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toTime_t(), song_cue_mtime)) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
@@ -372,7 +375,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       // nothing has changed - mark the song available without re-scanning
       if (matching_song.is_unavailable()) t->readded_songs << matching_song;
 
-    } else {
+    }
+    else {
       // The song is on disk but not in the DB
       SongList song_list = ScanNewFile(file, path, matching_cue, &cues_processed);
 
@@ -437,7 +441,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
   QSet<int> used_ids;
 
-  // update every song that's in the cue and collection
+  // Update every song that's in the cue and collection
   for (Song cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
     cue_song.set_directory_id(t->dir());
 
@@ -463,9 +467,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
 void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QString &image, bool cue_deleted, ScanTransaction *t) {
 
-  // if a cue got deleted, we turn it's first section into the new
-  // 'raw' (cueless) song and we just remove the rest of the sections
-  // from the collection
+  // If a cue got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
   if (cue_deleted) {
     for (const Song &song :
          backend_->GetSongsByUrl(QUrl::fromLocalFile(file))) {
@@ -490,7 +492,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   SongList song_list;
 
   uint matching_cue_mtime = GetMtimeForCue(matching_cue);
-  // if it's a cue - create virtual tracks
+  // If it's a cue - create virtual tracks
   if (matching_cue_mtime) {
     // don't process the same cue many times
     if (cues_processed->contains(matching_cue)) return song_list;
@@ -498,9 +500,9 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     QFile cue(matching_cue);
     cue.open(QIODevice::ReadOnly);
 
-    // Ignore FILEs pointing to other media files. Also, watch out for incorrect
-    // media files. Playlist parser for CUEs considers every entry in sheet
-    // valid and we don't want invalid media getting into collection!
+    // Ignore FILEs pointing to other media files.
+    // Also, watch out for incorrect media files.
+    // Playlist parser for CUEs considers every entry in sheet valid and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
     for (const Song& cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
       if (cue_song.url().toLocalFile().normalized(QString::NormalizationForm_D) == file_nfd) {
@@ -533,15 +535,13 @@ void CollectionWatcher::PreserveUserSetData(const QString &file, const QString &
 
   out->set_id(matching_song.id());
 
-  // Previous versions of Clementine incorrectly overwrote this and
-  // stored it in the DB, so we can't rely on matching_song to
-  // know if it has embedded artwork or not, but we can check here.
+  // Previous versions of Clementine incorrectly overwrote this and stored it in the DB,
+  // so we can't rely on matching_song to know if it has embedded artwork or not, but we can check here.
   if (!out->has_embedded_cover()) out->set_art_automatic(image);
 
   out->MergeUserSetData(matching_song);
 
-  // The song was deleted from the database (e.g. due to an unmounted
-  // filesystem), but has been restored.
+  // The song was deleted from the database (e.g. due to an unmounted filesystem), but has been restored.
   if (matching_song.is_unavailable()) {
     qLog(Debug) << file << " unavailable song restored";
 
@@ -562,7 +562,7 @@ void CollectionWatcher::PreserveUserSetData(const QString &file, const QString &
 
 uint CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
 
-  // slight optimisation
+  // Slight optimisation
   if (cue_path.isEmpty()) {
     return 0;
   }
@@ -593,7 +593,7 @@ void CollectionWatcher::RemoveDirectory(const Directory &dir) {
   watched_dirs_.remove(dir.id);
 
   // Stop watching the directory's subdirectories
-  for (const QString& subdir_path : subdir_mapping_.keys(dir)) {
+  for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
@@ -662,8 +662,7 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
   QStringList filtered;
 
   for (const QString &filter_text : best_image_filters_) {
-    // the images in the images list are represented by a full path,
-    // so we need to isolate just the filename
+    // The images in the images list are represented by a full path, so we need to isolate just the filename
     for (const QString& image : images) {
       QFileInfo file_info(image);
       QString filename(file_info.fileName());
@@ -671,14 +670,13 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
         filtered << image;
     }
 
-    /* We assume the filters are give in the order best to worst, so
-      if we've got a result, we go with it. Otherwise we might
-      start capturing more generic rules */
+    // We assume the filters are give in the order best to worst, so if we've got a result, we go with it.
+    // Otherwise we might start capturing more generic rules
     if (!filtered.isEmpty()) break;
   }
 
   if (filtered.isEmpty()) {
-    // the filter was too restrictive, just use the original list
+    // The filter was too restrictive, just use the original list
     filtered = images;
   }
 
@@ -734,7 +732,7 @@ void CollectionWatcher::ReloadSettings() {
 
   best_image_filters_.clear();
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
-  for (const QString& filter : filters) {
+  for (const QString &filter : filters) {
     QString s = filter.trimmed();
     if (!s.isEmpty()) best_image_filters_ << s;
   }

@@ -15,47 +15,71 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
 
+#include <memory>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMainWindow>
+#include <QWidget>
+#include <QModelIndex>
+#include <QItemSelectionModel>
+#include <QListWidgetItem>
+#include <QAction>
 #include <QActionGroup>
-#include <QPushButton>
-#include <QContextMenuEvent>
-#include <QEvent>
-#include <QFileDialog>
-#include <QKeySequence>
+#include <QFile>
+#include <QMenu>
+#include <QSet>
+#include <QTimer>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QUrl>
+#include <QImage>
+#include <QPixmap>
+#include <QPainter>
+#include <QNetworkAccessManager>
+#include <QShortcut>
+#include <QSplitter>
+#include <QStatusBar>
 #include <QLabel>
 #include <QListWidget>
-#include <QMenu>
 #include <QMessageBox>
-#include <QPainter>
 #include <QProgressBar>
+#include <QPushButton>
+#include <QToolButton>
+#include <QKeySequence>
+#include <QtAlgorithms>
+#include <QtEvents>
 #include <QSettings>
-#include <QShortcut>
-#include <QTimer>
-
-#include "albumcovermanager.h"
-#include "albumcoversearcher.h"
-#include "ui_albumcovermanager.h"
 
 #include "core/application.h"
-#include "core/logging.h"
-#include "core/utilities.h"
 #include "core/iconloader.h"
-#include "covermanager/albumcoverexporter.h"
-#include "covermanager/albumcoverfetcher.h"
-#include "covermanager/albumcoverloader.h"
-#include "covermanager/coverproviders.h"
-#include "covermanager/coversearchstatisticsdialog.h"
+#include "core/utilities.h"
+#include "widgets/forcescrollperpixel.h"
+#include "3rdparty/qocoa/qsearchfield.h"
+#include "collection/sqlrow.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
-#include "collection/sqlrow.h"
 #include "playlist/songmimedata.h"
-#include "widgets/forcescrollperpixel.h"
-#include "covermanager/albumcoverchoicecontroller.h"
-#include "covermanager/albumcoverexport.h"
+#include "coverproviders.h"
+#include "albumcovermanager.h"
+#include "albumcoversearcher.h"
+#include "albumcoverchoicecontroller.h"
+#include "albumcoverexport.h"
+#include "albumcoverexporter.h"
+#include "albumcoverfetcher.h"
+#include "albumcoverloader.h"
+#include "albumcovermanagerlist.h"
+#include "coversearchstatistics.h"
+#include "coversearchstatisticsdialog.h"
+
+#include "ui_albumcovermanager.h"
 
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
 
@@ -255,7 +279,7 @@ static bool CompareAlbumNameNocase(const CollectionBackend::Album &left, const C
 }
 
 void AlbumCoverManager::Reset() {
-  
+
   EnableCoversButtons();
 
   ui_->artists->clear();
@@ -598,7 +622,7 @@ void AlbumCoverManager::SaveCoverToFile() {
 
   QImage image;
 
-  // load the image from disk
+  // Load the image from disk
   if (song.has_manually_unset_cover()) {
     image = no_cover_image_;
   }
@@ -643,9 +667,9 @@ void AlbumCoverManager::SearchForCover() {
   QString cover = album_cover_choice_controller_->SearchForCover(&song);
   if (cover.isEmpty()) return;
 
-  // force the found cover on all of the selected items
+  // Force the found cover on all of the selected items
   for (QListWidgetItem *current : context_menu_items_) {
-    // don't save the first one twice
+    // Don't save the first one twice
     if (current != item) {
       Song current_song = ItemAsSong(current);
       album_cover_choice_controller_->SaveCover(&current_song, cover);
@@ -665,12 +689,12 @@ void AlbumCoverManager::UnsetCover() {
 
   QString cover = album_cover_choice_controller_->UnsetCover(&song);
 
-  // force the 'none' cover on all of the selected items
+  // Force the 'none' cover on all of the selected items
   for (QListWidgetItem *current : context_menu_items_) {
     current->setIcon(no_cover_item_icon_);
     current->setData(Role_PathManual, cover);
 
-    // don't save the first one twice
+    // Don't save the first one twice
     if (current != item) {
       Song current_song = ItemAsSong(current);
       album_cover_choice_controller_->SaveCover(&current_song, cover);
@@ -824,7 +848,7 @@ void AlbumCoverManager::UpdateExportStatus(int exported, int skipped, int max) {
                         .arg(skipped);
   statusBar()->showMessage(message);
 
-  // end of the current process
+  // End of the current process
   if (exported + skipped >= max) {
     QTimer::singleShot(2000, statusBar(), SLOT(clearMessage()));
 
@@ -865,7 +889,7 @@ QImage AlbumCoverManager::GenerateNoCoverImage(const QIcon &no_cover_icon) const
 
 }
 
-bool AlbumCoverManager::ItemHasCover(const QListWidgetItem& item) const {
+bool AlbumCoverManager::ItemHasCover(const QListWidgetItem &item) const {
   return item.icon().cacheKey() != no_cover_item_icon_.cacheKey();
 }
 

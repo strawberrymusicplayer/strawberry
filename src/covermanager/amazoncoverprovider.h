@@ -24,12 +24,16 @@
 
 #include "config.h"
 
-#include <QXmlStreamReader>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
 #include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QXmlStreamReader>
 
 #include "coverprovider.h"
-
-class QNetworkAccessManager;
+#include "albumcoverfetcher.h"
 
 class AmazonCoverProvider : public CoverProvider {
   Q_OBJECT

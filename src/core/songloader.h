@@ -23,26 +23,32 @@
 
 #include "config.h"
 
-#include <functional>
 #include <memory>
+#include <functional>
+#include <glib.h>
+#include <stdbool.h>
 
 #ifdef HAVE_GSTREAMER
-  #include <gst/gst.h>
+#  include <gst/gst.h>
 #endif
 
+#include <QtGlobal>
 #include <QObject>
 #include <QThreadPool>
+#include <QByteArray>
+#include <QSet>
+#include <QString>
 #include <QUrl>
+#include <QTimer>
 
 #include "song.h"
-#include "core/tagreaderclient.h"
-#include "musicbrainz/musicbrainzclient.h"
 
-class CueParser;
-class CollectionBackendInterface;
-class ParserBase;
 class Player;
+class CollectionBackendInterface;
 class PlaylistParser;
+class ParserBase;
+class CueParser;
+
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
 class CddaSongLoader;
 #endif
@@ -67,16 +73,13 @@ class SongLoader : public QObject {
   int timeout() const { return timeout_; }
   void set_timeout(int msec) { timeout_ = msec; }
 
-  // If Success is returned the songs are fully loaded. If BlockingLoadRequired
-  // is returned LoadFilenamesBlocking() needs to be called next.
+  // If Success is returned the songs are fully loaded. If BlockingLoadRequired is returned LoadFilenamesBlocking() needs to be called next.
   Result Load(const QUrl &url);
-  // Loads the files with only filenames. When finished, songs() contains a
-  // complete list of all Song objects, but without metadata. This method is
-  // blocking, do not call it from the UI thread.
+  // Loads the files with only filenames. When finished, songs() contains a complete list of all Song objects, but without metadata.
+  // This method is blocking, do not call it from the UI thread.
   void LoadFilenamesBlocking();
-  // Completely load songs previously loaded with LoadFilenamesBlocking(). When
-  // finished, the Song objects in songs() contain metadata now. This method is
-  // blocking, do not call it from the UI thread.
+  // Completely load songs previously loaded with LoadFilenamesBlocking().
+  // When finished, the Song objects in songs() contain metadata now. This method is blocking, do not call it from the UI thread.
   void LoadMetadataBlocking();
   Result LoadAudioCD();
 
@@ -91,7 +94,7 @@ signals:
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   void AudioCDTracksLoadedSlot(const SongList &songs);
   void AudioCDTracksTagsLoaded(const SongList &songs);
-#endif // HAVE_AUDIOCD
+#endif  // HAVE_AUDIOCD && HAVE_GSTREAMER
 
  private:
   enum State { WaitingForType, WaitingForMagic, WaitingForData, Finished };
@@ -105,7 +108,7 @@ signals:
 
 #ifdef HAVE_GSTREAMER
   void LoadRemote();
-  
+
   // GStreamer callbacks
   static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
   static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *buf, gpointer self);
@@ -117,7 +120,6 @@ signals:
   void EndOfStreamReached();
   void MagicReady();
   bool IsPipelinePlaying();
-  
 #endif
 
  private:

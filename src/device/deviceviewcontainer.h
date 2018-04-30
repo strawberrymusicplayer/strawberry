@@ -23,7 +23,12 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QShowEvent>
 
 namespace Ui {
 class DeviceViewContainer;

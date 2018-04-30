@@ -40,8 +40,11 @@
 #ifndef QTSINGLEAPPLICATION_H
 #define QTSINGLEAPPLICATION_H
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QApplication>
-
+#include <QString>
 class QtLocalPeer;
 
 #if defined(Q_WS_WIN) || defined(Q_OS_WIN32)

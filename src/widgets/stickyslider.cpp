@@ -20,7 +20,12 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QSlider>
+
 #include "stickyslider.h"
+
+class QMouseEvent;
 
 StickySlider::StickySlider(QWidget *parent)
   : QSlider(parent),

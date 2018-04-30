@@ -21,13 +21,16 @@
 #ifndef GNOMEGLOBALSHORTCUTBACKEND_H
 #define GNOMEGLOBALSHORTCUTBACKEND_H
 
-#include "config.h"
+#include <stdbool.h>
+#include <QObject>
+#include <QString>
 
+#include "config.h"
 #include "globalshortcutbackend.h"
 
-class OrgGnomeSettingsDaemonMediaKeysInterface;
-
 class QDBusPendingCallWatcher;
+class GlobalShortcuts;
+class OrgGnomeSettingsDaemonMediaKeysInterface;
 
 class GnomeGlobalShortcutBackend : public GlobalShortcutBackend {
   Q_OBJECT

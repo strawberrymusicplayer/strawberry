@@ -20,8 +20,18 @@
 
 #include "config.h"
 
-#include "coversearchstatisticsdialog.h"
+#include <QWidget>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QBoxLayout>
+#include <QLabel>
+#include <QFrame>
+#include <QtAlgorithms>
+
 #include "core/utilities.h"
+#include "coversearchstatistics.h"
+#include "coversearchstatisticsdialog.h"
 #include "ui_coversearchstatisticsdialog.h"
 
 CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
@@ -94,4 +104,3 @@ void CoverSearchStatisticsDialog::AddLine(const QString &label, const QString &v
 void CoverSearchStatisticsDialog::AddSpacer() {
   details_layout_->addSpacing(20);
 }
-

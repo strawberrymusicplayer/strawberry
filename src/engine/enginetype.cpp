@@ -19,8 +19,8 @@
 
 #include "config.h"
 
-#include <QString>
 #include <QObject>
+#include <QString>
 
 #include "enginetype.h"
 

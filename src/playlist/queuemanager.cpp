@@ -18,18 +18,26 @@
  * 
  */
 
-#include "config.h"
+#include <stdbool.h>
 
+#include <QWidget>
+#include <QDialog>
+#include <QAbstractItemModel>
+#include <QItemSelectionModel>
+#include <QKeySequence>
+#include <QList>
+#include <QPushButton>
+#include <QShortcut>
+#include <QTreeView>
+#include <QtAlgorithms>
+
+#include "core/iconloader.h"
 #include "playlist.h"
 #include "playlistdelegates.h"
 #include "playlistmanager.h"
 #include "queue.h"
 #include "queuemanager.h"
 #include "ui_queuemanager.h"
-#include "core/iconloader.h"
-
-#include <QKeySequence>
-#include <QShortcut>
 
 QueueManager::QueueManager(QWidget *parent)
     : QDialog(parent),
@@ -75,8 +83,8 @@ void QueueManager::SetPlaylistManager(PlaylistManager *manager) {
 void QueueManager::CurrentPlaylistChanged(Playlist *playlist) {
 
   if (current_playlist_) {
-    disconnect(current_playlist_->queue(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(UpdateButtonState()));
-    disconnect(current_playlist_->queue(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(UpdateButtonState()));
+    disconnect(current_playlist_->queue(), SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(UpdateButtonState()));
+    disconnect(current_playlist_->queue(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(UpdateButtonState()));
     disconnect(current_playlist_->queue(), SIGNAL(layoutChanged()), this, SLOT(UpdateButtonState()));
     disconnect(current_playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
   }

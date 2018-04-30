@@ -20,8 +20,9 @@
 
 #include "config.h"
 
-#include "globalshortcutbackend.h"
+#include <QObject>
 
+#include "globalshortcutbackend.h"
 #include "globalshortcuts.h"
 
 GlobalShortcutBackend::GlobalShortcutBackend(GlobalShortcuts *parent)
@@ -37,4 +38,3 @@ void GlobalShortcutBackend::Unregister() {
   DoUnregister();
   active_ = false;
 }
-

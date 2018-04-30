@@ -21,26 +21,33 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QWidget>
+#include <QList>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QSize>
 #include <QMenu>
 #include <QMovie>
 #include <QPainter>
-#include <QPaintEvent>
-#include <QSettings>
+#include <QPalette>
+#include <QBrush>
 #include <QSignalMapper>
 #include <QTextDocument>
 #include <QTimeLine>
-#include <QtDebug>
-
-#include "playingwidget.h"
+#include <QAction>
+#include <QActionGroup>
+#include <QSettings>
+#include <QtEvents>
 
 #include "core/application.h"
-#include "core/logging.h"
-#include "core/iconloader.h"
-#include "collection/collectionbackend.h"
-#include "covermanager/albumcoverloader.h"
-#include "covermanager/coverproviders.h"
-#include "covermanager/currentartloader.h"
 #include "covermanager/albumcoverchoicecontroller.h"
+#include "covermanager/albumcoverloader.h"
+#include "covermanager/currentartloader.h"
+#include "playingwidget.h"
 
 const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
 

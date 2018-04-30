@@ -18,19 +18,22 @@
  * 
  */
 
-#include "config.h"
+#include <QObject>
+#include <QAbstractItemModel>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QtDebug>
 
+#include "core/logging.h"
+#include "core/application.h"
+#include "core/database.h"
+#include "collection/collectionbackend.h"
+#include "collection/collectionmodel.h"
+#include "collection/directory.h"
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
-#include "core/application.h"
-#include "core/database.h"
-#include "core/logging.h"
-#include "collection/collection.h"
-#include "collection/collectionbackend.h"
-#include "collection/collectionmodel.h"
-
-#include <QtDebug>
 
 ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
     : QObject(manager),
@@ -73,10 +76,10 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, bool firs
   }
   else {
     if (rewrite_path) {
-      // This is a bit of a hack.  The device might not be mounted at the same
-      // path each time, so if it's different we have to munge all the paths in
-      // the database to fix it.  This can be done entirely in sqlite so it's
-      // relatively fast...
+      // This is a bit of a hack.
+      // The device might not be mounted at the same path each time,
+      // so if it's different we have to munge all the paths in the database to fix it.
+      // This can be done entirely in sqlite so it's relatively fast...
 
       // Get the directory it was mounted at last time.  Devices only have one directory (the root).
       Directory dir = backend_->GetAllDirectories()[0];

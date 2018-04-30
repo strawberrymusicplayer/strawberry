@@ -23,9 +23,13 @@
 
 #include "config.h"
 
-#include <QList>
-#include <QUrl>
+#include <stdbool.h>
+
 #include <QDataStream>
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QUrl>
 
 class CommandlineOptions {
   friend QDataStream &operator<<(QDataStream &s, const CommandlineOptions &a);

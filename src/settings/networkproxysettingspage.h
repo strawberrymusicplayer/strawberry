@@ -23,8 +23,12 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QString>
+
 #include "settingspage.h"
 
+class SettingsDialog;
 class Ui_NetworkProxySettingsPage;
 
 class NetworkProxySettingsPage : public SettingsPage {

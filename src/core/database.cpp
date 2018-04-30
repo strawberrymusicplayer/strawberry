@@ -20,27 +20,36 @@
 
 #include "config.h"
 
-#include "database.h"
-#include "scopedtransaction.h"
-#include "core/application.h"
-#include "core/logging.h"
-#include "core/taskmanager.h"
-
+#include <sqlite3.h>
 #include <boost/scope_exit.hpp>
 
-#include <sqlite3.h>
-
-#include <QCoreApplication>
-#include <QStandardPaths>
-#include <QDir>
-#include <QLibrary>
-#include <QLibraryInfo>
-#include <QSqlDriver>
-#include <QSqlQuery>
-#include <QtDebug>
+#include <QObject>
 #include <QThread>
-#include <QUrl>
+#include <QMutex>
+#include <QIODevice>
+#include <QDir>
+#include <QFile>
+#include <QChar>
+#include <QList>
+#include <QByteArray>
 #include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QRegExp>
+#include <QUrl>
+#include <QSqlDriver>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QStandardPaths>
+#include <QtDebug>
+
+#include "core/logging.h"
+#include "taskmanager.h"
+#include "database.h"
+#include "application.h"
+#include "scopedtransaction.h"
 
 const char *Database::kDatabaseFilename = "strawberry.db";
 const int Database::kSchemaVersion = 0;
@@ -269,7 +278,8 @@ QSqlDatabase Database::Connect() {
   {
 
 #ifdef SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER
-    // In case sqlite>=3.12 is compiled without -DSQLITE_ENABLE_FTS3_TOKENIZER (generally a good idea  due to security reasons) the fts3 support should be enabled explicitly.
+    // In case sqlite>=3.12 is compiled without -DSQLITE_ENABLE_FTS3_TOKENIZER
+    // (generally a good idea  due to security reasons) the fts3 support should be enabled explicitly.
     QVariant v = db.driver()->handle();
     if (v.isValid() && qstrcmp(v.typeName(), "sqlite3*") == 0) {
       sqlite3 *handle = *static_cast<sqlite3**>(v.data());
@@ -283,8 +293,7 @@ QSqlDatabase Database::Connect() {
     if (!set_fts_tokenizer.exec()) {
       qLog(Warning) << "Couldn't register FTS3 tokenizer : " << set_fts_tokenizer.lastError();
     }
-    // Implicit invocation of ~QSqlQuery() when leaving the scope
-    // to release any remaining database locks!
+    // Implicit invocation of ~QSqlQuery() when leaving the scope to release any remaining database locks!
   }
 
   if (db.tables().count() == 0) {
@@ -313,8 +322,7 @@ QSqlDatabase Database::Connect() {
     UpdateMainSchema(&db);
   }
 
-  // We might have to initialise the schema in some attached databases now, if
-  // they were deleted and don't match up with the main schema version.
+  // We might have to initialise the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
   for (const QString &key : attached_databases_.keys()) {
     if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty())
       continue;
@@ -338,8 +346,7 @@ void Database::UpdateMainSchema(QSqlDatabase *db) {
   {
     QSqlQuery q("SELECT version FROM schema_version", *db);
     if (q.next()) schema_version = q.value(0).toInt();
-    // Implicit invocation of ~QSqlQuery() when leaving the scope
-    // to release any remaining database locks!
+    // Implicit invocation of ~QSqlQuery() when leaving the scope to release any remaining database locks!
   }
 
   startup_schema_version_ = schema_version;
@@ -382,9 +389,8 @@ void Database::RecreateAttachedDb(const QString &database_name) {
     }
   }
 
-  // We can't just re-attach the database now because it needs to be done for
-  // each thread.  Close all the database connections, so each thread will
-  // re-attach it when they next connect.
+  // We can't just re-attach the database now because it needs to be done for each thread.
+  // Close all the database connections, so each thread will re-attach it when they next connect.
   for (const QString &name : QSqlDatabase::connectionNames()) {
     QSqlDatabase::removeDatabase(name);
   }
@@ -482,12 +488,9 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int s
   // Run each command
   const QStringList commands(schema.split(QRegExp("; *\n\n")));
 
-  // We don't want this list to reflect possible DB schema changes
-  // so we initialize it before executing any statements.
-  // If no outer transaction is provided the song tables need to
-  // be queried before beginning an inner transaction! Otherwise
-  // DROP TABLE commands on song tables may fail due to database
-  // locks.
+  // We don't want this list to reflect possible DB schema changes so we initialize it before executing any statements.
+  // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction! Otherwise
+  // DROP TABLE commands on song tables may fail due to database locks.
   const QStringList song_tables(SongsTables(db, schema_version));
 
   if (!in_transaction) {
@@ -505,12 +508,10 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
   
   for (const QString &command : commands) {
     // There are now lots of "songs" tables that need to have the same schema:
-    // songs, magnatune_songs, and device_*_songs.  We allow a magic value
-    // in the schema files to update all songs tables at once.
+    // songs, magnatune_songs, and device_*_songs.  We allow a magic value in the schema files to update all songs tables at once.
     if (command.contains(kMagicAllSongsTables)) {
       for (const QString &table : song_tables) {
-        // Another horrible hack: device songs tables don't have matching _fts
-        // tables, so if this command tries to touch one, ignore it.
+        // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
         if (table.startsWith("device_") &&
             command.contains(QString(kMagicAllSongsTables) + "_fts")) {
           continue;

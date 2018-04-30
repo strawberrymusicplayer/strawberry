@@ -23,32 +23,38 @@
 
 #include "config.h"
 
-#include <QMap>
-#include <QScrollArea>
-#include <QUrl>
+#include <stdbool.h>
 
-class QHBoxLayout;
-class QMenu;
-class QNetworkAccessManager;
-class QNetworkReply;
-class QPropertyAnimation;
-class QTimeLine;
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QUrl>
+#include <QScrollArea>
+#include <QBoxLayout>
+#include <QPropertyAnimation>
+#include <QNetworkAccessManager>
+#include <QtEvents>
+
+class QEvent;
+class QMouseEvent;
+class QResizeEvent;
+class QWheelEvent;
 
 class PrettyImageView : public QScrollArea {
   Q_OBJECT
 
  public:
-  PrettyImageView(QNetworkAccessManager* network, QWidget* parent = nullptr);
+  PrettyImageView(QNetworkAccessManager *network, QWidget *parent = nullptr);
 
-  static const char* kSettingsGroup;
+  static const char *kSettingsGroup;
 
 public slots:
   void AddImage(const QUrl& url);
 
 protected:
   void mouseReleaseEvent(QMouseEvent*);
-  void resizeEvent(QResizeEvent* e);
-  void wheelEvent(QWheelEvent* e);
+  void resizeEvent(QResizeEvent *e);
+  void wheelEvent(QWheelEvent *e);
 
 private slots:
   void ScrollBarReleased();
@@ -59,13 +65,13 @@ private slots:
 private:
   bool eventFilter(QObject*, QEvent*);
 
-  QNetworkAccessManager* network_;
+  QNetworkAccessManager *network_;
 
-  QWidget* container_;
-  QHBoxLayout* layout_;
+  QWidget *container_;
+  QHBoxLayout *layout_;
 
   int current_index_;
-  QPropertyAnimation* scroll_animation_;
+  QPropertyAnimation *scroll_animation_;
 
   bool recursion_filter_;
 };

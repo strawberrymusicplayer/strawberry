@@ -18,7 +18,7 @@
  * 
  */
 
-#include "config.h"
+#include <QWidget>
 
 #include "settingsdialog.h"
 #include "settingspage.h"

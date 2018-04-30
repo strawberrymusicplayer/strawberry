@@ -23,6 +23,8 @@
 #include "osd.h"
 #include "core/logging.h"
 
+#include <QString>
+#include <QImage>
 #include <QtDebug>
 
 void OSD::Init() {

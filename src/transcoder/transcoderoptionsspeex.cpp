@@ -20,10 +20,21 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSlider>
+#include <QSpinBox>
+#include <QSettings>
+
+#include "transcoderoptionsinterface.h"
 #include "transcoderoptionsspeex.h"
 #include "ui_transcoderoptionsspeex.h"
-
-#include <QSettings>
 
 const char *TranscoderOptionsSpeex::kSettingsGroup = "Transcoder/speexenc";
 

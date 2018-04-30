@@ -26,6 +26,7 @@
 #include <CoreServices/CoreServices.h>
 
 #include <QObject>
+#include <QString>
 #include <QSet>
 #include <QTimer>
 

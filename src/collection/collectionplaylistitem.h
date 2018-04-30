@@ -23,8 +23,16 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+
 #include "core/song.h"
 #include "playlist/playlistitem.h"
+
+class SqlRow;
 
 class CollectionPlaylistItem : public PlaylistItem {
  public:

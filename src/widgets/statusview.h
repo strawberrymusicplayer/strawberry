@@ -22,31 +22,38 @@
 
 #include "config.h"
 
-#include <QApplication>
+#include <memory>
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QMovie>
+#include <QPainter>
+#include <QTimeLine>
+#include <QAction>
+#include <QLabel>
+#include <QMenu>
+#include <QScrollArea>
+#include <QBoxLayout>
+#include <QtEvents>
 
 #include "core/song.h"
-#include "core/database.h"
-#include "core/application.h"
-
-#include "collection/collectionbackend.h"
-#include "collection/collectionview.h"
-#include "collection/collectionviewcontainer.h"
-
 #include "covermanager/albumcoverloaderoptions.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QScrollArea;
-class QWidget;
-class QTimeLine;
-class QLabel;
-class QImage;
-class QPixmap;
-class QPainter;
+class QEvent;
+class QContextMenuEvent;
+class QDragEnterEvent;
+class QDropEvent;
+class QMouseEvent;
 
 class Application;
 class CollectionView;
-class CollectionBackend;
+class CollectionViewContainer;
+class AlbumCoverChoiceController;
 
 class StatusView : public QWidget {
   Q_OBJECT
@@ -54,7 +61,7 @@ class StatusView : public QWidget {
 public:
   StatusView(CollectionViewContainer *collectionviewcontainer, QWidget *parent = nullptr);
   ~StatusView();
-  
+
   static const char* kSettingsGroup;
   static const int kPadding;
   static const int kGradientHead;
@@ -62,9 +69,9 @@ public:
   static const int kMaxCoverSize;
   static const int kBottomOffset;
   static const int kTopBorder;
-  
+
   void SetApplication(Application *app);
-  
+
 public slots:
   void SongChanged(const Song &song);
   void SongFinished();
@@ -99,8 +106,6 @@ private:
 
   QPixmap *pixmap_album_;
   QPainter *painter_album_;
-  
-  Song song_;
   
   CollectionView *collectionview_;
   
@@ -150,10 +155,9 @@ private:
     Stopped
   };
   WidgetState widgetstate_;
-  QMenu* menu_;
+  QMenu *menu_;
 
 protected:
-
   bool eventFilter(QObject *, QEvent *);
   void handlePaintEvent(QObject *object, QEvent *event);
   void paintEvent_album(QEvent *event);
@@ -161,7 +165,7 @@ protected:
   void mouseReleaseEvent(QMouseEvent *);
   void dragEnterEvent(QDragEnterEvent *e);
   void dropEvent(QDropEvent *e);
-  void UpdateSong(const Song &song);
+  void UpdateSong();
   void NoSong();
   void SwitchWidgets(WidgetState state);
 

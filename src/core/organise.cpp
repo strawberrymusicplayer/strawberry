@@ -18,23 +18,26 @@
  * 
  */
 
-#include "config.h"
-
-#include "organise.h"
-
 #include <functional>
 
-#include <QDir>
+#include <QtGlobal>
+#include <QThread>
+#include <QFile>
 #include <QFileInfo>
 #include <QTimer>
-#include <QThread>
+#include <QString>
+#include <QStringBuilder>
 #include <QUrl>
+#include <QtDebug>
 
-#include "musicstorage.h"
-#include "taskmanager.h"
 #include "core/logging.h"
-#include "core/tagreaderclient.h"
-#include "core/utilities.h"
+#include "utilities.h"
+#include "taskmanager.h"
+#include "musicstorage.h"
+#include "organise.h"
+#include "transcoder/transcoder.h"
+
+class OrganiseFormat;
 
 using std::placeholders::_1;
 
@@ -112,8 +115,7 @@ void Organise::ProcessSomeFiles() {
 
     emit Finished(files_with_errors_);
 
-    // Move back to the original thread so deleteLater() can get called in
-    // the main thread's event loop
+    // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
     deleteLater();
 
@@ -165,9 +167,8 @@ void Organise::ProcessSomeFiles() {
 
         qLog(Debug) << "Transcoding to" << task.transcoded_filename_;
 
-        // Start the transcoding - this will happen in the background and
-        // FileTranscoded() will get called when it's done.  At that point the
-        // task will get re-added to the pending queue with the new filename.
+        // Start the transcoding - this will happen in the background and FileTranscoded() will get called when it's done.
+	// At that point the task will get re-added to the pending queue with the new filename.
         transcoder_->AddJob(task.song_info_.song_.url().toLocalFile(), preset, task.transcoded_filename_);
         transcoder_->Start();
         continue;
@@ -223,9 +224,7 @@ Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
 
       if (format != Song::Type_Unknown) return format;
 
-      // The user hasn't visited the device properties page yet to set a
-      // preferred format for the device, so we have to pick the best
-      // available one.
+      // The user hasn't visited the device properties page yet to set a preferred format for the device, so we have to pick the best available one.
       return Transcoder::PickBestFormat(supported_filetypes_);
   }
   return Song::Type_Unknown;
@@ -251,9 +250,8 @@ void Organise::UpdateProgress() {
     tasks_transcoding_[filename].transcode_progress_ = transcode_progress[filename];
   }
 
-  // Count the progress of all tasks that are in the queue.  Files that need
-  // transcoding total 50 for the transcode and 50 for the copy, files that
-  // only need to be copied total 100.
+  // Count the progress of all tasks that are in the queue.
+  // Files that need transcoding total 50 for the transcode and 50 for the copy, files that only need to be copied total 100.
   int progress = tasks_complete_ * 100;
 
   for (const Task &task : tasks_pending_) {

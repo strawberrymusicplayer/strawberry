@@ -21,12 +21,14 @@
 #include "config.h"
 
 #include <QFile>
+#include <QSize>
+#include <QString>
+#include <QStringBuilder>
 #include <QUrl>
+#include <QImage>
 
-#include "albumcoverexporter.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
-
 #include "coverexportrunnable.h"
 
 CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song)
@@ -36,7 +38,7 @@ void CoverExportRunnable::run() {
 
   QString cover_path = GetCoverPath();
 
-  // manually unset?
+  // Manually unset?
   if (cover_path.isEmpty()) {
     EmitCoverSkipped();
   }
@@ -69,9 +71,7 @@ QString CoverExportRunnable::GetCoverPath() {
 }
 
 // Exports a single album cover using a "save QImage to file" approach.
-// For performance reasons this method will be invoked only if loading
-// and in memory processing of images is necessary for current settings
-// which means that:
+// For performance reasons this method will be invoked only if loading and in memory processing of images is necessary for current settings which means that:
 // - either the force size flag is being used
 // - or the "overwrite smaller" mode is used
 // In all other cases, the faster ExportCover() method will be used.
@@ -123,12 +123,10 @@ void CoverExportRunnable::ProcessAndExportCover() {
     return;
   }
 
-  // we're handling overwrite as remove + copy so we need to delete the old file
-  // first
+  // we're handling overwrite as remove + copy so we need to delete the old file first
   if (QFile::exists(new_file) && dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode_None) {
 
-    // if the mode is "overwrite smaller" then skip the cover if a bigger one
-    // is already available in the folder
+    // if the mode is "overwrite smaller" then skip the cover if a bigger one is already available in the folder
     if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode_Smaller) {
       QImage existing;
       existing.load(new_file);

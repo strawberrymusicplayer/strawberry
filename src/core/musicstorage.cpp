@@ -18,11 +18,8 @@
  * 
  */
 
-#include "config.h"
-
 #include "musicstorage.h"
 
 MusicStorage::MusicStorage()
 {
 }
-

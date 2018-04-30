@@ -20,14 +20,19 @@
 
 #include "config.h"
 
-#include <QMutex>
-
 #include <pulse/context.h>
+#include <pulse/def.h>
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>
+#include <pulse/proplist.h>
+
+#include <QtGlobal>
+#include <QVariant>
+#include <QString>
 
 #include "core/logging.h"
-#include "engine/pulsedevicefinder.h"
+#include "devicefinder.h"
+#include "pulsedevicefinder.h"
 
 PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio"), mainloop_(nullptr), context_(nullptr) {
 }

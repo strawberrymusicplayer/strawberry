@@ -20,13 +20,24 @@
 
 #include "config.h"
 
-#include "networkproxysettingspage.h"
-#include "ui_networkproxysettingspage.h"
+#include <stdbool.h>
+
+#include <QVariant>
+#include <QSettings>
+#include <QNetworkProxy>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QRadioButton>
+#include <QSpinBox>
 
 #include "core/iconloader.h"
 #include "core/networkproxyfactory.h"
+#include "networkproxysettingspage.h"
+#include "settings/settingspage.h"
+#include "ui_networkproxysettingspage.h"
 
-#include <QSettings>
+class SettingsDialog;
 
 const char *NetworkProxySettingsPage::kSettingsGroup = "NetworkProxy";
 

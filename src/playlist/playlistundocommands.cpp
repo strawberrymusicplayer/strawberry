@@ -20,8 +20,16 @@
 
 #include "config.h"
 
-#include "playlistundocommands.h"
+#include <memory>
+
+#include <QList>
+#include <QUrl>
+#include <QUndoStack>
+
+#include "core/song.h"
 #include "playlist.h"
+#include "playlistitem.h"
+#include "playlistundocommands.h"
 
 namespace PlaylistUndoCommands {
 
@@ -66,8 +74,7 @@ RemoveItems::RemoveItems(Playlist *playlist, int pos, int count) : Base(playlist
 
 void RemoveItems::redo() {
   for (int i = 0; i < ranges_.count(); ++i)
-    ranges_[i].items_ =
-        playlist_->RemoveItemsWithoutUndo(ranges_[i].pos_, ranges_[i].count_);
+    ranges_[i].items_ = playlist_->RemoveItemsWithoutUndo(ranges_[i].pos_, ranges_[i].count_);
 }
 
 void RemoveItems::undo() {
@@ -111,9 +118,9 @@ void ReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old_items_); }
 void ReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
 
 SortItems::SortItems(Playlist* playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items)
-  : ReOrderItems(playlist, new_items),
-    column_(column),
-    order_(order)
+  : ReOrderItems(playlist, new_items)
+    //column_(column),
+    //order_(order)
 {
   setText(tr("sort songs"));
 }

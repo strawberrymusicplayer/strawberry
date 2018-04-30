@@ -24,13 +24,17 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QObject>
+#include <QThread>
+#include <QString>
+#include <QStringList>
 
 #include "song.h"
 
-class MusicStorage;
 class TaskManager;
+class MusicStorage;
 
 class DeleteFiles : public QObject {
   Q_OBJECT
@@ -41,11 +45,11 @@ class DeleteFiles : public QObject {
 
   static const int kBatchSize;
 
-  void Start(const SongList& songs);
-  void Start(const QStringList& filenames);
+  void Start(const SongList &songs);
+  void Start(const QStringList &filenames);
 
 signals:
-  void Finished(const SongList& songs_with_errors);
+  void Finished(const SongList &songs_with_errors);
 
  private slots:
   void ProcessSomeFiles();
@@ -67,4 +71,3 @@ signals:
 };
 
 #endif  // DELETEFILES_H
-

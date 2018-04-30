@@ -20,12 +20,18 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QDateTime>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
+#include <QRegExp>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 #include "collectionquery.h"
 #include "core/song.h"
-
-#include <QtDebug>
-#include <QDateTime>
-#include <QSqlError>
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
 
@@ -33,8 +39,7 @@ CollectionQuery::CollectionQuery(const QueryOptions& options)
     : include_unavailable_(false), join_with_fts_(false), limit_(-1) {
 
   if (!options.filter().isEmpty()) {
-    // We need to munge the filter text a little bit to get it to work as
-    // expected with sqlite's FTS3:
+    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS3:
     //  1) Append * to all tokens.
     //  2) Prefix "fts" to column names.
     //  3) Remove colons which don't correspond to column names.
@@ -50,8 +55,7 @@ CollectionQuery::CollectionQuery(const QueryOptions& options)
 
       if (token.contains(':')) {
         // Only prefix fts if the token is a valid column name.
-        if (Song::kFtsColumns.contains("fts" + token.section(':', 0, 0),
-                                       Qt::CaseInsensitive)) {
+        if (Song::kFtsColumns.contains("fts" + token.section(':', 0, 0), Qt::CaseInsensitive)) {
           // Account for multiple colons.
           QString columntoken = token.section(':', 0, 0, QString::SectionIncludeTrailingSep);
           QString subtoken = token.section(':', 1, -1);
@@ -82,16 +86,12 @@ CollectionQuery::CollectionQuery(const QueryOptions& options)
     bound_values_ << cutoff;
   }
 
-  // TODO: currently you cannot use any QueryMode other than All and fts at the
-  // same time.
-  // joining songs, duplicated_songs and songs_fts all together takes a huge
-  // amount of
-  // time. the query takes about 20 seconds on my machine then. why?
-  // untagged mode could work with additional filtering but I'm disabling it
-  // just to be
-  // consistent - this way filtering is available only in the All mode.
-  // remember though that when you fix the Duplicates + FTS cooperation, enable
-  // the filtering in both Duplicates and Untagged modes.
+  // TODO: Currently you cannot use any QueryMode other than All and fts at the same time.
+  // Joining songs, duplicated_songs and songs_fts all together takes a huge amount of time.
+  // The query takes about 20 seconds on my machine then. Why?
+  // Untagged mode could work with additional filtering but I'm disabling it just to be consistent
+  // this way filtering is available only in the All mode.
+  // Remember though that when you fix the Duplicates + FTS cooperation, enable the filtering in both Duplicates and Untagged modes.
   duplicates_only_ = options.query_mode() == QueryOptions::QueryMode_Duplicates;
 
   if (options.query_mode() == QueryOptions::QueryMode_Untagged) {
@@ -114,7 +114,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
   // ignore 'literal' for IN
   if (!op.compare("IN", Qt::CaseInsensitive)) {
     QStringList final;
-    for (const QString& single_value : value.toStringList()) {
+    for (const QString &single_value : value.toStringList()) {
       final.append("?");
       bound_values_ << single_value;
     }
@@ -122,8 +122,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     where_clauses_ << QString("%1 IN (" + final.join(",") + ")").arg(column);
   }
   else {
-    // Do integers inline - sqlite seems to get confused when you pass integers
-    // to bound parameters
+    // Do integers inline - sqlite seems to get confused when you pass integers to bound parameters
     if (value.type() == QVariant::Int) {
       where_clauses_ << QString("%1 %2 %3").arg(column, op, value.toString());
     }
@@ -136,10 +135,8 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 }
 
 void CollectionQuery::AddCompilationRequirement(bool compilation) {
-  // The unary + is added to prevent sqlite from using the index
-  // idx_comp_artist. When joining with fts, sqlite 3.8 has a tendency
-  // to use this index and thereby nesting the tables in an order
-  // which gives very poor performance
+  // The unary + is added to prevent sqlite from using the index idx_comp_artist.
+  // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance
 
   where_clauses_ << QString("+compilation_effective = %1").arg(compilation ? 1 : 0);
 
@@ -175,7 +172,7 @@ QSqlQuery CollectionQuery::Exec(QSqlDatabase db, const QString &songs_table, con
   query_.prepare(sql);
 
   // Bind values
-  for (const QVariant& value : bound_values_) {
+  for (const QVariant &value : bound_values_) {
     query_.addBindValue(value);
   }
 

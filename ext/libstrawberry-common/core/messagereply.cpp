@@ -17,6 +17,11 @@
 
 #include "messagereply.h"
 
+#include <QObject>
+#include <QtDebug>
+
+#include "core/logging.h"
+
 _MessageReplyBase::_MessageReplyBase(QObject *parent)
     : QObject(parent), finished_(false), success_(false) {}
 

@@ -20,20 +20,42 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QWidget>
+#include <QDialog>
+#include <QAbstractItemModel>
+#include <QtAlgorithms>
+#include <QDir>
+#include <QList>
+#include <QMap>
+#include <QDirIterator>
+#include <QFileDialog>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QIcon>
+#include <QDateTime>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QKeySequence>
+#include <QLabel>
+#include <QPlainTextEdit>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QTreeWidget>
+#include <QDialogButtonBox>
+#include <QSettings>
+
+#include "core/iconloader.h"
+#include "core/mainwindow.h"
+#include "widgets/fileview.h"
 #include "transcodedialog.h"
 #include "transcoder.h"
 #include "transcoderoptionsdialog.h"
 #include "ui_transcodedialog.h"
 #include "ui_transcodelogdialog.h"
-#include "core/iconloader.h"
-#include "core/mainwindow.h"
-#include "widgets/fileview.h"
-
-#include <QPushButton>
-#include <QFileDialog>
-#include <QDirIterator>
-#include <QSettings>
-#include <QDateTime>
 
 // winspool.h defines this :(
 #ifdef AddJob
@@ -225,8 +247,6 @@ void TranscodeDialog::AllJobsComplete() {
 }
 
 void TranscodeDialog::Add() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,

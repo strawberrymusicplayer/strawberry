@@ -20,18 +20,29 @@
 
 #include "config.h"
 
-#include "musicbrainzclient.h"
-
-#include <QCoreApplication>
-#include <QNetworkReply>
+#include <QObject>
+#include <QList>
+#include <QPair>
 #include <QSet>
-#include <QXmlStreamReader>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
+#include <QRegExp>
+#include <QUrl>
 #include <QUrlQuery>
+#include <QtAlgorithms>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QXmlStreamReader>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
+#include "musicbrainzclient.h"
 
 const char *MusicBrainzClient::kTrackUrl = "http://musicbrainz.org/ws/2/recording/";
 const char *MusicBrainzClient::kDiscUrl = "http://musicbrainz.org/ws/2/discid/";
@@ -327,8 +338,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *re
   return ret;
 }
 
-// Parse the artist. Multiple artists are joined together with the
-// joinphrase from musicbrainz.
+// Parse the artist. Multiple artists are joined together with the joinphrase from musicbrainz.
 void MusicBrainzClient::ParseArtist(QXmlStreamReader *reader, QString *artist) {
 
   QString join_phrase;
@@ -394,10 +404,8 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList&
     qSort(ret);
   }
   else {  // KeepOriginalOrder
-    // Qt doesn't provide a ordered set (QSet "stores values in an unspecified
-    // order" according to Qt documentation).
-    // We might use std::set instead, but it's probably faster to use ResultList
-    // directly to avoid converting from one structure to another.
+    // Qt doesn't provide a ordered set (QSet "stores values in an unspecified order" according to Qt documentation).
+    // We might use std::set instead, but it's probably faster to use ResultList directly to avoid converting from one structure to another.
     for (const Result& res : results) {
       if (!ret.contains(res)) {
         ret << res;

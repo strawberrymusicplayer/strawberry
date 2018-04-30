@@ -23,7 +23,13 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
+#include <QSize>
+#include <QString>
+#include <QtEvents>
+
+class QPaintEvent;
 
 class BusyIndicator;
 class TaskManager;

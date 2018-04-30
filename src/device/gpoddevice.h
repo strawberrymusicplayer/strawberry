@@ -23,14 +23,25 @@
 
 #include "config.h"
 
-#include "connecteddevice.h"
-#include "core/musicstorage.h"
-
-#include <QMutex>
-#include <QWaitCondition>
-
+#include <stdbool.h>
 #include <gpod/itdb.h>
 
+#include <QObject>
+#include <QMutex>
+#include <QThread>
+#include <QWaitCondition>
+#include <QList>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+
+#include "core/song.h"
+#include "core/musicstorage.h"
+#include "connecteddevice.h"
+
+class Application;
+class DeviceLister;
+class DeviceManager;
 class GPodLoader;
 
 class GPodDevice : public ConnectedDevice, public virtual MusicStorage {

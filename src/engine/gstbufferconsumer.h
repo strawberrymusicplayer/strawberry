@@ -18,8 +18,8 @@
  * 
  */
 
-#ifndef BUFFERCONSUMER_H
-#define BUFFERCONSUMER_H
+#ifndef GSTBUFFERCONSUMER_H
+#define GSTBUFFERCONSUMER_H
 
 #include "config.h"
 
@@ -27,14 +27,13 @@
 
 class GstEnginePipeline;
 
-class BufferConsumer {
+class GstBufferConsumer {
 public:
-  virtual ~BufferConsumer() {}
+  virtual ~GstBufferConsumer() {}
 
   // This is called in some unspecified GStreamer thread.
-  // Ownership of the buffer is transferred to the BufferConsumer and it should
-  // gst_buffer_unref it.
-  virtual void ConsumeBuffer(GstBuffer* buffer, int pipeline_id) = 0;
+  // Ownership of the buffer is transferred to the BufferConsumer and it should gst_buffer_unref it.
+  virtual void ConsumeBuffer(GstBuffer *buffer, int pipeline_id) = 0;
 };
 
-#endif // BUFFERCONSUMER_H
+#endif // GSTBUFFERCONSUMER_H

@@ -20,14 +20,22 @@
 
 #include "config.h"
 
-#include <QEvent>
-#include <QKeyEvent>
+#include <QObject>
+#include <QWidget>
+#include <QFlags>
+#include <QFontMetrics>
+#include <QString>
+#include <QStringBuilder>
+#include <QIcon>
 #include <QPainter>
+#include <QPalette>
+#include <QColor>
+#include <QRect>
+#include <QSize>
 #include <QToolButton>
+#include <QtEvents>
 
 #include "didyoumean.h"
-
-#include "core/logging.h"
 
 const int DidYouMean::kPadding = 3;
 
@@ -68,7 +76,7 @@ DidYouMean::DidYouMean(QWidget *buddy, QWidget *parent)
 }
 
 bool DidYouMean::eventFilter(QObject *object, QEvent *event) {
-  
+
   if (object != buddy_) {
     return QObject::eventFilter(object, event);
   }
@@ -122,8 +130,7 @@ void DidYouMean::UpdateGeometry() {
   const int height = text_height + kPadding * 2;
 
   move(buddy_->mapToGlobal(buddy_->rect().bottomLeft()));
-  // Resize to len(text to display) + total number of padding added +
-  // size(close button), so the "Did you mean" widget is always fully displayed
+  // Resize to len(text to display) + total number of padding added + size(close button), so the "Did you mean" widget is always fully displayed
 
   resize(QSize(did_you_mean_size_ + QFontMetrics(correction_font_).width(correction_ + "  ") + press_enter_size_ + kPadding * 6 + close_->width(), height));
 

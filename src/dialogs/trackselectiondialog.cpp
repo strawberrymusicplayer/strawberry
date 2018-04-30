@@ -20,21 +20,38 @@
 
 #include "config.h"
 
+#include <QtConcurrentRun>
+#include <QWidget>
+#include <QDialog>
+#include <QTreeWidgetItem>
+#include <QAbstractItemModel>
+#include <QDialogButtonBox>
 #include <QFileInfo>
+#include <QFuture>
 #include <QFutureWatcher>
+#include <QVariant>
+#include <QUrl>
+#include <QString>
+#include <QStringList>
+#include <QStringBuilder>
+#include <QPalette>
+#include <QFont>
+#include <QKeySequence>
+#include <QListWidget>
+#include <QListWidgetItem>
 #include <QPushButton>
 #include <QShortcut>
+#include <QSplitter>
+#include <QStackedWidget>
 #include <QTreeWidget>
-#include <QUrl>
-#include <QtConcurrentRun>
 #include <QtDebug>
 
+#include "core/iconloader.h"
+#include "core/logging.h"
+#include "core/tagreaderclient.h"
+#include "widgets/busyindicator.h"
 #include "trackselectiondialog.h"
 #include "ui_trackselectiondialog.h"
-
-#include "core/tagreaderclient.h"
-#include "core/iconloader.h"
-
 
 TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
   : QDialog(parent),

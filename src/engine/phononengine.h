@@ -19,10 +19,14 @@
 
 #include "config.h"
 
-#include "enginebase.h"
-
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QUrl>
+
+#include "enginebase.h"
 
 class QTimer;
 class TaskManager;
@@ -49,7 +53,7 @@ class PhononEngine : public Engine::Base {
   uint length() const;
 
   void Seek(quint64 offset_nanosec);
-  
+
   qint64 position_nanosec() const;
   qint64 length_nanosec() const;
 

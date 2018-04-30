@@ -23,7 +23,18 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QObject>
 #include <QWidget>
+#include <QString>
+#include <QPixmap>
+#include <QFont>
+#include <QFontMetrics>
+#include <QPoint>
+#include <QtEvents>
+
+class QMouseEvent;
+class QPaintEvent;
 
 class TrackSliderPopup : public QWidget {
   Q_OBJECT

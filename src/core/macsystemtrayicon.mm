@@ -22,13 +22,12 @@
 
 #include "macsystemtrayicon.h"
 
-#include "core/mac_delegate.h"
-#include "core/song.h"
+#include "mac_delegate.h"
+#include "song.h"
 
-#include <QAction>
 #include <QApplication>
+#include <QAction>
 #include <QIcon>
-
 #include <QtDebug>
 
 #include <AppKit/NSMenu.h>

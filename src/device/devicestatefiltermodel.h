@@ -23,7 +23,13 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QString>
 #include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QModelIndex>
 
 #include "devicemanager.h"
 

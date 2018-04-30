@@ -23,12 +23,17 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMap>
+#include <QSet>
 #include <QScopedPointer>
+#include <QString>
 #include <QSortFilterProxyModel>
 
 #include "playlist.h"
-
-#include <QSet>
 
 class FilterTree;
 

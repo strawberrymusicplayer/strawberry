@@ -20,24 +20,30 @@
 
 #include "config.h"
 
-#include "albumcoverloader.h"
-
-#include <QCoreApplication>
+#include <QtGlobal>
+#include <QObject>
+#include <QQueue>
+#include <QMutex>
 #include <QStandardPaths>
+#include <QSize>
+#include <QList>
+#include <QSet>
+#include <QVariant>
 #include <QString>
-#include <QDir>
+#include <QStringBuilder>
 #include <QUrl>
-#include <QNetworkReply>
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
-#include <QMutexLocker>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
-#include "config.h"
 #include "core/closure.h"
-#include "core/logging.h"
 #include "core/network.h"
+#include "core/song.h"
 #include "core/tagreaderclient.h"
+#include "albumcoverloader.h"
+#include "albumcoverloaderoptions.h"
 
 AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
     : QObject(parent),
@@ -171,7 +177,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
   if (filename.toLower().startsWith("http://") || filename.toLower().startsWith("https://")) {
 
     QUrl url(filename);
-    QNetworkReply* reply = network_->get(QNetworkRequest(url));
+    QNetworkReply *reply = network_->get(QNetworkRequest(url));
     NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), reply);
 
     remote_tasks_.insert(reply, task);
@@ -201,7 +207,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
     }
     QNetworkRequest request = reply->request();
     request.setUrl(redirect.toUrl());
-    QNetworkReply* redirected_reply = network_->get(request);
+    QNetworkReply *redirected_reply = network_->get(request);
     NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), redirected_reply);
 
     remote_tasks_.insert(redirected_reply, task);

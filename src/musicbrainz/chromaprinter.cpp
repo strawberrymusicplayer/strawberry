@@ -20,17 +20,26 @@
 
 #include "config.h"
 
-#include "chromaprinter.h"
-
-#include <QCoreApplication>
-#include <QDir>
-#include <QEventLoop>
-#include <QThread>
-#include <QtDebug>
-#include <QTime>
-
+#include <glib-object.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <chromaprint.h>
+#include <gst/gst.h>
 
+#include <QtGlobal>
+#include <QCoreApplication>
+#include <QThread>
+#include <QIODevice>
+#include <QBuffer>
+#include <QByteArray>
+#include <QDateTime>
+#include <QString>
+#include <QTime>
+#include <QtDebug>
+
+#include "chromaprinter.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
 
@@ -95,8 +104,7 @@ QString Chromaprinter::CreateFingerprint() {
   GstAppSinkCallbacks callbacks;
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.new_sample = NewBufferCallback;
-  gst_app_sink_set_callbacks(reinterpret_cast<GstAppSink*>(sink), &callbacks,
-                             this, nullptr);
+  gst_app_sink_set_callbacks(reinterpret_cast<GstAppSink*>(sink), &callbacks, this, nullptr);
   g_object_set(G_OBJECT(sink), "sync", FALSE, nullptr);
   g_object_set(G_OBJECT(sink), "emit-signals", TRUE, nullptr);
 

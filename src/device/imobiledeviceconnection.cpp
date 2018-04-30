@@ -23,13 +23,17 @@
 #include <plist/plist.h>
 
 #include <QCoreApplication>
+#include <QDir>
+#include <QByteArray>
+#include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QtDebug>
 
-#include "imobiledeviceconnection.h"
 #include "core/logging.h"
+#include "imobiledeviceconnection.h"
 
-iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(NULL), afc_(NULL), afc_port_(0) {
+iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(nullptr), afc_(nullptr), afc_port_(0) {
 
   idevice_error_t err = idevice_new(&device_, uuid.toUtf8().constData());
   if (err != IDEVICE_E_SUCCESS) {
@@ -38,6 +42,7 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
   }
 
   lockdownd_client_t lockdown;
+  lockdownd_service_descriptor_t lockdown_service_desc;
 
   QByteArray label_ascii = QCoreApplication::applicationName().toLatin1();
   const char *label = label_ascii.constData();
@@ -47,14 +52,14 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
     return;
   }
 
-  lockdown_err = lockdownd_start_service(lockdown, "com.apple.afc", &afc_port_);
+  lockdown_err = lockdownd_start_service(lockdown, "com.apple.afc", &lockdown_service_desc);
   if (lockdown_err != LOCKDOWN_E_SUCCESS) {
     qLog(Warning) << "lockdown error:" << lockdown_err;
     lockdownd_client_free(lockdown);
     return;
   }
 
-  afc_error_t afc_err = afc_client_new(device_, afc_port_, &afc_);
+  afc_error_t afc_err = afc_client_new(device_, lockdown_service_desc, &afc_);
   if (afc_err != 0) {
     qLog(Warning) << "afc error:" << afc_err;
     lockdownd_client_free(lockdown);
@@ -197,8 +202,7 @@ bool iMobileDeviceConnection::Exists(const QString &path) {
 
 QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const Song &metadata) {
 
-  // This function does the same as itdb_cp_get_dest_filename, except it
-  // accesses the device's filesystem through imobiledevice.
+  // This function does the same as itdb_cp_get_dest_filename, except it accesses the device's filesystem through imobiledevice.
 
   // Get the total number of F.. directories
   int total_musicdirs = 0;
@@ -231,8 +235,7 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
     extension = "mp3";
 
   // Loop until we find an unused filename.
-  // Use the same naming convention as libgpod, which is
-  // "libgpod" + 6-digit random number
+  // Use the same naming convention as libgpod, which is "libgpod" + 6-digit random number
   static const int kRandMax = 999999;
   QString filename;
   forever {

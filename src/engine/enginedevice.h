@@ -23,11 +23,9 @@
 
 #include "config.h"
 
-#include <QStringList>
-#include <QVariant>
-
-#include "enginebase.h"
-#include "devicefinder.h"
+#include <QObject>
+#include <QList>
+#include <QString>
 
 class DeviceFinder;
 

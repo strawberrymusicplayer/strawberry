@@ -20,9 +20,10 @@
 
 #include "config.h"
 
-#include "qtfslistener.h"
+#include <QString>
 
-#include <QStringList>
+#include "filesystemwatcherinterface.h"
+#include "qtfslistener.h"
 
 QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
 
@@ -40,4 +41,3 @@ void QtFSListener::Clear() {
   watcher_.removePaths(watcher_.directories());
   watcher_.removePaths(watcher_.files());
 }
-

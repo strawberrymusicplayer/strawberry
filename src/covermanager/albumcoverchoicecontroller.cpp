@@ -20,33 +20,43 @@
 
 #include "config.h"
 
-#include <QAction>
-#include <QDesktopWidget>
+#include <QtGlobal>
+#include <QWidget>
 #include <QDialog>
-#include <QDragEnterEvent>
-#include <QFileDialog>
-#include <QImageWriter>
-#include <QLabel>
+#include <QDir>
+#include <QFileInfo>
 #include <QList>
-#include <QMenu>
-#include <QUrl>
+#include <QSet>
 #include <QMimeData>
+#include <QByteArray>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
 #include <QRegExp>
+#include <QUrl>
+#include <QImage>
+#include <QImageWriter>
+#include <QPixmap>
+#include <QIcon>
+#include <QRect>
+#include <QAction>
+#include <QFileDialog>
+#include <QLabel>
+#include <QDesktopWidget>
+#include <QtEvents>
 
-#include "covermanager/albumcoverchoicecontroller.h"
-
-#include "core/application.h"
-#include "core/logging.h"
 #include "core/utilities.h"
+#include "core/song.h"
 #include "core/iconloader.h"
-#include "collection/collectionbackend.h"
+#include "core/application.h"
 
-#include "covermanager/albumcoverfetcher.h"
-#include "covermanager/albumcoverloader.h"
-#include "covermanager/currentartloader.h"
-#include "covermanager/albumcovermanager.h"
-#include "covermanager/albumcoversearcher.h"
-#include "covermanager/coverfromurldialog.h"
+#include "collection/collectionbackend.h"
+#include "albumcoverchoicecontroller.h"
+#include "albumcoverfetcher.h"
+#include "albumcoverloader.h"
+#include "albumcoversearcher.h"
+#include "coverfromurldialog.h"
+#include "currentartloader.h"
 
 const char *AlbumCoverChoiceController::kLoadImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)");
 const char *AlbumCoverChoiceController::kSaveImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)");
@@ -134,18 +144,16 @@ void AlbumCoverChoiceController::SaveCoverToFile(const Song &song, const QImage 
 
 QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song, const QString &filename) {
   
-  // art automatic is first to show user which cover the album may be
-  // using now; the song is using it if there's no manual path but we
-  // cannot use manual path here because it can contain cached paths
+  // Art automatic is first to show user which cover the album may be using now;
+  // The song is using it if there's no manual path but we cannot use manual path here because it can contain cached paths
   if (!song.art_automatic().isEmpty() && !song.has_embedded_cover()) {
     return song.art_automatic();
 
-    // if no automatic art, start in the song's folder
+    // If no automatic art, start in the song's folder
   }
   else if (!song.url().isEmpty() && song.url().toLocalFile().contains('/')) {
     return song.url().toLocalFile().section('/', 0, -2) + filename;
-
-    // fallback - start in home
+    // Fallback - start in home
   }
   else {
     return QDir::home().absolutePath() + filename;
@@ -172,7 +180,7 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
 
   QString album = song->effective_album();
-  album = album.remove(QRegExp(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$"));
+  album.remove(Song::kCoverRemoveDisc);
 
   // Get something sensible to stick in the search box
   QImage image = cover_searcher_->Exec(song->effective_albumartist(), album);
@@ -208,16 +216,16 @@ void AlbumCoverChoiceController::ShowCover(const Song &song) {
   QLabel *label = new QLabel(dialog);
   label->setPixmap(AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile()));
 
-  // add (WxHpx) to the title before possibly resizing
+  // Add (WxHpx) to the title before possibly resizing
   title_text += " (" + QString::number(label->pixmap()->width()) + "x" + QString::number(label->pixmap()->height()) + "px)";
 
-  // if the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
+  // If the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
   QDesktopWidget desktop;
   int current_screen = desktop.screenNumber(this);
   int desktop_height = desktop.screenGeometry(current_screen).height();
   int desktop_width = desktop.screenGeometry(current_screen).width();
 
-  // resize differently if monitor is in portrait mode
+  // Resize differently if monitor is in portrait mode
   if (desktop_width < desktop_height) {
     const int new_width = (double)desktop_width * 0.95;
     if (new_width < label->pixmap()->width()) {
@@ -276,8 +284,11 @@ void AlbumCoverChoiceController::SaveCover(Song *song, const QString &cover) {
 
 QString AlbumCoverChoiceController::SaveCoverInCache(const QString &artist, const QString &album, const QImage &image) {
 
+  QString album2(album);
+  album2.remove(Song::kCoverRemoveDisc);
+
   // Hash the artist and album into a filename for the image
-  QString filename(Utilities::Sha1CoverHash(artist, album).toHex() + ".jpg");
+  QString filename(Utilities::Sha1CoverHash(artist, album2).toHex() + ".jpg");
   QString path(AlbumCoverLoader::ImageCacheDir() + "/" + filename);
 
   // Make sure this directory exists first

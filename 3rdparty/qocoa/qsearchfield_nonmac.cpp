@@ -20,18 +20,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include "qsearchfield.h"
-#include "../../src/core/iconloader.h"
-
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QApplication>
-#include <QEvent>
-#include <QLineEdit>
-#include <QVBoxLayout>
-#include <QToolButton>
+#include <QPointer>
+#include <QString>
+#include <QIcon>
+#include <QSize>
 #include <QStyle>
+#include <QLineEdit>
+#include <QBoxLayout>
+#include <QToolButton>
+#include <QtEvents>
 
-#include <QDir>
-#include <QDebug>
+#include "../../src/core/iconloader.h"
+#include "qsearchfield.h"
 
 class QSearchFieldPrivate : public QObject
 {

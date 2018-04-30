@@ -23,13 +23,22 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QSet>
-#include <QUrl>
+#include <stdbool.h>
 
-#include "directory.h"
-#include "collectionquery.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QList>
+#include <QVector>
+#include <QSet>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 #include "core/song.h"
+#include "collectionquery.h"
+#include "directory.h"
 
 class Database;
 
@@ -94,11 +103,9 @@ class CollectionBackendInterface : public QObject {
 
   virtual Song GetSongById(int id) = 0;
 
-  // Returns all sections of a song with the given filename. If there's just one section
-  // the resulting list will have it's size equal to 1.
+  // Returns all sections of a song with the given filename. If there's just one section the resulting list will have it's size equal to 1.
   virtual SongList GetSongsByUrl(const QUrl &url) = 0;
-  // Returns a section of a song with the given filename and beginning. If the section
-  // is not present in collection, returns invalid song.
+  // Returns a section of a song with the given filename and beginning. If the section is not present in collection, returns invalid song.
   // Using default beginning value is suitable when searching for single-section songs.
   virtual Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) = 0;
 

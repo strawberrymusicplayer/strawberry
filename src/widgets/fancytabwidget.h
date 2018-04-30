@@ -30,22 +30,40 @@
 #ifndef FANCYTABWIDGET_H
 #define FANCYTABWIDGET_H
 
-#include <memory>
+#include "config.h"
 
+#include <memory>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
 #include <QIcon>
-#include <QPropertyAnimation>
-#include <QProxyStyle>
+#include <QList>
+#include <QMetaType>
+#include <QPixmap>
+#include <QPainter>
+#include <QPalette>
+#include <QRect>
+#include <QSize>
+#include <QString>
+#include <QStyle>
 #include <QTabBar>
 #include <QTimer>
-#include <QWidget>
+#include <QPropertyAnimation>
+#include <QProxyStyle>
+#include <QActionGroup>
+#include <QApplication>
+#include <QSignalMapper>
+#include <QStackedLayout>
+#include <QStyleOption>
+#include <QVBoxLayout>
+#include <QMenu>
+#include <QtEvents>
 
-class QActionGroup;
-class QMenu;
-class QPainter;
-class QSignalMapper;
-class QStackedLayout;
-class QStatusBar;
-class QVBoxLayout;
+class QEvent;
+class QMouseEvent;
+class QPaintEvent;
+class QContextMenuEvent;
 
 namespace Core {
 namespace Internal {
@@ -54,14 +72,13 @@ class FancyTabProxyStyle : public QProxyStyle {
   Q_OBJECT
 
 public:
-  void drawControl(ControlElement element, const QStyleOption* option,
-                   QPainter* painter, const QWidget* widget) const;
-  void polish(QWidget* widget);
-  void polish(QApplication* app);
-  void polish(QPalette& palette);
+  void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
+  void polish(QWidget *widget);
+  void polish(QApplication *app);
+  void polish(QPalette &palette);
 
 protected:
-  bool eventFilter(QObject* o, QEvent* e);
+  bool eventFilter(QObject *o, QEvent *e);
 };
 
 class FancyTab : public QWidget {
@@ -88,7 +105,7 @@ protected:
 
 private:
   QPropertyAnimation animator;
-    QWidget *tabbar;
+  QWidget *tabbar;
   float m_fader;
 };
 
@@ -97,32 +114,32 @@ class FancyTabBar : public QWidget
   Q_OBJECT
 
  public:
-  FancyTabBar(QWidget* parent = nullptr);
+  FancyTabBar(QWidget *parent = nullptr);
   ~FancyTabBar();
 
-    void paintEvent(QPaintEvent *event);
-    void paintTab(QPainter *painter, int tabIndex) const;
-    void mousePressEvent(QMouseEvent *);
-    bool validIndex(int index) const { return index >= 0 && index < m_tabs.count(); }
+  void paintEvent(QPaintEvent *event);
+  void paintTab(QPainter *painter, int tabIndex) const;
+  void mousePressEvent(QMouseEvent *);
+  bool validIndex(int index) const { return index >= 0 && index < m_tabs.count(); }
 
   QSize sizeHint() const;
   QSize minimumSizeHint() const;
 
-    void addTab(const QIcon &icon, const QString &label);
+  void addTab(const QIcon &icon, const QString &label);
   void addSpacer(int size = 40);
   void removeTab(int index) {
-        FancyTab *tab = m_tabs.takeAt(index);
+    FancyTab *tab = m_tabs.takeAt(index);
     delete tab;
   }
   void setCurrentIndex(int index);
   int currentIndex() const { return m_currentIndex; }
 
-  void setTabToolTip(int index, const QString& toolTip);
+  void setTabToolTip(int index, const QString &toolTip);
   QString tabToolTip(int index) const;
 
-    QIcon tabIcon(int index) const {return m_tabs.at(index)->icon; }
+  QIcon tabIcon(int index) const {return m_tabs.at(index)->icon; }
   QString tabText(int index) const { return m_tabs.at(index)->text; }
-    int count() const {return m_tabs.count(); }
+  int count() const {return m_tabs.count(); }
   QRect tabRect(int index) const;
 
 signals:
@@ -145,7 +162,7 @@ class FancyTabWidget : public QWidget {
   Q_OBJECT
 
  public:
-  FancyTabWidget(QWidget* parent = nullptr);
+  FancyTabWidget(QWidget *parent = nullptr);
 
   // Values are persisted - only add to the end
   enum Mode {
@@ -159,7 +176,7 @@ class FancyTabWidget : public QWidget {
   };
 
   struct Item {
-    Item(const QIcon& icon, const QString& label)
+    Item(const QIcon &icon, const QString &label)
       : type_(Type_Tab), tab_label_(label), tab_icon_(icon), spacer_size_(0) {}
     Item(int size) : type_(Type_Spacer), spacer_size_(size) {}
 
@@ -176,16 +193,16 @@ class FancyTabWidget : public QWidget {
 
   void AddTab(QWidget *tab, const QIcon &icon, const QString &label);
   void AddSpacer(int size = 40);
-  void SetBackgroundPixmap(const QPixmap& pixmap);
+  void SetBackgroundPixmap(const QPixmap &pixmap);
 
-  void AddBottomWidget(QWidget* widget);
+  void AddBottomWidget(QWidget *widget);
 
   int current_index() const;
   Mode mode() const { return mode_; }
 
 public slots:
   void SetCurrentIndex(int index);
-  void SetCurrentWidget(QWidget* widget);
+  void SetCurrentWidget(QWidget *widget);
   void SetMode(Mode mode);
   void SetMode(int mode) { SetMode(Mode(mode)); }
 
@@ -195,29 +212,28 @@ signals:
 
 protected:
   void paintEvent(QPaintEvent *event);
-  void contextMenuEvent(QContextMenuEvent* e);
+  void contextMenuEvent(QContextMenuEvent *e);
 
 private slots:
   void ShowWidget(int index);
 
 private:
   void MakeTabBar(QTabBar::Shape shape, bool text, bool icons, bool fancy);
-  void AddMenuItem(QSignalMapper* mapper, QActionGroup* group,
-                   const QString& text, Mode mode);
+  void AddMenuItem(QSignalMapper *mapper, QActionGroup *group, const QString &text, Mode mode);
 
   Mode mode_;
   QList<Item> items_;
 
-  QWidget* tab_bar_;
-  QStackedLayout* stack_;
+  QWidget *tab_bar_;
+  QStackedLayout *stack_;
   QPixmap background_pixmap_;
-  QWidget* side_widget_;
-  QVBoxLayout* side_layout_;
-  QVBoxLayout* top_layout_;
+  QWidget *side_widget_;
+  QVBoxLayout *side_layout_;
+  QVBoxLayout *top_layout_;
 
   bool use_background_;
 
-  QMenu* menu_;
+  QMenu *menu_;
 
   std::unique_ptr<FancyTabProxyStyle> proxy_style_;
 };

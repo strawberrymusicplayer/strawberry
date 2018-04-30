@@ -20,12 +20,23 @@
 
 #include "config.h"
 
-#include "ratingwidget.h"
+#include <stdbool.h>
 
-#include <QMouseEvent>
-#include <QStyleOptionFrameV3>
+#include <QtGlobal>
+#include <QWidget>
+#include <QPixmap>
+#include <QFrame>
+#include <QPainter>
+#include <QRect>
+#include <QPoint>
+#include <QSize>
+#include <QSizePolicy>
+#include <QStyle>
+#include <QStyleOption>
 #include <QStylePainter>
-#include <QtDebug>
+#include <QtEvents>
+
+#include "ratingwidget.h"
 
 const int RatingPainter::kStarCount;
 const int RatingPainter::kStarSize;
@@ -61,7 +72,8 @@ RatingPainter::RatingPainter() {
         const QRect source_right(kStarSize/2, 0, kStarSize/2, kStarSize);
         p.drawPixmap(target_left, on, source_left);
         p.drawPixmap(target_right, off, source_right);
-      } else {
+      }
+      else {
         // Totally full
         p.drawPixmap(rect, on);
       }
@@ -109,8 +121,7 @@ RatingWidget::RatingWidget(QWidget* parent)
 
 QSize RatingWidget::sizeHint() const {
   const int frame_width = 1 + style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-  return QSize(RatingPainter::kStarSize * (RatingPainter::kStarCount+2) + frame_width*2,
-               RatingPainter::kStarSize + frame_width*2);
+  return QSize(RatingPainter::kStarSize * (RatingPainter::kStarCount+2) + frame_width*2, RatingPainter::kStarSize + frame_width*2);
 }
 
 void RatingWidget::set_rating(float rating) {

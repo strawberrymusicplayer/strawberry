@@ -23,19 +23,23 @@
 
 #include "config.h"
 
-#include <QMutex>
+#include <stdbool.h>
+
 #include <QObject>
+#include <QMutex>
+#include <QString>
 #include <QUrl>
 
-// These must come after Qt includes (issue 3247)
+// These must come after Qt includes
+#include <cdio/types.h>
 #include <cdio/cdio.h>
+#include <gst/gstelement.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
 #include "core/song.h"
 #include "musicbrainz/musicbrainzclient.h"
 
-// This class provides a (hopefully) nice, high level interface to get CD
-// information and load tracks
+// This class provides a (hopefully) nice, high level interface to get CD information and load tracks
 class CddaSongLoader : public QObject {
   Q_OBJECT
 
@@ -46,8 +50,7 @@ class CddaSongLoader : public QObject {
       QObject *parent = nullptr);
   ~CddaSongLoader();
 
-  // Load songs.
-  // Signals declared below will be emitted anytime new information will be available.
+  // Load songs. Signals declared below will be emitted anytime new information will be available.
   void LoadSongs();
   bool HasChanged();
 

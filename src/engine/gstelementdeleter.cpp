@@ -18,9 +18,9 @@
  * 
  */
 
-#include "config.h"
+#include <QObject>
 
-#include <QtDebug>
+#include "config.h"
 
 #include "gstelementdeleter.h"
 

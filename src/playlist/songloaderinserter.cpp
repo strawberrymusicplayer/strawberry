@@ -21,12 +21,16 @@
 #include "config.h"
 
 #include <QtConcurrentRun>
+#include <QtAlgorithms>
+#include <QList>
+#include <QUrl>
 
-#include "playlist.h"
-#include "songloaderinserter.h"
+#include "core/closure.h"
 #include "core/logging.h"
 #include "core/songloader.h"
 #include "core/taskmanager.h"
+#include "playlist.h"
+#include "songloaderinserter.h"
 
 SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player)
     : task_manager_(task_manager),
@@ -50,7 +54,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
   connect(this, SIGNAL(PreloadFinished()), SLOT(InsertSongs()));
   connect(this, SIGNAL(EffectiveLoadFinished(const SongList&)), destination, SLOT(UpdateItems(const SongList&)));
 
-  for (const QUrl& url : urls) {
+  for (const QUrl &url : urls) {
     SongLoader *loader = new SongLoader(collection_, player_, this);
 
     SongLoader::Result ret = loader->Load(url);
@@ -122,8 +126,7 @@ void SongLoaderInserter::AudioCDTagsLoaded(bool success) {
 }
 
 void SongLoaderInserter::InsertSongs() {
-  // Insert songs (that haven't been completely loaded) to allow user to see
-  // and play them while not loaded completely
+  // Insert songs (that haven't been completely loaded) to allow user to see and play them while not loaded completely
   if (destination_) {
     destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_);
   }
@@ -140,9 +143,8 @@ void SongLoaderInserter::AsyncLoad() {
     loader->LoadFilenamesBlocking();
     task_manager_->SetTaskProgress(async_load_id, ++async_progress);
     if (i == 0) {
-      // Load everything from the first song.  It'll start playing as soon as
-      // we emit PreloadFinished, so it needs to have the duration set to show
-      // properly in the UI.
+      // Load everything from the first song.
+      // It'll start playing as soon as we emit PreloadFinished, so it needs to have the duration set to show properly in the UI.
       loader->LoadMetadataBlocking();
     }
     songs_ << loader->songs();

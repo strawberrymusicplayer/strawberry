@@ -16,12 +16,14 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+#include <QUrl>
 #include <QTimer>
 
 #include "phononengine.h"
 
 #include "core/logging.h"
-#include "core/taskmanager.h"
+#include "taskmanager.h"
 
 PhononEngine::PhononEngine(TaskManager *task_manager)
   : media_object_(new Phonon::MediaObject(this)),
@@ -63,8 +65,7 @@ bool PhononEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool f
 
 bool PhononEngine::Play(quint64 offset_nanosec) {
 
-  // The seek happens in PhononStateChanged - phonon doesn't seem to change
-  // currentTime() if we seek before we start playing :S
+  // The seek happens in PhononStateChanged - phonon doesn't seem to change currentTime() if we seek before we start playing :S
   seek_offset_ = offset_nanosec;
 
   media_object_->play();
@@ -144,15 +145,11 @@ void PhononEngine::StateTimeoutExpired() {
 
 qint64 PhononEngine::position_nanosec() const {
     
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-    
   return 0;
 
 }
 
 qint64 PhononEngine::length_nanosec() const {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
     
   return 0;
 

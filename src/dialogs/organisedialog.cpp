@@ -20,28 +20,48 @@
 
 #include "config.h"
 
-#include "organisedialog.h"
-#include "ui_organisedialog.h"
-
 #include <memory>
 
+#include <QtGlobal>
+#include <QtConcurrentRun>
+#include <QtAlgorithms>
+#include <QAbstractItemModel>
+#include <QDialog>
+#include <QHash>
+#include <QMap>
 #include <QDir>
 #include <QFileInfo>
-#include <QHash>
+#include <QVariant>
+#include <QString>
+#include <QStringBuilder>
+#include <QStringList>
+#include <QUrl>
+#include <QAction>
 #include <QMenu>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDialogButtonBox>
+#include <QGroupBox>
+#include <QListWidget>
 #include <QPushButton>
-#include <QResizeEvent>
-#include <QSettings>
 #include <QSignalMapper>
-#include <QtConcurrentRun>
-#include <QtDebug>
+#include <QStackedWidget>
+#include <QToolButton>
+#include <QFlags>
+#include <QtEvents>
+#include <QSettings>
 
-#include "organiseerrordialog.h"
+#include "core/closure.h"
+#include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/organise.h"
 #include "core/tagreaderclient.h"
 #include "core/utilities.h"
-#include "core/iconloader.h"
+#include "widgets/freespacebar.h"
+#include "widgets/linetextedit.h"
+#include "organisedialog.h"
+#include "organiseerrordialog.h"
+#include "ui_organisedialog.h"
 
 const char *OrganiseDialog::kDefaultFormat = "%artist/%album{ (Disc %disc)}/{%track - }%title.%extension";
 const char *OrganiseDialog::kSettingsGroup = "OrganiseDialog";

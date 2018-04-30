@@ -18,19 +18,23 @@
  * 
  */
 
-#include "config.h"
-
-#include "asxparser.h"
-#include "core/utilities.h"
-
-#include <QBuffer>
-#include <QDomDocument>
-#include <QFile>
+#include <QObject>
 #include <QIODevice>
+#include <QBuffer>
+#include <QDir>
+#include <QByteArray>
+#include <QString>
+#include <QStringBuilder>
 #include <QRegExp>
 #include <QUrl>
 #include <QXmlStreamReader>
-#include <QtDebug>
+#include <QXmlStreamWriter>
+
+#include "asxparser.h"
+#include "core/utilities.h"
+#include "playlistparsers/xmlparser.h"
+
+class CollectionBackendInterface;
 
 ASXParser::ASXParser(CollectionBackendInterface *collection, QObject *parent)
     : XMLParser(collection, parent) {}

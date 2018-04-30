@@ -23,9 +23,18 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
 #include <QDialog>
-#include <QMetaType>
+#include <QWidget>
+#include <QList>
 #include <QMap>
+#include <QMetaType>
+#include <QDataStream>
+#include <QString>
+
+class QCloseEvent;
 
 class EqualizerSlider;
 class Ui_Equalizer;
@@ -34,7 +43,7 @@ class Equalizer : public QDialog {
   Q_OBJECT
 
  public:
-  Equalizer(QWidget* parent = nullptr);
+  Equalizer(QWidget *parent = nullptr);
   ~Equalizer();
 
   static const int kBands = 10;

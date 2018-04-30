@@ -24,20 +24,25 @@
 
 #include "config.h"
 
-#include <QXmlStreamReader>
+#include <stdbool.h>
+
+#include <QObject>
+#include <QHash>
+#include <QMetaType>
+#include <QString>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 
 #include "coverprovider.h"
-
-class QNetworkAccessManager;
+#include "albumcoverfetcher.h"
 
 // This struct represents a single search-for-cover request. It identifies and describes the request.
 struct DiscogsCoverSearchContext {
 
-  // the unique request identifier
+  // The unique request identifier
   int id;
 
-  // the search query
+  // The search query
   QString artist;
   QString album;
   QString title;
@@ -47,12 +52,11 @@ struct DiscogsCoverSearchContext {
 };
 Q_DECLARE_METATYPE(DiscogsCoverSearchContext)
 
-// This struct represents a single release request. It identifies and describes
-// the request.
+// This struct represents a single release request. It identifies and describes the request.
 struct DiscogsCoverReleaseContext {
 
-  int id;			// the unique request identifier
-  int s_id;			// the search request identifier
+  int id;			// The unique request identifier
+  int s_id;			// The search request identifier
 
   QString resource_url;
 };

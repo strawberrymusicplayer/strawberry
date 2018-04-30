@@ -23,17 +23,15 @@
 
 #include "config.h"
 
-#include <QMap>
-#include <QObject>
+#include <stdbool.h>
 
-#include "albumcoverfetcher.h"
+#include <QObject>
+#include <QMap>
+#include <QString>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
 #include "coverprovider.h"
-
-#include <QMap>
-#include <QObject>
-
-class QNetworkAccessManager;
-class QNetworkReply;
 
 // A built-in cover provider which fetches covers from last.fm.
 class LastFmCoverProvider : public CoverProvider {

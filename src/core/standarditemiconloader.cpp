@@ -20,12 +20,21 @@
 
 #include "config.h"
 
-#include <QAbstractItemModel>
-#include <QSet>
+#include <QtGlobal>
+#include <QObject>
+#include <QModelIndex>
 #include <QStandardItem>
+#include <QStandardItemModel>
+#include <QAbstractItemModel>
+#include <QMap>
+#include <QSet>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
+#include <QIcon>
 
-#include "standarditemiconloader.h"
 #include "covermanager/albumcoverloader.h"
+#include "standarditemiconloader.h"
 
 StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, QObject *parent)
   : QObject(parent),
@@ -34,13 +43,13 @@ StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, Q
 {
   cover_options_.desired_height_ = 16;
 
-  connect(cover_loader_, SIGNAL(ImageLoaded(quint64,QImage)), SLOT(ImageLoaded(quint64,QImage)));
+  connect(cover_loader_, SIGNAL(ImageLoaded(quint64, QImage)), SLOT(ImageLoaded(quint64, QImage)));
 }
 
 void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
   if (model_) {
-    disconnect(model_, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex,int,int)));
+    disconnect(model_, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), this, SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
   }
 
   model_ = model;
@@ -50,19 +59,19 @@ void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
 }
 
-void StandardItemIconLoader::LoadIcon(const QString& art_automatic, const QString& art_manual, QStandardItem *for_item) {
+void StandardItemIconLoader::LoadIcon(const QString &art_automatic, const QString &art_manual, QStandardItem *for_item) {
 
   const quint64 id = cover_loader_->LoadImageAsync(cover_options_, art_automatic, art_manual);
   pending_covers_[id] = for_item;
 
 }
 
-void StandardItemIconLoader::LoadIcon(const Song& song, QStandardItem *for_item) {
+void StandardItemIconLoader::LoadIcon(const Song &song, QStandardItem *for_item) {
   const quint64 id = cover_loader_->LoadImageAsync(cover_options_, song);
   pending_covers_[id] = for_item;
 }
 
-void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex& parent, int begin, int end) {
+void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end) {
 
   for (QMap<quint64, QStandardItem*>::iterator it = pending_covers_.begin() ; it != pending_covers_.end() ; ) {
     const QStandardItem *item = it.value();
@@ -86,7 +95,7 @@ void StandardItemIconLoader::ModelReset() {
 
 }
 
-void StandardItemIconLoader::ImageLoaded(quint64 id, const QImage& image) {
+void StandardItemIconLoader::ImageLoaded(quint64 id, const QImage &image) {
 
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;

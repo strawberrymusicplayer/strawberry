@@ -24,20 +24,20 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
 #include <QObject>
-#include <QStringList>
+#include <QString>
 #include <QUrl>
 
 #include "core/musicstorage.h"
 #include "core/song.h"
 
 class Application;
-class Database;
-class DeviceLister;
-class DeviceManager;
 class CollectionBackend;
 class CollectionModel;
+class DeviceLister;
+class DeviceManager;
 
 class ConnectedDevice : public QObject,
                         public virtual MusicStorage,
@@ -49,8 +49,8 @@ class ConnectedDevice : public QObject,
   ~ConnectedDevice();
 
   virtual void Init() = 0;
-  // For some devices (e.g. CD devices) we don't have callbacks to be notified
-  // when something change: we can call this method to refresh device's state
+  // For some devices (e.g. CD devices) we don't have callbacks to be notified when something change:
+  // we can call this method to refresh device's state
   virtual void Refresh() {}
 
   virtual TranscodeMode GetTranscodeMode() const;

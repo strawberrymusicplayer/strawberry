@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QMap>
 #include <QString>
 

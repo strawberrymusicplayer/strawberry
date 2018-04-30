@@ -20,12 +20,16 @@
 
 #include "config.h"
 
-#include "multisortfilterproxy.h"
-#include "core/logging.h"
-
-#include <QDate>
+#include <QtGlobal>
+#include <QObject>
+#include <QSortFilterProxyModel>
+#include <QModelIndex>
+#include <QMetaType>
 #include <QDateTime>
-#include <QTime>
+#include <QVariant>
+#include <QString>
+
+#include "multisortfilterproxy.h"
 
 MultiSortFilterProxy::MultiSortFilterProxy(QObject *parent)
     : QSortFilterProxyModel(parent) {}
@@ -62,8 +66,7 @@ static inline int DoCompare(T left, T right) {
 
 int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) const {
 
-  // Copied from the QSortFilterProxyModel::lessThan implementation, but returns
-  // -1, 0 or 1 instead of true or false.
+  // Copied from the QSortFilterProxyModel::lessThan implementation, but returns -1, 0 or 1 instead of true or false.
   switch (left.userType()) {
     case QVariant::Invalid:   return (right.type() != QVariant::Invalid) ? -1 : 0;
     case QVariant::Int:       return DoCompare(left.toInt(), right.toInt());

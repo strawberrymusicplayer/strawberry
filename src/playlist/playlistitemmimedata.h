@@ -23,8 +23,10 @@
 
 #include "config.h"
 
-#include "playlistitem.h"
+#include <QObject>
+
 #include "core/mimedata.h"
+#include "playlistitem.h"
 
 class PlaylistItemMimeData : public MimeData {
   Q_OBJECT

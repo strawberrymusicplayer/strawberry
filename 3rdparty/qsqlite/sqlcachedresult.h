@@ -53,12 +53,14 @@
 // We mean it.
 //
 
-#include <QtSql/qsqlresult.h>
+#include <QtGlobal>
+#include <QVariant>
+#include <QVector>
+#include <QSql>
+#include <QSqlDriver>
+#include <QSqlResult>
 
 QT_BEGIN_NAMESPACE
-
-class QVariant;
-template <typename T> class QVector;
 
 class ClementineSqlCachedResultPrivate;
 

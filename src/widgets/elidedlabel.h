@@ -23,7 +23,13 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QLabel>
+#include <QtEvents>
+
+class QResizeEvent;
 
 class ElidedLabel : public QLabel {
   Q_OBJECT

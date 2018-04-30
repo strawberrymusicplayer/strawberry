@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QString>
 
 class Application;
 

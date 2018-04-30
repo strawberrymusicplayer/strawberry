@@ -3,13 +3,18 @@
 
 #include "config.h"
 
-#include <QMutex>
-#include <QSet>
-#include <QThread>
-
 #include <DiskArbitration/DADisk.h>
 #include <DiskArbitration/DADissenter.h>
 #include <IOKit/IOKitLib.h>
+
+#include <QtGlobal>
+#include <QMutex>
+#include <QThread>
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QString>
+#include <QUrl>
 
 #include "devicelister.h"
 

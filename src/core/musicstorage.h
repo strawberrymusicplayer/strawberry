@@ -23,12 +23,15 @@
 
 #include "config.h"
 
-#include "song.h"
-
+#include <stdbool.h>
 #include <functional>
 #include <memory>
 
 #include <QMetaType>
+#include <QString>
+#include <QList>
+
+#include "song.h"
 
 class MusicStorage {
  public:

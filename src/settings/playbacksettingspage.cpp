@@ -20,12 +20,21 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QVariant>
+#include <QString>
+#include <QSettings>
+#include <QCheckBox>
+#include <QSpinBox>
+
+#include "core/iconloader.h"
+#include "settingspage.h"
 #include "playbacksettingspage.h"
 #include "ui_playbacksettingspage.h"
 
-#include "core/iconloader.h"
-#include "settingsdialog.h"
-#include "playlist/playlist.h"
+class SettingsDialog;
 
 const char *PlaybackSettingsPage::kSettingsGroup = "Playback";
 

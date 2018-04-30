@@ -21,15 +21,21 @@
 #include "config.h"
 
 #include <functional>
-#include <memory>
+#include <glib.h>
+#include <glib-object.h>
+#include <gio/gio.h>
 
-#include <QFile>
+#include <QMutex>
+#include <QVariant>
+#include <QString>
 #include <QStringList>
-#include <QtDebug>
+#include <QRegExp>
+#include <QUrl>
 
-#include "giolister.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
+#include "devicelister.h"
+#include "giolister.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -291,7 +297,7 @@ void GioLister::MountAdded(GMount *mount) {
     QMutexLocker l(&mutex_);
 
     // The volume might already exist - either mounted or unmounted.
-    for (const QString& id : devices_.keys()) {
+    for (const QString &id : devices_.keys()) {
       if (devices_[id].volume == info.volume) {
         old_id = id;
         break;
@@ -333,9 +339,7 @@ void GioLister::MountChanged(GMount *mount) {
     new_info.ReadDriveInfo(g_mount_get_drive(mount));
 
     // Ignore the change if the new info is useless
-    if (new_info.invalid_enclosing_mount ||
-        (devices_[id].filesystem_size != 0 && new_info.filesystem_size == 0) ||
-        (!devices_[id].filesystem_type.isEmpty() && new_info.filesystem_type.isEmpty()))
+    if (new_info.invalid_enclosing_mount || (devices_[id].filesystem_size != 0 && new_info.filesystem_size == 0) || (!devices_[id].filesystem_type.isEmpty() && new_info.filesystem_type.isEmpty()))
       return;
 
     devices_[id] = new_info;
@@ -391,8 +395,8 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   mount_path = ConvertAndFree(g_file_get_path(root));
   mount_uri = ConvertAndFree(g_file_get_uri(root));
 
-  // Do a sanity check to make sure the root is actually this mount - when a
-  // device is unmounted GIO sends a changed signal before the removed signal,
+  // Do a sanity check to make sure the root is actually this mount
+  // when a device is unmounted GIO sends a changed signal before the removed signal,
   // and we end up reading information about the / filesystem by mistake.
   GError *error = nullptr;
   GMount *actual_mount = g_file_find_enclosing_mount(root, nullptr, &error);

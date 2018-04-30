@@ -20,10 +20,19 @@
 
 #include "config.h"
 
+#include "core/iconloader.h"
+#include "settingspage.h"
+#include "transcoder/transcoderoptionsaac.h"
+#include "transcoder/transcoderoptionsflac.h"
+#include "transcoder/transcoderoptionsmp3.h"
+#include "transcoder/transcoderoptionsopus.h"
+#include "transcoder/transcoderoptionsspeex.h"
+#include "transcoder/transcoderoptionsvorbis.h"
+#include "transcoder/transcoderoptionswma.h"
 #include "transcodersettingspage.h"
 #include "ui_transcodersettingspage.h"
 
-#include "core/iconloader.h"
+class SettingsDialog;
 
 TranscoderSettingsPage::TranscoderSettingsPage(SettingsDialog* dialog)
     : SettingsPage(dialog), ui_(new Ui_TranscoderSettingsPage) {

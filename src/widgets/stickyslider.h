@@ -23,7 +23,11 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
 #include <QSlider>
+
+class QMouseEvent;
 
 class StickySlider : public QSlider {
   Q_OBJECT

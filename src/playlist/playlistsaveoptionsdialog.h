@@ -23,7 +23,10 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QString>
 
 #include "playlist.h"
 

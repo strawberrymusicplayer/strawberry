@@ -17,9 +17,23 @@
 
 #include "config.h"
 
-#include "udisks2lister.h"
-
+#include <QtGlobal>
+#include <QMutex>
+#include <QList>
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QReadLocker>
+#include <QWriteLocker>
+#include <QDBusObjectPath>
 #include <QDBusConnection>
+#include <QDBusError>
+#include <QDBusPendingReply>
+#include <QDBusArgument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"
@@ -28,6 +42,8 @@
 #include "dbus/udisks2drive.h"
 #include "dbus/udisks2filesystem.h"
 #include "dbus/udisks2job.h"
+
+#include "udisks2lister.h"
 
 constexpr char Udisks2Lister::udisks2_service_[];
 
@@ -141,9 +157,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
 
 void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
   QWriteLocker locker(&device_data_lock_);
-  device_data_[id].free_space =
-      Utilities::FileSystemFreeSpace(device_data_[id].mount_paths.at(0));
-
+  device_data_[id].free_space = Utilities::FileSystemFreeSpace(device_data_[id].mount_paths.at(0));
   emit DeviceChanged(id);
 }
 

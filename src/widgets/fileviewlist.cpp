@@ -20,24 +20,26 @@
 
 #include "config.h"
 
-#include <QContextMenuEvent>
+#include <stdbool.h>
+
+#include <QWidget>
+#include <QAbstractItemModel>
+#include <QFileInfo>
 #include <QFileSystemModel>
 #include <QMenu>
-#include <QtDebug>
+#include <QUrl>
+#include <QtEvents>
 
-#include "fileviewlist.h"
-
+#include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/utilities.h"
-#include "core/logging.h"
-#include "core/iconloader.h"
+#include "fileviewlist.h"
 
 FileViewList::FileViewList(QWidget *parent)
     : QListView(parent),
       menu_(new QMenu(this))
 {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   menu_->addAction(IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddToPlaylistSlot()));
   menu_->addAction(IconLoader::Load("media-play"), tr("Replace current playlist"), this, SLOT(LoadSlot()));
   menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylistSlot()));

@@ -25,7 +25,7 @@
 
 #include <rpc.h>
 
-#include "engine/devicefinder.h"
+#include "devicefinder.h"
 
 class DirectSoundDeviceFinder : public DeviceFinder {
  public:

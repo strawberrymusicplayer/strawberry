@@ -23,12 +23,20 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
+#include <QList>
+#include <QAction>
+#include <QMenu>
+#include <QSignalMapper>
+#include <QString>
+#include <QtEvents>
+
 #include "widgets/stretchheaderview.h"
 
 class PlaylistView;
-
-class QMenu;
-class QSignalMapper;
 
 class PlaylistHeader : public StretchHeaderView {
   Q_OBJECT

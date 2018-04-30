@@ -41,15 +41,20 @@
 #ifndef FLOWLAYOUT_H
 #define FLOWLAYOUT_H
 
+#include <stdbool.h>
+
 #include <QLayout>
-#include <QRect>
+#include <QWidget>
 #include <QStyle>
-#include <QWidgetItem>
+#include <QList>
+#include <QSize>
+#include <QLayoutItem>
+#include <QRect>
+
 //! [0]
 class FlowLayout : public QLayout {
  public:
-  FlowLayout(QWidget* parent, int margin = -1, int hSpacing = -1,
-             int vSpacing = -1);
+  FlowLayout(QWidget* parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
   FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
   ~FlowLayout();
 

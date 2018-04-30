@@ -24,38 +24,43 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QMainWindow>
-#include <QSettings>
 #include <QSystemTrayIcon>
-#include <QAction>
-#include <QTimer>
-#include <QMenu>
-#include <QList>
-#include <QModelIndex>
 #include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QPersistentModelIndex>
+#include <QMenu>
+#include <QAction>
+#include <QPoint>
+#include <QMimeData>
+#include <QList>
+#include <QString>
+#include <QUrl>
+#include <QPixmap>
+#include <QTimer>
+#include <QSettings>
+#include <QtEvents>
 
 #include "core/lazy.h"
-#include "core/mac_startup.h"
 #include "core/tagreaderclient.h"
 #include "engine/engine_fwd.h"
+#include "mac_startup.h"
+#include "widgets/osd.h"
 #include "collection/collectionmodel.h"
 #include "playlist/playlistitem.h"
-#ifdef HAVE_GSTREAMER
-#include "dialogs/organisedialog.h"
-#endif
 #include "settings/settingsdialog.h"
 
-class StatusView;
 class About;
-class AlbumCoverManager;
-class Appearance;
+class AlbumCoverManager;;
 class Application;
-class ArtistInfoView;
+class CollectionViewContainer;
 class CommandlineOptions;
-class CoverProviders;
-class Database;
-class DeviceManager;
 class DeviceView;
 class DeviceViewContainer;
 class EditTagDialog;
@@ -63,35 +68,26 @@ class Equalizer;
 class ErrorDialog;
 class FileView;
 class GlobalShortcuts;
-class GroupByDialog;
-class Collection;
-class CollectionViewContainer;
 class MimeData;
-class MultiLoadingIndicator;
-class OSD;
-class Player;
-class PlaylistBackend;
+class OrganiseDialog;
 class PlaylistListContainer;
-class PlaylistManager;
 class QueueManager;
 class Song;
+class StatusView;
 class SystemTrayIcon;
 class TagFetcher;
-class TaskManager;
 class TrackSelectionDialog;
 #ifdef HAVE_GSTREAMER
 class TranscodeDialog;
 #endif
-class Windows7ThumbBar;
 class Ui_MainWindow;
-
-class QSortFilterProxyModel;
+class Windows7ThumbBar;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  MainWindow(Application *app, SystemTrayIcon* tray_icon, OSD* osd, const CommandlineOptions& options, QWidget* parent = nullptr);
+  MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, const CommandlineOptions& options, QWidget *parent = nullptr);
   ~MainWindow();
 
   static const char *kSettingsGroup;
@@ -129,12 +125,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const CommandlineOptions& options);
 
  protected:
-  void keyPressEvent(QKeyEvent* event);
-  void resizeEvent(QResizeEvent* event);
-  void closeEvent(QCloseEvent* event);
+  void keyPressEvent(QKeyEvent *event);
+  void resizeEvent(QResizeEvent *event);
+  void closeEvent(QCloseEvent *event);
 
 #ifdef Q_OS_WIN32
-  bool winEvent(MSG* message, long* result);
+  bool winEvent(MSG *message, long *result);
 #endif
 
   // PlatformInterface
@@ -174,7 +170,7 @@ signals:
   void AutoCompleteTags();
   void AutoCompleteTagsAccepted();
 #endif
-  void PlaylistUndoRedoChanged(QAction* undo, QAction* redo);
+  void PlaylistUndoRedoChanged(QAction *undo, QAction *redo);
 #ifdef HAVE_GSTREAMER
   void AddFilesToTranscoder();
 #endif
@@ -189,7 +185,7 @@ signals:
   void PlaylistOpenInBrowser();
   void ShowInCollection();
 
-  void ChangeCollectionQueryMode(QAction* action);
+  void ChangeCollectionQueryMode(QAction *action);
 
   void PlayIndex(const QModelIndex& index);
   void PlaylistDoubleClick(const QModelIndex& index);
@@ -205,8 +201,8 @@ signals:
 #endif
   void EditFileTags(const QList<QUrl>& urls);
 
-  void AddToPlaylist(QMimeData* data);
-  void AddToPlaylist(QAction* action);
+  void AddToPlaylist(QMimeData *data);
+  void AddToPlaylist(QAction *action);
 
   void VolumeWheelEvent(int delta);
   void ToggleShowHide();
@@ -245,8 +241,8 @@ signals:
   void ShowQueueManager();
   void EnsureSettingsDialogCreated();
   void EnsureEditTagDialogCreated();
-  SettingsDialog* CreateSettingsDialog();
-  EditTagDialog* CreateEditTagDialog();
+  SettingsDialog *CreateSettingsDialog();
+  EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);
 
@@ -281,12 +277,12 @@ signals:
   Windows7ThumbBar *thumbbar_;
 
   Application *app_;
-  SystemTrayIcon * tray_icon_;
-  OSD* osd_;
+  SystemTrayIcon  *tray_icon_;
+  OSD *osd_;
   Lazy<EditTagDialog> edit_tag_dialog_;
   Lazy<About> about_dialog_;
 
-  GlobalShortcuts* global_shortcuts_;
+  GlobalShortcuts *global_shortcuts_;
 
   CollectionViewContainer *collection_view_;
   StatusView *status_view_;

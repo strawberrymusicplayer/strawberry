@@ -23,14 +23,19 @@
 
 #include "config.h"
 
-#include <QMap>
-#include <QMutex>
-#include <QObject>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QStringList>
-
+#include <stdbool.h>
 #include <sqlite3.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
+#include <QByteArray>
+#include <QList>
+#include <QMap>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QString>
+#include <QStringList>
 
 extern "C" {
 

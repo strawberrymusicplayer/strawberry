@@ -21,9 +21,20 @@
 #ifndef ASXINIPARSER_H
 #define ASXINIPARSER_H
 
-#include "config.h"
+#include <stdbool.h>
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
+#include <QDir>
+#include <QString>
+#include <QStringList>
 
+#include "config.h"
+#include "core/song.h"
 #include "parserbase.h"
+#include "playlist/playlist.h"
+
+class CollectionBackendInterface;
 
 class AsxIniParser : public ParserBase {
   Q_OBJECT

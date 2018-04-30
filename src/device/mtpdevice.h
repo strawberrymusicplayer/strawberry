@@ -24,16 +24,25 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
+#include <QObject>
+#include <QThread>
 #include <QMutex>
-#include <QWaitCondition>
+#include <QList>
+#include <QString>
+#include <QStringList>
+#include <QUrl>
 
+#include "core/song.h"
 #include "connecteddevice.h"
 
-struct LIBMTP_mtpdevice_struct;
-
+class Application;
+class DeviceLister;
+class DeviceManager;
 class MtpConnection;
 class MtpLoader;
+struct LIBMTP_mtpdevice_struct;
 
 class MtpDevice : public ConnectedDevice {
   Q_OBJECT

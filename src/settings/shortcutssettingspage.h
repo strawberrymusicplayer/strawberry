@@ -24,17 +24,21 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QMap>
+#include <QObject>
 #include <QSettings>
+#include <QMap>
+#include <QString>
+#include <QKeySequence>
+#include <QTreeWidgetItem>
 
 #include "globalshortcuts/globalshortcuts.h"
-#include "settings/settingspage.h"
+#include "settingspage.h"
 
-class QTreeWidgetItem;
-
-class Ui_GlobalShortcutsSettingsPage;
 class GlobalShortcutGrabber;
+class SettingsDialog;
+class Ui_GlobalShortcutsSettingsPage;
 
 class GlobalShortcutsSettingsPage : public SettingsPage {
   Q_OBJECT

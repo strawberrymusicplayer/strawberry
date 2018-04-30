@@ -15,15 +15,16 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "tagreaderworker.h"
+#include "config.h"
+
+#include <string>
 
 #include <QCoreApplication>
-#include <QDateTime>
-#include <QFileInfo>
-#include <QNetworkAccessManager>
-#include <QTextCodec>
-#include <QUrl>
+#include <QObject>
+#include <QIODevice>
+#include <QByteArray>
 
+#include "tagreaderworker.h"
 
 TagReaderWorker::TagReaderWorker(QIODevice *socket, QObject *parent)
   : AbstractMessageHandler<pb::tagreader::Message>(socket, parent)

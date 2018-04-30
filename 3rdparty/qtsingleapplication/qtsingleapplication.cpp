@@ -39,8 +39,12 @@
 
 
 #include "qtsingleapplication.h"
-#include "qtlocalpeer.h"
+
+#include <QApplication>
 #include <QWidget>
+#include <QString>
+
+#include "qtlocalpeer.h"
 
 /*!
     \class QtSingleApplication qtsingleapplication.h

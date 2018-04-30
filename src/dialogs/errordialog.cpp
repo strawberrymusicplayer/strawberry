@@ -20,8 +20,19 @@
 
 #include "config.h"
 
+#include <QWidget>
+#include <QString>
+#include <QIcon>
+#include <QPalette>
+#include <QPixmap>
+#include <QStyle>
+#include <QLabel>
+#include <QTextEdit>
+
 #include "errordialog.h"
 #include "ui_errordialog.h"
+
+class QHideEvent;
 
 ErrorDialog::ErrorDialog(QWidget *parent)
   : QDialog(parent),
@@ -64,7 +75,7 @@ void ErrorDialog::hideEvent(QHideEvent *) {
 void ErrorDialog::UpdateContent() {
 
   QString html;
-  for (const QString& message : current_messages_) {
+  for (const QString &message : current_messages_) {
     if (!html.isEmpty())
       html += "<hr/>";
     html += message.toHtmlEscaped();

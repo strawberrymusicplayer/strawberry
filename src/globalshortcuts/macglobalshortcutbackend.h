@@ -27,11 +27,12 @@
 
 #include "globalshortcutbackend.h"
 
-#include <QKeySequence>
+#include <QObject>
 #include <QMap>
+#include <QAction>
+#include <QKeySequence>
 
 class MacGlobalShortcutBackendPrivate;
-class QAction;
 
 class MacGlobalShortcutBackend : public GlobalShortcutBackend {
   Q_OBJECT

@@ -18,16 +18,13 @@
  * 
  */
 
-#include "config.h"
-
+#include "playlistparsers/parserbase.h"
 #include "xmlparser.h"
 
-#include <QDomDocument>
-#include <QFile>
-#include <QIODevice>
-#include <QRegExp>
-#include <QUrl>
-#include <QXmlStreamReader>
+#include <QObject>
+
+class CollectionBackendInterface;
 
 XMLParser::XMLParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}
+

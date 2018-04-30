@@ -23,11 +23,10 @@
 
 #include "config.h"
 
+#include <QMetaType>
 #include <QList>
 #include <QString>
-#include <QMetaType>
-
-class QSqlQuery;
+#include <QSqlQuery>
 
 struct Directory {
   Directory() : id(-1) {}

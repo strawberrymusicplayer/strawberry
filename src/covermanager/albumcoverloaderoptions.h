@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <stdbool.h>
 #include <QImage>
 
 struct AlbumCoverLoaderOptions {

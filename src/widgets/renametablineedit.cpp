@@ -18,9 +18,13 @@
  * 
  */
 
-#include "renametablineedit.h"
+#include "config.h"
 
-#include <QKeyEvent>
+#include <QWidget>
+#include <QLineEdit>
+#include <QtEvents>
+
+#include "renametablineedit.h"
 
 RenameTabLineEdit::RenameTabLineEdit(QWidget *parent) :
     QLineEdit(parent)

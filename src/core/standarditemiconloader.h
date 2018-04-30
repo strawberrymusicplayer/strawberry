@@ -23,17 +23,20 @@
 
 #include "config.h"
 
-#include <QMap>
+#include <QtGlobal>
 #include <QObject>
+#include <QMap>
+#include <QString>
+#include <QImage>
+#include <QStandardItem>
+#include <QAbstractItemModel>
 
 #include "covermanager/albumcoverloaderoptions.h"
 
-class AlbumCoverLoader;
 class Song;
+class AlbumCoverLoader;
 
-class QAbstractItemModel;
 class QModelIndex;
-class QStandardItem;
 
 // Uses an AlbumCoverLoader to asynchronously load and set an icon on a QStandardItem.
 class StandardItemIconLoader : public QObject {
@@ -46,8 +49,7 @@ class StandardItemIconLoader : public QObject {
 
   void SetModel(QAbstractItemModel *model);
 
-  void LoadIcon(const QString &art_automatic, const QString &art_manual,
-                QStandardItem *for_item);
+  void LoadIcon(const QString &art_automatic, const QString &art_manual, QStandardItem *for_item);
   void LoadIcon(const Song &song, QStandardItem *for_item);
 
 private slots:

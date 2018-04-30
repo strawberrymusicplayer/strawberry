@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include <glib.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
 
@@ -31,19 +32,18 @@
 
 class Chromaprinter {
   // Creates a Chromaprint fingerprint from a song.
-  // Uses GStreamer to open and decode the file as PCM data and passes this
-  // to Chromaprint's code generator. The generated code can be used to identify
-  // a song via Acoustid.
+  // Uses GStreamer to open and decode the file as PCM data and passes this to Chromaprint's code generator.
+  // The generated code can be used to identify a song via Acoustid.
   // You should create one Chromaprinter for each file you want to fingerprint.
   // This class works well with QtConcurrentMap.
 
  public:
-  Chromaprinter(const QString& filename);
+  Chromaprinter(const QString &filename);
   ~Chromaprinter();
 
-  // Creates a fingerprint from the song.  This method is blocking, so you want
-  // to call it in another thread.  Returns an empty string if no fingerprint
-  // could be created.
+  // Creates a fingerprint from the song.
+  // This method is blocking, so you want to call it in another thread.
+  // Returns an empty string if no fingerprint could be created.
   QString CreateFingerprint();
 
  private:

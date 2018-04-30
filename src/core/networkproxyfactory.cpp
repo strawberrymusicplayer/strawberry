@@ -20,16 +20,20 @@
 
 #include "config.h"
 
-#include "networkproxyfactory.h"
-
 #include <stdlib.h>
 
-#include <QMutexLocker>
-#include <QSettings>
+#include <QtGlobal>
+#include <QMutex>
+#include <QVariant>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
+#include <QNetworkProxy>
 #include <QtDebug>
+#include <QSettings>
 
 #include "core/logging.h"
+#include "networkproxyfactory.h"
 
 NetworkProxyFactory *NetworkProxyFactory::sInstance = nullptr;
 const char *NetworkProxyFactory::kSettingsGroup = "NetworkProxy";
@@ -40,8 +44,7 @@ NetworkProxyFactory::NetworkProxyFactory()
       port_(8080),
       use_authentication_(false) {
 #ifdef Q_OS_LINUX
-  // Linux uses environment variables to pass proxy configuration information,
-  // which systemProxyForQuery doesn't support for some reason.
+  // Linux uses environment variables to pass proxy configuration information, which systemProxyForQuery doesn't support for some reason.
 
   QStringList urls;
   urls << QString::fromLocal8Bit(getenv("HTTP_PROXY"));

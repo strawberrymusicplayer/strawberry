@@ -23,8 +23,16 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QString>
 #include <QSlider>
+#include <QtEvents>
 
+class QEvent;
+class QKeyEvent;
+class QMouseEvent;
+class QWheelEvent;
 class TrackSliderPopup;
 
 // It's the slider inside the TrackSliderSlider

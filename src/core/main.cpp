@@ -21,16 +21,27 @@
 #include "config.h"
 #include "version.h"
 
+#include <glib.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include <memory>
+#include <time.h>
 
 #include <QtGlobal>
-
-#include <glib-object.h>
-#include <glib.h>
-
-#ifdef Q_OS_UNIX
-  #include <unistd.h>
-#endif  // Q_OS_UNIX
+#include <QObject>
+#include <QCoreApplication>
+#include <QFileDevice>
+#include <QIODevice>
+#include <QByteArray>
+#include <QNetworkProxy>
+#include <QFile>
+#include <QString>
+#include <QImage>
+#include <QSettings>
+#include <QtDebug>
+#ifdef HAVE_DBUS
+#  include <QDBusArgument>
+#endif
 
 #ifdef Q_OS_DARWIN
   #include <sys/resource.h>
@@ -45,52 +56,25 @@
   #include <iostream>
 #endif  // Q_OS_WIN32
 
-#include <QObject>
-#include <QFile>
-#include <QString>
-#include <QStringList>
-#include <QDir>
-#include <QFont>
-#include <QLibraryInfo>
-#include <QNetworkProxyFactory>
-#include <QSslSocket>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSysInfo>
-#include <QTextCodec>
-#include <QtConcurrentRun>
-#include <QtDebug>
-#include <QSettings>
-#ifdef HAVE_DBUS
-  #include <QDBusArgument>
-  #include <QImage>
-#endif
-
-#ifdef HAVE_DBUS
-  #include "core/mpris.h"
-  #include "core/mpris2.h"
-#endif
-#include "core/application.h"
-#include "core/mainwindow.h"
-#include "core/commandlineoptions.h"
-#include "core/database.h"
 #include "core/logging.h"
-#include "core/mac_startup.h"
-#include "core/metatypes.h"
-#include "core/network.h"
-#include "core/networkproxyfactory.h"
-#include "core/song.h"
-#include "core/utilities.h"
-#include "core/iconloader.h"
-#include "core/systemtrayicon.h"
-#include "core/scangiomodulepath.h"
-
-#include "widgets/osd.h"
-
-#include "tagreadermessages.pb.h"
 
 #include "qtsingleapplication.h"
 #include "qtsinglecoreapplication.h"
+
+#ifdef HAVE_DBUS
+  #include "mpris.h"
+#endif
+#include "utilities.h"
+#include "metatypes.h"
+#include "iconloader.h"
+#include "mainwindow.h"
+#include "commandlineoptions.h"
+#include "systemtrayicon.h"
+#include "application.h"
+#include "networkproxyfactory.h"
+#include "scangiomodulepath.h"
+
+#include "widgets/osd.h"
 
 #ifdef HAVE_DBUS
   QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image);

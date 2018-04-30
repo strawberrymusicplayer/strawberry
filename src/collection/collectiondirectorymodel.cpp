@@ -20,15 +20,23 @@
 
 #include "config.h"
 
-#include "collectiondirectorymodel.h"
-#include "collectionbackend.h"
+#include <QObject>
+#include <QStandardItemModel>
+#include <QAbstractItemModel>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+
 #include "core/application.h"
 #include "core/filesystemmusicstorage.h"
+#include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/utilities.h"
-#include "core/iconloader.h"
+#include "directory.h"
+#include "collectionbackend.h"
+#include "collectiondirectorymodel.h"
 
-CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend* backend, QObject* parent)
+CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, QObject *parent)
     : QStandardItemModel(parent),
       dir_icon_(IconLoader::Load("document-open-folder")),
     backend_(backend)
@@ -43,7 +51,7 @@ CollectionDirectoryModel::~CollectionDirectoryModel() {}
 
 void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
 
-  QStandardItem* item;
+  QStandardItem *item;
   if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(QUrl::fromLocalFile(dir.path))) {
     item = new QStandardItem(Utilities::GetRelativePathToStrawberryBin(QUrl::fromLocalFile(dir.path)).toLocalFile());
   }

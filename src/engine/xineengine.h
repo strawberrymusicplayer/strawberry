@@ -13,20 +13,27 @@
 
 #include "config.h"
 
-#include "enginebase.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QMutex>
 #include <QThread>
 #include <QEvent>
-#include <QSettings>
-#include <QMutex>
+#include <QList>
+#include <QString>
+#include <QUrl>
 
 extern "C"
 {
+    #include <stdbool.h>
+    #include <stddef.h>
+    #include <stdint.h>
     #include <sys/types.h>
     #include <xine.h>
 }
 
-class XineConfigDialog;
-//class DeviceFinder;
+#include "engine_fwd.h"
+#include "enginebase.h"
+
 class TaskManager;
 
 class XineEvent : public QEvent {
@@ -127,7 +134,6 @@ public:
 
     QMutex initMutex_;
 
-    //QSettings settings_;
     bool fadeoutOnExit_;
     bool fadeoutEnabled_;
     bool crossfadeEnabled_;

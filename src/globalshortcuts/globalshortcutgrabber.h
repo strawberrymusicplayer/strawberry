@@ -23,7 +23,19 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QWidget>
 #include <QDialog>
+#include <QList>
+#include <QString>
+#include <QKeySequence>
+#include <QtEvents>
+
+class QEvent;
+class QHideEvent;
+class QShowEvent;
 
 class MacMonitorWrapper;
 class Ui_GlobalShortcutGrabber;
@@ -41,7 +53,7 @@ class GlobalShortcutGrabber : public QDialog {
   GlobalShortcutGrabber(QWidget *parent = nullptr);
   ~GlobalShortcutGrabber();
 
-  QKeySequence GetKey(const QString& name);
+  QKeySequence GetKey(const QString &name);
 
  protected:
   bool event(QEvent *);

@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <QList>
+#include <QString>
 #include <QDateTime>
 #include <QSettings>
 

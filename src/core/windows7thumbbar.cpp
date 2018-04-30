@@ -20,12 +20,12 @@
 
 #include "config.h"
 
+#include <QObject>
+#include <QWidget>
+#include <QList>
+#include <QPixmap>
 #include <QAction>
 #include <QtDebug>
-
-#include "windows7thumbbar.h"
-
-#include "core/logging.h"
 
 #ifdef Q_OS_WIN32
   #ifndef _WIN32_WINNT
@@ -34,12 +34,14 @@
   #include <windows.h>
   #include <commctrl.h>
   #include <shobjidl.h>
-extern HICON qt_pixmapToWinHICON(const QPixmap &p);
+  extern HICON qt_pixmapToWinHICON(const QPixmap &p);
 #endif  // Q_OS_WIN32
+
+#include "core/logging.h"
+#include "windows7thumbbar.h"
 
 const int Windows7ThumbBar::kIconSize = 16;
 const int Windows7ThumbBar::kMaxButtonCount = 7;
-
 
 Windows7ThumbBar::Windows7ThumbBar(QWidget *widget)
     : QObject(widget),

@@ -22,7 +22,10 @@
 
 #include "config.h"
 
-#include "engine/devicefinder.h"
+#include <stdbool.h>
+#include <QList>
+
+#include "devicefinder.h"
 
 class AlsaDeviceFinder : public DeviceFinder {
  public:

@@ -22,20 +22,19 @@
 #include "config.h"
 
 #include <QFile>
-#include <QDir>
+#include <QList>
+#include <QString>
+#include <QIcon>
+#include <QSize>
 #include <QtDebug>
-#include <QSettings>
 
-#include "iconloader.h"
 #include "core/logging.h"
-#include "core/appearance.h"
+#include "iconloader.h"
 
 QList<int> IconLoader::sizes_;
 QString IconDefault(":/icons/64x64/strawberry.png");
 
 void IconLoader::Init() {
-    
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   sizes_.clear();
   sizes_ << 22 << 32 << 48 << 64;
@@ -49,8 +48,6 @@ void IconLoader::Init() {
 QIcon IconLoader::Load(const QString &name) {
 
   QIcon ret;
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << name;
 
   if (name.isEmpty()) {
     qLog(Warning) << "Icon name is empty!";

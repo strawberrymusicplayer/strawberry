@@ -23,7 +23,14 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
+#include <QObject>
+#include <QModelIndex>
 #include <QSortFilterProxyModel>
+#include <QList>
+#include <QVariant>
+#include <QPair>
 
 class MultiSortFilterProxy : public QSortFilterProxyModel {
  public:

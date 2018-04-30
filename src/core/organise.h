@@ -24,16 +24,27 @@
 #include "config.h"
 
 #include <memory>
+#include <stdbool.h>
 
-#include <QBasicTimer>
 #include <QObject>
+#include <QThread>
 #include <QTemporaryFile>
+#include <QBasicTimer>
+#include <QList>
+#include <QMap>
+#include <QSet>
+#include <QString>
+#include <QStringList>
+#include <QVector>
 
+#include "core/song.h"
 #include "organiseformat.h"
-#include "transcoder/transcoder.h"
+
+class QTimerEvent;
 
 class MusicStorage;
 class TaskManager;
+class Transcoder;
 
 class Organise : public QObject {
   Q_OBJECT

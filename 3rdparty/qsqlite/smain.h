@@ -31,9 +31,11 @@
 **
 ****************************************************************************/
 
-#include <qsqldriverplugin.h>
-#include <qstringlist.h>
-#include "qsql_sqlite.h"
+#include <QtGlobal>
+#include <QObject>
+#include <QString>
+#include <QSqlDriver>
+#include <QSqlDriverPlugin>
 
 QT_BEGIN_NAMESPACE
 
@@ -45,7 +47,7 @@ class QSQLiteDriverPlugin : public QSqlDriverPlugin
 public:
     QSQLiteDriverPlugin();
 
-    QSqlDriver* create(const QString &);
+    QSqlDriver *create(const QString &);
 };
 
 QT_END_NAMESPACE

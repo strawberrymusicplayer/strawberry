@@ -4,29 +4,38 @@
 #ifndef ANALYZERBASE_H
 #define ANALYZERBASE_H
 
+#include "config.h"
+
 #ifdef __FreeBSD__
 #include <sys/types.h>
 #endif
 
-#include "analyzer/fht.h"  //stack allocated and convenience
-#include "engine/engine_fwd.h"
-#include <QPixmap>      //stack allocated and convenience
-#include <QBasicTimer>  //stack allocated
-#include <QWidget>      //baseclass
-#include <vector>       //included for convenience
+#include <stdbool.h>
+#include <vector>
 
-#include <QGLWidget>  //baseclass
 #ifdef Q_WS_MACX
-#include <OpenGL/gl.h>   //included for convenience
-#include <OpenGL/glu.h>  //included for convenience
+  #include <OpenGL/gl.h>   //included for convenience
+  #include <OpenGL/glu.h>  //included for convenience
 #else
-#include <GL/gl.h>   //included for convenience
-#include <GL/glu.h>  //included for convenience
+  #include <GL/gl.h>   //included for convenience
+  #include <GL/glu.h>  //included for convenience
 #endif
 
-class QEvent;
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
+#include <QBasicTimer>
+#include <QString>
+#include <QPainter>
+#include <QtEvents>
+
+#include "analyzer/fht.h"
+#include "engine/engine_fwd.h"
+
+class QHideEvent;
+class QShowEvent;
+class QTimerEvent;
 class QPaintEvent;
-class QResizeEvent;
 
 namespace Analyzer {
 

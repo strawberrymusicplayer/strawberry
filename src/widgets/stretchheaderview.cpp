@@ -20,14 +20,21 @@
 
 #include "config.h"
 
-#include "stretchheaderview.h"
-#include "core/logging.h"
-
-#include <QDataStream>
-
 #include <algorithm>
-#include <cmath>
 #include <numeric>
+
+#include <QtGlobal>
+#include <QWidget>
+#include <QHeaderView>
+#include <QAbstractItemModel>
+#include <QIODevice>
+#include <QArrayData>
+#include <QByteArray>
+#include <QDataStream>
+#include <QList>
+#include <QtEvents>
+
+#include "stretchheaderview.h"
 
 const int StretchHeaderView::kMinimumColumnWidth = 10;
 const int StretchHeaderView::kMagicNumber = 0x502c950f;
@@ -239,7 +246,7 @@ void StretchHeaderView::SetColumnWidth(int logical, ColumnWidthType width) {
 bool StretchHeaderView::RestoreState(const QByteArray& data) {
 
   QDataStream s(data);
-  s.setVersion(QDataStream::Qt_4_6);
+  s.setVersion(QDataStream::Qt_5_6);
 
   int magic_number = 0;
   s >> magic_number;
@@ -264,8 +271,7 @@ bool StretchHeaderView::RestoreState(const QByteArray& data) {
 
   const int persisted_column_count = qMin(qMin(visual_indices.count(), pixel_widths.count()), column_widths_.count());
 
-  // Set column visible state, visual indices and, if we're not in stretch mode,
-  // pixel widths.
+  // Set column visible state, visual indices and, if we're not in stretch mode, pixel widths.
   for (int i = 0; i < count() && i < persisted_column_count; ++i) {
     setSectionHidden(i, pixel_widths[i] <= kMinimumColumnWidth);
     moveSection(visualIndex(visual_indices[i]), i);
@@ -281,8 +287,7 @@ bool StretchHeaderView::RestoreState(const QByteArray& data) {
   }
 
   if (stretch_enabled_) {
-    // In stretch mode, we've already set the proportional column widths so apply
-    // them now.
+    // In stretch mode, we've already set the proportional column widths so apply them now.
     UpdateWidths();
   }
 
@@ -305,7 +310,7 @@ QByteArray StretchHeaderView::SaveState() const {
     visual_indices << logicalIndex(i);
   }
 
-  s.setVersion(QDataStream::Qt_4_6);
+  s.setVersion(QDataStream::Qt_5_6);
   s << kMagicNumber;
 
   s << stretch_enabled_;

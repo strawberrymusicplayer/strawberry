@@ -23,21 +23,28 @@
 
 #include "config.h"
 
-#include "albumcoverfetcher.h"
+#include <stdbool.h>
 
-#include <QMap>
+#include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QMap>
+#include <QPair>
+#include <QString>
+#include <QImage>
+#include <QNetworkAccessManager>
+
+#include "albumcoverfetcher.h"
+#include "coversearchstatistics.h"
 
 class CoverProvider;
 class CoverProviders;
 class NetworkTimeouts;
-class NetworkAccessManager;
 class RedirectFollower;
 
-// This class encapsulates a single search for covers initiated by an
-// AlbumCoverFetcher. The search engages all of the known cover providers.
-// AlbumCoverFetcherSearch signals search results to an interested
-// AlbumCoverFetcher when all of the providers have done their part.
+// This class encapsulates a single search for covers initiated by an AlbumCoverFetcher.
+// The search engages all of the known cover providers.
+// AlbumCoverFetcherSearch signals search results to an interested AlbumCoverFetcher when all of the providers have done their part.
 class AlbumCoverFetcherSearch : public QObject {
   Q_OBJECT
 
@@ -46,8 +53,7 @@ class AlbumCoverFetcherSearch : public QObject {
 
   void Start(CoverProviders *cover_providers);
 
-  // Cancels all pending requests.  No Finished signals will be emitted, and it
-  // is the caller's responsibility to delete the AlbumCoverFetcherSearch.
+  // Cancels all pending requests.  No Finished signals will be emitted, and it is the caller's responsibility to delete the AlbumCoverFetcherSearch.
   void Cancel();
 
   CoverSearchStatistics statistics() const { return statistics_; }

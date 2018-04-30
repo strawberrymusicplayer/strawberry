@@ -19,19 +19,25 @@
  */
 
 #include "config.h"
-
-#include "commandlineoptions.h"
 #include "version.h"
-#include "core/logging.h"
 
 #include <cstdlib>
 #include <getopt.h>
 #include <iostream>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QIODevice>
+#include <QDataStream>
 #include <QBuffer>
-#include <QCoreApplication>
+#include <QFile>
 #include <QFileInfo>
+#include <QByteArray>
+#include <QString>
+#include <QUrl>
 
+#include "commandlineoptions.h"
+#include "core/logging.h"
 
 const char *CommandlineOptions::kHelpText =
     "%1: strawberry [%2] [%3]\n"
@@ -93,7 +99,7 @@ CommandlineOptions::CommandlineOptions(int argc, char* *argv)
   RemoveArg("-session", 2);
 }
 
-void CommandlineOptions::RemoveArg(const QString& starts_with, int count) {
+void CommandlineOptions::RemoveArg(const QString &starts_with, int count) {
 
   for (int i = 0; i < argc_; ++i) {
     QString opt(argv_[i]);

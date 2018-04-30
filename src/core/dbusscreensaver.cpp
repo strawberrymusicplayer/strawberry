@@ -20,11 +20,13 @@
 
 #include "config.h"
 
-#include "dbusscreensaver.h"
-
 #include <QCoreApplication>
+#include <QObject>
 #include <QDBusInterface>
 #include <QDBusReply>
+#include <QString>
+
+#include "dbusscreensaver.h"
 
 DBusScreensaver::DBusScreensaver(const QString &service, const QString &path, const QString &interface)
     : service_(service), path_(path), interface_(interface) {}

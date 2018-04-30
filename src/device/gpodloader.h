@@ -24,16 +24,17 @@
 #include "config.h"
 
 #include <memory>
-
 #include <gpod/itdb.h>
 
 #include <QObject>
+#include <QThread>
+#include <QString>
 
 #include "core/song.h"
 
-class ConnectedDevice;
-class CollectionBackend;
 class TaskManager;
+class CollectionBackend;
+class ConnectedDevice;
 
 class GPodLoader : public QObject {
   Q_OBJECT

@@ -57,8 +57,7 @@ bool OSD::SupportsNativeNotifications() {
 bool OSD::SupportsTrayPopups() { return false; }
 
 
-void OSD::ShowMessageNative(const QString& summary, const QString& message,
-                            const QString& icon, const QImage& image) {
+void OSD::ShowMessageNative(const QString& summary, const QString& message, const QString& icon, const QImage& image) {
   Q_UNUSED(icon);
   if (NotificationCenterSupported()) {
     scoped_nsobject<NSString> mac_message(

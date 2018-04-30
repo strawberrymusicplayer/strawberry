@@ -20,35 +20,59 @@
 
 #include "config.h"
 
-#include "collectionview.h"
+#include <qcoreevent.h>
 
-#include <QPainter>
-#include <QContextMenuEvent>
-#include <QHelpEvent>
-#include <QMenu>
-#include <QMessageBox>
-#include <QSet>
-#include <QSettings>
+#include <QtGlobal>
+#include <QWidget>
+#include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
+#include <QAbstractItemView>
+#include <QStyleOptionViewItem>
+#include <QAction>
+#include <QVariant>
+#include <QString>
+#include <QUrl>
+#include <QList>
+#include <QLocale>
+#include <QMap>
+#include <QMessageBox>
+#include <QMenu>
+#include <QMimeData>
+#include <QPainter>
+#include <QPalette>
+#include <QPen>
+#include <QPoint>
+#include <QRect>
+#include <QSet>
+#include <QSize>
 #include <QToolTip>
+#include <QTreeView>
 #include <QWhatsThis>
+#include <QBrush>
+#include <QColor>
+#include <QFont>
+#include <QFontMetrics>
+#include <QPixmap>
+#include <QIcon>
+#include <QLinearGradient>
+#include <QSettings>
+#include <QtEvents>
 
+#include "core/application.h"
+#include "core/iconloader.h"
+#include "core/mimedata.h"
+#include "core/utilities.h"
+#include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionfilterwidget.h"
-#include "collectionmodel.h"
 #include "collectionitem.h"
-#include "collectionbackend.h"
-#include "core/application.h"
-#include "core/logging.h"
-#include "core/mimedata.h"
-#include "core/musicstorage.h"
-#include "core/utilities.h"
-#include "core/iconloader.h"
+#include "collectionmodel.h"
+#include "collectionview.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
+#include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
 #include "dialogs/organisedialog.h"
-#include "dialogs/organiseerrordialog.h"
 #endif
 #include "settings/collectionsettingspage.h"
 
@@ -293,8 +317,7 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
         }
         else if (last_selected_path_.contains(text)) {
           emit expand(current);
-          // If a selected container or song were not found, we've got into a wrong subtree
-          //  (happens with "unknown" all the time)
+          // If a selected container or song were not found, we've got into a wrong subtree (happens with "unknown" all the time)
           if (!RestoreLevelFocus(current)) {
             emit collapse(current);
           }
@@ -312,8 +335,6 @@ bool CollectionView::RestoreLevelFocus(const QModelIndex &parent) {
 
 void CollectionView::ReloadSettings() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QSettings settings;
 
   settings.beginGroup(CollectionSettingsPage::kSettingsGroup);
@@ -330,8 +351,6 @@ void CollectionView::ReloadSettings() {
 
 void CollectionView::SetApplication(Application *app) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   app_ = app;
 
   ReloadSettings();
@@ -341,8 +360,6 @@ void CollectionView::SetApplication(Application *app) {
 void CollectionView::SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
 
 void CollectionView::TotalSongCountUpdated(int count) {
-
-  //qLog(Debug) << __FUNCTION__ << count;
 
   bool old = total_song_count_;
   total_song_count_ = count;
@@ -359,8 +376,6 @@ void CollectionView::TotalSongCountUpdated(int count) {
 
 void CollectionView::TotalArtistCountUpdated(int count) {
 
-  //qLog(Debug) << __FUNCTION__ << count;
-
   bool old = total_artist_count_;
   total_artist_count_ = count;
   if (old != total_artist_count_) update();
@@ -376,8 +391,6 @@ void CollectionView::TotalArtistCountUpdated(int count) {
 
 void CollectionView::TotalAlbumCountUpdated(int count) {
 
-  //qLog(Debug) << __FUNCTION__ << count;
-
   bool old = total_album_count_;
   total_album_count_ = count;
   if (old != total_album_count_) update();
@@ -392,8 +405,6 @@ void CollectionView::TotalAlbumCountUpdated(int count) {
 }
 
 void CollectionView::paintEvent(QPaintEvent *event) {
-
-  //qLog(Debug) << __FUNCTION__;
 
   if (total_song_count_ == 0) {
     QPainter p(viewport());
@@ -491,7 +502,6 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   // TODO: check if custom plugin actions should be enabled / visible
-  //const int songs_selected     = smart_playlists + smart_playlists_header + regular_elements;
   const int songs_selected = regular_elements;
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
 
@@ -502,7 +512,6 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   add_to_playlist_enqueue_->setEnabled(songs_selected);
 
   // if neither edit_track not edit_tracks are available, we show disabled edit_track element
-  //edit_track_->setVisible(!smart_playlists_only && (regular_editable <= 1));
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
 
@@ -534,9 +543,9 @@ void CollectionView::ShowInVarious(bool on) {
 
   if (!context_menu_index_.isValid()) return;
 
-  // Map is from album name -> all artists sharing that album name, built from each selected
-  // song. We put through "Various Artists" changes one album at a time, to make sure the old album
-  // node gets removed (due to all children removed), before the new one gets added
+  // Map is from album name -> all artists sharing that album name, built from each selected song.
+  // We put through "Various Artists" changes one album at a time,
+  // to make sure the old album node gets removed (due to all children removed), before the new one gets added
   QMultiMap<QString, QString> albums;
   for (const Song& song : GetSelectedSongs()) {
     if (albums.find(song.album(), song.artist()) == albums.end())
@@ -586,15 +595,11 @@ void CollectionView::Load() {
 
 void CollectionView::AddToPlaylist() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
 
 }
 
 void CollectionView::AddToPlaylistEnqueue() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QMimeData *data = model()->mimeData(selectedIndexes());
   if (MimeData* mime_data = qobject_cast<MimeData*>(data)) {

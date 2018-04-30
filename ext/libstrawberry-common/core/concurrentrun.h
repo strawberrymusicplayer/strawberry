@@ -55,9 +55,7 @@ class ThreadFunctorBase : public QFutureInterface<ReturnType>, public QRunnable 
     this->reportStarted();
     Q_ASSERT(thread_pool);
     QFuture<ReturnType> future = this->future();
-    thread_pool->start(this, 0 /* priority: currently we do not support
-                                  changing the priority. Might be added later
-                                  if needed */);
+    thread_pool->start(this, 0 /* priority: currently we do not support changing the priority. Might be added later if needed */);
     return future;
   }
 
@@ -67,8 +65,7 @@ class ThreadFunctorBase : public QFutureInterface<ReturnType>, public QRunnable 
 template <typename ReturnType, typename... Args>
 class ThreadFunctor : public ThreadFunctorBase<ReturnType> {
  public:
-  ThreadFunctor(std::function<ReturnType (Args...)> function,
-                Args... args)
+  ThreadFunctor(std::function<ReturnType (Args...)> function, Args... args)
       : function_(std::bind(function, args...)) {
   }
 
@@ -85,8 +82,7 @@ class ThreadFunctor : public ThreadFunctorBase<ReturnType> {
 template <typename... Args>
 class ThreadFunctor <void, Args...> : public ThreadFunctorBase<void> {
  public:
-  ThreadFunctor(std::function<void (Args...)> function,
-                Args... args)
+  ThreadFunctor(std::function<void (Args...)> function, Args... args)
       : function_(std::bind(function, args...)) {
   }
 
@@ -107,30 +103,20 @@ namespace ConcurrentRun {
 
   // Empty argument form.
   template <typename ReturnType>
-  QFuture<ReturnType> Run(
-      QThreadPool* threadpool,
-      std::function<ReturnType ()> function) {
+  QFuture<ReturnType> Run(QThreadPool* threadpool, std::function<ReturnType ()> function) {
   return (new ThreadFunctor<ReturnType>(function))->Start(threadpool);
   }
 
   // Function object with arguments form.
   template <typename ReturnType, typename... Args>
-  QFuture<ReturnType> Run(
-      QThreadPool* threadpool,
-      std::function<ReturnType (Args...)> function,
-                        const Args&... args) {
-    return (new ThreadFunctor<ReturnType, Args...>(
-        function, args...))->Start(threadpool);
+  QFuture<ReturnType> Run(QThreadPool* threadpool, std::function<ReturnType (Args...)> function, const Args&... args) {
+    return (new ThreadFunctor<ReturnType, Args...>(function, args...))->Start(threadpool);
   }
 
   // Support passing C function pointers instead of function objects.
   template <typename ReturnType, typename... Args>
-  QFuture<ReturnType> Run(
-      QThreadPool* threadpool,
-      ReturnType (*function) (Args...),
-      const Args&... args) {
-    return Run(
-        threadpool, std::function<ReturnType (Args...)>(function), args...);
+  QFuture<ReturnType> Run(QThreadPool* threadpool, ReturnType (*function) (Args...), const Args&... args) {
+    return Run(threadpool, std::function<ReturnType (Args...)>(function), args...);
   }
 }
 

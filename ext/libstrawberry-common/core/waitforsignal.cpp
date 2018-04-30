@@ -17,6 +17,7 @@
 
 #include "waitforsignal.h"
 
+#include <QObject>
 #include <QEventLoop>
 
 void WaitForSignal(QObject *sender, const char *signal) {

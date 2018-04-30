@@ -21,9 +21,17 @@
 #ifndef CDDALISTER_H
 #define CDDALISTER_H
 
-#include "config.h"
+#include <config.h>
 
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMetaType>
+#include <QList>
+#include <QString>
 #include <QStringList>
+#include <QUrl>
 
 #include "devicelister.h"
 

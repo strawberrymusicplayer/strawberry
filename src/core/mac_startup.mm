@@ -42,6 +42,7 @@
 #import "3rdparty/SPMediaKeyTap/SPMediaKeyTap.h"
 
 #include "config.h"
+
 #include "globalshortcuts.h"
 #include "mac_delegate.h"
 #include "mac_startup.h"
@@ -49,8 +50,8 @@
 #include "macglobalshortcutbackend.h"
 #include "utilities.h"
 #include "core/logging.h"
-#include "core/scoped_cftyperef.h"
-#include "core/scoped_nsautorelease_pool.h"
+#include "scoped_cftyperef.h"
+#include "scoped_nsautorelease_pool.h"
 
 #ifdef HAVE_SPARKLE
 #import <Sparkle/SUUpdater.h>
@@ -58,11 +59,11 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QWidget>
 #include <QDir>
 #include <QEvent>
 #include <QFile>
 #include <QSettings>
-#include <QWidget>
 
 #include <QtDebug>
 
@@ -78,8 +79,7 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 @interface MacApplication : NSApplication {
   PlatformInterface* application_handler_;
   AppDelegate* delegate_;
-  // shortcut_handler_ only used to temporarily save it
-  // AppDelegate does all the heavy-shortcut-lifting
+  // shortcut_handler_ only used to temporarily save it AppDelegate does all the heavy-shortcut-lifting
   MacGlobalShortcutBackend* shortcut_handler_;
 }
 

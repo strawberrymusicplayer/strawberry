@@ -23,7 +23,9 @@
 
 #include "config.h"
 
-#include "engine/devicefinder.h"
+#include <QList>
+
+#include "devicefinder.h"
 
 class OsxDeviceFinder : public DeviceFinder {
  public:
@@ -34,4 +36,3 @@ class OsxDeviceFinder : public DeviceFinder {
 };
 
 #endif // OSXDEVICEFINDER_H
-

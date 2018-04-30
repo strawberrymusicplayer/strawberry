@@ -31,9 +31,12 @@
 
 #define QXTGLOBALSHORTCUT_H
 
-#include "qxtglobal.h"
 #include <QObject>
 #include <QKeySequence>
+#include <QString>
+
+#include "qxtglobal.h"
+
 class QxtGlobalShortcutPrivate;
 
 class QXT_GUI_EXPORT QxtGlobalShortcut : public QObject
