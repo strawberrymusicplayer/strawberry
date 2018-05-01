@@ -769,7 +769,8 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
   if (!element) {
     if (showerror)
       emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
-    if (fatal) gst_object_unref(GST_OBJECT(bin));
+    else qLog(Error) << "GStreamer could not create the element:" << factoryName;
+    //if (fatal) gst_object_unref(GST_OBJECT(bin));
     return nullptr;
   }
 

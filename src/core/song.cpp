@@ -365,17 +365,18 @@ QString Song::JoinSpec(const QString &table) {
 QString Song::TextForFiletype(FileType type) {
 
   switch (type) {
-    case Song::Type_Asf:       return QObject::tr("Windows Media audio");
+    case Song::Type_Wav:       return QObject::tr("Wav");
     case Song::Type_Flac:      return QObject::tr("Flac");
-    case Song::Type_Mp4:       return QObject::tr("MP4 AAC");
-    case Song::Type_Mpc:       return QObject::tr("MPC");
-    case Song::Type_Mpeg:      return QObject::tr("MP3");
+    case Song::Type_WavPack:   return QObject::tr("WavPack");
     case Song::Type_OggFlac:   return QObject::tr("Ogg Flac");
-    case Song::Type_OggSpeex:  return QObject::tr("Ogg Speex");
     case Song::Type_OggVorbis: return QObject::tr("Ogg Vorbis");
     case Song::Type_OggOpus:   return QObject::tr("Ogg Opus");
+    case Song::Type_OggSpeex:  return QObject::tr("Ogg Speex");
+    case Song::Type_Mpeg:      return QObject::tr("MP3");
+    case Song::Type_Mp4:       return QObject::tr("MP4 AAC");
+    case Song::Type_Asf:       return QObject::tr("Windows Media audio");
     case Song::Type_Aiff:      return QObject::tr("AIFF");
-    case Song::Type_Wav:       return QObject::tr("Wav");
+    case Song::Type_Mpc:       return QObject::tr("MPC");
     case Song::Type_TrueAudio: return QObject::tr("TrueAudio");
     case Song::Type_Cdda:      return QObject::tr("CDDA");
 
@@ -389,10 +390,11 @@ QString Song::TextForFiletype(FileType type) {
 
 bool Song::IsFileLossless() const {
   switch (filetype()) {
-    case Song::Type_Aiff:
+    case Song::Type_Wav:
     case Song::Type_Flac:
     case Song::Type_OggFlac:
-    case Song::Type_Wav:
+    case Song::Type_WavPack:
+    case Song::Type_Aiff:
       return true;
     default:
       return false;
@@ -692,10 +694,21 @@ void Song::InitFromFilePartial(const QString &filename) {
   QFileInfo info(filename);
   d->basefilename_ = info.fileName();
   QString suffix = info.suffix().toLower();
-  if (suffix == "mp3" || suffix == "ogg" || suffix == "flac" ||
-      suffix == "mpc" || suffix == "m4a" || suffix == "aac" ||
-      suffix == "wma" || suffix == "mp4" || suffix == "spx" ||
-      suffix == "wav" || suffix == "opus" || suffix == "m4b") {
+  if (suffix == "wav" ||
+      suffix == "flac" ||
+      suffix == "ogg" ||
+      suffix == "oga" ||
+      suffix == "wv" ||
+      suffix == "aac" ||
+      suffix == "m4a" ||
+      suffix == "m4b" ||
+      suffix == "mp4" ||
+      suffix == "wma" ||
+      suffix == "mp3" ||
+      suffix == "mpc" ||
+      suffix == "tta" ||
+      suffix == "spx" ||
+      suffix == "opus") {
     d->valid_ = true;
   }
   else {

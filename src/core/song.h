@@ -95,19 +95,21 @@ class Song {
   // If a new lossless file is added, also add it to IsFileLossless().
   enum FileType {
     Type_Unknown = 0,
-    Type_Asf = 1,
+    Type_Wav = 1,
     Type_Flac = 2,
-    Type_Mp4 = 3,
-    Type_Mpc = 4,
-    Type_Mpeg = 5,
-    Type_OggFlac = 6,
+    Type_WavPack = 3,
+    Type_OggFlac = 4,
+    Type_OggVorbis = 5,
+    Type_OggOpus = 6,
     Type_OggSpeex = 7,
-    Type_OggVorbis = 8,
-    Type_Aiff = 9,
-    Type_Wav = 10,
-    Type_TrueAudio = 11,
-    Type_Cdda = 12,
-    Type_OggOpus = 13,
+    Type_Mpeg = 8,
+    Type_Mp4 = 9,
+    Type_Asf = 10,
+    Type_Aiff = 11,
+    Type_Mpc = 12,
+    Type_TrueAudio = 13,
+    Type_Cdda = 90,
+    Type_Stream = 91,
   };
 
   static QString TextForFiletype(FileType type);

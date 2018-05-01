@@ -6,20 +6,21 @@ message SongMetadata {
 
   enum Type {
     UNKNOWN = 0;
-    ASF = 1;
+    WAV = 1;
     FLAC = 2;
-    MP4 = 3;
-    MPC = 4;
-    MPEG = 5;
-    OGGFLAC = 6;
+    WAVPACK = 3;
+    OGGFLAC = 4;
+    OGGVORBIS = 5;
+    OGGOPUS = 6;
     OGGSPEEX = 7;
-    OGGVORBIS = 8;
-    AIFF = 9;
-    WAV = 10;
-    TRUEAUDIO = 11;
-    CDDA = 12;
-    OGGOPUS = 13;
-    //STREAM = 99;
+    MPEG = 8;
+    MP4 = 9;
+    ASF = 10;
+    AIFF = 11;
+    MPC = 12;
+    TRUEAUDIO = 13;
+    CDDA = 90;
+    STREAM = 91;
   }
 
   optional bool valid = 1;

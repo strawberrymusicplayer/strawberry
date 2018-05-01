@@ -247,8 +247,8 @@ bool GstEnginePipeline::InitAudioBin() {
   GstElement *convert_sink = tee;
 
   if (rg_enabled_) {
-    rgvolume_ = engine_->CreateElement("rgvolume", audiobin_);
-    rglimiter_ = engine_->CreateElement("rglimiter", audiobin_);
+    rgvolume_ = engine_->CreateElement("rgvolume", audiobin_, false, true);
+    rglimiter_ = engine_->CreateElement("rglimiter", audiobin_, false, true);
     audioconvert2_ = engine_->CreateElement("audioconvert", audiobin_);
     if (rgvolume_ && rglimiter_ && audioconvert2_) {
       event_probe = audioconvert2_;

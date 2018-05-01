@@ -49,6 +49,7 @@
 #include <taglib/vorbisfile.h>
 #include <taglib/speexfile.h>
 #include <taglib/wavfile.h>
+#include <taglib/wavpackfile.h>
 #include <taglib/aifffile.h>
 #include <taglib/asffile.h>
 #include "taglib/asftag.h"
@@ -467,27 +468,28 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
 
 pb::tagreader::SongMetadata_Type TagReader::GuessFileType(TagLib::FileRef *fileref) const {
   
-#ifdef TAGLIB_WITH_ASF
-  if (dynamic_cast<TagLib::ASF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_ASF;
-#endif
+  if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAV;
   if (dynamic_cast<TagLib::FLAC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_FLAC;
-#ifdef TAGLIB_WITH_MP4
-  if (dynamic_cast<TagLib::MP4::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MP4;
-#endif
-  if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPC;
-  if (dynamic_cast<TagLib::MPEG::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPEG;
+  if (dynamic_cast<TagLib::WavPack::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAVPACK;
   if (dynamic_cast<TagLib::Ogg::FLAC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGFLAC;
-  if (dynamic_cast<TagLib::Ogg::Speex::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGSPEEX;
   if (dynamic_cast<TagLib::Ogg::Vorbis::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGVORBIS;
 #ifdef TAGLIB_HAS_OPUS
   if (dynamic_cast<TagLib::Ogg::Opus::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGOPUS;
 #endif
+  if (dynamic_cast<TagLib::Ogg::Speex::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGSPEEX;
+  if (dynamic_cast<TagLib::MPEG::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPEG;
+#ifdef TAGLIB_WITH_MP4
+  if (dynamic_cast<TagLib::MP4::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MP4;
+#endif
+#ifdef TAGLIB_WITH_ASF
+  if (dynamic_cast<TagLib::ASF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_ASF;
+#endif
   if (dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_AIFF;
-  if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAV;
+  if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_TRUEAUDIO;
 
   return pb::tagreader::SongMetadata_Type_UNKNOWN;
-  
+
 }
 
 bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetadata &song) const {

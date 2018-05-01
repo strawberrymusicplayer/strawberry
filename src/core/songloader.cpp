@@ -229,10 +229,8 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
     parser = playlist_parser_->ParserForExtension(QFileInfo(filename).suffix().toLower());
   }
 
-  if (parser) {
+  if (parser) { // It's a playlist!
     qLog(Debug) << "Parsing using" << parser->name();
-
-    // It's a playlist!
     LoadPlaylist(parser, filename);
     return;
   }
@@ -244,8 +242,7 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
     QFile cue(matching_cue);
     cue.open(QIODevice::ReadOnly);
 
-    SongList song_list = cue_parser_->Load(&cue, matching_cue,
-                                           QDir(filename.section('/', 0, -2)));
+    SongList song_list = cue_parser_->Load(&cue, matching_cue, QDir(filename.section('/', 0, -2)));
     for (Song song: song_list){
       if (song.is_valid()) songs_ << song;
     }
