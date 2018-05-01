@@ -9,75 +9,52 @@ URL:            http://www.strawbs.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  make
-BuildRequires:  cmake
-BuildRequires:  gcc
-BuildRequires:  gcc-c++
-BuildRequires:  libprotoc9
-BuildRequires:  glib2-devel
-BuildRequires:  alsa-devel
-BuildRequires:  protobuf-devel
-BuildRequires:  glu-devel
-BuildRequires:  taglib-devel
 BuildRequires:  boost-devel
-BuildRequires:  gstreamer-devel
-BuildRequires:  gstreamer-plugins-base-devel
-BuildRequires:  libmtp-devel
-BuildRequires:  libcdio-devel
-BuildRequires:  libgpod-devel
-BuildRequires:  libimobiledevice-devel
-BuildRequires:  libplist-devel
-BuildRequires:  liblastfm-qt5-devel
-BuildRequires:  libchromaprint-devel
-BuildRequires:  libQt5Core-devel
-BuildRequires:  libQt5Gui-devel
-BuildRequires:  libQt5Widgets-devel
-BuildRequires:  libQt5Network-devel
-BuildRequires:  libQt5Concurrent-devel
-BuildRequires:  libQt5Sql-devel
-BuildRequires:  libQt5Xml-devel
-BuildRequires:  libQt5OpenGL-devel
-BuildRequires:  libQt5Test-devel
-BuildRequires:  libQt5WebKit5-devel
-BuildRequires:  libQt5WebKitWidgets-devel
-BuildRequires:  libqt5-qtx11extras-devel
-BuildRequires:  libQt5Gui-private-headers-devel
+BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
+BuildRequires:  gcc-c++
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  libQt5Gui-private-headers-devel
+BuildRequires:  liblastfm-qt5-devel
+BuildRequires:  make
+BuildRequires:  pkgconfig
 BuildRequires:  update-desktop-files
-
-Requires:       glib-2.0
-Requires:       gio-2.0
-Requires:       protobuf
-Requires:       cryptopp
-Requires:       Qt5Core
-Requires:       Qt5Gui
-Requires:       Qt5Widgets
-Requires:       Qt5Network
-Requires:       Qt5Concurrent
-Requires:       Qt5Sql
-Requires:       Qt5Xml
-Requires:       Qt5OpenGL
-Requires:       Qt5Test
-Requires:       Qt5X11Extras
-Requires:       Qt5WebKit
-Requires:       Qt5WebKitWidgets
-
-# GStreamer codec dependencies
-Requires:       gstreamer
-Requires:       gstreamer-plugins-base
-Requires:       gstreamer-plugins-good
-
-%ifarch x86_64
-Requires:       gstreamer1.0(decoder-audio/x-vorbis)()(64bit)
-Requires:       gstreamer1.0(decoder-audio/x-flac)()(64bit)
-Requires:       gstreamer1.0(decoder-audio/x-speex)()(64bit)
-Requires:       gstreamer1.0(decoder-audio/x-wav)()(64bit)
-%else
-Requires:       gstreamer1.0(decoder-audio/x-vorbis)
-Requires:       gstreamer1.0(decoder-audio/x-flac)
-Requires:       gstreamer1.0(decoder-audio/x-speex)
-Requires:       gstreamer1.0(decoder-audio/x-wav)
-%endif
+BuildRequires:  pkgconfig(Qt5Concurrent)
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5OpenGL)
+BuildRequires:  pkgconfig(Qt5Sql)
+BuildRequires:  pkgconfig(Qt5Test)
+BuildRequires:  pkgconfig(Qt5WebKit)
+BuildRequires:  pkgconfig(Qt5WebKitWidgets)
+BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(gio-unix-2.0)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(glu)
+BuildRequires:  pkgconfig(gstreamer-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-audio-1.0)
+BuildRequires:  pkgconfig(gstreamer-base-1.0)
+BuildRequires:  pkgconfig(gstreamer-tag-1.0)
+BuildRequires:  pkgconfig(gthread-2.0)
+BuildRequires:  pkgconfig(libcdio)
+BuildRequires:  pkgconfig(libchromaprint)
+BuildRequires:  pkgconfig(libgpod-1.0)
+BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  pkgconfig(libnotify)
+BuildRequires:  pkgconfig(libpulse)
+BuildRequires:  pkgconfig(libudf)
+BuildRequires:  pkgconfig(libxine)
+BuildRequires:  pkgconfig(libvlc)
+BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  pkgconfig(sqlite3) >= 3.7
+BuildRequires:  pkgconfig(taglib) >= 1.8
+Requires:       libtag1 >= 1.8
 
 %description
 Strawberry is a audio player and music collection organiser.
