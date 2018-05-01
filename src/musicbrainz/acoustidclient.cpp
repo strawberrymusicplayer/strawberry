@@ -46,7 +46,7 @@
 #include "core/network.h"
 #include "core/timeconstants.h"
 
-const char *AcoustidClient::kClientId = "76JYVgslck";
+const char *AcoustidClient::kClientId = "0qjUoxbowg";
 const char *AcoustidClient::kUrl = "http://api.acoustid.org/v2/lookup";
 const int AcoustidClient::kDefaultTimeout = 5000;  // msec
 

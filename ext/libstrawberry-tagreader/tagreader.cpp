@@ -467,7 +467,7 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
 }
 
 pb::tagreader::SongMetadata_Type TagReader::GuessFileType(TagLib::FileRef *fileref) const {
-  
+
   if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAV;
   if (dynamic_cast<TagLib::FLAC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_FLAC;
   if (dynamic_cast<TagLib::WavPack::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAVPACK;
