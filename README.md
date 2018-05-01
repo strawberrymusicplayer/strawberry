@@ -1,11 +1,12 @@
 Strawberry Music Player
 =======================
 README
+------
 
-Strawberry is a audio player and music collection organizer. It was forked from Clementine in 2013 with a diffrent goal.
-It's written in C++ and Qt 5 and runs on Linux. The name is inspired by the band Strawbs.
+Strawberry is a audio player and music collection organizer. It is a fork of Clementine created in 2013 with a diffrent goal.
+It's written in C++ and Qt5. The name is inspired by the band Strawbs.
 
-Features:
+### Features:
 
   * Play and organize music
   * Edit tags on music files
@@ -13,6 +14,7 @@ Features:
   * Native desktop notifications
   * Playlists in multiple formats
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Fetch tags from MusicBrainz
   * Support for multiple backends
 
 You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
@@ -50,11 +52,11 @@ You should also install the gstreamer plugins: gstreamer-plugins-base, gstreamer
 Compiling from source
 ---------------------
 
-Get the code:
+### Get the code:
 
     git clone https://github.com/jonaski/strawberry
 
-Compile and install:
+### Compile and install:
 
     mkdir strawberry-build
     cd strawberry-build
