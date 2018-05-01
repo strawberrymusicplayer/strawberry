@@ -1,3 +1,16 @@
 Strawberry Music Player
 =======================
 ChangeLog
+
+Version 0.1.2:
+    * Fixed playback of WavPack files
+    * Fixed musicbrainz tagfetcher
+    * Use common regex (Song::kCoverRemoveDisc) for removing Disc/CD from album
+    * Remove Disc/CD from album when creating hash for album cover filename
+    * Fixed imobiledevice support compilation
+    * Fixed output device selection on windows
+    * Fixed problems with windows build missing some DLL's, only supplying required gstreamer-plugins now
+    * Removed redundant code
+
+Version 0.1.1:
+    * Initial release

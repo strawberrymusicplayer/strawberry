@@ -188,7 +188,7 @@ add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
 
 # Optional bits
 if(WIN32)
-  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" ON)
+  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
 endif(WIN32)
 
 optional_component(GSTREAMER ON "Engine: GStreamer backend"
