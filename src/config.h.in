@@ -38,7 +38,6 @@
 #cmakedefine TAGLIB_HAS_OPUS
 #cmakedefine USE_INSTALL_PREFIX
 #cmakedefine USE_SYSTEM_SHA2
-#cmakedefine USE_SYSTEM_QSQLITE
 
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_VLC

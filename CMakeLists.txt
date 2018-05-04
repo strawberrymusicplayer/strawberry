@@ -279,21 +279,6 @@ endif(WIN32)
 # Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
 list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
-# QSqlLiteDriver:
-# We do this because we can't guarantee that the driver shipped with Qt exposes the raw sqlite3 functions required for FTS support.
-# This way we know that those symbols exist at compile-time and that our code links to the same sqlite library as the Qt driver.
-option(USE_SYSTEM_QSQLITE "Don't set this unless you can guarantee that the driver shipped with Qt exposes the raw sqlite3 functions required for FTS support" ON)
-if(USE_SYSTEM_QSQLITE)
-  message(STATUS "Using system qsqlite driver")
-  set(USE_SYSTEM_QSQLITE ON)
-else(USE_SYSTEM_QSQLITE)
-  message(STATUS "Using builtin qsqlite driver")
-  add_subdirectory(3rdparty/qsqlite)
-  set(QSQLITE_LIBRARIES qsqlite)
-  set(QSQLITE_INCLUDE_DIRS "3rdparty/qsqlite")
-  set(USE_SYSTEM_QSQLITE OFF)
-endif(USE_SYSTEM_QSQLITE)
-
 # When/if upstream accepts our patches then these options can be used to link to system installed qtsingleapplication instead.
 option(USE_SYSTEM_QTSINGLEAPPLICATION "Don't set this option unless your system QtSingleApplication library has been compiled with the Strawberry patches in 3rdparty" OFF)
 if(USE_SYSTEM_QTSINGLEAPPLICATION)

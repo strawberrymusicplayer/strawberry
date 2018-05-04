@@ -81,12 +81,6 @@
   const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image);
 #endif
 
-// Load sqlite plugin on windows and mac.
-#ifndef USE_SYSTEM_QSQLITE
-#include <QtPlugin>
-Q_IMPORT_PLUGIN(QSQLiteDriverPlugin)
-#endif
-
 int main(int argc, char* argv[]) {
 
 #ifdef Q_OS_DARWIN
