@@ -557,8 +557,6 @@ optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
     widgets/osd_win.cpp
-  HEADERS
-    engine/directsounddevicefinder.h
 )
 
 # Platform specific - X11
@@ -732,7 +730,6 @@ optional_source(HAVE_IMOBILEDEVICE
     device/afcfile.h
     device/afctransfer.h
     device/ilister.h
-    device/imobiledeviceconnection.h
 )
 
 # mtp device
