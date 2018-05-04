@@ -559,8 +559,6 @@ optional_source(WIN32
     widgets/osd_win.cpp
   HEADERS
     engine/directsounddevicefinder.h
-  INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/3rdparty/tinysvcmdns
 )
 
 # Platform specific - X11
