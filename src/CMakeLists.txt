@@ -853,6 +853,7 @@ target_link_libraries(strawberry_lib
   ${QTSINGLEAPPLICATION_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${SQLITE_LIBRARIES}
+  ${QSQLITE_LIBRARIES}
   z
   Qocoa
 )
@@ -891,10 +892,6 @@ if(HAVE_LIBMTP)
   target_link_libraries(strawberry_lib ${LIBMTP_LIBRARIES})
 endif(HAVE_LIBMTP)
 
-#if(HAVE_LIBINDICATE)
-#  target_link_libraries(strawberry_lib ${INDICATEQT_LIBRARIES})
-#endif(HAVE_LIBINDICATE)
-
 if(HAVE_LIBPULSE)
   target_link_libraries(strawberry_lib ${LIBPULSE_LIBRARIES})
 endif()
@@ -917,8 +914,6 @@ if (APPLE)
 else (APPLE)
   target_link_libraries(strawberry_lib ${QXT_LIBRARIES})
 endif (APPLE)
-
-target_link_libraries(strawberry_lib qsqlite)
 
 if (WIN32)
   target_link_libraries(strawberry_lib
