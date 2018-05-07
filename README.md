@@ -31,13 +31,12 @@ To build Strawberry from source you need the following installed on your system:
 * protobuf and development packages
 * boost development headers
 
-* The following Qt5 components are required with additional development packages:
-
-- Qt5Core, Qt5Widgets, Qt5Network, Qt5Sql, Qt5Xml, Qt5OpenGL, Qt5Concurrent, Qt5Test, 5X11Extras, Qt5WebKit, Qt5WebKitWidget and Qt5DBus.
+* The following Qt5 components are required with additional development packages: Qt5Core, Qt5Widgets, Qt5Network, Qt5Sql, Qt5Xml, Qt5OpenGL, Qt5Concurrent, Qt5Test, 5X11Extras, Qt5WebKit, Qt5WebKitWidget and Qt5DBus.
 
 * ALSA and libasound2 with development files
 * SQLite3 with development files
 * libchromaprint with development files
+* TagLib 1.8 or higher with development files
 * libglu with development files
 
 Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.

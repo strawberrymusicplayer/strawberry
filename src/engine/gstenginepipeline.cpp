@@ -335,11 +335,6 @@ bool GstEnginePipeline::InitAudioBin() {
     gst_element_link_many(rgvolume_, rglimiter_, audioconvert2_, tee, nullptr);
   }
 
-  // Link the analyzer output of the tee and force 16 bit caps
-  //GstCaps* caps16 = gst_caps_new_simple("audio/x-raw", "format", G_TYPE_STRING, "S16LE", NULL);
-  //gst_element_link_filtered(probe_queue, probe_converter, caps16);
-  //gst_caps_unref(caps16);
-
   // Don't force 16 bit.
   gst_element_link(probe_queue, probe_converter);
 
@@ -347,7 +342,6 @@ bool GstEnginePipeline::InitAudioBin() {
   else gst_element_link_many(audio_queue, volume_, audioscale_, convert, nullptr);
 
   // Let the audio output of the tee autonegotiate the bit depth and format.
-  //GstCaps *caps = gst_caps_new_simple("audio/x-raw", "format", G_TYPE_STRING, "F32LE", NULL);
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
 
   gst_element_link_filtered(convert, audiosink_, caps);
