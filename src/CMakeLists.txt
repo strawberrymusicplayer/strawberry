@@ -68,7 +68,6 @@ include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
 include_directories(${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader)
 
-#cmake_policy(SET CMP0011 NEW)
 include(../cmake/AddEngine.cmake)
 include(../cmake/ParseArguments.cmake)
 
