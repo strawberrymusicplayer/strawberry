@@ -368,15 +368,15 @@ set_target_properties(tag PROPERTIES
   LINK_INTERFACE_LIBRARIES ""
   #PUBLIC_HEADER "${tag_HDRS}"
 )
-if(BUILD_FRAMEWORK)
-  unset(INSTALL_NAME_DIR)
-  set_target_properties(tag PROPERTIES 
-      FRAMEWORK TRUE
-      MACOSX_RPATH 1
-      VERSION "A"
-      SOVERSION "A"
-      )
-endif()
+#if(BUILD_FRAMEWORK)
+#  unset(INSTALL_NAME_DIR)
+#  set_target_properties(tag PROPERTIES 
+#      FRAMEWORK TRUE
+#      MACOSX_RPATH 1
+#      VERSION "A"
+#      SOVERSION "A"
+#      )
+#endif()
 
 #install(TARGETS tag
 #  FRAMEWORK DESTINATION ${FRAMEWORK_INSTALL_DIR}
