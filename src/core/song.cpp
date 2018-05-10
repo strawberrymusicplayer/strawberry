@@ -20,8 +20,7 @@
 
 #include "config.h"
 
-#include <string>
-#include "tstring.h"
+#include <taglib/fileref.h>
 #include <taglib/id3v1genres.h>
 
 #include <QtGlobal>
@@ -688,31 +687,16 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 void Song::InitFromFilePartial(const QString &filename) {
 
   set_url(QUrl::fromLocalFile(filename));
-  // We currently rely on filename suffix to know if it's a music file or not.
-  // TODO: I know this is not satisfying, but currently, we rely on TagLib which seems to have the behavior (filename checks).
-  // Someday, it would be nice to perform some magic tests everywhere.
   QFileInfo info(filename);
   d->basefilename_ = info.fileName();
   QString suffix = info.suffix().toLower();
-  if (suffix == "wav" ||
-      suffix == "flac" ||
-      suffix == "ogg" ||
-      suffix == "oga" ||
-      suffix == "wv" ||
-      suffix == "aac" ||
-      suffix == "m4a" ||
-      suffix == "m4b" ||
-      suffix == "mp4" ||
-      suffix == "wma" ||
-      suffix == "mp3" ||
-      suffix == "mpc" ||
-      suffix == "tta" ||
-      suffix == "spx" ||
-      suffix == "opus") {
-    d->valid_ = true;
-  }
+
+  TagLib::FileRef fileref(filename.toUtf8().constData());
+  //if (TagLib::FileRef::defaultFileExtensions().contains(suffix.toUtf8().constData())) {
+  if (fileref.file()) d->valid_ = true;
   else {
     d->valid_ = false;
+    qLog(Error) << "File" << filename << "is not recognized by TagLib as a valid audio file.";
   }
 
 }

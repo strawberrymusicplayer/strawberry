@@ -507,8 +507,8 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int s
 void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands) {
   
   for (const QString &command : commands) {
-    // There are now lots of "songs" tables that need to have the same schema:
-    // songs, magnatune_songs, and device_*_songs.  We allow a magic value in the schema files to update all songs tables at once.
+    // There are now lots of "songs" tables that need to have the same schema: songs and device_*_songs.
+    // We allow a magic value in the schema files to update all songs tables at once.
     if (command.contains(kMagicAllSongsTables)) {
       for (const QString &table : song_tables) {
         // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.

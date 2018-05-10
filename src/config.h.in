@@ -35,7 +35,6 @@
 #cmakedefine HAVE_QCA
 #cmakedefine HAVE_SPARKLE
 #cmakedefine IMOBILEDEVICE_USES_UDIDS
-#cmakedefine TAGLIB_HAS_OPUS
 #cmakedefine USE_INSTALL_PREFIX
 #cmakedefine USE_SYSTEM_SHA2
 

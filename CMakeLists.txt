@@ -18,18 +18,26 @@
 
 project(strawberry)
 cmake_minimum_required(VERSION 2.8.11)
+cmake_policy(SET CMP0054 NEW)
 
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(FindPkgConfig)
 include(cmake/C++11Compat.cmake)
-include(cmake/Summary.cmake)
 include(cmake/Version.cmake)
-include(cmake/Rpm.cmake)
+include(cmake/Summary.cmake)
 include(cmake/OptionalSource.cmake)
+include(cmake/Rpm.cmake)
 
 #set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+if(${CMAKE_BUILD_TYPE} MATCHES "Release")
+  add_definitions(-DNDEBUG)
+  add_definitions(-DQT_NO_DEBUG_OUTPUT)
+  #add_definitions(-DQT_NO_WARNING_OUTPUT)
+endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 
 if (CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
@@ -46,46 +54,26 @@ if (CCACHE_EXECUTABLE)
   SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_EXECUTABLE})
   SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_LINK ${CCACHE_EXECUTABLE})
 endif ()
+find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5 PATHS ${QT_BINARY_DIR} NO_DEFAULT_PATH)
+find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5)
 
 if (UNIX AND NOT APPLE)
   set(LINUX 1)
 endif (UNIX AND NOT APPLE)
 
-set(QT_MIN_VERSION 5.6.0)
-
-find_package(X11)
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core OpenGL Sql Network Xml Widgets Concurrent Test)
-
-if(X11_FOUND)
-  find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
-endif()
-
-if(NOT APPLE)
-  find_package(Qt5 COMPONENTS WebKitWidgets)
-endif(NOT APPLE)
-
-find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5 PATHS ${QT_BINARY_DIR} NO_DEFAULT_PATH)
-find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5)
-
-if(APPLE)
-  if(NOT QT_MAC_USE_COCOA)
-    message(FATAL_ERROR "Cocoa support is required")
-  endif(NOT QT_MAC_USE_COCOA)
-endif(APPLE)
-
-find_package(OpenGL REQUIRED)
-find_package(Boost REQUIRED)
 find_package(PkgConfig REQUIRED)
-find_package(Protobuf REQUIRED)
-find_package(Threads)
-if(LINUX)
-  find_package(ALSA REQUIRED)
-endif(LINUX)
-
 pkg_check_modules(GLIB REQUIRED glib-2.0)
 pkg_check_modules(GIO REQUIRED gio-2.0)
 pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
 pkg_check_modules(CDIO libcdio)
+find_package(Threads)
+find_package(Boost REQUIRED)
+find_package(Protobuf REQUIRED)
+find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
+if(LINUX)
+  find_package(ALSA REQUIRED)
+endif(LINUX)
+find_package(X11)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
 pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
@@ -95,8 +83,8 @@ pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
 pkg_check_modules(LIBXINE libxine)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(PHONON phonon4qt5)
-pkg_check_modules(TAGLIB REQUIRED taglib>=1.8)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
+find_package(OpenGL REQUIRED)
 pkg_check_modules(CHROMAPRINT REQUIRED libchromaprint)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
@@ -107,37 +95,59 @@ pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(USBMUXD libusbmuxd)
 pkg_check_modules(PLIST libplist)
 
-find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
-
 if (WIN32)
   find_package(ZLIB REQUIRED)
 endif (WIN32)
+
+# QT
+set(QT_MIN_VERSION 5.6.0)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core OpenGL Sql Network Xml Widgets Concurrent Test)
+if(X11_FOUND)
+  find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
+endif()
+if(NOT APPLE)
+  find_package(Qt5 COMPONENTS WebKitWidgets)
+endif(NOT APPLE)
+if(APPLE)
+  if(NOT QT_MAC_USE_COCOA)
+    message(FATAL_ERROR "Cocoa support is required")
+  endif(NOT QT_MAC_USE_COCOA)
+endif(APPLE)
+
+# TAGLIB
+pkg_check_modules(TAGLIB taglib)
+# Only use system taglib if it's greater than 1.11.1 because of audio file detection by content.
+# But let the user override as strawberry will still compile and work without.
+if (TAGLIB_VERSION VERSION_GREATER 1.11.1 OR WIN32)
+  option(USE_SYSTEM_TAGLIB "Use system taglib" ON)
+else()
+  option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
+endif()
+if (USE_SYSTEM_TAGLIB)
+  message(STATUS "Using system taglib library")
+  set(CMAKE_REQUIRED_INCLUDES "${TAGLIB_INCLUDE_DIRS}")
+  set(CMAKE_REQUIRED_LIBRARIES "${TAGLIB_LIBRARIES}")
+  set(CMAKE_REQUIRED_INCLUDES)
+  set(CMAKE_REQUIRED_LIBRARIES)
+else()
+  message(STATUS "Using builtin taglib library")
+  set(TAGLIB_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/taglib/;${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/")
+  set(TAGLIB_LIBRARY_DIRS "")
+  set(TAGLIB_LIBRARIES tag)
+  add_subdirectory(3rdparty/utf8-cpp)
+  add_subdirectory(3rdparty/taglib)
+endif()
 
 # LASTFM
 find_library(LASTFM5_LIBRARIES lastfm5)
 find_path(LASTFM5_INCLUDE_DIRS lastfm5/ws.h)
 find_path(LASTFM51_INCLUDE_DIRS lastfm5/Track.h)
-#CHECK_INCLUDE_FILES(lastfm/Track.h HAVE_LASTFM_TRACK_H)
-
-# GSTREAMER
-CHECK_INCLUDE_FILES(gst/audio/gstaudiocdsrc.h GST_AUDIO_GSTAUDIOCDSRC_H)
-
-# TAGLIB
-set(CMAKE_REQUIRED_INCLUDES "${TAGLIB_INCLUDE_DIRS}")
-set(CMAKE_REQUIRED_LIBRARIES "${TAGLIB_LIBRARIES}")
-check_cxx_source_compiles("#include <opusfile.h>
-      int main() { char *s; TagLib::Ogg::Opus::File opusfile(s); return 0;}" TAGLIB_HAS_OPUS)
-set(CMAKE_REQUIRED_INCLUDES)
-set(CMAKE_REQUIRED_LIBRARIES)
-CHECK_INCLUDE_FILES(taglib/xiphcomment.h HAVE_XIPCOMMENT_H)
-
-# LASTFM
 if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
   set(HAVE_LIBLASTFM1 ON)
 endif()
 
 # CHROMAPRINT
-CHECK_INCLUDE_FILES(chromaprint.h CHROMAPRINT_H)
+CHECK_INCLUDE_FILES(chromaprint.h REQUIRED CHROMAPRINT_H)
 
 if (APPLE)
   find_library(SPARKLE Sparkle)
@@ -145,12 +155,6 @@ if (APPLE)
   set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
 endif (APPLE)
-
-if(${CMAKE_BUILD_TYPE} MATCHES "Release")
-  add_definitions(-DNDEBUG)
-  add_definitions(-DQT_NO_DEBUG_OUTPUT)
-  #add_definitions(-DQT_NO_WARNING_OUTPUT)
-endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 
 # Set up definitions and paths
 add_definitions(${QT_DEFINITIONS})
@@ -197,11 +201,11 @@ optional_component(GSTREAMER ON "Engine: GStreamer backend"
   DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
 )
 
-optional_component(XINE ON "Engine: Xine backend"
+optional_component(XINE OFF "Engine: Xine backend"
   DEPENDS "libxine" LIBXINE_FOUND
 )
 
-optional_component(VLC ON "Engine: VLC backend"
+optional_component(VLC OFF "Engine: VLC backend"
   DEPENDS "libvlc" LIBVLC_FOUND
 )
 
@@ -258,8 +262,6 @@ optional_component(LIBPULSE ON "Pulse audio integration"
   DEPENDS "libpulse" LIBPULSE_FOUND
 )
 
-
-# Find DBus if it's enabled
 if (HAVE_DBUS)
   find_package(Qt5 COMPONENTS DBus)
   get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt5::qdbusxml2cpp LOCATION)
@@ -276,35 +278,6 @@ endif(WIN32)
 # Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
 list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
-# When/if upstream accepts our patches then these options can be used to link to system installed qtsingleapplication instead.
-option(USE_SYSTEM_QTSINGLEAPPLICATION "Don't set this option unless your system QtSingleApplication library has been compiled with the Strawberry patches in 3rdparty" OFF)
-if(USE_SYSTEM_QTSINGLEAPPLICATION)
-  find_path(QTSINGLEAPPLICATION_INCLUDE_DIRS qtsingleapplication.h PATH_SUFFIXES QtSolutions)
-  find_library(QTSINGLEAPPLICATION_LIBRARIES QtSolutions_SingleApplication-2.6)
-  find_library(QTSINGLECOREAPPLICATION_LIBRARIES QtSolutions_SingleCoreApplication-2.6)
-else(USE_SYSTEM_QTSINGLEAPPLICATION)
-  add_subdirectory(3rdparty/qtsingleapplication)
-  set(QTSINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qtsingleapplication)
-  set(QTSINGLEAPPLICATION_LIBRARIES qtsingleapplication)
-endif(USE_SYSTEM_QTSINGLEAPPLICATION)
-
-# When/if upstream accepts our or reimplement our patches then these options can be used to link to system installed qxt instead.
-option(USE_SYSTEM_QXT "Don't set this option unless your system Qxt library has been compiled with the Strawberry patches in 3rdparty" OFF)
-if (USE_SYSTEM_QXT)
-  find_path(QXTCORE_INCLUDE_DIRS qxtglobal.h PATH_SUFFIXES QxtCore)
-  find_path(QXTGUI_INCLUDE_DIRS qxtglobalshortcut.h PATH_SUFFIXES QxtGui)
-  set(QXT_INCLUDE_DIRS ${QXTCORE_INCLUDE_DIRS} ${QXTGUI_INCLUDE_DIRS})
-  # We only need its header. We don't need to link to QxtCore.
-  find_library(QXT_LIBRARIES QxtGui)
-else (USE_SYSTEM_QXT)
-  add_definitions(-DQXT_STATIC -DBUILD_QXT_GUI -DBUILD_QXT_CORE)
-  set(QXT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qxt)
-  set(QXT_LIBRARIES qxt)
-  if (NOT APPLE)
-    add_subdirectory(3rdparty/qxt)
-  endif (NOT APPLE)
-endif (USE_SYSTEM_QXT)
-
 # Use system sha2 if it's available
 find_path(SHA2_INCLUDE_DIRS sha2.h)
 find_library(SHA2_LIBRARIES sha2)
@@ -318,6 +291,39 @@ else()
   set(SHA2_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/sha2)
   set(SHA2_LIBRARIES sha2)
 endif()
+
+# Use system QtSingleApplication only if explicitly enabled.
+option(USE_SYSTEM_QTSINGLEAPPLICATION "Use system QtSingleApplication library" OFF)
+if(USE_SYSTEM_QTSINGLEAPPLICATION)
+  message(STATUS "Using system QtSingleApplication library")
+  find_path(QTSINGLEAPPLICATION_INCLUDE_DIRS qtsingleapplication.h PATH_SUFFIXES QtSolutions)
+  find_library(QTSINGLEAPPLICATION_LIBRARIES QtSolutions_SingleApplication-2.6)
+  find_library(QTSINGLECOREAPPLICATION_LIBRARIES QtSolutions_SingleCoreApplication-2.6)
+else(USE_SYSTEM_QTSINGLEAPPLICATION)
+  message(STATUS "Using builtin QtSingleApplication library")
+  add_subdirectory(3rdparty/qtsingleapplication)
+  set(QTSINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qtsingleapplication)
+  set(QTSINGLEAPPLICATION_LIBRARIES qtsingleapplication)
+endif(USE_SYSTEM_QTSINGLEAPPLICATION)
+
+# Use system Qxt only if explicitly enabled.
+option(USE_SYSTEM_QXT "Use system Qxt library" OFF)
+if (USE_SYSTEM_QXT)
+  message(STATUS "Using system Qxt library")
+  find_path(QXTCORE_INCLUDE_DIRS qxtglobal.h PATH_SUFFIXES QxtCore)
+  find_path(QXTGUI_INCLUDE_DIRS qxtglobalshortcut.h PATH_SUFFIXES QxtGui)
+  set(QXT_INCLUDE_DIRS ${QXTCORE_INCLUDE_DIRS} ${QXTGUI_INCLUDE_DIRS})
+  # We only need its header. We don't need to link to QxtCore.
+  find_library(QXT_LIBRARIES QxtGui)
+else (USE_SYSTEM_QXT)
+  message(STATUS "Using builtin Qxt library")
+  add_definitions(-DQXT_STATIC -DBUILD_QXT_GUI -DBUILD_QXT_CORE)
+  set(QXT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qxt)
+  set(QXT_LIBRARIES qxt)
+  if (NOT APPLE)
+    add_subdirectory(3rdparty/qxt)
+  endif (NOT APPLE)
+endif (USE_SYSTEM_QXT)
 
 # Qocoa
 add_subdirectory(3rdparty/qocoa)

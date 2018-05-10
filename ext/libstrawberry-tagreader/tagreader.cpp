@@ -62,10 +62,7 @@
 #include <taglib/mp4properties.h>
 #include <taglib/mpcfile.h>
 #include <taglib/mpegfile.h>
-
-#ifdef TAGLIB_HAS_OPUS
-  #include <taglib/opusfile.h>
-#endif
+#include <taglib/opusfile.h>
 
 #include <QtGlobal>
 #include <QFile>
@@ -473,9 +470,7 @@ pb::tagreader::SongMetadata_Type TagReader::GuessFileType(TagLib::FileRef *filer
   if (dynamic_cast<TagLib::WavPack::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_WAVPACK;
   if (dynamic_cast<TagLib::Ogg::FLAC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGFLAC;
   if (dynamic_cast<TagLib::Ogg::Vorbis::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGVORBIS;
-#ifdef TAGLIB_HAS_OPUS
   if (dynamic_cast<TagLib::Ogg::Opus::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGOPUS;
-#endif
   if (dynamic_cast<TagLib::Ogg::Speex::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGSPEEX;
   if (dynamic_cast<TagLib::MPEG::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPEG;
 #ifdef TAGLIB_WITH_MP4
