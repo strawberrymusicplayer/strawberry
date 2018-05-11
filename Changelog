@@ -2,6 +2,14 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.1.3:
+    * Audio file detection by content
+    * Added builtin taglib to 3rdparty to support detecting audio by content instead of just file extension
+    * Removed unneeded bulitin qsqlite from 3rdparty
+    * Added sqldrivers\qsqlite.dll for windows build
+    * Replaced incorrect DLL libgstdirectsoundsink.dll (from gst 1.12.4) instead of libgstdirectsound.dll (from gst 1.14.0) for windows build
+    * Fixed git versioning
+
 Version 0.1.2:
     * Fixed playback of WavPack files
     * Fixed musicbrainz tagfetcher
