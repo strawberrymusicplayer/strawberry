@@ -38,4 +38,4 @@ target_link_libraries(libstrawberry-common
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
-QT5_USE_MODULES(libstrawberry-common Core Network)
+target_link_libraries(libstrawberry-common Qt5::Core Qt5::Network)
