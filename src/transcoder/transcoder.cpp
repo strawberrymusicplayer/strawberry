@@ -239,7 +239,7 @@ TranscoderPreset Transcoder::PresetForFileType(Song::FileType type) {
 
   switch (type) {
     case Song::Type_Flac:
-      return TranscoderPreset(type, tr("Flac"),                "flac", "audio/x-flac");
+      return TranscoderPreset(type, tr("FLAC"),                "flac", "audio/x-flac");
     case Song::Type_Mp4:
       return TranscoderPreset(type, tr("M4A AAC"),             "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
     case Song::Type_Mpeg:
@@ -247,7 +247,7 @@ TranscoderPreset Transcoder::PresetForFileType(Song::FileType type) {
     case Song::Type_OggVorbis:
       return TranscoderPreset(type, tr("Ogg Vorbis"),          "ogg",  "audio/x-vorbis", "application/ogg");
     case Song::Type_OggFlac:
-      return TranscoderPreset(type, tr("Ogg Flac"),            "ogg",  "audio/x-flac",   "application/ogg");
+      return TranscoderPreset(type, tr("Ogg FLAC"),            "ogg",  "audio/x-flac",   "application/ogg");
     case Song::Type_OggSpeex:
       return TranscoderPreset(type, tr("Ogg Speex"),           "spx",  "audio/x-speex",  "application/ogg");
     case Song::Type_OggOpus:

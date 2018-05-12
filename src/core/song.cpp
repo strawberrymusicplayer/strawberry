@@ -365,9 +365,9 @@ QString Song::TextForFiletype(FileType type) {
 
   switch (type) {
     case Song::Type_Wav:       return QObject::tr("Wav");
-    case Song::Type_Flac:      return QObject::tr("Flac");
+    case Song::Type_Flac:      return QObject::tr("FLAC");
     case Song::Type_WavPack:   return QObject::tr("WavPack");
-    case Song::Type_OggFlac:   return QObject::tr("Ogg Flac");
+    case Song::Type_OggFlac:   return QObject::tr("Ogg FLAC");
     case Song::Type_OggVorbis: return QObject::tr("Ogg Vorbis");
     case Song::Type_OggOpus:   return QObject::tr("Ogg Opus");
     case Song::Type_OggSpeex:  return QObject::tr("Ogg Speex");
