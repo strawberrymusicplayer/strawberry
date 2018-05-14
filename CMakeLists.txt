@@ -29,9 +29,19 @@ include(cmake/Summary.cmake)
 include(cmake/OptionalSource.cmake)
 include(cmake/Rpm.cmake)
 
-#set(CMAKE_BUILD_TYPE Debug)
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  set(LINUX 1)
+endif()
+if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
+  set(FREEBSD 1)
+endif()
+if (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD")
+  set(OPENBSD 1)
+endif()
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+#set(CMAKE_BUILD_TYPE Debug)
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Release")
   add_definitions(-DNDEBUG)
@@ -42,11 +52,11 @@ endif(${CMAKE_BUILD_TYPE} MATCHES "Release")
 if (CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-uninitialized")
-endif ()
+endif()
 
 if (APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --stdlib=libc++")
-endif ()
+endif(APPLE)
 
 find_program(CCACHE_EXECUTABLE NAMES ccache)
 if (CCACHE_EXECUTABLE)
@@ -56,10 +66,6 @@ if (CCACHE_EXECUTABLE)
 endif ()
 find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5 PATHS ${QT_BINARY_DIR} NO_DEFAULT_PATH)
 find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5)
-
-if (UNIX AND NOT APPLE)
-  set(LINUX 1)
-endif (UNIX AND NOT APPLE)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLIB REQUIRED glib-2.0)
@@ -72,7 +78,12 @@ find_package(Protobuf REQUIRED)
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 if(LINUX)
   find_package(ALSA REQUIRED)
+else(LINUX)
+  find_package(ALSA)
 endif(LINUX)
+if(ALSA_FOUND)
+  set(HAVE_ALSA ON)
+endif()
 find_package(X11)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
@@ -95,9 +106,9 @@ pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(USBMUXD libusbmuxd)
 pkg_check_modules(PLIST libplist)
 
-if (WIN32)
+if(WIN32)
   find_package(ZLIB REQUIRED)
-endif (WIN32)
+endif(WIN32)
 
 # QT
 set(QT_MIN_VERSION 5.6.0)
@@ -223,7 +234,7 @@ optional_component(LIBGPOD ON "Devices: iPod classic support"
 
 optional_component(GIO ON "Devices: GIO device backend"
   DEPENDS "libgio" GIO_FOUND
-  DEPENDS "Linux or Windows" "NOT APPLE"
+  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
@@ -242,7 +253,7 @@ optional_component(LIBLASTFM ON "Last.fm support"
 )
 
 optional_component(DBUS ON "D-Bus support"
-  DEPENDS "Linux" LINUX
+  DEPENDS "Unix" "NOT APPLE"
 )
 
 optional_component(DEVICEKIT ON "Devices: DeviceKit backend"
@@ -326,6 +337,7 @@ else (USE_SYSTEM_QXT)
 endif (USE_SYSTEM_QXT)
 
 # Qocoa
+set(QOCOA_LIBRARIES Qocoa)
 add_subdirectory(3rdparty/qocoa)
 
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)

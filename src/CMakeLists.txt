@@ -16,8 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive --std=c++0x -U__STRICT_ANSI__")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive --std=c++11 -U__STRICT_ANSI__")
 
 option(BUILD_WERROR "Build with -Werror" ON)
 
@@ -504,7 +505,7 @@ optional_source(HAVE_LIBLASTFM
 )
 
 # Platform specific - Linux
-optional_source(LINUX
+optional_source(HAVE_ALSA
   SOURCES
     engine/alsadevicefinder.cpp
 )
@@ -535,7 +536,7 @@ optional_source(APPLE
     globalshortcuts/macglobalshortcutbackend.h
 )
 
-if(APPLE)
+if (APPLE)
   optional_source(HAVE_LIBMTP
    SOURCES
       device/macdevicelister.mm
@@ -552,9 +553,9 @@ optional_source(WIN32
 )
 
 # Platform specific - X11
-optional_source(LINUX SOURCES widgets/osd_x11.cpp)
+optional_source(UNIX SOURCES widgets/osd_x11.cpp)
 
-# DBUS and MPRIS - Linux specific
+# DBUS and MPRIS - Unix specific
 if(HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
@@ -827,7 +828,6 @@ add_library(strawberry_lib STATIC
 target_link_libraries(strawberry_lib
   libstrawberry-common
   libstrawberry-tagreader
-  #gstafc
   ${GLIB_LIBRARIES}
   ${GIO_LIBRARIES}
   ${SHA2_LIBRARIES}
@@ -839,13 +839,13 @@ target_link_libraries(strawberry_lib
   ${QTSINGLEAPPLICATION_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${SQLITE_LIBRARIES}
+  ${QOCOA_LIBRARIES}
   z
-  Qocoa
 )
 
-if(LINUX)
+if(HAVE_ALSA)
   target_link_libraries(strawberry_lib ${ALSA_LIBRARIES})
-endif(LINUX)
+endif(HAVE_ALSA)
 
 if(HAVE_LIBLASTFM)
   target_link_libraries(strawberry_lib ${LASTFM5_LIBRARIES})
@@ -910,13 +910,11 @@ if (WIN32)
 endif (WIN32)
 
 if (UNIX AND NOT APPLE)
-  # Hack: the Gold linker pays attention to the order that libraries are
-  # specified on the link line.  -lX11 and -ldl are provided earlier in the link
-  # command but they're actually used by libraries that appear after them, so
-  # they end up getting ignored.  This appends them to the very end of the link
-  # line, ensuring they're always used.
+  # Hack: the Gold linker pays attention to the order that libraries are specified on the link line.
+  # -lX11 and -ldl are provided earlier in the link command but they're actually used by libraries that appear after them, so they end up getting ignored.
+  # This appends them to the very end of the link line, ensuring they're always used.
   find_package(X11)
-  if (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+  if (FREEBSD)
     target_link_libraries(strawberry_lib ${X11_X11_LIB})
   else ()
     target_link_libraries(strawberry_lib ${X11_X11_LIB} ${CMAKE_DL_LIBS})
@@ -948,9 +946,9 @@ add_executable(strawberry
   core/main.cpp
 )
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+if(FREEBSD)
   target_link_libraries(strawberry execinfo)
-endif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+endif()
 
 target_link_libraries(strawberry
   strawberry_lib

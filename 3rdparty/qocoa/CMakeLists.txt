@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 2.8.11)
+set(CMAKE_CXX_STANDARD 11)
+
 set(SOURCES)
 
 set(HEADERS
@@ -26,7 +29,5 @@ else()
     qt5_add_resources(RESOURCES_SOURCES ${RESOURCES})
 endif()
 
-add_library(Qocoa STATIC
-    ${SOURCES} ${MOC_SOURCES} ${RESOURCES_SOURCES}
-)
+add_library(Qocoa STATIC ${SOURCES} ${MOC_SOURCES} ${RESOURCES_SOURCES})
 target_link_libraries(Qocoa ${QT_LIBRARIES})

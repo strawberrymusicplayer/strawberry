@@ -647,6 +647,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
   ui_->tabs->SetMode(FancyTabWidget::Mode(settings_.value("tab_mode", default_mode).toInt()));
   file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
+
   TabSwitched();
 
   // Users often collapse one side of the splitter by mistake and don't know how to restore it. This must be set after the state is restored above.
@@ -729,7 +730,6 @@ void MainWindow::ReloadSettings() {
   doubleclick_playlist_addmode_ = PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt());
   menu_playmode_ = PlayBehaviour(settings.value("menu_playmode", PlayBehaviour_IfStopped).toInt());
   settings.endGroup();
-
 }
 
 void MainWindow::ReloadAllSettings() {

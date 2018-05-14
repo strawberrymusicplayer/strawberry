@@ -87,7 +87,7 @@ StatusView::StatusView(CollectionViewContainer *collectionviewcontainer, QWidget
     show_hide_animation_(new QTimeLine(500, this)),
     fade_animation_(new QTimeLine(1000, this)),
     image_blank_(""),
-    image_nosong_(":/icons/full/strawberry.png"),
+    image_nosong_(":/pictures/strawberry.png"),
     widgetstate_(None),
     menu_(new QMenu(this))
  {
@@ -348,7 +348,7 @@ void StatusView::NoSong() {
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QString html;
-  QImage image_logo(":/icons/full/strawberry.png");
+  QImage image_logo(":/pictures/strawberry.png");
   QImage image_logo_scaled = image_logo.scaled(300, 300, Qt::KeepAspectRatio);
   QPixmap pixmap_logo(QPixmap::fromImage(image_logo_scaled));
 
