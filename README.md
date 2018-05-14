@@ -19,7 +19,7 @@ It's written in C++ and Qt5. The name is inspired by the band Strawbs.
 
 You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
 
-It has so far been tested on Linux and cross compiled for Windows. I have not had a chance to test it on Mac OS X since I don't have a mac.
+It has so far been tested on Linux, OpenBSD and cross compiled for Windows. I have not had a chance to test it on Mac OS X since I don't have a mac.
 
 
 Requirements
