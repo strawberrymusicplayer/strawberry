@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
-set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive --std=c++11 -U__STRICT_ANSI__")
 
 option(BUILD_WERROR "Build with -Werror" ON)
@@ -28,31 +28,44 @@ if(BUILD_WERROR)
   endif (LINUX)
 endif(BUILD_WERROR)
 
+# Set up definitions and paths
+
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(WIN32)
-  include_directories(../3rdparty/qtwin)
-endif(WIN32)
-
+add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS)
 
-if(ENABLE_IMOBILEDEVICE AND IMOBILEDEVICE_VERSION VERSION_GREATER 1.1.1)
-  set(IMOBILEDEVICE_USES_UDIDS ON)
-endif()
-
 include_directories(${CMAKE_BINARY_DIR})
 include_directories(${GLIB_INCLUDE_DIRS})
+include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${GOBJECT_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${LIBXML_INCLUDE_DIRS})
+include_directories(${CHROMAPRINT_INCLUDE_DIRS})
+include_directories(${OPENGL_INCLUDE_DIR})
+
+if(HAVE_GSTREAMER)
+  link_directories(${GSTREAMER_LIBRARY_DIRS})
+  include_directories(${GSTREAMER_INCLUDE_DIRS})
+  include_directories(${GSTREAMER_APP_INCLUDE_DIRS})
+  include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
+  include_directories(${GSTREAMER_BASE_INCLUDE_DIRS})
+  include_directories(${GSTREAMER_TAG_INCLUDE_DIRS})
+  include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
+endif()
+
+if(HAVE_PHONON)
+  include_directories(${PHONON_INCLUDE_DIRS})
+endif()
+
+link_directories(${TAGLIB_LIBRARY_DIRS})
+include_directories(${TAGLIB_INCLUDE_DIRS})
+
 include_directories(${SHA2_INCLUDE_DIRS})
 include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
 include_directories(${QXT_INCLUDE_DIRS})
-include_directories(${CHROMAPRINT_INCLUDE_DIRS})
-
-find_package(OpenGL)
-include_directories(${OPENGL_INCLUDE_DIR})
 
 if(HAVE_LIBLASTFM)
   include_directories(${LASTFM5_INCLUDE_DIRS})
@@ -62,8 +75,10 @@ include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
 include_directories(${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader)
 
-include(../cmake/AddEngine.cmake)
-include(../cmake/ParseArguments.cmake)
+# Windows
+if (WIN32)
+  include_directories(../3rdparty/qtwin)
+endif (WIN32)
 
 set(SOURCES
   core/mainwindow.cpp
@@ -471,29 +486,38 @@ set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
-# Engines
+# ALSA
+optional_source(HAVE_ALSA
+  SOURCES
+    engine/alsadevicefinder.cpp
+)
 
-set(GST_ENGINE_SRC engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp)
-set(GST_ENGINE_MOC engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h)
-set(GST_ENGINE_LIB GSTREAMER GSTREAMER_BASE GSTREAMER_APP GSTREAMER_AUDIO GSTREAMER_TAG GSTREAMER_PBUTILS)
-#set(GST_ENGINE_LIB gstreamer-1.0 gstreamer-base-1.0 gstreamer-app-1.0 streamer-audio-1.0 gstreamer-tag-1.0 gstreamer-pbutils-1.0)
-#set(GST_ENGINE_LIB ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES} ${GSTREAMER_PBUTILS_LIBRARIES})
+# X11
+optional_source(X11_FOUND SOURCES widgets/osd_x11.cpp)
 
-set(XINE_ENGINE_SRC engine/xineengine.cpp engine/xinescope.c)
-set(XINE_ENGINE_MOC engine/xineengine.h)
+# GStreamer
+optional_source(HAVE_GSTREAMER
+  SOURCES engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp
+  HEADERS engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h
+)
 
-set(VLC_ENGINE_SRC engine/vlcengine.cpp)
-set(VLC_ENGINE_MOC engine/vlcengine.h)
+# Xine
+optional_source(HAVE_XINE
+  SOURCES engine/xineengine.cpp engine/xinescope.c
+  HEADERS engine/xineengine.h
+)
 
-set(PHONON_ENGINE_SRC engine/phononengine.cpp)
-set(PHONON_ENGINE_MOC engine/phononengine.h)
+# VLC
+optional_source(HAVE_VLC
+  SOURCES engine/vlcengine.cpp
+  HEADERS engine/vlcengine.h
+)
 
-add_engine(gstreamer GSTREAMER "${GST_ENGINE_LIB}" "${GST_ENGINE_SRC}" "${GST_ENGINE_MOC}" ON)
-add_engine(xine XINE LIBXINE "${XINE_ENGINE_SRC}" "${XINE_ENGINE_MOC}" OFF)
-add_engine(vlc VLC LIBVLC "${VLC_ENGINE_SRC}" "${VLC_ENGINE_MOC}" OFF)
-add_engine(phonon PHONON PHONON "${PHONON_ENGINE_SRC}" "${PHONON_ENGINE_MOC}" OFF)
-
-print_engines()
+# Phonon
+optional_source(HAVE_PHONON
+  SOURCES engine/phononengine.cpp
+  HEADERS engine/phononengine.h
+)
 
 # Lastfm
 optional_source(HAVE_LIBLASTFM
@@ -504,59 +528,8 @@ optional_source(HAVE_LIBLASTFM
     covermanager/lastfmcoverprovider.h
 )
 
-# Platform specific - Linux
-optional_source(HAVE_ALSA
-  SOURCES
-    engine/alsadevicefinder.cpp
-)
-
-# Platform specific - OS X
-optional_source(APPLE
-  SOURCES
-    core/mac_startup.mm
-    core/macsystemtrayicon.mm
-    core/macscreensaver.cpp
-    core/macfslistener.mm
-    core/scoped_nsautorelease_pool.mm
-    widgets/osd_mac.mm
-    engine/osxdevicefinder.cpp
-    device/macdevicelister.mm
-    globalshortcuts/shortcutgrabber.mm
-    globalshortcuts/macglobalshortcutbackend.mm
-    globalshortcuts/globalshortcutgrabber.mm
-  HEADERS
-    core/mac_startup.h
-    core/macsystemtrayicon.h
-    core/macscreensaver.h
-    core/macfslistener.h
-    core/mac_utilities.h
-    core/mac_delegate.h
-    engine/osxdevicefinder.h
-    device/macdevicelister.h
-    globalshortcuts/macglobalshortcutbackend.h
-)
-
-if (APPLE)
-  optional_source(HAVE_LIBMTP
-   SOURCES
-      device/macdevicelister.mm
-    HEADERS
-      device/macdevicelister.h
-  )
-endif()
-
-# Platform specific - Windows
-optional_source(WIN32
-  SOURCES
-    engine/directsounddevicefinder.cpp
-    widgets/osd_win.cpp
-)
-
-# Platform specific - X11
-optional_source(UNIX SOURCES widgets/osd_x11.cpp)
-
 # DBUS and MPRIS - Unix specific
-if(HAVE_DBUS)
+if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
   # MPRIS DBUS interfaces
@@ -666,7 +639,7 @@ if(HAVE_DBUS)
            dbus/udisks2job)
    endif(HAVE_UDISKS2)
 
-endif(HAVE_DBUS)
+endif(UNIX AND HAVE_DBUS)
 
 optional_source(HAVE_DBUS
   SOURCES
@@ -745,6 +718,7 @@ optional_source(HAVE_LIBPULSE
     engine/pulsedevicefinder.cpp
 )
 
+# MusicBrainz, Organise and transcode require GStreamer
 optional_source(HAVE_GSTREAMER
 SOURCES
   core/organise.cpp
@@ -803,7 +777,49 @@ optional_source(HAVE_AUDIOCD
     device/cddasongloader.h
   UI
 )
-endif(HAVE_GSTREAMER)
+endif()
+
+# Platform specific - macOS
+optional_source(APPLE
+  SOURCES
+    core/mac_startup.mm
+    core/macsystemtrayicon.mm
+    core/macscreensaver.cpp
+    core/macfslistener.mm
+    core/scoped_nsautorelease_pool.mm
+    widgets/osd_mac.mm
+    engine/osxdevicefinder.cpp
+    device/macdevicelister.mm
+    globalshortcuts/shortcutgrabber.mm
+    globalshortcuts/macglobalshortcutbackend.mm
+    globalshortcuts/globalshortcutgrabber.mm
+  HEADERS
+    core/mac_startup.h
+    core/macsystemtrayicon.h
+    core/macscreensaver.h
+    core/macfslistener.h
+    core/mac_utilities.h
+    core/mac_delegate.h
+    engine/osxdevicefinder.h
+    device/macdevicelister.h
+    globalshortcuts/macglobalshortcutbackend.h
+)
+
+if (APPLE)
+  optional_source(HAVE_LIBMTP
+   SOURCES
+      device/macdevicelister.mm
+    HEADERS
+      device/macdevicelister.h
+  )
+endif()
+
+# Platform specific - Windows
+optional_source(WIN32
+  SOURCES
+    engine/directsounddevicefinder.cpp
+    widgets/osd_win.cpp
+)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/config.h)
@@ -834,7 +850,6 @@ target_link_libraries(strawberry_lib
   ${TAGLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${QT_LIBRARIES}
-  ${ENGINE_LIBRARIES}
   ${CHROMAPRINT_LIBRARIES}
   ${QTSINGLEAPPLICATION_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
@@ -846,6 +861,22 @@ target_link_libraries(strawberry_lib
 if(HAVE_ALSA)
   target_link_libraries(strawberry_lib ${ALSA_LIBRARIES})
 endif(HAVE_ALSA)
+
+if(HAVE_GSTREAMER)
+  target_link_libraries(strawberry_lib ${GSTREAMER_LIBRARIES} ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_AUDIO_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES} ${GSTREAMER_PBUTILS_LIBRARIES})
+endif()
+
+if(HAVE_XINE)
+  target_link_libraries(strawberry_lib ${LIBXINE_LIBRARIES})
+endif()
+
+if(HAVE_VLC)
+  target_link_libraries(strawberry_lib ${LIBVLC_LIBRARIES})
+endif()
+
+if(HAVE_PHONON)
+  target_link_libraries(strawberry_lib ${PHONON_LIBRARIES})
+endif()
 
 if(HAVE_LIBLASTFM)
   target_link_libraries(strawberry_lib ${LASTFM5_LIBRARIES})

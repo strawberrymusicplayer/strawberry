@@ -2,6 +2,10 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.1.4:
+    * Fixed compliation with clang compiler
+    * This release is mainly to get it working on openbsd and freebsd.
+
 Version 0.1.3:
     * Audio file detection by content
     * Added builtin taglib to 3rdparty to support detecting audio by content instead of just file extension

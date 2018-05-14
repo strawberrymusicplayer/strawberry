@@ -27,6 +27,7 @@ include(cmake/C++11Compat.cmake)
 include(cmake/Version.cmake)
 include(cmake/Summary.cmake)
 include(cmake/OptionalSource.cmake)
+include(cmake/ParseArguments.cmake)
 include(cmake/Rpm.cmake)
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
@@ -78,8 +79,10 @@ find_package(Protobuf REQUIRED)
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 if(LINUX)
   find_package(ALSA REQUIRED)
+  find_package(DBus REQUIRED)
 else(LINUX)
   find_package(ALSA)
+  find_package(DBus)
 endif(LINUX)
 if(ALSA_FOUND)
   set(HAVE_ALSA ON)
@@ -87,8 +90,8 @@ endif()
 find_package(X11)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
-pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
+pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
 pkg_check_modules(LIBXINE libxine)
@@ -116,6 +119,10 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core OpenGL Sql Network X
 if(X11_FOUND)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
 endif()
+if(DBUS_FOUND)
+  find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS DBus)
+  get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt5::qdbusxml2cpp LOCATION)
+endif()
 if(NOT APPLE)
   find_package(Qt5 COMPONENTS WebKitWidgets)
 endif(NOT APPLE)
@@ -124,6 +131,22 @@ if(APPLE)
     message(FATAL_ERROR "Cocoa support is required")
   endif(NOT QT_MAC_USE_COCOA)
 endif(APPLE)
+
+if(UNIX AND X11_FOUND AND DBUS_FOUND)
+  set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml Qt5::X11Extras Qt5::DBus)
+elseif(UNIX AND X11_FOUND)
+  set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml Qt5::X11Extras)
+else()
+  set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml)
+endif()
+
+# Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
+list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
+
+# Don't try to use webkit if their include directories couldn't be found.
+if (NOT QT_QTWEBKIT_INCLUDE_DIR)
+  set (QT_USE_QTWEBKIT 0)
+endif (NOT QT_QTWEBKIT_INCLUDE_DIR)
 
 # TAGLIB
 pkg_check_modules(TAGLIB taglib)
@@ -159,135 +182,6 @@ endif()
 
 # CHROMAPRINT
 CHECK_INCLUDE_FILES(chromaprint.h CHROMAPRINT_H)
-
-if (APPLE)
-  find_library(SPARKLE Sparkle)
-  add_subdirectory(3rdparty/SPMediaKeyTap)
-  set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
-  set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
-endif (APPLE)
-
-# Set up definitions and paths
-add_definitions(${QT_DEFINITIONS})
-link_directories(${TAGLIB_LIBRARY_DIRS})
-link_directories(${GSTREAMER_LIBRARY_DIRS})
-
-# Don't try to use webkit if their include directories couldn't be found.
-if (NOT QT_QTWEBKIT_INCLUDE_DIR)
-  set (QT_USE_QTWEBKIT 0)
-endif (NOT QT_QTWEBKIT_INCLUDE_DIR)
-
-include_directories(${GLIB_INCLUDE_DIRS})
-include_directories(${GLIBCONFIG_INCLUDE_DIRS})
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${LIBXML_INCLUDE_DIRS})
-include_directories(${TAGLIB_INCLUDE_DIRS})
-include_directories(${GSTREAMER_INCLUDE_DIRS})
-include_directories(${GSTREAMER_APP_INCLUDE_DIRS})
-include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
-include_directories(${GSTREAMER_BASE_INCLUDE_DIRS})
-include_directories(${GSTREAMER_TAG_INCLUDE_DIRS})
-include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
-
-if (WIN32)
-  # RC compiler
-  string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
-  enable_language(RC)
-  SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff -o <OBJECT> <SOURCE> -I ${CMAKE_SOURCE_DIR}/dist/windows")
-endif(WIN32)
-
-add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
-
-# Optional bits
-if(WIN32)
-  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
-endif(WIN32)
-
-optional_component(GSTREAMER ON "Engine: GStreamer backend"
-  DEPENDS "gstreamer-1.0" GSTREAMER_FOUND
-  DEPENDS "gstreamer-base-1.0" GSTREAMER_BASE_FOUND
-  DEPENDS "gstreamer-app-1.0" GSTREAMER_APP_FOUND
-  DEPENDS "gstreamer-audio-1.0" GSTREAMER_AUDIO_FOUND
-  DEPENDS "gstreamer-tag-1.0" GSTREAMER_TAG_FOUND
-  DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
-)
-
-optional_component(XINE OFF "Engine: Xine backend"
-  DEPENDS "libxine" LIBXINE_FOUND
-)
-
-optional_component(VLC OFF "Engine: VLC backend"
-  DEPENDS "libvlc" LIBVLC_FOUND
-)
-
-optional_component(PHONON OFF "Engine: Phonon backend"
-  DEPENDS "phonon4qt5" PHONON4QT5_FOUND
-)
-
-optional_component(AUDIOCD ON "Devices: Audio CD support"
-  DEPENDS "libcdio" CDIO_FOUND
-)
-
-optional_component(LIBGPOD ON "Devices: iPod classic support"
-  DEPENDS "libgpod" LIBGPOD_FOUND
-)
-
-optional_component(GIO ON "Devices: GIO device backend"
-  DEPENDS "libgio" GIO_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
-)
-
-optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
-  DEPENDS "libimobiledevice" IMOBILEDEVICE_FOUND
-  DEPENDS "libplist" PLIST_FOUND
-  DEPENDS "libusbmuxd" USBMUXD_FOUND
-  DEPENDS "iPod classic support" HAVE_LIBGPOD
-)
-
-optional_component(LIBMTP ON "Devices: MTP support"
-  DEPENDS "libmtp" LIBMTP_FOUND
-)
-
-optional_component(LIBLASTFM ON "Last.fm support"
-  DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
-)
-
-optional_component(DBUS ON "D-Bus support"
-  DEPENDS "Unix" "NOT APPLE"
-)
-
-optional_component(DEVICEKIT ON "Devices: DeviceKit backend"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
-optional_component(UDISKS2 ON "Devices: UDisks2 backend"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
-optional_component(SPARKLE ON "Sparkle integration"
-  DEPENDS "Mac OS X" APPLE
-  DEPENDS "Sparkle" SPARKLE
-)
-
-optional_component(LIBPULSE ON "Pulse audio integration"
-  DEPENDS "libpulse" LIBPULSE_FOUND
-)
-
-if (HAVE_DBUS)
-  find_package(Qt5 COMPONENTS DBus)
-  get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt5::qdbusxml2cpp LOCATION)
-endif ()
-
-# We can include the Qt definitions now
-#include(${QT_USE_FILE})
-if(WIN32)
-  set(QT_LIBRARIES Qt5::Core Qt5::OpenGL Qt5::Sql Qt5::Network Qt5::Xml Qt5::Widgets Qt5::Concurrent)
-else(WIN32)
-  set(QT_LIBRARIES Qt5::Core Qt5::OpenGL Qt5::Sql Qt5::Network Qt5::Xml Qt5::Widgets Qt5::Concurrent Qt5::X11Extras Qt5::DBus)
-endif(WIN32)
-
-# Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
-list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
 # Use system sha2 if it's available
 find_path(SHA2_INCLUDE_DIRS sha2.h)
@@ -340,15 +234,121 @@ endif (USE_SYSTEM_QXT)
 set(QOCOA_LIBRARIES Qocoa)
 add_subdirectory(3rdparty/qocoa)
 
+# Windows
+if (WIN32)
+  add_subdirectory(3rdparty/qtwin)
+endif (WIN32)
+
+if (APPLE)
+  find_library(SPARKLE Sparkle)
+  add_subdirectory(3rdparty/SPMediaKeyTap)
+  set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
+  set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
+endif (APPLE)
+
+if (WIN32)
+  # RC compiler
+  string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
+  enable_language(RC)
+  SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff -o <OBJECT> <SOURCE> -I ${CMAKE_SOURCE_DIR}/dist/windows")
+endif(WIN32)
+
+# Optional bits
+if(WIN32)
+  option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
+endif(WIN32)
+
+optional_component(DBUS ON "D-Bus support"
+  DEPENDS "D-Bus" DBUS_FOUND
+)
+
+optional_component(GSTREAMER ON "Engine: GStreamer backend"
+  DEPENDS "gstreamer-1.0" GSTREAMER_FOUND
+  DEPENDS "gstreamer-base-1.0" GSTREAMER_BASE_FOUND
+  DEPENDS "gstreamer-app-1.0" GSTREAMER_APP_FOUND
+  DEPENDS "gstreamer-audio-1.0" GSTREAMER_AUDIO_FOUND
+  DEPENDS "gstreamer-tag-1.0" GSTREAMER_TAG_FOUND
+  DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
+)
+
+optional_component(XINE OFF "Engine: Xine backend"
+  DEPENDS "libxine" LIBXINE_FOUND
+)
+
+optional_component(VLC OFF "Engine: VLC backend"
+  DEPENDS "libvlc" LIBVLC_FOUND
+)
+
+optional_component(PHONON OFF "Engine: Phonon backend"
+  DEPENDS "phonon4qt5" PHONON_FOUND
+)
+
+optional_component(AUDIOCD ON "Devices: Audio CD support"
+  DEPENDS "libcdio" CDIO_FOUND
+)
+
+optional_component(LIBGPOD ON "Devices: iPod classic support"
+  DEPENDS "libgpod" LIBGPOD_FOUND
+)
+
+optional_component(GIO ON "Devices: GIO device backend"
+  DEPENDS "libgio" GIO_FOUND
+  DEPENDS "Unix or Windows" "NOT APPLE"
+)
+
+optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
+  DEPENDS "libimobiledevice" IMOBILEDEVICE_FOUND
+  DEPENDS "libplist" PLIST_FOUND
+  DEPENDS "libusbmuxd" USBMUXD_FOUND
+  DEPENDS "iPod classic support" HAVE_LIBGPOD
+)
+
+optional_component(LIBMTP ON "Devices: MTP support"
+  DEPENDS "libmtp" LIBMTP_FOUND
+)
+
+optional_component(LIBLASTFM ON "Last.fm support"
+  DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
+)
+
+optional_component(DEVICEKIT ON "Devices: DeviceKit backend"
+  DEPENDS "D-Bus support" DBUS_FOUND
+)
+
+optional_component(UDISKS2 ON "Devices: UDisks2 backend"
+  DEPENDS "D-Bus support" DBUS_FOUND
+)
+
+optional_component(LIBPULSE ON "Pulse audio integration"
+  DEPENDS "libpulse" LIBPULSE_FOUND
+)
+
+optional_component(SPARKLE ON "Sparkle integration"
+  DEPENDS "Mac OS X" APPLE
+  DEPENDS "Sparkle" SPARKLE
+)
+
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
   #add_subdirectory(ext/gstafc)
 #endif(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
 
+# Set up definitions and paths
+
+add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS)
+add_definitions(${QT_DEFINITIONS})
+add_definitions(-DQT_USE_QSTRINGBUILDER)
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
+
+include_directories(${GLIB_INCLUDE_DIRS})
+include_directories(${GLIBCONFIG_INCLUDE_DIRS})
+
+if(ENABLE_IMOBILEDEVICE AND IMOBILEDEVICE_VERSION VERSION_GREATER 1.1.1)
+  set(IMOBILEDEVICE_USES_UDIDS ON)
+endif()
+
 # Subdirectories
 add_subdirectory(src)
-if (WIN32)
-  add_subdirectory(3rdparty/qtwin)
-endif (WIN32)
 add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
@@ -365,3 +365,6 @@ add_custom_target(uninstall
 
 # Show a summary of what we have enabled
 summary_show()
+if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON)
+  message(FATAL_ERROR "You need to enable either GStreamer, Xine, VLC or Phonon to compile!")
+endif()

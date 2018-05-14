@@ -23,7 +23,7 @@
 #include "phononengine.h"
 
 #include "core/logging.h"
-#include "taskmanager.h"
+#include "core/taskmanager.h"
 
 PhononEngine::PhononEngine(TaskManager *task_manager)
   : media_object_(new Phonon::MediaObject(this)),
