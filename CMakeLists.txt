@@ -307,7 +307,7 @@ optional_component(LIBMTP ON "Devices: MTP support"
   DEPENDS "libmtp" LIBMTP_FOUND
 )
 
-optional_component(LIBLASTFM ON "Last.fm support"
+optional_component(LIBLASTFM ON "Last.fm album cover provider"
   DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
 )
 
