@@ -2,6 +2,9 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.1.5:
+    * Makefile fixes for building
+
 Version 0.1.4:
     * Fixed compliation with clang compiler
     * This release is mainly to get it working on openbsd and freebsd.
