@@ -2,6 +2,11 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.1.6:
+    * Fix crash on exit caused by NVIDIA driver
+    * Fix PulseAudio device selection
+    * Improvements to device selection
+
 Version 0.1.5:
     * Makefile fixes for building
 
