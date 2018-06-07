@@ -67,7 +67,7 @@ private:
   void OutputChanged(int index, Engine::EngineType enginetype);
 
   void Load_Engine(Engine::EngineType enginetype);
-  void Load_Device(QString output, QVariant device, bool alsa, bool pulseaudio);
+  void Load_Device(QString output, QVariant device, bool alsa = false, bool pulseaudio = false, bool directsound = false, bool osxaudio = false, bool custom = false);
 
 #ifdef HAVE_XINE
   void Xine_Load(QString output, QVariant device);

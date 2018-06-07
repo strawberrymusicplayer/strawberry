@@ -19,7 +19,6 @@
 project(strawberry)
 cmake_minimum_required(VERSION 2.8.11)
 cmake_policy(SET CMP0054 NEW)
-cmake_policy(SET CMP0072 NEW)
 
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
@@ -140,9 +139,6 @@ elseif(UNIX AND X11_FOUND)
 else()
   set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml)
 endif()
-
-# Remove GLU and GL from the link line - they're not really required and don't exist on my mingw toolchain
-list(REMOVE_ITEM QT_LIBRARIES "-lGLU -lGL")
 
 # Don't try to use webkit if their include directories couldn't be found.
 if (NOT QT_QTWEBKIT_INCLUDE_DIR)

@@ -74,12 +74,16 @@ using std::vector;
 
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
+const char *GstEngine::kOpenALSASink = "openalsink";
 const char *GstEngine::kOSSSink = "osssink";
 const char *GstEngine::kOSS4Sink = "oss4sink";
 const char *GstEngine::kJackAudioSink = "jackaudiosink";
 const char *GstEngine::kPulseSink = "pulsesink";
 const char *GstEngine::kA2DPSink = "a2dpsink";
 const char *GstEngine::kAVDTPSink = "avdtpsink";
+const char *GstEngine::InterAudiosink = "interaudiosink";
+const char *GstEngine::kDirectSoundSink = "directsoundsink";
+const char *GstEngine::kOSXAudioSink = "osxaudiosink";
 
 GstEngine::GstEngine(TaskManager *task_manager)
     : Engine::Base(),
@@ -835,18 +839,6 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &url, q
 
 }
 
-bool GstEngine::ALSADeviceSupport(const QString &name) {
-
-  return (name == kALSASink || name == kOSSSink);
-
-}
-
-bool GstEngine::PulseDeviceSupport(const QString &name) {
-
-  return (name == kPulseSink);
-
-}
-
 void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
   buffer_consumers_ << consumer;
   if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
@@ -901,3 +893,23 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
   return ret;
 
 }
+
+bool GstEngine::ALSADeviceSupport(const QString &name) {
+  return (name == kALSASink);
+}
+
+bool GstEngine::PulseDeviceSupport(const QString &name) {
+  return (name == kPulseSink);
+}
+
+bool GstEngine::DirectSoundDeviceSupport(const QString &name) {
+  return (name == kDirectSoundSink);
+}
+
+bool GstEngine::OSXAudioDeviceSupport(const QString &name) {
+  return (name == kOSXAudioSink);
+}
+bool GstEngine::CustomDeviceSupport(const QString &name) {
+  return (name == kALSASink || name == kOpenALSASink || name == kOSSSink || name == kOSS4Sink || name == kA2DPSink || name == kAVDTPSink);
+}
+

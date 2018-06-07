@@ -62,7 +62,7 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID& device_id, const AudioObject
 
 
 OsxDeviceFinder::OsxDeviceFinder()
-    : DeviceFinder("osxaudiosink") {
+    : DeviceFinder("osxaudio") {
 }
 
 QList<DeviceFinder::Device> OsxDeviceFinder::ListDevices() {
@@ -94,8 +94,7 @@ QList<DeviceFinder::Device> OsxDeviceFinder::ListDevices() {
       continue;
     }
 
-    // Determine if the device is an output device (it is an output device if
-    // it has output channels)
+    // Determine if the device is an output device (it is an output device if it has output channels)
     address.mSelector = kAudioDevicePropertyStreamConfiguration;
     std::unique_ptr<AudioBufferList> buffer_list = GetProperty<AudioBufferList>(id, address);
     if (!buffer_list.get() || buffer_list->mNumberBuffers == 0) {

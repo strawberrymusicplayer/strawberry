@@ -66,13 +66,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   ~GstEngine();
 
   static const char *kAutoSink;
-  static const char *kALSASink;
-  static const char *kOSSSink;
-  static const char *kOSS4Sink;
-  static const char *kJackAudioSink;
-  static const char *kPulseSink;
-  static const char *kA2DPSink;
-  static const char *kAVDTPSink;
 
   bool Init();
   void EnsureInitialised() { initialising_.waitForFinished(); }
@@ -86,15 +79,18 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   Engine::State state() const;
   const Engine::Scope &scope(int chunk_length);
 
-  static bool ALSADeviceSupport(const QString &name);
-  static bool PulseDeviceSupport(const QString &name);
-
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
 
   // BufferConsumer
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
-  
+
   bool IsEqualizerEnabled() { return equalizer_enabled_; }
+
+  static bool ALSADeviceSupport(const QString &name);
+  static bool PulseDeviceSupport(const QString &name);
+  static bool DirectSoundDeviceSupport(const QString &name);
+  static bool OSXAudioDeviceSupport(const QString &name);
+  static bool CustomDeviceSupport(const QString &name);
 
  public slots:
   void StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec);
@@ -142,6 +138,19 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void BufferingFinished();
 
  private:
+
+  static const char *kALSASink;
+  static const char *kOpenALSASink;
+  static const char *kOSSSink;
+  static const char *kOSS4Sink;
+  static const char *kJackAudioSink;
+  static const char *kPulseSink;
+  static const char *kA2DPSink;
+  static const char *kAVDTPSink;
+  static const char *InterAudiosink;
+  static const char *kDirectSoundSink;
+  static const char *kOSXAudioSink;
+
   PluginDetailsList GetPluginList(const QString &classname) const;
 
   void StartFadeout();

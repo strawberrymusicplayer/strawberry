@@ -193,7 +193,7 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
     
 }
 
-void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa, bool pulseaudio) {
+void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa, bool pulseaudio, bool directsound, bool osxaudio, bool custom) {
 
   int devices = 0;
   DeviceFinder::Device dfdevice;
@@ -206,12 +206,14 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa
   ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", "");
 #endif
 
-  if (alsa || pulseaudio) ui_->lineedit_device->setEnabled(true);
+  if (alsa) ui_->lineedit_device->setEnabled(true);
   else ui_->lineedit_device->setEnabled(false);
 
   for (DeviceFinder *f : dialog()->app()->enginedevice()->device_finders_) {
     if (f->name() == "alsa" && !alsa) continue;
     if (f->name() == "pulseaudio" && !pulseaudio) continue;
+    if (f->name() == "directsound" && !directsound) continue;
+    if (f->name() == "osxaudio" && !osxaudio) continue;
     for (const DeviceFinder::Device &d : f->ListDevices()) {
       devices++;
       ui_->combobox_device->addItem(IconLoader::Load(d.iconname), d.description, d.value);
@@ -219,10 +221,10 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa
     }
   }
 
-  if (alsa || pulseaudio) ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant(""));
+  if (custom) ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant(""));
 
   bool found = false;
-  if (devices > 0) ui_->combobox_device->setEnabled(true);
+  if (custom || devices > 0) ui_->combobox_device->setEnabled(true);
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant d = ui_->combobox_device->itemData(i).value<QVariant>();
     if (dfdevice.value == d) {
@@ -233,7 +235,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa
   }
 
   // This allows a custom ALSA device string ie: "hw:0,0" even if it is not listed.
-  if (found == false && alsa && device.type() == QVariant::String && !device.toString().isEmpty()) {
+  if (found == false && custom && device.type() == QVariant::String && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
   }
 
@@ -270,7 +272,7 @@ void BackendSettingsPage::Gst_Load(QString output, QVariant device) {
   engineloaded_=Engine::GStreamer;
   ui_->groupbox_replaygain->setEnabled(true);
   
-  Load_Device(output, device, GstEngine::ALSADeviceSupport(output), GstEngine::PulseDeviceSupport(output));
+  Load_Device(output, device, GstEngine::ALSADeviceSupport(output), GstEngine::PulseDeviceSupport(output), GstEngine::DirectSoundDeviceSupport(output), GstEngine::OSXAudioDeviceSupport(output), GstEngine::CustomDeviceSupport(output));
 
 }
 #endif
@@ -304,7 +306,7 @@ void BackendSettingsPage::Xine_Load(QString output, QVariant device) {
   
   engineloaded_=Engine::Xine;
   
-  Load_Device(output, device, false);
+  Load_Device(output, device);
     
 }
 #endif
@@ -318,7 +320,7 @@ void BackendSettingsPage::Phonon_Load(QString output, QVariant device) {
   
   engineloaded_=Engine::Phonon;
   
-  Load_Device(output, device, false);
+  Load_Device(output, device);
 
 }
 #endif
@@ -332,7 +334,7 @@ void BackendSettingsPage::VLC_Load(QString output, QVariant device) {
 
   engineloaded_=Engine::VLC;
   
-  Load_Device(output, device, false);
+  Load_Device(output, device);
 
 }
 #endif
@@ -469,7 +471,7 @@ void BackendSettingsPage::OutputChanged(int index, Engine::EngineType enginetype
 void BackendSettingsPage::Xine_OutputChanged(int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
-  Load_Device(output.name, QVariant(), false);
+  Load_Device(output.name, QVariant());
 
 }
 #endif
@@ -478,20 +480,20 @@ void BackendSettingsPage::Xine_OutputChanged(int index) {
 void BackendSettingsPage::Gst_OutputChanged(int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
-  Load_Device(output.name, QVariant(), GstEngine::ALSADeviceSupport(output.name), GstEngine::PulseDeviceSupport(output.name));
+  Load_Device(output.name, QVariant(), GstEngine::ALSADeviceSupport(output.name), GstEngine::PulseDeviceSupport(output.name), GstEngine::DirectSoundDeviceSupport(output.name), GstEngine::OSXAudioDeviceSupport(output.name), GstEngine::CustomDeviceSupport(output.name));
 
 }
 #endif
 
 #ifdef HAVE_PHONON
 void BackendSettingsPage::Phonon_OutputChanged(int index) {
-  Load_Device("", QVariant(), false);
+  Load_Device("", QVariant());
 }
 #endif
 
 #ifdef HAVE_VLC
 void BackendSettingsPage::VLC_OutputChanged(int index) {
-  Load_Device("", QVariant(), false);
+  Load_Device("", QVariant());
 }
 #endif
 
@@ -503,14 +505,12 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     return;
   }
 
-#if !defined(Q_OS_WIN32)
   QVariant device = ui_->combobox_device->itemData(index).value<QVariant>();
-  if (device.type() == QVariant::String) {
+  if (device.type() == QVariant::String && device.toString().startsWith("hw:", Qt::CaseInsensitive)) {
     ui_->lineedit_device->setEnabled(true);
     ui_->lineedit_device->setText(device.toString());
     return;
   }
-#endif
 
   ui_->lineedit_device->setEnabled(false);
   ui_->lineedit_device->setText("");

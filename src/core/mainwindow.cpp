@@ -896,9 +896,6 @@ void MainWindow::LoadPlaybackStatus() {
   saved_playback_state_ = static_cast<Engine::State> (settings.value("playback_state", Engine::Empty).toInt());
   saved_playback_position_ = settings.value("playback_position", 0).toDouble();
   settings.endGroup();
-
-  qLog(Debug) << "playback_state" << saved_playback_state_;
-  qLog(Debug) << "playback_position" << saved_playback_position_;
   
   if (saved_playback_state_ == Engine::Empty || saved_playback_state_ == Engine::Idle) {
     return;
