@@ -48,6 +48,9 @@ QString DeviceFinder::GuessIconName(const QString &description) {
   if (description_lower.contains("headset")) {
     return "headset";
   }
+  if (description_lower.contains("pulseaudio")) {
+    return "pulseaudio";
+  }
 
   return "soundcard";
 

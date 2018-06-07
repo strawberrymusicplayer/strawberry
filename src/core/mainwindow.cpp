@@ -543,7 +543,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Windows 7 thumbbar buttons
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr); // spacer
 
-#if (defined(Q_OS_DARWIN) && defined(HAVE_SPARKLE)) || defined(Q_OS_WIN32)
+#if (defined(Q_OS_DARWIN) && defined(HAVE_SPARKLE))
   // Add check for updates item to application menu.
   QAction *check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
   check_updates->setMenuRole(QAction::ApplicationSpecificRole);

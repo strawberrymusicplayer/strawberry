@@ -87,6 +87,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   const Engine::Scope &scope(int chunk_length);
 
   static bool ALSADeviceSupport(const QString &name);
+  static bool PulseDeviceSupport(const QString &name);
 
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
 

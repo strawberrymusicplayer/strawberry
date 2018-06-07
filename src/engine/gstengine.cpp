@@ -67,21 +67,6 @@
 #  include "ext/gstafc/gstafcsrc.h"
 #endif
 
-#ifdef Q_OS_LINUX
-#  include "alsadevicefinder.h"
-#endif
-
-#ifdef HAVE_LIBPULSE
-#  include "pulsedevicefinder.h"
-#endif
-
-#ifdef Q_OS_DARWIN
-#  include "osxdevicefinder.h"
-#endif
-#ifdef Q_OS_WIN32
-#  include "directsounddevicefinder.h"
-#endif
-
 #include "settings/backendsettingspage.h"
 
 using std::shared_ptr;
@@ -852,7 +837,13 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &url, q
 
 bool GstEngine::ALSADeviceSupport(const QString &name) {
 
-  return (name == kALSASink || name == kOSSSink || name == kPulseSink);
+  return (name == kALSASink || name == kOSSSink);
+
+}
+
+bool GstEngine::PulseDeviceSupport(const QString &name) {
+
+  return (name == kPulseSink);
 
 }
 

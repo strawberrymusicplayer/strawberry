@@ -123,7 +123,7 @@ void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *i
     Device dev;
     dev.description = QString::fromUtf8(info->description);
     dev.value = QString::fromUtf8(info->name);
-    dev.iconname = QString::fromUtf8(pa_proplist_gets(info->proplist, "device.iconname"));
+    dev.iconname = GuessIconName(dev.description);
 
     state->devices.append(dev);
   }

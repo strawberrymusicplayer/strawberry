@@ -23,6 +23,7 @@
 #cmakedefine HAVE_GIO
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_UDISKS2
+#cmakedefine HAVE_ALSA
 #cmakedefine HAVE_DEVICEKIT
 #cmakedefine HAVE_IMOBILEDEVICE
 #cmakedefine HAVE_LIBARCHIVE

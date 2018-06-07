@@ -30,7 +30,7 @@
 #include "devicefinder.h"
 #include "enginedevice.h"
 
-#ifdef Q_OS_LINUX
+#ifdef HAVE_ALSA
 #  include "alsadevicefinder.h"
 #endif
 
@@ -57,7 +57,7 @@ void EngineDevice::Init() {
 
   QList<DeviceFinder*> device_finders;
 
-#ifdef Q_OS_LINUX
+#ifdef HAVE_ALSA
   device_finders.append(new AlsaDeviceFinder);
 #endif
 #ifdef HAVE_LIBPULSE

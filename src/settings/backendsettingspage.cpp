@@ -193,7 +193,7 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
     
 }
 
-void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa) {
+void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa, bool pulseaudio) {
 
   int devices = 0;
   DeviceFinder::Device dfdevice;
@@ -206,11 +206,12 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa
   ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", "");
 #endif
 
-  if (alsa) ui_->lineedit_device->setEnabled(true);
+  if (alsa || pulseaudio) ui_->lineedit_device->setEnabled(true);
   else ui_->lineedit_device->setEnabled(false);
 
   for (DeviceFinder *f : dialog()->app()->enginedevice()->device_finders_) {
     if (f->name() == "alsa" && !alsa) continue;
+    if (f->name() == "pulseaudio" && !pulseaudio) continue;
     for (const DeviceFinder::Device &d : f->ListDevices()) {
       devices++;
       ui_->combobox_device->addItem(IconLoader::Load(d.iconname), d.description, d.value);
@@ -218,7 +219,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device, bool alsa
     }
   }
 
-  if (alsa) ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant(""));
+  if (alsa || pulseaudio) ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant(""));
 
   bool found = false;
   if (devices > 0) ui_->combobox_device->setEnabled(true);
@@ -247,7 +248,7 @@ void BackendSettingsPage::Gst_Load(QString output, QVariant device) {
     errordialog_.ShowMessage("GStramer not initialized! Please restart.");
     return;
   }
-  
+
   GstEngine *gstengine = qobject_cast<GstEngine*>(dialog()->app()->player()->engine());
 
   ui_->combobox_output->clear();
@@ -269,7 +270,7 @@ void BackendSettingsPage::Gst_Load(QString output, QVariant device) {
   engineloaded_=Engine::GStreamer;
   ui_->groupbox_replaygain->setEnabled(true);
   
-  Load_Device(output, device, GstEngine::ALSADeviceSupport(output));
+  Load_Device(output, device, GstEngine::ALSADeviceSupport(output), GstEngine::PulseDeviceSupport(output));
 
 }
 #endif
@@ -477,7 +478,7 @@ void BackendSettingsPage::Xine_OutputChanged(int index) {
 void BackendSettingsPage::Gst_OutputChanged(int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
-  Load_Device(output.name, QVariant(), GstEngine::ALSADeviceSupport(output.name));
+  Load_Device(output.name, QVariant(), GstEngine::ALSADeviceSupport(output.name), GstEngine::PulseDeviceSupport(output.name));
 
 }
 #endif
