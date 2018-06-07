@@ -43,9 +43,13 @@
 #  include <QDBusArgument>
 #endif
 
+#ifdef Q_OS_UNIX
+#  include <unistd.h>
+#endif
+
 #ifdef Q_OS_DARWIN
-  #include <sys/resource.h>
-  #include <sys/sysctl.h>
+#  include <sys/resource.h>
+#  include <sys/sysctl.h>
 #endif
 
 #ifdef Q_OS_WIN32
@@ -62,7 +66,7 @@
 #include "qtsinglecoreapplication.h"
 
 #ifdef HAVE_DBUS
-  #include "mpris.h"
+#  include "mpris.h"
 #endif
 #include "utilities.h"
 #include "metatypes.h"
@@ -221,6 +225,18 @@ int main(int argc, char* argv[]) {
   QObject::connect(&a, SIGNAL(messageReceived(QString)), &w, SLOT(CommandlineOptionsReceived(QString)));
 
   int ret = a.exec();
+
+#ifdef Q_OS_LINUX
+  QFile self_maps("/proc/self/maps");
+  if (self_maps.open(QIODevice::ReadOnly)) {
+    QByteArray data = self_maps.readAll();
+    if (data.contains("libnvidia-tls.so.")) {
+      qLog(Warning) << "Exiting immediately to work around NVIDIA driver bug";
+      _exit(ret);
+    }
+    self_maps.close();
+  }
+#endif
 
   return ret;
 }
