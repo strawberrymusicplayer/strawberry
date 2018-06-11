@@ -191,18 +191,18 @@ class FancyTabWidget : public QWidget {
     int spacer_size_;
   };
 
-  void AddTab(QWidget *tab, const QIcon &icon, const QString &label);
+  void addTab(QWidget *tab, const QIcon &icon, const QString &label);
   void AddSpacer(int size = 40);
   void SetBackgroundPixmap(const QPixmap &pixmap);
 
-  void AddBottomWidget(QWidget *widget);
+  void addBottomWidget(QWidget *widget);
 
-  int current_index() const;
+  int currentIndex() const;
   Mode mode() const { return mode_; }
 
 public slots:
-  void SetCurrentIndex(int index);
-  void SetCurrentWidget(QWidget *widget);
+  void setCurrentIndex(int index);
+  void setCurrentWidget(QWidget *widget);
   void SetMode(Mode mode);
   void SetMode(int mode) { SetMode(Mode(mode)); }
 

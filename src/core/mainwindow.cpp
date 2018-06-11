@@ -219,16 +219,15 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-
-  ui_->tabs->AddTab(status_view_, IconLoader::Load("strawberry"), tr("Status"));
-  ui_->tabs->AddTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
-  ui_->tabs->AddTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->AddTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
-  ui_->tabs->AddTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->addTab(status_view_, IconLoader::Load("strawberry"), tr("Status"));
+  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
+  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
+  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
   //ui_->tabs->AddSpacer();
 
   // Add the now playing widget to the fancy tab widget
-  ui_->tabs->AddBottomWidget(ui_->now_playing);
+  ui_->tabs->addBottomWidget(ui_->now_playing);
 
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
 
@@ -643,7 +642,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (!ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
     ui_->splitter->setSizes(QList<int>() << 300 << width() - 300);
   }
-  ui_->tabs->SetCurrentIndex(settings_.value("current_tab", 1 /* Collection tab */ ).toInt());
+  ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1 /* Collection tab */ ).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
   ui_->tabs->SetMode(FancyTabWidget::Mode(settings_.value("tab_mode", default_mode).toInt()));
   file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
@@ -842,7 +841,7 @@ void MainWindow::resizeEvent(QResizeEvent*) { SaveGeometry(); }
 
 void MainWindow::TabSwitched() {
   
-  if (ui_->tabs->current_index() > 0)
+  if (ui_->tabs->currentIndex() > 0)
     ui_->now_playing->SetEnabled();
   else
     ui_->now_playing->SetDisabled();
@@ -860,7 +859,7 @@ void MainWindow::SaveGeometry() {
     settings_.setValue("geometry", saveGeometry());
   }
   settings_.setValue("splitter_state", ui_->splitter->saveState());
-  settings_.setValue("current_tab", ui_->tabs->current_index());
+  settings_.setValue("current_tab", ui_->tabs->currentIndex());
   settings_.setValue("tab_mode", ui_->tabs->mode());
 
 }
@@ -2229,7 +2228,7 @@ void MainWindow::HandleNotificationPreview(OSD::Behaviour type, QString line1, Q
 }
 
 void MainWindow::FocusCollectionTab() {
-  ui_->tabs->SetCurrentWidget(collection_view_);
+  ui_->tabs->setCurrentWidget(collection_view_);
 }
 
 void MainWindow::ShowConsole() {

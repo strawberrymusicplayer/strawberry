@@ -401,6 +401,7 @@ void FancyTabBar::mousePressEvent(QMouseEvent *e)
 }
 
 void FancyTabBar::addTab(const QIcon& icon, const QString& label) {
+
   FancyTab *tab = new FancyTab(this);
   tab->icon = icon;
   tab->text = label;
@@ -551,7 +552,7 @@ FancyTabWidget::FancyTabWidget(QWidget* parent)
   setLayout(main_layout);
 }
 
-void FancyTabWidget::AddTab(QWidget* tab, const QIcon& icon, const QString& label) {
+void FancyTabWidget::addTab(QWidget* tab, const QIcon& icon, const QString& label) {
   stack_->addWidget(tab);
   items_ << Item(icon, label);
 }
@@ -594,11 +595,11 @@ void FancyTabWidget::paintEvent(QPaintEvent*) {
   painter.drawLine(rect.bottomLeft(), rect.bottomRight());
 }
 
-int FancyTabWidget::current_index() const {
+int FancyTabWidget::currentIndex() const {
   return stack_->currentIndex();
 }
 
-void FancyTabWidget::SetCurrentIndex(int index) {
+void FancyTabWidget::setCurrentIndex(int index) {
   if (FancyTabBar* bar = qobject_cast<FancyTabBar*>(tab_bar_)) {
     bar->setCurrentIndex(index);
   } else if (QTabBar* bar = qobject_cast<QTabBar*>(tab_bar_)) {
@@ -608,8 +609,8 @@ void FancyTabWidget::SetCurrentIndex(int index) {
   }
 }
 
-void FancyTabWidget::SetCurrentWidget(QWidget* widget) {
-  SetCurrentIndex(stack_->indexOf(widget));
+void FancyTabWidget::setCurrentWidget(QWidget* widget) {
+  setCurrentIndex(stack_->indexOf(widget));
 }
 
 void FancyTabWidget::ShowWidget(int index) {
@@ -617,7 +618,7 @@ void FancyTabWidget::ShowWidget(int index) {
   emit CurrentChanged(index);
 }
 
-void FancyTabWidget::AddBottomWidget(QWidget* widget) {
+void FancyTabWidget::addBottomWidget(QWidget* widget) {
   top_layout_->addWidget(widget);
 }
 

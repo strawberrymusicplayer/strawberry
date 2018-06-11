@@ -150,7 +150,7 @@ void StatusView::CreateWidget() {
   //qLog(Debug) << __PRETTY_FUNCTION__;
 
   setLayout(layout_);
-  setStyleSheet("background-color: white;");
+  //setStyleSheet("background-color: white;");
 
   layout_->setSizeConstraint(QLayout::SetMinAndMaxSize);
   layout_->setContentsMargins(0, 0, 0, 0);
