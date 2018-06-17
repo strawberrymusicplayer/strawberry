@@ -34,7 +34,7 @@
 #include "devicefinder.h"
 #include "pulsedevicefinder.h"
 
-PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio"), mainloop_(nullptr), context_(nullptr) {
+PulseDeviceFinder::PulseDeviceFinder() : DeviceFinder("pulseaudio", "pulsesink"), mainloop_(nullptr), context_(nullptr) {
 }
 
 bool PulseDeviceFinder::Initialise() {

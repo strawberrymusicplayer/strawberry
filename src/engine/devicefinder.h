@@ -51,12 +51,13 @@ class DeviceFinder {
   virtual QList<Device> ListDevices() = 0;
 
  protected:
-  explicit DeviceFinder(const QString &name);
+  explicit DeviceFinder(const QString &name, const QString &gstsink);
 
   static QString GuessIconName(const QString &description);
 
  private:
   QString name_;
+  QString gstsink_;
 
 };
 

@@ -23,7 +23,7 @@
 
 #include "devicefinder.h"
 
-DeviceFinder::DeviceFinder(const QString &name): name_(name) {
+DeviceFinder::DeviceFinder(const QString &name, const QString &gstsink): name_(name), gstsink_(gstsink) {
 }
 
 QString DeviceFinder::GuessIconName(const QString &description) {
