@@ -1,10 +1,8 @@
 :strawberry: Strawberry Music Player
 =======================
 
-### :page_with_curl: README
-
 Strawberry is a audio player and music collection organizer. It is a fork of Clementine created in 2013 with a diffrent goal.
-It's written in C++ and Qt5. The name is inspired by the band Strawbs.
+It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
 
 ### :heavy_check_mark: Features:
 
@@ -17,16 +15,12 @@ It's written in C++ and Qt5. The name is inspired by the band Strawbs.
   * Support for multiple backends
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
 
-You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
-
 It has so far been tested to work on Linux, OpenBSD and Windows (cross compiled using mingw).
 
 
 ### :heavy_exclamation_mark: Requirements
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
-
-### Required:
 
 * GLib, GIO and GObject
 * POSIX thread (pthread) libraries
@@ -46,7 +40,7 @@ To build Strawberry from source you need the following installed on your system 
 Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
-### Optional:
+Optional:
 
 * The Qt 5 LastFM library is required for fetching album covers from LastFM.
 * To enable CD support for playing audio cd's you need libcdio.
