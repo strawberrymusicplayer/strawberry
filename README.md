@@ -1,12 +1,12 @@
-Strawberry Music Player
+:strawberry: Strawberry Music Player
 =======================
-README
-------
+
+### :page_with_curl: README
 
 Strawberry is a audio player and music collection organizer. It is a fork of Clementine created in 2013 with a diffrent goal.
 It's written in C++ and Qt5. The name is inspired by the band Strawbs.
 
-### Features:
+### :heavy_check_mark: Features:
 
   * Play and organize music
   * Native desktop notifications
@@ -19,37 +19,41 @@ It's written in C++ and Qt5. The name is inspired by the band Strawbs.
 
 You can obtain and view the sourcecode on github at: https://github.com/jonaski/strawberry
 
-It has so far been tested on Linux, OpenBSD and cross compiled for Windows. I have not had a chance to test it on Mac OS X since I don't have a mac.
+It has so far been tested to work on Linux, OpenBSD and Windows (cross compiled using mingw).
 
 
-Requirements
-------------
+### :heavy_exclamation_mark: Requirements
 
-To build Strawberry from source you need the following installed on your system:
+To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
-* glib2, glib2-devel, git, cmake, make, gcc and gcc-c++
-* protobuf and development packages
-* boost development headers
+### Required:
 
-* The following Qt5 components are required with additional development packages: Qt5Core, Qt5Widgets, Qt5Network, Qt5Sql, Qt5Xml, Qt5OpenGL, Qt5Concurrent, Qt5Test, 5X11Extras, Qt5WebKit, Qt5WebKitWidget and Qt5DBus.
-
-* ALSA and libasound2 with development files
-* SQLite3 with development files
-* TagLib 1.8 or higher with development files
-* libchromaprint with development files
-* libglu with development files
+* GLib, GIO and GObject
+* POSIX thread (pthread) libraries
+* CMake and Make tools
+* GCC or clang compiler
+* Protobuf library and compiler
+* Boost development headers
+* Qt 5 with components Core, Widgets, Network, Sql, Xml, OpenGL, Concurrent, Test, WebKitWidget, X11Extras and DBus
+* SQLite3
+* TagLib 1.11.1 or higher
+* Chromaprint library
+* libxml library
+* ALSA library (linux)
+* DBus (linux)
+* PulseAudio (linux optional)
 
 Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
-You should also install the gstreamer plugins: gstreamer-plugins-base, gstreamer-plugins-good and gstreamer-plugins-bad
+You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
-* The Qt5 specific LastFM library and development files are required for fetching album covers from LastFM.
+### Optional:
+
+* The Qt 5 LastFM library is required for fetching album covers from LastFM.
 * To enable CD support for playing audio cd's you need libcdio.
 * If you want MTP support you need libmtp.
 * If you need iPod Classic support you need libgpod.
 
-
-Compiling from source
----------------------
+### :wrench:	Compiling from source
 
 ### Get the code:
 
