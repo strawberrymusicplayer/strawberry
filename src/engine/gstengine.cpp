@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
  *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
@@ -30,7 +31,6 @@
 #include <string>
 
 #include <gst/gst.h>
-#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QCoreApplication>
@@ -90,15 +90,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
       task_manager_(task_manager),
       buffering_task_id_(-1),
       latest_buffer_(nullptr),
-      equalizer_enabled_(false),
       stereo_balance_(0.0f),
-      rg_enabled_(false),
-      rg_mode_(0),
-      rg_preamp_(0.0),
-      rg_compression_(true),
-      buffer_duration_nanosec_(1 * kNsecPerSec),  // 1s
-      buffer_min_fill_(33),
-      mono_playback_(false),
       seek_timer_(new QTimer(this)),
       timer_id_(-1),
       next_element_id_(0),
@@ -143,103 +135,6 @@ bool GstEngine::Init() {
 
 }
 
-void GstEngine::InitialiseGStreamer() {
-
-  gst_init(nullptr, nullptr);
-  gst_pb_utils_init();
-
-#ifdef HAVE_IMOBILEDEVICE_ // FIXME
-  afcsrc_register_static();
-#endif
-
-}
-
-void GstEngine::SetEnvironment() {
-
-  QString scanner_path;
-  QString plugin_path;
-  QString registry_filename;
-
-  // On windows and mac we bundle the gstreamer plugins with strawberry
-#if defined(Q_OS_DARWIN)
-  scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
-  plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
-#elif defined(Q_OS_WIN32)
-  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
-#endif
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
-  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
-#endif
-
-  if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
-
-  if (!plugin_path.isEmpty()) {
-    Utilities::SetEnv("GST_PLUGIN_PATH", plugin_path);
-    // Never load plugins from anywhere else.
-    Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", plugin_path);
-  }
-
-  if (!registry_filename.isEmpty()) {
-    Utilities::SetEnv("GST_REGISTRY", registry_filename);
-  }
-
-#ifdef Q_OS_DARWIN
-  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/../PlugIns/gio-modules");
-#endif
-
-  Utilities::SetEnv("PULSE_PROP_media.role", "music");
-
-}
-
-void GstEngine::ReloadSettings() {
-
-  Engine::Base::ReloadSettings();
-
-  QSettings s;
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
-
-  sink_ = s.value("output", kAutoSink).toString();
-  device_ = s.value("device");
-
-  if (sink_.isEmpty()) sink_ = kAutoSink;
-
-  rg_enabled_ = s.value("rgenabled", false).toBool();
-  rg_mode_ = s.value("rgmode", 0).toInt();
-  rg_preamp_ = s.value("rgpreamp", 0.0).toDouble();
-  rg_compression_ = s.value("rgcompression", true).toBool();
-
-  buffer_duration_nanosec_ = s.value("bufferduration", 4000).toLongLong() * kNsecPerMsec;
-  buffer_min_fill_ = s.value("bufferminfill", 33).toInt();
-  mono_playback_ = s.value("monoplayback", false).toBool();
-
-}
-
-qint64 GstEngine::position_nanosec() const {
-
-  if (!current_pipeline_) return 0;
-
-  const qint64 result = current_pipeline_->position() - beginning_nanosec_;
-  return qint64(qMax(0ll, result));
-
-}
-
-qint64 GstEngine::length_nanosec() const {
-
-  if (!current_pipeline_) return 0;
-
-  const qint64 result = end_nanosec_ - beginning_nanosec_;
-
-  if (result > 0) {
-    return result;
-  }
-  else {
-    // Get the length from the pipeline if we don't know.
-    return current_pipeline_->length();
-  }
-
-}
-
 Engine::State GstEngine::state() const {
 
   if (!current_pipeline_) return url_.isEmpty() ? Engine::Empty : Engine::Idle;
@@ -256,102 +151,6 @@ Engine::State GstEngine::state() const {
     default:
       return Engine::Empty;
   }
-}
-
-void GstEngine::ConsumeBuffer(GstBuffer *buffer, int pipeline_id) {
-
-  // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
-  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id))) {
-    qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
-  }
-
-}
-
-void GstEngine::AddBufferToScope(GstBuffer *buf, int pipeline_id) {
-
-  if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) {
-    gst_buffer_unref(buf);
-    return;
-  }
-
-  if (latest_buffer_ != nullptr) {
-    gst_buffer_unref(latest_buffer_);
-  }
-
-  latest_buffer_ = buf;
-  have_new_buffer_ = true;
-}
-
-const Engine::Scope &GstEngine::scope(int chunk_length) {
-
-  // the new buffer could have a different size
-  if (have_new_buffer_) {
-    if (latest_buffer_ != nullptr) {
-      scope_chunks_ = ceil(((double)GST_BUFFER_DURATION(latest_buffer_) / (double)(chunk_length * kNsecPerMsec)));
-    }
-
-    // if the buffer is shorter than the chunk length
-    if (scope_chunks_ <= 0) {
-      scope_chunks_ = 1;
-    }
-
-    scope_chunk_ = 0;
-    have_new_buffer_ = false;
-  }
-
-  if (latest_buffer_ != nullptr) {
-    UpdateScope(chunk_length);
-  }
-
-  return scope_;
-
-}
-
-void GstEngine::UpdateScope(int chunk_length) {
-
-  typedef Engine::Scope::value_type sample_type;
-
-  // prevent dbz or invalid chunk size
-  if (!GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DURATION(latest_buffer_))) return;
-  if (GST_BUFFER_DURATION(latest_buffer_) == 0) return;
-
-  GstMapInfo map;
-  gst_buffer_map(latest_buffer_, &map, GST_MAP_READ);
-
-  // determine where to split the buffer
-  int chunk_density = (map.size * kNsecPerMsec) / GST_BUFFER_DURATION(latest_buffer_);
-
-  int chunk_size = chunk_length * chunk_density;
-
-  // in case a buffer doesn't arrive in time
-  if (scope_chunk_ >= scope_chunks_) {
-    scope_chunk_ = 0;
-    return;
-  }
-
-  const sample_type *source = reinterpret_cast<sample_type*>(map.data);
-  sample_type *dest = scope_.data();
-  source += (chunk_size / sizeof(sample_type)) * scope_chunk_;
-
-  int bytes = 0;
-
-  // make sure we don't go beyond the end of the buffer
-  if (scope_chunk_ == scope_chunks_ - 1) {
-    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size  * scope_chunk_)), scope_.size() * sizeof(sample_type));
-  }
-  else {
-    bytes = qMin(static_cast<Engine::Scope::size_type>(chunk_size), scope_.size() * sizeof(sample_type));
-  }
-
-  scope_chunk_++;
-  memcpy(dest, source, bytes);
-
-  gst_buffer_unmap(latest_buffer_, &map);
-
-  if (scope_chunk_ == scope_chunks_) {
-    gst_buffer_unref(latest_buffer_);
-    latest_buffer_ = nullptr;
-  }
 
 }
 
@@ -364,42 +163,6 @@ void GstEngine::StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
   if (current_pipeline_)
     current_pipeline_->SetNextUrl(gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
-
-}
-
-QByteArray GstEngine::FixupUrl(const QUrl &url) {
-
-  EnsureInitialised();
-
-  QByteArray uri;
-
-  // It's a file:// url with a hostname set.  QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.  Munge it back into a path that gstreamer will recognise.
-  if (url.scheme() == "file" && !url.host().isEmpty()) {
-    QString str = "//" + url.host() + url.path();
-    uri = str.toLocal8Bit();
-  }
-  else if (url.scheme() == "cdda") {
-    QString str;
-    if (url.path().isEmpty()) {
-      str = url.toString();
-      str.remove(str.lastIndexOf(QChar('a')), 1);
-    }
-    else {
-      // Currently, Gstreamer can't handle input CD devices inside cdda URL.
-      // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
-      // We keep the device in mind, and we will set it later using SourceSetupCallback
-      QStringList path = url.path().split('/');
-      str = QString("cdda://%1a").arg(path.takeLast());
-      QString device = path.join("/");
-      current_pipeline_->SetSourceDevice(device);
-    }
-    uri = str.toLocal8Bit();
-  }
-  else {
-    uri = url.toEncoded();
-  }
-
-  return uri;
 
 }
 
@@ -445,33 +208,6 @@ bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
   return true;
 }
 
-void GstEngine::StartFadeout() {
-
-  if (is_fading_out_to_pause_) return;
-
-  fadeout_pipeline_ = current_pipeline_;
-  disconnect(fadeout_pipeline_.get(), 0, 0, 0);
-  fadeout_pipeline_->RemoveAllBufferConsumers();
-
-  fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
-  connect(fadeout_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutFinished()));
-
-}
-
-void GstEngine::StartFadeoutPause() {
-
-  fadeout_pause_pipeline_ = current_pipeline_;
-  disconnect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), 0, 0);
-
-  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::EaseInOutCurve, false);
-  if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
-    fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::LinearCurve, false);
-  }
-  connect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutPauseFinished()));
-  is_fading_out_to_pause_ = true;
-
-}
-
 bool GstEngine::Play(quint64 offset_nanosec) {
 
   EnsureInitialised();
@@ -486,44 +222,6 @@ bool GstEngine::Play(quint64 offset_nanosec) {
   }
 
   return true;
-
-}
-
-void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 offset_nanosec, const int pipeline_id) {
-
-  GstStateChangeReturn ret = future.result();
-
-  if (!current_pipeline_ || pipeline_id != current_pipeline_->id()) {
-    return;
-  }
-
-  if (ret == GST_STATE_CHANGE_FAILURE) {
-    // Failure, but we got a redirection URL - try loading that instead
-    QByteArray redirect_url = current_pipeline_->redirect_url();
-    if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->url()) {
-      qLog(Info) << "Redirecting to" << redirect_url;
-      current_pipeline_ = CreatePipeline(redirect_url, end_nanosec_);
-      Play(offset_nanosec);
-      return;
-    }
-
-    // Failure - give up
-    qLog(Warning) << "Could not set thread to PLAYING.";
-    current_pipeline_.reset();
-    BufferingFinished();
-    return;
-  }
-
-  StartTimers();
-
-  // initial offset
-  if (offset_nanosec != 0 || beginning_nanosec_ != 0) {
-    Seek(offset_nanosec);
-  }
-
-  emit StateChanged(Engine::Playing);
-  // we've successfully started playing a media stream with this url
-  emit ValidSongRequested(url_);
 
 }
 
@@ -549,27 +247,6 @@ void GstEngine::Stop(bool stop_after) {
   current_pipeline_.reset();
   BufferingFinished();
   emit StateChanged(Engine::Empty);
-
-}
-
-void GstEngine::FadeoutFinished() {
-  fadeout_pipeline_.reset();
-  emit FadeoutFinishedSignal();
-}
-
-void GstEngine::FadeoutPauseFinished() {
-
-  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
-  current_pipeline_->SetState(GST_STATE_PAUSED);
-  emit StateChanged(Engine::Paused);
-  StopTimers();
-
-  is_fading_out_to_pause_ = false;
-  has_faded_out_ = true;
-  fadeout_pause_pipeline_.reset();
-  fadeout_pipeline_.reset();
-
-  emit FadeoutFinishedSignal();
 
 }
 
@@ -634,16 +311,170 @@ void GstEngine::Seek(quint64 offset_nanosec) {
   }
 }
 
-void GstEngine::SeekNow() {
+void GstEngine::SetVolumeSW(uint percent) {
+  if (current_pipeline_) current_pipeline_->SetVolume(percent);
+}
 
-  if (!waiting_to_seek_) return;
-  waiting_to_seek_ = false;
+qint64 GstEngine::position_nanosec() const {
 
-  if (!current_pipeline_) return;
+  if (!current_pipeline_) return 0;
 
-  if (!current_pipeline_->Seek(seek_pos_)) {
-    qLog(Warning) << "Seek failed";
+  const qint64 result = current_pipeline_->position() - beginning_nanosec_;
+  return qint64(qMax(0ll, result));
+
+}
+
+qint64 GstEngine::length_nanosec() const {
+
+  if (!current_pipeline_) return 0;
+
+  const qint64 result = end_nanosec_ - beginning_nanosec_;
+
+  if (result > 0) {
+    return result;
   }
+  else {
+    // Get the length from the pipeline if we don't know.
+    return current_pipeline_->length();
+  }
+
+}
+
+const Engine::Scope &GstEngine::scope(int chunk_length) {
+
+  // The new buffer could have a different size
+  if (have_new_buffer_) {
+    if (latest_buffer_) {
+      scope_chunks_ = ceil(((double)GST_BUFFER_DURATION(latest_buffer_) / (double)(chunk_length * kNsecPerMsec)));
+    }
+
+    // if the buffer is shorter than the chunk length
+    if (scope_chunks_ <= 0) {
+      scope_chunks_ = 1;
+    }
+
+    scope_chunk_ = 0;
+    have_new_buffer_ = false;
+  }
+
+  if (latest_buffer_) {
+    UpdateScope(chunk_length);
+  }
+
+  return scope_;
+
+}
+
+EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
+
+  EngineBase::OutputDetailsList ret;
+
+  PluginDetailsList plugins = GetPluginList("Sink/Audio");
+
+  for (const PluginDetails &plugin : plugins) {
+    OutputDetails output;
+    output.name = plugin.name;
+    output.description = plugin.description;
+    if (plugin.name == kAutoSink) output.iconname = "soundcard";
+    else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
+    else if (plugin.name== kJackAudioSink) output.iconname = "jack";
+    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
+    else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
+    else output.iconname = "soundcard";
+    ret.append(output);
+  }
+
+  return ret;
+
+}
+
+bool GstEngine::CustomDeviceSupport(const QString &name) {
+  return (name == kALSASink || name == kOpenALSASink || name == kOSSSink || name == kOSS4Sink || name == kPulseSink || name == kA2DPSink || name == kAVDTPSink);
+}
+
+void GstEngine::ReloadSettings() {
+
+  Engine::Base::ReloadSettings();
+
+  if (output_.isEmpty()) output_ = kAutoSink;
+
+}
+
+void GstEngine::InitialiseGStreamer() {
+
+  gst_init(nullptr, nullptr);
+
+#ifdef HAVE_IMOBILEDEVICE_ // FIXME
+  afcsrc_register_static();
+#endif
+
+}
+
+void GstEngine::SetEnvironment() {
+
+  QString scanner_path;
+  QString plugin_path;
+  QString registry_filename;
+
+  // On windows and mac we bundle the gstreamer plugins with strawberry
+#if defined(Q_OS_DARWIN)
+  scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
+  plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
+#elif defined(Q_OS_WIN32)
+  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
+#endif
+
+#if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
+  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
+#endif
+
+  if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
+
+  if (!plugin_path.isEmpty()) {
+    Utilities::SetEnv("GST_PLUGIN_PATH", plugin_path);
+    // Never load plugins from anywhere else.
+    Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", plugin_path);
+  }
+
+  if (!registry_filename.isEmpty()) {
+    Utilities::SetEnv("GST_REGISTRY", registry_filename);
+  }
+
+#ifdef Q_OS_DARWIN
+  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/../PlugIns/gio-modules");
+#endif
+
+  Utilities::SetEnv("PULSE_PROP_media.role", "music");
+
+}
+
+GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool fatal, bool showerror) {
+
+  // Make a unique name
+  QString name = factoryName + "-" + QString::number(next_element_id_++);
+
+  GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
+
+  if (!element) {
+    if (showerror)
+      emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
+    else qLog(Error) << "GStreamer could not create the element:" << factoryName;
+    //if (fatal) gst_object_unref(GST_OBJECT(bin));
+    return nullptr;
+  }
+
+  if (bin) gst_bin_add(GST_BIN(bin), element);
+
+  return element;
+}
+
+void GstEngine::ConsumeBuffer(GstBuffer *buffer, int pipeline_id) {
+
+  // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
+  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id))) {
+    qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
+  }
+
 }
 
 void GstEngine::SetEqualizerEnabled(bool enabled) {
@@ -669,21 +500,14 @@ void GstEngine::SetStereoBalance(float value) {
   if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
 }
 
-void GstEngine::SetVolumeSW(uint percent) {
-  if (current_pipeline_) current_pipeline_->SetVolume(percent);
+void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
+  buffer_consumers_ << consumer;
+  if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
 }
 
-void GstEngine::StartTimers() {
-  StopTimers();
-
-  timer_id_ = startTimer(kTimerIntervalNanosec / kNsecPerMsec);
-}
-
-void GstEngine::StopTimers() {
-  if (timer_id_ != -1) {
-    killTimer(timer_id_);
-    timer_id_ = -1;
-  }
+void GstEngine::RemoveBufferConsumer(GstBufferConsumer *consumer) {
+  buffer_consumers_.removeAll(consumer);
+  if (current_pipeline_) current_pipeline_->RemoveBufferConsumer(consumer);
 }
 
 void GstEngine::timerEvent(QTimerEvent *e) {
@@ -710,6 +534,18 @@ void GstEngine::timerEvent(QTimerEvent *e) {
 
 }
 
+void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
+
+  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
+    return;
+
+  if (!has_next_track) {
+    current_pipeline_.reset();
+    BufferingFinished();
+  }
+  emit TrackEnded();
+}
+
 void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code) {
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
@@ -728,18 +564,6 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
 
 }
 
-void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
-
-  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
-    return;
-
-  if (!has_next_track) {
-    current_pipeline_.reset();
-    BufferingFinished();
-  }
-  emit TrackEnded();
-}
-
 void GstEngine::NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bundle) {
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
@@ -748,24 +572,113 @@ void GstEngine::NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bun
   emit MetaData(bundle);
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool fatal, bool showerror) {
+void GstEngine::AddBufferToScope(GstBuffer *buf, int pipeline_id) {
 
-  // Make a unique name
-  QString name = factoryName + "-" + QString::number(next_element_id_++);
-
-  GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
-
-  if (!element) {
-    if (showerror)
-      emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
-    else qLog(Error) << "GStreamer could not create the element:" << factoryName;
-    //if (fatal) gst_object_unref(GST_OBJECT(bin));
-    return nullptr;
+  if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) {
+    gst_buffer_unref(buf);
+    return;
   }
 
-  if (bin) gst_bin_add(GST_BIN(bin), element);
+  if (latest_buffer_) {
+    gst_buffer_unref(latest_buffer_);
+  }
 
-  return element;
+  latest_buffer_ = buf;
+  have_new_buffer_ = true;
+
+}
+
+void GstEngine::FadeoutFinished() {
+  fadeout_pipeline_.reset();
+  emit FadeoutFinishedSignal();
+}
+
+void GstEngine::FadeoutPauseFinished() {
+
+  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
+  current_pipeline_->SetState(GST_STATE_PAUSED);
+  emit StateChanged(Engine::Paused);
+  StopTimers();
+
+  is_fading_out_to_pause_ = false;
+  has_faded_out_ = true;
+  fadeout_pause_pipeline_.reset();
+  fadeout_pipeline_.reset();
+
+  emit FadeoutFinishedSignal();
+
+}
+
+void GstEngine::SeekNow() {
+
+  if (!waiting_to_seek_) return;
+  waiting_to_seek_ = false;
+
+  if (!current_pipeline_) return;
+
+  if (!current_pipeline_->Seek(seek_pos_)) {
+    qLog(Warning) << "Seek failed";
+  }
+}
+
+void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 offset_nanosec, const int pipeline_id) {
+
+  GstStateChangeReturn ret = future.result();
+
+  if (!current_pipeline_ || pipeline_id != current_pipeline_->id()) {
+    return;
+  }
+
+  if (ret == GST_STATE_CHANGE_FAILURE) {
+    // Failure, but we got a redirection URL - try loading that instead
+    QByteArray redirect_url = current_pipeline_->redirect_url();
+    if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->url()) {
+      qLog(Info) << "Redirecting to" << redirect_url;
+      current_pipeline_ = CreatePipeline(redirect_url, end_nanosec_);
+      Play(offset_nanosec);
+      return;
+    }
+
+    // Failure - give up
+    qLog(Warning) << "Could not set thread to PLAYING.";
+    current_pipeline_.reset();
+    BufferingFinished();
+    return;
+  }
+
+  StartTimers();
+
+  // initial offset
+  if (offset_nanosec != 0 || beginning_nanosec_ != 0) {
+    Seek(offset_nanosec);
+  }
+
+  emit StateChanged(Engine::Playing);
+  // we've successfully started playing a media stream with this url
+  emit ValidSongRequested(url_);
+
+}
+
+void GstEngine::BufferingStarted() {
+
+  if (buffering_task_id_ != -1) {
+    task_manager_->SetTaskFinished(buffering_task_id_);
+  }
+
+  buffering_task_id_ = task_manager_->StartTask(tr("Buffering"));
+  task_manager_->SetTaskProgress(buffering_task_id_, 0, 100);
+
+}
+
+void GstEngine::BufferingProgress(int percent) {
+  task_manager_->SetTaskProgress(buffering_task_id_, percent, 100);
+}
+
+void GstEngine::BufferingFinished() {
+  if (buffering_task_id_ != -1) {
+    task_manager_->SetTaskFinished(buffering_task_id_);
+    buffering_task_id_ = -1;
+  }
 }
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
@@ -793,12 +706,90 @@ GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) 
 
 }
 
+QByteArray GstEngine::FixupUrl(const QUrl &url) {
+
+  EnsureInitialised();
+
+  QByteArray uri;
+
+  // It's a file:// url with a hostname set.
+  // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
+  // Munge it back into a path that gstreamer will recognise.
+  if (url.scheme() == "file" && !url.host().isEmpty()) {
+    QString str = "//" + url.host() + url.path();
+    uri = str.toLocal8Bit();
+  }
+  else if (url.scheme() == "cdda") {
+    QString str;
+    if (url.path().isEmpty()) {
+      str = url.toString();
+      str.remove(str.lastIndexOf(QChar('a')), 1);
+    }
+    else {
+      // Currently, Gstreamer can't handle input CD devices inside cdda URL.
+      // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
+      // We keep the device in mind, and we will set it later using SourceSetupCallback
+      QStringList path = url.path().split('/');
+      str = QString("cdda://%1a").arg(path.takeLast());
+      QString device = path.join("/");
+      current_pipeline_->SetSourceDevice(device);
+    }
+    uri = str.toLocal8Bit();
+  }
+  else {
+    uri = url.toEncoded();
+  }
+
+  return uri;
+
+}
+
+void GstEngine::StartFadeout() {
+
+  if (is_fading_out_to_pause_) return;
+
+  fadeout_pipeline_ = current_pipeline_;
+  disconnect(fadeout_pipeline_.get(), 0, 0, 0);
+  fadeout_pipeline_->RemoveAllBufferConsumers();
+
+  fadeout_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Backward);
+  connect(fadeout_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutFinished()));
+
+}
+
+void GstEngine::StartFadeoutPause() {
+
+  fadeout_pause_pipeline_ = current_pipeline_;
+  disconnect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), 0, 0);
+
+  fadeout_pause_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::EaseInOutCurve, false);
+  if (fadeout_pipeline_ && fadeout_pipeline_->state() == GST_STATE_PLAYING) {
+    fadeout_pipeline_->StartFader(fadeout_pause_duration_nanosec_, QTimeLine::Backward, QTimeLine::LinearCurve, false);
+  }
+  connect(fadeout_pause_pipeline_.get(), SIGNAL(FaderFinished()), SLOT(FadeoutPauseFinished()));
+  is_fading_out_to_pause_ = true;
+
+}
+
+void GstEngine::StartTimers() {
+  StopTimers();
+
+  timer_id_ = startTimer(kTimerIntervalNanosec / kNsecPerMsec);
+}
+
+void GstEngine::StopTimers() {
+  if (timer_id_ != -1) {
+    killTimer(timer_id_);
+    timer_id_ = -1;
+  }
+}
+
 shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialised();
 
   shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
-  ret->set_output_device(sink_, device_);
+  ret->set_output_device(output_, device_);
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);
@@ -839,77 +830,50 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &url, q
 
 }
 
-void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
-  buffer_consumers_ << consumer;
-  if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
-}
+void GstEngine::UpdateScope(int chunk_length) {
 
-void GstEngine::RemoveBufferConsumer(GstBufferConsumer *consumer) {
-  buffer_consumers_.removeAll(consumer);
-  if (current_pipeline_) current_pipeline_->RemoveBufferConsumer(consumer);
-}
+  typedef Engine::Scope::value_type sample_type;
 
-void GstEngine::BufferingStarted() {
+  // Prevent dbz or invalid chunk size
+  if (!GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DURATION(latest_buffer_))) return;
+  if (GST_BUFFER_DURATION(latest_buffer_) == 0) return;
 
-  if (buffering_task_id_ != -1) {
-    task_manager_->SetTaskFinished(buffering_task_id_);
+  GstMapInfo map;
+  gst_buffer_map(latest_buffer_, &map, GST_MAP_READ);
+
+  // Determine where to split the buffer
+  int chunk_density = (map.size * kNsecPerMsec) / GST_BUFFER_DURATION(latest_buffer_);
+
+  int chunk_size = chunk_length * chunk_density;
+
+  // In case a buffer doesn't arrive in time
+  if (scope_chunk_ >= scope_chunks_) {
+    scope_chunk_ = 0;
+    return;
   }
 
-  buffering_task_id_ = task_manager_->StartTask(tr("Buffering"));
-  task_manager_->SetTaskProgress(buffering_task_id_, 0, 100);
+  const sample_type *source = reinterpret_cast<sample_type*>(map.data);
+  sample_type *dest = scope_.data();
+  source += (chunk_size / sizeof(sample_type)) * scope_chunk_;
 
-}
+  int bytes = 0;
 
-void GstEngine::BufferingProgress(int percent) {
-  task_manager_->SetTaskProgress(buffering_task_id_, percent, 100);
-}
-
-void GstEngine::BufferingFinished() {
-  if (buffering_task_id_ != -1) {
-    task_manager_->SetTaskFinished(buffering_task_id_);
-    buffering_task_id_ = -1;
+  // Make sure we don't go beyond the end of the buffer
+  if (scope_chunk_ == scope_chunks_ - 1) {
+    bytes = qMin(static_cast<Engine::Scope::size_type>(map.size - (chunk_size  * scope_chunk_)), scope_.size() * sizeof(sample_type));
   }
-}
-
-EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
-
-  EngineBase::OutputDetailsList ret;
-
-  PluginDetailsList plugins = GetPluginList("Sink/Audio");
-
-  for (const PluginDetails &plugin : plugins) {
-    OutputDetails output;
-    output.name = plugin.name;
-    output.description = plugin.description;
-    if (plugin.name == kAutoSink) output.iconname = "soundcard";
-    else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
-    else if (plugin.name== kJackAudioSink) output.iconname = "jack";
-    else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-    else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
-    else output.iconname = "soundcard";
-    ret.append(output);
+  else {
+    bytes = qMin(static_cast<Engine::Scope::size_type>(chunk_size), scope_.size() * sizeof(sample_type));
   }
 
-  return ret;
+  scope_chunk_++;
+  memcpy(dest, source, bytes);
+
+  gst_buffer_unmap(latest_buffer_, &map);
+
+  if (scope_chunk_ == scope_chunks_) {
+    gst_buffer_unref(latest_buffer_);
+    latest_buffer_ = nullptr;
+  }
 
 }
-
-bool GstEngine::ALSADeviceSupport(const QString &name) {
-  return (name == kALSASink);
-}
-
-bool GstEngine::PulseDeviceSupport(const QString &name) {
-  return (name == kPulseSink);
-}
-
-bool GstEngine::DirectSoundDeviceSupport(const QString &name) {
-  return (name == kDirectSoundSink);
-}
-
-bool GstEngine::OSXAudioDeviceSupport(const QString &name) {
-  return (name == kOSXAudioSink);
-}
-bool GstEngine::CustomDeviceSupport(const QString &name) {
-  return (name == kALSASink || name == kOpenALSASink || name == kOSSSink || name == kOSS4Sink || name == kA2DPSink || name == kAVDTPSink);
-}
-

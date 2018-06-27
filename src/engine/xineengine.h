@@ -1,5 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2004,5 Max Howell <max.howell@methylblue.com>           *
+ *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
+ *   Copyright (C) 2005 Christophe Thommeret <hftom@free.fr>               *
+ *             (C) 2005 Ian Monroe <ian@monroe.nu>                         *
+ *             (C) 2005-2006 Mark Kretschmann <markey@web.de>              *
+ *             (C) 2004-2005 Max Howell <max.howell@methylblue.com>        *
+ *             (C) 2003-2004 J. Kofler <kaffeine@gmx.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -8,10 +13,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef XINE_ENGINE_H
-#define XINE_ENGINE_H
+#ifndef XINEENGINE_H
+#define XINEENGINE_H
 
 #include "config.h"
+
+#include <memory>
+#include <stdbool.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <xine.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -22,24 +33,20 @@
 #include <QString>
 #include <QUrl>
 
-extern "C"
-{
-    #include <stdbool.h>
-    #include <stddef.h>
-    #include <stdint.h>
-    #include <sys/types.h>
-    #include <xine.h>
-}
-
 #include "engine_fwd.h"
 #include "enginebase.h"
 
+using std::shared_ptr;
+
 class TaskManager;
+class PruneScopeThread;
+class XineFader;
+class XineOutFader;
 
 class XineEvent : public QEvent {
 public:
   enum EventType {
-    PlaybackFinished = QEvent::User + 1,
+    PlaybackFinished,
     InfoMessage,
     StatusMessage,
     MetaInfoChanged,
@@ -47,159 +54,119 @@ public:
     LastFMTrackChanged,
   };
 
-  XineEvent(EventType type, void* data = NULL) : QEvent(QEvent::Type(type)), data_(data) {}
+  XineEvent(EventType type, void* data = nullptr) : QEvent(QEvent::Type(type)), data_(data) {}
 
-  void setData(void* data) { data_ = data; }
-  void* data() const { return data_; }
+  void setData(void *data) { data_ = data; }
+  void *data() const { return data_; }
 
 private:
-  void* data_;
+  void *data_;
 };
-
-class PruneScopeThread;
 
 class XineEngine : public Engine::Base {
     Q_OBJECT
     
 public:
 
-    XineEngine(TaskManager *task_manager);
-    ~XineEngine();
+  XineEngine(TaskManager *task_manager);
+  ~XineEngine();
 
-    friend class Fader;
-    friend class OutFader;
-    friend class PruneScopeThread;
+  bool Init();
+  Engine::State state() const;
+  bool Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  bool Play(quint64 offset_nanosec);
+  void Stop(bool stop_after = false);
+  void Pause();
+  void Unpause();
+  void Seek(quint64 offset_nanosec);
+  void SetVolumeSW(uint );
 
-    virtual bool Init();
+  qint64 position_nanosec() const;
+  qint64 length_nanosec() const;
 
-    virtual qint64 position_nanosec() const;
-    virtual qint64 length_nanosec() const;
+  const Engine::Scope& scope(int chunk_length);
 
-    virtual bool CanDecode( const QUrl &);
-    virtual bool Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-    virtual bool Play(quint64 offset_nanosec);
-    virtual void Stop(bool stop_after = false);
-    virtual void Pause();
-    virtual void Unpause();
-    virtual uint position() const;
-    virtual uint length() const;
-    virtual void Seek(quint64 offset_nanosec);
+  QString DefaultOutput() { return "auto"; }
+  OutputDetailsList GetOutputsList() const;
+  bool CustomDeviceSupport(const QString &name);
 
-    virtual bool metaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
-    virtual bool getAudioCDContents(const QString &device, QList<QUrl> &urls);
-    virtual bool flushBuffer();
+  void ReloadSettings();
 
-    virtual Engine::State state() const;
-    virtual const Engine::Scope& scope(int chunk_length);
+  void SetEnvironment();
 
-    virtual void setEqualizerEnabled( bool );
-    virtual void setEqualizerParameters( int preamp, const QList<int>& );
-    virtual void SetVolumeSW( uint );
-    virtual void fadeOut( uint fadeLength, bool* terminate, bool exiting = false );
+  uint length() const;
+  uint position() const;
 
-    static  void XineEventListener( void*, const xine_event_t* );
-    virtual bool event( QEvent* );
+  bool CanDecode(const QUrl &);
 
-    virtual void playlistChanged();
-    virtual void ReloadSettings();
+  bool MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
+  bool GetAudioCDContents(const QString &device, QList<QUrl> &urls);
+  bool FlushBuffer();
 
-    Engine::SimpleMetaBundle fetchMetaData() const;
+  void SetEqualizerEnabled(bool enabled);
+  void SetEqualizerParameters(int preamp, const QList<int>&);
 
-    virtual bool lastFmProxyRequired();
+  void FadeOut(uint fadeLength, bool* terminate, bool exiting = false);
 
-    bool makeNewStream();
-    bool ensureStream();
+  static void XineEventListener(void*, const xine_event_t*);
+  bool event(QEvent*);
 
-    void determineAndShowErrorMessage(); //call after failure to load/play
-    
-    //static void SetOutput(QString output, QString device);
+  Engine::SimpleMetaBundle fetchMetaData() const;
 
-    xine_t             *xine_;
-    xine_stream_t      *stream_;
-    xine_audio_port_t  *audioPort_;
-    xine_event_queue_t *eventQueue_;
-    xine_post_t        *post_;
+  bool MakeNewStream();
+  bool EnsureStream();
 
-    int64_t             currentVpts_;
-    float               preamp_;
+  void DetermineAndShowErrorMessage(); //call after failure to load/play
 
-    bool                stopFader_;
-    bool                fadeOutRunning_;
+  // Simple accessors
 
-    QString		currentAudioPlugin_; //to see if audio plugin has been changed need to save these for when the audio plugin is changed and xine reloaded
-    QString		currentAudioDevice_;
-    bool		equalizerEnabled_;
-    int			intPreamp_;
-    QList<int>		equalizerGains_;
-
-    QMutex initMutex_;
-
-    bool fadeoutOnExit_;
-    bool fadeoutEnabled_;
-    bool crossfadeEnabled_;
-    int fadeoutDuration_;
-    int xfadeLength_;
-    bool xfadeNextTrack_;
-    QUrl url_;
-
-    PruneScopeThread* prune_;
-
-    mutable Engine::SimpleMetaBundle currentBundle_;
-
-    XineEngine();
-
-    OutputDetailsList GetOutputsList() const;
-    PluginDetailsList GetPluginList() const;
-    static bool ALSADeviceSupport(const QString &name);
+  xine_stream_t *stream() { return stream_; }
+  float preamp() { return preamp_; }
+  bool stop_fader() { return stop_fader_; }
+  void set_stop_fader(bool stop_fader) { stop_fader_ = stop_fader; }
 
 private:
-    
 
+  static const char *kAutoOutput;
+
+  xine_t *xine_;
+  xine_stream_t *stream_;
+  xine_audio_port_t *audioport_;
+  xine_event_queue_t *eventqueue_;
+  xine_post_t *post_;
+  float preamp_;
+  bool stop_fader_;
+  bool fadeout_running_;
+  std::unique_ptr<PruneScopeThread> prune_;
+
+  QUrl url_;
+
+  static int last_error_;
+  static time_t last_error_time_;
+
+  uint log_buffer_count_ = 0;
+  uint log_scope_call_count_ = 1; // Prevent divideByZero
+  uint log_no_suitable_buffer_ = 0;
+
+  std::unique_ptr<XineFader> s_fader_;
+  std::unique_ptr<XineOutFader> s_outfader_;
+
+  int int_preamp_;
+  QMutex init_mutex_;
+  int64_t current_vpts_;
+  QList<int> equalizer_gains_;
+  int fade_length_;
+  bool fade_next_track_;
+
+  mutable Engine::SimpleMetaBundle current_bundle_;
+
+  PluginDetailsList GetPluginList() const;
 
 private slots:
-    void PruneScope();
+  void PruneScope();
 
 signals:
-    void resetConfig(xine_t *xine);
-    void InfoMessage(const QString&);
-    void LastFmTrackChange();
-};
-
-class Fader : public QThread {
-
-    XineEngine         *engine_;
-    xine_t             *xine_;
-    xine_stream_t      *decrease_;
-    xine_stream_t      *increase_;
-    xine_audio_port_t  *port_;
-    xine_post_t        *post_;
-    uint               fadeLength_;
-    bool               paused_;
-    bool               terminated_;
-
-    virtual void run();
-
-public:
-    Fader( XineEngine *, uint fadeLengthMs );
-   ~Fader();
-   void pause();
-   void resume();
-   void finish();
-};
-
-class OutFader : public QThread {
-
-    XineEngine *engine_;
-    bool        terminated_;
-    uint        fadeLength_;
-
-    virtual void run();
-
-public:
-    OutFader( XineEngine *, uint fadeLengthMs );
-    ~OutFader();
-
-   void finish();
+  void InfoMessage(const QString&);
 };
 
 class PruneScopeThread : public QThread {
@@ -207,10 +174,10 @@ public:
   PruneScopeThread(XineEngine *parent);
 
 protected:
-  virtual void run();
+  void run();
 
 private:
-  XineEngine* engine_;
+  XineEngine *engine_;
 
 };
 

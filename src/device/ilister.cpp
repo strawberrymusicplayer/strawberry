@@ -58,6 +58,8 @@ void iLister::EventCallback(const idevice_event_t *event, void *context) {
     case IDEVICE_DEVICE_REMOVE:
       me->DeviceRemovedCallback(uuid);
       break;
+    default:
+      break;
   }
 }
 

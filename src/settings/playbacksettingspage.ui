@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QCheckBox" name="current_glow">
+    <widget class="QCheckBox" name="checkbox_glowcurrenttrack">
      <property name="text">
       <string>Show a glowing animation on the current track</string>
      </property>
@@ -25,13 +25,13 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupbox_fading">
      <property name="title">
       <string>Fading</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="fading_out">
+       <widget class="QCheckBox" name="checkbox_fadeout_stop">
         <property name="text">
          <string>Fade out when stopping a track</string>
         </property>
@@ -41,7 +41,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="fading_cross">
+       <widget class="QCheckBox" name="checkbox_fadeout_cross">
         <property name="text">
          <string>Cross-fade when changing tracks manually</string>
         </property>
@@ -51,14 +51,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="fading_auto">
+       <widget class="QCheckBox" name="checkbox_fadeout_auto">
         <property name="text">
          <string>Cross-fade when changing tracks automatically</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="fading_samealbum">
+       <widget class="QCheckBox" name="checkbox_fadeout_samealbum">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -68,13 +68,22 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="fading_options" native="true">
+       <widget class="QWidget" name="widget_fading_options" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="label_fadingduration_1">
            <property name="text">
             <string>Fading duration</string>
            </property>
@@ -84,7 +93,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="fading_duration">
+          <widget class="QSpinBox" name="spinbox_fadeduration">
            <property name="suffix">
             <string> ms</string>
            </property>
@@ -100,7 +109,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer">
+          <spacer name="horizontalSpacer_1">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -116,16 +125,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="fadeout_pause">
+       <widget class="QCheckBox" name="checkbox_fadeout_pauseresume">
         <property name="text">
          <string>Fade out on pause / fade in on resume</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="layout_fading">
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="label_fadingduration_2">
           <property name="text">
            <string>Fading duration</string>
           </property>
@@ -135,7 +144,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="fading_pause_duration">
+         <widget class="QSpinBox" name="spinbox_fadeduration_pauseresume">
           <property name="suffix">
            <string> ms</string>
           </property>
@@ -183,19 +192,12 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>StickySlider</class>
-   <extends>QSlider</extends>
-   <header>widgets/stickyslider.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>fading_auto</sender>
+   <sender>checkbox_fadeout_auto</sender>
    <signal>toggled(bool)</signal>
-   <receiver>fading_samealbum</receiver>
+   <receiver>checkbox_fadeout_samealbum</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

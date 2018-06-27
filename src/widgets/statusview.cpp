@@ -298,7 +298,6 @@ void StatusView::UpdateSong() {
   const QueryOptions opt;
   CollectionBackend::AlbumList albumlist;
   Engine::EngineType enginetype = app_->player()->engine()->type();
-  QString EngineName = EngineNameFromType(enginetype);
   
   label_playing_top_->setText("");
   label_playing_text_->setText("");
@@ -317,7 +316,7 @@ void StatusView::UpdateSong() {
 
   if (enginetype != Engine::EngineType::None) {
     html += QString("<br />");
-    html += QString("Engine: %1<br />").arg(EngineName);
+    html += QString("Engine: %1<br />").arg(EngineName(enginetype));
   }
 
   html += QString("<br />");

@@ -133,7 +133,7 @@ void GlobalShortcuts::Register() {
 }
 
 bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
   return static_cast<MacGlobalShortcutBackend*>(system_backend_)->IsAccessibilityEnabled();
 #else
   return true;
@@ -141,7 +141,7 @@ bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
 }
 
 void GlobalShortcuts::ShowMacAccessibilityDialog() {
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
   static_cast<MacGlobalShortcutBackend*>(system_backend_)->ShowAccessibilityDialog();
 #endif
 }

@@ -96,11 +96,13 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
   p_->mapping_.insert(Mapping(CollectionModel::GroupBy_YearAlbum, 9));
   p_->mapping_.insert(Mapping(CollectionModel::GroupBy_OriginalYearAlbum, 10));
   p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitrate, 11));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Disc, 12));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Performer, 13));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Grouping, 14));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Samplerate, 12));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Bitdepth, 13));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Disc, 14));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Performer, 15));
+  p_->mapping_.insert(Mapping(CollectionModel::GroupBy_Grouping, 16));
 
-  connect(ui_->button_box->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(Reset()));
+  connect(ui_->buttonbox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(Reset()));
 
   resize(sizeHint());
 }
@@ -108,23 +110,23 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
 GroupByDialog::~GroupByDialog() {}
 
 void GroupByDialog::Reset() {
-  ui_->first->setCurrentIndex(2);   // Artist
-  ui_->second->setCurrentIndex(1);  // Album
-  ui_->third->setCurrentIndex(0);   // None
+  ui_->combobox_first->setCurrentIndex(2);   // Artist
+  ui_->combobox_second->setCurrentIndex(1);  // Album
+  ui_->combobox_third->setCurrentIndex(0);   // None
 }
 
 void GroupByDialog::accept() {
   emit Accepted(CollectionModel::Grouping(
-      p_->mapping_.get<tag_index>().find(ui_->first->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->second->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->third->currentIndex())->group_by)
+      p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
+      p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
+      p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by)
    );
   QDialog::accept();
 }
 
 void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping &g) {
-  ui_->first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
-  ui_->second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
-  ui_->third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);
+  ui_->combobox_first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
+  ui_->combobox_second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
+  ui_->combobox_third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);
 }
 

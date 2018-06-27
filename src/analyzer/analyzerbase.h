@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <vector>
 
-#ifdef Q_WS_MACX
+#ifdef Q_OS_MACOS
   #include <OpenGL/gl.h>   //included for convenience
   #include <OpenGL/glu.h>  //included for convenience
 #else

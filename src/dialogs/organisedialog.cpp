@@ -96,7 +96,8 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
   tags[tr("Comment")] = "comment";
   tags[tr("Length")] = "length";
   tags[tr("Bitrate", "Refers to bitrate in file organise dialog.")] = "bitrate";
-  tags[tr("Samplerate")] = "samplerate";
+  tags[tr("Sample rate")] = "samplerate";
+  tags[tr("Bit depth")] = "bitdepth";
   tags[tr("File extension")] = "extension";
 
   // Naming scheme input field

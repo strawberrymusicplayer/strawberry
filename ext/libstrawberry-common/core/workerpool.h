@@ -228,7 +228,7 @@ void WorkerPool<HandlerType>::DoStart() {
 
   QStringList search_path;
   search_path << qApp->applicationDirPath();
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
   search_path << qApp->applicationDirPath() + "/../PlugIns";
 #endif
 

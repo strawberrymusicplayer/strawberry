@@ -26,18 +26,6 @@
 
 namespace Engine {
     
-QString EngineNameFromType(Engine::EngineType enginetype) {
-  switch (enginetype) {
-    case Engine::Xine:		return QObject::tr("Xine");
-    case Engine::GStreamer:	return QObject::tr("GStreamer");
-    case Engine::Phonon:	return QObject::tr("Phonon");
-    case Engine::VLC:		return QObject::tr("VLC");
-    case Engine::None:
-    default:			return QObject::tr("None");
-  
-  }
-}
-
 Engine::EngineType EngineTypeFromName(QString enginename) {
     
   QString lower = enginename.toLower();
@@ -48,6 +36,30 @@ Engine::EngineType EngineTypeFromName(QString enginename) {
   else if (lower == "vlc")		return Engine::VLC;
   else					return Engine::None;
 
+}
+
+QString EngineName(Engine::EngineType enginetype) {
+  switch (enginetype) {
+    case Engine::Xine:		return QObject::tr("xine");
+    case Engine::GStreamer:	return QObject::tr("gstreamer");
+    case Engine::Phonon:	return QObject::tr("phonon");
+    case Engine::VLC:		return QObject::tr("vlc");
+    case Engine::None:
+    default:			return QObject::tr("None");
+  
+  }
+}
+    
+QString EngineDescription(Engine::EngineType enginetype) {
+  switch (enginetype) {
+    case Engine::Xine:		return QObject::tr("Xine");
+    case Engine::GStreamer:	return QObject::tr("GStreamer");
+    case Engine::Phonon:	return QObject::tr("Phonon");
+    case Engine::VLC:		return QObject::tr("VLC");
+    case Engine::None:
+    default:			return QObject::tr("None");
+  
+  }
 }
 
 }

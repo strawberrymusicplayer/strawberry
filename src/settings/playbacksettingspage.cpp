@@ -43,9 +43,9 @@ PlaybackSettingsPage::PlaybackSettingsPage(SettingsDialog *dialog) : SettingsPag
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("media-play"));
 
-  connect(ui_->fading_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->fading_out, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
-  connect(ui_->fading_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
 
 }
 
@@ -60,14 +60,14 @@ void PlaybackSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-  ui_->current_glow->setChecked(s.value("glow_effect", true).toBool());
-  ui_->fading_out->setChecked(s.value("FadeoutEnabled", false).toBool());
-  ui_->fading_cross->setChecked(s.value("CrossfadeEnabled", false).toBool());
-  ui_->fading_auto->setChecked(s.value("AutoCrossfadeEnabled", false).toBool());
-  ui_->fading_duration->setValue(s.value("FadeoutDuration", 2000).toInt());
-  ui_->fading_samealbum->setChecked(s.value("NoCrossfadeSameAlbum", true).toBool());
-  ui_->fadeout_pause->setChecked(s.value("FadeoutPauseEnabled", false).toBool());
-  ui_->fading_pause_duration->setValue(s.value("FadeoutPauseDuration", 250).toInt());
+  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", true).toBool());
+  ui_->checkbox_fadeout_stop->setChecked(s.value("FadeoutEnabled", false).toBool());
+  ui_->checkbox_fadeout_cross->setChecked(s.value("CrossfadeEnabled", false).toBool());
+  ui_->checkbox_fadeout_auto->setChecked(s.value("AutoCrossfadeEnabled", false).toBool());
+  ui_->checkbox_fadeout_samealbum->setChecked(s.value("NoCrossfadeSameAlbum", true).toBool());
+  ui_->checkbox_fadeout_pauseresume->setChecked(s.value("FadeoutPauseEnabled", false).toBool());
+  ui_->spinbox_fadeduration->setValue(s.value("FadeoutDuration", 2000).toInt());
+  ui_->spinbox_fadeduration_pauseresume->setValue(s.value("FadeoutPauseDuration", 250).toInt());
   s.endGroup();
 
 }
@@ -77,19 +77,19 @@ void PlaybackSettingsPage::Save() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-  s.setValue("glow_effect", ui_->current_glow->isChecked());
-  s.setValue("FadeoutEnabled", ui_->fading_out->isChecked());
-  s.setValue("FadeoutDuration", ui_->fading_duration->value());
-  s.setValue("CrossfadeEnabled", ui_->fading_cross->isChecked());
-  s.setValue("AutoCrossfadeEnabled", ui_->fading_auto->isChecked());
-  s.setValue("NoCrossfadeSameAlbum", ui_->fading_samealbum->isChecked());
-  s.setValue("FadeoutPauseEnabled", ui_->fadeout_pause->isChecked());
-  s.setValue("FadeoutPauseDuration", ui_->fading_pause_duration->value());
+  s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
+  s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
+  s.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
+  s.setValue("AutoCrossfadeEnabled", ui_->checkbox_fadeout_auto->isChecked());
+  s.setValue("NoCrossfadeSameAlbum", ui_->checkbox_fadeout_samealbum->isChecked());
+  s.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
+  s.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
+  s.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
   s.endGroup();
 }
 
 void PlaybackSettingsPage::FadingOptionsChanged() {
 
-  ui_->fading_options->setEnabled(ui_->fading_out->isChecked() || ui_->fading_cross->isChecked() || ui_->fading_auto->isChecked());
+  ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());
 
 }

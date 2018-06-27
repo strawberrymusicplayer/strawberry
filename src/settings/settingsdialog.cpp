@@ -44,6 +44,8 @@
 #include <QTreeWidget>
 
 #include "core/application.h"
+#include "core/player.h"
+#include "engine/enginebase.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
 
@@ -94,17 +96,14 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-
 SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
     : QDialog(parent),
       app_(app),
-      //player_(app_->player()),
+      player_(app_->player()),
+      engine_(app_->player()->engine()),
       model_(app_->collection_model()->directory_model()),
-      //gst_engine_(qobject_cast<GstEngine*>(app_->player()->engine())),
-      //engine_(app_->player()->engine()),
       appearance_(app_->appearance()),
       ui_(new Ui_SettingsDialog),
-      //mui_(parent),
       loading_settings_(false) {
 
   ui_->setupUi(this);

@@ -11,6 +11,8 @@
 
 #include "config.h"
 
+#include <time.h>
+
 #include "xinescope.h"
 #include <xine/post.h>
 #include <xine/xine_internal.h>
@@ -29,54 +31,53 @@ struct scope_plugin_s {
  * post plugin functions *
  *************************/
 
-static int scope_port_open( xine_audio_port_t *port_gen, xine_stream_t *stream, uint32_t bits, uint32_t rate, int mode ) {
+static int scope_port_open(xine_audio_port_t *port_gen, xine_stream_t *stream, uint32_t bits, uint32_t rate, int mode) {
 
     #define port ((post_audio_port_t*)port_gen)
     #define this ((scope_plugin_t*)((post_audio_port_t*)port_gen)->post)
 
-    _x_post_rewire( (post_plugin_t*)port->post );
-    _x_post_inc_usage( port );
+    _x_post_rewire((post_plugin_t*)port->post);
+    _x_post_inc_usage(port);
 
     port->stream = stream;
     port->bits = bits;
     port->rate = rate;
     port->mode = mode;
 
-    this->channels = _x_ao_mode2channels( mode );
+    this->channels = _x_ao_mode2channels(mode);
 
-    return port->original_port->open( port->original_port, stream, bits, rate, mode );
+    return port->original_port->open(port->original_port, stream, bits, rate, mode);
 }
 
-static void scope_port_close( xine_audio_port_t *port_gen, xine_stream_t *stream ) {
+static void scope_port_close(xine_audio_port_t *port_gen, xine_stream_t *stream) {
 
     MyNode *node;
 
     /* ensure the buffers are deleted during the next XineEngine::timerEvent() */
-    for( node = this->list->next; node != this->list; node = node->next )
+    for(node = this->list->next; node != this->list; node = node->next)
         node->vpts = node->vpts_end = -1;
 
     port->stream = NULL;
-    port->original_port->close( port->original_port, stream );
+    port->original_port->close(port->original_port, stream);
 
-    _x_post_dec_usage( port );
+    _x_post_dec_usage(port);
 }
 
-static void scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *buf, xine_stream_t *stream ) {
-/* FIXME With 8-bit samples the scope won't work correctly. For a special 8-bit code path,
-         the sample size could be checked like this: if( port->bits == 8 ) */
+static void scope_port_put_buffer(xine_audio_port_t *port_gen, audio_buffer_t *buf, xine_stream_t *stream) {
+/* FIXME With 8-bit samples the scope won't work correctly. For a special 8-bit code path, the sample size could be checked like this: if(port->bits == 8) */
 
     const int num_samples = buf->num_frames * this->channels;
     metronom_t *myMetronom = &this->metronom;
     MyNode *new_node;
 
     /* I keep my own metronom because xine wouldn't for some reason */
-    memcpy( &this->metronom, stream->metronom, sizeof(metronom_t) );
+    memcpy(&this->metronom, stream->metronom, sizeof(metronom_t));
 
-    new_node             = malloc( sizeof(MyNode) );
-    new_node->vpts       = myMetronom->got_audio_samples( myMetronom, buf->vpts, buf->num_frames );
+    new_node             = malloc(sizeof(MyNode));
+    new_node->vpts       = myMetronom->got_audio_samples(myMetronom, buf->vpts, buf->num_frames);
     new_node->num_frames = buf->num_frames;
-    new_node->mem        = malloc( num_samples * 2 );
-    memcpy( new_node->mem, buf->mem, num_samples * 2 );
+    new_node->mem        = malloc(num_samples * 2);
+    memcpy(new_node->mem, buf->mem, num_samples * 2);
 
     {
         int64_t
@@ -88,7 +89,7 @@ static void scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *
         new_node->vpts_end = K;
     }
 
-    port->original_port->put_buffer( port->original_port, buf, stream );
+    port->original_port->put_buffer(port->original_port, buf, stream);
 
     /* finally we should append the current buffer to the list
      * this is thread-safe due to the way we handle the list in the GUI thread */
@@ -99,7 +100,7 @@ static void scope_port_put_buffer( xine_audio_port_t *port_gen, audio_buffer_t *
     #undef this
 }
 
-static void scope_dispose( post_plugin_t *this ) {
+static void scope_dispose(post_plugin_t *this) {
     MyNode *list = ((scope_plugin_t*)this)->list;
     MyNode *prev;
     MyNode *node = list;
@@ -108,15 +109,15 @@ static void scope_dispose( post_plugin_t *this ) {
     do {
         prev = node->next;
 
-        free( node->mem );
-        free( node );
+        free(node->mem);
+        free(node);
 
         node = prev;
     }
-    while( node != list );
+    while(node != list);
 
 
-    free( this );
+    free(this);
 }
 
 
@@ -124,19 +125,19 @@ static void scope_dispose( post_plugin_t *this ) {
  * plugin init function *
  ************************/
 
-xine_post_t* scope_plugin_new( xine_t *xine, xine_audio_port_t *audio_target ) {
+xine_post_t* scope_plugin_new(xine_t *xine, xine_audio_port_t *audio_target) {
 
-    scope_plugin_t *scope_plugin = calloc( 1, sizeof(scope_plugin_t) );
-    post_plugin_t  *post_plugin  = (post_plugin_t*)scope_plugin;
+    scope_plugin_t *scope_plugin = calloc(1, sizeof(scope_plugin_t));
+    post_plugin_t  *post_plugin = (post_plugin_t*)scope_plugin;
 
     {
         post_in_t         *input;
         post_out_t        *output;
         post_audio_port_t *port;
 
-        _x_post_init( post_plugin, 1, 0 );
+        _x_post_init(post_plugin, 1, 0);
 
-        port = _x_post_intercept_audio_port( post_plugin, audio_target, &input, &output );
+        port = _x_post_intercept_audio_port(post_plugin, audio_target, &input, &output);
         port->new_port.open       = scope_port_open;
         port->new_port.close      = scope_port_close;
         port->new_port.put_buffer = scope_port_put_buffer;
@@ -147,28 +148,26 @@ xine_post_t* scope_plugin_new( xine_t *xine, xine_audio_port_t *audio_target ) {
         post_plugin->dispose = scope_dispose;
     }
 
-    /* code is straight from xine_init_post()
-       can't use that function as it only dlopens the plugins
-       and our plugin is statically linked in */
+    // code is straight from xine_init_post() can't use that function as it only dlopens the plugins and our plugin is statically linked in
 
     post_plugin->running_ticket = xine->port_ticket;
     post_plugin->xine = xine;
 
     /* scope_plugin_t init */
-    scope_plugin->list = calloc( 1, sizeof(MyNode) );
+    scope_plugin->list = calloc(1, sizeof(MyNode));
     scope_plugin->list->next = scope_plugin->list;
 
     return &post_plugin->xine_post;
 }
 
-MyNode* scope_plugin_list( void *post ) {
+MyNode* scope_plugin_list(void *post) {
     return ((scope_plugin_t*)post)->list;
 }
 
-int scope_plugin_channels( void *post ) {
+int scope_plugin_channels(void *post) {
     return ((scope_plugin_t*)post)->channels;
 }
 
-metronom_t* scope_plugin_metronom( void *post ) {
+metronom_t* scope_plugin_metronom(void *post) {
     return &((scope_plugin_t*)post)->metronom;
 }

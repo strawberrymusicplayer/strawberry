@@ -42,8 +42,9 @@
 class QModelIndex;
 class QShowEvent;
 
-class Appearance;
 class Application;
+class Player;
+class Appearance;
 class CollectionDirectoryModel;
 class GlobalShortcuts;
 class SettingsPage;
@@ -88,6 +89,8 @@ public:
   bool is_loading_settings() const { return loading_settings_; }
 
   Application *app() const { return app_; }
+  Player *player() const { return player_; }
+  EngineBase *engine() const { return engine_; }
   CollectionDirectoryModel *collection_directory_model() const { return model_; }
   GlobalShortcuts *global_shortcuts_manager() const { return manager_; }
   Appearance *appearance() const { return appearance_; }
@@ -122,6 +125,8 @@ private:
 
 private:
   Application *app_;
+  Player *player_;
+  EngineBase *engine_;
   CollectionDirectoryModel *model_;
   GlobalShortcuts *manager_;
   Appearance *appearance_;

@@ -125,21 +125,4 @@ void Collection::CurrentSongChanged(const Song &song) {
     connect(reply, SIGNAL(Finished(bool)), reply, SLOT(deleteLater()));
   }
 
-  if (song.filetype() == Song::Type_Asf) {
-    current_wma_song_url_ = song.url();
-  }
-}
-
-SongList Collection::FilterCurrentWMASong(SongList songs, Song* queued) {
-
-  for (SongList::iterator it = songs.begin(); it != songs.end(); ) {
-    if (it->url() == current_wma_song_url_) {
-      *queued = *it;
-      it = songs.erase(it);
-    }
-    else {
-      ++it;
-    }
-  }
-  return songs;
 }

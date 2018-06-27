@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,12 @@
  * 
  */
 
-#ifndef ENGINETYPE_H
-#define ENGINETYPE_H
+#ifndef MAIN_H
+#define MAIN_H
 
 #include "config.h"
 
-#include <QMetaType>
-#include <QString>
+int main(int argc, char* argv[]);
+void main_exit_safe(int ret);
 
-namespace Engine {
-    
-enum EngineType {
-  None,
-  GStreamer,
-  VLC,
-  Xine,
-  Phonon
-};
-
-Engine::EngineType EngineTypeFromName(QString enginename);
-QString EngineName(Engine::EngineType enginetype);
-QString EngineDescription(Engine::EngineType enginetype);
-
-}
-Q_DECLARE_METATYPE(Engine::EngineType);
-
-#endif
+#endif  // MAIN_H

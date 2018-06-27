@@ -74,19 +74,12 @@ class Collection : public QObject {
   void Stopped();
 
  private:
-  SongList FilterCurrentWMASong(SongList songs, Song* queued);
-
- private:
   Application *app_;
   CollectionBackend *backend_;
   CollectionModel *model_;
 
   CollectionWatcher *watcher_;
   Thread *watcher_thread_;
-
-  // Hack: Gstreamer doesn't cope well with WMA files being rewritten while being played,
-  // so we delay statistics and rating changes until the current song has finished playing.
-  QUrl current_wma_song_url_;
 
   // DB schema versions which should trigger a full collection rescan (each of those with a short reason why).
   QHash<int, QString> full_rescan_revisions_;

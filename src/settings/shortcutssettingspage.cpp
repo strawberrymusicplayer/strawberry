@@ -72,7 +72,7 @@ GlobalShortcutsSettingsPage::~GlobalShortcutsSettingsPage() { delete ui_; }
 
 bool GlobalShortcutsSettingsPage::IsEnabled() const {
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
   qLog(Debug) << Utilities::GetMacVersion();
   if (Utilities::GetMacVersion() < 6) {  // Leopard and earlier.
     return false;

@@ -99,6 +99,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     GroupBy_Disc = 12,
     GroupBy_OriginalYearAlbum = 13,
     GroupBy_OriginalYear = 14,
+    GroupBy_Samplerate = 15,
+    GroupBy_Bitdepth = 16
   };
 
   struct Grouping {

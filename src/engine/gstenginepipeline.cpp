@@ -62,9 +62,8 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       engine_(engine),
       id_(sId++),
       valid_(false),
-      sink_(GstEngine::kAutoSink),
-      segment_start_(0),
-      segment_start_received_(false),
+      output_(""),
+      device_(""),
       eq_enabled_(false),
       eq_preamp_(0),
       stereo_balance_(0.0f),
@@ -76,6 +75,8 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       buffer_min_fill_(33),
       buffering_(false),
       mono_playback_(false),
+      segment_start_(0),
+      segment_start_received_(false),
       end_offset_nanosec_(-1),
       next_beginning_offset_nanosec_(-1),
       next_end_offset_nanosec_(-1),
@@ -108,9 +109,9 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
 
 }
 
-void GstEnginePipeline::set_output_device(const QString &sink, const QVariant &device) {
+void GstEnginePipeline::set_output_device(const QString &output, const QVariant &device) {
 
-  sink_ = sink;
+  output_ = output;
   device_ = device;
 
 }
@@ -194,12 +195,16 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // Audio bin
   audiobin_ = gst_bin_new("audiobin");
+  if (!audiobin_) return false;
 
   // Create the sink
-  audiosink_ = engine_->CreateElement(sink_, audiobin_);
-  if (!audiosink_) return false;
+  audiosink_ = engine_->CreateElement(output_, audiobin_);
+  if (!audiosink_) {
+    gst_object_unref(GST_OBJECT(audiobin_));
+    return false;
+  }
 
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "device") && device_.isValid()) {
+  if (device_.isValid() && g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "device")) {
     switch (device_.type()) {
       case QVariant::Int:
         g_object_set(G_OBJECT(audiosink_), "device", device_.toInt(), nullptr);
@@ -238,6 +243,7 @@ bool GstEnginePipeline::InitAudioBin() {
   convert = engine_->CreateElement("audioconvert", audiobin_);
 
   if (!queue_ || !audioconvert_ || !tee || !probe_queue || !probe_converter || !probe_sink || !audio_queue || !volume_ || !audioscale_ || !convert) {
+    gst_object_unref(GST_OBJECT(audiobin_));
     return false;
   }
 

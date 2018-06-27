@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +60,8 @@
   #include <windows.h>
   #include <iostream>
 #endif  // Q_OS_WIN32
+
+#include "main.h"
 
 #include "core/logging.h"
 
@@ -132,6 +135,7 @@ int main(int argc, char* argv[]) {
         qLog(Info) << "Strawberry is already running - activating existing window";
       }
       if (a.sendMessage(options.Serialize(), 5000)) {
+	main_exit_safe(0);
         return 0;
       }
       // Couldn't send the message so start anyway
@@ -175,8 +179,8 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setAttribute(Qt::AA_NativeWindows, true);
 #endif
 
-// Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
-// On Windows these are stored in the registry instead.
+  // Set the permissions on the config file on Unix - it can contain passwords for internet services so it's important that other users can't read it.
+  // On Windows these are stored in the registry instead.
 #ifdef Q_OS_UNIX
   {
     QSettings s;
@@ -226,17 +230,44 @@ int main(int argc, char* argv[]) {
 
   int ret = a.exec();
 
+  main_exit_safe(ret);
+
+  return ret;
+}
+
+void main_exit_safe(int ret) {
+
 #ifdef Q_OS_LINUX
+  bool have_nvidia = false;
+
+  QFile proc_modules("/proc/modules");
+  if (proc_modules.open(QIODevice::ReadOnly)) {
+    forever {
+      QByteArray line = proc_modules.readLine();
+      if (line.startsWith("nvidia ") || line.startsWith("nvidia_")) {
+        have_nvidia = true;
+      }
+      if (proc_modules.atEnd()) break;
+    }
+    proc_modules.close();
+  }
+
   QFile self_maps("/proc/self/maps");
   if (self_maps.open(QIODevice::ReadOnly)) {
-    QByteArray data = self_maps.readAll();
-    if (data.contains("libnvidia-tls.so.")) {
-      qLog(Warning) << "Exiting immediately to work around NVIDIA driver bug";
-      _exit(ret);
+    forever {
+      QByteArray line = self_maps.readLine();
+      if (line.startsWith("libnvidia-")) {
+        have_nvidia = true;
+      }
+      if (self_maps.atEnd()) break;
     }
     self_maps.close();
   }
+
+  if (have_nvidia) {
+    qLog(Warning) << "Exiting immediately to work around NVIDIA driver bug.";
+    _exit(ret);
+  }
 #endif
 
-  return ret;
 }

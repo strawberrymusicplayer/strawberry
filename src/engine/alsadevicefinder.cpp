@@ -35,8 +35,7 @@
 #include "alsadevicefinder.h"
 
 AlsaDeviceFinder::AlsaDeviceFinder()
-    : DeviceFinder("alsa", "alsasink") {
-
+    : DeviceFinder("alsa", {"alsa","alsasink"}) {
 }
 
 QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {

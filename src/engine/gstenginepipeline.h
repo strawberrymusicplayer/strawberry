@@ -179,14 +179,8 @@ signals:
 
   // General settings for the pipeline
   bool valid_;
-  QString sink_;
+  QString output_;
   QVariant device_;
-
-  // These get called when there is a new audio buffer available
-  QList<GstBufferConsumer*> buffer_consumers_;
-  QMutex buffer_consumers_mutex_;
-  qint64 segment_start_;
-  bool segment_start_received_;
 
   // Equalizer
   bool eq_enabled_;
@@ -210,6 +204,12 @@ signals:
   bool buffering_;
 
   bool mono_playback_;
+  
+  // These get called when there is a new audio buffer available
+  QList<GstBufferConsumer*> buffer_consumers_;
+  QMutex buffer_consumers_mutex_;
+  qint64 segment_start_;
+  bool segment_start_received_;
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
   QByteArray url_;

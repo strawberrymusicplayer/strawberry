@@ -110,6 +110,12 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_Bitrate: {
       return tr("Bitrate");
     }
+    case CollectionModel::GroupBy_Samplerate: {
+      return tr("Sample rate");
+    }
+    case CollectionModel::GroupBy_Bitdepth: {
+      return tr("Bit depth");
+    }
     case CollectionModel::GroupBy_Disc: {
       return tr("Disc");
     }

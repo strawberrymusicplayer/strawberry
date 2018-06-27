@@ -32,6 +32,11 @@
 #include "engine/enginetype.h"
 #include "dialogs/errordialog.h"
 #include "settingspage.h"
+#include "settingsdialog.h"
+
+#include "core/application.h"
+#include "core/player.h"
+#include "engine/enginebase.h"
 
 class SettingsDialog;
 class Ui_BackendSettingsPage;
@@ -44,13 +49,11 @@ public:
   ~BackendSettingsPage();
   
   static const char *kSettingsGroup;
-  static const char *EngineText_Xine;
-  static const char *EngineText_GStreamer;
-  static const char *EngineText_Phonon;
-  static const char *EngineText_VLC;
 
   void Load();
   void Save();
+
+  EngineBase *engine() const { return dialog()->app()->player()->engine(); }
 
  private slots:
   void EngineChanged(int index);
@@ -63,41 +66,24 @@ public:
 private:
   Ui_BackendSettingsPage *ui_;
   
+  void ConnectSignals();
+  bool EngineInitialised();
+  
   void EngineChanged(Engine::EngineType enginetype);
-  void OutputChanged(int index, Engine::EngineType enginetype);
 
   void Load_Engine(Engine::EngineType enginetype);
-  void Load_Device(QString output, QVariant device, bool alsa = false, bool pulseaudio = false, bool directsound = false, bool osxaudio = false, bool custom = false);
-
-#ifdef HAVE_XINE
-  void Xine_Load(QString output, QVariant device);
-  void Xine_Save();
-  void Xine_OutputChanged(int index);
-#endif
-
-#ifdef HAVE_GSTREAMER
-  void Gst_Load(QString output, QVariant device);
-  void Gst_Save();
-  void Gst_OutputChanged(int index);
-#endif
+  void Load_Output(QString output, QVariant device);
+  void Load_Device(QString output, QVariant device);
+  void ShowWarning(QString text);
+  void ResetWarning();
+  void XineWarning();
   
-#ifdef HAVE_PHONON
-  void Phonon_Load(QString output, QVariant device);
-  void Phonon_Save();
-  void Phonon_OutputChanged(int index);
-#endif
-
-#ifdef HAVE_VLC
-  void VLC_Load(QString output, QVariant device);
-  void VLC_Save();
-  void VLC_OutputChanged(int index);
-#endif
-  
-  bool configloaded_;
-  Engine::EngineType engineloaded_;
   QSettings s_;
+  bool configloaded_;
+  bool engineloaded_;
   ErrorDialog errordialog_;
   bool enginereset_;
+  bool xinewarning_;
   
 };
 

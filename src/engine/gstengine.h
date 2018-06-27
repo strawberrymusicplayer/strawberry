@@ -1,7 +1,8 @@
 /***************************************************************************
+ *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
- *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>       *
+ *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -65,34 +66,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   GstEngine(TaskManager *task_manager);
   ~GstEngine();
 
-  static const char *kAutoSink;
-
   bool Init();
-  void EnsureInitialised() { initialising_.waitForFinished(); }
-  void InitialiseGStreamer();
-  void SetEnvironment();
-  
-  OutputDetailsList GetOutputsList() const;
-
-  qint64 position_nanosec() const;
-  qint64 length_nanosec() const;
   Engine::State state() const;
-  const Engine::Scope &scope(int chunk_length);
-
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
-
-  // BufferConsumer
-  void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
-
-  bool IsEqualizerEnabled() { return equalizer_enabled_; }
-
-  static bool ALSADeviceSupport(const QString &name);
-  static bool PulseDeviceSupport(const QString &name);
-  static bool DirectSoundDeviceSupport(const QString &name);
-  static bool OSXAudioDeviceSupport(const QString &name);
-  static bool CustomDeviceSupport(const QString &name);
-
- public slots:
   void StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec);
   bool Load(const QUrl &, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   bool Play(quint64 offset_nanosec);
@@ -100,6 +75,28 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void Pause();
   void Unpause();
   void Seek(quint64 offset_nanosec);
+ protected:
+  void SetVolumeSW(uint percent);
+
+ public:
+  qint64 position_nanosec() const;
+  qint64 length_nanosec() const;
+  const Engine::Scope &scope(int chunk_length);
+
+  OutputDetailsList GetOutputsList() const;
+  QString DefaultOutput() { return kAutoSink; }
+  bool CustomDeviceSupport(const QString &name);
+
+  void EnsureInitialised() { initialising_.waitForFinished(); }
+  void InitialiseGStreamer();
+  void SetEnvironment();
+
+  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
+  void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
+
+ public slots:
+
+  void ReloadSettings();
 
   /** Set whether equalizer is enabled */
   void SetEqualizerEnabled(bool);
@@ -110,8 +107,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   /** Set Stereo balance, range -1.0f..1.0f */
   void SetStereoBalance(float value);
 
-  void ReloadSettings();
-
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);
 
@@ -120,7 +115,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 #endif
 
  protected:
-  void SetVolumeSW(uint percent);
   void timerEvent(QTimerEvent*);
 
  private slots:
@@ -139,6 +133,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
  private:
 
+  static const char *kAutoSink;
   static const char *kALSASink;
   static const char *kOpenALSASink;
   static const char *kOSSSink;
@@ -152,6 +147,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   static const char *kOSXAudioSink;
 
   PluginDetailsList GetPluginList(const QString &classname) const;
+  QByteArray FixupUrl(const QUrl &url);
 
   void StartFadeout();
   void StartFadeoutPause();
@@ -164,21 +160,16 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   std::shared_ptr<GstEnginePipeline> CreatePipeline(const QByteArray &url, qint64 end_nanosec);
 
   void UpdateScope(int chunk_length);
-  
-  QByteArray FixupUrl(const QUrl &url);
 
  private:
-  static const qint64 kTimerIntervalNanosec = 1000  *kNsecPerMsec;  // 1s
-  static const qint64 kPreloadGapNanosec = 3000  *kNsecPerMsec;     // 3s
-  static const qint64 kSeekDelayNanosec = 100  *kNsecPerMsec;       // 100msec
+  static const qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
+  static const qint64 kPreloadGapNanosec = 3000 * kNsecPerMsec;     // 3s
+  static const qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
   TaskManager *task_manager_;
   int buffering_task_id_;
 
   QFuture<void> initialising_;
-
-  QString sink_;
-  QVariant device_;
 
   std::shared_ptr<GstEnginePipeline> current_pipeline_;
   std::shared_ptr<GstEnginePipeline> fadeout_pipeline_;
@@ -189,21 +180,9 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   GstBuffer *latest_buffer_;
 
-  bool equalizer_enabled_;
   int equalizer_preamp_;
   QList<int> equalizer_gains_;
   float stereo_balance_;
-
-  bool rg_enabled_;
-  int rg_mode_;
-  float rg_preamp_;
-  bool rg_compression_;
-
-  qint64 buffer_duration_nanosec_;
-
-  int buffer_min_fill_;
-
-  bool mono_playback_;
 
   mutable bool can_decode_success_;
   mutable bool can_decode_last_;

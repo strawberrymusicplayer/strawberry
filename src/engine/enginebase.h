@@ -1,9 +1,10 @@
 /*
  * Strawberry Music Player
- * This file was part of Amarok / Clementine.
+ * This file was part of Amarok / Clementine
  * Copyright 2003 Mark Kretschmann
- * Copyright 2004, 2005 Max Howell, <max.howell@methylblue.com>
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2004 - 2005 Max Howell, <max.howell@methylblue.com>
+ * Copyright 2010 David Sansome <me@davidsansome.com>
+ * Copyright 2017 - 2018 Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +35,7 @@
 #include <QObject>
 #include <QList>
 #include <QMetaType>
+#include <QVariant>
 #include <QString>
 #include <QUrl>
 
@@ -49,51 +51,12 @@ typedef std::vector<int16_t> Scope;
 class Base : public QObject {
   Q_OBJECT
 
- public:
+protected:
+  Base();
+
+public:
 
   virtual ~Base();
-
-  virtual bool Init() = 0;
-
-  virtual void StartPreloading(const QUrl&, bool, qint64, qint64) {}
-  virtual bool Play(quint64 offset_nanosec) = 0;
-  virtual void Stop(bool stop_after = false) = 0;
-  virtual void Pause() = 0;
-  virtual void Unpause() = 0;
-  virtual void Seek(quint64 offset_nanosec) = 0;
-
-  virtual State state() const = 0;
-  virtual qint64 position_nanosec() const = 0;
-  virtual qint64 length_nanosec() const = 0;
-
-  // Subclasses should respect given markers (beginning and end) which are in miliseconds.
-  virtual bool Load(const QUrl &url, TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  // Sets new values for the beginning and end markers of the currently playing song.
-  // This doesn't change the state of engine or the stream's current position.
-  virtual void RefreshMarkers(quint64 beginning_nanosec, qint64 end_nanosec) {
-    beginning_nanosec_ = beginning_nanosec;
-    end_nanosec_ = end_nanosec;
-  }
-
-  // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
-  // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &u, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-
-  void SetVolume(uint value);
-
-  // Simple accessors
-  EngineType type() const { return type_; }
-  inline uint volume() const { return volume_; }
-  virtual const Scope &scope(int chunk_length) { return scope_; }
-  bool is_fadeout_enabled() const { return fadeout_enabled_; }
-  bool is_crossfade_enabled() const { return crossfade_enabled_; }
-  bool is_autocrossfade_enabled() const { return autocrossfade_enabled_; }
-  bool crossfade_same_album() const { return crossfade_same_album_; }
-
-  static const int kScopeSize = 1024;
-  
-  virtual void SetVolumeSW(uint percent) = 0;
-  static uint MakeVolumeLogarithmic(uint volume);
 
   struct OutputDetails {
     QString name;
@@ -102,9 +65,60 @@ class Base : public QObject {
   };
   typedef QList<OutputDetails> OutputDetailsList;
 
- public slots:
+  virtual bool Init() = 0;
+  virtual State state() const = 0;
+  virtual void StartPreloading(const QUrl&, bool, qint64, qint64) {}
+  virtual bool Load(const QUrl &url, TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  virtual bool Play(quint64 offset_nanosec) = 0;
+  virtual void Stop(bool stop_after = false) = 0;
+  virtual void Pause() = 0;
+  virtual void Unpause() = 0;
+  virtual void Seek(quint64 offset_nanosec) = 0;
+  virtual void SetVolumeSW(uint percent) = 0;
+
+  virtual qint64 position_nanosec() const = 0;
+  virtual qint64 length_nanosec() const = 0;
+  
+  virtual const Scope &scope(int chunk_length) { return scope_; }
+
+  // Sets new values for the beginning and end markers of the currently playing song.
+  // This doesn't change the state of engine or the stream's current position.
+  virtual void RefreshMarkers(quint64 beginning_nanosec, qint64 end_nanosec) {
+    beginning_nanosec_ = beginning_nanosec;
+    end_nanosec_ = end_nanosec;
+  }
+
+  virtual OutputDetailsList GetOutputsList() const = 0;
+  virtual QString DefaultOutput() = 0;
+  virtual bool CustomDeviceSupport(const QString &name) = 0;
+
+  // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
+  // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
+  bool Play(const QUrl &u, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  void SetVolume(uint value);
+  static uint MakeVolumeLogarithmic(uint volume);
+
+public slots:
   virtual void ReloadSettings();
 
+protected:
+  void EmitAboutToEnd();
+  
+public:
+
+  // Simple accessors
+  EngineType type() const { return type_; }
+  inline uint volume() const { return volume_; }
+
+  bool is_fadeout_enabled() const { return fadeout_enabled_; }
+  bool is_crossfade_enabled() const { return crossfade_enabled_; }
+  bool is_autocrossfade_enabled() const { return autocrossfade_enabled_; }
+  bool crossfade_same_album() const { return crossfade_same_album_; }
+  bool IsEqualizerEnabled() { return equalizer_enabled_; }
+
+  static const int kScopeSize = 1024;
+
+public slots:
   virtual void SetEqualizerEnabled(bool) {}
   virtual void SetEqualizerParameters(int preamp, const QList<int> &bandGains) {}
   virtual void SetStereoBalance(float value) {}
@@ -132,28 +146,8 @@ signals:
   // subsequent call to state() won't return a stale value.
   void StateChanged(Engine::State);
 
- protected:
-  Base();
+protected:
 
-  void EmitAboutToEnd();
-
- protected:
-  EngineType type_;
-  uint volume_;
-  quint64 beginning_nanosec_;
-  qint64 end_nanosec_;
-  QUrl url_;
-  Scope scope_;
-
-  bool fadeout_enabled_;
-  qint64 fadeout_duration_nanosec_;
-  bool crossfade_enabled_;
-  bool autocrossfade_enabled_;
-  bool crossfade_same_album_;
-  int next_background_stream_id_;
-  bool fadeout_pause_enabled_;
-  qint64 fadeout_pause_duration_nanosec_;
-  
   struct PluginDetails {
     QString name;
     QString description;
@@ -161,7 +155,43 @@ signals:
   };
   typedef QList<PluginDetails> PluginDetailsList;
 
- private:
+  EngineType type_;
+  uint volume_;
+  quint64 beginning_nanosec_;
+  qint64 end_nanosec_;
+  QUrl url_;
+  Scope scope_;
+  bool buffering_;
+  bool equalizer_enabled_;
+
+  // Settings
+  QString output_;
+  QVariant device_;
+
+  // ReplayGain
+  bool rg_enabled_;
+  int rg_mode_;
+  float rg_preamp_;
+  bool rg_compression_;
+
+  // Buffering
+  quint64 buffer_duration_nanosec_;
+  int buffer_min_fill_;
+
+  bool mono_playback_;
+
+  // Fadeout
+  bool fadeout_enabled_;
+  bool crossfade_enabled_;
+  bool autocrossfade_enabled_;
+  bool crossfade_same_album_;
+  bool fadeout_pause_enabled_;
+  qint64 fadeout_duration_;
+  qint64 fadeout_duration_nanosec_;
+  qint64 fadeout_pause_duration_;
+  qint64 fadeout_pause_duration_nanosec_;
+
+private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base);
   

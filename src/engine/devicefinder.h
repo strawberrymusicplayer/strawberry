@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2014, David Sansome <me@davidsansome.com>
+ * Copyright 2017, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,8 +42,9 @@ class DeviceFinder {
 
   virtual ~DeviceFinder() {}
 
-  // The name of the gstreamer sink element that devices found by this class can be used with.
   QString name() const { return name_; }
+  QStringList outputs() const { return outputs_; }
+  void add_output(const QString output) { outputs_.append(output); }
 
   // Does any necessary setup, returning false if this DeviceFinder cannot be used.
   virtual bool Initialise() = 0;
@@ -51,13 +53,13 @@ class DeviceFinder {
   virtual QList<Device> ListDevices() = 0;
 
  protected:
-  explicit DeviceFinder(const QString &name, const QString &gstsink);
+  explicit DeviceFinder(const QString &name, const QStringList &outputs);
 
   static QString GuessIconName(const QString &description);
 
  private:
   QString name_;
-  QString gstsink_;
+  QStringList outputs_;
 
 };
 

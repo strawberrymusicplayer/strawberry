@@ -1127,7 +1127,7 @@ QString Playlist::column_name(Column column) {
     case Column_Samplerate:   return tr("Sample rate");
     case Column_Bitdepth:   return tr("Bit depth");
     case Column_SamplerateBitdepth:   return tr("Sample rate B");
-    case Column_Bitrate:      return tr("Bit rate");
+    case Column_Bitrate:      return tr("Bitrate");
 
     case Column_Filename:     return tr("File name");
     case Column_BaseFilename: return tr("File name (without path)");

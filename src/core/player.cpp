@@ -75,8 +75,6 @@ using std::shared_ptr;
 Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
     app_(app),
-    //engine_(new GstEngine(app_->task_manager())),
-    //engine_(CreateEngine()),
     stream_change_type_(Engine::First),
     last_state_(Engine::Empty),
     nb_errors_received_(0),
@@ -88,7 +86,7 @@ Player::Player(Application *app, QObject *parent)
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", BackendSettingsPage::EngineText_GStreamer).toString().toLower());
+  Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
   s.endGroup();
 
   CreateEngine(enginetype);
@@ -129,18 +127,18 @@ EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
         enginebase = new XineEngine(app_->task_manager());
         break;
 #endif
-#ifdef HAVE_PHONON
-      case Engine::Phonon:
-	engine=true;
-	enginetype=Engine::Phonon;
-        enginebase = new PhononEngine(app_->task_manager());
-        break;
-#endif
 #ifdef HAVE_VLC
       case Engine::VLC:
         engine=true;
 	enginetype=Engine::VLC;
         enginebase = new VLCEngine(app_->task_manager());
+        break;
+#endif
+#ifdef HAVE_PHONON
+      case Engine::Phonon:
+	engine=true;
+	enginetype=Engine::Phonon;
+        enginebase = new PhononEngine(app_->task_manager());
         break;
 #endif
       default:
@@ -149,7 +147,7 @@ EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
         s.beginGroup(BackendSettingsPage::kSettingsGroup);
 	s.setValue("engine", "");
         s.setValue("output", "");
-        s.setValue("device", "");
+        s.setValue("device", QVariant(""));
         s.endGroup();
 	enginetype = Engine::None;
 	break;
@@ -158,7 +156,7 @@ EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  s.setValue("engine", Engine::EngineNameFromType(enginetype));
+  s.setValue("engine", Engine::EngineName(enginetype));
   s.endGroup();
 
   if (enginebase == nullptr) {
@@ -226,7 +224,7 @@ void Player::ReloadSettings() {
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
   s.endGroup();
 
-  engine_->ReloadSettings();
+  if (engine_.get()) engine_->ReloadSettings();
 
 }
 

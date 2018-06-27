@@ -219,7 +219,8 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
           case GroupBy_Genre:       key = song.genre(); break;
           case GroupBy_AlbumArtist: key = song.effective_albumartist(); break;
           case GroupBy_Year:
-            key = QString::number(qMax(0, song.year())); break;
+            key = QString::number(qMax(0, song.year()));
+	    break;
           case GroupBy_OriginalYear:
             key = QString::number(qMax(0, song.effective_originalyear()));
             break;
@@ -227,14 +228,19 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
             key = PrettyYearAlbum(qMax(0, song.year()), song.album());
             break;
           case GroupBy_OriginalYearAlbum:
-            key = PrettyYearAlbum(qMax(0, song.effective_originalyear()),
-                                  song.album());
+            key = PrettyYearAlbum(qMax(0, song.effective_originalyear()), song.album());
             break;
           case GroupBy_FileType:
             key = song.filetype();
             break;
           case GroupBy_Bitrate:
             key = song.bitrate();
+            break;
+          case GroupBy_Samplerate:
+            key = song.samplerate();
+            break;
+          case GroupBy_Bitdepth:
+            key = song.bitdepth();
             break;
           case GroupBy_None:
             qLog(Error) << "GroupBy_None";
@@ -325,6 +331,12 @@ QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
 
     case GroupBy_Bitrate:
       return SortTextForNumber(item->metadata.bitrate());
+      
+    case GroupBy_Samplerate:
+      return SortTextForNumber(item->metadata.samplerate());
+      
+    case GroupBy_Bitdepth:
+      return SortTextForNumber(item->metadata.bitdepth());
 
     case GroupBy_None:
       return QString();
@@ -362,6 +374,14 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
       return QString::number(key.toInt());  // To remove leading 0s
 
     case GroupBy_Bitrate:
+      if (key == "000") return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+      
+    case GroupBy_Samplerate:
+      if (key == "000") return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+      
+    case GroupBy_Bitdepth:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
@@ -836,6 +856,12 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
     case GroupBy_Bitrate:
       q->SetColumnSpec("DISTINCT bitrate");
       break;
+    case GroupBy_Samplerate:
+      q->SetColumnSpec("DISTINCT samplerate");
+      break;
+    case GroupBy_Bitdepth:
+      q->SetColumnSpec("DISTINCT bitdepth");
+      break;
     case GroupBy_None:
       q->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
       break;
@@ -911,6 +937,12 @@ void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, Collection
     case GroupBy_Bitrate:
       q->AddWhere("bitrate", item->key);
       break;
+    case GroupBy_Samplerate:
+      q->AddWhere("samplerate", item->key);
+      break;
+    case GroupBy_Bitdepth:
+      q->AddWhere("bitdepth", item->key);
+      break;
     case GroupBy_None:
       qLog(Error) << "Unknown GroupBy type" << type << "used in filter";
       break;
@@ -936,10 +968,7 @@ CollectionItem *CollectionModel::InitItem(GroupBy type, bool signal, CollectionI
 CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const SqlRow &row, int container_level) {
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
-  int year = 0;
-  int effective_originalyear = 0;
-  int bitrate = 0;
-  int disc = 0;
+  int year(0), effective_originalyear(0), disc(0), bitrate(0), samplerate(0), bitdepth(0);
 
   switch (type) {
     case GroupBy_Artist:
@@ -972,13 +1001,11 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->key = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
-
     case GroupBy_OriginalYear:
       year = qMax(0, row.value(0).toInt());
       item->key = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
-
     case GroupBy_Composer:
     case GroupBy_Performer:
     case GroupBy_Grouping:
@@ -1006,6 +1033,18 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->key = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
+      
+    case GroupBy_Samplerate:
+      samplerate = qMax(0, row.value(0).toInt());
+      item->key = QString::number(samplerate);
+      item->sort_text = SortTextForNumber(samplerate) + " ";
+      break;
+      
+    case GroupBy_Bitdepth:
+      bitdepth = qMax(0, row.value(0).toInt());
+      item->key = QString::number(bitdepth);
+      item->sort_text = SortTextForNumber(bitdepth) + " ";
+      break;
 
     case GroupBy_None:
       item->metadata.InitFromQuery(row, true);
@@ -1024,10 +1063,7 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
 CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const Song &s, int container_level) {
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
-  int year = 0;
-  int originalyear = 0;
-  int effective_originalyear = 0;
-  int bitrate = 0;
+  int year(0), originalyear(0), effective_originalyear(0), bitrate(0), samplerate(0), bitdepth(0);
 
   switch (type) {
     case GroupBy_Artist:
@@ -1091,6 +1127,18 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       bitrate = qMax(0, s.bitrate());
       item->key = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
+      break;
+      
+    case GroupBy_Samplerate:
+      samplerate = qMax(0, s.samplerate());
+      item->key = QString::number(samplerate);
+      item->sort_text = SortTextForNumber(samplerate) + " ";
+      break;
+      
+    case GroupBy_Bitdepth:
+      bitdepth = qMax(0, s.bitdepth());
+      item->key = QString::number(bitdepth);
+      item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
 
     case GroupBy_None:

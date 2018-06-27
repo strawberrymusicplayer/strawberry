@@ -53,7 +53,6 @@ if(HAVE_GSTREAMER)
   include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
   include_directories(${GSTREAMER_BASE_INCLUDE_DIRS})
   include_directories(${GSTREAMER_TAG_INCLUDE_DIRS})
-  include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
 endif()
 
 if(HAVE_PHONON)
@@ -503,7 +502,7 @@ optional_source(HAVE_GSTREAMER
 
 # Xine
 optional_source(HAVE_XINE
-  SOURCES engine/xineengine.cpp engine/xinescope.c
+  SOURCES engine/xineengine.cpp engine/xinescope.c engine/xinefader.cpp
   HEADERS engine/xineengine.h
 )
 
@@ -863,7 +862,7 @@ if(HAVE_ALSA)
 endif(HAVE_ALSA)
 
 if(HAVE_GSTREAMER)
-  target_link_libraries(strawberry_lib ${GSTREAMER_LIBRARIES} ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_AUDIO_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES} ${GSTREAMER_PBUTILS_LIBRARIES})
+  target_link_libraries(strawberry_lib ${GSTREAMER_LIBRARIES} ${GSTREAMER_BASE_LIBRARIES} ${GSTREAMER_AUDIO_LIBRARIES} ${GSTREAMER_APP_LIBRARIES} ${GSTREAMER_TAG_LIBRARIES})
 endif()
 
 if(HAVE_XINE)

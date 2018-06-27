@@ -1,18 +1,22 @@
-/* This file is part of Clementine.
-
-   Clementine is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   Clementine is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine
+ * Copyright 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #include "config.h"
 
@@ -24,22 +28,42 @@
 #include <QByteArray>
 #include <QUrl>
 
+#include "core/timeconstants.h"
+#include "core/taskmanager.h"
+#include "core/logging.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "enginetype.h"
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
-VLCEngine *VLCEngine::sInstance = NULL;
+VLCEngine *VLCEngine::sInstance = nullptr;
 
 VLCEngine::VLCEngine(TaskManager *task_manager)
-  : instance_(NULL),
-    player_(NULL),
-    scope_data_(4096),
-    state_(Engine::Empty)
+  : instance_(nullptr),
+    player_(nullptr),
+    state_(Engine::Empty),
+    scope_data_(4096)
 {
+
+  Init();
+
+}
+
+VLCEngine::~VLCEngine() {
     
-#if 1
+  libvlc_media_player_stop(player_);
+  libvlc_media_player_release(player_);
+  libvlc_release(instance_);
+  HandleErrors();
+
+}
+
+bool VLCEngine::Init() {
+
+  type_ = Engine::VLC;
+
+/* FIXME: Do we need this?
   static const char  *const args[] = {
     "-I", "dummy",        // Don't use any interface
     "--ignore-config",    // Don't use VLC's config
@@ -47,22 +71,22 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
     "--verbose=2",        // be much more verbose then normal for debugging purpose
 
     // Our scope plugin
-    "--audio-filter=clementine_scope",
+    "--audio-filter=strawberry_scope",
     "--no-plugins-cache",
 
     // Try to stop audio stuttering
     "--file-caching=500", // msec
     "--http-caching=500",
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#ifdef HAVE_ALSA_
     "--aout=alsa",        // The default, pulseaudio, is buggy
 #endif
   };
-#endif
+*/
 
   // Create the VLC instance
-  //libvlc_exception_init(&exception_);
-  instance_ = libvlc_new(sizeof(args) / sizeof(args[0]), args);
+  instance_ = libvlc_new(0, nullptr);
+  //instance_ = libvlc_new(sizeof(args) / sizeof(args[0]), args);
   HandleErrors();
 
   // Create the media player
@@ -84,15 +108,198 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
   HandleErrors();
 
   sInstance = this;
+
+  return true;
+
 }
 
-VLCEngine::~VLCEngine() {
-    
+bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+
+  // Create the media object
+  VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, url.toEncoded().constData()));
+
+  libvlc_media_player_set_media(player_, media);
+
+  return true;
+
+}
+
+bool VLCEngine::Play(quint64 offset_nanosec) {
+
+  // Set audio output
+  if (!output_.isEmpty() || output_ != "auto") {
+    int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
+    if (result != 0) qLog(Error) << "Failed to set output.";
+  }
+
+  // Set audio device
+  if (device_.isValid() && device_.type() == QVariant::String && !device_.toString().isEmpty()) {
+    libvlc_audio_output_device_set(player_, nullptr, device_.toString().toLocal8Bit().data());
+  }
+
+  int result = libvlc_media_player_play(player_);
+  if (result != 0) return false;
+
+  Seek(offset_nanosec);
+
+  return true;
+  
+
+}
+
+void VLCEngine::Stop(bool stop_after) {
+
   libvlc_media_player_stop(player_);
-  libvlc_media_player_release(player_);
-  libvlc_release(instance_);
   HandleErrors();
 
+}
+
+void VLCEngine::Pause() {
+    
+  libvlc_media_player_pause(player_);
+  HandleErrors();
+
+}
+
+void VLCEngine::Unpause() {
+    
+  libvlc_media_player_play(player_);
+  HandleErrors();
+
+}
+
+void VLCEngine::Seek(quint64 offset_nanosec) {
+
+ int offset = (offset_nanosec / kNsecPerMsec);
+
+  uint len = length();
+  if (len == 0) return;
+
+  float pos = float(offset) / len;
+
+  libvlc_media_player_set_position(player_, pos);
+  HandleErrors();
+
+}
+
+void VLCEngine::SetVolumeSW(uint percent) {
+    
+  libvlc_audio_set_volume(player_, percent);
+  HandleErrors();
+}
+
+qint64 VLCEngine::position_nanosec() const {
+  if (state() == Engine::Empty) return 0;
+  const qint64 result = (position() * kNsecPerMsec);
+  return qint64(qMax(0ll, result));
+
+}
+
+qint64 VLCEngine::length_nanosec() const {
+  if (state() == Engine::Empty) return 0;
+  const qint64 result = (end_nanosec_ - beginning_nanosec_);
+  if (result > 0) {
+    return result;
+  }
+  else {
+    // Get the length from the pipeline if we don't know.
+    return (length() * kNsecPerMsec);
+  }
+}
+
+const Engine::Scope &VLCEngine::Scope() {
+
+  QMutexLocker l(&scope_mutex_);
+
+  // Leave the scope unchanged if there's not enough data
+  if (scope_data_.size() < uint(kScopeSize))
+    return scope_;
+
+  // Take the samples off the front of the circular buffer
+  for (uint i=0 ; i<uint(kScopeSize) ; ++i)
+    scope_[i] = scope_data_[i] * (1 << 15);
+
+  // Remove the samples from the buffer.  Unfortunately I think this is O(n) :(
+  scope_data_.rresize(qMax(0, int(scope_data_.size()) - kScopeSize*2));
+
+  return scope_;
+
+}
+
+EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
+
+  OutputDetailsList ret;
+
+  PluginDetailsList plugins = GetPluginList();
+  for (const PluginDetails &plugin : plugins) {
+    OutputDetails output;
+    output.name = plugin.name;
+    output.description = plugin.description;
+    if (plugin.name == "auto") output.iconname = "soundcard";
+    else if ((plugin.name == "alsa")||(plugin.name == "oss")) output.iconname = "alsa";
+    else if (plugin.name== "jack") output.iconname = "jack";
+    else if (plugin.name == "pulse") output.iconname = "pulseaudio";
+    else if (plugin.name == "afile") output.iconname = "document-new";
+    else output.iconname = "soundcard";
+    ret.append(output);
+  }
+
+  return ret;
+
+}
+
+bool VLCEngine::CustomDeviceSupport(const QString &name) {
+  return (name == "auto" ? false : true);
+}
+
+uint VLCEngine::position() const {
+
+  bool is_playing = libvlc_media_player_is_playing(player_);
+  HandleErrors();
+
+  if (!is_playing) return 0;
+
+  float pos = libvlc_media_player_get_position(player_);
+  HandleErrors();
+
+  return (pos * length());
+
+}
+
+uint VLCEngine::length() const {
+
+  bool is_playing = libvlc_media_player_is_playing(player_);
+  HandleErrors();
+
+  if (!is_playing) return 0;
+
+  libvlc_time_t len = libvlc_media_player_get_length(player_);
+  HandleErrors();
+
+  return len;
+
+}
+
+bool VLCEngine::CanDecode(const QUrl &url) {
+    
+  // TODO
+  return true;
+}
+
+void VLCEngine::SetScopeData(float *data, int size) {
+
+  if (!sInstance) return;
+
+  QMutexLocker l(&sInstance->scope_mutex_);
+
+  // This gets called by our VLC plugin.  Just push the data on to the end of the circular buffer and let it get consumed by scope()
+  for (int i=0 ; i<size ; ++i) {
+    sInstance->scope_data_.push_back(data[i]);
+  }
+
+}
+
+void VLCEngine::HandleErrors() const {
 }
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
@@ -133,167 +340,37 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
 
 }
 
-bool VLCEngine::Init() {
+EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
 
-  type_ = Engine::VLC;
-    
-  return true;
-}
+  PluginDetailsList ret;
+  libvlc_audio_output_t *audio_output_list = libvlc_audio_output_list_get(instance_);
 
-bool VLCEngine::CanDecode(const QUrl &url) {
-    
-  // TODO
-  return true;
-}
-
-bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
-
-  // Create the media object
-  VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, url.toEncoded().constData()));
-  //if (libvlc_exception_raised(&exception_))
-    //return false;
-
-  libvlc_media_player_set_media(player_, media);
-  //if (libvlc_exception_raised(&exception_))
-    //return false;
-
-  return true;
-
-}
-
-bool VLCEngine::Play(quint64 offset_nanosec) {
-
-  libvlc_media_player_play(player_);
-  //if (libvlc_exception_raised(&exception_))
-    //return false;
-
-  Seek(offset_nanosec);
-
-  return true;
-  
-
-}
-
-void VLCEngine::Stop(bool stop_after) {
-    
-  libvlc_media_player_stop(player_);
-  HandleErrors();
-}
-
-void VLCEngine::Pause() {
-    
-  libvlc_media_player_pause(player_);
-  HandleErrors();
-}
-
-void VLCEngine::Unpause() {
-    
-  libvlc_media_player_play(player_);
-  HandleErrors();
-}
-
-uint VLCEngine::position() const {
-
-  //bool is_playing = libvlc_media_player_is_playing(player_, const_cast<libvlc_exception_t*>(&exception_));
-  bool is_playing = libvlc_media_player_is_playing(player_);
-  HandleErrors();
-
-  if (!is_playing)
-    return 0;
-
-  //float pos = libvlc_media_player_get_position(player_, const_cast<libvlc_exception_t*>(&exception_));
-  float pos = libvlc_media_player_get_position(player_);
-  HandleErrors();
-
-  return pos * length();
-
-}
-
-uint VLCEngine::length() const {
-
-  //bool is_playing = libvlc_media_player_is_playing(player_, const_cast<libvlc_exception_t*>(&exception_));
-  bool is_playing = libvlc_media_player_is_playing(player_);
-  HandleErrors();
-
-  if (!is_playing)
-    return 0;
-
-  //libvlc_time_t len = libvlc_media_player_get_length(player_, const_cast<libvlc_exception_t*>(&exception_));
-  libvlc_time_t len = libvlc_media_player_get_length(player_);
-  HandleErrors();
-
-  return len;
-
-}
-
-void VLCEngine::Seek(quint64 offset_nanosec) {
-
-  uint len = length();
-  if (len == 0)
-    return;
-
-  float pos = float(offset_nanosec) / len;
-
-  libvlc_media_player_set_position(player_, pos);
-  HandleErrors();
-
-}
-
-void VLCEngine::SetVolumeSW(uint percent) {
-    
-  libvlc_audio_set_volume(player_, percent);
-  HandleErrors();
-}
-
-void VLCEngine::HandleErrors() const {
-
-  //if (libvlc_exception_raised(&exception_)) {
-    //qFatal("libvlc error: %s", libvlc_exception_get_message(&exception_));
-  //}
-
-}
-
-void VLCEngine::SetScopeData(float *data, int size) {
-    
-  if (!sInstance)
-    return;
-
-  QMutexLocker l(&sInstance->scope_mutex_);
-
-  // This gets called by our VLC plugin.  Just push the data on to the end of
-  // the circular buffer and let it get consumed by scope()
-  for (int i=0 ; i<size ; ++i) {
-    sInstance->scope_data_.push_back(data[i]);
+  {
+    PluginDetails details;
+    details.name = "auto";
+    details.description = "Automatically detected";
+    ret << details;
   }
-}
 
-const Engine::Scope& VLCEngine::Scope() {
+  for (libvlc_audio_output_t *audio_output = audio_output_list ; audio_output ; audio_output = audio_output->p_next) {
+    PluginDetails details;
+    details.name = QString::fromUtf8(audio_output->psz_name);
+    details.description = QString::fromUtf8(audio_output->psz_description);
+    ret << details;
+  }
+  
+  libvlc_audio_output_list_release(audio_output_list);
 
-  QMutexLocker l(&scope_mutex_);
-
-  // Leave the scope unchanged if there's not enough data
-  if (scope_data_.size() < uint(kScopeSize))
-    return scope_;
-
-  // Take the samples off the front of the circular buffer
-  for (uint i=0 ; i<uint(kScopeSize) ; ++i)
-    scope_[i] = scope_data_[i] * (1 << 15);
-
-  // Remove the samples from the buffer.  Unfortunately I think this is O(n) :(
-  scope_data_.rresize(qMax(0, int(scope_data_.size()) - kScopeSize*2));
-
-  return scope_;
+  return ret;
 
 }
 
-qint64 VLCEngine::position_nanosec() const {
-    
-  return 0;
+void VLCEngine::GetDevicesList(QString output) const {
 
-}
-
-qint64 VLCEngine::length_nanosec() const {
-    
-  return 0;
+  libvlc_audio_output_device_t *audio_output_device_list = libvlc_audio_output_device_list_get(instance_, output_.toUtf8().constData());
+  for (libvlc_audio_output_device_t *audio_device = audio_output_device_list ; audio_device ; audio_device = audio_device->p_next) {
+    qLog(Debug) << audio_device->psz_device << audio_device->psz_description;
+  }
+  libvlc_audio_output_device_list_release(audio_output_device_list);
 
 }

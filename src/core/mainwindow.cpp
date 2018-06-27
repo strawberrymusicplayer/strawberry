@@ -741,7 +741,6 @@ void MainWindow::ReloadAllSettings() {
   app_->player()->ReloadSettings();
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
-  app_->player()->engine()->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
 
 }

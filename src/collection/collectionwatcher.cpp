@@ -230,7 +230,7 @@ void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryLis
     ScanTransaction transaction(this, dir.id, true);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(subdirs.count());
-    for (const Subdirectory& subdir : subdirs) {
+    for (const Subdirectory &subdir : subdirs) {
       if (stop_requested_) return;
 
       if (scan_on_startup_) ScanSubdirectory(subdir.path, subdir, &transaction);
@@ -742,9 +742,9 @@ void CollectionWatcher::ReloadSettings() {
   }
   else if (monitor_ && !was_monitoring_before) {
     // Add all directories to all QFileSystemWatchers again
-    for (const Directory& dir : watched_dirs_.values()) {
+    for (const Directory &dir : watched_dirs_.values()) {
       SubdirectoryList subdirs = backend_->SubdirsInDirectory(dir.id);
-      for (const Subdirectory& subdir : subdirs) {
+      for (const Subdirectory &subdir : subdirs) {
         AddWatch(dir, subdir.path);
       }
     }
@@ -783,12 +783,12 @@ void CollectionWatcher::FullScanNow() { PerformScan(false, true); }
 
 void CollectionWatcher::PerformScan(bool incremental, bool ignore_mtimes) {
 
-  for (const Directory & dir : watched_dirs_.values()) {
+  for (const Directory &dir : watched_dirs_.values()) {
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes);
     SubdirectoryList subdirs(transaction.GetAllSubdirs());
     transaction.AddToProgressMax(subdirs.count());
 
-    for (const Subdirectory & subdir : subdirs) {
+    for (const Subdirectory &subdir : subdirs) {
       if (stop_requested_) return;
 
       ScanSubdirectory(subdir.path, subdir, &transaction);
