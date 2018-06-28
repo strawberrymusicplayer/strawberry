@@ -42,7 +42,7 @@ Engine::Base::Base()
       end_nanosec_(0),
       scope_(kScopeSize),
       output_(""),
-      device_(QVariant("")),
+      device_(QVariant()),
       rg_enabled_(false),
       rg_mode_(0),
       rg_preamp_(0),

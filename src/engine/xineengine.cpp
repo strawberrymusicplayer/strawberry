@@ -201,7 +201,8 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
 
   xine_close(stream_);
 
-  int result = xine_open(stream_, url.path().toUtf8());
+  //int result = xine_open(stream_, url.path().toUtf8());
+  int result = xine_open(stream_, url.toString().toUtf8());
   if (result) {
 
 #ifndef XINE_SAFE_MODE
@@ -370,7 +371,7 @@ EngineBase::OutputDetailsList XineEngine::GetOutputsList() const {
 }
 
 bool XineEngine::CustomDeviceSupport(const QString &name) {
-  return (name == DefaultOutput() ? false : true);
+  return (name == "alsa" || name == "oss" || name == "jack" || name == "pulseaudio");
 }
 
 void XineEngine::ReloadSettings() {

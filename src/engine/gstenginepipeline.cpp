@@ -63,7 +63,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       id_(sId++),
       valid_(false),
       output_(""),
-      device_(""),
+      device_(QVariant()),
       eq_enabled_(false),
       eq_preamp_(0),
       stereo_balance_(0.0f),

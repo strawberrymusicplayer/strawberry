@@ -233,9 +233,10 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   ui_->combobox_device->setEnabled(false);
   ui_->lineedit_device->setText("");
 
-#ifndef Q_OS_WIN32
-  ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", QVariant(""));
+#ifdef Q_OS_WIN
+  if (engine()->type() != Engine::GStreamer)
 #endif
+    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", QVariant(""));
 
   for (DeviceFinder *f : dialog()->app()->enginedevice()->device_finders_) {
     if (!f->outputs().contains(output)) continue;

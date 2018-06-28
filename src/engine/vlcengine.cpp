@@ -357,6 +357,7 @@ EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
     details.name = QString::fromUtf8(audio_output->psz_name);
     details.description = QString::fromUtf8(audio_output->psz_description);
     ret << details;
+    //GetDevicesList(audio_output->psz_name);
   }
   
   libvlc_audio_output_list_release(audio_output_list);
