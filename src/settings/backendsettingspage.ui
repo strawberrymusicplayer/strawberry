@@ -305,6 +305,9 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupbox_warning">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -366,6 +369,12 @@
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
     </spacer>
    </item>
