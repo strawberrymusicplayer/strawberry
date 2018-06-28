@@ -437,6 +437,9 @@ void BackendSettingsPage::ShowWarning(QString text) {
 
   ui_->label_warn_text->setStyleSheet("QLabel { color: red; }");
   ui_->label_warn_text->setText("<b>" + text + "</b>");
+  
+  ui_->label_warn_logo->setVisible(true);
+  ui_->label_warn_text->setVisible(true);
 
   ui_->label_warn_logo->setEnabled(true);
   ui_->label_warn_text->setEnabled(true);
@@ -450,6 +453,9 @@ void BackendSettingsPage::ResetWarning() {
 
   ui_->label_warn_logo->setEnabled(false);
   ui_->label_warn_text->setEnabled(false);
+  
+  ui_->label_warn_logo->setVisible(false);
+  ui_->label_warn_text->setVisible(false);
 
 }
 
