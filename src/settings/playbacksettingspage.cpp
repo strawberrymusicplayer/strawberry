@@ -30,6 +30,7 @@
 #include <QSpinBox>
 
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "settingspage.h"
 #include "playbacksettingspage.h"
 #include "ui_playbacksettingspage.h"
@@ -50,9 +51,7 @@ PlaybackSettingsPage::PlaybackSettingsPage(SettingsDialog *dialog) : SettingsPag
 }
 
 PlaybackSettingsPage::~PlaybackSettingsPage() {
-
   delete ui_;
-
 }
 
 void PlaybackSettingsPage::Load() {

@@ -37,6 +37,7 @@
 #include <QScrollArea>
 #include <QTreeWidgetItem>
 
+#include "core/logging.h"
 #include "widgets/osd.h"
 
 class QModelIndex;
@@ -104,6 +105,8 @@ public:
   // QWidget
   void showEvent(QShowEvent *e);
 
+  void set_output_changed(bool output_changed) { output_changed_ = output_changed; }
+
 signals:
   void NotificationPreview(OSD::Behaviour, QString, QString);
 
@@ -135,6 +138,8 @@ private:
   bool loading_settings_;
 
   QMap<Page, PageData> pages_;
+
+  bool output_changed_;
 };
 
 #endif  // SETTINGSDIALOG_H

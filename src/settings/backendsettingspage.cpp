@@ -79,7 +79,8 @@ void BackendSettingsPage::Load() {
   engineloaded_ = false;
   xinewarning_ = false;
 
-  Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineDescription(Engine::GStreamer)).toString());
+  Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineName(Engine::None)).toString());
+  if (enginetype == Engine::None && engine()) enginetype = engine()->type();
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_GSTREAMER
@@ -95,7 +96,9 @@ void BackendSettingsPage::Load() {
   ui_->combobox_engine->addItem(IconLoader::Load("speaker"), EngineDescription(Engine::Phonon), Engine::Phonon);
 #endif
 
-  enginereset_ = false;
+  enginetype_current_ = enginetype;
+  output_current_ = s_.value("output", "").toString();
+  device_current_ = s_.value("device", QVariant());
 
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(enginetype));
   if (EngineInitialised()) Load_Engine(enginetype);
@@ -152,8 +155,8 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
 
   if (!EngineInitialised()) return;
 
-  QString output = s_.value("output", "").toString();
-  QVariant device = s_.value("device", QVariant());
+  QString output = output_current_;
+  QVariant device = device_current_;
 
   ui_->combobox_output->clear();
   ui_->combobox_device->clear();
@@ -163,13 +166,15 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
 
   ui_->lineedit_device->setEnabled(false);
   ui_->lineedit_device->setText("");
-  
+
   ui_->groupbox_replaygain->setEnabled(false);
 
   if (engine()->type() != enginetype) {
+    qLog(Debug) << "Switching engine.";
     dialog()->app()->player()->CreateEngine(enginetype);
     dialog()->app()->player()->ReloadSettings();
     dialog()->app()->player()->Init();
+    dialog()->set_output_changed(false);
   }
 
   engineloaded_ = true;
@@ -203,6 +208,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
   if (!found) { // Output is invalid for this engine, reset to default output.
     output = engine()->DefaultOutput();
+    device = (engine()->CustomDeviceSupport(output) == true ? QVariant("") : QVariant());
     for (int i = 0; i < ui_->combobox_output->count(); ++i) {
       EngineBase::OutputDetails o = ui_->combobox_output->itemData(i).value<EngineBase::OutputDetails>();
       if (o.name == output) {
@@ -212,8 +218,16 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     }
   }
 
-  if (engine()->type() == Engine::GStreamer) ui_->groupbox_replaygain->setEnabled(true);
-  else ui_->groupbox_replaygain->setEnabled(false);
+  if (engine()->type() == Engine::GStreamer) {
+    ui_->groupbox_buffer->setEnabled(true);
+    ui_->groupbox_replaygain->setEnabled(true);
+    ui_->checkbox_monoplayback->setEnabled(true);
+  }
+  else {
+    ui_->groupbox_buffer->setEnabled(false);
+    ui_->groupbox_replaygain->setEnabled(false);
+    ui_->checkbox_monoplayback->setEnabled(false);
+  }
 
   if (ui_->combobox_output->count() < 1) {
     ShowWarning("Engine may take some time to initialize. Close settings and reopen to set output and devices.");
@@ -315,22 +329,34 @@ void BackendSettingsPage::Save() {
   s_.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
   s_.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
 
+  // If engine has not been changed, but output or device has been changed,
+  // then set_output_changed(true) to reinitialize engine when dialog closes.
+  if (enginetype == enginetype_current_ && (output_name != output_current_ || device_value != device_current_)) dialog()->set_output_changed(true);
+
+}
+
+void BackendSettingsPage::Cancel() {
+  if (engine() && engine()->type() != enginetype_current_) { // Reset engine back to the original because user cancelled.
+    dialog()->app()->player()->CreateEngine(enginetype_current_);
+    dialog()->app()->player()->ReloadSettings();
+    dialog()->app()->player()->Init();
+  }
 }
 
 void BackendSettingsPage::EngineChanged(int index) {
 
   if (!configloaded_ || !EngineInitialised()) return;
-
-  if (engine()->state() != Engine::Empty) {
-      if (enginereset_ == true) { enginereset_ = false; return; }
-      errordialog_.ShowMessage("Can't switch engine while playing!");
-      enginereset_ = true;
-      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engineloaded_));
-      return;
-  }
-
+  
   QVariant v = ui_->combobox_engine->itemData(index);
   Engine::EngineType enginetype = v.value<Engine::EngineType>();
+
+  if (engine()->type() == enginetype) return;
+
+  if (engine()->state() != Engine::Empty) {
+      errordialog_.ShowMessage("Can't switch engine while playing!");
+      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engine()->type()));
+      return;
+  }
 
   engineloaded_ = false;
   xinewarning_ = false;
@@ -346,7 +372,7 @@ void BackendSettingsPage::OutputChanged(int index) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
   Load_Device(output.name, QVariant());
 
-  if (engine()->type() == Engine::Xine) XineWarning();
+  if (engine()->type() == Engine::Xine && engine()->state() != Engine::Empty) XineWarning();
 
 }
 
@@ -371,7 +397,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->setText("");
   }
 
-  if (engine()->type() == Engine::Xine) XineWarning();
+  if (engine()->type() == Engine::Xine && engine()->state() != Engine::Empty) XineWarning();
 
 }
 
@@ -467,8 +493,8 @@ void BackendSettingsPage::XineWarning() {
 
   if (!engineloaded_) return;
   if (!configloaded_) return;
-
   if (engine()->type() != Engine::Xine) return;
+  if (engine()->state() == Engine::Empty) return;
   if (xinewarning_) return;
 
   ShowWarning("You need to restart Strawberry for output/device changes to take affect for Xine.");

@@ -19,6 +19,9 @@
 project(strawberry)
 cmake_minimum_required(VERSION 2.8.11)
 cmake_policy(SET CMP0054 NEW)
+if(${CMAKE_VERSION} VERSION_GREATER "3.10.3") 
+  cmake_policy(SET CMP0072 NEW)
+endif()
 
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)

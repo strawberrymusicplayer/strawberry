@@ -84,8 +84,9 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   const Engine::Scope &scope(int chunk_length);
 
   OutputDetailsList GetOutputsList() const;
+  bool ValidOutput(const QString &output);
   QString DefaultOutput() { return kAutoSink; }
-  bool CustomDeviceSupport(const QString &name);
+  bool CustomDeviceSupport(const QString &output);
 
   void EnsureInitialised() { initialising_.waitForFinished(); }
   void InitialiseGStreamer();
@@ -132,7 +133,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void BufferingFinished();
 
  private:
-
   static const char *kAutoSink;
   static const char *kALSASink;
   static const char *kOpenALSASink;

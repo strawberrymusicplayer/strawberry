@@ -65,9 +65,8 @@ private:
 
 class XineEngine : public Engine::Base {
     Q_OBJECT
-    
-public:
 
+ public:
   XineEngine(TaskManager *task_manager);
   ~XineEngine();
 
@@ -86,37 +85,20 @@ public:
 
   const Engine::Scope& scope(int chunk_length);
 
-  QString DefaultOutput() { return "auto"; }
   OutputDetailsList GetOutputsList() const;
-  bool CustomDeviceSupport(const QString &name);
+  bool ValidOutput(const QString &output);
+  QString DefaultOutput() { return "auto"; }
+  bool CustomDeviceSupport(const QString &output);
 
   void ReloadSettings();
 
-  void SetEnvironment();
-
-  uint length() const;
-  uint position() const;
-
   bool CanDecode(const QUrl &);
-
-  bool MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
-  bool GetAudioCDContents(const QString &device, QList<QUrl> &urls);
-  bool FlushBuffer();
+  bool CreateStream();
 
   void SetEqualizerEnabled(bool enabled);
   void SetEqualizerParameters(int preamp, const QList<int>&);
-
+  
   void FadeOut(uint fadeLength, bool* terminate, bool exiting = false);
-
-  static void XineEventListener(void*, const xine_event_t*);
-  bool event(QEvent*);
-
-  Engine::SimpleMetaBundle fetchMetaData() const;
-
-  bool MakeNewStream();
-  bool EnsureStream();
-
-  void DetermineAndShowErrorMessage(); //call after failure to load/play
 
   // Simple accessors
 
@@ -125,9 +107,11 @@ public:
   bool stop_fader() { return stop_fader_; }
   void set_stop_fader(bool stop_fader) { stop_fader_ = stop_fader; }
 
-private:
-
+ private:
   static const char *kAutoOutput;
+
+  QString current_output_;
+  QVariant current_device_;
 
   xine_t *xine_;
   xine_stream_t *stream_;
@@ -159,6 +143,26 @@ private:
   bool fade_next_track_;
 
   mutable Engine::SimpleMetaBundle current_bundle_;
+
+  void SetEnvironment();
+
+  void Cleanup();
+  bool EnsureStream();
+  void SetDevice();
+  
+  uint length() const;
+  uint position() const;
+  
+  bool MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
+  bool GetAudioCDContents(const QString &device, QList<QUrl> &urls);
+  bool FlushBuffer();
+
+  static void XineEventListener(void*, const xine_event_t*);
+  bool event(QEvent*);
+
+  Engine::SimpleMetaBundle fetchMetaData() const;
+
+  void DetermineAndShowErrorMessage(); //call after failure to load/play
 
   PluginDetailsList GetPluginList() const;
 

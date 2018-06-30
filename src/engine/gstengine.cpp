@@ -99,6 +99,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
       scope_chunk_(0),
       have_new_buffer_(false) {
 
+  type_ = Engine::GStreamer;
   seek_timer_->setSingleShot(true);
   seek_timer_->setInterval(kSeekDelayNanosec / kNsecPerMsec);
   connect(seek_timer_, SIGNAL(timeout()), SLOT(SeekNow()));
@@ -129,7 +130,6 @@ bool GstEngine::Init() {
   
   SetEnvironment();
 
-  type_ = Engine::GStreamer;
   initialising_ = QtConcurrent::run(this, &GstEngine::InitialiseGStreamer);
   return true;
 
@@ -388,8 +388,19 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
 }
 
-bool GstEngine::CustomDeviceSupport(const QString &name) {
-  return (name == kALSASink || name == kOpenALSASink || name == kOSSSink || name == kOSS4Sink || name == kPulseSink || name == kA2DPSink || name == kAVDTPSink);
+bool GstEngine::ValidOutput(const QString &output) {
+
+  PluginDetailsList plugins = GetPluginList("Sink/Audio");
+  for (const PluginDetails &plugin : plugins) {
+    if (plugin.name == output) return(true);
+  }
+  return(false);
+
+}
+
+
+bool GstEngine::CustomDeviceSupport(const QString &output) {
+  return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink);
 }
 
 void GstEngine::ReloadSettings() {

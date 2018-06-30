@@ -129,7 +129,7 @@ class Player : public PlayerInterface {
     PreviousBehaviour_Restart = 2
   };
 
-  EngineBase *CreateEngine(Engine::EngineType enginetype);
+  void CreateEngine(Engine::EngineType enginetype);
   void Init();
 
   EngineBase *engine() const { return engine_.get(); }
@@ -145,9 +145,9 @@ class Player : public PlayerInterface {
   const UrlHandler *HandlerForUrl(const QUrl &url) const;
 
   bool PreviousWouldRestartTrack() const;
-  
-  void SetAnalyzer(AnalyzerContainer *analyzer);
-  void SetEqualizer(Equalizer *equalizer);
+
+  void SetAnalyzer(AnalyzerContainer *analyzer) { analyzer_ = analyzer; }
+  void SetEqualizer(Equalizer *equalizer) { equalizer_ = equalizer; }
 
  public slots:
   void ReloadSettings();

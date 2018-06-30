@@ -52,6 +52,7 @@ public:
 
   void Load();
   void Save();
+  void Cancel();
 
   EngineBase *engine() const { return dialog()->app()->player()->engine(); }
 
@@ -65,10 +66,10 @@ public:
 
 private:
   Ui_BackendSettingsPage *ui_;
-  
+
   void ConnectSignals();
   bool EngineInitialised();
-  
+
   void EngineChanged(Engine::EngineType enginetype);
 
   void Load_Engine(Engine::EngineType enginetype);
@@ -77,14 +78,17 @@ private:
   void ShowWarning(QString text);
   void ResetWarning();
   void XineWarning();
-  
+
   QSettings s_;
   bool configloaded_;
   bool engineloaded_;
-  ErrorDialog errordialog_;
-  bool enginereset_;
   bool xinewarning_;
-  
+  ErrorDialog errordialog_;
+
+  Engine::EngineType enginetype_current_;
+  QString output_current_;
+  QVariant device_current_;
+
 };
 
 #endif  // BACKENDSETTINGSPAGE_H

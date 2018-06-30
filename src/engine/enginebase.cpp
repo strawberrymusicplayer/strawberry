@@ -84,7 +84,6 @@ bool Engine::Base::Play(const QUrl &url, TrackChangeFlags flags, bool force_stop
 void Engine::Base::SetVolume(uint value) {
 
   volume_ = value;
-
   SetVolumeSW(MakeVolumeLogarithmic(value));
 
 }
@@ -131,4 +130,10 @@ void Engine::Base::EmitAboutToEnd() {
 
   about_to_end_emitted_ = true;
   emit TrackAboutToEnd();
+}
+
+bool Engine::Base::ValidOutput(const QString &output) {
+
+  return (true);
+
 }

@@ -64,7 +64,8 @@ class PhononEngine : public Engine::Base {
   qint64 length_nanosec() const;
   
   QString DefaultOutput() { return ""; }
-  bool CustomDeviceSupport(const QString &name);
+  bool ValidOutput(const QString &output);
+  bool CustomDeviceSupport(const QString &output);
 
  protected:
   void SetVolumeSW( uint percent );

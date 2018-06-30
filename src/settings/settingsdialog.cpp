@@ -45,6 +45,7 @@
 
 #include "core/application.h"
 #include "core/player.h"
+#include "core/logging.h"
 #include "engine/enginebase.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
@@ -104,7 +105,8 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
       model_(app_->collection_model()->directory_model()),
       appearance_(app_->appearance()),
       ui_(new Ui_SettingsDialog),
-      loading_settings_(false) {
+      loading_settings_(false),
+      output_changed_(false) {
 
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new SettingsItemDelegate(this));
@@ -203,6 +205,11 @@ void SettingsDialog::Save() {
 
 void SettingsDialog::accept() {
   Save();
+  // Only Xine needs to reinitialize to switch output and device.
+  if (output_changed_ && engine() && engine()->type() == Engine::Xine && engine()->state() == Engine::Empty) {
+    engine()->ReloadSettings();
+    engine()->Init();
+  }
   QDialog::accept();
 }
 

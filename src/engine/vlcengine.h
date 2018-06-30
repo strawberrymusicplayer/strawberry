@@ -63,8 +63,9 @@ class VLCEngine : public Engine::Base {
   const Engine::Scope& Scope();
 
   OutputDetailsList GetOutputsList() const;
+  bool ValidOutput(const QString &output);
   QString DefaultOutput() { return ""; }
-  bool CustomDeviceSupport(const QString &name);
+  bool CustomDeviceSupport(const QString &value);
 
  private:
   libvlc_instance_t *instance_;
@@ -75,6 +76,7 @@ class VLCEngine : public Engine::Base {
   static VLCEngine *sInstance;
   QMutex scope_mutex_;
 
+  bool Initialised() const;
   uint position() const;
   uint length() const;
   bool CanDecode(const QUrl &url);

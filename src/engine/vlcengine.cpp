@@ -40,13 +40,14 @@
 VLCEngine *VLCEngine::sInstance = nullptr;
 
 VLCEngine::VLCEngine(TaskManager *task_manager)
-  : instance_(nullptr),
+  : EngineBase(),
+    instance_(nullptr),
     player_(nullptr),
     state_(Engine::Empty),
-    scope_data_(4096)
-{
+    scope_data_(4096) {
 
-  Init();
+  type_ = Engine::VLC;
+  ReloadSettings();
 
 }
 
@@ -60,8 +61,6 @@ VLCEngine::~VLCEngine() {
 }
 
 bool VLCEngine::Init() {
-
-  type_ = Engine::VLC;
 
 /* FIXME: Do we need this?
   static const char  *const args[] = {
@@ -113,8 +112,15 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool VLCEngine::Initialised() const {
 
+  if (instance_ && player_) return true;
+  return false;
+
+}
+
+bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+  if (!Initialised()) return false;
   // Create the media object
   VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, url.toEncoded().constData()));
 
@@ -125,7 +131,7 @@ bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
 }
 
 bool VLCEngine::Play(quint64 offset_nanosec) {
-
+  if (!Initialised()) return false;
   // Set audio output
   if (!output_.isEmpty() || output_ != "auto") {
     int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
@@ -148,27 +154,29 @@ bool VLCEngine::Play(quint64 offset_nanosec) {
 }
 
 void VLCEngine::Stop(bool stop_after) {
-
+  if (!Initialised()) return;
   libvlc_media_player_stop(player_);
   HandleErrors();
 
 }
 
 void VLCEngine::Pause() {
-    
+  if (!Initialised()) return;
   libvlc_media_player_pause(player_);
   HandleErrors();
 
 }
 
 void VLCEngine::Unpause() {
-    
+  if (!Initialised()) return;
   libvlc_media_player_play(player_);
   HandleErrors();
 
 }
 
 void VLCEngine::Seek(quint64 offset_nanosec) {
+    
+  if (!Initialised()) return;
 
  int offset = (offset_nanosec / kNsecPerMsec);
 
@@ -183,7 +191,7 @@ void VLCEngine::Seek(quint64 offset_nanosec) {
 }
 
 void VLCEngine::SetVolumeSW(uint percent) {
-    
+  if (!Initialised()) return;
   libvlc_audio_set_volume(player_, percent);
   HandleErrors();
 }
@@ -248,11 +256,23 @@ EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
 
 }
 
-bool VLCEngine::CustomDeviceSupport(const QString &name) {
-  return (name == "auto" ? false : true);
+bool VLCEngine::ValidOutput(const QString &output) {
+
+  PluginDetailsList plugins = GetPluginList();
+  for (const PluginDetails &plugin : plugins) {
+    if (plugin.name == output) return(true);
+  }
+  return(false);
+
+}
+
+bool VLCEngine::CustomDeviceSupport(const QString &output) {
+  return (output == "auto" ? false : true);
 }
 
 uint VLCEngine::position() const {
+
+  if (!Initialised()) return (0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
   HandleErrors();
@@ -267,6 +287,8 @@ uint VLCEngine::position() const {
 }
 
 uint VLCEngine::length() const {
+
+  if (!Initialised()) return(0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
   HandleErrors();

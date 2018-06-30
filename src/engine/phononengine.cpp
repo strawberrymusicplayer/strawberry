@@ -32,11 +32,13 @@
 #include "core/logging.h"
 
 PhononEngine::PhononEngine(TaskManager *task_manager)
-  : media_object_(new Phonon::MediaObject(this)),
+  : EngineBase(),
+    media_object_(new Phonon::MediaObject(this)),
     audio_output_(new Phonon::AudioOutput(Phonon::MusicCategory, this)),
     state_timer_(new QTimer(this)),
-    seek_offset_(-1)
-{
+    seek_offset_(-1) {
+
+  type_ = Engine::Phonon;
 
   Phonon::createPath(media_object_, audio_output_);
 
@@ -54,8 +56,6 @@ PhononEngine::~PhononEngine() {
 }
 
 bool PhononEngine::Init() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-  type_ = Engine::Phonon;
   return true;
 }
 
@@ -179,6 +179,13 @@ EngineBase::OutputDetailsList PhononEngine::GetOutputsList() const {
   return ret;
 }
 
-bool PhononEngine::CustomDeviceSupport(const QString &name) {
+bool PhononEngine::ValidOutput(const QString &output) {
+
+  return (output == "auto" || output == "" || output == DefaultOutput);
+  return(false);
+
+}
+
+bool PhononEngine::CustomDeviceSupport(const QString &output) {
   return false;
 }

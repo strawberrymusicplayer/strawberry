@@ -38,7 +38,7 @@ XineFader::XineFader(XineEngine *engine, xine_t *xine, xine_stream_t *stream, xi
     paused_(false),
     terminated_(false) {
 
-  if (engine->MakeNewStream()) {
+  if (engine->CreateStream()) {
     increase_ = stream_;
     xine_set_param(increase_, XINE_PARAM_AUDIO_AMP_LEVEL, 0);
   }

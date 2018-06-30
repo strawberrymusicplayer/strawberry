@@ -65,12 +65,8 @@ using std::shared_ptr;
 #define LLONG_MAX 9223372036854775807LL
 #endif
 
-
-//define this to use xine in a more standard way
-//#ifdef Q_OS_WIN32
+// Define this to use xine in a more standard way
 //#define XINE_SAFE_MODE
-//#endif
-
 
 const char *XineEngine::kAutoOutput = "auto";
 int XineEngine::last_error_ = XINE_MSG_NO_ERROR;
@@ -88,56 +84,28 @@ XineEngine::XineEngine(TaskManager *task_manager)
     fadeout_running_ (false),
     prune_(nullptr) {
 
+  type_ = Engine::Xine;
   ReloadSettings();
 
 }
 
 XineEngine::~XineEngine() {
 
-  // Wait until the fader thread is done
-  if (s_fader_) {
-    stop_fader_ = true;
-    s_fader_->resume(); // safety call if the engine is in the pause state
-    s_fader_->wait();
-  }
-
-  // Wait until the prune scope thread is done
-  if (prune_) {
-    prune_->exit();
-    prune_->wait();
-  }
-
-  s_fader_.reset();
-  s_outfader_.reset();
-  prune_.reset();
-
   if (fadeout_enabled_) {
     bool terminateFader = false;
     FadeOut(fadeout_duration_, &terminateFader, true); // true == exiting
   }
 
-  if (stream_) xine_close(stream_);
-  if (eventqueue_) xine_event_dispose_queue(eventqueue_);
-  if (stream_) xine_dispose(stream_);
-  if (audioport_) xine_close_audio_driver(xine_, audioport_);
-  if (post_) xine_post_dispose(xine_, post_);
-  if (xine_) xine_exit(xine_);
-
-  //qLog(Debug) << "xine closed";
-  //qLog(Debug) << "Scope statistics:";
-  //qLog(Debug) << "Average list size: " << log_buffer_count_ / log_scope_call_count_;
-  //qLog(Debug) << "Buffer failure: " << double(log_no_suitable_buffer_*100) / log_scope_call_count_ << "%";
+  Cleanup();
 
 }
 
 bool XineEngine::Init() {
 
-  type_ = Engine::Xine;
-
+  Cleanup();
   SetEnvironment();
 
   QMutexLocker l(&init_mutex_);
-
   xine_ = xine_new();
   if (!xine_) {
     emit Error("Could not initialize xine.");
@@ -147,17 +115,76 @@ bool XineEngine::Init() {
 #ifdef XINE_SAFE_MODE
   xine_engine_set_param(xine_, XINE_ENGINE_PARAM_VERBOSITY, 99);
 #endif
-  
-  xine_init(xine_);
 
-  MakeNewStream();
+  xine_init(xine_);
 
 #ifndef XINE_SAFE_MODE
   prune_.reset(new PruneScopeThread(this));
   prune_->start();
 #endif
+  
+  SetDevice();
+
+  if (!ValidOutput(output_)) {
+    qLog(Error) << "Invalid output detected:" << output_ << " - Resetting to default.";
+    output_ = DefaultOutput();
+  }
+  audioport_ = xine_open_audio_driver(xine_, (output_.isEmpty() || output_ == kAutoOutput ? nullptr : output_.toUtf8().constData()), nullptr);
+  if (!audioport_) {
+    emit Error("Xine was unable to initialize any audio drivers.");
+    return false;
+  }
 
   return true;
+
+}
+
+void XineEngine::Cleanup() {
+
+  // Wait until the prune scope thread is done
+  if (prune_) {
+    prune_->exit();
+    prune_->wait();
+  }
+  prune_.reset();
+
+  // Wait until the fader thread is done
+  if (s_fader_) {
+    stop_fader_ = true;
+    s_fader_->resume(); // safety call if the engine is in the pause state
+    s_fader_->wait();
+  }
+
+  s_fader_.reset();
+  s_outfader_.reset();
+
+  if (stream_)
+    xine_close(stream_);
+  if (eventqueue_) {
+    xine_event_dispose_queue(eventqueue_);
+    eventqueue_ = nullptr;
+  }
+  if (stream_) {
+    xine_dispose(stream_);
+    stream_ = nullptr;
+  }
+  if (audioport_) {
+    xine_close_audio_driver(xine_, audioport_);
+    audioport_ = nullptr;
+  }
+  if (post_) {
+    xine_post_dispose(xine_, post_);
+    post_ = nullptr;
+  }
+
+  if (xine_) xine_exit(xine_);
+  xine_ = nullptr;
+
+  //qLog(Debug) << "xine closed";
+  //qLog(Debug) << "Scope statistics:";
+  //qLog(Debug) << "Average list size: " << log_buffer_count_ / log_scope_call_count_;
+  //qLog(Debug) << "Buffer failure: " << double(log_no_suitable_buffer_*100) / log_scope_call_count_ << "%";
+
 }
 
 Engine::State XineEngine::state() const {
@@ -183,7 +210,7 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
 
   if (s_outfader_) {
     s_outfader_->finish();
-    if (s_outfader_) s_outfader_.reset();
+    s_outfader_.reset();
   }
 
   if (fade_length_ > 0 && xine_get_status(stream_) == XINE_STATUS_PLAY && url.scheme().toLower() == "file" && xine_get_param(stream_, XINE_PARAM_SPEED) != XINE_SPEED_PAUSE && (fade_next_track_ || crossfade_enabled_)) {
@@ -370,13 +397,21 @@ EngineBase::OutputDetailsList XineEngine::GetOutputsList() const {
   return ret;
 }
 
-bool XineEngine::CustomDeviceSupport(const QString &name) {
-  return (name == "alsa" || name == "oss" || name == "jack" || name == "pulseaudio");
+bool XineEngine::ValidOutput(const QString &output) {
+
+  PluginDetailsList plugins = GetPluginList();
+  for (const PluginDetails &plugin : plugins) {
+    if (plugin.name == output) return(true);
+  }
+  return(false);
+
+}
+
+bool XineEngine::CustomDeviceSupport(const QString &output) {
+  return (output == "alsa" || output == "oss" || output == "jack" || output == "pulseaudio");
 }
 
 void XineEngine::ReloadSettings() {
-
-  QSettings s;
 
   Engine::Base::ReloadSettings();
 
@@ -386,13 +421,13 @@ void XineEngine::ReloadSettings() {
 
 void XineEngine::SetEnvironment() {
 
-#ifdef Q_OS_WIN32
-  putenv(QString("XINE_PLUGIN_PATH=" + QCoreApplication::applicationDirPath() + "/xine/plugins").toLatin1().constData());
-#endif  // Q_OS_WIN32
+#ifdef Q_OS_WIN
+  putenv(QString("XINE_PLUGIN_PATH=" + QCoreApplication::applicationDirPath() + "/xine-plugins").toLatin1().constData());
+#endif
 
 #ifdef Q_OS_DARWIN
   setenv("XINE_PLUGIN_PATH", QString(QCoreApplication::applicationDirPath() + "/../PlugIns/xine").toLatin1().constData(), 1);
-#endif  // Q_OS_DARWIN
+#endif
   
 }
 
@@ -868,7 +903,7 @@ Engine::SimpleMetaBundle XineEngine::fetchMetaData() const {
 
 }
 
-bool XineEngine::MakeNewStream() {
+void XineEngine::SetDevice() {
 
   if (device_.isValid()) {
     bool valid(false);
@@ -892,12 +927,11 @@ bool XineEngine::MakeNewStream() {
       xine_config_update_entry(xine_, &entry);
     }
   }
+  current_device_ = device_;
 
-  audioport_ = xine_open_audio_driver(xine_, (output_.isEmpty() || output_ == kAutoOutput ? nullptr : output_.toUtf8().constData()), nullptr);
-  if (!audioport_) {
-    emit Error("Xine was unable to initialize any audio drivers.");
-    return false;
-  }
+}
+
+bool XineEngine::CreateStream() {
 
   stream_ = xine_stream_new(xine_, audioport_, nullptr);
   if (!stream_) {
@@ -908,7 +942,6 @@ bool XineEngine::MakeNewStream() {
   }
 
   if (eventqueue_) xine_event_dispose_queue(eventqueue_);
-
   eventqueue_ = xine_event_new_queue(stream_);
   xine_event_create_listener_thread(eventqueue_, &XineEngine::XineEventListener, (void*)this);
 
@@ -923,7 +956,7 @@ bool XineEngine::MakeNewStream() {
   if (xine_check_version(1, 1, 1) && !(fade_length_ > 0)) {
     // Enable gapless playback
     qLog(Debug) << "gapless playback enabled.";
-    // xine_set_param(stream_, XINE_PARAM_EARLY_FINISHED_EVENT, 1);
+    xine_set_param(stream_, XINE_PARAM_EARLY_FINISHED_EVENT, 1);
   }
 #endif
   return true;
@@ -931,7 +964,7 @@ bool XineEngine::MakeNewStream() {
 
 bool XineEngine::EnsureStream() {
 
-  if (!stream_) return MakeNewStream();
+  if (!stream_) return CreateStream();
   return true;
 
 }

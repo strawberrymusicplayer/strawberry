@@ -81,8 +81,7 @@ Player::Player(Application *app, QObject *parent)
     volume_before_mute_(50),
     last_pressed_previous_(QDateTime::currentDateTime()),
     menu_previousmode_(PreviousBehaviour_DontRestart),
-    seek_step_sec_(10)
-  {
+    seek_step_sec_(10) {
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
@@ -90,103 +89,86 @@ Player::Player(Application *app, QObject *parent)
   s.endGroup();
 
   CreateEngine(enginetype);
-
   settings_.beginGroup("Player");
 
-  SetVolume(settings_.value("volume", 100).toInt());
-
-#if 0
-  connect(engine_.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-  connect(engine_.get(), SIGNAL(ValidSongRequested(QUrl)), SLOT(ValidSongRequested(QUrl)));
-  connect(engine_.get(), SIGNAL(InvalidSongRequested(QUrl)), SLOT(InvalidSongRequested(QUrl)));
-#endif
+  int volume = settings_.value("volume", 50).toInt();
+  SetVolume(volume);
 
 }
 
-Player::~Player() {}
+Player::~Player() {
+  settings_.endGroup();
+}
 
-EngineBase *Player::CreateEngine(Engine::EngineType enginetype) {
-  
-  bool engine = false;
-  EngineBase *enginebase = nullptr;
+void Player::CreateEngine(Engine::EngineType enginetype) {
 
-  for (int i = 1 ; !engine ; i++) {
+  Engine::EngineType use_enginetype = Engine::None;
+
+  for (int i = 0 ; use_enginetype == Engine::None ; i++) {
     switch(enginetype) {
       case Engine::None:
 #ifdef HAVE_GSTREAMER
       case Engine::GStreamer:
-	engine=true;
-	enginetype=Engine::GStreamer;
-        enginebase = new GstEngine(app_->task_manager());
+        use_enginetype=Engine::GStreamer;
+        engine_.reset(new GstEngine(app_->task_manager()));
         break;
 #endif
 #ifdef HAVE_XINE
       case Engine::Xine:
-	engine=true;
-	enginetype=Engine::Xine;
-        enginebase = new XineEngine(app_->task_manager());
+        use_enginetype=Engine::Xine;
+        engine_.reset(new XineEngine(app_->task_manager()));
         break;
 #endif
 #ifdef HAVE_VLC
       case Engine::VLC:
-        engine=true;
-	enginetype=Engine::VLC;
-        enginebase = new VLCEngine(app_->task_manager());
+        use_enginetype=Engine::VLC;
+        engine_.reset(new VLCEngine(app_->task_manager()));
         break;
 #endif
 #ifdef HAVE_PHONON
       case Engine::Phonon:
-	engine=true;
-	enginetype=Engine::Phonon;
-        enginebase = new PhononEngine(app_->task_manager());
+        use_enginetype=Engine::Phonon;
+        engine_.reset(new PhononEngine(app_->task_manager()));
         break;
 #endif
       default:
-	if (i > 1) { qFatal("No engine available!"); return nullptr; }
-        QSettings s;
-        s.beginGroup(BackendSettingsPage::kSettingsGroup);
-	s.setValue("engine", "");
-        s.setValue("output", "");
-        s.setValue("device", QVariant(""));
-        s.endGroup();
-	enginetype = Engine::None;
-	break;
+        if (i > 0) { qFatal("No engine available!"); }
+        enginetype = Engine::None;
+        break;
     }
   }
 
-  QSettings s;
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
-  s.setValue("engine", Engine::EngineName(enginetype));
-  s.endGroup();
-
-  if (enginebase == nullptr) {
-    qFatal("Failed to create engine!");
-    return nullptr;
+  if (use_enginetype != enginetype) { // Engine was set to something else. Reset output and device.
+    QSettings s;
+    s.beginGroup(BackendSettingsPage::kSettingsGroup);
+    s.setValue("engine", EngineName(use_enginetype));
+    s.setValue("output", engine_->DefaultOutput());
+    s.setValue("device", QVariant(""));
+    s.endGroup();
   }
 
-  engine_.reset(enginebase);
-  
-  return enginebase;
+  if (!engine_) {
+    qFatal("Failed to create engine!");
+  }
 
 }
 
-
 void Player::Init() {
+  
+  if (!engine_->Init()) { qFatal("Error initialising audio engine"); }
+
+  analyzer_->SetEngine(engine_.get());
 
   connect(engine_.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
   connect(engine_.get(), SIGNAL(ValidSongRequested(QUrl)), SLOT(ValidSongRequested(QUrl)));
   connect(engine_.get(), SIGNAL(InvalidSongRequested(QUrl)), SLOT(InvalidSongRequested(QUrl)));
-  
-  if (!engine_->Init()) qFatal("Error initialising audio engine");
-
   connect(engine_.get(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
   connect(engine_.get(), SIGNAL(TrackAboutToEnd()), SLOT(TrackAboutToEnd()));
   connect(engine_.get(), SIGNAL(TrackEnded()), SLOT(TrackEnded()));
   connect(engine_.get(), SIGNAL(MetaData(Engine::SimpleMetaBundle)), SLOT(EngineMetadataReceived(Engine::SimpleMetaBundle)));
 
-  engine_->SetVolume(settings_.value("volume", 50).toInt());
-
-  analyzer_->SetEngine(engine_.get());
+  int volume = settings_.value("volume", 50).toInt();
+  engine_->SetVolume(volume);
 
   // Equalizer
   qLog(Debug) << "Creating equalizer";
@@ -195,21 +177,11 @@ void Player::Init() {
   connect(equalizer_, SIGNAL(StereoBalanceChanged(float)), app_->player()->engine(), SLOT(SetStereoBalance(float)));
 
   engine_->SetEqualizerEnabled(equalizer_->is_enabled());
-  
   engine_->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
   engine_->SetStereoBalance(equalizer_->stereo_balance());
 
   ReloadSettings();
 
-}
-
-void Player::SetAnalyzer(AnalyzerContainer *analyzer) {
-    
-  analyzer_ = analyzer;
-    
-}
-void Player::SetEqualizer(Equalizer *equalizer) {
-    equalizer_ = equalizer;
 }
 
 void Player::ReloadSettings() {
@@ -224,7 +196,7 @@ void Player::ReloadSettings() {
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
   s.endGroup();
 
-  if (engine_.get()) engine_->ReloadSettings();
+  engine_->ReloadSettings();
 
 }
 
