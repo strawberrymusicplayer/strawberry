@@ -40,7 +40,7 @@ class Database;
 class EngineDevice;
 class Player;
 class Appearance;
-class Collection;
+class SCollection;
 class CollectionBackend;
 class CollectionModel;
 class PlaylistBackend;
@@ -67,15 +67,15 @@ class Application : public QObject {
   EngineDevice *enginedevice() const;
   DeviceManager *device_manager() const;
 
-  Collection *collection() const;
-  
+  SCollection *collection() const;
+
   PlaylistBackend *playlist_backend() const;
   PlaylistManager *playlist_manager() const;
 
   CoverProviders *cover_providers() const;
   AlbumCoverLoader *album_cover_loader() const;
   CurrentArtLoader *current_art_loader() const;
-  
+
   CollectionBackend *collection_backend() const;
   CollectionModel *collection_model() const;
 

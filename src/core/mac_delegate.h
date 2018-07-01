@@ -1,7 +1,7 @@
 #import <AppKit/NSApplication.h>
 
 #include "config.h"
-#include "macglobalshortcutbackend.h"
+#include "globalshortcuts/macglobalshortcutbackend.h"
 
 class PlatformInterface;
 @class SPMediaKeyTap;

@@ -20,16 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include <QtGlobal>
-#include <QObject>
-#include <QWidget>
-#include <QBoxLayout>
-#include <QLabel>
-#include <QMovie>
-#include <QPointer>
-#include <QSize>
-
 #include "qprogressindicatorspinning.h"
+
+#include <QVBoxLayout>
+#include <QMovie>
+#include <QLabel>
 
 class QProgressIndicatorSpinningPrivate : public QObject
 {

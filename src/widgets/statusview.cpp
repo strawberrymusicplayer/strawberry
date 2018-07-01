@@ -297,7 +297,6 @@ void StatusView::UpdateSong() {
 
   const QueryOptions opt;
   CollectionBackend::AlbumList albumlist;
-  Engine::EngineType enginetype = app_->player()->engine()->type();
   
   label_playing_top_->setText("");
   label_playing_text_->setText("");
@@ -314,9 +313,9 @@ void StatusView::UpdateSong() {
   html += QString("Bitrate: %1 kbps<br />\n").arg(metadata_.bitrate());
   html += QString("Samplerate: %1 hz / %2 bit<br />\n").arg(metadata_.samplerate()).arg(metadata_.bitdepth());
 
-  if (enginetype != Engine::EngineType::None) {
+  if (app_->player()->engine() && app_->player()->engine()->type() != Engine::EngineType::None) {
     html += QString("<br />");
-    html += QString("Engine: %1<br />").arg(EngineName(enginetype));
+    html += QString("Engine: %1<br />").arg(EngineDescription(app_->player()->engine()->type()));
   }
 
   html += QString("<br />");

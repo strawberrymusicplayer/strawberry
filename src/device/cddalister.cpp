@@ -105,7 +105,7 @@ void CddaLister::UpdateDeviceFreeSpace(const QString&) {}
 void CddaLister::Init() {
 
   cdio_init();
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   if (!cdio_have_driver(DRIVER_OSX)) {
     qLog(Error) << "libcdio was compiled without support for OS X!";
   }
@@ -121,7 +121,7 @@ void CddaLister::Init() {
     if (device_info.isSymLink()) {
       device = device_info.symLinkTarget();
     }
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
     // Every track is detected as a separate device on Darwin. The raw disk looks like /dev/rdisk1
     if (!device.contains(QRegExp("^/dev/rdisk[0-9]$"))) {
       continue;

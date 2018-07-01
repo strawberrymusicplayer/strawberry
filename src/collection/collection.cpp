@@ -38,12 +38,12 @@
 #include "collectionmodel.h"
 #include "playlist/playlistmanager.h"
 
-const char *Collection::kSongsTable = "songs";
-const char *Collection::kDirsTable = "directories";
-const char *Collection::kSubdirsTable = "subdirectories";
-const char *Collection::kFtsTable = "songs_fts";
+const char *SCollection::kSongsTable = "songs";
+const char *SCollection::kDirsTable = "directories";
+const char *SCollection::kSubdirsTable = "subdirectories";
+const char *SCollection::kFtsTable = "songs_fts";
 
-Collection::Collection(Application *app, QObject *parent)
+SCollection::SCollection(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
       backend_(nullptr),
@@ -63,14 +63,14 @@ Collection::Collection(Application *app, QObject *parent)
 
 }
 
-Collection::~Collection() {
+SCollection::~SCollection() {
   
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait(5000 /* five seconds */);
 }
 
-void Collection::Init() {
+void SCollection::Init() {
   
   watcher_ = new CollectionWatcher;
   watcher_thread_ = new Thread(this);
@@ -98,26 +98,26 @@ void Collection::Init() {
   backend_->LoadDirectoriesAsync();
 }
 
-void Collection::IncrementalScan() { watcher_->IncrementalScanAsync(); }
+void SCollection::IncrementalScan() { watcher_->IncrementalScanAsync(); }
 
-void Collection::FullScan() { watcher_->FullScanAsync(); }
+void SCollection::FullScan() { watcher_->FullScanAsync(); }
 
-void Collection::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
+void SCollection::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
 
-void Collection::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
+void SCollection::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
 
-void Collection::ReloadSettings() {
-  
+void SCollection::ReloadSettings() {
+
   watcher_->ReloadSettingsAsync();
 
 }
 
-void Collection::Stopped() {
+void SCollection::Stopped() {
 
   CurrentSongChanged(Song());
 }
 
-void Collection::CurrentSongChanged(const Song &song) {
+void SCollection::CurrentSongChanged(const Song &song) {
   
   TagReaderReply *reply = nullptr;
 

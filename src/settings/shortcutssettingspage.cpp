@@ -38,6 +38,7 @@
 #include <QRadioButton>
 
 #include "core/iconloader.h"
+#include "core/utilities.h"
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcuts.h"
 #include "settingspage.h"
@@ -119,11 +120,11 @@ void GlobalShortcutsSettingsPage::Load() {
   }
 
   ui_->mac_container->setVisible(!manager->IsMacAccessibilityEnabled());
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   qint32 mac_version = Utilities::GetMacVersion();
   ui_->mac_label->setVisible(mac_version < 9);
   ui_->mac_label_mavericks->setVisible(mac_version >= 9);
-#endif  // Q_OS_DARWIN
+#endif  // Q_OS_MACOS
 
 }
 

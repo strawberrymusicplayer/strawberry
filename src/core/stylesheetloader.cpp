@@ -87,7 +87,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
   ReplaceColor(&contents, "Link", p, QPalette::Link);
   ReplaceColor(&contents, "LinkVisited", p, QPalette::LinkVisited);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   contents.replace("darwin", "*");
 #endif
 

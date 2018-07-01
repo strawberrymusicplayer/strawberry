@@ -90,7 +90,7 @@ CommandlineOptions::CommandlineOptions(int argc, char* *argv)
       toggle_pretty_osd_(false),
       log_levels_(logging::kDefaultLogLevels) {
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   // Remove -psn_xxx option that Mac passes when opened from Finder.
   RemoveArg("-psn", 1);
 #endif

@@ -53,7 +53,7 @@ PlaylistItem* PlaylistItem::NewFromType(const QString &type) {
 
 PlaylistItem* PlaylistItem::NewFromSongsTable(const QString &table, const Song &song) {
 
-  if (table == Collection::kSongsTable)
+  if (table == SCollection::kSongsTable)
     return new CollectionPlaylistItem(song);
 
   qLog(Warning) << "Invalid PlaylistItem songs table:" << table;

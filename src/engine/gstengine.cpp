@@ -106,8 +106,8 @@ GstEngine::GstEngine(TaskManager *task_manager)
 
   ReloadSettings();
 
-#ifdef Q_OS_DARWIN
-  QDir resources_dir(mac::GetResourcesPath());
+#ifdef Q_OS_MACOS___ // FIXME
+  QDir resources_dir(mac::getResourcesPath());
   QString ca_cert_path = resources_dir.filePath("cacert.pem");
   GError *error = nullptr;
   tls_database_ = g_tls_file_database_new(ca_cert_path.toUtf8().data(), &error);
@@ -121,7 +121,7 @@ GstEngine::~GstEngine() {
 
   current_pipeline_.reset();
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   g_object_unref(tls_database_);
 #endif
 }
@@ -428,14 +428,14 @@ void GstEngine::SetEnvironment() {
   QString registry_filename;
 
   // On windows and mac we bundle the gstreamer plugins with strawberry
-#if defined(Q_OS_DARWIN)
+#if defined(Q_OS_MACOS)
   scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
   plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
 #elif defined(Q_OS_WIN32)
   plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
 #endif
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
 #endif
 
@@ -451,7 +451,7 @@ void GstEngine::SetEnvironment() {
     Utilities::SetEnv("GST_REGISTRY", registry_filename);
   }
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/../PlugIns/gio-modules");
 #endif
 

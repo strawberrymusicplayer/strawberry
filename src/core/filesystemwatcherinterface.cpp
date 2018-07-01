@@ -25,7 +25,7 @@
 #include "filesystemwatcherinterface.h"
 #include "qtfslistener.h"
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 #include "macfslistener.h"
 #endif
 
@@ -34,7 +34,7 @@ FileSystemWatcherInterface::FileSystemWatcherInterface(QObject *parent)
 
 FileSystemWatcherInterface *FileSystemWatcherInterface::Create(QObject *parent) {
   FileSystemWatcherInterface *ret;
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ret = new MacFSListener(parent);
 #else
   ret = new QtFSListener(parent);

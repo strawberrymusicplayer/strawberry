@@ -49,7 +49,7 @@
 class TaskManager;
 class GstEnginePipeline;
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 struct _GTlsDatabase;
 typedef struct _GTlsDatabase GTlsDatabase;
 #endif
@@ -111,7 +111,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   GTlsDatabase *tls_database() const { return tls_database_; }
 #endif
 
@@ -201,6 +201,10 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   int scope_chunk_;
   bool have_new_buffer_;
   int scope_chunks_;
+
+#ifdef Q_OS_MACOS
+  GTlsDatabase* tls_database_;
+#endif
 
 };
 

@@ -648,7 +648,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
-    if (song_data->backend && song_data->backend->songs_table() == Collection::kSongsTable)
+    if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable)
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now);
     else
       InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now);
@@ -955,7 +955,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, int pos, bool
 }
 
 void Playlist::UpdateItems(const SongList &songs) {
-  
+
   qLog(Debug) << "Updating playlist with new tracks' info";
   // We first convert our songs list into a linked list (a 'real' list), because removals are faster with QLinkedList.
   // Next, we walk through the list of playlist's items then the list of songs

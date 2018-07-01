@@ -239,7 +239,7 @@ QString LinuxDemangle(const QString &symbol) {
 }
 
 QString DemangleSymbol(const QString &symbol) {
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   return DarwinDemangle(symbol);
 #elif defined(Q_OS_LINUX)
   return LinuxDemangle(symbol);

@@ -513,7 +513,7 @@ void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
     
   // Bump the priority of the thread only on OS X
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   sched_param param;
   memset(&param, 0, sizeof(param));
 
@@ -835,7 +835,7 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *pspec, 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
     QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()); g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
     g_object_set(element, "tls-database", instance->engine_->tls_database(), nullptr);
     g_object_set(element, "ssl-use-system-ca-file", false, nullptr);
     g_object_set(element, "ssl-strict", TRUE, nullptr);

@@ -69,14 +69,14 @@ void GlobalShortcutGrabber::hideEvent(QHideEvent *e) {
 }
 
 void GlobalShortcutGrabber::grabKeyboard() {
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   SetupMacEventHandler();
 #endif
   QDialog::grabKeyboard();
 }
 
 void GlobalShortcutGrabber::releaseKeyboard() {
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   TeardownMacEventHandler();
 #endif
   QDialog::releaseKeyboard();

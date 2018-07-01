@@ -186,7 +186,7 @@ PlaylistView::PlaylistView(QWidget *parent)
 
   setAttribute(Qt::WA_MacShowFocusRect, false);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 #endif
   // For fading
@@ -523,7 +523,7 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
   else if (event == QKeySequence::Delete) {
     RemoveSelected(false);
     event->accept();
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   }
   else if (event->key() == Qt::Key_Backspace) {
     RemoveSelected(false);

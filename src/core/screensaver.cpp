@@ -29,7 +29,7 @@
 
 #include "screensaver.h"
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   #include "macscreensaver.h"
 #endif
 
@@ -51,7 +51,7 @@ Screensaver *Screensaver::GetScreensaver() {
       else if (QDBusConnection::sessionBus().interface()->isServiceRegistered(kKdeService)) {
         screensaver_ = new DBusScreensaver(kKdeService, kKdePath, kKdeInterface);
       }
-    #elif defined(Q_OS_DARWIN)
+    #elif defined(Q_OS_MACOS)
       screensaver_ = new MacScreensaver();
     #endif
   }

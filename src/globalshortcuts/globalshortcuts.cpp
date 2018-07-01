@@ -33,7 +33,11 @@
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
 #include "gnomeglobalshortcutbackend.h"
-#include "qxtglobalshortcutbackend.h"
+#ifndef Q_OS_MACOS
+#  include "qxtglobalshortcutbackend.h"
+#else
+#  include "macglobalshortcutbackend.h"
+#endif
 #include "settings/shortcutssettingspage.h"
 
 GlobalShortcuts::GlobalShortcuts(QWidget *parent)
@@ -66,7 +70,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
   // Create backends - these do the actual shortcut registration
   gnome_backend_ = new GnomeGlobalShortcutBackend(this);
 
-#ifndef Q_OS_DARWIN
+#ifndef Q_OS_MACOS
   system_backend_ = new QxtGlobalShortcutBackend(this);
 #else
   system_backend_ = new MacGlobalShortcutBackend(this);

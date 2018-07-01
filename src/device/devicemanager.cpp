@@ -68,7 +68,7 @@
 #  include "cddadevice.h"
 #endif
 
-#if defined(Q_OS_DARWIN) and defined(HAVE_LIBMTP)
+#if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
 #  include "macdevicelister.h"
 #endif
 #ifdef HAVE_LIBGPOD
@@ -220,7 +220,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   connected_devices_model_->setSourceModel(this);
 
 // CD devices are detected via the DiskArbitration framework instead on Darwin.
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER) && !defined(Q_OS_DARWIN)
+#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER) && !defined(Q_OS_MACOS)
   AddLister(new CddaLister);
 #endif
 #ifdef HAVE_DEVICEKIT
@@ -232,7 +232,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 #ifdef HAVE_GIO
   AddLister(new GioLister);
 #endif
-#if defined(Q_OS_DARWIN) and defined(HAVE_LIBMTP)
+#if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
   AddLister(new MacDeviceLister);
 #endif
 

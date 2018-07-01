@@ -36,12 +36,12 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionWatcher;
 
-class Collection : public QObject {
+class SCollection : public QObject {
   Q_OBJECT
 
  public:
-  Collection(Application* app, QObject* parent);
-  ~Collection();
+  SCollection(Application *app, QObject *parent);
+  ~SCollection();
 
   static const char *kSongsTable;
   static const char *kDirsTable;

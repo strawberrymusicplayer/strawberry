@@ -30,8 +30,11 @@
 #include <QRect>
 #include <QVector>
 
-#include "qtsystemtrayicon.h"
 #include "systemtrayicon.h"
+#include "qtsystemtrayicon.h"
+#ifdef Q_OS_MACOS
+#  include "macsystemtrayicon.h"
+#endif
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
   : QObject(parent),
@@ -103,7 +106,7 @@ void SystemTrayIcon::SetStopped() {
 }
 
 SystemTrayIcon* SystemTrayIcon::CreateSystemTrayIcon(QObject *parent) {
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   return new MacSystemTrayIcon(parent);
 #else
   return new QtSystemTrayIcon(parent);

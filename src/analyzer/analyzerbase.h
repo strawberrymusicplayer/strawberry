@@ -13,14 +13,6 @@
 #include <stdbool.h>
 #include <vector>
 
-#ifdef Q_OS_MACOS
-  #include <OpenGL/gl.h>   //included for convenience
-  #include <OpenGL/glu.h>  //included for convenience
-#else
-  #include <GL/gl.h>   //included for convenience
-  #include <GL/glu.h>  //included for convenience
-#endif
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>

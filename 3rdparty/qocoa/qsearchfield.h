@@ -2,22 +2,24 @@
 #define QSEARCHFIELD_H
 
 #include <QWidget>
-#include <QObject>
 #include <QPointer>
-#include <QString>
-#include <QEvent>
-#include <QResizeEvent>
+#include <QMenu>
 
 class QSearchFieldPrivate;
 class QSearchField : public QWidget
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged USER true);
+    Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText);
+
 public:
     explicit QSearchField(QWidget *parent);
 
     QString text() const;
     QString placeholderText() const;
-    void setFocus(Qt::FocusReason reason);
+    void setFocus(Qt::FocusReason);
+    void setMenu(QMenu *menu);
 
 public slots:
     void setText(const QString &text);
@@ -31,15 +33,16 @@ signals:
     void editingFinished();
     void returnPressed();
 
+private slots:
+    void popupMenu();
+
 protected:
+    void changeEvent(QEvent*);
     void resizeEvent(QResizeEvent*);
-    bool eventFilter(QObject*, QEvent*);
 
 private:
     friend class QSearchFieldPrivate;
     QPointer <QSearchFieldPrivate> pimpl;
-
-    Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText);
 };
 
 #endif // QSEARCHFIELD_H

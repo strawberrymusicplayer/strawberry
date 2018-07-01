@@ -70,9 +70,9 @@
 #include "playlist/playlist.h"
 #include "playlistdelegates.h"
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 #include "core/mac_utilities.h"
-#endif  // Q_OS_DARWIN
+#endif  // Q_OS_MACOS
 
 const int QueuedItemDelegate::kQueueBoxBorder = 1;
 const int QueuedItemDelegate::kQueueBoxCornerRadius = 3;
@@ -484,7 +484,7 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   QPixmap pixmap = LookupPixmap(url, option_copy.decorationSize);
 
   float device_pixel_ratio = 1.0f;
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   QWidget *parent_widget = reinterpret_cast<QWidget*>(parent());
   device_pixel_ratio = mac::GetDevicePixelRatio(parent_widget);
 #endif

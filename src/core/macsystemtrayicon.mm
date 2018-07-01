@@ -90,7 +90,7 @@ class MacSystemTrayIconPrivate {
     // This must be called after our custom NSApplicationDelegate has been set.
     [(AppDelegate*)([NSApp delegate]) setDockMenu:dock_menu_];
 
-    ClearPlaying();
+    ClearNowPlaying();
   }
 
   void AddMenuItem(QAction* action) {
@@ -120,8 +120,8 @@ class MacSystemTrayIconPrivate {
     [dock_menu_ addItem:separator];
   }
 
-  void ShowPlaying(const QString& artist, const QString& title) {
-    ClearPlaying();  // Makes sure the order is consistent.
+  void ShowNowPlaying(const QString& artist, const QString& title) {
+    ClearNowPlaying();  // Makes sure the order is consistent.
     [now_playing_artist_ setTitle:
         [[NSString alloc] initWithUTF8String: artist.toUtf8().constData()]];
     [now_playing_title_ setTitle:
@@ -131,7 +131,7 @@ class MacSystemTrayIconPrivate {
     artist.isEmpty() && title.isEmpty() ? HideItem(now_playing_) : ShowItem(now_playing_);
   }
 
-  void ClearPlaying() {
+  void ClearNowPlaying() {
     // Hiding doesn't seem to work in the dock menu.
     HideItem(now_playing_);
     HideItem(now_playing_artist_);
@@ -200,10 +200,10 @@ void MacSystemTrayIcon::ActionChanged() {
   p_->ActionChanged(action);
 }
 
-void MacSystemTrayIcon::ClearPlaying() {
-  p_->ClearPlaying();
+void MacSystemTrayIcon::ClearNowPlaying() {
+  p_->ClearNowPlaying();
 }
 
-void MacSystemTrayIcon::SetPlaying(const Song& song, const QString& image_path) {
-  p_->ShowPlaying(song.artist(), song.PrettyTitle());
+void MacSystemTrayIcon::SetNowPlaying(const Song& song, const QString& image_path) {
+  p_->ShowNowPlaying(song.artist(), song.PrettyTitle());
 }

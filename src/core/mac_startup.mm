@@ -43,18 +43,18 @@
 
 #include "config.h"
 
-#include "globalshortcuts.h"
 #include "mac_delegate.h"
 #include "mac_startup.h"
 #include "mac_utilities.h"
-#include "macglobalshortcutbackend.h"
 #include "utilities.h"
-#include "core/logging.h"
 #include "scoped_cftyperef.h"
-#include "scoped_nsautorelease_pool.h"
+#include "core/logging.h"
+#include "core/scoped_nsautorelease_pool.h"
+#include "globalshortcuts/globalshortcuts.h"
+#include "globalshortcuts/macglobalshortcutbackend.h"
 
 #ifdef HAVE_SPARKLE
-#import <Sparkle/SUUpdater.h>
+#  import <Sparkle/SUUpdater.h>
 #endif
 
 #include <QApplication>

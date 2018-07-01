@@ -425,7 +425,7 @@ void XineEngine::SetEnvironment() {
   putenv(QString("XINE_PLUGIN_PATH=" + QCoreApplication::applicationDirPath() + "/xine-plugins").toLatin1().constData());
 #endif
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   setenv("XINE_PLUGIN_PATH", QString(QCoreApplication::applicationDirPath() + "/../PlugIns/xine").toLatin1().constData(), 1);
 #endif
 

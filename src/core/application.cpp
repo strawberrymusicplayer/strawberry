@@ -74,7 +74,7 @@ class ApplicationImpl {
         player_([=]() { return new Player(app, app); }),
         enginedevice_([=]() { return new EngineDevice(app); }),
         device_manager_([=]() { return new DeviceManager(app, app); }),
-        collection_([=]() { return new Collection(app, app); }),
+        collection_([=]() { return new SCollection(app, app); }),
         playlist_backend_([=]() {
           PlaylistBackend *backend = new PlaylistBackend(app, app);
           app->MoveToThread(backend, database_->thread());
@@ -107,7 +107,7 @@ class ApplicationImpl {
   Lazy<Player> player_;
   Lazy<EngineDevice> enginedevice_;
   Lazy<DeviceManager> device_manager_;
-  Lazy<Collection> collection_;
+  Lazy<SCollection> collection_;
   Lazy<PlaylistBackend> playlist_backend_;
   Lazy<PlaylistManager> playlist_manager_;
   Lazy<CoverProviders> cover_providers_;
@@ -183,7 +183,7 @@ DeviceManager *Application::device_manager() const {
   return p_->device_manager_.get();
 }
 
-Collection *Application::collection() const { return p_->collection_.get(); }
+SCollection *Application::collection() const { return p_->collection_.get(); }
 
 CollectionBackend *Application::collection_backend() const {
   return collection()->backend();

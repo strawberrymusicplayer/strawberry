@@ -220,7 +220,7 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
         }
         break;
 
-#ifndef Q_OS_DARWIN
+#ifndef Q_OS_MACOS
       case TrayPopup:
         tray_icon_->ShowPopup(summary, message, timeout_msec_);
         break;
@@ -324,7 +324,7 @@ QString OSD::ReplaceVariable(const QString &variable, const Song &song) {
     // We need different strings depending on notification type
     switch (behaviour_) {
       case Native:
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
         return "\n";
 #endif
 #ifdef Q_OS_LINUX

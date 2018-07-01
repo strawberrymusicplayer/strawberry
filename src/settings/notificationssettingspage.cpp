@@ -175,7 +175,7 @@ void NotificationsSettingsPage::Load() {
   ui_->notifications_custom_text2->setText(s.value("CustomText2").toString());
   s.endGroup();
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ui_->notifications_options->setEnabled(ui_->notifications_pretty->isChecked());
 #endif
 
@@ -339,7 +339,7 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
   ui_->notifications_pretty_group->setEnabled(pretty);
   ui_->notifications_custom_text_group->setEnabled(enabled);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ui_->notifications_options->setEnabled(pretty);
 #endif
   ui_->notifications_duration->setEnabled(!pretty || (pretty && !ui_->notifications_disable_duration->isChecked()));

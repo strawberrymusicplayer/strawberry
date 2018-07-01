@@ -52,7 +52,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupbox_startupgroup">
+    <widget class="QGroupBox" name="groupbox_startup">
      <property name="title">
       <string>When Strawberry starts</string>
      </property>
@@ -60,14 +60,14 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_alwaysshow">
         <property name="text">
-         <string>Always show the main window</string>
+         <string>Always show the &amp;main window</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radiobutton_alwayshide">
         <property name="text">
-         <string>Always hide the main window</string>
+         <string>Alwa&amp;ys hide the main window</string>
         </property>
        </widget>
       </item>

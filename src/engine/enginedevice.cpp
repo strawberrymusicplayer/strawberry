@@ -38,7 +38,7 @@
 #  include "pulsedevicefinder.h"
 #endif
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 #  include "osxdevicefinder.h"
 #endif
 
@@ -63,7 +63,7 @@ void EngineDevice::Init() {
 #ifdef HAVE_LIBPULSE
   device_finders.append(new PulseDeviceFinder);
 #endif
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   device_finders.append(new OsxDeviceFinder);
 #endif
 #ifdef Q_OS_WIN32

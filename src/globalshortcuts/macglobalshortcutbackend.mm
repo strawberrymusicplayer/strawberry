@@ -36,13 +36,13 @@
 #include <QtDebug>
 
 #include "config.h"
-#include "core/globalshortcuts.h"
+#include "globalshortcuts.h"
 #include "core/logging.h"
 #include "core/mac_startup.h"
 #include "core/utilities.h"
 
 #import "core/mac_utilities.h"
-#import "mac/SBSystemPreferences.h"
+#import "core/SBSystemPreferences.h"
 
 class MacGlobalShortcutBackendPrivate : boost::noncopyable {
  public:
@@ -88,10 +88,8 @@ bool MacGlobalShortcutBackend::DoRegister() {
   // Always enable media keys.
   mac::SetShortcutHandler(this);
 
-    for (const GlobalShortcuts::Shortcut& shortcut :
-         manager_->shortcuts().values()) {
-      shortcuts_[shortcut.action->shortcut()] = shortcut.action;
-    }
+  for (const GlobalShortcuts::Shortcut& shortcut : manager_->shortcuts().values()) {
+    shortcuts_[shortcut.action->shortcut()] = shortcut.action;
   }
 
   return p_->Register();
@@ -134,29 +132,26 @@ bool MacGlobalShortcutBackend::IsAccessibilityEnabled() const {
 }
 
 void MacGlobalShortcutBackend::ShowAccessibilityDialog() {
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(
-      NSPreferencePanesDirectory, NSSystemDomainMask, YES);
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
   if ([paths count] == 1) {
     SBSystemPreferencesApplication* system_prefs = [SBApplication
         applicationWithBundleIdentifier:@"com.apple.systempreferences"];
     [system_prefs activate];
 
-      SBElementArray* panes = [system_prefs panes];
-      SBSystemPreferencesPane* security_pane = nil;
-      for (SBSystemPreferencesPane* pane : panes) {
-        if ([[pane id] isEqualToString:@"com.apple.preference.security"]) {
-          security_pane = pane;
-          break;
-        }
+    SBElementArray* panes = [system_prefs panes];
+    SBSystemPreferencesPane* security_pane = nil;
+    for (SBSystemPreferencesPane* pane : panes) {
+      if ([[pane id] isEqualToString:@"com.apple.preference.security"]) {
+        security_pane = pane;
+        break;
       }
     }
     [system_prefs setCurrentPane:security_pane];
 
-      SBElementArray* anchors = [security_pane anchors];
-      for (SBSystemPreferencesAnchor* anchor : anchors) {
-        if ([[anchor name] isEqualToString:@"Privacy_Accessibility"]) {
-          [anchor reveal];
-        }
+    SBElementArray* anchors = [security_pane anchors];
+    for (SBSystemPreferencesAnchor* anchor : anchors) {
+      if ([[anchor name] isEqualToString:@"Privacy_Accessibility"]) {
+        [anchor reveal];
       }
     }
   }

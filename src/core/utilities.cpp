@@ -59,26 +59,27 @@
 #include <QtDebug>
 
 #ifdef Q_OS_LINUX
-  #include <unistd.h>
-  #include <sys/syscall.h>
+#  include <unistd.h>
+#  include <sys/syscall.h>
 #endif
-#ifdef Q_OS_DARWIN
-  #include <sys/resource.h>
+#ifdef Q_OS_MACOS
+#  include <sys/resource.h>
+#  include <sys/sysctl.h>
+#  include <sys/param.h>
 #endif
 
 #if defined(Q_OS_UNIX)
-  #include <sys/statvfs.h>
-#elif defined(Q_OS_WIN32)
-  #include <windows.h>
+#  include <sys/statvfs.h>
+#elif defined(Q_OS_WIN)
+#  include <windows.h>
 #endif
 
-#ifdef Q_OS_DARWIN
-  #include <QProcess>
-
-  #include "CoreServices/CoreServices.h"
-  #include "IOKit/ps/IOPSKeys.h"
-  #include "IOKit/ps/IOPowerSources.h"
-#elif defined(Q_OS_WIN32)
+#ifdef Q_OS_MACOS
+#  include <QProcess>
+#  include "CoreServices/CoreServices.h"
+#  include "IOKit/ps/IOPSKeys.h"
+#  include "IOKit/ps/IOPowerSources.h"
+#elif defined(Q_OS_WIN)
   #include <QProcess>
 #endif
 
@@ -89,10 +90,10 @@
 #include "timeconstants.h"
 #include "application.h"
 
-#ifdef Q_OS_DARWIN
-  #include "mac_startup.h"
-  #include "mac_utilities.h"
-  #include "scoped_cftyperef.h"
+#ifdef Q_OS_MACOS
+#  include "mac_startup.h"
+#  include "mac_utilities.h"
+#  include "scoped_cftyperef.h"
 #endif
 
 namespace Utilities {
@@ -361,7 +362,7 @@ QString ColorToRgba(const QColor &c) {
 
 }
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 qint32 GetMacVersion() {
 
   SInt32 minor_version;
@@ -374,7 +375,7 @@ qint32 GetMacVersion() {
 void RevealFileInFinder(QString const &path) {
   QProcess::execute("/usr/bin/open", QStringList() << "-R" << path);
 }
-#endif  // Q_OS_DARWIN
+#endif  // Q_OS_MACOS
 
 #ifdef Q_OS_WIN
 void ShowFileInExplorer(QString const &path) {
@@ -398,7 +399,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     if (dirs.contains(directory)) continue;
     dirs.insert(directory);
     qLog(Debug) << path;
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
     // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
     RevealFileInFinder(path);
 #elif defined(Q_OS_WIN32)
@@ -642,7 +643,7 @@ int SetThreadIOPriority(IoPriority priority) {
 
 #ifdef Q_OS_LINUX
   return syscall(SYS_ioprio_set, IOPRIO_WHO_PROCESS, GetThreadId(), 4 | priority << IOPRIO_CLASS_SHIFT);
-#elif defined(Q_OS_DARWIN)
+#elif defined(Q_OS_MACOS)
   return setpriority(PRIO_DARWIN_THREAD, 0, priority == IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
 #else
   return 0;
@@ -752,7 +753,7 @@ void SetEnv(const char *key, const QString &value) {
 
 void IncreaseFDLimit() {
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   // Bump the soft limit for the number of file descriptors from the default of 256 to the maximum (usually 10240).
   struct rlimit limit;
   getrlimit(RLIMIT_NOFILE, &limit);

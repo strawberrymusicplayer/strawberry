@@ -24,6 +24,7 @@ else()
         qprogressindicatorspinning_nonmac.cpp
     )
     set(RESOURCES
+        qsearchfield_nonmac.qrc
         qprogressindicatorspinning_nonmac.qrc
     )
     qt5_add_resources(RESOURCES_SOURCES ${RESOURCES})
@@ -31,3 +32,4 @@ endif()
 
 add_library(Qocoa STATIC ${SOURCES} ${MOC_SOURCES} ${RESOURCES_SOURCES})
 target_link_libraries(Qocoa ${QT_LIBRARIES})
+

@@ -31,6 +31,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
+#include <QStandardPaths>
 #include <QFileDevice>
 #include <QIODevice>
 #include <QByteArray>
@@ -48,7 +49,7 @@
 #  include <unistd.h>
 #endif
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
 #  include <sys/resource.h>
 #  include <sys/sysctl.h>
 #endif
@@ -90,13 +91,13 @@
 
 int main(int argc, char* argv[]) {
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   // Do Mac specific startup to get media keys working.
   // This must go before QApplication initialisation.
   mac::MacMain();
 #endif
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_DARWIN)
+#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   QCoreApplication::setApplicationName("Strawberry");
   QCoreApplication::setOrganizationName("Strawberry");
 #else
@@ -142,7 +143,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   // Must happen after QCoreApplication::setOrganizationName().
   setenv("XDG_CONFIG_HOME", QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation).toLocal8Bit().constData(), 1);
 #endif
@@ -159,8 +160,8 @@ int main(int argc, char* argv[]) {
 
   QtSingleApplication a(argc, argv);
 
-#ifdef Q_OS_DARWIN
-  QCoreApplication::setCollectionPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
+#ifdef Q_OS_MACOS
+  QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
 #endif
 
   a.setQuitOnLastWindowClosed(false);
@@ -170,7 +171,7 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-#ifndef Q_OS_DARWIN
+#ifndef Q_OS_MACOS
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
 #else
@@ -217,9 +218,9 @@ int main(int argc, char* argv[]) {
 
   // Window
   MainWindow w(&app, tray_icon.get(), &osd, options);
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
-#endif  // Q_OS_DARWIN
+#endif  // Q_OS_MACOS
 #ifdef HAVE_GIO
   ScanGIOModulePath();
 #endif

@@ -84,7 +84,7 @@
 #include "dialogs/trackselectiondialog.h"
 #include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
-#include "dialogs/organisedialog.h"
+#  include "dialogs/organisedialog.h"
 #endif
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -127,13 +127,13 @@
 #include "settings/playlistsettingspage.h"
 #include "settings/settingsdialog.h"
 
-#ifdef Q_OS_DARWIN
-#include "ui/macsystemtrayicon.h"
+#ifdef Q_OS_MACOS
+#  include "core/macsystemtrayicon.h"
 #endif
 
-#ifdef Q_OS_DARWIN
-// Non exported mac-specific function.
-void qt_mac_set_dock_menu(QMenu*);
+#ifdef Q_OS_MACOS
+  // Non exported mac-specific function.
+  void qt_mac_set_dock_menu(QMenu*);
 #endif
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
@@ -203,7 +203,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Initialise the UI
   ui_->setupUi(this);
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ui_->menu_help->menuAction()->setVisible(false);
 #endif
 
@@ -511,7 +511,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_remove_duplicates);
   playlist_menu_->addAction(ui_->action_remove_unavailable);
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ui_->action_shuffle->setShortcut(QKeySequence());
 #endif
 
@@ -525,7 +525,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), playlist_copy_to_device_, SLOT(setDisabled(bool)));
 #endif
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
@@ -542,7 +542,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Windows 7 thumbbar buttons
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr); // spacer
 
-#if (defined(Q_OS_DARWIN) && defined(HAVE_SPARKLE))
+#if (defined(Q_OS_MACOS) && defined(HAVE_SPARKLE))
   // Add check for updates item to application menu.
   QAction *check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
   check_updates->setMenuRole(QAction::ApplicationSpecificRole);
@@ -661,7 +661,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->playlist->view()->ReloadSettings();
 
 
-#ifndef Q_OS_DARWIN
+#ifndef Q_OS_MACOS
   QSettings settings;
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   StartupBehaviour behaviour = StartupBehaviour(settings.value("startupbehaviour", Startup_Remember).toInt());
@@ -682,7 +682,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
     settings_.setValue("hidden", false);
     show();
   }
-#else  // Q_OS_DARWIN
+#else  // Q_OS_MACOS
   // Always show mainwindow on startup on OS X.
   show();
 #endif
@@ -711,7 +711,7 @@ void MainWindow::ReloadSettings() {
 
   QSettings settings;
 
-#ifndef Q_OS_DARWIN
+#ifndef Q_OS_MACOS
 
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   bool showtrayicon = settings.value("showtrayicon", true).toBool();
@@ -1694,7 +1694,7 @@ bool MainWindow::LoadUrl(const QString &url) {
 }
 
 void MainWindow::CheckForUpdates() {
-#if defined(Q_OS_DARWIN)
+#if defined(Q_OS_MACOS)
   mac::CheckForUpdates();
 #endif
 }

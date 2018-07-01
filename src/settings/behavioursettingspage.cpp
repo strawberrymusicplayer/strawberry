@@ -43,9 +43,9 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 
   connect(ui_->checkbox_showtrayicon, SIGNAL(toggled(bool)), SLOT(ShowTrayIconToggled(bool)));
 
-#ifdef Q_OS_DARWIN
+#ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->setEnabled(false);
-  ui_->startup_group->setEnabled(false);
+  ui_->groupbox_startup->setEnabled(false);
 #endif
 
 }
