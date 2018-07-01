@@ -195,7 +195,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     i++;
     ui_->combobox_output->addItem(IconLoader::Load(o.iconname), o.description, QVariant::fromValue(o));
   }
-  if (i > 0) ui_->combobox_output->setEnabled(true);
+  if (i > 1) ui_->combobox_output->setEnabled(true);
 
   bool found(false);
   for (int i = 0; i < ui_->combobox_output->count(); ++i) {
