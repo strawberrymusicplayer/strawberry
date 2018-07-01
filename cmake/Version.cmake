@@ -26,7 +26,7 @@ if(INCLUDE_GIT_REVISION)
 
   find_program(GIT_EXECUTABLE git)
   if(GIT_EXECUTABLE-NOTFOUND)
-    message(FATAL_ERROR "Misssing GIT executable." )
+    message(FATAL_ERROR "Missing GIT executable." )
   endif()
 
   # Get the current working branch
