@@ -21,7 +21,7 @@
 #include "config.h"
 
 #ifdef HAVE_DBUS
-#  include "dbus/gnomesettingsdaemon.h"
+#  include <dbus/gnomesettingsdaemon.h>
 #endif
 
 #include <QAction>

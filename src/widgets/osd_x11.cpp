@@ -23,6 +23,10 @@
 #include <stdbool.h>
 #include <memory>
 
+#ifdef HAVE_DBUS
+#  include <dbus/notification.h>
+#endif
+
 #include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
@@ -48,7 +52,6 @@
 #include "osd.h"
 
 #ifdef HAVE_DBUS
-#  include "dbus/notification.h"
 
 QDBusArgument& operator<<(QDBusArgument& arg, const QImage& image) {
 

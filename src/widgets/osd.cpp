@@ -20,6 +20,10 @@
 
 #include "config.h"
 
+#ifdef HAVE_DBUS
+# include <dbus/notification.h>
+#endif
+
 #include <QObject>
 #include <QCoreApplication>
 #include <QList>
@@ -40,10 +44,6 @@
 #include "core/logging.h"
 #include "core/systemtrayicon.h"
 #include "covermanager/currentartloader.h"
-
-#ifdef HAVE_DBUS
-# include "dbus/notification.h"
-#endif
 
 const char *OSD::kSettingsGroup = "OSD";
 

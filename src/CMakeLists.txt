@@ -416,7 +416,6 @@ set(HEADERS
   
   device/connecteddevice.h
   device/devicedatabasebackend.h
-  device/devicekitlister.h
   device/devicelister.h
   device/devicemanager.h
   device/deviceproperties.h
@@ -649,15 +648,16 @@ optional_source(HAVE_DBUS
     core/mpris2.h
 )
 
-optional_source(HAVE_DEVICEKIT
-  SOURCES device/devicekitlister.cpp
-  HEADERS device/devicekitlister.h
-)
-
-optional_source(HAVE_UDISKS2
-  SOURCES device/udisks2lister.cpp
-  HEADERS device/udisks2lister.h
-)
+if(HAVE_DBUS)
+  optional_source(HAVE_DEVICEKIT
+    SOURCES device/devicekitlister.cpp
+    HEADERS device/devicekitlister.h
+  )
+  optional_source(HAVE_UDISKS2
+    SOURCES device/udisks2lister.cpp
+    HEADERS device/udisks2lister.h
+  )
+endif()
 
 # Libgpod device backend
 optional_source(HAVE_LIBGPOD

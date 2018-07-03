@@ -17,6 +17,12 @@
 
 #include "config.h"
 
+#include <dbus/objectmanager.h>
+#include <dbus/udisks2block.h>
+#include <dbus/udisks2drive.h>
+#include <dbus/udisks2filesystem.h>
+#include <dbus/udisks2job.h>
+
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
@@ -37,11 +43,6 @@
 
 #include "core/logging.h"
 #include "core/utilities.h"
-#include "dbus/objectmanager.h"
-#include "dbus/udisks2block.h"
-#include "dbus/udisks2drive.h"
-#include "dbus/udisks2filesystem.h"
-#include "dbus/udisks2job.h"
 
 #include "udisks2lister.h"
 

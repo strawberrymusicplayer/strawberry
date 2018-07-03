@@ -20,6 +20,9 @@
 
 #include "config.h"
 
+#include <dbus/udisks.h>
+#include <dbus/udisksdevice.h>
+
 #include <QMutex>
 #include <QList>
 #include <QVariant>
@@ -36,8 +39,6 @@
 
 #include "core/logging.h"
 #include "core/utilities.h"
-#include "dbus/udisks.h"
-#include "dbus/udisksdevice.h"
 #include "devicekitlister.h"
 
 DeviceKitLister::DeviceKitLister() {}

@@ -60,7 +60,6 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicedatabasebackend.h"
-#include "devicekitlister.h"
 #include "devicestatefiltermodel.h"
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
@@ -84,8 +83,13 @@
 #ifdef HAVE_LIBMTP
 #  include "mtpdevice.h"
 #endif
-#ifdef HAVE_UDISKS2
-#  include "udisks2lister.h"
+#ifdef HAVE_DBUS
+#  ifdef HAVE_DEVICEKIT
+#    include "devicekitlister.h"
+#  endif
+#  ifdef HAVE_UDISKS2
+#    include "udisks2lister.h"
+#  endif
 #endif
 
 using std::bind;
@@ -219,14 +223,14 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   connected_devices_model_ = new DeviceStateFilterModel(this);
   connected_devices_model_->setSourceModel(this);
 
-// CD devices are detected via the DiskArbitration framework instead on Darwin.
+// CD devices are detected via the DiskArbitration framework instead on MacOs.
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER) && !defined(Q_OS_MACOS)
   AddLister(new CddaLister);
 #endif
-#ifdef HAVE_DEVICEKIT
+#if defined(HAVE_DBUS) && defined(HAVE_DEVICEKIT)
   AddLister(new DeviceKitLister);
 #endif
-#ifdef HAVE_UDISKS2
+#if defined(HAVE_DBUS) && defined(HAVE_UDISKS2)
   AddLister(new Udisks2Lister);
 #endif
 #ifdef HAVE_GIO
