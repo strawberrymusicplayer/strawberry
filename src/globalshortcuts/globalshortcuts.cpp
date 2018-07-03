@@ -26,7 +26,7 @@
 #include <QAction>
 #include <QShortcut>
 #include <QKeySequence>
-#ifdef QT_DBUS_LIB
+#ifdef HAVE_DBUS
 # include <QDBusConnectionInterface>
 #endif
 
@@ -108,9 +108,9 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
 
 bool GlobalShortcuts::IsGsdAvailable() const {
 
-#ifdef QT_DBUS_LIB
+#ifdef HAVE_DBUS
   return QDBusConnection::sessionBus().interface()->isServiceRegistered(GnomeGlobalShortcutBackend::kGsdService);
-#else  // QT_DBUS_LIB
+#else
   return false;
 #endif
 

@@ -20,20 +20,21 @@
 
 #include "config.h"
 
-#ifdef QT_DBUS_LIB
-# include <QCoreApplication>
-# include <QDBusConnectionInterface>
-# include <QDBusMessage>
-# include <QDBusPendingCall>
-# include <QDBusPendingReply>
+#ifdef HAVE_DBUS
+#  include "dbus/gnomesettingsdaemon.h"
 #endif
+
 #include <QAction>
 #include <QDateTime>
 #include <QMap>
 #include <QtDebug>
 
-#ifdef QT_DBUS_LIB
-#include "dbus/gnomesettingsdaemon.h"
+#ifdef HAVE_DBUS
+# include <QCoreApplication>
+# include <QDBusConnectionInterface>
+# include <QDBusMessage>
+# include <QDBusPendingCall>
+# include <QDBusPendingReply>
 #endif
 
 #include "core/closure.h"
@@ -53,7 +54,7 @@ GnomeGlobalShortcutBackend::GnomeGlobalShortcutBackend(GlobalShortcuts *parent)
 
 bool GnomeGlobalShortcutBackend::DoRegister() {
 
-#ifdef QT_DBUS_LIB
+#ifdef HAVE_DBUS
   qLog(Debug) << "registering";
   // Check if the GSD service is available
   if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(kGsdService)) {
@@ -71,7 +72,7 @@ bool GnomeGlobalShortcutBackend::DoRegister() {
   NewClosure(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), this, SLOT(RegisterFinished(QDBusPendingCallWatcher*)), watcher);
 
   return true;
-#else  // QT_DBUS_LIB
+#else
   qLog(Warning) << "dbus not available";
   return false;
 #endif
@@ -80,7 +81,7 @@ bool GnomeGlobalShortcutBackend::DoRegister() {
 
 void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watcher) {
 
-#ifdef QT_DBUS_LIB
+#ifdef HAVE_DBUS
   QDBusMessage reply = watcher->reply();
   watcher->deleteLater();
 
@@ -93,14 +94,15 @@ void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watch
   is_connected_ = true;
 
   qLog(Debug) << "registered";
-#endif  // QT_DBUS_LIB
+#endif
 
 }
 
 void GnomeGlobalShortcutBackend::DoUnregister() {
 
   qLog(Debug) << "unregister";
-#ifdef QT_DBUS_LIB
+
+#ifdef HAVE_DBUS
   // Check if the GSD service is available
   if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(kGsdService))
     return;
