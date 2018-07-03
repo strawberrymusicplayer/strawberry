@@ -22,20 +22,20 @@ It has so far been tested to work on Linux, OpenBSD and Windows (cross compiled 
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
-* GLib, GIO and GObject
-* POSIX thread (pthread) libraries
-* CMake and Make tools
-* GCC or clang compiler
-* Protobuf library and compiler
-* Boost development headers
-* Qt 5 with components Core, Widgets, Network, Sql, Xml, OpenGL, Concurrent, Test, WebKitWidget, X11Extras and DBus
-* SQLite3
-* TagLib 1.11.1 or higher
-* Chromaprint library
-* libxml library
-* ALSA library (linux)
-* DBus (linux)
-* PulseAudio (linux optional)
+* [GLib, GIO and GObject](https://developer.gnome.org/glib/)
+* [POSIX thread (pthread) libraries](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
+* [CMake and Make tools](https://cmake.org/)
+* [GCC](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/) compiler
+* [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
+* [Boost development headers](https://www.boost.org/)
+* [Qt 5 with components Core, Widgets, Network, Sql, Xml, OpenGL, Concurrent, Test, WebKitWidget, X11Extras and DBus](https://www.qt.io/)
+* [SQLite3](https://www.sqlite.org)
+* [TagLib 1.11.1 or higher](http://taglib.org/)
+* [Chromaprint library](https://acoustid.org/chromaprint)
+* [libxml library](http://www.xmlsoft.org/)
+* [ALSA library (linux)](https://www.alsa-project.org/)
+* [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
+* [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 
 Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
@@ -43,9 +43,9 @@ You should also install the gstreamer plugins base and good, and optionally bad 
 Optional:
 
 * The Qt 5 LastFM library is required for fetching album covers from LastFM.
-* To enable CD support for playing audio cd's you need libcdio.
-* If you want MTP support you need libmtp.
-* If you need iPod Classic support you need libgpod.
+* [libcdio](https://www.gnu.org/software/libcdio/) - To enable Audio CD support
+* [libmtp](http://libmtp.sourceforge.net/) - For MTP support.
+* [libgpod](http://www.gtkpod.org/libgpod/) - If you need iPod Classic support you need.
 
 ### :wrench:	Compiling from source
 
