@@ -71,7 +71,7 @@ private:
 static bool resolveLibs()
 {
     if (!pDwmIsCompositionEnabled) {
-        QLibrary dwmLib(QString::fromAscii("dwmapi"));
+        QLibrary dwmLib(QString::toLatin1("dwmapi"));
         pDwmIsCompositionEnabled =(PtrDwmIsCompositionEnabled)dwmLib.resolve("DwmIsCompositionEnabled");
         pDwmExtendFrameIntoClientArea = (PtrDwmExtendFrameIntoClientArea)dwmLib.resolve("DwmExtendFrameIntoClientArea");
         pDwmEnableBlurBehindWindow = (PtrDwmEnableBlurBehindWindow)dwmLib.resolve("DwmEnableBlurBehindWindow");
@@ -165,7 +165,7 @@ bool QtWin::extendFrameIntoClientArea(QWidget *widget, int left, int top, int ri
     bool result = false;
 #ifdef Q_WS_WIN
     if (resolveLibs()) {
-        QLibrary dwmLib(QString::fromAscii("dwmapi"));
+        QLibrary dwmLib(QString::toLatin1("dwmapi"));
         HRESULT hr = S_OK;
         MARGINS m = {left, top, right, bottom};
         hr = pDwmExtendFrameIntoClientArea(widget->winId(), &m);
@@ -192,7 +192,7 @@ QColor QtWin::colorizatinColor()
     if (resolveLibs()) {
         DWORD color = 0;
         BOOL opaque = FALSE;
-        QLibrary dwmLib(QString::fromAscii("dwmapi"));
+        QLibrary dwmLib(QString::toLatin1("dwmapi"));
         HRESULT hr = S_OK;
         hr = pDwmGetColorizationColor(&color, &opaque);
         if (SUCCEEDED(hr))
