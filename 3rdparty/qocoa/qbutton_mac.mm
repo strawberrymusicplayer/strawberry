@@ -132,7 +132,7 @@ public:
                 [nsButton setButtonType:NSMomentaryPushInButton];
         }
 
-       // [nsButton setBezelStyle:bezelStyle];
+        [nsButton setBezelStyle:(__bridge NSBezelStyle)bezelStyle];
     }
 
     void clicked()

@@ -102,11 +102,13 @@ QList<DeviceFinder::Device> OsxDeviceFinder::ListDevices() {
     }
 
     Device dev;
-    dev.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
     dev.value = id;
+    dev.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
+    if (dev.description.isEmpty()) dev.description = QString("Unknown device " + dev.value.toString());
     dev.iconname = GuessIconName(dev.description);
     ret.append(dev);
   }
   return ret;
+
 }
 

@@ -3,7 +3,7 @@
 name=strawberry
 version="@STRAWBERRY_VERSION_PACKAGE@"
 gitrev="@INCLUDE_GIT_REVISION@"
-root=$(cd "${0%/*}/.." && echo $PWD/${0##*/})
+root=$(cd "${0%/*}/../.." && echo $PWD/${0##*/})
 root=`dirname "$root"`
 rootnoslash=`echo $root | sed "s/^\///"`
 

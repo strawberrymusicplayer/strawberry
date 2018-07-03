@@ -179,7 +179,6 @@ set(SOURCES
   covermanager/albumcovermanager.cpp
   covermanager/albumcovermanagerlist.cpp
   covermanager/albumcoverloader.cpp
-  covermanager/albumcoverloaderoptions.cpp
   covermanager/albumcoverfetcher.cpp
   covermanager/albumcoverfetchersearch.cpp
   covermanager/albumcoversearcher.cpp
@@ -790,12 +789,8 @@ optional_source(APPLE
     globalshortcuts/globalshortcutgrabber.mm
     globalshortcuts/macglobalshortcutbackend.mm
   HEADERS
-    core/mac_startup.h
     core/macsystemtrayicon.h
-    core/macscreensaver.h
     core/macfslistener.h
-    core/mac_utilities.h
-    core/mac_delegate.h
     globalshortcuts/macglobalshortcutbackend.h
 )
 
@@ -916,6 +911,7 @@ if (APPLE)
     "-framework IOKit"
     "-framework ScriptingBridge"
   )
+
   target_link_libraries(strawberry_lib ${SPMEDIAKEYTAP_LIBRARIES})
   if (HAVE_SPARKLE)
     include_directories(${SPARKLE}/Headers)
@@ -982,55 +978,10 @@ target_link_libraries(strawberry
 # macdeploy.py relies on the blob being built first.
 add_dependencies(strawberry strawberry-tagreader)
 
-#set_target_properties(strawberry PROPERTIES
-  #MACOSX_BUNDLE_INFO_PLIST "../dist/macos/Info.plist"
-#)
+if (NOT APPLE)
+  install(TARGETS strawberry RUNTIME DESTINATION bin)
+endif()
 
 if (APPLE)
-  install(FILES ../dist/macos/strawberry.icns DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
-  install(FILES ../dist/macos/qt.conf DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
-  install(FILES ../dist/macos/sparkle_pub.pem DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
-
-  install(DIRECTORY "${QT_QTGUI_LIBRARY_RELEASE}/Versions/Current/Resources/" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
-
-  if (HAVE_SPARKLE)
-    install(DIRECTORY "${SPARKLE}/Versions/Current/Resources" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/Sparkle.framework")
-  endif (HAVE_SPARKLE)
-
-  install(FILES "${QT_QTCORE_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtCore.framework/Versions/4/Resources")
-  install(FILES "${QT_QTGUI_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtGui.framework/Versions/4/Resources")
-  install(FILES "${QT_QTNETWORK_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtNetwork.framework/Versions/4/Resources")
-  install(FILES "${QT_QTOPENGL_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/Resources")
-  install(FILES "${QT_QTSQL_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtSql.framework/Versions/4/Resources")
-  install(FILES "${QT_QTSVG_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtSvg.framework/Versions/4/Resources")
-  install(FILES "${QT_QTXML_LIBRARY_RELEASE}/Contents/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Frameworks/QtXml.framework/Versions/4/Resources")
-
-  #add_custom_command(TARGET strawberry
-  #  POST_BUILD
-  #  COMMAND
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/macdeploy.py ${PROJECT_BINARY_DIR}/strawberry.app -f
-  #  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-  #)
-
-  #if (APPLE_DEVELOPER_ID)
-  #  add_custom_target(
-  #    sign
-  #    COMMAND
-  #    ${PROJECT_SOURCE_DIR}/dist/macos/codesign.py ${APPLE_DEVELOPER_ID} ${PROJECT_BINARY_DIR}/strawberry.app
-  #    DEPENDS strawberry
-  #    VERBATIM
-  #  )
-  #endif()
-
-  #add_custom_command(
-  #  OUTPUT ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg ${CMAKE_COMMAND} -E remove -f ${PROJECT_BINARY_DIR}/strawberry-$#{STRAWBERRY_VERSION_PACKAGE}.dmg
-  #  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/create-dmg.sh ${PROJECT_BINARY_DIR}/strawberry.app
-  #  COMMAND ${CMAKE_COMMAND} -E rename ${PROJECT_BINARY_DIR}/strawberry.dmg ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg
-  #  DEPENDS strawberry
-  #  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-  #)
-  #add_custom_target(dmg
-  #  DEPENDS ${PROJECT_BINARY_DIR}/strawberry-${STRAWBERRY_VERSION_PACKAGE}.dmg)
-else (APPLE)
-  install(TARGETS strawberry RUNTIME DESTINATION bin )
+  set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "../dist/macos/Info.plist")
 endif (APPLE)

@@ -5,8 +5,8 @@ set(RPM_DISTRO suse CACHE STRING "Suffix of the rpm file")
 set(RPM_ARCH x86_64 CACHE STRING "Architecture of the rpm file")
 
 add_custom_target(rpm
-  COMMAND ${CMAKE_SOURCE_DIR}/dist/maketarball.sh
+  COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
   COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
-  COMMAND rpmbuild -bs ${CMAKE_SOURCE_DIR}/dist/strawberry.spec
-  COMMAND rpmbuild -bb ${CMAKE_SOURCE_DIR}/dist/strawberry.spec
+  COMMAND rpmbuild -bs ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
+  COMMAND rpmbuild -bb ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
 )

@@ -398,7 +398,6 @@ bool GstEngine::ValidOutput(const QString &output) {
 
 }
 
-
 bool GstEngine::CustomDeviceSupport(const QString &output) {
   return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink);
 }
@@ -429,9 +428,12 @@ void GstEngine::SetEnvironment() {
 
   // On windows and mac we bundle the gstreamer plugins with strawberry
 #if defined(Q_OS_MACOS)
-  scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
-  plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
-#elif defined(Q_OS_WIN32)
+  //scanner_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gst-plugin-scanner";
+  //plugin_path = QCoreApplication::applicationDirPath() + "/../PlugIns/gstreamer";
+  scanner_path = "/usr/local/Cellar/gstreamer/1.14.1/libexec/gstreamer-1.0/gst-plugin-scanner";
+  plugin_path = "/usr/local/lib/gstreamer-1.0";
+#endif
+#if defined(Q_OS_WIN32)
   plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
 #endif
 
@@ -451,9 +453,9 @@ void GstEngine::SetEnvironment() {
     Utilities::SetEnv("GST_REGISTRY", registry_filename);
   }
 
-#ifdef Q_OS_MACOS
-  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/../PlugIns/gio-modules");
-#endif
+//#ifdef Q_OS_MACOS
+  //Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/../PlugIns/gio-modules");
+//#endif
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
 

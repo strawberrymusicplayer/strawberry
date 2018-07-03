@@ -1,7 +1,7 @@
 strawberry ICON "${CMAKE_CURRENT_SOURCE_DIR}/../dist/windows/strawberry.ico"
 1 VERSIONINFO
-FILEVERSION     ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},0,0
-PRODUCTVERSION  ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},0,0
+FILEVERSION     ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},{STRAWBERRY_VERSION_PATCH},0
+PRODUCTVERSION  ${STRAWBERRY_VERSION_MAJOR},${STRAWBERRY_VERSION_MINOR},{STRAWBERRY_VERSION_PATCH},0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -11,7 +11,7 @@ BEGIN
       VALUE "FileDescription", "Strawberry Music Player"
       VALUE "FileVersion", "${STRAWBERRY_VERSION_DISPLAY}"
       VALUE "InternalName", "strawberry"
-      VALUE "LegalCopyright", "David Sansome"
+      VALUE "LegalCopyright", "David Sansome / Jonas Kvinge"
       VALUE "OriginalFilename", "strawberry.exe"
       VALUE "ProductName", "Strawberry"
       VALUE "ProductVersion", "${STRAWBERRY_VERSION_DISPLAY}"

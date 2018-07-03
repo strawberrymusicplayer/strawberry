@@ -45,9 +45,5 @@ if(APPLE)
   )
 endif(APPLE)
 
-if(NOT APPLE)
-  # macdeploy.py takes care of this on mac
-  install(TARGETS strawberry-tagreader
-          RUNTIME DESTINATION bin
-  )
-endif(NOT APPLE)
+
+install(TARGETS strawberry-tagreader RUNTIME DESTINATION bin)

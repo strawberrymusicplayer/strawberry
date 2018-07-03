@@ -22,28 +22,13 @@
 #include "config.h"
 #include "version.h"
 
+#include <QtGlobal>
+
 #include <glib.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <memory>
 #include <time.h>
-
-#include <QtGlobal>
-#include <QObject>
-#include <QCoreApplication>
-#include <QStandardPaths>
-#include <QFileDevice>
-#include <QIODevice>
-#include <QByteArray>
-#include <QNetworkProxy>
-#include <QFile>
-#include <QString>
-#include <QImage>
-#include <QSettings>
-#include <QtDebug>
-#ifdef HAVE_DBUS
-#  include <QDBusArgument>
-#endif
 
 #ifdef Q_OS_UNIX
 #  include <unistd.h>
@@ -61,6 +46,22 @@
   #include <windows.h>
   #include <iostream>
 #endif  // Q_OS_WIN32
+
+#include <QObject>
+#include <QCoreApplication>
+#include <QStandardPaths>
+#include <QFileDevice>
+#include <QIODevice>
+#include <QByteArray>
+#include <QNetworkProxy>
+#include <QFile>
+#include <QString>
+#include <QImage>
+#include <QSettings>
+#include <QtDebug>
+#ifdef HAVE_DBUS
+#  include <QDBusArgument>
+#endif
 
 #include "main.h"
 
@@ -161,7 +162,7 @@ int main(int argc, char* argv[]) {
   QtSingleApplication a(argc, argv);
 
 #ifdef Q_OS_MACOS
-  QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
+  //QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
 #endif
 
   a.setQuitOnLastWindowClosed(false);

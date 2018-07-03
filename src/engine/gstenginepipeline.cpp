@@ -206,17 +206,19 @@ bool GstEnginePipeline::InitAudioBin() {
 
   if (device_.isValid() && g_object_class_find_property(G_OBJECT_GET_CLASS(audiosink_), "device")) {
     switch (device_.type()) {
-      case QVariant::Int:
-        g_object_set(G_OBJECT(audiosink_), "device", device_.toInt(), nullptr);
-        break;
       case QVariant::String:
 	if (device_.toString().isEmpty()) break;
 	g_object_set(G_OBJECT(audiosink_), "device", device_.toString().toUtf8().constData(), nullptr);
         break;
-      case QVariant::ByteArray: {
+      case QVariant::ByteArray:
 	g_object_set(G_OBJECT(audiosink_), "device", device_.toByteArray().constData(), nullptr);
         break;
-      }
+      case QVariant::LongLong:
+        g_object_set(G_OBJECT(audiosink_), "device", device_.toLongLong(), nullptr);
+        break;
+      case QVariant::Int:
+        g_object_set(G_OBJECT(audiosink_), "device", device_.toInt(), nullptr);
+        break;
       default:
         qLog(Warning) << "Unknown device type" << device_;
         break;
