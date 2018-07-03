@@ -22,6 +22,7 @@
 
 #cmakedefine HAVE_GIO
 #cmakedefine HAVE_DBUS
+#cmakedefine HAVE_X11
 #cmakedefine HAVE_UDISKS2
 #cmakedefine HAVE_ALSA
 #cmakedefine HAVE_DEVICEKIT

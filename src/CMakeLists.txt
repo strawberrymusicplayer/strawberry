@@ -491,7 +491,7 @@ optional_source(HAVE_ALSA
 )
 
 # X11
-optional_source(X11_FOUND SOURCES widgets/osd_x11.cpp)
+optional_source(HAVE_X11 SOURCES widgets/osd_x11.cpp)
 
 # GStreamer
 optional_source(HAVE_GSTREAMER

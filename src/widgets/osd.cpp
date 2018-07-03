@@ -240,7 +240,7 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
   }
 }
 
-#ifndef HAVE_DBUS
+#if !defined(HAVE_X11) && defined(HAVE_DBUS)
 void OSD::CallFinished(QDBusPendingCallWatcher*) {}
 #endif
 

@@ -27,6 +27,7 @@
 #  include <gst/gstelement.h>
 #endif
 
+#include <QtGlobal>
 #include <QAbstractSocket>
 #include <QMetaType>
 #include <QList>
@@ -100,7 +101,6 @@ void RegisterMetaTypes() {
   qRegisterMetaTypeStreamOperators<Equalizer::Params>("Equalizer::Params");
 #ifdef HAVE_DBUS
   qDBusRegisterMetaType<QList<QByteArray>>();
-  qDBusRegisterMetaType<QImage>();
   qDBusRegisterMetaType<TrackMetadata>();
   qDBusRegisterMetaType<TrackIds>();
   qDBusRegisterMetaType<MprisPlaylist>();
@@ -108,7 +108,9 @@ void RegisterMetaTypes() {
   qDBusRegisterMetaType<MaybePlaylist>();
   qDBusRegisterMetaType<InterfacesAndProperties>();
   qDBusRegisterMetaType<ManagedObjectList>();
+#ifdef HAVE_X11
+  qDBusRegisterMetaType<QImage>();
+#endif
 #endif
 
 }
-
