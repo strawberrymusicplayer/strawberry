@@ -100,7 +100,7 @@ class OSD : public QObject {
   QString ReplaceVariable(const QString &variable, const Song &song);
 
  private slots:
-#if defined(HAVE_DBUS) && defined(HAVE_X11)
+#if defined(HAVE_DBUS)
   void CallFinished(QDBusPendingCallWatcher *watcher);
 #endif
   void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);

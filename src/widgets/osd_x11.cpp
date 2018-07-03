@@ -53,7 +53,7 @@
 
 #ifdef HAVE_DBUS
 
-QDBusArgument& operator<<(QDBusArgument& arg, const QImage& image) {
+QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 
   if (image.isNull()) {
     // Sometimes this gets called with a null QImage for no obvious reason.
@@ -72,9 +72,9 @@ QDBusArgument& operator<<(QDBusArgument& arg, const QImage& image) {
   // ABGR -> GBAR
   QImage i(scaled.size(), scaled.format());
   for (int y = 0; y < i.height(); ++y) {
-    QRgb* p = (QRgb*)scaled.scanLine(y);
-    QRgb* q = (QRgb*)i.scanLine(y);
-    QRgb* end = p + scaled.width();
+    QRgb *p = (QRgb*)scaled.scanLine(y);
+    QRgb *q = (QRgb*)i.scanLine(y);
+    QRgb *end = p + scaled.width();
     while (p < end) {
       *q = qRgba(qGreen(*p), qBlue(*p), qAlpha(*p), qRed(*p));
       p++;
@@ -97,7 +97,7 @@ QDBusArgument& operator<<(QDBusArgument& arg, const QImage& image) {
 
 }
 
-const QDBusArgument& operator>>(const QDBusArgument& arg, QImage& image) {
+const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
   // This is needed to link but shouldn't be called.
   Q_ASSERT(0);
   return arg;
@@ -129,7 +129,7 @@ bool OSD::SupportsNativeNotifications() {
 
 bool OSD::SupportsTrayPopups() { return true; }
 
-void OSD::ShowMessageNative(const QString& summary, const QString& message, const QString& icon, const QImage& image) {
+void OSD::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 
 #ifdef HAVE_DBUS
   if (!interface_) return;
@@ -147,7 +147,7 @@ void OSD::ShowMessageNative(const QString& summary, const QString& message, cons
   }
 
   QDBusPendingReply<uint> reply = interface_->Notify(QCoreApplication::applicationName(), id, icon, summary, message, QStringList(), hints, timeout_msec_);
-  QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
+  QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
   connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), SLOT(CallFinished(QDBusPendingCallWatcher*)));
 #else   // HAVE_DBUS
   qLog(Warning) << "not implemented";
@@ -156,7 +156,7 @@ void OSD::ShowMessageNative(const QString& summary, const QString& message, cons
 }
 
 #ifdef HAVE_DBUS
-void OSD::CallFinished(QDBusPendingCallWatcher* watcher) {
+void OSD::CallFinished(QDBusPendingCallWatcher *watcher) {
 
   std::unique_ptr<QDBusPendingCallWatcher> w(watcher);
 
