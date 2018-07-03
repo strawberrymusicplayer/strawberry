@@ -168,7 +168,6 @@ Section "Strawberry" Strawberry
   File "libgstrtsp-1.0-0.dll"
   File "libgstsdp-1.0-0.dll"
   File "libgsttag-1.0-0.dll"
-  File "libgstvideo-1.0-0.dll"
   File "libharfbuzz-0.dll"
   File "libiconv-2.dll"
   File "libintl-8.dll"
@@ -306,6 +305,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstvorbis.dll" "gstreamer-plugins\libgstvorbis.dll"
   File "/oname=libgstwavpack.dll" "gstreamer-plugins\libgstwavpack.dll"
   File "/oname=libgstwavparse.dll" "gstreamer-plugins\libgstwavparse.dll"
+  File "/oname=libgstcdio.dll" "gstreamer-plugins\libgstcdio.dll"
   
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
@@ -332,6 +332,7 @@ Section "Xine plugins" xine-plugins
   File "/oname=xineplug_flac.dll" "xine-plugins\xineplug_flac.dll"
   File "/oname=xineplug_wavpack.dll" "xine-plugins\xineplug_wavpack.dll"
   File "/oname=xineplug_xiph.dll" "xine-plugins\xineplug_xiph.dll"
+  File "/oname=xineplug_inp_cdda.dll" "xine-plugins\xineplug_inp_cdda.dll"
 
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
@@ -348,7 +349,7 @@ Section "Xine plugins post" xine-plugins-post
   File "/oname=xineplug_post_switch.dll" "xine-plugins\post\xineplug_post_switch.dll"
   File "/oname=xineplug_post_tvtime.dll" "xine-plugins\post\xineplug_post_tvtime.dll"
   File "/oname=xineplug_post_visualizations.dll" "xine-plugins\post\xineplug_post_visualizations.dll"
-
+  
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -413,9 +414,9 @@ Section "Uninstall"
   ;completed:
 
   ; Delete all the files
-  
+
   ;Delete "$EXEDIR\install.log"
-  
+
   Delete "$INSTDIR\strawberry.ico"
   Delete "$INSTDIR\strawberry.exe"
   Delete "$INSTDIR\strawberry-tagreader.exe"
@@ -444,7 +445,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libgstrtsp-1.0-0.dll"
   Delete "$INSTDIR\libgstsdp-1.0-0.dll"
   Delete "$INSTDIR\libgsttag-1.0-0.dll"
-  Delete "$INSTDIR\libgstvideo-1.0-0.dll"
   Delete "$INSTDIR\libharfbuzz-0.dll"
   Delete "$INSTDIR\libiconv-2.dll"
   Delete "$INSTDIR\libintl-8.dll"
@@ -518,6 +518,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstvorbis.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstwavpack.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstwavparse.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstcdio.dll"
 
   Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx2.dll"
   Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx.dll"
@@ -536,6 +537,7 @@ Section "Uninstall"
   Delete "$INSTDIR\xine-plugins\xineplug_flac.dll"
   Delete "$INSTDIR\xine-plugins\xineplug_wavpack.dll"
   Delete "$INSTDIR\xine-plugins\xineplug_xiph.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_inp_cdda.dll"
 
   Delete "$INSTDIR\xine-plugins\post\xineplug_post_audio_filters.dll"
   Delete "$INSTDIR\xine-plugins\post\xineplug_post_goom.dll"
