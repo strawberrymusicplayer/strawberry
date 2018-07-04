@@ -336,18 +336,18 @@ Section "Xine plugins" xine-plugins
   File "/oname=xineplug_xiph.dll" "xine-plugins\xineplug_xiph.dll"
   File "/oname=xineplug_inp_cdda.dll" "xine-plugins\xineplug_inp_cdda.dll"
 
-  File "/oname=xineplug_post_audio_filters.dll" "xine-plugins\post\xineplug_post_audio_filters.dll"
-  File "/oname=xineplug_post_goom.dll" "xine-plugins\post\xineplug_post_goom.dll"
-  File "/oname=xineplug_post_mosaico.dll" "xine-plugins\post\xineplug_post_mosaico.dll"
-  File "/oname=xineplug_post_planar.dll" "xine-plugins\post\xineplug_post_planar.dll"
-  File "/oname=xineplug_post_switch.dll" "xine-plugins\post\xineplug_post_switch.dll"
-  File "/oname=xineplug_post_tvtime.dll" "xine-plugins\post\xineplug_post_tvtime.dll"
-  File "/oname=xineplug_post_visualizations.dll" "xine-plugins\post\xineplug_post_visualizations.dll"
+  File "/oname=xineplug_post_audio_filters.dll" "xine-plugins\xineplug_post_audio_filters.dll"
+  File "/oname=xineplug_post_goom.dll" "xine-plugins\xineplug_post_goom.dll"
+  File "/oname=xineplug_post_mosaico.dll" "xine-plugins\xineplug_post_mosaico.dll"
+  File "/oname=xineplug_post_planar.dll" "xine-plugins\xineplug_post_planar.dll"
+  File "/oname=xineplug_post_switch.dll" "xine-plugins\xineplug_post_switch.dll"
+  File "/oname=xineplug_post_tvtime.dll" "xine-plugins\xineplug_post_tvtime.dll"
+  File "/oname=xineplug_post_visualizations.dll" "xine-plugins\xineplug_post_visualizations.dll"
 
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
-  
+
 SectionEnd
 
 Section "Start menu items" startmenu
@@ -357,7 +357,7 @@ Section "Start menu items" startmenu
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\strawberry.exe"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -380,7 +380,7 @@ Section "Uninstaller"
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
-  
+
 SectionEnd
 
 Section "Uninstall"
