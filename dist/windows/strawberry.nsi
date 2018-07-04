@@ -2,6 +2,7 @@
 !define PRODUCT_PUBLISHER "Strawberry"
 !define PRODUCT_VERSION_MAJOR 0
 !define PRODUCT_VERSION_MINOR 1
+!define PRODUCT_VERSION_PATCH 7
 !define PRODUCT_DISPLAY_VERSION "0.1.7"
 !define PRODUCT_DISPLAY_VERSION_SHORT "0.1.7"
 !define PRODUCT_WEB_SITE "http://www.strawbs.org/"
@@ -168,6 +169,7 @@ Section "Strawberry" Strawberry
   File "libgstrtsp-1.0-0.dll"
   File "libgstsdp-1.0-0.dll"
   File "libgsttag-1.0-0.dll"
+  File "libgstvideo-1.0-0.dll"
   File "libharfbuzz-0.dll"
   File "libiconv-2.dll"
   File "libintl-8.dll"
@@ -241,7 +243,7 @@ SectionEnd
 Section "Qt Platforms" platforms
   SetOutPath "$INSTDIR\platforms"
   File "/oname=qwindows.dll" "platforms\qwindows.dll"
-  
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -251,7 +253,7 @@ SectionEnd
 Section "Qt SQL Drivers" sqldrivers
   SetOutPath "$INSTDIR\sqldrivers"
   File "/oname=qsqlite.dll" "sqldrivers\qsqlite.dll"
-  
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -263,7 +265,7 @@ Section "Qt image format plugins" imageformats
   File "/oname=qgif.dll" "imageformats\qgif.dll"
   File "/oname=qico.dll" "imageformats\qico.dll"
   File "/oname=qjpeg.dll" "imageformats\qjpeg.dll"
-  
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -334,14 +336,6 @@ Section "Xine plugins" xine-plugins
   File "/oname=xineplug_xiph.dll" "xine-plugins\xineplug_xiph.dll"
   File "/oname=xineplug_inp_cdda.dll" "xine-plugins\xineplug_inp_cdda.dll"
 
-  StrCpy $0 "$EXEDIR\install.log"
-  Push $0
-  Call DumpLog
-  
-SectionEnd
-
-Section "Xine plugins post" xine-plugins-post
-  SetOutPath "$INSTDIR\xine-plugins\post"
   File "/oname=xineplug_post_audio_filters.dll" "xine-plugins\post\xineplug_post_audio_filters.dll"
   File "/oname=xineplug_post_goom.dll" "xine-plugins\post\xineplug_post_goom.dll"
   File "/oname=xineplug_post_mosaico.dll" "xine-plugins\post\xineplug_post_mosaico.dll"
@@ -349,7 +343,7 @@ Section "Xine plugins post" xine-plugins-post
   File "/oname=xineplug_post_switch.dll" "xine-plugins\post\xineplug_post_switch.dll"
   File "/oname=xineplug_post_tvtime.dll" "xine-plugins\post\xineplug_post_tvtime.dll"
   File "/oname=xineplug_post_visualizations.dll" "xine-plugins\post\xineplug_post_visualizations.dll"
-  
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -445,6 +439,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libgstrtsp-1.0-0.dll"
   Delete "$INSTDIR\libgstsdp-1.0-0.dll"
   Delete "$INSTDIR\libgsttag-1.0-0.dll"
+  Delete "$INSTDIR\libgstvideo-1.0-0.dll"
   Delete "$INSTDIR\libharfbuzz-0.dll"
   Delete "$INSTDIR\libiconv-2.dll"
   Delete "$INSTDIR\libintl-8.dll"
@@ -539,13 +534,13 @@ Section "Uninstall"
   Delete "$INSTDIR\xine-plugins\xineplug_xiph.dll"
   Delete "$INSTDIR\xine-plugins\xineplug_inp_cdda.dll"
 
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_audio_filters.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_goom.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_mosaico.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_planar.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_switch.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_tvtime.dll"
-  Delete "$INSTDIR\xine-plugins\post\xineplug_post_visualizations.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_audio_filters.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_goom.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_mosaico.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_planar.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_switch.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_tvtime.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_visualizations.dll"
 
   Delete "$INSTDIR\Uninstall.exe"
 
@@ -554,7 +549,6 @@ Section "Uninstall"
   RMDir "$INSTDIR\sqldrivers"
   RMDir "$INSTDIR\imageformats"
   RMDir "$INSTDIR\gstreamer-plugins"
-  RMDir "$INSTDIR\xine-plugins\post"
   RMDir "$INSTDIR\xine-plugins"
   RMDir "$INSTDIR"
 
@@ -572,4 +566,3 @@ Section "Uninstall"
   ${UnRegisterCapabilities}
 
 SectionEnd
-
