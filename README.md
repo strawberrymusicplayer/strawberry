@@ -32,7 +32,6 @@ To build Strawberry from source you need the following installed on your system 
 * [SQLite3](https://www.sqlite.org)
 * [TagLib 1.11.1 or higher](http://taglib.org/)
 * [Chromaprint library](https://acoustid.org/chromaprint)
-* [libxml library](http://www.xmlsoft.org/)
 * [ALSA library (linux)](https://www.alsa-project.org/)
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
