@@ -35,7 +35,6 @@ private:
   uint fade_length_;
   bool paused_;
   bool terminated_;
-  bool stop_fader_;
 
   void run();
 
