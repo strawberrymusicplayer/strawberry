@@ -11,8 +11,8 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libprotobuf-dev protobuf-compiler sqlite3 dbus ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libasound2-dev libxine2-dev libvlc-dev libphonon4qt5-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq qtbase5-dev qtbase5-dev-tools qtbase5-private-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-alsa gstreamer1.0-pulseaudio ; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq qtbase5-dev qtbase5-dev-tools qtbase5-private-dev qtdeclarative5-dev ; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq ibgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-alsa gstreamer1.0-pulseaudio ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libchromaprint-dev libpulse-dev ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
