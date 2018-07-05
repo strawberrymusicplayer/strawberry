@@ -2,9 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.2.1:
+
+    * Fixed crash with newer Qt
+    * Fixed setting output/device for Xine and VLC backend
+    * Improved backend settings to better support multiple backends
+    * Fixed track slider for Xine, VLC and Phonon
+    * Fixed compilation on MacOs
+    * Fixed device selection on MacOs
+    * Added xine on to windows build
+
 Version 0.1.6:
-    * Fix crash on exit caused by NVIDIA driver
-    * Fix PulseAudio device selection
+    * Fixed crash on exit caused by NVIDIA driver
+    * Fixed PulseAudio device selection
     * Improvements to device selection
 
 Version 0.1.5:

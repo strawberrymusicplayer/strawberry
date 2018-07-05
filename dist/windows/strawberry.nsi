@@ -1,10 +1,10 @@
 !define PRODUCT_NAME "Strawberry"
 !define PRODUCT_PUBLISHER "Strawberry"
 !define PRODUCT_VERSION_MAJOR 0
-!define PRODUCT_VERSION_MINOR 1
-!define PRODUCT_VERSION_PATCH 7
-!define PRODUCT_DISPLAY_VERSION "0.1.7"
-!define PRODUCT_DISPLAY_VERSION_SHORT "0.1.7"
+!define PRODUCT_VERSION_MINOR 2
+!define PRODUCT_VERSION_PATCH 1
+!define PRODUCT_DISPLAY_VERSION "0.2.1"
+!define PRODUCT_DISPLAY_VERSION_SHORT "0.2.1"
 !define PRODUCT_WEB_SITE "http://www.strawbs.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -48,7 +48,7 @@ SetCompressor /SOLID lzma
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
 Name "${PRODUCT_NAME}"
-OutFile "${PRODUCT_NAME}Setup-0.1.7.exe"
+OutFile "${PRODUCT_NAME}Setup-0.2.1.exe"
 InstallDir "${PRODUCT_INSTALL_DIR}"
 
 ; Get the path where Strawberry was installed previously and set it as default path
