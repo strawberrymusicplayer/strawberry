@@ -22,6 +22,7 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-bad gst-plugins-ugly ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
 before_script:
   - mkdir build
