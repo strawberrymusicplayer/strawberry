@@ -15,7 +15,7 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
   * Support for multiple backends
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
 
-It has so far been tested to work on Linux, OpenBSD and Windows (cross compiled using mingw).
+It has so far been tested to work on Linux, OpenBSD, MacOs and Windows (cross compiled using mingw).
 
 
 ### :heavy_exclamation_mark: Requirements
