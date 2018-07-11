@@ -1,9 +1,11 @@
 set(ENV{LC_ALL} "en_US.utf8")
 execute_process(COMMAND date "+%a %b %d %Y" OUTPUT_VARIABLE RPM_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
 
 if (UNIX AND NOT APPLE)
   install(FILES ../data/icons/48x48/strawberry.png DESTINATION share/icons/hicolor/48x48/apps/)

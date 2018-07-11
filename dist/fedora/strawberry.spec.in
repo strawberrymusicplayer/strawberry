@@ -7,19 +7,16 @@ Group:          Applications/Multimedia
 License:        GPL-3.0+
 URL:            http://www.strawbs.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  libboost_headers-devel
+BuildRequires:  boost-devel
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
-BuildRequires:  libQt5Gui-private-headers-devel
 BuildRequires:  liblastfm-qt5-devel
 BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  pkgconfig
-BuildRequires:  update-desktop-files
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0)
@@ -51,8 +48,6 @@ BuildRequires:  pkgconfig(libgpod-1.0)
 BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libnotify)
 BuildRequires:  pkgconfig(libudf)
-BuildRequires:  pkgconfig(libxine)
-BuildRequires:  pkgconfig(libvlc)
 
 %description
 Strawberry is a audio player and music collection organizer.
@@ -69,19 +64,35 @@ Features:
   * Support for multiple backends
 
 %prep
-%setup -q -n %{name}-@STRAWBERRY_VERSION_PACKAGE@
+%setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%{cmake} .. -DUSE_INSTALL_PREFIX=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-make %{?_smp_mflags}
+
+%if 0%{?fedora} > 27
+# workaround FTBFS
+export CXXFLAGS="%{optflags} -fpermissive"
+%endif
+
+mkdir %{_target_platform}
+pushd %{_target_platform}
+
+%{cmake} \
+  -DBUILD_WERROR:BOOL=OFF \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  ..
+popd
+
+%make_build -C %{_target_platform}
 
 %install
-cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=%{buildroot} -C %{_target_platform}
+
+%check
+desktop-file-validate %{buildroot}%{_datadir}/applications/strawberry.desktop
+pushd %{_target_platform}
+popd
 
 %clean
-cd build
-make clean
 
 %files
 %defattr(-,root,root,-)
@@ -99,3 +110,4 @@ make clean
 %changelog
 * @RPM_DATE@ Jonas Kvinge <jonas@strawbs.net> - @STRAWBERRY_VERSION_RPM_V@
 - Version @STRAWBERRY_VERSION_PACKAGE@
+

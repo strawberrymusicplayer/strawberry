@@ -1,0 +1,106 @@
+Name:           strawberry
+Version:        @STRAWBERRY_VERSION_RPM_V@
+Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
+Summary:        A audio player and music collection organiser
+
+Group:          Applications/Multimedia
+License:        GPL-3.0+
+URL:            http://www.strawbs.org/
+Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%if 0%{?suse_version} > 1325
+BuildRequires:  libboost_headers-devel
+%else
+BuildRequires:  boost-devel
+%endif
+BuildRequires:  cmake
+BuildRequires:  desktop-file-utils
+BuildRequires:  gcc-c++
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  libQt5Gui-private-headers-devel
+BuildRequires:  liblastfm-qt5-devel
+BuildRequires:  make
+BuildRequires:  git
+BuildRequires:  pkgconfig
+BuildRequires:  update-desktop-files
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(gio-unix-2.0)
+BuildRequires:  pkgconfig(gthread-2.0)
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  pkgconfig(sqlite3) >= 3.7
+BuildRequires:  pkgconfig(taglib) >= 1.11
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:  pkgconfig(Qt5Concurrent)
+BuildRequires:  pkgconfig(Qt5Sql)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5Xml)
+BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  pkgconfig(Qt5DBus)
+BuildRequires:  pkgconfig(Qt5OpenGL)
+BuildRequires:  pkgconfig(gstreamer-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-audio-1.0)
+BuildRequires:  pkgconfig(gstreamer-base-1.0)
+BuildRequires:  pkgconfig(gstreamer-tag-1.0)
+BuildRequires:  pkgconfig(libpulse)
+BuildRequires:  pkgconfig(libcdio)
+BuildRequires:  pkgconfig(libchromaprint)
+BuildRequires:  pkgconfig(libgpod-1.0)
+BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  pkgconfig(libnotify)
+BuildRequires:  pkgconfig(libudf)
+BuildRequires:  pkgconfig(libxine)
+BuildRequires:  pkgconfig(libvlc)
+
+%description
+Strawberry is a audio player and music collection organizer.
+It is a fork of Clementine. The name is inspired by the band Strawbs.
+
+Features:
+  * Play and organize music
+  * Native desktop notifications
+  * Playlists in multiple formats
+  * Edit tags on music files
+  * Fetch tags from MusicBrainz
+  * Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
+  * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Support for multiple backends
+
+%prep
+%setup -q -n %{name}-@STRAWBERRY_VERSION_PACKAGE@
+
+%build
+%{cmake} .. -DUSE_INSTALL_PREFIX=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+make %{?_smp_mflags}
+
+%install
+cd build
+make install DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+cd build
+make clean
+
+%files
+%defattr(-,root,root,-)
+%doc
+%{_bindir}/strawberry
+%{_bindir}/strawberry-tagreader
+%{_datadir}/applications/strawberry.desktop
+%{_datadir}/icons/hicolor/48x48/apps/strawberry.png
+%{_datadir}/icons/hicolor/64x64/apps/strawberry.png
+%{_datadir}/icons/hicolor/128x128/apps/strawberry.png
+%{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
+%{_mandir}/man1/%{name}.1%{?ext_man}
+%{_mandir}/man1/%{name}-tagreader.1%{?ext_man}
+
+%changelog
+* @RPM_DATE@ Jonas Kvinge <jonas@strawbs.net> - @STRAWBERRY_VERSION_RPM_V@
+- Version @STRAWBERRY_VERSION_PACKAGE@
+
