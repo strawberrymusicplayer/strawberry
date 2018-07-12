@@ -49,6 +49,10 @@ if(INCLUDE_GIT_REVISION AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
     ERROR_QUIET
   )
 
+  if(NOT ${GIT_CMD_RESULT_REVISION} EQUAL 0)
+    message(FATAL_ERROR "GIT command failed to get revision string '${GIT_REVISION}'")
+  endif()
+
 endif()
 
 if(FORCE_GIT_REVISION)
@@ -56,10 +60,6 @@ if(FORCE_GIT_REVISION)
 endif()
 
 if(GIT_REVISION)
-
-  if(NOT ${GIT_CMD_RESULT_REVISION} EQUAL 0)
-    message(FATAL_ERROR "GIT command failed to get revision string '${GIT_REVISION}'")
-  endif()
 
   string(REGEX REPLACE "^(.+)-([0-9]+)-(g[a-f0-9]+)$" "\\1;\\2;\\3" GIT_PARTS ${GIT_REVISION})
 
