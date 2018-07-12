@@ -1,0 +1,5 @@
+strawberry (${STRAWBERRY_VERSION_DISPLAY}) unstable; urgency=low
+
+  * Version ${STRAWBERRY_VERSION_DISPLAY}
+
+ -- Jonas Kvinge <jonas@jkvinge.net>  ${DEB_DATE}

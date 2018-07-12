@@ -1,9 +1,10 @@
-set(ENV{LC_ALL} "en_US.utf8")
-execute_process(COMMAND date "+%a %b %d %Y" OUTPUT_VARIABLE RPM_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND env LC_ALL="en_US.utf8" date "+%a %b %d %Y" OUTPUT_VARIABLE RPM_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
+execute_process(COMMAND env LC_ALL=C date "+%a, %-d %b %Y %H:%M:%S %z" OUTPUT_VARIABLE DEB_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog.in ${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
 

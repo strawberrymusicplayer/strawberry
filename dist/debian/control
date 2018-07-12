@@ -1,0 +1,62 @@
+Source: strawberry
+Section: sound
+Priority: optional
+Maintainer: "Jonas Kvinge" <jonas@jkvinge.net>
+Build-Depends: debhelper (>= 7),
+               make,
+               cmake,
+               gcc,
+               protobuf-compiler,
+               libprotobuf-dev,
+               libboost-dev,
+               libdbus-1-dev,
+               libsqlite3-dev,
+               libasound2-dev,
+               libpulse-dev,
+               libtag1-dev,
+               libqt5-dev,
+               qtbase5-dev,
+               qtbase5-dev-tools,
+               qtbase5-private-dev,
+               qt5-dev-tools,
+               libqt5opengl5-dev,
+               libqt5x11extras5-dev,
+               libgstreamer1.0-dev,
+               libgstreamer-plugins-base1.0-dev,
+               libxine2-dev,
+               libvlc-dev,
+               libphonon4qt5-dev,
+               libcdio-cdda1,
+               libgpod-dev,
+               libimobiledevice-dev,
+               libmtp-dev,
+               libplist-dev,
+               libusbmuxd-dev,
+               libchromaprint-dev,
+               liblastfm5-dev
+Standards-Version: 3.9.8
+
+Package: strawberry
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libsqlite3-0,
+         gstreamer1.0-plugins-base,
+         gstreamer1.0-plugins-good,
+         gstreamer1.0-alsa,
+         gstreamer1.0-pulseaudio
+Homepage: http://www.strawbs.org/
+Description: Audio player and music collection organizer
+ Strawberry is a audio player especially aimed at audiophiles.
+ .
+ Features:
+  - Play and organize music
+  - Native desktop notifications
+  - Playlists in multiple formats
+  - Edit tags on music files
+  - Fetch tags from MusicBrainz
+  - Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
+  - Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  - Support for multiple backends
+ .
+ It is a fork of Clementine. The name is inspired by the band Strawbs.
