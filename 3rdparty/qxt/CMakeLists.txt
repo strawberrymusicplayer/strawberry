@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 2.8.11)
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+if (NOT WIN32 AND NOT APPLE)
+  find_path(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+  if(NOT HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+    message(FATAL_ERROR "Missing qpa/qplatformnativeinterface.h, check that you got the QT private headers installed (package libQt5Gui-private-headers-devel, qtbase5-private-dev or similar)")
+  endif(NOT HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+endif(NOT WIN32 AND NOT APPLE)
+
 set(QXT-SOURCES
   qxtglobal.cpp
   qxtglobalshortcut.cpp
@@ -12,7 +20,6 @@ set(QXT-MOC-HEADERS
 
 find_package(X11)
 include_directories(${X11_INCLUDE_DIR})
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 if(WIN32)
   set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_win.cpp)
