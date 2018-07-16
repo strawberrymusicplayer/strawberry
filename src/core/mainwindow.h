@@ -75,7 +75,9 @@ class QueueManager;
 class Song;
 class StatusView;
 class SystemTrayIcon;
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 class TagFetcher;
+#endif
 class TrackSelectionDialog;
 #ifdef HAVE_GSTREAMER
 class TranscodeDialog;
@@ -166,7 +168,7 @@ signals:
   void RenumberTracks();
   void SelectionSetValue();
   void EditValue();
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   void AutoCompleteTags();
   void AutoCompleteTagsAccepted();
 #endif
@@ -303,11 +305,11 @@ signals:
 #endif
   Lazy<QueueManager> queue_manager_;
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   std::unique_ptr<TagFetcher> tag_fetcher_;
 #endif
   std::unique_ptr<TrackSelectionDialog> track_selection_dialog_;
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   PlaylistItemList autocomplete_tag_items_;
 #endif
 

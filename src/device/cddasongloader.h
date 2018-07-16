@@ -37,7 +37,9 @@
 #include <gst/audio/gstaudiocdsrc.h>
 
 #include "core/song.h"
-#include "musicbrainz/musicbrainzclient.h"
+#ifdef HAVE_CHROMAPRINT
+#  include "musicbrainz/musicbrainzclient.h"
+#endif
 
 // This class provides a (hopefully) nice, high level interface to get CD information and load tracks
 class CddaSongLoader : public QObject {
@@ -60,7 +62,9 @@ class CddaSongLoader : public QObject {
   void SongsMetadataLoaded(const SongList &songs);
 
  private slots:
+#ifdef HAVE_CHROMAPRINT
   void AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
+#endif
 
  private:
   QUrl GetUrlFromTrack(int track_number) const;

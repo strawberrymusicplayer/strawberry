@@ -116,7 +116,6 @@
 #include "analyzer/analyzercontainer.h"
 #include "equalizer/equalizer.h"
 #include "globalshortcuts/globalshortcuts.h"
-#include "musicbrainz/tagfetcher.h"
 #include "covermanager/albumcovermanager.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
@@ -126,6 +125,10 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
 #include "settings/settingsdialog.h"
+
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#  include "musicbrainz/tagfetcher.h"
+#endif
 
 #ifdef Q_OS_MACOS
 #  include "core/macsystemtrayicon.h"
@@ -341,7 +344,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_renumber_tracks, SIGNAL(triggered()), SLOT(RenumberTracks()));
   connect(ui_->action_selection_set_value, SIGNAL(triggered()), SLOT(SelectionSetValue()));
   connect(ui_->action_edit_value, SIGNAL(triggered()), SLOT(EditValue()));
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   connect(ui_->action_auto_complete_tags, SIGNAL(triggered()), SLOT(AutoCompleteTags()));
 #endif
   connect(ui_->action_settings, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
@@ -1239,8 +1242,13 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   // this is available when we have one or many files and at least one of those is not CUE related
   ui_->action_edit_track->setEnabled(editable);
   ui_->action_edit_track->setVisible(editable);
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   ui_->action_auto_complete_tags->setEnabled(editable);
   ui_->action_auto_complete_tags->setVisible(editable);
+#else
+  ui_->action_auto_complete_tags->setEnabled(false);
+  ui_->action_auto_complete_tags->setVisible(false);
+#endif
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
 
@@ -2155,7 +2163,7 @@ void MainWindow::Exit() {
 
 }
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void MainWindow::AutoCompleteTags() {
 
   // Create the tag fetching stuff if it hasn't been already

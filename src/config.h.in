@@ -36,6 +36,7 @@
 #cmakedefine HAVE_LIBPULSE
 #cmakedefine HAVE_QCA
 #cmakedefine HAVE_SPARKLE
+#cmakedefine HAVE_CHROMAPRINT
 #cmakedefine IMOBILEDEVICE_USES_UDIDS
 #cmakedefine USE_INSTALL_PREFIX
 #cmakedefine USE_SYSTEM_SHA2

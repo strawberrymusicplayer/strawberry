@@ -724,8 +724,6 @@ SOURCES
   settings/transcodersettingspage.cpp
   dialogs/organisedialog.cpp
   dialogs/organiseerrordialog.cpp
-  musicbrainz/chromaprinter.cpp
-  musicbrainz/tagfetcher.cpp
   transcoder/transcoder.cpp
   transcoder/transcodedialog.cpp
   transcoder/transcoderoptionsaac.cpp
@@ -741,7 +739,6 @@ HEADERS
   settings/transcodersettingspage.h
   dialogs/organisedialog.h
   dialogs/organiseerrordialog.h
-  musicbrainz/tagfetcher.h
   transcoder/transcoder.h
   transcoder/transcodedialog.h
   transcoder/transcoderoptionsdialog.h
@@ -764,6 +761,13 @@ UI
 
 # CDIO backend and device
 if(HAVE_GSTREAMER)
+optional_source(HAVE_CHROMAPRINT
+SOURCES
+  musicbrainz/chromaprinter.cpp
+  musicbrainz/tagfetcher.cpp
+HEADERS
+  musicbrainz/tagfetcher.h
+)
 optional_source(HAVE_AUDIOCD
   SOURCES
     device/cddadevice.cpp

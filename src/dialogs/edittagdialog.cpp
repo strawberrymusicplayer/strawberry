@@ -76,7 +76,9 @@
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistdelegates.h"
-#include "musicbrainz/tagfetcher.h"
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+#  include "musicbrainz/tagfetcher.h"
+#endif
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/coverproviders.h"
@@ -94,7 +96,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
       loading_(false),
       ignore_edits_(false),
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
       tag_fetcher_(new TagFetcher(this)),
 #endif
       cover_art_id_(0),
@@ -108,7 +110,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64,QImage,QImage)), SLOT(ArtLoaded(quint64,QImage,QImage)));
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   connect(tag_fetcher_, SIGNAL(ResultAvailable(Song, SongList)), results_dialog_, SLOT(FetchTagFinished(Song, SongList)), Qt::QueuedConnection);
   connect(tag_fetcher_, SIGNAL(Progress(Song,QString)), results_dialog_, SLOT(FetchTagProgress(Song,QString)));
   connect(results_dialog_, SIGNAL(SongChosen(Song, Song)), SLOT(FetchTagSongChosen(Song, Song)));
@@ -122,6 +124,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->loading_label->hide();
 
   ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(":/pictures/musicbrainz.png")));
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+  ui_->fetch_tag->setEnabled(true);
+#else
+  ui_->fetch_tag->setEnabled(false);
+#endif
 
   // An editable field is one that has a label as a buddy.  The label is
   // important because it gets turned bold when the field is changed.
@@ -168,7 +175,9 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   connect(ui_->button_box, SIGNAL(clicked(QAbstractButton*)), SLOT(ButtonClicked(QAbstractButton*)));
   //connect(ui_->rating, SIGNAL(RatingChanged(float)), SLOT(SongRated(float)));
   connect(ui_->playcount_reset, SIGNAL(clicked()), SLOT(ResetPlayCounts()));
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   connect(ui_->fetch_tag, SIGNAL(clicked()), SLOT(FetchTag()));
+#endif
 
   // Set up the album cover menu
   cover_menu_ = new QMenu(this);
@@ -237,7 +246,9 @@ bool EditTagDialog::SetLoading(const QString &message) {
   ui_->button_box->setEnabled(!loading);
   ui_->tab_widget->setEnabled(!loading);
   ui_->song_list->setEnabled(!loading);
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   ui_->fetch_tag->setEnabled(!loading);
+#endif
   ui_->loading_label->setVisible(loading);
   ui_->loading_label->set_text(message);
   return true;
@@ -826,7 +837,7 @@ void EditTagDialog::ResetPlayCounts() {
   UpdateStatisticsTab(*song);
 }
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void EditTagDialog::FetchTag() {
   
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();

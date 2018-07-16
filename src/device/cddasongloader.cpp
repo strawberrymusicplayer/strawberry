@@ -164,6 +164,7 @@ void CddaSongLoader::LoadSongs() {
   }
   emit SongsDurationLoaded(songs);
 
+#ifdef HAVE_CHROMAPRINT
   // Handle TAG message: generate MusicBrainz DiscId
   if (msg_tag) {
     GstTagList *tags = nullptr;
@@ -181,6 +182,7 @@ void CddaSongLoader::LoadSongs() {
       gst_tag_list_free(tags);
     }
   }
+#endif
 
   gst_element_set_state(pipeline, GST_STATE_NULL);
   // This will also cause cdda_ to be unref'd.
@@ -188,6 +190,7 @@ void CddaSongLoader::LoadSongs() {
 
 }
 
+#ifdef HAVE_CHROMAPRINT
 void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
@@ -213,6 +216,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
   emit SongsMetadataLoaded(songs);
 
 }
+#endif
 
 bool CddaSongLoader::HasChanged() {
 

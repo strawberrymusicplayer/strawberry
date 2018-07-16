@@ -109,8 +109,11 @@ pkg_check_modules(LIBXINE libxine)
 pkg_check_modules(LIBVLC libvlc)
 pkg_check_modules(PHONON phonon4qt5)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
-pkg_check_modules(CHROMAPRINT REQUIRED libchromaprint)
 pkg_check_modules(LIBPULSE libpulse)
+pkg_check_modules(CHROMAPRINT libchromaprint)
+#if(CHROMAPRINT_FOUND)
+#  set(HAVE_CHROMAPRINT ON)
+#endif()
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
@@ -183,9 +186,6 @@ find_path(LASTFM51_INCLUDE_DIRS lastfm5/Track.h)
 if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
   set(HAVE_LIBLASTFM1 ON)
 endif()
-
-# CHECK INCLUDES
-CHECK_INCLUDE_FILES(chromaprint.h CHROMAPRINT_H)
 
 # Use system sha2 if it's available
 find_path(SHA2_INCLUDE_DIRS sha2.h)
@@ -286,32 +286,20 @@ optional_component(PHONON OFF "Engine: Phonon backend"
   DEPENDS "phonon4qt5" PHONON_FOUND
 )
 
-optional_component(AUDIOCD ON "Devices: Audio CD support"
-  DEPENDS "libcdio" CDIO_FOUND
-)
-
-optional_component(LIBGPOD ON "Devices: iPod classic support"
-  DEPENDS "libgpod" LIBGPOD_FOUND
-)
-
-optional_component(GIO ON "Devices: GIO device backend"
-  DEPENDS "libgio" GIO_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
-)
-
-optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
-  DEPENDS "libimobiledevice" IMOBILEDEVICE_FOUND
-  DEPENDS "libplist" PLIST_FOUND
-  DEPENDS "libusbmuxd" USBMUXD_FOUND
-  DEPENDS "iPod classic support" HAVE_LIBGPOD
-)
-
-optional_component(LIBMTP ON "Devices: MTP support"
-  DEPENDS "libmtp" LIBMTP_FOUND
+optional_component(LIBPULSE ON "Pulse audio integration"
+  DEPENDS "libpulse" LIBPULSE_FOUND
 )
 
 optional_component(LIBLASTFM ON "Last.fm album cover provider"
   DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
+)
+
+optional_component(CHROMAPRINT ON "Chromaprint support / Tag fetching from Musicbrainz"
+  DEPENDS "chromaprint" CHROMAPRINT_FOUND
+)
+
+optional_component(AUDIOCD ON "Devices: Audio CD support"
+  DEPENDS "libcdio" CDIO_FOUND
 )
 
 optional_component(DEVICEKIT ON "Devices: DeviceKit backend"
@@ -322,8 +310,24 @@ optional_component(UDISKS2 ON "Devices: UDisks2 backend"
   DEPENDS "D-Bus support" DBUS_FOUND
 )
 
-optional_component(LIBPULSE ON "Pulse audio integration"
-  DEPENDS "libpulse" LIBPULSE_FOUND
+optional_component(GIO ON "Devices: GIO device backend"
+  DEPENDS "libgio" GIO_FOUND
+  DEPENDS "Unix or Windows" "NOT APPLE"
+)
+
+optional_component(LIBGPOD ON "Devices: iPod classic support"
+  DEPENDS "libgpod" LIBGPOD_FOUND
+)
+
+optional_component(LIBMTP ON "Devices: MTP support"
+  DEPENDS "libmtp" LIBMTP_FOUND
+)
+
+optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
+  DEPENDS "libimobiledevice" IMOBILEDEVICE_FOUND
+  DEPENDS "libplist" PLIST_FOUND
+  DEPENDS "libusbmuxd" USBMUXD_FOUND
+  DEPENDS "iPod classic support" LIBGPOD_FOUND
 )
 
 optional_component(SPARKLE ON "Sparkle integration"

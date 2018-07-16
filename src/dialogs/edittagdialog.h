@@ -50,10 +50,12 @@ class QShowEvent;
 class QHideEvent;
 
 class Application;
-class TagFetcher;
 class AlbumCoverChoiceController;
 class TrackSelectionDialog;
 class Ui_EditTagDialog;
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
+class TagFetcher;
+#endif
 
 class EditTagDialog : public QDialog {
   Q_OBJECT
@@ -106,7 +108,7 @@ protected:
   void ResetField();
   void ButtonClicked(QAbstractButton *button);
   void ResetPlayCounts();
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
 #endif
@@ -170,7 +172,7 @@ private:
 
   bool ignore_edits_;
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   TagFetcher *tag_fetcher_;
 #endif
 
