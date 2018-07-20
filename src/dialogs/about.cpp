@@ -58,14 +58,14 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Andreas Muttscheller", "asfa194@gmail.com")
            << Person("Mark Furneaux", "mark@furneaux.ca")
            << Person("Florian Bigard", "florian.bigard@gmail.com")
-           << Person("Alex Bikadorov")
-           << Person("Mattias Andersson")
+           << Person("Alex Bikadorov", "wegwerf@abwesend.de")
+           << Person("Mattias Andersson", "mandersson444@gmail.com")
            << Person("Alan Briolat", "alan.briolat@gmail.com")
-           << Person("Arun Narayanankutty")
+           << Person("Arun Narayanankutty", "n.arun.lifescience@gmail.com")
            << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
            << Person("Andre Siviero", "altsiviero@gmail.com")
            << Person("Santiago Gil")
-           << Person("Tyler Rhodes");
+           << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com");
 
 
   QString Title = "";
