@@ -50,14 +50,24 @@ About::About(QWidget *parent):QDialog(parent) {
  thanks_to_ \
            << Person("Mark Kretschmann", "kretschmann@kde.org")
            << Person("Max Howell", "max.howell@methylblue.com")
-           << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
            << Person("Jakub Stachowski", "qbast@go2.pl")
            << Person("Paul Cifarelli", "paul@cifarelli.net")
            << Person("Felipe Rivera", "liebremx@users.sourceforge.net")
            << Person("Alexander Peitz")
            << Person("Artur Rona", "artur.rona@gmail.com")
-           << Person("Andreas Muttscheller", "asfa194@gmail.com");
-  
+           << Person("Andreas Muttscheller", "asfa194@gmail.com")
+           << Person("Mark Furneaux", "mark@furneaux.ca")
+           << Person("Florian Bigard", "florian.bigard@gmail.com")
+           << Person("Alex Bikadorov")
+           << Person("Mattias Andersson")
+           << Person("Alan Briolat", "alan.briolat@gmail.com")
+           << Person("Arun Narayanankutty")
+           << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
+           << Person("Andre Siviero", "altsiviero@gmail.com")
+           << Person("Santiago Gil")
+           << Person("Tyler Rhodes");
+
+
   QString Title = "";
 
   ui_.setupUi(this);
@@ -89,8 +99,8 @@ QString About::MakeHtml() const {
   ret += tr("<p>");
 
   ret += tr("Strawberry is a audio player and music collection organizer.<br />");
-  ret += tr("It is a fork of Clementine. The name is inspired by the band Strawbs.");
-  ret += tr("</p>");
+  ret += tr("It's based on Clementine and Amarok 1.4, especially aimed at audiophiles.<br />");
+  ret += tr("The name is inspired by the band Strawbs.</p>");
 
   //ret += tr("<p><a href=\"%1\">%2</a></p><p><b>%3:</b>").arg(kUrl, kUrl, tr("Authors"));
 
@@ -112,7 +122,7 @@ QString About::MakeHtml() const {
     ret += "<br />" + MakeHtml(person);
   }
 
-  ret += QString("<br />%1</p>").arg(tr("...and all the Amarok and Clementine contributors"));
+  ret += QString("<br />%1</p>").arg(tr("... and all the Amarok and Clementine contributors"));
 
   return ret;
 
