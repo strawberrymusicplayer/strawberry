@@ -25,7 +25,6 @@
 #include "config.h"
 
 #include <stdbool.h>
-#include <boost/circular_buffer.hpp>
 #include <vlc/vlc.h>
 
 #include <QtGlobal>
