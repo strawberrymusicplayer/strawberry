@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -29,7 +30,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QMutex>
 #include <QString>
 #include <QUrl>
 
@@ -60,7 +60,6 @@ class VLCEngine : public Engine::Base {
  public:
   virtual qint64 position_nanosec() const;
   virtual qint64 length_nanosec() const;
-  const Engine::Scope& Scope();
 
   OutputDetailsList GetOutputsList() const;
   bool ValidOutput(const QString &output);
@@ -71,16 +70,11 @@ class VLCEngine : public Engine::Base {
   libvlc_instance_t *instance_;
   libvlc_media_player_t *player_;
   Engine::State state_;
-  boost::circular_buffer<float> scope_data_;
-  
-  static VLCEngine *sInstance;
-  QMutex scope_mutex_;
 
   bool Initialised() const;
   uint position() const;
   uint length() const;
   bool CanDecode(const QUrl &url);
-  static void SetScopeData(float* data, int size);
   void HandleErrors() const;
   void AttachCallback(libvlc_event_manager_t* em, libvlc_event_type_t type, libvlc_callback_t callback);
   static void StateChangedCallback(const libvlc_event_t* e, void* data);

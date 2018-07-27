@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -24,7 +25,6 @@
 #include <vlc/vlc.h>
 
 #include <QtGlobal>
-#include <QMutex>
 #include <QByteArray>
 #include <QUrl>
 
@@ -37,14 +37,11 @@
 #include "vlcengine.h"
 #include "vlcscopedref.h"
 
-VLCEngine *VLCEngine::sInstance = nullptr;
-
 VLCEngine::VLCEngine(TaskManager *task_manager)
   : EngineBase(),
     instance_(nullptr),
     player_(nullptr),
-    state_(Engine::Empty),
-    scope_data_(4096) {
+    state_(Engine::Empty) {
 
   type_ = Engine::VLC;
   ReloadSettings();
@@ -62,30 +59,16 @@ VLCEngine::~VLCEngine() {
 
 bool VLCEngine::Init() {
 
-/* FIXME: Do we need this?
-  static const char  *const args[] = {
-    "-I", "dummy",        // Don't use any interface
-    "--ignore-config",    // Don't use VLC's config
-    "--extraintf=logger", // log anything
-    "--verbose=2",        // be much more verbose then normal for debugging purpose
-
-    // Our scope plugin
-    "--audio-filter=strawberry_scope",
+  const char *args[] = {
+    //"--verbose=3",
+    "--ignore-config",
     "--no-plugins-cache",
-
-    // Try to stop audio stuttering
-    "--file-caching=500", // msec
-    "--http-caching=500",
-
-#ifdef HAVE_ALSA_
-    "--aout=alsa",        // The default, pulseaudio, is buggy
-#endif
+    "--no-xlib",
+    "--no-video",
   };
-*/
 
   // Create the VLC instance
-  instance_ = libvlc_new(0, nullptr);
-  //instance_ = libvlc_new(sizeof(args) / sizeof(args[0]), args);
+  instance_ = libvlc_new(sizeof(args) / sizeof(*args), args);
   HandleErrors();
 
   // Create the media player
@@ -106,8 +89,6 @@ bool VLCEngine::Init() {
   AttachCallback(player_em, libvlc_MediaPlayerEndReached, StateChangedCallback);
   HandleErrors();
 
-  sInstance = this;
-
   return true;
 
 }
@@ -120,7 +101,9 @@ bool VLCEngine::Initialised() const {
 }
 
 bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+
   if (!Initialised()) return false;
+
   // Create the media object
   VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, url.toEncoded().constData()));
 
@@ -131,7 +114,9 @@ bool VLCEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
 }
 
 bool VLCEngine::Play(quint64 offset_nanosec) {
+
   if (!Initialised()) return false;
+
   // Set audio output
   if (!output_.isEmpty() || output_ != "auto") {
     int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
@@ -149,11 +134,11 @@ bool VLCEngine::Play(quint64 offset_nanosec) {
   Seek(offset_nanosec);
 
   return true;
-  
 
 }
 
 void VLCEngine::Stop(bool stop_after) {
+
   if (!Initialised()) return;
   libvlc_media_player_stop(player_);
   HandleErrors();
@@ -161,6 +146,7 @@ void VLCEngine::Stop(bool stop_after) {
 }
 
 void VLCEngine::Pause() {
+
   if (!Initialised()) return;
   libvlc_media_player_pause(player_);
   HandleErrors();
@@ -168,6 +154,7 @@ void VLCEngine::Pause() {
 }
 
 void VLCEngine::Unpause() {
+
   if (!Initialised()) return;
   libvlc_media_player_play(player_);
   HandleErrors();
@@ -175,10 +162,10 @@ void VLCEngine::Unpause() {
 }
 
 void VLCEngine::Seek(quint64 offset_nanosec) {
-    
+
   if (!Initialised()) return;
 
- int offset = (offset_nanosec / kNsecPerMsec);
+  int offset = (offset_nanosec / kNsecPerMsec);
 
   uint len = length();
   if (len == 0) return;
@@ -213,25 +200,6 @@ qint64 VLCEngine::length_nanosec() const {
     // Get the length from the pipeline if we don't know.
     return (length() * kNsecPerMsec);
   }
-}
-
-const Engine::Scope &VLCEngine::Scope() {
-
-  QMutexLocker l(&scope_mutex_);
-
-  // Leave the scope unchanged if there's not enough data
-  if (scope_data_.size() < uint(kScopeSize))
-    return scope_;
-
-  // Take the samples off the front of the circular buffer
-  for (uint i=0 ; i<uint(kScopeSize) ; ++i)
-    scope_[i] = scope_data_[i] * (1 << 15);
-
-  // Remove the samples from the buffer.  Unfortunately I think this is O(n) :(
-  scope_data_.rresize(qMax(0, int(scope_data_.size()) - kScopeSize*2));
-
-  return scope_;
-
 }
 
 EngineBase::OutputDetailsList VLCEngine::GetOutputsList() const {
@@ -308,24 +276,11 @@ bool VLCEngine::CanDecode(const QUrl &url) {
   return true;
 }
 
-void VLCEngine::SetScopeData(float *data, int size) {
-
-  if (!sInstance) return;
-
-  QMutexLocker l(&sInstance->scope_mutex_);
-
-  // This gets called by our VLC plugin.  Just push the data on to the end of the circular buffer and let it get consumed by scope()
-  for (int i=0 ; i<size ; ++i) {
-    sInstance->scope_data_.push_back(data[i]);
-  }
-
-}
-
 void VLCEngine::HandleErrors() const {
 }
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
-    
+
   libvlc_event_attach(em, type, callback, this);
   HandleErrors();
 
