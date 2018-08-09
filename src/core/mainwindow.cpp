@@ -215,7 +215,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
   status_view_->SetApplication(app_);
-  ui_->now_playing->SetApplication(app_);
+  ui_->widget_playing->SetApplication(app_);
 
   int volume = app_->player()->GetVolume();
   ui_->volume->setValue(volume);
@@ -233,8 +233,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
   //ui_->tabs->AddSpacer();
 
-  // Add the now playing widget to the fancy tab widget
-  ui_->tabs->addBottomWidget(ui_->now_playing);
+  // Add the playing widget to the fancy tab widget
+  ui_->tabs->addBottomWidget(ui_->widget_playing);
 
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
 
@@ -608,11 +608,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->track_slider->SetApplication(app);
 
-  // Now playing widget
-  qLog(Debug) << "Creating now playing widget";
-  ui_->now_playing->set_ideal_height(ui_->status_bar->sizeHint().height() + ui_->player_controls->sizeHint().height());
-  connect(app_->player(), SIGNAL(Stopped()), ui_->now_playing, SLOT(Stopped()));
-  //connect(ui_->now_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
+  // Playing widget
+  qLog(Debug) << "Creating playing widget";
+  ui_->widget_playing->set_ideal_height(ui_->status_bar->sizeHint().height() + ui_->player_controls->sizeHint().height());
+  connect(app_->player(), SIGNAL(Stopped()), ui_->widget_playing, SLOT(Stopped()));
+  //connect(ui_->widget_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
   connect(ui_->action_console, SIGNAL(triggered()), SLOT(ShowConsole()));
   PlayingWidgetPositionChanged();
 
@@ -858,9 +858,9 @@ void MainWindow::resizeEvent(QResizeEvent*) { SaveGeometry(); }
 void MainWindow::TabSwitched() {
   
   if (ui_->tabs->currentIndex() > 0)
-    ui_->now_playing->SetEnabled();
+    ui_->widget_playing->SetEnabled();
   else
-    ui_->now_playing->SetDisabled();
+    ui_->widget_playing->SetDisabled();
 
   SaveGeometry();
 

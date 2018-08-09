@@ -40,7 +40,7 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QWidget" name="sidebar_layout">
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="layout_left">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -48,12 +48,12 @@
          <widget class="FancyTabWidget" name="tabs" native="true"/>
         </item>
         <item>
-         <widget class="PlayingWidget" name="now_playing" native="true"/>
+         <widget class="PlayingWidget" name="widget_playing" native="true"/>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="playlist_layout">
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="layout_right">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -70,7 +70,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="layout_bottom">
           <property name="spacing">
            <number>0</number>
           </property>

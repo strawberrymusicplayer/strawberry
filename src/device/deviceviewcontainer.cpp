@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QWidget>
 #include <QColor>
 #include <QFrame>
