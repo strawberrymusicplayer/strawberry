@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef STATUSVIEW_H
@@ -131,7 +131,6 @@ private:
   int small_ideal_height_;
   int total_height_;
   bool fit_width_;
-  QTimeLine *show_hide_animation_;
   QTimeLine *fade_animation_;
   QImage image_blank_;
   QImage image_nosong_;
@@ -175,3 +174,4 @@ protected:
 };
 
 #endif  // STATUSVIEW_H
+

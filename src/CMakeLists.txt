@@ -207,6 +207,7 @@ set(SOURCES
   settings/shortcutssettingspage.cpp
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
+  settings/tidalsettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -246,6 +247,7 @@ set(SOURCES
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
   widgets/widgetfadehelper.cpp
+  widgets/loginstatewidget.cpp
   
   musicbrainz/acoustidclient.cpp
   musicbrainz/musicbrainzclient.cpp
@@ -265,6 +267,16 @@ set(SOURCES
   device/deviceview.cpp
   device/deviceviewcontainer.cpp
   device/filesystemdevice.cpp
+
+  internet/internetmodel.cpp
+  internet/internetservice.cpp
+  internet/internetplaylistitem.cpp
+  tidal/tidalservice.cpp
+  tidal/tidalsearch.cpp
+  tidal/tidalsearchview.cpp
+  tidal/tidalsearchmodel.cpp
+  tidal/tidalsearchsortmodel.cpp
+  tidal/tidalsearchitemdelegate.cpp
 
 )
 
@@ -356,7 +368,7 @@ set(HEADERS
   covermanager/amazoncoverprovider.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
-  
+
   settings/settingsdialog.h
   settings/settingspage.h
   settings/behavioursettingspage.h
@@ -368,7 +380,8 @@ set(HEADERS
   settings/shortcutssettingspage.h
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
-  
+  settings/tidalsettingspage.h
+
   dialogs/about.h
   dialogs/errordialog.h
   dialogs/console.h
@@ -405,6 +418,7 @@ set(HEADERS
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
   widgets/widgetfadehelper.h
+  widgets/loginstatewidget.h
   
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
@@ -423,6 +437,16 @@ set(HEADERS
   device/deviceviewcontainer.h
   device/deviceview.h
   device/filesystemdevice.h
+
+  internet/internetmodel.h
+  internet/internetservice.h
+  internet/internetmimedata.h
+  internet/internetsongmimedata.h
+
+  tidal/tidalservice.h
+  tidal/tidalsearch.h
+  tidal/tidalsearchview.h
+  tidal/tidalsearchmodel.h
 
 )
 
@@ -457,6 +481,7 @@ set(UI
   settings/shortcutssettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
+  settings/tidalsettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui
@@ -470,11 +495,14 @@ set(UI
   widgets/trackslider.ui
   widgets/osdpretty.ui
   widgets/fileview.ui
-  
+  widgets/loginstatewidget.ui
+
   device/deviceproperties.ui
   device/deviceviewcontainer.ui
   
   globalshortcuts/globalshortcutgrabber.ui
+
+  tidal/tidalsearchview.ui
 
 )
 

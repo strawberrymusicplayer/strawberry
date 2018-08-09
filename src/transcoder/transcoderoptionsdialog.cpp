@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -44,14 +44,14 @@ TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *p
   ui_->setupUi(this);
 
   switch (type) {
-    case Song::Type_Flac:
+    case Song::Type_FLAC:
     case Song::Type_OggFlac:   options_ = new TranscoderOptionsFlac(this);   break;
-    case Song::Type_Mp4:       options_ = new TranscoderOptionsAAC(this);    break;
-    case Song::Type_Mpeg:      options_ = new TranscoderOptionsMP3(this);    break;
+    case Song::Type_MP4:       options_ = new TranscoderOptionsAAC(this);    break;
+    case Song::Type_MPEG:      options_ = new TranscoderOptionsMP3(this);    break;
     case Song::Type_OggVorbis: options_ = new TranscoderOptionsVorbis(this); break;
     case Song::Type_OggOpus:   options_ = new TranscoderOptionsOpus(this);   break;
     case Song::Type_OggSpeex:  options_ = new TranscoderOptionsSpeex(this);  break;
-    case Song::Type_Asf:       options_ = new TranscoderOptionsWma(this);    break;
+    case Song::Type_ASF:       options_ = new TranscoderOptionsWma(this);    break;
     default:
       break;
   }

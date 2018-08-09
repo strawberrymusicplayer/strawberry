@@ -786,7 +786,6 @@ void GstEngine::StartFadeoutPause() {
 
 void GstEngine::StartTimers() {
   StopTimers();
-
   timer_id_ = startTimer(kTimerIntervalNanosec / kNsecPerMsec);
 }
 

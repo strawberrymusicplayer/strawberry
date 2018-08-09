@@ -336,7 +336,7 @@ EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
     ret << details;
     //GetDevicesList(audio_output->psz_name);
   }
-  
+
   libvlc_audio_output_list_release(audio_output_list);
 
   return ret;

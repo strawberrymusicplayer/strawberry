@@ -1,21 +1,21 @@
-CREATE TABLE schema_version (
+CREATE TABLE IF NOT EXISTS schema_version (
   version INTEGER NOT NULL
 );
+DELETE FROM schema_version;
+REPLACE INTO schema_version (version) VALUES (1);
 
-INSERT INTO schema_version (version) VALUES (0);
-
-CREATE TABLE directories (
+CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
   subdirs INTEGER NOT NULL
 );
 
-CREATE TABLE subdirectories (
+CREATE TABLE IF NOT EXISTS subdirectories (
   directory_id INTEGER NOT NULL,
   path TEXT NOT NULL,
   mtime INTEGER NOT NULL
 );
 
-CREATE TABLE songs (
+CREATE TABLE IF NOT EXISTS songs (
 
   /* Metadata from taglib */
 
@@ -67,12 +67,12 @@ CREATE TABLE songs (
 
   effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
-  
+
   cue_path TEXT
 
 );
 
-CREATE TABLE playlists (
+CREATE TABLE IF NOT EXISTS playlists (
 
   name TEXT NOT NULL,
   last_played INTEGER NOT NULL DEFAULT -1,
@@ -83,11 +83,12 @@ CREATE TABLE playlists (
 
 );
 
-CREATE TABLE playlist_items (
+CREATE TABLE IF NOT EXISTS playlist_items (
 
   playlist INTEGER NOT NULL,
   type TEXT NOT NULL,
   collection_id INTEGER,
+  internet_service TEXT,
   url TEXT,
 
   /* Metadata from taglib */
@@ -145,7 +146,7 @@ CREATE TABLE playlist_items (
 
 );
 
-CREATE TABLE devices (
+CREATE TABLE IF NOT EXISTS devices (
   unique_id TEXT NOT NULL,
   friendly_name TEXT,
   size INTEGER,
@@ -155,32 +156,17 @@ CREATE TABLE devices (
   transcode_format NOT NULL DEFAULT 5
 );
 
-CREATE INDEX idx_filename ON songs (filename);
+CREATE INDEX IF NOT EXISTS idx_filename ON songs (filename);
 
-CREATE INDEX idx_comp_artist ON songs (compilation_effective, artist);
+CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
 
-CREATE INDEX idx_album ON songs (album);
+CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
 
-CREATE INDEX idx_title ON songs (title);
+CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
 
-CREATE VIEW duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
+CREATE VIEW IF NOT EXISTS duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
 
-CREATE VIRTUAL TABLE songs_fts USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE playlist_items_fts_ USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts3(
 
   ftstitle,
   ftsalbum,
@@ -195,7 +181,22 @@ CREATE VIRTUAL TABLE playlist_items_fts_ USING fts3(
 
 );
 
-CREATE VIRTUAL TABLE %allsongstables_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts3(
+
+  ftstitle,
+  ftsalbum,
+  ftsartist,
+  ftsalbumartist,
+  ftscomposer,
+  ftsperformer,
+  ftsgrouping,
+  ftsgenre,
+  ftscomment,
+  tokenize=unicode
+
+);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts3(
 
   ftstitle,
   ftsalbum,
@@ -211,7 +212,7 @@ CREATE VIRTUAL TABLE %allsongstables_fts USING fts3(
 );
 
 
-INSERT INTO songs_fts		(ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
+INSERT INTO songs_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
 SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment FROM songs;
 
 INSERT INTO %allsongstables_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)

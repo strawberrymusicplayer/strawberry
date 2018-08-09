@@ -84,6 +84,7 @@ class TranscodeDialog;
 #endif
 class Ui_MainWindow;
 class Windows7ThumbBar;
+class TidalSearchView;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -263,6 +264,11 @@ signals:
 
   void ShowConsole();
 
+  void FocusTidalSearchField();
+  void DoTidalSearch(const QString& query);
+  void SearchForArtist();
+  void SearchForAlbum();
+
  private:
   void ConnectStatusView(StatusView *statusview);
 
@@ -313,6 +319,8 @@ signals:
   PlaylistItemList autocomplete_tag_items_;
 #endif
 
+  TidalSearchView *tidal_search_view_;
+
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;
   QAction *collection_show_untagged_;
@@ -335,6 +343,9 @@ signals:
   QAction *playlist_add_to_another_;
   QList<QAction*> playlistitem_actions_;
   QAction *playlistitem_actions_separator_;
+  QAction *search_for_artist_;
+  QAction *search_for_album_;
+
   QModelIndex playlist_menu_index_;
 
   QSortFilterProxyModel *collection_sort_model_;

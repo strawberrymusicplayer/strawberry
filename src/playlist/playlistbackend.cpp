@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include <memory>
@@ -145,7 +145,7 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
                   "       p.ROWID, " +
                   Song::JoinSpec("p") +
                   ","
-                  "       p.type"
+                  "       p.type, p.internet_service"
                   " FROM playlist_items AS p"
                   " LEFT JOIN songs"
                   "    ON p.collection_id = songs.ROWID"
@@ -279,7 +279,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
   QSqlQuery clear(db);
   clear.prepare("DELETE FROM playlist_items WHERE playlist = :playlist");
   QSqlQuery insert(db);
-  insert.prepare("INSERT INTO playlist_items (playlist, type, collection_id, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, " + Song::kBindSpec + ")");
+  insert.prepare("INSERT INTO playlist_items (playlist, type, collection_id, internet_service, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, :internet_service, " + Song::kBindSpec + ")");
   QSqlQuery update(db);
   update.prepare("UPDATE playlists SET last_played=:last_played WHERE ROWID=:playlist");
 

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -228,20 +228,16 @@ void PlaylistView::SetItemDelegates(CollectionBackend *backend) {
   setItemDelegateForColumn(Playlist::Column_Samplerate, new PlaylistDelegateBase(this, ("Hz")));
   setItemDelegateForColumn(Playlist::Column_Bitdepth, new PlaylistDelegateBase(this, ("Bit")));
   setItemDelegateForColumn(Playlist::Column_Bitrate, new PlaylistDelegateBase(this, tr("kbps")));
-  
-  setItemDelegateForColumn(Playlist::Column_SamplerateBitdepth, new SamplerateBitdepthItemDelegate(this));
 
   setItemDelegateForColumn(Playlist::Column_Filename, new NativeSeparatorsDelegate(this));
   setItemDelegateForColumn(Playlist::Column_LastPlayed, new LastPlayedItemDelegate(this));
 
-#if 0
   if (app_ && app_->player()) {
     setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this, app_->player()));
   }
   else {
     header_->HideSection(Playlist::Column_Source);
   }
-#endif
 
 }
 
@@ -946,7 +942,8 @@ void PlaylistView::ReloadSettings() {
     header_->SetColumnWidth(Playlist::Column_Album, 0.10);
     header_->SetColumnWidth(Playlist::Column_Length, 0.03);
     header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
-    header_->SetColumnWidth(Playlist::Column_SamplerateBitdepth, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Samplerate, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.07);
     header_->SetColumnWidth(Playlist::Column_Filetype, 0.06);
 
     setting_initial_header_layout_ = false;
@@ -1089,7 +1086,6 @@ ColumnAlignmentMap PlaylistView::DefaultColumnAlignment() {
   ret[Playlist::Column_Bitrate] =
   ret[Playlist::Column_Samplerate] =
   ret[Playlist::Column_Bitdepth] =
-  ret[Playlist::Column_SamplerateBitdepth] =
   ret[Playlist::Column_Filesize] =
   ret[Playlist::Column_PlayCount] =
   ret[Playlist::Column_SkipCount] =
@@ -1216,8 +1212,7 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
   QTreeView::focusInEvent(event);
 
-  if (event->reason() == Qt::TabFocusReason ||
-      event->reason() == Qt::BacktabFocusReason) {
+  if (event->reason() == Qt::TabFocusReason || event->reason() == Qt::BacktabFocusReason) {
     // If there's a current item but no selection it probably means the list was filtered, and the selected item does not match the filter.
     // If there's only 1 item in the view it is now impossible to select that item without using the mouse.
     const QModelIndex &current = selectionModel()->currentIndex();

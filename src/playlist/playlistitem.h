@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef PLAYLISTITEM_H
@@ -104,7 +104,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
  protected:
   bool should_skip_;
 
-  enum DatabaseColumn { Column_CollectionId, Column_InternetService, };
+  enum DatabaseColumn { Column_CollectionId, Column_InternetService };
 
   virtual QVariant DatabaseValue(DatabaseColumn) const {
     return QVariant(QVariant::String);
@@ -126,3 +126,4 @@ Q_DECLARE_METATYPE(QList<PlaylistItemPtr>)
 Q_DECLARE_OPERATORS_FOR_FLAGS(PlaylistItem::Options)
 
 #endif  // PLAYLISTITEM_H
+

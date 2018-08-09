@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -209,15 +209,15 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
 
   for (int i = 0; i < length; ++i) {
     switch (LIBMTP_filetype_t(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::Type_Wav; break;
+      case LIBMTP_FILETYPE_WAV:  *ret << Song::Type_WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::Type_Mpeg; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::Type_Asf; break;
+      case LIBMTP_FILETYPE_MP3:  *ret << Song::Type_MPEG; break;
+      case LIBMTP_FILETYPE_WMA:  *ret << Song::Type_ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::Type_Mp4; break;
+      case LIBMTP_FILETYPE_AAC:  *ret << Song::Type_MP4; break;
       case LIBMTP_FILETYPE_FLAC:
-        *ret << Song::Type_Flac;
+        *ret << Song::Type_FLAC;
         *ret << Song::Type_OggFlac;
         break;
       case LIBMTP_FILETYPE_OGG:

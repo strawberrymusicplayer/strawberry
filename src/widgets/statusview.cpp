@@ -14,7 +14,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -84,15 +84,12 @@ StatusView::StatusView(CollectionViewContainer *collectionviewcontainer, QWidget
     label_playing_text_(nullptr),
 
     album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-    show_hide_animation_(new QTimeLine(500, this)),
     fade_animation_(new QTimeLine(1000, this)),
     image_blank_(""),
     image_nosong_(":/pictures/strawberry.png"),
     widgetstate_(None),
     menu_(new QMenu(this))
  {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   collectionview_ = collectionviewcontainer->view();
   connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));
@@ -125,8 +122,6 @@ StatusView::~StatusView() {
 
 void StatusView::AddActions() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QList<QAction*> actions = album_cover_choice_controller_->GetAllActions();
 
   // Here we add the search automatically action, too!
@@ -146,8 +141,6 @@ void StatusView::AddActions() {
 }
 
 void StatusView::CreateWidget() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   setLayout(layout_);
 
@@ -174,8 +167,6 @@ void StatusView::CreateWidget() {
 
 void StatusView::SetApplication(Application *app) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   app_ = app;
 
   album_cover_choice_controller_->SetApplication(app_);
@@ -184,8 +175,6 @@ void StatusView::SetApplication(Application *app) {
 }
 
 void StatusView::NoSongWidget() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (widgetstate_ == Playing) {
     container_layout_->removeWidget(widget_playing_);
@@ -220,8 +209,6 @@ void StatusView::NoSongWidget() {
 }
 
 void StatusView::SongWidget() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (widgetstate_ == Stopped) {
     container_layout_->removeWidget(widget_stopped_);
@@ -275,8 +262,6 @@ void StatusView::SongWidget() {
 
 void StatusView::SwitchWidgets(WidgetState state) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   if (widgetstate_ == None) NoSongWidget();
 
   if ((state == Stopped) && (widgetstate_ != Stopped)) {
@@ -290,8 +275,6 @@ void StatusView::SwitchWidgets(WidgetState state) {
 }
 
 void StatusView::UpdateSong() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   SwitchWidgets(Playing);
 
@@ -342,8 +325,6 @@ void StatusView::UpdateSong() {
 
 void StatusView::NoSong() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QString html;
   QImage image_logo(":/pictures/strawberry.png");
   QImage image_logo_scaled = image_logo.scaled(300, 300, Qt::KeepAspectRatio);
@@ -377,8 +358,6 @@ void StatusView::NoSong() {
 
 void StatusView::SongChanged(const Song &song) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   stopped_ = false;
   metadata_ = song;
 
@@ -390,16 +369,12 @@ void StatusView::SongChanged(const Song &song) {
 
 void StatusView::SongFinished() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   stopped_ = true;
   SetImage(image_blank_);
   
 }
 
 bool StatusView::eventFilter(QObject *object, QEvent *event) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   switch(event->type()) {   
     case QEvent::Paint:{   
@@ -416,8 +391,6 @@ bool StatusView::eventFilter(QObject *object, QEvent *event) {
 
 void StatusView::handlePaintEvent(QObject *object, QEvent *event) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__ << object->objectName();
-
   if (object == label_playing_album_) {
       paintEvent_album(event);
   }
@@ -427,8 +400,6 @@ void StatusView::handlePaintEvent(QObject *object, QEvent *event) {
 }
 
 void StatusView::paintEvent_album(QEvent *event) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QPainter p(label_playing_album_);
 
@@ -443,8 +414,6 @@ void StatusView::paintEvent_album(QEvent *event) {
 
 void StatusView::DrawImage(QPainter *p) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   p->drawPixmap(0, 0, 300, 300, pixmap_current_);
   if ((downloading_covers_) && (spinner_animation_ != nullptr)) {
       p->drawPixmap(50, 50, 16, 16, spinner_animation_->currentPixmap());
@@ -453,8 +422,6 @@ void StatusView::DrawImage(QPainter *p) {
 }
 
 void StatusView::FadePreviousTrack(qreal value) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   pixmap_previous_opacity_ = value;
   if (qFuzzyCompare(pixmap_previous_opacity_, qreal(0.0))) {
@@ -477,14 +444,9 @@ void StatusView::contextMenuEvent(QContextMenuEvent *e) {
 }
 
 void StatusView::mouseReleaseEvent(QMouseEvent *) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-  
 }
 
 void StatusView::dragEnterEvent(QDragEnterEvent *e) {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   QWidget::dragEnterEvent(e);
   
@@ -492,15 +454,11 @@ void StatusView::dragEnterEvent(QDragEnterEvent *e) {
 
 void StatusView::dropEvent(QDropEvent *e) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   QWidget::dropEvent(e);
   
 }
 
 void StatusView::ScaleCover() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, original_));
   update();
@@ -509,8 +467,6 @@ void StatusView::ScaleCover() {
 
 void StatusView::AlbumArtLoaded(const Song &metadata, const QString&, const QImage &image) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-  
   SwitchWidgets(Playing);
   
   label_playing_album_->clear();
@@ -527,8 +483,6 @@ void StatusView::AlbumArtLoaded(const Song &metadata, const QString&, const QIma
 
 void StatusView::SetImage(const QImage &image) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-  
   // Cache the current pixmap so we can fade between them
   pixmap_previous_ = QPixmap(size());
   pixmap_previous_.fill(palette().background().color());
@@ -543,15 +497,13 @@ void StatusView::SetImage(const QImage &image) {
   ScaleCover();
 
   // Were we waiting for this cover to load before we started fading?
-  if (!pixmap_previous_.isNull() && fade_animation_ != nullptr) {
+  if (!pixmap_previous_.isNull() && fade_animation_) {
     fade_animation_->start();
   }
 
 }
 
 bool StatusView::GetCoverAutomatically() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   SwitchWidgets(Playing);
   
@@ -581,8 +533,6 @@ bool StatusView::GetCoverAutomatically() {
 
 void StatusView::AutomaticCoverSearchDone() {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
-
   downloading_covers_ = false;
   spinner_animation_.reset();
   update();
@@ -590,8 +540,6 @@ void StatusView::AutomaticCoverSearchDone() {
 }
 
 void StatusView::UpdateNoSong() {
-
-  //qLog(Debug) << __PRETTY_FUNCTION__;
 
   if (widgetstate_ == Playing) return;
 

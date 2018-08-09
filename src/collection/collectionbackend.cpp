@@ -789,7 +789,7 @@ void CollectionBackend::UpdateCompilations() {
     info.artists.insert(artist);
     info.directories.insert(filename.left(last_separator));
     if (compilation_detected) info.has_compilation_detected = true;
-    else         info.has_not_compilation_detected = true;
+    else info.has_not_compilation_detected = true;
   }
 
   // Now mark the songs that we think are in compilations

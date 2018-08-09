@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef SETTINGSDIALOG_H
@@ -79,6 +79,7 @@ public:
     Page_Notifications,
     Page_Proxy,
     Page_Transcoding,
+    Page_Tidal,
   };
 
   enum Role {

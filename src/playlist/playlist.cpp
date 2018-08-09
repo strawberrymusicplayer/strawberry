@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -83,6 +83,11 @@
 #include "songmimedata.h"
 #include "songplaylistitem.h"
 #include "tagreadermessages.pb.h"
+
+#include "internet/internetmodel.h"
+#include "internet/internetplaylistitem.h"
+#include "internet/internetmimedata.h"
+#include "internet/internetsongmimedata.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
@@ -153,7 +158,7 @@ Playlist::~Playlist() {
 }
 
 template <typename T>
-void Playlist::InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue) {
+void Playlist::InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
 
   PlaylistItemList items;
 
@@ -161,7 +166,7 @@ void Playlist::InsertSongItems(const SongList &songs, int pos, bool play_now, bo
     items << PlaylistItemPtr(new T(song));
   }
 
-  InsertItems(items, pos, play_now, enqueue);
+  InsertItems(items, pos, play_now, enqueue, enqueue_next);
 
 }
 
@@ -282,16 +287,15 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
         case Column_AlbumArtist:	return song.playlist_albumartist();
         case Column_Composer:		return song.composer();
         case Column_Performer:		return song.performer();
-	case Column_Grouping:		return song.grouping();
+        case Column_Grouping:		return song.grouping();
 
         case Column_PlayCount:		return song.playcount();
         case Column_SkipCount:		return song.skipcount();
         case Column_LastPlayed:		return song.lastplayed();
 
         case Column_Samplerate:		return song.samplerate();
-	case Column_Bitdepth:		return song.bitdepth();
-	case Column_Bitrate:		return song.bitrate();
-	case Column_SamplerateBitdepth:		return song.SampleRateBitDepthToText();
+        case Column_Bitdepth:		return song.bitdepth();
+        case Column_Bitrate:		return song.bitrate();
 
         case Column_Filename:		return song.url();
         case Column_BaseFilename:	return song.basefilename();
@@ -304,7 +308,7 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
           if (role == Qt::DisplayRole) return song.comment().simplified();
           return song.comment();
 
-        //case Column_Source: return item->Url();
+        case Column_Source:             return item->Url();
 
       }
 
@@ -323,9 +327,7 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
       if (items_[index.row()]->HasCurrentForegroundColor()) {
         return QBrush(items_[index.row()]->GetCurrentForegroundColor());
       }
-      //if (index.row() < dynamic_history_length()) {
-        //return QBrush(kDynamicHistoryColor);
-      //}
+
       return QVariant();
 
     case Qt::BackgroundRole:
@@ -562,7 +564,7 @@ int Playlist::previous_row(bool ignore_repeat_track) const {
 void Playlist::set_current_row(int i, bool is_stopping) {
   
   QModelIndex old_current_item_index = current_item_index_;
-  //ClearStreamMetadata();
+  ClearStreamMetadata();
 
   current_item_index_ = QPersistentModelIndex(index(i, 0, QModelIndex()));
 
@@ -636,6 +638,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
   bool play_now = false;
   bool enqueue_now = false;
+  bool enqueue_next_now = false;
   
   if (const MimeData *mime_data = qobject_cast<const MimeData*>(data)) {
     if (mime_data->clear_first_) {
@@ -643,6 +646,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     }
     play_now = mime_data->play_now_;
     enqueue_now = mime_data->enqueue_now_;
+    enqueue_next_now = mime_data->enqueue_next_now_;
   }
 
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
@@ -651,11 +655,13 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable)
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now);
     else
-      InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now);
-
+      InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
-    InsertItems(item_data->items_, row, play_now, enqueue_now);
+    InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
+  }
+  else if (const InternetSongMimeData* internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+    InsertInternetItems(internet_song_data->service, internet_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasFormat(kRowsMimetype)) {
     // Dragged from the playlist
@@ -719,7 +725,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
 }
 
-void Playlist::InsertUrls(const QList<QUrl> &urls, int pos, bool play_now, bool enqueue) {
+void Playlist::InsertUrls(const QList<QUrl> &urls, int pos, bool play_now, bool enqueue, bool enqueue_next) {
   
   SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
   connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
@@ -832,7 +838,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   
 }
 
-void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_now, bool enqueue) {
+void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_now, bool enqueue, bool enqueue_next) {
   
   if (itemsIn.isEmpty())
     return;
@@ -932,25 +938,37 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bo
   
 }
 
-void Playlist::InsertCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue) {
-  InsertSongItems<CollectionPlaylistItem>(songs, pos, play_now, enqueue);
+void Playlist::InsertCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+  InsertSongItems<CollectionPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongs(const SongList &songs, int pos, bool play_now, bool enqueue) {
-  InsertSongItems<SongPlaylistItem>(songs, pos, play_now, enqueue);
+void Playlist::InsertSongs(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+  InsertSongItems<SongPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongsOrCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue) {
+void Playlist::InsertSongsOrCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
 
   PlaylistItemList items;
   for (const Song &song : songs) {
     if (song.is_collection_song()) {
       items << PlaylistItemPtr(new CollectionPlaylistItem(song));
-    } else {
+    }
+    else {
       items << PlaylistItemPtr(new SongPlaylistItem(song));
     }
   }
-  InsertItems(items, pos, play_now, enqueue);
+  InsertItems(items, pos, play_now, enqueue, enqueue_next);
+
+}
+
+void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+
+  PlaylistItemList playlist_items;
+  for (const Song &song : songs) {
+    playlist_items << shared_ptr<PlaylistItem>(new InternetPlaylistItem(service, song));
+  }
+
+  InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
 
 }
 
@@ -973,8 +991,10 @@ void Playlist::UpdateItems(const SongList &songs) {
       PlaylistItemPtr &item = items_[i];
       if (item->Metadata().url() == song.url() &&
           (item->Metadata().filetype() == Song::Type_Unknown ||
+           // Stream may change and may need to be updated too
+           item->Metadata().filetype() == Song::Type_Stream ||
            // And CD tracks as well (tags are loaded in a second step)
-           item->Metadata().filetype() == Song::Type_Cdda)) {
+           item->Metadata().filetype() == Song::Type_CDDA)) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = PlaylistItemPtr(new CollectionPlaylistItem(song));
@@ -1069,9 +1089,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
 
     case Column_Bitrate:      cmp(bitrate);
     case Column_Samplerate:   cmp(samplerate);
-    case Column_Bitdepth:	cmp(bitdepth);
-    case Column_SamplerateBitdepth:
-      return QString::localeAwareCompare(a->Metadata().SampleRateBitDepthToText().toLower(), b->Metadata().SampleRateBitDepthToText().toLower()) < 0;
+    case Column_Bitdepth:     cmp(bitdepth);
     case Column_Filename:
       return (QString::localeAwareCompare(a->Url().path().toLower(), b->Url().path().toLower()) < 0);
     case Column_BaseFilename: cmp(basefilename);
@@ -1081,7 +1099,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
     case Column_DateCreated:  cmp(ctime);
 
     case Column_Comment:      strcmp(comment);
-    //case Column_Source:       cmp(url);
+    case Column_Source:       cmp(url);
   }
 
 #undef cmp
@@ -1126,7 +1144,6 @@ QString Playlist::column_name(Column column) {
 
     case Column_Samplerate:   return tr("Sample rate");
     case Column_Bitdepth:   return tr("Bit depth");
-    case Column_SamplerateBitdepth:   return tr("Sample rate B");
     case Column_Bitrate:      return tr("Bitrate");
 
     case Column_Filename:     return tr("File name");
@@ -1137,7 +1154,7 @@ QString Playlist::column_name(Column column) {
     case Column_DateCreated:  return tr("Date created");
 
     case Column_Comment:      return tr("Comment");
-    //case Column_Source:       return tr("Source");
+    case Column_Source:       return tr("Source");
     default: return QString();
   }
   return "";
@@ -1757,6 +1774,7 @@ void Playlist::InvalidateDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
+    if (!song.is_stream()) {
       bool exists = QFile::exists(song.url().toLocalFile());
 
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {
@@ -1768,6 +1786,7 @@ void Playlist::InvalidateDeletedSongs() {
         item->RemoveForegroundColor(kInvalidSongPriority);
         invalidated_rows.append(row);
       }
+    }
   }
 
   ReloadItems(invalidated_rows);

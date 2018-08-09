@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -51,6 +51,8 @@
 #include "song.h"
 #include "songloader.h"
 #include "tagreaderclient.h"
+#include "engine/enginetype.h"
+#include "engine/enginebase.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
 #include "collection/sqlrow.h"
@@ -78,6 +80,7 @@ SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *pla
       parser_(nullptr),
       collection_(collection),
       player_(player) {
+
   if (sRawUriSchemes.isEmpty()) {
     sRawUriSchemes << "udp"
                    << "mms"
@@ -97,7 +100,7 @@ SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *pla
 }
 
 SongLoader::~SongLoader() {
-  
+
 #ifdef HAVE_GSTREAMER
   if (pipeline_) {
     state_ = Finished;
@@ -121,24 +124,29 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     return Success;
   }
 
+  if (player_->engine()->type() == Engine::GStreamer) {
 #ifdef HAVE_GSTREAMER
-  preload_func_ = std::bind(&SongLoader::LoadRemote, this);
+    preload_func_ = std::bind(&SongLoader::LoadRemote, this);
+    return BlockingLoadRequired;
+#else
+    return Error;
 #endif
+  }
 
-  return BlockingLoadRequired;
+  return Success;
 
 }
 
 void SongLoader::LoadFilenamesBlocking() {
-  
+
   if (preload_func_) {
     preload_func_();
   }
-  
+
 }
 
 SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
-  
+
   qLog(Debug) << "Fast Loading local file" << filename;
   // First check to see if it's a directory - if so we can load all the songs inside right away.
   if (QFileInfo(filename).isDir()) {
@@ -149,7 +157,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
   song.InitFromFilePartial(filename);
   if (song.is_valid()) songs_ << song;
   return Success;
-  
+
 }
 
 SongLoader::Result SongLoader::LoadAudioCD() {
@@ -208,6 +216,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   // It's not in the database, load it asynchronously.
   preload_func_ = std::bind(&SongLoader::LoadLocalAsync, this, filename);
   return BlockingLoadRequired;
+
 }
 
 void SongLoader::LoadLocalAsync(const QString &filename) {
@@ -253,6 +262,7 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
   Song song;
   song.InitFromFilePartial(filename);
   if (song.is_valid()) songs_ << song;
+
 }
 
 void SongLoader::LoadMetadataBlocking() {
@@ -274,7 +284,8 @@ void SongLoader::EffectiveSongLoad(Song *song) {
   Song collection_song = collection_->GetSongByUrl(song->url());
   if (collection_song.is_valid()) {
     *song = collection_song;
-  } else {
+  }
+  else {
     // it's a normal media file
     QString filename = song->url().toLocalFile();
     TagReaderClient::Instance()->ReadFileBlocking(filename, song);
@@ -318,7 +329,15 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
   // so if the user has the "Start playing when adding to playlist" preference behaviour set,
   // it can enjoy the first song being played (seek it, have moodbar, etc.)
   if (!songs_.isEmpty()) EffectiveSongLoad(&(*songs_.begin()));
+}
 
+void SongLoader::AddAsRawStream() {
+  Song song;
+  song.set_valid(true);
+  song.set_filetype(Song::Type_Stream);
+  song.set_url(url_);
+  song.set_title(url_.toString());
+  songs_ << song;
 }
 
 void SongLoader::Timeout() {
@@ -348,10 +367,10 @@ void SongLoader::StopTypefind() {
 
   }
   else if (success_) {
-    //qLog(Debug) << "Loading" << url_ << "as raw stream";
+    qLog(Debug) << "Loading" << url_ << "as raw stream";
 
     // It wasn't a playlist - just put the URL in as a stream
-    //AddAsRawStream();
+    AddAsRawStream();
   }
 
   emit LoadRemoteFinished();
@@ -413,7 +432,7 @@ void SongLoader::LoadRemote() {
 
 #ifdef HAVE_GSTREAMER
 void SongLoader::TypeFound(GstElement *, uint, GstCaps *caps, void *self) {
-  
+
   SongLoader *instance = static_cast<SongLoader*>(self);
 
   if (instance->state_ != WaitingForType) return;

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef MIMEDATA_H
@@ -52,6 +52,9 @@ class MimeData : public QMimeData {
 
   // If this is set then the items are added to the queue after being inserted.
   bool enqueue_now_;
+  
+  // If this is set then the items are added to the beginning of the queue after being inserted.
+  bool enqueue_next_now_;
 
   // If this is set then the items are inserted into a newly created playlist.
   bool open_in_new_playlist_;

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -51,6 +51,9 @@
 #include "covermanager/amazoncoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
+
+#include "internet/internetmodel.h"
+#include "tidal/tidalsearch.h"
 
 bool Application::kIsPortable = false;
 
@@ -97,7 +100,9 @@ class ApplicationImpl {
           app->MoveToNewThread(loader);
           return loader;
         }),
-        current_art_loader_([=]() { return new CurrentArtLoader(app, app); })
+        current_art_loader_([=]() { return new CurrentArtLoader(app, app); }),
+        internet_model_([=]() { return new InternetModel(app, app); }),
+        tidal_search_([=]() { return new TidalSearch(app, app); })
   { }
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -113,6 +118,8 @@ class ApplicationImpl {
   Lazy<CoverProviders> cover_providers_;
   Lazy<AlbumCoverLoader> album_cover_loader_;
   Lazy<CurrentArtLoader> current_art_loader_;
+  Lazy<InternetModel> internet_model_;
+  Lazy<TidalSearch> tidal_search_;
 
 };
 
@@ -210,6 +217,13 @@ TaskManager *Application::task_manager() const {
 }
 
 EngineDevice *Application::enginedevice() const {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   return p_->enginedevice_.get();
+}
+
+InternetModel* Application::internet_model() const {
+  return p_->internet_model_.get();
+}
+
+TidalSearch* Application::tidal_search() const {
+  return p_->tidal_search_.get();
 }

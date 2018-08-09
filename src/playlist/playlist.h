@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef PLAYLIST_H
@@ -54,6 +54,8 @@ class PlaylistBackend;
 class PlaylistFilter;
 class Queue;
 class TaskManager;
+class InternetModel;
+class InternetService;
 
 namespace PlaylistUndoCommands {
 class InsertItems;
@@ -110,7 +112,6 @@ class Playlist : public QAbstractListModel {
     Column_Genre,
     Column_Samplerate,
     Column_Bitdepth,
-    Column_SamplerateBitdepth,
     Column_Bitrate,
     Column_Filename,
     Column_BaseFilename,
@@ -123,6 +124,7 @@ class Playlist : public QAbstractListModel {
     Column_LastPlayed,
     Column_Comment,
     Column_Grouping,
+    Column_Source,
     ColumnCount
   };
 
@@ -212,10 +214,11 @@ class Playlist : public QAbstractListModel {
   QUndoStack *undo_stack() const { return undo_stack_; }
 
   // Changing the playlist
-  void InsertItems			(const PlaylistItemList	&items,	int pos = -1, bool play_now = false, bool enqueue = false);
-  void InsertCollectionItems		(const SongList		&items,	int pos = -1, bool play_now = false, bool enqueue = false);
-  void InsertSongs			(const SongList		&items,	int pos = -1, bool play_now = false, bool enqueue = false);
-  void InsertSongsOrCollectionItems	(const SongList		&items,	int pos = -1, bool play_now = false, bool enqueue = false);
+  void InsertItems (const PlaylistItemList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
+  void InsertCollectionItems (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
+  void InsertSongs (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
+  void InsertSongsOrCollectionItems (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
+  void InsertInternetItems(InternetService* service, const SongList& songs, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
 
   void ReshuffleIndices();
 
@@ -276,7 +279,7 @@ class Playlist : public QAbstractListModel {
 
   void SetColumnAlignment(const ColumnAlignmentMap &alignment);
 
-  void InsertUrls(const QList<QUrl> &urls, int pos = -1, bool play_now = false, bool enqueue = false);
+  void InsertUrls(const QList<QUrl> &urls, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const QList<int> &indices);
 
@@ -302,7 +305,7 @@ private:
   bool FilterContainsVirtualIndex(int i) const;
 
   template <typename T>
-  void InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue);
+  void InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false);

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef APPLICATION_H_
@@ -49,6 +49,8 @@ class DeviceManager;
 class CoverProviders;
 class AlbumCoverLoader;
 class CurrentArtLoader;
+class InternetModel;
+class TidalSearch;
 
 class Application : public QObject {
   Q_OBJECT
@@ -78,6 +80,9 @@ class Application : public QObject {
 
   CollectionBackend *collection_backend() const;
   CollectionModel *collection_model() const;
+
+  InternetModel *internet_model() const;
+  TidalSearch *tidal_search() const;
 
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);

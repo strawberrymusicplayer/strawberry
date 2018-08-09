@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef SONGLOADER_H
@@ -105,6 +105,8 @@ signals:
   Result LoadLocalPartial(const QString &filename);
   void LoadLocalDirectory(const QString &filename);
   void LoadPlaylist(ParserBase *parser, const QString &filename);
+
+  void AddAsRawStream();
 
 #ifdef HAVE_GSTREAMER
   void LoadRemote();

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -248,8 +248,8 @@ void GPodDevice::FinishDelete(bool success) {
 }
 
 bool GPodDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
-  *ret << Song::Type_Mp4;
-  *ret << Song::Type_Mpeg;
+  *ret << Song::Type_MP4;
+  *ret << Song::Type_MPEG;
   return true;
 }
 

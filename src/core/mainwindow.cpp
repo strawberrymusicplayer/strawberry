@@ -126,6 +126,8 @@
 #include "settings/playlistsettingspage.h"
 #include "settings/settingsdialog.h"
 
+#include "tidal/tidalsearchview.h"
+
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 #  include "musicbrainz/tagfetcher.h"
 #endif
@@ -186,6 +188,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         manager->SetPlaylistManager(app->playlist_manager());
         return manager;
       }),
+      tidal_search_view_(new TidalSearchView(app_, this)),
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
@@ -218,7 +221,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->volume->setValue(volume);
   VolumeChanged(volume);
 
-  // Initialise the global search widget
+  // Initialise the tidal search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
@@ -227,6 +230,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
   ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
   //ui_->tabs->AddSpacer();
 
   // Add the now playing widget to the fancy tab widget
@@ -475,6 +479,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->filter()->AddMenuAction(separator);
   collection_view_->filter()->AddMenuAction(collection_config_action);
 
+  // Tidal
+  connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+
   // Playlist menu
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, SLOT(PlaylistPlay()));
   playlist_menu_->addAction(ui_->action_stop);
@@ -657,6 +664,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ReloadSettings();
 
+  // Tidal search shortcut
+  QAction *tidal_search_action = new QAction(this);
+  tidal_search_action->setShortcuts(QList<QKeySequence>() << QKeySequence("Ctrl+F") << QKeySequence("Ctrl+L"));
+  addAction(tidal_search_action);
+  connect(tidal_search_action, SIGNAL(triggered()), SLOT(FocusTidalSearchField()));
+
   // Reload pretty OSD to avoid issues with fonts
   osd_->ReloadPrettyOSDSettings();
 
@@ -745,6 +758,7 @@ void MainWindow::ReloadAllSettings() {
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
+  tidal_search_view_->ReloadSettings();
 
 }
 
@@ -787,7 +801,7 @@ void MainWindow::MediaPaused() {
 }
 
 void MainWindow::MediaPlaying() {
-  
+
   ui_->action_stop->setEnabled(true);
   ui_->action_stop_after_this_track->setEnabled(true);
   ui_->action_play_pause->setIcon(IconLoader::Load("media-pause"));
@@ -1789,7 +1803,7 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
     Song song;
     song.set_url(url);
     song.set_valid(true);
-    song.set_filetype(Song::Type_Mpeg);
+    song.set_filetype(Song::Type_MPEG);
     songs << song;
   }
 
@@ -2260,4 +2274,38 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     QMainWindow::keyPressEvent(event);
   }
 }
+
+void MainWindow::FocusTidalSearchField() {
+  ui_->tabs->setCurrentWidget(tidal_search_view_);
+  tidal_search_view_->FocusSearchField();
+}
+
+void MainWindow::DoTidalSearch(const QString& query) {
+  FocusTidalSearchField();
+  tidal_search_view_->StartSearch(query);
+}
+
+void MainWindow::SearchForArtist() {
+
+  PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(playlist_menu_index_.row()));
+  Song song = item->Metadata();
+  if (!song.albumartist().isEmpty()) {
+    DoTidalSearch(song.albumartist().simplified());
+  }
+  else if (!song.artist().isEmpty()) {
+    DoTidalSearch(song.artist().simplified());
+  }
+
+}
+
+void MainWindow::SearchForAlbum() {
+
+  PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(playlist_menu_index_.row()));
+  Song song = item->Metadata();
+  if (!song.album().isEmpty()) {
+    DoTidalSearch(song.album().simplified());
+  }
+
+}
+
 

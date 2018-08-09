@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -393,7 +393,7 @@ bool Mpris2::CanPause() const {
 bool Mpris2::CanSeek() const { return CanSeek(app_->player()->GetState()); }
 
 bool Mpris2::CanSeek(Engine::State state) const {
-  return app_->player()->GetCurrentItem() && state != Engine::Empty;
+  return app_->player()->GetCurrentItem() && state != Engine::Empty && !app_->player()->GetCurrentItem()->Metadata().is_stream();
 }
 
 bool Mpris2::CanControl() const { return true; }

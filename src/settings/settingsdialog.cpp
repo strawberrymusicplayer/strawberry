@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -62,6 +62,8 @@
 #include "playlistsettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
+#include "tidalsettingspage.h"
+
 #include "ui_settingsdialog.h"
 
 class QShowEvent;
@@ -122,6 +124,7 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 #ifdef HAVE_GSTREAMER
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
+  AddPage(Page_Tidal, new TidalSettingsPage(this), general);
 
   // User interface
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -59,7 +59,6 @@ FileViewList::FileViewList(QWidget *parent)
 
 void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   menu_selection_ = selectionModel()->selection();
 
   menu_->popup(e->globalPos());
@@ -69,7 +68,6 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
 QList<QUrl> FileViewList::UrlListFromSelection() const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   QList<QUrl> urls;
   for (const QModelIndex& index : menu_selection_.indexes()) {
     if (index.column() == 0)
@@ -81,7 +79,6 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
 
 MimeData *FileViewList::MimeDataFromSelection() const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   MimeData *data = new MimeData;
   data->setUrls(UrlListFromSelection());
 
@@ -101,7 +98,6 @@ MimeData *FileViewList::MimeDataFromSelection() const {
 
 QStringList FileViewList::FilenamesFromSelection() const {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   QStringList filenames;
   for (const QModelIndex& index : menu_selection_.indexes()) {
     if (index.column() == 0)
@@ -112,14 +108,12 @@ QStringList FileViewList::FilenamesFromSelection() const {
 }
 
 void FileViewList::LoadSlot() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   MimeData *data = MimeDataFromSelection();
   data->clear_first_ = true;
   emit AddToPlaylist(data);
 }
 
 void FileViewList::AddToPlaylistSlot() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   emit AddToPlaylist(MimeDataFromSelection());
 }
 
@@ -143,18 +137,15 @@ void FileViewList::CopyToDeviceSlot() {
 }
 
 void FileViewList::DeleteSlot() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   emit Delete(FilenamesFromSelection());
 }
 
 void FileViewList::EditTagsSlot() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   emit EditTags(UrlListFromSelection());
 }
 
 void FileViewList::mousePressEvent(QMouseEvent *e) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   switch (e->button()) {
     case Qt::XButton1:
       emit Back();
@@ -183,6 +174,5 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
 }
 
 void FileViewList::ShowInBrowser() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   Utilities::OpenInFileBrowser(UrlListFromSelection());
 }

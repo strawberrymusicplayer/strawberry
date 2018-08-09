@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef SONG_H
@@ -58,12 +58,6 @@ struct _Itdb_Track;
 struct LIBMTP_track_struct;
 #endif
 
-#ifdef HAVE_LIBLASTFM
-namespace lastfm {
-class Track;
-}
-#endif
-
 class SqlRow;
 
 class Song {
@@ -95,20 +89,20 @@ class Song {
   // If a new lossless file is added, also add it to IsFileLossless().
   enum FileType {
     Type_Unknown = 0,
-    Type_Wav = 1,
-    Type_Flac = 2,
+    Type_WAV = 1,
+    Type_FLAC = 2,
     Type_WavPack = 3,
     Type_OggFlac = 4,
     Type_OggVorbis = 5,
     Type_OggOpus = 6,
     Type_OggSpeex = 7,
-    Type_Mpeg = 8,
-    Type_Mp4 = 9,
-    Type_Asf = 10,
-    Type_Aiff = 11,
-    Type_Mpc = 12,
+    Type_MPEG = 8,
+    Type_MP4 = 9,
+    Type_ASF = 10,
+    Type_AIFF = 11,
+    Type_MPC = 12,
     Type_TrueAudio = 13,
-    Type_Cdda = 90,
+    Type_CDDA = 90,
     Type_Stream = 91,
   };
 
@@ -127,9 +121,6 @@ class Song {
   void InitFromQuery(const SqlRow &query, bool reliable_metadata, int col = 0);
   void InitFromFilePartial(const QString &filename);  // Just store the filename: incomplete but fast
   void InitArtManual();  // Check if there is already a art in the cache and store the filename in art_manual
-#ifdef HAVE_LIBLASTFM
-  void InitFromLastFM(const lastfm::Track &track);
-#endif
 
   void MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
 
@@ -152,9 +143,6 @@ class Song {
   // Save
   void BindToQuery(QSqlQuery *query) const;
   void BindToFtsQuery(QSqlQuery *query) const;
-#ifdef HAVE_LIBLASTFM
-  void ToLastFM(lastfm::Track *track, bool prefer_album_artist) const;
-#endif
   void ToXesam(QVariantMap *map) const;
   void ToProtobuf(pb::tagreader::SongMetadata *pb) const;
 
@@ -210,6 +198,7 @@ class Song {
   const QString &effective_albumartist() const;
   
   bool is_collection_song() const;
+  bool is_stream() const;
   bool is_cdda() const;
   
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:

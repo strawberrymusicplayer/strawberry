@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -37,6 +37,8 @@
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
+#include "internet/internetplaylistitem.h"
+
 PlaylistItem::~PlaylistItem() {
 }
 
@@ -44,11 +46,13 @@ PlaylistItem* PlaylistItem::NewFromType(const QString &type) {
 
   if (type == "Collection") return new CollectionPlaylistItem(type);
   else if (type == "File") return new SongPlaylistItem(type);
-  
+  else if (type == "Internet") return new InternetPlaylistItem("Internet");
+  else if (type == "Tidal") return new InternetPlaylistItem("Tidal");
+
   qLog(Warning) << "Invalid PlaylistItem type:" << type;
 
   return nullptr;
-  
+
 }
 
 PlaylistItem* PlaylistItem::NewFromSongsTable(const QString &table, const Song &song) {
@@ -65,6 +69,7 @@ void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
   query->bindValue(":type", type());
   query->bindValue(":collection_id", DatabaseValue(Column_CollectionId));
+  query->bindValue(":internet_service", DatabaseValue(Column_InternetService));
 
   DatabaseSongMetadata().BindToQuery(query);
 
@@ -119,3 +124,4 @@ bool PlaylistItem::HasCurrentForegroundColor() const {
 }
 void PlaylistItem::SetShouldSkip(bool val) { should_skip_ = val; }
 bool PlaylistItem::GetShouldSkip() const { return should_skip_; }
+

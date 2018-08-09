@@ -287,9 +287,10 @@ uint Song::mtime() const { return d->mtime_; }
 uint Song::ctime() const { return d->ctime_; }
 int Song::filesize() const { return d->filesize_; }
 Song::FileType Song::filetype() const { return d->filetype_; }
-bool Song::is_cdda() const { return d->filetype_ == Type_Cdda; }
+bool Song::is_stream() const { return d->filetype_ == Type_Stream; }
+bool Song::is_cdda() const { return d->filetype_ == Type_CDDA; }
 bool Song::is_collection_song() const {
-  return !is_cdda() && id() != -1;
+  return !is_cdda() && !is_stream() && id() != -1;
 }
 const QString &Song::art_automatic() const { return d->art_automatic_; }
 const QString &Song::art_manual() const { return d->art_manual_; }
@@ -329,10 +330,10 @@ void Song::set_bitdepth(int v) { d->bitdepth_ = v; }
 void Song::set_directory_id(int v) { d->directory_id_ = v; }
 void Song::set_url(const QUrl &v) {
   if (Application::kIsPortable) {
-    QUrl base =
-        QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/");
+    QUrl base = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/");
     d->url_ = base.resolved(v);
-  } else {
+  }
+  else {
     d->url_ = v;
   }
 }
@@ -364,36 +365,35 @@ QString Song::JoinSpec(const QString &table) {
 QString Song::TextForFiletype(FileType type) {
 
   switch (type) {
-    case Song::Type_Wav:       return QObject::tr("Wav");
-    case Song::Type_Flac:      return QObject::tr("FLAC");
+    case Song::Type_WAV:       return QObject::tr("Wav");
+    case Song::Type_FLAC:      return QObject::tr("FLAC");
     case Song::Type_WavPack:   return QObject::tr("WavPack");
     case Song::Type_OggFlac:   return QObject::tr("Ogg FLAC");
     case Song::Type_OggVorbis: return QObject::tr("Ogg Vorbis");
     case Song::Type_OggOpus:   return QObject::tr("Ogg Opus");
     case Song::Type_OggSpeex:  return QObject::tr("Ogg Speex");
-    case Song::Type_Mpeg:      return QObject::tr("MP3");
-    case Song::Type_Mp4:       return QObject::tr("MP4 AAC");
-    case Song::Type_Asf:       return QObject::tr("Windows Media audio");
-    case Song::Type_Aiff:      return QObject::tr("AIFF");
-    case Song::Type_Mpc:       return QObject::tr("MPC");
+    case Song::Type_MPEG:      return QObject::tr("MP3");
+    case Song::Type_MP4:       return QObject::tr("MP4 AAC");
+    case Song::Type_ASF:       return QObject::tr("Windows Media audio");
+    case Song::Type_AIFF:      return QObject::tr("AIFF");
+    case Song::Type_MPC:       return QObject::tr("MPC");
     case Song::Type_TrueAudio: return QObject::tr("TrueAudio");
-    case Song::Type_Cdda:      return QObject::tr("CDDA");
-
+    case Song::Type_CDDA:      return QObject::tr("CDDA");
     case Song::Type_Unknown:
     default:
       return QObject::tr("Unknown");
-  
+
   }
 
 }
 
 bool Song::IsFileLossless() const {
   switch (filetype()) {
-    case Song::Type_Wav:
-    case Song::Type_Flac:
+    case Song::Type_WAV:
+    case Song::Type_FLAC:
     case Song::Type_OggFlac:
     case Song::Type_WavPack:
-    case Song::Type_Aiff:
+    case Song::Type_AIFF:
       return true;
     default:
       return false;
@@ -628,7 +628,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     else if (Song::kColumns.value(i) == "unavailable") {
       d->unavailable_ = q.value(x).toBool();
     }
-    
+
     else if (Song::kColumns.value(i) == "playcount") {
       d->playcount_ = q.value(x).isNull() ? 0 : q.value(x).toInt();
     }
@@ -650,7 +650,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     else if (Song::kColumns.value(i) == "compilation_effective") {
     }
-    
+
     else if (Song::kColumns.value(i) == "art_automatic") {
       d->art_automatic_ = q.value(x).toString();
     }
@@ -662,11 +662,11 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     else if (Song::kColumns.value(i) == "effective_originalyear") {
     }
-    
+
     else if (Song::kColumns.value(i) == "cue_path") {
       d->cue_path_ = tostr(x);
     }
-    
+
     else {
       qLog(Error) << "Forgot to handle" << Song::kColumns.value(i);
     }
@@ -752,7 +752,7 @@ void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
   }
   d->basefilename_ = QFileInfo(filename).fileName();
   
-  d->filetype_ = track->type2 ? Type_Mpeg : Type_Mp4;
+  d->filetype_ = track->type2 ? Type_MPEG : Type_MP4;
   d->filesize_ = track->size;
   d->mtime_ = track->time_modified;
   d->ctime_ = track->time_added;
@@ -785,7 +785,7 @@ void Song::ToItdb(Itdb_Track *track) const {
   //track->bithdepth = d->bithdepth_;
 
   track->type1 = 0;
-  track->type2 = d->filetype_ == Type_Mp4 ? 0 : 1;
+  track->type2 = d->filetype_ == Type_MP4 ? 0 : 1;
   track->mediatype = 1;              // Audio
   track->size = d->filesize_;
   track->time_modified = d->mtime_;
@@ -825,15 +825,15 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->playcount_ = track->usecount;
 
   switch (track->filetype) {
-      case LIBMTP_FILETYPE_WAV:  d->filetype_ = Type_Wav;       break;
-      case LIBMTP_FILETYPE_MP3:  d->filetype_ = Type_Mpeg;      break;
-      case LIBMTP_FILETYPE_WMA:  d->filetype_ = Type_Asf;       break;
+      case LIBMTP_FILETYPE_WAV:  d->filetype_ = Type_WAV;       break;
+      case LIBMTP_FILETYPE_MP3:  d->filetype_ = Type_MPEG;      break;
+      case LIBMTP_FILETYPE_WMA:  d->filetype_ = Type_ASF;       break;
       case LIBMTP_FILETYPE_OGG:  d->filetype_ = Type_OggVorbis; break;
-      case LIBMTP_FILETYPE_MP4:  d->filetype_ = Type_Mp4;       break;
-      case LIBMTP_FILETYPE_AAC:  d->filetype_ = Type_Mp4;       break;
+      case LIBMTP_FILETYPE_MP4:  d->filetype_ = Type_MP4;       break;
+      case LIBMTP_FILETYPE_AAC:  d->filetype_ = Type_MP4;       break;
       case LIBMTP_FILETYPE_FLAC: d->filetype_ = Type_OggFlac;   break;
-      case LIBMTP_FILETYPE_MP2:  d->filetype_ = Type_Mpeg;      break;
-      case LIBMTP_FILETYPE_M4A:  d->filetype_ = Type_Mp4;       break;
+      case LIBMTP_FILETYPE_MP2:  d->filetype_ = Type_MPEG;      break;
+      case LIBMTP_FILETYPE_M4A:  d->filetype_ = Type_MP4;       break;
       default:                   d->filetype_ = Type_Unknown;   break;
   }
 
@@ -868,14 +868,14 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
   track->usecount = d->playcount_;
 
   switch (d->filetype_) {
-      case Type_Asf:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
-      case Type_Mp4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
-      case Type_Mpeg:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
-    case Type_Flac:
+      case Type_ASF:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
+      case Type_MP4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
+      case Type_MPEG:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
+    case Type_FLAC:
       case Type_OggFlac:   track->filetype = LIBMTP_FILETYPE_FLAC;        break;
     case Type_OggSpeex:
       case Type_OggVorbis: track->filetype = LIBMTP_FILETYPE_OGG;         break;
-      case Type_Wav:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
+      case Type_WAV:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
       default:             track->filetype = LIBMTP_FILETYPE_UNDEF_AUDIO; break;
   }
 
@@ -927,7 +927,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":performer", strval(d->performer_));
   query->bindValue(":grouping", strval(d->grouping_));
   query->bindValue(":comment", strval(d->comment_));
-  
+
   query->bindValue(":beginning", d->beginning_);
   query->bindValue(":length", intval(length_nanosec()));
 
@@ -1037,7 +1037,8 @@ QString Song::TitleWithCompilationArtist() const {
 }
 
 QString Song::SampleRateBitDepthToText() const {
-    
+
+  if (d->samplerate_ == -1) return QString("");
   if (d->bitdepth_ == -1) return QString("%1 hz").arg(d->samplerate_);
 
   return QString("%1 hz / %2 bit").arg(d->samplerate_).arg(d->bitdepth_);
@@ -1071,7 +1072,7 @@ bool Song::IsMetadataEqual(const Song &other) const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && !d->url_.isEmpty() && d->filetype_ != Type_Unknown && !has_cue();
+  return d->valid_ && !d->url_.isEmpty() && !is_stream() && d->filetype_ != Type_Unknown && !has_cue();
 }
 
 bool Song::operator==(const Song &other) const {

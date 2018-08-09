@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #ifndef PLAYLISTVIEW_H
@@ -75,7 +75,7 @@ class PlaylistHeader;
 // that uses Gtk to paint row backgrounds, ignoring any custom brush or palette the caller set in the QStyleOption.
 // That breaks our currently playing track animation, which relies on the background painted by Qt to be transparent.
 // This proxy style uses QCommonStyle to paint the affected elements.
-// This class is used by the global search view as well.
+// This class is used by tidal search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
 public:
   PlaylistProxyStyle(QStyle *base);

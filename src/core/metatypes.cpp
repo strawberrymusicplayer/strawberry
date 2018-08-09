@@ -60,6 +60,8 @@
 #  include "dbus/metatypes.h"
 #endif
 
+#include "tidal/tidalsearch.h"
+
 void RegisterMetaTypes() {
 
   qRegisterMetaType<const char*>("const char*");
@@ -112,5 +114,8 @@ void RegisterMetaTypes() {
   qDBusRegisterMetaType<QImage>();
 #endif
 #endif
+
+  qRegisterMetaType<TidalSearch::ResultList>("TidalSearch::ResultList");
+  qRegisterMetaType<TidalSearch::Result>("TidalSearch::Result");
 
 }

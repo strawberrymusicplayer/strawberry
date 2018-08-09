@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -445,9 +445,6 @@ FilterTree *FilterParser::createSearchTermTreeNode(
     if (columns_[col] == Playlist::Column_Length) {
       search_value = parseTime(search);
     }
-    //else if (columns_[col] == Playlist::Column_Rating) {
-      //search_value = static_cast<int>(search.toDouble() * 2.0 + 0.5);
-    //}
     else {
       search_value = search.toInt();
     }

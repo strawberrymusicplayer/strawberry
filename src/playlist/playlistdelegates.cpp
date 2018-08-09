@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include "config.h"
@@ -39,6 +39,7 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QUrl>
+#include <QRegExp>
 #include <QIcon>
 #include <QPixmap>
 #include <QPainter>
@@ -459,6 +460,12 @@ QPixmap SongSourceDelegate::LookupPixmap(const QUrl &url, const QSize &size) con
     }
     else if (url.scheme() == "cdda") {
       icon = IconLoader::Load("cd");
+    }
+    else if (url.scheme() == "http" || url.scheme() == "https") {
+      if (url.host().contains(QRegExp(".*.tidal.com")))
+        icon = IconLoader::Load("tidal");
+      else
+	icon = IconLoader::Load("download");
     }
     else {
       icon = IconLoader::Load("folder-sound");
