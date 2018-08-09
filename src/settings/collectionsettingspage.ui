@@ -111,7 +111,7 @@ If there are no matches then it will use the largest image in the directory.</st
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupBox_1">
      <property name="title">
       <string>Display options</string>
      </property>

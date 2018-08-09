@@ -22,14 +22,14 @@
     </widget>
    </item>
    <item>
-     <widget class="QCheckBox" name="checkbox_greyoutdeleted">
-       <property name="text">
-         <string>Grey out non existent songs in my playlists</string>
-       </property>
-     </widget>
+    <widget class="QCheckBox" name="checkbox_greyoutdeleted">
+     <property name="text">
+      <string>Grey out non existent songs in my playlists</string>
+     </property>
+    </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_8">
+    <widget class="QGroupBox" name="groupBox_1">
      <property name="title">
       <string>Using the menu to add a song will...</string>
      </property>
@@ -170,7 +170,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_9">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>
      </property>
@@ -178,7 +178,7 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_automaticpath">
         <property name="text">
-         <string>Automatic</string>
+         <string>Auto&amp;matic</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -195,19 +195,19 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_relativepath">
         <property name="text">
-         <string>Relative</string>
+         <string>Relati&amp;ve</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radiobutton_askpath">
         <property name="text">
-         <string>Ask when saving</string>
+         <string>As&amp;k when saving</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_7">
+       <spacer name="verticalSpacer_1">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>

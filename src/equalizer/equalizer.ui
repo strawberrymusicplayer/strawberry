@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_1">
        <property name="text">
         <string>Preset:</string>
        </property>
@@ -84,42 +84,42 @@
    <item>
     <layout class="QHBoxLayout" name="slider_label_layout">
      <item>
-      <widget class="QLabel">
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Left</string>
        </property>
        <property name="alignment">
-        <enum>Qt::AlignLeft | Qt::AlignBottom</enum>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
+        <set>Qt::AlignBottom</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel">
+      <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Balance</string>
        </property>
        <property name="alignment">
-        <enum>Qt::AlignCenter</enum>
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel">
-       <property name="text">
-        <string>Right</string>
-       </property>
-       <property name="alignment">
-        <enum>Qt::AlignRight | Qt::AlignBottom</enum>
-       </property>
+      <widget class="QLabel" name="label_4">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>Right</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom</set>
        </property>
       </widget>
      </item>
@@ -127,11 +127,17 @@
    </item>
    <item>
     <widget class="QSlider" name="balance_slider">
+     <property name="minimum">
+      <number>-100</number>
+     </property>
      <property name="maximum">
       <number>100</number>
      </property>
-     <property name="minimum">
-      <number>-100</number>
+     <property name="singleStep">
+      <number>10</number>
+     </property>
+     <property name="pageStep">
+      <number>100</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -141,12 +147,6 @@
      </property>
      <property name="tickInterval">
       <number>10</number>
-     </property>
-     <property name="singleStep">
-      <number>10</number>
-     </property>
-     <property name="pageStep">
-      <number>100</number>
      </property>
     </widget>
    </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>642</height>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
       <item>
        <widget class="QRadioButton" name="notifications_native">
         <property name="text">
-         <string>Show a native desktop notification</string>
+         <string>Show a &amp;native desktop notification</string>
         </property>
        </widget>
       </item>
@@ -51,7 +51,7 @@
       <item>
        <widget class="QRadioButton" name="notifications_tray">
         <property name="text">
-         <string>Show a popup from the system tray</string>
+         <string>Show a popup fro&amp;m the system tray</string>
         </property>
        </widget>
       </item>
@@ -67,7 +67,16 @@
       <item>
        <widget class="QWidget" name="notifications_options" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -152,7 +161,16 @@
          <number>0</number>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>

@@ -14,7 +14,7 @@
    <string>Saved Grouping Manager</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../data/data.qrc">
+   <iconset>
     <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">

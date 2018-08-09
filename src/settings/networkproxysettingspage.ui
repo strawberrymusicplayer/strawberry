@@ -17,7 +17,7 @@
    <item>
     <widget class="QRadioButton" name="proxy_system">
      <property name="text">
-      <string>Use the system proxy settings</string>
+      <string>&amp;Use the system proxy settings</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -34,7 +34,7 @@
    <item>
     <widget class="QRadioButton" name="proxy_manual">
      <property name="text">
-      <string>Manual proxy configuration</string>
+      <string>&amp;Manual proxy configuration</string>
      </property>
     </widget>
    </item>

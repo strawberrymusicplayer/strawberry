@@ -34,7 +34,7 @@
       </widget>
      </item>
      <item>
-      <widget class="BusyIndicator" name="busy"/>
+      <widget class="BusyIndicator" name="busy" native="true"/>
      </item>
     </layout>
    </item>

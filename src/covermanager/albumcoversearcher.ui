@@ -17,7 +17,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QSearchField" name="artist">
+      <widget class="QSearchField" name="artist" native="true">
        <property name="toolTip">
         <string>Artist</string>
        </property>
@@ -27,7 +27,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSearchField" name="album">
+      <widget class="QSearchField" name="album" native="true">
        <property name="toolTip">
         <string>Album</string>
        </property>

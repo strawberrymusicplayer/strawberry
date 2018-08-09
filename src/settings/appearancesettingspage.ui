@@ -23,7 +23,7 @@
       <item>
        <widget class="QRadioButton" name="use_system_color_set">
         <property name="text">
-         <string>Use the system default color set</string>
+         <string>&amp;Use the system default color set</string>
         </property>
        </widget>
       </item>
@@ -35,7 +35,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout_1">
         <item>
          <widget class="QLabel" name="select_foreground_color_label">
           <property name="enabled">
@@ -94,7 +94,7 @@
       <item>
        <widget class="QRadioButton" name="use_default_background">
         <property name="text">
-         <string>Default background image</string>
+         <string>Default bac&amp;kground image</string>
         </property>
        </widget>
       </item>
@@ -104,14 +104,14 @@
          <string>The album cover of the currently playing song</string>
         </property>
         <property name="text">
-         <string>Album cover</string>
+         <string>Albu&amp;m cover</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="use_no_background">
         <property name="text">
-         <string>No background image</string>
+         <string>&amp;No background image</string>
         </property>
        </widget>
       </item>

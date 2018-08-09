@@ -315,8 +315,6 @@
             </property>
            </widget>
           </item>
-	  
-	  
           <item row="2" column="0">
            <widget class="QLabel" name="samplerate_label">
             <property name="sizePolicy">
@@ -349,9 +347,7 @@
             </property>
            </widget>
           </item>
-	  
-	  
-	   <item row="3" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="bitdepth_label">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -383,14 +379,6 @@
             </property>
            </widget>
           </item>
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
           <item row="4" column="0">
            <widget class="QLabel" name="filesize_label">
             <property name="sizePolicy">
@@ -838,7 +826,7 @@
     </widget>
    </item>
    <item>
-    <widget class="BusyIndicator" name="loading_label"/>
+    <widget class="BusyIndicator" name="loading_label" native="true"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="button_box">
@@ -859,12 +847,6 @@
    <class>LineEdit</class>
    <extends>QLineEdit</extends>
    <header>widgets/lineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>RatingWidget</class>
-   <extends>QWidget</extends>
-   <header>widgets/ratingwidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>TextEdit</class>

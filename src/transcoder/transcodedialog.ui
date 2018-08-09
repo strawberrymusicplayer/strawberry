@@ -60,7 +60,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_1">
         <item>
          <widget class="QPushButton" name="add">
           <property name="text">
@@ -76,7 +76,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_2">
+         <spacer name="verticalSpacer_1">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -110,7 +110,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_1">
         <property name="text">
          <string>Audio format</string>
         </property>
@@ -175,7 +175,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_1">
         <item>
          <widget class="QLabel" name="progress_text">
           <property name="sizePolicy">

@@ -17,7 +17,7 @@
    <item row="0" column="0" colspan="2">
     <widget class="QRadioButton" name="target_quality">
      <property name="text">
-      <string>Optimize for quality</string>
+      <string>Optimize for &amp;quality</string>
      </property>
      <property name="checked">
       <bool>false</bool>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="widget_1" native="true">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -43,7 +43,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_1">
         <property name="text">
          <string comment="Sound quality">Quality</string>
         </property>
@@ -88,7 +88,7 @@
    <item row="2" column="0" colspan="2">
     <widget class="QRadioButton" name="target_bitrate">
      <property name="text">
-      <string>Optimize for bitrate</string>
+      <string>Opti&amp;mize for bitrate</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -258,7 +258,7 @@
   <connection>
    <sender>target_quality</sender>
    <signal>toggled(bool)</signal>
-   <receiver>widget</receiver>
+   <receiver>widget_1</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

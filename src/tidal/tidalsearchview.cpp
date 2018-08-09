@@ -393,8 +393,8 @@ bool TidalSearchView::SearchKeyEvent(QKeyEvent *event) {
 bool TidalSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   context_menu_ = new QMenu(this);
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddSelectedToPlaylist()));
-  context_actions_ << context_menu_->addAction( IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(LoadSelected()));
+  context_actions_ << context_menu_->addAction( IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddSelectedToPlaylist()));
+  context_actions_ << context_menu_->addAction( IconLoader::Load("media-play"), tr("Replace current playlist"), this, SLOT(LoadSelected()));
   context_actions_ << context_menu_->addAction( IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenSelectedInNewPlaylist()));
 
   context_menu_->addSeparator();
@@ -403,7 +403,7 @@ bool TidalSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
   context_menu_->addSeparator();
 
   if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-    context_actions_ << context_menu_->addAction(IconLoader::Load("system-search"), tr("Search for this"), this, SLOT(SearchForThis()));
+    context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, SLOT(SearchForThis()));
   }
 
   context_menu_->addSeparator();

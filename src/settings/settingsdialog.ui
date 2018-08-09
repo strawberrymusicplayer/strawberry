@@ -55,7 +55,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="verticalLayout_1">
      <item>
       <widget class="QLabel" name="title"/>
      </item>
@@ -74,7 +74,7 @@
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line">
+      <widget class="Line" name="line_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
