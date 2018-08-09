@@ -13,7 +13,9 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
   * Fetch tags from MusicBrainz
   * Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
   * Support for multiple backends
+  * Equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Integrated Tidal support
 
 It has so far been tested to work on Linux, OpenBSD, MacOs and Windows (cross compiled using mingw).
 
