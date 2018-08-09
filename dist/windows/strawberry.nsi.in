@@ -88,7 +88,7 @@ Function .onInit
 FunctionEnd
 
 ;!define LVM_GETITEMCOUNT 0x1004
-!define LVM_GETITEMTEXT 0x102D
+;!define LVM_GETITEMTEXT 0x102D
  
 Function DumpLog
   Exch $5
@@ -170,6 +170,7 @@ Section "Strawberry" Strawberry
   File "libgstsdp-1.0-0.dll"
   File "libgsttag-1.0-0.dll"
   File "libgstvideo-1.0-0.dll"
+  File "libgstnet-1.0-0.dll"
   File "libharfbuzz-0.dll"
   File "libiconv-2.dll"
   File "libintl-8.dll"
@@ -203,6 +204,9 @@ Section "Strawberry" Strawberry
   File "libmpcdec-5.dll"
   File "libtheora-0.dll"
   File "libfftw3-3.dll"
+  File "libxml2-2.dll"
+  File "libsoup-2.4-1.dll"
+  File "liblzma-5.dll"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -308,7 +312,10 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstwavpack.dll" "gstreamer-plugins\libgstwavpack.dll"
   File "/oname=libgstwavparse.dll" "gstreamer-plugins\libgstwavparse.dll"
   File "/oname=libgstcdio.dll" "gstreamer-plugins\libgstcdio.dll"
-  
+  File "/oname=libgsttcp.dll" "gstreamer-plugins\libgsttcp.dll"
+  File "/oname=libgstudp.dll" "gstreamer-plugins\libgstudp.dll"
+  File "/oname=libgstsoup.dll" "gstreamer-plugins\libgstsoup.dll"
+
   StrCpy $0 "$EXEDIR\install.log"
   Push $0
   Call DumpLog
@@ -440,6 +447,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libgstsdp-1.0-0.dll"
   Delete "$INSTDIR\libgsttag-1.0-0.dll"
   Delete "$INSTDIR\libgstvideo-1.0-0.dll"
+  Delete "$INSTDIR\libgstnet-1.0-0.dll"
   Delete "$INSTDIR\libharfbuzz-0.dll"
   Delete "$INSTDIR\libiconv-2.dll"
   Delete "$INSTDIR\libintl-8.dll"
@@ -473,6 +481,9 @@ Section "Uninstall"
   Delete "$INSTDIR\libmpcdec-5.dll"
   Delete "$INSTDIR\libtheora-0.dll"
   Delete "$INSTDIR\libfftw3-3.dll"
+  Delete "$INSTDIR\libxml2-2.dll"
+  Delete "$INSTDIR\libsoup-2.4-1.dll"
+  Delete "$INSTDIR\liblzma-5.dll"
 
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
@@ -514,6 +525,9 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstwavpack.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstwavparse.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstcdio.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgsttcp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstudp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstsoup.dll"
 
   Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx2.dll"
   Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx.dll"
