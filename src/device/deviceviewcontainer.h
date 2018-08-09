@@ -30,11 +30,8 @@
 #include <QString>
 #include <QShowEvent>
 
-namespace Ui {
-class DeviceViewContainer;
-}
-
 class DeviceView;
+class Ui_DeviceViewContainer;
 
 class DeviceViewContainer : public QWidget {
   Q_OBJECT
@@ -43,14 +40,12 @@ class DeviceViewContainer : public QWidget {
   explicit DeviceViewContainer(QWidget *parent = nullptr);
   ~DeviceViewContainer();
 
-  DeviceView* view() const;
+  DeviceView *view() const;
 
  protected:
-  void showEvent(QShowEvent *);
 
  private:
-  Ui::DeviceViewContainer *ui_;
-  bool loaded_icons_;
+  Ui_DeviceViewContainer *ui_;
 };
 
 #endif  // DEVICEVIEWCONTAINER_H

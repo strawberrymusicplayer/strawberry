@@ -22,48 +22,14 @@
 
 #include <QtGlobal>
 #include <QWidget>
-#include <QColor>
-#include <QFrame>
-#include <QIcon>
-#include <QLabel>
-#include <QPalette>
-#include <QToolButton>
-#include <QShowEvent>
-
-#include "core/iconloader.h"
 
 #include "deviceviewcontainer.h"
 #include "ui_deviceviewcontainer.h"
 
-DeviceViewContainer::DeviceViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui::DeviceViewContainer), loaded_icons_(false) {
-
+DeviceViewContainer::DeviceViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui_DeviceViewContainer) {
   ui_->setupUi(this);
-
-  QPalette palette(ui_->windows_is_broken_frame->palette());
-  palette.setColor(QPalette::Background, QColor(255, 255, 222));
-  ui_->windows_is_broken_frame->setPalette(palette);
-
-#ifdef Q_OS_WIN
-  ui_->windows_is_broken_frame->show();
-#else
-  ui_->windows_is_broken_frame->hide();
-#endif
-
 }
 
 DeviceViewContainer::~DeviceViewContainer() { delete ui_; }
-
-void DeviceViewContainer::showEvent(QShowEvent *e) {
-
-  if (!loaded_icons_) {
-    loaded_icons_ = true;
-
-    ui_->close_frame_button->setIcon(IconLoader::Load("edit-delete"));
-    ui_->warning_icon->setPixmap(IconLoader::Load("dialog-warning").pixmap(22));
-  }
-
-  QWidget::showEvent(e);
-
-}
 
 DeviceView *DeviceViewContainer::view() const { return ui_->view; }

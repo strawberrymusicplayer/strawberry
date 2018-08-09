@@ -30,43 +30,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="windows_is_broken_frame">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="warning_icon"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>iPods and USB devices currently don't work on Windows.  Sorry!</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="close_frame_button"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="DeviceView" name="view" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -87,22 +50,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>close_frame_button</sender>
-   <signal>clicked()</signal>
-   <receiver>windows_is_broken_frame</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>362</x>
-     <y>31</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>369</x>
-     <y>40</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
