@@ -55,7 +55,6 @@
 #include "enginetype.h"
 #include "xineengine.h"
 #include "xinescope.h"
-#include "xinefader.h"
 
 #include "settings/backendsettingspage.h"
 
@@ -80,8 +79,6 @@ XineEngine::XineEngine(TaskManager *task_manager)
     eventqueue_(nullptr),
     post_(nullptr),
     preamp_(1.0),
-    stop_fader_(false),
-    fadeout_running_ (false),
     prune_(nullptr) {
 
   type_ = Engine::Xine;
@@ -90,11 +87,6 @@ XineEngine::XineEngine(TaskManager *task_manager)
 }
 
 XineEngine::~XineEngine() {
-
-  if (fadeout_enabled_) {
-    bool terminateFader = false;
-    FadeOut(fadeout_duration_, &terminateFader, true); // true == exiting
-  }
 
   Cleanup();
 
@@ -122,7 +114,7 @@ bool XineEngine::Init() {
   prune_.reset(new PruneScopeThread(this));
   prune_->start();
 #endif
-  
+
   SetDevice();
 
   if (!ValidOutput(output_)) {
@@ -147,16 +139,6 @@ void XineEngine::Cleanup() {
     prune_->wait();
   }
   prune_.reset();
-
-  // Wait until the fader thread is done
-  if (s_fader_) {
-    stop_fader_ = true;
-    s_fader_->resume(); // safety call if the engine is in the pause state
-    s_fader_->wait();
-  }
-
-  s_fader_.reset();
-  s_outfader_.reset();
 
   if (stream_)
     xine_close(stream_);
@@ -189,7 +171,7 @@ void XineEngine::Cleanup() {
 
 Engine::State XineEngine::state() const {
 
-  if (!stream_ || fadeout_running_) return Engine::Empty;
+  if (!stream_) return Engine::Empty;
 
   switch(xine_get_status(stream_)) {
     case XINE_STATUS_PLAY:
@@ -207,24 +189,6 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
   if (!EnsureStream()) return false;
 
   Engine::Base::Load(url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
-
-  if (s_outfader_) {
-    s_outfader_->finish();
-    s_outfader_.reset();
-  }
-
-  if (fade_length_ > 0 && xine_get_status(stream_) == XINE_STATUS_PLAY && url.scheme().toLower() == "file" && xine_get_param(stream_, XINE_PARAM_SPEED) != XINE_SPEED_PAUSE && (fade_next_track_ || crossfade_enabled_)) {
-
-    fade_next_track_ = false; // Set by engine controller when switching tracks automatically
-
-    // Stop a probably running fader
-    if (s_fader_) {
-      stop_fader_ = true;
-      s_fader_->finish(); // Makes the fader stop abruptly
-    }
-    s_fader_.reset(new XineFader(this, xine_, stream_, audioport_, post_, fade_length_));
-    SetEqualizerParameters(int_preamp_, equalizer_gains_);
-  }
 
   xine_close(stream_);
 
@@ -244,8 +208,6 @@ bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool for
     qLog(Error) << "Failed to play";
   }
 
-  // FAILURE to load!
-  // s_fader_ will delete itself
   DetermineAndShowErrorMessage();
 
   return false;
@@ -260,16 +222,9 @@ bool XineEngine::Play(quint64 offset_nanosec) {
   const bool audio_handled = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_HANDLED);
 
   if (has_audio && audio_handled && xine_play(stream_, 0, offset)) {
-    if (s_fader_) s_fader_->start(QThread::LowestPriority);
-
     emit StateChanged(Engine::Playing);
-
     return true;
   }
-
-  // We need to stop the track that is prepped for crossfade
-  if (s_fader_) s_fader_.reset();
-
   emit StateChanged(Engine::Empty);
 
   DetermineAndShowErrorMessage();
@@ -281,26 +236,14 @@ bool XineEngine::Play(quint64 offset_nanosec) {
 
 void XineEngine::Stop(bool stop_after) {
 
-  if (s_fader_ && s_fader_->isRunning())
-    s_fader_->resume(); // Safety call if the engine is in the pause state
-
   if (!stream_) return;
 
-  if ((fadeout_enabled_ && !fadeout_running_) || state() == Engine::Paused) {
-    s_outfader_.reset(new XineOutFader(this, fadeout_duration_));
-    s_outfader_->start();
-    ::usleep(100); // To be sure engine state won't be changed before it is checked in FadeOut()
-    url_ = QUrl(); // To ensure we return Empty from state()
-
-    std::fill(scope_.begin(), scope_.end(), 0);
-  }
-  else if (!fadeout_running_) {
-    xine_stop(stream_);
-    xine_close(stream_);
-    xine_set_param(stream_, XINE_PARAM_AUDIO_CLOSE_DEVICE, 1);
-  }
+  xine_stop(stream_);
+  xine_close(stream_);
+  xine_set_param(stream_, XINE_PARAM_AUDIO_CLOSE_DEVICE, 1);
 
   emit StateChanged(Engine::Empty);
+
 }
 
 void XineEngine::Pause() {
@@ -308,13 +251,9 @@ void XineEngine::Pause() {
   if (!stream_) return;
 
   if (xine_get_param(stream_, XINE_PARAM_SPEED) != XINE_SPEED_PAUSE) {
-
-    if (s_fader_ && s_fader_->isRunning()) s_fader_->pause();
-
     xine_set_param(stream_, XINE_PARAM_SPEED, XINE_SPEED_PAUSE);
     xine_set_param(stream_, XINE_PARAM_AUDIO_CLOSE_DEVICE, 1);
     emit StateChanged(Engine::Paused);
-
   }
 
 }
@@ -324,12 +263,8 @@ void XineEngine::Unpause() {
   if (!stream_) return;
 
   if (xine_get_param(stream_, XINE_PARAM_SPEED) == XINE_SPEED_PAUSE) {
-
-    if (s_fader_ && s_fader_->isRunning()) s_fader_->resume();
-
     xine_set_param(stream_, XINE_PARAM_SPEED, XINE_SPEED_NORMAL);
     emit StateChanged(Engine::Playing);
-
   }
 
 }
@@ -351,8 +286,7 @@ void XineEngine::Seek(quint64 offset_nanosec) {
 void XineEngine::SetVolumeSW(uint vol) {
 
   if (!stream_) return;
-  if (!s_fader_)
-    xine_set_param(stream_, XINE_PARAM_AUDIO_AMP_LEVEL, static_cast<uint>(vol * preamp_));
+  xine_set_param(stream_, XINE_PARAM_AUDIO_AMP_LEVEL, static_cast<uint>(vol * preamp_));
 
 }
 
@@ -658,46 +592,6 @@ void XineEngine::SetEqualizerParameters(int preamp, const QList<int> &gains) {
 
 }
 
-void XineEngine::FadeOut(uint fadeLength, bool *terminate, bool exiting) {
-
-  if (fadeout_running_) return; // Don't start another fadeout
-
-  fadeout_running_ = !fadeout_running_;
-  const bool isPlaying = stream_ && (xine_get_status(stream_) == XINE_STATUS_PLAY);
-  const float originalVol = Engine::Base::MakeVolumeLogarithmic(volume_) * preamp_;
-
-  // On shutdown, limit fadeout to 3 secs max, so that we don't risk getting killed
-  const int length = exiting ? qMin(fadeLength, 3000u) : fadeLength;
-
-  if (length > 0 && isPlaying) {
-    // fader-class doesn't work in this spot as is, so some parts need to be copied here... (ugly)
-    uint stepsCount = length < 1000 ? length / 10 : 100;
-    uint stepSizeUs = (int)(1000.0 * (float)length / (float)stepsCount);
-
-    ::usleep(stepSizeUs);
-    QTime t;
-    t.start();
-    float mix = 0.0;
-    while (mix < 1.0) {
-      if (*terminate) break;
-
-      ::usleep(stepSizeUs);
-      float vol = Engine::Base::MakeVolumeLogarithmic(volume_) * preamp_;
-      float mix = (float)t.elapsed() / (float)length;
-      if (mix > 1.0) break;
-      if (stream_) {
-        float v = 4.0 * (1.0 - mix) / 3.0;
-        xine_set_param(stream_, XINE_PARAM_AUDIO_AMP_LEVEL, (uint)(v < 1.0 ? vol * v : vol));
-      }
-    }
-  }
-  if (fadeout_running_ && stream_)
-    xine_set_param(stream_, XINE_PARAM_AUDIO_AMP_LEVEL, (uint) originalVol);
-
-  fadeout_running_ = !fadeout_running_;
-
-}
-
 void XineEngine::XineEventListener(void *p, const xine_event_t *xineEvent) {
 
   time_t current;
@@ -953,13 +847,13 @@ bool XineEngine::CreateStream() {
 #endif
 
 #ifdef XINE_PARAM_EARLY_FINISHED_EVENT
-  if (xine_check_version(1, 1, 1) && !(fade_length_ > 0)) {
-    // Enable gapless playback
-    qLog(Debug) << "gapless playback enabled.";
-    xine_set_param(stream_, XINE_PARAM_EARLY_FINISHED_EVENT, 1);
-  }
+  // Enable gapless playback
+  qLog(Debug) << "gapless playback enabled.";
+  xine_set_param(stream_, XINE_PARAM_EARLY_FINISHED_EVENT, 1);
 #endif
+
   return true;
+
 }
 
 bool XineEngine::EnsureStream() {

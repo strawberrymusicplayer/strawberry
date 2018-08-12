@@ -40,8 +40,6 @@ using std::shared_ptr;
 
 class TaskManager;
 class PruneScopeThread;
-class XineFader;
-class XineOutFader;
 
 class XineEvent : public QEvent {
 public:
@@ -97,15 +95,11 @@ class XineEngine : public Engine::Base {
 
   void SetEqualizerEnabled(bool enabled);
   void SetEqualizerParameters(int preamp, const QList<int>&);
-  
-  void FadeOut(uint fadeLength, bool* terminate, bool exiting = false);
 
   // Simple accessors
 
   xine_stream_t *stream() { return stream_; }
   float preamp() { return preamp_; }
-  bool stop_fader() { return stop_fader_; }
-  void set_stop_fader(bool stop_fader) { stop_fader_ = stop_fader; }
 
  private:
   static const char *kAutoOutput;
@@ -119,8 +113,6 @@ class XineEngine : public Engine::Base {
   xine_event_queue_t *eventqueue_;
   xine_post_t *post_;
   float preamp_;
-  bool stop_fader_;
-  bool fadeout_running_;
   std::unique_ptr<PruneScopeThread> prune_;
 
   QUrl url_;
@@ -132,15 +124,10 @@ class XineEngine : public Engine::Base {
   uint log_scope_call_count_ = 1; // Prevent divideByZero
   uint log_no_suitable_buffer_ = 0;
 
-  std::unique_ptr<XineFader> s_fader_;
-  std::unique_ptr<XineOutFader> s_outfader_;
-
   int int_preamp_;
   QMutex init_mutex_;
   int64_t current_vpts_;
   QList<int> equalizer_gains_;
-  int fade_length_;
-  bool fade_next_track_;
 
   mutable Engine::SimpleMetaBundle current_bundle_;
 
