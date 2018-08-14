@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS schema_version (
   version INTEGER NOT NULL
 );
+
 DELETE FROM schema_version;
-REPLACE INTO schema_version (version) VALUES (1);
+
+INSERT INTO schema_version (version) VALUES (1);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,

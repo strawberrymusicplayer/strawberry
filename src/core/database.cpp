@@ -436,12 +436,14 @@ void Database::DetachDatabase(const QString &database_name) {
 }
 
 void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
-  
+
   QString filename;
   if (version == 0) filename = ":/schema/schema.sql";
-  else filename = QString(":/schema/schema-%1.sql").arg(version);
+  else {
+    filename = QString(":/schema/schema-%1.sql").arg(version);
+    qLog(Debug) << "Applying database schema update" << version << "from" << filename;
+  }
 
-  qLog(Debug) << "Applying database schema update" << version << "from" << filename;
   ExecSchemaCommandsFromFile(db, filename, version - 1);
 
 }
@@ -474,7 +476,7 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
 }
 
 void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction) {
-  
+
   // Open and read the database schema
   QFile schema_file(filename);
   if (!schema_file.open(QIODevice::ReadOnly))
