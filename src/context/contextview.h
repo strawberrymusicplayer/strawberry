@@ -86,24 +86,11 @@ class ContextView : public QWidget {
 
  private:
 
-  enum WidgetState {
-    //State_None = 0,
-    State_Playing,
-    State_Stopped
-  };
-
   static const char *kSettingsGroup;
-  static const int kPadding;
-  static const int kGradientHead;
-  static const int kGradientTail;
-  static const int kMaxCoverSize;
-  static const int kBottomOffset;
-  static const int kTopBorder;
 
   Application *app_;
   Ui_ContextViewContainer *ui_;
   CollectionView *collectionview_;
-  WidgetState widgetstate_;
   QMenu *menu_;
   QTimeLine *timeline_fade_;
   QImage image_strawberry_;
@@ -119,13 +106,10 @@ class ContextView : public QWidget {
   AlbumCoverLoaderOptions cover_loader_options_;
   Song song_;
   Song song_empty_;
-  Song song_prev_;
   QImage image_original_;
   QImage image_previous_;
-  QPixmap *pixmap_album_;
   QPixmap pixmap_current_;
   QPixmap pixmap_previous_;
-  QPainter *painter_album_;
   qreal pixmap_previous_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
 

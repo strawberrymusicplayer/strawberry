@@ -47,7 +47,7 @@ BusyIndicator::BusyIndicator(QWidget* parent)
 
 void BusyIndicator::Init(const QString &text) {
 
-  movie_ = new QMovie(":pictures/spinner.gif"),
+  movie_ = new QMovie(":/pictures/spinner.gif"),
   label_ = new QLabel;
 
   QLabel *icon = new QLabel;

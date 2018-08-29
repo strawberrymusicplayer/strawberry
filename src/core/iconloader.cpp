@@ -45,7 +45,7 @@ QIcon IconLoader::Load(const QString &name, const int size) {
     return ret;
   }
 
-  const QString path(":icons/%1x%2/%3.png");
+  const QString path(":/icons/%1x%2/%3.png");
   for (int s : sizes) {
     QString filename(path.arg(s).arg(s).arg(name));
     if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));

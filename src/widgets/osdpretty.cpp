@@ -130,14 +130,14 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
 #endif
 
   // Load the show edges and corners
-  QImage shadow_edge(":pictures/osd_shadow_edge.png");
-  QImage shadow_corner(":pictures/osd_shadow_corner.png");
+  QImage shadow_edge(":/pictures/osd_shadow_edge.png");
+  QImage shadow_corner(":/pictures/osd_shadow_corner.png");
   for (int i = 0; i < 4; ++i) {
     QTransform rotation = QTransform().rotate(90 * i);
     shadow_edge_[i] = QPixmap::fromImage(shadow_edge.transformed(rotation));
     shadow_corner_[i] = QPixmap::fromImage(shadow_corner.transformed(rotation));
   }
-  background_ = QPixmap(":pictures/osd_background.png");
+  background_ = QPixmap(":/pictures/osd_background.png");
 
   // Set the margins to allow for the drop shadow
   QBoxLayout *l = static_cast<QBoxLayout*>(layout());
