@@ -226,6 +226,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
   }
 
   NextState(&task);
+  
 }
 
 QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image) {

@@ -52,6 +52,11 @@
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 
+#include "lyrics/lyricsproviders.h"
+#include "lyrics/lyricsprovider.h"
+#include "lyrics/auddlyricsprovider.h"
+#include "lyrics/apiseedslyricsprovider.h"
+
 #include "internet/internetmodel.h"
 #include "tidal/tidalsearch.h"
 
@@ -60,18 +65,18 @@ bool Application::kIsPortable = false;
 class ApplicationImpl {
  public:
   ApplicationImpl(Application *app) :
-	tag_reader_client_([=]() {
+       tag_reader_client_([=]() {
           TagReaderClient *client = new TagReaderClient(app);
           app->MoveToNewThread(client);
           client->Start();
           return client;
         }),
-	database_([=]() {
+        database_([=]() {
           Database *db = new Database(app, app);
           app->MoveToNewThread(db);
           DoInAMinuteOrSo(db, SLOT(DoBackup()));
           return db;
-	}),
+        }),
         appearance_([=]() { return new Appearance(app); }),
         task_manager_([=]() { return new TaskManager(app); }),
         player_([=]() { return new Player(app, app); }),
@@ -88,10 +93,10 @@ class ApplicationImpl {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
 #ifdef HAVE_LIBLASTFM
-	  cover_providers->AddProvider(new LastFmCoverProvider(app));
+          cover_providers->AddProvider(new LastFmCoverProvider(app));
 #endif
           cover_providers->AddProvider(new AmazonCoverProvider(app));
-	  cover_providers->AddProvider(new DiscogsCoverProvider(app));
+          cover_providers->AddProvider(new DiscogsCoverProvider(app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
           return cover_providers;
         }),
@@ -102,7 +107,13 @@ class ApplicationImpl {
         }),
         current_art_loader_([=]() { return new CurrentArtLoader(app, app); }),
         internet_model_([=]() { return new InternetModel(app, app); }),
-        tidal_search_([=]() { return new TidalSearch(app, app); })
+        tidal_search_([=]() { return new TidalSearch(app, app); }),
+        lyrics_providers_([=]() {
+          LyricsProviders *lyrics_providers = new LyricsProviders(app);
+          lyrics_providers->AddProvider(new AuddLyricsProvider(app));
+	  lyrics_providers->AddProvider(new APISeedsLyricsProvider(app));
+	  return lyrics_providers;
+        })
   { }
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -120,6 +131,7 @@ class ApplicationImpl {
   Lazy<CurrentArtLoader> current_art_loader_;
   Lazy<InternetModel> internet_model_;
   Lazy<TidalSearch> tidal_search_;
+  Lazy<LyricsProviders> lyrics_providers_;
 
 };
 
@@ -226,4 +238,8 @@ InternetModel* Application::internet_model() const {
 
 TidalSearch* Application::tidal_search() const {
   return p_->tidal_search_.get();
+}
+
+LyricsProviders *Application::lyrics_providers() const {
+  return p_->lyrics_providers_.get();
 }

@@ -219,10 +219,6 @@ bool TidalSearch::FindCachedPixmap(const TidalSearch::Result &result, QPixmap *p
   return pixmap_cache_.find(result.pixmap_cache_key_, pixmap);
 }
 
-void TidalSearch::LoadArtAsync(int id, const Result &result) {
-  emit ArtLoaded(id, QImage());
-}
-
 int TidalSearch::LoadArtAsync(const TidalSearch::Result &result) {
 
   const int id = art_searches_next_id_++;
@@ -246,6 +242,7 @@ void TidalSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
   int orig_id = cover_loader_tasks_.take(id);
 
   HandleLoadedArt(orig_id, image);
+
 }
 
 void TidalSearch::HandleLoadedArt(int id, const QImage &image) {

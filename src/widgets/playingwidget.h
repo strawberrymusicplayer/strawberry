@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +33,7 @@
 #include <QString>
 #include <QImage>
 #include <QPixmap>
+#include <QPainter>
 #include <QSize>
 #include <QSignalMapper>
 #include <QTextDocument>
@@ -45,12 +47,13 @@
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
+using std::unique_ptr;
+
 class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
 class QMouseEvent;
 class QPaintEvent;
-class QPainter;
 class QResizeEvent;
 
 class AlbumCoverChoiceController;
@@ -63,35 +66,22 @@ class PlayingWidget : public QWidget {
   PlayingWidget(QWidget *parent = nullptr);
   ~PlayingWidget();
 
-  static const char *kSettingsGroup;
-  static const int kPadding;
-  static const int kGradientHead;
-  static const int kGradientTail;
-  static const int kMaxCoverSize;
-  static const int kBottomOffset;
-  static const int kTopBorder;
-
-  // Values are saved in QSettings
-  enum Mode {
-    SmallSongDetails = 0,
-    LargeSongDetails = 1,
-  };
-
   void SetApplication(Application *app);
   void SetEnabled();
   void SetDisabled();
-
   void set_ideal_height(int height);
-
   QSize sizeHint() const;
 
-signals:
+ signals:
   void ShowAboveStatusBarChanged(bool above);
 
-public slots:
+ public slots:
+  void Playing();
   void Stopped();
+  void Error();
+  void SongChanged(const Song &song);
 
-protected:
+ protected:
   void paintEvent(QPaintEvent *e);
   void resizeEvent(QResizeEvent*);
   void contextMenuEvent(QContextMenuEvent *e);
@@ -99,16 +89,10 @@ protected:
   void dragEnterEvent(QDragEnterEvent *e);
   void dropEvent(QDropEvent *e);
 
-private slots:
+ private slots:
+
   void SetMode(int mode);
   void FitCoverWidth(bool fit);
-
-  void AlbumArtLoaded(const Song &metadata, const QString &uri, const QImage &image);
-
-  void SetVisible(bool visible);
-  void SetHeight(int height);
-
-  void FadePreviousTrack(qreal value);
 
   void LoadCoverFromFile();
   void SaveCoverToFile();
@@ -119,49 +103,58 @@ private slots:
   void SearchCoverAutomatically();
   void AutomaticCoverSearchDone();
 
- private:
-  void CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper *mapper);
-  void UpdateDetailsText();
-  void UpdateHeight();
-  void DrawContents(QPainter *p);
-  void SetImage(const QImage &image);
-  void ScaleCover();
-  bool GetCoverAutomatically();
+  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+  void SetHeight(int height);  
+  void FadePreviousTrack(qreal value);
 
-private:
+ private:
+
+  enum Mode {
+    SmallSongDetails = 0,
+    LargeSongDetails = 1,
+  };
+
+  static const char *kSettingsGroup;
+  static const int kPadding;
+  static const int kGradientHead;
+  static const int kGradientTail;
+  static const int kMaxCoverSize;
+  static const int kBottomOffset;
+  static const int kTopBorder;
+
   Application *app_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
-
   Mode mode_;
-
   QMenu *menu_;
-
   QAction *fit_cover_width_action_;
-
   bool enabled_;
   bool visible_;
   bool active_;
-
   int small_ideal_height_;
   AlbumCoverLoaderOptions cover_loader_options_;
   int total_height_;
   bool fit_width_;
-  QTimeLine *show_hide_animation_;
-  QTimeLine *fade_animation_;
-
-  // Information about the current track
-  Song metadata_;
-  QPixmap cover_;
-  // A copy of the original, unscaled album cover.
-  QImage original_;
+  QTimeLine *timeline_show_hide_;
+  QTimeLine *timeline_fade_;
   QTextDocument *details_;
-
-  // Holds the last track while we're fading to the new track
-  QPixmap previous_track_;
-  qreal previous_track_opacity_;
-
-  std::unique_ptr<QMovie> spinner_animation_;
+  qreal pixmap_previous_track_opacity_;
   bool downloading_covers_;
+
+  Song song_;
+  QImage image_original_;
+  QPixmap pixmap_cover_;
+  QPixmap pixmap_previous_track_;
+  std::unique_ptr<QMovie> spinner_animation_;
+
+  void SetVisible(bool visible);
+  void CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper *mapper);
+  void UpdateDetailsText();
+  void UpdateHeight();
+  void SetImage(const QImage &image);
+  void DrawContents(QPainter *p);
+  void ScaleCover();
+  bool GetCoverAutomatically();
+
 };
 
 #endif  // PLAYINGWIDGET_H

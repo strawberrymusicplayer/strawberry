@@ -200,9 +200,6 @@ int main(int argc, char* argv[]) {
 
   // Resources
   Q_INIT_RESOURCE(data);
-  
-  // Icons
-  IconLoader::Init();
 
   Application app;
 

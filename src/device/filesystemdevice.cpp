@@ -46,7 +46,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
-  connect(backend_, SIGNAL(DirectoryDiscovered(Directory,SubdirectoryList)), watcher_, SLOT(AddDirectory(Directory,SubdirectoryList)));
+  connect(backend_, SIGNAL(DirectoryDiscovered(Directory, SubdirectoryList)), watcher_, SLOT(AddDirectory(Directory, SubdirectoryList)));
   connect(backend_, SIGNAL(DirectoryDeleted(Directory)), watcher_, SLOT(RemoveDirectory(Directory)));
   connect(watcher_, SIGNAL(NewOrUpdatedSongs(SongList)), backend_, SLOT(AddOrUpdateSongs(SongList)));
   connect(watcher_, SIGNAL(SongsMTimeUpdated(SongList)), backend_, SLOT(UpdateMTimesOnly(SongList)));

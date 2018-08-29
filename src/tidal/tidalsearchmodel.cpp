@@ -40,13 +40,16 @@ TidalSearchModel::TidalSearchModel(TidalSearch *engine, QObject *parent)
       engine_(engine),
       proxy_(nullptr),
       use_pretty_covers_(true),
-      artist_icon_(IconLoader::Load("guitar")) {
+      artist_icon_(IconLoader::Load("folder-sound")) {
 
   group_by_[0] = CollectionModel::GroupBy_Artist;
   group_by_[1] = CollectionModel::GroupBy_Album;
   group_by_[2] = CollectionModel::GroupBy_None;
+  
+  QIcon nocover = IconLoader::Load("cdcase");
+  no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   album_icon_ = no_cover_icon_;
 
 }

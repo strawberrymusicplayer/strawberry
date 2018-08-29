@@ -27,14 +27,10 @@
 
 class IconLoader {
  public:
-
-  static void Init();
-  static QIcon Load(const QString &name);
-
+  static QIcon Load(const QString &name, const int size = 0);
 private:
   IconLoader() {}
-
-  static QList<int> sizes_;
 };
 
 #endif // ICONLOADER_H
+

@@ -85,8 +85,8 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
-      artist_icon_(IconLoader::Load("guitar")),
-      album_icon_(IconLoader::Load("cd")),
+      artist_icon_(IconLoader::Load("folder-sound")),
+      album_icon_(IconLoader::Load("cdcase")),
       playlists_dir_icon_(IconLoader::Load("folder-sound")),
       playlist_icon_(IconLoader::Load("albums")),
       init_task_id_(-1),
@@ -109,10 +109,9 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   //icon_cache_->setCacheDirectory(Utilities::GetConfigPath(Utilities::Path_CacheRoot) + "/pixmapcache");
   //icon_cache_->setMaximumCacheSize(CollectionModel::kIconCacheSize);
 
-  //QIcon nocover = IconLoader::Load("nocover");
-  //QIcon nocover(":/pictures/noalbumart.png");
-  //no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QIcon nocover = IconLoader::Load("cdcase");
+  no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
@@ -158,7 +157,6 @@ void CollectionModel::SaveGrouping(QString name) {
   s.setValue(name, buffer);
 
 }
-
 
 void CollectionModel::Init(bool async) {
 
@@ -717,6 +715,7 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
 
   // Execute the query
   QMutexLocker l(backend_->db()->Mutex());
+
   if (!backend_->ExecQuery(&q)) return result;
 
   while (q.Next()) {
@@ -751,7 +750,6 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
 }
 
 void CollectionModel::LazyPopulate(CollectionItem *parent, bool signal) {
-
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
 
@@ -761,7 +759,6 @@ void CollectionModel::LazyPopulate(CollectionItem *parent, bool signal) {
 }
 
 void CollectionModel::ResetAsync() {
-
   QFuture<CollectionModel::QueryResult> future = QtConcurrent::run(this, &CollectionModel::RunQuery, root_);
   NewClosure(future, this, SLOT(ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult>)), future);
 
@@ -1033,13 +1030,13 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->key = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
-      
+
     case GroupBy_Samplerate:
       samplerate = qMax(0, row.value(0).toInt());
       item->key = QString::number(samplerate);
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
-      
+
     case GroupBy_Bitdepth:
       bitdepth = qMax(0, row.value(0).toInt());
       item->key = QString::number(bitdepth);

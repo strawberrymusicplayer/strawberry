@@ -118,7 +118,6 @@ class TidalSearch : public QObject {
   void HandleLoadedArt(int id, const QImage &image);
   bool FindCachedPixmap(const TidalSearch::Result &result, QPixmap *pixmap) const;
   QString PixmapCacheKey(const TidalSearch::Result &result) const;
-  void LoadArtAsync(int id, const Result &result);
   void MaybeSearchFinished(int id);
   void ShowConfig() {}
   static QImage ScaleAndPad(const QImage &image);

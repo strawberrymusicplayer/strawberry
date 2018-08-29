@@ -584,7 +584,8 @@ void PlaylistView::RemoveSelected(bool deleting_from_disk) {
 
     if (!deleting_from_disk) {
       model()->removeRows(range.top(), range.height(), range.topLeft());
-    } else {
+    }
+    else {
       model()->removeRows(range.top(), range.height(), QModelIndex());
     }
   }
@@ -938,13 +939,14 @@ void PlaylistView::ReloadSettings() {
 
     header_->SetColumnWidth(Playlist::Column_Track, 0.02);
     header_->SetColumnWidth(Playlist::Column_Title, 0.16);
-    header_->SetColumnWidth(Playlist::Column_Artist, 0.10);
-    header_->SetColumnWidth(Playlist::Column_Album, 0.10);
+    header_->SetColumnWidth(Playlist::Column_Artist, 0.12);
+    header_->SetColumnWidth(Playlist::Column_Album, 0.12);
     header_->SetColumnWidth(Playlist::Column_Length, 0.03);
-    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
     header_->SetColumnWidth(Playlist::Column_Samplerate, 0.07);
     header_->SetColumnWidth(Playlist::Column_Bitdepth, 0.07);
+    header_->SetColumnWidth(Playlist::Column_Bitrate, 0.07);
     header_->SetColumnWidth(Playlist::Column_Filetype, 0.06);
+    header_->SetColumnWidth(Playlist::Column_Source, 0.06);
 
     setting_initial_header_layout_ = false;
   }

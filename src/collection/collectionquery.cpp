@@ -31,11 +31,12 @@
 #include <QSqlQuery>
 
 #include "collectionquery.h"
+#include "core/logging.h"
 #include "core/song.h"
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}
 
-CollectionQuery::CollectionQuery(const QueryOptions& options)
+CollectionQuery::CollectionQuery(const QueryOptions &options)
     : include_unavailable_(false), join_with_fts_(false), limit_(-1) {
 
   if (!options.filter().isEmpty()) {

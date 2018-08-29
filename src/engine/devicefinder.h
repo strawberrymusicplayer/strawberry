@@ -38,6 +38,8 @@ class DeviceFinder {
     QString description;
     QVariant value;
     QString iconname;
+    int card;
+    int device;
   };
 
   virtual ~DeviceFinder() {}

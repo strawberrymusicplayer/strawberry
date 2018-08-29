@@ -51,6 +51,7 @@ class AlbumCoverLoader;
 class CurrentArtLoader;
 class InternetModel;
 class TidalSearch;
+class LyricsProviders;
 
 class Application : public QObject {
   Q_OBJECT
@@ -83,6 +84,8 @@ class Application : public QObject {
 
   InternetModel *internet_model() const;
   TidalSearch *tidal_search() const;
+
+  LyricsProviders *lyrics_providers() const;
 
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);

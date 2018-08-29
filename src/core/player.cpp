@@ -431,6 +431,7 @@ void Player::EngineStateChanged(Engine::State state) {
       emit Playing();
       break;
     case Engine::Error:
+      emit Error();
     case Engine::Empty:
     case Engine::Idle:
       emit Stopped();

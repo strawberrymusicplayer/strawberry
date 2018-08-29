@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
+    <width>400</width>
     <height>633</height>
    </rect>
   </property>
@@ -82,14 +82,14 @@
           <item>
            <widget class="QRadioButton" name="radiobutton_searchbyalbums">
             <property name="text">
-             <string>albu&amp;ms</string>
+             <string>a&amp;lbums</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="radiobutton_searchbysongs">
             <property name="text">
-             <string>songs</string>
+             <string>son&amp;gs</string>
             </property>
            </widget>
           </item>
@@ -186,7 +186,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>435</width>
+            <width>398</width>
             <height>533</height>
            </rect>
           </property>
@@ -195,7 +195,7 @@
             <rect>
              <x>9</x>
              <y>109</y>
-             <width>420</width>
+             <width>336</width>
              <height>100</height>
             </rect>
            </property>
@@ -214,12 +214,6 @@
             </property>
             <item>
              <widget class="QLabel" name="label_helptext">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>80</height>
-               </size>
-              </property>
               <property name="text">
                <string>Enter search terms above to find music</string>
               </property>

@@ -79,7 +79,7 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent) :
   unset_cover_ = new QAction(IconLoader::Load("list-remove"), tr("Unset cover"), this);
   show_cover_ = new QAction(IconLoader::Load("zoom-in"), tr("Show fullsize..."), this);
 
-  search_cover_auto_ = new QAction(IconLoader::Load("search"), tr("Search automatically"), this);
+  search_cover_auto_ = new QAction(tr("Search automatically"), this);
   search_cover_auto_->setCheckable(true);
   search_cover_auto_->setChecked(false);
 

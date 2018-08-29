@@ -394,7 +394,7 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
 void PlaylistListContainer::ActivePlaying() {
 
   if (padded_play_icon_.isNull()) {
-    QPixmap pixmap(":pictures/tiny-play.png");
+    QPixmap pixmap(":/pictures/tiny-play.png");
     QPixmap new_pixmap(QSize(pixmap.height(), pixmap.height()));
     new_pixmap.fill(Qt::transparent);
 
@@ -409,7 +409,7 @@ void PlaylistListContainer::ActivePlaying() {
 }
 
 void PlaylistListContainer::ActivePaused() {
-  UpdateActiveIcon(active_playlist_id_, QIcon(":pictures/tiny-pause.png"));
+  UpdateActiveIcon(active_playlist_id_, QIcon(":/pictures/tiny-pause.png"));
 }
 
 void PlaylistListContainer::ActiveStopped() {

@@ -31,34 +31,24 @@
 #include "core/logging.h"
 #include "iconloader.h"
 
-QList<int> IconLoader::sizes_;
-QString IconDefault(":/icons/64x64/strawberry.png");
-
-void IconLoader::Init() {
-
-  sizes_.clear();
-  sizes_ << 22 << 32 << 48 << 64;
-
-  if (!QFile::exists(IconDefault)) {
-    qLog(Error) << "Default icon does not exist" << IconDefault;
-  }
-
-}
-
-QIcon IconLoader::Load(const QString &name) {
+QIcon IconLoader::Load(const QString &name, const int size) {
 
   QIcon ret;
 
+  QList<int> sizes;
+  sizes.clear();
+  if (size == 0) { sizes << 22 << 32 << 48 << 64; }
+  else sizes << size;
+
   if (name.isEmpty()) {
-    qLog(Warning) << "Icon name is empty!";
-    ret.addFile(IconDefault, QSize(64, 64));
+    qLog(Error) << "Icon name is empty!";
     return ret;
   }
 
   const QString path(":icons/%1x%2/%3.png");
-  for (int size : sizes_) {
-    QString filename(path.arg(size).arg(size).arg(name));
-    if (QFile::exists(filename)) ret.addFile(filename, QSize(size, size));
+  for (int s : sizes) {
+    QString filename(path.arg(s).arg(s).arg(name));
+    if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));
   }
 
   // Load icon from system theme only if it hasn't been found
@@ -66,10 +56,6 @@ QIcon IconLoader::Load(const QString &name) {
     ret = QIcon::fromTheme(name);
     if (!ret.isNull()) return ret;
     qLog(Warning) << "Couldn't load icon" << name;
-  }
-
-  if (ret.isNull()) {
-    ret.addFile(IconDefault, QSize(64, 64));
   }
 
   return ret;

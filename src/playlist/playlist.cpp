@@ -1448,9 +1448,9 @@ void Playlist::StopAfter(int row) {
 }
 
 void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
-  
+
   //qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
-  
+
   if (!current_item()) return;
 
   if (current_item()->Url() != url) return;
@@ -1881,14 +1881,18 @@ bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, bool valid) {
     Song current_song = current->Metadata();
 
     // If validity has changed, reload the item
-    if(!current_song.is_cdda() && current_song.url() == url && current_song.is_valid() != QFile::exists(current_song.url().toLocalFile())) {
-      ReloadItems(QList<int>() << current_row());
-    }
+    // FIXME: Why?
+    // Removed this because it caused "Empty filename passed to function" errors when not using local filenames.
+    // It also causes Context and Playing widget to reload the image and getting stuck in playing mode when the URL is broken.
+    //if(!current_song.is_cdda() && current_song.url() == url && current_song.is_valid() != QFile::exists(current_song.url().toLocalFile())) {
+      //ReloadItems(QList<int>() << current_row());
+    //}
 
     // Gray out the song if it's now broken; otherwise undo the gray color
     if (valid) {
       current->RemoveForegroundColor(kInvalidSongPriority);
-    } else {
+    }
+    else {
       current->SetForegroundColor(kInvalidSongPriority, kInvalidSongColor);
     }
   }

@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,41 +17,44 @@
  *
  */
 
-#ifndef LASTFMCOVERPROVIDER_H
-#define LASTFMCOVERPROVIDER_H
+#ifndef LYRICSPROVIDERS_H
+#define LYRICSPROVIDERS_H
 
 #include "config.h"
 
 #include <stdbool.h>
 
+#include <QtGlobal>
 #include <QObject>
+#include <QMutex>
+#include <QList>
 #include <QMap>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+#include <QAtomicInt>
 
-#include "coverprovider.h"
+class LyricsProvider;
 
-// A built-in cover provider which fetches covers from last.fm.
-class LastFmCoverProvider : public CoverProvider {
+class LyricsProviders : public QObject {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(QObject *parent = nullptr);
-
-  bool StartSearch(const QString &artist, const QString &album, int id);
-
-  static const char *kApiKey;
-  static const char *kSecret;
+  explicit LyricsProviders(QObject *parent = nullptr);
+  void AddProvider(LyricsProvider *provider);
+  void RemoveProvider(LyricsProvider *provider);
+  QList<LyricsProvider*> List() const { return lyrics_providers_.keys(); }
+  bool HasAnyProviders() const { return !lyrics_providers_.isEmpty(); }
+  int NextId();
 
  private slots:
-  void QueryFinished(QNetworkReply *reply, int id);
+  void ProviderDestroyed();
 
  private:
-  QNetworkAccessManager *network_;
-  QMap <QNetworkReply *, int> pending_queries_;
+  Q_DISABLE_COPY(LyricsProviders);
 
+  QMap<LyricsProvider *, QString> lyrics_providers_;
+  QMutex mutex_;
+
+  QAtomicInt next_id_;
 };
 
-#endif // LASTFMCOVERPROVIDER_H
-
+#endif  // LYRICSPROVIDERS_H

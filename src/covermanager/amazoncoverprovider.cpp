@@ -111,7 +111,7 @@ void AmazonCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
     
   reply->deleteLater();
   
-  QString data=(QString)reply->readAll();
+  QString data(reply->readAll());
 
   CoverSearchResults results;
 

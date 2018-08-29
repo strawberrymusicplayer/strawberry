@@ -47,12 +47,12 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
     action_mute_(nullptr)
 {
 
-  QIcon theme_icon      = IconLoader::Load("strawberry-panel");
-  QIcon theme_icon_grey = IconLoader::Load("strawberry-panel-grey");
+  QIcon theme_icon      = IconLoader::Load("strawberry", 48);
+  QIcon theme_icon_grey = IconLoader::Load("strawberry-grey", 48);
 
   if (theme_icon.isNull() || theme_icon_grey.isNull()) {
     // Load the default icon
-    QIcon icon(":/icons/64x64/strawberry-panel.png");
+    QIcon icon(":/icons/48x48/strawberry.png");
     normal_icon_ = icon.pixmap(48, QIcon::Normal);
     grey_icon_ = icon.pixmap(48, QIcon::Disabled);
   }

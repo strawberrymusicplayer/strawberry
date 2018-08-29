@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,27 +17,12 @@
  *
  */
 
-#ifndef PROGRESSITEMDELEGATE_H
-#define PROGRESSITEMDELEGATE_H
-
 #include "config.h"
 
 #include <QObject>
 #include <QString>
-#include <QPainter>
-#include <QStyleOption>
-#include <QStyledItemDelegate>
-#include <QStyleOptionViewItem>
 
-class QModelIndex;
+#include "lyricsprovider.h"
 
-class ProgressItemDelegate : public QStyledItemDelegate {
-  Q_OBJECT
- public:
-  ProgressItemDelegate(QObject* parent = nullptr);
-
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-};
-
-#endif  // PROGRESSITEMDELEGATE_H
-
+LyricsProvider::LyricsProvider(const QString &name, QObject *parent)
+    : QObject(parent), name_(name) {}

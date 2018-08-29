@@ -52,3 +52,20 @@ darwin {
 darwin QMenu {
   font-size: 13pt;
 }
+
+#scrollarea_play {
+  background-color: white;
+  font: 11pt;
+}
+
+#scrollarea_stop {
+  background-color: white;
+  font: 11pt;
+}
+
+#scrollAreaWidgetContents_stop {
+  background-color: white;
+}
+#scrollAreaWidgetContents_play {
+  background-color: white;
+}

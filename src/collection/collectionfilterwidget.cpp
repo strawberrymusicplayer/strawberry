@@ -43,6 +43,7 @@
 
 #include "core/iconloader.h"
 #include "core/song.h"
+#include "core/logging.h"
 #include "collectionmodel.h"
 #include "collectionquery.h"
 #include "savedgroupingmanager.h"
@@ -58,6 +59,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
       filter_delay_(new QTimer(this)),
       filter_applies_to_model_(true),
       delay_behaviour_(DelayedOnLargeLibraries) {
+
   ui_->setupUi(this);
 
   // Add the available fields to the tooltip here instead of the ui file to prevent that they get translated by mistake.

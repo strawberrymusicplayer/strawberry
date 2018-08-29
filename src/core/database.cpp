@@ -507,15 +507,14 @@ void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int s
 }
 
 void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands) {
-  
+
   for (const QString &command : commands) {
     // There are now lots of "songs" tables that need to have the same schema: songs and device_*_songs.
     // We allow a magic value in the schema files to update all songs tables at once.
     if (command.contains(kMagicAllSongsTables)) {
       for (const QString &table : song_tables) {
         // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
-        if (table.startsWith("device_") &&
-            command.contains(QString(kMagicAllSongsTables) + "_fts")) {
+        if (table.startsWith("device_") && command.contains(QString(kMagicAllSongsTables) + "_fts")) {
           continue;
         }
 
@@ -526,7 +525,8 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
         if (CheckErrors(query))
           qFatal("Unable to update music collection database");
       }
-    } else {
+    }
+    else {
       QSqlQuery query(db.exec(command));
       if (CheckErrors(query)) qFatal("Unable to update music collection database");
     }

@@ -57,7 +57,6 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend_->Init(app->database(), kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
 
   model_ = new CollectionModel(backend_, app_, this);
- 
 
   ReloadSettings();
 

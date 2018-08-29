@@ -89,12 +89,13 @@
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
 #include "widgets/sliderwidget.h"
-#include "widgets/statusview.h"
 #include "widgets/fileview.h"
 #include "widgets/multiloadingindicator.h"
 #include "widgets/osd.h"
 #include "widgets/stylehelper.h"
 #include "widgets/trackslider.h"
+#include "context/contextview.h"
+#include "collection/collectionview.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
@@ -158,12 +159,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       osd_(osd),
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
       global_shortcuts_(new GlobalShortcuts(this)),
+      context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
-      status_view_(new StatusView(collection_view_, this)),
       file_view_(new FileView(this)),
-      playlist_list_(new PlaylistListContainer(this)),
       device_view_container_(new DeviceViewContainer(this)),
       device_view_(device_view_container_->view()),
+      playlist_list_(new PlaylistListContainer(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
       cover_manager_([=]() {
         AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend());
@@ -195,7 +196,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       collection_sort_model_(new QSortFilterProxyModel(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
-      was_maximized_(false),
+      initialised_(false),
+      was_maximized_(true),
       saved_playback_position_(0),
       saved_playback_state_(Engine::Empty),
       doubleclick_addmode_(AddBehaviour_Append),
@@ -214,7 +216,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  status_view_->SetApplication(app_);
+  context_view_->SetApplication(app_);
+  context_view_->SetCollectionView(collection_view_->view());
   ui_->widget_playing->SetApplication(app_);
 
   int volume = app_->player()->GetVolume();
@@ -225,7 +228,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->addTab(status_view_, IconLoader::Load("strawberry"), tr("Status"));
+  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), tr("Context"));
   ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
   ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
   ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
@@ -435,6 +438,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->playlist->view(), SIGNAL(BackgroundPropertyChanged()), SLOT(RefreshStyleSheet()));
 
   connect(ui_->track_slider, SIGNAL(ValueChangedSeconds(int)), app_->player(), SLOT(SeekTo(int)));
+  
+  // Context connections
+  
+  connect(context_view_->albums(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 
   // Collection connections
   connect(collection_view_->view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
@@ -581,8 +588,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
 
-  // Status
-  ConnectStatusView(status_view_);
+  // Context
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
+  connect(app_->player(), SIGNAL(PlaylistFinished()), context_view_, SLOT(Stopped()));
+  connect(app_->player(), SIGNAL(Playing()), context_view_, SLOT(Playing()));
+  connect(app_->player(), SIGNAL(Stopped()), context_view_, SLOT(Stopped()));
+  connect(app_->player(), SIGNAL(Error()), context_view_, SLOT(Error()));
 
   // Analyzer
   //ui_->analyzer->SetEngine(app_->player()->engine());
@@ -611,8 +622,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Playing widget
   qLog(Debug) << "Creating playing widget";
   ui_->widget_playing->set_ideal_height(ui_->status_bar->sizeHint().height() + ui_->player_controls->sizeHint().height());
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), ui_->widget_playing, SLOT(SongChanged(Song)));
+  connect(app_->player(), SIGNAL(PlaylistFinished()), ui_->widget_playing, SLOT(Stopped()));
+  connect(app_->player(), SIGNAL(Playing()), ui_->widget_playing, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Stopped()), ui_->widget_playing, SLOT(Stopped()));
-  //connect(ui_->widget_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
+  connect(app_->player(), SIGNAL(Error()), ui_->widget_playing, SLOT(Error()));
+
   connect(ui_->action_console, SIGNAL(triggered()), SLOT(ShowConsole()));
   PlayingWidgetPositionChanged();
 
@@ -622,7 +637,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   const_cast<QPalette&>(Appearance::kDefaultPalette) = QApplication::palette();
   app_->appearance()->LoadUserTheme();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
-  css_loader->SetStyleSheet(this, ":style/mainwindow.css");
+  css_loader->SetStyleSheet(this, ":/style/strawberry.css");
   RefreshStyleSheet();
 
   // Load playlists
@@ -643,15 +658,15 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Set last used geometry to position window on the correct monitor
   // Set window state only if the window was last maximized
-  was_maximized_ = settings_.value("maximized", false).toBool();
-  restoreGeometry(settings_.value("geometry").toByteArray());
-  if (was_maximized_) {
-    setWindowState(windowState() | Qt::WindowMaximized);
-  }
+  was_maximized_ = settings_.value("maximized", true).toBool();
+
+  if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
+  else restoreGeometry(settings_.value("geometry").toByteArray());
 
   if (!ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
-    ui_->splitter->setSizes(QList<int>() << 300 << width() - 300);
+    ui_->splitter->setSizes(QList<int>() << 250 << width() - 250);
   }
+
   ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1 /* Collection tab */ ).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
   ui_->tabs->SetMode(FancyTabWidget::Mode(settings_.value("tab_mode", default_mode).toInt()));
@@ -715,6 +730,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   qLog(Debug) << "Started";
   RefreshStyleSheet();
+  
+  initialised_ = true;
 
 }
 
@@ -732,8 +749,6 @@ void MainWindow::ReloadSettings() {
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   bool showtrayicon = settings.value("showtrayicon", true).toBool();
   settings.endGroup();
-
-  //qLog(Debug) << "showtrayicon" << showtrayicon;
 
   tray_icon_->SetVisible(showtrayicon);
   if (!showtrayicon && !isVisible()) show();
@@ -766,7 +781,7 @@ void MainWindow::RefreshStyleSheet() {
   setStyleSheet(styleSheet());
 }
 void MainWindow::MediaStopped() {
-  
+
   setWindowTitle("Strawberry Music Player");
 
   ui_->action_stop->setEnabled(false);
@@ -828,7 +843,6 @@ void MainWindow::VolumeChanged(int volume) {
 
 void MainWindow::SongChanged(const Song &song) {
 
-  //setWindowTitle(song.PrettyTitleWithArtist() + " --- Strawberry Music Player");
   setWindowTitle(song.PrettyTitleWithArtist());
   tray_icon_->SetProgress(0);
 
@@ -853,7 +867,14 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
   }
 }
 
-void MainWindow::resizeEvent(QResizeEvent*) { SaveGeometry(); }
+void MainWindow::changeEvent(QEvent *event) {
+  if (!initialised_) return;
+  SaveGeometry();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+  SaveGeometry();
+}
 
 void MainWindow::TabSwitched() {
   
@@ -870,10 +891,8 @@ void MainWindow::SaveGeometry() {
 
   was_maximized_ = isMaximized();
   settings_.setValue("maximized", was_maximized_);
-  // Save the geometry only when mainwindow is not in maximized state
-  if (!was_maximized_) {
-    settings_.setValue("geometry", saveGeometry());
-  }
+  if (was_maximized_) settings_.remove("geometry");
+  else settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
   settings_.setValue("current_tab", ui_->tabs->currentIndex());
   settings_.setValue("tab_mode", ui_->tabs->mode());
@@ -2103,34 +2122,6 @@ void MainWindow::ShowQueueManager() {
   //}
   queue_manager_->show();
 }
-
-#if 0
-void MainWindow::ConnectInfoView(SongInfoBase *view) {
-  
-  QObject::connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), view, SLOT(SongChanged(Song)));
-  QObject::connect(app_->player(), SIGNAL(PlaylistFinished()), view, SLOT(SongFinished()));
-  QObject::connect(app_->player(), SIGNAL(Stopped()), view, SLOT(SongFinished()));
-
-  QObject::connect(view, SIGNAL(ShowSettingsDialog()), SLOT(ShowSongInfoConfig()));
-  
-}
-#endif
-
-void MainWindow::ConnectStatusView(StatusView *statusview) {
-  
-  QObject::connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), statusview, SLOT(SongChanged(Song)));
-  QObject::connect(app_->player(), SIGNAL(PlaylistFinished()), statusview, SLOT(SongFinished()));
-  QObject::connect(app_->player(), SIGNAL(Stopped()), statusview, SLOT(SongFinished()));
-
-  //QObject::connect(statusview, SIGNAL(ShowSettingsDialog()), SLOT(ShowSongInfoConfig()));
-  
-}
-
-#if 0
-void MainWindow::ShowSongInfoConfig() {
-  OpenSettingsDialogAtPage(SettingsDialog::Page_SongInformation);
-}
-#endif
 
 void MainWindow::PlaylistViewSelectionModelChanged() {
     

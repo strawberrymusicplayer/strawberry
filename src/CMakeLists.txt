@@ -107,7 +107,6 @@ set(SOURCES
   core/urlhandler.cpp
   core/utilities.cpp
   core/scangiomodulepath.cpp
-  core/flowlayout.cpp
   core/iconloader.cpp
   core/qtsystemtrayicon.cpp
   core/standarditemiconloader.cpp
@@ -128,6 +127,10 @@ set(SOURCES
   
   equalizer/equalizer.cpp
   equalizer/equalizerslider.cpp
+
+  context/contextview.cpp
+  context/contextalbumsmodel.cpp
+  context/contextalbumsview.cpp
 
   collection/collection.cpp
   collection/collectionmodel.cpp
@@ -218,8 +221,6 @@ set(SOURCES
   widgets/autoexpandingtreeview.cpp
   widgets/busyindicator.cpp
   widgets/clickablelabel.cpp
-  widgets/didyoumean.cpp
-  widgets/elidedlabel.cpp
   widgets/fancytabwidget.cpp
   widgets/favoritewidget.cpp
   widgets/fileview.cpp
@@ -230,14 +231,9 @@ set(SOURCES
   widgets/lineedit.cpp
   widgets/linetextedit.cpp
   widgets/multiloadingindicator.cpp
-  widgets/statusview.cpp
   widgets/playingwidget.cpp
   widgets/osd.cpp
   widgets/osdpretty.cpp
-  widgets/prettyimage.cpp
-  widgets/prettyimageview.cpp
-  widgets/progressitemdelegate.cpp
-  widgets/ratingwidget.cpp
   widgets/renametablineedit.cpp
   widgets/sliderwidget.cpp
   widgets/stickyslider.cpp
@@ -246,7 +242,6 @@ set(SOURCES
   widgets/trackslider.cpp
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
-  widgets/widgetfadehelper.cpp
   widgets/loginstatewidget.cpp
   
   musicbrainz/acoustidclient.cpp
@@ -271,12 +266,20 @@ set(SOURCES
   internet/internetmodel.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
+
   tidal/tidalservice.cpp
   tidal/tidalsearch.cpp
   tidal/tidalsearchview.cpp
   tidal/tidalsearchmodel.cpp
   tidal/tidalsearchsortmodel.cpp
   tidal/tidalsearchitemdelegate.cpp
+
+  lyrics/lyricsproviders.cpp
+  lyrics/lyricsprovider.cpp
+  lyrics/lyricsfetcher.cpp
+  lyrics/lyricsfetchersearch.cpp
+  lyrics/auddlyricsprovider.cpp
+  lyrics/apiseedslyricsprovider.cpp
 
 )
 
@@ -309,6 +312,10 @@ set(HEADERS
   
   equalizer/equalizer.h
   equalizer/equalizerslider.h
+  
+  context/contextview.h
+  context/contextalbumsmodel.h
+  context/contextalbumsview.h
 
   collection/collection.h
   collection/collectionmodel.h
@@ -391,8 +398,6 @@ set(HEADERS
   widgets/autoexpandingtreeview.h
   widgets/busyindicator.h
   widgets/clickablelabel.h
-  widgets/didyoumean.h
-  widgets/elidedlabel.h
   widgets/fancytabwidget.h
   widgets/favoritewidget.h
   widgets/fileview.h
@@ -402,14 +407,9 @@ set(HEADERS
   widgets/lineedit.h
   widgets/linetextedit.h
   widgets/multiloadingindicator.h
-  widgets/statusview.h
   widgets/playingwidget.h
   widgets/osd.h
   widgets/osdpretty.h
-  widgets/prettyimage.h
-  widgets/prettyimageview.h
-  widgets/progressitemdelegate.h
-  widgets/ratingwidget.h
   widgets/renametablineedit.h
   widgets/sliderwidget.h
   widgets/stickyslider.h
@@ -417,7 +417,6 @@ set(HEADERS
   widgets/trackslider.h
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
-  widgets/widgetfadehelper.h
   widgets/loginstatewidget.h
   
   musicbrainz/acoustidclient.h
@@ -447,12 +446,21 @@ set(HEADERS
   tidal/tidalsearch.h
   tidal/tidalsearchview.h
   tidal/tidalsearchmodel.h
+  
+  lyrics/lyricsproviders.h
+  lyrics/lyricsprovider.h
+  lyrics/lyricsfetcher.h
+  lyrics/lyricsfetchersearch.h
+  lyrics/auddlyricsprovider.h
+  lyrics/apiseedslyricsprovider.h
 
 )
 
 set(UI
 
   core/mainwindow.ui
+
+  context/contextviewcontainer.ui
 
   collection/groupbydialog.ui
   collection/collectionfilterwidget.ui

@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,41 +17,46 @@
  *
  */
 
-#ifndef LASTFMCOVERPROVIDER_H
-#define LASTFMCOVERPROVIDER_H
+#ifndef APISEEDSLYRICSPROVIDER_H
+#define APISEEDSLYRICSPROVIDER_H
 
 #include "config.h"
 
 #include <stdbool.h>
 
+#include <QtGlobal>
 #include <QObject>
-#include <QMap>
+#include <QHash>
+#include <QMetaType>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-#include "coverprovider.h"
+#include "lyricsprovider.h"
+#include "lyricsfetcher.h"
 
-// A built-in cover provider which fetches covers from last.fm.
-class LastFmCoverProvider : public CoverProvider {
+class APISeedsLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(QObject *parent = nullptr);
+  explicit APISeedsLyricsProvider(QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, int id);
-
-  static const char *kApiKey;
-  static const char *kSecret;
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
+  void CancelSearch(quint64 id);
 
  private slots:
-  void QueryFinished(QNetworkReply *reply, int id);
+  void HandleSearchReply(QNetworkReply *reply, quint64 id, const QString artist, const QString title);
 
  private:
+  static const char *kUrlSearch;
+  static const char *kAPIKeyB64;
   QNetworkAccessManager *network_;
-  QMap <QNetworkReply *, int> pending_queries_;
+  void Error(quint64 id, QString error, QVariant debug = QVariant());
+
+  QJsonObject ExtractJsonObj(QNetworkReply *reply, quint64 id);
+  QJsonObject ExtractResult(QNetworkReply *reply, quint64 id);
 
 };
 
-#endif // LASTFMCOVERPROVIDER_H
+#endif  // APISEEDSLYRICSPROVIDER_H
 

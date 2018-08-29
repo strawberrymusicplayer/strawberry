@@ -741,7 +741,8 @@ Song *TidalService::ParseSong(TidalSearchContext *search_ctx, const int album_id
   //if (i > 1) song.set_compilation_detected(true);
 
   cover = cover.replace("-", "/");
-  QUrl cover_url (QString("%1/images/%2/750x750.jpg").arg(kResourcesUrl).arg(cover));
+  //QUrl cover_url (QString("%1/images/%2/750x750.jpg").arg(kResourcesUrl).arg(cover));
+  QUrl cover_url (QString("%1/images/%2/320x320.jpg").arg(kResourcesUrl).arg(cover));
   song.set_art_automatic(cover_url.toEncoded());
 
   if (search_ctx->requests_song_.contains(id)) return search_ctx->requests_song_.value(id);

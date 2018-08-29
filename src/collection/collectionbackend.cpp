@@ -54,7 +54,6 @@ CollectionBackend::CollectionBackend(QObject *parent)
       {}
 
 void CollectionBackend::Init(Database *db, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
-
   db_ = db;
   songs_table_ = songs_table;
   dirs_table_ = dirs_table;
@@ -219,8 +218,6 @@ void CollectionBackend::UpdateTotalArtistCount() {
   q.exec();
   if (db_->CheckErrors(q)) return;
   if (!q.next()) return;
-  
-  //qLog(Debug) << "TotalArtist: " << q.value(0).toInt();
 
   emit TotalArtistCountUpdated(q.value(0).toInt());
 
@@ -236,8 +233,6 @@ void CollectionBackend::UpdateTotalAlbumCount() {
   q.exec();
   if (db_->CheckErrors(q)) return;
   if (!q.next()) return;
-  
-  //qLog(Debug) << "TotalAlbum: " << q.value(0).toInt();
 
   emit TotalAlbumCountUpdated(q.value(0).toInt());
 
@@ -530,7 +525,7 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, bool unavail
 }
 
 QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions &opt) {
-
+    
   CollectionQuery query(opt);
   query.SetColumnSpec("DISTINCT " + column);
   query.AddCompilationRequirement(false);
@@ -547,6 +542,7 @@ QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions 
 }
 
 QStringList CollectionBackend::GetAllArtists(const QueryOptions &opt) {
+
   return GetAll("artist", opt);
 }
 
@@ -596,8 +592,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString 
   return GetAlbums(artist, QString(), false, opt);
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbumsByAlbumArtist(
-    const QString &album_artist, const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbumsByAlbumArtist(const QString &album_artist, const QueryOptions &opt) {
   return GetAlbums(QString(), album_artist, false, opt);
 }
 
@@ -629,6 +624,7 @@ SongList CollectionBackend::ExecCollectionQuery(CollectionQuery *query) {
     ret << song;
   }
   return ret;
+
 }
 
 Song CollectionBackend::GetSongById(int id) {
@@ -638,7 +634,6 @@ Song CollectionBackend::GetSongById(int id) {
 }
 
 SongList CollectionBackend::GetSongsById(const QList<int> &ids) {
-
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -658,7 +653,6 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids) {
 }
 
 SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column) {
-
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -687,7 +681,6 @@ Song CollectionBackend::GetSongById(int id, QSqlDatabase &db) {
 }
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &db) {
-
   QString in = ids.join(",");
 
   QSqlQuery q(db);
@@ -705,7 +698,6 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
 }
 
 Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
-
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
   query.AddWhere("filename", url.toEncoded());
@@ -719,7 +711,6 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
 }
 
 SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
-
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
   query.AddWhere("filename", url.toEncoded());
@@ -757,6 +748,7 @@ SongList CollectionBackend::GetCompilationSongs(const QString &album, const Quer
     ret << song;
   }
   return ret;
+
 }
 
 void CollectionBackend::UpdateCompilations() {
@@ -933,7 +925,7 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
 }
 
 void CollectionBackend::UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QString &art) {
-    
+
   metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, artist), Q_ARG(QString, albumartist), Q_ARG(QString, album), Q_ARG(QString, art));
 
 }

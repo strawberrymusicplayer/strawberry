@@ -2,6 +2,17 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Added new lyrics provider with lyrics from AudD and API Seeds
+    * New improved context widget with albums and lyrics
+    * Fixed playing and context widget getting stuck in play mode when there was an error
+    * Changed icons for artists in collection, tidal and cover manager
+    * Removed "search" icon from "Search automatically" checkbox (right click) that looked ugly
+    * Removed some unused widgets from the src/widgets directory
+    * Fixed initial size of window and side panel
+    * Fixed saving window size correctly
+
 Version 0.2.1:
 
     * Fixed crash with newer Qt

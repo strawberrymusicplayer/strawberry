@@ -118,9 +118,10 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     return LoadLocal(url_.toLocalFile());
   }
 
-  if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url) != nullptr) {
+  if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url)) {
     // The URI scheme indicates that it can't possibly be a playlist,
-    // or we have a custom handler for the URL, so add it as a raw stream. AddAsRawStream();
+    // or we have a custom handler for the URL, so add it as a raw stream.
+    AddAsRawStream();
     return Success;
   }
 

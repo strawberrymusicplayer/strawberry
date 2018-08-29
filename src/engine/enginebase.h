@@ -41,6 +41,7 @@
 
 #include "engine_fwd.h"
 #include "enginetype.h"
+#include "enginedevice.h"
 
 namespace Engine {
 
@@ -118,6 +119,8 @@ public:
   bool IsEqualizerEnabled() { return equalizer_enabled_; }
 
   static const int kScopeSize = 1024;
+
+  QVariant device() { return device_; }
 
 public slots:
   virtual void SetEqualizerEnabled(bool) {}

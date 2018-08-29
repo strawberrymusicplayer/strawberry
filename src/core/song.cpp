@@ -693,7 +693,7 @@ void Song::InitFromFilePartial(const QString &filename) {
 
   TagLib::FileRef fileref(filename.toUtf8().constData());
   //if (TagLib::FileRef::defaultFileExtensions().contains(suffix.toUtf8().constData())) {
-  if (fileref.file()) d->valid_ = true;
+  if (fileref.file() || (suffix == "dsf")) d->valid_ = true;
   else {
     d->valid_ = false;
     qLog(Error) << "File" << filename << "is not recognized by TagLib as a valid audio file.";

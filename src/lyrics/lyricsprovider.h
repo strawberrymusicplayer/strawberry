@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,36 +17,36 @@
  *
  */
 
-#ifndef ELIDEDLABEL_H
-#define ELIDEDLABEL_H
+#ifndef LYRICSPROVIDER_H
+#define LYRICSPROVIDER_H
 
 #include "config.h"
 
+#include <stdbool.h>
+
 #include <QObject>
-#include <QWidget>
+#include <QList>
 #include <QString>
-#include <QLabel>
-#include <QtEvents>
 
-class QResizeEvent;
+struct LyricsSearchResult;
 
-class ElidedLabel : public QLabel {
+class LyricsProvider : public QObject {
   Q_OBJECT
 
- public:
-  ElidedLabel(QWidget *parent = nullptr);
+public:
+  explicit LyricsProvider(const QString &name, QObject *parent);
 
-public slots:
-  void SetText(const QString &text);
+  QString name() const { return name_; }
 
-protected:
-  void resizeEvent(QResizeEvent *e);
+  virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) = 0;
+  virtual void CancelSearch(quint64 id) {}
+
+signals:
+  void SearchFinished(quint64 id, const QList<LyricsSearchResult>& results);
 
 private:
-  void UpdateText();
+  QString name_;
 
-private:
-  QString text_;
 };
 
-#endif  // ELIDEDLABEL_H
+#endif // LYRICSPROVIDER_H

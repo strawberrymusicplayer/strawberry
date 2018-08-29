@@ -49,6 +49,8 @@
 #include "covermanager/currentartloader.h"
 #include "playingwidget.h"
 
+using std::unique_ptr;
+
 const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
 
 // Space between the cover and the details in small mode
@@ -58,20 +60,18 @@ const int PlayingWidget::kPadding = 2;
 const int PlayingWidget::kGradientHead = 40;
 const int PlayingWidget::kGradientTail = 20;
 
-// Maximum height of the cover in large mode, and offset between the
-// bottom of the cover and bottom of the widget
+// Maximum height of the cover in large mode, and offset between the bottom of the cover and bottom of the widget
 const int PlayingWidget::kMaxCoverSize = 260;
 const int PlayingWidget::kBottomOffset = 0;
 
 // Border for large mode
 const int PlayingWidget::kTopBorder = 4;
 
-
 PlayingWidget::PlayingWidget(QWidget *parent)
     : QWidget(parent),
       app_(nullptr),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-      mode_(SmallSongDetails),
+      mode_(LargeSongDetails),
       menu_(new QMenu(this)),
       fit_cover_width_action_(nullptr),
       enabled_(false),
@@ -79,11 +79,13 @@ PlayingWidget::PlayingWidget(QWidget *parent)
       active_(false),
       small_ideal_height_(0),
       fit_width_(false),
-      show_hide_animation_(new QTimeLine(500, this)),
-      fade_animation_(new QTimeLine(1000, this)),
+      timeline_show_hide_(new QTimeLine(500, this)),
+      timeline_fade_(new QTimeLine(1000, this)),
       details_(new QTextDocument(this)),
-      previous_track_opacity_(0.0),
+      pixmap_previous_track_opacity_(0.0),
       downloading_covers_(false) {
+
+  SetHeight(0);
 
   // Load settings
   QSettings s;
@@ -129,26 +131,20 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   menu_->addSeparator();
 
   // Animations
-  connect(show_hide_animation_, SIGNAL(frameChanged(int)), SLOT(SetHeight(int)));
-  setMaximumHeight(0);
-
-  connect(fade_animation_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
-  fade_animation_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
+  connect(timeline_show_hide_, SIGNAL(frameChanged(int)), SLOT(SetHeight(int)));
+  connect(timeline_fade_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
+  timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
 
   // add placeholder text to get the correct height
   if (mode_ == LargeSongDetails) {
-  details_->setDefaultStyleSheet(
-        "p {"
-        "  font-size: small;"
-        "  color: black;"
-        "}");
+    details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
     details_->setHtml(QString("<p align=center><i></i><br/><br/></p>"));
   }
 
   UpdateHeight();
 
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
-  
+
 }
 
 PlayingWidget::~PlayingWidget() {
@@ -163,14 +159,34 @@ void PlayingWidget::SetApplication(Application *app) {
 
 }
 
-void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper* mapper) {
 
-  QAction* action = new QAction(text, group);
-  action->setCheckable(true);
-  mapper->setMapping(action, mode);
-  connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+void PlayingWidget::SetEnabled() {
+  enabled_ = true;
+  if (!visible_ && active_) SetVisible(true);
+}
 
-  if (mode == mode_) action->setChecked(true);
+void PlayingWidget::SetDisabled() {
+  enabled_ = false;
+  if (visible_) SetVisible(false);
+}
+
+void PlayingWidget::SetVisible(bool visible) {
+
+  if (timeline_show_hide_->state() == QTimeLine::Running) {
+    if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
+      timeline_show_hide_->toggleDirection();
+    }
+    if (timeline_show_hide_->direction() == QTimeLine::Forward && (!enabled_ || !active_)) {
+      timeline_show_hide_->toggleDirection();
+    }
+    return;
+  }
+
+  if (visible == visible_) return;  
+
+  timeline_show_hide_->setFrameRange(0, total_height_);
+  timeline_show_hide_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
+  timeline_show_hide_->start();
 
 }
 
@@ -182,218 +198,22 @@ void PlayingWidget::set_ideal_height(int height) {
 }
 
 QSize PlayingWidget::sizeHint() const {
-    
   return QSize(cover_loader_options_.desired_height_, total_height_);
-
 }
 
-void PlayingWidget::UpdateHeight() {
+void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper *mapper) {
 
-  switch (mode_) {
-    case SmallSongDetails:
-      cover_loader_options_.desired_height_ = small_ideal_height_;
-      total_height_ = small_ideal_height_;
-      break;
-    case LargeSongDetails:
-      if (fit_width_) cover_loader_options_.desired_height_ = width();
-      else cover_loader_options_.desired_height_ = qMin(kMaxCoverSize, width());
-      total_height_ = kTopBorder + cover_loader_options_.desired_height_ + kBottomOffset + details_->size().height();
-      break;
-  }
+  QAction *action = new QAction(text, group);
+  action->setCheckable(true);
+  mapper->setMapping(action, mode);
+  connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
 
-  // Update the animation settings and resize the widget now if we're visible
-  show_hide_animation_->setFrameRange(0, total_height_);
-  if (visible_ && show_hide_animation_->state() != QTimeLine::Running) setMaximumHeight(total_height_);
+  if (mode == mode_) action->setChecked(true);
 
-  // Re-scale the current image
-  if (metadata_.is_valid()) {
-    ScaleCover();
-  }
-
-  // Tell Qt we've changed size
-  updateGeometry();
-  
-}
-
-void PlayingWidget::Stopped() {
-
-  active_ = false;
-  SetVisible(false);
-
-}
-
-void PlayingWidget::UpdateDetailsText() {
-  
-  QString html;
-
-  switch (mode_) {
-    case SmallSongDetails:
-      details_->setTextWidth(-1);
-      details_->setDefaultStyleSheet("");
-      html += "<p>";
-      break;
-    case LargeSongDetails:
-      details_->setTextWidth(cover_loader_options_.desired_height_);
-      if (fit_width_) {
-        details_->setDefaultStyleSheet(
-            "p {"
-            "  font-size: small;"
-            "}");
-      }
-      else {
-        details_->setDefaultStyleSheet(
-            "p {"
-            "  font-size: small;"
-            "  color: black;"
-            "}");
-      }
-      html += "<p align=center>";
-      break;
-  }
-
-  // TODO: Make this configurable
-  html += QString("<i>%1</i><br/>%2<br/>%3").arg(metadata_.PrettyTitle().toHtmlEscaped(), metadata_.artist().toHtmlEscaped(), metadata_.album().toHtmlEscaped());
-
-  html += "</p>";
-  details_->setHtml(html);
-
-  // if something spans multiple lines the height needs to change
-  if (mode_ == LargeSongDetails) UpdateHeight();
-
-}
-
-void PlayingWidget::ScaleCover() {
-
-  cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, original_));
-  update();
-
-}
-
-void PlayingWidget::AlbumArtLoaded(const Song &metadata, const QString &, const QImage &image) {
-  
-  active_ = true;
-
-  metadata_ = metadata;
-  downloading_covers_ = false;
-
-  SetImage(image);
-
-  // Search for cover automatically?
-  GetCoverAutomatically();
-
-}
-
-void PlayingWidget::SetImage(const QImage &image) {
-
-  active_ = true;
-
-  if (visible_) {
-    // Cache the current pixmap so we can fade between them
-    previous_track_ = QPixmap(size());
-    previous_track_.fill(palette().background().color());
-    previous_track_opacity_ = 1.0;
-    QPainter p(&previous_track_);
-    DrawContents(&p);
-    p.end();
-  }
-
-  original_ = image;
-
-  UpdateDetailsText();
-  ScaleCover();
-
-  if (enabled_ == true) SetVisible(true);
-
-  // Were we waiting for this cover to load before we started fading?
-  if (!previous_track_.isNull()) {
-    fade_animation_->start();
-  }
-}
-
-void PlayingWidget::SetHeight(int height) {
-
-  setMaximumHeight(height);
-  
-}
-
-void PlayingWidget::SetVisible(bool visible) {
-
-  if (visible == visible_) return;
-  visible_ = visible;
-
-  show_hide_animation_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);
-  show_hide_animation_->start();
-
-}
-
-void PlayingWidget::paintEvent(QPaintEvent *e) {
-  
-  QPainter p(this);
-
-  DrawContents(&p);
-
-  // Draw the previous track's image if we're fading
-  if (!previous_track_.isNull()) {
-    p.setOpacity(previous_track_opacity_);
-    p.drawPixmap(0, 0, previous_track_);
-  }
-}
-
-void PlayingWidget::DrawContents(QPainter *p) {
-
-  switch (mode_) {
-    case SmallSongDetails:
-      // Draw the cover
-      p->drawPixmap(0, 0, small_ideal_height_, small_ideal_height_, cover_);
-      if (downloading_covers_) {
-        p->drawPixmap(small_ideal_height_ - 18, 6, 16, 16, spinner_animation_->currentPixmap());
-      }
-
-      // Draw the details
-      p->translate(small_ideal_height_ + kPadding, 0);
-      details_->drawContents(p);
-      p->translate(-small_ideal_height_ - kPadding, 0);
-      break;
-
-    case LargeSongDetails:
-      // Work out how high the text is going to be
-      const int text_height = details_->size().height();
-      const int cover_size = fit_width_ ? width() : qMin(kMaxCoverSize, width());
-      const int x_offset = (width() - cover_loader_options_.desired_height_) / 2;
-
-      if (!fit_width_) {
-        // Draw the black background
-        //p->fillRect(QRect(0, kTopBorder, width(), height() - kTopBorder), Qt::black);
-      }
-
-      // Draw the cover
-      p->drawPixmap(x_offset, kTopBorder, cover_size, cover_size, cover_);
-      if (downloading_covers_) {
-        p->drawPixmap(x_offset + 45, 35, 16, 16, spinner_animation_->currentPixmap());
-      }
-
-      // Draw the text below
-      p->translate(x_offset, height() - text_height);
-      details_->drawContents(p);
-      p->translate(-x_offset, -height() + text_height);
-      break;
-  }
-  
-}
-
-void PlayingWidget::FadePreviousTrack(qreal value) {
-  
-  previous_track_opacity_ = value;
-  if (qFuzzyCompare(previous_track_opacity_, qreal(0.0))) {
-    previous_track_ = QPixmap();
-  }
-
-  update();
-  
 }
 
 void PlayingWidget::SetMode(int mode) {
-  
+
   mode_ = Mode(mode);
 
   if (mode_ == SmallSongDetails) {
@@ -413,9 +233,222 @@ void PlayingWidget::SetMode(int mode) {
   
 }
 
+void PlayingWidget::FitCoverWidth(bool fit) {
+  
+  fit_width_ = fit;
+  UpdateHeight();
+  update();
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("fit_cover_width", fit_width_);
+}
+
+void PlayingWidget::Playing() {
+}
+
+void PlayingWidget::Stopped() {
+  active_ = false;
+  SetVisible(false);
+}
+
+void PlayingWidget::Error() {
+  active_ = false;
+}
+
+void PlayingWidget::SongChanged(const Song &song) {
+  song_ = song;
+}
+
+void PlayingWidget::AlbumArtLoaded(const Song &song, const QString &, const QImage &image) {
+
+  if (song == song_) {}
+  else {
+    qLog(Error) << __PRETTY_FUNCTION__ << "Ignoring" << song.title() << "because current song is" << song_.title();
+    return;
+  }
+  active_ = true;
+  downloading_covers_ = false;
+  SetImage(image);
+  GetCoverAutomatically();
+
+}
+
+void PlayingWidget::SetImage(const QImage &image) {
+
+  if (enabled_ && visible_ && active_) {
+    // Cache the current pixmap so we can fade between them
+    QSize psize(size());
+    if (size().height() <= 0) psize.setHeight(total_height_);
+    pixmap_previous_track_ = QPixmap(psize);
+    pixmap_previous_track_.fill(palette().background().color());
+    pixmap_previous_track_opacity_ = 1.0;
+    QPainter p(&pixmap_previous_track_);
+    DrawContents(&p);
+    p.end();
+  }
+  else { pixmap_previous_track_ = QPixmap(); }
+
+  image_original_ = image;
+  UpdateDetailsText();
+  ScaleCover();
+
+  if (enabled_ && active_) {
+    SetVisible(true);
+    // Were we waiting for this cover to load before we started fading?
+    if (!pixmap_previous_track_.isNull()) {
+      timeline_fade_->stop();
+      timeline_fade_->start();
+    }
+  }
+
+}
+
+void PlayingWidget::ScaleCover() {
+  pixmap_cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_));
+  update();
+}
+
+void PlayingWidget::SetHeight(int height) {
+
+  setMaximumHeight(height);
+  update();
+
+  if (height >= total_height_) visible_ = true;
+  if (height <= 0) visible_ = false;
+
+  if (timeline_show_hide_->state() == QTimeLine::Running) {
+    if (timeline_show_hide_->direction() == QTimeLine::Backward && enabled_ && active_) {
+      timeline_show_hide_->toggleDirection();
+    }
+    if (timeline_show_hide_->direction() == QTimeLine::Forward && (!enabled_ || !active_)) {
+      timeline_show_hide_->toggleDirection();
+    }
+  }
+  
+}
+
+void PlayingWidget::UpdateHeight() {
+
+  switch (mode_) {
+    case SmallSongDetails:
+      cover_loader_options_.desired_height_ = small_ideal_height_;
+      total_height_ = small_ideal_height_;
+      break;
+    case LargeSongDetails:
+      if (fit_width_) cover_loader_options_.desired_height_ = width();
+      else cover_loader_options_.desired_height_ = qMin(kMaxCoverSize, width());
+      total_height_ = kTopBorder + cover_loader_options_.desired_height_ + kBottomOffset + details_->size().height();
+      break;
+  }
+
+  // Update the animation settings and resize the widget now if we're visible
+  timeline_show_hide_->setFrameRange(0, total_height_);
+  if (visible_ && active_ && timeline_show_hide_->state() != QTimeLine::Running) setMaximumHeight(total_height_);
+
+  // Re-scale the current image
+  if (song_.is_valid()) {
+    ScaleCover();
+  }
+
+  // Tell Qt we've changed size
+  updateGeometry();
+
+}
+
+void PlayingWidget::UpdateDetailsText() {
+
+  QString html("");
+  details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
+  switch (mode_) {
+    case SmallSongDetails:
+      details_->setTextWidth(-1);
+      html += "<p>";
+      break;
+    case LargeSongDetails:
+      details_->setTextWidth(cover_loader_options_.desired_height_);
+      html += "<p align=center>";
+      break;
+  }
+
+  html += QString("%1<br/>%2<br/>%3").arg(song_.PrettyTitle().toHtmlEscaped(), song_.artist().toHtmlEscaped(), song_.album().toHtmlEscaped());
+
+  html += "</p>";
+  details_->setHtml(html);
+
+  // if something spans multiple lines the height needs to change
+  if (mode_ == LargeSongDetails) UpdateHeight();
+
+}
+
+void PlayingWidget::paintEvent(QPaintEvent *e) {
+
+  QPainter p(this);
+
+  DrawContents(&p);
+
+  // Draw the previous track's image if we're fading
+  if (!pixmap_previous_track_.isNull()) {
+    p.setOpacity(pixmap_previous_track_opacity_);
+    p.drawPixmap(0, 0, pixmap_previous_track_);
+  }
+}
+
+void PlayingWidget::DrawContents(QPainter *p) {
+
+  switch (mode_) {
+    case SmallSongDetails:
+      // Draw the cover
+      p->drawPixmap(0, 0, small_ideal_height_, small_ideal_height_, pixmap_cover_);
+      if (downloading_covers_) {
+        p->drawPixmap(small_ideal_height_ - 18, 6, 16, 16, spinner_animation_->currentPixmap());
+      }
+
+      // Draw the details
+      p->translate(small_ideal_height_ + kPadding, 0);
+      details_->drawContents(p);
+      p->translate(-small_ideal_height_ - kPadding, 0);
+      break;
+
+    case LargeSongDetails:
+      // Work out how high the text is going to be
+      const int text_height = details_->size().height();
+      const int cover_size = fit_width_ ? width() : qMin(kMaxCoverSize, width());
+      const int x_offset = (width() - cover_loader_options_.desired_height_) / 2;
+
+      // Draw the cover
+      p->drawPixmap(x_offset, kTopBorder, cover_size, cover_size, pixmap_cover_);
+      if (downloading_covers_) {
+        p->drawPixmap(x_offset + 45, 35, 16, 16, spinner_animation_->currentPixmap());
+      }
+
+      // Draw the text below
+      p->translate(x_offset, height() - text_height);
+      details_->drawContents(p);
+      p->translate(-x_offset, -height() + text_height);
+
+      break;
+  }
+  
+}
+
+void PlayingWidget::FadePreviousTrack(qreal value) {
+
+  if (!visible_) return;
+
+  pixmap_previous_track_opacity_ = value;
+  if (qFuzzyCompare(pixmap_previous_track_opacity_, qreal(0.0))) {
+    pixmap_previous_track_ = QPixmap();
+  }
+
+  update();
+
+}
+
 void PlayingWidget::resizeEvent(QResizeEvent* e) {
   
-  if (visible_ && e->oldSize() != e->size()) {
+  //if (visible_ && e->oldSize() != e->size()) {
+  if (e->oldSize() != e->size()) {
     if (mode_ == LargeSongDetails) {
       UpdateHeight();
       UpdateDetailsText();
@@ -435,51 +468,6 @@ void PlayingWidget::mouseReleaseEvent(QMouseEvent*) {
 
 }
 
-void PlayingWidget::FitCoverWidth(bool fit) {
-  
-  fit_width_ = fit;
-  UpdateHeight();
-  update();
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("fit_cover_width", fit_width_);
-}
-
-void PlayingWidget::LoadCoverFromFile() {
-  album_cover_choice_controller_->LoadCoverFromFile(&metadata_);
-}
-
-void PlayingWidget::LoadCoverFromURL() {
-  album_cover_choice_controller_->LoadCoverFromURL(&metadata_);
-}
-
-void PlayingWidget::SearchForCover() {
-  album_cover_choice_controller_->SearchForCover(&metadata_);
-}
-
-void PlayingWidget::SaveCoverToFile() {
-  album_cover_choice_controller_->SaveCoverToFile(metadata_, original_);
-}
-
-void PlayingWidget::UnsetCover() {
-  album_cover_choice_controller_->UnsetCover(&metadata_);
-}
-
-void PlayingWidget::ShowCover() {
-  album_cover_choice_controller_->ShowCover(metadata_);
-}
-
-void PlayingWidget::SearchCoverAutomatically() {
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
-
-  GetCoverAutomatically();
-
-}
-
 void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
   
   if (AlbumCoverChoiceController::CanAcceptDrag(e)) {
@@ -492,7 +480,7 @@ void PlayingWidget::dragEnterEvent(QDragEnterEvent *e) {
 
 void PlayingWidget::dropEvent(QDropEvent *e) {
   
-  album_cover_choice_controller_->SaveCover(&metadata_, e);
+  album_cover_choice_controller_->SaveCover(&song_, e);
 
   QWidget::dropEvent(e);
   
@@ -503,14 +491,13 @@ bool PlayingWidget::GetCoverAutomatically() {
   // Search for cover automatically?
   bool search =
       album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
-      !metadata_.has_manually_unset_cover() &&
-      metadata_.art_automatic().isEmpty() && metadata_.art_manual().isEmpty() &&
-      !metadata_.artist().isEmpty() && !metadata_.album().isEmpty();
+      !song_.has_manually_unset_cover() &&
+      song_.art_automatic().isEmpty() && song_.art_manual().isEmpty() &&
+      !song_.artist().isEmpty() && !song_.album().isEmpty();
 
   if (search) {
-    //qLog(Debug) << "GetCoverAutomatically";
     downloading_covers_ = true;
-    album_cover_choice_controller_->SearchCoverAutomatically(metadata_);
+    album_cover_choice_controller_->SearchCoverAutomatically(song_);
 
     // Show a spinner animation
     spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
@@ -531,22 +518,38 @@ void PlayingWidget::AutomaticCoverSearchDone() {
 
 }
 
-void PlayingWidget::SetEnabled() {
+void PlayingWidget::SearchCoverAutomatically() {
 
-  if (enabled_ == true) return;
-  
-  if ((active_ == true) && (visible_ == false)) SetVisible(true);
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  s.endGroup();
 
-  enabled_ = true;
-
-}
-
-void PlayingWidget::SetDisabled() {
-
-  if (enabled_ == false) return;
-
-  if (visible_ == true) SetVisible(false);
-  
-  enabled_ = false;
+  GetCoverAutomatically();
 
 }
+
+void PlayingWidget::LoadCoverFromFile() {
+  album_cover_choice_controller_->LoadCoverFromFile(&song_);
+}
+
+void PlayingWidget::LoadCoverFromURL() {
+  album_cover_choice_controller_->LoadCoverFromURL(&song_);
+}
+
+void PlayingWidget::SearchForCover() {
+  album_cover_choice_controller_->SearchForCover(&song_);
+}
+
+void PlayingWidget::SaveCoverToFile() {
+  album_cover_choice_controller_->SaveCoverToFile(song_, image_original_);
+}
+
+void PlayingWidget::UnsetCover() {
+  album_cover_choice_controller_->UnsetCover(&song_);
+}
+
+void PlayingWidget::ShowCover() {
+  album_cover_choice_controller_->ShowCover(song_);
+}
+

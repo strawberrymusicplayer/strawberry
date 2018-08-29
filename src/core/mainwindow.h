@@ -59,6 +59,7 @@
 class About;
 class AlbumCoverManager;;
 class Application;
+class ContextView;
 class CollectionViewContainer;
 class CommandlineOptions;
 class DeviceView;
@@ -73,7 +74,6 @@ class OrganiseDialog;
 class PlaylistListContainer;
 class QueueManager;
 class Song;
-class StatusView;
 class SystemTrayIcon;
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 class TagFetcher;
@@ -129,6 +129,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  protected:
   void keyPressEvent(QKeyEvent *event);
+  void changeEvent(QEvent *event);
   void resizeEvent(QResizeEvent *event);
   void closeEvent(QCloseEvent *event);
 
@@ -270,7 +271,6 @@ signals:
   void SearchForAlbum();
 
  private:
-  void ConnectStatusView(StatusView *statusview);
 
   void ApplyAddBehaviour(AddBehaviour b, MimeData *data) const;
   void ApplyPlayBehaviour(PlayBehaviour b, MimeData *data) const;
@@ -292,12 +292,12 @@ signals:
 
   GlobalShortcuts *global_shortcuts_;
 
+  ContextView *context_view_;
   CollectionViewContainer *collection_view_;
-  StatusView *status_view_;
   FileView *file_view_;
-  PlaylistListContainer *playlist_list_;
   DeviceViewContainer *device_view_container_;
   DeviceView *device_view_;
+  PlaylistListContainer *playlist_list_;
 
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
@@ -354,6 +354,7 @@ signals:
   QTimer *track_slider_timer_;
   QSettings settings_;
 
+  bool initialised_;
   bool was_maximized_;
   int saved_playback_position_;
   Engine::State saved_playback_state_;

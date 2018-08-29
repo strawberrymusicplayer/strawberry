@@ -34,17 +34,19 @@ const int AutoExpandingTreeView::kRowsToShow = 50;
 
 AutoExpandingTreeView::AutoExpandingTreeView(QWidget *parent)
   : QTreeView(parent),
-    auto_open_(true),
-    expand_on_reset_(true),
+    auto_open_(false),
+    expand_on_reset_(false),
     add_on_double_click_(true),
     ignore_next_click_(false)
-{
-  setExpandsOnDoubleClick(false);
+  {
+
+  setExpandsOnDoubleClick(true);
   setAnimated(true);
 
   connect(this, SIGNAL(expanded(QModelIndex)), SLOT(ItemExpanded(QModelIndex)));
   connect(this, SIGNAL(clicked(QModelIndex)), SLOT(ItemClicked(QModelIndex)));
   connect(this, SIGNAL(doubleClicked(QModelIndex)), SLOT(ItemDoubleClicked(QModelIndex)));
+
 }
 
 void AutoExpandingTreeView::reset() {
@@ -158,8 +160,7 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
 
     case Qt::Key_Left:
       // Set focus on the root of the current branch
-      if (index.isValid() && index.parent() != rootIndex() &&
-          (!isExpanded(index) || model()->rowCount(index) == 0)) {
+      if (index.isValid() && index.parent() != rootIndex() && (!isExpanded(index) || model()->rowCount(index) == 0)) {
         setCurrentIndex(index.parent());
         setFocus();
         e->accept();
