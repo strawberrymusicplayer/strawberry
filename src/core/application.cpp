@@ -48,7 +48,7 @@
 #ifdef HAVE_LIBLASTFM
   #include "covermanager/lastfmcoverprovider.h"
 #endif
-#include "covermanager/amazoncoverprovider.h"
+//#include "covermanager/amazoncoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 
@@ -95,7 +95,7 @@ class ApplicationImpl {
 #ifdef HAVE_LIBLASTFM
           cover_providers->AddProvider(new LastFmCoverProvider(app));
 #endif
-          cover_providers->AddProvider(new AmazonCoverProvider(app));
+          //cover_providers->AddProvider(new AmazonCoverProvider(app));
           cover_providers->AddProvider(new DiscogsCoverProvider(app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
           return cover_providers;

@@ -196,8 +196,8 @@ set(SOURCES
   covermanager/currentartloader.cpp
   covermanager/coverfromurldialog.cpp
   covermanager/musicbrainzcoverprovider.cpp
-  covermanager/amazoncoverprovider.cpp
   covermanager/discogscoverprovider.cpp
+  #covermanager/amazoncoverprovider.cpp
   
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -372,9 +372,9 @@ set(HEADERS
   covermanager/coverexportrunnable.h
   covermanager/currentartloader.h
   covermanager/coverfromurldialog.h
-  covermanager/amazoncoverprovider.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
+  #covermanager/amazoncoverprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
