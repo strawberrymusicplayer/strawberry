@@ -48,7 +48,7 @@ SetCompressor /SOLID lzma
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
 Name "${PRODUCT_NAME}"
-OutFile "${PRODUCT_NAME}Setup-${PRODUCT_DISPLAY_VERSION}.exe"
+OutFile "${PRODUCT_NAME}Setup-${PRODUCT_DISPLAY_VERSION}-Debug.exe"
 InstallDir "${PRODUCT_INSTALL_DIR}"
 
 ; Get the path where Strawberry was installed previously and set it as default path
@@ -256,6 +256,37 @@ Section "Gstreamer plugins" gstreamer-plugins
 
 SectionEnd
 
+Section "Xine plugins" xine-plugins
+  SetOutPath "$INSTDIR\xine-plugins"
+  File "/oname=xineplug_ao_out_directx2.dll" "xine-plugins\xineplug_ao_out_directx2.dll"
+  File "/oname=xineplug_ao_out_directx.dll" "xine-plugins\xineplug_ao_out_directx.dll"
+  File "/oname=xineplug_decode_dts.dll" "xine-plugins\xineplug_decode_dts.dll"
+  File "/oname=xineplug_decode_dvaudio.dll" "xine-plugins\xineplug_decode_dvaudio.dll"
+  File "/oname=xineplug_decode_faad.dll" "xine-plugins\xineplug_decode_faad.dll"
+  File "/oname=xineplug_decode_gsm610.dll" "xine-plugins\xineplug_decode_gsm610.dll"
+  File "/oname=xineplug_decode_lpcm.dll" "xine-plugins\xineplug_decode_lpcm.dll"
+  File "/oname=xineplug_decode_mad.dll" "xine-plugins\xineplug_decode_mad.dll"
+  File "/oname=xineplug_decode_mpc.dll" "xine-plugins\xineplug_decode_mpc.dll"
+  File "/oname=xineplug_decode_mpeg2.dll" "xine-plugins\xineplug_decode_mpeg2.dll"
+  File "/oname=xineplug_dmx_asf.dll" "xine-plugins\xineplug_dmx_asf.dll"
+  File "/oname=xineplug_dmx_audio.dll" "xine-plugins\xineplug_dmx_audio.dll"
+  File "/oname=xineplug_dmx_playlist.dll" "xine-plugins\xineplug_dmx_playlist.dll"
+  File "/oname=xineplug_dmx_slave.dll" "xine-plugins\xineplug_dmx_slave.dll"
+  File "/oname=xineplug_flac.dll" "xine-plugins\xineplug_flac.dll"
+  File "/oname=xineplug_wavpack.dll" "xine-plugins\xineplug_wavpack.dll"
+  File "/oname=xineplug_xiph.dll" "xine-plugins\xineplug_xiph.dll"
+  File "/oname=xineplug_inp_cdda.dll" "xine-plugins\xineplug_inp_cdda.dll"
+
+  File "/oname=xineplug_post_audio_filters.dll" "xine-plugins\xineplug_post_audio_filters.dll"
+  File "/oname=xineplug_post_goom.dll" "xine-plugins\xineplug_post_goom.dll"
+  File "/oname=xineplug_post_mosaico.dll" "xine-plugins\xineplug_post_mosaico.dll"
+  File "/oname=xineplug_post_planar.dll" "xine-plugins\xineplug_post_planar.dll"
+  File "/oname=xineplug_post_switch.dll" "xine-plugins\xineplug_post_switch.dll"
+  File "/oname=xineplug_post_tvtime.dll" "xine-plugins\xineplug_post_tvtime.dll"
+  File "/oname=xineplug_post_visualizations.dll" "xine-plugins\xineplug_post_visualizations.dll"
+
+SectionEnd
+
 Section "Start menu items" startmenu
   ; Create Start Menu folders and shortcuts.
   SetShellVarContext all
@@ -418,6 +449,33 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstudp.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstsoup.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstlibav.dll"
+
+  Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx2.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_dts.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_dvaudio.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_faad.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_gsm610.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_lpcm.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_mad.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_mpc.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_decode_mpeg2.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_dmx_asf.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_dmx_audio.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_dmx_playlist.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_dmx_slave.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_flac.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_wavpack.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_xiph.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_inp_cdda.dll"
+
+  Delete "$INSTDIR\xine-plugins\xineplug_post_audio_filters.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_goom.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_mosaico.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_planar.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_switch.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_tvtime.dll"
+  Delete "$INSTDIR\xine-plugins\xineplug_post_visualizations.dll"
 
   Delete "$INSTDIR\Uninstall.exe"
 
