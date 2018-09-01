@@ -12,6 +12,13 @@ Unreleased:
     * Removed some unused widgets from the src/widgets directory
     * Fixed initial size of window and side panel
     * Fixed saving window size correctly
+    * Added Tidal support
+    * Disabled Amazon cover provider because of revoked API key
+    * Removed broken xine fader
+    * Made chromeprint optional
+    * Added missing names to about dialog
+    * Made xine enabled only for window debug
+    * Removed dead code
 
 Version 0.2.1:
 
