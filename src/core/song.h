@@ -102,6 +102,8 @@ class Song {
     Type_AIFF = 11,
     Type_MPC = 12,
     Type_TrueAudio = 13,
+    Type_DSF = 14,
+    Type_DSDIFF = 15,
     Type_CDDA = 90,
     Type_Stream = 91,
   };

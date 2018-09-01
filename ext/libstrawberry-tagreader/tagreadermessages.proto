@@ -19,6 +19,8 @@ message SongMetadata {
     AIFF = 11;
     MPC = 12;
     TRUEAUDIO = 13;
+    DSF = 14;
+    DSDIFF = 15;
     CDDA = 90;
     STREAM = 91;
   }

@@ -379,6 +379,8 @@ QString Song::TextForFiletype(FileType type) {
     case Song::Type_MPC:       return QObject::tr("MPC");
     case Song::Type_TrueAudio: return QObject::tr("TrueAudio");
     case Song::Type_CDDA:      return QObject::tr("CDDA");
+    case Song::Type_DSF:       return QObject::tr("DSF"); // .dsf
+    case Song::Type_DSDIFF:    return QObject::tr("DSDIFF"); // .dff
     case Song::Type_Unknown:
     default:
       return QObject::tr("Unknown");
@@ -693,7 +695,7 @@ void Song::InitFromFilePartial(const QString &filename) {
 
   TagLib::FileRef fileref(filename.toUtf8().constData());
   //if (TagLib::FileRef::defaultFileExtensions().contains(suffix.toUtf8().constData())) {
-  if (fileref.file() || (suffix == "dsf")) d->valid_ = true;
+  if (fileref.file()) d->valid_ = true;
   else {
     d->valid_ = false;
     qLog(Error) << "File" << filename << "is not recognized by TagLib as a valid audio file.";

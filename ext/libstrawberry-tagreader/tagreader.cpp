@@ -63,6 +63,10 @@
 #include <taglib/mpcfile.h>
 #include <taglib/mpegfile.h>
 #include <taglib/opusfile.h>
+#ifdef HAVE_TAGLIB_DSFFILE
+#  include <taglib/dsffile.h>
+#  include <taglib/dsdifffile.h>
+#endif
 
 #include <QtGlobal>
 #include <QFile>
@@ -135,7 +139,7 @@ TagReader::TagReader()
       kEmbeddedCover("(embedded)") {}
 
 void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *song) const {
-  
+
   const QByteArray url(QUrl::fromLocalFile(filename).toEncoded());
   const QFileInfo info(filename);
 
@@ -149,10 +153,10 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (fileref->isNull()) {
-    qLog(Info) << "TagLib hasn't been able to read " << filename << " file";
+    qLog(Info) << "TagLib hasn't been able to read" << filename << "file";
     return;
   }
-  
+
   if (fileref->audioProperties()) {
     song->set_bitrate(fileref->audioProperties()->bitrate());
     song->set_samplerate(fileref->audioProperties()->sampleRate());
@@ -177,8 +181,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   QString compilation;
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
-  // apart, so we keep specific behavior for some formats by adding another
-  // "else if" block below.
+  // apart, so we keep specific behavior for some formats by adding another "else if" block below.
   if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
 
     ParseOggTag(tag->fieldListMap(), nullptr, &disc, &compilation, song);
@@ -292,16 +295,12 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
       if (items.contains(kMP4_OriginalYear_ID)) {
         song->set_originalyear(
-            TStringToQString(
-                items[kMP4_OriginalYear_ID].toStringList().toString('\n'))
-                .left(4)
-                .toInt());
+            TStringToQString(items[kMP4_OriginalYear_ID].toStringList().toString('\n')).left(4).toInt());
       }
 
       Decode(mp4_tag->comment(), nullptr, song->mutable_comment());
     }
   }
-#ifdef TAGLIB_WITH_ASF
 
   else if (TagLib::ASF::File *file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
       
@@ -310,23 +309,19 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     const TagLib::ASF::AttributeListMap &attributes_map = file->tag()->attributeListMap();
 
     if (attributes_map.contains(kASF_OriginalDate_ID)) {
-      const TagLib::ASF::AttributeList &attributes =
-          attributes_map[kASF_OriginalDate_ID];
+      const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalDate_ID];
       if (!attributes.isEmpty()) {
-        song->set_originalyear(
-            TStringToQString(attributes.front().toString()).left(4).toInt());
+        song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
       }
     }
     else if (attributes_map.contains(kASF_OriginalYear_ID)) {
-      const TagLib::ASF::AttributeList &attributes =
-          attributes_map[kASF_OriginalYear_ID];
+      const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalYear_ID];
       if (!attributes.isEmpty()) {
-        song->set_originalyear(
-            TStringToQString(attributes.front().toString()).left(4).toInt());
+        song->set_originalyear(TStringToQString(attributes.front().toString()).left(4).toInt());
       }
     }
   }
-#endif
+
   else if (tag) {
     Decode(tag->comment(), nullptr, song->mutable_comment());
   }
@@ -351,8 +346,6 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   else {
     song->set_compilation(compilation.toInt() == 1);
   }
-
-
 
   // Set integer fields to -1 if they're not valid
   #define SetDefault(field) if (song->field() <= 0) { song->set_##field(-1); }
@@ -473,15 +466,15 @@ pb::tagreader::SongMetadata_Type TagReader::GuessFileType(TagLib::FileRef *filer
   if (dynamic_cast<TagLib::Ogg::Opus::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGOPUS;
   if (dynamic_cast<TagLib::Ogg::Speex::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_OGGSPEEX;
   if (dynamic_cast<TagLib::MPEG::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPEG;
-#ifdef TAGLIB_WITH_MP4
   if (dynamic_cast<TagLib::MP4::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MP4;
-#endif
-#ifdef TAGLIB_WITH_ASF
   if (dynamic_cast<TagLib::ASF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_ASF;
-#endif
   if (dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_AIFF;
   if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_TRUEAUDIO;
+#ifdef HAVE_TAGLIB_DSFFILE
+  if (dynamic_cast<TagLib::DSF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_DSF;
+  if (dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_Type_DSDIFF;
+#endif
 
   return pb::tagreader::SongMetadata_Type_UNKNOWN;
 
