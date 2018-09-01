@@ -11,7 +11,8 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
   * Playlists in multiple formats
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
+  * Album cover art from Last.fm, Musicbrainz and Discogs
+  * Lyrics from AudD and API Seeds
   * Support for multiple backends
   * Equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
