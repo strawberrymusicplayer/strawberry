@@ -39,7 +39,6 @@ class MusicbrainzCoverProvider : public CoverProvider {
  public:
   explicit MusicbrainzCoverProvider(QObject *parent = nullptr);
 
-  // CoverProvider
   virtual bool StartSearch(const QString &artist, const QString &album, int id);
   virtual void CancelSearch(int id);
 
@@ -48,6 +47,8 @@ class MusicbrainzCoverProvider : public CoverProvider {
   void ImageCheckFinished(int id);
 
  private:
+  static const char *kReleaseSearchUrl;
+  static const char *kAlbumCoverUrl;
   QNetworkAccessManager *network_;
   QMultiMap<int, QNetworkReply *> image_checks_;
   QMap<int, QString> cover_names_;

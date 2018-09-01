@@ -24,6 +24,7 @@
 #include <functional>
 
 #include <QObject>
+#include <QByteArray>
 #include <QList>
 #include <QVariant>
 #include <QString>
@@ -36,28 +37,26 @@
 
 #include "core/closure.h"
 #include "core/network.h"
+#include "core/logging.h"
 #include "albumcoverfetcher.h"
 #include "coverprovider.h"
 #include "musicbrainzcoverprovider.h"
 
+using std::count_if;
 using std::mem_fun;
 
-namespace {
-
-static const char *kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
-static const char *kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
-}  // namespace
+const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
+const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 
 MusicbrainzCoverProvider::MusicbrainzCoverProvider(QObject *parent): CoverProvider("MusicBrainz", true, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 
-  // Find release information.
-  QUrl url(kReleaseSearchUrl);
   QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(album.trimmed().replace('"', "\\\"")).arg(artist.trimmed().replace('"', "\\\""));
   QUrlQuery url_query;
   url_query.addQueryItem("query", query);
-  url_query.addQueryItem("limit", "5");
+  url_query.addQueryItem("limit", "15");
+  QUrl url(kReleaseSearchUrl);
   url.setQuery(url_query);
   QNetworkRequest request(url);
 
@@ -75,7 +74,9 @@ void MusicbrainzCoverProvider::ReleaseSearchFinished(QNetworkReply *reply, int i
 
   QList<QString> releases;
 
-  QXmlStreamReader reader(reply);
+  QByteArray data(reply->readAll());
+  //qLog(Debug) << data;
+  QXmlStreamReader reader(data);
   while (!reader.atEnd()) {
     QXmlStreamReader::TokenType type = reader.readNext();
     if (type == QXmlStreamReader::StartElement && reader.name() == "release") {
