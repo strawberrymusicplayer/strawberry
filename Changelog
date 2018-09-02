@@ -19,6 +19,7 @@ Unreleased:
     * Added missing names to about dialog
     * Made xine enabled only for window debug
     * Removed dead code
+    * Added DSF and DSDIFF/DFF support
 
 Version 0.2.1:
 
