@@ -27,5 +27,5 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DFORCE_GIT_REVISION="0.2.1-59-g4a124e5"
 script: make -j8
