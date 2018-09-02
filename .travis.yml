@@ -17,7 +17,7 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install glib pkgconfig protobuf protobuf-c qt ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git glib pkgconfig protobuf protobuf-c qt ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sqlite --with-fts ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
