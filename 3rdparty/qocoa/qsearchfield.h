@@ -6,43 +6,38 @@
 #include <QMenu>
 
 class QSearchFieldPrivate;
-class QSearchField : public QWidget
-{
-    Q_OBJECT
+class QSearchField : public QWidget {
+  Q_OBJECT
 
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged USER true);
-    Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText);
+  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged USER true);
+  Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText);
 
 public:
-    explicit QSearchField(QWidget *parent);
+  explicit QSearchField(QWidget *parent);
 
-    QString text() const;
-    QString placeholderText() const;
-    void setFocus(Qt::FocusReason);
-    void setMenu(QMenu *menu);
+  QString text() const;
+  QString placeholderText() const;
+  void setFocus(Qt::FocusReason);
 
 public slots:
-    void setText(const QString &text);
-    void setPlaceholderText(const QString &text);
-    void clear();
-    void selectAll();
-    void setFocus();
+  void setText(const QString &text);
+  void setPlaceholderText(const QString &text);
+  void clear();
+  void selectAll();
+  void setFocus();
 
 signals:
-    void textChanged(const QString &text);
-    void editingFinished();
-    void returnPressed();
-
-private slots:
-    void popupMenu();
+  void textChanged(const QString &text);
+  void editingFinished();
+  void returnPressed();
 
 protected:
-    void changeEvent(QEvent*);
-    void resizeEvent(QResizeEvent*);
+  void resizeEvent(QResizeEvent*);
+  bool eventFilter(QObject*, QEvent*);
 
 private:
-    friend class QSearchFieldPrivate;
-    QPointer <QSearchFieldPrivate> pimpl;
+  friend class QSearchFieldPrivate;
+  QPointer <QSearchFieldPrivate> pimpl;
 };
 
 #endif // QSEARCHFIELD_H

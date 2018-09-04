@@ -22,235 +22,140 @@ THE SOFTWARE.
 
 #include "qsearchfield.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QToolButton>
 #include <QStyle>
-#include <QApplication>
-#include <QDesktopWidget>
+#include <QEvent>
 
 #include <QDir>
 #include <QDebug>
 
-class QSearchFieldPrivate : public QObject
-{
+#include "../../src/core/iconloader.h"
+
+class QSearchFieldPrivate : public QObject {
 public:
-    QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineEdit, QToolButton *clearButton, QToolButton *searchButton)
-        : QObject(searchField), lineEdit(lineEdit), clearButton(clearButton), searchButton(searchButton) {}
+  QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineEdit, QToolButton *clearButton)
+      : QObject(searchField), lineEdit(lineEdit), clearButton(clearButton) {}
 
-    int lineEditFrameWidth() const {
-        return lineEdit->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-    }
+  int lineEditFrameWidth() const {
+    return lineEdit->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+  }
 
-    int clearButtonPaddedWidth() const {
-        return clearButton->width() + lineEditFrameWidth() * 2;
-    }
+  int clearButtonPaddedWidth() const {
+    return clearButton->width() + lineEditFrameWidth() * 2;
+  }
 
-    int clearButtonPaddedHeight() const {
-        return clearButton->height() + lineEditFrameWidth() * 2;
-    }
+  int clearButtonPaddedHeight() const {
+    return clearButton->height() + lineEditFrameWidth() * 2;
+  }
 
-    int searchButtonPaddedWidth() const {
-        return searchButton->width() + lineEditFrameWidth() * 2;
-    }
-
-    int searchButtonPaddedHeight() const {
-        return searchButton->height() + lineEditFrameWidth() * 2;
-    }
-
-    QPointer<QLineEdit> lineEdit;
-    QPointer<QToolButton> clearButton;
-    QPointer<QToolButton> searchButton;
-    QPointer<QMenu> searchMenu;
+  QPointer<QLineEdit> lineEdit;
+  QPointer<QToolButton> clearButton;
 };
 
-QSearchField::QSearchField(QWidget *parent) : QWidget(parent)
-{
-    QLineEdit *lineEdit = new QLineEdit(this);
-    connect(lineEdit, SIGNAL(textChanged(QString)),
-            this, SIGNAL(textChanged(QString)));
-    connect(lineEdit, SIGNAL(editingFinished()),
-            this, SIGNAL(editingFinished()));
-    connect(lineEdit, SIGNAL(returnPressed()),
-            this, SIGNAL(returnPressed()));
-    connect(lineEdit, SIGNAL(textChanged(QString)),
-            this, SLOT(setText(QString)));
+QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
 
-    int iconsize = style()->pixelMetric(QStyle::PM_SmallIconSize);
-    QToolButton *clearButton = new QToolButton(this);
-    QIcon clearIcon = QIcon::fromTheme(QLatin1String("edit-clear"),
-                                       QIcon(QLatin1String(":/Qocoa/qsearchfield_nonmac_clear.png")));
-    clearButton->setIcon(clearIcon);
-    clearButton->setIconSize(QSize(iconsize, iconsize));
-    clearButton->setFixedSize(QSize(iconsize, iconsize));
-    clearButton->setStyleSheet("border: none;");
-    clearButton->hide();
-    connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
+  QLineEdit *lineEdit = new QLineEdit(this);
+  connect(lineEdit, SIGNAL(textChanged(QString)), this, SIGNAL(textChanged(QString)));
+  connect(lineEdit, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
+  connect(lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
+  connect(lineEdit, SIGNAL(textChanged(QString)), this, SLOT(setText(QString)));
 
-    QToolButton *searchButton = new QToolButton(this);
-    QIcon searchIcon = QIcon(QLatin1String(":/Qocoa/qsearchfield_nonmac_magnifier.png"));
-    searchButton->setIcon(searchIcon);
-    searchButton->setIconSize(QSize(iconsize, iconsize));
-    searchButton->setFixedSize(QSize(iconsize, iconsize));
-    searchButton->setStyleSheet("border: none;");
-    searchButton->setPopupMode(QToolButton::InstantPopup);
-    searchButton->setEnabled(false);
-    connect(searchButton, SIGNAL(clicked()), this, SLOT(popupMenu()));
+  QToolButton *clearButton = new QToolButton(this);
+  QIcon clearIcon(IconLoader::Load("edit-clear-locationbar-ltr"));
 
-    pimpl = new QSearchFieldPrivate(this, lineEdit, clearButton, searchButton);
+  clearButton->setIcon(clearIcon);
+  clearButton->setIconSize(QSize(16, 16));
+  clearButton->setStyleSheet("border: none; padding: 0px;");
+  clearButton->resize(clearButton->sizeHint());
 
-    lineEdit->setStyleSheet(QString("QLineEdit { padding-left: %1px; padding-right: %2px; } ")
-                            .arg(pimpl->searchButtonPaddedWidth())
-                            .arg(pimpl->clearButtonPaddedWidth()));
-    const int width = qMax(lineEdit->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth() + pimpl->searchButtonPaddedWidth());
-    const int height = qMax(lineEdit->minimumSizeHint().height(),
-                       qMax(pimpl->clearButtonPaddedHeight(),
-                            pimpl->searchButtonPaddedHeight()));
-    lineEdit->setMinimumSize(width, height);
+  connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(lineEdit);
+  pimpl = new QSearchFieldPrivate(this, lineEdit, clearButton);
+
+  const int frame_width = lineEdit->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+
+  lineEdit->setStyleSheet(QString("QLineEdit { padding-left: %1px; } ").arg(clearButton->width()));
+  const int width = frame_width + qMax(lineEdit->minimumSizeHint().width(), pimpl->clearButtonPaddedWidth());
+  const int height = frame_width + qMax(lineEdit->minimumSizeHint().height(), pimpl->clearButtonPaddedHeight());
+  lineEdit->setMinimumSize(width, height);
+
+  QVBoxLayout *layout = new QVBoxLayout(this);
+  layout->setMargin(0);
+  layout->addWidget(lineEdit);
+
+  lineEdit->installEventFilter(this);
+
 }
 
-void QSearchField::setMenu(QMenu *menu)
-{
-    Q_ASSERT(pimpl);
-    if (!pimpl)
-        return;
+void QSearchField::setText(const QString &text) {
 
-    pimpl->searchMenu = menu;
+  Q_ASSERT(pimpl && pimpl->clearButton && pimpl->lineEdit);
+  if (!(pimpl && pimpl->clearButton && pimpl->lineEdit)) return;
+  if (text != this->text()) pimpl->lineEdit->setText(text);
 
-    QIcon searchIcon = menu ? QIcon(QLatin1String(":/Qocoa/qsearchfield_nonmac_magnifier_menu.png"))
-                            : QIcon(QLatin1String(":/Qocoa/qsearchfield_nonmac_magnifier.png"));
-    pimpl->searchButton->setIcon(searchIcon);
-    pimpl->searchButton->setEnabled(isEnabled() && menu);
 }
 
-void QSearchField::popupMenu()
-{
-    Q_ASSERT(pimpl);
-    if (!pimpl)
-        return;
-
-    if (pimpl->searchMenu) {
-        const QRect screenRect = qApp->desktop()->availableGeometry(pimpl->searchButton);
-        const QSize sizeHint = pimpl->searchMenu->sizeHint();
-        const QRect rect = pimpl->searchButton->rect();
-        const int x = pimpl->searchButton->isRightToLeft()
-                ? rect.right() - sizeHint.width()
-                : rect.left();
-        const int y = pimpl->searchButton->mapToGlobal(QPoint(0, rect.bottom())).y() + sizeHint.height() <= screenRect.height()
-                ? rect.bottom()
-                : rect.top() - sizeHint.height();
-        QPoint point = pimpl->searchButton->mapToGlobal(QPoint(x, y));
-        point.rx() = qMax(screenRect.left(), qMin(point.x(), screenRect.right() - sizeHint.width()));
-        point.ry() += 1;
-
-        pimpl->searchMenu->popup(point);
-    }
-}
-
-void QSearchField::changeEvent(QEvent* event)
-{
-    if (event->type() == QEvent::EnabledChange) {
-        Q_ASSERT(pimpl);
-        if (!pimpl)
-            return;
-
-        const bool enabled = isEnabled();
-        pimpl->searchButton->setEnabled(enabled && pimpl->searchMenu);
-        pimpl->lineEdit->setEnabled(enabled);
-        pimpl->clearButton->setEnabled(enabled);
-    }
-    QWidget::changeEvent(event);
-}
-
-void QSearchField::setText(const QString &text)
-{
-    Q_ASSERT(pimpl && pimpl->clearButton && pimpl->lineEdit);
-    if (!(pimpl && pimpl->clearButton && pimpl->lineEdit))
-        return;
-
-    pimpl->clearButton->setVisible(!text.isEmpty());
-
-    if (text != this->text())
-        pimpl->lineEdit->setText(text);
-}
-
-void QSearchField::setPlaceholderText(const QString &text)
-{
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (!(pimpl && pimpl->lineEdit))
-        return;
-
-#if QT_VERSION >= 0x040700
-    pimpl->lineEdit->setPlaceholderText(text);
-#endif
-}
-
-void QSearchField::clear()
-{
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (!(pimpl && pimpl->lineEdit))
-        return;
-
-    pimpl->lineEdit->clear();
-}
-
-void QSearchField::selectAll()
-{
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (!(pimpl && pimpl->lineEdit))
-        return;
-
-    pimpl->lineEdit->selectAll();
-}
-
-QString QSearchField::text() const
-{
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (!(pimpl && pimpl->lineEdit))
-        return QString();
-
-    return pimpl->lineEdit->text();
+void QSearchField::setPlaceholderText(const QString &text) {
+  Q_ASSERT(pimpl && pimpl->lineEdit);
+  if (!(pimpl && pimpl->lineEdit)) return;
+  pimpl->lineEdit->setPlaceholderText(text);
 }
 
 QString QSearchField::placeholderText() const {
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (!(pimpl && pimpl->lineEdit))
-        return QString();
-
-#if QT_VERSION >= 0x040700
-    return pimpl->lineEdit->placeholderText();
-#else
-    return QString();
-#endif
+  return pimpl->lineEdit->placeholderText();
 }
 
-void QSearchField::setFocus(Qt::FocusReason reason)
-{
-    Q_ASSERT(pimpl && pimpl->lineEdit);
-    if (pimpl && pimpl->lineEdit)
-        pimpl->lineEdit->setFocus(reason);
+void QSearchField::setFocus(Qt::FocusReason reason) {
+  Q_ASSERT(pimpl && pimpl->lineEdit);
+  if (pimpl && pimpl->lineEdit) pimpl->lineEdit->setFocus(reason);
 }
 
-void QSearchField::setFocus()
-{
-    setFocus(Qt::OtherFocusReason);
+void QSearchField::setFocus() {
+  setFocus(Qt::OtherFocusReason);
 }
 
-void QSearchField::resizeEvent(QResizeEvent *resizeEvent)
-{
-    Q_ASSERT(pimpl && pimpl->clearButton && pimpl->lineEdit);
-    if (!(pimpl && pimpl->clearButton && pimpl->lineEdit))
-        return;
+void QSearchField::clear() {
+  Q_ASSERT(pimpl && pimpl->lineEdit);
+  if (!(pimpl && pimpl->lineEdit)) return;
+  pimpl->lineEdit->clear();
+}
 
-    QWidget::resizeEvent(resizeEvent);
-    const int x = width() - pimpl->clearButtonPaddedWidth();
-    const int y = (height() - pimpl->clearButton->height())/2;
-    pimpl->clearButton->move(x, y);
+void QSearchField::selectAll() {
+  Q_ASSERT(pimpl && pimpl->lineEdit);
+  if (!(pimpl && pimpl->lineEdit)) return;
+  pimpl->lineEdit->selectAll();
+}
 
-    pimpl->searchButton->move(pimpl->lineEditFrameWidth() * 2,
-                              (height() - pimpl->searchButton->height())/2);
+QString QSearchField::text() const {
+  Q_ASSERT(pimpl && pimpl->lineEdit);
+  if (!(pimpl && pimpl->lineEdit)) return QString();
+  return pimpl->lineEdit->text();
+}
+
+void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
+  Q_ASSERT(pimpl && pimpl->clearButton && pimpl->lineEdit);
+  if (!(pimpl && pimpl->clearButton && pimpl->lineEdit)) return;
+
+  QWidget::resizeEvent(resizeEvent);
+  const int x = pimpl->lineEditFrameWidth();
+  const int y = (height() - pimpl->clearButton->height())/2;
+  pimpl->clearButton->move(x, y);
+}
+
+bool QSearchField::eventFilter(QObject *o, QEvent *e) {
+  if (pimpl && pimpl->lineEdit && o == pimpl->lineEdit) {
+    // Forward some lineEdit events to QSearchField (only those we need for
+    // now, but some might be added later if needed)
+    switch (e->type()) {
+      case QEvent::FocusIn:
+      case QEvent::FocusOut:
+        QApplication::sendEvent(this, e);
+        break;
+    }
+  }
+  return QWidget::eventFilter(o, e);
 }
