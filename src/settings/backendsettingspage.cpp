@@ -122,6 +122,7 @@ void BackendSettingsPage::Load() {
   else {
     ui_->combobox_engine->setEnabled(false);
     if (ui_->combobox_engine->count() > 1) ShowWarning("Engine can't be switched while playing. Close settings and reopen to change engine.");
+    else ResetWarning();
   }
 
   ConnectSignals();
