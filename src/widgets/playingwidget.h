@@ -66,7 +66,7 @@ class PlayingWidget : public QWidget {
   PlayingWidget(QWidget *parent = nullptr);
   ~PlayingWidget();
 
-  void SetApplication(Application *app);
+  void SetApplication(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
   void SetEnabled();
   void SetDisabled();
   void set_ideal_height(int height);
@@ -90,16 +90,9 @@ class PlayingWidget : public QWidget {
   void dropEvent(QDropEvent *e);
 
  private slots:
-
   void SetMode(int mode);
   void FitCoverWidth(bool fit);
 
-  void LoadCoverFromFile();
-  void SaveCoverToFile();
-  void LoadCoverFromURL();
-  void SearchForCover();
-  void UnsetCover();
-  void ShowCover();
   void SearchCoverAutomatically();
   void AutomaticCoverSearchDone();
 
@@ -129,6 +122,7 @@ class PlayingWidget : public QWidget {
   QAction *fit_cover_width_action_;
   bool enabled_;
   bool visible_;
+  bool playing_;
   bool active_;
   int small_ideal_height_;
   AlbumCoverLoaderOptions cover_loader_options_;
@@ -141,6 +135,8 @@ class PlayingWidget : public QWidget {
   bool downloading_covers_;
 
   Song song_;
+  Song song_playing_;
+  Song song_empty_;
   QImage image_original_;
   QPixmap pixmap_cover_;
   QPixmap pixmap_previous_track_;
@@ -153,7 +149,7 @@ class PlayingWidget : public QWidget {
   void SetImage(const QImage &image);
   void DrawContents(QPainter *p);
   void ScaleCover();
-  bool GetCoverAutomatically();
+  void GetCoverAutomatically();
 
 };
 

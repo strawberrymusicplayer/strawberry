@@ -61,6 +61,7 @@ class AlbumCoverManager;;
 class Application;
 class ContextView;
 class CollectionViewContainer;
+class AlbumCoverChoiceController;
 class CommandlineOptions;
 class DeviceView;
 class DeviceViewContainer;
@@ -270,6 +271,15 @@ signals:
   void SearchForArtist();
   void SearchForAlbum();
 
+  void LoadCoverFromFile();
+  void SaveCoverToFile();
+  void LoadCoverFromURL();
+  void SearchForCover();
+  void UnsetCover();
+  void ShowCover();
+  void SearchCoverAutomatically();
+  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+
  private:
 
   void ApplyAddBehaviour(AddBehaviour b, MimeData *data) const;
@@ -279,6 +289,8 @@ signals:
 
   // creates the icon by painting the full one depending on the current position
   QPixmap CreateOverlayedIcon(int position, int scrobble_point);
+  
+  void GetCoverAutomatically();
 
  private:
   Ui_MainWindow *ui_;
@@ -289,6 +301,7 @@ signals:
   OSD *osd_;
   Lazy<EditTagDialog> edit_tag_dialog_;
   Lazy<About> about_dialog_;
+  AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcuts *global_shortcuts_;
 
@@ -362,6 +375,11 @@ signals:
   PlayBehaviour doubleclick_playmode_;
   PlaylistAddBehaviour doubleclick_playlist_addmode_;
   PlayBehaviour menu_playmode_;
+
+  Song song_;
+  Song song_playing_;
+  Song song_empty_;
+  QImage image_original_;
 
 };
 

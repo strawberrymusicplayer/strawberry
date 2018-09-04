@@ -73,14 +73,14 @@ const char *ContextView::kSettingsGroup = "ContextView";
 
 ContextView::ContextView(QWidget *parent) :
     QWidget(parent),
-    app_(nullptr),
     ui_(new Ui_ContextViewContainer),
+    app_(nullptr),
     collectionview_(nullptr),
+    album_cover_choice_controller_(nullptr),
+    lyrics_fetcher_(nullptr),
     menu_(new QMenu(this)),
     timeline_fade_(new QTimeLine(1000, this)),
     image_strawberry_(":/pictures/strawberry.png"),
-    album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-    lyrics_fetcher_(nullptr),
     active_(false),
     downloading_covers_(false)
   {
@@ -99,56 +99,29 @@ ContextView::ContextView(QWidget *parent) :
   cover_loader_options_.scale_output_image_ = true;
   pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_strawberry_));
 
-  AddActions();
-  LoadSettings();
-
 }
 
 ContextView::~ContextView() { delete ui_; }
 
-void ContextView::LoadSettings() {
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-
-  action_show_data_->setChecked(s.value("show_data", true).toBool());
-  action_show_output_->setChecked(s.value("show_output", true).toBool());
-  action_show_albums_->setChecked(s.value("show_albums", true).toBool());
-  action_show_lyrics_->setChecked(s.value("show_lyrics", false).toBool());
-  album_cover_choice_controller_->search_cover_auto_action()->setChecked(s.value("search_for_cover_auto", true).toBool());
-
-  s.endGroup();
-
-}
-
-void ContextView::SetApplication(Application *app) {
+void ContextView::SetApplication(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
 
   app_ = app;
-
-  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
-
-  album_cover_choice_controller_->SetApplication(app_);
-  connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
-  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
-  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
-  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
-  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
-  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
-  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
-  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
+  collectionview_ = collectionview;
+  album_cover_choice_controller_ = album_cover_choice_controller;
 
   ui_->widget_play_albums->SetApplication(app_);
-
   lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
-  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(quint64, const QString)), this, SLOT(UpdateLyrics(quint64, const QString)));
 
-}
-
-void ContextView::SetCollectionView(CollectionView *collectionview) {
-  collectionview_ = collectionview;
   connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalArtistCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalAlbumCountUpdated_()), this, SLOT(UpdateNoSong()));
+  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(quint64, const QString)), this, SLOT(UpdateLyrics(quint64, const QString)));
+  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
+  connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
+  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
+
+  AddActions();
+
 }
 
 void ContextView::AddActions() {
@@ -175,24 +148,32 @@ void ContextView::AddActions() {
   menu_->addAction(action_show_lyrics_);
   menu_->addSeparator();
 
-  connect(action_show_data_, SIGNAL(triggered()), this, SLOT(ActionShowData()));
-  connect(action_show_output_, SIGNAL(triggered()), this, SLOT(ActionShowOutput()));
-  connect(action_show_albums_, SIGNAL(triggered()), this, SLOT(ActionShowAlbums()));
-  connect(action_show_lyrics_, SIGNAL(triggered()), this, SLOT(ActionShowLyrics()));
-
   QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
   cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addActions(cover_actions);
   menu_->addSeparator();
 
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  action_show_data_->setChecked(s.value("show_data", true).toBool());
+  action_show_output_->setChecked(s.value("show_output", true).toBool());
+  action_show_albums_->setChecked(s.value("show_albums", true).toBool());
+  action_show_lyrics_->setChecked(s.value("show_lyrics", false).toBool());
+  s.endGroup();
+
+  connect(action_show_data_, SIGNAL(triggered()), this, SLOT(ActionShowData()));
+  connect(action_show_output_, SIGNAL(triggered()), this, SLOT(ActionShowOutput()));
+  connect(action_show_albums_, SIGNAL(triggered()), this, SLOT(ActionShowAlbums()));
+  connect(action_show_lyrics_, SIGNAL(triggered()), this, SLOT(ActionShowLyrics()));
+
 }
 
-void ContextView::Playing() {
-}
+void ContextView::Playing() {}
 
 void ContextView::Stopped() {
 
   active_ = false;
+  song_playing_ = song_empty_;
   song_ = song_empty_;
   downloading_covers_ = false;
   prev_artist_ = QString();
@@ -201,8 +182,7 @@ void ContextView::Stopped() {
 
 }
 
-void ContextView::Error() {
-}
+void ContextView::Error() {}
 
 void ContextView::UpdateNoSong() {
   NoSong();
@@ -211,8 +191,9 @@ void ContextView::UpdateNoSong() {
 void ContextView::SongChanged(const Song &song) {
 
   image_previous_ = image_original_;
-  prev_artist_ = song_.artist();
+  prev_artist_ = song_playing_.artist();
   lyrics_ = QString();
+  song_playing_ = song;
   song_ = song;
   UpdateSong();
   update();
@@ -519,14 +500,11 @@ void ContextView::ScaleCover() {
 
 void ContextView::AlbumArtLoaded(const Song &song, const QString&, const QImage &image) {
 
-  if (song == song_) {}
-  else {
-    qLog(Error) << __PRETTY_FUNCTION__ << "Ignoring" << song.title() << "because current song is" << song_.title();
-    return;
-  }
+  if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
 
   active_ = true;
   downloading_covers_ = false;
+  song_ = song;
   SetImage(image);
   GetCoverAutomatically();
 
@@ -556,14 +534,21 @@ void ContextView::SetImage(const QImage &image) {
 
 }
 
-bool ContextView::GetCoverAutomatically() {
+void ContextView::GetCoverAutomatically() {
 
   // Search for cover automatically?
-  bool search = !song_.has_manually_unset_cover() && song_.art_automatic().isEmpty() && song_.art_manual().isEmpty() && !song_.artist().isEmpty() && !song_.album().isEmpty();
+  bool search =
+               album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
+               !song_.has_manually_unset_cover() &&
+               song_.art_automatic().isEmpty() &&
+               song_.art_manual().isEmpty() &&
+               !song_.effective_albumartist().isEmpty() &&
+               !song_.effective_album().isEmpty();
 
   if (search) {
     downloading_covers_ = true;
-    album_cover_choice_controller_->SearchCoverAutomatically(song_);
+    // This is done in mainwindow instead to avoid searching multiple times (ContextView & PlayingWidget)
+    //album_cover_choice_controller_->SearchCoverAutomatically(song_);
 
     // Show a spinner animation
     spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
@@ -571,8 +556,6 @@ bool ContextView::GetCoverAutomatically() {
     spinner_animation_->start();
     update();
   }
-
-  return search;
 
 }
 
@@ -618,37 +601,6 @@ void ContextView::ActionShowLyrics() {
   if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) lyrics_fetcher_->Search(song_.artist(), song_.album(), song_.title());
 }
 
-void ContextView::LoadCoverFromFile() {
-  album_cover_choice_controller_->LoadCoverFromFile(&song_);
-}
-
-void ContextView::LoadCoverFromURL() {
-  album_cover_choice_controller_->LoadCoverFromURL(&song_);
-}
-
-void ContextView::SearchForCover() {
-  album_cover_choice_controller_->SearchForCover(&song_);
-}
-
-void ContextView::SaveCoverToFile() {
-  album_cover_choice_controller_->SaveCoverToFile(song_, image_original_);
-}
-
-void ContextView::UnsetCover() {
-  album_cover_choice_controller_->UnsetCover(&song_);
-}
-
-void ContextView::ShowCover() {
-  album_cover_choice_controller_->ShowCover(song_);
-}
-
 void ContextView::SearchCoverAutomatically() {
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
-  s.endGroup();
-
   GetCoverAutomatically();
-
 }

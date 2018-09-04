@@ -118,12 +118,16 @@
 #include "equalizer/equalizer.h"
 #include "globalshortcuts/globalshortcuts.h"
 #include "covermanager/albumcovermanager.h"
+#include "covermanager/albumcoverchoicecontroller.h"
+#include "covermanager/albumcoverloader.h"
+#include "covermanager/currentartloader.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
 #include "device/deviceview.h"
 #include "device/deviceviewcontainer.h"
 #include "transcoder/transcodedialog.h"
 #include "settings/behavioursettingspage.h"
+#include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
 #include "settings/settingsdialog.h"
 
@@ -158,6 +162,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       tray_icon_(tray_icon),
       osd_(osd),
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
+      album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
       global_shortcuts_(new GlobalShortcuts(this)),
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
@@ -215,10 +220,19 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->menu_help->menuAction()->setVisible(false);
 #endif
 
+  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
+  album_cover_choice_controller_->SetApplication(app);
+  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
+  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
+  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
+  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
+  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
+  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
+  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
+
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  context_view_->SetApplication(app_);
-  context_view_->SetCollectionView(collection_view_->view());
-  ui_->widget_playing->SetApplication(app_);
+  context_view_->SetApplication(app_, collection_view_->view(), album_cover_choice_controller_);
+  ui_->widget_playing->SetApplication(app_, album_cover_choice_controller_);
 
   int volume = app_->player()->GetVolume();
   ui_->volume->setValue(volume);
@@ -587,7 +601,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveGeometry()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
-
+  
   // Context
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
   connect(app_->player(), SIGNAL(PlaylistFinished()), context_view_, SLOT(Stopped()));
@@ -760,6 +774,11 @@ void MainWindow::ReloadSettings() {
   doubleclick_playlist_addmode_ = PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt());
   menu_playmode_ = PlayBehaviour(settings.value("menu_playmode", PlayBehaviour_IfStopped).toInt());
   settings.endGroup();
+
+  settings.beginGroup(kSettingsGroup);
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings.value("search_for_cover_auto", true).toBool());
+  settings.endGroup();
+
 }
 
 void MainWindow::ReloadAllSettings() {
@@ -796,6 +815,10 @@ void MainWindow::MediaStopped() {
   ui_->track_slider->SetStopped();
   tray_icon_->SetProgress(0);
   tray_icon_->SetStopped();
+
+  song_playing_ = song_empty_;
+  song_ = song_empty_;
+  image_original_ = QImage();
 
 }
 
@@ -843,6 +866,8 @@ void MainWindow::VolumeChanged(int volume) {
 
 void MainWindow::SongChanged(const Song &song) {
 
+  song_playing_ = song;
+  song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
   tray_icon_->SetProgress(0);
 
@@ -2299,4 +2324,62 @@ void MainWindow::SearchForAlbum() {
 
 }
 
+void MainWindow::LoadCoverFromFile() {
+  album_cover_choice_controller_->LoadCoverFromFile(&song_);
+}
+
+void MainWindow::LoadCoverFromURL() {
+  album_cover_choice_controller_->LoadCoverFromURL(&song_);
+}
+
+void MainWindow::SearchForCover() {
+  album_cover_choice_controller_->SearchForCover(&song_);
+}
+
+void MainWindow::SaveCoverToFile() {
+  album_cover_choice_controller_->SaveCoverToFile(song_, image_original_);
+}
+
+void MainWindow::UnsetCover() {
+  album_cover_choice_controller_->UnsetCover(&song_);
+}
+
+void MainWindow::ShowCover() {
+  album_cover_choice_controller_->ShowCover(song_);
+}
+
+void MainWindow::SearchCoverAutomatically() {
+
+  QSettings s;
+  s.beginGroup(PlaybackSettingsPage::kSettingsGroup);
+  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  s.endGroup();
+  GetCoverAutomatically();
+
+}
+
+void MainWindow::AlbumArtLoaded(const Song &song, const QString&, const QImage &image) {
+
+  if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
+
+  song_ = song;
+  image_original_ = image;
+  GetCoverAutomatically();
+
+}
+
+void MainWindow::GetCoverAutomatically() {
+    
+  // Search for cover automatically?
+  bool search =
+               album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
+               !song_.has_manually_unset_cover() &&
+               song_.art_automatic().isEmpty() &&
+               song_.art_manual().isEmpty() &&
+               !song_.effective_albumartist().isEmpty() &&
+               !song_.effective_album().isEmpty();
+
+  if (search) album_cover_choice_controller_->SearchCoverAutomatically(song_);
+
+}
 

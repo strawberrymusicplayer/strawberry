@@ -61,8 +61,7 @@ class ContextView : public QWidget {
   ContextView(QWidget *parent = nullptr);
   ~ContextView();
 
-  void SetApplication(Application *app);
-  void SetCollectionView(CollectionView *collectionview);
+  void SetApplication(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
 
   ContextAlbumsView *albums() { return ui_->widget_play_albums; }
 
@@ -72,30 +71,19 @@ class ContextView : public QWidget {
   void Stopped();
   void Error();
   void SongChanged(const Song &song);
-  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
-
-  void LoadCoverFromFile();
-  void SaveCoverToFile();
-  void LoadCoverFromURL();
-  void SearchForCover();
-  void UnsetCover();
-  void ShowCover();
-  void SearchCoverAutomatically();
-  void AutomaticCoverSearchDone();
-  void UpdateLyrics(quint64 id, const QString lyrics);
 
  private:
-
   static const char *kSettingsGroup;
 
-  Application *app_;
   Ui_ContextViewContainer *ui_;
+  Application *app_;
   CollectionView *collectionview_;
+  AlbumCoverChoiceController *album_cover_choice_controller_;
+  LyricsFetcher *lyrics_fetcher_;
+
   QMenu *menu_;
   QTimeLine *timeline_fade_;
   QImage image_strawberry_;
-  AlbumCoverChoiceController *album_cover_choice_controller_;
-  LyricsFetcher *lyrics_fetcher_;
   bool active_;
   bool downloading_covers_;
 
@@ -105,6 +93,7 @@ class ContextView : public QWidget {
   QAction *action_show_lyrics_;
   AlbumCoverLoaderOptions cover_loader_options_;
   Song song_;
+  Song song_playing_;
   Song song_empty_;
   QImage image_original_;
   QImage image_previous_;
@@ -116,7 +105,6 @@ class ContextView : public QWidget {
   QString prev_artist_;
   QString lyrics_;
 
-  void LoadSettings();
   void AddActions();
   void SetText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
   void NoSong();
@@ -124,7 +112,7 @@ class ContextView : public QWidget {
   void SetImage(const QImage &image);
   void DrawImage(QPainter *p);
   void ScaleCover();
-  bool GetCoverAutomatically();
+  void GetCoverAutomatically();
 
  protected:
   bool eventFilter(QObject *, QEvent *);
@@ -140,6 +128,10 @@ class ContextView : public QWidget {
   void ActionShowOutput();
   void ActionShowAlbums();
   void ActionShowLyrics();
+  void UpdateLyrics(quint64 id, const QString lyrics);
+  void SearchCoverAutomatically();
+  void AutomaticCoverSearchDone();
+  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
   void FadePreviousTrack(qreal value);
 
 };
