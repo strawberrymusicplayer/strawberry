@@ -71,6 +71,7 @@ class PlayingWidget : public QWidget {
   void SetDisabled();
   void set_ideal_height(int height);
   QSize sizeHint() const;
+  bool show_above_status_bar() const { return above_statusbar_action_->isChecked(); }
 
  signals:
   void ShowAboveStatusBarChanged(bool above);
@@ -91,6 +92,7 @@ class PlayingWidget : public QWidget {
 
  private slots:
   void SetMode(int mode);
+  void ShowAboveStatusBar(bool above);
   void FitCoverWidth(bool fit);
 
   void SearchCoverAutomatically();
@@ -119,6 +121,7 @@ class PlayingWidget : public QWidget {
   AlbumCoverChoiceController *album_cover_choice_controller_;
   Mode mode_;
   QMenu *menu_;
+  QAction* above_statusbar_action_;
   QAction *fit_cover_width_action_;
   bool enabled_;
   bool visible_;

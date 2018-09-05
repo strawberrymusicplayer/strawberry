@@ -232,7 +232,7 @@ signals:
 
   void CheckForUpdates();
 
-  void PlayingWidgetPositionChanged();
+  void PlayingWidgetPositionChanged(bool above_status_bar);
 
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex& index);
 

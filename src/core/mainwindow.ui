@@ -300,6 +300,9 @@
                    </property>
                    <item>
                     <widget class="QStackedWidget" name="status_bar_stack">
+                     <property name="currentIndex">
+                      <number>0</number>
+                     </property>
                      <widget class="MultiLoadingIndicator" name="multi_loading_indicator"/>
                      <widget class="QWidget" name="playlist_summary_page">
                       <layout class="QVBoxLayout" name="playlist_summary_layout">

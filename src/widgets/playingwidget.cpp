@@ -73,6 +73,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
       album_cover_choice_controller_(nullptr),
       mode_(LargeSongDetails),
       menu_(new QMenu(this)),
+      above_statusbar_action_(nullptr),
       fit_cover_width_action_(nullptr),
       enabled_(false),
       visible_(false),
@@ -141,6 +142,10 @@ void PlayingWidget::SetApplication(Application *app, AlbumCoverChoiceController 
   cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
   menu_->addActions(cover_actions);
   menu_->addSeparator();
+
+  above_statusbar_action_ = menu_->addAction(tr("Show above status bar"));
+  above_statusbar_action_->setCheckable(true);
+  connect(above_statusbar_action_, SIGNAL(toggled(bool)), SLOT(ShowAboveStatusBar(bool)));
 
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
   connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
@@ -218,6 +223,7 @@ void PlayingWidget::SetMode(int mode) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("mode", mode_);
+  s.endGroup();
   
 }
 
@@ -230,6 +236,14 @@ void PlayingWidget::FitCoverWidth(bool fit) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("fit_cover_width", fit_width_);
+}
+
+void PlayingWidget::ShowAboveStatusBar(bool above) {
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("above_status_bar", above);
+  emit ShowAboveStatusBarChanged(above);
+  s.endGroup();
 }
 
 void PlayingWidget::Playing() {

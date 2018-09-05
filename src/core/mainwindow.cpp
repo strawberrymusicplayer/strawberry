@@ -641,9 +641,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Playing()), ui_->widget_playing, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Stopped()), ui_->widget_playing, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), ui_->widget_playing, SLOT(Error()));
+  connect(ui_->widget_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
 
   connect(ui_->action_console, SIGNAL(triggered()), SLOT(ShowConsole()));
-  PlayingWidgetPositionChanged();
+  PlayingWidgetPositionChanged(ui_->widget_playing->show_above_status_bar());
 
   // Load theme
   // This is tricky: we need to save the default/system palette now,
@@ -1804,10 +1805,10 @@ void MainWindow::TaskCountChanged(int count) {
   }
 }
 
-void MainWindow::PlayingWidgetPositionChanged() {
+void MainWindow::PlayingWidgetPositionChanged(bool above_status_bar) {
 
-  ui_->status_bar->setParent(ui_->centralWidget);
-  //ui_->status_bar->setParent(ui_->player_controls_container);
+  if (above_status_bar) ui_->status_bar->setParent(ui_->centralWidget);
+  else ui_->status_bar->setParent(ui_->player_controls_container);
 
   ui_->status_bar->parentWidget()->layout()->addWidget(ui_->status_bar);
   ui_->status_bar->show();
