@@ -145,6 +145,10 @@ void PlayingWidget::SetApplication(Application *app, AlbumCoverChoiceController 
 
   above_statusbar_action_ = menu_->addAction(tr("Show above status bar"));
   above_statusbar_action_->setCheckable(true);
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  above_statusbar_action_->setChecked(s.value("above_status_bar", false).toBool());
+  s.endGroup();
   connect(above_statusbar_action_, SIGNAL(toggled(bool)), SLOT(ShowAboveStatusBar(bool)));
 
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
