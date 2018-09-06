@@ -45,7 +45,7 @@ TidalSearchModel::TidalSearchModel(TidalSearch *engine, QObject *parent)
   group_by_[0] = CollectionModel::GroupBy_Artist;
   group_by_[1] = CollectionModel::GroupBy_Album;
   group_by_[2] = CollectionModel::GroupBy_None;
-  
+
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 

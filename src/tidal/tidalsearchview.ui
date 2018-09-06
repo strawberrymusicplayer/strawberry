@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>633</height>
+    <height>660</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -33,7 +33,7 @@
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="layout_top" stretch="0,0">
+       <layout class="QVBoxLayout" name="layout_top" stretch="0,0,0">
         <item>
          <layout class="QHBoxLayout" name="layout_search">
           <item>
@@ -105,6 +105,27 @@
              </size>
             </property>
            </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="layout_progress">
+          <item>
+           <widget class="QLabel" name="label_status">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressbar">
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -187,46 +208,55 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>533</height>
+            <height>502</height>
            </rect>
           </property>
-          <widget class="QWidget" name="widget" native="true">
-           <property name="geometry">
-            <rect>
-             <x>9</x>
-             <y>109</y>
-             <width>336</width>
-             <height>100</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="leftMargin">
-             <number>32</number>
-            </property>
-            <property name="topMargin">
-             <number>16</number>
-            </property>
-            <property name="rightMargin">
-             <number>32</number>
-            </property>
-            <property name="bottomMargin">
-             <number>64</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_helptext">
-              <property name="text">
-               <string>Enter search terms above to find music</string>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QWidget" name="widget" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <property name="leftMargin">
+               <number>32</number>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
+              <property name="topMargin">
+               <number>16</number>
               </property>
-              <property name="wordWrap">
-               <bool>true</bool>
+              <property name="rightMargin">
+               <number>32</number>
               </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+              <property name="bottomMargin">
+               <number>64</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_helptext">
+                <property name="text">
+                 <string>Enter search terms above to find music</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer_helptext">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

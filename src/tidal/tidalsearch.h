@@ -75,6 +75,9 @@ class TidalSearch : public QObject {
   void AddResults(int id, const TidalSearch::ResultList &results);
   void SearchError(const int id, const QString error);
   void SearchFinished(int id);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int progress);
+  void UpdateProgress(int max);
 
   void ArtLoaded(int id, const QPixmap &pixmap);
   void ArtLoaded(int id, const QImage &image);
@@ -112,6 +115,10 @@ class TidalSearch : public QObject {
 
   void ArtLoadedSlot(int id, const QImage &image);
   void AlbumArtLoaded(quint64 id, const QImage &image);
+
+  void UpdateStatusSlot(QString text);
+  void ProgressSetMaximumSlot(int progress);
+  void UpdateProgressSlot(int max);
 
  private:
   void SearchAsync(int id, const QString &query, TidalSettingsPage::SearchBy searchby);

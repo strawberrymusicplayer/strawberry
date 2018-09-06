@@ -77,6 +77,9 @@ signals:
  private slots:
   void SwapModels();
   void TextEdited(const QString &text);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int progress);
+  void UpdateProgress(int max);
   void AddResults(int id, const TidalSearch::ResultList &results);
   void SearchError(const int id, const QString error);
   void ArtLoaded(int id, const QPixmap &pixmap);

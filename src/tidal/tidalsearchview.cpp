@@ -83,6 +83,8 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
       error_(false) {
 
   ui_->setupUi(this);
+  ui_->progressbar->hide();
+  ui_->progressbar->reset();
 
   front_model_->set_proxy(front_proxy_);
   back_model_->set_proxy(back_proxy_);
@@ -147,6 +149,11 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
   connect(group_by_actions_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
 
   // These have to be queued connections because they may get emitted before our call to Search() (or whatever) returns and we add the ID to the map.
+
+  connect(engine_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatus(QString)));
+  connect(engine_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximum(int)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(UpdateProgress(int)), SLOT(UpdateProgress(int)), Qt::QueuedConnection);
+
   connect(engine_, SIGNAL(AddResults(int, TidalSearch::ResultList)), SLOT(AddResults(int, TidalSearch::ResultList)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(SearchError(int, QString)), SLOT(SearchError(int, QString)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(ArtLoaded(int, QPixmap)), SLOT(ArtLoaded(int, QPixmap)), Qt::QueuedConnection);
@@ -219,8 +226,12 @@ void TidalSearchView::TextEdited(const QString &text) {
   if (trimmed.isEmpty()) {
     last_search_id_ = -1;
     ui_->label_helptext->setText("Enter search terms above to find music");
+    ui_->label_status->clear();
+    ui_->progressbar->hide();
+    ui_->progressbar->reset();
   }
   else {
+    ui_->progressbar->reset();
     last_search_id_ = engine_->SearchAsync(trimmed, searchby_);
   }
 
@@ -229,12 +240,18 @@ void TidalSearchView::TextEdited(const QString &text) {
 void TidalSearchView::AddResults(int id, const TidalSearch::ResultList &results) {
   if (id != last_search_id_) return;
   if (results.isEmpty()) return;
+  ui_->label_status->clear();
+  ui_->progressbar->reset();
+  ui_->progressbar->hide();
   current_model_->AddResults(results);
 }
 
 void TidalSearchView::SearchError(const int id, const QString error) {
   error_ = true;
   ui_->label_helptext->setText(error);
+  ui_->label_status->clear();
+  ui_->progressbar->reset();
+  ui_->progressbar->hide();
   ui_->results_stack->setCurrentWidget(ui_->help_page);
 }
 
@@ -378,7 +395,7 @@ bool TidalSearchView::SearchKeyEvent(QKeyEvent *event) {
       break;
 
     case Qt::Key_Return:
-      AddSelectedToPlaylist();
+      TextEdited(ui_->search->text());
       break;
 
     default:
@@ -541,4 +558,17 @@ void TidalSearchView::SetSearchBy(TidalSettingsPage::SearchBy searchby) {
   s.setValue("searchby", int(searchby));
   s.endGroup();
   TextEdited(ui_->search->text());
+}
+
+void TidalSearchView::UpdateStatus(QString text) {
+  ui_->progressbar->show();
+  ui_->label_status->setText(text);
+}
+
+void TidalSearchView::ProgressSetMaximum(int max) {
+  ui_->progressbar->setMaximum(max);
+}
+
+void TidalSearchView::UpdateProgress(int progress) {
+  ui_->progressbar->setValue(progress);
 }

@@ -7,16 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>715</width>
-    <height>425</height>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tidal</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="LoginStateWidget" name="login_state" native="true"/>
-   </item>
    <item>
     <widget class="QGroupBox" name="credential_group">
      <property name="sizePolicy">
@@ -68,20 +65,221 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupbox_pref">
+    <widget class="LoginStateWidget" name="login_state" native="true"/>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_preferences">
      <property name="title">
       <string>Preferences</string>
      </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_quality">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_quality">
+        <item>
+         <widget class="QLabel" name="label_quality">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Audio quality</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="combobox_quality"/>
+        </item>
+        <item>
+         <spacer name="spacer_quality">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_searchdelay">
+        <item>
+         <widget class="QLabel" name="label_searchdelay">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Search delay</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_searchdelay">
+          <property name="suffix">
+           <string>ms</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>10000</number>
+          </property>
+          <property name="singleStep">
+           <number>50</number>
+          </property>
+          <property name="value">
+           <number>1500</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_searchdelay">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_albumssearchlimit">
+        <item>
+         <widget class="QLabel" name="label_albumssearchlimit">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Albums search limit</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_albumssearchlimit">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_albumssearchlimit">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_songssearchlimit">
+        <item>
+         <widget class="QLabel" name="label_songssearchlimit">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Songs search limit</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_songssearchlimit">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_songssearchlimit">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_fetchalbums">
         <property name="text">
-         <string>Audio quality</string>
+         <string>Fetch entire albums when searching songs</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="combobox_quality"/>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_coversize">
+        <item>
+         <widget class="QLabel" name="label_coversize">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Album cover size</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="combobox_coversize"/>
+        </item>
+        <item>
+         <spacer name="spacer_coversize">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

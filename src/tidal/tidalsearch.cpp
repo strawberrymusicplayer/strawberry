@@ -71,6 +71,9 @@ TidalSearch::TidalSearch(Application *app, QObject *parent)
   connect(this, SIGNAL(SearchAsyncSig(int, QString, TidalSettingsPage::SearchBy)), this, SLOT(DoSearchAsync(int, QString, TidalSettingsPage::SearchBy)));
   connect(this, SIGNAL(ResultsAvailable(int, TidalSearch::ResultList)), SLOT(ResultsAvailableSlot(int, TidalSearch::ResultList)));
   connect(this, SIGNAL(ArtLoaded(int, QImage)), SLOT(ArtLoadedSlot(int, QImage)));
+  connect(service_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
+  connect(service_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximumSlot(int)));
+  connect(service_, SIGNAL(UpdateProgress(int)), SLOT(UpdateProgressSlot(int)));
   connect(service_, SIGNAL(SearchResults(int, SongList)), SLOT(SearchDone(int, SongList)));
   connect(service_, SIGNAL(SearchError(int, QString)), SLOT(HandleError(int, QString)));
 
@@ -178,6 +181,7 @@ void TidalSearch::CancelSearch(int id) {
       return;
     }
   }
+  service_->CancelSearch();
 }
 
 void TidalSearch::timerEvent(QTimerEvent *e) {
@@ -310,4 +314,16 @@ MimeData *TidalSearch::LoadTracks(const ResultList &results) {
 
   return mime_data;
 
+}
+
+void TidalSearch::UpdateStatusSlot(QString text) {
+  emit UpdateStatus(text);
+}
+
+void TidalSearch::ProgressSetMaximumSlot(int max) {
+  emit ProgressSetMaximum(max);
+}
+
+void TidalSearch::UpdateProgressSlot(int progress) {
+  emit UpdateProgress(progress);
 }

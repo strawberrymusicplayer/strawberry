@@ -54,6 +54,12 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   ui_->combobox_quality->addItem("High", "HIGH");
   ui_->combobox_quality->addItem("Lossless", "LOSSLESS");
 
+  ui_->combobox_coversize->addItem("160x160", "160x160");
+  ui_->combobox_coversize->addItem("320x320", "320x320");
+  ui_->combobox_coversize->addItem("640x640", "640x640");
+  ui_->combobox_coversize->addItem("750x750", "750x750");
+  ui_->combobox_coversize->addItem("1280x1280", "1280x1280");
+
 }
 
 TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
@@ -61,11 +67,23 @@ TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
 void TidalSettingsPage::Load() {
 
   QSettings s;
+
   s.beginGroup(kSettingsGroup);
+
   ui_->username->setText(s.value("username").toString());
   ui_->password->setText(s.value("password").toString());
+
   QString quality = s.value("quality", "HIGH").toString();
   ui_->combobox_quality->setCurrentIndex(ui_->combobox_quality->findData(quality));
+
+  ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());
+  ui_->spinbox_albumssearchlimit->setValue(s.value("albumssearchlimit", 40).toInt());
+  ui_->spinbox_songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
+  ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
+
+  QString coversize = s.value("coversize", "320x320").toString();
+  ui_->combobox_coversize->setCurrentIndex(ui_->combobox_coversize->findData(coversize));
+
   s.endGroup();
 
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
@@ -79,6 +97,11 @@ void TidalSettingsPage::Save() {
   s.setValue("username", ui_->username->text());
   s.setValue("password", ui_->password->text());
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));
+  s.setValue("searchdelay", ui_->spinbox_searchdelay->value());
+  s.setValue("albumssearchlimit", ui_->spinbox_albumssearchlimit->value());
+  s.setValue("songssearchlimit", ui_->spinbox_songssearchlimit->value());
+  s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
+  s.setValue("coversize", ui_->combobox_coversize->itemData(ui_->combobox_coversize->currentIndex()));
   s.endGroup();
 
   service_->ReloadSettings();
