@@ -2352,7 +2352,7 @@ void MainWindow::ShowCover() {
 void MainWindow::SearchCoverAutomatically() {
 
   QSettings s;
-  s.beginGroup(PlaybackSettingsPage::kSettingsGroup);
+  s.beginGroup(kSettingsGroup);
   s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
   s.endGroup();
   GetCoverAutomatically();
