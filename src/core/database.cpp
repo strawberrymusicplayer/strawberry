@@ -52,7 +52,7 @@
 #include "scopedtransaction.h"
 
 const char *Database::kDatabaseFilename = "strawberry.db";
-const int Database::kSchemaVersion = 1;
+const int Database::kSchemaVersion = 2;
 const char *Database::kMagicAllSongsTables = "%allsongstables";
 
 int Database::sNextConnectionId = 1;

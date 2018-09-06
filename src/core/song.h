@@ -167,6 +167,7 @@ class Song {
   const QString &performer() const;
   const QString &grouping() const;
   const QString &comment() const;
+  const QString &lyrics() const;
 
   int playcount() const;
   int skipcount() const;
@@ -250,7 +251,8 @@ class Song {
   void set_performer(const QString &v);
   void set_grouping(const QString &v);
   void set_comment(const QString &v);
-  
+  void set_lyrics(const QString &v);
+
   void set_beginning_nanosec(qint64 v);
   void set_end_nanosec(qint64 v);
   void set_length_nanosec(qint64 v);

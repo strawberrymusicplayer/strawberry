@@ -71,6 +71,7 @@ class TagReader {
 
   void SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;
+  void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
 
 private:
 

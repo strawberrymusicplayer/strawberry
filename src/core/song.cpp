@@ -77,6 +77,7 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "performer"
                                                  << "grouping"
                                                  << "comment"
+                                                 << "lyrics"
 
                                                  << "beginning"
                                                  << "length"
@@ -157,6 +158,7 @@ struct Song::Private : public QSharedData {
   QString performer_;
   QString grouping_;
   QString comment_;
+  QString lyrics_;
 
   qint64 beginning_;
   qint64 end_;
@@ -265,6 +267,7 @@ int Song::effective_originalyear() const {
 }
 const QString &Song::genre() const { return d->genre_; }
 const QString &Song::comment() const { return d->comment_; }
+const QString &Song::lyrics() const { return d->lyrics_; }
 bool Song::is_compilation() const {
   return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && ! d->compilation_off_;
 }
@@ -318,6 +321,7 @@ void Song::set_composer(const QString &v) { d->composer_ = v; }
 void Song::set_performer(const QString &v) { d->performer_ = v; }
 void Song::set_grouping(const QString &v) { d->grouping_ = v; }
 void Song::set_comment(const QString &v) { d->comment_ = v; }
+void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
 
 void Song::set_beginning_nanosec(qint64 v) { d->beginning_ = qMax(0ll, v); }
 void Song::set_end_nanosec(qint64 v) { d->end_ = v; }
@@ -463,6 +467,7 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   d->originalyear_ = pb.originalyear();
   d->genre_ = QStringFromStdString(pb.genre());
   d->comment_ = QStringFromStdString(pb.comment());
+  d->lyrics_ = QStringFromStdString(pb.lyrics());
   d->compilation_ = pb.compilation();
   d->skipcount_ = pb.skipcount();
   d->lastplayed_ = pb.lastplayed();
@@ -502,6 +507,7 @@ void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
   pb->set_composer(DataCommaSizeFromQString(d->composer_));
   pb->set_performer(DataCommaSizeFromQString(d->performer_));
   pb->set_grouping(DataCommaSizeFromQString(d->grouping_));
+  pb->set_lyrics(DataCommaSizeFromQString(d->lyrics_));
   pb->set_track(d->track_);
   pb->set_disc(d->disc_);
   pb->set_year(d->year_);
@@ -588,6 +594,9 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->grouping_ = tostr(x);
     }
     else if (Song::kColumns.value(i) == "comment") {
+      d->comment_ = tostr(x);
+    }
+    else if (Song::kColumns.value(i) == "lyrics") {
       d->comment_ = tostr(x);
     }
 
@@ -929,6 +938,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":performer", strval(d->performer_));
   query->bindValue(":grouping", strval(d->grouping_));
   query->bindValue(":comment", strval(d->comment_));
+  query->bindValue(":lyrics", strval(d->lyrics_));
 
   query->bindValue(":beginning", d->beginning_);
   query->bindValue(":length", intval(length_nanosec()));
@@ -1062,6 +1072,7 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->originalyear_ == other.d->originalyear_ &&
          d->genre_ == other.d->genre_ &&
          d->comment_ == other.d->comment_ &&
+         d->lyrics_ == other.d->lyrics_ &&
          d->compilation_ == other.d->compilation_ &&
          d->beginning_ == other.d->beginning_ &&
          length_nanosec() == other.length_nanosec() &&

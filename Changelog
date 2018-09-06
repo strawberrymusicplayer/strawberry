@@ -20,6 +20,8 @@ Unreleased:
     * Made xine enabled only for window debug
     * Removed dead code
     * Added DSF and DSDIFF/DFF support
+    * Fixed tagreader crash when saving tags to MP3 files
+    * Added support for reading/writing lyrics to tags
 
 Version 0.2.1:
 

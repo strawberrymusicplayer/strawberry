@@ -192,7 +192,7 @@ void ContextView::SongChanged(const Song &song) {
 
   image_previous_ = image_original_;
   prev_artist_ = song_playing_.artist();
-  lyrics_ = QString();
+  lyrics_ = song.lyrics();
   song_playing_ = song;
   song_ = song;
   UpdateSong();

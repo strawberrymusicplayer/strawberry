@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (1);
+INSERT INTO schema_version (version) VALUES (2);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS songs (
   performer TEXT NOT NULL,
   grouping TEXT NOT NULL,
   comment TEXT NOT NULL,
+  lyrics TEXT NOT NULL,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -109,6 +110,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   performer TEXT NOT NULL,
   grouping TEXT NOT NULL,
   comment TEXT NOT NULL,
+  lyrics TEXT NOT NULL,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
