@@ -382,13 +382,12 @@ QString Song::TextForFiletype(FileType type) {
     case Song::Type_AIFF:      return QObject::tr("AIFF");
     case Song::Type_MPC:       return QObject::tr("MPC");
     case Song::Type_TrueAudio: return QObject::tr("TrueAudio");
-    case Song::Type_CDDA:      return QObject::tr("CDDA");
     case Song::Type_DSF:       return QObject::tr("DSF"); // .dsf
     case Song::Type_DSDIFF:    return QObject::tr("DSDIFF"); // .dff
+    case Song::Type_CDDA:      return QObject::tr("CDDA");
+    case Song::Type_Stream:    return QObject::tr("Stream");
     case Song::Type_Unknown:
-    default:
-      return QObject::tr("Unknown");
-
+    default:                   return QObject::tr("Unknown");
   }
 
 }
@@ -404,6 +403,25 @@ bool Song::IsFileLossless() const {
     default:
       return false;
   }
+}
+
+Song::FileType Song::FiletypeByExtension(QString ext) {
+
+  if (ext.toLower() == "wav" || ext.toLower() == "wave") return Song::Type_WAV;
+  else if (ext.toLower() == "flac") return Song::Type_FLAC;
+  else if (ext.toLower() == "wavpack" || ext.toLower() == "wv") return Song::Type_WavPack;
+  else if (ext.toLower() == "ogg" || ext.toLower() == "oga") return Song::Type_OggVorbis;
+  else if (ext.toLower() == "opus") return Song::Type_OggOpus;
+  else if (ext.toLower() == "speex" || ext.toLower() == "spx") return Song::Type_OggSpeex;
+  else if (ext.toLower() == "mp3") return Song::Type_MPEG;
+  else if (ext.toLower() == "mp4" || ext.toLower() == "m4a" || ext.toLower() == "aac") return Song::Type_MP4;
+  else if (ext.toLower() == "asf" || ext.toLower() == "wma") return Song::Type_ASF;
+  else if (ext.toLower() == "aiff" || ext.toLower() == "aif" || ext.toLower() == "aifc") return Song::Type_AIFF;
+  else if (ext.toLower() == "mpc" || ext.toLower() == "mp+" || ext.toLower() == "mpp") return Song::Type_MPC;
+  else if (ext.toLower() == "dsf") return Song::Type_DSF;
+  else if (ext.toLower() == "dsd" || ext.toLower() == "dff") return Song::Type_DSDIFF;
+  else return Song::Type_Unknown;
+
 }
 
 int CompareSongsName(const Song &song1, const Song &song2) {

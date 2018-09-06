@@ -32,6 +32,7 @@
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "tidalsearch.h"
 #include "tidalsearchmodel.h"
 
@@ -73,6 +74,7 @@ void TidalSearchModel::AddResults(const TidalSearch::ResultList &results) {
     item->setData(sort_index, Role_ProviderIndex);
 
     parent->appendRow(item);
+
   }
 
 }

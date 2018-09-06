@@ -517,7 +517,10 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
     else if (json_obj.contains("album")) {
       // This was a tracks search
       if (!fetchalbums_) {
-        ParseSong(0, value);
+        Song song = ParseSong(0, value);
+        requests_song_.insert(song.id(), song);
+        songs_requested_++;
+        GetStreamURL(0, song.id());
         continue;
       }
       QJsonValue json_value_album = json_obj["album"];
@@ -624,7 +627,7 @@ void TidalService::GetAlbumFinished(QNetworkReply *reply, int search_id, int alb
   bool compilation = false;
   bool multidisc = false;
   Song first_song;
-  QList<Song> songs;
+  SongList songs;
   for (const QJsonValue &value : json_items) {
     Song song = ParseSong(album_id, value);
     if (!song.is_valid()) continue;
@@ -641,6 +644,7 @@ void TidalService::GetAlbumFinished(QNetworkReply *reply, int search_id, int alb
     }
     requests_song_.insert(song.id(), song);
     songs_requested_++;
+    GetStreamURL(album_id, song.id());
   }
 
   if (albums_requested_ <= albums_received_) {
@@ -761,10 +765,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   cover = cover.replace("-", "/");
   QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(coversize_));
   song.set_art_automatic(cover_url.toEncoded());
-
   song.set_valid(true);
-
-  GetStreamURL(album_id, song_id);
 
   return song;
 
@@ -815,10 +816,15 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int search_i
   }
 
   song.set_url(QUrl(json_obj["url"].toString()));
+
+  QString codec = json_obj["codec"].toString().toLower();
+  song.set_filetype(Song::FiletypeByExtension(codec));
+  if (song.filetype() == Song::Type_Unknown) {
+    qLog(Debug) << "Tidal: Unknown codec" << codec;
+    song.set_filetype(Song::Type_Stream);
+  }
+
   song.set_valid(true);
-  QString codec = json_obj["codec"].toString();
-  if (codec == "AAC") song.set_filetype(Song::Type_MP4);
-  else qLog(Debug) << "Tidal codec" << codec;
 
   //qLog(Debug) << song.artist() << song.album() << song.title() << song.url() << song.filetype();
 

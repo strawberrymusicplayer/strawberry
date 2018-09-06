@@ -110,8 +110,8 @@ class Song {
 
   static QString TextForFiletype(FileType type);
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
-
   bool IsFileLossless() const;
+  static FileType FiletypeByExtension(QString ext);
 
   // Sort songs alphabetically using their pretty title
   static void SortSongsListAlphabetically(QList<Song> *songs);

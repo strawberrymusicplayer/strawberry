@@ -88,7 +88,7 @@ void InternetPlaylistItem::InitMetadata() {
 
   if (metadata_.title().isEmpty())
     metadata_.set_title(metadata_.url().toString());
-  metadata_.set_filetype(Song::Type_Stream);
+  if (metadata_.filetype() == Song::Type_Unknown) metadata_.set_filetype(Song::Type_Stream);
   metadata_.set_valid(true);
 
 }

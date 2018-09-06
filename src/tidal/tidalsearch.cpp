@@ -50,7 +50,7 @@
 #include "settings/tidalsettingspage.h"
 
 const int TidalSearch::kDelayedSearchTimeoutMs = 200;
-const int TidalSearch::kMaxResultsPerEmission = 1000;
+const int TidalSearch::kMaxResultsPerEmission = 2000;
 const int TidalSearch::kArtHeight = 32;
 
 TidalSearch::TidalSearch(Application *app, QObject *parent)
