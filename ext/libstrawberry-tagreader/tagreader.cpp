@@ -34,13 +34,13 @@
 #include <taglib/tstring.h>
 #include <taglib/tstringlist.h>
 #include <taglib/audioproperties.h>
-#include <taglib/trueaudiofile.h>
 #include <taglib/attachedpictureframe.h>
 #include <taglib/textidentificationframe.h>
+#include <taglib/unsynchronizedlyricsframe.h>
 #include <taglib/xiphcomment.h>
 #include <taglib/commentsframe.h>
-#include <taglib/unsynchronizedlyricsframe.h>
 #include <taglib/tag.h>
+#include <taglib/apetag.h>
 #include <taglib/id3v2tag.h>
 #include "taglib/id3v2frame.h"
 #include <taglib/flacfile.h>
@@ -64,6 +64,7 @@
 #include <taglib/mpcfile.h>
 #include <taglib/mpegfile.h>
 #include <taglib/opusfile.h>
+#include <taglib/trueaudiofile.h>
 #ifdef HAVE_TAGLIB_DSFFILE
 #  include <taglib/dsffile.h>
 #  include <taglib/dsdifffile.h>
@@ -93,8 +94,6 @@
 #if (TAGLIB_MAJOR_VERSION > 1) || (TAGLIB_MAJOR_VERSION == 1 && TAGLIB_MINOR_VERSION >= 7)
 # define TAGLIB_HAS_FLAC_PICTURELIST
 #endif
-
-#define NumberToASFAttribute(x) TagLib::ASF::Attribute(QStringToTaglibString(QString::number(x)))
 
 class FileRefFactory {
  public:
@@ -184,13 +183,12 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
   if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-
     ParseOggTag(tag->fieldListMap(), nullptr, &disc, &compilation, song);
 #if TAGLIB_MAJOR_VERSION >= 1 && TAGLIB_MINOR_VERSION >= 11
     if (!tag->pictureList().isEmpty()) song->set_art_automatic(kEmbeddedCover);
 #endif
   }
-  
+
   if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
 
     song->set_bitdepth(file->audioProperties()->bitsPerSample());
@@ -203,12 +201,12 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
       }
 #endif
     }
-    Decode(tag->comment(), nullptr, song->mutable_comment());
+    if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
   else if (TagLib::WavPack::File *file = dynamic_cast<TagLib::WavPack::File *>(fileref->file())) {
     song->set_bitdepth(file->audioProperties()->bitsPerSample());
-    Decode(tag->comment(), nullptr, song->mutable_comment());
+    //if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
   else if (TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
@@ -311,9 +309,9 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   }
 
   else if (TagLib::ASF::File *file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
-      
+
     song->set_bitdepth(file->audioProperties()->bitsPerSample());
-      
+
     const TagLib::ASF::AttributeListMap &attributes_map = file->tag()->attributeListMap();
 
     if (attributes_map.contains(kASF_OriginalDate_ID)) {
@@ -367,11 +365,12 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   SetDefault(bitdepth);
   SetDefault(lastplayed);
   #undef SetDefault
+
 }
 
 
 void TagReader::Decode(const TagLib::String &tag, const QTextCodec *codec, std::string *output) {
-  
+
   QString tmp;
 
   if (codec && tag.isLatin1()) {  // Never override UTF-8.
@@ -383,6 +382,7 @@ void TagReader::Decode(const TagLib::String &tag, const QTextCodec *codec, std::
   }
 
   output->assign(DataCommaSizeFromQString(tmp));
+
 }
 
 void TagReader::Decode(const QString &tag, const QTextCodec *codec, std::string *output) {
@@ -394,6 +394,7 @@ void TagReader::Decode(const QString &tag, const QTextCodec *codec, std::string 
     const QString decoded(codec->toUnicode(tag.toUtf8()));
     output->assign(DataCommaSizeFromQString(decoded));
   }
+
 }
 
 void TagReader::ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const {
@@ -512,7 +513,22 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   fileref->tag()->setYear(song.year());
   fileref->tag()->setTrack(song.track());
 
-  if (TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+  if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    TagLib::Ogg::XiphComment *tag = file->xiphComment();
+    SetVorbisComments(tag, song);
+  }
+  else if (TagLib::WavPack::File *file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = file->APETag(true);
+    if (!tag) return false;
+    tag->setArtist(StdStringToTaglibString(song.artist()));
+    tag->setAlbum(StdStringToTaglibString(song.album()));
+    tag->setTitle(StdStringToTaglibString(song.title()));
+    tag->setGenre(StdStringToTaglibString(song.genre()));
+    tag->setComment(StdStringToTaglibString(song.comment()));
+    tag->setYear(song.year());
+    tag->setTrack(song.track());
+  }
+  else if (TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     TagLib::ID3v2::Tag *tag = file->ID3v2Tag(true);
     if (!tag) return false;
     SetTextFrame("TPOS", song.disc() <= 0 -1 ? QString() : QString::number(song.disc()), tag);
@@ -523,10 +539,6 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetTextFrame("TPE2", song.albumartist(), tag);
     SetTextFrame("TCMP", std::string(song.compilation() ? "1" : "0"), tag);
     SetUnsyncLyricsFrame(song.lyrics(), tag);
-  }
-  else if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *tag = file->xiphComment();
-    SetVorbisComments(tag, song);
   }
   else if (TagLib::MP4::File *file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = file->tag();
@@ -579,6 +591,7 @@ void TagReader::SetUserTextFrame(const std::string &description, const std::stri
   frame->setDescription(t_description);
   frame->setText(StdStringToTaglibString(value));
   tag->addFrame(frame);
+
 }
 
 void TagReader::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const {
