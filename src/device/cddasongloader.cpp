@@ -110,7 +110,8 @@ void CddaSongLoader::LoadSongs() {
     Song song;
     song.set_id(track_number);
     song.set_valid(true);
-    song.set_filetype(Song::Type_CDDA);
+    song.set_source(Song::Source_CDDA);
+    song.set_filetype(Song::FileType_CDDA);
     song.set_url(GetUrlFromTrack(track_number));
     song.set_title(QString("Track %1").arg(track_number));
     song.set_track(track_number);
@@ -207,7 +208,8 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     song.set_track(track_number);
     song.set_year(ret.year_);
     song.set_id(track_number);
-    song.set_filetype(Song::Type_CDDA);
+    song.set_source(Song::Source_CDDA);
+    song.set_filetype(Song::FileType_CDDA);
     song.set_valid(true);
     // We need to set url: that's how playlist will find the correct item to update
     song.set_url(GetUrlFromTrack(track_number++));

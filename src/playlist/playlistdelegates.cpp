@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -348,12 +349,6 @@ QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &
 
 }
 
-QString SamplerateBitdepthItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
-
-  return value.toString();
-
-}
-
 QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
   return new QLineEdit(parent);
@@ -442,37 +437,16 @@ QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) c
   return QString();
 }
 
-QPixmap SongSourceDelegate::LookupPixmap(const QUrl &url, const QSize &size) const {
+QPixmap SongSourceDelegate::LookupPixmap(const Song::Source &source, const QSize &size) const {
 
   QPixmap pixmap;
-  if (cache_.find(url.scheme(), &pixmap)) {
+  if (cache_.find(Song::TextForSource(source), &pixmap)) {
     return pixmap;
   }
 
-  QIcon icon;
-  const UrlHandler *handler = player_->HandlerForUrl(url);
-  if (handler) {
-    icon = handler->icon();
-  }
-  else {
-    if (url.scheme() == "file") {
-      icon = IconLoader::Load("folder-sound");
-    }
-    else if (url.scheme() == "cdda") {
-      icon = IconLoader::Load("cd");
-    }
-    else if (url.scheme() == "http" || url.scheme() == "https") {
-      if (url.host().contains(QRegExp(".*.tidal.com")))
-        icon = IconLoader::Load("tidal");
-      else
-	icon = IconLoader::Load("download");
-    }
-    else {
-      icon = IconLoader::Load("folder-sound");
-    }
-  }
+  QIcon icon(Song::IconForSource(source));
   pixmap = icon.pixmap(size.height());
-  cache_.insert(url.scheme(), pixmap);
+  cache_.insert(Song::TextForSource(source), pixmap);
 
   return pixmap;
 
@@ -486,9 +460,8 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   QStyleOptionViewItem option_copy(option);
   initStyleOption(&option_copy, index);
 
-  // Find the pixmap to use for this URL
-  const QUrl &url = index.data().toUrl();
-  QPixmap pixmap = LookupPixmap(url, option_copy.decorationSize);
+  const Song::Source &source = Song::Source(index.data().toInt());
+  QPixmap pixmap = LookupPixmap(source, option_copy.decorationSize);
 
   float device_pixel_ratio = 1.0f;
 #ifdef Q_OS_MACOS

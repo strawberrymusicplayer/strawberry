@@ -248,8 +248,8 @@ void GPodDevice::FinishDelete(bool success) {
 }
 
 bool GPodDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
-  *ret << Song::Type_MP4;
-  *ret << Song::Type_MPEG;
+  *ret << Song::FileType_MP4;
+  *ret << Song::FileType_MPEG;
   return true;
 }
 

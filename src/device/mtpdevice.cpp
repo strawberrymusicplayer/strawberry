@@ -209,21 +209,21 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevi
 
   for (int i = 0; i < length; ++i) {
     switch (LIBMTP_filetype_t(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::Type_WAV; break;
+      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::Type_MPEG; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::Type_ASF; break;
+      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
+      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType_ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::Type_MP4; break;
+      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType_MP4; break;
       case LIBMTP_FILETYPE_FLAC:
-        *ret << Song::Type_FLAC;
-        *ret << Song::Type_OggFlac;
+        *ret << Song::FileType_FLAC;
+        *ret << Song::FileType_OggFlac;
         break;
       case LIBMTP_FILETYPE_OGG:
-        *ret << Song::Type_OggVorbis;
-        *ret << Song::Type_OggSpeex;
-        *ret << Song::Type_OggFlac;
+        *ret << Song::FileType_OggVorbis;
+        *ret << Song::FileType_OggSpeex;
+        *ret << Song::FileType_OggFlac;
         break;
       default:
         qLog(Error) << "Unknown MTP file format" << LIBMTP_Get_Filetype_Description(LIBMTP_filetype_t(list[i]));

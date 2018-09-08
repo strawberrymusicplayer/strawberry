@@ -29,11 +29,13 @@
 
 class SqlRow;
 
-CollectionPlaylistItem::CollectionPlaylistItem(const QString &type)
-    : PlaylistItem(type) {}
+CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source &source)
+    : PlaylistItem(source) {}
 
 CollectionPlaylistItem::CollectionPlaylistItem(const Song &song)
-    : PlaylistItem("Collection"), song_(song) {}
+    : PlaylistItem(Song::Source_Collection), song_(song) {
+  song_.set_source(Song::Source_Collection);
+}
 
 QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
 
@@ -44,7 +46,6 @@ void CollectionPlaylistItem::Reload() {
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
   // Rows from the songs tables come first
   song_.InitFromQuery(query, true);
-
   return song_.is_valid();
 }
 
@@ -59,4 +60,3 @@ Song CollectionPlaylistItem::Metadata() const {
   if (HasTemporaryMetadata()) return temp_metadata_;
   return song_;
 }
-

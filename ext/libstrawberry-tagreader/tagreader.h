@@ -1,5 +1,6 @@
 /* This file is part of Strawberry.
    Copyright 2013, David Sansome <me@davidsansome.com>
+   Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
 
    Strawberry is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,7 +65,7 @@ class TagReader {
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
   void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
 
-  pb::tagreader::SongMetadata_Type GuessFileType(TagLib::FileRef *fileref) const;
+  pb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
 
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const std::string &description, const std::string& value, TagLib::ID3v2::Tag *tag) const;

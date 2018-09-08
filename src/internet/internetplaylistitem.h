@@ -35,7 +35,7 @@ class InternetService;
 class InternetPlaylistItem : public PlaylistItem {
 
  public:
-  explicit InternetPlaylistItem(const QString &type);
+  explicit InternetPlaylistItem(const Song::Source &type);
   InternetPlaylistItem(InternetService *service, const Song &metadata);
   bool InitFromQuery(const SqlRow &query);
   Song Metadata() const;
@@ -50,8 +50,7 @@ class InternetPlaylistItem : public PlaylistItem {
   InternetService *service() const;
 
  private:
-  QString service_name_;
-  bool set_service_icon_;
+  Song::Source source_;
   Song metadata_;
 };
 

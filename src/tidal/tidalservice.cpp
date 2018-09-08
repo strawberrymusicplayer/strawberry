@@ -53,6 +53,7 @@
 #include "tidalsearch.h"
 #include "settings/tidalsettingspage.h"
 
+const Song::Source TidalService::kSource = Song::Source_Tidal;
 const char *TidalService::kServiceName = "Tidal";
 const char *TidalService::kApiUrl = "https://listen.tidal.com/v1";
 const char *TidalService::kAuthUrl = "https://listen.tidal.com/v1/login/username";
@@ -62,7 +63,7 @@ const char *TidalService::kApiToken = "P5Xbeo5LFvESeDy6";
 typedef QPair<QString, QString> Param;
 
 TidalService::TidalService(Application *app, InternetModel *parent)
-    : InternetService(kServiceName, app, parent, parent),
+    : InternetService(kSource, kServiceName, app, parent, parent),
       network_(new NetworkAccessManager(this)),
       timer_searchdelay_(new QTimer(this)),
       searchdelay_(1500),
@@ -730,7 +731,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   }
   int album_id = json_album["id"].toInt();
   if (album_id_requested != 0 && album_id_requested != album_id) {
-    qLog(Error) << "Tidal: Invalid Json reply, track album is wrong.";
+    qLog(Error) << "Tidal: Invalid Json reply, track album id is wrong.";
     qLog(Debug) << json_album;
     return song;
   }
@@ -745,6 +746,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
 
   //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
 
+  song.set_source(Song::Source_Tidal);
   song.set_id(song_id);
   song.set_album_id(album_id);
   song.set_artist(artist);
@@ -819,9 +821,9 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int search_i
 
   QString codec = json_obj["codec"].toString().toLower();
   song.set_filetype(Song::FiletypeByExtension(codec));
-  if (song.filetype() == Song::Type_Unknown) {
+  if (song.filetype() == Song::FileType_Unknown) {
     qLog(Debug) << "Tidal: Unknown codec" << codec;
-    song.set_filetype(Song::Type_Stream);
+    song.set_filetype(Song::FileType_Stream);
   }
 
   song.set_valid(true);

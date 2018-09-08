@@ -27,6 +27,6 @@
 #include "internetmodel.h"
 #include "internetservice.h"
 
-InternetService::InternetService(const QString &name, Application *app, InternetModel *model, QObject *parent)
-    : QObject(parent), app_(app), model_(model), name_(name) {
+InternetService::InternetService(Song::Source source, const QString &name, Application *app, InternetModel *model, QObject *parent)
+    : QObject(parent), app_(app), model_(model), source_(source), name_(name) {
 }

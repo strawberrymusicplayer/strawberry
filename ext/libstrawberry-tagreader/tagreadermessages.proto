@@ -4,7 +4,7 @@ package pb.tagreader;
 
 message SongMetadata {
 
-  enum Type {
+  enum FileType {
     UNKNOWN = 0;
     WAV = 1;
     FLAC = 2;
@@ -51,7 +51,7 @@ message SongMetadata {
 
   optional string url = 21;
   optional string basefilename = 22;
-  optional Type filetype = 23;
+  optional FileType filetype = 23;
   optional int32 filesize = 24;
   optional int32 mtime = 25;
   optional int32 ctime = 26;

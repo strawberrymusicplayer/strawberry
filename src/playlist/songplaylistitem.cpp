@@ -29,15 +29,13 @@
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
-SongPlaylistItem::SongPlaylistItem(const QString &type) : PlaylistItem(type) {}
+SongPlaylistItem::SongPlaylistItem(const Song::Source &source) : PlaylistItem(source) {}
 
 SongPlaylistItem::SongPlaylistItem(const Song &song)
-    : PlaylistItem("File"), song_(song) {}
+    : PlaylistItem(Song::Source_LocalFile), song_(song) {}
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
-
   song_.InitFromQuery(query, false, (Song::kColumns.count()+1));
-
   return true;
 }
 
@@ -45,7 +43,6 @@ QUrl SongPlaylistItem::Url() const { return song_.url(); }
 
 void SongPlaylistItem::Reload() {
   if (song_.url().scheme() != "file") return;
-
   TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
 }
 

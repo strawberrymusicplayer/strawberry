@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,12 +126,6 @@ class FileTypeItemDelegate : public PlaylistDelegateBase {
   QString displayText(const QVariant &value, const QLocale &locale) const;
 };
 
-class SamplerateBitdepthItemDelegate : public PlaylistDelegateBase {
- public:
-  SamplerateBitdepthItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
-  QString displayText(const QVariant &value, const QLocale &locale) const;
-};
-
 class TextItemDelegate : public PlaylistDelegateBase {
  public:
   TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
@@ -182,7 +177,7 @@ class SongSourceDelegate : public PlaylistDelegateBase {
   void paint(QPainter *paint, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  private:
-  QPixmap LookupPixmap(const QUrl &url, const QSize &size) const;
+  QPixmap LookupPixmap(const Song::Source &type, const QSize &size) const;
 
   Player *player_;
   mutable QPixmapCache cache_;

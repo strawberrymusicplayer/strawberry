@@ -140,6 +140,7 @@ class TidalSearch : public QObject {
 
   Application *app_;
   TidalService *service_;
+  Song::Source source_;
   QString name_;
   QString id_;
   QIcon icon_;

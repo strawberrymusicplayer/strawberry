@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,20 +43,18 @@
 PlaylistItem::~PlaylistItem() {
 }
 
-PlaylistItem* PlaylistItem::NewFromType(const QString &type) {
+PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
 
-  if (type == "Collection") return new CollectionPlaylistItem(type);
-  else if (type == "File") return new SongPlaylistItem(type);
-  else if (type == "Internet") return new InternetPlaylistItem("Internet");
-  else if (type == "Tidal") return new InternetPlaylistItem("Tidal");
-
-  qLog(Warning) << "Invalid PlaylistItem type:" << type;
-
-  return nullptr;
+  switch (source) {
+    case Song::Source_Collection:  return new CollectionPlaylistItem(source);
+    case Song::Source_Tidal:
+    case Song::Source_Stream:      return new InternetPlaylistItem(source);
+    default:                       return new SongPlaylistItem(source);
+  }
 
 }
 
-PlaylistItem* PlaylistItem::NewFromSongsTable(const QString &table, const Song &song) {
+PlaylistItem *PlaylistItem::NewFromSongsTable(const QString &table, const Song &song) {
 
   if (table == SCollection::kSongsTable)
     return new CollectionPlaylistItem(song);
@@ -67,9 +66,8 @@ PlaylistItem* PlaylistItem::NewFromSongsTable(const QString &table, const Song &
 
 void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
-  query->bindValue(":type", type());
+  query->bindValue(":type", source());
   query->bindValue(":collection_id", DatabaseValue(Column_CollectionId));
-  query->bindValue(":internet_service", DatabaseValue(Column_InternetService));
 
   DatabaseSongMetadata().BindToQuery(query);
 

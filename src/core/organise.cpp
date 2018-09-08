@@ -154,7 +154,7 @@ void Organise::ProcessSomeFiles() {
     else {
       // Figure out if we need to transcode it
       Song::FileType dest_type = CheckTranscode(song.filetype());
-      if (dest_type != Song::Type_Unknown) {
+      if (dest_type != Song::FileType_Unknown) {
         // Get the preset
         TranscoderPreset preset = Transcoder::PresetForFileType(dest_type);
         qLog(Debug) << "Transcoding with" << preset.name_;
@@ -206,28 +206,28 @@ void Organise::ProcessSomeFiles() {
 
 Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
 
-  //if (original_type == Song::Type_Stream) return Song::Type_Unknown;
+  if (original_type == Song::FileType_Stream) return Song::FileType_Unknown;
 
   const MusicStorage::TranscodeMode mode = destination_->GetTranscodeMode();
   const Song::FileType format = destination_->GetTranscodeFormat();
 
   switch (mode) {
     case MusicStorage::Transcode_Never:
-      return Song::Type_Unknown;
+      return Song::FileType_Unknown;
 
     case MusicStorage::Transcode_Always:
-      if (original_type == format) return Song::Type_Unknown;
+      if (original_type == format) return Song::FileType_Unknown;
       return format;
 
     case MusicStorage::Transcode_Unsupported:
-      if (supported_filetypes_.isEmpty() || supported_filetypes_.contains(original_type)) return Song::Type_Unknown;
+      if (supported_filetypes_.isEmpty() || supported_filetypes_.contains(original_type)) return Song::FileType_Unknown;
 
-      if (format != Song::Type_Unknown) return format;
+      if (format != Song::FileType_Unknown) return format;
 
       // The user hasn't visited the device properties page yet to set a preferred format for the device, so we have to pick the best available one.
       return Transcoder::PickBestFormat(supported_filetypes_);
   }
-  return Song::Type_Unknown;
+  return Song::FileType_Unknown;
 
 }
 

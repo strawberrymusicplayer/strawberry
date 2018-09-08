@@ -145,7 +145,7 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
                   "       p.ROWID, " +
                   Song::JoinSpec("p") +
                   ","
-                  "       p.type, p.internet_service"
+                  "       p.type"
                   " FROM playlist_items AS p"
                   " LEFT JOIN songs"
                   "    ON p.collection_id = songs.ROWID"
@@ -198,7 +198,7 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
   // The song tables get joined first, plus one each for the song ROWIDs
   const int playlist_row = (Song::kColumns.count() + 1) * kSongTableJoins;
 
-  PlaylistItemPtr item(PlaylistItem::NewFromType(row.value(playlist_row).toString()));
+  PlaylistItemPtr item(PlaylistItem::NewFromSource(Song::Source(row.value(playlist_row).toInt())));
   if (item) {
     item->InitFromQuery(row);
     return RestoreCueData(item, state);
@@ -219,8 +219,8 @@ Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSon
 
 PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state) {
   
-  // we need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
-  if (item->type() != "File") return item;
+  // We need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
+  if (item->source() != Song::Source_LocalFile) return item;
 
   CueParser cue_parser(app_->collection_backend());
 
@@ -279,7 +279,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
   QSqlQuery clear(db);
   clear.prepare("DELETE FROM playlist_items WHERE playlist = :playlist");
   QSqlQuery insert(db);
-  insert.prepare("INSERT INTO playlist_items (playlist, type, collection_id, internet_service, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, :internet_service, " + Song::kBindSpec + ")");
+  insert.prepare("INSERT INTO playlist_items (playlist, type, collection_id, " + Song::kColumnSpec + ") VALUES (:playlist, :type, :collection_id, " + Song::kBindSpec + ")");
   QSqlQuery update(db);
   update.prepare("UPDATE playlists SET last_played=:last_played WHERE ROWID=:playlist");
 

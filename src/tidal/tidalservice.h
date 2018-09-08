@@ -47,6 +47,7 @@ class TidalService : public InternetService {
   TidalService(Application *app, InternetModel *parent);
   ~TidalService();
 
+  static const Song::Source kSource;
   static const char *kServiceName;
 
   void ReloadSettings();

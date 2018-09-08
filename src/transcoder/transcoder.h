@@ -41,7 +41,7 @@
 #include "core/song.h"
 
 struct TranscoderPreset {
-  TranscoderPreset() : type_(Song::Type_Unknown) {}
+  TranscoderPreset() : type_(Song::FileType_Unknown) {}
   TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
 
   Song::FileType type_;

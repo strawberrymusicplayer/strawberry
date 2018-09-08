@@ -720,7 +720,6 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
     while (query.Next()) {
       Song song;
       song.InitFromQuery(query, true);
-
       songlist << song;
     }
   }

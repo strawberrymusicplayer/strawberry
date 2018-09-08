@@ -276,7 +276,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
 
   if (!song) return;
 
-  if (song->filetype() != Song::Type_Unknown) {
+  if (song->filetype() != Song::FileType_Unknown) {
     // Maybe we loaded the metadata already, for example from a cuesheet.
     return;
   }
@@ -335,7 +335,7 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
 void SongLoader::AddAsRawStream() {
   Song song;
   song.set_valid(true);
-  song.set_filetype(Song::Type_Stream);
+  song.set_filetype(Song::FileType_Stream);
   song.set_url(url_);
   song.set_title(url_.toString());
   songs_ << song;
@@ -481,7 +481,7 @@ GstPadProbeReturn SongLoader::DataReady(GstPad*, GstPadProbeInfo *info, gpointer
 
 #ifdef HAVE_GSTREAMER
 gboolean SongLoader::BusCallback(GstBus *, GstMessage *msg, gpointer self) {
-  
+
   SongLoader *instance = reinterpret_cast<SongLoader*>(self);
 
   switch (GST_MESSAGE_TYPE(msg)) {

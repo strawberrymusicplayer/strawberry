@@ -32,13 +32,13 @@
 #include "internetservice.h"
 #include "tidal/tidalservice.h"
 
-QMap<QString, InternetService*>* InternetModel::sServices = nullptr;
+QMap<Song::Source, InternetService*>* InternetModel::sServices = nullptr;
 
 InternetModel::InternetModel(Application *app, QObject *parent)
     : QStandardItemModel(parent),
       app_(app) {
 
-  if (!sServices) sServices = new QMap<QString, InternetService*>;
+  if (!sServices) sServices = new QMap<Song::Source, InternetService*>;
   Q_ASSERT(sServices->isEmpty());
   AddService(new TidalService(app, this));
 
@@ -47,7 +47,7 @@ InternetModel::InternetModel(Application *app, QObject *parent)
 void InternetModel::AddService(InternetService *service) {
 
   qLog(Debug) << "Adding internet service:" << service->name();
-  sServices->insert(service->name(), service);
+  sServices->insert(service->source(), service);
   connect(service, SIGNAL(destroyed()), SLOT(ServiceDeleted()));
   if (service->has_initial_load_settings()) service->InitialLoadSettings();
   else service->ReloadSettings();
@@ -56,8 +56,8 @@ void InternetModel::AddService(InternetService *service) {
 
 void InternetModel::RemoveService(InternetService *service) {
 
-  if (!sServices->contains(service->name())) return;
-  sServices->remove(service->name());
+  if (!sServices->contains(service->source())) return;
+  sServices->remove(service->source());
   disconnect(service, 0, this, 0);
 
 }
@@ -69,9 +69,9 @@ void InternetModel::ServiceDeleted() {
 
 }
 
-InternetService *InternetModel::ServiceByName(const QString &name) {
+InternetService *InternetModel::ServiceBySource(const Song::Source &source) {
 
-  if (sServices->contains(name)) return sServices->value(name);
+  if (sServices->contains(source)) return sServices->value(source);
   return nullptr;
 
 }

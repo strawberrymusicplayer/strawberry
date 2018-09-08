@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (2);
+INSERT INTO schema_version (version) VALUES (3);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -18,8 +18,6 @@ CREATE TABLE IF NOT EXISTS subdirectories (
 );
 
 CREATE TABLE IF NOT EXISTS songs (
-
-  /* Metadata from taglib */
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -44,8 +42,7 @@ CREATE TABLE IF NOT EXISTS songs (
   samplerate INTEGER NOT NULL DEFAULT 0,
   bitdepth INTEGER NOT NULL DEFAULT 0,
 
-  /* Information about the file on disk */
-
+  source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
   filename TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
@@ -53,8 +50,6 @@ CREATE TABLE IF NOT EXISTS songs (
   mtime INTEGER NOT NULL,
   ctime INTEGER NOT NULL,
   unavailable INTEGER DEFAULT 0,
-
-  /* Other */
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,
@@ -89,12 +84,9 @@ CREATE TABLE IF NOT EXISTS playlists (
 CREATE TABLE IF NOT EXISTS playlist_items (
 
   playlist INTEGER NOT NULL,
-  type TEXT NOT NULL,
+  type INTEGER NOT NULL DEFAULT 0,
   collection_id INTEGER,
-  internet_service TEXT,
   url TEXT,
-
-  /* Metadata from taglib */
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -119,8 +111,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   samplerate INTEGER NOT NULL DEFAULT 0,
   bitdepth INTEGER NOT NULL DEFAULT 0,
 
-  /* Information about the file on disk */
-
+  source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER,
   filename TEXT,
   filetype INTEGER NOT NULL DEFAULT 0,
@@ -128,8 +119,6 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   mtime INTEGER,
   ctime INTEGER,
   unavailable INTEGER DEFAULT 0,
-
-  /* Other */
 
   playcount INTEGER NOT NULL DEFAULT 0,
   skipcount INTEGER NOT NULL DEFAULT 0,

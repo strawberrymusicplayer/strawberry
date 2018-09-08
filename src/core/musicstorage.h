@@ -71,7 +71,7 @@ class MusicStorage {
   virtual QString LocalPath() const { return QString(); }
 
   virtual TranscodeMode GetTranscodeMode() const { return Transcode_Never; }
-  virtual Song::FileType GetTranscodeFormat() const { return Song::Type_Unknown; }
+  virtual Song::FileType GetTranscodeFormat() const { return Song::FileType_Unknown; }
   virtual bool GetSupportedFiletypes(QList<Song::FileType>* ret) { return true; }
 
   virtual bool StartCopy(QList<Song::FileType>* supported_types) { return true;}

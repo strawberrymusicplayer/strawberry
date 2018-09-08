@@ -1,15 +1,15 @@
-CREATE TABLE device_%deviceid_directories (
-  path TEXT NOT NULL,
-  subdirs INTEGER NOT NULL
-);
+ALTER TABLE songs ADD COLUMN source INTEGER NOT NULL DEFAULT 0;
 
-CREATE TABLE device_%deviceid_subdirectories (
-  directory_id INTEGER NOT NULL,
-  path TEXT NOT NULL,
-  mtime INTEGER NOT NULL
-);
+UPDATE songs SET source = 2 WHERE source = 0;
 
-CREATE TABLE device_%deviceid_songs (
+DROP TABLE playlist_items;
+
+CREATE TABLE IF NOT EXISTS playlist_items (
+
+  playlist INTEGER NOT NULL,
+  type INTEGER NOT NULL DEFAULT 0,
+  collection_id INTEGER,
+  url TEXT,
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -35,12 +35,12 @@ CREATE TABLE device_%deviceid_songs (
   bitdepth INTEGER NOT NULL DEFAULT 0,
 
   source INTEGER NOT NULL DEFAULT 0,
-  directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  directory_id INTEGER,
+  filename TEXT,
   filetype INTEGER NOT NULL DEFAULT 0,
-  filesize INTEGER NOT NULL,
-  mtime INTEGER NOT NULL,
-  ctime INTEGER NOT NULL,
+  filesize INTEGER,
+  mtime INTEGER,
+  ctime INTEGER,
   unavailable INTEGER DEFAULT 0,
 
   playcount INTEGER NOT NULL DEFAULT 0,
@@ -57,19 +57,9 @@ CREATE TABLE device_%deviceid_songs (
 
   effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
-  
+
   cue_path TEXT
 
 );
 
-CREATE INDEX idx_device_%deviceid_songs_album ON device_%deviceid_songs (album);
-
-CREATE INDEX idx_device_%deviceid_songs_comp_artist ON device_%deviceid_songs (compilation_effective, artist);
-
-CREATE VIRTUAL TABLE device_%deviceid_fts USING fts3(
-  ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment,
-  tokenize=unicode
-);
-
-UPDATE devices SET schema_version=0 WHERE ROWID=%deviceid;
-
+UPDATE schema_version SET version=3;

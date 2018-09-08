@@ -105,11 +105,13 @@ class InternetModel : public QStandardItemModel {
   };
 
   // Needs to be static for InternetPlaylistItem::restore
-  static InternetService *ServiceByName(const QString &name);
+  static InternetService *ServiceBySource(const Song::Source &source);
+  //static InternetService *ServiceByName(const QString &name);
 
   template <typename T>
   static T *Service() {
-    return static_cast<T*>(ServiceByName(T::kServiceName));
+    //return static_cast<T*>(ServiceByName(T::kServiceName));
+    return static_cast<T*>(ServiceBySource(T::kSource));
   }
 
   // Add and remove services.  Ownership is not transferred and the service is not reparented.
@@ -124,7 +126,8 @@ class InternetModel : public QStandardItemModel {
   void ServiceDeleted();
 
  private:
-  static QMap<QString, InternetService*> *sServices;
+  //static QMap<QString, InternetService*> *sServices;
+  static QMap<Song::Source, InternetService*> *sServices;
   Application *app_;
 
 };

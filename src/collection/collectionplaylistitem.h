@@ -36,7 +36,7 @@ class SqlRow;
 
 class CollectionPlaylistItem : public PlaylistItem {
  public:
-  CollectionPlaylistItem(const QString &type);
+  CollectionPlaylistItem(const Song::Source &source);
   CollectionPlaylistItem(const Song &song);
 
   bool InitFromQuery(const SqlRow &query);

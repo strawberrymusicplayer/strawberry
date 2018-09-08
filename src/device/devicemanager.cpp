@@ -100,7 +100,7 @@ const int DeviceManager::kDeviceIconOverlaySize = 16;
 DeviceManager::DeviceInfo::DeviceInfo()
     : database_id_(-1),
       transcode_mode_(MusicStorage::Transcode_Unsupported),
-      transcode_format_(Song::Type_Unknown),
+      transcode_format_(Song::FileType_Unknown),
       task_percentage_(-1) {}
 
 DeviceDatabaseBackend::Device DeviceManager::DeviceInfo::SaveToDb() const {

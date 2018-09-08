@@ -134,7 +134,7 @@ CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
   if (watcher_->monitor_) {
     // Watch the new subdirectories
-    for (const Subdirectory& subdir : new_subdirs) {
+    for (const Subdirectory &subdir : new_subdirs) {
       watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
     }
   }
@@ -197,8 +197,7 @@ SubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdirs(const Q
 
   SubdirectoryList ret;
   for (const Subdirectory &subdir : known_subdirs_) {
-    if (subdir.path.left(subdir.path.lastIndexOf(QDir::separator())) == path &&
-        subdir.mtime != 0) {
+    if (subdir.path.left(subdir.path.lastIndexOf(QDir::separator())) == path && subdir.mtime != 0) {
       ret << subdir;
     }
   }
@@ -251,7 +250,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // Do not scan symlinked dirs that are already in collection
   if (path_info.isSymLink()) {
     QString real_path = path_info.symLinkTarget();
-    for (const Directory& dir : watched_dirs_) {
+    for (const Directory &dir : watched_dirs_) {
       if (real_path.startsWith(dir.path)) {
         t->AddToProgress(1);
         return;
@@ -278,7 +277,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist any more.
   // If one has been removed, "rescan" it to get the deleted songs
   SubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
-  for (const Subdirectory& subdir : previous_subdirs) {
+  for (const Subdirectory &subdir : previous_subdirs) {
     if (!QFile::exists(subdir.path) && subdir.path != path) {
       t->AddToProgressMax(1);
       ScanSubdirectory(subdir.path, subdir, t, true);
@@ -322,7 +321,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   QSet<QString> cues_processed;
 
   // Now compare the list from the database with the list of files on disk
-  for (const QString& file : files_on_disk) {
+  for (const QString &file : files_on_disk) {
     if (stop_requested_) return;
 
     // associated cue
@@ -389,16 +388,16 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       QString image = ImageForSong(file, album_art);
 
       for (Song song : song_list) {
+        song.set_source(Song::Source_Collection);
         song.set_directory_id(t->dir());
         if (song.art_automatic().isEmpty()) song.set_art_automatic(image);
-
         t->new_songs << song;
       }
     }
   }
 
   // Look for deleted songs
-  for (const Song& song : songs_in_db) {
+  for (const Song &song : songs_in_db) {
     if (!song.is_unavailable() && !files_on_disk.contains(song.url().toLocalFile())) {
       qLog(Debug) << "Song deleted from disk:" << song.url().toLocalFile();
       t->deleted_songs << song;
@@ -420,7 +419,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
   // Recurse into the new subdirs that we found
   t->AddToProgressMax(my_new_subdirs.count());
-  for (const Subdirectory& my_new_subdir : my_new_subdirs) {
+  for (const Subdirectory &my_new_subdir : my_new_subdirs) {
     if (stop_requested_) return;
     ScanSubdirectory(my_new_subdir.path, my_new_subdir, t, true);
   }
@@ -435,7 +434,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
   SongList old_sections = backend_->GetSongsByUrl(QUrl::fromLocalFile(file));
 
   QHash<quint64, Song> sections_map;
-  for (const Song& song : old_sections) {
+  for (const Song &song : old_sections) {
     sections_map[song.beginning_nanosec()] = song;
   }
 
@@ -443,6 +442,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
   // Update every song that's in the cue and collection
   for (Song cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
+    cue_song.set_source(Song::Source_Collection);
     cue_song.set_directory_id(t->dir());
 
     Song matching = sections_map[cue_song.beginning_nanosec()];
@@ -450,7 +450,8 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
     if (!matching.is_valid()) {
       t->new_songs << cue_song;
       // changed section
-    } else {
+    }
+    else {
       PreserveUserSetData(file, image, matching, &cue_song, t);
       used_ids.insert(matching.id());
     }
@@ -469,8 +470,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const So
 
   // If a cue got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
   if (cue_deleted) {
-    for (const Song &song :
-         backend_->GetSongsByUrl(QUrl::fromLocalFile(file))) {
+    for (const Song &song : backend_->GetSongsByUrl(QUrl::fromLocalFile(file))) {
       if (!song.IsMetadataEqual(matching_song)) {
         t->deleted_songs << song;
       }
@@ -478,6 +478,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const So
   }
 
   Song song_on_disk;
+  song_on_disk.set_source(Song::Source_Collection);
   song_on_disk.set_directory_id(t->dir());
   TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
 
@@ -504,7 +505,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // Also, watch out for incorrect media files.
     // Playlist parser for CUEs considers every entry in sheet valid and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
-    for (const Song& cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
+    for (const Song &cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
       if (cue_song.url().toLocalFile().normalized(QString::NormalizationForm_D) == file_nfd) {
         if (TagReaderClient::Instance()->IsMediaFileBlocking(file)) {
           song_list << cue_song;
@@ -663,7 +664,7 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
 
   for (const QString &filter_text : best_image_filters_) {
     // The images in the images list are represented by a full path, so we need to isolate just the filename
-    for (const QString& image : images) {
+    for (const QString &image : images) {
       QFileInfo file_info(image);
       QString filename(file_info.fileName());
       if (filename.contains(filter_text, Qt::CaseInsensitive))
@@ -683,7 +684,7 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
   int biggest_size = 0;
   QString biggest_path;
 
-  for (const QString& path : filtered) {
+  for (const QString &path : filtered) {
     QImage image(path);
     if (image.isNull()) continue;
 

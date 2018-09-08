@@ -293,14 +293,14 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Icons
   qLog(Debug) << "Creating UI";
-  
+
   // Help menu
-  
+
   ui_->action_about_strawberry->setIcon(IconLoader::Load("strawberry"));
   ui_->action_about_qt->setIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
-  
+
   // Music menu
-  
+
   ui_->action_open_file->setIcon(IconLoader::Load("document-open"));
   ui_->action_open_cd->setIcon(IconLoader::Load("cd"));
   ui_->action_previous_track->setIcon(IconLoader::Load("media-rewind"));
@@ -309,9 +309,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_stop_after_this_track->setIcon(IconLoader::Load("media-stop"));
   ui_->action_next_track->setIcon(IconLoader::Load("media-forward"));
   ui_->action_quit->setIcon(IconLoader::Load("application-exit"));  
-  
+
   // Playlist
-  
+
   ui_->action_add_file->setIcon(IconLoader::Load("document-open"));
   ui_->action_add_folder->setIcon(IconLoader::Load("document-open-folder"));
   ui_->action_shuffle_mode->setIcon(IconLoader::Load("media-playlist-shuffle"));
@@ -324,11 +324,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_shuffle->setIcon(IconLoader::Load("media-playlist-shuffle"));
   ui_->action_remove_duplicates->setIcon(IconLoader::Load("list-remove"));
   ui_->action_remove_unavailable->setIcon(IconLoader::Load("list-remove"));
-  
+
   //ui_->action_remove_from_playlist->setIcon(IconLoader::Load("list-remove"));
-  
+
   // Configure
-    
+
   ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
   ui_->action_queue_manager->setIcon(IconLoader::Load("footsteps"));
   ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
@@ -452,9 +452,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->playlist->view(), SIGNAL(BackgroundPropertyChanged()), SLOT(RefreshStyleSheet()));
 
   connect(ui_->track_slider, SIGNAL(ValueChangedSeconds(int)), app_->player(), SLOT(SeekTo(int)));
-  
+
   // Context connections
-  
+
   connect(context_view_->albums(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 
   // Collection connections
@@ -1848,7 +1848,7 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
     Song song;
     song.set_url(url);
     song.set_valid(true);
-    song.set_filetype(Song::Type_MPEG);
+    song.set_filetype(Song::FileType_MPEG);
     songs << song;
   }
 

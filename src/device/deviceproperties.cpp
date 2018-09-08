@@ -308,7 +308,7 @@ void DeviceProperties::UpdateFormatsFinished(QFuture<bool> future) {
 #ifdef HAVE_GSTREAMER
   // Set the format combobox item
   TranscoderPreset preset = Transcoder::PresetForFileType(Song::FileType(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
-  if (preset.type_ == Song::Type_Unknown) {
+  if (preset.type_ == Song::FileType_Unknown) {
     // The user hasn't chosen a format for this device yet,
     // so work our way down a list of some preferred formats, picking the first one that is supported
     preset = Transcoder::PresetForFileType(Transcoder::PickBestFormat(supported_formats_));

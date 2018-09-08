@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,72 +34,39 @@
 #include "collection/sqlrow.h"
 #include "playlist/playlistbackend.h"
 
-InternetPlaylistItem::InternetPlaylistItem(const QString &type)
-    : PlaylistItem(type), set_service_icon_(false) {}
+InternetPlaylistItem::InternetPlaylistItem(const Song::Source &source)
+    : PlaylistItem(source) {}
 
 InternetPlaylistItem::InternetPlaylistItem(InternetService *service, const Song &metadata)
-    : PlaylistItem("Internet"),
-      service_name_(service->name()),
-      set_service_icon_(false),
+    : PlaylistItem(Song::Source_Stream),
+      source_(service->source()),
       metadata_(metadata) {
   InitMetadata();
 }
 
 bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
-
-  // The song tables gets joined first, plus one each for the song ROWIDs
-  const int row = (Song::kColumns.count() + 1) * PlaylistBackend::kSongTableJoins;
-
-  service_name_ = query.value(row + 1).toString();
-
   metadata_.InitFromQuery(query, false, (Song::kColumns.count() + 1) * 1);
   InitMetadata();
-
   return true;
-
 }
 
 InternetService *InternetPlaylistItem::service() const {
-
-  InternetService *ret = InternetModel::ServiceByName(service_name_);
-
-  if (ret && !set_service_icon_) {
-    const_cast<InternetPlaylistItem*>(this)->set_service_icon_ = true;
-
-    QString icon = ret->Icon();
-    if (!icon.isEmpty()) {
-      const_cast<InternetPlaylistItem*>(this)->metadata_.set_art_manual(icon);
-    }
-  }
-
+  InternetService *ret = InternetModel::ServiceBySource(source_);
   return ret;
-
 }
 
 QVariant InternetPlaylistItem::DatabaseValue(DatabaseColumn column) const {
-  switch (column) {
-    case Column_InternetService:
-      return service_name_;
-    default:
-      return PlaylistItem::DatabaseValue(column);
-  }
+   return PlaylistItem::DatabaseValue(column);
 }
 
 void InternetPlaylistItem::InitMetadata() {
-
-  if (metadata_.title().isEmpty())
-    metadata_.set_title(metadata_.url().toString());
-  if (metadata_.filetype() == Song::Type_Unknown) metadata_.set_filetype(Song::Type_Stream);
+  if (metadata_.title().isEmpty()) metadata_.set_title(metadata_.url().toString());
+  if (metadata_.source() == Song::Source_Unknown) metadata_.set_source(Song::Source_Stream);
+  if (metadata_.filetype() == Song::FileType_Unknown) metadata_.set_filetype(Song::FileType_Stream);
   metadata_.set_valid(true);
-
 }
 
 Song InternetPlaylistItem::Metadata() const {
-  if (!set_service_icon_) {
-    // Get the icon if we don't have it already
-    service();
-  }
-
   if (HasTemporaryMetadata()) return temp_metadata_;
   return metadata_;
 }

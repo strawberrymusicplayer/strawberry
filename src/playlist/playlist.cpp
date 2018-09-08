@@ -67,6 +67,7 @@
 #include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/tagreaderclient.h"
+#include "core/song.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
@@ -249,11 +250,11 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
       break;
   }
   return true;
-  
+
 }
 
 QVariant Playlist::data(const QModelIndex &index, int role) const {
-  
+
   switch (role) {
     case Role_IsCurrent:
       return current_item_index_.isValid() && index.row() == current_item_index_.row();
@@ -275,40 +276,40 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
 
       // Don't forget to change Playlist::CompareItems when adding new columns
       switch (index.column()) {
-        case Column_Title:		return song.PrettyTitle();
-        case Column_Artist:		return song.artist();
-        case Column_Album:		return song.album();
-        case Column_Length:		return song.length_nanosec();
-        case Column_Track:		return song.track();
-        case Column_Disc:		return song.disc();
-        case Column_Year:		return song.year();
-        case Column_OriginalYear:	return song.effective_originalyear();
-        case Column_Genre:		return song.genre();
-        case Column_AlbumArtist:	return song.playlist_albumartist();
-        case Column_Composer:		return song.composer();
-        case Column_Performer:		return song.performer();
-        case Column_Grouping:		return song.grouping();
+        case Column_Title:              return song.PrettyTitle();
+        case Column_Artist:             return song.artist();
+        case Column_Album:              return song.album();
+        case Column_Length:             return song.length_nanosec();
+        case Column_Track:              return song.track();
+        case Column_Disc:               return song.disc();
+        case Column_Year:               return song.year();
+        case Column_OriginalYear:       return song.effective_originalyear();
+        case Column_Genre:              return song.genre();
+        case Column_AlbumArtist:        return song.playlist_albumartist();
+        case Column_Composer:           return song.composer();
+        case Column_Performer:          return song.performer();
+        case Column_Grouping:           return song.grouping();
 
-        case Column_PlayCount:		return song.playcount();
-        case Column_SkipCount:		return song.skipcount();
-        case Column_LastPlayed:		return song.lastplayed();
+        case Column_PlayCount:          return song.playcount();
+        case Column_SkipCount:          return song.skipcount();
+        case Column_LastPlayed:         return song.lastplayed();
 
-        case Column_Samplerate:		return song.samplerate();
-        case Column_Bitdepth:		return song.bitdepth();
-        case Column_Bitrate:		return song.bitrate();
+        case Column_Samplerate:         return song.samplerate();
+        case Column_Bitdepth:           return song.bitdepth();
+        case Column_Bitrate:            return song.bitrate();
 
-        case Column_Filename:		return song.url();
-        case Column_BaseFilename:	return song.basefilename();
-        case Column_Filesize:		return song.filesize();
-        case Column_Filetype:		return song.filetype();
-        case Column_DateModified:	return song.mtime();
-        case Column_DateCreated:	return song.ctime();
+        case Column_Filename:           return song.url();
+        case Column_BaseFilename:       return song.basefilename();
+        case Column_Filesize:           return song.filesize();
+        case Column_Filetype:           return song.filetype();
+        case Column_DateModified:       return song.mtime();
+        case Column_DateCreated:        return song.ctime();
 
         case Column_Comment:
-          if (role == Qt::DisplayRole) return song.comment().simplified();
+          if (role == Qt::DisplayRole)  return song.comment().simplified();
           return song.comment();
 
-        case Column_Source:             return item->Url();
+        case Column_Source:             return song.source();
 
       }
 
@@ -910,7 +911,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bo
     items_.insert(i, item);
     virtual_items_ << virtual_items_.count();
 
-    if (item->type() == "Collection") {
+    if (item->source() == Song::Source_Collection) {
       int id = item->Metadata().id();
       if (id != -1) {
         collection_items_by_id_.insertMulti(id, item);
@@ -990,16 +991,22 @@ void Playlist::UpdateItems(const SongList &songs) {
       const Song &song = it.next();
       PlaylistItemPtr &item = items_[i];
       if (item->Metadata().url() == song.url() &&
-          (item->Metadata().filetype() == Song::Type_Unknown ||
+          (
+           item->Metadata().source() == Song::Source_Unknown ||
+           item->Metadata().filetype() == Song::FileType_Unknown ||
            // Stream may change and may need to be updated too
-           item->Metadata().filetype() == Song::Type_Stream ||
+           item->Metadata().source() == Song::Source_Stream ||
+           item->Metadata().source() == Song::Source_Tidal ||
            // And CD tracks as well (tags are loaded in a second step)
-           item->Metadata().filetype() == Song::Type_CDDA)) {
+           item->Metadata().source() == Song::Source_CDDA
+          )
+       ) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = PlaylistItemPtr(new CollectionPlaylistItem(song));
           collection_items_by_id_.insertMulti(song.id(), new_item);
-        } else {
+        }
+        else {
           new_item = PlaylistItemPtr(new SongPlaylistItem(song));
         }
         items_[i] = new_item;
@@ -1099,7 +1106,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
     case Column_DateCreated:  cmp(ctime);
 
     case Column_Comment:      strcmp(comment);
-    case Column_Source:       cmp(url);
+    case Column_Source:       cmp(source);
   }
 
 #undef cmp
@@ -1143,7 +1150,7 @@ QString Playlist::column_name(Column column) {
     case Column_LastPlayed:   return tr("Last played");
 
     case Column_Samplerate:   return tr("Sample rate");
-    case Column_Bitdepth:   return tr("Bit depth");
+    case Column_Bitdepth:     return tr("Bit depth");
     case Column_Bitrate:      return tr("Bitrate");
 
     case Column_Filename:     return tr("File name");
@@ -1155,7 +1162,7 @@ QString Playlist::column_name(Column column) {
 
     case Column_Comment:      return tr("Comment");
     case Column_Source:       return tr("Source");
-    default: return QString();
+    default:                  return QString();
   }
   return "";
 
@@ -1395,7 +1402,7 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(int row, int count) {
     PlaylistItemPtr item(items_.takeAt(row));
     ret << item;
 
-    if (item->type() == "Collection") {
+    if (item->source() == Song::Source_Collection) {
       int id = item->Metadata().id();
       if (id != -1) {
         collection_items_by_id_.remove(id, item);

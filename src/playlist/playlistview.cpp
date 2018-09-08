@@ -1057,11 +1057,10 @@ void PlaylistView::StretchChanged(bool stretch) {
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
 
   if (event->type() == QEvent::Enter && (object == horizontalScrollBar() || object == verticalScrollBar())) {
-    //RatingHoverOut();
     return false;
   }
   return QObject::eventFilter(object, event);
-  
+
 }
 
 void PlaylistView::rowsInserted(const QModelIndex &parent, int start, int end) {

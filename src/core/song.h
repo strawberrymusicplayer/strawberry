@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +38,7 @@
 #include <QRegExp>
 #include <QUrl>
 #include <QImage>
+#include <QIcon>
 #include <QTextCodec>
 #include <QSqlQuery>
 
@@ -87,29 +89,48 @@ class Song {
 
   // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
   // If a new lossless file is added, also add it to IsFileLossless().
-  enum FileType {
-    Type_Unknown = 0,
-    Type_WAV = 1,
-    Type_FLAC = 2,
-    Type_WavPack = 3,
-    Type_OggFlac = 4,
-    Type_OggVorbis = 5,
-    Type_OggOpus = 6,
-    Type_OggSpeex = 7,
-    Type_MPEG = 8,
-    Type_MP4 = 9,
-    Type_ASF = 10,
-    Type_AIFF = 11,
-    Type_MPC = 12,
-    Type_TrueAudio = 13,
-    Type_DSF = 14,
-    Type_DSDIFF = 15,
-    Type_CDDA = 90,
-    Type_Stream = 91,
+
+  enum Source {
+    Source_Unknown = 0,
+    Source_LocalFile = 1,
+    Source_Collection = 2,
+    Source_CDDA = 3,
+    Source_Device = 4,
+    Source_Stream = 5,
+    Source_Tidal = 6,
   };
 
-  static QString TextForFiletype(FileType type);
+  enum FileType {
+    FileType_Unknown = 0,
+    FileType_WAV = 1,
+    FileType_FLAC = 2,
+    FileType_WavPack = 3,
+    FileType_OggFlac = 4,
+    FileType_OggVorbis = 5,
+    FileType_OggOpus = 6,
+    FileType_OggSpeex = 7,
+    FileType_MPEG = 8,
+    FileType_MP4 = 9,
+    FileType_ASF = 10,
+    FileType_AIFF = 11,
+    FileType_MPC = 12,
+    FileType_TrueAudio = 13,
+    FileType_DSF = 14,
+    FileType_DSDIFF = 15,
+    FileType_CDDA = 90,
+    FileType_Stream = 91,
+  };
+
+  static QString TextForSource(Source source);
+  static QIcon IconForSource(Source source);
+  static QString TextForFiletype(FileType filetype);
+  QIcon IconForFiletype(FileType filetype);
+
+  QString TextForSource() const { return TextForSource(source()); }
+  QIcon IconForSource() const { return IconForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
+  QIcon IconForFiletype(FileType filetype) const { return IconForFiletype(filetype); }
+
   bool IsFileLossless() const;
   static FileType FiletypeByExtension(QString ext);
 
@@ -182,6 +203,7 @@ class Song {
   int samplerate() const;
   int bitdepth() const;
 
+  Source source() const;
   int directory_id() const;
   const QUrl &url() const;
   const QString &basefilename() const;
@@ -260,7 +282,8 @@ class Song {
   void set_bitrate(int v);
   void set_samplerate(int v);
   void set_bitdepth(int v);
-  
+
+  void set_source(Source v);
   void set_directory_id(int v);
   void set_url(const QUrl &v);
   void set_basefilename(const QString &v);

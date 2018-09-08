@@ -33,7 +33,7 @@
 
 class SongPlaylistItem : public PlaylistItem {
  public:
-  SongPlaylistItem(const QString &type);
+  SongPlaylistItem(const Song::Source &source);
   SongPlaylistItem(const Song &song);
 
   // Restores a stream- or file-related playlist item using query row.

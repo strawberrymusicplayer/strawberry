@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,11 +47,11 @@ class SqlRow;
 
 class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
  public:
-  PlaylistItem(const QString &type) : should_skip_(false), type_(type) {}
+  PlaylistItem(const Song::Source &source) : should_skip_(false), source_(source) {}
   virtual ~PlaylistItem();
 
-  static PlaylistItem* NewFromType(const QString &type);
-  static PlaylistItem* NewFromSongsTable(const QString &table, const Song &song);
+  static PlaylistItem *NewFromSource(const Song::Source &source);
+  static PlaylistItem *NewFromSongsTable(const QString &table, const Song &song);
 
   enum Option {
     Default = 0x00,
@@ -63,7 +64,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   };
   Q_DECLARE_FLAGS(Options, Option);
 
-  virtual QString type() const { return type_; }
+  virtual Song::Source source() const { return source_; }
 
   virtual Options options() const { return Default; }
 
@@ -104,14 +105,14 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
  protected:
   bool should_skip_;
 
-  enum DatabaseColumn { Column_CollectionId, Column_InternetService };
+  enum DatabaseColumn { Column_CollectionId };
 
   virtual QVariant DatabaseValue(DatabaseColumn) const {
     return QVariant(QVariant::String);
   }
   virtual Song DatabaseSongMetadata() const { return Song(); }
 
-  QString type_;
+  Song::Source source_;
 
   Song temp_metadata_;
 
