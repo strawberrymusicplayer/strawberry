@@ -262,9 +262,60 @@ void ContextView::UpdateSong() {
     ui_->layout_play_data->setEnabled(true);
     ui_->filetype->setText(song_.TextForFiletype());
     ui_->length->setText(Utilities::PrettyTimeNanosec(song_.length_nanosec()));
-    SetText(ui_->samplerate, song_.samplerate(), "Hz");
-    SetText(ui_->bitdepth, song_.bitdepth(), "Bit");
-    SetText(ui_->bitrate, song_.bitrate(), tr("kbps"));
+    if (song_.samplerate() <= 0) {
+      ui_->label_samplerate->setEnabled(false);
+      ui_->label_samplerate->setVisible(false);
+      ui_->label_samplerate->setMaximumSize(0, 0);
+      ui_->samplerate->setEnabled(false);
+      ui_->samplerate->setVisible(false);
+      ui_->samplerate->setMaximumSize(0, 0);
+      ui_->samplerate->clear();
+    }
+    else {
+      ui_->label_samplerate->setEnabled(true);
+      ui_->label_samplerate->setVisible(true);
+      ui_->label_samplerate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      ui_->samplerate->setEnabled(true);
+      ui_->samplerate->setVisible(true);
+      ui_->samplerate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      SetText(ui_->samplerate, song_.samplerate(), "Hz");
+    }
+    if (song_.bitdepth() <= 0) {
+      ui_->label_bitdepth->setEnabled(false);
+      ui_->label_bitdepth->setVisible(false);
+      ui_->label_bitdepth->setMaximumSize(0, 0);
+      ui_->bitdepth->setEnabled(false);
+      ui_->bitdepth->setVisible(false);
+      ui_->bitdepth->setMaximumSize(0, 0);
+      ui_->bitdepth->clear();
+    }
+    else {
+      ui_->label_bitdepth->setEnabled(true);
+      ui_->label_bitdepth->setVisible(true);
+      ui_->label_bitdepth->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      ui_->bitdepth->setEnabled(true);
+      ui_->bitdepth->setVisible(true);
+      ui_->bitdepth->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      SetText(ui_->bitdepth, song_.bitdepth(), "Bit");
+    }
+    if (song_.bitrate() <= 0) {
+      ui_->label_bitrate->setEnabled(false);
+      ui_->label_bitrate->setVisible(false);
+      ui_->label_bitrate->setMaximumSize(0, 0);
+      ui_->bitrate->setEnabled(false);
+      ui_->bitrate->setVisible(false);
+      ui_->bitrate->setMaximumSize(0, 0);
+      ui_->bitrate->clear();
+    }
+    else {
+      ui_->label_bitrate->setEnabled(true);
+      ui_->label_bitrate->setVisible(true);
+      ui_->label_bitrate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      ui_->bitrate->setEnabled(true);
+      ui_->bitrate->setVisible(true);
+      ui_->bitrate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+      SetText(ui_->bitrate, song_.bitrate(), tr("kbps"));
+    }
     ui_->spacer_play_data->changeSize(20, 20, QSizePolicy::Fixed);
   }
   else {
