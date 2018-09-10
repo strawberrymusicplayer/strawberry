@@ -49,6 +49,7 @@ class AuddLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
   static const char *kAPITokenB64;
+  static const int kMaxLength;
   QNetworkAccessManager *network_;
   void Error(quint64 id, QString error, QVariant debug = QVariant());
   

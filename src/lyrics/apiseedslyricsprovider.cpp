@@ -68,11 +68,13 @@ bool APISeedsLyricsProvider::StartSearch(const QString &artist, const QString &a
     url_query.addQueryItem(encoded_arg.first, encoded_arg.second);
   }
 
-  QUrl url(QString("%1/%2/%3").arg(kUrlSearch).arg(artist).arg(title));
+  QUrl url(QString("%1/%2/%3").arg(kUrlSearch).arg(QString::fromLatin1(QUrl::toPercentEncoding(artist))).arg(QString::fromLatin1(QUrl::toPercentEncoding(title))));
   url.setQuery(url_query);
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
-  
+
+  //qLog(Debug) << "APISeedsLyrics: Sending request for" << url;
+
   return true;
 
 }
@@ -106,6 +108,8 @@ void APISeedsLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id,
   result.score = 0.0;
   if (result.artist.toLower() == artist.toLower()) result.score += 1.0;
   if (result.title.toLower() == title.toLower()) result.score += 1.0;
+
+  //qLog(Debug) << "APISeedsLyrics:" << result.artist << result.title << result.lyrics;
 
   results << result;
 
@@ -155,7 +159,7 @@ QJsonObject APISeedsLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 
 
   QJsonObject json_obj = ExtractJsonObj(reply, id);
   if (json_obj.isEmpty()) return QJsonObject();
-  
+
   if (json_obj.contains("error")) {
     Error(id, json_obj["error"].toString(), json_obj);
     return QJsonObject();

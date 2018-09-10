@@ -49,6 +49,7 @@
 
 const char *AuddLyricsProvider::kUrlSearch = "https://api.audd.io/findLyrics/";
 const char *AuddLyricsProvider::kAPITokenB64 = "ZjA0NjQ4YjgyNDM3ZTc1MjY3YjJlZDI5ZDBlMzQxZjk=";
+const int AuddLyricsProvider::kMaxLength = 6000;
 
 AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : LyricsProvider("AudD", parent), network_(new NetworkAccessManager(this)) {}
 
@@ -78,6 +79,8 @@ bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
 
+  //qLog(Debug) << "AudDLyrics: Sending request for" << url;
+
   return true;
 
 }
@@ -97,7 +100,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, con
   LyricsSearchResults results;
   for (const QJsonValue &value : json_result) {
     if (!value.isObject()) {
-      qLog(Error) << "AuddLyrics: Invalid Json reply, result is not an object.";
+      qLog(Error) << "AudDLyrics: Invalid Json reply, result is not an object.";
       qLog(Debug) << value;
       continue;
     }
@@ -109,7 +112,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, con
        !json_obj.contains("artist") ||
        !json_obj.contains("lyrics")
        ) {
-      qLog(Error) << "AuddLyrics: Invalid Json reply, result is missing data.";
+      qLog(Error) << "AudDLyrics: Invalid Json reply, result is missing data.";
       qLog(Debug) << value;
       continue;
     }
@@ -117,9 +120,12 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, con
     result.artist = json_obj["artist"].toString();
     result.title = json_obj["title"].toString();
     result.lyrics = json_obj["lyrics"].toString();
+    if (result.lyrics.length() > kMaxLength) continue;
+    if (result.lyrics == "error") continue;
     result.score = 0.0;
     if (result.artist.toLower() == artist.toLower()) result.score += 1.0;
     if (result.title.toLower() == title.toLower()) result.score += 1.0;
+    //qLog(Debug) << "AudDLyrics:" << result.artist << result.title << result.lyrics.length();
 
     results << result;
   }
@@ -208,7 +214,7 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 id) {
 }
 
 void AuddLyricsProvider::Error(quint64 id, QString error, QVariant debug) {
-  qLog(Error) << "AuddLyrics:" << error;
+  qLog(Error) << "AudDLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
   LyricsSearchResults results;
   emit SearchFinished(id, results);
