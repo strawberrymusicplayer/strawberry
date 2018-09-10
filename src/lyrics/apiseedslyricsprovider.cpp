@@ -119,13 +119,37 @@ void APISeedsLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id,
 
 QJsonObject APISeedsLyricsProvider::ExtractJsonObj(QNetworkReply *reply, quint64 id) {
 
-  if (reply->error() != QNetworkReply::NoError) {
-    QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+  QByteArray data;
+
+  if (reply->error() == QNetworkReply::NoError) {
+    data = reply->readAll();
+  }
+  else {
+    QString failure_reason;
+    if (reply->error() < 200) {
+      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    }
+    else {
+      // See if there is JSON data containing "error" - then use that instead.
+      data = reply->readAll();
+      QJsonParseError error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+        QJsonObject json_obj = json_doc.object();
+        if (!json_obj.isEmpty() && json_obj.contains("error")) {
+          failure_reason = json_obj["error"].toString();
+        }
+        else {
+          failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+      }
+      else {
+        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      }
+    }
     Error(id, failure_reason);
     return QJsonObject();
   }
-
-  QByteArray data(reply->readAll());
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
