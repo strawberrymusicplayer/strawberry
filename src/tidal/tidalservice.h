@@ -52,7 +52,6 @@ class TidalService : public InternetService {
 
   void ReloadSettings();
 
-  void Login(const QString &username, const QString &password, int search_id = 0);
   void Logout();
   int Search(const QString &query, TidalSettingsPage::SearchBy searchby);
   void CancelSearch();
@@ -61,6 +60,8 @@ class TidalService : public InternetService {
   const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
 
  signals:
+  void Login(const int search_id = 0);
+  void Login(const QString &username, const QString &password, const int search_id = 0);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
   void SearchResults(int id, SongList songs);
@@ -71,8 +72,10 @@ class TidalService : public InternetService {
 
  public slots:
   void ShowConfig();
+  void SendLogin(const QString &username, const QString &password, const int search_id = 0);
 
  private slots:
+  void SendLogin(const int search_id = 0);
   void HandleAuthReply(QNetworkReply *reply, int search_id);
   void StartSearch();
   void SearchFinished(QNetworkReply *reply, int search_id);
@@ -83,8 +86,8 @@ class TidalService : public InternetService {
   void ClearSearch();
   void LoadSessionID();
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<QPair<QString, QString>> &params);
-  QJsonObject ExtractJsonObj(QNetworkReply *reply);
-  QJsonArray ExtractItems(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(QNetworkReply *reply, bool sendlogin = false);
+  QJsonArray ExtractItems(QNetworkReply *reply, bool sendlogin = false);
   void SendSearch();
   void GetAlbum(const int album_id);
   Song ParseSong(const int album_id_requested, const QJsonValue &value);

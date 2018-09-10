@@ -45,6 +45,8 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   connect(ui_->button_login, SIGNAL(clicked()), SLOT(LoginClicked()));
   connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
 
+  connect(this, SIGNAL(Login(QString, QString, int)), service_, SLOT(SendLogin(QString, QString, int)));
+
   connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
   connect(service_, SIGNAL(LoginSuccess()), SLOT(LoginSuccess()));
 
@@ -109,7 +111,7 @@ void TidalSettingsPage::Save() {
 }
 
 void TidalSettingsPage::LoginClicked() {
-  service_->Login(ui_->username->text(), ui_->password->text());
+  emit Login(ui_->username->text(), ui_->password->text());
   ui_->button_login->setEnabled(false);
 }
 

@@ -78,6 +78,9 @@ TidalService::TidalService(Application *app, InternetModel *parent)
   timer_searchdelay_->setSingleShot(true);
   connect(timer_searchdelay_, SIGNAL(timeout()), SLOT(StartSearch()));
 
+  connect(this, SIGNAL(Login(int)), SLOT(SendLogin(int)));
+  connect(this, SIGNAL(Login(QString, QString, int)), SLOT(SendLogin(QString, QString, int)));
+
   ReloadSettings();
   LoadSessionID();
 
@@ -117,7 +120,11 @@ void TidalService::LoadSessionID() {
 
 }
 
-void TidalService::Login(const QString &username, const QString &password, int search_id) {
+void TidalService::SendLogin(const int search_id) {
+  SendLogin(username_, password_, search_id);
+}
+
+void TidalService::SendLogin(const QString &username, const QString &password, const int search_id) {
 
   if (search_id != 0) emit UpdateStatus("Authenticating...");
 
@@ -296,7 +303,7 @@ QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const 
 
 }
 
-QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply) {
+QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, bool sendlogin) {
 
   QByteArray data;
 
@@ -331,11 +338,11 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply) {
       if (reply->error() == QNetworkReply::ContentAccessDenied || reply->error() == QNetworkReply::ContentOperationNotPermittedError || reply->error() == QNetworkReply::AuthenticationRequiredError) {
         // Session is probably expired, attempt to login once
         Logout();
-        if (login_attempts_ < 1 && !username_.isEmpty() && !password_.isEmpty()) {
+        if (sendlogin && login_attempts_ < 1 && !username_.isEmpty() && !password_.isEmpty()) {
           qLog(Error) << "Tidal:" << failure_reason;
           qLog(Error) << "Tidal:" << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
           qLog(Error) << "Tidal:" << "Attempting to login.";
-          Login(username_, password_);
+          emit Login(search_id_);
         }
         else {
           Error(failure_reason);
@@ -381,9 +388,9 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply) {
 
 }
 
-QJsonArray TidalService::ExtractItems(QNetworkReply *reply) {
+QJsonArray TidalService::ExtractItems(QNetworkReply *reply, bool sendlogin) {
 
-  QJsonObject json_obj = ExtractJsonObj(reply);
+  QJsonObject json_obj = ExtractJsonObj(reply, sendlogin);
   if (json_obj.isEmpty()) return QJsonArray();
 
   if (!json_obj.contains("items")) {
@@ -485,7 +492,7 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
 
   if (id != search_id_) return;
 
-  QJsonArray json_items = ExtractItems(reply);
+  QJsonArray json_items = ExtractItems(reply, true);
   if (json_items.isEmpty()) {
     CheckFinish();
     return;

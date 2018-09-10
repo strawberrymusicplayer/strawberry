@@ -48,6 +48,9 @@ class TidalSettingsPage : public SettingsPage {
 
   bool eventFilter(QObject *object, QEvent *event);
 
+signals:
+  void Login(const QString &username, const QString &password, const int search_id = 0);
+
  private slots:
   void LoginClicked();
   void LogoutClicked();
