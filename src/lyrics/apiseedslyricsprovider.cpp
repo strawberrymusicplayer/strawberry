@@ -138,6 +138,8 @@ QJsonObject APISeedsLyricsProvider::ExtractJsonObj(QNetworkReply *reply, quint64
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("error")) {
           failure_reason = json_obj["error"].toString();
+          // Don't bother showing error when there was no match.
+          if (failure_reason == "Lyric no found, try again later.") failure_reason.clear();
         }
         else {
           failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
@@ -205,7 +207,7 @@ QJsonObject APISeedsLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 
 
 void APISeedsLyricsProvider::Error(quint64 id, QString error, QVariant debug) {
   LyricsSearchResults results;
-  qLog(Error) << "APISeedsLyrics:" << error;
+  if (!error.isEmpty()) qLog(Error) << "APISeedsLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
   emit SearchFinished(id, results);
 }
