@@ -70,6 +70,7 @@ TidalService::TidalService(Application *app, InternetModel *parent)
       albumssearchlimit_(1),
       songssearchlimit_(1),
       fetchalbums_(false),
+      user_id_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
       login_sent_(false)
@@ -440,7 +441,7 @@ void TidalService::StartSearch() {
   search_text_ = pending_search_text_;
 
   if (authenticated()) SendSearch();
-  else Login(username_, password_);
+  else emit Login(username_, password_, search_id_);
 
 }
 
