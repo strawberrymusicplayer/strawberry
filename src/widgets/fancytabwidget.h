@@ -109,8 +109,7 @@ private:
   float m_fader;
 };
 
-class FancyTabBar : public QWidget
-{
+class FancyTabBar : public QWidget {
   Q_OBJECT
 
  public:
@@ -139,7 +138,7 @@ class FancyTabBar : public QWidget
 
   QIcon tabIcon(int index) const {return m_tabs.at(index)->icon; }
   QString tabText(int index) const { return m_tabs.at(index)->text; }
-  int count() const {return m_tabs.count(); }
+  int count() const { return m_tabs.count(); }
   QRect tabRect(int index) const;
 
 signals:

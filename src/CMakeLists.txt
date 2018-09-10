@@ -856,6 +856,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
+
 qt5_wrap_cpp(MOC ${HEADERS})
 qt5_wrap_ui(UIC ${UI})
 qt5_add_resources(QRC ${RESOURCES})

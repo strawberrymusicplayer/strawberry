@@ -274,7 +274,7 @@ void TidalSearchView::SwapModels() {
 }
 
 void TidalSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
-    
+
   if (!proxy_index.isValid() || proxy_index.model() != front_proxy_) {
     return;
   }

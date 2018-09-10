@@ -101,6 +101,8 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Shows the cover of given song in it's original size.
   void ShowCover(const Song &song);
+  void ShowCover(const Song &song, const QImage image);
+  void ShowCover(const Song &song, const QPixmap &pixmap);
 
   // Search for covers automatically
   void SearchCoverAutomatically(const Song &song);

@@ -206,6 +206,26 @@ QString AlbumCoverChoiceController::UnsetCover(Song *song) {
 
 void AlbumCoverChoiceController::ShowCover(const Song &song) {
 
+  QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile());
+  ShowCover(song, pixmap);
+
+}
+
+void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage image) {
+
+  QUrl url_manual(song.art_manual());
+  QUrl url_automatic(song.art_automatic());
+
+  if (url_manual.isLocalFile() || url_automatic.isLocalFile()) {
+    QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile());  
+    ShowCover(song, pixmap);
+  }
+  else if (!image.isNull()) ShowCover(song, QPixmap::fromImage(image));
+
+}
+
+void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixmap) {
+
   QDialog *dialog = new QDialog(this);
   dialog->setAttribute(Qt::WA_DeleteOnClose, true);
 
@@ -214,7 +234,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song) {
   if (!song.effective_album().isEmpty()) title_text += " - " + song.effective_album();
 
   QLabel *label = new QLabel(dialog);
-  label->setPixmap(AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile()));
+  label->setPixmap(pixmap);
 
   // Add (WxHpx) to the title before possibly resizing
   title_text += " (" + QString::number(label->pixmap()->width()) + "x" + QString::number(label->pixmap()->height()) + "px)";
@@ -329,6 +349,7 @@ bool AlbumCoverChoiceController::CanAcceptDrag(const QDragEnterEvent *e) {
 QString AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
 
   for (const QUrl &url : e->mimeData()->urls()) {
+
     const QString filename = url.toLocalFile();
     const QString suffix = QFileInfo(filename).suffix().toLower();
 

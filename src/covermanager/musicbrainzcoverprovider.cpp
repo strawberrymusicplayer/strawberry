@@ -55,7 +55,7 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
   QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(album.trimmed().replace('"', "\\\"")).arg(artist.trimmed().replace('"', "\\\""));
   QUrlQuery url_query;
   url_query.addQueryItem("query", query);
-  url_query.addQueryItem("limit", "15");
+  url_query.addQueryItem("limit", "6");
   QUrl url(kReleaseSearchUrl);
   url.setQuery(url_query);
   QNetworkRequest request(url);

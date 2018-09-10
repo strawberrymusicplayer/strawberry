@@ -2346,7 +2346,7 @@ void MainWindow::UnsetCover() {
 }
 
 void MainWindow::ShowCover() {
-  album_cover_choice_controller_->ShowCover(song_);
+  album_cover_choice_controller_->ShowCover(song_, image_original_);
 }
 
 void MainWindow::SearchCoverAutomatically() {

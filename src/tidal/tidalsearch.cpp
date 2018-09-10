@@ -261,7 +261,7 @@ void TidalSearch::HandleLoadedArt(int id, const QImage &image) {
 }
 
 QImage TidalSearch::ScaleAndPad(const QImage &image) {
-    
+
   if (image.isNull()) return QImage();
 
   const QSize target_size = QSize(kArtHeight, kArtHeight);
