@@ -124,12 +124,12 @@ class Song {
   static QString TextForSource(Source source);
   static QIcon IconForSource(Source source);
   static QString TextForFiletype(FileType filetype);
-  QIcon IconForFiletype(FileType filetype);
+  static QIcon IconForFiletype(FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }
   QIcon IconForSource() const { return IconForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
-  QIcon IconForFiletype(FileType filetype) const { return IconForFiletype(filetype); }
+  QIcon IconForFiletype() const { return IconForFiletype(filetype()); }
 
   bool IsFileLossless() const;
   static FileType FiletypeByExtension(QString ext);
