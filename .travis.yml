@@ -23,8 +23,8 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
 before_script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; docker exec build cmake -H/repo -B/build ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; mkdir build; cd build; cmake .. -DFORCE_GIT_REVISION="0.0.0-0-g0000000"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -H/repo -B/build ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DFORCE_GIT_REVISION="0.0.0-0-g0000000"; fi
 script:
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; docker exec build make -j8 ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; make -j8 ; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -j8 ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
