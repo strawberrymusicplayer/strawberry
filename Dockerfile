@@ -12,3 +12,7 @@ run zypper --non-interactive --gpg-auto-import-keys install \
     libQt5Core-devel libQt5Gui-devel libQt5Widgets-devel libQt5Concurrent-devel libQt5Network-devel libQt5OpenGL-devel libQt5Sql-devel \
     libqt5-qtx11extras-devel libQt5Gui-private-headers-devel libqt5-qtbase-common-devel liblastfm-qt5-devel \
     libcdio-devel libgpod-devel libplist-devel libmtp-devel libusbmuxd-devel libchromaprint-devel
+
+run mkdir -p /usr/src/app
+workdir /usr/src/app
+copy . /usr/src/app
