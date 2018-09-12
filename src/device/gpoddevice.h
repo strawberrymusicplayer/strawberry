@@ -69,19 +69,22 @@ public:
   bool DeleteFromStorage(const DeleteJob &job);
   void FinishDelete(bool success);
 
-protected slots:
+ signals:
+  void Error(const QString &message);
+
+ protected slots:
   void LoadFinished(Itdb_iTunesDB *db);
 
-protected:
+ protected:
   Itdb_Track *AddTrackToITunesDb(const Song &metadata);
   void AddTrackToModel(Itdb_Track *track, const QString &prefix);
   bool RemoveTrackFromITunesDb(const QString &path, const QString &relative_to = QString());
   virtual void FinaliseDatabase() {}
 
-private:
+ private:
   void WriteDatabase(bool success);
 
-protected:
+ protected:
   QThread *loader_thread_;
   GPodLoader *loader_;
 
