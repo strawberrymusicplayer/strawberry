@@ -1,30 +1,28 @@
 sudo: required
 language: C++
+os:
+  - linux
+  - osx
 services:
   - docker
-#os:
-#  - linux
-#  - osx
-
 compiler:
   - gcc
   - clang
 
 before_install:
-  - docker build -f Dockerfile -t strawberry-devel .
-  - docker run -d -p 127.0.0.1:80:4567 strawberry-devel /bin/sh -c "cd /root; bundle exec foreman start;"
-  - docker ps -a
-  - docker run strawberry-devel /bin/sh -c "cd /root; bundle exec rake test"
-#- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker build -f Dockerfile . ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git glib pkgconfig protobuf protobuf-c qt ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sqlite --with-fts ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-bad gst-plugins-ugly ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build -f Dockerfile -t strawberry-build . ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run -d -p 127.0.0.1:80:4567 strawberry-build ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker ps -a ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run strawberry-build
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git glib pkgconfig protobuf protobuf-c qt ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sqlite --with-fts ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-bad gst-plugins-ugly ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
 before_script:
   - mkdir build
   - cd build
