@@ -1036,7 +1036,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":samplerate", intval(d->samplerate_));
   query->bindValue(":bitdepth", intval(d->bitdepth_));
 
-  query->bindValue(":source", notnullintval(d->source_));
+  query->bindValue(":source", d->source_);
   query->bindValue(":directory_id", notnullintval(d->directory_id_));
 
   if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(d->url_)) {

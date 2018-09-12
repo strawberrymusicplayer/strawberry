@@ -431,7 +431,7 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
 
 }
 
-SongSourceDelegate::SongSourceDelegate(QObject *parent, Player *player) : PlaylistDelegateBase(parent), player_(player) {}
+SongSourceDelegate::SongSourceDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
 
 QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) const {
   return QString();

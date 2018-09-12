@@ -172,14 +172,13 @@ class NativeSeparatorsDelegate : public PlaylistDelegateBase {
 
 class SongSourceDelegate : public PlaylistDelegateBase {
  public:
-  SongSourceDelegate(QObject *parent, Player *player);
+  SongSourceDelegate(QObject *parent);
   QString displayText(const QVariant &value, const QLocale &locale) const;
   void paint(QPainter *paint, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  private:
   QPixmap LookupPixmap(const Song::Source &type, const QSize &size) const;
 
-  Player *player_;
   mutable QPixmapCache cache_;
 };
 

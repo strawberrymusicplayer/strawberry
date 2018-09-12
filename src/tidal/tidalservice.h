@@ -57,7 +57,7 @@ class TidalService : public InternetService {
   void CancelSearch();
 
   const bool login_sent() { return login_sent_; }
-  const bool authenticated() { return (!session_id_.isEmpty() && !user_id_ == 0 && !country_code_.isEmpty()); }
+  const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
 
  signals:
   void Login(const int search_id = 0);

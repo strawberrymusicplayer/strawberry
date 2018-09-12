@@ -232,12 +232,7 @@ void PlaylistView::SetItemDelegates(CollectionBackend *backend) {
   setItemDelegateForColumn(Playlist::Column_Filename, new NativeSeparatorsDelegate(this));
   setItemDelegateForColumn(Playlist::Column_LastPlayed, new LastPlayedItemDelegate(this));
 
-  if (app_ && app_->player()) {
-    setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this, app_->player()));
-  }
-  else {
-    header_->HideSection(Playlist::Column_Source);
-  }
+  setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this));
 
 }
 

@@ -163,7 +163,6 @@ void TidalService::HandleAuthReply(QNetworkReply *reply, int search_id) {
 
   login_sent_ = false;
 
-  //int http_status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
   if (reply->error() != QNetworkReply::NoError) {
     if (reply->error() < 200) {
       // This is a network error, there is nothing more to do.
@@ -308,7 +307,6 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, bool sendlogin) {
 
   QByteArray data;
 
-  //int http_status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
   if (reply->error() == QNetworkReply::NoError) {
     data = reply->readAll();
   }
@@ -450,8 +448,8 @@ void TidalService::CancelSearch() {
 }
 void TidalService::ClearSearch() {
   search_id_ = 0;
-  search_text_ = QString();
-  search_error_ = QString();
+  search_text_.clear();
+  search_error_.clear();
   albums_requested_ = 0;
   songs_requested_ = 0;
   albums_received_ = 0;
