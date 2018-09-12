@@ -1,31 +1,30 @@
+sudo: required
 language: C++
-sudo: false
 os:
-#  - linux
+  - linux
   - osx
-dist: trusty
+services:
+  - docker
 compiler:
   - gcc
   - clang
+
 before_install:
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libprotobuf-dev protobuf-compiler sqlite3 dbus ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libasound2-dev libxine2-dev libvlc-dev libphonon4qt5-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq qtbase5-dev qtbase5-dev-tools qtbase5-private-dev qtdeclarative5-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq ibgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-alsa gstreamer1.0-pulseaudio ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libchromaprint-dev libpulse-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qq libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git glib pkgconfig protobuf protobuf-c qt ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sqlite --with-fts ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-bad gst-plugins-ugly ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build -f Dockerfile -t strawberry-build . ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run --name build -itd strawberry-build /bin/bash ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build git clone https://github.com/jonaski/strawberry /repo ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew unlink python ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install glib pkgconfig protobuf protobuf-c qt ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install sqlite --with-fts ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gstreamer gst-plugins-base ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-good --with-flac ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gst-plugins-bad gst-plugins-ugly ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install chromaprint ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
 before_script:
-  - mkdir build
-  - cd build
-  - cmake .. -DFORCE_GIT_REVISION="0.2.1-59-g4a124e5"
-script: make -j8
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -H/repo -B/build ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DFORCE_GIT_REVISION="0.0.0-0-g0000000"; fi
+script:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -j8 ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
