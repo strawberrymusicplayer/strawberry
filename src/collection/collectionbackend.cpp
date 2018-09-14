@@ -109,12 +109,14 @@ void CollectionBackend::ChangeDirPath(int id, const QString &old_path, const QSt
   ScopedTransaction t(&db);
 
   // Do the dirs table
-  QSqlQuery q(db);
-  q.prepare(QString("UPDATE %1 SET path=:path WHERE ROWID=:id").arg(dirs_table_));
-  q.bindValue(":path", new_path);
-  q.bindValue(":id", id);
-  q.exec();
-  if (db_->CheckErrors(q)) return;
+  {
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET path=:path WHERE ROWID=:id").arg(dirs_table_));
+    q.bindValue(":path", new_path);
+    q.bindValue(":id", id);
+    q.exec();
+    if (db_->CheckErrors(q)) return;
+  }
 
   const QByteArray old_url = QUrl::fromLocalFile(old_path).toEncoded();
   const QByteArray new_url = QUrl::fromLocalFile(new_path).toEncoded();
@@ -122,20 +124,24 @@ void CollectionBackend::ChangeDirPath(int id, const QString &old_path, const QSt
   const int path_len = old_url.length();
 
   // Do the subdirs table
-  q = QSqlQuery(db);
-  q.prepare(QString("UPDATE %1 SET path=:path || substr(path, %2) WHERE directory=:id").arg(subdirs_table_).arg(path_len));
-  q.bindValue(":path", new_url);
-  q.bindValue(":id", id);
-  q.exec();
-  if (db_->CheckErrors(q)) return;
+  {
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET path=:path || substr(path, %2) WHERE directory=:id").arg(subdirs_table_).arg(path_len));
+    q.bindValue(":path", new_url);
+    q.bindValue(":id", id);
+    q.exec();
+    if (db_->CheckErrors(q)) return;
+  }
 
   // Do the songs table
-  q = QSqlQuery(db);
-  q.prepare(QString("UPDATE %1 SET filename=:path || substr(filename, %2) WHERE directory=:id").arg(songs_table_).arg(path_len));
-  q.bindValue(":path", new_url);
-  q.bindValue(":id", id);
-  q.exec();
-  if (db_->CheckErrors(q)) return;
+  {
+    QSqlQuery q(db);
+    q.prepare(QString("UPDATE %1 SET filename=:path || substr(filename, %2) WHERE directory=:id").arg(songs_table_).arg(path_len));
+    q.bindValue(":path", new_url);
+    q.bindValue(":id", id);
+    q.exec();
+    if (db_->CheckErrors(q)) return;
+  }
 
   t.Commit();
 

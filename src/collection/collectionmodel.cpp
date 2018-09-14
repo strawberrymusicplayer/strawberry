@@ -182,6 +182,7 @@ void CollectionModel::Init(bool async) {
 void CollectionModel::SongsDiscovered(const SongList &songs) {
 
   for (const Song &song : songs) {
+
     // Sanity check to make sure we don't add songs that are outside the user's filter
     if (!query_options_.Matches(song)) continue;
 
@@ -256,7 +257,6 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
       // If we just created the damn thing then we don't need to continue into it any further because it'll get lazy-loaded properly later.
       if (!container->lazy_loaded) break;
     }
-
     if (!container->lazy_loaded) continue;
 
     // We've gone all the way down to the deepest level and everything was already lazy loaded, so now we have to create the song in the container.
@@ -1148,6 +1148,7 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
 
   FinishItem(type, signal, create_divider, parent, item);
   if (s.url().scheme() == "cdda") item->lazy_loaded = true;
+
   return item;
 
 }

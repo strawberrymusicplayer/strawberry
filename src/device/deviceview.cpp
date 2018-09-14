@@ -75,7 +75,7 @@ DeviceItemDelegate::DeviceItemDelegate(QObject *parent)
 void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, const QModelIndex &index) const {
 
   // Is it a device or a collection item?
-  if (index.data(DeviceManager::Role_State).isNull()) {
+  if (index.data(DeviceManager::Role::Role_State).isNull()) {
     CollectionItemDelegate::paint(p, opt, index);
     return;
   }
@@ -203,10 +203,10 @@ void DeviceView::SetApplication(Application *app) {
 
   merged_model_ = new MergedProxyModel(this);
   merged_model_->setSourceModel(sort_model_);
+  setModel(merged_model_);
 
   connect(merged_model_, SIGNAL(SubModelReset(QModelIndex, QAbstractItemModel*)), SLOT(RecursivelyExpand(QModelIndex)));
 
-  setModel(merged_model_);
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
 #ifdef HAVE_GSTREAMER
@@ -274,9 +274,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
 QModelIndex DeviceView::MapToDevice(const QModelIndex &merged_model_index) const {
 
   QModelIndex sort_model_index = merged_model_->mapToSource(merged_model_index);
-  if (sort_model_index.model() != sort_model_)
-    return QModelIndex();
-
+  if (sort_model_index.model() != sort_model_) return QModelIndex();
   return sort_model_->mapToSource(sort_model_index);
 
 }
@@ -285,7 +283,6 @@ QModelIndex DeviceView::FindParentDevice(const QModelIndex &merged_model_index) 
 
   QModelIndex index = merged_model_->FindSourceParent(merged_model_index);
   if (index.model() != sort_model_) return QModelIndex();
-
   return sort_model_->mapToSource(index);
 
 }
@@ -296,7 +293,6 @@ QModelIndex DeviceView::MapToCollection(const QModelIndex &merged_model_index) c
   if (const QSortFilterProxyModel *sort_model = qobject_cast<const QSortFilterProxyModel*>(sort_model_index.model())) {
     return sort_model->mapToSource(sort_model_index);
   }
-
   return QModelIndex();
 
 }
@@ -462,4 +458,3 @@ bool DeviceView::CanRecursivelyExpand(const QModelIndex &index) const {
   // Never expand devices
   return index.parent().isValid();
 }
-

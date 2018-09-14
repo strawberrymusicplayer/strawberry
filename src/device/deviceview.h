@@ -50,12 +50,15 @@ class MergedProxyModel;
 class OrganiseDialog;
 
 class DeviceItemDelegate : public CollectionItemDelegate {
+  Q_OBJECT
+
  public:
   DeviceItemDelegate(QObject *parent);
 
   static const int kIconPadding;
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
 };
 
 class DeviceView : public AutoExpandingTreeView {

@@ -74,7 +74,6 @@
         <file>icons/128x128/go-previous.png</file>
         <file>icons/128x128/go-up.png</file>
         <file>icons/128x128/gstreamer.png</file>
-        <file>icons/128x128/guitar.png</file>
         <file>icons/128x128/headset.png</file>
         <file>icons/128x128/help-hint.png</file>
         <file>icons/128x128/intel.png</file>
@@ -94,7 +93,6 @@
         <file>icons/128x128/play2.png</file>
         <file>icons/128x128/realtek.png</file>
         <file>icons/128x128/search.png</file>
-        <file>icons/128x128/soundcard2.png</file>
         <file>icons/128x128/soundcard.png</file>
         <file>icons/128x128/speaker.png</file>
         <file>icons/128x128/star-grey.png</file>
@@ -161,7 +159,6 @@
         <file>icons/64x64/go-previous.png</file>
         <file>icons/64x64/go-up.png</file>
         <file>icons/64x64/gstreamer.png</file>
-        <file>icons/64x64/guitar.png</file>
         <file>icons/64x64/headset.png</file>
         <file>icons/64x64/help-hint.png</file>
         <file>icons/64x64/intel.png</file>
@@ -182,7 +179,6 @@
         <file>icons/64x64/pulseaudio.png</file>
         <file>icons/64x64/realtek.png</file>
         <file>icons/64x64/search.png</file>
-        <file>icons/64x64/soundcard2.png</file>
         <file>icons/64x64/soundcard.png</file>
         <file>icons/64x64/speaker.png</file>
         <file>icons/64x64/star-grey.png</file>
@@ -248,7 +244,6 @@
         <file>icons/48x48/go-previous.png</file>
         <file>icons/48x48/go-up.png</file>
         <file>icons/48x48/gstreamer.png</file>
-        <file>icons/48x48/guitar.png</file>
         <file>icons/48x48/headset.png</file>
         <file>icons/48x48/help-hint.png</file>
         <file>icons/48x48/intel.png</file>
@@ -272,7 +267,6 @@
         <file>icons/48x48/pulseaudio.png</file>
         <file>icons/48x48/realtek.png</file>
         <file>icons/48x48/search.png</file>
-        <file>icons/48x48/soundcard2.png</file>
         <file>icons/48x48/soundcard.png</file>
         <file>icons/48x48/speaker.png</file>
         <file>icons/48x48/star-grey.png</file>
@@ -338,7 +332,6 @@
         <file>icons/32x32/go-previous.png</file>
         <file>icons/32x32/go-up.png</file>
         <file>icons/32x32/gstreamer.png</file>
-        <file>icons/32x32/guitar.png</file>
         <file>icons/32x32/headset.png</file>
         <file>icons/32x32/help-hint.png</file>
         <file>icons/32x32/intel.png</file>
@@ -362,7 +355,6 @@
         <file>icons/32x32/pulseaudio.png</file>
         <file>icons/32x32/realtek.png</file>
         <file>icons/32x32/search.png</file>
-        <file>icons/32x32/soundcard2.png</file>
         <file>icons/32x32/soundcard.png</file>
         <file>icons/32x32/speaker.png</file>
         <file>icons/32x32/star-grey.png</file>
@@ -429,7 +421,6 @@
         <file>icons/22x22/go-previous.png</file>
         <file>icons/22x22/go-up.png</file>
         <file>icons/22x22/gstreamer.png</file>
-        <file>icons/22x22/guitar.png</file>
         <file>icons/22x22/headset.png</file>
         <file>icons/22x22/help-hint.png</file>
         <file>icons/22x22/intel.png</file>
@@ -453,7 +444,6 @@
         <file>icons/22x22/pulseaudio.png</file>
         <file>icons/22x22/realtek.png</file>
         <file>icons/22x22/search.png</file>
-        <file>icons/22x22/soundcard2.png</file>
         <file>icons/22x22/soundcard.png</file>
         <file>icons/22x22/speaker.png</file>
         <file>icons/22x22/star-grey.png</file>
