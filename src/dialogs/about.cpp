@@ -37,17 +37,20 @@
 #include "ui_about.h"
 
 About::About(QWidget *parent):QDialog(parent) {
-    
-  authors_ \
+
+  ui_.setupUi(this);
+  setWindowFlags(this->windowFlags()|Qt::WindowStaysOnTopHint);
+
+  strawberry_authors_ \
            << Person("Jonas Kvinge", "jonas@strawbs.net");
-  
+
   clementine_authors_
            << Person("David Sansome", "me@davidsansome.com")
            << Person("John Maguire", "john.maguire@gmail.com")
            << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
            << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
 
- thanks_to_ \
+ constributors_ \
            << Person("Mark Kretschmann", "kretschmann@kde.org")
            << Person("Max Howell", "max.howell@methylblue.com")
            << Person("Jakub Stachowski", "qbast@go2.pl")
@@ -67,68 +70,83 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Santiago Gil")
            << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com");
 
-
-  QString Title = "";
-
-  ui_.setupUi(this);
-  setWindowFlags(this->windowFlags()|Qt::WindowStaysOnTopHint);
-  setWindowTitle(tr("About Strawberry"));
+  QString Title("About Strawberry");
   
-  Title = QString("About Strawberry");
-  
-  ui_.title->setText(Title);
-
   QFont title_font;
   title_font.setBold(true);
   title_font.setPointSize(title_font.pointSize() + 4);
-  ui_.title->setFont(title_font);
 
-  ui_.text->setWordWrap(true);
-  ui_.text->setText(MakeHtml());
+  setWindowTitle(Title);
+
+  ui_.label_title->setFont(title_font);
+  ui_.label_title->setText(Title);
+
+  ui_.label_text->setText(MainHtml());
+  ui_.text_constributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
 
 }
 
-QString About::MakeHtml() const {
+QString About::MainHtml() const {
 
-  QString ret = "";
+  QString ret;
 
-  ret = tr("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
+  ret = QString("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
 
-  ret += tr("<p>");
-
-  ret += tr("Strawberry is a audio player and music collection organizer.<br />");
-  ret += tr("It's based on Clementine and Amarok 1.4, especially aimed at audiophiles.<br />");
-  ret += tr("The name is inspired by the band Strawbs.</p>");
-
-  //ret += tr("<p><a href=\"%1\">%2</a></p><p><b>%3:</b>").arg(kUrl, kUrl, tr("Authors"));
-
-  ret += QString("<p><b>%1</b>").arg(tr("Strawberry Authors"));
-
-  for (const Person &person : authors_) {
-    ret += "<br />" + MakeHtml(person);
-  }
-  
-  ret += QString("</p><p><b>%3:</b>").arg(tr("Clementine Authors"));
-
-  for (const Person &person : clementine_authors_) {
-    ret += "<br />" + MakeHtml(person);
-  }
-
-  ret += QString("</p><p><b>%3:</b>").arg(tr("Thanks to"));
-
-  for (const Person &person : thanks_to_) {
-    ret += "<br />" + MakeHtml(person);
-  }
-
-  ret += QString("<br />%1</p>").arg(tr("... and all the Amarok and Clementine contributors"));
+  ret += QString("<p>");
+  ret += QString("Strawberry is a audio player and music collection organizer.<br />");
+  ret += QString("It's based on Clementine and Amarok 1.4, especially aimed at audiophiles.<br />");
+  ret += QString("The name is inspired by the band Strawbs.");
+  ret += QString("</p>");
+  //ret += QString("<p>Website: <a href=\"http://www.strawbs.org/licenses/\">http://www.strawbs.org/</a></p>");
+  ret += QString("<p>");
+  ret += QString("Strawberry is free software: you can redistribute it and/or modify<br />");
+  ret += QString("it under the terms of the GNU General Public License as published by<br />");
+  ret += QString("the Free Software Foundation, either version 3 of the License, or<br />");
+  ret += QString("(at your option) any later version.<br />");
+  ret += QString("<br />");
+  ret += QString("Strawberry is distributed in the hope that it will be useful,<br />");
+  ret += QString("but WITHOUT ANY WARRANTY; without even the implied warranty of<br />");
+  ret += QString("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />");
+  ret += QString("GNU General Public License for more details.<br />");
+  ret += QString("<br />");
+  ret += QString("You should have received a copy of the GNU General Public License<br />");
+  ret += QString("along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.");
+  ret += QString("</p>");
 
   return ret;
 
 }
 
-QString About::MakeHtml(const Person &person) const {
+QString About::ContributorsHtml() const {
+
+  QString ret;
+
+  ret += QString("<p><b>Strawberry Authors</b>");
+  for (const Person &person : strawberry_authors_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += QString("</p>");
+
+  ret += QString("<p><b>Clementine Authors</b>");
+  for (const Person &person : clementine_authors_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += QString("</p>");
+
+  ret += QString("<p><b>Contributors</b>");
+  for (const Person &person : constributors_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += QString("</p>");
+
+  ret += QString("<p>... and all the Amarok and Clementine contributors</p>");
+  return ret;
+
+}
+
+QString About::PersonToHtml(const Person &person) const {
 
   if (person.email.isNull())
     return person.name;

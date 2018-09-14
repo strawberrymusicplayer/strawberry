@@ -2,30 +2,10 @@
 <ui version="4.0">
  <class>About</class>
  <widget class="QDialog" name="About">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>600</width>
-    <height>700</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
+  <property name="maximumSize">
    <size>
     <width>600</width>
     <height>700</height>
-   </size>
-  </property>
-  <property name="baseSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -50,7 +30,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_logo">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_icon">
          <property name="pixmap">
           <pixmap resource="../../data/data.qrc">:/icons/64x64/strawberry.png</pixmap>
          </property>
@@ -60,7 +40,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <spacer name="spacer_left">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -99,30 +79,53 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_text">
        <item>
-        <widget class="QLabel" name="title">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>25</height>
-          </size>
-         </property>
+        <widget class="QLabel" name="label_title">
          <property name="text">
           <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="text">
+        <widget class="QLabel" name="label_text">
          <property name="text">
           <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="text_constributors">
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacer_bottom">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QDialogButtonBox" name="buttonBox">

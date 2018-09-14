@@ -41,23 +41,22 @@ class About : public QDialog {
 
   struct Person {
     Person(const QString &n, const QString &e = QString()) : name(n), email(e) {}
-
     bool operator<(const Person &other) const { return name < other.name; }
-
     QString name;
     QString email;
   };
 
  private:
-  QString MakeHtml() const;
-  QString MakeHtml(const Person& person) const;
+  QString MainHtml() const;
+  QString ContributorsHtml() const;
+  QString PersonToHtml(const Person& person) const;
 
  private:
   Ui::About ui_;
 
-  QList<Person> authors_;
+  QList<Person> strawberry_authors_;
   QList<Person> clementine_authors_;
-  QList<Person> thanks_to_;
+  QList<Person> constributors_;
 };
 
 #endif  // ABOUT_H
