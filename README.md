@@ -7,13 +7,17 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
 ### :heavy_check_mark: Features:
 
   * Play and organize music
+  * Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
+  * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
+  * Advanced output and device options with support for bit perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
   * Album cover art from Last.fm, Musicbrainz and Discogs
-  * Lyrics from AudD and API Seeds
+  * Song lyrics from AudD and API Seeds
   * Support for multiple backends
+  * Audio analyzer
   * Equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
   * Integrated Tidal support

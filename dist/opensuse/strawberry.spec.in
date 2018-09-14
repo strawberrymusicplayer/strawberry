@@ -64,13 +64,20 @@ It is a fork of Clementine. The name is inspired by the band Strawbs.
 
 Features:
   * Play and organize music
+  * Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
+  * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
+  * Advanced output and device options with support for bit perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from Lastfm, Musicbrainz, Discogs and Amazon
-  * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Album cover art from Last.fm, Musicbrainz and Discogs
+  * Song lyrics from AudD and API Seeds
   * Support for multiple backends
+  * Audio analyzer
+  * Equalizer
+  * Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  * Integrated Tidal support
 
 %prep
 %setup -q -n %{name}-@STRAWBERRY_VERSION_PACKAGE@
