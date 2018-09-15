@@ -49,15 +49,17 @@
 #include <QSettings>
 #include <QFlags>
 #include <QtEvents>
-#ifdef Q_WS_X11
+#ifdef HAVE_X11
 # include <QX11Info>
+#endif
+#ifdef Q_OS_WIN
+# include <QtWin>
 #endif
 
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
-#ifdef Q_OS_WIN32
-# include "qtwin.h"
+#ifdef Q_OS_WIN
 # include <windows.h>
 #endif
 
@@ -160,7 +162,7 @@ OSDPretty::~OSDPretty() {
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
-#ifdef Q_WS_X11
+#ifdef HAVE_X11
   return QX11Info::isCompositingManagerRunning();
 #endif
   return true;
@@ -366,7 +368,7 @@ void OSDPretty::Reposition() {
 
 #ifdef Q_OS_WIN32
   // On windows, enable blurbehind on the masked area
-  QtWin::enableBlurBehindWindow(this, true, QRegion(mask));
+  QtWin::enableBlurBehindWindow(this, QRegion(mask));
 #endif
 }
 

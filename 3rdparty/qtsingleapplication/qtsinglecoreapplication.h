@@ -40,6 +40,8 @@
 #ifndef QTSINGLECOREAPPLICATION_H
 #define QTSINGLECOREAPPLICATION_H
 
+#include "config.h"
+
 #include <QCoreApplication>
 #include <QObject>
 #include <QString>

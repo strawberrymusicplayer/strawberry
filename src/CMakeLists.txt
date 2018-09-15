@@ -74,11 +74,6 @@ include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
 include_directories(${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader)
 
-# Windows
-if (WIN32)
-  include_directories(../3rdparty/qtwin)
-endif (WIN32)
-
 set(SOURCES
   core/mainwindow.cpp
   core/application.cpp
@@ -965,7 +960,6 @@ endif (APPLE)
 if (WIN32)
   target_link_libraries(strawberry_lib
     ${ZLIB_LIBRARIES}
-    qtwin
     dsound
     ${QT_QTGUI_LIBRARY}
   )

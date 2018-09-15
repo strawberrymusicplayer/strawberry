@@ -37,12 +37,17 @@
 **
 ****************************************************************************/
 
+#include "config.h"
 
 #include "qtsingleapplication.h"
 
 #include <QApplication>
 #include <QWidget>
 #include <QString>
+
+#ifdef HAVE_X11_ // FIXME
+#  include <X11/Xlib.h>
+#endif
 
 #include "qtlocalpeer.h"
 
@@ -173,14 +178,14 @@ QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char *
 }
 
 
-#if defined(Q_WS_X11)
+#if defined(HAVE_X11_) // FIXME
 /*!
   Special constructor for X11, ref. the documentation of
   QApplication's corresponding constructor. The application identifier
   will be QCoreApplication::applicationFilePath(). \a dpy, \a visual,
   and \a cmap are passed on to the QApplication constructor.
 */
-QtSingleApplication::QtSingleApplication(Display* dpy, Qt::HANDLE visual, Qt::HANDLE cmap)
+QtSingleApplication::QtSingleApplication(Display *dpy, Qt::HANDLE visual, Qt::HANDLE cmap)
     : QApplication(dpy, visual, cmap)
 {
     sysInit();
@@ -206,7 +211,7 @@ QtSingleApplication::QtSingleApplication(Display *dpy, int &argc, char **argv, Q
   argv, \a visual, and \a cmap are passed on to the QApplication
   constructor.
 */
-QtSingleApplication::QtSingleApplication(Display* dpy, const QString &appId, int argc, char **argv, Qt::HANDLE visual, Qt::HANDLE cmap)
+QtSingleApplication::QtSingleApplication(Display *dpy, const QString &appId, int argc, char **argv, Qt::HANDLE visual, Qt::HANDLE cmap)
     : QApplication(dpy, argc, argv, visual, cmap)
 {
     sysInit(appId);

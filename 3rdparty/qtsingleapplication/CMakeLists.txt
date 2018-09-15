@@ -27,3 +27,5 @@ ADD_LIBRARY(qtsingleapplication STATIC
 )
 
 target_link_libraries(qtsingleapplication Qt5::Core Qt5::Widgets Qt5::Network)
+
+include_directories(${CMAKE_BINARY_DIR}/src)

@@ -137,6 +137,9 @@ endif()
 if(APPLE)
   find_package(Qt5 REQUIRED COMPONENTS MacExtras)
 endif()
+if(WIN32)
+  find_package(Qt5 REQUIRED COMPONENTS WinExtras)
+endif()
 
 set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml)
 
@@ -149,11 +152,9 @@ endif()
 if(APPLE)
   set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::MacExtras)
 endif()
-
-# Don't try to use webkit if their include directories couldn't be found.
-if (NOT QT_QTWEBKIT_INCLUDE_DIR)
-  set (QT_USE_QTWEBKIT 0)
-endif (NOT QT_QTWEBKIT_INCLUDE_DIR)
+if(WIN32)
+  set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::WinExtras)
+endif()
 
 # TAGLIB
 pkg_check_modules(TAGLIB taglib)
@@ -242,11 +243,6 @@ endif (USE_SYSTEM_QXT)
 # Qocoa
 set(QOCOA_LIBRARIES Qocoa)
 add_subdirectory(3rdparty/qocoa)
-
-# Windows
-if (WIN32)
-  add_subdirectory(3rdparty/qtwin)
-endif (WIN32)
 
 if (APPLE)
   find_library(SPARKLE Sparkle)

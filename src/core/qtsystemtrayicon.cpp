@@ -217,7 +217,7 @@ void QtSystemTrayIcon::SetVisible(bool visible) {
 
 void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path) {
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
   // Windows doesn't support HTML in tooltips, so just show something basic
   tray_->setToolTip(song.PrettyTitleWithArtist());
   return;
