@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.3.1:
 
     * Added new lyrics provider with lyrics from AudD and API Seeds
     * New improved context widget with albums and lyrics
