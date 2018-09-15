@@ -162,7 +162,7 @@ OSDPretty::~OSDPretty() {
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
-#ifdef HAVE_X11
+#if defined(HAVE_X11) && (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
   return QX11Info::isCompositingManagerRunning();
 #endif
   return true;
