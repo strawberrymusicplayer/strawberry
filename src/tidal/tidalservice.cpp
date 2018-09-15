@@ -229,7 +229,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply, int search_id) {
   }
 
   if ( !json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode") ) {
-    QString failure_reason = tr("Authentication reply from server is missing userId, sessionId or countryCode");
+    QString failure_reason("Authentication reply from server is missing userId, sessionId or countryCode");
     if (search_id != 0) Error(failure_reason);
     emit LoginFailure(failure_reason);
     return;
@@ -846,8 +846,13 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int search_i
 
 void TidalService::CheckFinish() {
 
+  if (search_id_ == 0) return;
+
   if (!login_sent_ && albums_requested_ <= albums_received_ && songs_requested_ <= songs_received_) {
-    if (songs_.isEmpty()) emit SearchError(search_id_, search_error_);
+    if (songs_.isEmpty()) {
+      if (search_error_.isEmpty()) emit SearchError(search_id_, "Unknown error");
+      else emit SearchError(search_id_, search_error_);
+    }
     else emit SearchResults(search_id_, songs_);
     ClearSearch();
   }

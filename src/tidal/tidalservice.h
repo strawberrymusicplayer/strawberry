@@ -93,7 +93,7 @@ class TidalService : public InternetService {
   Song ParseSong(const int album_id_requested, const QJsonValue &value);
   void GetStreamURL(const int album_id, const int song_id);
   void CheckFinish();
-  void Error(QString error, QString debug = "");
+  void Error(QString error, QString debug = QString());
 
   static const char *kApiUrl;
   static const char *kAuthUrl;
