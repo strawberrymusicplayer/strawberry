@@ -8,6 +8,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog.in ${CMAKE_CURRENT_S
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-64.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-64.nsi @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-debug.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-debug.nsi @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-debug-64.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry-debug-64.nsi @ONLY)
 
 if (UNIX AND NOT APPLE)
