@@ -48,7 +48,7 @@ SetCompressor /SOLID lzma
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
 Name "${PRODUCT_NAME}"
-OutFile "${PRODUCT_NAME}Setup-${PRODUCT_DISPLAY_VERSION}-64.exe"
+OutFile "${PRODUCT_NAME}Setup-${PRODUCT_DISPLAY_VERSION}-Release-x64.exe"
 InstallDir "${PRODUCT_INSTALL_DIR}"
 
 ; Get the path where Strawberry was installed previously and set it as default path
