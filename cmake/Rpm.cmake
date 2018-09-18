@@ -1,4 +1,4 @@
-find_program(LSB_RELEASE_EXEC lsb-release)
+find_program(LSB_RELEASE_EXEC lsb_release)
 
 if (LSB_RELEASE_EXEC)
   execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -is | tr '[:upper:]' '[:lower:]' | cut -d' ' -f1"
