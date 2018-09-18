@@ -218,7 +218,7 @@ void PlaylistDelegateBase::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-QStyleOptionViewItemV4 PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QStyleOptionViewItem PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
   if (!view_) return option;
 
@@ -227,7 +227,7 @@ QStyleOptionViewItemV4 PlaylistDelegateBase::Adjusted(const QStyleOptionViewItem
   if (view_->header()->logicalIndexAt(top_left) != index.column())
     return option;
 
-  QStyleOptionViewItemV4 ret(option);
+  QStyleOptionViewItem ret(option);
 
   if (index.data(Playlist::Role_IsCurrent).toBool()) {
     // Move the text in a bit on the first column for the song that's currently playing

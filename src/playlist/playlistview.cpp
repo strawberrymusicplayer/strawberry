@@ -382,7 +382,7 @@ void PlaylistView::drawTree(QPainter *painter, const QRegion &region) const {
 
 void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
-  QStyleOptionViewItemV4 opt(option);
+  QStyleOptionViewItem opt(option);
 
   bool is_current = index.data(Playlist::Role_IsCurrent).toBool();
   bool is_paused = index.data(Playlist::Role_IsPaused).toBool();
@@ -452,7 +452,7 @@ void PlaylistView::drawRow(QPainter *painter, const QStyleOptionViewItem &option
 
 }
 
-void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItemV4 option, const QModelIndex &index) {
+void PlaylistView::UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &index) {
 
   cached_current_row_rect_ = option.rect;
   cached_current_row_row_ = index.row();

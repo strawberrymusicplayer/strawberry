@@ -84,7 +84,7 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
   QString displayText(const QVariant &value, const QLocale &locale) const;
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
-  QStyleOptionViewItemV4 Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  QStyleOptionViewItem Adjusted(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
   static const int kMinHeight;
 
