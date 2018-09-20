@@ -373,6 +373,7 @@ bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
 bool GstEnginePipeline::InitFromUrl(const QByteArray &url, qint64 end_nanosec) {
 
+  url_ = url;
   end_offset_nanosec_ = end_nanosec;
 
   pipeline_ = engine_->CreateElement("playbin");
@@ -579,6 +580,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   gst_message_parse_tag(msg, &taglist);
 
   Engine::SimpleMetaBundle bundle;
+  bundle.url = QUrl(QString(url_));
   bundle.title = ParseTag(taglist, GST_TAG_TITLE);
   bundle.artist = ParseTag(taglist, GST_TAG_ARTIST);
   bundle.comment = ParseTag(taglist, GST_TAG_COMMENT);

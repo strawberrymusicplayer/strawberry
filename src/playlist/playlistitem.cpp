@@ -40,8 +40,7 @@
 
 #include "internet/internetplaylistitem.h"
 
-PlaylistItem::~PlaylistItem() {
-}
+PlaylistItem::~PlaylistItem() {}
 
 PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
 

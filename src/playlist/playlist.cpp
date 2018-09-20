@@ -1456,14 +1456,13 @@ void Playlist::StopAfter(int row) {
 
 void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
 
-  //qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
-
   if (!current_item()) return;
-
   if (current_item()->Url() != url) return;
 
   // Don't update the metadata if it's only a minor change from before
   if (current_item()->Metadata().artist() == song.artist() && current_item()->Metadata().title() == song.title()) return;
+
+  //qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
 
   current_item()->SetTemporaryMetadata(song);
 

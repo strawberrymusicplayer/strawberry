@@ -202,6 +202,7 @@ private:
 };
 
 struct SimpleMetaBundle {
+  QUrl url;
   QString title;
   QString artist;
   QString album;

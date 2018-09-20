@@ -239,7 +239,6 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
       // If there was no length info in song's metadata, use the one provided by URL handler, if there is one
       if (item->Metadata().length_nanosec() <= 0 && result.length_nanosec_ != -1) {
-        Song song = item->Metadata();
         song.set_length_nanosec(result.length_nanosec_);
         update = true;
       }
@@ -547,9 +546,11 @@ void Player::SeekBackward() {
 }
 
 void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
-  
+
   PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
   if (!item) return;
+
+  if (item->Metadata().url() != bundle.url) return;
 
   Engine::SimpleMetaBundle bundle_copy = bundle;
 
@@ -561,7 +562,8 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
     if (space_dash_pos != -1) {
       bundle_copy.artist = bundle_copy.title.left(space_dash_pos).trimmed();
       bundle_copy.title = bundle_copy.title.mid(space_dash_pos + 3).trimmed();
-    } else {
+    }
+    else {
       bundle_copy.artist = bundle_copy.title.left(dash_pos).trimmed();
       bundle_copy.title = bundle_copy.title.mid(dash_pos + 1).trimmed();
     }
