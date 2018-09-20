@@ -65,7 +65,7 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
   pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(":/pictures/nocover.png"));
 
   ui_->notifications_bg_preset->setItemData(0, QColor(OSDPretty::kPresetBlue), Qt::DecorationRole);
-  ui_->notifications_bg_preset->setItemData(1, QColor(OSDPretty::kPresetOrange), Qt::DecorationRole);
+  ui_->notifications_bg_preset->setItemData(1, QColor(OSDPretty::kPresetRed), Qt::DecorationRole);
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
@@ -186,7 +186,7 @@ void NotificationsSettingsPage::Load() {
   QRgb color = pretty_popup_->background_color();
   if (color == OSDPretty::kPresetBlue)
     ui_->notifications_bg_preset->setCurrentIndex(0);
-  else if (color == OSDPretty::kPresetOrange)
+  else if (color == OSDPretty::kPresetRed)
     ui_->notifications_bg_preset->setCurrentIndex(1);
   else
     ui_->notifications_bg_preset->setCurrentIndex(2);
@@ -246,7 +246,7 @@ void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
       break;
 
     case 1:
-      pretty_popup_->set_background_color(OSDPretty::kPresetOrange);
+      pretty_popup_->set_background_color(OSDPretty::kPresetRed);
       break;
 
     case 2:

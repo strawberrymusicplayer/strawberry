@@ -67,7 +67,7 @@ class OSDPretty : public QWidget {
   static const int kSnapProximity;
 
   static const QRgb kPresetBlue;
-  static const QRgb kPresetOrange;
+  static const QRgb kPresetRed;
 
   static bool IsTransparencyAvailable();
 

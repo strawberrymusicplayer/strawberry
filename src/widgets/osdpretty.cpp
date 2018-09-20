@@ -72,7 +72,7 @@ const int OSDPretty::kMaxIconSize = 100;
 const int OSDPretty::kSnapProximity = 20;
 
 const QRgb OSDPretty::kPresetBlue = qRgb(102, 150, 227);
-const QRgb OSDPretty::kPresetOrange = qRgb(254, 156, 67);
+const QRgb OSDPretty::kPresetRed = qRgb(202, 22, 16);
 
 
 OSDPretty::OSDPretty(Mode mode, QWidget *parent)
