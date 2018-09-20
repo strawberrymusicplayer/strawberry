@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -351,7 +352,6 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // Let the audio output of the tee autonegotiate the bit depth and format.
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
-
   gst_element_link_filtered(convert, audiosink_, caps);
   gst_caps_unref(caps);
 
