@@ -29,6 +29,8 @@
 #include <QUrl>
 #include <QIcon>
 
+#include "song.h"
+
 class UrlHandler : public QObject {
   Q_OBJECT
 
@@ -53,7 +55,7 @@ class UrlHandler : public QObject {
       TrackAvailable,
     };
 
-    LoadResult(const QUrl &original_url = QUrl(), Type type = NoMoreTracks, const QUrl &media_url = QUrl(), qint64 length_nanosec_ = -1);
+    LoadResult(const QUrl &original_url = QUrl(), Type type = NoMoreTracks, const QUrl &media_url = QUrl(), const Song::FileType &filetype = Song::FileType_Stream, qint64 length_nanosec_ = -1);
 
     // The url that the playlist item has in Url().
     // Might be something unplayable like lastfm://...
@@ -63,6 +65,9 @@ class UrlHandler : public QObject {
 
     // The actual url to something that gstreamer can play.
     QUrl media_url_;
+
+    // The type of the stream
+    Song::FileType filetype_;
 
     // Track length, if we are able to get it only now
     qint64 length_nanosec_;
@@ -78,8 +83,9 @@ class UrlHandler : public QObject {
   virtual void TrackAboutToEnd() {};
   virtual void TrackSkipped() {};
 
-signals:
+ signals:
   void AsyncLoadComplete(const UrlHandler::LoadResult &result);
+
 };
 
 #endif  // URLHANDLER_H

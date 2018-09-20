@@ -110,7 +110,6 @@ class InternetModel : public QStandardItemModel {
 
   template <typename T>
   static T *Service() {
-    //return static_cast<T*>(ServiceByName(T::kServiceName));
     return static_cast<T*>(ServiceBySource(T::kSource));
   }
 

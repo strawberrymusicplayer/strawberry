@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QHash>
 #include <QString>
+#include <QUrl>
 #include <QNetworkReply>
 #include <QTimer>
 #include <QDateTime>
@@ -39,6 +40,7 @@
 #include "settings/tidalsettingspage.h"
 
 class NetworkAccessManager;
+class TidalUrlHandler;
 
 class TidalService : public InternetService {
   Q_OBJECT
@@ -48,7 +50,7 @@ class TidalService : public InternetService {
   ~TidalService();
 
   static const Song::Source kSource;
-  static const char *kServiceName;
+  static const int kLoginAttempts;
 
   void ReloadSettings();
 
@@ -59,9 +61,11 @@ class TidalService : public InternetService {
   const bool login_sent() { return login_sent_; }
   const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
 
+  void GetStreamURL(const QUrl &url);
+
  signals:
-  void Login(const int search_id = 0);
-  void Login(const QString &username, const QString &password, const int search_id = 0);
+  void Login();
+  void Login(const QString &username, const QString &password);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
   void SearchResults(int id, SongList songs);
@@ -69,18 +73,20 @@ class TidalService : public InternetService {
   void UpdateStatus(QString text);
   void ProgressSetMaximum(int max);
   void UpdateProgress(int max);
+  void GetStreamURLFinished(QNetworkReply *reply, const QUrl url);
+  void StreamURLFinished(const QUrl url, const Song::FileType);
 
  public slots:
   void ShowConfig();
-  void SendLogin(const QString &username, const QString &password, const int search_id = 0);
+  void SendLogin(const QString &username, const QString &password);
 
  private slots:
-  void SendLogin(const int search_id = 0);
-  void HandleAuthReply(QNetworkReply *reply, int search_id);
+  void SendLogin();
+  void HandleAuthReply(QNetworkReply *reply);
   void StartSearch();
   void SearchFinished(QNetworkReply *reply, int search_id);
   void GetAlbumFinished(QNetworkReply *reply, int search_id, int album_id);
-  void GetStreamURLFinished(QNetworkReply *reply, const int search_id, const int song_id);
+  void GetStreamURLFinished(QNetworkReply *reply, const int song_id, const QUrl original_url);
 
  private:
   void ClearSearch();
@@ -91,7 +97,6 @@ class TidalService : public InternetService {
   void SendSearch();
   void GetAlbum(const int album_id);
   Song ParseSong(const int album_id_requested, const QJsonValue &value);
-  void GetStreamURL(const int album_id, const int song_id);
   void CheckFinish();
   void Error(QString error, QString debug = QString());
 
@@ -101,6 +106,7 @@ class TidalService : public InternetService {
   static const char *kApiToken;
 
   NetworkAccessManager *network_;
+  TidalUrlHandler *url_handler_;
   QTimer *timer_searchdelay_;
 
   QString username_;
@@ -123,7 +129,7 @@ class TidalService : public InternetService {
   int search_id_;
   QString search_text_;
   QHash<int, int> requests_album_;
-  QHash<int, Song> requests_song_;
+  QHash<int, QUrl> requests_song_;
   int albums_requested_;
   int albums_received_;
   int songs_requested_;
@@ -132,6 +138,7 @@ class TidalService : public InternetService {
   QString search_error_;
   bool login_sent_;
   int login_attempts_;
+  QUrl stream_request_url_;
 
 };
 

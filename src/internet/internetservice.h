@@ -42,10 +42,11 @@ class InternetService : public QObject {
   Q_OBJECT
 
  public:
-  InternetService(Song::Source source, const QString &name, Application *app, InternetModel *model, QObject *parent = nullptr);
+  InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, InternetModel *model, QObject *parent = nullptr);
   virtual ~InternetService() {}
   Song::Source source() const { return source_; }
   QString name() const { return name_; }
+  QString url_scheme() const { return url_scheme_; }
   InternetModel *model() const { return model_; }
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
@@ -61,6 +62,7 @@ class InternetService : public QObject {
   InternetModel *model_;
   Song::Source source_;
   QString name_;
+  QString url_scheme_;
 
 };
 Q_DECLARE_METATYPE(InternetService*);

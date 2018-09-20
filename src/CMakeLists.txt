@@ -192,8 +192,14 @@ set(SOURCES
   covermanager/coverfromurldialog.cpp
   covermanager/musicbrainzcoverprovider.cpp
   covermanager/discogscoverprovider.cpp
-  #covermanager/amazoncoverprovider.cpp
-  
+
+  lyrics/lyricsproviders.cpp
+  lyrics/lyricsprovider.cpp
+  lyrics/lyricsfetcher.cpp
+  lyrics/lyricsfetchersearch.cpp
+  lyrics/auddlyricsprovider.cpp
+  lyrics/apiseedslyricsprovider.cpp
+
   settings/settingsdialog.cpp
   settings/settingspage.cpp
   settings/behavioursettingspage.cpp
@@ -258,13 +264,7 @@ set(SOURCES
   tidal/tidalsearchmodel.cpp
   tidal/tidalsearchsortmodel.cpp
   tidal/tidalsearchitemdelegate.cpp
-
-  lyrics/lyricsproviders.cpp
-  lyrics/lyricsprovider.cpp
-  lyrics/lyricsfetcher.cpp
-  lyrics/lyricsfetchersearch.cpp
-  lyrics/auddlyricsprovider.cpp
-  lyrics/apiseedslyricsprovider.cpp
+  tidal/tidalurlhandler.cpp
 
 )
 
@@ -359,7 +359,13 @@ set(HEADERS
   covermanager/coverfromurldialog.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
-  #covermanager/amazoncoverprovider.h
+
+  lyrics/lyricsproviders.h
+  lyrics/lyricsprovider.h
+  lyrics/lyricsfetcher.h
+  lyrics/lyricsfetchersearch.h
+  lyrics/auddlyricsprovider.h
+  lyrics/apiseedslyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
@@ -421,13 +427,7 @@ set(HEADERS
   tidal/tidalsearch.h
   tidal/tidalsearchview.h
   tidal/tidalsearchmodel.h
-  
-  lyrics/lyricsproviders.h
-  lyrics/lyricsprovider.h
-  lyrics/lyricsfetcher.h
-  lyrics/lyricsfetchersearch.h
-  lyrics/auddlyricsprovider.h
-  lyrics/apiseedslyricsprovider.h
+  tidal/tidalurlhandler.h
 
 )
 

@@ -552,6 +552,7 @@ void ContextView::ScaleCover() {
 void ContextView::AlbumArtLoaded(const Song &song, const QString&, const QImage &image) {
 
   if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
+  if (image == image_original_) return;
 
   active_ = true;
   downloading_covers_ = false;

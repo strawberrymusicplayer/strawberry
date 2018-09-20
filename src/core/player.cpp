@@ -224,10 +224,26 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.media_url_;
 
+      Song song = item->Metadata();
+      bool update(false);
+
+      // If there was no filetype in the song's metadata, use the one provided by URL handler, if there is one
+      if (
+        (item->Metadata().filetype() == Song::FileType_Unknown && result.filetype_ != Song::FileType_Unknown)
+        ||
+        (item->Metadata().filetype() == Song::FileType_Stream && result.filetype_ != Song::FileType_Stream)
+         )
+      {
+        song.set_filetype(result.filetype_);
+        update = true;
+      }
       // If there was no length info in song's metadata, use the one provided by URL handler, if there is one
-    if (item->Metadata().length_nanosec() <= 0 && result.length_nanosec_ != -1) {
+      if (item->Metadata().length_nanosec() <= 0 && result.length_nanosec_ != -1) {
         Song song = item->Metadata();
         song.set_length_nanosec(result.length_nanosec_);
+        update = true;
+      }
+      if (update) {
         item->SetTemporaryMetadata(song);
         app_->playlist_manager()->active()->InformOfCurrentSongChange();
       }
