@@ -537,9 +537,6 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
       // This was a tracks search
       if (!fetchalbums_) {
         Song song = ParseSong(0, value);
-        //requests_song_.insert(song.id(), song);
-        //songs_requested_++;
-        //GetStreamURL(0, song.id());
         songs_ << song;
         continue;
       }
@@ -662,9 +659,6 @@ void TidalService::GetAlbumFinished(QNetworkReply *reply, int search_id, int alb
       QString album_full(QString("%1 - (Disc %2)").arg(song.album()).arg(song.disc()));
       song.set_album(album_full);
     }
-    //requests_song_.insert(song.id(), song);
-    //songs_requested_++;
-    //GetStreamURL(album_id, song.id());
     songs_ << song;
   }
 
@@ -716,8 +710,6 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   QJsonArray json_artists = json_obj["artists"].toArray();
 
   int song_id = json_obj["id"].toInt();
-
-  if (requests_song_.contains(song_id)) return requests_song_.value(song_id);
 
   QString title = json_obj["title"].toString();
   QString urlstr = json_obj["url"].toString();
