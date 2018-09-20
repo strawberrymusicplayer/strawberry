@@ -2,6 +2,14 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed search error not shown in Tidal search
+    * Added URL handler for Tidal, now retriving URL's when playing instead of when searching
+    * Fixed bug in pipeline not setting url
+    * Fixed bug setting wrong temporary metadata
+    * Removed device module from windows, since it's not implemented for windows
+
 Version 0.3.1:
 
     * Added new lyrics provider with lyrics from AudD and API Seeds
