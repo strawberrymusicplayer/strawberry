@@ -27,7 +27,6 @@
 #include <QObject>
 #include <QString>
 #include <QUrl>
-#include <QIcon>
 
 #include "song.h"
 
@@ -39,7 +38,6 @@ class UrlHandler : public QObject {
 
   // The URL scheme that this handler handles.
   virtual QString scheme() const = 0;
-  virtual QIcon icon() const;
 
   // Returned by StartLoading() and LoadNext(), indicates what the player should do when it wants to load a URL.
   struct LoadResult {

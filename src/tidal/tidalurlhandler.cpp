@@ -17,16 +17,17 @@
  *
  */
 
-#include "tidalurlhandler.h"
+#include <QObject>
+#include <QString>
+#include <QUrl>
 
 #include "core/application.h"
 #include "core/taskmanager.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "playlistparsers/playlistparser.h"
 #include "tidal/tidalservice.h"
-#include "internet/internetmodel.h"
+#include "tidalurlhandler.h"
 
 TidalUrlHandler::TidalUrlHandler(
     Application *app, TidalService *service)
@@ -35,9 +36,6 @@ TidalUrlHandler::TidalUrlHandler(
   connect(service, SIGNAL(StreamURLFinished(QUrl, Song::FileType)), this, SLOT(GetStreamURLFinished(QUrl, Song::FileType)));
 
 }
-
-QString TidalUrlHandler::scheme() const { return service_->url_scheme(); }
-QIcon TidalUrlHandler::icon() const { return IconLoader::Load("tidal"); }
 
 UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 

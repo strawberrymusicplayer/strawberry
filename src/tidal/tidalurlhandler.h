@@ -20,8 +20,13 @@
 #ifndef TIDALURLHANDLER_H
 #define TIDALURLHANDLER_H
 
+#include <QObject>
+#include <QString>
+#include <QUrl>
+
 #include "core/urlhandler.h"
 #include "core/song.h"
+#include "tidal/tidalservice.h"
 
 class Application;
 class TidalService;
@@ -32,8 +37,7 @@ class TidalUrlHandler : public UrlHandler {
  public:
   TidalUrlHandler(Application *app, TidalService *service);
 
-  QString scheme() const;
-  QIcon icon() const;
+  QString scheme() const { return service_->url_scheme(); }
   LoadResult StartLoading(const QUrl &url);
 
   void CancelTask();
