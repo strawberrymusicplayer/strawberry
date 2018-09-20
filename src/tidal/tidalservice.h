@@ -132,8 +132,6 @@ class TidalService : public InternetService {
   QHash<int, QUrl> requests_song_;
   int albums_requested_;
   int albums_received_;
-  int songs_requested_;
-  int songs_received_;
   SongList songs_;
   QString search_error_;
   bool login_sent_;

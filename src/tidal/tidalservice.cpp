@@ -463,9 +463,7 @@ void TidalService::ClearSearch() {
   search_text_.clear();
   search_error_.clear();
   albums_requested_ = 0;
-  songs_requested_ = 0;
   albums_received_ = 0;
-  songs_received_ = 0;
   requests_album_.clear();
   requests_song_.clear();
   login_attempts_ = 0;
@@ -604,11 +602,6 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
     emit ProgressSetMaximum(albums_requested_);
     emit UpdateProgress(0);
   }
-  else if (songs_requested_ > 0) {
-    emit UpdateStatus(QString("Retriving %1 song%2...").arg(songs_requested_).arg(songs_requested_ == 1 ? "" : "s"));
-    emit ProgressSetMaximum(songs_requested_);
-    emit UpdateProgress(songs_received_);
-  }
 
   CheckFinish();
 
@@ -660,12 +653,6 @@ void TidalService::GetAlbumFinished(QNetworkReply *reply, int search_id, int alb
       song.set_album(album_full);
     }
     songs_ << song;
-  }
-
-  if (albums_requested_ <= albums_received_) {
-    emit UpdateStatus(QString("Retriving %1 song%2...").arg(songs_requested_).arg(songs_requested_ == 1 ? "" : "s"));
-    emit ProgressSetMaximum(songs_requested_);
-    emit UpdateProgress(songs_received_);
   }
 
   CheckFinish();
@@ -846,7 +833,7 @@ void TidalService::CheckFinish() {
 
   if (search_id_ == 0) return;
 
-  if (!login_sent_ && albums_requested_ <= albums_received_ && songs_requested_ <= songs_received_) {
+  if (!login_sent_ && albums_requested_ <= albums_received_) {
     if (songs_.isEmpty()) {
       if (search_error_.isEmpty()) emit SearchError(search_id_, "Unknown error");
       else emit SearchError(search_id_, search_error_);
