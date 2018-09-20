@@ -63,8 +63,10 @@ class ContextView;
 class CollectionViewContainer;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
+#ifndef Q_OS_WIN
 class DeviceView;
 class DeviceViewContainer;
+#endif
 class EditTagDialog;
 class Equalizer;
 class ErrorDialog;
@@ -134,7 +136,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void resizeEvent(QResizeEvent *event);
   void closeEvent(QCloseEvent *event);
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
   bool winEvent(MSG *message, long *result);
 #endif
 
@@ -183,7 +185,9 @@ signals:
 #ifdef HAVE_GSTREAMER
   void PlaylistCopyToCollection();
   void PlaylistMoveToCollection();
+#ifndef Q_OS_WIN_
   void PlaylistCopyToDevice();
+#endif
   void PlaylistOrganiseSelected(bool copy);
 #endif
   //void PlaylistDelete();
@@ -202,7 +206,9 @@ signals:
 #ifdef HAVE_GSTREAMER
   void CopyFilesToCollection(const QList<QUrl>& urls);
   void MoveFilesToCollection(const QList<QUrl>& urls);
+//#ifndef Q_OS_WIN
   void CopyFilesToDevice(const QList<QUrl>& urls);
+//#endif
 #endif
   void EditFileTags(const QList<QUrl>& urls);
 
@@ -308,8 +314,10 @@ signals:
   ContextView *context_view_;
   CollectionViewContainer *collection_view_;
   FileView *file_view_;
+#ifndef Q_OS_WIN
   DeviceViewContainer *device_view_container_;
   DeviceView *device_view_;
+#endif
   PlaylistListContainer *playlist_list_;
 
   Lazy<SettingsDialog> settings_dialog_;
@@ -347,7 +355,9 @@ signals:
 #ifdef HAVE_GSTREAMER
   QAction *playlist_copy_to_collection_;
   QAction *playlist_move_to_collection_;
+#ifndef Q_OS_WIN
   QAction *playlist_copy_to_device_;
+#endif
   //QAction *playlist_delete_;
 #endif
   QAction *playlist_open_in_browser_;

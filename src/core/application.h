@@ -45,7 +45,9 @@ class CollectionBackend;
 class CollectionModel;
 class PlaylistBackend;
 class PlaylistManager;
+#ifndef Q_OS_WIN
 class DeviceManager;
+#endif
 class CoverProviders;
 class AlbumCoverLoader;
 class CurrentArtLoader;
@@ -68,7 +70,9 @@ class Application : public QObject {
   TaskManager *task_manager() const;
   Player *player() const;
   EngineDevice *enginedevice() const;
+#ifndef Q_OS_WIN
   DeviceManager *device_manager() const;
+#endif
 
   SCollection *collection() const;
 

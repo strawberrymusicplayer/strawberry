@@ -121,10 +121,12 @@
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/currentartloader.h"
-#include "device/devicemanager.h"
-#include "device/devicestatefiltermodel.h"
-#include "device/deviceview.h"
-#include "device/deviceviewcontainer.h"
+#ifndef Q_OS_WIN
+#  include "device/devicemanager.h"
+#  include "device/devicestatefiltermodel.h"
+#  include "device/deviceview.h"
+#  include "device/deviceviewcontainer.h"
+#endif
 #include "transcoder/transcodedialog.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playbacksettingspage.h"
@@ -167,8 +169,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
+#ifndef Q_OS_WIN
       device_view_container_(new DeviceViewContainer(this)),
       device_view_(device_view_container_->view()),
+#endif
       playlist_list_(new PlaylistListContainer(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
       cover_manager_([=]() {
@@ -246,7 +250,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
   ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
   ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
+#ifndef Q_OS_WIN
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+#endif
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
   //ui_->tabs->AddSpacer();
 
@@ -284,7 +290,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   collection_view_->view()->setModel(collection_sort_model_);
   collection_view_->view()->SetApplication(app_);
+#ifndef Q_OS_WIN
   device_view_->SetApplication(app_);
+#endif
   playlist_list_->SetApplication(app_);
 
 #ifdef HAVE_GSTREAMER
@@ -344,7 +352,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(file_view_, SIGNAL(CopyToCollection(QList<QUrl>)), SLOT(CopyFilesToCollection(QList<QUrl>)));
   connect(file_view_, SIGNAL(MoveToCollection(QList<QUrl>)), SLOT(MoveFilesToCollection(QList<QUrl>)));
   connect(file_view_, SIGNAL(EditTags(QList<QUrl>)), SLOT(EditFileTags(QList<QUrl>)));
+#ifndef Q_OS_WIN
   connect(file_view_, SIGNAL(CopyToDevice(QList<QUrl>)), SLOT(CopyFilesToDevice(QList<QUrl>)));
+#endif
 #endif
   file_view_->SetTaskManager(app_->task_manager());
 
@@ -469,8 +479,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->task_manager(), SIGNAL(PauseCollectionWatchers()), app_->collection(), SLOT(PauseWatcher()));
   connect(app_->task_manager(), SIGNAL(ResumeCollectionWatchers()), app_->collection(), SLOT(ResumeWatcher()));
 
+#ifndef Q_OS_WIN
   // Devices connections
   connect(device_view_, SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+#endif
 
   // Collection filter widget
   QActionGroup *collection_view_group = new QActionGroup(this);
@@ -529,7 +541,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(PlaylistCopyToCollection()));
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, SLOT(PlaylistMoveToCollection()));
   //playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
+#ifndef Q_OS_WIN
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(PlaylistCopyToDevice()));
+#endif
 #endif
   //playlist_delete_ = playlist_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(PlaylistDelete()));
   playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(PlaylistOpenInBrowser()));
@@ -551,7 +565,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   connect(ui_->playlist, SIGNAL(UndoRedoActionsChanged(QAction*, QAction*)), SLOT(PlaylistUndoRedoChanged(QAction*, QAction*)));
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
   connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), playlist_copy_to_device_, SLOT(setDisabled(bool)));
 #endif
@@ -1324,7 +1338,9 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
   //playlist_organise_->setVisible(false);
+#ifndef Q_OS_WIN
   playlist_copy_to_device_->setVisible(false);
+#endif
 #endif
   playlist_open_in_browser_->setVisible(false);
 
@@ -1393,7 +1409,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     }
 #endif
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
     playlist_copy_to_device_->setVisible(editable);
 #endif
 
@@ -1830,6 +1846,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 }
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
+#ifndef Q_OS_WIN
   organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organise_dialog_->SetCopy(true);
   if (organise_dialog_->SetUrls(urls))
@@ -1837,6 +1854,7 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+#endif
 }
 #endif
 
@@ -1968,15 +1986,14 @@ void MainWindow::PlaylistSkip() {
 
 }
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER)
 void MainWindow::PlaylistCopyToDevice() {
-
+#if !defined(Q_OS_WIN)
   QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   SongList songs;
 
   for (const QModelIndex &proxy_index : proxy_indexes) {
     QModelIndex index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
-
     songs << app_->playlist_manager()->current()->item_at(index.row())->Metadata();
   }
 
@@ -1985,9 +2002,9 @@ void MainWindow::PlaylistCopyToDevice() {
   if (organise_dialog_->SetSongs(songs))
     organise_dialog_->show();
   else {
-    QMessageBox::warning(this, tr("Error"),
-        tr("None of the selected songs were suitable for copying to a device"));
+    QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+#endif
 }
 #endif
 

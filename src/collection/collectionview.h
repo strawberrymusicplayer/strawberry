@@ -151,7 +151,9 @@ signals:
   QAction *open_in_new_playlist_;
 #ifdef HAVE_GSTREAMER
   QAction *organise_;
+#ifndef Q_OS_WIN
   QAction *copy_to_device_;
+#endif
 #endif
   QAction *delete_;
   QAction *edit_track_;

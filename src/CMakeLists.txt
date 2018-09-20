@@ -247,16 +247,6 @@ set(SOURCES
   globalshortcuts/gnomeglobalshortcutbackend.cpp
   globalshortcuts/qxtglobalshortcutbackend.cpp
   globalshortcuts/globalshortcutgrabber.cpp
-  
-  device/connecteddevice.cpp
-  device/devicedatabasebackend.cpp
-  device/devicelister.cpp
-  device/devicemanager.cpp
-  device/deviceproperties.cpp
-  device/devicestatefiltermodel.cpp
-  device/deviceview.cpp
-  device/deviceviewcontainer.cpp
-  device/filesystemdevice.cpp
 
   internet/internetmodel.cpp
   internet/internetservice.cpp
@@ -421,16 +411,6 @@ set(HEADERS
   globalshortcuts/globalshortcuts.h
   globalshortcuts/gnomeglobalshortcutbackend.h
   globalshortcuts/globalshortcutgrabber.h
-  
-  device/connecteddevice.h
-  device/devicedatabasebackend.h
-  device/devicelister.h
-  device/devicemanager.h
-  device/deviceproperties.h
-  device/devicestatefiltermodel.h
-  device/deviceviewcontainer.h
-  device/deviceview.h
-  device/filesystemdevice.h
 
   internet/internetmodel.h
   internet/internetservice.h
@@ -499,9 +479,6 @@ set(UI
   widgets/osdpretty.ui
   widgets/fileview.ui
   widgets/loginstatewidget.ui
-
-  device/deviceproperties.ui
-  device/deviceviewcontainer.ui
   
   globalshortcuts/globalshortcutgrabber.ui
 
@@ -677,6 +654,32 @@ optional_source(HAVE_DBUS
   HEADERS
     core/mpris.h
     core/mpris2.h
+)
+
+optional_source(UNIX
+  SOURCES
+    device/connecteddevice.cpp
+    device/devicedatabasebackend.cpp
+    device/devicelister.cpp
+    device/devicemanager.cpp
+    device/devicestatefiltermodel.cpp
+    device/filesystemdevice.cpp
+    device/deviceviewcontainer.cpp
+    device/deviceview.cpp
+    device/deviceproperties.cpp
+  HEADERS
+    device/connecteddevice.h
+    device/devicedatabasebackend.h
+    device/devicelister.h
+    device/devicemanager.h
+    device/devicestatefiltermodel.h
+    device/filesystemdevice.h
+    device/deviceviewcontainer.h
+    device/deviceview.h
+    device/deviceproperties.h
+  UI
+    device/deviceproperties.ui
+    device/deviceviewcontainer.ui
 )
 
 if(HAVE_DBUS)

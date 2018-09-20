@@ -68,8 +68,10 @@
 #include "collectionitem.h"
 #include "collectionmodel.h"
 #include "collectionview.h"
-#include "device/devicemanager.h"
-#include "device/devicestatefiltermodel.h"
+#ifndef Q_OS_WIN
+#  include "device/devicemanager.h"
+#  include "device/devicestatefiltermodel.h"
+#endif
 #include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
 #include "dialogs/organisedialog.h"
@@ -460,7 +462,9 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 #ifdef HAVE_GSTREAMER
     context_menu_->addSeparator();
     organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
+#ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
+#endif
     //delete_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(Delete()));
 #endif
 
@@ -477,7 +481,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addMenu(filter_->menu());
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
     copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
     connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
 #endif
@@ -518,7 +522,9 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   // only when no smart playlists selected
 #ifdef HAVE_GSTREAMER
   organise_->setVisible(regular_elements_only);
+#ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
+#endif
   //delete_->setVisible(regular_elements_only);
 #endif
   show_in_various_->setVisible(regular_elements_only);
@@ -527,7 +533,9 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   // only when all selected items are editable
 #ifdef HAVE_GSTREAMER
   organise_->setEnabled(regular_elements == regular_editable);
+#ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
+#endif
   //delete_->setEnabled(regular_elements == regular_editable);
 #endif
 
@@ -670,7 +678,7 @@ void CollectionView::EditTracks() {
 
 #ifdef HAVE_GSTREAMER
 void CollectionView::CopyToDevice() {
-
+#ifndef Q_OS_WIN
   if (!organise_dialog_)
     organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
 
@@ -678,7 +686,7 @@ void CollectionView::CopyToDevice() {
   organise_dialog_->SetCopy(true);
   organise_dialog_->SetSongs(GetSelectedSongs());
   organise_dialog_->show();
-
+#endif
 }
 #endif
 

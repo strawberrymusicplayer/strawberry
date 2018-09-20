@@ -66,9 +66,12 @@
 #include "core/utilities.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
+#include "collection/collectionmodel.h"
 #include "collection/collectionitem.h"
-#include "device/devicemanager.h"
-#include "device/devicestatefiltermodel.h"
+#ifndef Q_OS_WIN
+#  include "device/devicemanager.h"
+#  include "device/devicestatefiltermodel.h"
+#endif
 #include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
 #include "dialogs/organisedialog.h"
@@ -263,9 +266,6 @@ void ContextAlbumsView::SaveFocus() {
 }
 
 void ContextAlbumsView::SaveContainerPath(const QModelIndex &child) {
-    
-    
-//    return;
 
   QModelIndex current = model()->parent(child);
   QVariant type = model()->data(current, ContextAlbumsModel::Role_Type);
@@ -359,7 +359,6 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    //context_menu_->setStyleSheet("background-color: #3DADE8;");
 
     add_to_playlist_ = context_menu_->addAction(IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
     load_ = context_menu_->addAction(IconLoader::Load("media-play"), tr("Replace current playlist"), this, SLOT(Load()));
@@ -371,7 +370,9 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 #ifdef HAVE_GSTREAMER
     context_menu_->addSeparator();
     organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
+#ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
+#endif
 #endif
 
     context_menu_->addSeparator();
@@ -381,7 +382,7 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-#ifdef HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
     copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
     connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
 #endif
@@ -418,13 +419,17 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
 #ifdef HAVE_GSTREAMER
   organise_->setVisible(regular_elements_only);
+#ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
+#endif
 #endif
 
   // only when all selected items are editable
 #ifdef HAVE_GSTREAMER
   organise_->setEnabled(regular_elements == regular_editable);
+#ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
+#endif
 #endif
 
   context_menu_->popup(e->globalPos());
@@ -509,7 +514,7 @@ void ContextAlbumsView::EditTracks() {
 
 #ifdef HAVE_GSTREAMER
 void ContextAlbumsView::CopyToDevice() {
-
+#ifndef Q_OS_WIN
   if (!organise_dialog_)
     organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
 
@@ -517,7 +522,7 @@ void ContextAlbumsView::CopyToDevice() {
   organise_dialog_->SetCopy(true);
   organise_dialog_->SetSongs(GetSelectedSongs());
   organise_dialog_->show();
-
+#endif
 }
 #endif
 

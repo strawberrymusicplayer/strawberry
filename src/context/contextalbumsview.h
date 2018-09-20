@@ -103,7 +103,9 @@ signals:
   void OpenInNewPlaylist();
 #ifdef HAVE_GSTREAMER
   void Organise();
+//#ifndef Q_OS_WIN
   void CopyToDevice();
+//#endif
 #endif
   void EditTracks();
   void ShowInBrowser();
@@ -124,7 +126,9 @@ signals:
   QAction *open_in_new_playlist_;
 #ifdef HAVE_GSTREAMER
   QAction *organise_;
+#ifndef Q_OS_WIN
   QAction *copy_to_device_;
+#endif
 #endif
   QAction *delete_;
   QAction *edit_track_;

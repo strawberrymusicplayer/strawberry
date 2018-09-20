@@ -38,7 +38,9 @@
 #include "appearance.h"
 
 #include "engine/enginedevice.h"
-#include "device/devicemanager.h"
+#ifndef Q_OS_WIN
+#  include "device/devicemanager.h"
+#endif
 #include "collection/collection.h"
 #include "playlist/playlistbackend.h"
 #include "playlist/playlistmanager.h"
@@ -48,7 +50,6 @@
 #ifdef HAVE_LIBLASTFM
   #include "covermanager/lastfmcoverprovider.h"
 #endif
-//#include "covermanager/amazoncoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 
@@ -81,7 +82,9 @@ class ApplicationImpl {
         task_manager_([=]() { return new TaskManager(app); }),
         player_([=]() { return new Player(app, app); }),
         enginedevice_([=]() { return new EngineDevice(app); }),
+#ifndef Q_OS_WIN
         device_manager_([=]() { return new DeviceManager(app, app); }),
+#endif
         collection_([=]() { return new SCollection(app, app); }),
         playlist_backend_([=]() {
           PlaylistBackend *backend = new PlaylistBackend(app, app);
@@ -95,7 +98,6 @@ class ApplicationImpl {
 #ifdef HAVE_LIBLASTFM
           cover_providers->AddProvider(new LastFmCoverProvider(app));
 #endif
-          //cover_providers->AddProvider(new AmazonCoverProvider(app));
           cover_providers->AddProvider(new DiscogsCoverProvider(app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
           return cover_providers;
@@ -122,7 +124,9 @@ class ApplicationImpl {
   Lazy<TaskManager> task_manager_;
   Lazy<Player> player_;
   Lazy<EngineDevice> enginedevice_;
+#ifndef Q_OS_WIN
   Lazy<DeviceManager> device_manager_;
+#endif
   Lazy<SCollection> collection_;
   Lazy<PlaylistBackend> playlist_backend_;
   Lazy<PlaylistManager> playlist_manager_;
@@ -148,7 +152,9 @@ Application::~Application() {
 
   // It's important that the device manager is deleted before the database.
   // Deleting the database deletes all objects that have been created in its thread, including some device collection backends.
+#ifndef Q_OS_WIN
   p_->device_manager_.reset();
+#endif
 
   for (QThread *thread : threads_) {
     thread->quit();
@@ -198,9 +204,11 @@ CurrentArtLoader *Application::current_art_loader() const {
 
 Database *Application::database() const { return p_->database_.get(); }
 
+#ifndef Q_OS_WIN
 DeviceManager *Application::device_manager() const {
   return p_->device_manager_.get();
 }
+#endif
 
 SCollection *Application::collection() const { return p_->collection_.get(); }
 
