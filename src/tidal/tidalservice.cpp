@@ -106,10 +106,11 @@ void TidalService::ReloadSettings() {
   password_ = s.value("password").toString();
   quality_ = s.value("quality").toString();
   searchdelay_ = s.value("searchdelay", 1500).toInt();
-  albumssearchlimit_ = s.value("albumssearchlimit", 40).toInt();
-  songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
+  albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
+  songssearchlimit_ = s.value("songssearchlimit", 100).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
   coversize_ = s.value("coversize", "320x320").toString();
+  streamurl_ = s.value("streamurl", "http").toString();
   s.endGroup();
 
 }
@@ -824,6 +825,8 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int song_id,
     qLog(Debug) << "Tidal: Unknown codec" << codec;
     filetype = Song::FileType_Stream;
   }
+
+  if (new_url.scheme() != streamurl_) new_url.setScheme(streamurl_);
 
   emit StreamURLFinished(new_url, filetype);
 

@@ -282,3 +282,10 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   }
 
 }
+
+void SettingsDialog::ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value) {
+  QString value = s.value(setting, default_value).toString();
+  int i = combobox->findData(value);
+  if (i == -1) i = combobox->findData(default_value);
+  combobox->setCurrentIndex(i);
+}

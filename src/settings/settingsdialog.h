@@ -36,6 +36,8 @@
 #include <QAbstractButton>
 #include <QScrollArea>
 #include <QTreeWidgetItem>
+#include <QComboBox>
+#include <QSettings>
 
 #include "core/logging.h"
 #include "widgets/osd.h"
@@ -107,6 +109,8 @@ public:
   void showEvent(QShowEvent *e);
 
   void set_output_changed(bool output_changed) { output_changed_ = output_changed; }
+
+  void ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value);
 
 signals:
   void NotificationPreview(OSD::Behaviour, QString, QString);
