@@ -402,6 +402,10 @@ bool GstEngine::CustomDeviceSupport(const QString &output) {
   return (output == kALSASink || output == kOpenALSASink || output == kOSSSink || output == kOSS4Sink || output == kPulseSink || output == kA2DPSink || output == kAVDTPSink);
 }
 
+bool GstEngine::ALSADeviceSupport(const QString &output) {
+  return (output == kALSASink);
+}
+
 void GstEngine::ReloadSettings() {
 
   Engine::Base::ReloadSettings();

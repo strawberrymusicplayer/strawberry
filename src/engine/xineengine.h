@@ -87,6 +87,7 @@ class XineEngine : public Engine::Base {
   bool ValidOutput(const QString &output);
   QString DefaultOutput() { return "auto"; }
   bool CustomDeviceSupport(const QString &output);
+  bool ALSADeviceSupport(const QString &output);
 
   void ReloadSettings();
 

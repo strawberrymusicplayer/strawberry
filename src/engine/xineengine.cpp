@@ -345,6 +345,10 @@ bool XineEngine::CustomDeviceSupport(const QString &output) {
   return (output == "alsa" || output == "oss" || output == "jack" || output == "pulseaudio");
 }
 
+bool XineEngine::ALSADeviceSupport(const QString &output) {
+  return (output == "alsa");
+}
+
 void XineEngine::ReloadSettings() {
 
   Engine::Base::ReloadSettings();

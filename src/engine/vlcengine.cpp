@@ -238,6 +238,10 @@ bool VLCEngine::CustomDeviceSupport(const QString &output) {
   return (output == "auto" ? false : true);
 }
 
+bool VLCEngine::ALSADeviceSupport(const QString &output) {
+  return (output == "alsa");
+}
+
 uint VLCEngine::position() const {
 
   if (!Initialised()) return (0);

@@ -63,8 +63,16 @@ public:
   void DeviceStringChanged();
   void RgPreampChanged(int value);
   void BufferMinFillChanged(int value);
+  void radiobutton_alsa_hw_clicked(bool checked);
+  void radiobutton_alsa_plughw_clicked(bool checked);
 
 private:
+
+  enum alsa_plugin {
+    alsa_hw = 1,
+    alsa_plughw = 2
+  };
+
   Ui_BackendSettingsPage *ui_;
 
   void ConnectSignals();
@@ -78,6 +86,7 @@ private:
   void ShowWarning(QString text);
   void ResetWarning();
   void XineWarning();
+  void SwitchALSADevices(alsa_plugin alsaplugin);
 
   QSettings s_;
   bool configloaded_;

@@ -87,6 +87,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   bool ValidOutput(const QString &output);
   QString DefaultOutput() { return kAutoSink; }
   bool CustomDeviceSupport(const QString &output);
+  bool ALSADeviceSupport(const QString &output);
 
   void EnsureInitialised() { initialising_.waitForFinished(); }
   void InitialiseGStreamer();

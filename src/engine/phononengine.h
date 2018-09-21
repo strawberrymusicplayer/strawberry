@@ -66,6 +66,7 @@ class PhononEngine : public Engine::Base {
   QString DefaultOutput() { return ""; }
   bool ValidOutput(const QString &output);
   bool CustomDeviceSupport(const QString &output);
+  bool ALSADeviceSupport(const QString &output);
 
  protected:
   void SetVolumeSW( uint percent );

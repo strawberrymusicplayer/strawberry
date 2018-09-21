@@ -27,37 +27,33 @@
 namespace Engine {
     
 Engine::EngineType EngineTypeFromName(QString enginename) {
-    
   QString lower = enginename.toLower();
-
-  if (lower == "xine")			return Engine::Xine;
-  else if (lower == "gstreamer")	return Engine::GStreamer;
-  else if (lower == "phonon")		return Engine::Phonon;
-  else if (lower == "vlc")		return Engine::VLC;
-  else					return Engine::None;
-
+  if (lower == "xine")                  return Engine::Xine;
+  else if (lower == "gstreamer")        return Engine::GStreamer;
+  else if (lower == "phonon")           return Engine::Phonon;
+  else if (lower == "vlc")              return Engine::VLC;
+  else                                  return Engine::None;
 }
 
 QString EngineName(Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::Xine:		return QObject::tr("xine");
-    case Engine::GStreamer:	return QObject::tr("gstreamer");
-    case Engine::Phonon:	return QObject::tr("phonon");
-    case Engine::VLC:		return QObject::tr("vlc");
+    case Engine::Xine:          return QString("xine");
+    case Engine::GStreamer:     return QString("gstreamer");
+    case Engine::Phonon:        return QString("phonon");
+    case Engine::VLC:           return QString("vlc");
     case Engine::None:
-    default:			return QObject::tr("None");
-  
+    default:                    return QString("None");
   }
 }
     
 QString EngineDescription(Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::Xine:		return QObject::tr("Xine");
-    case Engine::GStreamer:	return QObject::tr("GStreamer");
-    case Engine::Phonon:	return QObject::tr("Phonon");
-    case Engine::VLC:		return QObject::tr("VLC");
+    case Engine::Xine:		return QString("Xine");
+    case Engine::GStreamer:	return QString("GStreamer");
+    case Engine::Phonon:	return QString("Phonon");
+    case Engine::VLC:		return QString("VLC");
     case Engine::None:
-    default:			return QObject::tr("None");
+    default:			return QString("None");
   
   }
 }

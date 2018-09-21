@@ -64,6 +64,7 @@ class VLCEngine : public Engine::Base {
   bool ValidOutput(const QString &output);
   QString DefaultOutput() { return ""; }
   bool CustomDeviceSupport(const QString &output);
+  bool ALSADeviceSupport(const QString &output);
 
  private:
   libvlc_instance_t *instance_;

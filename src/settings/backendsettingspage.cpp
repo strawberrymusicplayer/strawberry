@@ -31,6 +31,7 @@
 #include <QSlider>
 #include <QSpinBox>
 #include <QLabel>
+#include <QListView>
 
 #include "backendsettingspage.h"
 
@@ -112,6 +113,19 @@ void BackendSettingsPage::Load() {
   ui_->stickslider_replaygainpreamp->setValue(s_.value("rgpreamp", 0.0).toDouble() * 10 + 150);
   ui_->checkbox_replaygaincompression->setChecked(s_.value("rgcompression", true).toBool());
 
+  int alsaplug_int = alsa_plugin(s_.value("alsaplugin", 0).toInt());
+  if (alsa_plugin(alsaplug_int)) {
+    alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
+    switch (alsaplugin) {
+      case alsa_plugin::alsa_hw:
+        ui_->radiobutton_alsa_hw->setChecked(true);
+        break;
+      case alsa_plugin::alsa_plughw:
+        ui_->radiobutton_alsa_plughw->setChecked(true);
+        break;
+    }
+  }
+
   if (!EngineInitialised()) return;
 
   if (engine()->state() == Engine::Empty) {
@@ -139,6 +153,8 @@ void BackendSettingsPage::ConnectSignals() {
   connect(ui_->lineedit_device, SIGNAL(textChanged(const QString &)), SLOT(DeviceStringChanged()));
   connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
   connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
+  connect(ui_->radiobutton_alsa_hw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_hw_clicked(bool)));
+  connect(ui_->radiobutton_alsa_plughw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_plughw_clicked(bool)));
 
 }
 
@@ -271,6 +287,27 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
     ui_->lineedit_device->setEnabled(false);
   }
 
+  if (engine()->ALSADeviceSupport(output)) {
+    ui_->radiobutton_alsa_hw->setEnabled(true);
+    ui_->radiobutton_alsa_plughw->setEnabled(true);
+    if (device.toString().contains(QRegExp("^plughw:.*"))) {
+      ui_->radiobutton_alsa_hw->setChecked(false);
+      ui_->radiobutton_alsa_plughw->setChecked(true);
+      SwitchALSADevices(alsa_plugin::alsa_plughw);
+    }
+    else {
+      ui_->radiobutton_alsa_plughw->setChecked(false);
+      ui_->radiobutton_alsa_hw->setChecked(true);
+      SwitchALSADevices(alsa_plugin::alsa_hw);
+    }
+  }
+  else {
+    ui_->radiobutton_alsa_hw->setEnabled(false);
+    ui_->radiobutton_alsa_hw->setChecked(false);
+    ui_->radiobutton_alsa_plughw->setEnabled(false);
+    ui_->radiobutton_alsa_plughw->setChecked(false);
+  }
+
   bool found(false);
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant d = ui_->combobox_device->itemData(i).value<QVariant>();
@@ -285,17 +322,12 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   if (engine()->CustomDeviceSupport(output) && device.type() == QVariant::String && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
-      bool have_custom(false);
-      int index_custom = 0;
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
         if (ui_->combobox_device->itemText(i) == "Custom") {
-	  have_custom = true;
-	  index_custom = i;
           if (ui_->combobox_device->currentText() != "Custom") ui_->combobox_device->setCurrentIndex(i);
           break;
         }
       }
-      if (have_custom) ui_->combobox_device->setItemData(index_custom, QVariant(device.toString()));
     }
   }
 
@@ -315,7 +347,9 @@ void BackendSettingsPage::Save() {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
     output_name = output.name;
   }
+
   if (ui_->combobox_device->currentText().isEmpty()) device_value = QVariant();
+  else if (ui_->combobox_device->currentText() == "Custom") device_value = ui_->lineedit_device->text();
   else device_value = ui_->combobox_device->itemData(ui_->combobox_device->currentIndex()).value<QVariant>();
 
   s_.setValue("engine", EngineName(enginetype));
@@ -329,6 +363,10 @@ void BackendSettingsPage::Save() {
   s_.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
   s_.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
   s_.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
+
+  if (ui_->radiobutton_alsa_hw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
+  else if (ui_->radiobutton_alsa_plughw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
+  else s_.remove("alsaplugin");
 
   // If engine has not been changed, but output or device has been changed,
   // then set_output_changed(true) to reinitialize engine when dialog closes.
@@ -347,7 +385,7 @@ void BackendSettingsPage::Cancel() {
 void BackendSettingsPage::EngineChanged(int index) {
 
   if (!configloaded_ || !EngineInitialised()) return;
-  
+
   QVariant v = ui_->combobox_engine->itemData(index);
   Engine::EngineType enginetype = v.value<Engine::EngineType>();
 
@@ -386,12 +424,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
 
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
-    if (ui_->combobox_device->currentText() == "Custom") {
-      ui_->combobox_device->setItemData(index, QVariant(ui_->lineedit_device->text()));
-    }
-    else {
-      if (device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
-    }
+    if (ui_->combobox_device->currentText() != "Custom" && device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
   }
   else {
     ui_->lineedit_device->setEnabled(false);
@@ -409,10 +442,22 @@ void BackendSettingsPage::DeviceStringChanged() {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   bool found(false);
 
+  if (engine()->ALSADeviceSupport(output.name)) {
+    if (ui_->lineedit_device->text().contains(QRegExp("^hw:.*")) && !ui_->radiobutton_alsa_hw->isChecked()) {
+      ui_->radiobutton_alsa_hw->setChecked(true);
+      SwitchALSADevices(alsa_plugin::alsa_hw);
+    }
+    else if (ui_->lineedit_device->text().contains(QRegExp("^plughw:.*")) && !ui_->radiobutton_alsa_plughw->isChecked()) {
+      ui_->radiobutton_alsa_plughw->setChecked(true);
+      SwitchALSADevices(alsa_plugin::alsa_plughw);
+    }
+  }
+
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
     if (device.type() != QVariant::String) continue;
     if (device.toString().isEmpty()) continue;
+    if (ui_->combobox_device->itemText(i) == "Custom") continue;
     if (device.toString() == ui_->lineedit_device->text()) {
       if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);
       found = true;
@@ -430,7 +475,6 @@ void BackendSettingsPage::DeviceStringChanged() {
       }
     }
     if (ui_->combobox_device->currentText() == "Custom") {
-      ui_->combobox_device->setItemData(ui_->combobox_device->currentIndex(), QVariant(ui_->lineedit_device->text()));
       if ((ui_->lineedit_device->text().isEmpty()) && (ui_->combobox_device->count() > 0) && (ui_->combobox_device->currentIndex() != 0)) ui_->combobox_device->setCurrentIndex(0);
     }
   }
@@ -500,5 +544,75 @@ void BackendSettingsPage::XineWarning() {
 
   ShowWarning("You need to restart Strawberry for output/device changes to take affect for Xine.");
   xinewarning_ = true;
+
+}
+
+void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
+
+  // All ALSA devices are listed twice, one for "hw" and one for "plughw"
+  // Only show one of them by making the other ones invisible based on the alsa plugin radiobuttons
+  for (int i = 0; i < ui_->combobox_device->count(); ++i) {
+    QListView *view = qobject_cast<QListView *>(ui_->combobox_device->view());
+    if (!view) continue;
+    if (alsaplugin == alsa_plugin::alsa_hw && ui_->combobox_device->itemData(i).toString().contains(QRegExp("^plughw:.*"))) {
+      view->setRowHidden(i, true);
+    }
+    else if (alsaplugin == alsa_plugin::alsa_plughw && ui_->combobox_device->itemData(i).toString().contains(QRegExp("^hw:.*"))) {
+      view->setRowHidden(i, true);
+    }
+    else {
+      view->setRowHidden(i, false);
+    }
+  }
+
+}
+
+void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
+
+  if (!configloaded_ || !EngineInitialised()) return;
+
+  EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
+  if (!engine()->ALSADeviceSupport(output.name)) return;
+
+  if (ui_->lineedit_device->text().contains(QRegExp("^plughw:.*"))) {
+    SwitchALSADevices(alsa_plugin::alsa_hw);
+    QString device_new = ui_->lineedit_device->text().replace(QRegExp("^plughw:"), "hw:");
+    bool found(false);
+    for (int i = 0; i < ui_->combobox_device->count(); ++i) {
+      QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
+      if (device.type() != QVariant::String) continue;
+      if (device.toString().isEmpty()) continue;
+      if (device.toString() == device_new) {
+        if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);
+        found = true;
+      }
+    }
+    if (!found) ui_->lineedit_device->setText(device_new);
+  }
+
+}
+
+void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
+
+  if (!configloaded_ || !EngineInitialised()) return;
+
+  EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
+  if (!engine()->ALSADeviceSupport(output.name)) return;
+
+  if (ui_->lineedit_device->text().contains(QRegExp("^hw:.*"))) {
+    SwitchALSADevices(alsa_plugin::alsa_plughw);
+    QString device_new = ui_->lineedit_device->text().replace(QRegExp("^hw:"), "plughw:");
+    bool found(false);
+    for (int i = 0; i < ui_->combobox_device->count(); ++i) {
+      QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
+      if (device.type() != QVariant::String) continue;
+      if (device.toString().isEmpty()) continue;
+      if (device.toString() == device_new) {
+        if (ui_->combobox_device->currentIndex() != i) ui_->combobox_device->setCurrentIndex(i);
+        found = true;
+      }
+    }
+    if (!found) ui_->lineedit_device->setText(device_new);
+  }
 
 }

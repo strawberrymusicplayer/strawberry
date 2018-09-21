@@ -189,3 +189,7 @@ bool PhononEngine::ValidOutput(const QString &output) {
 bool PhononEngine::CustomDeviceSupport(const QString &output) {
   return false;
 }
+
+bool PhononEngine::ALSADeviceSupport(const QString &output) {
+  return false;
+}
