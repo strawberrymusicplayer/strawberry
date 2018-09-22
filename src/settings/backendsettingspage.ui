@@ -40,12 +40,24 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>400</width>
+            <height>0</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
          <spacer name="spacer_engine">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -71,12 +83,24 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>400</width>
+            <height>0</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
          <spacer name="spacer_output">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -102,6 +126,12 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>240</width>
+            <height>0</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
@@ -112,7 +142,7 @@
           <property name="minimumSize">
            <size>
             <width>90</width>
-            <height>0</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -120,21 +150,6 @@
             <width>160</width>
             <height>16777215</height>
            </size>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string extracomment="Leave blank for the default."/>
           </property>
           <property name="hint" stdset="0">
            <string/>
@@ -145,6 +160,12 @@
          <spacer name="spacer_device">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -201,6 +222,12 @@
          <spacer name="spacer_alsaplugin">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </spacer>
         </item>
@@ -455,6 +482,12 @@
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
     </spacer>
    </item>
