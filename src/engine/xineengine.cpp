@@ -188,7 +188,7 @@ bool XineEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::T
 
   if (!EnsureStream()) return false;
 
-  Engine::Base::Load(media_url_, original_url_, change, force_stop_at_end, beginning_nanosec, end_nanosec);
+  Engine::Base::Load(media_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
   xine_close(stream_);
 
@@ -787,7 +787,7 @@ bool XineEngine::event(QEvent *e) {
 Engine::SimpleMetaBundle XineEngine::fetchMetaData() const {
 
   Engine::SimpleMetaBundle bundle;
-  bundle.url        = original_url;
+  bundle.url        = original_url_;
   bundle.title      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_TITLE));
   bundle.artist     = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_ARTIST));
   bundle.album      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_ALBUM));
