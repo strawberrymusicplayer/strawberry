@@ -59,7 +59,7 @@ const Song::Source TidalService::kSource = Song::Source_Tidal;
 const char *TidalService::kApiUrl = "https://listen.tidal.com/v1";
 const char *TidalService::kAuthUrl = "https://listen.tidal.com/v1/login/username";
 const char *TidalService::kResourcesUrl = "http://resources.tidal.com";
-const char *TidalService::kApiToken = "P5Xbeo5LFvESeDy6";
+const char *TidalService::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const int TidalService::kLoginAttempts = 2;
 
 typedef QPair<QString, QString> Param;
@@ -76,7 +76,11 @@ TidalService::TidalService(Application *app, InternetModel *parent)
       user_id_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      login_sent_(false)
+      search_id_(0),
+      albums_requested_(0),
+      albums_received_(0),
+      login_sent_(false),
+      login_attempts_(0)
   {
 
   timer_searchdelay_->setSingleShot(true);
@@ -103,7 +107,7 @@ void TidalService::ReloadSettings() {
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   username_ = s.value("username").toString();
-  password_ = s.value("password").toString();
+  password_ = QByteArray::fromBase64(s.value("password").toByteArray());
   quality_ = s.value("quality").toString();
   searchdelay_ = s.value("searchdelay", 1500).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
@@ -123,6 +127,7 @@ void TidalService::LoadSessionID() {
   session_id_ = s.value("session_id").toString();
   user_id_ = s.value("user_id").toInt();
   country_code_ = s.value("country_code").toString();
+  clientuniquekey_ = Utilities::GetRandomStringWithChars(12);
   s.endGroup();
 
 }
@@ -144,7 +149,10 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
   typedef QPair<QByteArray, QByteArray> EncodedArg;
   typedef QList<EncodedArg> EncodedArgList;
 
-  ArgList args = ArgList() <<Arg("token", kApiToken) << Arg("username", username) << Arg("password", password) << Arg("clientVersion", "2.2.1--7");
+  ArgList args = ArgList() << Arg("token", QByteArray::fromBase64(kApiTokenB64))
+                           << Arg("username", username)
+                           << Arg("password", password)
+                           << Arg("clientUniqueKey", clientuniquekey_);
 
   QStringList query_items;
   QUrlQuery url_query;
@@ -158,6 +166,7 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
   QNetworkRequest req(url);
 
   req.setRawHeader("Origin", "http://listen.tidal.com");
+  req.setRawHeader("X-Tidal-Token", QByteArray::fromBase64(kApiTokenB64));
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleAuthReply(QNetworkReply*)), reply);
 
@@ -244,6 +253,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   country_code_ = json_obj["countryCode"].toString();
   session_id_ = json_obj["sessionId"].toString();
   user_id_ = json_obj["userId"].toInt();
+  clientuniquekey_ = Utilities::GetRandomStringWithChars(12);
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
@@ -307,9 +317,11 @@ QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const 
   QUrl url(kApiUrl + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
+  req.setRawHeader("Origin", "http://listen.tidal.com");
+  req.setRawHeader("X-Tidal-SessionId", session_id_.toUtf8());
   QNetworkReply *reply = network_->get(req);
 
-  //qLog(Debug) << "Tidal: Sending request" << url;
+  qLog(Debug) << "Tidal: Sending request" << url;
 
   return reply;
 
@@ -611,11 +623,7 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
 void TidalService::GetAlbum(const int album_id) {
 
   QList<Param> parameters;
-  parameters << Param("token", session_id_)
-             << Param("soundQuality", quality_);
-
   QNetworkReply *reply = CreateRequest(QString("albums/%1/tracks").arg(album_id), parameters);
-
   NewClosure(reply, SIGNAL(finished()), this, SLOT(GetAlbumFinished(QNetworkReply*, int, int)), reply, search_id_, album_id);
 
 }
@@ -784,8 +792,7 @@ void TidalService::GetStreamURL(const QUrl &url) {
   requests_song_.insert(song_id, url);
 
   QList<Param> parameters;
-  parameters << Param("token", session_id_)
-             << Param("soundQuality", quality_);
+  parameters << Param("soundQuality", quality_);
 
   QNetworkReply *reply = CreateRequest(QString("tracks/%1/streamUrl").arg(song_id), parameters);
 

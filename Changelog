@@ -9,6 +9,10 @@ Unreleased:
     * Fixed bug in pipeline not setting url
     * Fixed bug setting wrong temporary metadata
     * Removed device module from windows, since it's not implemented for windows
+    * Added support for both ALSA hw and plughw
+    * Added option to change url stream scheme for Tidal
+    * Added encoding of Tidal token in the source code
+    * Added encoding of Tidal password in the configuration
 
 Version 0.3.1:
 

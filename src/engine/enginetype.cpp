@@ -25,7 +25,7 @@
 #include "enginetype.h"
 
 namespace Engine {
-    
+
 Engine::EngineType EngineTypeFromName(QString enginename) {
   QString lower = enginename.toLower();
   if (lower == "xine")                  return Engine::Xine;

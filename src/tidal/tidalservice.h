@@ -103,7 +103,7 @@ class TidalService : public InternetService {
   static const char *kApiUrl;
   static const char *kAuthUrl;
   static const char *kResourcesUrl;
-  static const char *kApiToken;
+  static const char *kApiTokenB64;
 
   NetworkAccessManager *network_;
   TidalUrlHandler *url_handler_;
@@ -121,6 +121,7 @@ class TidalService : public InternetService {
   QString session_id_;
   quint64 user_id_;
   QString country_code_;
+  QString clientuniquekey_;
 
   int pending_search_id_;
   int next_pending_search_id_;

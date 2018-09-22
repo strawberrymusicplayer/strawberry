@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -149,7 +150,10 @@ int GetThreadId();
 // Returns true if this machine has a battery.
 bool IsLaptop();
 
-QString SystemLanguageName();
+QString GetRandomStringWithChars(const int len);
+QString GetRandomStringWithCharsAndNumbers(const int len);
+QString GetRandomString(const int len, const QString &UseCharacters);
+
 }
 
 class ScopedWCharArray {

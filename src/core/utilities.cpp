@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -690,21 +691,6 @@ bool IsLaptop() {
 
 }
 
-QString SystemLanguageName() {
-
-#if QT_VERSION >= 0x040800
-  QString system_language = QLocale::system().uiLanguages().empty() ? QLocale::system().name() : QLocale::system().uiLanguages().first();
-  // uiLanguages returns strings with "-" as separators for language/region;
-  // however QTranslator needs "_" separators
-  system_language.replace("-", "_");
-#else
-  QString system_language = QLocale::system().name();
-#endif
-
-  return system_language;
-
-}
-
 bool UrlOnSameDriveAsStrawberry(const QUrl &url) {
 
   if (url.scheme() != "file") return false;
@@ -723,18 +709,13 @@ bool UrlOnSameDriveAsStrawberry(const QUrl &url) {
 }
 
 QUrl GetRelativePathToStrawberryBin(const QUrl &url) {
-
   QDir appPath(QCoreApplication::applicationDirPath());
   return QUrl::fromLocalFile(appPath.relativeFilePath(url.toLocalFile()));
-
 }
 
 QString PathWithoutFilenameExtension(const QString &filename) {
-
-  if (filename.section('/', -1, -1).contains('.'))
-    return filename.section('.', 0, -2);
+  if (filename.section('/', -1, -1).contains('.')) return filename.section('.', 0, -2);
   return filename;
-
 }
 
 QString FiddleFileExtension(const QString &filename, const QString &new_extension) {
@@ -783,6 +764,28 @@ void CheckPortable() {
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, f.fileName());
   }
+
+}
+
+QString GetRandomStringWithChars(const int len) {
+  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+  return GetRandomString(len, UseCharacters);
+}
+
+QString GetRandomStringWithCharsAndNumbers(const int len) {
+  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+  return GetRandomString(len, UseCharacters);
+}
+
+QString GetRandomString(const int len, const QString &UseCharacters) {
+
+   QString randstr;
+   for(int i=0 ; i < len ; ++i) {
+     int index = qrand() % UseCharacters.length();
+     QChar nextchar = UseCharacters.at(index);
+     randstr.append(nextchar);
+   }
+   return randstr;
 
 }
 
