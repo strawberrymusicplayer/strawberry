@@ -321,7 +321,7 @@ QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const 
   req.setRawHeader("X-Tidal-SessionId", session_id_.toUtf8());
   QNetworkReply *reply = network_->get(req);
 
-  qLog(Debug) << "Tidal: Sending request" << url;
+  //qLog(Debug) << "Tidal: Sending request" << url;
 
   return reply;
 
