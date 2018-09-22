@@ -34,6 +34,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 #include <QTimeLine>
 #include <QMetaObject>
 #include <QtDebug>

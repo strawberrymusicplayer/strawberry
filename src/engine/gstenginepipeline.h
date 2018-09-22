@@ -42,6 +42,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 #include <QTimerEvent>
 
 class GstEngine;

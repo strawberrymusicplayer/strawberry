@@ -246,7 +246,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
         item->SetTemporaryMetadata(song);
         app_->playlist_manager()->active()->InformOfCurrentSongChange();
       }
-      engine_->Play(result.media_url_, song.url(), stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
+      engine_->Play(result.media_url_, result.original_url_, stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
 
       current_item_ = item;
       loading_async_ = QUrl();
@@ -260,6 +260,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       loading_async_ = result.original_url_;
       break;
   }
+
 }
 
 void Player::Next() { NextInternal(Engine::Manual); }
@@ -625,8 +626,6 @@ void Player::TogglePrettyOSD() {
 }
 
 void Player::TrackAboutToEnd() {
-
-  qLog(Debug) << __PRETTY_FUNCTION__;
 
   // If the current track was from a URL handler then it might have special behaviour to queue up a subsequent track.
   // We don't want to preload (and scrobble) the next item in the playlist if it's just going to be stopped again immediately after.
