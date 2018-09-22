@@ -371,15 +371,16 @@ bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &url, qint64 end_nanosec) {
+bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl original_url, qint64 end_nanosec) {
 
-  url_ = url;
+  media_url_ = media_url;
+  original_url_ = original_url;
   end_offset_nanosec_ = end_nanosec;
 
   pipeline_ = engine_->CreateElement("playbin");
   if (pipeline_ == nullptr) return false;
 
-  g_object_set(G_OBJECT(pipeline_), "uri", url.constData(), nullptr);
+  g_object_set(G_OBJECT(pipeline_), "uri", media_url.constData(), nullptr);
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
@@ -501,9 +502,11 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   if (next_uri_set_) {
     next_uri_set_ = false;
 
-    url_ = next_url_;
+    media_url_ = next_media_url_;
+    original_url_ = next_original_url_;
     end_offset_nanosec_ = next_end_offset_nanosec_;
-    next_url_ = QByteArray();
+    next_media_url_ = QByteArray();
+    next_original_url_ = QUrl();
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
 
@@ -580,11 +583,18 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   gst_message_parse_tag(msg, &taglist);
 
   Engine::SimpleMetaBundle bundle;
-  bundle.url = QUrl(QString(url_));
-  bundle.title = ParseTag(taglist, GST_TAG_TITLE);
-  bundle.artist = ParseTag(taglist, GST_TAG_ARTIST);
-  bundle.comment = ParseTag(taglist, GST_TAG_COMMENT);
-  bundle.album = ParseTag(taglist, GST_TAG_ALBUM);
+  bundle.url = original_url_;
+  bundle.title = ParseStrTag(taglist, GST_TAG_TITLE);
+  bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
+  bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
+  bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
+  bundle.length = 0;
+  bundle.year = 0;
+  bundle.tracknr = 0;
+  bundle.samplerate = 0;
+  bundle.bitdepth = 0;
+  bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
+  bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
   gst_tag_list_free(taglist);
 
@@ -595,7 +605,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
 }
 
-QString GstEnginePipeline::ParseTag(GstTagList *list, const char *tag) const {
+QString GstEnginePipeline::ParseStrTag(GstTagList *list, const char *tag) const {
 
   gchar *data = nullptr;
   bool success = gst_tag_list_get_string(list, tag, &data);
@@ -606,6 +616,17 @@ QString GstEnginePipeline::ParseTag(GstTagList *list, const char *tag) const {
     g_free(data);
   }
   return ret.trimmed();
+
+}
+
+guint GstEnginePipeline::ParseUIntTag(GstTagList *list, const char *tag) const {
+
+  guint data;
+  bool success = gst_tag_list_get_uint(list, tag, &data);
+
+  guint ret = 0;
+  if (success && data) ret = data;
+  return ret;
 
 }
 
@@ -632,7 +653,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       // Revert uri and go back to PLAY state again
       next_uri_set_ = false;
-      g_object_set(G_OBJECT(pipeline_), "uri", url_.constData(), nullptr);
+      g_object_set(G_OBJECT(pipeline_), "uri", media_url_.constData(), nullptr);
       SetState(GST_STATE_PLAYING);
     }
   }
@@ -760,10 +781,11 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
     quint64 end_time = start_time + duration;
 
     if (end_time > instance->end_offset_nanosec_) {
-      if (instance->has_next_valid_url() && instance->next_url_ == instance->url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
+      if (instance->has_next_valid_url() && instance->next_media_url_ == instance->media_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
           // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
           instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-          instance->next_url_ = QByteArray();
+          instance->next_media_url_ = QByteArray();
+          instance->next_original_url_ = QUrl();
           instance->next_beginning_offset_nanosec_ = 0;
           instance->next_end_offset_nanosec_ = 0;
 
@@ -816,7 +838,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *bin, gpointer self) {
     // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
     // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
     instance->next_uri_set_ = true;
-    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_url_.constData(), nullptr);
+    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_media_url_.constData(), nullptr);
   }
 
 }
@@ -1059,9 +1081,10 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QByteArray &url, qint64 beginning_nanosec, qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QByteArray &media_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec) {
 
-  next_url_ = url;
+  next_media_url_ = media_url;
+  next_original_url_ = original_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
 

@@ -68,8 +68,8 @@ public:
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
-  virtual void StartPreloading(const QUrl&, bool, qint64, qint64) {}
-  virtual bool Load(const QUrl &url, TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  virtual void StartPreloading(const QUrl &media_url, const QUrl &original_url, bool, qint64, qint64) {}
+  virtual bool Load(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   virtual bool Play(quint64 offset_nanosec) = 0;
   virtual void Stop(bool stop_after = false) = 0;
   virtual void Pause() = 0;
@@ -97,7 +97,7 @@ public:
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &u, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  bool Play(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   void SetVolume(uint value);
   static uint MakeVolumeLogarithmic(uint volume);
 
@@ -164,7 +164,8 @@ protected:
   uint volume_;
   quint64 beginning_nanosec_;
   qint64 end_nanosec_;
-  QUrl url_;
+  QUrl media_url_;
+  QUrl original_url_;
   Scope scope_;
   bool buffering_;
   bool equalizer_enabled_;
@@ -209,12 +210,13 @@ struct SimpleMetaBundle {
   QString album;
   QString comment;
   QString genre;
-  QString bitrate;
-  QString samplerate;
-  QString bitdepth;
-  QString length;
-  QString year;
-  QString tracknr;
+  qlonglong length;
+  int year;
+  int tracknr;
+  int samplerate;
+  int bitdepth;
+  qlonglong bitrate;
+  QString lyrics;
 };
 
 }  // namespace

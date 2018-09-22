@@ -389,7 +389,6 @@ signals:
 
   Song song_;
   Song song_playing_;
-  Song song_empty_;
   QImage image_original_;
 
 };

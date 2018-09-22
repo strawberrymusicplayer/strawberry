@@ -64,8 +64,8 @@ bool PhononEngine::CanDecode(const QUrl &url) {
   return true;
 }
 
-bool PhononEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
-  media_object_->setCurrentSource(Phonon::MediaSource(url));
+bool PhononEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+  media_object_->setCurrentSource(Phonon::MediaSource(media_url));
   return true;
 }
 

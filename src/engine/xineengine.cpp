@@ -180,20 +180,20 @@ Engine::State XineEngine::state() const {
       return Engine::Empty;
     case XINE_STATUS_STOP:
     default:
-      return url_.isEmpty() ? Engine::Empty : Engine::Idle;
+      return media_url_.isEmpty() ? Engine::Empty : Engine::Idle;
   }
 }
 
-bool XineEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool XineEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   if (!EnsureStream()) return false;
 
-  Engine::Base::Load(url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
+  Engine::Base::Load(media_url_, original_url_, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
   xine_close(stream_);
 
   //int result = xine_open(stream_, url.path().toUtf8());
-  int result = xine_open(stream_, url.toString().toUtf8());
+  int result = xine_open(stream_, media_url.toString().toUtf8());
   if (result) {
 
 #ifndef XINE_SAFE_MODE
@@ -375,7 +375,7 @@ uint XineEngine::length() const {
 
   // Xine often delivers nonsense values for VBR files and such, so we only use the length for remote files
 
-  if (url_.scheme().toLower() == "file") return 0;
+  if (media_url_.scheme().toLower() == "file") return 0;
   else {
     int pos = 0, time = 0, length = 0;
 
@@ -477,10 +477,9 @@ bool XineEngine::MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b) {
         b.artist = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_ARTIST));
         b.album = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_ALBUM));
         b.genre = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_GENRE));
-        b.year = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_YEAR));
-        b.tracknr = QString::fromUtf8(xine_get_meta_info(tmpstream, XINE_META_INFO_TRACK_NUMBER));
-        if (b.tracknr.isEmpty())
-          b.tracknr = QFileInfo(url.path()).fileName();
+        b.year = atoi(xine_get_meta_info(tmpstream, XINE_META_INFO_YEAR));
+        b.tracknr = atoi(xine_get_meta_info(tmpstream, XINE_META_INFO_TRACK_NUMBER));
+        //if (b.tracknr <= 0) b.tracknr = QFileInfo(url.path()).fileName();
       }
       else {
         b.title = QString("Track %1").arg(QFileInfo(url.path()).fileName());
@@ -490,18 +489,19 @@ bool XineEngine::MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b) {
 
     if (audioCodec == "CDDA" || audioCodec == "WAV") {
       result = true;
+      b.url = url;
       int samplerate = xine_get_stream_info(tmpstream, XINE_STREAM_INFO_AUDIO_SAMPLERATE);
-
+      int bitdepth = xine_get_stream_info(tmpstream, XINE_STREAM_INFO_AUDIO_BITS);
+      int channels = xine_get_stream_info(tmpstream, XINE_STREAM_INFO_AUDIO_CHANNELS);
       // Xine would provide a XINE_STREAM_INFO_AUDIO_BITRATE, but unfortunately not for CDDA or WAV so we calculate the bitrate by our own
-      int bitsPerSample = xine_get_stream_info(tmpstream, XINE_STREAM_INFO_AUDIO_BITS);
-      int nbrChannels = xine_get_stream_info(tmpstream, XINE_STREAM_INFO_AUDIO_CHANNELS);
-      int bitrate = (samplerate * bitsPerSample * nbrChannels) / 1000;
+      int bitrate = (samplerate * bitdepth * channels) / 1000;
 
-      b.bitrate = QString::number(bitrate);
-      b.samplerate = QString::number(samplerate);
+      b.samplerate = samplerate;
+      b.bitdepth = bitdepth;
+      b.bitrate = bitrate;
       int pos, time, length = 0;
       xine_get_pos_length(tmpstream, &pos, &time, &length);
-      b.length = QString::number(length / 1000);
+      b.length = length / 1000;
     }
     xine_close(tmpstream);
   }
@@ -750,7 +750,7 @@ bool XineEngine::event(QEvent *e) {
       return true;
 
     case XineEvent::InfoMessage:
-      emit InfoMessage((*message).arg(url_.toString()));
+      emit InfoMessage((*message).arg(media_url_.toString()));
       delete message;
       return true;
 
@@ -771,7 +771,7 @@ bool XineEngine::event(QEvent *e) {
 
     case XineEvent::Redirecting:
       emit StatusText(QString("Redirecting to: ").arg(*message));
-      Load(QUrl(*message), Engine::Auto, false, 0, 0);
+      Load(QUrl(*message), original_url_, Engine::Auto, false, 0, 0);
       Play(0);
       delete message;
       return true;
@@ -787,15 +787,18 @@ bool XineEngine::event(QEvent *e) {
 Engine::SimpleMetaBundle XineEngine::fetchMetaData() const {
 
   Engine::SimpleMetaBundle bundle;
+  bundle.url        = original_url;
   bundle.title      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_TITLE));
   bundle.artist     = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_ARTIST));
   bundle.album      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_ALBUM));
   bundle.comment    = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_COMMENT));
   bundle.genre      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_GENRE));
-  bundle.bitrate    = QString::number(xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_BITRATE) / 1000);
-  bundle.samplerate = QString::number(xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_SAMPLERATE));
-  bundle.year       = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_YEAR));
-  bundle.tracknr    = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_TRACK_NUMBER));
+  bundle.length     = 0;
+  bundle.year       = atoi(xine_get_meta_info(stream_, XINE_META_INFO_YEAR));
+  bundle.tracknr    = atoi(xine_get_meta_info(stream_, XINE_META_INFO_TRACK_NUMBER));
+  bundle.samplerate = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_SAMPLERATE);
+  bundle.bitdepth   = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_BITS);
+  bundle.bitrate    = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_BITRATE) / 1000;
 
   return bundle;
 
@@ -899,7 +902,7 @@ void XineEngine::DetermineAndShowErrorMessage() {
         // xine can read the plugin but it didn't find any codec
         // THUS xine=daft for telling us it could handle the format in canDecode!
         body = "There is no available decoder.";
-        QString const ext = QFileInfo(url_.path()).completeSuffix();
+        QString const ext = QFileInfo(media_url_.path()).completeSuffix();
         // TODO:
         // if (ext == "mp3" && EngineController::installDistroCodec("xine-engine"))
         // return;

@@ -831,8 +831,8 @@ void MainWindow::MediaStopped() {
   tray_icon_->SetProgress(0);
   tray_icon_->SetStopped();
 
-  song_playing_ = song_empty_;
-  song_ = song_empty_;
+  song_playing_ = Song();
+  song_ = Song();
   image_original_ = QImage();
 
 }

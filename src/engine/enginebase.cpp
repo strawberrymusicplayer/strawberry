@@ -60,11 +60,12 @@ Engine::Base::Base()
 
 Engine::Base::~Base() {}
 
-bool Engine::Base::Load(const QUrl &url, TrackChangeFlags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Load(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   Q_UNUSED(force_stop_at_end);
 
-  url_ = url;
+  media_url_ = media_url;
+  original_url_ = original_url;
   beginning_nanosec_ = beginning_nanosec;
   end_nanosec_ = end_nanosec;
 
@@ -73,12 +74,13 @@ bool Engine::Base::Load(const QUrl &url, TrackChangeFlags, bool force_stop_at_en
 
 }
 
-bool Engine::Base::Play(const QUrl &url, TrackChangeFlags flags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Play(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags flags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
-  if (!Load(url, flags, force_stop_at_end, beginning_nanosec, end_nanosec))
+  if (!Load(media_url, original_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec))
     return false;
 
   return Play(0);
+
 }
 
 void Engine::Base::SetVolume(uint value) {

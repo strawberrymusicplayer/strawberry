@@ -308,7 +308,6 @@ class Song {
   
   void set_image(const QImage &i);
 
-
   // Comparison functions
   bool IsMetadataEqual(const Song &other) const;
   bool IsOnSameAlbum(const Song &other) const;

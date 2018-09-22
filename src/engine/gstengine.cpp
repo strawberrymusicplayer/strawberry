@@ -137,7 +137,7 @@ bool GstEngine::Init() {
 
 Engine::State GstEngine::state() const {
 
-  if (!current_pipeline_) return url_.isEmpty() ? Engine::Empty : Engine::Idle;
+  if (!current_pipeline_) return media_url_.isEmpty() ? Engine::Empty : Engine::Idle;
 
   switch (current_pipeline_->state()) {
     case GST_STATE_NULL:
@@ -154,32 +154,32 @@ Engine::State GstEngine::state() const {
 
 }
 
-void GstEngine::StartPreloading(const QUrl &url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec) {
+void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &original_url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec) {
 
   EnsureInitialised();
 
-  QByteArray gst_url = FixupUrl(url);
+  QByteArray gst_url = FixupUrl(media_url);
 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
   if (current_pipeline_)
-    current_pipeline_->SetNextUrl(gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
+    current_pipeline_->SetNextUrl(gst_url, original_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
 
 }
 
-bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   EnsureInitialised();
 
-  Engine::Base::Load(url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
+  Engine::Base::Load(media_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
-  QByteArray gst_url = FixupUrl(url);
+  QByteArray gst_url = FixupUrl(media_url);
 
   bool crossfade = current_pipeline_ && ((crossfade_enabled_ && change & Engine::Manual) || (autocrossfade_enabled_ && change & Engine::Auto) || ((crossfade_enabled_ || autocrossfade_enabled_) && change & Engine::Intro));
 
   if (change & Engine::Auto && change & Engine::SameAlbum && !crossfade_same_album_)
     crossfade = false;
 
-  if (!crossfade && current_pipeline_ && current_pipeline_->url() == gst_url && change & Engine::Auto) {
+  if (!crossfade && current_pipeline_ && current_pipeline_->media_url() == gst_url && change & Engine::Auto) {
     // We're not crossfading, and the pipeline is already playing the URI we want, so just do nothing.
     return true;
   }
@@ -188,7 +188,7 @@ bool GstEngine::Load(const QUrl &url, Engine::TrackChangeFlags change, bool forc
   //SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
   //SetStereoBalance(stereo_balance_);
 
-  shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, force_stop_at_end ? end_nanosec : 0);
+  shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
   if (!pipeline) return false;
 
   if (crossfade) StartFadeout();
@@ -229,7 +229,8 @@ void GstEngine::Stop(bool stop_after) {
 
   StopTimers();
 
-  url_ = QUrl();  // To ensure we return Empty from state()
+  media_url_ = QUrl();  // To ensure we return Empty from state()
+  original_url_ = QUrl();
   beginning_nanosec_ = end_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
@@ -575,7 +576,7 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   BufferingFinished();
   emit StateChanged(Engine::Error);
   // unable to play media stream with this url
-  emit InvalidSongRequested(url_);
+  emit InvalidSongRequested(media_url_);
 
   emit Error(message);
 
@@ -649,9 +650,9 @@ void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 off
   if (ret == GST_STATE_CHANGE_FAILURE) {
     // Failure, but we got a redirection URL - try loading that instead
     QByteArray redirect_url = current_pipeline_->redirect_url();
-    if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->url()) {
+    if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->media_url()) {
       qLog(Info) << "Redirecting to" << redirect_url;
-      current_pipeline_ = CreatePipeline(redirect_url, end_nanosec_);
+      current_pipeline_ = CreatePipeline(redirect_url, current_pipeline_->original_url(), end_nanosec_);
       Play(offset_nanosec);
       return;
     }
@@ -665,14 +666,14 @@ void GstEngine::PlayDone(QFuture<GstStateChangeReturn> future, const quint64 off
 
   StartTimers();
 
-  // initial offset
+  // Initial offset
   if (offset_nanosec != 0 || beginning_nanosec_ != 0) {
     Seek(offset_nanosec);
   }
 
   emit StateChanged(Engine::Playing);
-  // we've successfully started playing a media stream with this url
-  emit ValidSongRequested(url_);
+  // We've successfully started playing a media stream with this url
+  emit ValidSongRequested(media_url_);
 
 }
 
@@ -824,24 +825,13 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   connect(ret.get(), SIGNAL(BufferingFinished()), SLOT(BufferingFinished()));
 
   return ret;
-}
-
-shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QUrl &url, qint64 end_nanosec) {
-
-  shared_ptr<GstEnginePipeline> ret = CreatePipeline();
-
-  if (!ret->InitFromUrl(url.toEncoded(), end_nanosec)) ret.reset();
-
-  return ret;
 
 }
 
-shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &url, qint64 end_nanosec) {
+shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, qint64 end_nanosec) {
 
   shared_ptr<GstEnginePipeline> ret = CreatePipeline();
-
-  if (!ret->InitFromUrl(url, end_nanosec)) ret.reset();
-
+  if (!ret->InitFromUrl(gst_url, original_url, end_nanosec)) ret.reset();
   return ret;
 
 }

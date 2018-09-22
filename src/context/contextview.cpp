@@ -82,7 +82,8 @@ ContextView::ContextView(QWidget *parent) :
     timeline_fade_(new QTimeLine(1000, this)),
     image_strawberry_(":/pictures/strawberry.png"),
     active_(false),
-    downloading_covers_(false)
+    downloading_covers_(false),
+    lyrics_id_(-1)
   {
 
   ui_->setupUi(this);
@@ -173,10 +174,10 @@ void ContextView::Playing() {}
 void ContextView::Stopped() {
 
   active_ = false;
-  song_playing_ = song_empty_;
-  song_ = song_empty_;
+  song_playing_ = Song();
+  song_ = Song();
   downloading_covers_ = false;
-  prev_artist_ = QString();
+  song_prev_ = Song();
   lyrics_ = QString();
   SetImage(image_strawberry_);
 
@@ -190,19 +191,38 @@ void ContextView::UpdateNoSong() {
 
 void ContextView::SongChanged(const Song &song) {
 
-  image_previous_ = image_original_;
-  prev_artist_ = song_playing_.artist();
-  lyrics_ = song.lyrics();
-  song_playing_ = song;
-  song_ = song;
-  UpdateSong();
-  update();
-  if (action_show_lyrics_->isChecked()) lyrics_fetcher_->Search(song.artist(), song.album(), song.title());
+  if (song_playing_.is_valid() && song.id() == song_playing_.id() && song.url() == song_playing_.url()) {
+    UpdateSong(song);
+  }
+  else {
+    song_prev_ = song_playing_;
+    lyrics_ = song.lyrics();
+    lyrics_id_ = -1;
+    song_playing_ = song;
+    song_ = song;
+    SetSong(song);
+    if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) {
+      lyrics_fetcher_->Clear();
+      lyrics_id_ = lyrics_fetcher_->Search(song.artist(), song.album(), song.title());
+    }
+  }
 
 }
 
-void ContextView::SetText(QLabel *label, int value, const QString &suffix, const QString &def) {
+void ContextView::SetLabelEnabled(QLabel *label) {
+  label->setEnabled(true);
+  label->setVisible(true);
+  label->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+}
+
+void ContextView::SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def) {
   label->setText(value <= 0 ? def : (QString::number(value) + " " + suffix));
+}
+
+void ContextView::SetLabelDisabled(QLabel *label) {
+  label->setEnabled(false);
+  label->setVisible(false);
+  label->setMaximumSize(0, 0);
 }
 
 void ContextView::NoSong() {
@@ -232,7 +252,7 @@ void ContextView::NoSong() {
 
 }
 
-void ContextView::UpdateSong() {
+void ContextView::SetSong(const Song &song) {
 
   QList <QLabel *> labels_play_data;
 
@@ -251,85 +271,58 @@ void ContextView::UpdateSong() {
                                      "font: 11pt;"
                                      "font-weight: regular;"
                                      );
-  ui_->label_play_top->setText( QString("<b>%1 - %2</b><br/>%3").arg(song_.PrettyTitle().toHtmlEscaped(), song_.artist().toHtmlEscaped(), song_.album().toHtmlEscaped()));
+  ui_->label_play_top->setText( QString("<b>%1 - %2</b><br/>%3").arg(song.PrettyTitle().toHtmlEscaped(), song.artist().toHtmlEscaped(), song.album().toHtmlEscaped()));
 
   if (action_show_data_->isChecked()) {
-    for (QLabel *l : labels_play_data) {
-      l->setEnabled(true);
-      l->setVisible(true);
-      l->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-    }
     ui_->layout_play_data->setEnabled(true);
-    ui_->filetype->setText(song_.TextForFiletype());
-    ui_->length->setText(Utilities::PrettyTimeNanosec(song_.length_nanosec()));
-    if (song_.samplerate() <= 0) {
-      ui_->label_samplerate->setEnabled(false);
-      ui_->label_samplerate->setVisible(false);
-      ui_->label_samplerate->setMaximumSize(0, 0);
-      ui_->samplerate->setEnabled(false);
-      ui_->samplerate->setVisible(false);
-      ui_->samplerate->setMaximumSize(0, 0);
+    SetLabelEnabled(ui_->label_filetype);
+    SetLabelEnabled(ui_->filetype);
+    SetLabelEnabled(ui_->label_length);
+    SetLabelEnabled(ui_->length);
+    ui_->filetype->setText(song.TextForFiletype());
+    ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
+    if (song.samplerate() <= 0) {
+      SetLabelDisabled(ui_->label_samplerate);
+      SetLabelDisabled(ui_->samplerate);
       ui_->samplerate->clear();
     }
     else {
-      ui_->label_samplerate->setEnabled(true);
-      ui_->label_samplerate->setVisible(true);
-      ui_->label_samplerate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      ui_->samplerate->setEnabled(true);
-      ui_->samplerate->setVisible(true);
-      ui_->samplerate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      SetText(ui_->samplerate, song_.samplerate(), "Hz");
+      SetLabelEnabled(ui_->label_samplerate);
+      SetLabelEnabled(ui_->samplerate);
+      SetLabelText(ui_->samplerate, song.samplerate(), "Hz");
     }
-    if (song_.bitdepth() <= 0) {
-      ui_->label_bitdepth->setEnabled(false);
-      ui_->label_bitdepth->setVisible(false);
-      ui_->label_bitdepth->setMaximumSize(0, 0);
-      ui_->bitdepth->setEnabled(false);
-      ui_->bitdepth->setVisible(false);
-      ui_->bitdepth->setMaximumSize(0, 0);
+    if (song.bitdepth() <= 0) {
+      SetLabelDisabled(ui_->label_bitdepth);
+      SetLabelDisabled(ui_->bitdepth);
       ui_->bitdepth->clear();
     }
     else {
-      ui_->label_bitdepth->setEnabled(true);
-      ui_->label_bitdepth->setVisible(true);
-      ui_->label_bitdepth->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      ui_->bitdepth->setEnabled(true);
-      ui_->bitdepth->setVisible(true);
-      ui_->bitdepth->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      SetText(ui_->bitdepth, song_.bitdepth(), "Bit");
+      SetLabelEnabled(ui_->label_bitdepth);
+      SetLabelEnabled(ui_->bitdepth);
+      SetLabelText(ui_->bitdepth, song.bitdepth(), "Bit");
     }
-    if (song_.bitrate() <= 0) {
-      ui_->label_bitrate->setEnabled(false);
-      ui_->label_bitrate->setVisible(false);
-      ui_->label_bitrate->setMaximumSize(0, 0);
-      ui_->bitrate->setEnabled(false);
-      ui_->bitrate->setVisible(false);
-      ui_->bitrate->setMaximumSize(0, 0);
+    if (song.bitrate() <= 0) {
+      SetLabelDisabled(ui_->label_bitrate);
+      SetLabelDisabled(ui_->bitrate);
       ui_->bitrate->clear();
     }
     else {
-      ui_->label_bitrate->setEnabled(true);
-      ui_->label_bitrate->setVisible(true);
-      ui_->label_bitrate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      ui_->bitrate->setEnabled(true);
-      ui_->bitrate->setVisible(true);
-      ui_->bitrate->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-      SetText(ui_->bitrate, song_.bitrate(), tr("kbps"));
+      SetLabelEnabled(ui_->label_bitrate);
+      SetLabelEnabled(ui_->bitrate);
+      SetLabelText(ui_->bitrate, song.bitrate(), tr("kbps"));
     }
     ui_->spacer_play_data->changeSize(20, 20, QSizePolicy::Fixed);
   }
   else {
-    for (QLabel *l : labels_play_data) {
-      l->setEnabled(false);
-      l->setVisible(false);
-      l->setMaximumSize(0, 0);
-    }
-    ui_->layout_play_data->setEnabled(false);
     ui_->filetype->clear();
     ui_->length->clear();
     ui_->samplerate->clear();
     ui_->bitdepth->clear();
     ui_->bitrate->clear();
+    for (QLabel *l : labels_play_data) {
+      SetLabelDisabled(l);
+    }
+    ui_->layout_play_data->setEnabled(false);
     ui_->spacer_play_data->changeSize(0, 0, QSizePolicy::Fixed);
   }
 
@@ -403,18 +396,18 @@ void ContextView::UpdateSong() {
     ui_->device->setMaximumSize(0, 0);
   }
 
-  if (action_show_albums_->isChecked() && prev_artist_ != song_.artist()) {
+  if (action_show_albums_->isChecked() && song_prev_.artist() != song.artist()) {
     const QueryOptions opt;
     CollectionBackend::AlbumList albumlist;
     ui_->widget_play_albums->albums_model()->Reset();
-    albumlist = app_->collection_backend()->GetAlbumsByArtist(song_.artist(), opt);
+    albumlist = app_->collection_backend()->GetAlbumsByArtist(song.artist(), opt);
     if (albumlist.count() > 1) {
       ui_->label_play_albums->setVisible(true);
       ui_->label_play_albums->setMinimumSize(0, 20);
-      ui_->label_play_albums->setText(QString("<b>Albums by %1</b>").arg( song_.artist().toHtmlEscaped()));
+      ui_->label_play_albums->setText(QString("<b>Albums by %1</b>").arg( song.artist().toHtmlEscaped()));
       ui_->label_play_albums->setStyleSheet("background-color: #3DADE8; color: rgb(255, 255, 255); font: 11pt;");
       for (CollectionBackend::Album album : albumlist) {
-        SongList songs = app_->collection_backend()->GetSongs(song_.artist(), album.album_name, opt);
+        SongList songs = app_->collection_backend()->GetSongs(song.artist(), album.album_name, opt);
         ui_->widget_play_albums->albums_model()->AddSongs(songs);
       }
       ui_->widget_play_albums->setEnabled(true);
@@ -454,9 +447,62 @@ void ContextView::UpdateSong() {
 
 }
 
+void ContextView::UpdateSong(const Song &song) {
+
+  if (song.artist() != song_playing_.artist() || song.album() != song_playing_.album() || song.title() != song_playing_.title()) {
+    ui_->label_play_top->setText( QString("<b>%1 - %2</b><br/>%3").arg(song.PrettyTitle().toHtmlEscaped(), song.artist().toHtmlEscaped(), song.album().toHtmlEscaped()));
+  }
+
+  if (action_show_data_->isChecked()) {
+    if (song.filetype() != song_playing_.filetype()) ui_->filetype->setText(song.TextForFiletype());
+    if (song.length_nanosec() != song_playing_.length_nanosec()) ui_->label_length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
+    if (song.samplerate() != song_playing_.samplerate()) {
+      if (song.samplerate() <= 0) {
+        SetLabelDisabled(ui_->label_samplerate);
+        SetLabelDisabled(ui_->samplerate);
+        ui_->samplerate->clear();
+      }
+      else {
+        SetLabelEnabled(ui_->label_samplerate);
+        SetLabelEnabled(ui_->samplerate);
+        SetLabelText(ui_->samplerate, song.samplerate(), "Hz");
+      }
+    }
+    if (song.bitdepth() != song_playing_.bitdepth()) {
+      if (song.bitdepth() <= 0) {
+        SetLabelDisabled(ui_->label_bitdepth);
+        SetLabelDisabled(ui_->bitdepth);
+        ui_->bitdepth->clear();
+      }
+      else {
+        SetLabelEnabled(ui_->label_bitdepth);
+        SetLabelEnabled(ui_->bitdepth);
+        SetLabelText(ui_->bitdepth, song.bitdepth(), "Bit");
+      }
+    }
+    if (song.bitrate() != song_playing_.bitrate()) {
+      if (song.bitrate() <= 0) {
+        SetLabelDisabled(ui_->label_bitrate);
+        SetLabelDisabled(ui_->bitrate);
+        ui_->bitrate->clear();
+      }
+      else {
+        SetLabelEnabled(ui_->label_bitrate);
+        SetLabelEnabled(ui_->bitrate);
+        SetLabelText(ui_->bitrate, song.bitrate(), tr("kbps"));
+      }
+    }
+  }
+  song_playing_ = song;
+  song_ = song;
+
+}
+
 void ContextView::UpdateLyrics(quint64 id, const QString lyrics) {
 
+  if (id != lyrics_id_) return;
   lyrics_ = lyrics;
+  lyrics_id_ = -1;
   if (action_show_lyrics_->isChecked()) {
     ui_->label_play_lyrics->setText(lyrics);
   }
@@ -551,6 +597,7 @@ void ContextView::ScaleCover() {
 
 void ContextView::AlbumArtLoaded(const Song &song, const QString&, const QImage &image) {
 
+  if (song.id() != song_playing_.id() || song.url() != song_playing_.url()) return;
   if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
   if (image == image_original_) return;
 
@@ -573,6 +620,7 @@ void ContextView::SetImage(const QImage &image) {
   DrawImage(&p);
   p.end();
 
+  image_previous_ = image_original_;
   image_original_ = image;
 
   ScaleCover();
@@ -624,7 +672,7 @@ void ContextView::ActionShowData() {
   s.beginGroup(kSettingsGroup);
   s.setValue("show_data", action_show_data_->isChecked());
   s.endGroup();
-  UpdateSong();
+  SetSong(song_);
 }
 
 void ContextView::ActionShowOutput() {
@@ -632,7 +680,7 @@ void ContextView::ActionShowOutput() {
   s.beginGroup(kSettingsGroup);
   s.setValue("show_output", action_show_output_->isChecked());
   s.endGroup();
-  UpdateSong();
+  SetSong(song_);
 }
 
 void ContextView::ActionShowAlbums() {
@@ -640,8 +688,8 @@ void ContextView::ActionShowAlbums() {
   s.beginGroup(kSettingsGroup);
   s.setValue("show_albums", action_show_albums_->isChecked());
   s.endGroup();
-  prev_artist_ = QString();
-  UpdateSong();
+  song_prev_ = Song();
+  SetSong(song_);
 }
 
 void ContextView::ActionShowLyrics() {
@@ -649,8 +697,11 @@ void ContextView::ActionShowLyrics() {
   s.beginGroup(kSettingsGroup);
   s.setValue("show_lyrics", action_show_lyrics_->isChecked());
   s.endGroup();
-  UpdateSong();
-  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) lyrics_fetcher_->Search(song_.artist(), song_.album(), song_.title());
+  SetSong(song_);
+  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) {
+    lyrics_fetcher_->Clear();
+    lyrics_id_ = lyrics_fetcher_->Search(song_.artist(), song_.album(), song_.title());
+  }
 }
 
 void ContextView::SearchCoverAutomatically() {

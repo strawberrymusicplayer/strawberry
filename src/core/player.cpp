@@ -246,7 +246,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
         item->SetTemporaryMetadata(song);
         app_->playlist_manager()->active()->InformOfCurrentSongChange();
       }
-      engine_->Play(result.media_url_, stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
+      engine_->Play(result.media_url_, song.url(), stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
 
       current_item_ = item;
       loading_async_ = QUrl();
@@ -507,8 +507,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   }
   else {
     loading_async_ = QUrl();
-    engine_->Play(current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->Metadata().beginning_nanosec(), current_item_->Metadata().end_nanosec());
-
+    engine_->Play(current_item_->Url(), current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->Metadata().beginning_nanosec(), current_item_->Metadata().end_nanosec());
   }
 
 }
@@ -550,7 +549,7 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
   PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
   if (!item) return;
 
-  if (item->Metadata().url() != bundle.url) return;
+  if (bundle.url != item->Metadata().url()) return;
 
   Engine::SimpleMetaBundle bundle_copy = bundle;
 
@@ -627,6 +626,8 @@ void Player::TogglePrettyOSD() {
 
 void Player::TrackAboutToEnd() {
 
+  qLog(Debug) << __PRETTY_FUNCTION__;
+
   // If the current track was from a URL handler then it might have special behaviour to queue up a subsequent track.
   // We don't want to preload (and scrobble) the next item in the playlist if it's just going to be stopped again immediately after.
   if (app_->playlist_manager()->active()->current_item()) {
@@ -679,7 +680,7 @@ void Player::TrackAboutToEnd() {
         break;
     }
   }
-  engine_->StartPreloading(url, next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
+  engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
 
 }
 
@@ -700,7 +701,7 @@ void Player::InvalidSongRequested(const QUrl &url) {
 }
 
 void Player::RegisterUrlHandler(UrlHandler *handler) {
-  
+
   const QString scheme = handler->scheme();
 
   if (url_handlers_.contains(scheme)) {
@@ -716,7 +717,7 @@ void Player::RegisterUrlHandler(UrlHandler *handler) {
 }
 
 void Player::UnregisterUrlHandler(UrlHandler *handler) {
-  
+
   const QString scheme = url_handlers_.key(handler);
   if (scheme.isEmpty()) {
     qLog(Warning) << "Tried to unregister a URL handler for" << handler->scheme() << "that wasn't registered";

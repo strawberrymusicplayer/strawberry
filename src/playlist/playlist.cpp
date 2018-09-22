@@ -1129,7 +1129,7 @@ bool Playlist::ComparePathDepths(Qt::SortOrder order, shared_ptr<PlaylistItem> _
 }
 
 QString Playlist::column_name(Column column) {
-    
+
   switch (column) {
     case Column_Title:        return tr("Title");
     case Column_Artist:       return tr("Artist");
@@ -1460,9 +1460,14 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
   if (current_item()->Url() != url) return;
 
   // Don't update the metadata if it's only a minor change from before
-  if (current_item()->Metadata().artist() == song.artist() && current_item()->Metadata().title() == song.title()) return;
+  if (current_item()->Metadata().artist() == song.artist() && current_item()->Metadata().title() == song.title() && current_item()->Metadata().album() == song.album()) return;
 
-  //qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
+  // TODO: Update context & playlist if changed, but don't show popup.
+  //(song.bitrate() <= 0 || current_item()->Metadata().bitrate() == song.bitrate())
+  //(song.samplerate() <= 0 || current_item()->Metadata().samplerate() == song.samplerate())
+  //(song.bitdepth() <= 0 || current_item()->Metadata().bitdepth() == song.bitdepth())
+
+  qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
 
   current_item()->SetTemporaryMetadata(song);
 
@@ -1761,7 +1766,7 @@ void Playlist::ItemChanged(PlaylistItemPtr item) {
 }
 
 void Playlist::InformOfCurrentSongChange() {
-  
+
   emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
 
   // if the song is invalid, we won't play it - there's no point in informing anybody about the change

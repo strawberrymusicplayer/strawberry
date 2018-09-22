@@ -70,7 +70,7 @@ class XineEngine : public Engine::Base {
 
   bool Init();
   Engine::State state() const;
-  bool Load(const QUrl &url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  bool Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   bool Play(quint64 offset_nanosec);
   void Stop(bool stop_after = false);
   void Pause();
@@ -116,7 +116,8 @@ class XineEngine : public Engine::Base {
   float preamp_;
   std::unique_ptr<PruneScopeThread> prune_;
 
-  QUrl url_;
+  QUrl media_url_;
+  QUrl original_url_;
 
   static int last_error_;
   static time_t last_error_time_;

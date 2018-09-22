@@ -594,12 +594,13 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
     QString artist = json_artist["name"].toString();
 
     QString quality = json_obj["audioQuality"].toString();
+    QString copyright = json_obj["copyright"].toString();
 
-    //qLog(Debug) << "Tidal:" << artist << album << quality;
+    //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
     QString artist_album(QString("%1-%2").arg(artist).arg(album));
     if (albums.contains(artist_album)) {
-      qLog(Debug) << "Tidal: Skipping duplicate album" << artist << album << quality;
+      qLog(Debug) << "Tidal: Skipping duplicate album" << artist << album << quality << copyright;
       continue;
     }
     albums.insert(0, artist_album);

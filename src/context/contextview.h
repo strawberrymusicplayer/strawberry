@@ -94,21 +94,23 @@ class ContextView : public QWidget {
   AlbumCoverLoaderOptions cover_loader_options_;
   Song song_;
   Song song_playing_;
-  Song song_empty_;
+  Song song_prev_;
   QImage image_original_;
   QImage image_previous_;
   QPixmap pixmap_current_;
   QPixmap pixmap_previous_;
   qreal pixmap_previous_opacity_;
   std::unique_ptr<QMovie> spinner_animation_;
-
-  QString prev_artist_;
+  qint64 lyrics_id_;
   QString lyrics_;
 
   void AddActions();
-  void SetText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
+  void SetLabelEnabled(QLabel *label);
+  void SetLabelDisabled(QLabel *label);
+  void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
   void NoSong();
-  void UpdateSong();
+  void SetSong(const Song &song);
+  void UpdateSong(const Song &song);
   void SetImage(const QImage &image);
   void DrawImage(QPainter *p);
   void ScaleCover();
