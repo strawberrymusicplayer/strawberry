@@ -77,7 +77,7 @@ void TidalSettingsPage::Load() {
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->setText("");
-  else ui_->password->setText(QByteArray::fromBase64(password));
+  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_quality, "quality", "HIGH");
   ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->spinbox_albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
@@ -96,7 +96,7 @@ void TidalSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("username", ui_->username->text());
-  s.setValue("password", ui_->password->text().toUtf8().toBase64());
+  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));
   s.setValue("searchdelay", ui_->spinbox_searchdelay->value());
   s.setValue("albumssearchlimit", ui_->spinbox_albumssearchlimit->value());

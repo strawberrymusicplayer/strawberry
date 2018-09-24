@@ -107,7 +107,9 @@ void TidalService::ReloadSettings() {
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   username_ = s.value("username").toString();
-  password_ = QByteArray::fromBase64(s.value("password").toByteArray());
+  QByteArray password = s.value("password").toByteArray();
+  if (password.isEmpty()) password_.clear();
+  else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
   quality_ = s.value("quality").toString();
   searchdelay_ = s.value("searchdelay", 1500).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
@@ -127,7 +129,7 @@ void TidalService::LoadSessionID() {
   session_id_ = s.value("session_id").toString();
   user_id_ = s.value("user_id").toInt();
   country_code_ = s.value("country_code").toString();
-  clientuniquekey_ = Utilities::GetRandomStringWithChars(12);
+  clientuniquekey_ = Utilities::GetRandomStringWithChars(12).toLower();
   s.endGroup();
 
 }
@@ -253,7 +255,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   country_code_ = json_obj["countryCode"].toString();
   session_id_ = json_obj["sessionId"].toString();
   user_id_ = json_obj["userId"].toInt();
-  clientuniquekey_ = Utilities::GetRandomStringWithChars(12);
+  clientuniquekey_ = Utilities::GetRandomStringWithChars(12).toLower();
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
