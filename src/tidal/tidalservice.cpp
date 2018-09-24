@@ -154,7 +154,8 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
   ArgList args = ArgList() << Arg("token", QByteArray::fromBase64(kApiTokenB64))
                            << Arg("username", username)
                            << Arg("password", password)
-                           << Arg("clientUniqueKey", clientuniquekey_);
+                           << Arg("clientVersion", "2.2.1--7");
+                           //<< Arg("clientUniqueKey", clientuniquekey_);
 
   QStringList query_items;
   QUrlQuery url_query;
