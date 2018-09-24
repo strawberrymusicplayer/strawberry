@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.3.2:
 
     * Fixed search error not shown in Tidal search
     * Added URL handler for Tidal, now retriving URL's when playing instead of when searching
