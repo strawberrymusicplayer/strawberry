@@ -64,7 +64,6 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 
   // Create the model
   model_ = new CollectionModel(backend_, app_, this);
-  model_->Reset();
 
 }
 

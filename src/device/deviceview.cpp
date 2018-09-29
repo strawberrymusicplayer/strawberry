@@ -69,8 +69,7 @@
 
 const int DeviceItemDelegate::kIconPadding = 6;
 
-DeviceItemDelegate::DeviceItemDelegate(QObject *parent)
-    : CollectionItemDelegate(parent) {}
+DeviceItemDelegate::DeviceItemDelegate(QObject *parent) : CollectionItemDelegate(parent) {}
 
 void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, const QModelIndex &index) const {
 
