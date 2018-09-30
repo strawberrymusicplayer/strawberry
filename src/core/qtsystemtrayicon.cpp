@@ -44,8 +44,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
-    action_mute_(nullptr)
-{
+      action_mute_(nullptr) {
 
   QIcon theme_icon      = IconLoader::Load("strawberry", 48);
   QIcon theme_icon_grey = IconLoader::Load("strawberry-grey", 48);

@@ -23,6 +23,7 @@
 #include <cmath>
 
 #include <QObject>
+#include <QSystemTrayIcon>
 #include <QPixmap>
 #include <QPainter>
 #include <QPoint>
@@ -105,10 +106,11 @@ void SystemTrayIcon::SetStopped() {
   UpdateIcon();
 }
 
-SystemTrayIcon* SystemTrayIcon::CreateSystemTrayIcon(QObject *parent) {
+SystemTrayIcon *SystemTrayIcon::CreateSystemTrayIcon(QObject *parent) {
 #ifdef Q_OS_MACOS
   return new MacSystemTrayIcon(parent);
 #else
-  return new QtSystemTrayIcon(parent);
+  if (QSystemTrayIcon::isSystemTrayAvailable()) return new QtSystemTrayIcon(parent);
+  else return nullptr;
 #endif
 }

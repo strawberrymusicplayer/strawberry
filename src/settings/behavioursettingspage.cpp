@@ -22,6 +22,7 @@
 
 #include <QVariant>
 #include <QSettings>
+#include <QSystemTrayIcon>
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QSpinBox>
@@ -46,6 +47,15 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
 #ifdef Q_OS_MACOS
   ui_->checkbox_showtrayicon->setEnabled(false);
   ui_->groupbox_startup->setEnabled(false);
+#else
+  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    ui_->checkbox_showtrayicon->setEnabled(true);
+    ui_->groupbox_startup->setEnabled(true);
+  }
+  else {
+    ui_->checkbox_showtrayicon->setEnabled(false);
+    ui_->groupbox_startup->setEnabled(false);
+  }
 #endif
 
 }
@@ -59,9 +69,22 @@ void BehaviourSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-  ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
-  ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
-  ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+#ifdef Q_OS_MACOS
+  ui_->checkbox_showtrayicon->setChecked(false);
+  ui_->checkbox_scrolltrayicon->setChecked(false);
+  ui_->checkbox_keeprunning->setChecked(false);
+#else
+  if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    ui_->checkbox_showtrayicon->setChecked(s.value("showtrayicon", true).toBool());
+    ui_->checkbox_scrolltrayicon->setChecked(s.value("scrolltrayicon", ui_->checkbox_showtrayicon->isChecked()).toBool());
+    ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
+  }
+  else {
+    ui_->checkbox_showtrayicon->setChecked(false);
+    ui_->checkbox_scrolltrayicon->setChecked(false);
+    ui_->checkbox_keeprunning->setChecked(false);
+  }
+#endif
 
   MainWindow::StartupBehaviour behaviour = MainWindow::StartupBehaviour(s.value("startupbehaviour", MainWindow::Startup_Remember).toInt());
   switch (behaviour) {
