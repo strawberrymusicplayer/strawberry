@@ -26,109 +26,105 @@ const uint BlockAnalyzer::MIN_COLUMNS = 32;   // arbituary
 const uint BlockAnalyzer::MAX_COLUMNS = 256;  // must be 2**n
 const uint BlockAnalyzer::FADE_SIZE = 90;
 
-const char *BlockAnalyzer::kName =
-    QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
+const char *BlockAnalyzer::kName = QT_TRANSLATE_NOOP("AnalyzerContainer", "Block analyzer");
 
 BlockAnalyzer::BlockAnalyzer(QWidget *parent)
     : Analyzer::Base(parent, 9),
-      m_columns(0)  // uint
-      ,
-      m_rows(0)  // uint
-      ,
-      m_y(0)  // uint
-      ,
-      m_barPixmap(1, 1)  // null qpixmaps cause crashes
-      ,
-      m_topBarPixmap(WIDTH, HEIGHT),
-      m_scope(MIN_COLUMNS)  // Scope
-      ,
-      m_store(1 << 8, 0)  // vector<uint>
-      ,
-      m_fade_bars(FADE_SIZE)  // vector<QPixmap>
-      ,
-      m_fade_pos(1 << 8, 50)  // vector<uint>
-      ,
-      m_fade_intensity(1 << 8, 32)  // vector<uint>
-{
+      columns_(0),
+      rows_(0),
+      y_(0),
+      barpixmap_(1, 1),
+      topbarpixmap_(WIDTH, HEIGHT),
+      scope_(MIN_COLUMNS),
+      store_(1 << 8, 0),
+      fade_bars_(FADE_SIZE),
+      fade_pos_(1 << 8, 50),
+      fade_intensity_(1 << 8, 32) {
+
   setMinimumSize(MIN_COLUMNS * (WIDTH + 1) - 1, MIN_ROWS * (HEIGHT + 1) - 1);  //-1 is padding, no drawing takes place there
   setMaximumWidth(MAX_COLUMNS * (WIDTH + 1) - 1);
 
   // mxcl says null pixmaps cause crashes, so let's play it safe
-  for (uint i = 0; i < FADE_SIZE; ++i) m_fade_bars[i] = QPixmap(1, 1);
+  for (uint i = 0; i < FADE_SIZE; ++i) fade_bars_[i] = QPixmap(1, 1);
+
 }
 
 BlockAnalyzer::~BlockAnalyzer() {}
 
 void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
+
   QWidget::resizeEvent(e);
 
-  m_background = QPixmap(size());
+  background_ = QPixmap(size());
   canvas_ = QPixmap(size());
 
-  const uint oldRows = m_rows;
+  const uint oldRows = rows_;
 
   // all is explained in analyze()..
   //+1 to counter -1 in maxSizes, trust me we need this!
-  m_columns = qMax(uint(double(width() + 1) / (WIDTH + 1)), MAX_COLUMNS);
-  m_rows = uint(double(height() + 1) / (HEIGHT + 1));
+  columns_ = qMax(uint(double(width() + 1) / (WIDTH + 1)), MAX_COLUMNS);
+  rows_ = uint(double(height() + 1) / (HEIGHT + 1));
 
   // this is the y-offset for drawing from the top of the widget
-  m_y = (height() - (m_rows * (HEIGHT + 1)) + 2) / 2;
+  y_ = (height() - (rows_ * (HEIGHT + 1)) + 2) / 2;
 
-  m_scope.resize(m_columns);
+  scope_.resize(columns_);
 
-  if (m_rows != oldRows) {
-    m_barPixmap = QPixmap(WIDTH, m_rows * (HEIGHT + 1));
+  if (rows_ != oldRows) {
+    barpixmap_ = QPixmap(WIDTH, rows_ * (HEIGHT + 1));
 
     for (uint i = 0; i < FADE_SIZE; ++i)
-      m_fade_bars[i] = QPixmap(WIDTH, m_rows * (HEIGHT + 1));
+      fade_bars_[i] = QPixmap(WIDTH, rows_ * (HEIGHT + 1));
 
-    m_yscale.resize(m_rows + 1);
+    yscale_.resize(rows_ + 1);
 
-    const uint PRE = 1,
-               PRO = 1;  // PRE and PRO allow us to restrict the range somewhat
+    const uint PRE = 1, PRO = 1;  // PRE and PRO allow us to restrict the range somewhat
 
-    for (uint z = 0; z < m_rows; ++z)
-      m_yscale[z] = 1 - (log10(PRE + z) / log10(PRE + m_rows + PRO));
+    for (uint z = 0; z < rows_; ++z)
+      yscale_[z] = 1 - (log10(PRE + z) / log10(PRE + rows_ + PRO));
 
-    m_yscale[m_rows] = 0;
+    yscale_[rows_] = 0;
 
     determineStep();
     paletteChange(palette());
   }
 
   drawBackground();
+
 }
 
 void BlockAnalyzer::determineStep() {
+
   // falltime is dependent on rowcount due to our digital resolution (ie we have boxes/blocks of pixels)
   // I calculated the value 30 based on some trial and error
 
   // the fall time of 30 is too slow on framerates above 50fps
-  const double fallTime = timeout() < 20 ? 20 * m_rows : 30 * m_rows;
+  const double fallTime = timeout() < 20 ? 20 * rows_ : 30 * rows_;
 
-  m_step = double(m_rows * timeout()) / fallTime;
+  step_ = double(rows_ * timeout()) / fallTime;
+
 }
 
-void BlockAnalyzer::framerateChanged() {  // virtual
+void BlockAnalyzer::framerateChanged() {
   determineStep();
 }
 
-void BlockAnalyzer::transform(Analyzer::Scope& s)  // pure virtual
-{
+void BlockAnalyzer::transform(Analyzer::Scope &s) {
+
   for (uint x = 0; x < s.size(); ++x) s[x] *= 2;
 
   float* front = static_cast<float*>(&s.front());
 
-  m_fht->spectrum(front);
-  m_fht->scale(front, 1.0 / 20);
+  fht_->spectrum(front);
+  fht_->scale(front, 1.0 / 20);
 
-  // the second half is pretty dull, so only show it if the user has a large analyzer by setting to m_scope.size() if large we prevent interpolation of large analyzers, this is good!
-  s.resize(m_scope.size() <= MAX_COLUMNS / 2 ? MAX_COLUMNS / 2 : m_scope.size());
+  // the second half is pretty dull, so only show it if the user has a large analyzer by setting to scope_.size() if large we prevent interpolation of large analyzers, this is good!
+  s.resize(scope_.size() <= MAX_COLUMNS / 2 ? MAX_COLUMNS / 2 : scope_.size());
+
 }
 
-void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
-                            bool new_frame) {
+void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_frame) {
+
   // y = 2 3 2 1 0 2
   //     . . . . # .
   //     . . . # # .
@@ -139,7 +135,7 @@ void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
   // y represents the number of blanks
   // y starts from the top and increases in units of blocks
 
-  // m_yscale looks similar to: { 0.7, 0.5, 0.25, 0.15, 0.1, 0 }
+  // yscale_ looks similar to: { 0.7, 0.5, 0.25, 0.15, 0.1, 0 }
   // if it contains 6 elements there are 5 rows in the analyzer
 
   if (!new_frame) {
@@ -149,50 +145,51 @@ void BlockAnalyzer::analyze(QPainter& p, const Analyzer::Scope& s,
 
   QPainter canvas_painter(&canvas_);
 
-  Analyzer::interpolate(s, m_scope);
+  Analyzer::interpolate(s, scope_);
 
   // Paint the background
-  canvas_painter.drawPixmap(0, 0, m_background);
+  canvas_painter.drawPixmap(0, 0, background_);
 
-  for (uint y, x = 0; x < m_scope.size(); ++x) {
+  for (uint y, x = 0; x < scope_.size(); ++x) {
     // determine y
-    for (y = 0; m_scope[x] < m_yscale[y]; ++y)
-      ;
+    for (y = 0; scope_[x] < yscale_[y]; ++y) continue;
 
     // this is opposite to what you'd think, higher than y means the bar is lower than y (physically)
-    if ((float)y > m_store[x])
-      y = int(m_store[x] += m_step);
+    if ((float)y > store_[x])
+      y = int(store_[x] += step_);
     else
-      m_store[x] = y;
+      store_[x] = y;
 
-    // if y is lower than m_fade_pos, then the bar has exceeded the height of the fadeout
+    // if y is lower than fade_pos_, then the bar has exceeded the height of the fadeout
     // if the fadeout is quite faded now, then display the new one
-    if (y <= m_fade_pos[x] /*|| m_fade_intensity[x] < FADE_SIZE / 3*/) {
-      m_fade_pos[x] = y;
-      m_fade_intensity[x] = FADE_SIZE;
+    if (y <= fade_pos_[x] /*|| fade_intensity_[x] < FADE_SIZE / 3*/) {
+      fade_pos_[x] = y;
+      fade_intensity_[x] = FADE_SIZE;
     }
 
-    if (m_fade_intensity[x] > 0) {
-      const uint offset = --m_fade_intensity[x];
-      const uint y = m_y + (m_fade_pos[x] * (HEIGHT + 1));
-      canvas_painter.drawPixmap(x * (WIDTH + 1), y, m_fade_bars[offset], 0, 0, WIDTH, height() - y);
+    if (fade_intensity_[x] > 0) {
+      const uint offset = --fade_intensity_[x];
+      const uint y = y_ + (fade_pos_[x] * (HEIGHT + 1));
+      canvas_painter.drawPixmap(x * (WIDTH + 1), y, fade_bars_[offset], 0, 0, WIDTH, height() - y);
     }
 
-    if (m_fade_intensity[x] == 0) m_fade_pos[x] = m_rows;
+    if (fade_intensity_[x] == 0) fade_pos_[x] = rows_;
 
-    // REMEMBER: y is a number from 0 to m_rows, 0 means all blocks are glowing, m_rows means none are
-    canvas_painter.drawPixmap(x * (WIDTH + 1), y * (HEIGHT + 1) + m_y, *bar(),
+    // REMEMBER: y is a number from 0 to rows_, 0 means all blocks are glowing, rows_ means none are
+    canvas_painter.drawPixmap(x * (WIDTH + 1), y * (HEIGHT + 1) + y_, *bar(),
                               0, y * (HEIGHT + 1), bar()->width(),
                               bar()->height());
   }
 
-  for (uint x = 0; x < m_store.size(); ++x)
-    canvas_painter.drawPixmap(x * (WIDTH + 1), int(m_store[x]) * (HEIGHT + 1) + m_y, m_topBarPixmap);
+  for (uint x = 0; x < store_.size(); ++x)
+    canvas_painter.drawPixmap(x * (WIDTH + 1), int(store_[x]) * (HEIGHT + 1) + y_, topbarpixmap_);
 
   p.drawPixmap(0, 0, canvas_);
+
 }
 
-static inline void adjustToLimits(int& b, int& f, uint& amount) {
+static inline void adjustToLimits(int &b, int &f, uint &amount) {
+
   // with a range of 0-255 and maximum adjustment of amount, maximise the difference between f and b
 
   if (b < f) {
@@ -215,6 +212,7 @@ static inline void adjustToLimits(int& b, int& f, uint& amount) {
       f = 255;
     }
   }
+
 }
 
 /**
@@ -225,17 +223,18 @@ static inline void adjustToLimits(int& b, int& f, uint& amount) {
  * It won't modify the hue of fg unless absolutely necessary
  * @return the adjusted form of fg
  */
-QColor ensureContrast(const QColor& bg, const QColor& fg, uint _amount = 150) {
+QColor ensureContrast(const QColor &bg, const QColor &fg, uint _amount = 150) {
+
   class OutputOnExit {
    public:
-    OutputOnExit(const QColor& color) : c(color) {}
+    OutputOnExit(const QColor &color) : c(color) {}
     ~OutputOnExit() {
       int h, s, v;
       c.getHsv(&h, &s, &v);
     }
 
    private:
-    const QColor& c;
+    const QColor &c;
   };
 
 // hack so I don't have to cast everywhere
@@ -352,24 +351,25 @@ QColor ensureContrast(const QColor& bg, const QColor& fg, uint _amount = 150) {
 
 #undef amount
   //     #undef STAMP
+
 }
 
-void BlockAnalyzer::paletteChange(const QPalette&)  // virtual
-{
+void BlockAnalyzer::paletteChange(const QPalette&) {
+
   const QColor bg = palette().color(QPalette::Background);
   const QColor fg = ensureContrast(bg, palette().color(QPalette::Highlight));
 
-  m_topBarPixmap.fill(fg);
+  topbarpixmap_.fill(fg);
 
-  const double dr = 15 * double(bg.red() - fg.red()) / (m_rows * 16);
-  const double dg = 15 * double(bg.green() - fg.green()) / (m_rows * 16);
-  const double db = 15 * double(bg.blue() - fg.blue()) / (m_rows * 16);
+  const double dr = 15 * double(bg.red() - fg.red()) / (rows_ * 16);
+  const double dg = 15 * double(bg.green() - fg.green()) / (rows_ * 16);
+  const double db = 15 * double(bg.blue() - fg.blue()) / (rows_ * 16);
   const int r = fg.red(), g = fg.green(), b = fg.blue();
 
   bar()->fill(bg);
 
   QPainter p(bar());
-  for (int y = 0; (uint)y < m_rows; ++y)
+  for (int y = 0; (uint)y < rows_; ++y)
     // graduate the fg color
     p.fillRect(0, y * (HEIGHT + 1), WIDTH, HEIGHT, QColor(r + int(dr * y), g + int(dg * y), b + int(db * y)));
 
@@ -389,9 +389,9 @@ void BlockAnalyzer::paletteChange(const QPalette&)  // virtual
 
     // Precalculate all fade-bar pixmaps
     for (uint y = 0; y < FADE_SIZE; ++y) {
-      m_fade_bars[y].fill(palette().color(QPalette::Background));
-      QPainter f(&m_fade_bars[y]);
-      for (int z = 0; (uint)z < m_rows; ++z) {
+      fade_bars_[y].fill(palette().color(QPalette::Background));
+      QPainter f(&fade_bars_[y]);
+      for (int z = 0; (uint)z < rows_; ++z) {
         const double Y = 1.0 - (log10(FADE_SIZE - y) / log10(FADE_SIZE));
         f.fillRect(0, z * (HEIGHT + 1), WIDTH, HEIGHT, QColor(r + int(dr * Y), g + int(dg * Y), b + int(db * Y)));
       }
@@ -399,16 +399,19 @@ void BlockAnalyzer::paletteChange(const QPalette&)  // virtual
   }
 
   drawBackground();
+
 }
 
 void BlockAnalyzer::drawBackground() {
+
   const QColor bg = palette().color(QPalette::Background);
   const QColor bgdark = bg.dark(112);
 
-  m_background.fill(bg);
+  background_.fill(bg);
 
-  QPainter p(&m_background);
-  for (int x = 0; (uint)x < m_columns; ++x)
-    for (int y = 0; (uint)y < m_rows; ++y)
-      p.fillRect(x * (WIDTH + 1), y * (HEIGHT + 1) + m_y, WIDTH, HEIGHT, bgdark);
+  QPainter p(&background_);
+  for (int x = 0; (uint)x < columns_; ++x)
+    for (int y = 0; (uint)y < rows_; ++y)
+      p.fillRect(x * (WIDTH + 1), y * (HEIGHT + 1) + y_, WIDTH, HEIGHT, bgdark);
+
 }

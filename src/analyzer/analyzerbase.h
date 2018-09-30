@@ -37,17 +37,17 @@ class Base : public QWidget {
   Q_OBJECT
 
  public:
-  ~Base() { delete m_fht; }
+  ~Base() { delete fht_; }
 
-  uint timeout() const { return m_timeout; }
+  uint timeout() const { return timeout_; }
 
-  void set_engine(EngineBase *engine) { m_engine = engine; }
+  void set_engine(EngineBase *engine) { engine_ = engine; }
 
   void changeTimeout(uint newTimeout) {
-    m_timeout = newTimeout;
-    if (m_timer.isActive()) {
-      m_timer.stop();
-      m_timer.start(m_timeout, this);
+    timeout_ = newTimeout;
+    if (timer_.isActive()) {
+      timer_.stop();
+      timer_.start(timeout_, this);
     }
   }
 
@@ -71,13 +71,12 @@ class Base : public QWidget {
   virtual void demo(QPainter& p);
 
  protected:
-  QBasicTimer m_timer;
-  uint m_timeout;
-  FHT* m_fht;
-  EngineBase* m_engine;
-  Scope m_lastScope;
+  QBasicTimer timer_;
+  uint timeout_;
+  FHT *fht_;
+  EngineBase *engine_;
+  Scope lastscope_;
   int current_chunk_;
-
   bool new_frame_;
   bool is_playing_;
 };
