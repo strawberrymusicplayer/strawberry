@@ -778,7 +778,7 @@ void MainWindow::ReloadSettings() {
 
 #ifndef Q_OS_MACOS
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool showtrayicon = settings.value("showtrayicon", (QSystemTrayIcon::isSystemTrayAvailable() ? true : false)).toBool();
+  bool showtrayicon = settings.value("showtrayicon", QSystemTrayIcon::isSystemTrayAvailable()).toBool();
   settings.endGroup();
   if (tray_icon_) tray_icon_->SetVisible(showtrayicon);
   if ((!showtrayicon || !QSystemTrayIcon::isSystemTrayAvailable()) && !isVisible()) show();
