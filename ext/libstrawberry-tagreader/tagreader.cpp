@@ -43,7 +43,7 @@
 #include <taglib/tag.h>
 #include <taglib/apetag.h>
 #include <taglib/id3v2tag.h>
-#include "taglib/id3v2frame.h"
+#include <taglib/id3v2frame.h>
 #include <taglib/flacfile.h>
 #include <taglib/oggflacfile.h>
 #include <taglib/flacproperties.h>
@@ -54,12 +54,12 @@
 #include <taglib/wavpackfile.h>
 #include <taglib/aifffile.h>
 #include <taglib/asffile.h>
-#include "taglib/asftag.h"
-#include "taglib/asfattribute.h"
-#include "taglib/asfproperties.h"
+#include <taglib/asftag.h>
+#include <taglib/asfattribute.h>
+#include <taglib/asfproperties.h>
 #include <taglib/mp4file.h>
 #include <taglib/mp4tag.h>
-#include "taglib/mp4item.h"
+#include <taglib/mp4item.h>
 #include <taglib/mp4coverart.h>
 #include <taglib/mp4properties.h>
 #include <taglib/mpcfile.h>

@@ -2,6 +2,11 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed crash in analyzer
+    * Fixed trying to use systray even if the desktop had no systray
+
 Version 0.3.3:
 
     * Fixed Tidal login
