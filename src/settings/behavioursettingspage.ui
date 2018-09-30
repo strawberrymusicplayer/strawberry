@@ -45,7 +45,17 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line">
+    <widget class="QCheckBox" name="checkbox_resumeplayback">
+     <property name="text">
+      <string>Resume playback on start</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_1">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -60,7 +70,7 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_alwaysshow">
         <property name="text">
-         <string>Always show the &amp;main window</string>
+         <string>Always show &amp;the main window</string>
         </property>
        </widget>
       </item>
@@ -74,40 +84,21 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_remember">
         <property name="text">
-         <string>Remember from last time</string>
+         <string>Remember from &amp;last time</string>
         </property>
         <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item>
-       <spacer name="spacer_1">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>10</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkbox_resumeplayback">
-        <property name="text">
-         <string>Resume playback on start</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>
