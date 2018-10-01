@@ -38,9 +38,10 @@
 TrackSliderSlider::TrackSliderSlider(QWidget* parent)
     : QSlider(parent),
       popup_(new TrackSliderPopup(window())),
-    mouse_hover_seconds_(0)
-{
+    mouse_hover_seconds_(0) {
+
   setMouseTracking(true);
+  popup_->hide();
 
   connect(this, SIGNAL(valueChanged(int)), SLOT(UpdateDeltaTime()));
 }

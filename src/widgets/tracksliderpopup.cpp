@@ -52,8 +52,8 @@ const qreal TrackSliderPopup::kBlurRadius = 20.0;
 TrackSliderPopup::TrackSliderPopup(QWidget* parent)
     : QWidget(parent),
       font_metrics_(fontMetrics()),
-    small_font_metrics_(fontMetrics())
-{
+    small_font_metrics_(fontMetrics()) {
+
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setMouseTracking(true);
 
@@ -62,6 +62,7 @@ TrackSliderPopup::TrackSliderPopup(QWidget* parent)
   small_font_.setPointSizeF(7.5);
   font_metrics_ = QFontMetrics(font_);
   small_font_metrics_ = QFontMetrics(small_font_);
+
 }
 
 void TrackSliderPopup::SetText(const QString& text) {
@@ -180,6 +181,5 @@ void TrackSliderPopup::UpdatePixmap() {
 }
 
 void TrackSliderPopup::UpdatePosition() {
-  move(pos_.x() - pixmap_.width() / 2,
-       pos_.y() - pixmap_.height() + kBlurRadius);
+  move(pos_.x() - pixmap_.width() / 2, pos_.y() - pixmap_.height() + kBlurRadius);
 }
