@@ -631,7 +631,7 @@ void AlbumCoverManager::SaveCoverToFile() {
     }
     else if(!song.art_automatic().isEmpty() && QFile::exists(song.art_automatic())) {
       image = QImage(song.art_automatic());
-    } 
+    }
     else {
       image = no_cover_image_;
     }

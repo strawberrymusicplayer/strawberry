@@ -99,7 +99,7 @@ class PlayingWidget : public QWidget {
   void AutomaticCoverSearchDone();
 
   void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
-  void SetHeight(int height);  
+  void SetHeight(int height);
   void FadePreviousTrack(qreal value);
 
  private:

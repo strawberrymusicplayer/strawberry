@@ -364,7 +364,7 @@ void MacDeviceLister::DiskAddedCallback(DADiskRef disk, void* context) {
   }
 #endif
 
-  NSURL* volume_path = 
+  NSURL* volume_path =
       [[properties objectForKey:(NSString*)kDADiskDescriptionVolumePathKey] copy];
 
   if (volume_path) {

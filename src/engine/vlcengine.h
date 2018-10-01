@@ -55,7 +55,7 @@ class VLCEngine : public Engine::Base {
   void Unpause();
   void Seek(quint64 offset_nanosec);
  protected:
-  void SetVolumeSW(uint percent); 
+  void SetVolumeSW(uint percent);
  public:
   virtual qint64 position_nanosec() const;
   virtual qint64 length_nanosec() const;

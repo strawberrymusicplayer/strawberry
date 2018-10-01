@@ -179,7 +179,7 @@ void PlayingWidget::SetVisible(bool visible) {
     return;
   }
 
-  if (visible == visible_) return;  
+  if (visible == visible_) return;
 
   timeline_show_hide_->setFrameRange(0, total_height_);
   timeline_show_hide_->setDirection(visible ? QTimeLine::Forward : QTimeLine::Backward);

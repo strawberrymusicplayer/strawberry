@@ -303,7 +303,7 @@ void Amarok::VolumeSlider::paintEvent(QPaintEvent*) {
   const int padding = 7;
   const int offset = int(double((width() - 2 * padding) * value()) / maximum());
 
-  // If theme changed since last paintEvent, redraw the volume pixmap with new theme colors 
+  // If theme changed since last paintEvent, redraw the volume pixmap with new theme colors
   if (m_previous_theme_text_color != palette().color(QPalette::WindowText)) {
     m_pixmapInset = drawVolumePixmap();
     m_previous_theme_text_color = palette().color(QPalette::WindowText);
@@ -384,7 +384,7 @@ void Amarok::VolumeSlider::drawVolumeSliderHandle() {
   painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
   painter.drawImage(0, 0, pixmapHandleGlow);
 
-  // Overlay the volume slider handle image 
+  // Overlay the volume slider handle image
   painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
   painter.drawImage(0, 0, pixmapHandle);
 

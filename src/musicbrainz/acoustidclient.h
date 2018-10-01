@@ -37,7 +37,7 @@ class AcoustidClient : public QObject {
   Q_OBJECT
 
   // Gets a MBID from a Chromaprint fingerprint.
-  // A fingerprint identifies one particular encoding of a song and is created by Fingerprinter. 
+  // A fingerprint identifies one particular encoding of a song and is created by Fingerprinter.
   // An MBID identifies the actual song and can be passed to Musicbrainz to get metadata.
   // You can create one AcoustidClient and make multiple requests using it.
   // IDs are provided by the caller when a request is started and included in the Finished signal - they have no meaning to AcoustidClient.

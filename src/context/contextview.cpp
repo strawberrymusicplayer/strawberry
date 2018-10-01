@@ -133,7 +133,7 @@ void ContextView::AddActions() {
 
   action_show_output_ = new QAction(tr("Show engine and device"), this);
   action_show_output_->setCheckable(true);
-  action_show_output_->setChecked(true); 
+  action_show_output_->setChecked(true);
 
   action_show_albums_ = new QAction(tr("Show albums by artist"), this);
   action_show_albums_->setCheckable(true);
@@ -141,7 +141,7 @@ void ContextView::AddActions() {
 
   action_show_lyrics_ = new QAction(tr("Show song lyrics"), this);
   action_show_lyrics_->setCheckable(true);
-  action_show_lyrics_->setChecked(false); 
+  action_show_lyrics_->setChecked(false);
 
   menu_->addAction(action_show_data_);
   menu_->addAction(action_show_output_);
@@ -512,13 +512,13 @@ void ContextView::UpdateLyrics(quint64 id, const QString lyrics) {
 
 bool ContextView::eventFilter(QObject *object, QEvent *event) {
 
-  switch(event->type()) {   
-    case QEvent::Paint:{   
+  switch(event->type()) {
+    case QEvent::Paint:{
       handlePaintEvent(object, event);
-    }   
-    default:{  
+    }
+    default:{
       return QObject::eventFilter(object, event);
-    }  
+    }
   }
 
   return(true);

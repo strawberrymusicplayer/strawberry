@@ -217,7 +217,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage image)
   QUrl url_automatic(song.art_automatic());
 
   if (url_manual.isLocalFile() || url_automatic.isLocalFile()) {
-    QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile());  
+    QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url().toLocalFile());
     ShowCover(song, pixmap);
   }
   else if (!image.isNull()) ShowCover(song, QPixmap::fromImage(image));

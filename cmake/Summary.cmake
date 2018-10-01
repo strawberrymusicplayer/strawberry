@@ -50,7 +50,7 @@ function(optional_component name default description)
   set(current_dep_name)
   set(missing_deps)
 
-  foreach(arg ${ARGN}) 
+  foreach(arg ${ARGN})
     if(${next_arg_is_dep_name})
       set(current_dep_name "${arg}")
       set(next_arg_is_dep_name FALSE)

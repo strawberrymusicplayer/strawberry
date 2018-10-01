@@ -1,5 +1,5 @@
 /*
- * Strawberry Music Player 
+ * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
  *

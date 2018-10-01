@@ -317,7 +317,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_stop->setIcon(IconLoader::Load("media-stop"));
   ui_->action_stop_after_this_track->setIcon(IconLoader::Load("media-stop"));
   ui_->action_next_track->setIcon(IconLoader::Load("media-forward"));
-  ui_->action_quit->setIcon(IconLoader::Load("application-exit"));  
+  ui_->action_quit->setIcon(IconLoader::Load("application-exit"));
 
   // Playlist
 
