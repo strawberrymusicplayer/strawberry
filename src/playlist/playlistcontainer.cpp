@@ -287,7 +287,7 @@ void PlaylistContainer::PlaylistRenamed(int id, const QString &new_name) {
 void PlaylistContainer::NewPlaylist() { manager_->New(tr("Playlist")); }
 
 void PlaylistContainer::LoadPlaylist() {
-  
+
   QString filename = settings_.value("last_load_playlist").toString();
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters());
 
@@ -323,7 +323,7 @@ void PlaylistContainer::GoToPreviousPlaylistTab() {
 }
 
 void PlaylistContainer::Save() {
-  
+
   if (starting_up_) return;
 
   settings_.setValue("current_playlist", ui_->tab_bar->current_id());

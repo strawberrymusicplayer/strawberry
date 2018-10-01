@@ -222,7 +222,7 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
   itdb_track_remove(track);
 
   return true;
-  
+
 }
 
 bool GPodDevice::DeleteFromStorage(const DeleteJob &job) {

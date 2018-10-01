@@ -71,7 +71,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetAllFavoritePlaylists() {
 }
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(GetPlaylistsFlags flags) {
-    
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -210,15 +210,15 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, std
 }
 
 Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, std::shared_ptr<NewSongFromQueryState> state) {
-  
+
   return NewPlaylistItemFromQuery(row, state)->Metadata();
-  
+
 }
 
 // If song had a CUE and the CUE still exists, the metadata from it will be applied here.
 
 PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::shared_ptr<NewSongFromQueryState> state) {
-  
+
   // We need collection to run a CueParser; also, this method applies only to file-type PlaylistItems
   if (item->source() != Song::Source_LocalFile) return item;
 
@@ -310,7 +310,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
 }
 
 int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_type) {
-  
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -326,7 +326,7 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
 }
 
 void PlaylistBackend::RemovePlaylist(int id) {
-  
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   QSqlQuery delete_playlist(db);
@@ -350,7 +350,7 @@ void PlaylistBackend::RemovePlaylist(int id) {
 }
 
 void PlaylistBackend::RenamePlaylist(int id, const QString &new_name) {
-  
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   QSqlQuery q(db);
@@ -378,7 +378,7 @@ void PlaylistBackend::FavoritePlaylist(int id, bool is_favorite) {
 }
 
 void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
-  
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   ScopedTransaction transaction(&db);

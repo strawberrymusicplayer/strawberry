@@ -531,7 +531,7 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, bool unavail
 }
 
 QStringList CollectionBackend::GetAll(const QString &column, const QueryOptions &opt) {
-    
+
   CollectionQuery query(opt);
   query.SetColumnSpec("DISTINCT " + column);
   query.AddCompilationRequirement(false);

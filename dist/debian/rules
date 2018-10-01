@@ -35,7 +35,7 @@ install: build
 	dh_testroot
 	dh_prep  
 	dh_installdirs
-	
+
 	make install
 
 binary-indep: install

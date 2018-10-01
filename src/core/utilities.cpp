@@ -298,7 +298,7 @@ bool RemoveRecursive(const QString &path) {
 }
 
 bool CopyRecursive(const QString &source, const QString &destination) {
-  
+
   // Make the destination directory
   QString dir_name = source.section('/', -1, -1);
   QString dest_path = destination + "/" + dir_name;
@@ -323,7 +323,7 @@ bool CopyRecursive(const QString &source, const QString &destination) {
 }
 
 bool Copy(QIODevice *source, QIODevice *destination) {
-  
+
   if (!source->open(QIODevice::ReadOnly)) return false;
 
   if (!destination->open(QIODevice::WriteOnly)) return false;
@@ -493,7 +493,7 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
   QCryptographicHash hash(QCryptographicHash::Sha1);
   hash.addData(artist.toLower().toUtf8().constData());
   hash.addData(album.toLower().toUtf8().constData());
-  
+
   //qLog(Debug) << artist << album << hash.result();
 
   return hash.result();

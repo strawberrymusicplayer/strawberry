@@ -230,7 +230,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   new TagCompleter(app_->collection_backend(), Playlist::Column_Composer, ui_->composer);
   new TagCompleter(app_->collection_backend(), Playlist::Column_Performer, ui_->performer);
   new TagCompleter(app_->collection_backend(), Playlist::Column_Grouping, ui_->grouping);
-  
+
 }
 
 EditTagDialog::~EditTagDialog() {
@@ -238,7 +238,7 @@ EditTagDialog::~EditTagDialog() {
 }
 
 bool EditTagDialog::SetLoading(const QString &message) {
-    
+
   const bool loading = !message.isEmpty();
   if (loading == loading_) return false;
   loading_ = loading;
@@ -256,7 +256,7 @@ bool EditTagDialog::SetLoading(const QString &message) {
 }
 
 QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const {
-    
+
   QList<Data> ret;
 
   for (const Song &song : songs) {
@@ -276,7 +276,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) const 
 }
 
 void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
-    
+
   // Show the loading indicator
   if (!SetLoading(tr("Loading tracks") + "...")) return;
 
@@ -327,7 +327,7 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 }
 
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
-    
+
   if (id == "title") return song.title();
   if (id == "artist") return song.artist();
   if (id == "album") return song.album();
@@ -382,7 +382,7 @@ bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &i
 }
 
 void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList &sel) {
-    
+
   const bool varies = DoesValueVary(sel, field.id_);
 //  const bool modified = IsValueModified(sel, field.id_);
 
@@ -402,7 +402,7 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
 }
 
 void EditTagDialog::UpdateFieldValue(const FieldData &field, const QModelIndexList &sel) {
-    
+
   // Get the value from the field
   QVariant value;
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
@@ -436,7 +436,7 @@ void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelInde
 }
 
 void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexList &sel) {
-    
+
   // Reset each selected song
   for (const QModelIndex &i : sel) {
     Data &data = data_[i.row()];
@@ -449,7 +449,7 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 }
 
 void EditTagDialog::SelectionChanged() {
-    
+
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
     return;
@@ -470,7 +470,7 @@ void EditTagDialog::SelectionChanged() {
 }
 
 void EditTagDialog::UpdateUI(const QModelIndexList &sel){
-    
+
   ignore_edits_ = true;
   for (const FieldData &field : fields_) {
     InitFieldValue(field, sel);
@@ -484,7 +484,7 @@ static void SetText(QLabel *label, int value, const QString &suffix, const QStri
 }
 
 static void SetDate(QLabel *label, uint time) {
-    
+
   if (time == std::numeric_limits<uint>::max()) {  // -1
     label->setText(QObject::tr("Unknown"));
   }
@@ -548,11 +548,11 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
     ui_->filename->setText(song.url().toString());
 
   album_cover_choice_controller_->search_for_cover_action()->setEnabled(app_->cover_providers()->HasAnyProviders());
-  
+
 }
 
 void EditTagDialog::UpdateStatisticsTab(const Song &song) {
-    
+
   ui_->playcount->setText(QString::number(qMax(0, song.playcount())));
   ui_->skipcount->setText(QString::number(qMax(0, song.skipcount())));
 
@@ -561,7 +561,7 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 }
 
 void EditTagDialog::ArtLoaded(quint64 id, const QImage &scaled, const QImage &original) {
-    
+
   if (id == cover_art_id_) {
     ui_->art->setPixmap(QPixmap::fromImage(scaled));
     original_ = original;
@@ -570,7 +570,7 @@ void EditTagDialog::ArtLoaded(quint64 id, const QImage &scaled, const QImage &or
 }
 
 void EditTagDialog::FieldValueEdited() {
-    
+
   if (ignore_edits_) return;
 
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
@@ -590,7 +590,7 @@ void EditTagDialog::FieldValueEdited() {
 }
 
 void EditTagDialog::ResetField() {
-    
+
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
     return;
@@ -610,7 +610,7 @@ void EditTagDialog::ResetField() {
 }
 
 Song *EditTagDialog::GetFirstSelected() {
-    
+
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty()) return nullptr;
   return &data_[sel.first().row()].original_;
@@ -618,7 +618,7 @@ Song *EditTagDialog::GetFirstSelected() {
 }
 
 void EditTagDialog::LoadCoverFromFile() {
-    
+
   Song *song = GetFirstSelected();
   if (!song) return;
 
@@ -631,7 +631,7 @@ void EditTagDialog::LoadCoverFromFile() {
 }
 
 void EditTagDialog::SaveCoverToFile() {
-    
+
   Song *song = GetFirstSelected();
   if (!song) return;
 
@@ -652,7 +652,7 @@ void EditTagDialog::LoadCoverFromURL() {
 }
 
 void EditTagDialog::SearchForCover() {
-  
+
   Song *song = GetFirstSelected();
   if (!song) return;
 
@@ -664,7 +664,7 @@ void EditTagDialog::SearchForCover() {
 }
 
 void EditTagDialog::UnsetCover() {
-  
+
   Song *song = GetFirstSelected();
   if (!song) return;
 
@@ -675,7 +675,7 @@ void EditTagDialog::UnsetCover() {
 }
 
 void EditTagDialog::ShowCover() {
-  
+
   Song *song = GetFirstSelected();
   if (!song) {
     return;
@@ -685,7 +685,7 @@ void EditTagDialog::ShowCover() {
 }
 
 void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QString &cover) {
-  
+
   if (!selected.is_valid() || selected.id() == -1) return;
 
   UpdateSummaryTab(selected);
@@ -700,11 +700,11 @@ void EditTagDialog::UpdateCoverOf(const Song &selected, const QModelIndexList &s
       other_song->set_art_manual(cover);
     }
   }
-  
+
 }
 
 void EditTagDialog::NextSong() {
-    
+
   if (ui_->song_list->count() == 0) {
     return;
   }
@@ -714,7 +714,7 @@ void EditTagDialog::NextSong() {
 }
 
 void EditTagDialog::PreviousSong() {
-    
+
   if (ui_->song_list->count() == 0) {
     return;
   }
@@ -730,7 +730,7 @@ void EditTagDialog::ButtonClicked(QAbstractButton *button) {
 }
 
 void EditTagDialog::SaveData(const QList<Data> &data) {
-  
+
   for (int i = 0; i < data.count(); ++i) {
     const Data &ref = data[i];
     if (ref.current_.IsMetadataEqual(ref.original_)) continue;
@@ -742,7 +742,7 @@ void EditTagDialog::SaveData(const QList<Data> &data) {
 }
 
 void EditTagDialog::accept() {
-  
+
   // Show the loading indicator
   if (!SetLoading(tr("Saving tracks") + "...")) return;
 
@@ -752,14 +752,14 @@ void EditTagDialog::accept() {
 }
 
 void EditTagDialog::AcceptFinished() {
-  
+
   if (!SetLoading(QString())) return;
   QDialog::accept();
 
 }
 
 bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
-  
+
   if (o == ui_->art) {
     switch (e->type()) {
       case QEvent::MouseButtonRelease:
@@ -795,7 +795,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 }
 
 void EditTagDialog::showEvent(QShowEvent *e) {
-  
+
   // Set the dialog's height to the smallest possible
   resize(width(), sizeHint().height());
 
@@ -808,7 +808,7 @@ void EditTagDialog::showEvent(QShowEvent *e) {
 }
 
 void EditTagDialog::hideEvent(QHideEvent *e) {
-  
+
   // Save the current tab
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -818,7 +818,7 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
 }
 
 void EditTagDialog::ResetPlayCounts() {
-  
+
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
   if (sel.isEmpty())
     return;
@@ -839,7 +839,7 @@ void EditTagDialog::ResetPlayCounts() {
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void EditTagDialog::FetchTag() {
-  
+
   const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
 
   SongList songs;
@@ -863,7 +863,7 @@ void EditTagDialog::FetchTag() {
 }
 
 void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &new_metadata) {
-  
+
   const QString filename = original_song.url().toLocalFile();
 
   // Find the song with this filename

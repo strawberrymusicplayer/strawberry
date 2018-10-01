@@ -71,7 +71,7 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com");
 
   QString Title("About Strawberry");
-  
+
   QFont title_font;
   title_font.setBold(true);
   title_font.setPointSize(title_font.pointSize() + 4);

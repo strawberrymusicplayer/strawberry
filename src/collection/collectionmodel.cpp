@@ -329,10 +329,10 @@ QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
 
     case GroupBy_Bitrate:
       return SortTextForNumber(item->metadata.bitrate());
-      
+
     case GroupBy_Samplerate:
       return SortTextForNumber(item->metadata.samplerate());
-      
+
     case GroupBy_Bitdepth:
       return SortTextForNumber(item->metadata.bitdepth());
 
@@ -374,11 +374,11 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
     case GroupBy_Bitrate:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
-      
+
     case GroupBy_Samplerate:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
-      
+
     case GroupBy_Bitdepth:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
@@ -1125,13 +1125,13 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->key = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
-      
+
     case GroupBy_Samplerate:
       samplerate = qMax(0, s.samplerate());
       item->key = QString::number(samplerate);
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
-      
+
     case GroupBy_Bitdepth:
       bitdepth = qMax(0, s.bitdepth());
       item->key = QString::number(bitdepth);

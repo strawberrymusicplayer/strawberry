@@ -135,7 +135,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
           // REM DATE
         } else if (line_value.toLower() == kDate) {
           date = splitted[2];
-        
+
           // REM DISC
         } else if (line_value.toLower() == kDisc) {
           disc = splitted[2];
@@ -303,7 +303,7 @@ bool CueParser::UpdateSong(const CueEntry &entry, const QString &next_index, Son
   song->set_genre(entry.genre);
   song->set_year(entry.date.toInt());
   song->set_disc(entry.disc.toInt());
-  
+
   return true;
 
 }
@@ -329,7 +329,7 @@ bool CueParser::UpdateLastSong(const CueEntry &entry, Song *song) const {
   song->set_year(entry.date.toInt());
   song->set_composer(entry.PrettyComposer());
   song->set_disc(entry.disc.toInt());
-  
+
   // We don't do anything with the end here because it's already set to the end of the media file (if it exists)
   song->set_beginning_nanosec(beginning);
 

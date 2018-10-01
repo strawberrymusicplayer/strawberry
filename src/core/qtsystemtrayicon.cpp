@@ -78,7 +78,7 @@ QtSystemTrayIcon::~QtSystemTrayIcon() {
 }
 
 bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
-    
+
   if (QObject::eventFilter(object, event)) return true;
 
   if (object != tray_) return false;
@@ -135,7 +135,7 @@ void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop
 }
 
 void QtSystemTrayIcon::Clicked(QSystemTrayIcon::ActivationReason reason) {
-    
+
   switch (reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:

@@ -109,17 +109,17 @@ set(SOURCES
   core/windows7thumbbar.cpp
   core/screensaver.cpp
   core/scopedtransaction.cpp
-  
+
   engine/enginetype.cpp
   engine/enginebase.cpp
   engine/enginedevice.cpp
   engine/devicefinder.cpp
-  
+
   analyzer/fht.cpp
   analyzer/analyzerbase.cpp
   analyzer/analyzercontainer.cpp
   analyzer/blockanalyzer.cpp
-  
+
   equalizer/equalizer.cpp
   equalizer/equalizerslider.cpp
 
@@ -173,7 +173,7 @@ set(SOURCES
   playlistparsers/wplparser.cpp
   playlistparsers/xmlparser.cpp
   playlistparsers/xspfparser.cpp
-  
+
   covermanager/albumcovermanager.cpp
   covermanager/albumcovermanagerlist.cpp
   covermanager/albumcoverloader.cpp
@@ -244,10 +244,10 @@ set(SOURCES
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
   widgets/loginstatewidget.cpp
-  
+
   musicbrainz/acoustidclient.cpp
   musicbrainz/musicbrainzclient.cpp
-  
+
   globalshortcuts/globalshortcutbackend.cpp
   globalshortcuts/globalshortcuts.cpp
   globalshortcuts/gnomeglobalshortcutbackend.cpp
@@ -294,10 +294,10 @@ set(HEADERS
   analyzer/analyzerbase.h
   analyzer/analyzercontainer.h
   analyzer/blockanalyzer.h
-  
+
   equalizer/equalizer.h
   equalizer/equalizerslider.h
-  
+
   context/contextview.h
   context/contextalbumsmodel.h
   context/contextalbumsview.h
@@ -341,7 +341,7 @@ set(HEADERS
   playlistparsers/playlistparser.h
   playlistparsers/plsparser.h
   playlistparsers/xspfparser.h
-  
+
   covermanager/albumcovermanager.h
   covermanager/albumcovermanagerlist.h
   covermanager/albumcoverloader.h
@@ -409,10 +409,10 @@ set(HEADERS
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
   widgets/loginstatewidget.h
-  
+
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
-  
+
   globalshortcuts/globalshortcutbackend.h
   globalshortcuts/globalshortcuts.h
   globalshortcuts/gnomeglobalshortcutbackend.h
@@ -479,7 +479,7 @@ set(UI
   widgets/osdpretty.ui
   widgets/fileview.ui
   widgets/loginstatewidget.ui
-  
+
   globalshortcuts/globalshortcutgrabber.ui
 
   tidal/tidalsearchview.ui

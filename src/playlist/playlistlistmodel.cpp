@@ -33,11 +33,11 @@
 #include "playlistlistmodel.h"
 
 PlaylistListModel::PlaylistListModel(QObject *parent) : QStandardItemModel(parent), dropping_rows_(false) {
-  
+
   connect(this, SIGNAL(dataChanged(QModelIndex, QModelIndex)), SLOT(RowsChanged(QModelIndex, QModelIndex)));
   connect(this, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), SLOT(RowsAboutToBeRemoved(QModelIndex, int, int)));
   connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(RowsInserted(QModelIndex, int, int)));
-  
+
 }
 
 void PlaylistListModel::SetIcons(const QIcon &playlist_icon, const QIcon &folder_icon) {

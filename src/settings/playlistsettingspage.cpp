@@ -40,7 +40,7 @@ class SettingsDialog;
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 
 PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_PlaylistSettingsPage) {
-  
+
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("document-new"));
 
@@ -91,13 +91,13 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
   ui_->checkbox_editmetadatainline->setChecked(s.value("editmetadatainline", false).toBool());
   ui_->checkbox_writemetadata->setChecked(s.value(Playlist::kWriteMetadata, false).toBool());
-  
+
   s.endGroup();
-  
+
 }
 
 void PlaylistSettingsPage::Save() {
-  
+
   QSettings s;
 
   MainWindow::AddBehaviour doubleclick_addmode = MainWindow::AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());

@@ -69,7 +69,7 @@ SCollection::~SCollection() {
 }
 
 void SCollection::Init() {
-  
+
   watcher_ = new CollectionWatcher;
   watcher_thread_ = new Thread(this);
   watcher_thread_->SetIoPriority(Utilities::IOPRIO_CLASS_IDLE);
@@ -116,7 +116,7 @@ void SCollection::Stopped() {
 }
 
 void SCollection::CurrentSongChanged(const Song &song) {
-  
+
   TagReaderReply *reply = nullptr;
 
   if (reply) {

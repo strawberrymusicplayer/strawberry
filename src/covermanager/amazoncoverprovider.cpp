@@ -55,13 +55,13 @@ const char *AmazonCoverProvider::kSecretAccessKeyB64 = "TjFZU3F2c2hJZDVtUGxKVW1K
 AmazonCoverProvider::AmazonCoverProvider(QObject *parent) : CoverProvider("Amazon", true, parent), network_(new NetworkAccessManager(this)) {}
 
 bool AmazonCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
-  
+
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
 
   typedef QPair<QByteArray, QByteArray> EncodedArg;
   typedef QList<EncodedArg> EncodedArgList;
-  
+
   // Must be sorted by parameter name
   ArgList args = ArgList()
                 << Arg("AWSAccessKeyId", QByteArray::fromBase64(kAccessKeyB64))
@@ -108,9 +108,9 @@ void AmazonCoverProvider::QueryError(QNetworkReply::NetworkError error, QNetwork
 }
 
 void AmazonCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
-    
+
   reply->deleteLater();
-  
+
   QString data(reply->readAll());
 
   CoverSearchResults results;

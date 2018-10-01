@@ -453,7 +453,7 @@ bool MergedProxyModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 }
 
 QModelIndex MergedProxyModel::FindSourceParent(const QModelIndex &proxy_index) const {
-    
+
   if (!proxy_index.isValid()) return QModelIndex();
 
   QModelIndex source_index = mapToSource(proxy_index);
@@ -463,7 +463,7 @@ QModelIndex MergedProxyModel::FindSourceParent(const QModelIndex &proxy_index) c
 }
 
 bool MergedProxyModel::canFetchMore(const QModelIndex &parent) const {
-    
+
   QModelIndex source_index = mapToSource(parent);
 
   if (!source_index.isValid())
@@ -473,7 +473,7 @@ bool MergedProxyModel::canFetchMore(const QModelIndex &parent) const {
 }
 
 void MergedProxyModel::fetchMore(const QModelIndex &parent) {
-    
+
   QModelIndex source_index = mapToSource(parent);
 
   if (!source_index.isValid())

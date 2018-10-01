@@ -133,7 +133,7 @@ signals:
 
   QIcon search_icon_;
   QIcon warning_icon_;
-  
+
   TidalSettingsPage::SearchBy searchby_;
   bool error_;
 

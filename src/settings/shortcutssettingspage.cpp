@@ -178,7 +178,7 @@ void GlobalShortcutsSettingsPage::DefaultClicked() {
 }
 
 void GlobalShortcutsSettingsPage::ChangeClicked() {
-  
+
   GlobalShortcuts *manager = dialog()->global_shortcuts_manager();
   manager->Unregister();
   QKeySequence key = grabber_->GetKey(shortcuts_[current_id_].s.action->text());
@@ -197,7 +197,7 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 }
 
 void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
-  
+
   if (!QProcess::startDetached("gnome-keybinding-properties")) {
     if (!QProcess::startDetached("gnome-control-center", QStringList() << "keyboard")) {
       QMessageBox::warning(this, "Error",

@@ -346,7 +346,7 @@ void CollectionView::ReloadSettings() {
     app_->collection_model()->set_pretty_covers(settings.value("pretty_covers", true).toBool());
     app_->collection_model()->set_show_dividers(settings.value("show_dividers", true).toBool());
   }
-  
+
   settings.endGroup();
 
 }
@@ -371,7 +371,7 @@ void CollectionView::TotalSongCountUpdated(int count) {
     setCursor(Qt::PointingHandCursor);
   else
     unsetCursor();
-  
+
   emit TotalSongCountUpdated_();
 
 }
@@ -386,7 +386,7 @@ void CollectionView::TotalArtistCountUpdated(int count) {
     setCursor(Qt::PointingHandCursor);
   else
     unsetCursor();
-  
+
   emit TotalArtistCountUpdated_();
 
 }
@@ -401,7 +401,7 @@ void CollectionView::TotalAlbumCountUpdated(int count) {
     setCursor(Qt::PointingHandCursor);
   else
     unsetCursor();
-  
+
   emit TotalAlbumCountUpdated_();
 
 }

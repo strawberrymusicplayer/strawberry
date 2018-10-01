@@ -64,7 +64,7 @@ void GLog(const char *domain, int level, const char *message, void *user_data) {
     case G_LOG_LEVEL_DEBUG:
     default:                   qLog(Debug)   << message; break;
   }
- 
+
 }
 
 static void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
@@ -93,7 +93,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext &context, co
 }
 
 void Init() {
-  
+
   delete sClassLevels;
   delete sNullDevice;
 

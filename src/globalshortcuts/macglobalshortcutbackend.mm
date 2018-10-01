@@ -17,7 +17,7 @@
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
  #include "config.h"
 
 #include "macglobalshortcutbackend.h"

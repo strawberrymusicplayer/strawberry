@@ -119,7 +119,7 @@ namespace PlaylistUndoCommands {
     //int column_;
     //Qt::SortOrder order_;
   };
-  
+
   class ShuffleItems : public ReOrderItems {
    public:
     ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);

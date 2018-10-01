@@ -398,7 +398,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl orig
 }
 
 GstEnginePipeline::~GstEnginePipeline() {
-    
+
   if (pipeline_) {
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
     g_source_remove(bus_cb_id_);
@@ -517,7 +517,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
 }
 
 void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
-    
+
   // Bump the priority of the thread only on OS X
 
 #ifdef Q_OS_MACOS
@@ -527,7 +527,7 @@ void GstEnginePipeline::TaskEnterCallback(GstTask *, GThread *, gpointer) {
   param.sched_priority = 99;
   pthread_setschedparam(pthread_self(), SCHED_RR, &param);
 #endif
-  
+
 }
 
 void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
@@ -834,7 +834,7 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
 void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *bin, gpointer self) {
 
   GstEnginePipeline* instance = reinterpret_cast<GstEnginePipeline*>(self);
-  
+
   if (instance->has_next_valid_url() && !instance->next_uri_set_) {
     // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
     // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
@@ -911,7 +911,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(GstState state) {
 }
 
 bool GstEnginePipeline::Seek(qint64 nanosec) {
-  
+
   if (ignore_next_seek_) {
     ignore_next_seek_ = false;
     return true;
@@ -937,14 +937,14 @@ bool GstEnginePipeline::Seek(qint64 nanosec) {
 }
 
 void GstEnginePipeline::SetEqualizerEnabled(bool enabled) {
-  
+
   eq_enabled_ = enabled;
   UpdateEqualizer();
 
 }
 
 void GstEnginePipeline::SetEqualizerParams(int preamp, const QList<int>& band_gains) {
-  
+
   eq_preamp_ = preamp;
   eq_band_gains_ = band_gains;
   UpdateEqualizer();
@@ -952,14 +952,14 @@ void GstEnginePipeline::SetEqualizerParams(int preamp, const QList<int>& band_ga
 }
 
 void GstEnginePipeline::SetStereoBalance(float value) {
-  
+
   stereo_balance_ = value;
   UpdateStereoBalance();
 
 }
 
 void GstEnginePipeline::UpdateEqualizer() {
-    
+
  if (!equalizer_ || !equalizer_preamp_) return;
 
   // Update band gains

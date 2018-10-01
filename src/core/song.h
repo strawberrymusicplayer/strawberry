@@ -82,7 +82,7 @@ class Song {
 
   static const QString kManuallyUnsetCover;
   static const QString kEmbeddedCover;
-  
+
   static const QRegExp kCoverRemoveDisc;
 
   static QString JoinSpec(const QString &table);
@@ -214,18 +214,18 @@ class Song {
 
   const QString &art_automatic() const;
   const QString &art_manual() const;
-  
+
   const QString &cue_path() const;
   bool has_cue() const;
-  
+
   const QString &effective_album() const;
   int effective_originalyear() const;
   const QString &effective_albumartist() const;
-  
+
   bool is_collection_song() const;
   bool is_stream() const;
   bool is_cdda() const;
-  
+
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;
 
@@ -248,7 +248,7 @@ class Song {
   QString PrettyYear() const;
 
   QString TitleWithCompilationArtist() const;
-  
+
   QString SampleRateBitDepthToText() const;
 
   // Setters
@@ -292,7 +292,7 @@ class Song {
   void set_mtime(int v);
   void set_ctime(int v);
   void set_unavailable(bool v);
-  
+
   void set_playcount(int v);
   void set_skipcount(int v);
   void set_lastplayed(int v);
@@ -300,12 +300,12 @@ class Song {
   void set_compilation_detected(bool v);
   void set_compilation_on(bool v);
   void set_compilation_off(bool v);
-  
+
   void set_art_automatic(const QString &v);
   void set_art_manual(const QString &v);
 
   void set_cue_path(const QString &v);
-  
+
   void set_image(const QImage &i);
 
   // Comparison functions

@@ -96,7 +96,7 @@ SongLoader::SongLoader(CollectionBackendInterface *collection, const Player *pla
   timeout_timer_->setSingleShot(true);
 
   connect(timeout_timer_, SIGNAL(timeout()), SLOT(Timeout()));
-  
+
 }
 
 SongLoader::~SongLoader() {
@@ -520,7 +520,7 @@ GstBusSyncReply SongLoader::BusCallbackSync(GstBus *, GstMessage *msg, gpointer 
 
 #ifdef HAVE_GSTREAMER
 void SongLoader::ErrorMessageReceived(GstMessage *msg) {
-  
+
   if (state_ == Finished) return;
 
   GError *error;

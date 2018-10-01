@@ -72,5 +72,5 @@ Optional:
     sudo make install
 
     (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
-    
+
 

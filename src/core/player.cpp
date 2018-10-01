@@ -155,7 +155,7 @@ void Player::CreateEngine(Engine::EngineType enginetype) {
 }
 
 void Player::Init() {
-  
+
   if (!engine_->Init()) { qFatal("Error initialising audio engine"); }
 
   analyzer_->SetEngine(engine_.get());
@@ -347,7 +347,7 @@ void Player::TrackEnded() {
 }
 
 void Player::PlayPause() {
-  
+
   switch (engine_->state()) {
     case Engine::Paused:
       engine_->Unpause();
@@ -520,7 +520,7 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
 }
 
 void Player::SeekTo(int seconds) {
-  
+
   const qint64 length_nanosec = engine_->length_nanosec();
 
   // If the length is 0 then either there is no song playing, or the song isn't seekable.
@@ -724,7 +724,7 @@ void Player::RegisterUrlHandler(UrlHandler *handler) {
   url_handlers_.insert(scheme, handler);
   connect(handler, SIGNAL(destroyed(QObject*)), SLOT(UrlHandlerDestroyed(QObject*)));
   connect(handler, SIGNAL(AsyncLoadComplete(UrlHandler::LoadResult)), SLOT(HandleLoadResult(UrlHandler::LoadResult)));
-  
+
 }
 
 void Player::UnregisterUrlHandler(UrlHandler *handler) {

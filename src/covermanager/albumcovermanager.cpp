@@ -266,7 +266,7 @@ void AlbumCoverManager::CancelRequests() {
   abort_progress_->hide();
   statusBar()->clearMessage();
   EnableCoversButtons();
-  
+
 }
 
 static bool CompareNocase(const QString &left, const QString &right) {
@@ -292,7 +292,7 @@ void AlbumCoverManager::Reset() {
     if (artist.isEmpty()) continue;
     new QListWidgetItem(artist_icon_, artist, ui_->artists, Specific_Artist);
   }
-  
+
 }
 
 void AlbumCoverManager::EnableCoversButtons() {
@@ -375,7 +375,7 @@ void AlbumCoverManager::CoverImageLoaded(quint64 id, const QImage &image) {
 }
 
 void AlbumCoverManager::UpdateFilter() {
-  
+
   const QString filter = ui_->filter->text().toLower();
   const bool hide_with_covers = filter_without_covers_->isChecked();
   const bool hide_without_covers = filter_with_covers_->isChecked();
@@ -479,7 +479,7 @@ void AlbumCoverManager::AlbumCoverFetched(quint64 id, const QImage &image, const
 }
 
 void AlbumCoverManager::UpdateStatusText() {
-  
+
   QString message = tr("Got %1 covers out of %2 (%3 failed)")
                         .arg(fetch_statistics_.chosen_images_)
                         .arg(jobs_)
@@ -540,7 +540,7 @@ Song AlbumCoverManager::GetFirstSelectedAsSong() {
 }
 
 Song AlbumCoverManager::ItemAsSong(QListWidgetItem *item) {
-  
+
   Song result;
 
   QString title = item->data(Role_AlbumName).toString();
@@ -569,7 +569,7 @@ Song AlbumCoverManager::ItemAsSong(QListWidgetItem *item) {
 }
 
 void AlbumCoverManager::ShowCover() {
-  
+
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
@@ -592,15 +592,15 @@ void AlbumCoverManager::FetchSingleCover() {
 }
 
 void AlbumCoverManager::UpdateCoverInList(QListWidgetItem *item, const QString &cover) {
-  
+
   quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, QString(), cover);
   item->setData(Role_PathManual, cover);
   cover_loading_tasks_[id] = item;
-  
+
 }
 
 void AlbumCoverManager::LoadCoverFromFile() {
-  
+
   Song song = GetSingleSelectionAsSong();
   if (!song.is_valid()) return;
 
@@ -611,7 +611,7 @@ void AlbumCoverManager::LoadCoverFromFile() {
   if (!cover.isEmpty()) {
     UpdateCoverInList(item, cover);
   }
-  
+
 }
 
 void AlbumCoverManager::SaveCoverToFile() {
@@ -638,7 +638,7 @@ void AlbumCoverManager::SaveCoverToFile() {
   }
 
   album_cover_choice_controller_->SaveCoverToFile(song, image);
-  
+
 }
 
 void AlbumCoverManager::LoadCoverFromURL() {
@@ -676,11 +676,11 @@ void AlbumCoverManager::SearchForCover() {
 
     UpdateCoverInList(current, cover);
   }
-  
+
 }
 
 void AlbumCoverManager::UnsetCover() {
-  
+
   Song song = GetFirstSelectedAsSong();
   if (!song.is_valid()) return;
 
@@ -699,11 +699,11 @@ void AlbumCoverManager::UnsetCover() {
       album_cover_choice_controller_->SaveCover(&current_song, cover);
     }
   }
-  
+
 }
 
 SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &index) const {
-  
+
   SongList ret;
 
   CollectionQuery q;
@@ -731,7 +731,7 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &index) const {
     ret << song;
   }
   return ret;
-  
+
 }
 
 SongList AlbumCoverManager::GetSongsInAlbums(const QModelIndexList &indexes) const {
@@ -741,7 +741,7 @@ SongList AlbumCoverManager::GetSongsInAlbums(const QModelIndexList &indexes) con
     ret << GetSongsInAlbum(index);
   }
   return ret;
-  
+
 }
 
 SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &indexes) const {
@@ -781,7 +781,7 @@ void AlbumCoverManager::LoadSelectedToPlaylist() {
 }
 
 void AlbumCoverManager::SaveAndSetCover(QListWidgetItem *item, const QImage &image) {
-  
+
   const QString artist = item->data(Role_ArtistName).toString();
   const QString albumartist = item->data(Role_AlbumArtistName).toString();
   const QString album = item->data(Role_AlbumName).toString();
@@ -799,7 +799,7 @@ void AlbumCoverManager::SaveAndSetCover(QListWidgetItem *item, const QImage &ima
 }
 
 void AlbumCoverManager::ExportCovers() {
-  
+
   AlbumCoverExport::DialogResult result = cover_export_->Exec();
 
   if (result.cancelled_) {
@@ -838,7 +838,7 @@ void AlbumCoverManager::ExportCovers() {
 }
 
 void AlbumCoverManager::UpdateExportStatus(int exported, int skipped, int max) {
-  
+
   progress_bar_->setValue(exported);
 
   QString message = tr("Exported %1 covers out of %2 (%3 skipped)")

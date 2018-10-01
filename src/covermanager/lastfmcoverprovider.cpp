@@ -45,7 +45,7 @@ LastFmCoverProvider::LastFmCoverProvider(QObject *parent) : CoverProvider("last.
 }
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
-  
+
   QMap<QString, QString> params;
   params["method"] = "album.search";
   params["album"] = album + " " + artist;

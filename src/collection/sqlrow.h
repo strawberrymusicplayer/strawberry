@@ -37,7 +37,7 @@ class SqlRow {
   SqlRow(const CollectionQuery &query);
 
   const QVariant &value(int i) const { return columns_[i]; }
-  
+
   QList<QVariant> columns_;
 
  private:

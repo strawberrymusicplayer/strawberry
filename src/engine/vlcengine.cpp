@@ -49,7 +49,7 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
 }
 
 VLCEngine::~VLCEngine() {
-    
+
   libvlc_media_player_stop(player_);
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
@@ -275,7 +275,7 @@ uint VLCEngine::length() const {
 }
 
 bool VLCEngine::CanDecode(const QUrl &url) {
-    
+
   // TODO
   return true;
 }
@@ -291,7 +291,7 @@ void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t t
 }
 
 void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
-    
+
   VLCEngine *engine = reinterpret_cast<VLCEngine*>(data);
 
   switch (e->type) {

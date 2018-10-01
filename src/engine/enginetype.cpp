@@ -45,7 +45,7 @@ QString EngineName(Engine::EngineType enginetype) {
     default:                    return QString("None");
   }
 }
-    
+
 QString EngineDescription(Engine::EngineType enginetype) {
   switch (enginetype) {
     case Engine::Xine:		return QString("Xine");
@@ -54,7 +54,7 @@ QString EngineDescription(Engine::EngineType enginetype) {
     case Engine::VLC:		return QString("VLC");
     case Engine::None:
     default:			return QString("None");
-  
+
   }
 }
 

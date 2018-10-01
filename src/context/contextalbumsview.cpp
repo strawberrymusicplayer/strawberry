@@ -155,7 +155,7 @@ void ContextItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 }
 
 bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
-    
+
   return true;
 
   Q_UNUSED(option);
@@ -326,7 +326,7 @@ void ContextAlbumsView::ReloadSettings() {
   if (app_ && model_) {
     model_->set_pretty_covers(settings.value("pretty_covers", true).toBool());
   }
-  
+
   settings.endGroup();
 
 }
@@ -334,7 +334,7 @@ void ContextAlbumsView::ReloadSettings() {
 void ContextAlbumsView::SetApplication(Application *app) {
 
   app_ = app;
-  
+
   model_ = new ContextAlbumsModel(app_->collection_backend(), app_, this);
   model_->Reset();
 
@@ -342,7 +342,7 @@ void ContextAlbumsView::SetApplication(Application *app) {
 
   connect(model_, SIGNAL(modelAboutToBeReset()), this, SLOT(SaveFocus()));
   connect(model_, SIGNAL(modelReset()), this, SLOT(RestoreFocus()));
-  
+
   ReloadSettings();
 
 }

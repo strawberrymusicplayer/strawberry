@@ -84,7 +84,7 @@ class CollectionView : public AutoExpandingTreeView {
   // QTreeView
   void keyboardSearch(const QString &search);
   void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
-  
+
   int TotalSongs();
   int TotalArtists();
   int TotalAlbums();

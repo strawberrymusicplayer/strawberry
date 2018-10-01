@@ -208,7 +208,7 @@ signals:
   bool buffering_;
 
   bool mono_playback_;
-  
+
   // These get called when there is a new audio buffer available
   QList<GstBufferConsumer*> buffer_consumers_;
   QMutex buffer_consumers_mutex_;

@@ -11,7 +11,7 @@ class PlatformInterface;
   NSMenu* dock_menu_;
   MacGlobalShortcutBackend* shortcut_handler_;
   SPMediaKeyTap* key_tap_;
-  
+
 }
 
 - (id) initWithHandler: (PlatformInterface*)handler;

@@ -17,7 +17,7 @@
  * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
 #include "config.h"
 
 #include "macsystemtrayicon.h"
@@ -183,7 +183,7 @@ void MacSystemTrayIcon::SetupMenu(QAction* previous, QAction* play, QAction* sto
   SetupMenuItem(mute);
   p_->AddSeparator();
   Q_UNUSED(quit);  // Mac already has a Quit item.
-  
+
 }
 
 void MacSystemTrayIcon::SetupMenuItem(QAction* action) {

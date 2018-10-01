@@ -112,7 +112,7 @@ signals:
   QHash<quint64, AlbumCoverFetcherSearch*> active_requests_;
 
   QTimer *request_starter_;
-  
+
 };
 
 #endif  // ALBUMCOVERFETCHER_H

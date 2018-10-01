@@ -78,7 +78,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
 
   // QTreeView
   void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
-  
+
   ContextAlbumsModel *albums_model() { return model_; }
 
  public slots:
@@ -146,9 +146,9 @@ signals:
   Song last_selected_song_;
   QString last_selected_container_;
   QSet<QString> last_selected_path_;
-  
+
   ContextAlbumsModel *model_;
-  
+
 };
 
 #endif  // CONTEXTALBUMSVIEW_H

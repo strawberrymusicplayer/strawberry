@@ -101,7 +101,7 @@ void BehaviourSettingsPage::Load() {
 }
 
 void BehaviourSettingsPage::Save() {
-  
+
   QSettings s;
 
   MainWindow::StartupBehaviour behaviour = MainWindow::Startup_Remember;
@@ -120,7 +120,7 @@ void BehaviourSettingsPage::Save() {
 }
 
 void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
- 
+
   ui_->radiobutton_alwayshide->setEnabled(on);
   if (!on && ui_->radiobutton_alwayshide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);

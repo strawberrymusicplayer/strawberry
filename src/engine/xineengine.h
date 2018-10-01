@@ -138,10 +138,10 @@ class XineEngine : public Engine::Base {
   void Cleanup();
   bool EnsureStream();
   void SetDevice();
-  
+
   uint length() const;
   uint position() const;
-  
+
   bool MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
   bool GetAudioCDContents(const QString &device, QList<QUrl> &urls);
   bool FlushBuffer();

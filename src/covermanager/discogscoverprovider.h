@@ -69,7 +69,7 @@ class DiscogsCoverProvider : public CoverProvider {
   explicit DiscogsCoverProvider(QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, int s_id);
-  
+
   void CancelSearch(int id);
 
  private slots:

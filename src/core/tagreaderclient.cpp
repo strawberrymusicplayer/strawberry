@@ -55,7 +55,7 @@ void TagReaderClient::WorkerFailedToStart() {
 }
 
 TagReaderReply *TagReaderClient::ReadFile(const QString &filename) {
-  
+
   pb::tagreader::Message message;
   pb::tagreader::ReadFileRequest *req = message.mutable_read_file_request();
 
@@ -78,7 +78,7 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
 }
 
 TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
-  
+
   pb::tagreader::Message message;
   pb::tagreader::IsMediaFileRequest *req = message.mutable_is_media_file_request();
 
@@ -89,7 +89,7 @@ TagReaderReply *TagReaderClient::IsMediaFile(const QString &filename) {
 }
 
 TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
-  
+
   pb::tagreader::Message message;
   pb::tagreader::LoadEmbeddedArtRequest *req = message.mutable_load_embedded_art_request();
 
@@ -100,7 +100,7 @@ TagReaderReply *TagReaderClient::LoadEmbeddedArt(const QString &filename) {
 }
 
 void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
-  
+
   Q_ASSERT(QThread::currentThread() != thread());
 
   TagReaderReply *reply = ReadFile(filename);
@@ -112,7 +112,7 @@ void TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
 }
 
 bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &metadata) {
-  
+
   Q_ASSERT(QThread::currentThread() != thread());
 
   bool ret = false;
@@ -128,7 +128,7 @@ bool TagReaderClient::SaveFileBlocking(const QString &filename, const Song &meta
 }
 
 bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
-  
+
   Q_ASSERT(QThread::currentThread() != thread());
 
   bool ret = false;
@@ -144,7 +144,7 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) {
 }
 
 QImage TagReaderClient::LoadEmbeddedArtBlocking(const QString &filename) {
-  
+
   Q_ASSERT(QThread::currentThread() != thread());
 
   QImage ret;

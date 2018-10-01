@@ -26,7 +26,7 @@
 #include <QString>
 
 namespace Engine {
-    
+
 enum EngineType {
   None,
   GStreamer,

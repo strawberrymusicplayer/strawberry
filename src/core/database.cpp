@@ -62,7 +62,7 @@ Database::Token::Token(const QString &token, int start, int end)
     : token(token), start_offset(start), end_offset(end) {}
 
 struct sqlite3_tokenizer_module {
-  
+
   int iVersion;
   int (*xCreate)(int argc,                /* Size of argv array */
                  const char *const *argv, /* Tokenizer argument strings */
@@ -106,7 +106,7 @@ int Database::FTSCreate(int argc, const char *const *argv, sqlite3_tokenizer **t
 }
 
 int Database::FTSDestroy(sqlite3_tokenizer *tokenizer) {
-  
+
   UnicodeTokenizer *real_tokenizer = reinterpret_cast<UnicodeTokenizer*>(tokenizer);
   delete real_tokenizer;
   return SQLITE_OK;
@@ -460,7 +460,7 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
   update.prepare(QString("UPDATE %1 SET filename=:filename WHERE ROWID=:id").arg(table));
   select.exec();
   if (CheckErrors(select)) return;
-  
+
   while (select.next()) {
     const int rowid = select.value(0).toInt();
     const QString filename = select.value(1).toString();
@@ -565,7 +565,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, int schema_version) const {
 }
 
 bool Database::CheckErrors(const QSqlQuery &query) {
-  
+
   QSqlError last_error = query.lastError();
   if (last_error.isValid()) {
     qLog(Error) << "db error: " << last_error;

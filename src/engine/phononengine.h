@@ -43,7 +43,7 @@ class PhononEngine : public Engine::Base {
   ~PhononEngine();
 
   bool Init();
-  
+
   OutputDetailsList GetOutputsList() const;
 
   bool CanDecode(const QUrl &url);
@@ -62,7 +62,7 @@ class PhononEngine : public Engine::Base {
 
   qint64 position_nanosec() const;
   qint64 length_nanosec() const;
-  
+
   QString DefaultOutput() { return ""; }
   bool ValidOutput(const QString &output);
   bool CustomDeviceSupport(const QString &output);

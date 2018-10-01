@@ -530,7 +530,7 @@ void ContextView::handlePaintEvent(QObject *object, QEvent *event) {
   if (object == ui_->label_play_album) {
     PaintEventAlbum(event);
   }
-  
+
   return;
 
 }

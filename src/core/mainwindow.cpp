@@ -280,7 +280,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_sort_model_->setDynamicSortFilter(true);
   collection_sort_model_->setSortLocaleAware(true);
   collection_sort_model_->sort(0);
-  
+
   qLog(Debug) << "Creating models finished";
 
   connect(ui_->playlist, SIGNAL(ViewSelectionModelChanged()), SLOT(PlaylistViewSelectionModelChanged()));
@@ -617,7 +617,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveGeometry()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
-  
+
   // Context
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
   connect(app_->player(), SIGNAL(PlaylistFinished()), context_view_, SLOT(Stopped()));
@@ -841,7 +841,7 @@ void MainWindow::MediaStopped() {
 }
 
 void MainWindow::MediaPaused() {
-  
+
   ui_->action_stop->setEnabled(true);
   ui_->action_stop_after_this_track->setEnabled(true);
   ui_->action_play_pause->setIcon(IconLoader::Load("media-play"));
@@ -920,7 +920,7 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MainWindow::TabSwitched() {
-  
+
   if (ui_->tabs->currentIndex() > 0)
     ui_->widget_playing->SetEnabled();
   else
@@ -943,7 +943,7 @@ void MainWindow::SaveGeometry() {
 }
 
 void MainWindow::SavePlaybackStatus() {
-  
+
   QSettings settings;
 
   settings.beginGroup("Player");
@@ -954,13 +954,13 @@ void MainWindow::SavePlaybackStatus() {
   else {
     settings.setValue("playback_position", 0);
   }
-  
+
   settings.endGroup();
-  
+
 }
 
 void MainWindow::LoadPlaybackStatus() {
-  
+
   QSettings settings;
 
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
@@ -973,7 +973,7 @@ void MainWindow::LoadPlaybackStatus() {
   saved_playback_state_ = static_cast<Engine::State> (settings.value("playback_state", Engine::Empty).toInt());
   saved_playback_position_ = settings.value("playback_position", 0).toDouble();
   settings.endGroup();
-  
+
   if (saved_playback_state_ == Engine::Empty || saved_playback_state_ == Engine::Idle) {
     return;
   }
@@ -998,7 +998,7 @@ void MainWindow::ResumePlayback() {
 }
 
 void MainWindow::PlayIndex(const QModelIndex &index) {
-  
+
   if (!index.isValid()) return;
 
   int row = index.row();
@@ -1043,7 +1043,7 @@ void MainWindow::VolumeWheelEvent(int delta) {
 }
 
 void MainWindow::ToggleShowHide() {
-  
+
   if (settings_.value("hidden").toBool()) {
     show();
     SetHiddenInTray(false);
@@ -1119,7 +1119,7 @@ void MainWindow::Seeked(qlonglong microseconds) {
 }
 
 void MainWindow::UpdateTrackPosition() {
-  
+
   // Track position in seconds
   //Playlist *playlist = app_->playlist_manager()->active();
 
@@ -1217,7 +1217,7 @@ void MainWindow::AddToPlaylist(QMimeData *data) {
 }
 
 void MainWindow::AddToPlaylist(QAction *action) {
-  
+
   int destination = action->data().toInt();
   PlaylistItemList items;
 
@@ -1289,17 +1289,17 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   int not_in_queue = 0;
   int in_skipped = 0;
   int not_in_skipped = 0;
-  
+
   for (const QModelIndex &index : selection) {
-      
+
     all++;
 
     if (index.column() != 0) continue;
-    
+
     selected++;
-    
+
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(index.row());
-    
+
     if (item->Metadata().has_cue()) {
       cue_selected = true;
     }
@@ -1349,7 +1349,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   //qLog(Debug) << "selected" << selected;
   //qLog(Debug) << "in_queue" << in_queue << "not_in_queue" << not_in_queue;
   //qLog(Debug) << "in_skipped" << in_skipped << "not_in_skipped" << not_in_skipped;
-  
+
   if (selected < 1) {
     playlist_queue_->setVisible(false);
     playlist_skip_->setVisible(false);
@@ -1382,8 +1382,8 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     ui_->action_edit_value->setVisible(false);
   }
   else {
-      
-      
+
+
     Playlist::Column column = (Playlist::Column)index.column();
     bool column_is_editable = Playlist::column_is_editable(column) && editable;
 
@@ -1584,7 +1584,7 @@ void MainWindow::EditValue() {
 }
 
 void MainWindow::AddFile() {
-    
+
   // Last used directory
   QString directory =settings_.value("add_media_path", QDir::currentPath()).toString();
 
@@ -2052,7 +2052,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 }
 
 void MainWindow::EnsureSettingsDialogCreated() {
-  
+
   //if (settings_dialog_) return;
 
   //settings_dialog_.reset(new SettingsDialog(app_));
@@ -2064,14 +2064,14 @@ void MainWindow::EnsureSettingsDialogCreated() {
 
   // Allows custom notification preview
   //connect(settings_dialog_.get(), SIGNAL(NotificationPreview(OSD::Behaviour,QString,QString)), SLOT(HandleNotificationPreview(OSD::Behaviour, QString, QString)));
-  
+
 }
 
 void MainWindow::OpenSettingsDialog() {
 
   EnsureSettingsDialogCreated();
   settings_dialog_->show();
-  
+
 }
 
 void MainWindow::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
@@ -2127,7 +2127,7 @@ void MainWindow::ShowErrorDialog(const QString &message) {
 }
 
 void MainWindow::CheckFullRescanRevisions() {
-  
+
   int from = app_->database()->startup_schema_version();
   int to = app_->database()->current_schema_version();
 
@@ -2169,7 +2169,7 @@ void MainWindow::ShowQueueManager() {
 }
 
 void MainWindow::PlaylistViewSelectionModelChanged() {
-    
+
   connect(ui_->playlist->view()->selectionModel(),SIGNAL(currentChanged(QModelIndex, QModelIndex)), SLOT(PlaylistCurrentChanged(QModelIndex)));
 }
 
@@ -2251,7 +2251,7 @@ void MainWindow::AutoCompleteTags() {
 }
 
 void MainWindow::AutoCompleteTagsAccepted() {
-  
+
   for (PlaylistItemPtr item : autocomplete_tag_items_) {
     item->Reload();
   }
@@ -2389,7 +2389,7 @@ void MainWindow::AlbumArtLoaded(const Song &song, const QString&, const QImage &
 }
 
 void MainWindow::GetCoverAutomatically() {
-    
+
   // Search for cover automatically?
   bool search =
                album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&

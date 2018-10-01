@@ -89,7 +89,7 @@ void AuddLyricsProvider::CancelSearch(quint64 id) {
 }
 
 void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, const QString artist, const QString title) {
-    
+
   reply->deleteLater();
 
   QJsonArray json_result = ExtractResult(reply, id);

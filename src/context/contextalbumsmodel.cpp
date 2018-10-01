@@ -93,7 +93,7 @@ void ContextAlbumsModel::set_pretty_covers(bool use_pretty_covers) {
     use_pretty_covers_ = use_pretty_covers;
     Reset();
   }
-  
+
 }
 
 void ContextAlbumsModel::AddSongs(const SongList &songs) {

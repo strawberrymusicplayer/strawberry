@@ -52,7 +52,7 @@ class TidalSearch : public QObject {
     QString pixmap_cache_key_;
   };
   typedef QList<Result> ResultList;
-  
+
   static const int kDelayedSearchTimeoutMs;
   static const int kMaxResultsPerEmission;
 
@@ -81,7 +81,7 @@ class TidalSearch : public QObject {
 
   void ArtLoaded(int id, const QPixmap &pixmap);
   void ArtLoaded(int id, const QImage &image);
-  
+
  protected:
 
   struct PendingState {

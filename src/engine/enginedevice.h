@@ -37,12 +37,12 @@ class EngineDevice : public QObject {
   ~EngineDevice();
 
   void Init();
-  
+
   QList<DeviceFinder*> device_finders_;
-  
+
  private:
   QString output_;
-  
+
 };
 
 #endif // ENGINEDEVICE_H

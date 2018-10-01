@@ -295,7 +295,7 @@ Section "Start menu items" startmenu
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\strawberry.exe"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  
+
 SectionEnd
 
 Section "Uninstaller"
@@ -321,7 +321,7 @@ Section "Uninstall"
   ;StrCmp $1 "-1" wooops
 
   ;StrCmp $0 "0" completed
-  
+
   ;DetailPrint "Killing running strawberry.exe..."
 
   ;StrCpy $0 "strawberry.exe"

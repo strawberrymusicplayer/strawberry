@@ -19,7 +19,7 @@ do
     echo "ERROR: Cannot dermine geometry for image: \"$i\"."
     continue
   fi
-  
+
   # Geometry can be 563x144+0+0 or 75x98
   # we need to get rid of the plus (+) and the x characters:
   w=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $1}'` || exit 1
@@ -32,10 +32,10 @@ do
     echo "ERROR: Cannot dermine height for image: \"$x\"."
     continue
   fi
-  
+
   for x in $sizes
   do
-  
+
     dest="$x/$file"
     if [ -f $dest ]; then
       continue

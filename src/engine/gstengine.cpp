@@ -127,7 +127,7 @@ GstEngine::~GstEngine() {
 }
 
 bool GstEngine::Init() {
-  
+
   SetEnvironment();
 
   initialising_ = QtConcurrent::run(this, &GstEngine::InitialiseGStreamer);

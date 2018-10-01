@@ -353,7 +353,7 @@ QPixmap Amarok::VolumeSlider::drawVolumePixmap () const {
   QPainter painter(&pixmap);
   QPen pen(palette().color(QPalette::WindowText), 0.3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
   painter.setPen(pen);
-  
+
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setRenderHint(QPainter::SmoothPixmapTransform);
   // Draw volume control pixmap
@@ -375,7 +375,7 @@ void Amarok::VolumeSlider::drawVolumeSliderHandle() {
 
   QImage pixmapHandleGlow_image(pixmapHandleGlow.size(), QImage::Format_ARGB32_Premultiplied);
   QPainter painter(&pixmapHandleGlow_image);
-  
+
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
@@ -383,7 +383,7 @@ void Amarok::VolumeSlider::drawVolumeSliderHandle() {
   painter.fillRect(pixmapHandleGlow_image.rect(), QBrush(palette().color(QPalette::Highlight)));
   painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
   painter.drawImage(0, 0, pixmapHandleGlow);
-  
+
   // Overlay the volume slider handle image 
   painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
   painter.drawImage(0, 0, pixmapHandle);

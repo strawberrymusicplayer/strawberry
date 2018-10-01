@@ -47,7 +47,7 @@ bool ParseQuery(const QByteArray &data, XmlQuery *query, bool *connection_proble
 }
 
 bool ParseUserList(QNetworkReply *reply, QList<User> *users) {
-  
+
   lastfm::XmlQuery lfm;
   if (!lfm.parse(reply->readAll())) {
     return false;

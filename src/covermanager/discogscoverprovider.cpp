@@ -91,11 +91,11 @@ bool DiscogsCoverProvider::StartRelease(DiscogsCoverSearchContext *s_ctx, int r_
   SendReleaseRequest(s_ctx, r_ctx);
 
   return true;
-  
+
 }
 
 void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
-  
+
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
 
@@ -187,7 +187,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
     return;
   }
   DiscogsCoverSearchContext *s_ctx = requests_search_.value(s_id);
-  
+
   QJsonDocument json_doc = QJsonDocument::fromJson(reply->readAll());
   if ((json_doc.isNull()) || (!json_doc.isObject())) {
     qLog(Error) << "Discogs: Failed to create JSON doc.";
@@ -210,7 +210,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
     EndSearch(s_ctx);
     return;
   }
-  
+
   QVariantList results = reply_map["results"].toList();
   int i = 0;
 
@@ -245,7 +245,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
     return;
   }
   DiscogsCoverSearchContext *s_ctx = requests_search_.value(s_id);
-  
+
   QJsonDocument json_doc = QJsonDocument::fromJson(reply->readAll());
   if ((json_doc.isNull()) || (!json_doc.isObject())) {
     qLog(Error) << "Discogs: Failed to create JSON doc.";
@@ -275,7 +275,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
     QVariantMap result_map = result.toMap();
     CoverSearchResult cover_result;
     cover_result.description = s_ctx->title;
-  
+
     if (result_map.contains("type")) {
       QString type = result_map["type"].toString();
       if (type != "primary") continue;
@@ -324,11 +324,11 @@ void DiscogsCoverProvider::ReleaseRequestError(QNetworkReply::NetworkError error
 void DiscogsCoverProvider::EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx) {
 
   delete requests_release_.take(r_ctx->id);
-  
+
   s_ctx->r_count--;
-  
+
   //qLog(Debug) << "r_count: " << s_ctx->r_count;
-  
+
   if (s_ctx->r_count <= 0) EndSearch(s_ctx);
 
 }

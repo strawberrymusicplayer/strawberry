@@ -52,7 +52,7 @@ class AuddLyricsProvider : public LyricsProvider {
   static const int kMaxLength;
   QNetworkAccessManager *network_;
   void Error(quint64 id, QString error, QVariant debug = QVariant());
-  
+
   QJsonObject ExtractJsonObj(QNetworkReply *reply, quint64 id);
   QJsonArray ExtractResult(QNetworkReply *reply, quint64 id);
 

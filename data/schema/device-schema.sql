@@ -57,7 +57,7 @@ CREATE TABLE device_%deviceid_songs (
 
   effective_albumartist TEXT,
   effective_originalyear INTEGER NOT NULL DEFAULT 0,
-  
+
   cue_path TEXT
 
 );

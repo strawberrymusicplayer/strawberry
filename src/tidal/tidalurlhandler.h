@@ -41,7 +41,7 @@ class TidalUrlHandler : public UrlHandler {
   LoadResult StartLoading(const QUrl &url);
 
   void CancelTask();
-  
+
  private slots:
   void GetStreamURLFinished(QUrl url, Song::FileType filetype);
 

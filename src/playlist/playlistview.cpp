@@ -683,16 +683,16 @@ void PlaylistView::mouseMoveEvent(QMouseEvent *event) {
 void PlaylistView::leaveEvent(QEvent *e) {
 
   QTreeView::leaveEvent(e);
-  
+
 }
 
 void PlaylistView::mousePressEvent(QMouseEvent *event) {
-  
+
   if (editTriggers() & QAbstractItemView::NoEditTriggers) {
     QTreeView::mousePressEvent(event);
     return;
   }
-  
+
   QTreeView::mousePressEvent(event);
 
   inhibit_autoscroll_ = true;
@@ -701,7 +701,7 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
 }
 
 void PlaylistView::scrollContentsBy(int dx, int dy) {
-  
+
   if (dx) {
     InvalidateCachedCurrentPixmap();
   }
@@ -987,7 +987,7 @@ void PlaylistView::ReloadSettings() {
   // We change properties only if they have actually changed, to avoid to call set_background_image when it is not needed,
   // as this will cause the fading animation to start again.
   // This also avoid to do useless "force_background_redraw".
-  
+
   if (!background_initialized_ || background_image_filename != background_image_filename_ || background_type != background_image_type_ || blur_radius_ != blur_radius || opacity_level_ != opacity_level) {
     background_initialized_ = true;
     // Store background properties
@@ -1019,7 +1019,7 @@ void PlaylistView::ReloadSettings() {
     setEditTriggers(editTriggers() & ~QAbstractItemView::SelectedClicked);
   else
     setEditTriggers(editTriggers() | QAbstractItemView::SelectedClicked);
-  
+
   s.endGroup();
 
 }
@@ -1037,11 +1037,11 @@ void PlaylistView::SaveSettings() {
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   s.setValue(kSettingBackgroundImageType, background_image_type_);
   s.endGroup();
-  
+
   s.beginGroup(Playlist::kSettingsGroup);
   s.setValue("column_alignments", QVariant::fromValue(column_alignment_));
   s.endGroup();
-  
+
 }
 
 void PlaylistView::StretchChanged(bool stretch) {
@@ -1152,7 +1152,7 @@ void PlaylistView::CurrentSongChanged(const Song &song, const QString &uri, cons
 }
 
 void PlaylistView::set_background_image(const QImage &image) {
-    
+
   // Save previous image, for fading
   previous_background_image_ = cached_scaled_background_image_;
 

@@ -269,7 +269,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   else if (TagLib::MP4::File *file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
 
     song->set_bitdepth(file->audioProperties()->bitsPerSample());
-      
+
     if (file->tag()) {
       TagLib::MP4::Tag *mp4_tag = file->tag();
       const TagLib::MP4::ItemListMap& items = mp4_tag->itemListMap();
@@ -387,7 +387,7 @@ void TagReader::Decode(const TagLib::String &tag, const QTextCodec *codec, std::
 }
 
 void TagReader::Decode(const QString &tag, const QTextCodec *codec, std::string *output) {
-  
+
   if (!codec) {
     output->assign(DataCommaSizeFromQString(tag));
   }
@@ -399,10 +399,10 @@ void TagReader::Decode(const QString &tag, const QTextCodec *codec, std::string 
 }
 
 void TagReader::ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const {
-  
+
   qLog(Debug) << "Parsing FMPSFrame" << name << ", " << value;
   FMPSParser parser;
-  
+
   if (!parser.Parse(value) || parser.is_empty()) return;
 
   QVariant var;
@@ -426,7 +426,7 @@ void TagReader::ParseFMPSFrame(const QString &name, const QString &value, pb::ta
 }
 
 void TagReader::ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const {
-  
+
   if (!map["COMPOSER"].isEmpty()) Decode(map["COMPOSER"].front(), codec, song->mutable_composer());
   if (!map["PERFORMER"].isEmpty()) Decode(map["PERFORMER"].front(), codec, song->mutable_performer());
   if (!map["CONTENT GROUP"].isEmpty()) Decode(map["CONTENT GROUP"].front(), codec, song->mutable_grouping());
@@ -569,16 +569,16 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
 }
 
 void TagReader::SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const {
-  
+
   const QByteArray descr_utf8(description.toUtf8());
   const QByteArray value_utf8(value.toUtf8());
   qLog(Debug) << "Setting FMPSFrame:" << description << ", " << value;
   SetUserTextFrame(std::string(descr_utf8.constData(), descr_utf8.length()), std::string(value_utf8.constData(), value_utf8.length()), tag);
-  
+
 }
 
 void TagReader::SetUserTextFrame(const std::string &description, const std::string &value, TagLib::ID3v2::Tag *tag) const {
-  
+
   const TagLib::String t_description = StdStringToTaglibString(description);
   // Remove the frame if it already exists
   TagLib::ID3v2::UserTextIdentificationFrame *frame = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, t_description);
@@ -596,13 +596,13 @@ void TagReader::SetUserTextFrame(const std::string &description, const std::stri
 }
 
 void TagReader::SetTextFrame(const char *id, const QString &value, TagLib::ID3v2::Tag *tag) const {
-  
+
   const QByteArray utf8(value.toUtf8());
   SetTextFrame(id, std::string(utf8.constData(), utf8.length()), tag);
 }
 
 void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
-  
+
   TagLib::ByteVector id_vector(id);
   QVector<TagLib::ByteVector> frames_buffer;
 
@@ -627,20 +627,20 @@ void TagReader::SetTextFrame(const char *id, const std::string &value, TagLib::I
     // add frame takes ownership and clears the memory
     tag->addFrame(frame);
   }
-  
+
 }
 
 bool TagReader::IsMediaFile(const QString &filename) const {
-  
+
   qLog(Debug) << "Checking for valid file" << filename;
 
   std::unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   return !fileref->isNull() && fileref->tag();
-  
+
 }
 
 QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
-  
+
   if (filename.isEmpty()) return QByteArray();
 
   qLog(Debug) << "Loading art from" << filename;

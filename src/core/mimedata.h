@@ -52,7 +52,7 @@ class MimeData : public QMimeData {
 
   // If this is set then the items are added to the queue after being inserted.
   bool enqueue_now_;
-  
+
   // If this is set then the items are added to the beginning of the queue after being inserted.
   bool enqueue_next_now_;
 

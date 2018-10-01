@@ -228,11 +228,11 @@ void PlayingWidget::SetMode(int mode) {
   s.beginGroup(kSettingsGroup);
   s.setValue("mode", mode_);
   s.endGroup();
-  
+
 }
 
 void PlayingWidget::FitCoverWidth(bool fit) {
-  
+
   fit_width_ = fit;
   UpdateHeight();
   update();
@@ -335,7 +335,7 @@ void PlayingWidget::SetHeight(int height) {
       timeline_show_hide_->toggleDirection();
     }
   }
-  
+
 }
 
 void PlayingWidget::UpdateHeight() {
@@ -439,7 +439,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
 
       break;
   }
-  
+
 }
 
 void PlayingWidget::FadePreviousTrack(qreal value) {
@@ -456,7 +456,7 @@ void PlayingWidget::FadePreviousTrack(qreal value) {
 }
 
 void PlayingWidget::resizeEvent(QResizeEvent* e) {
-  
+
   //if (visible_ && e->oldSize() != e->size()) {
   if (e->oldSize() != e->size()) {
     if (mode_ == LargeSongDetails) {
@@ -464,7 +464,7 @@ void PlayingWidget::resizeEvent(QResizeEvent* e) {
       UpdateDetailsText();
     }
   }
-  
+
 }
 
 void PlayingWidget::contextMenuEvent(QContextMenuEvent* e) {

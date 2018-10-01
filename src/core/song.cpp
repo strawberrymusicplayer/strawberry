@@ -1051,7 +1051,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":mtime", notnullintval(d->mtime_));
   query->bindValue(":ctime", notnullintval(d->ctime_));
   query->bindValue(":unavailable", d->unavailable_ ? 1 : 0);
-  
+
   query->bindValue(":playcount", d->playcount_);
   query->bindValue(":skipcount", d->skipcount_);
   query->bindValue(":lastplayed", intval(d->lastplayed_));
@@ -1060,13 +1060,13 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":compilation_on", d->compilation_on_ ? 1 : 0);
   query->bindValue(":compilation_off", d->compilation_off_ ? 1 : 0);
   query->bindValue(":compilation_effective", is_compilation() ? 1 : 0);
-  
+
   query->bindValue(":art_automatic", d->art_automatic_);
   query->bindValue(":art_manual", d->art_manual_);
 
   query->bindValue(":effective_albumartist", this->effective_albumartist());
   query->bindValue(":effective_originalyear", intval(this->effective_originalyear()));
-  
+
   query->bindValue(":cue_path", d->cue_path_);
 
 #undef intval

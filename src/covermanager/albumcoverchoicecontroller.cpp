@@ -143,7 +143,7 @@ void AlbumCoverChoiceController::SaveCoverToFile(const Song &song, const QImage 
 }
 
 QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song, const QString &filename) {
-  
+
   // Art automatic is first to show user which cover the album may be using now;
   // The song is using it if there's no manual path but we cannot use manual path here because it can contain cached paths
   if (!song.art_automatic().isEmpty() && !song.has_embedded_cover()) {
@@ -162,7 +162,7 @@ QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song
 }
 
 QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
-  
+
   if (!cover_from_url_dialog_) { cover_from_url_dialog_ = new CoverFromURLDialog(this); }
 
   QImage image = cover_from_url_dialog_->Exec();
@@ -174,7 +174,7 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
     return cover;
   }
   else { return QString(); }
-  
+
 }
 
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
@@ -192,7 +192,7 @@ QString AlbumCoverChoiceController::SearchForCover(Song *song) {
     return cover;
   }
   else { return QString(); }
-  
+
 }
 
 QString AlbumCoverChoiceController::UnsetCover(Song *song) {

@@ -296,7 +296,7 @@ signals:
 
   // creates the icon by painting the full one depending on the current position
   QPixmap CreateOverlayedIcon(int position, int scrobble_point);
-  
+
   void GetCoverAutomatically();
 
  private:

@@ -47,7 +47,7 @@ class BackendSettingsPage : public SettingsPage {
 public:
   BackendSettingsPage(SettingsDialog *dialog);
   ~BackendSettingsPage();
-  
+
   static const char *kSettingsGroup;
 
   void Load();

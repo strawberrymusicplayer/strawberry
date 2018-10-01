@@ -79,7 +79,7 @@ public:
 
   virtual qint64 position_nanosec() const = 0;
   virtual qint64 length_nanosec() const = 0;
-  
+
   virtual const Scope &scope(int chunk_length) { return scope_; }
 
   // Sets new values for the beginning and end markers of the currently playing song.
@@ -106,7 +106,7 @@ public slots:
 
 protected:
   void EmitAboutToEnd();
-  
+
 public:
 
   // Simple accessors
@@ -200,7 +200,7 @@ protected:
 private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base);
-  
+
 };
 
 struct SimpleMetaBundle {

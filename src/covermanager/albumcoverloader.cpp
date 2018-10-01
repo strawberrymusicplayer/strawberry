@@ -56,7 +56,7 @@ QString AlbumCoverLoader::ImageCacheDir() {
 }
 
 void AlbumCoverLoader::CancelTask(quint64 id) {
-    
+
   QMutexLocker l(&mutex_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
     if (it->id == id) {
@@ -67,7 +67,7 @@ void AlbumCoverLoader::CancelTask(quint64 id) {
 }
 
 void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
-    
+
   QMutexLocker l(&mutex_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end();) {
     if (ids.contains(it->id)) {
@@ -226,7 +226,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
   }
 
   NextState(&task);
-  
+
 }
 
 QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image) {
