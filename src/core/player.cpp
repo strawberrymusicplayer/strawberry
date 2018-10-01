@@ -283,6 +283,7 @@ void Player::NextInternal(Engine::TrackChangeFlags change) {
   }
 
   NextItem(change);
+
 }
 
 void Player::NextItem(Engine::TrackChangeFlags change) {
@@ -490,7 +491,6 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
 
   if (reshuffle) app_->playlist_manager()->active()->ReshuffleIndices();
   app_->playlist_manager()->active()->set_current_row(index);
-
   if (app_->playlist_manager()->active()->current_row() == -1) {
     // Maybe index didn't exist in the playlist.
     return;
@@ -691,11 +691,23 @@ void Player::ValidSongRequested(const QUrl &url) {
 
 void Player::InvalidSongRequested(const QUrl &url) {
 
-  // first send the notification to others...
+  // First send the notification to others...
   emit SongChangeRequestProcessed(url, false);
-  // ... and now when our listeners have completed their processing of the current item we can change
-  // the current item by skipping to the next song
-  //NextItem(Engine::Auto);
+
+  // TODO: Continue to the next item in the playlist based on the error type.
+  // When our listeners have completed their processing of the current item we can change the current item by skipping to the next song
+  // NextItem(Engine::Auto);
+
+  // Manual track changes override "Repeat track"
+  Playlist *active_playlist = app_->playlist_manager()->active();
+  const bool ignore_repeat_track = Engine::Auto & Engine::Manual;
+  int i = active_playlist->next_row(ignore_repeat_track);
+  if (i == -1) {
+    app_->playlist_manager()->active()->set_current_row(i);
+    emit PlaylistFinished();
+  }
+  nb_errors_received_ = 0;
+  Stop();
 
 }
 
