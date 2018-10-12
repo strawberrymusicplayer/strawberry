@@ -50,7 +50,6 @@ class TidalService : public InternetService {
   ~TidalService();
 
   static const Song::Source kSource;
-  static const int kLoginAttempts;
 
   void ReloadSettings();
 
@@ -83,6 +82,7 @@ class TidalService : public InternetService {
  private slots:
   void SendLogin();
   void HandleAuthReply(QNetworkReply *reply);
+  void ResetLoginAttempts();
   void StartSearch();
   void SearchFinished(QNetworkReply *reply, int search_id);
   void GetAlbumFinished(QNetworkReply *reply, int search_id, int album_id);
@@ -104,10 +104,13 @@ class TidalService : public InternetService {
   static const char *kAuthUrl;
   static const char *kResourcesUrl;
   static const char *kApiTokenB64;
+  static const int kLoginAttempts;
+  static const int kTimeResetLoginAttempts;
 
   NetworkAccessManager *network_;
   TidalUrlHandler *url_handler_;
   QTimer *timer_searchdelay_;
+  QTimer *timer_login_attempt_;
 
   QString username_;
   QString password_;
