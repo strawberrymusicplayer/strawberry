@@ -60,7 +60,8 @@ const char *TidalService::kApiUrl = "https://listen.tidal.com/v1";
 const char *TidalService::kAuthUrl = "https://listen.tidal.com/v1/login/username";
 const char *TidalService::kResourcesUrl = "http://resources.tidal.com";
 const char *TidalService::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
-const int TidalService::kLoginAttempts = 2;
+const int TidalService::kLoginAttempts = 1;
+const int TidalService::kTimeResetLoginAttempts = 60000;
 
 typedef QPair<QString, QString> Param;
 
@@ -69,6 +70,7 @@ TidalService::TidalService(Application *app, InternetModel *parent)
       network_(new NetworkAccessManager(this)),
       url_handler_(new TidalUrlHandler(app, this)),
       timer_searchdelay_(new QTimer(this)),
+      timer_login_attempt_(new QTimer(this)),
       searchdelay_(1500),
       albumssearchlimit_(1),
       songssearchlimit_(1),
@@ -85,6 +87,9 @@ TidalService::TidalService(Application *app, InternetModel *parent)
 
   timer_searchdelay_->setSingleShot(true);
   connect(timer_searchdelay_, SIGNAL(timeout()), SLOT(StartSearch()));
+
+  timer_login_attempt_->setSingleShot(true);
+  connect(timer_login_attempt_, SIGNAL(timeout()), SLOT(ResetLoginAttempts()));
 
   connect(this, SIGNAL(Login()), SLOT(SendLogin()));
   connect(this, SIGNAL(Login(QString, QString)), SLOT(SendLogin(QString, QString)));
@@ -144,6 +149,9 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
 
   login_sent_ = true;
   login_attempts_++;
+  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
+  timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
+  timer_login_attempt_->start();
 
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
@@ -155,7 +163,6 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
                            << Arg("username", username)
                            << Arg("password", password)
                            << Arg("clientVersion", "2.2.1--7");
-                           //<< Arg("clientUniqueKey", clientuniquekey_);
 
   QStringList query_items;
   QUrlQuery url_query;
@@ -267,8 +274,6 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
   qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "session id" << session_id_ << "country code" << country_code_;
 
-  login_attempts_ = 0;
-
   if (search_id_ != 0) {
     qLog(Debug) << "Tidal: Resuming search" << search_id_;
     SendSearch();
@@ -295,6 +300,10 @@ void TidalService::Logout() {
   s.remove("country_code");
   s.endGroup();
 
+}
+
+void TidalService::ResetLoginAttempts() {
+  login_attempts_ = 0;
 }
 
 QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const QList<Param> &params) {
@@ -361,7 +370,6 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, const bool sendlo
       else {
         failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       }
-      qLog(Debug) << reply->error();
       if (reply->error() == QNetworkReply::ContentAccessDenied || reply->error() == QNetworkReply::ContentOperationNotPermittedError || reply->error() == QNetworkReply::AuthenticationRequiredError) {
         // Session is probably expired, attempt to login once
         Logout();
@@ -474,6 +482,7 @@ void TidalService::StartSearch() {
 void TidalService::CancelSearch() {
   ClearSearch();
 }
+
 void TidalService::ClearSearch() {
   search_id_ = 0;
   search_text_.clear();
@@ -482,7 +491,6 @@ void TidalService::ClearSearch() {
   albums_received_ = 0;
   requests_album_.clear();
   requests_song_.clear();
-  login_attempts_ = 0;
   songs_.clear();
 }
 
@@ -813,7 +821,7 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int song_id,
   QJsonObject json_obj = ExtractJsonObj(reply, true);
   if (json_obj.isEmpty()) {
     if (!stream_request_url_.isEmpty() && !login_sent_) {
-      emit StreamURLFinished(QUrl(), Song::FileType_Stream);
+      emit StreamURLFinished(original_url, Song::FileType_Stream);
       stream_request_url_ = QUrl();
     }
     return;
@@ -822,7 +830,7 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int song_id,
   if (!json_obj.contains("url") || !json_obj.contains("codec")) {
     qLog(Error) << "Tidal: Invalid Json reply, stream missing url or codec.";
     qLog(Debug) << json_obj;
-    emit StreamURLFinished(QUrl(), Song::FileType_Stream);
+    emit StreamURLFinished(original_url, Song::FileType_Stream);
     stream_request_url_ = QUrl();
     return;
   }
@@ -869,7 +877,7 @@ void TidalService::Error(QString error, QString debug) {
     CheckFinish();
   }
   if (!stream_request_url_.isEmpty() && !login_sent_) {
-    emit StreamURLFinished(QUrl(), Song::FileType_Stream);
+    emit StreamURLFinished(stream_request_url_, Song::FileType_Stream);
     stream_request_url_ = QUrl();
   }
 }
