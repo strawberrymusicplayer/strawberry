@@ -298,7 +298,7 @@ uint Song::mtime() const { return d->mtime_; }
 uint Song::ctime() const { return d->ctime_; }
 int Song::filesize() const { return d->filesize_; }
 Song::FileType Song::filetype() const { return d->filetype_; }
-bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal; }
+bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Deezer; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_collection_song() const {
   return !is_cdda() && !is_stream() && id() != -1;
@@ -384,6 +384,7 @@ QString Song::TextForSource(Source source) {
     case Song::Source_Device:      return QObject::tr("Device");
     case Song::Source_Stream:      return QObject::tr("Stream");
     case Song::Source_Tidal:       return QObject::tr("Tidal");
+    case Song::Source_Deezer:      return QObject::tr("Deezer");
     default:                       return QObject::tr("Unknown");
   }
 
@@ -398,6 +399,7 @@ QIcon Song::IconForSource(Source source) {
     case Song::Source_Device:      return IconLoader::Load("device");
     case Song::Source_Stream:      return IconLoader::Load("applications-internet");
     case Song::Source_Tidal:       return IconLoader::Load("tidal");
+    case Song::Source_Deezer:      return IconLoader::Load("deezer");
     default:                       return IconLoader::Load("edit-delete");
   }
 

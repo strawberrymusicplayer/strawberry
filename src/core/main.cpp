@@ -200,6 +200,7 @@ int main(int argc, char* argv[]) {
 
   // Resources
   Q_INIT_RESOURCE(data);
+  Q_INIT_RESOURCE(icons);
 
   Application app;
 

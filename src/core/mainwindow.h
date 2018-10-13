@@ -89,6 +89,7 @@ class TranscodeDialog;
 class Ui_MainWindow;
 class Windows7ThumbBar;
 class TidalSearchView;
+class DeezerSearchView;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -273,11 +274,6 @@ signals:
 
   void ShowConsole();
 
-  void FocusTidalSearchField();
-  void DoTidalSearch(const QString& query);
-  void SearchForArtist();
-  void SearchForAlbum();
-
   void LoadCoverFromFile();
   void SaveCoverToFile();
   void LoadCoverFromURL();
@@ -342,6 +338,7 @@ signals:
 #endif
 
   TidalSearchView *tidal_search_view_;
+  DeezerSearchView *deezer_search_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

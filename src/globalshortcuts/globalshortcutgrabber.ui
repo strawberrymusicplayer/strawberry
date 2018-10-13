@@ -14,7 +14,7 @@
    <string>Press a key</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../data/data.qrc">
+   <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -52,6 +52,7 @@
  </widget>
  <resources>
   <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections>
   <connection>

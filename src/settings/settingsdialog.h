@@ -82,6 +82,7 @@ public:
     Page_Proxy,
     Page_Transcoding,
     Page_Tidal,
+    Page_Deezer,
   };
 
   enum Role {

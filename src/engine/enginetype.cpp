@@ -28,19 +28,21 @@ namespace Engine {
 
 Engine::EngineType EngineTypeFromName(QString enginename) {
   QString lower = enginename.toLower();
-  if (lower == "xine")                  return Engine::Xine;
-  else if (lower == "gstreamer")        return Engine::GStreamer;
-  else if (lower == "phonon")           return Engine::Phonon;
-  else if (lower == "vlc")              return Engine::VLC;
-  else                                  return Engine::None;
+  if (lower == "gstreamer")     return Engine::GStreamer;
+  else if (lower == "xine")     return Engine::Xine;
+  else if (lower == "vlc")      return Engine::VLC;
+  else if (lower == "phonon")   return Engine::Phonon;
+  else if (lower == "deezer")   return Engine::Deezer;
+  else                          return Engine::None;
 }
 
 QString EngineName(Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::Xine:          return QString("xine");
     case Engine::GStreamer:     return QString("gstreamer");
-    case Engine::Phonon:        return QString("phonon");
+    case Engine::Xine:          return QString("xine");
     case Engine::VLC:           return QString("vlc");
+    case Engine::Phonon:        return QString("phonon");
+    case Engine::Deezer:        return QString("deezer");
     case Engine::None:
     default:                    return QString("None");
   }
@@ -48,10 +50,11 @@ QString EngineName(Engine::EngineType enginetype) {
 
 QString EngineDescription(Engine::EngineType enginetype) {
   switch (enginetype) {
-    case Engine::Xine:		return QString("Xine");
     case Engine::GStreamer:	return QString("GStreamer");
-    case Engine::Phonon:	return QString("Phonon");
+    case Engine::Xine:		return QString("Xine");
     case Engine::VLC:		return QString("VLC");
+    case Engine::Phonon:	return QString("Phonon");
+    case Engine::Deezer:	return QString("Deezer");
     case Engine::None:
     default:			return QString("None");
 

@@ -98,6 +98,7 @@ class Song {
     Source_Device = 4,
     Source_Stream = 5,
     Source_Tidal = 6,
+    Source_Deezer = 7,
   };
 
   enum FileType {

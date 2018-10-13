@@ -106,6 +106,7 @@
  </widget>
  <resources>
   <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections>
   <connection>

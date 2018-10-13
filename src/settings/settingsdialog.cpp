@@ -63,6 +63,7 @@
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
 #include "tidalsettingspage.h"
+#include "deezersettingspage.h"
 
 #include "ui_settingsdialog.h"
 
@@ -114,7 +115,6 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   ui_->list->setItemDelegate(new SettingsItemDelegate(this));
 
   QTreeWidgetItem *general = AddCategory(tr("General"));
-
   AddPage(Page_Behaviour, new BehaviourSettingsPage(this), general);
   AddPage(Page_Collection, new CollectionSettingsPage(this), general);
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
@@ -124,7 +124,10 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 #ifdef HAVE_GSTREAMER
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
-  AddPage(Page_Tidal, new TidalSettingsPage(this), general);
+
+  QTreeWidgetItem *internet = AddCategory(tr("Internet"));
+  AddPage(Page_Tidal, new TidalSettingsPage(this), internet);
+  AddPage(Page_Deezer, new DeezerSettingsPage(this), internet);
 
   // User interface
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));

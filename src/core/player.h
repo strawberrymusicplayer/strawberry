@@ -114,6 +114,9 @@ class PlayerInterface : public QObject {
 
   // The toggle parameter is true when user requests to toggle visibility for Pretty OSD
   void ForceShowOSD(Song, bool toogle);
+
+  void Authenticated();
+
 };
 
 class Player : public PlayerInterface {
@@ -176,6 +179,8 @@ class Player : public PlayerInterface {
   void Play();
   void ShowOSD();
   void TogglePrettyOSD();
+  
+  void HandleAuthentication();
 
  private slots:
   void EngineStateChanged(Engine::State);

@@ -106,7 +106,6 @@ class InternetModel : public QStandardItemModel {
 
   // Needs to be static for InternetPlaylistItem::restore
   static InternetService *ServiceBySource(const Song::Source &source);
-  //static InternetService *ServiceByName(const QString &name);
 
   template <typename T>
   static T *Service() {

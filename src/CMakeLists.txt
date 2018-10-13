@@ -1,7 +1,5 @@
 # Strawberry Music Player
 # Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
-# This file was part of Clementine.
-# Copyright 2010, David Sansome <me@davidsansome.com>
 #
 # Strawberry is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -57,6 +55,14 @@ endif()
 
 if(HAVE_PHONON)
   include_directories(${PHONON_INCLUDE_DIRS})
+endif()
+
+if(HAVE_LIBDEEZER)
+  include_directories(${DEEZER_INCLUDE_DIRS})
+endif()
+
+if(HAVE_LIBDZMEDIA)
+  include_directories(${DZMEDIA_INCLUDE_DIRS})
 endif()
 
 link_directories(${TAGLIB_LIBRARY_DIRS})
@@ -212,6 +218,7 @@ set(SOURCES
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
   settings/tidalsettingspage.cpp
+  settings/deezersettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -257,6 +264,7 @@ set(SOURCES
   internet/internetmodel.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
+  internet/localredirectserver.cpp
 
   tidal/tidalservice.cpp
   tidal/tidalsearch.cpp
@@ -265,6 +273,14 @@ set(SOURCES
   tidal/tidalsearchsortmodel.cpp
   tidal/tidalsearchitemdelegate.cpp
   tidal/tidalurlhandler.cpp
+
+  deezer/deezerservice.cpp
+  deezer/deezersearch.cpp
+  deezer/deezersearchview.cpp
+  deezer/deezersearchmodel.cpp
+  deezer/deezersearchsortmodel.cpp
+  deezer/deezersearchitemdelegate.cpp
+  deezer/deezerurlhandler.cpp
 
 )
 
@@ -379,6 +395,7 @@ set(HEADERS
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
   settings/tidalsettingspage.h
+  settings/deezersettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -422,12 +439,19 @@ set(HEADERS
   internet/internetservice.h
   internet/internetmimedata.h
   internet/internetsongmimedata.h
+  internet/localredirectserver.h
 
   tidal/tidalservice.h
   tidal/tidalsearch.h
   tidal/tidalsearchview.h
   tidal/tidalsearchmodel.h
   tidal/tidalurlhandler.h
+
+  deezer/deezerservice.h
+  deezer/deezersearch.h
+  deezer/deezersearchview.h
+  deezer/deezersearchmodel.h
+  deezer/deezerurlhandler.h
 
 )
 
@@ -465,6 +489,7 @@ set(UI
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
   settings/tidalsettingspage.ui
+  settings/deezersettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui
@@ -483,10 +508,11 @@ set(UI
   globalshortcuts/globalshortcutgrabber.ui
 
   tidal/tidalsearchview.ui
+  deezer/deezersearchview.ui
 
 )
 
-set(RESOURCES ../data/data.qrc)
+set(RESOURCES ../data/data.qrc ../data/icons.qrc)
 set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
@@ -522,6 +548,12 @@ optional_source(HAVE_VLC
 optional_source(HAVE_PHONON
   SOURCES engine/phononengine.cpp
   HEADERS engine/phononengine.h
+)
+
+# Deezer
+optional_source(HAVE_DEEZER
+  SOURCES engine/deezerengine.cpp
+  HEADERS engine/deezerengine.h
 )
 
 # Lastfm
@@ -904,6 +936,14 @@ endif()
 
 if(HAVE_PHONON)
   target_link_libraries(strawberry_lib ${PHONON_LIBRARIES})
+endif()
+
+if(HAVE_DEEZER)
+  target_link_libraries(strawberry_lib ${LIBDEEZER_LIBRARIES})
+endif()
+
+if(HAVE_DZMEDIA)
+  target_link_libraries(strawberry_lib ${LIBDZMEDIA_LIBRARIES})
 endif()
 
 if(HAVE_LIBLASTFM)

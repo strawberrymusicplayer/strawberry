@@ -14,7 +14,7 @@
    <string>Strawberry Music Player</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../data/data.qrc">
+   <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -553,7 +553,7 @@
   </action>
   <action name="action_about_strawberry">
    <property name="icon">
-    <iconset resource="../../data/data.qrc">
+    <iconset resource="../../data/icons.qrc">
      <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
    </property>
    <property name="text">
@@ -782,6 +782,7 @@
  </customwidgets>
  <resources>
   <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

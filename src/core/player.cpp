@@ -59,6 +59,9 @@
 #ifdef HAVE_VLC
 #  include "engine/vlcengine.h"
 #endif
+#ifdef HAVE_DEEZER
+#  include "engine/deezerengine.h"
+#endif
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
@@ -70,6 +73,8 @@
 #include "settings/backendsettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
+#include "internet/internetmodel.h"
+#include "internet/internetservice.h"
 
 using std::shared_ptr;
 
@@ -103,7 +108,7 @@ Player::~Player() {
 
 void Player::CreateEngine(Engine::EngineType enginetype) {
 
-  Engine::EngineType use_enginetype = Engine::None;
+  Engine::EngineType use_enginetype(Engine::None);
 
   for (int i = 0 ; use_enginetype == Engine::None ; i++) {
     switch(enginetype) {
@@ -132,6 +137,15 @@ void Player::CreateEngine(Engine::EngineType enginetype) {
         engine_.reset(new PhononEngine(app_->task_manager()));
         break;
 #endif
+#ifdef HAVE_DEEZER
+      case Engine::Deezer:{
+        use_enginetype=Engine::Deezer;
+        DeezerEngine *deezerengine = new DeezerEngine(app_->task_manager());
+        connect(this, SIGNAL(Authenticated()), deezerengine, SLOT(LoadAccessToken()));
+        engine_.reset(deezerengine);
+        break;
+      }
+#endif
       default:
         if (i > 0) { qFatal("No engine available!"); }
         enginetype = Engine::None;
@@ -144,7 +158,7 @@ void Player::CreateEngine(Engine::EngineType enginetype) {
     s.beginGroup(BackendSettingsPage::kSettingsGroup);
     s.setValue("engine", EngineName(use_enginetype));
     s.setValue("output", engine_->DefaultOutput());
-    s.setValue("device", QVariant(""));
+    s.setValue("device", QVariant());
     s.endGroup();
   }
 
@@ -499,7 +513,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   current_item_ = app_->playlist_manager()->active()->current_item();
   const QUrl url = current_item_->Url();
 
-  if (url_handlers_.contains(url.scheme())) {
+  if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
     // It's already loading
     if (url == loading_async_) return;
 
@@ -760,4 +774,8 @@ void Player::UrlHandlerDestroyed(QObject *object) {
     url_handlers_.remove(scheme);
   }
 
+}
+
+void Player::HandleAuthentication() {
+  emit Authenticated();
 }

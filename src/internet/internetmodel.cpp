@@ -31,6 +31,7 @@
 #include "internetmodel.h"
 #include "internetservice.h"
 #include "tidal/tidalservice.h"
+#include "deezer/deezerservice.h"
 
 QMap<Song::Source, InternetService*>* InternetModel::sServices = nullptr;
 
@@ -41,6 +42,7 @@ InternetModel::InternetModel(Application *app, QObject *parent)
   if (!sServices) sServices = new QMap<Song::Source, InternetService*>;
   Q_ASSERT(sServices->isEmpty());
   AddService(new TidalService(app, this));
+  AddService(new DeezerService(app, this));
 
 }
 

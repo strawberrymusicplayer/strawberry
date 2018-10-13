@@ -360,7 +360,7 @@
         </size>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../data/data.qrc">:/icons/64x64/tidal.png</pixmap>
+        <pixmap resource="../../data/icons.qrc">:/icons/64x64/tidal.png</pixmap>
        </property>
       </widget>
      </item>
@@ -383,6 +383,7 @@
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

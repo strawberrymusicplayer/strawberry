@@ -134,7 +134,11 @@
 #include "settings/playlistsettingspage.h"
 #include "settings/settingsdialog.h"
 
+#include "internet/internetmodel.h"
+#include "internet/internetservice.h"
+
 #include "tidal/tidalsearchview.h"
+#include "deezer/deezersearchview.h"
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 #  include "musicbrainz/tagfetcher.h"
@@ -200,6 +204,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         return manager;
       }),
       tidal_search_view_(new TidalSearchView(app_, this)),
+      deezer_search_view_(new DeezerSearchView(app_, this)),
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
@@ -243,7 +248,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->volume->setValue(volume);
   VolumeChanged(volume);
 
-  // Initialise the tidal search widget
+  // Initialise the search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
@@ -255,6 +260,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
 #endif
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
+  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer", "Deezer"));
   //ui_->tabs->AddSpacer();
 
   // Add the playing widget to the fancy tab widget
@@ -515,6 +521,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Tidal
   connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  // Deezer
+  connect(deezer_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 
   // Playlist menu
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, SLOT(PlaylistPlay()));
@@ -710,12 +718,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ReloadSettings();
 
-  // Tidal search shortcut
-  QAction *tidal_search_action = new QAction(this);
-  tidal_search_action->setShortcuts(QList<QKeySequence>() << QKeySequence("Ctrl+F") << QKeySequence("Ctrl+L"));
-  addAction(tidal_search_action);
-  connect(tidal_search_action, SIGNAL(triggered()), SLOT(FocusTidalSearchField()));
-
   // Reload pretty OSD to avoid issues with fonts
   osd_->ReloadPrettyOSDSettings();
 
@@ -809,6 +811,7 @@ void MainWindow::ReloadAllSettings() {
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   tidal_search_view_->ReloadSettings();
+  deezer_search_view_->ReloadSettings();
 
 }
 
@@ -2311,39 +2314,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
   }
 }
 
-void MainWindow::FocusTidalSearchField() {
-  ui_->tabs->setCurrentWidget(tidal_search_view_);
-  tidal_search_view_->FocusSearchField();
-}
-
-void MainWindow::DoTidalSearch(const QString& query) {
-  FocusTidalSearchField();
-  tidal_search_view_->StartSearch(query);
-}
-
-void MainWindow::SearchForArtist() {
-
-  PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(playlist_menu_index_.row()));
-  Song song = item->Metadata();
-  if (!song.albumartist().isEmpty()) {
-    DoTidalSearch(song.albumartist().simplified());
-  }
-  else if (!song.artist().isEmpty()) {
-    DoTidalSearch(song.artist().simplified());
-  }
-
-}
-
-void MainWindow::SearchForAlbum() {
-
-  PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(playlist_menu_index_.row()));
-  Song song = item->Metadata();
-  if (!song.album().isEmpty()) {
-    DoTidalSearch(song.album().simplified());
-  }
-
-}
-
 void MainWindow::LoadCoverFromFile() {
   album_cover_choice_controller_->LoadCoverFromFile(&song_);
 }
@@ -2402,4 +2372,3 @@ void MainWindow::GetCoverAutomatically() {
   if (search) album_cover_choice_controller_->SearchCoverAutomatically(song_);
 
 }
-

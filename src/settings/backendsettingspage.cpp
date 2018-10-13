@@ -96,6 +96,9 @@ void BackendSettingsPage::Load() {
 #ifdef HAVE_PHONON
   ui_->combobox_engine->addItem(IconLoader::Load("speaker"), EngineDescription(Engine::Phonon), Engine::Phonon);
 #endif
+#ifdef HAVE_DEEZER
+  ui_->combobox_engine->addItem(IconLoader::Load("deezer"), EngineDescription(Engine::Deezer), Engine::Deezer);
+#endif
 
   enginetype_current_ = enginetype;
   output_current_ = s_.value("output", "").toString();

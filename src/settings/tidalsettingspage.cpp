@@ -76,7 +76,7 @@ void TidalSettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->setText("");
+  if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_quality, "quality", "HIGH");
   ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());

@@ -12,7 +12,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../data/data.qrc">
+   <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
   <property name="styleSheet">
@@ -32,7 +32,7 @@
        <item>
         <widget class="QLabel" name="label_icon">
          <property name="pixmap">
-          <pixmap resource="../../data/data.qrc">:/icons/64x64/strawberry.png</pixmap>
+          <pixmap resource="../../data/icons.qrc">:/icons/64x64/strawberry.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>false</bool>
@@ -145,6 +145,7 @@
  </widget>
  <resources>
   <include location="../../data/data.qrc"/>
+  <include location="../../data/icons.qrc"/>
  </resources>
  <connections>
   <connection>

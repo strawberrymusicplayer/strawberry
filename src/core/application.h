@@ -51,9 +51,10 @@ class DeviceManager;
 class CoverProviders;
 class AlbumCoverLoader;
 class CurrentArtLoader;
+class LyricsProviders;
 class InternetModel;
 class TidalSearch;
-class LyricsProviders;
+class DeezerSearch;
 
 class Application : public QObject {
   Q_OBJECT
@@ -75,6 +76,8 @@ class Application : public QObject {
 #endif
 
   SCollection *collection() const;
+  CollectionBackend *collection_backend() const;
+  CollectionModel *collection_model() const;
 
   PlaylistBackend *playlist_backend() const;
   PlaylistManager *playlist_manager() const;
@@ -83,13 +86,11 @@ class Application : public QObject {
   AlbumCoverLoader *album_cover_loader() const;
   CurrentArtLoader *current_art_loader() const;
 
-  CollectionBackend *collection_backend() const;
-  CollectionModel *collection_model() const;
+  LyricsProviders *lyrics_providers() const;
 
   InternetModel *internet_model() const;
   TidalSearch *tidal_search() const;
-
-  LyricsProviders *lyrics_providers() const;
+  DeezerSearch *deezer_search() const;
 
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);

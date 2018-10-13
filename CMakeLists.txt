@@ -1,7 +1,5 @@
 # Strawberry Music Player
 # Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
-# This file was part of Clementine.
-# Copyright 2010, David Sansome <me@davidsansome.com>
 #
 # Strawberry is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -111,14 +109,13 @@ pkg_check_modules(PHONON phonon4qt5)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.7)
 pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(CHROMAPRINT libchromaprint)
-#if(CHROMAPRINT_FOUND)
-#  set(HAVE_CHROMAPRINT ON)
-#endif()
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(USBMUXD libusbmuxd)
 pkg_check_modules(PLIST libplist)
+pkg_check_modules(LIBDEEZER libdeezer)
+pkg_check_modules(LIBDZMEDIA libdzmedia)
 
 if(WIN32)
   find_package(ZLIB REQUIRED)
@@ -287,6 +284,18 @@ optional_component(PHONON OFF "Engine: Phonon backend"
   DEPENDS "phonon4qt5" PHONON_FOUND
 )
 
+if (WIN32)
+  optional_component(DEEZER ON "Engine: Deezer backend"
+    DEPENDS "libdeezer" LIBDEEZER_FOUND
+  )
+else ()
+  optional_component(DEEZER ON "Engine: Deezer backend"
+    DEPENDS "Linux" LINUX
+    DEPENDS "libdeezer" LIBDEEZER_FOUND
+    DEPENDS "libpulse" LIBPULSE_FOUND
+  )
+endif()
+
 optional_component(LIBPULSE ON "Pulse audio integration"
   DEPENDS "libpulse" LIBPULSE_FOUND
 )
@@ -336,6 +345,10 @@ optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "Sparkle" SPARKLE
 )
 
+optional_component(DZMEDIA ON "DZMedia"
+  DEPENDS "libdzmedia" LIBDZMEDIA_FOUND
+)
+
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
   #add_subdirectory(ext/gstafc)
 #endif(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
@@ -374,6 +387,6 @@ add_custom_target(uninstall
 
 # Show a summary of what we have enabled
 summary_show()
-if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON)
-  message(FATAL_ERROR "You need to enable either GStreamer, Xine, VLC or Phonon to compile!")
+if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON AND NOT HAVE_DEEZER)
+  message(FATAL_ERROR "You need to enable either GStreamer, Xine, VLC, Phonon or Deezer to compile!")
 endif()

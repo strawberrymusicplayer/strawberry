@@ -60,6 +60,7 @@
 
 #include "internet/internetmodel.h"
 #include "tidal/tidalsearch.h"
+#include "deezer/deezersearch.h"
 
 bool Application::kIsPortable = false;
 
@@ -108,15 +109,16 @@ class ApplicationImpl {
           return loader;
         }),
         current_art_loader_([=]() { return new CurrentArtLoader(app, app); }),
-        internet_model_([=]() { return new InternetModel(app, app); }),
-        tidal_search_([=]() { return new TidalSearch(app, app); }),
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
-	  lyrics_providers->AddProvider(new APISeedsLyricsProvider(app));
-	  return lyrics_providers;
-        })
-  { }
+          lyrics_providers->AddProvider(new APISeedsLyricsProvider(app));
+          return lyrics_providers;
+        }),
+        internet_model_([=]() { return new InternetModel(app, app); }),
+        tidal_search_([=]() { return new TidalSearch(app, app); }),
+        deezer_search_([=]() { return new DeezerSearch(app, app); })
+  {}
 
   Lazy<TagReaderClient> tag_reader_client_;
   Lazy<Database> database_;
@@ -133,9 +135,10 @@ class ApplicationImpl {
   Lazy<CoverProviders> cover_providers_;
   Lazy<AlbumCoverLoader> album_cover_loader_;
   Lazy<CurrentArtLoader> current_art_loader_;
+  Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetModel> internet_model_;
   Lazy<TidalSearch> tidal_search_;
-  Lazy<LyricsProviders> lyrics_providers_;
+  Lazy<DeezerSearch> deezer_search_;
 
 };
 
@@ -181,73 +184,27 @@ void Application::MoveToThread(QObject *object, QThread *thread) {
 }
 
 void Application::AddError(const QString& message) { emit ErrorAdded(message); }
-
 void Application::ReloadSettings() { emit SettingsChanged(); }
+void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { emit SettingsDialogRequested(page); }
 
-void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
-  emit SettingsDialogRequested(page);
-}
-
-AlbumCoverLoader *Application::album_cover_loader() const {
-  return p_->album_cover_loader_.get();
-}
-
+TagReaderClient *Application::tag_reader_client() const { return p_->tag_reader_client_.get(); }
 Appearance *Application::appearance() const { return p_->appearance_.get(); }
-
-CoverProviders *Application::cover_providers() const {
-  return p_->cover_providers_.get();
-}
-
-CurrentArtLoader *Application::current_art_loader() const {
-  return p_->current_art_loader_.get();
-}
-
 Database *Application::database() const { return p_->database_.get(); }
-
-#ifndef Q_OS_WIN
-DeviceManager *Application::device_manager() const {
-  return p_->device_manager_.get();
-}
-#endif
-
-SCollection *Application::collection() const { return p_->collection_.get(); }
-
-CollectionBackend *Application::collection_backend() const {
-  return collection()->backend();
-}
-
-CollectionModel *Application::collection_model() const { return collection()->model(); }
-
+TaskManager *Application::task_manager() const { return p_->task_manager_.get(); }
 Player *Application::player() const { return p_->player_.get(); }
-
-PlaylistBackend *Application::playlist_backend() const {
-  return p_->playlist_backend_.get();
-}
-
-PlaylistManager *Application::playlist_manager() const {
-  return p_->playlist_manager_.get();
-}
-
-TagReaderClient *Application::tag_reader_client() const {
-  return p_->tag_reader_client_.get();
-}
-
-TaskManager *Application::task_manager() const {
-  return p_->task_manager_.get();
-}
-
-EngineDevice *Application::enginedevice() const {
-  return p_->enginedevice_.get();
-}
-
-InternetModel* Application::internet_model() const {
-  return p_->internet_model_.get();
-}
-
-TidalSearch* Application::tidal_search() const {
-  return p_->tidal_search_.get();
-}
-
-LyricsProviders *Application::lyrics_providers() const {
-  return p_->lyrics_providers_.get();
-}
+EngineDevice *Application::enginedevice() const { return p_->enginedevice_.get(); }
+#ifndef Q_OS_WIN
+DeviceManager *Application::device_manager() const { return p_->device_manager_.get(); }
+#endif
+SCollection *Application::collection() const { return p_->collection_.get(); }
+CollectionBackend *Application::collection_backend() const { return collection()->backend(); }
+CollectionModel *Application::collection_model() const { return collection()->model(); }
+AlbumCoverLoader *Application::album_cover_loader() const { return p_->album_cover_loader_.get(); }
+CoverProviders *Application::cover_providers() const { return p_->cover_providers_.get(); }
+CurrentArtLoader *Application::current_art_loader() const { return p_->current_art_loader_.get(); }
+LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_providers_.get(); }
+PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
+PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
+InternetModel *Application::internet_model() const { return p_->internet_model_.get(); }
+TidalSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
+DeezerSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }

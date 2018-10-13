@@ -147,8 +147,7 @@ signals:
   void MetaData(const Engine::SimpleMetaBundle&);
 
   // Signals that the engine's state has changed (a stream was stopped for example).
-  // Always use the state from event, because it's not guaranteed that immediate
-  // subsequent call to state() won't return a stale value.
+  // Always use the state from event, because it's not guaranteed that immediate subsequent call to state() won't return a stale value.
   void StateChanged(Engine::State);
 
 protected:
