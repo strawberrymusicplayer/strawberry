@@ -47,7 +47,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       action_mute_(nullptr) {
 
   QIcon theme_icon      = IconLoader::Load("strawberry", 48);
-  QIcon theme_icon_grey = IconLoader::Load("strawberry-grey", 48);
+  QIcon theme_icon_grey = theme_icon;
 
   if (theme_icon.isNull() || theme_icon_grey.isNull()) {
     // Load the default icon
