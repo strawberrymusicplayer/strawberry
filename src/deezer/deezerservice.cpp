@@ -141,6 +141,14 @@ void DeezerService::LoadAccessToken() {
 }
 
 void DeezerService::Logout() {
+
+  access_token_.clear();
+  QSettings s;
+  s.beginGroup(DeezerSettingsPage::kSettingsGroup);
+  s.remove("access_token");
+  s.remove("expiry_time");
+  s.endGroup();
+
 }
 
 void DeezerService::StartAuthorisation() {
@@ -300,7 +308,7 @@ QByteArray DeezerService::GetReplyData(QNetworkReply *reply) {
           if (json_value_error.isObject()) {
             QJsonObject json_error = json_value_error.toObject();
             int code = json_error["code"].toInt();
-            if (code == 300) access_token_.clear();
+            if (code == 300) Logout();
             QString message = json_error["message"].toString();
             QString type = json_error["type"].toString();
             failure_reason = QString("%1 (%2)").arg(message).arg(code);
@@ -380,7 +388,7 @@ QJsonValue DeezerService::ExtractData(QByteArray &data) {
     }
     QJsonObject json_error = json_value_error.toObject();
     int code = json_error["code"].toInt();
-    if (code == 300) access_token_.clear();
+    if (code == 300) Logout();
     QString message = json_error["message"].toString();
     QString type = json_error["type"].toString();
     Error(QString("%1 (%2)").arg(message).arg(code));
@@ -479,7 +487,7 @@ void DeezerService::SearchFinished(QNetworkReply *reply, int id) {
   reply->deleteLater();
 
   if (id != search_id_) return;
-  
+
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     CheckFinish();
@@ -635,6 +643,7 @@ void DeezerService::GetAlbumFinished(QNetworkReply *reply, int search_id, int al
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
+    delete requests_album_.take(album_ctx->id);
     CheckFinish();
     return;
   }
@@ -808,7 +817,7 @@ void DeezerService::CheckFinish() {
 
 void DeezerService::Error(QString error, QVariant debug) {
   qLog(Error) << "Deezer:" << error;
-  if (!debug.isValid()) qLog(Debug) << debug;
+  if (debug.isValid()) qLog(Debug) << debug;
   if (search_id_ != 0) {
     if (!error.isEmpty()) {
       search_error_ += error;

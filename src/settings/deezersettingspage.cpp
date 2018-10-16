@@ -87,6 +87,7 @@ void DeezerSettingsPage::Load() {
   s.endGroup();
 
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
+  else ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
 
 }
 
