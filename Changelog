@@ -6,6 +6,8 @@ Unreleased:
 
     * Fixed crash in analyzer
     * Fixed trying to use systray even if the desktop had no systray
+    * Fixed Tidal login loop bug
+    * Added Deezer support
 
 Version 0.3.3:
 
