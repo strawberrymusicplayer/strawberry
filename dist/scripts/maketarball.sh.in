@@ -26,4 +26,5 @@ tar -cJf $name-$version.tar.xz \
     --exclude="*.nsi" \
     --exclude="$root/CMakeLists.txt.user" \
     --exclude="$root/build" \
+    --exclude="$root/dist/debian/changelog" \
     "$root"
