@@ -46,20 +46,10 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       action_stop_after_this_track_(nullptr),
       action_mute_(nullptr) {
 
-  QIcon theme_icon      = IconLoader::Load("strawberry", 48);
-  QIcon theme_icon_grey = theme_icon;
+  QIcon icon(":/icons/48x48/strawberry.png");
 
-  if (theme_icon.isNull() || theme_icon_grey.isNull()) {
-    // Load the default icon
-    QIcon icon(":/icons/48x48/strawberry.png");
-    normal_icon_ = icon.pixmap(48, QIcon::Normal);
-    grey_icon_ = icon.pixmap(48, QIcon::Disabled);
-  }
-  else {
-    // Use the icons from the theme
-    normal_icon_ = theme_icon.pixmap(48);
-    grey_icon_ = theme_icon_grey.pixmap(48);
-  }
+  normal_icon_ = icon.pixmap(48, QIcon::Normal);
+  grey_icon_ = icon.pixmap(48, QIcon::Disabled);
 
   tray_->setIcon(normal_icon_);
   tray_->installEventFilter(this);
