@@ -240,7 +240,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
   if (!json_doc.isObject()) {
     QString failure_reason("Authentication reply from server has Json document that is not an object.");
-    Error(failure_reason);
+    Error(failure_reason, json_doc);
     emit LoginFailure(failure_reason);
     return;
   }
@@ -248,14 +248,14 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
     QString failure_reason("Authentication reply from server has empty Json object.");
-    Error(failure_reason);
+    Error(failure_reason, json_doc);
     emit LoginFailure(failure_reason);
     return;
   }
 
   if ( !json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode") ) {
     QString failure_reason("Authentication reply from server is missing userId, sessionId or countryCode");
-    Error(failure_reason);
+    Error(failure_reason, json_obj);
     emit LoginFailure(failure_reason);
     return;
   }
@@ -339,7 +339,7 @@ QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const 
 
 }
 
-QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, const bool sendlogin) {
+QByteArray TidalService::GetReplyData(QNetworkReply *reply, const bool sendlogin) {
 
   QByteArray data;
 
@@ -390,30 +390,38 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, const bool sendlo
         Error(failure_reason);
       }
     }
-    return QJsonObject();
+    return QByteArray();
   }
+
+  return data;
+
+}
+
+QJsonObject TidalService::ExtractJsonObj(QByteArray &data) {
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  
+  //qLog(Debug) << json_doc;
 
   if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.");
+    Error("Reply from server missing Json data.", data);
     return QJsonObject();
   }
 
   if (json_doc.isNull() || json_doc.isEmpty()) {
-    Error("Received empty Json document.");
+    Error("Received empty Json document.", data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error("Json document is not an object.");
+    Error("Json document is not an object.", json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error("Received empty Json object.");
+    Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
 
@@ -423,21 +431,16 @@ QJsonObject TidalService::ExtractJsonObj(QNetworkReply *reply, const bool sendlo
 
 }
 
-QJsonArray TidalService::ExtractItems(QNetworkReply *reply, bool sendlogin) {
+QJsonValue TidalService::ExtractItems(QByteArray &data) {
 
-  QJsonObject json_obj = ExtractJsonObj(reply, sendlogin);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonArray();
 
   if (!json_obj.contains("items")) {
-    Error("Json reply is missing items.");
+    Error("Json reply is missing items.", json_obj);
     return QJsonArray();
   }
-
-  QJsonArray json_items = json_obj["items"].toArray();
-  if (json_items.isEmpty()) {
-    Error("No match.");
-    return QJsonArray();
-  }
+  QJsonValue json_items = json_obj["items"];
 
   return json_items;
 
@@ -525,9 +528,19 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
 
   if (id != search_id_) return;
 
-  QJsonArray json_items = ExtractItems(reply, true);
-  if (json_items.isEmpty()) {
+  QByteArray data = GetReplyData(reply, true);
+  if (data.isEmpty()) {
     CheckFinish();
+    return;
+  }
+  QJsonValue json_value = ExtractItems(data);
+  if (!json_value.isArray()) {
+    CheckFinish();
+    return;
+  }
+  QJsonArray json_items = json_value.toArray();
+  if (json_items.isEmpty()) {
+    Error("No match.");
     return;
   }
 
@@ -649,7 +662,19 @@ void TidalService::GetAlbumFinished(QNetworkReply *reply, int search_id, int alb
   albums_received_++;
   emit UpdateProgress(albums_received_);
 
-  QJsonArray json_items = ExtractItems(reply);
+  QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    CheckFinish();
+    return;
+  }
+
+  QJsonValue json_value = ExtractItems(data);
+  if (!json_value.isArray()) {
+    CheckFinish();
+    return;
+  }
+  
+  QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
     CheckFinish();
     return;
@@ -818,7 +843,16 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int song_id,
   if (requests_song_.contains(song_id)) requests_song_.remove(song_id);
   if (original_url != stream_request_url_) return;
 
-  QJsonObject json_obj = ExtractJsonObj(reply, true);
+  QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    if (!stream_request_url_.isEmpty() && !login_sent_) {
+      emit StreamURLFinished(original_url, Song::FileType_Stream);
+      stream_request_url_ = QUrl();
+    }
+    return;
+  }
+
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     if (!stream_request_url_.isEmpty() && !login_sent_) {
       emit StreamURLFinished(original_url, Song::FileType_Stream);
@@ -866,9 +900,9 @@ void TidalService::CheckFinish() {
 
 }
 
-void TidalService::Error(QString error, QString debug) {
+void TidalService::Error(QString error, QVariant debug) {
   qLog(Error) << "Tidal:" << error;
-  if (!debug.isEmpty()) qLog(Debug) << debug;
+  if (debug.isValid()) qLog(Debug) << debug;
   if (search_id_ != 0) {
     if (!error.isEmpty()) {
       search_error_ += error;

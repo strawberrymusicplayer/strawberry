@@ -92,13 +92,14 @@ class TidalService : public InternetService {
   void ClearSearch();
   void LoadSessionID();
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<QPair<QString, QString>> &params);
-  QJsonObject ExtractJsonObj(QNetworkReply *reply, bool sendlogin = false);
-  QJsonArray ExtractItems(QNetworkReply *reply, bool sendlogin = false);
+  QByteArray GetReplyData(QNetworkReply *reply, const bool sendlogin = false);
+  QJsonObject ExtractJsonObj(QByteArray &data);
+  QJsonValue ExtractItems(QByteArray &data);
   void SendSearch();
   void GetAlbum(const int album_id);
   Song ParseSong(const int album_id_requested, const QJsonValue &value);
   void CheckFinish();
-  void Error(QString error, QString debug = QString());
+  void Error(QString error, QVariant debug = QVariant());
 
   static const char *kApiUrl;
   static const char *kAuthUrl;
