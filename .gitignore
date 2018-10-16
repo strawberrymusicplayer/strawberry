@@ -38,6 +38,7 @@ Thumbs.db
 *.nsi
 *.plist
 maketarball.sh
+dist/debian/changelog
 
 # qtcreator generated files
 *.pro.user*
