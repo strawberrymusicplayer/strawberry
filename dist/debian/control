@@ -1,7 +1,7 @@
 Source: strawberry
 Section: sound
 Priority: optional
-Maintainer: "Jonas Kvinge" <jonas@jkvinge.net>
+Maintainer: Jonas Kvinge <jonas@jkvinge.net>
 Build-Depends: debhelper (>= 7),
                make,
                cmake,
