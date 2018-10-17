@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2012, David Sansome <me@davidsansome.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,18 +18,18 @@
  *
  */
 
-#ifndef DEEZERSEARCHSORTMODEL_H
-#define DEEZERSEARCHSORTMODEL_H
+#include <QPainter>
+#include <QStyleOptionViewItem>
 
-#include <QObject>
-#include <QSortFilterProxyModel>
+#include "internetsearchitemdelegate.h"
+#include "internetsearchview.h"
 
-class DeezerSearchSortModel : public QSortFilterProxyModel {
- public:
-  DeezerSearchSortModel(QObject *parent = nullptr);
+InternetSearchItemDelegate::InternetSearchItemDelegate(InternetSearchView* view)
+    : CollectionItemDelegate(view), view_(view) {}
 
- protected:
-  bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
-};
+void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+  // Tell the view we painted this item so it can lazy load some art.
+  const_cast<InternetSearchView*>(view_)->LazyLoadArt(index);
 
-#endif  // DEEZERSEARCHSORTMODEL_H
+  CollectionItemDelegate::paint(painter, option, index);
+}

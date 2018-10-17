@@ -60,8 +60,7 @@
 #  include "dbus/metatypes.h"
 #endif
 
-#include "tidal/tidalsearch.h"
-#include "deezer/deezersearch.h"
+#include "internet/internetsearch.h"
 
 void RegisterMetaTypes() {
 
@@ -116,10 +115,7 @@ void RegisterMetaTypes() {
 #endif
 #endif
 
-  qRegisterMetaType<TidalSearch::ResultList>("TidalSearch::ResultList");
-  qRegisterMetaType<TidalSearch::Result>("TidalSearch::Result");
-
-  qRegisterMetaType<DeezerSearch::ResultList>("DeezerSearch::ResultList");
-  qRegisterMetaType<DeezerSearch::Result>("DeezerSearch::Result");
+  qRegisterMetaType<InternetSearch::ResultList>("InternetSearch::ResultList");
+  qRegisterMetaType<InternetSearch::Result>("InternetSearch::Result");
 
 }

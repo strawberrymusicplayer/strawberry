@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef TIDALSEARCHVIEW_H
-#define TIDALSEARCHVIEW_H
+#ifndef INTERNETSEARCHVIEW_H
+#define INTERNETSEARCHVIEW_H
 
 #include "config.h"
 
@@ -42,20 +42,20 @@
 #include "collection/collectionmodel.h"
 #include "settings/settingsdialog.h"
 #include "playlist/playlistmanager.h"
-#include "tidalsearch.h"
-#include "settings/tidalsettingspage.h"
+#include "internetsearch.h"
+//#include "settings/internetsettingspage.h"
 
 class Application;
 class GroupByDialog;
-class TidalSearchModel;
-class Ui_TidalSearchView;
+class InternetSearchModel;
+class Ui_InternetSearchView;
 
-class TidalSearchView : public QWidget {
+class InternetSearchView : public QWidget {
   Q_OBJECT
 
  public:
-  TidalSearchView(Application *app, QWidget *parent = nullptr);
-  ~TidalSearchView();
+  InternetSearchView(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  ~InternetSearchView();
 
   static const int kSwapModelsTimeoutMsec;
 
@@ -80,7 +80,7 @@ signals:
   void UpdateStatus(QString text);
   void ProgressSetMaximum(int progress);
   void UpdateProgress(int max);
-  void AddResults(int id, const TidalSearch::ResultList &results);
+  void AddResults(int id, const InternetSearch::ResultList &results);
   void SearchError(const int id, const QString error);
   void ArtLoaded(int id, const QPixmap &pixmap);
 
@@ -96,7 +96,7 @@ signals:
   void SearchBySongsClicked(bool);
   void SearchByAlbumsClicked(bool);
   void GroupByClicked(QAction *action);
-  void SetSearchBy(TidalSettingsPage::SearchBy searchby);
+  void SetSearchBy(InternetSearch::SearchBy searchby);
   void SetGroupBy(const CollectionModel::Grouping &g);
 
  private:
@@ -106,8 +106,10 @@ signals:
   bool ResultsContextMenuEvent(QContextMenuEvent *event);
 
   Application *app_;
-  TidalSearch *engine_;
-  Ui_TidalSearchView *ui_;
+  InternetSearch *engine_;
+  QString settings_group_;
+  SettingsDialog::Page settings_page_;
+  Ui_InternetSearchView *ui_;
   QScopedPointer<GroupByDialog> group_by_dialog_;
 
   QMenu *context_menu_;
@@ -119,9 +121,9 @@ signals:
   // Like graphics APIs have a front buffer and a back buffer, there's a front model and a back model
   // The front model is the one that's shown in the UI and the back model is the one that lies in wait.
   // current_model_ will point to either the front or the back model.
-  TidalSearchModel *front_model_;
-  TidalSearchModel *back_model_;
-  TidalSearchModel *current_model_;
+  InternetSearchModel *front_model_;
+  InternetSearchModel *back_model_;
+  InternetSearchModel *current_model_;
 
   QSortFilterProxyModel *front_proxy_;
   QSortFilterProxyModel *back_proxy_;
@@ -131,12 +133,9 @@ signals:
 
   QTimer *swap_models_timer_;
 
-  QIcon search_icon_;
-  QIcon warning_icon_;
-
-  TidalSettingsPage::SearchBy searchby_;
+  InternetSearch::SearchBy searchby_;
   bool error_;
 
 };
 
-#endif  // TIDALSEARCHVIEW_H
+#endif  // INTERNETSEARCHVIEW_H

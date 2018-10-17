@@ -18,18 +18,18 @@
  *
  */
 
-#ifndef TIDALSEARCHSORTMODEL_H
-#define TIDALSEARCHSORTMODEL_H
+#ifndef INTERNETSEARCHSORTMODEL_H
+#define INTERNETSEARCHSORTMODEL_H
 
 #include <QObject>
 #include <QSortFilterProxyModel>
 
-class TidalSearchSortModel : public QSortFilterProxyModel {
+class InternetSearchSortModel : public QSortFilterProxyModel {
  public:
-  TidalSearchSortModel(QObject *parent = nullptr);
+  InternetSearchSortModel(QObject *parent = nullptr);
 
  protected:
   bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 };
 
-#endif  // TIDALSEARCHSORTMODEL_H
+#endif  // INTERNETSEARCHSORTMODEL_H

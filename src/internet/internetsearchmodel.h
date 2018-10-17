@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef DEEZERSEARCHMODEL_H
-#define DEEZERSEARCHMODEL_H
+#ifndef INTERNETSEARCHMODEL_H
+#define INTERNETSEARCHMODEL_H
 
 #include "config.h"
 
@@ -38,13 +38,13 @@
 #include <QPixmap>
 
 #include "collection/collectionmodel.h"
-#include "deezersearch.h"
+#include "internetsearch.h"
 
-class DeezerSearchModel : public QStandardItemModel {
+class InternetSearchModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  DeezerSearchModel(DeezerSearch *engine, QObject *parent = nullptr);
+  InternetSearchModel(InternetSearch *engine, QObject *parent = nullptr);
 
   enum Role {
     Role_Result = CollectionModel::LastRole,
@@ -64,20 +64,20 @@ class DeezerSearchModel : public QStandardItemModel {
 
   void Clear();
 
-  DeezerSearch::ResultList GetChildResults(const QModelIndexList &indexes) const;
-  DeezerSearch::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
+  InternetSearch::ResultList GetChildResults(const QModelIndexList &indexes) const;
+  InternetSearch::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
 
   QMimeData *mimeData(const QModelIndexList &indexes) const;
 
  public slots:
-  void AddResults(const DeezerSearch::ResultList &results);
+  void AddResults(const InternetSearch::ResultList &results);
 
  private:
   QStandardItem *BuildContainers(const Song &metadata, QStandardItem *parent, ContainerKey *key, int level = 0);
-  void GetChildResults(const QStandardItem *item, DeezerSearch::ResultList *results, QSet<const QStandardItem*> *visited) const;
+  void GetChildResults(const QStandardItem *item, InternetSearch::ResultList *results, QSet<const QStandardItem*> *visited) const;
 
  private:
-  DeezerSearch *engine_;
+  InternetSearch *engine_;
   QSortFilterProxyModel *proxy_;
   bool use_pretty_covers_;
   QIcon artist_icon_;
@@ -88,11 +88,11 @@ class DeezerSearchModel : public QStandardItemModel {
 
 };
 
-inline uint qHash(const DeezerSearchModel::ContainerKey &key) {
+inline uint qHash(const InternetSearchModel::ContainerKey &key) {
   return qHash(key.provider_index_) ^ qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
 }
 
-inline bool operator<(const DeezerSearchModel::ContainerKey &left, const DeezerSearchModel::ContainerKey &right) {
+inline bool operator<(const InternetSearchModel::ContainerKey &left, const InternetSearchModel::ContainerKey &right) {
 #define CMP(field)                           \
   if (left.field < right.field) return true; \
   if (left.field > right.field) return false
@@ -106,4 +106,4 @@ inline bool operator<(const DeezerSearchModel::ContainerKey &left, const DeezerS
 #undef CMP
 }
 
-#endif  // DEEZERSEARCHMODEL_H
+#endif  // INTERNETSEARCHMODEL_H

@@ -264,22 +264,16 @@ set(SOURCES
   internet/internetmodel.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
+  internet/internetsearch.cpp
+  internet/internetsearchview.cpp
+  internet/internetsearchmodel.cpp
+  internet/internetsearchsortmodel.cpp
+  internet/internetsearchitemdelegate.cpp
   internet/localredirectserver.cpp
 
   tidal/tidalservice.cpp
-  tidal/tidalsearch.cpp
-  tidal/tidalsearchview.cpp
-  tidal/tidalsearchmodel.cpp
-  tidal/tidalsearchsortmodel.cpp
-  tidal/tidalsearchitemdelegate.cpp
   tidal/tidalurlhandler.cpp
-
   deezer/deezerservice.cpp
-  deezer/deezersearch.cpp
-  deezer/deezersearchview.cpp
-  deezer/deezersearchmodel.cpp
-  deezer/deezersearchsortmodel.cpp
-  deezer/deezersearchitemdelegate.cpp
   deezer/deezerurlhandler.cpp
 
 )
@@ -439,18 +433,14 @@ set(HEADERS
   internet/internetservice.h
   internet/internetmimedata.h
   internet/internetsongmimedata.h
+  internet/internetsearch.h
+  internet/internetsearchview.h
+  internet/internetsearchmodel.h
   internet/localredirectserver.h
 
   tidal/tidalservice.h
-  tidal/tidalsearch.h
-  tidal/tidalsearchview.h
-  tidal/tidalsearchmodel.h
   tidal/tidalurlhandler.h
-
   deezer/deezerservice.h
-  deezer/deezersearch.h
-  deezer/deezersearchview.h
-  deezer/deezersearchmodel.h
   deezer/deezerurlhandler.h
 
 )
@@ -507,8 +497,7 @@ set(UI
 
   globalshortcuts/globalshortcutgrabber.ui
 
-  tidal/tidalsearchview.ui
-  deezer/deezersearchview.ui
+  internet/internetsearchview.ui
 
 )
 

@@ -50,8 +50,8 @@
 #include "core/timeconstants.h"
 #include "core/utilities.h"
 #include "internet/internetmodel.h"
+#include "internet/internetsearch.h"
 #include "tidalservice.h"
-#include "tidalsearch.h"
 #include "tidalurlhandler.h"
 #include "settings/tidalsettingspage.h"
 
@@ -446,7 +446,7 @@ QJsonValue TidalService::ExtractItems(QByteArray &data) {
 
 }
 
-int TidalService::Search(const QString &text, TidalSettingsPage::SearchBy searchby) {
+int TidalService::Search(const QString &text, InternetSearch::SearchBy searchby) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -506,11 +506,11 @@ void TidalService::SendSearch() {
 
   QString searchparam;
   switch (pending_searchby_) {
-    case TidalSettingsPage::SearchBy_Songs:
+    case InternetSearch::SearchBy_Songs:
       searchparam = "search/tracks";
       parameters << Param("limit", QString::number(songssearchlimit_));
       break;
-    case TidalSettingsPage::SearchBy_Albums:
+    case InternetSearch::SearchBy_Albums:
     default:
       searchparam = "search/albums";
       parameters << Param("limit", QString::number(albumssearchlimit_));

@@ -36,11 +36,6 @@ class TidalSettingsPage : public SettingsPage {
   explicit TidalSettingsPage(SettingsDialog* parent = nullptr);
   ~TidalSettingsPage();
 
-  enum SearchBy {
-    SearchBy_Songs = 1,
-    SearchBy_Albums = 2,
-  };
-
   static const char *kSettingsGroup;
 
   void Load();

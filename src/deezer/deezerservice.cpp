@@ -55,9 +55,9 @@
 #include "core/timeconstants.h"
 #include "core/utilities.h"
 #include "internet/internetmodel.h"
+#include "internet/internetsearch.h"
 #include "internet/localredirectserver.h"
 #include "deezerservice.h"
-#include "deezersearch.h"
 #include "deezerurlhandler.h"
 #include "settings/deezersettingspage.h"
 
@@ -408,7 +408,7 @@ QJsonValue DeezerService::ExtractData(QByteArray &data) {
 
 }
 
-int DeezerService::Search(const QString &text, DeezerSettingsPage::SearchBy searchby) {
+int DeezerService::Search(const QString &text, InternetSearch::SearchBy searchby) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -466,11 +466,11 @@ void DeezerService::SendSearch() {
   parameters << Param("q", search_text_);
   QString searchparam;
   switch (pending_searchby_) {
-    case DeezerSettingsPage::SearchBy_Songs:
+    case InternetSearch::SearchBy_Songs:
       searchparam = "search/track";
       parameters << Param("limit", QString::number(songssearchlimit_));
       break;
-    case DeezerSettingsPage::SearchBy_Albums:
+    case InternetSearch::SearchBy_Albums:
     default:
       searchparam = "search/album";
       parameters << Param("limit", QString::number(albumssearchlimit_));

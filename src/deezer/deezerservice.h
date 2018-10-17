@@ -41,7 +41,7 @@
 #include "core/song.h"
 #include "internet/internetmodel.h"
 #include "internet/internetservice.h"
-#include "settings/deezersettingspage.h"
+#include "internet/internetsearch.h"
 
 class NetworkAccessManager;
 class LocalRedirectServer;
@@ -70,7 +70,7 @@ class DeezerService : public InternetService {
   void ReloadSettings();
 
   void Logout();
-  int Search(const QString &query, DeezerSettingsPage::SearchBy searchby);
+  int Search(const QString &query, InternetSearch::SearchBy searchby);
   void CancelSearch();
 
   const bool app_id() { return kAppID; }
@@ -146,7 +146,7 @@ class DeezerService : public InternetService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  DeezerSettingsPage::SearchBy pending_searchby_;
+  InternetSearch::SearchBy pending_searchby_;
 
   int search_id_;
   QString search_text_;

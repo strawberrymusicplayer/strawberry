@@ -129,16 +129,16 @@
 #  include "device/deviceviewcontainer.h"
 #endif
 #include "transcoder/transcodedialog.h"
+#include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
-#include "settings/settingsdialog.h"
+#include "settings/tidalsettingspage.h"
+#include "settings/deezersettingspage.h"
 
 #include "internet/internetmodel.h"
 #include "internet/internetservice.h"
-
-#include "tidal/tidalsearchview.h"
-#include "deezer/deezersearchview.h"
+#include "internet/internetsearchview.h"
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 #  include "musicbrainz/tagfetcher.h"
@@ -203,8 +203,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         manager->SetPlaylistManager(app->playlist_manager());
         return manager;
       }),
-      tidal_search_view_(new TidalSearchView(app_, this)),
-      deezer_search_view_(new DeezerSearchView(app_, this)),
+      tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+      deezer_search_view_(new InternetSearchView(app_, app_->deezer_search(), DeezerSettingsPage::kSettingsGroup, SettingsDialog::Page_Deezer, this)),
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),

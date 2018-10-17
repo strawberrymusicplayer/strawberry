@@ -31,6 +31,7 @@
 #include "core/closure.h"
 #include "core/lazy.h"
 #include "core/tagreaderclient.h"
+#include "core/song.h"
 
 #include "database.h"
 #include "taskmanager.h"
@@ -59,8 +60,7 @@
 #include "lyrics/apiseedslyricsprovider.h"
 
 #include "internet/internetmodel.h"
-#include "tidal/tidalsearch.h"
-#include "deezer/deezersearch.h"
+#include "internet/internetsearch.h"
 
 bool Application::kIsPortable = false;
 
@@ -116,8 +116,8 @@ class ApplicationImpl {
           return lyrics_providers;
         }),
         internet_model_([=]() { return new InternetModel(app, app); }),
-        tidal_search_([=]() { return new TidalSearch(app, app); }),
-        deezer_search_([=]() { return new DeezerSearch(app, app); })
+        tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
+        deezer_search_([=]() { return new InternetSearch(app, Song::Source_Deezer, app); })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -137,8 +137,8 @@ class ApplicationImpl {
   Lazy<CurrentArtLoader> current_art_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetModel> internet_model_;
-  Lazy<TidalSearch> tidal_search_;
-  Lazy<DeezerSearch> deezer_search_;
+  Lazy<InternetSearch> tidal_search_;
+  Lazy<InternetSearch> deezer_search_;
 
 };
 
@@ -206,5 +206,5 @@ LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_provi
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetModel *Application::internet_model() const { return p_->internet_model_.get(); }
-TidalSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
-DeezerSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }
+InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
+InternetSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }

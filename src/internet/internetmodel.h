@@ -124,7 +124,6 @@ class InternetModel : public QStandardItemModel {
   void ServiceDeleted();
 
  private:
-  //static QMap<QString, InternetService*> *sServices;
   static QMap<Song::Source, InternetService*> *sServices;
   Application *app_;
 

@@ -88,8 +88,7 @@ class TranscodeDialog;
 #endif
 class Ui_MainWindow;
 class Windows7ThumbBar;
-class TidalSearchView;
-class DeezerSearchView;
+class InternetSearchView;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -337,8 +336,8 @@ signals:
   PlaylistItemList autocomplete_tag_items_;
 #endif
 
-  TidalSearchView *tidal_search_view_;
-  DeezerSearchView *deezer_search_view_;
+  InternetSearchView *tidal_search_view_;
+  InternetSearchView *deezer_search_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

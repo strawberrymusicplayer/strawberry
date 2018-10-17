@@ -50,37 +50,37 @@
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
 #include "playlist/songmimedata.h"
-#include "tidalsearch.h"
-#include "tidalsearchitemdelegate.h"
-#include "tidalsearchmodel.h"
-#include "tidalsearchsortmodel.h"
-#include "tidalsearchview.h"
-#include "ui_tidalsearchview.h"
-#include "settings/tidalsettingspage.h"
+#include "internetsearch.h"
+#include "internetsearchitemdelegate.h"
+#include "internetsearchmodel.h"
+#include "internetsearchsortmodel.h"
+#include "internetsearchview.h"
+#include "ui_internetsearchview.h"
 
 using std::placeholders::_1;
 using std::placeholders::_2;
 using std::swap;
 
-const int TidalSearchView::kSwapModelsTimeoutMsec = 250;
+const int InternetSearchView::kSwapModelsTimeoutMsec = 250;
 
-TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
+InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
-      engine_(app_->tidal_search()),
-      ui_(new Ui_TidalSearchView),
+      engine_(engine),
+      settings_group_(settings_group),
+      settings_page_(settings_page),
+      ui_(new Ui_InternetSearchView),
       context_menu_(nullptr),
       last_search_id_(0),
-      front_model_(new TidalSearchModel(engine_, this)),
-      back_model_(new TidalSearchModel(engine_, this)),
+      front_model_(new InternetSearchModel(engine_, this)),
+      back_model_(new InternetSearchModel(engine_, this)),
       current_model_(front_model_),
-      front_proxy_(new TidalSearchSortModel(this)),
-      back_proxy_(new TidalSearchSortModel(this)),
+      front_proxy_(new InternetSearchSortModel(this)),
+      back_proxy_(new InternetSearchSortModel(this)),
       current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
-      search_icon_(IconLoader::Load("search")),
-      warning_icon_(IconLoader::Load("dialog-warning")),
-      error_(false) {
+      error_(false)
+      {
 
   ui_->setupUi(this);
   ui_->progressbar->hide();
@@ -94,7 +94,7 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
 
   ui_->settings->setIcon(IconLoader::Load("configure"));
 
-  // Must be a queued connection to ensure the TidalSearch handles it first.
+  // Must be a queued connection to ensure the InternetSearch handles it first.
   connect(app_, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()), Qt::QueuedConnection);
 
   connect(ui_->search, SIGNAL(textChanged(QString)), SLOT(TextEdited(QString)));
@@ -102,7 +102,7 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
   connect(ui_->results, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
 
   // Set the appearance of the results list
-  ui_->results->setItemDelegate(new TidalSearchItemDelegate(this));
+  ui_->results->setItemDelegate(new InternetSearchItemDelegate(this));
   ui_->results->setAttribute(Qt::WA_MacShowFocusRect, false);
   ui_->results->setStyleSheet("QTreeView::item{padding-top:1px;}");
 
@@ -140,7 +140,7 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure Tidal..."), this, SLOT(OpenSettingsDialog()));
+  settings_menu->addAction(IconLoader::Load("configure"), QString("Configure %1...").arg(Song::TextForSource(engine->source())), this, SLOT(OpenSettingsDialog()));
   ui_->settings->setMenu(settings_menu);
 
   connect(ui_->radiobutton_searchbyalbums, SIGNAL(clicked(bool)), SLOT(SearchByAlbumsClicked(bool)));
@@ -154,7 +154,7 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
   connect(engine_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximum(int)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(UpdateProgress(int)), SLOT(UpdateProgress(int)), Qt::QueuedConnection);
 
-  connect(engine_, SIGNAL(AddResults(int, TidalSearch::ResultList)), SLOT(AddResults(int, TidalSearch::ResultList)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(AddResults(int, InternetSearch::ResultList)), SLOT(AddResults(int, InternetSearch::ResultList)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(SearchError(int, QString)), SLOT(SearchError(int, QString)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(ArtLoaded(int, QPixmap)), SLOT(ArtLoaded(int, QPixmap)), Qt::QueuedConnection);
 
@@ -162,29 +162,29 @@ TidalSearchView::TidalSearchView(Application *app, QWidget *parent)
 
 }
 
-TidalSearchView::~TidalSearchView() { delete ui_; }
+InternetSearchView::~InternetSearchView() { delete ui_; }
 
-void TidalSearchView::ReloadSettings() {
+void InternetSearchView::ReloadSettings() {
 
   QSettings s;
 
   // Collection settings
 
-  s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  s.beginGroup(settings_group_);
   const bool pretty = s.value("pretty_covers", true).toBool();
   front_model_->set_use_pretty_covers(pretty);
   back_model_->set_use_pretty_covers(pretty);
   s.endGroup();
 
-  // Tidal search settings
+  // Internet search settings
 
-  s.beginGroup(TidalSettingsPage::kSettingsGroup);
-  searchby_ = TidalSettingsPage::SearchBy(s.value("searchby", int(TidalSettingsPage::SearchBy_Songs)).toInt());
+  s.beginGroup(settings_group_);
+  searchby_ = InternetSearch::SearchBy(s.value("searchby", int(InternetSearch::SearchBy_Songs)).toInt());
   switch (searchby_) {
-    case TidalSettingsPage::SearchBy_Songs:
+    case InternetSearch::SearchBy_Songs:
       ui_->radiobutton_searchbysongs->setChecked(true);
       break;
-    case TidalSettingsPage::SearchBy_Albums:
+    case InternetSearch::SearchBy_Albums:
       ui_->radiobutton_searchbyalbums->setChecked(true);
       break;
   }
@@ -197,7 +197,7 @@ void TidalSearchView::ReloadSettings() {
 
 }
 
-void TidalSearchView::StartSearch(const QString &query) {
+void InternetSearchView::StartSearch(const QString &query) {
 
   ui_->search->setText(query);
   TextEdited(query);
@@ -208,7 +208,7 @@ void TidalSearchView::StartSearch(const QString &query) {
 
 }
 
-void TidalSearchView::TextEdited(const QString &text) {
+void InternetSearchView::TextEdited(const QString &text) {
 
   const QString trimmed(text.trimmed());
 
@@ -237,7 +237,7 @@ void TidalSearchView::TextEdited(const QString &text) {
 
 }
 
-void TidalSearchView::AddResults(int id, const TidalSearch::ResultList &results) {
+void InternetSearchView::AddResults(int id, const InternetSearch::ResultList &results) {
   if (id != last_search_id_) return;
   if (results.isEmpty()) return;
   ui_->label_status->clear();
@@ -246,7 +246,7 @@ void TidalSearchView::AddResults(int id, const TidalSearch::ResultList &results)
   current_model_->AddResults(results);
 }
 
-void TidalSearchView::SearchError(const int id, const QString error) {
+void InternetSearchView::SearchError(const int id, const QString error) {
   error_ = true;
   ui_->label_helptext->setText(error);
   ui_->label_status->clear();
@@ -255,7 +255,7 @@ void TidalSearchView::SearchError(const int id, const QString error) {
   ui_->results_stack->setCurrentWidget(ui_->help_page);
 }
 
-void TidalSearchView::SwapModels() {
+void InternetSearchView::SwapModels() {
 
   art_requests_.clear();
 
@@ -273,14 +273,14 @@ void TidalSearchView::SwapModels() {
 
 }
 
-void TidalSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
+void InternetSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
 
   if (!proxy_index.isValid() || proxy_index.model() != front_proxy_) {
     return;
   }
 
   // Already loading art for this item?
-  if (proxy_index.data(TidalSearchModel::Role_LazyLoadingArt).isValid()) {
+  if (proxy_index.data(InternetSearchModel::Role_LazyLoadingArt).isValid()) {
     return;
   }
 
@@ -301,7 +301,7 @@ void TidalSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
   // Mark the item as loading art
   const QModelIndex source_index = front_proxy_->mapToSource(proxy_index);
   QStandardItem *item = front_model_->itemFromIndex(source_index);
-  item->setData(true, TidalSearchModel::Role_LazyLoadingArt);
+  item->setData(true, InternetSearchModel::Role_LazyLoadingArt);
 
   // Walk down the item's children until we find a track
   while (item->rowCount()) {
@@ -309,7 +309,7 @@ void TidalSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
   }
 
   // Get the track's Result
-  const TidalSearch::Result result = item->data(TidalSearchModel::Role_Result).value<TidalSearch::Result>();
+  const InternetSearch::Result result = item->data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
 
   // Load the art.
   int id = engine_->LoadArtAsync(result);
@@ -317,7 +317,7 @@ void TidalSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
 
 }
 
-void TidalSearchView::ArtLoaded(int id, const QPixmap &pixmap) {
+void InternetSearchView::ArtLoaded(int id, const QPixmap &pixmap) {
 
   if (!art_requests_.contains(id)) return;
   QModelIndex index = art_requests_.take(id);
@@ -328,7 +328,7 @@ void TidalSearchView::ArtLoaded(int id, const QPixmap &pixmap) {
 
 }
 
-MimeData *TidalSearchView::SelectedMimeData() {
+MimeData *InternetSearchView::SelectedMimeData() {
 
   if (!ui_->results->selectionModel()) return nullptr;
 
@@ -362,7 +362,7 @@ MimeData *TidalSearchView::SelectedMimeData() {
 
 }
 
-bool TidalSearchView::eventFilter(QObject *object, QEvent *event) {
+bool InternetSearchView::eventFilter(QObject *object, QEvent *event) {
 
   if (object == ui_->search && event->type() == QEvent::KeyRelease) {
     if (SearchKeyEvent(static_cast<QKeyEvent*>(event))) {
@@ -379,7 +379,7 @@ bool TidalSearchView::eventFilter(QObject *object, QEvent *event) {
 
 }
 
-bool TidalSearchView::SearchKeyEvent(QKeyEvent *event) {
+bool InternetSearchView::SearchKeyEvent(QKeyEvent *event) {
 
   switch (event->key()) {
     case Qt::Key_Up:
@@ -407,7 +407,7 @@ bool TidalSearchView::SearchKeyEvent(QKeyEvent *event) {
 
 }
 
-bool TidalSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
+bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   context_menu_ = new QMenu(this);
   context_actions_ << context_menu_->addAction( IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddSelectedToPlaylist()));
@@ -425,7 +425,7 @@ bool TidalSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   context_menu_->addSeparator();
   context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
-  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure Tidal..."), this, SLOT(OpenSettingsDialog()));
+  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure Internet..."), this, SLOT(OpenSettingsDialog()));
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 
@@ -439,11 +439,11 @@ bool TidalSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
 }
 
-void TidalSearchView::AddSelectedToPlaylist() {
+void InternetSearchView::AddSelectedToPlaylist() {
   emit AddToPlaylist(SelectedMimeData());
 }
 
-void TidalSearchView::LoadSelected() {
+void InternetSearchView::LoadSelected() {
   MimeData *data = SelectedMimeData();
   if (!data) return;
 
@@ -451,7 +451,7 @@ void TidalSearchView::LoadSelected() {
   emit AddToPlaylist(data);
 }
 
-void TidalSearchView::AddSelectedToPlaylistEnqueue() {
+void InternetSearchView::AddSelectedToPlaylistEnqueue() {
   MimeData *data = SelectedMimeData();
   if (!data) return;
 
@@ -459,7 +459,7 @@ void TidalSearchView::AddSelectedToPlaylistEnqueue() {
   emit AddToPlaylist(data);
 }
 
-void TidalSearchView::OpenSelectedInNewPlaylist() {
+void InternetSearchView::OpenSelectedInNewPlaylist() {
   MimeData *data = SelectedMimeData();
   if (!data) return;
 
@@ -467,34 +467,34 @@ void TidalSearchView::OpenSelectedInNewPlaylist() {
   emit AddToPlaylist(data);
 }
 
-void TidalSearchView::SearchForThis() {
+void InternetSearchView::SearchForThis() {
   StartSearch(ui_->results->selectionModel()->selectedRows().first().data().toString());
 }
 
-void TidalSearchView::showEvent(QShowEvent *e) {
+void InternetSearchView::showEvent(QShowEvent *e) {
   QWidget::showEvent(e);
   FocusSearchField();
 }
 
-void TidalSearchView::FocusSearchField() {
+void InternetSearchView::FocusSearchField() {
   ui_->search->setFocus();
   ui_->search->selectAll();
 }
 
-void TidalSearchView::hideEvent(QHideEvent *e) {
+void InternetSearchView::hideEvent(QHideEvent *e) {
   QWidget::hideEvent(e);
 }
 
-void TidalSearchView::FocusOnFilter(QKeyEvent *event) {
+void InternetSearchView::FocusOnFilter(QKeyEvent *event) {
   ui_->search->setFocus();
   QApplication::sendEvent(ui_->search, event);
 }
 
-void TidalSearchView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Tidal);
+void InternetSearchView::OpenSettingsDialog() {
+  app_->OpenSettingsDialogAtPage(settings_page_);
 }
 
-void TidalSearchView::GroupByClicked(QAction *action) {
+void InternetSearchView::GroupByClicked(QAction *action) {
 
   if (action->property("group_by").isNull()) {
     if (!group_by_dialog_) {
@@ -510,11 +510,11 @@ void TidalSearchView::GroupByClicked(QAction *action) {
 
 }
 
-void TidalSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
+void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 
   // Clear requests: changing "group by" on the models will cause all the items to be removed/added again,
   // so all the QModelIndex here will become invalid. New requests will be created for those
-  // songs when they will be displayed again anyway (when TidalSearchItemDelegate::paint will call LazyLoadArt)
+  // songs when they will be displayed again anyway (when InternetSearchItemDelegate::paint will call LazyLoadArt)
   art_requests_.clear();
   // Update the models
   front_model_->SetGroupBy(g, true);
@@ -522,7 +522,7 @@ void TidalSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 
   // Save the setting
   QSettings s;
-  s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  s.beginGroup(settings_group_);
   s.setValue("group_by1", int(g.first));
   s.setValue("group_by2", int(g.second));
   s.setValue("group_by3", int(g.third));
@@ -543,32 +543,32 @@ void TidalSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 
 }
 
-void TidalSearchView::SearchBySongsClicked(bool checked) {
-  SetSearchBy(TidalSettingsPage::SearchBy_Songs);
+void InternetSearchView::SearchBySongsClicked(bool checked) {
+  SetSearchBy(InternetSearch::SearchBy_Songs);
 }
 
-void TidalSearchView::SearchByAlbumsClicked(bool checked) {
-  SetSearchBy(TidalSettingsPage::SearchBy_Albums);
+void InternetSearchView::SearchByAlbumsClicked(bool checked) {
+  SetSearchBy(InternetSearch::SearchBy_Albums);
 }
 
-void TidalSearchView::SetSearchBy(TidalSettingsPage::SearchBy searchby) {
+void InternetSearchView::SetSearchBy(InternetSearch::SearchBy searchby) {
   searchby_ = searchby;
   QSettings s;
-  s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  s.beginGroup(settings_group_);
   s.setValue("searchby", int(searchby));
   s.endGroup();
   TextEdited(ui_->search->text());
 }
 
-void TidalSearchView::UpdateStatus(QString text) {
+void InternetSearchView::UpdateStatus(QString text) {
   ui_->progressbar->show();
   ui_->label_status->setText(text);
 }
 
-void TidalSearchView::ProgressSetMaximum(int max) {
+void InternetSearchView::ProgressSetMaximum(int max) {
   ui_->progressbar->setMaximum(max);
 }
 
-void TidalSearchView::UpdateProgress(int progress) {
+void InternetSearchView::UpdateProgress(int progress) {
   ui_->progressbar->setValue(progress);
 }

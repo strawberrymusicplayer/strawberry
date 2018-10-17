@@ -33,10 +33,10 @@
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "deezersearch.h"
-#include "deezersearchmodel.h"
+#include "internetsearch.h"
+#include "internetsearchmodel.h"
 
-DeezerSearchModel::DeezerSearchModel(DeezerSearch *engine, QObject *parent)
+InternetSearchModel::InternetSearchModel(InternetSearch *engine, QObject *parent)
     : QStandardItemModel(parent),
       engine_(engine),
       proxy_(nullptr),
@@ -55,11 +55,11 @@ DeezerSearchModel::DeezerSearchModel(DeezerSearch *engine, QObject *parent)
 
 }
 
-void DeezerSearchModel::AddResults(const DeezerSearch::ResultList &results) {
+void InternetSearchModel::AddResults(const InternetSearch::ResultList &results) {
 
   int sort_index = 0;
 
-  for (const DeezerSearch::Result &result : results) {
+  for (const InternetSearch::Result &result : results) {
     QStandardItem *parent = invisibleRootItem();
 
     // Find (or create) the container nodes for this result if we can.
@@ -79,7 +79,7 @@ void DeezerSearchModel::AddResults(const DeezerSearch::ResultList &results) {
 
 }
 
-QStandardItem *DeezerSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, int level) {
+QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, int level) {
 
   if (level >= 3) {
     return parent;
@@ -210,12 +210,12 @@ QStandardItem *DeezerSearchModel::BuildContainers(const Song &s, QStandardItem *
 
 }
 
-void DeezerSearchModel::Clear() {
+void InternetSearchModel::Clear() {
   containers_.clear();
   clear();
 }
 
-DeezerSearch::ResultList DeezerSearchModel::GetChildResults(const QModelIndexList &indexes) const {
+InternetSearch::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
   QList<QStandardItem*> items;
   for (const QModelIndex &index : indexes) {
@@ -225,9 +225,9 @@ DeezerSearch::ResultList DeezerSearchModel::GetChildResults(const QModelIndexLis
 
 }
 
-DeezerSearch::ResultList DeezerSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
+InternetSearch::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
 
-  DeezerSearch::ResultList results;
+  InternetSearch::ResultList results;
   QSet<const QStandardItem*> visited;
 
   for (QStandardItem *item : items) {
@@ -238,7 +238,7 @@ DeezerSearch::ResultList DeezerSearchModel::GetChildResults(const QList<QStandar
 
 }
 
-void DeezerSearchModel::GetChildResults(const QStandardItem *item, DeezerSearch::ResultList *results, QSet<const QStandardItem*> *visited) const {
+void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearch::ResultList *results, QSet<const QStandardItem*> *visited) const {
 
   if (visited->contains(item)) {
     return;
@@ -261,7 +261,7 @@ void DeezerSearchModel::GetChildResults(const QStandardItem *item, DeezerSearch:
     // No - maybe it's a song, add its result if valid
     QVariant result = item->data(Role_Result);
     if (result.isValid()) {
-      results->append(result.value<DeezerSearch::Result>());
+      results->append(result.value<InternetSearch::Result>());
     }
     else {
       // Maybe it's a provider then?
@@ -282,16 +282,16 @@ void DeezerSearchModel::GetChildResults(const QStandardItem *item, DeezerSearch:
 
 }
 
-QMimeData *DeezerSearchModel::mimeData(const QModelIndexList &indexes) const {
+QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
   return engine_->LoadTracks(GetChildResults(indexes));
 }
 
 namespace {
-void GatherResults(const QStandardItem *parent, DeezerSearch::ResultList *results) {
+void GatherResults(const QStandardItem *parent, InternetSearch::ResultList *results) {
 
-  QVariant result_variant = parent->data(DeezerSearchModel::Role_Result);
+  QVariant result_variant = parent->data(InternetSearchModel::Role_Result);
   if (result_variant.isValid()) {
-    DeezerSearch::Result result = result_variant.value<DeezerSearch::Result>();
+    InternetSearch::Result result = result_variant.value<InternetSearch::Result>();
     (*results).append(result);
   }
 
@@ -301,14 +301,14 @@ void GatherResults(const QStandardItem *parent, DeezerSearch::ResultList *result
 }
 }
 
-void DeezerSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, bool regroup_now) {
+void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, bool regroup_now) {
 
   const CollectionModel::Grouping old_group_by = group_by_;
   group_by_ = grouping;
 
   if (regroup_now && group_by_ != old_group_by) {
     // Walk the tree gathering the results we have already
-    DeezerSearch::ResultList results;
+    InternetSearch::ResultList results;
     GatherResults(invisibleRootItem(), &results);
 
     // Reset the model and re-add all the results using the new grouping.

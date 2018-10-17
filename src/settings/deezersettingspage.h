@@ -36,11 +36,6 @@ class DeezerSettingsPage : public SettingsPage {
   explicit DeezerSettingsPage(SettingsDialog* parent = nullptr);
   ~DeezerSettingsPage();
 
-  enum SearchBy {
-    SearchBy_Songs = 1,
-    SearchBy_Albums = 2,
-  };
-
   static const char *kSettingsGroup;
 
   void Load();
@@ -50,7 +45,6 @@ class DeezerSettingsPage : public SettingsPage {
 
 signals:
   void Login();
-  void Login(const QString &username, const QString &password);
 
  private slots:
   void LoginClicked();

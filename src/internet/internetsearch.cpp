@@ -42,24 +42,23 @@
 #include "core/logging.h"
 #include "core/closure.h"
 #include "core/iconloader.h"
+#include "core/song.h"
 #include "covermanager/albumcoverloader.h"
 #include "internet/internetsongmimedata.h"
 #include "playlist/songmimedata.h"
-#include "deezersearch.h"
-#include "deezerservice.h"
-#include "settings/deezersettingspage.h"
+#include "internetsearch.h"
+#include "internetservice.h"
+#include "internetmodel.h"
 
-const int DeezerSearch::kDelayedSearchTimeoutMs = 200;
-const int DeezerSearch::kMaxResultsPerEmission = 2000;
-const int DeezerSearch::kArtHeight = 32;
+const int InternetSearch::kDelayedSearchTimeoutMs = 200;
+const int InternetSearch::kMaxResultsPerEmission = 2000;
+const int InternetSearch::kArtHeight = 32;
 
-DeezerSearch::DeezerSearch(Application *app, QObject *parent)
+InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *parent)
     : QObject(parent),
       app_(app),
-      service_(app->internet_model()->Service<DeezerService>()),
-      name_("Deezer"),
-      id_("deezer"),
-      icon_(IconLoader::Load("deezer")),
+      source_(source),
+      service_(app->internet_model()->ServiceBySource(source)),
       searches_next_id_(1),
       art_searches_next_id_(1) {
 
@@ -68,8 +67,8 @@ DeezerSearch::DeezerSearch(Application *app, QObject *parent)
   cover_loader_options_.scale_output_image_ = true;
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
-  connect(this, SIGNAL(SearchAsyncSig(int, QString, DeezerSettingsPage::SearchBy)), this, SLOT(DoSearchAsync(int, QString, DeezerSettingsPage::SearchBy)));
-  connect(this, SIGNAL(ResultsAvailable(int, DeezerSearch::ResultList)), SLOT(ResultsAvailableSlot(int, DeezerSearch::ResultList)));
+  connect(this, SIGNAL(SearchAsyncSig(int, QString, SearchBy)), this, SLOT(DoSearchAsync(int, QString, SearchBy)));
+  connect(this, SIGNAL(ResultsAvailable(int, InternetSearch::ResultList)), SLOT(ResultsAvailableSlot(int, InternetSearch::ResultList)));
   connect(this, SIGNAL(ArtLoaded(int, QImage)), SLOT(ArtLoadedSlot(int, QImage)));
   connect(service_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
   connect(service_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximumSlot(int)));
@@ -77,13 +76,11 @@ DeezerSearch::DeezerSearch(Application *app, QObject *parent)
   connect(service_, SIGNAL(SearchResults(int, SongList)), SLOT(SearchDone(int, SongList)));
   connect(service_, SIGNAL(SearchError(int, QString)), SLOT(HandleError(int, QString)));
 
-  icon_as_image_ = QImage(icon_.pixmap(48, 48).toImage());
-
 }
 
-DeezerSearch::~DeezerSearch() {}
+InternetSearch::~InternetSearch() {}
 
-QStringList DeezerSearch::TokenizeQuery(const QString &query) {
+QStringList InternetSearch::TokenizeQuery(const QString &query) {
 
   QStringList tokens(query.split(QRegExp("\\s+")));
 
@@ -102,7 +99,7 @@ QStringList DeezerSearch::TokenizeQuery(const QString &query) {
 
 }
 
-bool DeezerSearch::Matches(const QStringList &tokens, const QString &string) {
+bool InternetSearch::Matches(const QStringList &tokens, const QString &string) {
 
   for (const QString &token : tokens) {
     if (!string.contains(token, Qt::CaseInsensitive)) {
@@ -114,7 +111,7 @@ bool DeezerSearch::Matches(const QStringList &tokens, const QString &string) {
 
 }
 
-int DeezerSearch::SearchAsync(const QString &query, DeezerSettingsPage::SearchBy searchby) {
+int InternetSearch::SearchAsync(const QString &query, SearchBy searchby) {
 
   const int id = searches_next_id_++;
 
@@ -124,14 +121,14 @@ int DeezerSearch::SearchAsync(const QString &query, DeezerSettingsPage::SearchBy
 
 }
 
-void DeezerSearch::SearchAsync(int id, const QString &query, DeezerSettingsPage::SearchBy searchby) {
+void InternetSearch::SearchAsync(int id, const QString &query, SearchBy searchby) {
 
   const int service_id = service_->Search(query, searchby);
   pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
 
 }
 
-void DeezerSearch::DoSearchAsync(int id, const QString &query, DeezerSettingsPage::SearchBy searchby) {
+void InternetSearch::DoSearchAsync(int id, const QString &query, SearchBy searchby) {
 
   int timer_id = startTimer(kDelayedSearchTimeoutMs);
   delayed_searches_[timer_id].id_ = id;
@@ -140,7 +137,7 @@ void DeezerSearch::DoSearchAsync(int id, const QString &query, DeezerSettingsPag
 
 }
 
-void DeezerSearch::SearchDone(int service_id, const SongList &songs) {
+void InternetSearch::SearchDone(int service_id, const SongList &songs) {
 
   // Map back to the original id.
   const PendingState state = pending_searches_.take(service_id);
@@ -158,13 +155,13 @@ void DeezerSearch::SearchDone(int service_id, const SongList &songs) {
 
 }
 
-void DeezerSearch::HandleError(const int id, const QString error) {
+void InternetSearch::HandleError(const int id, const QString error) {
 
   emit SearchError(id, error);
 
 }
 
-void DeezerSearch::MaybeSearchFinished(int id) {
+void InternetSearch::MaybeSearchFinished(int id) {
 
   if (pending_searches_.keys(PendingState(id, QStringList())).isEmpty()) {
     emit SearchFinished(id);
@@ -172,7 +169,7 @@ void DeezerSearch::MaybeSearchFinished(int id) {
 
 }
 
-void DeezerSearch::CancelSearch(int id) {
+void InternetSearch::CancelSearch(int id) {
   QMap<int, DelayedSearch>::iterator it;
   for (it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
     if (it.value().id_ == id) {
@@ -184,7 +181,7 @@ void DeezerSearch::CancelSearch(int id) {
   service_->CancelSearch();
 }
 
-void DeezerSearch::timerEvent(QTimerEvent *e) {
+void InternetSearch::timerEvent(QTimerEvent *e) {
   QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
   if (it != delayed_searches_.end()) {
     SearchAsync(it.value().id_, it.value().query_, it.value().searchby_);
@@ -195,19 +192,19 @@ void DeezerSearch::timerEvent(QTimerEvent *e) {
   QObject::timerEvent(e);
 }
 
-void DeezerSearch::ResultsAvailableSlot(int id, DeezerSearch::ResultList results) {
+void InternetSearch::ResultsAvailableSlot(int id, InternetSearch::ResultList results) {
 
   if (results.isEmpty()) return;
 
   // Limit the number of results that are used from each emission.
   if (results.count() > kMaxResultsPerEmission) {
-    DeezerSearch::ResultList::iterator begin = results.begin();
+    InternetSearch::ResultList::iterator begin = results.begin();
     std::advance(begin, kMaxResultsPerEmission);
     results.erase(begin, results.end());
   }
 
   // Load cached pixmaps into the results
-  for (DeezerSearch::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
+  for (InternetSearch::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
     it->pixmap_cache_key_ = PixmapCacheKey(*it);
   }
 
@@ -215,15 +212,15 @@ void DeezerSearch::ResultsAvailableSlot(int id, DeezerSearch::ResultList results
 
 }
 
-QString DeezerSearch::PixmapCacheKey(const DeezerSearch::Result &result) const {
-  return "deezer:" % result.metadata_.url().toString();
+QString InternetSearch::PixmapCacheKey(const InternetSearch::Result &result) const {
+  return "internet:" % result.metadata_.url().toString();
 }
 
-bool DeezerSearch::FindCachedPixmap(const DeezerSearch::Result &result, QPixmap *pixmap) const {
+bool InternetSearch::FindCachedPixmap(const InternetSearch::Result &result, QPixmap *pixmap) const {
   return pixmap_cache_.find(result.pixmap_cache_key_, pixmap);
 }
 
-int DeezerSearch::LoadArtAsync(const DeezerSearch::Result &result) {
+int InternetSearch::LoadArtAsync(const InternetSearch::Result &result) {
 
   const int id = art_searches_next_id_++;
 
@@ -236,11 +233,11 @@ int DeezerSearch::LoadArtAsync(const DeezerSearch::Result &result) {
 
 }
 
-void DeezerSearch::ArtLoadedSlot(int id, const QImage &image) {
+void InternetSearch::ArtLoadedSlot(int id, const QImage &image) {
   HandleLoadedArt(id, image);
 }
 
-void DeezerSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
+void InternetSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
 
   if (!cover_loader_tasks_.contains(id)) return;
   int orig_id = cover_loader_tasks_.take(id);
@@ -249,7 +246,7 @@ void DeezerSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
 
 }
 
-void DeezerSearch::HandleLoadedArt(int id, const QImage &image) {
+void InternetSearch::HandleLoadedArt(int id, const QImage &image) {
 
   const QString key = pending_art_searches_.take(id);
 
@@ -260,7 +257,7 @@ void DeezerSearch::HandleLoadedArt(int id, const QImage &image) {
 
 }
 
-QImage DeezerSearch::ScaleAndPad(const QImage &image) {
+QImage InternetSearch::ScaleAndPad(const QImage &image) {
 
   if (image.isNull()) return QImage();
 
@@ -286,7 +283,7 @@ QImage DeezerSearch::ScaleAndPad(const QImage &image) {
 
 }
 
-MimeData *DeezerSearch::LoadTracks(const ResultList &results) {
+MimeData *InternetSearch::LoadTracks(const ResultList &results) {
 
   if (results.isEmpty()) {
     return nullptr;
@@ -316,14 +313,14 @@ MimeData *DeezerSearch::LoadTracks(const ResultList &results) {
 
 }
 
-void DeezerSearch::UpdateStatusSlot(QString text) {
+void InternetSearch::UpdateStatusSlot(QString text) {
   emit UpdateStatus(text);
 }
 
-void DeezerSearch::ProgressSetMaximumSlot(int max) {
+void InternetSearch::ProgressSetMaximumSlot(int max) {
   emit ProgressSetMaximum(max);
 }
 
-void DeezerSearch::UpdateProgressSlot(int progress) {
+void InternetSearch::UpdateProgressSlot(int progress) {
   emit UpdateProgress(progress);
 }

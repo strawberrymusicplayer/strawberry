@@ -37,6 +37,7 @@ const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
     : SettingsPage(parent),
       ui_(new Ui::TidalSettingsPage),
+      //service_(dialog()->app()->internet_model()->Service<TidalService>()) {
       service_(dialog()->app()->internet_model()->Service<TidalService>()) {
 
   ui_->setupUi(this);

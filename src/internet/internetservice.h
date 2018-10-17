@@ -33,6 +33,7 @@
 #include "core/iconloader.h"
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
+#include "internetsearch.h"
 
 class Application;
 class InternetModel;
@@ -44,14 +45,16 @@ class InternetService : public QObject {
  public:
   InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, InternetModel *model, QObject *parent = nullptr);
   virtual ~InternetService() {}
-  Song::Source source() const { return source_; }
-  QString name() const { return name_; }
-  QString url_scheme() const { return url_scheme_; }
-  InternetModel *model() const { return model_; }
+  virtual Song::Source source() const { return source_; }
+  virtual QString name() const { return name_; }
+  virtual QString url_scheme() const { return url_scheme_; }
+  virtual InternetModel *model() const { return model_; }
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
   virtual QIcon Icon() { return Song::IconForSource(source_); }
+  virtual int Search(const QString &query, InternetSearch::SearchBy searchby) = 0;
+  virtual void CancelSearch() = 0;
 
  public slots:
   virtual void ShowConfig() {}

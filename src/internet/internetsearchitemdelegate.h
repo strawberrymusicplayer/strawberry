@@ -18,18 +18,24 @@
  *
  */
 
+#ifndef INTERNETSEARCHITEMDELEGATE_H
+#define INTERNETSEARCHITEMDELEGATE_H
+
 #include <QPainter>
 #include <QStyleOptionViewItem>
 
-#include "tidalsearchitemdelegate.h"
-#include "tidalsearchview.h"
+#include "collection/collectionview.h"
 
-TidalSearchItemDelegate::TidalSearchItemDelegate(TidalSearchView* view)
-    : CollectionItemDelegate(view), view_(view) {}
+class InternetSearchView;
 
-void TidalSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-  // Tell the view we painted this item so it can lazy load some art.
-  const_cast<TidalSearchView*>(view_)->LazyLoadArt(index);
+class InternetSearchItemDelegate : public CollectionItemDelegate {
+ public:
+  InternetSearchItemDelegate(InternetSearchView *view);
 
-  CollectionItemDelegate::paint(painter, option, index);
-}
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+ private:
+  InternetSearchView* view_;
+};
+
+#endif  // INTERNETSEARCHITEMDELEGATE_H

@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef TIDALSEARCH_H
-#define TIDALSEARCH_H
+#ifndef INTERNETSEARCH_H
+#define INTERNETSEARCH_H
 
 #include "config.h"
 
@@ -32,20 +32,23 @@
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
-#include "settings/tidalsettingspage.h"
 
 class Application;
 class MimeData;
 class AlbumCoverLoader;
 class InternetService;
-class TidalService;
 
-class TidalSearch : public QObject {
+class InternetSearch : public QObject {
   Q_OBJECT
 
  public:
-  TidalSearch(Application *app, QObject *parent = nullptr);
-  ~TidalSearch();
+  InternetSearch(Application *app, Song::Source source, QObject *parent = nullptr);
+  ~InternetSearch();
+
+  enum SearchBy {
+    SearchBy_Songs = 1,
+    SearchBy_Albums = 2,
+  };
 
   struct Result {
     Song metadata_;
@@ -57,10 +60,11 @@ class TidalSearch : public QObject {
   static const int kMaxResultsPerEmission;
 
   Application *application() const { return app_; }
-  TidalService *service() const { return service_; }
+  Song::Source source() const { return source_; }
+  InternetService *service() const { return service_; }
 
-  int SearchAsync(const QString &query, TidalSettingsPage::SearchBy searchby);
-  int LoadArtAsync(const TidalSearch::Result &result);
+  int SearchAsync(const QString &query, SearchBy searchby);
+  int LoadArtAsync(const InternetSearch::Result &result);
 
   void CancelSearch(int id);
   void CancelArt(int id);
@@ -70,9 +74,9 @@ class TidalSearch : public QObject {
   MimeData *LoadTracks(const ResultList &results);
 
  signals:
-  void SearchAsyncSig(int id, const QString &query, TidalSettingsPage::SearchBy searchby);
-  void ResultsAvailable(int id, const TidalSearch::ResultList &results);
-  void AddResults(int id, const TidalSearch::ResultList &results);
+  void SearchAsyncSig(int id, const QString &query, SearchBy searchby);
+  void ResultsAvailable(int id, const InternetSearch::ResultList &results);
+  void AddResults(int id, const InternetSearch::ResultList &results);
   void SearchError(const int id, const QString error);
   void SearchFinished(int id);
   void UpdateStatus(QString text);
@@ -108,10 +112,10 @@ class TidalSearch : public QObject {
   static bool Matches(const QStringList &tokens, const QString &string);
 
  private slots:
-  void DoSearchAsync(int id, const QString &query, TidalSettingsPage::SearchBy searchby);
+  void DoSearchAsync(int id, const QString &query, SearchBy searchby);
   void SearchDone(int id, const SongList &songs);
   void HandleError(const int id, const QString error);
-  void ResultsAvailableSlot(int id, TidalSearch::ResultList results);
+  void ResultsAvailableSlot(int id, InternetSearch::ResultList results);
 
   void ArtLoadedSlot(int id, const QImage &image);
   void AlbumArtLoaded(quint64 id, const QImage &image);
@@ -121,10 +125,10 @@ class TidalSearch : public QObject {
   void UpdateProgressSlot(int max);
 
  private:
-  void SearchAsync(int id, const QString &query, TidalSettingsPage::SearchBy searchby);
+  void SearchAsync(int id, const QString &query, SearchBy searchby);
   void HandleLoadedArt(int id, const QImage &image);
-  bool FindCachedPixmap(const TidalSearch::Result &result, QPixmap *pixmap) const;
-  QString PixmapCacheKey(const TidalSearch::Result &result) const;
+  bool FindCachedPixmap(const InternetSearch::Result &result, QPixmap *pixmap) const;
+  QString PixmapCacheKey(const InternetSearch::Result &result) const;
   void MaybeSearchFinished(int id);
   void ShowConfig() {}
   static QImage ScaleAndPad(const QImage &image);
@@ -133,18 +137,14 @@ class TidalSearch : public QObject {
   struct DelayedSearch {
     int id_;
     QString query_;
-    TidalSettingsPage::SearchBy searchby_;
+    SearchBy searchby_;
   };
 
   static const int kArtHeight;
 
   Application *app_;
-  TidalService *service_;
   Song::Source source_;
-  QString name_;
-  QString id_;
-  QIcon icon_;
-  QImage icon_as_image_;
+  InternetService *service_;
   int searches_next_id_;
   int art_searches_next_id_;
 
@@ -158,7 +158,7 @@ class TidalSearch : public QObject {
 
 };
 
-Q_DECLARE_METATYPE(TidalSearch::Result)
-Q_DECLARE_METATYPE(TidalSearch::ResultList)
+Q_DECLARE_METATYPE(InternetSearch::Result)
+Q_DECLARE_METATYPE(InternetSearch::ResultList)
 
-#endif  // TIDALSEARCH_H
+#endif  // INTERNETSEARCH_H

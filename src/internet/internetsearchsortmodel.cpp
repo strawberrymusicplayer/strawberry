@@ -25,16 +25,16 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "deezersearchmodel.h"
-#include "deezersearchsortmodel.h"
+#include "internetsearchmodel.h"
+#include "internetsearchsortmodel.h"
 
-DeezerSearchSortModel::DeezerSearchSortModel(QObject *parent)
+InternetSearchSortModel::InternetSearchSortModel(QObject *parent)
     : QSortFilterProxyModel(parent) {}
 
-bool DeezerSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
+bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
   // Compare the provider sort index first.
-  const int index_left = left.data(DeezerSearchModel::Role_ProviderIndex).toInt();
-  const int index_right = right.data(DeezerSearchModel::Role_ProviderIndex).toInt();
+  const int index_left = left.data(InternetSearchModel::Role_ProviderIndex).toInt();
+  const int index_right = right.data(InternetSearchModel::Role_ProviderIndex).toInt();
   if (index_left < index_right) return true;
   if (index_left > index_right) return false;
 
@@ -54,8 +54,8 @@ bool DeezerSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex 
   }
 
   // Otherwise we're comparing songs.  Sort by disc, track, then title.
-  const DeezerSearch::Result r1 = left.data(DeezerSearchModel::Role_Result).value<DeezerSearch::Result>();
-  const DeezerSearch::Result r2 = right.data(DeezerSearchModel::Role_Result).value<DeezerSearch::Result>();
+  const InternetSearch::Result r1 = left.data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
+  const InternetSearch::Result r2 = right.data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
 
 #define CompareInt(field)                                       \
   if (r1.metadata_.field() < r2.metadata_.field()) return true; \

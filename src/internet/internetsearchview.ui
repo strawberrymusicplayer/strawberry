@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DeezerSearchView</class>
- <widget class="QWidget" name="DeezerSearchView">
+ <class>InternetSearchView</class>
+ <widget class="QWidget" name="InternetSearchView">
   <property name="geometry">
    <rect>
     <x>0</x>
