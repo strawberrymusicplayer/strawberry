@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QThread>
+#include <QVariant>
 #include <QString>
 
 #include "core/closure.h"
@@ -116,8 +117,13 @@ class ApplicationImpl {
           return lyrics_providers;
         }),
         internet_model_([=]() { return new InternetModel(app, app); }),
+#ifdef HAVE_STREAM_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
-        deezer_search_([=]() { return new InternetSearch(app, Song::Source_Deezer, app); })
+#endif
+#ifdef HAVE_STREAM_DEEZER
+        deezer_search_([=]() { return new InternetSearch(app, Song::Source_Deezer, app); }),
+#endif
+        dummy_([=]() { return new QVariant; })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -137,8 +143,13 @@ class ApplicationImpl {
   Lazy<CurrentArtLoader> current_art_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetModel> internet_model_;
+#ifdef HAVE_STREAM_TIDAL
   Lazy<InternetSearch> tidal_search_;
+#endif
+#ifdef HAVE_STREAM_DEEZER
   Lazy<InternetSearch> deezer_search_;
+#endif
+  Lazy<QVariant> dummy_;
 
 };
 
@@ -206,5 +217,9 @@ LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_provi
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetModel *Application::internet_model() const { return p_->internet_model_.get(); }
+#ifdef HAVE_STREAM_TIDAL
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
+#endif
+#ifdef HAVE_STREAM_DEEZER
 InternetSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }
+#endif

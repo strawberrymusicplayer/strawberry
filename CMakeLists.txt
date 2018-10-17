@@ -280,16 +280,16 @@ optional_component(VLC ON "Engine: VLC backend"
   DEPENDS "libvlc" LIBVLC_FOUND
 )
 
-optional_component(PHONON OFF "Engine: Phonon backend"
+optional_component(PHONON OFF "Engine: Phonon backend (UNSTABLE)"
   DEPENDS "phonon4qt5" PHONON_FOUND
 )
 
 if (WIN32)
-  optional_component(DEEZER ON "Engine: Deezer backend"
+  optional_component(DEEZER OFF "Engine: Deezer backend (UNSTABLE)"
     DEPENDS "libdeezer" LIBDEEZER_FOUND
   )
 else ()
-  optional_component(DEEZER ON "Engine: Deezer backend"
+  optional_component(DEEZER OFF "Engine: Deezer backend (UNSTABLE)"
     DEPENDS "Linux" LINUX
     DEPENDS "libdeezer" LIBDEEZER_FOUND
     DEPENDS "libpulse" LIBPULSE_FOUND
@@ -345,8 +345,12 @@ optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "Sparkle" SPARKLE
 )
 
+optional_component(STREAM_TIDAL ON "Streaming: Tidal support")
+optional_component(STREAM_DEEZER ON "Streaming: Deezer support")
+
 optional_component(DZMEDIA ON "DZMedia"
   DEPENDS "libdzmedia" LIBDZMEDIA_FOUND
+  DEPENDS "Deezer support" HAVE_STREAM_DEEZER
 )
 
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
@@ -388,5 +392,7 @@ add_custom_target(uninstall
 # Show a summary of what we have enabled
 summary_show()
 if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON AND NOT HAVE_DEEZER)
-  message(FATAL_ERROR "You need to enable either GStreamer, Xine, VLC, Phonon or Deezer to compile!")
+  message(FATAL_ERROR "You need to have either GStreamer, Xine, VLC, Phonon or Deezer to compile!")
+elseif(NOT HAVE_GSTREAMER)
+  message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()

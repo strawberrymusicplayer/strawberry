@@ -62,8 +62,12 @@
 #include "playlistsettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
-#include "tidalsettingspage.h"
-#include "deezersettingspage.h"
+#ifdef HAVE_STREAM_TIDAL
+#  include "tidalsettingspage.h"
+#endif
+#ifdef HAVE_STREAM_DEEZER
+#  include "deezersettingspage.h"
+#endif
 
 #include "ui_settingsdialog.h"
 
@@ -125,9 +129,15 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
 
+#if defined(HAVE_STREAM_TIDAL) || defined(HAVE_STREAM_DEEZER)
   QTreeWidgetItem *internet = AddCategory(tr("Internet"));
+#endif
+#ifdef HAVE_STREAM_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), internet);
+#endif
+#ifdef HAVE_STREAM_DEEZER
   AddPage(Page_Deezer, new DeezerSettingsPage(this), internet);
+#endif
 
   // User interface
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));

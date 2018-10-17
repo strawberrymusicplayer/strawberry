@@ -217,8 +217,6 @@ set(SOURCES
   settings/shortcutssettingspage.cpp
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
-  settings/tidalsettingspage.cpp
-  settings/deezersettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -270,11 +268,6 @@ set(SOURCES
   internet/internetsearchsortmodel.cpp
   internet/internetsearchitemdelegate.cpp
   internet/localredirectserver.cpp
-
-  tidal/tidalservice.cpp
-  tidal/tidalurlhandler.cpp
-  deezer/deezerservice.cpp
-  deezer/deezerurlhandler.cpp
 
 )
 
@@ -388,8 +381,6 @@ set(HEADERS
   settings/shortcutssettingspage.h
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
-  settings/tidalsettingspage.h
-  settings/deezersettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -438,11 +429,6 @@ set(HEADERS
   internet/internetsearchmodel.h
   internet/localredirectserver.h
 
-  tidal/tidalservice.h
-  tidal/tidalurlhandler.h
-  deezer/deezerservice.h
-  deezer/deezerurlhandler.h
-
 )
 
 set(UI
@@ -478,8 +464,6 @@ set(UI
   settings/shortcutssettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
-  settings/tidalsettingspage.ui
-  settings/deezersettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui
@@ -867,6 +851,32 @@ optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
     widgets/osd_win.cpp
+)
+
+optional_source(HAVE_STREAM_TIDAL
+  SOURCES
+    tidal/tidalservice.cpp
+    tidal/tidalurlhandler.cpp
+    settings/tidalsettingspage.cpp
+  HEADERS
+    tidal/tidalservice.h
+    tidal/tidalurlhandler.h
+    settings/tidalsettingspage.h
+  UI
+    settings/tidalsettingspage.ui
+)
+
+optional_source(HAVE_STREAM_DEEZER
+  SOURCES
+    deezer/deezerservice.cpp
+    deezer/deezerurlhandler.cpp
+    settings/deezersettingspage.cpp
+  HEADERS
+    deezer/deezerservice.h
+    deezer/deezerurlhandler.h
+    settings/deezersettingspage.h
+  UI
+    settings/deezersettingspage.ui
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in

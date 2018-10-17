@@ -52,5 +52,8 @@
 #cmakedefine HAVE_PHONON
 #cmakedefine HAVE_DEEZER
 
+#cmakedefine HAVE_STREAM_TIDAL
+#cmakedefine HAVE_STREAM_DEEZER
+
 #endif // CONFIG_H_IN
 

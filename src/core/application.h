@@ -88,8 +88,12 @@ class Application : public QObject {
   LyricsProviders *lyrics_providers() const;
 
   InternetModel *internet_model() const;
+#ifdef HAVE_STREAM_TIDAL
   InternetSearch *tidal_search() const;
+#endif
+#ifdef HAVE_STREAM_DEEZER
   InternetSearch *deezer_search() const;
+#endif
 
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);

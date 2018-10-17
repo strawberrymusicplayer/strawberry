@@ -133,8 +133,12 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
-#include "settings/tidalsettingspage.h"
-#include "settings/deezersettingspage.h"
+#ifdef HAVE_STREAM_TIDAL
+#  include "settings/tidalsettingspage.h"
+#endif
+#ifdef HAVE_STREAM_DEEZER
+#  include "settings/deezersettingspage.h"
+#endif
 
 #include "internet/internetmodel.h"
 #include "internet/internetservice.h"
@@ -203,8 +207,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         manager->SetPlaylistManager(app->playlist_manager());
         return manager;
       }),
+#ifdef HAVE_STREAM_TIDAL
       tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+#endif
+#ifdef HAVE_STREAM_DEEZER
       deezer_search_view_(new InternetSearchView(app_, app_->deezer_search(), DeezerSettingsPage::kSettingsGroup, SettingsDialog::Page_Deezer, this)),
+#endif
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
@@ -259,8 +267,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifndef Q_OS_WIN
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
 #endif
+#ifdef HAVE_STREAM_TIDAL
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
+#endif
+#ifdef HAVE_STREAM_DEEZER
   ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer", "Deezer"));
+#endif
   //ui_->tabs->AddSpacer();
 
   // Add the playing widget to the fancy tab widget
@@ -519,10 +531,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->filter()->AddMenuAction(separator);
   collection_view_->filter()->AddMenuAction(collection_config_action);
 
-  // Tidal
+#ifdef HAVE_STREAM_TIDAL
   connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
-  // Deezer
+#endif
+#ifdef HAVE_STREAM_DEEZER
   connect(deezer_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+#endif
 
   // Playlist menu
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, SLOT(PlaylistPlay()));
@@ -810,8 +824,12 @@ void MainWindow::ReloadAllSettings() {
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
+#ifdef HAVE_STREAM_TIDAL
   tidal_search_view_->ReloadSettings();
+#endif
+#ifdef HAVE_STREAM_DEEZER
   deezer_search_view_->ReloadSettings();
+#endif
 
 }
 

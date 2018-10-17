@@ -233,7 +233,7 @@ void DeezerService::FetchAccessTokenFinished(QNetworkReply *reply) {
     }
     if (reply->atEnd()) break;
   }
-  
+
   QSettings s;
   s.beginGroup(DeezerSettingsPage::kSettingsGroup);
   s.setValue("access_token", access_token_);

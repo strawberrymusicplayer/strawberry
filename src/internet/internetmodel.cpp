@@ -30,8 +30,12 @@
 #include "core/logging.h"
 #include "internetmodel.h"
 #include "internetservice.h"
-#include "tidal/tidalservice.h"
-#include "deezer/deezerservice.h"
+#ifdef HAVE_STREAM_TIDAL
+#  include "tidal/tidalservice.h"
+#endif
+#ifdef HAVE_STREAM_DEEZER
+#  include "deezer/deezerservice.h"
+#endif
 
 QMap<Song::Source, InternetService*>* InternetModel::sServices = nullptr;
 
@@ -41,8 +45,12 @@ InternetModel::InternetModel(Application *app, QObject *parent)
 
   if (!sServices) sServices = new QMap<Song::Source, InternetService*>;
   Q_ASSERT(sServices->isEmpty());
+#ifdef HAVE_STREAM_TIDAL
   AddService(new TidalService(app, this));
+#endif
+#ifdef HAVE_STREAM_DEEZER
   AddService(new DeezerService(app, this));
+#endif
 
 }
 
