@@ -106,7 +106,7 @@ Player::~Player() {
   settings_.endGroup();
 }
 
-void Player::CreateEngine(Engine::EngineType enginetype) {
+Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 
   Engine::EngineType use_enginetype(Engine::None);
 
@@ -165,6 +165,8 @@ void Player::CreateEngine(Engine::EngineType enginetype) {
   if (!engine_) {
     qFatal("Failed to create engine!");
   }
+
+  return use_enginetype;
 
 }
 

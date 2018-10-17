@@ -85,23 +85,23 @@ void BackendSettingsPage::Load() {
 
   ui_->combobox_engine->clear();
 #ifdef HAVE_GSTREAMER
-  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::GStreamer), Engine::GStreamer);
+  ui_->combobox_engine->addItem(IconLoader::Load("gstreamer"), EngineDescription(Engine::GStreamer), QVariant::fromValue(Engine::GStreamer));
 #endif
 #ifdef HAVE_XINE
-  ui_->combobox_engine->addItem(IconLoader::Load("xine"), EngineDescription(Engine::Xine), Engine::Xine);
+  ui_->combobox_engine->addItem(IconLoader::Load("xine"), EngineDescription(Engine::Xine), QVariant::fromValue(Engine::Xine));
 #endif
 #ifdef HAVE_VLC
-  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), Engine::VLC);
+  ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), QVariant::fromValue(Engine::VLC));
 #endif
 #ifdef HAVE_PHONON
-  ui_->combobox_engine->addItem(IconLoader::Load("speaker"), EngineDescription(Engine::Phonon), Engine::Phonon);
+  ui_->combobox_engine->addItem(IconLoader::Load("speaker"), EngineDescription(Engine::Phonon), QVariant::fromValue(Engine::Phonon));
 #endif
 #ifdef HAVE_DEEZER
-  ui_->combobox_engine->addItem(IconLoader::Load("deezer"), EngineDescription(Engine::Deezer), Engine::Deezer);
+  ui_->combobox_engine->addItem(IconLoader::Load("deezer"), EngineDescription(Engine::Deezer), QVariant::fromValue(Engine::Deezer));
 #endif
 
   enginetype_current_ = enginetype;
-  output_current_ = s_.value("output", "").toString();
+  output_current_ = s_.value("output", QString()).toString();
   device_current_ = s_.value("device", QVariant());
 
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(enginetype));
@@ -191,10 +191,12 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
 
   if (engine()->type() != enginetype) {
     qLog(Debug) << "Switching engine.";
-    dialog()->app()->player()->CreateEngine(enginetype);
-    dialog()->app()->player()->ReloadSettings();
+    Engine::EngineType new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
     dialog()->app()->player()->Init();
     dialog()->set_output_changed(false);
+    if (new_enginetype != enginetype) {
+      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engine()->type()));
+    }
   }
 
   engineloaded_ = true;
@@ -207,7 +209,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
 
   if (!EngineInitialised()) return;
 
-  if (output == "") output = engine()->DefaultOutput();
+  if (output.isEmpty()) output = engine()->DefaultOutput();
 
   ui_->combobox_output->clear();
   int i = 0;
@@ -228,7 +230,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
   if (!found) { // Output is invalid for this engine, reset to default output.
     output = engine()->DefaultOutput();
-    device = (engine()->CustomDeviceSupport(output) == true ? QVariant("") : QVariant());
+    device = (engine()->CustomDeviceSupport(output) ? QString() : QVariant());
     for (int i = 0; i < ui_->combobox_output->count(); ++i) {
       EngineBase::OutputDetails o = ui_->combobox_output->itemData(i).value<EngineBase::OutputDetails>();
       if (o.name == output) {
@@ -270,7 +272,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
 #ifdef Q_OS_WIN
   if (engine()->type() != Engine::GStreamer)
 #endif
-    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", QVariant(""));
+    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", QVariant());
 
   for (DeviceFinder *f : dialog()->app()->enginedevice()->device_finders_) {
     if (!f->outputs().contains(output)) continue;
@@ -283,7 +285,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   if (devices > 0) ui_->combobox_device->setEnabled(true);
 
   if (engine()->CustomDeviceSupport(output)) {
-    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant(""));
+    ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant());
     ui_->lineedit_device->setEnabled(true);
   }
   else {
@@ -380,7 +382,6 @@ void BackendSettingsPage::Save() {
 void BackendSettingsPage::Cancel() {
   if (engine() && engine()->type() != enginetype_current_) { // Reset engine back to the original because user cancelled.
     dialog()->app()->player()->CreateEngine(enginetype_current_);
-    dialog()->app()->player()->ReloadSettings();
     dialog()->app()->player()->Init();
   }
 }

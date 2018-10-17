@@ -134,7 +134,7 @@ class Player : public PlayerInterface {
     PreviousBehaviour_Restart = 2
   };
 
-  void CreateEngine(Engine::EngineType enginetype);
+  Engine::EngineType CreateEngine(Engine::EngineType enginetype);
   void Init();
 
   EngineBase *engine() const { return engine_.get(); }

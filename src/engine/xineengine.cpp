@@ -121,9 +121,10 @@ bool XineEngine::Init() {
     qLog(Error) << "Invalid output detected:" << output_ << " - Resetting to default.";
     output_ = DefaultOutput();
   }
+
   audioport_ = xine_open_audio_driver(xine_, (output_.isEmpty() || output_ == kAutoOutput ? nullptr : output_.toUtf8().constData()), nullptr);
   if (!audioport_) {
-    emit Error("Xine was unable to initialize any audio drivers.");
+    qLog(Error) << "Xine was unable to initialize any audio drivers.";
     return false;
   }
 
@@ -353,7 +354,7 @@ void XineEngine::ReloadSettings() {
 
   Engine::Base::ReloadSettings();
 
-  if (output_ == "") output_ = DefaultOutput();
+  if (output_.isEmpty()) output_ = DefaultOutput();
 
 }
 

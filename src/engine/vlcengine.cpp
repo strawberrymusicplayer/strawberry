@@ -69,14 +69,17 @@ bool VLCEngine::Init() {
 
   // Create the VLC instance
   instance_ = libvlc_new(sizeof(args) / sizeof(*args), args);
+  if (!instance_) return false;
   HandleErrors();
 
   // Create the media player
   player_ = libvlc_media_player_new(instance_);
+  if (!player_) return false;
   HandleErrors();
 
   // Add event handlers
   libvlc_event_manager_t *player_em = libvlc_media_player_event_manager(player_);
+  if (!player_em) return false;
   HandleErrors();
 
   AttachCallback(player_em, libvlc_MediaPlayerEncounteredError, StateChangedCallback);
