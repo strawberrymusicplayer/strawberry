@@ -353,6 +353,10 @@ optional_component(DZMEDIA ON "DZMedia"
   DEPENDS "Deezer support" HAVE_STREAM_DEEZER
 )
 
+if (HAVE_STREAM_DEEZER AND NOT HAVE_DZMEDIA AND NOT HAVE_DEEZER)
+  message(STATUS "Deezer is enabled, but not DZMedia or Deezer engine, only preview streams will be available.")
+endif()
+
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
   #add_subdirectory(ext/gstafc)
 #endif(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
