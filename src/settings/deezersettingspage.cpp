@@ -73,6 +73,7 @@ void DeezerSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
+  ui_->checkbox_enable->setChecked(s.value("enabled", false).toBool());
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
@@ -83,7 +84,12 @@ void DeezerSettingsPage::Load() {
   ui_->spinbox_songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_coversize, "coversize", "cover_big");
-  ui_->checkbox_preview->setChecked(s.value("preview", false).toBool());
+#if defined(HAVE_DEEZER) || defined(HAVE_DZMEDIA)
+  bool preview(false);
+#else
+  bool preview(true);
+#endif
+  ui_->checkbox_preview->setChecked(s.value("preview", preview).toBool());
   s.endGroup();
 
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
@@ -95,6 +101,7 @@ void DeezerSettingsPage::Save() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  s.setValue("enabled", ui_->checkbox_enable->isChecked());
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));

@@ -260,25 +260,24 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), tr("Context"));
-  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
-  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), "Context");
+  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), "Collection");
+  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), "Files");
+  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), "Playlists");
 #ifndef Q_OS_WIN
-  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), "Devices");
 #endif
 #ifdef HAVE_STREAM_TIDAL
-  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal", "Tidal"));
+  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), "Tidal");
 #endif
 #ifdef HAVE_STREAM_DEEZER
-  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer", "Deezer"));
+  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), "Deezer");
 #endif
-  //ui_->tabs->AddSpacer();
 
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
-
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
+  ui_->tabs->loadSettings(kSettingsGroup);
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   connect(track_position_timer_, SIGNAL(timeout()), SLOT(UpdateTrackPosition()));
@@ -722,7 +721,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1 /* Collection tab */ ).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
-  ui_->tabs->SetMode(FancyTabWidget::Mode(settings_.value("tab_mode", default_mode).toInt()));
+  int tab_mode_int = settings_.value("tab_mode", default_mode).toInt();
+  FancyTabWidget::Mode tab_mode = FancyTabWidget::Mode(tab_mode_int);
+  if (tab_mode == FancyTabWidget::Mode_None) tab_mode = default_mode;
+  ui_->tabs->SetMode(tab_mode);
   file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
 
   TabSwitched();
@@ -811,6 +813,28 @@ void MainWindow::ReloadSettings() {
   album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings.value("search_for_cover_auto", true).toBool());
   settings.endGroup();
 
+#ifdef HAVE_STREAM_TIDAL
+  settings.beginGroup(TidalSettingsPage::kSettingsGroup);
+  bool enable_tidal = settings.value("enabled", false).toBool();
+  settings.endGroup();
+  if (enable_tidal)
+    ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), "Tidal");
+  else
+    ui_->tabs->delTab("tidal");
+#endif
+
+#ifdef HAVE_STREAM_DEEZER
+  settings.beginGroup(DeezerSettingsPage::kSettingsGroup);
+  bool enable_deezer = settings.value("enabled", false).toBool();
+  settings.endGroup();
+  if (enable_deezer)
+    ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), "Deezer");
+  else
+    ui_->tabs->delTab("deezer");
+#endif
+
+  ui_->tabs->loadSettings(kSettingsGroup);
+
 }
 
 void MainWindow::ReloadAllSettings() {
@@ -884,12 +908,14 @@ void MainWindow::MediaPlaying() {
   ui_->action_play_pause->setIcon(IconLoader::Load("media-pause"));
   ui_->action_play_pause->setText(tr("Pause"));
 
-  bool enable_play_pause = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::PauseDisabled);
+  bool enable_play_pause(false);
+  bool can_seek(false);
+  if (app_->player()->GetCurrentItem()) {
+    enable_play_pause = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::PauseDisabled);
+    can_seek = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::SeekDisabled);
+  }
   ui_->action_play_pause->setEnabled(enable_play_pause);
-
-  bool can_seek = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::SeekDisabled);
   ui_->track_slider->SetCanSeek(can_seek);
-
   if (tray_icon_) tray_icon_->SetPlaying(enable_play_pause);
 
   track_position_timer_->start();
@@ -913,6 +939,7 @@ void MainWindow::SongChanged(const Song &song) {
 }
 
 void MainWindow::TrackSkipped(PlaylistItemPtr item) {
+
   // If it was a collection item then we have to increment its skipped count in the database.
 
   if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
@@ -929,6 +956,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
       app_->collection_backend()->IncrementSkipCountAsync(song.id(), percentage);
     }
   }
+
 }
 
 void MainWindow::changeEvent(QEvent *event) {
@@ -937,16 +965,18 @@ void MainWindow::changeEvent(QEvent *event) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
+  if (!initialised_) return;
   SaveGeometry();
 }
 
 void MainWindow::TabSwitched() {
 
-  if (ui_->tabs->currentIndex() > 0)
-    ui_->widget_playing->SetEnabled();
-  else
+  if (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() == "context")
     ui_->widget_playing->SetDisabled();
+  else
+    ui_->widget_playing->SetEnabled();
 
+  if (!initialised_) return;
   SaveGeometry();
 
 }
@@ -960,6 +990,7 @@ void MainWindow::SaveGeometry() {
   settings_.setValue("splitter_state", ui_->splitter->saveState());
   settings_.setValue("current_tab", ui_->tabs->currentIndex());
   settings_.setValue("tab_mode", ui_->tabs->mode());
+  ui_->tabs->saveSettings(kSettingsGroup);
 
 }
 
@@ -1145,6 +1176,7 @@ void MainWindow::UpdateTrackPosition() {
   //Playlist *playlist = app_->playlist_manager()->active();
 
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
+  if (!item) return;
   const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
   const int length = item->Metadata().length_nanosec() / kNsecPerSec;
 
@@ -2216,8 +2248,8 @@ bool MainWindow::winEvent(MSG *msg, long*) {
 
 void MainWindow::Exit() {
 
+  SaveGeometry();
   SavePlaybackStatus();
-  //settings_.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
     // To shut down the application when fadeout will be finished

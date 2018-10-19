@@ -387,6 +387,13 @@ signals:
   Song song_playing_;
   QImage image_original_;
 
+#ifdef HAVE_STREAM_TIDAL
+  int tab_index_tidal_;
+#endif
+#ifdef HAVE_STREAM_DEEZER
+  int tab_index_deezer_;
+#endif
+
 };
 
 #endif  // MAINWINDOW_H

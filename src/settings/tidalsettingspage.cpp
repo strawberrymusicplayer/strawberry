@@ -37,7 +37,6 @@ const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
     : SettingsPage(parent),
       ui_(new Ui::TidalSettingsPage),
-      //service_(dialog()->app()->internet_model()->Service<TidalService>()) {
       service_(dialog()->app()->internet_model()->Service<TidalService>()) {
 
   ui_->setupUi(this);
@@ -75,6 +74,7 @@ void TidalSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
+  ui_->checkbox_enable->setChecked(s.value("enabled", false).toBool());
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
@@ -96,6 +96,7 @@ void TidalSettingsPage::Save() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  s.setValue("enabled", ui_->checkbox_enable->isChecked());
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));

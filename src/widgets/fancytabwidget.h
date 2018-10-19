@@ -1,249 +1,107 @@
-/**************************************************************************
-**
-** This file is part of Qt Creator
-**
-** Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
-**
-** Contact: Nokia Corporation (qt-info@nokia.com)
-**
-** Commercial Usage
-**
-** Licensees holding valid Qt Commercial licenses may use this file in
-** accordance with the Qt Commercial License Agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Nokia.
-**
-** GNU Lesser General Public License Usage
-**
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** If you are unsure which license is appropriate for your use, please
-** contact the sales department at http://qt.nokia.com/contact.
-**
-**************************************************************************/
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2018, Vikram Ambrose <ambroseworks@gmail.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #ifndef FANCYTABWIDGET_H
 #define FANCYTABWIDGET_H
 
-#include "config.h"
-
 #include <memory>
-#include <stdbool.h>
 
 #include <QObject>
+#include <QTabWidget>
 #include <QWidget>
-#include <QIcon>
-#include <QList>
-#include <QMetaType>
-#include <QPixmap>
-#include <QPainter>
-#include <QPalette>
-#include <QRect>
-#include <QSize>
-#include <QString>
-#include <QStyle>
-#include <QTabBar>
-#include <QTimer>
-#include <QPropertyAnimation>
-#include <QProxyStyle>
 #include <QActionGroup>
-#include <QApplication>
-#include <QSignalMapper>
-#include <QStackedLayout>
-#include <QStyleOption>
-#include <QVBoxLayout>
 #include <QMenu>
+#include <QSignalMapper>
+#include <QPixmap>
+#include <QSize>
 #include <QtEvents>
-
-class QEvent;
-class QMouseEvent;
-class QPaintEvent;
-class QContextMenuEvent;
 
 namespace Core {
 namespace Internal {
 
-class FancyTabProxyStyle : public QProxyStyle {
+class FancyTabWidget : public QTabWidget {
   Q_OBJECT
 
-public:
-  void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
-  void polish(QWidget *widget);
-  void polish(QApplication *app);
-  void polish(QPalette &palette);
+  public:
+    FancyTabWidget(QWidget* parent = 0);
+    int addTab(QWidget *widget, const QIcon &icon, const QString &label);
+    void delTab(const QString &label);
+    int insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label);
+    void addBottomWidget(QWidget* widget);
 
-protected:
-  bool eventFilter(QObject *o, QEvent *e);
-};
+    void setBackgroundPixmap(const QPixmap& pixmap);
+    void addSpacer();
 
-class FancyTab : public QWidget {
-  Q_OBJECT
+    void loadSettings(const char *);
+    void saveSettings(const char *);
 
-  Q_PROPERTY(float fader READ fader WRITE setFader)
-public:
-    FancyTab(QWidget *tabbar);
-  float fader() { return m_fader; }
-  void setFader(float value);
-
-  QSize sizeHint() const;
-
-  void fadeIn();
-  void fadeOut();
-
-  QIcon icon;
-  QString text;
-
-protected:
-    bool event(QEvent *);
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-
-private:
-  QPropertyAnimation animator;
-  QWidget *tabbar;
-  float m_fader;
-};
-
-class FancyTabBar : public QWidget {
-  Q_OBJECT
-
- public:
-  FancyTabBar(QWidget *parent = nullptr);
-  ~FancyTabBar();
-
-  void paintEvent(QPaintEvent *event);
-  void paintTab(QPainter *painter, int tabIndex) const;
-  void mousePressEvent(QMouseEvent *);
-  bool validIndex(int index) const { return index >= 0 && index < m_tabs.count(); }
-
-  QSize sizeHint() const;
-  QSize minimumSizeHint() const;
-
-  void addTab(const QIcon &icon, const QString &label);
-  void addSpacer(int size = 40);
-  void removeTab(int index) {
-    FancyTab *tab = m_tabs.takeAt(index);
-    delete tab;
-  }
-  void setCurrentIndex(int index);
-  int currentIndex() const { return m_currentIndex; }
-
-  void setTabToolTip(int index, const QString &toolTip);
-  QString tabToolTip(int index) const;
-
-  QIcon tabIcon(int index) const {return m_tabs.at(index)->icon; }
-  QString tabText(int index) const { return m_tabs.at(index)->text; }
-  int count() const { return m_tabs.count(); }
-  QRect tabRect(int index) const;
-
-signals:
-  void currentChanged(int);
-
-public slots:
-  void emitCurrentIndex();
-
-private:
-  static const int m_rounding;
-  static const int m_textPadding;
-  int m_currentIndex;
-  QList<FancyTab*> m_tabs;
-  QTimer m_triggerTimer;
-  QSize tabSizeHint(bool minimum = false) const;
-
-};
-
-class FancyTabWidget : public QWidget {
-  Q_OBJECT
-
- public:
-  FancyTabWidget(QWidget *parent = nullptr);
-
-  // Values are persisted - only add to the end
-  enum Mode {
-    Mode_None = 0,
-
-    Mode_LargeSidebar = 1,
-    Mode_SmallSidebar = 2,
-    Mode_Tabs = 3,
-    Mode_IconOnlyTabs = 4,
-    Mode_PlainSidebar = 5,
-  };
-
-  struct Item {
-    Item(const QIcon &icon, const QString &label)
-      : type_(Type_Tab), tab_label_(label), tab_icon_(icon), spacer_size_(0) {}
-    Item(int size) : type_(Type_Spacer), spacer_size_(size) {}
-
-    enum Type {
-      Type_Tab,
-      Type_Spacer,
+    // Values are persisted - only add to the end
+    enum Mode {
+      Mode_None = 0,
+      Mode_LargeSidebar,
+      Mode_SmallSidebar,
+      Mode_Tabs,
+      Mode_IconOnlyTabs,
+      Mode_PlainSidebar,
     };
 
-    Type type_;
-    QString tab_label_;
-    QIcon tab_icon_;
-    int spacer_size_;
-  };
+    static const QSize TabSize_LargeSidebar;
 
-  void addTab(QWidget *tab, const QIcon &icon, const QString &label);
-  void AddSpacer(int size = 40);
-  void SetBackgroundPixmap(const QPixmap &pixmap);
+    static const QSize IconSize_LargeSidebar;
+    static const QSize IconSize_SmallSidebar;
 
-  void addBottomWidget(QWidget *widget);
+    Mode mode() { return mode_; }
 
-  int currentIndex() const;
-  Mode mode() const { return mode_; }
+  signals:
+    void ModeChanged(FancyTabWidget::Mode mode);
+    void CurrentChanged(int);
 
-public slots:
-  void setCurrentIndex(int index);
-  void setCurrentWidget(QWidget *widget);
-  void SetMode(Mode mode);
-  void SetMode(int mode) { SetMode(Mode(mode)); }
+  public slots:
+    void setCurrentIndex(int index);
+    void SetMode(Mode mode);
+    // Mapper mapped signal needs this convenience function 
+    void SetMode(int mode) { SetMode(Mode(mode)); }
 
-signals:
-  void CurrentChanged(int index);
-  void ModeChanged(FancyTabWidget::Mode mode);
+  private slots:
+    void tabBarUpdateGeometry();
+    void currentTabChanged(int);
 
-protected:
-  void paintEvent(QPaintEvent *event);
-  void contextMenuEvent(QContextMenuEvent *e);
+  protected:
+    void paintEvent(QPaintEvent *);
+    void contextMenuEvent(QContextMenuEvent* e);
+  private:
+    void addMenuItem(QSignalMapper* mapper, QActionGroup* group, const QString& text, Mode mode);
 
-private slots:
-  void ShowWidget(int index);
+    QPixmap background_pixmap_;
+    QMenu* menu_;
+    Mode mode_;
+    QWidget *bottom_widget_;
 
-private:
-  void MakeTabBar(QTabBar::Shape shape, bool text, bool icons, bool fancy);
-  void AddMenuItem(QSignalMapper *mapper, QActionGroup *group, const QString &text, Mode mode);
+    QHash <QString, QWidget*> tabs_;
 
-  Mode mode_;
-  QList<Item> items_;
-
-  QWidget *tab_bar_;
-  QStackedLayout *stack_;
-  QPixmap background_pixmap_;
-  QWidget *side_widget_;
-  QVBoxLayout *side_layout_;
-  QVBoxLayout *top_layout_;
-
-  bool use_background_;
-
-  QMenu *menu_;
-
-  std::unique_ptr<FancyTabProxyStyle> proxy_style_;
 };
 
 }  // namespace Internal
 }  // namespace Core
 
-Q_DECLARE_METATYPE(QPropertyAnimation*);
-
-using Core::Internal::FancyTab;
-using Core::Internal::FancyTabBar;
 using Core::Internal::FancyTabWidget;
 
 #endif  // FANCYTABWIDGET_H
