@@ -123,7 +123,12 @@ void DeezerService::ReloadSettings() {
   songssearchlimit_ = s.value("songssearchlimit", 100).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
   coversize_ = s.value("coversize", "cover_big").toString();
-  preview_ = s.value("preview", false).toBool();
+#if defined(HAVE_DEEZER) || defined(HAVE_DZMEDIA)
+  bool preview(false);
+#else
+  bool preview(true);
+#endif
+  preview_ = s.value("preview", preview).toBool();
   s.endGroup();
 
 }
