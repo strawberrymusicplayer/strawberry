@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <functional>
+#include <algorithm>
 
 #include <QObject>
 #include <QtGlobal>
@@ -55,6 +56,8 @@
 
 #include "contextalbumsmodel.h"
 
+using std::bind;
+using std::sort;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
@@ -479,7 +482,7 @@ void ContextAlbumsModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, 
       const_cast<ContextAlbumsModel*>(this)->LazyPopulate(item);
 
       QList<CollectionItem*> children = item->children;
-      qSort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, _1, _2));
+      std::sort(children.begin(), children.end(), std::bind(&ContextAlbumsModel::CompareItems, this, _1, _2));
 
       for (CollectionItem *child : children)
         GetChildSongs(child, urls, songs, song_ids);

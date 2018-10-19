@@ -152,6 +152,10 @@
 #  include "core/macsystemtrayicon.h"
 #endif
 
+using std::bind;
+using std::floor;
+using std::stable_sort;
+
 #ifdef Q_OS_MACOS
   // Non exported mac-specific function.
   void qt_mac_set_dock_menu(QMenu*);
@@ -1547,6 +1551,7 @@ void MainWindow::EditTracks() {
 }
 
 void MainWindow::EditTagDialogAccepted() {
+
   for (PlaylistItemPtr item : edit_tag_dialog_->playlist_items()) {
     item->Reload();
   }
@@ -1555,14 +1560,16 @@ void MainWindow::EditTagDialogAccepted() {
   ui_->playlist->view()->update();
 
   app_->playlist_manager()->current()->Save();
+
 }
 
 void MainWindow::RenumberTracks() {
+
   QModelIndexList indexes =ui_->playlist->view()->selectionModel()->selection().indexes();
   int track = 1;
 
   // Get the index list in order
-  qStableSort(indexes);
+  std::stable_sort(indexes.begin(), indexes.end());
 
   // if first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
@@ -1587,6 +1594,7 @@ void MainWindow::RenumberTracks() {
     }
     track++;
   }
+
 }
 
 void MainWindow::SongSaveComplete(TagReaderReply *reply,const QPersistentModelIndex &index) {

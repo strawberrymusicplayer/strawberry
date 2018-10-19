@@ -33,6 +33,8 @@
 
 #include "settings/settingsdialog.h"
 
+using std::unique_ptr;
+
 class TaskManager;
 class ApplicationImpl;
 class TagReaderClient;

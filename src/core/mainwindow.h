@@ -57,6 +57,8 @@
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
 
+using std::unique_ptr;
+
 class About;
 class AlbumCoverManager;;
 class Application;

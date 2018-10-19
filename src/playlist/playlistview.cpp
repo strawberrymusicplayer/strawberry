@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <math.h>
+#include <algorithm>
 
 #include <QApplication>
 #include <QObject>
@@ -76,6 +77,8 @@
 #include "settings/appearancesettingspage.h"
 #include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
+
+using std::sort;
 
 const int PlaylistView::kStateVersion = 6;
 const int PlaylistView::kGlowIntensitySteps = 24;
@@ -572,7 +575,7 @@ void PlaylistView::RemoveSelected(bool deleting_from_disk) {
   int last_row = selection.last().top();
 
   // Sort the selection so we remove the items at the *bottom* first, ensuring we don't have to mess around with changing row numbers
-  qSort(selection.begin(), selection.end(), CompareSelectionRanges);
+  std::sort(selection.begin(), selection.end(), CompareSelectionRanges);
 
   for (const QItemSelectionRange &range : selection) {
     if (range.top() < last_row) rows_removed += range.height();
@@ -613,7 +616,7 @@ QList<int> PlaylistView::GetEditableColumns() {
     QModelIndex index = model()->index(0, col);
     if (index.flags() & Qt::ItemIsEditable) columns << h->visualIndex(col);
   }
-  qSort(columns);
+  std::sort(columns.begin(), columns.end());
   return columns;
 
 }

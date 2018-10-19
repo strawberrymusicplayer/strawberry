@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <functional>
+#include <algorithm>
 
 #include <QObject>
 #include <QtGlobal>
@@ -61,6 +62,8 @@
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
 
+using std::bind;
+using std::sort;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
@@ -1312,7 +1315,7 @@ void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, Son
       const_cast<CollectionModel*>(this)->LazyPopulate(item);
 
       QList<CollectionItem*> children = item->children;
-      qSort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, _1, _2));
+      std::sort(children.begin(), children.end(), std::bind(&CollectionModel::CompareItems, this, _1, _2));
 
       for (CollectionItem *child : children)
         GetChildSongs(child, urls, songs, song_ids);

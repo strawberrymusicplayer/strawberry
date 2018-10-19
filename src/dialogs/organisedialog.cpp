@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <memory>
+#include <algorithm>
 
 #include <QtGlobal>
 #include <QtConcurrentRun>
@@ -62,6 +63,9 @@
 #include "organisedialog.h"
 #include "organiseerrordialog.h"
 #include "ui_organisedialog.h"
+
+using std::shared_ptr;
+using std::stable_sort;
 
 const char *OrganiseDialog::kDefaultFormat = "%artist/%album{ (Disc %disc)}/{%track - }%title.%extension";
 const char *OrganiseDialog::kSettingsGroup = "OrganiseDialog";
@@ -111,7 +115,7 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
 
   // Get the titles of the tags to put in the insert menu
   QStringList tag_titles = tags.keys();
-  qStableSort(tag_titles);
+  std::stable_sort(tag_titles.begin(), tag_titles.end());
 
   // Build the insert menu
   QMenu *tag_menu = new QMenu(this);

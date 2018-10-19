@@ -24,6 +24,7 @@
 #include <glib/gtypes.h>
 #include <stdlib.h>
 #include <memory>
+#include <algorithm>
 #include <gst/gst.h>
 
 #include <QtGlobal>
@@ -47,9 +48,9 @@
 #include "transcoder.h"
 
 using std::shared_ptr;
+using std::sort;
 
 int Transcoder::JobFinishedEvent::sEventType = -1;
-
 
 TranscoderPreset::TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype)
     : type_(type),
@@ -145,7 +146,7 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   if (suitable_elements_.isEmpty()) return nullptr;
 
   // Sort by rank
-  qSort(suitable_elements_);
+  std::sort(suitable_elements_.begin(), suitable_elements_.end());
   const SuitableElement &best = suitable_elements_.last();
 
   LogLine(QString("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));

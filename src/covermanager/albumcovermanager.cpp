@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <memory>
+#include <algorithm>
 
 #include <QtGlobal>
 #include <QObject>
@@ -80,6 +81,8 @@
 #include "coversearchstatisticsdialog.h"
 
 #include "ui_albumcovermanager.h"
+
+using std::stable_sort;
 
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
 
@@ -286,7 +289,7 @@ void AlbumCoverManager::Reset() {
   new QListWidgetItem(artist_icon_, tr("Various artists"), ui_->artists, Various_Artists);
 
   QStringList artists(collection_backend_->GetAllArtistsWithAlbums());
-  qStableSort(artists.begin(), artists.end(), CompareNocase);
+  std::stable_sort(artists.begin(), artists.end(), CompareNocase);
 
   for (const QString &artist : artists) {
     if (artist.isEmpty()) continue;
@@ -326,7 +329,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
   }
 
   // Sort by album name.  The list is already sorted by sqlite but it was done case sensitively.
-  qStableSort(albums.begin(), albums.end(), CompareAlbumNameNocase);
+  std::stable_sort(albums.begin(), albums.end(), CompareAlbumNameNocase);
 
   for (const CollectionBackend::Album &info : albums) {
     // Don't show songs without an album, obviously

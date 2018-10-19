@@ -43,6 +43,8 @@
 #include "coverprovider.h"
 #include "coverproviders.h"
 
+using std::stable_sort;
+
 const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 12000;
 const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
@@ -148,7 +150,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   // Now we have to load some images and figure out which one is the best.
   // We'll sort the list of results by category, then load the first few images from each category and use some heuristics to score them.
   // If no images are good enough we'll keep loading more images until we find one that is or we run out of results.
-  qStableSort(results_.begin(), results_.end(), CompareProviders);
+  std::stable_sort(results_.begin(), results_.end(), CompareProviders);
   FetchMoreImages();
 
 }

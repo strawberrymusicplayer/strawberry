@@ -45,6 +45,8 @@
 #include <QUrl>
 #include <QTimerEvent>
 
+using std::unique_ptr;
+
 class GstEngine;
 class GstBufferConsumer;
 class GstElementDeleter;

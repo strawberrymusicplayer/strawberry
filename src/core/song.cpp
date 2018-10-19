@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <taglib/fileref.h>
 #include <taglib/id3v1genres.h>
 
@@ -65,6 +67,8 @@
 #include "collection/sqlrow.h"
 #include "covermanager/albumcoverloader.h"
 #include "tagreadermessages.pb.h"
+
+using std::sort;
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"
@@ -495,7 +499,7 @@ int CompareSongsName(const Song &song1, const Song &song2) {
 
 void Song::SortSongsListAlphabetically(SongList *songs) {
   Q_ASSERT(songs);
-  qSort(songs->begin(), songs->end(), CompareSongsName);
+  std::sort(songs->begin(), songs->end(), CompareSongsName);
 }
 
 void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 length_nanosec) {

@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <functional>
+#include <algorithm>
 
 #include <QtGlobal>
 #include <QWidget>

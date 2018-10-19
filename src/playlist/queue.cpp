@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QIODevice>
 #include <QDataStream>
@@ -38,6 +40,8 @@
 
 #include "playlist.h"
 #include "queue.h"
+
+using std::stable_sort;
 
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
@@ -279,7 +283,9 @@ bool Queue::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, 
     QList<int> proxy_rows;
     QDataStream stream(data->data(kRowsMimetype));
     stream >> proxy_rows;
-    qStableSort(proxy_rows);  // Make sure we take them in order
+
+    // Make sure we take them in order
+    std::stable_sort(proxy_rows.begin(), proxy_rows.end());
 
     Move(proxy_rows, row);
   }
@@ -355,7 +361,7 @@ QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) c
 void Queue::Remove(QList<int> &proxy_rows) {
 
   // Order the rows
-  qStableSort(proxy_rows);
+  std::stable_sort(proxy_rows.begin(), proxy_rows.end());
 
   // Reflects immediately changes in the playlist
   layoutAboutToBeChanged();

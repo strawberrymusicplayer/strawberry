@@ -41,6 +41,8 @@
 #include "wplparser.h"
 #include "xspfparser.h"
 
+using std::stable_sort;
+
 const int PlaylistParser::kMagicSize = 512;
 
 PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent)
@@ -66,7 +68,7 @@ QStringList PlaylistParser::file_extensions() const {
     ret << parser->file_extensions();
   }
 
-  qStableSort(ret);
+  std::stable_sort(ret.begin(), ret.end());
   return ret;
 
 }
@@ -79,7 +81,7 @@ QStringList PlaylistParser::mime_types() const {
     if (!parser->mime_type().isEmpty()) ret << parser->mime_type();
   }
 
-  qStableSort(ret);
+  std::stable_sort(ret.begin(), ret.end());
   return ret;
 
 }

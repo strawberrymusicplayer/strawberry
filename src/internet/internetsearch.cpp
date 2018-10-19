@@ -50,6 +50,8 @@
 #include "internetservice.h"
 #include "internetmodel.h"
 
+using std::advance;
+
 const int InternetSearch::kDelayedSearchTimeoutMs = 200;
 const int InternetSearch::kMaxResultsPerEmission = 2000;
 const int InternetSearch::kArtHeight = 32;

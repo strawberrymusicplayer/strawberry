@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <memory>
+#include <algorithm>
 
 #ifdef HAVE_GSTREAMER
 #  include <gst/gst.h>
@@ -65,6 +66,9 @@
 #endif
 
 using std::placeholders::_1;
+using std::bind;
+using std::stable_sort;
+using std::shared_ptr;
 
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;
@@ -323,7 +327,7 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
     LoadLocalPartial(it.next());
   }
 
-  qStableSort(songs_.begin(), songs_.end(), CompareSongs);
+  std::stable_sort(songs_.begin(), songs_.end(), CompareSongs);
 
   // Load the first song:
   // all songs will be loaded async, but we want the first one in our list to be fully loaded,

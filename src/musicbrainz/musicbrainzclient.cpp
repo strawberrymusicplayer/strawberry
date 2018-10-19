@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QList>
 #include <QPair>
@@ -43,6 +45,9 @@
 #include "core/network.h"
 #include "core/utilities.h"
 #include "musicbrainzclient.h"
+
+using std::sort;
+using std::stable_sort;
 
 const char *MusicBrainzClient::kTrackUrl = "http://musicbrainz.org/ws/2/recording/";
 const char *MusicBrainzClient::kDiscUrl = "http://musicbrainz.org/ws/2/discid/";
@@ -220,7 +225,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, int id, int reques
     // Merge the results we have
     ResultList ret;
     QList<PendingResults> result_list_list = pending_results_.take(id);
-    qSort(result_list_list);
+    std::sort(result_list_list.begin(), result_list_list.end());
     for (const PendingResults &result_list : result_list_list) {
       ret << result_list.results_;
     }
@@ -242,6 +247,7 @@ bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader 
   }
   qLog(Debug) << "Reached end of xml stream without encountering </disc-list>";
   return false;
+
 }
 
 MusicBrainzClient::ResultList MusicBrainzClient::ParseMedium(QXmlStreamReader *reader) {
@@ -330,7 +336,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *re
     ret << result;
   }
   else {
-    qStableSort(releases);
+    std::stable_sort(releases.begin(), releases.end());
     for (const Release &release : releases) {
       ret << release.CopyAndMergeInto(result);
     }
@@ -401,7 +407,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList&
   ResultList ret;
   if (opt == SortResults) {
     ret = QSet<Result>::fromList(results).toList();
-    qSort(ret);
+    std::sort(ret.begin(), ret.end());
   }
   else {  // KeepOriginalOrder
     // Qt doesn't provide a ordered set (QSet "stores values in an unspecified order" according to Qt documentation).

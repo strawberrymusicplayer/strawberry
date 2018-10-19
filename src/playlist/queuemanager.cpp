@@ -19,6 +19,7 @@
  */
 
 #include <stdbool.h>
+#include <algorithm>
 
 #include <QWidget>
 #include <QDialog>
@@ -38,6 +39,8 @@
 #include "queue.h"
 #include "queuemanager.h"
 #include "ui_queuemanager.h"
+
+using std::stable_sort;
 
 QueueManager::QueueManager(QWidget *parent)
     : QDialog(parent),
@@ -105,7 +108,7 @@ void QueueManager::CurrentPlaylistChanged(Playlist *playlist) {
 void QueueManager::MoveUp() {
 
   QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
-  qStableSort(indexes);
+  std::stable_sort(indexes.begin(), indexes.end());
 
   if (indexes.isEmpty() || indexes.first().row() == 0) return;
 
@@ -118,7 +121,7 @@ void QueueManager::MoveUp() {
 void QueueManager::MoveDown() {
 
   QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
-  qStableSort(indexes);
+  std::stable_sort(indexes.begin(), indexes.end());
 
   if (indexes.isEmpty() || indexes.last().row() == current_playlist_->queue()->rowCount()-1)
     return;

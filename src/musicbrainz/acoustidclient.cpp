@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <stdbool.h>
+#include <algorithm>
 
 #include <QObject>
 #include <QList>
@@ -45,6 +46,8 @@
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/timeconstants.h"
+
+using std::stable_sort;
 
 const char *AcoustidClient::kClientId = "0qjUoxbowg";
 const char *AcoustidClient::kUrl = "http://api.acoustid.org/v2/lookup";
@@ -153,7 +156,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, int request_id) {
     }
   }
 
-  qStableSort(id_source_list);
+  std::stable_sort(id_source_list.begin(), id_source_list.end());
 
   QList<QString> id_list;
   for (const IdSource& is : id_source_list) {

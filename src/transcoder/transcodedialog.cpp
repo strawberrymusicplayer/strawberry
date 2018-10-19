@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QWidget>
 #include <QDialog>
@@ -62,6 +64,8 @@
 #undef AddJob
 #endif
 
+using std::sort;
+
 const char *TranscodeDialog::kSettingsGroup = "Transcoder";
 const int TranscodeDialog::kProgressInterval = 500;
 const int TranscodeDialog::kMaxDestinationItems = 10;
@@ -89,7 +93,7 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
 
   // Get presets
   QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
-  qSort(presets.begin(), presets.end(), ComparePresetsByName);
+  std::sort(presets.begin(), presets.end(), ComparePresetsByName);
   for (const TranscoderPreset &preset : presets) {
     ui_->format->addItem(QString("%1 (.%2)").arg(preset.name_, preset.extension_), QVariant::fromValue(preset));
   }

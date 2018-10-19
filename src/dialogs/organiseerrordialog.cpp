@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QWidget>
 #include <QDialog>
 #include <QtAlgorithms>
@@ -32,6 +34,8 @@
 
 #include "organiseerrordialog.h"
 #include "ui_organiseerrordialog.h"
+
+using std::stable_sort;
 
 OrganiseErrorDialog::OrganiseErrorDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_OrganiseErrorDialog) {
 
@@ -61,7 +65,7 @@ void OrganiseErrorDialog::Show(OperationType type, const SongList &songs_with_er
 void OrganiseErrorDialog::Show(OperationType type, const QStringList &files_with_errors) {
 
   QStringList sorted_files = files_with_errors;
-  qStableSort(sorted_files);
+  std::stable_sort(sorted_files.begin(), sorted_files.end());
 
   switch (type) {
     case Type_Copy:
