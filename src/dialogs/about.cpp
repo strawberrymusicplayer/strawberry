@@ -68,7 +68,10 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person(QString::fromUtf8("Bartłomiej Burdukiewicz"), "dev.strikeu@gmail.com")
            << Person("Andre Siviero", "altsiviero@gmail.com")
            << Person("Santiago Gil")
-           << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com");
+           << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com")
+           << Person("Vikram Ambrose", "ambroseworks@gmail.com")
+           << Person("David Guillen", "david@davidgf.net")
+           << Person("Krzysztof Sobiecki", "sobkas@gmail.com");
 
   QString Title("About Strawberry");
 
