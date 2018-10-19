@@ -25,7 +25,7 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
   * Audio analyzer
   * Equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Integrated Tidal support
+  * Integrated Tidal and Deezer support
 
 It has so far been tested to work on Linux, OpenBSD, MacOs and Windows.
 
@@ -49,6 +49,10 @@ To build Strawberry from source you need the following installed on your system 
 
 Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
+
+Deezer streams are encrypted and streaming url's are not exposed by the API.
+It requires the use of the deezers own engine (Deezer SDK) or the dzmedia library (I dont have it).
+Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deezer-native-sdk-v1.2.10.zip
 
 Optional:
 

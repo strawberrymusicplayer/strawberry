@@ -8,6 +8,8 @@ Unreleased:
     * Fixed trying to use systray even if the desktop had no systray
     * Fixed Tidal login loop bug
     * Added Deezer support
+    * New improved fancy tabwidget
+    * Fixed bug not loading engine settings
 
 Version 0.3.3:
 
