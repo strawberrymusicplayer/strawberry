@@ -288,7 +288,7 @@ void Player::NextInternal(Engine::TrackChangeFlags change) {
   if (app_->playlist_manager()->active()->current_item()) {
     const QUrl url = app_->playlist_manager()->active()->current_item()->Url();
 
-    if (url_handlers_.contains(url.scheme())) {
+    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
       // The next track is already being loaded
       if (url == loading_async_) return;
 
@@ -349,6 +349,7 @@ bool Player::HandleStopAfter() {
     return true;
   }
   return false;
+
 }
 
 void Player::TrackEnded() {
@@ -360,6 +361,7 @@ void Player::TrackEnded() {
   }
 
   NextInternal(Engine::Auto);
+
 }
 
 void Player::PlayPause() {
@@ -496,7 +498,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   if (change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
     const QUrl &url = current_item_->Url();
-    if (url_handlers_.contains(url.scheme())) {
+    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
       url_handlers_[url.scheme()]->TrackSkipped();
     }
   }
@@ -647,7 +649,7 @@ void Player::TrackAboutToEnd() {
   // We don't want to preload (and scrobble) the next item in the playlist if it's just going to be stopped again immediately after.
   if (app_->playlist_manager()->active()->current_item()) {
     const QUrl url = app_->playlist_manager()->active()->current_item()->Url();
-    if (url_handlers_.contains(url.scheme())) {
+    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
       url_handlers_[url.scheme()]->TrackAboutToEnd();
       return;
     }
@@ -680,7 +682,7 @@ void Player::TrackAboutToEnd() {
   QUrl url = next_item->Url();
 
   // Get the actual track URL rather than the stream URL.
-  if (url_handlers_.contains(url.scheme())) {
+  if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
     UrlHandler::LoadResult result = url_handlers_[url.scheme()]->LoadNext(url);
     switch (result.type_) {
       case UrlHandler::LoadResult::NoMoreTracks:

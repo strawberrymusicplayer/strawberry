@@ -179,7 +179,7 @@ class Player : public PlayerInterface {
   void Play();
   void ShowOSD();
   void TogglePrettyOSD();
-  
+
   void HandleAuthentication();
 
  private slots:

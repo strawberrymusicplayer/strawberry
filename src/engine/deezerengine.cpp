@@ -18,6 +18,7 @@
  */
 
 #include "config.h"
+#include "version.h"
 
 #include <stddef.h>
 #include <stdio.h>
@@ -46,10 +47,15 @@
 #include "deezer/deezerservice.h"
 #include "settings/deezersettingspage.h"
 
+const char *DeezerEngine::kAppID = "303684";
+const char *DeezerEngine::kProductID = "strawberry";
+const char *DeezerEngine::kProductVersion = STRAWBERRY_VERSION_DISPLAY;
+
 DeezerEngine::DeezerEngine(TaskManager *task_manager)
   : EngineBase(),
     state_(Engine::Empty),
-    position_(0) {
+    position_(0),
+    stopping_(false) {
 
   type_ = Engine::Deezer;
   ReloadSettings();
@@ -72,14 +78,14 @@ DeezerEngine::~DeezerEngine() {
 
 bool DeezerEngine::Init() {
 
-  qLog(Debug) << "Deezer native SDK Version:" << dz_connect_get_build_id();
+  qLog(Debug) << "Deezer native SDK Version:" << dz_connect_get_build_id() << QCoreApplication::applicationName().toUtf8();
 
   struct dz_connect_configuration config;
   memset(&config, 0, sizeof(struct dz_connect_configuration));
-  config.app_id = QString::number(DeezerService::kAppID).toUtf8();
-  config.product_id = QCoreApplication::applicationName().toUtf8();
-  config.product_build_id = QCoreApplication::applicationVersion().toUtf8().constData();
-  config.user_profile_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation).toUtf8().constData();
+
+  config.app_id = kAppID;
+  config.product_id = kProductID;
+  config.product_build_id = kProductVersion;
   config.connect_event_cb = ConnectEventCallback;
 
   connect_ = dz_connect_new(&config);
@@ -180,6 +186,7 @@ void DeezerEngine::LoadAccessToken() {
 bool DeezerEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   if (!Initialised()) return false;
+  stopping_ = false;
 
   Engine::Base::Load(media_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
   dz_error_t dzerr = dz_player_load(player_, nullptr, nullptr, media_url.toString().toUtf8().constData());
@@ -192,6 +199,7 @@ bool DeezerEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine:
 bool DeezerEngine::Play(quint64 offset_nanosec) {
 
   if (!Initialised()) return false;
+  stopping_ = false;
 
   dz_error_t dzerr(DZ_ERROR_NO_ERROR);
   if (state() == Engine::Paused) dzerr = dz_player_resume(player_, nullptr, nullptr);
@@ -207,12 +215,10 @@ bool DeezerEngine::Play(quint64 offset_nanosec) {
 void DeezerEngine::Stop(bool stop_after) {
 
   if (!Initialised()) return;
+  stopping_ = true;
 
   dz_error_t dzerr = dz_player_stop(player_, nullptr, nullptr);
   if (dzerr != DZ_ERROR_NO_ERROR) return;
-
-  state_ = Engine::Empty;
-  emit TrackEnded();
 
 }
 
@@ -222,6 +228,9 @@ void DeezerEngine::Pause() {
 
   dz_error_t dzerr = dz_player_pause(player_, nullptr, nullptr);
   if (dzerr != DZ_ERROR_NO_ERROR) return;
+
+  state_ = Engine::Paused;
+  emit StateChanged(state_);
 
 }
 
@@ -237,14 +246,9 @@ void DeezerEngine::Seek(quint64 offset_nanosec) {
 
   if (!Initialised()) return;
 
-  int offset = (offset_nanosec / kNsecPerMsec);
-
-  uint len = (length_nanosec() / kNsecPerMsec);
-  if (len == 0) return;
-
-  float pos = float(offset) / len;
-
-  dz_error_t dzerr = dz_player_seek(player_, nullptr, nullptr, pos);
+  stopping_ = false;
+  dz_useconds_t offset = (offset_nanosec / kNsecPerUsec);
+  dz_error_t dzerr = dz_player_seek(player_, nullptr, nullptr, offset);
   if (dzerr != DZ_ERROR_NO_ERROR) return;
 
 }
@@ -269,7 +273,6 @@ qint64 DeezerEngine::position_nanosec() const {
 qint64 DeezerEngine::length_nanosec() const {
 
   if (state() == Engine::Empty) return 0;
-
   const qint64 result = (end_nanosec_ - beginning_nanosec_);
   return result;
 
@@ -379,93 +382,77 @@ void DeezerEngine::PlayerEventCallback(dz_player_handle handle, dz_player_event_
   switch (type) {
 
     case DZ_PLAYER_EVENT_LIMITATION_FORCED_PAUSE:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_LIMITATION_FORCED_PAUSE";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_LOADED:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_LOADED";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_NO_RIGHT:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_NO_RIGHT";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_NEED_NATURAL_NEXT:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_NEED_NATURAL_NEXT";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_TRACK_NOT_AVAILABLE_OFFLINE:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_TRACK_NOT_AVAILABLE_OFFLINE";
       engine->state_ = Engine::Error;
       emit engine->StateChanged(engine->state_);
       emit engine->Error("Track not available offline.");
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_TRACK_RIGHTS_AFTER_AUDIOADS:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_TRACK_RIGHTS_AFTER_AUDIOADS";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_SKIP_NO_RIGHT:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_QUEUELIST_SKIP_NO_RIGHT";
       break;
 
     case DZ_PLAYER_EVENT_QUEUELIST_TRACK_SELECTED:
       break;
 
     case DZ_PLAYER_EVENT_MEDIASTREAM_DATA_READY:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_MEDIASTREAM_DATA_READY";
       break;
 
     case DZ_PLAYER_EVENT_MEDIASTREAM_DATA_READY_AFTER_SEEK:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_MEDIASTREAM_DATA_READY_AFTER_SEEK";
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_START_FAILURE:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_START_FAILURE";
       engine->state_ = Engine::Error;
       emit engine->StateChanged(engine->state_);
       emit engine->Error("Track start failure.");
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_START:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_START";
       engine->state_ = Engine::Playing;
       engine->position_ = 0;
       emit engine->StateChanged(engine->state_);
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_END:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_END";
       engine->state_ = Engine::Idle;
       engine->position_ = 0;
       emit engine->TrackEnded();
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_PAUSED:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_PAUSED";
       engine->state_ = Engine::Paused;
       emit engine->StateChanged(engine->state_);
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_UNDERFLOW:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_UNDERFLOW";
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_RESUMED:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_RESUMED";
       engine->state_ = Engine::Playing;
       emit engine->StateChanged(engine->state_);
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_SEEKING:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_SEEKING";
       break;
 
     case DZ_PLAYER_EVENT_RENDER_TRACK_REMOVED:
-      qLog(Debug) << "Deezer: PLAYER_EVENT_RENDER_TRACK_REMOVED";
+      if (!engine->stopping_) return;
       engine->state_ = Engine::Empty;
       engine->position_ = 0;
-      emit engine->TrackEnded();
+      emit engine->StateChanged(engine->state_);
       break;
 
     case DZ_PLAYER_EVENT_UNKNOWN:
@@ -473,7 +460,6 @@ void DeezerEngine::PlayerEventCallback(dz_player_handle handle, dz_player_event_
       qLog(Error) << "Deezer: Unknown player event" << type;
       break;
   }
-  //emit engine->StateChanged(engine->state_);
 
 }
 

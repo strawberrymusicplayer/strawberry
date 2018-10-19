@@ -65,12 +65,17 @@ class DeezerEngine : public Engine::Base {
   bool ALSADeviceSupport(const QString &output);
 
  private:
+  static const char *kAppID;
+  static const char *kProductVersion;
+  static const char *kProductID;
+  static const char *kPath;
   Engine::State state_;
   dz_connect_handle connect_;
   dz_player_handle player_;
   QString access_token_;
   QDateTime expiry_time_;
   qint64 position_;
+  bool stopping_;
 
   bool Initialised() const;
   bool CanDecode(const QUrl &url);
