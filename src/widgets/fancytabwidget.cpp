@@ -323,8 +323,6 @@ FancyTabWidget::FancyTabWidget(QWidget* parent) : QTabWidget(parent),
   {
 
   FancyTabBar *tabBar = new FancyTabBar(this);
-  tabBar->setExpanding(0);
-
   setTabBar(tabBar);
   setTabPosition(QTabWidget::West);
   setMovable(true);
