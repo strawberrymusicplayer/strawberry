@@ -58,6 +58,7 @@
 #include <QString>
 #include <QImage>
 #include <QSettings>
+#include <QLoggingCategory>
 #include <QtDebug>
 #ifdef HAVE_DBUS
 #  include <QDBusArgument>
@@ -201,6 +202,8 @@ int main(int argc, char* argv[]) {
   // Resources
   Q_INIT_RESOURCE(data);
   Q_INIT_RESOURCE(icons);
+
+  QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 
   Application app;
 
