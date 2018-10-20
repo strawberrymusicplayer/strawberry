@@ -47,7 +47,7 @@ To build Strawberry from source you need the following installed on your system 
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 
-Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
+Either GStreamer, Xine, VLC, Deezer or Phonon engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
 Deezer streams with full songs are encrypted and only urls for preview streams (MP3) are exposed by the API.
