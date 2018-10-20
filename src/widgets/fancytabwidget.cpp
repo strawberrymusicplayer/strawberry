@@ -56,7 +56,7 @@ class FancyTabBar: public QTabBar {
 
  private:
   int mouseHoverTabIndex = -1;
-  QMap<QWidget*,QString> labelCache;
+  QMap<QWidget*, QString> labelCache;
   QMap<int, QWidget*> spacers;
 
  public:
@@ -124,14 +124,14 @@ class FancyTabBar: public QTabBar {
       verticalTextTabs = true;
 
     // if LargeSidebar, restore spacers
-    if (spacers.count() > 0 && tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar) {
+    if (tabWidget->mode() == FancyTabWidget::Mode_LargeSidebar && spacers.count() > 0) {
       for (int index : spacers.keys()) {
         tabWidget->insertTab(index, spacers[index], QIcon(), QString());
         tabWidget->setTabEnabled(index, false);
       }
       spacers.clear();
     }
-    if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
+    else if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
       // traverse in the opposite order to save indices of spacers
       for (int i = count() - 1; i >= 0; --i) {
         // spacers are disabled tabs
@@ -285,7 +285,7 @@ class FancyTabBar: public QTabBar {
 // Spacers are just disabled pages
 void FancyTabWidget::addSpacer() {
 
-  QWidget *spacer = new QWidget();
+  QWidget *spacer = new QWidget(this);
   const int index = addTab(spacer, QIcon(), QString());
   setTabEnabled(index, false);
 
@@ -323,6 +323,7 @@ FancyTabWidget::FancyTabWidget(QWidget* parent) : QTabWidget(parent),
   {
 
   FancyTabBar *tabBar = new FancyTabBar(this);
+  tabBar->setExpanding(0);
 
   setTabBar(tabBar);
   setTabPosition(QTabWidget::West);
@@ -340,10 +341,9 @@ void FancyTabWidget::loadSettings(const char *kSettingsGroup) {
   for (int i = 0 ; i < count() ; i++) {
     QString k = "tab_" + tabBar()->tabData(i).toString().toLower();
     int index = settings.value(k, i).toInt();
-    if (index >= 0)
+    if (index >= 0) {
       tabBar()->moveTab(i, index);
-    else
-      removeTab(i); // Does not delete page
+    }
   }
 
   settings.endGroup();
@@ -372,23 +372,23 @@ int FancyTabWidget::addTab(QWidget *widget, const QIcon &icon, const QString &la
   return insertTab(count(), widget, icon, label);
 }
 
-int FancyTabWidget::insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label) {
+int FancyTabWidget::insertTab(int index, QWidget *widget_view, const QIcon &icon, const QString &label) {
 
   QWidget *page(nullptr);
   if (tabs_.contains(label)) page = tabs_.value(label);
   else {
-    page = new QWidget();
+    page = new QWidget(this);
     // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
-    QVBoxLayout *layout = new QVBoxLayout();
+    QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(widget);
+    layout->addWidget(widget_view);
     page->setLayout(layout);
     tabs_.insert(label, page);
   }
 
   for (int i = 0 ; i < count() ; i++) {
-    QString l = tabBar()->tabData(i).toString().toLower();
+    QString l = tabBar()->tabData(i).toString();
     if (l == label) return i;
   }
 
@@ -401,8 +401,11 @@ int FancyTabWidget::insertTab(int index, QWidget *widget, const QIcon &icon, con
 void FancyTabWidget::delTab(const QString &label) {
 
   for (int i = 0 ; i < count() ; i++) {
-    QString l = tabBar()->tabData(i).toString().toLower();
-    if (l == label) QTabWidget::removeTab(i);
+    QString l = tabBar()->tabData(i).toString();
+    if (l == label) {
+      removeTab(i);
+      break;
+    }
   }
 
 }
@@ -423,7 +426,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   p.fillRect(backgroundRect, baseColor);
 
   // Horizontal gradient over the sidebar from transparent to dark
-  Utils::StyleHelper::verticalGradient(&p, backgroundRect, backgroundRect,false);
+  Utils::StyleHelper::verticalGradient(&p, backgroundRect, backgroundRect, false);
 
   // Draw the translucent png graphics over the gradient fill
   {
@@ -490,7 +493,6 @@ void FancyTabWidget::addMenuItem(QSignalMapper* mapper, QActionGroup* group, con
   if (mode == mode_) action->setChecked(true);
 
 }
-
 
 void FancyTabWidget::contextMenuEvent(QContextMenuEvent* e) {
 

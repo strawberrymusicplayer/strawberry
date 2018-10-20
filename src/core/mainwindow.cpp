@@ -782,9 +782,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   if (!options.contains_play_options()) LoadPlaybackStatus();
 
-  qLog(Debug) << "Started";
   RefreshStyleSheet();
 
+  qLog(Debug) << "Started";
   initialised_ = true;
 
 }
@@ -824,7 +824,7 @@ void MainWindow::ReloadSettings() {
   if (enable_tidal)
     ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), "Tidal");
   else
-    ui_->tabs->delTab("tidal");
+    ui_->tabs->delTab("Tidal");
 #endif
 
 #ifdef HAVE_STREAM_DEEZER
@@ -834,10 +834,8 @@ void MainWindow::ReloadSettings() {
   if (enable_deezer)
     ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), "Deezer");
   else
-    ui_->tabs->delTab("deezer");
+    ui_->tabs->delTab("Deezer");
 #endif
-
-  ui_->tabs->loadSettings(kSettingsGroup);
 
 }
 
@@ -864,6 +862,7 @@ void MainWindow::ReloadAllSettings() {
 void MainWindow::RefreshStyleSheet() {
   setStyleSheet(styleSheet());
 }
+
 void MainWindow::MediaStopped() {
 
   setWindowTitle("Strawberry Music Player");
@@ -1403,10 +1402,6 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 #endif
   playlist_open_in_browser_->setVisible(false);
 
-  //qLog(Debug) << "selected" << selected;
-  //qLog(Debug) << "in_queue" << in_queue << "not_in_queue" << not_in_queue;
-  //qLog(Debug) << "in_skipped" << in_skipped << "not_in_skipped" << not_in_skipped;
-
   if (selected < 1) {
     playlist_queue_->setVisible(false);
     playlist_skip_->setVisible(false);
@@ -1530,6 +1525,7 @@ void MainWindow::PlaylistStopAfter() {
 }
 
 void MainWindow::EditTracks() {
+
   SongList songs;
   PlaylistItemList items;
 
@@ -1548,6 +1544,7 @@ void MainWindow::EditTracks() {
   //EnsureEditTagDialogCreated();
   edit_tag_dialog_->SetSongs(songs, items);
   edit_tag_dialog_->show();
+
 }
 
 void MainWindow::EditTagDialogAccepted() {
@@ -1605,6 +1602,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply,const QPersistentModelIn
 }
 
 void MainWindow::SelectionSetValue() {
+
   Playlist::Column column = (Playlist::Column)playlist_menu_index_.column();
   QVariant column_value =app_->playlist_manager()->current()->data(playlist_menu_index_);
 
@@ -1623,9 +1621,11 @@ void MainWindow::SelectionSetValue() {
       NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)),reply, QPersistentModelIndex(source_index));
     }
   }
+
 }
 
 void MainWindow::EditValue() {
+
   QModelIndex current = ui_->playlist->view()->currentIndex();
 
   if (!current.isValid()) return;
@@ -1668,9 +1668,11 @@ void MainWindow::AddFile() {
   MimeData *data = new MimeData;
   data->setUrls(urls);
   AddToPlaylist(data);
+
 }
 
 void MainWindow::AddFolder() {
+
   // Last used directory
   QString directory =settings_.value("add_folder_path", QDir::currentPath()).toString();
 
@@ -1685,6 +1687,7 @@ void MainWindow::AddFolder() {
   MimeData *data = new MimeData;
   data->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QFileInfo(directory).canonicalFilePath()));
   AddToPlaylist(data);
+
 }
 
 void MainWindow::AddCDTracks() {
@@ -2215,7 +2218,7 @@ void MainWindow::CheckFullRescanRevisions() {
     }
     message += "</ul>" + tr("Would you like to run a full rescan right now?");
 
-    if(QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
+    if (QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
       app_->collection()->FullScan();
     }
   }

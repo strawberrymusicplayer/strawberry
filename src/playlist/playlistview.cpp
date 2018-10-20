@@ -138,7 +138,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       setting_initial_header_layout_(false),
       upgrading_from_qheaderview_(false),
       read_only_settings_(true),
-      upgrading_from_version_(-1),
+      header_loaded_(false),
       background_initialized_(false),
       background_image_type_(Default),
       blur_radius_(kDefaultBlurRadius),
@@ -198,6 +198,11 @@ PlaylistView::PlaylistView(QWidget *parent)
 
 }
 
+PlaylistView::~PlaylistView() {
+  SaveGeometry();
+  delete style_;
+}
+
 void PlaylistView::SetApplication(Application *app) {
 
   Q_ASSERT(app);
@@ -248,7 +253,7 @@ void PlaylistView::SetPlaylist(Playlist *playlist) {
   }
 
   playlist_ = playlist;
-  LoadGeometry();
+  if (!header_loaded_) LoadGeometry();
   ReloadSettings();
   setFocus();
   read_only_settings_ = false;
@@ -265,7 +270,7 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
   if (model()) {
     disconnect(model(), SIGNAL(dataChanged(QModelIndex, QModelIndex)), this, SLOT(InvalidateCachedCurrentPixmap()));
-    //disconnect(model(), SIGNAL(layoutAboutToBeChanged()), this, SLOT(RatingHoverOut()));
+
     // When changing the model, always invalidate the current pixmap.
     // If a remote client uses "stop after", without invaliding the stop mark would not appear.
     InvalidateCachedCurrentPixmap();
@@ -280,6 +285,7 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 void PlaylistView::LoadGeometry() {
 
   QSettings settings;
+  header_loaded_ = true;
   settings.beginGroup(Playlist::kSettingsGroup);
 
   QByteArray state(settings.value("state").toByteArray());
