@@ -426,7 +426,8 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   context_menu_->addSeparator();
   context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
-  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure Internet..."), this, SLOT(OpenSettingsDialog()));
+
+  context_menu_->addAction(IconLoader::Load("configure"), QString("Configure %1...").arg(Song::TextForSource(engine_->source())), this, SLOT(OpenSettingsDialog()));
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 
