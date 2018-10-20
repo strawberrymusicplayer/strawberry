@@ -285,11 +285,11 @@ optional_component(PHONON OFF "Engine: Phonon backend (UNSTABLE)"
 )
 
 if (WIN32)
-  optional_component(DEEZER OFF "Engine: Deezer backend (UNSTABLE)"
+  optional_component(DEEZER ON "Engine: Deezer backend"
     DEPENDS "libdeezer" LIBDEEZER_FOUND
   )
 else ()
-  optional_component(DEEZER OFF "Engine: Deezer backend (UNSTABLE)"
+  optional_component(DEEZER ON "Engine: Deezer backend"
     DEPENDS "Linux" LINUX
     DEPENDS "libdeezer" LIBDEEZER_FOUND
     DEPENDS "libpulse" LIBPULSE_FOUND
