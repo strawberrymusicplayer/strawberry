@@ -1,7 +1,6 @@
 #playlist {
   background-color: %palette-base;
   alternate-background-color: %palette-alternate-base;
-
 }
 
 #playlist[default_background_enabled = "true"] {
@@ -45,11 +44,11 @@ QToolButton:pressed[popupMode="1"] {
   padding-right: 16px;
 }
 
-darwin {
+macos {
   font-size: 11pt;
 }
 
-darwin QMenu {
+macos QMenu {
   font-size: 13pt;
 }
 

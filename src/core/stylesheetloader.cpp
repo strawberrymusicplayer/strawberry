@@ -44,6 +44,8 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
 void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
 
+  if (!widget || !filenames_.contains(widget)) return;
+
   QString filename(filenames_[widget]);
 
   // Load the file
@@ -88,7 +90,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
   ReplaceColor(&contents, "LinkVisited", p, QPalette::LinkVisited);
 
 #ifdef Q_OS_MACOS
-  contents.replace("darwin", "*");
+  contents.replace("macos", "*");
 #endif
 
   widget->setStyleSheet(contents);
