@@ -34,11 +34,13 @@
 #include <QStringList>
 #include <QMimeData>
 
+#include "playlist/playlist.h"
+
 class Queue : public QAbstractProxyModel {
   Q_OBJECT
 
  public:
-  Queue(QObject *parent = nullptr);
+  Queue(Playlist *parent = nullptr);
 
   static const char *kRowsMimetype;
 
@@ -47,10 +49,13 @@ class Queue : public QAbstractProxyModel {
   int PositionOf(const QModelIndex &source_index) const;
   bool ContainsSourceRow(int source_row) const;
   int PeekNext() const;
+  int ItemCount() const;
+  quint64 GetTotalLength() const;
 
   // Modify the queue
   int TakeNext();
   void ToggleTracks(const QModelIndexList &source_indexes);
+  void InsertFirst(const QModelIndexList &source_indexes);
   void Clear();
   void Move(const QList<int> &proxy_rows, int pos);
   void MoveUp(int row);
@@ -75,12 +80,24 @@ class Queue : public QAbstractProxyModel {
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
   Qt::ItemFlags flags(const QModelIndex &index) const;
 
-private slots:
+ public slots:
+  void UpdateSummaryText();
+
+ signals:
+  void TotalLengthChanged(const quint64 length);
+  void ItemCountChanged(const int count);
+  void SummaryTextChanged(const QString& message);
+
+ private slots:
   void SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right);
   void SourceLayoutChanged();
+  void UpdateTotalLength();
 
-private:
+ private:
   QList<QPersistentModelIndex> source_indexes_;
+  const Playlist *playlist_;
+  quint64 total_length_ns_;
+
 };
 
 #endif  // QUEUE_H

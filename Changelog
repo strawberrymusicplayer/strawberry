@@ -10,6 +10,7 @@ Unreleased:
     * Added Deezer support
     * New improved fancy tabwidget
     * Fixed bug not loading engine settings
+    * Moved queue manager into tabbar for easier access
 
 Version 0.3.3:
 

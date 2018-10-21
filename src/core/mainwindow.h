@@ -78,7 +78,7 @@ class GlobalShortcuts;
 class MimeData;
 class OrganiseDialog;
 class PlaylistListContainer;
-class QueueManager;
+class QueueView;
 class Song;
 class SystemTrayIcon;
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
@@ -252,7 +252,6 @@ signals:
   void ShowTranscodeDialog();
 #endif
   void ShowErrorDialog(const QString& message);
-  void ShowQueueManager();
   void EnsureSettingsDialogCreated();
   void EnsureEditTagDialogCreated();
   SettingsDialog *CreateSettingsDialog();
@@ -317,6 +316,7 @@ signals:
   DeviceView *device_view_;
 #endif
   PlaylistListContainer *playlist_list_;
+  QueueView *queue_view_;
 
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
@@ -328,7 +328,6 @@ signals:
 #ifdef HAVE_GSTREAMER
   Lazy<OrganiseDialog> organise_dialog_;
 #endif
-  Lazy<QueueManager> queue_manager_;
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   std::unique_ptr<TagFetcher> tag_fetcher_;

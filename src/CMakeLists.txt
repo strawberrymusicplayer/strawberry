@@ -164,10 +164,11 @@ set(SOURCES
   playlist/playlisttabbar.cpp
   playlist/playlistundocommands.cpp
   playlist/playlistview.cpp
-  playlist/queue.cpp
-  playlist/queuemanager.cpp
   playlist/songloaderinserter.cpp
   playlist/songplaylistitem.cpp
+
+  queue/queue.cpp
+  queue/queueview.cpp
 
   playlistparsers/asxiniparser.cpp
   playlistparsers/asxparser.cpp
@@ -331,10 +332,11 @@ set(HEADERS
   playlist/playlisttabbar.h
   playlist/playlistview.h
   playlist/playlistitemmimedata.h
-  playlist/queue.h
-  playlist/queuemanager.h
   playlist/songloaderinserter.h
   playlist/songmimedata.h
+
+  queue/queue.h
+  queue/queueview.h
 
   playlistparsers/asxiniparser.h
   playlistparsers/asxparser.h
@@ -446,7 +448,8 @@ set(UI
   playlist/playlistlistcontainer.ui
   playlist/playlistsaveoptionsdialog.ui
   playlist/playlistsequence.ui
-  playlist/queuemanager.ui
+
+  queue/queueview.ui
 
   covermanager/albumcoverexport.ui
   covermanager/albumcovermanager.ui

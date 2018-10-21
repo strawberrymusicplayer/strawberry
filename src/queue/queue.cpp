@@ -38,14 +38,22 @@
 #include <QAbstractProxyModel>
 #include <QPersistentModelIndex>
 
-#include "playlist.h"
+#include "core/utilities.h"
+#include "playlist/playlist.h"
 #include "queue.h"
 
 using std::stable_sort;
 
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
-Queue::Queue(QObject *parent) : QAbstractProxyModel(parent) {}
+Queue::Queue(Playlist *parent) : QAbstractProxyModel(parent), playlist_(parent), total_length_ns_(0) {
+
+  connect(this, SIGNAL(ItemCountChanged(int)), SLOT(UpdateTotalLength()));
+  connect(this, SIGNAL(TotalLengthChanged(quint64)), SLOT(UpdateSummaryText()));
+
+  UpdateSummaryText();
+
+}
 
 QModelIndex Queue::mapFromSource(const QModelIndex &source_index) const {
 
@@ -101,6 +109,7 @@ void Queue::SourceDataChanged(const QModelIndex &top_left, const QModelIndex &bo
 
     emit dataChanged(proxy_index, proxy_index);
   }
+  emit ItemCountChanged(this->ItemCount());
 
 }
 
@@ -114,6 +123,7 @@ void Queue::SourceLayoutChanged() {
       --i;
     }
   }
+  emit ItemCountChanged(this->ItemCount());
 
 }
 
@@ -176,20 +186,83 @@ void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
 
 }
 
+void Queue::InsertFirst(const QModelIndexList &source_indexes) {
+
+  for (const QModelIndex &source_index : source_indexes) {
+    QModelIndex proxy_index = mapFromSource(source_index);
+    if (proxy_index.isValid()) {
+      // Already in the queue, so remove it to be reinserted later
+      const int row = proxy_index.row();
+      beginRemoveRows(QModelIndex(), row, row);
+      source_indexes_.removeAt(row);
+      endRemoveRows();
+    }
+  }
+
+  const int rows = source_indexes.count();
+  // Enqueue the tracks at the beginning
+  beginInsertRows(QModelIndex(), 0, rows - 1);
+  int offset = 0;
+  for (const QModelIndex& source_index : source_indexes) {
+    source_indexes_.insert(offset, QPersistentModelIndex(source_index));
+    offset++;
+  }
+  endInsertRows();
+
+}
+
 int Queue::PositionOf(const QModelIndex &source_index) const {
   return mapFromSource(source_index).row();
 }
 
-bool Queue::is_empty() const {
-  return source_indexes_.isEmpty();
+bool Queue::is_empty() const { return source_indexes_.isEmpty(); }
+
+int Queue::ItemCount() const { return source_indexes_.length(); }
+
+quint64 Queue::GetTotalLength() const { return total_length_ns_; }
+
+void Queue::UpdateTotalLength() {
+
+  quint64 total = 0;
+
+  for (QPersistentModelIndex row : source_indexes_) {
+    int id = row.row();
+
+    Q_ASSERT(playlist_->has_item_at(id));
+
+    quint64 length = playlist_->item_at(id)->Metadata().length_nanosec();
+    if (length > 0) total += length;
+  }
+
+  total_length_ns_ = total;
+
+  emit TotalLengthChanged(total);
+
+}
+
+void Queue::UpdateSummaryText() {
+
+  QString summary;
+  int tracks = this->ItemCount();
+  quint64 nanoseconds = this->GetTotalLength();
+
+  summary += tracks == 1 ? tr("1 track") : tr("%1 tracks").arg(tracks);
+
+  if (nanoseconds)
+    summary += " - [ " + Utilities::WordyTimeNanosec(nanoseconds) + " ]";
+
+  emit SummaryTextChanged(summary);
+
 }
 
 void Queue::Clear() {
+
   if (source_indexes_.isEmpty()) return;
 
   beginRemoveRows(QModelIndex(), 0, source_indexes_.count() - 1);
   source_indexes_.clear();
   endRemoveRows();
+
 }
 
 void Queue::Move(const QList<int> &proxy_rows, int pos) {

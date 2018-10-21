@@ -112,8 +112,8 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
 #include "playlist/playlistview.h"
-#include "playlist/queue.h"
-#include "playlist/queuemanager.h"
+#include "queue/queue.h"
+#include "queue/queueview.h"
 #include "playlistparsers/playlistparser.h"
 #include "analyzer/analyzercontainer.h"
 #include "equalizer/equalizer.h"
@@ -187,6 +187,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       device_view_(device_view_container_->view()),
 #endif
       playlist_list_(new PlaylistListContainer(this)),
+      queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
       cover_manager_([=]() {
         AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend());
@@ -206,11 +207,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         return dialog;
       }),
 #endif
-      queue_manager_([=]() {
-        QueueManager *manager = new QueueManager;
-        manager->SetPlaylistManager(app->playlist_manager());
-        return manager;
-      }),
 #ifdef HAVE_STREAM_TIDAL
       tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
@@ -268,6 +264,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), "Collection");
   ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), "Files");
   ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), "Playlists");
+  ui_->tabs->addTab(queue_view_, IconLoader::Load("footsteps"), "Queue");
 #ifndef Q_OS_WIN
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), "Devices");
 #endif
@@ -360,7 +357,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Configure
 
   ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
-  ui_->action_queue_manager->setIcon(IconLoader::Load("footsteps"));
   ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
   ui_->action_equalizer->setIcon(IconLoader::Load("equalizer"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
@@ -413,7 +409,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_jump, SIGNAL(triggered()), ui_->playlist->view(), SLOT(JumpToCurrentlyPlayingTrack()));
   connect(ui_->action_update_collection, SIGNAL(triggered()), app_->collection(), SLOT(IncrementalScan()));
   connect(ui_->action_full_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(FullScan()));
-  connect(ui_->action_queue_manager, SIGNAL(triggered()), SLOT(ShowQueueManager()));
   //connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
 
   // Playlist view actions
@@ -698,6 +693,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Load playlists
   app_->playlist_manager()->Init(app_->collection_backend(), app_->playlist_backend(), ui_->playlist_sequence, ui_->playlist);
+
+  queue_view_->SetPlaylistManager(app_->playlist_manager());
 
   // This connection must be done after the playlists have been initialized.
   connect(this, SIGNAL(StopAfterToggled(bool)), osd_, SLOT(StopAfterToggle(bool)));
@@ -2222,14 +2219,6 @@ void MainWindow::CheckFullRescanRevisions() {
       app_->collection()->FullScan();
     }
   }
-}
-
-void MainWindow::ShowQueueManager() {
-  //if (!queue_manager_) {
-  //queue_manager_.reset(new QueueManager);
-  //queue_manager_->SetPlaylistManager(app_->playlist_manager());
-  //}
-  queue_manager_->show();
 }
 
 void MainWindow::PlaylistViewSelectionModelChanged() {

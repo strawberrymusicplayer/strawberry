@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef QUEUEMANAGER_H
-#define QUEUEMANAGER_H
+#ifndef QUEUEVIEW_H
+#define QUEUEVIEW_H
 
 #include "config.h"
 
@@ -30,14 +30,14 @@
 
 class Playlist;
 class PlaylistManager;
-class Ui_QueueManager;
+class Ui_QueueView;
 
-class QueueManager : public QDialog {
+class QueueView : public QWidget {
   Q_OBJECT
 
  public:
-  QueueManager(QWidget *parent = nullptr);
-  ~QueueManager();
+  QueueView(QWidget *parent = nullptr);
+  ~QueueView();
 
   void SetPlaylistManager(PlaylistManager *manager);
 
@@ -52,10 +52,10 @@ private slots:
   void Clear();
 
 private:
-  Ui_QueueManager *ui_;
+  Ui_QueueView *ui_;
 
   PlaylistManager *playlists_;
   Playlist *current_playlist_;
 };
 
-#endif  // QUEUEMANAGER_H
+#endif  // QUEUEVIEW_H

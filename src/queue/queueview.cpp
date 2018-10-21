@@ -22,7 +22,6 @@
 #include <algorithm>
 
 #include <QWidget>
-#include <QDialog>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
 #include <QKeySequence>
@@ -31,22 +30,24 @@
 #include <QShortcut>
 #include <QTreeView>
 #include <QtAlgorithms>
+#include <QTimer>
 
 #include "core/iconloader.h"
-#include "playlist.h"
-#include "playlistdelegates.h"
-#include "playlistmanager.h"
+#include "playlist/playlist.h"
+#include "playlist/playlistdelegates.h"
+#include "playlist/playlistmanager.h"
 #include "queue.h"
-#include "queuemanager.h"
-#include "ui_queuemanager.h"
+#include "queueview.h"
+#include "ui_queueview.h"
 
 using std::stable_sort;
 
-QueueManager::QueueManager(QWidget *parent)
-    : QDialog(parent),
-      ui_(new Ui_QueueManager),
+QueueView::QueueView(QWidget *parent)
+    : QWidget(parent),
+      ui_(new Ui_QueueView),
       playlists_(nullptr),
       current_playlist_(nullptr) {
+
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new QueuedItemDelegate(this, 0));
 
@@ -65,16 +66,13 @@ QueueManager::QueueManager(QWidget *parent)
   connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
   connect(ui_->clear, SIGNAL(clicked()), SLOT(Clear()));
 
-  QShortcut *close = new QShortcut(QKeySequence::Close, this);
-  connect(close, SIGNAL(activated()), SLOT(close()));
-
 }
 
-QueueManager::~QueueManager() {
+QueueView::~QueueView() {
   delete ui_;
 }
 
-void QueueManager::SetPlaylistManager(PlaylistManager *manager) {
+void QueueView::SetPlaylistManager(PlaylistManager *manager) {
 
   playlists_ = manager;
 
@@ -83,12 +81,13 @@ void QueueManager::SetPlaylistManager(PlaylistManager *manager) {
 
 }
 
-void QueueManager::CurrentPlaylistChanged(Playlist *playlist) {
+void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
 
   if (current_playlist_) {
     disconnect(current_playlist_->queue(), SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(UpdateButtonState()));
     disconnect(current_playlist_->queue(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(UpdateButtonState()));
     disconnect(current_playlist_->queue(), SIGNAL(layoutChanged()), this, SLOT(UpdateButtonState()));
+    disconnect(current_playlist_->queue(), SIGNAL(SummaryTextChanged(QString)), ui_->summary, SLOT(setText(QString)));
     disconnect(current_playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
   }
 
@@ -97,15 +96,18 @@ void QueueManager::CurrentPlaylistChanged(Playlist *playlist) {
   connect(current_playlist_->queue(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(UpdateButtonState()));
   connect(current_playlist_->queue(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(UpdateButtonState()));
   connect(current_playlist_->queue(), SIGNAL(layoutChanged()), this, SLOT(UpdateButtonState()));
+  connect(current_playlist_->queue(), SIGNAL(SummaryTextChanged(QString)), ui_->summary, SLOT(setText(QString)));
   connect(current_playlist_, SIGNAL(destroyed()), this, SLOT(PlaylistDestroyed()));
 
   ui_->list->setModel(current_playlist_->queue());
 
   connect(ui_->list->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(UpdateButtonState()));
 
+  QTimer::singleShot(0, current_playlist_->queue(), SLOT(UpdateSummaryText()));
+
 }
 
-void QueueManager::MoveUp() {
+void QueueView::MoveUp() {
 
   QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
   std::stable_sort(indexes.begin(), indexes.end());
@@ -118,7 +120,7 @@ void QueueManager::MoveUp() {
 
 }
 
-void QueueManager::MoveDown() {
+void QueueView::MoveDown() {
 
   QModelIndexList indexes = ui_->list->selectionModel()->selectedRows();
   std::stable_sort(indexes.begin(), indexes.end());
@@ -132,11 +134,11 @@ void QueueManager::MoveDown() {
 
 }
 
-void QueueManager::Clear() {
+void QueueView::Clear() {
   current_playlist_->queue()->Clear();
 }
 
-void QueueManager::Remove() {
+void QueueView::Remove() {
 
   // collect the rows to be removed
   QList<int> row_list;
@@ -148,7 +150,7 @@ void QueueManager::Remove() {
 
 }
 
-void QueueManager::UpdateButtonState() {
+void QueueView::UpdateButtonState() {
 
   const QModelIndex current = ui_->list->selectionModel()->currentIndex();
 
@@ -167,7 +169,7 @@ void QueueManager::UpdateButtonState() {
 
 }
 
-void QueueManager::PlaylistDestroyed() {
+void QueueView::PlaylistDestroyed() {
   current_playlist_ = nullptr;
   // We'll get another CurrentPlaylistChanged() soon
 }
