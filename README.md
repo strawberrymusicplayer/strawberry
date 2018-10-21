@@ -77,4 +77,7 @@ Optional:
 
     (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
 
+### :computer:	Screenshot
 
+
+![Browse](https://www.strawbs.org/pictures/screenshot-002-large.png)
