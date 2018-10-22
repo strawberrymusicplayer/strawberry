@@ -368,6 +368,8 @@ const Engine::Scope &GstEngine::scope(int chunk_length) {
 
 EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
+  const_cast<GstEngine*>(this)->EnsureInitialised();
+
   EngineBase::OutputDetailsList ret;
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
@@ -390,6 +392,8 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 }
 
 bool GstEngine::ValidOutput(const QString &output) {
+
+  EnsureInitialised();
 
   PluginDetailsList plugins = GetPluginList("Sink/Audio");
   for (const PluginDetails &plugin : plugins) {
@@ -701,6 +705,8 @@ void GstEngine::BufferingFinished() {
 
 GstEngine::PluginDetailsList GstEngine::GetPluginList(const QString &classname) const {
 
+  const_cast<GstEngine*>(this)->EnsureInitialised();
+
   PluginDetailsList ret;
 
   GstRegistry *registry = gst_registry_get();
@@ -750,7 +756,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
       QStringList path = url.path().split('/');
       str = QString("cdda://%1a").arg(path.takeLast());
       QString device = path.join("/");
-      current_pipeline_->SetSourceDevice(device);
+      if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
     uri = str.toLocal8Bit();
   }
