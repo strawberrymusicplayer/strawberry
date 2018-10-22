@@ -19,6 +19,7 @@ if (UNIX AND NOT APPLE)
   install(FILES ../data/icons/128x128/strawberry.png DESTINATION share/icons/hicolor/128x128/apps/)
   install(FILES ../data/icons/128x128/strawberry.svg DESTINATION share/icons/hicolor/scalable/apps/)
   install(FILES unix/strawberry.desktop DESTINATION share/applications)
+  install(FILES unix/strawberry.appdata.xml DESTINATION share/metainfo)
   install(FILES man/strawberry.1 man/strawberry-tagreader.1 DESTINATION share/man/man1)
 endif()
 

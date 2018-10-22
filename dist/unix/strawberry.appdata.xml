@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <id type="desktop">strawberry.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>Strawberry Music Player</name>
+  <summary>An audio player and music collection organizer</summary>
+  <description>
+    <p>
+      Strawberry is a audio player and music collection organizer.
+It is a fork of Clementine. The name is inspired by the band Strawbs.
+    </p>
+    <p>Features::</p>
+    <ul>
+      <li>Play and organize music</li>
+      <li>Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF</li>
+      <li>Audio CD playback</li>
+      <li>Native desktop notifications</li>
+      <li>Playlists in multiple formats</li>
+      <li>Advanced output and device options with support for bit perfect playback on Linux</li>
+      <li>Edit tags on music files</li>
+      <li>Fetch tags from MusicBrainz</li>
+      <li>Album cover art from Last.fm, Musicbrainz and Discogs</li>
+      <li>Song lyrics from AudD and API Seeds</li>
+      <li>Support for multiple backends</li>
+      <li>Audio analyzer</li>
+      <li>Equalizer</li>
+      <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
+      <li>Integrated Tidal support</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default" width="1920" height="1049">https://www.strawbs.org/pictures/screenshot-002-large.png</screenshot>
+    <screenshot width="1920" height="1080">https://www.strawbs.org/pictures/screenshot-006-large.png</screenshot>
+  </screenshots>
+  <url type="homepage">http://www.strawbs.org/</url>
+  <updatecontact>eclipseo@fedoraproject.org</updatecontact>
+</application>
