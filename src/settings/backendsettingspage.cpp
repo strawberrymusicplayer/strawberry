@@ -316,7 +316,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
   bool found(false);
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant d = ui_->combobox_device->itemData(i).value<QVariant>();
-    if (df_device.value == d) {
+    if (df_device.value.isValid() && df_device.value == d) {
       ui_->combobox_device->setCurrentIndex(i);
       found = true;
       break;
