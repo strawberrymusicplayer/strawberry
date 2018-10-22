@@ -396,6 +396,7 @@ void DeezerEngine::PlayerEventCallback(dz_player_handle handle, dz_player_event_
     case DZ_PLAYER_EVENT_QUEUELIST_TRACK_NOT_AVAILABLE_OFFLINE:
       engine->state_ = Engine::Error;
       emit engine->StateChanged(engine->state_);
+      emit engine->InvalidSongRequested(engine->media_url_);
       emit engine->Error("Track not available offline.");
       break;
 
@@ -417,6 +418,7 @@ void DeezerEngine::PlayerEventCallback(dz_player_handle handle, dz_player_event_
     case DZ_PLAYER_EVENT_RENDER_TRACK_START_FAILURE:
       engine->state_ = Engine::Error;
       emit engine->StateChanged(engine->state_);
+      emit engine->InvalidSongRequested(engine->media_url_);
       emit engine->Error("Track start failure.");
       break;
 

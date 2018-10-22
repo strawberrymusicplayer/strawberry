@@ -495,7 +495,7 @@ int Player::GetVolume() const { return engine_->volume(); }
 
 void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) {
 
-  if (change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
+  if (current_item_ && change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
     const QUrl &url = current_item_->Url();
     if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
