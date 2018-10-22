@@ -2,9 +2,8 @@ Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
 Summary:        A audio player and music collection organiser
-
 Group:          Applications/Multimedia
-License:        GPL-3.0+
+License:        GPLv3+
 URL:            http://www.strawbs.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
 
@@ -82,7 +81,6 @@ export CXXFLAGS="%{optflags} -fpermissive"
 
 mkdir %{_target_platform}
 pushd %{_target_platform}
-
 %{cmake} \
   -DBUILD_WERROR:BOOL=OFF \
   -DCMAKE_BUILD_TYPE:STRING=Release \
@@ -93,18 +91,15 @@ popd
 
 %install
 make install DESTDIR=%{buildroot} -C %{_target_platform}
-rm -rf %{buildroot}%{_datadir}/man
+rm -rf %{buildroot}%{_datadir}/metainfo
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/strawberry.desktop
-pushd %{_target_platform}
-popd
-
-%clean
 
 %files
 %defattr(-,root,root,-)
-%doc
+%doc README.md Changelog
+%license COPYING
 %{_bindir}/strawberry
 %{_bindir}/strawberry-tagreader
 %{_datadir}/applications/strawberry.desktop
@@ -112,6 +107,8 @@ popd
 %{_datadir}/icons/hicolor/64x64/apps/strawberry.png
 %{_datadir}/icons/hicolor/128x128/apps/strawberry.png
 %{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
+%{_mandir}/man1/strawberry.1.*
+%{_mandir}/man1/strawberry-tagreader.1.*
 
 %changelog
 * @RPM_DATE@ Jonas Kvinge <jonas@strawbs.net> - @STRAWBERRY_VERSION_RPM_V@

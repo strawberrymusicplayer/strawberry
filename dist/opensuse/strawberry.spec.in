@@ -2,7 +2,6 @@ Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
 Summary:        A audio player and music collection organiser
-
 Group:          Applications/Multimedia
 License:        GPL-3.0+
 URL:            http://www.strawbs.org/
@@ -89,6 +88,7 @@ make %{?_smp_mflags}
 %install
 cd build
 make install DESTDIR=$RPM_BUILD_ROOT
+rm -rf %{buildroot}%{_datadir}/metainfo
 
 %clean
 cd build
@@ -96,7 +96,8 @@ make clean
 
 %files
 %defattr(-,root,root,-)
-%doc
+%doc README.md Changelog
+%license COPYING
 %{_bindir}/strawberry
 %{_bindir}/strawberry-tagreader
 %{_datadir}/applications/strawberry.desktop

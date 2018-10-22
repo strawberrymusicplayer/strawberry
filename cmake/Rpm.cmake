@@ -1,6 +1,7 @@
 find_program(LSB_RELEASE_EXEC lsb_release)
+find_program(RPMBUILD_EXEC rpmbuild)
 
-if (LSB_RELEASE_EXEC)
+if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
   execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -is | tr '[:upper:]' '[:lower:]' | cut -d' ' -f1"
     OUTPUT_VARIABLE DIST_NAME
     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -42,8 +43,8 @@ if (LSB_RELEASE_EXEC)
       add_custom_target(rpm
         COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
         COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
-        COMMAND rpmbuild -bs ${CMAKE_SOURCE_DIR}/dist/opensuse/strawberry.spec
-        COMMAND rpmbuild -bb ${CMAKE_SOURCE_DIR}/dist/opensuse/strawberry.spec
+        COMMAND ${RPMBUILD_EXEC} -bs ${CMAKE_SOURCE_DIR}/dist/opensuse/strawberry.spec
+        COMMAND ${RPMBUILD_EXEC} -bb ${CMAKE_SOURCE_DIR}/dist/opensuse/strawberry.spec
       )
     elseif (${DIST_NAME} STREQUAL "fedora")
       if (DIST_VERSION)
