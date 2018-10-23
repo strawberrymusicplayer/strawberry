@@ -488,7 +488,7 @@ void DeezerEngine::PlayerMetaDataCallback(dz_player_handle handle, dz_track_meta
       break;
     case DZ_MEDIA_FORMAT_AUDIO_PCM:
       bundle.filetype = Song::FileType_PCM;
-      return;
+      break;
     default:
       return;
   }
