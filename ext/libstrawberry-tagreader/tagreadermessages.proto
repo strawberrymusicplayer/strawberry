@@ -21,6 +21,7 @@ message SongMetadata {
     TRUEAUDIO = 13;
     DSF = 14;
     DSDIFF = 15;
+    PCM = 16;
     CDDA = 90;
     STREAM = 91;
   }

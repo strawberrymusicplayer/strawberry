@@ -118,6 +118,7 @@ class Song {
     FileType_TrueAudio = 13,
     FileType_DSF = 14,
     FileType_DSDIFF = 15,
+    FileType_PCM = 16,
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };
