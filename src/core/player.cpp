@@ -73,7 +73,7 @@
 #include "settings/backendsettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetservice.h"
 
 using std::shared_ptr;

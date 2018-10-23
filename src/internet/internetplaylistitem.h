@@ -47,7 +47,6 @@ class InternetPlaylistItem : public PlaylistItem {
 
  private:
   void InitMetadata();
-  InternetService *service() const;
 
  private:
   Song::Source source_;

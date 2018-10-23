@@ -54,7 +54,7 @@
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetsearch.h"
 #include "internet/localredirectserver.h"
 #include "deezerservice.h"
@@ -71,8 +71,8 @@ const char *DeezerService::kSecretKey = "06911976010b9ddd7256769adf2b2e56";
 
 typedef QPair<QString, QString> Param;
 
-DeezerService::DeezerService(Application *app, InternetModel *parent)
-    : InternetService(Song::Source_Deezer, "Deezer", "dzmedia", app, parent, parent),
+DeezerService::DeezerService(Application *app, QObject *parent)
+    : InternetService(Song::Source_Deezer, "Deezer", "dzmedia", app, parent),
       network_(new NetworkAccessManager(this)),
       url_handler_(new DeezerUrlHandler(app, this)),
 #ifdef HAVE_DZMEDIA

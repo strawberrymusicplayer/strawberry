@@ -36,19 +36,18 @@
 #include "internetsearch.h"
 
 class Application;
-class InternetModel;
+class InternetServices;
 class CollectionFilterWidget;
 
 class InternetService : public QObject {
   Q_OBJECT
 
  public:
-  InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, InternetModel *model, QObject *parent = nullptr);
+  InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent = nullptr);
   virtual ~InternetService() {}
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
   virtual QString url_scheme() const { return url_scheme_; }
-  virtual InternetModel *model() const { return model_; }
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
@@ -62,7 +61,6 @@ class InternetService : public QObject {
  protected:
   Application *app_;
  private:
-  InternetModel *model_;
   Song::Source source_;
   QString name_;
   QString url_scheme_;

@@ -85,9 +85,8 @@
 #include "songplaylistitem.h"
 #include "tagreadermessages.pb.h"
 
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetplaylistitem.h"
-#include "internet/internetmimedata.h"
 #include "internet/internetsongmimedata.h"
 
 using std::placeholders::_1;

@@ -47,7 +47,7 @@ void CoverProviders::RemoveProvider(CoverProvider *provider) {
 
   if (!provider) return;
 
-  // It's not safe to dereference provider at this pointbecause it might have already been destroyed.
+  // It's not safe to dereference provider at this point because it might have already been destroyed.
 
   QString name;
 

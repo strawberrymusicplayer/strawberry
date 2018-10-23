@@ -29,7 +29,7 @@
 #include "ui_tidalsettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "tidal/tidalservice.h"
 
 const char *TidalSettingsPage::kSettingsGroup = "Tidal";
@@ -37,7 +37,7 @@ const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
     : SettingsPage(parent),
       ui_(new Ui::TidalSettingsPage),
-      service_(dialog()->app()->internet_model()->Service<TidalService>()) {
+      service_(dialog()->app()->internet_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("tidal"));

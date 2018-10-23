@@ -48,7 +48,7 @@
 #include "playlist/songmimedata.h"
 #include "internetsearch.h"
 #include "internetservice.h"
-#include "internetmodel.h"
+#include "internetservices.h"
 
 using std::advance;
 
@@ -60,7 +60,7 @@ InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *p
     : QObject(parent),
       app_(app),
       source_(source),
-      service_(app->internet_model()->ServiceBySource(source)),
+      service_(app->internet_services()->ServiceBySource(source)),
       searches_next_id_(1),
       art_searches_next_id_(1) {
 

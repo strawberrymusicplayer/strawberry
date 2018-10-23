@@ -49,7 +49,7 @@
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetsearch.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
@@ -65,8 +65,8 @@ const int TidalService::kTimeResetLoginAttempts = 60000;
 
 typedef QPair<QString, QString> Param;
 
-TidalService::TidalService(Application *app, InternetModel *parent)
-    : InternetService(Song::Source_Tidal, "Tidal", "tidal", app, parent, parent),
+TidalService::TidalService(Application *app, QObject *parent)
+    : InternetService(Song::Source_Tidal, "Tidal", "tidal", app, parent),
       network_(new NetworkAccessManager(this)),
       url_handler_(new TidalUrlHandler(app, this)),
       timer_searchdelay_(new QTimer(this)),

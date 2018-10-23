@@ -35,7 +35,7 @@
 #include <QJsonValue>
 
 #include "core/song.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 
@@ -46,7 +46,7 @@ class TidalService : public InternetService {
   Q_OBJECT
 
  public:
-  TidalService(Application *app, InternetModel *parent);
+  TidalService(Application *app, QObject *parent);
   ~TidalService();
 
   static const Song::Source kSource;

@@ -54,7 +54,7 @@ class CoverProviders;
 class AlbumCoverLoader;
 class CurrentArtLoader;
 class LyricsProviders;
-class InternetModel;
+class InternetServices;
 class InternetSearch;
 
 class Application : public QObject {
@@ -89,7 +89,7 @@ class Application : public QObject {
 
   LyricsProviders *lyrics_providers() const;
 
-  InternetModel *internet_model() const;
+  InternetServices *internet_services() const;
 #ifdef HAVE_STREAM_TIDAL
   InternetSearch *tidal_search() const;
 #endif

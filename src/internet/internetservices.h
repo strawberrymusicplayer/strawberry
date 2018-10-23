@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef INTERNETMODEL_H
-#define INTERNETMODEL_H
+#ifndef INTERNETSERVICES_H
+#define INTERNETSERVICES_H
 
 #include "config.h"
 
@@ -39,11 +39,12 @@
 class Application;
 class InternetService;
 
-class InternetModel : public QStandardItemModel {
+class InternetServices : public QObject {
   Q_OBJECT
 
  public:
-  explicit InternetModel(Application* app, QObject *parent = nullptr);
+  explicit InternetServices(QObject *parent = nullptr);
+  ~InternetServices();
 
   enum Role {
     // Services can use this role to distinguish between different types of items that they add.
@@ -104,12 +105,10 @@ class InternetModel : public QStandardItemModel {
     PlayBehaviour_DoubleClickAction,
   };
 
-  // Needs to be static for InternetPlaylistItem::restore
-  static InternetService *ServiceBySource(const Song::Source &source);
-
+  InternetService *ServiceBySource(const Song::Source &source);
   template <typename T>
-  static T *Service() {
-    return static_cast<T*>(ServiceBySource(T::kSource));
+  T *Service() {
+    return static_cast<T*>(this->ServiceBySource(T::kSource));
   }
 
   // Add and remove services.  Ownership is not transferred and the service is not reparented.
@@ -118,14 +117,11 @@ class InternetModel : public QStandardItemModel {
   void RemoveService(InternetService *service);
   void ReloadSettings();
 
-  Application *app() const { return app_; }
-
  private slots:
   void ServiceDeleted();
 
  private:
-  static QMap<Song::Source, InternetService*> *sServices;
-  Application *app_;
+  QMap<Song::Source, InternetService*> services_;
 
 };
 

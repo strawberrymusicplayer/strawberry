@@ -39,7 +39,7 @@
 #include <QJsonValue>
 
 #include "core/song.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 
@@ -61,7 +61,7 @@ class DeezerService : public InternetService {
   Q_OBJECT
 
  public:
-  DeezerService(Application *app, InternetModel *parent);
+  DeezerService(Application *app, QObject *parent);
   ~DeezerService();
 
   static const Song::Source kSource;

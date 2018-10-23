@@ -24,70 +24,50 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
-#include <QStandardItemModel>
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "internetmodel.h"
+#include "internetservices.h"
 #include "internetservice.h"
-#ifdef HAVE_STREAM_TIDAL
-#  include "tidal/tidalservice.h"
-#endif
-#ifdef HAVE_STREAM_DEEZER
-#  include "deezer/deezerservice.h"
-#endif
 
-QMap<Song::Source, InternetService*>* InternetModel::sServices = nullptr;
+InternetServices::InternetServices(QObject *parent) : QObject(parent) {}
+InternetServices::~InternetServices() {}
 
-InternetModel::InternetModel(Application *app, QObject *parent)
-    : QStandardItemModel(parent),
-      app_(app) {
+void InternetServices::AddService(InternetService *service) {
 
-  if (!sServices) sServices = new QMap<Song::Source, InternetService*>;
-  Q_ASSERT(sServices->isEmpty());
-#ifdef HAVE_STREAM_TIDAL
-  AddService(new TidalService(app, this));
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  AddService(new DeezerService(app, this));
-#endif
-
-}
-
-void InternetModel::AddService(InternetService *service) {
-
-  qLog(Debug) << "Adding internet service:" << service->name();
-  sServices->insert(service->source(), service);
+  services_.insert(service->source(), service);
   connect(service, SIGNAL(destroyed()), SLOT(ServiceDeleted()));
   if (service->has_initial_load_settings()) service->InitialLoadSettings();
   else service->ReloadSettings();
 
+  qLog(Debug) << "Added internet service" << service->name();
+
 }
 
-void InternetModel::RemoveService(InternetService *service) {
+void InternetServices::RemoveService(InternetService *service) {
 
-  if (!sServices->contains(service->source())) return;
-  sServices->remove(service->source());
+  if (!services_.contains(service->source())) return;
+  services_.remove(service->source());
   disconnect(service, 0, this, 0);
 
 }
 
-void InternetModel::ServiceDeleted() {
+void InternetServices::ServiceDeleted() {
 
   InternetService *service = qobject_cast<InternetService*>(sender());
   if (service) RemoveService(service);
 
 }
 
-InternetService *InternetModel::ServiceBySource(const Song::Source &source) {
+InternetService *InternetServices::ServiceBySource(const Song::Source &source) {
 
-  if (sServices->contains(source)) return sServices->value(source);
+  if (services_.contains(source)) return services_.value(source);
   return nullptr;
 
 }
 
-void InternetModel::ReloadSettings() {
-  for (InternetService *service : sServices->values()) {
+void InternetServices::ReloadSettings() {
+  for (InternetService *service : services_.values()) {
     service->ReloadSettings();
   }
 }

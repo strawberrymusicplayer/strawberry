@@ -24,9 +24,9 @@
 
 #include "core/logging.h"
 #include "core/mimedata.h"
-#include "internetmodel.h"
+#include "internetservices.h"
 #include "internetservice.h"
 
-InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, InternetModel *model, QObject *parent)
-    : QObject(parent), app_(app), model_(model), source_(source), name_(name), url_scheme_(url_scheme) {
+InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent)
+    : QObject(parent), app_(app), source_(source), name_(name), url_scheme_(url_scheme) {
 }

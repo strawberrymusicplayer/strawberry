@@ -29,7 +29,7 @@
 #include "ui_deezersettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "deezer/deezerservice.h"
 
 const char *DeezerSettingsPage::kSettingsGroup = "Deezer";
@@ -37,7 +37,7 @@ const char *DeezerSettingsPage::kSettingsGroup = "Deezer";
 DeezerSettingsPage::DeezerSettingsPage(SettingsDialog *parent)
     : SettingsPage(parent),
       ui_(new Ui::DeezerSettingsPage),
-      service_(dialog()->app()->internet_model()->Service<DeezerService>()) {
+      service_(dialog()->app()->internet_services()->Service<DeezerService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("deezer"));

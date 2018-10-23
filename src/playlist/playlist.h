@@ -54,7 +54,7 @@ class PlaylistBackend;
 class PlaylistFilter;
 class Queue;
 class TaskManager;
-class InternetModel;
+class InternetServices;
 class InternetService;
 
 namespace PlaylistUndoCommands {

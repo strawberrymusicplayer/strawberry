@@ -260,7 +260,7 @@ set(SOURCES
   globalshortcuts/qxtglobalshortcutbackend.cpp
   globalshortcuts/globalshortcutgrabber.cpp
 
-  internet/internetmodel.cpp
+  internet/internetservices.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
   internet/internetsearch.cpp
@@ -422,9 +422,8 @@ set(HEADERS
   globalshortcuts/gnomeglobalshortcutbackend.h
   globalshortcuts/globalshortcutgrabber.h
 
-  internet/internetmodel.h
+  internet/internetservices.h
   internet/internetservice.h
-  internet/internetmimedata.h
   internet/internetsongmimedata.h
   internet/internetsearch.h
   internet/internetsearchview.h

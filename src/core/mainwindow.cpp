@@ -140,7 +140,7 @@
 #  include "settings/deezersettingspage.h"
 #endif
 
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearchview.h"
 

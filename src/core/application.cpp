@@ -60,8 +60,15 @@
 #include "lyrics/auddlyricsprovider.h"
 #include "lyrics/apiseedslyricsprovider.h"
 
-#include "internet/internetmodel.h"
+#include "internet/internetservices.h"
 #include "internet/internetsearch.h"
+
+#ifdef HAVE_STREAM_TIDAL
+#  include "tidal/tidalservice.h"
+#endif
+#ifdef HAVE_STREAM_DEEZER
+#  include "deezer/deezerservice.h"
+#endif
 
 bool Application::kIsPortable = false;
 
@@ -116,7 +123,16 @@ class ApplicationImpl {
           lyrics_providers->AddProvider(new APISeedsLyricsProvider(app));
           return lyrics_providers;
         }),
-        internet_model_([=]() { return new InternetModel(app, app); }),
+        internet_services_([=]() {
+          InternetServices *internet_services = new InternetServices(app);
+#ifdef HAVE_STREAM_TIDAL
+          internet_services->AddService(new TidalService(app, internet_services));
+#endif
+#ifdef HAVE_STREAM_DEEZER
+          internet_services->AddService(new DeezerService(app, internet_services));
+#endif
+          return internet_services;
+        }),
 #ifdef HAVE_STREAM_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
 #endif
@@ -142,7 +158,7 @@ class ApplicationImpl {
   Lazy<AlbumCoverLoader> album_cover_loader_;
   Lazy<CurrentArtLoader> current_art_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
-  Lazy<InternetModel> internet_model_;
+  Lazy<InternetServices> internet_services_;
 #ifdef HAVE_STREAM_TIDAL
   Lazy<InternetSearch> tidal_search_;
 #endif
@@ -216,7 +232,7 @@ CurrentArtLoader *Application::current_art_loader() const { return p_->current_a
 LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_providers_.get(); }
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
-InternetModel *Application::internet_model() const { return p_->internet_model_.get(); }
+InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
 #ifdef HAVE_STREAM_TIDAL
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
 #endif

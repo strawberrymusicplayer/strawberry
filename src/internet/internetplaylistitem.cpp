@@ -28,8 +28,8 @@
 #include <QtDebug>
 
 #include "internetplaylistitem.h"
+#include "internetservices.h"
 #include "internetservice.h"
-#include "internetmodel.h"
 #include "core/settingsprovider.h"
 #include "collection/sqlrow.h"
 #include "playlist/playlistbackend.h"
@@ -48,11 +48,6 @@ bool InternetPlaylistItem::InitFromQuery(const SqlRow &query) {
   metadata_.InitFromQuery(query, false, (Song::kColumns.count() + 1) * 1);
   InitMetadata();
   return true;
-}
-
-InternetService *InternetPlaylistItem::service() const {
-  InternetService *ret = InternetModel::ServiceBySource(source_);
-  return ret;
 }
 
 QVariant InternetPlaylistItem::DatabaseValue(DatabaseColumn column) const {
