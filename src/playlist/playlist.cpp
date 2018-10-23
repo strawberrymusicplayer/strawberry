@@ -1464,7 +1464,12 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
   if (current_item()->Url() != url) return;
 
   // Don't update the metadata if it's only a minor change from before
-  if (current_item()->Metadata().artist() == song.artist() && current_item()->Metadata().title() == song.title() && current_item()->Metadata().album() == song.album()) return;
+  if (
+      current_item()->Metadata().filetype() == song.filetype() &&
+      current_item()->Metadata().artist() == song.artist() &&
+      current_item()->Metadata().title() == song.title() &&
+      current_item()->Metadata().album() == song.album()
+  ) return;
 
   // TODO: Update context & playlist if changed, but don't show popup.
   //(song.bitrate() <= 0 || current_item()->Metadata().bitrate() == song.bitrate())

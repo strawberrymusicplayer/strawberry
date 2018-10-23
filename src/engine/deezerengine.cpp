@@ -28,6 +28,8 @@
 
 #include <deezer/deezer-connect.h>
 #include <deezer/deezer-player.h>
+#include <deezer/deezer-object.h>
+#include <deezer/deezer-track.h>
 
 #include <QtGlobal>
 #include <QCoreApplication>
@@ -40,6 +42,7 @@
 #include "core/timeconstants.h"
 #include "core/taskmanager.h"
 #include "core/logging.h"
+#include "core/song.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "enginetype.h"
@@ -122,7 +125,7 @@ bool DeezerEngine::Init() {
   if (dzerr != DZ_ERROR_NO_ERROR) {
     qLog(Error) << "Deezer: Failed to activate player.";
     return false;
-   }
+  }
 
   dzerr = dz_player_set_event_cb(player_, PlayerEventCallback);
   if (dzerr != DZ_ERROR_NO_ERROR) {
@@ -471,5 +474,38 @@ void DeezerEngine::PlayerProgressCallback(dz_player_handle handle, dz_useconds_t
 }
 
 void DeezerEngine::PlayerMetaDataCallback(dz_player_handle handle, dz_track_metadata_handle metadata, void *userdata) {
-  //DeezerEngine *engine = reinterpret_cast<DeezerEngine*>(userdata);
+
+  const dz_media_track_detailed_infos_t *track_metadata = dz_track_metadata_get_format_header(metadata);
+  DeezerEngine *engine = reinterpret_cast<DeezerEngine*>(userdata);
+  Engine::SimpleMetaBundle bundle;
+
+  switch (track_metadata->format) {
+    case DZ_MEDIA_FORMAT_AUDIO_MPEG:
+      bundle.filetype = Song::FileType_MPEG;
+      break;
+    case DZ_MEDIA_FORMAT_AUDIO_FLAC:
+      bundle.filetype = Song::FileType_FLAC;
+      break;
+    case DZ_MEDIA_FORMAT_AUDIO_PCM:
+      bundle.filetype = Song::FileType_PCM;
+      return;
+    default:
+      return;
+  }
+
+  bundle.url = engine->original_url_;
+  bundle.title = QString();
+  bundle.artist = QString();
+  bundle.comment = QString();
+  bundle.album = QString();
+  bundle.length = 0;
+  bundle.year = 0;
+  bundle.tracknr = 0;
+  bundle.samplerate = track_metadata->audio.samples.sample_rate;
+  bundle.bitdepth = 0;
+  bundle.bitrate = track_metadata->average_bitrate / 1000;
+  bundle.lyrics = QString();
+
+  emit engine->MetaData(bundle);
+
 }

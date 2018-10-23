@@ -1002,12 +1002,14 @@ void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
   if (!bundle.album.isEmpty()) d->album_ = bundle.album;
   if (!bundle.comment.isEmpty()) d->comment_ = bundle.comment;
   if (!bundle.genre.isEmpty()) d->genre_ = bundle.genre;
-  if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
-  if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
-  if (bundle.bitdepth > 0) d->samplerate_ = bundle.bitdepth;
   if (bundle.length > 0) set_length_nanosec(bundle.length);
   if (bundle.year > 0) d->year_ = bundle.year;
   if (bundle.tracknr > 0) d->track_ = bundle.tracknr;
+  if (bundle.filetype != FileType_Unknown) d->filetype_ = bundle.filetype;
+  if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
+  if (bundle.bitdepth > 0) d->samplerate_ = bundle.bitdepth;
+  if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
+  if (!bundle.lyrics.isEmpty()) d->lyrics_ = bundle.lyrics;
 
 }
 

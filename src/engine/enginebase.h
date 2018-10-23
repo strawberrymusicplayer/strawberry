@@ -42,6 +42,7 @@
 #include "engine_fwd.h"
 #include "enginetype.h"
 #include "enginedevice.h"
+#include "core/song.h"
 
 namespace Engine {
 
@@ -212,6 +213,7 @@ struct SimpleMetaBundle {
   qlonglong length;
   int year;
   int tracknr;
+  Song::FileType filetype;
   int samplerate;
   int bitdepth;
   qlonglong bitrate;
