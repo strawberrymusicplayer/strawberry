@@ -428,7 +428,10 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
 
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
-    if (ui_->combobox_device->currentText() != "Custom" && device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
+    if (ui_->combobox_device->currentText() != "Custom") {
+      if (device.type() == QVariant::String) ui_->lineedit_device->setText(device.toString());
+      else ui_->lineedit_device->setText("");
+    }
   }
   else {
     ui_->lineedit_device->setEnabled(false);
