@@ -122,7 +122,7 @@ if(WIN32)
 endif(WIN32)
 
 # QT
-set(QT_MIN_VERSION 5.6.0)
+set(QT_MIN_VERSION 5.5.1)
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql OpenGL Xml)
 if(X11_FOUND)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
