@@ -362,12 +362,12 @@ void FancyTabWidget::saveSettings(const char *kSettingsGroup) {
 
 }
 
-void FancyTabWidget::addBottomWidget(QWidget* widget) {
-  bottom_widget_ = widget;
+void FancyTabWidget::addBottomWidget(QWidget* widget_view) {
+  bottom_widget_ = widget_view;
 }
 
-int FancyTabWidget::addTab(QWidget *widget, const QIcon &icon, const QString &label) {
-  return insertTab(count(), widget, icon, label);
+int FancyTabWidget::addTab(QWidget *widget_view, const QIcon &icon, const QString &label) {
+  return insertTab(count(), widget_view, icon, label);
 }
 
 int FancyTabWidget::insertTab(int index, QWidget *widget_view, const QIcon &icon, const QString &label) {

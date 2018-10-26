@@ -857,7 +857,9 @@ void MainWindow::ReloadAllSettings() {
 }
 
 void MainWindow::RefreshStyleSheet() {
-  setStyleSheet(styleSheet());
+  QString contents(styleSheet());
+  setStyleSheet("");
+  setStyleSheet(contents);
 }
 
 void MainWindow::MediaStopped() {

@@ -93,6 +93,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
   contents.replace("macos", "*");
 #endif
 
+  widget->setStyleSheet("");
   widget->setStyleSheet(contents);
 
 }

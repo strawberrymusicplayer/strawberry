@@ -42,10 +42,10 @@ class FancyTabWidget : public QTabWidget {
 
   public:
     FancyTabWidget(QWidget* parent = 0);
-    int addTab(QWidget *widget, const QIcon &icon, const QString &label);
+    int addTab(QWidget *widget_view, const QIcon &icon, const QString &label);
     void delTab(const QString &label);
-    int insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label);
-    void addBottomWidget(QWidget* widget);
+    int insertTab(int index, QWidget *widget_view, const QIcon &icon, const QString &label);
+    void addBottomWidget(QWidget* widget_view);
 
     void setBackgroundPixmap(const QPixmap& pixmap);
     void addSpacer();
