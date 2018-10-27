@@ -1,5 +1,5 @@
 /***************************************************************************
-    copyright            : (C) 2013 by Stephen F. Booth
+    copyright            : (C) 2013 - 2018 by Stephen F. Booth
     email                : me@sbooth.org
  ***************************************************************************/
 
@@ -102,6 +102,15 @@ namespace TagLib {
        * Saves the file.
        */
       virtual bool save();
+
+      /*!
+       * Returns whether or not the given \a stream can be opened as a DSF
+       * file.
+       *
+       * \note This method is designed to do a quick check.  The result may
+       * not necessarily be correct.
+       */
+      static bool isSupported(IOStream *stream);
 
     private:
       File(const File &);

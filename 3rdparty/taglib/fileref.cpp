@@ -180,10 +180,10 @@ namespace
       file = new RIFF::WAV::File(stream, readAudioProperties, audioPropertiesStyle);
     else if(APE::File::isSupported(stream))
       file = new APE::File(stream, readAudioProperties, audioPropertiesStyle);
-    //else if(DSF::File::isSupported(stream))
-      //return new DSDIFF::File(stream, readAudioProperties, audioPropertiesStyle);
-    //else if(DSDIFF::File::isSupported(stream))
-      //return new DSF::File(stream, readAudioProperties, audioPropertiesStyle);
+    else if(DSDIFF::File::isSupported(stream))
+      file = new DSDIFF::File(stream, readAudioProperties, audioPropertiesStyle);
+    else if(DSF::File::isSupported(stream))
+      file = new DSF::File(stream, readAudioProperties, audioPropertiesStyle);
 
     // isSupported() only does a quick check, so double check the file here.
 

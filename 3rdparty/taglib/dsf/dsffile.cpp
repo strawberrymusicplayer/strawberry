@@ -1,5 +1,5 @@
 /***************************************************************************
- copyright            : (C) 2013 by Stephen F. Booth
+ copyright            : (C) 2013 - 2018 by Stephen F. Booth
  email                : me@sbooth.org
  ***************************************************************************/
 
@@ -28,6 +28,7 @@
 #include <id3v2tag.h>
 #include <tstringlist.h>
 #include <tpropertymap.h>
+#include <tagutils.h>
 
 #include "dsffile.h"
 
@@ -55,6 +56,17 @@ public:
   Properties *properties;
   ID3v2::Tag *tag;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// static members
+////////////////////////////////////////////////////////////////////////////////
+
+bool DSF::File::isSupported(IOStream *stream)
+{
+    // A DSF file has to start with "DSD "
+    const ByteVector id = Utils::readHeader(stream, 4, false);
+    return id.startsWith("DSD ");
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members

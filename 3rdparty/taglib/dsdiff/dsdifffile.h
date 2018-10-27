@@ -185,6 +185,15 @@ namespace TagLib {
        */
       bool hasDIINTag() const;
 
+      /*!
+       * Returns whether or not the given \a stream can be opened as a DSDIFF
+       * file.
+       *
+       * \note This method is designed to do a quick check.  The result may
+       * not necessarily be correct.
+       */
+       static bool isSupported(IOStream *stream);
+
     protected:
       enum Endianness { BigEndian, LittleEndian };
 

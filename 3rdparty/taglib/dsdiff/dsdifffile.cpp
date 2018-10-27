@@ -28,6 +28,7 @@
 #include <id3v2tag.h>
 #include <tstringlist.h>
 #include <tpropertymap.h>
+#include <tagutils.h>
 
 #include "tagunion.h"
 #include "dsdifffile.h"
@@ -96,6 +97,18 @@ public:
   bool hasID3v2;
   bool hasDiin;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// static members
+////////////////////////////////////////////////////////////////////////////////
+
+bool DSDIFF::File::isSupported(IOStream *stream)
+{
+    // A DSDIFF file has to start with "FRM8????????DSD ".
+
+    const ByteVector id = Utils::readHeader(stream, 16, false);
+    return (id.startsWith("FRM8") && id.containsAt("DSD ", 12));
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
