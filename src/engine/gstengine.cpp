@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
  *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
+ *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -206,6 +206,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::Tr
     current_pipeline_->StartFader(fadeout_duration_nanosec_, QTimeLine::Forward);
 
   return true;
+
 }
 
 bool GstEngine::Play(quint64 offset_nanosec) {
@@ -470,18 +471,17 @@ void GstEngine::SetEnvironment() {
 
 }
 
-GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool fatal, bool showerror) {
+GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool showerror) {
 
   // Make a unique name
   QString name = factoryName + "-" + QString::number(next_element_id_++);
 
   GstElement *element = gst_element_factory_make(factoryName.toUtf8().constData(), name.toUtf8().constData());
-
   if (!element) {
-    if (showerror)
-      emit Error(QString("GStreamer could not create the element: %1. Please make sure that you have installed all necessary GStreamer plugins").arg(factoryName));
+    if (showerror) emit Error(QString("GStreamer could not create the element: %1.").arg(factoryName));
     else qLog(Error) << "GStreamer could not create the element:" << factoryName;
-    //if (fatal) gst_object_unref(GST_OBJECT(bin));
+    emit StateChanged(Engine::Error);
+    emit FatalError();
     return nullptr;
   }
 
@@ -566,21 +566,25 @@ void GstEngine::EndOfStreamReached(int pipeline_id, bool has_next_track) {
     BufferingFinished();
   }
   emit TrackEnded();
+
 }
 
 void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code) {
 
-  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id)
-    return;
+  if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
 
-  qLog(Warning) << "Gstreamer error:" << domain << error_code << message;
+  qLog(Error) << "Gstreamer error:" << domain << error_code << message;
 
   current_pipeline_.reset();
-
   BufferingFinished();
   emit StateChanged(Engine::Error);
-  // unable to play media stream with this url
-  emit InvalidSongRequested(media_url_);
+
+  if (domain == GST_RESOURCE_ERROR && (error_code == GST_RESOURCE_ERROR_NOT_FOUND || error_code == GST_RESOURCE_ERROR_NOT_AUTHORIZED)) {
+     emit InvalidSongRequested(media_url_);
+   }
+  else {
+    emit FatalError();
+  }
 
   emit Error(message);
 

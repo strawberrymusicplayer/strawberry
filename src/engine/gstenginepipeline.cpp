@@ -239,9 +239,9 @@ bool GstEnginePipeline::InitAudioBin() {
   probe_sink = engine_->CreateElement("fakesink", audiobin_);
 
   audio_queue = engine_->CreateElement("queue", audiobin_);
-  equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false, true);
-  equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false, true);
-  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false, false);
+  equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
+  equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
+  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
   volume_ = engine_->CreateElement("volume", audiobin_);
   audioscale_ = engine_->CreateElement("audioresample", audiobin_);
   convert = engine_->CreateElement("audioconvert", audiobin_);
@@ -257,9 +257,9 @@ bool GstEnginePipeline::InitAudioBin() {
   GstElement *convert_sink = tee;
 
   if (rg_enabled_) {
-    rgvolume_ = engine_->CreateElement("rgvolume", audiobin_, false, true);
-    rglimiter_ = engine_->CreateElement("rglimiter", audiobin_, false, true);
-    audioconvert2_ = engine_->CreateElement("audioconvert", audiobin_, false, true);
+    rgvolume_ = engine_->CreateElement("rgvolume", audiobin_, false);
+    rglimiter_ = engine_->CreateElement("rglimiter", audiobin_, false);
+    audioconvert2_ = engine_->CreateElement("audioconvert", audiobin_, false);
     if (rgvolume_ && rglimiter_ && audioconvert2_) {
       event_probe = audioconvert2_;
       convert_sink = rgvolume_;

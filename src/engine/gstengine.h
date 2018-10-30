@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
  *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
+ *   Copyright (C) 2017-2018 Jonas Kvinge <jonas@jkvinge.net>              *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -93,7 +93,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void InitialiseGStreamer();
   void SetEnvironment();
 
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = 0, bool fatal = true, bool showerror = true);
+  GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, bool showerror = true);
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
 
  public slots:
