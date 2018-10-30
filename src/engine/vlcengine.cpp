@@ -53,7 +53,6 @@ VLCEngine::~VLCEngine() {
   libvlc_media_player_stop(player_);
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
-  HandleErrors();
 
 }
 
@@ -70,17 +69,14 @@ bool VLCEngine::Init() {
   // Create the VLC instance
   instance_ = libvlc_new(sizeof(args) / sizeof(*args), args);
   if (!instance_) return false;
-  HandleErrors();
 
   // Create the media player
   player_ = libvlc_media_player_new(instance_);
   if (!player_) return false;
-  HandleErrors();
 
   // Add event handlers
   libvlc_event_manager_t *player_em = libvlc_media_player_event_manager(player_);
   if (!player_em) return false;
-  HandleErrors();
 
   AttachCallback(player_em, libvlc_MediaPlayerEncounteredError, StateChangedCallback);
   AttachCallback(player_em, libvlc_MediaPlayerNothingSpecial, StateChangedCallback);
@@ -90,7 +86,6 @@ bool VLCEngine::Init() {
   AttachCallback(player_em, libvlc_MediaPlayerPaused, StateChangedCallback);
   AttachCallback(player_em, libvlc_MediaPlayerStopped, StateChangedCallback);
   AttachCallback(player_em, libvlc_MediaPlayerEndReached, StateChangedCallback);
-  HandleErrors();
 
   return true;
 
@@ -144,7 +139,6 @@ void VLCEngine::Stop(bool stop_after) {
 
   if (!Initialised()) return;
   libvlc_media_player_stop(player_);
-  HandleErrors();
 
 }
 
@@ -152,7 +146,6 @@ void VLCEngine::Pause() {
 
   if (!Initialised()) return;
   libvlc_media_player_pause(player_);
-  HandleErrors();
 
 }
 
@@ -160,7 +153,6 @@ void VLCEngine::Unpause() {
 
   if (!Initialised()) return;
   libvlc_media_player_play(player_);
-  HandleErrors();
 
 }
 
@@ -176,14 +168,12 @@ void VLCEngine::Seek(quint64 offset_nanosec) {
   float pos = float(offset) / len;
 
   libvlc_media_player_set_position(player_, pos);
-  HandleErrors();
 
 }
 
 void VLCEngine::SetVolumeSW(uint percent) {
   if (!Initialised()) return;
   libvlc_audio_set_volume(player_, percent);
-  HandleErrors();
 }
 
 qint64 VLCEngine::position_nanosec() const {
@@ -250,13 +240,9 @@ uint VLCEngine::position() const {
   if (!Initialised()) return (0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
-  HandleErrors();
-
   if (!is_playing) return 0;
 
   float pos = libvlc_media_player_get_position(player_);
-  HandleErrors();
-
   return (pos * length());
 
 }
@@ -266,30 +252,19 @@ uint VLCEngine::length() const {
   if (!Initialised()) return(0);
 
   bool is_playing = libvlc_media_player_is_playing(player_);
-  HandleErrors();
-
   if (!is_playing) return 0;
 
   libvlc_time_t len = libvlc_media_player_get_length(player_);
-  HandleErrors();
 
   return len;
 
 }
 
-bool VLCEngine::CanDecode(const QUrl &url) {
-
-  // TODO
-  return true;
-}
-
-void VLCEngine::HandleErrors() const {
-}
+bool VLCEngine::CanDecode(const QUrl &url) { return true; }
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
 
   libvlc_event_attach(em, type, callback, this);
-  HandleErrors();
 
 }
 
@@ -299,19 +274,29 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
 
   switch (e->type) {
     case libvlc_MediaPlayerNothingSpecial:
+      break;
+
     case libvlc_MediaPlayerStopped:
-    case libvlc_MediaPlayerEncounteredError:
       engine->state_ = Engine::Empty;
+      emit engine->StateChanged(engine->state_);
+      break;
+
+    case libvlc_MediaPlayerEncounteredError:
+      engine->state_ = Engine::Error;
+      emit engine->StateChanged(engine->state_);
+      emit engine->FatalError();
       break;
 
     case libvlc_MediaPlayerOpening:
     case libvlc_MediaPlayerBuffering:
     case libvlc_MediaPlayerPlaying:
       engine->state_ = Engine::Playing;
+      emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerPaused:
       engine->state_ = Engine::Paused;
+      emit engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerEndReached:
@@ -319,8 +304,6 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
       emit engine->TrackEnded();
       return; // Don't emit state changed here
   }
-
-  emit engine->StateChanged(engine->state_);
 
 }
 
