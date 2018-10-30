@@ -11,6 +11,10 @@ Unreleased:
     * New improved fancy tabwidget
     * Fixed bug not loading engine settings
     * Moved queue manager into tabbar for easier access
+    * Fixed crash when changing appearance colors
+    * Improved error handling between player and engine
+    * Added setting to continue to the next song in playlist on error
+    * Improved Xine engine code
 
 Version 0.3.3:
 
