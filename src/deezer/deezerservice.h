@@ -76,7 +76,7 @@ class DeezerService : public InternetService {
   const bool app_id() { return kAppID; }
   const bool authenticated() { return !access_token_.isEmpty(); }
 
-  void GetStreamURL(const QUrl &url);
+  bool GetStreamURL(const QUrl &url);
 
  signals:
   void Login();

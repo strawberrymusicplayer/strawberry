@@ -768,14 +768,15 @@ Song DeezerService::ParseSong(const int album_id, const QString &album, const QS
 
 }
 
-void DeezerService::GetStreamURL(const QUrl &original_url) {
+bool DeezerService::GetStreamURL(const QUrl &original_url) {
 
 #ifdef HAVE_DZMEDIA
   stream_request_url_ = original_url;
   dzmedia_->GetStreamURL(original_url);
+  return true;
 #else
   stream_request_url_ = QUrl();
-  emit StreamURLReceived(original_url, original_url, Song::FileType_Stream);
+  return false;
 #endif
 
 }

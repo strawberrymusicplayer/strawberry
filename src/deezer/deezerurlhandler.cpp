@@ -43,8 +43,15 @@ UrlHandler::LoadResult DeezerUrlHandler::StartLoading(const QUrl &url) {
   if (task_id_ != -1) return ret;
   last_original_url_ = url;
   task_id_ = app_->task_manager()->StartTask(QString("Loading %1 stream...").arg(url.scheme()));
-  service_->GetStreamURL(url);
-  ret.type_ = LoadResult::WillLoadAsynchronously;
+  bool wait_for_url = service_->GetStreamURL(url);
+  if (wait_for_url) {
+    ret.type_ = LoadResult::WillLoadAsynchronously;
+  }
+  else {
+    CancelTask();
+    ret.type_ = LoadResult::TrackAvailable;
+    ret.media_url_ = url;
+  }
   return ret;
 
 }
