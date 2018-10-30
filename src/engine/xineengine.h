@@ -41,26 +41,6 @@ using std::shared_ptr;
 class TaskManager;
 class PruneScopeThread;
 
-class XineEvent : public QEvent {
-public:
-  enum EventType {
-    PlaybackFinished,
-    InfoMessage,
-    StatusMessage,
-    MetaInfoChanged,
-    Redirecting,
-    LastFMTrackChanged,
-  };
-
-  XineEvent(EventType type, void* data = nullptr) : QEvent(QEvent::Type(type)), data_(data) {}
-
-  void setData(void *data) { data_ = data; }
-  void *data() const { return data_; }
-
-private:
-  void *data_;
-};
-
 class XineEngine : public Engine::Base {
     Q_OBJECT
 
@@ -92,7 +72,6 @@ class XineEngine : public Engine::Base {
   void ReloadSettings();
 
   bool CanDecode(const QUrl &);
-  bool CreateStream();
 
   void SetEqualizerEnabled(bool enabled);
   void SetEqualizerParameters(int preamp, const QList<int>&);
@@ -109,8 +88,8 @@ class XineEngine : public Engine::Base {
   QVariant current_device_;
 
   xine_t *xine_;
-  xine_stream_t *stream_;
   xine_audio_port_t *audioport_;
+  xine_stream_t *stream_;
   xine_event_queue_t *eventqueue_;
   xine_post_t *post_;
   float preamp_;
@@ -118,9 +97,7 @@ class XineEngine : public Engine::Base {
 
   QUrl media_url_;
   QUrl original_url_;
-
-  static int last_error_;
-  static time_t last_error_time_;
+  bool have_metadata_;
 
   uint log_buffer_count_ = 0;
   uint log_scope_call_count_ = 1; // Prevent divideByZero
@@ -136,22 +113,20 @@ class XineEngine : public Engine::Base {
   void SetEnvironment();
 
   void Cleanup();
-  bool EnsureStream();
   void SetDevice();
+  bool OpenAudioDriver();
+  void CloseAudioDriver();
+  bool CreateStream();
+  void CloseStream();
+  bool EnsureStream();
 
   uint length() const;
   uint position() const;
 
-  bool MetaDataForUrl(const QUrl &url, Engine::SimpleMetaBundle &b);
-  bool GetAudioCDContents(const QString &device, QList<QUrl> &urls);
-  bool FlushBuffer();
-
   static void XineEventListener(void*, const xine_event_t*);
-  bool event(QEvent*);
 
-  Engine::SimpleMetaBundle fetchMetaData() const;
-
-  void DetermineAndShowErrorMessage(); //call after failure to load/play
+  void DetermineAndShowErrorMessage();
+  Engine::SimpleMetaBundle FetchMetaData() const;
 
   PluginDetailsList GetPluginList() const;
 
