@@ -137,13 +137,15 @@ signals:
 
   void FadeoutFinishedSignal();
 
-  void StatusText(const QString&);
-  void Error(const QString&);
+  void StatusText(const QString &text);
+  void Error(const QString &text);
 
+  // Emitted when there was a fatal error
+  void FatalError();
   // Emitted when Engine was unable to play a song with the given QUrl.
-  void InvalidSongRequested(const QUrl&);
+  void InvalidSongRequested(const QUrl &url);
   // Emitted when Engine successfully started playing a song with the given QUrl.
-  void ValidSongRequested(const QUrl&);
+  void ValidSongRequested(const QUrl &url);
 
   void MetaData(const Engine::SimpleMetaBundle&);
 

@@ -193,6 +193,7 @@ class Player : public PlayerInterface {
 
   void NextInternal(Engine::TrackChangeFlags);
 
+  void FatalError();
   void ValidSongRequested(const QUrl&);
   void InvalidSongRequested(const QUrl&);
 
@@ -219,10 +220,11 @@ class Player : public PlayerInterface {
   QMap<QString, UrlHandler*> url_handlers_;
 
   QUrl loading_async_;
-
   int volume_before_mute_;
-
   QDateTime last_pressed_previous_;
+
+  bool continue_on_error_;
+  bool greyout_;
   PreviousBehaviour menu_previousmode_;
   int seek_step_sec_;
 

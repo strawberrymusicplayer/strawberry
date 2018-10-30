@@ -71,6 +71,7 @@
 #include "equalizer/equalizer.h"
 #include "analyzer/analyzercontainer.h"
 #include "settings/backendsettingspage.h"
+#include "settings/playbacksettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
 #include "internet/internetservices.h"
@@ -86,6 +87,8 @@ Player::Player(Application *app, QObject *parent)
     nb_errors_received_(0),
     volume_before_mute_(50),
     last_pressed_previous_(QDateTime::currentDateTime()),
+    continue_on_error_(false),
+    greyout_(true),
     menu_previousmode_(PreviousBehaviour_DontRestart),
     seek_step_sec_(10) {
 
@@ -177,6 +180,7 @@ void Player::Init() {
   analyzer_->SetEngine(engine_.get());
 
   connect(engine_.get(), SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  connect(engine_.get(), SIGNAL(FatalError()), SLOT(FatalError()));
   connect(engine_.get(), SIGNAL(ValidSongRequested(QUrl)), SLOT(ValidSongRequested(QUrl)));
   connect(engine_.get(), SIGNAL(InvalidSongRequested(QUrl)), SLOT(InvalidSongRequested(QUrl)));
   connect(engine_.get(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
@@ -206,6 +210,8 @@ void Player::ReloadSettings() {
   QSettings s;
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  continue_on_error_ = s.value("continue_on_error", false).toBool();
+  greyout_ = s.value("greyout_songs_play", true).toBool();
   menu_previousmode_ = PreviousBehaviour(s.value("menu_previousmode", PreviousBehaviour_DontRestart).toInt());
   s.endGroup();
 
@@ -703,29 +709,25 @@ void Player::TrackAboutToEnd() {
 
 void Player::IntroPointReached() { NextInternal(Engine::Intro); }
 
+void Player::FatalError() {
+  nb_errors_received_ = 0;
+  Stop();
+}
+
 void Player::ValidSongRequested(const QUrl &url) {
   emit SongChangeRequestProcessed(url, true);
 }
 
 void Player::InvalidSongRequested(const QUrl &url) {
 
-  // First send the notification to others...
-  emit SongChangeRequestProcessed(url, false);
+  if (greyout_) emit SongChangeRequestProcessed(url, false);
 
-  // TODO: Continue to the next item in the playlist based on the error type.
-  // When our listeners have completed their processing of the current item we can change the current item by skipping to the next song
-  // NextItem(Engine::Auto);
-
-  // Manual track changes override "Repeat track"
-  Playlist *active_playlist = app_->playlist_manager()->active();
-  const bool ignore_repeat_track = Engine::Auto & Engine::Manual;
-  int i = active_playlist->next_row(ignore_repeat_track);
-  if (i == -1) {
-    app_->playlist_manager()->active()->set_current_row(i);
-    emit PlaylistFinished();
+  if (!continue_on_error_) {
+    FatalError();
+    return;
   }
-  nb_errors_received_ = 0;
-  Stop();
+
+  NextItem(Engine::Auto);
 
 }
 
