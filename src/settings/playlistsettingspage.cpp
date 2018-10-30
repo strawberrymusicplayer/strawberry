@@ -71,7 +71,10 @@ void PlaylistSettingsPage::Load() {
   ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", MainWindow::AddBehaviour_Append).toInt()));
   ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", MainWindow::PlayBehaviour_Never).toInt()));
   ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", MainWindow::PlayBehaviour_Never).toInt()));
-  ui_->checkbox_greyoutdeleted->setChecked(s.value("greyoutdeleted", false).toBool());
+
+  ui_->checkbox_continueonerror->setChecked(s.value("continue_on_error", false).toBool());
+  ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
+  ui_->checkbox_greyout_songs_play->setChecked(s.value("greyout_songs_play", true).toBool());
 
   Playlist::Path path = Playlist::Path(s.value(Playlist::kPathType, Playlist::Path_Automatic).toInt());
   switch (path) {
@@ -119,10 +122,12 @@ void PlaylistSettingsPage::Save() {
   }
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  s.setValue("continue_on_error", ui_->checkbox_continueonerror->isChecked());
+  s.setValue("greyout_songs_startup", ui_->checkbox_greyout_songs_startup->isChecked());
+  s.setValue("greyout_songs_play", ui_->checkbox_greyout_songs_play->isChecked());
   s.setValue("doubleclick_addmode", doubleclick_addmode);
   s.setValue("doubleclick_playmode", doubleclick_playmode);
   s.setValue("menu_playmode", menu_playmode);
-  s.setValue("greyoutdeleted", ui_->checkbox_greyoutdeleted->isChecked());
   s.setValue(Playlist::kPathType, static_cast<int>(path));
   s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
   s.setValue("editmetadatainline", ui_->checkbox_editmetadatainline->isChecked());

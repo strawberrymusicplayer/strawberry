@@ -109,7 +109,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_1">
+          <spacer name="spacer_fading_1">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -160,7 +160,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
+         <spacer name="spacer_fading_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -178,7 +178,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

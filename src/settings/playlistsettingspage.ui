@@ -22,9 +22,23 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_greyoutdeleted">
+    <widget class="QCheckBox" name="checkbox_continueonerror">
      <property name="text">
-      <string>Grey out non existent songs in my playlists</string>
+      <string>Continue to the next item in the playlist if a song is unavailable</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_greyout_songs_play">
+     <property name="text">
+      <string>Grey out unavailable songs in playlists on playback</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_greyout_songs_startup">
+     <property name="text">
+      <string>Grey out unavailable songs in playlists on startup</string>
      </property>
     </widget>
    </item>
@@ -178,7 +192,7 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_automaticpath">
         <property name="text">
-         <string>Auto&amp;matic</string>
+         <string>A&amp;utomatic</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -188,14 +202,14 @@
       <item>
        <widget class="QRadioButton" name="radiobutton_absolutepath">
         <property name="text">
-         <string>Absolute</string>
+         <string>Absolu&amp;te</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radiobutton_relativepath">
         <property name="text">
-         <string>Relati&amp;ve</string>
+         <string>Re&amp;lative</string>
         </property>
        </widget>
       </item>
