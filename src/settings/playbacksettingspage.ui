@@ -15,16 +15,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QCheckBox" name="checkbox_glowcurrenttrack">
-     <property name="text">
-      <string>Show a glowing animation on the current track</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupbox_fading">
      <property name="title">
       <string>Fading</string>

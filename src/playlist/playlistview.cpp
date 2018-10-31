@@ -925,7 +925,7 @@ void PlaylistView::ReloadSettings() {
 
   QSettings s;
 
-  s.beginGroup(PlaybackSettingsPage::kSettingsGroup);
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   glow_enabled_ = s.value("glow_effect", true).toBool();
   s.endGroup();
 
@@ -1039,7 +1039,7 @@ void PlaylistView::SaveSettings() {
 
   QSettings s;
 
-  s.beginGroup(PlaybackSettingsPage::kSettingsGroup);
+  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   s.setValue("glow_effect", glow_enabled_);
   s.endGroup();
 

@@ -803,7 +803,7 @@ void MainWindow::ReloadSettings() {
   if ((!showtrayicon || !QSystemTrayIcon::isSystemTrayAvailable()) && !isVisible()) show();
 #endif
 
-  settings.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   doubleclick_addmode_ = AddBehaviour(settings.value("doubleclick_addmode", AddBehaviour_Append).toInt());
   doubleclick_playmode_ = PlayBehaviour(settings.value("doubleclick_playmode", PlayBehaviour_IfStopped).toInt());
   doubleclick_playlist_addmode_ = PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt());

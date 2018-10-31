@@ -59,7 +59,6 @@ void PlaybackSettingsPage::Load() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", true).toBool());
   ui_->checkbox_fadeout_stop->setChecked(s.value("FadeoutEnabled", false).toBool());
   ui_->checkbox_fadeout_cross->setChecked(s.value("CrossfadeEnabled", false).toBool());
   ui_->checkbox_fadeout_auto->setChecked(s.value("AutoCrossfadeEnabled", false).toBool());
@@ -76,7 +75,6 @@ void PlaybackSettingsPage::Save() {
   QSettings s;
 
   s.beginGroup(kSettingsGroup);
-  s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
   s.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
   s.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
   s.setValue("AutoCrossfadeEnabled", ui_->checkbox_fadeout_auto->isChecked());

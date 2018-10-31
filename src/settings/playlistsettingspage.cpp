@@ -44,19 +44,6 @@ PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog* dialog) : SettingsPag
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("document-new"));
 
-  ui_->combobox_doubleclickaddmode->setItemData(0, MainWindow::AddBehaviour_Append);
-  ui_->combobox_doubleclickaddmode->setItemData(1, MainWindow::AddBehaviour_Load);
-  ui_->combobox_doubleclickaddmode->setItemData(2, MainWindow::AddBehaviour_OpenInNew);
-  ui_->combobox_doubleclickaddmode->setItemData(3, MainWindow::AddBehaviour_Enqueue);
-
-  ui_->combobox_doubleclickplaymode->setItemData(0, MainWindow::PlayBehaviour_Never);
-  ui_->combobox_doubleclickplaymode->setItemData(1, MainWindow::PlayBehaviour_IfStopped);
-  ui_->combobox_doubleclickplaymode->setItemData(2, MainWindow::PlayBehaviour_Always);
-
-  ui_->combobox_menuplaymode->setItemData(0, MainWindow::PlayBehaviour_Never);
-  ui_->combobox_menuplaymode->setItemData(1, MainWindow::PlayBehaviour_IfStopped);
-  ui_->combobox_menuplaymode->setItemData(2, MainWindow::PlayBehaviour_Always);
-
 }
 
 PlaylistSettingsPage::~PlaylistSettingsPage() {
@@ -66,12 +53,10 @@ PlaylistSettingsPage::~PlaylistSettingsPage() {
 void PlaylistSettingsPage::Load() {
 
   QSettings s;
+  s.beginGroup(kSettingsGroup);
 
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", MainWindow::AddBehaviour_Append).toInt()));
-  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", MainWindow::PlayBehaviour_Never).toInt()));
-  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", MainWindow::PlayBehaviour_Never).toInt()));
-
+  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", true).toBool());
+  ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
   ui_->checkbox_continueonerror->setChecked(s.value("continue_on_error", false).toBool());
   ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
   ui_->checkbox_greyout_songs_play->setChecked(s.value("greyout_songs_play", true).toBool());
@@ -91,7 +76,6 @@ void PlaylistSettingsPage::Load() {
       ui_->radiobutton_askpath->setChecked(true);
   }
 
-  ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
   ui_->checkbox_editmetadatainline->setChecked(s.value("editmetadatainline", false).toBool());
   ui_->checkbox_writemetadata->setChecked(s.value(Playlist::kWriteMetadata, false).toBool());
 
@@ -102,10 +86,6 @@ void PlaylistSettingsPage::Load() {
 void PlaylistSettingsPage::Save() {
 
   QSettings s;
-
-  MainWindow::AddBehaviour doubleclick_addmode = MainWindow::AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
-  MainWindow::PlayBehaviour doubleclick_playmode = MainWindow::PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
-  MainWindow::PlayBehaviour menu_playmode = MainWindow::PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
 
   Playlist::Path path = Playlist::Path_Automatic;
   if (ui_->radiobutton_automaticpath->isChecked()) {
@@ -121,15 +101,13 @@ void PlaylistSettingsPage::Save() {
     path = Playlist::Path_Ask_User;
   }
 
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
+  s.beginGroup(kSettingsGroup);
+  s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
+  s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
   s.setValue("continue_on_error", ui_->checkbox_continueonerror->isChecked());
   s.setValue("greyout_songs_startup", ui_->checkbox_greyout_songs_startup->isChecked());
   s.setValue("greyout_songs_play", ui_->checkbox_greyout_songs_play->isChecked());
-  s.setValue("doubleclick_addmode", doubleclick_addmode);
-  s.setValue("doubleclick_playmode", doubleclick_playmode);
-  s.setValue("menu_playmode", menu_playmode);
   s.setValue(Playlist::kPathType, static_cast<int>(path));
-  s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
   s.setValue("editmetadatainline", ui_->checkbox_editmetadatainline->isChecked());
   s.setValue(Playlist::kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
   s.endGroup();
