@@ -203,7 +203,9 @@ int main(int argc, char* argv[]) {
   Q_INIT_RESOURCE(data);
   Q_INIT_RESOURCE(icons);
 
+#ifdef DEBUG
   QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
+#endif
 
   Application app;
 
