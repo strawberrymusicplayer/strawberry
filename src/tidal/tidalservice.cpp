@@ -843,7 +843,7 @@ void TidalService::GetStreamURLFinished(QNetworkReply *reply, const int song_id,
   if (requests_song_.contains(song_id)) requests_song_.remove(song_id);
   if (original_url != stream_request_url_) return;
 
-  QByteArray data = GetReplyData(reply);
+  QByteArray data = GetReplyData(reply, true);
   if (data.isEmpty()) {
     if (!stream_request_url_.isEmpty() && !login_sent_) {
       emit StreamURLFinished(original_url, Song::FileType_Stream);
