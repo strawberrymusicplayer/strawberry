@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.4.1:
 
     * Fixed crash in analyzer
     * Fixed trying to use systray even if the desktop had no systray
@@ -13,8 +13,12 @@ Unreleased:
     * Moved queue manager into tabbar for easier access
     * Fixed crash when changing appearance colors
     * Improved error handling between player and engine
-    * Added setting to continue to the next song in playlist on error
+    * Added setting to allow continue to the next song in the playlist based on error
     * Improved Xine engine code
+    * Moved some settings
+    * Updated builtin taglib
+    * Added AppStream data file
+    * Fixed compiling with Qt 5 versions of system QtSingleApplication and Qxt library
 
 Version 0.3.3:
 
@@ -79,7 +83,7 @@ Version 0.1.4:
 Version 0.1.3:
     * Audio file detection by content
     * Added builtin taglib to 3rdparty to support detecting audio by content instead of just file extension
-    * Removed unneeded bulitin qsqlite from 3rdparty
+    * Removed unneeded qsqlite from 3rdparty
     * Added sqldrivers\qsqlite.dll for windows build
     * Replaced incorrect DLL libgstdirectsoundsink.dll (from gst 1.12.4) instead of libgstdirectsound.dll (from gst 1.14.0) for windows build
     * Fixed git versioning
