@@ -15,6 +15,7 @@ BuildRequires:  boost-devel
 %endif
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
+BuildRequires:  appstream-glib
 BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  libQt5Gui-private-headers-devel
@@ -76,7 +77,7 @@ Features:
   * Audio analyzer
   * Equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Integrated Tidal support
+  * Integrated Tidal and Deezer support
 
 %prep
 %setup -q -n %{name}-@STRAWBERRY_VERSION_PACKAGE@
@@ -88,11 +89,21 @@ make %{?_smp_mflags}
 %install
 cd build
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf %{buildroot}%{_datadir}/metainfo
+%if 0%{?suse_version} < 1500
+mv %{buildroot}%{_datadir}/metainfo %{buildroot}%{_datadir}/appdata
+%endif
 
 %clean
 cd build
 make clean
+
+%check
+desktop-file-validate %{buildroot}%{_datadir}/applications/strawberry.desktop
+%if 0%{?suse_version} >= 1500
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/strawberry.appdata.xml
+%else
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/strawberry.appdata.xml
+%endif
 
 %files
 %defattr(-,root,root,-)
@@ -105,6 +116,11 @@ make clean
 %{_datadir}/icons/hicolor/64x64/apps/strawberry.png
 %{_datadir}/icons/hicolor/128x128/apps/strawberry.png
 %{_datadir}/icons/hicolor/scalable/apps/strawberry.svg
+%if 0%{?suse_version} >= 1500
+%{_datadir}/metainfo/strawberry.appdata.xml
+%else
+%{_datadir}/appdata/strawberry.appdata.xml
+%endif
 %{_mandir}/man1/%{name}.1%{?ext_man}
 %{_mandir}/man1/%{name}-tagreader.1%{?ext_man}
 
