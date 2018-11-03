@@ -58,6 +58,8 @@ BuildRequires:  pkgconfig(libudf)
 BuildRequires:  pkgconfig(libxine)
 BuildRequires:  pkgconfig(libvlc)
 
+Requires:       libQt5Sql5-sqlite
+
 %description
 Strawberry is a audio player and music collection organizer.
 It is a fork of Clementine. The name is inspired by the band Strawbs.
