@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
-  <id>org.strawberry.desktop</id>
+  <id>org.strawberry.strawberry</id>
   <launchable type="desktop-id">strawberry.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
@@ -10,8 +10,9 @@
   </provides>
   <name>Strawberry Music Player</name>
   <summary>An audio player and music collection organizer</summary>
-  <url type="homepage">https://www.strawbs.org</url>
-  <url type="bugtracker">https://github.com/jonaski/strawberry</url>
+  <url type="homepage">https://www.strawbs.org/</url>
+  <url type="bugtracker">https://github.com/jonaski/strawberry/</url>
+  ​<translation type="qt">strawberry</translation>
   <description>
     <p>
       Strawberry is a audio player and music collection organizer.
@@ -31,18 +32,20 @@
       <li>Song lyrics from AudD and API Seeds</li>
       <li>Support for multiple backends</li>
       <li>Audio analyzer</li>
-      <li>Equalizer</li>
+      <li>Audio equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
       <li>Integrated Tidal and Deezer support</li>
     </ul>
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>The main window</caption>
-      <image width="1920" height="1049">https://www.strawbs.org/pictures/screenshot-002-large.png</image></screenshot>
+      <caption>Song playing showing context</caption>
+      <image width="1600" height="874">https://www.strawbs.org/pictures/appdata-screenshot-001.png</image>
+    </screenshot>
     <screenshot>
-      <caption>Album cover manager</caption>
-      <image width="1920" height="1080">https://www.strawbs.org/pictures/screenshot-006-large.png</image></screenshot>
+      <caption>Collection overview</caption>
+      <image width="1600" height="874">https://www.strawbs.org/pictures/appdata-screenshot-002.png</image>
+    </screenshot>
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
 </component>
