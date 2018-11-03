@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
-  <id type="desktop">strawberry.desktop</id>
+<component>
+  <id>org.strawberry.desktop</id>
+  <launchable type="desktop-id">strawberry.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
+  <provides>
+    <binary>strawberry</binary>
+    <binary>strawberry-tagreader</binary>
+  </provides>
   <name>Strawberry Music Player</name>
   <summary>An audio player and music collection organizer</summary>
+  <url type="homepage">https://www.strawbs.org</url>
+  <url type="bugtracker">https://github.com/jonaski/strawberry</url>
   <description>
     <p>
       Strawberry is a audio player and music collection organizer.
-It is a fork of Clementine. The name is inspired by the band Strawbs.
+      It is a fork of Clementine. The name is inspired by the band Strawbs.
     </p>
-    <p>Features::</p>
+    <p>Features:</p>
     <ul>
       <li>Play and organize music</li>
       <li>Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF</li>
@@ -26,13 +33,16 @@ It is a fork of Clementine. The name is inspired by the band Strawbs.
       <li>Audio analyzer</li>
       <li>Equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
-      <li>Integrated Tidal support</li>
+      <li>Integrated Tidal and Deezer support</li>
     </ul>
   </description>
   <screenshots>
-    <screenshot type="default" width="1920" height="1049">https://www.strawbs.org/pictures/screenshot-002-large.png</screenshot>
-    <screenshot width="1920" height="1080">https://www.strawbs.org/pictures/screenshot-006-large.png</screenshot>
+    <screenshot type="default">
+      <caption>The main window</caption>
+      <image width="1920" height="1049">https://www.strawbs.org/pictures/screenshot-002-large.png</image></screenshot>
+    <screenshot>
+      <caption>Album cover manager</caption>
+      <image width="1920" height="1080">https://www.strawbs.org/pictures/screenshot-006-large.png</image></screenshot>
   </screenshots>
-  <url type="homepage">http://www.strawbs.org/</url>
-  <updatecontact>eclipseo@fedoraproject.org</updatecontact>
-</application>
+  <update_contact>eclipseo@fedoraproject.org</update_contact>
+</component>
