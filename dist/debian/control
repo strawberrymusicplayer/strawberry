@@ -42,6 +42,7 @@ Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          libsqlite3-0,
+         libqt5sql5-sqlite,
          gstreamer1.0-plugins-base,
          gstreamer1.0-plugins-good,
          gstreamer1.0-alsa,
