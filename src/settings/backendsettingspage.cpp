@@ -78,7 +78,6 @@ void BackendSettingsPage::Load() {
 
   configloaded_ = false;
   engineloaded_ = false;
-  xinewarning_ = false;
 
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s_.value("engine", EngineName(Engine::None)).toString());
   if (enginetype == Engine::None && engine()) enginetype = engine()->type();
@@ -193,7 +192,6 @@ void BackendSettingsPage::Load_Engine(Engine::EngineType enginetype) {
     qLog(Debug) << "Switching engine.";
     Engine::EngineType new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
     dialog()->app()->player()->Init();
-    dialog()->set_output_changed(false);
     if (new_enginetype != enginetype) {
       ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(engine()->type()));
     }
@@ -373,10 +371,6 @@ void BackendSettingsPage::Save() {
   else if (ui_->radiobutton_alsa_plughw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
   else s_.remove("alsaplugin");
 
-  // If engine has not been changed, but output or device has been changed,
-  // then set_output_changed(true) to reinitialize engine when dialog closes.
-  if (enginetype == enginetype_current_ && (output_name != output_current_ || device_value != device_current_)) dialog()->set_output_changed(true);
-
 }
 
 void BackendSettingsPage::Cancel() {
@@ -402,7 +396,6 @@ void BackendSettingsPage::EngineChanged(int index) {
   }
 
   engineloaded_ = false;
-  xinewarning_ = false;
   ResetWarning();
   Load_Engine(enginetype);
 
@@ -414,8 +407,6 @@ void BackendSettingsPage::OutputChanged(int index) {
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
   Load_Device(output.name, QVariant());
-
-  if (engine()->type() == Engine::Xine && engine()->state() != Engine::Empty) XineWarning();
 
 }
 
@@ -437,8 +428,6 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     ui_->lineedit_device->setEnabled(false);
     if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->setText("");
   }
-
-  if (engine()->type() == Engine::Xine && engine()->state() != Engine::Empty) XineWarning();
 
 }
 
@@ -538,19 +527,6 @@ void BackendSettingsPage::ResetWarning() {
   ui_->groupbox_warning->setVisible(false);
   ui_->label_warn_logo->setVisible(false);
   ui_->label_warn_text->setVisible(false);
-
-}
-
-void BackendSettingsPage::XineWarning() {
-
-  if (!engineloaded_) return;
-  if (!configloaded_) return;
-  if (engine()->type() != Engine::Xine) return;
-  if (engine()->state() == Engine::Empty) return;
-  if (xinewarning_) return;
-
-  ShowWarning("You need to restart Strawberry for output/device changes to take affect for Xine.");
-  xinewarning_ = true;
 
 }
 

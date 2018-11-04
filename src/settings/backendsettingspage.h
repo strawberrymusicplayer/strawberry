@@ -91,7 +91,6 @@ private:
   QSettings s_;
   bool configloaded_;
   bool engineloaded_;
-  bool xinewarning_;
   ErrorDialog errordialog_;
 
   Engine::EngineType enginetype_current_;

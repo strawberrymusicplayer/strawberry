@@ -109,8 +109,6 @@ public:
   // QWidget
   void showEvent(QShowEvent *e);
 
-  void set_output_changed(bool output_changed) { output_changed_ = output_changed; }
-
   void ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value);
 
 signals:
@@ -144,8 +142,6 @@ private:
   bool loading_settings_;
 
   QMap<Page, PageData> pages_;
-
-  bool output_changed_;
 };
 
 #endif  // SETTINGSDIALOG_H
