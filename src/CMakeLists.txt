@@ -42,7 +42,6 @@ include_directories(${GOBJECT_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${LIBXML_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
-include_directories(${OPENGL_INCLUDE_DIR})
 
 if(HAVE_GSTREAMER)
   link_directories(${GSTREAMER_LIBRARY_DIRS})
@@ -718,12 +717,12 @@ optional_source(HAVE_GIO
   HEADERS device/giolister.h
 )
 
-# libimobiledevice backend and device
+# imobiledevice backend and device
 optional_source(HAVE_IMOBILEDEVICE
   INCLUDE_DIRECTORIES
-    ${IMOBILEDEVICE_INCLUDE_DIRS}
-    ${PLIST_INCLUDE_DIRS}
-    ${PLISTPP_INCLUDE_DIRS}
+    ${LIBIMOBILEDEVICE_INCLUDE_DIRS}
+    ${LIBPLIST_INCLUDE_DIRS}
+    ${LIBPLISTPP_INCLUDE_DIRS}
   SOURCES
     device/afcdevice.cpp
     device/afcfile.cpp
@@ -966,12 +965,12 @@ endif(HAVE_AUDIOCD)
 
 if(HAVE_IMOBILEDEVICE)
   target_link_libraries(strawberry_lib
-    ${IMOBILEDEVICE_LIBRARIES}
-    ${PLIST_LIBRARIES}
-    ${USBMUXD_LIBRARIES}
+    ${LIBIMOBILEDEVICE_LIBRARIES}
+    ${LIBPLIST_LIBRARIES}
+    ${LIBUSBMUXD_LIBRARIES}
   )
-  link_directories(${IMOBILEDEVICE_LIBRARY_DIRS})
-  link_directories(${USBMUXD_LIBRARY_DIRS})
+  link_directories(${LIBIMOBILEDEVICE_LIBRARY_DIRS})
+  link_directories(${LIBUSBMUXD_LIBRARY_DIRS})
 endif(HAVE_IMOBILEDEVICE)
 
 if(HAVE_LIBMTP)

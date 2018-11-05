@@ -19,9 +19,6 @@ cmake_minimum_required(VERSION 2.8.11)
 if(${CMAKE_VERSION} VERSION_GREATER "3.0")
   cmake_policy(SET CMP0054 NEW)
 endif()
-if(${CMAKE_VERSION} VERSION_GREATER "3.10.3") 
-  cmake_policy(SET CMP0072 NEW)
-endif()
 
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
@@ -100,7 +97,6 @@ endif()
 if(X11_FOUND)
   set(HAVE_X11 ON)
 endif()
-find_package(OpenGL REQUIRED)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
 pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
@@ -114,9 +110,9 @@ pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(CHROMAPRINT libchromaprint)
 pkg_check_modules(LIBGPOD libgpod-1.0>=0.7.92)
 pkg_check_modules(LIBMTP libmtp>=1.0)
-pkg_check_modules(IMOBILEDEVICE libimobiledevice-1.0)
-pkg_check_modules(USBMUXD libusbmuxd)
-pkg_check_modules(PLIST libplist)
+pkg_check_modules(LIBIMOBILEDEVICE libimobiledevice-1.0)
+pkg_check_modules(LIBUSBMUXD libusbmuxd)
+pkg_check_modules(LIBPLIST libplist)
 pkg_check_modules(LIBDEEZER libdeezer)
 pkg_check_modules(LIBDZMEDIA libdzmedia)
 
@@ -126,7 +122,7 @@ endif(WIN32)
 
 # QT
 set(QT_MIN_VERSION 5.5.1)
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql OpenGL Xml)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql Xml)
 if(X11_FOUND)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
 endif()
@@ -141,7 +137,7 @@ if(WIN32)
   find_package(Qt5 REQUIRED COMPONENTS WinExtras)
 endif()
 
-set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::OpenGL Qt5::Xml)
+set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::Xml)
 
 if(DBUS_FOUND)
   set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::DBus)
@@ -158,15 +154,25 @@ endif()
 
 # TAGLIB
 pkg_check_modules(TAGLIB taglib)
-# Only use system taglib if it's greater than 1.11.1 because of audio file detection by content.
-# But let the user override as strawberry will still compile and work without.
+# Only use system taglib if it's greater than 1.11.1
+# There is a bug in version 1.11.1 corrupting Ogg files, see: https://github.com/taglib/taglib/issues/864
+# If you decide to use the systems taglib, make sure it has been patched with the following commit:
+# https://github.com/taglib/taglib/commit/9336c82da3a04552168f208cd7a5fa4646701ea4
+# The current taglib in 3rdparty also has the following features used by strawberry:
+# - Audio file detection by content.
+# - DSF and DSDIFF support
+#
 if (TAGLIB_VERSION VERSION_GREATER 1.11.1 OR WIN32)
   option(USE_SYSTEM_TAGLIB "Use system taglib" ON)
 else()
   option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
 endif()
 if (TAGLIB_FOUND AND USE_SYSTEM_TAGLIB)
-  message(STATUS "Using system taglib library")
+  if (TAGLIB_VERSION VERSION_GREATER 1.11.1 OR WIN32)
+    message(STATUS "Using system taglib library")
+  else()
+    message(WARNING "Using system taglib library. Version 1.11.1 or less has a bug corrupting Ogg files, make sure your systems version has been patched!")
+  endif()
   set(CMAKE_REQUIRED_INCLUDES "${TAGLIB_INCLUDE_DIRS}")
   set(CMAKE_REQUIRED_LIBRARIES "${TAGLIB_LIBRARIES}")
   set(CMAKE_REQUIRED_INCLUDES)
@@ -337,9 +343,9 @@ optional_component(LIBMTP ON "Devices: MTP support"
 )
 
 optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
-  DEPENDS "libimobiledevice" IMOBILEDEVICE_FOUND
-  DEPENDS "libplist" PLIST_FOUND
-  DEPENDS "libusbmuxd" USBMUXD_FOUND
+  DEPENDS "libimobiledevice" LIBIMOBILEDEVICE_FOUND
+  DEPENDS "libplist" LIBPLIST_FOUND
+  DEPENDS "libusbmuxd" LIBUSBMUXD_FOUND
   DEPENDS "iPod classic support" LIBGPOD_FOUND
 )
 
@@ -376,7 +382,7 @@ include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
-if(ENABLE_IMOBILEDEVICE AND IMOBILEDEVICE_VERSION VERSION_GREATER 1.1.1)
+if(HAVE_IMOBILEDEVICE AND LIBIMOBILEDEVICE_VERSION VERSION_GREATER 1.1.1)
   set(IMOBILEDEVICE_USES_UDIDS ON)
 endif()
 
