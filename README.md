@@ -39,7 +39,8 @@ To build Strawberry from source you need the following installed on your system 
 * [GCC](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/) compiler
 * [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
 * [Boost development headers](https://www.boost.org/)
-* [Qt 5 with components Core, Gui, Widgets, Concurrent, Network, Sql, Xml, OpenGL, X11Extras and DBus](https://www.qt.io/)
+* [Qt 5 with components Core, Gui, Widgets, Concurrent, Network, Sql and Xml](https://www.qt.io/)
+* [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for MacOs and WinExtras for Windows](https://www.qt.io/)
 * [SQLite3](https://www.sqlite.org)
 * [TagLib 1.11.1 or higher](http://taglib.org/)
 * [Chromaprint library](https://acoustid.org/chromaprint)
