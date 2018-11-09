@@ -52,12 +52,10 @@ DeezerSettingsPage::DeezerSettingsPage(SettingsDialog *parent)
 
   dialog()->installEventFilter(this);
 
-  ui_->combobox_quality->addItem("AAC (64)", "AAC_64");
-  ui_->combobox_quality->addItem("MP3 (64)", "MP3_64");
-  ui_->combobox_quality->addItem("MP3 (128)", "MP3_128");
-  ui_->combobox_quality->addItem("MP3 (256)", "MP3_256");
-  ui_->combobox_quality->addItem("MP3 (320)", "MP3_320");
-  ui_->combobox_quality->addItem("FLAC", "FLAC");
+  ui_->combobox_quality->addItem("MP3 128kbps \"Standard\"", "MP3_128");
+  ui_->combobox_quality->addItem("MP3 320kbps \"High Quality\"", "MP3_320");
+  ui_->combobox_quality->addItem("FLAC \"CD Quality\"", "FLAC");
+  ui_->combobox_quality->addItem("\"Data Efficient\"", "DATA_EFFICIENT");
 
   ui_->combobox_coversize->addItem("Small", "cover_small");
   ui_->combobox_coversize->addItem("Medium", "cover_medium");
@@ -74,10 +72,6 @@ void DeezerSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->checkbox_enable->setChecked(s.value("enabled", false).toBool());
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_quality, "quality", "FLAC");
   ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->spinbox_albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
@@ -102,8 +96,6 @@ void DeezerSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->checkbox_enable->isChecked());
-  s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));
   s.setValue("searchdelay", ui_->spinbox_searchdelay->value());
   s.setValue("albumssearchlimit", ui_->spinbox_albumssearchlimit->value());

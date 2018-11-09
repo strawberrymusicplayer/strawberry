@@ -133,7 +133,6 @@ class DeezerService : public InternetService {
 #endif
   QTimer *timer_searchdelay_;
 
-  QString quality_;
   int searchdelay_;
   int albumssearchlimit_;
   int songssearchlimit_;

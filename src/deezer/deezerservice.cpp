@@ -117,7 +117,6 @@ void DeezerService::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(DeezerSettingsPage::kSettingsGroup);
-  quality_ = s.value("quality", "FLAC").toString();
   searchdelay_ = s.value("searchdelay", 1500).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
   songssearchlimit_ = s.value("songssearchlimit", 100).toInt();

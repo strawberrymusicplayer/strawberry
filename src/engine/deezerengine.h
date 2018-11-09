@@ -45,6 +45,7 @@ class DeezerEngine : public Engine::Base {
   ~DeezerEngine();
 
   bool Init();
+  void ReloadSettings();
   Engine::State state() const { return state_; }
   bool Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   bool Play(quint64 offset_nanosec);

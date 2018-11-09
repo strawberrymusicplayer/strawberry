@@ -61,7 +61,6 @@ DeezerEngine::DeezerEngine(TaskManager *task_manager)
     stopping_(false) {
 
   type_ = Engine::Deezer;
-  ReloadSettings();
 
 }
 
@@ -158,8 +157,34 @@ bool DeezerEngine::Init() {
   }
 
   LoadAccessToken();
+  ReloadSettings();
 
   return true;
+
+}
+
+void DeezerEngine::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(DeezerSettingsPage::kSettingsGroup);
+  QString quality = s.value("quality", "FLAC").toString();
+  s.endGroup();
+  dz_error_t dzerr;
+
+  if (quality == "MP3_128")
+    dzerr = dz_player_set_track_quality(player_, nullptr, nullptr, DZ_TRACK_QUALITY_STANDARD);
+  else if (quality == "MP3_320")
+    dzerr = dz_player_set_track_quality(player_, nullptr, nullptr, DZ_TRACK_QUALITY_HIGHQUALITY);
+  else if (quality == "FLAC")
+    dzerr = dz_player_set_track_quality(player_, nullptr, nullptr, DZ_TRACK_QUALITY_CDQUALITY);
+  else if (quality == "DATA_EFFICIENT")
+    dzerr = dz_player_set_track_quality(player_, nullptr, nullptr, DZ_TRACK_QUALITY_DATA_EFFICIENT);
+  else
+    dzerr = dz_player_set_track_quality(player_, nullptr, nullptr, DZ_TRACK_QUALITY_CDQUALITY);
+
+  if (dzerr != DZ_ERROR_NO_ERROR) {
+    qLog(Error) << "Deezer: Failed to set quality.";
+  }
 
 }
 
