@@ -39,6 +39,7 @@ Thumbs.db
 *.plist
 maketarball.sh
 dist/debian/changelog
+dist/pacman/PKGBUILD
 
 # qtcreator generated files
 *.pro.user*

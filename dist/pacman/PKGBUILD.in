@@ -1,0 +1,65 @@
+# Maintainer: Jonas Kvinge <jonas@jkvinge.net>
+pkgname=strawberry
+pkgver=@STRAWBERRY_VERSION_PAC_V@
+pkgrel=@STRAWBERRY_VERSION_PAC_R@
+pkgdesc="A music player aimed at audio enthusiasts and music collectors"
+arch=(x86_64)
+url="http://www.strawbs.org/"
+license=(GPL3)
+makedepends=(git cmake make gcc boost)
+depends=(
+  desktop-file-utils
+  hicolor-icon-theme
+  udisks2
+  protobuf
+  qt5-base
+  qt5-x11extras
+  sqlite3
+  alsa-lib
+  pulseaudio
+  dbus
+  taglib
+  gstreamer
+  gst-plugins-base
+  gst-plugins-good
+  xine-lib
+  vlc
+  phonon-qt5
+  chromaprint
+  liblastfm-qt5
+)
+optdepends=(
+  'libgpod: iPod classic support'
+  'liblastfm-qt5: LastFM cover provider'
+  'libcdio: Audio CD playback'
+  'libmtp: MTP device support'
+  'libusbmuxd: iPod Touch, iPhone, iPad support'
+  'libplist: iPod Touch, iPhone, iPad support'
+  'libimobiledevice: iPod Touch, iPhone, iPad support'
+)
+provides=(strawberry)
+conflicts=(strawberry)
+source=("git+https://github.com/jonaski/strawberry.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "strawberry"
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${srcdir}/strawberry"
+  install -d strawberry-build
+}
+
+build() {
+  cd "${srcdir}/strawberry/strawberry-build"
+  cmake .. \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package() {
+  cd "${srcdir}/strawberry/strawberry-build"
+  make DESTDIR="${pkgdir}" install
+}
