@@ -113,7 +113,7 @@ public:
 
     bool isValid()
     {
-        return m_display != 0;
+        return m_display != nullptr;
     }
 
     Display *display()
@@ -176,14 +176,14 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
 {
     Q_UNUSED(result);
 
-    xcb_key_press_event_t *kev = 0;
+    xcb_key_press_event_t *kev = nullptr;
     if (eventType == "xcb_generic_event_t") {
         xcb_generic_event_t *ev = static_cast<xcb_generic_event_t *>(message);
         if ((ev->response_type & 127) == XCB_KEY_PRESS)
             kev = static_cast<xcb_key_press_event_t *>(message);
     }
 
-    if (kev != 0) {
+    if (kev != nullptr) {
         unsigned int keycode = kev->detail;
         unsigned int keystate = 0;
         if(kev->state & XCB_MOD_MASK_1)
