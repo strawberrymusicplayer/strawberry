@@ -313,7 +313,7 @@ QString GetApplicationSupportPath() {
     NSString* user_path = [paths objectAtIndex:0];
     ret = QString::fromUtf8([user_path UTF8String]);
   } else {
-    ret = "~/Collection/Application Support";
+    ret = "~/Library/Application Support";
   }
   return ret;
 }

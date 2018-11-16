@@ -84,7 +84,7 @@ class ScopedIOObject {
 
 // Helpful MTP & USB links:
 // Apple USB device interface guide:
-// http://developer.apple.com/mac/collection/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html
+// http://developer.apple.com/mac/library/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html
 // Example Apple code for requesting a USB device descriptor:
 // http://www.opensource.apple.com/source/IOUSBFamily/IOUSBFamily-208.4.5/USBProber/BusProbeClass.m
 // Libmtp's detection code:
@@ -122,12 +122,9 @@ void MacDeviceLister::Init() {
       for (int i = 0; i < num; ++i) {
         LIBMTP_device_entry_t device = devices[i];
         MTPDevice d;
-        // FIXME:
-        //d.vendor = QString::toLatin1(device.vendor);
-        d.vendor = device.vendor;
+        d.vendor = QString::fromLatin1(device.vendor);
         d.vendor_id = device.vendor_id;
-        //d.product = QString::toLatin1(device.product);
-        d.product = device.product;
+        d.product = QString::fromLatin1(device.product);
         d.product_id = device.product_id;
         d.quirks = device.device_flags;
         sMTPDeviceList << d;
@@ -355,9 +352,7 @@ void MacDeviceLister::DiskAddedCallback(DADiskRef disk, void* context) {
 #ifdef HAVE_AUDIOCD
   if (kind && strcmp([kind UTF8String], kIOCDMediaClass) == 0) {
     // CD inserted.
-    // FIXME:
-    //QString bsd_name = QString::toLatin1(DADiskGetBSDName(disk));
-    QString bsd_name = DADiskGetBSDName(disk);
+    QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
     me->cd_devices_ << bsd_name;
     emit me->DeviceAdded(bsd_name);
     return;
@@ -396,9 +391,7 @@ void MacDeviceLister::DiskRemovedCallback(DADiskRef disk, void* context) {
   // We cannot access the USB tree when the disk is removed but we still get
   // the BSD disk name.
 
-  // FIXME:
-  //QString bsd_name = QString::toLatin1(DADiskGetBSDName(disk));
-  QString bsd_name = DADiskGetBSDName(disk);
+  QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
   if (me->cd_devices_.remove(bsd_name)) {
     emit me->DeviceRemoved(bsd_name);
     return;
@@ -571,9 +564,7 @@ void MacDeviceLister::USBDeviceAddedCallback(void* refcon, io_iterator_t it) {
         if (!ret || data.at(0) != 0x28)
           continue;
 
-	// FIXME:
-        //if (QString::toLatin1(data.data() + 0x12, 3) != "MTP") {
-        if (QString(data.data() + 0x12) != "MTP") {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != "MTP") {
           // Not quite.
           continue;
         }
@@ -583,9 +574,7 @@ void MacDeviceLister::USBDeviceAddedCallback(void* refcon, io_iterator_t it) {
           continue;
         }
 
-        // FIXME:
-        //if (QString::toLatin1(data.data() + 0x12) != "MTP") {
-        if (QString(data.data() + 0x12) != "MTP") {
+        if (QString::fromLatin1(data.data() + 0x12, 3) != "MTP") {
           // Not quite.
           continue;
         }
@@ -684,14 +673,14 @@ QList<QUrl> MacDeviceLister::MakeDeviceUrls(const QString& serial) {
     const MTPDevice& device = mtp_devices_[serial];
     QString str;
     str.sprintf("gphoto2://usb-%d-%d/", device.bus, device.address);
+    QUrlQuery url_query;
+    url_query.addQueryItem("vendor", device.vendor);
+    url_query.addQueryItem("vendor_id", QString::number(device.vendor_id));
+    url_query.addQueryItem("product", device.product);
+    url_query.addQueryItem("product_id", QString::number(device.product_id));
+    url_query.addQueryItem("quirks", QString::number(device.quirks));
     QUrl url(str);
-    // FIXME:
-    //QUrlQuery url(str);
-    //url.addQueryItem("vendor", device.vendor);
-    //url.addQueryItem("vendor_id", QString::number(device.vendor_id));
-    //url.addQueryItem("product", device.product);
-    //url.addQueryItem("product_id", QString::number(device.product_id));
-    //url.addQueryItem("quirks", QString::number(device.quirks));
+    url.setQuery(url_query);
     return QList<QUrl>() << url;
   }
 
