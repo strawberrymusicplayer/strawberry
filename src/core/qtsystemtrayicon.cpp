@@ -188,10 +188,6 @@ void QtSystemTrayIcon::SetStopped() {
 
 }
 
-void QtSystemTrayIcon::LastFMButtonVisibilityChanged(bool value) {
-
-}
-
 void QtSystemTrayIcon::MuteButtonStateChanged(bool value) {
   if (action_mute_) action_mute_->setChecked(value);
 }

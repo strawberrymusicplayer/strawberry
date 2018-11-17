@@ -61,7 +61,6 @@ protected:
   void SetPaused();
   void SetPlaying(bool enable_play_pause = false);
   void SetStopped();
-  void LastFMButtonVisibilityChanged(bool value);
   void MuteButtonStateChanged(bool value);
 
   // QObject
