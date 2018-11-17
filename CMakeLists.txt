@@ -88,9 +88,6 @@ else(LINUX)
   find_package(ALSA)
   pkg_check_modules(DBUS dbus-1)
 endif(LINUX)
-if(ALSA_FOUND)
-  set(HAVE_ALSA ON)
-endif()
 if (NOT APPLE)
   find_package(X11)
 endif()
@@ -269,6 +266,14 @@ if(WIN32)
   option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" OFF)
 endif(WIN32)
 
+optional_component(ALSA ON "ALSA integration"
+  DEPENDS "alsa" ALSA_FOUND
+)
+
+optional_component(LIBPULSE ON "Pulse audio integration"
+  DEPENDS "libpulse" LIBPULSE_FOUND
+)
+
 optional_component(DBUS ON "D-Bus support"
   DEPENDS "D-Bus" DBUS_FOUND
 )
@@ -304,10 +309,6 @@ else ()
     DEPENDS "libpulse" LIBPULSE_FOUND
   )
 endif()
-
-optional_component(LIBPULSE ON "Pulse audio integration"
-  DEPENDS "libpulse" LIBPULSE_FOUND
-)
 
 optional_component(LIBLASTFM ON "Last.fm album cover provider"
   DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
