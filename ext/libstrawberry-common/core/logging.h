@@ -27,21 +27,10 @@
 #ifdef QT_NO_DEBUG_STREAM
 #  define qLog(level) while (false) QNoDebug()
 #else
-#define qLog(level)                                                        \
-  logging::CreateLogger(logging::Level_##level,                            \
-                        logging::ParsePrettyFunction(__PRETTY_FUNCTION__), \
-                        __LINE__)
+#define qLog(level) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__)
+
+#define qCreateLogger(line, class_name, level) logging::CreateLogger(logging::Level_##level, logging::ParsePrettyFunction(class_name), line)
 #endif // QT_NO_DEBUG_STREAM
-
-#if 0
-#define qLog(level) \
-  logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__)
-
-#define qCreateLogger(line, class_name, level) \
-  logging::CreateLogger(logging::Level_##level,                            \
-                        logging::ParsePrettyFunction(class_name), \
-                        line)
-#endif
 
 namespace logging {
   class NullDevice : public QIODevice {

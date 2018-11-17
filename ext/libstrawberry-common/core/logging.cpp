@@ -263,7 +263,6 @@ void DumpStackTrace() {
 #endif
 }
 
-#if 0
 QDebug CreateLoggerFatal(int line, const char *class_name) { return qCreateLogger(line, class_name, Fatal); }
 QDebug CreateLoggerError(int line, const char *class_name) { return qCreateLogger(line, class_name, Error); }
 
@@ -280,7 +279,6 @@ QNoDebug CreateLoggerDebug(int, const char*) { return QNoDebug(); }
 QDebug CreateLoggerInfo(int line, const char *class_name) { return qCreateLogger(line, class_name, Info); }
 QDebug CreateLoggerDebug(int line, const char *class_name) { return qCreateLogger(line, class_name, Debug); }
 #endif // QT_NO_DEBUG_OUTPUT
-#endif
 
 }  // namespace logging
 
