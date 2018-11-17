@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+
 #ifdef HAVE_DBUS
 #  include <QDBusConnection>
 #  include <QDBusConnectionInterface>
