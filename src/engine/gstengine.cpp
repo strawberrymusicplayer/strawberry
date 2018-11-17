@@ -106,24 +106,11 @@ GstEngine::GstEngine(TaskManager *task_manager)
 
   ReloadSettings();
 
-#ifdef Q_OS_MACOS___ // FIXME
-  QDir resources_dir(mac::getResourcesPath());
-  QString ca_cert_path = resources_dir.filePath("cacert.pem");
-  GError *error = nullptr;
-  tls_database_ = g_tls_file_database_new(ca_cert_path.toUtf8().data(), &error);
-#endif
-
 }
 
 GstEngine::~GstEngine() {
-
   EnsureInitialised();
-
   current_pipeline_.reset();
-
-#ifdef Q_OS_MACOS
-  g_object_unref(tls_database_);
-#endif
 }
 
 bool GstEngine::Init() {
