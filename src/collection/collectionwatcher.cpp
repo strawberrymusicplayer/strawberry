@@ -76,7 +76,6 @@ CollectionWatcher::CollectionWatcher(QObject *parent)
       rescan_paused_(false),
       total_watches_(0),
       cue_parser_(new CueParser(backend_, this)) {
-  Utilities::SetThreadIOPriority(Utilities::IOPRIO_CLASS_IDLE);
 
   rescan_timer_->setInterval(1000);
   rescan_timer_->setSingleShot(true);
