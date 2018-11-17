@@ -100,7 +100,10 @@ void TrackSlider::SetValue(int elapsed, int total) {
 
   setting_value_ = true; // This is so we don't emit from QAbstractSlider::valueChanged
   ui_->slider->setMaximum(total);
-  ui_->slider->setValue(elapsed);
+  if (!ui_->slider->isSliderDown()) {
+    ui_->slider->setValue(elapsed);
+  }
+
   setting_value_ = false;
 
   UpdateTimes(elapsed / kMsecPerSec);
@@ -116,7 +119,7 @@ void TrackSlider::UpdateTimes(int elapsed) {
   }
   else {
     // Check if slider maximum value is changed before updating
-    if (slider_maximum_value_ != ui_->slider->maximum()) {
+    if (slider_maximum_value_ != ui_->slider->maximum() || !ui_->slider->isEnabled()) {
       slider_maximum_value_ = ui_->slider->maximum();
       ui_->remaining->setText(Utilities::PrettyTime((ui_->slider->maximum() / kMsecPerSec)));
     }

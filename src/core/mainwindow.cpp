@@ -1184,8 +1184,6 @@ void MainWindow::UpdateTrackPosition() {
 
   if (length <= 0) {
     // Probably a stream that we don't know the length of
-    //ui_->track_slider->SetStopped();
-    //tray_icon_->SetProgress(0);
     return;
   }
 
