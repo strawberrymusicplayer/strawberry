@@ -51,7 +51,7 @@ namespace PlaylistUndoCommands {
 
   class InsertItems : public Base {
    public:
-    InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false);
+    InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
 
     void undo();
     void redo();
@@ -64,6 +64,7 @@ namespace PlaylistUndoCommands {
     PlaylistItemList items_;
     int pos_;
     bool enqueue_;
+    bool enqueue_next_;
   };
 
   class RemoveItems : public Base {

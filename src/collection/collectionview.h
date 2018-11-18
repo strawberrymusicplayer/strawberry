@@ -117,6 +117,7 @@ signals:
   void Load();
   void AddToPlaylist();
   void AddToPlaylistEnqueue();
+  void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
 #ifdef HAVE_GSTREAMER
   void Organise();
@@ -148,6 +149,7 @@ signals:
   QAction *load_;
   QAction *add_to_playlist_;
   QAction *add_to_playlist_enqueue_;
+  QAction *add_to_playlist_enqueue_next_;
   QAction *open_in_new_playlist_;
 #ifdef HAVE_GSTREAMER
   QAction *organise_;

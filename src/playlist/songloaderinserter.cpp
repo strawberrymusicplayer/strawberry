@@ -43,12 +43,13 @@ SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBack
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
 
-void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, bool enqueue, const QList<QUrl> &urls) {
+void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls) {
 
   destination_ = destination;
   row_ = row;
   play_now_ = play_now;
   enqueue_ = enqueue;
+  enqueue_next_ = enqueue_next;
 
   connect(destination, SIGNAL(destroyed()), SLOT(DestinationDestroyed()));
   connect(this, SIGNAL(PreloadFinished()), SLOT(InsertSongs()));
@@ -84,12 +85,13 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
 // First, we add tracks (without metadata) into the playlist
 // In the meantime, MusicBrainz will be queried to get songs' metadata.
 // AudioCDTagsLoaded will be called next, and playlist's items will be updated.
-void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue) {
+void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next) {
 
   destination_ = destination;
   row_ = row;
   play_now_ = play_now;
   enqueue_ = enqueue;
+  enqueue_next_ = enqueue_next;
 
   SongLoader *loader = new SongLoader(collection_, player_, this);
   NewClosure(loader, SIGNAL(AudioCDTracksLoaded()), this, SLOT(AudioCDTracksLoaded(SongLoader*)), loader);
@@ -128,7 +130,7 @@ void SongLoaderInserter::AudioCDTagsLoaded(bool success) {
 void SongLoaderInserter::InsertSongs() {
   // Insert songs (that haven't been completely loaded) to allow user to see and play them while not loaded completely
   if (destination_) {
-    destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_);
+    destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_, enqueue_next_);
   }
 }
 

@@ -99,7 +99,6 @@ class PlaylistView : public QTreeView {
   PlaylistView(QWidget *parent = nullptr);
   ~PlaylistView();
 
-  static const int kStateVersion;
   // Constants for settings: are persistent, values should not be changed
   static const char *kSettingBackgroundImageType;
   static const char *kSettingBackgroundImageFilename;
@@ -214,8 +213,8 @@ class PlaylistView : public QTreeView {
   PlaylistProxyStyle *style_;
   Playlist *playlist_;
   PlaylistHeader *header_;
+  bool initialized_;
   bool setting_initial_header_layout_;
-  bool upgrading_from_qheaderview_;
   bool read_only_settings_;
   bool header_loaded_;
 

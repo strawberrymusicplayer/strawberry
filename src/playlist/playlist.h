@@ -308,7 +308,7 @@ private:
   void InsertSongItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
-  void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false);
+  void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
   PlaylistItemList RemoveItemsWithoutUndo(int pos, int count);
   void MoveItemsWithoutUndo(const QList<int> &source_rows, int pos);
   void MoveItemWithoutUndo(int source, int dest);

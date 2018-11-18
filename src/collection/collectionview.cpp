@@ -458,6 +458,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
     add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
+    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
 
 #ifdef HAVE_GSTREAMER
     context_menu_->addSeparator();
@@ -611,6 +612,16 @@ void CollectionView::AddToPlaylistEnqueue() {
   QMimeData *data = model()->mimeData(selectedIndexes());
   if (MimeData* mime_data = qobject_cast<MimeData*>(data)) {
     mime_data->enqueue_now_ = true;
+  }
+  emit AddToPlaylistSignal(data);
+
+}
+
+void CollectionView::AddToPlaylistEnqueueNext() {
+
+  QMimeData *data = model()->mimeData(selectedIndexes());
+  if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
+    mime_data->enqueue_next_now_ = true;
   }
   emit AddToPlaylistSignal(data);
 

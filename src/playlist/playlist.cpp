@@ -657,7 +657,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
     if (song_data->backend && song_data->backend->songs_table() == SCollection::kSongsTable)
-      InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now);
+      InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     else
       InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
@@ -700,7 +700,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
       if (items.count() > kUndoItemLimit) {
         // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
-        InsertItemsWithoutUndo(items, row, false);
+        InsertItemsWithoutUndo(items, row, false, false);
         undo_stack_->clear();
       }
       else {
@@ -718,11 +718,11 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
   else if (data->hasFormat(kCddaMimeType)) {
     SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
     connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
-    inserter->LoadAudioCD(this, row, play_now, enqueue_now);
+    inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasUrls()) {
     // URL list dragged from the file list or some other app
-    InsertUrls(data->urls(), row, play_now, enqueue_now);
+    InsertUrls(data->urls(), row, play_now, enqueue_now, enqueue_next_now);
   }
 
   return true;
@@ -734,7 +734,7 @@ void Playlist::InsertUrls(const QList<QUrl> &urls, int pos, bool play_now, bool 
   SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_, backend_->app()->player());
   connect(inserter, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
 
-  inserter->Load(this, pos, play_now, enqueue, urls);
+  inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
 
 }
 
@@ -891,17 +891,17 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_n
 
   if (items.count() > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
-    InsertItemsWithoutUndo(items, pos, enqueue);
+    InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
     undo_stack_->clear();
   } else {
-    undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue));
+    undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
   if (play_now) emit PlayRequested(index(start, 0));
 
 }
 
-void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue) {
+void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue, bool enqueue_next) {
 
   if (items.isEmpty()) return;
 
@@ -935,6 +935,14 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bo
       indexes << index(i, 0);
     }
     queue_->ToggleTracks(indexes);
+  }
+
+  if (enqueue_next) {
+    QModelIndexList indexes;
+    for (int i = start; i <= end; ++i) {
+      indexes << index(i, 0);
+    }
+    queue_->InsertFirst(indexes);
   }
 
   Save();
@@ -1110,6 +1118,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
 
     case Column_Comment:      strcmp(comment);
     case Column_Source:       cmp(source);
+    default: qLog(Error) << "No such column" << column;
   }
 
 #undef cmp
@@ -1165,7 +1174,7 @@ QString Playlist::column_name(Column column) {
 
     case Column_Comment:      return tr("Comment");
     case Column_Source:       return tr("Source");
-    default:                  return QString();
+    default:                  qLog(Error) << "No such column" << column;;
   }
   return "";
 
@@ -1262,10 +1271,6 @@ void Playlist::Save() const {
   backend_->SavePlaylistAsync(id_, items_, last_played_row());
 
 }
-
-//namespace {
-//typedef QFutureWatcher<QList<PlaylistItemPtr>> PlaylistItemFutureWatcher;
-//}
 
 void Playlist::Restore() {
 
@@ -1824,7 +1829,7 @@ void Playlist::RemoveDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
-    if (!QFile::exists(song.url().toLocalFile())) {
+    if (!song.is_stream() && !QFile::exists(song.url().toLocalFile())) {
       rows_to_remove.append(row);
     }
   }

@@ -31,11 +31,12 @@ class MimeData : public QMimeData {
   Q_OBJECT
 
  public:
-  MimeData(bool clear = false, bool play_now = false, bool enqueue = false, bool open_in_new_playlist = false)
+  MimeData(bool clear = false, bool play_now = false, bool enqueue = false, bool enqueue_next_now = false, bool open_in_new_playlist = false)
       : override_user_settings_(false),
         clear_first_(clear),
         play_now_(play_now),
         enqueue_now_(enqueue),
+        enqueue_next_now_(enqueue_next_now),
         open_in_new_playlist_(open_in_new_playlist),
         name_for_new_playlist_(QString()),
         from_doubleclick_(false) {}

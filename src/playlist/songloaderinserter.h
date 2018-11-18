@@ -44,8 +44,8 @@ class SongLoaderInserter : public QObject {
   SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player);
   ~SongLoaderInserter();
 
-  void Load(Playlist *destination, int row, bool play_now, bool enqueue, const QList<QUrl> &urls);
-  void LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue);
+  void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);
+  void LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next);
 
 signals:
   void Error(const QString &message);
@@ -68,6 +68,7 @@ signals:
   int row_;
   bool play_now_;
   bool enqueue_;
+  bool enqueue_next_;
 
   SongList songs_;
 

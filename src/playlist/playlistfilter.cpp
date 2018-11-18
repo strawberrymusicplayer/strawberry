@@ -45,28 +45,29 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
   column_names_["artist"] = Playlist::Column_Artist;
   column_names_["album"] = Playlist::Column_Album;
   column_names_["albumartist"] = Playlist::Column_AlbumArtist;
-  column_names_["composer"] = Playlist::Column_Composer;
   column_names_["performer"] = Playlist::Column_Performer;
-  column_names_["grouping"] = Playlist::Column_Grouping;
-  column_names_["length"] = Playlist::Column_Length;
-  column_names_["track"] = Playlist::Column_Track;
-  column_names_["disc"] = Playlist::Column_Disc;
+  column_names_["composer"] = Playlist::Column_Composer;
   column_names_["year"] = Playlist::Column_Year;
   column_names_["originalyear"] = Playlist::Column_OriginalYear;
+  column_names_["track"] = Playlist::Column_Track;
+  column_names_["disc"] = Playlist::Column_Disc;
+  column_names_["length"] = Playlist::Column_Length;
   column_names_["genre"] = Playlist::Column_Genre;
-  column_names_["comment"] = Playlist::Column_Comment;
-  column_names_["bitrate"] = Playlist::Column_Bitrate;
   column_names_["samplerate"] = Playlist::Column_Samplerate;
   column_names_["bitdepth"] = Playlist::Column_Bitdepth;
+  column_names_["bitrate"] = Playlist::Column_Bitrate;
   column_names_["filename"] = Playlist::Column_Filename;
+  column_names_["grouping"] = Playlist::Column_Grouping;
+  column_names_["comment"] = Playlist::Column_Comment;
 
-  numerical_columns_ << Playlist::Column_Length
+  numerical_columns_ << Playlist::Column_Year
+                     << Playlist::Column_OriginalYear
                      << Playlist::Column_Track
                      << Playlist::Column_Disc
-                     << Playlist::Column_Year
-                     << Playlist::Column_Bitrate
+                     << Playlist::Column_Length
 		     << Playlist::Column_Samplerate
-		     << Playlist::Column_Bitdepth;
+		     << Playlist::Column_Bitdepth
+                     <<  Playlist::Column_Bitrate;
 }
 
 PlaylistFilter::~PlaylistFilter() {
