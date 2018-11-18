@@ -47,6 +47,7 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
 
   hide_action_ = menu_->addAction(tr("&Hide..."), this, SLOT(HideCurrent()));
   stretch_action_ = menu_->addAction(tr("&Stretch columns to fit window"), this, SLOT(ToggleStretchEnabled()));
+  reset_action_ = menu_->addAction(tr("&Reset columns to default"), this, SLOT(ResetColumns()));
   menu_->addSeparator();
 
   QMenu *align_menu = new QMenu(tr("&Align text"), this);
@@ -141,3 +142,6 @@ void PlaylistHeader::enterEvent(QEvent*) {
   emit MouseEntered();
 }
 
+void PlaylistHeader::ResetColumns() {
+  view_->ResetColumns();
+}

@@ -55,6 +55,7 @@ class PlaylistHeader : public StretchHeaderView {
  private slots:
   void HideCurrent();
   void ToggleVisible(int section);
+  void ResetColumns();
   void SetColumnAlignment(QAction *action);
 
  private:
@@ -67,6 +68,7 @@ class PlaylistHeader : public StretchHeaderView {
   QMenu *menu_;
   QAction *hide_action_;
   QAction *stretch_action_;
+  QAction *reset_action_;
   QAction *align_left_action_;
   QAction *align_center_action_;
   QAction *align_right_action_;

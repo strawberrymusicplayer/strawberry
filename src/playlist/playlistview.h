@@ -124,6 +124,8 @@ class PlaylistView : public QTreeView {
   void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void setModel(QAbstractItemModel *model);
 
+  void ResetColumns();
+
  public slots:
   void ReloadSettings();
   void StopGlowing();

@@ -291,26 +291,23 @@ void PlaylistView::LoadGeometry() {
   if (!header_->RestoreState(state)) {
     // Maybe we're upgrading from a version that persisted the state with QHeaderView.
     if (!header_->restoreState(state)) {
-      header_->HideSection(Playlist::Column_Disc);
+      header_->HideSection(Playlist::Column_AlbumArtist);
+      header_->HideSection(Playlist::Column_Performer);
+      header_->HideSection(Playlist::Column_Composer);
       header_->HideSection(Playlist::Column_Year);
       header_->HideSection(Playlist::Column_OriginalYear);
+      header_->HideSection(Playlist::Column_Disc);
       header_->HideSection(Playlist::Column_Genre);
       header_->HideSection(Playlist::Column_Filename);
+      header_->HideSection(Playlist::Column_BaseFilename);
       header_->HideSection(Playlist::Column_Filesize);
       header_->HideSection(Playlist::Column_DateCreated);
       header_->HideSection(Playlist::Column_DateModified);
-      header_->HideSection(Playlist::Column_AlbumArtist);
-      header_->HideSection(Playlist::Column_Composer);
-      header_->HideSection(Playlist::Column_Performer);
-      header_->HideSection(Playlist::Column_Grouping);
       header_->HideSection(Playlist::Column_PlayCount);
       header_->HideSection(Playlist::Column_SkipCount);
       header_->HideSection(Playlist::Column_LastPlayed);
       header_->HideSection(Playlist::Column_Comment);
-      header_->HideSection(Playlist::Column_BaseFilename);
-
-      header_->HideSection(Playlist::Column_Samplerate);
-      header_->HideSection(Playlist::Column_Bitdepth);
+      header_->HideSection(Playlist::Column_Grouping);
 
       header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
       setting_initial_header_layout_ = true;
@@ -1227,5 +1224,22 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
       selectionModel()->select(new_selection, QItemSelectionModel::Select);
     }
   }
+
+}
+
+void PlaylistView::ResetColumns() {
+
+  read_only_settings_ = true;
+  setting_initial_header_layout_ = true;
+  QSettings settings;
+  settings.beginGroup(Playlist::kSettingsGroup);
+  settings.remove("state");
+  settings.endGroup();
+  ReloadSettings();
+  LoadGeometry();
+  ReloadSettings();
+  read_only_settings_ = false;
+  SaveGeometry();
+  SetPlaylist(playlist_);
 
 }
