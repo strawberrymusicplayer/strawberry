@@ -99,8 +99,8 @@ QString About::MainHtml() const {
 
   ret += QString("<p>");
   ret += QString("Strawberry is a audio player and music collection organizer.<br />");
-  ret += QString("It's based on Clementine and Amarok 1.4, especially aimed at audiophiles.<br />");
-  ret += QString("The name is inspired by the band Strawbs.");
+  ret += QString("It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.<br />");
+  ret += QString("The name is inspired by the band Strawbs. It's based on a heaviliy modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.");
   ret += QString("</p>");
   //ret += QString("<p>Website: <a href=\"http://www.strawbs.org/licenses/\">http://www.strawbs.org/</a></p>");
   ret += QString("<p>");
