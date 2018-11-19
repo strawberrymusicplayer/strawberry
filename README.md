@@ -1,8 +1,8 @@
 :strawberry: Strawberry Music Player [![Build Status](https://travis-ci.org/jonaski/strawberry.svg?branch=master)](https://travis-ci.org/jonaski/strawberry)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FRJUYV5QP6HW8)
 =======================
 
-Strawberry is a audio player and music collection organizer. It is a fork of Clementine created in 2013 with a diffrent goal.
-It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
+Strawberry is a audio player and music collection organizer. It is a fork of Clementine releaed in 2018 aimed at music collectors, audio enthusiasts and audiophiles. The name is inspired by the band Strawbs. It's based on a heaviliy modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.
 
   * Website: http://www.strawbs.org/
   * Github: https://github.com/jonaski/strawberry
@@ -16,7 +16,7 @@ It's written in C++ and Qt 5. The name is inspired by the band Strawbs.
   * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
-  * Advanced output and device options with support for bit perfect playback on Linux
+  * Advanced audio output and device configration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
   * Album cover art from Last.fm, Musicbrainz and Discogs
@@ -82,3 +82,7 @@ Optional:
 
 
 ![Browse](https://www.strawbs.org/pictures/screenshot-002-large.png)
+
+### :moneybag: Donate
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FRJUYV5QP6HW8)
