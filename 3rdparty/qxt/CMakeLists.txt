@@ -6,7 +6,7 @@ if (UNIX AND NOT APPLE)
   if (X11_FOUND)
     include_directories(${X11_INCLUDE_DIR})
   endif(X11_FOUND)
-endif(NOT APPLE)
+endif(UNIX AND NOT APPLE)
 
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 if (NOT WIN32 AND NOT APPLE)
