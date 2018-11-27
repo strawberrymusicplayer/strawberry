@@ -356,7 +356,12 @@ optional_component(SPARKLE ON "Sparkle integration"
 )
 
 optional_component(STREAM_TIDAL ON "Streaming: Tidal support")
-optional_component(STREAM_DEEZER ON "Streaming: Deezer support")
+
+if (LIBDZMEDIA_FOUND OR LIBDEEZER_FOUND)
+  optional_component(STREAM_DEEZER ON "Streaming: Deezer support")
+else()
+  optional_component(STREAM_DEEZER OFF "Streaming: Deezer support")
+endif()
 
 optional_component(DZMEDIA ON "DZMedia"
   DEPENDS "libdzmedia" LIBDZMEDIA_FOUND
