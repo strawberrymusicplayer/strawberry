@@ -4,7 +4,6 @@
 }
 
 #playlist[default_background_enabled = "true"] {
-  background-image: url(:pictures/strawbs-transparent.png);
   background-attachment: fixed;
   background-position: bottom right;
   background-repeat: none;
