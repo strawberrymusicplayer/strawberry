@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.8.11)
 set(CMAKE_CXX_STANDARD 11)
 
+if (UNIX AND NOT APPLE)
+  find_package(X11)
+  if (X11_FOUND)
+    include_directories(${X11_INCLUDE_DIR})
+  endif(X11_FOUND)
+endif(NOT APPLE)
+
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 if (NOT WIN32 AND NOT APPLE)
   find_path(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
@@ -9,25 +16,16 @@ if (NOT WIN32 AND NOT APPLE)
   endif(NOT HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
 endif(NOT WIN32 AND NOT APPLE)
 
-set(QXT-SOURCES
-  qxtglobal.cpp
-  qxtglobalshortcut.cpp
-)
+set(QXT-SOURCES qxtglobal.cpp qxtglobalshortcut.cpp)
+set(QXT-MOC-HEADERS qxtglobalshortcut.h )
 
-set(QXT-MOC-HEADERS
-  qxtglobalshortcut.h
-)
-
-find_package(X11)
-include_directories(${X11_INCLUDE_DIR})
-
-if(WIN32)
-  set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_win.cpp)
+if(X11_FOUND)
+  set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_x11.cpp)
 elseif(APPLE)
   set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_mac.cpp)
-else(WIN32)
-  set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_x11.cpp)
-endif(WIN32)
+elseif(WIN32)
+  set(QXT-SOURCES ${QXT-SOURCES} qxtglobalshortcut_win.cpp)
+endif()
 
 QT5_WRAP_CPP(QXT-SOURCES-MOC ${QXT-MOC-HEADERS})
 
@@ -36,8 +34,8 @@ ADD_LIBRARY(qxt STATIC
   ${QXT-SOURCES-MOC}
 )
 
-if(WIN32)
-  target_link_libraries(qxt Qt5::Core Qt5::Widgets)
-else(WIN32)
-  target_link_libraries(qxt Qt5::Core Qt5::Widgets Qt5::X11Extras)
-endif(WIN32)
+target_link_libraries(qxt Qt5::Core Qt5::Widgets)
+
+if(X11_FOUND)
+  target_link_libraries(qxt Qt5::X11Extras)
+endif(X11_FOUND)

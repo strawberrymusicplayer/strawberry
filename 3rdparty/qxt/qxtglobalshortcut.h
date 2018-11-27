@@ -1,4 +1,3 @@
-#ifndef QXTGLOBALSHORTCUT_H
 /****************************************************************************
 ** Copyright (c) 2006 - 2011, the LibQxt project.
 ** See the Qxt AUTHORS file for a list of authors and copyright holders.
@@ -29,6 +28,7 @@
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
 
+#ifndef QXTGLOBALSHORTCUT_H
 #define QXTGLOBALSHORTCUT_H
 
 #include <QObject>
@@ -39,30 +39,29 @@
 
 class QxtGlobalShortcutPrivate;
 
-class QXT_GUI_EXPORT QxtGlobalShortcut : public QObject
-{
-    Q_OBJECT
-    QXT_DECLARE_PRIVATE(QxtGlobalShortcut)
-    Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled)
-    Q_PROPERTY(QKeySequence shortcut READ shortcut WRITE setShortcut)
+class QXT_GUI_EXPORT QxtGlobalShortcut : public QObject {
+  Q_OBJECT
+  QXT_DECLARE_PRIVATE(QxtGlobalShortcut)
+  Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled)
+  Q_PROPERTY(QKeySequence shortcut READ shortcut WRITE setShortcut)
 
 public:
-    explicit QxtGlobalShortcut(QObject* parent = nullptr);
-    explicit QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent = nullptr);
-    ~QxtGlobalShortcut();
+  explicit QxtGlobalShortcut(QObject* parent = nullptr);
+  explicit QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent = nullptr);
+  ~QxtGlobalShortcut();
 
-    QKeySequence shortcut() const;
-    bool setShortcut(const QKeySequence& shortcut);
+  QKeySequence shortcut() const;
+  bool setShortcut(const QKeySequence& shortcut);
 
-    bool isEnabled() const;
+  bool isEnabled() const;
 
 public Q_SLOTS:
-    void setEnabled(bool enabled = true);
-    void setDisabled(bool disabled = true);
+  void setEnabled(bool enabled = true);
+  void setDisabled(bool disabled = true);
 
 Q_SIGNALS:
-    void activated();
+  void activated();
 };
 
-#endif // QXTGLOBALSHORTCUT_H
+#endif  // QXTGLOBALSHORTCUT_H
 

@@ -1,4 +1,3 @@
-
 /****************************************************************************
 ** Copyright (c) 2006 - 2011, the LibQxt project.
 ** See the Qxt AUTHORS file for a list of authors and copyright holders.
@@ -161,73 +160,73 @@ template <typename PUB>
 class QxtPrivate
 {
 public:
-    virtual ~QxtPrivate()
-    {}
-    inline void QXT_setPublic(PUB* pub)
-    {
-        qxt_p_ptr = pub;
-    }
+  virtual ~QxtPrivate()
+  {}
+  inline void QXT_setPublic(PUB* pub)
+  {
+    qxt_p_ptr = pub;
+  }
 
 protected:
-    inline PUB& qxt_p()
-    {
-        return *qxt_p_ptr;
-    }
-    inline const PUB& qxt_p() const
-    {
-        return *qxt_p_ptr;
-    }
-    inline PUB* qxt_ptr()
-    {
-        return qxt_p_ptr;
-    }
-    inline const PUB* qxt_ptr() const
-    {
-        return qxt_p_ptr;
-    }
+  inline PUB& qxt_p()
+  {
+    return *qxt_p_ptr;
+  }
+  inline const PUB& qxt_p() const
+  {
+    return *qxt_p_ptr;
+  }
+  inline PUB* qxt_ptr()
+  {
+    return qxt_p_ptr;
+  }
+  inline const PUB* qxt_ptr() const
+  {
+    return qxt_p_ptr;
+  }
 
 private:
-    PUB* qxt_p_ptr;
+  PUB* qxt_p_ptr;
 };
 
 template <typename PUB, typename PVT>
 class QxtPrivateInterface
 {
-    friend class QxtPrivate<PUB>;
+  friend class QxtPrivate<PUB>;
 public:
-    QxtPrivateInterface()
-    {
-        pvt = new PVT;
-    }
-    ~QxtPrivateInterface()
-    {
-        delete pvt;
-    }
+  QxtPrivateInterface()
+  {
+    pvt = new PVT;
+  }
+  ~QxtPrivateInterface()
+  {
+    delete pvt;
+  }
 
-    inline void setPublic(PUB* pub)
-    {
-        pvt->QXT_setPublic(pub);
-    }
-    inline PVT& operator()()
-    {
-        return *static_cast<PVT*>(pvt);
-    }
-    inline const PVT& operator()() const
-    {
-        return *static_cast<PVT*>(pvt);
-    }
-    inline PVT * operator->()
-    {
+  inline void setPublic(PUB* pub)
+  {
+    pvt->QXT_setPublic(pub);
+  }
+  inline PVT& operator()()
+  {
+    return *static_cast<PVT*>(pvt);
+  }
+  inline const PVT& operator()() const
+  {
+    return *static_cast<PVT*>(pvt);
+  }
+  inline PVT * operator->()
+  {
 	return static_cast<PVT*>(pvt);
-    }
-    inline const PVT * operator->() const
-    {
+  }
+  inline const PVT * operator->() const
+  {
 	return static_cast<PVT*>(pvt);
-    }
+  }
 private:
-    QxtPrivateInterface(const QxtPrivateInterface&) { }
-    QxtPrivateInterface& operator=(const QxtPrivateInterface&) { }
-    QxtPrivate<PUB>* pvt;
+  QxtPrivateInterface(const QxtPrivateInterface&) { }
+  QxtPrivateInterface& operator=(const QxtPrivateInterface&) { }
+  QxtPrivate<PUB>* pvt;
 };
 
 #endif // QXT_GLOBAL
