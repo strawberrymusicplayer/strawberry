@@ -30,11 +30,11 @@
 
 DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::State state)
   : QSortFilterProxyModel(parent),
-    state_(state)
-{
-  connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(ProxyRowCountChanged()));
-  connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(ProxyRowCountChanged()));
-  connect(this, SIGNAL(modelReset()), SLOT(ProxyRowCountChanged()));
+    state_(state) {
+
+  connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(ProxyRowCountChanged(QModelIndex, int, int)));
+  connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(ProxyRowCountChanged(QModelIndex, int, int)));
+  connect(this, SIGNAL(modelReset()), this, SLOT(ProxyRowCountChanged()));
 }
 
 bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex&) const {
@@ -42,6 +42,10 @@ bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex&) const
 }
 
 void DeviceStateFilterModel::ProxyRowCountChanged() {
+  emit IsEmptyChanged(rowCount() == 0);
+}
+
+void DeviceStateFilterModel::ProxyRowCountChanged(QModelIndex index, int first, int last) {
   emit IsEmptyChanged(rowCount() == 0);
 }
 

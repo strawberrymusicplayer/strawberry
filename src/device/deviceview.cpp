@@ -71,23 +71,23 @@ const int DeviceItemDelegate::kIconPadding = 6;
 
 DeviceItemDelegate::DeviceItemDelegate(QObject *parent) : CollectionItemDelegate(parent) {}
 
-void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, const QModelIndex &index) const {
+void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
   // Is it a device or a collection item?
   if (index.data(DeviceManager::Role::Role_State).isNull()) {
-    CollectionItemDelegate::paint(p, opt, index);
+    CollectionItemDelegate::paint(painter, option, index);
     return;
   }
 
   // Draw the background
-  const QWidget *widget = opt.widget;
+  const QWidget *widget = option.widget;
   QStyle *style = widget->style() ? widget->style() : QApplication::style();
-  style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, p, widget);
+  style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, widget);
 
-  p->save();
+  painter->save();
 
   // Font for the status line
-  QFont status_font(opt.font);
+  QFont status_font(option.font);
 
 #ifdef Q_OS_WIN32
   status_font.setPointSize(status_font.pointSize() - 1);
@@ -95,25 +95,25 @@ void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, con
   status_font.setPointSize(status_font.pointSize() - 2);
 #endif
 
-  const int text_height = QFontMetrics(opt.font).height() + QFontMetrics(status_font).height();
+  const int text_height = QFontMetrics(option.font).height() + QFontMetrics(status_font).height();
 
-  QRect line1(opt.rect);
-  QRect line2(opt.rect);
-  line1.setTop(line1.top() + (opt.rect.height() - text_height) / 2);
-  line2.setTop(line1.top() + QFontMetrics(opt.font).height());
+  QRect line1(option.rect);
+  QRect line2(option.rect);
+  line1.setTop(line1.top() + (option.rect.height() - text_height) / 2);
+  line2.setTop(line1.top() + QFontMetrics(option.font).height());
   line1.setLeft(line1.left() + DeviceManager::kDeviceIconSize + kIconPadding);
   line2.setLeft(line2.left() + DeviceManager::kDeviceIconSize + kIconPadding);
 
   // Change the color for selected items
-  if (opt.state & QStyle::State_Selected) {
-    p->setPen(opt.palette.color(QPalette::HighlightedText));
+  if (option.state & QStyle::State_Selected) {
+    painter->setPen(option.palette.color(QPalette::HighlightedText));
   }
 
   // Draw the icon
-  p->drawPixmap(opt.rect.topLeft(), index.data(Qt::DecorationRole).value<QPixmap>());
+  painter->drawPixmap(option.rect.topLeft(), index.data(Qt::DecorationRole).value<QPixmap>());
 
   // Draw the first line (device name)
-  p->drawText(line1, Qt::AlignLeft | Qt::AlignTop, index.data().toString());
+  painter->drawText(line1, Qt::AlignLeft | Qt::AlignTop, index.data().toString());
 
   // Draw the second line (status)
   DeviceManager::State state = static_cast<DeviceManager::State>(index.data(DeviceManager::Role_State).toInt());
@@ -154,14 +154,15 @@ void DeviceItemDelegate::paint(QPainter *p, const QStyleOptionViewItem &opt, con
     }
   }
 
-  if (opt.state & QStyle::State_Selected)
-    p->setPen(opt.palette.color(QPalette::HighlightedText));
+  if (option.state & QStyle::State_Selected)
+    painter->setPen(option.palette.color(QPalette::HighlightedText));
   else
-    p->setPen(opt.palette.color(QPalette::Dark));
-  p->setFont(status_font);
-  p->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
+    painter->setPen(option.palette.color(QPalette::Dark));
 
-  p->restore();
+  painter->setFont(status_font);
+  painter->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
+
+  painter->restore();
 
 }
 

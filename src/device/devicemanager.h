@@ -102,8 +102,8 @@ class DeviceManager : public QAbstractListModel {
   void SetDeviceOptions(int row, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
 
   // QAbstractListModel
-  int rowCount(const QModelIndex &parent) const;
-  QVariant data(const QModelIndex &index, int role) const;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
  public slots:
   void Unmount(int row);

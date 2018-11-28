@@ -49,6 +49,7 @@ protected:
 
 private slots:
   void ProxyRowCountChanged();
+  void ProxyRowCountChanged(QModelIndex index, int first, int last);
 
 private:
   DeviceManager::State state_;
