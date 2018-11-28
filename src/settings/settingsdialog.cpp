@@ -128,8 +128,13 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
 
+  QTreeWidgetItem *iface = AddCategory(tr("User interface"));
+  AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
+  AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
+  AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
+
 #if defined(HAVE_STREAM_TIDAL) || defined(HAVE_STREAM_DEEZER)
-  QTreeWidgetItem *internet = AddCategory(tr("Internet"));
+  QTreeWidgetItem *internet = AddCategory(tr("Streaming"));
 #endif
 #ifdef HAVE_STREAM_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), internet);
@@ -137,12 +142,6 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 #ifdef HAVE_STREAM_DEEZER
   AddPage(Page_Deezer, new DeezerSettingsPage(this), internet);
 #endif
-
-  // User interface
-  QTreeWidgetItem *iface = AddCategory(tr("User interface"));
-  AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
-  AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
-  AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
 
   // List box
   connect(ui_->list, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), SLOT(CurrentItemChanged(QTreeWidgetItem*)));
