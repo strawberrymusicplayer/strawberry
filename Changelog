@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.4.2:
 
     * Updated AppStream data file to newer specifications
     * Fixed Deezer engine to use quality setting
@@ -11,7 +11,8 @@ Unreleased:
     * Added ALSA as optional component in cmake
     * Fixed bug in playlist columns setting all visible
     * Added option to reset playlist columns
-    * Improved console logging
+    * Fixed/Improved console logging
+    * Added queue to play next option
     * (Windows) Corrected uninstalled files on x64 installer
     * (MacOS) Fixed poor performance
 
