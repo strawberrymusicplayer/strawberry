@@ -13,11 +13,11 @@ set(SINGLEAPP-MOC-HEADERS
     qtsinglecoreapplication.h
 )
 
-if(WIN32)
-  set(SINGLEAPP-SOURCES ${SINGLEAPP-SOURCES} qtlockedfile_win.cpp)
-elseif(WIN32)
+if(UNIX)
   set(SINGLEAPP-SOURCES ${SINGLEAPP-SOURCES} qtlockedfile_unix.cpp)
-endif(WIN32)
+elseif(WIN32)
+  set(SINGLEAPP-SOURCES ${SINGLEAPP-SOURCES} qtlockedfile_win.cpp)
+endif()
 
 QT5_WRAP_CPP(SINGLEAPP-SOURCES-MOC ${SINGLEAPP-MOC-HEADERS})
 
