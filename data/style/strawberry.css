@@ -1,5 +1,6 @@
 #playlist {
   background-color: %palette-base;
+  background-image: url(:pictures/strawberry-faded.png);
   alternate-background-color: %palette-alternate-base;
 }
 
