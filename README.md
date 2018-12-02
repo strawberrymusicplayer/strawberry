@@ -4,10 +4,10 @@
 
 Strawberry is a audio player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles. The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.
 
-  * Website: http://www.strawbs.org/
+  * Website: https://www.strawbs.org/
   * Github: https://github.com/jonaski/strawberry
   * Buildbot: http://buildbot.strawbs.net/
-  * Latest builds: http://builds.strawbs.org/
+  * Latest builds: https://builds.strawbs.org/
 
 ### :heavy_check_mark: Features:
 
