@@ -636,7 +636,7 @@ void TidalService::SearchFinished(QNetworkReply *reply, int id) {
   }
 
   if (albums_requested_ > 0) {
-    emit UpdateStatus(QString("Retriving %1 album%2...").arg(albums_requested_).arg(albums_requested_ == 1 ? "" : "s"));
+    emit UpdateStatus(QString("Retrieving %1 album%2...").arg(albums_requested_).arg(albums_requested_ == 1 ? "" : "s"));
     emit ProgressSetMaximum(albums_requested_);
     emit UpdateProgress(0);
   }
