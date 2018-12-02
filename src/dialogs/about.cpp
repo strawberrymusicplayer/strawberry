@@ -71,7 +71,9 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Tyler Rhodes", "tyler.s.rhodes@gmail.com")
            << Person("Vikram Ambrose", "ambroseworks@gmail.com")
            << Person("David Guillen", "david@davidgf.net")
-           << Person("Krzysztof Sobiecki", "sobkas@gmail.com");
+           << Person("Krzysztof Sobiecki", "sobkas@gmail.com")
+           << Person("Valeriy Malov", "jazzvoid@gmail.com")
+           << Person("Nick Lanham", "nick@afternight.org");
 
   QString Title("About Strawberry");
 
@@ -138,7 +140,7 @@ QString About::ContributorsHtml() const {
   }
   ret += QString("</p>");
 
-  ret += QString("<p><b>Contributors</b>");
+  ret += QString("<p><b>Clementine Contributors</b>");
   for (const Person &person : constributors_) {
     ret += "<br />" + PersonToHtml(person);
   }
