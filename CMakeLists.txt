@@ -196,20 +196,6 @@ if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
   set(HAVE_LIBLASTFM1 ON)
 endif()
 
-# Use system sha2 if it's available
-find_path(SHA2_INCLUDE_DIRS sha2.h)
-find_library(SHA2_LIBRARIES sha2)
-if (SHA2_LIBRARIES AND SHA2_INCLUDE_DIRS)
-  message(STATUS "Using system sha2 library")
-  set(USE_SYSTEM_SHA2 ON)
-else()
-  message(STATUS "Using builtin sha2 library")
-  set(USE_SYSTEM_SHA2 OFF)
-  add_subdirectory(3rdparty/sha2)
-  set(SHA2_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/sha2)
-  set(SHA2_LIBRARIES sha2)
-endif()
-
 # Use system QtSingleApplication only if explicitly enabled.
 option(USE_SYSTEM_QTSINGLEAPPLICATION "Use system QtSingleApplication library" OFF)
 if(USE_SYSTEM_QTSINGLEAPPLICATION)

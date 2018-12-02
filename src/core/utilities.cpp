@@ -87,7 +87,6 @@
 #include "core/logging.h"
 
 #include "utilities.h"
-#include "sha2.h"
 #include "timeconstants.h"
 #include "application.h"
 
@@ -431,7 +430,7 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, HashFunction meth
     return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha1), QCryptographicHash::Sha1);
   }
   else {  // Sha256_Algo, currently default
-    return Sha256(outer_padding + Sha256(inner_padding + data));
+    return QCryptographicHash::hash(outer_padding + QCryptographicHash::hash(inner_padding + data, QCryptographicHash::Sha256), QCryptographicHash::Sha256);
   }
 
 }
@@ -446,27 +445,6 @@ QByteArray HmacMd5(const QByteArray &key, const QByteArray &data) {
 
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, Sha1_Algo);
-}
-
-QByteArray Sha256(const QByteArray &data) {
-
-  #ifndef USE_SYSTEM_SHA2
-    using strawberry_sha2::SHA256_CTX;
-    using strawberry_sha2::SHA256_Init;
-    using strawberry_sha2::SHA256_Update;
-    using strawberry_sha2::SHA256_Final;
-    using strawberry_sha2::SHA256_DIGEST_LENGTH;
-  #endif
-
-  SHA256_CTX context;
-  SHA256_Init(&context);
-  SHA256_Update(&context, reinterpret_cast<const quint8*>(data.constData()), data.length());
-
-  QByteArray ret(SHA256_DIGEST_LENGTH, '\0');
-  SHA256_Final(reinterpret_cast<quint8*>(ret.data()), &context);
-
-  return ret;
-
 }
 
 // File must not be open and will be closed afterwards!

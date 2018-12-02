@@ -67,7 +67,6 @@ endif()
 link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
-include_directories(${SHA2_INCLUDE_DIRS})
 include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
 include_directories(${QXT_INCLUDE_DIRS})
 
@@ -906,7 +905,6 @@ target_link_libraries(strawberry_lib
   libstrawberry-tagreader
   ${GLIB_LIBRARIES}
   ${GIO_LIBRARIES}
-  ${SHA2_LIBRARIES}
   ${TAGLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${QT_LIBRARIES}
