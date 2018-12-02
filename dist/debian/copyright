@@ -1,0 +1,408 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: strawberry
+Upstream-Contact: Jonas Kvinge <jonas@jkvinge.net>
+Source: https://www.strawbs.org/
+
+Files: *
+Copyright: 2010-2015, David Sansome <me@davidsansome.com>
+License: GPL-3+
+
+Files: src/core/timeconstants.h
+ ext/libstrawberry-common/core/logging.cpp
+ ext/libstrawberry-common/core/logging.h
+ ext/libstrawberry-common/core/messagehandler.cpp
+ ext/libstrawberry-common/core/messagehandler.h
+ ext/libstrawberry-common/core/override.h
+Copyright: 2011, 2012, David Sansome <me@davidsansome.com>
+License: Apache-2.0
+
+Files: src/core/main.h
+ src/config.h.in
+ src/version.h.in
+ src/context/contextview.cpp
+ src/context/contextview.h
+ src/engine/enginetype.cpp
+ src/engine/enginetype.h
+ src/engine/alsadevicefinder.cpp
+ src/engine/alsadevicefinder.h
+ src/engine/deezerengine.cpp
+ src/engine/deezerengine.h
+ src/engine/devicefinder.cpp
+ src/engine/devicefinder.h
+ src/engine/enginedevice.cpp
+ src/engine/enginedevice.h
+ src/engine/phononengine.cpp
+ src/engine/phononengine.h
+ src/internet/internetservice.cpp
+ src/internet/internetservice.h
+ src/lyrics/*
+ src/tidal/*
+ src/deezer/*
+ src/settings/backendsettingspage.cpp
+ src/settings/backendsettingspage.h
+ src/settings/deezersettingspage.cpp
+ src/settings/deezersettingspage.h
+ src/settings/tidalsettingspage.cpp
+ src/settings/tidalsettingspage.h
+Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: src/core/main.cpp
+ src/core/mainwindow.cpp
+ src/core/mainwindow.h
+ src/core/player.cpp
+ src/core/player.h
+ src/core/song.cpp
+ src/core/song.h
+ src/core/urlhandler.cpp
+ src/core/urlhandler.h
+ src/core/utilities.cpp
+ src/core/utilities.h
+ src/core/iconloader.cpp
+ src/core/iconloader.h
+ src/engine/gstenginepipeline.cpp
+ src/engine/gstenginepipeline.h
+ src/engine/vlcengine.cpp
+ src/engine/vlcengine.h
+ src/context/contextalbumsmodel.cpp
+ src/context/contextalbumsview.cpp
+ src/context/contextalbumsmodel.h
+ src/context/contextalbumsview.h
+ src/covermanager/amazoncoverprovider.cpp
+ src/covermanager/amazoncoverprovider.h
+ src/widgets/playingwidget.cpp
+ src/widgets/playingwidget.h
+ src/dialogs/about.cpp
+ src/dialogs/about.h
+ src/playlist/playlistitem.cpp
+ src/playlist/playlistitem.h
+ src/playlist/playlistdelegates.cpp
+ src/playlist/playlistdelegates.h
+ src/internet/internetplaylistitem.cpp
+ src/internet/internetsearch.cpp
+ src/internet/internetsearch.h
+ src/internet/internetsearchview.cpp
+ src/internet/internetsearchview.h
+ src/internet/internetservices.cpp
+ src/internet/internetservices.h
+ ext/libstrawberry-tagreader/tagreader.cpp
+ ext/libstrawberry-tagreader/tagreader.h
+Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
+ 2012-2014, 2017-2018 Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: src/engine/enginebase.cpp
+ src/engine/enginebase.h
+Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
+ 2010, David Sansome <me@davidsansome.com>
+ 2004, 2005, Max Howell, <max.howell@methylblue.com>
+ 2003, Mark Kretschmann <markey@web.de>
+License: GPL-3+
+
+Files: src/engine/gstengine.cpp
+ src/engine/gstengine.h
+Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
+ 2006, Paul Cifarelli <paul@cifarelli.net>
+ 2005, Jakub Stachowski <qbast@go2.pl>
+ 2003-2005, Mark Kretschmann <markey@web.de>
+License: GPL-2+
+
+Files: src/engine/xineengine.cpp
+ src/engine/xineengine.h
+Copyright: 2017, 2018, Jonas Kvinge <jonas@jkvinge.net>
+ 2005, Ian Monroe <ian@monroe.nu>
+ 2005, Christophe Thommeret <hftom@free.fr>
+ 2005, 2006, Mark Kretschmann <markey@web.de>
+ 2004, 2005, Max Howell <max.howell@methylblue.com>
+ 2003, 2004, J. Kofler <kaffeine@gmx.net>
+License: GPL-2+
+
+Files: src/engine/xinescope.c
+ src/engine/xinescope.h
+Copyright: 2004, Max Howell <max.howell@methylblue.com>
+License: GPL-2+
+
+Files: src/widgets/fancytabwidget.cpp
+ src/widgets/fancytabwidget.h
+Copyright: 2018, Vikram Ambrose <ambroseworks@gmail.com>
+ 2018, Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: src/covermanager/discogscoverprovider.cpp
+ src/covermanager/discogscoverprovider.h
+Copyright: 2012, Martin Björklund <mbj4668@gmail.com>
+ 2016, Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: ext/libstrawberry-common/core/arraysize.h
+ ext/libstrawberry-common/core/scoped_nsautorelease_pool.h
+ ext/libstrawberry-common/core/scoped_nsautorelease_pool.mm
+Copyright: 2010, 2011, 2014, The Chromium Authors.
+License: BSD-style
+
+Files: ext/libstrawberry-common/core/lazy.h
+Copyright: 2016, John Maguire <john.maguire@gmail.com>
+License: GPL-3+
+
+Files: src/analyzer/fht.cpp
+  src/analyzer/fht.h
+Copyright: 2004, Melchior FRANZ - mfranz@kde.org
+License: GPL-2+
+
+Files: src/analyzer/analyzerbase.cpp
+  src/analyzer/analyzerbase.h
+Copyright: 2003-2005, Max Howell <max.howell@methylblue.com>
+License: GPL-2+
+
+Files: src/analyzer/blockanalyzer.cpp
+  src/analyzer/blockanalyzer.h
+Copyright: 2003-2005, Max Howell <max.howell@methylblue.com>
+ 2005, Mark Kretschmann <markey@web.de>
+License: GPL-2+
+
+Files: src/collection/savedgroupingmanager.h
+Copyright: 2015, Nick Lanham <nick@afternight.org>
+License: GPL-3+
+
+Files: src/core/scoped_cftyperef.h
+ src/core/scoped_nsobject.h
+Copyright: 2010, 2011, 2014, The Chromium Authors.
+License: BSD-style
+
+Files: src/core/signalchecker.cpp
+Copyright: 2014, Krzysztof Sobiecki <sobkas@gmail.com>
+ 2012, 2014, John Maguire <john.maguire@gmail.com>
+ 2010, David Sansome <me@davidsansome.com>
+License: GPL-3+
+
+Files: src/device/udisks2lister.cpp
+ src/device/udisks2lister.h
+Copyright: 2016, Valeriy Malov <jazzvoid@gmail.com>
+License: GPL-3+
+
+Files: src/internet/localredirectserver.cpp
+ src/internet/localredirectserver.h
+Copyright: 2012, 2014, John Maguire <john.maguire@gmail.com>
+ 2014, Krzysztof Sobiecki <sobkas@gmail.com>
+License: GPL-3+
+
+Files: src/transcoder/transcoderoptionsopus.cpp
+ src/transcoder/transcoderoptionsopus.h
+Copyright: 2013, Martin Brodbeck <martin@brodbeck-online.de>
+License: GPL-3+
+
+Files: src/widgets/clickablelabel.cpp
+ src/widgets/clickablelabel.h
+ src/widgets/renametablineedit.cpp
+ src/widgets/renametablineedit.h
+Copyright: 2010, 2011, Andrea Decorte <adecorte@gmail.com>
+License: GPL-3+
+
+Files: src/widgets/sliderwidget.cpp
+ src/widgets/sliderwidget.h
+Copyright: 2005, Gábor Lehel
+ 2003, Mark Kretschmann <markey@web.de>
+License: GPL-2+
+
+Files: src/widgets/stylehelper.cpp
+ src/widgets/stylehelper.h
+Copyright: 2010, Nokia Corporation and/or its subsidiary(-ies).
+License: LGPL-2.1
+
+Files: 3rdparty/SPMediaKeyTap/*
+Copyright: 2010, Spotify AB
+Copyright: 2011, Joachim Bengtsson
+License: BSD-3-clause
+
+Files: 3rdparty/qocoa/*
+Copyright: 2011, Mike McQuaid
+License: Expat
+
+Files: 3rdparty/qtsingleapplication/*
+Copyright: 2010, Nokia Corporation and/or its subsidiary(-ies).
+License: BSD-3-clause
+
+Files: 3rdparty/qxt/*
+Copyright: 2006-2011, the LibQxt project.
+License: BSD-3-clause
+
+Files: 3rdparty/sha2/*
+Copyright: 2000, 2001, Aaron D. Gifford
+License: BSD-3-clause
+
+Files: 3rdparty/taglib/*
+Copyright: 2002-2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ape/*
+Copyright: 2003-2005, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ape/apefile.cpp
+ 3rdparty/taglib/ape/apefile.h
+Copyright: 2010, Alex Novichkov
+ 2006, Lukáš Lalinský
+ 2004, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ape/apefooter.cpp
+Copyright: 2004, Allan Sandfeld Jensen
+ 2002-2008, Scott Wheeler (id3v2header.cpp)
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ape/apeproperties.cpp
+ 3rdparty/taglib/ape/apeproperties.h
+Copyright: 2010, Alex Novichkov
+ 2006, Lukáš Lalinský
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/asf/*
+Copyright: 2005-2007, 2009-2011, Lukáš Lalinský
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/asf/asfpicture.cpp
+ 3rdparty/taglib/asf/asfpicture.h
+Copyright: 2010, Anton Sergunov
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/asf/asfutils.h
+Copyright: 2012, 2013, 2015, 2016, Tsuda Kageyu
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/dsdiff/*
+Copyright: 2016, Damien Plisson, Audirvana
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/dsf/*
+Copyright: 2013-2018, Stephen F. Booth
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/fileref.cpp
+Copyright: 2010, Alex Novichkov
+ 2002-2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/flac/*
+  3rdparty/taglib/mp4/*
+Copyright: 2005-2007, 2009-2011, Lukáš Lalinský
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/flac/flacfile.cpp
+ 3rdparty/taglib/flac/flacfile.h
+ 3rdparty/taglib/flac/flacproperties.cpp
+ 3rdparty/taglib/flac/flacproperties.h
+Copyright: 2003-2005, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/it/*
+  3rdparty/taglib/mod/*
+Copyright: 2011, Mathias Panzenböck
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpc/*
+Copyright: 2003-2005, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/chapterframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/chapterframe.h
+ 3rdparty/taglib/mpeg/id3v2/frames/tableofcontentsframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/tableofcontentsframe.h
+Copyright: 2013, Lukas Krejci
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/eventtimingcodesframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/eventtimingcodesframe.h
+ 3rdparty/taglib/mpeg/id3v2/frames/podcastframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/podcastframe.h
+ 3rdparty/taglib/mpeg/id3v2/frames/synchronizedlyricsframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/synchronizedlyricsframe.h
+Copyright: 2014, 2015, Urs Fleisch
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/generalencapsulatedobjectframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/generalencapsulatedobjectframe.h
+Copyright: 2006, Aaron VonderHaar
+ 2002-2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/ownershipframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/ownershipframe.h
+Copyright: 2012, Rupert Daniel
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/popularimeterframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/popularimeterframe.h
+Copyright: 2008, 2011, Lukas Lalinsky
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/privateframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/privateframe.h
+Copyright: 2008, Serkan Kalyoncu
+ 2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/id3v2/frames/unsynchronizedlyricsframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/unsynchronizedlyricsframe.h
+ 3rdparty/taglib/mpeg/id3v2/frames/urllinkframe.cpp
+ 3rdparty/taglib/mpeg/id3v2/frames/urllinkframe.h
+Copyright: 2006, Urs Fleisch
+ 2002-2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/mpeg/xingheader.cpp
+ 3rdparty/taglib/mpeg/xingheader.h
+Copyright: 2003, Ismael Orenstein
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ogg/flac/*
+Copyright: 2003-2005, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/ogg/opus/*
+  3rdparty/taglib/ogg/speex/*
+Copyright: 2006, 2012, Lukáš Lalinský
+ 2002-2008, Scott Wheeler
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/riff/riffutils.h
+ 3rdparty/taglib/riff/wav/infotag.cpp
+ 3rdparty/taglib/riff/wav/infotag.h
+ 3rdparty/taglib/tagutils.cpp
+ 3rdparty/taglib/tagutils.h
+ 3rdparty/taglib/toolkit/tdebuglistener.cpp
+ 3rdparty/taglib/toolkit/tdebuglistener.h
+ 3rdparty/taglib/toolkit/trefcounter.cpp
+ 3rdparty/taglib/toolkit/trefcounter.h
+ 3rdparty/taglib/toolkit/tutils.h
+ 3rdparty/taglib/toolkit/tzlib.cpp
+ 3rdparty/taglib/toolkit/tzlib.h
+ 3rdparty/taglib/mpeg/mpegutils.h
+Copyright: 2012, 2013, 2015, 2016, Tsuda Kageyu
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/s3m/*
+ 3rdparty/taglib/xm/*
+Copyright: 2011, Mathias Panzenböck
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/toolkit/tbytevectorstream.cpp
+ 3rdparty/taglib/toolkit/tbytevectorstream.h
+ 3rdparty/taglib/toolkit/tiostream.cpp
+ 3rdparty/taglib/toolkit/tiostream.h
+Copyright: 2008, 2011, Lukas Lalinsky
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/toolkit/tpropertymap.cpp
+ 3rdparty/taglib/toolkit/tpropertymap.h
+Copyright: 2012, Michael Helmling
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/taglib/trueaudio/*
+ 3rdparty/taglib/wavpack/*
+Copyright: 2006, Lukáš Lalinský
+ 2004, Allan Sandfeld Jensen
+License: LGPL-2.1 and/or MPL-1.1
+
+Files: 3rdparty/utf8-cpp/*
+Copyright: 2006-2016, Nemanja Trifunovic
+License: BSL
