@@ -226,10 +226,6 @@ Files: 3rdparty/qxt/*
 Copyright: 2006-2011, the LibQxt project <foundation@libqxt.org>
 License: BSD-3-clause
 
-Files: 3rdparty/sha2/*
-Copyright: 2000, 2001, Aaron D. Gifford <agifford@infowest.com>
-License: BSD-3-clause
-
 Files: 3rdparty/taglib/*
 Copyright: 2002-2008, Scott Wheeler
 License: LGPL-2.1 and/or MPL-1.1
