@@ -73,8 +73,6 @@ class DiscogsCoverProvider : public CoverProvider {
   void CancelSearch(int id);
 
  private slots:
-  void SearchRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id);
-  void ReleaseRequestError(QNetworkReply::NetworkError error, QNetworkReply *reply, int s_id, int r_id);
   void HandleSearchReply(QNetworkReply *reply, int s_id);
   void HandleReleaseReply(QNetworkReply *reply, int s_id, int r_id);
 
@@ -92,9 +90,13 @@ class DiscogsCoverProvider : public CoverProvider {
 
   void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);
   void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonValue ExtractData(const QByteArray &data, const QString name, const bool silent = false);
   void EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
   void EndSearch(DiscogsCoverSearchContext *s_ctx);
   void EndSearch(DiscogsCoverReleaseContext *r_ctx);
+  void Error(QString error, QVariant debug = QVariant());
 
 };
 
