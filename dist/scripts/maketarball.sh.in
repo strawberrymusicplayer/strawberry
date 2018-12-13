@@ -27,4 +27,5 @@ tar -cJf $name-$version.tar.xz \
     --exclude="$root/CMakeLists.txt.user" \
     --exclude="$root/build" \
     --exclude="$root/dist/debian/changelog" \
+    --exclude="$root/dist/pacman/PKGBUILD" \
     "$root"
