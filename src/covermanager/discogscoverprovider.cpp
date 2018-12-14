@@ -273,6 +273,10 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
   DiscogsCoverSearchContext *s_ctx = requests_search_.value(s_id);
 
   QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    EndSearch(s_ctx);
+    return;
+  }
 
   QJsonValue json_value = ExtractData(data, "results");
   if (!json_value.isArray()) {
@@ -331,6 +335,10 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, int s_id, in
   DiscogsCoverSearchContext *s_ctx = requests_search_.value(s_id);
 
   QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    EndSearch(s_ctx);
+    return;
+  }
 
   QJsonValue json_value = ExtractData(data, "images", true);
   if (!json_value.isArray()) {
