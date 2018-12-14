@@ -44,6 +44,8 @@ Files: src/core/main.h
  src/settings/deezersettingspage.h
  src/settings/tidalsettingspage.cpp
  src/settings/tidalsettingspage.h
+ src/covermanager/lastfmcoverprovider.cpp
+ src/covermanager/lastfmcoverprovider.h
 Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
@@ -68,8 +70,6 @@ Files: src/core/main.cpp
  src/context/contextalbumsview.cpp
  src/context/contextalbumsmodel.h
  src/context/contextalbumsview.h
- src/covermanager/amazoncoverprovider.cpp
- src/covermanager/amazoncoverprovider.h
  src/widgets/playingwidget.cpp
  src/widgets/playingwidget.h
  src/dialogs/about.cpp
