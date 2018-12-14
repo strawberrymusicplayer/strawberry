@@ -421,12 +421,12 @@ QStringList MergedProxyModel::mimeTypes() const {
 
 QMimeData *MergedProxyModel::mimeData(const QModelIndexList &indexes) const {
 
-  if (indexes.isEmpty()) return 0;
+  if (indexes.isEmpty()) return nullptr;
 
   // Only ask the first index's model
   const QAbstractItemModel *model = mapToSource(indexes[0]).model();
   if (!model) {
-    return 0;
+    return nullptr;
   }
 
   // Only ask about the indexes that are actually in that model
