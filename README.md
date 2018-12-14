@@ -57,7 +57,6 @@ Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deezer-na
 
 Optional:
 
-* The Qt 5 LastFM library is required for fetching album covers from LastFM.
 * [libcdio](https://www.gnu.org/software/libcdio/) - To enable Audio CD support
 * [libmtp](http://libmtp.sourceforge.net/) - MTP support.
 * [libgpod](http://www.gtkpod.org/libgpod/) - iPod Classic support.
