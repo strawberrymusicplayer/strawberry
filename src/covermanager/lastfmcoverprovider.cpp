@@ -21,18 +21,18 @@
 
 #include <QObject>
 #include <QList>
-#include <QMap>
-#include <QMapIterator>
+#include <QPair>
 #include <QByteArray>
 #include <QString>
 #include <QStringBuilder>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QCryptographicHash>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonValue>
+#include <QJsonObject>
 #include <QJsonArray>
 
 #include "core/closure.h"

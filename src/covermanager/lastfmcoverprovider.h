@@ -25,10 +25,14 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QMap>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QJsonValue>
+#include <QJsonObject>
+#include <QJsonArray>
 
 #include "coverprovider.h"
 
@@ -60,7 +64,6 @@ class LastFmCoverProvider : public CoverProvider {
   void Error(QString error, QVariant debug = QVariant());
 
   QNetworkAccessManager *network_;
-  QMap <QNetworkReply *, int> pending_queries_;
 
 };
 
