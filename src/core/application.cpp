@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,9 +50,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/currentartloader.h"
-#ifdef HAVE_LIBLASTFM
-  #include "covermanager/lastfmcoverprovider.h"
-#endif
+#include "covermanager/lastfmcoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 
@@ -104,9 +103,7 @@ class ApplicationImpl {
         cover_providers_([=]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
-#ifdef HAVE_LIBLASTFM
           cover_providers->AddProvider(new LastFmCoverProvider(app));
-#endif
           cover_providers->AddProvider(new DiscogsCoverProvider(app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
           return cover_providers;

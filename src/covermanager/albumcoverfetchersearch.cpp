@@ -45,7 +45,7 @@
 
 using std::stable_sort;
 
-const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 12000;
+const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 25000;
 const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
 const float AlbumCoverFetcherSearch::kGoodScore = 1.85;

@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,26 +32,37 @@
 
 #include "coverprovider.h"
 
-// A built-in cover provider which fetches covers from last.fm.
 class LastFmCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
   explicit LastFmCoverProvider(QObject *parent = nullptr);
-
   bool StartSearch(const QString &artist, const QString &album, int id);
-
-  static const char *kApiKey;
-  static const char *kSecret;
 
  private slots:
   void QueryFinished(QNetworkReply *reply, int id);
 
  private:
+  static const char *kUrl;
+  static const char *kApiKey;
+  static const char *kSecret;
+  enum LastFmImageSize {
+    Unknown,
+    Small,
+    Medium,
+    Large,
+    ExtraLarge
+  };
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonValue ExtractResults(const QByteArray &data);
+  LastFmImageSize ImageSizeFromString(const QString size);
+  void Error(QString error, QVariant debug = QVariant());
+
   QNetworkAccessManager *network_;
   QMap <QNetworkReply *, int> pending_queries_;
 
 };
 
-#endif // LASTFMCOVERPROVIDER_H
+#endif  // LASTFMCOVERPROVIDER_H
 

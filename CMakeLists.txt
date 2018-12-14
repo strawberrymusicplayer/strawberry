@@ -188,14 +188,6 @@ else()
   set(HAVE_TAGLIB_DSFFILE ON)
 endif()
 
-# LASTFM
-find_library(LASTFM5_LIBRARIES lastfm5)
-find_path(LASTFM5_INCLUDE_DIRS lastfm5/ws.h)
-find_path(LASTFM51_INCLUDE_DIRS lastfm5/Track.h)
-if(LASTFM5_INCLUDE_DIRS AND LASTFM51_INCLUDE_DIRS)
-  set(HAVE_LIBLASTFM1 ON)
-endif()
-
 # Use system QtSingleApplication only if explicitly enabled.
 option(USE_SYSTEM_QTSINGLEAPPLICATION "Use system QtSingleApplication library" OFF)
 if(USE_SYSTEM_QTSINGLEAPPLICATION)
@@ -295,10 +287,6 @@ else ()
     DEPENDS "libpulse" LIBPULSE_FOUND
   )
 endif()
-
-optional_component(LIBLASTFM ON "Last.fm album cover provider"
-  DEPENDS "liblastfm" LASTFM5_LIBRARIES LASTFM5_INCLUDE_DIRS
-)
 
 optional_component(CHROMAPRINT ON "Chromaprint support / Tag fetching from Musicbrainz"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND

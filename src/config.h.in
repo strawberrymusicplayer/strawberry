@@ -35,8 +35,6 @@
 #cmakedefine HAVE_LIBARCHIVE
 #cmakedefine HAVE_AUDIOCD
 #cmakedefine HAVE_LIBGPOD
-#cmakedefine HAVE_LIBLASTFM
-#cmakedefine HAVE_LIBLASTFM1
 #cmakedefine HAVE_LIBMTP
 #cmakedefine HAVE_LIBPULSE
 #cmakedefine HAVE_QCA

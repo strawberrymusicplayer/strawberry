@@ -26,11 +26,9 @@ depends=(
   vlc
   phonon-qt5
   chromaprint
-  liblastfm-qt5
 )
 optdepends=(
   'libgpod: iPod classic support'
-  'liblastfm-qt5: LastFM cover provider'
   'libcdio: Audio CD playback'
   'libmtp: MTP device support'
   'libusbmuxd: iPod Touch, iPhone, iPad support'
