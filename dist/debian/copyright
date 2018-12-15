@@ -46,12 +46,16 @@ Files: src/core/main.h
  src/settings/tidalsettingspage.h
  src/covermanager/lastfmcoverprovider.cpp
  src/covermanager/lastfmcoverprovider.h
+ src/covermanager/musicbrainzcoverprovider.cpp
+ src/covermanager/musicbrainzcoverprovider.h
 Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/core/main.cpp
  src/core/mainwindow.cpp
  src/core/mainwindow.h
+ src/core/application.cpp
+ src/core/application.h
  src/core/player.cpp
  src/core/player.h
  src/core/song.cpp

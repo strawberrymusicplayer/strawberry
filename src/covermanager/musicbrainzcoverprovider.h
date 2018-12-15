@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,32 +25,37 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QMap>
-#include <QMultiMap>
+#include <QByteArray>
+#include <QVariant>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QJsonObject>
 
 #include "coverprovider.h"
+#include "albumcoverfetcher.h"
 
 class MusicbrainzCoverProvider : public CoverProvider {
   Q_OBJECT
  public:
   explicit MusicbrainzCoverProvider(QObject *parent = nullptr);
 
-  virtual bool StartSearch(const QString &artist, const QString &album, int id);
-  virtual void CancelSearch(int id);
+  bool StartSearch(const QString &artist, const QString &album, int id);
+  void CancelSearch(int id);
 
  private slots:
-  void ReleaseSearchFinished(QNetworkReply *reply, int id);
-  void ImageCheckFinished(int id);
+  void HandleSearchReply(QNetworkReply *reply, int search_id);
+
+ private:
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  void Error(QString error, QVariant debug = QVariant());
 
  private:
   static const char *kReleaseSearchUrl;
   static const char *kAlbumCoverUrl;
+  static const int kLimit;
   QNetworkAccessManager *network_;
-  QMultiMap<int, QNetworkReply *> image_checks_;
-  QMap<int, QString> cover_names_;
 
 };
 
