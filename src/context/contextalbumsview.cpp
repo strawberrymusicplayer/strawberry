@@ -405,7 +405,9 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
   // TODO: check if custom plugin actions should be enabled / visible
   const int songs_selected = regular_elements;
+#ifdef HAVE_GSTREAMER
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
+#endif
 
   // in all modes
   load_->setEnabled(songs_selected);

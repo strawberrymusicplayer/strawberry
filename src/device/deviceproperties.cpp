@@ -57,7 +57,9 @@
 #include "devicelister.h"
 #include "devicemanager.h"
 #include "deviceproperties.h"
-#include "transcoder/transcoder.h"
+#ifdef HAVE_GSTREAMER
+#  include "transcoder/transcoder.h"
+#endif
 #include "ui_deviceproperties.h"
 
 DeviceProperties::DeviceProperties(QWidget *parent)
