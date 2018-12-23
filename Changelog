@@ -11,6 +11,8 @@ Unreleased:
     * Fixed some compile errors
     * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
     * Fixed key up causing playback to reset
+    * New improved last.fm and musicbrainz album cover providers
+    * Removed liblastfm dependency
 
 Version 0.4.2:
 
