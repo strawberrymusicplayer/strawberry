@@ -13,6 +13,7 @@ Unreleased:
     * Fixed key up causing playback to reset
     * New improved last.fm and musicbrainz album cover providers
     * Removed liblastfm dependency
+    * Replace sha2 with QCryptographicHash
 
 Version 0.4.2:
 
