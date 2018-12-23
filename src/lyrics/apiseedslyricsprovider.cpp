@@ -73,7 +73,7 @@ bool APISeedsLyricsProvider::StartSearch(const QString &artist, const QString &a
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
 
-  //qLog(Debug) << "APISeedsLyrics: Sending request for" << url;
+  //qLog(Debug) << "APISeeds Lyrics: Sending request for" << url;
 
   return true;
 
@@ -90,13 +90,13 @@ void APISeedsLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id,
   if (json_obj.isEmpty()) return;
 
   if (!json_obj.contains("artist") || !json_obj.contains("track")) {
-    Error(id, "APISeedsLyrics: Invalid Json reply, result is missing artist or track.", json_obj);
+    Error(id, "APISeeds Lyrics: Invalid Json reply, result is missing artist or track.", json_obj);
     return;
   }
   QJsonObject json_artist(json_obj["artist"].toObject());
   QJsonObject json_track(json_obj["track"].toObject());
   if (!json_track.contains("text")) {
-    Error(id, "APISeedsLyrics: Invalid Json reply, track is missing text.", json_obj);
+    Error(id, "APISeeds Lyrics: Invalid Json reply, track is missing text.", json_obj);
     return;
   }
 
@@ -109,7 +109,7 @@ void APISeedsLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id,
   if (result.artist.toLower() == artist.toLower()) result.score += 1.0;
   if (result.title.toLower() == title.toLower()) result.score += 1.0;
 
-  //qLog(Debug) << "APISeedsLyrics:" << result.artist << result.title << result.lyrics;
+  //qLog(Debug) << "APISeeds Lyrics:" << result.artist << result.title << result.lyrics;
 
   results << result;
 
@@ -207,7 +207,7 @@ QJsonObject APISeedsLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 
 
 void APISeedsLyricsProvider::Error(quint64 id, QString error, QVariant debug) {
   LyricsSearchResults results;
-  if (!error.isEmpty()) qLog(Error) << "APISeedsLyrics:" << error;
+  if (!error.isEmpty()) qLog(Error) << "APISeeds Lyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
   emit SearchFinished(id, results);
 }

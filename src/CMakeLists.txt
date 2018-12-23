@@ -213,6 +213,7 @@ set(SOURCES
   settings/shortcutssettingspage.cpp
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
+  settings/scrobblersettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -264,6 +265,16 @@ set(SOURCES
   internet/internetsearchsortmodel.cpp
   internet/internetsearchitemdelegate.cpp
   internet/localredirectserver.cpp
+
+  scrobbler/audioscrobbler.cpp
+  scrobbler/scrobblerservices.cpp
+  scrobbler/scrobblerservice.cpp
+  scrobbler/scrobblercache.cpp
+  scrobbler/scrobblercacheitem.cpp
+  scrobbler/scrobblingapi20.cpp
+  scrobbler/lastfmscrobbler.cpp
+  scrobbler/librefmscrobbler.cpp
+  scrobbler/listenbrainzscrobbler.cpp
 
 )
 
@@ -379,6 +390,7 @@ set(HEADERS
   settings/shortcutssettingspage.h
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
+  settings/scrobblersettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -426,6 +438,16 @@ set(HEADERS
   internet/internetsearchmodel.h
   internet/localredirectserver.h
 
+  scrobbler/audioscrobbler.h
+  scrobbler/scrobblerservices.h
+  scrobbler/scrobblerservice.h
+  scrobbler/scrobblercache.h
+  scrobbler/scrobblercacheitem.h
+  scrobbler/scrobblingapi20.h
+  scrobbler/lastfmscrobbler.h
+  scrobbler/librefmscrobbler.h
+  scrobbler/listenbrainzscrobbler.h
+
 )
 
 set(UI
@@ -462,6 +484,7 @@ set(UI
   settings/shortcutssettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
+  settings/scrobblersettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui

@@ -76,6 +76,7 @@
 #include "settings/playlistsettingspage.h"
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
+#include "scrobbler/audioscrobbler.h"
 
 using std::shared_ptr;
 
@@ -538,8 +539,19 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
 }
 
 void Player::CurrentMetadataChanged(const Song &metadata) {
+
   // those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
   engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
+
+  // Send now playing to scrobble services
+  if (app_->scrobbler()->IsEnabled() && engine_->state() == Engine::Playing) {
+    Playlist *playlist = app_->playlist_manager()->active();
+    current_item_ = playlist->current_item();
+    if (playlist && current_item_ && !playlist->nowplaying() && current_item_->Metadata() == metadata && current_item_->Metadata().length_nanosec() > 0) {
+      app_->scrobbler()->UpdateNowPlaying(metadata);
+      playlist->set_nowplaying(true);
+    }
+  }
 
 }
 
@@ -555,17 +567,18 @@ void Player::SeekTo(int seconds) {
   const qint64 nanosec = qBound(0ll, qint64(seconds) * kNsecPerSec, length_nanosec);
   engine_->Seek(nanosec);
 
+  qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
+  app_->playlist_manager()->active()->UpdateScrobblePoint(nanosec);
+
   emit Seeked(nanosec / 1000);
 
 }
 
 void Player::SeekForward() {
   SeekTo(engine()->position_nanosec() / kNsecPerSec + seek_step_sec_);
-  //SeekTo(engine()->position_nanosec() / kNsecPerSec + 10);
 }
 
 void Player::SeekBackward() {
-  //SeekTo(engine()->position_nanosec() / kNsecPerSec - 10);
   SeekTo(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_);
 }
 

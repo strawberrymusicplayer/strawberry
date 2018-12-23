@@ -66,6 +66,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
   AddShortcut("toggle_pretty_osd", tr("Toggle Pretty OSD"), SIGNAL(TogglePrettyOSD())); // Toggling possible only for pretty OSD
   AddShortcut("shuffle_mode", tr("Change shuffle mode"), SIGNAL(CycleShuffleMode()));
   AddShortcut("repeat_mode", tr("Change repeat mode"), SIGNAL(CycleRepeatMode()));
+  AddShortcut("toggle_scrobbling", tr("Enable/disable scrobbling"), SIGNAL(ToggleScrobbling()));
 
   // Create backends - these do the actual shortcut registration
   gnome_backend_ = new GnomeGlobalShortcutBackend(this);

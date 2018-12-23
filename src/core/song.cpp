@@ -307,6 +307,9 @@ bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_collection_song() const {
   return !is_cdda() && !is_stream() && id() != -1;
 }
+bool Song::is_metadata_good() const {
+  return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0;
+}
 const QString &Song::art_automatic() const { return d->art_automatic_; }
 const QString &Song::art_manual() const { return d->art_manual_; }
 bool Song::has_manually_unset_cover() const { return d->art_manual_ == kManuallyUnsetCover; }

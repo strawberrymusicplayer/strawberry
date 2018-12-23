@@ -194,7 +194,6 @@ signals:
 #endif
   void PlaylistOrganiseSelected(bool copy);
 #endif
-  //void PlaylistDelete();
   void PlaylistOpenInBrowser();
   void ShowInCollection();
 
@@ -210,9 +209,7 @@ signals:
 #ifdef HAVE_GSTREAMER
   void CopyFilesToCollection(const QList<QUrl>& urls);
   void MoveFilesToCollection(const QList<QUrl>& urls);
-//#ifndef Q_OS_WIN
   void CopyFilesToDevice(const QList<QUrl>& urls);
-//#endif
 #endif
   void EditFileTags(const QList<QUrl>& urls);
 
@@ -253,8 +250,6 @@ signals:
   void ShowTranscodeDialog();
 #endif
   void ShowErrorDialog(const QString& message);
-  void EnsureSettingsDialogCreated();
-  void EnsureEditTagDialogCreated();
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
@@ -262,6 +257,7 @@ signals:
 
   void TabSwitched();
   void SaveGeometry();
+  void SaveTabMode();
   void SavePlaybackStatus();
   void LoadPlaybackStatus();
   void ResumePlayback();
@@ -284,6 +280,9 @@ signals:
   void SearchCoverAutomatically();
   void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
 
+  void ScrobblingEnabledChanged(bool value);
+  void ScrobbleButtonVisibilityChanged(bool value);
+
  private:
 
   void ApplyAddBehaviour(AddBehaviour b, MimeData *data) const;
@@ -295,6 +294,8 @@ signals:
   QPixmap CreateOverlayedIcon(int position, int scrobble_point);
 
   void GetCoverAutomatically();
+
+  void SetToggleScrobblingIcon(bool value);
 
  private:
   Ui_MainWindow *ui_;
@@ -357,7 +358,6 @@ signals:
 #ifndef Q_OS_WIN
   QAction *playlist_copy_to_device_;
 #endif
-  //QAction *playlist_delete_;
 #endif
   QAction *playlist_open_in_browser_;
   QAction *playlist_queue_;

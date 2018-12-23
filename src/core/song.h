@@ -227,6 +227,7 @@ class Song {
   bool is_collection_song() const;
   bool is_stream() const;
   bool is_cdda() const;
+  bool is_metadata_good() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;

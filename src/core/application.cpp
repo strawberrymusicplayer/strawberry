@@ -69,6 +69,8 @@
 #  include "deezer/deezerservice.h"
 #endif
 
+#include "scrobbler/audioscrobbler.h"
+
 bool Application::kIsPortable = false;
 
 class ApplicationImpl {
@@ -136,7 +138,7 @@ class ApplicationImpl {
 #ifdef HAVE_STREAM_DEEZER
         deezer_search_([=]() { return new InternetSearch(app, Song::Source_Deezer, app); }),
 #endif
-        dummy_([=]() { return new QVariant; })
+        scrobbler_([=]() { return new AudioScrobbler(app, app); })
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -162,7 +164,7 @@ class ApplicationImpl {
 #ifdef HAVE_STREAM_DEEZER
   Lazy<InternetSearch> deezer_search_;
 #endif
-  Lazy<QVariant> dummy_;
+  Lazy<AudioScrobbler> scrobbler_;
 
 };
 
@@ -236,3 +238,4 @@ InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get
 #ifdef HAVE_STREAM_DEEZER
 InternetSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }
 #endif
+AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }

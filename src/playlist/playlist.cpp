@@ -68,6 +68,7 @@
 #include "core/mimedata.h"
 #include "core/tagreaderclient.h"
 #include "core/song.h"
+#include "core/timeconstants.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
@@ -116,6 +117,9 @@ const char *Playlist::kWriteMetadata = "write_metadata";
 const int Playlist::kUndoStackSize = 20;
 const int Playlist::kUndoItemLimit = 500;
 
+const qint64 Playlist::kMinScrobblePointNsecs = 1ll * kNsecPerSec;
+const qint64 Playlist::kMaxScrobblePointNsecs = 240ll * kNsecPerSec;
+
 Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type, bool favorite, QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
@@ -133,7 +137,10 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       ignore_sorting_(false),
       undo_stack_(new QUndoStack(this)),
       special_type_(special_type),
-      cancel_restore_(false) {
+      cancel_restore_(false),
+      scrobbled_(false),
+      nowplaying_(false),
+      scrobble_point_(-1) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -611,6 +618,9 @@ void Playlist::set_current_row(int i, bool is_stopping) {
     last_played_item_index_ = current_item_index_;
     Save();
   }
+
+  UpdateScrobblePoint();
+  nowplaying_ = false;
 
 }
 
@@ -1488,6 +1498,8 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
 
   InformOfCurrentSongChange();
 
+  UpdateScrobblePoint();
+
 }
 
 void Playlist::ClearStreamMetadata() {
@@ -1495,6 +1507,7 @@ void Playlist::ClearStreamMetadata() {
   if (!current_item()) return;
 
   current_item()->ClearTemporaryMetadata();
+  UpdateScrobblePoint();
 
   emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount-1));
 
@@ -1941,6 +1954,31 @@ void Playlist::SkipTracks(const QModelIndexList &source_indexes) {
     track_to_skip->SetShouldSkip(!((track_to_skip)->GetShouldSkip()));
     emit dataChanged(source_index, source_index);
   }
+
+}
+
+void Playlist::UpdateScrobblePoint(qint64 seek_point_nanosec) {
+
+  const qint64 length = current_item_metadata().length_nanosec();
+
+  if (seek_point_nanosec <= 0) {
+    if (length == 0) {
+      scrobble_point_ = kMaxScrobblePointNsecs;
+    }
+    else {
+      scrobble_point_ = qBound(kMinScrobblePointNsecs, length / 2, kMaxScrobblePointNsecs);
+    }
+  }
+  else {
+    if (length <= 0) {
+      scrobble_point_ = seek_point_nanosec + kMaxScrobblePointNsecs;
+    }
+    else {
+      scrobble_point_ = qBound(seek_point_nanosec + kMinScrobblePointNsecs, seek_point_nanosec + (length / 2), seek_point_nanosec + kMaxScrobblePointNsecs);
+    }
+  }
+
+  scrobbled_ = false;
 
 }
 

@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef APPLICATION_H_
-#define APPLICATION_H_
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 #include "config.h"
 
@@ -57,6 +57,7 @@ class CurrentArtLoader;
 class LyricsProviders;
 class InternetServices;
 class InternetSearch;
+class AudioScrobbler;
 
 class Application : public QObject {
   Q_OBJECT
@@ -98,6 +99,8 @@ class Application : public QObject {
   InternetSearch *deezer_search() const;
 #endif
 
+  AudioScrobbler *scrobbler() const;
+
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);
 
@@ -117,4 +120,4 @@ signals:
 
 };
 
-#endif  // APPLICATION_H_
+#endif  // APPLICATION_H

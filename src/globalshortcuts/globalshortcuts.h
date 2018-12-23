@@ -80,6 +80,7 @@ signals:
   void CycleShuffleMode();
   void CycleRepeatMode();
   void RemoveCurrentSong();
+  void ToggleScrobbling();
 
  private:
   void AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key = QKeySequence(0));

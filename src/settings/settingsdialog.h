@@ -79,8 +79,9 @@ public:
     Page_GlobalShortcuts,
     Page_Appearance,
     Page_Notifications,
-    Page_Proxy,
     Page_Transcoding,
+    Page_Proxy,
+    Page_Scrobbler,
     Page_Tidal,
     Page_Deezer,
   };

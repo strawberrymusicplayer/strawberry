@@ -56,12 +56,13 @@
 #include "backendsettingspage.h"
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
-#include "networkproxysettingspage.h"
 #include "notificationssettingspage.h"
 #include "playbacksettingspage.h"
 #include "playlistsettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
+#include "networkproxysettingspage.h"
+#include "scrobblersettingspage.h"
 #ifdef HAVE_STREAM_TIDAL
 #  include "tidalsettingspage.h"
 #endif
@@ -123,10 +124,11 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
   AddPage(Page_Playback, new PlaybackSettingsPage(this), general);
   AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
-  AddPage(Page_Proxy, new NetworkProxySettingsPage(this), general);
 #ifdef HAVE_GSTREAMER
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
+  AddPage(Page_Proxy, new NetworkProxySettingsPage(this), general);
+  AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
@@ -134,13 +136,13 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
 
 #if defined(HAVE_STREAM_TIDAL) || defined(HAVE_STREAM_DEEZER)
-  QTreeWidgetItem *internet = AddCategory(tr("Streaming"));
+  QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
 #ifdef HAVE_STREAM_TIDAL
-  AddPage(Page_Tidal, new TidalSettingsPage(this), internet);
+  AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
 #endif
 #ifdef HAVE_STREAM_DEEZER
-  AddPage(Page_Deezer, new DeezerSettingsPage(this), internet);
+  AddPage(Page_Deezer, new DeezerSettingsPage(this), streaming);
 #endif
 
   // List box

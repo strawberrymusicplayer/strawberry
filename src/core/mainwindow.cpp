@@ -144,6 +144,8 @@
 #include "internet/internetservice.h"
 #include "internet/internetsearchview.h"
 
+#include "scrobbler/audioscrobbler.h"
+
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 #  include "musicbrainz/tagfetcher.h"
 #endif
@@ -362,6 +364,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
+  
+  // Scrobble
+
+  ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
 
   // File view connections
   connect(file_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
@@ -411,6 +417,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_full_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(FullScan()));
   //connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
 
+  connect(ui_->action_toggle_scrobbling, SIGNAL(triggered()), app_->scrobbler(), SLOT(ToggleScrobbling()));
+  connect(app_->scrobbler(), SIGNAL(ErrorMessage(QString)), SLOT(ShowErrorDialog(QString)));
+
   // Playlist view actions
   ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Tab")<< QKeySequence::fromString("Ctrl+PgDown"));
   ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString("Ctrl+Shift+Tab")<< QKeySequence::fromString("Ctrl+PgUp"));
@@ -424,6 +433,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->back_button->setDefaultAction(ui_->action_previous_track);
   ui_->pause_play_button->setDefaultAction(ui_->action_play_pause);
   ui_->stop_button->setDefaultAction(ui_->action_stop);
+  ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
 
   ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist,    /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */ );
 
@@ -570,7 +580,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(PlaylistCopyToDevice()));
 #endif
 #endif
-  //playlist_delete_ = playlist_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(PlaylistDelete()));
   playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(PlaylistOpenInBrowser()));
   playlist_open_in_browser_->setVisible(false);
   playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-find"), tr("Show in collection..."), this, SLOT(ShowInCollection()));
@@ -594,6 +603,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
   connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), playlist_copy_to_device_, SLOT(setDisabled(bool)));
 #endif
+
+  connect(app_->scrobbler(), SIGNAL(ScrobblingEnabledChanged(bool)), SLOT(ScrobblingEnabledChanged(bool)));
+  connect(app_->scrobbler(), SIGNAL(ScrobbleButtonVisibilityChanged(bool)), SLOT(ScrobbleButtonVisibilityChanged(bool)));
 
 #ifdef Q_OS_MACOS
   mac::SetApplicationHandler(this);
@@ -636,9 +648,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(global_shortcuts_, SIGNAL(ShowHide()), SLOT(ToggleShowHide()));
   connect(global_shortcuts_, SIGNAL(ShowOSD()), app_->player(), SLOT(ShowOSD()));
   connect(global_shortcuts_, SIGNAL(TogglePrettyOSD()), app_->player(), SLOT(TogglePrettyOSD()));
+  connect(global_shortcuts_, SIGNAL(ToggleScrobbling()), app_->scrobbler(), SLOT(ToggleScrobbling()));
 
   // Fancy tabs
-  connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveGeometry()));
+  connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveTabMode()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
 
@@ -650,21 +663,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Error()), context_view_, SLOT(Error()));
 
   // Analyzer
-  //ui_->analyzer->SetEngine(app_->player()->engine());
-
   connect(ui_->analyzer, SIGNAL(WheelEvent(int)), SLOT(VolumeWheelEvent(int)));
-
-#if 0
-  // Equalizer
-  qLog(Debug) << "Creating equalizer";
-  connect(equalizer_.get(), SIGNAL(ParametersChanged(int,QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int,QList<int>)));
-  connect(equalizer_.get(), SIGNAL(EnabledChanged(bool)), app_->player()->engine(), SLOT(SetEqualizerEnabled(bool)));
-  connect(equalizer_.get(), SIGNAL(StereoBalanceChanged(float)), app_->player()->engine(), SLOT(SetStereoBalance(float)));
-
-  app_->player()->engine()->SetEqualizerEnabled(equalizer_->is_enabled());
-  app_->player()->engine()->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
-  app_->player()->engine()->SetStereoBalance(equalizer_->stereo_balance());
-#endif
 
   // Statusbar widgets
   ui_->playlist_summary->setMinimumWidth(QFontMetrics(font()).width("WW selected of WW tracks - [ WW:WW ]"));
@@ -709,6 +708,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->playlist_manager()->sequence(), SIGNAL(RepeatModeChanged(PlaylistSequence::RepeatMode)), osd_, SLOT(RepeatModeChanged(PlaylistSequence::RepeatMode)));
   connect(app_->playlist_manager()->sequence(), SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), osd_, SLOT(ShuffleModeChanged(PlaylistSequence::ShuffleMode)));
 
+  ScrobbleButtonVisibilityChanged(app_->scrobbler()->ScrobbleButton());
+  ScrobblingEnabledChanged(app_->scrobbler()->IsEnabled());
+
   // Load settings
   qLog(Debug) << "Loading settings";
   settings_.beginGroup(kSettingsGroup);
@@ -724,7 +726,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
     ui_->splitter->setSizes(QList<int>() << 250 << width() - 250);
   }
 
-  ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1 /* Collection tab */ ).toInt());
+  ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode_LargeSidebar;
   int tab_mode_int = settings_.value("tab_mode", default_mode).toInt();
   FancyTabWidget::Mode tab_mode = FancyTabWidget::Mode(tab_mode_int);
@@ -787,6 +789,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   qLog(Debug) << "Started";
   initialised_ = true;
+
+  app_->scrobbler()->ConnectError();
+  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) app_->scrobbler()->Submit();
 
 }
 
@@ -916,9 +921,11 @@ void MainWindow::MediaPlaying() {
 
   bool enable_play_pause(false);
   bool can_seek(false);
-  if (app_->player()->GetCurrentItem()) {
-    enable_play_pause = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::PauseDisabled);
-    can_seek = !(app_->player()->GetCurrentItem()->options() & PlaylistItem::SeekDisabled);
+
+  PlaylistItemPtr item(app_->player()->GetCurrentItem());
+  if (item) {
+    enable_play_pause = !(item->options() & PlaylistItem::PauseDisabled);
+    can_seek = !(item->options() & PlaylistItem::SeekDisabled);
   }
   ui_->action_play_pause->setEnabled(enable_play_pause);
   ui_->track_slider->SetCanSeek(can_seek);
@@ -927,6 +934,13 @@ void MainWindow::MediaPlaying() {
   track_position_timer_->start();
   track_slider_timer_->start();
   UpdateTrackPosition();
+
+  // Send now playing to scrobble services
+  Playlist *playlist = app_->playlist_manager()->active();
+  if (app_->scrobbler()->IsEnabled() && playlist && !playlist->nowplaying() && item->Metadata().is_metadata_good() && item->Metadata().length_nanosec() > 0) {
+    app_->scrobbler()->UpdateNowPlaying(item->Metadata());
+    playlist->set_nowplaying(true);
+  }
 
 }
 
@@ -983,21 +997,29 @@ void MainWindow::TabSwitched() {
     ui_->widget_playing->SetEnabled();
 
   if (!initialised_) return;
-  SaveGeometry();
+
+  settings_.setValue("current_tab", ui_->tabs->currentIndex());
+  ui_->tabs->saveSettings(kSettingsGroup);
 
 }
 
 void MainWindow::SaveGeometry() {
+
+  if (!initialised_) return;
 
   was_maximized_ = isMaximized();
   settings_.setValue("maximized", was_maximized_);
   if (was_maximized_) settings_.remove("geometry");
   else settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
-  settings_.setValue("current_tab", ui_->tabs->currentIndex());
-  settings_.setValue("tab_mode", ui_->tabs->mode());
   ui_->tabs->saveSettings(kSettingsGroup);
 
+}
+
+void MainWindow::SaveTabMode() {
+  if (!initialised_) return;
+  settings_.setValue("tab_mode", ui_->tabs->mode());
+  ui_->tabs->saveSettings(kSettingsGroup);
 }
 
 void MainWindow::SavePlaybackStatus() {
@@ -1178,25 +1200,32 @@ void MainWindow::Seeked(qlonglong microseconds) {
 
 void MainWindow::UpdateTrackPosition() {
 
-  // Track position in seconds
-  //Playlist *playlist = app_->playlist_manager()->active();
-
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
   if (!item) return;
-  const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
-  const int length = item->Metadata().length_nanosec() / kNsecPerSec;
 
-  if (length <= 0) {
-    // Probably a stream that we don't know the length of
-    return;
-  }
+  const int length = (item->Metadata().length_nanosec() / kNsecPerSec);
+  if (length <= 0) return;
+  const int position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerSec + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (position % 10 == 0 && tray_icon_) tray_icon_->SetProgress(double(position) / length * 100);
+  if (tray_icon_ && position % 10 == 0) tray_icon_->SetProgress(double(position) / length * 100);
+
+  // Send Scrobble
+  if (app_->scrobbler()->IsEnabled() && item->Metadata().is_metadata_good()) {
+    Playlist *playlist = app_->playlist_manager()->active();
+    if (playlist && playlist->nowplaying() && !playlist->scrobbled()) {
+      const int scrobble_point = (playlist->scrobble_point_nanosec() / kNsecPerSec);
+      if (position >= scrobble_point) {
+        app_->scrobbler()->Scrobble(item->Metadata(), scrobble_point);
+        playlist->set_scrobbled(true);
+      }
+    }
+  }
 
 }
 
 void MainWindow::UpdateTrackSliderPosition() {
+
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
 
   const int slider_position = std::floor(float(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
@@ -1204,6 +1233,7 @@ void MainWindow::UpdateTrackSliderPosition() {
 
   // Update the slider
   ui_->track_slider->SetValue(slider_position, slider_length);
+
 }
 
 void MainWindow::ApplyAddBehaviour(MainWindow::AddBehaviour b, MimeData *data) const {
@@ -1974,47 +2004,6 @@ void MainWindow::PlaylistOrganiseSelected(bool copy) {
 }
 #endif
 
-#if 0
-void MainWindow::PlaylistDelete() {
-
-  // Note: copied from CollectionView::Delete
-
-  if (QMessageBox::warning(this, tr("Delete files"),
-        tr("These files will be deleted from disk, are you sure you want to continue?"),
-        QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
-    return;
-
-  std::shared_ptr<MusicStorage> storage(new FilesystemMusicStorage("/"));
-
-  // Get selected songs
-  SongList selected_songs;
-  QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    QModelIndex index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
-    selected_songs << app_->playlist_manager()->current()->item_at(index.row())->Metadata();
-  }
-
-  if (app_->player()->GetState() == Engine::Playing) {
-    if (app_->playlist_manager()->current()->rowCount() == selected_songs.length()) {
-      app_->player()->Stop();
-    }
-    else {
-      for (Song x : selected_songs) {
-        if (x == app_->player()->GetCurrentItem()->Metadata()) {
-          app_->player()->Next();
-        }
-      }
-    }
-  }
-
-  ui_->playlist->view()->RemoveSelected(true);
-
-  DeleteFiles *delete_files = new DeleteFiles(app_->task_manager(), storage);
-  connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
-  delete_files->Start(selected_songs);
-}
-#endif
-
 void MainWindow::PlaylistOpenInBrowser() {
 
   QList<QUrl> urls;
@@ -2027,16 +2016,6 @@ void MainWindow::PlaylistOpenInBrowser() {
 
   Utilities::OpenInFileBrowser(urls);
 }
-
-#if 0
-void MainWindow::DeleteFinished(const SongList &songs_with_errors) {
-  if (songs_with_errors.isEmpty()) return;
-
-  OrganiseErrorDialog *dialog = new OrganiseErrorDialog(this);
-  dialog->Show(OrganiseErrorDialog::Type_Delete, songs_with_errors);
-  // It deletes itself when the user closes it
-}
-#endif
 
 void MainWindow::PlaylistQueue() {
 
@@ -2105,14 +2084,6 @@ void MainWindow::ChangeCollectionQueryMode(QAction *action) {
 
 void MainWindow::ShowCoverManager() {
 
-  //if (!cover_manager_) {
-    //cover_manager_.reset(new AlbumCoverManager(app_, app_->collection_backend()));
-    //cover_manager_->Init();
-
-    // Cover manager connections
-    //connect(cover_manager_.get(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
-  //}
-
   cover_manager_->show();
 
 }
@@ -2121,7 +2092,6 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   SettingsDialog *settings_dialog = new SettingsDialog(app_);
   settings_dialog->SetGlobalShortcutManager(global_shortcuts_);
-  //settings_dialog->SetSongInfoView(song_info_view_);
 
   // Settings
   connect(settings_dialog, SIGNAL(accepted()), SLOT(ReloadAllSettings()));
@@ -2132,31 +2102,13 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
 }
 
-void MainWindow::EnsureSettingsDialogCreated() {
-
-  //if (settings_dialog_) return;
-
-  //settings_dialog_.reset(new SettingsDialog(app_));
-  //settings_dialog_->SetGlobalShortcutManager(global_shortcuts_);
-  //settings_dialog_->SetSongInfoView(song_info_view_);
-
-  // Settings
-  //connect(settings_dialog_.get(), SIGNAL(accepted()), SLOT(ReloadAllSettings()));
-
-  // Allows custom notification preview
-  //connect(settings_dialog_.get(), SIGNAL(NotificationPreview(OSD::Behaviour,QString,QString)), SLOT(HandleNotificationPreview(OSD::Behaviour, QString, QString)));
-
-}
-
 void MainWindow::OpenSettingsDialog() {
 
-  EnsureSettingsDialogCreated();
   settings_dialog_->show();
 
 }
 
 void MainWindow::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
-  EnsureSettingsDialogCreated();
   settings_dialog_->OpenAtPage(page);
 }
 
@@ -2169,21 +2121,7 @@ EditTagDialog *MainWindow::CreateEditTagDialog() {
 
 }
 
-void MainWindow::EnsureEditTagDialogCreated() {
-
-  //if (edit_tag_dialog_) return;
-
-  //edit_tag_dialog_.reset(new EditTagDialog(app_));
-  //connect(edit_tag_dialog_.get(), SIGNAL(accepted()), SLOT(EditTagDialogAccepted()));
-  //connect(edit_tag_dialog_.get(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));
-
-}
-
 void MainWindow::ShowAboutDialog() {
-
-  //if (!about_dialog_) {
-  //about_dialog_.reset(new About);
-  //}
 
   about_dialog_->show();
 
@@ -2192,18 +2130,13 @@ void MainWindow::ShowAboutDialog() {
 #ifdef HAVE_GSTREAMER
 void MainWindow::ShowTranscodeDialog() {
 
-  //if (!transcode_dialog_) {
-  //  transcode_dialog_.reset(new TranscodeDialog);
-  //}
   transcode_dialog_->show();
 
 }
 #endif
 
 void MainWindow::ShowErrorDialog(const QString &message) {
-  //if (!error_dialog_) {
-  //  error_dialog_.reset(new ErrorDialog);
-  //}
+
   error_dialog_->ShowMessage(message);
 }
 
@@ -2270,6 +2203,7 @@ void MainWindow::Exit() {
 
   SaveGeometry();
   SavePlaybackStatus();
+  app_->scrobbler()->WriteCache();
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
     // To shut down the application when fadeout will be finished
@@ -2440,5 +2374,30 @@ void MainWindow::GetCoverAutomatically() {
                !song_.effective_album().isEmpty();
 
   if (search) album_cover_choice_controller_->SearchCoverAutomatically(song_);
+
+}
+
+void MainWindow::ScrobblingEnabledChanged(bool value) {
+  if (app_->scrobbler()->ScrobbleButton()) SetToggleScrobblingIcon(value);
+}
+
+void MainWindow::ScrobbleButtonVisibilityChanged(bool value) {
+  ui_->button_scrobble->setVisible(value);
+  ui_->action_toggle_scrobbling->setVisible(value);
+  if (value) SetToggleScrobblingIcon(app_->scrobbler()->IsEnabled());
+
+}
+
+void MainWindow::SetToggleScrobblingIcon(bool value) {
+
+  if (value) {
+    if (app_->playlist_manager()->active()->scrobbled())
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));
+    else 
+      ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22)); // TODO: Create a faint version of the icon
+  }
+  else {
+    ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
+  }
 
 }

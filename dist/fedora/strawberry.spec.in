@@ -64,9 +64,10 @@ Features:
   * Song lyrics from AudD and API Seeds
   * Support for multiple backends
   * Audio analyzer
-  * Equalizer
+  * Audio equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Integrated Tidal and Deezer support
+  * Streaming support for Tidal and Deezer
+  * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
 %prep
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@

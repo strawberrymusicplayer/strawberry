@@ -160,6 +160,9 @@ class Playlist : public QAbstractListModel {
   static const int kUndoStackSize;
   static const int kUndoItemLimit;
 
+  static const qint64 kMinScrobblePointNsecs;
+  static const qint64 kMaxScrobblePointNsecs;
+
   static bool CompareItems(int column, Qt::SortOrder order, PlaylistItemPtr a, PlaylistItemPtr b);
 
   static QString column_name(Column column);
@@ -212,6 +215,13 @@ class Playlist : public QAbstractListModel {
   PlaylistSequence *sequence() const { return playlist_sequence_; }
 
   QUndoStack *undo_stack() const { return undo_stack_; }
+
+  bool scrobbled() const { return scrobbled_; }
+  bool nowplaying() const { return nowplaying_; }
+  void set_scrobbled(bool state) { scrobbled_ = state; }
+  void set_nowplaying(bool state) { nowplaying_ = state; }
+  qint64 scrobble_point_nanosec() const { return scrobble_point_; }
+  void UpdateScrobblePoint(qint64 seek_point_nanosec = 0);
 
   // Changing the playlist
   void InsertItems (const PlaylistItemList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
@@ -373,6 +383,11 @@ private:
 
   // Cancel async restore if songs are already replaced
   bool cancel_restore_;
+
+  bool scrobbled_;
+  bool nowplaying_;
+  qint64 scrobble_point_;
+
 };
 
 // QDataStream& operator <<(QDataStream&, const Playlist*);
