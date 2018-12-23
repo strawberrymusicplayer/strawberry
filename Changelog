@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Improved manual pages
+    * Fixed typos
+    * Updated contributors in about
+    * Added debian copyright file
+    * Fixed some compile errors
+    * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+    * Fixed key up causing playback to reset
+
 Version 0.4.2:
 
     * Updated AppStream data file to newer specifications
