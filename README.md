@@ -28,7 +28,7 @@ Strawberry is a audio player and music collection organizer. It is a fork of Cle
   * Streaming support for Tidal and Deezer
   * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
-It has so far been tested to work on Linux, OpenBSD, MacOs and Windows.
+It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
 
 ### :heavy_exclamation_mark: Requirements
 
@@ -41,7 +41,7 @@ To build Strawberry from source you need the following installed on your system 
 * [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
 * [Boost development headers](https://www.boost.org/)
 * [Qt 5 with components Core, Gui, Widgets, Concurrent, Network, Sql and Xml](https://www.qt.io/)
-* [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for MacOs and WinExtras for Windows](https://www.qt.io/)
+* [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for macOS and WinExtras for Windows](https://www.qt.io/)
 * [SQLite3](https://www.sqlite.org)
 * [TagLib 1.11.1 or higher](http://taglib.org/)
 * [Chromaprint library](https://acoustid.org/chromaprint)
