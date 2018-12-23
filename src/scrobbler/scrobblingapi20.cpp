@@ -22,7 +22,9 @@
 #include <algorithm>
 
 #include <QtGlobal>
+#include <QApplication>
 #include <QDesktopServices>
+#include <QClipboard>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -131,12 +133,27 @@ void ScrobblingAPI20::Authenticate() {
   url_query.addQueryItem("cb", redirect_url.toString());
   url.setQuery(url_query);
 
-  bool result = QDesktopServices::openUrl(url);
-  if (!result) {
-    QMessageBox box(QMessageBox::NoIcon, "Scrobbler Authentication", QString("Please open this URL in your browser: <a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
-    box.setTextFormat(Qt::RichText);
-    qLog(Debug) << "Scrobbler authentication URL: " << url.toString();
-    box.exec();
+  QMessageBox messagebox(QMessageBox::Information, QString("%1 Scrobbler Authentication").arg(name_), QString("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
+  messagebox.setTextFormat(Qt::RichText);
+  int result = messagebox.exec();
+  switch (result) {
+  case QMessageBox::Open:{
+      bool openurl_result = QDesktopServices::openUrl(url);
+      if (openurl_result) {
+        break;
+      }
+      QMessageBox messagebox_error(QMessageBox::Warning, "Scrobbler Authentication", QString("Could not open URL. Please open this URL in your browser: <a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+      messagebox_error.setTextFormat(Qt::RichText);
+      messagebox_error.exec();
+    }
+  case QMessageBox::Save:
+    QApplication::clipboard()->setText(url.toString());
+    break;
+  case QMessageBox::Cancel:
+    AuthError("Authentication was cancelled.");
+    break;
+  default:
+    break;
   }
 
 }
@@ -466,7 +483,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
       int error = json_obj["error"].toInt();
       Error(QString("Error: %1: %2").arg(QString::number(error)).arg(error));
     }
-    Error("Json reply from server is missing session.");
+    Error("Json reply from server is missing scrobbles.");
     cache()->ClearSent(list);
     return;
   }
@@ -612,7 +629,7 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
       int error = json_obj["error"].toInt();
       Error(QString("Error: %1: %2").arg(QString::number(error)).arg(error));
     }
-    Error("Json reply from server is missing session.");
+    Error("Json reply from server is missing scrobbles.");
     return;
   }
 

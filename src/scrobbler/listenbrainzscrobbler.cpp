@@ -144,10 +144,9 @@ void ListenBrainzScrobbler::Authenticate() {
 
   bool result = QDesktopServices::openUrl(url);
   if (!result) {
-    QMessageBox box(QMessageBox::NoIcon, "Scrobbler Authentication", QString("Please open this URL in your browser: <a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
-    box.setTextFormat(Qt::RichText);
-    qLog(Debug) << "Scrobbler authentication URL: " << url.toString();
-    box.exec();
+    QMessageBox messagebox(QMessageBox::Information, "ListenBrainz Authentication", QString("Please open this URL in your browser:<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+    messagebox.setTextFormat(Qt::RichText);
+    messagebox.exec();
   }
 
 }
@@ -241,7 +240,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   }
 
   if (!json_obj.contains("access_token") || !json_obj.contains("expires_in") || !json_obj.contains("token_type") || !json_obj.contains("refresh_token")) {
-    AuthError("Json session object is missing values.");
+    AuthError("Json access_token, expires_in or token_type is missing.");
     return;
   }
 
@@ -289,7 +288,7 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
       Error(error_reason);
     }
     else {
-      // See if there is Json data containing "error" and "error_description" - then use that instead.
+      // See if there is Json data containing "code" and "error" - then use that instead.
       data = reply->readAll();
       QJsonParseError error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
@@ -299,8 +298,8 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("code") && json_obj.contains("error")) {
           error_code = json_obj["code"].toInt();
-          QString message = json_obj["error"].toString();
-          error_reason = QString("%1 (%2)").arg(message).arg(error_code);
+          QString error_message = json_obj["error"].toString();
+          error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
         }
         else {
           error_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
@@ -460,7 +459,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
 
   if (json_obj.contains("status")) {
     QString status = json_obj["status"].toString();
-    qLog(Debug) << "MusicBrainz: Received scrobble status:" << status;
+    qLog(Debug) << "ListenBrainz: Received scrobble status:" << status;
   }
 
   cache_->Flush(list);
