@@ -142,7 +142,7 @@ void ScrobblingAPI20::Authenticate() {
       if (openurl_result) {
         break;
       }
-      QMessageBox messagebox_error(QMessageBox::Warning, "Scrobbler Authentication", QString("Could not open URL. Please open this URL in your browser: <a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+      QMessageBox messagebox_error(QMessageBox::Warning, QString("%1 Scrobbler Authentication").arg(name_), QString("Could not open URL. Please open this URL in your browser:<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
       messagebox_error.setTextFormat(Qt::RichText);
       messagebox_error.exec();
     }
