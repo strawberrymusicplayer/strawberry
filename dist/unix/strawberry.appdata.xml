@@ -25,7 +25,7 @@
       <li>Audio CD playback</li>
       <li>Native desktop notifications</li>
       <li>Playlists in multiple formats</li>
-      <li>Advanced output and device options with support for bit perfect playback on Linux</li>
+      <li>Advanced audio output and device configuration for bit-perfect playback on Linux</li>
       <li>Edit tags on music files</li>
       <li>Fetch tags from MusicBrainz</li>
       <li>Album cover art from Last.fm, Musicbrainz and Discogs</li>
@@ -34,7 +34,8 @@
       <li>Audio analyzer</li>
       <li>Audio equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
-      <li>Integrated Tidal and Deezer support</li>
+      <li>Streaming support for Tidal and Deezer</li>
+      <li>Scrobbler with support for Last.fm, Libre.fm and ListenBrainz</li>
     </ul>
   </description>
   <screenshots>

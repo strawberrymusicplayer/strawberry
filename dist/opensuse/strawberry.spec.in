@@ -68,7 +68,7 @@ Features:
   * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
-  * Advanced output and device options with support for bit perfect playback on Linux
+  * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
   * Album cover art from Last.fm, Musicbrainz and Discogs
@@ -77,7 +77,7 @@ Features:
   * Audio analyzer
   * Audio equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Streaming support for Tidal and Deezer
+  * Streaming support for Tidal
   * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
 %prep
