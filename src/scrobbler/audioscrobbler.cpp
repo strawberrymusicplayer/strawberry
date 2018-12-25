@@ -57,7 +57,9 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   scrobbler_services_(new ScrobblerServices(this)),
   enabled_(false),
   offline_(false),
-  scrobble_button_(false) {
+  scrobble_button_(false),
+  submit_delay_(0)
+  {
 
   scrobbler_services_->AddService(new LastFMScrobbler(app_, scrobbler_services_));
   scrobbler_services_->AddService(new LibreFMScrobbler(app_, scrobbler_services_));
@@ -76,6 +78,7 @@ void AudioScrobbler::ReloadSettings() {
   enabled_ = s.value("enabled", false).toBool();
   offline_ = s.value("offline", false).toBool();
   scrobble_button_ = s.value("scrobble_button", false).toBool();
+  submit_delay_ = s.value("submit", 0).toInt();
   s.endGroup();
 
   emit ScrobblingEnabledChanged(enabled_);
