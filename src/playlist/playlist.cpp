@@ -117,7 +117,7 @@ const char *Playlist::kWriteMetadata = "write_metadata";
 const int Playlist::kUndoStackSize = 20;
 const int Playlist::kUndoItemLimit = 500;
 
-const qint64 Playlist::kMinScrobblePointNsecs = 1ll * kNsecPerSec;
+const qint64 Playlist::kMinScrobblePointNsecs = 31ll * kNsecPerSec;
 const qint64 Playlist::kMaxScrobblePointNsecs = 240ll * kNsecPerSec;
 
 Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type, bool favorite, QObject *parent)
