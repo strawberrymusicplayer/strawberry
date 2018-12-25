@@ -333,15 +333,12 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   if (!song.is_metadata_good()) return;
 
-  // FIXME: This does not work: BAD REQUEST (302)
-  return;
-
-  QJsonObject object_listen;
-  object_listen.insert("listened_at", QJsonValue::fromVariant(timestamp_));
   QJsonObject object_track_metadata;
   object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
   object_track_metadata.insert("release_name", QJsonValue::fromVariant(song.album()));
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(song.title()));
+
+  QJsonObject object_listen;
   object_listen.insert("track_metadata", object_track_metadata);
 
   QJsonArray array_payload;
@@ -366,9 +363,28 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
   if (data.isEmpty()) {
     return;
   }
-  qLog(Debug) << data;
 
-  // TODO
+  QJsonObject json_obj = ExtractJsonObj(data);
+  if (json_obj.isEmpty()) {
+    return;
+  }
+
+  if (json_obj.contains("error") && json_obj.contains("error_description")) {
+    QString error_code = json_obj["error"].toString();
+    QString error_desc = json_obj["error_description"].toString();
+    Error(error_desc);
+    return;
+  }
+
+  if (!json_obj.contains("status")) {
+    Error("Missing status from server.", json_obj);
+    return;
+  }
+
+  QString status = json_obj["status"].toString();
+  if (status.toLower() != "ok") {
+    Error(status);
+  }
 
 }
 
