@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>769</width>
-    <height>611</height>
+    <height>726</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,6 +28,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label_scrobble_info">
+     <property name="text">
+      <string>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_offline">
      <property name="text">
       <string>Enable offline mode</string>
@@ -38,6 +48,50 @@
     <widget class="QCheckBox" name="checkbox_scrobble_button">
      <property name="text">
       <string>Show scrobble button</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_submit">
+     <item>
+      <widget class="QLabel" name="label_submit">
+       <property name="text">
+        <string>Submit scrobbles every</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinbox_submit">
+       <property name="suffix">
+        <string> minutes</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_submit">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_submit_info">
+     <property name="text">
+      <string>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Settings the time to 0 minutes will submit scrobbles immediately).</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

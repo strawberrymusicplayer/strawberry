@@ -44,7 +44,6 @@
 #include <QJsonValue>
 
 #include "core/application.h"
-#include "core/player.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"
@@ -420,8 +419,14 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   }
 
   if (!submitted_) {
-    DoInAMinuteOrSo(this, SLOT(Submit()));
     submitted_ = true;
+    if (!batch_ || app_->scrobbler()->SubmitDelay() <= 0) {
+      Submit();
+    }
+    else {
+      int msec = (app_->scrobbler()->SubmitDelay() * kMsecPerSec);
+      DoAfter(this, SLOT(Submit()), msec);
+    }
   }
 
 }

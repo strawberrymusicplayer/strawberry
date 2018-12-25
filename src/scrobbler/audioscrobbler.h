@@ -47,6 +47,7 @@ class AudioScrobbler : public QObject {
   bool IsEnabled() const { return enabled_; }
   bool IsOffline() const { return offline_; }
   bool ScrobbleButton() const { return scrobble_button_; }
+  int SubmitDelay() const { return submit_delay_; }
 
   void UpdateNowPlaying(const Song &song);
   void Scrobble(const Song &song, const int scrobble_point);
@@ -82,6 +83,7 @@ class AudioScrobbler : public QObject {
   bool enabled_;
   bool offline_;
   bool scrobble_button_;
+  int submit_delay_;
 
 };
 

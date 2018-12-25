@@ -39,11 +39,8 @@
 #include "core/application.h"
 #include "core/closure.h"
 #include "core/logging.h"
-#include "core/network.h"
-#include "core/player.h"
 #include "core/song.h"
-#include "core/taskmanager.h"
-#include "core/iconloader.h"
+#include "core/timeconstants.h"
 #include "settings/settingsdialog.h"
 #include "settings/scrobblersettingspage.h"
 
@@ -150,6 +147,9 @@ void AudioScrobbler::Love(const Song &song) {
 void AudioScrobbler::Submit() {
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
+    int msec = 300;
+    if (submit_delay_ > 0) msec = (submit_delay_ * kMsecPerSec);
+    DoAfter(this, SLOT(Submit()), msec);
     service->Submitted();
     DoInAMinuteOrSo(service, SLOT(Submit()));
   }

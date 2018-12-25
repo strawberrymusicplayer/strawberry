@@ -42,7 +42,6 @@
 #include <QJsonValue>
 
 #include "core/application.h"
-#include "core/player.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"

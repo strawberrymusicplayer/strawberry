@@ -82,6 +82,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_enable->setChecked(scrobbler_->IsEnabled());
   ui_->checkbox_scrobble_button->setChecked(scrobbler_->ScrobbleButton());
   ui_->checkbox_offline->setChecked(scrobbler_->IsOffline());
+  ui_->spinbox_submit->setValue(scrobbler_->SubmitDelay());
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->IsEnabled());
   LastFM_RefreshControls(lastfmscrobbler_->IsAuthenticated());
@@ -103,6 +104,7 @@ void ScrobblerSettingsPage::Save() {
   s.setValue("enabled", ui_->checkbox_enable->isChecked());
   s.setValue("scrobble_button", ui_->checkbox_scrobble_button->isChecked());
   s.setValue("offline", ui_->checkbox_offline->isChecked());
+  s.setValue("submit", ui_->spinbox_submit->value());
   s.endGroup();
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
