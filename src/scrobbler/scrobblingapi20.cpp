@@ -564,9 +564,10 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
     QJsonValue json_value_artist = json_track["artist"];
     QJsonValue json_value_album = json_track["album"];
     QJsonValue json_value_song = json_track["track"];
+    QJsonValue json_value_ignoredmessage = json_track["ignoredMessage"];
     //quint64 timestamp = json_track["timestamp"].toVariant().toULongLong();
 
-    if (!json_value_artist.isObject() || !json_value_album.isObject() || !json_value_song.isObject()) {
+    if (!json_value_artist.isObject() || !json_value_album.isObject() || !json_value_song.isObject() || !json_value_ignoredmessage.isObject()) {
       Error("Json scrobbles scrobble values are not objects.", json_track);
       continue;
     }
@@ -574,18 +575,30 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
     QJsonObject json_obj_artist = json_value_artist.toObject();
     QJsonObject json_obj_album = json_value_album.toObject();
     QJsonObject json_obj_song = json_value_song.toObject();
+    QJsonObject json_obj_ignoredmessage = json_value_ignoredmessage.toObject();
 
-    if (json_obj_artist.isEmpty() || json_obj_album.isEmpty() || json_obj_song.isEmpty()) {
+    if (json_obj_artist.isEmpty() || json_obj_album.isEmpty() || json_obj_song.isEmpty() || json_obj_ignoredmessage.isEmpty()) {
       Error("Json scrobbles scrobble values objects are empty.", json_track);
       continue;
     }
 
     if (!json_obj_artist.contains("#text") || !json_obj_album.contains("#text") || !json_obj_song.contains("#text")) {
-      Error("Json scrobbles scrobble values objects are empty.", json_track);
+      // Just ignore this, as Last.fm seem to return 1 ignored scrobble for a blank song for each requst (no idea why).
       continue;
     }
 
-    // TODO
+    QString artist = json_obj_artist["#text"].toString();
+    QString album = json_obj_album["#text"].toString();
+    QString song = json_obj_song["#text"].toString();
+    bool ignoredmessage = json_obj_ignoredmessage["code"].toVariant().toBool();
+    QString ignoredmessage_text = json_obj_ignoredmessage["#text"].toString();
+
+    if (ignoredmessage) {
+      Error(QString("Scrobble for \"%1\" ignored: %2").arg(song).arg(ignoredmessage_text));
+    }
+    else {
+      qLog(Debug) << name_ << "Scrobble for" << song << "accepted";
+    }
 
  }
 
@@ -691,7 +704,6 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
   }
   else {
     Error(QString("Scrobble for \"%1\" not accepted").arg(item->song_));
-    qLog(Debug) << name_ << json_obj_attr["accepted"];
   }
 
   cache()->Remove(timestamp);
