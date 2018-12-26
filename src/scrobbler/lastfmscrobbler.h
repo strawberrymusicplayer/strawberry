@@ -34,7 +34,6 @@
 
 class Application;
 class NetworkAccessManager;
-class LocalRedirectServer;
 class ScrobblerCache;
 
 class LastFMScrobbler : public ScrobblingAPI20 {

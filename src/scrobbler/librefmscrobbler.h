@@ -34,7 +34,6 @@
 
 class Application;
 class NetworkAccessManager;
-class LocalRedirectServer;
 class ScrobblerCache;
 
 class LibreFMScrobbler : public ScrobblingAPI20 {

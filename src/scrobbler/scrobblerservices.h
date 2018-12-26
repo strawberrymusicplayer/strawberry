@@ -32,7 +32,6 @@
 #include <QString>
 #include <QAtomicInt>
 
-class Application;
 class ScrobblerService;
 
 class ScrobblerServices : public QObject {

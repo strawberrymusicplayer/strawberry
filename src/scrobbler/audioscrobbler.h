@@ -32,7 +32,6 @@
 
 class Application;
 class Song;
-class NetworkAccessManager;
 class ScrobblerService;
 
 class AudioScrobbler : public QObject {

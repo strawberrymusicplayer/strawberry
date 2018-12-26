@@ -29,7 +29,6 @@
 #include <QHash>
 #include <QString>
 
-class Application;
 class Song;
 class ScrobblerCacheItem;
 

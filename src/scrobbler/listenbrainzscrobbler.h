@@ -40,7 +40,6 @@
 class Application;
 class NetworkAccessManager;
 class LocalRedirectServer;
-class ScrobblerCacheItem;
 
 class ListenBrainzScrobbler : public ScrobblerService {
   Q_OBJECT
