@@ -371,8 +371,8 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
     return;
   }
 
-  if (json_obj.contains("error") && json_obj.contains("error_description")) {
-    QString error_code = json_obj["error"].toString();
+  if (json_obj.contains("code") && json_obj.contains("error_description")) {
+    QString error_code = json_obj["code"].toString();
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     return;
@@ -485,8 +485,8 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
     return;
   }
 
-  if (json_obj.contains("error") && json_obj.contains("error_description")) {
-    QString error_code = json_obj["error"].toString();
+  if (json_obj.contains("code") && json_obj.contains("error_description")) {
+    QString error_code = json_obj["code"].toString();
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     cache_->ClearSent(list);
