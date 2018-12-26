@@ -335,9 +335,12 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   if (!song.is_metadata_good()) return;
 
+  QString album = song.album();
+  album = album.remove(Song::kCoverRemoveDisc);
+
   QJsonObject object_track_metadata;
   object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
-  object_track_metadata.insert("release_name", QJsonValue::fromVariant(song.album()));
+  object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(song.title()));
 
   QJsonObject object_listen;

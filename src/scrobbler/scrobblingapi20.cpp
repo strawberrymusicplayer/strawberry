@@ -383,11 +383,14 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
   if (!IsAuthenticated() || !song.is_metadata_good()) return;
 
+  QString album = song.album();
+  album = album.remove(Song::kCoverRemoveDisc);
+
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
     << Param("artist", song.artist())
     << Param("track", song.title())
-    << Param("album", song.album());
+    << Param("album", album);
 
   QNetworkReply *reply = CreateRequest(params);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(UpdateNowPlayingRequestFinished(QNetworkReply*)), reply);
@@ -430,7 +433,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   cache()->Add(song, timestamp_);
 
   if (app_->scrobbler()->IsOffline()) return;
-  
+
   if (!IsAuthenticated()) {
     emit ErrorMessage(QString("Scrobbler %1 is not authenticated!").arg(name_));
     return;
