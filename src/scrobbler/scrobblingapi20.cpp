@@ -403,7 +403,23 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  // TODO
+  QJsonObject json_obj = ExtractJsonObj(data);
+  if (json_obj.isEmpty()) {
+    return;
+  }
+
+  if (json_obj.contains("error") && json_obj.contains("message")) {
+    int error_code = json_obj["error"].toInt();
+    QString error_message = json_obj["message"].toString();
+    QString error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
+    Error(error_reason);
+    return;
+  }
+
+  if (!json_obj.contains("nowplaying")) {
+    Error("Json reply from server is missing nowplaying.", json_obj);
+    return;
+  }
 
 }
 
