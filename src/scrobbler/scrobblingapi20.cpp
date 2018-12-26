@@ -661,21 +661,18 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
   ScrobblerCacheItem *item = cache()->Get(timestamp);
   if (!item) {
     Error(QString("Received reply for non-existing cache entry %1.").arg(timestamp));
-    DoSubmit();
     return;
   }
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     item->sent_ = false;
-    DoSubmit();
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     item->sent_ = false;
-    DoSubmit();
     return;
   }
 
@@ -685,14 +682,12 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
     QString error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     item->sent_ = false;
-    DoSubmit();
     return;
   }
 
   if (!json_obj.contains("scrobbles")) {
     Error("Json reply from server is missing scrobbles.", json_obj);
     item->sent_ = false;
-    DoSubmit();
     return;
   }
 
@@ -702,56 +697,47 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
   QJsonValue json_scrobbles = json_obj["scrobbles"];
   if (!json_scrobbles.isObject()) {
     Error("Json scrobbles is not an object.", json_obj);
-    DoSubmit();
     return;
   }
   json_obj = json_scrobbles.toObject();
   if (json_obj.isEmpty()) {
     Error("Json scrobbles object is empty.", json_scrobbles);
-    DoSubmit();
     return;
   }
   if (!json_obj.contains("@attr") || !json_obj.contains("scrobble")) {
     Error("Json scrobbles object is missing values.", json_obj);
-    DoSubmit();
     return;
   }
 
   QJsonValue json_attr = json_obj["@attr"];
   if (!json_attr.isObject()) {
     Error("Json scrobbles attr is not an object.", json_attr);
-    DoSubmit();
     return;
   }
   QJsonObject json_obj_attr = json_attr.toObject();
   if (json_obj_attr.isEmpty()) {
     Error("Json scrobbles attr is empty.", json_attr);
-    DoSubmit();
     return;
   }
 
   QJsonValue json_scrobble = json_obj["scrobble"];
   if (!json_scrobble.isObject()) {
     Error("Json scrobbles scrobble is not an object.", json_scrobble);
-    DoSubmit();
     return;
   }
   QJsonObject json_obj_scrobble = json_scrobble.toObject();
   if (json_obj_scrobble.isEmpty()) {
     Error("Json scrobbles scrobble is empty.", json_scrobble);
-    DoSubmit();
     return;
   }
 
   if (!json_obj_attr.contains("accepted") || !json_obj_attr.contains("ignored")) {
     Error("Json scrobbles attr is missing values.", json_obj_attr);
-    DoSubmit();
     return;
   }
 
   if (!json_obj_scrobble.contains("artist") || !json_obj_scrobble.contains("album") || !json_obj_scrobble.contains("albumArtist") || !json_obj_scrobble.contains("track") || !json_obj_scrobble.contains("timestamp")) {
     Error("Json scrobbles scrobble is missing values.", json_obj_scrobble);
-    DoSubmit();
     return;
   }
 
@@ -761,7 +747,6 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
 
   if (!json_value_artist.isObject() || !json_value_album.isObject() || !json_value_song.isObject()) {
     Error("Json scrobbles scrobble values are not objects.", json_obj_scrobble);
-    DoSubmit();
     return;
   }
 
@@ -771,13 +756,11 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
 
   if (json_obj_artist.isEmpty() || json_obj_album.isEmpty() || json_obj_song.isEmpty()) {
     Error("Json scrobbles scrobble values objects are empty.", json_obj_scrobble);
-    DoSubmit();
     return;
   }
 
   if (!json_obj_artist.contains("#text") || !json_obj_album.contains("#text") || !json_obj_song.contains("#text")) {
     Error("Json scrobbles scrobble values objects are missing #text.", json_obj_artist);
-    DoSubmit();
     return;
   }
 
@@ -792,8 +775,6 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
   else {
     Error(QString("Scrobble for \"%1\" not accepted").arg(song));
   }
-
-  DoSubmit();
 
 }
 
