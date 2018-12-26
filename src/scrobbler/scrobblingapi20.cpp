@@ -277,6 +277,8 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
 
+  DoSubmit();
+
 }
 
 QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {

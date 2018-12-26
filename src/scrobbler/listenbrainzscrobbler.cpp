@@ -258,6 +258,8 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
   emit AuthenticationComplete(true);
 
+  DoSubmit();
+
 }
 
 QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJsonDocument &json_doc) {
