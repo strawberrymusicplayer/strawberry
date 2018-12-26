@@ -19,22 +19,13 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
 #include <algorithm>
 
 #include <QtGlobal>
-#include <QDesktopServices>
-#include <QUrlQuery>
-#include <QCryptographicHash>
-#include <QMenu>
-#include <QMessageBox>
+#include <QString>
 #include <QSettings>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonParseError>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 
 #include "core/application.h"
 #include "core/closure.h"

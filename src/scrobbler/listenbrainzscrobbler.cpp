@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <algorithm>
+#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QDesktopServices>
@@ -29,8 +29,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
-#include <QCryptographicHash>
-#include <QMenu>
 #include <QMessageBox>
 #include <QSettings>
 #include <QNetworkRequest>

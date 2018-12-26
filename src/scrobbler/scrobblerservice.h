@@ -25,10 +25,11 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QString>
+#include <QPair>
+#include <QList>
 #include <QVariant>
 #include <QByteArray>
-#include <QJsonDocument>
+#include <QString>
 #include <QJsonObject>
 
 class Application;

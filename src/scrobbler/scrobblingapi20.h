@@ -22,17 +22,15 @@
 
 #include "config.h"
 
-#include <memory>
+#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QObject>
 #include <QNetworkReply>
-#include <QPair>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QJsonObject>
 
 #include "core/song.h"
 #include "scrobblerservice.h"

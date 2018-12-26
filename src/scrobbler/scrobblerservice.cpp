@@ -24,6 +24,7 @@
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
 
 #include "scrobblerservice.h"
 

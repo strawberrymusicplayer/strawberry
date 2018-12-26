@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <algorithm>
+#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QApplication>

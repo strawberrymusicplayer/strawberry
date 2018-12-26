@@ -28,7 +28,6 @@
 #include <QList>
 #include <QHash>
 #include <QString>
-#include <QDateTime>
 
 class Application;
 class Song;

@@ -19,16 +19,17 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
 #include <QObject>
 #include <QStandardPaths>
 #include <QString>
 #include <QFile>
 #include <QIODevice>
 #include <QTextStream>
-#include <QDateTime>
-#include <QMultiHash>
-#include <QJsonValue>
+#include <QHash>
 #include <QJsonDocument>
+#include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonParseError>
@@ -145,7 +146,7 @@ void ScrobblerCache::WriteCache() {
 
   QJsonArray array;
 
-  QMultiHash <quint64, ScrobblerCacheItem*> ::iterator i;
+  QHash <quint64, ScrobblerCacheItem*> ::iterator i;
   for (i = scrobbler_cache_.begin() ; i != scrobbler_cache_.end() ; ++i) {
     ScrobblerCacheItem *item = i.value();
     QJsonObject object;

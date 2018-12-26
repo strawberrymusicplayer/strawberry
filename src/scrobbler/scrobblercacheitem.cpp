@@ -22,7 +22,6 @@
 #include <QObject>
 #include <QtGlobal>
 #include <QString>
-#include <QHash>
 
 #include "scrobblercacheitem.h"
 

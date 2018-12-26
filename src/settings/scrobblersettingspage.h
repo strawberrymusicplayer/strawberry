@@ -22,6 +22,9 @@
 
 #include "settingspage.h"
 
+#include <QObject>
+#include <QString>
+
 class Ui_ScrobblerSettingsPage;
 class AudioScrobbler;
 class LastFMScrobbler;

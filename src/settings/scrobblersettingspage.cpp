@@ -20,7 +20,7 @@
 #include "scrobblersettingspage.h"
 #include "ui_scrobblersettingspage.h"
 
-#include <QDesktopServices>
+#include <QObject>
 #include <QMessageBox>
 #include <QSettings>
 
