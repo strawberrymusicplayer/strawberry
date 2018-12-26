@@ -111,7 +111,6 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, int searc
   QJsonArray json_releases = json_value.toArray();
 
   if (json_releases.isEmpty()) {
-    Error("Json releases array is empty.", json_value);
     emit SearchFinished(search_id, results);
     return;
   }
