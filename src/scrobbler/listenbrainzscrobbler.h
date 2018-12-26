@@ -89,6 +89,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void RequestSession(QUrl url, QString token);
   void AuthError(QString error);
   void Error(QString error, QVariant debug = QVariant());
+  void DoSubmit();
 
   static const char *kAuthUrl;
   static const char *kAuthTokenUrl;

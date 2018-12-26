@@ -150,11 +150,7 @@ void AudioScrobbler::Love(const Song &song) {
 void AudioScrobbler::Submit() {
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
-    int msec = 300;
-    if (submit_delay_ != 0) msec = (submit_delay_ * kMsecPerSec);
-    DoAfter(this, SLOT(Submit()), msec);
-    service->Submitted();
-    DoInAMinuteOrSo(service, SLOT(Submit()));
+    service->DoSubmit();
   }
 }
 

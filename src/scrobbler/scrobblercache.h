@@ -47,6 +47,7 @@ class ScrobblerCache : public QObject {
   ScrobblerCacheItem *Get(const quint64 hash);
   void Remove(const quint64 hash);
   void Remove(ScrobblerCacheItem &item);
+  int Count() const { return scrobbler_cache_.size(); };
   QList<ScrobblerCacheItem*> List() const { return scrobbler_cache_.values(); }
   void ClearSent(const QList<quint64> list);
   void Flush(const QList<quint64> list);

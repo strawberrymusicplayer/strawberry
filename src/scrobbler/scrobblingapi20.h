@@ -134,6 +134,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void SendSingleScrobble(ScrobblerCacheItem *item);
   void Error(QString error, QVariant debug = QVariant());
   QString ErrorString(ScrobbleErrorCode error) const;
+  void DoSubmit();
 
   QString name_;
   QString settings_group_;

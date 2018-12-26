@@ -407,9 +407,20 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
       Submit();
     }
     else {
-      int msec = (app_->scrobbler()->SubmitDelay() * kMsecPerSec);
+      qint64 msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
       DoAfter(this, SLOT(Submit()), msec);
     }
+  }
+
+}
+
+void ListenBrainzScrobbler::DoSubmit() {
+
+  if (!submitted_ && cache_->Count() > 0) {
+    submitted_ = true;
+    qint64 msec = 30000ll;
+    if (app_->scrobbler()->SubmitDelay() != 0) msec = (app_->scrobbler()->SubmitDelay() * 60 * kMsecPerSec);
+    DoAfter(this, SLOT(Submit()), msec);
   }
 
 }
@@ -461,12 +472,14 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     cache_->ClearSent(list);
+    DoSubmit();
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     cache_->ClearSent(list);
+    DoSubmit();
     return;
   }
 
@@ -475,6 +488,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
     QString error_desc = json_obj["error_description"].toString();
     Error(error_desc);
     cache_->ClearSent(list);
+    DoSubmit();
     return;
   }
 
@@ -484,6 +498,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
   }
 
   cache_->Flush(list);
+  DoSubmit();
 
 }
 
