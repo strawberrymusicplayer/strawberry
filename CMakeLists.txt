@@ -119,7 +119,7 @@ endif(WIN32)
 
 # QT
 set(QT_MIN_VERSION 5.5.1)
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql Xml)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql)
 if(X11_FOUND)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
 endif()
@@ -134,7 +134,7 @@ if(WIN32)
   find_package(Qt5 REQUIRED COMPONENTS WinExtras)
 endif()
 
-set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql Qt5::Xml)
+set(QT_LIBRARIES Qt5::Core Qt5::Concurrent Qt5::Widgets Qt5::Network Qt5::Sql)
 
 if(DBUS_FOUND)
   set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::DBus)
