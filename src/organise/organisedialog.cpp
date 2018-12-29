@@ -55,11 +55,11 @@
 #include "core/closure.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
-#include "core/organise.h"
 #include "core/tagreaderclient.h"
 #include "core/utilities.h"
 #include "widgets/freespacebar.h"
 #include "widgets/linetextedit.h"
+#include "organise.h"
 #include "organisedialog.h"
 #include "organiseerrordialog.h"
 #include "ui_organisedialog.h"
@@ -109,8 +109,8 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
 
   connect(ui_->destination, SIGNAL(currentIndexChanged(int)), SLOT(UpdatePreviews()));
   connect(ui_->naming, SIGNAL(textChanged()), SLOT(UpdatePreviews()));
-  connect(ui_->replace_ascii, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
-  connect(ui_->replace_the, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
+  connect(ui_->remove_non_fat, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
+  connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->replace_spaces, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
 
   // Get the titles of the tags to put in the insert menu
@@ -293,9 +293,9 @@ void OrganiseDialog::UpdatePreviews() {
 
   // Update the format object
   format_.set_format(ui_->naming->toPlainText());
-  format_.set_replace_non_ascii(ui_->replace_ascii->isChecked());
+  format_.set_remove_non_fat(ui_->remove_non_fat->isChecked());
+  format_.set_remove_non_ascii(ui_->remove_non_ascii->isChecked());
   format_.set_replace_spaces(ui_->replace_spaces->isChecked());
-  format_.set_replace_the(ui_->replace_the->isChecked());
 
   const bool format_valid = !has_local_destination || format_.IsValid();
 
@@ -310,8 +310,8 @@ void OrganiseDialog::UpdatePreviews() {
 
   // Update the previews
   ui_->preview->clear();
-  ui_->preview_group->setVisible(has_local_destination);
-  ui_->naming_group->setVisible(has_local_destination);
+  ui_->groupbox_preview->setVisible(has_local_destination);
+  ui_->groupbox_naming->setVisible(has_local_destination);
   if (has_local_destination) {
     for (const Organise::NewSongInfo &song_info : new_songs_info_) {
       QString filename = storage->LocalPath() + "/" + song_info.new_filename_;
@@ -330,9 +330,9 @@ QSize OrganiseDialog::sizeHint() const { return QSize(650, 0); }
 void OrganiseDialog::Reset() {
 
   ui_->naming->setPlainText(kDefaultFormat);
-  ui_->replace_ascii->setChecked(false);
-  ui_->replace_spaces->setChecked(false);
-  ui_->replace_the->setChecked(false);
+  ui_->remove_non_fat->setChecked(false);
+  ui_->remove_non_ascii->setChecked(false);
+  ui_->replace_spaces->setChecked(true);
   ui_->overwrite->setChecked(false);
   ui_->mark_as_listened->setChecked(false);
   ui_->eject_after->setChecked(false);
@@ -346,9 +346,9 @@ void OrganiseDialog::showEvent(QShowEvent*) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   ui_->naming->setPlainText(s.value("format", kDefaultFormat).toString());
-  ui_->replace_ascii->setChecked(s.value("replace_ascii", false).toBool());
-  ui_->replace_spaces->setChecked(s.value("replace_spaces", false).toBool());
-  ui_->replace_the->setChecked(s.value("replace_the", false).toBool());
+  ui_->remove_non_fat->setChecked(s.value("remove_non_fat", false).toBool());
+  ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
+  ui_->replace_spaces->setChecked(s.value("replace_spaces", true).toBool());
   ui_->overwrite->setChecked(s.value("overwrite", false).toBool());
   ui_->mark_as_listened->setChecked(s.value("mark_as_listened", false).toBool());
   ui_->eject_after->setChecked(s.value("eject_after", false).toBool());
@@ -367,9 +367,9 @@ void OrganiseDialog::accept() {
 
   s.beginGroup(kSettingsGroup);
   s.setValue("format", ui_->naming->toPlainText());
-  s.setValue("replace_ascii", ui_->replace_ascii->isChecked());
+  s.setValue("remove_non_fat", ui_->remove_non_fat->isChecked());
+  s.setValue("remove_non_ascii", ui_->remove_non_ascii->isChecked());
   s.setValue("replace_spaces", ui_->replace_spaces->isChecked());
-  s.setValue("replace_the", ui_->replace_the->isChecked());
   s.setValue("overwrite", ui_->overwrite->isChecked());
   s.setValue("mark_as_listened", ui_->overwrite->isChecked());
   s.setValue("destination", ui_->destination->currentText());

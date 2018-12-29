@@ -31,9 +31,9 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "utilities.h"
-#include "taskmanager.h"
-#include "musicstorage.h"
+#include "core/utilities.h"
+#include "core/taskmanager.h"
+#include "core/musicstorage.h"
 #include "organise.h"
 #include "transcoder/transcoder.h"
 

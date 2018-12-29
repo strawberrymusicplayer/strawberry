@@ -771,11 +771,10 @@ optional_source(HAVE_LIBPULSE
 # MusicBrainz, Organise and transcode require GStreamer
 optional_source(HAVE_GSTREAMER
 SOURCES
-  core/organise.cpp
-  core/organiseformat.cpp
-  settings/transcodersettingspage.cpp
-  dialogs/organisedialog.cpp
-  dialogs/organiseerrordialog.cpp
+  organise/organise.cpp
+  organise/organiseformat.cpp
+  organise/organisedialog.cpp
+  organise/organiseerrordialog.cpp
   transcoder/transcoder.cpp
   transcoder/transcodedialog.cpp
   transcoder/transcoderoptionsaac.cpp
@@ -786,19 +785,19 @@ SOURCES
   transcoder/transcoderoptionsspeex.cpp
   transcoder/transcoderoptionsvorbis.cpp
   transcoder/transcoderoptionswma.cpp
+  settings/transcodersettingspage.cpp
 HEADERS
-  core/organise.h
-  settings/transcodersettingspage.h
-  dialogs/organisedialog.h
-  dialogs/organiseerrordialog.h
+  organise/organise.h
+  organise/organisedialog.h
+  organise/organiseerrordialog.h
   transcoder/transcoder.h
   transcoder/transcodedialog.h
   transcoder/transcoderoptionsdialog.h
   transcoder/transcoderoptionsmp3.h
+  settings/transcodersettingspage.h
 UI
-  settings/transcodersettingspage.ui
-  dialogs/organisedialog.ui
-  dialogs/organiseerrordialog.ui
+  organise/organisedialog.ui
+  organise/organiseerrordialog.ui
   transcoder/transcodedialog.ui
   transcoder/transcodelogdialog.ui
   transcoder/transcoderoptionsaac.ui
@@ -809,6 +808,7 @@ UI
   transcoder/transcoderoptionsspeex.ui
   transcoder/transcoderoptionsvorbis.ui
   transcoder/transcoderoptionswma.ui
+  settings/transcodersettingspage.ui
 )
 
 # CDIO backend and device

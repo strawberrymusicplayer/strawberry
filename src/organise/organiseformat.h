@@ -44,20 +44,21 @@ class OrganiseFormat {
   static const char *kTagPattern;
   static const char *kBlockPattern;
   static const QStringList kKnownTags;
-  static const char kInvalidFatCharacters[];
-  static const int kInvalidFatCharactersCount;
+  static const QRegExp kValidFatCharacters;
+  static const QRegExp kInvalidFatCharacters;
+
   static const char kInvalidPrefixCharacters[];
   static const int kInvalidPrefixCharactersCount;
 
   QString format() const { return format_; }
-  bool replace_non_ascii() const { return replace_non_ascii_; }
+  bool remove_non_fat() const { return remove_non_fat_; }
+  bool remove_non_ascii() const { return remove_non_ascii_; }
   bool replace_spaces() const { return replace_spaces_; }
-  bool replace_the() const { return replace_the_; }
 
   void set_format(const QString &v);
-  void set_replace_non_ascii(bool v) { replace_non_ascii_ = v; }
+  void set_remove_non_fat(bool v) { remove_non_fat_ = v; }
+  void set_remove_non_ascii(bool v) { remove_non_ascii_ = v; }
   void set_replace_spaces(bool v) { replace_spaces_ = v; }
-  void set_replace_the(bool v) { replace_the_ = v; }
 
   bool IsValid() const;
   QString GetFilenameForSong(const Song &song) const;
@@ -88,9 +89,9 @@ class OrganiseFormat {
   QString TagValue(const QString &tag, const Song &song) const;
 
   QString format_;
-  bool replace_non_ascii_;
+  bool remove_non_fat_;
+  bool remove_non_ascii_;
   bool replace_spaces_;
-  bool replace_the_;
 
 };
 

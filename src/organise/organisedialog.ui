@@ -19,9 +19,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QFormLayout" name="layout_copying">
      <item row="0" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_destination">
        <property name="text">
         <string>Destination</string>
        </property>
@@ -31,7 +31,7 @@
       <widget class="QComboBox" name="destination"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_after_copying">
        <property name="text">
         <string>After copying...</string>
        </property>
@@ -57,14 +57,7 @@
     <widget class="FreeSpaceBar" name="free_space" native="true"/>
    </item>
    <item>
-    <widget class="QCheckBox" name="eject_after">
-     <property name="text">
-      <string>Safely remove the device after copying</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="naming_group">
+    <widget class="QGroupBox" name="groupbox_naming">
      <property name="title">
       <string>Naming options</string>
      </property>
@@ -99,23 +92,23 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="replace_the">
+       <widget class="QCheckBox" name="remove_non_fat">
         <property name="text">
-         <string>Ignore &quot;The&quot; in artist names</string>
+         <string>Restrict to characters allowed on FAT filesystems</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="remove_non_ascii">
+        <property name="text">
+         <string>Restrict characters to ASCII</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="replace_spaces">
         <property name="text">
-         <string>Replaces spaces with underscores</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="replace_ascii">
-        <property name="text">
-         <string>Restrict to ASCII characters</string>
+         <string>Replace spaces with underscores</string>
         </property>
        </widget>
       </item>
@@ -137,7 +130,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="preview_group">
+    <widget class="QGroupBox" name="groupbox_preview">
      <property name="title">
       <string>Preview</string>
      </property>
@@ -145,7 +138,7 @@
       <item>
        <widget class="QStackedWidget" name="preview_stack">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="preview_page">
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -187,7 +180,7 @@
            <number>0</number>
           </property>
           <item>
-           <spacer name="horizontalSpacer">
+           <spacer name="spacer_preview_1">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -207,7 +200,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_2">
+           <spacer name="spacer_preview_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -224,6 +217,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="eject_after">
+     <property name="text">
+      <string>Safely remove the device after copying</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -260,12 +260,10 @@
  <tabstops>
   <tabstop>destination</tabstop>
   <tabstop>aftercopying</tabstop>
-  <tabstop>eject_after</tabstop>
   <tabstop>naming</tabstop>
   <tabstop>insert</tabstop>
-  <tabstop>replace_the</tabstop>
+  <tabstop>remove_non_fat</tabstop>
   <tabstop>replace_spaces</tabstop>
-  <tabstop>replace_ascii</tabstop>
   <tabstop>overwrite</tabstop>
   <tabstop>button_box</tabstop>
  </tabstops>

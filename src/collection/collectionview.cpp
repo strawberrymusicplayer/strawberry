@@ -74,7 +74,7 @@
 #endif
 #include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
-#include "dialogs/organisedialog.h"
+#include "organise/organisedialog.h"
 #endif
 #include "settings/collectionsettingspage.h"
 

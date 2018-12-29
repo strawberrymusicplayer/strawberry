@@ -85,7 +85,7 @@
 #include "dialogs/trackselectiondialog.h"
 #include "dialogs/edittagdialog.h"
 #ifdef HAVE_GSTREAMER
-#  include "dialogs/organisedialog.h"
+#  include "organise/organisedialog.h"
 #endif
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"

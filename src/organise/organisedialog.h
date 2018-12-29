@@ -40,8 +40,8 @@
 #include <QtEvents>
 
 #include "core/song.h"
-#include "core/organise.h"
-#include "core/organiseformat.h"
+#include "organise.h"
+#include "organiseformat.h"
 
 class QResizeEvent;
 class QShowEvent;

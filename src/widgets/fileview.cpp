@@ -44,7 +44,7 @@
 #include "fileviewlist.h"
 #include "ui_fileview.h"
 #ifdef HAVE_GSTREAMER
-#  include "dialogs/organiseerrordialog.h"
+#  include "organise/organiseerrordialog.h"
 #endif
 
 const char *FileView::kFileFilter =
