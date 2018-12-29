@@ -57,8 +57,6 @@ License: GPL-3+
 Files: src/core/main.cpp
  src/core/mainwindow.cpp
  src/core/mainwindow.h
- src/core/application.cpp
- src/core/application.h
  src/core/player.cpp
  src/core/player.h
  src/core/song.cpp
@@ -94,6 +92,16 @@ Files: src/core/main.cpp
  src/internet/internetservices.h
  ext/libstrawberry-tagreader/tagreader.cpp
  ext/libstrawberry-tagreader/tagreader.h
+ src/device/devicemanager.cpp
+ src/device/devicemanager.h
+ src/device/deviceinfo.cpp
+ src/device/deviceinfo.h
+ src/device/deviceproperties.cpp
+ src/device/deviceproperties.h
+ src/device/deviceview.cpp
+ src/device/deviceview.h
+ src/device/connecteddevice.cpp
+ src/device/connecteddevice.h
 Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
  2012-2014, 2017-2018 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
@@ -133,6 +141,18 @@ Files: src/widgets/fancytabwidget.cpp
  src/widgets/fancytabwidget.h
 Copyright: 2018, Vikram Ambrose <ambroseworks@gmail.com>
  2018, Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: src/core/application.cpp
+ src/core/application.h
+Copyright: 2012, David Sansome <me@davidsansome.com>
+  2012, 2014, John Maguire <john.maguire@gmail.com>
+  2018, Jonas Kvinge <jonas@jkvinge.net>
+License: GPL-3+
+
+Files: src/core/appearance.cpp
+ src/core/appearance.h
+Copyright: 2012, Arnaud Bienner <arnaud.bienner@gmail.com>
 License: GPL-3+
 
 Files: src/covermanager/discogscoverprovider.cpp

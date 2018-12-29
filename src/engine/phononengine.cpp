@@ -1,6 +1,7 @@
 /*
  * Strawberry Music Player
  * This file was part of Clementine
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
