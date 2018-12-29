@@ -12,8 +12,9 @@ Unreleased:
     * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
     * Fixed key up causing playback to reset
     * New improved last.fm and musicbrainz album cover providers
-    * Removed liblastfm dependency
+    * Removed Qt5Xml and liblastfm dependency
     * Replaced sha2 with QCryptographicHash
+    * Fixed songs not showing up under devices
 
 Version 0.4.2:
 
