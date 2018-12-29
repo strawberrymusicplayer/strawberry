@@ -53,7 +53,7 @@ class MtpDevice : public ConnectedDevice {
 
   static QStringList url_schemes() { return QStringList() << "mtp" << "gphoto2"; }
 
-  void Init();
+  bool Init();
 
   bool GetSupportedFiletypes(QList<Song::FileType>* ret);
   int GetFreeSpace();

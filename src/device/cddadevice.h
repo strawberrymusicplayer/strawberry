@@ -50,7 +50,7 @@ class CddaDevice : public ConnectedDevice {
   Q_INVOKABLE CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
   ~CddaDevice();
 
-  void Init();
+  bool Init();
   void Refresh();
   bool CopyToStorage(const MusicStorage::CopyJob&) { return false; }
   bool DeleteFromStorage(const MusicStorage::DeleteJob&) { return false; }

@@ -37,8 +37,9 @@ iLister::iLister() {
 iLister::~iLister() {
 }
 
-void iLister::Init() {
+bool iLister::Init() {
   idevice_event_subscribe(&EventCallback, reinterpret_cast<void*>(this));
+  return true;
 }
 
 void iLister::EventCallback(const idevice_event_t *event, void *context) {

@@ -162,7 +162,7 @@ void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
   emit DeviceChanged(id);
 }
 
-void Udisks2Lister::Init() {
+bool Udisks2Lister::Init() {
 
   udisks2_interface_.reset(new OrgFreedesktopDBusObjectManagerInterface(udisks2_service_, "/org/freedesktop/UDisks2", QDBusConnection::systemBus()));
 
@@ -172,7 +172,7 @@ void Udisks2Lister::Init() {
   if (!reply.isValid()) {
     qLog(Warning) << "Error enumerating udisks2 devices:" << reply.error().name() << reply.error().message();
     udisks2_interface_.reset();
-    return;
+    return false;
   }
 
   for (const QDBusObjectPath &path : reply.value().keys()) {
@@ -190,6 +190,8 @@ void Udisks2Lister::Init() {
 
   connect(udisks2_interface_.get(), SIGNAL(InterfacesAdded(QDBusObjectPath, InterfacesAndProperties)), SLOT(DBusInterfaceAdded(QDBusObjectPath, InterfacesAndProperties)));
   connect(udisks2_interface_.get(), SIGNAL(InterfacesRemoved(QDBusObjectPath, QStringList)), SLOT(DBusInterfaceRemoved(QDBusObjectPath, QStringList)));
+
+  return true;
 
 }
 

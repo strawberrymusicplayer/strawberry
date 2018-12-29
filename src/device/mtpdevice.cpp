@@ -61,12 +61,17 @@ MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &uniqu
 
 MtpDevice::~MtpDevice() {}
 
-void MtpDevice::Init() {
+bool MtpDevice::Init() {
 
   InitBackendDirectory("/", first_time_, false);
-  model_->Init();
 
   loader_ = new MtpLoader(url_, app_->task_manager(), backend_, shared_from_this());
+  if (!loader_->Init()) {
+    delete loader_;
+    loader_ = nullptr;
+    return false;
+  }
+  model_->Init();
   loader_->moveToThread(loader_thread_);
 
   connect(loader_, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
@@ -76,6 +81,8 @@ void MtpDevice::Init() {
 
   db_busy_.lock();
   loader_thread_->start();
+
+  return true;
 
 }
 

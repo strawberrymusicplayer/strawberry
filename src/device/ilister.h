@@ -78,7 +78,7 @@ class iLister : public DeviceLister {
     QString bt_mac;
   };
 
-  virtual void Init();
+  virtual bool Init();
 
   static void EventCallback(const idevice_event_t *event, void *context);
 

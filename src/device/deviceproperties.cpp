@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,6 @@
 #include <QtGlobal>
 #include <QWidget>
 #include <QDialog>
-#include <QModelIndex>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QMetaType>
@@ -36,7 +36,6 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QJsonObject>
 #include <QComboBox>
 #include <QGroupBox>
 #include <QLineEdit>
@@ -56,6 +55,7 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
+#include "deviceinfo.h"
 #include "deviceproperties.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"
@@ -117,7 +117,7 @@ void DeviceProperties::ShowDevice(int row) {
 #endif
   }
 
-  index_ = manager_->index(row);
+  index_ = manager_->index(row, 0, QModelIndex());
 
   // Basic information
   ui_->name->setText(index_.data(DeviceManager::Role_FriendlyName).toString());
@@ -321,4 +321,3 @@ void DeviceProperties::UpdateFormatsFinished(QFuture<bool> future) {
   ui_->formats_stack->setCurrentWidget(ui_->formats_page);
 
 }
-

@@ -25,12 +25,16 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
+#include <QtGlobal>
+#include <QObject>
 #include <QMutex>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
 #include <QUrl>
+#include <QUrlQuery>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
@@ -85,7 +89,7 @@ void GioLister::VolumeMountFinished(GObject *object, GAsyncResult *result, gpoin
   OperationFinished<GVolume>(std::bind(g_volume_mount_finish, _1, _2, _3), object, result);
 }
 
-void GioLister::Init() {
+bool GioLister::Init() {
 
   monitor_.reset_without_add(g_volume_monitor_get());
 
@@ -115,6 +119,8 @@ void GioLister::Init() {
   signals_.append(CHECKED_GCONNECT(monitor_, "mount-added", &MountAddedCallback, this));
   signals_.append(CHECKED_GCONNECT(monitor_, "mount-changed", &MountChangedCallback, this));
   signals_.append(CHECKED_GCONNECT(monitor_, "mount-removed", &MountRemovedCallback, this));
+
+  return true;
 
 }
 
@@ -191,10 +197,13 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
   QString mount_point;
   QString uri;
+  QString unix_device;
+
   {
     QMutexLocker l(&mutex_);
     mount_point = devices_[id].mount_path;
     uri = devices_[id].mount_uri;
+    unix_device = devices_[id].volume_unix_device;
   }
 
   // gphoto2 gives invalid hostnames with []:, characters in
@@ -204,12 +213,22 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
   QList<QUrl> ret;
 
-  // Special case for file:// GIO URIs - we have to check whether they point to an ipod.
-  if (url.isValid() && url.scheme() == "file") {
-    ret << MakeUrlFromLocalPath(url.path());
-  }
-  else {
-    ret << url;
+  if (url.isValid()) {
+    QRegExp device_re("usb/(\\d+)/(\\d+)");
+    if (device_re.indexIn(unix_device) >= 0) {
+      QUrlQuery url_query(url);
+      url_query.addQueryItem("busnum", device_re.cap(1));
+      url_query.addQueryItem("devnum", device_re.cap(2));
+      url.setQuery(url_query);
+    }
+
+    // Special case for file:// GIO URIs - we have to check whether they point to an ipod.
+    if (url.scheme() == "file") {
+      ret << MakeUrlFromLocalPath(url.path());
+    }
+    else {
+      ret << url;
+    }
   }
 
   ret << MakeUrlFromLocalPath(mount_point);

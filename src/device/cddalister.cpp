@@ -102,7 +102,7 @@ void CddaLister::UnmountDevice(const QString &id) {
 
 void CddaLister::UpdateDeviceFreeSpace(const QString&) {}
 
-void CddaLister::Init() {
+bool CddaLister::Init() {
 
   cdio_init();
 #ifdef Q_OS_MACOS
@@ -113,7 +113,7 @@ void CddaLister::Init() {
   char** devices = cdio_get_devices(DRIVER_DEVICE);
   if (!devices) {
     qLog(Debug) << "No CD devices found";
-    return;
+    return false;
   }
   for (; *devices != nullptr; ++devices) {
     QString device(*devices);
@@ -132,5 +132,7 @@ void CddaLister::Init() {
       emit DeviceAdded(device);
     }
   }
+
+  return true;
 
 }

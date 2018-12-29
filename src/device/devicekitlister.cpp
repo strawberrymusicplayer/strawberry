@@ -48,7 +48,7 @@ QString DeviceKitLister::DeviceData::unique_id() const {
   return QString("DeviceKit/%1/%2/%3/%4").arg(drive_serial, drive_vendor, drive_model).arg(device_size);
 }
 
-void DeviceKitLister::Init() {
+bool DeviceKitLister::Init() {
 
   interface_.reset(new OrgFreedesktopUDisksInterface(OrgFreedesktopUDisksInterface::staticInterfaceName(), "/org/freedesktop/UDisks", QDBusConnection::systemBus()));
 
@@ -59,7 +59,7 @@ void DeviceKitLister::Init() {
   if (!reply.isValid()) {
     qLog(Warning) << "Error enumerating DeviceKit-disks devices:" << reply.error().name() << reply.error().message();
     interface_.reset();
-    return;
+    return false;
   }
 
   // Listen for changes
@@ -84,6 +84,8 @@ void DeviceKitLister::Init() {
   for (const QString &id : device_data.keys()) {
     emit DeviceAdded(id);
   }
+
+  return true;
 
 }
 

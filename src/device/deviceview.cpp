@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,6 +65,7 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
+#include "deviceinfo.h"
 #include "deviceproperties.h"
 #include "deviceview.h"
 
@@ -259,7 +261,6 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     bool is_filesystem_device = false;
     if (parent_device_index.isValid()) {
       std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(parent_device_index.row());
-      qLog(Debug) << device->LocalPath();
       if (device && !device->LocalPath().isEmpty()) is_filesystem_device = true;
     }
 
@@ -306,7 +307,9 @@ void DeviceView::DeviceConnected(int row) {
   std::shared_ptr<ConnectedDevice> device = app_->device_manager()->GetConnectedDevice(row);
   if (!device) return;
 
-  QModelIndex sort_idx = sort_model_->mapFromSource(app_->device_manager()->index(row));
+  DeviceInfo *info = app_->device_manager()->ItemFromRow(row);
+  QModelIndex index = app_->device_manager()->ItemToIndex(info);
+  QModelIndex sort_idx = sort_model_->mapFromSource(index);
 
   QSortFilterProxyModel *sort_model = new QSortFilterProxyModel(device->model());
   sort_model->setSourceModel(device->model());
@@ -320,7 +323,9 @@ void DeviceView::DeviceConnected(int row) {
 }
 
 void DeviceView::DeviceDisconnected(int row) {
-  merged_model_->RemoveSubModel(sort_model_->mapFromSource(app_->device_manager()->index(row)));
+  DeviceInfo *info = app_->device_manager()->ItemFromRow(row);
+  QModelIndex index = app_->device_manager()->ItemToIndex(info);
+  merged_model_->RemoveSubModel(sort_model_->mapFromSource(index));
 }
 
 void DeviceView::Forget() {

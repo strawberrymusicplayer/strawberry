@@ -44,7 +44,7 @@ AfcDevice::~AfcDevice() {
   Utilities::RemoveRecursive(local_path_);
 }
 
-void AfcDevice::Init() {
+bool AfcDevice::Init() {
 
   // Make a new temporary directory for the iTunesDB.  We copy it off the iPod so that libgpod can have a local directory to use.
   local_path_ = Utilities::MakeTempDir();
@@ -58,6 +58,8 @@ void AfcDevice::Init() {
   connect(transfer_, SIGNAL(CopyFinished(bool)), SLOT(CopyFinished(bool)));
   connect(loader_thread_, SIGNAL(started()), transfer_, SLOT(CopyFromDevice()));
   loader_thread_->start();
+
+  return true;
 
 }
 

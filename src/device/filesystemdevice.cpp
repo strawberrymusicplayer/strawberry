@@ -42,7 +42,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
 
-  watcher_->set_device_name(manager->data(manager->index(manager->FindDeviceById(unique_id)), DeviceManager::Role_FriendlyName).toString());
+  watcher_->set_device_name(manager->DeviceNameByID(unique_id));
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
 
@@ -58,9 +58,10 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
 
 }
 
-void FilesystemDevice::Init() {
+bool FilesystemDevice::Init() {
   InitBackendDirectory(url_.toLocalFile(), first_time_);
   model_->Init();
+  return true;
 }
 
 FilesystemDevice::~FilesystemDevice() {

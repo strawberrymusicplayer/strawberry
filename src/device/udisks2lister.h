@@ -68,7 +68,7 @@ class Udisks2Lister : public DeviceLister {
   void UpdateDeviceFreeSpace(const QString &id) override;
 
  protected:
-  void Init() override;
+  bool Init() override;
 
  private slots:
   void DBusInterfaceAdded(const QDBusObjectPath &path, const InterfacesAndProperties &ifaces);

@@ -69,7 +69,7 @@ class DeviceKitLister : public DeviceLister {
   void UpdateDeviceFreeSpace(const QString &id);
 
  protected:
-  void Init();
+  bool Init();
 
  private slots:
   void DBusDeviceAdded(const QDBusObjectPath &path);

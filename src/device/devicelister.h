@@ -82,7 +82,7 @@ signals:
   void DeviceMounted(const QString &id, int request_id, bool success);
 
  protected:
-  virtual void Init() = 0;
+  virtual bool Init() = 0;
   QUrl MakeUrlFromLocalPath(const QString &path) const;
   bool IsIpod(const QString &path) const;
 

@@ -25,7 +25,7 @@
 
 // Work around compile issue with glib >= 2.25
 #ifdef signals
-#undef signals
+#  undef signals
 #endif
 
 #include <glib.h>
@@ -34,8 +34,8 @@
 #include <stdbool.h>
 
 #include <QtGlobal>
-#include <QMutex>
 #include <QObject>
+#include <QMutex>
 #include <QList>
 #include <QMap>
 #include <QMetaType>
@@ -74,7 +74,7 @@ class GioLister : public DeviceLister {
   void UpdateDeviceFreeSpace(const QString &id);
 
  protected:
-  void Init();
+  bool Init();
 
  private:
   struct DeviceInfo {

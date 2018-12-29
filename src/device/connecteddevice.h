@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +49,7 @@ class ConnectedDevice : public QObject,
   ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
   ~ConnectedDevice();
 
-  virtual void Init() = 0;
+  virtual bool Init() = 0;
   // For some devices (e.g. CD devices) we don't have callbacks to be notified when something change:
   // we can call this method to refresh device's state
   virtual void Refresh() {}
@@ -67,7 +68,7 @@ class ConnectedDevice : public QObject,
 
   virtual void Eject();
 
-signals:
+ signals:
   void TaskStarted(int id);
   void SongCountUpdated(int count);
 

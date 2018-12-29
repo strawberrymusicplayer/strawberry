@@ -53,7 +53,7 @@ class CddaLister : public DeviceLister {
   QList<QUrl> MakeDeviceUrls(const QString&);
   void UnmountDevice(const QString&);
   void UpdateDeviceFreeSpace(const QString&);
-  void Init();
+  bool Init();
 
  private:
   QStringList devices_list_;

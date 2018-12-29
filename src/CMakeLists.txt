@@ -684,6 +684,7 @@ optional_source(UNIX
     device/deviceviewcontainer.cpp
     device/deviceview.cpp
     device/deviceproperties.cpp
+    device/deviceinfo.cpp
   HEADERS
     device/connecteddevice.h
     device/devicedatabasebackend.h
