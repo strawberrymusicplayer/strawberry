@@ -89,12 +89,11 @@ bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
   bool result = registerShortcut(native_key_, native_mods_);
   if (result) {
     internal_shortcuts_.insert(qMakePair(native_key_, native_mods_), this);
+    qLog(Info) << "Registered shortcut" << shortcut_.toString();
   }
   else {
     qLog(Error) << "Failed to register shortcut" << shortcut_.toString();
   }
-
-  qLog(Info) << "Registered shortcut" << shortcut_.toString();
 
   return result;
 
@@ -118,7 +117,7 @@ bool GlobalShortcut::unsetShortcut() {
     qLog(Info) << "Unregister shortcut" << shortcut_.toString();
   }
   else {
-    qLog(Error) << "Failed to unregister shortcut:" << shortcut_.toString();
+    qLog(Error) << "Failed to unregister shortcut" << shortcut_.toString();
   }
 
   qt_key_ = Qt::Key(0);
