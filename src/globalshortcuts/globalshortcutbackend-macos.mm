@@ -44,9 +44,9 @@
 #import "core/mac_utilities.h"
 #import "core/SBSystemPreferences.h"
 
-class GlobalShortcutBackendPrivate_MacOS : boost::noncopyable {
+class GlobalShortcutBackendMacOSPrivate : boost::noncopyable {
  public:
-  explicit GlobalShortcutBackendPrivate_MacOS(GlobalShortcutBackendMacOS* backend)
+  explicit GlobalShortcutBackendMacOSPrivate(GlobalShortcutBackendMacOS* backend)
       : global_monitor_(nil), local_monitor_(nil), backend_(backend) {}
 
   bool Register() {
@@ -80,7 +80,7 @@ class GlobalShortcutBackendPrivate_MacOS : boost::noncopyable {
 
 GlobalShortcutBackendMacOS::GlobalShortcutBackendMacOS(GlobalShortcuts* parent)
     : GlobalShortcutBackend(parent),
-      p_(new GlobalShortcutBackendPrivate_MacOS(this)) {}
+      p_(new GlobalShortcutBackendMacOSPrivate(this)) {}
 
 GlobalShortcutBackendMacOS::~GlobalShortcutBackendMacOS() {}
 

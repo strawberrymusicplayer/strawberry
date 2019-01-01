@@ -1,7 +1,7 @@
 #import <AppKit/NSApplication.h>
 
 #include "config.h"
-#include "globalshortcuts/macglobalshortcutbackend.h"
+#include "globalshortcuts/globalshortcutbackend-macos.h"
 
 class PlatformInterface;
 @class SPMediaKeyTap;
@@ -9,7 +9,7 @@ class PlatformInterface;
 @interface AppDelegate : NSObject<NSApplicationDelegate, NSUserNotificationCenterDelegate> {
   PlatformInterface* application_handler_;
   NSMenu* dock_menu_;
-  MacGlobalShortcutBackend* shortcut_handler_;
+  GlobalShortcutBackendMacOS* shortcut_handler_;
   SPMediaKeyTap* key_tap_;
 
 }
@@ -27,7 +27,7 @@ class PlatformInterface;
     shouldPresentNotification: (id)notification;
 
 - (void) setDockMenu: (NSMenu*)menu;
-- (MacGlobalShortcutBackend*) shortcut_handler;
-- (void) setShortcutHandler: (MacGlobalShortcutBackend*)backend;
+- (GlobalShortcutBackendMacOS*) shortcut_handler;
+- (void) setShortcutHandler: (GlobalShortcutBackendMacOS*)backend;
 - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event;
 @end

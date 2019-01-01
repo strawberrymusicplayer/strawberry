@@ -850,9 +850,9 @@ optional_source(APPLE
 if (APPLE)
   optional_source(HAVE_LIBMTP
    SOURCES
-      device/macdevicelister.mm
+      device/macosdevicelister.mm
     HEADERS
-      device/macdevicelister.h
+      device/macosdevicelister.h
   )
 endif()
 

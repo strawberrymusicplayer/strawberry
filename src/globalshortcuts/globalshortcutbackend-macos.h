@@ -36,7 +36,7 @@
 
 class GlobalShortcut;
 
-class GlobalShortcutBackendPrivateMacOS;
+class GlobalShortcutBackendMacOSPrivate;
 
 class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
   Q_OBJECT
@@ -59,8 +59,8 @@ class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
 
   QMap<QKeySequence, QAction*> shortcuts_;
 
-  friend class GlobalShortcutBackendPrivateMacOS;
-  std::unique_ptr<GlobalShortcutBackendPrivateMacOS> p_;
+  friend class GlobalShortcutBackendMacOSPrivate;
+  std::unique_ptr<GlobalShortcutBackendMacOSPrivate> p_;
 };
 
 #endif  // GLOBALSHORTCUTBACKEND_MACOS_H

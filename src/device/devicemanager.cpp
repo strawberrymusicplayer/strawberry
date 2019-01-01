@@ -81,7 +81,7 @@
 #  include "ilister.h"
 #endif
 #if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
-#  include "macdevicelister.h"
+#  include "macosdevicelister.h"
 #endif
 #ifdef HAVE_LIBGPOD
 #  include "gpoddevice.h"
@@ -129,7 +129,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   AddLister(new GioLister);
 #endif
 #if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
-  AddLister(new MacDeviceLister);
+  AddLister(new MacOsDeviceLister);
 #endif
 
   AddDeviceClass<FilesystemDevice>();

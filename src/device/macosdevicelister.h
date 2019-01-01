@@ -18,11 +18,11 @@
 
 #include "devicelister.h"
 
-class MacDeviceLister : public DeviceLister {
+class MacOsDeviceLister : public DeviceLister {
   Q_OBJECT
  public:
-  MacDeviceLister();
-  ~MacDeviceLister();
+  MacOsDeviceLister();
+  ~MacOsDeviceLister();
 
   virtual QStringList DeviceUniqueIDs();
   virtual QVariantList DeviceIcons(const QString &id);
@@ -57,7 +57,7 @@ class MacDeviceLister : public DeviceLister {
   virtual void ShutDown();
 
  private:
-  virtual void Init();
+  virtual bool Init();
 
   static void DiskAddedCallback(DADiskRef disk, void* context);
   static void DiskRemovedCallback(DADiskRef disk, void* context);
@@ -86,8 +86,8 @@ class MacDeviceLister : public DeviceLister {
   static QSet<MTPDevice> sMTPDeviceList;
 };
 
-uint qHash(const MacDeviceLister::MTPDevice& device);
-inline bool operator==(const MacDeviceLister::MTPDevice& a, const MacDeviceLister::MTPDevice& b) {
+uint qHash(const MacOsDeviceLister::MTPDevice& device);
+inline bool operator==(const MacOsDeviceLister::MTPDevice& a, const MacOsDeviceLister::MTPDevice& b) {
   return (a.vendor_id == b.vendor_id) && (a.product_id == b.product_id);
 }
 

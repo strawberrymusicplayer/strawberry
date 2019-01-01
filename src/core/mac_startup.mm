@@ -51,7 +51,7 @@
 #include "core/logging.h"
 #include "core/scoped_nsautorelease_pool.h"
 #include "globalshortcuts/globalshortcuts.h"
-#include "globalshortcuts/macglobalshortcutbackend.h"
+#include "globalshortcuts/globalshortcutbackend-macos.h"
 
 #ifdef HAVE_SPARKLE
 #  import <Sparkle/SUUpdater.h>
@@ -80,11 +80,11 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   PlatformInterface* application_handler_;
   AppDelegate* delegate_;
   // shortcut_handler_ only used to temporarily save it AppDelegate does all the heavy-shortcut-lifting
-  MacGlobalShortcutBackend* shortcut_handler_;
+  GlobalShortcutBackendMacOS* shortcut_handler_;
 }
 
-- (MacGlobalShortcutBackend*)shortcut_handler;
-- (void)SetShortcutHandler:(MacGlobalShortcutBackend*)handler;
+- (GlobalShortcutBackendMacOS*)shortcut_handler;
+- (void)SetShortcutHandler:(GlobalShortcutBackendMacOS*)handler;
 
 - (PlatformInterface*)application_handler;
 - (void)SetApplicationHandler:(PlatformInterface*)handler;
@@ -147,11 +147,11 @@ static BreakpadRef InitBreakpad() {
   return dock_menu_;
 }
 
-- (void)setShortcutHandler:(MacGlobalShortcutBackend*)backend {
+- (void)setShortcutHandler:(GlobalShortcutBackendMacOS*)backend {
   shortcut_handler_ = backend;
 }
 
-- (MacGlobalShortcutBackend*)shortcut_handler {
+- (GlobalShortcutBackendMacOS*)shortcut_handler {
   return shortcut_handler_;
 }
 
@@ -227,12 +227,12 @@ static BreakpadRef InitBreakpad() {
   return self;
 }
 
-- (MacGlobalShortcutBackend*)shortcut_handler {
+- (GlobalShortcutBackendMacOS*)shortcut_handler {
   // should be the same as delegate_'s shortcut handler
   return shortcut_handler_;
 }
 
-- (void)SetShortcutHandler:(MacGlobalShortcutBackend*)handler {
+- (void)SetShortcutHandler:(GlobalShortcutBackendMacOS*)handler {
   shortcut_handler_ = handler;
   if (delegate_) [delegate_ setShortcutHandler:handler];
 }
@@ -277,7 +277,7 @@ void MacMain() {
 #endif
 }
 
-void SetShortcutHandler(MacGlobalShortcutBackend* handler) {
+void SetShortcutHandler(GlobalShortcutBackendMacOS* handler) {
   [NSApp SetShortcutHandler:handler];
 }
 
