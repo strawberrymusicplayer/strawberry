@@ -889,12 +889,8 @@ optional_source(HAVE_STREAM_DEEZER
     settings/deezersettingspage.ui
 )
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/version.h)
-
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 qt5_wrap_cpp(MOC ${HEADERS})
 qt5_wrap_ui(UIC ${UI})
@@ -1009,8 +1005,6 @@ if (APPLE)
     include_directories(${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib ${SPARKLE})
   endif (HAVE_SPARKLE)
-else (APPLE)
-  target_link_libraries(strawberry_lib ${QXT_LIBRARIES})
 endif (APPLE)
 
 if (WIN32)
