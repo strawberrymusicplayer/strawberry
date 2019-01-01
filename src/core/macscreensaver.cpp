@@ -32,7 +32,7 @@
 MacScreensaver::MacScreensaver() : assertion_id_(0) {}
 
 void MacScreensaver::Inhibit() {
-  CFStringRef assertion_type = (Utilities::GetMacVersion() >= 7) ? kLionDisplayAssertion : kIOPMAssertionTypeNoDisplaySleep;
+  CFStringRef assertion_type = (Utilities::GetMacOsVersion() >= 7) ? kLionDisplayAssertion : kIOPMAssertionTypeNoDisplaySleep;
 
   IOPMAssertionCreateWithName(
       assertion_type,
