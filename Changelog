@@ -15,6 +15,9 @@ Unreleased:
     * Removed Qt5Xml and liblastfm dependency
     * Replaced sha2 with QCryptographicHash
     * Fixed songs not showing up under devices
+    * Removed qxt dependency
+    * Replaced globalshortcuts backend for X11 and Windows
+    * Made global shortcuts on X11 optional and off by default
 
 Version 0.4.2:
 
@@ -28,7 +31,7 @@ Version 0.4.2:
     * Fixed/Improved console logging
     * Added queue to play next option
     * (Windows) Corrected uninstalled files on x64 installer
-    * (MacOS) Fixed poor performance
+    * (macOS) Fixed poor performance
 
 Version 0.4.1:
 
@@ -92,8 +95,8 @@ Version 0.2.1:
     * Fixed setting output/device for Xine and VLC backend
     * Improved backend settings to better support multiple backends
     * Fixed track slider for Xine, VLC and Phonon
-    * Fixed compilation on MacOs
-    * Fixed device selection on MacOs
+    * Fixed compilation on macOS
+    * Fixed device selection on macOS
     * Added xine on to windows build
 
 Version 0.1.6:
