@@ -72,7 +72,7 @@ link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
 include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
-include_directories(${QXT_INCLUDE_DIRS})
+include_directories(${QTSINGLECOREAPPLICATION_INCLUDE_DIRS})
 
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
@@ -1055,7 +1055,7 @@ add_executable(strawberry
   MACOSX_BUNDLE
   ${STRAWBERRY-WIN32-FLAG}
   ${STRAWBERRY-WIN32-RESOURCES}
-  core/main.cpp
+  main.cpp
 )
 
 if(FREEBSD)

@@ -99,4 +99,4 @@ private:
     QWidget *actWin;
 };
 
-#endif // QTSINGLEAPPLICATION_H
+#endif  // QTSINGLEAPPLICATION_H

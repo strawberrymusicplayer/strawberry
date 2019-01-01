@@ -71,4 +71,4 @@ private:
     QtLocalPeer* peer;
 };
 
-#endif // QTSINGLECOREAPPLICATION_H
+#endif  // QTSINGLECOREAPPLICATION_H

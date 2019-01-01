@@ -125,7 +125,7 @@ bool QtLocalPeer::isClient()
         return true;
 
     bool res = server->listen(socketName);
-#if defined(Q_OS_UNIX) && (QT_VERSION >= QT_VERSION_CHECK(4,5,0))
+#ifdef Q_OS_UNIX
     // ### Workaround
     if (!res && server->serverError() == QAbstractSocket::AddressInUseError) {
         QFile::remove(QDir::cleanPath(QDir::tempPath())+QLatin1Char('/')+socketName);
@@ -153,7 +153,7 @@ bool QtLocalPeer::sendMessage(const QString &message, int timeout)
         if (connOk || i)
             break;
         int ms = 250;
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
         Sleep(DWORD(ms));
 #else
         struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };

@@ -68,21 +68,21 @@
 
 #include "core/logging.h"
 
-#include "qtsingleapplication.h"
-#include "qtsinglecoreapplication.h"
+#include <qtsingleapplication.h>
+#include <qtsinglecoreapplication.h>
 
 #ifdef HAVE_DBUS
-#  include "mpris.h"
+#  include "core/mpris.h"
 #endif
-#include "utilities.h"
-#include "metatypes.h"
-#include "iconloader.h"
-#include "mainwindow.h"
-#include "commandlineoptions.h"
-#include "systemtrayicon.h"
-#include "application.h"
-#include "networkproxyfactory.h"
-#include "scangiomodulepath.h"
+#include "core/utilities.h"
+#include "core/metatypes.h"
+#include "core/iconloader.h"
+#include "core/mainwindow.h"
+#include "core/commandlineoptions.h"
+#include "core/systemtrayicon.h"
+#include "core/application.h"
+#include "core/networkproxyfactory.h"
+#include "core/scangiomodulepath.h"
 
 #include "widgets/osd.h"
 
