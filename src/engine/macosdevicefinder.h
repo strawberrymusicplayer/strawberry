@@ -18,21 +18,23 @@
  *
  */
 
-#ifndef OSXDEVICEFINDER_H
-#define OSXDEVICEFINDER_H
+#ifndef MACOSDEVICEFINDER_H
+#define MACOSDEVICEFINDER_H
 
 #include "config.h"
+
+#include <stdbool.h>
 
 #include <QList>
 
 #include "devicefinder.h"
 
-class OsxDeviceFinder : public DeviceFinder {
+class MacOsDeviceFinder : public DeviceFinder {
  public:
-  OsxDeviceFinder();
+  MacOsDeviceFinder();
 
   virtual bool Initialise() { return true; }
   virtual QList<Device> ListDevices();
 };
 
-#endif // OSXDEVICEFINDER_H
+#endif // MACOSDEVICEFINDER_H

@@ -38,7 +38,7 @@
 #endif
 
 #ifdef Q_OS_MACOS
-#  include "osxdevicefinder.h"
+#  include "macosdevicefinder.h"
 #endif
 
 #ifdef Q_OS_WIN32

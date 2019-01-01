@@ -838,7 +838,7 @@ optional_source(APPLE
     core/macscreensaver.cpp
     core/macfslistener.mm
     widgets/osd_mac.mm
-    engine/osxdevicefinder.cpp
+    engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutbackend-macos.mm
     globalshortcuts/globalshortcutgrabber-macos.mm
   HEADERS

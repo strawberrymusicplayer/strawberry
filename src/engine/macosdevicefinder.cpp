@@ -27,9 +27,10 @@
 #include <QList>
 #include <QString>
 
-#include "osxdevicefinder.h"
 #include "core/logging.h"
 #include "core/scoped_cftyperef.h"
+
+#include "macosdevicefinder.h"
 
 namespace {
 
@@ -61,11 +62,11 @@ std::unique_ptr<T> GetProperty(const AudioDeviceID& device_id, const AudioObject
 }  // namespace
 
 
-OsxDeviceFinder::OsxDeviceFinder()
+MacOsDeviceFinder::MacOsDeviceFinder()
     : DeviceFinder("osxaudio", { "osxaudio", "osx", "osxaudiosink"} ) {
 }
 
-QList<DeviceFinder::Device> OsxDeviceFinder::ListDevices() {
+QList<DeviceFinder::Device> MacOsDeviceFinder::ListDevices() {
 
   QList<Device> ret;
 
