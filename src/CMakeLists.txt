@@ -840,7 +840,7 @@ optional_source(APPLE
     widgets/osd_mac.mm
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutbackend-macos.mm
-    globalshortcuts/globalshortcutgrabber-macos.mm
+    globalshortcuts/globalshortcutgrabber.mm
   HEADERS
     core/macsystemtrayicon.h
     core/macfslistener.h
