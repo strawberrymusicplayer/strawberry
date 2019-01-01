@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +54,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
       ui_(new Ui_GlobalShortcutsSettingsPage),
       initialised_(false),
       grabber_(new GlobalShortcutGrabber) {
+
   ui_->setupUi(this);
   ui_->shortcut_options->setEnabled(false);
   ui_->list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -64,8 +66,17 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog)
   connect(ui_->radio_none, SIGNAL(clicked()), SLOT(NoneClicked()));
   connect(ui_->radio_default, SIGNAL(clicked()), SLOT(DefaultClicked()));
   connect(ui_->radio_custom, SIGNAL(clicked()), SLOT(ChangeClicked()));
-  connect(ui_->change, SIGNAL(clicked()), SLOT(ChangeClicked()));
-  connect(ui_->gnome_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
+  connect(ui_->button_change, SIGNAL(clicked()), SLOT(ChangeClicked()));
+
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+#ifdef HAVE_DBUS
+  connect(ui_->checkbox_dbus, SIGNAL(clicked(bool)), SLOT(DBusChanged(bool)));
+  connect(ui_->button_dbus_open, SIGNAL(clicked()), SLOT(OpenGnomeKeybindingProperties()));
+#endif
+#ifdef HAVE_X11
+  connect(ui_->checkbox_x11, SIGNAL(clicked(bool)), SLOT(X11Changed(bool)));
+#endif
+#endif  // !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
 
 }
 
@@ -91,10 +102,16 @@ void GlobalShortcutsSettingsPage::Load() {
   if (!initialised_) {
     initialised_ = true;
 
-    connect(ui_->mac_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
+    connect(ui_->button_macos_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
 
     if (!manager->IsGsdAvailable()) {
-      ui_->gnome_container->hide();
+      ui_->widget_dbus->hide();
+      settings_.setValue("use_dbus", false);
+    }
+
+    if (!manager->IsX11Available()) {
+      ui_->widget_x11->hide();
+      settings_.setValue("use_x11", false);
     }
 
     for (const GlobalShortcuts::Shortcut &s : manager->shortcuts().values()) {
@@ -114,26 +131,22 @@ void GlobalShortcutsSettingsPage::Load() {
     SetShortcut(s.s.id, s.s.action->shortcut());
   }
 
-  bool use_gnome = settings_.value("use_gnome", true).toBool();
-  if (ui_->gnome_container->isVisibleTo(this)) {
-    ui_->gnome_checkbox->setChecked(use_gnome);
+  bool use_dbus = settings_.value("use_dbus", true).toBool();
+  if (ui_->widget_dbus->isVisibleTo(this)) {
+    ui_->checkbox_dbus->setChecked(use_dbus);
   }
 
-  ui_->mac_container->setVisible(!manager->IsMacAccessibilityEnabled());
+  bool use_x11 = settings_.value("use_x11", false).toBool();
+  if (ui_->widget_x11->isVisibleTo(this)) {
+    ui_->checkbox_x11->setChecked(use_x11);
+  }
+
+  ui_->widget_macos->setVisible(!manager->IsMacAccessibilityEnabled());
 #ifdef Q_OS_MACOS
-  qint32 mac_version = Utilities::GetMacVersion();
-  ui_->mac_label->setVisible(mac_version < 9);
-  ui_->mac_label_mavericks->setVisible(mac_version >= 9);
+  qint32 macos_version = Utilities::GetMacOsVersion();
+  ui_->label_macos->setVisible(macos_version < 9);
+  ui_->label_macos_mavericks->setVisible(macos_version >= 9);
 #endif  // Q_OS_MACOS
-
-}
-
-void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySequence &key) {
-
-  Shortcut &shortcut = shortcuts_[id];
-
-  shortcut.key = key;
-  shortcut.item->setText(1, key.toString(QKeySequence::NativeText));
 
 }
 
@@ -145,9 +158,71 @@ void GlobalShortcutsSettingsPage::Save() {
     settings_.setValue(s.s.id, s.key.toString());
   }
 
-  settings_.setValue("use_gnome", ui_->gnome_checkbox->isChecked());
+  settings_.setValue("use_dbus", ui_->checkbox_dbus->isChecked());
+  settings_.setValue("use_x11", ui_->checkbox_x11->isChecked());
 
   dialog()->global_shortcuts_manager()->ReloadSettings();
+
+}
+
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+#ifdef HAVE_X11
+void GlobalShortcutsSettingsPage::X11Changed(bool) {
+
+  if (!ui_->widget_x11->isVisible()) return;
+
+  if (ui_->checkbox_x11->isChecked()) {
+    ui_->list->setEnabled(true);
+  }
+  else {
+    ui_->list->setEnabled(false);
+  }
+
+}
+#endif  // HAVE_X11
+#ifdef HAVE_DBUS
+void GlobalShortcutsSettingsPage::DBusChanged(bool) {
+
+  if (!ui_->widget_dbus->isVisible()) return;
+
+  if (ui_->checkbox_dbus->isChecked()) {
+    if (ui_->checkbox_x11->isEnabled()) {
+      ui_->checkbox_x11->setEnabled(false);
+      ui_->list->setEnabled(false);
+    }
+
+    if (ui_->checkbox_x11->isChecked()) {
+      ui_->checkbox_x11->setChecked(false);
+      ui_->list->setEnabled(false);
+    }
+  }
+  else {
+    if (!ui_->checkbox_x11->isEnabled()) {
+      ui_->checkbox_x11->setEnabled(true);
+      if (ui_->checkbox_x11->isChecked()) ui_->list->setEnabled(true);
+    }
+  }
+
+}
+void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
+
+  if (!QProcess::startDetached("gnome-keybinding-properties")) {
+    if (!QProcess::startDetached("gnome-control-center", QStringList() << "keyboard")) {
+      QMessageBox::warning(this, "Error", QString("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"));
+    }
+  }
+
+}
+#endif  // HAVE_DBUS
+
+#endif  // !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+
+void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySequence &key) {
+
+  Shortcut &shortcut = shortcuts_[id];
+
+  shortcut.key = key;
+  shortcut.item->setText(1, key.toString(QKeySequence::NativeText));
 
 }
 
@@ -196,14 +271,3 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 
 }
 
-void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
-
-  if (!QProcess::startDetached("gnome-keybinding-properties")) {
-    if (!QProcess::startDetached("gnome-control-center", QStringList() << "keyboard")) {
-      QMessageBox::warning(this, "Error",
-                           tr("The \"%1\" command could not be started.")
-                               .arg("gnome-keybinding-properties"));
-    }
-  }
-
-}

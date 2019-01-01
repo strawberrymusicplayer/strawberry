@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +19,29 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QMap>
-#include <QAction>
-#include <QKeySequence>
-#include <QtAlgorithms>
+#include "globalshortcutbackend-system.h"
 
 #include "core/logging.h"
+
+#include <QtGlobal>
+#include <QObject>
+#include <QAction>
+#include <QtAlgorithms>
+
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
-#include "qxtglobalshortcut.h"
-#include "qxtglobalshortcutbackend.h"
+#include "globalshortcut.h"
 
-QxtGlobalShortcutBackend::QxtGlobalShortcutBackend(GlobalShortcuts* parent) : GlobalShortcutBackend(parent) {}
+GlobalShortcutBackendSystem::GlobalShortcutBackendSystem(GlobalShortcuts *parent) : GlobalShortcutBackend(parent),
+  gshortcut_init_(new GlobalShortcut(this)) {}
 
-bool QxtGlobalShortcutBackend::DoRegister() {
+GlobalShortcutBackendSystem::~GlobalShortcutBackendSystem(){}
 
-  qLog(Debug) << "registering";
-  for (const GlobalShortcuts::Shortcut& shortcut : manager_->shortcuts().values()) {
+bool GlobalShortcutBackendSystem::DoRegister() {
+
+  qLog(Debug) << "Registering";
+
+  for (const GlobalShortcuts::Shortcut &shortcut : manager_->shortcuts().values()) {
     AddShortcut(shortcut.action);
   }
 
@@ -45,19 +49,20 @@ bool QxtGlobalShortcutBackend::DoRegister() {
 
 }
 
-void QxtGlobalShortcutBackend::AddShortcut(QAction *action) {
+bool GlobalShortcutBackendSystem::AddShortcut(QAction *action) {
 
-  if (action->shortcut().isEmpty()) return;
+  if (action->shortcut().isEmpty()) return false;
 
-  QxtGlobalShortcut *shortcut = new QxtGlobalShortcut(action->shortcut(), this);
+  GlobalShortcut *shortcut = new GlobalShortcut(action->shortcut(), this, this);
   connect(shortcut, SIGNAL(activated()), action, SLOT(trigger()));
   shortcuts_ << shortcut;
+  return true;
 
 }
 
-void QxtGlobalShortcutBackend::DoUnregister() {
+void GlobalShortcutBackendSystem::DoUnregister() {
 
-  qLog(Debug) << "unregistering";
+  qLog(Debug) << "Unregistering";
   qDeleteAll(shortcuts_);
   shortcuts_.clear();
 

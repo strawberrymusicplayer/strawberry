@@ -43,6 +43,10 @@ include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${LIBXML_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
 
+if (X11_FOUND)
+  include_directories(${X11_INCLUDE_DIR})
+endif(X11_FOUND)
+
 if(HAVE_GSTREAMER)
   link_directories(${GSTREAMER_LIBRARY_DIRS})
   include_directories(${GSTREAMER_INCLUDE_DIRS})
@@ -210,7 +214,6 @@ set(SOURCES
   settings/playbacksettingspage.cpp
   settings/playlistsettingspage.cpp
   settings/networkproxysettingspage.cpp
-  settings/shortcutssettingspage.cpp
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
   settings/scrobblersettingspage.cpp
@@ -249,12 +252,6 @@ set(SOURCES
 
   musicbrainz/acoustidclient.cpp
   musicbrainz/musicbrainzclient.cpp
-
-  globalshortcuts/globalshortcutbackend.cpp
-  globalshortcuts/globalshortcuts.cpp
-  globalshortcuts/gnomeglobalshortcutbackend.cpp
-  globalshortcuts/qxtglobalshortcutbackend.cpp
-  globalshortcuts/globalshortcutgrabber.cpp
 
   internet/internetservices.cpp
   internet/internetservice.cpp
@@ -387,7 +384,6 @@ set(HEADERS
   settings/playbacksettingspage.h
   settings/playlistsettingspage.h
   settings/networkproxysettingspage.h
-  settings/shortcutssettingspage.h
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
   settings/scrobblersettingspage.h
@@ -424,11 +420,6 @@ set(HEADERS
 
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
-
-  globalshortcuts/globalshortcutbackend.h
-  globalshortcuts/globalshortcuts.h
-  globalshortcuts/gnomeglobalshortcutbackend.h
-  globalshortcuts/globalshortcutgrabber.h
 
   internet/internetservices.h
   internet/internetservice.h
@@ -481,7 +472,6 @@ set(UI
   settings/playbacksettingspage.ui
   settings/playlistsettingspage.ui
   settings/networkproxysettingspage.ui
-  settings/shortcutssettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
   settings/scrobblersettingspage.ui
@@ -500,8 +490,6 @@ set(UI
   widgets/fileview.ui
   widgets/loginstatewidget.ui
 
-  globalshortcuts/globalshortcutgrabber.ui
-
   internet/internetsearchview.ui
 
 )
@@ -511,6 +499,31 @@ set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
+if(HAVE_GLOBALSHORTCUTS)
+  optional_source(HAVE_GLOBALSHORTCUTS
+    SOURCES globalshortcuts/globalshortcuts.cpp globalshortcuts/globalshortcutbackend.cpp globalshortcuts/globalshortcutgrabber.cpp settings/shortcutssettingspage.cpp
+    HEADERS globalshortcuts/globalshortcuts.h globalshortcuts/globalshortcutbackend.h globalshortcuts/globalshortcutgrabber.h settings/shortcutssettingspage.h
+    UI globalshortcuts/globalshortcutgrabber.ui settings/shortcutssettingspage.ui
+  )
+  if (X11_FOUND OR WIN32)
+    set(X11_OR_WIN ON)
+  endif()
+  optional_source(X11_OR_WIN
+    SOURCES globalshortcuts/globalshortcutbackend-system.cpp globalshortcuts/globalshortcut.cpp
+    HEADERS globalshortcuts/globalshortcutbackend-system.h globalshortcuts/globalshortcut.h
+  )
+  optional_source(X11_FOUND
+    SOURCES globalshortcuts/globalshortcut-x11.cpp
+  )
+  optional_source(HAVE_DBUS
+    SOURCES globalshortcuts/globalshortcutbackend-dbus.cpp
+    HEADERS globalshortcuts/globalshortcutbackend-dbus.h
+  )
+  optional_source(WIN32
+    SOURCES globalshortcuts/globalshortcut-win.cpp
+  )
+endif(HAVE_GLOBALSHORTCUTS)
+
 # ALSA
 optional_source(HAVE_ALSA
   SOURCES
@@ -518,7 +531,10 @@ optional_source(HAVE_ALSA
 )
 
 # X11
-optional_source(HAVE_X11 SOURCES widgets/osd_x11.cpp)
+optional_source(X11_FOUND
+ SOURCES
+   widgets/osd_x11.cpp
+)
 
 # GStreamer
 optional_source(HAVE_GSTREAMER
@@ -554,16 +570,18 @@ optional_source(HAVE_DEEZER
 if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
 
-  # MPRIS DBUS interfaces
-  #qt5_add_dbus_adaptor(SOURCES
-  #    dbus/org.freedesktop.MediaPlayer.player.xml
-  #    core/mpris1.h mpris::Mpris1Player core/mpris_player MprisPlayer)
-  #qt5_add_dbus_adaptor(SOURCES
-  #    dbus/org.freedesktop.MediaPlayer.root.xml
-  #    core/mpris1.h mpris::Mpris1Root core/mpris_root MprisRoot)
-  #qt5_add_dbus_adaptor(SOURCES
-  #    dbus/org.freedesktop.MediaPlayer.tracklist.xml
-  #    core/mpris1.h mpris::Mpris1TrackList core/mpris_tracklist MprisTrackList)
+  optional_source(HAVE_DBUS
+    SOURCES core/mpris.cpp core/mpris2.cpp core/dbusscreensaver.cpp
+    HEADERS core/mpris.h core/mpris2.h
+  )
+  optional_source(HAVE_DEVICEKIT
+    SOURCES device/devicekitlister.cpp
+    HEADERS device/devicekitlister.h
+  )
+  optional_source(HAVE_UDISKS2
+    SOURCES device/udisks2lister.cpp
+    HEADERS device/udisks2lister.h
+  )
 
   # MPRIS 2.0 DBUS interfaces
   qt5_add_dbus_adaptor(SOURCES
@@ -663,16 +681,6 @@ if(UNIX AND HAVE_DBUS)
 
 endif(UNIX AND HAVE_DBUS)
 
-optional_source(HAVE_DBUS
-  SOURCES
-    core/mpris.cpp
-    core/mpris2.cpp
-    core/dbusscreensaver.cpp
-  HEADERS
-    core/mpris.h
-    core/mpris2.h
-)
-
 optional_source(UNIX
   SOURCES
     device/connecteddevice.cpp
@@ -699,17 +707,6 @@ optional_source(UNIX
     device/deviceproperties.ui
     device/deviceviewcontainer.ui
 )
-
-if(HAVE_DBUS)
-  optional_source(HAVE_DEVICEKIT
-    SOURCES device/devicekitlister.cpp
-    HEADERS device/devicekitlister.h
-  )
-  optional_source(HAVE_UDISKS2
-    SOURCES device/udisks2lister.cpp
-    HEADERS device/udisks2lister.h
-  )
-endif()
 
 # Libgpod device backend
 optional_source(HAVE_LIBGPOD
@@ -842,12 +839,12 @@ optional_source(APPLE
     core/macfslistener.mm
     widgets/osd_mac.mm
     engine/osxdevicefinder.cpp
-    globalshortcuts/globalshortcutgrabber.mm
-    globalshortcuts/macglobalshortcutbackend.mm
+    globalshortcuts/globalshortcutbackend-macos.mm
+    globalshortcuts/globalshortcutgrabber-macos.mm
   HEADERS
     core/macsystemtrayicon.h
     core/macfslistener.h
-    globalshortcuts/macglobalshortcutbackend.h
+    globalshortcuts/globalshortcutbackend-macos.h
 )
 
 if (APPLE)
@@ -922,13 +919,21 @@ target_link_libraries(strawberry_lib
   ${GOBJECT_LIBRARIES}
   ${QT_LIBRARIES}
   ${CHROMAPRINT_LIBRARIES}
+  ${SQLITE_LIBRARIES}
+  ${CMAKE_THREAD_LIBS_INIT}
   ${QTSINGLEAPPLICATION_LIBRARIES}
   ${QTSINGLECOREAPPLICATION_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT}
-  ${SQLITE_LIBRARIES}
   ${QOCOA_LIBRARIES}
   z
 )
+
+if(X11_FOUND)
+  target_link_libraries(strawberry_lib ${X11_LIBRARIES})
+endif(X11_FOUND)
+
+if(XCB_FOUND)
+  target_link_libraries(strawberry_lib ${XCB_LIBRARIES})
+endif(XCB_FOUND)
 
 if(HAVE_ALSA)
   target_link_libraries(strawberry_lib ${ALSA_LIBRARIES})

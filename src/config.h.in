@@ -32,19 +32,17 @@
 #cmakedefine HAVE_ALSA
 #cmakedefine HAVE_DEVICEKIT
 #cmakedefine HAVE_IMOBILEDEVICE
-#cmakedefine HAVE_LIBARCHIVE
 #cmakedefine HAVE_AUDIOCD
 #cmakedefine HAVE_LIBGPOD
 #cmakedefine HAVE_LIBMTP
 #cmakedefine HAVE_LIBPULSE
-#cmakedefine HAVE_QCA
 #cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_CHROMAPRINT
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_DZMEDIA
+#cmakedefine HAVE_GLOBALSHORTCUTS
 #cmakedefine IMOBILEDEVICE_USES_UDIDS
 #cmakedefine USE_INSTALL_PREFIX
-#cmakedefine USE_SYSTEM_SHA2
 
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_VLC
@@ -54,6 +52,9 @@
 
 #cmakedefine HAVE_STREAM_TIDAL
 #cmakedefine HAVE_STREAM_DEEZER
+
+#cmakedefine HAVE_KEYSYMDEF_H
+#cmakedefine HAVE_XF86KEYSYM_H
 
 #endif // CONFIG_H_IN
 

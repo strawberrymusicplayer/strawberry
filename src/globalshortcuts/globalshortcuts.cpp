@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,54 +31,77 @@
 # include <QDBusConnectionInterface>
 #endif
 
+#include "core/logging.h"
+
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
-#include "gnomeglobalshortcutbackend.h"
-#ifndef Q_OS_MACOS
-#  include "qxtglobalshortcutbackend.h"
-#else
-#  include "macglobalshortcutbackend.h"
+
+#ifdef HAVE_DBUS
+#  include "globalshortcutbackend-dbus.h"
 #endif
+#if defined(HAVE_X11) || defined(Q_OS_WIN)
+#  include "globalshortcutbackend-system.h"
+#endif
+#ifdef Q_OS_MACOS
+#  include "globalshortcutbackend-macos.h"
+#endif
+
 #include "settings/shortcutssettingspage.h"
 
 GlobalShortcuts::GlobalShortcuts(QWidget *parent)
     : QWidget(parent),
-      gnome_backend_(nullptr),
+      dbus_backend_(nullptr),
       system_backend_(nullptr),
-      use_gnome_(false) {
+      use_dbus_(true),
+      use_x11_(false)
+  {
 
   settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
 
   // Create actions
-  AddShortcut("play", tr("Play"), SIGNAL(Play()));
-  AddShortcut("pause", tr("Pause"), SIGNAL(Pause()));
-  AddShortcut("play_pause", tr("Play/Pause"), SIGNAL(PlayPause()), QKeySequence(Qt::Key_MediaPlay));
-  AddShortcut("stop", tr("Stop"), SIGNAL(Stop()), QKeySequence(Qt::Key_MediaStop));
-  AddShortcut("stop_after", tr("Stop playing after current track"), SIGNAL(StopAfter()));
-  AddShortcut("next_track", tr("Next track"), SIGNAL(Next()), QKeySequence(Qt::Key_MediaNext));
-  AddShortcut("prev_track", tr("Previous track"), SIGNAL(Previous()), QKeySequence(Qt::Key_MediaPrevious));
-  AddShortcut("inc_volume", tr("Increase volume"), SIGNAL(IncVolume()));
-  AddShortcut("dec_volume", tr("Decrease volume"), SIGNAL(DecVolume()));
+  AddShortcut("play", "Play", SIGNAL(Play()));
+  AddShortcut("pause", "Pause", SIGNAL(Pause()));
+  AddShortcut("play_pause", "Play/Pause", SIGNAL(PlayPause()), QKeySequence(Qt::Key_MediaPlay));
+  AddShortcut("stop", "Stop", SIGNAL(Stop()), QKeySequence(Qt::Key_MediaStop));
+  AddShortcut("stop_after", "Stop playing after current track", SIGNAL(StopAfter()));
+  AddShortcut("next_track", "Next track", SIGNAL(Next()), QKeySequence(Qt::Key_MediaNext));
+  AddShortcut("prev_track", "Previous track", SIGNAL(Previous()), QKeySequence(Qt::Key_MediaPrevious));
+  AddShortcut("inc_volume", "Increase volume", SIGNAL(IncVolume()));
+  AddShortcut("dec_volume", "Decrease volume", SIGNAL(DecVolume()));
   AddShortcut("mute", tr("Mute"), SIGNAL(Mute()));
-  AddShortcut("seek_forward", tr("Seek forward"), SIGNAL(SeekForward()));
-  AddShortcut("seek_backward", tr("Seek backward"), SIGNAL(SeekBackward()));
-  AddShortcut("show_hide", tr("Show/Hide"), SIGNAL(ShowHide()));
-  AddShortcut("show_osd", tr("Show OSD"), SIGNAL(ShowOSD()));
-  AddShortcut("toggle_pretty_osd", tr("Toggle Pretty OSD"), SIGNAL(TogglePrettyOSD())); // Toggling possible only for pretty OSD
-  AddShortcut("shuffle_mode", tr("Change shuffle mode"), SIGNAL(CycleShuffleMode()));
-  AddShortcut("repeat_mode", tr("Change repeat mode"), SIGNAL(CycleRepeatMode()));
-  AddShortcut("toggle_scrobbling", tr("Enable/disable scrobbling"), SIGNAL(ToggleScrobbling()));
+  AddShortcut("seek_forward", "Seek forward", SIGNAL(SeekForward()));
+  AddShortcut("seek_backward", "Seek backward", SIGNAL(SeekBackward()));
+  AddShortcut("show_hide", "Show/Hide", SIGNAL(ShowHide()));
+  AddShortcut("show_osd", "Show OSD", SIGNAL(ShowOSD()));
+  AddShortcut("toggle_pretty_osd", "Toggle Pretty OSD", SIGNAL(TogglePrettyOSD())); // Toggling possible only for pretty OSD
+  AddShortcut("shuffle_mode", "Change shuffle mode", SIGNAL(CycleShuffleMode()));
+  AddShortcut("repeat_mode", "Change repeat mode", SIGNAL(CycleRepeatMode()));
+  AddShortcut("toggle_scrobbling", "Enable/disable scrobbling", SIGNAL(ToggleScrobbling()));
 
   // Create backends - these do the actual shortcut registration
-  gnome_backend_ = new GnomeGlobalShortcutBackend(this);
+#ifdef HAVE_DBUS
+  dbus_backend_ = new GlobalShortcutBackendDBus(this);
+#endif
 
-#ifndef Q_OS_MACOS
-  system_backend_ = new QxtGlobalShortcutBackend(this);
-#else
-  system_backend_ = new MacGlobalShortcutBackend(this);
+#if defined(HAVE_X11) || defined(Q_OS_WIN)
+  system_backend_ = new GlobalShortcutBackendSystem(this);
+#endif
+#ifdef Q_OS_MACOS
+  system_backend_ = new GlobalShortcutBackendMacOS(this);
 #endif
 
   ReloadSettings();
+
+}
+
+void GlobalShortcuts::ReloadSettings() {
+
+  // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
+  use_dbus_ = settings_.value("use_dbus", true).toBool();
+  use_x11_ = settings_.value("use_x11", true).toBool();
+
+  Unregister();
+  Register();
 
 }
 
@@ -85,6 +109,7 @@ void GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const 
 
   Shortcut shortcut = AddShortcut(id, name, default_key);
   connect(shortcut.action, SIGNAL(triggered()), this, signal);
+
 }
 
 GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
@@ -96,8 +121,7 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
   shortcut.id = id;
   shortcut.default_key = default_key;
 
-  // Create application wide QShortcut to hide keyevents mapped to global
-  // shortcuts from widgets.
+  // Create application wide QShortcut to hide keyevents mapped to global shortcuts from widgets.
   shortcut.shortcut = new QShortcut(key_sequence, this);
   shortcut.shortcut->setContext(Qt::ApplicationShortcut);
 
@@ -110,36 +134,40 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
 bool GlobalShortcuts::IsGsdAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GnomeGlobalShortcutBackend::kGsdService);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService);
 #else
   return false;
 #endif
 
 }
 
-void GlobalShortcuts::ReloadSettings() {
+bool GlobalShortcuts::IsX11Available() const {
 
-  // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
-  use_gnome_ = settings_.value("use_gnome", true).toBool();
+#ifdef HAVE_X11
+  return true;
+#else
+  return false;
+#endif
 
-  Unregister();
-  Register();
-
-}
-
-void GlobalShortcuts::Unregister() {
-  if (gnome_backend_->is_active()) gnome_backend_->Unregister();
-  if (system_backend_->is_active()) system_backend_->Unregister();
 }
 
 void GlobalShortcuts::Register() {
-  if (use_gnome_ && gnome_backend_->Register()) return;
-  system_backend_->Register();
+  if (use_dbus_ && dbus_backend_ && dbus_backend_->Register()) return;
+#ifdef HAVE_X11 // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
+  if (use_x11_)
+#endif
+    if (system_backend_) system_backend_->Register();
+}
+
+void GlobalShortcuts::Unregister() {
+  if (dbus_backend_ && dbus_backend_->is_active()) dbus_backend_->Unregister();
+  if (system_backend_ && system_backend_->is_active()) system_backend_->Unregister();
 }
 
 bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
 #ifdef Q_OS_MACOS
-  return static_cast<MacGlobalShortcutBackend*>(system_backend_)->IsAccessibilityEnabled();
+  if (macos_backend_) return static_cast<GlobalShortcutBackendMacOS*>(macos_backend_)->IsAccessibilityEnabled();
+  else return false;
 #else
   return true;
 #endif
@@ -147,7 +175,7 @@ bool GlobalShortcuts::IsMacAccessibilityEnabled() const {
 
 void GlobalShortcuts::ShowMacAccessibilityDialog() {
 #ifdef Q_OS_MACOS
-  static_cast<MacGlobalShortcutBackend*>(system_backend_)->ShowAccessibilityDialog();
+  if (macos_backend_) static_cast<GlobalShortcutBackendMacOS*>(macos_backend_)->ShowAccessibilityDialog();
 #endif
 }
 

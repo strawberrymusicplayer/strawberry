@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 #include <memory>
 #include <stdbool.h>
 
+#include <QtGlobal>
 #include <QObject>
 #include <QSettings>
 #include <QMap>
@@ -43,7 +45,7 @@ class Ui_GlobalShortcutsSettingsPage;
 class GlobalShortcutsSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
+ public:
   GlobalShortcutsSettingsPage(SettingsDialog *dialog);
   ~GlobalShortcutsSettingsPage();
   static const char *kSettingsGroup;
@@ -53,15 +55,24 @@ public:
   void Load();
   void Save();
 
-private slots:
+ private slots:
+
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+#ifdef HAVE_X11
+  void X11Changed(bool);
+#endif
+#ifdef HAVE_DBUS
+  void DBusChanged(bool);
+  void OpenGnomeKeybindingProperties();
+#endif
+#endif
+
   void ItemClicked(QTreeWidgetItem *);
   void NoneClicked();
   void DefaultClicked();
   void ChangeClicked();
 
-  void OpenGnomeKeybindingProperties();
-
-private:
+ private:
   struct Shortcut {
     GlobalShortcuts::Shortcut s;
     QKeySequence key;
@@ -70,7 +81,7 @@ private:
 
   void SetShortcut(const QString &id, const QKeySequence &key);
 
-private:
+ private:
   Ui_GlobalShortcutsSettingsPage *ui_;
 
   bool initialised_;

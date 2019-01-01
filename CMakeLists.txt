@@ -88,8 +88,9 @@ else(LINUX)
   find_package(ALSA)
   pkg_check_modules(DBUS dbus-1)
 endif(LINUX)
-if (NOT APPLE)
+if (UNIX AND NOT APPLE)
   find_package(X11)
+  pkg_check_modules(XCB xcb)
 endif()
 if(X11_FOUND)
   set(HAVE_X11 ON)
@@ -118,7 +119,7 @@ if(WIN32)
 endif(WIN32)
 
 # QT
-set(QT_MIN_VERSION 5.5.1)
+set(QT_MIN_VERSION 5.6)
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Concurrent Widgets Network Sql)
 if(X11_FOUND)
   find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS X11Extras)
@@ -148,6 +149,17 @@ endif()
 if(WIN32)
   set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::WinExtras)
 endif()
+
+if(X11_FOUND)
+  find_path(KEYSYMDEF_H keysymdef.h PATHS ${X11_INCLUDE_DIR})
+  find_path(XF86KEYSYM_H XF86keysym.h PATHS ${X11_INCLUDE_DIR})
+  if(KEYSYMDEF_H)
+    set(HAVE_KEYSYMDEF_H ON)
+  endif()
+  if(XF86KEYSYM_H)
+    set(HAVE_XF86KEYSYM_H ON)
+  endif()
+endif(X11_FOUND)
 
 # TAGLIB
 pkg_check_modules(TAGLIB taglib)
@@ -201,25 +213,6 @@ else(USE_SYSTEM_QTSINGLEAPPLICATION)
   set(QTSINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qtsingleapplication)
   set(QTSINGLEAPPLICATION_LIBRARIES qtsingleapplication)
 endif(USE_SYSTEM_QTSINGLEAPPLICATION)
-
-# Use system Qxt only if explicitly enabled.
-option(USE_SYSTEM_QXT "Use system Qxt library" OFF)
-if (USE_SYSTEM_QXT)
-  message(STATUS "Using system Qxt library")
-  find_path(QXTCORE_INCLUDE_DIRS qxtglobal.h PATH_SUFFIXES qt5/QxtCore)
-  find_path(QXTGUI_INCLUDE_DIRS qxtglobalshortcut.h PATH_SUFFIXES qt5/QxtWidgets)
-  set(QXT_INCLUDE_DIRS ${QXTCORE_INCLUDE_DIRS} ${QXTGUI_INCLUDE_DIRS})
-  # We only need its header. We don't need to link to QxtCore.
-  find_library(QXT_LIBRARIES QxtWidgets-qt5)
-else (USE_SYSTEM_QXT)
-  message(STATUS "Using builtin Qxt library")
-  add_definitions(-DQXT_STATIC -DBUILD_QXT_GUI -DBUILD_QXT_CORE)
-  set(QXT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/qxt)
-  set(QXT_LIBRARIES qxt)
-  if (NOT APPLE)
-    add_subdirectory(3rdparty/qxt)
-  endif (NOT APPLE)
-endif (USE_SYSTEM_QXT)
 
 # Qocoa
 set(QOCOA_LIBRARIES Qocoa)
@@ -288,8 +281,16 @@ else ()
   )
 endif()
 
-optional_component(CHROMAPRINT ON "Chromaprint support / Tag fetching from Musicbrainz"
+optional_component(CHROMAPRINT ON "Chromaprint (Tag fetching from Musicbrainz)"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
+)
+
+if (X11_FOUND OR HAVE_DBUS OR APPLE OR WIN32)
+  set(HAVE_GLOBALSHORTCUTS_SUPPORT ON)
+endif()
+
+optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
+  DEPENDS "D-Bus, X11, Windows or macOS" HAVE_GLOBALSHORTCUTS_SUPPORT
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
@@ -325,7 +326,7 @@ optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
 )
 
 optional_component(SPARKLE ON "Sparkle integration"
-  DEPENDS "Mac OS X" APPLE
+  DEPENDS "macOS" APPLE
   DEPENDS "Sparkle" SPARKLE
 )
 

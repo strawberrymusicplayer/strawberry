@@ -18,43 +18,51 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_H
-#define GLOBALSHORTCUTBACKEND_H
+#ifndef GLOBALSHORTCUTBACKEND_DBUS_H
+#define GLOBALSHORTCUTBACKEND_DBUS_H
 
 #include "config.h"
 
 #include <stdbool.h>
 
-#include <QtGlobal>
 #include <QObject>
+#include <QtGlobal>
 #include <QPair>
+#include <QVector>
 #include <QHash>
 #include <QString>
+#include <QDBusPendingCallWatcher>
+
+#include "globalshortcutbackend.h"
 
 class GlobalShortcuts;
+class OrgGnomeSettingsDaemonMediaKeysInterface;
 
-class GlobalShortcutBackend : public QObject {
+class GlobalShortcutBackendDBus : public GlobalShortcutBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackend(GlobalShortcuts *parent = nullptr);
-  virtual ~GlobalShortcutBackend() {}
+  explicit GlobalShortcutBackendDBus(GlobalShortcuts *parent);
+  ~GlobalShortcutBackendDBus();
 
-  bool is_active() const { return active_; }
-
-  bool Register();
-  void Unregister();
-
- signals:
-  void RegisterFinished(bool success);
+  static const char *kGsdService;
+  static const char *kGsdPath;
+  static const char *kGsdInterface;
 
  protected:
-  virtual bool DoRegister() = 0;
-  virtual void DoUnregister() = 0;
+  bool RegisterInNewThread() const { return true; }
+  bool DoRegister();
+  void DoUnregister();
 
-  GlobalShortcuts *manager_;
-  bool active_;
+ private slots:
+  void RegisterFinished(QDBusPendingCallWatcher *watcher);
+
+  void GnomeMediaKeyPressed(const QString &application, const QString &key);
+
+ private:
+  OrgGnomeSettingsDaemonMediaKeysInterface *interface_;
+  bool is_connected_;
 
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_H
+#endif  // GLOBALSHORTCUTBACKEND_DBUS_H

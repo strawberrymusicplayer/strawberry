@@ -363,7 +363,7 @@ QString ColorToRgba(const QColor &c) {
 }
 
 #ifdef Q_OS_MACOS
-qint32 GetMacVersion() {
+qint32 GetMacOsVersion() {
 
   SInt32 minor_version;
   Gestalt(gestaltSystemVersionMinor, &minor_version);

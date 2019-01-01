@@ -20,45 +20,41 @@
 
 #include "config.h"
 
-#ifdef HAVE_DBUS
-#  include <dbus/gnomesettingsdaemon.h>
-#endif
+#include <dbus/gnomesettingsdaemon.h>
 
-#include <QAction>
+#include <QObject>
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QMap>
-#include <QtDebug>
-
-#ifdef HAVE_DBUS
-# include <QCoreApplication>
-# include <QDBusConnectionInterface>
-# include <QDBusMessage>
-# include <QDBusPendingCall>
-# include <QDBusPendingReply>
-#endif
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "globalshortcuts.h"
-#include "globalshortcuts/globalshortcutbackend.h"
-#include "gnomeglobalshortcutbackend.h"
+#include "globalshortcutbackend.h"
+#include "globalshortcutbackend-dbus.h"
 
-const char *GnomeGlobalShortcutBackend::kGsdService = "org.gnome.SettingsDaemon";
-const char *GnomeGlobalShortcutBackend::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
-const char *GnomeGlobalShortcutBackend::kGsdInterface = "org.gnome.SettingsDaemon.MediaKeys";
+const char *GlobalShortcutBackendDBus::kGsdService = "org.gnome.SettingsDaemon";
+const char *GlobalShortcutBackendDBus::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
+const char *GlobalShortcutBackendDBus::kGsdInterface = "org.gnome.SettingsDaemon.MediaKeys";
 
-GnomeGlobalShortcutBackend::GnomeGlobalShortcutBackend(GlobalShortcuts *parent)
+GlobalShortcutBackendDBus::GlobalShortcutBackendDBus(GlobalShortcuts *parent)
     : GlobalShortcutBackend(parent),
       interface_(nullptr),
       is_connected_(false) {}
 
-bool GnomeGlobalShortcutBackend::DoRegister() {
+GlobalShortcutBackendDBus::~GlobalShortcutBackendDBus(){}
 
-#ifdef HAVE_DBUS
-  qLog(Debug) << "registering";
+bool GlobalShortcutBackendDBus::DoRegister() {
+
+  qLog(Debug) << "Registering";
+
   // Check if the GSD service is available
   if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(kGsdService)) {
-    qLog(Warning) << "gnome settings daemon not registered";
+    qLog(Warning) << "Gnome settings daemon not registered";
     return false;
   }
 
@@ -72,16 +68,11 @@ bool GnomeGlobalShortcutBackend::DoRegister() {
   NewClosure(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)), this, SLOT(RegisterFinished(QDBusPendingCallWatcher*)), watcher);
 
   return true;
-#else
-  qLog(Warning) << "dbus not available";
-  return false;
-#endif
 
 }
 
-void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watcher) {
+void GlobalShortcutBackendDBus::RegisterFinished(QDBusPendingCallWatcher *watcher) {
 
-#ifdef HAVE_DBUS
   QDBusMessage reply = watcher->reply();
   watcher->deleteLater();
 
@@ -93,16 +84,14 @@ void GnomeGlobalShortcutBackend::RegisterFinished(QDBusPendingCallWatcher *watch
   connect(interface_, SIGNAL(MediaPlayerKeyPressed(QString, QString)), this, SLOT(GnomeMediaKeyPressed(QString, QString)));
   is_connected_ = true;
 
-  qLog(Debug) << "registered";
-#endif
+  qLog(Debug) << "Registered";
 
 }
 
-void GnomeGlobalShortcutBackend::DoUnregister() {
+void GlobalShortcutBackendDBus::DoUnregister() {
 
-  qLog(Debug) << "unregister";
+  qLog(Debug) << "Unregister";
 
-#ifdef HAVE_DBUS
   // Check if the GSD service is available
   if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(kGsdService))
     return;
@@ -112,14 +101,12 @@ void GnomeGlobalShortcutBackend::DoUnregister() {
 
   interface_->ReleaseMediaPlayerKeys(QCoreApplication::applicationName());
   disconnect(interface_, SIGNAL(MediaPlayerKeyPressed(QString, QString)), this, SLOT(GnomeMediaKeyPressed(QString, QString)));
-#endif
 
 }
 
-void GnomeGlobalShortcutBackend::GnomeMediaKeyPressed(const QString&, const QString& key) {
+void GlobalShortcutBackendDBus::GnomeMediaKeyPressed(const QString&, const QString& key) {
   if (key == "Play") manager_->shortcuts()["play_pause"].action->trigger();
   if (key == "Stop") manager_->shortcuts()["stop"].action->trigger();
   if (key == "Next") manager_->shortcuts()["next_track"].action->trigger();
   if (key == "Previous") manager_->shortcuts()["prev_track"].action->trigger();
 }
-

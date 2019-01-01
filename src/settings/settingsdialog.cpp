@@ -133,7 +133,10 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
   AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
+
+#ifdef HAVE_GLOBALSHORTCUTS
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
+#endif
 
 #if defined(HAVE_STREAM_TIDAL) || defined(HAVE_STREAM_DEEZER)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));

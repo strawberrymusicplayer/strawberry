@@ -20,7 +20,7 @@
 
  #include "config.h"
 
-#include "macglobalshortcutbackend.h"
+#include "globalshortcutbackend-macos.h"
 
 #include <boost/noncopyable.hpp>
 
@@ -44,9 +44,9 @@
 #import "core/mac_utilities.h"
 #import "core/SBSystemPreferences.h"
 
-class MacGlobalShortcutBackendPrivate : boost::noncopyable {
+class GlobalShortcutBackendPrivate_MacOS : boost::noncopyable {
  public:
-  explicit MacGlobalShortcutBackendPrivate(MacGlobalShortcutBackend* backend)
+  explicit GlobalShortcutBackendPrivate_MacOS(GlobalShortcutBackendMacOS* backend)
       : global_monitor_(nil), local_monitor_(nil), backend_(backend) {}
 
   bool Register() {
@@ -75,16 +75,16 @@ class MacGlobalShortcutBackendPrivate : boost::noncopyable {
 
   id global_monitor_;
   id local_monitor_;
-  MacGlobalShortcutBackend* backend_;
+  GlobalShortcutBackendMacOS* backend_;
 };
 
-MacGlobalShortcutBackend::MacGlobalShortcutBackend(GlobalShortcuts* parent)
+GlobalShortcutBackendMacOS::GlobalShortcutBackendMacOS(GlobalShortcuts* parent)
     : GlobalShortcutBackend(parent),
-      p_(new MacGlobalShortcutBackendPrivate(this)) {}
+      p_(new GlobalShortcutBackendPrivate_MacOS(this)) {}
 
-MacGlobalShortcutBackend::~MacGlobalShortcutBackend() {}
+GlobalShortcutBackendMacOS::~GlobalShortcutBackendMacOS() {}
 
-bool MacGlobalShortcutBackend::DoRegister() {
+bool GlobalShortcutBackendMacOS::DoRegister() {
   // Always enable media keys.
   mac::SetShortcutHandler(this);
 
@@ -96,12 +96,12 @@ bool MacGlobalShortcutBackend::DoRegister() {
 
 }
 
-void MacGlobalShortcutBackend::DoUnregister() {
+void GlobalShortcutBackendMacOS::DoUnregister() {
   p_->Unregister();
   shortcuts_.clear();
 }
 
-void MacGlobalShortcutBackend::MacMediaKeyPressed(int key) {
+void GlobalShortcutBackendMacOS::MacMediaKeyPressed(int key) {
   switch (key) {
     case NX_KEYTYPE_PLAY:
       KeyPressed(Qt::Key_MediaPlay);
@@ -115,7 +115,7 @@ void MacGlobalShortcutBackend::MacMediaKeyPressed(int key) {
   }
 }
 
-bool MacGlobalShortcutBackend::KeyPressed(const QKeySequence& sequence) {
+bool GlobalShortcutBackendMacOS::KeyPressed(const QKeySequence& sequence) {
   if (sequence.isEmpty()) {
     return false;
   }
@@ -127,11 +127,12 @@ bool MacGlobalShortcutBackend::KeyPressed(const QKeySequence& sequence) {
   return false;
 }
 
-bool MacGlobalShortcutBackend::IsAccessibilityEnabled() const {
+bool GlobalShortcutBackendMacOS::IsAccessibilityEnabled() const {
   return AXAPIEnabled();
 }
 
-void MacGlobalShortcutBackend::ShowAccessibilityDialog() {
+void GlobalShortcutBackendMacOS::ShowAccessibilityDialog() {
+
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
   if ([paths count] == 1) {
     SBSystemPreferencesApplication* system_prefs = [SBApplication

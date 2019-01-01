@@ -18,44 +18,50 @@
  *
  */
 
-#ifndef GNOMEGLOBALSHORTCUTBACKEND_H
-#define GNOMEGLOBALSHORTCUTBACKEND_H
-
-#include <stdbool.h>
-#include <QObject>
-#include <QString>
+#ifndef GLOBALSHORTCUTBACKEND_MACOS_H
+#define GLOBALSHORTCUTBACKEND_MACOS_H
 
 #include "config.h"
+
+#include <stdbool.h>
+
+#include <memory>
+
 #include "globalshortcutbackend.h"
 
-class QDBusPendingCallWatcher;
-class GlobalShortcuts;
-class OrgGnomeSettingsDaemonMediaKeysInterface;
+#include <QObject>
+#include <QMap>
+#include <QAction>
+#include <QKeySequence>
 
-class GnomeGlobalShortcutBackend : public GlobalShortcutBackend {
+class GlobalShortcut;
+
+class GlobalShortcutBackendPrivateMacOS;
+
+class GlobalShortcutBackendMacOS : public GlobalShortcutBackend {
   Q_OBJECT
 
-public:
-  explicit GnomeGlobalShortcutBackend(GlobalShortcuts *parent);
+ public:
+  explicit GlobalShortcutBackendMacOS(GlobalShortcuts* parent);
+  virtual ~GlobalShortcutBackendMacOS();
 
-  static const char *kGsdService;
-  static const char *kGsdPath;
-  static const char *kGsdInterface;
+  bool IsAccessibilityEnabled() const;
+  void ShowAccessibilityDialog();
 
-protected:
-  bool RegisterInNewThread() const { return true; }
+  void MacMediaKeyPressed(int key);
+
+ protected:
   bool DoRegister();
   void DoUnregister();
 
-private slots:
-  void RegisterFinished(QDBusPendingCallWatcher *watcher);
+ private:
+  bool KeyPressed(const QKeySequence &sequence);
 
-  void GnomeMediaKeyPressed(const QString& application, const QString& key);
+  QMap<QKeySequence, QAction*> shortcuts_;
 
-private:
-  OrgGnomeSettingsDaemonMediaKeysInterface *interface_;
-  bool is_connected_;
+  friend class GlobalShortcutBackendPrivateMacOS;
+  std::unique_ptr<GlobalShortcutBackendPrivateMacOS> p_;
 };
 
-#endif // GNOMEGLOBALSHORTCUTBACKEND_H
+#endif  // GLOBALSHORTCUTBACKEND_MACOS_H
 

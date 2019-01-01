@@ -19,8 +19,8 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="gnome_container" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <widget class="QWidget" name="widget_dbus" native="true">
+     <layout class="QHBoxLayout" name="layout_gnome">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -34,7 +34,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="gnome_checkbox">
+       <widget class="QCheckBox" name="checkbox_dbus">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -42,12 +42,12 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Use Gnome's shortcut keys</string>
+         <string>Use Gnome D-Bus shortcut keys</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="gnome_open">
+       <widget class="QPushButton" name="button_dbus_open">
         <property name="text">
          <string>Open...</string>
         </property>
@@ -57,7 +57,41 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="mac_container" native="true">
+    <widget class="QWidget" name="widget_x11" native="true">
+     <layout class="QHBoxLayout" name="layout_x11">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="checkbox_x11">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Use X11's shortcut keys</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_macos" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <property name="spacing">
        <number>0</number>
@@ -75,7 +109,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="mac_label">
+       <widget class="QLabel" name="label_macos">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -91,7 +125,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mac_label_mavericks">
+       <widget class="QLabel" name="label_macos_mavericks">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -107,7 +141,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="mac_open">
+       <widget class="QPushButton" name="button_macos_open">
         <property name="text">
          <string>Open...</string>
         </property>
@@ -167,7 +201,7 @@
       <item>
        <widget class="QRadioButton" name="radio_default">
         <property name="text">
-         <string>De&amp;fault</string>
+         <string>&amp;Default</string>
         </property>
        </widget>
       </item>
@@ -179,7 +213,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <spacer name="spacer_bottom">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -192,7 +226,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="change">
+       <widget class="QPushButton" name="button_change">
         <property name="text">
          <string>Change shortcut...</string>
         </property>
@@ -208,44 +242,11 @@
   <tabstop>radio_none</tabstop>
   <tabstop>radio_default</tabstop>
   <tabstop>radio_custom</tabstop>
-  <tabstop>change</tabstop>
+  <tabstop>button_change</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>gnome_checkbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>list</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>63</x>
-     <y>25</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>82</x>
-     <y>63</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gnome_checkbox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>shortcut_options</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>244</x>
-     <y>26</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>122</x>
-     <y>298</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

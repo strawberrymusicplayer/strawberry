@@ -117,7 +117,9 @@
 #include "playlistparsers/playlistparser.h"
 #include "analyzer/analyzercontainer.h"
 #include "equalizer/equalizer.h"
-#include "globalshortcuts/globalshortcuts.h"
+#ifdef HAVE_GLOBALSHORTCUTS
+#  include "globalshortcuts/globalshortcuts.h"
+#endif
 #include "covermanager/albumcovermanager.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
@@ -158,11 +160,6 @@ using std::bind;
 using std::floor;
 using std::stable_sort;
 
-#ifdef Q_OS_MACOS
-  // Non exported mac-specific function.
-  void qt_mac_set_dock_menu(QMenu*);
-#endif
-
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
 
@@ -180,7 +177,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       osd_(osd),
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
+#ifdef HAVE_GLOBALSHORTCUTS
       global_shortcuts_(new GlobalShortcuts(this)),
+#endif
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
@@ -632,6 +631,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(check_updates, SIGNAL(triggered(bool)), SLOT(CheckForUpdates()));
 #endif
 
+#ifdef HAVE_GLOBALSHORTCUTS
   // Global shortcuts
   connect(global_shortcuts_, SIGNAL(Play()), app_->player(), SLOT(Play()));
   connect(global_shortcuts_, SIGNAL(Pause()), app_->player(), SLOT(Pause()));
@@ -649,6 +649,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(global_shortcuts_, SIGNAL(ShowOSD()), app_->player(), SLOT(ShowOSD()));
   connect(global_shortcuts_, SIGNAL(TogglePrettyOSD()), app_->player(), SLOT(TogglePrettyOSD()));
   connect(global_shortcuts_, SIGNAL(ToggleScrobbling()), app_->scrobbler(), SLOT(ToggleScrobbling()));
+#endif
 
   // Fancy tabs
   connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveTabMode()));
@@ -703,8 +704,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(this, SIGNAL(StopAfterToggled(bool)), osd_, SLOT(StopAfterToggle(bool)));
 
   // We need to connect these global shortcuts here after the playlist have been initialized
+#ifdef HAVE_GLOBALSHORTCUTS
   connect(global_shortcuts_, SIGNAL(CycleShuffleMode()), app_->playlist_manager()->sequence(), SLOT(CycleShuffleMode()));
   connect(global_shortcuts_, SIGNAL(CycleRepeatMode()), app_->playlist_manager()->sequence(), SLOT(CycleRepeatMode()));
+#endif
   connect(app_->playlist_manager()->sequence(), SIGNAL(RepeatModeChanged(PlaylistSequence::RepeatMode)), osd_, SLOT(RepeatModeChanged(PlaylistSequence::RepeatMode)));
   connect(app_->playlist_manager()->sequence(), SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), osd_, SLOT(ShuffleModeChanged(PlaylistSequence::ShuffleMode)));
 
@@ -2091,7 +2094,9 @@ void MainWindow::ShowCoverManager() {
 SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   SettingsDialog *settings_dialog = new SettingsDialog(app_);
+#ifdef HAVE_GLOBALSHORTCUTS
   settings_dialog->SetGlobalShortcutManager(global_shortcuts_);
+#endif
 
   // Settings
   connect(settings_dialog, SIGNAL(accepted()), SLOT(ReloadAllSettings()));

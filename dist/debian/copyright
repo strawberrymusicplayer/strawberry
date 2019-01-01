@@ -47,6 +47,14 @@ Files: src/core/main.h
  src/covermanager/lastfmcoverprovider.h
  src/covermanager/musicbrainzcoverprovider.cpp
  src/covermanager/musicbrainzcoverprovider.h
+ src/globalshortcuts/globalshortcutbackend-system.cpp
+ src/globalshortcuts/globalshortcutbackend-system.h
+ src/globalshortcuts/globalshortcut.cpp
+ src/globalshortcuts/globalshortcut.h
+ src/globalshortcuts/globalshortcut-X11.cpp
+ src/globalshortcuts/globalshortcut-win.cpp
+ src/globalshortcuts/keymapper_x11.h
+ src/globalshortcuts/keymapper_win.h
  src/lyrics/*
  src/scrobbler/*
  src/tidal/*
@@ -102,6 +110,10 @@ Files: src/core/main.cpp
  src/device/deviceview.h
  src/device/connecteddevice.cpp
  src/device/connecteddevice.h
+ src/globalshortcuts/globalshortcuts.cpp
+ src/globalshortcuts/globalshortcuts.h
+ src/settings/shortcutssettingspage.cpp
+ src/settings/shortcutssettingspage.h
 Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
  2012-2014, 2017-2018 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
@@ -247,10 +259,6 @@ License: Expat
 
 Files: 3rdparty/qtsingleapplication/*
 Copyright: 2010, Nokia Corporation and/or its subsidiary(-ies).
-License: BSD-3-clause
-
-Files: 3rdparty/qxt/*
-Copyright: 2006-2011, the LibQxt project <foundation@libqxt.org>
 License: BSD-3-clause
 
 Files: 3rdparty/taglib/*

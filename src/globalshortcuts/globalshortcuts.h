@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +36,8 @@
 #include <QKeySequence>
 #include <QSettings>
 
+#include "globalshortcut.h"
+
 class GlobalShortcutBackend;
 
 class GlobalShortcuts : public QWidget {
@@ -52,6 +55,7 @@ class GlobalShortcuts : public QWidget {
 
   QMap<QString, Shortcut> shortcuts() const { return shortcuts_; }
   bool IsGsdAvailable() const;
+  bool IsX11Available() const;
   bool IsMacAccessibilityEnabled() const;
 
  public slots:
@@ -61,7 +65,7 @@ class GlobalShortcuts : public QWidget {
   void Unregister();
   void Register();
 
-signals:
+ signals:
   void Play();
   void Pause();
   void PlayPause();
@@ -87,15 +91,14 @@ signals:
   Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
-  GlobalShortcutBackend *gnome_backend_;
+  GlobalShortcutBackend *dbus_backend_;
   GlobalShortcutBackend *system_backend_;
 
   QMap<QString, Shortcut> shortcuts_;
   QSettings settings_;
 
-  bool use_gnome_;
-  QSignalMapper *rating_signals_mapper_;
+  bool use_dbus_;
+  bool use_x11_;
 };
 
 #endif
-
