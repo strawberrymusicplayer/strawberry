@@ -63,7 +63,7 @@ void EngineDevice::Init() {
   device_finders.append(new PulseDeviceFinder);
 #endif
 #ifdef Q_OS_MACOS
-  device_finders.append(new OsxDeviceFinder);
+  device_finders.append(new MacOsDeviceFinder);
 #endif
 #ifdef Q_OS_WIN32
   device_finders.append(new DirectSoundDeviceFinder);
