@@ -71,8 +71,7 @@ endif()
 link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
-include_directories(${QTSINGLEAPPLICATION_INCLUDE_DIRS})
-include_directories(${QTSINGLECOREAPPLICATION_INCLUDE_DIRS})
+include_directories(${SINGLEAPPLICATION_INCLUDE_DIRS})
 
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
@@ -850,9 +849,9 @@ optional_source(APPLE
 if (APPLE)
   optional_source(HAVE_LIBMTP
    SOURCES
-      device/macosdevicelister.mm
+      device/macdevicelister.mm
     HEADERS
-      device/macosdevicelister.h
+      device/macdevicelister.h
   )
 endif()
 
@@ -917,8 +916,7 @@ target_link_libraries(strawberry_lib
   ${CHROMAPRINT_LIBRARIES}
   ${SQLITE_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
-  ${QTSINGLEAPPLICATION_LIBRARIES}
-  ${QTSINGLECOREAPPLICATION_LIBRARIES}
+  ${SINGLEAPPLICATION_LIBRARIES}
   ${QOCOA_LIBRARIES}
   z
 )
@@ -1027,7 +1025,7 @@ if (UNIX AND NOT APPLE)
   endif ()
 endif ()
 
-add_dependencies(strawberry_lib qtsingleapplication)
+add_dependencies(strawberry_lib singleapplication)
 
 
 ###############################################################################
