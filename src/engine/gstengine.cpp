@@ -450,7 +450,7 @@ void GstEngine::SetEnvironment() {
   }
 
 #if defined(Q_OS_DARWIN) && defined(USE_BUNDLE)
-  SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
+  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
 #endif
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
