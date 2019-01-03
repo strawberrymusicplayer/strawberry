@@ -30,4 +30,12 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/macdeploy.py strawberry.app ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/create-dmg.sh strawberry.app ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/scripts/upload.sh /Users/travis/build/jonaski/strawberry/build/strawberry.dmg ; fi
+after_success:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ../dist/scripts/upload.sh strawberry.dmg; fi
+
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)$/
+  
