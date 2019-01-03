@@ -31,6 +31,7 @@ depends=(
   libusbmuxd
   libplist
   libimobiledevice
+  phonon-qt5
 )
 optdepends=(
   gst-plugins-bad
@@ -55,7 +56,10 @@ prepare() {
 build() {
   cd "${srcdir}/strawberry/strawberry-build"
   cmake .. \
-    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DUSE_SYSTEM_TAGLIB=ON \
+    -DENABLE_STREAM_DEEZER=ON \
+    -DENABLE_PHONON=ON
   make
 }
 
