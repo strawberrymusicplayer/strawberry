@@ -9,11 +9,11 @@ NAME=$(basename "$1" | perl -pe 's/(.*).app/\1/')
 IN="$1"
 TMP="dmg/$NAME"
 OUT="$NAME.dmg"
-mkdir -p "$TMP"
 
 rm -rf "$TMP"
 rm -f "$OUT"
 
+mkdir -p "$TMP"
 #mkdir -p "$TMP/.background"
 #cp ../dist/macos/dmg_background.png "$TMP/.background/background.png"
 #cp ../dist/macos/DS_Store.in "$TMP/.DS_Store"
