@@ -28,7 +28,7 @@ before_script:
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/macdeploy.py strawberry.app ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo ../dist/macos/macdeploy.py strawberry.app ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/create-dmg.sh strawberry.app ; fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
