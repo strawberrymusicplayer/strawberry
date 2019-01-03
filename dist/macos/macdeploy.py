@@ -477,8 +477,8 @@ def main():
     for command in commands:
       print ' '.join(command)
 
-    print 'OK?'
-    raw_input()
+    #print 'OK?'
+    #raw_input()
 
   for command in commands:
     p = subprocess.Popen(command)
