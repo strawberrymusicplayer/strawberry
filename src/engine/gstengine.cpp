@@ -425,7 +425,7 @@ void GstEngine::SetEnvironment() {
 
 // On Windows and macOS we bundle the gstreamer plugins with strawberry
 #ifdef USE_BUNDLE
-#if defined(Q_OS_DARWIN)
+#if defined(Q_OS_MACOS)
   scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
   plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
 #elif defined(Q_OS_WIN32)
@@ -449,7 +449,7 @@ void GstEngine::SetEnvironment() {
     Utilities::SetEnv("GST_REGISTRY", registry_filename);
   }
 
-#if defined(Q_OS_DARWIN) && defined(USE_BUNDLE)
+#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
   Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
 #endif
 
