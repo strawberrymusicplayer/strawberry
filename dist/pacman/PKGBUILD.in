@@ -16,7 +16,7 @@ depends=(
   qt5-x11extras
   sqlite3
   alsa-lib
-  pulseaudio
+  libpulse
   dbus
   taglib
   gstreamer
@@ -24,16 +24,18 @@ depends=(
   gst-plugins-good
   xine-lib
   vlc
-  phonon-qt5
   chromaprint
+  libgpod
+  libcdio
+  libmtp
+  libusbmuxd
+  libplist
+  libimobiledevice
 )
 optdepends=(
-  'libgpod: iPod classic support'
-  'libcdio: Audio CD playback'
-  'libmtp: MTP device support'
-  'libusbmuxd: iPod Touch, iPhone, iPad support'
-  'libplist: iPod Touch, iPhone, iPad support'
-  'libimobiledevice: iPod Touch, iPhone, iPad support'
+  gst-plugins-bad
+  gst-plugins-ugly
+  gst-libav
 )
 provides=(strawberry)
 conflicts=(strawberry)
