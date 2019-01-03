@@ -30,3 +30,4 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/macdeploy.py strawberry.app ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/create-dmg.sh strawberry.app ; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/scripts/upload.sh /Users/travis/build/jonaski/strawberry/build/strawberry.dmg ; fi
