@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
   QtSingleApplication a(argc, argv);
 
 #if defined(Q_OS_DARWIN) && defined(USE_BUNDLE)
-  qLog(Debug) << "Looking for resources in" + QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
+  qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
 

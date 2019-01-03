@@ -51,6 +51,7 @@ QT_PLUGINS_SEARCH_PATH = [
 
 GSTREAMER_SEARCH_PATH = [
     '/usr/local/lib/gstreamer-1.0',
+    '/usr/local/Cellar/gstreamer',
 ]
 
 GSTREAMER_PLUGINS = [
@@ -460,7 +461,7 @@ def main():
   for plugin in GSTREAMER_PLUGINS:
     FixPlugin(FindGstreamerPlugin(plugin), 'gstreamer')
 
-  #FixPlugin(FindGstreamerPlugin('gst-plugin-scanner'), '.')
+  FixPlugin(FindGstreamerPlugin('gst-plugin-scanner'), '.')
   FixPlugin(FindGioModule('libgiognutls.so'), 'gio-modules')
   FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
 
