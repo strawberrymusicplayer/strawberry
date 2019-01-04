@@ -30,6 +30,7 @@ include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
 include(cmake/Rpm.cmake)
 include(cmake/Deb.cmake)
+include(cmake/Dmg.cmake)
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
   set(LINUX ON)
