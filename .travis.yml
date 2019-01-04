@@ -26,7 +26,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export Qt5_DIR=/usr/local/opt/qt5/lib/cmake ; fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild -DENABLE_STREAM_DEEZER=ON ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DFORCE_GIT_REVISION="0.0.0-0-g0000000" -DUSE_BUNDLE=ON; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DENABLE_STREAM_DEEZER=ON ; fi
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then make -j8 ; fi
@@ -36,7 +36,7 @@ script:
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ../dist/scripts/upload.sh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rsync strawberry.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rsync -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
 
 branches:
   except:
