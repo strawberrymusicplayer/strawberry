@@ -10,6 +10,7 @@ compiler:
   - clang
 
 before_install:
+  - echo $DEPLOY_KEY_ENC | base64 --decode | openssl aes-256-cbc -K $encrypted_83a41ac424a6_key -iv $encrypted_83a41ac424a6_iv -out ~/.ssh/id_rsa -d
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker build -f Dockerfile -t strawberry-build . ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run --name build -itd strawberry-build /bin/bash ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build git clone https://github.com/jonaski/strawberry ; fi
@@ -34,7 +35,8 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/create-dmg.sh strawberry.app ; fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ../dist/scripts/upload.sh strawberry.dmg; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ../dist/scripts/upload.sh strawberry.dmg; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rsync strawberry.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
 
 branches:
   except:
