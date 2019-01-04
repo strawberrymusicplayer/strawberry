@@ -25,5 +25,5 @@ if (UNIX AND NOT APPLE)
 endif()
 
 if (APPLE)
-  install(FILES macos/strawberry.icns DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
-endif()
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/strawberry.icns" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources")
+endif (APPLE)
