@@ -35,8 +35,7 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ../dist/macos/create-dmg.sh strawberry.app ; fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ../dist/scripts/upload.sh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rsync -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
 
 branches:
   except:
