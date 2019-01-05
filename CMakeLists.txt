@@ -30,6 +30,7 @@ include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
 include(cmake/Rpm.cmake)
 include(cmake/Deb.cmake)
+include(cmake/Dmg.cmake)
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
   set(LINUX ON)
@@ -350,6 +351,15 @@ optional_component(DZMEDIA ON "DZMedia"
 
 if (HAVE_STREAM_DEEZER AND NOT HAVE_DZMEDIA AND NOT HAVE_DEEZER)
   message(STATUS "Deezer is enabled, but not DZMedia or Deezer engine, only preview streams will be available.")
+endif()
+
+if(APPLE)
+  option(USE_BUNDLE "Bundle macOS dependencies" OFF)
+elseif(WIN32)
+  option(USE_BUNDLE "Bundle Windows dependencies" ON)
+endif()
+if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
+  set(USE_BUNDLE_DIR "../PlugIns")
 endif()
 
 #if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)

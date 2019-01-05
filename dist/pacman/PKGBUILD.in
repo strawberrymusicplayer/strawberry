@@ -16,7 +16,7 @@ depends=(
   qt5-x11extras
   sqlite3
   alsa-lib
-  pulseaudio
+  libpulse
   dbus
   taglib
   gstreamer
@@ -24,16 +24,19 @@ depends=(
   gst-plugins-good
   xine-lib
   vlc
-  phonon-qt5
   chromaprint
+  libgpod
+  libcdio
+  libmtp
+  libusbmuxd
+  libplist
+  libimobiledevice
+  phonon-qt5
 )
 optdepends=(
-  'libgpod: iPod classic support'
-  'libcdio: Audio CD playback'
-  'libmtp: MTP device support'
-  'libusbmuxd: iPod Touch, iPhone, iPad support'
-  'libplist: iPod Touch, iPhone, iPad support'
-  'libimobiledevice: iPod Touch, iPhone, iPad support'
+  gst-plugins-bad
+  gst-plugins-ugly
+  gst-libav
 )
 provides=(strawberry)
 conflicts=(strawberry)
@@ -53,7 +56,10 @@ prepare() {
 build() {
   cd "${srcdir}/strawberry/strawberry-build"
   cmake .. \
-    -DCMAKE_INSTALL_PREFIX=/usr
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DUSE_SYSTEM_TAGLIB=ON \
+    -DENABLE_STREAM_DEEZER=ON \
+    -DENABLE_PHONON=ON
   make
 }
 

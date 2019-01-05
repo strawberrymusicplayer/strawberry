@@ -164,8 +164,9 @@ int main(int argc, char* argv[]) {
 
   SingleApplication a(argc, argv);
 
-#ifdef Q_OS_MACOS
-  //QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/../PlugIns");
+#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
+  qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
+  QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
 
   //a.setQuitOnLastWindowClosed(false);

@@ -1066,5 +1066,5 @@ if (NOT APPLE)
 endif()
 
 if (APPLE)
-  set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "../dist/macos/Info.plist")
+  set_target_properties(strawberry PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/Info.plist")
 endif (APPLE)

@@ -423,9 +423,14 @@ void GstEngine::SetEnvironment() {
   QString plugin_path;
   QString registry_filename;
 
-  // On windows we bundle the gstreamer plugins with strawberry
-#if defined(Q_OS_WIN32)
+// On Windows and macOS we bundle the gstreamer plugins with strawberry
+#ifdef USE_BUNDLE
+#if defined(Q_OS_MACOS)
+  scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
+  plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
+#elif defined(Q_OS_WIN32)
   plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
+#endif
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
@@ -443,6 +448,10 @@ void GstEngine::SetEnvironment() {
   if (!registry_filename.isEmpty()) {
     Utilities::SetEnv("GST_REGISTRY", registry_filename);
   }
+
+#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
+  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
+#endif
 
   Utilities::SetEnv("PULSE_PROP_media.role", "music");
 

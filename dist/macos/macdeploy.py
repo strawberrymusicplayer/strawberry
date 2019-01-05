@@ -51,6 +51,7 @@ QT_PLUGINS_SEARCH_PATH = [
 
 GSTREAMER_SEARCH_PATH = [
     '/usr/local/lib/gstreamer-1.0',
+    '/usr/local/Cellar/gstreamer',
 ]
 
 GSTREAMER_PLUGINS = [
@@ -64,12 +65,11 @@ GSTREAMER_PLUGINS = [
     'libgstaudiorate.so',
     'libgstaudioresample.so',
     'libgstaudiotestsrc.so',
+    'libgstaudiovisualizers.so',
     'libgstauparse.so',
+    'libgstautoconvert.so',
     'libgstautodetect.so',
     'libgstcoreelements.so',
-    'libgstcoretracers.so',
-    'libgstcutter.so',
-    'libgstdebug.so',
     'libgstequalizer.so',
     'libgstgio.so',
     'libgsticydemux.so',
@@ -85,15 +85,16 @@ GSTREAMER_PLUGINS = [
     'libgsttypefindfunctions.so',
     'libgstvolume.so',
     'libgstxingmux.so',
+    'libgsttcp.so',
+    'libgstudp.so',
 
     'libgstflac.so',
     'libgstwavparse.so',
     'libgstfaac.so',
     'libgstfaad.so',
-    'libgstlame.so',
-    'libgstmad.so',
     'libgstogg.so',
     'libgstopus.so',
+    'libgstopusparse.so',
     'libgstasf.so',
     'libgstspeex.so',
     'libgsttaglib.so',
@@ -460,7 +461,7 @@ def main():
   for plugin in GSTREAMER_PLUGINS:
     FixPlugin(FindGstreamerPlugin(plugin), 'gstreamer')
 
-  #FixPlugin(FindGstreamerPlugin('gst-plugin-scanner'), '.')
+  FixPlugin(FindGstreamerPlugin('gst-plugin-scanner'), '.')
   FixPlugin(FindGioModule('libgiognutls.so'), 'gio-modules')
   FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
 
@@ -477,8 +478,8 @@ def main():
     for command in commands:
       print ' '.join(command)
 
-    print 'OK?'
-    raw_input()
+    #print 'OK?'
+    #raw_input()
 
   for command in commands:
     p = subprocess.Popen(command)
