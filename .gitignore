@@ -38,6 +38,7 @@ Thumbs.db
 *.nsi
 *.plist
 maketarball.sh
+dist/macos/create-dmg.sh
 dist/debian/changelog
 dist/pacman/PKGBUILD
 
