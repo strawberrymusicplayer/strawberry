@@ -22,6 +22,7 @@ message SongMetadata {
     DSF = 14;
     DSDIFF = 15;
     PCM = 16;
+    APE = 17;
     CDDA = 90;
     STREAM = 91;
   }

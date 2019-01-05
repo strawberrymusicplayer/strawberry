@@ -120,6 +120,7 @@ class Song {
     FileType_DSF = 14,
     FileType_DSDIFF = 15,
     FileType_PCM = 16,
+    FileType_APE = 17,
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };

@@ -91,6 +91,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
 Song ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, const QDir &dir) const {
 
   Song song;
+  song.set_source(Song::Source_LocalFile);
   LoadSong(filename_or_url, beginning, dir, &song);
   return song;
 
