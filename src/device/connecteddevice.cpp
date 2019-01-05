@@ -68,7 +68,9 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 
 }
 
-ConnectedDevice::~ConnectedDevice() { backend_->deleteLater(); }
+ConnectedDevice::~ConnectedDevice() {
+  backend_->deleteLater();
+}
 
 void ConnectedDevice::InitBackendDirectory(const QString &mount_point, bool first_time, bool rewrite_path) {
 

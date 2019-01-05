@@ -35,6 +35,8 @@
 
 #include "devicelister.h"
 
+#include "core/logging.h"
+
 DeviceLister::DeviceLister() : thread_(nullptr) {}
 
 DeviceLister::~DeviceLister() {

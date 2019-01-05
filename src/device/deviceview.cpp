@@ -324,6 +324,7 @@ void DeviceView::DeviceConnected(int row) {
 
 void DeviceView::DeviceDisconnected(int row) {
   DeviceInfo *info = app_->device_manager()->ItemFromRow(row);
+  if (!info) return;
   QModelIndex index = app_->device_manager()->ItemToIndex(info);
   merged_model_->RemoveSubModel(sort_model_->mapFromSource(index));
 }
