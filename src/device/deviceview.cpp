@@ -308,8 +308,11 @@ void DeviceView::DeviceConnected(int row) {
   if (!device) return;
 
   DeviceInfo *info = app_->device_manager()->ItemFromRow(row);
+  if (!info) return;
   QModelIndex index = app_->device_manager()->ItemToIndex(info);
+  if (!index.isValid()) return;
   QModelIndex sort_idx = sort_model_->mapFromSource(index);
+  if (!sort_idx.isValid()) return;
 
   QSortFilterProxyModel *sort_model = new QSortFilterProxyModel(device->model());
   sort_model->setSourceModel(device->model());
@@ -326,6 +329,7 @@ void DeviceView::DeviceDisconnected(int row) {
   DeviceInfo *info = app_->device_manager()->ItemFromRow(row);
   if (!info) return;
   QModelIndex index = app_->device_manager()->ItemToIndex(info);
+  if (!index.isValid()) return;
   merged_model_->RemoveSubModel(sort_model_->mapFromSource(index));
 }
 

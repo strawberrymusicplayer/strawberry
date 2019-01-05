@@ -542,6 +542,8 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
   }
   info->device_ = ret;
   QModelIndex index = ItemToIndex(info);
+  if (!index.isValid()) return ret;
+
   emit dataChanged(index, index);
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
@@ -639,6 +641,7 @@ void DeviceManager::DeviceTaskStarted(int id) {
     DeviceInfo *info = devices_[i];
     if (info->device_.get() == device) {
       QModelIndex index = ItemToIndex(info);
+      if (!index.isValid()) continue;
       active_tasks_[id] = index;
       info->task_percentage_ = 0;
       emit dataChanged(index, index);
