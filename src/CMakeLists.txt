@@ -272,6 +272,11 @@ set(SOURCES
   scrobbler/librefmscrobbler.cpp
   scrobbler/listenbrainzscrobbler.cpp
 
+  organise/organise.cpp
+  organise/organiseformat.cpp
+  organise/organisedialog.cpp
+  organise/organiseerrordialog.cpp
+
 )
 
 set(HEADERS
@@ -438,6 +443,10 @@ set(HEADERS
   scrobbler/librefmscrobbler.h
   scrobbler/listenbrainzscrobbler.h
 
+  organise/organise.h
+  organise/organisedialog.h
+  organise/organiseerrordialog.h
+
 )
 
 set(UI
@@ -490,6 +499,9 @@ set(UI
   widgets/loginstatewidget.ui
 
   internet/internetsearchview.ui
+
+  organise/organisedialog.ui
+  organise/organiseerrordialog.ui
 
 )
 
@@ -764,46 +776,39 @@ optional_source(HAVE_LIBPULSE
     engine/pulsedevicefinder.cpp
 )
 
-# MusicBrainz, Organise and transcode require GStreamer
+# MusicBrainz and transcoder require GStreamer
 optional_source(HAVE_GSTREAMER
 SOURCES
-  organise/organise.cpp
-  organise/organiseformat.cpp
-  organise/organisedialog.cpp
-  organise/organiseerrordialog.cpp
   transcoder/transcoder.cpp
   transcoder/transcodedialog.cpp
-  transcoder/transcoderoptionsaac.cpp
   transcoder/transcoderoptionsdialog.cpp
   transcoder/transcoderoptionsflac.cpp
-  transcoder/transcoderoptionsmp3.cpp
+  transcoder/transcoderoptionswavpack.cpp
+  transcoder/transcoderoptionsvorbis.cpp
   transcoder/transcoderoptionsopus.cpp
   transcoder/transcoderoptionsspeex.cpp
-  transcoder/transcoderoptionsvorbis.cpp
-  transcoder/transcoderoptionswma.cpp
+  transcoder/transcoderoptionsaac.cpp
+  transcoder/transcoderoptionsasf.cpp
+  transcoder/transcoderoptionsmp3.cpp
   settings/transcodersettingspage.cpp
 HEADERS
-  organise/organise.h
-  organise/organisedialog.h
-  organise/organiseerrordialog.h
   transcoder/transcoder.h
   transcoder/transcodedialog.h
   transcoder/transcoderoptionsdialog.h
   transcoder/transcoderoptionsmp3.h
   settings/transcodersettingspage.h
 UI
-  organise/organisedialog.ui
-  organise/organiseerrordialog.ui
   transcoder/transcodedialog.ui
   transcoder/transcodelogdialog.ui
   transcoder/transcoderoptionsaac.ui
   transcoder/transcoderoptionsdialog.ui
   transcoder/transcoderoptionsflac.ui
-  transcoder/transcoderoptionsmp3.ui
+  transcoder/transcoderoptionswavpack.ui
+  transcoder/transcoderoptionsvorbis.ui
   transcoder/transcoderoptionsopus.ui
   transcoder/transcoderoptionsspeex.ui
-  transcoder/transcoderoptionsvorbis.ui
-  transcoder/transcoderoptionswma.ui
+  transcoder/transcoderoptionsasf.ui
+  transcoder/transcoderoptionsmp3.ui
   settings/transcodersettingspage.ui
 )
 

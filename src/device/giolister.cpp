@@ -62,11 +62,7 @@ bool GioLister::DeviceInfo::is_suitable() const {
 
   if (filesystem_type.isEmpty()) return true;
 
-  return filesystem_type != "udf" &&
-         filesystem_type != "smb" &&
-         filesystem_type != "cifs" &&
-         filesystem_type != "ssh" &&
-         filesystem_type != "isofs";
+  return filesystem_type != "udf" && filesystem_type != "smb" && filesystem_type != "cifs" && filesystem_type != "ssh" && filesystem_type != "isofs";
 
 }
 
@@ -336,9 +332,8 @@ void GioLister::MountAdded(GMount *mount) {
 
   if (!old_id.isEmpty())
     emit DeviceChanged(old_id);
-  else {
+  else
     emit DeviceAdded(info.unique_id());
-  }
 
 }
 
@@ -527,6 +522,7 @@ void GioLister::UnmountDevice(const QString &id) {
       return;
     }
   }
+  else return;
 
   if (g_mount_can_eject(info.mount)) {
     g_mount_eject_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);

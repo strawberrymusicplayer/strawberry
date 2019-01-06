@@ -431,6 +431,7 @@ QString Song::TextForFiletype(FileType filetype) {
     case Song::FileType_DSF:         return QObject::tr("DSF");
     case Song::FileType_DSDIFF:      return QObject::tr("DSDIFF");
     case Song::FileType_PCM:         return QObject::tr("PCM");
+    case Song::FileType_APE:         return QObject::tr("Monkey's Audio");
     case Song::FileType_CDDA:        return QObject::tr("CDDA");
     case Song::FileType_Stream:      return QObject::tr("Stream");
     case Song::FileType_Unknown:
@@ -458,6 +459,7 @@ QIcon Song::IconForFiletype(FileType filetype) {
     case Song::FileType_DSF:         return IconLoader::Load("dsf");
     case Song::FileType_DSDIFF:      return IconLoader::Load("dsd");
     case Song::FileType_PCM:         return IconLoader::Load("pcm");
+    case Song::FileType_APE:         return IconLoader::Load("ape");
     case Song::FileType_CDDA:        return IconLoader::Load("cd");
     case Song::FileType_Stream:      return IconLoader::Load("applications-internet");
     case Song::FileType_Unknown:
@@ -475,6 +477,7 @@ bool Song::IsFileLossless() const {
     case Song::FileType_AIFF:
     case Song::FileType_DSF:
     case Song::FileType_DSDIFF:
+    case Song::FileType_APE:
       return true;
     default:
       return false;
@@ -496,6 +499,7 @@ Song::FileType Song::FiletypeByExtension(QString ext) {
   else if (ext.toLower() == "mpc" || ext.toLower() == "mp+" || ext.toLower() == "mpp") return Song::FileType_MPC;
   else if (ext.toLower() == "dsf") return Song::FileType_DSF;
   else if (ext.toLower() == "dsd" || ext.toLower() == "dff") return Song::FileType_DSDIFF;
+  else if (ext.toLower() == "ape") return Song::FileType_APE;
   else return Song::FileType_Unknown;
 
 }
@@ -518,6 +522,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
   d->album_ = album;
 
   set_length_nanosec(length_nanosec);
+
 }
 
 void Song::Init(const QString &title, const QString &artist, const QString &album, qint64 beginning, qint64 end) {
@@ -530,6 +535,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
   d->beginning_ = beginning;
   d->end_ = end;
+
 }
 
 void Song::set_genre_id3(int id) {

@@ -66,6 +66,7 @@
 #include <taglib/mpegfile.h>
 #include <taglib/opusfile.h>
 #include <taglib/trueaudiofile.h>
+#include <taglib/apefile.h>
 #ifdef HAVE_TAGLIB_DSFFILE
 #  include <taglib/dsffile.h>
 #  include <taglib/dsdifffile.h>
@@ -329,6 +330,10 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     }
   }
 
+  else if (TagLib::APE::File *file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    song->set_bitdepth(file->audioProperties()->bitsPerSample());
+  }
+
   else if (tag) {
     Decode(tag->comment(), nullptr, song->mutable_comment());
   }
@@ -490,6 +495,7 @@ pb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *f
   if (dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_AIFF;
   if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_TRUEAUDIO;
+  if (dynamic_cast<TagLib::APE::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_APE;
 #ifdef HAVE_TAGLIB_DSFFILE
   if (dynamic_cast<TagLib::DSF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSF;
   if (dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSDIFF;

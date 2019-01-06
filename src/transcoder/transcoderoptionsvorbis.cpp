@@ -59,7 +59,7 @@ void TranscoderOptionsVorbis::Load() {
   GET_BITRATE(max_bitrate, "max-bitrate");
 #undef GET_BITRATE
 
-  ui_->quality_slider->setValue(s.value("quality", 0.3).toDouble() * 10);
+  ui_->quality_slider->setValue(s.value("quality", 1.0).toDouble() * 10);
   ui_->managed->setChecked(s.value("managed", false).toBool());
   ui_->max_bitrate_slider->setValue(max_bitrate);
   ui_->min_bitrate_slider->setValue(min_bitrate);

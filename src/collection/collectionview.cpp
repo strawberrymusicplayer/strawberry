@@ -73,9 +73,7 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 #include "dialogs/edittagdialog.h"
-#ifdef HAVE_GSTREAMER
 #include "organise/organisedialog.h"
-#endif
 #include "settings/collectionsettingspage.h"
 
 CollectionItemDelegate::CollectionItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
@@ -460,14 +458,12 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
     add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
     add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue to play next"), this, SLOT(AddToPlaylistEnqueueNext()));
 
-#ifdef HAVE_GSTREAMER
     context_menu_->addSeparator();
     organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
 #ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
 #endif
     //delete_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from disk..."), this, SLOT(Delete()));
-#endif
 
     context_menu_->addSeparator();
     edit_track_ = context_menu_->addAction(IconLoader::Load("edit-rename"), tr("Edit track information..."), this, SLOT(EditTracks()));
@@ -482,7 +478,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addMenu(filter_->menu());
 
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
     copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
     connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
 #endif
@@ -520,25 +516,20 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
 
-  // only when no smart playlists selected
-#ifdef HAVE_GSTREAMER
   organise_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
 #endif
   //delete_->setVisible(regular_elements_only);
-#endif
   show_in_various_->setVisible(regular_elements_only);
   no_show_in_various_->setVisible(regular_elements_only);
 
   // only when all selected items are editable
-#ifdef HAVE_GSTREAMER
   organise_->setEnabled(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
 #endif
   //delete_->setEnabled(regular_elements == regular_editable);
-#endif
 
   context_menu_->popup(e->globalPos());
 
@@ -661,7 +652,6 @@ SongList CollectionView::GetSelectedSongs() const {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void CollectionView::Organise() {
 
   if (!organise_dialog_)
@@ -675,7 +665,6 @@ void CollectionView::Organise() {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
 }
-#endif
 
 void CollectionView::EditTracks() {
 
@@ -687,7 +676,6 @@ void CollectionView::EditTracks() {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void CollectionView::CopyToDevice() {
 #ifndef Q_OS_WIN
   if (!organise_dialog_)
@@ -699,7 +687,6 @@ void CollectionView::CopyToDevice() {
   organise_dialog_->show();
 #endif
 }
-#endif
 
 void CollectionView::FilterReturnPressed() {
 

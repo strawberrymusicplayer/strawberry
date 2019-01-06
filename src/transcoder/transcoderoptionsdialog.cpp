@@ -28,30 +28,34 @@
 #include <QLayout>
 
 #include "transcoderoptionsinterface.h"
-#include "transcoderoptionsaac.h"
 #include "transcoderoptionsdialog.h"
 #include "transcoderoptionsflac.h"
-#include "transcoderoptionsmp3.h"
+#include "transcoderoptionswavpack.h"
+#include "transcoderoptionsvorbis.h"
 #include "transcoderoptionsopus.h"
 #include "transcoderoptionsspeex.h"
-#include "transcoderoptionsvorbis.h"
-#include "transcoderoptionswma.h"
+#include "transcoderoptionsasf.h"
+#include "transcoderoptionsaac.h"
+#include "transcoderoptionsmp3.h"
 #include "ui_transcoderoptionsdialog.h"
 
 TranscoderOptionsDialog::TranscoderOptionsDialog(Song::FileType type, QWidget *parent)
-    : QDialog(parent), ui_(new Ui_TranscoderOptionsDialog), options_(nullptr) {
+    : QDialog(parent),
+    ui_(new Ui_TranscoderOptionsDialog),
+    options_(nullptr) {
 
   ui_->setupUi(this);
 
   switch (type) {
     case Song::FileType_FLAC:
-    case Song::FileType_OggFlac:   options_ = new TranscoderOptionsFlac(this);   break;
-    case Song::FileType_MP4:       options_ = new TranscoderOptionsAAC(this);    break;
-    case Song::FileType_MPEG:      options_ = new TranscoderOptionsMP3(this);    break;
-    case Song::FileType_OggVorbis: options_ = new TranscoderOptionsVorbis(this); break;
-    case Song::FileType_OggOpus:   options_ = new TranscoderOptionsOpus(this);   break;
-    case Song::FileType_OggSpeex:  options_ = new TranscoderOptionsSpeex(this);  break;
-    case Song::FileType_ASF:       options_ = new TranscoderOptionsWma(this);    break;
+    case Song::FileType_OggFlac:   options_ = new TranscoderOptionsFLAC(this);     break;
+    case Song::FileType_WavPack:   options_ = new TranscoderOptionsWavPack(this);  break;
+    case Song::FileType_OggVorbis: options_ = new TranscoderOptionsVorbis(this);   break;
+    case Song::FileType_OggOpus:   options_ = new TranscoderOptionsOpus(this);     break;
+    case Song::FileType_OggSpeex:  options_ = new TranscoderOptionsSpeex(this);    break;
+    case Song::FileType_MP4:       options_ = new TranscoderOptionsAAC(this);      break;
+    case Song::FileType_MPEG:      options_ = new TranscoderOptionsMP3(this);      break;
+    case Song::FileType_ASF:       options_ = new TranscoderOptionsASF(this);      break;
     default:
       break;
   }

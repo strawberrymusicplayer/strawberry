@@ -58,6 +58,7 @@ CueParser::CueParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}
 
 SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir) const {
+
   SongList ret;
 
   QTextStream text_stream(device);

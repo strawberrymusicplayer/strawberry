@@ -84,9 +84,7 @@
 #include "dialogs/console.h"
 #include "dialogs/trackselectiondialog.h"
 #include "dialogs/edittagdialog.h"
-#ifdef HAVE_GSTREAMER
-#  include "organise/organisedialog.h"
-#endif
+#include "organise/organisedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
 #include "widgets/sliderwidget.h"
@@ -201,13 +199,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
       //organise_dialog_(new OrganiseDialog(app_->task_manager())),
       equalizer_(new Equalizer),
-#ifdef HAVE_GSTREAMER
       organise_dialog_([=]() {
         OrganiseDialog *dialog = new OrganiseDialog(app->task_manager());
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
-#endif
 #ifdef HAVE_STREAM_TIDAL
       tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
@@ -315,9 +311,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
   playlist_list_->SetApplication(app_);
 
-#ifdef HAVE_GSTREAMER
   organise_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
-#endif
 
   // Icons
   qLog(Debug) << "Creating UI";
@@ -360,10 +354,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
   ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
   ui_->action_equalizer->setIcon(IconLoader::Load("equalizer"));
+  ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
-  
+
   // Scrobble
 
   ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
@@ -411,10 +406,19 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_add_folder, SIGNAL(triggered()), SLOT(AddFolder()));
   connect(ui_->action_cover_manager, SIGNAL(triggered()), SLOT(ShowCoverManager()));
   connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(show()));
+#if defined(HAVE_GSTREAMER)
+  connect(ui_->action_transcoder, SIGNAL(triggered()), SLOT(ShowTranscodeDialog()));
+#else
+  ui_->action_transcoder->setDisabled(true);
+#endif
   connect(ui_->action_jump, SIGNAL(triggered()), ui_->playlist->view(), SLOT(JumpToCurrentlyPlayingTrack()));
   connect(ui_->action_update_collection, SIGNAL(triggered()), app_->collection(), SLOT(IncrementalScan()));
   connect(ui_->action_full_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(FullScan()));
-  //connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
+#if defined(HAVE_GSTREAMER)
+  connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
+#else
+  ui_->action_add_files_to_transcoder->setDisabled(true);
+#endif
 
   connect(ui_->action_toggle_scrobbling, SIGNAL(triggered()), app_->scrobbler(), SLOT(ToggleScrobbling()));
   connect(app_->scrobbler(), SIGNAL(ErrorMessage(QString)), SLOT(ShowErrorDialog(QString)));
@@ -569,16 +573,16 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
-  //playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
-  playlist_menu_->addSeparator();
 #ifdef HAVE_GSTREAMER
-  playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(PlaylistCopyToCollection()));
-  playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, SLOT(PlaylistMoveToCollection()));
-  //playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
-#ifndef Q_OS_WIN
+  playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
+#endif
+  playlist_menu_->addSeparator();
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(PlaylistCopyToDevice()));
 #endif
-#endif
+  playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(PlaylistCopyToCollection()));
+  playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, SLOT(PlaylistMoveToCollection()));
+  playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
   playlist_open_in_browser_ = playlist_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(PlaylistOpenInBrowser()));
   playlist_open_in_browser_->setVisible(false);
   playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-find"), tr("Show in collection..."), this, SLOT(ShowInCollection()));
@@ -1426,14 +1430,12 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   ui_->action_remove_from_playlist->setEnabled(!selection.isEmpty());
 
   playlist_show_in_collection_->setVisible(false);
-#ifdef HAVE_GSTREAMER
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-  //playlist_organise_->setVisible(false);
-#ifndef Q_OS_WIN
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   playlist_copy_to_device_->setVisible(false);
 #endif
-#endif
+  playlist_organise_->setVisible(false);
   playlist_open_in_browser_->setVisible(false);
 
   if (selected < 1) {
@@ -1493,16 +1495,14 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      //playlist_organise_->setVisible(editable);
+      playlist_organise_->setVisible(editable);
       playlist_show_in_collection_->setVisible(editable);
       playlist_open_in_browser_->setVisible(true);
     }
-#ifdef HAVE_GSTREAMER
     else {
       playlist_copy_to_collection_->setVisible(editable);
       playlist_move_to_collection_->setVisible(editable);
     }
-#endif
 
 #if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
     playlist_copy_to_device_->setVisible(editable);
@@ -1937,7 +1937,6 @@ void MainWindow::PlayingWidgetPositionChanged(bool above_status_bar) {
   ui_->status_bar->show();
 }
 
-#ifdef HAVE_GSTREAMER
 void MainWindow::CopyFilesToCollection(const QList<QUrl> &urls) {
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organise_dialog_->SetUrls(urls);
@@ -1953,7 +1952,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 }
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
-#ifndef Q_OS_WIN
+#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
   organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organise_dialog_->SetCopy(true);
   if (organise_dialog_->SetUrls(urls))
@@ -1963,10 +1962,8 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
   }
 #endif
 }
-#endif
 
 void MainWindow::EditFileTags(const QList<QUrl> &urls) {
-  //EnsureEditTagDialogCreated();
 
   SongList songs;
   for (const QUrl &url : urls) {
@@ -1981,7 +1978,6 @@ void MainWindow::EditFileTags(const QList<QUrl> &urls) {
   edit_tag_dialog_->show();
 }
 
-#ifdef HAVE_GSTREAMER
 void MainWindow::PlaylistCopyToCollection() {
   PlaylistOrganiseSelected(true);
 }
@@ -2005,7 +2001,6 @@ void MainWindow::PlaylistOrganiseSelected(bool copy) {
   organise_dialog_->SetCopy(copy);
   organise_dialog_->show();
 }
-#endif
 
 void MainWindow::PlaylistOpenInBrowser() {
 
@@ -2051,9 +2046,8 @@ void MainWindow::PlaylistSkip() {
 
 }
 
-#if defined(HAVE_GSTREAMER)
 void MainWindow::PlaylistCopyToDevice() {
-#if !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
   QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   SongList songs;
 
@@ -2071,7 +2065,6 @@ void MainWindow::PlaylistCopyToDevice() {
   }
 #endif
 }
-#endif
 
 void MainWindow::ChangeCollectionQueryMode(QAction *action) {
   if (action == collection_show_duplicates_) {

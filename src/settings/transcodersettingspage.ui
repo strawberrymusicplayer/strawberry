@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_1">
+    <widget class="QLabel" name="label_top">
      <property name="text">
       <string>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</string>
      </property>
@@ -27,9 +27,184 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
-     <widget class="QWidget" name="tab_1">
+     <widget class="QWidget" name="tab_flac">
+      <attribute name="title">
+       <string>FLAC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_flac">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsFLAC" name="transcoding_flac" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_wavpack">
+      <attribute name="title">
+       <string>WavPack</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_wavpack">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsWavPack" name="transcoding_wavpack" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_vorbis">
+      <attribute name="title">
+       <string>Vorbis</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_vorbis">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsVorbis" name="transcoding_vorbis" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_opus">
+      <attribute name="title">
+       <string>Opus</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_opus">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsOpus" name="transcoding_opus" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_speex">
+      <attribute name="title">
+       <string>Speex</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_speex">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsSpeex" name="transcoding_speex" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_aac">
+      <attribute name="title">
+       <string>AAC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_aac">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsAAC" name="transcoding_aac" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_asf">
+      <attribute name="title">
+       <string>ASF (WMA)</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="layout_asf">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="TranscoderOptionsASF" name="transcoding_asf" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_mp3">
       <attribute name="title">
        <string>MP3</string>
       </attribute>
@@ -51,156 +226,6 @@
        </property>
        <item>
         <widget class="TranscoderOptionsMP3" name="transcoding_mp3" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>Vorbis</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_25">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsVorbis" name="transcoding_vorbis" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>FLAC</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_24">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsFlac" name="transcoding_flac" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_4">
-      <attribute name="title">
-       <string>Speex</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_23">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsSpeex" name="transcoding_speex" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_5">
-      <attribute name="title">
-       <string>AAC</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_22">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsAAC" name="transcoding_aac" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_6">
-      <attribute name="title">
-       <string>WMA</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_21">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsWma" name="transcoding_wma" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_7">
-      <attribute name="title">
-       <string>Opus</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_26">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="TranscoderOptionsOpus" name="transcoding_opus" native="true"/>
        </item>
       </layout>
      </widget>
@@ -234,15 +259,21 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TranscoderOptionsFlac</class>
+   <class>TranscoderOptionsFLAC</class>
    <extends>QWidget</extends>
    <header>transcoder/transcoderoptionsflac.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TranscoderOptionsWma</class>
+   <class>TranscoderOptionsWavPack</class>
    <extends>QWidget</extends>
-   <header>transcoder/transcoderoptionswma.h</header>
+   <header>transcoder/transcoderoptionswavpack.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TranscoderOptionsASF</class>
+   <extends>QWidget</extends>
+   <header>transcoder/transcoderoptionsasf.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

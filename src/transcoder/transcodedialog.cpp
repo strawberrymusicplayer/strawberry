@@ -106,8 +106,7 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
 
   QString last_output_format = s.value("last_output_format", "audio/x-vorbis").toString();
   for (int i = 0; i < ui_->format->count(); ++i) {
-    if (last_output_format ==
-        ui_->format->itemData(i).value<TranscoderPreset>().codec_mimetype_) {
+    if (last_output_format == ui_->format->itemData(i).value<TranscoderPreset>().codec_mimetype_) {
       ui_->format->setCurrentIndex(i);
       break;
     }

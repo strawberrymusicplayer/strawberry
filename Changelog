@@ -18,6 +18,13 @@ Unreleased:
     * Removed qxt dependency
     * Replaced globalshortcuts backend for X11 and Windows
     * Made global shortcuts on X11 optional and off by default
+    * Added support for Monkey's Audio
+    * Fixed crashes in devices
+    * Enabled transcoder and organiser in menus
+    * Added transcoder for WavPack
+    * Changed default group by for collection to album artist
+    * Enabled organise without gstreamer
+    * Added cmake USE_BUNDLE option for macOS/Windows
 
 Version 0.4.2:
 

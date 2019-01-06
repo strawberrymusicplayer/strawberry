@@ -108,7 +108,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   backend_->moveToThread(app_->database()->thread());
   backend_->Init(app_->database());
 
-  // This reads from the database and contends on the database mutex, which can be very slow on startup.
+  // This reads from the database and contents on the database mutex, which can be very slow on startup.
   ConcurrentRun::Run<void>(&thread_pool_, bind(&DeviceManager::LoadAllDevices, this));
 
   // This proxy model only shows connected devices
@@ -179,13 +179,14 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
   if (!index.isValid() || index.column() != 0) return QVariant();
 
   const DeviceInfo *info = IndexToItem(index);
+  if (!info) return QVariant();
 
   switch (role) {
     case Qt::DisplayRole: {
       QString text;
       if (!info->friendly_name_.isEmpty())
         text = info->friendly_name_;
-      else
+      else if (info->BestBackend())
         text = info->BestBackend()->unique_id_;
 
       if (info->size_)
@@ -210,6 +211,7 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
       return info->friendly_name_;
 
     case Role_UniqueId:
+      if (!info->BestBackend()) return QString();
       return info->BestBackend()->unique_id_;
 
     case Role_IconName:
@@ -221,11 +223,11 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
 
     case Role_FreeSpace:
     case MusicStorage::Role_FreeSpace:
-      return info->BestBackend()->lister_ ? info->BestBackend()->lister_->DeviceFreeSpace(info->BestBackend()->unique_id_) : QVariant();
+      return ((info->BestBackend() && info->BestBackend()->lister_) ? info->BestBackend()->lister_->DeviceFreeSpace(info->BestBackend()->unique_id_) : QVariant());
 
     case Role_State:
       if (info->device_) return State_Connected;
-      if (info->BestBackend()->lister_) {
+      if (info->BestBackend() && info->BestBackend()->lister_) {
         if (info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) return State_NotMounted;
         return State_NotConnected;
       }
@@ -243,9 +245,9 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
 
     case MusicStorage::Role_StorageForceConnect:
       if (!info->device_) {
-        if (info->database_id_ == -1 && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
+        if (info->database_id_ == -1 && info->BestBackend() && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
 
-          if (info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
+          if (info->BestBackend() && info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
             std::unique_ptr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
             QPushButton *connect = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
@@ -282,6 +284,7 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
     default:
       return QVariant();
   }
+
 }
 
 void DeviceManager::AddLister(DeviceLister *lister) {
@@ -329,8 +332,9 @@ int DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 void DeviceManager::PhysicalDeviceAdded(const QString &id) {
 
   DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
+  if (!lister) return;
 
-  qLog(Info) << "Device added:" << id;
+  qLog(Info) << "Device added:" << id << lister->DeviceUniqueIDs();
 
   // Do we have this device already?
   int i = FindDeviceById(id);
@@ -538,6 +542,8 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
   }
   info->device_ = ret;
   QModelIndex index = ItemToIndex(info);
+  if (!index.isValid()) return ret;
+
   emit dataChanged(index, index);
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
@@ -562,12 +568,15 @@ DeviceLister *DeviceManager::GetLister(int row) const {
 void DeviceManager::Disconnect(int row) {
 
   DeviceInfo *info = devices_[row];
-  if (!info->device_)  // Already disconnected
+  if (!info || !info->device_)
     return;
 
   info->device_.reset();
   emit DeviceDisconnected(row);
+
   QModelIndex index = ItemToIndex(info);
+  if (!index.isValid()) return;
+
   emit dataChanged(index, index);
 
 }
@@ -632,6 +641,7 @@ void DeviceManager::DeviceTaskStarted(int id) {
     DeviceInfo *info = devices_[i];
     if (info->device_.get() == device) {
       QModelIndex index = ItemToIndex(info);
+      if (!index.isValid()) continue;
       active_tasks_[id] = index;
       info->task_percentage_ = 0;
       emit dataChanged(index, index);
@@ -700,6 +710,8 @@ void DeviceManager::DeviceSongCountUpdated(int count) {
   if (row == -1) return;
 
   QModelIndex index = ItemToIndex(devices_[row]);
+  if (!index.isValid()) return;
+
   emit dataChanged(index, index);
 
 }
@@ -716,8 +728,14 @@ DeviceInfo *DeviceManager::ItemFromRow(int row) {
 QString DeviceManager::DeviceNameByID(QString unique_id) {
 
   int row = FindDeviceById(unique_id);
+  if (row == -1) return QString();
+
   DeviceInfo *info = devices_[row];
+  if (!info) return QString();
+
   QModelIndex index = ItemToIndex(info);
+  if (!index.isValid()) return QString();
+
   return data(index, DeviceManager::Role_FriendlyName).toString();
 
 }

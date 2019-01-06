@@ -35,19 +35,25 @@
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "organise.h"
-#include "transcoder/transcoder.h"
+#ifdef HAVE_GSTREAMER
+#  include "transcoder/transcoder.h"
+#endif
 
 class OrganiseFormat;
 
 using std::placeholders::_1;
 
 const int Organise::kBatchSize = 10;
+#ifdef HAVE_GSTREAMER
 const int Organise::kTranscodeProgressInterval = 500;
+#endif
 
 Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, const NewSongInfoList &songs_info, bool eject_after)
     : thread_(nullptr),
       task_manager_(task_manager),
+#ifdef HAVE_GSTREAMER
       transcoder_(new Transcoder(this)),
+#endif
       destination_(destination),
       format_(format),
       copy_(copy),
@@ -55,7 +61,9 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       mark_as_listened_(mark_as_listened),
       eject_after_(eject_after),
       task_count_(songs_info.count()),
+#ifdef HAVE_GSTREAMER
       transcode_suffix_(1),
+#endif
       tasks_complete_(0),
       started_(false),
       task_id_(0),
@@ -78,7 +86,9 @@ void Organise::Start() {
 
   thread_ = new QThread;
   connect(thread_, SIGNAL(started()), SLOT(ProcessSomeFiles()));
+#ifdef HAVE_GSTREAMER
   connect(transcoder_, SIGNAL(JobComplete(QString, QString, bool)), SLOT(FileTranscoded(QString, QString, bool)));
+#endif
 
   moveToThread(thread_);
   thread_->start();
@@ -87,7 +97,9 @@ void Organise::Start() {
 void Organise::ProcessSomeFiles() {
 
   if (!started_) {
+#ifdef HAVE_GSTREAMER
     transcode_temp_name_.open();
+#endif
 
     if (!destination_->StartCopy(&supported_filetypes_)) {
       // Failed to start - mark everything as failed :(
@@ -99,12 +111,14 @@ void Organise::ProcessSomeFiles() {
 
   // None left?
   if (tasks_pending_.isEmpty()) {
+#ifdef HAVE_GSTREAMER
     if (!tasks_transcoding_.isEmpty()) {
       // Just wait - FileTranscoded will start us off again in a little while
       qLog(Debug) << "Waiting for transcoding jobs";
       transcode_progress_timer_.start(kTranscodeProgressInterval, this);
       return;
     }
+#endif
 
     UpdateProgress();
 
@@ -137,6 +151,7 @@ void Organise::ProcessSomeFiles() {
     Song song = task.song_info_.song_;
     if (!song.is_valid()) continue;
 
+#ifdef HAVE_GSTREAMER
     // Maybe this file is one that's been transcoded already?
     if (!task.transcoded_filename_.isEmpty()) {
       qLog(Debug) << "This file has already been transcoded";
@@ -174,6 +189,7 @@ void Organise::ProcessSomeFiles() {
         continue;
       }
     }
+#endif
 
     MusicStorage::CopyJob job;
     job.source_ = task.transcoded_filename_.isEmpty() ? task.song_info_.song_.url().toLocalFile() : task.transcoded_filename_;
@@ -204,6 +220,7 @@ void Organise::ProcessSomeFiles() {
 
 }
 
+#ifdef HAVE_GSTREAMER
 Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
 
   if (original_type == Song::FileType_Stream) return Song::FileType_Unknown;
@@ -230,6 +247,7 @@ Song::FileType Organise::CheckTranscode(Song::FileType original_type) const {
   return Song::FileType_Unknown;
 
 }
+#endif
 
 void Organise::SetSongProgress(float progress, bool transcoded) {
 
@@ -243,12 +261,14 @@ void Organise::UpdateProgress() {
 
   const int total = task_count_ * 100;
 
+#ifdef HAVE_GSTREAMER
   // Update transcoding progress
   QMap<QString, float> transcode_progress = transcoder_->GetProgress();
   for (const QString &filename : transcode_progress.keys()) {
     if (!tasks_transcoding_.contains(filename)) continue;
     tasks_transcoding_[filename].transcode_progress_ = transcode_progress[filename];
   }
+#endif
 
   // Count the progress of all tasks that are in the queue.
   // Files that need transcoding total 50 for the transcode and 50 for the copy, files that only need to be copied total 100.
@@ -257,9 +277,11 @@ void Organise::UpdateProgress() {
   for (const Task &task : tasks_pending_) {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }
+#ifdef HAVE_GSTREAMER
   for (const Task &task : tasks_transcoding_.values()) {
     progress += qBound(0, static_cast<int>(task.transcode_progress_ * 50), 50);
   }
+#endif
 
   // Add the progress of the track that's currently copying
   progress += current_copy_progress_;
@@ -268,6 +290,7 @@ void Organise::UpdateProgress() {
 
 }
 
+#ifdef HAVE_GSTREAMER
 void Organise::FileTranscoded(const QString &input, const QString &output, bool success) {
 
   qLog(Info) << "File finished" << input << success;
@@ -283,14 +306,17 @@ void Organise::FileTranscoded(const QString &input, const QString &output, bool 
   QTimer::singleShot(0, this, SLOT(ProcessSomeFiles()));
 
 }
+#endif
 
 void Organise::timerEvent(QTimerEvent *e) {
 
   QObject::timerEvent(e);
 
+#ifdef HAVE_GSTREAMER
   if (e->timerId() == transcode_progress_timer_.timerId()) {
     UpdateProgress();
   }
+#endif
 
 }
 

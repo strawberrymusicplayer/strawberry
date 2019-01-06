@@ -247,7 +247,7 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     QSettings s;
     s.beginGroup(settings_group_);
     model_->SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_Artist)).toInt()),
+        CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
         CollectionModel::GroupBy(s.value("group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
         CollectionModel::GroupBy(s.value("group_by3", int(CollectionModel::GroupBy_None)).toInt())));
   }

@@ -47,9 +47,7 @@
 
 class Application;
 class EditTagDialog;
-#ifdef HAVE_GSTREAMER
 class OrganiseDialog;
-#endif
 class ContextAlbumsModel;
 
 class ContextItemDelegate : public QStyledItemDelegate {
@@ -101,12 +99,8 @@ signals:
   void AddToPlaylist();
   void AddToPlaylistEnqueue();
   void OpenInNewPlaylist();
-#ifdef HAVE_GSTREAMER
   void Organise();
-//#ifndef Q_OS_WIN
   void CopyToDevice();
-//#endif
-#endif
   void EditTracks();
   void ShowInBrowser();
 
@@ -124,20 +118,16 @@ signals:
   QAction *add_to_playlist_;
   QAction *add_to_playlist_enqueue_;
   QAction *open_in_new_playlist_;
-#ifdef HAVE_GSTREAMER
   QAction *organise_;
 #ifndef Q_OS_WIN
   QAction *copy_to_device_;
-#endif
 #endif
   QAction *delete_;
   QAction *edit_track_;
   QAction *edit_tracks_;
   QAction *show_in_browser_;
 
-#ifdef HAVE_GSTREAMER
   std::unique_ptr<OrganiseDialog> organise_dialog_;
-#endif
   std::unique_ptr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;

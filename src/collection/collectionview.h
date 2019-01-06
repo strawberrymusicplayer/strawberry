@@ -52,9 +52,7 @@ class QPaintEvent;
 class Application;
 class CollectionFilterWidget;
 class EditTagDialog;
-#ifdef HAVE_GSTREAMER
 class OrganiseDialog;
-#endif
 
 class CollectionItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
@@ -119,10 +117,8 @@ signals:
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
-#ifdef HAVE_GSTREAMER
   void Organise();
   void CopyToDevice();
-#endif
   void EditTracks();
   void ShowInBrowser();
   void ShowInVarious();
@@ -151,11 +147,9 @@ signals:
   QAction *add_to_playlist_enqueue_;
   QAction *add_to_playlist_enqueue_next_;
   QAction *open_in_new_playlist_;
-#ifdef HAVE_GSTREAMER
   QAction *organise_;
 #ifndef Q_OS_WIN
   QAction *copy_to_device_;
-#endif
 #endif
   QAction *delete_;
   QAction *edit_track_;
@@ -164,9 +158,7 @@ signals:
   QAction *show_in_various_;
   QAction *no_show_in_various_;
 
-#ifdef HAVE_GSTREAMER
   std::unique_ptr<OrganiseDialog> organise_dialog_;
-#endif
   std::unique_ptr<EditTagDialog> edit_tag_dialog_;
 
   bool is_in_keyboard_search_;

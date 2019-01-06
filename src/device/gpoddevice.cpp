@@ -77,6 +77,13 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db) {
   db_ = db;
   db_wait_cond_.wakeAll();
 
+  if (loader_thread_) {
+    loader_thread_->quit();
+    loader_thread_->wait(1000);
+    loader_thread_->deleteLater();
+    loader_thread_ = nullptr;
+  }
+
   loader_->deleteLater();
   loader_ = nullptr;
 

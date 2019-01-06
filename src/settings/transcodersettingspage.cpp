@@ -22,13 +22,14 @@
 
 #include "core/iconloader.h"
 #include "settingspage.h"
-#include "transcoder/transcoderoptionsaac.h"
 #include "transcoder/transcoderoptionsflac.h"
-#include "transcoder/transcoderoptionsmp3.h"
+#include "transcoder/transcoderoptionswavpack.h"
+#include "transcoder/transcoderoptionsvorbis.h"
 #include "transcoder/transcoderoptionsopus.h"
 #include "transcoder/transcoderoptionsspeex.h"
-#include "transcoder/transcoderoptionsvorbis.h"
-#include "transcoder/transcoderoptionswma.h"
+#include "transcoder/transcoderoptionsaac.h"
+#include "transcoder/transcoderoptionsasf.h"
+#include "transcoder/transcoderoptionsmp3.h"
 #include "transcodersettingspage.h"
 #include "ui_transcodersettingspage.h"
 
@@ -45,21 +46,23 @@ TranscoderSettingsPage::~TranscoderSettingsPage() {
 }
 
 void TranscoderSettingsPage::Load() {
-  ui_->transcoding_aac->Load();
   ui_->transcoding_flac->Load();
-  ui_->transcoding_mp3->Load();
-  ui_->transcoding_speex->Load();
+  ui_->transcoding_wavpack->Load();
   ui_->transcoding_vorbis->Load();
-  ui_->transcoding_wma->Load();
   ui_->transcoding_opus->Load();
+  ui_->transcoding_speex->Load();
+  ui_->transcoding_aac->Load();
+  ui_->transcoding_asf->Load();
+  ui_->transcoding_mp3->Load();
 }
 
 void TranscoderSettingsPage::Save() {
-  ui_->transcoding_aac->Save();
   ui_->transcoding_flac->Save();
-  ui_->transcoding_mp3->Save();
-  ui_->transcoding_speex->Save();
+  ui_->transcoding_wavpack->Save();
   ui_->transcoding_vorbis->Save();
-  ui_->transcoding_wma->Save();
   ui_->transcoding_opus->Save();
+  ui_->transcoding_speex->Save();
+  ui_->transcoding_aac->Save();
+  ui_->transcoding_asf->Save();
+  ui_->transcoding_mp3->Save();
 }
