@@ -1767,10 +1767,12 @@ void MainWindow::PlaylistEditFinished(const QModelIndex &index) {
   if (index == playlist_menu_index_) SelectionSetValue();
 }
 
-void MainWindow::CommandlineOptionsReceived(const QString &string_options) {
+void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options) {
+
+  Q_UNUSED(instanceId);
 
   CommandlineOptions options;
-  options.Load(string_options.toLatin1());
+  options.Load(string_options);
 
   if (options.is_empty()) {
     show();

@@ -27,7 +27,7 @@
 #include <QtNetwork/QLocalSocket>
 
 #ifndef QAPPLICATION_CLASS
-  #define QAPPLICATION_CLASS QCoreApplication
+  #error "QAPPLICATION_CLASS not defined."
 #endif
 
 #include QT_STRINGIFY(QAPPLICATION_CLASS)

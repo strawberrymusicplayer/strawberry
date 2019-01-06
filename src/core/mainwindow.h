@@ -229,7 +229,7 @@ signals:
   void AddFolder();
   void AddCDTracks();
 
-  void CommandlineOptionsReceived(const QString& string_options);
+  void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
 
   void CheckForUpdates();
 

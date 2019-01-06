@@ -48,7 +48,6 @@
 #endif  // Q_OS_WIN32
 
 #include <QObject>
-#include <QCoreApplication>
 #include <QApplication>
 #include <QStandardPaths>
 #include <QFileDevice>
@@ -69,7 +68,6 @@
 
 #include "core/logging.h"
 
-#define QAPPLICATION_CLASS QApplication
 #include <singleapplication.h>
 
 #ifdef HAVE_DBUS
@@ -123,11 +121,11 @@ int main(int argc, char* argv[]) {
   g_log_set_default_handler(reinterpret_cast<GLogFunc>(&logging::GLog), nullptr);
 
   CommandlineOptions options(argc, argv);
-#if 0
+
   {
     // Only start a core application now so we can check if there's another Strawberry running without needing an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
-    SingleApplication a(argc, argv, true);
+    SingleApplication a(argc, argv, true, SingleApplication::Mode::User);
     Utilities::CheckPortable();
 
     // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
@@ -145,7 +143,6 @@ int main(int argc, char* argv[]) {
       // Couldn't send the message so start anyway
     }
   }
-#endif
 
 #ifdef Q_OS_MACOS
   // Must happen after QCoreApplication::setOrganizationName().
@@ -162,19 +159,17 @@ int main(int argc, char* argv[]) {
 
   Utilities::IncreaseFDLimit();
 
-  SingleApplication a(argc, argv);
+  SingleApplication a(argc, argv, false, SingleApplication::Mode::User);
 
 #if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
 
-  //a.setQuitOnLastWindowClosed(false);
-
   // Do this check again because another instance might have started by now
-  //if (a.isSecondary() && a.sendMessage(options.Serialize(), 5000)) {
-    //return 0;
-  //}
+  if (a.isSecondary() && a.sendMessage(options.Serialize(), 5000)) {
+    return 0;
+  }
 
 #ifndef Q_OS_MACOS
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
@@ -234,7 +229,7 @@ int main(int argc, char* argv[]) {
 #ifdef HAVE_DBUS
   QObject::connect(&mpris, SIGNAL(RaiseMainWindow()), &w, SLOT(Raise()));
 #endif
-  QObject::connect(&a, SIGNAL(messageReceived(QString)), &w, SLOT(CommandlineOptionsReceived(QString)));
+  QObject::connect(&a, SIGNAL(receivedMessage(quint32, QByteArray)), &w, SLOT(CommandlineOptionsReceived(quint32, QByteArray)));
 
   int ret = a.exec();
 

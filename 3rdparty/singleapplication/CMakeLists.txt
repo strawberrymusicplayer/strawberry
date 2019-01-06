@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 set(CMAKE_CXX_STANDARD 11)
+add_compile_definitions(QAPPLICATION_CLASS=QApplication)
 set(SINGLEAPP-SOURCES singleapplication.cpp singleapplication_p.cpp)
 set(SINGLEAPP-MOC-HEADERS singleapplication.h singleapplication_p.h)
 QT5_WRAP_CPP(SINGLEAPP-SOURCES-MOC ${SINGLEAPP-MOC-HEADERS})
