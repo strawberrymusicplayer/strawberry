@@ -219,7 +219,11 @@ else(USE_SYSTEM_QTSINGLEAPPLICATION)
   set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
   set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 endif(USE_SYSTEM_QTSINGLEAPPLICATION)
-add_compile_definitions(QAPPLICATION_CLASS=QApplication)
+if(${CMAKE_VERSION} GREATER_EQUAL 3.11)
+  add_compile_definitions(QAPPLICATION_CLASS=QApplication)
+else()
+  add_definitions(-DQAPPLICATION_CLASS=QApplication)
+endif()
 
 # Qocoa
 set(QOCOA_LIBRARIES Qocoa)
