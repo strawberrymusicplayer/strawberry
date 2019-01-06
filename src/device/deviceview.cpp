@@ -210,10 +210,8 @@ void DeviceView::SetApplication(Application *app) {
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
-#ifdef HAVE_GSTREAMER
   organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
-#endif
 
 }
 
@@ -235,9 +233,7 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
 
     collection_menu_->addSeparator();
-#ifdef HAVE_GSTREAMER
     organise_action_ = collection_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(Organise()));
-#endif
     delete_action_ = collection_menu_->addAction(IconLoader::Load("edit-delete"), tr("Delete from device..."), this, SLOT(Delete()));
   }
 
@@ -409,7 +405,6 @@ void DeviceView::OpenInNewPlaylist() {
   emit AddToPlaylistSignal(data);
 }
 
-#ifdef HAVE_GSTREAMER
 void DeviceView::Delete() {
 
   if (selectedIndexes().isEmpty()) return;
@@ -444,14 +439,12 @@ void DeviceView::Organise() {
   organise_dialog_->show();
 
 }
-#endif
 
 void DeviceView::Unmount() {
   QModelIndex device_idx = MapToDevice(menu_index_);
   app_->device_manager()->Unmount(device_idx.row());
 }
 
-#ifdef HAVE_GSTREAMER
 void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
 
   if (songs_with_errors.isEmpty()) return;
@@ -461,7 +454,6 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
   // It deletes itself when the user closes it
 
 }
-#endif
 
 bool DeviceView::CanRecursivelyExpand(const QModelIndex &index) const {
   // Never expand devices

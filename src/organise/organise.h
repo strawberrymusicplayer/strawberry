@@ -44,7 +44,9 @@ class QTimerEvent;
 
 class MusicStorage;
 class TaskManager;
+#ifdef HAVE_GSTREAMER
 class Transcoder;
+#endif
 
 class Organise : public QObject {
   Q_OBJECT
@@ -60,7 +62,9 @@ class Organise : public QObject {
   Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, const NewSongInfoList &songs, bool eject_after);
 
   static const int kBatchSize;
+#ifdef HAVE_GSTREAMER
   static const int kTranscodeProgressInterval;
+#endif
 
   void Start();
 
@@ -73,19 +77,25 @@ signals:
 
  private slots:
   void ProcessSomeFiles();
+#ifdef HAVE_GSTREAMER
   void FileTranscoded(const QString &input, const QString &output, bool success);
+#endif
 
  private:
   void SetSongProgress(float progress, bool transcoded = false);
   void UpdateProgress();
+#ifdef HAVE_GSTREAMER
   Song::FileType CheckTranscode(Song::FileType original_type) const;
+#endif
 
  private:
   struct Task {
-    explicit Task(const NewSongInfo &song_info = NewSongInfo()) : song_info_(song_info), transcode_progress_(0.0) {}
+    explicit Task(const NewSongInfo &song_info = NewSongInfo()) :
+      song_info_(song_info),
+      transcode_progress_(0.0)
+      {}
 
     NewSongInfo song_info_;
-
     float transcode_progress_;
     QString transcoded_filename_;
     QString new_extension_;
@@ -95,7 +105,9 @@ signals:
   QThread *thread_;
   QThread *original_thread_;
   TaskManager *task_manager_;
+#ifdef HAVE_GSTREAMER
   Transcoder *transcoder_;
+#endif
   std::shared_ptr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;
 
@@ -106,12 +118,16 @@ signals:
   const bool eject_after_;
   int task_count_;
 
+#ifdef HAVE_GSTREAMER
   QBasicTimer transcode_progress_timer_;
   QTemporaryFile transcode_temp_name_;
   int transcode_suffix_;
+#endif
 
   QList<Task> tasks_pending_;
+#ifdef HAVE_GSTREAMER
   QMap<QString, Task> tasks_transcoding_;
+#endif
   int tasks_complete_;
 
   bool started_;

@@ -186,14 +186,10 @@ signals:
   void AddFilesToTranscoder();
 #endif
 
-#ifdef HAVE_GSTREAMER
   void PlaylistCopyToCollection();
   void PlaylistMoveToCollection();
-#ifndef Q_OS_WIN_
   void PlaylistCopyToDevice();
-#endif
   void PlaylistOrganiseSelected(bool copy);
-#endif
   void PlaylistOpenInBrowser();
   void ShowInCollection();
 
@@ -206,11 +202,9 @@ signals:
   void SongChanged(const Song& song);
   void VolumeChanged(int volume);
 
-#ifdef HAVE_GSTREAMER
   void CopyFilesToCollection(const QList<QUrl>& urls);
   void MoveFilesToCollection(const QList<QUrl>& urls);
   void CopyFilesToDevice(const QList<QUrl>& urls);
-#endif
   void EditFileTags(const QList<QUrl>& urls);
 
   void AddToPlaylist(QMimeData *data);
@@ -327,9 +321,7 @@ signals:
   Lazy<TranscodeDialog> transcode_dialog_;
 #endif
   Lazy<ErrorDialog> error_dialog_;
-#ifdef HAVE_GSTREAMER
   Lazy<OrganiseDialog> organise_dialog_;
-#endif
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   std::unique_ptr<TagFetcher> tag_fetcher_;
@@ -352,12 +344,10 @@ signals:
   QAction *playlist_undoredo_;
   QAction *playlist_organise_;
   QAction *playlist_show_in_collection_;
-#ifdef HAVE_GSTREAMER
   QAction *playlist_copy_to_collection_;
   QAction *playlist_move_to_collection_;
 #ifndef Q_OS_WIN
   QAction *playlist_copy_to_device_;
-#endif
 #endif
   QAction *playlist_open_in_browser_;
   QAction *playlist_queue_;

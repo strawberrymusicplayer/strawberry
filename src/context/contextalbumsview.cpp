@@ -73,9 +73,7 @@
 #  include "device/devicestatefiltermodel.h"
 #endif
 #include "dialogs/edittagdialog.h"
-#ifdef HAVE_GSTREAMER
 #include "organise/organisedialog.h"
-#endif
 #include "settings/collectionsettingspage.h"
 
 #include "contextview.h"
@@ -367,12 +365,10 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
     context_menu_->addSeparator();
     add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load("go-next"), tr("Queue track"), this, SLOT(AddToPlaylistEnqueue()));
 
-#ifdef HAVE_GSTREAMER
     context_menu_->addSeparator();
     organise_ = context_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(Organise()));
 #ifndef Q_OS_WIN
     copy_to_device_ = context_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(CopyToDevice()));
-#endif
 #endif
 
     context_menu_->addSeparator();
@@ -382,7 +378,7 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
     copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
     connect(app_->device_manager()->connected_devices_model(), SIGNAL(IsEmptyChanged(bool)), copy_to_device_, SLOT(setDisabled(bool)));
 #endif
@@ -405,9 +401,7 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
   // TODO: check if custom plugin actions should be enabled / visible
   const int songs_selected = regular_elements;
-#ifdef HAVE_GSTREAMER
   const bool regular_elements_only = songs_selected == regular_elements && regular_elements > 0;
-#endif
 
   // in all modes
   load_->setEnabled(songs_selected);
@@ -419,19 +413,15 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
 
-#ifdef HAVE_GSTREAMER
   organise_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
   copy_to_device_->setVisible(regular_elements_only);
 #endif
-#endif
 
   // only when all selected items are editable
-#ifdef HAVE_GSTREAMER
   organise_->setEnabled(regular_elements == regular_editable);
 #ifndef Q_OS_WIN
   copy_to_device_->setEnabled(regular_elements == regular_editable);
-#endif
 #endif
 
   context_menu_->popup(e->globalPos());
@@ -488,7 +478,6 @@ SongList ContextAlbumsView::GetSelectedSongs() const {
   return model_->GetChildSongs(selected_indexes);
 }
 
-#ifdef HAVE_GSTREAMER
 void ContextAlbumsView::Organise() {
 
   if (!organise_dialog_)
@@ -502,7 +491,6 @@ void ContextAlbumsView::Organise() {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
 }
-#endif
 
 void ContextAlbumsView::EditTracks() {
 
@@ -514,7 +502,6 @@ void ContextAlbumsView::EditTracks() {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void ContextAlbumsView::CopyToDevice() {
 #ifndef Q_OS_WIN
   if (!organise_dialog_)
@@ -526,7 +513,6 @@ void ContextAlbumsView::CopyToDevice() {
   organise_dialog_->show();
 #endif
 }
-#endif
 
 void ContextAlbumsView::ShowInBrowser() {
 

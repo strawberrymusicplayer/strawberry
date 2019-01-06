@@ -85,17 +85,13 @@ class DeviceView : public AutoExpandingTreeView {
   void Load();
   void AddToPlaylist();
   void OpenInNewPlaylist();
-#ifdef HAVE_GSTREAMER
   void Organise();
   void Delete();
-#endif
 
   void DeviceConnected(int row);
   void DeviceDisconnected(int row);
 
-#ifdef HAVE_GSTREAMER
   void DeleteFinished(const SongList &songs_with_errors);
-#endif
 
   // AutoExpandingTreeView
   bool CanRecursivelyExpand(const QModelIndex &index) const;
@@ -112,9 +108,7 @@ class DeviceView : public AutoExpandingTreeView {
   QSortFilterProxyModel *sort_model_;
 
   std::unique_ptr<DeviceProperties> properties_dialog_;
-#ifdef HAVE_GSTREAMER
   std::unique_ptr<OrganiseDialog> organise_dialog_;
-#endif
 
   QMenu *device_menu_;
   QAction *eject_action_;
