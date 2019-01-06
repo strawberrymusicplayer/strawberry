@@ -257,9 +257,9 @@ Files: 3rdparty/qocoa/*
 Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
 License: Expat
 
-Files: 3rdparty/qtsingleapplication/*
-Copyright: 2010, Nokia Corporation and/or its subsidiary(-ies).
-License: BSD-3-clause
+Files: 3rdparty/singleapplication/*
+Copyright: 2015-2018, Itay Grudev
+License: MIT
 
 Files: 3rdparty/taglib/*
 Copyright: 2002-2008, Scott Wheeler
