@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,35 +26,29 @@
 #include <QSlider>
 #include <QSettings>
 
-#include "transcoder/transcoderoptionsinterface.h"
-#include "transcoderoptionswma.h"
-#include "ui_transcoderoptionswma.h"
+#include "transcoderoptionsinterface.h"
+#include "transcoderoptionswavpack.h"
+#include "ui_transcoderoptionswavpack.h"
 
-const char *TranscoderOptionsWma::kSettingsGroup = "Transcoder/ffenc_wmav2";
+const char *TranscoderOptionsWavPack::kSettingsGroup = "Transcoder/wavpackenc";
 
-TranscoderOptionsWma::TranscoderOptionsWma(QWidget *parent)
-    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsWma) {
+TranscoderOptionsWavPack::TranscoderOptionsWavPack(QWidget *parent)
+    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsWavPack) {
   ui_->setupUi(this);
 }
 
-TranscoderOptionsWma::~TranscoderOptionsWma() {
+TranscoderOptionsWavPack::~TranscoderOptionsWavPack() {
   delete ui_;
 }
 
-void TranscoderOptionsWma::Load() {
-
+void TranscoderOptionsWavPack::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
-
-  ui_->bitrate_slider->setValue(s.value("bitrate", 128000).toInt() / 1000);
-
+  s.endGroup();
 }
 
-void TranscoderOptionsWma::Save() {
-
+void TranscoderOptionsWavPack::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
-
-  s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
-
+  s.endGroup();
 }

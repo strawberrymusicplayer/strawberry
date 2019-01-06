@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +17,8 @@
  *
  */
 
-#ifndef TRANSCODEROPTIONSWMA_H
-#define TRANSCODEROPTIONSWMA_H
+#ifndef TRANSCODEROPTIONSWAVPACK_H
+#define TRANSCODEROPTIONSWAVPACK_H
 
 #include "config.h"
 
@@ -27,12 +26,12 @@
 
 #include "transcoderoptionsinterface.h"
 
-class Ui_TranscoderOptionsWma;
+class Ui_TranscoderOptionsWavPack;
 
-class TranscoderOptionsWma : public TranscoderOptionsInterface {
+class TranscoderOptionsWavPack : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsWma(QWidget *parent = nullptr);
-  ~TranscoderOptionsWma();
+  TranscoderOptionsWavPack(QWidget *parent = nullptr);
+  ~TranscoderOptionsWavPack();
 
   void Load();
   void Save();
@@ -40,7 +39,7 @@ class TranscoderOptionsWma : public TranscoderOptionsInterface {
 private:
   static const char *kSettingsGroup;
 
-  Ui_TranscoderOptionsWma *ui_;
+  Ui_TranscoderOptionsWavPack *ui_;
 };
 
-#endif  // TRANSCODEROPTIONSWMA_H
+#endif  // TRANSCODEROPTIONSWAVPACK_H

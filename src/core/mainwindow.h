@@ -350,7 +350,7 @@ signals:
   QAction *playlist_play_pause_;
   QAction *playlist_stop_after_;
   QAction *playlist_undoredo_;
-  //QAction *playlist_organise_;
+  QAction *playlist_organise_;
   QAction *playlist_show_in_collection_;
 #ifdef HAVE_GSTREAMER
   QAction *playlist_copy_to_collection_;

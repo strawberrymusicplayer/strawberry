@@ -360,6 +360,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->action_cover_manager->setIcon(IconLoader::Load("document-download"));
   ui_->action_edit_track->setIcon(IconLoader::Load("edit-rename"));
   ui_->action_equalizer->setIcon(IconLoader::Load("equalizer"));
+  ui_->action_transcoder->setIcon(IconLoader::Load("tools-wizard"));
   ui_->action_update_collection->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load("view-refresh"));
   ui_->action_settings->setIcon(IconLoader::Load("configure"));
@@ -411,10 +412,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_add_folder, SIGNAL(triggered()), SLOT(AddFolder()));
   connect(ui_->action_cover_manager, SIGNAL(triggered()), SLOT(ShowCoverManager()));
   connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(show()));
+  connect(ui_->action_transcoder, SIGNAL(triggered()), SLOT(ShowTranscodeDialog()));
   connect(ui_->action_jump, SIGNAL(triggered()), ui_->playlist->view(), SLOT(JumpToCurrentlyPlayingTrack()));
   connect(ui_->action_update_collection, SIGNAL(triggered()), app_->collection(), SLOT(IncrementalScan()));
   connect(ui_->action_full_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(FullScan()));
-  //connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
+  connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
 
   connect(ui_->action_toggle_scrobbling, SIGNAL(triggered()), app_->scrobbler(), SLOT(ToggleScrobbling()));
   connect(app_->scrobbler(), SIGNAL(ErrorMessage(QString)), SLOT(ShowErrorDialog(QString)));
@@ -569,12 +571,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
-  //playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
+  playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
   playlist_menu_->addSeparator();
 #ifdef HAVE_GSTREAMER
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(PlaylistCopyToCollection()));
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load("go-jump"), tr("Move to collection..."), this, SLOT(PlaylistMoveToCollection()));
-  //playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
+  playlist_organise_ = playlist_menu_->addAction(IconLoader::Load("edit-copy"), tr("Organise files..."), this, SLOT(PlaylistMoveToCollection()));
 #ifndef Q_OS_WIN
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load("device"), tr("Copy to device..."), this, SLOT(PlaylistCopyToDevice()));
 #endif
@@ -1429,7 +1431,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
 #ifdef HAVE_GSTREAMER
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-  //playlist_organise_->setVisible(false);
+  playlist_organise_->setVisible(false);
 #ifndef Q_OS_WIN
   playlist_copy_to_device_->setVisible(false);
 #endif
@@ -1493,7 +1495,9 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
-      //playlist_organise_->setVisible(editable);
+#ifdef HAVE_GSTREAMER
+      playlist_organise_->setVisible(editable);
+#endif
       playlist_show_in_collection_->setVisible(editable);
       playlist_open_in_browser_->setVisible(true);
     }

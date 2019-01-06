@@ -18,33 +18,29 @@
  *
  */
 
-#ifndef TRANSCODERSETTINGSPAGE_H
-#define TRANSCODERSETTINGSPAGE_H
+#ifndef TRANSCODEROPTIONSASF_H
+#define TRANSCODEROPTIONSASF_H
 
 #include "config.h"
 
-#include <QObject>
-#include <QString>
+#include <QWidget>
 
-#include "settingspage.h"
+#include "transcoderoptionsinterface.h"
 
-class SettingsDialog;
-class Ui_TranscoderSettingsPage;
+class Ui_TranscoderOptionsASF;
 
-class TranscoderSettingsPage : public SettingsPage {
-  Q_OBJECT
-
-public:
-  TranscoderSettingsPage(SettingsDialog* dialog);
-  ~TranscoderSettingsPage();
-
-  static const char *kSettingsGroup;
+class TranscoderOptionsASF : public TranscoderOptionsInterface {
+ public:
+  TranscoderOptionsASF(QWidget *parent = nullptr);
+  ~TranscoderOptionsASF();
 
   void Load();
   void Save();
 
 private:
-  Ui_TranscoderSettingsPage* ui_;
+  static const char *kSettingsGroup;
+
+  Ui_TranscoderOptionsASF *ui_;
 };
 
-#endif  // TRANSCODERSETTINGSPAGE_H
+#endif  // TRANSCODEROPTIONSASF_H

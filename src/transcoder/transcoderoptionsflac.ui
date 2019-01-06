@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TranscoderOptionsFlac</class>
- <widget class="QWidget" name="TranscoderOptionsFlac">
+ <class>TranscoderOptionsFLAC</class>
+ <widget class="QWidget" name="TranscoderOptionsFLAC">
   <property name="geometry">
    <rect>
     <x>0</x>

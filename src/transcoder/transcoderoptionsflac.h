@@ -27,12 +27,12 @@
 
 #include "transcoderoptionsinterface.h"
 
-class Ui_TranscoderOptionsFlac;
+class Ui_TranscoderOptionsFLAC;
 
-class TranscoderOptionsFlac : public TranscoderOptionsInterface {
+class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsFlac(QWidget *parent = nullptr);
-  ~TranscoderOptionsFlac();
+  TranscoderOptionsFLAC(QWidget *parent = nullptr);
+  ~TranscoderOptionsFLAC();
 
   void Load();
   void Save();
@@ -40,7 +40,7 @@ class TranscoderOptionsFlac : public TranscoderOptionsInterface {
 private:
   static const char *kSettingsGroup;
 
-  Ui_TranscoderOptionsFlac *ui_;
+  Ui_TranscoderOptionsFLAC *ui_;
 };
 
 #endif  // TRANSCODEROPTIONSFLAC_H

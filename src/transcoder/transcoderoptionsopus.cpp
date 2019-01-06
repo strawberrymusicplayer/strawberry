@@ -47,7 +47,7 @@ void TranscoderOptionsOpus::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
-  ui_->bitrate_slider->setValue(s.value("bitrate", 128000).toInt() / 1000);
+  ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
 }
 
 void TranscoderOptionsOpus::Save() {

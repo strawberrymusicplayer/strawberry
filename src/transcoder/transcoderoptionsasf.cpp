@@ -20,48 +20,42 @@
 
 #include "config.h"
 
-#include <stdbool.h>
-
+#include <QWidget>
 #include <QVariant>
 #include <QString>
 #include <QStringBuilder>
-#include <QCheckBox>
-#include <QComboBox>
 #include <QSlider>
 #include <QSettings>
 
-#include "transcoderoptionsinterface.h"
-#include "transcoderoptionsaac.h"
-#include "ui_transcoderoptionsaac.h"
+#include "transcoder/transcoderoptionsinterface.h"
+#include "transcoderoptionsasf.h"
+#include "ui_transcoderoptionsasf.h"
 
-const char *TranscoderOptionsAAC::kSettingsGroup = "Transcoder/faac";
+const char *TranscoderOptionsASF::kSettingsGroup = "Transcoder/ffenc_wmav2";
 
-TranscoderOptionsAAC::TranscoderOptionsAAC(QWidget* parent) : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsAAC) {
+TranscoderOptionsASF::TranscoderOptionsASF(QWidget *parent)
+    : TranscoderOptionsInterface(parent), ui_(new Ui_TranscoderOptionsASF) {
   ui_->setupUi(this);
 }
 
-TranscoderOptionsAAC::~TranscoderOptionsAAC() {
+TranscoderOptionsASF::~TranscoderOptionsASF() {
   delete ui_;
 }
 
-void TranscoderOptionsAAC::Load() {
+void TranscoderOptionsASF::Load() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
   ui_->bitrate_slider->setValue(s.value("bitrate", 320000).toInt() / 1000);
-  ui_->profile->setCurrentIndex(s.value("profile", 2).toInt() - 1);
-  ui_->tns->setChecked(s.value("tns", false).toBool());
-  ui_->midside->setChecked(s.value("midside", true).toBool());
-  ui_->shortctl->setCurrentIndex(s.value("shortctl", 0).toInt());
+
 }
 
-void TranscoderOptionsAAC::Save() {
+void TranscoderOptionsASF::Save() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
   s.setValue("bitrate", ui_->bitrate_slider->value() * 1000);
-  s.setValue("profile", ui_->profile->currentIndex() + 1);
-  s.setValue("tns", ui_->tns->isChecked());
-  s.setValue("midside", ui_->midside->isChecked());
-  s.setValue("shortctl", ui_->shortctl->currentIndex());
+
 }

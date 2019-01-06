@@ -774,14 +774,15 @@ SOURCES
   organise/organiseerrordialog.cpp
   transcoder/transcoder.cpp
   transcoder/transcodedialog.cpp
-  transcoder/transcoderoptionsaac.cpp
   transcoder/transcoderoptionsdialog.cpp
   transcoder/transcoderoptionsflac.cpp
-  transcoder/transcoderoptionsmp3.cpp
+  transcoder/transcoderoptionswavpack.cpp
+  transcoder/transcoderoptionsvorbis.cpp
   transcoder/transcoderoptionsopus.cpp
   transcoder/transcoderoptionsspeex.cpp
-  transcoder/transcoderoptionsvorbis.cpp
-  transcoder/transcoderoptionswma.cpp
+  transcoder/transcoderoptionsaac.cpp
+  transcoder/transcoderoptionsasf.cpp
+  transcoder/transcoderoptionsmp3.cpp
   settings/transcodersettingspage.cpp
 HEADERS
   organise/organise.h
@@ -800,11 +801,12 @@ UI
   transcoder/transcoderoptionsaac.ui
   transcoder/transcoderoptionsdialog.ui
   transcoder/transcoderoptionsflac.ui
-  transcoder/transcoderoptionsmp3.ui
+  transcoder/transcoderoptionswavpack.ui
+  transcoder/transcoderoptionsvorbis.ui
   transcoder/transcoderoptionsopus.ui
   transcoder/transcoderoptionsspeex.ui
-  transcoder/transcoderoptionsvorbis.ui
-  transcoder/transcoderoptionswma.ui
+  transcoder/transcoderoptionsasf.ui
+  transcoder/transcoderoptionsmp3.ui
   settings/transcodersettingspage.ui
 )
 

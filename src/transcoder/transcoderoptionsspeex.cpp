@@ -52,7 +52,7 @@ void TranscoderOptionsSpeex::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
 
-  ui_->quality_slider->setValue(s.value("quality", 8).toInt());
+  ui_->quality_slider->setValue(s.value("quality", 10).toInt());
   ui_->bitrate_slider->setValue(s.value("bitrate", 0).toInt() / 1000);
   ui_->mode->setCurrentIndex(s.value("mode", 0).toInt());
   ui_->vbr->setChecked(s.value("vbr", false).toBool());

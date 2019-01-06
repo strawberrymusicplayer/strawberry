@@ -202,7 +202,9 @@ void Transcoder::JobState::PostFinished(bool success) {
 }
 
 Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
-    : QObject(parent), max_threads_(QThread::idealThreadCount()), settings_postfix_(settings_postfix) {
+    : QObject(parent),
+    max_threads_(QThread::idealThreadCount()),
+    settings_postfix_(settings_postfix) {
 
   if (JobFinishedEvent::sEventType == -1)
     JobFinishedEvent::sEventType = QEvent::registerEventType();
@@ -223,15 +225,16 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 QList<TranscoderPreset> Transcoder::GetAllPresets() {
 
   QList<TranscoderPreset> ret;
-  ret << PresetForFileType(Song::FileType_FLAC);
-  ret << PresetForFileType(Song::FileType_MP4);
-  ret << PresetForFileType(Song::FileType_MPEG);
-  ret << PresetForFileType(Song::FileType_OggVorbis);
-  ret << PresetForFileType(Song::FileType_OggFlac);
-  ret << PresetForFileType(Song::FileType_OggSpeex);
-  ret << PresetForFileType(Song::FileType_ASF);
   ret << PresetForFileType(Song::FileType_WAV);
+  ret << PresetForFileType(Song::FileType_FLAC);
+  ret << PresetForFileType(Song::FileType_WavPack);
+  ret << PresetForFileType(Song::FileType_OggFlac);
+  ret << PresetForFileType(Song::FileType_OggVorbis);
   ret << PresetForFileType(Song::FileType_OggOpus);
+  ret << PresetForFileType(Song::FileType_OggSpeex);
+  ret << PresetForFileType(Song::FileType_MPEG);
+  ret << PresetForFileType(Song::FileType_MP4);
+  ret << PresetForFileType(Song::FileType_ASF);
   return ret;
 
 }
@@ -239,24 +242,26 @@ QList<TranscoderPreset> Transcoder::GetAllPresets() {
 TranscoderPreset Transcoder::PresetForFileType(Song::FileType type) {
 
   switch (type) {
-    case Song::FileType_FLAC:
-      return TranscoderPreset(type, tr("FLAC"),                "flac", "audio/x-flac");
-    case Song::FileType_MP4:
-      return TranscoderPreset(type, tr("M4A AAC"),             "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
-    case Song::FileType_MPEG:
-      return TranscoderPreset(type, tr("MP3"),                 "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
-    case Song::FileType_OggVorbis:
-      return TranscoderPreset(type, tr("Ogg Vorbis"),          "ogg",  "audio/x-vorbis", "application/ogg");
-    case Song::FileType_OggFlac:
-      return TranscoderPreset(type, tr("Ogg FLAC"),            "ogg",  "audio/x-flac",   "application/ogg");
-    case Song::FileType_OggSpeex:
-      return TranscoderPreset(type, tr("Ogg Speex"),           "spx",  "audio/x-speex",  "application/ogg");
-    case Song::FileType_OggOpus:
-      return TranscoderPreset(type, tr("Ogg Opus"),            "opus",  "audio/x-opus",  "application/ogg");
-    case Song::FileType_ASF:
-      return TranscoderPreset(type, tr("Windows Media audio"), "wma", "audio/x-wma", "video/x-ms-asf");
     case Song::FileType_WAV:
-      return TranscoderPreset(type, tr("Wav"), "wav", QString(), "audio/x-wav");
+      return TranscoderPreset(type, "Wav",                    "wav",  QString(), "audio/x-wav");
+    case Song::FileType_FLAC:
+      return TranscoderPreset(type, "FLAC",                   "flac", "audio/x-flac");
+    case Song::FileType_WavPack:
+      return TranscoderPreset(type, "WavPack",                "wv",   "audio/x-wavpack");
+    case Song::FileType_OggFlac:
+      return TranscoderPreset(type, "Ogg FLAC",               "ogg",  "audio/x-flac", "application/ogg");
+    case Song::FileType_OggVorbis:
+      return TranscoderPreset(type, "Ogg Vorbis",             "ogg",  "audio/x-vorbis", "application/ogg");
+    case Song::FileType_OggOpus:
+      return TranscoderPreset(type, "Ogg Opus",               "opus", "audio/x-opus", "application/ogg");
+    case Song::FileType_OggSpeex:
+      return TranscoderPreset(type, "Ogg Speex",              "spx",  "audio/x-speex", "application/ogg");
+    case Song::FileType_MPEG:
+      return TranscoderPreset(type, "MP3",                    "mp3",  "audio/mpeg, mpegversion=(int)1, layer=(int)3");
+    case Song::FileType_MP4:
+      return TranscoderPreset(type, "M4A AAC",                "mp4",  "audio/mpeg, mpegversion=(int)4", "audio/mp4");
+    case Song::FileType_ASF:
+      return TranscoderPreset(type, "Windows Media audio",    "wma",  "audio/x-wma", "video/x-ms-asf");
     default:
       qLog(Warning) << "Unsupported format in PresetForFileType:" << type;
       return TranscoderPreset();
@@ -269,9 +274,9 @@ Song::FileType Transcoder::PickBestFormat(QList<Song::FileType> supported) {
   if (supported.isEmpty()) return Song::FileType_Unknown;
 
   QList<Song::FileType> best_formats;
-  best_formats << Song::FileType_MPEG;
-  best_formats << Song::FileType_OggVorbis;
-  best_formats << Song::FileType_ASF;
+  best_formats << Song::FileType_FLAC;
+  best_formats << Song::FileType_OggFlac;
+  best_formats << Song::FileType_WavPack;
 
   for (Song::FileType type : best_formats) {
     if (supported.isEmpty() || supported.contains(type)) return type;
@@ -413,13 +418,13 @@ bool Transcoder::StartJob(const Job &job) {
   if (!state->pipeline_) return false;
 
   // Create all the elements
-  GstElement *src =      CreateElement("filesrc", state->pipeline_);
-  GstElement *decode =   CreateElement("decodebin", state->pipeline_);
-  GstElement *convert =  CreateElement("audioconvert", state->pipeline_);
+  GstElement *src      = CreateElement("filesrc", state->pipeline_);
+  GstElement *decode   = CreateElement("decodebin", state->pipeline_);
+  GstElement *convert  = CreateElement("audioconvert", state->pipeline_);
   GstElement *resample = CreateElement("audioresample", state->pipeline_);
   GstElement *codec    = CreateElementForMimeType("Codec/Encoder/Audio", job.preset.codec_mimetype_, state->pipeline_);
   GstElement *muxer    = CreateElementForMimeType("Codec/Muxer", job.preset.muxer_mimetype_, state->pipeline_);
-  GstElement *sink = CreateElement("filesink", state->pipeline_);
+  GstElement *sink     = CreateElement("filesink", state->pipeline_);
 
   if (!src || !decode || !convert || !sink) return false;
 
@@ -558,7 +563,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   s.beginGroup("Transcoder/" + name + settings_postfix_);
 
   guint properties_count = 0;
-  GParamSpec **properties = g_object_class_list_properties( G_OBJECT_GET_CLASS(object), &properties_count);
+  GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);
 
   for (int i = 0; i < properties_count; ++i) {
     GParamSpec *property = properties[i];
