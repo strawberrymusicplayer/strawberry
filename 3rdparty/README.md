@@ -3,7 +3,7 @@
 
 3rdparty/singleapplication
 -----------------
-This is is a small static library used by Strawberry to prevent it from starting twice per user session.
+This is a small static library used by Strawberry to prevent it from starting twice per user session.
 If the user tries to start strawberry twice, the main window will maximize instead of starting another instance.
 The library is unmodified from the original version. If you dynamically link to your systems version
 it is important that it is using the QApplication class, otherwise it will crash.
