@@ -48,7 +48,7 @@
 #endif  // Q_OS_WIN32
 
 #include <QObject>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QStandardPaths>
 #include <QFileDevice>
 #include <QIODevice>
@@ -68,8 +68,7 @@
 
 #include "core/logging.h"
 
-#include <qtsingleapplication.h>
-#include <qtsinglecoreapplication.h>
+#include <singleapplication.h>
 
 #ifdef HAVE_DBUS
 #  include "core/mpris.h"
@@ -126,14 +125,14 @@ int main(int argc, char* argv[]) {
   {
     // Only start a core application now so we can check if there's another Strawberry running without needing an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
-    QtSingleCoreApplication a(argc, argv);
+    SingleApplication a(argc, argv, true, SingleApplication::Mode::User);
     Utilities::CheckPortable();
 
     // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
 
-    if (a.isRunning()) {
+    if (a.isSecondary()) {
       if (options.is_empty()) {
         qLog(Info) << "Strawberry is already running - activating existing window";
       }
@@ -160,17 +159,15 @@ int main(int argc, char* argv[]) {
 
   Utilities::IncreaseFDLimit();
 
-  QtSingleApplication a(argc, argv);
+  SingleApplication a(argc, argv, false, SingleApplication::Mode::User);
 
 #if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
 
-  a.setQuitOnLastWindowClosed(false);
-
   // Do this check again because another instance might have started by now
-  if (a.isRunning() && a.sendMessage(options.Serialize(), 5000)) {
+  if (a.isSecondary() && a.sendMessage(options.Serialize(), 5000)) {
     return 0;
   }
 
@@ -232,7 +229,7 @@ int main(int argc, char* argv[]) {
 #ifdef HAVE_DBUS
   QObject::connect(&mpris, SIGNAL(RaiseMainWindow()), &w, SLOT(Raise()));
 #endif
-  QObject::connect(&a, SIGNAL(messageReceived(QString)), &w, SLOT(CommandlineOptionsReceived(QString)));
+  QObject::connect(&a, SIGNAL(receivedMessage(quint32, QByteArray)), &w, SLOT(CommandlineOptionsReceived(quint32, QByteArray)));
 
   int ret = a.exec();
 
