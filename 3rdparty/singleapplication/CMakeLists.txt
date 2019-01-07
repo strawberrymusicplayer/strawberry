@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 set(CMAKE_CXX_STANDARD 11)
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
+if(CMAKE_VERSION VERSION_GREATER 3.11.4)
   add_compile_definitions(QAPPLICATION_CLASS=QApplication)
 else()
   add_definitions(-DQAPPLICATION_CLASS=QApplication)
