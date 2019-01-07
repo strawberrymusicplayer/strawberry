@@ -16,7 +16,7 @@
 
 project(strawberry)
 cmake_minimum_required(VERSION 2.8.11)
-if(${CMAKE_VERSION} VERSION_GREATER "3.0")
+if(CMAKE_VERSION VERSION_GREATER 3.0)
   cmake_policy(SET CMP0054 NEW)
 endif()
 
@@ -219,7 +219,7 @@ else(USE_SYSTEM_SINGLEAPPLICATION)
   set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
   set(SINGLEAPPLICATION_LIBRARIES singleapplication)
 endif(USE_SYSTEM_SINGLEAPPLICATION)
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.12)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
   add_compile_definitions(QAPPLICATION_CLASS=QApplication)
 else()
   add_definitions(-DQAPPLICATION_CLASS=QApplication)
