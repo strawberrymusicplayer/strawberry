@@ -104,12 +104,21 @@ void GlobalShortcutsSettingsPage::Load() {
 
     connect(ui_->button_macos_open, SIGNAL(clicked()), manager, SLOT(ShowMacAccessibilityDialog()));
 
-    if (!manager->IsGsdAvailable()) {
+    if (manager->IsGsdAvailable()) {
+      qLog(Debug) << "Gnome D-Bus backend is available.";
+      ui_->widget_dbus->show();
+    }
+    else {
+      qLog(Debug) << "Gnome D-Bus backend is unavailable.";
       ui_->widget_dbus->hide();
-      settings_.setValue("use_dbus", false);
     }
 
-    if (!manager->IsX11Available()) {
+    if (manager->IsX11Available()) {
+      qLog(Debug) << "X11 backend is available.";
+      ui_->widget_x11->show();
+    }
+    else {
+      qLog(Debug) << "X11 backend is unavailable.";
       ui_->widget_x11->hide();
       settings_.setValue("use_x11", false);
     }
@@ -141,6 +150,15 @@ void GlobalShortcutsSettingsPage::Load() {
     ui_->checkbox_x11->setChecked(use_x11);
   }
 
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
+#ifdef HAVE_DBUS
+  DBusChanged(true);
+#endif
+#ifdef HAVE_X11
+  X11Changed(true);
+#endif
+#endif
+
   ui_->widget_macos->setVisible(!manager->IsMacAccessibilityEnabled());
 #ifdef Q_OS_MACOS
   qint32 macos_version = Utilities::GetMacOsVersion();
@@ -169,7 +187,7 @@ void GlobalShortcutsSettingsPage::Save() {
 #ifdef HAVE_X11
 void GlobalShortcutsSettingsPage::X11Changed(bool) {
 
-  if (!ui_->widget_x11->isVisible()) return;
+  if (!ui_->widget_x11->isVisibleTo(this)) return;
 
   if (ui_->checkbox_x11->isChecked()) {
     ui_->list->setEnabled(true);
@@ -183,7 +201,7 @@ void GlobalShortcutsSettingsPage::X11Changed(bool) {
 #ifdef HAVE_DBUS
 void GlobalShortcutsSettingsPage::DBusChanged(bool) {
 
-  if (!ui_->widget_dbus->isVisible()) return;
+  if (!ui_->widget_dbus->isVisibleTo(this)) return;
 
   if (ui_->checkbox_dbus->isChecked()) {
     if (ui_->checkbox_x11->isEnabled()) {
