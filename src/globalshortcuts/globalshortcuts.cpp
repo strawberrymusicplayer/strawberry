@@ -134,7 +134,7 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
 bool GlobalShortcuts::IsGsdAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService2);
 #else
   return false;
 #endif

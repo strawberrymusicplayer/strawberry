@@ -46,8 +46,8 @@ class GlobalShortcutBackendDBus : public GlobalShortcutBackend {
   ~GlobalShortcutBackendDBus();
 
   static const char *kGsdService;
+  static const char *kGsdService2;
   static const char *kGsdPath;
-  static const char *kGsdInterface;
 
  protected:
   bool RegisterInNewThread() const { return true; }
