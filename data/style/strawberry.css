@@ -1,10 +1,10 @@
 #playlist {
   background-color: %palette-base;
-  background-image: url(:pictures/strawberry-faded.png);
   alternate-background-color: %palette-alternate-base;
 }
 
 #playlist[default_background_enabled = "true"] {
+  background-image: url(:pictures/strawberry-faded.png);
   background-attachment: fixed;
   background-position: bottom right;
   background-repeat: none;
