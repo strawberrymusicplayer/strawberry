@@ -88,6 +88,8 @@ About::About(QWidget *parent):QDialog(parent) {
 
   ui_.label_text->setText(MainHtml());
   ui_.text_constributors->setText(ContributorsHtml());
+  ui_.text_constributors->updateGeometry();
+  updateGeometry();
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
 

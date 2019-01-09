@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>About</class>
  <widget class="QDialog" name="About">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>700</height>
+   </rect>
+  </property>
   <property name="maximumSize">
    <size>
     <width>600</width>
@@ -105,10 +113,19 @@
          <property name="openExternalLinks">
           <bool>true</bool>
          </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QTextBrowser" name="text_constributors">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="openExternalLinks">
           <bool>true</bool>
          </property>
@@ -119,11 +136,8 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
+         <property name="sizeType">
+          <enum>QSizePolicy::Minimum</enum>
          </property>
         </spacer>
        </item>
