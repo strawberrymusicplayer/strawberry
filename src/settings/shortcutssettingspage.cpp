@@ -191,9 +191,11 @@ void GlobalShortcutsSettingsPage::X11Changed(bool) {
 
   if (ui_->checkbox_x11->isChecked()) {
     ui_->list->setEnabled(true);
+    ui_->shortcut_options->setEnabled(true);
   }
   else {
     ui_->list->setEnabled(false);
+    ui_->shortcut_options->setEnabled(false);
   }
 
 }
@@ -207,17 +209,22 @@ void GlobalShortcutsSettingsPage::DBusChanged(bool) {
     if (ui_->checkbox_x11->isEnabled()) {
       ui_->checkbox_x11->setEnabled(false);
       ui_->list->setEnabled(false);
+      ui_->shortcut_options->setEnabled(false);
     }
 
     if (ui_->checkbox_x11->isChecked()) {
       ui_->checkbox_x11->setChecked(false);
       ui_->list->setEnabled(false);
+      ui_->shortcut_options->setEnabled(false);
     }
   }
   else {
     if (!ui_->checkbox_x11->isEnabled()) {
       ui_->checkbox_x11->setEnabled(true);
-      if (ui_->checkbox_x11->isChecked()) ui_->list->setEnabled(true);
+      if (ui_->checkbox_x11->isChecked()) {
+        ui_->list->setEnabled(true);
+        ui_->shortcut_options->setEnabled(true);
+      }
     }
   }
 
