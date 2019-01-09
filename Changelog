@@ -25,6 +25,10 @@ Unreleased:
     * Changed default group by for collection to album artist
     * Enabled organise without gstreamer
     * Added cmake USE_BUNDLE option for macOS/Windows
+    * Fixed broken GSD D-Bus shortcuts backend
+    * Fixed broken background image setting
+    * Disabling fading when a ALSA device is selected
+    * Replaced QtSingleApplication with SingleApplication
 
 Version 0.4.2:
 
