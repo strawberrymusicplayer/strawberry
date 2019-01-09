@@ -75,7 +75,6 @@
 #include "playlistview.h"
 #include "covermanager/currentartloader.h"
 #include "settings/appearancesettingspage.h"
-#include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
 
 using std::sort;

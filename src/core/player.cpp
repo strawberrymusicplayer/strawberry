@@ -71,7 +71,6 @@
 #include "equalizer/equalizer.h"
 #include "analyzer/analyzercontainer.h"
 #include "settings/backendsettingspage.h"
-#include "settings/playbacksettingspage.h"
 #include "settings/behavioursettingspage.h"
 #include "settings/playlistsettingspage.h"
 #include "internet/internetservices.h"

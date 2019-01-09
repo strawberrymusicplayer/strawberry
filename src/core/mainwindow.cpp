@@ -131,7 +131,6 @@
 #include "transcoder/transcodedialog.h"
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
-#include "settings/playbacksettingspage.h"
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_STREAM_TIDAL
 #  include "settings/tidalsettingspage.h"

@@ -34,7 +34,6 @@
 #include "engine_fwd.h"
 #include "enginebase.h"
 #include "settings/backendsettingspage.h"
-#include "settings/playbacksettingspage.h"
 
 Engine::Base::Base()
     : volume_(50),
@@ -100,18 +99,18 @@ void Engine::Base::ReloadSettings() {
   QSettings s;
 
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
+
   output_ = s.value("output").toString();
   device_ = s.value("device");
+
+  buffer_duration_nanosec_ = s.value("bufferduration", 4000).toLongLong() * kNsecPerMsec;
+  buffer_min_fill_ = s.value("bufferminfill", 33).toInt();
+
   rg_enabled_ = s.value("rgenabled", false).toBool();
   rg_mode_ = s.value("rgmode", 0).toInt();
   rg_preamp_ = s.value("rgpreamp", 0.0).toDouble();
   rg_compression_ = s.value("rgcompression", true).toBool();
-  buffer_duration_nanosec_ = s.value("bufferduration", 4000).toLongLong() * kNsecPerMsec;
-  buffer_min_fill_ = s.value("bufferminfill", 33).toInt();
-  mono_playback_ = s.value("monoplayback", false).toBool();
-  s.endGroup();
 
-  s.beginGroup(PlaybackSettingsPage::kSettingsGroup);
   fadeout_enabled_ = s.value("FadeoutEnabled", false).toBool();
   crossfade_enabled_ = s.value("CrossfadeEnabled", false).toBool();
   autocrossfade_enabled_ = s.value("AutoCrossfadeEnabled", false).toBool();
@@ -121,6 +120,9 @@ void Engine::Base::ReloadSettings() {
   fadeout_duration_nanosec_ = (fadeout_duration_ * kNsecPerMsec);
   fadeout_pause_duration_ = s.value("FadeoutPauseDuration", 250).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
+
+  mono_playback_ = s.value("monoplayback", false).toBool();
+
   s.endGroup();
 
 }

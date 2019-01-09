@@ -60,7 +60,6 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
 
   ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).width("WW%"));
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
-
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
   s_.beginGroup(BackendSettingsPage::kSettingsGroup);
@@ -107,13 +106,22 @@ void BackendSettingsPage::Load() {
   if (EngineInitialised()) Load_Engine(enginetype);
 
   ui_->spinbox_bufferduration->setValue(s_.value("bufferduration", 4000).toInt());
-  ui_->checkbox_monoplayback->setChecked(s_.value("monoplayback", false).toBool());
   ui_->slider_bufferminfill->setValue(s_.value("bufferminfill", 33).toInt());
 
   ui_->checkbox_replaygain->setChecked(s_.value("rgenabled", false).toBool());
   ui_->combobox_replaygainmode->setCurrentIndex(s_.value("rgmode", 0).toInt());
   ui_->stickslider_replaygainpreamp->setValue(s_.value("rgpreamp", 0.0).toDouble() * 10 + 150);
   ui_->checkbox_replaygaincompression->setChecked(s_.value("rgcompression", true).toBool());
+
+  ui_->checkbox_fadeout_stop->setChecked(s_.value("FadeoutEnabled", false).toBool());
+  ui_->checkbox_fadeout_cross->setChecked(s_.value("CrossfadeEnabled", false).toBool());
+  ui_->checkbox_fadeout_auto->setChecked(s_.value("AutoCrossfadeEnabled", false).toBool());
+  ui_->checkbox_fadeout_samealbum->setChecked(s_.value("NoCrossfadeSameAlbum", true).toBool());
+  ui_->checkbox_fadeout_pauseresume->setChecked(s_.value("FadeoutPauseEnabled", false).toBool());
+  ui_->spinbox_fadeduration->setValue(s_.value("FadeoutDuration", 2000).toInt());
+  ui_->spinbox_fadeduration_pauseresume->setValue(s_.value("FadeoutPauseDuration", 250).toInt());
+
+  ui_->checkbox_monoplayback->setChecked(s_.value("monoplayback", false).toBool());
 
   int alsaplug_int = alsa_plugin(s_.value("alsaplugin", 0).toInt());
   if (alsa_plugin(alsaplug_int)) {
@@ -133,12 +141,9 @@ void BackendSettingsPage::Load() {
   if (engine()->state() == Engine::Empty) {
     if (ui_->combobox_engine->count() > 1) ui_->combobox_engine->setEnabled(true);
     else ui_->combobox_engine->setEnabled(false);
-    ResetWarning();
   }
   else {
     ui_->combobox_engine->setEnabled(false);
-    if (ui_->combobox_engine->count() > 1) ShowWarning("Engine can't be switched while playing. Close settings and reopen to change engine.");
-    else ResetWarning();
   }
 
   ConnectSignals();
@@ -153,10 +158,13 @@ void BackendSettingsPage::ConnectSignals() {
   connect(ui_->combobox_output, SIGNAL(currentIndexChanged(int)), SLOT(OutputChanged(int)));
   connect(ui_->combobox_device, SIGNAL(currentIndexChanged(int)), SLOT(DeviceSelectionChanged(int)));
   connect(ui_->lineedit_device, SIGNAL(textChanged(const QString &)), SLOT(DeviceStringChanged()));
-  connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
-  connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
   connect(ui_->radiobutton_alsa_hw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_hw_clicked(bool)));
   connect(ui_->radiobutton_alsa_plughw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_plughw_clicked(bool)));
+  connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
+  connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
+  connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
 
 }
 
@@ -249,10 +257,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     ui_->checkbox_monoplayback->setEnabled(false);
   }
 
-  if (ui_->combobox_output->count() < 1) {
-    ShowWarning("Engine may take some time to initialize. Close settings and reopen to set output and devices.");
-  }
-  else Load_Device(output, device);
+  if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
 
 }
 
@@ -334,6 +339,8 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
     }
   }
 
+  FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::Save() {
@@ -360,12 +367,22 @@ void BackendSettingsPage::Save() {
   s_.setValue("device", device_value);
 
   s_.setValue("bufferduration", ui_->spinbox_bufferduration->value());
-  s_.setValue("monoplayback", ui_->checkbox_monoplayback->isChecked());
   s_.setValue("bufferminfill", ui_->slider_bufferminfill->value());
+
   s_.setValue("rgenabled", ui_->checkbox_replaygain->isChecked());
   s_.setValue("rgmode", ui_->combobox_replaygainmode->currentIndex());
   s_.setValue("rgpreamp", float(ui_->stickslider_replaygainpreamp->value()) / 10 - 15);
   s_.setValue("rgcompression", ui_->checkbox_replaygaincompression->isChecked());
+
+  s_.setValue("FadeoutEnabled", ui_->checkbox_fadeout_stop->isChecked());
+  s_.setValue("CrossfadeEnabled", ui_->checkbox_fadeout_cross->isChecked());
+  s_.setValue("AutoCrossfadeEnabled", ui_->checkbox_fadeout_auto->isChecked());
+  s_.setValue("NoCrossfadeSameAlbum", ui_->checkbox_fadeout_samealbum->isChecked());
+  s_.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
+  s_.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
+  s_.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
+
+  s_.setValue("monoplayback", ui_->checkbox_monoplayback->isChecked());
 
   if (ui_->radiobutton_alsa_hw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
   else if (ui_->radiobutton_alsa_plughw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
@@ -396,7 +413,6 @@ void BackendSettingsPage::EngineChanged(int index) {
   }
 
   engineloaded_ = false;
-  ResetWarning();
   Load_Engine(enginetype);
 
 }
@@ -428,6 +444,8 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
     ui_->lineedit_device->setEnabled(false);
     if (!ui_->lineedit_device->text().isEmpty()) ui_->lineedit_device->setText("");
   }
+
+  FadingOptionsChanged();
 
 }
 
@@ -480,6 +498,8 @@ void BackendSettingsPage::DeviceStringChanged() {
     if ((!found) && (ui_->combobox_device->count() > 0) && (ui_->combobox_device->currentIndex() != 0)) ui_->combobox_device->setCurrentIndex(0);
   }
 
+  FadingOptionsChanged();
+
 }
 
 void BackendSettingsPage::RgPreampChanged(int value) {
@@ -493,41 +513,6 @@ void BackendSettingsPage::RgPreampChanged(int value) {
 
 void BackendSettingsPage::BufferMinFillChanged(int value) {
   ui_->label_bufferminfillvalue->setText(QString::number(value) + "%");
-}
-
-void BackendSettingsPage::ShowWarning(QString text) {
-
-  QImage image_logo(":/icons/64x64/dialog-warning.png");
-  QPixmap pixmap_logo(QPixmap::fromImage(image_logo));
-
-  ui_->label_warn_logo->setPixmap(pixmap_logo);
-
-  ui_->label_warn_text->setStyleSheet("QLabel { color: red; }");
-  ui_->label_warn_text->setText("<b>" + text + "</b>");
-
-  ui_->groupbox_warning->setVisible(true);
-  ui_->label_warn_logo->setVisible(true);
-  ui_->label_warn_text->setVisible(true);
-
-  ui_->groupbox_warning->setEnabled(true);
-  ui_->label_warn_logo->setEnabled(true);
-  ui_->label_warn_text->setEnabled(true);
-
-}
-
-void BackendSettingsPage::ResetWarning() {
-
-  ui_->label_warn_logo->clear();
-  ui_->label_warn_text->clear();
-
-  ui_->groupbox_warning->setEnabled(false);
-  ui_->label_warn_logo->setEnabled(false);
-  ui_->label_warn_text->setEnabled(false);
-
-  ui_->groupbox_warning->setVisible(false);
-  ui_->label_warn_logo->setVisible(false);
-  ui_->label_warn_text->setVisible(false);
-
 }
 
 void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
@@ -597,5 +582,24 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
     }
     if (!found) ui_->lineedit_device->setText(device_new);
   }
+
+}
+
+void BackendSettingsPage::FadingOptionsChanged() {
+
+  if (EngineInitialised()) {
+    EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
+    if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty())) {
+      ui_->groupbox_fading->setDisabled(false);
+    }
+    else {
+      ui_->groupbox_fading->setDisabled(true);
+      ui_->checkbox_fadeout_stop->setChecked(false);
+      ui_->checkbox_fadeout_cross->setChecked(false);
+      ui_->checkbox_fadeout_auto->setChecked(false);
+    }
+  }
+
+  ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());
 
 }

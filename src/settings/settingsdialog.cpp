@@ -57,7 +57,6 @@
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
 #include "notificationssettingspage.h"
-#include "playbacksettingspage.h"
 #include "playlistsettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
@@ -122,13 +121,12 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Behaviour, new BehaviourSettingsPage(this), general);
   AddPage(Page_Collection, new CollectionSettingsPage(this), general);
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
-  AddPage(Page_Playback, new PlaybackSettingsPage(this), general);
   AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
+  AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
 #ifdef HAVE_GSTREAMER
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);
 #endif
   AddPage(Page_Proxy, new NetworkProxySettingsPage(this), general);
-  AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);

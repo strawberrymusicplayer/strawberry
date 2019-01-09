@@ -65,6 +65,7 @@ public:
   void BufferMinFillChanged(int value);
   void radiobutton_alsa_hw_clicked(bool checked);
   void radiobutton_alsa_plughw_clicked(bool checked);
+  void FadingOptionsChanged();
 
 private:
 
@@ -83,9 +84,6 @@ private:
   void Load_Engine(Engine::EngineType enginetype);
   void Load_Output(QString output, QVariant device);
   void Load_Device(QString output, QVariant device);
-  void ShowWarning(QString text);
-  void ResetWarning();
-  void XineWarning();
   void SwitchALSADevices(alsa_plugin alsaplugin);
 
   QSettings s_;
