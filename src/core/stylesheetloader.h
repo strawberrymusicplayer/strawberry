@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,10 +47,10 @@ class StyleSheetLoader : public QObject {
 
  private:
   void UpdateStyleSheet(QWidget *widget);
-  void ReplaceColor(QString *css, const QString& name, const QPalette &palette, QPalette::ColorRole role) const;
+  void ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const;
 
  private:
-  QMap<QWidget *, QString> filenames_;
+  QMap<QWidget*, QPair<QString, QString>> widgets_;
 };
 
 #endif  // STYLESHEETLOADER_H

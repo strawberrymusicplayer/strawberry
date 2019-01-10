@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +37,7 @@ StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent) {}
 
 void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
-  filenames_[widget] = filename;
+  widgets_[widget] = qMakePair(filename, QString());
   widget->installEventFilter(this);
   UpdateStyleSheet(widget);
 
@@ -44,17 +45,25 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
 
 void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
 
-  if (!widget || !filenames_.contains(widget)) return;
+  if (!widget || !widgets_.contains(widget)) return;
 
-  QString filename(filenames_[widget]);
+  QString filename(widgets_[widget].first);
+  QString stylesheet(widgets_[widget].second);
 
   // Load the file
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    qLog(Warning) << "error opening" << filename;
+    qLog(Error) << "Unable to open" << filename;
     return;
   }
-  QString contents(file.readAll());
+  QTextStream stream(&file);
+  QString contents;
+  forever {
+    QString line = stream.readLine();
+    contents.append(line);
+    if (stream.atEnd()) break;
+  }
+  file.close();
 
   // Replace %palette-role with actual colours
   QPalette p(widget->palette());
@@ -93,12 +102,15 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget) {
   contents.replace("macos", "*");
 #endif
 
+  if (contents == stylesheet) return;
+
   widget->setStyleSheet("");
   widget->setStyleSheet(contents);
+  widgets_[widget] = qMakePair(filename, contents);
 
 }
 
-void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, QPalette::ColorRole role) const {
+void StyleSheetLoader::ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const {
 
   css->replace("%palette-" + name + "-lighter", palette.color(role).lighter().name(), Qt::CaseInsensitive);
   css->replace("%palette-" + name + "-darker", palette.color(role).darker().name(), Qt::CaseInsensitive);
@@ -111,7 +123,7 @@ bool StyleSheetLoader::eventFilter(QObject *obj, QEvent *event) {
   if (event->type() != QEvent::PaletteChange) return false;
 
   QWidget *widget = qobject_cast<QWidget*>(obj);
-  if (!widget || !filenames_.contains(widget)) return false;
+  if (!widget || !widgets_.contains(widget)) return false;
 
   UpdateStyleSheet(widget);
   return false;
