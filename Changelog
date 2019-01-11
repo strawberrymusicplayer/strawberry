@@ -4,11 +4,6 @@ ChangeLog
 
 Unreleased:
 
-    * Improved manual pages
-    * Fixed typos
-    * Updated contributors in about
-    * Added debian copyright file
-    * Fixed some compile errors
     * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
     * Fixed key up causing playback to reset
     * New improved last.fm and musicbrainz album cover providers
@@ -29,6 +24,14 @@ Unreleased:
     * Fixed broken background image setting
     * Disabling fading when a ALSA device is selected
     * Replaced QtSingleApplication with SingleApplication
+    * Fixed scroll over icon to change track feature
+    * Fixed freeze when changing appearance settings
+    * Made text in about dialog selectable
+    * Improved manual pages
+    * Fixed typos
+    * Updated contributors in about
+    * Added debian copyright file
+    * Fixed some compile errors
 
 Version 0.4.2:
 
