@@ -20,29 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef SINGLEAPPLICATION_H
-#define SINGLEAPPLICATION_H
+#ifndef SINGLECOREAPPLICATION_H
+#define SINGLECOREAPPLICATION_H
 
 #include <QtCore/QtGlobal>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QtNetwork/QLocalSocket>
 
-class SingleApplicationPrivate;
+class SingleCoreApplicationPrivate;
 
 /**
- * @brief The SingleApplication class handles multipe instances of the same
+ * @brief The SingleCoreApplication class handles multipe instances of the same
  * Application
  * @see QCoreApplication
  */
-class SingleApplication : public QApplication
+class SingleCoreApplication : public QCoreApplication
 {
     Q_OBJECT
 
-    typedef QApplication app_t;
+    typedef QCoreApplication app_t;
 
 public:
     /**
-     * @brief Mode of operation of SingleApplication.
+     * @brief Mode of operation of SingleCoreApplication.
      * Whether the block should be user-wide or system-wide and whether the
      * primary instance should be notified when a secondary instance had been
      * started.
@@ -61,13 +61,13 @@ public:
     Q_DECLARE_FLAGS(Options, Mode)
 
     /**
-     * @brief Intitializes a SingleApplication instance with argc command line
+     * @brief Intitializes a SingleCoreApplication instance with argc command line
      * arguments in argv
      * @arg {int &} argc - Number of arguments in argv
      * @arg {const char *[]} argv - Supplied command line arguments
      * @arg {bool} allowSecondary - Whether to start the instance as secondary
      * if there is already a primary instance.
-     * @arg {Mode} mode - Whether for the SingleApplication block to be applied
+     * @arg {Mode} mode - Whether for the SingleCoreApplication block to be applied
      * User wide or System wide.
      * @arg {int} timeout - Timeout to wait in miliseconds.
      * @note argc and argv may be changed as Qt removes arguments that it
@@ -75,13 +75,13 @@ public:
      * @note Mode::SecondaryNotification only works if set on both the primary
      * instance and the secondary instance.
      * @note The timeout is just a hint for the maximum time of blocking
-     * operations. It does not guarantee that the SingleApplication
+     * operations. It does not guarantee that the SingleCoreApplication
      * initialisation will be completed in given time, though is a good hint.
      * Usually 4*timeout would be the worst case (fail) scenario.
      * @see See the corresponding QAPPLICATION_CLASS constructor for reference
      */
-    explicit SingleApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 1000 );
-    ~SingleApplication();
+    explicit SingleCoreApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 1000 );
+    ~SingleCoreApplication();
 
     /**
      * @brief Returns if the instance is the primary instance
@@ -121,10 +121,10 @@ Q_SIGNALS:
     void receivedMessage( quint32 instanceId, QByteArray message );
 
 private:
-    SingleApplicationPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(SingleApplication)
+    SingleCoreApplicationPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(SingleCoreApplication)
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(SingleApplication::Options)
+Q_DECLARE_OPERATORS_FOR_FLAGS(SingleCoreApplication::Options)
 
-#endif // SINGLEAPPLICATION_H
+#endif // SINGLECOREAPPLICATION_H

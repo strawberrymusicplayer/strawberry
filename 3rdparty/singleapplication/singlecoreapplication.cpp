@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QtCore/QTime>
 #include <QtCore/QThread>
 #include <QtCore/QDateTime>
 #include <QtCore/QByteArray>
 #include <QtCore/QSharedMemory>
 
-#include "singleapplication.h"
-#include "singleapplication_p.h"
+#include "singlecoreapplication.h"
+#include "singlecoreapplication_p.h"
 
 /**
  * @brief Constructor. Checks and fires up LocalServer or closes the program
@@ -37,10 +37,10 @@
  * @param argv
  * @param {bool} allowSecondaryInstances
  */
-SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSecondary, Options options, int timeout )
-    : app_t( argc, argv ), d_ptr( new SingleApplicationPrivate( this ) )
+SingleCoreApplication::SingleCoreApplication( int &argc, char *argv[], bool allowSecondary, Options options, int timeout )
+    : app_t( argc, argv ), d_ptr( new SingleCoreApplicationPrivate( this ) )
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
 
     // Store the current mode of the program
     d->options = options;
@@ -68,7 +68,7 @@ SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSeconda
     } else {
         // Attempt to attach to the memory segment
         if( ! d->memory->attach() ) {
-            qCritical() << "SingleApplication: Unable to attach to shared memory block.";
+            qCritical() << "SingleCoreApplication: Unable to attach to shared memory block.";
             qCritical() << d->memory->errorString();
             delete d;
             ::exit( EXIT_FAILURE );
@@ -86,7 +86,7 @@ SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSeconda
         if( d->blockChecksum() == inst->checksum ) break;
 
         if( time.elapsed() > 5000 ) {
-            qWarning() << "SingleApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
+            qWarning() << "SingleCoreApplication: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
             d->initializeMemoryBlock();
         }
 
@@ -110,7 +110,7 @@ SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSeconda
         d->instanceNumber = inst->secondary;
         d->startSecondary();
         if( d->options & Mode::SecondaryNotification ) {
-            d->connectToPrimary( timeout, SingleApplicationPrivate::SecondaryInstance );
+            d->connectToPrimary( timeout, SingleCoreApplicationPrivate::SecondaryInstance );
         }
         d->memory->unlock();
         return;
@@ -118,7 +118,7 @@ SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSeconda
 
     d->memory->unlock();
 
-    d->connectToPrimary( timeout, SingleApplicationPrivate::NewInstance );
+    d->connectToPrimary( timeout, SingleCoreApplicationPrivate::NewInstance );
 
     delete d;
 
@@ -128,45 +128,45 @@ SingleApplication::SingleApplication( int &argc, char *argv[], bool allowSeconda
 /**
  * @brief Destructor
  */
-SingleApplication::~SingleApplication()
+SingleCoreApplication::~SingleCoreApplication()
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
     delete d;
 }
 
-bool SingleApplication::isPrimary()
+bool SingleCoreApplication::isPrimary()
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
     return d->server != nullptr;
 }
 
-bool SingleApplication::isSecondary()
+bool SingleCoreApplication::isSecondary()
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
     return d->server == nullptr;
 }
 
-quint32 SingleApplication::instanceId()
+quint32 SingleCoreApplication::instanceId()
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
     return d->instanceNumber;
 }
 
-qint64 SingleApplication::primaryPid()
+qint64 SingleCoreApplication::primaryPid()
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
     return d->primaryPid();
 }
 
-bool SingleApplication::sendMessage( QByteArray message, int timeout )
+bool SingleCoreApplication::sendMessage( QByteArray message, int timeout )
 {
-    Q_D(SingleApplication);
+    Q_D(SingleCoreApplication);
 
     // Nobody to connect to
     if( isPrimary() ) return false;
 
     // Make sure the socket is connected
-    d->connectToPrimary( timeout,  SingleApplicationPrivate::Reconnect );
+    d->connectToPrimary( timeout,  SingleCoreApplicationPrivate::Reconnect );
 
     d->socket->write( message );
     bool dataWritten = d->socket->flush();

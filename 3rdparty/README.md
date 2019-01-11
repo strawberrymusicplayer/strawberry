@@ -1,18 +1,18 @@
 3rdparty libraries located in this directory
 ============================================
 
-3rdparty/singleapplication
+singleapplication
 -----------------
 This is a small static library used by Strawberry to prevent it from starting twice per user session.
 If the user tries to start strawberry twice, the main window will maximize instead of starting another instance.
-The library is unmodified from the original version. If you dynamically link to your systems version
-it is important that it is using the QApplication class, otherwise it will crash.
+If you dynamically link to your systems version, you'll need two versions, one defined as QApplication and
+one as a QCoreApplication.
 It is included here because it is normally not packaged by distros, and is also used on macOS and Windows.
 
 URL: https://github.com/itay-grudev/SingleApplication
 
 
-3rdparty/qocoa
+qocoa
 --------------
 This is a small static library currently used for the search fields above the collection, playlist and in
 the cover manager. It is slightly modified from original version, so it should not be used as a dynamic
@@ -22,14 +22,14 @@ The plan in the long run is to replace it with something else.
 URL: https://github.com/mikemcquaid/Qocoa
 
 
-3rdparty/SPMediaKeyTap
+SPMediaKeyTap
 ----------------------
 
 This is used for macOS only to enable strawberry to grab global shortcuts and can safely be deleted on other
 platforms.
 
 
-3rdparty/taglib
+taglib
 ---------------
 
 TagLib is a library for reading and editing the meta-data of several popular audio formats. It is also used
@@ -51,7 +51,7 @@ The current taglib in 3rdparty also has the following features:
 URL: https://github.com/taglib/taglib
 
 
-3rdparty/utf8-cpp
+utf8-cpp
 -----------------
 
 This is 2 header files used by taglib, but kept in a seperate directory because it is maintained by others.

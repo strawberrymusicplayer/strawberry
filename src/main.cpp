@@ -49,6 +49,7 @@
 
 #include <QObject>
 #include <QApplication>
+#include <QCoreApplication>
 #include <QStandardPaths>
 #include <QFileDevice>
 #include <QIODevice>
@@ -69,6 +70,7 @@
 #include "core/logging.h"
 
 #include <singleapplication.h>
+#include <singlecoreapplication.h>
 
 #ifdef HAVE_DBUS
 #  include "core/mpris.h"
@@ -125,7 +127,7 @@ int main(int argc, char* argv[]) {
   {
     // Only start a core application now so we can check if there's another Strawberry running without needing an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
-    SingleApplication a(argc, argv, true, SingleApplication::Mode::User);
+    SingleCoreApplication a(argc, argv, true, SingleCoreApplication::Mode::User);
     Utilities::CheckPortable();
 
     // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
