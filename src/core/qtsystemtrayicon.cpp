@@ -30,12 +30,15 @@
 #include <QIcon>
 #include <QString>
 #include <QtEvents>
+#include <QSettings>
 
 #include "song.h"
 #include "iconloader.h"
 
 #include "systemtrayicon.h"
 #include "qtsystemtrayicon.h"
+
+#include "settings/behavioursettingspage.h"
 
 QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
     : SystemTrayIcon(parent),
@@ -92,7 +95,21 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
       }
     }
     else {
-      emit ChangeVolume(e->delta());
+      QSettings s;
+      s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+      bool prev_next_track = s.value("scrolltrayicon").toBool();
+      s.endGroup();
+      if (prev_next_track) {
+        if (e->delta() < 0) {
+          emit NextTrack();
+        }
+        else {
+          emit PreviousTrack();
+        }
+      }
+      else {
+        emit ChangeVolume(e->delta());
+      }
     }
     return true;
   }
