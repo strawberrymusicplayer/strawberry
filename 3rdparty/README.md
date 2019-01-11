@@ -13,7 +13,7 @@ URL: https://github.com/itay-grudev/SingleApplication
 
 
 qocoa
---------------
+-----
 This is a small static library currently used for the search fields above the collection, playlist and in
 the cover manager. It is slightly modified from original version, so it should not be used as a dynamic
 library.
@@ -23,17 +23,17 @@ URL: https://github.com/mikemcquaid/Qocoa
 
 
 SPMediaKeyTap
-----------------------
+-------------
 
 This is used for macOS only to enable strawberry to grab global shortcuts and can safely be deleted on other
 platforms.
 
 
 taglib
----------------
+------
 
 TagLib is a library for reading and editing the meta-data of several popular audio formats. It is also used
-by Strawberry to identify audio files. It is important that it is kept up-to-date for Strawberry to work
+by Strawberry to identify audio files. It is important that it is kept up-to-date for Strawberry to function
 correctly.
 
 It is kept in 3rdparty because there currently is no offical release of TagLib with the features and bugfixes
@@ -52,7 +52,7 @@ URL: https://github.com/taglib/taglib
 
 
 utf8-cpp
------------------
+--------
 
 This is 2 header files used by taglib, but kept in a seperate directory because it is maintained by others.
 
