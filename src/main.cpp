@@ -123,27 +123,13 @@ int main(int argc, char* argv[]) {
   g_log_set_default_handler(reinterpret_cast<GLogFunc>(&logging::GLog), nullptr);
 
   CommandlineOptions options(argc, argv);
-
   {
-    // Only start a core application now so we can check if there's another Strawberry running without needing an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
     SingleCoreApplication a(argc, argv, true, SingleCoreApplication::Mode::User);
     Utilities::CheckPortable();
-
     // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
-
-    if (a.isSecondary()) {
-      if (options.is_empty()) {
-        qLog(Info) << "Strawberry is already running - activating existing window";
-      }
-      if (a.sendMessage(options.Serialize(), 5000)) {
-	main_exit_safe(0);
-        return 0;
-      }
-      // Couldn't send the message so start anyway
-    }
   }
 
 #ifdef Q_OS_MACOS
@@ -161,17 +147,22 @@ int main(int argc, char* argv[]) {
 
   Utilities::IncreaseFDLimit();
 
-  SingleApplication a(argc, argv, false, SingleApplication::Mode::User);
+  SingleApplication a(argc, argv, true, SingleApplication::Mode::User);
+  if (a.isSecondary()) {
+    if (options.is_empty()) {
+      qLog(Info) << "Strawberry is already running - activating existing window";
+    }
+    if (a.sendMessage(options.Serialize(), 5000)) {
+      main_exit_safe(0);
+      return 0;
+    }
+    // Couldn't send the message so start anyway
+  }
 
 #if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
-
-  // Do this check again because another instance might have started by now
-  if (a.isSecondary() && a.sendMessage(options.Serialize(), 5000)) {
-    return 0;
-  }
 
 #ifndef Q_OS_MACOS
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
