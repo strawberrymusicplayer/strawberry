@@ -81,7 +81,7 @@ SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate()
 void SingleCoreApplicationPrivate::genBlockServerName()
 {
     QCryptographicHash appData( QCryptographicHash::Sha256 );
-    appData.addData( "SingleCoreApplication", 17 );
+    appData.addData( "SingleApplication", 17 );
     appData.addData( SingleCoreApplication::app_t::applicationName().toUtf8() );
     appData.addData( SingleCoreApplication::app_t::organizationName().toUtf8() );
     appData.addData( SingleCoreApplication::app_t::organizationDomain().toUtf8() );
