@@ -911,7 +911,7 @@ void TidalService::Error(QString error, QVariant debug) {
     CheckFinish();
   }
   if (!stream_request_url_.isEmpty() && !login_sent_) {
-    emit StreamURLFinished(stream_request_url_, Song::FileType_Stream);
+    emit StreamURLFinished(stream_request_url_, Song::FileType_Stream, error);
     stream_request_url_ = QUrl();
   }
 }

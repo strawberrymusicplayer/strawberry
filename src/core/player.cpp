@@ -235,6 +235,12 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   if (item->Url() != result.original_url_) return;
 
   switch (result.type_) {
+    case UrlHandler::LoadResult::Error:
+      loading_async_ = QUrl();
+      EngineStateChanged(Engine::Error);
+      FatalError();
+      emit Error(result.error_);
+      break;
     case UrlHandler::LoadResult::NoMoreTracks:
       qLog(Debug) << "URL handler for" << result.original_url_ << "said no more tracks";
 
@@ -703,13 +709,17 @@ void Player::TrackAboutToEnd() {
   if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
     UrlHandler::LoadResult result = url_handlers_[url.scheme()]->LoadNext(url);
     switch (result.type_) {
+      case UrlHandler::LoadResult::Error:
+        loading_async_ = QUrl();
+        EngineStateChanged(Engine::Error);
+        FatalError();
+        emit Error(result.error_);
+        return;
       case UrlHandler::LoadResult::NoMoreTracks:
         return;
-
       case UrlHandler::LoadResult::WillLoadAsynchronously:
         loading_async_ = url;
         return;
-
       case UrlHandler::LoadResult::TrackAvailable:
         url = result.media_url_;
         break;

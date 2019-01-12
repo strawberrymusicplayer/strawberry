@@ -73,7 +73,7 @@ class TidalService : public InternetService {
   void ProgressSetMaximum(int max);
   void UpdateProgress(int max);
   void GetStreamURLFinished(QNetworkReply *reply, const QUrl url);
-  void StreamURLFinished(const QUrl url, const Song::FileType);
+  void StreamURLFinished(const QUrl url, const Song::FileType, QString error = QString());
 
  public slots:
   void ShowConfig();

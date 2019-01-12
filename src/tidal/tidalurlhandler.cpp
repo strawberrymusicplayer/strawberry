@@ -33,7 +33,7 @@ TidalUrlHandler::TidalUrlHandler(
     Application *app, TidalService *service)
     : UrlHandler(service), app_(app), service_(service), task_id_(-1) {
 
-  connect(service, SIGNAL(StreamURLFinished(QUrl, Song::FileType)), this, SLOT(GetStreamURLFinished(QUrl, Song::FileType)));
+  connect(service, SIGNAL(StreamURLFinished(QUrl, Song::FileType, QString)), this, SLOT(GetStreamURLFinished(QUrl, Song::FileType, QString)));
 
 }
 
@@ -49,11 +49,14 @@ UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 
 }
 
-void TidalUrlHandler::GetStreamURLFinished(QUrl url, Song::FileType filetype) {
+void TidalUrlHandler::GetStreamURLFinished(QUrl url, Song::FileType filetype, QString error) {
 
   if (task_id_ == -1) return;
   CancelTask();
-  emit AsyncLoadComplete(LoadResult(last_original_url_, LoadResult::TrackAvailable, url, filetype));
+  if (error.isEmpty())
+    emit AsyncLoadComplete(LoadResult(last_original_url_, LoadResult::TrackAvailable, url, filetype));
+  else
+    emit AsyncLoadComplete(LoadResult(last_original_url_, LoadResult::Error, url, filetype, -1, error));
 
 }
 

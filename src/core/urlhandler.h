@@ -52,9 +52,12 @@ class UrlHandler : public QObject {
 
       // There was a track available.  Its url is in media_url.
       TrackAvailable,
+
+      // There was a error
+      Error,
     };
 
-    LoadResult(const QUrl &original_url = QUrl(), Type type = NoMoreTracks, const QUrl &media_url = QUrl(), const Song::FileType &filetype = Song::FileType_Stream, qint64 length_nanosec_ = -1);
+    LoadResult(const QUrl &original_url = QUrl(), Type type = NoMoreTracks, const QUrl &media_url = QUrl(), const Song::FileType &filetype = Song::FileType_Stream, const qint64 length_nanosec_ = -1, const QString error = QString());
 
     // The url that the playlist item has in Url().
     // Might be something unplayable like lastfm://...
@@ -70,6 +73,9 @@ class UrlHandler : public QObject {
 
     // Track length, if we are able to get it only now
     qint64 length_nanosec_;
+
+    // Error message, if any
+    QString error_;
   };
 
   // Called by the Player when a song starts loading - gives the handler a chance to do something clever to get a playable track.
