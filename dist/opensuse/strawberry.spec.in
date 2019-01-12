@@ -18,7 +18,6 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  appstream-glib
 BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
-BuildRequires:  libQt5Gui-private-headers-devel
 BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  pkgconfig
