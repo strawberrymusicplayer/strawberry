@@ -71,6 +71,8 @@ endif()
 link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
+link_directories(${SINGLEAPPLICATION_LIBRARY_DIRS})
+link_directories(${SINGLECOREAPPLICATION_LIBRARY_DIRS})
 include_directories(${SINGLEAPPLICATION_INCLUDE_DIRS})
 include_directories(${SINGLECOREAPPLICATION_INCLUDE_DIRS})
 
@@ -1029,8 +1031,9 @@ if (UNIX AND NOT APPLE)
   endif ()
 endif ()
 
-add_dependencies(strawberry_lib singleapplication singlecoreapplication)
-
+if(NOT USE_SYSTEM_SINGLEAPPLICATION)
+add_dependencies(strawberry_lib ${SINGLEAPPLICATION_LIBRARIES} ${SINGLECOREAPPLICATION_LIBRARIES})
+endif()
 
 ###############################################################################
 
