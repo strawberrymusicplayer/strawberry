@@ -2,6 +2,11 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Added error handling and message for URL handler
+    * Added SingleCoreApplication secondary check
+
 Version 0.5.1:
 
     * Added scrobbler with support for Last.fm, Libre.fm and ListenBrainz
