@@ -124,12 +124,23 @@ int main(int argc, char* argv[]) {
 
   CommandlineOptions options(argc, argv);
   {
+    // Only start a core application now so we can check if there's another instance without requiring an X server.
     // This MUST be done before parsing the commandline options so QTextCodec gets the right system locale for filenames.
-    SingleCoreApplication a(argc, argv, true, SingleCoreApplication::Mode::User);
+    SingleCoreApplication core_app(argc, argv, true, SingleCoreApplication::Mode::User);
     Utilities::CheckPortable();
     // Parse commandline options - need to do this before starting the full QApplication so it works without an X server
     if (!options.Parse()) return 1;
     logging::SetLevels(options.log_levels());
+    if (core_app.isSecondary()) {
+      if (options.is_empty()) {
+        qLog(Info) << "Strawberry is already running - activating existing window (1)";
+      }
+      if (core_app.sendMessage(options.Serialize(), 5000)) {
+        main_exit_safe(0);
+        return 0;
+      }
+      // Couldn't send the message so start anyway
+    }
   }
 
 #ifdef Q_OS_MACOS
@@ -147,10 +158,12 @@ int main(int argc, char* argv[]) {
 
   Utilities::IncreaseFDLimit();
 
+  // important: Do not remove this.
+  // This must also be done as a SingleApplication, in case SingleCoreApplication was compiled with a different appdata.
   SingleApplication a(argc, argv, true, SingleApplication::Mode::User);
   if (a.isSecondary()) {
     if (options.is_empty()) {
-      qLog(Info) << "Strawberry is already running - activating existing window";
+      qLog(Info) << "Strawberry is already running - activating existing window (2)";
     }
     if (a.sendMessage(options.Serialize(), 5000)) {
       main_exit_safe(0);
