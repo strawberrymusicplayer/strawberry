@@ -203,7 +203,13 @@ endif()
 
 # SingleApplication
 pkg_check_modules(SINGLEAPPLICATION singleapplication)
+if (NOT SINGLEAPPLICATION_FOUND)
+  pkg_check_modules(SINGLEAPPLICATION libsingleapplication)
+endif()
 pkg_check_modules(SINGLECOREAPPLICATION singlecoreapplication)
+if (NOT SINGLECOREAPPLICATION_FOUND)
+  pkg_check_modules(SINGLECOREAPPLICATION libsinglecoreapplication)
+endif()
 if (SINGLEAPPLICATION_FOUND AND SINGLECOREAPPLICATION_FOUND)
   option(USE_SYSTEM_SINGLEAPPLICATION "Use system SingleApplication/SingleCoreApplication libraries" ON)
 else(SINGLEAPPLICATION_FOUND AND SINGLECOREAPPLICATION_FOUND)
