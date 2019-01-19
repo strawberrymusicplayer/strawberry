@@ -30,6 +30,7 @@ before_install:
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
+      ls /usr/local/lib/gstreamer-1.0
     fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild -DENABLE_STREAM_DEEZER=ON ; fi
