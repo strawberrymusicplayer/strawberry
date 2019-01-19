@@ -100,6 +100,7 @@ GSTREAMER_PLUGINS = [
     'libgsttaglib.so',
     'libgstvorbis.so',
     'libgstisomp4.so',
+    'libgstlame.so',
 
 ]
 
