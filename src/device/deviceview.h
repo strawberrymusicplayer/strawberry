@@ -88,13 +88,13 @@ class DeviceView : public AutoExpandingTreeView {
   void Organise();
   void Delete();
 
-  void DeviceConnected(int row);
-  void DeviceDisconnected(int row);
+  void DeviceConnected(QModelIndex idx);
+  void DeviceDisconnected(QModelIndex idx);
 
   void DeleteFinished(const SongList &songs_with_errors);
 
   // AutoExpandingTreeView
-  bool CanRecursivelyExpand(const QModelIndex &index) const;
+  bool CanRecursivelyExpand(const QModelIndex &idx) const;
 
  private:
   QModelIndex MapToDevice(const QModelIndex &merged_model_index) const;

@@ -89,7 +89,7 @@ void DeviceProperties::SetDeviceManager(DeviceManager *manager) {
 
 }
 
-void DeviceProperties::ShowDevice(int row) {
+void DeviceProperties::ShowDevice(QModelIndex idx) {
 
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
@@ -117,7 +117,7 @@ void DeviceProperties::ShowDevice(int row) {
 #endif
   }
 
-  index_ = manager_->index(row, 0, QModelIndex());
+  index_ = idx;
 
   // Basic information
   ui_->name->setText(index_.data(DeviceManager::Role_FriendlyName).toString());
@@ -160,7 +160,7 @@ void DeviceProperties::UpdateHardwareInfo() {
 
   // Hardware information
   QString id = index_.data(DeviceManager::Role_UniqueId).toString();
-  if (DeviceLister *lister = manager_->GetLister(index_.row())) {
+  if (DeviceLister *lister = manager_->GetLister(index_)) {
     QVariantMap info = lister->DeviceHardwareInfo(id);
 
     // Remove empty items
@@ -206,8 +206,8 @@ void DeviceProperties::UpdateHardwareInfo() {
 void DeviceProperties::UpdateFormats() {
 
   QString id = index_.data(DeviceManager::Role_UniqueId).toString();
-  DeviceLister *lister = manager_->GetLister(index_.row());
-  std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_.row());
+  DeviceLister *lister = manager_->GetLister(index_);
+  std::shared_ptr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
 
   // Transcode mode
   MusicStorage::TranscodeMode mode = MusicStorage::TranscodeMode(index_.data(DeviceManager::Role_TranscodeMode).toInt());
@@ -277,11 +277,11 @@ void DeviceProperties::accept() {
     icon_name = ui_->icon->currentItem()->data(Qt::UserRole).toString();
   }
 
-  manager_->SetDeviceOptions(index_.row(), ui_->name->text(), icon_name, mode, format);
+  manager_->SetDeviceOptions(index_, ui_->name->text(), icon_name, mode, format);
 
 }
 
-void DeviceProperties::OpenDevice() { manager_->Connect(index_.row()); }
+void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
 
 void DeviceProperties::UpdateFormatsFinished(QFuture<bool> future) {
 

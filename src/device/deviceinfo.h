@@ -42,10 +42,7 @@
 #include "devicedatabasebackend.h"
 #include "devicelister.h"
 
-class Application;
 class ConnectedDevice;
-class DeviceLister;
-class DeviceStateFilterModel;
 
 // Devices can be in three different states:
 //  1) Remembered in the database but not physically connected at the moment.
@@ -85,7 +82,10 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   // Sometimes the same device is discovered more than once.  In this case the device will have multiple "backends".
   struct Backend {
     Backend(DeviceLister *lister = nullptr, const QString &id = QString())
-        : lister_(lister), unique_id_(id) {}
+        :
+        lister_(lister),
+        unique_id_(id)
+        {}
 
     DeviceLister *lister_;  // nullptr if not physically connected
     QString unique_id_;

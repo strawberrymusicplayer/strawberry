@@ -157,6 +157,8 @@ DeviceManager::~DeviceManager() {
 
   backend_->deleteLater();
 
+  delete root_;
+
 }
 
 void DeviceManager::LoadAllDevices() {
@@ -165,20 +167,20 @@ void DeviceManager::LoadAllDevices() {
 
   DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
   for (const DeviceDatabaseBackend::Device &device : devices) {
-    DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Root, root_);
+    beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
+    DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
     info->InitFromDb(device);
-    beginInsertRows(QModelIndex(), devices_.count(), devices_.count());
     devices_ << info;
     endInsertRows();
   }
 
 }
 
-QVariant DeviceManager::data(const QModelIndex &index, int role) const {
+QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
 
-  if (!index.isValid() || index.column() != 0) return QVariant();
+  if (!idx.isValid() || idx.column() != 0) return QVariant();
 
-  const DeviceInfo *info = IndexToItem(index);
+  DeviceInfo *info = IndexToItem(idx);
   if (!info) return QVariant();
 
   switch (role) {
@@ -239,24 +241,22 @@ QVariant DeviceManager::data(const QModelIndex &index, int role) const {
 
     case MusicStorage::Role_Storage:
       if (!info->device_ && info->database_id_ != -1)
-        const_cast<DeviceManager*>(this)->Connect(index.row());
+        const_cast<DeviceManager*>(this)->Connect(info);
       if (!info->device_) return QVariant();
       return QVariant::fromValue<std::shared_ptr<MusicStorage>>(info->device_);
 
     case MusicStorage::Role_StorageForceConnect:
+      if (!info->BestBackend()) return QVariant();
       if (!info->device_) {
-        if (info->database_id_ == -1 && info->BestBackend() && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
-
-          if (info->BestBackend() && info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
+        if (info->database_id_ == -1 && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
+          if (info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
             std::unique_ptr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
             QPushButton *connect = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
-
             if (dialog->clickedButton() != connect) return QVariant();
           }
         }
-
-        const_cast<DeviceManager*>(this)->Connect(index.row());
+        const_cast<DeviceManager*>(this)->Connect(info);
       }
       if (!info->device_) return QVariant();
       return QVariant::fromValue<std::shared_ptr<MusicStorage>>(info->device_);
@@ -298,21 +298,21 @@ void DeviceManager::AddLister(DeviceLister *lister) {
 
 }
 
-int DeviceManager::FindDeviceById(const QString &id) const {
+DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
 
   for (int i = 0; i < devices_.count(); ++i) {
     for (const DeviceInfo::Backend &backend : devices_[i]->backends_) {
-      if (backend.unique_id_ == id) return i;
+      if (backend.unique_id_ == id) return devices_[i];
     }
   }
 
-  return -1;
+  return nullptr;
 
 }
 
-int DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
+DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 
-  if (urls.isEmpty()) return -1;
+  if (urls.isEmpty()) return nullptr;
 
   for (int i = 0; i < devices_.count(); ++i) {
     for (const DeviceInfo::Backend &backend : devices_[i]->backends_) {
@@ -320,12 +320,12 @@ int DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 
       QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
       for (const QUrl &url : device_urls) {
-        if (urls.contains(url)) return i;
+        if (urls.contains(url)) return devices_[i];
       }
     }
   }
 
-  return -1;
+  return nullptr;
 
 }
 
@@ -337,24 +337,22 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
   qLog(Info) << "Device added:" << id << lister->DeviceUniqueIDs();
 
   // Do we have this device already?
-  int i = FindDeviceById(id);
-  if (i != -1) {
-    DeviceInfo *info = devices_[i];
+  DeviceInfo *info = FindDeviceById(id);
+  if (info) {
     for (int backend_index = 0 ; backend_index < info->backends_.count() ; ++backend_index) {
       if (info->backends_[backend_index].unique_id_ == id) {
         info->backends_[backend_index].lister_ = lister;
         break;
       }
     }
-
-    emit dataChanged(index(i, 0), index(i, 0));
+    QModelIndex idx = ItemToIndex(info);
+    if (idx.isValid()) emit dataChanged(idx, idx);
   }
   else {
     // Check if we have another device with the same URL
-    i = FindDeviceByUrl(lister->MakeDeviceUrls(id));
-    if (i != -1) {
+    info = FindDeviceByUrl(lister->MakeDeviceUrls(id));
+    if (info) {
       // Add this device's lister to the existing device
-      DeviceInfo *info = devices_[i];
       info->backends_ << DeviceInfo::Backend(lister, id);
 
       // If the user hasn't saved the device in the DB yet then overwrite the device's name and icon etc.
@@ -363,18 +361,17 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
         info->size_ = lister->DeviceCapacity(id);
         info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
       }
-
-      emit dataChanged(index(i, 0), index(i, 0));
+      QModelIndex idx = ItemToIndex(info);
+      if (idx.isValid()) emit dataChanged(idx, idx);
     }
     else {
       // It's a completely new device
-      DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Root, root_);
+      beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
+      DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
       info->backends_ << DeviceInfo::Backend(lister, id);
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);
       info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
-
-      beginInsertRows(QModelIndex(), devices_.count(), devices_.count());
       devices_ << info;
       endInsertRows();
     }
@@ -388,13 +385,11 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
   qLog(Info) << "Device removed:" << id;
 
-  int i = FindDeviceById(id);
-  if (i == -1) {
-    // Shouldn't happen
-    return;
-  }
+  DeviceInfo *info = FindDeviceById(id);
+  if (!info) return;
 
-  DeviceInfo *info = devices_[i];
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return;
 
   if (info->database_id_ != -1) {
     // Keep the structure around, but just "disconnect" it
@@ -407,9 +402,9 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
     if (info->device_ && info->device_->lister() == lister) info->device_.reset();
 
-    if (!info->device_) emit DeviceDisconnected(i);
+    if (!info->device_) emit DeviceDisconnected(idx);
 
-    emit dataChanged(index(i, 0), index(i, 0));
+    emit dataChanged(idx, idx);
   }
   else {
     // If this was the last lister for the device then remove it from the model
@@ -421,16 +416,9 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
     }
 
     if (info->backends_.isEmpty()) {
-      beginRemoveRows(QModelIndex(), i, i);
-      devices_.removeAt(i);
-
-      for (const QModelIndex &idx : persistentIndexList()) {
-        if (idx.row() == i)
-          changePersistentIndex(idx, QModelIndex());
-        else if (idx.row() > i)
-          changePersistentIndex(idx, index(idx.row() - 1, idx.column()));
-      }
-
+      beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
+      devices_.removeAll(info);
+      root_->Delete(info->row);
       endRemoveRows();
     }
   }
@@ -442,29 +430,38 @@ void DeviceManager::PhysicalDeviceChanged(const QString &id) {
   DeviceLister *lister = qobject_cast<DeviceLister*>(sender());
   Q_UNUSED(lister);
 
-  int i = FindDeviceById(id);
-  if (i == -1) {
-    // Shouldn't happen
-    return;
-  }
+  DeviceInfo *info = FindDeviceById(id);
+  if (!info) return;
 
   // TODO
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
-
-  DeviceInfo *info = devices_[row];
-  if (info->device_)  // Already connected
-    return info->device_;
+std::shared_ptr<ConnectedDevice> DeviceManager::Connect(QModelIndex idx) {
 
   std::shared_ptr<ConnectedDevice> ret;
 
-  if (!info->BestBackend()->lister_)  // Not physically connected
-    return ret;
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return ret;
 
-  if (info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
-    // Mount the device
+  return Connect(info);
+
+}
+
+std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
+
+  std::shared_ptr<ConnectedDevice> ret;
+
+  if (!info) return ret;
+  if (info->device_) {  // Already connected
+    return info->device_;
+  }
+
+  if (!info->BestBackend() || !info->BestBackend()->lister_) {  // Not physically connected
+    return ret;
+  }
+
+  if (info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {  // Mount the device
     info->BestBackend()->lister_->MountDevice(info->BestBackend()->unique_id_);
     return ret;
   }
@@ -525,8 +522,10 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
       Q_ARG(QUrl, device_url),
       Q_ARG(DeviceLister*, info->BestBackend()->lister_),
       Q_ARG(QString, info->BestBackend()->unique_id_),
-      Q_ARG(DeviceManager*, this), Q_ARG(Application*, app_),
-      Q_ARG(int, info->database_id_), Q_ARG(bool, first_time));
+      Q_ARG(DeviceManager*, this),
+      Q_ARG(Application*, app_),
+      Q_ARG(int, info->database_id_),
+      Q_ARG(bool, first_time));
 
   ret.reset(static_cast<ConnectedDevice*>(instance));
 
@@ -541,91 +540,121 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(int row) {
     return ret;
   }
   info->device_ = ret;
-  QModelIndex index = ItemToIndex(info);
-  if (!index.isValid()) return ret;
 
-  emit dataChanged(index, index);
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return ret;
+
+  emit dataChanged(idx, idx);
+
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
 
-  emit DeviceConnected(row);
+  emit DeviceConnected(idx);
   return ret;
 
 }
 
-std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(int row) const {
-  return devices_[row]->device_;
+DeviceInfo *DeviceManager::GetDevice(QModelIndex idx) const {
+
+  DeviceInfo *info = IndexToItem(idx);
+  return info;
+
 }
 
-int DeviceManager::GetDatabaseId(int row) const {
-  return devices_[row]->database_id_;
+std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(QModelIndex idx) const {
+
+  std::shared_ptr<ConnectedDevice> ret;
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return ret;
+  return info->device_;
+
 }
 
-DeviceLister *DeviceManager::GetLister(int row) const {
-  return devices_[row]->BestBackend()->lister_;
+std::shared_ptr<ConnectedDevice> DeviceManager::GetConnectedDevice(DeviceInfo *info) const {
+
+  std::shared_ptr<ConnectedDevice> ret;
+  if (!info) return ret;
+  return info->device_;
+
 }
 
-void DeviceManager::Disconnect(int row) {
+int DeviceManager::GetDatabaseId(QModelIndex idx) const {
 
-  DeviceInfo *info = devices_[row];
-  if (!info || !info->device_)
-    return;
+  if (!idx.isValid()) return -1;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return -1;
+  return info->database_id_;
+
+}
+
+DeviceLister *DeviceManager::GetLister(QModelIndex idx) const {
+
+  if (!idx.isValid()) return nullptr;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info || !info->BestBackend()) return nullptr;
+  return info->BestBackend()->lister_;
+
+}
+
+void DeviceManager::Disconnect(QModelIndex idx) {
+
+  if (!idx.isValid()) return;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info || !info->device_) return;
 
   info->device_.reset();
-  emit DeviceDisconnected(row);
 
-  QModelIndex index = ItemToIndex(info);
-  if (!index.isValid()) return;
-
-  emit dataChanged(index, index);
+  emit DeviceDisconnected(idx);
+  emit dataChanged(idx, idx);
 
 }
 
-void DeviceManager::Forget(int row) {
+void DeviceManager::Forget(QModelIndex idx) {
 
-  DeviceInfo *info = devices_[row];
+  if (!idx.isValid()) return;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return;
+
   if (info->database_id_ == -1) return;
-
-  if (info->device_) Disconnect(row);
+  if (info->device_) Disconnect(idx);
 
   backend_->RemoveDevice(info->database_id_);
   info->database_id_ = -1;
 
-  if (!info->BestBackend()->lister_) {
-    // It's not attached any more so remove it from the list
-    beginRemoveRows(QModelIndex(), row, row);
-    devices_.removeAt(row);
-
-    for (const QModelIndex &idx : persistentIndexList()) {
-      if (idx.row() == row)
-        changePersistentIndex(idx, QModelIndex());
-      else if (idx.row() > row)
-        changePersistentIndex(idx, index(idx.row() - 1, idx.column()));
-    }
-
+  if (!info->BestBackend() || (info->BestBackend() && !info->BestBackend()->lister_)) {  // It's not attached any more so remove it from the list
+    beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
+    devices_.removeAll(info);
+    root_->Delete(info->row);
     endRemoveRows();
   }
-  else {
-    // It's still attached, set the name and icon back to what they were originally
+  else {  // It's still attached, set the name and icon back to what they were originally
     const QString id = info->BestBackend()->unique_id_;
 
     info->friendly_name_ = info->BestBackend()->lister_->MakeFriendlyName(id);
     info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
 
-    dataChanged(index(row, 0), index(row, 0));
+    dataChanged(idx, idx);
   }
 
 }
 
-void DeviceManager::SetDeviceOptions(int row, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format) {
+void DeviceManager::SetDeviceOptions(QModelIndex idx, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format) {
 
-  DeviceInfo *info = devices_[row];
+  if (!idx.isValid()) return;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return;
+
   info->friendly_name_ = friendly_name;
   info->LoadIcon(QVariantList() << icon_name, friendly_name);
   info->transcode_mode_ = mode;
   info->transcode_format_ = format;
 
-  emit dataChanged(index(row, 0), index(row, 0));
+  emit dataChanged(idx, idx);
 
   if (info->database_id_ != -1)
     backend_->SetDeviceOptions(info->database_id_, friendly_name, icon_name, mode, format);
@@ -659,42 +688,49 @@ void DeviceManager::TasksChanged() {
   for (const TaskManager::Task &task : tasks) {
     if (!active_tasks_.contains(task.id)) continue;
 
-    QPersistentModelIndex index = active_tasks_[task.id];
-    if (!index.isValid()) continue;
+    QPersistentModelIndex idx = active_tasks_[task.id];
+    if (!idx.isValid()) continue;
 
-    DeviceInfo *info = IndexToItem(index);
+    DeviceInfo *info = IndexToItem(idx);
     if (task.progress_max)
       info->task_percentage_ = float(task.progress) / task.progress_max * 100;
     else
       info->task_percentage_ = 0;
 
-    emit dataChanged(index, index);
-    finished_tasks.removeAll(index);
+    emit dataChanged(idx, idx);
+    finished_tasks.removeAll(idx);
 
   }
 
-  for (const QPersistentModelIndex &index : finished_tasks) {
-    if (!index.isValid()) continue;
+  for (const QPersistentModelIndex &idx : finished_tasks) {
 
-    DeviceInfo *info = devices_[index.row()];
+    if (!idx.isValid()) continue;
+
+    DeviceInfo *info = IndexToItem(idx);
+    if (!info) continue;
+
     info->task_percentage_ = -1;
-    emit dataChanged(index, index);
+    emit dataChanged(idx, idx);
 
-    active_tasks_.remove(active_tasks_.key(index));
+    active_tasks_.remove(active_tasks_.key(idx));
   }
 
 }
 
-void DeviceManager::UnmountAsync(int row) {
-  Q_ASSERT(QMetaObject::invokeMethod(this, "Unmount", Q_ARG(int, row)));
+void DeviceManager::UnmountAsync(QModelIndex idx) {
+  Q_ASSERT(QMetaObject::invokeMethod(this, "Unmount", Q_ARG(QModelIndex, idx)));
 }
 
-void DeviceManager::Unmount(int row) {
+void DeviceManager::Unmount(QModelIndex idx) {
 
-  DeviceInfo *info = devices_[row];
+  if (!idx.isValid()) return;
+
+  DeviceInfo *info = IndexToItem(idx);
+  if (!info) return;
+
   if (info->database_id_ != -1 && !info->device_) return;
 
-  if (info->device_) Disconnect(row);
+  if (info->device_) Disconnect(idx);
 
   if (info->BestBackend()->lister_)
     info->BestBackend()->lister_->UnmountDevice(info->BestBackend()->unique_id_);
@@ -706,13 +742,13 @@ void DeviceManager::DeviceSongCountUpdated(int count) {
   ConnectedDevice *device = qobject_cast<ConnectedDevice*>(sender());
   if (!device) return;
 
-  int row = FindDeviceById(device->unique_id());
-  if (row == -1) return;
+  DeviceInfo *info = FindDeviceById(device->unique_id());
+  if (!info) return;
 
-  QModelIndex index = ItemToIndex(devices_[row]);
-  if (!index.isValid()) return;
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return;
 
-  emit dataChanged(index, index);
+  emit dataChanged(idx, idx);
 
 }
 
@@ -721,21 +757,14 @@ void DeviceManager::LazyPopulate(DeviceInfo *parent, bool signal) {
   parent->lazy_loaded = true;
 }
 
-DeviceInfo *DeviceManager::ItemFromRow(int row) {
-  return devices_[row];
-}
-
 QString DeviceManager::DeviceNameByID(QString unique_id) {
 
-  int row = FindDeviceById(unique_id);
-  if (row == -1) return QString();
-
-  DeviceInfo *info = devices_[row];
+  DeviceInfo *info = FindDeviceById(unique_id);
   if (!info) return QString();
 
-  QModelIndex index = ItemToIndex(info);
-  if (!index.isValid()) return QString();
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return QString();
 
-  return data(index, DeviceManager::Role_FriendlyName).toString();
+  return data(idx, DeviceManager::Role_FriendlyName).toString();
 
 }

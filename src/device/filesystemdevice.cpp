@@ -44,7 +44,6 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
 
-  qLog(Debug) << __PRETTY_FUNCTION__ << unique_id;
   watcher_->set_device_name(manager->DeviceNameByID(unique_id));
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());
