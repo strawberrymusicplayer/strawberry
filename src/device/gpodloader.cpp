@@ -52,6 +52,17 @@ void GPodLoader::LoadDatabase() {
   int task_id = task_manager_->StartTask(tr("Loading iPod database"));
   emit TaskStarted(task_id);
 
+  Itdb_iTunesDB *db = TryLoad();
+
+  moveToThread(original_thread_);
+
+  task_manager_->SetTaskFinished(task_id);
+  emit LoadFinished(db, db);
+
+}
+
+Itdb_iTunesDB *GPodLoader::TryLoad() {
+
   // Load the iTunes database
   GError *error = nullptr;
   Itdb_iTunesDB *db = itdb_parse(QDir::toNativeSeparators(mount_point_).toLocal8Bit(), &error);
@@ -62,12 +73,12 @@ void GPodLoader::LoadDatabase() {
       qLog(Error) << "loading database failed:" << error->message;
       emit Error(QString::fromUtf8(error->message));
       g_error_free(error);
-    } else {
+    }
+    else {
       emit Error(tr("An error occurred loading the iTunes database"));
     }
 
-    task_manager_->SetTaskFinished(task_id);
-    return;
+    return db;
   }
 
   // Convert all the tracks from libgpod structs into Song classes
@@ -91,10 +102,6 @@ void GPodLoader::LoadDatabase() {
   // Add the songs we've just loaded
   backend_->AddOrUpdateSongs(songs);
 
-  moveToThread(original_thread_);
-
-  task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished(db);
+  return db;
 
 }
-

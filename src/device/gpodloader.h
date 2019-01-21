@@ -52,7 +52,10 @@ class GPodLoader : public QObject {
  signals:
   void Error(const QString &message);
   void TaskStarted(int task_id);
-  void LoadFinished(Itdb_iTunesDB *db);
+  void LoadFinished(Itdb_iTunesDB *db, bool success);
+
+ private:
+  Itdb_iTunesDB *TryLoad();
 
  private:
   std::shared_ptr<ConnectedDevice> device_;

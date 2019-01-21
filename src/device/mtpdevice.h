@@ -54,6 +54,7 @@ class MtpDevice : public ConnectedDevice {
   static QStringList url_schemes() { return QStringList() << "mtp" << "gphoto2"; }
 
   bool Init();
+  void ConnectAsync();
 
   bool GetSupportedFiletypes(QList<Song::FileType>* ret);
   int GetFreeSpace();
@@ -68,7 +69,8 @@ class MtpDevice : public ConnectedDevice {
   void FinishDelete(bool success);
 
  private slots:
-  void LoadFinished();
+  void LoadFinished(bool success);
+  void LoaderError(const QString& message);
 
  private:
   bool GetSupportedFiletypes(QList<Song::FileType> *ret, LIBMTP_mtpdevice_struct *device);

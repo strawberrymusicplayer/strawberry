@@ -125,6 +125,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void TasksChanged();
   void DeviceSongCountUpdated(int count);
   void LoadAllDevices();
+  void DeviceConnectFinished(const QString &id, bool success);
 
  protected:
   void LazyPopulate(DeviceInfo *item) { LazyPopulate(item, true); }

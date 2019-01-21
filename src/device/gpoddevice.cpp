@@ -59,11 +59,10 @@ bool GPodDevice::Init() {
   loader_ = new GPodLoader(url_.path(), app_->task_manager(), backend_, shared_from_this());
   loader_->moveToThread(loader_thread_);
 
-  connect(loader_, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
   connect(loader_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
-  connect(loader_, SIGNAL(LoadFinished(Itdb_iTunesDB*)), SLOT(LoadFinished(Itdb_iTunesDB*)));
+  connect(loader_, SIGNAL(LoadFinished(Itdb_iTunesDB*, bool)), SLOT(LoadFinished(Itdb_iTunesDB*, bool)));
   connect(loader_thread_, SIGNAL(started()), loader_, SLOT(LoadDatabase()));
-  loader_thread_->start();
 
   return true;
 
@@ -71,7 +70,13 @@ bool GPodDevice::Init() {
 
 GPodDevice::~GPodDevice() {}
 
-void GPodDevice::LoadFinished(Itdb_iTunesDB *db) {
+void GPodDevice::ConnectAsync() {
+
+  loader_thread_->start();
+
+}
+
+void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
 
   QMutexLocker l(&db_mutex_);
   db_ = db;
@@ -87,7 +92,11 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db) {
   loader_->deleteLater();
   loader_ = nullptr;
 
+  emit ConnectFinished(unique_id_, success);
+
 }
+
+void GPodDevice::LoaderError(const QString &message) { app_->AddError(message); }
 
 bool GPodDevice::StartCopy(QList<Song::FileType> *supported_filetypes) {
 

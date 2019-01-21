@@ -548,9 +548,26 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
-
-  emit DeviceConnected(idx);
+  connect(info->device_.get(), SIGNAL(ConnectFinished(const QString&, bool)), SLOT(DeviceConnectFinished(const QString&, bool)));
+  ret->ConnectAsync();
   return ret;
+
+}
+
+void DeviceManager::DeviceConnectFinished(const QString &id, bool success) {
+
+  DeviceInfo *info = FindDeviceById(id);
+  if (!info) return;
+
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return;
+
+  if (success) {
+    emit DeviceConnected(idx);
+  }
+  else {
+    info->device_.reset();
+  }
 
 }
 

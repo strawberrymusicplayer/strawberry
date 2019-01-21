@@ -46,19 +46,19 @@ class GPodLoader;
 
 class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
-  
- signals:
-  void Error(const QString &message);
 
  public:
   Q_INVOKABLE GPodDevice(
       const QUrl &url, DeviceLister *lister,
-      const QString &unique_id, DeviceManager *manager,
+      const QString &unique_id,
+      DeviceManager *manager,
       Application *app,
-      int database_id, bool first_time);
+      int database_id,
+      bool first_time);
   ~GPodDevice();
 
   bool Init();
+  void ConnectAsync();
 
   static QStringList url_schemes() { return QStringList() << "ipod"; }
 
@@ -73,7 +73,8 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   void FinishDelete(bool success);
 
  protected slots:
-  void LoadFinished(Itdb_iTunesDB *db);
+  void LoadFinished(Itdb_iTunesDB *db, bool success);
+  void LoaderError(const QString& message);
 
  protected:
   Itdb_Track *AddTrackToITunesDb(const Song &metadata);

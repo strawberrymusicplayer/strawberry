@@ -99,6 +99,8 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, bool firs
 
 }
 
+void ConnectedDevice::ConnectAsync() { emit ConnectFinished(unique_id_, true); }
+
 void ConnectedDevice::Eject() {
 
   DeviceInfo *info = manager_->FindDeviceById(unique_id_);

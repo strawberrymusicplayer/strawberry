@@ -40,34 +40,35 @@ MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBacke
   original_thread_ = thread();
 }
 
-MtpLoader::~MtpLoader() {
-  delete connection_;
-}
+MtpLoader::~MtpLoader() {}
 
-bool MtpLoader::Init() {
-  connection_ = new MtpConnection(url_);
-  return connection_->is_valid();
-}
+bool MtpLoader::Init() { return true; }
 
 void MtpLoader::LoadDatabase() {
 
   int task_id = task_manager_->StartTask(tr("Loading MTP device"));
   emit TaskStarted(task_id);
 
-  TryLoad();
+  bool success = TryLoad();
 
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished();
+  emit LoadFinished(success);
 
 }
 
 bool MtpLoader::TryLoad() {
 
+  MtpConnection dev(url_);
+  if (!dev.is_valid()) {
+    emit Error(tr("Error connecting MTP device"));
+    return false;
+  }
+
   // Load the list of songs on the device
   SongList songs;
-  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(connection_->device(), nullptr, nullptr);
+  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(dev.device(), nullptr, nullptr);
   while (tracks) {
     LIBMTP_track_t *track = tracks;
 
