@@ -792,6 +792,9 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
 
   //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
 
+  title.remove(Song::kTitleRemoveMisc);
+  album.remove(Song::kAlbumRemoveMisc);
+
   song.set_source(Song::Source_Tidal);
   song.set_id(song_id);
   song.set_album_id(album_id);

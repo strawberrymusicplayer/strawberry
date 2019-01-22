@@ -25,12 +25,12 @@
 #include <QString>
 
 #include "core/logging.h"
+#include "core/song.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
 
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
 const QRegExp LyricsFetcher::kRemoveNonAlpha("[^a-zA-Z0-9\\d\\s]");
-const QRegExp LyricsFetcher::kRemoveFromTitle(" ?-? ((\\(|\\[)?)(Remastered|Live) ?((\\)|\\])?)$");
 
 LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
     : QObject(parent),
@@ -50,10 +50,10 @@ quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const
   request.artist = artist;
   request.album = album;
   request.album.remove(kRemoveNonAlpha);
-  request.album.remove(kRemoveFromTitle);
+  request.album.remove(Song::kTitleRemoveMisc);
   request.title = title;
   request.title.remove(kRemoveNonAlpha);
-  request.title.remove(kRemoveFromTitle);
+  request.title.remove(Song::kTitleRemoveMisc);
   request.id = next_id_++;
   AddRequest(request);
 

@@ -83,7 +83,9 @@ class Song {
   static const QString kManuallyUnsetCover;
   static const QString kEmbeddedCover;
 
-  static const QRegExp kCoverRemoveDisc;
+  static const QRegExp kAlbumRemoveDisc;
+  static const QRegExp kAlbumRemoveMisc;
+  static const QRegExp kTitleRemoveMisc;
   static const QRegExp kFilenameRemoveNonFatChars;
 
   static QString JoinSpec(const QString &table);

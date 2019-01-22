@@ -182,9 +182,13 @@ ScrobblerCacheItem *ScrobblerCache::Add(const Song &song, const quint64 &timesta
   if (scrobbler_cache_.contains(timestamp)) return nullptr;
 
   QString album = song.album();
-  album = album.remove(Song::kCoverRemoveDisc);
+  QString title = song.title();
 
-  ScrobblerCacheItem *item = new ScrobblerCacheItem(song.artist(), album, song.title(), song.albumartist(), song.track(), song.length_nanosec(), timestamp);
+  album.remove(Song::kAlbumRemoveDisc);
+  album.remove(Song::kAlbumRemoveMisc);
+  title.remove(Song::kTitleRemoveMisc);
+
+  ScrobblerCacheItem *item = new ScrobblerCacheItem(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);
   scrobbler_cache_.insert(timestamp, item);
 
   if (loaded_) DoInAMinuteOrSo(this, SLOT(WriteCache()));

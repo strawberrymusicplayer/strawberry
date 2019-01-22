@@ -180,7 +180,8 @@ QString AlbumCoverChoiceController::LoadCoverFromURL(Song *song) {
 QString AlbumCoverChoiceController::SearchForCover(Song *song) {
 
   QString album = song->effective_album();
-  album.remove(Song::kCoverRemoveDisc);
+  album.remove(Song::kAlbumRemoveDisc);
+  album.remove(Song::kAlbumRemoveMisc);
 
   // Get something sensible to stick in the search box
   QImage image = cover_searcher_->Exec(song->effective_albumartist(), album);
@@ -305,7 +306,7 @@ void AlbumCoverChoiceController::SaveCover(Song *song, const QString &cover) {
 QString AlbumCoverChoiceController::SaveCoverInCache(const QString &artist, const QString &album, const QImage &image) {
 
   QString album2(album);
-  album2.remove(Song::kCoverRemoveDisc);
+  album2.remove(Song::kAlbumRemoveDisc);
 
   // Hash the artist and album into a filename for the image
   QString filename(Utilities::Sha1CoverHash(artist, album2).toHex() + ".jpg");

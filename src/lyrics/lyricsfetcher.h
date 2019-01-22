@@ -65,7 +65,6 @@ class LyricsFetcher : public QObject {
 
   static const int kMaxConcurrentRequests;
   static const QRegExp kRemoveNonAlpha;
-  static const QRegExp kRemoveFromTitle;
 
   quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();

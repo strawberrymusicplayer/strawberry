@@ -142,7 +142,9 @@ const QString Song::kFtsUpdateSpec = Utilities::Updateify(Song::kFtsColumns).joi
 const QString Song::kManuallyUnsetCover = "(unset)";
 const QString Song::kEmbeddedCover = "(embedded)";
 
-const QRegExp Song::kCoverRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
+const QRegExp Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((\\)|\\])?)$");
+const QRegExp Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered) ?((\\)|\\])?)$");
+const QRegExp Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live) ?((\\)|\\])?)$");
 
 struct Song::Private : public QSharedData {
 
@@ -820,7 +822,7 @@ void Song::InitFromFilePartial(const QString &filename) {
 void Song::InitArtManual() {
 
   QString album2 = d->album_;
-  album2.remove(Song::kCoverRemoveDisc);
+  album2.remove(Song::kAlbumRemoveDisc);
 
   //qLog(Debug) << __PRETTY_FUNCTION__ << d->artist_ << d->album_ << album2;
 

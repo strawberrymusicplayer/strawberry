@@ -384,7 +384,8 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   if (!IsAuthenticated() || !song.is_metadata_good()) return;
 
   QString album = song.album();
-  album = album.remove(Song::kCoverRemoveDisc);
+  album = album.remove(Song::kAlbumRemoveDisc);
+  album = album.remove(Song::kAlbumRemoveMisc);
 
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
