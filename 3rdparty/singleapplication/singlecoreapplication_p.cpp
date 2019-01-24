@@ -55,6 +55,8 @@ SingleCoreApplicationPrivate::SingleCoreApplicationPrivate( SingleCoreApplicatio
 {
     server = nullptr;
     socket = nullptr;
+    memory = nullptr;
+    instanceNumber = -1;
 }
 
 SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate()

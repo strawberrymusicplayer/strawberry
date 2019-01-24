@@ -55,6 +55,8 @@ SingleApplicationPrivate::SingleApplicationPrivate( SingleApplication *q_ptr )
 {
     server = nullptr;
     socket = nullptr;
+    memory = nullptr;
+    instanceNumber = -1;
 }
 
 SingleApplicationPrivate::~SingleApplicationPrivate()
