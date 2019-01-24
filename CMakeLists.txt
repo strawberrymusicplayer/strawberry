@@ -152,8 +152,8 @@ if(WIN32)
 endif()
 
 if(X11_FOUND)
-  find_path(KEYSYMDEF_H keysymdef.h PATHS ${X11_INCLUDE_DIR})
-  find_path(XF86KEYSYM_H XF86keysym.h PATHS ${X11_INCLUDE_DIR})
+  find_path(KEYSYMDEF_H NAMES "keysymdef.h" PATHS "${X11_INCLUDE_DIR}" PATH_SUFFIXES "X11")
+  find_path(XF86KEYSYM_H NAMES "XF86keysym.h" PATHS "${XCB_INCLUDEDIR}" PATH_SUFFIXES "X11")
   if(KEYSYMDEF_H)
     set(HAVE_KEYSYMDEF_H ON)
   else()
@@ -372,9 +372,6 @@ if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
   set(USE_BUNDLE_DIR "../PlugIns")
 endif()
 
-#if(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
-  #add_subdirectory(ext/gstafc)
-#endif(IMOBILEDEVICE_FOUND AND PLIST_FOUND)
 
 # Set up definitions and paths
 
