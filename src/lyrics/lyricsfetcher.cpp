@@ -50,7 +50,7 @@ quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const
   request.artist = artist;
   request.album = album;
   request.album.remove(kRemoveNonAlpha);
-  request.album.remove(Song::kTitleRemoveMisc);
+  request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
   request.title.remove(kRemoveNonAlpha);
   request.title.remove(Song::kTitleRemoveMisc);
