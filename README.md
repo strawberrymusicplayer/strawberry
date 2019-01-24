@@ -80,7 +80,7 @@ The Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deeze
 
     (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
 
-### ::penguin:	Packaging status
+### :penguin:	Packaging status
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg)](https://repology.org/metapackage/strawberry/versions)
 
