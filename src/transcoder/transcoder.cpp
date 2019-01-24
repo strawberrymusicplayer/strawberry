@@ -94,10 +94,10 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
 
   if (mime_type.isEmpty()) return nullptr;
 
-  // HACK: Force ffmux_mp4 because it doesn't set any useful src caps
+  // HACK: Force mp4mux because it doesn't set any useful src caps
   if (mime_type == "audio/mp4") {
-    LogLine(QString("Using '%1' (rank %2)").arg("ffmux_mp4").arg(-1));
-    return CreateElement("ffmux_mp4", bin);
+    emit LogLine(QString("Using '%1' (rank %2)").arg("mp4mux").arg(-1));
+    return CreateElement("mp4mux", bin);
   }
 
   // Keep track of all the suitable elements we find and figure out which is the best at the end.
@@ -149,12 +149,12 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   std::sort(suitable_elements_.begin(), suitable_elements_.end());
   const SuitableElement &best = suitable_elements_.last();
 
-  LogLine(QString("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
+  emit LogLine(QString("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
   if (best.name_ == "lamemp3enc") {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
-    LogLine("Adding xingmux and id3v2mux to the pipeline");
+    emit LogLine("Adding xingmux and id3v2mux to the pipeline");
 
     // Create the bin
     GstElement *mp3bin = gst_bin_new("mp3bin");
@@ -217,7 +217,7 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
     s.setValue("target", 1);  // 1 == bitrate
   }
   if (s.value("cbr").isNull()) {
-    s.setValue("cbr", true);
+    s.setValue("cbr", false);
   }
 
 }
@@ -387,6 +387,7 @@ GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer d
     default:
       break;
   }
+
   return GST_BUS_PASS;
 
 }
@@ -429,12 +430,12 @@ bool Transcoder::StartJob(const Job &job) {
   if (!src || !decode || !convert || !sink) return false;
 
   if (!codec && !job.preset.codec_mimetype_.isEmpty()) {
-    LogLine(tr("Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed").arg(job.preset.codec_mimetype_));
+    emit LogLine(tr("Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed").arg(job.preset.codec_mimetype_));
     return false;
   }
 
   if (!muxer && !job.preset.muxer_mimetype_.isEmpty()) {
-    LogLine(tr("Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed").arg(job.preset.muxer_mimetype_));
+    emit LogLine(tr("Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed").arg(job.preset.muxer_mimetype_));
     return false;
   }
 
@@ -571,7 +572,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
     const QVariant value = s.value(property->name);
     if (value.isNull()) continue;
 
-    LogLine(QString("Setting %1 property: %2 = %3").arg(name, property->name, value.toString()));
+    emit LogLine(QString("Setting %1 property: %2 = %3").arg(name, property->name, value.toString()));
 
     switch (property->value_type) {
       case G_TYPE_DOUBLE:
