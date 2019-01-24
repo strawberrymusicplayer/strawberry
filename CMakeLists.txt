@@ -334,11 +334,11 @@ optional_component(LIBMTP ON "Devices: MTP support"
   DEPENDS "libmtp" LIBMTP_FOUND
 )
 
-optional_component(IMOBILEDEVICE ON "Devices: iPod Touch, iPhone, iPad support"
+optional_component(IMOBILEDEVICE ON "Devices: iPhone, iPod Touch, iPad and Apple TV support"
   DEPENDS "libimobiledevice" LIBIMOBILEDEVICE_FOUND
   DEPENDS "libplist" LIBPLIST_FOUND
   DEPENDS "libusbmuxd" LIBUSBMUXD_FOUND
-  DEPENDS "iPod classic support" LIBGPOD_FOUND
+  DEPENDS "libgpod" LIBGPOD_FOUND
 )
 
 optional_component(SPARKLE ON "Sparkle integration"
