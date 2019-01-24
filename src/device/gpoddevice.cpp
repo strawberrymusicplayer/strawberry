@@ -36,7 +36,6 @@
 
 #include "core/logging.h"
 #include "core/application.h"
-#include "core/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "connecteddevice.h"
