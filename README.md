@@ -48,6 +48,14 @@ To build Strawberry from source you need the following installed on your system 
 * [ALSA library (linux)](https://www.alsa-project.org/)
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
+* [GStreamer](https://gstreamer.freedesktop.org/), [Xine](https://www.xine-project.org), [VLC](https://www.videolan.org), [Deezer](https://build-repo.deezer.com/native_sdk/deezer-native-sdk-v1.2.10.zip) or [Phonon](https://techbase.kde.org/Phonon)
+
+Optional dependencies:
+
+* Audio CD: [libcdio](https://www.gnu.org/software/libcdio/)
+* MTP devices: [libmtp](http://libmtp.sourceforge.net/)
+* iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
+* iPhone, iPod Touch, iPad and Apple TV devices: [libimobiledevice, libplist and libusbmuxd](https://www.libimobiledevice.org/)
 
 Either GStreamer, Xine, VLC, Deezer or Phonon engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
@@ -55,12 +63,6 @@ You should also install the gstreamer plugins base and good, and optionally bad 
 Deezer streams with full songs are encrypted and only urls for preview streams (MP3) are exposed by the API.
 Full length songs requires the use of deezers own engine (Deezer SDK).
 The Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deezer-native-sdk-v1.2.10.zip
-
-Optional:
-
-* [libcdio](https://www.gnu.org/software/libcdio/) - To enable Audio CD support
-* [libmtp](http://libmtp.sourceforge.net/) - MTP support.
-* [libgpod](http://www.gtkpod.org/libgpod/) - iPod Classic support.
 
 ### :wrench:	Compiling from source
 
@@ -77,6 +79,10 @@ Optional:
     sudo make install
 
     (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
+
+### ::penguin:	Packaging status
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg)](https://repology.org/metapackage/strawberry/versions)
 
 ### :computer:	Screenshot
 
