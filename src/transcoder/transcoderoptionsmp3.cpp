@@ -64,7 +64,7 @@ void TranscoderOptionsMP3::Load() {
 
   ui_->quality_spinbox->setValue(s.value("quality", 10).toFloat());
   ui_->bitrate_slider->setValue(s.value("bitrate", 320).toInt());
-  ui_->cbr->setChecked(s.value("cbr", true).toBool());
+  ui_->cbr->setChecked(s.value("cbr", false).toBool());
   ui_->encoding_engine_quality->setCurrentIndex(s.value("encoding-engine-quality", 1).toInt());
   ui_->mono->setChecked(s.value("mono", false).toBool());
 
