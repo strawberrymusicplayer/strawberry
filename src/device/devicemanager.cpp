@@ -131,6 +131,9 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 #if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
   AddLister(new MacOsDeviceLister);
 #endif
+#ifdef HAVE_IMOBILEDEVICE
+  AddLister(new iLister);
+#endif
 
   AddDeviceClass<FilesystemDevice>();
 
@@ -144,6 +147,10 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 
 #ifdef HAVE_LIBMTP
   AddDeviceClass<MtpDevice>();
+#endif
+
+#ifdef HAVE_IMOBILEDEVICE
+  AddDeviceClass<AfcDevice>();
 #endif
 
 }
