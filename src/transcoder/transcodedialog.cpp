@@ -303,7 +303,7 @@ void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
 void TranscodeDialog::Remove() { qDeleteAll(ui_->files->selectedItems()); }
 
-void TranscodeDialog::LogLine(const QString &message) {
+void TranscodeDialog::LogLine(const QString message) {
 
   QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
   log_ui_->log->appendPlainText(QString("%1: %2").arg(date, message));

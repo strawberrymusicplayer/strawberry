@@ -62,8 +62,8 @@ class TranscodeDialog : public QDialog {
   void Start();
   void Cancel();
   void JobComplete(const QString &input, const QString &output, bool success);
-  void LogLine(const QString &message);
   void AllJobsComplete();
+  void LogLine(const QString message);
   void Options();
   void AddDestination();
 

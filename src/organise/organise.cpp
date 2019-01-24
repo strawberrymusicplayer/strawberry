@@ -28,12 +28,14 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QUrl>
+#include <QStandardPaths>
 #include <QtDebug>
 
 #include "core/logging.h"
 #include "core/utilities.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
+#include "core/tagreaderclient.h"
 #include "organise.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"
@@ -88,6 +90,7 @@ void Organise::Start() {
   connect(thread_, SIGNAL(started()), SLOT(ProcessSomeFiles()));
 #ifdef HAVE_GSTREAMER
   connect(transcoder_, SIGNAL(JobComplete(QString, QString, bool)), SLOT(FileTranscoded(QString, QString, bool)));
+  connect(transcoder_, SIGNAL(LogLine(QString)), SLOT(LogLine(QString)));
 #endif
 
   moveToThread(thread_);
@@ -97,6 +100,7 @@ void Organise::Start() {
 void Organise::ProcessSomeFiles() {
 
   if (!started_) {
+    transcode_temp_name_.setFileTemplate(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder");
 #ifdef HAVE_GSTREAMER
     transcode_temp_name_.open();
 #endif
@@ -127,7 +131,7 @@ void Organise::ProcessSomeFiles() {
 
     task_manager_->SetTaskFinished(task_id_);
 
-    emit Finished(files_with_errors_);
+    emit Finished(files_with_errors_, log_);
 
     // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
@@ -150,6 +154,10 @@ void Organise::ProcessSomeFiles() {
     // Use a Song instead of a tag reader
     Song song = task.song_info_.song_;
     if (!song.is_valid()) continue;
+
+    // Get embedded album cover
+    QImage cover = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task.song_info_.song_.url().toLocalFile());
+    if (!cover.isNull()) song.set_image(cover);
 
 #ifdef HAVE_GSTREAMER
     // Maybe this file is one that's been transcoded already?
@@ -202,7 +210,8 @@ void Organise::ProcessSomeFiles() {
 
     if (!destination_->CopyToStorage(job)) {
       files_with_errors_ << task.song_info_.song_.basefilename();
-    } else {
+    }
+    else {
       if (job.mark_as_listened_) {
         emit FileCopied(job.metadata_.id());
       }
@@ -320,3 +329,9 @@ void Organise::timerEvent(QTimerEvent *e) {
 
 }
 
+void Organise::LogLine(const QString message) {
+
+  QString date(QDateTime::currentDateTime().toString(Qt::TextDate));
+  log_.append(QString("%1: %2").arg(date, message));
+
+}

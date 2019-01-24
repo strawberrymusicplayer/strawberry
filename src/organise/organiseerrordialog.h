@@ -45,8 +45,8 @@ class OrganiseErrorDialog : public QDialog {
     Type_Delete,
   };
 
-  void Show(OperationType type, const SongList& songs_with_errors);
-  void Show(OperationType type, const QStringList &files_with_errors);
+  void Show(OperationType type, const SongList &songs_with_errors, const QStringList &log = QStringList());
+  void Show(OperationType type, const QStringList &files_with_errors, const QStringList &log = QStringList());
 
 private:
   Ui_OrganiseErrorDialog *ui_;

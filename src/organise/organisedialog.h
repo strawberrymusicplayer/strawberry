@@ -88,7 +88,7 @@ class OrganiseDialog : public QDialog {
   void InsertTag(const QString &tag);
   void UpdatePreviews();
 
-  void OrganiseFinished(const QStringList &files_with_errors);
+  void OrganiseFinished(const QStringList files_with_errors, const QStringList log);
 
  private:
   SongList LoadSongsBlocking(const QStringList &filenames);

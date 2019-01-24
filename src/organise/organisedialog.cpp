@@ -383,18 +383,18 @@ void OrganiseDialog::accept() {
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
   Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), new_songs_info_, ui_->eject_after->isChecked());
-  connect(organise, SIGNAL(Finished(QStringList)), SLOT(OrganiseFinished(QStringList)));
+  connect(organise, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganiseFinished(QStringList, QStringList)));
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
   organise->Start();
 
   QDialog::accept();
 }
 
-void OrganiseDialog::OrganiseFinished(const QStringList &files_with_errors) {
+void OrganiseDialog::OrganiseFinished(const QStringList files_with_errors, const QStringList log) {
   if (files_with_errors.isEmpty()) return;
 
   error_dialog_.reset(new OrganiseErrorDialog);
-  error_dialog_->Show(OrganiseErrorDialog::Type_Copy, files_with_errors);
+  error_dialog_->Show(OrganiseErrorDialog::Type_Copy, files_with_errors, log);
 }
 
 void OrganiseDialog::resizeEvent(QResizeEvent *e) {

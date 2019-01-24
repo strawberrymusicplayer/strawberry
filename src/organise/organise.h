@@ -28,14 +28,14 @@
 
 #include <QObject>
 #include <QThread>
-#include <QTemporaryFile>
 #include <QBasicTimer>
 #include <QList>
+#include <QVector>
 #include <QMap>
 #include <QSet>
 #include <QString>
 #include <QStringList>
-#include <QVector>
+#include <QTemporaryFile>
 
 #include "core/song.h"
 #include "organiseformat.h"
@@ -68,8 +68,8 @@ class Organise : public QObject {
 
   void Start();
 
-signals:
-  void Finished(const QStringList &files_with_errors);
+ signals:
+  void Finished(const QStringList &files_with_errors, QStringList);
   void FileCopied(int database_id);
 
  protected:
@@ -80,6 +80,7 @@ signals:
 #ifdef HAVE_GSTREAMER
   void FileTranscoded(const QString &input, const QString &output, bool success);
 #endif
+  void LogLine(const QString message);
 
  private:
   void SetSongProgress(float progress, bool transcoded = false);
@@ -136,6 +137,7 @@ signals:
   int current_copy_progress_;
 
   QStringList files_with_errors_;
+  QStringList log_;
 };
 
 #endif  // ORGANISE_H

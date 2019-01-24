@@ -75,7 +75,7 @@ class Transcoder : public QObject {
   void Start();
   void Cancel();
 
-signals:
+ signals:
   void JobComplete(const QString &input, const QString &output, bool success);
   void LogLine(const QString &message);
   void AllJobsComplete();

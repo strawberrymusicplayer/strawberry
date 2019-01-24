@@ -52,17 +52,17 @@ OrganiseErrorDialog::~OrganiseErrorDialog() {
   delete ui_;
 }
 
-void OrganiseErrorDialog::Show(OperationType type, const SongList &songs_with_errors) {
+void OrganiseErrorDialog::Show(OperationType type, const SongList &songs_with_errors, const QStringList &log) {
 
   QStringList files;
   for (const Song &song : songs_with_errors) {
     files << song.url().toLocalFile();
   }
-  Show(type, files);
+  Show(type, files, log);
 
 }
 
-void OrganiseErrorDialog::Show(OperationType type, const QStringList &files_with_errors) {
+void OrganiseErrorDialog::Show(OperationType type, const QStringList &files_with_errors, const QStringList &log) {
 
   QStringList sorted_files = files_with_errors;
   std::stable_sort(sorted_files.begin(), sorted_files.end());
@@ -79,7 +79,8 @@ void OrganiseErrorDialog::Show(OperationType type, const QStringList &files_with
       break;
   }
 
-  ui_->list->addItems(sorted_files);
+  ui_->files->addItems(sorted_files);
+  ui_->log->addItems(log);
 
   show();
 }
