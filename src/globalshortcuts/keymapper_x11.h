@@ -33,8 +33,6 @@
 #endif
 #ifdef HAVE_XF86KEYSYM_H
 #  include <X11/XF86keysym.h>
-#else
-#  warning "Missing X11/XF86keysym.h"
 #endif
 
 namespace KeyMapperX11 {
