@@ -35,20 +35,20 @@
 #include "core/logging.h"
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
-#include "globalshortcutbackend-dbus.h"
+#include "globalshortcutbackend-gsd.h"
 
-const char *GlobalShortcutBackendDBus::kGsdService = "org.gnome.SettingsDaemon.MediaKeys";
-const char *GlobalShortcutBackendDBus::kGsdService2 = "org.gnome.SettingsDaemon";
-const char *GlobalShortcutBackendDBus::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
+const char *GlobalShortcutBackendGSD::kGsdService = "org.gnome.SettingsDaemon.MediaKeys";
+const char *GlobalShortcutBackendGSD::kGsdService2 = "org.gnome.SettingsDaemon";
+const char *GlobalShortcutBackendGSD::kGsdPath = "/org/gnome/SettingsDaemon/MediaKeys";
 
-GlobalShortcutBackendDBus::GlobalShortcutBackendDBus(GlobalShortcuts *parent)
+GlobalShortcutBackendGSD::GlobalShortcutBackendGSD(GlobalShortcuts *parent)
     : GlobalShortcutBackend(parent),
       interface_(nullptr),
       is_connected_(false) {}
 
-GlobalShortcutBackendDBus::~GlobalShortcutBackendDBus(){}
+GlobalShortcutBackendGSD::~GlobalShortcutBackendGSD(){}
 
-bool GlobalShortcutBackendDBus::DoRegister() {
+bool GlobalShortcutBackendGSD::DoRegister() {
 
   qLog(Debug) << "Registering";
 
@@ -75,7 +75,7 @@ bool GlobalShortcutBackendDBus::DoRegister() {
 
 }
 
-void GlobalShortcutBackendDBus::RegisterFinished(QDBusPendingCallWatcher *watcher) {
+void GlobalShortcutBackendGSD::RegisterFinished(QDBusPendingCallWatcher *watcher) {
 
   QDBusMessage reply = watcher->reply();
   watcher->deleteLater();
@@ -92,7 +92,7 @@ void GlobalShortcutBackendDBus::RegisterFinished(QDBusPendingCallWatcher *watche
 
 }
 
-void GlobalShortcutBackendDBus::DoUnregister() {
+void GlobalShortcutBackendGSD::DoUnregister() {
 
   qLog(Debug) << "Unregister";
 
@@ -108,7 +108,7 @@ void GlobalShortcutBackendDBus::DoUnregister() {
 
 }
 
-void GlobalShortcutBackendDBus::GnomeMediaKeyPressed(const QString&, const QString& key) {
+void GlobalShortcutBackendGSD::GnomeMediaKeyPressed(const QString&, const QString& key) {
   if (key == "Play") manager_->shortcuts()["play_pause"].action->trigger();
   if (key == "Stop") manager_->shortcuts()["stop"].action->trigger();
   if (key == "Next") manager_->shortcuts()["next_track"].action->trigger();

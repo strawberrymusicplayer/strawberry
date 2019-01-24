@@ -38,12 +38,12 @@
 class GlobalShortcuts;
 class OrgGnomeSettingsDaemonMediaKeysInterface;
 
-class GlobalShortcutBackendDBus : public GlobalShortcutBackend {
+class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutBackendDBus(GlobalShortcuts *parent);
-  ~GlobalShortcutBackendDBus();
+  explicit GlobalShortcutBackendGSD(GlobalShortcuts *parent);
+  ~GlobalShortcutBackendGSD();
 
   static const char *kGsdService;
   static const char *kGsdService2;

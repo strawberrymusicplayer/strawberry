@@ -527,8 +527,8 @@ if(HAVE_GLOBALSHORTCUTS)
     SOURCES globalshortcuts/globalshortcut-x11.cpp
   )
   optional_source(HAVE_DBUS
-    SOURCES globalshortcuts/globalshortcutbackend-dbus.cpp
-    HEADERS globalshortcuts/globalshortcutbackend-dbus.h
+    SOURCES globalshortcuts/globalshortcutbackend-gsd.cpp
+    HEADERS globalshortcuts/globalshortcutbackend-gsd.h
   )
   optional_source(WIN32
     SOURCES globalshortcuts/globalshortcut-win.cpp

@@ -37,7 +37,7 @@
 #include "globalshortcutbackend.h"
 
 #ifdef HAVE_DBUS
-#  include "globalshortcutbackend-dbus.h"
+#  include "globalshortcutbackend-gsd.h"
 #endif
 #if defined(HAVE_X11) || defined(Q_OS_WIN)
 #  include "globalshortcutbackend-system.h"
@@ -80,7 +80,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS
-  dbus_backend_ = new GlobalShortcutBackendDBus(this);
+  dbus_backend_ = new GlobalShortcutBackendGSD(this);
 #endif
 
 #if defined(HAVE_X11) || defined(Q_OS_WIN)
@@ -134,7 +134,7 @@ GlobalShortcuts::Shortcut GlobalShortcuts::AddShortcut(const QString &id, const 
 bool GlobalShortcuts::IsGsdAvailable() const {
 
 #ifdef HAVE_DBUS
-  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendDBus::kGsdService2);
+  return QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendGSD::kGsdService) || QDBusConnection::sessionBus().interface()->isServiceRegistered(GlobalShortcutBackendGSD::kGsdService2);
 #else
   return false;
 #endif
