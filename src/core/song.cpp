@@ -901,10 +901,9 @@ void Song::ToItdb(Itdb_Track *track) const {
 
   track->bitrate = d->bitrate_;
   track->samplerate = d->samplerate_;
-  //track->bithdepth = d->bithdepth_;
 
-  track->type1 = 0;
-  track->type2 = d->filetype_ == FileType_MP4 ? 0 : 1;
+  track->type1 = (d->filetype_ == FileType_MPEG ? 1 : 0);
+  track->type2 = (d->filetype_ == FileType_MPEG ? 1 : 0);
   track->mediatype = 1;              // Audio
   track->size = d->filesize_;
   track->time_modified = d->mtime_;
