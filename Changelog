@@ -6,6 +6,14 @@ Unreleased:
 
     * Added error handling and message for URL handler
     * Added SingleCoreApplication secondary check
+    * Fixed memory leaks in devices
+    * Remove remastered from album title when searching for lyrics, covers and scrobbling
+    * Fixed CMake check for X11 headers
+    * Enabled iLister and AFC device
+    * Added saving of album cover to gpod devices
+    * Fixed AAC/MP4 transcoder
+    * Added log to organise error dialog
+    * Added warning when enabling X11 shortcuts on Gnome, Cinnamon or KDE
 
 Version 0.5.1:
 
