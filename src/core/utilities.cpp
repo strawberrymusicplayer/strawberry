@@ -700,6 +700,10 @@ QString FiddleFileExtension(const QString &filename, const QString &new_extensio
   return PathWithoutFilenameExtension(filename) + "." + new_extension;
 }
 
+QString GetEnv(const QString &key) {
+  return QString::fromLocal8Bit(qgetenv(key.toLocal8Bit()));
+}
+
 void SetEnv(const char *key, const QString &value) {
 
 #ifdef Q_OS_WIN32
@@ -764,6 +768,33 @@ QString GetRandomString(const int len, const QString &UseCharacters) {
      randstr.append(nextchar);
    }
    return randstr;
+
+}
+
+QString DesktopEnvironment() {
+
+  const QString de = GetEnv("XDG_CURRENT_DESKTOP");
+  if (!de.isEmpty()) return de;
+
+  if (!qEnvironmentVariableIsEmpty("KDE_FULL_SESSION"))         return "KDE";
+  if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return "Gnome";
+
+  QString session = GetEnv("DESKTOP_SESSION");
+  int slash = session.lastIndexOf('/');
+  if (slash != -1) {
+    QSettings desktop_file(QString(session + ".desktop"), QSettings::IniFormat);
+    desktop_file.beginGroup("Desktop Entry");
+    QString name = desktop_file.value("DesktopNames").toString();
+    desktop_file.endGroup();
+    if (!name.isEmpty()) return name;
+    session = session.mid(slash + 1);
+  }
+
+  if (session == "kde")           return "KDE";
+  else if (session == "gnome")    return "Gnome";
+  else if (session == "xfce")     return "XFCE";
+
+  return "Unknown";
 
 }
 

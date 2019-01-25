@@ -122,6 +122,7 @@ QUrl GetRelativePathToStrawberryBin(const QUrl &url);
 QString PathWithoutFilenameExtension(const QString &filename);
 QString FiddleFileExtension(const QString &filename, const QString &new_extension);
 
+QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();
 void CheckPortable();
@@ -153,7 +154,9 @@ QString GetRandomStringWithChars(const int len);
 QString GetRandomStringWithCharsAndNumbers(const int len);
 QString GetRandomString(const int len, const QString &UseCharacters);
 
-}
+QString DesktopEnvironment();
+
+}  // namespace
 
 class ScopedWCharArray {
  public:

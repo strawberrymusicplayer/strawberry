@@ -62,7 +62,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   void X11Changed(bool);
 #endif
 #ifdef HAVE_DBUS
-  void DBusChanged(bool);
+  void GSDChanged(bool);
   void OpenGnomeKeybindingProperties();
 #endif
 #endif
@@ -81,6 +81,8 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
   void SetShortcut(const QString &id, const QKeySequence &key);
 
+  void X11Warning();
+
  private:
   Ui_GlobalShortcutsSettingsPage *ui_;
 
@@ -91,6 +93,8 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   QMap<QString, Shortcut> shortcuts_;
 
   QString current_id_;
+  QString de_;
+
 };
 
 #endif  // GLOBALSHORTCUTSSETTINGSPAGE_H

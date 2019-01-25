@@ -52,7 +52,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
     : QWidget(parent),
       dbus_backend_(nullptr),
       system_backend_(nullptr),
-      use_dbus_(true),
+      use_gsd_(true),
       use_x11_(false)
   {
 
@@ -97,7 +97,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
 void GlobalShortcuts::ReloadSettings() {
 
   // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
-  use_dbus_ = settings_.value("use_dbus", true).toBool();
+  use_gsd_ = settings_.value("use_gsd", true).toBool();
   use_x11_ = settings_.value("use_x11", true).toBool();
 
   Unregister();
@@ -152,7 +152,7 @@ bool GlobalShortcuts::IsX11Available() const {
 }
 
 void GlobalShortcuts::Register() {
-  if (use_dbus_ && dbus_backend_ && dbus_backend_->Register()) return;
+  if (use_gsd_ && dbus_backend_ && dbus_backend_->Register()) return;
 #ifdef HAVE_X11 // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
   if (use_x11_)
 #endif

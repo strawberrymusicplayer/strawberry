@@ -97,7 +97,7 @@ class GlobalShortcuts : public QWidget {
   QMap<QString, Shortcut> shortcuts_;
   QSettings settings_;
 
-  bool use_dbus_;
+  bool use_gsd_;
   bool use_x11_;
 };
 

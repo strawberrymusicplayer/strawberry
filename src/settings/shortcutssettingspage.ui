@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QWidget" name="widget_dbus" native="true">
+    <widget class="QWidget" name="widget_gsd" native="true">
      <layout class="QHBoxLayout" name="layout_gnome">
       <property name="leftMargin">
        <number>0</number>
@@ -34,7 +34,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="checkbox_dbus">
+       <widget class="QCheckBox" name="checkbox_gsd">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -42,12 +42,12 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Use Gnome D-Bus shortcut keys</string>
+         <string>Use Gnome (GSD) D-Bus shortcut keys</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="button_dbus_open">
+       <widget class="QPushButton" name="button_gsd_open">
         <property name="text">
          <string>Open...</string>
         </property>
@@ -84,6 +84,62 @@
         </property>
         <property name="text">
          <string>Use X11's shortcut keys</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_warning" native="true">
+     <layout class="QHBoxLayout" name="layout_warning">
+      <item>
+       <widget class="QLabel" name="label_warn_icon">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../../data/icons.qrc">:/icons/48x48/dialog-warning.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_warn_text">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
