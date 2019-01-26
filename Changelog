@@ -7,6 +7,7 @@ Unreleased:
     * Added error handling and message for URL handler
     * Added SingleCoreApplication secondary check
     * Fixed memory leaks in devices
+    * Fixed more stability issues in devices
     * Remove remastered from album title when searching for lyrics, covers and scrobbling
     * Fixed CMake check for X11 headers
     * Enabled iLister and AFC device
@@ -14,6 +15,8 @@ Unreleased:
     * Fixed AAC/MP4 transcoder
     * Added log to organise error dialog
     * Added warning when enabling X11 shortcuts on Gnome, Cinnamon or KDE
+    * Fixed transcoder to use filename suffixes to solve issues when copying files to iPods
+    * Added option to copy album cover in organise dialog (filesystem and gpod devices)
 
 Version 0.5.1:
 
