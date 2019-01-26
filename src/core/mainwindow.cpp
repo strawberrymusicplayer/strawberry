@@ -1774,6 +1774,7 @@ void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByt
   options.Load(string_options);
 
   if (options.is_empty()) {
+    raise();
     show();
     activateWindow();
   }
