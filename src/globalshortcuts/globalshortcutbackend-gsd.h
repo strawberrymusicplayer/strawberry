@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef GLOBALSHORTCUTBACKEND_DBUS_H
-#define GLOBALSHORTCUTBACKEND_DBUS_H
+#ifndef GLOBALSHORTCUTBACKEND_GSD_H
+#define GLOBALSHORTCUTBACKEND_GSD_H
 
 #include "config.h"
 
@@ -65,4 +65,4 @@ class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
 
 };
 
-#endif  // GLOBALSHORTCUTBACKEND_DBUS_H
+#endif  // GLOBALSHORTCUTBACKEND_GSD_H
