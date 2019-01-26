@@ -63,9 +63,6 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       mark_as_listened_(mark_as_listened),
       eject_after_(eject_after),
       task_count_(songs_info.count()),
-#ifdef HAVE_GSTREAMER
-      transcode_suffix_(1),
-#endif
       tasks_complete_(0),
       started_(false),
       task_id_(0),
@@ -100,11 +97,6 @@ void Organise::Start() {
 void Organise::ProcessSomeFiles() {
 
   if (!started_) {
-    transcode_temp_name_.setFileTemplate(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder");
-#ifdef HAVE_GSTREAMER
-    transcode_temp_name_.open();
-#endif
-
     if (!destination_->StartCopy(&supported_filetypes_)) {
       // Failed to start - mark everything as failed :(
       for (const Task &task : tasks_pending_) files_with_errors_ << task.song_info_.song_.url().toLocalFile();
@@ -182,12 +174,10 @@ void Organise::ProcessSomeFiles() {
         TranscoderPreset preset = Transcoder::PresetForFileType(dest_type);
         qLog(Debug) << "Transcoding with" << preset.name_;
 
-        // Get a temporary name for the transcoded file
-        task.transcoded_filename_ = transcode_temp_name_.fileName() + "-" + QString::number(transcode_suffix_++);
+        task.transcoded_filename_ = transcoder_->GetFile(task.song_info_.song_.url().toLocalFile(), preset);
         task.new_extension_ = preset.extension_;
         task.new_filetype_ = dest_type;
         tasks_transcoding_[task.song_info_.song_.url().toLocalFile()] = task;
-
         qLog(Debug) << "Transcoding to" << task.transcoded_filename_;
 
         // Start the transcoding - this will happen in the background and FileTranscoded() will get called when it's done.

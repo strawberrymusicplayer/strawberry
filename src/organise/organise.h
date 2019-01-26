@@ -121,8 +121,6 @@ class Organise : public QObject {
 
 #ifdef HAVE_GSTREAMER
   QBasicTimer transcode_progress_timer_;
-  QTemporaryFile transcode_temp_name_;
-  int transcode_suffix_;
 #endif
 
   QList<Task> tasks_pending_;

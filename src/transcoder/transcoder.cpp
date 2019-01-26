@@ -30,9 +30,11 @@
 #include <QtGlobal>
 #include <QThread>
 #include <QCoreApplication>
+#include <QStandardPaths>
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QList>
 #include <QMap>
 #include <QVariant>
@@ -286,40 +288,46 @@ Song::FileType Transcoder::PickBestFormat(QList<Song::FileType> supported) {
 
 }
 
+QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset, const QString output) {
+
+  QFileInfo fileinfo_output;
+
+  if (!output.isEmpty()) {
+    fileinfo_output.setFile(output);
+  }
+
+  if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
+    QFileInfo fileinfo_input(input);
+    QString filename = fileinfo_input.baseName() + "." + preset.extension_;
+    fileinfo_output.setFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder/"  + filename);
+    QDir dir;
+    dir.mkdir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder");
+  }
+
+  // Never overwrite existing files
+  if (fileinfo_output.exists()) {
+    QString path = fileinfo_output.path();
+    QString filename = fileinfo_output.baseName();
+    QString suffix = fileinfo_output.suffix();
+    for (int i = 0;; ++i) {
+      QString new_filename = QString("%1/%2-%3.%4").arg(path).arg(filename).arg(i).arg(suffix);
+      fileinfo_output.setFile(new_filename);
+      if (!fileinfo_output.exists()) {
+        break;
+      }
+
+    }
+  }
+
+  return fileinfo_output.filePath();
+}
+
 void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, const QString &output) {
 
   Job job;
   job.input = input;
   job.preset = preset;
-
-  // Use the supplied filename if there was one, otherwise take the file extension off the input filename and append the correct one.
-  if (!output.isEmpty())
-    job.output = output;
-  else
-    job.output = input.section('.', 0, -2) + '.' + preset.extension_;
-
-  // Never overwrite existing files
-  if (QFile::exists(job.output)) {
-    for (int i = 0;; ++i) {
-      QString new_filename = QString("%1.%2.%3").arg(job.output.section('.', 0, -2)).arg(i).arg( preset.extension_);
-      if (!QFile::exists(new_filename)) {
-        job.output = new_filename;
-        break;
-      }
-    }
-  }
-
-  queued_jobs_ << job;
-
-}
-
-void Transcoder::AddTemporaryJob(const QString &input, const TranscoderPreset &preset) {
-
-  Job job;
-  job.input = input;
-  job.output = Utilities::GetTemporaryFileName();
-  job.preset = preset;
-
+  job.output = output;
   queued_jobs_ << job;
 
 }

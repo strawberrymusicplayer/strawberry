@@ -243,40 +243,6 @@ QString MakeTempDir(const QString template_name) {
 
 }
 
-QString GetTemporaryFileName() {
-
-  QString file;
-  {
-    QTemporaryFile tempfile;
-    // Do not delete the file, we want to do something with it
-    tempfile.setAutoRemove(false);
-    tempfile.open();
-    file = tempfile.fileName();
-  }
-
-  return file;
-
-}
-
-QString SaveToTemporaryFile(const QByteArray &data) {
-
-  QTemporaryFile tempfile;
-  tempfile.setAutoRemove(false);
-
-  if (!tempfile.open()) {
-    return QString();
-  }
-
-  if (tempfile.write(data) != data.size()) {
-    tempfile.remove();
-    return QString();
-  }
-
-  tempfile.close();
-  return tempfile.fileName();
-
-}
-
 bool RemoveRecursive(const QString &path) {
 
   QDir dir(path);
