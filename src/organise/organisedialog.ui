@@ -126,6 +126,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="albumcover">
+        <property name="text">
+         <string>Copy album cover artwork</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

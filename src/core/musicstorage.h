@@ -61,6 +61,9 @@ class MusicStorage {
     bool overwrite_;
     bool mark_as_listened_;
     bool remove_original_;
+    bool albumcover_;
+    QString cover_source_;
+    QString cover_dest_;
     ProgressFunction progress_;
   };
 

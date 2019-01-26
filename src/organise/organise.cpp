@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +51,7 @@ const int Organise::kBatchSize = 10;
 const int Organise::kTranscodeProgressInterval = 500;
 #endif
 
-Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, const NewSongInfoList &songs_info, bool eject_after)
+Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after)
     : thread_(nullptr),
       task_manager_(task_manager),
 #ifdef HAVE_GSTREAMER
@@ -61,6 +62,7 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       copy_(copy),
       overwrite_(overwrite),
       mark_as_listened_(mark_as_listened),
+      albumcover_(albumcover),
       eject_after_(eject_after),
       task_count_(songs_info.count()),
       tasks_complete_(0),
@@ -195,7 +197,19 @@ void Organise::ProcessSomeFiles() {
     job.metadata_ = song;
     job.overwrite_ = overwrite_;
     job.mark_as_listened_ = mark_as_listened_;
+    job.albumcover_ = albumcover_;
     job.remove_original_ = !copy_;
+
+    if (!task.song_info_.song_.art_manual().isEmpty()) {
+      job.cover_source_ = task.song_info_.song_.art_manual();
+    }
+    else if (!task.song_info_.song_.art_automatic().isEmpty()) {
+      job.cover_source_ = task.song_info_.song_.art_automatic();
+    }
+    if (!job.cover_source_.isEmpty()) {
+      job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();
+    }
+
     job.progress_ = std::bind(&Organise::SetSongProgress, this, _1, !task.transcoded_filename_.isEmpty());
 
     if (!destination_->CopyToStorage(job)) {

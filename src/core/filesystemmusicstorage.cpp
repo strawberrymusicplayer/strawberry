@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +45,13 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   const QFileInfo src = QFileInfo(job.source_);
   const QFileInfo dest = QFileInfo(root_ + "/" + job.destination_);
 
+  QFileInfo cover_src;
+  QFileInfo cover_dest;
+  if (job.albumcover_ && !job.cover_source_.isEmpty() && !job.cover_dest_.isEmpty()) {
+    cover_src = QFileInfo(job.cover_source_);
+    cover_dest = QFileInfo(root_ + "/" + job.cover_dest_);
+  }
+
   // Don't do anything if the destination is the same as the source
   if (src == dest) return true;
 
@@ -55,13 +63,29 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job) {
   }
 
   // Remove the destination file if it exists and we want to overwrite
-  if (job.overwrite_ && dest.exists()) QFile::remove(dest.absoluteFilePath());
+  if (job.overwrite_) {
+    if (dest.exists()) QFile::remove(dest.absoluteFilePath());
+    if (!cover_dest.filePath().isEmpty() && cover_dest.exists()) QFile::remove(cover_dest.absoluteFilePath());
+  }
 
   // Copy or move
-  if (job.remove_original_)
-    return QFile::rename(src.absoluteFilePath(), dest.absoluteFilePath());
-  else
-    return QFile::copy(src.absoluteFilePath(), dest.absoluteFilePath());
+  bool result(true);
+  if (job.remove_original_) {
+    result = QFile::rename(src.absoluteFilePath(), dest.absoluteFilePath());
+    if (!cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty()) {
+      QFile::rename(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
+    }
+  }
+  else {
+    if (!dest.exists()) {
+      result = QFile::copy(src.absoluteFilePath(), dest.absoluteFilePath());
+    }
+    if (!cover_src.filePath().isEmpty() && !cover_dest.filePath().isEmpty() && !cover_dest.exists()) {
+      QFile::copy(cover_src.absoluteFilePath(), cover_dest.absoluteFilePath());
+    }
+  }
+
+  return result;
 
 }
 
@@ -76,4 +100,3 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
     return QFile::remove(path);
 
 }
-

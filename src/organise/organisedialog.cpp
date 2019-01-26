@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -250,6 +251,7 @@ Organise::NewSongInfoList OrganiseDialog::ComputeNewSongsFilenames(const SongLis
 
   for (const Song &song : songs) {
     QString new_filename = format.GetFilenameForSong(song);
+    //QString new_cover_filename = format.GetCoverFilenameForSong(song);
     if (filenames.contains(new_filename)) {
       QString song_number = QString::number(++filenames[new_filename]);
       new_filename = Utilities::PathWithoutFilenameExtension(new_filename) + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
@@ -335,6 +337,7 @@ void OrganiseDialog::Reset() {
   ui_->replace_spaces->setChecked(true);
   ui_->overwrite->setChecked(false);
   ui_->mark_as_listened->setChecked(false);
+  ui_->albumcover->setChecked(true);
   ui_->eject_after->setChecked(false);
 
 }
@@ -350,6 +353,7 @@ void OrganiseDialog::showEvent(QShowEvent*) {
   ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
   ui_->replace_spaces->setChecked(s.value("replace_spaces", true).toBool());
   ui_->overwrite->setChecked(s.value("overwrite", false).toBool());
+  ui_->albumcover->setChecked(s.value("albumcover", true).toBool());
   ui_->mark_as_listened->setChecked(s.value("mark_as_listened", false).toBool());
   ui_->eject_after->setChecked(s.value("eject_after", false).toBool());
 
@@ -372,6 +376,7 @@ void OrganiseDialog::accept() {
   s.setValue("replace_spaces", ui_->replace_spaces->isChecked());
   s.setValue("overwrite", ui_->overwrite->isChecked());
   s.setValue("mark_as_listened", ui_->overwrite->isChecked());
+  s.setValue("albumcover", ui_->albumcover->isChecked());
   s.setValue("destination", ui_->destination->currentText());
   s.setValue("eject_after", ui_->eject_after->isChecked());
 
@@ -382,7 +387,7 @@ void OrganiseDialog::accept() {
 
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
-  Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), new_songs_info_, ui_->eject_after->isChecked());
+  Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked());
   connect(organise, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganiseFinished(QStringList, QStringList)));
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
   organise->Start();

@@ -20,6 +20,4 @@
 
 #include "musicstorage.h"
 
-MusicStorage::MusicStorage()
-{
-}
+MusicStorage::MusicStorage() {}

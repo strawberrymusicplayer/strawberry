@@ -135,11 +135,11 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   AddLister(new iLister);
 #endif
 
-  AddDeviceClass<FilesystemDevice>();
-
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   AddDeviceClass<CddaDevice>();
 #endif
+
+  AddDeviceClass<FilesystemDevice>();
 
 #ifdef HAVE_LIBGPOD
   AddDeviceClass<GPodDevice>();

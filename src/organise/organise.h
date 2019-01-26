@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +60,7 @@ class Organise : public QObject {
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, const NewSongInfoList &songs, bool eject_after);
+  Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after);
 
   static const int kBatchSize;
 #ifdef HAVE_GSTREAMER
@@ -116,6 +117,7 @@ class Organise : public QObject {
   const bool copy_;
   const bool overwrite_;
   const bool mark_as_listened_;
+  const bool albumcover_;
   const bool eject_after_;
   int task_count_;
 

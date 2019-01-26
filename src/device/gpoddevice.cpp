@@ -146,26 +146,27 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
 
   Itdb_Track *track = AddTrackToITunesDb(job.metadata_);
 
-  bool result(false);
-  if (!job.metadata_.image().isNull()) {
+  if (job.albumcover_) {
+    bool result = false;
+    if (!job.metadata_.image().isNull()) {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-    result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().sizeInBytes());
+      result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().sizeInBytes());
+      track->has_artwork = 1;
 #else
-    result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().byteCount());
+      result = itdb_track_set_thumbnails_from_data(track, job.metadata_.image().constBits(), job.metadata_.image().byteCount());
+      track->has_artwork = 1;
 #endif
-  }
-  else if (!job.metadata_.art_manual().isEmpty()) {
-    result = itdb_track_set_thumbnails(track, QDir::toNativeSeparators(job.metadata_.art_manual()).toLocal8Bit().constData());
-  }
-  else if (!job.metadata_.art_automatic().isEmpty()) {
-    result = itdb_track_set_thumbnails(track, QDir::toNativeSeparators(job.metadata_.art_automatic()).toLocal8Bit().constData());
-  }
-  if (result) {
-    track->has_artwork = 1;
-  }
-  else {
-    track->has_artwork = 0;
-    qLog(Error) << "failed to set album cover image";
+    }
+    else if (!job.cover_source_.isEmpty()) {
+      result = itdb_track_set_thumbnails(track, job.cover_source_.toLocal8Bit().constData());
+      track->has_artwork = 1;
+    }
+    else {
+      result = true;
+    }
+    if (!result) {
+      qLog(Error) << "failed to set album cover image";
+    }
   }
 
   // Copy the file
