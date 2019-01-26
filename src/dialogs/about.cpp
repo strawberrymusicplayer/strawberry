@@ -148,7 +148,7 @@ QString About::ContributorsHtml() const {
   }
   ret += QString("</p>");
 
-  ret += QString("<p>... and all the Amarok and Clementine contributors</p>");
+  ret += QString("<p>Thanks to all the Amarok and Clementine contributors.</p>");
   return ret;
 
 }
