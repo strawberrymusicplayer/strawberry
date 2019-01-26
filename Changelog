@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.5.2:
 
     * Added error handling and message for URL handler
     * Added SingleCoreApplication secondary check
