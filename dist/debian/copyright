@@ -59,6 +59,8 @@ Files: src/core/main.h
  src/scrobbler/*
  src/tidal/*
  src/deezer/*
+ transcoderoptionswavpack.cpp
+ transcoderoptionswavpack.h
 Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
@@ -114,6 +116,14 @@ Files: src/core/main.cpp
  src/globalshortcuts/globalshortcuts.h
  src/settings/shortcutssettingspage.cpp
  src/settings/shortcutssettingspage.h
+ src/organise/organise.cpp
+ src/organise/organise.h
+ src/organise/organisedialog.cpp
+ src/organise/organisedialog.h
+ src/organise/organiseerrordialog.cpp
+ src/organise/organiseerrordialog.h
+ src/transcoder/transcoder.cpp
+ src/transcoder/transcoder.h
 Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
  2012-2014, 2017-2018 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
