@@ -251,7 +251,6 @@ Organise::NewSongInfoList OrganiseDialog::ComputeNewSongsFilenames(const SongLis
 
   for (const Song &song : songs) {
     QString new_filename = format.GetFilenameForSong(song);
-    //QString new_cover_filename = format.GetCoverFilenameForSong(song);
     if (filenames.contains(new_filename)) {
       QString song_number = QString::number(++filenames[new_filename]);
       new_filename = Utilities::PathWithoutFilenameExtension(new_filename) + "(" + song_number + ")." + QFileInfo(new_filename).suffix();
