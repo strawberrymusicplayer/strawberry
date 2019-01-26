@@ -16,7 +16,8 @@ Unreleased:
     * Added log to organise error dialog
     * Added warning when enabling X11 shortcuts on Gnome, Cinnamon or KDE
     * Fixed transcoder to use filename suffixes to solve issues when copying files to iPods
-    * Added option to copy album cover in organise dialog (filesystem and gpod devices)
+    * Added option to copy album cover in organise dialog (filesystem and libgpod devices)
+    * Added raise() to make sure window is on top when strawberry is started twice
 
 Version 0.5.1:
 
