@@ -25,7 +25,7 @@ Strawberry is a audio player and music collection organizer. It is a fork of Cle
   * Audio analyzer
   * Audio equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Streaming support for Tidal and Deezer
+  * Streaming support for Tidal and Deezer [*]
   * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
 It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
@@ -60,9 +60,7 @@ Optional dependencies:
 Either GStreamer, Xine, VLC, Deezer or Phonon engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
-Deezer streams with full songs are encrypted and only urls for preview streams (MP3) are exposed by the API.
-Full length songs requires the use of deezers own engine (Deezer SDK).
-The Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deezer-native-sdk-v1.2.10.zip
+Deezer support require deezer's own engine, and usually only works on Windows. It is not available on Linux unless you specifically compile with the deezer library, which currently only works on Ubuntu Xenial. The Deezer SDK can be found here: https://build-repo.deezer.com/native_sdk/deezer-native-sdk-v1.2.10.zip
 
 ### :wrench:	Compiling from source
 
