@@ -1,0 +1,112 @@
+name: strawberry
+version: '0.5.2+git'
+summary: music player and collection organizer
+description: |
+  Strawberry is a audio player and music collection organizer.
+  It is a fork of Clementine released in 2018 aimed at music collectors,
+  audio enthusiasts and audiophiles
+
+grade: stable
+confinement: strict
+
+parts:
+  strawberry:
+    plugin: cmake
+    source-type: git
+    source: https://github.com/jonaski/strawberry
+
+    build-packages:
+      - cmake
+      - make
+      - gcc
+      - g++
+      - protobuf-compiler
+      - libglib2.0-dev
+      - libdbus-1-dev
+      - libprotobuf-dev
+      - libboost-dev
+      - libsqlite3-dev
+      - libasound2-dev
+      - libpulse-dev
+      - libtag1-dev
+      - qtbase5-dev
+      - qtbase5-dev-tools
+      - qtbase5-private-dev
+      - libqt5x11extras5-dev
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libxine2-dev
+      - libvlc-dev
+      - libcdio-dev
+      - libgpod-dev
+      - libimobiledevice-dev
+      - libmtp-dev
+      - libplist-dev
+      - libusbmuxd-dev
+      - libchromaprint-dev
+
+    stage-packages:
+      - libstdc++6
+      - libgcc1
+      - libprotobuf9v5
+      - libpcre16-3
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5widgets5
+      - libqt5concurrent5
+      - libqt5network5
+      - libqt5dbus5
+      - libqt5sql5
+      - libqt5x11extras5
+      - libsqlite3-0
+      - libgpm2
+      - libasound2
+      - libpulse0
+      - libcdio13
+      - libgpod4
+      - libmtp9
+      - libimobiledevice6
+      - libplist3
+      - libusbmuxd4
+      - libxine2
+      - libvlc5
+      - libvlccore8
+      - libtag1v5
+      - libchromaprint0
+      - zlib1g
+      - libx11-6
+      - libdb5.3
+      - libgstreamer1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - gstreamer1.0-alsa
+      - gstreamer1.0-pulseaudio
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-plugins-ugly
+      - gstreamer1.0-libav
+
+apps:
+  strawberry:
+    command: strawberry 
+    desktop: share/applications/strawberry.desktop
+    plugs:
+      - system-files
+      - system-observe
+      - system-trace
+      - home
+      - dbus
+      - mpris
+      - udisks2
+      - network
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+      - alsa
+      - pulseaudio
+      - removable-media
+      - optical-drive
+      - raw-usb
+      - media-hub
+      - screen-inhibit-control
