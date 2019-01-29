@@ -91,7 +91,6 @@ apps:
     command: strawberry 
     desktop: share/applications/strawberry.desktop
     plugs:
-      - system-files
       - system-observe
       - system-trace
       - home
