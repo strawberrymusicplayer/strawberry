@@ -14,6 +14,7 @@ parts:
     plugin: cmake
     source-type: git
     source: https://github.com/jonaski/strawberry
+    after: [desktop-qt5]
 
     build-packages:
       - cmake
@@ -58,6 +59,7 @@ parts:
       - libqt5dbus5
       - libqt5sql5
       - libqt5x11extras5
+      - libqt5sql5-sqlite
       - libsqlite3-0
       - libgpm2
       - libasound2
@@ -88,8 +90,10 @@ parts:
 
 apps:
   strawberry:
-    command: strawberry 
+    command: desktop-launch $SNAP/bin/strawberry
     desktop: share/applications/strawberry.desktop
+    environment:
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
       - system-observe
       - system-trace
@@ -98,6 +102,7 @@ apps:
       - mpris
       - udisks2
       - network
+      - network-bind
       - desktop
       - desktop-legacy
       - x11
