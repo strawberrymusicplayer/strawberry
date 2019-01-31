@@ -114,3 +114,4 @@ apps:
       - raw-usb
       - media-hub
       - screen-inhibit-control
+      - unity7
