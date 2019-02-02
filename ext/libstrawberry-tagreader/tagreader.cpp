@@ -92,11 +92,6 @@
 #include "fmpsparser.h"
 #include "core/timeconstants.h"
 
-// Taglib added support for FLAC pictures in 1.7.0
-#if (TAGLIB_MAJOR_VERSION > 1) || (TAGLIB_MAJOR_VERSION == 1 && TAGLIB_MINOR_VERSION >= 7)
-# define TAGLIB_HAS_FLAC_PICTURELIST
-#endif
-
 class FileRefFactory {
  public:
   virtual ~FileRefFactory() {}
@@ -106,11 +101,11 @@ class FileRefFactory {
 class TagLibFileRefFactory : public FileRefFactory {
  public:
   virtual TagLib::FileRef *GetFileRef(const QString &filename) {
-    #ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN32
     return new TagLib::FileRef(filename.toStdWString().c_str());
-    #else
+#else
     return new TagLib::FileRef(QFile::encodeName(filename).constData());
-    #endif
+#endif
   }
 };
 
@@ -186,9 +181,9 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
   if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
     ParseOggTag(tag->fieldListMap(), nullptr, &disc, &compilation, song);
-#if TAGLIB_MAJOR_VERSION >= 1 && TAGLIB_MINOR_VERSION >= 11
-    if (!tag->pictureList().isEmpty()) song->set_art_automatic(kEmbeddedCover);
-#endif
+    if (!tag->pictureList().isEmpty()) {
+      song->set_art_automatic(kEmbeddedCover);
+    }
   }
 
   if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
@@ -197,11 +192,9 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
     if ( file->xiphComment() ) {
       ParseOggTag(file->xiphComment()->fieldListMap(), nullptr, &disc, &compilation, song);
-#ifdef TAGLIB_HAS_FLAC_PICTURELIST
       if (!file->pictureList().isEmpty()) {
         song->set_art_automatic(kEmbeddedCover);
       }
-#endif
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
@@ -217,7 +210,6 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
       const TagLib::ID3v2::FrameListMap &map = file->ID3v2Tag()->frameListMap();
 
       if (!map["TPOS"].isEmpty()) disc = TStringToQString(map["TPOS"].front()->toString()).trimmed();
-      //if (!map["TBPM"].isEmpty()) song->set_bpm(TStringToQString(map["TBPM"].front()->toString()).trimmed().toFloat());
       if (!map["TCOM"].isEmpty()) Decode(map["TCOM"].front()->toString(), nullptr, song->mutable_composer());
 
       // content group
@@ -563,13 +555,13 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
   }
 
   bool ret = fileref->save();
-  #ifdef Q_OS_LINUX
+#ifdef Q_OS_LINUX
   if (ret) {
     // Linux: inotify doesn't seem to notice the change to the file unless we
     // change the timestamps as well. (this is what touch does)
     utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
   }
-  #endif  // Q_OS_LINUX
+#endif  // Q_OS_LINUX
 
   return ret;
 }
@@ -659,7 +651,6 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
   if (ref.isNull() || !ref.file()) return QByteArray();
 
-#ifdef TAGLIB_HAS_FLAC_PICTURELIST
   // FLAC
   TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(ref.file());
   if (flac_file && flac_file->xiphComment()) {
@@ -674,32 +665,12 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
       return QByteArray(picture->data().data(), picture->data().size());
     }
   }
-#endif
 
   // Ogg Vorbis / Speex
   TagLib::Ogg::XiphComment *xiph_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(ref.file()->tag());
   if (xiph_comment) {
     TagLib::Ogg::FieldListMap map = xiph_comment->fieldListMap();
 
-#if TAGLIB_MAJOR_VERSION <= 1 && TAGLIB_MINOR_VERSION < 11
-    // Other than the below mentioned non-standard COVERART, METADATA_BLOCK_PICTURE is the proposed tag for cover pictures.
-    // (see http://wiki.xiph.org/VorbisComment#METADATA_BLOCK_PICTURE)
-    if (map.contains("METADATA_BLOCK_PICTURE")) {
-      TagLib::StringList pict_list = map["METADATA_BLOCK_PICTURE"];
-      for (std::list<TagLib::String>::iterator it = pict_list.begin(); it != pict_list.end(); ++it) {
-        QByteArray data(QByteArray::fromBase64(it->toCString()));
-        TagLib::ByteVector tdata(data.data(), data.size());
-        TagLib::FLAC::Picture p(tdata);
-        if (p.type() == TagLib::FLAC::Picture::FrontCover)
-          return QByteArray(p.data().data(), p.data().size());
-      }
-      // If there was no specific front cover, just take the first picture
-      QByteArray data(QByteArray::fromBase64(map["METADATA_BLOCK_PICTURE"].front().toCString()));
-      TagLib::ByteVector tdata(data.data(), data.size());
-      TagLib::FLAC::Picture p(tdata);
-      return QByteArray(p.data().data(), p.data().size());
-    }
-#else
     TagLib::List<TagLib::FLAC::Picture*> pics = xiph_comment->pictureList();
     if (!pics.isEmpty()) {
       for (auto p : pics) {
@@ -712,7 +683,6 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
       return QByteArray(picture->data().data(), picture->data().size());
     }
-#endif
 
     // Ogg lacks a definitive standard for embedding cover art, but it seems
     // b64 encoding a field called COVERART is the general convention
