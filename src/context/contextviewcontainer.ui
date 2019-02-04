@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>927</height>
+    <height>900</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="layout_container">
@@ -57,8 +57,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>396</width>
-              <height>923</height>
+              <width>394</width>
+              <height>894</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -175,8 +175,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>396</width>
-              <height>923</height>
+              <width>394</width>
+              <height>894</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -525,6 +525,12 @@
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                </property>
               </widget>
              </item>
