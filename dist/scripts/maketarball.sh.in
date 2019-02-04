@@ -26,6 +26,10 @@ tar -cJf $name-$version.tar.xz \
     --exclude="*.nsi" \
     --exclude="$root/CMakeLists.txt.user" \
     --exclude="$root/build" \
+    --exclude="$root/scripts/maketarball.sh" \
     --exclude="$root/dist/debian/changelog" \
     --exclude="$root/dist/pacman/PKGBUILD" \
+    --exclude="$root/dist/macos/create-dmg.sh" \
+    --exclude="$root/dist/macos/Info.plist" \
+    --exclude="$root/dist/windows/windres.rc" \
     "$root"
