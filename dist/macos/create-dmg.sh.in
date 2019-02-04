@@ -3,14 +3,18 @@
 version="@STRAWBERRY_VERSION_PACKAGE@"
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <bundle.app>"
+    echo "Usage: $0 <bundle.app> (append)"
     exit 1
 fi
 
 name=$(basename "$1" | perl -pe 's/(.*).app/\1/')
 bundle_dir="$1"
 temp_dir="dmg/$name"
-output_file="$name-$version.dmg"
+if [ -z "$2" ]; then
+  output_file="$name-$version.dmg"
+else
+  output_file="$name-$2-$version.dmg"
+fi
 
 rm -rf "$temp_dir"
 rm -f "$output_file"

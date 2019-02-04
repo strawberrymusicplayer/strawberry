@@ -41,7 +41,7 @@ script:
       make -j8;
       sudo make install;
       sudo ../dist/macos/macdeploy.py strawberry.app;
-      ../dist/macos/create-dmg.sh strawberry.app;
+      ../dist/macos/create-dmg.sh strawberry.app $CC_FOR_BUILD;
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
