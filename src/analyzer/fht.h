@@ -1,25 +1,29 @@
-// FHT - Fast Hartley Transform Class
-//
-// Copyright (C) 2004  Melchior FRANZ - mfranz@kde.org
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License as
-// published by the Free Software Foundation; either version 2 of the
-// License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, 51 Franklin Steet, Fifth Floor, Boston, MA 02110-1301, USA
-//
-// $Id$
+/*
+   Strawberry Music Player
+   This file was part of Clementine.
+   Copyright 2004, Melchior FRANZ <mfranz@kde.org>
+   Copyright 2010, 2014, John Maguire <john.maguire@gmail.com>
+   Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
+   Copyright 2017, Santiago Gil
+
+   Strawberry is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Strawberry is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef FHT_H
 #define FHT_H
+
+#include <QVector>
 
 /**
  * Implementation of the Hartley Transform after Bracewell's discrete
@@ -30,11 +34,16 @@
  * [1] Computer in Physics, Vol. 9, No. 4, Jul/Aug 1995 pp 373-379
  */
 class FHT {
-  int m_exp2;
-  int m_num;
-  float* m_buf;
-  float* m_tab;
-  int* m_log;
+  const int num_;
+  const int exp2_;
+
+  QVector<float> buf_vector_;
+  QVector<float> tab_vector_;
+  QVector<int> log_vector_;
+
+  float* buf_();
+  float* tab_();
+  int* log_();
 
   /**
    * Create a table of "cas" (cosine and sine) values.
@@ -57,10 +66,8 @@ class FHT {
   FHT(int);
 
   ~FHT();
-  inline int sizeExp() const { return m_exp2; }
-  inline int size() const { return m_num; }
-  float* copy(float*, float*);
-  float* clear(float*);
+  int sizeExp() const;
+  int size() const;
   void scale(float*, float);
 
   /**
@@ -115,4 +122,4 @@ class FHT {
   void transform(float*);
 };
 
-#endif
+#endif  // FHT_H

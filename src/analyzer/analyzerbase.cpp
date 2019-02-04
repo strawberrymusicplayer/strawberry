@@ -1,31 +1,39 @@
-/***************************************************************************
-                          viswidget.cpp  -  description
-                             -------------------
-    begin                : Die Jan 7 2003
-    copyright            : (C) 2003 by Max Howell
-    email                : markey@web.de
- ***************************************************************************/
+/*
+   Strawberry Music Player
+   This file was part of Amarok.
+   Copyright 2003-2004, Max Howell <max.howell@methylblue.com>
+   Copyright 2009-2012, David Sansome <me@davidsansome.com>
+   Copyright 2010, 2012, 2014, John Maguire <john.maguire@gmail.com>
+   Copyright 2017, Santiago Gil
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+   Strawberry is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Strawberry is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "config.h"
 
+#include "analyzerbase.h"
+
+#include <algorithm>
 #include <cmath>
+#include <cstdint>
 
 #include <QWidget>
+#include <QVector>
 #include <QPainter>
 #include <QPalette>
 #include <QTimerEvent>
 #include <QtEvents>
-
-#include "analyzerbase.h"
 
 #include "core/logging.h"
 #include "engine/enginebase.h"
@@ -36,10 +44,11 @@
 // 3. reimplement analyze(), and paint to canvas(), Base2D will update the widget when you return control to it
 // 4. if you want to manipulate the scope, reimplement transform()
 // 5. for convenience <vector> <qpixmap.h> <qwdiget.h> are pre-included
-// TODO make an INSTRUCTIONS file
+//
+// TODO:
+// Make an INSTRUCTIONS file
 // can't mod scope in analyze you have to use transform
-
-// TODO for 2D use setErasePixmap Qt function insetead of m_background
+// for 2D use setErasePixmap Qt function insetead of m_background
 
 // make the linker happy only for gcc < 4.0
 #if !(__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 0)) && \
@@ -53,7 +62,6 @@ Analyzer::Base::Base(QWidget *parent, uint scopeSize)
       fht_(new FHT(scopeSize)),
       engine_(nullptr),
       lastscope_(512),
-      current_chunk_(0),
       new_frame_(false),
       is_playing_(false) {}
 
@@ -63,19 +71,18 @@ void Analyzer::Base::showEvent(QShowEvent*) { timer_.start(timeout(), this); }
 
 void Analyzer::Base::transform(Scope& scope) {
 
-  // This is a standard transformation that should give an FFT scope that has bands for pretty analyzers
+  QVector<float> aux(fht_->size());
+  if (aux.size() >= scope.size()) {
+    std::copy(scope.begin(), scope.end(), aux.begin());
+  }
+  else {
+    std::copy(scope.begin(), scope.begin() + aux.size(), aux.begin());
+  }
 
-  // NOTE: Resizing here is redundant as FHT routines only calculate FHT::size() values scope.resize( fht_->size() );
-
-  float *front = static_cast<float*>(&scope.front());
-
-  float *f = new float[fht_->size()];
-  fht_->copy(&f[0], front);
-  fht_->logSpectrum(front, &f[0]);
-  fht_->scale(front, 1.0 / 20);
+  fht_->logSpectrum(scope.data(), aux.data());
+  fht_->scale(scope.data(), 1.0 / 20);
 
   scope.resize(fht_->size() / 2);  // second half of values are rubbish
-  delete[] f;
 
 }
 

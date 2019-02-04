@@ -38,6 +38,8 @@
 
 #include "analyzerbase.h"
 #include "blockanalyzer.h"
+#include "boomanalyzer.h"
+#include "rainbowanalyzer.h"
 
 #include "core/logging.h"
 
@@ -64,6 +66,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
       ignore_next_click_(false),
       current_analyzer_(nullptr),
       engine_(nullptr) {
+
   QHBoxLayout *layout = new QHBoxLayout(this);
   setLayout(layout);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -79,6 +82,9 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   context_menu_->addSeparator();
 
   AddAnalyzerType<BlockAnalyzer>();
+  AddAnalyzerType<BoomAnalyzer>();
+  AddAnalyzerType<Rainbow::NyanCatAnalyzer>();
+  AddAnalyzerType<Rainbow::RainbowDashAnalyzer>();
 
   connect(mapper_, SIGNAL(mapped(int)), SLOT(ChangeAnalyzer(int)));
   disable_action_ = context_menu_->addAction(tr("No analyzer"), this, SLOT(DisableAnalyzer()));
@@ -93,6 +99,7 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   connect(double_click_timer_, SIGNAL(timeout()), SLOT(ShowPopupMenu()));
 
   Load();
+
 }
 
 void AnalyzerContainer::SetActions(QAction *visualisation) {
@@ -101,6 +108,7 @@ void AnalyzerContainer::SetActions(QAction *visualisation) {
 }
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
+
   if (e->button() == Qt::LeftButton) {
     if (ignore_next_click_) {
       ignore_next_click_ = false;
@@ -114,6 +122,7 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
   else if (e->button() == Qt::RightButton) {
     context_menu_->popup(e->globalPos());
   }
+
 }
 
 void AnalyzerContainer::ShowPopupMenu() {
@@ -144,6 +153,7 @@ void AnalyzerContainer::DisableAnalyzer() {
 }
 
 void AnalyzerContainer::ChangeAnalyzer(int id) {
+
   QObject *instance = analyzer_types_[id]->newInstance(Q_ARG(QWidget*, this));
 
   if (!instance) {
@@ -161,9 +171,11 @@ void AnalyzerContainer::ChangeAnalyzer(int id) {
   layout()->addWidget(current_analyzer_);
 
   Save();
+
 }
 
 void AnalyzerContainer::ChangeFramerate(int new_framerate) {
+
   if (current_analyzer_) {
     // Even if it is not supposed to happen, I don't want to get a dbz error
     new_framerate = new_framerate == 0 ? kMediumFramerate : new_framerate;
@@ -173,14 +185,18 @@ void AnalyzerContainer::ChangeFramerate(int new_framerate) {
     current_analyzer_->framerateChanged();
   }
   SaveFramerate(new_framerate);
+
 }
 
 void AnalyzerContainer::Load() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  QString type = s.value("type", "BlockAnalyzer").toString();
+  current_framerate_ = s.value(kSettingsFramerate, kMediumFramerate).toInt();
+  s.endGroup();
 
   // Analyzer
-  QString type = s.value("type", "BlockAnalyzer").toString();
   if (type.isEmpty()) {
     DisableAnalyzer();
     disable_action_->setChecked(true);
@@ -196,7 +212,6 @@ void AnalyzerContainer::Load() {
   }
 
   // Framerate
-  current_framerate_ = s.value(kSettingsFramerate, kMediumFramerate).toInt();
   for (int i = 0; i < framerate_list_.count(); ++i) {
     if (current_framerate_ == framerate_list_[i]) {
       ChangeFramerate(current_framerate_);
@@ -204,27 +219,35 @@ void AnalyzerContainer::Load() {
       break;
     }
   }
+
 }
 
 void AnalyzerContainer::SaveFramerate(int framerate) {
+
   // For now, framerate is common for all analyzers. Maybe each analyzer should have its own framerate?
   current_framerate_ = framerate;
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kSettingsFramerate, current_framerate_);
+  s.endGroup();
+
 }
 
 void AnalyzerContainer::Save() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup);
-
   s.setValue("type", current_analyzer_ ? current_analyzer_->metaObject()->className() : QVariant());
+  s.endGroup();
+
 }
 
 void AnalyzerContainer::AddFramerate(const QString& name, int framerate) {
+
   QAction *action = context_menu_framerate_->addAction(name, mapper_framerate_, SLOT(map()));
   mapper_framerate_->setMapping(action, framerate);
   group_framerate_->addAction(action);
   framerate_list_ << framerate;
   action->setCheckable(true);
+
 }

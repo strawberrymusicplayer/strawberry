@@ -29,6 +29,8 @@
         <file>pictures/osd_shadow_corner.png</file>
         <file>pictures/osd_shadow_edge.png</file>
         <file>pictures/deezer.png</file>
-	<file>fonts/HumongousofEternitySt.ttf</file>
+        <file>pictures/nyancat.png</file>
+        <file>pictures/rainbowdash.png</file>
+        <file>fonts/HumongousofEternitySt.ttf</file>
     </qresource>
 </RCC>

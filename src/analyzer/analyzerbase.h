@@ -1,5 +1,24 @@
-// Maintainer: Max Howell <max.howell@methylblue.com>, (C) 2004
-// Copyright:  See COPYING file that comes with this distribution
+/*
+   Strawberry Music Player
+   This file was part of Amarok.
+   Copyright 2003-2004, Max Howell <max.howell@methylblue.com>
+   Copyright 2009-2012, David Sansome <me@davidsansome.com>
+   Copyright 2010, 2012, 2014, John Maguire <john.maguire@gmail.com>
+   Copyright 2017, Santiago Gil
+
+   Strawberry is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Strawberry is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef ANALYZERBASE_H
 #define ANALYZERBASE_H
@@ -7,7 +26,7 @@
 #include "config.h"
 
 #ifdef __FreeBSD__
-#include <sys/types.h>
+#  include <sys/types.h>
 #endif
 
 #include <stdbool.h>
@@ -23,6 +42,7 @@
 
 #include "analyzer/fht.h"
 #include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
 
 class QHideEvent;
 class QShowEvent;
@@ -54,7 +74,7 @@ class Base : public QWidget {
   virtual void framerateChanged() {}
 
  protected:
-  Base(QWidget*, uint scopeSize = 7);
+  explicit Base(QWidget*, uint scopeSize = 7);
 
   void hideEvent(QHideEvent*);
   void showEvent(QShowEvent*);
@@ -76,7 +96,7 @@ class Base : public QWidget {
   FHT *fht_;
   EngineBase *engine_;
   Scope lastscope_;
-  int current_chunk_;
+
   bool new_frame_;
   bool is_playing_;
 };
@@ -84,6 +104,7 @@ class Base : public QWidget {
 void interpolate(const Scope&, Scope&);
 void initSin(Scope&, const uint = 6000);
 
-}  // END namespace Analyzer
+}  //  namespace Analyzer
 
-#endif
+#endif  // ANALYZERBASE_H
+

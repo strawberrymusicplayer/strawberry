@@ -1,6 +1,25 @@
-// Maintainer: Max Howell <mac.howell@methylblue.com>, (C) 2003-5
-// Copyright:  See COPYING file that comes with this distribution
-//
+/*
+   Strawberry Music Player
+   This file was part of Amarok.
+   Copyright 2003-2005, Max Howell <max.howell@methylblue.com>
+   Copyright 2005, Mark Kretschmann <markey@web.de>
+   Copyright 2009-2010, David Sansome <davidsansome@gmail.com>
+   Copyright 2010, 2014, John Maguire <john.maguire@gmail.com>
+
+   Strawberry is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Strawberry is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 #ifndef BLOCKANALYZER_H
 #define BLOCKANALYZER_H
@@ -11,6 +30,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QVector>
 #include <QString>
 #include <QPixmap>
 #include <QPainter>
@@ -21,22 +41,18 @@
 
 class QResizeEvent;
 
-/**
- * @author Max Howell
- */
-
 class BlockAnalyzer : public Analyzer::Base {
   Q_OBJECT
  public:
   Q_INVOKABLE BlockAnalyzer(QWidget*);
   ~BlockAnalyzer();
 
-  static const uint HEIGHT;
-  static const uint WIDTH;
-  static const uint MIN_ROWS;
-  static const uint MIN_COLUMNS;
-  static const uint MAX_COLUMNS;
-  static const uint FADE_SIZE;
+  static const uint kHeight;
+  static const uint kWidth;
+  static const uint kMinRows;
+  static const uint kMinColumns;
+  static const uint kMaxColumns;
+  static const uint kFadeSize;
 
   static const char *kName;
 
@@ -53,22 +69,21 @@ class BlockAnalyzer : public Analyzer::Base {
  private:
   QPixmap *bar() { return &barpixmap_; }
 
-  uint columns_, rows_;   // number of rows and columns of blocks
-  uint y_;                // y-offset from top of widget
+  uint columns_, rows_;      // number of rows and columns of blocks
+  uint y_;                   // y-offset from top of widget
   QPixmap barpixmap_;
   QPixmap topbarpixmap_;
   QPixmap background_;
   QPixmap canvas_;
-  Analyzer::Scope scope_;     // so we don't create a vector every frame
-  std::vector<float> store_;  // current bar heights
-  std::vector<float> yscale_;
+  Analyzer::Scope scope_;    // so we don't create a vector every frame
+  QVector<float> store_;     // current bar heights
+  QVector<float> yscale_;
 
-  // FIXME why can't I namespace these? c++ issue?
-  std::vector<QPixmap> fade_bars_;
-  std::vector<uint> fade_pos_;
-  std::vector<int> fade_intensity_;
+  QVector<QPixmap> fade_bars_;
+  QVector<uint> fade_pos_;
+  QVector<int> fade_intensity_;
 
   float step_;  // rows to fall per frame
 };
 
-#endif
+#endif  // BLOCKANALYZER_H

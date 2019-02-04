@@ -125,6 +125,8 @@ set(SOURCES
   analyzer/analyzerbase.cpp
   analyzer/analyzercontainer.cpp
   analyzer/blockanalyzer.cpp
+  analyzer/boomanalyzer.cpp
+  analyzer/rainbowanalyzer.cpp
 
   equalizer/equalizer.cpp
   equalizer/equalizerslider.cpp
@@ -307,6 +309,8 @@ set(HEADERS
   analyzer/analyzerbase.h
   analyzer/analyzercontainer.h
   analyzer/blockanalyzer.h
+  analyzer/boomanalyzer.h
+  analyzer/rainbowanalyzer.h
 
   equalizer/equalizer.h
   equalizer/equalizerslider.h

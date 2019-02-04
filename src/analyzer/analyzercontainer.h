@@ -26,12 +26,12 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QList>
+#include <QString>
 #include <QPoint>
 #include <QMenu>
 #include <QAction>
 #include <QActionGroup>
-#include <QList>
-#include <QString>
 #include <QSignalMapper>
 #include <QTimer>
 #include <QtEvents>
@@ -120,5 +120,4 @@ void AnalyzerContainer::AddAnalyzerType() {
   actions_ << action;
 }
 
-#endif
-
+#endif  // ANALYZERCONTAINER_H
