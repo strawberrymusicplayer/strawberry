@@ -62,6 +62,10 @@ class GlobalShortcutGrabber : public QDialog {
   void grabKeyboard();
   void releaseKeyboard();
 
+private slots:
+  void Accepted();
+  void Rejected();
+
  private:
   void UpdateText();
   void SetupMacEventHandler();

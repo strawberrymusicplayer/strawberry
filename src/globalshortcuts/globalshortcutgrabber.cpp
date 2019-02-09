@@ -40,6 +40,10 @@ GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
   ui_->setupUi(this);
 
   modifier_keys_ << Qt::Key_Shift << Qt::Key_Control << Qt::Key_Meta << Qt::Key_Alt << Qt::Key_AltGr;
+
+  connect(ui_->buttonBox, SIGNAL(accepted()), this, SLOT(Accepted()));
+  connect(ui_->buttonBox, SIGNAL(rejected()), this, SLOT(Rejected()));
+
 }
 
 GlobalShortcutGrabber::~GlobalShortcutGrabber() {
@@ -48,8 +52,8 @@ GlobalShortcutGrabber::~GlobalShortcutGrabber() {
 
 QKeySequence GlobalShortcutGrabber::GetKey(const QString &name) {
 
-  ui_->label->setText(tr("Press a key combination to use for %1...").arg(name));
-  ui_->combo->clear();
+  ui_->label_shortcut->setText(tr("Press a key combination to use for %1...").arg(name));
+  ui_->label_key->clear();
 
   ret_ = QKeySequence();
 
@@ -102,5 +106,13 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
 }
 
 void GlobalShortcutGrabber::UpdateText() {
-  ui_->combo->setText("<b>" + ret_.toString(QKeySequence::NativeText) + "</b>");
+  ui_->label_key->setText("<b>" + ret_.toString(QKeySequence::NativeText) + "</b>");
+}
+
+void GlobalShortcutGrabber::Accepted() {
+  accept();
+}
+
+void GlobalShortcutGrabber::Rejected() {
+  if (ui_->label_key->text().isEmpty()) reject();
 }
