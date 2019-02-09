@@ -40,16 +40,18 @@ CurrentArtLoader::CurrentArtLoader(Application *app, QObject *parent)
       app_(app),
     temp_file_pattern_(QDir::tempPath() + "/strawberry-art-XXXXXX.jpg"),
     id_(0)
-{
+  {
+
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
-  //QIcon nocover = IconLoader::Load("nocover");
-  //options_.default_output_image_ = nocover.pixmap(nocover.availableSizes().last()).toImage();
-  options_.default_output_image_ = QImage(":/pictures/noalbumart.png");
+  // QIcon nocover = IconLoader::Load("cdcase");
+  // options_.default_output_image_ = nocover.pixmap(nocover.availableSizes().last()).toImage();
+  options_.default_output_image_ = QImage(":/pictures/cdcase.png");
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(TempArtLoaded(quint64, QImage)));
 
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(LoadArt(Song)));
+
 }
 
 CurrentArtLoader::~CurrentArtLoader() {}

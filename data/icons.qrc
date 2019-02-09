@@ -63,7 +63,6 @@
         <file>icons/128x128/media-rewind.png</file>
         <file>icons/128x128/media-stop.png</file>
         <file>icons/128x128/nvidia.png</file>
-        <file>icons/128x128/play2.png</file>
         <file>icons/128x128/realtek.png</file>
         <file>icons/128x128/search.png</file>
         <file>icons/128x128/soundcard.png</file>
@@ -151,7 +150,6 @@
         <file>icons/64x64/media-rewind.png</file>
         <file>icons/64x64/media-stop.png</file>
         <file>icons/64x64/nvidia.png</file>
-        <file>icons/64x64/play2.png</file>
         <file>icons/64x64/pulseaudio.png</file>
         <file>icons/64x64/realtek.png</file>
         <file>icons/64x64/search.png</file>
@@ -242,7 +240,6 @@
         <file>icons/48x48/media-rewind.png</file>
         <file>icons/48x48/media-stop.png</file>
         <file>icons/48x48/nvidia.png</file>
-        <file>icons/48x48/play2.png</file>
         <file>icons/48x48/pulseaudio.png</file>
         <file>icons/48x48/realtek.png</file>
         <file>icons/48x48/search.png</file>
@@ -332,7 +329,6 @@
         <file>icons/32x32/media-rewind.png</file>
         <file>icons/32x32/media-stop.png</file>
         <file>icons/32x32/nvidia.png</file>
-        <file>icons/32x32/play2.png</file>
         <file>icons/32x32/pulseaudio.png</file>
         <file>icons/32x32/realtek.png</file>
         <file>icons/32x32/search.png</file>
@@ -424,7 +420,6 @@
         <file>icons/22x22/media-rewind.png</file>
         <file>icons/22x22/media-stop.png</file>
         <file>icons/22x22/nvidia.png</file>
-        <file>icons/22x22/play2.png</file>
         <file>icons/22x22/pulseaudio.png</file>
         <file>icons/22x22/realtek.png</file>
         <file>icons/22x22/search.png</file>

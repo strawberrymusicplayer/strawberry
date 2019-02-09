@@ -95,7 +95,7 @@ void AlbumCoverChoiceController::SetApplication(Application *app) {
   app_ = app;
 
   cover_fetcher_ = new AlbumCoverFetcher(app_->cover_providers(), this);
-  cover_searcher_ = new AlbumCoverSearcher(QIcon(":/pictures/noalbumart.png"), app, this);
+  cover_searcher_ = new AlbumCoverSearcher(QIcon(":/pictures/cdcase.png"), app, this);
   cover_searcher_->Init(cover_fetcher_);
 
   connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QImage, CoverSearchStatistics)), this, SLOT(AlbumCoverFetched(quint64, QImage, CoverSearchStatistics)));

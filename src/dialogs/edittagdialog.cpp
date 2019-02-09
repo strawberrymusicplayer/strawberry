@@ -102,11 +102,11 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
       cover_art_id_(0),
       cover_art_is_set_(false),
     results_dialog_(new TrackSelectionDialog(this))
-{
+  {
 
-  //QIcon nocover = IconLoader::Load("nocover");
-  //cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_,  nocover.pixmap(nocover.availableSizes().last()).toImage());
-  cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, QImage(":/pictures/noalbumart.png"));
+  // QIcon nocover = IconLoader::Load("cdcase");
+  // cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, nocover.pixmap(nocover.availableSizes().last()).toImage());
+  cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, QImage(":/pictures/cdcase.png"));
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64,QImage,QImage)), SLOT(ArtLoaded(quint64,QImage,QImage)));
 

@@ -97,7 +97,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       cover_exporter_(new AlbumCoverExporter(this)),
       artist_icon_(IconLoader::Load("folder-sound" )),
       all_artists_icon_(IconLoader::Load("vinyl" )),
-      no_cover_icon_(":/pictures/noalbumart.png"),
+      no_cover_icon_(":/pictures/cdcase.png"),
       no_cover_image_(GenerateNoCoverImage(no_cover_icon_)),
       no_cover_item_icon_(QPixmap::fromImage(no_cover_image_)),
       context_menu_(new QMenu(this)),
@@ -119,8 +119,8 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   album_cover_choice_controller_->SetApplication(app_);
 
-  // Get a square version of noalbumart.png
-  QImage nocover(":/pictures/noalbumart.png");
+  // Get a square version of cdcase.png
+  QImage nocover(":/pictures/cdcase.png");
   nocover = nocover.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   QImage square_nocover(120, 120, QImage::Format_ARGB32);
   square_nocover.fill(0);
@@ -128,7 +128,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
   p.setOpacity(0.4);
   p.drawImage((120 - nocover.width()) / 2, (120 - nocover.height()) / 2, nocover);
   p.end();
-//  no_cover_item_icon_ = QPixmap::fromImage(square_nocover);
+  // no_cover_item_icon_ = QPixmap::fromImage(square_nocover);
 
   cover_searcher_ = new AlbumCoverSearcher(no_cover_item_icon_, app_, this);
   cover_export_ = new AlbumCoverExport(this);
@@ -876,7 +876,7 @@ QString AlbumCoverManager::EffectiveAlbumArtistName(const QListWidgetItem &item)
 
 QImage AlbumCoverManager::GenerateNoCoverImage(const QIcon &no_cover_icon) const {
 
-  // Get a square version of noalbumart.png with some transparency:
+  // Get a square version of cdcase.png with some transparency:
   QImage nocover = no_cover_icon.pixmap(no_cover_icon.availableSizes().last()).toImage();
   nocover = nocover.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
