@@ -6,7 +6,7 @@
         <file>schema/schema-3.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
-        <file>misc/playing_tooltip.txt</file>
+        <file>misc/playing-tooltip.html</file>
         <file>misc/oauthsuccess.html</file>
         <file>pictures/strawberry.png</file>
         <file>pictures/strawberry-faded.png</file>

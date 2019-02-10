@@ -104,8 +104,6 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
     results_dialog_(new TrackSelectionDialog(this))
   {
 
-  // QIcon nocover = IconLoader::Load("cdcase");
-  // cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, nocover.pixmap(nocover.availableSizes().last()).toImage());
   cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, QImage(":/pictures/cdcase.png"));
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64,QImage,QImage)), SLOT(ArtLoaded(quint64,QImage,QImage)));

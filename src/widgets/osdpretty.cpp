@@ -87,8 +87,8 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
       timeout_(new QTimer(this)),
       fading_enabled_(false),
       fader_(new QTimeLine(300, this)),
-    toggle_mode_(false)
-{
+      toggle_mode_(false) {
+
   Qt::WindowFlags flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint;
 
   setWindowFlags(flags);
@@ -180,6 +180,7 @@ void OSDPretty::Load() {
   popup_pos_ = s.value("popup_pos", QPoint(0, 0)).toPoint();
   font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
+  s.endGroup();
 
   set_font(font());
   set_foreground_color(foreground_color());

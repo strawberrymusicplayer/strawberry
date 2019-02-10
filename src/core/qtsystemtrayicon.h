@@ -72,15 +72,17 @@ private slots:
 private:
   QSystemTrayIcon *tray_;
   QMenu *menu_;
+  QString app_name_;
+  QIcon icon_;
+  QPixmap normal_icon_;
+  QPixmap grey_icon_;
+
   QAction *action_play_pause_;
   QAction *action_stop_;
   QAction *action_stop_after_this_track_;
   QAction *action_mute_;
 
   QString pattern_;
-
-  QPixmap normal_icon_;
-  QPixmap grey_icon_;
 };
 
 #endif  // QTSYSTEMTRAYICON_H

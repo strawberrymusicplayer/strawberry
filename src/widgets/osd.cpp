@@ -49,8 +49,9 @@ const char *OSD::kSettingsGroup = "OSD";
 
 OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
     : QObject(parent),
-      tray_icon_(tray_icon),
       app_(app),
+      tray_icon_(tray_icon),
+      app_name_(QCoreApplication::applicationName()),
       timeout_msec_(5000),
       behaviour_(Native),
       show_on_volume_change_(false),
@@ -63,12 +64,15 @@ OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       preview_mode_(false),
       force_show_next_(false),
       ignore_next_stopped_(false),
-    pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup)) {
+      pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup))
+  {
 
   connect(app_->current_art_loader(), SIGNAL(ThumbnailLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
 
   ReloadSettings();
   Init();
+
+  app_name_[0] = app_name_[0].toUpper();
 
 }
 
@@ -89,10 +93,12 @@ void OSD::ReloadSettings() {
   use_custom_text_ = s.value(("CustomTextEnabled"), false).toBool();
   custom_text1_ = s.value("CustomText1").toString();
   custom_text2_ = s.value("CustomText2").toString();
+  s.endGroup();
 
   if (!SupportsNativeNotifications() && behaviour_ == Native)
     behaviour_ = Pretty;
-  if (!SupportsTrayPopups() && behaviour_ == TrayPopup) behaviour_ = Disabled;
+  if (!SupportsTrayPopups() && behaviour_ == TrayPopup)
+    behaviour_ = Disabled;
 
   ReloadPrettyOSDSettings();
 
@@ -112,7 +118,8 @@ void OSD::ReshowCurrentSong() {
 void OSD::AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image) {
 
   // Don't change tray icon details if it's a preview
-  if (!preview_mode_ && tray_icon_) tray_icon_->SetNowPlaying(song, uri);
+  if (!preview_mode_ && tray_icon_)
+    tray_icon_->SetNowPlaying(song, uri);
 
   last_song_ = song;
   last_image_ = image;
@@ -172,7 +179,7 @@ void OSD::AlbumArtLoaded(const Song &song, const QString &uri, const QImage &ima
 
 void OSD::Paused() {
   if (show_on_pause_) {
-    ShowMessage(QCoreApplication::applicationName(), tr("Paused"));
+    ShowMessage(app_name_, tr("Paused"));
   }
 }
 
@@ -183,24 +190,24 @@ void OSD::Stopped() {
     return;
   }
 
-  ShowMessage(QCoreApplication::applicationName(), tr("Stopped"));
+  ShowMessage(app_name_, tr("Stopped"));
 }
 
 void OSD::StopAfterToggle(bool stop) {
-  ShowMessage(QCoreApplication::applicationName(), tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
+  ShowMessage(app_name_, tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
 }
 
 void OSD::PlaylistFinished() {
   // We get a PlaylistFinished followed by a Stopped from the player
   ignore_next_stopped_ = true;
 
-  ShowMessage(QCoreApplication::applicationName(), tr("Playlist finished"));
+  ShowMessage(app_name_, tr("Playlist finished"));
 }
 
 void OSD::VolumeChanged(int value) {
   if (!show_on_volume_change_) return;
 
-  ShowMessage(QCoreApplication::applicationName(), tr("Volume %1%").arg(value));
+  ShowMessage(app_name_, tr("Volume %1%").arg(value));
 }
 
 void OSD::ShowMessage(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
@@ -251,7 +258,7 @@ void OSD::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
       case PlaylistSequence::Shuffle_InsideAlbum: current_mode = tr("Shuffle tracks in this album"); break;
       case PlaylistSequence::Shuffle_Albums:      current_mode = tr("Shuffle albums");  break;
     }
-    ShowMessage(QCoreApplication::applicationName(), current_mode);
+    ShowMessage(app_name_, current_mode);
   }
 }
 
@@ -266,7 +273,7 @@ void OSD::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
       case PlaylistSequence::Repeat_OneByOne: current_mode = tr("Stop after every track"); break;
       case PlaylistSequence::Repeat_Intro: current_mode = tr("Intro tracks"); break;
     }
-    ShowMessage(QCoreApplication::applicationName(), current_mode);
+    ShowMessage(app_name_, current_mode);
   }
 }
 

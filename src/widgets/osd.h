@@ -106,8 +106,9 @@ class OSD : public QObject {
   void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
 
  private:
-  SystemTrayIcon *tray_icon_;
   Application *app_;
+  SystemTrayIcon *tray_icon_;
+  QString app_name_;
   int timeout_msec_;
   Behaviour behaviour_;
   bool show_on_volume_change_;

@@ -119,17 +119,6 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   album_cover_choice_controller_->SetApplication(app_);
 
-  // Get a square version of cdcase.png
-  QImage nocover(":/pictures/cdcase.png");
-  nocover = nocover.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  QImage square_nocover(120, 120, QImage::Format_ARGB32);
-  square_nocover.fill(0);
-  QPainter p(&square_nocover);
-  p.setOpacity(0.4);
-  p.drawImage((120 - nocover.width()) / 2, (120 - nocover.height()) / 2, nocover);
-  p.end();
-  // no_cover_item_icon_ = QPixmap::fromImage(square_nocover);
-
   cover_searcher_ = new AlbumCoverSearcher(no_cover_item_icon_, app_, this);
   cover_export_ = new AlbumCoverExport(this);
 

@@ -44,25 +44,26 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
     : SystemTrayIcon(parent),
       tray_(new QSystemTrayIcon(this)),
       menu_(new QMenu),
+      app_name_(QCoreApplication::applicationName()),
+      icon_(":/icons/48x48/strawberry.png"),
+      normal_icon_(icon_.pixmap(48, QIcon::Normal)),
+      grey_icon_(icon_.pixmap(48, QIcon::Disabled)),
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
       action_mute_(nullptr) {
 
-  QIcon icon(":/icons/48x48/strawberry.png");
-
-  normal_icon_ = icon.pixmap(48, QIcon::Normal);
-  grey_icon_ = icon.pixmap(48, QIcon::Disabled);
-
   tray_->setIcon(normal_icon_);
   tray_->installEventFilter(this);
   ClearNowPlaying();
 
-  QFile pattern_file(":/misc/playing_tooltip.txt");
+  QFile pattern_file(":/misc/playing-tooltip.html");
   pattern_file.open(QIODevice::ReadOnly);
   pattern_ = QString::fromLatin1(pattern_file.readAll());
 
   connect(tray_, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(Clicked(QSystemTrayIcon::ActivationReason)));
+
+  app_name_[0] = app_name_[0].toUpper();
 
 }
 
@@ -230,7 +231,7 @@ void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path
   QString clone = pattern_;
 
   clone.replace("%columns"    , QString::number(columns));
-  clone.replace("%appName"    , QCoreApplication::applicationName());
+  clone.replace("%appName"    , app_name_);
 
   clone.replace("%titleKey"   , tr("Title") % ":");
   clone.replace("%titleValue" , song.PrettyTitle().toHtmlEscaped());
@@ -256,5 +257,5 @@ void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path
 }
 
 void QtSystemTrayIcon::ClearNowPlaying() {
-  tray_->setToolTip(QCoreApplication::applicationName());
+  tray_->setToolTip(app_name_);
 }
