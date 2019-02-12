@@ -72,7 +72,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>Search by</string>
+             <string>Search for</string>
             </property>
             <property name="margin">
              <number>10</number>
@@ -80,14 +80,21 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radiobutton_searchbyalbums">
+           <widget class="QRadioButton" name="radiobutton_search_artists">
+            <property name="text">
+             <string>ar&amp;tists</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radiobutton_search_albums">
             <property name="text">
              <string>a&amp;lbums</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radiobutton_searchbysongs">
+           <widget class="QRadioButton" name="radiobutton_search_songs">
             <property name="text">
              <string>son&amp;gs</string>
             </property>
@@ -208,7 +215,7 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>502</height>
+            <height>521</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

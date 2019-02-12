@@ -43,7 +43,6 @@
 #include "settings/settingsdialog.h"
 #include "playlist/playlistmanager.h"
 #include "internetsearch.h"
-//#include "settings/internetsettingspage.h"
 
 class Application;
 class GroupByDialog;
@@ -93,10 +92,11 @@ signals:
 
   void SearchForThis();
 
-  void SearchBySongsClicked(bool);
-  void SearchByAlbumsClicked(bool);
+  void SearchArtistsClicked(bool);
+  void SearchAlbumsClicked(bool);
+  void SearchSongsClicked(bool);
   void GroupByClicked(QAction *action);
-  void SetSearchBy(InternetSearch::SearchBy searchby);
+  void SetSearchType(InternetSearch::SearchType type);
   void SetGroupBy(const CollectionModel::Grouping &g);
 
  private:
@@ -133,7 +133,7 @@ signals:
 
   QTimer *swap_models_timer_;
 
-  InternetSearch::SearchBy searchby_;
+  InternetSearch::SearchType search_type_;
   bool error_;
 
 };

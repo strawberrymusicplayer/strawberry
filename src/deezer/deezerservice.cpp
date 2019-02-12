@@ -349,8 +349,6 @@ QJsonObject DeezerService::ExtractJsonObj(QByteArray &data) {
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-  
-  //qLog(Debug) << json_doc;
 
   if (error.error != QJsonParseError::NoError) {
     Error("Reply from server missing Json data.", data);
@@ -372,8 +370,6 @@ QJsonObject DeezerService::ExtractJsonObj(QByteArray &data) {
     Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
-
-  //qLog(Debug) << json_obj;
 
   return json_obj;
 
@@ -412,11 +408,11 @@ QJsonValue DeezerService::ExtractData(QByteArray &data) {
 
 }
 
-int DeezerService::Search(const QString &text, InternetSearch::SearchBy searchby) {
+int DeezerService::Search(const QString &text, InternetSearch::SearchType searchby) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
-  pending_searchby_ = searchby;
+  pending_search_type_ = searchby;
 
   next_pending_search_id_++;
 
@@ -469,12 +465,13 @@ void DeezerService::SendSearch() {
   QList<Param> parameters;
   parameters << Param("q", search_text_);
   QString searchparam;
-  switch (pending_searchby_) {
-    case InternetSearch::SearchBy_Songs:
+  switch (pending_search_type_) {
+    case InternetSearch::SearchType_Songs:
       searchparam = "search/track";
       parameters << Param("limit", QString::number(songssearchlimit_));
       break;
-    case InternetSearch::SearchBy_Albums:
+    case InternetSearch::SearchType_Albums:
+    case InternetSearch::SearchType_Artists:
     default:
       searchparam = "search/album";
       parameters << Param("limit", QString::number(albumssearchlimit_));
@@ -511,23 +508,19 @@ void DeezerService::SearchFinished(QNetworkReply *reply, int id) {
     return;
   }
 
-  //qLog(Debug) << json_data;
-
   for (const QJsonValue &value : json_data) {
-    //qLog(Debug) << value;
+
     if (!value.isObject()) {
       Error("Invalid Json reply, data is not an object.", value);
       continue;
     }
     QJsonObject json_obj = value.toObject();
-    //qLog(Debug) << json_obj;
 
     if (!json_obj.contains("id") || !json_obj.contains("type")) {
       Error("Invalid Json reply, item is missing ID or type.", json_obj);
       continue;
     }
 
-    //int id = json_obj["id"].toInt();
     QString type = json_obj["type"].toString();
 
     if (!json_obj.contains("artist")) {
@@ -575,7 +568,7 @@ void DeezerService::SearchFinished(QNetworkReply *reply, int id) {
       album = json_album["title"].toString();
       cover = json_album[coversize_].toString();
       if (!fetchalbums_) {
-        Song song = ParseSong(album_id, album, cover, value);
+        Song song = ParseSong(album_id, album, artist, cover, value);
         songs_ << song;
         continue;
       }
@@ -668,14 +661,12 @@ void DeezerService::GetAlbumFinished(QNetworkReply *reply, int search_id, int al
 
   bool compilation = false;
   bool multidisc = false;
-  Song first_song;
   SongList songs;
   for (const QJsonValue &value : json_data) {
-    Song song = ParseSong(album_ctx->id, album_ctx->album, album_ctx->cover, value);
+    Song song = ParseSong(album_ctx->id, album_ctx->album, album_ctx->artist, album_ctx->cover, value);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
-    if (song.is_compilation() || (first_song.is_valid() && song.artist() != first_song.artist())) compilation = true;
-    if (!first_song.is_valid()) first_song = song;
+    if (song.is_compilation()) compilation = true;
     songs << song;
   }
   for (Song &song : songs) {
@@ -692,15 +683,13 @@ void DeezerService::GetAlbumFinished(QNetworkReply *reply, int search_id, int al
 
 }
 
-Song DeezerService::ParseSong(const int album_id, const QString &album, const QString &album_cover, const QJsonValue &value) {
+Song DeezerService::ParseSong(const int album_id, const QString &album, const QString &album_artist, const QString &album_cover, const QJsonValue &value) {
 
   if (!value.isObject()) {
     Error("Invalid Json reply, track is not an object.", value);
     return Song();
   }
   QJsonObject json_obj = value.toObject();
-
-  //qLog(Debug) << json_obj;
 
   if (
       !json_obj.contains("id") ||
@@ -738,6 +727,7 @@ Song DeezerService::ParseSong(const int album_id, const QString &album, const QS
   song.set_source(Song::Source_Deezer);
   song.set_id(song_id);
   song.set_album_id(album_id);
+  if (artist != album_artist) song.set_albumartist(album_artist);
   song.set_artist(artist);
   song.set_album(album);
   song.set_title(title);
@@ -760,7 +750,6 @@ Song DeezerService::ParseSong(const int album_id, const QString &album, const QS
     }
   }
   song.set_url(url);
-
   song.set_valid(true);
 
   return song;

@@ -81,8 +81,8 @@ class InternetSearchModel : public QStandardItemModel {
   QSortFilterProxyModel *proxy_;
   bool use_pretty_covers_;
   QIcon artist_icon_;
-  QPixmap no_cover_icon_;
   QIcon album_icon_;
+  QPixmap no_cover_icon_;
   CollectionModel::Grouping group_by_;
   QMap<ContainerKey, QStandardItem*> containers_;
 

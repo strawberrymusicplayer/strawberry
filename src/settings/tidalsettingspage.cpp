@@ -81,6 +81,7 @@ void TidalSettingsPage::Load() {
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_quality, "quality", "HIGH");
   ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());
+  ui_->spinbox_artistssearchlimit->setValue(s.value("artistssearchlimit", 5).toInt());
   ui_->spinbox_albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
   ui_->spinbox_songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
@@ -101,6 +102,7 @@ void TidalSettingsPage::Save() {
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));
   s.setValue("searchdelay", ui_->spinbox_searchdelay->value());
+  s.setValue("artistssearchlimit", ui_->spinbox_artistssearchlimit->value());
   s.setValue("albumssearchlimit", ui_->spinbox_albumssearchlimit->value());
   s.setValue("songssearchlimit", ui_->spinbox_songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());

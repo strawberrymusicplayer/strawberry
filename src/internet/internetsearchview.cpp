@@ -144,8 +144,9 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
   settings_menu->addAction(IconLoader::Load("configure"), QString("Configure %1...").arg(Song::TextForSource(engine->source())), this, SLOT(OpenSettingsDialog()));
   ui_->settings->setMenu(settings_menu);
 
-  connect(ui_->radiobutton_searchbyalbums, SIGNAL(clicked(bool)), SLOT(SearchByAlbumsClicked(bool)));
-  connect(ui_->radiobutton_searchbysongs, SIGNAL(clicked(bool)), SLOT(SearchBySongsClicked(bool)));
+  connect(ui_->radiobutton_search_artists, SIGNAL(clicked(bool)), SLOT(SearchArtistsClicked(bool)));
+  connect(ui_->radiobutton_search_albums, SIGNAL(clicked(bool)), SLOT(SearchAlbumsClicked(bool)));
+  connect(ui_->radiobutton_search_songs, SIGNAL(clicked(bool)), SLOT(SearchSongsClicked(bool)));
 
   connect(group_by_actions_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
 
@@ -180,18 +181,21 @@ void InternetSearchView::ReloadSettings() {
   // Internet search settings
 
   s.beginGroup(settings_group_);
-  searchby_ = InternetSearch::SearchBy(s.value("searchby", int(InternetSearch::SearchBy_Songs)).toInt());
-  switch (searchby_) {
-    case InternetSearch::SearchBy_Songs:
-      ui_->radiobutton_searchbysongs->setChecked(true);
+  search_type_ = InternetSearch::SearchType(s.value("type", int(InternetSearch::SearchType_Artists)).toInt());
+  switch (search_type_) {
+    case InternetSearch::SearchType_Artists:
+      ui_->radiobutton_search_artists->setChecked(true);
       break;
-    case InternetSearch::SearchBy_Albums:
-      ui_->radiobutton_searchbyalbums->setChecked(true);
+    case InternetSearch::SearchType_Albums:
+      ui_->radiobutton_search_albums->setChecked(true);
+      break;
+    case InternetSearch::SearchType_Songs:
+      ui_->radiobutton_search_songs->setChecked(true);
       break;
   }
 
   SetGroupBy(CollectionModel::Grouping(
-      CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_Artist)).toInt()),
+      CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
       CollectionModel::GroupBy(s.value("group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
       CollectionModel::GroupBy(s.value("group_by3", int(CollectionModel::GroupBy_None)).toInt())));
   s.endGroup();
@@ -233,7 +237,7 @@ void InternetSearchView::TextEdited(const QString &text) {
   }
   else {
     ui_->progressbar->reset();
-    last_search_id_ = engine_->SearchAsync(trimmed, searchby_);
+    last_search_id_ = engine_->SearchAsync(trimmed, search_type_);
   }
 
 }
@@ -293,7 +297,6 @@ void InternetSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
   // Is this an album?
   const CollectionModel::GroupBy container_type = CollectionModel::GroupBy(proxy_index.data(CollectionModel::Role_ContainerType).toInt());
   if (container_type != CollectionModel::GroupBy_Album &&
-      container_type != CollectionModel::GroupBy_AlbumArtist &&
       container_type != CollectionModel::GroupBy_YearAlbum &&
       container_type != CollectionModel::GroupBy_OriginalYearAlbum) {
     return;
@@ -545,19 +548,23 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 
 }
 
-void InternetSearchView::SearchBySongsClicked(bool checked) {
-  SetSearchBy(InternetSearch::SearchBy_Songs);
+void InternetSearchView::SearchArtistsClicked(bool checked) {
+  SetSearchType(InternetSearch::SearchType_Artists);
 }
 
-void InternetSearchView::SearchByAlbumsClicked(bool checked) {
-  SetSearchBy(InternetSearch::SearchBy_Albums);
+void InternetSearchView::SearchAlbumsClicked(bool checked) {
+  SetSearchType(InternetSearch::SearchType_Albums);
 }
 
-void InternetSearchView::SetSearchBy(InternetSearch::SearchBy searchby) {
-  searchby_ = searchby;
+void InternetSearchView::SearchSongsClicked(bool checked) {
+  SetSearchType(InternetSearch::SearchType_Songs);
+}
+
+void InternetSearchView::SetSearchType(InternetSearch::SearchType type) {
+  search_type_ = type;
   QSettings s;
   s.beginGroup(settings_group_);
-  s.setValue("searchby", int(searchby));
+  s.setValue("type", int(search_type_));
   s.endGroup();
   TextEdited(ui_->search->text());
 }

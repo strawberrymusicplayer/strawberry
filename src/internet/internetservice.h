@@ -52,7 +52,7 @@ class InternetService : public QObject {
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
   virtual QIcon Icon() { return Song::IconForSource(source_); }
-  virtual int Search(const QString &query, InternetSearch::SearchBy searchby) = 0;
+  virtual int Search(const QString &query, InternetSearch::SearchType type) = 0;
   virtual void CancelSearch() = 0;
 
  public slots:

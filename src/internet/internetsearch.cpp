@@ -69,7 +69,7 @@ InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *p
   cover_loader_options_.scale_output_image_ = true;
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
-  connect(this, SIGNAL(SearchAsyncSig(int, QString, SearchBy)), this, SLOT(DoSearchAsync(int, QString, SearchBy)));
+  connect(this, SIGNAL(SearchAsyncSig(int, QString, SearchType)), this, SLOT(DoSearchAsync(int, QString, SearchType)));
   connect(this, SIGNAL(ResultsAvailable(int, InternetSearch::ResultList)), SLOT(ResultsAvailableSlot(int, InternetSearch::ResultList)));
   connect(this, SIGNAL(ArtLoaded(int, QImage)), SLOT(ArtLoadedSlot(int, QImage)));
   connect(service_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
@@ -113,29 +113,29 @@ bool InternetSearch::Matches(const QStringList &tokens, const QString &string) {
 
 }
 
-int InternetSearch::SearchAsync(const QString &query, SearchBy searchby) {
+int InternetSearch::SearchAsync(const QString &query, SearchType type) {
 
   const int id = searches_next_id_++;
 
-  emit SearchAsyncSig(id, query, searchby);
+  emit SearchAsyncSig(id, query, type);
 
   return id;
 
 }
 
-void InternetSearch::SearchAsync(int id, const QString &query, SearchBy searchby) {
+void InternetSearch::SearchAsync(int id, const QString &query, SearchType type) {
 
-  const int service_id = service_->Search(query, searchby);
+  const int service_id = service_->Search(query, type);
   pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
 
 }
 
-void InternetSearch::DoSearchAsync(int id, const QString &query, SearchBy searchby) {
+void InternetSearch::DoSearchAsync(int id, const QString &query, SearchType type) {
 
   int timer_id = startTimer(kDelayedSearchTimeoutMs);
   delayed_searches_[timer_id].id_ = id;
   delayed_searches_[timer_id].query_ = query;
-  delayed_searches_[timer_id].searchby_ = searchby;
+  delayed_searches_[timer_id].type_ = type;
 
 }
 
@@ -186,7 +186,7 @@ void InternetSearch::CancelSearch(int id) {
 void InternetSearch::timerEvent(QTimerEvent *e) {
   QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
   if (it != delayed_searches_.end()) {
-    SearchAsync(it.value().id_, it.value().query_, it.value().searchby_);
+    SearchAsync(it.value().id_, it.value().query_, it.value().type_);
     delayed_searches_.erase(it);
     return;
   }

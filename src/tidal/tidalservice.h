@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
 #include <QHash>
 #include <QString>
 #include <QUrl>
@@ -54,7 +55,7 @@ class TidalService : public InternetService {
   void ReloadSettings();
 
   void Logout();
-  int Search(const QString &query, InternetSearch::SearchBy searchby);
+  int Search(const QString &query, InternetSearch::SearchType type);
   void CancelSearch();
 
   const bool login_sent() { return login_sent_; }
@@ -84,20 +85,29 @@ class TidalService : public InternetService {
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
-  void SearchFinished(QNetworkReply *reply, int search_id);
-  void GetAlbumFinished(QNetworkReply *reply, int search_id, int album_id);
-  void GetStreamURLFinished(QNetworkReply *reply, const int song_id, const QUrl original_url);
+  void ArtistsReceived(QNetworkReply *reply, int search_id);
+  void AlbumsReceived(QNetworkReply *reply, int search_id, int artist_id, int offset_requested = 0);
+  void AlbumsFinished(const int artist_id, const int offset_requested, const int total_albums = 0, const int limit = 0, const int albums = 0);
+  void SongsReceived(QNetworkReply *reply, int search_id, int album_id);
+  void StreamURLReceived(QNetworkReply *reply, const int song_id, const QUrl original_url);
 
  private:
+  typedef QPair<QString, QString> Param;
+
   void ClearSearch();
   void LoadSessionID();
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<QPair<QString, QString>> &params);
   QByteArray GetReplyData(QNetworkReply *reply, const bool sendlogin = false);
   QJsonObject ExtractJsonObj(QByteArray &data);
   QJsonValue ExtractItems(QByteArray &data);
+  QJsonValue ExtractItems(QJsonObject &json_obj);
   void SendSearch();
-  void GetAlbum(const int album_id);
-  Song ParseSong(const int album_id_requested, const QJsonValue &value);
+  void SendArtistsSearch();
+  void SendAlbumsSearch();
+  void SendSongsSearch();
+  void GetAlbums(const int artist_id, const int offset = 0);
+  void GetSongs(const int album_id);
+  Song ParseSong(const int album_id_requested, const QJsonValue &value, QString album_artist = QString());
   void CheckFinish();
   void Error(QString error, QVariant debug = QVariant());
 
@@ -110,13 +120,14 @@ class TidalService : public InternetService {
 
   NetworkAccessManager *network_;
   TidalUrlHandler *url_handler_;
-  QTimer *timer_searchdelay_;
+  QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
 
   QString username_;
   QString password_;
   QString quality_;
-  int searchdelay_;
+  int search_delay_;
+  int artistssearchlimit_;
   int albumssearchlimit_;
   int songssearchlimit_;
   bool fetchalbums_;
@@ -130,14 +141,19 @@ class TidalService : public InternetService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  InternetSearch::SearchBy pending_searchby_;
+  InternetSearch::SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;
-  QHash<int, int> requests_album_;
+  bool artist_search_;
+  QList<int> requests_artist_albums_;
+  QHash<int, QString> requests_album_songs_;
   QHash<int, QUrl> requests_song_;
-  int albums_requested_;
-  int albums_received_;
+  QList<QPair<QString, QString>> requests_artist_album_;
+  int artist_albums_requested_;
+  int artist_albums_received_;
+  int album_songs_requested_;
+  int album_songs_received_;
   SongList songs_;
   QString search_error_;
   bool login_sent_;

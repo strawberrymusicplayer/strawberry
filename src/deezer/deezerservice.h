@@ -70,7 +70,7 @@ class DeezerService : public InternetService {
   void ReloadSettings();
 
   void Logout();
-  int Search(const QString &query, InternetSearch::SearchBy searchby);
+  int Search(const QString &query, InternetSearch::SearchType searchby);
   void CancelSearch();
 
   const bool app_id() { return kAppID; }
@@ -116,7 +116,7 @@ class DeezerService : public InternetService {
   void SendSearch();
   DeezerAlbumContext *CreateAlbum(const int album_id, const QString &artist, const QString &album, const QString &cover);
   void GetAlbum(const DeezerAlbumContext *album_ctx);
-  Song ParseSong(const int album_id, const QString &album, const QString &album_cover, const QJsonValue &value);
+  Song ParseSong(const int album_id, const QString &album, const QString &album_artist, const QString &album_cover, const QJsonValue &value);
   void CheckFinish();
   void Error(QString error, QVariant debug = QString());
 
@@ -145,7 +145,7 @@ class DeezerService : public InternetService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  InternetSearch::SearchBy pending_searchby_;
+  InternetSearch::SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;

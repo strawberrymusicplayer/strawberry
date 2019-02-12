@@ -45,9 +45,10 @@ class InternetSearch : public QObject {
   InternetSearch(Application *app, Song::Source source, QObject *parent = nullptr);
   ~InternetSearch();
 
-  enum SearchBy {
-    SearchBy_Songs = 1,
-    SearchBy_Albums = 2,
+  enum SearchType {
+    SearchType_Artists = 1,
+    SearchType_Albums = 2,
+    SearchType_Songs = 3,
   };
 
   struct Result {
@@ -63,7 +64,7 @@ class InternetSearch : public QObject {
   Song::Source source() const { return source_; }
   InternetService *service() const { return service_; }
 
-  int SearchAsync(const QString &query, SearchBy searchby);
+  int SearchAsync(const QString &query, SearchType type);
   int LoadArtAsync(const InternetSearch::Result &result);
 
   void CancelSearch(int id);
@@ -74,7 +75,7 @@ class InternetSearch : public QObject {
   MimeData *LoadTracks(const ResultList &results);
 
  signals:
-  void SearchAsyncSig(int id, const QString &query, SearchBy searchby);
+  void SearchAsyncSig(int id, const QString &query, SearchType type);
   void ResultsAvailable(int id, const InternetSearch::ResultList &results);
   void AddResults(int id, const InternetSearch::ResultList &results);
   void SearchError(const int id, const QString error);
@@ -112,7 +113,7 @@ class InternetSearch : public QObject {
   static bool Matches(const QStringList &tokens, const QString &string);
 
  private slots:
-  void DoSearchAsync(int id, const QString &query, SearchBy searchby);
+  void DoSearchAsync(int id, const QString &query, SearchType type);
   void SearchDone(int id, const SongList &songs);
   void HandleError(const int id, const QString error);
   void ResultsAvailableSlot(int id, InternetSearch::ResultList results);
@@ -125,7 +126,7 @@ class InternetSearch : public QObject {
   void UpdateProgressSlot(int max);
 
  private:
-  void SearchAsync(int id, const QString &query, SearchBy searchby);
+  void SearchAsync(int id, const QString &query, SearchType type);
   void HandleLoadedArt(int id, const QImage &image);
   bool FindCachedPixmap(const InternetSearch::Result &result, QPixmap *pixmap) const;
   QString PixmapCacheKey(const InternetSearch::Result &result) const;
@@ -137,7 +138,7 @@ class InternetSearch : public QObject {
   struct DelayedSearch {
     int id_;
     QString query_;
-    SearchBy searchby_;
+    SearchType type_;
   };
 
   static const int kArtHeight;

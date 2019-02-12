@@ -41,17 +41,15 @@ InternetSearchModel::InternetSearchModel(InternetSearch *engine, QObject *parent
       engine_(engine),
       proxy_(nullptr),
       use_pretty_covers_(true),
-      artist_icon_(IconLoader::Load("folder-sound")) {
+      artist_icon_(IconLoader::Load("folder-sound")),
+      album_icon_(IconLoader::Load("cdcase"))
+      {
 
   group_by_[0] = CollectionModel::GroupBy_Artist;
   group_by_[1] = CollectionModel::GroupBy_Album;
   group_by_[2] = CollectionModel::GroupBy_None;
 
-  QIcon nocover = IconLoader::Load("cdcase");
-  no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-  //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  album_icon_ = no_cover_icon_;
+  no_cover_icon_ = album_icon_.pixmap(album_icon_.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 }
 
@@ -93,6 +91,19 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
   int year = 0;
 
   switch (group_by_[level]) {
+
+    case CollectionModel::GroupBy_AlbumArtist:
+      if (s.is_compilation()) {
+        display_text = tr("Various artists");
+        sort_text = "aaaaaa";
+      }
+      else {
+        display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
+        sort_text = CollectionModel::SortTextForArtist(s.effective_albumartist());
+      }
+      has_artist_icon = true;
+      break;
+
     case CollectionModel::GroupBy_Artist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
@@ -134,25 +145,39 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       break;
 
     case CollectionModel::GroupBy_Composer:
-      display_text = s.composer();
+      display_text = CollectionModel::TextOrUnknown(s.composer());
+      sort_text = CollectionModel::SortTextForArtist(s.composer());
+      has_album_icon = true;
+      break;
+
     case CollectionModel::GroupBy_Performer:
-      display_text = s.performer();
+      display_text = CollectionModel::TextOrUnknown(s.performer());
+      sort_text = CollectionModel::SortTextForArtist(s.performer());
+      has_album_icon = true;
+      break;
+
     case CollectionModel::GroupBy_Disc:
       display_text = s.disc();
-    case CollectionModel::GroupBy_Grouping:
-      display_text = s.grouping();
-    case CollectionModel::GroupBy_Genre:
-      if (display_text.isNull()) display_text = s.genre();
-    case CollectionModel::GroupBy_Album:
-      unique_tag = s.album_id();
-      if (display_text.isNull()) {
-        display_text = s.album();
-      }
-    // fallthrough
-    case CollectionModel::GroupBy_AlbumArtist:
-      if (display_text.isNull()) display_text = s.effective_albumartist();
-      display_text = CollectionModel::TextOrUnknown(display_text);
       sort_text = CollectionModel::SortTextForArtist(display_text);
+      has_album_icon = true;
+      break;
+
+    case CollectionModel::GroupBy_Grouping:
+      display_text = CollectionModel::TextOrUnknown(s.grouping());
+      sort_text = CollectionModel::SortTextForArtist(s.grouping());
+      has_album_icon = true;
+      break;
+
+    case CollectionModel::GroupBy_Genre:
+      display_text = CollectionModel::TextOrUnknown(s.genre());
+      sort_text = CollectionModel::SortTextForArtist(s.genre());
+      has_album_icon = true;
+      break;
+
+    case CollectionModel::GroupBy_Album:
+      display_text = CollectionModel::TextOrUnknown(s.album());
+      sort_text = CollectionModel::SortTextForArtist(s.album());
+      unique_tag = s.album_id();
       has_album_icon = true;
       break;
 
@@ -179,6 +204,9 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
     case CollectionModel::GroupBy_None:
       return parent;
   }
+
+  if (display_text.isEmpty()) display_text = "Unknown";
+  if (sort_text.isEmpty()) sort_text = "Unknown";
 
   // Find a container for this level
   key->group_[level] = display_text + QString::number(unique_tag);
