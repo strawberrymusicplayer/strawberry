@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QSystemTrayIcon>
+#include <QLabel>
 #include <QString>
 #include <QPixmap>
 #include <QAction>
@@ -55,7 +56,7 @@ class QtSystemTrayIcon : public SystemTrayIcon {
   void SetNowPlaying(const Song &song, const QString &image_path);
   void ClearNowPlaying();
 
-protected:
+ protected:
   // SystemTrayIcon
   void UpdateIcon();
   void SetPaused();
@@ -66,10 +67,10 @@ protected:
   // QObject
   bool eventFilter(QObject *, QEvent *);
 
-private slots:
+ private slots:
   void Clicked(QSystemTrayIcon::ActivationReason);
 
-private:
+ private:
   QSystemTrayIcon *tray_;
   QMenu *menu_;
   QString app_name_;
@@ -82,7 +83,11 @@ private:
   QAction *action_stop_after_this_track_;
   QAction *action_mute_;
 
+#ifndef Q_OS_WIN
+  QString de_;
   QString pattern_;
+#endif
+
 };
 
 #endif  // QTSYSTEMTRAYICON_H
