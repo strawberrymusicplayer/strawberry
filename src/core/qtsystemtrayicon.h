@@ -27,7 +27,6 @@
 
 #include <QObject>
 #include <QSystemTrayIcon>
-#include <QLabel>
 #include <QString>
 #include <QPixmap>
 #include <QAction>

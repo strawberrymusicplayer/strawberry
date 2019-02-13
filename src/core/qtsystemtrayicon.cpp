@@ -26,14 +26,11 @@
 #include <QAction>
 #include <QIODevice>
 #include <QFile>
-#include <QLabel>
 #include <QMenu>
 #include <QIcon>
 #include <QString>
 #include <QtEvents>
 #include <QSettings>
-
-#include "core/logging.h"
 
 #include "song.h"
 #include "iconloader.h"
