@@ -1,7 +1,7 @@
 from opensuse/tumbleweed
 
-run zypper --non-interactive --gpg-auto-import-keys ref
-run zypper --non-interactive --gpg-auto-import-keys dup -l -y
+#run zypper --non-interactive --gpg-auto-import-keys ref
+#run zypper --non-interactive --gpg-auto-import-keys dup -l -y
 
 run zypper --non-interactive --gpg-auto-import-keys install \
     lsb-release git tar make cmake gcc gcc-c++ pkg-config \
