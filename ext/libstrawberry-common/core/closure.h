@@ -171,26 +171,14 @@ class CallbackClosure : public ClosureBase {
 }  // namespace _detail
 
 template <typename... Args>
-_detail::ClosureBase *NewClosure(
-    QObject *sender,
-    const char *signal,
-    QObject *receiver,
-    const char *slot,
-                                 const Args&... args) {
-  return new _detail::Closure<Args...>(
-      sender, signal, receiver, slot, args...);
+_detail::ClosureBase *NewClosure(QObject *sender, const char *signal, QObject *receiver, const char *slot, const Args&... args) {
+  return new _detail::Closure<Args...>(sender, signal, receiver, slot, args...);
 }
 
 // QSharedPointer variant
 template <typename T, typename... Args>
-_detail::ClosureBase *NewClosure(
-    QSharedPointer<T> sender,
-    const char *signal,
-    QObject *receiver,
-    const char *slot,
-                                 const Args&... args) {
-  return new _detail::SharedClosure<T, Args...>(
-      sender, signal, receiver, slot, args...);
+_detail::ClosureBase *NewClosure(QSharedPointer<T> sender, const char *signal, QObject *receiver, const char *slot, const Args&... args) {
+  return new _detail::SharedClosure<T, Args...>(sender, signal, receiver, slot, args...);
 }
 
 _detail::ClosureBase *NewClosure(QObject *sender, const char *signal, std::function<void()> callback);
@@ -201,20 +189,12 @@ _detail::ClosureBase *NewClosure(QObject *sender, const char *signal, std::funct
 }
 
 template <typename... Args>
-_detail::ClosureBase *NewClosure(
-    QObject *sender,
-    const char *signal,
-                                 void (*callback)(Args...),
-                                 const Args&... args) {
+_detail::ClosureBase *NewClosure(QObject *sender, const char *signal, void (*callback)(Args...), const Args&... args) {
   return NewClosure(sender, signal, std::bind(callback, args...));
 }
 
 template <typename T, typename Unused, typename... Args>
-_detail::ClosureBase *NewClosure(
-    QObject *sender,
-    const char *signal,
-                                 T *receiver, Unused (T::*callback)(Args...),
-                                 const Args&... args) {
+_detail::ClosureBase *NewClosure(QObject *sender, const char *signal, T *receiver, Unused (T::*callback)(Args...), const Args&... args) {
   return NewClosure(sender, signal, std::bind(callback, receiver, args...));
 }
 
@@ -249,4 +229,3 @@ void DoAfter(std::function<void()> callback, std::chrono::duration<R, P> duratio
 }
 
 #endif  // CLOSURE_H
-
