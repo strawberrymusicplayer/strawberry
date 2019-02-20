@@ -684,6 +684,8 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
   QString biggest_path;
 
   for (const QString &path : filtered) {
+    if (stop_requested_) return QString();
+
     QImage image(path);
     if (image.isNull()) continue;
 

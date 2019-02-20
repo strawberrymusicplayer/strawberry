@@ -67,6 +67,7 @@ bool FilesystemDevice::Init() {
 }
 
 FilesystemDevice::~FilesystemDevice() {
+  watcher_->Stop();
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait();

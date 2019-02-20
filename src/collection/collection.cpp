@@ -63,6 +63,7 @@ SCollection::SCollection(Application *app, QObject *parent)
 }
 
 SCollection::~SCollection() {
+  watcher_->Stop();
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait(5000 /* five seconds */);
