@@ -376,8 +376,8 @@ bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role
 
   if (!set_column_value(song, (Column)index.column(), value)) return false;
 
-    TagReaderReply *reply = TagReaderClient::Instance()->SaveFile( song.url().toLocalFile(), song);
-    NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(index));
+  TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
+  NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(index));
 
   return true;
 

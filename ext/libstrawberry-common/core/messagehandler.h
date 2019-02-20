@@ -43,8 +43,7 @@ class _MessageHandlerBase : public QObject {
   Q_OBJECT
 
 public:
-  // device can be NULL, in which case you must call SetDevice before writing
-  // any messages.
+  // device can be nullptr, in which case you must call SetDevice before writing any messages.
   _MessageHandlerBase(QIODevice *device, QObject *parent);
 
   void SetDevice(QIODevice *device);
@@ -176,4 +175,3 @@ void AbstractMessageHandler<MT>::AbortAll() {
 }
 
 #endif  // MESSAGEHANDLER_H
-

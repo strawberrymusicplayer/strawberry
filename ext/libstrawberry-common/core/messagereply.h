@@ -43,18 +43,17 @@ class _MessageReplyBase : public QObject {
 
   void Abort();
 
-signals:
+ signals:
   void Finished(bool success);
 
-protected:
+ protected:
   bool finished_;
   bool success_;
 
   QSemaphore semaphore_;
 };
 
-// A reply future class that is returned immediately for requests that will
-// occur in the background.  Similar to QNetworkReply.
+// A reply future class that is returned immediately for requests that will occur in the background.  Similar to QNetworkReply.
 template <typename MessageType>
 class MessageReply : public _MessageReplyBase {
  public:
