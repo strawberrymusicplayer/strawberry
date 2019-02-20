@@ -844,7 +844,7 @@ void TidalService::SongsReceived(QNetworkReply *reply, int search_id, int album_
     CheckFinish();
     return;
   }
-  
+
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
     CheckFinish();
