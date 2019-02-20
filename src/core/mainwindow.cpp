@@ -499,6 +499,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Collection connections
   connect(collection_view_->view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(collection_view_->view(), SIGNAL(ShowConfigDialog()), SLOT(ShowCollectionConfig()));
+  connect(collection_view_->view(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));
   connect(app_->collection_model(), SIGNAL(TotalSongCountUpdated(int)), collection_view_->view(), SLOT(TotalSongCountUpdated(int)));
   connect(app_->collection_model(), SIGNAL(TotalArtistCountUpdated(int)), collection_view_->view(), SLOT(TotalArtistCountUpdated(int)));
   connect(app_->collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), collection_view_->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -1581,7 +1582,6 @@ void MainWindow::EditTracks() {
     }
   }
 
-  //EnsureEditTagDialogCreated();
   edit_tag_dialog_->SetSongs(songs, items);
   edit_tag_dialog_->show();
 
@@ -1625,7 +1625,7 @@ void MainWindow::RenumberTracks() {
     if (song.IsEditable()) {
       song.set_track(track);
 
-      TagReaderReply *reply =TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
+      TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
 
       NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)),reply, QPersistentModelIndex(source_index));
     }
@@ -1634,7 +1634,7 @@ void MainWindow::RenumberTracks() {
 
 }
 
-void MainWindow::SongSaveComplete(TagReaderReply *reply,const QPersistentModelIndex &index) {
+void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index) {
   if (reply->is_successful() && index.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>()<< index.row());
   }
@@ -1644,7 +1644,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply,const QPersistentModelIn
 void MainWindow::SelectionSetValue() {
 
   Playlist::Column column = (Playlist::Column)playlist_menu_index_.column();
-  QVariant column_value =app_->playlist_manager()->current()->data(playlist_menu_index_);
+  QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
 
   QModelIndexList indexes =ui_->playlist->view()->selectionModel()->selection().indexes();
 
@@ -1656,9 +1656,9 @@ void MainWindow::SelectionSetValue() {
     Song song = app_->playlist_manager()->current()->item_at(row)->Metadata();
 
     if (Playlist::set_column_value(song, column, column_value)) {
-      TagReaderReply *reply =TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
+      TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
 
-      NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)),reply, QPersistentModelIndex(source_index));
+      NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(source_index));
     }
   }
 
@@ -2136,7 +2136,6 @@ void MainWindow::ShowTranscodeDialog() {
 #endif
 
 void MainWindow::ShowErrorDialog(const QString &message) {
-
   error_dialog_->ShowMessage(message);
 }
 

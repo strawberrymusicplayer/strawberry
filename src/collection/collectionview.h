@@ -98,12 +98,15 @@ class CollectionView : public AutoExpandingTreeView {
   void SaveFocus();
   void RestoreFocus();
 
-signals:
+  void EditTagError(const QString &message);
+
+ signals:
   void ShowConfigDialog();
 
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
+  void Error(const QString &message);
 
  protected:
   // QWidget

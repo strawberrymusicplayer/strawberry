@@ -298,8 +298,8 @@ signals:
   Application *app_;
   SystemTrayIcon  *tray_icon_;
   OSD *osd_;
-  Lazy<EditTagDialog> edit_tag_dialog_;
   Lazy<About> about_dialog_;
+  Lazy<EditTagDialog> edit_tag_dialog_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
 
   GlobalShortcuts *global_shortcuts_;

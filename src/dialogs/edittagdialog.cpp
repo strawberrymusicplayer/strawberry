@@ -101,7 +101,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 #endif
       cover_art_id_(0),
       cover_art_is_set_(false),
-    results_dialog_(new TrackSelectionDialog(this))
+      results_dialog_(new TrackSelectionDialog(this)),
+      pending_(0)
   {
 
   cover_options_.default_output_image_ = AlbumCoverLoader::ScaleAndPad(cover_options_, QImage(":/pictures/cdcase.png"));
@@ -128,8 +129,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->fetch_tag->setEnabled(false);
 #endif
 
-  // An editable field is one that has a label as a buddy.  The label is
-  // important because it gets turned bold when the field is changed.
+  // An editable field is one that has a label as a buddy.
+  // The label is important because it gets turned bold when the field is changed.
   for (QLabel *label : findChildren<QLabel*>()) {
     QWidget *widget = label->buddy();
     if (widget) {
@@ -171,7 +172,6 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   connect(ui_->song_list->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(SelectionChanged()));
   connect(ui_->button_box, SIGNAL(clicked(QAbstractButton*)), SLOT(ButtonClicked(QAbstractButton*)));
-  //connect(ui_->rating, SIGNAL(RatingChanged(float)), SLOT(SongRated(float)));
   connect(ui_->playcount_reset, SIGNAL(clicked()), SLOT(ResetPlayCounts()));
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   connect(ui_->fetch_tag, SIGNAL(clicked()), SLOT(FetchTag()));
@@ -285,6 +285,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemList &items) {
   // Reload tags in the background
   QFuture<QList<Data>> future = QtConcurrent::run(this, &EditTagDialog::LoadData, s);
   NewClosure(future, this, SLOT(SetSongsFinished(QFuture<QList<EditTagDialog::Data>>)), future);
+
 }
 
 void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
@@ -316,6 +317,7 @@ void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
 
   // Hide the list if there's only one song in it
   SetSongListVisibility(data_.count() != 1);
+
 }
 
 void EditTagDialog::SetSongListVisibility(bool visible) {
@@ -382,7 +384,6 @@ bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &i
 void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList &sel) {
 
   const bool varies = DoesValueVary(sel, field.id_);
-//  const bool modified = IsValueModified(sel, field.id_);
 
   if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
     editor->clear();
@@ -733,10 +734,14 @@ void EditTagDialog::SaveData(const QList<Data> &data) {
     const Data &ref = data[i];
     if (ref.current_.IsMetadataEqual(ref.original_)) continue;
 
-    if (!TagReaderClient::Instance()->SaveFileBlocking(ref.current_.url().toLocalFile(), ref.current_)) {
-      emit Error(tr("An error occurred writing metadata to '%1'").arg(ref.current_.url().toLocalFile()));
-    }
+    pending_++;
+    TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(ref.current_.url().toLocalFile(), ref.current_);
+    NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QString, Song)), reply, ref.current_.url().toLocalFile(), ref.current_);
+
   }
+
+  if (pending_ <= 0) AcceptFinished();
+
 }
 
 void EditTagDialog::accept() {
@@ -744,16 +749,13 @@ void EditTagDialog::accept() {
   // Show the loading indicator
   if (!SetLoading(tr("Saving tracks") + "...")) return;
 
-  // Save tags in the background
-  QFuture<void> future = QtConcurrent::run(this, &EditTagDialog::SaveData, data_);
-  NewClosure(future, this, SLOT(AcceptFinished()));
+  SaveData(data_);
+
 }
 
 void EditTagDialog::AcceptFinished() {
-
   if (!SetLoading(QString())) return;
   QDialog::accept();
-
 }
 
 bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
@@ -865,10 +867,9 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
   const QString filename = original_song.url().toLocalFile();
 
   // Find the song with this filename
-  auto data_it =
-      std::find_if(data_.begin(), data_.end(), [&filename](const Data &d) {
-        return d.original_.url().toLocalFile() == filename;
-      });
+  auto data_it = std::find_if(data_.begin(), data_.end(), [&filename](const Data &d) {
+    return d.original_.url().toLocalFile() == filename;
+  });
   if (data_it == data_.end()) {
     qLog(Warning) << "Could not find song to filename: " << filename;
     return;
@@ -887,5 +888,26 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
     const QModelIndexList sel = ui_->song_list->selectionModel()->selectedIndexes();
     UpdateUI(sel);
   }
+
 }
 #endif
+
+void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString filename, const Song song) {
+
+  reply->deleteLater();
+
+  pending_--;
+
+  if (!reply->message().save_file_response().success()) {
+    QString message = QString("An error occurred writing metadata to '%1'").arg(filename);
+    emit Error(message);
+  }
+  else if (song.directory_id() != -1) {
+    SongList songs;
+    songs << song;
+    app_->collection_backend()->AddOrUpdateSongs(songs);
+  }
+
+  if (pending_ <= 0) AcceptFinished();
+
+}

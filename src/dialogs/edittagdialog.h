@@ -42,6 +42,7 @@
 #include <QtEvents>
 
 #include "core/song.h"
+#include "core/tagreaderclient.h"
 #include "playlist/playlistitem.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
@@ -73,10 +74,10 @@ class EditTagDialog : public QDialog {
 
   void accept();
 
-signals:
+ signals:
   void Error(const QString &message);
 
-protected:
+ protected:
   bool eventFilter(QObject *o, QEvent *e);
   void showEvent(QShowEvent*);
   void hideEvent(QHideEvent*);
@@ -125,6 +126,8 @@ protected:
   void PreviousSong();
   void NextSong();
 
+  void SongSaveComplete(TagReaderReply *reply, const QString filename, const Song song);
+
  private:
   struct FieldData {
     FieldData(QLabel *label = nullptr, QWidget *editor = nullptr, const QString &id = QString())
@@ -158,7 +161,7 @@ protected:
   QList<Data> LoadData(const SongList &songs) const;
   void SaveData(const QList<Data> &data);
 
-private:
+ private:
   Ui_EditTagDialog *ui_;
 
   Application *app_;
@@ -189,6 +192,8 @@ private:
   QPushButton *next_button_;
 
   TrackSelectionDialog *results_dialog_;
+
+  int pending_;
 };
 
 #endif  // EDITTAGDIALOG_H

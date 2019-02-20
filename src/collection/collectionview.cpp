@@ -664,16 +664,22 @@ void CollectionView::Organise() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+
 }
 
 void CollectionView::EditTracks() {
 
   if (!edit_tag_dialog_) {
     edit_tag_dialog_.reset(new EditTagDialog(app_, this));
+    connect(edit_tag_dialog_.get(), SIGNAL(Error(QString)), SLOT(EditTagError(QString)));
   }
   edit_tag_dialog_->SetSongs(GetSelectedSongs());
   edit_tag_dialog_->show();
 
+}
+
+void CollectionView::EditTagError(const QString &message) {
+  emit Error(message);
 }
 
 void CollectionView::CopyToDevice() {

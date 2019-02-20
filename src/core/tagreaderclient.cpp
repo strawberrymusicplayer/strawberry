@@ -73,7 +73,9 @@ TagReaderReply *TagReaderClient::SaveFile(const QString &filename, const Song &m
   req->set_filename(DataCommaSizeFromQString(filename));
   metadata.ToProtobuf(req->mutable_metadata());
 
-  return worker_pool_->SendMessageWithReply(&message);
+  ReplyType *reply = worker_pool_->SendMessageWithReply(&message);
+
+  return reply;
 
 }
 

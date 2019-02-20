@@ -67,8 +67,6 @@ class TagReaderClient : public QObject {
   // TODO: Make this not a singleton
   static TagReaderClient *Instance() { return sInstance; }
 
- public slots:
-
  private slots:
   void WorkerFailedToStart();
 
