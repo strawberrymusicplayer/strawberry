@@ -31,7 +31,7 @@
 
 class TagReaderWorker : public AbstractMessageHandler<pb::tagreader::Message> {
 public:
-  TagReaderWorker(QIODevice *socket, QObject *parent = NULL);
+  TagReaderWorker(QIODevice *socket, QObject *parent = nullptr);
 
 protected:
   void MessageArrived(const pb::tagreader::Message &message);

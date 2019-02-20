@@ -101,7 +101,7 @@ protected:
 
 private:
   struct Worker {
-    Worker() : local_server_(NULL), local_socket_(NULL), process_(NULL), handler_(NULL) {}
+    Worker() : local_server_(nullptr), local_socket_(nullptr), process_(nullptr), handler_(nullptr) {}
 
     QLocalServer *local_server_;
     QLocalSocket *local_socket_;
@@ -120,14 +120,14 @@ private:
         return &(*it);
       }
     }
-    return NULL;
+    return nullptr;
   }
 
   template <typename T>
   void DeleteQObjectPointerLater(T **p) {
     if (*p) {
       (*p)->deleteLater();
-      *p = NULL;
+      *p = nullptr;
     }
   }
 
@@ -135,7 +135,7 @@ private:
   // and sets the request's ID to the ID of the reply.  Can be called from any thread
   ReplyType *NewReply(MessageType *message);
 
-  // Returns the next handler, or NULL if there isn't one.  Must be called from my thread.
+  // Returns the next handler, or nullptr if there isn't one.  Must be called from my thread.
   HandlerType *NextHandler() const;
 
 private:
@@ -300,7 +300,7 @@ void WorkerPool<HandlerType>::NewConnection() {
   // We only ever accept one connection per worker, so destroy the server now.
   worker->local_socket_->setParent(this);
   worker->local_server_->deleteLater();
-  worker->local_server_ = NULL;
+  worker->local_server_ = nullptr;
 
   // Create the handler.
   worker->handler_ = new HandlerType(worker->local_socket_, this);
@@ -329,7 +329,7 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
 
     default:
       // On any other error we just restart the process.
-    qLog(Debug) << "Worker" << worker << "failed with error" << error << "- restarting";
+      qLog(Debug) << "Worker" << worker << "failed with error" << error << "- restarting";
       StartOneWorker(worker);
       break;
   }
@@ -386,14 +386,13 @@ HandlerType *WorkerPool<HandlerType>::NextHandler() const {
   for (int i = 0; i < workers_.count(); ++i) {
     const int worker_index = (next_worker_ + i) % workers_.count();
 
-    if (workers_[worker_index].handler_ &&
-        !workers_[worker_index].handler_->is_device_closed()) {
+    if (workers_[worker_index].handler_ && !workers_[worker_index].handler_->is_device_closed()) {
       next_worker_ = (worker_index + 1) % workers_.count();
       return workers_[worker_index].handler_;
     }
   }
 
-  return NULL;
+  return nullptr;
 }
 
 #endif  // WORKERPOOL_H
