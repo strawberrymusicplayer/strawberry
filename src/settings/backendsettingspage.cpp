@@ -113,8 +113,14 @@ void BackendSettingsPage::Load() {
   ui_->stickslider_replaygainpreamp->setValue(s_.value("rgpreamp", 0.0).toDouble() * 10 + 150);
   ui_->checkbox_replaygaincompression->setChecked(s_.value("rgcompression", true).toBool());
 
-  ui_->checkbox_fadeout_stop->setChecked(s_.value("FadeoutEnabled", false).toBool());
-  ui_->checkbox_fadeout_cross->setChecked(s_.value("CrossfadeEnabled", false).toBool());
+#if defined(HAVE_ALSA)
+  bool fade_default = false;
+#else
+  bool fade_default = true;
+#endif
+
+  ui_->checkbox_fadeout_stop->setChecked(s_.value("FadeoutEnabled", fade_default).toBool());
+  ui_->checkbox_fadeout_cross->setChecked(s_.value("CrossfadeEnabled", fade_default).toBool());
   ui_->checkbox_fadeout_auto->setChecked(s_.value("AutoCrossfadeEnabled", false).toBool());
   ui_->checkbox_fadeout_samealbum->setChecked(s_.value("NoCrossfadeSameAlbum", true).toBool());
   ui_->checkbox_fadeout_pauseresume->setChecked(s_.value("FadeoutPauseEnabled", false).toBool());
@@ -285,7 +291,6 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
       if (d.value == device) { df_device = d; }
     }
   }
-  if (devices > 0) ui_->combobox_device->setEnabled(true);
 
   if (engine()->CustomDeviceSupport(output)) {
     ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Custom", QVariant());
@@ -338,6 +343,8 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
       }
     }
   }
+
+  if (devices > 0 || ui_->combobox_device->currentText() == "Custom") ui_->combobox_device->setEnabled(true);
 
   FadingOptionsChanged();
 
