@@ -150,7 +150,6 @@ void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
   ui_->radiobutton_alwayshide->setEnabled(on);
   if (!on && ui_->radiobutton_alwayshide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
-  ui_->checkbox_keeprunning->setChecked(on);
   ui_->checkbox_scrolltrayicon->setEnabled(on);
 
 }
