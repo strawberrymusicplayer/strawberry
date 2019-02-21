@@ -92,7 +92,7 @@ class OSD : public QObject {
   void ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song);
 
  private:
-  void ShowMessage(const QString &summary, const QString &message = QString(), const QString &icon = QString(), const QImage &image = QImage());
+  void ShowMessage(const QString &summary, const QString &message = QString(), const QString icon = QString("strawberry"), const QImage &image = QImage());
 
   // These are implemented in the OS-specific files
   void Init();

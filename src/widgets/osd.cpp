@@ -210,7 +210,7 @@ void OSD::VolumeChanged(int value) {
   ShowMessage(app_name_, tr("Volume %1%").arg(value));
 }
 
-void OSD::ShowMessage(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
+void OSD::ShowMessage(const QString &summary, const QString &message, const QString icon, const QImage &image) {
 
   if (pretty_popup_->toggle_mode()) {
     pretty_popup_->ShowMessage(summary, message, image);
@@ -220,7 +220,8 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
       case Native:
         if (image.isNull()) {
           ShowMessageNative(summary, message, icon, QImage());
-        } else {
+        }
+        else {
           ShowMessageNative(summary, message, QString(), image);
         }
         break;
@@ -243,6 +244,7 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
         break;
     }
   }
+
 }
 
 #if !defined(HAVE_X11) && defined(HAVE_DBUS)
