@@ -1,80 +1,116 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
-*~
-*.autosave
-*.a
-*.core
-*.moc
+# Build
+build/
+bin/
+
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile*
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
 *.o
 *.obj
-*.orig
-*.rej
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
 *.so
 *.so.*
-*_pch.h.cpp
-*_resource.rc
-*.qm
-.#*
-*.*#
-core
-!core/
-tags
-.DS_Store
-.directory
-*.debug
-Makefile*
-*.prl
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
 *.app
+
+# Dump files
+core
+*.core
+*.stackdump
+
+# Qt
+*build-*
 moc_*.cpp
-ui_*.h
+moc_*.h
 qrc_*.cpp
-Thumbs.db
-*.res
-*.rc
-/.qmake.cache
-/.qmake.stash
-*.spec
-*.nsi
-*.plist
-maketarball.sh
-dist/macos/create-dmg.sh
-dist/debian/changelog
-dist/pacman/PKGBUILD
+ui_*.h
+*.moc
+*.qm
 
-# qtcreator generated files
-*.pro.user*
+# QtCreator
+CMakeLists.txt.user*
+*.pro.user
+*.pro.user.*
+*creator.user*
+target_wrapper.*
+compile_commands.json
 
-# xemacs temporary files
+# Temporary files
+*~
+*.autosave
+*.orig
+*.rej
+.*.kate-swp
+.swp.*
+.*.swp
 *.flc
 
-# Vim temporary files
-.*.swp
-
-# Visual Studio generated files
-*.ib_pdb_index
-*.idb
-*.ilk
-*.pdb
-*.sln
-*.suo
-*.vcproj
-*vcproj.*.*.user
-*.ncb
-*.sdf
-*.opensdf
-*.vcxproj
-*vcxproj.*
+# Directory files
+.directory
+.DS_Store
+Thumbs.db
 
 # MinGW generated files
 *.Debug
 *.Release
 
-# Python byte code
-*.pyc
+# Package files
+*.spec
+*.nsi
+*.plist
 
-# Binaries
-# --------
-*.dll
-*.exe
+# Stuff in dist
+maketarball.sh
+create-dmg.sh
+changelog
+PKGBUILD
 
+# Translations
+translations.pot
+
+# Snap
+parts/
+prime/
+stage/
+*.snap
+/snap/.snapcraft/
+/*_source.tar.bz2
