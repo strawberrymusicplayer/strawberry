@@ -91,7 +91,7 @@ parts:
 apps:
   strawberry:
     command: desktop-launch $SNAP/bin/strawberry
-    desktop: share/applications/strawberry.desktop
+    desktop: share/applications/org.strawbs.strawberry.desktop
     environment:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
