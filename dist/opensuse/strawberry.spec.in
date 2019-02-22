@@ -88,6 +88,9 @@ make %{?_smp_mflags}
 %install
 cd build
 make install DESTDIR=$RPM_BUILD_ROOT
+
+%suse_update_desktop_file org.strawbs.strawberry Qt AudioVideo Audio Player
+
 %if 0%{?suse_version} < 1500
 mv %{buildroot}%{_datadir}/metainfo %{buildroot}%{_datadir}/appdata
 %endif
