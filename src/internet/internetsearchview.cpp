@@ -141,7 +141,7 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load("configure"), QString("Configure %1...").arg(Song::TextForSource(engine->source())), this, SLOT(OpenSettingsDialog()));
+  settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(engine->source())), this, SLOT(OpenSettingsDialog()));
   ui_->settings->setMenu(settings_menu);
 
   connect(ui_->radiobutton_search_artists, SIGNAL(clicked(bool)), SLOT(SearchArtistsClicked(bool)));
@@ -430,7 +430,7 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
   context_menu_->addSeparator();
   context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
 
-  context_menu_->addAction(IconLoader::Load("configure"), QString("Configure %1...").arg(Song::TextForSource(engine_->source())), this, SLOT(OpenSettingsDialog()));
+  context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(engine_->source())), this, SLOT(OpenSettingsDialog()));
 
   const bool enable_context_actions = ui_->results->selectionModel() && ui_->results->selectionModel()->hasSelection();
 

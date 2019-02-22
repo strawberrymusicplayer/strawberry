@@ -26,6 +26,7 @@
 #include <stdbool.h>
 
 #include <QObject>
+#include <QMap>
 #include <QString>
 
 #include "settingspage.h"
@@ -49,6 +50,7 @@ private slots:
 
 private:
   Ui_BehaviourSettingsPage *ui_;
+  QMap<QString, QString> language_map_;
 
 };
 

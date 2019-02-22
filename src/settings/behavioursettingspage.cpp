@@ -21,6 +21,10 @@
 #include "config.h"
 
 #include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QDir>
+#include <QLocale>
 #include <QSettings>
 #include <QSystemTrayIcon>
 #include <QCheckBox>
@@ -36,6 +40,14 @@
 class SettingsDialog;
 
 const char *BehaviourSettingsPage::kSettingsGroup = "Behaviour";
+
+#ifdef HAVE_TRANSLATIONS
+namespace {
+bool LocaleAwareCompare(const QString &a, const QString &b) {
+  return a.localeAwareCompare(b) < 0;
+}
+}  // namespace
+#endif
 
 BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsPage(dialog), ui_(new Ui_BehaviourSettingsPage) {
 
@@ -70,6 +82,43 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->combobox_menuplaymode->setItemData(0, MainWindow::PlayBehaviour_Never);
   ui_->combobox_menuplaymode->setItemData(1, MainWindow::PlayBehaviour_IfStopped);
   ui_->combobox_menuplaymode->setItemData(2, MainWindow::PlayBehaviour_Always);
+
+#ifdef HAVE_TRANSLATIONS
+  // Populate the language combo box.  We do this by looking at all the compiled in translations.
+  QDir dir(":/translations/");
+  QStringList codes(dir.entryList(QStringList() << "*.qm"));
+  QRegExp lang_re("^strawberry_(.*).qm$");
+  for (const QString &filename : codes) {
+
+    // The regex captures the "ru" from "strawberry_ru.qm"
+    if (!lang_re.exactMatch(filename)) continue;
+
+    QString code = lang_re.cap(1);
+    QString lookup_code = QString(code)
+                              .replace("@latin", "_Latn")
+                              .replace("_CN", "_Hans_CN")
+                              .replace("_TW", "_Hant_TW");
+
+    QString language_name = QLocale::languageToString(QLocale(lookup_code).language());
+    QString native_name = QLocale(lookup_code).nativeLanguageName();
+    if (!native_name.isEmpty()) {
+      language_name = native_name;
+    }
+    QString name = QString("%1 (%2)").arg(language_name, code);
+
+    language_map_[name] = code;
+  }
+
+  language_map_["English (en)"] = "en";
+
+  // Sort the names and show them in the UI
+  QStringList names = language_map_.keys();
+  std::stable_sort(names.begin(), names.end(), LocaleAwareCompare);
+  ui_->combobox_language->addItems(names);
+#else
+  ui_->groupbox_language->setEnabled(false);
+  ui_->groupbox_language->setVisible(false);
+#endif
 
 }
 
@@ -114,6 +163,12 @@ void BehaviourSettingsPage::Load() {
 
   ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
 
+  QString name = language_map_.key(s.value("language").toString());
+  if (name.isEmpty())
+    ui_->combobox_language->setCurrentIndex(0);
+  else
+    ui_->combobox_language->setCurrentIndex(ui_->combobox_language->findText(name));
+
   s.endGroup();
 
 }
@@ -141,6 +196,9 @@ void BehaviourSettingsPage::Save() {
   s.setValue("doubleclick_playmode", doubleclick_playmode);
   s.setValue("menu_playmode", menu_playmode);
   s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
+
+  s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
+
   s.endGroup();
 
 }

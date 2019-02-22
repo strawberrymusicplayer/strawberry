@@ -51,11 +51,13 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QStandardPaths>
+#include <QLibraryInfo>
 #include <QFileDevice>
 #include <QIODevice>
 #include <QByteArray>
 #include <QNetworkProxy>
 #include <QFile>
+#include <QDir>
 #include <QString>
 #include <QImage>
 #include <QSettings>
@@ -63,6 +65,9 @@
 #include <QtDebug>
 #ifdef HAVE_DBUS
 #  include <QDBusArgument>
+#endif
+#ifdef HAVE_TRANSLATIONS
+#  include <QTranslator>
 #endif
 
 #include "main.h"
@@ -84,6 +89,10 @@
 #include "core/application.h"
 #include "core/networkproxyfactory.h"
 #include "core/scangiomodulepath.h"
+#ifdef HAVE_TRANSLATIONS
+#  include "core/potranslator.h"
+#endif
+#include "settings/behavioursettingspage.h"
 
 #include "widgets/osd.h"
 
@@ -206,9 +215,29 @@ int main(int argc, char* argv[]) {
   // Resources
   Q_INIT_RESOURCE(data);
   Q_INIT_RESOURCE(icons);
+#ifdef HAVE_TRANSLATIONS
+  Q_INIT_RESOURCE(translations);
+#endif
 
 #ifdef DEBUG
   QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
+#endif
+
+#ifdef HAVE_TRANSLATIONS
+  QString override_language = options.language();
+  if (override_language.isEmpty()) {
+    QSettings s;
+    s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+    override_language = s.value("language").toString();
+    s.endGroup();
+  }
+
+  const QString language = override_language.isEmpty() ? Utilities::SystemLanguageName() : override_language;
+
+  Utilities::LoadTranslation("qt", QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
+  Utilities::LoadTranslation("strawberry", ":/translations", language);
+  Utilities::LoadTranslation("strawberry", a.applicationDirPath(), language);
+  Utilities::LoadTranslation("strawberry", QDir::currentPath(), language);
 #endif
 
   Application app;

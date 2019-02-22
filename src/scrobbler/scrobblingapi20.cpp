@@ -132,7 +132,7 @@ void ScrobblingAPI20::Authenticate() {
   url_query.addQueryItem("cb", redirect_url.toString());
   url.setQuery(url_query);
 
-  QMessageBox messagebox(QMessageBox::Information, QString("%1 Scrobbler Authentication").arg(name_), QString("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
+  QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
   switch (result) {
@@ -141,7 +141,7 @@ void ScrobblingAPI20::Authenticate() {
       if (openurl_result) {
         break;
       }
-      QMessageBox messagebox_error(QMessageBox::Warning, QString("%1 Scrobbler Authentication").arg(name_), QString("Could not open URL. Please open this URL in your browser:<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+      QMessageBox messagebox_error(QMessageBox::Warning, tr("%1 Scrobbler Authentication").arg(name_), tr("Could not open URL. Please open this URL in your browser:<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
       messagebox_error.setTextFormat(Qt::RichText);
       messagebox_error.exec();
     }
@@ -149,7 +149,7 @@ void ScrobblingAPI20::Authenticate() {
     QApplication::clipboard()->setText(url.toString());
     break;
   case QMessageBox::Cancel:
-    AuthError("Authentication was cancelled.");
+    AuthError(tr("Authentication was cancelled."));
     break;
   default:
     break;
@@ -436,7 +436,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    emit ErrorMessage(QString("Scrobbler %1 is not authenticated!").arg(name_));
+    emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
     return;
   }
 

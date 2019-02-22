@@ -154,6 +154,11 @@ QString GetRandomString(const int len, const QString &UseCharacters);
 
 QString DesktopEnvironment();
 
+#ifdef HAVE_TRANSLATIONS
+QString SystemLanguageName();
+void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
+#endif
+
 }  // namespace
 
 class ScopedWCharArray {

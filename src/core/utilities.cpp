@@ -58,6 +58,9 @@
 #include <QSettings>
 #include <QtEvents>
 #include <QtDebug>
+#ifdef HAVE_TRANSLATIONS
+#  include <QTranslator>
+#endif
 
 #ifdef Q_OS_LINUX
 #  include <unistd.h>
@@ -94,6 +97,10 @@
 #  include "mac_startup.h"
 #  include "mac_utilities.h"
 #  include "scoped_cftyperef.h"
+#endif
+
+#ifdef HAVE_TRANSLATIONS
+#  include "potranslator.h"
 #endif
 
 namespace Utilities {
@@ -763,6 +770,29 @@ QString DesktopEnvironment() {
   return "Unknown";
 
 }
+
+#ifdef HAVE_TRANSLATIONS
+
+QString SystemLanguageName() {
+
+  QString system_language = QLocale::system().uiLanguages().empty() ? QLocale::system().name() : QLocale::system().uiLanguages().first();
+  // uiLanguages returns strings with "-" as separators for language/region; however QTranslator needs "_" separators
+  system_language.replace("-", "_");
+
+  return system_language;
+
+}
+
+void LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
+
+  QTranslator *t = new PoTranslator;
+  if (t->load(prefix + "_" + language, path))
+    QCoreApplication::installTranslator(t);
+  else
+    delete t;
+
+}
+#endif
 
 }  // namespace Utilities
 

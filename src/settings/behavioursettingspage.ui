@@ -102,6 +102,38 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_language">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_13">
+      <item>
+       <widget class="QComboBox" name="combobox_language">
+        <item>
+         <property name="text">
+          <string>Use the system default</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_language">
+        <property name="text">
+         <string>You will need to restart Strawberry if you change the language.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_1">
      <property name="title">
       <string>Using the menu to add a song will...</string>
@@ -243,7 +275,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_3">
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

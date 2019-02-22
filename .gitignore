@@ -106,6 +106,8 @@ PKGBUILD
 
 # Translations
 translations.pot
+zanata.xml
+.zanata-cache/
 
 # Snap
 parts/
