@@ -40,30 +40,25 @@ optdepends=(
 )
 provides=(strawberry)
 conflicts=(strawberry)
-source=("git+https://github.com/jonaski/strawberry.git")
+source=("strawberry-@STRAWBERRY_VERSION_PACKAGE@.tar.xz")
 sha256sums=('SKIP')
 
-pkgver() {
-  cd "strawberry"
-  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
 prepare() {
-  cd "${srcdir}/strawberry"
-  install -d strawberry-build
+  mkdir -p build
 }
 
 build() {
-  cd "${srcdir}/strawberry/strawberry-build"
-  cmake .. \
+  cd build
+  cmake ../$pkgname-@STRAWBERRY_VERSION_PACKAGE@ \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DUSE_SYSTEM_TAGLIB=ON \
     -DENABLE_STREAM_DEEZER=ON \
-    -DENABLE_PHONON=ON
-  make
+    -DENABLE_PHONON=ON \
+    -DENABLE_TRANSLATIONS=ON
+  make -j$(nproc)
 }
 
 package() {
-  cd "${srcdir}/strawberry/strawberry-build"
+  cd build
   make DESTDIR="${pkgdir}" install
 }
