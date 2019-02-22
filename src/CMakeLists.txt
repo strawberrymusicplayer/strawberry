@@ -26,6 +26,10 @@ if(BUILD_WERROR)
   endif (LINUX)
 endif(BUILD_WERROR)
 
+if(HAVE_TRANSLATIONS)
+  include(../cmake/Translations.cmake)
+endif(HAVE_TRANSLATIONS)
+
 # Set up definitions and paths
 
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
@@ -903,6 +907,37 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_D
 qt5_wrap_cpp(MOC ${HEADERS})
 qt5_wrap_ui(UIC ${UI})
 qt5_add_resources(QRC ${RESOURCES})
+
+if(HAVE_TRANSLATIONS)
+
+  set(LINGUAS "All" CACHE STRING "A space-seperated list of translations to compile in to Strawberry, or \"None\".")
+  if (LINGUAS STREQUAL "All")
+    # build LANGUAGES from all existing .po files
+    file(GLOB pofiles translations/*.po)
+    foreach(pofile ${pofiles})
+      get_filename_component(lang ${pofile} NAME_WE)
+      list(APPEND LANGUAGES ${lang})
+    endforeach(pofile)
+  else (LINGUAS STREQUAL "All")
+    if (NOT LINGUAS OR LINGUAS STREQUAL "None")
+      set (LANGUAGES "")
+    else (NOT LINGUAS OR LINGUAS STREQUAL "None")
+      string(REGEX MATCHALL [a-zA-Z_@]+ LANGUAGES ${LINGUAS})
+    endif (NOT LINGUAS OR LINGUAS STREQUAL "None")
+  endif (LINGUAS STREQUAL "All")
+
+  add_pot(POT
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/header
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/translations.pot
+    ${SOURCES}
+    ${MOC}
+    ${UIC}
+    ${OTHER_SOURCES}
+    ../data/html/oauthsuccess.html
+  )
+  add_po(PO strawberry_ LANGUAGES ${LANGUAGES} DIRECTORY translations)
+
+endif(HAVE_TRANSLATIONS)
 
 add_library(strawberry_lib STATIC
   ${SOURCES}

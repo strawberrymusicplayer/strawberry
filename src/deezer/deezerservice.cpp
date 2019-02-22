@@ -460,7 +460,7 @@ void DeezerService::ClearSearch() {
 
 void DeezerService::SendSearch() {
 
-  emit UpdateStatus("Searching...");
+  emit UpdateStatus(tr("Searching..."));
 
   QList<Param> parameters;
   parameters << Param("q", search_text_);
@@ -503,7 +503,7 @@ void DeezerService::SearchFinished(QNetworkReply *reply, int id) {
 
   QJsonArray json_data = json_value.toArray();
   if (json_data.isEmpty()) {
-    Error("No match.");
+    Error(tr("No match."));
     CheckFinish();
     return;
   }
@@ -588,7 +588,8 @@ void DeezerService::SearchFinished(QNetworkReply *reply, int id) {
   }
 
   if (albums_requested_ > 0) {
-    emit UpdateStatus(QString("Retrieving %1 album%2...").arg(albums_requested_).arg(albums_requested_ == 1 ? "" : "s"));
+    if (albums_requested_ == 1) emit UpdateStatus(tr("Retrieving %1 album...").arg(albums_requested_));
+    else emit UpdateStatus(tr("Retrieving %1 albums...").arg(albums_requested_));
     emit ProgressSetMaximum(albums_requested_);
     emit UpdateProgress(0);
   }

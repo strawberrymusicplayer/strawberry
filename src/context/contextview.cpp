@@ -232,9 +232,9 @@ void ContextView::NoSong() {
                                      "font-weight: Regular;"
                                      );
 
-  ui_->label_stop_top->setText("No song playing");
+  ui_->label_stop_top->setText(tr("No song playing"));
 
-  QString html = QString(
+  QString html = tr(
                     "%1 songs<br />\n"
                     "%2 artists<br />\n"
                     "%3 albums<br />\n"
@@ -404,7 +404,7 @@ void ContextView::SetSong(const Song &song) {
     if (albumlist.count() > 1) {
       ui_->label_play_albums->setVisible(true);
       ui_->label_play_albums->setMinimumSize(0, 20);
-      ui_->label_play_albums->setText(QString("<b>Albums by %1</b>").arg( song.artist().toHtmlEscaped()));
+      ui_->label_play_albums->setText(tr("<b>Albums by %1</b>").arg( song.artist().toHtmlEscaped()));
       ui_->label_play_albums->setStyleSheet("background-color: #3DADE8; color: rgb(255, 255, 255); font: 11pt;");
       for (CollectionBackend::Album album : albumlist) {
         SongList songs = app_->collection_backend()->GetSongs(song.artist(), album.album_name, opt);

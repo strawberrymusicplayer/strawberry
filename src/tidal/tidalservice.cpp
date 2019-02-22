@@ -148,7 +148,7 @@ void TidalService::SendLogin() {
 
 void TidalService::SendLogin(const QString &username, const QString &password) {
 
-  if (search_id_ != 0) emit UpdateStatus("Authenticating...");
+  if (search_id_ != 0) emit UpdateStatus(tr("Authenticating..."));
 
   login_sent_ = true;
   login_attempts_++;
@@ -471,7 +471,7 @@ int TidalService::Search(const QString &text, InternetSearch::SearchType type) {
 void TidalService::StartSearch() {
 
   if (username_.isEmpty() || password_.isEmpty()) {
-    emit SearchError(pending_search_id_, "Missing username and/or password.");
+    emit SearchError(pending_search_id_, tr("Missing username and/or password."));
     next_pending_search_id_ = 1;
     ShowConfig();
     return;
@@ -509,7 +509,7 @@ void TidalService::ClearSearch() {
 
 void TidalService::SendSearch() {
 
-  emit UpdateStatus("Searching...");
+  emit UpdateStatus(tr("Searching..."));
 
   switch (pending_search_type_) {
     case InternetSearch::SearchType_Artists:
@@ -582,7 +582,7 @@ void TidalService::ArtistsReceived(QNetworkReply *reply, int search_id) {
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
     artist_search_ = false;
-    Error("No match.");
+    Error(tr("No match."));
     return;
   }
 
@@ -610,7 +610,8 @@ void TidalService::ArtistsReceived(QNetworkReply *reply, int search_id) {
   }
 
   if (artist_albums_requested_ > 0) {
-    emit UpdateStatus(QString("Retrieving albums for %1 artist%2...").arg(artist_albums_requested_).arg(artist_albums_requested_ == 1 ? "" : "s"));
+    if (artist_albums_requested_ == 1) emit UpdateStatus(tr("Retrieving albums for %1 artist...").arg(artist_albums_requested_));
+    else emit UpdateStatus(tr("Retrieving albums for %1 artists...").arg(artist_albums_requested_));
     emit ProgressSetMaximum(artist_albums_requested_);
     emit UpdateProgress(0);
   }
@@ -802,7 +803,8 @@ void TidalService::AlbumsFinished(const int artist_id, const int offset_requeste
     }
 
     if (album_songs_requested_ > 0) {
-      emit UpdateStatus(QString("Retrieving songs for %1 album%2...").arg(album_songs_requested_).arg(album_songs_requested_ == 1 ? "" : "s"));
+      if (album_songs_requested_ == 1) emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
+      else emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
       emit ProgressSetMaximum(album_songs_requested_);
       emit UpdateProgress(0);
     }

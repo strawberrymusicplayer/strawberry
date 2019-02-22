@@ -114,6 +114,7 @@ pkg_check_modules(LIBUSBMUXD libusbmuxd)
 pkg_check_modules(LIBPLIST libplist)
 pkg_check_modules(LIBDEEZER libdeezer)
 pkg_check_modules(LIBDZMEDIA libdzmedia)
+find_package(Gettext)
 
 if(WIN32)
   find_package(ZLIB REQUIRED)
@@ -149,6 +150,11 @@ if(APPLE)
 endif()
 if(WIN32)
   set(QT_LIBRARIES ${QT_LIBRARIES} Qt5::WinExtras)
+endif()
+
+find_package(Qt5LinguistTools CONFIG)
+if (Qt5LinguistTools_FOUND)
+  set(QT_LCONVERT_EXECUTABLE Qt5::lconvert)
 endif()
 
 if(X11_FOUND)
@@ -344,6 +350,11 @@ optional_component(IMOBILEDEVICE ON "Devices: iPhone, iPod Touch, iPad and Apple
 optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "macOS" APPLE
   DEPENDS "Sparkle" SPARKLE
+)
+
+optional_component(TRANSLATIONS OFF "Translations (No languages included yet)"
+  DEPENDS "gettext" GETTEXT_FOUND
+  DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
 )
 
 optional_component(STREAM_TIDAL ON "Streaming: Tidal support")

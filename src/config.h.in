@@ -60,5 +60,6 @@
 
 #define USE_BUNDLE_DIR "${USE_BUNDLE_DIR}"
 
-#endif // CONFIG_H_IN
+#cmakedefine HAVE_TRANSLATIONS
 
+#endif // CONFIG_H_IN

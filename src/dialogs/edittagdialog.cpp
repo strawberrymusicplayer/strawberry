@@ -899,7 +899,7 @@ void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString filena
   pending_--;
 
   if (!reply->message().save_file_response().success()) {
-    QString message = QString("An error occurred writing metadata to '%1'").arg(filename);
+    QString message = tr("An error occurred writing metadata to '%1'").arg(filename);
     emit Error(message);
   }
   else if (song.directory_id() != -1) {

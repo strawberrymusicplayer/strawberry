@@ -75,7 +75,7 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Valeriy Malov", "jazzvoid@gmail.com")
            << Person("Nick Lanham", "nick@afternight.org");
 
-  QString Title("About Strawberry");
+  QString Title(tr("About Strawberry"));
 
   QFont title_font;
   title_font.setBold(true);
@@ -99,28 +99,27 @@ QString About::MainHtml() const {
 
   QString ret;
 
-  ret = QString("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
+  ret = tr("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
 
-  ret += QString("<p>");
-  ret += QString("Strawberry is a audio player and music collection organizer.<br />");
-  ret += QString("It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.<br />");
-  ret += QString("The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.");
-  ret += QString("</p>");
-  //ret += QString("<p>Website: <a href=\"http://www.strawbs.org/licenses/\">http://www.strawbs.org/</a></p>");
-  ret += QString("<p>");
-  ret += QString("Strawberry is free software: you can redistribute it and/or modify<br />");
-  ret += QString("it under the terms of the GNU General Public License as published by<br />");
-  ret += QString("the Free Software Foundation, either version 3 of the License, or<br />");
-  ret += QString("(at your option) any later version.<br />");
-  ret += QString("<br />");
-  ret += QString("Strawberry is distributed in the hope that it will be useful,<br />");
-  ret += QString("but WITHOUT ANY WARRANTY; without even the implied warranty of<br />");
-  ret += QString("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />");
-  ret += QString("GNU General Public License for more details.<br />");
-  ret += QString("<br />");
-  ret += QString("You should have received a copy of the GNU General Public License<br />");
-  ret += QString("along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.");
-  ret += QString("</p>");
+  ret += "<p>";
+  ret += tr("Strawberry is a audio player and music collection organizer.<br />");
+  ret += tr("It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.<br />");
+  ret += tr("The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.");
+  ret += "</p>";
+  ret += "<p>";
+  ret += tr("Strawberry is free software: you can redistribute it and/or modify<br />");
+  ret += tr("it under the terms of the GNU General Public License as published by<br />");
+  ret += tr("the Free Software Foundation, either version 3 of the License, or<br />");
+  ret += tr("(at your option) any later version.<br />");
+  ret += "<br />";
+  ret += tr("Strawberry is distributed in the hope that it will be useful,<br />");
+  ret += tr("but WITHOUT ANY WARRANTY; without even the implied warranty of<br />");
+  ret += tr("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />");
+  ret += tr("GNU General Public License for more details.<br />");
+  ret += "<br />";
+  ret += tr("You should have received a copy of the GNU General Public License<br />");
+  ret += tr("along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.");
+  ret += "</p>";
 
   return ret;
 
@@ -130,25 +129,25 @@ QString About::ContributorsHtml() const {
 
   QString ret;
 
-  ret += QString("<p><b>Strawberry Authors</b>");
+  ret += tr("<p><b>Strawberry Authors</b>");
   for (const Person &person : strawberry_authors_) {
     ret += "<br />" + PersonToHtml(person);
   }
-  ret += QString("</p>");
+  ret += "</p>";
 
-  ret += QString("<p><b>Clementine Authors</b>");
+  ret += tr("<p><b>Clementine Authors</b>");
   for (const Person &person : clementine_authors_) {
     ret += "<br />" + PersonToHtml(person);
   }
-  ret += QString("</p>");
+  ret += "</p>";
 
-  ret += QString("<p><b>Clementine Contributors</b>");
+  ret += tr("<p><b>Clementine Contributors</b>");
   for (const Person &person : constributors_) {
     ret += "<br />" + PersonToHtml(person);
   }
-  ret += QString("</p>");
+  ret += "</p>";
 
-  ret += QString("<p>Thanks to all the Amarok and Clementine contributors.</p>");
+  ret += tr("<p>Thanks to all the Amarok and Clementine contributors.</p>");
   return ret;
 
 }
