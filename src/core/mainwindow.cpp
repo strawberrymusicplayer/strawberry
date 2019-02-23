@@ -256,19 +256,19 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), "Context");
-  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), "Collection");
-  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), "Files");
-  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), "Playlists");
-  ui_->tabs->addTab(queue_view_, IconLoader::Load("footsteps"), "Queue");
+  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), tr("Context"));
+  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
+  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
+  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->addTab(queue_view_, IconLoader::Load("footsteps"), tr("Queue"));
 #ifndef Q_OS_WIN
-  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), "Devices");
+  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
 #endif
 #ifdef HAVE_STREAM_TIDAL
-  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), "Tidal");
+  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 #ifdef HAVE_STREAM_DEEZER
-  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), "Deezer");
+  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -835,7 +835,7 @@ void MainWindow::ReloadSettings() {
   bool enable_tidal = settings.value("enabled", false).toBool();
   settings.endGroup();
   if (enable_tidal)
-    ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), "Tidal");
+    ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
   else
     ui_->tabs->delTab("Tidal");
 #endif
@@ -845,7 +845,7 @@ void MainWindow::ReloadSettings() {
   bool enable_deezer = settings.value("enabled", false).toBool();
   settings.endGroup();
   if (enable_deezer)
-    ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), "Deezer");
+    ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer"));
   else
     ui_->tabs->delTab("Deezer");
 #endif
