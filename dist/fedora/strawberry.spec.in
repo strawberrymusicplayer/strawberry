@@ -85,7 +85,7 @@ pushd %{_target_platform}
 %{cmake} \
   -DBUILD_WERROR:BOOL=OFF \
   -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DENABLE_TRANSLATIONS=ON
+  -DENABLE_TRANSLATIONS=ON \
   ..
 popd
 
