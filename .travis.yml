@@ -30,8 +30,8 @@ before_install:
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
-      ls /usr/local/Cellar/qt;
       export Qt5LinguistTools_DIR=/usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt | head -n1)/lib/cmake/Qt5LinguistTools;
+      export PATH="/usr/local/opt/gettext/bin:$PATH";
       ls /usr/local/lib/gstreamer-1.0;
     fi
 before_script:
