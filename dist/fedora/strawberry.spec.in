@@ -15,6 +15,8 @@ BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  make
 BuildRequires:  git
+BuildRequires:  gettext
+BuildRequires:  cmake(Qt5LinguistTools)
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
@@ -83,6 +85,7 @@ pushd %{_target_platform}
 %{cmake} \
   -DBUILD_WERROR:BOOL=OFF \
   -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DENABLE_TRANSLATIONS=ON
   ..
 popd
 

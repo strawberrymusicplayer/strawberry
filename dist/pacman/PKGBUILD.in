@@ -6,7 +6,7 @@ pkgdesc="A music player aimed at audio enthusiasts and music collectors"
 arch=(x86_64)
 url="http://www.strawbs.org/"
 license=(GPL3)
-makedepends=(git cmake make gcc boost)
+makedepends=(git cmake make gcc boost gettext qt5-tools)
 depends=(
   desktop-file-utils
   hicolor-icon-theme
@@ -49,7 +49,7 @@ prepare() {
 
 build() {
   cd build
-  cmake ../$pkgname-@STRAWBERRY_VERSION_PACKAGE@ \
+  cmake ../${pkgname}-@STRAWBERRY_VERSION_PACKAGE@ \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DUSE_SYSTEM_TAGLIB=ON \
     -DENABLE_STREAM_DEEZER=ON \

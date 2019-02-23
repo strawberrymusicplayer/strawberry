@@ -21,7 +21,9 @@ BuildRequires:  hicolor-icon-theme
 BuildRequires:  make
 BuildRequires:  git
 BuildRequires:  pkgconfig
+BuildRequires:  gettext-tools
 BuildRequires:  update-desktop-files
+BuildRequires:  cmake(Qt5LinguistTools)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0)
@@ -82,7 +84,7 @@ Features:
 %setup -q -n %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%{cmake} .. -DUSE_INSTALL_PREFIX=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+%{cmake} .. -DUSE_INSTALL_PREFIX=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DENABLE_TRANSLATIONS=ON
 make %{?_smp_mflags}
 
 %install
