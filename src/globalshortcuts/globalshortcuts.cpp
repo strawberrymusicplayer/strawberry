@@ -30,6 +30,9 @@
 #ifdef HAVE_DBUS
 # include <QDBusConnectionInterface>
 #endif
+#ifdef HAVE_X11
+#include <QX11Info>
+#endif
 
 #include "core/logging.h"
 
@@ -83,11 +86,17 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
   dbus_backend_ = new GlobalShortcutBackendGSD(this);
 #endif
 
-#if defined(HAVE_X11) || defined(Q_OS_WIN)
-  system_backend_ = new GlobalShortcutBackendSystem(this);
-#endif
 #ifdef Q_OS_MACOS
-  system_backend_ = new GlobalShortcutBackendMacOS(this);
+  if (!system_backend_)
+    system_backend_ = new GlobalShortcutBackendMacOS(this);
+#endif
+#if defined(Q_OS_WIN)
+  if (!system_backend_)
+    system_backend_ = new GlobalShortcutBackendSystem(this);
+#endif
+#if defined(HAVE_X11)
+  if (!system_backend_ && IsX11Available())
+    system_backend_ = new GlobalShortcutBackendSystem(this);
 #endif
 
   ReloadSettings();
@@ -98,7 +107,7 @@ void GlobalShortcuts::ReloadSettings() {
 
   // The actual shortcuts have been set in our actions for us by the config dialog already - we just need to reread the gnome settings.
   use_gsd_ = settings_.value("use_gsd", true).toBool();
-  use_x11_ = settings_.value("use_x11", true).toBool();
+  use_x11_ = settings_.value("use_x11", false).toBool();
 
   Unregister();
   Register();
@@ -144,7 +153,7 @@ bool GlobalShortcuts::IsGsdAvailable() const {
 bool GlobalShortcuts::IsX11Available() const {
 
 #ifdef HAVE_X11
-  return true;
+  return QX11Info::isPlatformX11();
 #else
   return false;
 #endif
@@ -154,9 +163,13 @@ bool GlobalShortcuts::IsX11Available() const {
 void GlobalShortcuts::Register() {
   if (use_gsd_ && dbus_backend_ && dbus_backend_->Register()) return;
 #ifdef HAVE_X11 // If this system has X11, only use the system backend if X11 is enabled in the global shortcut settings
-  if (use_x11_)
+  if (use_x11_) {
 #endif
-    if (system_backend_) system_backend_->Register();
+    if (system_backend_)
+      system_backend_->Register();
+#ifdef HAVE_X11
+   }
+#endif
 }
 
 void GlobalShortcuts::Unregister() {
@@ -178,4 +191,3 @@ void GlobalShortcuts::ShowMacAccessibilityDialog() {
   if (system_backend_) static_cast<GlobalShortcutBackendMacOS*>(system_backend_)->ShowAccessibilityDialog();
 #endif
 }
-
