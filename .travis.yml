@@ -22,7 +22,7 @@ before_install:
       git pull;
       brew update;
       brew unlink python;
-      brew install glib pkgconfig protobuf protobuf-c qt;
+      brew install glib pkgconfig protobuf protobuf-c qt gettext;
       brew install sqlite --with-fts;
       brew install gstreamer gst-plugins-base;
       brew install gst-plugins-good --with-flac;
@@ -30,11 +30,13 @@ before_install:
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
+      export Qt5LinguistTools_DIR=/usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt | head -n1)/lib/cmake/Qt5LinguistTools;
+      export PATH="/usr/local/opt/gettext/bin:$PATH";
       ls /usr/local/lib/gstreamer-1.0;
     fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild -DENABLE_STREAM_DEEZER=ON -DENABLE_TRANSLATIONS=ON ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DENABLE_STREAM_DEEZER=ON ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DENABLE_STREAM_DEEZER=ON -DENABLE_TRANSLATIONS=ON ; fi
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
