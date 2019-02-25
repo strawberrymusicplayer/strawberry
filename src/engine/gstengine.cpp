@@ -730,7 +730,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
   // Munge it back into a path that gstreamer will recognise.
   if (url.scheme() == "file" && !url.host().isEmpty()) {
-    QString str = "//" + url.host() + url.path();
+    QString str = "file:////" + url.host() + url.path();
     uri = str.toLocal8Bit();
   }
   else if (url.scheme() == "cdda") {
@@ -744,7 +744,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
       // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split('/');
-      str = QString("cdda://%1a").arg(path.takeLast());
+      str = QString("cdda://%1").arg(path.takeLast());
       QString device = path.join("/");
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
