@@ -53,8 +53,7 @@ const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
 const int GstEnginePipeline::kFaderFudgeMsec = 2000;
 
 const int GstEnginePipeline::kEqBandCount = 10;
-const int GstEnginePipeline::kEqBandFrequencies[] = {
-    60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000};
+const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
 int GstEnginePipeline::sId = 1;
 GstElementDeleter *GstEnginePipeline::sElementDeleter = nullptr;
@@ -64,8 +63,9 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       engine_(engine),
       id_(sId++),
       valid_(false),
-      output_(""),
+      output_(QString()),
       device_(QVariant()),
+      volume_control_(true),
       eq_enabled_(false),
       eq_preamp_(0),
       stereo_balance_(0.0f),
@@ -115,6 +115,12 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
 
   output_ = output;
   device_ = device;
+
+}
+
+void GstEnginePipeline::set_volume_control(bool volume_control) {
+
+  volume_control_ = volume_control;
 
 }
 
@@ -239,14 +245,21 @@ bool GstEnginePipeline::InitAudioBin() {
   probe_sink = engine_->CreateElement("fakesink", audiobin_);
 
   audio_queue = engine_->CreateElement("queue", audiobin_);
-  equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
-  equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
-  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
-  volume_ = engine_->CreateElement("volume", audiobin_);
   audioscale_ = engine_->CreateElement("audioresample", audiobin_);
   convert = engine_->CreateElement("audioconvert", audiobin_);
 
-  if (!queue_ || !audioconvert_ || !tee || !probe_queue || !probe_converter || !probe_sink || !audio_queue || !volume_ || !audioscale_ || !convert) {
+  if (engine_->volume_control()) {
+    volume_ = engine_->CreateElement("volume", audiobin_);
+  }
+
+  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
+
+  if (eq_enabled_) {
+    equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
+    equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
+  }
+
+  if (!queue_ || !audioconvert_ || !tee || !probe_queue || !probe_converter || !probe_sink || !audio_queue || !audioscale_ || !convert) {
     gst_object_unref(GST_OBJECT(audiobin_));
     return false;
   }
@@ -348,8 +361,16 @@ bool GstEnginePipeline::InitAudioBin() {
   // Don't force 16 bit.
   gst_element_link(probe_queue, probe_converter);
 
-  if (engine_->IsEqualizerEnabled() && equalizer_ && equalizer_preamp_ && audio_panorama_) gst_element_link_many(audio_queue, equalizer_preamp_, equalizer_, audio_panorama_, volume_, audioscale_, convert, nullptr);
-  else gst_element_link_many(audio_queue, volume_, audioscale_, convert, nullptr);
+  if (eq_enabled_ && equalizer_ && equalizer_preamp_ && audio_panorama_) {
+    if (volume_)
+      gst_element_link_many(audio_queue, equalizer_preamp_, equalizer_, audio_panorama_, volume_, audioscale_, convert, nullptr);
+    else
+      gst_element_link_many(audio_queue, equalizer_preamp_, equalizer_, audio_panorama_, audioscale_, convert, nullptr);
+  }
+  else {
+    if (volume_) gst_element_link_many(audio_queue, volume_, audioscale_, convert, nullptr);
+    else gst_element_link_many(audio_queue, audioscale_, convert, nullptr);
+  }
 
   // Let the audio output of the tee autonegotiate the bit depth and format.
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
@@ -993,16 +1014,19 @@ void GstEnginePipeline::UpdateStereoBalance() {
 }
 
 void GstEnginePipeline::SetVolume(int percent) {
+  if (!volume_) return;
   volume_percent_ = percent;
   UpdateVolume();
 }
 
 void GstEnginePipeline::SetVolumeModifier(qreal mod) {
+  if (!volume_) return;
   volume_modifier_ = mod;
   UpdateVolume();
 }
 
 void GstEnginePipeline::UpdateVolume() {
+  if (!volume_) return;
   float vol = double(volume_percent_) * 0.01 * volume_modifier_;
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
 }

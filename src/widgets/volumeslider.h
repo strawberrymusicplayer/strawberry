@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SLIDERWIDGET_H
-#define SLIDERWIDGET_H
+#ifndef VOLUMESLIDER_H
+#define VOLUMESLIDER_H
 
 #include "config.h"
 
@@ -42,22 +42,19 @@ class QPaintEvent;
 class QWheelEvent;
 class QContextMenuEvent;
 
-namespace Amarok {
-class Slider : public QSlider {
+class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  Slider(Qt::Orientation, QWidget*, uint max = 0);
+  SliderSlider(Qt::Orientation, QWidget*, uint max = 0);
 
   virtual void setValue(int);
 
-  // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently,
-  // however it suits our current needs fine
+  // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }
 
 signals:
-  // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic
-  // Qt also emits valueChanged( int )
+  // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
   void sliderReleased(int);
 
  protected:
@@ -79,11 +76,11 @@ signals:
   bool m_outside;
   int m_prevValue;
 
-  Slider(const Slider&);             // undefined
-  Slider& operator=(const Slider&);  // undefined
+  SliderSlider(const SliderSlider&);             // undefined
+  SliderSlider& operator=(const SliderSlider&);  // undefined
 };
 
-class PrettySlider : public Slider {
+class PrettySlider : public SliderSlider {
   Q_OBJECT
 
  public:
@@ -105,11 +102,12 @@ class PrettySlider : public Slider {
   SliderMode m_mode;
 };
 
-class VolumeSlider : public Slider {
+class VolumeSlider : public SliderSlider {
   Q_OBJECT
 
  public:
   VolumeSlider(QWidget* parent, uint max = 0);
+  void SetEnabled(const bool enabled);
 
  protected:
   virtual void paintEvent(QPaintEvent*);
@@ -148,6 +146,5 @@ class VolumeSlider : public Slider {
 
   QList<QPixmap> m_handlePixmaps;
 };
-}
 
-#endif  // SLIDERWIDGET_H
+#endif  // VOLUMESLIDER_H

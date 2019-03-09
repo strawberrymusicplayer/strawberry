@@ -112,6 +112,7 @@ public:
 
   // Simple accessors
   EngineType type() const { return type_; }
+  bool volume_control() const { return volume_control_; }
   inline uint volume() const { return volume_; }
 
   bool is_fadeout_enabled() const { return fadeout_enabled_; }
@@ -153,7 +154,7 @@ signals:
   // Always use the state from event, because it's not guaranteed that immediate subsequent call to state() won't return a stale value.
   void StateChanged(Engine::State);
 
-protected:
+ protected:
 
   struct PluginDetails {
     QString name;
@@ -163,6 +164,7 @@ protected:
   typedef QList<PluginDetails> PluginDetailsList;
 
   EngineType type_;
+  bool volume_control_;
   uint volume_;
   quint64 beginning_nanosec_;
   qint64 end_nanosec_;

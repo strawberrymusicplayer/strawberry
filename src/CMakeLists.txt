@@ -248,7 +248,7 @@ set(SOURCES
   widgets/osd.cpp
   widgets/osdpretty.cpp
   widgets/renametablineedit.cpp
-  widgets/sliderwidget.cpp
+  widgets/volumeslider.cpp
   widgets/stickyslider.cpp
   widgets/stretchheaderview.cpp
   widgets/stylehelper.cpp
@@ -423,7 +423,7 @@ set(HEADERS
   widgets/osd.h
   widgets/osdpretty.h
   widgets/renametablineedit.h
-  widgets/sliderwidget.h
+  widgets/volumeslider.h
   widgets/stickyslider.h
   widgets/stretchheaderview.h
   widgets/trackslider.h

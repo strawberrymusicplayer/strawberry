@@ -55,6 +55,9 @@ class QtSystemTrayIcon : public SystemTrayIcon {
   void SetNowPlaying(const Song &song, const QString &image_path);
   void ClearNowPlaying();
 
+  bool MuteEnabled() { return action_mute_->isVisible(); }
+  void SetMuteEnabled(bool enabled) { action_mute_->setVisible(enabled); }
+
  protected:
   // SystemTrayIcon
   void UpdateIcon();

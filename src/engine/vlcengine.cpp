@@ -173,6 +173,7 @@ void VLCEngine::Seek(quint64 offset_nanosec) {
 
 void VLCEngine::SetVolumeSW(uint percent) {
   if (!Initialised()) return;
+  if (!volume_control_ && percent != 100) return;
   libvlc_audio_set_volume(player_, percent);
 }
 

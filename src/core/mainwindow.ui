@@ -225,7 +225,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="Amarok::VolumeSlider" name="volume">
+                 <widget class="VolumeSlider" name="volume">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -773,9 +773,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Amarok::VolumeSlider</class>
+   <class>VolumeSlider</class>
    <extends>QSlider</extends>
-   <header>widgets/sliderwidget.h</header>
+   <header>widgets/volumeslider.h</header>
   </customwidget>
   <customwidget>
    <class>AnalyzerContainer</class>

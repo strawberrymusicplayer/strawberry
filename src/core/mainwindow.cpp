@@ -87,7 +87,7 @@
 #include "organise/organisedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
-#include "widgets/sliderwidget.h"
+#include "widgets/volumeslider.h"
 #include "widgets/fileview.h"
 #include "widgets/multiloadingindicator.h"
 #include "widgets/osd.h"
@@ -131,6 +131,7 @@
 #include "transcoder/transcodedialog.h"
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
+#include "settings/backendsettingspage.h"
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_STREAM_TIDAL
 #  include "settings/tidalsettingspage.h"
@@ -248,10 +249,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   context_view_->SetApplication(app_, collection_view_->view(), album_cover_choice_controller_);
   ui_->widget_playing->SetApplication(app_, album_cover_choice_controller_);
 
-  int volume = app_->player()->GetVolume();
-  ui_->volume->setValue(volume);
-  VolumeChanged(volume);
-
   // Initialise the search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
@@ -286,6 +283,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   app_->player()->SetAnalyzer(ui_->analyzer);
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();
+  int volume = app_->player()->GetVolume();
+  ui_->volume->setValue(volume);
+  VolumeChanged(volume);
 
   // Models
   qLog(Debug) << "Creating models";
@@ -829,6 +829,21 @@ void MainWindow::ReloadSettings() {
   settings.beginGroup(kSettingsGroup);
   album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings.value("search_for_cover_auto", true).toBool());
   settings.endGroup();
+
+  settings.beginGroup(BackendSettingsPage::kSettingsGroup);
+  bool volume_control = settings.value("volume_control", true).toBool();
+  settings.endGroup();
+  if (volume_control != ui_->volume->isEnabled()) {
+    ui_->volume->SetEnabled(volume_control);
+    if (volume_control) {
+      if (!ui_->action_mute->isVisible()) ui_->action_mute->setVisible(true);
+      if (tray_icon_ && !tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(true);
+    }
+    else {
+      if (ui_->action_mute->isVisible()) ui_->action_mute->setVisible(false);
+      if (tray_icon_ && tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(false);
+    }
+  }
 
 #ifdef HAVE_STREAM_TIDAL
   settings.beginGroup(TidalSettingsPage::kSettingsGroup);

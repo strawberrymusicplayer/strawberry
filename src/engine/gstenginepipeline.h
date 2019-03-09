@@ -68,6 +68,7 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &sink, const QVariant &device);
+  void set_volume_control(bool volume_control);
   void set_replaygain(bool enabled, int mode, float preamp, bool compression);
   void set_buffer_duration_nanosec(qint64 duration_nanosec);
   void set_buffer_min_fill(int percent);
@@ -187,6 +188,7 @@ signals:
   bool valid_;
   QString output_;
   QVariant device_;
+  bool volume_control_;
 
   // Equalizer
   bool eq_enabled_;

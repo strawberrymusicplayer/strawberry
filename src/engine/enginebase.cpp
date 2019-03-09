@@ -36,7 +36,7 @@
 #include "settings/backendsettingspage.h"
 
 Engine::Base::Base()
-    : volume_(50),
+    : volume_(100),
       beginning_nanosec_(0),
       end_nanosec_(0),
       scope_(kScopeSize),
@@ -102,6 +102,8 @@ void Engine::Base::ReloadSettings() {
 
   output_ = s.value("output").toString();
   device_ = s.value("device");
+
+  volume_control_ = s.value("volume_control", true).toBool();
 
   buffer_duration_nanosec_ = s.value("bufferduration", 4000).toLongLong() * kNsecPerMsec;
   buffer_min_fill_ = s.value("bufferminfill", 33).toInt();

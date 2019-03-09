@@ -79,29 +79,30 @@
 
 using std::shared_ptr;
 
+const char *Player::kSettingsGroup = "Player";
+
 Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
     app_(app),
     stream_change_type_(Engine::First),
     last_state_(Engine::Empty),
     nb_errors_received_(0),
-    volume_before_mute_(50),
+    volume_before_mute_(100),
     last_pressed_previous_(QDateTime::currentDateTime()),
     continue_on_error_(false),
     greyout_(true),
     menu_previousmode_(PreviousBehaviour_DontRestart),
-    seek_step_sec_(10) {
+    seek_step_sec_(10),
+    volume_control_(true)
+    {
+
+  settings_.beginGroup(kSettingsGroup);
 
   QSettings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
   s.endGroup();
-
   CreateEngine(enginetype);
-  settings_.beginGroup("Player");
-
-  int volume = settings_.value("volume", 50).toInt();
-  SetVolume(volume);
 
 }
 
@@ -175,6 +176,15 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 
 void Player::Init() {
 
+  QSettings s;
+
+  if (!engine_.get()) {
+    s.beginGroup(BackendSettingsPage::kSettingsGroup);
+    Engine::EngineType enginetype = Engine::EngineTypeFromName(s.value("engine", EngineName(Engine::GStreamer)).toString().toLower());
+    s.endGroup();
+    CreateEngine(enginetype);
+  }
+
   if (!engine_->Init()) { qFatal("Error initialising audio engine"); }
 
   analyzer_->SetEngine(engine_.get());
@@ -188,9 +198,6 @@ void Player::Init() {
   connect(engine_.get(), SIGNAL(TrackEnded()), SLOT(TrackEnded()));
   connect(engine_.get(), SIGNAL(MetaData(Engine::SimpleMetaBundle)), SLOT(EngineMetadataReceived(Engine::SimpleMetaBundle)));
 
-  int volume = settings_.value("volume", 50).toInt();
-  engine_->SetVolume(volume);
-
   // Equalizer
   qLog(Debug) << "Creating equalizer";
   connect(equalizer_, SIGNAL(ParametersChanged(int,QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int,QList<int>)));
@@ -200,6 +207,15 @@ void Player::Init() {
   engine_->SetEqualizerEnabled(equalizer_->is_enabled());
   engine_->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
   engine_->SetStereoBalance(equalizer_->stereo_balance());
+
+  s.beginGroup(BackendSettingsPage::kSettingsGroup);
+  volume_control_ = s.value("volume_control", true).toBool();
+  s.endGroup();
+
+  if (volume_control_) {
+    int volume = settings_.value("volume", 100).toInt();
+    SetVolume(volume);
+  }
 
   ReloadSettings();
 
@@ -217,6 +233,11 @@ void Player::ReloadSettings() {
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
+  s.endGroup();
+
+  s.beginGroup(BackendSettingsPage::kSettingsGroup);
+  bool volume_control = s.value("volume_control", true).toBool();
+  if (!volume_control && GetVolume() != 100) SetVolume(100);
   s.endGroup();
 
   engine_->ReloadSettings();
@@ -631,6 +652,8 @@ PlaylistItemPtr Player::GetItemAt(int pos) const {
 
 void Player::Mute() {
 
+  if (!volume_control_) return;
+
   const int current_volume = engine_->volume();
 
   if (current_volume == 0) {
@@ -640,6 +663,7 @@ void Player::Mute() {
     volume_before_mute_ = current_volume;
     SetVolume(0);
   }
+
 }
 
 void Player::Pause() { engine_->Pause(); }

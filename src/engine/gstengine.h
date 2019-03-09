@@ -75,6 +75,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void Pause();
   void Unpause();
   void Seek(quint64 offset_nanosec);
+
  protected:
   void SetVolumeSW(uint percent);
 

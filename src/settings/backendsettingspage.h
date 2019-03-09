@@ -63,16 +63,19 @@ public:
   void DeviceStringChanged();
   void RgPreampChanged(int value);
   void BufferMinFillChanged(int value);
+#ifdef HAVE_ALSA
   void radiobutton_alsa_hw_clicked(bool checked);
   void radiobutton_alsa_plughw_clicked(bool checked);
+#endif
   void FadingOptionsChanged();
 
 private:
-
+#ifdef HAVE_ALSA
   enum alsa_plugin {
     alsa_hw = 1,
     alsa_plughw = 2
   };
+#endif
 
   Ui_BackendSettingsPage *ui_;
 
@@ -84,7 +87,9 @@ private:
   void Load_Engine(Engine::EngineType enginetype);
   void Load_Output(QString output, QVariant device);
   void Load_Device(QString output, QVariant device);
+#ifdef HAVE_ALSA
   void SwitchALSADevices(alsa_plugin alsaplugin);
+#endif
 
   QSettings s_;
   bool configloaded_;

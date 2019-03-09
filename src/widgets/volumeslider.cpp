@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include "sliderwidget.h"
+#include "volumeslider.h"
 
 #include <QApplication>
 #include <QWidget>
@@ -48,7 +48,7 @@
 #include <QFlags>
 #include <QtEvents>
 
-Amarok::Slider::Slider(Qt::Orientation orientation, QWidget* parent, uint max)
+SliderSlider::SliderSlider(Qt::Orientation orientation, QWidget* parent, uint max)
     : QSlider(orientation, parent),
       m_sliding(false),
       m_outside(false),
@@ -56,7 +56,7 @@ Amarok::Slider::Slider(Qt::Orientation orientation, QWidget* parent, uint max)
   setRange(0, max);
 }
 
-void Amarok::Slider::wheelEvent(QWheelEvent* e) {
+void SliderSlider::wheelEvent(QWheelEvent* e) {
 
   if (orientation() == Qt::Vertical) {
     // Will be handled by the parent widget
@@ -74,7 +74,7 @@ void Amarok::Slider::wheelEvent(QWheelEvent* e) {
 
 }
 
-void Amarok::Slider::mouseMoveEvent(QMouseEvent *e) {
+void SliderSlider::mouseMoveEvent(QMouseEvent *e) {
 
   if (m_sliding) {
     // feels better, but using set value of 20 is bad of course
@@ -95,7 +95,7 @@ void Amarok::Slider::mouseMoveEvent(QMouseEvent *e) {
 
 }
 
-void Amarok::Slider::slideEvent(QMouseEvent* e) {
+void SliderSlider::slideEvent(QMouseEvent* e) {
 
   QStyleOptionSlider option;
   initStyleOption(&option);
@@ -118,7 +118,7 @@ void Amarok::Slider::slideEvent(QMouseEvent* e) {
 
 }
 
-void Amarok::Slider::mousePressEvent(QMouseEvent* e) {
+void SliderSlider::mousePressEvent(QMouseEvent* e) {
 
   QStyleOptionSlider option;
   initStyleOption(&option);
@@ -131,15 +131,17 @@ void Amarok::Slider::mousePressEvent(QMouseEvent* e) {
 
 }
 
-void Amarok::Slider::mouseReleaseEvent(QMouseEvent*) {
+void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
+
   if (!m_outside && QSlider::value() != m_prevValue)
     emit sliderReleased(value());
 
   m_sliding = false;
   m_outside = false;
+
 }
 
-void Amarok::Slider::setValue(int newValue) {
+void SliderSlider::setValue(int newValue) {
   // don't adjust the slider while the user is dragging it!
 
   if (!m_sliding || m_outside)
@@ -155,27 +157,27 @@ void Amarok::Slider::setValue(int newValue) {
 #define THICKNESS 7
 #define MARGIN 3
 
-Amarok::PrettySlider::PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max)
-    : Amarok::Slider(orientation, parent, max), m_mode(mode) {
+PrettySlider::PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max)
+    : SliderSlider(orientation, parent, max), m_mode(mode) {
   if (m_mode == Pretty) {
     setFocusPolicy(Qt::NoFocus);
   }
 }
 
-void Amarok::PrettySlider::mousePressEvent(QMouseEvent* e) {
-  Amarok::Slider::mousePressEvent(e);
+void PrettySlider::mousePressEvent(QMouseEvent* e) {
+  SliderSlider::mousePressEvent(e);
 
   slideEvent(e);
 }
 
-void Amarok::PrettySlider::slideEvent(QMouseEvent* e) {
+void PrettySlider::slideEvent(QMouseEvent* e) {
   if (m_mode == Pretty)
     QSlider::setValue(
         orientation() == Qt::Horizontal
             ? QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2)
             : QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().y(), height() - 2));
   else
-    Amarok::Slider::slideEvent(e);
+    SliderSlider::slideEvent(e);
 }
 
 namespace Amarok {
@@ -186,18 +188,13 @@ extern QColor Foreground;
 }
 
 #if 0
-/** these functions aren't required in our fixed size world,
-    but they may become useful one day **/
+/** these functions aren't required in our fixed size world, but they may become useful one day **/
 
-QSize
-Amarok::PrettySlider::minimumSizeHint() const
-{
+QSize PrettySlider::minimumSizeHint() const {
     return sizeHint();
 }
 
-QSize
-Amarok::PrettySlider::sizeHint() const
-{
+QSize PrettySlider::sizeHint() const {
     constPolish();
 
     return (orientation() == Horizontal
@@ -210,8 +207,8 @@ Amarok::PrettySlider::sizeHint() const
 /// CLASS VolumeSlider
 //////////////////////////////////////////////////////////////////////////////////////////
 
-Amarok::VolumeSlider::VolumeSlider(QWidget* parent, uint max)
-    : Amarok::Slider(Qt::Horizontal, parent, max),
+VolumeSlider::VolumeSlider(QWidget* parent, uint max)
+    : SliderSlider(Qt::Horizontal, parent, max),
       m_animCount(0),
       m_animTimer(new QTimer(this)),
       m_pixmapInset(QPixmap(drawVolumePixmap ())) {
@@ -228,9 +225,16 @@ Amarok::VolumeSlider::VolumeSlider(QWidget* parent, uint max)
   setMinimumHeight(m_pixmapInset.height());
 
   connect(m_animTimer, SIGNAL(timeout()), this, SLOT(slotAnimTimer()));
+
 }
 
-void Amarok::VolumeSlider::generateGradient() {
+void VolumeSlider::SetEnabled(const bool enabled) {
+  QSlider::setEnabled(enabled);
+  QSlider::setVisible(enabled);
+}
+
+void VolumeSlider::generateGradient() {
+
   const QImage mask(":/pictures/volumeslider-gradient.png");
 
   QImage gradient_image(mask.size(), QImage::Format_ARGB32_Premultiplied);
@@ -246,10 +250,11 @@ void Amarok::VolumeSlider::generateGradient() {
   p.end();
 
   m_pixmapGradient = QPixmap::fromImage(gradient_image);
+
 }
 
-void Amarok::VolumeSlider::slotAnimTimer()  // SLOT
-{
+void VolumeSlider::slotAnimTimer() {
+
   if (m_animEnter) {
     m_animCount++;
     update();
@@ -260,16 +265,20 @@ void Amarok::VolumeSlider::slotAnimTimer()  // SLOT
     update();
     if (m_animCount == 0) m_animTimer->stop();
   }
+
 }
 
-void Amarok::VolumeSlider::mousePressEvent(QMouseEvent* e) {
+void VolumeSlider::mousePressEvent(QMouseEvent* e) {
+
   if (e->button() != Qt::RightButton) {
-    Amarok::Slider::mousePressEvent(e);
+    SliderSlider::mousePressEvent(e);
     slideEvent(e);
   }
+
 }
 
-void Amarok::VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
+void VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
+
   QMap<QAction*, int> values;
   QMenu menu;
   menu.setTitle("Volume");
@@ -285,19 +294,23 @@ void Amarok::VolumeSlider::contextMenuEvent(QContextMenuEvent* e) {
     QSlider::setValue(values[ret]);
     emit sliderReleased(values[ret]);
   }
+
 }
 
-void Amarok::VolumeSlider::slideEvent(QMouseEvent* e) {
+void VolumeSlider::slideEvent(QMouseEvent* e) {
   QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), e->pos().x(), width() - 2));
 }
 
-void Amarok::VolumeSlider::wheelEvent(QWheelEvent* e) {
+void VolumeSlider::wheelEvent(QWheelEvent* e) {
+
   const uint step = e->delta() / (e->orientation() == Qt::Vertical ? 30 : -30);
   QSlider::setValue(QSlider::value() + step);
   emit sliderReleased(value());
+
 }
 
-void Amarok::VolumeSlider::paintEvent(QPaintEvent*) {
+void VolumeSlider::paintEvent(QPaintEvent*) {
+
   QPainter p(this);
 
   const int padding = 7;
@@ -326,28 +339,34 @@ void Amarok::VolumeSlider::paintEvent(QPaintEvent*) {
   p.setFont(vol_font);
   const QRect rect(0, 0, 34, 15);
   p.drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(value()) + '%');
+
 }
 
-void Amarok::VolumeSlider::enterEvent(QEvent*) {
+void VolumeSlider::enterEvent(QEvent*) {
+
   m_animEnter = true;
   m_animCount = 0;
 
   m_animTimer->start(ANIM_INTERVAL);
+
 }
 
-void Amarok::VolumeSlider::leaveEvent(QEvent*) {
+void VolumeSlider::leaveEvent(QEvent*) {
+
   // This can happen if you enter and leave the widget quickly
   if (m_animCount == 0) m_animCount = 1;
 
   m_animEnter = false;
   m_animTimer->start(ANIM_INTERVAL);
+
 }
 
-void Amarok::VolumeSlider::paletteChange(const QPalette&) {
+void VolumeSlider::paletteChange(const QPalette&) {
   generateGradient();
 }
 
-QPixmap Amarok::VolumeSlider::drawVolumePixmap () const {
+QPixmap VolumeSlider::drawVolumePixmap () const {
+
   QPixmap pixmap(112, 36);
   pixmap.fill(Qt::transparent);
   QPainter painter(&pixmap);
@@ -358,18 +377,18 @@ QPixmap Amarok::VolumeSlider::drawVolumePixmap () const {
   painter.setRenderHint(QPainter::SmoothPixmapTransform);
   // Draw volume control pixmap
   QPolygon poly;
-  poly << QPoint(6, 21) << QPoint(104, 21)
-       << QPoint(104, 7) << QPoint(6, 16)
-       << QPoint(6, 21);
+  poly << QPoint(6, 21) << QPoint(104, 21) << QPoint(104, 7) << QPoint(6, 16) << QPoint(6, 21);
   QPainterPath path;
   path.addPolygon(poly);
   painter.drawPolygon(poly);
   painter.drawLine(6, 29, 104, 29);
   // Return QPixmap
   return pixmap;
+
 }
 
-void Amarok::VolumeSlider::drawVolumeSliderHandle() {
+void VolumeSlider::drawVolumeSliderHandle() {
+
   QImage pixmapHandle(":/pictures/volumeslider-handle.png");
   QImage pixmapHandleGlow(":/pictures/volumeslider-handle_glow.png");
 
@@ -405,4 +424,5 @@ void Amarok::VolumeSlider::drawVolumeSliderHandle() {
     opacity += step;
   }
   // END
+
 }

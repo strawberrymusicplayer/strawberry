@@ -102,6 +102,7 @@ class PlayerInterface : public QObject {
   void Stopped();
   void Error();
   void PlaylistFinished();
+  void VolumeEnabled(bool);
   void VolumeChanged(int volume);
   void Error(const QString &message);
   void TrackSkipped(PlaylistItemPtr old_track);
@@ -206,9 +207,10 @@ class Player : public PlayerInterface {
 
  private:
   Application *app_;
-  QSettings settings_;
   AnalyzerContainer *analyzer_;
   Equalizer *equalizer_;
+
+  QSettings settings_;
 
   PlaylistItemPtr current_item_;
 
@@ -227,6 +229,8 @@ class Player : public PlayerInterface {
   bool greyout_;
   PreviousBehaviour menu_previousmode_;
   int seek_step_sec_;
+
+  bool volume_control_;
 
 };
 

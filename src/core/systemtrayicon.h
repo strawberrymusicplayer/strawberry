@@ -50,6 +50,9 @@ class SystemTrayIcon : public QObject {
   virtual void SetNowPlaying(const Song &song, const QString &image_path) {}
   virtual void ClearNowPlaying() {}
 
+  virtual bool MuteEnabled() { return false; }
+  virtual void SetMuteEnabled(bool enabled) {}
+
   static SystemTrayIcon *CreateSystemTrayIcon(QObject *parent = nullptr);
 
  public slots:

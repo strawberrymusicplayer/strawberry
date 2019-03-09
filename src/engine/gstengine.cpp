@@ -803,6 +803,7 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
   ret->set_output_device(output_, device_);
+  ret->set_volume_control(volume_control_);
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);

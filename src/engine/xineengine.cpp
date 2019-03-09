@@ -393,6 +393,7 @@ void XineEngine::Seek(quint64 offset_nanosec) {
 void XineEngine::SetVolumeSW(uint vol) {
 
   if (!stream_) return;
+  if (!volume_control_ && vol != 100) return;
   xine_set_param(stream_, XINE_PARAM_AUDIO_AMP_LEVEL, static_cast<uint>(vol * preamp_));
 
 }

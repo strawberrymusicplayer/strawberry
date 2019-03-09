@@ -129,6 +129,9 @@ void BackendSettingsPage::Load() {
 
   ui_->checkbox_monoplayback->setChecked(s_.value("monoplayback", false).toBool());
 
+#if defined(HAVE_ALSA)
+  ui_->lineedit_device->show();
+  ui_->widget_alsa_plugin->show();
   int alsaplug_int = alsa_plugin(s_.value("alsaplugin", 0).toInt());
   if (alsa_plugin(alsaplug_int)) {
     alsa_plugin alsaplugin = alsa_plugin(alsaplug_int);
@@ -141,6 +144,12 @@ void BackendSettingsPage::Load() {
         break;
     }
   }
+#else
+  ui_->lineedit_device->hide();
+  ui_->widget_alsa_plugin->hide();
+#endif
+
+  ui_->checkbox_volume_control->setChecked(s_.value("volume_control", true).toBool());
 
   if (!EngineInitialised()) return;
 
@@ -164,8 +173,10 @@ void BackendSettingsPage::ConnectSignals() {
   connect(ui_->combobox_output, SIGNAL(currentIndexChanged(int)), SLOT(OutputChanged(int)));
   connect(ui_->combobox_device, SIGNAL(currentIndexChanged(int)), SLOT(DeviceSelectionChanged(int)));
   connect(ui_->lineedit_device, SIGNAL(textChanged(const QString &)), SLOT(DeviceStringChanged()));
+#if defined(HAVE_ALSA)
   connect(ui_->radiobutton_alsa_hw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_hw_clicked(bool)));
   connect(ui_->radiobutton_alsa_plughw, SIGNAL(clicked(bool)), SLOT(radiobutton_alsa_plughw_clicked(bool)));
+#endif
   connect(ui_->slider_bufferminfill, SIGNAL(valueChanged(int)), SLOT(BufferMinFillChanged(int)));
   connect(ui_->stickslider_replaygainpreamp, SIGNAL(valueChanged(int)), SLOT(RgPreampChanged(int)));
   connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
@@ -300,6 +311,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
     ui_->lineedit_device->setEnabled(false);
   }
 
+#ifdef HAVE_ALSA
   if (engine()->ALSADeviceSupport(output)) {
     ui_->radiobutton_alsa_hw->setEnabled(true);
     ui_->radiobutton_alsa_plughw->setEnabled(true);
@@ -320,6 +332,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
     ui_->radiobutton_alsa_plughw->setEnabled(false);
     ui_->radiobutton_alsa_plughw->setChecked(false);
   }
+#endif
 
   bool found(false);
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -391,9 +404,13 @@ void BackendSettingsPage::Save() {
 
   s_.setValue("monoplayback", ui_->checkbox_monoplayback->isChecked());
 
+#ifdef HAVE_ALSA
   if (ui_->radiobutton_alsa_hw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
   else if (ui_->radiobutton_alsa_plughw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_plughw));
   else s_.remove("alsaplugin");
+#endif
+
+  s_.setValue("volume_control", ui_->checkbox_volume_control->isChecked());
 
 }
 
@@ -463,6 +480,7 @@ void BackendSettingsPage::DeviceStringChanged() {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   bool found(false);
 
+#ifdef HAVE_ALSA
   if (engine()->ALSADeviceSupport(output.name)) {
     if (ui_->lineedit_device->text().contains(QRegExp("^hw:.*")) && !ui_->radiobutton_alsa_hw->isChecked()) {
       ui_->radiobutton_alsa_hw->setChecked(true);
@@ -473,6 +491,7 @@ void BackendSettingsPage::DeviceStringChanged() {
       SwitchALSADevices(alsa_plugin::alsa_plughw);
     }
   }
+#endif
 
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
@@ -522,6 +541,7 @@ void BackendSettingsPage::BufferMinFillChanged(int value) {
   ui_->label_bufferminfillvalue->setText(QString::number(value) + "%");
 }
 
+#ifdef HAVE_ALSA
 void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
 
   // All ALSA devices are listed twice, one for "hw" and one for "plughw"
@@ -591,6 +611,8 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
   }
 
 }
+
+#endif
 
 void BackendSettingsPage::FadingOptionsChanged() {
 
