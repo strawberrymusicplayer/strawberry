@@ -332,7 +332,6 @@ signals:
 #endif
 
   InternetSearchView *tidal_search_view_;
-  InternetSearchView *deezer_search_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

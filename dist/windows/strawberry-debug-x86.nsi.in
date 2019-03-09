@@ -162,7 +162,6 @@ Section "Strawberry" Strawberry
   File "libxml2-2.dll"
   File "libsoup-2.4-1.dll"
   File "liblzma-5.dll"
-  File "libdeezer.x86.dll"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -403,7 +402,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libxml2-2.dll"
   Delete "$INSTDIR\libsoup-2.4-1.dll"
   Delete "$INSTDIR\liblzma-5.dll"
-  Delete "$INSTDIR\libdeezer.x86.dll"
 
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"

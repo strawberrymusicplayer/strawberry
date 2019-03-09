@@ -25,8 +25,6 @@ Files: src/core/main.h
        src/engine/enginetype.h
        src/engine/alsadevicefinder.cpp
        src/engine/alsadevicefinder.h
-       src/engine/deezerengine.cpp
-       src/engine/deezerengine.h
        src/engine/devicefinder.cpp
        src/engine/devicefinder.h
        src/engine/enginedevice.cpp
@@ -39,8 +37,6 @@ Files: src/core/main.h
        src/settings/backendsettingspage.h
        src/settings/scrobblersettingspage.cpp
        src/settings/scrobblersettingspage.h
-       src/settings/deezersettingspage.cpp
-       src/settings/deezersettingspage.h
        src/settings/tidalsettingspage.cpp
        src/settings/tidalsettingspage.h
        src/covermanager/lastfmcoverprovider.cpp
@@ -58,7 +54,6 @@ Files: src/core/main.h
        src/lyrics/*
        src/scrobbler/*
        src/tidal/*
-       src/deezer/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
 Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>

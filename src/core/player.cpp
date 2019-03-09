@@ -59,9 +59,6 @@
 #ifdef HAVE_VLC
 #  include "engine/vlcengine.h"
 #endif
-#ifdef HAVE_DEEZER
-#  include "engine/deezerengine.h"
-#endif
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
@@ -140,15 +137,6 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
         use_enginetype=Engine::Phonon;
         engine_.reset(new PhononEngine(app_->task_manager()));
         break;
-#endif
-#ifdef HAVE_DEEZER
-      case Engine::Deezer:{
-        use_enginetype=Engine::Deezer;
-        DeezerEngine *deezerengine = new DeezerEngine(app_->task_manager());
-        connect(this, SIGNAL(Authenticated()), deezerengine, SLOT(LoadAccessToken()));
-        engine_.reset(deezerengine);
-        break;
-      }
 #endif
       default:
         if (i > 0) { qFatal("No engine available!"); }
@@ -321,7 +309,7 @@ void Player::NextInternal(Engine::TrackChangeFlags change) {
   if (app_->playlist_manager()->active()->current_item()) {
     const QUrl url = app_->playlist_manager()->active()->current_item()->Url();
 
-    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
+    if (url_handlers_.contains(url.scheme())) {
       // The next track is already being loaded
       if (url == loading_async_) return;
 
@@ -531,7 +519,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   if (current_item_ && change == Engine::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
     emit TrackSkipped(current_item_);
     const QUrl &url = current_item_->Url();
-    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
+    if (url_handlers_.contains(url.scheme())) {
       url_handlers_[url.scheme()]->TrackSkipped();
     }
   }
@@ -550,7 +538,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   current_item_ = app_->playlist_manager()->active()->current_item();
   const QUrl url = current_item_->Url();
 
-  if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
+  if (url_handlers_.contains(url.scheme())) {
     // It's already loading
     if (url == loading_async_) return;
 
@@ -697,7 +685,7 @@ void Player::TrackAboutToEnd() {
   // We don't want to preload (and scrobble) the next item in the playlist if it's just going to be stopped again immediately after.
   if (app_->playlist_manager()->active()->current_item()) {
     const QUrl url = app_->playlist_manager()->active()->current_item()->Url();
-    if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
+    if (url_handlers_.contains(url.scheme())) {
       url_handlers_[url.scheme()]->TrackAboutToEnd();
       return;
     }
@@ -730,7 +718,7 @@ void Player::TrackAboutToEnd() {
   QUrl url = next_item->Url();
 
   // Get the actual track URL rather than the stream URL.
-  if (url_handlers_.contains(url.scheme()) && !(engine_->type() == Engine::Deezer && url.scheme() == "dzmedia")) {
+  if (url_handlers_.contains(url.scheme())) {
     UrlHandler::LoadResult result = url_handlers_[url.scheme()]->LoadNext(url);
     switch (result.type_) {
       case UrlHandler::LoadResult::Error:

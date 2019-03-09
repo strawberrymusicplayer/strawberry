@@ -32,8 +32,7 @@ enum EngineType {
   GStreamer,
   VLC,
   Xine,
-  Phonon,
-  Deezer
+  Phonon
 };
 
 Engine::EngineType EngineTypeFromName(QString enginename);

@@ -112,8 +112,6 @@ pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(LIBIMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(LIBUSBMUXD libusbmuxd)
 pkg_check_modules(LIBPLIST libplist)
-pkg_check_modules(LIBDEEZER libdeezer)
-pkg_check_modules(LIBDZMEDIA libdzmedia)
 find_package(Gettext)
 
 if(WIN32)
@@ -291,18 +289,6 @@ optional_component(PHONON OFF "Engine: Phonon backend (UNSTABLE)"
   DEPENDS "phonon4qt5" PHONON_FOUND
 )
 
-if (WIN32)
-  optional_component(DEEZER ON "Engine: Deezer backend"
-    DEPENDS "libdeezer" LIBDEEZER_FOUND
-  )
-else ()
-  optional_component(DEEZER ON "Engine: Deezer backend"
-    DEPENDS "Linux" LINUX
-    DEPENDS "libdeezer" LIBDEEZER_FOUND
-    DEPENDS "libpulse" LIBPULSE_FOUND
-  )
-endif()
-
 optional_component(CHROMAPRINT ON "Chromaprint (Tag fetching from Musicbrainz)"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
 )
@@ -359,21 +345,6 @@ optional_component(TRANSLATIONS OFF "Translations (No languages included yet)"
 
 optional_component(STREAM_TIDAL ON "Streaming: Tidal support")
 
-if (LIBDZMEDIA_FOUND OR LIBDEEZER_FOUND)
-  optional_component(STREAM_DEEZER ON "Streaming: Deezer support")
-else()
-  optional_component(STREAM_DEEZER OFF "Streaming: Deezer support")
-endif()
-
-optional_component(DZMEDIA ON "DZMedia"
-  DEPENDS "libdzmedia" LIBDZMEDIA_FOUND
-  DEPENDS "Deezer support" HAVE_STREAM_DEEZER
-)
-
-if (HAVE_STREAM_DEEZER AND NOT HAVE_DZMEDIA AND NOT HAVE_DEEZER)
-  message(STATUS "Deezer is enabled, but not DZMedia or Deezer engine, only preview streams will be available.")
-endif()
-
 if(APPLE)
   option(USE_BUNDLE "Bundle macOS dependencies" OFF)
 elseif(WIN32)
@@ -418,8 +389,8 @@ add_custom_target(uninstall
 
 # Show a summary of what we have enabled
 summary_show()
-if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON AND NOT HAVE_DEEZER)
-  message(FATAL_ERROR "You need to have either GStreamer, Xine, VLC, Phonon or Deezer to compile!")
+if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON)
+  message(FATAL_ERROR "You need to have either GStreamer, Xine, VLC or Phonon to compile!")
 elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()

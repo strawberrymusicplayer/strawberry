@@ -64,14 +64,6 @@ if(HAVE_PHONON)
   include_directories(${PHONON_INCLUDE_DIRS})
 endif()
 
-if(HAVE_LIBDEEZER)
-  include_directories(${DEEZER_INCLUDE_DIRS})
-endif()
-
-if(HAVE_LIBDZMEDIA)
-  include_directories(${DZMEDIA_INCLUDE_DIRS})
-endif()
-
 link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
@@ -579,12 +571,6 @@ optional_source(HAVE_PHONON
   HEADERS engine/phononengine.h
 )
 
-# Deezer
-optional_source(HAVE_DEEZER
-  SOURCES engine/deezerengine.cpp
-  HEADERS engine/deezerengine.h
-)
-
 # DBUS and MPRIS - Unix specific
 if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
@@ -888,19 +874,6 @@ optional_source(HAVE_STREAM_TIDAL
     settings/tidalsettingspage.ui
 )
 
-optional_source(HAVE_STREAM_DEEZER
-  SOURCES
-    deezer/deezerservice.cpp
-    deezer/deezerurlhandler.cpp
-    settings/deezersettingspage.cpp
-  HEADERS
-    deezer/deezerservice.h
-    deezer/deezerurlhandler.h
-    settings/deezersettingspage.h
-  UI
-    settings/deezersettingspage.ui
-)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
@@ -992,14 +965,6 @@ endif()
 
 if(HAVE_PHONON)
   target_link_libraries(strawberry_lib ${PHONON_LIBRARIES})
-endif()
-
-if(HAVE_DEEZER)
-  target_link_libraries(strawberry_lib ${LIBDEEZER_LIBRARIES})
-endif()
-
-if(HAVE_DZMEDIA)
-  target_link_libraries(strawberry_lib ${LIBDZMEDIA_LIBRARIES})
 endif()
 
 if(HAVE_LIBGPOD)

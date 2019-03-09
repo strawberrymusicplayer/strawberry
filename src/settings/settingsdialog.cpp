@@ -65,9 +65,6 @@
 #ifdef HAVE_STREAM_TIDAL
 #  include "tidalsettingspage.h"
 #endif
-#ifdef HAVE_STREAM_DEEZER
-#  include "deezersettingspage.h"
-#endif
 
 #include "ui_settingsdialog.h"
 
@@ -136,14 +133,11 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_STREAM_TIDAL) || defined(HAVE_STREAM_DEEZER)
+#if defined(HAVE_STREAM_TIDAL)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
 #ifdef HAVE_STREAM_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  AddPage(Page_Deezer, new DeezerSettingsPage(this), streaming);
 #endif
 
   // List box

@@ -66,9 +66,6 @@
 #ifdef HAVE_STREAM_TIDAL
 #  include "tidal/tidalservice.h"
 #endif
-#ifdef HAVE_STREAM_DEEZER
-#  include "deezer/deezerservice.h"
-#endif
 
 #include "scrobbler/audioscrobbler.h"
 
@@ -128,16 +125,10 @@ class ApplicationImpl {
 #ifdef HAVE_STREAM_TIDAL
           internet_services->AddService(new TidalService(app, internet_services));
 #endif
-#ifdef HAVE_STREAM_DEEZER
-          internet_services->AddService(new DeezerService(app, internet_services));
-#endif
           return internet_services;
         }),
 #ifdef HAVE_STREAM_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
-#endif
-#ifdef HAVE_STREAM_DEEZER
-        deezer_search_([=]() { return new InternetSearch(app, Song::Source_Deezer, app); }),
 #endif
         scrobbler_([=]() { return new AudioScrobbler(app, app); })
   {}
@@ -161,9 +152,6 @@ class ApplicationImpl {
   Lazy<InternetServices> internet_services_;
 #ifdef HAVE_STREAM_TIDAL
   Lazy<InternetSearch> tidal_search_;
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  Lazy<InternetSearch> deezer_search_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
 
@@ -235,8 +223,5 @@ PlaylistManager *Application::playlist_manager() const { return p_->playlist_man
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
 #ifdef HAVE_STREAM_TIDAL
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
-#endif
-#ifdef HAVE_STREAM_DEEZER
-InternetSearch *Application::deezer_search() const { return p_->deezer_search_.get(); }
 #endif
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }

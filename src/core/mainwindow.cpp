@@ -136,9 +136,6 @@
 #ifdef HAVE_STREAM_TIDAL
 #  include "settings/tidalsettingspage.h"
 #endif
-#ifdef HAVE_STREAM_DEEZER
-#  include "settings/deezersettingspage.h"
-#endif
 
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
@@ -207,9 +204,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifdef HAVE_STREAM_TIDAL
       tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
-#ifdef HAVE_STREAM_DEEZER
-      deezer_search_view_(new InternetSearchView(app_, app_->deezer_search(), DeezerSettingsPage::kSettingsGroup, SettingsDialog::Page_Deezer, this)),
-#endif
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
@@ -265,9 +259,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 #ifdef HAVE_STREAM_TIDAL
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -546,9 +537,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
 #ifdef HAVE_STREAM_TIDAL
   connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  connect(deezer_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
   // Playlist menu
@@ -859,16 +847,6 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->delTab("Tidal");
 #endif
 
-#ifdef HAVE_STREAM_DEEZER
-  settings.beginGroup(DeezerSettingsPage::kSettingsGroup);
-  bool enable_deezer = settings.value("enabled", false).toBool();
-  settings.endGroup();
-  if (enable_deezer)
-    ui_->tabs->addTab(deezer_search_view_, IconLoader::Load("deezer"), tr("Deezer"));
-  else
-    ui_->tabs->delTab("Deezer");
-#endif
-
 }
 
 void MainWindow::ReloadAllSettings() {
@@ -884,9 +862,6 @@ void MainWindow::ReloadAllSettings() {
   ui_->playlist->view()->ReloadSettings();
 #ifdef HAVE_STREAM_TIDAL
   tidal_search_view_->ReloadSettings();
-#endif
-#ifdef HAVE_STREAM_DEEZER
-  deezer_search_view_->ReloadSettings();
 #endif
 
 }

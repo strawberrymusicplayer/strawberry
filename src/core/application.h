@@ -96,9 +96,6 @@ class Application : public QObject {
 #ifdef HAVE_STREAM_TIDAL
   InternetSearch *tidal_search() const;
 #endif
-#ifdef HAVE_STREAM_DEEZER
-  InternetSearch *deezer_search() const;
-#endif
 
   AudioScrobbler *scrobbler() const;
 

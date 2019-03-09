@@ -83,7 +83,6 @@ public:
     Page_Proxy,
     Page_Scrobbler,
     Page_Tidal,
-    Page_Deezer,
   };
 
   enum Role {

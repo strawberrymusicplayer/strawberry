@@ -84,7 +84,6 @@
         <file>icons/128x128/zoom-in.png</file>
         <file>icons/128x128/zoom-out.png</file>
         <file>icons/128x128/tidal.png</file>
-        <file>icons/128x128/deezer.png</file>
         <file>icons/128x128/scrobble.png</file>
         <file>icons/128x128/scrobble-disabled.png</file>
         <file>icons/64x64/albums.png</file>
@@ -171,7 +170,6 @@
         <file>icons/64x64/zoom-in.png</file>
         <file>icons/64x64/zoom-out.png</file>
         <file>icons/64x64/tidal.png</file>
-        <file>icons/64x64/deezer.png</file>
         <file>icons/64x64/scrobble.png</file>
         <file>icons/64x64/scrobble-disabled.png</file>
         <file>icons/48x48/albums.png</file>
@@ -351,7 +349,6 @@
         <file>icons/32x32/zoom-in.png</file>
         <file>icons/32x32/zoom-out.png</file>
         <file>icons/32x32/tidal.png</file>
-        <file>icons/32x32/deezer.png</file>
         <file>icons/32x32/scrobble.png</file>
         <file>icons/32x32/scrobble-disabled.png</file>
         <file>icons/22x22/albums.png</file>
@@ -442,7 +439,6 @@
         <file>icons/22x22/zoom-in.png</file>
         <file>icons/22x22/zoom-out.png</file>
         <file>icons/22x22/tidal.png</file>
-        <file>icons/22x22/deezer.png</file>
         <file>icons/22x22/scrobble.png</file>
         <file>icons/22x22/scrobble-disabled.png</file>
     </qresource>

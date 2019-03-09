@@ -32,7 +32,6 @@ Engine::EngineType EngineTypeFromName(QString enginename) {
   else if (lower == "xine")     return Engine::Xine;
   else if (lower == "vlc")      return Engine::VLC;
   else if (lower == "phonon")   return Engine::Phonon;
-  else if (lower == "deezer")   return Engine::Deezer;
   else                          return Engine::None;
 }
 
@@ -42,7 +41,6 @@ QString EngineName(Engine::EngineType enginetype) {
     case Engine::Xine:          return QString("xine");
     case Engine::VLC:           return QString("vlc");
     case Engine::Phonon:        return QString("phonon");
-    case Engine::Deezer:        return QString("deezer");
     case Engine::None:
     default:                    return QString("None");
   }
@@ -54,7 +52,6 @@ QString EngineDescription(Engine::EngineType enginetype) {
     case Engine::Xine:		return QString("Xine");
     case Engine::VLC:		return QString("VLC");
     case Engine::Phonon:	return QString("Phonon");
-    case Engine::Deezer:	return QString("Deezer");
     case Engine::None:
     default:			return QString("None");
 

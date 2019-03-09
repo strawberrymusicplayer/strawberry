@@ -75,7 +75,7 @@ class PlaylistHeader;
 // that uses Gtk to paint row backgrounds, ignoring any custom brush or palette the caller set in the QStyleOption.
 // That breaks our currently playing track animation, which relies on the background painted by Qt to be transparent.
 // This proxy style uses QCommonStyle to paint the affected elements.
-// This class is used by tidal and deezer search view as well.
+// This class is used by internet search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
 public:
   PlaylistProxyStyle(QStyle *base);
