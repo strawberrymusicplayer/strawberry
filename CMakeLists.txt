@@ -338,7 +338,7 @@ optional_component(SPARKLE ON "Sparkle integration"
   DEPENDS "Sparkle" SPARKLE
 )
 
-optional_component(TRANSLATIONS OFF "Translations (No languages included yet)"
+optional_component(TRANSLATIONS ON "Translations"
   DEPENDS "gettext" GETTEXT_FOUND
   DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
 )
