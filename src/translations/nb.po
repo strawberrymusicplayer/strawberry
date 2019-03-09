@@ -1,0 +1,4196 @@
+# Strawberry
+# 
+# Translators:
+# Allan Nordhøy <epost@anotheragency.no>, 2016-2017
+# Arno Teigseth <arnotixe@gmail.com>, 2011-2015
+# Åsmund Haugestøl <asmund.haugestol@hotmail.com>, 2014
+# Harald H. <haarektrans@gmail.com>, 2014-2015
+# Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2019-02-23 08:19+0000\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"Language-Team: Norwegian Bokmål\n"
+"Language: nb\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: playlist/playlistlistview.cpp:50
+msgid ""
+"\n"
+"\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n"
+"\n"
+"Favorited playlists will be saved here"
+msgstr ""
+"\n"
+"\n"
+"Du kan merke en spilleliste som favoritt ved å klikke på stjerneikonet nær "
+"listenavnet.\n"
+"\n"
+"Favoritt-spillelister vil lagres her"
+
+#: settings/shortcutssettingspage.cpp:312
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
+"in cinnamon-settings-daemon instead."
+msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"cinnamon-settings-daemon i stedet"
+
+#: settings/shortcutssettingspage.cpp:310
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
+"in gnome-settings-daemon instead."
+msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
+
+#: settings/shortcutssettingspage.cpp:308
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
+"configured in %1 settings instead."
+msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
+
+#: settings/shortcutssettingspage.cpp:314
+#, qt-format
+msgid " Shortcuts should be configured in %1 settings instead."
+msgstr ""
+"Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i "
+"gnome-settings-daemon i stedet"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:133
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:201
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:204
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:207
+#: ../../build-translations/src/ui_transcoderoptionsopus.h:77
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:220
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:223
+#: ../../build-translations/src/ui_transcoderoptionsasf.h:76
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:194
+msgid " kbps"
+msgstr "kbps"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:282
+msgid " minutes"
+msgstr " minutter"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:433
+#: ../../build-translations/src/ui_backendsettingspage.h:450
+#: ../../build-translations/src/ui_backendsettingspage.h:453
+msgid " ms"
+msgstr "ms"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:317
+msgid " s"
+msgstr " s"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:445
+msgid " seconds"
+msgstr " sekunder"
+
+#: scrobbler/scrobblingapi20.cpp:135 scrobbler/scrobblingapi20.cpp:144
+#, qt-format
+msgid "%1 Scrobbler Authentication"
+msgstr "%1 Scrobbler bruker autentisering"
+
+#: core/utilities.cpp:144
+#, qt-format
+msgid "%1 days"
+msgstr "%1 dager"
+
+#: core/utilities.cpp:164
+#, qt-format
+msgid "%1 days ago"
+msgstr "%1 dager siden"
+
+#: playlistparsers/playlistparser.cpp:111
+#, qt-format
+msgid "%1 playlists (%2)"
+msgstr "%1 spillelister (%2)"
+
+#: playlist/playlistmanager.cpp:427
+#, qt-format
+msgid "%1 selected of"
+msgstr "%1 valgte av"
+
+#: device/deviceview.cpp:146
+#, qt-format
+msgid "%1 song%2"
+msgstr "%1 sanger"
+
+#: context/contextview.cpp:238
+#, qt-format
+msgid "%1 songs<br />\n"
+"%2 artists<br />\n"
+"%3 albums<br />\n"
+msgstr "%1 sangers<br />\n"
+"%2 artister<br />\n"
+"%3 albumer<br />\n"
+
+#: playlist/playlistmanager.cpp:433 queue/queue.cpp:249
+#, qt-format
+msgid "%1 tracks"
+msgstr "%1 spor"
+
+#: covermanager/albumcovermanager.cpp:481
+#, qt-format
+msgid "%1 transferred"
+msgstr "overført %1"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:433
+msgid "%filename%"
+msgstr "%filnavn%"
+
+#: transcoder/transcodedialog.cpp:241
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n failed"
+msgstr "%n feilet"
+
+#: transcoder/transcodedialog.cpp:237
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n finished"
+msgstr "%n ferdige"
+
+#: transcoder/transcodedialog.cpp:233
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n remaining"
+msgstr "%n gjenstående"
+
+#: ../../build-translations/src/ui_mainwindow.h:598
+msgid "&About Strawberry"
+msgstr "&Om Strawberry"
+
+#: ../../build-translations/src/ui_mainwindow.h:606
+msgid "&Add file..."
+msgstr "&Legg til fil"
+
+#: playlist/playlistheader.cpp:53
+msgid "&Align text"
+msgstr "&Still opp tekst"
+
+#: playlist/playlistheader.cpp:56
+msgid "&Center"
+msgstr "Sentr&er"
+
+#: ../../build-translations/src/ui_mainwindow.h:577
+msgid "&Clear playlist"
+msgstr "&Slett spilleliste"
+
+#: ../../build-translations/src/ui_mainwindow.h:612
+msgid "&Cover Manager"
+msgstr "&Behandling av plateomslag"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:236
+msgid "&Custom"
+msgstr "&Egendefinert"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:235
+msgid "&Default"
+msgstr "&Standard"
+
+#: ../../build-translations/src/ui_mainwindow.h:644
+msgid "&Do a full collection rescan"
+msgstr "&Utfør fullstendig skann av samling"
+
+#: ../../build-translations/src/ui_mainwindow.h:617
+msgid "&Equalizer"
+msgstr "&Equalizer"
+
+#: playlist/playlistheader.cpp:87
+#, qt-format
+msgid "&Hide %1"
+msgstr "Skjul %1"
+
+#: playlist/playlistheader.cpp:48
+msgid "&Hide..."
+msgstr "Skjul…"
+
+#: ../../build-translations/src/ui_mainwindow.h:620
+msgid "&Jump to the currently playing track"
+msgstr "&Gå til sporet som spilles av nå"
+
+#: playlist/playlistheader.cpp:55
+msgid "&Left"
+msgstr "&Venstre"
+
+#: ../../build-translations/src/ui_mainwindow.h:632
+msgid "&Load playlist..."
+msgstr "&Start spilleliste"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:158
+msgid "&Manual proxy configuration"
+msgstr "&Manuell mellomtjener-innstilling"
+
+#: ../../build-translations/src/ui_mainwindow.h:657
+msgid "&Music"
+msgstr "Musikk"
+
+#: ../../build-translations/src/ui_mainwindow.h:640
+msgid "&Mute"
+msgstr "&Demp"
+
+#: ../../build-translations/src/ui_mainwindow.h:624
+msgid "&New playlist"
+msgstr "&Ny spilleliste"
+
+#: ../../build-translations/src/ui_mainwindow.h:565
+msgid "&Next track"
+msgstr "&Neste spor"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:239
+msgid "&No background image"
+msgstr "&Ingen bakgrunn"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:234
+msgid "&None"
+msgstr "&Ingen"
+
+#: ../../build-translations/src/ui_mainwindow.h:610
+msgid "&Open file..."
+msgstr "&Åpne fil"
+
+#: ../../build-translations/src/ui_mainwindow.h:553
+msgid "&Previous track"
+msgstr "&Forrige spor"
+
+#: ../../build-translations/src/ui_mainwindow.h:569
+msgid "&Quit"
+msgstr "&Avslutt"
+
+#: ../../build-translations/src/ui_mainwindow.h:615
+msgid "&Repeat mode"
+msgstr "&Gjentagelsesmodus"
+
+#: playlist/playlistheader.cpp:50
+msgid "&Reset columns to default"
+msgstr "&Tilbakestill kolonner til standard"
+
+#: playlist/playlistheader.cpp:57
+msgid "&Right"
+msgstr "&Høyre"
+
+#: ../../build-translations/src/ui_mainwindow.h:594
+msgid "&Settings..."
+msgstr "&Innstillinger"
+
+#: ../../build-translations/src/ui_mainwindow.h:614
+msgid "&Shuffle mode"
+msgstr "&Stokkemodus"
+
+#: ../../build-translations/src/ui_mainwindow.h:561
+msgid "&Stop"
+msgstr "&Stopp"
+
+#: playlist/playlistheader.cpp:49
+msgid "&Stretch columns to fit window"
+msgstr "Tilpass &kolonner til vinduet"
+
+#: ../../build-translations/src/ui_mainwindow.h:660
+msgid "&Tools"
+msgstr "&Verktøy"
+
+#: ../../build-translations/src/ui_mainwindow.h:618
+msgid "&Transcode Music"
+msgstr "&Omkod musikk"
+
+#: ../../build-translations/src/ui_mainwindow.h:638
+msgid "&Update changed collection folders"
+msgstr "Oppdater endrede samling"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:227
+msgid "&Use the system default color set"
+msgstr "&Bruk system standard fargeoppsett"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:156
+msgid "&Use the system proxy settings"
+msgstr "&Bruk forvalgte mellomtjener-innstillinger"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:284
+msgid ""
+"(This is the delay between when a song is scrobbled and when scrobbles are "
+"submitted to the server. Setting the time to 0 minutes will submit scrobbles "
+"immediately)."
+msgstr ""
+"Tid mellom en sang er scrobbled og når skrobbler er sent til server. Setting "
+"av tid til 0 minutter vil sende skrobbler øyeblikkelig"
+
+#: dialogs/about.cpp:113
+msgid "(at your option) any later version.<br />"
+msgstr "(at your option) any later version.<br />"
+
+#: dialogs/edittagdialog.cpp:89
+msgid "(different across multiple songs)"
+msgstr "(varierer mellom sanger)"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:221
+#: ../../build-translations/src/ui_albumcovermanager.h:222
+msgid "0"
+msgstr "0"
+
+#: ../../build-translations/src/ui_trackslider.h:66
+#: ../../build-translations/src/ui_trackslider.h:70
+msgid "0:00:00"
+msgstr "0:00:00"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:243
+msgid "0px"
+msgstr "0px"
+
+#: core/utilities.cpp:144
+msgid "1 day"
+msgstr "1 dag"
+
+#: playlist/playlistmanager.cpp:433 queue/queue.cpp:249
+msgid "1 track"
+msgstr "1 spor"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:245
+msgid "40%"
+msgstr "40%"
+
+#: context/contextview.cpp:407
+#, qt-format
+msgid "<b>Albums by %1</b>"
+msgstr "<b>Album av %1</b>"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:294
+msgid ""
+"<html><head/><body><p>Enter your user token found on: <a href=\"https://"
+"listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Skriv inn din bruker token funnet på: <a href=\"https:/"
+"/listenbrainz.org/profile/\"><span style=\" text-decoration: underline; "
+"color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></"
+"html>"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:102
+#, qt-format
+msgid ""
+"<html><head/><body><p>Prefix a word with a field name to limit the search to "
+"that field, e.g. <span style=\" font-weight:600;\">artist:</span><span style="
+"\" font-style:italic;\">Bode</span> searches the collection for all artists "
+"that contain the word Bode.</p><p><span style=\" font-weight:"
+"600;\">Available fields: </span><span style=\" font-style:italic;\">%1</"
+"span>.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Prefix a word with a field name to limit the search to "
+"that field, e.g. <span style=\" font-weight:600;\">artist:</span><span style="
+"\" font-style:italic;\">Bode</span> searches the collection for all artists "
+"that contain the word Bode.</p><p><span style=\" font-weight:"
+"600;\">Available fields: </span><span style=\" font-style:italic;\">%1</"
+"span>.</p></body></html>"
+
+#: dialogs/about.cpp:138
+msgid "<p><b>Clementine Authors</b>"
+msgstr "<p><b>Clementine Forfattere</b>"
+
+#: dialogs/about.cpp:144
+msgid "<p><b>Clementine Contributors</b>"
+msgstr "<p><b>Clementine Bidragsytere</b>"
+
+#: dialogs/about.cpp:132
+msgid "<p><b>Strawberry Authors</b>"
+msgstr "<p><b>Strawberry Forfattere</b>"
+
+#: dialogs/about.cpp:150
+msgid "<p>Thanks to all the Amarok and Clementine contributors.</p>"
+msgstr "<p>Takk til alle Amarok og Clementine bidragsytere.</p>"
+
+#: ../../build-translations/src/ui_organisedialog.h:251
+msgid ""
+"<p>Tokens start with %, for example: %artist %album %title </p>\n"
+"\n"
+"<p>If you surround sections of text that contain a token with curly-braces, "
+"that section will be hidden if the token is empty.</p>"
+msgstr ""
+"<p>Kodene begynner med %, for eksempel: %artist %album %title </p>\n"
+"\n"
+"<p>Hvis du setter klammeparenteser rundt tekst som inneholder en kode, vil "
+"teksten skjules om koden er tom.</p>"
+
+#: dialogs/about.cpp:102
+#, qt-format
+msgid "<p>Version %1</p>"
+msgstr "<p>Versjon %1</p>"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:142
+msgid "A&utomatic"
+msgstr "A&utomatisk"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:192
+msgid "AAC"
+msgstr "AAC"
+
+#: core/song.cpp:430
+msgid "AIFF"
+msgstr "AIFF"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:428
+msgid "ALSA plugin"
+msgstr "ALSA plugin"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:193
+msgid "ASF (WMA)"
+msgstr "ASF (WMA)"
+
+#: covermanager/albumcovermanager.cpp:130
+#: covermanager/albumcoversearcher.cpp:182
+msgid "Abort"
+msgstr "Avbryt"
+
+#: ../../build-translations/src/ui_mainwindow.h:639
+msgid "About &Qt"
+msgstr "Om &Qt"
+
+#: dialogs/about.cpp:78
+msgid "About Strawberry"
+msgstr "Om Strawberry"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:143
+msgid "Absolu&te"
+msgstr "Absolu&tt"
+
+#: playlist/playlistsaveoptionsdialog.cpp:42
+msgid "Absolute"
+msgstr "Absolutt"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:338
+msgid "Account details"
+msgstr "Kontodetaljer"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:232
+msgctxt "Category label"
+msgid "Action"
+msgstr "Handling"
+
+#: ../../build-translations/src/ui_mainwindow.h:619
+msgid "Add &folder..."
+msgstr "Legg til &mappe..."
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:431
+msgid "Add a new line if supported by the notification type"
+msgstr "Legg til en linje, hvis meddelelsestypen støtter det"
+
+#: ../../build-translations/src/ui_transcodedialog.h:217
+msgid "Add all tracks from a directory and all its subdirectories"
+msgstr "Legg til alle filer fra ei mappe og dens undermapper"
+
+#: settings/collectionsettingspage.cpp:69
+msgid "Add directory..."
+msgstr "Legg til mappe…"
+
+#: core/mainwindow.cpp:1695
+msgid "Add file"
+msgstr "Legg til fil"
+
+#: ../../build-translations/src/ui_mainwindow.h:654
+msgid "Add file to transcoder"
+msgstr "Legg fil til omkoder"
+
+#: ../../build-translations/src/ui_mainwindow.h:652
+msgid "Add file(s) to transcoder"
+msgstr "Legg fil(er) til omkoder"
+
+#: transcoder/transcodedialog.cpp:255
+msgid "Add files to transcode"
+msgstr "Legg filer til for omkoding"
+
+#: core/mainwindow.cpp:1720 transcoder/transcodedialog.cpp:339
+msgid "Add folder"
+msgstr "Legg til mappe"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:155
+msgid "Add new folder..."
+msgstr "Legg til mappe…"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:386
+msgid "Add song album tag"
+msgstr "Fest album-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:392
+msgid "Add song albumartist tag"
+msgstr "Fest albumsartist-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:383
+msgid "Add song artist tag"
+msgstr "Fest artistetikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:428
+msgid "Add song auto score"
+msgstr "Legg til poeng automatisk"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:398
+msgid "Add song composer tag"
+msgstr "Fest komponist-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:407
+msgid "Add song disc tag"
+msgstr "Fest spor/disk-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:435
+msgid "Add song filename"
+msgstr "Fest låtnavn til sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:413
+msgid "Add song genre tag"
+msgstr "Fest sjangeretikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:404
+msgid "Add song grouping tag"
+msgstr "Fest sanggrupperings-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:416
+msgid "Add song length tag"
+msgstr "Fest låtlengde på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:401
+msgid "Add song performer tag"
+msgstr "Fest utøver-etikett på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:419
+msgid "Add song play count"
+msgstr "Fest avspillingsantall på sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:425
+msgid "Add song rating"
+msgstr "Fest poenggivning for låt til sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:422
+msgid "Add song skip count"
+msgstr "Fest antall overhoppninger til sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:389
+msgid "Add song title tag"
+msgstr "Fest låttittel-etikett til sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:410
+msgid "Add song track tag"
+msgstr "Fest etikett for låtnummer til sporet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:395
+msgid "Add song year tag"
+msgstr "Fest etikett for utgivelsesår på sporet"
+
+#: core/mainwindow.cpp:1529
+msgid "Add to another playlist"
+msgstr "Legg til i annen spilleliste"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:216
+msgid "Add to playlist"
+msgstr "Legg til i spilleliste"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:305
+#: ../../build-translations/src/ui_behavioursettingspage.h:313
+msgid "Add to the queue"
+msgstr "Legg i kø"
+
+#: ../../build-translations/src/ui_transcodedialog.h:214
+msgid "Add..."
+msgstr "Legg til..."
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:98
+msgid "Added this month"
+msgstr "Lagt til denne måneden"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:92
+msgid "Added this week"
+msgstr "Lagt til denne uken"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:97
+msgid "Added this year"
+msgstr "Lagt til i år"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:91
+msgid "Added today"
+msgstr "Lagt til i dag"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:93
+#: ../../build-translations/src/ui_collectionfilterwidget.h:95
+msgid "Added within three months"
+msgstr "Lagt til innen tre måneder"
+
+#: collection/collectionfilterwidget.cpp:180
+msgid "Advanced grouping..."
+msgstr "Avansert gruppering…"
+
+#: ../../build-translations/src/ui_organisedialog.h:245
+msgid "After copying..."
+msgstr "Etter kopiering…"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:238
+msgid "Albu&m cover"
+msgstr "Albu&m kover"
+
+#: core/qtsystemtrayicon.cpp:251 collection/savedgroupingmanager.cpp:84
+#: playlist/playlist.cpp:1158 organise/organisedialog.cpp:89
+#: ../../build-translations/src/ui_groupbydialog.h:175
+#: ../../build-translations/src/ui_groupbydialog.h:194
+#: ../../build-translations/src/ui_groupbydialog.h:213
+#: ../../build-translations/src/ui_albumcoversearcher.h:107
+#: ../../build-translations/src/ui_albumcoversearcher.h:109
+#: ../../build-translations/src/ui_edittagdialog.h:647
+#: ../../build-translations/src/ui_trackselectiondialog.h:207
+msgid "Album"
+msgstr "Album"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:440
+msgid "Album (ideal loudness for all tracks)"
+msgstr "Album (ideell lydstyrkeutgjevning for alle spor)"
+
+#: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1165
+#: organise/organisedialog.cpp:92
+#: ../../build-translations/src/ui_groupbydialog.h:177
+#: ../../build-translations/src/ui_groupbydialog.h:196
+#: ../../build-translations/src/ui_groupbydialog.h:215
+#: ../../build-translations/src/ui_edittagdialog.h:649
+msgid "Album artist"
+msgstr "Album artist"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:350
+#: ../../build-translations/src/ui_deezersettingspage.h:279
+msgid "Album cover size"
+msgstr "Plateomslag størrelse"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:347
+#: ../../build-translations/src/ui_deezersettingspage.h:276
+msgid "Albums search limit"
+msgstr "Album søke begrensning"
+
+#: covermanager/albumcovermanager.cpp:157
+msgid "Albums with covers"
+msgstr "Album med omslag"
+
+#: covermanager/albumcovermanager.cpp:158
+msgid "Albums without covers"
+msgstr "Album uten omslag"
+
+#: core/mainwindow.cpp:161
+msgid "All Files (*)"
+msgstr "Alle filer (*)"
+
+#: covermanager/albumcovermanager.cpp:156
+msgid "All albums"
+msgstr "Alle album"
+
+#: covermanager/albumcovermanager.cpp:277
+msgid "All artists"
+msgstr "Alle artister"
+
+#: covermanager/albumcoverchoicecontroller.cpp:63
+msgid "All files (*)"
+msgstr "Alle filer (*)"
+
+#: playlistparsers/playlistparser.cpp:97
+#, qt-format
+msgid "All playlists (%1)"
+msgstr "Alle spillelister (%1)"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:141
+msgid "Allow mid/side encoding"
+msgstr "Tillat midt/side-koding"
+
+#: ../../build-translations/src/ui_transcodedialog.h:224
+msgid "Alongside the originals"
+msgstr "Sammen med originalene"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:286
+msgid "Alwa&ys hide the main window"
+msgstr "Alltid skjul hovedvindu"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:285
+msgid "Always show &the main window"
+msgstr "Alltid vis hovedvindu"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:295
+#: ../../build-translations/src/ui_behavioursettingspage.h:309
+msgid "Always start playing"
+msgstr "Alltid start avspilling"
+
+#: device/afcdevice.cpp:72
+msgid "An error occurred copying the iTunes database from the device"
+msgstr "En feil oppsto ved innlasting av iTunes-databasen fra enheten"
+
+#: device/afcdevice.cpp:173
+msgid "An error occurred copying the iTunes database onto the device"
+msgstr "En feil oppsto ved innlasting av iTunes-databasen til enheten"
+
+#: device/gpodloader.cpp:78
+msgid "An error occurred loading the iTunes database"
+msgstr "En feil oppsto ved innlasting av iTunes-databasen"
+
+#: playlist/playlist.cpp:394 dialogs/edittagdialog.cpp:902
+#, qt-format
+msgid "An error occurred writing metadata to '%1'"
+msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:225
+msgid "Appearance"
+msgstr "Utseende"
+
+#: core/commandlineoptions.cpp:179
+msgid "Append files/URLs to the playlist"
+msgstr "Tilføy filer/URLer til spillelista"
+
+#: context/contextalbumsview.cpp:361 collection/collectionview.cpp:453
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:417
+#: device/deviceview.cpp:228
+msgid "Append to current playlist"
+msgstr "Legg til i gjeldende spilleliste"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:302
+msgid "Append to the playlist"
+msgstr "Legg til i spillelista"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:443
+msgid "Apply compression to prevent clipping"
+msgstr "Legg til kompressor, for å unngå klipping"
+
+#: equalizer/equalizer.cpp:222
+#, qt-format
+msgid "Are you sure you want to delete the \"%1\" preset?"
+msgstr "Er du sikker på at du vil slette \"%1\"-forhåndsinnstillingen?"
+
+#: dialogs/edittagdialog.cpp:828
+msgid "Are you sure you want to reset this song's statistics?"
+msgstr ""
+"Er du sikker på at du ønsker å nullstille statistikk for denne sangen?"
+
+#: core/qtsystemtrayicon.cpp:249 collection/savedgroupingmanager.cpp:81
+#: playlist/playlist.cpp:1157 organise/organisedialog.cpp:90
+#: ../../build-translations/src/ui_groupbydialog.h:176
+#: ../../build-translations/src/ui_groupbydialog.h:195
+#: ../../build-translations/src/ui_groupbydialog.h:214
+#: ../../build-translations/src/ui_albumcoversearcher.h:103
+#: ../../build-translations/src/ui_albumcoversearcher.h:105
+#: ../../build-translations/src/ui_edittagdialog.h:645
+#: ../../build-translations/src/ui_trackselectiondialog.h:208
+msgid "Artist"
+msgstr "Artist"
+
+#: organise/organisedialog.cpp:91
+msgid "Artist's initial"
+msgstr "Artistens initialer"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:346
+msgid "Artists search limit"
+msgstr "Artist søkebegrensning"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:145
+msgid "As&k when saving"
+msgstr "Spør ved lagring"
+
+#: ../../build-translations/src/ui_transcodedialog.h:221
+msgid "Audio format"
+msgstr "Lydformat"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:423
+msgid "Audio output"
+msgstr "Lyd-utenhet"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:343
+#: ../../build-translations/src/ui_deezersettingspage.h:273
+msgid "Audio quality"
+msgstr "Lydkvalitet"
+
+#: tidal/tidalservice.cpp:151
+msgid "Authenticating..."
+msgstr "Autentiserer..."
+
+#: ../../build-translations/src/ui_deezersettingspage.h:270
+msgid "Authentication"
+msgstr "Autentisering"
+
+#: settings/tidalsettingspage.cpp:146 settings/deezersettingspage.cpp:141
+msgid "Authentication failed"
+msgstr "Identitetsbekreftelse feilet"
+
+#: scrobbler/scrobblingapi20.cpp:152
+msgid "Authentication was cancelled."
+msgstr "Autentisering avbrutt"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:225
+msgid "Auto"
+msgstr "Automatisk"
+
+#: playlist/playlistsaveoptionsdialog.cpp:40
+msgid "Automatic"
+msgstr "Automatisk"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:157
+msgid "Automatic updating"
+msgstr "Automatisk oppdatering"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:166
+msgid "Automatically open single categories in the collection tree"
+msgstr "Åpne enkeltkategorier i bibliotektreet automatisk"
+
+#: widgets/freespacebar.cpp:71
+msgid "Available"
+msgstr "Tilgjengelig"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:221
+msgid "Average bitrate"
+msgstr "Gjennomsnittlig bitrate"
+
+#: covermanager/coversearchstatisticsdialog.cpp:84
+msgid "Average image size"
+msgstr "Gjennomsnittlig bildestørrelse"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:422
+msgid "Backend"
+msgstr "Backend"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:460
+msgid "Background color"
+msgstr "Bakgrunnsfarge"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:233
+msgid "Background image"
+msgstr "Bakgrunnsbilde"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:459
+msgid "Background opacity"
+msgstr "Bakgrunnsdekkevne"
+
+#: core/database.cpp:646
+msgid "Backing up database"
+msgstr "Tar sikkerhetskopi av databasen"
+
+#: ../../build-translations/src/ui_equalizer.h:170
+msgid "Balance"
+msgstr "Balanse"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:461
+msgid "Basic Blue"
+msgstr "Blå"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:279
+msgid "Behavior"
+msgstr "Adferd"
+
+#: ../../build-translations/src/ui_transcoderoptionsflac.h:79
+msgid "Best"
+msgstr "Best"
+
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1175
+#: organise/organisedialog.cpp:105
+#: ../../build-translations/src/ui_contextviewcontainer.h:351
+#: ../../build-translations/src/ui_groupbydialog.h:187
+#: ../../build-translations/src/ui_groupbydialog.h:206
+#: ../../build-translations/src/ui_groupbydialog.h:225
+#: ../../build-translations/src/ui_edittagdialog.h:635
+msgid "Bit depth"
+msgstr "Bit dybde"
+
+#: ../../build-translations/src/ui_edittagdialog.h:632
+msgid "Bit rate"
+msgstr "Bitrate"
+
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1176
+#: ../../build-translations/src/ui_contextviewcontainer.h:359
+#: ../../build-translations/src/ui_groupbydialog.h:185
+#: ../../build-translations/src/ui_groupbydialog.h:204
+#: ../../build-translations/src/ui_groupbydialog.h:223
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:132
+#: ../../build-translations/src/ui_transcoderoptionsopus.h:76
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:218
+#: ../../build-translations/src/ui_transcoderoptionsasf.h:75
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:193
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: organise/organisedialog.cpp:103
+msgctxt "Refers to bitrate in file organise dialog."
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: analyzer/blockanalyzer.cpp:46
+msgid "Block analyzer"
+msgstr "Blokkanalyse"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:142
+msgid "Block type"
+msgstr "Blokktype"
+
+#: device/ilister.cpp:139
+msgid "Bluetooth MAC Address"
+msgstr "Bluetooth MAC Address"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:242
+msgid "Blur amount"
+msgstr "Mengde slør"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:456
+msgid "Body"
+msgstr "Brødtekst"
+
+#: analyzer/boomanalyzer.cpp:41
+msgid "Boom analyzer"
+msgstr "Boomanalysator"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:241
+msgid "Browse..."
+msgstr "Bla gjennom…"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:431
+msgid "Buffer"
+msgstr "Buffer"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:432
+msgid "Buffer duration"
+msgstr "Mellomlagringslengde"
+
+#: engine/gstengine.cpp:680
+msgid "Buffering"
+msgstr "Mellomlagring"
+
+#: ../../build-translations/src/ui_mainwindow.h:613
+msgid "C&onsole"
+msgstr "K&onsoll"
+
+#: core/song.cpp:392
+msgid "CD"
+msgstr "CD"
+
+#: core/song.cpp:437
+msgid "CDDA"
+msgstr "CDDA"
+
+#: ../../build-translations/src/ui_edittagdialog.h:627
+msgid "Change cover art"
+msgstr "Endre omslagsbilde"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:237
+msgid "Change shortcut..."
+msgstr "Endre snarvei…"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:312
+msgid "Change the currently playing song"
+msgstr "Bytt låten som spilles"
+
+#: core/commandlineoptions.cpp:184
+msgid "Change the language"
+msgstr "Endre språk"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:455
+msgid ""
+"Changing mono playback preference will be effective for the next playing "
+"songs"
+msgstr "Endringer for monoavspillingsvalg vil trå i kraft for neste låt"
+
+#: core/mainwindow.cpp:633
+msgid "Check for updates..."
+msgstr "Se etter oppdateringer…"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:466
+msgid "Choose color..."
+msgstr "Velg farge…"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:467
+msgid "Choose font..."
+msgstr "Velg skrifttype…"
+
+#: equalizer/equalizer.cpp:133
+msgid "Classical"
+msgstr "Klassisk"
+
+#: widgets/lineedit.cpp:61 transcoder/transcodedialog.cpp:91
+#: ../../build-translations/src/ui_queueview.h:140
+msgid "Clear"
+msgstr "Tøm"
+
+#: ../../build-translations/src/ui_mainwindow.h:579
+msgid "Clear playlist"
+msgstr "Tøm spillelisten"
+
+#: collection/collectionview.cpp:431
+msgid "Click here to add some music"
+msgstr "Klikk her for å legge til musikk"
+
+#: playlist/playlisttabbar.cpp:327
+msgid ""
+"Click here to favorite this playlist so it will be saved and remain "
+"accessiblethrough the \"Playlists\" panel on the left side bar"
+msgstr ""
+"Klikk her for å merke spillelisten som favoritt, så den lagres og blir "
+"tilgjengelig via Spillelister-panelet i venstre sidefelt."
+
+#: ../../build-translations/src/ui_trackslider.h:68
+msgid "Click to toggle between remaining time and total time"
+msgstr "Klikk for å bytte mellom gjenværende og total tid"
+
+#: playlist/playlisttabbar.cpp:73
+msgid "Close playlist"
+msgstr "Lukk spillelista"
+
+#: covermanager/albumcovermanager.cpp:228
+msgid "Closing this window will stop searching for album covers."
+msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
+
+#: equalizer/equalizer.cpp:134
+msgid "Club"
+msgstr "Klubbmusikk"
+
+#: core/mainwindow.cpp:260 core/song.cpp:391
+#: ../../build-translations/src/ui_collectionsettingspage.h:153
+msgid "Collection"
+msgstr "Samling"
+
+#: ../../build-translations/src/ui_groupbydialog.h:170
+msgid "Collection advanced grouping"
+msgstr "Avansert samlingsgruppering"
+
+#: core/mainwindow.cpp:2170
+msgid "Collection rescan notice"
+msgstr "Melding om gjennomsøk av samlingen"
+
+#: device/ilister.cpp:134
+msgid "Color"
+msgstr "Farger"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:226
+msgid "Colors"
+msgstr "Farger"
+
+#: core/commandlineoptions.cpp:187
+msgid "Comma separated list of class:level, level is 0-3"
+msgstr "Komma-separert liste av klasse:level, level er 0-3"
+
+#: playlist/playlist.cpp:1185 organise/organisedialog.cpp:101
+#: ../../build-translations/src/ui_edittagdialog.h:655
+msgid "Comment"
+msgstr "Kommentar"
+
+#: ../../build-translations/src/ui_edittagdialog.h:654
+msgid "Complete tags automatically"
+msgstr "Fyll ut etiketter automatisk"
+
+#: ../../build-translations/src/ui_mainwindow.h:645
+msgid "Complete tags automatically..."
+msgstr "Full ut etiketter automatisk…"
+
+#: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1166
+#: organise/organisedialog.cpp:93
+#: ../../build-translations/src/ui_groupbydialog.h:178
+#: ../../build-translations/src/ui_groupbydialog.h:197
+#: ../../build-translations/src/ui_groupbydialog.h:216
+#: ../../build-translations/src/ui_edittagdialog.h:650
+msgid "Composer"
+msgstr "Komponist"
+
+#: internet/internetsearchview.cpp:144 internet/internetsearchview.cpp:433
+#, qt-format
+msgid "Configure %1..."
+msgstr "Sett opp %1…"
+
+#: core/mainwindow.cpp:531
+msgid "Configure collection..."
+msgstr "Sett opp samling…"
+
+#: device/devicemanager.cpp:260 device/devicemanager.cpp:261
+msgid "Connect device"
+msgstr "Koble til enhet"
+
+#: ../../build-translations/src/ui_console.h:76
+msgid "Console"
+msgstr "Konsoll"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:195
+msgid "Constant bitrate"
+msgstr "Konstant bitrate"
+
+#: core/mainwindow.cpp:259
+msgid "Context"
+msgstr "Kontekst"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:138
+msgid "Continue to the next item in the playlist if a song is unavailable"
+msgstr ""
+"Fortsett til neste sang i stillelisten dersom en sang ikke er tilgjengelig"
+
+#: ../../build-translations/src/ui_deviceproperties.h:377
+msgid "Convert all music"
+msgstr "Konverter all musikk"
+
+#: ../../build-translations/src/ui_deviceproperties.h:376
+msgid "Convert any music that the device can't play"
+msgstr "Konverter all musikk som enheten ikke kan spille"
+
+#: ../../build-translations/src/ui_organisedialog.h:261
+msgid "Copy album cover artwork"
+msgstr "Kopier album omslaggrafikk"
+
+#: core/mainwindow.cpp:583 widgets/fileviewlist.cpp:47
+#: device/deviceview.cpp:233
+msgid "Copy to collection..."
+msgstr "Kopier til samling…"
+
+#: core/mainwindow.cpp:581 context/contextalbumsview.cpp:371
+#: collection/collectionview.cpp:464 widgets/fileviewlist.cpp:49
+msgid "Copy to device..."
+msgstr "Kopier til enhet…"
+
+#: device/afctransfer.cpp:55
+msgid "Copying iPod database"
+msgstr "Kopier iPod database"
+
+#: transcoder/transcoder.cpp:73
+#, qt-format
+msgid ""
+"Could not create the GStreamer element \"%1\" - make sure you have all the "
+"required GStreamer plugins installed"
+msgstr ""
+"Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
+"nødvendige GStreamer-programutvidelser installert"
+
+#: scrobbler/scrobblingapi20.cpp:144
+#, qt-format
+msgid ""
+"Could not open URL. Please open this URL in your browser:<br /><a href="
+"\"%1\">%1</a>"
+msgstr ""
+"Kunne ikke åpne adressen. Åpne denne nettadressen i nettleseren din:<br /><a "
+"href=\"%1\">%1</a>"
+
+#: playlist/playlistmanager.cpp:178
+msgid "Couldn't create playlist"
+msgstr "Kunne ikke opprette spilleliste"
+
+#: transcoder/transcoder.cpp:447
+#, qt-format
+msgid ""
+"Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
+"installed"
+msgstr ""
+"Kunne ikke finne multiplekser for %1, sjekk at du har de riktige GStreamer-"
+"programutvidelsene installert"
+
+#: transcoder/transcoder.cpp:442
+#, qt-format
+msgid ""
+"Couldn't find an encoder for %1, check you have the correct GStreamer "
+"plugins installed"
+msgstr ""
+"Kunne ikke finne noen koder for %1, kontroller at du har de riktige "
+"GStreamer-modulene installert"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:213
+#: ../../build-translations/src/ui_albumcoversearcher.h:101
+msgid "Cover Manager"
+msgstr "Behandling av plateomslag"
+
+#: dialogs/edittagdialog.cpp:511
+msgid "Cover art from embedded image"
+msgstr "Omslaggrafikk fra innebygget bilde"
+
+#: dialogs/edittagdialog.cpp:514
+#, qt-format
+msgid "Cover art loaded automatically from %1"
+msgstr "Omslaggrafikk ble lastet inn automatisk fra %1"
+
+#: dialogs/edittagdialog.cpp:504
+msgid "Cover art manually unset"
+msgstr "Omslaggrafikk manuelt avskrudd"
+
+#: dialogs/edittagdialog.cpp:517
+msgid "Cover art not set"
+msgstr "Har ikke omslaggrafikk"
+
+#: dialogs/edittagdialog.cpp:508
+#, qt-format
+msgid "Cover art set from %1"
+msgstr "Omslaggrafikk satt fra %1"
+
+#: covermanager/albumcoversearcher.cpp:122
+#: covermanager/coversearchstatisticsdialog.cpp:76
+#, qt-format
+msgid "Covers from %1"
+msgstr "Omslag fra %1"
+
+#: core/commandlineoptions.cpp:178
+msgid "Create a new playlist with files"
+msgstr "Opprett ny spilleliste med filer"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:447
+msgid "Cross-fade when changing tracks automatically"
+msgstr "Miks overgang når spor skiftes automatisk"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:446
+msgid "Cross-fade when changing tracks manually"
+msgstr "Mikse overgang når du skifter spor selv"
+
+#: ../../build-translations/src/ui_mainwindow.h:575
+msgid "Ctrl+Alt+V"
+msgstr "Ctrl+Alt+V"
+
+#: ../../build-translations/src/ui_queueview.h:133
+msgid "Ctrl+Down"
+msgstr "Ctrl+Ned"
+
+#: ../../build-translations/src/ui_mainwindow.h:586
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: ../../build-translations/src/ui_mainwindow.h:604
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: ../../build-translations/src/ui_mainwindow.h:622
+msgid "Ctrl+J"
+msgstr "Ctrl+J"
+
+#: ../../build-translations/src/ui_mainwindow.h:582
+#: ../../build-translations/src/ui_queueview.h:143
+msgid "Ctrl+K"
+msgstr "Ctrl+K"
+
+#: ../../build-translations/src/ui_mainwindow.h:642
+msgid "Ctrl+M"
+msgstr "Ctrl+M"
+
+#: ../../build-translations/src/ui_mainwindow.h:626
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../../build-translations/src/ui_mainwindow.h:596
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: ../../build-translations/src/ui_mainwindow.h:571
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../../build-translations/src/ui_mainwindow.h:630
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
+
+#: ../../build-translations/src/ui_mainwindow.h:608
+msgid "Ctrl+Shift+A"
+msgstr "Ctrl+Shift+A"
+
+#: ../../build-translations/src/ui_mainwindow.h:634
+msgid "Ctrl+Shift+O"
+msgstr "Ctrl+Shift+O"
+
+#: ../../build-translations/src/ui_mainwindow.h:647
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: ../../build-translations/src/ui_savedgroupingmanager.h:105
+#: ../../build-translations/src/ui_queueview.h:127
+msgid "Ctrl+Up"
+msgstr "Ctrl+Opp"
+
+#: equalizer/equalizer.cpp:132
+msgid "Custom"
+msgstr "Egendefinert"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:240
+msgid "Custom image:"
+msgstr "Egendefinert bilde:"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:451
+msgid "Custom message settings"
+msgstr "Egendefinerte melding-innstillinger"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:463
+msgid "Custom..."
+msgstr "Egendefinert…"
+
+#: device/devicekitlister.cpp:130 device/udisks2lister.cpp:107
+msgid "D-Bus path"
+msgstr "D-Bus sti"
+
+#: core/song.cpp:434
+msgid "DSDIFF"
+msgstr "DSDIFF"
+
+#: core/song.cpp:433
+msgid "DSF"
+msgstr "DSF"
+
+#: equalizer/equalizer.cpp:135
+msgid "Dance"
+msgstr "Dansemusikk"
+
+#: core/database.cpp:599
+msgid "Database corruption detected."
+msgstr "Oppdaget feil i databasen."
+
+#: playlist/playlist.cpp:1183
+#: ../../build-translations/src/ui_edittagdialog.h:640
+msgid "Date created"
+msgstr "Opprettelse dato"
+
+#: playlist/playlist.cpp:1182
+#: ../../build-translations/src/ui_edittagdialog.h:639
+msgid "Date modified"
+msgstr "Endrings dato"
+
+#: core/commandlineoptions.cpp:171
+msgid "Decrease the volume by 4 precent"
+msgstr "Demp lyden med 4 prosent"
+
+#: core/commandlineoptions.cpp:173
+msgid "Decrease the volume by <value> percent"
+msgstr "Demp lydstyrken med <value> prosent"
+
+#: core/mainwindow.cpp:271 core/mainwindow.cpp:848 core/song.cpp:396
+#: ../../build-translations/src/ui_deezersettingspage.h:268
+msgid "Deezer"
+msgstr "Deezer"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:234
+msgid "Default bac&kground image"
+msgstr "Forhåndsvalgt bak&grunnsbilde"
+
+#: playlist/playlistlistcontainer.cpp:93
+#: ../../build-translations/src/ui_playlistlistcontainer.h:128
+msgid "Delete"
+msgstr "Slett"
+
+#: widgets/fileview.cpp:222 device/deviceview.cpp:408
+msgid "Delete files"
+msgstr "Slett filer"
+
+#: device/deviceview.cpp:234
+msgid "Delete from device..."
+msgstr "Slett fra enhet…"
+
+#: widgets/fileviewlist.cpp:50
+msgid "Delete from disk..."
+msgstr "Slett fra disk…"
+
+#: equalizer/equalizer.cpp:221 ../../build-translations/src/ui_equalizer.h:166
+msgid "Delete preset"
+msgstr "Slett forhåndsinnstilling"
+
+#: ../../build-translations/src/ui_organisedialog.h:247
+msgid "Delete the original files"
+msgstr "Slett de originale filene"
+
+#: core/deletefiles.cpp:55
+msgid "Deleting files"
+msgstr "Sletter filer"
+
+#: core/mainwindow.cpp:1451
+msgid "Dequeue selected tracks"
+msgstr "Fjern valgte spor fra avspillingskøen"
+
+#: core/mainwindow.cpp:1450
+msgid "Dequeue track"
+msgstr "Fjern sporet fra avspillingskøen"
+
+#: ../../build-translations/src/ui_organisedialog.h:244
+#: ../../build-translations/src/ui_transcodedialog.h:223
+msgid "Destination"
+msgstr "Mål"
+
+#: ../../build-translations/src/ui_transcodedialog.h:228
+msgid "Details..."
+msgstr "Detaljer…"
+
+#: core/song.cpp:393 device/devicekitlister.cpp:133 device/giolister.cpp:186
+#: ../../build-translations/src/ui_contextviewcontainer.h:366
+#: ../../build-translations/src/ui_backendsettingspage.h:426
+msgid "Device"
+msgstr "Enhet"
+
+#: ../../build-translations/src/ui_deviceproperties.h:366
+msgid "Device Properties"
+msgstr "Egenskaper for enhet"
+
+#: device/deviceview.cpp:225
+msgid "Device properties..."
+msgstr "Egenskaper for enhet…"
+
+#: core/mainwindow.cpp:265
+msgid "Devices"
+msgstr "Enheter"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:157
+msgid "Direct internet connection"
+msgstr "Koblet direkte til Internett"
+
+#: ../../build-translations/src/ui_transcodedialog.h:212
+msgid "Directory"
+msgstr "Mappe"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:446
+msgid "Disable duration"
+msgstr "Slå av varighet"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:439
+msgctxt "Refers to a disabled notification type in Notification settings."
+msgid "Disabled"
+msgstr "Avskrudd"
+
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1160
+#: organise/organisedialog.cpp:97
+#: ../../build-translations/src/ui_groupbydialog.h:188
+#: ../../build-translations/src/ui_groupbydialog.h:207
+#: ../../build-translations/src/ui_groupbydialog.h:226
+#: ../../build-translations/src/ui_edittagdialog.h:646
+msgid "Disc"
+msgstr "Disk"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:232
+msgid "Discontinuous transmission"
+msgstr "Uregelmessig overføring"
+
+#: collection/collectionfilterwidget.cpp:116
+#: ../../build-translations/src/ui_collectionsettingspage.h:165
+msgid "Display options"
+msgstr "Visningsalternativ"
+
+#: core/commandlineoptions.cpp:182
+msgid "Display the on-screen-display"
+msgstr "Overleggsvisning"
+
+#: ../../build-translations/src/ui_deviceproperties.h:375
+msgid "Do not convert any music"
+msgstr "Ikke konverter musikk"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:206
+msgid "Do not overwrite"
+msgstr "Ikke overskriv"
+
+#: widgets/osd.cpp:271 ../../build-translations/src/ui_playlistsequence.h:108
+msgid "Don't repeat"
+msgstr "Ikke gjenta"
+
+#: collection/collectionview.cpp:475
+msgid "Don't show in various artists"
+msgstr "Ikke vis under diverse artister"
+
+#: widgets/osd.cpp:258 ../../build-translations/src/ui_playlistsequence.h:114
+msgid "Don't shuffle"
+msgstr "Ikke stokk"
+
+#: covermanager/albumcovermanager.cpp:229
+msgid "Don't stop!"
+msgstr "Ikke stopp!"
+
+#: device/deviceview.cpp:139
+msgid "Double click to open"
+msgstr "Dobbelklikk for å åpne"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:311
+msgid "Double clicking a song in the playlist will..."
+msgstr "Dobbeltklikking på vilkårlig sang i spillelisten vil…"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:301
+msgid "Double clicking a song will..."
+msgstr "Dobbeltklikking på en sang vil…"
+
+#: musicbrainz/tagfetcher.cpp:116
+msgid "Downloading metadata"
+msgstr "Laster ned metadata"
+
+#: settings/notificationssettingspage.cpp:65
+msgid "Drag to reposition"
+msgstr "Dra for å endre posisjon"
+
+#: core/mainwindow.cpp:1493
+#, qt-format
+msgid "Edit tag \"%1\"..."
+msgstr "Rediger etiketten \"%1\"…"
+
+#: ../../build-translations/src/ui_mainwindow.h:590
+msgid "Edit tag..."
+msgstr "Rediger etikett…"
+
+#: ../../build-translations/src/ui_edittagdialog.h:656
+msgid "Edit tags"
+msgstr "Rediger tagger"
+
+#: ../../build-translations/src/ui_edittagdialog.h:625
+msgid "Edit track information"
+msgstr "Rediger spor informasjon"
+
+#: context/contextalbumsview.cpp:375 collection/collectionview.cpp:469
+#: widgets/fileviewlist.cpp:53 ../../build-translations/src/ui_mainwindow.h:584
+msgid "Edit track information..."
+msgstr "Rediger spor informasjon…"
+
+#: context/contextalbumsview.cpp:376 collection/collectionview.cpp:470
+msgid "Edit tracks information..."
+msgstr "Rediger spor informasjon…"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:277
+#: ../../build-translations/src/ui_scrobblersettingspage.h:286
+#: ../../build-translations/src/ui_scrobblersettingspage.h:289
+#: ../../build-translations/src/ui_scrobblersettingspage.h:292
+#: ../../build-translations/src/ui_tidalsettingspage.h:337
+#: ../../build-translations/src/ui_deezersettingspage.h:269
+msgid "Enable"
+msgstr "Aktiver"
+
+#: ../../build-translations/src/ui_equalizer.h:168
+msgid "Enable equalizer"
+msgstr "Slå på tonekontroll (EQ)"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:279
+msgid "Enable offline mode"
+msgstr "Aktiver avkoblet modus"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:150
+msgid "Enable song metadata inline edition with click"
+msgstr "Slå på direkteredigering med ett klikk"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:233
+msgid "Encoding complexity"
+msgstr "Koding-kompleksitet"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:196
+msgid "Encoding engine quality"
+msgstr "Koding motorens kvalitetsinnstilling"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:224
+msgid "Encoding mode"
+msgstr "Kodingsmodus"
+
+#: ../../build-translations/src/ui_contextviewcontainer.h:365
+#: ../../build-translations/src/ui_backendsettingspage.h:424
+msgid "Engine"
+msgstr "Motor"
+
+#: ../../build-translations/src/ui_coverfromurldialog.h:100
+msgid "Enter a URL to download a cover from the Internet:"
+msgstr "Skriv inn en URL for å laste ned albumgrafikk fra Internett:"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:202
+msgid "Enter a filename for exported covers (no extension):"
+msgstr "Skriv inn et filnavn for eksportert albumomslag (uten filendelse):"
+
+#: playlist/playlisttabbar.cpp:173
+msgid "Enter a new name for this playlist"
+msgstr "Gi denne spillelista et nytt navn"
+
+#: ../../build-translations/src/ui_internetsearchview.h:230
+msgid "Enter search terms above to find music"
+msgstr "Skriv inn søkeord ovenfor for å finne musikk"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:104
+#: ../../build-translations/src/ui_albumcovermanager.h:217
+msgid "Enter search terms here"
+msgstr "Skriv inn søkeord her"
+
+#: playlist/playlistlistcontainer.cpp:187
+msgid "Enter the name of the folder"
+msgstr "Skriv inn navn på mappa"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:90
+msgid "Entire collection"
+msgstr "Hele samlingen"
+
+#: ../../build-translations/src/ui_equalizer.h:160
+msgid "Equalizer"
+msgstr "Tonekontroll"
+
+#: core/commandlineoptions.cpp:185
+msgid "Equivalent to --log-levels *:1"
+msgstr "Tilsvarer --log-levels *:1"
+
+#: core/commandlineoptions.cpp:186
+msgid "Equivalent to --log-levels *:3"
+msgstr "Tilsvarer --log-levels *:3"
+
+#: core/mainwindow.cpp:1963 core/mainwindow.cpp:2066
+#: context/contextalbumsview.cpp:491 collection/collectionview.cpp:665
+msgid "Error"
+msgstr "Feil"
+
+#: device/mtploader.cpp:65
+msgid "Error connecting MTP device"
+msgstr "Kunne ikke koble til MTP-enhet"
+
+#: organise/organiseerrordialog.cpp:73
+msgid "Error copying songs"
+msgstr "Kunne ikke kopiere sanger"
+
+#: organise/organiseerrordialog.cpp:78
+msgid "Error deleting songs"
+msgstr "Kunne ikke slette sanger"
+
+#: playlist/songloaderinserter.cpp:71
+#, qt-format
+msgid "Error loading %1"
+msgstr "Kunne ikke laste inn %1"
+
+#: transcoder/transcoder.cpp:415
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Kunne ikke behandle %1: %2"
+
+#: playlist/songloaderinserter.cpp:102
+msgid "Error while loading audio CD"
+msgstr "Kunne ikke laste lyd-CD"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:448
+msgid "Except between tracks on the same album or in the same CUE sheet"
+msgstr "Unntatt mellom spor fra samme album eller CUE-fil"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:205
+msgid "Existing covers"
+msgstr "Eksisterende omslag"
+
+#: widgets/loginstatewidget.cpp:146
+#, qt-format
+msgid "Expires on %1"
+msgstr "Utgår den %1"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:224
+msgid "Export Covers"
+msgstr "Eksporter omslag"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:200
+msgid "Export covers"
+msgstr "Eksporter omslag"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:203
+msgid "Export downloaded covers"
+msgstr "Eksporter nedlastede omslag"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:204
+msgid "Export embedded covers"
+msgstr "Eksporter innebygde omslag"
+
+#: covermanager/albumcovermanager.cpp:825
+#: covermanager/albumcovermanager.cpp:851
+msgid "Export finished"
+msgstr "Eksport fullført"
+
+#: covermanager/albumcovermanager.cpp:836
+#, qt-format
+msgid "Exported %1 covers out of %2 (%3 skipped)"
+msgstr "%1 av %2 omslag eksportert (hoppet over %3)"
+
+#: ../../build-translations/src/ui_mainwindow.h:600
+msgid "F1"
+msgstr "F1"
+
+#: ../../build-translations/src/ui_mainwindow.h:592
+msgid "F2"
+msgstr "F2"
+
+#: ../../build-translations/src/ui_mainwindow.h:555
+msgid "F5"
+msgstr "F5"
+
+#: ../../build-translations/src/ui_mainwindow.h:559
+msgid "F6"
+msgstr "F6"
+
+#: ../../build-translations/src/ui_mainwindow.h:563
+msgid "F7"
+msgstr "F7"
+
+#: ../../build-translations/src/ui_mainwindow.h:567
+msgid "F8"
+msgstr "F8"
+
+#: core/song.cpp:421
+#: ../../build-translations/src/ui_transcodersettingspage.h:187
+msgid "FLAC"
+msgstr "FLAC"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:451
+msgid "Fade out on pause / fade in on resume"
+msgstr "Ton ut/inn ved pause/start"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:445
+msgid "Fade out when stopping a track"
+msgstr "Ton ut når sporet stoppes"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:444
+msgid "Fading"
+msgstr "Ton inn/ut"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:449
+#: ../../build-translations/src/ui_backendsettingspage.h:452
+msgid "Fading duration"
+msgstr "Tonings-varighet"
+
+#: ../../build-translations/src/ui_transcoderoptionsflac.h:78
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:197
+msgid "Fast"
+msgstr "Rask"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:223
+msgid "Fetch Missing Covers"
+msgstr "Hent manglende omslag"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:214
+msgid "Fetch automatically"
+msgstr "Hent automatisk"
+
+#: ../../build-translations/src/ui_coversearchstatisticsdialog.h:71
+msgid "Fetch completed"
+msgstr "Innhenting fullført"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:349
+#: ../../build-translations/src/ui_deezersettingspage.h:278
+msgid "Fetch entire albums when searching songs"
+msgstr "Hent hele album når en søker etter sanger"
+
+#: covermanager/coverfromurldialog.cpp:83
+#: covermanager/coverfromurldialog.cpp:95
+msgid "Fetching cover error"
+msgstr "Kunne ikke hente albumgrafikk"
+
+#: core/song.cpp:390
+msgid "File"
+msgstr "Fil"
+
+#: organise/organisedialog.cpp:106
+msgid "File extension"
+msgstr "Fil etternavn"
+
+#: ../../build-translations/src/ui_deviceproperties.h:382
+msgid "File formats"
+msgstr "Filformat"
+
+#: playlist/playlist.cpp:1178
+#: ../../build-translations/src/ui_edittagdialog.h:641
+msgid "File name"
+msgstr "Filnavn"
+
+#: playlist/playlist.cpp:1179
+msgid "File name (without path)"
+msgstr "Filnavn (uten sti)"
+
+#: ../../build-translations/src/ui_playlistsaveoptionsdialog.h:92
+msgid "File paths"
+msgstr "Filstier"
+
+#: playlist/playlist.cpp:1180
+#: ../../build-translations/src/ui_edittagdialog.h:636
+msgid "File size"
+msgstr "Filstørrelse"
+
+#: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1181
+#: ../../build-translations/src/ui_groupbydialog.h:179
+#: ../../build-translations/src/ui_groupbydialog.h:198
+#: ../../build-translations/src/ui_groupbydialog.h:217
+#: ../../build-translations/src/ui_edittagdialog.h:637
+msgid "File type"
+msgstr "Filtype"
+
+#: ../../build-translations/src/ui_transcodedialog.h:213
+msgid "Filename"
+msgstr "Filnavn"
+
+#: core/mainwindow.cpp:261
+msgid "Files"
+msgstr "Filer"
+
+#: ../../build-translations/src/ui_transcodedialog.h:210
+msgid "Files to transcode"
+msgstr "Filer som skal omkodes"
+
+#: ../../build-translations/src/ui_contextviewcontainer.h:358
+msgid "Filetype"
+msgstr "Filtype"
+
+#: musicbrainz/tagfetcher.cpp:63
+msgid "Fingerprinting song"
+msgstr "Vannmerker sangen"
+
+#: collection/savedgroupingmanager.cpp:56
+#: ../../build-translations/src/ui_groupbydialog.h:173
+msgid "First level"
+msgstr "Første nivå"
+
+#: widgets/playingwidget.cpp:110
+msgid "Fit cover to width"
+msgstr "Tilpass omslag til bredde"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:201
+msgid "Force mono encoding"
+msgstr "Tving monolyd-koding"
+
+#: device/deviceview.cpp:223 device/deviceview.cpp:330
+#: device/deviceview.cpp:333
+msgid "Forget device"
+msgstr "Glem enhet"
+
+#: device/deviceview.cpp:331
+msgid ""
+"Forgetting a device will remove it from this list and Strawberry will have "
+"to rescan all the songs again next time you connect it."
+msgstr ""
+"Hvis du glemmer enheten, forsvinner den fra denne listen, og Strawberry må "
+"lete gjennom alle sangene på enheten neste gang du kobler den til."
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:89
+#: ../../build-translations/src/ui_collectionviewcontainer.h:55
+#: ../../build-translations/src/ui_playlistcontainer.h:148
+#: ../../build-translations/src/ui_playlistlistcontainer.h:123
+#: ../../build-translations/src/ui_equalizerslider.h:79
+#: ../../build-translations/src/ui_trackslider.h:65
+#: ../../build-translations/src/ui_fileview.h:103
+#: ../../build-translations/src/ui_loginstatewidget.h:164
+#: ../../build-translations/src/ui_deviceviewcontainer.h:48
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:131
+#: ../../build-translations/src/ui_transcoderoptionsflac.h:76
+#: ../../build-translations/src/ui_transcoderoptionswavpack.h:46
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:197
+#: ../../build-translations/src/ui_transcoderoptionsopus.h:75
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:216
+#: ../../build-translations/src/ui_transcoderoptionsasf.h:74
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:189
+msgid "Form"
+msgstr "Skjema"
+
+#: analyzer/analyzercontainer.cpp:59
+msgid "Framerate"
+msgstr "Bildetakt"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:234
+msgid "Frames per buffer"
+msgstr "Bilder per buffer"
+
+#: equalizer/equalizer.cpp:136
+msgid "Full Bass"
+msgstr "Full bass"
+
+#: equalizer/equalizer.cpp:138
+msgid "Full Bass + Treble"
+msgstr "Full bass + diskant"
+
+#: equalizer/equalizer.cpp:137
+msgid "Full Treble"
+msgstr "Full diskant"
+
+#: dialogs/about.cpp:118
+msgid "GNU General Public License for more details.<br />"
+msgstr "GNU General Public License for more details.<br />"
+
+#: settings/settingsdialog.cpp:120
+msgid "General"
+msgstr "Generelt"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:443
+msgid "General settings"
+msgstr "Generelle innstillinger"
+
+#: collection/savedgroupingmanager.cpp:96 playlist/playlist.cpp:1164
+#: organise/organisedialog.cpp:100
+#: ../../build-translations/src/ui_groupbydialog.h:180
+#: ../../build-translations/src/ui_groupbydialog.h:199
+#: ../../build-translations/src/ui_groupbydialog.h:218
+#: ../../build-translations/src/ui_edittagdialog.h:653
+msgid "Genre"
+msgstr "Sjanger"
+
+#: ../../build-translations/src/ui_mainwindow.h:636
+msgid "Go to next playlist tab"
+msgstr "Gå til neste fane på spillelista"
+
+#: ../../build-translations/src/ui_mainwindow.h:637
+msgid "Go to previous playlist tab"
+msgstr "Gå til forrige fane på spillelista"
+
+#: covermanager/albumcovermanager.cpp:475
+#: covermanager/coversearchstatisticsdialog.cpp:70
+#: ../../build-translations/src/ui_coversearchstatisticsdialog.h:72
+#, qt-format
+msgid "Got %1 covers out of %2 (%3 failed)"
+msgstr "Hentet %1 av %2 omslag (%3 feilet)"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:139
+msgid "Grey out unavailable songs in playlists on playback"
+msgstr "Merk ikke-eksisterende sanger med grått når de spilles"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:140
+msgid "Grey out unavailable songs in playlists on startup"
+msgstr "Merk ikke-eksisterende sanger med grått på oppstart"
+
+#: ../../build-translations/src/ui_groupbydialog.h:172
+msgid "Group Collection by..."
+msgstr "Grupper samling etter…"
+
+#: collection/collectionfilterwidget.cpp:108
+#: internet/internetsearchview.cpp:431
+msgid "Group by"
+msgstr "Grupper etter"
+
+#: collection/collectionfilterwidget.cpp:156
+msgid "Group by Album"
+msgstr "Grupper etter album"
+
+#: collection/collectionfilterwidget.cpp:154
+msgid "Group by Album artist/Album"
+msgstr "Grupper etter album artist/album"
+
+#: collection/collectionfilterwidget.cpp:152
+msgid "Group by Artist"
+msgstr "Grupper etter artist"
+
+#: collection/collectionfilterwidget.cpp:153
+msgid "Group by Artist/Album"
+msgstr "Grupper etter artist/album"
+
+#: collection/collectionfilterwidget.cpp:155
+msgid "Group by Artist/Year - Album"
+msgstr "Grupper etter artist/år - album"
+
+#: collection/collectionfilterwidget.cpp:157
+msgid "Group by Genre/Album"
+msgstr "Grupper etter sjanger/album"
+
+#: collection/collectionfilterwidget.cpp:158
+msgid "Group by Genre/Artist/Album"
+msgstr "Grupper etter sjanger/artist/album"
+
+#: collection/savedgroupingmanager.cpp:108 playlist/playlist.cpp:1168
+#: organise/organisedialog.cpp:95
+#: ../../build-translations/src/ui_groupbydialog.h:190
+#: ../../build-translations/src/ui_groupbydialog.h:209
+#: ../../build-translations/src/ui_groupbydialog.h:228
+#: ../../build-translations/src/ui_edittagdialog.h:652
+msgid "Grouping"
+msgstr "Gruppering"
+
+#: collection/collectionfilterwidget.cpp:201
+msgid "Grouping Name"
+msgstr "Grupperingsnavn"
+
+#: collection/collectionfilterwidget.cpp:201
+msgid "Grouping name:"
+msgstr "Grupperingsnavn:"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:159
+msgid "HTTP proxy"
+msgstr "Mellomtjener for HTTP"
+
+#: ../../build-translations/src/ui_deviceproperties.h:369
+msgid "Hardware information"
+msgstr "Maskinvareinformasjon"
+
+#: ../../build-translations/src/ui_deviceproperties.h:370
+msgid "Hardware information is only available while the device is connected."
+msgstr ""
+"Informasjon om maskinvaren er bare tilgjengelig når enheten er tilkoblet."
+
+#: ../../build-translations/src/ui_mainwindow.h:659
+msgid "Help"
+msgstr "Hjelp"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:199
+msgid "High"
+msgstr "Høy"
+
+#: analyzer/analyzercontainer.cpp:77
+#, qt-format
+msgid "High (%1 fps)"
+msgstr "Høy (%1 bilder/sekund)"
+
+#: ../../build-translations/src/ui_deviceproperties.h:368
+msgid "Icon"
+msgstr "Ikon"
+
+#: widgets/fancytabwidget.cpp:506
+msgid "Icons on top"
+msgstr "Ikoner øverst"
+
+#: musicbrainz/tagfetcher.cpp:98
+msgid "Identifying song"
+msgstr "Identifiserer sangen"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:148
+msgid ""
+"If activated, clicking a selected song in the playlist view will let you "
+"edit the tag value directly"
+msgstr "Skrur på direkte redigering ved å klikke på en sang i spillelisten"
+
+#: device/devicemanager.cpp:502 device/devicemanager.cpp:510
+msgid ""
+"If you continue, this device will work slowly and songs copied to it may not "
+"work."
+msgstr ""
+"Hvis du fortsetter, vil enheten bli treg, og du vil kanskje ikke kunne "
+"spille av sanger kopiert til den."
+
+#: covermanager/albumcoverchoicecontroller.cpp:61
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+
+#: covermanager/albumcoverchoicecontroller.cpp:62
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+
+#: ../../build-translations/src/ui_transcodedialog.h:219
+msgid "Import..."
+msgstr "Importer..."
+
+#: core/utilities.cpp:178
+#, qt-format
+msgid "In %1 days"
+msgstr "Om %1 dager"
+
+#: core/utilities.cpp:181
+#, qt-format
+msgid "In %1 weeks"
+msgstr "Om %1 uker"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:450
+msgid "Include album art in the notification"
+msgstr "Inkluder omslag i meddelelsen"
+
+#: core/commandlineoptions.cpp:170
+msgid "Increase the volume by 4 precent"
+msgstr "Øk volum med 4 prosent"
+
+#: core/commandlineoptions.cpp:172
+msgid "Increase the volume by <value> percent"
+msgstr "Øk lydstyrken <value> prosent"
+
+#: ../../build-translations/src/ui_deviceproperties.h:371
+msgid "Information"
+msgstr "Informasjon"
+
+#: ../../build-translations/src/ui_organisedialog.h:255
+msgid "Insert..."
+msgstr "Sett inn…"
+
+#: core/database.cpp:585
+msgid "Integrity check"
+msgstr "Integritetskontrol"
+
+#: widgets/osd.cpp:276 ../../build-translations/src/ui_playlistsequence.h:113
+msgid "Intro tracks"
+msgstr "Introspor"
+
+#: dialogs/about.cpp:106
+msgid ""
+"It is a fork of Clementine released in 2018 aimed at music collectors, audio "
+"enthusiasts and audiophiles.<br />"
+msgstr ""
+"It is a fork of Clementine released in 2018 aimed at music collectors, audio "
+"enthusiasts and audiophiles.<br />"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:298
+msgid "Jump to previous song right away"
+msgstr "Gå til forrige sang nå"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:282
+msgid "Keep running in the background when the window is closed"
+msgstr "Fortsett i bakgrunnen selv om vinduet lukkes"
+
+#: ../../build-translations/src/ui_organisedialog.h:246
+msgid "Keep the original files"
+msgstr "Behold originalfilene"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:288
+msgid "Language"
+msgstr "Språk"
+
+#: equalizer/equalizer.cpp:139
+msgid "Laptop/Headphones"
+msgstr "Laptop/hodetelefoner"
+
+#: equalizer/equalizer.cpp:140
+msgid "Large Hall"
+msgstr "Storsal"
+
+#: widgets/playingwidget.cpp:107
+msgid "Large album cover"
+msgstr "Stort omslag"
+
+#: widgets/fancytabwidget.cpp:502
+msgid "Large sidebar"
+msgstr "Stort sidefelt"
+
+#: playlist/playlist.cpp:1172
+msgid "Last played"
+msgstr "Sist spilt"
+
+#: ../../build-translations/src/ui_edittagdialog.h:633
+msgctxt "A playlist's tag."
+msgid "Last played"
+msgstr "Sist spilt"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:285
+msgid "Last.fm"
+msgstr "Last.fm"
+
+#: ../../build-translations/src/ui_equalizer.h:169
+msgid "Left"
+msgstr "Venstre"
+
+#: core/qtsystemtrayicon.cpp:254 playlist/playlist.cpp:1161
+#: organise/organisedialog.cpp:102
+#: ../../build-translations/src/ui_contextviewcontainer.h:354
+#: ../../build-translations/src/ui_edittagdialog.h:629
+msgid "Length"
+msgstr "Lengde"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:288
+msgid "Libre.fm"
+msgstr "Libre.fm"
+
+#: scrobbler/listenbrainzscrobbler.cpp:144
+msgid "ListenBrainz Authentication"
+msgstr "ListenBrainz autentisering"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:291
+msgid "Listenbrainz"
+msgstr "Listenbrainz"
+
+#: equalizer/equalizer.cpp:141
+msgid "Live"
+msgstr "Live"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:215
+msgid "Load"
+msgstr "Hent"
+
+#: ../../build-translations/src/ui_coverfromurldialog.h:99
+msgid "Load cover from URL"
+msgstr "Hent omslag fra URL"
+
+#: covermanager/albumcoverchoicecontroller.cpp:77
+msgid "Load cover from URL..."
+msgstr "Hent omslag fra URL…"
+
+#: covermanager/albumcoverchoicecontroller.cpp:111
+msgid "Load cover from disk"
+msgstr "Hent omslag fra disk"
+
+#: covermanager/albumcoverchoicecontroller.cpp:75
+msgid "Load cover from disk..."
+msgstr "Hent omslag fra disk…"
+
+#: playlist/playlistcontainer.cpp:292
+msgid "Load playlist"
+msgstr "Åpne spilleliste"
+
+#: device/mtploader.cpp:49
+msgid "Loading MTP device"
+msgstr "Åpner MTP-enhet"
+
+#: device/gpodloader.cpp:52
+msgid "Loading iPod database"
+msgstr "Åpner iPod-database"
+
+#: collection/collectionmodel.cpp:175
+msgid "Loading songs"
+msgstr "Åpner sanger"
+
+#: playlist/songloaderinserter.cpp:141 dialogs/edittagdialog.cpp:279
+msgid "Loading tracks"
+msgstr "Åpner spor"
+
+#: playlist/songloaderinserter.cpp:159
+msgid "Loading tracks info"
+msgstr "Henter informasjon om spor"
+
+#: collection/collectionmodel.cpp:169
+#: ../../build-translations/src/ui_organisedialog.h:263
+msgid "Loading..."
+msgstr "Åpner…"
+
+#: core/commandlineoptions.cpp:180
+msgid "Loads files/URLs, replacing current playlist"
+msgstr "Åpne filer/URL-er; erstatt gjeldende spilleliste"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:287
+#: ../../build-translations/src/ui_scrobblersettingspage.h:290
+#: ../../build-translations/src/ui_scrobblersettingspage.h:295
+#: ../../build-translations/src/ui_tidalsettingspage.h:340
+#: ../../build-translations/src/ui_deezersettingspage.h:271
+msgid "Login"
+msgstr "Innlogging"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:138
+msgid "Long term prediction profile (LTP)"
+msgstr "Profil for langtidspredikie (LTP)"
+
+#: analyzer/analyzercontainer.cpp:75
+#, qt-format
+msgid "Low (%1 fps)"
+msgstr "Lav (%1 bilder/sekund)"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:136
+msgid "Low complexity profile (LC)"
+msgstr "Profil for lavkompleksitet (LC)"
+
+#: dialogs/about.cpp:117
+msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
+msgstr "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
+
+#: core/song.cpp:427
+#: ../../build-translations/src/ui_transcodersettingspage.h:194
+msgid "MP3"
+msgstr "MP3"
+
+#: core/song.cpp:428
+msgid "MP4 AAC"
+msgstr "MP4, AAC"
+
+#: core/song.cpp:431
+msgid "MPC"
+msgstr "MPC"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:135
+msgid "Main profile (MAIN)"
+msgstr "Hovedprofil (MAIN)"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:100
+msgid "Manage saved groupings"
+msgstr "Behandle lagrede grupperinger"
+
+#: device/deviceproperties.cpp:178
+msgid "Manufacturer"
+msgstr "Fabrikant"
+
+#: ../../build-translations/src/ui_organisedialog.h:260
+msgid "Mark as listened"
+msgstr "Merk som hørt"
+
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:205
+msgid "Maximum bitrate"
+msgstr "Høyeste bitrate"
+
+#: analyzer/analyzercontainer.cpp:76
+#, qt-format
+msgid "Medium (%1 fps)"
+msgstr "Medium (%1 bilder/sekund)"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:146
+msgid "Metadata"
+msgstr "Metadata"
+
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:202
+msgid "Minimum bitrate"
+msgstr "Minimal bitrate"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:434
+msgid "Minimum buffer fill"
+msgstr "Minimum mellomlagerutfylling"
+
+#: tidal/tidalservice.cpp:474
+msgid "Missing username and/or password."
+msgstr "Mangler brukernavn og/eller passord."
+
+#: device/deviceproperties.cpp:177
+msgid "Model"
+msgstr "Modell"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:159
+msgid "Monitor the collection for changes"
+msgstr "Overvåk endringer i samlingen"
+
+#: core/song.cpp:436
+msgid "Monkey's Audio"
+msgstr "Monkey's Audio"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:457
+msgid "Mono playback"
+msgstr "Spill av i mono"
+
+#: device/giolister.cpp:185
+msgid "Mount point"
+msgstr "Monteringspunkt"
+
+#: device/devicekitlister.cpp:132 device/udisks2lister.cpp:109
+msgid "Mount points"
+msgstr "Monteringspunkter"
+
+#: ../../build-translations/src/ui_queueview.h:124
+msgid "Move down"
+msgstr "Flytt nedover"
+
+#: core/mainwindow.cpp:584 widgets/fileviewlist.cpp:48
+msgid "Move to collection..."
+msgstr "Flytt til samling…"
+
+#: ../../build-translations/src/ui_queueview.h:130
+msgid "Move up"
+msgstr "Flytt oppover"
+
+#: core/mainwindow.cpp:1695 transcoder/transcodedialog.cpp:256
+msgid "Music"
+msgstr "Musikk"
+
+#: globalshortcuts/globalshortcuts.cpp:74
+msgid "Mute"
+msgstr "Demp"
+
+#: equalizer/equalizer.cpp:204 collection/savedgroupingmanager.cpp:55
+#: ../../build-translations/src/ui_deviceproperties.h:367
+msgid "Name"
+msgstr "Navn"
+
+#: ../../build-translations/src/ui_organisedialog.h:249
+msgid "Naming options"
+msgstr "Navnevalg"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:228
+msgid "Narrow band (NB)"
+msgstr "Smalbånd (SB)"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:155
+msgid "Network Proxy"
+msgstr "Mellomtjener"
+
+#: playlist/playlistdelegates.cpp:335 dialogs/edittagdialog.cpp:558
+msgid "Never"
+msgstr "Aldri"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:293
+#: ../../build-translations/src/ui_behavioursettingspage.h:307
+msgid "Never start playing"
+msgstr "Aldri begynn avspilling"
+
+#: playlist/playlistlistcontainer.cpp:92 playlist/playlistlistcontainer.cpp:187
+#: ../../build-translations/src/ui_playlistlistcontainer.h:125
+msgid "New folder"
+msgstr "Ny mappe"
+
+#: core/mainwindow.cpp:1545
+msgid "New playlist"
+msgstr "Ny spilleliste"
+
+#: widgets/freespacebar.cpp:72
+msgid "New songs"
+msgstr "Nye sanger"
+
+#: dialogs/edittagdialog.cpp:201 dialogs/trackselectiondialog.cpp:73
+msgid "Next"
+msgstr "Neste"
+
+#: core/utilities.cpp:179
+msgid "Next week"
+msgstr "Neste uke"
+
+#: analyzer/analyzercontainer.cpp:90
+msgid "No analyzer"
+msgstr "Ingen analyse"
+
+#: covermanager/albumcovermanager.cpp:826
+msgid "No covers to export."
+msgstr "Ingen omslag å eksportere."
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:145
+msgid "No long blocks"
+msgstr "Ingen lange blokker"
+
+#: tidal/tidalservice.cpp:585 deezer/deezerservice.cpp:506
+msgid "No match."
+msgstr "Ingen treff."
+
+#: playlist/playlistcontainer.cpp:377
+msgid ""
+"No matches found.  Clear the search box to show the whole playlist again."
+msgstr "Ingen treff.  Visk ut søkefeltet for å vise hele spillelisten igjen."
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:144
+msgid "No short blocks"
+msgstr "Ikke korte blokker"
+
+#: context/contextview.cpp:235
+#: ../../build-translations/src/ui_contextviewcontainer.h:346
+msgid "No song playing"
+msgstr "Ingen sang spilles"
+
+#: collection/savedgroupingmanager.cpp:78
+#: ../../build-translations/src/ui_groupbydialog.h:174
+#: ../../build-translations/src/ui_groupbydialog.h:193
+#: ../../build-translations/src/ui_groupbydialog.h:212
+msgid "None"
+msgstr "Ingen"
+
+#: core/mainwindow.cpp:1963 core/mainwindow.cpp:2066
+#: context/contextalbumsview.cpp:491 collection/collectionview.cpp:665
+msgid "None of the selected songs were suitable for copying to a device"
+msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:143
+msgid "Normal block type"
+msgstr "Normal blokktype"
+
+#: device/deviceview.cpp:131
+msgid "Not connected"
+msgstr "Ikke tilkoblet"
+
+#: device/deviceview.cpp:135
+msgid "Not mounted - double click to mount"
+msgstr "Ikke montert - dobbelklikk for å montere"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:438
+msgid "Notification type"
+msgstr "Meddelelsetype"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:381
+msgid "Notifications"
+msgstr "Meddelelsetype"
+
+#: core/macsystemtrayicon.mm:68
+msgid "Now Playing"
+msgstr "Nå spilles"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:207
+msgid "O&verwrite all"
+msgstr "O&verskriv alle"
+
+#: settings/notificationssettingspage.cpp:65
+msgid "OSD Preview"
+msgstr "Forhåndsvisning av skjermbildeoverlegg"
+
+#: widgets/osd.cpp:197
+msgid "Off"
+msgstr "Av"
+
+#: core/song.cpp:423
+msgid "Ogg FLAC"
+msgstr "Ogg FLAC"
+
+#: core/song.cpp:425
+msgid "Ogg Opus"
+msgstr "Ogg Opus"
+
+#: core/song.cpp:426
+msgid "Ogg Speex"
+msgstr "Ogg Speex"
+
+#: core/song.cpp:424
+msgid "Ogg Vorbis"
+msgstr "Ogg Vorbis"
+
+#: widgets/osd.cpp:197
+msgid "On"
+msgstr "På"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:284
+msgid "On startup"
+msgstr "Ved oppstart"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:244
+msgid "Opacity"
+msgstr "Dekkevne"
+
+#: scrobbler/scrobblingapi20.cpp:135
+#, qt-format
+msgid ""
+"Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
+"copy the URL to clipboard and manually open it in a web browser."
+msgstr ""
+"Åpne lenke i nettleser?<br /><a href=\"%1\">%1</a><br />Trykk \"Lagre\" for "
+"å kopiere lenke til utklippstavle og manuelt kopiere den inn i nettleser."
+
+#: transcoder/transcodedialog.cpp:271
+msgid "Open a directory to import music from"
+msgstr "Importer musikk fra ei mappe"
+
+#: ../../build-translations/src/ui_mainwindow.h:611
+msgid "Open audio &CD..."
+msgstr "Åpne lyd &CD"
+
+#: ../../build-translations/src/ui_deviceproperties.h:380
+msgid "Open device"
+msgstr "Åpne enhet"
+
+#: context/contextalbumsview.cpp:363 collection/collectionview.cpp:455
+#: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:419
+#: device/deviceview.cpp:230
+#: ../../build-translations/src/ui_behavioursettingspage.h:304
+msgid "Open in new playlist"
+msgstr "Åpne i ny spilleliste"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:223
+#: ../../build-translations/src/ui_shortcutssettingspage.h:229
+msgid "Open..."
+msgstr "Åpne…"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:192
+msgid "Opti&mize for bitrate"
+msgstr "Optimalisere for bitrate"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:190
+msgid "Optimize for &quality"
+msgstr "Optimize for &quality"
+
+#: ../../build-translations/src/ui_transcodedialog.h:222
+msgid "Options..."
+msgstr "Innstillinger…"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:190
+msgid "Opus"
+msgstr "Opus"
+
+#: ../../build-translations/src/ui_organisedialog.h:243
+msgid "Organise Files"
+msgstr "Organiser filer"
+
+#: core/mainwindow.cpp:585 context/contextalbumsview.cpp:369
+#: collection/collectionview.cpp:462
+msgid "Organise files..."
+msgstr "Organiser filer…"
+
+#: organise/organise.cpp:85
+msgid "Organising files"
+msgstr "Organiserer filer"
+
+#: dialogs/trackselectiondialog.cpp:195
+msgid "Original tags"
+msgstr "Opprinnelige tagger"
+
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1163
+#: organise/organisedialog.cpp:99
+#: ../../build-translations/src/ui_groupbydialog.h:182
+#: ../../build-translations/src/ui_groupbydialog.h:201
+#: ../../build-translations/src/ui_groupbydialog.h:220
+msgid "Original year"
+msgstr "Opprinnelig år"
+
+#: collection/savedgroupingmanager.cpp:123
+#: ../../build-translations/src/ui_groupbydialog.h:184
+#: ../../build-translations/src/ui_groupbydialog.h:203
+#: ../../build-translations/src/ui_groupbydialog.h:222
+msgid "Original year - Album"
+msgstr "Opprinnelig år - album"
+
+#: core/commandlineoptions.cpp:182
+msgid "Other options"
+msgstr "Andre innstillinger"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:201
+#: ../../build-translations/src/ui_backendsettingspage.h:425
+msgid "Output"
+msgstr "Utgang"
+
+#: ../../build-translations/src/ui_transcodedialog.h:220
+msgid "Output options"
+msgstr "Utgangsinnstillinger"
+
+#: ../../build-translations/src/ui_organisedialog.h:259
+msgid "Overwrite existing files"
+msgstr "Overskriv eksisterende filer"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:208
+msgid "Overwrite s&maller ones only"
+msgstr "Bare overskriv mindre"
+
+#: ../../build-translations/src/ui_mainwindow.h:557
+msgid "P&lay"
+msgstr "Spill"
+
+#: ../../build-translations/src/ui_mainwindow.h:658
+msgid "P&laylist"
+msgstr "Spilleliste"
+
+#: core/song.cpp:435
+msgid "PCM"
+msgstr "PCM"
+
+#: device/udisks2lister.cpp:110
+msgid "Partition label"
+msgstr "Partisjonsnavn"
+
+#: equalizer/equalizer.cpp:142
+msgid "Party"
+msgstr "Fest"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:165
+msgid "Password"
+msgstr "Passord"
+
+#: device/ilister.cpp:136
+msgid "Password Protected"
+msgstr "Passordbeskyttet"
+
+#: core/mainwindow.cpp:927 core/mainwindow.cpp:1358
+#: core/qtsystemtrayicon.cpp:203
+msgid "Pause"
+msgstr "Pause"
+
+#: core/commandlineoptions.cpp:165
+msgid "Pause playback"
+msgstr "Sett avspilling på pause"
+
+#: widgets/osd.cpp:182
+msgid "Paused"
+msgstr "På pause"
+
+#: collection/savedgroupingmanager.cpp:105 playlist/playlist.cpp:1167
+#: organise/organisedialog.cpp:94
+#: ../../build-translations/src/ui_groupbydialog.h:189
+#: ../../build-translations/src/ui_groupbydialog.h:208
+#: ../../build-translations/src/ui_groupbydialog.h:227
+#: ../../build-translations/src/ui_edittagdialog.h:651
+msgid "Performer"
+msgstr "Utøver"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:212
+msgid "Pixel"
+msgstr "Piksel"
+
+#: widgets/fancytabwidget.cpp:504
+msgid "Plain sidebar"
+msgstr "Enkelt sidefelt"
+
+#: core/mainwindow.cpp:553 core/mainwindow.cpp:888 core/mainwindow.cpp:911
+#: core/mainwindow.cpp:1362 core/qtsystemtrayicon.cpp:190
+#: core/qtsystemtrayicon.cpp:215
+msgid "Play"
+msgstr "Spill"
+
+#: playlist/playlist.cpp:1170
+#: ../../build-translations/src/ui_edittagdialog.h:630
+msgid "Play count"
+msgstr "Antall avspillinger"
+
+#: core/commandlineoptions.cpp:164
+msgid "Play if stopped, pause if playing"
+msgstr "Hvis stoppet: Spill av. Hvis spiller: pause"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:294
+#: ../../build-translations/src/ui_behavioursettingspage.h:308
+msgid "Play if there is nothing already playing"
+msgstr "Spill hvis det ikke er noe annet som spilles av for øyeblikket"
+
+#: core/commandlineoptions.cpp:181
+msgid "Play the <n>th track in the playlist"
+msgstr "Spill av <n>ende spor i spillelista"
+
+#: core/commandlineoptions.cpp:162
+msgid "Player options"
+msgstr "Innstillinger for avspiller"
+
+#: playlist/playlistcontainer.cpp:287 playlist/playlistlistcontainer.cpp:249
+#: playlist/playlistmanager.cpp:99 playlist/playlistmanager.cpp:165
+#: playlist/playlistmanager.cpp:520 playlist/playlisttabbar.cpp:396
+#: ../../build-translations/src/ui_playlistsettingspage.h:135
+msgid "Playlist"
+msgstr "Spilleliste"
+
+#: widgets/osd.cpp:204
+msgid "Playlist finished"
+msgstr "Spillelisten er ferdigspilt"
+
+#: core/commandlineoptions.cpp:177
+#: ../../build-translations/src/ui_playlistsaveoptionsdialog.h:91
+msgid "Playlist options"
+msgstr "Innstillinger for spilleliste"
+
+#: core/mainwindow.cpp:262
+msgid "Playlists"
+msgstr "Spillelister"
+
+#: ../data/html/oauthsuccess.html:38
+msgid "Please close your browser and return to Strawberry."
+msgstr "Lukk nettleseren og gå tilbake til Strawberry."
+
+#: scrobbler/listenbrainzscrobbler.cpp:144
+#, qt-format
+msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
+msgstr "Vennligst åpne lenke i din nettleser:<br /><a href=\"%1\">%1</a>"
+
+#: equalizer/equalizer.cpp:143
+msgid "Pop"
+msgstr "Pop"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:444
+msgid "Popup duration"
+msgstr "Oppsprettsvinduets varighet"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:162
+msgid "Port"
+msgstr "Port"
+
+#: equalizer/equalizer.cpp:65
+#: ../../build-translations/src/ui_backendsettingspage.h:442
+msgid "Pre-amp"
+msgstr "Forforsterker"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:342
+#: ../../build-translations/src/ui_deezersettingspage.h:272
+msgid "Preferences"
+msgstr "Innstillinger"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:160
+msgid "Preferred album art filenames (comma separated)"
+msgstr "Foretrukne filnavn for omslag (inndelt med komma)"
+
+#: ../../build-translations/src/ui_deviceproperties.h:378
+msgid "Preferred format"
+msgstr "Foretrukket format"
+
+#: ../../build-translations/src/ui_equalizer.h:161
+msgid "Preset:"
+msgstr "Forhåndsinnstilling:"
+
+#: ../../build-translations/src/ui_globalshortcutgrabber.h:68
+msgid "Press a key"
+msgstr "Trykk en tast"
+
+#: globalshortcuts/globalshortcutgrabber.cpp:55
+#: ../../build-translations/src/ui_globalshortcutgrabber.h:69
+#, qt-format
+msgid "Press a key combination to use for %1..."
+msgstr "Trykk en tastekombinasjon å bruke til %1…"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:297
+msgid "Pressing \"Previous\" in player will..."
+msgstr "Når du trykker \"Forrige\" i spilleren vil…"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:458
+msgid "Pretty OSD options"
+msgstr "Pene skjermbildeoverleggsvalg"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:453
+#: ../../build-translations/src/ui_organisedialog.h:262
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+#: dialogs/edittagdialog.cpp:200 dialogs/trackselectiondialog.cpp:72
+msgid "Previous"
+msgstr "Forrige"
+
+#: core/commandlineoptions.cpp:188
+msgid "Print out version information"
+msgstr "Vis versjonsinformasjon"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:134
+msgid "Profile"
+msgstr "Profil"
+
+#: ../../build-translations/src/ui_transcodedialog.h:227
+msgid "Progress"
+msgstr "Framdrift"
+
+#: ../../build-translations/src/ui_transcoderoptionsflac.h:77
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:198
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:217
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:191
+msgctxt "Sound quality"
+msgid "Quality"
+msgstr "Kvalitet"
+
+#: ../../build-translations/src/ui_deviceproperties.h:381
+msgid "Querying device..."
+msgstr "Spør enhet…"
+
+#: core/mainwindow.cpp:263
+msgid "Queue"
+msgstr "Kø"
+
+#: core/mainwindow.cpp:1453
+msgid "Queue selected tracks"
+msgstr "Legg valgte spor i kø"
+
+#: core/mainwindow.cpp:560 core/mainwindow.cpp:1457
+msgid "Queue selected tracks to play next"
+msgstr "Legg valgte spor i kø for å spille som neste"
+
+#: core/mainwindow.cpp:1459 collection/collectionview.cpp:459
+msgid "Queue to play next"
+msgstr "Legg i kø for å spille som neste"
+
+#: core/mainwindow.cpp:1452 context/contextalbumsview.cpp:366
+#: collection/collectionview.cpp:458 internet/internetsearchview.cpp:422
+msgid "Queue track"
+msgstr "Legg spor i kø"
+
+#: ../../build-translations/src/ui_queueview.h:122
+msgid "QueueView"
+msgstr "Køoversikt"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:439
+msgid "Radio (equal loudness for all tracks)"
+msgstr "Radio (lik lydstyrkeutgjevning for alle spor)"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:144
+msgid "Re&lative"
+msgstr "Relativ"
+
+#: covermanager/albumcovermanager.cpp:228
+msgid "Really cancel?"
+msgstr "Vil du virkelig avbryte?"
+
+#: equalizer/equalizer.cpp:144
+msgid "Reggae"
+msgstr "Reggae"
+
+#: playlist/playlistsaveoptionsdialog.cpp:41
+msgid "Relative"
+msgstr "Relativ"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:287
+msgid "Remember from &last time"
+msgstr "Husk fra siste gang"
+
+#: ../../build-translations/src/ui_playlistsaveoptionsdialog.h:96
+msgid "Remember my choice"
+msgstr "Husk valg"
+
+#: ../../build-translations/src/ui_savedgroupingmanager.h:102
+#: ../../build-translations/src/ui_queueview.h:136
+#: ../../build-translations/src/ui_transcodedialog.h:215
+msgid "Remove"
+msgstr "Fjern"
+
+#: ../../build-translations/src/ui_mainwindow.h:650
+msgid "Remove &duplicates from playlist"
+msgstr "Fjern &duplikater fra spillelisten"
+
+#: ../../build-translations/src/ui_mainwindow.h:651
+msgid "Remove &unavailable tracks from playlist"
+msgstr "Fjern &utilgjengelige spor fra spilleliste"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:156
+msgid "Remove folder"
+msgstr "Fjern mappe"
+
+#: ../../build-translations/src/ui_mainwindow.h:616
+msgid "Remove from playlist"
+msgstr "Fjern fra spillelisten"
+
+#: playlist/playlisttabbar.cpp:210
+msgid "Remove playlist"
+msgstr "Fjern spilleliste"
+
+#: playlist/playlistlistcontainer.cpp:344
+msgid "Remove playlists"
+msgstr "Fjern spillelister"
+
+#: playlist/playlisttabbar.cpp:173
+msgid "Rename playlist"
+msgstr "Gi nytt navn til spillelista"
+
+#: playlist/playlisttabbar.cpp:74
+msgid "Rename playlist..."
+msgstr "Gi nytt navn til spillelista…"
+
+#: ../../build-translations/src/ui_mainwindow.h:588
+msgid "Renumber tracks in this order..."
+msgstr "Renummerer sporene i denne rekkefølgen…"
+
+#: ../../build-translations/src/ui_playlistsequence.h:119
+msgid "Repeat"
+msgstr "Gjenta"
+
+#: widgets/osd.cpp:273 ../../build-translations/src/ui_playlistsequence.h:110
+msgid "Repeat album"
+msgstr "Gjenta album"
+
+#: widgets/osd.cpp:274 ../../build-translations/src/ui_playlistsequence.h:111
+msgid "Repeat playlist"
+msgstr "Gjenta spilleliste"
+
+#: widgets/osd.cpp:272 ../../build-translations/src/ui_playlistsequence.h:109
+msgid "Repeat track"
+msgstr "Gjenta spor"
+
+#: context/contextalbumsview.cpp:362 collection/collectionview.cpp:454
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:418
+#: device/deviceview.cpp:229
+msgid "Replace current playlist"
+msgstr "Erstatt gjeldende spilleliste"
+
+#: ../../build-translations/src/ui_organisedialog.h:258
+msgid "Replace spaces with underscores"
+msgstr "Erstatt mellomrom med understrek"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:303
+msgid "Replace the playlist"
+msgstr "Erstatt spillelista"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:436
+msgid "Replay Gain"
+msgstr "Normalisering"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:438
+msgid "Replay Gain mode"
+msgstr "ReplayGain-modus"
+
+#: widgets/lineedit.cpp:71
+msgid "Reset"
+msgstr "Tilbakestill"
+
+#: dialogs/edittagdialog.cpp:828
+#: ../../build-translations/src/ui_edittagdialog.h:628
+msgid "Reset play counts"
+msgstr "Tilbakestill avspillingsteller"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:299
+msgid "Restart song, then jump to previous if pressed again"
+msgstr "Omstart av sang eller tilbake til forrige ved ytterligere trykk"
+
+#: core/commandlineoptions.cpp:176
+msgid ""
+"Restart the track, or play the previous track if within 8 seconds of start."
+msgstr ""
+"Start sporet igjen, eller spill forrige spor hvis du er innen de første 8 "
+"sekundene av sporet"
+
+#: ../../build-translations/src/ui_organisedialog.h:257
+msgid "Restrict characters to ASCII"
+msgstr "Begrens til tegn i ASCII"
+
+#: ../../build-translations/src/ui_organisedialog.h:256
+msgid "Restrict to characters allowed on FAT filesystems"
+msgstr "Begrens til tegn tillat på FAT filsystem"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:283
+msgid "Resume playback on start"
+msgstr "Gjenoppta avspilling etter oppstart"
+
+#: deezer/deezerservice.cpp:591
+#, qt-format
+msgid "Retrieving %1 album..."
+msgstr "Mottar %1 album..."
+
+#: deezer/deezerservice.cpp:592
+#, qt-format
+msgid "Retrieving %1 albums..."
+msgstr "Mottar %1 albumer..."
+
+#: tidal/tidalservice.cpp:613
+#, qt-format
+msgid "Retrieving albums for %1 artist..."
+msgstr "Mottar albumer for %1 artist..."
+
+#: tidal/tidalservice.cpp:614
+#, qt-format
+msgid "Retrieving albums for %1 artists..."
+msgstr "Mottar albumer for %1 artister..."
+
+#: tidal/tidalservice.cpp:806
+#, qt-format
+msgid "Retrieving songs for %1 album..."
+msgstr "Mottar sanger for %1 album..."
+
+#: tidal/tidalservice.cpp:807
+#, qt-format
+msgid "Retrieving songs for %1 albums..."
+msgstr "Mottar sanger for %1 albumer..."
+
+#: ../data/html/oauthsuccess.html:5
+msgid "Return to Strawberry"
+msgstr "Gå tilbake til Strawberry"
+
+#: ../../build-translations/src/ui_equalizer.h:171
+msgid "Right"
+msgstr "Høyre"
+
+#: equalizer/equalizer.cpp:145
+msgid "Rock"
+msgstr "Rock"
+
+#: ../../build-translations/src/ui_console.h:77
+msgid "Run"
+msgstr "Kjør"
+
+#: ../../build-translations/src/ui_mainwindow.h:602
+msgid "S&huffle playlist"
+msgstr "Stokk om spillelista"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:160
+msgid "SOCKS proxy"
+msgstr "Mellomtjener for SOCKS"
+
+#: device/deviceview.cpp:222
+msgid "Safely remove device"
+msgstr "Trygg fjerning av enhet"
+
+#: ../../build-translations/src/ui_organisedialog.h:264
+msgid "Safely remove the device after copying"
+msgstr "Kjør trygg fjerning av enhet etter kopiering"
+
+#: collection/savedgroupingmanager.cpp:114 playlist/playlist.cpp:1174
+#: organise/organisedialog.cpp:104
+#: ../../build-translations/src/ui_groupbydialog.h:186
+#: ../../build-translations/src/ui_groupbydialog.h:205
+#: ../../build-translations/src/ui_groupbydialog.h:224
+#: ../../build-translations/src/ui_edittagdialog.h:634
+msgid "Sample rate"
+msgstr "Samplingsrate"
+
+#: ../../build-translations/src/ui_contextviewcontainer.h:356
+msgid "Samplerate"
+msgstr "Samplingsrate"
+
+#: ../../build-translations/src/ui_mainwindow.h:628
+msgid "Save &playlist..."
+msgstr "Lagre &spilleliste..."
+
+#: covermanager/albumcoverchoicecontroller.cpp:132
+msgid "Save album cover"
+msgstr "Lagre albumomslag"
+
+#: covermanager/albumcoverchoicecontroller.cpp:76
+msgid "Save cover to disk..."
+msgstr "Lagre bilde til disk…"
+
+#: ../../build-translations/src/ui_collectionfilterwidget.h:99
+msgid "Save current grouping"
+msgstr "Lagre nåværende gruppering"
+
+#: playlist/playlistlistcontainer.cpp:94
+msgctxt "Save playlist menu action."
+msgid "Save playlist"
+msgstr "Lagre spilleliste"
+
+#: playlist/playlistmanager.cpp:240
+msgctxt "Title of the playlist save dialog."
+msgid "Save playlist"
+msgstr "Lagre spilleliste"
+
+#: playlist/playlisttabbar.cpp:75
+msgid "Save playlist..."
+msgstr "Lagre spilleliste…"
+
+#: equalizer/equalizer.cpp:204 ../../build-translations/src/ui_equalizer.h:163
+msgid "Save preset"
+msgstr "Lagre forhåndsinnstilling"
+
+#: ../../build-translations/src/ui_savedgroupingmanager.h:100
+msgid "Saved Grouping Manager"
+msgstr "Behandler for lagrede grupperinger"
+
+#: dialogs/edittagdialog.cpp:750 dialogs/trackselectiondialog.cpp:290
+msgid "Saving tracks"
+msgstr "Lagrer spor"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:137
+msgid "Scalable sampling rate profile (SSR)"
+msgstr "Skalerbar samplingsrate-profil (SSR)"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:210
+msgid "Scale size"
+msgstr "Skaler størrelse"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:276
+msgid "Scrobbler"
+msgstr "Scrobbler"
+
+#: scrobbler/scrobblingapi20.cpp:439
+#, qt-format
+msgid "Scrobbler %1 is not authenticated!"
+msgstr "Scrobbler %1 er ikke autentisert!"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:281
+msgid "Scroll over icon to change track"
+msgstr "Rull over ikon for å endre spor"
+
+#: covermanager/albumcoversearcher.cpp:190
+#: covermanager/albumcoversearcher.cpp:209
+#: ../../build-translations/src/ui_albumcoversearcher.h:110
+msgid "Search"
+msgstr "Søk"
+
+#: covermanager/albumcoverchoicecontroller.cpp:82
+msgid "Search automatically"
+msgstr "Automatisk søk"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:344
+#: ../../build-translations/src/ui_deezersettingspage.h:274
+msgid "Search delay"
+msgstr "Søke forsinkelse"
+
+#: ../../build-translations/src/ui_internetsearchview.h:225
+msgid "Search for"
+msgstr "Søk etter"
+
+#: covermanager/albumcoverchoicecontroller.cpp:78
+msgid "Search for album covers..."
+msgstr "Søk etter albumomslag…"
+
+#: ../../build-translations/src/ui_internetsearchview.h:224
+msgid "Search for anything"
+msgstr "Søk etter hva som helst"
+
+#: internet/internetsearchview.cpp:427
+msgid "Search for this"
+msgstr "Søk etter dette"
+
+#: tidal/tidalservice.cpp:512 deezer/deezerservice.cpp:463
+msgid "Searching..."
+msgstr "Søker..."
+
+#: collection/savedgroupingmanager.cpp:57
+msgid "Second Level"
+msgstr "Andre nivå"
+
+#: ../../build-translations/src/ui_groupbydialog.h:192
+msgid "Second level"
+msgstr "Andre nivå"
+
+#: core/commandlineoptions.cpp:175
+msgid "Seek the currently playing track by a relative amount"
+msgstr "Gå frem-/bakover en del av sporlengden"
+
+#: core/commandlineoptions.cpp:174
+msgid "Seek the currently playing track to an absolute position"
+msgstr "Gå til et bestemt tidspunkt i sporet"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:315
+msgid "Seeking using a keyboard shortcut or mouse wheel"
+msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:231
+msgid "Select background color:"
+msgstr "Velg bakgrunnsfarge:"
+
+#: settings/appearancesettingspage.cpp:229
+msgid "Select background image"
+msgstr "Velg bakgrunnsbilde"
+
+#: ../../build-translations/src/ui_trackselectiondialog.h:205
+msgid "Select best possible match"
+msgstr "Velg det beste treffet"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:229
+msgid "Select foreground color:"
+msgstr "Velg forgrunnsfarge:"
+
+#: ../../build-translations/src/ui_transcodedialog.h:226
+msgid "Select..."
+msgstr "Velg…"
+
+#: device/devicekitlister.cpp:131 device/udisks2lister.cpp:108
+msgid "Serial number"
+msgstr "Serienummer"
+
+#: core/mainwindow.cpp:1492
+#, qt-format
+msgid "Set %1 to \"%2\"..."
+msgstr "Sett %1 til \"%2\"…"
+
+#: core/commandlineoptions.cpp:169
+msgid "Set the volume to <value> percent"
+msgstr "Sett lydstyrken til <value> prosent"
+
+#: ../../build-translations/src/ui_mainwindow.h:589
+msgid "Set value for all selected tracks..."
+msgstr "Sett verdi for alle valgte spor…"
+
+#: ../../build-translations/src/ui_settingsdialog.h:114
+msgid "Settings"
+msgstr "Innstillinger"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:231
+msgid "Shortcut"
+msgstr "Hurtigtast"
+
+#: settings/shortcutssettingspage.cpp:265
+#: ../../build-translations/src/ui_shortcutssettingspage.h:233
+#, qt-format
+msgid "Shortcut for %1"
+msgstr "Hurtigtast for %1"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:221
+msgid "Shortcuts"
+msgstr "Hurtigtaster"
+
+#: collection/collectionfilterwidget.cpp:87
+msgid "Show"
+msgstr "Vis"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:440
+msgid "Show a &native desktop notification"
+msgstr "Vis en skrivebordsmedledelse som passer inn i ditt operativsystem"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:136
+msgid "Show a glowing animation on the current track"
+msgstr "Vis aura rundt gjeldende spor"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:448
+msgid "Show a notification when I change the repeat/shuffle mode"
+msgstr "Vis en meddelelse når jeg endrer gjentakelse- og stokke -modus"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:447
+msgid "Show a notification when I change the volume"
+msgstr "Vis en meddelelse når jeg endrer lydstyrke"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:449
+msgid "Show a notification when I pause playback"
+msgstr "Vis meddelelse når jeg setter avspillingen på pause"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:442
+msgid "Show a popup fro&m the system tray"
+msgstr "Vis et oppsprettsvindu fra systemskuffa"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:441
+msgid "Show a pretty OSD"
+msgstr "Vis et pent skjermbildeoverlegg"
+
+#: widgets/playingwidget.cpp:146
+msgid "Show above status bar"
+msgstr "Vis over statuslinja"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:167
+msgid "Show album cover art in collection"
+msgstr "Vis albumbilder i samlingen"
+
+#: context/contextview.cpp:138
+msgid "Show albums by artist"
+msgstr "Vis albumer med artist"
+
+#: core/mainwindow.cpp:520
+msgid "Show all songs"
+msgstr "Vis alle sanger"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:168
+msgid "Show dividers"
+msgstr "Vis adskillere"
+
+#: context/contextview.cpp:134
+msgid "Show engine and device"
+msgstr "Vis motor og enhet"
+
+#: covermanager/albumcoverchoicecontroller.cpp:80
+msgid "Show fullsize..."
+msgstr "Fullskjermvisning…"
+
+#: core/mainwindow.cpp:588
+msgid "Show in collection..."
+msgstr "Vis i samling…"
+
+#: core/mainwindow.cpp:586 context/contextalbumsview.cpp:377
+#: collection/collectionview.cpp:471 widgets/fileviewlist.cpp:54
+msgid "Show in file browser..."
+msgstr "Vis i filbehandler…"
+
+#: collection/collectionview.cpp:474
+msgid "Show in various artists"
+msgstr "Vis under diverse artister"
+
+#: core/mainwindow.cpp:521
+msgid "Show only duplicates"
+msgstr "Bare vis duplikater"
+
+#: core/mainwindow.cpp:522
+msgid "Show only untagged"
+msgstr "Bare vis filer uten etiketter"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:280
+msgid "Show scrobble button"
+msgstr "Vis knappen for rapportering av lyttevaner"
+
+#: context/contextview.cpp:142
+msgid "Show song lyrics"
+msgstr "Vis sangtekster"
+
+#: context/contextview.cpp:130
+msgid "Show song technical data"
+msgstr "Vis teknisk informasjon om sangen"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:280
+msgid "Show system tray icon"
+msgstr "Vis systemikon"
+
+#: ../../build-translations/src/ui_playlistsequence.h:122
+msgid "Shuffle"
+msgstr "Stokk om"
+
+#: widgets/osd.cpp:261 ../../build-translations/src/ui_playlistsequence.h:117
+msgid "Shuffle albums"
+msgstr "Stokk om album"
+
+#: widgets/osd.cpp:259 ../../build-translations/src/ui_playlistsequence.h:116
+msgid "Shuffle all"
+msgstr "Stokk alle"
+
+#: widgets/osd.cpp:260 ../../build-translations/src/ui_playlistsequence.h:115
+msgid "Shuffle tracks in this album"
+msgstr "Stokk om dette albumet"
+
+#: ../../build-translations/src/ui_loginstatewidget.h:166
+msgid "Sign out"
+msgstr "Logg ut"
+
+#: ../../build-translations/src/ui_loginstatewidget.h:168
+msgid "Signing in..."
+msgstr "Logger inn…"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:209
+msgid "Size"
+msgstr "Størrelse"
+
+#: ../../build-translations/src/ui_albumcoverexport.h:211
+msgid "Size:"
+msgstr "Størrelse:"
+
+#: equalizer/equalizer.cpp:147
+msgid "Ska"
+msgstr "Ska"
+
+#: core/commandlineoptions.cpp:167
+msgid "Skip backwards in playlist"
+msgstr "Gå bakover i spillelista"
+
+#: playlist/playlist.cpp:1171
+#: ../../build-translations/src/ui_edittagdialog.h:631
+msgid "Skip count"
+msgstr "Antall ganger hoppet over"
+
+#: core/commandlineoptions.cpp:168
+msgid "Skip forwards in playlist"
+msgstr "Gå fremover i spillelista"
+
+#: core/mainwindow.cpp:1464
+msgid "Skip selected tracks"
+msgstr "Hopp over valgte spor"
+
+#: core/mainwindow.cpp:1463
+msgid "Skip track"
+msgstr "Hopp over spor"
+
+#: widgets/playingwidget.cpp:106
+msgid "Small album cover"
+msgstr "Lite albumomslag"
+
+#: widgets/fancytabwidget.cpp:503
+msgid "Small sidebar"
+msgstr "Lite sidefelt"
+
+#: equalizer/equalizer.cpp:146
+msgid "Soft"
+msgstr "Myk"
+
+#: equalizer/equalizer.cpp:148
+msgid "Soft Rock"
+msgstr "Soft rock"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:278
+msgid ""
+"Songs are scrobbled if they have valid metadata and are longer than 30 "
+"seconds, have been playing for at least half its duration or for 4 minutes "
+"(whichever occurs earlier)."
+msgstr ""
+"Sanger blir scrobblet når de har gyldig metadata, er lengre enn 30 seconds, "
+"og har blitt spilt for minst halve tiden, eller 30 sekunder (det som skjer "
+"tidligst)."
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:348
+#: ../../build-translations/src/ui_deezersettingspage.h:277
+msgid "Songs search limit"
+msgstr "Søkebegrensing for sanger"
+
+#: ../../build-translations/src/ui_trackselectiondialog.h:203
+msgid "Sorry"
+msgstr "Beklager"
+
+#: playlist/playlist.cpp:1186
+msgid "Source"
+msgstr "Kilde"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:191
+msgid "Speex"
+msgstr "Speex"
+
+#: ../../build-translations/src/ui_transcoderoptionsmp3.h:198
+msgid "Standard"
+msgstr "Standard"
+
+#: core/commandlineoptions.cpp:163
+msgid "Start the playlist currently playing"
+msgstr "Begynn på spillelista som spilles nå"
+
+#: transcoder/transcodedialog.cpp:116
+msgid "Start transcoding"
+msgstr "Start omkoding"
+
+#: transcoder/transcoder.cpp:423
+#, qt-format
+msgid "Starting %1"
+msgstr "Starter %1"
+
+#: ../../build-translations/src/ui_playlistsequence.h:112
+msgid "Stop after each track"
+msgstr "Stopp etter hvert spor"
+
+#: widgets/osd.cpp:275
+msgid "Stop after every track"
+msgstr "Stopp etter hvert spor"
+
+#: core/mainwindow.cpp:555 ../../build-translations/src/ui_mainwindow.h:573
+msgid "Stop after this track"
+msgstr "Stopp etter denne sangen"
+
+#: core/commandlineoptions.cpp:165
+msgid "Stop playback"
+msgstr "Stopp avspilling"
+
+#: core/commandlineoptions.cpp:166
+msgid "Stop playback after current track"
+msgstr "Stopp avspilling etter dette sporet"
+
+#: widgets/osd.cpp:197
+#, qt-format
+msgid "Stop playing after track: %1"
+msgstr "Stopp avspilling etter spor: %1"
+
+#: widgets/osd.cpp:193
+msgid "Stopped"
+msgstr "Stoppet"
+
+#: ../../build-translations/src/ui_errordialog.h:90
+msgid "Strawberry Error"
+msgstr "Strawberry Feil"
+
+#: ../../build-translations/src/ui_mainwindow.h:552
+msgid "Strawberry Music Player"
+msgstr "Strawberry Music Player"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:462
+msgid "Strawberry Red"
+msgstr "Jordbær rød"
+
+#: ../../build-translations/src/ui_deviceproperties.h:374
+msgid ""
+"Strawberry can automatically convert the music you copy to this device into "
+"a format that it can play."
+msgstr ""
+"Strawberry kan automatisk konvertere musikken til et format enheten kan "
+"spille når musikken kopieres til enheten."
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:437
+msgid "Strawberry can show a message when the track changes."
+msgstr "Strawberry kan vise en melding ved sporendring."
+
+#: dialogs/about.cpp:105
+msgid "Strawberry is a audio player and music collection organizer.<br />"
+msgstr "Strawberry is a audio player and music collection organizer.<br />"
+
+#: dialogs/about.cpp:115
+msgid "Strawberry is distributed in the hope that it will be useful,<br />"
+msgstr "Strawberry is distributed in the hope that it will be useful,<br />"
+
+#: dialogs/about.cpp:110
+msgid ""
+"Strawberry is free software: you can redistribute it and/or modify<br />"
+msgstr ""
+"Strawberry is free software: you can redistribute it and/or modify<br />"
+
+#: ../../build-translations/src/ui_trackselectiondialog.h:204
+msgid "Strawberry was unable to find results for this file"
+msgstr "Strawberry klarte ikke å finne resultater for denne filen"
+
+#: core/song.cpp:394 core/song.cpp:438
+msgid "Stream"
+msgstr "Strøm"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:351
+msgid "Stream URL scheme"
+msgstr "Strøm URL skjema"
+
+#: settings/settingsdialog.cpp:140
+msgid "Streaming"
+msgstr "Strømming"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:281
+msgid "Submit scrobbles every"
+msgstr "Send scrobbles hver"
+
+#: ../data/html/oauthsuccess.html:36
+msgid "Success!"
+msgstr "Suksess!"
+
+#: transcoder/transcoder.cpp:200
+#, qt-format
+msgid "Successfully written %1"
+msgstr "Skrev %1"
+
+#: dialogs/trackselectiondialog.cpp:199
+msgid "Suggested tags"
+msgstr "Foreslåtte etiketter"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:455
+#: ../../build-translations/src/ui_edittagdialog.h:642
+msgid "Summary"
+msgstr "Sammendrag"
+
+#: analyzer/analyzercontainer.cpp:78
+#, qt-format
+msgid "Super high (%1 fps)"
+msgstr "Superhøy (%1 bilder/sek)"
+
+#: ../../build-translations/src/ui_deviceproperties.h:372
+msgid "Supported formats"
+msgstr "Støttede formater"
+
+#: widgets/fancytabwidget.cpp:505
+msgid "Tabs on top"
+msgstr "Faner på toppen"
+
+#: ../../build-translations/src/ui_trackselectiondialog.h:202
+msgid "Tag fetcher"
+msgstr "Etikett-henter"
+
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:200
+msgid "Target bitrate"
+msgstr "Ønsket bitrate"
+
+#: equalizer/equalizer.cpp:149
+msgid "Techno"
+msgstr "Tekno"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:465
+msgid "Text options"
+msgstr "Tekstinnstillinger"
+
+#: settings/shortcutssettingspage.cpp:240
+#, qt-format
+msgid "The \"%1\" command could not be started."
+msgstr "Kunne ikke starte kommandoen \"%1\"."
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:236
+msgid "The album cover of the currently playing song"
+msgstr "Albumomslaget til sangen som spilles av for øyeblikket"
+
+#: dialogs/about.cpp:107
+msgid ""
+"The name is inspired by the band Strawbs. It's based on a heavily modified "
+"version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
+msgstr ""
+"The name is inspired by the band Strawbs. It's based on a heavily modified "
+"version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
+
+#: covermanager/coverfromurldialog.cpp:83
+msgid "The site you requested does not exist!"
+msgstr "Siden du forespurte finnes ikke!"
+
+#: covermanager/coverfromurldialog.cpp:95
+msgid "The site you requested is not an image!"
+msgstr "Siden du forespurte er ikke et bilde!"
+
+#: core/mainwindow.cpp:2164
+msgid ""
+"The version of Strawberry you've just updated to requires a full collection "
+"rescan because of the new features listed below:"
+msgstr ""
+"Fordi du har oppdatert Strawberry til en nyere versjon, må hele samlingen "
+"søkes gjennom på nytt, som følge av disse nye funksjonene:"
+
+#: collection/collectionview.cpp:568
+msgid "There are other songs in this album"
+msgstr "Det er andre sanger i dette albumet"
+
+#: organise/organiseerrordialog.cpp:74
+msgid ""
+"There were problems copying some songs.  The following files could not be "
+"copied:"
+msgstr ""
+"Fikk problemer med å kopiere enkelte sanger.  Følgende filer kunne ikke "
+"kopieres:"
+
+#: organise/organiseerrordialog.cpp:79
+msgid ""
+"There were problems deleting some songs.  The following files could not be "
+"deleted:"
+msgstr ""
+"Fikk problemer med å slette enkelte sanger.  Følgende filer kunne ikke "
+"slettes:"
+
+#: widgets/fileview.cpp:223
+msgid ""
+"These files will be deleted from disk, are you sure you want to continue?"
+msgstr "Filene vil bli slettet fra harddisken. Er du sikker?"
+
+#: device/deviceview.cpp:409
+msgid ""
+"These files will be deleted from the device, are you sure you want to "
+"continue?"
+msgstr "Filene vil bli slettet fra enheten. Er du sikker?"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:154
+msgid "These folders will be scanned for music to make up your collection"
+msgstr ""
+"Disse katalogene vil skannes for musikk som kan legges til samlingen ditt"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:186
+msgid ""
+"These settings are used in the \"Transcode Music\" dialog, and when "
+"converting music before copying it to a device."
+msgstr ""
+"Disse innstillingene brukes i \"Omkod musikk\"-dialogvinduet, og når "
+"musikken omkodes før kopiering til en enhet."
+
+#: collection/savedgroupingmanager.cpp:58
+msgid "Third Level"
+msgstr "Tredje nivå"
+
+#: ../../build-translations/src/ui_groupbydialog.h:211
+msgid "Third level"
+msgstr "Tredje nivå"
+
+#: ../../build-translations/src/ui_playlistsaveoptionsdialog.h:94
+msgid "This can be changed later through the preferences"
+msgstr "Dette kan endres i innstillingene seinere"
+
+#: ../../build-translations/src/ui_deviceproperties.h:379
+msgid ""
+"This device must be connected and opened before Strawberry can see what file "
+"formats it supports."
+msgstr ""
+"Denne enheten må kobles til og åpnes før Strawberry kan se hvilke formater "
+"som støttes."
+
+#: ../../build-translations/src/ui_deviceproperties.h:373
+msgid "This device supports the following file formats:"
+msgstr "Denne enheten støtter følgende filformat:"
+
+#: device/devicemanager.cpp:500 device/devicemanager.cpp:508
+msgid "This device will not work properly"
+msgstr "Enheten vil ikke fungere ordentlig"
+
+#: device/devicemanager.cpp:501
+msgid ""
+"This is an MTP device, but you compiled Strawberry without libmtp support."
+msgstr ""
+"Dette er en MTP enhet, men Strawberry ble kompilert uten libmtp-støtte."
+
+#: device/devicemanager.cpp:509
+msgid "This is an iPod, but you compiled Strawberry without libgpod support."
+msgstr ""
+"Dette er en iPod enhet, men Strawberry ble kompilert uten libgpod-støtte."
+
+#: device/devicemanager.cpp:260
+msgid ""
+"This is the first time you have connected this device.  Strawberry will now "
+"scan the device to find music files - this may take some time."
+msgstr ""
+"Det er første gang du kobler til denne enheten. Strawberry skanner enheten "
+"for musikkfiler. Dette kan ta noe tid."
+
+#: playlist/playlisttabbar.cpp:222
+msgid "This option can be changed in the \"Behavior\" preferences"
+msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
+
+#: device/devicemanager.cpp:523
+#, qt-format
+msgid "This type of device is not supported: %1"
+msgstr "Denne enhetstypen (%1) støttes ikke."
+
+#: core/mainwindow.cpp:268 core/mainwindow.cpp:838 core/song.cpp:395
+#: ../../build-translations/src/ui_tidalsettingspage.h:336
+msgid "Tidal"
+msgstr "Tidal"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:341
+msgid "Tidal password"
+msgstr "Tidal passord"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:339
+msgid "Tidal username"
+msgstr "Tidal brukernavn"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:316
+msgid "Time step"
+msgstr "Tidstrinn"
+
+#: device/ilister.cpp:137
+msgid "Timezone"
+msgstr "Tidssone"
+
+#: core/qtsystemtrayicon.cpp:247 playlist/playlist.cpp:1156
+#: organise/organisedialog.cpp:88
+#: ../../build-translations/src/ui_edittagdialog.h:643
+#: ../../build-translations/src/ui_trackselectiondialog.h:209
+msgid "Title"
+msgstr "Tittel"
+
+#: core/utilities.cpp:162 core/utilities.cpp:176
+msgid "Today"
+msgstr "I dag"
+
+#: core/mainwindow.cpp:556 core/mainwindow.cpp:1454
+msgid "Toggle queue status"
+msgstr "Slå av/på køstatus"
+
+#: ../../build-translations/src/ui_mainwindow.h:649
+msgid "Toggle scrobbling"
+msgstr "Slå av/på deling av lyttevaner"
+
+#: core/mainwindow.cpp:564 core/mainwindow.cpp:1465
+msgid "Toggle skip status"
+msgstr "Slå av/på hopp over status"
+
+#: core/commandlineoptions.cpp:183
+msgid "Toggle visibility for the pretty on-screen-display"
+msgstr "Slå av/på synlighet for det pene skjermbilde overlegget"
+
+#: core/utilities.cpp:177
+msgid "Tomorrow"
+msgstr "I morgen"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:219
+msgid "Total albums:"
+msgstr "Totalt antall album:"
+
+#: covermanager/coversearchstatisticsdialog.cpp:85
+msgid "Total bytes transferred"
+msgstr "Antall byte overført totalt"
+
+#: covermanager/coversearchstatisticsdialog.cpp:83
+msgid "Total network requests made"
+msgstr "Antall nettverkforespørsler totalt"
+
+#: playlist/playlist.cpp:1159 organise/organisedialog.cpp:96
+#: ../../build-translations/src/ui_edittagdialog.h:644
+#: ../../build-translations/src/ui_trackselectiondialog.h:211
+msgid "Track"
+msgstr "Spor"
+
+#: ../../build-translations/src/ui_transcodedialog.h:209
+msgid "Transcode Music"
+msgstr "Omkod musikk"
+
+#: ../../build-translations/src/ui_transcodelogdialog.h:60
+msgid "Transcoder Log"
+msgstr "Logg for omkoder"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:185
+msgid "Transcoding"
+msgstr "Omkoding"
+
+#: transcoder/transcoder.cpp:338
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Omkoder %1 filer i %2 tråder"
+
+#: ../../build-translations/src/ui_transcoderoptionsdialog.h:50
+msgid "Transcoding options"
+msgstr "Innstillinger for omkoding"
+
+#: core/song.cpp:432
+msgid "TrueAudio"
+msgstr "TrueAudio"
+
+#: device/giolister.cpp:187
+msgid "URI"
+msgstr "URI"
+
+#: core/commandlineoptions.cpp:161
+msgid "URL(s)"
+msgstr "URL(er)"
+
+#: device/udisks2lister.cpp:111
+msgid "UUID"
+msgstr "UUID"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:226
+msgid "Ultra wide band (UWB)"
+msgstr "Ultrabredt bånd (UWB)"
+
+#: core/song.cpp:397 core/song.cpp:440 context/contextalbumsmodel.cpp:382
+#: collection/collectionmodel.cpp:369 collection/collectionmodel.cpp:374
+#: collection/collectionmodel.cpp:378 collection/collectionmodel.cpp:382
+#: collection/collectionmodel.cpp:386 collection/collectionmodel.cpp:1189
+#: collection/savedgroupingmanager.cpp:128 playlist/playlistdelegates.cpp:346
+#: playlist/playlistmanager.cpp:527 playlist/playlistmanager.cpp:528
+#: covermanager/albumcoverchoicecontroller.cpp:130
+#: dialogs/edittagdialog.cpp:488 dialogs/edittagdialog.cpp:536
+msgid "Unknown"
+msgstr "Ukjent"
+
+#: covermanager/albumcoverchoicecontroller.cpp:79
+msgid "Unset cover"
+msgstr "Fjern omslagsvalg"
+
+#: core/mainwindow.cpp:1462
+msgid "Unskip selected tracks"
+msgstr "Ikke hopp over de valgte sporene"
+
+#: core/mainwindow.cpp:1461
+msgid "Unskip track"
+msgstr "Ikke hopp over sporet"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:158
+msgid "Update the collection when Strawberry starts"
+msgstr "Oppdater samlingen når Strawberry starter"
+
+#: collection/collectionwatcher.cpp:107
+#, qt-format
+msgid "Updating %1"
+msgstr "Oppdaterer %1"
+
+#: device/deviceview.cpp:126
+#, qt-format
+msgid "Updating %1%..."
+msgstr "Oppdaterer %1% …"
+
+#: collection/collectionwatcher.cpp:105
+msgid "Updating collection"
+msgstr "Oppdaterer samling"
+
+#: core/commandlineoptions.cpp:161
+msgid "Usage"
+msgstr "Bruk"
+
+#: ../../build-translations/src/ui_deezersettingspage.h:280
+msgid "Use 30 seconds preview streams"
+msgstr "Bruk 30 sekunders prøve strømming"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:222
+msgid "Use Gnome (GSD) D-Bus shortcut keys"
+msgstr "Bruk Gnome (GSD) D-Bus snarveier"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:437
+msgid "Use Replay Gain metadata if it is available"
+msgstr "Bruk normalisering-metadata hvis tilgjengelig"
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:224
+msgid "Use X11's shortcut keys"
+msgstr "Bruk X11 snarveier"
+
+#: ../../build-translations/src/ui_appearancesettingspage.h:228
+msgid "Use a custom color set"
+msgstr "Bruk egendefinert fargedrakt"
+
+#: ../../build-translations/src/ui_notificationssettingspage.h:452
+msgid "Use a custom message for notifications"
+msgstr "Bruk egendefinert melding for meddelelser"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:163
+msgid "Use authentication"
+msgstr "Bruk autentisering"
+
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:199
+msgid "Use bitrate management engine"
+msgstr "Bruk kontrollert bitrate"
+
+#: ../../build-translations/src/ui_transcoderoptionsaac.h:140
+msgid "Use temporal noise shaping"
+msgstr "Bruk midlertidig støyforming"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:289
+msgid "Use the system default"
+msgstr "Bruk systemforevalg"
+
+#: widgets/freespacebar.cpp:73
+msgid "Used"
+msgstr "Brukt"
+
+#: settings/settingsdialog.cpp:131
+msgid "User interface"
+msgstr "Brukergrensesnitt"
+
+#: ../../build-translations/src/ui_scrobblersettingspage.h:293
+msgid "User token:"
+msgstr "Bruker nøkkel:"
+
+#: ../../build-translations/src/ui_networkproxysettingspage.h:164
+msgid "Username"
+msgstr "Brukernavn"
+
+#: settings/shortcutssettingspage.cpp:306
+#, qt-format
+msgid ""
+"Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
+"become unresponsive!"
+msgstr ""
+"Hvis du bruker X11 snarveier på %1 kan det oppstå problemer med at "
+"tastaturet slutter å fungere!"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:292
+msgid "Using the menu to add a song will..."
+msgstr "Bruk av menyen for å legge til et spor vil…"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:230
+msgid "Variable bit rate"
+msgstr "Variabel bitrate"
+
+#: collection/collectionmodel.cpp:289 playlist/playlistmanager.cpp:539
+#: covermanager/albumcovermanager.cpp:278 internet/internetsearchmodel.cpp:97
+#: internet/internetsearchmodel.cpp:109
+msgid "Various artists"
+msgstr "Diverse artister"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:218
+msgid "View"
+msgstr "Vis"
+
+#: core/dbusscreensaver.cpp:37
+msgid "Visualizations"
+msgstr "Visualiseringer"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:231
+msgid "Voice activity detection"
+msgstr "Taledeteksjon"
+
+#: widgets/osd.cpp:210
+#, qt-format
+msgid "Volume %1%"
+msgstr "Volum %1%"
+
+#: ../../build-translations/src/ui_transcodersettingspage.h:189
+msgid "Vorbis"
+msgstr "Vorbis"
+
+#: playlist/playlisttabbar.cpp:219
+#: ../../build-translations/src/ui_playlistsettingspage.h:137
+msgid "Warn me when closing a playlist tab"
+msgstr "Advarsel når jeg lukker en spilleliste-fane"
+
+#: core/song.cpp:420
+msgid "Wav"
+msgstr "WAV"
+
+#: core/song.cpp:422
+#: ../../build-translations/src/ui_transcodersettingspage.h:188
+msgid "WavPack"
+msgstr "WavPack"
+
+#: ../../build-translations/src/ui_collectionsettingspage.h:162
+msgid ""
+"When looking for album art Strawberry will first look for picture files that "
+"contain one of these words.\n"
+"If there are no matches then it will use the largest image in the directory."
+msgstr ""
+"Strawberry søker først etter bildefiler som inneholder ett av disse ordene.\n"
+"Hvis ingen ord passer, blir det største bildet i mappen brukt."
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:141
+msgid "When saving a playlist, file paths should be"
+msgstr "Når du lagrer spillelisten, skal fil plasseringen"
+
+#: device/ilister.cpp:138
+msgid "WiFi MAC Address"
+msgstr "WiFi MAC Address"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:227
+msgid "Wide band (WB)"
+msgstr "Bredbånd (WB)"
+
+#: core/song.cpp:429
+msgid "Windows Media audio"
+msgstr "Windows Media audio"
+
+#: ../../build-translations/src/ui_albumcovermanager.h:220
+msgid "Without cover:"
+msgstr "Uten omslag:"
+
+#: collection/collectionview.cpp:569
+msgid ""
+"Would you like to move the other songs in this album to Various Artists as "
+"well?"
+msgstr ""
+"Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
+
+#: core/mainwindow.cpp:2168
+msgid "Would you like to run a full rescan right now?"
+msgstr "Vil du søke gjennom hele samlingen på ny nå?"
+
+#: ../../build-translations/src/ui_playlistsettingspage.h:151
+msgid "Write metadata when saving playlists"
+msgstr "Skrev metadata når spilleliste lagres"
+
+#: collection/savedgroupingmanager.cpp:90 playlist/playlist.cpp:1162
+#: organise/organisedialog.cpp:98
+#: ../../build-translations/src/ui_groupbydialog.h:181
+#: ../../build-translations/src/ui_groupbydialog.h:200
+#: ../../build-translations/src/ui_groupbydialog.h:219
+#: ../../build-translations/src/ui_edittagdialog.h:648
+#: ../../build-translations/src/ui_trackselectiondialog.h:210
+msgid "Year"
+msgstr "År"
+
+#: collection/savedgroupingmanager.cpp:87
+#: ../../build-translations/src/ui_groupbydialog.h:183
+#: ../../build-translations/src/ui_groupbydialog.h:202
+#: ../../build-translations/src/ui_groupbydialog.h:221
+msgid "Year - Album"
+msgstr "År - album"
+
+#: core/utilities.cpp:163
+msgid "Yesterday"
+msgstr "I går"
+
+#: playlist/playlistlistcontainer.cpp:344
+#, qt-format
+msgid ""
+"You are about to remove %1 playlists from your favorites, are you sure?"
+msgstr "Du sletter nå %1 spillelister fra favorittene dine, er du sikker?"
+
+#: playlist/playlisttabbar.cpp:213
+msgid ""
+"You are about to remove a playlist which is not part of your favorite "
+"playlists: the playlist will be deleted (this action cannot be undone). \n"
+"Are you sure you want to continue?"
+msgstr ""
+"Du er i ferd med å slette en spilleliste som ikke er lagret i Favoritter. "
+"Denne spillelisten vil bli slettet (og du kan ikke angre). \n"
+"Er du sikker?"
+
+#: ../../build-translations/src/ui_loginstatewidget.h:165
+msgid "You are not signed in."
+msgstr "Du har ikke logget inn."
+
+#: widgets/loginstatewidget.cpp:78
+#, qt-format
+msgid "You are signed in as %1."
+msgstr "Du er innlogget som %1."
+
+#: widgets/loginstatewidget.cpp:77
+msgid "You are signed in."
+msgstr "Du er innlogget"
+
+#: ../../build-translations/src/ui_groupbydialog.h:171
+msgid "You can change the way the songs in the collection are organised."
+msgstr "Du kan velge hvordan sangene i biblioteket er organisert."
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:228
+msgid ""
+"You need to launch System Preferences and allow Strawberry to \"<span style="
+"\"font-style:italic\">control your computer</span>\" to use global shortcuts "
+"in Strawberry."
+msgstr ""
+"Du må åpne Systemvalg og gi Strawberry tilgang til \"<span style=\"font-"
+"style:italic\">styre datamaskinen din</span>\" for å bruke globale snarveier "
+"i Strawberry."
+
+#: ../../build-translations/src/ui_shortcutssettingspage.h:227
+msgid ""
+"You need to launch System Preferences and turn on \"<span style=\" font-"
+"style:italic;\">Enable access for assistive devices</span>\" to use global "
+"shortcuts in Strawberry."
+msgstr ""
+"Du må åpne Systemvalg og slå på \"<span style=\" font-style:italic;\">Enable "
+"access for assistive devices</span>\" for å bruke globale snarveier i "
+"Strawberry."
+
+#: dialogs/about.cpp:120
+msgid ""
+"You should have received a copy of the GNU General Public License<br />"
+msgstr ""
+"You should have received a copy of the GNU General Public License<br />"
+
+#: ../../build-translations/src/ui_behavioursettingspage.h:291
+msgid "You will need to restart Strawberry if you change the language."
+msgstr "Du må starte Strawberry på nytt for å bytte språk."
+
+#: collection/collectionview.cpp:425
+msgid "Your collection is empty!"
+msgstr "Samlingen din er tom!"
+
+#: equalizer/equalizer.cpp:150
+msgid "Zero"
+msgstr "Null"
+
+#: ../../build-translations/src/ui_internetsearchview.h:227
+msgid "a&lbums"
+msgstr "a&lbumer"
+
+#: playlist/playlistundocommands.cpp:46
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "add %n songs"
+msgstr "legg til %n sanger"
+
+#: dialogs/about.cpp:121
+msgid ""
+"along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/"
+"\">http://www.gnu.org/licenses/</a>."
+msgstr ""
+"along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/"
+"\">http://www.gnu.org/licenses/</a>."
+
+#: ../../build-translations/src/ui_internetsearchview.h:226
+msgid "ar&tists"
+msgstr "ar&tister"
+
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:219
+msgid "automatic"
+msgstr "automatisk"
+
+#: dialogs/about.cpp:116
+msgid "but WITHOUT ANY WARRANTY; without even the implied warranty of<br />"
+msgstr "but WITHOUT ANY WARRANTY; without even the implied warranty of<br />"
+
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:203
+#: ../../build-translations/src/ui_transcoderoptionsvorbis.h:206
+#: ../../build-translations/src/ui_transcoderoptionsspeex.h:222
+msgid "disabled"
+msgstr "slått av"
+
+#: widgets/osd.cpp:137
+#, qt-format
+msgid "disc %1"
+msgstr "disk %1"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:429
+msgid "hw"
+msgstr "hw"
+
+#: dialogs/about.cpp:111
+msgid ""
+"it under the terms of the GNU General Public License as published by<br />"
+msgstr ""
+"it under the terms of the GNU General Public License as published by<br />"
+
+#: context/contextview.cpp:312 context/contextview.cpp:492
+#: playlist/playlistview.cpp:237 dialogs/edittagdialog.cpp:531
+msgid "kbps"
+msgstr "kbps"
+
+#: playlist/playlistundocommands.cpp:103
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "move %n songs"
+msgstr "flytt %n sanger"
+
+#: ../../build-translations/src/ui_tidalsettingspage.h:345
+#: ../../build-translations/src/ui_deezersettingspage.h:275
+msgid "ms"
+msgstr "ms"
+
+#: core/commandlineoptions.cpp:161
+msgid "options"
+msgstr "innstillinger"
+
+#: ../../build-translations/src/ui_backendsettingspage.h:430
+msgid "p&lughw"
+msgstr "p&lughw"
+
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "remove %n songs"
+msgstr "fjern %n sanger"
+
+#: playlist/playlistundocommands.cpp:133
+msgid "shuffle songs"
+msgstr "stokk spor"
+
+#: ../../build-translations/src/ui_internetsearchview.h:228
+msgid "son&gs"
+msgstr "san&ger"
+
+#: playlist/playlistundocommands.cpp:126
+msgid "sort songs"
+msgstr "sorter sanger"
+
+#: playlist/playlistdelegates.cpp:215
+msgid "stop"
+msgstr "stopp"
+
+#: dialogs/about.cpp:112
+msgid ""
+"the Free Software Foundation, either version 3 of the License, or<br />"
+msgstr ""
+"the Free Software Foundation, either version 3 of the License, or<br />"
+
+#: widgets/osd.cpp:139
+#, qt-format
+msgid "track %1"
+msgstr "spor %1"
