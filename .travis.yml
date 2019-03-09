@@ -2,7 +2,7 @@ sudo: required
 language: C++
 os:
   - linux
-  - osx
+  #- osx
 services:
   - docker
 compiler:
