@@ -371,6 +371,7 @@ signals:
   bool was_maximized_;
   int saved_playback_position_;
   Engine::State saved_playback_state_;
+  bool playing_widget_;
   AddBehaviour doubleclick_addmode_;
   PlayBehaviour doubleclick_playmode_;
   PlaylistAddBehaviour doubleclick_playlist_addmode_;

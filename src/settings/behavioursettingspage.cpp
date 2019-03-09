@@ -148,6 +148,8 @@ void BehaviourSettingsPage::Load() {
   }
 #endif
 
+  ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
+
   MainWindow::StartupBehaviour behaviour = MainWindow::StartupBehaviour(s.value("startupbehaviour", MainWindow::Startup_Remember).toInt());
   switch (behaviour) {
     case MainWindow::Startup_AlwaysHide: ui_->radiobutton_alwayshide->setChecked(true); break;
@@ -191,6 +193,7 @@ void BehaviourSettingsPage::Save() {
   s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
   s.setValue("keeprunning", ui_->checkbox_keeprunning->isChecked());
   s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
+  s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
   s.setValue("startupbehaviour", int(behaviour));
   s.setValue("doubleclick_addmode", doubleclick_addmode);
   s.setValue("doubleclick_playmode", doubleclick_playmode);

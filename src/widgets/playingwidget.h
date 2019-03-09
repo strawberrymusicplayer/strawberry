@@ -67,6 +67,8 @@ class PlayingWidget : public QWidget {
   ~PlayingWidget();
 
   void SetApplication(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
+  bool IsEnabled() { return enabled_; }
+  void SetEnabled(bool enabled);
   void SetEnabled();
   void SetDisabled();
   void set_ideal_height(int height);

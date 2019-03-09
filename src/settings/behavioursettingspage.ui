@@ -55,6 +55,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_playingwidget">
+     <property name="text">
+      <string>Show playing widget</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="Line" name="line_1">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

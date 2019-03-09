@@ -220,9 +220,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       was_maximized_(true),
       saved_playback_position_(0),
       saved_playback_state_(Engine::Empty),
+      playing_widget_(true),
       doubleclick_addmode_(AddBehaviour_Append),
       doubleclick_playmode_(PlayBehaviour_Never),
-      menu_playmode_(PlayBehaviour_Never) {
+      menu_playmode_(PlayBehaviour_Never)
+      {
 
   qLog(Debug) << "Starting";
 
@@ -820,6 +822,8 @@ void MainWindow::ReloadSettings() {
 #endif
 
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  playing_widget_ = settings.value("playing_widget", true).toBool();
+  if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
   doubleclick_addmode_ = AddBehaviour(settings.value("doubleclick_addmode", AddBehaviour_Append).toInt());
   doubleclick_playmode_ = PlayBehaviour(settings.value("doubleclick_playmode", PlayBehaviour_IfStopped).toInt());
   doubleclick_playlist_addmode_ = PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt());
@@ -1013,10 +1017,12 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 
 void MainWindow::TabSwitched() {
 
-  if (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() == "context")
-    ui_->widget_playing->SetDisabled();
-  else
+  if (playing_widget_ && ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context") {
     ui_->widget_playing->SetEnabled();
+  }
+  else {
+    ui_->widget_playing->SetDisabled();
+  }
 
   if (!initialised_) return;
 

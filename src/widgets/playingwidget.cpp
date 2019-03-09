@@ -156,6 +156,10 @@ void PlayingWidget::SetApplication(Application *app, AlbumCoverChoiceController 
 
 }
 
+void PlayingWidget::SetEnabled(bool enabled) {
+  if (enabled) SetEnabled();
+  else SetDisabled();
+}
 
 void PlayingWidget::SetEnabled() {
   enabled_ = true;
