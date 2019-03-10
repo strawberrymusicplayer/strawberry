@@ -644,7 +644,7 @@ bool IsLaptop() {
 
 bool UrlOnSameDriveAsStrawberry(const QUrl &url) {
 
-  if (url.scheme() != "file") return false;
+  if (!url.isValid() || url.scheme() != "file" || url.toLocalFile().isEmpty()) return false;
 
 #ifdef Q_OS_WIN
   QUrl appUrl = QUrl::fromLocalFile(QCoreApplication::applicationDirPath());
@@ -660,6 +660,7 @@ bool UrlOnSameDriveAsStrawberry(const QUrl &url) {
 }
 
 QUrl GetRelativePathToStrawberryBin(const QUrl &url) {
+  if (!url.isValid()) return QUrl();
   QDir appPath(QCoreApplication::applicationDirPath());
   return QUrl::fromLocalFile(appPath.relativeFilePath(url.toLocalFile()));
 }

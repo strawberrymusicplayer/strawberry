@@ -1059,12 +1059,16 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":source", d->source_);
   query->bindValue(":directory_id", notnullintval(d->directory_id_));
 
-  if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(d->url_)) {
-    query->bindValue(":filename", Utilities::GetRelativePathToStrawberryBin(d->url_).toEncoded());
+  QString url;
+  if (d->url_.isValid()) {
+    if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(d->url_)) {
+      url = Utilities::GetRelativePathToStrawberryBin(d->url_).toEncoded();
+    }
+    else {
+      url = d->url_.toEncoded();
+    }
   }
-  else {
-    query->bindValue(":filename", d->url_.toEncoded());
-  }
+  query->bindValue(":filename", url);
 
   query->bindValue(":filetype", d->filetype_);
   query->bindValue(":filesize", notnullintval(d->filesize_));
