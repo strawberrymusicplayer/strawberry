@@ -860,6 +860,7 @@ void MainWindow::ReloadAllSettings() {
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
+  album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
 #ifdef HAVE_STREAM_TIDAL
   tidal_search_view_->ReloadSettings();

@@ -94,6 +94,8 @@ AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent) :
   separator_ = new QAction(this);
   separator_->setSeparator(true);
 
+  ReloadSettings();
+
 }
 
 AlbumCoverChoiceController::~AlbumCoverChoiceController() {}

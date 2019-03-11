@@ -138,8 +138,6 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   EnableCoversButtons();
 
-  ReloadSettings();
-
 }
 
 AlbumCoverManager::~AlbumCoverManager() {
