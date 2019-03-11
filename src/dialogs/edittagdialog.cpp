@@ -634,7 +634,7 @@ void EditTagDialog::SaveCoverToFile() {
   Song *song = GetFirstSelected();
   if (!song) return;
 
-  album_cover_choice_controller_->SaveCoverToFile(*song, original_);
+  album_cover_choice_controller_->SaveCoverToFileManual(*song, original_);
 
 }
 

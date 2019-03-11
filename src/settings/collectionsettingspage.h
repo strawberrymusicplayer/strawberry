@@ -43,6 +43,11 @@ public:
 
   static const char *kSettingsGroup;
 
+  enum SaveCover {
+    SaveCover_Hash = 1,
+    SaveCover_Pattern = 2
+  };
+
   void Load();
   void Save();
 
@@ -51,6 +56,7 @@ private slots:
   void Remove();
 
   void CurrentRowChanged(const QModelIndex &index);
+  void CoverSaveInAlbumDirChanged();
 
 private:
   Ui_CollectionSettingsPage *ui_;

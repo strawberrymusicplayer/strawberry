@@ -72,6 +72,7 @@ class AlbumCoverManager : public QMainWindow {
 
   void Reset();
   void Init();
+  void ReloadSettings();
 
   void EnableCoversButtons();
   void DisableCoversButtons();

@@ -138,11 +138,17 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 
   EnableCoversButtons();
 
+  ReloadSettings();
+
 }
 
 AlbumCoverManager::~AlbumCoverManager() {
   CancelRequests();
   delete ui_;
+}
+
+void AlbumCoverManager::ReloadSettings() {
+  album_cover_choice_controller_->ReloadSettings();
 }
 
 CollectionBackend *AlbumCoverManager::backend() const {
@@ -629,7 +635,7 @@ void AlbumCoverManager::SaveCoverToFile() {
     }
   }
 
-  album_cover_choice_controller_->SaveCoverToFile(song, image);
+  album_cover_choice_controller_->SaveCoverToFileManual(song, image);
 
 }
 
@@ -777,8 +783,10 @@ void AlbumCoverManager::SaveAndSetCover(QListWidgetItem *item, const QImage &ima
   const QString artist = item->data(Role_ArtistName).toString();
   const QString albumartist = item->data(Role_AlbumArtistName).toString();
   const QString album = item->data(Role_AlbumName).toString();
+  const QUrl url = item->data(Role_FirstUrl).toUrl();
 
-  QString path = album_cover_choice_controller_->SaveCoverInCache(artist, album, image);
+  QString path = album_cover_choice_controller_->SaveCoverToFileAutomatic((!albumartist.isEmpty() ? albumartist : artist), artist, album, url.adjusted(QUrl::RemoveFilename).path(), image);
+  if (path.isEmpty()) return;
 
   // Save the image in the database
   collection_backend_->UpdateManualAlbumArtAsync(artist, albumartist, album, path);

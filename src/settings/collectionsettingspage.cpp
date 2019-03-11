@@ -43,10 +43,12 @@
 
 const char *CollectionSettingsPage::kSettingsGroup = "Collection";
 
-CollectionSettingsPage::CollectionSettingsPage(SettingsDialog* dialog)
+CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_CollectionSettingsPage),
-      initialised_model_(false) {
+      initialised_model_(false)
+      {
+
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
@@ -56,6 +58,11 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog* dialog)
 
   connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));
   connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
+
+  connect(ui_->checkbox_cover_album_dir, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
+  connect(ui_->radiobutton_cover_hash, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
+  connect(ui_->radiobutton_cover_pattern, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
+
 }
 
 CollectionSettingsPage::~CollectionSettingsPage() { delete ui_; }
@@ -83,25 +90,6 @@ void CollectionSettingsPage::CurrentRowChanged(const QModelIndex& index) {
   ui_->remove->setEnabled(index.isValid());
 }
 
-void CollectionSettingsPage::Save() {
-
-  QSettings s;
-
-  s.beginGroup(kSettingsGroup);
-  s.setValue("auto_open", ui_->auto_open->isChecked());
-  s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
-  s.setValue("show_dividers", ui_->show_dividers->isChecked());
-  s.setValue("startup_scan", ui_->startup_scan->isChecked());
-  s.setValue("monitor", ui_->monitor->isChecked());
-
-  QString filter_text = ui_->cover_art_patterns->text();
-  QStringList filters = filter_text.split(',', QString::SkipEmptyParts);
-  s.setValue("cover_art_patterns", filters);
-
-  s.endGroup();
-
-}
-
 void CollectionSettingsPage::Load() {
 
   if (!initialised_model_) {
@@ -127,5 +115,74 @@ void CollectionSettingsPage::Load() {
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
 
+  ui_->checkbox_cover_album_dir->setChecked(s.value("cover_album_dir", false).toBool());
+  SaveCover save_cover = SaveCover(s.value("cover_filename", SaveCover_Hash).toInt());
+  switch (save_cover) {
+    case SaveCover_Hash: ui_->radiobutton_cover_hash->setChecked(true); break;
+    case SaveCover_Pattern: ui_->radiobutton_cover_pattern->setChecked(true); break;
+  }
+  QString cover_pattern = s.value("cover_pattern").toString();
+  if (!cover_pattern.isEmpty()) ui_->lineedit_cover_pattern->setText(cover_pattern);
+  ui_->checkbox_cover_overwrite->setChecked(s.value("cover_overwrite", false).toBool());
+  ui_->checkbox_cover_lowercase->setChecked(s.value("cover_lowercase", true).toBool());
+  ui_->checkbox_cover_replace_spaces->setChecked(s.value("cover_replace_spaces", true).toBool());
+
   s.endGroup();
+
+}
+
+void CollectionSettingsPage::Save() {
+
+  QSettings s;
+
+  s.beginGroup(kSettingsGroup);
+  s.setValue("auto_open", ui_->auto_open->isChecked());
+  s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
+  s.setValue("show_dividers", ui_->show_dividers->isChecked());
+  s.setValue("startup_scan", ui_->startup_scan->isChecked());
+  s.setValue("monitor", ui_->monitor->isChecked());
+
+  QString filter_text = ui_->cover_art_patterns->text();
+  QStringList filters = filter_text.split(',', QString::SkipEmptyParts);
+  s.setValue("cover_art_patterns", filters);
+
+  s.setValue("cover_album_dir", ui_->checkbox_cover_album_dir->isChecked());
+  SaveCover save_cover = SaveCover_Hash;
+  if (ui_->radiobutton_cover_hash->isChecked()) save_cover = SaveCover_Hash;
+  if (ui_->radiobutton_cover_pattern->isChecked()) save_cover = SaveCover_Pattern;
+  s.setValue("cover_filename", int(save_cover));
+  s.setValue("cover_pattern", ui_->lineedit_cover_pattern->text());
+  s.setValue("cover_overwrite", ui_->checkbox_cover_overwrite->isChecked());
+  s.setValue("cover_lowercase", ui_->checkbox_cover_lowercase->isChecked());
+  s.setValue("cover_replace_spaces", ui_->checkbox_cover_replace_spaces->isChecked());
+
+  s.endGroup();
+
+}
+
+void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
+
+  if (ui_->checkbox_cover_album_dir->isChecked()) {
+    if (!ui_->groupbox_cover_filename->isEnabled()) {
+      ui_->groupbox_cover_filename->setEnabled(true);
+    }
+    if (ui_->radiobutton_cover_pattern->isChecked()) {
+      if (!ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(true);
+      if (!ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(true);
+      if (!ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(true);
+      if (!ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(true);
+    }
+    else {
+      if (ui_->lineedit_cover_pattern->isEnabled()) ui_->lineedit_cover_pattern->setEnabled(false);
+      if (ui_->checkbox_cover_overwrite->isEnabled()) ui_->checkbox_cover_overwrite->setEnabled(false);
+      if (ui_->checkbox_cover_lowercase->isEnabled()) ui_->checkbox_cover_lowercase->setEnabled(false);
+      if (ui_->checkbox_cover_replace_spaces->isEnabled()) ui_->checkbox_cover_replace_spaces->setEnabled(false);
+    }
+  }
+  else {
+    if (ui_->groupbox_cover_filename->isEnabled()) {
+      ui_->groupbox_cover_filename->setEnabled(false);
+    }
+  }
+
 }

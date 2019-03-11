@@ -860,6 +860,7 @@ void MainWindow::ReloadAllSettings() {
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
+  if (cover_manager_.get()) cover_manager_->ReloadSettings();
 #ifdef HAVE_STREAM_TIDAL
   tidal_search_view_->ReloadSettings();
 #endif
@@ -2326,7 +2327,7 @@ void MainWindow::SearchForCover() {
 }
 
 void MainWindow::SaveCoverToFile() {
-  album_cover_choice_controller_->SaveCoverToFile(song_, image_original_);
+  album_cover_choice_controller_->SaveCoverToFileManual(song_, image_original_);
 }
 
 void MainWindow::UnsetCover() {

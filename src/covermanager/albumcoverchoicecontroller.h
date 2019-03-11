@@ -37,6 +37,8 @@
 #include <QFileDialog>
 #include <QtEvents>
 
+#include "settings/collectionsettingspage.h"
+
 class Song;
 class Application;
 class AlbumCoverFetcher;
@@ -57,6 +59,7 @@ class AlbumCoverChoiceController : public QWidget {
   ~AlbumCoverChoiceController();
 
   void SetApplication(Application *app);
+  void ReloadSettings();
 
   // Getters for all QActions implemented by this controller.
 
@@ -86,7 +89,7 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Shows a dialog that allows user to save the given image on disk.
   // The image is supposed to be the cover of the given song's album.
-  void SaveCoverToFile(const Song &song, const QImage &image);
+  void SaveCoverToFileManual(const Song &song, const QImage &image);
 
   // Downloads the cover from an URL given by user.
   // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
@@ -113,8 +116,10 @@ class AlbumCoverChoiceController : public QWidget {
   // Saves the cover that the user picked through a drag and drop operation.
   QString SaveCover(Song *song, const QDropEvent *e);
 
-  // Saves the given image in cache as a cover for 'artist' - 'album'. The method returns path of the cached image.
-  QString SaveCoverInCache(const QString &artist, const QString &album, const QImage &image);
+  // Saves the given image in album directory or cache as a cover for 'album artist' - 'album'. The method returns path of the image.
+  QString SaveCoverToFileAutomatic(const QString &albumartist, const QString &artist, const QString &album, const QString &album_dir, const QImage &image);
+  QString SaveCoverToFileAutomatic(const Song *song, const QImage &image);
+  QString CreateCoverFilename(const QString &albumartist, const QString &artist, const QString &album);
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
@@ -147,6 +152,14 @@ signals:
   QAction *search_cover_auto_;
 
   QMap<quint64, Song> cover_fetching_tasks_;
+
+  bool cover_album_dir_;
+  CollectionSettingsPage::SaveCover cover_filename_;
+  QString cover_pattern_;
+  bool cover_overwrite_;
+  bool cover_lowercase_;
+  bool cover_replace_spaces_;
+
 };
 
 #endif  // ALBUMCOVERCHOICECONTROLLER_H

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>509</width>
-    <height>452</height>
+    <height>695</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,14 +15,14 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_collection_folders">
      <property name="text">
       <string>These folders will be scanned for music to make up your collection</string>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="layout_collection_folders">
      <item>
       <widget class="QListView" name="list">
        <property name="iconSize">
@@ -37,7 +37,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="layout_collection_folder_buttons">
        <item>
         <widget class="QPushButton" name="add">
          <property name="text">
@@ -56,7 +56,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <spacer name="spacer_collection_buttons">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -73,7 +73,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupbox_updating">
      <property name="title">
       <string>Automatic updating</string>
      </property>
@@ -93,7 +93,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_preferred_cover_filenames">
         <property name="text">
          <string>Preferred album art filenames (comma separated)</string>
         </property>
@@ -111,7 +111,7 @@ If there are no matches then it will use the largest image in the directory.</st
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_1">
+    <widget class="QGroupBox" name="groupbox_display">
      <property name="title">
       <string>Display options</string>
      </property>
@@ -135,6 +135,92 @@ If there are no matches then it will use the largest image in the directory.</st
         <property name="text">
          <string>Show dividers</string>
         </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_albumcovers">
+     <property name="title">
+      <string>Saving album covers</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="checkbox_cover_album_dir">
+        <property name="text">
+         <string>Save album covers in album directory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupbox_cover_filename">
+        <property name="title">
+         <string>Filename:</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QWidget" name="groupbox_buttons" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QRadioButton" name="radiobutton_cover_hash">
+              <property name="text">
+               <string>Use hash</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radiobutton_cover_pattern">
+              <property name="text">
+               <string>Use pattern</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="spacer_cover_filename_bttons">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineedit_cover_pattern">
+           <property name="text">
+            <string>%albumartist-%album</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_overwrite">
+           <property name="text">
+            <string>Overwrite existing file</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_lowercase">
+           <property name="text">
+            <string>Lowercase filename</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkbox_cover_replace_spaces">
+           <property name="text">
+            <string>Replace spaces with dashes</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
