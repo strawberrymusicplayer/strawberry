@@ -43,7 +43,6 @@ signals:
   void RaiseMainWindow();
 
  private:
-  Mpris1 *mpris1_;
   Mpris2 *mpris2_;
 };
 
