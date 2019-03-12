@@ -229,31 +229,35 @@ QStringList Mpris2::SupportedUriSchemes() const {
 
 QStringList Mpris2::SupportedMimeTypes() const {
 
-  static QStringList res = QStringList() << "application/ogg"
+  static QStringList res = QStringList() << "x-content/audio-player"
+                                         << "application/ogg"
                                          << "application/x-ogg"
                                          << "application/x-ogm-audio"
+                                         << "audio/flac"
+                                         << "audio/ogg"
+                                         << "audio/vorbis"
                                          << "audio/aac"
                                          << "audio/mp4"
                                          << "audio/mpeg"
                                          << "audio/mpegurl"
-                                         << "audio/ogg"
                                          << "audio/vnd.rn-realaudio"
-                                         << "audio/vorbis"
                                          << "audio/x-flac"
+                                         << "audio/x-oggflac"
+                                         << "audio/x-vorbis"
+                                         << "audio/x-vorbis+ogg"
+                                         << "audio/x-speex"
+                                         << "audio/x-wav"
+                                         << "audio/x-wavpack"
+                                         << "audio/x-ape"
                                          << "audio/x-mp3"
                                          << "audio/x-mpeg"
                                          << "audio/x-mpegurl"
                                          << "audio/x-ms-wma"
                                          << "audio/x-musepack"
-                                         << "audio/x-oggflac"
                                          << "audio/x-pn-realaudio"
                                          << "audio/x-scpls"
-                                         << "audio/x-speex"
-                                         << "audio/x-vorbis"
-                                         << "audio/x-vorbis+ogg"
-                                         << "audio/x-wav"
-                                         << "video/x-ms-asf"
-                                         << "x-content/audio-player";
+                                         << "video/x-ms-asf";
+
   return res;
 
 }
