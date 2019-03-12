@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2017-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +28,12 @@
 
 class IconLoader {
  public:
+  static void Init();
   static QIcon Load(const QString &name, const int size = 0);
-private:
+ private:
   IconLoader() {}
+  static bool system_icons_;
+  static bool custom_icons_;
 };
 
-#endif // ICONLOADER_H
-
+#endif  // ICONLOADER_H

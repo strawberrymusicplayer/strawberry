@@ -223,6 +223,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_system_icons">
+     <property name="text">
+      <string>Use system theme icons</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

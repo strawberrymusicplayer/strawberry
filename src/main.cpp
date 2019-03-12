@@ -223,6 +223,8 @@ int main(int argc, char* argv[]) {
   QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 #endif
 
+  IconLoader::Init();
+
 #ifdef HAVE_TRANSLATIONS
   QString override_language = options.language();
   if (override_language.isEmpty()) {

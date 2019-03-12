@@ -124,6 +124,7 @@ void AppearanceSettingsPage::Load() {
   ui_->background_image_filename->setText(playlist_view_background_image_filename_);
   ui_->blur_slider->setValue(s.value("blur_radius", PlaylistView::kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value("opacity_level", PlaylistView::kDefaultOpacityLevel).toInt());
+  ui_->checkbox_system_icons->setChecked(s.value("system_icons", false).toBool());
 
   s.endGroup();
 
@@ -161,6 +162,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(PlaylistView::kSettingBackgroundImageType, playlist_view_background_image_type_);
   s.setValue("blur_radius", ui_->blur_slider->value());
   s.setValue("opacity_level", ui_->opacity_slider->value());
+  s.setValue("system_icons", ui_->checkbox_system_icons->isChecked());
 
   s.endGroup();
 
