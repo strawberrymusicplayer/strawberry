@@ -384,6 +384,16 @@ QString Song::JoinSpec(const QString &table) {
   return Utilities::Prepend(table + ".", kColumns).join(", ");
 }
 
+Song::Source Song::SourceFromURL(const QUrl &url) {
+
+  if (url.scheme() == "file") return Source_LocalFile;
+  else if (url.scheme() == "cdda") return Source_CDDA;
+  else if (url.scheme() == "tidal") return Source_Tidal;
+  else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") return Source_Stream;
+  else return Source_Unknown;
+
+}
+
 QString Song::TextForSource(Source source) {
 
   switch (source) {
@@ -558,37 +568,38 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   d->album_ = QStringFromStdString(pb.album());
   d->artist_ = QStringFromStdString(pb.artist());
   d->albumartist_ = QStringFromStdString(pb.albumartist());
-  d->composer_ = QStringFromStdString(pb.composer());
-  d->performer_ = QStringFromStdString(pb.performer());
-  d->grouping_ = QStringFromStdString(pb.grouping());
   d->track_ = pb.track();
   d->disc_ = pb.disc();
   d->year_ = pb.year();
   d->originalyear_ = pb.originalyear();
   d->genre_ = QStringFromStdString(pb.genre());
+  d->compilation_ = pb.compilation();
+  d->composer_ = QStringFromStdString(pb.composer());
+  d->performer_ = QStringFromStdString(pb.performer());
+  d->grouping_ = QStringFromStdString(pb.grouping());
   d->comment_ = QStringFromStdString(pb.comment());
   d->lyrics_ = QStringFromStdString(pb.lyrics());
-  d->compilation_ = pb.compilation();
-  d->skipcount_ = pb.skipcount();
-  d->lastplayed_ = pb.lastplayed();
   set_length_nanosec(pb.length_nanosec());
   d->bitrate_ = pb.bitrate();
   d->samplerate_ = pb.samplerate();
   d->bitdepth_ = pb.bitdepth();
+  d->source_ = Source_LocalFile;
   set_url(QUrl::fromEncoded(QByteArray(pb.url().data(), pb.url().size())));
   d->basefilename_ = QStringFromStdString(pb.basefilename());
+  d->filetype_ = static_cast<FileType>(pb.filetype());
+  d->filesize_ = pb.filesize();
   d->mtime_ = pb.mtime();
   d->ctime_ = pb.ctime();
-  d->filesize_ = pb.filesize();
+  d->skipcount_ = pb.skipcount();
+  d->lastplayed_ = pb.lastplayed();
   d->suspicious_tags_ = pb.suspicious_tags();
-  d->filetype_ = static_cast<FileType>(pb.filetype());
-
-  if (pb.has_art_automatic()) {
-    d->art_automatic_ = QStringFromStdString(pb.art_automatic());
-  }
 
   if (pb.has_playcount()) {
     d->playcount_ = pb.playcount();
+  }
+
+  if (pb.has_art_automatic()) {
+    d->art_automatic_ = QStringFromStdString(pb.art_automatic());
   }
 
   InitArtManual();

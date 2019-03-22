@@ -126,6 +126,7 @@ class Song {
     FileType_Stream = 91,
   };
 
+  static Source SourceFromURL(const QUrl &url);
   static QString TextForSource(Source source);
   static QIcon IconForSource(Source source);
   static QString TextForFiletype(FileType filetype);
