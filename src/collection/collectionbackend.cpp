@@ -659,6 +659,7 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids) {
 }
 
 SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column) {
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -678,6 +679,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
     ret[index].InitFromQuery(q, true);
   }
   return ret.toList();
+
 }
 
 Song CollectionBackend::GetSongById(int id, QSqlDatabase &db) {
@@ -687,6 +689,7 @@ Song CollectionBackend::GetSongById(int id, QSqlDatabase &db) {
 }
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &db) {
+
   QString in = ids.join(",");
 
   QSqlQuery q(db);
@@ -701,12 +704,14 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
     ret << song;
   }
   return ret;
+
 }
 
 Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
+
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("filename", url.toEncoded());
+  query.AddWhere("filename", url.toString());
   query.AddWhere("beginning", beginning);
 
   Song song;
@@ -714,12 +719,14 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
     song.InitFromQuery(query, true);
   }
   return song;
+
 }
 
 SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
+
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("filename", url.toEncoded());
+  query.AddWhere("filename", url.toString());
 
   SongList songlist;
   if (ExecQuery(&query)) {
@@ -730,6 +737,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
     }
   }
   return songlist;
+
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const QueryOptions &opt) {
