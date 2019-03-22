@@ -97,6 +97,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceInfo *FindDeviceById(const QString &id) const;
   DeviceInfo *FindDeviceByUrl(const QList<QUrl> &url) const;
   QString DeviceNameByID(QString unique_id);
+  DeviceInfo *FindEquivalentDevice(DeviceInfo *info) const;
 
   // Actions on devices
   std::shared_ptr<ConnectedDevice> Connect(DeviceInfo *info);
@@ -116,6 +117,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
  signals:
   void DeviceConnected(QModelIndex idx);
   void DeviceDisconnected(QModelIndex idx);
+  void DeviceCreatedFromDB(DeviceInfo* info);
 
  private slots:
   void PhysicalDeviceAdded(const QString &id);
@@ -126,6 +128,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void DeviceSongCountUpdated(int count);
   void LoadAllDevices();
   void DeviceConnectFinished(const QString &id, bool success);
+  void AddDeviceFromDB(DeviceInfo *info);
 
  protected:
   void LazyPopulate(DeviceInfo *item) { LazyPopulate(item, true); }

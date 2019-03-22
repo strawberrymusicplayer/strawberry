@@ -64,14 +64,7 @@ void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
   size_ = dev.size_;
   transcode_mode_ = dev.transcode_mode_;
   transcode_format_ = dev.transcode_format_;
-
-  QStringList icon_names = dev.icon_name_.split(',');
-  QVariantList icons;
-  for (const QString &icon_name : icon_names) {
-    icons << icon_name;
-  }
-
-  LoadIcon(icons, friendly_name_);
+  icon_name_ = dev.icon_name_;
 
   QStringList unique_ids = dev.unique_id_.split(',');
   for (const QString &id : unique_ids) {

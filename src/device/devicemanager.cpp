@@ -108,6 +108,8 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   backend_->moveToThread(app_->database()->thread());
   backend_->Init(app_->database());
 
+  connect(this, SIGNAL(DeviceCreatedFromDB(DeviceInfo*)), SLOT(AddDeviceFromDB(DeviceInfo*)));
+
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
   ConcurrentRun::Run<void>(&thread_pool_, bind(&DeviceManager::LoadAllDevices, this));
 
@@ -174,9 +176,34 @@ void DeviceManager::LoadAllDevices() {
 
   DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
   for (const DeviceDatabaseBackend::Device &device : devices) {
-    beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
     DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
     info->InitFromDb(device);
+    emit DeviceCreatedFromDB(info);
+  }
+
+}
+
+void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
+
+  QStringList icon_names = info->icon_name_.split(',');
+  QVariantList icons;
+  for (const QString &icon_name : icon_names) {
+    icons << icon_name;
+  }
+  info->LoadIcon(icons, info->friendly_name_);
+
+  DeviceInfo *existing = FindEquivalentDevice(info);
+  if (existing) {
+    qLog(Info) << "Found existing device: " << info->friendly_name_;
+    existing->icon_name_ = info->icon_name_;
+    existing->icon_ = info->icon_;
+    QModelIndex idx = ItemToIndex(existing);
+    if (idx.isValid()) emit dataChanged(idx, idx);
+    delete info;
+  }
+  else {
+    qLog(Info) << "Device added from database: " << info->friendly_name_;
+    beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
     devices_ << info;
     endInsertRows();
   }
@@ -332,6 +359,16 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
     }
   }
 
+  return nullptr;
+
+}
+
+DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *info) const {
+
+  for (const DeviceInfo::Backend &backend : info->backends_) {
+    DeviceInfo *match = FindDeviceById(backend.unique_id_);
+    if (match) return match;
+  }
   return nullptr;
 
 }
