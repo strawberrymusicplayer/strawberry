@@ -58,9 +58,6 @@ class OrganiseDialog : public QDialog {
   OrganiseDialog(TaskManager *task_manager, QWidget *parent = nullptr);
   ~OrganiseDialog();
 
-  static const char *kDefaultFormat;
-  static const char *kSettingsGroup;
-
   QSize sizeHint() const;
 
   void SetDestinationModel(QAbstractItemModel *model, bool devices = false);
@@ -78,10 +75,10 @@ class OrganiseDialog : public QDialog {
 
  public slots:
   void accept();
+  void reject();
 
  protected:
   void showEvent(QShowEvent *);
-  void resizeEvent(QResizeEvent *);
 
  private slots:
   void Reset();
@@ -91,11 +88,19 @@ class OrganiseDialog : public QDialog {
 
   void OrganiseFinished(const QStringList files_with_errors, const QStringList log);
 
+  void AllowExtASCII(bool checked);
+
+  void SaveGeometry();
+
  private:
   SongList LoadSongsBlocking(const QStringList &filenames);
   void SetLoadingSongs(bool loading);
 
   static Organise::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganiseFormat &format);
+
+ private:
+  static const char *kDefaultFormat;
+  static const char *kSettingsGroup;
 
   Ui_OrganiseDialog *ui_;
   TaskManager *task_manager_;
@@ -109,7 +114,6 @@ class OrganiseDialog : public QDialog {
 
   std::unique_ptr<OrganiseErrorDialog> error_dialog_;
 
-  bool resized_by_user_;
 };
 
 #endif  // ORGANISEDIALOG_H

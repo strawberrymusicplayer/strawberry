@@ -75,8 +75,7 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_OrganiseDialog),
       task_manager_(task_manager),
-      total_size_(0),
-      resized_by_user_(false) {
+      total_size_(0) {
 
   ui_->setupUi(this);
   connect(ui_->button_box->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(Reset()));
@@ -112,7 +111,9 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
   connect(ui_->naming, SIGNAL(textChanged()), SLOT(UpdatePreviews()));
   connect(ui_->remove_non_fat, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
+  connect(ui_->allow_ascii_ext, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->replace_spaces, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
+  connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(AllowExtASCII(bool)));
 
   // Get the titles of the tags to put in the insert menu
   QStringList tag_titles = tags.keys();
@@ -127,7 +128,16 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
   }
 
   connect(tag_mapper, SIGNAL(mapped(QString)), SLOT(InsertTag(QString)));
+
   ui_->insert->setMenu(tag_menu);
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
+  s.endGroup();
+
 }
 
 OrganiseDialog::~OrganiseDialog() {
@@ -296,6 +306,7 @@ void OrganiseDialog::UpdatePreviews() {
   format_.set_format(ui_->naming->toPlainText());
   format_.set_remove_non_fat(ui_->remove_non_fat->isChecked());
   format_.set_remove_non_ascii(ui_->remove_non_ascii->isChecked());
+  format_.set_allow_ascii_ext(ui_->allow_ascii_ext->isChecked());
   format_.set_replace_spaces(ui_->replace_spaces->isChecked());
 
   const bool format_valid = !has_local_destination || format_.IsValid();
@@ -320,10 +331,6 @@ void OrganiseDialog::UpdatePreviews() {
     }
   }
 
-  if (!resized_by_user_) {
-    adjustSize();
-  }
-
 }
 
 QSize OrganiseDialog::sizeHint() const { return QSize(650, 0); }
@@ -333,6 +340,7 @@ void OrganiseDialog::Reset() {
   ui_->naming->setPlainText(kDefaultFormat);
   ui_->remove_non_fat->setChecked(false);
   ui_->remove_non_ascii->setChecked(false);
+  ui_->allow_ascii_ext->setChecked(false);
   ui_->replace_spaces->setChecked(true);
   ui_->overwrite->setChecked(false);
   ui_->mark_as_listened->setChecked(false);
@@ -343,13 +351,12 @@ void OrganiseDialog::Reset() {
 
 void OrganiseDialog::showEvent(QShowEvent*) {
 
-  resized_by_user_ = false;
-
   QSettings s;
   s.beginGroup(kSettingsGroup);
   ui_->naming->setPlainText(s.value("format", kDefaultFormat).toString());
   ui_->remove_non_fat->setChecked(s.value("remove_non_fat", false).toBool());
   ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
+  ui_->allow_ascii_ext->setChecked(s.value("allow_ascii_ext", false).toBool());
   ui_->replace_spaces->setChecked(s.value("replace_spaces", true).toBool());
   ui_->overwrite->setChecked(s.value("overwrite", false).toBool());
   ui_->albumcover->setChecked(s.value("albumcover", true).toBool());
@@ -362,6 +369,10 @@ void OrganiseDialog::showEvent(QShowEvent*) {
     ui_->destination->setCurrentIndex(index);
   }
 
+  s.endGroup();
+
+  AllowExtASCII(ui_->remove_non_ascii->isChecked());
+
 }
 
 void OrganiseDialog::accept() {
@@ -372,12 +383,14 @@ void OrganiseDialog::accept() {
   s.setValue("format", ui_->naming->toPlainText());
   s.setValue("remove_non_fat", ui_->remove_non_fat->isChecked());
   s.setValue("remove_non_ascii", ui_->remove_non_ascii->isChecked());
+  s.setValue("allow_ascii_ext", ui_->allow_ascii_ext->isChecked());
   s.setValue("replace_spaces", ui_->replace_spaces->isChecked());
   s.setValue("overwrite", ui_->overwrite->isChecked());
   s.setValue("mark_as_listened", ui_->overwrite->isChecked());
   s.setValue("albumcover", ui_->albumcover->isChecked());
   s.setValue("destination", ui_->destination->currentText());
   s.setValue("eject_after", ui_->eject_after->isChecked());
+  s.endGroup();
 
   const QModelIndex destination = ui_->destination->model()->index(ui_->destination->currentIndex(), 0);
   std::shared_ptr<MusicStorage> storage = destination.data(MusicStorage::Role_StorageForceConnect).value<std::shared_ptr<MusicStorage>>();
@@ -391,7 +404,26 @@ void OrganiseDialog::accept() {
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
   organise->Start();
 
+  SaveGeometry();
+
   QDialog::accept();
+
+}
+
+void OrganiseDialog::reject() {
+
+  SaveGeometry();
+  QDialog::reject();
+
+}
+
+void OrganiseDialog::SaveGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
+  s.endGroup();
+
 }
 
 void OrganiseDialog::OrganiseFinished(const QStringList files_with_errors, const QStringList log) {
@@ -401,11 +433,6 @@ void OrganiseDialog::OrganiseFinished(const QStringList files_with_errors, const
   error_dialog_->Show(OrganiseErrorDialog::Type_Copy, files_with_errors, log);
 }
 
-void OrganiseDialog::resizeEvent(QResizeEvent *e) {
-  if (e->spontaneous()) {
-    resized_by_user_ = true;
-  }
-
-  QDialog::resizeEvent(e);
+void OrganiseDialog::AllowExtASCII(bool checked) {
+  ui_->allow_ascii_ext->setEnabled(checked);
 }
-

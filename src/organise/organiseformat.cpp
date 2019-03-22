@@ -87,6 +87,7 @@ OrganiseFormat::OrganiseFormat(const QString &format)
     : format_(format),
       remove_non_fat_(false),
       remove_non_ascii_(false),
+      allow_ascii_ext_(false),
       replace_spaces_(true) {}
 
 void OrganiseFormat::set_format(const QString &v) {
@@ -115,21 +116,29 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
   }
 
   if (remove_non_fat_) {
+    filename.replace(230, "ae");
+    filename.replace(198, "AE");
+    filename.replace(248, 'o');
+    filename.replace(216, 'O');
+    filename.replace(229, 'a');
+    filename.replace(197, 'A');
     filename.remove(kValidFatCharacters);
   }
 
   if (replace_spaces_) filename.replace(QRegExp("\\s"), "_");
 
   if (remove_non_ascii_) {
+    int ascii = 128;
+    if (allow_ascii_ext_) ascii = 255;
     QString stripped;
     for (int i = 0; i < filename.length(); ++i) {
       const QCharRef c = filename[i];
-      if (c < 128) {
+      if (c < ascii) {
         stripped.append(c);
       }
       else {
         const QString decomposition = c.decomposition();
-        if (!decomposition.isEmpty() && decomposition[0] < 128)
+        if (!decomposition.isEmpty() && decomposition[0] < ascii)
           stripped.append(decomposition[0]);
         else
           stripped.append("_");

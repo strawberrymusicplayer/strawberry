@@ -53,11 +53,13 @@ class OrganiseFormat {
   QString format() const { return format_; }
   bool remove_non_fat() const { return remove_non_fat_; }
   bool remove_non_ascii() const { return remove_non_ascii_; }
+  bool allow_ascii_ext() const { return allow_ascii_ext_; }
   bool replace_spaces() const { return replace_spaces_; }
 
   void set_format(const QString &v);
   void set_remove_non_fat(bool v) { remove_non_fat_ = v; }
   void set_remove_non_ascii(bool v) { remove_non_ascii_ = v; }
+  void set_allow_ascii_ext(bool v) { allow_ascii_ext_ = v; }
   void set_replace_spaces(bool v) { replace_spaces_ = v; }
 
   bool IsValid() const;
@@ -91,6 +93,7 @@ class OrganiseFormat {
   QString format_;
   bool remove_non_fat_;
   bool remove_non_ascii_;
+  bool allow_ascii_ext_;
   bool replace_spaces_;
 
 };
