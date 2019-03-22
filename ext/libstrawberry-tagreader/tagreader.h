@@ -29,6 +29,8 @@
 #include <QTextCodec>
 
 #include <taglib/xiphcomment.h>
+#include <taglib/apetag.h>
+#include <taglib/apefile.h>
 
 #include "tagreadermessages.pb.h"
 
@@ -52,20 +54,24 @@ class TagReader {
  public:
   TagReader();
 
+  pb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
+
   void ReadFile(const QString &filename, pb::tagreader::SongMetadata *song) const;
   bool SaveFile(const QString &filename, const pb::tagreader::SongMetadata &song) const;
 
   bool IsMediaFile(const QString &filename) const;
   QByteArray LoadEmbeddedArt(const QString &filename) const;
+  QByteArray LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) const;
 
   static void Decode(const TagLib::String& tag, const QTextCodec *codec, std::string *output);
   static void Decode(const QString &tag, const QTextCodec *codec, std::string *output);
 
-  void ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const;
   void ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
-  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
+  void ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const;
+  void ParseFMPSFrame(const QString &name, const QString &value, pb::tagreader::SongMetadata *song) const;
 
-  pb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
+  void SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, const pb::tagreader::SongMetadata &song) const;
+  void SaveAPETag(TagLib::APE::Tag *tag, const pb::tagreader::SongMetadata &song) const;
 
   void SetUserTextFrame(const QString &description, const QString &value, TagLib::ID3v2::Tag *tag) const;
   void SetUserTextFrame(const std::string &description, const std::string& value, TagLib::ID3v2::Tag *tag) const;
@@ -74,7 +80,7 @@ class TagReader {
   void SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const;
   void SetUnsyncLyricsFrame(const std::string& value, TagLib::ID3v2::Tag* tag) const;
 
-private:
+ private:
 
   FileRefFactory *factory_;
   QNetworkAccessManager *network_;
