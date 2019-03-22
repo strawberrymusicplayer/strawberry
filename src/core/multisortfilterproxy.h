@@ -26,11 +26,10 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QModelIndex>
 #include <QSortFilterProxyModel>
 #include <QList>
-#include <QVariant>
 #include <QPair>
+#include <QVariant>
 
 class MultiSortFilterProxy : public QSortFilterProxyModel {
  public:

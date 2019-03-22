@@ -22,9 +22,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QModelIndex>
-#include <QStandardItem>
-#include <QStandardItemModel>
 #include <QAbstractItemModel>
 #include <QMap>
 #include <QSet>
@@ -39,8 +36,8 @@
 StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, QObject *parent)
   : QObject(parent),
     cover_loader_(cover_loader),
-    model_(nullptr)
-{
+    model_(nullptr) {
+
   cover_options_.desired_height_ = 16;
 
   connect(cover_loader_, SIGNAL(ImageLoaded(quint64, QImage)), SLOT(ImageLoaded(quint64, QImage)));

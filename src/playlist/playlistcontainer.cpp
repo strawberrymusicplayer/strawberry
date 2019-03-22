@@ -21,6 +21,8 @@
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
+#include <QItemSelectionModel>
+#include <QSortFilterProxyModel>
 #include <QAction>
 #include <QList>
 #include <QVariant>
@@ -33,9 +35,6 @@
 #include <QColor>
 #include <QFrame>
 #include <QPalette>
-#include <QModelIndex>
-#include <QItemSelectionModel>
-#include <QSortFilterProxyModel>
 #include <QTimer>
 #include <QTimeLine>
 #include <QFileDialog>

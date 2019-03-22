@@ -34,7 +34,6 @@
 #include <QSystemTrayIcon>
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
-#include <QModelIndex>
 #include <QPersistentModelIndex>
 #include <QMenu>
 #include <QAction>

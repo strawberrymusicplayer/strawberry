@@ -29,7 +29,6 @@
 
 #include <QObject>
 #include <QMimeData>
-#include <QModelIndex>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 #include <QPersistentModelIndex>

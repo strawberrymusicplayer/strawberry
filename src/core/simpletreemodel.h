@@ -25,7 +25,6 @@
 
 #include <QObject>
 #include <QAbstractItemModel>
-#include <QModelIndex>
 
 template <typename T>
 class SimpleTreeModel : public QAbstractItemModel {

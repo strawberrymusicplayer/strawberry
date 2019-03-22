@@ -54,7 +54,6 @@
 #include <QLinkedList>
 #include <QUndoStack>
 #include <QUndoCommand>
-#include <QModelIndex>
 #include <QAbstractListModel>
 #include <QPersistentModelIndex>
 #include <QMutableListIterator>

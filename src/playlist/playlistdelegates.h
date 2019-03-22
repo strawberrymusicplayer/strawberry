@@ -28,6 +28,10 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QAbstractItemView>
+#include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QTreeView>
 #include <QFuture>
 #include <QCompleter>
 #include <QLocale>
@@ -42,14 +46,9 @@
 #include <QFont>
 #include <QString>
 #include <QStringListModel>
-#include <QModelIndex>
 #include <QStyleOption>
-#include <QStyledItemDelegate>
-#include <QAbstractItemView>
-#include <QStyleOptionViewItem>
 #include <QHelpEvent>
 #include <QLineEdit>
-#include <QTreeView>
 
 #include "playlist.h"
 

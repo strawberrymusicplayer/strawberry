@@ -27,7 +27,6 @@
 #include <QObject>
 #include <QMainWindow>
 #include <QWidget>
-#include <QModelIndex>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
 #include <QAction>

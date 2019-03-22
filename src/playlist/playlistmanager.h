@@ -26,13 +26,12 @@
 #include <stdbool.h>
 
 #include <QObject>
+#include <QItemSelectionModel>
+#include <QFuture>
 #include <QList>
 #include <QMap>
-#include <QFuture>
 #include <QString>
 #include <QUrl>
-#include <QModelIndex>
-#include <QItemSelectionModel>
 
 #include "core/song.h"
 #include "playlist.h"
@@ -103,7 +102,7 @@ public slots:
   virtual void SetActivePaused() = 0;
   virtual void SetActiveStopped() = 0;
 
-signals:
+ signals:
   void PlaylistManagerInitialized();
 
   void PlaylistAdded(int id, const QString &name, bool favorite);
@@ -167,7 +166,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistParser *parser() const { return parser_; }
   PlaylistContainer *playlist_container() const { return playlist_container_; }
 
-public slots:
+ public slots:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString());
   void Load(const QString &filename);
   void Save(int id, const QString &filename, Playlist::Path path_type);
@@ -218,7 +217,7 @@ public slots:
  private:
   Playlist *AddPlaylist(int id, const QString& name, const QString &special_type, const QString& ui_path, bool favorite);
 
-private:
+ private:
   struct Data {
     Data(Playlist *_p = nullptr, const QString& _name = QString()) : p(_p), name(_name) {}
     Playlist *p;

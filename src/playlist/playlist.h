@@ -27,6 +27,10 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
+#include <QSortFilterProxyModel>
+#include <QPersistentModelIndex>
 #include <QFuture>
 #include <QList>
 #include <QMap>
@@ -37,11 +41,6 @@
 #include <QStringList>
 #include <QUrl>
 #include <QColor>
-#include <QModelIndex>
-#include <QAbstractItemModel>
-#include <QAbstractListModel>
-#include <QSortFilterProxyModel>
-#include <QPersistentModelIndex>
 #include <QUndoStack>
 
 #include "core/song.h"

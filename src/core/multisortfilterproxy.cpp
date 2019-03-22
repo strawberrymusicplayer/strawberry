@@ -23,7 +23,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QSortFilterProxyModel>
-#include <QModelIndex>
 #include <QMetaType>
 #include <QDateTime>
 #include <QVariant>
