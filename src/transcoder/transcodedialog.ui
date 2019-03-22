@@ -17,7 +17,7 @@
    <iconset>
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="layout_dialog">
    <item>
     <widget class="QGroupBox" name="input_group">
      <property name="title">
@@ -175,7 +175,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_1">
+       <layout class="QHBoxLayout" name="layout_progress">
         <item>
          <widget class="QLabel" name="progress_text">
           <property name="sizePolicy">
@@ -221,5 +221,38 @@
   <tabstop>button_box</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>button_box</sender>
+   <signal>accepted()</signal>
+   <receiver>TranscodeDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_box</sender>
+   <signal>rejected()</signal>
+   <receiver>TranscodeDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

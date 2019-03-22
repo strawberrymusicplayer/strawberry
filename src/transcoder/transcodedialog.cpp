@@ -101,10 +101,15 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
   // Load settings
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
   last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
   last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
 
   QString last_output_format = s.value("last_output_format", "audio/x-vorbis").toString();
+  s.endGroup();
+
   for (int i = 0; i < ui_->format->count(); ++i) {
     if (last_output_format == ui_->format->itemData(i).value<TranscoderPreset>().codec_mimetype_) {
       ui_->format->setCurrentIndex(i);
@@ -192,6 +197,7 @@ void TranscodeDialog::Start() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("last_output_format", preset.codec_mimetype_);
+  s.endGroup();
 
 }
 
@@ -263,6 +269,7 @@ void TranscodeDialog::Add() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("last_add_dir", last_add_dir_);
+  s.endGroup();
 
 }
 
@@ -283,9 +290,10 @@ void TranscodeDialog::Import() {
   SetFilenames(filenames);
 
   last_import_dir_ = path;
-  QSettings settings;
-  settings.beginGroup(kSettingsGroup);
-  settings.setValue("last_import_dir", last_import_dir_);
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("last_import_dir", last_import_dir_);
+  s.endGroup();
 
 }
 
@@ -376,4 +384,28 @@ QString TranscodeDialog::GetOutputFileName(const QString &input, const Transcode
     file_name = file_name.section('.', 0, -2);
     return path + '/' + file_name + '.' + preset.extension_;
   }
+
+}
+
+void TranscodeDialog::SaveGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
+  s.endGroup();
+
+}
+
+void TranscodeDialog::accept() {
+
+  SaveGeometry();
+  QDialog::accept();
+
+}
+
+void TranscodeDialog::reject() {
+
+  SaveGeometry();
+  QDialog::reject();
+
 }
