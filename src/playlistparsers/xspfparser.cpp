@@ -162,21 +162,20 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
         writer.writeTextElement("album", song.album());
       }
       if (song.length_nanosec() != -1) {
-        writer.writeTextElement(
-            "duration", QString::number(song.length_nanosec() / kNsecPerMsec));
+        writer.writeTextElement("duration", QString::number(song.length_nanosec() / kNsecPerMsec));
       }
       if (song.track() > 0) {
         writer.writeTextElement("trackNum", QString::number(song.track()));
       }
 
-      QString art = song.art_manual().isEmpty() ? song.art_automatic()
-                                                : song.art_manual();
+      QString art = song.art_manual().isEmpty() ? song.art_automatic() : song.art_manual();
       // Ignore images that are in our resource bundle.
       if (!art.startsWith(":") && !art.isEmpty()) {
         QString art_filename;
         if (!art.contains("://")) {
           art_filename = art;
-        } else if (QUrl(art).scheme() == "file") {
+        }
+        else if (QUrl(art).scheme() == "file") {
           art_filename = QUrl(art).toLocalFile();
         }
 

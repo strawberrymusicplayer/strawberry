@@ -44,20 +44,23 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
 
   if (filename_or_url.contains(QRegExp("^[a-z]{2,}:"))) {
     QUrl url(filename_or_url);
-    if (url.scheme() == "file") {
+    song->set_source(Song::SourceFromURL(url));
+    if (song->source() == Song::Source_LocalFile) {
       filename = url.toLocalFile();
     }
-    //else {
-    //  song->set_url(QUrl::fromUserInput(filename_or_url));
-    //  song->set_filetype(Song::Type_Stream);
-    //  song->set_valid(true);
-    //  return;
-   // }
+    else if (song->source() == Song::Source_Stream || song->source() == Song::Source_Tidal) {
+      song->set_url(QUrl::fromUserInput(filename_or_url));
+      song->set_filetype(Song::FileType_Stream);
+      song->set_valid(true);
+      return;
+    }
+    else {
+      qLog(Error) << "Don't know how to handle" << url;
+    }
   }
 
-  // Strawberry always wants / separators internally.  Using
-  // QDir::fromNativeSeparators() only works on the same platform the playlist
-  // was created on/for, using replace() lets playlists work on any platform.
+  // Strawberry always wants / separators internally.
+  // Using QDir::fromNativeSeparators() only works on the same platform the playlist was created on/for, using replace() lets playlists work on any platform.
   filename = filename.replace('\\', '/');
 
   // Make the path absolute
@@ -74,6 +77,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
 
   // Search in the collection
   Song collection_song;
+  collection_song.set_source(Song::Source_Collection);
   if (collection_) {
     collection_song = collection_->GetSongByUrl(url, beginning);
   }
@@ -91,7 +95,6 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
 Song ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, const QDir &dir) const {
 
   Song song;
-  song.set_source(Song::Source_LocalFile);
   LoadSong(filename_or_url, beginning, dir, &song);
   return song;
 
