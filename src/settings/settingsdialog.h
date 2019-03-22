@@ -66,7 +66,7 @@ public:
 class SettingsDialog : public QDialog {
   Q_OBJECT
 
-public:
+ public:
   SettingsDialog(Application *app, QWidget *parent = nullptr);
   ~SettingsDialog();
 
@@ -111,14 +111,14 @@ public:
 
   void ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value);
 
-signals:
+ signals:
   void NotificationPreview(OSD::Behaviour, QString, QString);
 
-private slots:
+ private slots:
   void CurrentItemChanged(QTreeWidgetItem *item);
   void DialogButtonClicked(QAbstractButton *button);
 
-private:
+ private:
   struct PageData {
     QTreeWidgetItem *item_;
     QScrollArea *scroll_area_;
@@ -130,7 +130,11 @@ private:
 
   void Save();
 
-private:
+  void SaveGeometry();
+
+ private:
+  static const char *kSettingsGroup;
+
   Application *app_;
   Player *player_;
   EngineBase *engine_;

@@ -70,10 +70,10 @@
 
 class QShowEvent;
 
+const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
+
 SettingsItemDelegate::SettingsItemDelegate(QObject *parent)
-  : QStyledItemDelegate(parent)
-{
-}
+  : QStyledItemDelegate(parent) {}
 
 QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
@@ -149,10 +149,26 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
+  s.endGroup();
+
 }
 
 SettingsDialog::~SettingsDialog() {
   delete ui_;
+}
+
+void SettingsDialog::SaveGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
+  s.endGroup();
+
 }
 
 QTreeWidgetItem *SettingsDialog::AddCategory(const QString &name) {
@@ -216,6 +232,7 @@ void SettingsDialog::Save() {
 
 void SettingsDialog::accept() {
   Save();
+  SaveGeometry();
   QDialog::accept();
 }
 
@@ -225,6 +242,7 @@ void SettingsDialog::reject() {
   for (const PageData &data : pages_.values()) {
     data.page_->Cancel();
   }
+  SaveGeometry();
 
   QDialog::reject();
 }

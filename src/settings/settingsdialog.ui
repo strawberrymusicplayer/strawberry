@@ -17,7 +17,7 @@
    <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QHBoxLayout" name="layout_dialog">
    <item>
     <widget class="QTreeWidget" name="list">
      <property name="maximumSize">
@@ -55,7 +55,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_1">
+    <layout class="QVBoxLayout" name="layout">
      <item>
       <widget class="QLabel" name="title"/>
      </item>
