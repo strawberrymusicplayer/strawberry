@@ -43,13 +43,12 @@ class TidalUrlHandler : public UrlHandler {
   void CancelTask();
 
  private slots:
-  void GetStreamURLFinished(QUrl url, Song::FileType filetype, QString error = QString());
+  void GetStreamURLFinished(QUrl original_url, QUrl url, Song::FileType filetype, QString error = QString());
 
  private:
   Application *app_;
   TidalService *service_;
   int task_id_;
-  QUrl last_original_url_;
 
 };
 

@@ -73,8 +73,7 @@ class TidalService : public InternetService {
   void UpdateStatus(QString text);
   void ProgressSetMaximum(int max);
   void UpdateProgress(int max);
-  void GetStreamURLFinished(QNetworkReply *reply, const QUrl url);
-  void StreamURLFinished(const QUrl url, const Song::FileType, QString error = QString());
+  void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  public slots:
   void ShowConfig();
@@ -97,10 +96,10 @@ class TidalService : public InternetService {
   void ClearSearch();
   void LoadSessionID();
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<QPair<QString, QString>> &params);
-  QByteArray GetReplyData(QNetworkReply *reply, const bool sendlogin = false);
-  QJsonObject ExtractJsonObj(QByteArray &data);
-  QJsonValue ExtractItems(QByteArray &data);
-  QJsonValue ExtractItems(QJsonObject &json_obj);
+  QByteArray GetReplyData(QNetworkReply *reply, QString &error, const bool sendlogin = false);
+  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
+  QJsonValue ExtractItems(QByteArray &data, QString &error);
+  QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
   void SendSearch();
   void SendArtistsSearch();
   void SendAlbumsSearch();
@@ -109,7 +108,8 @@ class TidalService : public InternetService {
   void GetSongs(const int album_id);
   Song ParseSong(const int album_id_requested, const QJsonValue &value, QString album_artist = QString());
   void CheckFinish();
-  void Error(QString error, QVariant debug = QVariant());
+  QString LoginError(QString error, QVariant debug = QVariant());
+  QString Error(QString error, QVariant debug = QVariant());
 
   static const char *kApiUrl;
   static const char *kAuthUrl;
@@ -118,6 +118,7 @@ class TidalService : public InternetService {
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
+  Application *app_;
   NetworkAccessManager *network_;
   TidalUrlHandler *url_handler_;
   QTimer *timer_search_delay_;
@@ -148,7 +149,8 @@ class TidalService : public InternetService {
   bool artist_search_;
   QList<int> requests_artist_albums_;
   QHash<int, QString> requests_album_songs_;
-  QHash<int, QUrl> requests_song_;
+  QHash<int, QUrl> requests_stream_url_;
+  QList<QUrl> queue_stream_url_;
   QList<QPair<QString, QString>> requests_artist_album_;
   int artist_albums_requested_;
   int artist_albums_received_;

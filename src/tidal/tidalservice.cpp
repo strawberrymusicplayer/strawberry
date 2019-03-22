@@ -65,6 +65,7 @@ const int TidalService::kTimeResetLoginAttempts = 60000;
 
 TidalService::TidalService(Application *app, QObject *parent)
     : InternetService(Song::Source_Tidal, "Tidal", "tidal", app, parent),
+      app_(app),
       network_(new NetworkAccessManager(this)),
       url_handler_(new TidalUrlHandler(app, this)),
       timer_search_delay_(new QTimer(this)),
@@ -194,18 +195,16 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError) {
     if (reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(failure_reason);
-      emit LoginFailure(failure_reason);
+      LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
     }
     else {
       // See if there is Json data containing "userMessage" - then use that instead.
       QByteArray data(reply->readAll());
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       QString failure_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("userMessage")) {
           failure_reason = QString("Authentication failure: %1").arg(json_obj["userMessage"].toString());
@@ -217,49 +216,38 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       else {
         failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       }
-      Error(failure_reason);
-      emit LoginFailure(failure_reason);
+      LoginError(failure_reason);
       return;
     }
   }
 
   QByteArray data(reply->readAll());
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  QJsonParseError json_error;
+  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
-  if (error.error != QJsonParseError::NoError) {
-    QString failure_reason("Authentication reply from server missing Json data.");
-    Error(failure_reason);
-    emit LoginFailure(failure_reason);
+  if (json_error.error != QJsonParseError::NoError) {
+    LoginError("Authentication reply from server missing Json data.");
     return;
   }
 
   if (json_doc.isNull() || json_doc.isEmpty()) {
-    QString failure_reason("Authentication reply from server has empty Json document.");
-    Error(failure_reason);
-    emit LoginFailure(failure_reason);
+    LoginError("Authentication reply from server has empty Json document.");
     return;
   }
 
   if (!json_doc.isObject()) {
-    QString failure_reason("Authentication reply from server has Json document that is not an object.");
-    Error(failure_reason, json_doc);
-    emit LoginFailure(failure_reason);
+    LoginError("Authentication reply from server has Json document that is not an object.", json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    QString failure_reason("Authentication reply from server has empty Json object.");
-    Error(failure_reason, json_doc);
-    emit LoginFailure(failure_reason);
+    LoginError("Authentication reply from server has empty Json object.", json_doc);
     return;
   }
 
-  if ( !json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode") ) {
-    QString failure_reason("Authentication reply from server is missing userId, sessionId or countryCode");
-    Error(failure_reason, json_obj);
-    emit LoginFailure(failure_reason);
+  if (!json_obj.contains("userId") || !json_obj.contains("sessionId") || !json_obj.contains("countryCode") ) {
+    LoginError("Authentication reply from server is missing userId, sessionId or countryCode", json_obj);
     return;
   }
 
@@ -281,10 +269,11 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
     qLog(Debug) << "Tidal: Resuming search" << search_id_;
     SendSearch();
   }
-  if (!stream_request_url_.isEmpty()) {
-    qLog(Debug) << "Tidal: Resuming get stream url" << stream_request_url_;
-    emit GetStreamURL(stream_request_url_);
+  for (QUrl url : queue_stream_url_) {
+    qLog(Debug) << "Tidal: Resuming get stream url" << url;
+    GetStreamURL(url);
   }
+  queue_stream_url_.clear();
 
   emit LoginSuccess();
 
@@ -342,7 +331,7 @@ QNetworkReply *TidalService::CreateRequest(const QString &ressource_name, const 
 
 }
 
-QByteArray TidalService::GetReplyData(QNetworkReply *reply, const bool sendlogin) {
+QByteArray TidalService::GetReplyData(QNetworkReply *reply, QString &error, const bool sendlogin) {
 
   QByteArray data;
 
@@ -352,16 +341,15 @@ QByteArray TidalService::GetReplyData(QNetworkReply *reply, const bool sendlogin
   else {
     if (reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(failure_reason);
+      error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "userMessage" - then use that instead.
       data = reply->readAll();
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+      QJsonParseError parse_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       QString failure_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("userMessage")) {
           failure_reason = json_obj["userMessage"].toString();
@@ -383,14 +371,14 @@ QByteArray TidalService::GetReplyData(QNetworkReply *reply, const bool sendlogin
           emit Login();
         }
         else {
-          Error(failure_reason);
+          error = Error(failure_reason);
         }
       }
       else if (reply->error() == QNetworkReply::ContentNotFoundError) { // Ignore this error
         qLog(Error) << "Tidal:" << failure_reason;
       }
       else { // Fail
-        Error(failure_reason);
+        error = Error(failure_reason);
       }
     }
     return QByteArray();
@@ -400,29 +388,29 @@ QByteArray TidalService::GetReplyData(QNetworkReply *reply, const bool sendlogin
 
 }
 
-QJsonObject TidalService::ExtractJsonObj(QByteArray &data) {
+QJsonObject TidalService::ExtractJsonObj(QByteArray &data, QString &error) {
 
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  QJsonParseError json_error;
+  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
+  if (json_error.error != QJsonParseError::NoError) {
+    error = Error("Reply from server missing Json data.", data);
     return QJsonObject();
   }
 
   if (json_doc.isNull() || json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
+    error = Error("Received empty Json document.", data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
+    error = Error("Json document is not an object.", json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
+    error = Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
 
@@ -430,18 +418,18 @@ QJsonObject TidalService::ExtractJsonObj(QByteArray &data) {
 
 }
 
-QJsonValue TidalService::ExtractItems(QByteArray &data) {
+QJsonValue TidalService::ExtractItems(QByteArray &data, QString &error) {
 
-  QJsonObject json_obj = ExtractJsonObj(data);
+  QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) return QJsonValue();
-  return ExtractItems(json_obj);
+  return ExtractItems(json_obj, error);
 
 }
 
-QJsonValue TidalService::ExtractItems(QJsonObject &json_obj) {
+QJsonValue TidalService::ExtractItems(QJsonObject &json_obj, QString &error) {
 
   if (!json_obj.contains("items")) {
-    Error("Json reply is missing items.", json_obj);
+    error = Error("Json reply is missing items.", json_obj);
     return QJsonArray();
   }
   QJsonValue json_items = json_obj["items"];
@@ -501,7 +489,6 @@ void TidalService::ClearSearch() {
   album_songs_received_ = 0;
   requests_artist_albums_.clear();
   requests_album_songs_.clear();
-  requests_song_.clear();
   requests_artist_album_.clear();
   songs_.clear();
 
@@ -566,14 +553,16 @@ void TidalService::ArtistsReceived(QNetworkReply *reply, int search_id) {
 
   if (search_id != search_id_) return;
 
-  QByteArray data = GetReplyData(reply, true);
+  QString error;
+
+  QByteArray data = GetReplyData(reply, error, true);
   if (data.isEmpty()) {
     artist_search_ = false;
     CheckFinish();
     return;
   }
 
-  QJsonValue json_value = ExtractItems(data);
+  QJsonValue json_value = ExtractItems(data, error);
   if (!json_value.isArray()) {
     artist_search_ = false;
     CheckFinish();
@@ -641,13 +630,15 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
     emit UpdateProgress(artist_albums_received_);
   }
 
-  QByteArray data = GetReplyData(reply, true);
+  QString error;
+
+  QByteArray data = GetReplyData(reply, error, true);
   if (data.isEmpty()) {
     AlbumsFinished(artist_id, offset_requested);
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
+  QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
     AlbumsFinished(artist_id, offset_requested);
     return;
@@ -675,7 +666,7 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
     }
   }
 
-  QJsonValue json_value = ExtractItems(json_obj);
+  QJsonValue json_value = ExtractItems(json_obj, error);
   if (!json_value.isArray()) {
     AlbumsFinished(artist_id, offset_requested, total_albums, limit);
     return;
@@ -835,13 +826,15 @@ void TidalService::SongsReceived(QNetworkReply *reply, int search_id, int album_
     emit UpdateProgress(album_songs_received_);
   }
 
-  QByteArray data = GetReplyData(reply);
+  QString error;
+
+  QByteArray data = GetReplyData(reply, error);
   if (data.isEmpty()) {
     CheckFinish();
     return;
   }
 
-  QJsonValue json_value = ExtractItems(data);
+  QJsonValue json_value = ExtractItems(data, error);
   if (!json_value.isArray()) {
     CheckFinish();
     return;
@@ -878,12 +871,10 @@ void TidalService::SongsReceived(QNetworkReply *reply, int search_id, int album_
 
 Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &value, QString album_artist) {
 
-  Song song;
-
   if (!value.isObject()) {
     qLog(Error) << "Tidal: Invalid Json reply, track is not a object.";
     qLog(Debug) << value;
-    return song;
+    return Song();
   }
   QJsonObject json_obj = value.toObject();
 
@@ -903,7 +894,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
     ) {
     qLog(Error) << "Tidal: Invalid Json reply, track is missing one or more values.";
     qLog(Debug) << json_obj;
-    return song;
+    return Song();
   }
 
   QJsonValue json_value_artist = json_obj["artist"];
@@ -923,39 +914,39 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   if (!json_value_artist.isObject()) {
     qLog(Error) << "Tidal: Invalid Json reply, track artist is not a object.";
     qLog(Debug) << json_value_artist;
-    return song;
+    return Song();
   }
   QJsonObject json_artist = json_value_artist.toObject();
   if (!json_artist.contains("name")) {
     qLog(Error) << "Tidal: Invalid Json reply, track artist is missing name.";
     qLog(Debug) << json_artist;
-    return song;
+    return Song();
   }
   QString artist = json_artist["name"].toString();
 
   if (!json_value_album.isObject()) {
     qLog(Error) << "Tidal: Invalid Json reply, track album is not a object.";
     qLog(Debug) << json_value_album;
-    return song;
+    return Song();
   }
   QJsonObject json_album = json_value_album.toObject();
   if (!json_album.contains("id") || !json_album.contains("title") || !json_album.contains("cover")) {
     qLog(Error) << "Tidal: Invalid Json reply, track album is missing id, title or cover.";
     qLog(Debug) << json_album;
-    return song;
+    return Song();
   }
   int album_id = json_album["id"].toInt();
   if (album_id_requested != 0 && album_id_requested != album_id) {
     qLog(Error) << "Tidal: Invalid Json reply, track album id is wrong.";
     qLog(Debug) << json_album;
-    return song;
+    return Song();
   }
   QString album = json_album["title"].toString();
   QString cover = json_album["cover"].toString();
 
   if (!allow_streaming || !stream_ready) {
     qLog(Error) << "Tidal: Skipping song" << artist << album << title << "because allowStreaming is false OR streamReady is false.";
-    return song;
+    return Song();
   }
 
   //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
@@ -963,6 +954,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   title.remove(Song::kTitleRemoveMisc);
   album.remove(Song::kAlbumRemoveMisc);
 
+  Song song;
   song.set_source(Song::Source_Tidal);
   song.set_id(song_id);
   song.set_album_id(album_id);
@@ -996,15 +988,18 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
 
 void TidalService::GetStreamURL(const QUrl &url) {
 
-  stream_request_url_ = url;
+  if (login_sent_) {
+    queue_stream_url_ << url;
+    return;
+  }
+
   int song_id = url.path().toInt();
-  requests_song_.insert(song_id, url);
+  requests_stream_url_.insert(song_id, url);
 
   QList<Param> parameters;
   parameters << Param("soundQuality", quality_);
 
   QNetworkReply *reply = CreateRequest(QString("tracks/%1/streamUrl").arg(song_id), parameters);
-
   NewClosure(reply, SIGNAL(finished()), this, SLOT(StreamURLReceived(QNetworkReply*, int, QUrl)), reply, song_id, url);
 
 }
@@ -1012,36 +1007,33 @@ void TidalService::GetStreamURL(const QUrl &url) {
 void TidalService::StreamURLReceived(QNetworkReply *reply, const int song_id, const QUrl original_url) {
 
   reply->deleteLater();
-  if (requests_song_.contains(song_id)) requests_song_.remove(song_id);
-  if (original_url != stream_request_url_) return;
 
-  QByteArray data = GetReplyData(reply, true);
+  if (!requests_stream_url_.contains(song_id)) return;
+  requests_stream_url_.remove(song_id);
+
+  QString error;
+
+  QByteArray data = GetReplyData(reply, error, true);
   if (data.isEmpty()) {
-    if (!stream_request_url_.isEmpty() && !login_sent_) {
-      emit StreamURLFinished(original_url, Song::FileType_Stream);
-      stream_request_url_ = QUrl();
+    if (login_sent_) {
+      queue_stream_url_ << original_url;
+      return;
     }
+    emit StreamURLFinished(original_url, original_url, Song::FileType_Stream, error);
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
+  QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
-    if (!stream_request_url_.isEmpty() && !login_sent_) {
-      emit StreamURLFinished(original_url, Song::FileType_Stream);
-      stream_request_url_ = QUrl();
-    }
+    emit StreamURLFinished(original_url, original_url, Song::FileType_Stream, error);
     return;
   }
 
   if (!json_obj.contains("url") || !json_obj.contains("codec")) {
-    qLog(Error) << "Tidal: Invalid Json reply, stream missing url or codec.";
-    qLog(Debug) << json_obj;
-    emit StreamURLFinished(original_url, Song::FileType_Stream);
-    stream_request_url_ = QUrl();
+    error = Error("Invalid Json reply, stream missing url or codec.", json_obj);
+    emit StreamURLFinished(original_url, original_url, Song::FileType_Stream, error);
     return;
   }
-
-  stream_request_url_ = QUrl();
 
   QUrl new_url(json_obj["url"].toString());
   QString codec(json_obj["codec"].toString().toLower());
@@ -1053,7 +1045,7 @@ void TidalService::StreamURLReceived(QNetworkReply *reply, const int song_id, co
 
   if (new_url.scheme() != streamurl_) new_url.setScheme(streamurl_);
 
-  emit StreamURLFinished(new_url, filetype);
+  emit StreamURLFinished(original_url, new_url, filetype);
 
 }
 
@@ -1072,9 +1064,24 @@ void TidalService::CheckFinish() {
 
 }
 
-void TidalService::Error(QString error, QVariant debug) {
+QString TidalService::LoginError(QString error, QVariant debug) {
+
+  emit LoginFailure(error);
+
+  for (QUrl url : queue_stream_url_) {
+    emit StreamURLFinished(url, url, Song::FileType_Stream,  error);
+  }
+  queue_stream_url_.clear();
+
+  return error;
+
+}
+
+QString TidalService::Error(QString error, QVariant debug) {
+
   qLog(Error) << "Tidal:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
   if (search_id_ != 0) {
     if (!error.isEmpty()) {
       search_error_ += error;
@@ -1082,8 +1089,7 @@ void TidalService::Error(QString error, QVariant debug) {
     }
     CheckFinish();
   }
-  if (!stream_request_url_.isEmpty() && !login_sent_) {
-    emit StreamURLFinished(stream_request_url_, Song::FileType_Stream, error);
-    stream_request_url_ = QUrl();
-  }
+
+  return error;
+
 }
