@@ -207,13 +207,13 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("userMessage")) {
-          failure_reason = QString("Authentication failure: %1").arg(json_obj["userMessage"].toString());
-        }
-        else {
-          failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          int status = json_obj["status"].toInt();
+          int sub_status = json_obj["subStatus"].toInt();
+          QString user_message = json_obj["userMessage"].toString();
+          failure_reason = QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      else {
+      if (failure_reason.isEmpty()) {
         failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       }
       LoginError(failure_reason);
@@ -348,26 +348,26 @@ QByteArray TidalService::GetReplyData(QNetworkReply *reply, QString &error, cons
       data = reply->readAll();
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
+      int status = 0;
+      int sub_status = 0;
       QString failure_reason;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("userMessage")) {
-          failure_reason = json_obj["userMessage"].toString();
-        }
-        else {
-          failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
+          status = json_obj["status"].toInt();
+          sub_status = json_obj["subStatus"].toInt();
+          QString user_message = json_obj["userMessage"].toString();
+          failure_reason = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      else {
+      if (failure_reason.isEmpty()) {
         failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       }
-      if (reply->error() == QNetworkReply::ContentAccessDenied || reply->error() == QNetworkReply::ContentOperationNotPermittedError || reply->error() == QNetworkReply::AuthenticationRequiredError) {
-        // Session is probably expired, attempt to login once
+      if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         Logout();
         if (sendlogin && login_attempts_ < kLoginAttempts && !username_.isEmpty() && !password_.isEmpty()) {
           qLog(Error) << "Tidal:" << failure_reason;
-          qLog(Error) << "Tidal:" << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-          qLog(Error) << "Tidal:" << "Attempting to login.";
+          qLog(Info) << "Tidal:" << "Attempting to login.";
           emit Login();
         }
         else {
@@ -489,7 +489,6 @@ void TidalService::ClearSearch() {
   album_songs_received_ = 0;
   requests_artist_albums_.clear();
   requests_album_songs_.clear();
-  requests_artist_album_.clear();
   songs_.clear();
 
 }
@@ -753,13 +752,6 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
 
     //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
-    QPair<QString,QString> artist_album(artist.toLower(), album.toLower());
-    if (requests_artist_album_.contains(artist_album)) {
-      qLog(Debug) << "Tidal: Skipping duplicate album" << artist << album << quality << copyright;
-      continue;
-    }
-    requests_artist_album_.append(artist_album);
-
     requests_album_songs_.insert(album_id, artist);
     album_songs_requested_++;
     if (album_songs_requested_ >= albumssearchlimit_) break;
@@ -828,7 +820,7 @@ void TidalService::SongsReceived(QNetworkReply *reply, int search_id, int album_
 
   QString error;
 
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply, error, false);
   if (data.isEmpty()) {
     CheckFinish();
     return;
@@ -890,7 +882,8 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
       !json_obj.contains("title") ||
       !json_obj.contains("trackNumber") ||
       !json_obj.contains("url") ||
-      !json_obj.contains("volumeNumber")
+      !json_obj.contains("volumeNumber") ||
+      !json_obj.contains("copyright")
     ) {
     qLog(Error) << "Tidal: Invalid Json reply, track is missing one or more values.";
     qLog(Debug) << json_obj;
@@ -910,6 +903,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   int disc = json_obj["volumeNumber"].toInt();
   bool allow_streaming = json_obj["allowStreaming"].toBool();
   bool stream_ready = json_obj["streamReady"].toBool();
+  QString copyright = json_obj["copyright"].toString();
 
   if (!json_value_artist.isObject()) {
     qLog(Error) << "Tidal: Invalid Json reply, track artist is not a object.";
@@ -944,15 +938,17 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   QString album = json_album["title"].toString();
   QString cover = json_album["cover"].toString();
 
-  if (!allow_streaming || !stream_ready) {
-    qLog(Error) << "Tidal: Skipping song" << artist << album << title << "because allowStreaming is false OR streamReady is false.";
-    return Song();
+  if (!allow_streaming) {
+    qLog(Error) << "Tidal: Song" << artist << album << title << "is not allowStreaming";
+  }
+
+  if (!stream_ready) {
+    qLog(Error) << "Tidal: Song" << artist << album << title << "is not streamReady.";
   }
 
   //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
 
   title.remove(Song::kTitleRemoveMisc);
-  album.remove(Song::kAlbumRemoveMisc);
 
   Song song;
   song.set_source(Song::Source_Tidal);
@@ -964,6 +960,7 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   song.set_title(title);
   song.set_track(track);
   song.set_disc(disc);
+  song.set_comment(copyright);
 
   QVariant q_duration = json_duration.toVariant();
   if (q_duration.isValid()) {

@@ -40,6 +40,7 @@
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 
+class Application;
 class NetworkAccessManager;
 class TidalUrlHandler;
 
@@ -151,7 +152,6 @@ class TidalService : public InternetService {
   QHash<int, QString> requests_album_songs_;
   QHash<int, QUrl> requests_stream_url_;
   QList<QUrl> queue_stream_url_;
-  QList<QPair<QString, QString>> requests_artist_album_;
   int artist_albums_requested_;
   int artist_albums_received_;
   int album_songs_requested_;
