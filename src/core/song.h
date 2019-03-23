@@ -130,6 +130,7 @@ class Song {
   static QString TextForSource(Source source);
   static QIcon IconForSource(Source source);
   static QString TextForFiletype(FileType filetype);
+  static QString ExtensionForFiletype(FileType filetype);
   static QIcon IconForFiletype(FileType filetype);
 
   QString TextForSource() const { return TextForSource(source()); }

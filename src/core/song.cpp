@@ -450,6 +450,31 @@ QString Song::TextForFiletype(FileType filetype) {
 
 }
 
+QString Song::ExtensionForFiletype(FileType filetype) {
+
+  switch (filetype) {
+    case Song::FileType_WAV:         return "wav";
+    case Song::FileType_FLAC:        return "flac";
+    case Song::FileType_WavPack:     return "wv";
+    case Song::FileType_OggFlac:     return "flac";
+    case Song::FileType_OggVorbis:   return "ogg";
+    case Song::FileType_OggOpus:     return "opus";
+    case Song::FileType_OggSpeex:    return "spx";
+    case Song::FileType_MPEG:        return "mp3";
+    case Song::FileType_MP4:         return "mp4";
+    case Song::FileType_ASF:         return "wma";
+    case Song::FileType_AIFF:        return "aiff";
+    case Song::FileType_MPC:         return "mpc";
+    case Song::FileType_TrueAudio:   return "tta";
+    case Song::FileType_DSF:         return "dsf";
+    case Song::FileType_DSDIFF:      return "dsd";
+    case Song::FileType_APE:         return "ape";
+    case Song::FileType_Unknown:
+    default:                         return "dat";
+  }
+
+}
+
 QIcon Song::IconForFiletype(FileType filetype) {
 
   switch (filetype) {
@@ -488,6 +513,9 @@ bool Song::IsFileLossless() const {
     case Song::FileType_DSF:
     case Song::FileType_DSDIFF:
     case Song::FileType_APE:
+    case Song::FileType_TrueAudio:
+    case Song::FileType_PCM:
+    case Song::FileType_CDDA:
       return true;
     default:
       return false;
