@@ -655,7 +655,7 @@ SongList CollectionView::GetSelectedSongs() const {
 void CollectionView::Organise() {
 
   if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
+    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend()));
 
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organise_dialog_->SetCopy(false);

@@ -67,6 +67,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<const char*>("const char*");
   qRegisterMetaType<QList<int>>("QList<int>");
   qRegisterMetaType<QList<QUrl>>("QList<QUrl>");
+  qRegisterMetaType<QFileInfo>("QFileInfo");
   qRegisterMetaType<QAbstractSocket::SocketState>();
   qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
   qRegisterMetaType<QNetworkCookie>("QNetworkCookie");

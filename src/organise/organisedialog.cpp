@@ -60,6 +60,7 @@
 #include "core/utilities.h"
 #include "widgets/freespacebar.h"
 #include "widgets/linetextedit.h"
+#include "collection/collectionbackend.h"
 #include "organise.h"
 #include "organisedialog.h"
 #include "organiseerrordialog.h"
@@ -71,10 +72,11 @@ using std::stable_sort;
 const char *OrganiseDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }%albumartist - %album - %title.%extension";
 const char *OrganiseDialog::kSettingsGroup = "OrganiseDialog";
 
-OrganiseDialog::OrganiseDialog(TaskManager *task_manager, QWidget *parent)
+OrganiseDialog::OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_OrganiseDialog),
       task_manager_(task_manager),
+      backend_(backend),
       total_size_(0) {
 
   ui_->setupUi(this);
@@ -402,6 +404,9 @@ void OrganiseDialog::accept() {
   Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked());
   connect(organise, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganiseFinished(QStringList, QStringList)));
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
+  if (backend_)
+    connect(organise, SIGNAL(SongPathChanged(const Song&, const QFileInfo&)), backend_, SLOT(SongPathChanged(const Song&, const QFileInfo&)));
+
   organise->Start();
 
   SaveGeometry();

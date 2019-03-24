@@ -48,6 +48,7 @@ class QResizeEvent;
 class QShowEvent;
 
 class TaskManager;
+class CollectionBackend;
 class OrganiseErrorDialog;
 class Ui_OrganiseDialog;
 
@@ -55,7 +56,7 @@ class OrganiseDialog : public QDialog {
   Q_OBJECT
 
  public:
-  OrganiseDialog(TaskManager *task_manager, QWidget *parent = nullptr);
+  OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parent = nullptr);
   ~OrganiseDialog();
 
   QSize sizeHint() const;
@@ -104,6 +105,7 @@ class OrganiseDialog : public QDialog {
 
   Ui_OrganiseDialog *ui_;
   TaskManager *task_manager_;
+  CollectionBackend *backend_;
 
   OrganiseFormat format_;
 

@@ -197,7 +197,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       //organise_dialog_(new OrganiseDialog(app_->task_manager())),
       equalizer_(new Equalizer),
       organise_dialog_([=]() {
-        OrganiseDialog *dialog = new OrganiseDialog(app->task_manager());
+        OrganiseDialog *dialog = new OrganiseDialog(app->task_manager(), app->collection_backend());
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),

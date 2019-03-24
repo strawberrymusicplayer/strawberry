@@ -27,6 +27,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QFileInfo>
 #include <QList>
 #include <QVector>
 #include <QSet>
@@ -194,6 +195,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void IncrementPlayCount(int id);
   void IncrementSkipCount(int id, float progress);
   void ResetStatistics(int id);
+  void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
 signals:
   void DirectoryDiscovered(const Directory &dir, const SubdirectoryList &subdirs);

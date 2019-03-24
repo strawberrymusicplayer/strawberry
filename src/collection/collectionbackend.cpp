@@ -323,6 +323,17 @@ SongList CollectionBackend::FindSongsInDirectory(int id) {
 
 }
 
+void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_file) {
+
+  // Take a song and update its path
+  Song updated_song = song;
+  updated_song.InitFromFilePartial(new_file.absoluteFilePath());
+  SongList updated_songs;
+  updated_songs << updated_song;
+  AddOrUpdateSongs(updated_songs);
+
+}
+
 void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
 
   QMutexLocker l(db_->Mutex());
@@ -575,10 +586,8 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
     }
   }
 
-//  QStringList ret;
   QSet<QString> artists;
   while (query.Next()) {
-    //ret << query.Value(0).toString();
     artists << query.Value(0).toString();
   }
 
@@ -586,8 +595,8 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
     artists << query2.Value(0).toString();
   }
 
-//  return ret;
   return QStringList(artists.toList());
+
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const QueryOptions &opt) {

@@ -216,6 +216,12 @@ void Organise::ProcessSomeFiles() {
       files_with_errors_ << task.song_info_.song_.basefilename();
     }
     else {
+      if (job.remove_original_) {
+        // Notify other aspects of system that song has been invalidated
+        QString root = destination_->LocalPath();
+        QFileInfo new_file = QFileInfo(root + "/" + task.song_info_.new_filename_);
+        emit SongPathChanged(song, new_file);
+      }
       if (job.mark_as_listened_) {
         emit FileCopied(job.metadata_.id());
       }

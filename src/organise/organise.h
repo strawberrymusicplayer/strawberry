@@ -30,6 +30,7 @@
 #include <QObject>
 #include <QThread>
 #include <QBasicTimer>
+#include <QFileInfo>
 #include <QList>
 #include <QVector>
 #include <QMap>
@@ -72,6 +73,7 @@ class Organise : public QObject {
  signals:
   void Finished(const QStringList &files_with_errors, QStringList);
   void FileCopied(int database_id);
+  void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
  protected:
   void timerEvent(QTimerEvent *e);
