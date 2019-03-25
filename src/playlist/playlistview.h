@@ -50,6 +50,7 @@
 #include <QStyleOptionViewItem>
 #include <QtEvents>
 
+#include "settings/appearancesettingspage.h"
 #include "playlist.h"
 
 class QEvent;
@@ -89,22 +90,9 @@ public:
 class PlaylistView : public QTreeView {
   Q_OBJECT
  public:
-  enum BackgroundImageType {
-    Default,
-    None,
-    Custom,
-    Album
-  };
 
   PlaylistView(QWidget *parent = nullptr);
   ~PlaylistView();
-
-  // Constants for settings: are persistent, values should not be changed
-  static const char *kSettingBackgroundImageType;
-  static const char *kSettingBackgroundImageFilename;
-
-  static const int kDefaultBlurRadius;
-  static const int kDefaultOpacityLevel;
 
   static ColumnAlignmentMap DefaultColumnAlignment();
 
@@ -116,7 +104,7 @@ class PlaylistView : public QTreeView {
   void SetReadOnlySettings(bool read_only) { read_only_settings_ = read_only; }
 
   Playlist *playlist() const { return playlist_; }
-  BackgroundImageType background_image_type() const { return background_image_type_; }
+  AppearanceSettingsPage::BackgroundImageType background_image_type() const { return background_image_type_; }
   Qt::Alignment column_alignment(int section) const;
 
   // QTreeView
@@ -193,7 +181,7 @@ class PlaylistView : public QTreeView {
   QList<QPixmap> LoadBarPixmap(const QString &filename);
   void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &index);
 
-  void set_background_image_type(BackgroundImageType bg) {
+  void set_background_image_type(AppearanceSettingsPage::BackgroundImageType bg) {
     background_image_type_ = bg;
     emit BackgroundPropertyChanged();
   }
@@ -215,21 +203,23 @@ class PlaylistView : public QTreeView {
   PlaylistProxyStyle *style_;
   Playlist *playlist_;
   PlaylistHeader *header_;
+
+  AppearanceSettingsPage::BackgroundImageType background_image_type_;
+  QString background_image_filename_;
+  AppearanceSettingsPage::BackgroundImagePosition background_image_position_;
+  int background_image_maxsize_;
+  bool background_image_stretch_;
+  bool background_image_keep_aspect_ratio_;
+  int blur_radius_;
+  int opacity_level_;
+
   bool initialized_;
+  bool background_initialized_;
   bool setting_initial_header_layout_;
   bool read_only_settings_;
   bool header_loaded_;
 
-  bool background_initialized_;
-  BackgroundImageType background_image_type_;
-  // Stores the background image to be displayed.
-  // As we want this image to be particular (in terms of format, opacity),
-  // you should probably use set_background_image_type instead of modifying background_image_ directly
   QImage background_image_;
-  int blur_radius_;
-  int opacity_level_;
-  // Used if background image is a filemane
-  QString background_image_filename_;
   QImage current_song_cover_art_;
   QPixmap cached_scaled_background_image_;
 
@@ -239,9 +229,13 @@ class PlaylistView : public QTreeView {
   QTimeLine *fade_animation_;
 
   // To know if we should redraw the background or not
+  bool force_background_redraw_;
   int last_height_;
   int last_width_;
-  bool force_background_redraw_;
+  int current_background_image_x_;
+  int current_background_image_y_;
+  int previous_background_image_x_;
+  int previous_background_image_y_;
 
   bool glow_enabled_;
   bool currently_glowing_;

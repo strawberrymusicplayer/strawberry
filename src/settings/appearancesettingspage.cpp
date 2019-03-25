@@ -44,33 +44,60 @@
 
 const char *AppearanceSettingsPage::kSettingsGroup = "Appearance";
 
+const char *AppearanceSettingsPage::kUseCustomColorSet = "use-custom-set";
+const char *AppearanceSettingsPage::kForegroundColor = "foreground-color";
+const char *AppearanceSettingsPage::kBackgroundColor = "background-color";
+
+const char *AppearanceSettingsPage::kBackgroundImageType = "background_image_type";
+const char *AppearanceSettingsPage::kBackgroundImageFilename = "background_image_file";
+const char *AppearanceSettingsPage::kBackgroundImagePosition = "background_image_position";
+const char *AppearanceSettingsPage::kBackgroundImageStretch = "background_image_stretch";
+const char *AppearanceSettingsPage::kBackgroundImageKeepAspectRatio = "background_image_keep_aspect_ratio";
+const char *AppearanceSettingsPage::kBackgroundImageMaxSize = "background_image_max_size";
+
+const char *AppearanceSettingsPage::kBlurRadius = "blur_radius";
+const char *AppearanceSettingsPage::kOpacityLevel = "opacity_level";
+
+const int AppearanceSettingsPage::kDefaultBlurRadius = 0;
+const int AppearanceSettingsPage::kDefaultOpacityLevel = 40;
+
+const char *AppearanceSettingsPage::kSystemThemeIcons = "system_icons";
+
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
       ui_(new Ui_AppearanceSettingsPage),
       original_use_a_custom_color_set_(false),
-      playlist_view_background_image_type_(PlaylistView::Default) {
+      background_image_type_(BackgroundImageType_Default) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-media-visualization"));
 
+  ui_->combobox_backgroundimageposition->setItemData(0, BackgroundImagePosition_UpperLeft);
+  ui_->combobox_backgroundimageposition->setItemData(1, BackgroundImagePosition_UpperRight);
+  ui_->combobox_backgroundimageposition->setItemData(2, BackgroundImagePosition_Middle);
+  ui_->combobox_backgroundimageposition->setItemData(3, BackgroundImagePosition_BottomLeft);
+  ui_->combobox_backgroundimageposition->setItemData(4, BackgroundImagePosition_BottomRight);
+
   connect(ui_->blur_slider, SIGNAL(valueChanged(int)), SLOT(BlurLevelChanged(int)));
   connect(ui_->opacity_slider, SIGNAL(valueChanged(int)), SLOT(OpacityLevelChanged(int)));
 
-  Load();
-
+  connect(ui_->use_a_custom_color_set, SIGNAL(toggled(bool)), SLOT(UseCustomColorSetOptionChanged(bool)));
   connect(ui_->select_foreground_color, SIGNAL(pressed()), SLOT(SelectForegroundColor()));
   connect(ui_->select_background_color, SIGNAL(pressed()), SLOT(SelectBackgroundColor()));
-  connect(ui_->use_a_custom_color_set, SIGNAL(toggled(bool)), SLOT(UseCustomColorSetOptionChanged(bool)));
+
+  connect(ui_->use_default_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
+  connect(ui_->use_no_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setDisabled(bool)));
+  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
+  connect(ui_->use_album_cover_background, SIGNAL(toggled(bool)), ui_->widget_custom_background_image_options, SLOT(setEnabled(bool)));
 
   connect(ui_->select_background_image_filename_button, SIGNAL(pressed()), SLOT(SelectBackgroundImage()));
   connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->background_image_filename, SLOT(setEnabled(bool)));
   connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->select_background_image_filename_button, SLOT(setEnabled(bool)));
 
-  connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->blur_slider, SLOT(setEnabled(bool)));
-  connect(ui_->use_album_cover_background, SIGNAL(toggled(bool)), ui_->blur_slider, SLOT(setEnabled(bool)));
+  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_keep_aspect_ratio, SLOT(setEnabled(bool)));
+  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->spinbox_background_image_maxsize, SLOT(setDisabled(bool)));
 
-  connect(ui_->use_default_background, SIGNAL(toggled(bool)), SLOT(DisableBlurAndOpacitySliders(bool)));
-  connect(ui_->use_no_background, SIGNAL(toggled(bool)), SLOT(DisableBlurAndOpacitySliders(bool)));
+  Load();
 
 }
 
@@ -86,11 +113,11 @@ void AppearanceSettingsPage::Load() {
   QPalette p = QApplication::palette();
 
   // Keep in mind originals colors, in case the user clicks on Cancel, to be able to restore colors
-  original_use_a_custom_color_set_ = s.value(Appearance::kUseCustomColorSet, false).toBool();
+  original_use_a_custom_color_set_ = s.value(kUseCustomColorSet, false).toBool();
 
-  original_foreground_color_  = s.value(Appearance::kForegroundColor, p.color(QPalette::WindowText)).value<QColor>();
+  original_foreground_color_  = s.value(kForegroundColor, p.color(QPalette::WindowText)).value<QColor>();
   current_foreground_color_ = original_foreground_color_;
-  original_background_color_  = s.value(Appearance::kBackgroundColor, p.color(QPalette::Window)).value<QColor>();
+  original_background_color_  = s.value(kBackgroundColor, p.color(QPalette::Window)).value<QColor>();
   current_background_color_ = original_background_color_;
 
   InitColorSelectorsColors();
@@ -99,32 +126,35 @@ void AppearanceSettingsPage::Load() {
 
   // Playlist settings
   s.beginGroup(kSettingsGroup);
-  playlist_view_background_image_type_ = static_cast<PlaylistView::BackgroundImageType>(s.value(PlaylistView::kSettingBackgroundImageType).toInt());
-  playlist_view_background_image_filename_ = s.value(PlaylistView::kSettingBackgroundImageFilename).toString();
+  background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType).toInt());
+  background_image_filename_ = s.value(kBackgroundImageFilename).toString();
 
   ui_->use_system_color_set->setChecked(!original_use_a_custom_color_set_);
   ui_->use_a_custom_color_set->setChecked(original_use_a_custom_color_set_);
 
-  switch (playlist_view_background_image_type_) {
-    case PlaylistView::None:
+  switch (background_image_type_) {
+    case BackgroundImageType_None:
       ui_->use_no_background->setChecked(true);
-      DisableBlurAndOpacitySliders(true);
       break;
-    case PlaylistView::Album:
+    case BackgroundImageType_Album:
       ui_->use_album_cover_background->setChecked(true);
       break;
-    case PlaylistView::Custom:
+    case BackgroundImageType_Custom:
       ui_->use_custom_background_image->setChecked(true);
       break;
-    case PlaylistView::Default:
+    case BackgroundImageType_Default:
     default:
       ui_->use_default_background->setChecked(true);
-      DisableBlurAndOpacitySliders(true);
   }
-  ui_->background_image_filename->setText(playlist_view_background_image_filename_);
-  ui_->blur_slider->setValue(s.value("blur_radius", PlaylistView::kDefaultBlurRadius).toInt());
-  ui_->opacity_slider->setValue(s.value("opacity_level", PlaylistView::kDefaultOpacityLevel).toInt());
-  ui_->checkbox_system_icons->setChecked(s.value("system_icons", false).toBool());
+  ui_->background_image_filename->setText(background_image_filename_);
+
+  ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, BackgroundImagePosition_BottomRight).toInt()));
+  ui_->spinbox_background_image_maxsize->setValue(s.value(kBackgroundImageMaxSize, 0).toInt());
+  ui_->checkbox_background_image_stretch->setChecked(s.value(kBackgroundImageStretch, false).toBool());
+  ui_->checkbox_background_image_keep_aspect_ratio->setChecked(s.value(kBackgroundImageKeepAspectRatio, true).toBool());
+  ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
+  ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
+  ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 
   s.endGroup();
 
@@ -136,33 +166,41 @@ void AppearanceSettingsPage::Save() {
 
   s.beginGroup(kSettingsGroup);
   bool use_a_custom_color_set = ui_->use_a_custom_color_set->isChecked();
-  s.setValue(Appearance::kUseCustomColorSet, use_a_custom_color_set);
+  s.setValue(kUseCustomColorSet, use_a_custom_color_set);
   if (use_a_custom_color_set) {
-    s.setValue(Appearance::kBackgroundColor, current_background_color_);
-    s.setValue(Appearance::kForegroundColor, current_foreground_color_);
+    s.setValue(kBackgroundColor, current_background_color_);
+    s.setValue(kForegroundColor, current_foreground_color_);
   }
   else {
     dialog()->appearance()->ResetToSystemDefaultTheme();
   }
 
-  playlist_view_background_image_filename_ = ui_->background_image_filename->text();
+  background_image_filename_ = ui_->background_image_filename->text();
   if (ui_->use_no_background->isChecked()) {
-    playlist_view_background_image_type_ = PlaylistView::None;
+    background_image_type_ = BackgroundImageType_None;
   }
   else if (ui_->use_album_cover_background->isChecked()) {
-    playlist_view_background_image_type_ = PlaylistView::Album;
+    background_image_type_ = BackgroundImageType_Album;
   }
   else if (ui_->use_default_background->isChecked()) {
-    playlist_view_background_image_type_ = PlaylistView::Default;
+    background_image_type_ = BackgroundImageType_Default;
   }
   else if (ui_->use_custom_background_image->isChecked()) {
-    playlist_view_background_image_type_ = PlaylistView::Custom;
-    s.setValue(PlaylistView::kSettingBackgroundImageFilename, playlist_view_background_image_filename_);
+    background_image_type_ = BackgroundImageType_Custom;
+    s.setValue(kBackgroundImageFilename, background_image_filename_);
   }
-  s.setValue(PlaylistView::kSettingBackgroundImageType, playlist_view_background_image_type_);
-  s.setValue("blur_radius", ui_->blur_slider->value());
-  s.setValue("opacity_level", ui_->opacity_slider->value());
-  s.setValue("system_icons", ui_->checkbox_system_icons->isChecked());
+  s.setValue(kBackgroundImageType, background_image_type_);
+
+  BackgroundImagePosition backgroundimageposition = BackgroundImagePosition(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
+  s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());
+  s.setValue(kBackgroundImagePosition, backgroundimageposition);
+  s.setValue(kBackgroundImageStretch, ui_->checkbox_background_image_stretch->isChecked());
+  s.setValue(kBackgroundImageKeepAspectRatio, ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
+
+  s.setValue(kBlurRadius, ui_->blur_slider->value());
+  s.setValue(kOpacityLevel, ui_->opacity_slider->value());
+
+  s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
 
   s.endGroup();
 
@@ -228,10 +266,10 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
 
-  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), playlist_view_background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + ";;" + tr(AlbumCoverChoiceController::kAllFilesFilter));
+  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + ";;" + tr(AlbumCoverChoiceController::kAllFilesFilter));
   if (selected_filename.isEmpty()) return;
-  playlist_view_background_image_filename_ = selected_filename;
-  ui_->background_image_filename->setText(playlist_view_background_image_filename_);
+  background_image_filename_ = selected_filename;
+  ui_->background_image_filename->setText(background_image_filename_);
 
 }
 
@@ -241,18 +279,4 @@ void AppearanceSettingsPage::BlurLevelChanged(int value) {
 
 void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
   ui_->background_opacity_label->setText(QString("%1\%").arg(percent));
-}
-
-void AppearanceSettingsPage::DisableBlurAndOpacitySliders(bool checked) {
-
-  // Blur slider
-  ui_->blur_slider->setDisabled(checked);
-  ui_->background_blur_radius_label->setDisabled(checked);
-  ui_->select_background_blur_label->setDisabled(checked);
-
-  // Opacity slider
-  ui_->opacity_slider->setDisabled(checked);
-  ui_->background_opacity_label->setDisabled(checked);
-  ui_->select_opacity_level_label->setDisabled(checked);
-
 }

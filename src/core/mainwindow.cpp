@@ -215,9 +215,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       saved_playback_position_(0),
       saved_playback_state_(Engine::Empty),
       playing_widget_(true),
-      doubleclick_addmode_(AddBehaviour_Append),
-      doubleclick_playmode_(PlayBehaviour_Never),
-      menu_playmode_(PlayBehaviour_Never)
+      doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour_Append),
+      doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
+      menu_playmode_(BehaviourSettingsPage::PlayBehaviour_Never)
       {
 
   qLog(Debug) << "Starting";
@@ -812,10 +812,10 @@ void MainWindow::ReloadSettings() {
   settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   playing_widget_ = settings.value("playing_widget", true).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
-  doubleclick_addmode_ = AddBehaviour(settings.value("doubleclick_addmode", AddBehaviour_Append).toInt());
-  doubleclick_playmode_ = PlayBehaviour(settings.value("doubleclick_playmode", PlayBehaviour_IfStopped).toInt());
-  doubleclick_playlist_addmode_ = PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt());
-  menu_playmode_ = PlayBehaviour(settings.value("menu_playmode", PlayBehaviour_IfStopped).toInt());
+  doubleclick_addmode_ = BehaviourSettingsPage::AddBehaviour(settings.value("doubleclick_addmode", BehaviourSettingsPage::AddBehaviour_Append).toInt());
+  doubleclick_playmode_ = BehaviourSettingsPage::PlayBehaviour(settings.value("doubleclick_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
+  doubleclick_playlist_addmode_ = BehaviourSettingsPage::PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", BehaviourSettingsPage::PlaylistAddBehaviour_Play).toInt());
+  menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(settings.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
   settings.endGroup();
 
   settings.beginGroup(kSettingsGroup);
@@ -1108,12 +1108,12 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
   QModelIndexList dummyIndexList;
 
   switch (doubleclick_playlist_addmode_) {
-    case PlaylistAddBehaviour_Play:
+    case BehaviourSettingsPage::PlaylistAddBehaviour_Play:
       app_->playlist_manager()->SetActiveToCurrent();
       app_->player()->PlayAt(row, Engine::Manual, true);
       break;
 
-    case PlaylistAddBehaviour_Enqueue:
+    case BehaviourSettingsPage::PlaylistAddBehaviour_Enqueue:
       dummyIndexList.append(index);
       app_->playlist_manager()->current()->queue()->ToggleTracks(dummyIndexList);
       if (app_->player()->GetState() != Engine::Playing) {
@@ -1241,42 +1241,42 @@ void MainWindow::UpdateTrackSliderPosition() {
 
 }
 
-void MainWindow::ApplyAddBehaviour(MainWindow::AddBehaviour b, MimeData *data) const {
+void MainWindow::ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *data) const {
 
   switch (b) {
-    case AddBehaviour_Append:
+      case BehaviourSettingsPage::AddBehaviour_Append:
       data->clear_first_ = false;
       data->enqueue_now_ = false;
       break;
 
-    case AddBehaviour_Enqueue:
+    case BehaviourSettingsPage::AddBehaviour_Enqueue:
       data->clear_first_ = false;
       data->enqueue_now_ = true;
       break;
 
-    case AddBehaviour_Load:
+    case BehaviourSettingsPage::AddBehaviour_Load:
       data->clear_first_ = true;
       data->enqueue_now_ = false;
       break;
 
-    case AddBehaviour_OpenInNew:
+    case BehaviourSettingsPage::AddBehaviour_OpenInNew:
       data->open_in_new_playlist_ = true;
       break;
   }
 }
 
-void MainWindow::ApplyPlayBehaviour(MainWindow::PlayBehaviour b, MimeData *data) const {
+void MainWindow::ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *data) const {
 
   switch (b) {
-    case PlayBehaviour_Always:
+    case BehaviourSettingsPage::PlayBehaviour_Always:
       data->play_now_ = true;
       break;
 
-    case PlayBehaviour_Never:
+    case BehaviourSettingsPage::PlayBehaviour_Never:
       data->play_now_ = false;
       break;
 
-    case PlayBehaviour_IfStopped:
+    case BehaviourSettingsPage::PlayBehaviour_IfStopped:
       data->play_now_ = !(app_->player()->GetState() == Engine::Playing);
       break;
   }
@@ -1834,7 +1834,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
         break;
       case CommandlineOptions::UrlList_CreateNew:
         data->name_for_new_playlist_ = options.playlist_name();
-        ApplyAddBehaviour(AddBehaviour_OpenInNew, data);
+        ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour_OpenInNew, data);
         break;
     }
 

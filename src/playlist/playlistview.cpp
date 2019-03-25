@@ -83,11 +83,6 @@ const int PlaylistView::kGlowIntensitySteps = 24;
 const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
 const int PlaylistView::kDropIndicatorWidth = 2;
 const int PlaylistView::kDropIndicatorGradientWidth = 5;
-const char *PlaylistView::kSettingBackgroundImageType = "playlistview_background_type";
-const char *PlaylistView::kSettingBackgroundImageFilename = "playlistview_background_image_file";
-
-const int PlaylistView::kDefaultBlurRadius = 0;
-const int PlaylistView::kDefaultOpacityLevel = 40;
 
 PlaylistProxyStyle::PlaylistProxyStyle(QStyle *base)
     : QProxyStyle(base), common_style_(new QCommonStyle) {}
@@ -133,19 +128,27 @@ PlaylistView::PlaylistView(QWidget *parent)
       style_(new PlaylistProxyStyle(style())),
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
+      background_image_type_(AppearanceSettingsPage::BackgroundImageType_Default),
+      background_image_position_(AppearanceSettingsPage::BackgroundImagePosition_BottomRight),
+      background_image_maxsize_(0),
+      background_image_stretch_(false),
+      background_image_keep_aspect_ratio_(true),
+      blur_radius_(AppearanceSettingsPage::kDefaultBlurRadius),
+      opacity_level_(AppearanceSettingsPage::kDefaultOpacityLevel),
       initialized_(false),
+      background_initialized_(false),
       setting_initial_header_layout_(false),
       read_only_settings_(true),
       header_loaded_(false),
-      background_initialized_(false),
-      background_image_type_(Default),
-      blur_radius_(kDefaultBlurRadius),
-      opacity_level_(kDefaultOpacityLevel),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
+      force_background_redraw_(false),
       last_height_(-1),
       last_width_(-1),
-      force_background_redraw_(false),
+      current_background_image_x_(0),
+      current_background_image_y_(0),
+      previous_background_image_x_(0),
+      previous_background_image_y_(0),
       glow_enabled_(true),
       currently_glowing_(false),
       glow_intensity_step_(0),
@@ -339,6 +342,7 @@ void PlaylistView::SaveGeometry() {
   QSettings settings;
   settings.beginGroup(Playlist::kSettingsGroup);
   settings.setValue("state", header_->SaveState());
+  settings.endGroup();
 
 }
 
@@ -780,7 +784,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
   // The cached pixmap gets invalidated in dragLeaveEvent, dropEvent and scrollContentsBy.
 
   // Draw background
-  if (background_image_type_ == Custom || background_image_type_ == Album) {
+  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Custom || background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
     if (!background_image_.isNull() || !previous_background_image_.isNull()) {
       QPainter background_painter(viewport());
 
@@ -791,7 +795,19 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
           cached_scaled_background_image_ = QPixmap();
         }
         else {
-          cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+          if (background_image_stretch_) {
+            if (background_image_keep_aspect_ratio_) {
+              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            }
+            else {
+              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            }
+          }
+          else {
+            int resize_width = qMin(qMin(background_image_.size().width(), width()), background_image_maxsize_);
+            int resize_height = qMin(qMin(background_image_.size().height(), height()), background_image_maxsize_);
+            cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(resize_width, resize_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+          }
         }
 
         last_height_ = height();
@@ -805,12 +821,34 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
         if (!qFuzzyCompare(previous_background_image_opacity_, qreal(0.0))) {
           background_painter.setOpacity(1.0 - previous_background_image_opacity_);
         }
-        background_painter.drawPixmap((width() - cached_scaled_background_image_.width()) / 2, (height() - cached_scaled_background_image_.height()) / 2, cached_scaled_background_image_);
+        switch (background_image_position_) {
+          case AppearanceSettingsPage::BackgroundImagePosition_UpperLeft:
+            current_background_image_x_ = 0;
+            current_background_image_y_ = 0;
+            break;
+          case AppearanceSettingsPage::BackgroundImagePosition_UpperRight:
+            current_background_image_x_ = (width() - cached_scaled_background_image_.width() - 0);
+            current_background_image_y_ = 0;
+            break;
+          case AppearanceSettingsPage::BackgroundImagePosition_Middle:
+            current_background_image_x_ = ((width() - cached_scaled_background_image_.width()) / 2);
+            current_background_image_y_ = ((height() - cached_scaled_background_image_.height()) / 2);
+            break;
+          case AppearanceSettingsPage::BackgroundImagePosition_BottomLeft:
+            current_background_image_x_ = 0;
+            current_background_image_y_ = (height() - cached_scaled_background_image_.height() - 25);
+            break;
+          case AppearanceSettingsPage::BackgroundImagePosition_BottomRight:
+          default:
+            current_background_image_x_ = (width() - cached_scaled_background_image_.width() - 0);
+            current_background_image_y_ = (height() - cached_scaled_background_image_.height() - 25);
+        }
+        background_painter.drawPixmap(current_background_image_x_, current_background_image_y_, cached_scaled_background_image_);
       }
       // Draw the previous background image if we're fading
       if (!previous_background_image_.isNull()) {
         background_painter.setOpacity(previous_background_image_opacity_);
-        background_painter.drawPixmap((width() - previous_background_image_.width()) / 2, (height() - previous_background_image_.height()) / 2, previous_background_image_);
+        background_painter.drawPixmap(previous_background_image_x_, previous_background_image_y_, previous_background_image_);
       }
     }
   }
@@ -920,18 +958,29 @@ void PlaylistView::ReloadSettings() {
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   glow_enabled_ = s.value("glow_effect", true).toBool();
+  bool editmetadatainline = s.value("editmetadatainline", false).toBool();
+  s.endGroup();
+
+  s.beginGroup(Playlist::kSettingsGroup);
+  bool stretch = s.value("stretch", true).toBool();
+  column_alignment_ = s.value("column_alignments").value<ColumnAlignmentMap>();
+  s.endGroup();
+
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  QVariant background_image_type_var = s.value(AppearanceSettingsPage::kBackgroundImageType);
+  QVariant background_image_position_var = s.value(AppearanceSettingsPage::kBackgroundImagePosition);
+  int background_image_maxsize = s.value(AppearanceSettingsPage::kBackgroundImageMaxSize).toInt();
+  if (background_image_maxsize <= 10) background_image_maxsize = 9000;
+  QString background_image_filename = s.value(AppearanceSettingsPage::kBackgroundImageFilename).toString();
+  bool background_image_stretch = s.value(AppearanceSettingsPage::kBackgroundImageStretch, false).toBool();
+  bool background_image_keep_aspect_ratio = s.value(AppearanceSettingsPage::kBackgroundImageKeepAspectRatio, true).toBool();
+  int blur_radius = s.value(AppearanceSettingsPage::kBlurRadius, AppearanceSettingsPage::kDefaultBlurRadius).toInt();
+  int opacity_level = s.value(AppearanceSettingsPage::kOpacityLevel, AppearanceSettingsPage::kDefaultOpacityLevel).toInt();
   s.endGroup();
 
   if (setting_initial_header_layout_) {
-    s.beginGroup(Playlist::kSettingsGroup);
-    header_->SetStretchEnabled(s.value("stretch", true).toBool());
-    s.endGroup();
-  }
 
-  if (currently_glowing_ && glow_enabled_ && isVisible()) StartGlowing();
-  if (!glow_enabled_) StopGlowing();
-
-  if (setting_initial_header_layout_) {
+    header_->SetStretchEnabled(stretch);
 
     header_->SetColumnWidth(Playlist::Column_Track, 0.02);
     header_->SetColumnWidth(Playlist::Column_Title, 0.16);
@@ -945,83 +994,84 @@ void PlaylistView::ReloadSettings() {
     header_->SetColumnWidth(Playlist::Column_Source, 0.06);
 
     setting_initial_header_layout_ = false;
+
   }
 
-  s.beginGroup(Playlist::kSettingsGroup);
-  column_alignment_ = s.value("column_alignments").value<ColumnAlignmentMap>();
-  s.endGroup();
+  if (currently_glowing_ && glow_enabled_ && isVisible()) StartGlowing();
+  if (!glow_enabled_) StopGlowing();
+
   if (column_alignment_.isEmpty()) {
     column_alignment_ = DefaultColumnAlignment();
   }
-
   emit ColumnAlignmentChanged(column_alignment_);
 
+
   // Background:
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  QVariant q_playlistview_background_type = s.value(kSettingBackgroundImageType);
-  s.endGroup();
-  BackgroundImageType background_type(Default);
-  // bg_enabled should also be checked for backward compatibility (in releases <= 1.0, there was just a boolean to activate/deactivate the background)
-  s.beginGroup(Playlist::kSettingsGroup);
-  QVariant bg_enabled = s.value("bg_enabled");
-  s.endGroup();
-  if (q_playlistview_background_type.isValid()) {
-    background_type = static_cast<BackgroundImageType>(q_playlistview_background_type.toInt());
-  }
-  else if (bg_enabled.isValid()) {
-    if (bg_enabled.toBool()) {
-      background_type = Default;
-    }
-    else {
-      background_type = None;
-    }
+  AppearanceSettingsPage::BackgroundImageType background_image_type(AppearanceSettingsPage::BackgroundImageType_Default);
+  if (background_image_type_var.isValid()) {
+    background_image_type = static_cast<AppearanceSettingsPage::BackgroundImageType>(background_image_type_var.toInt());
   }
   else {
-    background_type = Default;
+    background_image_type = AppearanceSettingsPage::BackgroundImageType_Default;
   }
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  QString background_image_filename = s.value(kSettingBackgroundImageFilename).toString();
-  int blur_radius = s.value("blur_radius", kDefaultBlurRadius).toInt();
-  int opacity_level = s.value("opacity_level", kDefaultOpacityLevel).toInt();
-  s.endGroup();
+
+  AppearanceSettingsPage::BackgroundImagePosition background_image_position(AppearanceSettingsPage::BackgroundImagePosition_BottomRight);
+  if (background_image_position_var.isValid()) {
+    background_image_position = static_cast<AppearanceSettingsPage::BackgroundImagePosition>(background_image_position_var.toInt());
+  }
+  else {
+    background_image_position = AppearanceSettingsPage::BackgroundImagePosition_BottomRight;
+  }
+
   // Check if background properties have changed.
   // We change properties only if they have actually changed, to avoid to call set_background_image when it is not needed,
   // as this will cause the fading animation to start again.
   // This also avoid to do useless "force_background_redraw".
 
-  if (!background_initialized_ || background_image_filename != background_image_filename_ || background_type != background_image_type_ || blur_radius_ != blur_radius || opacity_level_ != opacity_level) {
+  if (
+      !background_initialized_ ||
+      background_image_type != background_image_type_ ||
+      background_image_filename != background_image_filename_ ||
+      background_image_position != background_image_position_ ||
+      background_image_maxsize != background_image_maxsize_ ||
+      background_image_stretch != background_image_stretch_ ||
+      background_image_keep_aspect_ratio != background_image_keep_aspect_ratio_ ||
+      blur_radius_ != blur_radius ||
+      opacity_level_ != opacity_level
+     ) {
+
     background_initialized_ = true;
-    // Store background properties
-    background_image_type_ = background_type;
+    background_image_type_ = background_image_type;
     background_image_filename_ = background_image_filename;
+    background_image_position_ = background_image_position;
+    background_image_maxsize_ = background_image_maxsize;
+    background_image_stretch_ = background_image_stretch;
+    background_image_keep_aspect_ratio_ = background_image_keep_aspect_ratio;
     blur_radius_ = blur_radius;
     opacity_level_ = opacity_level;
-    if (background_image_type_ == Custom) {
+
+    if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Custom) {
       set_background_image(QImage(background_image_filename));
     }
-    else if (background_image_type_ == Album) {
+    else if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
       set_background_image(current_song_cover_art_);
     }
     else {
       // User changed background image type to something that will not be painted through paintEvent: reset all background images.
       // This avoid to use old (deprecated) images for fading when selecting Album or Custom background image type later.
-      //set_background_image(QImage(":/pictures/playlistbg.png"));
       set_background_image(QImage());
       cached_scaled_background_image_ = QPixmap();
       previous_background_image_ = QPixmap();
     }
-    setProperty("default_background_enabled", background_image_type_ == Default);
+    setProperty("default_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Default);
     emit BackgroundPropertyChanged();
     force_background_redraw_ = true;
   }
 
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  if(!s.value("editmetadatainline", false).toBool())
-    setEditTriggers(editTriggers() & ~QAbstractItemView::SelectedClicked);
-  else
+  if (editmetadatainline)
     setEditTriggers(editTriggers() | QAbstractItemView::SelectedClicked);
-
-  s.endGroup();
+  else
+    setEditTriggers(editTriggers() & ~QAbstractItemView::SelectedClicked);
 
 }
 
@@ -1036,7 +1086,7 @@ void PlaylistView::SaveSettings() {
   s.endGroup();
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  s.setValue(kSettingBackgroundImageType, background_image_type_);
+  s.setValue(AppearanceSettingsPage::kBackgroundImageType, background_image_type_);
   s.endGroup();
 
   s.beginGroup(Playlist::kSettingsGroup);
@@ -1046,9 +1096,11 @@ void PlaylistView::SaveSettings() {
 }
 
 void PlaylistView::StretchChanged(bool stretch) {
+
   if (!initialized_) return;
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
   SaveGeometry();
+
 }
 
 bool PlaylistView::eventFilter(QObject *object, QEvent *event) {
@@ -1140,7 +1192,7 @@ void PlaylistView::CurrentSongChanged(const Song &song, const QString &uri, cons
   if (current_song_cover_art_ == song_art) return;
 
   current_song_cover_art_ = song_art;
-  if (background_image_type_ == Album) {
+  if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());
     }
@@ -1157,6 +1209,8 @@ void PlaylistView::set_background_image(const QImage &image) {
 
   // Save previous image, for fading
   previous_background_image_ = cached_scaled_background_image_;
+  previous_background_image_x_ = current_background_image_x_;
+  previous_background_image_y_ = current_background_image_y_;
 
   if (image.isNull() || image.format() == QImage::Format_ARGB32) {
     background_image_ = image;

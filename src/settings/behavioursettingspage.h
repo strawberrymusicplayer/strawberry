@@ -40,7 +40,29 @@ class BehaviourSettingsPage : public SettingsPage {
 public:
   BehaviourSettingsPage(SettingsDialog *dialog);
   ~BehaviourSettingsPage();
+
   static const char *kSettingsGroup;
+
+  // Don't change the values
+  enum AddBehaviour {
+    AddBehaviour_Append = 1,
+    AddBehaviour_Enqueue = 2,
+    AddBehaviour_Load = 3,
+    AddBehaviour_OpenInNew = 4
+  };
+
+  // Don't change the values
+  enum PlayBehaviour {
+    PlayBehaviour_Never = 1,
+    PlayBehaviour_IfStopped = 2,
+    PlayBehaviour_Always = 3,
+  };
+
+  // Don't change the values
+  enum PlaylistAddBehaviour {
+    PlaylistAddBehaviour_Play = 1,
+    PlaylistAddBehaviour_Enqueue = 2,
+  };
 
   void Load();
   void Save();

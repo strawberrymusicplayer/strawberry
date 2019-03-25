@@ -55,6 +55,7 @@
 #include "collection/collectionmodel.h"
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
+#include "settings/behavioursettingspage.h"
 
 using std::unique_ptr;
 
@@ -106,27 +107,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
     Startup_Remember = 1,
     Startup_AlwaysShow = 2,
     Startup_AlwaysHide = 3,
-  };
-
-  // Don't change the values
-  enum AddBehaviour {
-    AddBehaviour_Append = 1,
-    AddBehaviour_Enqueue = 2,
-    AddBehaviour_Load = 3,
-    AddBehaviour_OpenInNew = 4
-  };
-
-  // Don't change the values
-  enum PlayBehaviour {
-    PlayBehaviour_Never = 1,
-    PlayBehaviour_IfStopped = 2,
-    PlayBehaviour_Always = 3,
-  };
-
-  // Don't change the values
-  enum PlaylistAddBehaviour {
-    PlaylistAddBehaviour_Play = 1,
-    PlaylistAddBehaviour_Enqueue = 2,
   };
 
   void SetHiddenInTray(bool hidden);
@@ -278,8 +258,8 @@ signals:
 
  private:
 
-  void ApplyAddBehaviour(AddBehaviour b, MimeData *data) const;
-  void ApplyPlayBehaviour(PlayBehaviour b, MimeData *data) const;
+  void ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *data) const;
+  void ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *data) const;
 
   void CheckFullRescanRevisions();
 
@@ -370,10 +350,10 @@ signals:
   int saved_playback_position_;
   Engine::State saved_playback_state_;
   bool playing_widget_;
-  AddBehaviour doubleclick_addmode_;
-  PlayBehaviour doubleclick_playmode_;
-  PlaylistAddBehaviour doubleclick_playlist_addmode_;
-  PlayBehaviour menu_playmode_;
+  BehaviourSettingsPage::AddBehaviour doubleclick_addmode_;
+  BehaviourSettingsPage::PlayBehaviour doubleclick_playmode_;
+  BehaviourSettingsPage::PlaylistAddBehaviour doubleclick_playlist_addmode_;
+  BehaviourSettingsPage::PlayBehaviour menu_playmode_;
 
   Song song_;
   Song song_playing_;

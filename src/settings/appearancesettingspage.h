@@ -30,7 +30,6 @@
 #include <QString>
 #include <QColor>
 
-#include "playlist/playlistview.h"
 #include "settingspage.h"
 
 class SettingsDialog;
@@ -42,22 +41,56 @@ class AppearanceSettingsPage : public SettingsPage {
 public:
   AppearanceSettingsPage(SettingsDialog *dialog);
   ~AppearanceSettingsPage();
+
   static const char *kSettingsGroup;
+
+  static const char *kUseCustomColorSet;
+  static const char *kForegroundColor;
+  static const char *kBackgroundColor;
+
+  static const char *kBackgroundImageType;
+  static const char *kBackgroundImageFilename;
+  static const char *kBackgroundImagePosition;
+  static const char *kBackgroundImageStretch;
+  static const char *kBackgroundImageKeepAspectRatio;
+  static const char *kBackgroundImageMaxSize;
+
+  static const char *kBlurRadius;
+  static const char *kOpacityLevel;
+
+  static const int kDefaultBlurRadius;
+  static const int kDefaultOpacityLevel;
+
+  static const char *kSystemThemeIcons;
+
+  enum BackgroundImageType {
+    BackgroundImageType_Default,
+    BackgroundImageType_None,
+    BackgroundImageType_Custom,
+    BackgroundImageType_Album
+  };
+
+  enum BackgroundImagePosition {
+    BackgroundImagePosition_UpperLeft = 1,
+    BackgroundImagePosition_UpperRight = 2,
+    BackgroundImagePosition_Middle = 3,
+    BackgroundImagePosition_BottomLeft = 4,
+    BackgroundImagePosition_BottomRight = 5
+  };
 
   void Load();
   void Save();
   void Cancel();
 
-private slots:
+ private slots:
   void SelectForegroundColor();
   void SelectBackgroundColor();
   void UseCustomColorSetOptionChanged(bool);
   void SelectBackgroundImage();
   void BlurLevelChanged(int);
   void OpacityLevelChanged(int);
-  void DisableBlurAndOpacitySliders(bool);
 
-private:
+ private:
 
   // Set the widget's background to new_color
   void UpdateColorSelectorColor(QWidget *color_selector, const QColor &new_color);
@@ -65,13 +98,14 @@ private:
   void InitColorSelectorsColors();
 
   Ui_AppearanceSettingsPage *ui_;
+
   bool original_use_a_custom_color_set_;
   QColor original_foreground_color_;
   QColor original_background_color_;
   QColor current_foreground_color_;
   QColor current_background_color_;
-  PlaylistView::BackgroundImageType playlist_view_background_image_type_;
-  QString playlist_view_background_image_filename_;
+  BackgroundImageType background_image_type_;
+  QString background_image_filename_;
 
 };
 

@@ -70,18 +70,18 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   }
 #endif
 
-  ui_->combobox_doubleclickaddmode->setItemData(0, MainWindow::AddBehaviour_Append);
-  ui_->combobox_doubleclickaddmode->setItemData(1, MainWindow::AddBehaviour_Load);
-  ui_->combobox_doubleclickaddmode->setItemData(2, MainWindow::AddBehaviour_OpenInNew);
-  ui_->combobox_doubleclickaddmode->setItemData(3, MainWindow::AddBehaviour_Enqueue);
+  ui_->combobox_doubleclickaddmode->setItemData(0, AddBehaviour_Append);
+  ui_->combobox_doubleclickaddmode->setItemData(1, AddBehaviour_Load);
+  ui_->combobox_doubleclickaddmode->setItemData(2, AddBehaviour_OpenInNew);
+  ui_->combobox_doubleclickaddmode->setItemData(3, AddBehaviour_Enqueue);
 
-  ui_->combobox_doubleclickplaymode->setItemData(0, MainWindow::PlayBehaviour_Never);
-  ui_->combobox_doubleclickplaymode->setItemData(1, MainWindow::PlayBehaviour_IfStopped);
-  ui_->combobox_doubleclickplaymode->setItemData(2, MainWindow::PlayBehaviour_Always);
+  ui_->combobox_doubleclickplaymode->setItemData(0, PlayBehaviour_Never);
+  ui_->combobox_doubleclickplaymode->setItemData(1, PlayBehaviour_IfStopped);
+  ui_->combobox_doubleclickplaymode->setItemData(2, PlayBehaviour_Always);
 
-  ui_->combobox_menuplaymode->setItemData(0, MainWindow::PlayBehaviour_Never);
-  ui_->combobox_menuplaymode->setItemData(1, MainWindow::PlayBehaviour_IfStopped);
-  ui_->combobox_menuplaymode->setItemData(2, MainWindow::PlayBehaviour_Always);
+  ui_->combobox_menuplaymode->setItemData(0, PlayBehaviour_Never);
+  ui_->combobox_menuplaymode->setItemData(1, PlayBehaviour_IfStopped);
+  ui_->combobox_menuplaymode->setItemData(2, PlayBehaviour_Always);
 
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
@@ -159,9 +159,9 @@ void BehaviourSettingsPage::Load() {
 
   ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
 
-  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", MainWindow::AddBehaviour_Append).toInt()));
-  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", MainWindow::PlayBehaviour_Never).toInt()));
-  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", MainWindow::PlayBehaviour_Never).toInt()));
+  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", AddBehaviour_Append).toInt()));
+  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", PlayBehaviour_Never).toInt()));
+  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", PlayBehaviour_Never).toInt()));
 
   ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
 
@@ -185,9 +185,9 @@ void BehaviourSettingsPage::Save() {
   if (ui_->radiobutton_alwaysshow->isChecked()) behaviour = MainWindow::Startup_AlwaysShow;
   if (ui_->radiobutton_remember->isChecked()) behaviour = MainWindow::Startup_Remember;
 
-  MainWindow::AddBehaviour doubleclick_addmode = MainWindow::AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
-  MainWindow::PlayBehaviour doubleclick_playmode = MainWindow::PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
-  MainWindow::PlayBehaviour menu_playmode = MainWindow::PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
+  AddBehaviour doubleclick_addmode = AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
+  PlayBehaviour doubleclick_playmode = PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
+  PlayBehaviour menu_playmode = PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
 
   s.setValue("showtrayicon", ui_->checkbox_showtrayicon->isChecked());
   s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());

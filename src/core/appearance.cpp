@@ -32,19 +32,17 @@
 #include "appearance.h"
 #include "settings/appearancesettingspage.h"
 
-const char *Appearance::kUseCustomColorSet = "use-custom-set";
-const char *Appearance::kForegroundColor = "foreground-color";
-const char *Appearance::kBackgroundColor = "background-color";
-
 const QPalette Appearance::kDefaultPalette = QPalette();
 
 Appearance::Appearance(QObject *parent) : QObject(parent) {
 
+  QPalette p = QApplication::palette();
+
   QSettings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  QPalette p = QApplication::palette();
-  background_color_ = s.value(kBackgroundColor, p.color(QPalette::WindowText)).value<QColor>();
-  foreground_color_ = s.value(kForegroundColor, p.color(QPalette::Window)).value<QColor>();
+  background_color_ = s.value(AppearanceSettingsPage::kBackgroundColor, p.color(QPalette::WindowText)).value<QColor>();
+  foreground_color_ = s.value(AppearanceSettingsPage::kForegroundColor, p.color(QPalette::Window)).value<QColor>();
+  s.endGroup();
 
 }
 
@@ -52,7 +50,9 @@ void Appearance::LoadUserTheme() {
 
   QSettings s;
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  bool use_a_custom_color_set = s.value(kUseCustomColorSet).toBool();
+  bool use_a_custom_color_set = s.value(AppearanceSettingsPage::kUseCustomColorSet).toBool();
+  s.endGroup();
+
   if (!use_a_custom_color_set) return;
 
   ChangeForegroundColor(foreground_color_);
