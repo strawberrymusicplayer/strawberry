@@ -30,6 +30,7 @@
 #include <QtGlobal>
 #include <QAbstractSocket>
 #include <QMetaType>
+#include <QFileInfo>
 #include <QList>
 #include <QMap>
 #include <QByteArray>
