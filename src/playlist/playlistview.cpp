@@ -804,8 +804,8 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
             }
           }
           else {
-            int resize_width = qMin(qMin(background_image_.size().width(), width()), background_image_maxsize_);
-            int resize_height = qMin(qMin(background_image_.size().height(), height()), background_image_maxsize_);
+            int resize_width = qMin(qMin(background_image_.size().width(), (width() >= 50 ? (width() - 25) : width())), background_image_maxsize_);
+            int resize_height = qMin(qMin(background_image_.size().height(), (height() >= 50 ? (height() - 25) : height())), background_image_maxsize_);
             cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(resize_width, resize_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
           }
         }
