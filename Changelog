@@ -2,6 +2,43 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Changed default tagging to albumartist in organise dialog
+    * Removed support for older taglib in tagreader
+    * Made lyrics selectable in context
+    * Added boom and rainbow analyzers
+    * Made it possible to use enter in shortcuts
+    * Replaced "no album cover" image
+    * Capitalized Strawberry in OSD and tooltip
+    * Added artist search to Tidal
+    * Created systray tooltip workaround for KDE
+    * Changed defaults for backend fade setting
+    * Changed backend settings to allow setting device back to automatic when a custom device is active
+    * Hide ALSA options on non-ALSA systems
+    * Showing errors in dialog when editing tags fails
+    * Update database immediately when saving tags were successful
+    * Show Strawberry icon in OSD when stopping track
+    * Added support for translations
+    * Renamed desktop and appdata files to follow freedesktop specifications
+    * No longer allowing X11 shortcuts on Wayland
+    * Fixed handling of UNC paths in gstreamer engine
+    * Added option to disable volume control
+    * Removed Deezer support (SDK discontinued and streams are encrypted)
+    * Added Norwegian translations
+    * Added setting to allow automatically saving album covers directly to album directory
+    * Updated mimetypes
+    * Added basic support for system and custom icons
+    * Moved loading of device icons to device model
+    * Added better support for APE tags
+    * Fixed problems identifying song as collection songs when loading playlist files
+    * Fixed problems loading Tidal URLs from playlist files
+    * Added support for saving and restoring geometry in settings, organise and transcoder dialogs
+    * Improved Tidal error handling and automatic login
+    * Improved Tidal search to handle duplicate albums
+    * Notify collection backend about renamed files when organising files
+    * Added more background image options
+
 Version 0.5.2:
 
     * Added error handling and message for URL handler
