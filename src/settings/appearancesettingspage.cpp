@@ -156,6 +156,8 @@ void AppearanceSettingsPage::Load() {
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 
+  if (!ui_->checkbox_background_image_stretch->isChecked()) ui_->checkbox_background_image_keep_aspect_ratio->setDisabled(true);
+
   s.endGroup();
 
 }
@@ -187,9 +189,13 @@ void AppearanceSettingsPage::Save() {
   }
   else if (ui_->use_custom_background_image->isChecked()) {
     background_image_type_ = BackgroundImageType_Custom;
-    s.setValue(kBackgroundImageFilename, background_image_filename_);
   }
   s.setValue(kBackgroundImageType, background_image_type_);
+
+  if (background_image_type_ == BackgroundImageType_Custom)
+      s.setValue(kBackgroundImageFilename, background_image_filename_);
+  else
+    s.remove(kBackgroundImageFilename);
 
   BackgroundImagePosition backgroundimageposition = BackgroundImagePosition(ui_->combobox_backgroundimageposition->itemData(ui_->combobox_backgroundimageposition->currentIndex()).toInt());
   s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());
@@ -243,6 +249,7 @@ void AppearanceSettingsPage::SelectBackgroundColor() {
 }
 
 void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
+
   if (checked) {
     dialog()->appearance()->ChangeForegroundColor(current_foreground_color_);
     dialog()->appearance()->ChangeBackgroundColor(current_background_color_);
@@ -250,6 +257,7 @@ void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
   else {
     dialog()->appearance()->ResetToSystemDefaultTheme();
   }
+
 }
 
 void AppearanceSettingsPage::InitColorSelectorsColors() {
