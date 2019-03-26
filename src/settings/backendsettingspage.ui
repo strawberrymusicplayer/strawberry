@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>596</width>
-    <height>772</height>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,21 +15,18 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QGroupBox" name="groupbox_output">
+    <widget class="QGroupBox" name="groupbox_audio_output">
      <property name="title">
       <string>Audio output</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="layout_audio_output">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_engine">
+       <layout class="QHBoxLayout" name="layout_engine">
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_engine">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
           <property name="text">
            <string>Engine</string>
           </property>
@@ -64,15 +61,12 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_output">
+       <layout class="QHBoxLayout" name="layout_output">
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_output">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
           <property name="text">
            <string>Output</string>
           </property>
@@ -107,15 +101,12 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_device" stretch="0,0,0,0">
+       <layout class="QHBoxLayout" name="layout_device">
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_device">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
           <property name="text">
            <string>Device</string>
           </property>
@@ -173,15 +164,21 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_alsa_plugin" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout_alsaplugin">
+        <layout class="QHBoxLayout" name="layout_alsa_plugin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="label_alsaplugin">
-           <property name="minimumSize">
-            <size>
-             <width>90</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>ALSA plugin</string>
            </property>
@@ -192,12 +189,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
            <property name="text">
             <string>hw</string>
            </property>
@@ -207,12 +198,6 @@
           <widget class="QRadioButton" name="radiobutton_alsa_plughw">
            <property name="enabled">
             <bool>false</bool>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
            </property>
            <property name="text">
             <string>p&amp;lughw</string>
@@ -246,11 +231,18 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_buffer">
      <property name="title">
       <string>Buffer</string>
      </property>
-     <layout class="QFormLayout" name="formLayout_5">
+     <layout class="QFormLayout" name="layout_buffer">
       <property name="fieldGrowthPolicy">
        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
       </property>
@@ -315,6 +307,13 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_replaygain">
      <property name="enabled">
       <bool>true</bool>
@@ -322,7 +321,7 @@
      <property name="title">
       <string>Replay Gain</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="layout_replay_gain">
       <item>
        <widget class="QCheckBox" name="checkbox_replaygain">
         <property name="enabled">
@@ -416,11 +415,18 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_fading">
      <property name="title">
       <string>Fading</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <layout class="QVBoxLayout" name="layout_fading">
       <item>
        <widget class="QCheckBox" name="checkbox_fadeout_stop">
         <property name="text">
@@ -523,9 +529,9 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="layout_fading">
+       <layout class="QHBoxLayout" name="layout_fading_duration">
         <item>
-         <widget class="QLabel" name="label_fadingduration_2">
+         <widget class="QLabel" name="label_fading_duration_1">
           <property name="text">
            <string>Fading duration</string>
           </property>
@@ -551,7 +557,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="spacer_fading_2">
+         <spacer name="spacer_fading_duration_1">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -569,17 +575,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_monoplayback">
-     <property name="toolTip">
-      <string>Changing mono playback preference will be effective for the next playing songs</string>
-     </property>
-     <property name="text">
-      <string>Mono playback</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

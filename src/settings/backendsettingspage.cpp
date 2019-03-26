@@ -124,8 +124,6 @@ void BackendSettingsPage::Load() {
   ui_->spinbox_fadeduration->setValue(s_.value("FadeoutDuration", 2000).toInt());
   ui_->spinbox_fadeduration_pauseresume->setValue(s_.value("FadeoutPauseDuration", 250).toInt());
 
-  ui_->checkbox_monoplayback->setChecked(s_.value("monoplayback", false).toBool());
-
 #if defined(HAVE_ALSA)
   ui_->lineedit_device->show();
   ui_->widget_alsa_plugin->show();
@@ -263,12 +261,10 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (engine()->type() == Engine::GStreamer) {
     ui_->groupbox_buffer->setEnabled(true);
     ui_->groupbox_replaygain->setEnabled(true);
-    ui_->checkbox_monoplayback->setEnabled(true);
   }
   else {
     ui_->groupbox_buffer->setEnabled(false);
     ui_->groupbox_replaygain->setEnabled(false);
-    ui_->checkbox_monoplayback->setEnabled(false);
   }
 
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
@@ -398,8 +394,6 @@ void BackendSettingsPage::Save() {
   s_.setValue("FadeoutPauseEnabled", ui_->checkbox_fadeout_pauseresume->isChecked());
   s_.setValue("FadeoutDuration", ui_->spinbox_fadeduration->value());
   s_.setValue("FadeoutPauseDuration", ui_->spinbox_fadeduration_pauseresume->value());
-
-  s_.setValue("monoplayback", ui_->checkbox_monoplayback->isChecked());
 
 #ifdef HAVE_ALSA
   if (ui_->radiobutton_alsa_hw->isChecked()) s_.setValue("alsaplugin", static_cast<int>(alsa_plugin::alsa_hw));
