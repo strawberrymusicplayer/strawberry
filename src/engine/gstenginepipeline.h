@@ -158,7 +158,7 @@ signals:
   QString ParseStrTag(GstTagList *list, const char *tag) const;
   guint ParseUIntTag(GstTagList *list, const char *tag) const;
 
-  bool InitDecodeBin(GstElement* new_bin);
+  bool InitDecodeBin(GstElement *new_bin);
   bool InitAudioBin();
   GstElement *CreateDecodeBinFromString(const char *pipeline);
 
@@ -272,15 +272,15 @@ signals:
   // Elements in the audiobin.  See comments in Init()'s definition.
   GstElement *queue_;
   GstElement *audioconvert_;
-  GstElement *rgvolume_;
-  GstElement *rglimiter_;
   GstElement *audioconvert2_;
-  GstElement *equalizer_preamp_;
-  GstElement *equalizer_;
-  GstElement *audio_panorama_;
-  GstElement *volume_;
   GstElement *audioscale_;
   GstElement *audiosink_;
+  GstElement *volume_;
+  GstElement *audio_panorama_;
+  GstElement *equalizer_preamp_;
+  GstElement *equalizer_;
+  GstElement *rgvolume_;
+  GstElement *rglimiter_;
 
   uint bus_cb_id_;
 

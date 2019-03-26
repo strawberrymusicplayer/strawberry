@@ -94,20 +94,33 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       audiobin_(nullptr),
       queue_(nullptr),
       audioconvert_(nullptr),
-      rgvolume_(nullptr),
-      rglimiter_(nullptr),
       audioconvert2_(nullptr),
-      equalizer_(nullptr),
-      audio_panorama_(nullptr),
-      volume_(nullptr),
       audioscale_(nullptr),
-      audiosink_(nullptr) {
+      audiosink_(nullptr),
+      volume_(nullptr),
+      audio_panorama_(nullptr),
+      equalizer_preamp_(nullptr),
+      equalizer_(nullptr),
+      rgvolume_(nullptr),
+      rglimiter_(nullptr)
+      {
 
   if (!sElementDeleter) {
     sElementDeleter = new GstElementDeleter;
   }
 
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
+
+}
+
+GstEnginePipeline::~GstEnginePipeline() {
+
+  if (pipeline_) {
+    gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
+    g_source_remove(bus_cb_id_);
+    gst_element_set_state(pipeline_, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(pipeline_));
+  }
 
 }
 
@@ -151,12 +164,12 @@ bool GstEnginePipeline::InitDecodeBin(GstElement *decode_bin) {
 
   pipeline_ = gst_pipeline_new("pipeline");
 
-  gst_bin_add(GST_BIN(pipeline_), decode_bin);
+  if (!gst_bin_add(GST_BIN(pipeline_), decode_bin)) return false;
 
   if (!InitAudioBin()) return false;
-  gst_bin_add(GST_BIN(pipeline_), audiobin_);
+  if (!gst_bin_add(GST_BIN(pipeline_), audiobin_)) return false;
 
-  gst_element_link(decode_bin, audiobin_);
+  if (!gst_element_link(decode_bin, audiobin_)) return false;
 
   return true;
 
@@ -196,8 +209,7 @@ bool GstEnginePipeline::InitAudioBin() {
 
   // After the tee the pipeline splits.  One split is converted to 16-bit int samples for the scope, the other is kept as float32 and sent to the speaker.
   //   tee1 ! probe_queue ! probe_converter ! <caps16> ! probe_sink
-  //   tee2 ! audio_queue ! equalizer_preamp ! equalizer ! volume ! audioscale
-  //        ! convert ! audiosink
+  //   tee2 ! audio_queue ! equalizer_preamp ! equalizer ! volume ! audioscale ! convert ! audiosink
 
   gst_segment_init(&last_decodebin_segment_, GST_FORMAT_TIME);
 
@@ -234,19 +246,16 @@ bool GstEnginePipeline::InitAudioBin() {
   }
 
   // Create all the other elements
-  GstElement *tee, *probe_queue, *probe_converter, *probe_sink, *audio_queue, *convert;
 
   queue_ = engine_->CreateElement("queue2", audiobin_);
   audioconvert_ = engine_->CreateElement("audioconvert", audiobin_);
-  tee = engine_->CreateElement("tee", audiobin_);
-
-  probe_queue = engine_->CreateElement("queue", audiobin_);
-  probe_converter = engine_->CreateElement("audioconvert", audiobin_);
-  probe_sink = engine_->CreateElement("fakesink", audiobin_);
-
-  audio_queue = engine_->CreateElement("queue", audiobin_);
+  GstElement *tee = engine_->CreateElement("tee", audiobin_);
+  GstElement *probe_queue = engine_->CreateElement("queue", audiobin_);
+  GstElement *probe_converter = engine_->CreateElement("audioconvert", audiobin_);
+  GstElement *probe_sink = engine_->CreateElement("fakesink", audiobin_);
+  GstElement *audio_queue = engine_->CreateElement("queue", audiobin_);
   audioscale_ = engine_->CreateElement("audioresample", audiobin_);
-  convert = engine_->CreateElement("audioconvert", audiobin_);
+  GstElement *convert = engine_->CreateElement("audioconvert", audiobin_);
 
   if (engine_->volume_control()) {
     volume_ = engine_->CreateElement("volume", audiobin_);
@@ -261,10 +270,12 @@ bool GstEnginePipeline::InitAudioBin() {
 
   if (!queue_ || !audioconvert_ || !tee || !probe_queue || !probe_converter || !probe_sink || !audio_queue || !audioscale_ || !convert) {
     gst_object_unref(GST_OBJECT(audiobin_));
+    audiobin_ = nullptr;
     return false;
   }
 
-  // Create the replaygain elements if it's enabled.  event_probe is the audioconvert element we attach the probe to, which will change depending on whether replaygain is enabled.
+  // Create the replaygain elements if it's enabled.
+  // event_probe is the audioconvert element we attach the probe to, which will change depending on whether replaygain is enabled.
   // convert_sink is the element after the first audioconvert, which again will change.
   GstElement *event_probe = audioconvert_;
   GstElement *convert_sink = tee;
@@ -350,8 +361,13 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_element_link(probe_converter, probe_sink);
 
   // Link the outputs of tee to the queues on each path.
-  gst_pad_link(gst_element_get_request_pad(tee, "src_%u"), gst_element_get_static_pad(probe_queue, "sink"));
-  gst_pad_link(gst_element_get_request_pad(tee, "src_%u"), gst_element_get_static_pad(audio_queue, "sink"));
+  pad = gst_element_get_static_pad(probe_queue, "sink");
+  gst_pad_link(gst_element_get_request_pad(tee, "src_%u"), pad);
+  gst_object_unref(pad);
+
+  pad = gst_element_get_static_pad(audio_queue, "sink");
+  gst_pad_link(gst_element_get_request_pad(tee, "src_%u"), pad);
+  gst_object_unref(pad);
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume_ && rglimiter_ && audioconvert2_) {
@@ -378,9 +394,14 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_caps_unref(caps);
 
   // Add probes and handlers.
-  gst_pad_add_probe(gst_element_get_static_pad(probe_converter, "src"), GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
-  gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), BusCallbackSync, this, nullptr);
-  bus_cb_id_ = gst_bus_add_watch(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), BusCallback, this);
+  pad = gst_element_get_static_pad(probe_converter, "src");
+  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, HandoffCallback, this, nullptr);
+  gst_object_unref(pad);
+
+  GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
+  gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
+  bus_cb_id_ = gst_bus_add_watch(bus, BusCallback, this);
+  gst_object_unref(bus);
 
   return true;
 
@@ -389,6 +410,7 @@ bool GstEnginePipeline::InitAudioBin() {
 bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
   GstElement *new_bin = CreateDecodeBinFromString(pipeline.toUtf8().constData());
+  if (!new_bin) return false;
   return InitDecodeBin(new_bin);
 
 }
@@ -400,7 +422,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl orig
   end_offset_nanosec_ = end_nanosec;
 
   pipeline_ = engine_->CreateElement("playbin");
-  if (pipeline_ == nullptr) return false;
+  if (!pipeline_) return false;
 
   g_object_set(G_OBJECT(pipeline_), "uri", media_url.constData(), nullptr);
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
@@ -415,17 +437,6 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl orig
   pipeline_is_connected_ = true;
 
   return true;
-
-}
-
-GstEnginePipeline::~GstEnginePipeline() {
-
-  if (pipeline_) {
-    gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
-    g_source_remove(bus_cb_id_);
-    gst_element_set_state(pipeline_, GST_STATE_NULL);
-    gst_object_unref(GST_OBJECT(pipeline_));
-  }
 
 }
 
@@ -581,7 +592,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Debug) << "Ignoring error when loading next track";
-    GstPad* sinkpad = gst_element_get_static_pad(audiobin_, "sink");
+    GstPad *sinkpad = gst_element_get_static_pad(audiobin_, "sink");
     gst_pad_send_event(sinkpad, gst_event_new_eos());
     gst_object_unref(sinkpad);
     return;
@@ -897,6 +908,8 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *pspec, 
     emit instance->BufferingFinished();
     instance->SetState(GST_STATE_PLAYING);
   }
+
+  g_object_unref(element);
 
 }
 
