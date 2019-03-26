@@ -76,7 +76,6 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       buffer_duration_nanosec_(1 * kNsecPerSec),
       buffer_min_fill_(33),
       buffering_(false),
-      mono_playback_(false),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -152,10 +151,6 @@ void GstEnginePipeline::set_buffer_duration_nanosec(qint64 buffer_duration_nanos
 
 void GstEnginePipeline::set_buffer_min_fill(int percent) {
   buffer_min_fill_ = percent;
-}
-
-void GstEnginePipeline::set_mono_playback(bool enabled) {
-  mono_playback_ = enabled;
 }
 
 bool GstEnginePipeline::InitDecodeBin(GstElement *decode_bin) {

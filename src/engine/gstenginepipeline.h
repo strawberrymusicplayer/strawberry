@@ -72,7 +72,6 @@ class GstEnginePipeline : public QObject {
   void set_replaygain(bool enabled, int mode, float preamp, bool compression);
   void set_buffer_duration_nanosec(qint64 duration_nanosec);
   void set_buffer_min_fill(int percent);
-  void set_mono_playback(bool enabled);
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QByteArray &media_url, const QUrl original_url, qint64 end_nanosec);
@@ -210,8 +209,6 @@ signals:
   quint64 buffer_duration_nanosec_;
   int buffer_min_fill_;
   bool buffering_;
-
-  bool mono_playback_;
 
   // These get called when there is a new audio buffer available
   QList<GstBufferConsumer*> buffer_consumers_;

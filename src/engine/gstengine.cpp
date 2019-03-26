@@ -807,7 +807,6 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);
-  ret->set_mono_playback(mono_playback_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

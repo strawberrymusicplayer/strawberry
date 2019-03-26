@@ -48,7 +48,6 @@ Engine::Base::Base()
       rg_compression_(true),
       buffer_duration_nanosec_(4000),
       buffer_min_fill_(33),
-      mono_playback_(false),
       fadeout_enabled_(true),
       crossfade_enabled_(true),
       autocrossfade_enabled_(false),
@@ -122,8 +121,6 @@ void Engine::Base::ReloadSettings() {
   fadeout_duration_nanosec_ = (fadeout_duration_ * kNsecPerMsec);
   fadeout_pause_duration_ = s.value("FadeoutPauseDuration", 250).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
-
-  mono_playback_ = s.value("monoplayback", false).toBool();
 
   s.endGroup();
 

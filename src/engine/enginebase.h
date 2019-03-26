@@ -188,8 +188,6 @@ signals:
   quint64 buffer_duration_nanosec_;
   int buffer_min_fill_;
 
-  bool mono_playback_;
-
   // Fadeout
   bool fadeout_enabled_;
   bool crossfade_enabled_;
