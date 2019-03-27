@@ -120,7 +120,7 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_lastfm_login" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="layout_lastfm_login">
          <item>
           <layout class="QHBoxLayout" name="layout_lastfm_button_login">
            <item>
@@ -163,7 +163,7 @@
      <property name="title">
       <string>Libre.fm</string>
      </property>
-     <layout class="QVBoxLayout" name="layout_lastfm_3">
+     <layout class="QVBoxLayout" name="layout_librefm">
       <item>
        <widget class="QCheckBox" name="checkbox_librefm_enable">
         <property name="text">
@@ -176,7 +176,7 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_librefm_login" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="layout_librefm_login">
          <item>
           <layout class="QHBoxLayout" name="layout_librefm_button_login">
            <item>
@@ -219,7 +219,7 @@
      <property name="title">
       <string>Listenbrainz</string>
      </property>
-     <layout class="QVBoxLayout" name="layout_lastfm_4">
+     <layout class="QVBoxLayout" name="layout_listenbrainz">
       <item>
        <widget class="QCheckBox" name="checkbox_listenbrainz_enable">
         <property name="text">
@@ -259,7 +259,7 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_listenbrainz_login" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="layout_listenbrainz_login">
          <item>
           <layout class="QHBoxLayout" name="layout_listenbrainz_button_login">
            <item>
@@ -291,7 +291,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

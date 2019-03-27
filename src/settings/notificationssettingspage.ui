@@ -7,22 +7,29 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>668</height>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Notifications</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_notificationssettingspage">
    <item>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="label_info">
      <property name="text">
       <string>Strawberry can show a message when the track changes.</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_4">
+    <widget class="Line" name="line_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_notification_type">
      <property name="title">
       <string>Notification type</string>
      </property>
@@ -59,14 +66,21 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="notifications_general">
      <property name="title">
       <string>General settings</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <layout class="QVBoxLayout" name="layout_notifications_general">
       <item>
        <widget class="QWidget" name="notifications_options" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <layout class="QHBoxLayout" name="layout_notifications_options">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -144,13 +158,20 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="notifications_custom_text_group">
      <property name="title">
       <string>Custom message settings</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_26">
+     <layout class="QVBoxLayout" name="layout_notifications_custom_text_group">
       <item>
-       <widget class="QFrame" name="frame_2">
+       <widget class="QFrame" name="frame_custom_notifications">
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
@@ -235,14 +256,14 @@
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_19">
+          <widget class="QLabel" name="label_summary">
            <property name="text">
             <string>Summary</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_20">
+          <widget class="QLabel" name="label_body">
            <property name="text">
             <string>Body</string>
            </property>
@@ -272,11 +293,18 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="notifications_pretty_group">
      <property name="title">
       <string>Pretty OSD options</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
+     <layout class="QGridLayout" name="layout_notifications_pretty_group">
       <item row="0" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
@@ -342,7 +370,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer_3">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

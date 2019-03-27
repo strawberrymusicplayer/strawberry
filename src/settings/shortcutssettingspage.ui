@@ -17,10 +17,10 @@
    <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_globalshortcutssettingspage">
    <item>
     <widget class="QWidget" name="widget_gsd" native="true">
-     <layout class="QHBoxLayout" name="layout_gnome">
+     <layout class="QHBoxLayout" name="layout_gsd">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -148,7 +148,7 @@
    </item>
    <item>
     <widget class="QWidget" name="widget_macos" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="layout_macos">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -240,7 +240,7 @@
      <property name="title">
       <string>Shortcut for %1</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="layout_shortcut_options">
       <item>
        <widget class="QRadioButton" name="radio_none">
         <property name="enabled">

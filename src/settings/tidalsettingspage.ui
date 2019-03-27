@@ -7,17 +7,24 @@
     <x>0</x>
     <y>0</y>
     <width>715</width>
-    <height>547</height>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tidal</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_tidalsettingspage">
    <item>
     <widget class="QCheckBox" name="checkbox_enable">
      <property name="text">
       <string>Enable</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -32,7 +39,7 @@
      <property name="title">
       <string>Account details</string>
      </property>
-     <layout class="QFormLayout" name="formLayout">
+     <layout class="QFormLayout" name="layout_credential_group">
       <item row="0" column="0">
        <widget class="QLabel" name="label_username">
         <property name="text">
@@ -75,13 +82,20 @@
     <widget class="LoginStateWidget" name="login_state" native="true"/>
    </item>
    <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_preferences">
      <property name="title">
       <string>Preferences</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="layout_preferences">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_quality">
+       <layout class="QHBoxLayout" name="quality">
         <item>
          <widget class="QLabel" name="label_quality">
           <property name="minimumSize">
@@ -114,7 +128,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_searchdelay">
+       <layout class="QHBoxLayout" name="searchdelay">
         <item>
          <widget class="QLabel" name="label_searchdelay">
           <property name="minimumSize">
@@ -163,9 +177,9 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_artistssearchlimit">
+       <layout class="QHBoxLayout" name="artistssearchlimit">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_artistssearchlimit">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -191,7 +205,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2">
+         <spacer name="spacer_artistssearchlimit">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -206,7 +220,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_albumssearchlimit">
+       <layout class="QHBoxLayout" name="albumssearchlimit">
         <item>
          <widget class="QLabel" name="label_albumssearchlimit">
           <property name="minimumSize">
@@ -249,7 +263,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_songssearchlimit">
+       <layout class="QHBoxLayout" name="songssearchlimit">
         <item>
          <widget class="QLabel" name="label_songssearchlimit">
           <property name="minimumSize">
@@ -299,7 +313,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_coversize">
+       <layout class="QHBoxLayout" name="coversize">
         <item>
          <widget class="QLabel" name="label_coversize">
           <property name="minimumSize">
@@ -332,7 +346,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_streamurl">
+       <layout class="QHBoxLayout" name="streamurl">
         <item>
          <widget class="QLabel" name="label_streamurl">
           <property name="minimumSize">
@@ -381,7 +395,7 @@
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="layout_bottom">
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">

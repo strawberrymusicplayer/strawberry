@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Network Proxy</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_networkproxysettingsPage">
    <item>
     <widget class="QRadioButton" name="proxy_system">
      <property name="text">
@@ -43,12 +43,12 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="layout_proxy_manual_container">
       <property name="leftMargin">
        <number>24</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <layout class="QHBoxLayout" name="layout_proxy_selection">
         <item>
          <widget class="QComboBox" name="proxy_type">
           <item>
@@ -67,7 +67,7 @@
          <widget class="QLineEdit" name="proxy_hostname"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_15">
+         <widget class="QLabel" name="label_port">
           <property name="text">
            <string>Port</string>
           </property>
@@ -101,7 +101,7 @@
           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_16">
+          <widget class="QLabel" name="label_username">
            <property name="text">
             <string>Username</string>
            </property>
@@ -111,7 +111,7 @@
           <widget class="QLineEdit" name="proxy_username"/>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_17">
+          <widget class="QLabel" name="label_password">
            <property name="text">
             <string>Password</string>
            </property>
@@ -131,7 +131,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer_5">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

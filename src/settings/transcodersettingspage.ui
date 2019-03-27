@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Transcoding</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_transcodersettingspage">
    <item>
     <widget class="QLabel" name="label_top">
      <property name="text">
@@ -208,7 +208,7 @@
       <attribute name="title">
        <string>MP3</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_20">
+      <layout class="QVBoxLayout" name="layout_mp3">
        <property name="spacing">
         <number>0</number>
        </property>

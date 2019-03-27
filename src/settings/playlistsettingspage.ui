@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Playlist</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_playlistsettingspage">
    <item>
     <widget class="QCheckBox" name="checkbox_glowcurrenttrack">
      <property name="text">
@@ -53,11 +53,18 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_paths">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="layout_paths">
       <item>
        <widget class="QRadioButton" name="radiobutton_automaticpath">
         <property name="text">
@@ -93,11 +100,18 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_metadata">
      <property name="title">
       <string>Metadata</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_editmetadatainline">
+     <layout class="QVBoxLayout" name="layout_metadata">
       <item>
        <widget class="QCheckBox" name="checkbox_editmetadatainline">
         <property name="toolTip">

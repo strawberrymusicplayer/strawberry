@@ -293,8 +293,8 @@ void NotificationsSettingsPage::NotificationCustomTextChanged(bool enabled) {
   ui_->notifications_exp_chooser1->setEnabled(enabled);
   ui_->notifications_exp_chooser2->setEnabled(enabled);
   ui_->notifications_preview->setEnabled(enabled);
-  ui_->label_19->setEnabled(enabled);
-  ui_->label_20->setEnabled(enabled);
+  ui_->label_summary->setEnabled(enabled);
+  ui_->label_body->setEnabled(enabled);
 
 }
 
