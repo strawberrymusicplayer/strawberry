@@ -70,7 +70,7 @@ const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
 
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
 const QRegExp OrganiseFormat::kValidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
-const QRegExp OrganiseFormat::kInvalidFatCharacters("[\"*\\:<>?|/]");
+const QRegExp OrganiseFormat::kInvalidFatCharacters("[\"*\\:<>?|/.]");
 
 const char OrganiseFormat::kInvalidPrefixCharacters[] = ".";
 const int OrganiseFormat::kInvalidPrefixCharactersCount = arraysize(OrganiseFormat::kInvalidPrefixCharacters) - 1;
