@@ -118,9 +118,13 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
   if (remove_non_fat_) {
     filename.replace(230, "ae");
     filename.replace(198, "AE");
+    filename.replace(246, 'o');
     filename.replace(248, 'o');
+    filename.replace(214, 'O');
     filename.replace(216, 'O');
+    filename.replace(228, 'a');
     filename.replace(229, 'a');
+    filename.replace(196, 'A');
     filename.replace(197, 'A');
     filename.remove(kValidFatCharacters);
   }
