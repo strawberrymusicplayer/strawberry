@@ -58,7 +58,6 @@
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
 #include "lyrics/auddlyricsprovider.h"
-#include "lyrics/apiseedslyricsprovider.h"
 
 #include "internet/internetservices.h"
 #include "internet/internetsearch.h"
@@ -117,7 +116,6 @@ class ApplicationImpl {
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
-          lyrics_providers->AddProvider(new APISeedsLyricsProvider(app));
           return lyrics_providers;
         }),
         internet_services_([=]() {

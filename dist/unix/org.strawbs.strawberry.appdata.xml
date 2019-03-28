@@ -9,13 +9,13 @@
     <binary>strawberry-tagreader</binary>
   </provides>
   <name>Strawberry Music Player</name>
-  <summary>An audio player and music collection organizer</summary>
+  <summary>A music player and collection organizer</summary>
   <url type="homepage">https://www.strawbs.org/</url>
   <url type="bugtracker">https://github.com/jonaski/strawberry/</url>
   ​<translation type="qt">strawberry</translation>
   <description>
     <p>
-      Strawberry is a audio player and music collection organizer.
+      Strawberry is a music player and music collection organizer.
       It is a fork of Clementine. The name is inspired by the band Strawbs.
     </p>
     <p>Features:</p>
@@ -29,7 +29,7 @@
       <li>Edit tags on music files</li>
       <li>Fetch tags from MusicBrainz</li>
       <li>Album cover art from Last.fm, Musicbrainz and Discogs</li>
-      <li>Song lyrics from AudD and API Seeds</li>
+      <li>Song lyrics from AudD</li>
       <li>Support for multiple backends</li>
       <li>Audio analyzer</li>
       <li>Audio equalizer</li>

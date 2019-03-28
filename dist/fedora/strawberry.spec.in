@@ -1,7 +1,7 @@
 Name:           strawberry
 Version:        @STRAWBERRY_VERSION_RPM_V@
 Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
-Summary:        A audio player and music collection organiser
+Summary:        A music player and collection organiser
 Group:          Applications/Multimedia
 License:        GPLv3+
 URL:            http://www.strawbs.org/
@@ -49,7 +49,7 @@ BuildRequires:  pkgconfig(libnotify)
 BuildRequires:  pkgconfig(libudf)
 
 %description
-Strawberry is a audio player and music collection organizer.
+Strawberry is a music player and collection organizer.
 It is a fork of Clementine. The name is inspired by the band Strawbs.
 
 Features:
@@ -62,7 +62,7 @@ Features:
   * Edit tags on music files
   * Fetch tags from MusicBrainz
   * Album cover art from Last.fm, Musicbrainz and Discogs
-  * Song lyrics from AudD and API Seeds
+  * Song lyrics from AudD
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer

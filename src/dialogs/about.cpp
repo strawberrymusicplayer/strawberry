@@ -102,7 +102,7 @@ QString About::MainHtml() const {
   ret = tr("<p>Version %1</p>").arg(QCoreApplication::applicationVersion());
 
   ret += "<p>";
-  ret += tr("Strawberry is a audio player and music collection organizer.<br />");
+  ret += tr("Strawberry is a music player and music collection organizer.<br />");
   ret += tr("It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.<br />");
   ret += tr("The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.");
   ret += "</p>";

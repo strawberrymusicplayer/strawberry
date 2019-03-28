@@ -2,7 +2,7 @@ name: strawberry
 version: '0.5.2+git'
 summary: music player and collection organizer
 description: |
-  Strawberry is a audio player and music collection organizer.
+  Strawberry is a music player and collection organizer.
   It is a fork of Clementine released in 2018 aimed at music collectors,
   audio enthusiasts and audiophiles
 

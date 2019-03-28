@@ -47,7 +47,7 @@ Depends: ${shlibs:Depends},
          gstreamer1.0-pulseaudio
 Homepage: http://www.strawbs.org/
 Description: Audio player and music collection organizer
- Strawberry is a audio player aimed at music collectors, audio enthusiasts and audiophiles.
+ Strawberry is a music player aimed at music collectors, audio enthusiasts and audiophiles.
  .
  Features:
   - Play and organize music
@@ -59,7 +59,7 @@ Description: Audio player and music collection organizer
   - Edit tags on music files
   - Fetch tags from MusicBrainz
   - Album cover art from Lastfm, Musicbrainz and Discogs
-  - Song lyrics from AudD and API Seeds
+  - Song lyrics from AudD
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
