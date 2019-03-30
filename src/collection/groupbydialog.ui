@@ -17,7 +17,7 @@
    <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="layout_groupbydialog">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
@@ -50,11 +50,6 @@
         </item>
         <item>
          <property name="text">
-          <string>Album</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Artist</string>
          </property>
         </item>
@@ -65,12 +60,17 @@
         </item>
         <item>
          <property name="text">
-          <string>Composer</string>
+          <string>Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>File type</string>
+          <string>Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Format</string>
          </property>
         </item>
         <item>
@@ -80,17 +80,12 @@
         </item>
         <item>
          <property name="text">
-          <string>Year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Original year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year</string>
          </property>
         </item>
         <item>
@@ -100,7 +95,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Bitrate</string>
+          <string>Year - Album</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Composer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Performer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Grouping</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>File type</string>
          </property>
         </item>
         <item>
@@ -115,17 +130,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Disc</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Performer</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Grouping</string>
+          <string>Bitrate</string>
          </property>
         </item>
        </widget>
@@ -146,11 +151,6 @@
         </item>
         <item>
          <property name="text">
-          <string>Album</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Artist</string>
          </property>
         </item>
@@ -161,12 +161,17 @@
         </item>
         <item>
          <property name="text">
-          <string>Composer</string>
+          <string>Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>File type</string>
+          <string>Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Format</string>
          </property>
         </item>
         <item>
@@ -176,17 +181,12 @@
         </item>
         <item>
          <property name="text">
-          <string>Year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Original year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year</string>
          </property>
         </item>
         <item>
@@ -196,7 +196,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Bitrate</string>
+          <string>Year - Album</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Composer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Performer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Grouping</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>File type</string>
          </property>
         </item>
         <item>
@@ -211,17 +231,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Disc</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Performer</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Grouping</string>
+          <string>Bitrate</string>
          </property>
         </item>
        </widget>
@@ -242,11 +252,6 @@
         </item>
         <item>
          <property name="text">
-          <string>Album</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Artist</string>
          </property>
         </item>
@@ -257,12 +262,17 @@
         </item>
         <item>
          <property name="text">
-          <string>Composer</string>
+          <string>Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>File type</string>
+          <string>Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Format</string>
          </property>
         </item>
         <item>
@@ -272,17 +282,12 @@
         </item>
         <item>
          <property name="text">
-          <string>Year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Original year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year</string>
          </property>
         </item>
         <item>
@@ -292,7 +297,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Bitrate</string>
+          <string>Year - Album</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Composer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Performer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Grouping</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>File type</string>
          </property>
         </item>
         <item>
@@ -307,17 +332,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Disc</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Performer</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Grouping</string>
+          <string>Bitrate</string>
          </property>
         </item>
        </widget>
@@ -326,7 +341,7 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

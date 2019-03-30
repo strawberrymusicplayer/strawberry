@@ -94,8 +94,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       playlist_icon_(IconLoader::Load("albums")),
       init_task_id_(-1),
       use_pretty_covers_(false),
-      show_dividers_(true)
-{
+      show_dividers_(true) {
 
   root_->lazy_loaded = true;
 
@@ -212,14 +211,14 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
         // Otherwise find the proper container at this level based on the item's key
         QString key;
         switch (type) {
-          case GroupBy_Album:       key = song.album(); break;
+          case GroupBy_AlbumArtist: key = song.effective_albumartist(); break;
           case GroupBy_Artist:      key = song.artist(); break;
+          case GroupBy_Album:       key = song.album(); break;
           case GroupBy_Composer:    key = song.composer(); break;
           case GroupBy_Performer:   key = song.performer(); break;
-          case GroupBy_Disc:        key = QString::number(song.disc()); break;
           case GroupBy_Grouping:    key = song.grouping(); break;
+          case GroupBy_Disc:        key = QString::number(song.disc()); break;
           case GroupBy_Genre:       key = song.genre(); break;
-          case GroupBy_AlbumArtist: key = song.effective_albumartist(); break;
           case GroupBy_Year:
             key = QString::number(qMax(0, song.year()));
 	    break;
@@ -233,16 +232,29 @@ void CollectionModel::SongsDiscovered(const SongList &songs) {
             key = PrettyYearAlbum(qMax(0, song.effective_originalyear()), song.album());
             break;
           case GroupBy_FileType:
-            key = song.filetype();
-            break;
-          case GroupBy_Bitrate:
-            key = song.bitrate();
+            key = QString::number(song.filetype());
             break;
           case GroupBy_Samplerate:
-            key = song.samplerate();
+            key = QString::number(song.samplerate());
             break;
           case GroupBy_Bitdepth:
-            key = song.bitdepth();
+            key = QString::number(song.bitdepth());
+            break;
+          case GroupBy_Bitrate:
+            key = QString::number(song.bitrate());
+            break;
+          case GroupBy_Format:
+            if (song.samplerate() <= 0) {
+              key = QString::number(song.filetype());
+            }
+            else {
+              if (song.bitdepth() <= 0) {
+                key = QString("%1 (%2)").arg(song.filetype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5));
+              }
+              else {
+                key = QString("%1 (%2/%3)").arg(song.filetype()).arg(QString::number(song.samplerate() / 1000.0, 'G', 5)).arg(song.bitdepth());
+              }
+            }
             break;
           case GroupBy_None:
             qLog(Error) << "GroupBy_None";
@@ -303,22 +315,23 @@ QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
   if (item->sort_text.isEmpty()) return QString();
 
   switch (type) {
-    case GroupBy_Album:
+    case GroupBy_AlbumArtist:
     case GroupBy_Artist:
+    case GroupBy_Album:
     case GroupBy_Composer:
     case GroupBy_Performer:
-    case GroupBy_Disc:
     case GroupBy_Grouping:
+    case GroupBy_Disc:
     case GroupBy_Genre:
-    case GroupBy_AlbumArtist:
+    case GroupBy_Format:
     case GroupBy_FileType: {
       QChar c = item->sort_text[0];
-    if (c.isDigit()) return "0";
-    if (c == ' ') return QString();
-      if (c.decompositionTag() != QChar::NoDecomposition)
-        return QChar(c.decomposition()[0]);
-      return c;
-    }
+      if (c.isDigit()) return "0";
+      if (c == ' ') return QString();
+        if (c.decompositionTag() != QChar::NoDecomposition)
+          return QChar(c.decomposition()[0]);
+        return c;
+      }
 
     case GroupBy_Year:
     case GroupBy_OriginalYear:
@@ -330,14 +343,14 @@ QString CollectionModel::DividerKey(GroupBy type, CollectionItem *item) const {
     case GroupBy_OriginalYearAlbum:
       return SortTextForNumber(item->metadata.effective_originalyear());
 
-    case GroupBy_Bitrate:
-      return SortTextForNumber(item->metadata.bitrate());
-
     case GroupBy_Samplerate:
       return SortTextForNumber(item->metadata.samplerate());
 
     case GroupBy_Bitdepth:
       return SortTextForNumber(item->metadata.bitdepth());
+
+    case GroupBy_Bitrate:
+      return SortTextForNumber(item->metadata.bitrate());
 
     case GroupBy_None:
       return QString();
@@ -361,6 +374,7 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
     case GroupBy_Genre:
     case GroupBy_AlbumArtist:
     case GroupBy_FileType:
+    case GroupBy_Format:
     if (key == "0") return "0-9";
       return key.toUpper();
 
@@ -374,15 +388,15 @@ QString CollectionModel::DividerDisplayText(GroupBy type, const QString &key) co
       if (key == "0000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
-    case GroupBy_Bitrate:
-      if (key == "000") return tr("Unknown");
-      return QString::number(key.toInt());  // To remove leading 0s
-
     case GroupBy_Samplerate:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
     case GroupBy_Bitdepth:
+      if (key == "000") return tr("Unknown");
+      return QString::number(key.toInt());  // To remove leading 0s
+
+    case GroupBy_Bitrate:
       if (key == "000") return tr("Unknown");
       return QString::number(key.toInt());  // To remove leading 0s
 
@@ -753,6 +767,7 @@ void CollectionModel::PostQuery(CollectionItem *parent, const CollectionModel::Q
 }
 
 void CollectionModel::LazyPopulate(CollectionItem *parent, bool signal) {
+
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
 
@@ -817,6 +832,9 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
 
   // Say what type of thing we want to get back from the database.
   switch (type) {
+    case GroupBy_AlbumArtist:
+      q->SetColumnSpec("DISTINCT effective_albumartist");
+      break;
     case GroupBy_Artist:
       q->SetColumnSpec("DISTINCT artist");
       break;
@@ -850,11 +868,8 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
     case GroupBy_Genre:
       q->SetColumnSpec("DISTINCT genre");
       break;
-    case GroupBy_AlbumArtist:
-      q->SetColumnSpec("DISTINCT effective_albumartist");
-      break;
-    case GroupBy_Bitrate:
-      q->SetColumnSpec("DISTINCT bitrate");
+    case GroupBy_FileType:
+      q->SetColumnSpec("DISTINCT filetype");
       break;
     case GroupBy_Samplerate:
       q->SetColumnSpec("DISTINCT samplerate");
@@ -862,11 +877,14 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
     case GroupBy_Bitdepth:
       q->SetColumnSpec("DISTINCT bitdepth");
       break;
+    case GroupBy_Bitrate:
+      q->SetColumnSpec("DISTINCT bitrate");
+      break;
+    case GroupBy_Format:
+      q->SetColumnSpec("DISTINCT filetype, samplerate, bitdepth");
+      break;
     case GroupBy_None:
       q->SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-      break;
-    case GroupBy_FileType:
-      q->SetColumnSpec("DISTINCT filetype");
       break;
   }
 
@@ -877,6 +895,15 @@ void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, Collection
   // Say how we want the query to be filtered.  This is done once for each parent going up the tree.
 
   switch (type) {
+    case GroupBy_AlbumArtist:
+      if (IsCompilationArtistNode(item))
+        q->AddCompilationRequirement(true);
+      else {
+        // Don't duplicate compilations outside the Various artists node
+        q->AddCompilationRequirement(false);
+        q->AddWhere("effective_albumartist", item->key);
+      }
+      break;
     case GroupBy_Artist:
       if (IsCompilationArtistNode(item))
         q->AddCompilationRequirement(true);
@@ -922,26 +949,22 @@ void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, Collection
     case GroupBy_Genre:
       q->AddWhere("genre", item->key);
       break;
-    case GroupBy_AlbumArtist:
-      if (IsCompilationArtistNode(item))
-        q->AddCompilationRequirement(true);
-      else {
-        // Don't duplicate compilations outside the Various artists node
-        q->AddCompilationRequirement(false);
-        q->AddWhere("effective_albumartist", item->key);
-      }
-      break;
     case GroupBy_FileType:
       q->AddWhere("filetype", item->metadata.filetype());
-      break;
-    case GroupBy_Bitrate:
-      q->AddWhere("bitrate", item->key);
       break;
     case GroupBy_Samplerate:
       q->AddWhere("samplerate", item->key);
       break;
     case GroupBy_Bitdepth:
       q->AddWhere("bitdepth", item->key);
+      break;
+    case GroupBy_Bitrate:
+      q->AddWhere("bitrate", item->key);
+      break;
+    case GroupBy_Format:
+      q->AddWhere("filetype", item->metadata.filetype());
+      q->AddWhere("samplerate", item->metadata.samplerate());
+      q->AddWhere("bitdepth", item->metadata.bitdepth());
       break;
     case GroupBy_None:
       qLog(Error) << "Unknown GroupBy type" << type << "used in filter";
@@ -968,84 +991,98 @@ CollectionItem *CollectionModel::InitItem(GroupBy type, bool signal, CollectionI
 CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const SqlRow &row, int container_level) {
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
-  int year(0), effective_originalyear(0), disc(0), bitrate(0), samplerate(0), bitdepth(0);
 
   switch (type) {
+    case GroupBy_AlbumArtist:
     case GroupBy_Artist:
+    case GroupBy_Album:
+    case GroupBy_Composer:
+    case GroupBy_Performer:
+    case GroupBy_Grouping:
+    case GroupBy_Genre:
       item->key = row.value(0).toString();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
       break;
 
-    case GroupBy_YearAlbum:
-      year = qMax(0, row.value(0).toInt());
+    case GroupBy_OriginalYear:{
+      int year = qMax(0, row.value(0).toInt());
+      item->key = QString::number(year);
+      item->sort_text = SortTextForNumber(year) + " ";
+      break;
+    }
+    case GroupBy_Year:{
+      int year = qMax(0, row.value(0).toInt());
+      item->key = QString::number(year);
+      item->sort_text = SortTextForNumber(year) + " ";
+      break;
+    }
+    case GroupBy_OriginalYearAlbum:{
+      item->metadata.set_year(row.value(0).toInt());
+      item->metadata.set_originalyear(row.value(1).toInt());
+      item->metadata.set_album(row.value(2).toString());
+      item->metadata.set_grouping(row.value(3).toString());
+      int effective_originalyear = qMax(0, item->metadata.effective_originalyear());
+      item->key = PrettyYearAlbum(effective_originalyear, item->metadata.album());
+      item->sort_text = SortTextForNumber(effective_originalyear) + item->metadata.grouping() + item->metadata.album();
+      break;
+    }
+    case GroupBy_YearAlbum:{
+      int year = qMax(0, row.value(0).toInt());
       item->metadata.set_year(row.value(0).toInt());
       item->metadata.set_album(row.value(1).toString());
       item->metadata.set_grouping(row.value(2).toString());
       item->key = PrettyYearAlbum(year, item->metadata.album());
       item->sort_text = SortTextForNumber(year) + item->metadata.grouping() + item->metadata.album();
       break;
+    }
 
-    case GroupBy_OriginalYearAlbum:
-      item->metadata.set_year(row.value(0).toInt());
-      item->metadata.set_originalyear(row.value(1).toInt());
-      item->metadata.set_album(row.value(2).toString());
-      item->metadata.set_grouping(row.value(3).toString());
-      effective_originalyear = qMax(0, item->metadata.effective_originalyear());
-      item->key = PrettyYearAlbum(effective_originalyear, item->metadata.album());
-      item->sort_text = SortTextForNumber(effective_originalyear) + item->metadata.grouping() + item->metadata.album();
+    case GroupBy_Format:{
+      item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
+      item->metadata.set_samplerate(row.value(1).toInt());
+      item->metadata.set_bitdepth(row.value(2).toInt());
+      if (item->metadata.samplerate() <= 0) {
+        item->key = item->metadata.TextForFiletype();
+      }
+      else {
+        if (item->metadata.bitdepth() <= 0) {
+          item->key = QString("%1 (%2)").arg(item->metadata.TextForFiletype()).arg(QString::number(item->metadata.samplerate() / 1000.0, 'G', 5));
+        }
+        else {
+          item->key = QString("%1 (%2/%3)").arg(item->metadata.TextForFiletype()).arg(QString::number(item->metadata.samplerate() / 1000.0, 'G', 5)).arg(QString::number(item->metadata.bitdepth()));
+        }
+      }
       break;
+    }
 
-    case GroupBy_Year:
-      year = qMax(0, row.value(0).toInt());
-      item->key = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + " ";
-      break;
-    case GroupBy_OriginalYear:
-      year = qMax(0, row.value(0).toInt());
-      item->key = QString::number(year);
-      item->sort_text = SortTextForNumber(year) + " ";
-      break;
-    case GroupBy_Composer:
-    case GroupBy_Performer:
-    case GroupBy_Grouping:
-    case GroupBy_Genre:
-    case GroupBy_Album:
-    case GroupBy_AlbumArtist:
-      item->key = row.value(0).toString();
-      item->display_text = TextOrUnknown(item->key);
-      item->sort_text = SortTextForArtist(item->key);
-      break;
-
-    case GroupBy_Disc:
-      disc = row.value(0).toInt();
+    case GroupBy_Disc:{
+      int disc = row.value(0).toInt();
       item->key = QString::number(disc);
       item->sort_text = SortTextForNumber(disc);
       break;
-
+    }
     case GroupBy_FileType:
       item->metadata.set_filetype(Song::FileType(row.value(0).toInt()));
       item->key = item->metadata.TextForFiletype();
       break;
-
-    case GroupBy_Bitrate:
-      bitrate = qMax(0, row.value(0).toInt());
-      item->key = QString::number(bitrate);
-      item->sort_text = SortTextForNumber(bitrate) + " ";
-      break;
-
-    case GroupBy_Samplerate:
-      samplerate = qMax(0, row.value(0).toInt());
+    case GroupBy_Samplerate:{
+      int samplerate = qMax(0, row.value(0).toInt());
       item->key = QString::number(samplerate);
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
-
-    case GroupBy_Bitdepth:
-      bitdepth = qMax(0, row.value(0).toInt());
+    }
+    case GroupBy_Bitdepth:{
+      int bitdepth = qMax(0, row.value(0).toInt());
       item->key = QString::number(bitdepth);
       item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
-
+    }
+    case GroupBy_Bitrate:{
+      int bitrate = qMax(0, row.value(0).toInt());
+      item->key = QString::number(bitrate);
+      item->sort_text = SortTextForNumber(bitrate) + " ";
+      break;
+    }
     case GroupBy_None:
       item->metadata.InitFromQuery(row, true);
       item->key = item->metadata.title();
@@ -1063,7 +1100,6 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
 CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const Song &s, int container_level) {
 
   CollectionItem *item = InitItem(type, signal, parent, container_level);
-  int year(0), originalyear(0), effective_originalyear(0), bitrate(0), samplerate(0), bitdepth(0);
 
   switch (type) {
     case GroupBy_Artist:
@@ -1072,37 +1108,37 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->sort_text = SortTextForArtist(item->key);
       break;
 
-    case GroupBy_YearAlbum:
-      year = qMax(0, s.year());
+    case GroupBy_YearAlbum:{
+      int year = qMax(0, s.year());
       item->metadata.set_year(year);
       item->metadata.set_album(s.album());
       item->key = PrettyYearAlbum(year, s.album());
       item->sort_text = SortTextForNumber(year) + s.grouping() + s.album();
       break;
-
-    case GroupBy_OriginalYearAlbum:
-      year = qMax(0, s.year());
-      originalyear = qMax(0, s.originalyear());
-      effective_originalyear = qMax(0, s.effective_originalyear());
+    }
+    case GroupBy_OriginalYearAlbum:{
+      int year = qMax(0, s.year());
+      int originalyear = qMax(0, s.originalyear());
+      int effective_originalyear = qMax(0, s.effective_originalyear());
       item->metadata.set_year(year);
       item->metadata.set_originalyear(originalyear);
       item->metadata.set_album(s.album());
       item->key = PrettyYearAlbum(effective_originalyear, s.album());
       item->sort_text = SortTextForNumber(effective_originalyear) + s.grouping() + s.album();
       break;
-
-    case GroupBy_Year:
-      year = qMax(0, s.year());
+    }
+    case GroupBy_Year:{
+      int year = qMax(0, s.year());
       item->key = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
-
-    case GroupBy_OriginalYear:
-      year = qMax(0, s.effective_originalyear());
+    }
+    case GroupBy_OriginalYear:{
+      int year = qMax(0, s.effective_originalyear());
       item->key = QString::number(year);
       item->sort_text = SortTextForNumber(year) + " ";
       break;
-
+    }
   case GroupBy_Composer:                            item->key = s.composer();
   case GroupBy_Performer:                           item->key = s.performer();
   case GroupBy_Grouping:                            item->key = s.grouping();
@@ -1123,24 +1159,41 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->key = s.TextForFiletype();
       break;
 
-    case GroupBy_Bitrate:
-      bitrate = qMax(0, s.bitrate());
+    case GroupBy_Bitrate:{
+      int bitrate = qMax(0, s.bitrate());
       item->key = QString::number(bitrate);
       item->sort_text = SortTextForNumber(bitrate) + " ";
       break;
-
-    case GroupBy_Samplerate:
-      samplerate = qMax(0, s.samplerate());
+    }
+    case GroupBy_Samplerate:{
+      int samplerate = qMax(0, s.samplerate());
       item->key = QString::number(samplerate);
       item->sort_text = SortTextForNumber(samplerate) + " ";
       break;
-
-    case GroupBy_Bitdepth:
-      bitdepth = qMax(0, s.bitdepth());
+    }
+    case GroupBy_Bitdepth:{
+      int bitdepth = qMax(0, s.bitdepth());
       item->key = QString::number(bitdepth);
       item->sort_text = SortTextForNumber(bitdepth) + " ";
       break;
-
+    }
+    case GroupBy_Format:{
+      item->metadata.set_filetype(s.filetype());
+      item->metadata.set_samplerate(s.samplerate());
+      item->metadata.set_bitdepth(s.bitdepth());
+      if (s.samplerate() <= 0) {
+        item->key = s.TextForFiletype();
+      }
+      else {
+        if (s.bitdepth() <= 0) {
+          item->key = QString("%1 (%2)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5));
+        }
+        else {
+          item->key = QString("%1 (%2/%3)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5)).arg(QString::number(s.bitdepth()));
+        }
+      }
+      break;
+    }
     case GroupBy_None:
       item->metadata = s;
       item->key = s.title();

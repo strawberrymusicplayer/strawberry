@@ -77,6 +77,9 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_None: {
       return tr("None");
     }
+    case CollectionModel::GroupBy_AlbumArtist: {
+      return tr("Album artist");
+    }
     case CollectionModel::GroupBy_Artist: {
       return tr("Artist");
     }
@@ -95,9 +98,6 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_Genre: {
       return tr("Genre");
     }
-    case CollectionModel::GroupBy_AlbumArtist: {
-      return tr("Album artist");
-    }
     case CollectionModel::GroupBy_FileType: {
       return tr("File type");
     }
@@ -107,14 +107,14 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_Grouping: {
       return tr("Grouping");
     }
-    case CollectionModel::GroupBy_Bitrate: {
-      return tr("Bitrate");
-    }
     case CollectionModel::GroupBy_Samplerate: {
       return tr("Sample rate");
     }
     case CollectionModel::GroupBy_Bitdepth: {
       return tr("Bit depth");
+    }
+    case CollectionModel::GroupBy_Bitrate: {
+      return tr("Bitrate");
     }
     case CollectionModel::GroupBy_Disc: {
       return tr("Disc");
@@ -124,6 +124,9 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     }
     case CollectionModel::GroupBy_OriginalYear: {
       return tr("Original year");
+    }
+    case CollectionModel::GroupBy_Format: {
+      return tr("Format");
     }
     default: { return tr("Unknown"); }
   }

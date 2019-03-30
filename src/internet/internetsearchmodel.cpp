@@ -45,7 +45,7 @@ InternetSearchModel::InternetSearchModel(InternetSearch *engine, QObject *parent
       album_icon_(IconLoader::Load("cdcase"))
       {
 
-  group_by_[0] = CollectionModel::GroupBy_Artist;
+  group_by_[0] = CollectionModel::GroupBy_AlbumArtist;
   group_by_[1] = CollectionModel::GroupBy_Album;
   group_by_[2] = CollectionModel::GroupBy_None;
 
@@ -198,6 +198,21 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 
     case CollectionModel::GroupBy_Bitdepth:
       display_text = QString(s.bitdepth(), 1);
+      sort_text = display_text;
+      break;
+
+    case CollectionModel::GroupBy_Format:
+      if (s.samplerate() <= 0) {
+        display_text = s.TextForFiletype();
+      }
+      else {
+        if (s.bitdepth() <= 0) {
+          display_text = QString("%1 (%2)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5));
+        }
+        else {
+          display_text = QString("%1 (%2/%3)").arg(s.TextForFiletype()).arg(QString::number(s.samplerate() / 1000.0, 'G', 5)).arg(QString::number(s.bitdepth()));
+        }
+      }
       sort_text = display_text;
       break;
 
