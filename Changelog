@@ -25,7 +25,7 @@ Unreleased:
     * Fixed handling of UNC paths in gstreamer engine
     * Added option to disable volume control
     * Removed Deezer support (SDK discontinued and streams are encrypted)
-    * Added Norwegian translations
+    * Added Norwegian and Spanish translations
     * Added setting to allow automatically saving album covers directly to album directory
     * Updated mimetypes
     * Added basic support for system and custom icons
@@ -38,6 +38,9 @@ Unreleased:
     * Improved Tidal search to handle duplicate albums
     * Notify collection backend about renamed files when organising files
     * Added more background image options
+    * Removed API Seeds lyrics provider (require payment)
+    * Added group by format
+    * Fixed gstreamer leaks
 
 Version 0.5.2:
 
