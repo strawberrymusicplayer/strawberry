@@ -199,14 +199,14 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       return;
     }
     else {
-      // See if there is Json data containing "userMessage" - then use that instead.
+      // See if there is Json data containing "status" and  "userMessage" - then use that instead.
       QByteArray data(reply->readAll());
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       QString failure_reason;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("userMessage")) {
+        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           int status = json_obj["status"].toInt();
           int sub_status = json_obj["subStatus"].toInt();
           QString user_message = json_obj["userMessage"].toString();
@@ -631,7 +631,7 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
 
   QString error;
 
-  QByteArray data = GetReplyData(reply, error, true);
+  QByteArray data = GetReplyData(reply, error, (artist_id == 0));
   if (data.isEmpty()) {
     AlbumsFinished(artist_id, offset_requested);
     return;
@@ -1066,7 +1066,7 @@ QString TidalService::LoginError(QString error, QVariant debug) {
   emit LoginFailure(error);
 
   for (QUrl url : queue_stream_url_) {
-    emit StreamURLFinished(url, url, Song::FileType_Stream,  error);
+    emit StreamURLFinished(url, url, Song::FileType_Stream, error);
   }
   queue_stream_url_.clear();
 
