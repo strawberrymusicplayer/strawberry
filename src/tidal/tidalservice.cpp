@@ -1067,6 +1067,8 @@ QString TidalService::LoginError(QString error, QVariant debug) {
   }
   queue_stream_url_.clear();
 
+  Error(error);
+
   return error;
 
 }
