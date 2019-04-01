@@ -374,9 +374,6 @@ QByteArray TidalService::GetReplyData(QNetworkReply *reply, QString &error, cons
           error = Error(failure_reason);
         }
       }
-      else if (reply->error() == QNetworkReply::ContentNotFoundError) { // Ignore this error
-        qLog(Error) << "Tidal:" << failure_reason;
-      }
       else { // Fail
         error = Error(failure_reason);
       }
