@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.5.3:
 
     * Changed default tagging to albumartist in organise dialog
     * Removed support for older taglib in tagreader
