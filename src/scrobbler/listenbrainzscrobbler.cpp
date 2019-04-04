@@ -331,7 +331,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   song_playing_ = song;
   timestamp_ = QDateTime::currentDateTime().toTime_t();
 
-  if (!song.is_metadata_good()) || !IsAuthenticated()) || app_->scrobbler()->IsOffline()) return;
+  if (!song.is_metadata_good() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
   QString album = song.album();
   album = album.remove(Song::kAlbumRemoveDisc);
