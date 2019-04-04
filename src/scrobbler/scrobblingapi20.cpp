@@ -381,7 +381,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   song_playing_ = song;
   timestamp_ = QDateTime::currentDateTime().toTime_t();
 
-  if (!IsAuthenticated() || !song.is_metadata_good()) return;
+  if (!IsAuthenticated() || !song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
   QString album = song.album();
   album = album.remove(Song::kAlbumRemoveDisc);
