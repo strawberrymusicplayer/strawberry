@@ -40,7 +40,7 @@
    <item>
     <widget class="QCheckBox" name="checkbox_offline">
      <property name="text">
-      <string>Enable offline mode</string>
+      <string>Work in offline mode (Only cache scrobbles)</string>
      </property>
     </widget>
    </item>
