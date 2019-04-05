@@ -3,8 +3,7 @@ execute_process(COMMAND env LC_ALL=C date "+%a, %-d %b %Y %H:%M:%S %z" OUTPUT_VA
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
 if (RPM_DISTRO)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/opensuse/strawberry.spec @ONLY)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/fedora/strawberry.spec @ONLY)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec @ONLY)
 endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog.in ${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD @ONLY)

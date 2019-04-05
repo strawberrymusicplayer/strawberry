@@ -1,0 +1,185 @@
+Name:           strawberry
+Version:        @STRAWBERRY_VERSION_RPM_V@
+Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
+Summary:        A music player and music collection organiser
+Group:          Applications/Multimedia
+License:        GPL-3.0+
+URL:            http://www.strawbs.org/
+Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%if 0%{?suse_version} && 0%{?suse_version} > 1325
+BuildRequires:  libboost_headers-devel
+%else
+BuildRequires:  boost-devel
+%endif
+BuildRequires:  cmake
+BuildRequires:  gcc-c++
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  make
+BuildRequires:  git
+BuildRequires:  gettext
+BuildRequires:  desktop-file-utils
+%if 0%{?suse_version}
+BuildRequires:  update-desktop-files
+%endif
+%if 0%{?suse_version}
+BuildRequires:  appstream-glib
+%else
+BuildRequires:  libappstream-glib
+%endif
+%if 0%{?suse_version} || 0%{?fedora_version}
+BuildRequires:  cmake(Qt5LinguistTools)
+%endif
+BuildRequires:  pkgconfig
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(gio-2.0)
+BuildRequires:  pkgconfig(gio-unix-2.0)
+BuildRequires:  pkgconfig(gthread-2.0)
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  pkgconfig(sqlite3)
+BuildRequires:  pkgconfig(taglib)
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:  pkgconfig(Qt5Concurrent)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5Sql)
+BuildRequires:  pkgconfig(Qt5X11Extras)
+BuildRequires:  pkgconfig(Qt5DBus)
+BuildRequires:  pkgconfig(gstreamer-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-audio-1.0)
+BuildRequires:  pkgconfig(gstreamer-base-1.0)
+BuildRequires:  pkgconfig(gstreamer-tag-1.0)
+%if 0%{?suse_version} || 0%{?fedora_version}
+BuildRequires:  pkgconfig(libchromaprint)
+%endif
+BuildRequires:  pkgconfig(libpulse)
+BuildRequires:  pkgconfig(libcdio)
+BuildRequires:  pkgconfig(libgpod-1.0)
+BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  pkgconfig(libnotify)
+BuildRequires:  pkgconfig(libudf)
+%if 0%{?suse_version} || 0%{?fedora_version}
+BuildRequires:  pkgconfig(libxine)
+BuildRequires:  pkgconfig(libvlc)
+%endif
+
+%if 0%{?suse_version}
+Requires:       libQt5Sql5-sqlite
+%endif
+
+%if 0%{?suse_version} && 0%{?suse_version} < 1500
+Requires(post): update-desktop-files
+Requires(post): gtk3-tools
+Requires(postun): update-desktop-files
+Requires(postun): gtk3-tools
+%endif
+
+%description
+Strawberry is a music player and music collection organizer.
+It is a fork of Clementine. The name is inspired by the band Strawbs.
+
+Features:
+  - Play and organize music
+  - Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
+  - Audio CD playback
+  - Native desktop notifications
+  - Playlists in multiple formats
+  - Advanced audio output and device configuration for bit-perfect playback on Linux
+  - Edit tags on music files
+  - Fetch tags from MusicBrainz
+  - Album cover art from Last.fm, Musicbrainz and Discogs
+  - Song lyrics from AudD
+  - Support for multiple backends
+  - Audio analyzer
+  - Audio equalizer
+  - Transfer music to iPod, iPhone, MTP or mass-storage USB player
+  - Streaming support for Tidal
+  - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+
+%prep
+%setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
+
+%build
+%if 0%{?suse_version}
+  %{cmake} .. -DUSE_INSTALL_PREFIX=OFF
+  make %{?_smp_mflags}
+%else
+  mkdir -p %{_target_platform}
+  pushd %{_target_platform}
+  %{cmake} ..
+  popd
+%endif
+
+%if ! 0%{?suse_version}
+  %make_build -C %{_target_platform}
+%endif
+
+%install
+%if 0%{?suse_version}
+  %cmake_install
+%else
+  %make_install DESTDIR=%{buildroot} -C %{_target_platform}
+%endif
+
+%if 0%{?suse_version}
+  %suse_update_desktop_file org.strawbs.strawberry Qt AudioVideo Audio Player
+%endif
+
+%if 0%{?suse_version} && 0%{?suse_version} < 1500
+  %post
+  %desktop_database_post
+  %icon_theme_cache_post
+
+  %postun
+  %desktop_database_postun
+  %icon_theme_cache_postun
+%endif
+
+%check
+desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawbs.strawberry.desktop
+%if 0%{?fedora_version}
+  appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawbs.strawberry.appdata.xml
+%else
+  %if 0%{?suse_version}
+    %if 0%{?suse_version} >= 1500
+      appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
+    %else
+      appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/org.strawbs.strawberry.appdata.xml
+    %endif
+  %else
+    appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
+  %endif
+%endif
+
+%files
+%defattr(-,root,root,-)
+%doc README.md Changelog
+%license COPYING
+%{_bindir}/strawberry
+%{_bindir}/strawberry-tagreader
+%{_datadir}/applications/*.desktop
+%{_datadir}/icons/hicolor/*/apps/strawberry.*
+%if 0%{?fedora_version}
+  %{_metainfodir}/*.appdata.xml
+%else
+  %if 0%{?suse_version}
+    %if 0%{?suse_version} >= 1500
+      %{_datadir}/metainfo/*.appdata.xml
+    %else
+      %{_datadir}/appdata/*.appdata.xml
+    %endif
+  %else
+    %{_datadir}/metainfo/*.appdata.xml
+  %endif
+%endif
+%{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{name}-tagreader.1.*
+
+%changelog
+* @RPM_DATE@ Jonas Kvinge <jonas@strawbs.net> - @STRAWBERRY_VERSION_RPM_V@
+- Version @STRAWBERRY_VERSION_PACKAGE@
