@@ -3,7 +3,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive")
 
 set(SOURCES
   core/closure.cpp

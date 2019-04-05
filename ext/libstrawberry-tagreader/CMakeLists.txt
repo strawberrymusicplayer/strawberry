@@ -5,7 +5,9 @@ include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_BINARY_DIR}/src)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive")
 
 set(MESSAGES
   tagreadermessages.proto
