@@ -26,9 +26,13 @@ BuildRequires:  update-desktop-files
 %if 0%{?suse_version}
 BuildRequires:  appstream-glib
 %else
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
 BuildRequires:  libappstream-glib
+%else
+BuildRequires:  appstream-util
 %endif
-%if 0%{?suse_version} || 0%{?fedora_version}
+%endif
+%if 0%{?suse_version} || 0%{?fedora_version} || 0%{?mageia}
 BuildRequires:  cmake(Qt5LinguistTools)
 %endif
 BuildRequires:  pkgconfig
@@ -54,7 +58,7 @@ BuildRequires:  pkgconfig(gstreamer-app-1.0)
 BuildRequires:  pkgconfig(gstreamer-audio-1.0)
 BuildRequires:  pkgconfig(gstreamer-base-1.0)
 BuildRequires:  pkgconfig(gstreamer-tag-1.0)
-%if 0%{?suse_version} || 0%{?fedora_version}
+%if ! 0%{?centos}
 BuildRequires:  pkgconfig(libchromaprint)
 %endif
 BuildRequires:  pkgconfig(libpulse)
@@ -105,9 +109,8 @@ Features:
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%if 0%{?suse_version}
-  %{cmake} .. -DUSE_INSTALL_PREFIX=OFF
-  make %{?_smp_mflags}
+%if 0%{?suse_version} || 0%{?mageia}
+  %{cmake} ..
 %else
   mkdir -p %{_target_platform}
   pushd %{_target_platform}
@@ -115,7 +118,13 @@ Features:
   popd
 %endif
 
-%if ! 0%{?suse_version}
+%if 0%{?suse_version} || 0%{?mageia}
+  %if 0%{?suse_version} && 0%{?suse_version} < 1500
+    make %{?_smp_mflags}
+  %else
+    %make_build
+  %endif
+%else
   %make_build -C %{_target_platform}
 %endif
 
@@ -123,7 +132,15 @@ Features:
 %if 0%{?suse_version}
   %cmake_install
 %else
-  %make_install DESTDIR=%{buildroot} -C %{_target_platform}
+  %if 0%{?mageia}
+    %make_install -C build
+  %else
+    %make_install -C %{_target_platform}
+  %endif
+%endif
+
+%if 0%{?suse_version} && 0%{?suse_version} < 1500
+rm -f %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
 %endif
 
 %if 0%{?suse_version}
@@ -131,13 +148,13 @@ Features:
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} < 1500
-  %post
-  %desktop_database_post
-  %icon_theme_cache_post
+%post
+%desktop_database_post
+%icon_theme_cache_post
 
-  %postun
-  %desktop_database_postun
-  %icon_theme_cache_postun
+%postun
+%desktop_database_postun
+%icon_theme_cache_postun
 %endif
 
 %check
@@ -145,13 +162,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawbs.strawberr
 %if 0%{?fedora_version}
   appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawbs.strawberry.appdata.xml
 %else
-  %if 0%{?suse_version}
-    %if 0%{?suse_version} >= 1500
-      appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
-    %else
-      appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/org.strawbs.strawberry.appdata.xml
-    %endif
-  %else
+  %if ! 0%{?suse_version} || ( 0%{?suse_version} && 0%{?suse_version} >= 1500 )
     appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
   %endif
 %endif
@@ -167,13 +178,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawbs.strawberr
 %if 0%{?fedora_version}
   %{_metainfodir}/*.appdata.xml
 %else
-  %if 0%{?suse_version}
-    %if 0%{?suse_version} >= 1500
-      %{_datadir}/metainfo/*.appdata.xml
-    %else
-      %{_datadir}/appdata/*.appdata.xml
-    %endif
-  %else
+  %if ! 0%{?suse_version} || ( 0%{?suse_version} && 0%{?suse_version} >= 1500 )
     %{_datadir}/metainfo/*.appdata.xml
   %endif
 %endif
