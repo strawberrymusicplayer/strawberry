@@ -41,7 +41,6 @@ AlsaDeviceFinder::AlsaDeviceFinder()
 QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
 
   QList<Device> ret;
-  int result = -1;
 
   snd_pcm_stream_name(SND_PCM_STREAM_PLAYBACK);
 
@@ -50,7 +49,7 @@ QList<DeviceFinder::Device> AlsaDeviceFinder::ListDevices() {
   snd_ctl_card_info_alloca(&cardinfo);
   while (true) {
 
-    result = snd_card_next(&card);
+    int result = snd_card_next(&card);
     if (result < 0) {
       qLog(Error) << "Unable to get soundcard:" << snd_strerror(result);
       break;

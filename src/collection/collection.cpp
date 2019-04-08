@@ -116,7 +116,7 @@ void SCollection::Stopped() {
   CurrentSongChanged(Song());
 }
 
-void SCollection::CurrentSongChanged(const Song &song) {
+void SCollection::CurrentSongChanged(const Song &song) {  // FIXME
 
   TagReaderReply *reply = nullptr;
 

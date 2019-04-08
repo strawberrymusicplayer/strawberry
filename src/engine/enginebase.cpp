@@ -52,6 +52,7 @@ Engine::Base::Base()
       crossfade_enabled_(true),
       autocrossfade_enabled_(false),
       crossfade_same_album_(false),
+      fadeout_pause_enabled_(false),
       fadeout_duration_(2),
       fadeout_duration_nanosec_(2 * kNsecPerSec),
       about_to_end_emitted_(false) {}

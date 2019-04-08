@@ -38,7 +38,7 @@ using namespace S3M;
 class S3M::File::FilePrivate
 {
 public:
-  FilePrivate(AudioProperties::ReadStyle propertiesStyle)
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
     : properties(propertiesStyle)
   {
   }

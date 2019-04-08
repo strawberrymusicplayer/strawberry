@@ -197,7 +197,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
   musicbrainz_client->deleteLater();
   SongList songs;
-  if (results.size() == 0) return;
+  if (results.empty()) return;
   int track_number = 1;
   for (const MusicBrainzClient::Result &ret : results) {
     Song song;

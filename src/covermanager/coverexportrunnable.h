@@ -55,7 +55,7 @@ signals:
 
   AlbumCoverExport::DialogResult dialog_result_;
   Song song_;
-  AlbumCoverExporter* album_cover_exporter_;
+
 };
 
 #endif  // COVEREXPORTRUNNABLE_H

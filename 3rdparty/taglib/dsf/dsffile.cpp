@@ -40,8 +40,10 @@ class DSF::File::FilePrivate
 {
 public:
   FilePrivate() :
-  properties(0),
-  tag(0)
+  fileSize(0),
+  metadataOffset(0),
+  properties(nullptr),
+  tag(nullptr)
   {
   }
 

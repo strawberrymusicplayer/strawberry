@@ -37,7 +37,9 @@
 
 #include "core/logging.h"
 
-DeviceLister::DeviceLister() : thread_(nullptr) {}
+DeviceLister::DeviceLister() :
+  thread_(nullptr),
+  next_mount_request_id_(0) {}
 
 DeviceLister::~DeviceLister() {
 

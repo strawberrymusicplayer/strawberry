@@ -55,17 +55,23 @@ StringList StringList::split(const String &s, const String &pattern)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-StringList::StringList() : List<String>()
+StringList::StringList() :
+  List<String>(),
+  d(nullptr)
 {
 
 }
 
-StringList::StringList(const StringList &l) : List<String>(l)
+StringList::StringList(const StringList &l) :
+  List<String>(l),
+  d(nullptr)
 {
 
 }
 
-StringList::StringList(const String &s) : List<String>()
+StringList::StringList(const String &s) :
+  List<String>(),
+  d(nullptr)
 {
   append(s);
 }

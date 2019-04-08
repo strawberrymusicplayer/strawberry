@@ -36,8 +36,10 @@
 
 const int DeviceDatabaseBackend::kDeviceSchemaVersion = 0;
 
-DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
-    : QObject(parent) {}
+DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
+    QObject(parent),
+    db_(nullptr)
+    {}
 
 void DeviceDatabaseBackend::Init(Database* db) { db_ = db; }
 

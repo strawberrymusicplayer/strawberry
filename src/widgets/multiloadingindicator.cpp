@@ -45,6 +45,7 @@ const int MultiLoadingIndicator::kSpacing = 6;
 
 MultiLoadingIndicator::MultiLoadingIndicator(QWidget *parent)
   : QWidget(parent),
+    task_manager_(nullptr),
     spinner_(new BusyIndicator(this))
 {
   spinner_->move(kHorizontalPadding, kVerticalPadding);

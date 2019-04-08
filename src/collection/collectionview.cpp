@@ -161,13 +161,10 @@ bool CollectionItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *vie
 
   switch (event->type()) {
     case QEvent::ToolTip: {
-      QRect displayed_text;
-      QSize real_text;
-      bool is_elided = false;
 
-      real_text = sizeHint(option, index);
-      displayed_text = view->visualRect(index);
-      is_elided = displayed_text.width() < real_text.width();
+      QSize real_text = sizeHint(option, index);
+      QRect displayed_text = view->visualRect(index);
+      bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);
@@ -361,7 +358,7 @@ void CollectionView::SetFilter(CollectionFilterWidget *filter) { filter_ = filte
 
 void CollectionView::TotalSongCountUpdated(int count) {
 
-  bool old = total_song_count_;
+  int old = total_song_count_;
   total_song_count_ = count;
   if (old != total_song_count_) update();
 
@@ -376,7 +373,7 @@ void CollectionView::TotalSongCountUpdated(int count) {
 
 void CollectionView::TotalArtistCountUpdated(int count) {
 
-  bool old = total_artist_count_;
+  int old = total_artist_count_;
   total_artist_count_ = count;
   if (old != total_artist_count_) update();
 
@@ -391,7 +388,7 @@ void CollectionView::TotalArtistCountUpdated(int count) {
 
 void CollectionView::TotalAlbumCountUpdated(int count) {
 
-  bool old = total_album_count_;
+  int old = total_album_count_;
   total_album_count_ = count;
   if (old != total_album_count_) update();
 

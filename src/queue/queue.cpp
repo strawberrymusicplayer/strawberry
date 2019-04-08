@@ -225,7 +225,7 @@ void Queue::UpdateTotalLength() {
 
   quint64 total = 0;
 
-  for (QPersistentModelIndex row : source_indexes_) {
+  for (const QPersistentModelIndex &row : source_indexes_) {
     int id = row.row();
 
     Q_ASSERT(playlist_->has_item_at(id));

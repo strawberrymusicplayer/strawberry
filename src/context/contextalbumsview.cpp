@@ -167,13 +167,10 @@ bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, 
 
   switch (event->type()) {
     case QEvent::ToolTip: {
-      QRect displayed_text;
-      QSize real_text;
-      bool is_elided = false;
 
-      real_text = sizeHint(option, index);
-      displayed_text = view->visualRect(index);
-      is_elided = displayed_text.width() < real_text.width();
+      QSize real_text = sizeHint(option, index);
+      QRect displayed_text = view->visualRect(index);
+      bool is_elided = displayed_text.width() < real_text.width();
 
       if (is_elided) {
         QToolTip::showText(he->globalPos(), text, view);

@@ -342,7 +342,7 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
 #ifdef Q_OS_MACOS
   ui_->notifications_options->setEnabled(pretty);
 #endif
-  ui_->notifications_duration->setEnabled(!pretty || (pretty && !ui_->notifications_disable_duration->isChecked()));
+  ui_->notifications_duration->setEnabled(!pretty || !ui_->notifications_disable_duration->isChecked());
   ui_->notifications_disable_duration->setEnabled(pretty);
 
 }

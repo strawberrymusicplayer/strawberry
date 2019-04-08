@@ -47,7 +47,7 @@ namespace
 class MPEG::File::FilePrivate
 {
 public:
-  FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) :
+  explicit FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) :
     ID3v2FrameFactory(frameFactory),
     ID3v2Location(-1),
     ID3v2OriginalSize(0),
@@ -87,7 +87,7 @@ namespace
   class AdapterFile : public TagLib::File
   {
   public:
-    AdapterFile(IOStream *stream) : File(stream) {}
+    explicit AdapterFile(IOStream *stream) : File(stream) {}
 
     Tag *tag() const { return 0; }
     AudioProperties *audioProperties() const { return 0; }

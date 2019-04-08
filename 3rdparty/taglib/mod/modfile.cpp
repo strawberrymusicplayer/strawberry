@@ -36,7 +36,7 @@ using namespace Mod;
 class Mod::File::FilePrivate
 {
 public:
-  FilePrivate(AudioProperties::ReadStyle propertiesStyle)
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
     : properties(propertiesStyle)
   {
   }

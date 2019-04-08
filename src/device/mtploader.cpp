@@ -36,7 +36,8 @@ MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBacke
       device_(device),
       url_(url),
       task_manager_(task_manager),
-      backend_(backend) {
+      backend_(backend),
+      connection_(nullptr) {
   original_thread_ = thread();
 }
 

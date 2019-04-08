@@ -291,12 +291,11 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
       data = reply->readAll();
       QJsonParseError error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-      int error_code = -1;
       QString error_reason;
       if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("code") && json_obj.contains("error")) {
-          error_code = json_obj["code"].toInt();
+          int error_code = json_obj["code"].toInt();
           QString error_message = json_obj["error"].toString();
           error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
         }

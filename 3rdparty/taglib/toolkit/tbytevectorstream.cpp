@@ -37,7 +37,7 @@ using namespace TagLib;
 class ByteVectorStream::ByteVectorStreamPrivate
 {
 public:
-  ByteVectorStreamPrivate(const ByteVector &data);
+  explicit ByteVectorStreamPrivate(const ByteVector &data);
 
   ByteVector data;
   long position;

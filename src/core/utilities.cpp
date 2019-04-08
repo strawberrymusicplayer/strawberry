@@ -263,7 +263,7 @@ bool RemoveRecursive(const QString &path) {
       return false;
   }
 
-  if (!dir.rmdir(path)) return false;
+  return dir.rmdir(path);
 
   return true;
 

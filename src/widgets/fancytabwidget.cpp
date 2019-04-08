@@ -420,7 +420,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   QColor baseColor = StyleHelper::baseColor();
 
   QRect backgroundRect = rect();
-  backgroundRect.setWidth(((FancyTabBar*)tabBar())->width());
+  backgroundRect.setWidth(tabBar()->width());
   p.fillRect(backgroundRect, baseColor);
 
   // Horizontal gradient over the sidebar from transparent to dark

@@ -34,7 +34,8 @@ class Tag::TagPrivate
 
 };
 
-Tag::Tag()
+Tag::Tag() :
+d(nullptr)
 {
 
 }
@@ -58,19 +59,19 @@ bool Tag::isEmpty() const
 PropertyMap Tag::properties() const
 {
   PropertyMap map;
-  if(!(title().isEmpty()))
+  if (!(title().isEmpty()))
     map["TITLE"].append(title());
-  if(!(artist().isEmpty()))
+  if (!(artist().isEmpty()))
     map["ARTIST"].append(artist());
-  if(!(album().isEmpty()))
+  if (!(album().isEmpty()))
     map["ALBUM"].append(album());
-  if(!(comment().isEmpty()))
+  if (!(comment().isEmpty()))
     map["COMMENT"].append(comment());
-  if(!(genre().isEmpty()))
+  if (!(genre().isEmpty()))
     map["GENRE"].append(genre());
-  if(!(year() == 0))
+  if (!(year() == 0))
     map["DATE"].append(String::number(year()));
-  if(!(track() == 0))
+  if (!(track() == 0))
     map["TRACKNUMBER"].append(String::number(track()));
   return map;
 }
@@ -85,40 +86,40 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps)
   properties.removeEmpty();
   StringList oneValueSet;
   // can this be simplified by using some preprocessor defines / function pointers?
-  if(properties.contains("TITLE")) {
+  if (properties.contains("TITLE")) {
     setTitle(properties["TITLE"].front());
     oneValueSet.append("TITLE");
   } else
     setTitle(String());
 
-  if(properties.contains("ARTIST")) {
+  if (properties.contains("ARTIST")) {
     setArtist(properties["ARTIST"].front());
     oneValueSet.append("ARTIST");
   } else
     setArtist(String());
 
-  if(properties.contains("ALBUM")) {
+  if (properties.contains("ALBUM")) {
     setAlbum(properties["ALBUM"].front());
     oneValueSet.append("ALBUM");
   } else
     setAlbum(String());
 
-  if(properties.contains("COMMENT")) {
+  if (properties.contains("COMMENT")) {
     setComment(properties["COMMENT"].front());
     oneValueSet.append("COMMENT");
   } else
     setComment(String());
 
-  if(properties.contains("GENRE")) {
+  if (properties.contains("GENRE")) {
     setGenre(properties["GENRE"].front());
     oneValueSet.append("GENRE");
   } else
     setGenre(String());
 
-  if(properties.contains("DATE")) {
+  if (properties.contains("DATE")) {
     bool ok;
     int date = properties["DATE"].front().toInt(&ok);
-    if(ok) {
+    if (ok) {
       setYear(date);
       oneValueSet.append("DATE");
     } else
@@ -127,10 +128,10 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps)
   else
     setYear(0);
 
-  if(properties.contains("TRACKNUMBER")) {
+  if (properties.contains("TRACKNUMBER")) {
     bool ok;
     int track = properties["TRACKNUMBER"].front().toInt(&ok);
-    if(ok) {
+    if (ok) {
       setTrack(track);
       oneValueSet.append("TRACKNUMBER");
     } else
@@ -142,7 +143,7 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps)
   // for each tag that has been set above, remove the first entry in the corresponding
   // value list. The others will be returned as unsupported by this format.
   for(StringList::ConstIterator it = oneValueSet.begin(); it != oneValueSet.end(); ++it) {
-    if(properties[*it].size() == 1)
+    if (properties[*it].size() == 1)
       properties.erase(*it);
     else
       properties[*it].erase( properties[*it].begin() );
@@ -152,7 +153,7 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps)
 
 void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
 {
-  if(overwrite) {
+  if (overwrite) {
     target->setTitle(source->title());
     target->setArtist(source->artist());
     target->setAlbum(source->album());
@@ -162,19 +163,19 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
     target->setTrack(source->track());
   }
   else {
-    if(target->title().isEmpty())
+    if (target->title().isEmpty())
       target->setTitle(source->title());
-    if(target->artist().isEmpty())
+    if (target->artist().isEmpty())
       target->setArtist(source->artist());
-    if(target->album().isEmpty())
+    if (target->album().isEmpty())
       target->setAlbum(source->album());
-    if(target->comment().isEmpty())
+    if (target->comment().isEmpty())
       target->setComment(source->comment());
-    if(target->genre().isEmpty())
+    if (target->genre().isEmpty())
       target->setGenre(source->genre());
-    if(target->year() <= 0)
+    if (target->year() == 0)
       target->setYear(source->year());
-    if(target->track() <= 0)
+    if (target->track() == 0)
       target->setTrack(source->track());
   }
 }

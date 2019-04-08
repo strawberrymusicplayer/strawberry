@@ -312,8 +312,8 @@ bool CommandlineOptions::is_empty() const {
          seek_to_ == -1 &&
          seek_by_ == 0 &&
          play_track_at_ == -1 &&
-         show_osd_ == false &&
-         toggle_pretty_osd_ == false &&
+         !show_osd_ &&
+         !toggle_pretty_osd_ &&
          urls_.isEmpty();
 }
 

@@ -217,12 +217,7 @@ void PlayingWidget::SetMode(int mode) {
 
   mode_ = Mode(mode);
 
-  if (mode_ == SmallSongDetails) {
-    fit_cover_width_action_->setEnabled(false);
-  }
-  else {
-    fit_cover_width_action_->setEnabled(true);
-  }
+  fit_cover_width_action_->setEnabled(mode_ != SmallSongDetails);
 
   UpdateHeight();
   UpdateDetailsText();

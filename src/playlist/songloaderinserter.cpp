@@ -38,6 +38,7 @@ SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBack
       row_(-1),
       play_now_(true),
       enqueue_(false),
+      enqueue_next_(false),
       collection_(collection),
       player_(player) {}
 

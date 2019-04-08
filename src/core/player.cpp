@@ -81,6 +81,8 @@ const char *Player::kSettingsGroup = "Player";
 Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
     app_(app),
+    analyzer_(nullptr),
+    equalizer_(nullptr),
     stream_change_type_(Engine::First),
     last_state_(Engine::Empty),
     nb_errors_received_(0),

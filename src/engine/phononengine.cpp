@@ -183,7 +183,6 @@ EngineBase::OutputDetailsList PhononEngine::GetOutputsList() const {
 bool PhononEngine::ValidOutput(const QString &output) {
 
   return (output == "auto" || output == "" || output == DefaultOutput());
-  return(false);
 
 }
 

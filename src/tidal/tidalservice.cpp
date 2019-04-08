@@ -641,7 +641,6 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
   }
 
   int limit = 0;
-  int offset = 0;
   int total_albums = 0;
   if (artist_search_) {  // This was a list of albums by artist
     if (!json_obj.contains("limit") ||
@@ -653,7 +652,7 @@ void TidalService::AlbumsReceived(QNetworkReply *reply, int search_id, int artis
       return;
     }
     limit = json_obj["limit"].toInt();
-    offset = json_obj["offset"].toInt();
+    int offset = json_obj["offset"].toInt();
     total_albums = json_obj["totalNumberOfItems"].toInt();
     if (offset != offset_requested) {
       AlbumsFinished(artist_id, offset_requested, total_albums, limit);

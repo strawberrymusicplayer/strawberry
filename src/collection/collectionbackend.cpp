@@ -49,9 +49,9 @@
 
 const char *CollectionBackend::kSettingsGroup = "Collection";
 
-CollectionBackend::CollectionBackend(QObject *parent)
-    : CollectionBackendInterface(parent)
-      {}
+CollectionBackend::CollectionBackend(QObject *parent) :
+    CollectionBackendInterface(parent),
+    db_(nullptr) {}
 
 void CollectionBackend::Init(Database *db, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
   db_ = db;
@@ -1095,7 +1095,6 @@ void CollectionBackend::IncrementPlayCount(int id) {
 void CollectionBackend::IncrementSkipCount(int id, float progress) {
 
   if (id == -1) return;
-  progress = qBound(0.0f, progress, 1.0f);
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());

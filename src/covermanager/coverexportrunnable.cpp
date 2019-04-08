@@ -31,8 +31,9 @@
 #include "core/tagreaderclient.h"
 #include "coverexportrunnable.h"
 
-CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song)
-    : dialog_result_(dialog_result), song_(song) {}
+CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song) :
+    dialog_result_(dialog_result),
+    song_(song) {}
 
 void CoverExportRunnable::run() {
 

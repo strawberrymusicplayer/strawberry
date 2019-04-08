@@ -36,7 +36,7 @@ using namespace IT;
 class IT::File::FilePrivate
 {
 public:
-  FilePrivate(AudioProperties::ReadStyle propertiesStyle)
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
     : tag(), properties(propertiesStyle)
   {
   }

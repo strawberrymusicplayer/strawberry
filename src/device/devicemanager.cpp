@@ -686,7 +686,7 @@ void DeviceManager::Forget(QModelIndex idx) {
   backend_->RemoveDevice(info->database_id_);
   info->database_id_ = -1;
 
-  if (!info->BestBackend() || (info->BestBackend() && !info->BestBackend()->lister_)) {  // It's not attached any more so remove it from the list
+  if (!info->BestBackend() || !info->BestBackend()->lister_) {  // It's not attached any more so remove it from the list
     beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
     devices_.removeAll(info);
     root_->Delete(info->row);

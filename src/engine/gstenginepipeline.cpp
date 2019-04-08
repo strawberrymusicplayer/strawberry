@@ -89,6 +89,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       next_uri_set_(false),
       volume_percent_(100),
       volume_modifier_(1.0),
+      use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
       queue_(nullptr),

@@ -50,6 +50,7 @@ class Ogg::File::FilePrivate
 {
 public:
   FilePrivate() :
+    streamSerialNumber(0),
     firstPageHeader(0),
     lastPageHeader(0)
   {

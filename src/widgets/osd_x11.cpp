@@ -160,7 +160,7 @@ void OSD::CallFinished(QDBusPendingCallWatcher *watcher) {
 
   std::unique_ptr<QDBusPendingCallWatcher> w(watcher);
 
-  QDBusPendingReply<uint> reply = *watcher;
+  QDBusPendingReply<uint> reply = *w.get();
   if (reply.isError()) {
     qLog(Warning) << "Error sending notification" << reply.error().name();
     return;

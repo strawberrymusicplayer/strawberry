@@ -411,14 +411,10 @@ bool PlaylistTabBar::event(QEvent *e) {
     case QEvent::ToolTip: {
       QHelpEvent *he = static_cast<QHelpEvent*>(e);
 
-      QRect displayed_tab;
-      QSize real_tab;
-      bool is_elided = false;
-
-      real_tab = tabSizeHint(tabAt(he->pos()));
-      displayed_tab = tabRect(tabAt(he->pos()));
+      QSize real_tab = tabSizeHint(tabAt(he->pos()));
+      QRect displayed_tab = tabRect(tabAt(he->pos()));
       // Check whether the tab is elided or not
-      is_elided = displayed_tab.width() < real_tab.width();
+      bool is_elided = displayed_tab.width() < real_tab.width();
       if (!is_elided) {
         // If it's not elided, don't show the tooltip
         QToolTip::hideText();

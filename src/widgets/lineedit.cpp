@@ -54,6 +54,7 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool dr
       draw_hint_(draw_hint),
       font_point_size_(widget->font().pointSizeF() - 1),
       is_rtl_(false) {
+
   clear_button_->setIcon(IconLoader::Load("edit-clear-locationbar-ltr"));
   clear_button_->setIconSize(QSize(16, 16));
   clear_button_->setCursor(Qt::ArrowCursor);
@@ -76,6 +77,7 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool dr
   widget->connect(clear_button_, SIGNAL(clicked()), widget, SLOT(setFocus()));
 
   UpdateButtonGeometry();
+
 }
 
 void ExtendedEditor::set_hint(const QString& hint) {

@@ -72,7 +72,7 @@ bool Application::kIsPortable = false;
 
 class ApplicationImpl {
  public:
-  ApplicationImpl(Application *app) :
+  explicit ApplicationImpl(Application *app) :
        tag_reader_client_([=]() {
           TagReaderClient *client = new TagReaderClient(app);
           app->MoveToNewThread(client);

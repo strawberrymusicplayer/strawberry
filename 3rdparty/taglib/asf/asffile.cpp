@@ -113,7 +113,7 @@ class ASF::File::FilePrivate::UnknownObject : public ASF::File::FilePrivate::Bas
 {
   ByteVector myGuid;
 public:
-  UnknownObject(const ByteVector &guid);
+  explicit UnknownObject(const ByteVector &guid);
   ByteVector guid() const;
 };
 

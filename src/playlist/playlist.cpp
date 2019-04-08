@@ -861,7 +861,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_n
   // exercise vetoes
   SongList songs;
 
-  for (PlaylistItemPtr item : items) {
+  for (const PlaylistItemPtr &item : items) {
     songs << item->Metadata();
   }
 
@@ -1432,13 +1432,11 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(int row, int count) {
   endRemoveRows();
 
   QList<int>::iterator it = virtual_items_.begin();
-  int i = 0;
   while (it != virtual_items_.end()) {
     if (*it >= items_.count())
       it = virtual_items_.erase(it);
     else
       ++it;
-    ++i;
   }
 
   // Reset current_virtual_index_
@@ -1738,7 +1736,7 @@ QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
 
 SongList Playlist::GetAllSongs() const {
   SongList ret;
-  for (PlaylistItemPtr item : items_) {
+  for (const PlaylistItemPtr &item : items_) {
     ret << item->Metadata();
   }
   return ret;
@@ -1748,7 +1746,7 @@ PlaylistItemList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
   quint64 ret = 0;
-  for (PlaylistItemPtr item : items_) {
+  for (const PlaylistItemPtr &item : items_) {
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }

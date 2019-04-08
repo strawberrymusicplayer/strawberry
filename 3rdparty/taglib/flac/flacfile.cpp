@@ -60,7 +60,7 @@ namespace
 class FLAC::File::FilePrivate
 {
 public:
-  FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) :
+  explicit FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) :
     ID3v2FrameFactory(frameFactory),
     ID3v2Location(-1),
     ID3v2OriginalSize(0),

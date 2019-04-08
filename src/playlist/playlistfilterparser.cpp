@@ -296,7 +296,8 @@ FilterTree *FilterParser::parseAndGroup() {
       break;
     }
     checkAnd();  // if there's no 'AND', we'll add the term anyway...
-  } while (iter_ != end_);
+  }
+  while (iter_ != end_);
   return group;
 }
 
@@ -304,13 +305,13 @@ bool FilterParser::checkAnd() {
   if (iter_ != end_) {
     if (*iter_ == QChar('A')) {
       buf_ += *iter_;
-      iter_++;
+      ++iter_;
       if (iter_ != end_ && *iter_ == QChar('N')) {
         buf_ += *iter_;
-        iter_++;
+        ++iter_;
         if (iter_ != end_ && *iter_ == QChar('D')) {
           buf_ += *iter_;
-          iter_++;
+          ++iter_;
           if (iter_ != end_ && (iter_->isSpace() || *iter_ == QChar('-') || *iter_ == '(')) {
             advance();
             buf_.clear();
@@ -337,10 +338,10 @@ bool FilterParser::checkOr(bool step_over) {
     if (iter_ != end_) {
       if (*iter_ == 'O') {
         buf_ += *iter_;
-        iter_++;
+        ++iter_;
         if (iter_ != end_ && *iter_ == 'R') {
           buf_ += *iter_;
-          iter_++;
+          ++iter_;
           if (iter_ != end_ && (iter_->isSpace() || *iter_ == '-' || *iter_ == '(')) {
             if (step_over) {
               buf_.clear();
@@ -359,7 +360,7 @@ FilterTree *FilterParser::parseSearchExpression() {
   advance();
   if (iter_ == end_) return new NopFilter;
   if (*iter_ == '(') {
-    iter_++;
+    ++iter_;
     advance();
     FilterTree *tree = parseOrGroup();
     advance();
@@ -375,7 +376,8 @@ FilterTree *FilterParser::parseSearchExpression() {
     FilterTree *tree = parseSearchExpression();
     if (tree->type() != FilterTree::Nop) return new NotFilter(tree);
     return tree;
-  } else {
+  }
+  else {
     return parseSearchTerm();
   }
 }
@@ -401,10 +403,10 @@ FilterTree *FilterParser::parseSearchTerm() {
         buf_.clear();
         prefix.clear();  // prefix isn't allowed here - let's ignore it
       }
-      else if (iter_->isSpace() || *iter_ == '(' || *iter_ == ')' ||
-                 *iter_ == '-') {
+      else if (iter_->isSpace() || *iter_ == '(' || *iter_ == ')' || *iter_ == '-') {
         break;
-      } else if (buf_.isEmpty()) {
+      }
+      else if (buf_.isEmpty()) {
         // we don't know whether there is a column part in this search term thus we assume the latter and just try and read a prefix
         if (prefix.isEmpty() && (*iter_ == '>' || *iter_ == '<' || *iter_ == '=' || *iter_ == '!')) {
           prefix += *iter_;
@@ -428,8 +430,8 @@ FilterTree *FilterParser::parseSearchTerm() {
   return createSearchTermTreeNode(col, prefix, search);
 }
 
-FilterTree *FilterParser::createSearchTermTreeNode(
-    const QString &col, const QString &prefix, const QString &search) const {
+FilterTree *FilterParser::createSearchTermTreeNode(const QString &col, const QString &prefix, const QString &search) const {
+
   if (search.isEmpty() && prefix != "=") {
     return new NopFilter;
   }

@@ -367,10 +367,10 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     output.name = plugin.name;
     output.description = plugin.description;
     if (plugin.name == kAutoSink) output.iconname = "soundcard";
-    else if ((plugin.name == kALSASink) || (plugin.name == kOSS4Sink) || (plugin.name == kOSS4Sink)) output.iconname = "alsa";
-    else if (plugin.name== kJackAudioSink) output.iconname = "jack";
+    else if (plugin.name == kALSASink || plugin.name == kOSS4Sink) output.iconname = "alsa";
+    else if (plugin.name == kJackAudioSink) output.iconname = "jack";
     else if (plugin.name == kPulseSink) output.iconname = "pulseaudio";
-    else if ((plugin.name == kA2DPSink) || (plugin.name == kAVDTPSink)) output.iconname = "bluetooth";
+    else if (plugin.name == kA2DPSink || plugin.name == kAVDTPSink) output.iconname = "bluetooth";
     else output.iconname = "soundcard";
     ret.append(output);
   }
