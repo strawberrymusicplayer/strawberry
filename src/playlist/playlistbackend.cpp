@@ -245,12 +245,13 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, std::share
 
       song_list = cue_parser.Load(&cue, cue_path, QDir(cue_path.section('/', 0, -2)));
       state->cached_cues_[cue_path] = song_list;
-    } else {
+    }
+    else {
       song_list = state->cached_cues_[cue_path];
     }
   }
 
-  for (const Song& from_list : song_list) {
+  for (const Song &from_list : song_list) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
       // we found a matching section; replace the input item with a new one containing CUE metadata
       return PlaylistItemPtr(new SongPlaylistItem(from_list));

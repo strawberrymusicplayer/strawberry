@@ -36,7 +36,7 @@ class SqlRow;
 
 class CollectionPlaylistItem : public PlaylistItem {
  public:
-  CollectionPlaylistItem(const Song::Source &source);
+  CollectionPlaylistItem();
   CollectionPlaylistItem(const Song &song);
 
   bool InitFromQuery(const SqlRow &query);
@@ -51,6 +51,7 @@ class CollectionPlaylistItem : public PlaylistItem {
 
  protected:
   QVariant DatabaseValue(DatabaseColumn column) const;
+  Song DatabaseSongMetadata() const { return Song(Song::Source_Collection); }
 
  protected:
   Song song_;

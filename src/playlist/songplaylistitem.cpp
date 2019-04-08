@@ -30,9 +30,7 @@
 #include "songplaylistitem.h"
 
 SongPlaylistItem::SongPlaylistItem(const Song::Source &source) : PlaylistItem(source) {}
-
-SongPlaylistItem::SongPlaylistItem(const Song &song)
-    : PlaylistItem(Song::Source_LocalFile), song_(song) {}
+SongPlaylistItem::SongPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
 
 bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   song_.InitFromQuery(query, false, (Song::kColumns.count()+1));

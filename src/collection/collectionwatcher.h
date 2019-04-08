@@ -46,7 +46,7 @@ class CollectionWatcher : public QObject {
   Q_OBJECT
 
  public:
-  CollectionWatcher(QObject *parent = nullptr);
+  CollectionWatcher(Song::Source source, QObject *parent = nullptr);
 
   void set_backend(CollectionBackend *backend) { backend_ = backend; }
   void set_task_manager(TaskManager *task_manager) { task_manager_ = task_manager; }
@@ -162,6 +162,7 @@ signals:
   SongList ScanNewFile(const QString &file, const QString &path, const QString &matching_cue, QSet<QString> *cues_processed);
 
  private:
+  Song::Source source_;
   CollectionBackend *backend_;
   TaskManager *task_manager_;
   QString device_name_;

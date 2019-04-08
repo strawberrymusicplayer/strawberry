@@ -66,33 +66,6 @@ class Song {
 
  public:
 
-  Song();
-  Song(const Song &other);
-  ~Song();
-
-  static const QStringList kColumns;
-  static const QString kColumnSpec;
-  static const QString kBindSpec;
-  static const QString kUpdateSpec;
-
-  static const QStringList kFtsColumns;
-  static const QString kFtsColumnSpec;
-  static const QString kFtsBindSpec;
-  static const QString kFtsUpdateSpec;
-
-  static const QString kManuallyUnsetCover;
-  static const QString kEmbeddedCover;
-
-  static const QRegExp kAlbumRemoveDisc;
-  static const QRegExp kAlbumRemoveMisc;
-  static const QRegExp kTitleRemoveMisc;
-  static const QRegExp kFilenameRemoveNonFatChars;
-
-  static QString JoinSpec(const QString &table);
-
-  // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
-  // If a new lossless file is added, also add it to IsFileLossless().
-
   enum Source {
     Source_Unknown = 0,
     Source_LocalFile = 1,
@@ -102,6 +75,9 @@ class Song {
     Source_Stream = 5,
     Source_Tidal = 6,
   };
+
+  // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
+  // If a new lossless file is added, also add it to IsFileLossless().
 
   enum FileType {
     FileType_Unknown = 0,
@@ -125,6 +101,30 @@ class Song {
     FileType_CDDA = 90,
     FileType_Stream = 91,
   };
+
+  Song(Song::Source source = Song::Source_Unknown);
+  Song(const Song &other);
+  ~Song();
+
+  static const QStringList kColumns;
+  static const QString kColumnSpec;
+  static const QString kBindSpec;
+  static const QString kUpdateSpec;
+
+  static const QStringList kFtsColumns;
+  static const QString kFtsColumnSpec;
+  static const QString kFtsBindSpec;
+  static const QString kFtsUpdateSpec;
+
+  static const QString kManuallyUnsetCover;
+  static const QString kEmbeddedCover;
+
+  static const QRegExp kAlbumRemoveDisc;
+  static const QRegExp kAlbumRemoveMisc;
+  static const QRegExp kTitleRemoveMisc;
+  static const QRegExp kFilenameRemoveNonFatChars;
+
+  static QString JoinSpec(const QString &table);
 
   static Source SourceFromURL(const QUrl &url);
   static QString TextForSource(Source source);

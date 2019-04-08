@@ -59,13 +59,14 @@
 
 namespace {
 static const char *kNoMediaFile = ".nomedia";
-static const char *kNoMusicFile   = ".nomusic";
+static const char *kNoMusicFile = ".nomusic";
 }
 
 QStringList CollectionWatcher::sValidImages;
 
-CollectionWatcher::CollectionWatcher(QObject *parent)
+CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
     : QObject(parent),
+      source_(source),
       backend_(nullptr),
       task_manager_(nullptr),
       fs_watcher_(FileSystemWatcherInterface::Create(this)),
@@ -387,7 +388,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       QString image = ImageForSong(file, album_art);
 
       for (Song song : song_list) {
-        song.set_source(Song::Source_Collection);
+        song.set_source(source_);
         song.set_directory_id(t->dir());
         if (song.art_automatic().isEmpty()) song.set_art_automatic(image);
         t->new_songs << song;
@@ -441,7 +442,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
   // Update every song that's in the cue and collection
   for (Song cue_song : cue_parser_->Load(&cue, matching_cue, path)) {
-    cue_song.set_source(Song::Source_Collection);
+    cue_song.set_source(source_);
     cue_song.set_directory_id(t->dir());
 
     Song matching = sections_map[cue_song.beginning_nanosec()];
@@ -477,7 +478,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const So
   }
 
   Song song_on_disk;
-  song_on_disk.set_source(Song::Source_Collection);
+  song_on_disk.set_source(source_);
   song_on_disk.set_directory_id(t->dir());
   TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
 

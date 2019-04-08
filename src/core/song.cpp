@@ -148,7 +148,7 @@ const QRegExp Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live|Remaster
 
 struct Song::Private : public QSharedData {
 
-  Private();
+  Private(Source source = Source_Unknown);
 
   bool valid_;
   int id_;
@@ -207,7 +207,7 @@ struct Song::Private : public QSharedData {
 
 };
 
-Song::Private::Private()
+Song::Private::Private(Song::Source source)
     : valid_(false),
       id_(-1),
       album_id_(-1),
@@ -223,7 +223,7 @@ Song::Private::Private()
       samplerate_(-1),
       bitdepth_(-1),
 
-      source_(Source_Unknown),
+      source_(source),
       directory_id_(-1),
       filetype_(FileType_Unknown),
       filesize_(-1),
@@ -244,10 +244,8 @@ Song::Private::Private()
 
       {}
 
-Song::Song() : d(new Private) {}
-
+Song::Song(Song::Source source) : d(new Private(source)) {}
 Song::Song(const Song &other) : d(other.d) {}
-
 Song::~Song() {}
 
 Song &Song::operator=(const Song &other) {
@@ -590,6 +588,8 @@ QString Song::Decode(const QString &tag, const QTextCodec *codec) {
 
 void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
 
+  if (d->source_ == Source_Unknown) d->source_ = Source_LocalFile;
+
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
   d->title_ = QStringFromStdString(pb.title());
@@ -611,7 +611,6 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   d->bitrate_ = pb.bitrate();
   d->samplerate_ = pb.samplerate();
   d->bitdepth_ = pb.bitdepth();
-  d->source_ = Source_LocalFile;
   set_url(QUrl::fromEncoded(QByteArray(pb.url().data(), pb.url().size())));
   d->basefilename_ = QStringFromStdString(pb.basefilename());
   d->filetype_ = static_cast<FileType>(pb.filetype());
@@ -678,7 +677,6 @@ void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
 
 void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
 
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   //qLog(Debug) << "Song::kColumns.size():" << Song::kColumns.size() << "q.columns_.size():" << q.columns_.size() << "col:" << col;
 
   int x = col;
@@ -691,6 +689,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       qLog(Error) << "Skipping" << Song::kColumns.value(i);
       break;
     }
+
     //qLog(Debug) << "Index:" << i << x << Song::kColumns.value(i) << q.value(x).toString();
 
     if (Song::kColumns.value(i) == "title") {

@@ -76,8 +76,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, qint64 beginning, cons
   const QUrl url = QUrl::fromLocalFile(filename);
 
   // Search in the collection
-  Song collection_song;
-  collection_song.set_source(Song::Source_Collection);
+  Song collection_song(Song::Source_Collection);
   if (collection_) {
     collection_song = collection_->GetSongByUrl(url, beginning);
   }

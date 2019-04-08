@@ -45,7 +45,7 @@ PlaylistItem::~PlaylistItem() {}
 PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
 
   switch (source) {
-    case Song::Source_Collection:  return new CollectionPlaylistItem(source);
+    case Song::Source_Collection:  return new CollectionPlaylistItem();
     case Song::Source_Tidal:
     case Song::Source_Stream:      return new InternetPlaylistItem(source);
     default:                       return new SongPlaylistItem(source);
@@ -65,7 +65,7 @@ PlaylistItem *PlaylistItem::NewFromSongsTable(const QString &table, const Song &
 
 void PlaylistItem::BindToQuery(QSqlQuery *query) const {
 
-  query->bindValue(":type", source());
+  query->bindValue(":type", source_);
   query->bindValue(":collection_id", DatabaseValue(Column_CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);

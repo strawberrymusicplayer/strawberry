@@ -213,7 +213,8 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
       if (song.is_valid()) {
         songs_ << song;
       }
-    } while (query.Next());
+    }
+    while (query.Next());
 
     return Success;
   }
@@ -337,7 +338,7 @@ void SongLoader::LoadLocalDirectory(const QString &filename) {
 }
 
 void SongLoader::AddAsRawStream() {
-  Song song;
+  Song song(Song::Source_Stream);
   song.set_valid(true);
   song.set_filetype(Song::FileType_Stream);
   song.set_url(url_);

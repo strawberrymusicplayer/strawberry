@@ -27,6 +27,7 @@
 
 #include "core/application.h"
 #include "core/logging.h"
+#include "core/song.h"
 
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -38,8 +39,10 @@
 class DeviceLister;
 
 FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-      : FilesystemMusicStorage(url.toLocalFile()), ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), watcher_(new CollectionWatcher), watcher_thread_(new QThread(this))
-{
+      : FilesystemMusicStorage(url.toLocalFile()),
+      ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
+      watcher_(new CollectionWatcher(Song::Source_Device)), watcher_thread_(new QThread(this))
+  {
 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);

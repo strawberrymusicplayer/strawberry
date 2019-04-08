@@ -32,6 +32,7 @@
 #include "core/tagreaderclient.h"
 #include "core/thread.h"
 #include "core/utilities.h"
+#include "core/song.h"
 #include "collection.h"
 #include "collectionwatcher.h"
 #include "collectionbackend.h"
@@ -51,7 +52,7 @@ SCollection::SCollection(Application *app, QObject *parent)
       watcher_(nullptr),
       watcher_thread_(nullptr) {
 
-  backend_ = new CollectionBackend;
+  backend_ = new CollectionBackend();
   backend()->moveToThread(app->database()->thread());
 
   backend_->Init(app->database(), kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
@@ -71,7 +72,7 @@ SCollection::~SCollection() {
 
 void SCollection::Init() {
 
-  watcher_ = new CollectionWatcher;
+  watcher_ = new CollectionWatcher(Song::Source_Collection);
   watcher_thread_ = new Thread(this);
   watcher_thread_->SetIoPriority(Utilities::IOPRIO_CLASS_IDLE);
 
