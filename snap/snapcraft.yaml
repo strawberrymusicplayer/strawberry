@@ -39,7 +39,9 @@ parts:
     plugin: cmake
     source-type: git
     source: https://github.com/jonaski/strawberry
-    after: [alsa-lib, desktop-qt5]
+    after:
+      - alsa-lib
+      - desktop-qt5
     override-build: |
       cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
       make -j $(getconf _NPROCESSORS_ONLN)
