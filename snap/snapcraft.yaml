@@ -12,6 +12,34 @@ base: core18
 
 parts:
 
+  desktop-qt5:
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    make-parameters:
+      - FLAVOR=qt5
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    stage-packages:
+      - libqt5gui5
+      - libqt5svg5
+      - libgdk-pixbuf2.0-0
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - gnome-themes-standard
+      - shared-mime-info
+      - adwaita-icon-theme
+      - oxygen-icon-theme
+      - breeze-icon-theme
+      - try: [appmenu-qt5]
+
   alsa-lib:
     plugin: autotools
     source: ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.5.tar.bz2
@@ -122,8 +150,6 @@ parts:
       - gstreamer1.0-plugins-bad
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-libav
-      - oxygen-icon-theme
-      - breeze-icon-theme
 
 apps:
   strawberry:
