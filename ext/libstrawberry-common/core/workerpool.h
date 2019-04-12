@@ -114,8 +114,7 @@ private:
 
   template <typename T>
   Worker *FindWorker(T Worker::*member, T value) {
-    for (typename QList<Worker>::iterator it = workers_.begin() ;
-         it != workers_.end() ; ++it) {
+    for (typename QList<Worker>::iterator it = workers_.begin() ; it != workers_.end() ; ++it) {
       if ((*it).*member == value) {
         return &(*it);
       }
@@ -158,8 +157,7 @@ template <typename HandlerType>
 WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   : _WorkerPoolBase(parent),
     next_worker_(0),
-    next_id_(0)
-{
+    next_id_(0) {
   worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 2);
   local_server_name_ = qApp->applicationName().toLower();
 
@@ -396,4 +394,3 @@ HandlerType *WorkerPool<HandlerType>::NextHandler() const {
 }
 
 #endif  // WORKERPOOL_H
-

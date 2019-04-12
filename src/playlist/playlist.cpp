@@ -861,7 +861,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_n
   // exercise vetoes
   SongList songs;
 
-  for (const PlaylistItemPtr &item : items) {
+  for (const PlaylistItemPtr item : items) {
     songs << item->Metadata();
   }
 
@@ -1736,7 +1736,7 @@ QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
 
 SongList Playlist::GetAllSongs() const {
   SongList ret;
-  for (const PlaylistItemPtr &item : items_) {
+  for (const PlaylistItemPtr item : items_) {
     ret << item->Metadata();
   }
   return ret;
@@ -1746,7 +1746,7 @@ PlaylistItemList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
   quint64 ret = 0;
-  for (const PlaylistItemPtr &item : items_) {
+  for (const PlaylistItemPtr item : items_) {
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }

@@ -37,8 +37,8 @@
 #define DataCommaSizeFromQString(x) x.toUtf8().constData(), x.toUtf8().length()
 
 // Reads and writes uint32 length encoded protobufs to a socket.
-// This base QObject is separate from AbstractMessageHandler because moc can't
-// handle templated classes.  Use AbstractMessageHandler instead.
+// This base QObject is separate from AbstractMessageHandler because moc can't handle templated classes.
+// Use AbstractMessageHandler instead.
 class _MessageHandlerBase : public QObject {
   Q_OBJECT
 
@@ -76,8 +76,7 @@ protected:
 };
 
 // Reads and writes uint32 length encoded MessageType messages to a socket.
-// You should subclass this and implement the MessageArrived(MessageType)
-// method.
+// You should subclass this and implement the MessageArrived(MessageType) method.
 template <typename MT>
 class AbstractMessageHandler : public _MessageHandlerBase {
 public:
@@ -87,21 +86,19 @@ public:
   typedef MT MessageType;
   typedef MessageReply<MT> ReplyType;
 
-  // Serialises the message and writes it to the socket.  This version MUST be
-  // called from the thread in which the AbstractMessageHandler was created.
+  // Serialises the message and writes it to the socket.
+  // This version MUST be called from the thread in which the AbstractMessageHandler was created.
   void SendMessage(const MessageType &message);
 
-  // Serialises the message and writes it to the socket.  This version may be
-  // called from any thread.
+  // Serialises the message and writes it to the socket.
+  // This version may be called from any thread.
   void SendMessageAsync(const MessageType &message);
 
   // Sends the request message inside and takes ownership of the MessageReply.
-  // The MessageReply's Finished() signal will be emitted when a reply arrives
-  // with the same ID.  Must be called from my thread.
+  // The MessageReply's Finished() signal will be emitted when a reply arrives with the same ID.  Must be called from my thread.
   void SendRequest(ReplyType *reply);
 
-  // Sets the "id" field of reply to the same as the request, and sends the
-  // reply on the socket.  Used on the worker side.
+  // Sets the "id" field of reply to the same as the request, and sends the reply on the socket.  Used on the worker side.
   void SendReply(const MessageType &request, MessageType *reply);
 
 protected:
@@ -131,8 +128,7 @@ void AbstractMessageHandler<MT>::SendMessage(const MessageType &message) {
 template <typename MT>
 void AbstractMessageHandler<MT>::SendMessageAsync(const MessageType &message) {
   std::string data = message.SerializeAsString();
-  metaObject()->invokeMethod(this, "WriteMessage", Qt::QueuedConnection,
-      Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
+  metaObject()->invokeMethod(this, "WriteMessage", Qt::QueuedConnection, Q_ARG(QByteArray, QByteArray(data.data(), data.size())));
 }
 
 template<typename MT>
@@ -159,7 +155,8 @@ bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
   if (reply) {
     // This is a reply to a message that we created earlier.
     reply->SetReply(message);
-  } else {
+  }
+  else {
     MessageArrived(message);
   }
 

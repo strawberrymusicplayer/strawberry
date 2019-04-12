@@ -265,8 +265,6 @@ bool RemoveRecursive(const QString &path) {
 
   return dir.rmdir(path);
 
-  return true;
-
 }
 
 bool CopyRecursive(const QString &source, const QString &destination) {

@@ -41,4 +41,4 @@ private:
   TagReader tag_reader_;
 };
 
-#endif // TAGREADERWORKER_H
+#endif  // TAGREADERWORKER_H
