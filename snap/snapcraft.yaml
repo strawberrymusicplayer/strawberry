@@ -133,12 +133,12 @@ apps:
     plugs:
       - system-observe
       - system-trace
-      - system-files
       - home
-      - dbus
       - udisks2
       - network
       - network-control
+      - network-manager
+      - network-bind
       - desktop
       - desktop-legacy
       - x11
@@ -155,4 +155,11 @@ apps:
       - unity7
     slots:
       - mpris
+
+  strawberry-tagreader:
+    command: strawberry-tagreader
+    plugs:
+      - network
+      - network-control
+      - network-manager
       - network-bind
