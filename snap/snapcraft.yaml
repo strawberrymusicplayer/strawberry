@@ -8,13 +8,38 @@ description: |
 
 grade: stable
 confinement: strict
+base: core18
 
 parts:
+
+  alsa-lib:
+    plugin: autotools
+    source: ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.5.tar.bz2
+    configflags:
+      - --prefix=/usr
+      - --sysconfdir=/etc
+      - --libexec=/usr/lib
+      - --libdir=/usr/lib
+      - --localstatedir=/var
+      - --with-configdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa
+      - --with-plugindir=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr/lib/alsa-lib
+      - --disable-static
+    stage:
+      - usr/include
+      - usr/lib
+    prime:
+      - -usr/bin
+      - -usr/include
+      - -usr/lib/pkgconfig
+      - -usr/share/alsa/alsa.conf
+      - -usr/share/alsa/pcm
+      - -usr/share/alsa/topology/broadwell
+
   strawberry:
     plugin: cmake
     source-type: git
     source: https://github.com/jonaski/strawberry
-    after: [desktop-qt5]
+    after: [alsa-lib, desktop-qt5]
     override-build: |
       cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
       make -j $(getconf _NPROCESSORS_ONLN)
@@ -69,6 +94,7 @@ parts:
       - libsqlite3-0
       - libgpm2
       - libasound2
+      - libasound2-plugins
       - libpulse0
       - libcdio13
       - libgpod4
@@ -102,6 +128,7 @@ apps:
     command: desktop-launch $SNAP/usr/bin/strawberry
     desktop: usr/share/applications/org.strawbs.strawberry.desktop
     environment:
+      ALSA_CONFIG_PATH: /snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa/alsa.conf
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
       - system-observe
