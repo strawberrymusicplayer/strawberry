@@ -110,7 +110,7 @@ parts:
     stage-packages:
       - libstdc++6
       - libgcc1
-      - libprotobuf9v5
+      - libprotobuf10
       - libpcre16-3
       - libqt5core5a
       - libqt5gui5
@@ -126,7 +126,7 @@ parts:
       - libasound2
       - libasound2-plugins
       - libpulse0
-      - libcdio13
+      - libcdio17
       - libgpod4
       - libmtp9
       - libimobiledevice6
@@ -134,9 +134,9 @@ parts:
       - libusbmuxd4
       - libxine2
       - libvlc5
-      - libvlccore8
+      - libvlccore9
       - libtag1v5
-      - libchromaprint0
+      - libchromaprint1
       - zlib1g
       - libx11-6
       - libdb5.3
