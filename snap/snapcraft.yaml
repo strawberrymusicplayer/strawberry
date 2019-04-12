@@ -15,6 +15,12 @@ parts:
     source-type: git
     source: https://github.com/jonaski/strawberry
     after: [desktop-qt5]
+    override-build: |
+      cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
+      make -j $(getconf _NPROCESSORS_ONLN)
+      make DESTDIR=$SNAPCRAFT_PART_INSTALL install
+      sed -i 's|Icon=strawberry|Icon=/usr/share/icons/hicolor/128x128/apps/strawberry\.png|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
+      sed -i 's|TryExec=.*|TryExec=/snap/bin/strawberry|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
 
     build-packages:
       - cmake
@@ -78,6 +84,7 @@ parts:
       - zlib1g
       - libx11-6
       - libdb5.3
+      - dbus-x11
       - libgstreamer1.0-0
       - libgstreamer-plugins-base1.0-0
       - gstreamer1.0-alsa
@@ -87,31 +94,38 @@ parts:
       - gstreamer1.0-plugins-bad
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-libav
+      - oxygen-icon-theme
+      - breeze-icon-theme
 
 apps:
   strawberry:
-    command: desktop-launch $SNAP/bin/strawberry
-    desktop: share/applications/org.strawbs.strawberry.desktop
+    command: desktop-launch $SNAP/usr/bin/strawberry
+    desktop: usr/share/applications/org.strawbs.strawberry.desktop
     environment:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
       - system-observe
       - system-trace
+      - system-files
       - home
       - dbus
-      - mpris
       - udisks2
       - network
-      - network-bind
+      - network-control
       - desktop
       - desktop-legacy
       - x11
       - wayland
       - alsa
       - pulseaudio
+      - mount-observe
+      - fuse-support
       - removable-media
       - optical-drive
       - raw-usb
       - media-hub
       - screen-inhibit-control
       - unity7
+    slots:
+      - mpris
+      - network-bind
