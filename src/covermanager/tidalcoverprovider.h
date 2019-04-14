@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DEEZERCOVERPROVIDER_H
-#define DEEZERCOVERPROVIDER_H
+#ifndef TIDALCOVERPROVIDER_H
+#define TIDALCOVERPROVIDER_H
 
 #include "config.h"
 
@@ -35,14 +35,17 @@
 #include <QJsonArray>
 
 #include "coverprovider.h"
+#include "tidal/tidalservice.h"
 
 class Application;
 
-class DeezerCoverProvider : public CoverProvider {
+class TidalCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit DeezerCoverProvider(Application *app, QObject *parent = nullptr);
+  explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
+  void SetService(TidalService *service);
+  void ReloadSettings();
   bool StartSearch(const QString &artist, const QString &album, int id);
   void CancelSearch(int id);
 
@@ -50,16 +53,31 @@ class DeezerCoverProvider : public CoverProvider {
   void HandleSearchReply(QNetworkReply *reply, int id);
 
  private:
+  typedef QPair<QString, QString> Param;
   static const char *kApiUrl;
+  static const char *kResourcesUrl;
+  static const char *kApiTokenB64;
   static const int kLimit;
 
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(QByteArray &data);
-  QJsonValue ExtractData(QByteArray &data);
-  void Error(QString error, QVariant debug = QVariant());
+  //QString username_;
+  //QString password_;
+  //QString session_id_;
+  //quint64 user_id_;
+  //QString country_code_;
 
+#if 0
+  void LoadSessionID();
+#endif
+  QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_supplied);
+  QByteArray GetReplyData(QNetworkReply *reply, QString &error);
+  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
+  QJsonValue ExtractItems(QByteArray &data, QString &error);
+  QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
+  QString Error(QString error, QVariant debug = QVariant());
+
+  TidalService *service_;
   QNetworkAccessManager *network_;
 
 };
 
-#endif  // DEEZERCOVERPROVIDER_H
+#endif  // TIDALCOVERPROVIDER_H

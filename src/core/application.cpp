@@ -55,6 +55,7 @@
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 #include "covermanager/deezercoverprovider.h"
+#include "covermanager/tidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
@@ -103,10 +104,11 @@ class ApplicationImpl {
         cover_providers_([=]() {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
-          cover_providers->AddProvider(new LastFmCoverProvider(app));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app));
-          cover_providers->AddProvider(new MusicbrainzCoverProvider(app));
-          cover_providers->AddProvider(new DeezerCoverProvider(app));
+          cover_providers->AddProvider(new LastFmCoverProvider(app, app));
+          cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
+          cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app));
+          cover_providers->AddProvider(new DeezerCoverProvider(app, app));
+          cover_providers->AddProvider(new TidalCoverProvider(app, app));
           return cover_providers;
         }),
         album_cover_loader_([=]() {

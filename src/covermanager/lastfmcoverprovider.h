@@ -36,11 +36,13 @@
 
 #include "coverprovider.h"
 
+class Application;
+
 class LastFmCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(QObject *parent = nullptr);
+  explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
   bool StartSearch(const QString &artist, const QString &album, int id);
 
  private slots:

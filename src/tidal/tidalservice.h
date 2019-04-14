@@ -62,6 +62,9 @@ class TidalService : public InternetService {
   const bool login_sent() { return login_sent_; }
   const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
 
+  QString session_id() { return session_id_; }
+  QString country_code() { return country_code_; }
+
   void GetStreamURL(const QUrl &url);
 
  signals:

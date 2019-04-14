@@ -37,6 +37,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/application.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/logging.h"
@@ -48,7 +49,7 @@ const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.o
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(QObject *parent): CoverProvider("MusicBrainz", true, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 

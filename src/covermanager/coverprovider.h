@@ -29,6 +29,7 @@
 #include <QList>
 #include <QString>
 
+class Application;
 struct CoverSearchResult;
 
 // Each implementation of this interface downloads covers from one online service.
@@ -36,8 +37,8 @@ struct CoverSearchResult;
 class CoverProvider : public QObject {
   Q_OBJECT
 
-public:
-  explicit CoverProvider(const QString &name, const bool &fetchall, QObject *parent);
+ public:
+  explicit CoverProvider(const QString &name, const bool &fetchall, Application *app, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
@@ -50,10 +51,11 @@ public:
 
   virtual void CancelSearch(int id) {}
 
-signals:
+ signals:
   void SearchFinished(int id, const QList<CoverSearchResult>& results);
 
-private:
+ private:
+  Application *app_;
   QString name_;
   bool fetchall_;
 

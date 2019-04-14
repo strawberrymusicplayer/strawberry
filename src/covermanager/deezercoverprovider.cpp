@@ -37,6 +37,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/application.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/logging.h"
@@ -47,7 +48,7 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(QObject *parent): CoverProvider("Deezer", true, parent), network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 

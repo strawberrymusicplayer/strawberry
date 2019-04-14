@@ -35,10 +35,12 @@
 #include "coverprovider.h"
 #include "albumcoverfetcher.h"
 
+class Application;
+
 class MusicbrainzCoverProvider : public CoverProvider {
   Q_OBJECT
  public:
-  explicit MusicbrainzCoverProvider(QObject *parent = nullptr);
+  explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, int id);
   void CancelSearch(int id);
