@@ -19,7 +19,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from Last.fm, Musicbrainz and Discogs
+  * Album cover art from Last.fm, Musicbrainz, Discogs and Deezer
   * Song lyrics from AudD
   * Support for multiple backends
   * Audio analyzer

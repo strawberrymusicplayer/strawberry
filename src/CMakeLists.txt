@@ -198,6 +198,7 @@ set(SOURCES
   covermanager/lastfmcoverprovider.cpp
   covermanager/musicbrainzcoverprovider.cpp
   covermanager/discogscoverprovider.cpp
+  covermanager/deezercoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
@@ -373,6 +374,7 @@ set(HEADERS
   covermanager/lastfmcoverprovider.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
+  covermanager/deezercoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h
