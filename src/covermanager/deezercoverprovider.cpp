@@ -57,7 +57,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   typedef QList<EncodedParam> EncodedParamList;
 
   Parameters params = Parameters() << Param("output", "json")
-                                   << Param("q", QString(album + " " + artist))
+                                   << Param("q", QString(artist + " " + album))
                                    << Param("limit", QString::number(kLimit));
 
   QUrlQuery url_query;

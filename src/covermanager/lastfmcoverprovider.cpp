@@ -56,7 +56,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   typedef QList<Param> ParamList;
 
   ParamList params = ParamList()
-    << Param("album", QString(album + " " + artist))
+    << Param("album", QString(artist + " " + album))
     << Param("api_key", kApiKey)
     << Param("lang", QLocale().name().left(2).toLower())
     << Param("method", "album.search");
