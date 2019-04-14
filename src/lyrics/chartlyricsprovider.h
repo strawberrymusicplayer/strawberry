@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef AUDDLYRICSPROVIDER_H
-#define AUDDLYRICSPROVIDER_H
+#ifndef CHARTLYRICSPROVIDER_H
+#define CHARTLYRICSPROVIDER_H
 
 #include "config.h"
 
@@ -34,11 +34,11 @@
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class AuddLyricsProvider : public LyricsProvider {
+class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit AuddLyricsProvider(QObject *parent = nullptr);
+  explicit ChartLyricsProvider(QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
   void CancelSearch(quint64 id);
@@ -48,13 +48,9 @@ class AuddLyricsProvider : public LyricsProvider {
 
  private:
   static const char *kUrlSearch;
-  static const char *kAPITokenB64;
   static const int kMaxLength;
   QNetworkAccessManager *network_;
   void Error(quint64 id, QString error, QVariant debug = QVariant());
-
-  QJsonObject ExtractJsonObj(QNetworkReply *reply, quint64 id);
-  QJsonArray ExtractResult(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
 
 };
 

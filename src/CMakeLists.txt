@@ -199,13 +199,13 @@ set(SOURCES
   covermanager/musicbrainzcoverprovider.cpp
   covermanager/discogscoverprovider.cpp
   covermanager/deezercoverprovider.cpp
-  covermanager/tidalcoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
   lyrics/auddlyricsprovider.cpp
+  lyrics/chartlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -376,13 +376,13 @@ set(HEADERS
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
   covermanager/deezercoverprovider.h
-  covermanager/tidalcoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h
   lyrics/lyricsfetcher.h
   lyrics/lyricsfetchersearch.h
   lyrics/auddlyricsprovider.h
+  lyrics/chartlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
@@ -863,15 +863,17 @@ optional_source(WIN32
     widgets/osd_win.cpp
 )
 
-optional_source(HAVE_STREAM_TIDAL
+optional_source(HAVE_TIDAL
   SOURCES
     tidal/tidalservice.cpp
     tidal/tidalurlhandler.cpp
     settings/tidalsettingspage.cpp
+    covermanager/tidalcoverprovider.cpp
   HEADERS
     tidal/tidalservice.h
     tidal/tidalurlhandler.h
     settings/tidalsettingspage.h
+    covermanager/tidalcoverprovider.h
   UI
     settings/tidalsettingspage.ui
 )

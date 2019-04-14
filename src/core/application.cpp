@@ -55,17 +55,18 @@
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
 #include "covermanager/deezercoverprovider.h"
-#include "covermanager/tidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
 #include "lyrics/auddlyricsprovider.h"
+#include "lyrics/chartlyricsprovider.h"
 
 #include "internet/internetservices.h"
 #include "internet/internetsearch.h"
 
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 #  include "tidal/tidalservice.h"
+#  include "covermanager/tidalcoverprovider.h"
 #endif
 
 #include "scrobbler/audioscrobbler.h"
@@ -108,7 +109,9 @@ class ApplicationImpl {
           cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app));
           cover_providers->AddProvider(new DeezerCoverProvider(app, app));
+#ifdef HAVE_TIDAL
           cover_providers->AddProvider(new TidalCoverProvider(app, app));
+#endif
           return cover_providers;
         }),
         album_cover_loader_([=]() {
@@ -120,16 +123,17 @@ class ApplicationImpl {
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
+          lyrics_providers->AddProvider(new ChartLyricsProvider(app));
           return lyrics_providers;
         }),
         internet_services_([=]() {
           InternetServices *internet_services = new InternetServices(app);
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
           internet_services->AddService(new TidalService(app, internet_services));
 #endif
           return internet_services;
         }),
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
 #endif
         scrobbler_([=]() { return new AudioScrobbler(app, app); })
@@ -152,7 +156,7 @@ class ApplicationImpl {
   Lazy<CurrentArtLoader> current_art_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetServices> internet_services_;
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   Lazy<InternetSearch> tidal_search_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
@@ -223,7 +227,7 @@ LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_provi
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
 #endif
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }

@@ -48,7 +48,7 @@
 #cmakedefine HAVE_XINE
 #cmakedefine HAVE_PHONON
 
-#cmakedefine HAVE_STREAM_TIDAL
+#cmakedefine HAVE_TIDAL
 
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H

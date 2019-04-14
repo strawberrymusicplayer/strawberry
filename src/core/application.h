@@ -93,7 +93,7 @@ class Application : public QObject {
   LyricsProviders *lyrics_providers() const;
 
   InternetServices *internet_services() const;
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   InternetSearch *tidal_search() const;
 #endif
 

@@ -343,7 +343,7 @@ optional_component(TRANSLATIONS ON "Translations"
   DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
 )
 
-optional_component(STREAM_TIDAL ON "Streaming: Tidal support")
+optional_component(TIDAL ON "Tidal support")
 
 if(APPLE)
   option(USE_BUNDLE "Bundle macOS dependencies" OFF)

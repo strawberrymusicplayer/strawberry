@@ -35,17 +35,15 @@
 #include <QJsonArray>
 
 #include "coverprovider.h"
-#include "tidal/tidalservice.h"
 
 class Application;
+class TidalService;
 
 class TidalCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
   explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
-  void SetService(TidalService *service);
-  void ReloadSettings();
   bool StartSearch(const QString &artist, const QString &album, int id);
   void CancelSearch(int id);
 

@@ -92,7 +92,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, con
 
   reply->deleteLater();
 
-  QJsonArray json_result = ExtractResult(reply, id);
+  QJsonArray json_result = ExtractResult(reply, id, artist, title);
   if (json_result.isEmpty()) {
     return;
   }
@@ -130,6 +130,9 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, quint64 id, con
 
     results << result;
   }
+
+  if (results.isEmpty()) qLog(Debug) << "AudDLyrics: No lyrics for" << artist << title;
+  else qLog(Debug) << "AudDLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
 
@@ -173,7 +176,7 @@ QJsonObject AuddLyricsProvider::ExtractJsonObj(QNetworkReply *reply, quint64 id)
 
 }
 
-QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 id) {
+QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
   QJsonObject json_obj = ExtractJsonObj(reply, id);
   if (json_obj.isEmpty()) return QJsonArray();
@@ -206,7 +209,7 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, quint64 id) {
 
   QJsonArray json_result = json_obj["result"].toArray();
   if (json_result.isEmpty()) {
-    Error(id, "No match.");
+    Error(id, QString("No lyrics for %1 %2").arg(artist).arg(title));
     return QJsonArray();
   }
 

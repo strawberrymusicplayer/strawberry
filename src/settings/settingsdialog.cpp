@@ -62,7 +62,7 @@
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
 #include "scrobblersettingspage.h"
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 #  include "tidalsettingspage.h"
 #endif
 
@@ -133,10 +133,10 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_STREAM_TIDAL)
+#if defined(HAVE_TIDAL)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
 #endif
 

@@ -133,7 +133,7 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/backendsettingspage.h"
 #include "settings/playlistsettingspage.h"
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 #  include "settings/tidalsettingspage.h"
 #endif
 
@@ -201,7 +201,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
       tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
       playlist_menu_(new QMenu(this)),
@@ -257,7 +257,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifndef Q_OS_WIN
   ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
 #endif
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 
@@ -535,7 +535,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->filter()->AddMenuAction(separator);
   collection_view_->filter()->AddMenuAction(collection_config_action);
 
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
@@ -837,7 +837,7 @@ void MainWindow::ReloadSettings() {
     }
   }
 
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   settings.beginGroup(TidalSettingsPage::kSettingsGroup);
   bool enable_tidal = settings.value("enabled", false).toBool();
   settings.endGroup();
@@ -862,7 +862,7 @@ void MainWindow::ReloadAllSettings() {
   ui_->playlist->view()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   tidal_search_view_->ReloadSettings();
 #endif
 
