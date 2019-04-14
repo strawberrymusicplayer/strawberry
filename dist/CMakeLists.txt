@@ -5,7 +5,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CUR
 if (RPM_DISTRO)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec @ONLY)
 endif()
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog.in ${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog)
+configure_file(${CMAKE_SOURCE_DIR}/debian/changelog.in ${CMAKE_SOURCE_DIR}/debian/changelog)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh)

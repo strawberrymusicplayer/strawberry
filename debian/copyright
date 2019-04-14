@@ -43,6 +43,10 @@ Files: src/core/main.h
        src/covermanager/lastfmcoverprovider.h
        src/covermanager/musicbrainzcoverprovider.cpp
        src/covermanager/musicbrainzcoverprovider.h
+       src/covermanager/tidalcoverprovider.cpp
+       src/covermanager/tidalcoverprovider.h
+       src/covermanager/deezercoverprovider.cpp
+       src/covermanager/deezercoverprovider.h
        src/globalshortcuts/globalshortcutbackend-system.cpp
        src/globalshortcuts/globalshortcutbackend-system.h
        src/globalshortcuts/globalshortcut.cpp

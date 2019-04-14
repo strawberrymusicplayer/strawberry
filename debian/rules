@@ -11,8 +11,7 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	cmake .. \
-	  -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/strawberry/usr \
-	  -DENABLE_TRANSLATIONS=ON
+	  -DCMAKE_INSTALL_PREFIX=$(CURDIR)/debian/strawberry/usr
 	touch configure-stamp
 
 build: build-stamp
