@@ -23,12 +23,8 @@
 #include <QByteArray>
 #include <QList>
 #include <QPair>
-#include <QMap>
-#include <QSet>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkAccessManager>

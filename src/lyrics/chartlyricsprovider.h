@@ -25,8 +25,7 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QHash>
-#include <QMetaType>
+#include <QVariant>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -54,5 +53,4 @@ class ChartLyricsProvider : public LyricsProvider {
 
 };
 
-#endif  // AUDDLYRICSPROVIDER_H
-
+#endif  // CHARTLYRICSPROVIDER_H
