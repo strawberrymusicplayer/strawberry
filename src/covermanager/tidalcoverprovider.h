@@ -59,15 +59,6 @@ class TidalCoverProvider : public CoverProvider {
   static const char *kApiTokenB64;
   static const int kLimit;
 
-  //QString username_;
-  //QString password_;
-  //QString session_id_;
-  //quint64 user_id_;
-  //QString country_code_;
-
-#if 0
-  void LoadSessionID();
-#endif
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_supplied);
   QByteArray GetReplyData(QNetworkReply *reply, QString &error);
   QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
