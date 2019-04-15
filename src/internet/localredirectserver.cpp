@@ -27,6 +27,7 @@
 #include <openssl/pem.h>
 
 #include <QApplication>
+#include <QIODevice>
 #include <QBuffer>
 #include <QFile>
 #include <QRegExp>
@@ -37,7 +38,10 @@
 #include <QAbstractSocket>
 #include <QTcpSocket>
 #include <QSslSocket>
-#include <QSslConfiguration>
+#include <QList>
+#include <QByteArray>
+#include <QString>
+#include <QUrl>
 
 #include "core/logging.h"
 #include "core/closure.h"
@@ -52,23 +56,15 @@ LocalRedirectServer::~LocalRedirectServer() {}
 
 bool LocalRedirectServer::GenerateCertificate() {
 
-  EVP_PKEY *pkey = nullptr;
-  RSA *rsa = nullptr;
-  X509 *x509 = nullptr;
-  X509_NAME *name = nullptr;
-  BIO *bp_public = nullptr, *bp_private = nullptr;
-  const char *buffer = nullptr;
-  long size = 0;
-
-  pkey = EVP_PKEY_new();
+  EVP_PKEY *pkey = EVP_PKEY_new();
   q_check_ptr(pkey);
 
-  rsa = RSA_generate_key(2048, RSA_F4, nullptr, nullptr);
+  RSA *rsa = RSA_generate_key(2048, RSA_F4, nullptr, nullptr);
   q_check_ptr(rsa);
 
   EVP_PKEY_assign_RSA(pkey, rsa);
 
-  x509 = X509_new();
+  X509 *x509 = X509_new();
   q_check_ptr(x509);
 
   ASN1_INTEGER_set(X509_get_serialNumber(x509), static_cast<uint64_t>(9999999 + qrand() % 1000000));
@@ -77,7 +73,7 @@ bool LocalRedirectServer::GenerateCertificate() {
   X509_gmtime_adj(X509_get_notAfter(x509), 31536000L);
   X509_set_pubkey(x509, pkey);
 
-  name = X509_get_subject_name(x509);
+  X509_NAME *name = X509_get_subject_name(x509);
   q_check_ptr(name);
 
   X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char *) "US", -1, -1, 0);
@@ -86,7 +82,7 @@ bool LocalRedirectServer::GenerateCertificate() {
   X509_set_issuer_name(x509, name);
   X509_sign(x509, pkey, EVP_sha1());
 
-  bp_private = BIO_new(BIO_s_mem());
+  BIO *bp_private = BIO_new(BIO_s_mem());
   q_check_ptr(bp_private);
 
   if (PEM_write_bio_PrivateKey(bp_private, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) {
@@ -97,7 +93,7 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  bp_public = BIO_new(BIO_s_mem());
+  BIO *bp_public = BIO_new(BIO_s_mem());
   q_check_ptr(bp_public);
 
   if (PEM_write_bio_X509(bp_public, x509) != 1) {
@@ -109,7 +105,9 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
-  size = BIO_get_mem_data(bp_public, &buffer);
+  const char *buffer;
+
+  long size = BIO_get_mem_data(bp_public, &buffer);
   q_check_ptr(buffer);
 
   QSslCertificate ssl_certificate(QByteArray(buffer, size));
