@@ -10,6 +10,7 @@ makedepends=(git cmake make gcc boost gettext qt5-tools)
 depends=(
   desktop-file-utils
   hicolor-icon-theme
+  openssl
   udisks2
   protobuf
   qt5-base
