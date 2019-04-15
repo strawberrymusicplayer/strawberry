@@ -121,12 +121,16 @@ void ListenBrainzScrobbler::Logout() {
 
 }
 
-void ListenBrainzScrobbler::Authenticate() {
+void ListenBrainzScrobbler::Authenticate(const bool https) {
 
   QUrl url(kAuthUrl);
 
-  LocalRedirectServer *server = new LocalRedirectServer(this);
-  server->Listen();
+  LocalRedirectServer *server = new LocalRedirectServer(https, this);
+  if (!server->Listen()) {
+    AuthError(server->error());
+    delete server;
+    return;
+  }
   NewClosure(server, SIGNAL(Finished()), this, &ListenBrainzScrobbler::RedirectArrived, server);
 
   QUrl redirect_url(kRedirectUrl);

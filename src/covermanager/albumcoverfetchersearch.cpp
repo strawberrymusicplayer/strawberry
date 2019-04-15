@@ -283,4 +283,3 @@ void AlbumCoverFetcherSearch::Cancel() {
   }
 
 }
-

@@ -2,6 +2,7 @@
  * This file was part of Clementine.
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,53 +21,225 @@
 
 #include "localredirectserver.h"
 
+#include <openssl/evp.h>
+#include <openssl/rsa.h>
+#include <openssl/x509.h>
+#include <openssl/pem.h>
+
 #include <QApplication>
 #include <QBuffer>
 #include <QFile>
 #include <QRegExp>
 #include <QStyle>
+#include <QSslKey>
+#include <QSslCertificate>
 #include <QTcpServer>
+#include <QAbstractSocket>
 #include <QTcpSocket>
+#include <QSslSocket>
+#include <QSslConfiguration>
 
+#include "core/logging.h"
 #include "core/closure.h"
 
-LocalRedirectServer::LocalRedirectServer(QObject* parent)
-    : QObject(parent), server_(new QTcpServer(this)) {}
+LocalRedirectServer::LocalRedirectServer(const bool https, QObject *parent)
+    : QTcpServer(parent),
+      https_(https),
+      socket_(nullptr)
+      {}
 
-void LocalRedirectServer::Listen() {
+LocalRedirectServer::~LocalRedirectServer() {}
 
-  server_->listen(QHostAddress::LocalHost);
-  // We have to calculate this and store it now as the server port is cleared once we close the socket.
-  url_.setScheme("http");
+bool LocalRedirectServer::GenerateCertificate() {
+
+  EVP_PKEY *pkey = nullptr;
+  RSA *rsa = nullptr;
+  X509 *x509 = nullptr;
+  X509_NAME *name = nullptr;
+  BIO *bp_public = nullptr, *bp_private = nullptr;
+  const char *buffer = nullptr;
+  long size = 0;
+
+  pkey = EVP_PKEY_new();
+  q_check_ptr(pkey);
+
+  rsa = RSA_generate_key(2048, RSA_F4, nullptr, nullptr);
+  q_check_ptr(rsa);
+
+  EVP_PKEY_assign_RSA(pkey, rsa);
+
+  x509 = X509_new();
+  q_check_ptr(x509);
+
+  ASN1_INTEGER_set(X509_get_serialNumber(x509), static_cast<uint64_t>(9999999 + qrand() % 1000000));
+
+  X509_gmtime_adj(X509_get_notBefore(x509), 0);
+  X509_gmtime_adj(X509_get_notAfter(x509), 31536000L);
+  X509_set_pubkey(x509, pkey);
+
+  name = X509_get_subject_name(x509);
+  q_check_ptr(name);
+
+  X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char *) "US", -1, -1, 0);
+  X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (unsigned char *) "Strawberry Music Player", -1, -1, 0);
+  X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char *) "localhost", -1, -1, 0);
+  X509_set_issuer_name(x509, name);
+  X509_sign(x509, pkey, EVP_sha1());
+
+  bp_private = BIO_new(BIO_s_mem());
+  q_check_ptr(bp_private);
+
+  if (PEM_write_bio_PrivateKey(bp_private, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) {
+    EVP_PKEY_free(pkey);
+    X509_free(x509);
+    BIO_free_all(bp_private);
+    error_ = "PEM_write_bio_PrivateKey() failed.";
+    return false;
+  }
+
+  bp_public = BIO_new(BIO_s_mem());
+  q_check_ptr(bp_public);
+
+  if (PEM_write_bio_X509(bp_public, x509) != 1) {
+    EVP_PKEY_free(pkey);
+    X509_free(x509);
+    BIO_free_all(bp_public);
+    BIO_free_all(bp_private);
+    error_ = "PEM_write_bio_X509() failed.";
+    return false;
+  }
+
+  size = BIO_get_mem_data(bp_public, &buffer);
+  q_check_ptr(buffer);
+
+  QSslCertificate ssl_certificate(QByteArray(buffer, size));
+  if (ssl_certificate.isNull()) {
+    error_ = "Failed to generate a random client certificate.";
+    return false;
+  }
+
+  size = BIO_get_mem_data(bp_private, &buffer);
+  q_check_ptr(buffer);
+
+  QSslKey ssl_key(QByteArray(buffer, size), QSsl::Rsa);
+  if (ssl_key.isNull()) {
+    error_ = "Failed to generate a random private key.";
+    return false;
+  }
+
+  EVP_PKEY_free(pkey);
+  X509_free(x509);
+  BIO_free_all(bp_public);
+  BIO_free_all(bp_private);
+
+  ssl_certificate_ = ssl_certificate;
+  ssl_key_ = ssl_key;
+
+  return true;
+
+}
+
+bool LocalRedirectServer::Listen() {
+
+  if (https_) {
+    if (!GenerateCertificate()) return false;
+  }
+  if (!listen(QHostAddress::LocalHost)) {
+    error_ = errorString();
+    return false;
+  }
+
+  if (https_) url_.setScheme("https");
+  else url_.setScheme("http");
   url_.setHost("localhost");
-  url_.setPort(server_->serverPort());
+  url_.setPort(serverPort());
   url_.setPath("/");
-  connect(server_, SIGNAL(newConnection()), SLOT(NewConnection()));
+  connect(this, SIGNAL(newConnection()), this, SLOT(NewConnection()));
+
+  return true;
 
 }
 
 void LocalRedirectServer::NewConnection() {
-  QTcpSocket* socket = server_->nextPendingConnection();
-  server_->close();
 
-  QByteArray buffer;
-  NewClosure(socket, SIGNAL(readyRead()), this, SLOT(ReadyRead(QTcpSocket*, QByteArray)), socket, buffer);
+  while (hasPendingConnections()) {
+    incomingConnection(nextPendingConnection()->socketDescriptor());
+  }
+
 }
 
-void LocalRedirectServer::ReadyRead(QTcpSocket* socket, QByteArray buffer) {
-  buffer.append(socket->readAll());
-  if (socket->atEnd() || buffer.endsWith("\r\n\r\n")) {
-    WriteTemplate(socket);
-    socket->deleteLater();
-    request_url_ = ParseUrlFromRequest(buffer);
+void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
+
+  if (socket_) {
+    if (socket_->state() == QAbstractSocket::ConnectedState) socket_->close();
+    socket_->deleteLater();
+    socket_ = nullptr;
+  }
+  buffer_.clear();
+
+  if (https_) {
+    QSslSocket *ssl_socket = new QSslSocket(this);
+    if (!ssl_socket->setSocketDescriptor(socket_descriptor)) {
+      delete ssl_socket;
+      error_ = "Unable to set socket descriptor";
+      emit Finished();
+      return;
+    }
+    ssl_socket->ignoreSslErrors({QSslError::SelfSignedCertificate});
+    ssl_socket->setPrivateKey(ssl_key_);
+    ssl_socket->setLocalCertificate(ssl_certificate_);
+    ssl_socket->setProtocol(QSsl::TlsV1_2);
+    ssl_socket->startServerEncryption();
+
+    connect(ssl_socket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(SSLErrors(QList<QSslError>)));
+    connect(ssl_socket, SIGNAL(encrypted()), this, SLOT(Encrypted(QSslSocket*)));
+
+    socket_ = ssl_socket;
+  }
+  else {
+    QTcpSocket *tcp_socket = new QTcpSocket(this);
+    if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
+      delete tcp_socket;
+      error_ = "Unable to set socket descriptor";
+      emit Finished();
+      return;
+    }
+    socket_ = tcp_socket;
+  }
+
+  connect(socket_, SIGNAL(connected()), this, SLOT(Connected()));
+  connect(socket_, SIGNAL(disconnected()), this, SLOT(Disconnected()));
+  connect(socket_, SIGNAL(readyRead()), this, SLOT(ReadyRead()));
+
+}
+
+void LocalRedirectServer::SSLErrors(const QList<QSslError> &errors) {}
+
+void LocalRedirectServer::Encrypted() {}
+
+void LocalRedirectServer::Connected() {}
+
+void LocalRedirectServer::Disconnected() {}
+
+void LocalRedirectServer::ReadyRead() {
+
+  buffer_.append(socket_->readAll());
+  if (socket_->atEnd() || buffer_.endsWith("\r\n\r\n")) {
+    WriteTemplate();
+    socket_->close();
+    socket_->deleteLater();
+    socket_ = nullptr;
+    request_url_ = ParseUrlFromRequest(buffer_);
+    close();
     emit Finished();
   }
   else {
-    NewClosure(socket, SIGNAL(readyRead()), this, SLOT(ReadyReady(QTcpSocket*, QByteArray)), socket, buffer);
+    connect(socket_, SIGNAL(readyRead()), this, SLOT(ReadyRead()));
   }
+
 }
 
-void LocalRedirectServer::WriteTemplate(QTcpSocket* socket) const {
+void LocalRedirectServer::WriteTemplate() const {
 
   QFile page_file(":/html/oauthsuccess.html");
   page_file.open(QIODevice::ReadOnly);
@@ -93,19 +266,21 @@ void LocalRedirectServer::WriteTemplate(QTcpSocket* socket) const {
       .save(&image_buffer, "PNG");
   page_data.replace("@IMAGE_DATA@", image_buffer.data().toBase64());
 
-  socket->write("HTTP/1.0 200 OK\r\n");
-  socket->write("Content-type: text/html;charset=UTF-8\r\n");
-  socket->write("\r\n\r\n");
-  socket->write(page_data.toUtf8());
-  socket->flush();
+  socket_->write("HTTP/1.0 200 OK\r\n");
+  socket_->write("Content-type: text/html;charset=UTF-8\r\n");
+  socket_->write("\r\n\r\n");
+  socket_->write(page_data.toUtf8());
+  socket_->flush();
 
 }
 
-QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray& request) const {
+QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
+
   QList<QByteArray> lines = request.split('\r');
-  const QByteArray& request_line = lines[0];
+  const QByteArray &request_line = lines[0];
   QByteArray path = request_line.split(' ')[1];
-  QUrl base_url = url();
+  QUrl base_url = url_;
   QUrl request_url(base_url.toString() + path.mid(1), QUrl::StrictMode);
   return request_url;
+
 }

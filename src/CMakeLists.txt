@@ -43,6 +43,7 @@ include_directories(${CMAKE_BINARY_DIR})
 include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${GOBJECT_INCLUDE_DIRS})
+include_directories(${OPENSSL_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${LIBXML_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
@@ -929,14 +930,15 @@ add_library(strawberry_lib STATIC
 target_link_libraries(strawberry_lib
   libstrawberry-common
   libstrawberry-tagreader
+  ${CMAKE_THREAD_LIBS_INIT}
   ${GLIB_LIBRARIES}
   ${GIO_LIBRARIES}
-  ${TAGLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
+  ${OPENSSL_LIBRARIES}
   ${QT_LIBRARIES}
   ${CHROMAPRINT_LIBRARIES}
   ${SQLITE_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT}
+  ${TAGLIB_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
   ${QOCOA_LIBRARIES}

@@ -59,13 +59,14 @@ class ScrobblingAPI20 : public ScrobblerService {
   virtual ScrobblerCache *cache() = 0;
 
   bool IsEnabled() const { return enabled_; }
+  bool IsUseHTTPS() const { return https_; }
   bool IsAuthenticated() const { return !username_.isEmpty() && !session_key_.isEmpty(); }
   bool IsSubscriber() const { return subscriber_; }
   bool IsSubmitted() const { return submitted_; }
   void Submitted() { submitted_ = true; }
   QString username() const { return username_; }
 
-  void Authenticate();
+  void Authenticate(const bool https = false);
   void Logout();
   void UpdateNowPlaying(const Song &song);
   void Scrobble(const Song &song);
@@ -143,6 +144,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   Application *app_;
 
   bool enabled_;
+  bool https_;
 
   bool subscriber_;
   QString username_;

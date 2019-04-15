@@ -116,6 +116,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_lastfm_https">
+        <property name="text">
+         <string>Use HTTPS for local redirectserver to bypass login problems</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="LoginStateWidget" name="widget_lastfm_login_state" native="true"/>
       </item>
       <item>

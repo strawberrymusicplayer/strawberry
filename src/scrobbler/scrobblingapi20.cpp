@@ -83,6 +83,7 @@ void ScrobblingAPI20::ReloadSettings() {
   QSettings s;
   s.beginGroup(settings_group_);
   enabled_ = s.value("enabled", false).toBool();
+  https_ = s.value("https", false).toBool();
   s.endGroup();
 
 }
@@ -113,13 +114,17 @@ void ScrobblingAPI20::Logout() {
 
 }
 
-void ScrobblingAPI20::Authenticate() {
+void ScrobblingAPI20::Authenticate(const bool https) {
 
   QUrl url(auth_url_);
 
-  LocalRedirectServer *server = new LocalRedirectServer(this);
-  server->Listen();
-  NewClosure(server, SIGNAL(Finished()), this, &ScrobblingAPI20::RedirectArrived, server);
+  LocalRedirectServer *server = new LocalRedirectServer(https, this);
+  if (!server->Listen()) {
+    AuthError(server->error());
+    delete server;
+    return;
+  }
+  NewClosure(server, SIGNAL(Finished(QString)), this, &ScrobblingAPI20::RedirectArrived, server);
 
   QUrl redirect_url(kRedirectUrl);
   QUrlQuery redirect_url_query;
@@ -129,7 +134,8 @@ void ScrobblingAPI20::Authenticate() {
 
   QUrlQuery url_query;
   url_query.addQueryItem("api_key", kApiKey);
-  url_query.addQueryItem("cb", redirect_url.toString());
+  url_query.addQueryItem("cb", QUrl::toPercentEncoding(redirect_url.toString()));
+  qLog(Debug) << QUrl::toPercentEncoding(redirect_url.toString());
   url.setQuery(url_query);
 
   QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
@@ -149,7 +155,9 @@ void ScrobblingAPI20::Authenticate() {
     QApplication::clipboard()->setText(url.toString());
     break;
   case QMessageBox::Cancel:
-    AuthError(tr("Authentication was cancelled."));
+    server->close();
+    server->deleteLater();
+    emit AuthenticationComplete(false);
     break;
   default:
     break;
@@ -162,7 +170,17 @@ void ScrobblingAPI20::RedirectArrived(LocalRedirectServer *server) {
   server->deleteLater();
 
   QUrl url = server->request_url();
-  RequestSession(QUrlQuery(url).queryItemValue("token").toUtf8());
+  if (!url.isValid()) {
+    AuthError(tr("Invalid reply from web browser. Try using Chromium or Chrome instead."));
+    return;
+  }
+  QUrlQuery url_query(url);
+  QString token = url_query.queryItemValue("token").toUtf8();
+  if (token.isEmpty()) {
+    AuthError(tr("Invalid reply from web browser. Missing token."));
+    return;
+  }
+  RequestSession(token);
 
 }
 
@@ -373,7 +391,7 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-  
+
 }
 
 void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
