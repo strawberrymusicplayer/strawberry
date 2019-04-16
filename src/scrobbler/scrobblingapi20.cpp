@@ -116,26 +116,25 @@ void ScrobblingAPI20::Logout() {
 
 void ScrobblingAPI20::Authenticate(const bool https) {
 
-  QUrl url(auth_url_);
-
   LocalRedirectServer *server = new LocalRedirectServer(https, this);
   if (!server->Listen()) {
     AuthError(server->error());
     delete server;
     return;
   }
-  NewClosure(server, SIGNAL(Finished(QString)), this, &ScrobblingAPI20::RedirectArrived, server);
+  NewClosure(server, SIGNAL(Finished()), this, &ScrobblingAPI20::RedirectArrived, server);
 
-  QUrl redirect_url(kRedirectUrl);
   QUrlQuery redirect_url_query;
   const QString port = QString::number(server->url().port());
   redirect_url_query.addQueryItem("port", port);  
+  if (https) redirect_url_query.addQueryItem("https", QString("1"));
+  QUrl redirect_url(kRedirectUrl);
   redirect_url.setQuery(redirect_url_query);
 
   QUrlQuery url_query;
   url_query.addQueryItem("api_key", kApiKey);
-  url_query.addQueryItem("cb", QUrl::toPercentEncoding(redirect_url.toString()));
-  qLog(Debug) << QUrl::toPercentEncoding(redirect_url.toString());
+  url_query.addQueryItem("cb", redirect_url.toString());
+  QUrl url(auth_url_);
   url.setQuery(url_query);
 
   QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
@@ -169,9 +168,14 @@ void ScrobblingAPI20::RedirectArrived(LocalRedirectServer *server) {
 
   server->deleteLater();
 
+  if (!server->error().isEmpty()) {
+    AuthError(server->error());
+    return;
+  }
+
   QUrl url = server->request_url();
   if (!url.isValid()) {
-    AuthError(tr("Invalid reply from web browser. Try using Chromium or Chrome instead."));
+    AuthError(tr("Received invalid reply from web browser. Try the HTTPS option, or use another browser like Chromium or Chrome."));
     return;
   }
   QUrlQuery url_query(url);

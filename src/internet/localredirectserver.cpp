@@ -21,10 +21,9 @@
 
 #include "localredirectserver.h"
 
-#include <openssl/evp.h>
-#include <openssl/rsa.h>
-#include <openssl/x509.h>
-#include <openssl/pem.h>
+#include <gnutls/gnutls.h>
+#include <gnutls/x509.h>
+#include <gnutls/abstract.h>
 
 #include <QApplication>
 #include <QIODevice>
@@ -42,6 +41,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
 
 #include "core/logging.h"
 #include "core/closure.h"
@@ -56,79 +56,124 @@ LocalRedirectServer::~LocalRedirectServer() {}
 
 bool LocalRedirectServer::GenerateCertificate() {
 
-  EVP_PKEY *pkey = EVP_PKEY_new();
-  q_check_ptr(pkey);
+  gnutls_global_init();
 
-  RSA *rsa = RSA_generate_key(2048, RSA_F4, nullptr, nullptr);
-  q_check_ptr(rsa);
+  gnutls_x509_privkey_t key;
+  gnutls_x509_privkey_init(&key);
 
-  EVP_PKEY_assign_RSA(pkey, rsa);
+  unsigned int bits = gnutls_sec_param_to_pk_bits(GNUTLS_PK_RSA, GNUTLS_SEC_PARAM_MEDIUM);
+  gnutls_x509_privkey_generate(key, GNUTLS_PK_RSA, bits, 0);
 
-  X509 *x509 = X509_new();
-  q_check_ptr(x509);
+  char buffer[4096] = "";
+  size_t buffer_size = sizeof(buffer);
+  gnutls_x509_privkey_export(key, GNUTLS_X509_FMT_PEM, buffer, &buffer_size);
 
-  ASN1_INTEGER_set(X509_get_serialNumber(x509), static_cast<uint64_t>(9999999 + qrand() % 1000000));
-
-  X509_gmtime_adj(X509_get_notBefore(x509), 0);
-  X509_gmtime_adj(X509_get_notAfter(x509), 31536000L);
-  X509_set_pubkey(x509, pkey);
-
-  X509_NAME *name = X509_get_subject_name(x509);
-  q_check_ptr(name);
-
-  X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, (unsigned char *) "US", -1, -1, 0);
-  X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, (unsigned char *) "Strawberry Music Player", -1, -1, 0);
-  X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, (unsigned char *) "localhost", -1, -1, 0);
-  X509_set_issuer_name(x509, name);
-  X509_sign(x509, pkey, EVP_sha1());
-
-  BIO *bp_private = BIO_new(BIO_s_mem());
-  q_check_ptr(bp_private);
-
-  if (PEM_write_bio_PrivateKey(bp_private, pkey, nullptr, nullptr, 0, nullptr, nullptr) != 1) {
-    EVP_PKEY_free(pkey);
-    X509_free(x509);
-    BIO_free_all(bp_private);
-    error_ = "PEM_write_bio_PrivateKey() failed.";
-    return false;
-  }
-
-  BIO *bp_public = BIO_new(BIO_s_mem());
-  q_check_ptr(bp_public);
-
-  if (PEM_write_bio_X509(bp_public, x509) != 1) {
-    EVP_PKEY_free(pkey);
-    X509_free(x509);
-    BIO_free_all(bp_public);
-    BIO_free_all(bp_private);
-    error_ = "PEM_write_bio_X509() failed.";
-    return false;
-  }
-
-  const char *buffer;
-
-  long size = BIO_get_mem_data(bp_public, &buffer);
-  q_check_ptr(buffer);
-
-  QSslCertificate ssl_certificate(QByteArray(buffer, size));
-  if (ssl_certificate.isNull()) {
-    error_ = "Failed to generate a random client certificate.";
-    return false;
-  }
-
-  size = BIO_get_mem_data(bp_private, &buffer);
-  q_check_ptr(buffer);
-
-  QSslKey ssl_key(QByteArray(buffer, size), QSsl::Rsa);
+  QSslKey ssl_key(QByteArray(buffer, buffer_size), QSsl::Rsa);
   if (ssl_key.isNull()) {
     error_ = "Failed to generate a random private key.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_global_deinit();
     return false;
   }
 
-  EVP_PKEY_free(pkey);
-  X509_free(x509);
-  BIO_free_all(bp_public);
-  BIO_free_all(bp_private);
+  gnutls_x509_crt_t crt;
+  if (gnutls_x509_crt_init(&crt) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_init failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_global_deinit();
+    return false;
+  }
+  if (gnutls_x509_crt_set_version(crt, 1) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_version failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+  if (gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_COUNTRY_NAME, 0, "US", 2) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_dn_by_oid failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+  if (gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_ORGANIZATION_NAME, 0, "Strawberry Music Player", strlen("Strawberry Music Player")) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_dn_by_oid failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+  if (gnutls_x509_crt_set_dn_by_oid(crt, GNUTLS_OID_X520_COMMON_NAME, 0, "localhost", strlen("localhost")) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_dn_by_oid failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+  if (gnutls_x509_crt_set_key(crt, key) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_key failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+  quint64 time = QDateTime::currentDateTime().toTime_t();
+  gnutls_x509_crt_set_activation_time(crt, time);
+  if (gnutls_x509_crt_set_expiration_time(crt, time + 31536000L) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_expiration_time failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+
+  quint64 serial = (9999999 + qrand() % 1000000);
+  QByteArray q_serial;
+  q_serial.setNum(serial);
+
+  if (gnutls_x509_crt_set_serial (crt, q_serial.constData(), sizeof(q_serial.size())) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_set_serial failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_global_deinit();
+    return false;
+  }
+
+  gnutls_privkey_t pkey;
+  gnutls_privkey_init(&pkey);
+  gnutls_privkey_import_x509(pkey, key, 0);
+  gnutls_x509_crt_privkey_sign(crt, crt, pkey, GNUTLS_DIG_SHA256, 0);
+
+  if (gnutls_x509_crt_sign2(crt, crt, key, GNUTLS_DIG_SHA256, 0) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_sign2 failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_privkey_deinit(pkey);
+    gnutls_global_deinit();
+    return false;
+  }
+
+  if (gnutls_x509_crt_export(crt, GNUTLS_X509_FMT_PEM, buffer, &buffer_size) != GNUTLS_E_SUCCESS) {
+    error_ = "gnutls_x509_crt_export failed.";
+    gnutls_x509_privkey_deinit(key);
+    gnutls_x509_crt_deinit(crt);
+    gnutls_privkey_deinit(pkey);
+    gnutls_global_deinit();
+    return false;
+  }
+  gnutls_x509_crt_deinit(crt);
+  gnutls_x509_privkey_deinit(key);
+  gnutls_privkey_deinit(pkey);
+
+  QSslCertificate ssl_certificate(QByteArray(buffer, buffer_size));
+  if (ssl_certificate.isNull()) {
+    error_ = "Failed to generate a random client certificate.";
+    gnutls_global_deinit();
+    return false;
+  }
+
+  gnutls_global_deinit();
 
   ssl_certificate_ = ssl_certificate;
   ssl_key_ = ssl_key;
@@ -179,6 +224,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     QSslSocket *ssl_socket = new QSslSocket(this);
     if (!ssl_socket->setSocketDescriptor(socket_descriptor)) {
       delete ssl_socket;
+      close();
       error_ = "Unable to set socket descriptor";
       emit Finished();
       return;
@@ -190,7 +236,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     ssl_socket->startServerEncryption();
 
     connect(ssl_socket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(SSLErrors(QList<QSslError>)));
-    connect(ssl_socket, SIGNAL(encrypted()), this, SLOT(Encrypted(QSslSocket*)));
+    connect(ssl_socket, SIGNAL(encrypted()), this, SLOT(Encrypted()));
 
     socket_ = ssl_socket;
   }
@@ -198,6 +244,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     QTcpSocket *tcp_socket = new QTcpSocket(this);
     if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
       delete tcp_socket;
+      close();
       error_ = "Unable to set socket descriptor";
       emit Finished();
       return;

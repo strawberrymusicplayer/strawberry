@@ -84,7 +84,7 @@ parts:
       - g++
       - protobuf-compiler
       - libglib2.0-dev
-      - libssl-dev
+      - libgnutls28-dev
       - libdbus-1-dev
       - libprotobuf-dev
       - libboost-dev

@@ -5,7 +5,7 @@ run zypper --non-interactive --gpg-auto-import-keys dup -l -y
 
 run zypper --non-interactive --gpg-auto-import-keys install \
     lsb-release git tar make cmake gcc gcc-c++ pkg-config gettext-tools \
-    glibc-devel glib2-devel glib2-tools dbus-1-devel alsa-devel libpulse-devel libnotify-devel libopenssl-devel \
+    glibc-devel glib2-devel glib2-tools dbus-1-devel alsa-devel libpulse-devel libnotify-devel libgnutls-devel \
     boost-devel protobuf-devel sqlite3-devel taglib-devel \
     gstreamer-devel gstreamer-plugins-base-devel libxine-devel vlc-devel \
     libQt5Core-devel libQt5Gui-devel libQt5Widgets-devel libQt5Concurrent-devel libQt5Network-devel libQt5Sql-devel \

@@ -46,7 +46,7 @@ class LocalRedirectServer : public QTcpServer {
   const QString &error() const { return error_; }
 
  signals:
-  void Finished(QString error = QString());
+  void Finished();
 
  public slots:
   void NewConnection();
