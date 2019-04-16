@@ -33,7 +33,7 @@ before_install:
       export Qt5LinguistTools_DIR=/usr/local/Cellar/qt/$(ls /usr/local/Cellar/qt | head -n1)/lib/cmake/Qt5LinguistTools;
       export PATH="/usr/local/opt/gettext/bin:$PATH";
       locate libffi.pc;
-      export PKG_CONFIG_PATH=/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig/;
+      export PKG_CONFIG_PATH="/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig/:$PKG_CONFIG_PATH";
       ls /usr/local/lib/gstreamer-1.0;
     fi
 before_script:
