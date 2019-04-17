@@ -135,6 +135,14 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 
 }
 
+void CollectionQuery::AddWhereArtist(const QVariant &value) {
+
+  where_clauses_ << QString("((artist = ? AND albumartist = '') OR albumartist = ?)");
+  bound_values_ << value;
+  bound_values_ << value;
+
+}
+
 void CollectionQuery::AddCompilationRequirement(bool compilation) {
   // The unary + is added to prevent sqlite from using the index idx_comp_artist.
   // When joining with fts, sqlite 3.8 has a tendency to use this index and thereby nesting the tables in an order which gives very poor performance

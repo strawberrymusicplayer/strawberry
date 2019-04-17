@@ -85,6 +85,7 @@ class CollectionQuery {
   // Adds a fragment of WHERE clause. When executed, this Query will connect all the fragments with AND operator.
   // Please note that IN operator expects a QStringList as value.
   void AddWhere(const QString &column, const QVariant &value, const QString &op = "=");
+  void AddWhereArtist(const QVariant &value);
 
   void AddCompilationRequirement(bool compilation);
   void SetLimit(int limit) { limit_ = limit; }

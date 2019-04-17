@@ -152,9 +152,8 @@ class CollectionBackend : public CollectionBackendInterface {
   SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions());
 
   AlbumList GetAllAlbums(const QueryOptions &opt = QueryOptions());
-  AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions());
-  AlbumList GetAlbumsByAlbumArtist(const QString &albumartist, const QueryOptions &opt = QueryOptions());
   AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions());
+  AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions());
 
   void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QString &art);
   Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album);
@@ -223,6 +222,7 @@ signals:
 
   void UpdateCompilations(QSqlQuery &find_songs, QSqlQuery &update, SongList &deleted_songs, SongList &added_songs, const QString &album, int compilation_detected);
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, bool compilation = false, const QueryOptions &opt = QueryOptions());
+  AlbumList GetAlbums(const QString &artist, bool compilation, const QueryOptions &opt = QueryOptions());
   SubdirectoryList SubdirsInDirectory(int id, QSqlDatabase &db);
 
   Song GetSongById(int id, QSqlDatabase &db);
