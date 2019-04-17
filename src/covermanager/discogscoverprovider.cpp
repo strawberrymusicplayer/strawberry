@@ -76,7 +76,7 @@ void DiscogsCoverProvider::CancelSearch(int id) {
 }
 
 
-bool DiscogsCoverProvider::StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &description, QString &resource_url) {
+bool DiscogsCoverProvider::StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &resource_url) {
 
   DiscogsCoverReleaseContext *r_ctx = new DiscogsCoverReleaseContext;
 
@@ -304,10 +304,9 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, int s_id) {
       continue;
     }
     int r_id = json_obj["id"].toInt();
-    QString title = json_obj["title"].toString();
     QString resource_url = json_obj["resource_url"].toString();
     if (resource_url.isEmpty()) continue;
-    StartRelease(s_ctx, r_id, title, resource_url);
+    StartRelease(s_ctx, r_id, resource_url);
     i++;
   }
 

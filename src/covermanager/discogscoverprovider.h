@@ -87,7 +87,7 @@ class DiscogsCoverProvider : public CoverProvider {
   QHash<int, DiscogsCoverSearchContext*> requests_search_;
   QHash<int, DiscogsCoverReleaseContext*> requests_release_;
 
-  bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &description, QString &resource_url);
+  bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &resource_url);
 
   void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);
   void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
