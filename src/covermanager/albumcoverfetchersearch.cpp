@@ -119,9 +119,11 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(int id, const QList<CoverSe
     if (results_copy[i].artist == request_.artist) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].album == request_.album) { results_copy[i].score += 0.5; }
+    if (results_copy[i].album == request_.album) {
+      results_copy[i].score += 0.5;
+    }
     if (results_copy[i].artist != request_.artist && results_copy[i].album != request_.album) {
-      results_copy[i].score -= 1.0;
+      results_copy[i].score -= 1.5;
     }
   }
 
