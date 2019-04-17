@@ -54,7 +54,7 @@ const char *TidalCoverProvider::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 
-  CoverProvider("Tidal", true, app, parent),
+  CoverProvider("Tidal", 2.0, true, app, parent),
   service_(app->internet_services()->Service<TidalService>()),
   network_(new NetworkAccessManager(this)) {
 
@@ -161,7 +161,7 @@ QJsonObject TidalCoverProvider::ExtractJsonObj(QByteArray &data, QString &error)
     return QJsonObject();
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     error = Error("Received empty Json document.", data);
     return QJsonObject();
   }
@@ -256,11 +256,15 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, int id) {
     }
     QString artist = json_artist["name"].toString();
 
+    album.remove(Song::kAlbumRemoveDisc);
+    album.remove(Song::kAlbumRemoveMisc);
+
     cover = cover.replace("-", "/");
     QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg("1280x1280"));
 
     CoverSearchResult cover_result;
-    cover_result.description = artist + " " + album;
+    cover_result.artist = artist;
+    cover_result.album = album;
     cover_result.image_url = cover_url;
     results << cover_result;
 

@@ -49,7 +49,7 @@ const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.o
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", true, app, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", 1.5, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 
@@ -117,22 +117,60 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, int searc
   }
 
   for (const QJsonValue &value : json_releases) {
+
     if (!value.isObject()) {
       Error("Invalid Json reply, album value is not an object.", value);
       continue;
     }
     QJsonObject json_obj = value.toObject();
-    if (!json_obj.contains("id") || !json_obj.contains("title")) {
-      Error("Invalid Json reply, album is missing id or title.", json_obj);
+    if (!json_obj.contains("id") || !json_obj.contains("artist-credit") ||  !json_obj.contains("title")) {
+      Error("Invalid Json reply, album is missing id, artist-credit or title.", json_obj);
       continue;
     }
+
+    QJsonValue json_artists = json_obj["artist-credit"];
+    if (!json_artists.isArray()) {
+      Error("Json artist-credit is not an array.", json_artists);
+      continue;
+    }
+    QJsonArray json_array_artists = json_artists.toArray();
+    int i = 0;
+    QString artist;
+    for (const QJsonValue &json_value_artist : json_array_artists) {
+      if (!json_value_artist.isObject()) {
+        Error("Invalid Json reply, artist is not an object.", json_value_artist);
+        continue;
+      }
+      QJsonObject json_obj_artist = json_value_artist.toObject();
+
+      if (!json_obj_artist.contains("artist") ) {
+        Error("Invalid Json reply, artist is missing.", json_obj_artist);
+        continue;
+      }
+      QJsonValue json_value_artist2 = json_obj_artist["artist"];
+      if (!json_value_artist2.isObject()) {
+        Error("Invalid Json reply, artist is not an object.", json_value_artist2);
+        continue;
+      }
+      QJsonObject json_obj_artist2 = json_value_artist2.toObject();
+
+      if (!json_obj_artist2.contains("name") ) {
+        Error("Invalid Json reply, artist is missing name.", json_value_artist2);
+        continue;
+      }
+      artist = json_obj_artist2["name"].toString();
+      ++i;
+    }
+    if (i > 1) artist = "Various artists";
+
     QString id = json_obj["id"].toString();
-    QString title = json_obj["title"].toString();
-    CoverSearchResult result;
+    QString album = json_obj["title"].toString();
+    CoverSearchResult cover_result;
     QUrl url(QString(kAlbumCoverUrl).arg(id));
-    result.description = title;
-    result.image_url = url;
-    results.append(result);
+    cover_result.artist = artist;
+    cover_result.album = album;
+    cover_result.image_url = url;
+    results.append(cover_result);
   }
   emit SearchFinished(search_id, results);
 

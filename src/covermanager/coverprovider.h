@@ -38,10 +38,11 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const bool &fetchall, Application *app, QObject *parent);
+  explicit CoverProvider(const QString &name, const float &quality, const bool &fetchall, Application *app, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
+  bool quality() const { return quality_; }
   bool fetchall() const { return fetchall_; }
 
   // Starts searching for covers matching the given query text.
@@ -57,6 +58,7 @@ class CoverProvider : public QObject {
  private:
   Application *app_;
   QString name_;
+  float quality_;
   bool fetchall_;
 
 };

@@ -81,6 +81,7 @@
 
 #include "ui_albumcovermanager.h"
 
+using std::unique_ptr;
 using std::stable_sort;
 
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";

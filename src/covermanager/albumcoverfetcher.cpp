@@ -48,12 +48,12 @@ AlbumCoverFetcher::AlbumCoverFetcher(CoverProviders *cover_providers, QObject *p
 quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString &album, bool fetchall) {
 
   CoverSearchRequest request;
+  request.id = next_id_++;
   request.artist = artist;
   request.album = album;
   request.album.remove(Song::kAlbumRemoveDisc);
   request.album.remove(Song::kAlbumRemoveMisc);
   request.search = false;
-  request.id = next_id_++;
   request.fetchall = fetchall;
 
   AddRequest(request);
@@ -64,12 +64,12 @@ quint64 AlbumCoverFetcher::FetchAlbumCover(const QString &artist, const QString 
 quint64 AlbumCoverFetcher::SearchForCovers(const QString &artist, const QString &album) {
 
   CoverSearchRequest request;
+  request.id = next_id_++;
   request.artist = artist;
   request.album = album;
   request.album.remove(Song::kAlbumRemoveDisc);
   request.album.remove(Song::kAlbumRemoveMisc);
   request.search = true;
-  request.id = next_id_++;
   request.fetchall = false;
 
   AddRequest(request);

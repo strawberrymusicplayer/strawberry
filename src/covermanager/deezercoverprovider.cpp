@@ -48,7 +48,7 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", true, app, parent), network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", 2.0, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 
@@ -269,8 +269,12 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, int id) {
     }
     QUrl url(cover);
 
+    album.remove(Song::kAlbumRemoveDisc);
+    album.remove(Song::kAlbumRemoveMisc);
+
     CoverSearchResult cover_result;
-    cover_result.description = artist + " " + album;
+    cover_result.artist = artist;
+    cover_result.album = album;
     cover_result.image_url = url;
     results << cover_result;
 
