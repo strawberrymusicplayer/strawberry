@@ -34,6 +34,7 @@ Build-Depends: debhelper (>= 7),
                libplist-dev,
                libusbmuxd-dev,
                libchromaprint-dev
+               libfftw3-dev
 Standards-Version: 3.9.8
 
 Package: strawberry

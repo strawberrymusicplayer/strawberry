@@ -22,7 +22,7 @@ before_install:
       git pull;
       brew update;
       brew unlink python;
-      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls;
+      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw;
       brew install sqlite --with-fts;
       brew install gstreamer gst-plugins-base;
       brew install gst-plugins-good --with-flac;

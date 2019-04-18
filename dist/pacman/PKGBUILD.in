@@ -33,6 +33,7 @@ depends=(
   libplist
   libimobiledevice
   phonon-qt5
+  fftw
 )
 optdepends=(
   gst-plugins-bad
