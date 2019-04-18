@@ -107,6 +107,7 @@ parts:
       - libplist-dev
       - libusbmuxd-dev
       - libchromaprint-dev
+      - libfftw3-dev
 
     stage-packages:
       - libstdc++6
