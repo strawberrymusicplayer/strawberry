@@ -61,6 +61,8 @@
 #include "lyrics/auddlyricsprovider.h"
 #include "lyrics/chartlyricsprovider.h"
 
+#include "scrobbler/audioscrobbler.h"
+
 #include "internet/internetservices.h"
 #include "internet/internetsearch.h"
 
@@ -69,7 +71,10 @@
 #  include "covermanager/tidalcoverprovider.h"
 #endif
 
-#include "scrobbler/audioscrobbler.h"
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbarcontroller.h"
+#  include "moodbar/moodbarloader.h"
+#endif
 
 bool Application::kIsPortable = false;
 
@@ -136,7 +141,14 @@ class ApplicationImpl {
 #ifdef HAVE_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
 #endif
-        scrobbler_([=]() { return new AudioScrobbler(app, app); })
+        scrobbler_([=]() { return new AudioScrobbler(app, app); }),
+
+#ifdef HAVE_MOODBAR
+        moodbar_loader_([=]() { return new MoodbarLoader(app, app); }),
+        moodbar_controller_([=]() { return new MoodbarController(app, app); }),
+#endif
+       dummy_([=]() { return nullptr; })
+
   {}
 
   Lazy<TagReaderClient> tag_reader_client_;
@@ -160,6 +172,11 @@ class ApplicationImpl {
   Lazy<InternetSearch> tidal_search_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
+#ifdef HAVE_MOODBAR
+  Lazy<MoodbarLoader> moodbar_loader_;
+  Lazy<MoodbarController> moodbar_controller_;
+#endif
+  Lazy<QVariant> dummy_;
 
 };
 
@@ -231,3 +248,7 @@ InternetServices *Application::internet_services() const { return p_->internet_s
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
 #endif
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
+#ifdef HAVE_MOODBAR
+MoodbarController *Application::moodbar_controller() const { return p_->moodbar_controller_.get(); }
+MoodbarLoader *Application::moodbar_loader() const { return p_->moodbar_loader_.get(); }
+#endif

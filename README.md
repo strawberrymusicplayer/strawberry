@@ -57,6 +57,7 @@ Optional dependencies:
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 * iPhone, iPod Touch, iPad and Apple TV devices: [libimobiledevice, libplist and libusbmuxd](https://www.libimobiledevice.org/)
+* Moodbar: [fftw3](http://www.fftw.org/)
 
 Either GStreamer, Xine, VLC or Phonon engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.

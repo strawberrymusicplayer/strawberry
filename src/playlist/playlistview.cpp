@@ -77,6 +77,10 @@
 #include "settings/appearancesettingspage.h"
 #include "settings/playlistsettingspage.h"
 
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbaritemdelegate.h"
+#endif
+
 using std::sort;
 
 const int PlaylistView::kGlowIntensitySteps = 24;
@@ -244,6 +248,10 @@ void PlaylistView::SetItemDelegates(CollectionBackend *backend) {
 
   setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this));
 
+#ifdef HAVE_MOODBAR
+  setItemDelegateForColumn(Playlist::Column_Mood, new MoodbarItemDelegate(app_, this, this));
+#endif
+
 }
 
 void PlaylistView::SetPlaylist(Playlist *playlist) {
@@ -310,6 +318,7 @@ void PlaylistView::LoadGeometry() {
       header_->HideSection(Playlist::Column_LastPlayed);
       header_->HideSection(Playlist::Column_Comment);
       header_->HideSection(Playlist::Column_Grouping);
+      header_->HideSection(Playlist::Column_Mood);
 
       header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
       setting_initial_header_layout_ = true;

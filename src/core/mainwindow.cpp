@@ -151,6 +151,11 @@
 #  include "core/macsystemtrayicon.h"
 #endif
 
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbarcontroller.h"
+#  include "moodbar/moodbarproxystyle.h"
+#endif
+
 using std::bind;
 using std::floor;
 using std::stable_sort;
@@ -666,6 +671,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->multi_loading_indicator, SIGNAL(TaskCountChange(int)), SLOT(TaskCountChanged(int)));
 
   ui_->track_slider->SetApplication(app);
+
+#ifdef HAVE_MOODBAR
+  // Moodbar connections
+  connect(app_->moodbar_controller(), SIGNAL(CurrentMoodbarDataChanged(QByteArray)), ui_->track_slider->moodbar_style(), SLOT(SetMoodbarData(QByteArray)));
+#endif
 
   // Playing widget
   qLog(Debug) << "Creating playing widget";

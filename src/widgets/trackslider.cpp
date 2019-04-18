@@ -35,11 +35,18 @@
 #include "clickablelabel.h"
 #include "tracksliderslider.h"
 
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbarproxystyle.h"
+#endif
+
 const char* TrackSlider::kSettingsGroup = "MainWindow";
 
 TrackSlider::TrackSlider(QWidget* parent)
     : QWidget(parent),
       ui_(new Ui_TrackSlider),
+#ifdef HAVE_MOODBAR
+      moodbar_style_(nullptr),
+#endif
       setting_value_(false),
       show_remaining_time_(true),
     slider_maximum_value_(0)
@@ -64,6 +71,9 @@ TrackSlider::~TrackSlider() {
 }
 
 void TrackSlider::SetApplication(Application* app) {
+#ifdef HAVE_MOODBAR
+  moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
+#endif
 }
 
 void TrackSlider::UpdateLabelWidth() {

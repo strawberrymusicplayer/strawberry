@@ -65,6 +65,9 @@
 #ifdef HAVE_TIDAL
 #  include "tidalsettingspage.h"
 #endif
+#ifdef HAVE_MOODBAR
+#  include "moodbarsettingspage.h"
+#endif
 
 #include "ui_settingsdialog.h"
 
@@ -131,6 +134,10 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 
 #ifdef HAVE_GLOBALSHORTCUTS
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
+#endif
+
+#ifdef HAVE_MOODBAR
+  AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
 #endif
 
 #if defined(HAVE_TIDAL)

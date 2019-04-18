@@ -365,6 +365,12 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
 
 }
 
+#ifdef HAVE_MOODBAR
+void Playlist::MoodbarUpdated(const QModelIndex& index) {
+  emit dataChanged(index.sibling(index.row(), Column_Mood), index.sibling(index.row(), Column_Mood));
+}
+#endif
+
 bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role) {
 
   int row = index.row();
@@ -1183,6 +1189,7 @@ QString Playlist::column_name(Column column) {
 
     case Column_Comment:      return tr("Comment");
     case Column_Source:       return tr("Source");
+    case Column_Mood:         return tr("Mood");
     default:                  qLog(Error) << "No such column" << column;;
   }
   return "";

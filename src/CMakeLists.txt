@@ -879,6 +879,28 @@ optional_source(HAVE_TIDAL
     settings/tidalsettingspage.ui
 )
 
+# Moodbar
+optional_source(HAVE_MOODBAR
+  SOURCES
+    moodbar/moodbarbuilder.cpp
+    moodbar/moodbarcontroller.cpp
+    moodbar/moodbaritemdelegate.cpp
+    moodbar/moodbarloader.cpp
+    moodbar/moodbarpipeline.cpp
+    moodbar/moodbarproxystyle.cpp
+    moodbar/moodbarrenderer.cpp
+    settings/moodbarsettingspage.cpp
+  HEADERS
+    moodbar/moodbarcontroller.h
+    moodbar/moodbaritemdelegate.h
+    moodbar/moodbarloader.h
+    moodbar/moodbarpipeline.h
+    moodbar/moodbarproxystyle.h
+    settings/moodbarsettingspage.h
+  UI
+    settings/moodbarsettingspage.ui
+)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
@@ -1003,6 +1025,10 @@ if(HAVE_LIBPULSE)
   target_link_libraries(strawberry_lib ${LIBPULSE_LIBRARIES})
 endif()
 
+if(HAVE_MOODBAR)
+  target_link_libraries(strawberry_lib gstmoodbar)
+endif()
+
 if (APPLE)
   target_link_libraries(strawberry_lib
     "-framework AppKit"
@@ -1025,7 +1051,6 @@ if (WIN32)
   target_link_libraries(strawberry_lib
     ${ZLIB_LIBRARIES}
     dsound
-    ${QT_QTGUI_LIBRARY}
   )
 endif (WIN32)
 

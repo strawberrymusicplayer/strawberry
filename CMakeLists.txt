@@ -114,6 +114,7 @@ pkg_check_modules(LIBIMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(LIBUSBMUXD libusbmuxd)
 pkg_check_modules(LIBPLIST libplist)
 find_package(Gettext)
+find_package(FFTW3)
 
 if(WIN32)
   find_package(ZLIB REQUIRED)
@@ -346,6 +347,11 @@ optional_component(TRANSLATIONS ON "Translations"
 
 optional_component(TIDAL ON "Tidal support")
 
+optional_component(MOODBAR ON "Moodbar"
+  DEPENDS "fftw3" FFTW3_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
+)
+
 if(APPLE)
   option(USE_BUNDLE "Bundle macOS dependencies" OFF)
 elseif(WIN32)
@@ -378,6 +384,9 @@ add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
 add_subdirectory(ext/strawberry-tagreader)
+if(HAVE_MOODBAR)
+  add_subdirectory(ext/gstmoodbar)
+endif()
 
 # Uninstall support
 configure_file(

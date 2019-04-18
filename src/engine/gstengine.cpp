@@ -67,6 +67,10 @@
 #  include "ext/gstafc/gstafcsrc.h"
 #endif
 
+#ifdef HAVE_MOODBAR
+#  include "ext/gstmoodbar/gstmoodbarplugin.h"
+#endif
+
 #include "settings/backendsettingspage.h"
 
 using std::shared_ptr;
@@ -118,6 +122,7 @@ bool GstEngine::Init() {
   SetEnvironment();
 
   initialising_ = QtConcurrent::run(this, &GstEngine::InitialiseGStreamer);
+
   return true;
 
 }
@@ -413,6 +418,10 @@ void GstEngine::InitialiseGStreamer() {
 
 #ifdef HAVE_IMOBILEDEVICE_ // FIXME
   afcsrc_register_static();
+#endif
+
+#ifdef HAVE_MOODBAR
+  gstfastspectrum_register_static();
 #endif
 
 }

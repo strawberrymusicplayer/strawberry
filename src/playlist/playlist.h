@@ -124,6 +124,7 @@ class Playlist : public QAbstractListModel {
     Column_Comment,
     Column_Grouping,
     Column_Source,
+    Column_Mood,
     ColumnCount
   };
 
@@ -250,6 +251,11 @@ class Playlist : public QAbstractListModel {
   void AddSongInsertVetoListener(SongInsertVetoListener *listener);
   // Unregisters a SongInsertVetoListener object.
   void RemoveSongInsertVetoListener(SongInsertVetoListener *listener);
+
+  // Just emits the dataChanged() signal so the mood column is repainted.
+#ifdef HAVE_MOODBAR
+  void MoodbarUpdated(const QModelIndex& index);
+#endif
 
   // QAbstractListModel
   int rowCount(const QModelIndex& = QModelIndex()) const { return items_.count(); }
