@@ -63,9 +63,8 @@ static gboolean gst_fastspectrum_stop (GstBaseTransform * trans);
 static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform * trans, GstBuffer * in);
 static gboolean gst_fastspectrum_setup (GstAudioFilter * base, const GstAudioInfo * info);
 
-static void
-gst_fastspectrum_class_init (GstFastSpectrumClass * klass)
-{
+static void gst_fastspectrum_class_init (GstFastSpectrumClass * klass) {
+
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   GstElementClass *element_class = GST_ELEMENT_CLASS (klass);
   GstBaseTransformClass *trans_class = GST_BASE_TRANSFORM_CLASS (klass);
@@ -103,6 +102,7 @@ gst_fastspectrum_class_init (GstFastSpectrumClass * klass)
   gst_caps_unref (caps);
 
   klass->fftw_lock = new QMutex;
+
 }
 
 static void gst_fastspectrum_init (GstFastSpectrum * spectrum) {
@@ -365,8 +365,7 @@ static void gst_fastspectrum_run_fft (GstFastSpectrum * spectrum, guint input_po
   guint nfft = 2 * bands - 2;
 
   for (i = 0; i < nfft; i++)
-    spectrum->fft_input[i] =
-        spectrum->input_ring_buffer[(input_pos + i) % nfft];
+    spectrum->fft_input[i] = spectrum->input_ring_buffer[(input_pos + i) % nfft];
 
   // Should be safe to execute the same plan multiple times in parallel.
   fftw_execute(spectrum->plan);

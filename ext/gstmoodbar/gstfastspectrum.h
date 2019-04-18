@@ -26,8 +26,8 @@
 //   - Removed all properties except interval and band.
 
 
-#ifndef GST_MOODBAR_FASTSPECTRUM_H_
-#define GST_MOODBAR_FASTSPECTRUM_H_
+#ifndef GST_MOODBAR_FASTSPECTRUM_H
+#define GST_MOODBAR_FASTSPECTRUM_H
 
 #include <functional>
 
@@ -45,8 +45,7 @@ G_BEGIN_DECLS
 
 class QMutex;
 
-typedef void (*GstFastSpectrumInputData)(const guint8* in, double* out,
-    guint len, double max_value, guint op, guint nfft);
+typedef void (*GstFastSpectrumInputData)(const guint8* in, double* out, guint len, double max_value, guint op, guint nfft);
 
 typedef std::function<void(double* magnitudes, int size)> OutputCallback;
 
@@ -95,4 +94,4 @@ GType gst_fastspectrum_get_type (void);
 
 G_END_DECLS
 
-#endif // GST_MOODBAR_FASTSPECTRUM_H_
+#endif // GST_MOODBAR_FASTSPECTRUM_H
