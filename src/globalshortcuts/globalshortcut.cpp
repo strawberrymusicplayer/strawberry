@@ -62,6 +62,7 @@ GlobalShortcut::GlobalShortcut(QKeySequence shortcut, GlobalShortcutBackend *bac
 }
 
 GlobalShortcut::~GlobalShortcut() {
+
   if (this == initialized_) {
     QAbstractEventDispatcher::instance()->removeNativeEventFilter(this);
     initialized_ = nullptr;
@@ -69,6 +70,7 @@ GlobalShortcut::~GlobalShortcut() {
   else {
     unsetShortcut();
   }
+
 }
 
 bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
