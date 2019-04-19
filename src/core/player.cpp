@@ -380,7 +380,7 @@ void Player::TrackEnded() {
   if (HandleStopAfter()) return;
 
   if (current_item_ && current_item_->IsLocalCollectionItem() && current_item_->Metadata().id() != -1) {
-    app_->playlist_manager()->collection_backend()->IncrementPlayCountAsync( current_item_->Metadata().id());
+    app_->playlist_manager()->collection_backend()->IncrementPlayCountAsync(current_item_->Metadata().id());
   }
 
   NextInternal(Engine::Auto);

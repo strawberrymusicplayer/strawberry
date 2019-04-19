@@ -121,6 +121,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(TotalSongCountUpdatedSlot(int)));
   connect(backend_, SIGNAL(TotalArtistCountUpdated(int)), SLOT(TotalArtistCountUpdatedSlot(int)));
   connect(backend_, SIGNAL(TotalAlbumCountUpdated(int)), SLOT(TotalAlbumCountUpdatedSlot(int)));
+  connect(backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsSlightlyChanged(SongList)));
 
   backend_->UpdateTotalSongCountAsync();
   backend_->UpdateTotalArtistCountAsync();

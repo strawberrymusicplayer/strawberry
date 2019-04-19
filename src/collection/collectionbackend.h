@@ -202,6 +202,7 @@ signals:
 
   void SongsDiscovered(const SongList &songs);
   void SongsDeleted(const SongList &songs);
+  void SongsStatisticsChanged(const SongList& songs);
 
   void DatabaseReset();
 

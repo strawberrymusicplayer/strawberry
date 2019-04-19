@@ -1068,6 +1068,7 @@ bool CollectionBackend::ExecQuery(CollectionQuery *q) {
 }
 
 void CollectionBackend::IncrementPlayCount(int id) {
+
   if (id == -1) return;
 
   QMutexLocker l(db_->Mutex());
@@ -1081,6 +1082,7 @@ void CollectionBackend::IncrementPlayCount(int id) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1098,6 +1100,7 @@ void CollectionBackend::IncrementSkipCount(int id, float progress) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1115,6 +1118,7 @@ void CollectionBackend::ResetStatistics(int id) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 

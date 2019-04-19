@@ -90,6 +90,7 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   playlist_container_ = playlist_container;
 
   connect(collection_backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
+  connect(collection_backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsDiscovered(SongList)));
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
     AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
