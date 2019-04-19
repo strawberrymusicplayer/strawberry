@@ -426,7 +426,7 @@ bool Mpris2::CanGoPrevious() const {
 }
 
 bool Mpris2::CanPlay() const {
-  return app_->playlist_manager()->active() && app_->playlist_manager()->active()->rowCount() != 0 && !(app_->player()->GetState() == Engine::Playing);
+  return app_->playlist_manager()->active() && app_->playlist_manager()->active()->rowCount() != 0;
 }
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
