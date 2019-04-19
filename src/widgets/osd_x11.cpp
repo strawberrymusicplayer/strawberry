@@ -139,6 +139,8 @@ void OSD::ShowMessageNative(const QString &summary, const QString &message, cons
     hints["image_data"] = QVariant(image);
   }
 
+  hints["transient"] = QVariant(true);
+
   int id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec_) {
     // Reuse the existing popup if it's still open.  The reason we don't always
