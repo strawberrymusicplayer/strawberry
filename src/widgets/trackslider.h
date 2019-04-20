@@ -71,6 +71,11 @@ class TrackSlider : public QWidget {
   void ValueChanged(int value);
   void ValueChangedSeconds(int value);
 
+  void SeekForward();
+  void SeekBackward();
+  void Next();
+  void Previous();
+
  private slots:
   void ValueMaybeChanged(int value);
   void ToggleTimeDisplay();

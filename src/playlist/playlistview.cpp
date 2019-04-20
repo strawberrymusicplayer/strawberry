@@ -708,7 +708,16 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
     return;
   }
 
-  QTreeView::mousePressEvent(event);
+  QModelIndex idx = indexAt(event->pos());
+  if (event->button() == Qt::XButton1 && idx.isValid()) {
+    app_->player()->Previous();
+  }
+  else if (event->button() == Qt::XButton2 && idx.isValid()) {
+    app_->player()->Next();
+  }
+  else {
+    QTreeView::mousePressEvent(event);
+  }
 
   inhibit_autoscroll_ = true;
   inhibit_autoscroll_timer_->start();
