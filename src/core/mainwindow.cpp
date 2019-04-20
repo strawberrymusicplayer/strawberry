@@ -468,6 +468,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Playing()), ui_->playlist, SLOT(ActivePlaying()));
   connect(app_->player(), SIGNAL(Stopped()), ui_->playlist, SLOT(ActiveStopped()));
 
+  connect(app_->player(), SIGNAL(Playing()), osd_, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Paused()), osd_, SLOT(Paused()));
   connect(app_->player(), SIGNAL(Stopped()), osd_, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(PlaylistFinished()), osd_, SLOT(PlaylistFinished()));
@@ -891,12 +892,8 @@ void MainWindow::RefreshStyleSheet() {
 
 void MainWindow::EngineChanged(Engine::EngineType enginetype) {
 
-  if (enginetype == Engine::EngineType::GStreamer) {
-    ui_->action_open_cd->setEnabled(true);
-  }
-  else {
-    ui_->action_open_cd->setEnabled(false);
-  }
+  ui_->action_equalizer->setEnabled(enginetype == Engine::EngineType::GStreamer || enginetype == Engine::EngineType::Xine);
+  ui_->action_open_cd->setEnabled(enginetype == Engine::EngineType::GStreamer);
 
 }
 
