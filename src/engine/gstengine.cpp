@@ -35,7 +35,6 @@
 #include <QtGlobal>
 #include <QFuture>
 #include <QTimer>
-#include <QDir>
 #include <QList>
 #include <QByteArray>
 #include <QChar>

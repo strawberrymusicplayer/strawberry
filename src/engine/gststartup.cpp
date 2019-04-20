@@ -19,14 +19,6 @@
 
 #include "config.h"
 
-#include <glib.h>
-#include <glib-object.h>
-#include <gio/gio.h>
-#include <memory>
-#include <vector>
-#include <math.h>
-#include <string>
-
 #include <gst/gst.h>
 
 #include <QtGlobal>
@@ -36,6 +28,7 @@
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QString>
+#include <QDir>
 
 #include "core/utilities.h"
 
