@@ -33,9 +33,6 @@
 #include <gst/gst.h>
 
 #include <QtGlobal>
-#include <QCoreApplication>
-#include <QStandardPaths>
-#include <QtConcurrentRun>
 #include <QFuture>
 #include <QTimer>
 #include <QDir>
@@ -63,13 +60,6 @@
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-#ifdef HAVE_IMOBILEDEVICE_ // FIXME
-#  include "ext/gstafc/gstafcsrc.h"
-#endif
-
-#ifdef HAVE_MOODBAR
-#  include "ext/gstmoodbar/gstmoodbarplugin.h"
-#endif
 
 #include "settings/backendsettingspage.h"
 
@@ -118,10 +108,6 @@ GstEngine::~GstEngine() {
 }
 
 bool GstEngine::Init() {
-
-  SetEnvironment();
-
-  initialising_ = QtConcurrent::run(this, &GstEngine::InitialiseGStreamer);
 
   return true;
 
@@ -409,60 +395,6 @@ void GstEngine::ReloadSettings() {
   Engine::Base::ReloadSettings();
 
   if (output_.isEmpty()) output_ = kAutoSink;
-
-}
-
-void GstEngine::InitialiseGStreamer() {
-
-  gst_init(nullptr, nullptr);
-
-#ifdef HAVE_IMOBILEDEVICE_ // FIXME
-  afcsrc_register_static();
-#endif
-
-#ifdef HAVE_MOODBAR
-  gstfastspectrum_register_static();
-#endif
-
-}
-
-void GstEngine::SetEnvironment() {
-
-  QString scanner_path;
-  QString plugin_path;
-  QString registry_filename;
-
-// On Windows and macOS we bundle the gstreamer plugins with strawberry
-#ifdef USE_BUNDLE
-#if defined(Q_OS_MACOS)
-  scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
-  plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
-#elif defined(Q_OS_WIN32)
-  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
-#endif
-#endif
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
-#endif
-
-  if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
-
-  if (!plugin_path.isEmpty()) {
-    Utilities::SetEnv("GST_PLUGIN_PATH", plugin_path);
-    // Never load plugins from anywhere else.
-    Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", plugin_path);
-  }
-
-  if (!registry_filename.isEmpty()) {
-    Utilities::SetEnv("GST_REGISTRY", registry_filename);
-  }
-
-#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
-  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
-#endif
-
-  Utilities::SetEnv("PULSE_PROP_media.role", "music");
 
 }
 

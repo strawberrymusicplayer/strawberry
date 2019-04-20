@@ -49,6 +49,7 @@
 
 #include "core/lazy.h"
 #include "core/tagreaderclient.h"
+#include "engine/enginetype.h"
 #include "engine/engine_fwd.h"
 #include "mac_startup.h"
 #include "widgets/osd.h"
@@ -135,6 +136,7 @@ signals:
  private slots:
   void FilePathChanged(const QString& path);
 
+  void EngineChanged(Engine::EngineType enginetype);
   void MediaStopped();
   void MediaPaused();
   void MediaPlaying();

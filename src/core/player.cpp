@@ -49,6 +49,7 @@
 
 #ifdef HAVE_GSTREAMER
 #  include "engine/gstengine.h"
+#  include "engine/gststartup.h"
 #endif
 #ifdef HAVE_XINE
 #  include "engine/xineengine.h"
@@ -75,12 +76,17 @@
 #include "scrobbler/audioscrobbler.h"
 
 using std::shared_ptr;
+using std::unique_ptr;
 
 const char *Player::kSettingsGroup = "Player";
 
 Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
     app_(app),
+    engine_(nullptr),
+#ifdef HAVE_GSTREAMER
+    gst_startup_(new GstStartup(this)),
+#endif
     analyzer_(nullptr),
     equalizer_(nullptr),
     stream_change_type_(Engine::First),
@@ -117,10 +123,13 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
     switch(enginetype) {
       case Engine::None:
 #ifdef HAVE_GSTREAMER
-      case Engine::GStreamer:
+      case Engine::GStreamer:{
         use_enginetype=Engine::GStreamer;
-        engine_.reset(new GstEngine(app_->task_manager()));
+        unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
+        gst_engine->SetStartup(gst_startup_);
+        engine_.reset(gst_engine.release());
         break;
+      }
 #endif
 #ifdef HAVE_XINE
       case Engine::Xine:
@@ -159,6 +168,8 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
   if (!engine_) {
     qFatal("Failed to create engine!");
   }
+
+  emit EngineChanged(use_enginetype);
 
   return use_enginetype;
 

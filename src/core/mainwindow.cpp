@@ -78,6 +78,7 @@
 #include "database.h"
 #include "player.h"
 #include "appearance.h"
+#include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
 #include "dialogs/about.h"
@@ -281,6 +282,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   app_->player()->SetAnalyzer(ui_->analyzer);
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();
+  EngineChanged(app_->player()->engine()->type());
   int volume = app_->player()->GetVolume();
   ui_->volume->setValue(volume);
   VolumeChanged(volume);
@@ -450,6 +452,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Player connections
   connect(ui_->volume, SIGNAL(valueChanged(int)), app_->player(), SLOT(SetVolume(int)));
 
+  connect(app_->player(), SIGNAL(EngineChanged(Engine::EngineType)), SLOT(EngineChanged(Engine::EngineType)));
   connect(app_->player(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));
   connect(app_->player(), SIGNAL(SongChangeRequestProcessed(QUrl,bool)), app_->playlist_manager(), SLOT(SongChangeRequestProcessed(QUrl,bool)));
 
@@ -479,16 +482,18 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->playlist_manager(), SIGNAL(PlayRequested(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
 
   connect(ui_->playlist->view(), SIGNAL(doubleClicked(QModelIndex)), SLOT(PlaylistDoubleClick(QModelIndex)));
-  //connect(ui_->playlist->view(), SIGNAL(doubleClicked(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
   connect(ui_->playlist->view(), SIGNAL(PlayItem(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
   connect(ui_->playlist->view(), SIGNAL(PlayPause()), app_->player(), SLOT(PlayPause()));
   connect(ui_->playlist->view(), SIGNAL(RightClicked(QPoint,QModelIndex)), SLOT(PlaylistRightClick(QPoint,QModelIndex)));
-  //connect(ui_->playlist->view(), SIGNAL(SeekTrack(int)), ui_->track_slider, SLOT(Seek(int)));
   connect(ui_->playlist->view(), SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
   connect(ui_->playlist->view(), SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
   connect(ui_->playlist->view(), SIGNAL(BackgroundPropertyChanged()), SLOT(RefreshStyleSheet()));
 
   connect(ui_->track_slider, SIGNAL(ValueChangedSeconds(int)), app_->player(), SLOT(SeekTo(int)));
+  connect(ui_->track_slider, SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
+  connect(ui_->track_slider, SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
+  connect(ui_->track_slider, SIGNAL(Previous()), app_->player(), SLOT(Previous()));
+  connect(ui_->track_slider, SIGNAL(Next()), app_->player(), SLOT(Next()));
 
   // Context connections
 
@@ -882,6 +887,17 @@ void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
   setStyleSheet("");
   setStyleSheet(contents);
+}
+
+void MainWindow::EngineChanged(Engine::EngineType enginetype) {
+
+  if (enginetype == Engine::EngineType::GStreamer) {
+    ui_->action_open_cd->setEnabled(true);
+  }
+  else {
+    ui_->action_open_cd->setEnabled(false);
+  }
+
 }
 
 void MainWindow::MediaStopped() {
@@ -1316,6 +1332,7 @@ void MainWindow::AddToPlaylist(QMimeData *data) {
   }
   app_->playlist_manager()->current()->dropMimeData(data, Qt::CopyAction, -1, 0, QModelIndex());
   delete data;
+
 }
 
 void MainWindow::AddToPlaylist(QAction *action) {

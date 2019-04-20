@@ -37,4 +37,4 @@ Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType);
 
 typedef Engine::Base EngineBase;
 
-#endif
+#endif  // ENGINE_FWD_H
