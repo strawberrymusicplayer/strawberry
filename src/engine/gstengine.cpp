@@ -161,10 +161,6 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::Tr
     return true;
   }
 
-  //SetEqualizerEnabled(equalizer_enabled_);
-  //SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
-  //SetStereoBalance(stereo_balance_);
-
   shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
   if (!pipeline) return false;
 
@@ -174,9 +170,8 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::Tr
   current_pipeline_ = pipeline;
 
   SetVolume(volume_);
-  SetEqualizerEnabled(equalizer_enabled_);
-  if (equalizer_preamp_) SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
   SetStereoBalance(stereo_balance_);
+  SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
   if (crossfade)
@@ -439,6 +434,7 @@ void GstEngine::SetEqualizerParameters(int preamp, const QList<int> &band_gains)
 
   if (current_pipeline_)
     current_pipeline_->SetEqualizerParams(preamp, band_gains);
+
 }
 
 void GstEngine::SetStereoBalance(float value) {
@@ -446,6 +442,7 @@ void GstEngine::SetStereoBalance(float value) {
   stereo_balance_ = value;
 
   if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
+
 }
 
 void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
@@ -747,6 +744,7 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);
+  ret->SetEqualizerEnabled(equalizer_enabled_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

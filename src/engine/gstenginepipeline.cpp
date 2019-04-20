@@ -106,7 +106,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       {
 
   if (!sElementDeleter) {
-    sElementDeleter = new GstElementDeleter;
+    sElementDeleter = new GstElementDeleter(engine_);
   }
 
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
