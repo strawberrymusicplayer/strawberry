@@ -205,6 +205,8 @@ struct Song::Private : public QSharedData {
   bool init_from_file_;		// Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;	// Whether our encoding guesser thinks these tags might be incorrectly encoded.
 
+  QString error_;
+
 };
 
 Song::Private::Private(Song::Source source)
@@ -317,6 +319,7 @@ void Song::manually_unset_cover() { d->art_manual_ = kManuallyUnsetCover; }
 bool Song::has_embedded_cover() const { return d->art_automatic_ == kEmbeddedCover; }
 void Song::set_embedded_cover() { d->art_automatic_ = kEmbeddedCover; }
 const QImage &Song::image() const { return d->image_; }
+const QString &Song::error() const { return d->error_; }
 
 void Song::set_id(int id) { d->id_ = id; }
 void Song::set_album_id(int v) { d->album_id_ = v; }
@@ -850,7 +853,7 @@ void Song::InitFromFilePartial(const QString &filename) {
   }
   else {
     d->valid_ = false;
-    qLog(Error) << "File" << filename << "is not recognized by TagLib as a valid audio file.";
+    d->error_ = QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
   }
 
 }

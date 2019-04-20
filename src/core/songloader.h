@@ -38,6 +38,7 @@
 #include <QByteArray>
 #include <QSet>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QTimer>
 
@@ -77,13 +78,15 @@ class SongLoader : public QObject {
   Result Load(const QUrl &url);
   // Loads the files with only filenames. When finished, songs() contains a complete list of all Song objects, but without metadata.
   // This method is blocking, do not call it from the UI thread.
-  void LoadFilenamesBlocking();
+  SongLoader::Result LoadFilenamesBlocking();
   // Completely load songs previously loaded with LoadFilenamesBlocking().
   // When finished, the Song objects in songs() contain metadata now. This method is blocking, do not call it from the UI thread.
   void LoadMetadataBlocking();
   Result LoadAudioCD();
 
-signals:
+  QStringList errors() { return errors_; }
+
+ signals:
   void AudioCDTracksLoaded();
   void LoadAudioCDFinished(bool success);
   void LoadRemoteFinished();
@@ -100,7 +103,7 @@ signals:
   enum State { WaitingForType, WaitingForMagic, WaitingForData, Finished };
 
   Result LoadLocal(const QString &filename);
-  void LoadLocalAsync(const QString &filename);
+  SongLoader::Result LoadLocalAsync(const QString &filename);
   void EffectiveSongLoad(Song *song);
   Result LoadLocalPartial(const QString &filename);
   void LoadLocalDirectory(const QString &filename);
@@ -109,7 +112,7 @@ signals:
   void AddAsRawStream();
 
 #ifdef HAVE_GSTREAMER
-  void LoadRemote();
+  Result LoadRemote();
 
   // GStreamer callbacks
   static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
@@ -135,7 +138,7 @@ signals:
   CueParser *cue_parser_;
 
   // For async loads
-  std::function<void()> preload_func_;
+  std::function<Result()> preload_func_;
   int timeout_;
   State state_;
   bool success_;
@@ -150,6 +153,9 @@ signals:
 #endif
 
   QThreadPool thread_pool_;
+
+  QStringList errors_;
+
 };
 
 #endif  // SONGLOADER_H

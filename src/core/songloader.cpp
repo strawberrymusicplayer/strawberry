@@ -134,18 +134,27 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     preload_func_ = std::bind(&SongLoader::LoadRemote, this);
     return BlockingLoadRequired;
 #else
+    errors_ << tr("You need GStreamer for this URL.");
     return Error;
 #endif
+  }
+  else {
+    errors_ << tr("You need GStreamer for this URL.");
+    return Error;
   }
 
   return Success;
 
 }
 
-void SongLoader::LoadFilenamesBlocking() {
+SongLoader::Result SongLoader::LoadFilenamesBlocking() {
 
   if (preload_func_) {
-    preload_func_();
+    return preload_func_();
+  }
+  else {
+    errors_ << tr("Preload function was not set for blocking operation.");
+    return Error;
   }
 
 }
@@ -160,21 +169,33 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
   }
   Song song;
   song.InitFromFilePartial(filename);
-  if (song.is_valid()) songs_ << song;
-  return Success;
+  if (song.is_valid()) {
+    songs_ << song;
+    return Success;
+  }
+  else {
+    errors_ << song.error();
+    return Error;
+  }
 
 }
 
 SongLoader::Result SongLoader::LoadAudioCD() {
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-  CddaSongLoader *cdda_song_loader = new CddaSongLoader;
-  connect(cdda_song_loader, SIGNAL(SongsDurationLoaded(SongList)), this, SLOT(AudioCDTracksLoadedSlot(SongList)));
-  connect(cdda_song_loader, SIGNAL(SongsMetadataLoaded(SongList)), this, SLOT(AudioCDTracksTagsLoaded(SongList)));
-  cdda_song_loader->LoadSongs();
-  return Success;
-#else
-  return Error;
+  if (player_->engine()->type() == Engine::GStreamer) {
+    CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
+    connect(cdda_song_loader, SIGNAL(SongsDurationLoaded(SongList)), this, SLOT(AudioCDTracksLoadedSlot(SongList)));
+    connect(cdda_song_loader, SIGNAL(SongsMetadataLoaded(SongList)), this, SLOT(AudioCDTracksTagsLoaded(SongList)));
+    cdda_song_loader->LoadSongs();
+    return Success;
+  }
+  else {
+#endif
+    errors_ << tr("CD playback is only available with the GStreamer engine.");
+    return Error;
+#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+  }
 #endif
 
 }
@@ -225,17 +246,20 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 
 }
 
-void SongLoader::LoadLocalAsync(const QString &filename) {
+SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
 
   // First check to see if it's a directory - if so we will load all the songs inside right away.
   if (QFileInfo(filename).isDir()) {
     LoadLocalDirectory(filename);
-    return;
+    return Success;
   }
 
   // It's a local file, so check if it looks like a playlist. Read the first few bytes.
   QFile file(filename);
-  if (!file.open(QIODevice::ReadOnly)) return;
+  if (!file.open(QIODevice::ReadOnly)) {
+    errors_ << tr("Could not open file %1").arg(filename);
+    return Error;
+  }
   QByteArray data(file.read(PlaylistParser::kMagicSize));
 
   ParserBase *parser = playlist_parser_->ParserForMagic(data);
@@ -247,7 +271,7 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
   if (parser) { // It's a playlist!
     qLog(Debug) << "Parsing using" << parser->name();
     LoadPlaylist(parser, filename);
-    return;
+    return Success;
   }
 
   // Check if it's a cue file
@@ -261,13 +285,20 @@ void SongLoader::LoadLocalAsync(const QString &filename) {
     for (const Song &song : song_list) {
       if (song.is_valid()) songs_ << song;
     }
-    return;
+    return Success;
   }
 
   // Assume it's just a normal file
   Song song;
   song.InitFromFilePartial(filename);
-  if (song.is_valid()) songs_ << song;
+  if (song.is_valid()) {
+    songs_ << song;
+    return Success;
+  }
+  else {
+    errors_ << song.error();
+    return Error;
+  }
 
 }
 
@@ -384,7 +415,7 @@ void SongLoader::StopTypefind() {
 }
 
 #ifdef HAVE_GSTREAMER
-void SongLoader::LoadRemote() {
+SongLoader::Result SongLoader::LoadRemote() {
 
   qLog(Debug) << "Loading remote file" << url_;
 
@@ -402,8 +433,8 @@ void SongLoader::LoadRemote() {
   // Create the source element automatically based on the URL
   GstElement *source = gst_element_make_from_uri(GST_URI_SRC, url_.toEncoded().constData(), nullptr, nullptr);
   if (!source) {
-    qLog(Warning) << "Couldn't create gstreamer source element for" << url_.toString();
-    return;
+    errors_ << tr("Couldn't create gstreamer source element for %1").arg(url_.toString());
+    return Error;
   }
 
   // Create the other elements and link them up
@@ -433,6 +464,9 @@ void SongLoader::LoadRemote() {
 
   // Wait until loading is finished
   loop.exec();
+
+  return Success;
+
 }
 #endif
 

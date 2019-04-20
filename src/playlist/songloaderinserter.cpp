@@ -40,7 +40,8 @@ SongLoaderInserter::SongLoaderInserter(TaskManager *task_manager, CollectionBack
       enqueue_(false),
       enqueue_next_(false),
       collection_(collection),
-      player_(player) {}
+      player_(player) {
+    }
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
 
@@ -66,10 +67,14 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
       continue;
     }
 
-    if (ret == SongLoader::Success)
+    if (ret == SongLoader::Success) {
       songs_ << loader->songs();
-    else
-      emit Error(tr("Error loading %1").arg(url.toString()));
+    }
+    else {
+      for (const QString &error : loader->errors()) {
+        emit Error(error);
+      }
+    }
     delete loader;
   }
 
@@ -100,7 +105,13 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   qLog(Info) << "Loading audio CD...";
   SongLoader::Result ret = loader->LoadAudioCD();
   if (ret == SongLoader::Error) {
-    emit Error(tr("Error while loading audio CD"));
+    if (loader->errors().isEmpty())
+      emit Error(tr("Error while loading audio CD."));
+    else {
+      for (const QString &error : loader->errors()) {
+        emit Error(error);
+      }
+    }
     delete loader;
   }
   // Songs will be loaded later: see AudioCDTracksLoaded and AudioCDTagsLoaded slots
@@ -141,16 +152,28 @@ void SongLoaderInserter::AsyncLoad() {
   int async_progress = 0;
   int async_load_id = task_manager_->StartTask(tr("Loading tracks"));
   task_manager_->SetTaskProgress(async_load_id, async_progress, pending_.count());
+  bool first_loaded = false;
   for (int i = 0; i < pending_.count(); ++i) {
     SongLoader *loader = pending_[i];
-    loader->LoadFilenamesBlocking();
+    SongLoader::Result res = loader->LoadFilenamesBlocking();
     task_manager_->SetTaskProgress(async_load_id, ++async_progress);
-    if (i == 0) {
+
+    if (res == SongLoader::Error) {
+      for (const QString &error : loader->errors()) {
+        emit Error(error);
+      }
+      continue;
+    }
+
+    if (!first_loaded) {
       // Load everything from the first song.
       // It'll start playing as soon as we emit PreloadFinished, so it needs to have the duration set to show properly in the UI.
       loader->LoadMetadataBlocking();
+      first_loaded = true;
     }
+
     songs_ << loader->songs();
+
   }
   task_manager_->SetTaskFinished(async_load_id);
   emit PreloadFinished();
