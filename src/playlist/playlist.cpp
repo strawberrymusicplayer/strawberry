@@ -1820,7 +1820,7 @@ void Playlist::InvalidateDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
-    if (!song.is_stream()) {
+    if (song.url().scheme() == "file") {
       bool exists = QFile::exists(song.url().toLocalFile());
 
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {
@@ -1835,7 +1835,8 @@ void Playlist::InvalidateDeletedSongs() {
     }
   }
 
-  ReloadItems(invalidated_rows);
+  if (!invalidated_rows.isEmpty())
+    ReloadItems(invalidated_rows);
 
 }
 
