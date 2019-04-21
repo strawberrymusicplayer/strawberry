@@ -257,9 +257,8 @@ bool GstEnginePipeline::InitAudioBin() {
     volume_ = engine_->CreateElement("volume", audiobin_);
   }
 
-  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
-
   if (eq_enabled_) {
+    audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
     equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
     equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
   }
