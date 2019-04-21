@@ -25,16 +25,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_scrolltrayicon">
-     <property name="text">
-      <string>Scroll over icon to change track</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QCheckBox" name="checkbox_keeprunning">
      <property name="text">
       <string>Keep running in the background when the window is closed</string>
@@ -58,6 +48,16 @@
     <widget class="QCheckBox" name="checkbox_playingwidget">
      <property name="text">
       <string>Show playing widget</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_scrolltrayicon">
+     <property name="text">
+      <string>Scroll over icon to change track</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

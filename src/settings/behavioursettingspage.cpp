@@ -33,6 +33,7 @@
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
+#include "core/utilities.h"
 #include "settings/settingspage.h"
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
@@ -119,6 +120,10 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->groupbox_language->setEnabled(false);
   ui_->groupbox_language->setVisible(false);
 #endif
+
+  QString de = Utilities::DesktopEnvironment();
+  if (de.toLower() == "kde")
+    ui_->checkbox_scrolltrayicon->hide();
 
 }
 
