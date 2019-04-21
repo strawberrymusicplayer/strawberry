@@ -50,7 +50,9 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
 
 VLCEngine::~VLCEngine() {
 
-  libvlc_media_player_stop(player_);
+  if (state_ == Engine::Playing || state_ == Engine::Paused) {
+    libvlc_media_player_stop(player_);
+  }
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
 
@@ -58,16 +60,8 @@ VLCEngine::~VLCEngine() {
 
 bool VLCEngine::Init() {
 
-  const char *args[] = {
-    //"--verbose=3",
-    "--ignore-config",
-    "--no-plugins-cache",
-    "--no-xlib",
-    "--no-video",
-  };
-
   // Create the VLC instance
-  instance_ = libvlc_new(sizeof(args) / sizeof(*args), args);
+  instance_ = libvlc_new(0, nullptr);
   if (!instance_) return false;
 
   // Create the media player
