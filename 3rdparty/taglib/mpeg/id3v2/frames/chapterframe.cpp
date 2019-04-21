@@ -236,7 +236,7 @@ ChapterFrame *ChapterFrame::findByElementID(const ID3v2::Tag *tag, const ByteVec
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void ChapterFrame::parseFields(const ByteVector &data)

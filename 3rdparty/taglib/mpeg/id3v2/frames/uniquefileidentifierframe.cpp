@@ -114,7 +114,7 @@ UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::T
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void UniqueFileIdentifierFrame::parseFields(const ByteVector &data)

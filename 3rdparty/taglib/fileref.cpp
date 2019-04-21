@@ -74,7 +74,7 @@ namespace
         return file;
     }
 
-    return 0;
+    return nullptr;
   }
 
   // Detect the file type based on the file extension.
@@ -98,7 +98,7 @@ namespace
     // that a default file type resolver is created.
 
     if(ext.isEmpty())
-      return 0;
+      return nullptr;
 
     // .oga can be any audio in the Ogg container. So leave it to content-based detection.
 
@@ -142,7 +142,7 @@ namespace
     if(ext == "DSF")
       return new DSF::File(stream, readAudioProperties, audioPropertiesStyle);
 
-    return 0;
+    return nullptr;
   }
 
   // Detect the file type based on the actual content of the stream.
@@ -194,7 +194,7 @@ namespace
         delete file;
     }
 
-    return 0;
+    return nullptr;
   }
 
   // Internal function that supports FileRef::create().
@@ -220,7 +220,7 @@ namespace
       ext = s.substr(pos + 1).upper();
 
     if(ext.isEmpty())
-      return 0;
+      return nullptr;
 
     if(ext == "MP3")
       return new MPEG::File(fileName, ID3v2::FrameFactory::instance(), readAudioProperties, audioPropertiesStyle);
@@ -270,7 +270,7 @@ namespace
     if(ext == "DSF")
       return new DSF::File(fileName, readAudioProperties, audioPropertiesStyle);
 
-    return 0;
+    return nullptr;
   }
 }
 
@@ -335,7 +335,7 @@ Tag *FileRef::tag() const
 {
   if(isNull()) {
     debug("FileRef::tag() - Called without a valid file.");
-    return 0;
+    return nullptr;
   }
   return d->file->tag();
 }
@@ -344,7 +344,7 @@ AudioProperties *FileRef::audioProperties() const
 {
   if(isNull()) {
     debug("FileRef::audioProperties() - Called without a valid file.");
-    return 0;
+    return nullptr;
   }
   return d->file->audioProperties();
 }

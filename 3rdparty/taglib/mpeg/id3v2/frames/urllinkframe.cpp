@@ -185,7 +185,7 @@ UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &descript
     if(f && f->description() == description)
       return f;
   }
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

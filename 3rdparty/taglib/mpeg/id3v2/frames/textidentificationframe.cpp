@@ -410,7 +410,7 @@ UserTextIdentificationFrame *UserTextIdentificationFrame::find(
     if(f && f->description() == description)
       return f;
   }
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

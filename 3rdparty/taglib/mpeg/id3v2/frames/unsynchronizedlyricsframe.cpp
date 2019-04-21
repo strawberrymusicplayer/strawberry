@@ -134,7 +134,7 @@ UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID
     if(frame && frame->description() == d)
       return frame;
   }
-  return 0;
+  return nullptr;
 }
 ////////////////////////////////////////////////////////////////////////////////
 // protected members

@@ -136,7 +136,7 @@ CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const Str
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

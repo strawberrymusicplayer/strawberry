@@ -89,8 +89,8 @@ namespace
   public:
     explicit AdapterFile(IOStream *stream) : File(stream) {}
 
-    Tag *tag() const { return 0; }
-    AudioProperties *audioProperties() const { return 0; }
+    Tag *tag() const { return nullptr; }
+    AudioProperties *audioProperties() const { return nullptr; }
     bool save() { return false; }
   };
 }
