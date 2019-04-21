@@ -270,7 +270,7 @@ int main(int argc, char* argv[]) {
 
   int ret = a.exec();
 
-  main_exit_safe(ret);
+  //main_exit_safe(ret);
 
   return ret;
 }
