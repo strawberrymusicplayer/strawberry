@@ -121,8 +121,10 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->groupbox_language->setVisible(false);
 #endif
 
+#ifdef HAVE_X11
   QString de = Utilities::DesktopEnvironment();
   if (de.toLower() == "kde")
+#endif
     ui_->checkbox_scrolltrayicon->hide();
 
 }
