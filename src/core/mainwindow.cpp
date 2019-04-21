@@ -2117,6 +2117,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 
   // Settings
   connect(settings_dialog, SIGNAL(accepted()), SLOT(ReloadAllSettings()));
+  connect(settings_dialog, SIGNAL(ReloadSettings()), SLOT(ReloadAllSettings()));
 
   // Allows custom notification preview
   connect(settings_dialog, SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)), SLOT(HandleNotificationPreview(OSD::Behaviour, QString, QString)));

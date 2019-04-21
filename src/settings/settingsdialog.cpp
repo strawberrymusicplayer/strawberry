@@ -232,9 +232,12 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
 }
 
 void SettingsDialog::Save() {
+
   for (const PageData &data : pages_.values()) {
     data.page_->Save();
   }
+  emit ReloadSettings();
+
 }
 
 void SettingsDialog::accept() {
