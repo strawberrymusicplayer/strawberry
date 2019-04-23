@@ -85,13 +85,6 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Initialised() const {
-
-  if (instance_ && player_) return true;
-  return false;
-
-}
-
 bool VLCEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   if (!Initialised()) return false;
@@ -110,9 +103,9 @@ bool VLCEngine::Play(quint64 offset_nanosec) {
   if (!Initialised()) return false;
 
   // Set audio output
-  if (!output_.isEmpty() || output_ != "auto") {
+  if (!output_.isEmpty() && output_ != "auto") {
     int result = libvlc_audio_output_set(player_, output_.toUtf8().constData());
-    if (result != 0) qLog(Error) << "Failed to set output.";
+    if (result != 0) qLog(Error) << "Failed to set output to" << output_;
   }
 
   // Set audio device
@@ -172,14 +165,14 @@ void VLCEngine::SetVolumeSW(uint percent) {
 }
 
 qint64 VLCEngine::position_nanosec() const {
-  if (state() == Engine::Empty) return 0;
+  if (state_ == Engine::Empty) return 0;
   const qint64 result = (position() * kNsecPerMsec);
   return qint64(qMax(0ll, result));
 
 }
 
 qint64 VLCEngine::length_nanosec() const {
-  if (state() == Engine::Empty) return 0;
+  if (state_ == Engine::Empty) return 0;
   const qint64 result = (end_nanosec_ - beginning_nanosec_);
   if (result > 0) {
     return result;
@@ -259,7 +252,9 @@ bool VLCEngine::CanDecode(const QUrl &url) { return true; }
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
 
-  libvlc_event_attach(em, type, callback, this);
+  if (libvlc_event_attach(em, type, callback, this) != 0) {
+    qLog(Error) << "Failed to attach callback.";
+  }
 
 }
 
