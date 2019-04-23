@@ -90,9 +90,10 @@ class FancyTabBar: public QTabBar {
     FancyTabWidget *tabWidget = (FancyTabWidget*) parentWidget();
     QSize size = FancyTabWidget::TabSize_LargeSidebar;
 
-    if(tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
+    if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
       size = QTabBar::tabSizeHint(index);
     }
+    size.setWidth(std::max(size.width(), 37));
 
     return size;
 
