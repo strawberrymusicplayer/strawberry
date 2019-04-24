@@ -98,6 +98,7 @@ set(SOURCES
   core/signalchecker.cpp
   core/song.cpp
   core/songloader.cpp
+  core/stylehelper.cpp
   core/stylesheetloader.cpp
   core/tagreaderclient.cpp
   core/taskmanager.cpp
@@ -245,7 +246,6 @@ set(SOURCES
   widgets/volumeslider.cpp
   widgets/stickyslider.cpp
   widgets/stretchheaderview.cpp
-  widgets/stylehelper.cpp
   widgets/trackslider.cpp
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
