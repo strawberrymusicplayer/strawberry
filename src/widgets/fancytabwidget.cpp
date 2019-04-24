@@ -20,7 +20,7 @@
  */
 
 #include "fancytabwidget.h"
-#include "stylehelper.h"
+#include "core/stylehelper.h"
 #include "core/logging.h"
 
 #include <QDebug>
@@ -245,7 +245,7 @@ class FancyTabBar: public QTabBar {
         p.setTransform(m);
 
         QFont boldFont(p.font());
-        boldFont.setPointSizeF(Utils::StyleHelper::sidebarFontSize());
+        boldFont.setPointSizeF(StyleHelper::sidebarFontSize());
         boldFont.setBold(true);
         p.setFont(boldFont);
 
@@ -256,7 +256,7 @@ class FancyTabBar: public QTabBar {
 
         // Text foreground color
         p.translate(0, -1);
-        p.setPen(selected ? QColor(60, 60, 60) : Utils::StyleHelper::panelTextColor());
+        p.setPen(selected ? QColor(60, 60, 60) : StyleHelper::panelTextColor());
         p.drawText(tabrectText, textFlags, tabText(index));
 
 
@@ -425,7 +425,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   p.fillRect(backgroundRect, baseColor);
 
   // Horizontal gradient over the sidebar from transparent to dark
-  Utils::StyleHelper::verticalGradient(&p, backgroundRect, backgroundRect, false);
+  StyleHelper::verticalGradient(&p, backgroundRect, backgroundRect, false);
 
   // Draw the translucent png graphics over the gradient fill
   {
@@ -451,7 +451,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
     p.setPen(dark);
     p.drawLine(backgroundRect.topLeft(), backgroundRect.bottomLeft());
 
-    p.setPen(Utils::StyleHelper::borderColor());
+    p.setPen(StyleHelper::borderColor());
     p.drawLine(backgroundRect.topRight(), backgroundRect.bottomRight());
   }
 
