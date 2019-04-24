@@ -53,6 +53,19 @@ VLCEngine::~VLCEngine() {
   if (state_ == Engine::Playing || state_ == Engine::Paused) {
     libvlc_media_player_stop(player_);
   }
+
+  libvlc_event_manager_t *player_em = libvlc_media_player_event_manager(player_);
+  if (player_em) {
+    libvlc_event_detach(player_em, libvlc_MediaPlayerEncounteredError, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerNothingSpecial, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerOpening, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerBuffering, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerPlaying, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerPaused, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerStopped, StateChangedCallback, this);
+    libvlc_event_detach(player_em, libvlc_MediaPlayerEndReached, StateChangedCallback, this);
+  }
+
   libvlc_media_player_release(player_);
   libvlc_release(instance_);
 
