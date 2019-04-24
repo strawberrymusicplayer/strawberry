@@ -426,25 +426,25 @@ QIcon Song::IconForSource(Source source) {
 QString Song::TextForFiletype(FileType filetype) {
 
   switch (filetype) {
-    case Song::FileType_WAV:         return QObject::tr("Wav");
-    case Song::FileType_FLAC:        return QObject::tr("FLAC");
-    case Song::FileType_WavPack:     return QObject::tr("WavPack");
-    case Song::FileType_OggFlac:     return QObject::tr("Ogg FLAC");
-    case Song::FileType_OggVorbis:   return QObject::tr("Ogg Vorbis");
-    case Song::FileType_OggOpus:     return QObject::tr("Ogg Opus");
-    case Song::FileType_OggSpeex:    return QObject::tr("Ogg Speex");
-    case Song::FileType_MPEG:        return QObject::tr("MP3");
-    case Song::FileType_MP4:         return QObject::tr("MP4 AAC");
-    case Song::FileType_ASF:         return QObject::tr("Windows Media audio");
-    case Song::FileType_AIFF:        return QObject::tr("AIFF");
-    case Song::FileType_MPC:         return QObject::tr("MPC");
-    case Song::FileType_TrueAudio:   return QObject::tr("TrueAudio");
-    case Song::FileType_DSF:         return QObject::tr("DSF");
-    case Song::FileType_DSDIFF:      return QObject::tr("DSDIFF");
-    case Song::FileType_PCM:         return QObject::tr("PCM");
-    case Song::FileType_APE:         return QObject::tr("Monkey's Audio");
-    case Song::FileType_CDDA:        return QObject::tr("CDDA");
-    case Song::FileType_Stream:      return QObject::tr("Stream");
+    case Song::FileType_WAV:         return "Wav";
+    case Song::FileType_FLAC:        return "FLAC";
+    case Song::FileType_WavPack:     return "WavPack";
+    case Song::FileType_OggFlac:     return "Ogg FLAC";
+    case Song::FileType_OggVorbis:   return "Ogg Vorbis";
+    case Song::FileType_OggOpus:     return "Ogg Opus";
+    case Song::FileType_OggSpeex:    return "Ogg Speex";
+    case Song::FileType_MPEG:        return "MP3";
+    case Song::FileType_MP4:         return "MP4 AAC";
+    case Song::FileType_ASF:         return "Windows Media audio";
+    case Song::FileType_AIFF:        return "AIFF";
+    case Song::FileType_MPC:         return "MPC";
+    case Song::FileType_TrueAudio:   return "TrueAudio";
+    case Song::FileType_DSF:         return "DSF";
+    case Song::FileType_DSDIFF:      return "DSDIFF";
+    case Song::FileType_PCM:         return "PCM";
+    case Song::FileType_APE:         return "Monkey's Audio";
+    case Song::FileType_CDDA:        return "CDDA";
+    case Song::FileType_Stream:      return "Stream";
     case Song::FileType_Unknown:
     default:                         return QObject::tr("Unknown");
   }
