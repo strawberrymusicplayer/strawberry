@@ -280,10 +280,10 @@ Copyright: 2005, Gábor Lehel
            2003, Mark Kretschmann <markey@web.de>
 License: GPL-2+
 
-Files: src/widgets/stylehelper.cpp
-       src/widgets/stylehelper.h
-Copyright: 2010, Nokia Corporation and/or its subsidiary(-ies).
-License: LGPL-2.1
+Files: src/core/stylehelper.cpp
+       src/core/stylehelper.h
+Copyright: 2016 The Qt Company Ltd.
+License: GPL-3+
 
 Files: ext/gstmoodbar/gstfastspectrum.cpp
        ext/gstmoodbar/gstfastspectrum.h
