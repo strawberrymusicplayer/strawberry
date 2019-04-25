@@ -62,7 +62,7 @@
 # define ATOMIC_DEC(x) (--x)
 #endif
 
-namespace TagLib
+namespace Strawberry_TagLib::TagLib
 {
 
   class RefCounter::RefCounterPrivate

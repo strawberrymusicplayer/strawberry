@@ -32,7 +32,7 @@
 
 #include "aifffile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class RIFF::AIFF::File::FilePrivate
 {

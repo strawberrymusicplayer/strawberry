@@ -34,7 +34,12 @@
 
 #include "tagreadermessages.pb.h"
 
+#ifndef USE_SYSTEM_TAGLIB
+using namespace Strawberry_TagLib;
+namespace Strawberry_TagLib::TagLib {
+#else
 namespace TagLib {
+#endif
   class FileRef;
   class String;
 

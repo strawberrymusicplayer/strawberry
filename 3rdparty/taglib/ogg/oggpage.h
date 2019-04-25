@@ -29,7 +29,7 @@
 #include "taglib_export.h"
 #include "tbytevectorlist.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace Ogg {
 

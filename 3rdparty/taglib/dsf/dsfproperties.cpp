@@ -28,7 +28,7 @@
 
 #include "dsfproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class DSF::Properties::PropertiesPrivate
 {
@@ -66,7 +66,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-DSF::Properties::Properties(const ByteVector &data, ReadStyle style) : TagLib::AudioProperties(style)
+DSF::Properties::Properties(const ByteVector &data, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style)
 {
   d = new PropertiesPrivate;
   read(data);

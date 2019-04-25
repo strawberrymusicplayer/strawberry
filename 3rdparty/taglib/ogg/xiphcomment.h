@@ -35,7 +35,7 @@
 #include "flacpicture.h"
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace Ogg {
 
@@ -62,7 +62,7 @@ namespace TagLib {
      * \see fieldListMap()
      */
 
-    class TAGLIB_EXPORT XiphComment : public TagLib::Tag
+    class TAGLIB_EXPORT XiphComment : public Strawberry_TagLib::TagLib::Tag
     {
     public:
       /*!

@@ -41,7 +41,7 @@
 #include "frames/uniquefileidentifierframe.h"
 #include "frames/unknownframe.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class Frame::FramePrivate

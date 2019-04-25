@@ -25,7 +25,7 @@
 
 #include "trefcounter.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -196,4 +196,4 @@ void Map<Key, T>::detach()
   }
 }
 
-} // namespace TagLib
+} // namespace Strawberry_TagLib::TagLib

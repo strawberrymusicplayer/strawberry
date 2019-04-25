@@ -32,7 +32,7 @@
 #include "mp4tag.h"
 #include "mp4file.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -88,7 +88,7 @@ bool MP4::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 MP4::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -96,7 +96,7 @@ MP4::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) 
 }
 
 MP4::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())

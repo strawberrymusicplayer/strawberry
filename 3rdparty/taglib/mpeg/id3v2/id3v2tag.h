@@ -35,7 +35,7 @@
 
 #include "id3v2framefactory.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class File;
 
@@ -125,14 +125,14 @@ namespace TagLib {
      * heart and should not be done without much meditation on the spec.  It's
      * rather long, but if you're planning on messing with this class and others
      * that deal with the details of ID3v2 (rather than the nice, safe, abstract
-     * TagLib::Tag and friends), it's worth your time to familiarize yourself
+     * Strawberry_TagLib::TagLib::Tag and friends), it's worth your time to familiarize yourself
      * with said spec (which is distributed with the TagLib sources).  TagLib
      * tries to do most of the work, but with a little luck, you can still
      * convince it to generate invalid ID3v2 tags.  The APIs for ID3v2 assume a
      * working knowledge of ID3v2 structure.  You're been warned.
      */
 
-    class TAGLIB_EXPORT Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
     {
     public:
       /*!
@@ -216,7 +216,7 @@ namespace TagLib {
        * beats per minute -- the TBPM frame.
        *
        * \code
-       * TagLib::MPEG::File f("foo.mp3");
+       * Strawberry_TagLib::TagLib::MPEG::File f("foo.mp3");
        *
        * // Check to make sure that it has an ID3v2 tag
        *
@@ -224,7 +224,7 @@ namespace TagLib {
        *
        *   // Get the list of frames for a specific frame type
        *
-       *   TagLib::ID3v2::FrameList l = f.ID3v2Tag()->frameListMap()["TBPM"];
+       *   Strawberry_TagLib::TagLib::ID3v2::FrameList l = f.ID3v2Tag()->frameListMap()["TBPM"];
        *
        *   if(!l.isEmpty())
        *     std::cout << l.front()->toString() << std::endl;

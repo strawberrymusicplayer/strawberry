@@ -30,7 +30,7 @@
 
 #include <list>
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! A generic, implicitly shared list.
 
@@ -40,7 +40,7 @@ namespace TagLib {
    *
    * \code
    *
-   * TagLib::List<int> l = someOtherIntList;
+   * Strawberry_TagLib::TagLib::List<int> l = someOtherIntList;
    *
    * \endcode
    *

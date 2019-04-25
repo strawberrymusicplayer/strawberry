@@ -42,7 +42,7 @@
 #include "apefooter.h"
 #include "apeitem.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace APE;
 
 namespace
@@ -91,13 +91,13 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 APE::Tag::Tag() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
 }
 
-APE::Tag::Tag(TagLib::File *file, long footerLocation) :
-  TagLib::Tag(),
+APE::Tag::Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation) :
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
   d->file = file;

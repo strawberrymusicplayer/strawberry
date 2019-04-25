@@ -30,7 +30,7 @@
 #include <xiphcomment.h>
 #include <tpropertymap.h>
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -61,13 +61,13 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 Ogg::XiphComment::XiphComment() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new XiphCommentPrivate())
 {
 }
 
 Ogg::XiphComment::XiphComment(const ByteVector &data) :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new XiphCommentPrivate())
 {
   parse(data);

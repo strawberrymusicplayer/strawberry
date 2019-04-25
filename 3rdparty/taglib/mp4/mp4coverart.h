@@ -31,7 +31,7 @@
 #include "taglib_export.h"
 #include "mp4atom.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace MP4 {
 

@@ -69,6 +69,9 @@
 #include "tagreadermessages.pb.h"
 
 using std::sort;
+#ifndef USE_SYSTEM_TAGLIB
+using namespace Strawberry_TagLib;
+#endif
 
 const QStringList Song::kColumns = QStringList() << "title"
                                                  << "album"

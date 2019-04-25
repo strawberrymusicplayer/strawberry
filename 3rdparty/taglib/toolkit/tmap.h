@@ -30,7 +30,7 @@
 
 #include "taglib.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! A generic, implicitly shared map.
 

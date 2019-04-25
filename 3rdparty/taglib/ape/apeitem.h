@@ -30,7 +30,7 @@
 #include "tstring.h"
 #include "tstringlist.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace APE {
 

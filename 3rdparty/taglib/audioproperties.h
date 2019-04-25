@@ -28,14 +28,14 @@
 
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! A simple, abstract interface to common audio properties
 
   /*!
    * The values here are common to most audio formats.  For more specific, codec
    * dependent values, please see see the subclasses APIs.  This is meant to
-   * compliment the TagLib::File and TagLib::Tag APIs in providing a simple
+   * compliment the Strawberry_TagLib::TagLib::File and Strawberry_TagLib::TagLib::Tag APIs in providing a simple
    * interface that is sufficient for most applications.
    */
 

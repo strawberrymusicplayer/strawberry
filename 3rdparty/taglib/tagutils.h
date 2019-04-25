@@ -32,7 +32,7 @@
 
 #include <tbytevector.h>
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class File;
   class IOStream;

@@ -33,7 +33,7 @@
 #include "modtag.h"
 #include "s3mproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace S3M {
 

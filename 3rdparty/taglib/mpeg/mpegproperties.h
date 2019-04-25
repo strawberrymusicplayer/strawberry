@@ -31,7 +31,7 @@
 
 #include "mpegheader.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace MPEG {
 

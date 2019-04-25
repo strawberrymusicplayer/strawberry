@@ -38,7 +38,7 @@
 #include <cstdio>
 #include <cstdarg>
 
-namespace TagLib
+namespace Strawberry_TagLib::TagLib
 {
   // The instance is defined in tdebuglistener.cpp.
   extern DebugListener *debugListener;

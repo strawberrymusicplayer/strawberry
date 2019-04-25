@@ -26,7 +26,7 @@
 #ifndef TAGLIB_DEBUG_H
 #define TAGLIB_DEBUG_H
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class String;
   class ByteVector;

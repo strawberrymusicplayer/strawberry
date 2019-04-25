@@ -27,7 +27,7 @@
 #include <tstring.h>
 #include "asfproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class ASF::Properties::PropertiesPrivate
 {

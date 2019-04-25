@@ -44,7 +44,7 @@
 //
 // http://www.informit.com/isapi/product_id~{9C84DAB4-FE6E-49C5-BB0A-FB50331233EA}/content/index.asp
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 template <class TIterator>
 int findChar(
@@ -1036,7 +1036,7 @@ void ByteVector::detach()
 // related functions
 ////////////////////////////////////////////////////////////////////////////////
 
-std::ostream &operator<<(std::ostream &s, const TagLib::ByteVector &v)
+std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::ByteVector &v)
 {
   for(unsigned int i = 0; i < v.size(); i++)
     s << v[i];

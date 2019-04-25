@@ -36,7 +36,7 @@
 // Implementation of this class is based on the information at:
 // http://www.wavpack.com/file_format.txt
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class WavPack::Properties::PropertiesPrivate
 {

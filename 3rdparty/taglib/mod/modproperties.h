@@ -29,7 +29,7 @@
 #include "taglib.h"
 #include "audioproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace Mod {
 

@@ -32,18 +32,18 @@
 #include "asfproperties.h"
 #include "asftag.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! An implementation of ASF (WMA) metadata
   namespace ASF {
 
     /*!
      * This implements and provides an interface for ASF files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to ASF files.
      */
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
 
@@ -79,7 +79,7 @@ namespace TagLib {
        * Returns a pointer to the ASF tag of the file.
        *
        * ASF::Tag implements the tag interface, so this serves as the
-       * reimplementation of TagLib::File::tag().
+       * reimplementation of Strawberry_TagLib::TagLib::File::tag().
        *
        * \note The Tag <b>is still</b> owned by the ASF::File and should not be
        * deleted by the user.  It will be deleted when the file (object) is

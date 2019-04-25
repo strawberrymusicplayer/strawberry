@@ -28,7 +28,7 @@
 
 #include "audioproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace DSDIFF {
 

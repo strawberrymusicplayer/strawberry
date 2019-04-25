@@ -56,7 +56,7 @@
   *
   * \warning This <b>is not</b> part of the TagLib public API!
   */
-namespace TagLib
+namespace Strawberry_TagLib::TagLib
 {
 
   class TAGLIB_EXPORT RefCounter

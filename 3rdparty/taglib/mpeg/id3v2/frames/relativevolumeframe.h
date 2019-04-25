@@ -30,7 +30,7 @@
 #include "id3v2frame.h"
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace ID3v2 {
 

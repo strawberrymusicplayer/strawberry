@@ -32,7 +32,7 @@
 #include <string.h>
 #include <algorithm>
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace XM;
 
 /*!
@@ -75,7 +75,7 @@ public:
    * Reads associated values from \a file, but never reads more
    * then \a limit bytes.
    */
-  virtual unsigned int read(TagLib::File &file, unsigned int limit) = 0;
+  virtual unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) = 0;
 
   /*!
    * Returns the number of bytes this reader would like to read.
@@ -90,10 +90,10 @@ public:
   {
   }
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     unsigned int count = std::min(m_size, limit);
-    file.seek(count, TagLib::File::Current);
+    file.seek(count, Strawberry_TagLib::TagLib::File::Current);
     return count;
   }
 
@@ -126,7 +126,7 @@ public:
   {
   }
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     ByteVector data = file.readBlock(std::min(m_size, limit));
     unsigned int count = data.size();
@@ -153,7 +153,7 @@ class ByteReader : public ValueReader<unsigned char>
 public:
   explicit ByteReader(unsigned char &byte) : ValueReader<unsigned char>(byte) {}
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     ByteVector data = file.readBlock(std::min(1U,limit));
     if(data.size() > 0) {
@@ -187,7 +187,7 @@ public:
   U16Reader(unsigned short &value, bool bigEndian)
   : NumberReader<unsigned short>(value, bigEndian) {}
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     ByteVector data = file.readBlock(std::min(2U,limit));
     value = data.toUShort(bigEndian);
@@ -208,7 +208,7 @@ public:
   {
   }
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     ByteVector data = file.readBlock(std::min(4U,limit));
     value = data.toUInt(bigEndian);
@@ -327,7 +327,7 @@ public:
     return size;
   }
 
-  unsigned int read(TagLib::File &file, unsigned int limit)
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
     unsigned int sumcount = 0;
     for(List<Reader*>::ConstIterator i = m_readers.begin();

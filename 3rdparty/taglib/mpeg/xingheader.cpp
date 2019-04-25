@@ -30,7 +30,7 @@
 #include "xingheader.h"
 #include "mpegfile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class MPEG::XingHeader::XingHeaderPrivate
 {
@@ -81,8 +81,8 @@ MPEG::XingHeader::HeaderType MPEG::XingHeader::type() const
   return d->type;
 }
 
-int MPEG::XingHeader::xingHeaderOffset(TagLib::MPEG::Header::Version /*v*/,
-                                       TagLib::MPEG::Header::ChannelMode /*c*/)
+int MPEG::XingHeader::xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version /*v*/,
+                                       Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode /*c*/)
 {
   return 0;
 }

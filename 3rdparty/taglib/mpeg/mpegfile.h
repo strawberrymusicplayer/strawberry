@@ -32,25 +32,25 @@
 
 #include "mpegproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace ID3v2 { class Tag; class FrameFactory; }
   namespace ID3v1 { class Tag; }
   namespace APE { class Tag; }
 
-  //! An implementation of TagLib::File with MPEG (MP3) specific methods
+  //! An implementation of Strawberry_TagLib::TagLib::File with MPEG (MP3) specific methods
 
   namespace MPEG {
 
     //! An MPEG file class with some useful methods specific to MPEG
 
     /*!
-     * This implements the generic TagLib::File API and additionally provides
+     * This implements the generic Strawberry_TagLib::TagLib::File API and additionally provides
      * access to properties that are distinct to MPEG files, notably access
      * to the different ID3 tags.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!

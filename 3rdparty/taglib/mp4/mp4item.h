@@ -30,7 +30,7 @@
 #include "mp4coverart.h"
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace MP4 {
 

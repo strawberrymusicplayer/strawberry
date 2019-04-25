@@ -37,7 +37,7 @@
 #include "mpegutils.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -84,7 +84,7 @@ namespace
 {
   // Dummy file class to make a stream work with MPEG::Header.
 
-  class AdapterFile : public TagLib::File
+  class AdapterFile : public Strawberry_TagLib::TagLib::File
   {
   public:
     explicit AdapterFile(IOStream *stream) : File(stream) {}
@@ -133,7 +133,7 @@ bool MPEG::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 MPEG::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -142,7 +142,7 @@ MPEG::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
 
 MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -151,7 +151,7 @@ MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
 
 MPEG::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -163,7 +163,7 @@ MPEG::File::~File()
   delete d;
 }
 
-TagLib::Tag *MPEG::File::tag() const
+Strawberry_TagLib::TagLib::Tag *MPEG::File::tag() const
 {
   return &d->tag;
 }

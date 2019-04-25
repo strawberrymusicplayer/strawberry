@@ -32,7 +32,7 @@
 #include <vector>
 #include <iostream>
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! A byte vector
 
@@ -627,9 +627,9 @@ namespace TagLib {
 }
 
 /*!
- * \relates TagLib::ByteVector
+ * \relates Strawberry_TagLib::TagLib::ByteVector
  * Streams the ByteVector \a v to the output stream \a s.
  */
-TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const TagLib::ByteVector &v);
+TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::ByteVector &v);
 
 #endif

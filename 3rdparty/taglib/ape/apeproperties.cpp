@@ -36,7 +36,7 @@
 #include "apetag.h"
 #include "apefooter.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class APE::Properties::PropertiesPrivate
 {

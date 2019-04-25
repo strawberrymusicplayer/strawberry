@@ -29,7 +29,7 @@
 #include <tstring.h>
 #include "mp4atom.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 const char *MP4::Atom::containers[11] = {
     "moov", "udta", "mdia", "meta", "ilst",

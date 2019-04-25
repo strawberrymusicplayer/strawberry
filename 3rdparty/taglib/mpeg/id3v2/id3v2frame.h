@@ -30,7 +30,7 @@
 #include "tbytevector.h"
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class StringList;
   class PropertyMap;

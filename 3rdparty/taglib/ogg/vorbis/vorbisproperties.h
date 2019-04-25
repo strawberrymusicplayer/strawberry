@@ -29,7 +29,7 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 /*
  * This is just to make this appear to be in the Ogg namespace in the
@@ -152,7 +152,7 @@ namespace TagLib {
 #ifdef DOXYGEN
   }
 #else
-  namespace Ogg { namespace Vorbis { typedef TagLib::AudioProperties AudioProperties; } }
+  namespace Ogg { namespace Vorbis { typedef Strawberry_TagLib::TagLib::AudioProperties AudioProperties; } }
 #endif
 
 }

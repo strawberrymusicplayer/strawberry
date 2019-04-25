@@ -29,7 +29,7 @@
 #include "modtag.h"
 #include "itproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace IT {
 

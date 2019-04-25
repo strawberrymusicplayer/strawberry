@@ -28,7 +28,7 @@
 
 #include "taglib_export.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class ByteVector;
   class File;

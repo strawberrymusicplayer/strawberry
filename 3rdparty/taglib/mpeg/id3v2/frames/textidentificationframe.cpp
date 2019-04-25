@@ -29,7 +29,7 @@
 #include "tpropertymap.h"
 #include "id3v1genres.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class TextIdentificationFrame::TextIdentificationFramePrivate

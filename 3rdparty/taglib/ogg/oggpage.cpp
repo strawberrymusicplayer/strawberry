@@ -32,7 +32,7 @@
 #include "oggpageheader.h"
 #include "oggfile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class Ogg::Page::PagePrivate
 {

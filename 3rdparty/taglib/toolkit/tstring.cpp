@@ -37,7 +37,7 @@
 
 namespace
 {
-  using namespace TagLib;
+  using namespace Strawberry_TagLib::TagLib;
 
   // Returns the native format of std::wstring.
   String::Type wcharByteOrder()
@@ -136,7 +136,7 @@ namespace
   }
 }
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 class String::StringPrivate : public RefCounter
 {
@@ -147,7 +147,7 @@ public:
   /*!
    * Stores string in UTF-16. The byte order depends on the CPU endian.
    */
-  TagLib::wstring data;
+  Strawberry_TagLib::TagLib::wstring data;
 
   /*!
    * This is only used to hold the the most recent value of toCString().
@@ -198,7 +198,7 @@ String::String(const wstring &s, Type t) :
     copyFromUTF16(d->data, s.c_str(), s.length(), t);
   }
   else {
-    debug("String::String() -- TagLib::wstring should not contain Latin1 or UTF-8.");
+    debug("String::String() -- Strawberry_TagLib::TagLib::wstring should not contain Latin1 or UTF-8.");
   }
 }
 
@@ -285,7 +285,7 @@ std::string String::to8Bit(bool unicode) const
   return std::string(v.data(), v.size());
 }
 
-TagLib::wstring String::toWString() const
+Strawberry_TagLib::TagLib::wstring String::toWString() const
 {
   return d->data;
 }
@@ -718,28 +718,28 @@ const String::Type String::WCharByteOrder = wcharByteOrder();
 // related non-member functions
 ////////////////////////////////////////////////////////////////////////////////
 
-const TagLib::String operator+(const TagLib::String &s1, const TagLib::String &s2)
+const Strawberry_TagLib::TagLib::String operator+(const Strawberry_TagLib::TagLib::String &s1, const Strawberry_TagLib::TagLib::String &s2)
 {
-  TagLib::String s(s1);
+  Strawberry_TagLib::TagLib::String s(s1);
   s.append(s2);
   return s;
 }
 
-const TagLib::String operator+(const char *s1, const TagLib::String &s2)
+const Strawberry_TagLib::TagLib::String operator+(const char *s1, const Strawberry_TagLib::TagLib::String &s2)
 {
-  TagLib::String s(s1);
+  Strawberry_TagLib::TagLib::String s(s1);
   s.append(s2);
   return s;
 }
 
-const TagLib::String operator+(const TagLib::String &s1, const char *s2)
+const Strawberry_TagLib::TagLib::String operator+(const Strawberry_TagLib::TagLib::String &s1, const char *s2)
 {
-  TagLib::String s(s1);
+  Strawberry_TagLib::TagLib::String s(s1);
   s.append(s2);
   return s;
 }
 
-std::ostream &operator<<(std::ostream &s, const TagLib::String &str)
+std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::String &str)
 {
   s << str.to8Bit();
   return s;

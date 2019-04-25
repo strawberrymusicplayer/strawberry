@@ -27,7 +27,7 @@
 #include "tstringlist.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class Tag::TagPrivate
 {

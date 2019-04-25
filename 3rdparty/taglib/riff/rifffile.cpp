@@ -33,7 +33,7 @@
 #include "rifffile.h"
 #include "riffutils.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 struct Chunk
 {
@@ -73,7 +73,7 @@ RIFF::File::~File()
 ////////////////////////////////////////////////////////////////////////////////
 
 RIFF::File::File(FileName file, Endianness endianness) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate(endianness))
 {
   if(isOpen())
@@ -81,7 +81,7 @@ RIFF::File::File(FileName file, Endianness endianness) :
 }
 
 RIFF::File::File(IOStream *stream, Endianness endianness) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate(endianness))
 {
   if(isOpen())

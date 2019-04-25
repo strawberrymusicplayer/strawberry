@@ -35,21 +35,21 @@
 #include "mp4atom.h"
 #include "mp4item.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace MP4 {
 
     /*!
      * \deprecated
      */
-    typedef TagLib::Map<String, Item> ItemListMap;
-    typedef TagLib::Map<String, Item> ItemMap;
+    typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemListMap;
+    typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemMap;
 
-    class TAGLIB_EXPORT Tag: public TagLib::Tag
+    class TAGLIB_EXPORT Tag: public Strawberry_TagLib::TagLib::Tag
     {
     public:
         Tag();
-        Tag(TagLib::File *file, Atoms *atoms);
+        Tag(Strawberry_TagLib::TagLib::File *file, Atoms *atoms);
         virtual ~Tag();
         bool save();
 

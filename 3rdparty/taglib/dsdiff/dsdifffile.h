@@ -31,7 +31,7 @@
 #include "dsdiffproperties.h"
 #include "dsdiffdiintag.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! An implementation of DSDIFF metadata
 
@@ -49,16 +49,16 @@ namespace TagLib {
 
   namespace DSDIFF {
 
-    //! An implementation of TagLib::File with DSDIFF specific methods
+    //! An implementation of Strawberry_TagLib::TagLib::File with DSDIFF specific methods
 
     /*!
      * This implements and provides an interface for DSDIFF files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to DSDIFF files.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!

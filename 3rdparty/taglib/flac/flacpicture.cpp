@@ -27,7 +27,7 @@
 #include <tdebug.h>
 #include "flacpicture.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::Picture::PicturePrivate
 {

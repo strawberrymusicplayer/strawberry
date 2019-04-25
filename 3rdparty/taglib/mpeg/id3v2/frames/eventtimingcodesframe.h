@@ -29,7 +29,7 @@
 #include "id3v2frame.h"
 #include "tlist.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace ID3v2 {
 
@@ -116,7 +116,7 @@ namespace TagLib {
       /*!
        * List of synchronized events.
        */
-      typedef TagLib::List<SynchedEvent> SynchedEventList;
+      typedef Strawberry_TagLib::TagLib::List<SynchedEvent> SynchedEventList;
 
       /*!
        * Construct an empty event timing codes frame.

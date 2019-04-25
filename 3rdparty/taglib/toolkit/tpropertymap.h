@@ -29,7 +29,7 @@
 #include "tmap.h"
 #include "tstringlist.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   typedef Map<String,StringList> SimplePropertyMap;
 

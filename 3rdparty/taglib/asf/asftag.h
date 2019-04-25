@@ -32,14 +32,14 @@
 #include "taglib_export.h"
 #include "asfattribute.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace ASF {
 
     typedef List<Attribute> AttributeList;
     typedef Map<String, AttributeList> AttributeListMap;
 
-    class TAGLIB_EXPORT Tag : public TagLib::Tag {
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 
       friend class File;
 

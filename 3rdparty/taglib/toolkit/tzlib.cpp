@@ -35,7 +35,7 @@
 
 #include "tzlib.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 bool zlib::isAvailable()
 {

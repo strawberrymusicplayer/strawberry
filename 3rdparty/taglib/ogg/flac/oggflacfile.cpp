@@ -32,8 +32,8 @@
 #include <xiphcomment.h>
 #include "oggflacfile.h"
 
-using namespace TagLib;
-using TagLib::FLAC::Properties;
+using namespace Strawberry_TagLib::TagLib;
+using Strawberry_TagLib::TagLib::FLAC::Properties;
 
 class Ogg::FLAC::File::FilePrivate
 {

@@ -25,7 +25,7 @@
 
 #include "podcastframe.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class PodcastFrame::PodcastFramePrivate

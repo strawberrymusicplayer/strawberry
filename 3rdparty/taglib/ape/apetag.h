@@ -34,7 +34,7 @@
 
 #include "apeitem.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class File;
 
@@ -54,7 +54,7 @@ namespace TagLib {
 
     //! An APE tag implementation
 
-    class TAGLIB_EXPORT Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
     {
     public:
       /*!
@@ -66,7 +66,7 @@ namespace TagLib {
        * Create an APE tag and parse the data in \a file with APE footer at
        * \a tagOffset.
        */
-      Tag(TagLib::File *file, long footerLocation);
+      Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
 
       /*!
        * Destroys this Tag instance.

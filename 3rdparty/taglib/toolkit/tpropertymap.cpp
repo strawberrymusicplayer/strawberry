@@ -25,7 +25,7 @@
 
 
 #include "tpropertymap.h"
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 
 PropertyMap::PropertyMap() : SimplePropertyMap()

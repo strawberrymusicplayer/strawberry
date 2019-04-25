@@ -32,7 +32,7 @@
 #include "oggpage.h"
 #include "oggpageheader.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -175,13 +175,13 @@ bool Ogg::File::save()
 ////////////////////////////////////////////////////////////////////////////////
 
 Ogg::File::File(FileName file) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
 }
 
 Ogg::File::File(IOStream *stream) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
 }

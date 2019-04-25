@@ -32,7 +32,7 @@
 #include "mp4properties.h"
 #include "mp4tag.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   //! An implementation of MP4 (AAC, ALAC, ...) metadata
   namespace MP4 {
@@ -41,11 +41,11 @@ namespace TagLib {
 
     /*!
      * This implements and provides an interface for MP4 files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to MP4 files.
      */
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!
@@ -78,7 +78,7 @@ namespace TagLib {
        * Returns a pointer to the MP4 tag of the file.
        *
        * MP4::Tag implements the tag interface, so this serves as the
-       * reimplementation of TagLib::File::tag().
+       * reimplementation of Strawberry_TagLib::TagLib::File::tag().
        *
        * \note The Tag <b>is still</b> owned by the MP4::File and should not be
        * deleted by the user.  It will be deleted when the file (object) is

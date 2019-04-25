@@ -32,7 +32,7 @@
 
 #include "vorbisproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 /*
  * This is just to make this appear to be in the Ogg namespace in the
@@ -91,7 +91,7 @@ namespace TagLib {
       /*!
        * Returns the XiphComment for this file.  XiphComment implements the tag
        * interface, so this serves as the reimplementation of
-       * TagLib::File::tag().
+       * Strawberry_TagLib::TagLib::File::tag().
        */
       virtual Ogg::XiphComment *tag() const;
 
@@ -149,7 +149,7 @@ namespace TagLib {
 #ifdef DOXYGEN
   }
 #else
-  namespace Ogg { namespace Vorbis { typedef TagLib::Vorbis::File File; } }
+  namespace Ogg { namespace Vorbis { typedef Strawberry_TagLib::TagLib::Vorbis::File File; } }
 #endif
 
 }

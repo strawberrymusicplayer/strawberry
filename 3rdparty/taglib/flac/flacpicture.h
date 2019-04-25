@@ -32,7 +32,7 @@
 #include "taglib_export.h"
 #include "flacmetadatablock.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace FLAC {
 

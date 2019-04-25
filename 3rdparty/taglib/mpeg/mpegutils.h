@@ -30,7 +30,7 @@
 
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
-namespace TagLib
+namespace Strawberry_TagLib::TagLib
 {
   namespace MPEG
   {

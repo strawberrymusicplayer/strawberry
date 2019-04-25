@@ -38,7 +38,7 @@
 #include "taglib_export.h"
 #include "apeproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   class Tag;
 
@@ -56,16 +56,16 @@ namespace TagLib {
 
   namespace APE {
 
-    //! An implementation of TagLib::File with APE specific methods
+    //! An implementation of Strawberry_TagLib::TagLib::File with APE specific methods
 
     /*!
      * This implements and provides an interface for APE files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to APE files.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!
@@ -113,7 +113,7 @@ namespace TagLib {
        * Returns the Tag for this file.  This will be an APE tag, an ID3v1 tag
        * or a combination of the two.
        */
-      virtual TagLib::Tag *tag() const;
+      virtual Strawberry_TagLib::TagLib::Tag *tag() const;
 
       /*!
        * Implements the unified property interface -- export function.

@@ -31,7 +31,7 @@
 #include "taglib_export.h"
 #include "attachedpictureframe.h"
 
-namespace TagLib
+namespace Strawberry_TagLib::TagLib
 {
   namespace ASF
   {

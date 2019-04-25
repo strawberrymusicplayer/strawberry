@@ -30,7 +30,7 @@
 #include "taglib.h"
 #include "tbytevector.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
 #ifdef _WIN32
   class TAGLIB_EXPORT FileName

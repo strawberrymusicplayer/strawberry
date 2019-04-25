@@ -33,11 +33,11 @@
 #include "modtag.h"
 #include "modproperties.h"
 
-namespace TagLib {
+namespace Strawberry_TagLib::TagLib {
 
   namespace Mod {
 
-    class TAGLIB_EXPORT File : public TagLib::Mod::FileBase
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::Mod::FileBase
     {
     public:
       /*!
