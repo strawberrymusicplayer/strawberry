@@ -29,7 +29,8 @@
 #include "taglib_export.h"
 #include "tfile.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! An implementation of Strawberry_TagLib::TagLib::File with RIFF specific methods
 
@@ -156,6 +157,7 @@ namespace Strawberry_TagLib::TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

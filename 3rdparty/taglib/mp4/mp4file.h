@@ -32,7 +32,8 @@
 #include "mp4properties.h"
 #include "mp4tag.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! An implementation of MP4 (AAC, ALAC, ...) metadata
   namespace MP4 {
@@ -138,6 +139,7 @@ namespace Strawberry_TagLib::TagLib {
 
   }
 
+}
 }
 
 #endif

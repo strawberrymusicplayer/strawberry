@@ -30,7 +30,8 @@
 
 #include "taglib.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A generic, implicitly shared map.
 
@@ -194,6 +195,7 @@ namespace Strawberry_TagLib::TagLib {
 #endif
   };
 
+}
 }
 
 // Since GCC doesn't support the "export" keyword, we have to include the

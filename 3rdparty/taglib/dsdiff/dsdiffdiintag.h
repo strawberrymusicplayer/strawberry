@@ -28,7 +28,8 @@
 
 #include "tag.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace DSDIFF {
 
@@ -144,6 +145,7 @@ namespace Strawberry_TagLib::TagLib {
       };
     }
   }
+}
 }
 
 #endif

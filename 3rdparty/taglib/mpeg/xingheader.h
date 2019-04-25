@@ -29,7 +29,8 @@
 #include "mpegheader.h"
 #include "taglib_export.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class ByteVector;
 
@@ -124,6 +125,7 @@ namespace Strawberry_TagLib::TagLib {
       XingHeaderPrivate *d;
     };
   }
+}
 }
 
 #endif

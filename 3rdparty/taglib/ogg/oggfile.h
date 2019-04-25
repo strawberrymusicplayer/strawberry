@@ -30,7 +30,8 @@
 #ifndef TAGLIB_OGGFILE_H
 #define TAGLIB_OGGFILE_H
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A namespace for the classes used by Ogg-based metadata files
 
@@ -122,6 +123,7 @@ namespace Strawberry_TagLib::TagLib {
     };
 
   }
+}
 }
 
 #endif

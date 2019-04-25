@@ -30,7 +30,8 @@
 
 #ifndef DO_NOT_DOCUMENT
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   /*!
    * \internal
@@ -92,6 +93,7 @@ namespace Strawberry_TagLib::TagLib {
     class TagUnionPrivate;
     TagUnionPrivate *d;
   };
+}
 }
 
 #endif

@@ -51,12 +51,14 @@ public:
   Properties *properties;
 };
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
   /*!
    * Vorbis headers can be found with one type ID byte and the string "vorbis" in
    * an Ogg stream.  0x03 indicates the comment header.
    */
   static const char vorbisCommentHeaderID[] = { 0x03, 'v', 'o', 'r', 'b', 'i', 's', 0 };
+}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

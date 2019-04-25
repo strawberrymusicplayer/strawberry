@@ -30,7 +30,8 @@
 #include "taglib.h"
 #include "tbytevector.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
 #ifdef _WIN32
   class TAGLIB_EXPORT FileName
@@ -165,6 +166,7 @@ namespace Strawberry_TagLib::TagLib {
     IOStream &operator=(const IOStream &);
   };
 
+}
 }
 
 #endif

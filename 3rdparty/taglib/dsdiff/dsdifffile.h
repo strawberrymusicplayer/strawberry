@@ -31,7 +31,8 @@
 #include "dsdiffproperties.h"
 #include "dsdiffdiintag.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! An implementation of DSDIFF metadata
 
@@ -254,6 +255,7 @@ namespace Strawberry_TagLib::TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

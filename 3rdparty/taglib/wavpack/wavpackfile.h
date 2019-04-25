@@ -34,7 +34,8 @@
 #include "taglib_export.h"
 #include "wavpackproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class Tag;
 
@@ -218,6 +219,7 @@ namespace Strawberry_TagLib::TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

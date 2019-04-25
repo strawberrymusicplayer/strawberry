@@ -32,7 +32,8 @@
 
 #include "flacproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class Tag;
 
@@ -165,6 +166,7 @@ namespace Strawberry_TagLib::TagLib {
     };
   } // namespace FLAC
   } // namespace Ogg
-} // namespace Strawberry_TagLib::TagLib
+} // namespace TagLib
+} // namespace Strawberry_TagLib
 
 #endif

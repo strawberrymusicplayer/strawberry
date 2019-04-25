@@ -34,7 +34,8 @@
 
 #include "apeitem.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class File;
 
@@ -203,6 +204,7 @@ namespace Strawberry_TagLib::TagLib {
       TagPrivate *d;
     };
   }
+}
 }
 
 #endif

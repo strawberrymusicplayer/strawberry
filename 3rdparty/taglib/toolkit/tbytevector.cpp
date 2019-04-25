@@ -44,7 +44,8 @@
 //
 // http://www.informit.com/isapi/product_id~{9C84DAB4-FE6E-49C5-BB0A-FB50331233EA}/content/index.asp
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
 template <class TIterator>
 int findChar(
@@ -1029,6 +1030,7 @@ void ByteVector::detach()
     else
       ByteVector().swap(*this);
   }
+}
 }
 }
 

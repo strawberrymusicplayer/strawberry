@@ -29,7 +29,8 @@
 #include "tmap.h"
 #include "tstringlist.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   typedef Map<String,StringList> SimplePropertyMap;
 
@@ -233,5 +234,6 @@ namespace Strawberry_TagLib::TagLib {
     StringList unsupported;
   };
 
+}
 }
 #endif /* TAGLIB_PROPERTYMAP_H_ */

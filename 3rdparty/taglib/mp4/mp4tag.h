@@ -35,7 +35,8 @@
 #include "mp4atom.h"
 #include "mp4item.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace MP4 {
 
@@ -152,6 +153,7 @@ namespace Strawberry_TagLib::TagLib {
 
   }
 
+}
 }
 
 #endif

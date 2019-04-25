@@ -29,7 +29,8 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace MP4 {
 
@@ -115,6 +116,7 @@ namespace Strawberry_TagLib::TagLib {
 
   }
 
+}
 }
 
 #endif

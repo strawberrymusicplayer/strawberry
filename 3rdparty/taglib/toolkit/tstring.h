@@ -60,7 +60,8 @@
 
 #define TStringToQString(s) QString::fromUtf8(s.toCString(true))
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class StringList;
 
@@ -546,6 +547,8 @@ namespace Strawberry_TagLib::TagLib {
     class StringPrivate;
     StringPrivate *d;
   };
+
+}
 }
 
 /*!

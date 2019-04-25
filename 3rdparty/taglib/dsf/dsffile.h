@@ -30,7 +30,8 @@
 #include "id3v2tag.h"
 #include "dsfproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! An implementation of DSF metadata
 
@@ -122,6 +123,7 @@ namespace Strawberry_TagLib::TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

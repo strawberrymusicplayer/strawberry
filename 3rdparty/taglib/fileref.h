@@ -32,7 +32,8 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class Tag;
 
@@ -282,6 +283,7 @@ namespace Strawberry_TagLib::TagLib {
     FileRefPrivate *d;
   };
 
+}
 } // namespace Strawberry_TagLib::TagLib
 
 #endif

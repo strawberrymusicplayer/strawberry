@@ -33,7 +33,8 @@
 #include "modtag.h"
 #include "s3mproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace S3M {
 
@@ -107,6 +108,7 @@ namespace Strawberry_TagLib::TagLib {
         FilePrivate *d;
     };
   }
+}
 }
 
 #endif

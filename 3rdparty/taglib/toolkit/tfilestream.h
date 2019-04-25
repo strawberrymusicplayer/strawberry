@@ -31,7 +31,8 @@
 #include "tbytevector.h"
 #include "tiostream.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class String;
   class Tag;
@@ -154,6 +155,7 @@ namespace Strawberry_TagLib::TagLib {
     FileStreamPrivate *d;
   };
 
+}
 }
 
 #endif

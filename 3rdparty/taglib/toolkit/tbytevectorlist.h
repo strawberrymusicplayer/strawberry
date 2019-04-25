@@ -30,7 +30,8 @@
 #include "tbytevector.h"
 #include "tlist.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A list of ByteVectors
 
@@ -86,6 +87,7 @@ namespace Strawberry_TagLib::TagLib {
     ByteVectorListPrivate *d;
   };
 
+}
 }
 
 #endif

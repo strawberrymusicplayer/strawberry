@@ -35,7 +35,8 @@
 
 #include "id3v2framefactory.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class File;
 
@@ -407,6 +408,7 @@ namespace Strawberry_TagLib::TagLib {
     };
 
   }
+}
 }
 
 #endif

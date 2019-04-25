@@ -28,7 +28,8 @@
 
 #include "taglib_export.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A simple, abstract interface to common audio properties
 
@@ -122,6 +123,7 @@ namespace Strawberry_TagLib::TagLib {
     AudioPropertiesPrivate *d;
   };
 
+}
 }
 
 #endif

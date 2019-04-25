@@ -33,7 +33,8 @@
 
 #include <iostream>
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A list of strings
 
@@ -104,6 +105,7 @@ namespace Strawberry_TagLib::TagLib {
     StringListPrivate *d;
   };
 
+}
 }
 
 /*!

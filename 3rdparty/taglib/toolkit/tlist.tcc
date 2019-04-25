@@ -26,7 +26,8 @@
 #include <algorithm>
 #include "trefcounter.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -319,5 +320,5 @@ void List<T>::detach()
     d = new ListPrivate<T>(d->list);
   }
 }
-
+}
 } // namespace Strawberry_TagLib::TagLib

@@ -31,7 +31,8 @@
 #include "taglib_export.h"
 #include "flacmetadatablock.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace FLAC {
 
@@ -76,6 +77,7 @@ namespace Strawberry_TagLib::TagLib {
 
   }
 
+}
 }
 
 #endif

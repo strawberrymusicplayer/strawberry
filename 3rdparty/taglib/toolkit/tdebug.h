@@ -26,7 +26,8 @@
 #ifndef TAGLIB_DEBUG_H
 #define TAGLIB_DEBUG_H
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class String;
   class ByteVector;
@@ -64,6 +65,7 @@ namespace Strawberry_TagLib::TagLib {
   #define debugData(x)  ((void)0)
 
 #endif
+}
 }
 
 #endif

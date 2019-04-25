@@ -29,7 +29,8 @@
 #include "taglib_export.h"
 #include "tstring.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A simple, generic interface to common audio meta data fields
 
@@ -196,6 +197,7 @@ namespace Strawberry_TagLib::TagLib {
     class TagPrivate;
     TagPrivate *d;
   };
+}
 }
 
 #endif

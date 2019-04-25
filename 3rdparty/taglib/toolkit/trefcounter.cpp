@@ -62,7 +62,8 @@
 # define ATOMIC_DEC(x) (--x)
 #endif
 
-namespace Strawberry_TagLib::TagLib
+namespace Strawberry_TagLib {
+namespace TagLib
 {
 
   class RefCounter::RefCounterPrivate
@@ -98,4 +99,5 @@ namespace Strawberry_TagLib::TagLib
   {
     return static_cast<int>(d->refCount);
   }
+}
 }

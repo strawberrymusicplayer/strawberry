@@ -136,7 +136,8 @@ namespace
   }
 }
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
 class String::StringPrivate : public RefCounter
 {
@@ -712,6 +713,7 @@ void String::detach()
 ////////////////////////////////////////////////////////////////////////////////
 
 const String::Type String::WCharByteOrder = wcharByteOrder();
+}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

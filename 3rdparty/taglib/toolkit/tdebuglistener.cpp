@@ -63,7 +63,8 @@ namespace
   DefaultListener defaultListener;
 }
 
-namespace Strawberry_TagLib::TagLib
+namespace Strawberry_TagLib {
+namespace TagLib
 {
   DebugListener *debugListener = &defaultListener;
 
@@ -82,4 +83,5 @@ namespace Strawberry_TagLib::TagLib
     else
       debugListener = &defaultListener;
   }
+}
 }

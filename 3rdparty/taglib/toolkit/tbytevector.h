@@ -32,7 +32,8 @@
 #include <vector>
 #include <iostream>
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! A byte vector
 
@@ -624,6 +625,7 @@ namespace Strawberry_TagLib::TagLib {
     class ByteVectorPrivate;
     ByteVectorPrivate *d;
   };
+}
 }
 
 /*!

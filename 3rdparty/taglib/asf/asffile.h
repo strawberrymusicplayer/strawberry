@@ -32,7 +32,8 @@
 #include "asfproperties.h"
 #include "asftag.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   //! An implementation of ASF (WMA) metadata
   namespace ASF {
@@ -133,6 +134,7 @@ namespace Strawberry_TagLib::TagLib {
 
   }
 
+}
 }
 
 #endif

@@ -56,7 +56,8 @@
  * \endcode
  */
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   class String;
 
@@ -74,6 +75,7 @@ namespace Strawberry_TagLib::TagLib {
    * so I'm providing something here that should be constant.
    */
   typedef std::basic_string<wchar_t> wstring;
+}
 }
 
 /*!

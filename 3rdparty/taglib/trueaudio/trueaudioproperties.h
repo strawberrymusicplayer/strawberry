@@ -32,7 +32,8 @@
 
 #include "audioproperties.h"
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace TrueAudio {
 
@@ -128,6 +129,7 @@ namespace Strawberry_TagLib::TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

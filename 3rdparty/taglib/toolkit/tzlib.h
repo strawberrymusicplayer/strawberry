@@ -32,7 +32,8 @@
 
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
-namespace Strawberry_TagLib::TagLib {
+namespace Strawberry_TagLib {
+namespace TagLib {
 
   namespace zlib {
 
@@ -47,6 +48,7 @@ namespace Strawberry_TagLib::TagLib {
      ByteVector decompress(const ByteVector &data);
 
   }
+}
 }
 
 #endif
