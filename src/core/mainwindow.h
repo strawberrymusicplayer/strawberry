@@ -115,8 +115,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  protected:
   void keyPressEvent(QKeyEvent *event);
-  void changeEvent(QEvent *event);
-  void resizeEvent(QResizeEvent *event);
   void closeEvent(QCloseEvent *event);
 
 #ifdef Q_OS_WIN
@@ -232,7 +230,6 @@ signals:
 
   void TabSwitched();
   void SaveGeometry();
-  void SaveTabMode();
   void SavePlaybackStatus();
   void LoadPlaybackStatus();
   void ResumePlayback();
@@ -242,7 +239,6 @@ signals:
   void Exit();
 
   void HandleNotificationPreview(OSD::Behaviour type, QString line1, QString line2);
-  void FocusCollectionTab();
 
   void ShowConsole();
 

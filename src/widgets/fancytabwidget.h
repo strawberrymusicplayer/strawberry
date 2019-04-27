@@ -30,9 +30,13 @@
 #include <QActionGroup>
 #include <QMenu>
 #include <QSignalMapper>
+#include <QString>
+#include <QIcon>
 #include <QPixmap>
 #include <QSize>
 #include <QtEvents>
+
+class TabData;
 
 namespace Core {
 namespace Internal {
@@ -40,18 +44,21 @@ namespace Internal {
 class FancyTabWidget : public QTabWidget {
   Q_OBJECT
 
+  ~FancyTabWidget();
+
   public:
     FancyTabWidget(QWidget* parent = 0);
-    int addTab(QWidget *widget_view, const QIcon &icon, const QString &label);
-    void delTab(const QString &label);
-    int insertTab(int index, QWidget *widget_view, const QIcon &icon, const QString &label);
+    void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
+    bool EnableTab(QWidget *widget_view);
+    bool DisableTab(QWidget *widget_view);
+    int insertTab(int index, QWidget *page, const QIcon &icon, const QString &label);
     void addBottomWidget(QWidget* widget_view);
 
     void setBackgroundPixmap(const QPixmap& pixmap);
     void addSpacer();
 
-    void loadSettings(const char *);
-    void saveSettings(const char *);
+    void Load(const QString &kSettingsGroup);
+    void SaveSettings(const QString &kSettingsGroup);
 
     // Values are persisted - only add to the end
     enum Mode {
@@ -95,7 +102,7 @@ class FancyTabWidget : public QTabWidget {
     Mode mode_;
     QWidget *bottom_widget_;
 
-    QHash <QString, QWidget*> tabs_;
+    QMap <QWidget*, TabData*> tabs_;
 
 };
 

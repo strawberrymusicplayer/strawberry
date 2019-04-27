@@ -113,9 +113,11 @@ class PlaylistView : public QTreeView {
   void setModel(QAbstractItemModel *model);
 
   void ResetColumns();
+  void SaveGeometry();
 
  public slots:
   void ReloadSettings();
+  void SaveSettings();
   void StopGlowing();
   void StartGlowing();
   void JumpToCurrentlyPlayingTrack();
@@ -164,14 +166,12 @@ class PlaylistView : public QTreeView {
 
  private slots:
   void LoadGeometry();
-  void SaveGeometry();
   void GlowIntensityChanged();
   void InhibitAutoscrollTimeout();
   void MaybeAutoscroll();
   void InvalidateCachedCurrentPixmap();
   void PlaylistDestroyed();
 
-  void SaveSettings();
   void StretchChanged(bool stretch);
 
   void FadePreviousBackgroundImage(qreal value);
@@ -217,7 +217,6 @@ class PlaylistView : public QTreeView {
   bool background_initialized_;
   bool setting_initial_header_layout_;
   bool read_only_settings_;
-  bool header_loaded_;
 
   QImage background_image_;
   QImage current_song_cover_art_;

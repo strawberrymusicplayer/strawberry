@@ -143,7 +143,6 @@ PlaylistView::PlaylistView(QWidget *parent)
       background_initialized_(false),
       setting_initial_header_layout_(false),
       read_only_settings_(true),
-      header_loaded_(false),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
       force_background_redraw_(false),
@@ -170,11 +169,6 @@ PlaylistView::PlaylistView(QWidget *parent)
   header_->setSectionsMovable(true);
   setStyle(style_);
   setMouseTracking(true);
-
-  connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(SaveGeometry()));
 
   connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
@@ -205,7 +199,6 @@ PlaylistView::PlaylistView(QWidget *parent)
 }
 
 PlaylistView::~PlaylistView() {
-  SaveGeometry();
   delete style_;
 }
 
@@ -294,10 +287,11 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 void PlaylistView::LoadGeometry() {
 
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
+  QSettings s;
+  s.beginGroup(Playlist::kSettingsGroup);
+  QByteArray state(s.value("state").toByteArray());
+  s.endGroup();
 
-  QByteArray state(settings.value("state").toByteArray());
   if (!header_->RestoreState(state)) {
     // Maybe we're upgrading from a version that persisted the state with QHeaderView.
     if (!header_->restoreState(state)) {
@@ -339,8 +333,6 @@ void PlaylistView::LoadGeometry() {
   if (all_hidden) {
     header_->ShowSection(Playlist::Column_Title);
   }
-
-  header_loaded_ = true;
 
 }
 
@@ -1117,7 +1109,6 @@ void PlaylistView::StretchChanged(bool stretch) {
 
   if (!initialized_) return;
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
-  SaveGeometry();
 
 }
 
@@ -1298,15 +1289,14 @@ void PlaylistView::ResetColumns() {
 
   read_only_settings_ = true;
   setting_initial_header_layout_ = true;
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
-  settings.remove("state");
-  settings.endGroup();
+  QSettings s;
+  s.beginGroup(Playlist::kSettingsGroup);
+  s.remove("state");
+  s.endGroup();
   ReloadSettings();
   LoadGeometry();
   ReloadSettings();
   read_only_settings_ = false;
-  SaveGeometry();
   SetPlaylist(playlist_);
 
 }

@@ -255,22 +255,22 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), tr("Context"));
-  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
-  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
-  ui_->tabs->addTab(queue_view_, IconLoader::Load("footsteps"), tr("Queue"));
+  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry"), tr("Context"));
+  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("vinyl"), tr("Collection"));
+  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
+  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps"), tr("Queue"));
 #ifndef Q_OS_WIN
-  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
 #endif
 #ifdef HAVE_TIDAL
-  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
+  ui_->tabs->AddTab(tidal_search_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
-  ui_->tabs->loadSettings(kSettingsGroup);
+  ui_->tabs->Load(kSettingsGroup);
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   connect(track_position_timer_, SIGNAL(timeout()), SLOT(UpdateTrackPosition()));
@@ -656,9 +656,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 
   // Fancy tabs
-  connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveTabMode()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
-  connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
 
   // Context
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
@@ -744,6 +742,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   FancyTabWidget::Mode tab_mode = FancyTabWidget::Mode(tab_mode_int);
   if (tab_mode == FancyTabWidget::Mode_None) tab_mode = default_mode;
   ui_->tabs->SetMode(tab_mode);
+
   file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
 
   TabSwitched();
@@ -808,7 +807,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 }
 
 MainWindow::~MainWindow() {
-  SaveGeometry();
   delete ui_;
 }
 
@@ -857,9 +855,9 @@ void MainWindow::ReloadSettings() {
   bool enable_tidal = settings.value("enabled", false).toBool();
   settings.endGroup();
   if (enable_tidal)
-    ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
+    ui_->tabs->EnableTab(tidal_search_view_);
   else
-    ui_->tabs->delTab("Tidal");
+    ui_->tabs->DisableTab(tidal_search_view_);
 #endif
 
 }
@@ -1004,16 +1002,6 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 }
 
-void MainWindow::changeEvent(QEvent *event) {
-  if (!initialised_) return;
-  SaveGeometry();
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event) {
-  if (!initialised_) return;
-  SaveGeometry();
-}
-
 void MainWindow::TabSwitched() {
 
   if (playing_widget_ && ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context") {
@@ -1022,11 +1010,6 @@ void MainWindow::TabSwitched() {
   else {
     ui_->widget_playing->SetDisabled();
   }
-
-  if (!initialised_) return;
-
-  settings_.setValue("current_tab", ui_->tabs->currentIndex());
-  ui_->tabs->saveSettings(kSettingsGroup);
 
 }
 
@@ -1039,14 +1022,7 @@ void MainWindow::SaveGeometry() {
   if (was_maximized_) settings_.remove("geometry");
   else settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
-  ui_->tabs->saveSettings(kSettingsGroup);
 
-}
-
-void MainWindow::SaveTabMode() {
-  if (!initialised_) return;
-  settings_.setValue("tab_mode", ui_->tabs->mode());
-  ui_->tabs->saveSettings(kSettingsGroup);
 }
 
 void MainWindow::SavePlaybackStatus() {
@@ -2223,6 +2199,9 @@ void MainWindow::Exit() {
 
   SaveGeometry();
   SavePlaybackStatus();
+  ui_->tabs->SaveSettings(kSettingsGroup);
+  ui_->playlist->view()->SaveSettings();
+  ui_->playlist->view()->SaveGeometry();
   app_->scrobbler()->WriteCache();
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -2309,10 +2288,6 @@ void MainWindow::HandleNotificationPreview(OSD::Behaviour type, QString line1, Q
     osd_->ShowPreview(type, line1, line2, fake);
   }
 
-}
-
-void MainWindow::FocusCollectionTab() {
-  ui_->tabs->setCurrentWidget(collection_view_);
 }
 
 void MainWindow::ShowConsole() {
