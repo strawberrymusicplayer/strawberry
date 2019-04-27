@@ -7,6 +7,7 @@ Unreleased:
     * Changed description for offline mode scrobbling for less confusion
     * Fixed scrobbler to not send "playing now" when in offline mode
     * Added common RPM spec file for openSUSE, Fedora, RedHat, CentOS and Mageia
+    * Improved cover manager score system
     * Added Deezer and Tidal cover providers
     * Added ChartLyrics lyrics provider
     * Added HTTPS workaround for Last.Fm OAuth to solve redirect https to http (localhost) problems
@@ -29,7 +30,7 @@ Unreleased:
     * Fixed fancy tabbar small sidebar mode width
     * Added some missing taglib configure checks
     * Saving geometry, tabbar, playlist column settings on exit only to reduce wear on SSD's and fix sluggish resizing with non-SSD
-    * Fixed problems with SNAP and added proper alsa support
+    * Fixed and improved snap including upgrading to core18 and adding proper alsa support
 
 Version 0.5.3:
 
