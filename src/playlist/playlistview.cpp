@@ -143,6 +143,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       background_initialized_(false),
       setting_initial_header_layout_(false),
       read_only_settings_(true),
+      state_loaded_(false),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
       force_background_redraw_(false),
@@ -170,10 +171,14 @@ PlaylistView::PlaylistView(QWidget *parent)
   setStyle(style_);
   setMouseTracking(true);
 
+  connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(SaveGeometry()));
+
   connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(SaveSettings()));
   connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(StretchChanged(bool)));
 
   inhibit_autoscroll_timer_->setInterval(kAutoscrollGraceTimeout * 1000);
@@ -287,14 +292,17 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 void PlaylistView::LoadGeometry() {
 
-  QSettings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  QByteArray state(s.value("state").toByteArray());
-  s.endGroup();
+  if (!state_loaded_) {
+    QSettings s;
+    s.beginGroup(Playlist::kSettingsGroup);
+    state_ = s.value("state").toByteArray();
+    state_loaded_ = true;
+    s.endGroup();
+  }
 
-  if (!header_->RestoreState(state)) {
+  if (!header_->RestoreState(state_)) {
     // Maybe we're upgrading from a version that persisted the state with QHeaderView.
-    if (!header_->restoreState(state)) {
+    if (!header_->restoreState(state_)) {
       header_->HideSection(Playlist::Column_AlbumArtist);
       header_->HideSection(Playlist::Column_Performer);
       header_->HideSection(Playlist::Column_Composer);
@@ -338,12 +346,8 @@ void PlaylistView::LoadGeometry() {
 
 void PlaylistView::SaveGeometry() {
 
-  if (!initialized_ || read_only_settings_) return;
-
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
-  settings.setValue("state", header_->SaveState());
-  settings.endGroup();
+  if (!initialized_ || !state_loaded_) return;
+  state_ = header_->SaveState();
 
 }
 
@@ -1090,16 +1094,8 @@ void PlaylistView::SaveSettings() {
   if (!initialized_ || read_only_settings_) return;
 
   QSettings s;
-
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  s.setValue("glow_effect", glow_enabled_);
-  s.endGroup();
-
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  s.setValue(AppearanceSettingsPage::kBackgroundImageType, background_image_type_);
-  s.endGroup();
-
   s.beginGroup(Playlist::kSettingsGroup);
+  s.setValue("state", header_->SaveState());
   s.setValue("column_alignments", QVariant::fromValue(column_alignment_));
   s.endGroup();
 
@@ -1109,6 +1105,7 @@ void PlaylistView::StretchChanged(bool stretch) {
 
   if (!initialized_) return;
   setHorizontalScrollBarPolicy(stretch ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded);
+  SaveGeometry();
 
 }
 
@@ -1287,15 +1284,15 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
 void PlaylistView::ResetColumns() {
 
-  read_only_settings_ = true;
-  setting_initial_header_layout_ = true;
   QSettings s;
   s.beginGroup(Playlist::kSettingsGroup);
   s.remove("state");
   s.endGroup();
+  state_loaded_ = false;
+  read_only_settings_ = true;
+  setting_initial_header_layout_ = true;
   ReloadSettings();
   LoadGeometry();
-  ReloadSettings();
   read_only_settings_ = false;
   SetPlaylist(playlist_);
 

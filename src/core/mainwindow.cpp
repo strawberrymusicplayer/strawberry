@@ -2200,8 +2200,8 @@ void MainWindow::Exit() {
   SaveGeometry();
   SavePlaybackStatus();
   ui_->tabs->SaveSettings(kSettingsGroup);
-  ui_->playlist->view()->SaveSettings();
   ui_->playlist->view()->SaveGeometry();
+  ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
