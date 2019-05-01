@@ -45,7 +45,9 @@ BuildRequires:  pkgconfig(gnutls)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(sqlite3)
+%if ! 0%{?centos} && ! 0%{?mageia}
 BuildRequires:  pkgconfig(taglib)
+%endif
 BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
