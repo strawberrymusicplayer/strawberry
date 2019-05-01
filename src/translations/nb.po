@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-02-23 08:19+0000\n"
+"PO-Revision-Date: 2019-05-01 10:28+0000\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Norwegian Bokmål\n"
 "Language: nb\n"
@@ -106,7 +106,7 @@ msgstr "%1 Scrobbler bruker autentisering"
 #: equalizer/equalizerslider.cpp:58
 #, qt-format
 msgid "%1 dB"
-msgstr ""
+msgstr "%1 dB"
 
 #: core/utilities.cpp:144
 #, qt-format
@@ -155,7 +155,7 @@ msgstr "overført %1"
 #: ../../build-tr/src/ui_collectionsettingspage.h:267
 #, c-format
 msgid "%albumartist-%album"
-msgstr ""
+msgstr "%albumartist-%album"
 
 #: ../../build-tr/src/ui_notificationssettingspage.h:465
 msgid "%filename%"
@@ -704,7 +704,7 @@ msgstr "Alle spillelister (%1)"
 
 #: ../../build-tr/src/ui_organisedialog.h:263
 msgid "Allow extended ASCII characters"
-msgstr ""
+msgstr "Tillat utvidet ASCII tegn"
 
 #: ../../build-tr/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
@@ -746,7 +746,7 @@ msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
 
 #: moodbar/moodbarrenderer.cpp:166
 msgid "Angry"
-msgstr ""
+msgstr "Sint"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:328
 msgid "Appearance"
@@ -946,11 +946,11 @@ msgstr "Boomanalysator"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:349
 msgid "Bottom Left"
-msgstr ""
+msgstr "Nede til venstre"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:350
 msgid "Bottom Right"
-msgstr ""
+msgstr "Nede til høyre"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:344
 msgid "Browse..."
@@ -978,7 +978,7 @@ msgstr "CD"
 
 #: core/songloader.cpp:195
 msgid "CD playback is only available with the GStreamer engine."
-msgstr ""
+msgstr "CD avspilling er kun mulig med gstreamer"
 
 #: ../../build-tr/src/ui_edittagdialog.h:627
 msgid "Change cover art"
@@ -1172,12 +1172,12 @@ msgstr ""
 #: core/songloader.cpp:260
 #, qt-format
 msgid "Could not open file %1"
-msgstr ""
+msgstr "Kan ikke åpne fil %1"
 
 #: core/songloader.cpp:436
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
-msgstr ""
+msgstr "Kunne ikke opprette gstreamer kilde for %1"
 
 #: playlist/playlistmanager.cpp:179
 msgid "Couldn't create playlist"
@@ -1545,11 +1545,11 @@ msgstr "Slå på direkteredigering med ett klikk"
 
 #: ../../build-tr/src/ui_backendsettingspage.h:457
 msgid "Enable volume control"
-msgstr ""
+msgstr "Aktiver volumkontroll"
 
 #: ../../build-tr/src/ui_moodbarsettingspage.h:88
 msgid "Enabled"
-msgstr ""
+msgstr "Aktivert"
 
 #: ../../build-tr/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
@@ -1634,7 +1634,7 @@ msgstr "Kunne ikke behandle %1: %2"
 
 #: playlist/songloaderinserter.cpp:109
 msgid "Error while loading audio CD."
-msgstr ""
+msgstr "Feil ved lasting av CD"
 
 #: ../../build-tr/src/ui_backendsettingspage.h:475
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -1753,7 +1753,7 @@ msgstr "Fil"
 #: core/song.cpp:859
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr ""
+msgstr "Fil %1 er ikke gjenkjent som en lydfil"
 
 #: organise/organisedialog.cpp:107
 msgid "File extension"
@@ -1793,7 +1793,7 @@ msgstr "Filnavn"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:264
 msgid "Filename:"
-msgstr ""
+msgstr "Filnavn:"
 
 #: core/mainwindow.cpp:260
 msgid "Files"
@@ -1860,7 +1860,7 @@ msgstr "Skjema"
 #: ../../build-tr/src/ui_groupbydialog.h:202
 #: ../../build-tr/src/ui_groupbydialog.h:222
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: analyzer/analyzercontainer.cpp:60
 msgid "Framerate"
@@ -1872,7 +1872,7 @@ msgstr "Bilder per buffer"
 
 #: moodbar/moodbarrenderer.cpp:168
 msgid "Frozen"
-msgstr ""
+msgstr "Frossen"
 
 #: equalizer/equalizer.cpp:136
 msgid "Full Bass"
@@ -1988,7 +1988,7 @@ msgstr "Mellomtjener for HTTP"
 
 #: moodbar/moodbarrenderer.cpp:170
 msgid "Happy"
-msgstr ""
+msgstr "Glad"
 
 #: ../../build-tr/src/ui_deviceproperties.h:369
 msgid "Hardware information"
@@ -2090,7 +2090,7 @@ msgstr "Introspor"
 
 #: scrobbler/scrobblingapi20.cpp:184
 msgid "Invalid reply from web browser. Missing token."
-msgstr ""
+msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
 #: dialogs/about.cpp:106
 msgid ""
@@ -2106,7 +2106,7 @@ msgstr "Gå til forrige sang nå"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:354
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "Keep aspect ratio"
 
 #: ../../build-tr/src/ui_behavioursettingspage.h:287
 msgid "Keep running in the background when the window is closed"
@@ -2251,7 +2251,7 @@ msgstr "Profil for lavkompleksitet (LC)"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:269
 msgid "Lowercase filename"
-msgstr ""
+msgstr "Små bokstaver filnavn"
 
 #: dialogs/about.cpp:117
 msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
@@ -2279,7 +2279,7 @@ msgstr "Merk som hørt"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:352
 msgid "Max cover size"
-msgstr ""
+msgstr "Maksimal kover størrelse"
 
 #: ../../build-tr/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
@@ -2296,7 +2296,7 @@ msgstr "Metadata"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:348
 msgid "Middle"
-msgstr ""
+msgstr "Midten"
 
 #: ../../build-tr/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
@@ -2320,17 +2320,17 @@ msgstr "Overvåk endringer i samlingen"
 
 #: playlist/playlist.cpp:1192
 msgid "Mood"
-msgstr ""
+msgstr "Mood"
 
 #: ../../build-tr/src/ui_moodbarsettingspage.h:83
 #: ../../build-tr/src/ui_moodbarsettingspage.h:84
 msgid "Moodbar"
-msgstr ""
+msgstr "Moodbar"
 
 #: moodbar/moodbarproxystyle.cpp:360
 #: ../../build-tr/src/ui_moodbarsettingspage.h:86
 msgid "Moodbar style"
-msgstr ""
+msgstr "Moodbar stil"
 
 #: device/giolister.cpp:185
 msgid "Mount point"
@@ -2450,7 +2450,7 @@ msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
 
 #: moodbar/moodbarrenderer.cpp:164
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../../build-tr/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
@@ -2594,7 +2594,7 @@ msgstr "Utgangsinnstillinger"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:268
 msgid "Overwrite existing file"
-msgstr ""
+msgstr "Overskriv eksisterende fil"
 
 #: ../../build-tr/src/ui_organisedialog.h:265
 msgid "Overwrite existing files"
@@ -2727,7 +2727,7 @@ msgstr "Port"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:345
 msgid "Position"
-msgstr ""
+msgstr "Posisjon"
 
 #: equalizer/equalizer.cpp:65 ../../build-tr/src/ui_backendsettingspage.h:469
 msgid "Pre-amp"
@@ -2747,7 +2747,7 @@ msgstr "Foretrukket format"
 
 #: core/songloader.cpp:156
 msgid "Preload function was not set for blocking operation."
-msgstr ""
+msgstr "Preload function was not set for blocking operation."
 
 #: ../../build-tr/src/ui_equalizer.h:161
 msgid "Preset:"
@@ -2846,6 +2846,8 @@ msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
 msgstr ""
+"Mottok ugyldig svar fra nettleseren. Prøv HTTPS valget, eller bruk en annen "
+"nettleser som Chromium eller Chrome."
 
 #: equalizer/equalizer.cpp:144
 msgid "Reggae"
@@ -2929,7 +2931,7 @@ msgstr "Erstatt gjeldende spilleliste"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:270
 msgid "Replace spaces with dashes"
-msgstr ""
+msgstr "Erstatt mellomrom med streker"
 
 #: ../../build-tr/src/ui_organisedialog.h:264
 msgid "Replace spaces with underscores"
@@ -3052,7 +3054,7 @@ msgstr "Lagre albumomslag"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:263
 msgid "Save album covers in album directory"
-msgstr ""
+msgstr "Lagre album kover i album mappen"
 
 #: covermanager/albumcoverchoicecontroller.cpp:84
 msgid "Save cover to disk..."
@@ -3082,7 +3084,7 @@ msgstr "Lagre forhåndsinnstilling"
 
 #: ../../build-tr/src/ui_moodbarsettingspage.h:87
 msgid "Save the .mood files directly in the songs folders"
-msgstr ""
+msgstr "Lagre .mood filene direkte i mappen til sangen"
 
 #: ../../build-tr/src/ui_savedgroupingmanager.h:100
 msgid "Saved Grouping Manager"
@@ -3090,7 +3092,7 @@ msgstr "Behandler for lagrede grupperinger"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:262
 msgid "Saving album covers"
-msgstr ""
+msgstr "Lagrer album kover"
 
 #: dialogs/edittagdialog.cpp:750 dialogs/trackselectiondialog.cpp:290
 msgid "Saving tracks"
@@ -3240,7 +3242,7 @@ msgstr "Vis aura rundt gjeldende spor"
 
 #: ../../build-tr/src/ui_moodbarsettingspage.h:85
 msgid "Show a moodbar in the track progress bar"
-msgstr ""
+msgstr "Vis moodbar i spor indikatoren"
 
 #: ../../build-tr/src/ui_notificationssettingspage.h:480
 msgid "Show a notification when I change the repeat/shuffle mode"
@@ -3305,7 +3307,7 @@ msgstr "Vis under diverse artister"
 
 #: moodbar/moodbarproxystyle.cpp:355
 msgid "Show moodbar"
-msgstr ""
+msgstr "Vis moodbar"
 
 #: core/mainwindow.cpp:524
 msgid "Show only duplicates"
@@ -3317,7 +3319,7 @@ msgstr "Bare vis filer uten etiketter"
 
 #: ../../build-tr/src/ui_behavioursettingspage.h:289
 msgid "Show playing widget"
-msgstr ""
+msgstr "Vis spille widget"
 
 #: ../../build-tr/src/ui_scrobblersettingspage.h:311
 msgid "Show scrobble button"
@@ -3505,7 +3507,7 @@ msgstr "Strawberry kan vise en melding ved sporendring."
 
 #: dialogs/about.cpp:105
 msgid "Strawberry is a music player and music collection organizer.<br />"
-msgstr ""
+msgstr "Strawberry er en musikkspiller og musikksamling organiserer.<br />"
 
 #: dialogs/about.cpp:115
 msgid "Strawberry is distributed in the hope that it will be useful,<br />"
@@ -3535,7 +3537,7 @@ msgstr "Strømming"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:353
 msgid "Stretch background image to fill playlist background"
-msgstr ""
+msgstr "Strekk bakgrunnsbildet for å fylle spilleliste bakgrunn"
 
 #: ../../build-tr/src/ui_scrobblersettingspage.h:312
 msgid "Submit scrobbles every"
@@ -3570,7 +3572,7 @@ msgstr "Støttede formater"
 
 #: moodbar/moodbarrenderer.cpp:172
 msgid "System colors"
-msgstr ""
+msgstr "Systemfarger"
 
 #: widgets/fancytabwidget.cpp:556
 msgid "Tabs on top"
@@ -3873,11 +3875,11 @@ msgstr "Oppdaterer samling"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:346
 msgid "Upper Left"
-msgstr ""
+msgstr "Oppe til venstre"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:347
 msgid "Upper Right"
-msgstr ""
+msgstr "Oppe til høyre"
 
 #: core/commandlineoptions.cpp:161
 msgid "Usage"
@@ -3889,7 +3891,7 @@ msgstr "Bruk Gnome (GSD) D-Bus snarveier"
 
 #: ../../build-tr/src/ui_scrobblersettingspage.h:318
 msgid "Use HTTPS for local redirectserver to bypass login problems"
-msgstr ""
+msgstr "Bruk HTTPS for å unngå påloggingsproblem"
 
 #: ../../build-tr/src/ui_backendsettingspage.h:464
 msgid "Use Replay Gain metadata if it is available"
@@ -3917,15 +3919,15 @@ msgstr "Bruk kontrollert bitrate"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:265
 msgid "Use hash"
-msgstr ""
+msgstr "Bruk hash"
 
 #: ../../build-tr/src/ui_collectionsettingspage.h:266
 msgid "Use pattern"
-msgstr ""
+msgstr "Bruk pattern"
 
 #: ../../build-tr/src/ui_appearancesettingspage.h:359
 msgid "Use system theme icons"
-msgstr ""
+msgstr "Bruk ikoner fra system theme"
 
 #: ../../build-tr/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
@@ -4031,7 +4033,7 @@ msgstr "Uten omslag:"
 
 #: ../../build-tr/src/ui_scrobblersettingspage.h:310
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr ""
+msgstr "Jobb i frakoblet modus (bare cache scrobbler)"
 
 #: collection/collectionview.cpp:566
 msgid ""
@@ -4103,7 +4105,7 @@ msgstr "Du kan velge hvordan sangene i biblioteket er organisert."
 
 #: core/songloader.cpp:137 core/songloader.cpp:142
 msgid "You need GStreamer for this URL."
-msgstr ""
+msgstr "Du trenge gstreamer for denne URLen"
 
 #: ../../build-tr/src/ui_shortcutssettingspage.h:228
 msgid ""
@@ -4252,4 +4254,4 @@ msgstr "spor %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:159
 msgid "unknown"
-msgstr ""
+msgstr "ukjent"
