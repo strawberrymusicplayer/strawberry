@@ -71,6 +71,7 @@ Version 0.5.3:
     * Removed API Seeds lyrics provider (require payment)
     * Added group by format
     * Fixed gstreamer leaks
+    * Fixed resume playback on startup not working for other than the first playlist
 
 Version 0.5.2:
 

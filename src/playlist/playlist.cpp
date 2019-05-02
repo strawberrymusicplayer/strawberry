@@ -1339,6 +1339,8 @@ void Playlist::ItemsLoaded(QFuture<PlaylistItemList> future) {
     QtConcurrent::run(this, &Playlist::InvalidateDeletedSongs);
   }
 
+  emit PlaylistLoaded();
+
 }
 
 static bool DescendingIntLessThan(int a, int b) { return a > b; }

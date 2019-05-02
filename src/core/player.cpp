@@ -420,11 +420,9 @@ void Player::PlayPause() {
     case Engine::Idle: {
       app_->playlist_manager()->SetActivePlaylist(app_->playlist_manager()->current_id());
       if (app_->playlist_manager()->active()->rowCount() == 0) break;
-
       int i = app_->playlist_manager()->active()->current_row();
       if (i == -1) i = app_->playlist_manager()->active()->last_played_row();
       if (i == -1) i = 0;
-
       PlayAt(i, Engine::First, true);
       break;
     }

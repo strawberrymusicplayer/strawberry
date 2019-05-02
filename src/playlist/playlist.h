@@ -300,6 +300,7 @@ class Playlist : public QAbstractListModel {
 
 signals:
   void RestoreFinished();
+  void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);
   void EditingFinished(const QModelIndex &index);
   void PlayRequested(const QModelIndex &index);
