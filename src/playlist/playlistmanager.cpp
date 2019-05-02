@@ -376,6 +376,7 @@ void PlaylistManager::SetActivePlaylist(int id) {
   if (active_ != -1 && active_ != id) active()->set_current_row(-1);
 
   active_ = id;
+
   emit ActiveChanged(active());
 
 }
