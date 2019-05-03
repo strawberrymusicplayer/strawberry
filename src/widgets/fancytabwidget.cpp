@@ -287,13 +287,14 @@ class FancyTabBar: public QTabBar {
 class TabData : public QObject {
 
  public:
-  TabData(QWidget *widget_view, const QString name, const QIcon icon, const QString label, const bool enabled, QWidget *parent) :
+  TabData(QWidget *widget_view, const QString name, const QIcon icon, const QString label, const bool enabled, const int idx, QWidget *parent) :
   QObject(parent),
   widget_view_(widget_view),
   name_(name), icon_(icon),
   label_(label),
-  page_(new QWidget()),
-  enabled_(enabled) {
+  enabled_(enabled),
+  index_(idx),
+  page_(new QWidget()) {
     // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
     QVBoxLayout *layout = new QVBoxLayout(page_);
     layout->setSpacing(0);
@@ -311,6 +312,7 @@ class TabData : public QObject {
   QString label() { return label_; }
   QWidget *page() { return page_; }
   bool enabled() { return enabled_; }
+  int index() { return index_; }
 
   void set_enabled(bool enabled) { enabled_ = enabled; }
 
@@ -319,8 +321,9 @@ class TabData : public QObject {
   QString name_;
   QIcon icon_;
   QString label_;
-  QWidget *page_;
   bool enabled_;
+  int index_;
+  QWidget *page_;
 
 };
 
@@ -381,14 +384,14 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  QMap <int, TabData*> tabs;
+  QMultiMap <int, TabData*> tabs;
   for (TabData *tab : tabs_) {
-    const int idx = s.value("tab_" + tab->name(), tabs_.count()).toInt();
+    const int idx = s.value("tab_" + tab->name(), tab->index()).toInt();
     tabs.insert(idx, tab);
   }
   s.endGroup();
 
-  QMap <int, TabData*> ::iterator i;
+  QMultiMap <int, TabData*> ::iterator i;
   for (i = tabs.begin() ; i != tabs.end() ; ++i) {
     TabData *tab = i.value();
     const int actualIndex = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
@@ -425,7 +428,7 @@ void FancyTabWidget::addBottomWidget(QWidget *widget_view) {
 
 void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label) {
 
-  TabData *tab = new TabData(widget_view, name, icon, label, false, this);
+  TabData *tab = new TabData(widget_view, name, icon, label, false, tabs_.count(), this);
   tabs_.insert(widget_view, tab);
 
 }
