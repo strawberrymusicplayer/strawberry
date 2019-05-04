@@ -287,12 +287,11 @@ class FancyTabBar: public QTabBar {
 class TabData : public QObject {
 
  public:
-  TabData(QWidget *widget_view, const QString name, const QIcon icon, const QString label, const bool enabled, const int idx, QWidget *parent) :
+  TabData(QWidget *widget_view, const QString name, const QIcon icon, const QString label, const int idx, QWidget *parent) :
   QObject(parent),
   widget_view_(widget_view),
   name_(name), icon_(icon),
   label_(label),
-  enabled_(enabled),
   index_(idx),
   page_(new QWidget()) {
     // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
@@ -311,17 +310,13 @@ class TabData : public QObject {
   QIcon icon() { return icon_; }
   QString label() { return label_; }
   QWidget *page() { return page_; }
-  bool enabled() { return enabled_; }
   int index() { return index_; }
-
-  void set_enabled(bool enabled) { enabled_ = enabled; }
 
  private:
   QWidget *widget_view_;
   QString name_;
   QIcon icon_;
   QString label_;
-  bool enabled_;
   int index_;
   QWidget *page_;
 
@@ -333,8 +328,8 @@ FancyTabWidget::~FancyTabWidget() {}
 void FancyTabWidget::addSpacer() {
 
   QWidget *spacer = new QWidget(this);
-  const int index = insertTab(count(), spacer, QIcon(), QString());
-  setTabEnabled(index, false);
+  const int idx = insertTab(count(), spacer, QIcon(), QString());
+  setTabEnabled(idx, false);
 
 }
 
@@ -345,23 +340,25 @@ void FancyTabWidget::setBackgroundPixmap(const QPixmap& pixmap) {
 
 }
 
-void FancyTabWidget::setCurrentIndex(int index) {
+void FancyTabWidget::setCurrentIndex(int idx) {
 
-  if (index >= count()) index = 0;
+  Q_ASSERT(count() > 0);
 
-  QWidget *currentPage = widget(index);
+  if (idx >= count() || idx < 0) idx = 0;
+
+  QWidget *currentPage = widget(idx);
   QLayout *layout = currentPage->layout();
   if (bottom_widget_) layout->addWidget(bottom_widget_);
-  QTabWidget::setCurrentIndex(index);
+  QTabWidget::setCurrentIndex(idx);
 
 }
 
-void FancyTabWidget::currentTabChanged(int index) {
+void FancyTabWidget::currentTabChanged(int idx) {
 
   QWidget *currentPage = currentWidget();
   QLayout *layout = currentPage->layout();
   if (bottom_widget_) layout->addWidget(bottom_widget_);
-  emit CurrentChanged(index);
+  emit CurrentChanged(idx);
 
 }
 
@@ -386,7 +383,8 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
   s.beginGroup(kSettingsGroup);
   QMultiMap <int, TabData*> tabs;
   for (TabData *tab : tabs_) {
-    const int idx = s.value("tab_" + tab->name(), tab->index()).toInt();
+    int idx = s.value("tab_" + tab->name(), tab->index()).toInt();
+    while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);
   }
   s.endGroup();
@@ -394,15 +392,14 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
   QMultiMap <int, TabData*> ::iterator i;
   for (i = tabs.begin() ; i != tabs.end() ; ++i) {
     TabData *tab = i.value();
-    const int actualIndex = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
-    tabBar()->setTabData(actualIndex, QVariant(tab->name()));
-    tab->set_enabled(true);
+    const int idx = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
+    tabBar()->setTabData(idx, QVariant(tab->name()));
   }
 
 }
 
-int FancyTabWidget::insertTab(int index, QWidget *page, const QIcon &icon, const QString &label) {
-  return QTabWidget::insertTab(index, page, icon, label);
+int FancyTabWidget::insertTab(int idx, QWidget *page, const QIcon &icon, const QString &label) {
+  return QTabWidget::insertTab(idx, page, icon, label);
 }
 
 void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
@@ -413,9 +410,15 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
   s.setValue("tab_mode", mode_);
   s.setValue("current_tab", currentIndex());
 
-  for (int i = 0 ; i < count() ; i++) {
-    QString k = "tab_" + tabBar()->tabData(i).toString().toLower();
-    s.setValue(k, i);
+  for (TabData *tab : tabs_) {
+    QString k = "tab_" + tab->name();
+    int idx = QTabWidget::indexOf(tab->page());
+    if (idx < 0) {
+      if (s.contains(k)) s.remove(k);
+    }
+    else {
+      s.setValue(k, idx);
+    }
   }
 
   s.endGroup();
@@ -428,7 +431,7 @@ void FancyTabWidget::addBottomWidget(QWidget *widget_view) {
 
 void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label) {
 
-  TabData *tab = new TabData(widget_view, name, icon, label, false, tabs_.count(), this);
+  TabData *tab = new TabData(widget_view, name, icon, label, tabs_.count(), this);
   tabs_.insert(widget_view, tab);
 
 }
@@ -437,10 +440,10 @@ bool FancyTabWidget::EnableTab(QWidget *widget_view) {
 
   if (!tabs_.contains(widget_view)) return false;
   TabData *tab = tabs_.value(widget_view);
-  if (tab->enabled()) return true;
-  const int actualIndex = QTabWidget::insertTab(count(), tab->page(), tab->icon(), tab->label());
-  tabBar()->setTabData(actualIndex, QVariant(tab->name()));
-  tab->set_enabled(true);
+
+  if (QTabWidget::indexOf(tab->page()) >= 0) return true;
+  const int idx = QTabWidget::insertTab(count(), tab->page(), tab->icon(), tab->label());
+  tabBar()->setTabData(idx, QVariant(tab->name()));
 
   return true;
 
@@ -451,14 +454,12 @@ bool FancyTabWidget::DisableTab(QWidget *widget_view) {
   if (!tabs_.contains(widget_view)) return false;
   TabData *tab = tabs_.value(widget_view);
 
-  for (int i = 0 ; i < count() ; i++) {
-    if (tabBar()->tabData(i).toString() == tab->name()) {
-      removeTab(i);
-      tab->set_enabled(false);
-      return true;
-    }
-  }
-  return false;
+  int idx = QTabWidget::indexOf(tab->page());
+  if (idx < 0) return false;
+
+  removeTab(idx);
+
+  return true;
 
 }
 
