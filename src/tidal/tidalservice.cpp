@@ -56,8 +56,8 @@
 #include "settings/tidalsettingspage.h"
 
 const Song::Source TidalService::kSource = Song::Source_Tidal;
-const char *TidalService::kApiUrl = "https://listen.tidal.com/v1";
-const char *TidalService::kAuthUrl = "https://listen.tidal.com/v1/login/username";
+const char *TidalService::kApiUrl = "https://api.tidalhifi.com/v1";
+const char *TidalService::kAuthUrl = "https://api.tidalhifi.com/v1/login/username";
 const char *TidalService::kResourcesUrl = "http://resources.tidal.com";
 const char *TidalService::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const int TidalService::kLoginAttempts = 1;
@@ -179,8 +179,9 @@ void TidalService::SendLogin(const QString &username, const QString &password) {
   QUrl url(kAuthUrl);
   QNetworkRequest req(url);
 
-  req.setRawHeader("Origin", "http://listen.tidal.com");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-Tidal-Token", QByteArray::fromBase64(kApiTokenB64));
+
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleAuthReply(QNetworkReply*)), reply);
 
