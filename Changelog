@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.5.4:
 
     * Changed description for offline mode scrobbling for less confusion
     * Fixed scrobbler to not send "playing now" when in offline mode
@@ -31,6 +31,7 @@ Unreleased:
     * Added some missing taglib configure checks
     * Saving geometry, tabbar, playlist column settings on exit only to reduce wear on SSD's and fix sluggish resizing with non-SSD
     * Fixed and improved snap including upgrading to core18 and adding proper alsa support
+    * Fixed resume playback on startup not working for other than the first playlist
 
 Version 0.5.3:
 
@@ -71,7 +72,6 @@ Version 0.5.3:
     * Removed API Seeds lyrics provider (require payment)
     * Added group by format
     * Fixed gstreamer leaks
-    * Fixed resume playback on startup not working for other than the first playlist
 
 Version 0.5.2:
 
