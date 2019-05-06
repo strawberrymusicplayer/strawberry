@@ -48,7 +48,7 @@
 #include "coverprovider.h"
 #include "tidalcoverprovider.h"
 
-const char *TidalCoverProvider::kApiUrl = "https://listen.tidal.com/v1";
+const char *TidalCoverProvider::kApiUrl = "https://api.tidalhifi.com/v1";
 const char *TidalCoverProvider::kResourcesUrl = "http://resources.tidal.com";
 const char *TidalCoverProvider::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const int TidalCoverProvider::kLimit = 10;
