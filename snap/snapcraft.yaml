@@ -148,6 +148,10 @@ parts:
       - libdb5.3
       - libglu1
       - libslang2
+      - libatk1.0-0
+      - libatk-bridge2.0-0
+      - libatk1.0-data
+      - libatk-adaptor
       - dbus-x11
       - libgstreamer1.0-0
       - libgstreamer-plugins-base1.0-0
