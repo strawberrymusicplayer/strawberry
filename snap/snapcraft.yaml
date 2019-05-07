@@ -167,12 +167,9 @@ apps:
       ALSA_CONFIG_PATH: /snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa/alsa.conf
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
-      - system-observe
-      - system-trace
       - home
       - udisks2
       - network
-      - network-control
       - network-manager
       - network-bind
       - desktop
@@ -181,8 +178,6 @@ apps:
       - wayland
       - alsa
       - pulseaudio
-      - mount-observe
-      - fuse-support
       - removable-media
       - optical-drive
       - raw-usb
@@ -196,6 +191,5 @@ apps:
     command: strawberry-tagreader
     plugs:
       - network
-      - network-control
       - network-manager
       - network-bind
