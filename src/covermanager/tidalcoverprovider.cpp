@@ -99,7 +99,7 @@ QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, 
   QUrl url(kApiUrl + QString("/") + ressource_name);
   url.setQuery(url_query);
   QNetworkRequest req(url);
-  req.setRawHeader("Origin", "http://listen.tidal.com");
+  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
   QNetworkReply *reply = network_->get(req);
 
