@@ -83,7 +83,7 @@
   <customwidget>
    <class>QSearchField</class>
    <extends>QWidget</extends>
-   <header>3rdparty/qocoa/qsearchfield.h</header>
+   <header>widgets/qsearchfield.h</header>
   </customwidget>
   <customwidget>
    <class>BusyIndicator</class>

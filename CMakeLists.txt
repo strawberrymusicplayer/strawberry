@@ -236,10 +236,6 @@ else(USE_SYSTEM_SINGLEAPPLICATION)
   unset(SINGLECOREAPPLICATION_LIBRARY_DIRS)
 endif(USE_SYSTEM_SINGLEAPPLICATION)
 
-# Qocoa
-set(QOCOA_LIBRARIES Qocoa)
-add_subdirectory(3rdparty/qocoa)
-
 if (APPLE)
   find_library(SPARKLE Sparkle)
   add_subdirectory(3rdparty/SPMediaKeyTap)

@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include <QDir>
 #include <QDebug>
 
-#include "../../src/core/iconloader.h"
+#include "core/iconloader.h"
 
 class QSearchFieldPrivate : public QObject {
 public:
@@ -154,6 +154,8 @@ bool QSearchField::eventFilter(QObject *o, QEvent *e) {
       case QEvent::FocusIn:
       case QEvent::FocusOut:
         QApplication::sendEvent(this, e);
+        break;
+      default:
         break;
     }
   }

@@ -62,7 +62,7 @@
 #include "core/iconloader.h"
 #include "core/utilities.h"
 #include "widgets/forcescrollperpixel.h"
-#include "3rdparty/qocoa/qsearchfield.h"
+#include "widgets/qsearchfield.h"
 #include "collection/sqlrow.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"

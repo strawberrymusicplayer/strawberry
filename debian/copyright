@@ -292,14 +292,16 @@ Copyright: 1999 Erik Walthinsen <omega@cse.ogi.edu>
            2007-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
 License: GPL-2+
 
+Files: src/widgets/qsearchfield_nonmac.cpp
+       src/widgets/qsearchfield_mac.mm
+       src/widgets/qsearchfield.h
+Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
+License: Expat
+
 Files: 3rdparty/SPMediaKeyTap/*
 Copyright: 2010, Spotify AB
            2011, Joachim Bengtsson
 License: BSD-3-clause
-
-Files: 3rdparty/qocoa/*
-Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
-License: Expat
 
 Files: 3rdparty/singleapplication/*
 Copyright: 2015-2018, Itay Grudev

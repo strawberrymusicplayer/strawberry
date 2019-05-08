@@ -52,7 +52,7 @@
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
-#include "3rdparty/qocoa/qsearchfield.h"
+#include "widgets/qsearchfield.h"
 #include "albumcoversearcher.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"

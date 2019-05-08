@@ -425,6 +425,7 @@ set(HEADERS
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
   widgets/loginstatewidget.h
+  widgets/qsearchfield.h
 
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
@@ -512,6 +513,11 @@ set(RESOURCES ../data/data.qrc ../data/icons.qrc)
 set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
+
+if(NOT APPLE)
+  set(NOT_APPLE ON)
+  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_nonmac.cpp)
+endif()
 
 if(HAVE_GLOBALSHORTCUTS)
   optional_source(HAVE_GLOBALSHORTCUTS
@@ -839,6 +845,7 @@ optional_source(APPLE
     core/macscreensaver.cpp
     core/macfslistener.mm
     widgets/osd_mac.mm
+    widgets/qsearchfield_mac.mm
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutbackend-macos.mm
     globalshortcuts/globalshortcutgrabber.mm
@@ -963,7 +970,6 @@ target_link_libraries(strawberry_lib
   ${TAGLIB_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
-  ${QOCOA_LIBRARIES}
   z
 )
 
