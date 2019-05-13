@@ -116,13 +116,13 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(int id, const QList<CoverSe
   for (int i = 0; i < results_copy.count(); ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = provider->quality();
-    if (results_copy[i].artist == request_.artist) {
+    if (results_copy[i].artist.toLower() == request_.artist.toLower()) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].album == request_.album) {
+    if (results_copy[i].album.toLower() == request_.album.toLower()) {
       results_copy[i].score += 0.5;
     }
-    if (results_copy[i].artist != request_.artist && results_copy[i].album != request_.album) {
+    if (results_copy[i].artist.toLower() != request_.artist.toLower() && results_copy[i].album.toLower() != request_.album.toLower()) {
       results_copy[i].score -= 1.5;
     }
   }
