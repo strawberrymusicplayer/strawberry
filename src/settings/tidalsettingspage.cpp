@@ -45,25 +45,26 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   connect(ui_->button_login, SIGNAL(clicked()), SLOT(LoginClicked()));
   connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
 
-  connect(this, SIGNAL(Login(QString, QString)), service_, SLOT(SendLogin(QString, QString)));
+  connect(this, SIGNAL(Login(QString, QString, QString)), service_, SLOT(SendLogin(QString, QString, QString)));
 
   connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
   connect(service_, SIGNAL(LoginSuccess()), SLOT(LoginSuccess()));
 
   dialog()->installEventFilter(this);
 
-  ui_->combobox_quality->addItem("Low", "LOW");
-  ui_->combobox_quality->addItem("High", "HIGH");
-  ui_->combobox_quality->addItem("Lossless", "LOSSLESS");
+  ui_->quality->addItem("Low", "LOW");
+  ui_->quality->addItem("High", "HIGH");
+  ui_->quality->addItem("Lossless", "LOSSLESS");
 
-  ui_->combobox_streamurl->addItem("HTTP", "http");
-  ui_->combobox_streamurl->addItem("HTTPS", "https");
+  ui_->streamurl->addItem("Default", "default");
+  ui_->streamurl->addItem("HTTP", "http");
+  ui_->streamurl->addItem("HTTPS", "https");
 
-  ui_->combobox_coversize->addItem("160x160", "160x160");
-  ui_->combobox_coversize->addItem("320x320", "320x320");
-  ui_->combobox_coversize->addItem("640x640", "640x640");
-  ui_->combobox_coversize->addItem("750x750", "750x750");
-  ui_->combobox_coversize->addItem("1280x1280", "1280x1280");
+  ui_->coversize->addItem("160x160", "160x160");
+  ui_->coversize->addItem("320x320", "320x320");
+  ui_->coversize->addItem("640x640", "640x640");
+  ui_->coversize->addItem("750x750", "750x750");
+  ui_->coversize->addItem("1280x1280", "1280x1280");
 
 }
 
@@ -79,14 +80,15 @@ void TidalSettingsPage::Load() {
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-  dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_quality, "quality", "HIGH");
-  ui_->spinbox_searchdelay->setValue(s.value("searchdelay", 1500).toInt());
-  ui_->spinbox_artistssearchlimit->setValue(s.value("artistssearchlimit", 5).toInt());
-  ui_->spinbox_albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
-  ui_->spinbox_songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
+  ui_->token->setText(s.value("token").toString());
+  dialog()->ComboBoxLoadFromSettings(s, ui_->quality, "quality", "HIGH");
+  ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
+  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 5).toInt());
+  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
+  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
-  dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_coversize, "coversize", "320x320");
-  dialog()->ComboBoxLoadFromSettings(s, ui_->combobox_streamurl, "streamurl", "http");
+  dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "320x320");
+  dialog()->ComboBoxLoadFromSettings(s, ui_->streamurl, "streamurl", "http");
   s.endGroup();
 
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
@@ -100,14 +102,15 @@ void TidalSettingsPage::Save() {
   s.setValue("enabled", ui_->checkbox_enable->isChecked());
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
-  s.setValue("quality", ui_->combobox_quality->itemData(ui_->combobox_quality->currentIndex()));
-  s.setValue("searchdelay", ui_->spinbox_searchdelay->value());
-  s.setValue("artistssearchlimit", ui_->spinbox_artistssearchlimit->value());
-  s.setValue("albumssearchlimit", ui_->spinbox_albumssearchlimit->value());
-  s.setValue("songssearchlimit", ui_->spinbox_songssearchlimit->value());
+  s.setValue("token", ui_->token->text());
+  s.setValue("quality", ui_->quality->itemData(ui_->quality->currentIndex()));
+  s.setValue("searchdelay", ui_->searchdelay->value());
+  s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
+  s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
+  s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
-  s.setValue("coversize", ui_->combobox_coversize->itemData(ui_->combobox_coversize->currentIndex()));
-  s.setValue("streamurl", ui_->combobox_streamurl->itemData(ui_->combobox_streamurl->currentIndex()));
+  s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
+  s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
   s.endGroup();
 
   service_->ReloadSettings();
@@ -115,7 +118,7 @@ void TidalSettingsPage::Save() {
 }
 
 void TidalSettingsPage::LoginClicked() {
-  emit Login(ui_->username->text(), ui_->password->text());
+  emit Login(ui_->username->text(), ui_->password->text(), ui_->token->text());
   ui_->button_login->setEnabled(false);
 }
 

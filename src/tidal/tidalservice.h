@@ -62,6 +62,7 @@ class TidalService : public InternetService {
   const bool login_sent() { return login_sent_; }
   const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
 
+  QString token() { return token_; }
   QString session_id() { return session_id_; }
   QString country_code() { return country_code_; }
 
@@ -81,7 +82,7 @@ class TidalService : public InternetService {
 
  public slots:
   void ShowConfig();
-  void SendLogin(const QString &username, const QString &password);
+  void SendLogin(const QString &username, const QString &password, const QString &token);
 
  private slots:
   void SendLogin();
@@ -128,6 +129,7 @@ class TidalService : public InternetService {
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
 
+  QString token_;
   QString username_;
   QString password_;
   QString quality_;

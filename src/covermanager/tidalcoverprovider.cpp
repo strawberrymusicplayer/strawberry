@@ -50,7 +50,6 @@
 
 const char *TidalCoverProvider::kApiUrl = "https://api.tidalhifi.com/v1";
 const char *TidalCoverProvider::kResourcesUrl = "http://resources.tidal.com";
-const char *TidalCoverProvider::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>715</width>
-    <height>594</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,7 +95,47 @@
      </property>
      <layout class="QVBoxLayout" name="layout_preferences">
       <item>
-       <layout class="QHBoxLayout" name="quality">
+       <layout class="QHBoxLayout" name="layout_token">
+        <item>
+         <widget class="QLabel" name="label_token">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Token</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="token">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_token">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_quality">
         <item>
          <widget class="QLabel" name="label_quality">
           <property name="minimumSize">
@@ -110,7 +150,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="combobox_quality"/>
+         <widget class="QComboBox" name="quality"/>
         </item>
         <item>
          <spacer name="spacer_quality">
@@ -128,7 +168,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="searchdelay">
+       <layout class="QHBoxLayout" name="layout_searchdelay">
         <item>
          <widget class="QLabel" name="label_searchdelay">
           <property name="minimumSize">
@@ -143,7 +183,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinbox_searchdelay">
+         <widget class="QSpinBox" name="searchdelay">
           <property name="suffix">
            <string>ms</string>
           </property>
@@ -177,7 +217,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="artistssearchlimit">
+       <layout class="QHBoxLayout" name="layout_artistssearchlimit">
         <item>
          <widget class="QLabel" name="label_artistssearchlimit">
           <property name="minimumSize">
@@ -192,7 +232,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinbox_artistssearchlimit">
+         <widget class="QSpinBox" name="artistssearchlimit">
           <property name="minimum">
            <number>1</number>
           </property>
@@ -220,7 +260,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="albumssearchlimit">
+       <layout class="QHBoxLayout" name="layout_albumssearchlimit">
         <item>
          <widget class="QLabel" name="label_albumssearchlimit">
           <property name="minimumSize">
@@ -235,7 +275,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinbox_albumssearchlimit">
+         <widget class="QSpinBox" name="albumssearchlimit">
           <property name="minimum">
            <number>1</number>
           </property>
@@ -263,7 +303,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="songssearchlimit">
+       <layout class="QHBoxLayout" name="layout_songssearchlimit">
         <item>
          <widget class="QLabel" name="label_songssearchlimit">
           <property name="minimumSize">
@@ -278,7 +318,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinbox_songssearchlimit">
+         <widget class="QSpinBox" name="songssearchlimit">
           <property name="minimum">
            <number>1</number>
           </property>
@@ -313,7 +353,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="coversize">
+       <layout class="QHBoxLayout" name="layout_coversize">
         <item>
          <widget class="QLabel" name="label_coversize">
           <property name="minimumSize">
@@ -328,7 +368,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="combobox_coversize"/>
+         <widget class="QComboBox" name="coversize"/>
         </item>
         <item>
          <spacer name="spacer_coversize">
@@ -346,7 +386,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="streamurl">
+       <layout class="QHBoxLayout" name="layout_streamurl">
         <item>
          <widget class="QLabel" name="label_streamurl">
           <property name="minimumSize">
@@ -361,10 +401,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="combobox_streamurl"/>
+         <widget class="QComboBox" name="streamurl"/>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
+         <spacer name="spacer_streamurl">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
