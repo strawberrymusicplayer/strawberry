@@ -942,9 +942,27 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
     qLog(Error) << "Tidal: Song" << artist << album << title << "is not streamReady.";
   }
 
-  //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
+  QUrl url;
+  url.setScheme(url_handler_->scheme());
+  url.setPath(QString::number(song_id));
+
+  QVariant q_duration = json_duration.toVariant();
+  quint64 duration = 0;
+  if (q_duration.isValid() && (q_duration.type() == QVariant::Int || q_duration.type() == QVariant::Double)) {
+    duration = q_duration.toInt() * kNsecPerSec;
+  }
+  else {
+    qLog(Error) << "Tidal: Invalid duration for song.";
+    qLog(Debug) << json_duration;
+    return Song();
+  }
+
+  cover = cover.replace("-", "/");
+  QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(coversize_));
 
   title.remove(Song::kTitleRemoveMisc);
+
+  //qLog(Debug) << "id" << id << "track" << track << "disc" << disc << "title" << title << "album" << album << "artist" << artist << cover << allow_streaming << url;
 
   Song song;
   song.set_source(Song::Source_Tidal);
@@ -956,23 +974,10 @@ Song TidalService::ParseSong(const int album_id_requested, const QJsonValue &val
   song.set_title(title);
   song.set_track(track);
   song.set_disc(disc);
-  song.set_comment(copyright);
-
-  QVariant q_duration = json_duration.toVariant();
-  if (q_duration.isValid()) {
-    quint64 duration = q_duration.toULongLong() * kNsecPerSec;
-    song.set_length_nanosec(duration);
-  }
-
-  cover = cover.replace("-", "/");
-  QUrl cover_url (QString("%1/images/%2/%3.jpg").arg(kResourcesUrl).arg(cover).arg(coversize_));
-  song.set_art_automatic(cover_url.toEncoded());
-
-  QUrl url;
-  url.setScheme(url_handler_->scheme());
-  url.setPath(QString::number(song_id));
   song.set_url(url);
-
+  song.set_length_nanosec(duration);
+  song.set_art_automatic(cover_url.toEncoded());
+  song.set_comment(copyright);
   song.set_valid(true);
 
   return song;
