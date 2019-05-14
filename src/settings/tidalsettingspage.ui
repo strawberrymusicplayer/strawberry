@@ -385,39 +385,6 @@
         </item>
        </layout>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_streamurl">
-        <item>
-         <widget class="QLabel" name="label_streamurl">
-          <property name="minimumSize">
-           <size>
-            <width>150</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Stream URL scheme</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="streamurl"/>
-        </item>
-        <item>
-         <spacer name="spacer_streamurl">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
      </layout>
     </widget>
    </item>

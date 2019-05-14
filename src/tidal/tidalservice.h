@@ -139,11 +139,9 @@ class TidalService : public InternetService {
   int songssearchlimit_;
   bool fetchalbums_;
   QString coversize_;
-  QString streamurl_;
   QString session_id_;
   quint64 user_id_;
   QString country_code_;
-  QString clientuniquekey_;
 
   int pending_search_id_;
   int next_pending_search_id_;

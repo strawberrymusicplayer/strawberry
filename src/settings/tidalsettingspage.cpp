@@ -55,10 +55,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   ui_->quality->addItem("Low", "LOW");
   ui_->quality->addItem("High", "HIGH");
   ui_->quality->addItem("Lossless", "LOSSLESS");
-
-  ui_->streamurl->addItem("Default", "default");
-  ui_->streamurl->addItem("HTTP", "http");
-  ui_->streamurl->addItem("HTTPS", "https");
+  ui_->quality->addItem("Hi resolution", "HI_RES");
 
   ui_->coversize->addItem("160x160", "160x160");
   ui_->coversize->addItem("320x320", "320x320");
@@ -88,7 +85,6 @@ void TidalSettingsPage::Load() {
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "320x320");
-  dialog()->ComboBoxLoadFromSettings(s, ui_->streamurl, "streamurl", "http");
   s.endGroup();
 
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
@@ -110,7 +106,6 @@ void TidalSettingsPage::Save() {
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
   s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
-  s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
   s.endGroup();
 
   service_->ReloadSettings();
