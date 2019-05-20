@@ -70,7 +70,7 @@ class TidalService : public InternetService {
 
  signals:
   void Login();
-  void Login(const QString &username, const QString &password);
+  void Login(const QString &username, const QString &password, const QString &token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
   void SearchResults(int id, SongList songs);

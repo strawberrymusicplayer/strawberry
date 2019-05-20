@@ -95,7 +95,7 @@ TidalService::TidalService(Application *app, QObject *parent)
   connect(timer_login_attempt_, SIGNAL(timeout()), SLOT(ResetLoginAttempts()));
 
   connect(this, SIGNAL(Login()), SLOT(SendLogin()));
-  connect(this, SIGNAL(Login(QString, QString)), SLOT(SendLogin(QString, QString)));
+  connect(this, SIGNAL(Login(QString, QString, QString)), SLOT(SendLogin(QString, QString, QString)));
 
   app->player()->RegisterUrlHandler(url_handler_);
 
@@ -466,7 +466,7 @@ void TidalService::StartSearch() {
   search_text_ = pending_search_text_;
 
   if (authenticated()) SendSearch();
-  else emit Login(username_, password_);
+  else emit Login(username_, password_, token_);
 
 }
 
