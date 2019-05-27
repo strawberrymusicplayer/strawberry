@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETMULTIVIEW_H
-#define INTERNETMULTIVIEW_H
+#ifndef INTERNETTABSVIEW_H
+#define INTERNETTABSVIEW_H
 
 #include "config.h"
 
@@ -73,4 +73,4 @@ class InternetTabsView : public QWidget {
 
 };
 
-#endif  // INTERNETMULTIVIEW_H
+#endif  // INTERNETTABSVIEW_H
