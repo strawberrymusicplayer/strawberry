@@ -169,7 +169,7 @@ bool SingleCoreApplication::sendMessage( QByteArray message, int timeout )
     d->connectToPrimary( timeout,  SingleCoreApplicationPrivate::Reconnect );
 
     d->socket->write( message );
-    bool dataWritten = d->socket->flush();
-    d->socket->waitForBytesWritten( timeout );
+    bool dataWritten = d->socket->waitForBytesWritten( timeout );
+    d->socket->flush();
     return dataWritten;
 }
