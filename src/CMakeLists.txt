@@ -138,6 +138,7 @@ set(SOURCES
   collection/collectionbackend.cpp
   collection/collectionwatcher.cpp
   collection/collectionview.cpp
+  collection/collectionitemdelegate.cpp
   collection/collectionviewcontainer.cpp
   collection/collectiondirectorymodel.cpp
   collection/collectionfilterwidget.cpp
@@ -263,6 +264,10 @@ set(SOURCES
   internet/internetsearchsortmodel.cpp
   internet/internetsearchitemdelegate.cpp
   internet/localredirectserver.cpp
+  internet/internettabsview.cpp
+  internet/internetcollectionview.cpp
+  internet/internetcollectionviewcontainer.cpp
+  internet/internetsearchview.cpp
 
   scrobbler/audioscrobbler.cpp
   scrobbler/scrobblerservices.cpp
@@ -322,6 +327,7 @@ set(HEADERS
   collection/collectionbackend.h
   collection/collectionwatcher.h
   collection/collectionview.h
+  collection/collectionitemdelegate.h
   collection/collectionviewcontainer.h
   collection/collectiondirectorymodel.h
   collection/collectionfilterwidget.h
@@ -437,6 +443,10 @@ set(HEADERS
   internet/internetsearchview.h
   internet/internetsearchmodel.h
   internet/localredirectserver.h
+  internet/internettabsview.h
+  internet/internetcollectionview.h
+  internet/internetcollectionviewcontainer.h
+  internet/internetsearchview.h
 
   scrobbler/audioscrobbler.h
   scrobbler/scrobblerservices.h
@@ -502,6 +512,8 @@ set(UI
   widgets/fileview.ui
   widgets/loginstatewidget.ui
 
+  internet/internettabsview.ui
+  internet/internetcollectionviewcontainer.ui
   internet/internetsearchview.ui
 
   organise/organisedialog.ui
@@ -875,11 +887,17 @@ optional_source(HAVE_TIDAL
   SOURCES
     tidal/tidalservice.cpp
     tidal/tidalurlhandler.cpp
+    tidal/tidalbaserequest.cpp
+    tidal/tidalrequest.cpp
+    tidal/tidalstreamurlrequest.cpp
     settings/tidalsettingspage.cpp
     covermanager/tidalcoverprovider.cpp
   HEADERS
     tidal/tidalservice.h
     tidal/tidalurlhandler.h
+    tidal/tidalbaserequest.h
+    tidal/tidalrequest.h
+    tidal/tidalstreamurlrequest.h
     settings/tidalsettingspage.h
     covermanager/tidalcoverprovider.h
   UI

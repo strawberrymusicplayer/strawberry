@@ -84,6 +84,7 @@ void TidalSettingsPage::Load() {
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
+  ui_->checkbox_cache_album_covers->setChecked(s.value("cachealbumcovers", true).toBool());
   dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "320x320");
   s.endGroup();
 
@@ -105,6 +106,7 @@ void TidalSettingsPage::Save() {
   s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
+  s.setValue("cachealbumcovers", ui_->checkbox_cache_album_covers->isChecked());
   s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
   s.endGroup();
 

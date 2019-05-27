@@ -25,24 +25,27 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QObject>
-#include <QTimer>
 #include <QMap>
 #include <QList>
 #include <QString>
-#include <QIcon>
 #include <QPixmap>
-#include <QMimeData>
-#include <QMenu>
-#include <QSortFilterProxyModel>
-#include <QAction>
-#include <QActionGroup>
-#include <QtEvents>
 
 #include "collection/collectionmodel.h"
 #include "settings/settingsdialog.h"
 #include "playlist/playlistmanager.h"
 #include "internetsearch.h"
+
+class QSortFilterProxyModel;
+class QMimeData;
+class QTimer;
+class QMenu;
+class QAction;
+class QActionGroup;
+class QEvent;
+class QKeyEvent;
+class QShowEvent;
+class QHideEvent;
+class QContextMenuEvent;
 
 class Application;
 class GroupByDialog;
@@ -53,8 +56,10 @@ class InternetSearchView : public QWidget {
   Q_OBJECT
 
  public:
-  InternetSearchView(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView();
+
+  void Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page);
 
   static const int kSwapModelsTimeoutMsec;
 

@@ -18,14 +18,12 @@
  */
 
 #include <QObject>
-#include <QStandardItem>
-#include <QVariant>
 #include <QString>
 
-#include "core/logging.h"
-#include "core/mimedata.h"
-#include "internetservices.h"
 #include "internetservice.h"
+#include "core/song.h"
+
+class Application;
 
 InternetService::InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent)
     : QObject(parent), app_(app), source_(source), name_(name), url_scheme_(url_scheme) {

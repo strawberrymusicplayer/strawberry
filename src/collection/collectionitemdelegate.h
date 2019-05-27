@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine (GlobalSearch)
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +18,29 @@
  *
  */
 
-#ifndef INTERNETSEARCHITEMDELEGATE_H
-#define INTERNETSEARCHITEMDELEGATE_H
+#ifndef COLLECTIONITEMDELEGATE_H
+#define COLLECTIONITEMDELEGATE_H
 
+#include "config.h"
+
+#include <stdbool.h>
+
+#include <QStyledItemDelegate>
+#include <QAbstractItemView>
+#include <QPainter>
 #include <QStyleOptionViewItem>
 
-#include "collection/collectionitemdelegate.h"
+class QHelpEvent;
 
-class QPainter;
-class InternetSearchView;
+class CollectionItemDelegate : public QStyledItemDelegate {
+  Q_OBJECT
 
-class InternetSearchItemDelegate : public CollectionItemDelegate {
  public:
-  InternetSearchItemDelegate(InternetSearchView *view);
-
+  CollectionItemDelegate(QObject *parent);
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
- private:
-  InternetSearchView *view_;
-
+ public slots:
+  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
 };
 
-#endif  // INTERNETSEARCHITEMDELEGATE_H
+#endif  // COLLECTIONITEMDELEGATE_H

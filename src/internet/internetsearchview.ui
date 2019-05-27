@@ -72,7 +72,7 @@
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>Search for</string>
+             <string>Search type</string>
             </property>
             <property name="margin">
              <number>10</number>
@@ -215,7 +215,7 @@
             <x>0</x>
             <y>0</y>
             <width>398</width>
-            <height>521</height>
+            <height>511</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

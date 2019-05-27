@@ -41,7 +41,7 @@
 #include <QContextMenuEvent>
 
 #include "core/song.h"
-#include "collection/collectionview.h"
+#include "collection/collectionitemdelegate.h"
 #include "widgets/autoexpandingtreeview.h"
 
 class Application;

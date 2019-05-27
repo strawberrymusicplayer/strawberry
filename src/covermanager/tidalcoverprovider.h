@@ -32,7 +32,6 @@
 #include <QNetworkReply>
 #include <QJsonValue>
 #include <QJsonObject>
-#include <QJsonArray>
 
 #include "coverprovider.h"
 

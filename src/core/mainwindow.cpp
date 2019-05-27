@@ -140,7 +140,7 @@
 
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
-#include "internet/internetsearchview.h"
+#include "internet/internettabsview.h"
 
 #include "scrobbler/audioscrobbler.h"
 
@@ -208,7 +208,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         return dialog;
       }),
 #ifdef HAVE_TIDAL
-      tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
@@ -262,7 +262,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
 #endif
 #ifdef HAVE_TIDAL
-  ui_->tabs->AddTab(tidal_search_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
+  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -544,7 +544,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->filter()->AddMenuAction(collection_config_action);
 
 #ifdef HAVE_TIDAL
-  connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->artists_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
   // Playlist menu
@@ -855,9 +858,9 @@ void MainWindow::ReloadSettings() {
   bool enable_tidal = settings.value("enabled", false).toBool();
   settings.endGroup();
   if (enable_tidal)
-    ui_->tabs->EnableTab(tidal_search_view_);
+    ui_->tabs->EnableTab(tidal_view_);
   else
-    ui_->tabs->DisableTab(tidal_search_view_);
+    ui_->tabs->DisableTab(tidal_view_);
 #endif
 
 }
@@ -876,7 +879,7 @@ void MainWindow::ReloadAllSettings() {
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
 #ifdef HAVE_TIDAL
-  tidal_search_view_->ReloadSettings();
+  tidal_view_->ReloadSettings();
 #endif
 
 }
