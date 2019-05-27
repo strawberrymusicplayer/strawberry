@@ -18,6 +18,10 @@
 
 #include "config.h"
 
+#ifndef XINE_ENGINE_INTERNAL
+#  define XINE_ENGINE_INTERNAL
+#endif
+
 #include <memory>
 #include <stdbool.h>
 #include <stdint.h>

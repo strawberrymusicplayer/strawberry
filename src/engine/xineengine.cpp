@@ -15,12 +15,21 @@
 
 #include "config.h"
 
+#ifndef XINE_ENGINE_INTERNAL
+#  define XINE_ENGINE_INTERNAL
+#endif
+
+#ifndef METRONOM_INTERNAL
+#  define METRONOM_INTERNAL
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
 #include <xine.h>
+#include <xine/metronom.h>
 
 #include <memory>
 #include <cstdlib>

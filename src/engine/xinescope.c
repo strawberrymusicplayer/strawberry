@@ -6,7 +6,9 @@
 */
 
 /* need access to port_ticket */
-#define XINE_ENGINE_INTERNAL
+#ifndef XINE_ENGINE_INTERNAL
+#  define XINE_ENGINE_INTERNAL
+#endif
 
 #include "config.h"
 
