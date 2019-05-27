@@ -19,8 +19,7 @@
 
 #include "config.h"
 
-#include <algorithm>
-#include <functional>
+#include <stdbool.h>
 
 #include <QObject>
 #include <QList>
@@ -29,19 +28,18 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QSettings>
 
 #include "core/application.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/logging.h"
+#include "internet/internetservices.h"
 #include "settings/tidalsettingspage.h"
 #include "tidal/tidalservice.h"
 #include "albumcoverfetcher.h"

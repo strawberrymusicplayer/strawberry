@@ -1,7 +1,8 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
+ * This code was part of Clementine
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,31 +19,24 @@
  *
  */
 
-#ifndef COLLECTIONVIEW_H
-#define COLLECTIONVIEW_H
+#ifndef INTERNETCOLLECTIONVIEW_H
+#define INTERNETCOLLECTIONVIEW_H
 
 #include "config.h"
 
-#include <memory>
 #include <stdbool.h>
 
 #include <QObject>
 #include <QWidget>
-#include <QAbstractItemModel>
-#include <QAbstractItemView>
+#include <QSet>
 #include <QString>
 #include <QPixmap>
-#include <QPainter>
-#include <QSet>
-#include <QStyleOption>
-#include <QStyledItemDelegate>
-#include <QStyleOptionViewItem>
 #include <QAction>
 #include <QMenu>
 #include <QtEvents>
 
-#include "core/song.h"
 #include "widgets/autoexpandingtreeview.h"
+#include "core/song.h"
 
 class QContextMenuEvent;
 class QHelpEvent;
@@ -50,18 +44,18 @@ class QMouseEvent;
 class QPaintEvent;
 
 class Application;
+class CollectionBackend;
+class CollectionModel;
 class CollectionFilterWidget;
-class EditTagDialog;
-class OrganiseDialog;
 
-using std::unique_ptr;
-
-class CollectionView : public AutoExpandingTreeView {
+class InternetCollectionView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  CollectionView(QWidget *parent = nullptr);
-  ~CollectionView();
+  InternetCollectionView(QWidget *parent = nullptr);
+  ~InternetCollectionView();
+  
+  void Init(Application *app, CollectionBackend *backend, CollectionModel *model);
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
@@ -89,15 +83,14 @@ class CollectionView : public AutoExpandingTreeView {
   void SaveFocus();
   void RestoreFocus();
 
-  void EditTagError(const QString &message);
-
  signals:
-  void ShowConfigDialog();
-
+  void GetSongs();
   void TotalSongCountUpdated_();
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
   void Error(const QString &message);
+  void AddSongs(const SongList songs);
+  void RemoveSongs(const SongList songs);
 
  protected:
   // QWidget
@@ -111,21 +104,18 @@ class CollectionView : public AutoExpandingTreeView {
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
-  void Organise();
-  void CopyToDevice();
-  void EditTracks();
-  void ShowInBrowser();
-  void ShowInVarious();
-  void NoShowInVarious();
+  void AddSongs();
+  void RemoveSongs();
 
  private:
   void RecheckIsEmpty();
-  void ShowInVarious(bool on);
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
 
  private:
   Application *app_;
+  CollectionBackend *collection_backend_;
+  CollectionModel*collection_model_;
   CollectionFilterWidget *filter_;
 
   int total_song_count_;
@@ -141,19 +131,8 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *add_to_playlist_enqueue_;
   QAction *add_to_playlist_enqueue_next_;
   QAction *open_in_new_playlist_;
-  QAction *organise_;
-#ifndef Q_OS_WIN
-  QAction *copy_to_device_;
-#endif
-  QAction *delete_;
-  QAction *edit_track_;
-  QAction *edit_tracks_;
-  QAction *show_in_browser_;
-  QAction *show_in_various_;
-  QAction *no_show_in_various_;
-
-  std::unique_ptr<OrganiseDialog> organise_dialog_;
-  std::unique_ptr<EditTagDialog> edit_tag_dialog_;
+  //QAction *add_songs_;
+  //QAction *remove_songs_;
 
   bool is_in_keyboard_search_;
 
@@ -161,6 +140,7 @@ class CollectionView : public AutoExpandingTreeView {
   Song last_selected_song_;
   QString last_selected_container_;
   QSet<QString> last_selected_path_;
+
 };
 
-#endif  // COLLECTIONVIEW_H
+#endif  // INTERNETCOLLECTIONVIEW_H

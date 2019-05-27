@@ -21,23 +21,17 @@
 #define INTERNETSERVICE_H
 
 #include <QObject>
-#include <QStandardItem>
-#include <QAction>
-#include <QObject>
-#include <QList>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
 
 #include "core/song.h"
-#include "core/iconloader.h"
-#include "playlist/playlistitem.h"
-#include "settings/settingsdialog.h"
 #include "internetsearch.h"
 
+class QSortFilterProxyModel;
 class Application;
-class InternetServices;
-class CollectionFilterWidget;
+class CollectionBackend;
+class CollectionModel;
 
 class InternetService : public QObject {
   Q_OBJECT
@@ -45,6 +39,7 @@ class InternetService : public QObject {
  public:
   InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent = nullptr);
   virtual ~InternetService() {}
+
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
   virtual QString url_scheme() const { return url_scheme_; }
@@ -55,8 +50,63 @@ class InternetService : public QObject {
   virtual int Search(const QString &query, InternetSearch::SearchType type) = 0;
   virtual void CancelSearch() = 0;
 
+  virtual CollectionBackend *artists_collection_backend() = 0;
+  virtual CollectionBackend *albums_collection_backend() = 0;
+  virtual CollectionBackend *songs_collection_backend() = 0;
+
+  virtual CollectionModel *artists_collection_model() = 0;
+  virtual CollectionModel *albums_collection_model() = 0;
+  virtual CollectionModel *songs_collection_model() = 0;
+
+  virtual QSortFilterProxyModel *artists_collection_sort_model() = 0;
+  virtual QSortFilterProxyModel *albums_collection_sort_model() = 0;
+  virtual QSortFilterProxyModel *songs_collection_sort_model() = 0;
+
  public slots:
   virtual void ShowConfig() {}
+  virtual void GetArtists() = 0;
+  virtual void GetAlbums() = 0;
+  virtual void GetSongs() = 0;
+
+ signals:
+  void Login();
+  void Logout();
+  void Login(const QString &username, const QString &password, const QString &token);
+  void LoginSuccess();
+  void LoginFailure(QString failure_reason);
+  void LoginComplete(bool success, QString error = QString());
+
+  void Error(QString message);
+  void Results(SongList songs);
+  void UpdateStatus(QString text);
+  void ProgressSetMaximum(int max);
+  void UpdateProgress(int max);
+
+  void ArtistsError(QString message);
+  void ArtistsResults(SongList songs);
+  void ArtistsUpdateStatus(QString text);
+  void ArtistsProgressSetMaximum(int max);
+  void ArtistsUpdateProgress(int max);
+
+  void AlbumsError(QString message);
+  void AlbumsResults(SongList songs);
+  void AlbumsUpdateStatus(QString text);
+  void AlbumsProgressSetMaximum(int max);
+  void AlbumsUpdateProgress(int max);
+
+  void SongsError(QString message);
+  void SongsResults(SongList songs);
+  void SongsUpdateStatus(QString text);
+  void SongsProgressSetMaximum(int max);
+  void SongsUpdateProgress(int max);
+
+  void SearchResults(int id, SongList songs);
+  void SearchError(int id, QString message);
+  void SearchUpdateStatus(QString text);
+  void SearchProgressSetMaximum(int max);
+  void SearchUpdateProgress(int max);
+
+  void StreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType, QString error = QString());
 
  protected:
   Application *app_;

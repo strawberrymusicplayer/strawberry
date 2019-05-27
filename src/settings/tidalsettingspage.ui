@@ -353,6 +353,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_cache_album_covers">
+        <property name="text">
+         <string>Cache album covers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="layout_coversize">
         <item>
          <widget class="QLabel" name="label_coversize">

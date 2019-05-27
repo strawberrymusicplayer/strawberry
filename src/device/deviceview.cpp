@@ -61,7 +61,7 @@
 #include "organise/organiseerrordialog.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionmodel.h"
-#include "collection/collectionview.h"
+#include "collection/collectionitemdelegate.h"
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"

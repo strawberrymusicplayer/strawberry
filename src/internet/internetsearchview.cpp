@@ -21,30 +21,24 @@
 
 #include "config.h"
 
-#include <functional>
-#include <algorithm>
-
 #include <QtGlobal>
 #include <QWidget>
 #include <QTimer>
 #include <QList>
 #include <QString>
-#include <QStringList>
 #include <QPixmap>
 #include <QPalette>
 #include <QColor>
 #include <QFont>
-#include <QMenu>
-#include <QSortFilterProxyModel>
 #include <QStandardItem>
-#include <QSettings>
+#include <QMenu>
 #include <QAction>
+#include <QSettings>
 #include <QtEvents>
 
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
-#include "core/timeconstants.h"
 #include "core/iconloader.h"
 #include "internet/internetsongmimedata.h"
 #include "collection/collectionfilterwidget.h"
@@ -64,18 +58,16 @@ using std::swap;
 
 const int InternetSearchView::kSwapModelsTimeoutMsec = 250;
 
-InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, QWidget *parent)
+InternetSearchView::InternetSearchView(QWidget *parent)
     : QWidget(parent),
-      app_(app),
-      engine_(engine),
-      settings_group_(settings_group),
-      settings_page_(settings_page),
+      app_(nullptr),
+      engine_(nullptr),
       ui_(new Ui_InternetSearchView),
       context_menu_(nullptr),
       last_search_id_(0),
-      front_model_(new InternetSearchModel(engine_, this)),
-      back_model_(new InternetSearchModel(engine_, this)),
-      current_model_(front_model_),
+      front_model_(nullptr),
+      back_model_(nullptr),
+      current_model_(nullptr),
       front_proxy_(new InternetSearchSortModel(this)),
       back_proxy_(new InternetSearchSortModel(this)),
       current_proxy_(front_proxy_),
@@ -84,23 +76,14 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
       {
 
   ui_->setupUi(this);
+
   ui_->progressbar->hide();
   ui_->progressbar->reset();
-
-  front_model_->set_proxy(front_proxy_);
-  back_model_->set_proxy(back_proxy_);
 
   ui_->search->installEventFilter(this);
   ui_->results_stack->installEventFilter(this);
 
   ui_->settings->setIcon(IconLoader::Load("configure"));
-
-  // Must be a queued connection to ensure the InternetSearch handles it first.
-  connect(app_, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()), Qt::QueuedConnection);
-
-  connect(ui_->search, SIGNAL(textChanged(QString)), SLOT(TextEdited(QString)));
-  connect(ui_->results, SIGNAL(AddToPlaylistSignal(QMimeData*)), SIGNAL(AddToPlaylist(QMimeData*)));
-  connect(ui_->results, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
 
   // Set the appearance of the results list
   ui_->results->setItemDelegate(new InternetSearchItemDelegate(this));
@@ -123,6 +106,32 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
   help_font.setBold(true);
   ui_->label_helptext->setFont(help_font);
 
+}
+
+InternetSearchView::~InternetSearchView() { delete ui_; }
+
+void InternetSearchView::Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page) {
+
+  app_ = app;
+  engine_ = engine;
+  settings_group_ = settings_group;
+  settings_page_ = settings_page;
+
+  front_model_ = new InternetSearchModel(engine_, this);
+  back_model_ = new InternetSearchModel(engine_, this);
+
+  front_proxy_ = new InternetSearchSortModel(this);
+  back_proxy_ = new InternetSearchSortModel(this);
+
+  front_model_->set_proxy(front_proxy_);
+  back_model_->set_proxy(back_proxy_);
+
+  current_model_ = front_model_;
+  current_proxy_ = front_proxy_;
+
+  // Must be a queued connection to ensure the InternetSearch handles it first.
+  connect(app_, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()), Qt::QueuedConnection);
+  
   // Set up the sorting proxy model
   front_proxy_->setSourceModel(front_model_);
   front_proxy_->setDynamicSortFilter(true);
@@ -132,10 +141,6 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
   back_proxy_->setDynamicSortFilter(true);
   back_proxy_->sort(0);
 
-  swap_models_timer_->setSingleShot(true);
-  swap_models_timer_->setInterval(kSwapModelsTimeoutMsec);
-  connect(swap_models_timer_, SIGNAL(timeout()), SLOT(SwapModels()));
-
   // Add actions to the settings menu
   group_by_actions_ = CollectionFilterWidget::CreateGroupByActions(this);
   QMenu *settings_menu = new QMenu(this);
@@ -144,11 +149,18 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
   settings_menu->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(engine->source())), this, SLOT(OpenSettingsDialog()));
   ui_->settings->setMenu(settings_menu);
 
+  swap_models_timer_->setSingleShot(true);
+  swap_models_timer_->setInterval(kSwapModelsTimeoutMsec);
+  connect(swap_models_timer_, SIGNAL(timeout()), SLOT(SwapModels()));
+
   connect(ui_->radiobutton_search_artists, SIGNAL(clicked(bool)), SLOT(SearchArtistsClicked(bool)));
   connect(ui_->radiobutton_search_albums, SIGNAL(clicked(bool)), SLOT(SearchAlbumsClicked(bool)));
   connect(ui_->radiobutton_search_songs, SIGNAL(clicked(bool)), SLOT(SearchSongsClicked(bool)));
-
   connect(group_by_actions_, SIGNAL(triggered(QAction*)), SLOT(GroupByClicked(QAction*)));
+
+  connect(ui_->search, SIGNAL(textChanged(QString)), SLOT(TextEdited(QString)));
+  connect(ui_->results, SIGNAL(AddToPlaylistSignal(QMimeData*)), SIGNAL(AddToPlaylist(QMimeData*)));
+  connect(ui_->results, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
 
   // These have to be queued connections because they may get emitted before our call to Search() (or whatever) returns and we add the ID to the map.
 
@@ -164,8 +176,6 @@ InternetSearchView::InternetSearchView(Application *app, InternetSearch *engine,
 
 }
 
-InternetSearchView::~InternetSearchView() { delete ui_; }
-
 void InternetSearchView::ReloadSettings() {
 
   QSettings s;
@@ -176,11 +186,9 @@ void InternetSearchView::ReloadSettings() {
   const bool pretty = s.value("pretty_covers", true).toBool();
   front_model_->set_use_pretty_covers(pretty);
   back_model_->set_use_pretty_covers(pretty);
-  s.endGroup();
 
   // Internet search settings
 
-  s.beginGroup(settings_group_);
   search_type_ = InternetSearch::SearchType(s.value("type", int(InternetSearch::SearchType_Artists)).toInt());
   switch (search_type_) {
     case InternetSearch::SearchType_Artists:
@@ -243,21 +251,25 @@ void InternetSearchView::TextEdited(const QString &text) {
 }
 
 void InternetSearchView::AddResults(int id, const InternetSearch::ResultList &results) {
+
   if (id != last_search_id_) return;
   if (results.isEmpty()) return;
   ui_->label_status->clear();
   ui_->progressbar->reset();
   ui_->progressbar->hide();
   current_model_->AddResults(results);
+
 }
 
 void InternetSearchView::SearchError(const int id, const QString error) {
+
   error_ = true;
   ui_->label_helptext->setText(error);
   ui_->label_status->clear();
   ui_->progressbar->reset();
   ui_->progressbar->hide();
   ui_->results_stack->setCurrentWidget(ui_->help_page);
+
 }
 
 void InternetSearchView::SwapModels() {

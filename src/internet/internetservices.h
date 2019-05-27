@@ -24,19 +24,11 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QObject>
-#include <QStandardItemModel>
 #include <QMap>
-#include <QString>
 
 #include "core/song.h"
-#include "collection/collectionmodel.h"
-#include "playlist/playlistitem.h"
-#include "settings/settingsdialog.h"
-#include "widgets/multiloadingindicator.h"
 
-class Application;
 class InternetService;
 
 class InternetServices : public QObject {
