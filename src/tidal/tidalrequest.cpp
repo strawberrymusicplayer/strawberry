@@ -271,7 +271,6 @@ void TidalRequest::ArtistsReceived(QNetworkReply *reply) {
     requests_artist_albums_.append(artist_id);
     GetArtistAlbums(artist_id);
     artist_albums_requested_++;
-    if (artist_albums_requested_ >= service_->artistssearchlimit()) break;
 
   }
 
@@ -441,7 +440,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
 
     requests_album_songs_.insert(album_id, artist);
     album_songs_requested_++;
-    if (album_songs_requested_ >= service_->albumssearchlimit()) break;
+
   }
 
   AlbumsFinished(artist_id, offset_requested, total_albums, limit, albums);
@@ -455,7 +454,7 @@ void TidalRequest::AlbumsFinished(const int artist_id, const int offset_requeste
       Error("Albums returned does not match limit returned!");
     }
     int offset_next = offset_requested + albums;
-    if (album_songs_requested_ < service_->albumssearchlimit() && offset_next < total_albums) {
+    if (offset_next < total_albums) {
       GetArtistAlbums(artist_id, offset_next);
       artist_albums_requested_++;
     }
