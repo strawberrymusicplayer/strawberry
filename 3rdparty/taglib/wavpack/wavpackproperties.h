@@ -33,6 +33,7 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace WavPack {
@@ -144,6 +145,7 @@ namespace TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

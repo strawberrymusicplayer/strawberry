@@ -10,6 +10,7 @@ makedepends=(git cmake make gcc boost gettext qt5-tools)
 depends=(
   desktop-file-utils
   hicolor-icon-theme
+  gnutls
   udisks2
   protobuf
   qt5-base
@@ -32,6 +33,7 @@ depends=(
   libplist
   libimobiledevice
   phonon-qt5
+  fftw
 )
 optdepends=(
   gst-plugins-bad

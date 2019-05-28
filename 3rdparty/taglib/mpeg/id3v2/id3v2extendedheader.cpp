@@ -26,7 +26,7 @@
 #include "id3v2extendedheader.h"
 #include "id3v2synchdata.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class ExtendedHeader::ExtendedHeaderPrivate

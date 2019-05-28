@@ -71,6 +71,7 @@
 #include "iconloader.h"
 #include "taskmanager.h"
 #include "song.h"
+#include "stylehelper.h"
 #include "stylesheetloader.h"
 #include "systemtrayicon.h"
 #include "windows7thumbbar.h"
@@ -78,6 +79,7 @@
 #include "database.h"
 #include "player.h"
 #include "appearance.h"
+#include "engine/enginetype.h"
 #include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
 #include "dialogs/about.h"
@@ -91,7 +93,6 @@
 #include "widgets/fileview.h"
 #include "widgets/multiloadingindicator.h"
 #include "widgets/osd.h"
-#include "widgets/stylehelper.h"
 #include "widgets/trackslider.h"
 #include "context/contextview.h"
 #include "collection/collectionview.h"
@@ -133,13 +134,13 @@
 #include "settings/behavioursettingspage.h"
 #include "settings/backendsettingspage.h"
 #include "settings/playlistsettingspage.h"
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 #  include "settings/tidalsettingspage.h"
 #endif
 
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
-#include "internet/internetsearchview.h"
+#include "internet/internettabsview.h"
 
 #include "scrobbler/audioscrobbler.h"
 
@@ -149,6 +150,11 @@
 
 #ifdef Q_OS_MACOS
 #  include "core/macsystemtrayicon.h"
+#endif
+
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbarcontroller.h"
+#  include "moodbar/moodbarproxystyle.h"
 #endif
 
 using std::bind;
@@ -201,8 +207,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
-#ifdef HAVE_STREAM_TIDAL
-      tidal_search_view_(new InternetSearchView(app_, app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+#ifdef HAVE_TIDAL
+      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
@@ -212,8 +218,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       track_slider_timer_(new QTimer(this)),
       initialised_(false),
       was_maximized_(true),
-      saved_playback_position_(0),
-      saved_playback_state_(Engine::Empty),
       playing_widget_(true),
       doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour_Append),
       doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
@@ -249,22 +253,22 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
 
   // Add tabs to the fancy tab widget
-  ui_->tabs->addTab(context_view_, IconLoader::Load("strawberry"), tr("Context"));
-  ui_->tabs->addTab(collection_view_, IconLoader::Load("vinyl"), tr("Collection"));
-  ui_->tabs->addTab(file_view_, IconLoader::Load("document-open"), tr("Files"));
-  ui_->tabs->addTab(playlist_list_, IconLoader::Load("view-media-playlist"), tr("Playlists"));
-  ui_->tabs->addTab(queue_view_, IconLoader::Load("footsteps"), tr("Queue"));
+  ui_->tabs->AddTab(context_view_, "context", IconLoader::Load("strawberry"), tr("Context"));
+  ui_->tabs->AddTab(collection_view_, "collection", IconLoader::Load("vinyl"), tr("Collection"));
+  ui_->tabs->AddTab(file_view_, "files", IconLoader::Load("document-open"), tr("Files"));
+  ui_->tabs->AddTab(playlist_list_, "playlists", IconLoader::Load("view-media-playlist"), tr("Playlists"));
+  ui_->tabs->AddTab(queue_view_, "queue", IconLoader::Load("footsteps"), tr("Queue"));
 #ifndef Q_OS_WIN
-  ui_->tabs->addTab(device_view_, IconLoader::Load("device"), tr("Devices"));
+  ui_->tabs->AddTab(device_view_, "devices", IconLoader::Load("device"), tr("Devices"));
 #endif
-#ifdef HAVE_STREAM_TIDAL
-  ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
+#ifdef HAVE_TIDAL
+  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 
   // Add the playing widget to the fancy tab widget
   ui_->tabs->addBottomWidget(ui_->widget_playing);
   //ui_->tabs->SetBackgroundPixmap(QPixmap(":/pictures/strawberry-background.png"));
-  ui_->tabs->loadSettings(kSettingsGroup);
+  ui_->tabs->Load(kSettingsGroup);
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   connect(track_position_timer_, SIGNAL(timeout()), SLOT(UpdateTrackPosition()));
@@ -276,6 +280,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   app_->player()->SetAnalyzer(ui_->analyzer);
   app_->player()->SetEqualizer(equalizer_.get());
   app_->player()->Init();
+  EngineChanged(app_->player()->engine()->type());
   int volume = app_->player()->GetVolume();
   ui_->volume->setValue(volume);
   VolumeChanged(volume);
@@ -445,6 +450,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Player connections
   connect(ui_->volume, SIGNAL(valueChanged(int)), app_->player(), SLOT(SetVolume(int)));
 
+  connect(app_->player(), SIGNAL(EngineChanged(Engine::EngineType)), SLOT(EngineChanged(Engine::EngineType)));
   connect(app_->player(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));
   connect(app_->player(), SIGNAL(SongChangeRequestProcessed(QUrl,bool)), app_->playlist_manager(), SLOT(SongChangeRequestProcessed(QUrl,bool)));
 
@@ -474,16 +480,18 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->playlist_manager(), SIGNAL(PlayRequested(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
 
   connect(ui_->playlist->view(), SIGNAL(doubleClicked(QModelIndex)), SLOT(PlaylistDoubleClick(QModelIndex)));
-  //connect(ui_->playlist->view(), SIGNAL(doubleClicked(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
   connect(ui_->playlist->view(), SIGNAL(PlayItem(QModelIndex)), SLOT(PlayIndex(QModelIndex)));
   connect(ui_->playlist->view(), SIGNAL(PlayPause()), app_->player(), SLOT(PlayPause()));
   connect(ui_->playlist->view(), SIGNAL(RightClicked(QPoint,QModelIndex)), SLOT(PlaylistRightClick(QPoint,QModelIndex)));
-  //connect(ui_->playlist->view(), SIGNAL(SeekTrack(int)), ui_->track_slider, SLOT(Seek(int)));
   connect(ui_->playlist->view(), SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
   connect(ui_->playlist->view(), SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
   connect(ui_->playlist->view(), SIGNAL(BackgroundPropertyChanged()), SLOT(RefreshStyleSheet()));
 
   connect(ui_->track_slider, SIGNAL(ValueChangedSeconds(int)), app_->player(), SLOT(SeekTo(int)));
+  connect(ui_->track_slider, SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
+  connect(ui_->track_slider, SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
+  connect(ui_->track_slider, SIGNAL(Previous()), app_->player(), SLOT(Previous()));
+  connect(ui_->track_slider, SIGNAL(Next()), app_->player(), SLOT(Next()));
 
   // Context connections
 
@@ -535,8 +543,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->filter()->AddMenuAction(separator);
   collection_view_->filter()->AddMenuAction(collection_config_action);
 
-#ifdef HAVE_STREAM_TIDAL
-  connect(tidal_search_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+#ifdef HAVE_TIDAL
+  connect(tidal_view_->artists_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
   // Playlist menu
@@ -646,9 +657,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 
   // Fancy tabs
-  connect(ui_->tabs, SIGNAL(ModeChanged(FancyTabWidget::Mode)), SLOT(SaveTabMode()));
   connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(TabSwitched()));
-  connect(ui_->tabs, SIGNAL(CurrentChanged(int)), SLOT(SaveGeometry()));
 
   // Context
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
@@ -666,6 +675,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->multi_loading_indicator, SIGNAL(TaskCountChange(int)), SLOT(TaskCountChanged(int)));
 
   ui_->track_slider->SetApplication(app);
+
+#ifdef HAVE_MOODBAR
+  // Moodbar connections
+  connect(app_->moodbar_controller(), SIGNAL(CurrentMoodbarDataChanged(QByteArray)), ui_->track_slider->moodbar_style(), SLOT(SetMoodbarData(QByteArray)));
+#endif
 
   // Playing widget
   qLog(Debug) << "Creating playing widget";
@@ -729,6 +743,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   FancyTabWidget::Mode tab_mode = FancyTabWidget::Mode(tab_mode_int);
   if (tab_mode == FancyTabWidget::Mode_None) tab_mode = default_mode;
   ui_->tabs->SetMode(tab_mode);
+
   file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
 
   TabSwitched();
@@ -780,7 +795,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   CommandlineOptionsReceived(options);
 
-  if (!options.contains_play_options()) LoadPlaybackStatus();
+  if (!options.contains_play_options()) {
+    LoadPlaybackStatus();
+  }
 
   RefreshStyleSheet();
 
@@ -793,7 +810,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 }
 
 MainWindow::~MainWindow() {
-  SaveGeometry();
   delete ui_;
 }
 
@@ -837,14 +853,14 @@ void MainWindow::ReloadSettings() {
     }
   }
 
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   settings.beginGroup(TidalSettingsPage::kSettingsGroup);
   bool enable_tidal = settings.value("enabled", false).toBool();
   settings.endGroup();
   if (enable_tidal)
-    ui_->tabs->addTab(tidal_search_view_, IconLoader::Load("tidal"), tr("Tidal"));
+    ui_->tabs->EnableTab(tidal_view_);
   else
-    ui_->tabs->delTab("Tidal");
+    ui_->tabs->DisableTab(tidal_view_);
 #endif
 
 }
@@ -862,8 +878,8 @@ void MainWindow::ReloadAllSettings() {
   ui_->playlist->view()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
-#ifdef HAVE_STREAM_TIDAL
-  tidal_search_view_->ReloadSettings();
+#ifdef HAVE_TIDAL
+  tidal_view_->ReloadSettings();
 #endif
 
 }
@@ -872,6 +888,13 @@ void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
   setStyleSheet("");
   setStyleSheet(contents);
+}
+
+void MainWindow::EngineChanged(Engine::EngineType enginetype) {
+
+  ui_->action_equalizer->setEnabled(enginetype == Engine::EngineType::GStreamer || enginetype == Engine::EngineType::Xine);
+  ui_->action_open_cd->setEnabled(enginetype == Engine::EngineType::GStreamer);
+
 }
 
 void MainWindow::MediaStopped() {
@@ -982,16 +1005,6 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 }
 
-void MainWindow::changeEvent(QEvent *event) {
-  if (!initialised_) return;
-  SaveGeometry();
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event) {
-  if (!initialised_) return;
-  SaveGeometry();
-}
-
 void MainWindow::TabSwitched() {
 
   if (playing_widget_ && ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context") {
@@ -1000,11 +1013,6 @@ void MainWindow::TabSwitched() {
   else {
     ui_->widget_playing->SetDisabled();
   }
-
-  if (!initialised_) return;
-
-  settings_.setValue("current_tab", ui_->tabs->currentIndex());
-  ui_->tabs->saveSettings(kSettingsGroup);
 
 }
 
@@ -1017,53 +1025,43 @@ void MainWindow::SaveGeometry() {
   if (was_maximized_) settings_.remove("geometry");
   else settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
-  ui_->tabs->saveSettings(kSettingsGroup);
 
-}
-
-void MainWindow::SaveTabMode() {
-  if (!initialised_) return;
-  settings_.setValue("tab_mode", ui_->tabs->mode());
-  ui_->tabs->saveSettings(kSettingsGroup);
 }
 
 void MainWindow::SavePlaybackStatus() {
 
-  QSettings settings;
+  QSettings s;
 
-  settings.beginGroup("Player");
-  settings.setValue("playback_state", app_->player()->GetState());
+  s.beginGroup(Player::kSettingsGroup);
+  s.setValue("playback_state", app_->player()->GetState());
   if (app_->player()->GetState() == Engine::Playing || app_->player()->GetState() == Engine::Paused) {
-    settings.setValue("playback_position", app_->player()->engine()->position_nanosec() / kNsecPerSec);
+    s.setValue("playback_playlist", app_->playlist_manager()->active()->id());
+    s.setValue("playback_position", app_->player()->engine()->position_nanosec() / kNsecPerSec);
   }
   else {
-    settings.setValue("playback_position", 0);
+    s.setValue("playback_playlist", -1);
+    s.setValue("playback_position", 0);
   }
 
-  settings.endGroup();
+  s.endGroup();
 
 }
 
 void MainWindow::LoadPlaybackStatus() {
 
-  QSettings settings;
+  QSettings s;
 
-  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool resume_playback = settings.value("resumeplayback", false).toBool();
-  settings.endGroup();
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  bool resume_playback = s.value("resumeplayback", false).toBool();
+  s.endGroup();
 
-  if (!resume_playback) return;
+  s.beginGroup(Player::kSettingsGroup);
+  Engine::State playback_state = static_cast<Engine::State> (s.value("playback_state", Engine::Empty).toInt());
+  s.endGroup();
 
-  settings.beginGroup("Player");
-  saved_playback_state_ = static_cast<Engine::State> (settings.value("playback_state", Engine::Empty).toInt());
-  saved_playback_position_ = settings.value("playback_position", 0).toDouble();
-  settings.endGroup();
-
-  if (saved_playback_state_ == Engine::Empty || saved_playback_state_ == Engine::Idle) {
-    return;
+  if (resume_playback && playback_state != Engine::Empty && playback_state != Engine::Idle) {
+    connect(app_->playlist_manager(), SIGNAL(AllPlaylistsLoaded()), SLOT(ResumePlayback()));
   }
-
-  connect(app_->playlist_manager()->active(), SIGNAL(RestoreFinished()), SLOT(ResumePlayback()));
 
 }
 
@@ -1071,14 +1069,31 @@ void MainWindow::ResumePlayback() {
 
   qLog(Debug) << "Resuming playback";
 
-  disconnect(app_->playlist_manager()->active(), SIGNAL(RestoreFinished()), this, SLOT(ResumePlayback()));
+  disconnect(app_->playlist_manager(), SIGNAL(AllPlaylistsLoaded()), this, SLOT(ResumePlayback()));
 
-  if (saved_playback_state_ == Engine::Paused) {
-    NewClosure(app_->player(), SIGNAL(Playing()), app_->player(), SLOT(PlayPause()));
+  QSettings s;
+  s.beginGroup(Player::kSettingsGroup);
+  Engine::State playback_state = static_cast<Engine::State> (s.value("playback_state", Engine::Empty).toInt());
+  int playback_playlist = s.value("playback_playlist", -1).toInt();
+  int playback_position = s.value("playback_position", 0).toInt();
+  s.endGroup();
+
+  if (playback_playlist == app_->playlist_manager()->current()->id()) {
+    // Set active to current to resume playback on correct playlist.
+    app_->playlist_manager()->SetActiveToCurrent();
+    if (playback_state == Engine::Paused) {
+      NewClosure(app_->player(), SIGNAL(Playing()), app_->player(), SLOT(PlayPause()));
+    }
+    app_->player()->Play();
+    app_->player()->SeekTo(playback_position);
   }
 
-  app_->player()->Play();
-  app_->player()->SeekTo(saved_playback_position_);
+  // Reset saved playback status so we don't resume again from the same position.
+  s.beginGroup(Player::kSettingsGroup);
+  s.setValue("playback_state", Engine::Empty);
+  s.setValue("playback_playlist", -1);
+  s.setValue("playback_position", 0);
+  s.endGroup();
 
 }
 
@@ -1306,6 +1321,7 @@ void MainWindow::AddToPlaylist(QMimeData *data) {
   }
   app_->playlist_manager()->current()->dropMimeData(data, Qt::CopyAction, -1, 0, QModelIndex());
   delete data;
+
 }
 
 void MainWindow::AddToPlaylist(QAction *action) {
@@ -1321,7 +1337,7 @@ void MainWindow::AddToPlaylist(QAction *action) {
   }
 
   SongList songs;
-  for (const PlaylistItemPtr &item : items) {
+  for (const PlaylistItemPtr item : items) {
     songs << item->Metadata();
   }
 
@@ -1587,7 +1603,7 @@ void MainWindow::EditTracks() {
 
 void MainWindow::EditTagDialogAccepted() {
 
-  for (const PlaylistItemPtr &item : edit_tag_dialog_->playlist_items()) {
+  for (const PlaylistItemPtr item : edit_tag_dialog_->playlist_items()) {
     item->Reload();
   }
 
@@ -2092,7 +2108,7 @@ SettingsDialog *MainWindow::CreateSettingsDialog() {
 #endif
 
   // Settings
-  connect(settings_dialog, SIGNAL(accepted()), SLOT(ReloadAllSettings()));
+  connect(settings_dialog, SIGNAL(ReloadSettings()), SLOT(ReloadAllSettings()));
 
   // Allows custom notification preview
   connect(settings_dialog, SIGNAL(NotificationPreview(OSD::Behaviour, QString, QString)), SLOT(HandleNotificationPreview(OSD::Behaviour, QString, QString)));
@@ -2200,6 +2216,9 @@ void MainWindow::Exit() {
 
   SaveGeometry();
   SavePlaybackStatus();
+  ui_->tabs->SaveSettings(kSettingsGroup);
+  ui_->playlist->view()->SaveGeometry();
+  ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
@@ -2256,7 +2275,7 @@ void MainWindow::AutoCompleteTags() {
 
 void MainWindow::AutoCompleteTagsAccepted() {
 
-  for (const PlaylistItemPtr &item : autocomplete_tag_items_) {
+  for (const PlaylistItemPtr item : autocomplete_tag_items_) {
     item->Reload();
   }
 
@@ -2286,10 +2305,6 @@ void MainWindow::HandleNotificationPreview(OSD::Behaviour type, QString line1, Q
     osd_->ShowPreview(type, line1, line2, fake);
   }
 
-}
-
-void MainWindow::FocusCollectionTab() {
-  ui_->tabs->setCurrentWidget(collection_view_);
 }
 
 void MainWindow::ShowConsole() {

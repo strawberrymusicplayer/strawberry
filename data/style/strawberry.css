@@ -53,18 +53,18 @@ macos QMenu {
 }
 
 #scrollarea_play {
-  background-color: white;
+  background-color: %palette-base;
   font: 11pt;
 }
 
 #scrollarea_stop {
-  background-color: white;
+  background-color: %palette-base;
   font: 11pt;
 }
 
 #scrollAreaWidgetContents_stop {
-  background-color: white;
+  background-color: %palette-base;
 }
 #scrollAreaWidgetContents_play {
-  background-color: white;
+  background-color: %palette-base;
 }

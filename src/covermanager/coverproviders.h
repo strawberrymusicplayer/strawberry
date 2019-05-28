@@ -61,7 +61,7 @@ class CoverProviders : public QObject {
  private:
   Q_DISABLE_COPY(CoverProviders);
 
-  QMap<CoverProvider *, QString> cover_providers_;
+  QMap<CoverProvider*, QString> cover_providers_;
   QMutex mutex_;
 
   QAtomicInt next_id_;

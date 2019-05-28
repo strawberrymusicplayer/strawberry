@@ -249,6 +249,8 @@ class Song {
 
   const QImage &image() const;
 
+  const QString &error() const;
+
   // Pretty accessors
   QString PrettyTitle() const;
   QString PrettyTitleWithArtist() const;

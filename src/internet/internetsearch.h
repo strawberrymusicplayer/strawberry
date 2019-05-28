@@ -24,10 +24,13 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
-#include <QFuture>
-#include <QIcon>
-#include <QMetaType>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QImage>
+#include <QPixmap>
 #include <QPixmapCache>
 
 #include "core/song.h"
@@ -58,7 +61,6 @@ class InternetSearch : public QObject {
   typedef QList<Result> ResultList;
 
   static const int kDelayedSearchTimeoutMs;
-  static const int kMaxResultsPerEmission;
 
   Application *application() const { return app_; }
   Song::Source source() const { return source_; }
@@ -85,7 +87,6 @@ class InternetSearch : public QObject {
   void UpdateProgress(int max);
 
   void ArtLoaded(int id, const QPixmap &pixmap);
-  void ArtLoaded(int id, const QImage &image);
 
  protected:
 
@@ -107,7 +108,7 @@ class InternetSearch : public QObject {
 
   void timerEvent(QTimerEvent *e);
 
-  // These functions treat queries in the same way as LibraryQuery.
+  // These functions treat queries in the same way as CollectionQuery.
   // They're useful for figuring out whether you got a result because it matched in the song title or the artist/album name.
   static QStringList TokenizeQuery(const QString &query);
   static bool Matches(const QStringList &tokens, const QString &string);
@@ -116,9 +117,7 @@ class InternetSearch : public QObject {
   void DoSearchAsync(int id, const QString &query, SearchType type);
   void SearchDone(int id, const SongList &songs);
   void HandleError(const int id, const QString error);
-  void ResultsAvailableSlot(int id, InternetSearch::ResultList results);
 
-  void ArtLoadedSlot(int id, const QImage &image);
   void AlbumArtLoaded(quint64 id, const QImage &image);
 
   void UpdateStatusSlot(QString text);

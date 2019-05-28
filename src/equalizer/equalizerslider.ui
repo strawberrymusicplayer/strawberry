@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>36</width>
+    <width>94</width>
     <height>224</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Equalizer</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -35,7 +35,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="horizontalSpacer_1">
+      <spacer name="spacer_left">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -67,7 +67,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
+      <spacer name="spacer_right">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -82,7 +82,29 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="band">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="gain">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>

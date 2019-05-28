@@ -31,7 +31,7 @@
 
 #include "tagutils.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 long Utils::findID3v1(File *file)
 {
@@ -78,7 +78,7 @@ long Utils::findAPE(File *file, long id3v1Location)
   return -1;
 }
 
-ByteVector TagLib::Utils::readHeader(IOStream *stream, unsigned int length,
+ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsigned int length,
                                      bool skipID3v2, long *headerOffset)
 {
   if(!stream || !stream->isOpen())

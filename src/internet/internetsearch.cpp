@@ -21,8 +21,6 @@
 
 #include "config.h"
 
-#include <algorithm>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -40,20 +38,15 @@
 
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/closure.h"
-#include "core/iconloader.h"
 #include "core/song.h"
+#include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
 #include "internet/internetsongmimedata.h"
-#include "playlist/songmimedata.h"
 #include "internetsearch.h"
 #include "internetservice.h"
 #include "internetservices.h"
 
-using std::advance;
-
 const int InternetSearch::kDelayedSearchTimeoutMs = 200;
-const int InternetSearch::kMaxResultsPerEmission = 2000;
 const int InternetSearch::kArtHeight = 32;
 
 InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *parent)
@@ -70,11 +63,10 @@ InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *p
 
   connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
   connect(this, SIGNAL(SearchAsyncSig(int, QString, SearchType)), this, SLOT(DoSearchAsync(int, QString, SearchType)));
-  connect(this, SIGNAL(ResultsAvailable(int, InternetSearch::ResultList)), SLOT(ResultsAvailableSlot(int, InternetSearch::ResultList)));
-  connect(this, SIGNAL(ArtLoaded(int, QImage)), SLOT(ArtLoadedSlot(int, QImage)));
-  connect(service_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
-  connect(service_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximumSlot(int)));
-  connect(service_, SIGNAL(UpdateProgress(int)), SLOT(UpdateProgressSlot(int)));
+
+  connect(service_, SIGNAL(SearchUpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
+  connect(service_, SIGNAL(SearchProgressSetMaximum(int)), SLOT(ProgressSetMaximumSlot(int)));
+  connect(service_, SIGNAL(SearchUpdateProgress(int)), SLOT(UpdateProgressSlot(int)));
   connect(service_, SIGNAL(SearchResults(int, SongList)), SLOT(SearchDone(int, SongList)));
   connect(service_, SIGNAL(SearchError(int, QString)), SLOT(HandleError(int, QString)));
 
@@ -145,14 +137,22 @@ void InternetSearch::SearchDone(int service_id, const SongList &songs) {
   const PendingState state = pending_searches_.take(service_id);
   const int search_id = state.orig_id_;
 
-  ResultList ret;
+  ResultList results;
   for (const Song &song : songs) {
     Result result;
     result.metadata_ = song;
-    ret << result;
+    results << result;
   }
 
-  emit ResultsAvailable(search_id, ret);
+  if (results.isEmpty()) return;
+
+  // Load cached pixmaps into the results
+  for (InternetSearch::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
+    it->pixmap_cache_key_ = PixmapCacheKey(*it);
+  }
+
+  emit AddResults(search_id, results);
+
   MaybeSearchFinished(search_id);
 
 }
@@ -172,6 +172,7 @@ void InternetSearch::MaybeSearchFinished(int id) {
 }
 
 void InternetSearch::CancelSearch(int id) {
+
   QMap<int, DelayedSearch>::iterator it;
   for (it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
     if (it.value().id_ == id) {
@@ -181,9 +182,11 @@ void InternetSearch::CancelSearch(int id) {
     }
   }
   service_->CancelSearch();
+
 }
 
 void InternetSearch::timerEvent(QTimerEvent *e) {
+
   QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
   if (it != delayed_searches_.end()) {
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
@@ -192,25 +195,6 @@ void InternetSearch::timerEvent(QTimerEvent *e) {
   }
 
   QObject::timerEvent(e);
-}
-
-void InternetSearch::ResultsAvailableSlot(int id, InternetSearch::ResultList results) {
-
-  if (results.isEmpty()) return;
-
-  // Limit the number of results that are used from each emission.
-  if (results.count() > kMaxResultsPerEmission) {
-    InternetSearch::ResultList::iterator begin = results.begin();
-    std::advance(begin, kMaxResultsPerEmission);
-    results.erase(begin, results.end());
-  }
-
-  // Load cached pixmaps into the results
-  for (InternetSearch::ResultList::iterator it = results.begin(); it != results.end(); ++it) {
-    it->pixmap_cache_key_ = PixmapCacheKey(*it);
-  }
-
-  emit AddResults(id, results);
 
 }
 
@@ -235,27 +219,17 @@ int InternetSearch::LoadArtAsync(const InternetSearch::Result &result) {
 
 }
 
-void InternetSearch::ArtLoadedSlot(int id, const QImage &image) {
-  HandleLoadedArt(id, image);
-}
-
 void InternetSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
 
   if (!cover_loader_tasks_.contains(id)) return;
   int orig_id = cover_loader_tasks_.take(id);
 
-  HandleLoadedArt(orig_id, image);
-
-}
-
-void InternetSearch::HandleLoadedArt(int id, const QImage &image) {
-
-  const QString key = pending_art_searches_.take(id);
+  const QString key = pending_art_searches_.take(orig_id);
 
   QPixmap pixmap = QPixmap::fromImage(image);
   pixmap_cache_.insert(key, pixmap);
 
-  emit ArtLoaded(id, pixmap);
+  emit ArtLoaded(orig_id, pixmap);
 
 }
 

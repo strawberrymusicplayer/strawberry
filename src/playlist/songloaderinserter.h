@@ -47,7 +47,7 @@ class SongLoaderInserter : public QObject {
   void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);
   void LoadAudioCD(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next);
 
-signals:
+ signals:
   void Error(const QString &message);
   void PreloadFinished();
   void EffectiveLoadFinished(const SongList &songs);
@@ -75,6 +75,7 @@ signals:
   QList<SongLoader*> pending_;
   CollectionBackendInterface *collection_;
   const Player *player_;
+
 };
 
 #endif  // SONGLOADERINSERTER_H

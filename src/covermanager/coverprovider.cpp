@@ -23,7 +23,8 @@
 #include <QObject>
 #include <QString>
 
+#include "core/application.h"
 #include "coverprovider.h"
 
-CoverProvider::CoverProvider(const QString &name, const bool &fetchall, QObject *parent)
-    : QObject(parent), name_(name), fetchall_(fetchall) {}
+CoverProvider::CoverProvider(const QString &name, const float &quality, const bool &fetchall, Application *app, QObject *parent)
+    : QObject(parent), app_(app),  name_(name), quality_(quality), fetchall_(fetchall) {}

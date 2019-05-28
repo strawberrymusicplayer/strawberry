@@ -44,7 +44,7 @@
 #include "apetag.h"
 #include "apefooter.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -100,7 +100,7 @@ bool APE::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 APE::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -108,7 +108,7 @@ APE::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
 }
 
 APE::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -120,7 +120,7 @@ APE::File::~File()
   delete d;
 }
 
-TagLib::Tag *APE::File::tag() const
+Strawberry_TagLib::TagLib::Tag *APE::File::tag() const
 {
   return &d->tag;
 }

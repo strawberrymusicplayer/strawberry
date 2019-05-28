@@ -27,7 +27,7 @@
 
 #include "id3v2synchdata.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 unsigned int SynchData::toUInt(const ByteVector &data)

@@ -34,7 +34,7 @@
 # include <unistd.h>
 #endif
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {

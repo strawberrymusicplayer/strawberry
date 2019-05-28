@@ -29,7 +29,7 @@
 #include "infotag.h"
 #include "riffutils.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace RIFF::Info;
 
 namespace
@@ -71,14 +71,14 @@ ByteVector RIFF::Info::StringHandler::render(const String &s) const
 ////////////////////////////////////////////////////////////////////////////////
 
 RIFF::Info::Tag::Tag(const ByteVector &data) :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
   parse(data);
 }
 
 RIFF::Info::Tag::Tag() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
 }

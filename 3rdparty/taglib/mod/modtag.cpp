@@ -28,7 +28,7 @@
 #include "tstringlist.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
 class Mod::Tag::TagPrivate
@@ -44,7 +44,7 @@ public:
 };
 
 Mod::Tag::Tag() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
 }

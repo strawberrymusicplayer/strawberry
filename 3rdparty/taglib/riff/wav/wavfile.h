@@ -31,6 +31,7 @@
 #include "infotag.h"
 #include "wavproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace RIFF {
@@ -46,16 +47,16 @@ namespace TagLib {
 
     namespace WAV {
 
-      //! An implementation of TagLib::File with WAV specific methods
+      //! An implementation of Strawberry_TagLib::TagLib::File with WAV specific methods
 
       /*!
        * This implements and provides an interface for WAV files to the
-       * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-       * the abstract TagLib::File API as well as providing some additional
+       * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+       * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
        * information specific to WAV files.
        */
 
-      class TAGLIB_EXPORT File : public TagLib::RIFF::File
+      class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File
       {
       public:
         enum TagTypes {
@@ -198,6 +199,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

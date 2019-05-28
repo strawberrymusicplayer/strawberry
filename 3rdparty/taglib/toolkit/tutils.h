@@ -49,6 +49,7 @@
 #include <cstdarg>
 #include <cstring>
 
+namespace Strawberry_TagLib {
 namespace TagLib
 {
   namespace Utils
@@ -236,6 +237,7 @@ namespace TagLib
       }
     }
   }
+}
 }
 
 #endif

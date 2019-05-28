@@ -98,7 +98,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
 
   root_->lazy_loaded = true;
 
-  group_by_[0] = GroupBy_Artist;
+  group_by_[0] = GroupBy_AlbumArtist;
   group_by_[1] = GroupBy_Album;
   group_by_[2] = GroupBy_None;
 
@@ -121,6 +121,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(TotalSongCountUpdatedSlot(int)));
   connect(backend_, SIGNAL(TotalArtistCountUpdated(int)), SLOT(TotalArtistCountUpdatedSlot(int)));
   connect(backend_, SIGNAL(TotalAlbumCountUpdated(int)), SLOT(TotalAlbumCountUpdatedSlot(int)));
+  connect(backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsSlightlyChanged(SongList)));
 
   backend_->UpdateTotalSongCountAsync();
   backend_->UpdateTotalArtistCountAsync();

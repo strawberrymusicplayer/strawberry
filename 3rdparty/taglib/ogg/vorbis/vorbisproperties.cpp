@@ -31,7 +31,7 @@
 #include "vorbisproperties.h"
 #include "vorbisfile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class Vorbis::Properties::PropertiesPrivate
 {
@@ -56,12 +56,14 @@ public:
   int bitrateMinimum;
 };
 
+namespace Strawberry_TagLib {
 namespace TagLib {
   /*!
    * Vorbis headers can be found with one type ID byte and the string "vorbis" in
    * an Ogg stream.  0x01 indicates the setup header.
    */
   static const char vorbisSetupHeaderID[] = { 0x01, 'v', 'o', 'r', 'b', 'i', 's', 0 };
+}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

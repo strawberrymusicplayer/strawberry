@@ -29,21 +29,22 @@
 #include "taglib_export.h"
 #include "tfile.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! An implementation of TagLib::File with RIFF specific methods
+  //! An implementation of Strawberry_TagLib::TagLib::File with RIFF specific methods
 
   namespace RIFF {
 
     //! An RIFF file class with some useful methods specific to RIFF
 
     /*!
-     * This implements the generic TagLib::File API and additionally provides
+     * This implements the generic Strawberry_TagLib::TagLib::File API and additionally provides
      * access to properties that are distinct to RIFF files, notably access
      * to the different ID3 tags.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!
@@ -156,6 +157,7 @@ namespace TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

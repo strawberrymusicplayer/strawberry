@@ -30,6 +30,7 @@
 #include "tstring.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
   namespace XM {
     class TAGLIB_EXPORT Properties : public AudioProperties {
@@ -80,6 +81,7 @@ namespace TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

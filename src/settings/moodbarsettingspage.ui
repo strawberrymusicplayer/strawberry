@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MoodbarSettingsPage</class>
+ <widget class="QWidget" name="MoodbarSettingsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>596</width>
+    <height>666</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Moodbar</string>
+  </property>
+  <layout class="QVBoxLayout" name="layout_moodbarsettingspage">
+   <item>
+    <widget class="QGroupBox" name="moodbar_group">
+     <property name="title">
+      <string>Moodbar</string>
+     </property>
+     <layout class="QFormLayout" name="layout_moodbar">
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="moodbar_show">
+        <property name="text">
+         <string>Show a moodbar in the track progress bar</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_moodbar_style">
+        <property name="text">
+         <string>Moodbar style</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="moodbar_style"/>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QCheckBox" name="moodbar_save">
+        <property name="text">
+         <string>Save the .mood files directly in the songs folders</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="moodbar_enabled">
+        <property name="text">
+         <string>Enabled</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

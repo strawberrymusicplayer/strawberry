@@ -29,6 +29,7 @@
 #include "taglib_export.h"
 #include "tstring.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib
 {
   //! An abstraction for the listener to the debug messages.
@@ -69,6 +70,7 @@ namespace TagLib
    * \see DebugListener
    */
   TAGLIB_EXPORT void setDebugListener(DebugListener *listener);
+}
 }
 
 #endif

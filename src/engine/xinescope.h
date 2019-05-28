@@ -8,7 +8,9 @@
 #define XINESCOPE_H
 
 /* need access to some stuff for scope time stamping */
-#define METRONOM_INTERNAL
+#ifndef METRONOM_INTERNAL
+#  define METRONOM_INTERNAL
+#endif
 
 #include "config.h"
 

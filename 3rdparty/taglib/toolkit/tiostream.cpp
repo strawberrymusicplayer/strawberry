@@ -30,7 +30,7 @@
 
 #include "tiostream.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 #ifdef _WIN32
 

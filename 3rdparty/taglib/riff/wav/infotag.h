@@ -33,6 +33,7 @@
 #include "tbytevector.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class File;
@@ -85,7 +86,7 @@ namespace TagLib {
      * documents about it.  So, this implementation is referring to unofficial documents
      * online and some applications' behaviors especially Windows Explorer.
      */
-    class TAGLIB_EXPORT Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
     {
     public:
       /*!
@@ -187,6 +188,7 @@ namespace TagLib {
       TagPrivate *d;
     };
   }}
+}
 }
 
 #endif

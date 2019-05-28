@@ -29,6 +29,7 @@
 #include "taglib_export.h"
 #include "tbytevectorlist.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Ogg {
@@ -224,5 +225,6 @@ namespace TagLib {
       PagePrivate *d;
     };
   }
+}
 }
 #endif

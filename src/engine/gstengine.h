@@ -44,6 +44,7 @@
 #include "core/timeconstants.h"
 #include "engine_fwd.h"
 #include "enginebase.h"
+#include "gststartup.h"
 #include "gstbufferconsumer.h"
 
 class TaskManager;
@@ -90,9 +91,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   bool CustomDeviceSupport(const QString &output);
   bool ALSADeviceSupport(const QString &output);
 
-  void EnsureInitialised() { initialising_.waitForFinished(); }
-  void InitialiseGStreamer();
-  void SetEnvironment();
+  void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
+  void EnsureInitialised() { gst_startup_->EnsureInitialised(); }
 
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, bool showerror = true);
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
@@ -168,9 +168,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   static const qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
   TaskManager *task_manager_;
+  GstStartup *gst_startup_;
   int buffering_task_id_;
-
-  QFuture<void> initialising_;
 
   std::shared_ptr<GstEnginePipeline> current_pipeline_;
   std::shared_ptr<GstEnginePipeline> fadeout_pipeline_;
@@ -209,4 +208,4 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
 };
 
-#endif /* GSTENGINE_H */
+#endif  /* GSTENGINE_H */

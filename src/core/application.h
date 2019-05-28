@@ -56,9 +56,13 @@ class CoverProviders;
 class AlbumCoverLoader;
 class CurrentArtLoader;
 class LyricsProviders;
+class AudioScrobbler;
 class InternetServices;
 class InternetSearch;
-class AudioScrobbler;
+#ifdef HAVE_MOODBAR
+class MoodbarController;
+class MoodbarLoader;
+#endif
 
 class Application : public QObject {
   Q_OBJECT
@@ -92,12 +96,17 @@ class Application : public QObject {
 
   LyricsProviders *lyrics_providers() const;
 
+  AudioScrobbler *scrobbler() const;
+
   InternetServices *internet_services() const;
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   InternetSearch *tidal_search() const;
 #endif
 
-  AudioScrobbler *scrobbler() const;
+#ifdef HAVE_MOODBAR
+  MoodbarController *moodbar_controller() const;
+  MoodbarLoader *moodbar_loader() const;
+#endif
 
   void MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);

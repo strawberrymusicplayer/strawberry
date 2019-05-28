@@ -28,6 +28,7 @@
 
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class ByteVector;
@@ -173,6 +174,7 @@ namespace TagLib {
       HeaderPrivate *d;
     };
   }
+}
 }
 
 #endif

@@ -29,6 +29,7 @@
 #include "taglib.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Mod {
@@ -66,6 +67,7 @@ namespace TagLib {
 
   }
 
+}
 }
 
 #endif

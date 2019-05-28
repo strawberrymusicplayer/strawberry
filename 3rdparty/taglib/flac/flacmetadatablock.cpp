@@ -27,7 +27,7 @@
 #include <tdebug.h>
 #include "flacmetadatablock.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::MetadataBlock::MetadataBlockPrivate
 {

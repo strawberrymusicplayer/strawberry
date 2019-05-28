@@ -28,6 +28,7 @@
 
 #include "tag.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Mod {
@@ -44,7 +45,7 @@ namespace TagLib {
      * but it is common practice to abuse instrument/sample/pattern
      * names as multiline comments.  TagLib does so as well.
      */
-    class TAGLIB_EXPORT Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
     {
     public:
       Tag();
@@ -189,6 +190,7 @@ namespace TagLib {
 
   }
 
+}
 }
 
 #endif

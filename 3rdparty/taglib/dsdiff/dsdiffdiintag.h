@@ -28,6 +28,7 @@
 
 #include "tag.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace DSDIFF {
@@ -39,7 +40,7 @@ namespace TagLib {
        *
        * Only Title and Artist tags are supported
        */
-      class TAGLIB_EXPORT Tag : public TagLib::Tag
+      class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
       {
       public:
         Tag();
@@ -144,6 +145,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

@@ -33,7 +33,7 @@
 #include "xiphcomment.h"
 #include "infotag.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 #define stringUnion(method)                                          \
   if(tag(0) && !tag(0)->method().isEmpty())                          \

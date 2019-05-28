@@ -32,6 +32,7 @@
 #include "taglib_export.h"
 #include "asfattribute.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace ASF {
@@ -39,7 +40,7 @@ namespace TagLib {
     typedef List<Attribute> AttributeList;
     typedef Map<String, AttributeList> AttributeListMap;
 
-    class TAGLIB_EXPORT Tag : public TagLib::Tag {
+    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 
       friend class File;
 
@@ -205,5 +206,6 @@ namespace TagLib {
       TagPrivate *d;
     };
   }
+}
 }
 #endif

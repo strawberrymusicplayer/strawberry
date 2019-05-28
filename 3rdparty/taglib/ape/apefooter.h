@@ -29,6 +29,7 @@
 #include "tbytevector.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace APE {
@@ -168,6 +169,7 @@ namespace TagLib {
     };
 
   }
+}
 }
 
 #endif

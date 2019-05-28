@@ -31,6 +31,7 @@
 
 #include "mpegheader.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace MPEG {
@@ -147,6 +148,7 @@ namespace TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

@@ -1,5 +1,5 @@
 name: strawberry
-version: '0.5.3+git'
+version: '0.5.5+git'
 summary: music player and collection organizer
 description: |
   Strawberry is a music player and collection organizer.
@@ -8,13 +8,74 @@ description: |
 
 grade: stable
 confinement: strict
+base: core18
 
 parts:
+
+  desktop-qt5:
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    make-parameters:
+      - FLAVOR=qt5
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    stage-packages:
+      - libqt5gui5
+      - libqt5svg5
+      - libgdk-pixbuf2.0-0
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - gnome-themes-standard
+      - shared-mime-info
+      - adwaita-icon-theme
+      - oxygen-icon-theme
+      - breeze-icon-theme
+      - try: [appmenu-qt5]
+
+  alsa-lib:
+    plugin: autotools
+    source: https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.5.tar.bz2
+    configflags:
+      - --prefix=/usr
+      - --sysconfdir=/etc
+      - --libexec=/usr/lib
+      - --libdir=/usr/lib
+      - --localstatedir=/var
+      - --with-configdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa
+      - --with-plugindir=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr/lib/alsa-lib
+      - --disable-static
+    stage:
+      - usr/include
+      - usr/lib
+    prime:
+      - -usr/bin
+      - -usr/include
+      - -usr/lib/pkgconfig
+      - -usr/share/alsa/alsa.conf
+      - -usr/share/alsa/pcm
+      - -usr/share/alsa/topology/broadwell
+
   strawberry:
     plugin: cmake
     source-type: git
     source: https://github.com/jonaski/strawberry
-    after: [desktop-qt5]
+    after:
+      - alsa-lib
+      - desktop-qt5
+    override-build: |
+      cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
+      make -j $(getconf _NPROCESSORS_ONLN)
+      make DESTDIR=$SNAPCRAFT_PART_INSTALL install
+      sed -i 's|Icon=strawberry|Icon=/usr/share/icons/hicolor/128x128/apps/strawberry\.png|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
+      sed -i 's|TryExec=.*|TryExec=/snap/bin/strawberry|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
 
     build-packages:
       - cmake
@@ -23,6 +84,7 @@ parts:
       - g++
       - protobuf-compiler
       - libglib2.0-dev
+      - libgnutls28-dev
       - libdbus-1-dev
       - libprotobuf-dev
       - libboost-dev
@@ -45,11 +107,12 @@ parts:
       - libplist-dev
       - libusbmuxd-dev
       - libchromaprint-dev
+      - libfftw3-dev
 
     stage-packages:
       - libstdc++6
       - libgcc1
-      - libprotobuf9v5
+      - libprotobuf10
       - libpcre16-3
       - libqt5core5a
       - libqt5gui5
@@ -63,8 +126,9 @@ parts:
       - libsqlite3-0
       - libgpm2
       - libasound2
+      - libasound2-plugins
       - libpulse0
-      - libcdio13
+      - libcdio17
       - libgpod4
       - libmtp9
       - libimobiledevice6
@@ -72,12 +136,23 @@ parts:
       - libusbmuxd4
       - libxine2
       - libvlc5
-      - libvlccore8
+      - libvlccore9
       - libtag1v5
-      - libchromaprint0
+      - libchromaprint1
       - zlib1g
       - libx11-6
+      - libxcomposite1
+      - libxcursor1
+      - libxinerama1
+      - libxrandr2
       - libdb5.3
+      - libglu1
+      - libslang2
+      - libatk1.0-0
+      - libatk-bridge2.0-0
+      - libatk1.0-data
+      - libatk-adaptor
+      - dbus-x11
       - libgstreamer1.0-0
       - libgstreamer-plugins-base1.0-0
       - gstreamer1.0-alsa
@@ -90,18 +165,16 @@ parts:
 
 apps:
   strawberry:
-    command: desktop-launch $SNAP/bin/strawberry
-    desktop: share/applications/org.strawbs.strawberry.desktop
+    command: desktop-launch $SNAP/usr/bin/strawberry
+    desktop: usr/share/applications/org.strawbs.strawberry.desktop
     environment:
+      ALSA_CONFIG_PATH: /snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa/alsa.conf
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
     plugs:
-      - system-observe
-      - system-trace
       - home
-      - dbus
-      - mpris
       - udisks2
       - network
+      - network-manager
       - network-bind
       - desktop
       - desktop-legacy
@@ -115,3 +188,12 @@ apps:
       - media-hub
       - screen-inhibit-control
       - unity7
+    slots:
+      - mpris
+
+  strawberry-tagreader:
+    command: strawberry-tagreader
+    plugs:
+      - network
+      - network-manager
+      - network-bind

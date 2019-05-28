@@ -32,6 +32,7 @@
 
 #include "flacproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class Tag;
@@ -49,14 +50,14 @@ namespace TagLib {
    */
   namespace FLAC {
 
-    using TagLib::FLAC::Properties;
+    using Strawberry_TagLib::TagLib::FLAC::Properties;
 
-    //! An implementation of TagLib::File with Ogg/FLAC specific methods
+    //! An implementation of Strawberry_TagLib::TagLib::File with Ogg/FLAC specific methods
 
     /*!
      * This implements and provides an interface for Ogg/FLAC files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to Ogg FLAC files.
      */
 
@@ -166,5 +167,6 @@ namespace TagLib {
   } // namespace FLAC
   } // namespace Ogg
 } // namespace TagLib
+} // namespace Strawberry_TagLib
 
 #endif

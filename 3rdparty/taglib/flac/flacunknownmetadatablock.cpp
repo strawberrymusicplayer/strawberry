@@ -28,7 +28,7 @@
 #include <tstring.h>
 #include "flacunknownmetadatablock.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::UnknownMetadataBlock::UnknownMetadataBlockPrivate
 {

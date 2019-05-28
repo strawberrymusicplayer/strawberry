@@ -27,14 +27,14 @@
 #include "tdebug.h"
 #include "modfilebase.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
-Mod::FileBase::FileBase(FileName file) : TagLib::File(file)
+Mod::FileBase::FileBase(FileName file) : Strawberry_TagLib::TagLib::File(file)
 {
 }
 
-Mod::FileBase::FileBase(IOStream *stream) : TagLib::File(stream)
+Mod::FileBase::FileBase(IOStream *stream) : Strawberry_TagLib::TagLib::File(stream)
 {
 }
 

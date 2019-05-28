@@ -31,6 +31,7 @@
 #include "tbytevector.h"
 #include "tiostream.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class String;
@@ -140,6 +141,7 @@ namespace TagLib {
     ByteVectorStreamPrivate *d;
   };
 
+}
 }
 
 #endif

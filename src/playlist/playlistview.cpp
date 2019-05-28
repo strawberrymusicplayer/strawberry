@@ -77,6 +77,10 @@
 #include "settings/appearancesettingspage.h"
 #include "settings/playlistsettingspage.h"
 
+#ifdef HAVE_MOODBAR
+#  include "moodbar/moodbaritemdelegate.h"
+#endif
+
 using std::sort;
 
 const int PlaylistView::kGlowIntensitySteps = 24;
@@ -139,7 +143,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       background_initialized_(false),
       setting_initial_header_layout_(false),
       read_only_settings_(true),
-      header_loaded_(false),
+      state_loaded_(false),
       previous_background_image_opacity_(0.0),
       fade_animation_(new QTimeLine(1000, this)),
       force_background_redraw_(false),
@@ -175,7 +179,6 @@ PlaylistView::PlaylistView(QWidget *parent)
   connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(SaveSettings()));
   connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(StretchChanged(bool)));
 
   inhibit_autoscroll_timer_->setInterval(kAutoscrollGraceTimeout * 1000);
@@ -201,7 +204,6 @@ PlaylistView::PlaylistView(QWidget *parent)
 }
 
 PlaylistView::~PlaylistView() {
-  SaveGeometry();
   delete style_;
 }
 
@@ -243,6 +245,10 @@ void PlaylistView::SetItemDelegates(CollectionBackend *backend) {
   setItemDelegateForColumn(Playlist::Column_LastPlayed, new LastPlayedItemDelegate(this));
 
   setItemDelegateForColumn(Playlist::Column_Source, new SongSourceDelegate(this));
+
+#ifdef HAVE_MOODBAR
+  setItemDelegateForColumn(Playlist::Column_Mood, new MoodbarItemDelegate(app_, this, this));
+#endif
 
 }
 
@@ -286,13 +292,17 @@ void PlaylistView::setModel(QAbstractItemModel *m) {
 
 void PlaylistView::LoadGeometry() {
 
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
+  if (!state_loaded_) {
+    QSettings s;
+    s.beginGroup(Playlist::kSettingsGroup);
+    state_ = s.value("state").toByteArray();
+    state_loaded_ = true;
+    s.endGroup();
+  }
 
-  QByteArray state(settings.value("state").toByteArray());
-  if (!header_->RestoreState(state)) {
+  if (!header_->RestoreState(state_)) {
     // Maybe we're upgrading from a version that persisted the state with QHeaderView.
-    if (!header_->restoreState(state)) {
+    if (!header_->restoreState(state_)) {
       header_->HideSection(Playlist::Column_AlbumArtist);
       header_->HideSection(Playlist::Column_Performer);
       header_->HideSection(Playlist::Column_Composer);
@@ -310,6 +320,7 @@ void PlaylistView::LoadGeometry() {
       header_->HideSection(Playlist::Column_LastPlayed);
       header_->HideSection(Playlist::Column_Comment);
       header_->HideSection(Playlist::Column_Grouping);
+      header_->HideSection(Playlist::Column_Mood);
 
       header_->moveSection(header_->visualIndex(Playlist::Column_Track), 0);
       setting_initial_header_layout_ = true;
@@ -331,18 +342,12 @@ void PlaylistView::LoadGeometry() {
     header_->ShowSection(Playlist::Column_Title);
   }
 
-  header_loaded_ = true;
-
 }
 
 void PlaylistView::SaveGeometry() {
 
-  if (!initialized_ || read_only_settings_) return;
-
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
-  settings.setValue("state", header_->SaveState());
-  settings.endGroup();
+  if (!initialized_ || !state_loaded_) return;
+  state_ = header_->SaveState();
 
 }
 
@@ -699,7 +704,16 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
     return;
   }
 
-  QTreeView::mousePressEvent(event);
+  QModelIndex idx = indexAt(event->pos());
+  if (event->button() == Qt::XButton1 && idx.isValid()) {
+    app_->player()->Previous();
+  }
+  else if (event->button() == Qt::XButton2 && idx.isValid()) {
+    app_->player()->Next();
+  }
+  else {
+    QTreeView::mousePressEvent(event);
+  }
 
   inhibit_autoscroll_ = true;
   inhibit_autoscroll_timer_->start();
@@ -1080,16 +1094,8 @@ void PlaylistView::SaveSettings() {
   if (!initialized_ || read_only_settings_) return;
 
   QSettings s;
-
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  s.setValue("glow_effect", glow_enabled_);
-  s.endGroup();
-
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  s.setValue(AppearanceSettingsPage::kBackgroundImageType, background_image_type_);
-  s.endGroup();
-
   s.beginGroup(Playlist::kSettingsGroup);
+  s.setValue("state", header_->SaveState());
   s.setValue("column_alignments", QVariant::fromValue(column_alignment_));
   s.endGroup();
 
@@ -1278,17 +1284,16 @@ void PlaylistView::focusInEvent(QFocusEvent *event) {
 
 void PlaylistView::ResetColumns() {
 
+  QSettings s;
+  s.beginGroup(Playlist::kSettingsGroup);
+  s.remove("state");
+  s.endGroup();
+  state_loaded_ = false;
   read_only_settings_ = true;
   setting_initial_header_layout_ = true;
-  QSettings settings;
-  settings.beginGroup(Playlist::kSettingsGroup);
-  settings.remove("state");
-  settings.endGroup();
   ReloadSettings();
   LoadGeometry();
-  ReloadSettings();
   read_only_settings_ = false;
-  SaveGeometry();
   SetPlaylist(playlist_);
 
 }

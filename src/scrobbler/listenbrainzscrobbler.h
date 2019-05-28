@@ -60,7 +60,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void Submitted() { submitted_ = true; }
   QString user_token() const { return user_token_; }
 
-  void Authenticate();
+  void Authenticate(const bool https = false);
   void Logout();
   void ShowConfig();
   void Submit();

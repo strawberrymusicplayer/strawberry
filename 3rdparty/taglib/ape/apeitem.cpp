@@ -28,7 +28,7 @@
 
 #include "apeitem.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace APE;
 
 class APE::Item::ItemPrivate

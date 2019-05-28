@@ -32,7 +32,7 @@
 # include <windows.h>
 #endif
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -63,6 +63,7 @@ namespace
   DefaultListener defaultListener;
 }
 
+namespace Strawberry_TagLib {
 namespace TagLib
 {
   DebugListener *debugListener = &defaultListener;
@@ -82,4 +83,5 @@ namespace TagLib
     else
       debugListener = &defaultListener;
   }
+}
 }

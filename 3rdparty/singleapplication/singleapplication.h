@@ -114,7 +114,7 @@ public:
      * @note sendMessage() will return false if invoked from the primary
      * instance.
      */
-    bool sendMessage( QByteArray message, int timeout = 100 );
+    bool sendMessage( QByteArray message, int timeout = 1000 );
 
 Q_SIGNALS:
     void instanceStarted();

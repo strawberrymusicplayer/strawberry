@@ -21,7 +21,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label_1">
+      <widget class="QLabel" name="label_preset">
        <property name="text">
         <string>Preset:</string>
        </property>
@@ -84,7 +84,7 @@
    <item>
     <layout class="QHBoxLayout" name="slider_label_layout">
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_left">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
@@ -99,7 +99,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_balance">
        <property name="text">
         <string>Balance</string>
        </property>
@@ -109,7 +109,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="label_right">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
@@ -119,7 +119,7 @@
         <string>Right</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom</set>
+        <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
        </property>
       </widget>
      </item>

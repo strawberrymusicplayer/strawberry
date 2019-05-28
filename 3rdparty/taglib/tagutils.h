@@ -32,6 +32,7 @@
 
 #include <tbytevector.h>
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class File;
@@ -48,6 +49,7 @@ namespace TagLib {
     ByteVector readHeader(IOStream *stream, unsigned int length, bool skipID3v2,
                           long *headerOffset = 0);
   }
+}
 }
 
 #endif

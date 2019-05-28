@@ -52,7 +52,7 @@
 #include "scopedtransaction.h"
 
 const char *Database::kDatabaseFilename = "strawberry.db";
-const int Database::kSchemaVersion = 3;
+const int Database::kSchemaVersion = 4;
 const char *Database::kMagicAllSongsTables = "%allsongstables";
 
 int Database::sNextConnectionId = 1;
@@ -595,7 +595,8 @@ bool Database::IntegrityCheck(QSqlDatabase db) {
     if (message == "ok") {
       ok = true;
       break;
-    } else {
+    }
+    else {
       if (!error_reported) { app_->AddError(tr("Database corruption detected.")); }
       app_->AddError("Database: " + message);
       error_reported = true;
@@ -677,9 +678,9 @@ void Database::BackupFile(const QString &filename) {
   do {
     ret = sqlite3_backup_step(backup, 16);
     const int page_count = sqlite3_backup_pagecount(backup);
-    app_->task_manager()->SetTaskProgress(
-        task_id, page_count - sqlite3_backup_remaining(backup), page_count);
-  } while (ret == SQLITE_OK);
+    app_->task_manager()->SetTaskProgress(task_id, page_count - sqlite3_backup_remaining(backup), page_count);
+  }
+  while (ret == SQLITE_OK);
 
   if (ret != SQLITE_DONE) {
     qLog(Error) << "Database backup failed";

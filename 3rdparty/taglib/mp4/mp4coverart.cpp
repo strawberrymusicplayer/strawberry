@@ -28,7 +28,7 @@
 #include "trefcounter.h"
 #include "mp4coverart.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class MP4::CoverArt::CoverArtPrivate : public RefCounter
 {

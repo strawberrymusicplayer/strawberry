@@ -40,7 +40,7 @@
 #include "id3v2tag.h"
 #include "id3v2header.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -90,7 +90,7 @@ bool TrueAudio::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -99,7 +99,7 @@ TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle)
 
 TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
                       bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -107,7 +107,7 @@ TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
 }
 
 TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -116,7 +116,7 @@ TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadSty
 
 TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
                       bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -128,7 +128,7 @@ TrueAudio::File::~File()
   delete d;
 }
 
-TagLib::Tag *TrueAudio::File::tag() const
+Strawberry_TagLib::TagLib::Tag *TrueAudio::File::tag() const
 {
   return &d->tag;
 }

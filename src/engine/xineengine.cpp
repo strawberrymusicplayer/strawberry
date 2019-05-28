@@ -15,12 +15,23 @@
 
 #include "config.h"
 
+#ifndef XINE_ENGINE_INTERNAL
+#  define XINE_ENGINE_INTERNAL
+#endif
+
+#ifndef METRONOM_INTERNAL
+#  define METRONOM_INTERNAL
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
 #include <xine.h>
+#ifdef XINE_ANALYZER
+#  include <xine/metronom.h>
+#endif
 
 #include <memory>
 #include <cstdlib>
@@ -54,7 +65,9 @@
 #include "enginebase.h"
 #include "enginetype.h"
 #include "xineengine.h"
-#include "xinescope.h"
+#ifdef XINE_ANALYZER
+#  include "xinescope.h"
+#endif
 
 #include "settings/backendsettingspage.h"
 
@@ -75,9 +88,11 @@ XineEngine::XineEngine(TaskManager *task_manager)
     audioport_(nullptr),
     stream_(nullptr),
     eventqueue_(nullptr),
+#ifdef XINE_ANALYZER
     post_(nullptr),
-    preamp_(1.0),
     prune_(nullptr),
+#endif
+    preamp_(1.0),
     have_metadata_(false) {
 
   type_ = Engine::Xine;
@@ -109,7 +124,7 @@ bool XineEngine::Init() {
 
   xine_init(xine_);
 
-#ifndef XINE_SAFE_MODE
+#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
   prune_.reset(new PruneScopeThread(this));
   prune_->start();
 #endif
@@ -163,7 +178,7 @@ bool XineEngine::OpenAudioDriver() {
     return false;
   }
 
-#ifndef XINE_SAFE_MODE
+#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
   post_ = scope_plugin_new(xine_, audioport_);
   if (!post_) {
     xine_close_audio_driver(xine_, audioport_);
@@ -181,10 +196,12 @@ bool XineEngine::OpenAudioDriver() {
 
 void XineEngine::CloseAudioDriver() {
 
+#ifdef XINE_ANALYZER
   if (post_) {
     xine_post_dispose(xine_, post_);
     post_ = nullptr;
   }
+#endif
 
   if (audioport_) {
     xine_close_audio_driver(xine_, audioport_);
@@ -251,12 +268,14 @@ bool XineEngine::EnsureStream() {
 
 void XineEngine::Cleanup() {
 
+#ifdef XINE_ANALYZER
   // Wait until the prune scope thread is done
   if (prune_) {
     prune_->exit();
     prune_->wait();
   }
   prune_.reset();
+#endif
 
   CloseStream();
   CloseAudioDriver();
@@ -300,7 +319,7 @@ bool XineEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::T
   int result = xine_open(stream_, media_url.toString().toUtf8());
   if (result) {
 
-#ifndef XINE_SAFE_MODE
+#if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
     xine_post_out_t *source = xine_get_audio_source(stream_);
     xine_post_in_t *target = (xine_post_in_t*)xine_post_input(post_, const_cast<char*>("audio in"));
     xine_post_wire(source, target);
@@ -881,6 +900,8 @@ void XineEngine::DetermineAndShowErrorMessage() {
 
 }
 
+#ifdef XINE_ANALYZER
+
 const Engine::Scope &XineEngine::scope(int chunk_length) {
 
   if (!post_ || !stream_ || xine_get_status(stream_) != XINE_STATUS_PLAY)
@@ -986,7 +1007,10 @@ void PruneScopeThread::run() {
   timer.start(1000);
 
   exec();
+
 }
+
+#endif
 
 EngineBase::PluginDetailsList XineEngine::GetPluginList() const {
 

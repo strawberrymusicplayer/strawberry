@@ -30,6 +30,7 @@
 #include "tstring.h"
 #include "tstringlist.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace APE {
@@ -217,6 +218,7 @@ namespace TagLib {
     };
   }
 
+}
 }
 
 #endif

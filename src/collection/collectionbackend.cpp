@@ -567,12 +567,11 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
 
   // Albums with 'albumartist' field set:
   CollectionQuery query(opt);
-//  query.SetColumnSpec("DISTINCT artist");
   query.SetColumnSpec("DISTINCT albumartist");
   query.AddCompilationRequirement(false);
   query.AddWhere("album", "", "!=");
 
-// Albums with no 'albumartist' (extract 'artist'):
+ // Albums with no 'albumartist' (extract 'artist'):
   CollectionQuery query2(opt);
   query2.SetColumnSpec("DISTINCT artist");
   query2.AddCompilationRequirement(false);
@@ -600,15 +599,11 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetAllAlbums(const QueryOptions &opt) {
-  return GetAlbums(QString(), QString(), false, opt);
+  return GetAlbums(QString(), false, opt);
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetAlbumsByArtist(const QString &artist, const QueryOptions &opt) {
-  return GetAlbums(artist, QString(), false, opt);
-}
-
-CollectionBackend::AlbumList CollectionBackend::GetAlbumsByAlbumArtist(const QString &album_artist, const QueryOptions &opt) {
-  return GetAlbums(QString(), album_artist, false, opt);
+  return GetAlbums(artist, false, opt);
 }
 
 SongList CollectionBackend::GetSongsByAlbum(const QString &album, const QueryOptions &opt) {
@@ -750,7 +745,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
 }
 
 CollectionBackend::AlbumList CollectionBackend::GetCompilationAlbums(const QueryOptions &opt) {
-  return GetAlbums(QString(), QString(), true, opt);
+  return GetAlbums(QString(), true, opt);
 }
 
 SongList CollectionBackend::GetCompilationSongs(const QString &album, const QueryOptions &opt) {
@@ -861,9 +856,10 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_songs, QSqlQuery &upd
   update.bindValue(":album", album);
   update.exec();
   db_->CheckErrors(update);
+
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const QString &album_artist, bool compilation, const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, bool compilation, const QueryOptions &opt) {
 
   AlbumList ret;
 
@@ -874,13 +870,9 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
   if (compilation) {
     query.AddCompilationRequirement(true);
   }
-  else if (!album_artist.isNull() && !album_artist.isEmpty()) {
+  else if (!artist.isEmpty()) {
     query.AddCompilationRequirement(false);
-    query.AddWhere("albumartist", album_artist);
-  }
-  else if (!artist.isNull() && !artist.isEmpty()) {
-    query.AddCompilationRequirement(false);
-    query.AddWhere("artist", artist);
+    query.AddWhereArtist(artist);
   }
 
   {
@@ -1076,6 +1068,7 @@ bool CollectionBackend::ExecQuery(CollectionQuery *q) {
 }
 
 void CollectionBackend::IncrementPlayCount(int id) {
+
   if (id == -1) return;
 
   QMutexLocker l(db_->Mutex());
@@ -1089,6 +1082,7 @@ void CollectionBackend::IncrementPlayCount(int id) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1106,6 +1100,7 @@ void CollectionBackend::IncrementSkipCount(int id, float progress) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1123,6 +1118,7 @@ void CollectionBackend::ResetStatistics(int id) {
   if (db_->CheckErrors(q)) return;
 
   Song new_song = GetSongById(id, db);
+  emit SongsStatisticsChanged(SongList() << new_song);
 
 }
 

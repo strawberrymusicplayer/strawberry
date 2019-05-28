@@ -22,27 +22,31 @@
 
 #include "config.h"
 
+#include <memory>
+#include <stdbool.h>
+
 #include <QtGlobal>
 #include <QObject>
+#include <QPair>
 #include <QList>
-#include <QHash>
 #include <QString>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QTimer>
-#include <QDateTime>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 
 #include "core/song.h"
-#include "internet/internetservices.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 
+class QSortFilterProxyModel;
 class Application;
 class NetworkAccessManager;
 class TidalUrlHandler;
+class TidalRequest;
+class CollectionBackend;
+class CollectionModel;
+
+using std::shared_ptr;
 
 class TidalService : public InternetService {
   Q_OBJECT
@@ -54,77 +58,121 @@ class TidalService : public InternetService {
   static const Song::Source kSource;
 
   void ReloadSettings();
+  QString CoverCacheDir();  
 
   void Logout();
   int Search(const QString &query, InternetSearch::SearchType type);
   void CancelSearch();
 
-  const bool login_sent() { return login_sent_; }
+  const int max_login_attempts() { return kLoginAttempts; }
+
+  QString token() { return token_; }
+  QString username() { return username_; }
+  QString password() { return password_; }
+  QString quality() { return quality_; }
+  int search_delay() { return search_delay_; }
+  int artistssearchlimit() { return artistssearchlimit_; }
+  int albumssearchlimit() { return albumssearchlimit_; }
+  int songssearchlimit() { return songssearchlimit_; }
+  bool fetchalbums() { return fetchalbums_; }
+  QString coversize() { return coversize_; }
+  bool cache_album_covers() { return cache_album_covers_; }
+
+  QString session_id() { return session_id_; }
+  quint64 user_id() { return user_id_; }
+  QString country_code() { return country_code_; }
+
   const bool authenticated() { return (!session_id_.isEmpty() && !country_code_.isEmpty()); }
+  const bool login_sent() { return login_sent_; }
+  const bool login_attempts() { return login_attempts_; }
 
   void GetStreamURL(const QUrl &url);
 
+  CollectionBackend *artists_collection_backend() { return artists_collection_backend_; }
+  CollectionBackend *albums_collection_backend() { return albums_collection_backend_; }
+  CollectionBackend *songs_collection_backend() { return songs_collection_backend_; }
+
+  CollectionModel *artists_collection_model() { return artists_collection_model_; }
+  CollectionModel *albums_collection_model() { return albums_collection_model_; }
+  CollectionModel *songs_collection_model() { return songs_collection_model_; }
+
+  QSortFilterProxyModel *artists_collection_sort_model() { return artists_collection_sort_model_; }
+  QSortFilterProxyModel *albums_collection_sort_model() { return albums_collection_sort_model_; }
+  QSortFilterProxyModel *songs_collection_sort_model() { return songs_collection_sort_model_; }
+
+  enum QueryType {
+    QueryType_Artists,
+    QueryType_Albums,
+    QueryType_Songs,
+    QueryType_SearchArtists,
+    QueryType_SearchAlbums,
+    QueryType_SearchSongs,
+  };
+
  signals:
-  void Login();
-  void Login(const QString &username, const QString &password);
-  void LoginSuccess();
-  void LoginFailure(QString failure_reason);
-  void SearchResults(int id, SongList songs);
-  void SearchError(int id, QString message);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
-  void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  public slots:
   void ShowConfig();
-  void SendLogin(const QString &username, const QString &password);
+  void TryLogin();
+  void SendLogin(const QString &username, const QString &password, const QString &token);
+  void GetArtists();
+  void GetAlbums();
+  void GetSongs();
 
  private slots:
   void SendLogin();
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
-  void ArtistsReceived(QNetworkReply *reply, int search_id);
-  void AlbumsReceived(QNetworkReply *reply, int search_id, int artist_id, int offset_requested = 0);
-  void AlbumsFinished(const int artist_id, const int offset_requested, const int total_albums = 0, const int limit = 0, const int albums = 0);
-  void SongsReceived(QNetworkReply *reply, int search_id, int album_id);
-  void StreamURLReceived(QNetworkReply *reply, const int song_id, const QUrl original_url);
+  void UpdateArtists(SongList songs);
+  void UpdateAlbums(SongList songs);
 
  private:
   typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
 
-  void ClearSearch();
   void LoadSessionID();
-  QNetworkReply *CreateRequest(const QString &ressource_name, const QList<QPair<QString, QString>> &params);
-  QByteArray GetReplyData(QNetworkReply *reply, QString &error, const bool sendlogin = false);
-  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
   void SendSearch();
-  void SendArtistsSearch();
-  void SendAlbumsSearch();
-  void SendSongsSearch();
-  void GetAlbums(const int artist_id, const int offset = 0);
-  void GetSongs(const int album_id);
-  Song ParseSong(const int album_id_requested, const QJsonValue &value, QString album_artist = QString());
-  void CheckFinish();
   QString LoginError(QString error, QVariant debug = QVariant());
-  QString Error(QString error, QVariant debug = QVariant());
 
-  static const char *kApiUrl;
   static const char *kAuthUrl;
-  static const char *kResourcesUrl;
   static const char *kApiTokenB64;
   static const int kLoginAttempts;
   static const int kTimeResetLoginAttempts;
 
+  static const char *kArtistsSongsTable;
+  static const char *kAlbumsSongsTable;
+  static const char *kSongsTable;
+
+  static const char *kArtistsSongsFtsTable;
+  static const char *kAlbumsSongsFtsTable;
+  static const char *kSongsFtsTable;
+
   Application *app_;
   NetworkAccessManager *network_;
   TidalUrlHandler *url_handler_;
+
+  CollectionBackend *artists_collection_backend_;
+  CollectionBackend *albums_collection_backend_;
+  CollectionBackend *songs_collection_backend_;
+
+  CollectionModel *artists_collection_model_;
+  CollectionModel *albums_collection_model_;
+  CollectionModel *songs_collection_model_;
+
+  QSortFilterProxyModel *artists_collection_sort_model_;
+  QSortFilterProxyModel *albums_collection_sort_model_;
+  QSortFilterProxyModel *songs_collection_sort_model_;
+
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
 
+  std::shared_ptr<TidalRequest> artists_request_;
+  std::shared_ptr<TidalRequest> albums_request_;
+  std::shared_ptr<TidalRequest> songs_request_;
+  std::shared_ptr<TidalRequest> search_request_;
+
+  QString token_;
   QString username_;
   QString password_;
   QString quality_;
@@ -134,11 +182,11 @@ class TidalService : public InternetService {
   int songssearchlimit_;
   bool fetchalbums_;
   QString coversize_;
-  QString streamurl_;
+  bool cache_album_covers_;
+
   QString session_id_;
   quint64 user_id_;
   QString country_code_;
-  QString clientuniquekey_;
 
   int pending_search_id_;
   int next_pending_search_id_;
@@ -147,20 +195,8 @@ class TidalService : public InternetService {
 
   int search_id_;
   QString search_text_;
-  bool artist_search_;
-  QList<int> requests_artist_albums_;
-  QHash<int, QString> requests_album_songs_;
-  QHash<int, QUrl> requests_stream_url_;
-  QList<QUrl> queue_stream_url_;
-  int artist_albums_requested_;
-  int artist_albums_received_;
-  int album_songs_requested_;
-  int album_songs_received_;
-  SongList songs_;
-  QString search_error_;
   bool login_sent_;
   int login_attempts_;
-  QUrl stream_request_url_;
 
 };
 

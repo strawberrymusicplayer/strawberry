@@ -365,6 +365,12 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
 
 }
 
+#ifdef HAVE_MOODBAR
+void Playlist::MoodbarUpdated(const QModelIndex& index) {
+  emit dataChanged(index.sibling(index.row(), Column_Mood), index.sibling(index.row(), Column_Mood));
+}
+#endif
+
 bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role) {
 
   int row = index.row();
@@ -861,7 +867,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_n
   // exercise vetoes
   SongList songs;
 
-  for (const PlaylistItemPtr &item : items) {
+  for (const PlaylistItemPtr item : items) {
     songs << item->Metadata();
   }
 
@@ -1183,6 +1189,7 @@ QString Playlist::column_name(Column column) {
 
     case Column_Comment:      return tr("Comment");
     case Column_Source:       return tr("Source");
+    case Column_Mood:         return tr("Mood");
     default:                  qLog(Error) << "No such column" << column;;
   }
   return "";
@@ -1331,6 +1338,8 @@ void Playlist::ItemsLoaded(QFuture<PlaylistItemList> future) {
   if (greyout) {
     QtConcurrent::run(this, &Playlist::InvalidateDeletedSongs);
   }
+
+  emit PlaylistLoaded();
 
 }
 
@@ -1736,7 +1745,7 @@ QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
 
 SongList Playlist::GetAllSongs() const {
   SongList ret;
-  for (const PlaylistItemPtr &item : items_) {
+  for (const PlaylistItemPtr item : items_) {
     ret << item->Metadata();
   }
   return ret;
@@ -1746,7 +1755,7 @@ PlaylistItemList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
   quint64 ret = 0;
-  for (const PlaylistItemPtr &item : items_) {
+  for (const PlaylistItemPtr item : items_) {
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }
@@ -1813,7 +1822,7 @@ void Playlist::InvalidateDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
-    if (!song.is_stream()) {
+    if (song.url().scheme() == "file") {
       bool exists = QFile::exists(song.url().toLocalFile());
 
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {
@@ -1828,7 +1837,8 @@ void Playlist::InvalidateDeletedSongs() {
     }
   }
 
-  ReloadItems(invalidated_rows);
+  if (!invalidated_rows.isEmpty())
+    ReloadItems(invalidated_rows);
 
 }
 

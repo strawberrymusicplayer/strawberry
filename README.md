@@ -19,8 +19,8 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from Last.fm, Musicbrainz and Discogs
-  * Song lyrics from AudD
+  * Album cover art from Last.fm, Musicbrainz, Discogs, Deezer and Tidal
+  * Song lyrics from AudD and ChartLyrics
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
@@ -49,6 +49,7 @@ To build Strawberry from source you need the following installed on your system 
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * [GStreamer](https://gstreamer.freedesktop.org/), [Xine](https://www.xine-project.org), [VLC](https://www.videolan.org) or [Phonon](https://techbase.kde.org/Phonon)
+* [GnuTLS](https://www.gnutls.org/)
 
 Optional dependencies:
 
@@ -56,6 +57,7 @@ Optional dependencies:
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 * iPhone, iPod Touch, iPad and Apple TV devices: [libimobiledevice, libplist and libusbmuxd](https://www.libimobiledevice.org/)
+* Moodbar: [fftw3](http://www.fftw.org/)
 
 Either GStreamer, Xine, VLC or Phonon engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.

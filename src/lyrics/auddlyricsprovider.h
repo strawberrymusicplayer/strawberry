@@ -54,7 +54,7 @@ class AuddLyricsProvider : public LyricsProvider {
   void Error(quint64 id, QString error, QVariant debug = QVariant());
 
   QJsonObject ExtractJsonObj(QNetworkReply *reply, quint64 id);
-  QJsonArray ExtractResult(QNetworkReply *reply, quint64 id);
+  QJsonArray ExtractResult(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
 
 };
 

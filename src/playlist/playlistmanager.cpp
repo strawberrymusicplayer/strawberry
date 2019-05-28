@@ -68,7 +68,8 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
       parser_(nullptr),
       playlist_container_(nullptr),
       current_(-1),
-      active_(-1)
+      active_(-1),
+      playlists_loading_(0)
 {
   connect(app_->player(), SIGNAL(Paused()), SLOT(SetActivePaused()));
   connect(app_->player(), SIGNAL(Playing()), SLOT(SetActivePlaying()));
@@ -90,15 +91,28 @@ void PlaylistManager::Init(CollectionBackend *collection_backend, PlaylistBacken
   playlist_container_ = playlist_container;
 
   connect(collection_backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
+  connect(collection_backend_, SIGNAL(SongsStatisticsChanged(SongList)), SLOT(SongsDiscovered(SongList)));
 
   for (const PlaylistBackend::Playlist &p : playlist_backend->GetAllOpenPlaylists()) {
-    AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
+    playlists_loading_++;
+    Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
+    connect(ret, SIGNAL(PlaylistLoaded()), SLOT(PlaylistLoaded()));
   }
 
   // If no playlist exists then make a new one
   if (playlists_.isEmpty()) New(tr("Playlist"));
 
   emit PlaylistManagerInitialized();
+
+}
+
+void PlaylistManager::PlaylistLoaded() {
+
+  Playlist *playlist = qobject_cast<Playlist*>(sender());
+  if (!playlist) return;
+  disconnect(playlist, SIGNAL(PlaylistLoaded()), this, SLOT(PlaylistLoaded()));
+  playlists_loading_--;
+  if (playlists_loading_ == 0) emit AllPlaylistsLoaded();
 
 }
 
@@ -358,11 +372,11 @@ void PlaylistManager::SetActivePlaylist(int id) {
 
   Q_ASSERT(playlists_.contains(id));
 
-  // Kinda a hack: unset the current item from the old active playlist before
-  // setting the new one
+  // Kinda a hack: unset the current item from the old active playlist before setting the new one
   if (active_ != -1 && active_ != id) active()->set_current_row(-1);
 
   active_ = id;
+
   emit ActiveChanged(active());
 
 }
@@ -451,7 +465,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
   for (const Song &song : songs) {
     for (const Data &data : playlists_) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
-      for (PlaylistItemPtr &item : items) {
+      for (const PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
         static_cast<CollectionPlaylistItem*>(item.get())->SetMetadata(song);
         data.p->ItemChanged(item);

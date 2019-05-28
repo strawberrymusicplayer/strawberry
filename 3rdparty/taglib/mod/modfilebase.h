@@ -34,11 +34,12 @@
 
 #include <algorithm>
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Mod {
 
-    class TAGLIB_EXPORT FileBase : public TagLib::File
+    class TAGLIB_EXPORT FileBase : public Strawberry_TagLib::TagLib::File
     {
     protected:
       FileBase(FileName file);
@@ -61,6 +62,7 @@ namespace TagLib {
 
   }
 
+}
 }
 
 #endif

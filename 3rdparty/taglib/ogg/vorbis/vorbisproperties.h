@@ -29,6 +29,7 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
 /*
@@ -152,9 +153,10 @@ namespace TagLib {
 #ifdef DOXYGEN
   }
 #else
-  namespace Ogg { namespace Vorbis { typedef TagLib::AudioProperties AudioProperties; } }
+  namespace Ogg { namespace Vorbis { typedef Strawberry_TagLib::TagLib::AudioProperties AudioProperties; } }
 #endif
 
+}
 }
 
 #endif

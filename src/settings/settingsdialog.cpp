@@ -62,8 +62,11 @@
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
 #include "scrobblersettingspage.h"
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
 #  include "tidalsettingspage.h"
+#endif
+#ifdef HAVE_MOODBAR
+#  include "moodbarsettingspage.h"
 #endif
 
 #include "ui_settingsdialog.h"
@@ -133,10 +136,14 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_GlobalShortcuts, new GlobalShortcutsSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_STREAM_TIDAL)
+#ifdef HAVE_MOODBAR
+  AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
+#endif
+
+#if defined(HAVE_TIDAL)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
-#ifdef HAVE_STREAM_TIDAL
+#ifdef HAVE_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
 #endif
 
@@ -225,9 +232,12 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
 }
 
 void SettingsDialog::Save() {
+
   for (const PageData &data : pages_.values()) {
     data.page_->Save();
   }
+  emit ReloadSettings();
+
 }
 
 void SettingsDialog::accept() {

@@ -41,10 +41,14 @@ BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0)
 BuildRequires:  pkgconfig(gthread-2.0)
 BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(gnutls)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(sqlite3)
+%if ! 0%{?centos} && ! 0%{?mageia}
 BuildRequires:  pkgconfig(taglib)
+%endif
+BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Widgets)
@@ -96,8 +100,8 @@ Features:
   - Advanced audio output and device configuration for bit-perfect playback on Linux
   - Edit tags on music files
   - Fetch tags from MusicBrainz
-  - Album cover art from Last.fm, Musicbrainz and Discogs
-  - Song lyrics from AudD
+  - Album cover art from Last.fm, Musicbrainz, Discogs, Deezer and Tidal
+  - Song lyrics from AudD and ChartLyrics
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer

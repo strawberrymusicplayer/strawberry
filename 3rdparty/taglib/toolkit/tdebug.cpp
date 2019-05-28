@@ -38,6 +38,7 @@
 #include <cstdio>
 #include <cstdarg>
 
+namespace Strawberry_TagLib {
 namespace TagLib
 {
   // The instance is defined in tdebuglistener.cpp.
@@ -59,6 +60,7 @@ namespace TagLib
       debugListener->printMessage(msg);
     }
   }
+}
 }
 
 #endif

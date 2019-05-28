@@ -30,6 +30,7 @@
 #include "id3v2tag.h"
 #include "dsfproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   //! An implementation of DSF metadata
@@ -42,16 +43,16 @@ namespace TagLib {
 
   namespace DSF {
 
-    //! An implementation of TagLib::File with DSF specific methods
+    //! An implementation of Strawberry_TagLib::TagLib::File with DSF specific methods
 
     /*!
      * This implements and provides an interface for DSF files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
+     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
+     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to DSF files.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       /*!
@@ -122,6 +123,7 @@ namespace TagLib {
       FilePrivate *d;
     };
   }
+}
 }
 
 #endif

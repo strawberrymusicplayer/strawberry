@@ -33,12 +33,8 @@
 #include <gst/gst.h>
 
 #include <QtGlobal>
-#include <QCoreApplication>
-#include <QStandardPaths>
-#include <QtConcurrentRun>
 #include <QFuture>
 #include <QTimer>
-#include <QDir>
 #include <QList>
 #include <QByteArray>
 #include <QChar>
@@ -63,9 +59,6 @@
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-#ifdef HAVE_IMOBILEDEVICE_ // FIXME
-#  include "ext/gstafc/gstafcsrc.h"
-#endif
 
 #include "settings/backendsettingspage.h"
 
@@ -115,9 +108,6 @@ GstEngine::~GstEngine() {
 
 bool GstEngine::Init() {
 
-  SetEnvironment();
-
-  initialising_ = QtConcurrent::run(this, &GstEngine::InitialiseGStreamer);
   return true;
 
 }
@@ -171,10 +161,6 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::Tr
     return true;
   }
 
-  //SetEqualizerEnabled(equalizer_enabled_);
-  //SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
-  //SetStereoBalance(stereo_balance_);
-
   shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
   if (!pipeline) return false;
 
@@ -184,9 +170,8 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::Tr
   current_pipeline_ = pipeline;
 
   SetVolume(volume_);
-  SetEqualizerEnabled(equalizer_enabled_);
-  if (equalizer_preamp_) SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
   SetStereoBalance(stereo_balance_);
+  SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
   if (crossfade)
@@ -407,56 +392,6 @@ void GstEngine::ReloadSettings() {
 
 }
 
-void GstEngine::InitialiseGStreamer() {
-
-  gst_init(nullptr, nullptr);
-
-#ifdef HAVE_IMOBILEDEVICE_ // FIXME
-  afcsrc_register_static();
-#endif
-
-}
-
-void GstEngine::SetEnvironment() {
-
-  QString scanner_path;
-  QString plugin_path;
-  QString registry_filename;
-
-// On Windows and macOS we bundle the gstreamer plugins with strawberry
-#ifdef USE_BUNDLE
-#if defined(Q_OS_MACOS)
-  scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
-  plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
-#elif defined(Q_OS_WIN32)
-  plugin_path = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/gstreamer-plugins");
-#endif
-#endif
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QString("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
-#endif
-
-  if (!scanner_path.isEmpty()) Utilities::SetEnv("GST_PLUGIN_SCANNER", scanner_path);
-
-  if (!plugin_path.isEmpty()) {
-    Utilities::SetEnv("GST_PLUGIN_PATH", plugin_path);
-    // Never load plugins from anywhere else.
-    Utilities::SetEnv("GST_PLUGIN_SYSTEM_PATH", plugin_path);
-  }
-
-  if (!registry_filename.isEmpty()) {
-    Utilities::SetEnv("GST_REGISTRY", registry_filename);
-  }
-
-#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
-  Utilities::SetEnv("GIO_EXTRA_MODULES", QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gio-modules");
-#endif
-
-  Utilities::SetEnv("PULSE_PROP_media.role", "music");
-
-}
-
 GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin, bool showerror) {
 
   // Make a unique name
@@ -499,6 +434,7 @@ void GstEngine::SetEqualizerParameters(int preamp, const QList<int> &band_gains)
 
   if (current_pipeline_)
     current_pipeline_->SetEqualizerParams(preamp, band_gains);
+
 }
 
 void GstEngine::SetStereoBalance(float value) {
@@ -506,6 +442,7 @@ void GstEngine::SetStereoBalance(float value) {
   stereo_balance_ = value;
 
   if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
+
 }
 
 void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
@@ -807,6 +744,7 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);
+  ret->SetEqualizerEnabled(equalizer_enabled_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

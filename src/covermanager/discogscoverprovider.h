@@ -36,6 +36,8 @@
 #include "coverprovider.h"
 #include "albumcoverfetcher.h"
 
+class Application;
+
 // This struct represents a single search-for-cover request. It identifies and describes the request.
 struct DiscogsCoverSearchContext {
 
@@ -45,7 +47,6 @@ struct DiscogsCoverSearchContext {
   // The search query
   QString artist;
   QString album;
-  QString title;
   int r_count;
 
   CoverSearchResults results;
@@ -66,7 +67,7 @@ class DiscogsCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit DiscogsCoverProvider(QObject *parent = nullptr);
+  explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, int s_id);
 
@@ -86,7 +87,7 @@ class DiscogsCoverProvider : public CoverProvider {
   QHash<int, DiscogsCoverSearchContext*> requests_search_;
   QHash<int, DiscogsCoverReleaseContext*> requests_release_;
 
-  bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString resource_url);
+  bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &resource_url);
 
   void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);
   void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);

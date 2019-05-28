@@ -35,6 +35,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "core/application.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/logging.h"
@@ -47,7 +48,7 @@ const char *LastFmCoverProvider::kUrl = "https://ws.audioscrobbler.com/2.0/";
 const char *LastFmCoverProvider::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 
-LastFmCoverProvider::LastFmCoverProvider(QObject *parent) : CoverProvider("last.fm", true, parent), network_(new NetworkAccessManager(this)) {}
+LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent) : CoverProvider("last.fm", 1.0, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 
@@ -56,7 +57,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   typedef QList<Param> ParamList;
 
   ParamList params = ParamList()
-    << Param("album", QString(album + " " + artist))
+    << Param("album", QString(artist + " " + album))
     << Param("api_key", kApiKey)
     << Param("lang", QLocale().name().left(2).toLower())
     << Param("method", "album.search");
@@ -155,8 +156,8 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
       continue;
     }
     QString artist = json_obj["artist"].toString();
-    QString name = json_obj["name"].toString();
-    
+    QString album = json_obj["name"].toString();
+
     QJsonValue json_image = json_obj["image"];
     if (!json_image.isArray()) {
       Error("Invalid Json reply, album image is not an array.", json_image);
@@ -186,7 +187,8 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
     if (url.isEmpty()) continue;
 
     CoverSearchResult cover_result;
-    cover_result.description = artist + " " + name;
+    cover_result.artist = artist;
+    cover_result.album = album;
     cover_result.image_url = url;
     results << cover_result;
   }

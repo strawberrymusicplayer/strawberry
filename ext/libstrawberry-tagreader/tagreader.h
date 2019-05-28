@@ -34,6 +34,9 @@
 
 #include "tagreadermessages.pb.h"
 
+#ifndef USE_SYSTEM_TAGLIB
+namespace Strawberry_TagLib {
+#endif
 namespace TagLib {
   class FileRef;
   class String;
@@ -43,6 +46,10 @@ namespace TagLib {
     class PopularimeterFrame;
   }
 }
+#ifndef USE_SYSTEM_TAGLIB
+}
+using namespace Strawberry_TagLib;
+#endif
 
 class FileRefFactory;
 

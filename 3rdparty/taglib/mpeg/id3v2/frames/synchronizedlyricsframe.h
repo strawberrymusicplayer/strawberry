@@ -29,6 +29,7 @@
 #include "id3v2frame.h"
 #include "tlist.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace ID3v2 {
@@ -93,7 +94,7 @@ namespace TagLib {
       /*!
        * List of synchronized lyrics.
        */
-      typedef TagLib::List<SynchedText> SynchedTextList;
+      typedef Strawberry_TagLib::TagLib::List<SynchedText> SynchedTextList;
 
       /*!
        * Construct an empty synchronized lyrics frame that will use the text
@@ -227,5 +228,6 @@ namespace TagLib {
     };
 
   }
+}
 }
 #endif

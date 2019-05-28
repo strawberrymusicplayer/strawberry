@@ -32,7 +32,7 @@
 
 #include "dsffile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 // The DSF specification is located at http://dsd-guide.com/sites/default/files/white-papers/DSFFileFormatSpec_E.pdf
 
@@ -76,7 +76,7 @@ bool DSF::File::isSupported(IOStream *stream)
 
 DSF::File::File(FileName file, bool readProperties,
                 Properties::ReadStyle propertiesStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -85,7 +85,7 @@ DSF::File::File(FileName file, bool readProperties,
 
 DSF::File::File(IOStream *stream, bool readProperties,
                 Properties::ReadStyle propertiesStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())

@@ -53,7 +53,7 @@
 #include "playlistmanager.h"
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
-#include "3rdparty/qocoa/qsearchfield.h"
+#include "widgets/qsearchfield.h"
 
 const char *PlaylistContainer::kSettingsGroup = "Playlist";
 const int PlaylistContainer::kFilterDelayMs = 100;

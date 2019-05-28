@@ -29,7 +29,7 @@
 #include <tstring.h>
 #include "mp4atom.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 const char *MP4::Atom::containers[11] = {
     "moov", "udta", "mdia", "meta", "ilst",
@@ -118,7 +118,7 @@ MP4::Atom::find(const char *name1, const char *name2, const char *name3, const c
       return (*it)->find(name2, name3, name4);
     }
   }
-  return 0;
+  return nullptr;
 }
 
 MP4::AtomList
@@ -178,7 +178,7 @@ MP4::Atoms::find(const char *name1, const char *name2, const char *name3, const 
       return (*it)->find(name2, name3, name4);
     }
   }
-  return 0;
+  return nullptr;
 }
 
 MP4::AtomList

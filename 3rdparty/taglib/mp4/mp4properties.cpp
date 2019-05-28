@@ -29,7 +29,7 @@
 #include "mp4atom.h"
 #include "mp4properties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class MP4::Properties::PropertiesPrivate
 {

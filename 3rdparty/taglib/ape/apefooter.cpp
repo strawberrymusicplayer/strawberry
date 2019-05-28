@@ -32,7 +32,7 @@
 
 #include "apefooter.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace APE;
 
 class APE::Footer::FooterPrivate

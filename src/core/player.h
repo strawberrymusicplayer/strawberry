@@ -38,12 +38,17 @@
 #include "urlhandler.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginetype.h"
+#ifdef HAVE_GSTREAMER
+#include "engine/gststartup.h"
+#endif
 #include "playlist/playlistitem.h"
 
 class Application;
 class Song;
 class AnalyzerContainer;
 class Equalizer;
+
+using std::unique_ptr;
 
 namespace Engine {
 struct SimpleMetaBundle;
@@ -183,6 +188,9 @@ class Player : public PlayerInterface {
 
   void HandleAuthentication();
 
+ signals:
+  void EngineChanged(Engine::EngineType enginetype);
+
  private slots:
   void EngineStateChanged(Engine::State);
   void EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle);
@@ -207,6 +215,10 @@ class Player : public PlayerInterface {
 
  private:
   Application *app_;
+  std::unique_ptr<EngineBase> engine_;
+#ifdef HAVE_GSTREAMER
+  GstStartup *gst_startup_;
+#endif
   AnalyzerContainer *analyzer_;
   Equalizer *equalizer_;
 
@@ -214,7 +226,6 @@ class Player : public PlayerInterface {
 
   PlaylistItemPtr current_item_;
 
-  std::unique_ptr<EngineBase> engine_;
   Engine::TrackChangeFlags stream_change_type_;
   Engine::State last_state_;
   int nb_errors_received_;

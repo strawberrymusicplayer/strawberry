@@ -30,7 +30,7 @@
 
 #include "chapterframe.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class ChapterFrame::ChapterFramePrivate
@@ -236,7 +236,7 @@ ChapterFrame *ChapterFrame::findByElementID(const ID3v2::Tag *tag, const ByteVec
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void ChapterFrame::parseFields(const ByteVector &data)

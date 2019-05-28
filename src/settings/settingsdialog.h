@@ -83,6 +83,7 @@ class SettingsDialog : public QDialog {
     Page_Proxy,
     Page_Scrobbler,
     Page_Tidal,
+    Page_Moodbar,
   };
 
   enum Role {
@@ -112,6 +113,7 @@ class SettingsDialog : public QDialog {
   void ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value);
 
  signals:
+  void ReloadSettings();
   void NotificationPreview(OSD::Behaviour, QString, QString);
 
  private slots:

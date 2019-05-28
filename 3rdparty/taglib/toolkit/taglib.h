@@ -52,10 +52,11 @@
  * This namespace contains everything in TagLib.  For projects working with
  * TagLib extensively it may be convenient to add a
  * \code
- * using namespace TagLib;
+ * using namespace Strawberry_TagLib::TagLib;
  * \endcode
  */
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class String;
@@ -74,6 +75,7 @@ namespace TagLib {
    * so I'm providing something here that should be constant.
    */
   typedef std::basic_string<wchar_t> wstring;
+}
 }
 
 /*!
@@ -140,14 +142,14 @@ namespace TagLib {
  *
  * \code
  *
- * TagLib::FileRef f("Latex Solar Beef.mp3");
- * TagLib::String artist = f.tag()->artist(); // artist == "Frank Zappa"
+ * Strawberry_TagLib::TagLib::FileRef f("Latex Solar Beef.mp3");
+ * Strawberry_TagLib::TagLib::String artist = f.tag()->artist(); // artist == "Frank Zappa"
  *
  * f.tag()->setAlbum("Fillmore East");
  * f.save();
  *
- * TagLib::FileRef g("Free City Rhymes.ogg");
- * TagLib::String album = g.tag()->album(); // album == "NYC Ghosts & Flowers"
+ * Strawberry_TagLib::TagLib::FileRef g("Free City Rhymes.ogg");
+ * Strawberry_TagLib::TagLib::String album = g.tag()->album(); // album == "NYC Ghosts & Flowers"
  *
  * g.tag()->setTrack(1);
  * g.save();

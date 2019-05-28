@@ -30,6 +30,7 @@
 
 #include <list>
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   //! A generic, implicitly shared list.
@@ -40,7 +41,7 @@ namespace TagLib {
    *
    * \code
    *
-   * TagLib::List<int> l = someOtherIntList;
+   * Strawberry_TagLib::TagLib::List<int> l = someOtherIntList;
    *
    * \endcode
    *
@@ -260,6 +261,7 @@ namespace TagLib {
 #endif
   };
 
+}
 }
 
 // Since GCC doesn't support the "export" keyword, we have to include the

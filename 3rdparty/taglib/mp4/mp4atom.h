@@ -33,12 +33,13 @@
 #include "tfile.h"
 #include "tlist.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace MP4 {
 
     class Atom;
-    typedef TagLib::List<Atom *> AtomList;
+    typedef Strawberry_TagLib::TagLib::List<Atom *> AtomList;
 
     enum AtomDataType
     {
@@ -72,7 +73,7 @@ namespace TagLib {
       ByteVector data;
     };
 
-    typedef TagLib::List<AtomData> AtomDataList;
+    typedef Strawberry_TagLib::TagLib::List<AtomData> AtomDataList;
 
     class Atom
     {
@@ -84,7 +85,7 @@ namespace TagLib {
       AtomList findall(const char *name, bool recursive = false);
       long offset;
       long length;
-      TagLib::ByteVector name;
+      Strawberry_TagLib::TagLib::ByteVector name;
       AtomList children;
     private:
       static const int numContainers = 11;
@@ -104,6 +105,7 @@ namespace TagLib {
 
   }
 
+}
 }
 
 #endif

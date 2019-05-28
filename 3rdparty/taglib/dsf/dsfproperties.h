@@ -28,6 +28,7 @@
 
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace DSF {
@@ -41,7 +42,7 @@ namespace TagLib {
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public TagLib::AudioProperties
+    class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties
     {
     public:
       /*!
@@ -86,6 +87,7 @@ namespace TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

@@ -30,7 +30,7 @@
 #include "id3v2tag.h"
 #include "uniquefileidentifierframe.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class UniqueFileIdentifierFrame::UniqueFileIdentifierFramePrivate
@@ -114,7 +114,7 @@ UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::T
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void UniqueFileIdentifierFrame::parseFields(const ByteVector &data)

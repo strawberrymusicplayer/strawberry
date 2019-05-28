@@ -26,7 +26,7 @@
 #include <tpropertymap.h>
 #include "asftag.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class ASF::Tag::TagPrivate
 {
@@ -40,7 +40,7 @@ public:
 };
 
 ASF::Tag::Tag() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
 }
@@ -204,7 +204,7 @@ void ASF::Tag::addAttribute(const String &name, const Attribute &attribute)
 
 bool ASF::Tag::isEmpty() const
 {
-  return TagLib::Tag::isEmpty() &&
+  return Strawberry_TagLib::TagLib::Tag::isEmpty() &&
          copyright().isEmpty() &&
          rating().isEmpty() &&
          d->attributeListMap.isEmpty();

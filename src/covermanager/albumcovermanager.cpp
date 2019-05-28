@@ -62,7 +62,7 @@
 #include "core/iconloader.h"
 #include "core/utilities.h"
 #include "widgets/forcescrollperpixel.h"
-#include "3rdparty/qocoa/qsearchfield.h"
+#include "widgets/qsearchfield.h"
 #include "collection/sqlrow.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
@@ -81,6 +81,7 @@
 
 #include "ui_albumcovermanager.h"
 
+using std::unique_ptr;
 using std::stable_sort;
 
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";

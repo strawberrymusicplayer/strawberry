@@ -34,7 +34,7 @@
 #include "asfproperties.h"
 #include "asfutils.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class ASF::File::FilePrivate
 {
@@ -488,7 +488,7 @@ bool ASF::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 ASF::File::File(FileName file, bool, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -496,7 +496,7 @@ ASF::File::File(FileName file, bool, Properties::ReadStyle) :
 }
 
 ASF::File::File(IOStream *stream, bool, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())

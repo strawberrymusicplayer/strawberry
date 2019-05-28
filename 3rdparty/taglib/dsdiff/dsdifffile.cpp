@@ -33,7 +33,7 @@
 #include "tagunion.h"
 #include "dsdifffile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 struct Chunk64
 {
@@ -115,7 +115,7 @@ bool DSDIFF::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 DSDIFF::File::File(FileName file, bool readProperties,
-                   Properties::ReadStyle propertiesStyle) : TagLib::File(file)
+                   Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file)
 {
   d = new FilePrivate;
   d->endianness = BigEndian;
@@ -124,7 +124,7 @@ DSDIFF::File::File(FileName file, bool readProperties,
 }
 
 DSDIFF::File::File(IOStream *stream, bool readProperties,
-                   Properties::ReadStyle propertiesStyle) : TagLib::File(stream)
+                   Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream)
 {
   d = new FilePrivate;
   d->endianness = BigEndian;
@@ -137,7 +137,7 @@ DSDIFF::File::~File()
   delete d;
 }
 
-TagLib::Tag *DSDIFF::File::tag() const
+Strawberry_TagLib::TagLib::Tag *DSDIFF::File::tag() const
 {
   return &d->tag;
 }

@@ -30,7 +30,7 @@
 #include "modfileprivate.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
 class Mod::File::FilePrivate

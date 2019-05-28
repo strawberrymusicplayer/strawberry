@@ -29,6 +29,7 @@
 #include "taglib_export.h"
 #include "tbytevector.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace ID3v2 {
@@ -78,5 +79,6 @@ namespace TagLib {
     };
 
   }
+}
 }
 #endif

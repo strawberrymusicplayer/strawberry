@@ -28,7 +28,7 @@
 
 #include "dsdiffproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class DSDIFF::Properties::PropertiesPrivate
 {

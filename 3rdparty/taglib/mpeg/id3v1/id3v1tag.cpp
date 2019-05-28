@@ -29,7 +29,7 @@
 #include "id3v1tag.h"
 #include "id3v1genres.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v1;
 
 namespace
@@ -85,13 +85,13 @@ ByteVector ID3v1::StringHandler::render(const String &s) const
 ////////////////////////////////////////////////////////////////////////////////
 
 ID3v1::Tag::Tag() :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
 }
 
 ID3v1::Tag::Tag(File *file, long tagOffset) :
-  TagLib::Tag(),
+  Strawberry_TagLib::TagLib::Tag(),
   d(new TagPrivate())
 {
   d->file = file;

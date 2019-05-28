@@ -4,6 +4,7 @@
         <file>schema/schema-1.sql</file>
         <file>schema/schema-2.sql</file>
         <file>schema/schema-3.sql</file>
+        <file>schema/schema-4.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
         <file>html/playing-tooltip-plain.html</file>
@@ -32,5 +33,6 @@
         <file>pictures/nyancat.png</file>
         <file>pictures/rainbowdash.png</file>
         <file>fonts/HumongousofEternitySt.ttf</file>
+        <file>mood/sample.mood</file>
     </qresource>
 </RCC>

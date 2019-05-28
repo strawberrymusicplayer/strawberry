@@ -121,12 +121,14 @@ void ListenBrainzScrobbler::Logout() {
 
 }
 
-void ListenBrainzScrobbler::Authenticate() {
+void ListenBrainzScrobbler::Authenticate(const bool https) {
 
-  QUrl url(kAuthUrl);
-
-  LocalRedirectServer *server = new LocalRedirectServer(this);
-  server->Listen();
+  LocalRedirectServer *server = new LocalRedirectServer(https, this);
+  if (!server->Listen()) {
+    AuthError(server->error());
+    delete server;
+    return;
+  }
   NewClosure(server, SIGNAL(Finished()), this, &ListenBrainzScrobbler::RedirectArrived, server);
 
   QUrl redirect_url(kRedirectUrl);
@@ -137,6 +139,7 @@ void ListenBrainzScrobbler::Authenticate() {
   url_query.addQueryItem("client_id", kClientID);
   url_query.addQueryItem("redirect_uri", redirect_url.toString());
   url_query.addQueryItem("scope", "profile;email;tag;rating;collection;submit_isrc;submit_barcode");
+  QUrl url(kAuthUrl);
   url.setQuery(url_query);
 
   bool result = QDesktopServices::openUrl(url);

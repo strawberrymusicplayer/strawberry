@@ -32,7 +32,7 @@
 #include "oggpageheader.h"
 #include "oggfile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class Ogg::Page::PagePrivate
 {
@@ -272,7 +272,7 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
 Ogg::Page* Ogg::Page::getCopyWithNewPageSequenceNumber(int /*sequenceNumber*/)
 {
   debug("Ogg::Page::getCopyWithNewPageSequenceNumber() -- This function is obsolete. Returning null.");
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

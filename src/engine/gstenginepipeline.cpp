@@ -106,7 +106,7 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       {
 
   if (!sElementDeleter) {
-    sElementDeleter = new GstElementDeleter;
+    sElementDeleter = new GstElementDeleter(engine_);
   }
 
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -257,9 +257,8 @@ bool GstEnginePipeline::InitAudioBin() {
     volume_ = engine_->CreateElement("volume", audiobin_);
   }
 
-  audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
-
   if (eq_enabled_) {
+    audio_panorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
     equalizer_preamp_ = engine_->CreateElement("volume", audiobin_, false);
     equalizer_ = engine_->CreateElement("equalizer-nbands", audiobin_, false);
   }
@@ -584,7 +583,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   free(debugs);
 
-  if (pipeline_is_initialised_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Debug) << "Ignoring error when loading next track";

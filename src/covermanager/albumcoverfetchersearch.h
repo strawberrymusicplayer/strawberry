@@ -92,11 +92,11 @@ class AlbumCoverFetcherSearch : public QObject {
   CoverSearchResults results_;
 
   QMap<int, CoverProvider*> pending_requests_;
-  QMap<RedirectFollower*, QString> pending_image_loads_;
+  QMap<RedirectFollower*, CoverSearchResult> pending_image_loads_;
   NetworkTimeouts* image_load_timeout_;
 
-  // QMap is sorted by key (score).  Values are (provider_name, image)
-  typedef QPair<QString, QImage> CandidateImage;
+  // QMap is sorted by key (score).  Values are (result, image)
+  typedef QPair<CoverSearchResult, QImage> CandidateImage;
   QMap<float, CandidateImage> candidate_images_;
 
   QNetworkAccessManager *network_;

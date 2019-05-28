@@ -26,7 +26,7 @@
 
 #include "xmproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace XM;
 
 class XM::Properties::PropertiesPrivate

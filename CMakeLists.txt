@@ -79,6 +79,7 @@ pkg_check_modules(GIO REQUIRED gio-2.0)
 pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
 pkg_check_modules(CDIO libcdio)
 find_package(Threads)
+find_package(GnuTLS)
 find_package(Boost REQUIRED)
 find_package(Protobuf REQUIRED)
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
@@ -113,6 +114,7 @@ pkg_check_modules(LIBIMOBILEDEVICE libimobiledevice-1.0)
 pkg_check_modules(LIBUSBMUXD libusbmuxd)
 pkg_check_modules(LIBPLIST libplist)
 find_package(Gettext)
+find_package(FFTW3)
 
 if(WIN32)
   find_package(ZLIB REQUIRED)
@@ -234,10 +236,6 @@ else(USE_SYSTEM_SINGLEAPPLICATION)
   unset(SINGLECOREAPPLICATION_LIBRARY_DIRS)
 endif(USE_SYSTEM_SINGLEAPPLICATION)
 
-# Qocoa
-set(QOCOA_LIBRARIES Qocoa)
-add_subdirectory(3rdparty/qocoa)
-
 if (APPLE)
   find_library(SPARKLE Sparkle)
   add_subdirectory(3rdparty/SPMediaKeyTap)
@@ -343,7 +341,12 @@ optional_component(TRANSLATIONS ON "Translations"
   DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
 )
 
-optional_component(STREAM_TIDAL ON "Streaming: Tidal support")
+optional_component(TIDAL ON "Tidal support")
+
+optional_component(MOODBAR ON "Moodbar"
+  DEPENDS "fftw3" FFTW3_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
+)
 
 if(APPLE)
   option(USE_BUNDLE "Bundle macOS dependencies" OFF)
@@ -354,6 +357,19 @@ if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
   set(USE_BUNDLE_DIR "../PlugIns")
 endif()
 
+if(HAVE_XINE)
+  check_cxx_source_compiles("
+    #define METRONOM_INTERNAL
+    #include <iostream>
+    #include <xine/metronom.h>
+    int main() {
+      metronom_t metronom;
+      std::cout << metronom.pts_per_smpls;
+      return 0;
+    }
+  "
+  XINE_ANALYZER)
+endif()
 
 # Set up definitions and paths
 
@@ -377,6 +393,9 @@ add_subdirectory(dist)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
 add_subdirectory(ext/strawberry-tagreader)
+if(HAVE_MOODBAR)
+  add_subdirectory(ext/gstmoodbar)
+endif()
 
 # Uninstall support
 configure_file(

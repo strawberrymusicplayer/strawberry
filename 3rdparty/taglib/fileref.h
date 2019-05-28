@@ -32,6 +32,7 @@
 #include "taglib_export.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class Tag;
@@ -41,7 +42,7 @@ namespace TagLib {
   /*!
    * FileRef exists to provide a minimal, generic and value-based wrapper around
    * a File.  It is lightweight and implicitly shared, and as such suitable for
-   * pass-by-value use.  This hides some of the uglier details of TagLib::File
+   * pass-by-value use.  This hides some of the uglier details of Strawberry_TagLib::TagLib::File
    * and the non-generic portions of the concrete file implementations.
    *
    * This class is useful in a "simple usage" situation where it is desirable
@@ -72,10 +73,10 @@ namespace TagLib {
    *
    * class MyFileTypeResolver : FileTypeResolver
    * {
-   *   TagLib::File *createFile(TagLib::FileName *fileName, bool, AudioProperties::ReadStyle) const
+   *   Strawberry_TagLib::TagLib::File *createFile(Strawberry_TagLib::TagLib::FileName *fileName, bool, AudioProperties::ReadStyle) const
    *   {
    *     if(someCheckForAnMP3File(fileName))
-   *       return new TagLib::MPEG::File(fileName);
+   *       return new Strawberry_TagLib::TagLib::MPEG::File(fileName);
    *     return 0;
    *   }
    * }
@@ -282,6 +283,7 @@ namespace TagLib {
     FileRefPrivate *d;
   };
 
-} // namespace TagLib
+}
+} // namespace Strawberry_TagLib::TagLib
 
 #endif

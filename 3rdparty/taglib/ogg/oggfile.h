@@ -30,6 +30,7 @@
 #ifndef TAGLIB_OGGFILE_H
 #define TAGLIB_OGGFILE_H
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   //! A namespace for the classes used by Ogg-based metadata files
@@ -38,7 +39,7 @@ namespace TagLib {
 
     class PageHeader;
 
-    //! An implementation of TagLib::File with some helpers for Ogg based formats
+    //! An implementation of Strawberry_TagLib::TagLib::File with some helpers for Ogg based formats
 
     /*!
      * This is an implementation of Ogg file page and packet rendering and is of
@@ -47,7 +48,7 @@ namespace TagLib {
      * these available (via subclassing) to the codec meta data implementations.
      */
 
-    class TAGLIB_EXPORT File : public TagLib::File
+    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
     {
     public:
       virtual ~File();
@@ -122,6 +123,7 @@ namespace TagLib {
     };
 
   }
+}
 }
 
 #endif

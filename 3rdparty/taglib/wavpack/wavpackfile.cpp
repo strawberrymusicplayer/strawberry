@@ -40,7 +40,7 @@
 #include "apetag.h"
 #include "apefooter.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -88,7 +88,7 @@ bool WavPack::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 WavPack::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -96,7 +96,7 @@ WavPack::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
 }
 
 WavPack::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -108,7 +108,7 @@ WavPack::File::~File()
   delete d;
 }
 
-TagLib::Tag *WavPack::File::tag() const
+Strawberry_TagLib::TagLib::Tag *WavPack::File::tag() const
 {
   return &d->tag;
 }

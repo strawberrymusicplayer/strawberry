@@ -26,7 +26,7 @@
 
 #include "itproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace IT;
 
 class IT::Properties::PropertiesPrivate

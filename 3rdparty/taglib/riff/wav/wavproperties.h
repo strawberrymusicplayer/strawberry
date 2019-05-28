@@ -29,6 +29,7 @@
 #include "taglib.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class ByteVector;
@@ -158,6 +159,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

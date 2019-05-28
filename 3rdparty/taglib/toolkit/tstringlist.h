@@ -33,6 +33,7 @@
 
 #include <iostream>
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   //! A list of strings
@@ -105,11 +106,12 @@ namespace TagLib {
   };
 
 }
+}
 
 /*!
- * \related TagLib::StringList
+ * \related Strawberry_TagLib::TagLib::StringList
  * Send the StringList to an output stream.
  */
-std::ostream &operator<<(std::ostream &s, const TagLib::StringList &l);
+std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::StringList &l);
 
 #endif

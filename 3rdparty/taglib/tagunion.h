@@ -30,6 +30,7 @@
 
 #ifndef DO_NOT_DOCUMENT
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   /*!
@@ -43,7 +44,7 @@ namespace TagLib {
     enum AccessType { Read, Write };
 
     /*!
-     * Creates a TagLib::Tag that is the union of \a first, \a second, and
+     * Creates a Strawberry_TagLib::TagLib::Tag that is the union of \a first, \a second, and
      * \a third.  The TagUnion takes ownership of these tags and will handle
      * their deletion.
      */
@@ -92,6 +93,7 @@ namespace TagLib {
     class TagUnionPrivate;
     TagUnionPrivate *d;
   };
+}
 }
 
 #endif

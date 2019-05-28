@@ -30,6 +30,7 @@
 #include "tbytevector.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class StringList;
@@ -513,6 +514,7 @@ namespace TagLib {
     };
 
   }
+}
 }
 
 #endif

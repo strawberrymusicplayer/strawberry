@@ -27,7 +27,7 @@
 #include "tstringlist.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace DSDIFF::DIIN;
 
 class DSDIFF::DIIN::Tag::TagPrivate
@@ -41,7 +41,7 @@ public:
   String artist;
 };
 
-DSDIFF::DIIN::Tag::Tag() : TagLib::Tag()
+DSDIFF::DIIN::Tag::Tag() : Strawberry_TagLib::TagLib::Tag()
 {
   d = new TagPrivate;
 }

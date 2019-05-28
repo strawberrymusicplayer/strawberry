@@ -2,6 +2,7 @@
  * This file was part of Clementine.
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,41 +24,54 @@
 
 #include <QByteArray>
 #include <QObject>
+#include <QSslCertificate>
+#include <QSslKey>
+#include <QTcpServer>
+#include <QAbstractSocket>
+#include <QTcpSocket>
+#include <QSslSocket>
+#include <QString>
 #include <QUrl>
 
-class QTcpServer;
-class QTcpSocket;
-
-class LocalRedirectServer : public QObject {
+class LocalRedirectServer : public QTcpServer {
   Q_OBJECT
 
  public:
-  explicit LocalRedirectServer(QObject* parent = nullptr);
+  explicit LocalRedirectServer(const bool https, QObject* parent = nullptr);
+  ~LocalRedirectServer();
 
-  // Causes the server to listen for _one_ request.
-  void Listen();
-
-  // Returns the HTTP URL of this server.
-  const QUrl& url() const { return url_; }
-
-  // Returns the URL requested by the OAuth redirect.
-  const QUrl& request_url() const { return request_url_; }
+  bool Listen();
+  const QUrl &url() const { return url_; }
+  const QUrl &request_url() const { return request_url_; }
+  const QString &error() const { return error_; }
 
  signals:
   void Finished();
 
- private slots:
+ public slots:
   void NewConnection();
-  void ReadyRead(QTcpSocket* socket, QByteArray buffer);
+  void incomingConnection(qintptr socket_descriptor);
+  void SSLErrors(const QList<QSslError> &errors);
+  void Encrypted();
+  void Connected();
+  void Disconnected();
+  void ReadyRead();
 
  private:
-  void WriteTemplate(QTcpSocket* socket) const;
-  QUrl ParseUrlFromRequest(const QByteArray& request) const;
+  bool GenerateCertificate();
+  void WriteTemplate() const;
+  QUrl ParseUrlFromRequest(const QByteArray &request) const;
 
  private:
-  QTcpServer* server_;
+  bool https_;
   QUrl url_;
   QUrl request_url_;
+  QSslCertificate ssl_certificate_;
+  QSslKey ssl_key_;
+  QAbstractSocket *socket_;
+  QByteArray buffer_;
+  QString error_;
+
 };
 
 #endif

@@ -52,7 +52,7 @@
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
-#include "3rdparty/qocoa/qsearchfield.h"
+#include "widgets/qsearchfield.h"
 #include "albumcoversearcher.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
@@ -216,7 +216,7 @@ void AlbumCoverSearcher::SearchFinished(quint64 id, const CoverSearchResults &re
 
     QStandardItem *item = new QStandardItem;
     item->setIcon(no_cover_icon_);
-    item->setText(result.description);
+    item->setText(result.artist + " - " + result.album);
     item->setData(result.image_url, Role_ImageURL);
     item->setData(id, Role_ImageRequestId);
     item->setData(false, Role_ImageFetchFinished);

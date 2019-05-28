@@ -236,9 +236,13 @@ signals:
   static const char *kServiceName;
   static const char *kFreedesktopPath;
 
-  QVariantMap last_metadata_;
-
   Application *app_;
+
+  QString app_name_;
+  QStringList data_dirs_;
+  QStringList desktop_files_;
+  QString desktop_file_;
+  QVariantMap last_metadata_;
 
 };
 

@@ -34,24 +34,24 @@
 #include <iostream>
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
- * Converts a QString to a TagLib::String without a requirement to link to Qt.
+ * Converts a QString to a Strawberry_TagLib::TagLib::String without a requirement to link to Qt.
  *
  * \note consider conversion via usual char-by-char for loop to avoid UTF16->UTF8->UTF16
  * conversion happening in the background
  */
 
 #if defined(QT_VERSION) && (QT_VERSION >= 0x040000)
-#define QStringToTString(s) TagLib::String(s.toUtf8().data(), TagLib::String::UTF8)
+#define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.toUtf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
 #else
-#define QStringToTString(s) TagLib::String(s.utf8().data(), TagLib::String::UTF8)
+#define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.utf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
 #endif
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
- * Converts a TagLib::String to a QString without a requirement to link to Qt.
+ * Converts a Strawberry_TagLib::TagLib::String to a QString without a requirement to link to Qt.
  *
  * \note consider conversion via usual char-by-char for loop to avoid UTF16->UTF8->UTF16
  * conversion happening in the background
@@ -60,6 +60,7 @@
 
 #define TStringToQString(s) QString::fromUtf8(s.toCString(true))
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class StringList;
@@ -68,7 +69,7 @@ namespace TagLib {
 
   /*!
    * This is an implicitly shared \e wide string.  For storage it uses
-   * TagLib::wstring, but as this is an <i>implementation detail</i> this of
+   * Strawberry_TagLib::TagLib::wstring, but as this is an <i>implementation detail</i> this of
    * course could change.  Strings are stored internally as UTF-16(without BOM/
    * CPU byte order)
    *
@@ -86,8 +87,8 @@ namespace TagLib {
   public:
 
 #ifndef DO_NOT_DOCUMENT
-    typedef TagLib::wstring::iterator Iterator;
-    typedef TagLib::wstring::const_iterator ConstIterator;
+    typedef Strawberry_TagLib::TagLib::wstring::iterator Iterator;
+    typedef Strawberry_TagLib::TagLib::wstring::const_iterator ConstIterator;
 #endif
 
     /**
@@ -546,35 +547,37 @@ namespace TagLib {
     class StringPrivate;
     StringPrivate *d;
   };
+
+}
 }
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
-TAGLIB_EXPORT const TagLib::String operator+(const TagLib::String &s1, const TagLib::String &s2);
+TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const Strawberry_TagLib::TagLib::String &s1, const Strawberry_TagLib::TagLib::String &s2);
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
-TAGLIB_EXPORT const TagLib::String operator+(const char *s1, const TagLib::String &s2);
+TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const char *s1, const Strawberry_TagLib::TagLib::String &s2);
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
-TAGLIB_EXPORT const TagLib::String operator+(const TagLib::String &s1, const char *s2);
+TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const Strawberry_TagLib::TagLib::String &s1, const char *s2);
 
 
 /*!
- * \relates TagLib::String
+ * \relates Strawberry_TagLib::TagLib::String
  *
  * Send the string to an output stream.
  */
-TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const TagLib::String &str);
+TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::String &str);
 
 #endif

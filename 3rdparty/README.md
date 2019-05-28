@@ -42,14 +42,6 @@ This is 2 header files used by taglib, but kept in a seperate directory because 
 URL: http://utfcpp.sourceforge.net/
 
 
-qocoa
------
-This is a small static library currently used for the search fields above the collection, playlist and in
-the cover manager. It is slightly modified from original version.
-
-URL: https://github.com/mikemcquaid/Qocoa
-
-
 SPMediaKeyTap
 -------------
 

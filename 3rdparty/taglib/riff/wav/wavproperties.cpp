@@ -27,7 +27,7 @@
 #include "wavfile.h"
 #include "wavproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -78,7 +78,7 @@ RIFF::WAV::Properties::Properties(const ByteVector &, unsigned int, ReadStyle st
   debug("RIFF::WAV::Properties::Properties() -- This constructor is no longer used.");
 }
 
-TagLib::RIFF::WAV::Properties::Properties(File *file, ReadStyle style) :
+Strawberry_TagLib::TagLib::RIFF::WAV::Properties::Properties(File *file, ReadStyle style) :
   AudioProperties(style),
   d(new PropertiesPrivate())
 {

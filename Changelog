@@ -2,6 +2,41 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.5.5:
+
+    * Fixed Tidal API url
+
+Version 0.5.4:
+
+    * Changed description for offline mode scrobbling for less confusion
+    * Fixed scrobbler to not send "playing now" when in offline mode
+    * Added common RPM spec file for openSUSE, Fedora, RedHat, CentOS and Mageia
+    * Improved cover manager score system
+    * Added Deezer and Tidal cover providers
+    * Added ChartLyrics lyrics provider
+    * Added HTTPS workaround for Last.Fm OAuth to solve redirect https to http (localhost) problems
+    * Added Moodbar
+    * Fixed incorrect desktop file returned by mpris2
+    * Fixed mpris2 CanPlay
+    * Fixed updating play and skip count properly
+    * Fixed track seeking with mouse wheel
+    * Fixed CDDA tracks being invalidated (greyed) in the playlist
+    * Fixed problems using transcoder when other engines were selected
+    * Improved song loader error handling
+    * Fixed enabling equalizer having no affect
+    * Disable notification art setting when tray icon notification is selected
+    * Applying settings immediately when pressing Apply in settings dialog instead of just saving
+    * Disable scroll over icon to change track setting on non-X11 systems and KDE
+    * Removed nvidia workaround on exit which is no longer needed
+    * Fixed chromaprinter unref buffer crash when using complete tags automatically
+    * Fixed crash on exit using VLC engine when using static taglib caused by tagblib linking collision
+    * Fixed context background to follow base colors instead of always white
+    * Fixed fancy tabbar small sidebar mode width
+    * Added some missing taglib configure checks
+    * Saving geometry, tabbar, playlist column settings on exit only to reduce wear on SSD's and fix sluggish resizing with non-SSD
+    * Fixed and improved snap including upgrading to core18 and adding proper alsa support
+    * Fixed resume playback on startup not working for other than the first playlist
+
 Version 0.5.3:
 
     * Changed default tagging to albumartist in organise dialog

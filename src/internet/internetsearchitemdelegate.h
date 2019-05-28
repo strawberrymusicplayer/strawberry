@@ -21,11 +21,11 @@
 #ifndef INTERNETSEARCHITEMDELEGATE_H
 #define INTERNETSEARCHITEMDELEGATE_H
 
-#include <QPainter>
 #include <QStyleOptionViewItem>
 
-#include "collection/collectionview.h"
+#include "collection/collectionitemdelegate.h"
 
+class QPainter;
 class InternetSearchView;
 
 class InternetSearchItemDelegate : public CollectionItemDelegate {
@@ -35,7 +35,8 @@ class InternetSearchItemDelegate : public CollectionItemDelegate {
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  private:
-  InternetSearchView* view_;
+  InternetSearchView *view_;
+
 };
 
 #endif  // INTERNETSEARCHITEMDELEGATE_H

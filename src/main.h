@@ -23,6 +23,5 @@
 #include "config.h"
 
 int main(int argc, char* argv[]);
-void main_exit_safe(int ret);
 
 #endif  // MAIN_H

@@ -33,6 +33,7 @@
 #include "modtag.h"
 #include "xmproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace XM {
@@ -107,6 +108,7 @@ namespace TagLib {
         FilePrivate *d;
     };
   }
+}
 }
 
 #endif

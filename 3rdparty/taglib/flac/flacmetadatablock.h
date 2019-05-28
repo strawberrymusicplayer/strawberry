@@ -30,6 +30,7 @@
 #include "tbytevector.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace FLAC {
@@ -70,6 +71,7 @@ namespace TagLib {
 
   }
 
+}
 }
 
 #endif

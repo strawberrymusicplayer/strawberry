@@ -32,7 +32,7 @@
 #include <tstringlist.h>
 #include <tpropertymap.h>
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class UrlLinkFrame::UrlLinkFramePrivate
@@ -185,7 +185,7 @@ UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &descript
     if(f && f->description() == description)
       return f;
   }
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -60,16 +60,20 @@ struct CoverSearchRequest {
 };
 
 // This structure represents a single result of some album's cover search request.
-// It contains an URL that leads to a found cover plus its description (usually the "artist - album" string).
 struct CoverSearchResult {
-  // Used for grouping in the user interface.  This is set automatically - don't set it manually in your cover provider.
+  // Used for grouping in the user interface.
   QString provider;
 
-  // Description of this result (we suggest using the "artist - album" format)
-  QString description;
+  // Artist and album returned by the provider
+  QString artist;
+  QString album;
 
-  // An URL of a cover image described by this CoverSearchResult
+  // An URL of a cover image
   QUrl image_url;
+
+  // Total score for this result
+  float score;
+
 };
 Q_DECLARE_METATYPE(CoverSearchResult);
 

@@ -20,15 +20,13 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QStandardItem>
 #include <QStandardItemModel>
+#include <QMimeData>
 #include <QList>
 #include <QSet>
 #include <QVariant>
 #include <QString>
 #include <QPixmap>
-#include <QMimeData>
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"

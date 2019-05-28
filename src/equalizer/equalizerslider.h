@@ -44,6 +44,9 @@ class EqualizerSlider : public QWidget {
  signals:
   void ValueChanged(int value);
 
+ public slots:
+  void OnValueChanged(int value);
+
  private:
   Ui_EqualizerSlider *ui_;
 

@@ -26,7 +26,7 @@
 
 #include "modproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
 class Mod::Properties::PropertiesPrivate

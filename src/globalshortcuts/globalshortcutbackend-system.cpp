@@ -32,14 +32,15 @@
 #include "globalshortcutbackend.h"
 #include "globalshortcut.h"
 
-GlobalShortcutBackendSystem::GlobalShortcutBackendSystem(GlobalShortcuts *parent) : GlobalShortcutBackend(parent),
-  gshortcut_init_(new GlobalShortcut(this)) {}
+GlobalShortcutBackendSystem::GlobalShortcutBackendSystem(GlobalShortcuts *parent) : GlobalShortcutBackend(parent), gshortcut_init_(nullptr) {}
 
-GlobalShortcutBackendSystem::~GlobalShortcutBackendSystem(){}
+GlobalShortcutBackendSystem::~GlobalShortcutBackendSystem() { DoUnregister(); }
 
 bool GlobalShortcutBackendSystem::DoRegister() {
 
   qLog(Debug) << "Registering";
+
+  if (!gshortcut_init_) gshortcut_init_ = new GlobalShortcut(this);
 
   for (const GlobalShortcuts::Shortcut &shortcut : manager_->shortcuts().values()) {
     AddShortcut(shortcut.action);
@@ -63,8 +64,14 @@ bool GlobalShortcutBackendSystem::AddShortcut(QAction *action) {
 void GlobalShortcutBackendSystem::DoUnregister() {
 
   qLog(Debug) << "Unregistering";
+
   qDeleteAll(shortcuts_);
   shortcuts_.clear();
+
+  if (gshortcut_init_) {
+    delete gshortcut_init_;
+    gshortcut_init_ = nullptr;
+  }
 
 }
 

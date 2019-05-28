@@ -31,7 +31,7 @@
 #include "commentsframe.h"
 #include "tpropertymap.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class CommentsFrame::CommentsFramePrivate
@@ -136,7 +136,7 @@ CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const Str
       return frame;
   }
 
-  return 0;
+  return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

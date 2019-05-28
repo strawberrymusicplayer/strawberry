@@ -54,16 +54,7 @@ class CollectionFilterWidget;
 class EditTagDialog;
 class OrganiseDialog;
 
-class CollectionItemDelegate : public QStyledItemDelegate {
-  Q_OBJECT
-
- public:
-  CollectionItemDelegate(QObject *parent);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
- public slots:
-  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
-};
+using std::unique_ptr;
 
 class CollectionView : public AutoExpandingTreeView {
   Q_OBJECT
@@ -173,4 +164,3 @@ class CollectionView : public AutoExpandingTreeView {
 };
 
 #endif  // COLLECTIONVIEW_H
-

@@ -334,10 +334,12 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
 
   bool enabled = !ui_->notifications_none->isChecked();
   bool pretty = ui_->notifications_pretty->isChecked();
+  bool tray = ui_->notifications_tray->isChecked();
 
   ui_->notifications_general->setEnabled(enabled);
   ui_->notifications_pretty_group->setEnabled(pretty);
   ui_->notifications_custom_text_group->setEnabled(enabled);
+  ui_->notifications_art->setEnabled(!tray);
 
 #ifdef Q_OS_MACOS
   ui_->notifications_options->setEnabled(pretty);

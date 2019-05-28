@@ -32,6 +32,7 @@
 
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Ogg {
@@ -129,6 +130,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

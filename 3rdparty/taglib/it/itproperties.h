@@ -29,6 +29,7 @@
 #include "taglib.h"
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
   namespace IT {
     class TAGLIB_EXPORT Properties : public AudioProperties {
@@ -102,6 +103,7 @@ namespace TagLib {
       PropertiesPrivate *d;
     };
   }
+}
 }
 
 #endif

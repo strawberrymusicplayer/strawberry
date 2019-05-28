@@ -32,7 +32,7 @@
 #include "mpegheader.h"
 #include "mpegutils.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class MPEG::Header::HeaderPrivate : public RefCounter
 {

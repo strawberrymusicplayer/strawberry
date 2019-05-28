@@ -30,6 +30,7 @@
 #include "tstringlist.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
   namespace ID3v1 {
 
@@ -61,6 +62,7 @@ namespace TagLib {
      */
     int TAGLIB_EXPORT genreIndex(const String &name);
   }
+}
 }
 
 #endif

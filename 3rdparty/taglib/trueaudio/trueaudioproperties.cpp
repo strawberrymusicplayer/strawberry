@@ -34,7 +34,7 @@
 #include "trueaudioproperties.h"
 #include "trueaudiofile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class TrueAudio::Properties::PropertiesPrivate
 {

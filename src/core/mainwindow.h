@@ -49,6 +49,7 @@
 
 #include "core/lazy.h"
 #include "core/tagreaderclient.h"
+#include "engine/enginetype.h"
 #include "engine/engine_fwd.h"
 #include "mac_startup.h"
 #include "widgets/osd.h"
@@ -90,7 +91,7 @@ class TranscodeDialog;
 #endif
 class Ui_MainWindow;
 class Windows7ThumbBar;
-class InternetSearchView;
+class InternetTabsView;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -114,8 +115,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  protected:
   void keyPressEvent(QKeyEvent *event);
-  void changeEvent(QEvent *event);
-  void resizeEvent(QResizeEvent *event);
   void closeEvent(QCloseEvent *event);
 
 #ifdef Q_OS_WIN
@@ -135,6 +134,7 @@ signals:
  private slots:
   void FilePathChanged(const QString& path);
 
+  void EngineChanged(Engine::EngineType enginetype);
   void MediaStopped();
   void MediaPaused();
   void MediaPlaying();
@@ -230,7 +230,6 @@ signals:
 
   void TabSwitched();
   void SaveGeometry();
-  void SaveTabMode();
   void SavePlaybackStatus();
   void LoadPlaybackStatus();
   void ResumePlayback();
@@ -240,7 +239,6 @@ signals:
   void Exit();
 
   void HandleNotificationPreview(OSD::Behaviour type, QString line1, QString line2);
-  void FocusCollectionTab();
 
   void ShowConsole();
 
@@ -310,7 +308,7 @@ signals:
   PlaylistItemList autocomplete_tag_items_;
 #endif
 
-  InternetSearchView *tidal_search_view_;
+  InternetTabsView *tidal_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;
@@ -347,8 +345,6 @@ signals:
 
   bool initialised_;
   bool was_maximized_;
-  int saved_playback_position_;
-  Engine::State saved_playback_state_;
   bool playing_widget_;
   BehaviourSettingsPage::AddBehaviour doubleclick_addmode_;
   BehaviourSettingsPage::PlayBehaviour doubleclick_playmode_;

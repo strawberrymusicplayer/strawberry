@@ -43,7 +43,7 @@
 
 #include "audioproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 // This macro is a workaround for the fact that we can't add virtual functions.
 // Should be true virtual functions in taglib2.

@@ -43,6 +43,7 @@ include_directories(${CMAKE_BINARY_DIR})
 include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${GOBJECT_INCLUDE_DIRS})
+include_directories(${GNUTLS_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${LIBXML_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
@@ -97,6 +98,7 @@ set(SOURCES
   core/signalchecker.cpp
   core/song.cpp
   core/songloader.cpp
+  core/stylehelper.cpp
   core/stylesheetloader.cpp
   core/tagreaderclient.cpp
   core/taskmanager.cpp
@@ -136,6 +138,7 @@ set(SOURCES
   collection/collectionbackend.cpp
   collection/collectionwatcher.cpp
   collection/collectionview.cpp
+  collection/collectionitemdelegate.cpp
   collection/collectionviewcontainer.cpp
   collection/collectiondirectorymodel.cpp
   collection/collectionfilterwidget.cpp
@@ -198,12 +201,14 @@ set(SOURCES
   covermanager/lastfmcoverprovider.cpp
   covermanager/musicbrainzcoverprovider.cpp
   covermanager/discogscoverprovider.cpp
+  covermanager/deezercoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
   lyrics/auddlyricsprovider.cpp
+  lyrics/chartlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -242,7 +247,6 @@ set(SOURCES
   widgets/volumeslider.cpp
   widgets/stickyslider.cpp
   widgets/stretchheaderview.cpp
-  widgets/stylehelper.cpp
   widgets/trackslider.cpp
   widgets/tracksliderpopup.cpp
   widgets/tracksliderslider.cpp
@@ -260,6 +264,10 @@ set(SOURCES
   internet/internetsearchsortmodel.cpp
   internet/internetsearchitemdelegate.cpp
   internet/localredirectserver.cpp
+  internet/internettabsview.cpp
+  internet/internetcollectionview.cpp
+  internet/internetcollectionviewcontainer.cpp
+  internet/internetsearchview.cpp
 
   scrobbler/audioscrobbler.cpp
   scrobbler/scrobblerservices.cpp
@@ -319,6 +327,7 @@ set(HEADERS
   collection/collectionbackend.h
   collection/collectionwatcher.h
   collection/collectionview.h
+  collection/collectionitemdelegate.h
   collection/collectionviewcontainer.h
   collection/collectiondirectorymodel.h
   collection/collectionfilterwidget.h
@@ -373,12 +382,14 @@ set(HEADERS
   covermanager/lastfmcoverprovider.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h
+  covermanager/deezercoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h
   lyrics/lyricsfetcher.h
   lyrics/lyricsfetchersearch.h
   lyrics/auddlyricsprovider.h
+  lyrics/chartlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
@@ -420,6 +431,7 @@ set(HEADERS
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
   widgets/loginstatewidget.h
+  widgets/qsearchfield.h
 
   musicbrainz/acoustidclient.h
   musicbrainz/musicbrainzclient.h
@@ -431,6 +443,10 @@ set(HEADERS
   internet/internetsearchview.h
   internet/internetsearchmodel.h
   internet/localredirectserver.h
+  internet/internettabsview.h
+  internet/internetcollectionview.h
+  internet/internetcollectionviewcontainer.h
+  internet/internetsearchview.h
 
   scrobbler/audioscrobbler.h
   scrobbler/scrobblerservices.h
@@ -496,6 +512,8 @@ set(UI
   widgets/fileview.ui
   widgets/loginstatewidget.ui
 
+  internet/internettabsview.ui
+  internet/internetcollectionviewcontainer.ui
   internet/internetsearchview.ui
 
   organise/organisedialog.ui
@@ -507,6 +525,11 @@ set(RESOURCES ../data/data.qrc ../data/icons.qrc)
 set(OTHER_SOURCES)
 
 option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
+
+if(NOT APPLE)
+  set(NOT_APPLE ON)
+  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_nonmac.cpp)
+endif()
 
 if(HAVE_GLOBALSHORTCUTS)
   optional_source(HAVE_GLOBALSHORTCUTS
@@ -547,14 +570,17 @@ optional_source(X11_FOUND
 
 # GStreamer
 optional_source(HAVE_GSTREAMER
-  SOURCES engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp
-  HEADERS engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h
+  SOURCES engine/gststartup.cpp engine/gstengine.cpp engine/gstenginepipeline.cpp engine/gstelementdeleter.cpp
+  HEADERS engine/gststartup.h engine/gstengine.h engine/gstenginepipeline.h engine/gstelementdeleter.h
 )
 
 # Xine
 optional_source(HAVE_XINE
   SOURCES engine/xineengine.cpp engine/xinescope.c
   HEADERS engine/xineengine.h
+)
+optional_source(XINE_ANALYZER
+  SOURCES engine/xinescope.c
 )
 
 # VLC
@@ -834,6 +860,7 @@ optional_source(APPLE
     core/macscreensaver.cpp
     core/macfslistener.mm
     widgets/osd_mac.mm
+    widgets/qsearchfield_mac.mm
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutbackend-macos.mm
     globalshortcuts/globalshortcutgrabber.mm
@@ -859,17 +886,47 @@ optional_source(WIN32
     widgets/osd_win.cpp
 )
 
-optional_source(HAVE_STREAM_TIDAL
+optional_source(HAVE_TIDAL
   SOURCES
     tidal/tidalservice.cpp
     tidal/tidalurlhandler.cpp
+    tidal/tidalbaserequest.cpp
+    tidal/tidalrequest.cpp
+    tidal/tidalstreamurlrequest.cpp
     settings/tidalsettingspage.cpp
+    covermanager/tidalcoverprovider.cpp
   HEADERS
     tidal/tidalservice.h
     tidal/tidalurlhandler.h
+    tidal/tidalbaserequest.h
+    tidal/tidalrequest.h
+    tidal/tidalstreamurlrequest.h
     settings/tidalsettingspage.h
+    covermanager/tidalcoverprovider.h
   UI
     settings/tidalsettingspage.ui
+)
+
+# Moodbar
+optional_source(HAVE_MOODBAR
+  SOURCES
+    moodbar/moodbarbuilder.cpp
+    moodbar/moodbarcontroller.cpp
+    moodbar/moodbaritemdelegate.cpp
+    moodbar/moodbarloader.cpp
+    moodbar/moodbarpipeline.cpp
+    moodbar/moodbarproxystyle.cpp
+    moodbar/moodbarrenderer.cpp
+    settings/moodbarsettingspage.cpp
+  HEADERS
+    moodbar/moodbarcontroller.h
+    moodbar/moodbaritemdelegate.h
+    moodbar/moodbarloader.h
+    moodbar/moodbarpipeline.h
+    moodbar/moodbarproxystyle.h
+    settings/moodbarsettingspage.h
+  UI
+    settings/moodbarsettingspage.ui
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
@@ -923,17 +980,17 @@ add_library(strawberry_lib STATIC
 target_link_libraries(strawberry_lib
   libstrawberry-common
   libstrawberry-tagreader
+  ${CMAKE_THREAD_LIBS_INIT}
   ${GLIB_LIBRARIES}
   ${GIO_LIBRARIES}
-  ${TAGLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
+  ${GNUTLS_LIBRARIES}
   ${QT_LIBRARIES}
   ${CHROMAPRINT_LIBRARIES}
   ${SQLITE_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT}
+  ${TAGLIB_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
   ${SINGLECOREAPPLICATION_LIBRARIES}
-  ${QOCOA_LIBRARIES}
   z
 )
 
@@ -995,6 +1052,10 @@ if(HAVE_LIBPULSE)
   target_link_libraries(strawberry_lib ${LIBPULSE_LIBRARIES})
 endif()
 
+if(HAVE_MOODBAR)
+  target_link_libraries(strawberry_lib gstmoodbar)
+endif()
+
 if (APPLE)
   target_link_libraries(strawberry_lib
     "-framework AppKit"
@@ -1017,7 +1078,6 @@ if (WIN32)
   target_link_libraries(strawberry_lib
     ${ZLIB_LIBRARIES}
     dsound
-    ${QT_QTGUI_LIBRARY}
   )
 endif (WIN32)
 

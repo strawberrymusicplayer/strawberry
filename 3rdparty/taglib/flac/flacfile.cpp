@@ -41,7 +41,7 @@
 #include "flacmetadatablock.h"
 #include "flacunknownmetadatablock.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {
@@ -112,7 +112,7 @@ bool FLAC::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 FLAC::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate())
 {
   if(isOpen())
@@ -121,7 +121,7 @@ FLAC::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
 
 FLAC::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle) :
-  TagLib::File(file),
+  Strawberry_TagLib::TagLib::File(file),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -130,7 +130,7 @@ FLAC::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
 
 FLAC::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle) :
-  TagLib::File(stream),
+  Strawberry_TagLib::TagLib::File(stream),
   d(new FilePrivate(frameFactory))
 {
   if(isOpen())
@@ -142,7 +142,7 @@ FLAC::File::~File()
   delete d;
 }
 
-TagLib::Tag *FLAC::File::tag() const
+Strawberry_TagLib::TagLib::Tag *FLAC::File::tag() const
 {
   return &d->tag;
 }

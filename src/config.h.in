@@ -47,12 +47,16 @@
 #cmakedefine HAVE_VLC
 #cmakedefine HAVE_XINE
 #cmakedefine HAVE_PHONON
+#cmakedefine XINE_ANALYZER
 
-#cmakedefine HAVE_STREAM_TIDAL
+#cmakedefine HAVE_TIDAL
+
+#cmakedefine HAVE_MOODBAR
 
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H
 
+#cmakedefine USE_SYSTEM_TAGLIB
 #cmakedefine USE_BUNDLE
 
 #define USE_BUNDLE_DIR "${USE_BUNDLE_DIR}"

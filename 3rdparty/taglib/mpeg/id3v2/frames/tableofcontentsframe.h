@@ -31,6 +31,7 @@
 
 #include "tbytevectorlist.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace ID3v2 {
@@ -255,6 +256,7 @@ namespace TagLib {
       TableOfContentsFramePrivate *d;
     };
   }
+}
 }
 
 #endif

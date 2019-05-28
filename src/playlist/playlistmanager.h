@@ -104,6 +104,7 @@ public slots:
 
  signals:
   void PlaylistManagerInitialized();
+  void AllPlaylistsLoaded();
 
   void PlaylistAdded(int id, const QString &name, bool favorite);
   void PlaylistDeleted(int id);
@@ -213,6 +214,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void UpdateSummaryText();
   void SongsDiscovered(const SongList& songs);
   void ItemsLoadedForSavePlaylist(QFuture<SongList> future, const QString& filename, Playlist::Path path_type);
+  void PlaylistLoaded();
 
  private:
   Playlist *AddPlaylist(int id, const QString& name, const QString &special_type, const QString& ui_path, bool favorite);
@@ -237,6 +239,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   int current_;
   int active_;
+  int playlists_loading_;
 };
 
 #endif  // PLAYLISTMANAGER_H

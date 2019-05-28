@@ -42,6 +42,7 @@
 #include "rainbowanalyzer.h"
 
 #include "core/logging.h"
+#include "engine/enginetype.h"
 
 const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
 const char *AnalyzerContainer::kSettingsFramerate = "framerate";
@@ -109,6 +110,8 @@ void AnalyzerContainer::SetActions(QAction *visualisation) {
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
+  if (engine_->type() != Engine::EngineType::GStreamer && engine_->type() != Engine::EngineType::Xine) return;
+
   if (e->button() == Qt::LeftButton) {
     if (ignore_next_click_) {
       ignore_next_click_ = false;
@@ -130,6 +133,9 @@ void AnalyzerContainer::ShowPopupMenu() {
 }
 
 void AnalyzerContainer::mouseDoubleClickEvent(QMouseEvent*) {
+
+  if (engine_->type() != Engine::EngineType::GStreamer && engine_->type() != Engine::EngineType::Xine) return;
+
   double_click_timer_->stop();
   ignore_next_click_ = true;
 

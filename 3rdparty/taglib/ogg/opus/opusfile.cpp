@@ -34,8 +34,8 @@
 
 #include "opusfile.h"
 
-using namespace TagLib;
-using namespace TagLib::Ogg;
+using namespace Strawberry_TagLib::TagLib;
+using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Opus::File::FilePrivate
 {

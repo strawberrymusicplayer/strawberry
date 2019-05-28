@@ -29,6 +29,7 @@
 #include "mpegheader.h"
 #include "taglib_export.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   class ByteVector;
@@ -111,8 +112,8 @@ namespace TagLib {
        *
        * \deprecated Always returns 0.
        */
-      static int xingHeaderOffset(TagLib::MPEG::Header::Version v,
-                                  TagLib::MPEG::Header::ChannelMode c);
+      static int xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version v,
+                                  Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode c);
 
     private:
       XingHeader(const XingHeader &);
@@ -124,6 +125,7 @@ namespace TagLib {
       XingHeaderPrivate *d;
     };
   }
+}
 }
 
 #endif

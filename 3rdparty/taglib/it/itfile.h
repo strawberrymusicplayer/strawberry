@@ -29,6 +29,7 @@
 #include "modtag.h"
 #include "itproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace IT {
@@ -104,6 +105,7 @@ namespace TagLib {
         FilePrivate *d;
     };
   }
+}
 }
 
 #endif

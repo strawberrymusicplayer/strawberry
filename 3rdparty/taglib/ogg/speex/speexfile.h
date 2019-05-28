@@ -35,6 +35,7 @@
 
 #include "speexproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace Ogg {
@@ -84,7 +85,7 @@ namespace TagLib {
         /*!
          * Returns the XiphComment for this file.  XiphComment implements the tag
          * interface, so this serves as the reimplementation of
-         * TagLib::File::tag().
+         * Strawberry_TagLib::TagLib::File::tag().
          */
         virtual Ogg::XiphComment *tag() const;
 
@@ -133,6 +134,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

@@ -28,6 +28,7 @@
 
 #include "audioproperties.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib {
 
   namespace RIFF {
@@ -161,6 +162,7 @@ namespace TagLib {
       };
     }
   }
+}
 }
 
 #endif

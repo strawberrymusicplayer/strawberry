@@ -29,7 +29,7 @@
 #include "flacproperties.h"
 #include "flacfile.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::Properties::PropertiesPrivate
 {

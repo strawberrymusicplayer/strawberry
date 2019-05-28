@@ -30,7 +30,7 @@
 #include "mp4tag.h"
 #include "id3v1genres.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 class MP4::Tag::TagPrivate
 {
@@ -39,7 +39,7 @@ public:
     file(0),
     atoms(0) {}
 
-  TagLib::File *file;
+  Strawberry_TagLib::TagLib::File *file;
   Atoms *atoms;
   ItemMap items;
 };
@@ -49,7 +49,7 @@ MP4::Tag::Tag() :
 {
 }
 
-MP4::Tag::Tag(TagLib::File *file, MP4::Atoms *atoms) :
+MP4::Tag::Tag(Strawberry_TagLib::TagLib::File *file, MP4::Atoms *atoms) :
   d(new TagPrivate())
 {
   d->file = file;

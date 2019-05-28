@@ -34,7 +34,7 @@
 #include "infotag.h"
 #include "tagunion.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 
 namespace
 {

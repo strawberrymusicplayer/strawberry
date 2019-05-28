@@ -26,7 +26,7 @@
 
 #include "s3mproperties.h"
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace S3M;
 
 class S3M::Properties::PropertiesPrivate

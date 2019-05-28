@@ -28,7 +28,7 @@
 #include <tstringlist.h>
 #include <tdebug.h>
 
-using namespace TagLib;
+using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class AttachedPictureFrame::AttachedPictureFramePrivate
@@ -144,7 +144,7 @@ void AttachedPictureFrame::parseFields(const ByteVector &data)
     return;
   }
 
-  d->type = (TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
+  d->type = (Strawberry_TagLib::TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
   d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);
@@ -205,7 +205,7 @@ void AttachedPictureFrameV22::parseFields(const ByteVector &data)
     d->mimeType = "image/" + fixedString;
   }
 
-  d->type = (TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
+  d->type = (Strawberry_TagLib::TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
   d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);

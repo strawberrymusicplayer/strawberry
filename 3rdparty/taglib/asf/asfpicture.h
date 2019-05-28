@@ -31,6 +31,7 @@
 #include "taglib_export.h"
 #include "attachedpictureframe.h"
 
+namespace Strawberry_TagLib {
 namespace TagLib
 {
   namespace ASF
@@ -217,6 +218,7 @@ namespace TagLib
         PicturePrivate *d;
       };
   }
+}
 }
 
 #endif // ASFPICTURE_H
