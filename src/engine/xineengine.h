@@ -65,7 +65,9 @@ class XineEngine : public Engine::Base {
   qint64 position_nanosec() const;
   qint64 length_nanosec() const;
 
+#ifdef XINE_ANALYZER
   const Engine::Scope& scope(int chunk_length);
+#endif
 
   OutputDetailsList GetOutputsList() const;
   bool ValidOutput(const QString &output);
@@ -95,9 +97,11 @@ class XineEngine : public Engine::Base {
   xine_audio_port_t *audioport_;
   xine_stream_t *stream_;
   xine_event_queue_t *eventqueue_;
+#ifdef XINE_ANALYZER
   xine_post_t *post_;
-  float preamp_;
   std::unique_ptr<PruneScopeThread> prune_;
+#endif
+  float preamp_;
 
   QUrl media_url_;
   QUrl original_url_;
@@ -134,13 +138,16 @@ class XineEngine : public Engine::Base {
 
   PluginDetailsList GetPluginList() const;
 
-private slots:
+#ifdef XINE_ANALYZER
+ private slots:
   void PruneScope();
+#endif
 
 signals:
   void InfoMessage(const QString&);
 };
 
+#ifdef XINE_ANALYZER
 class PruneScopeThread : public QThread {
 public:
   PruneScopeThread(XineEngine *parent);
@@ -152,5 +159,6 @@ private:
   XineEngine *engine_;
 
 };
+#endif
 
 #endif

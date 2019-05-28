@@ -47,6 +47,7 @@
 #cmakedefine HAVE_VLC
 #cmakedefine HAVE_XINE
 #cmakedefine HAVE_PHONON
+#cmakedefine XINE_ANALYZER
 
 #cmakedefine HAVE_TIDAL
 

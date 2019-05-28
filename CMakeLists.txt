@@ -357,6 +357,19 @@ if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
   set(USE_BUNDLE_DIR "../PlugIns")
 endif()
 
+if(HAVE_XINE)
+  check_cxx_source_compiles("
+    #define METRONOM_INTERNAL
+    #include <iostream>
+    #include <xine/metronom.h>
+    int main() {
+      metronom_t metronom;
+      std::cout << metronom.pts_per_smpls;
+      return 0;
+    }
+  "
+  XINE_ANALYZER)
+endif()
 
 # Set up definitions and paths
 
