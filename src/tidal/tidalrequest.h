@@ -56,9 +56,6 @@ class TidalRequest : public TidalBaseRequest {
   void Process();
   void NeedLogin() { need_login_ = true; }
   void Search(const int search_id, const QString &search_text);
-  void SendArtistsSearch();
-  void SendAlbumsSearch();
-  void SendSongsSearch();
 
  signals:
   void Login();
@@ -75,31 +72,36 @@ class TidalRequest : public TidalBaseRequest {
   void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  public slots:
-  void GetArtists();
-  void GetAlbums();
-  void GetSongs();
+  void GetArtists(const int offset = 0);
+  void GetAlbums(const int offset = 0);
+  void GetSongs(const int offset = 0);
 
  private slots:
   void LoginComplete(bool success, QString error = QString());
-  void ArtistsReceived(QNetworkReply *reply);
-  void AlbumsReceived(QNetworkReply *reply, const int artist_id, const int offset_requested = 0);
-  void AlbumsFinished(const int artist_id, const int offset_requested, const int total_albums = 0, const int limit = 0, const int albums = 0);
-  void SongsReceived(QNetworkReply *reply, int album_id);
-  void AlbumCoverReceived(QNetworkReply *reply, int album_id, QUrl url);
+  void ArtistsReceived(QNetworkReply *reply, const int limit_requested = 0, const int offset_requested = 0);
+  void AlbumsReceived(QNetworkReply *reply, const int artist_id = 0, const int limit_requested = 0, const int offset_requested = 0);
+  void SongsReceived(QNetworkReply *reply, const int album_id);
+  void AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl url);
 
  private:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
+  const bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }
   const bool IsSearch() { return (type_ == QueryType_SearchArtists || type_ == QueryType_SearchAlbums || type_ == QueryType_SearchSongs); }
+
   void SendSearch();
+  void ArtistsSearch(const int offset = 0);
+  void AlbumsSearch(const int offset = 0);
+  void SongsSearch(const int offset = 0);
+  void ArtistsFinishCheck(const int limit = 0, const int offset = 0, const int artists_received = 0);
+  void AlbumsFinishCheck(const int artist_id, const int limit = 0, const int offset = 0, const int albums_total = 0, const int albums_received = 0);
   void GetArtistAlbums(const int artist_id, const int offset = 0);
   void GetAlbumSongs(const int album_id);
-  void GetSongs(const int album_id);
   int ParseSong(Song &song, const int album_id_requested, const QJsonValue &value, QString album_artist = QString());
   void GetAlbumCovers();
   void GetAlbumCover(Song &song);
-  void CheckFinish();
+  void FinishCheck();
   QString LoginError(QString error, QVariant debug = QVariant());
   QString Error(QString error, QVariant debug = QVariant());
 
@@ -110,23 +112,27 @@ class TidalRequest : public TidalBaseRequest {
   NetworkAccessManager *network_;
 
   QueryType type_;
-  bool artist_query_;
 
   int search_id_;
   QString search_text_;
-  QList<int> requests_artist_albums_;
-  QHash<int, QString> requests_album_songs_;
-  QMultiMap<int, Song*> requests_album_covers_;
-  int artist_albums_requested_;
+  QList<int> artist_albums_queue_;
+  QList<int> artist_albums_requests_;
+  QHash<int, QString> album_songs_requests_;
+  QMultiMap<int, Song*> album_covers_requests_;
+  int artists_total_;
+  int artists_chunk_requested_;
+  int artists_chunk_received_;
+  int artists_received_;
+  int artist_albums_chunk_requested_;
+  int artist_albums_chunk_received_;
   int artist_albums_received_;
-  int album_songs_requested_;
   int album_songs_received_;
   int album_covers_requested_;
   int album_covers_received_;
   SongList songs_;
   QString errors_;
   bool need_login_;
-  bool no_match_;
+  bool no_results_;
   QList<QNetworkReply*> replies_;
 
 };

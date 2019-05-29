@@ -47,19 +47,19 @@ TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, 
       url_handler_(url_handler),
       network_(network),
       type_(type),
-      artist_query_(false),
       search_id_(-1),
-      artist_albums_requested_(0),
+      artists_total_(0),
+      artists_chunk_requested_(0),
+      artists_chunk_received_(0),
+      artists_received_(0),
+      artist_albums_chunk_requested_(0),
+      artist_albums_chunk_received_(0),
       artist_albums_received_(0),
-      album_songs_requested_(0),
       album_songs_received_(0),
       album_covers_requested_(0),
       album_covers_received_(0),
       need_login_(false),
-      no_match_(false)
-  {
-
-}
+      no_results_(false) {}
 
 TidalRequest::~TidalRequest() {
 
@@ -105,13 +105,13 @@ void TidalRequest::Process() {
       GetSongs();
       break;
     case QueryType::QueryType_SearchArtists:
-      SendArtistsSearch();
+      ArtistsSearch();
       break;
     case QueryType::QueryType_SearchAlbums:
-      SendAlbumsSearch();
+      AlbumsSearch();
       break;
     case QueryType::QueryType_SearchSongs:
-      SendSongsSearch();
+      SongsSearch();
       break;
     default:
       Error("Invalid query type.");
@@ -125,40 +125,40 @@ void TidalRequest::Search(const int search_id, const QString &search_text) {
   search_text_ = search_text;
 }
 
-void TidalRequest::GetArtists() {
+void TidalRequest::GetArtists(const int offset) {
 
-  emit UpdateStatus(tr("Retrieving artists..."));
+  if (offset == 0) emit UpdateStatus(tr("Retrieving artists..."));
 
-  artist_query_ = true;
+  ++artists_chunk_requested_;
 
   ParamList parameters;
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest(QString("users/%1/favorites/artists").arg(service_->user_id()), parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReceived(QNetworkReply*)), reply);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReceived(QNetworkReply*, int, int)), reply, 0, offset);
 
 }
 
-void TidalRequest::GetAlbums() {
+void TidalRequest::GetAlbums(const int offset) {
 
-  emit UpdateStatus(tr("Retrieving albums..."));
-
-  type_ = QueryType_Albums;
+  if (offset == 0) emit UpdateStatus(tr("Retrieving albums..."));
 
   if (!service_->authenticated()) {
     need_login_ = true;
     return;
   }
 
+  ++artist_albums_chunk_requested_;
+
   ParamList parameters;
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest(QString("users/%1/favorites/albums").arg(service_->user_id()), parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int)), reply, 0, 0);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int, int)), reply, 0, 0, offset);
 
 }
 
-void TidalRequest::GetSongs() {
+void TidalRequest::GetSongs(const int offset) {
 
-  emit UpdateStatus(tr("Retrieving songs..."));
-
-  type_ = QueryType_Songs;
+  if (offset == 0) emit UpdateStatus(tr("Retrieving songs..."));
 
   if (!service_->authenticated()) {
     need_login_ = true;
@@ -166,83 +166,144 @@ void TidalRequest::GetSongs() {
   }
 
   ParamList parameters;
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest(QString("users/%1/favorites/tracks").arg(service_->user_id()), parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReceived(QNetworkReply*, int)), reply, 0);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReceived(QNetworkReply*, int, int)), reply, 0, offset);
 
 }
 
-void TidalRequest::SendArtistsSearch() {
+void TidalRequest::ArtistsSearch(const int offset) {
 
   if (!service_->authenticated()) {
     need_login_ = true;
     return;
   }
 
-  artist_query_ = true;
+  if (offset == 0) emit UpdateStatus(tr("Searching..."));
+
+  ++artists_chunk_requested_;
+
+  int limit = service_->artistssearchlimit();
 
   ParamList parameters;
   parameters << Param("query", search_text_);
-  parameters << Param("limit", QString::number(service_->artistssearchlimit()));
+  parameters << Param("limit", QString::number(limit));
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest("search/artists", parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReceived(QNetworkReply*)), reply);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReceived(QNetworkReply*, int, int)), reply, limit, offset);
 
 }
 
-void TidalRequest::SendAlbumsSearch() {
+void TidalRequest::AlbumsSearch(const int offset) {
 
   if (!service_->authenticated()) {
     need_login_ = true;
     return;
   }
 
+  if (offset == 0) emit UpdateStatus(tr("Searching..."));
+
+  ++artist_albums_chunk_requested_;
+
+  int limit = service_->albumssearchlimit();
+
   ParamList parameters;
   parameters << Param("query", search_text_);
-  parameters << Param("limit", QString::number(service_->albumssearchlimit()));
+  parameters << Param("limit", QString::number(limit));
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest("search/albums", parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int)), reply, 0, 0);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int, int)), reply, 0, limit, offset);
 
 }
 
-void TidalRequest::SendSongsSearch() {
+void TidalRequest::SongsSearch(const int offset) {
 
   if (!service_->authenticated()) {
     need_login_ = true;
     return;
   }
 
+  if (offset == 0) emit UpdateStatus(tr("Searching..."));
+
+  int limit = service_->songssearchlimit();
+
   ParamList parameters;
   parameters << Param("query", search_text_);
-  parameters << Param("limit", QString::number(service_->songssearchlimit()));
+  parameters << Param("limit", QString::number(limit));
+  if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest("search/tracks", parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int)), reply, 0, 0);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int, int)), reply, 0, limit, offset);
 
 }
 
-void TidalRequest::ArtistsReceived(QNetworkReply *reply) {
+void TidalRequest::ArtistsReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
 
   QString error;
-  QByteArray data = GetReplyData(reply, error, true);
+  QByteArray data = GetReplyData(reply, error, (offset_requested == 0));
+
+  ++artists_chunk_received_;
+
   if (data.isEmpty()) {
-    artist_query_ = false;
-    CheckFinish();
+    ArtistsFinishCheck();
     return;
+  }
+
+  QJsonObject json_obj = ExtractJsonObj(data, error);
+  if (json_obj.isEmpty()) {
+    ArtistsFinishCheck();
+    return;
+  }
+
+  if (!json_obj.contains("limit") ||
+      !json_obj.contains("offset") ||
+      !json_obj.contains("totalNumberOfItems") ||
+      !json_obj.contains("items")) {
+    ArtistsFinishCheck();
+    Error("Json object missing values.", json_obj);
+    return;
+  }
+  //int limit = json_obj["limit"].toInt();
+  int offset = json_obj["offset"].toInt();
+  int artists_total = json_obj["totalNumberOfItems"].toInt();
+
+  if (offset_requested == 0) {
+    artists_total_ = artists_total;
+  }
+  else if (artists_total != artists_total_) {
+    Error(QString("totalNumberOfItems returned does not match previous totalNumberOfItems! %1 != %2").arg(artists_total).arg(artists_total_));
+    ArtistsFinishCheck();
+    return;
+  }
+
+  if (offset != offset_requested) {
+    Error(QString("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
+    ArtistsFinishCheck();
+    return;
+  }
+
+  if (offset_requested == 0) {
+    emit ProgressSetMaximum(artists_total_);
+    emit UpdateProgress(artists_received_);
   }
 
   QJsonValue json_value = ExtractItems(data, error);
   if (!json_value.isArray()) {
-    artist_query_ = false;
-    CheckFinish();
-    return;
-  }
-  QJsonArray json_items = json_value.toArray();
-  if (json_items.isEmpty()) {  // Empty array means no match
-    artist_query_ = false;
-    no_match_ = true;
-    CheckFinish();
+    ArtistsFinishCheck();
     return;
   }
 
+  QJsonArray json_items = json_value.toArray();
+  if (json_items.isEmpty()) {  // Empty array means no results
+    no_results_ = true;
+    ArtistsFinishCheck();
+    return;
+  }
+
+  int artists_received = 0;
   for (const QJsonValue &value : json_items) {
+
+    ++artists_received;
+
     if (!value.isObject()) {
       qLog(Error) << "Tidal: Invalid Json reply, item not a object.";
       qLog(Debug) << value;
@@ -267,94 +328,122 @@ void TidalRequest::ArtistsReceived(QNetworkReply *reply) {
     }
 
     int artist_id = json_obj["id"].toInt();
-    if (requests_artist_albums_.contains(artist_id)) continue;
-    requests_artist_albums_.append(artist_id);
-    GetArtistAlbums(artist_id);
-    artist_albums_requested_++;
+    if (artist_albums_queue_.contains(artist_id)) continue;
+    artist_albums_queue_.append(artist_id);
+
+  }
+  artists_received_ += artists_received;
+
+  if (offset_requested != 0) emit UpdateProgress(artists_received_);
+
+  ArtistsFinishCheck(limit_requested, offset, artists_received);
+
+}
+
+void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const int artists_received) {
+
+  if ((limit == 0 || limit > artists_received) && artists_received_ < artists_total_) {
+    int offset_next = offset + artists_received;
+    if (offset_next > 0 && offset_next < artists_total_) {
+      if (IsQuery()) GetArtists(offset_next);
+      else ArtistsSearch(offset_next);
+    }
+  }
+
+  if (artists_chunk_received_ >= artists_chunk_requested_) {  // Artist query is finished, get all albums for all artists.
+
+    // Get artist albums
+    for (int artist_id : artist_albums_queue_) {
+      GetArtistAlbums(artist_id);
+    }
+    artist_albums_queue_.clear();
+
+    if (artist_albums_requests_.count() > 0) {
+      if (artist_albums_requests_.count() == 1) emit UpdateStatus(tr("Retrieving albums for %1 artist...").arg(artist_albums_requests_.count()));
+      else emit UpdateStatus(tr("Retrieving albums for %1 artists...").arg(artist_albums_requests_.count()));
+      emit ProgressSetMaximum(artist_albums_requests_.count());
+      emit UpdateProgress(0);
+    }
 
   }
 
-  if (artist_albums_requested_ > 0) {
-    if (artist_albums_requested_ == 1) emit UpdateStatus(tr("Retrieving albums for %1 artist...").arg(artist_albums_requested_));
-    else emit UpdateStatus(tr("Retrieving albums for %1 artists...").arg(artist_albums_requested_));
-    emit ProgressSetMaximum(artist_albums_requested_);
-    emit UpdateProgress(0);
-  }
-  else {
-    artist_query_ = false;
-  }
-
-  CheckFinish();
+  FinishCheck();
 
 }
 
 void TidalRequest::GetArtistAlbums(const int artist_id, const int offset) {
 
+  if (offset == 0) artist_albums_requests_.append(artist_id);
+
+  ++artist_albums_chunk_requested_;
+
   ParamList parameters;
   if (offset > 0) parameters << Param("offset", QString::number(offset));
   QNetworkReply *reply = CreateRequest(QString("artists/%1/albums").arg(artist_id), parameters);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int)), reply, artist_id, offset);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReceived(QNetworkReply*, int, int, int)), reply, artist_id, 0, offset);
 
 }
 
-void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, const int offset_requested) {
+void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, const int limit_requested, const int offset_requested) {
 
   QString error;
   QByteArray data = GetReplyData(reply, error, (artist_id == 0));
 
-  if (artist_query_) {
-    if (!requests_artist_albums_.contains(artist_id)) return;
-    artist_albums_received_++;
+  ++artist_albums_chunk_received_;
+
+  if (artist_id != 0) {
+    if (!artist_albums_requests_.contains(artist_id)) return;
+    ++artist_albums_received_;
     emit UpdateProgress(artist_albums_received_);
   }
 
   if (data.isEmpty()) {
-    AlbumsFinished(artist_id, offset_requested);
+    AlbumsFinishCheck(artist_id);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
-    AlbumsFinished(artist_id, offset_requested);
+    AlbumsFinishCheck(artist_id);
     return;
   }
 
-  int limit = 0;
-  int total_albums = 0;
-  if (artist_query_) {  // This was a list of albums by artist
-    if (!json_obj.contains("limit") ||
-        !json_obj.contains("offset") ||
-        !json_obj.contains("totalNumberOfItems") ||
-        !json_obj.contains("items")) {
-      AlbumsFinished(artist_id, offset_requested);
-      Error("Json object missing values.", json_obj);
-      return;
-    }
-    limit = json_obj["limit"].toInt();
-    int offset = json_obj["offset"].toInt();
-    total_albums = json_obj["totalNumberOfItems"].toInt();
-    if (offset != offset_requested) {
-      AlbumsFinished(artist_id, offset_requested, total_albums, limit);
-      Error(QString("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
-      return;
-    }
+  if (!json_obj.contains("limit") ||
+      !json_obj.contains("offset") ||
+      !json_obj.contains("totalNumberOfItems") ||
+      !json_obj.contains("items")) {
+    Error("Json object missing values.", json_obj);
+    AlbumsFinishCheck(artist_id);
+    return;
+  }
+
+  //int limit = json_obj["limit"].toInt();
+  int offset = json_obj["offset"].toInt();
+  int albums_total = json_obj["totalNumberOfItems"].toInt();
+
+  if (offset != offset_requested) {
+    Error(QString("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
+    AlbumsFinishCheck(artist_id);
+    return;
   }
 
   QJsonValue json_value = ExtractItems(json_obj, error);
   if (!json_value.isArray()) {
-    AlbumsFinished(artist_id, offset_requested, total_albums, limit);
+    AlbumsFinishCheck(artist_id);
     return;
   }
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
-    if (!artist_query_) no_match_ = true;
-    AlbumsFinished(artist_id, offset_requested, total_albums, limit);
+    no_results_ = true;
+    AlbumsFinishCheck(artist_id);
     return;
   }
 
-  int albums = 0;
+  int albums_received = 0;
   for (const QJsonValue &value : json_items) {
-    ++albums;
+
+    ++albums_received;
+
     if (!value.isObject()) {
       qLog(Error) << "Tidal: Invalid Json reply, item not a object.";
       qLog(Debug) << value;
@@ -412,7 +501,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
       continue;
     }
 
-    if (requests_album_songs_.contains(album_id)) continue;
+    if (album_songs_requests_.contains(album_id)) continue;
 
     if (!json_obj.contains("artist") || !json_obj.contains("title") || !json_obj.contains("audioQuality")) {
       qLog(Error) << "Tidal: Invalid Json reply, item missing artist, title or audioQuality.";
@@ -438,48 +527,51 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
 
     //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
-    requests_album_songs_.insert(album_id, artist);
-    album_songs_requested_++;
+    album_songs_requests_.insert(album_id, artist);
 
   }
 
-  AlbumsFinished(artist_id, offset_requested, total_albums, limit, albums);
+  AlbumsFinishCheck(artist_id, limit_requested, offset, albums_total, albums_received);
 
 }
 
-void TidalRequest::AlbumsFinished(const int artist_id, const int offset_requested, const int total_albums, const int limit, const int albums) {
+void TidalRequest::AlbumsFinishCheck(const int artist_id, const int limit, const int offset, const int albums_total, const int albums_received) {
 
-  if (artist_query_) {  // This is a artist search.
-    if (albums > limit) {
-      Error("Albums returned does not match limit returned!");
-    }
-    int offset_next = offset_requested + albums;
-    if (offset_next < total_albums) {
-      GetArtistAlbums(artist_id, offset_next);
-      artist_albums_requested_++;
-    }
-    else if (artist_albums_received_ >= artist_albums_requested_) {  // Artist search is finished.
-      artist_query_ = false;
+  if (limit == 0 || limit > albums_received) {
+    int offset_next = offset + albums_received;
+    if (offset_next > 0 && offset_next < albums_total) {
+      if (type_ == QueryType_Albums) {
+        GetAlbums(offset_next);
+      }
+      else if (type_ == QueryType_SearchAlbums) {
+        AlbumsSearch(offset_next);
+      }
+      else if (type_ == QueryType_SearchSongs) {
+        SongsSearch(offset_next);
+      }
+      else {
+        GetArtistAlbums(artist_id, offset_next);
+      }
     }
   }
 
-  if (!artist_query_) {
+  if (artist_albums_chunk_received_ >= artist_albums_chunk_requested_) {
     // Get songs for the albums.
-    QHashIterator<int, QString> i(requests_album_songs_);
+    QHashIterator<int, QString> i(album_songs_requests_);
     while (i.hasNext()) {
       i.next();
       GetAlbumSongs(i.key());
     }
 
-    if (album_songs_requested_ > 0) {
-      if (album_songs_requested_ == 1) emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
-      else emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
-      emit ProgressSetMaximum(album_songs_requested_);
+    if (album_songs_requests_.count() > 0) {
+      if (album_songs_requests_.count() == 1) emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requests_.count()));
+      else emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requests_.count()));
+      emit ProgressSetMaximum(album_songs_requests_.count());
       emit UpdateProgress(0);
     }
   }
 
-  CheckFinish();
+  FinishCheck();
 
 }
 
@@ -498,30 +590,28 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const int album_id) {
 
   QString album_artist;
   if (album_id != 0) {
-    if (!requests_album_songs_.contains(album_id)) return;
-    album_artist = requests_album_songs_[album_id];
+    if (!album_songs_requests_.contains(album_id)) return;
+    album_artist = album_songs_requests_[album_id];
   }
 
-  album_songs_received_++;
-  if (!artist_query_) {
-    emit UpdateProgress(album_songs_received_);
-  }
+  ++album_songs_received_;
+  emit UpdateProgress(album_songs_received_);
 
   if (data.isEmpty()) {
-    CheckFinish();
+    FinishCheck();
     return;
   }
 
   QJsonValue json_value = ExtractItems(data, error);
   if (!json_value.isArray()) {
-    CheckFinish();
+    FinishCheck();
     return;
   }
 
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
-    no_match_ = true;
-    CheckFinish();
+    no_results_ = true;
+    FinishCheck();
     return;
   }
 
@@ -544,14 +634,18 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const int album_id) {
       song.set_album(album_full);
     }
     songs_ << song;
-
   }
 
-  if (service_->cache_album_covers() && artist_albums_requested_ <= artist_albums_received_ && album_songs_requested_ <= album_songs_received_) {
+  if (
+      service_->cache_album_covers() &&
+      artists_total_ <= artists_received_ &&
+      artist_albums_requests_.count() <= artist_albums_received_ &&
+      album_songs_requests_.count() <= album_songs_received_
+  ) {
     GetAlbumCovers();
   }
 
-  CheckFinish();
+  FinishCheck();
 
 }
 
@@ -700,52 +794,52 @@ void TidalRequest::GetAlbumCovers() {
 
 void TidalRequest::GetAlbumCover(Song &song) {
 
-  if (requests_album_covers_.contains(song.album_id())) {
-    requests_album_covers_.insertMulti(song.album_id(), &song);
+  if (album_covers_requests_.contains(song.album_id())) {
+    album_covers_requests_.insertMulti(song.album_id(), &song);
     return;
   }
 
-  album_covers_requested_++;
-  requests_album_covers_.insertMulti(song.album_id(), &song);
+  album_covers_requests_.insertMulti(song.album_id(), &song);
+  ++album_covers_requested_;
 
   QUrl url(song.art_automatic());
   QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, int, QUrl)), reply, song.album_id(), url);
   replies_ << reply;
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, int, QUrl)), reply, song.album_id(), url);
 
 }
 
-void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, int album_id, QUrl url) {
+void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl url) {
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
     reply->deleteLater();
   }
   else {
-    CheckFinish();
+    FinishCheck();
     return;
   }
 
-  if (!requests_album_covers_.contains(album_id)) {
-    CheckFinish();
+  if (!album_covers_requests_.contains(album_id)) {
+    FinishCheck();
     return;
   }
 
-  album_covers_received_++;
+  ++album_covers_received_;
   emit UpdateProgress(album_covers_received_);
 
   QString error;
   if (reply->error() != QNetworkReply::NoError) {
     error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    requests_album_covers_.remove(album_id);
+    album_covers_requests_.remove(album_id);
     return;
   }
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     error = Error(QString("Received empty image data for %1").arg(url.toString()));
-    requests_album_covers_.remove(album_id);
+    album_covers_requests_.remove(album_id);
     return;
   }
 
@@ -756,8 +850,8 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, int album_id, QUrl u
     if (dir.mkpath(service_->CoverCacheDir())) {
       QString filename(service_->CoverCacheDir() + "/" + QString::number(album_id) + "-" + url.fileName());
       if (image.save(filename, "JPG")) {
-        while (requests_album_covers_.contains(album_id)) {
-          Song *song = requests_album_covers_.take(album_id);
+        while (album_covers_requests_.contains(album_id)) {
+          Song *song = album_covers_requests_.take(album_id);
           song->set_art_automatic(filename);
         }
       }
@@ -768,26 +862,28 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, int album_id, QUrl u
     error = Error(QString("Error decoding image data from %1").arg(url.toString()));
   }
 
-  CheckFinish();
+  FinishCheck();
 
 }
 
-void TidalRequest::CheckFinish() {
+void TidalRequest::FinishCheck() {
 
-  if (!need_login_ &&
-      !artist_query_ &&
-      artist_albums_requested_ <= artist_albums_received_ &&
-      album_songs_requested_ <= album_songs_received_ &&
+  if (
+      !need_login_ &&
+      artists_chunk_requested_ <= artists_chunk_received_ &&
+      artist_albums_chunk_requested_ <= artist_albums_chunk_received_ &&
+      artist_albums_requests_.count() <= artist_albums_received_ &&
+      album_songs_requests_.count() <= album_songs_received_ &&
       album_covers_requested_ <= album_covers_received_
   ) {
     if (songs_.isEmpty()) {
       if (IsSearch()) {
-        if (no_match_) emit ErrorSignal(search_id_, tr("No match"));
+        if (no_results_) emit ErrorSignal(search_id_, tr("No match"));
         else if (errors_.isEmpty()) emit ErrorSignal(search_id_, tr("Unknown error"));
         else emit ErrorSignal(search_id_, errors_);
       }
       else {
-        if (no_match_) emit Results(songs_);
+        if (no_results_) emit Results(songs_);
         else if (errors_.isEmpty()) emit ErrorSignal(tr("Unknown error"));
         else emit ErrorSignal(errors_);
       }
@@ -814,7 +910,7 @@ QString TidalRequest::Error(QString error, QVariant debug) {
     errors_ += error;
     errors_ += "<br />";
   }
-  CheckFinish();
+  FinishCheck();
 
   return error;
 
