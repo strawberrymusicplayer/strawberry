@@ -89,6 +89,10 @@ const QStringList Song::kColumns = QStringList() << "title"
                                                  << "comment"
                                                  << "lyrics"
 
+                                                 << "artist_id"
+                                                 << "album_id"
+                                                 << "song_id"
+
                                                  << "beginning"
                                                  << "length"
 
@@ -155,7 +159,6 @@ struct Song::Private : public QSharedData {
 
   bool valid_;
   int id_;
-  int album_id_;		// A unique album ID
 
   QString title_;
   QString album_;
@@ -172,6 +175,10 @@ struct Song::Private : public QSharedData {
   QString grouping_;
   QString comment_;
   QString lyrics_;
+
+  int artist_id_;
+  int album_id_;
+  int song_id_;
 
   qint64 beginning_;
   qint64 end_;
@@ -215,15 +222,20 @@ struct Song::Private : public QSharedData {
 Song::Private::Private(Song::Source source)
     : valid_(false),
       id_(-1),
-      album_id_(-1),
+
       track_(-1),
       disc_(-1),
       year_(-1),
       originalyear_(-1),
       compilation_(false),
 
+      artist_id_(-1),
+      album_id_(-1),
+      song_id_(-1),
+
       beginning_(0),
       end_(-1),
+
       bitrate_(-1),
       samplerate_(-1),
       bitdepth_(-1),
@@ -261,60 +273,53 @@ Song &Song::operator=(const Song &other) {
 bool Song::is_valid() const { return d->valid_; }
 bool Song::is_unavailable() const { return d->unavailable_; }
 int Song::id() const { return d->id_; }
+
+int Song::artist_id() const { return d->artist_id_; }
+int Song::album_id() const { return d->album_id_; }
+int Song::song_id() const { return d->song_id_; }
+
 const QString &Song::title() const { return d->title_; }
 const QString &Song::album() const { return d->album_; }
-const QString &Song::effective_album() const {
-  // This value is useful for singles, which are one-track albums on their own.
-  return d->album_.isEmpty() ? d->title_ : d->album_;
-}
+// This value is useful for singles, which are one-track albums on their own.
+const QString &Song::effective_album() const { return d->album_.isEmpty() ? d->title_ : d->album_; }
 const QString &Song::artist() const { return d->artist_; }
 const QString &Song::albumartist() const { return d->albumartist_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
 const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_ : effective_albumartist(); }
-const QString &Song::composer() const { return d->composer_; }
-const QString &Song::performer() const { return d->performer_; }
-const QString &Song::grouping() const { return d->grouping_; }
 int Song::track() const { return d->track_; }
 int Song::disc() const { return d->disc_; }
 int Song::year() const { return d->year_; }
 int Song::originalyear() const { return d->originalyear_; }
-int Song::effective_originalyear() const {
-  return d->originalyear_ < 0 ? d->year_ : d->originalyear_;
-}
+int Song::effective_originalyear() const { return d->originalyear_ < 0 ? d->year_ : d->originalyear_; }
 const QString &Song::genre() const { return d->genre_; }
+bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && ! d->compilation_off_; }
+const QString &Song::composer() const { return d->composer_; }
+const QString &Song::performer() const { return d->performer_; }
+const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
-bool Song::is_compilation() const {
-  return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && ! d->compilation_off_;
-}
-int Song::playcount() const { return d->playcount_; }
-int Song::skipcount() const { return d->skipcount_; }
-int Song::lastplayed() const { return d->lastplayed_; }
-const QString &Song::cue_path() const { return d->cue_path_; }
-bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
-int Song::album_id() const { return d->album_id_; }
+
 qint64 Song::beginning_nanosec() const { return d->beginning_; }
 qint64 Song::end_nanosec() const { return d->end_; }
 qint64 Song::length_nanosec() const { return d->end_ - d->beginning_; }
+
 int Song::bitrate() const { return d->bitrate_; }
 int Song::samplerate() const { return d->samplerate_; }
 int Song::bitdepth() const { return d->bitdepth_; }
+
 Song::Source Song::source() const { return d->source_; }
 int Song::directory_id() const { return d->directory_id_; }
 const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
+Song::FileType Song::filetype() const { return d->filetype_; }
+int Song::filesize() const { return d->filesize_; }
 uint Song::mtime() const { return d->mtime_; }
 uint Song::ctime() const { return d->ctime_; }
-int Song::filesize() const { return d->filesize_; }
-Song::FileType Song::filetype() const { return d->filetype_; }
-bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal; }
-bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
-bool Song::is_collection_song() const {
-  return !is_cdda() && !is_stream() && id() != -1;
-}
-bool Song::is_metadata_good() const {
-  return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0;
-}
+
+int Song::playcount() const { return d->playcount_; }
+int Song::skipcount() const { return d->skipcount_; }
+int Song::lastplayed() const { return d->lastplayed_; }
+
 const QString &Song::art_automatic() const { return d->art_automatic_; }
 const QString &Song::art_manual() const { return d->art_manual_; }
 bool Song::has_manually_unset_cover() const { return d->art_manual_ == kManuallyUnsetCover; }
@@ -322,11 +327,23 @@ void Song::manually_unset_cover() { d->art_manual_ = kManuallyUnsetCover; }
 bool Song::has_embedded_cover() const { return d->art_automatic_ == kEmbeddedCover; }
 void Song::set_embedded_cover() { d->art_automatic_ = kEmbeddedCover; }
 const QImage &Song::image() const { return d->image_; }
+
+const QString &Song::cue_path() const { return d->cue_path_; }
+bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
+
+bool Song::is_collection_song() const { return !is_cdda() && !is_stream() && id() != -1; }
+bool Song::is_metadata_good() const { return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0; }
+bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal; }
+bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
+
 const QString &Song::error() const { return d->error_; }
 
 void Song::set_id(int id) { d->id_ = id; }
-void Song::set_album_id(int v) { d->album_id_ = v; }
 void Song::set_valid(bool v) { d->valid_ = v; }
+
+void Song::set_artist_id(int v) { d->artist_id_ = v; }
+void Song::set_album_id(int v) { d->album_id_ = v; }
+void Song::set_song_id(int v) { d->song_id_ = v; }
 
 void Song::set_title(const QString &v) { d->title_ = v; }
 void Song::set_album(const QString &v) { d->album_ = v; }
@@ -674,6 +691,7 @@ void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
   pb->set_suspicious_tags(d->suspicious_tags_);
   pb->set_art_automatic(DataCommaSizeFromQString(d->art_automatic_));
   pb->set_filetype(static_cast<pb::tagreader::SongMetadata_FileType>(d->filetype_));
+
 }
 
 #define tostr(n) (q.value(n).isNull() ? QString::null : q.value(n).toString())
@@ -742,6 +760,16 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
     else if (Song::kColumns.value(i) == "lyrics") {
       d->comment_ = tostr(x);
+    }
+
+    else if (Song::kColumns.value(i) == "artist_id") {
+      d->artist_id_ = toint(x);
+    }
+    else if (Song::kColumns.value(i) == "album_id") {
+      d->album_id_ = toint(x);
+    }
+    else if (Song::kColumns.value(i) == "song_id") {
+      d->song_id_ = toint(x);
     }
 
     else if (Song::kColumns.value(i) == "beginning") {
@@ -1093,6 +1121,10 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":comment", strval(d->comment_));
   query->bindValue(":lyrics", strval(d->lyrics_));
 
+  query->bindValue(":artist_id", intval(d->artist_id_));
+  query->bindValue(":album_id", intval(d->album_id_));
+  query->bindValue(":song_id", intval(d->song_id_));
+
   query->bindValue(":beginning", d->beginning_);
   query->bindValue(":length", intval(length_nanosec()));
 
@@ -1221,17 +1253,20 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->album_ == other.d->album_ &&
          d->artist_ == other.d->artist_ &&
          d->albumartist_ == other.d->albumartist_ &&
-         d->composer_ == other.d->composer_ &&
-         d->performer_ == other.d->performer_ &&
-         d->grouping_ == other.d->grouping_ &&
          d->track_ == other.d->track_ &&
          d->disc_ == other.d->disc_ &&
          d->year_ == other.d->year_ &&
          d->originalyear_ == other.d->originalyear_ &&
          d->genre_ == other.d->genre_ &&
+         d->compilation_ == other.d->compilation_ &&
+         d->composer_ == other.d->composer_ &&
+         d->performer_ == other.d->performer_ &&
+         d->grouping_ == other.d->grouping_ &&
          d->comment_ == other.d->comment_ &&
          d->lyrics_ == other.d->lyrics_ &&
-         d->compilation_ == other.d->compilation_ &&
+         d->artist_id_ == other.d->artist_id_ &&
+         d->album_id_ == other.d->album_id_ &&
+         d->song_id_ == other.d->song_id_ &&
          d->beginning_ == other.d->beginning_ &&
          length_nanosec() == other.length_nanosec() &&
          d->bitrate_ == other.d->bitrate_ &&

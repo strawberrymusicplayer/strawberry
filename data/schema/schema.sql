@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (4);
+INSERT INTO schema_version (version) VALUES (5);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -34,6 +34,10 @@ CREATE TABLE IF NOT EXISTS songs (
   grouping TEXT NOT NULL,
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
+
+  artist_id INTEGER NOT NULL DEFAULT -1;
+  album_id INTEGER NOT NULL DEFAULT -1;
+  song_id INTEGER NOT NULL DEFAULT -1;
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -88,6 +92,10 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
 
+  artist_id INTEGER NOT NULL DEFAULT -1;
+  album_id INTEGER NOT NULL DEFAULT -1;
+  song_id INTEGER NOT NULL DEFAULT -1;
+
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
 
@@ -141,6 +149,10 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
 
+  artist_id INTEGER NOT NULL DEFAULT -1;
+  album_id INTEGER NOT NULL DEFAULT -1;
+  song_id INTEGER NOT NULL DEFAULT -1;
+
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
 
@@ -193,6 +205,10 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   grouping TEXT NOT NULL,
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
+
+  artist_id INTEGER NOT NULL DEFAULT -1;
+  album_id INTEGER NOT NULL DEFAULT -1;
+  song_id INTEGER NOT NULL DEFAULT -1;
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
@@ -262,6 +278,10 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   grouping TEXT NOT NULL,
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
+
+  artist_id INTEGER NOT NULL DEFAULT -1;
+  album_id INTEGER NOT NULL DEFAULT -1;
+  song_id INTEGER NOT NULL DEFAULT -1;
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
