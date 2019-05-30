@@ -642,8 +642,6 @@ void TidalRequest::AlbumsFinishCheck(const int artist_id, const int limit, const
       artist_albums_requests_active_ <= 0
       ) { // Artist albums query is finished, get all songs for all albums.
 
-    assert(songs_.isEmpty());
-
     // Get songs for all the albums.
 
     QHash<int, Request> ::iterator i;
