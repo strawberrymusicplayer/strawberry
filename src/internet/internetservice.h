@@ -67,6 +67,9 @@ class InternetService : public QObject {
   virtual void GetArtists() = 0;
   virtual void GetAlbums() = 0;
   virtual void GetSongs() = 0;
+  virtual void ResetArtistsRequest() = 0;
+  virtual void ResetAlbumsRequest() = 0;
+  virtual void ResetSongsRequest() = 0;
 
  signals:
   void Login();

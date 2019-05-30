@@ -365,62 +365,122 @@ void TidalService::TryLogin() {
 
 }
 
+void TidalService::ResetArtistsRequest() {
+
+  if (artists_request_.get()) {
+    disconnect(artists_request_.get(), 0, nullptr, 0);
+    disconnect(this, 0, artists_request_.get(), 0);
+    artists_request_.reset();
+  }
+
+}
+
 void TidalService::GetArtists() {
+
+  ResetArtistsRequest();
 
   artists_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Artists, this));
 
-  connect(artists_request_.get(), SIGNAL(ErrorSignal(QString)), SIGNAL(ArtistsError(QString)));
+  connect(artists_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(ArtistsErrorReceived(QString)));
+  connect(artists_request_.get(), SIGNAL(Results(SongList)), SLOT(ArtistsResultsReceived(SongList)));
   connect(artists_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(ArtistsUpdateStatus(QString)));
   connect(artists_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(ArtistsProgressSetMaximum(int)));
   connect(artists_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(ArtistsUpdateProgress(int)));
-  connect(artists_request_.get(), SIGNAL(Results(SongList)), SIGNAL(ArtistsResults(SongList)));
   connect(this, SIGNAL(LoginComplete(bool, QString)), artists_request_.get(), SLOT(LoginComplete(bool, QString)));
 
   artists_request_->Process();
 
 }
 
-void TidalService::UpdateArtists(SongList songs) {
+void TidalService::ArtistsResultsReceived(SongList songs) {
 
-  artists_collection_backend_->DeleteAll();
-  artists_collection_backend_->AddOrUpdateSongs(songs);
-  artists_collection_model_->Reset();
+  emit ArtistsResults(songs);
+  ResetArtistsRequest();
+
+}
+
+void TidalService::ArtistsErrorReceived(QString error) {
+
+  emit ArtistsError(error);
+  ResetArtistsRequest();
+
+}
+
+void TidalService::ResetAlbumsRequest() {
+
+  if (albums_request_.get()) {
+    disconnect(albums_request_.get(), 0, nullptr, 0);
+    disconnect(this, 0, albums_request_.get(), 0);
+    albums_request_.reset();
+  }
 
 }
 
 void TidalService::GetAlbums() {
 
+  ResetAlbumsRequest();
   albums_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Albums, this));
-  connect(albums_request_.get(), SIGNAL(ErrorSignal(QString)), SIGNAL(AlbumsError(QString)));
+  connect(albums_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(AlbumsErrorReceived(QString)));
+  connect(albums_request_.get(), SIGNAL(Results(SongList)), SLOT(AlbumsResultsReceived(SongList)));
   connect(albums_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(AlbumsUpdateStatus(QString)));
   connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(AlbumsProgressSetMaximum(int)));
   connect(albums_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(AlbumsUpdateProgress(int)));
-  connect(albums_request_.get(), SIGNAL(Results(SongList)), SIGNAL(AlbumsResults(SongList)));
   connect(this, SIGNAL(LoginComplete(bool, QString)), albums_request_.get(), SLOT(LoginComplete(bool, QString)));
 
   albums_request_->Process();
 
 }
 
-void TidalService::UpdateAlbums(SongList songs) {
+void TidalService::AlbumsResultsReceived(SongList songs) {
 
-  albums_collection_backend_->DeleteAll();
-  albums_collection_backend_->AddOrUpdateSongs(songs);
-  albums_collection_model_->Reset();
+  emit AlbumsResults(songs);
+  ResetAlbumsRequest();
+
+}
+
+void TidalService::AlbumsErrorReceived(QString error) {
+
+  emit AlbumsError(error);
+  ResetAlbumsRequest();
+
+}
+
+void TidalService::ResetSongsRequest() {
+
+  if (songs_request_.get()) {
+    disconnect(songs_request_.get(), 0, nullptr, 0);
+    disconnect(this, 0, songs_request_.get(), 0);
+    songs_request_.reset();
+  }
 
 }
 
 void TidalService::GetSongs() {
 
+  ResetSongsRequest();
   songs_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Songs, this));
-  connect(songs_request_.get(), SIGNAL(ErrorSignal(QString)), SIGNAL(SongsError(QString)));
+  connect(songs_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(SongsErrorReceived(QString)));
+  connect(songs_request_.get(), SIGNAL(Results(SongList)), SLOT(SongsResultsReceived(SongList)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SongsUpdateStatus(QString)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SongsProgressSetMaximum(int)));
   connect(songs_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SongsUpdateProgress(int)));
-  connect(songs_request_.get(), SIGNAL(Results(SongList)), SIGNAL(SongsResults(SongList)));
   connect(this, SIGNAL(LoginComplete(bool, QString)), songs_request_.get(), SLOT(LoginComplete(bool, QString)));
 
   songs_request_->Process();
+
+}
+
+void TidalService::SongsResultsReceived(SongList songs) {
+
+  emit SongsResults(songs);
+  ResetSongsRequest();
+
+}
+
+void TidalService::SongsErrorReceived(QString error) {
+
+  emit SongsError(error);
+  ResetSongsRequest();
 
 }
 

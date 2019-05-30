@@ -59,6 +59,12 @@ class InternetTabsView : public QWidget {
   void GetArtists();
   void GetAlbums();
   void GetSongs();
+  void AbortGetArtists();
+  void AbortGetAlbums();
+  void AbortGetSongs();
+  void ArtistsError(QString error);
+  void AlbumsError(QString error);
+  void SongsError(QString error);
   void ArtistsFinished(SongList songs);
   void AlbumsFinished(SongList songs);
   void SongsFinished(SongList songs);

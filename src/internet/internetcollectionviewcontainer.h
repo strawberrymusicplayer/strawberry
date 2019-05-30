@@ -48,7 +48,9 @@ class InternetCollectionViewContainer : public QWidget {
   QWidget *internetcollection_page() const { return ui_->internetcollection_page; }
   InternetCollectionView *view() const { return ui_->view; }
   CollectionFilterWidget *filter() const { return ui_->filter; }
-  QPushButton *refresh() const { return ui_->refresh; }
+  QPushButton *button_refresh() const { return ui_->refresh; }
+  QPushButton *button_close() const { return ui_->close; }
+  QPushButton *button_abort() const { return ui_->abort; }
   QLabel *status() const { return ui_->status; }
   QProgressBar *progressbar() const { return ui_->progressbar; }
   void ReloadSettings() { view()->ReloadSettings(); }

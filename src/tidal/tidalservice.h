@@ -118,14 +118,21 @@ class TidalService : public InternetService {
   void GetArtists();
   void GetAlbums();
   void GetSongs();
+  void ResetArtistsRequest();
+  void ResetAlbumsRequest();
+  void ResetSongsRequest();
 
  private slots:
   void SendLogin();
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
-  void UpdateArtists(SongList songs);
-  void UpdateAlbums(SongList songs);
+  void ArtistsResultsReceived(SongList songs);
+  void ArtistsErrorReceived(QString error);
+  void AlbumsResultsReceived(SongList songs);
+  void AlbumsErrorReceived(QString error);
+  void SongsResultsReceived(SongList songs);
+  void SongsErrorReceived(QString error);
 
  private:
   typedef QPair<QString, QString> Param;
