@@ -670,7 +670,8 @@ QVariant CollectionModel::data(const CollectionItem *item, int role) const {
             }
           }
           return true;
-        } else {
+        }
+        else {
           return false;
         }
       }
@@ -840,7 +841,7 @@ void CollectionModel::InitQuery(GroupBy type, CollectionQuery *q) {
       q->SetColumnSpec("DISTINCT artist");
       break;
     case GroupBy_Album:
-      q->SetColumnSpec("DISTINCT album");
+      q->SetColumnSpec("DISTINCT album, album_id");
       break;
     case GroupBy_Composer:
       q->SetColumnSpec("DISTINCT composer");
@@ -916,6 +917,7 @@ void CollectionModel::FilterQuery(GroupBy type, CollectionItem *item, Collection
       break;
     case GroupBy_Album:
       q->AddWhere("album", item->key);
+      q->AddWhere("album_id", item->metadata.album_id());
       break;
     case GroupBy_YearAlbum:
       q->AddWhere("year", item->metadata.year());
@@ -996,7 +998,6 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
   switch (type) {
     case GroupBy_AlbumArtist:
     case GroupBy_Artist:
-    case GroupBy_Album:
     case GroupBy_Composer:
     case GroupBy_Performer:
     case GroupBy_Grouping:
@@ -1004,6 +1005,13 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->key = row.value(0).toString();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
+      break;
+
+    case GroupBy_Album:
+      item->key = row.value(0).toString();
+      item->display_text = TextOrUnknown(item->key);
+      item->sort_text = SortTextForArtist(item->key);
+      item->metadata.set_album_id(row.value(1).toInt());
       break;
 
     case GroupBy_OriginalYear:{
