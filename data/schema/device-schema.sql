@@ -27,9 +27,9 @@ CREATE TABLE device_%deviceid_songs (
   comment TEXT NOT NULL,
   lyrics TEXT NOT NULL,
 
-  artist_id INTEGER NOT NULL DEFAULT -1;
-  album_id INTEGER NOT NULL DEFAULT -1;
-  song_id INTEGER NOT NULL DEFAULT -1;
+  artist_id INTEGER NOT NULL DEFAULT -1,
+  album_id INTEGER NOT NULL DEFAULT -1,
+  song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
   length INTEGER NOT NULL DEFAULT 0,
