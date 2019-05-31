@@ -92,8 +92,6 @@ class TidalRequest : public TidalBaseRequest {
   typedef QList<Param> ParamList;
 
   struct Request {
-    //Request(const int artist_id = 0, const int limit = 0, const int offset = 0) :
-    //artist_id_(artist_id), limit_(limit), offset_(offset) {}
     int artist_id = 0;
     int album_id = 0;
     int song_id = 0;
@@ -106,16 +104,6 @@ class TidalRequest : public TidalBaseRequest {
     int album_id = 0;
     QUrl url;
   };
-
-#if 0
-  struct AlbumSongsRequest {
-    AlbumSongsRequest(const int artist_id = 0, const int album_id = 0, const QString &album_artist = QString()) :
-    artist_id_(artist_id), album_id_(album_id), album_artist_(album_artist) {}
-    int artist_id_;
-    int album_id_;
-    QString album_artist_;
-  };
-#endif
 
   const bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }
   const bool IsSearch() { return (type_ == QueryType_SearchArtists || type_ == QueryType_SearchAlbums || type_ == QueryType_SearchSongs); }
