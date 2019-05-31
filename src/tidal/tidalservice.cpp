@@ -76,12 +76,12 @@ TidalService::TidalService(Application *app, QObject *parent)
       app_(app),
       network_(new NetworkAccessManager(this)),
       url_handler_(new TidalUrlHandler(app, this)),
-      artists_collection_backend_(new CollectionBackend()),
-      albums_collection_backend_(new CollectionBackend()),
-      songs_collection_backend_(new CollectionBackend()),
-      artists_collection_model_(new CollectionModel(artists_collection_backend_, app_, this)),
-      albums_collection_model_(new CollectionModel(albums_collection_backend_, app_, this)),
-      songs_collection_model_(new CollectionModel(songs_collection_backend_, app_, this)),
+      artists_collection_backend_(nullptr),
+      albums_collection_backend_(nullptr),
+      songs_collection_backend_(nullptr),
+      artists_collection_model_(nullptr),
+      albums_collection_model_(nullptr),
+      songs_collection_model_(nullptr),
       artists_collection_sort_model_(new QSortFilterProxyModel(this)),
       albums_collection_sort_model_(new QSortFilterProxyModel(this)),
       songs_collection_sort_model_(new QSortFilterProxyModel(this)),
@@ -105,14 +105,21 @@ TidalService::TidalService(Application *app, QObject *parent)
 
   // Backends
 
+  artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
   artists_collection_backend_->Init(app_->database(), kArtistsSongsTable, QString(), QString(), kArtistsSongsFtsTable);
 
+  albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
   albums_collection_backend_->Init(app_->database(), kAlbumsSongsTable, QString(), QString(), kAlbumsSongsFtsTable);
 
+  songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
   songs_collection_backend_->Init(app_->database(), kSongsTable, QString(), QString(), kSongsFtsTable);
+
+  artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
+  albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
+  songs_collection_model_ = new CollectionModel(songs_collection_backend_, app_, this);
 
   artists_collection_sort_model_->setSourceModel(artists_collection_model_);
   artists_collection_sort_model_->setSortRole(CollectionModel::Role_SortText);
