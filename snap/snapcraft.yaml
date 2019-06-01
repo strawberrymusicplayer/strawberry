@@ -174,7 +174,7 @@ apps:
       - home
       - udisks2
       - network
-      - network-manager
+      - network-manager-observe
       - network-bind
       - desktop
       - desktop-legacy
@@ -195,5 +195,5 @@ apps:
     command: strawberry-tagreader
     plugs:
       - network
-      - network-manager
+      - network-manager-observe
       - network-bind
