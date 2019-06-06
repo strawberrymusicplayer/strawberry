@@ -37,7 +37,7 @@ class LyricsProviders;
 class LyricsFetcherSearch;
 
 struct LyricsSearchRequest {
-  quint64 id;
+  quint64 id = -1;
   QString artist;
   QString album;
   QString title;
@@ -49,7 +49,7 @@ struct LyricsSearchResult {
   QString album;
   QString title;
   QString lyrics;
-  float score;
+  float score = 0.0;
 };
 Q_DECLARE_METATYPE(LyricsSearchResult);
 
@@ -64,18 +64,17 @@ class LyricsFetcher : public QObject {
   virtual ~LyricsFetcher() {}
 
   static const int kMaxConcurrentRequests;
-  static const QRegExp kRemoveNonAlpha;
 
   quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();
 
 signals:
-  void LyricsFetched(quint64, const QString &lyrics);
-  void SearchFinished(quint64, const LyricsSearchResults &results);
+  void LyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
+  void SearchFinished(const quint64 request_id, const LyricsSearchResults &results);
 
  private slots:
-  void SingleSearchFinished(quint64, LyricsSearchResults results);
-  void SingleLyricsFetched(quint64, const QString &lyrics);
+  void SingleSearchFinished(const quint64 request_id, LyricsSearchResults results);
+  void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
   void StartRequests();
 
  private:

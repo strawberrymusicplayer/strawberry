@@ -59,7 +59,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
   for (LyricsProvider *provider : lyrics_providers->List()) {
-    connect(provider, SIGNAL(SearchFinished(quint64, QList<LyricsSearchResult>)), SLOT(ProviderSearchFinished(quint64, QList<LyricsSearchResult>)));
+    connect(provider, SIGNAL(SearchFinished(const quint64, QList<LyricsSearchResult>)), SLOT(ProviderSearchFinished(const quint64, QList<LyricsSearchResult>)));
     const int id = lyrics_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
     if (success) pending_requests_[id] = provider;
@@ -69,7 +69,7 @@ void LyricsFetcherSearch::Start(LyricsProviders *lyrics_providers) {
 
 }
 
-void LyricsFetcherSearch::ProviderSearchFinished(quint64 id, const QList<LyricsSearchResult> &results) {
+void LyricsFetcherSearch::ProviderSearchFinished(const quint64 id, const QList<LyricsSearchResult> &results) {
 
   if (!pending_requests_.contains(id)) return;
   LyricsProvider *provider = pending_requests_.take(id);
@@ -99,7 +99,8 @@ void LyricsFetcherSearch::AllProvidersFinished() {
     for (LyricsSearchResult result : results_) {
       if (result_use.lyrics.isEmpty() || result.score > result_use.score) result_use = result;
     }
-    emit LyricsFetched(request_.id, result_use.lyrics);
+    qLog(Debug) << "Using lyrics from" << result_use.provider << "for" << request_.artist << request_.title << "with score" << result_use.score;
+    emit LyricsFetched(request_.id, result_use.provider, result_use.lyrics);
   }
   emit SearchFinished(request_.id, results_);
 

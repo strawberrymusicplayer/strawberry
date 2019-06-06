@@ -246,7 +246,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  context_view_->SetApplication(app_, collection_view_->view(), album_cover_choice_controller_);
+  context_view_->Init(app_, collection_view_->view(), album_cover_choice_controller_);
   ui_->widget_playing->SetApplication(app_, album_cover_choice_controller_);
 
   // Initialise the search widget

@@ -104,7 +104,7 @@ ContextView::ContextView(QWidget *parent) :
 
 ContextView::~ContextView() { delete ui_; }
 
-void ContextView::SetApplication(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
+void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
 
   app_ = app;
   collectionview_ = collectionview;
@@ -116,7 +116,7 @@ void ContextView::SetApplication(Application *app, CollectionView *collectionvie
   connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalArtistCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalAlbumCountUpdated_()), this, SLOT(UpdateNoSong()));
-  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(quint64, const QString)), this, SLOT(UpdateLyrics(quint64, const QString)));
+  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(const quint64, const QString&, const QString&)), this, SLOT(UpdateLyrics(const quint64, const QString&, const QString&)));
   connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
   connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
@@ -203,7 +203,7 @@ void ContextView::SongChanged(const Song &song) {
     SetSong(song);
     if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) {
       lyrics_fetcher_->Clear();
-      lyrics_id_ = lyrics_fetcher_->Search(song.artist(), song.album(), song.title());
+      lyrics_id_ = lyrics_fetcher_->Search(song.effective_albumartist(), song.album(), song.title());
     }
   }
 
@@ -498,13 +498,13 @@ void ContextView::UpdateSong(const Song &song) {
 
 }
 
-void ContextView::UpdateLyrics(quint64 id, const QString lyrics) {
+void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics) {
 
   if (id != lyrics_id_) return;
-  lyrics_ = lyrics;
+  lyrics_ = lyrics + "\n\n(Lyrics from " + provider + ")\n";
   lyrics_id_ = -1;
   if (action_show_lyrics_->isChecked()) {
-    ui_->label_play_lyrics->setText(lyrics);
+    ui_->label_play_lyrics->setText(lyrics_);
   }
   else ui_->label_play_lyrics->clear();
 

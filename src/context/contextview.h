@@ -61,7 +61,7 @@ class ContextView : public QWidget {
   ContextView(QWidget *parent = nullptr);
   ~ContextView();
 
-  void SetApplication(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
+  void Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
 
   ContextAlbumsView *albums() { return ui_->widget_play_albums; }
 
@@ -130,7 +130,7 @@ class ContextView : public QWidget {
   void ActionShowOutput();
   void ActionShowAlbums();
   void ActionShowLyrics();
-  void UpdateLyrics(quint64 id, const QString lyrics);
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
   void SearchCoverAutomatically();
   void AutomaticCoverSearchDone();
   void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);

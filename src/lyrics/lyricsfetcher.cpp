@@ -30,7 +30,6 @@
 #include "lyricsfetchersearch.h"
 
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
-const QRegExp LyricsFetcher::kRemoveNonAlpha("[^a-zA-Z0-9\\d\\s]");
 
 LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
     : QObject(parent),
@@ -49,10 +48,8 @@ quint64 LyricsFetcher::Search(const QString &artist, const QString &album, const
   LyricsSearchRequest request;
   request.artist = artist;
   request.album = album;
-  request.album.remove(kRemoveNonAlpha);
   request.album.remove(Song::kAlbumRemoveMisc);
   request.title = title;
-  request.title.remove(kRemoveNonAlpha);
   request.title.remove(Song::kTitleRemoveMisc);
   request.id = next_id_++;
   AddRequest(request);
@@ -97,15 +94,15 @@ void LyricsFetcher::StartRequests() {
     LyricsFetcherSearch *search = new LyricsFetcherSearch(request, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(quint64, LyricsSearchResults)), SLOT(SingleSearchFinished(quint64, LyricsSearchResults)));
-    connect(search, SIGNAL(LyricsFetched(quint64, const QString&)), SLOT(SingleLyricsFetched(quint64, const QString&)));
+    connect(search, SIGNAL(SearchFinished(const quint64, LyricsSearchResults)), SLOT(SingleSearchFinished(const quint64, LyricsSearchResults)));
+    connect(search, SIGNAL(LyricsFetched(const quint64, const QString&, const QString&)), SLOT(SingleLyricsFetched(const quint64, const QString&, const QString&)));
 
     search->Start(lyrics_providers_);
   }
 
 }
 
-void LyricsFetcher::SingleSearchFinished(quint64 request_id, LyricsSearchResults results) {
+void LyricsFetcher::SingleSearchFinished(const quint64 request_id, LyricsSearchResults results) {
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   if (!search) return;
@@ -114,11 +111,11 @@ void LyricsFetcher::SingleSearchFinished(quint64 request_id, LyricsSearchResults
 
 }
 
-void LyricsFetcher::SingleLyricsFetched(quint64 request_id, const QString &lyrics) {
+void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   if (!search) return;
   search->deleteLater();
-  emit LyricsFetched(request_id, lyrics);
+  emit LyricsFetched(request_id, provider, lyrics);
 
 }

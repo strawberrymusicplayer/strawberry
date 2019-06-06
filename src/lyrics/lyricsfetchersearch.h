@@ -44,11 +44,11 @@ class LyricsFetcherSearch : public QObject {
   void Cancel();
 
  signals:
-  void SearchFinished(quint64, const LyricsSearchResults &results);
-  void LyricsFetched(quint64, const QString &lyrics);
+  void SearchFinished(const quint64, const LyricsSearchResults &results);
+  void LyricsFetched(const quint64, const QString &provider, const QString &lyrics);
 
  private slots:
-  void ProviderSearchFinished(quint64 id, const QList<LyricsSearchResult> &results);
+  void ProviderSearchFinished(const quint64 id, const QList<LyricsSearchResult> &results);
   void TerminateSearch();
 
  private:
