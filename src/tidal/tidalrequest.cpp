@@ -478,19 +478,19 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const int art
 
 }
 
-void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, const int limit_requested, const int offset_requested, const bool auto_login) {
+void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id_requested, const int limit_requested, const int offset_requested, const bool auto_login) {
 
   QString error;
   QByteArray data = GetReplyData(reply, error, auto_login);
 
   if (data.isEmpty()) {
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
 
@@ -499,7 +499,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
       !json_obj.contains("totalNumberOfItems") ||
       !json_obj.contains("items")) {
     Error("Json object missing values.", json_obj);
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
 
@@ -509,19 +509,19 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
 
   if (offset != offset_requested) {
     Error(QString("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
 
   QJsonValue json_value = ExtractItems(json_obj, error);
   if (!json_value.isArray()) {
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
   QJsonArray json_items = json_value.toArray();
   if (json_items.isEmpty()) {
     no_results_ = true;
-    AlbumsFinishCheck(artist_id);
+    AlbumsFinishCheck(artist_id_requested);
     return;
   }
 
@@ -587,10 +587,12 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
       continue;
     }
     QJsonObject json_artist = json_value_artist.toObject();
-    if (!json_artist.contains("name")) {
-      Error("Invalid Json reply, item artist missing name.", json_artist);
+    if (!json_artist.contains("id") || !json_artist.contains("name")) {
+      Error("Invalid Json reply, item artist missing id or name.", json_artist);
       continue;
     }
+
+    int artist_id = json_artist["id"].toInt();
     QString artist = json_artist["name"].toString();
 
     QString quality = json_obj["audioQuality"].toString();
@@ -599,14 +601,19 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, con
     //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
     Request request;
-    request.artist_id = artist_id;
+    if (artist_id_requested == 0) {
+      request.artist_id = artist_id;
+    }
+    else {
+      request.artist_id = artist_id_requested;
+    }
     request.album_id = album_id;
     request.album_artist = artist;
     album_songs_requests_pending_.insert(album_id, request);
 
   }
 
-  AlbumsFinishCheck(artist_id, limit_requested, offset, albums_total, albums_received);
+  AlbumsFinishCheck(artist_id_requested, limit_requested, offset, albums_total, albums_received);
 
 }
 
@@ -815,7 +822,7 @@ void TidalRequest::SongsFinishCheck(const int artist_id, const int album_id, con
           AddSongsRequest(offset_next);
           break;
         case QueryType_SearchSongs:
-          // If artist_id and album_id is zero it means this it's a songs search where we fetch all albums too. So pass through.
+          // If artist_id and album_id isn't zero it means that it's a songs search where we fetch all albums too. So pass through.
           if (artist_id == 0 && album_id == 0) {
             AddSongsSearchRequest(offset_next);
             break;
@@ -894,10 +901,11 @@ int TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const int a
     return -1;
   }
   QJsonObject json_artist = json_value_artist.toObject();
-  if (!json_artist.contains("name")) {
-    Error("Invalid Json reply, track artist is missing name.", json_artist);
+  if (!json_artist.contains("id") || !json_artist.contains("name")) {
+    Error("Invalid Json reply, track artist is missing id or name.", json_artist);
     return -1;
   }
+  int artist_id = json_artist["id"].toInt();
   QString artist = json_artist["name"].toString();
 
   if (!json_value_album.isObject()) {
@@ -949,7 +957,7 @@ int TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const int a
   song.set_source(Song::Source_Tidal);
   song.set_song_id(song_id);
   song.set_album_id(album_id);
-  song.set_artist_id(artist_id_requested);
+  song.set_artist_id(artist_id);
   if (album_artist != artist) song.set_albumartist(album_artist);
   song.set_album(album);
   song.set_artist(artist);
