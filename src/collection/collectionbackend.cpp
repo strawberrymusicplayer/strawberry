@@ -405,6 +405,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
   SongList deleted_songs;
 
   for (const Song &song : songs) {
+
     // Do a sanity check first - make sure the song's directory still exists
     // This is to fix a possible race condition when a directory is removed while CollectionWatcher is scanning it.
     if (!dirs_table_.isEmpty()) {
@@ -415,28 +416,8 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       if (!check_dir.next()) continue;  // Directory didn't exist
     }
 
-    if (song.id() == -1) {
-      // Create
+    if (song.id() != -1) {  // This song exists in the DB.
 
-      // Insert the row and create a new ID
-      song.BindToQuery(&add_song);
-      add_song.exec();
-      if (db_->CheckErrors(add_song)) continue;
-
-      // Get the new ID
-      const int id = add_song.lastInsertId().toInt();
-
-      // Add to the FTS index
-      add_song_fts.bindValue(":id", id);
-      song.BindToFtsQuery(&add_song_fts);
-      add_song_fts.exec();
-      if (db_->CheckErrors(add_song_fts)) continue;
-
-      Song copy(song);
-      copy.set_id(id);
-      added_songs << copy;
-    }
-    else {
       // Get the previous song data first
       Song old_song(GetSongById(song.id()));
       if (!old_song.is_valid()) continue;
@@ -454,7 +435,59 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
       deleted_songs << old_song;
       added_songs << song;
+
+      continue;
+
     }
+    else if (song.song_id() != -1) {  // Song has a unique id, check if the song exists.
+
+      // Get the previous song data first
+      Song old_song(GetSongBySongId(song.song_id()));
+
+      if (old_song.is_valid() && old_song.id() != -1) {
+
+        Song new_song = song;
+        new_song.set_id(old_song.id());
+        // Update
+        new_song.BindToQuery(&update_song);
+        update_song.bindValue(":id", new_song.id());
+        update_song.exec();
+        if (db_->CheckErrors(update_song)) continue;
+
+        new_song.BindToFtsQuery(&update_song_fts);
+        update_song_fts.bindValue(":id", new_song.id());
+        update_song_fts.exec();
+        if (db_->CheckErrors(update_song_fts)) continue;
+
+        deleted_songs << old_song;
+        added_songs << new_song;
+
+        continue;
+
+      }
+
+    }
+
+    // Create new song
+
+    // Insert the row and create a new ID
+    song.BindToQuery(&add_song);
+    add_song.exec();
+    if (db_->CheckErrors(add_song)) continue;
+
+    // Get the new ID
+    const int id = add_song.lastInsertId().toInt();
+
+    // Add to the FTS index
+    add_song_fts.bindValue(":id", id);
+    song.BindToFtsQuery(&add_song_fts);
+    add_song_fts.exec();
+    if (db_->CheckErrors(add_song_fts)) continue;
+
+    Song copy(song);
+    copy.set_id(id);
+    added_songs << copy;
+
   }
 
   transaction.Commit();
@@ -571,7 +604,7 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
   query.AddCompilationRequirement(false);
   query.AddWhere("album", "", "!=");
 
- // Albums with no 'albumartist' (extract 'artist'):
+  // Albums with no 'albumartist' (extract 'artist'):
   CollectionQuery query2(opt);
   query2.SetColumnSpec("DISTINCT artist");
   query2.AddCompilationRequirement(false);
@@ -741,6 +774,57 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
     }
   }
   return songlist;
+
+}
+
+
+Song CollectionBackend::GetSongBySongId(int song_id) {
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+  return GetSongBySongId(song_id, db);
+}
+
+SongList CollectionBackend::GetSongsBySongId(const QList<int> &song_ids) {
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  QStringList str_song_ids;
+  for (int song_id : song_ids) {
+    str_song_ids << QString::number(song_id);
+  }
+
+  return GetSongsBySongId(str_song_ids, db);
+}
+
+SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids) {
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  return GetSongsBySongId(song_ids, db);
+}
+
+Song CollectionBackend::GetSongBySongId(int song_id, QSqlDatabase &db) {
+  SongList list = GetSongsBySongId(QStringList() << QString::number(song_id), db);
+  if (list.isEmpty()) return Song();
+  return list.first();
+}
+
+SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {
+
+  QString in = song_ids.join(",");
+
+  QSqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE SONG_ID IN (%2)").arg(songs_table_, in));
+  q.exec();
+  if (db_->CheckErrors(q)) return SongList();
+
+  SongList ret;
+  while (q.next()) {
+    Song song;
+    song.InitFromQuery(q, true);
+    ret << song;
+  }
+  return ret;
 
 }
 
@@ -1143,4 +1227,3 @@ void CollectionBackend::DeleteAll() {
   emit DatabaseReset();
 
 }
-

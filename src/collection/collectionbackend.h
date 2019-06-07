@@ -178,6 +178,12 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void DeleteAll();
 
+  Song GetSongBySongId(int song_id);
+  SongList GetSongsBySongId(const QList<int> &song_ids);
+  SongList GetSongsBySongId(const QStringList &song_ids);
+  Song GetSongBySongId(int song_id, QSqlDatabase &db);
+  SongList GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db);
+
  public slots:
   void LoadDirectories();
   void UpdateTotalSongCount();
