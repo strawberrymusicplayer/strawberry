@@ -301,7 +301,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-    remove_songs_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
+    remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
     context_menu_->addSeparator();
 
     if (filter_) context_menu_->addMenu(filter_->menu());
