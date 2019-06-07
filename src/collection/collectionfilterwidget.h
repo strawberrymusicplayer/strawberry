@@ -76,7 +76,11 @@ class CollectionFilterWidget : public QWidget {
   void AddMenuAction(QAction *action);
 
   void SetSettingsGroup(const QString &group) { settings_group_ = group; }
+  void SetSettingsPrefix(const QString &prefix) { settings_prefix_ = prefix; }
   void SetCollectionModel(CollectionModel *model);
+
+  QString group_by();
+  QString group_by(const int number);
 
  public slots:
   void SetQueryMode(QueryOptions::QueryMode view);
@@ -124,6 +128,7 @@ signals:
   DelayBehaviour delay_behaviour_;
 
   QString settings_group_;
+  QString settings_prefix_;
 };
 
 #endif  // COLLECTIONFILTERWIDGET_H

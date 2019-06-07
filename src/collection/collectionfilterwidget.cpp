@@ -128,6 +128,19 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
 CollectionFilterWidget::~CollectionFilterWidget() { delete ui_; }
 
+QString CollectionFilterWidget::group_by() {
+
+  if (settings_prefix_.isEmpty()) {
+    return QString("group_by");
+  }
+  else {
+    return QString("%1_group_by").arg(settings_prefix_);
+  }
+
+}
+
+QString CollectionFilterWidget::group_by(const int number) { return group_by() + QString::number(number); }
+
 void CollectionFilterWidget::UpdateGroupByActions() {
 
   if (group_by_group_) {
@@ -247,9 +260,9 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     QSettings s;
     s.beginGroup(settings_group_);
     model_->SetGroupBy(CollectionModel::Grouping(
-        CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value("group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
-        CollectionModel::GroupBy(s.value("group_by3", int(CollectionModel::GroupBy_None)).toInt())));
+        CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_Album)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
   }
 
 }
@@ -270,9 +283,9 @@ void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g)
     // Save the settings
     QSettings s;
     s.beginGroup(settings_group_);
-    s.setValue("group_by1", int(g[0]));
-    s.setValue("group_by2", int(g[1]));
-    s.setValue("group_by3", int(g[2]));
+    s.setValue(group_by(1), int(g[0]));
+    s.setValue(group_by(2), int(g[1]));
+    s.setValue(group_by(3), int(g[2]));
   }
 
   // Now make sure the correct action is checked

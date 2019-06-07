@@ -206,9 +206,9 @@ void InternetSearchView::ReloadSettings() {
   }
 
   SetGroupBy(CollectionModel::Grouping(
-      CollectionModel::GroupBy(s.value("group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-      CollectionModel::GroupBy(s.value("group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
-      CollectionModel::GroupBy(s.value("group_by3", int(CollectionModel::GroupBy_None)).toInt())));
+      CollectionModel::GroupBy(s.value("search_group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
+      CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
+      CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
   s.endGroup();
 
 }
@@ -440,11 +440,11 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   if (artists_ || albums_ || songs_) {
     if (artists_)
-      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to artists"), this, SLOT(AddArtists()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to artists"), this, SLOT(AddArtists()));
     if (albums_)
-      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to albums"), this, SLOT(AddAlbums()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to albums"), this, SLOT(AddAlbums()));
     if (songs_)
-      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to songs"), this, SLOT(AddSongs()));
+      context_actions_ << context_menu_->addAction(IconLoader::Load("folder-new"), tr("Add to songs"), this, SLOT(AddSongs()));
     context_menu_->addSeparator();
   }
 
@@ -553,9 +553,9 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
   // Save the setting
   QSettings s;
   s.beginGroup(settings_group_);
-  s.setValue("group_by1", int(g.first));
-  s.setValue("group_by2", int(g.second));
-  s.setValue("group_by3", int(g.third));
+  s.setValue("search_group_by1", int(g.first));
+  s.setValue("search_group_by2", int(g.second));
+  s.setValue("search_group_by3", int(g.third));
   s.endGroup();
 
   // Make sure the correct action is checked.
