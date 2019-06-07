@@ -1111,12 +1111,22 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
   CollectionItem *item = InitItem(type, signal, parent, container_level);
 
   switch (type) {
+    case GroupBy_AlbumArtist:
+      item->key = s.effective_albumartist();
+      item->display_text = TextOrUnknown(item->key);
+      item->sort_text = SortTextForArtist(item->key);
+      break;
     case GroupBy_Artist:
       item->key = s.artist();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
       break;
-
+    case GroupBy_Album:
+      item->key = s.album();
+      item->display_text = TextOrUnknown(item->key);
+      item->sort_text = SortTextForArtist(item->key);
+      item->metadata.set_album_id(s.album_id());
+      break;
     case GroupBy_YearAlbum:{
       int year = qMax(0, s.year());
       item->metadata.set_year(year);
@@ -1148,26 +1158,21 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-  case GroupBy_Composer:                            item->key = s.composer();
-  case GroupBy_Performer:                           item->key = s.performer();
-  case GroupBy_Grouping:                            item->key = s.grouping();
-  case GroupBy_Genre: if (item->key.isNull())       item->key = s.genre();
-  case GroupBy_Album: if (item->key.isNull())       item->key = s.album();
-  case GroupBy_AlbumArtist: if (item->key.isNull()) item->key = s.effective_albumartist();
+    case GroupBy_Composer:  if (item->key.isNull()) item->key = s.composer();
+    case GroupBy_Performer: if (item->key.isNull()) item->key = s.performer();
+    case GroupBy_Grouping:  if (item->key.isNull()) item->key = s.grouping();
+    case GroupBy_Genre:     if (item->key.isNull()) item->key = s.genre();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
       break;
-
     case GroupBy_Disc:
       item->key = QString::number(s.disc());
       item->sort_text = SortTextForNumber(s.disc());
       break;
-
     case GroupBy_FileType:
       item->metadata.set_filetype(s.filetype());
       item->key = s.TextForFiletype();
       break;
-
     case GroupBy_Bitrate:{
       int bitrate = qMax(0, s.bitrate());
       item->key = QString::number(bitrate);
