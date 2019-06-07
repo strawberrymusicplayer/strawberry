@@ -89,8 +89,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void TotalArtistCountUpdated_();
   void TotalAlbumCountUpdated_();
   void Error(const QString &message);
-  void AddSongs(const SongList songs);
-  void RemoveSongs(const SongList songs);
+  void RemoveSongs(const SongList &songs);
 
  protected:
   // QWidget
@@ -104,7 +103,6 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void AddToPlaylistEnqueue();
   void AddToPlaylistEnqueueNext();
   void OpenInNewPlaylist();
-  void AddSongs();
   void RemoveSongs();
 
  private:
@@ -131,8 +129,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   QAction *add_to_playlist_enqueue_;
   QAction *add_to_playlist_enqueue_next_;
   QAction *open_in_new_playlist_;
-  //QAction *add_songs_;
-  //QAction *remove_songs_;
+  QAction *remove_songs_;
 
   bool is_in_keyboard_search_;
 

@@ -75,6 +75,7 @@ class TidalBaseRequest : public QObject {
 
   QString Error(QString error, QVariant debug = QVariant());
 
+  QString api_url() { return QString(kApiUrl); }
   QString token() { return service_->token(); }
   QString username() { return service_->username(); }
   QString password() { return service_->password(); }

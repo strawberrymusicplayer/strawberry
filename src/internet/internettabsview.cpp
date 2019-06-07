@@ -45,7 +45,10 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
 
   ui_->setupUi(this);
 
-  ui_->search_view->Init(app, engine, settings_group, settings_page);
+  ui_->search_view->Init(app, engine, settings_group, settings_page, service_->artists_collection_model(), service_->albums_collection_model(), service_->songs_collection_model());
+  connect(ui_->search_view, SIGNAL(AddArtistsSignal(const SongList&)), service_, SIGNAL(AddArtists(const SongList&)));
+  connect(ui_->search_view, SIGNAL(AddAlbumsSignal(const SongList&)), service_, SIGNAL(AddAlbums(const SongList&)));
+  connect(ui_->search_view, SIGNAL(AddSongsSignal(const SongList&)), service_, SIGNAL(AddSongs(const SongList&)));
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
@@ -55,6 +58,8 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->artists_collection->filter()->SetCollectionModel(service_->artists_collection_model());
 
     connect(ui_->artists_collection->view(), SIGNAL(GetSongs()), SLOT(GetArtists()));
+    connect(ui_->artists_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveArtists(const SongList&)));
+
     connect(ui_->artists_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetArtists()));
     connect(ui_->artists_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
     connect(ui_->artists_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
@@ -83,6 +88,8 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->albums_collection->filter()->SetCollectionModel(service_->albums_collection_model());
 
     connect(ui_->albums_collection->view(), SIGNAL(GetSongs()), SLOT(GetAlbums()));
+    connect(ui_->albums_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveAlbums(const SongList&)));
+
     connect(ui_->albums_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetAlbums()));
     connect(ui_->albums_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
     connect(ui_->albums_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
@@ -111,6 +118,8 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->songs_collection->filter()->SetCollectionModel(service_->songs_collection_model());
 
     connect(ui_->songs_collection->view(), SIGNAL(GetSongs()), SLOT(GetSongs()));
+    connect(ui_->songs_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveSongs(const SongList&)));
+
     connect(ui_->songs_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetSongs()));
     connect(ui_->songs_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
     connect(ui_->songs_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetSongs()));

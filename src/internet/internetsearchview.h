@@ -59,7 +59,7 @@ class InternetSearchView : public QWidget {
   InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView();
 
-  void Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page);
+  void Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, const bool artists = false, const bool albums = false, const bool songs = false);
 
   static const int kSwapModelsTimeoutMsec;
 
@@ -75,8 +75,11 @@ class InternetSearchView : public QWidget {
   void FocusSearchField();
   void OpenSettingsDialog();
 
-signals:
+ signals:
   void AddToPlaylist(QMimeData *data);
+  void AddArtistsSignal(SongList songs);
+  void AddAlbumsSignal(SongList songs);
+  void AddSongsSignal(SongList songs);
 
  private slots:
   void SwapModels();
@@ -104,6 +107,10 @@ signals:
   void SetSearchType(InternetSearch::SearchType type);
   void SetGroupBy(const CollectionModel::Grouping &g);
 
+  void AddArtists();
+  void AddAlbums();
+  void AddSongs();
+
  private:
   MimeData *SelectedMimeData();
 
@@ -116,6 +123,9 @@ signals:
   SettingsDialog::Page settings_page_;
   Ui_InternetSearchView *ui_;
   QScopedPointer<GroupByDialog> group_by_dialog_;
+  bool artists_;
+  bool albums_;
+  bool songs_;
 
   QMenu *context_menu_;
   QList<QAction*> context_actions_;

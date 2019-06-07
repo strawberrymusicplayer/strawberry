@@ -52,6 +52,7 @@
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalrequest.h"
+#include "tidalfavoriterequest.h"
 #include "tidalstreamurlrequest.h"
 #include "settings/tidalsettingspage.h"
 
@@ -87,6 +88,7 @@ TidalService::TidalService(Application *app, QObject *parent)
       songs_collection_sort_model_(new QSortFilterProxyModel(this)),
       timer_search_delay_(new QTimer(this)),
       timer_login_attempt_(new QTimer(this)),
+      favorite_request_(new TidalFavoriteRequest(this, network_, this)),
       search_delay_(1500),
       artistssearchlimit_(1),
       albumssearchlimit_(1),
@@ -150,12 +152,36 @@ TidalService::TidalService(Application *app, QObject *parent)
   connect(this, SIGNAL(Login()), SLOT(SendLogin()));
   connect(this, SIGNAL(Login(QString, QString, QString)), SLOT(SendLogin(QString, QString, QString)));
 
+  connect(this, SIGNAL(AddArtists(const SongList&)), favorite_request_, SLOT(AddArtists(const SongList&)));
+  connect(this, SIGNAL(AddAlbums(const SongList&)), favorite_request_, SLOT(AddAlbums(const SongList&)));
+  connect(this, SIGNAL(AddSongs(const SongList&)), favorite_request_, SLOT(AddSongs(const SongList&)));
+
+  connect(this, SIGNAL(RemoveArtists(const SongList&)), favorite_request_, SLOT(RemoveArtists(const SongList&)));
+  connect(this, SIGNAL(RemoveAlbums(const SongList&)), favorite_request_, SLOT(RemoveAlbums(const SongList&)));
+  connect(this, SIGNAL(RemoveSongs(const SongList&)), favorite_request_, SLOT(RemoveSongs(const SongList&)));
+
+  connect(favorite_request_, SIGNAL(ArtistsAdded(const SongList&)), artists_collection_backend_, SLOT(AddOrUpdateSongs(const SongList&)));
+  connect(favorite_request_, SIGNAL(AlbumsAdded(const SongList&)), albums_collection_backend_, SLOT(AddOrUpdateSongs(const SongList&)));
+  connect(favorite_request_, SIGNAL(SongsAdded(const SongList&)), songs_collection_backend_, SLOT(AddOrUpdateSongs(const SongList&)));
+
+  connect(favorite_request_, SIGNAL(ArtistsRemoved(const SongList&)), artists_collection_backend_, SLOT(DeleteSongs(const SongList&)));
+  connect(favorite_request_, SIGNAL(AlbumsRemoved(const SongList&)), albums_collection_backend_, SLOT(DeleteSongs(const SongList&)));
+  connect(favorite_request_, SIGNAL(SongsRemoved(const SongList&)), songs_collection_backend_, SLOT(DeleteSongs(const SongList&)));
+
   ReloadSettings();
   LoadSessionID();
 
 }
 
-TidalService::~TidalService() {}
+TidalService::~TidalService() {
+
+  while (!stream_url_requests_.isEmpty()) {
+    TidalStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
+    disconnect(stream_url_req, 0, nullptr, 0);
+    delete stream_url_req;
+  }
+
+}
 
 void TidalService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Tidal);
@@ -565,12 +591,24 @@ void TidalService::SendSearch() {
 void TidalService::GetStreamURL(const QUrl &url) {
 
   TidalStreamURLRequest *stream_url_req = new TidalStreamURLRequest(this, network_, url, this);
+  stream_url_requests_ << stream_url_req;
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
+  connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
   connect(this, SIGNAL(LoginComplete(bool, QString)), stream_url_req, SLOT(LoginComplete(bool, QString)));
 
   stream_url_req->Process();
+
+}
+
+void TidalService::HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error) {
+
+  TidalStreamURLRequest *stream_url_req = qobject_cast<TidalStreamURLRequest*>(sender());
+  if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
+  delete stream_url_req;
+  stream_url_requests_.removeAll(stream_url_req);
+
+  emit StreamURLFinished(original_url, stream_url, filetype, error);
 
 }
 

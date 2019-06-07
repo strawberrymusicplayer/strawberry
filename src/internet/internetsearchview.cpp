@@ -110,12 +110,15 @@ InternetSearchView::InternetSearchView(QWidget *parent)
 
 InternetSearchView::~InternetSearchView() { delete ui_; }
 
-void InternetSearchView::Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page) {
+void InternetSearchView::Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, const bool artists, const bool albums, const bool songs) {
 
   app_ = app;
   engine_ = engine;
   settings_group_ = settings_group;
   settings_page_ = settings_page;
+  artists_ = artists;
+  albums_ = albums;
+  songs_ = songs;
 
   front_model_ = new InternetSearchModel(engine_, this);
   back_model_ = new InternetSearchModel(engine_, this);
@@ -435,6 +438,16 @@ bool InternetSearchView::ResultsContextMenuEvent(QContextMenuEvent *event) {
 
   context_menu_->addSeparator();
 
+  if (artists_ || albums_ || songs_) {
+    if (artists_)
+      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to artists"), this, SLOT(AddArtists()));
+    if (albums_)
+      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to albums"), this, SLOT(AddAlbums()));
+    if (songs_)
+      context_actions_ << context_menu_->addAction(IconLoader::Load("document-new"), tr("Add to songs"), this, SLOT(AddSongs()));
+    context_menu_->addSeparator();
+  }
+
   if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
     context_actions_ << context_menu_->addAction(IconLoader::Load("search"), tr("Search for this"), this, SLOT(SearchForThis()));
   }
@@ -592,4 +605,34 @@ void InternetSearchView::ProgressSetMaximum(int max) {
 
 void InternetSearchView::UpdateProgress(int progress) {
   ui_->progressbar->setValue(progress);
+}
+
+void InternetSearchView::AddArtists() {
+
+  MimeData *data = SelectedMimeData();
+  if (!data) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+    emit AddArtistsSignal(internet_song_data->songs);
+  }
+
+}
+
+void InternetSearchView::AddAlbums() {
+
+  MimeData *data = SelectedMimeData();
+  if (!data) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+    emit AddAlbumsSignal(internet_song_data->songs);
+  }
+
+}
+
+void InternetSearchView::AddSongs() {
+
+  MimeData *data = SelectedMimeData();
+  if (!data) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+    emit AddSongsSignal(internet_song_data->songs);
+  }
+
 }

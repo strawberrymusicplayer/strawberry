@@ -50,7 +50,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
  signals:
   void TryLogin();
-  void StreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType, QString error = QString());
+  void StreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error = QString());
 
  private slots:
   void LoginComplete(bool success, QString error = QString());

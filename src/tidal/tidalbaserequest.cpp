@@ -96,9 +96,6 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, 
     replies_.removeAll(reply);
     reply->deleteLater();
   }
-  else {
-    return QByteArray();
-  }
 
   QByteArray data;
 

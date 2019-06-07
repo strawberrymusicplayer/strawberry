@@ -301,9 +301,8 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-    //add_songs_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Add songs"), this, SLOT(AddSongs()));
-    //remove_songs_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Remove songs"), this, SLOT(RemoveSongs()));
-    //context_menu_->addSeparator();
+    remove_songs_ = context_menu_->addAction(IconLoader::Load("document-new"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
+    context_menu_->addSeparator();
 
     if (filter_) context_menu_->addMenu(filter_->menu());
 
@@ -321,8 +320,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
   add_to_playlist_->setEnabled(songs_selected);
   open_in_new_playlist_->setEnabled(songs_selected);
   add_to_playlist_enqueue_->setEnabled(songs_selected);
-  //add_songs_->setEnabled(songs_selected);
-  //remove_songs_->setEnabled(songs_selected);
+  remove_songs_->setEnabled(songs_selected);
 
   context_menu_->popup(e->globalPos());
 
@@ -371,13 +369,6 @@ void InternetCollectionView::OpenInNewPlaylist() {
     mime_data->open_in_new_playlist_ = true;
   }
   emit AddToPlaylistSignal(data);
-
-}
-
-
-void InternetCollectionView::AddSongs() {
-
-  emit AddSongs(GetSelectedSongs());
 
 }
 

@@ -41,7 +41,13 @@ TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAcces
     need_login_(false) {}
 
 TidalStreamURLRequest::~TidalStreamURLRequest() {
-  Cancel();
+
+  if (reply_) {
+    disconnect(reply_, 0, nullptr, 0);
+    if (reply_->isRunning()) reply_->abort();
+    reply_->deleteLater();
+  }
+
 }
 
 void TidalStreamURLRequest::LoginComplete(bool success, QString error) {
@@ -71,12 +77,11 @@ void TidalStreamURLRequest::Process() {
 
 void TidalStreamURLRequest::Cancel() {
 
-  if (reply_) {
-    if (reply_->isRunning()) {
-      reply_->abort();
-    }
-    reply_->deleteLater();
-    reply_ = nullptr;
+  if (reply_ && reply_->isRunning()) {
+    reply_->abort();
+  }
+  else {
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, "Cancelled.");
   }
 
 }
@@ -89,7 +94,9 @@ void TidalStreamURLRequest::GetStreamURL() {
   parameters << Param("soundQuality", quality());
 
   if (reply_) {
-    Cancel();
+    disconnect(reply_, 0, nullptr, 0);
+    if (reply_->isRunning()) reply_->abort();
+    reply_->deleteLater();
   }
   reply_ = CreateRequest(QString("tracks/%1/streamUrl").arg(song_id_), parameters);
   connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
@@ -114,16 +121,15 @@ void TidalStreamURLRequest::StreamURLReceived() {
     emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, error);
     return;
   }
+  reply_ = nullptr;
 
   QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
-    reply_ = nullptr;
     emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, error);
     return;
   }
 
   if (!json_obj.contains("url") || !json_obj.contains("codec")) {
-    reply_ = nullptr;
     error = Error("Invalid Json reply, stream missing url or codec.", json_obj);
     emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, error);
     return;
@@ -138,8 +144,5 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   emit StreamURLFinished(original_url_, new_url, filetype, QString());
-
-  reply_ = nullptr;
-  deleteLater();
 
 }

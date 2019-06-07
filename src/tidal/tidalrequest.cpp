@@ -440,7 +440,7 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
 
 void TidalRequest::AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
   --albums_requests_active_;
-  AlbumsReceived(reply, 0, limit_requested, offset_requested);
+  AlbumsReceived(reply, 0, limit_requested, offset_requested, (offset_requested == 0));
 }
 
 void TidalRequest::AddArtistAlbumsRequest(const int artist_id, const int offset) {
@@ -474,14 +474,14 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const int art
   --artist_albums_requests_active_;
   ++artist_albums_received_;
   emit UpdateProgress(artist_albums_received_);
-  AlbumsReceived(reply, artist_id, 0, offset_requested);
+  AlbumsReceived(reply, artist_id, 0, offset_requested, false);
 
 }
 
-void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, const int limit_requested, const int offset_requested) {
+void TidalRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id, const int limit_requested, const int offset_requested, const bool auto_login) {
 
   QString error;
-  QByteArray data = GetReplyData(reply, error, (type_ == QueryType_Albums|| type_ == QueryType_SearchAlbums));
+  QByteArray data = GetReplyData(reply, error, auto_login);
 
   if (data.isEmpty()) {
     AlbumsFinishCheck(artist_id);
@@ -667,10 +667,10 @@ void TidalRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requ
 
   --songs_requests_active_;
   if (type_ == QueryType_SearchSongs && service_->fetchalbums()) {
-    AlbumsReceived(reply, 0, limit_requested, offset_requested);
+    AlbumsReceived(reply, 0, limit_requested, offset_requested, (offset_requested == 0));
   }
   else {
-    SongsReceived(reply, 0, 0, limit_requested, offset_requested);
+    SongsReceived(reply, 0, 0, limit_requested, offset_requested, (offset_requested == 0));
   }
 
 }
@@ -710,14 +710,14 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artis
   if (offset_requested == 0) {
     emit UpdateProgress(album_songs_received_);
   }
-  SongsReceived(reply, artist_id, album_id, 0, offset_requested, album_artist);
+  SongsReceived(reply, artist_id, album_id, 0, offset_requested, false, album_artist);
 
 }
 
-void TidalRequest::SongsReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int limit_requested, const int offset_requested, const QString album_artist) {
+void TidalRequest::SongsReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int limit_requested, const int offset_requested, const bool auto_login, const QString album_artist) {
 
   QString error;
-  QByteArray data = GetReplyData(reply, error, false);
+  QByteArray data = GetReplyData(reply, error, auto_login);
 
   if (data.isEmpty()) {
     SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, 0, 0, album_artist);
