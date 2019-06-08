@@ -177,6 +177,7 @@ void BackendSettingsPage::ConnectSignals() {
   connect(ui_->checkbox_fadeout_stop, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+  connect(ui_->checkbox_volume_control, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
 
 }
 
@@ -609,7 +610,7 @@ void BackendSettingsPage::FadingOptionsChanged() {
 
   if (EngineInitialised()) {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-    if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty())) {
+    if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty()) && ui_->checkbox_volume_control->isChecked()) {
       ui_->groupbox_fading->setDisabled(false);
     }
     else {
