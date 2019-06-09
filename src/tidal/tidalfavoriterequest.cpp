@@ -143,7 +143,8 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
   QNetworkRequest req(url);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(AddFavoritesReply(QNetworkReply*, const FavoriteType, const SongList&)), reply, type, songs);
@@ -233,9 +234,6 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const int id, const SongList &songs) {
 
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
   ParamList params = ParamList() << Param("countryCode", country_code());
 
   QStringList query_items;
@@ -250,7 +248,8 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const int id
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QNetworkReply *reply = network_->deleteResource(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoveFavoritesReply(QNetworkReply*, const FavoriteType, const SongList&)), reply, type, songs);
   replies_ << reply;

@@ -164,6 +164,8 @@ class TidalRequest : public TidalBaseRequest {
   int search_id_;
   QString search_text_;
 
+  bool finished_;
+
   QQueue<Request> artists_requests_queue_;
   QQueue<Request> albums_requests_queue_;
   QQueue<Request> songs_requests_queue_;
@@ -199,7 +201,7 @@ class TidalRequest : public TidalBaseRequest {
   QString errors_;
   bool need_login_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
+  QList<QNetworkReply*> album_cover_replies_;
 
 };
 

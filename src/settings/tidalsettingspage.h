@@ -38,15 +38,23 @@ class TidalSettingsPage : public SettingsPage {
 
   static const char *kSettingsGroup;
 
+  enum StreamUrlMethod {
+    StreamUrlMethod_StreamUrl,
+    StreamUrlMethod_UrlPostPaywall,
+    StreamUrlMethod_PlaybackInfoPostPaywall,
+  };
+
   void Load();
   void Save();
 
   bool eventFilter(QObject *object, QEvent *event);
 
  signals:
+  void Login();
   void Login(const QString &username, const QString &password, const QString &token);
 
  private slots:
+  void OAuthClicked(bool enabled);
   void LoginClicked();
   void LogoutClicked();
   void LoginSuccess();

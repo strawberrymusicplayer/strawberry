@@ -67,16 +67,23 @@ class TidalBaseRequest : public QObject {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
+  typedef QPair<QByteArray, QByteArray> EncodedParam;
+  typedef QList<EncodedParam> EncodedParamList;
+
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply, QString &error, const bool send_login);
   QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
   QJsonValue ExtractItems(QByteArray &data, QString &error);
   QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
 
-  QString Error(QString error, QVariant debug = QVariant());
+  virtual QString Error(QString error, QVariant debug = QVariant());
 
   QString api_url() { return QString(kApiUrl); }
-  QString token() { return service_->token(); }
+  const bool oauth() { return service_->oauth(); }
+  QString client_id() { return service_->client_id(); }
+  QString api_token() { return service_->api_token(); }
+  quint64 user_id() { return service_->user_id(); }
+  QString country_code() { return service_->country_code(); }
   QString username() { return service_->username(); }
   QString password() { return service_->password(); }
   QString quality() { return service_->quality(); }
@@ -86,9 +93,8 @@ class TidalBaseRequest : public QObject {
   bool fetchalbums() { return service_->fetchalbums(); }
   QString coversize() { return service_->coversize(); }
 
+  QString access_token() { return service_->access_token(); }
   QString session_id() { return service_->session_id(); }
-  quint64 user_id() { return service_->user_id(); }
-  QString country_code() { return service_->country_code(); }
 
   bool authenticated() { return service_->authenticated(); }
   bool need_login() { return need_login(); }
@@ -101,7 +107,6 @@ class TidalBaseRequest : public QObject {
  private:
 
   static const char *kApiUrl;
-  static const char *kApiTokenB64;
 
   TidalService *service_;
   NetworkAccessManager *network_;

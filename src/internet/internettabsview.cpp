@@ -185,6 +185,11 @@ void InternetTabsView::contextMenuEvent(QContextMenuEvent *e) {
 
 void InternetTabsView::GetArtists() {
 
+  if (!service_->authenticated() && service_->oauth()) {
+    service_->ShowConfig();
+    return;
+  }
+
   ui_->artists_collection->status()->clear();
   ui_->artists_collection->progressbar()->show();
   ui_->artists_collection->button_abort()->show();
@@ -224,6 +229,11 @@ void InternetTabsView::ArtistsFinished(SongList songs) {
 
 void InternetTabsView::GetAlbums() {
 
+  if (!service_->authenticated() && service_->oauth()) {
+    service_->ShowConfig();
+    return;
+  }
+
   ui_->albums_collection->status()->clear();
   ui_->albums_collection->progressbar()->show();
   ui_->albums_collection->button_abort()->show();
@@ -262,6 +272,11 @@ void InternetTabsView::AlbumsFinished(SongList songs) {
 }
 
 void InternetTabsView::GetSongs() {
+
+  if (!service_->authenticated() && service_->oauth()) {
+    service_->ShowConfig();
+    return;
+  }
 
   ui_->songs_collection->status()->clear();
   ui_->songs_collection->progressbar()->show();

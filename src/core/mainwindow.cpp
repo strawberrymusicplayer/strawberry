@@ -135,6 +135,7 @@
 #include "settings/backendsettingspage.h"
 #include "settings/playlistsettingspage.h"
 #ifdef HAVE_TIDAL
+#  include "tidal/tidalservice.h"
 #  include "settings/tidalsettingspage.h"
 #endif
 
@@ -548,6 +549,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(tidal_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal));
+  if (tidalservice)
+    connect(this, SIGNAL(AuthorisationUrlReceived(const QUrl&)), tidalservice, SLOT(AuthorisationUrlReceived(const QUrl&)));
+
 #endif
 
   // Playlist menu
@@ -1797,6 +1802,7 @@ void MainWindow::CommandlineOptionsReceived(const quint32 instanceId, const QByt
 }
 
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
+
   switch (options.player_action()) {
     case CommandlineOptions::Player_Play:
       if (options.urls().empty()) {
@@ -1830,6 +1836,15 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   }
 
   if (!options.urls().empty()) {
+
+#ifdef HAVE_TIDAL
+    for (const QUrl url : options.urls()) {
+      if (url.scheme() == "tidal" && url.host() == "login") {
+        emit AuthorisationUrlReceived(url);
+        return;
+      }
+    }
+#endif
     MimeData *data = new MimeData;
     data->setUrls(options.urls());
     // Behaviour depends on command line options, so set it here

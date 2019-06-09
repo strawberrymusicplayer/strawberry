@@ -131,6 +131,8 @@ signals:
 
   void IntroPointReached();
 
+  void AuthorisationUrlReceived(const QUrl &url);
+
  private slots:
   void FilePathChanged(const QString& path);
 

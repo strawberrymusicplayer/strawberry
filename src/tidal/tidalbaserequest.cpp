@@ -40,7 +40,6 @@
 #include "tidalbaserequest.h"
 
 const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
-const char *TidalBaseRequest::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 
 TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
@@ -53,7 +52,7 @@ TidalBaseRequest::~TidalBaseRequest() {
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
     disconnect(reply, 0, nullptr, 0);
-    reply->abort();
+    if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
 
@@ -61,11 +60,7 @@ TidalBaseRequest::~TidalBaseRequest() {
 
 QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
   ParamList params = ParamList() << params_provided
-                           << Param("sessionId", session_id())
                            << Param("countryCode", country_code());
 
   QStringList query_items;
@@ -80,7 +75,9 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
 
@@ -129,7 +126,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, 
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         emit service_->Logout();
-        if (send_login && login_attempts() < max_login_attempts() && !token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
+        if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
           qLog(Error) << "Tidal:" << failure_reason;
           qLog(Info) << "Tidal:" << "Attempting to login.";
           NeedLogin();
