@@ -229,6 +229,9 @@ class TidalService : public InternetService {
   bool login_sent_;
   int login_attempts_;
 
+  QString code_verifier_;
+  QString code_challenge_;
+
   QList<TidalStreamURLRequest*> stream_url_requests_;
 
 };

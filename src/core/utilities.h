@@ -150,6 +150,7 @@ bool IsLaptop();
 
 QString GetRandomStringWithChars(const int len);
 QString GetRandomStringWithCharsAndNumbers(const int len);
+QString CryptographicRandomString(const int len);
 QString GetRandomString(const int len, const QString &UseCharacters);
 
 QString DesktopEnvironment();

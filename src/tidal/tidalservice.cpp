@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QStandardPaths>
 #include <QDesktopServices>
+#include <QCryptographicHash>
 #include <QByteArray>
 #include <QPair>
 #include <QList>
@@ -47,6 +48,7 @@
 #include "core/network.h"
 #include "core/database.h"
 #include "core/song.h"
+#include "core/utilities.h"
 #include "internet/internetsearch.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -241,14 +243,19 @@ void TidalService::StartAuthorisation() {
   timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
   timer_login_attempt_->start();
 
-  const ParamList params = ParamList()
-                                 //<< Param("response_type", "token")
-                                 << Param("response_type", "code")
-                                 << Param("code_challenge", "T36p0vieh1pnvNNsG-0kNNpZIk4ZuP8vna5ZAtooxqo")
-                                 << Param("code_challenge_method", "S256")
-                                 << Param("redirect_uri", kOAuthRedirectUrl)
-                                 << Param("client_id", client_id_)
-                                 << Param("scope", "r_usr w_usr");
+  code_verifier_ = Utilities::CryptographicRandomString(44);
+  code_challenge_ = QString(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
+
+  if (code_challenge_.lastIndexOf(QChar('=')) == code_challenge_.length() - 1) {
+    code_challenge_.chop(1);
+  }
+
+  const ParamList params = ParamList() << Param("response_type", "code")
+                                       << Param("code_challenge", code_challenge_)
+                                       << Param("code_challenge_method", "S256")
+                                       << Param("redirect_uri", kOAuthRedirectUrl)
+                                       << Param("client_id", client_id_)
+                                       << Param("scope", "r_usr w_usr");
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -296,11 +303,11 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
     QString state = url_query.queryItemValue("state");
 
     const ParamList params = ParamList() << Param("code", code)
-                                   << Param("client_id", client_id_)
-                                   << Param("grant_type", "authorization_code")
-                                   << Param("redirect_uri", kOAuthRedirectUrl)
-                                   << Param("scope", "r_usr w_usr")
-                                   << Param("code_verifier", "128,113,65,59,36,187,64,14,99,32,149,202,178,5,165,106,14,184,157,42,5,198,243,245,75,115,227,169,183,199,216,67,42,202,105,33,1");
+                                         << Param("client_id", client_id_)
+                                         << Param("grant_type", "authorization_code")
+                                         << Param("redirect_uri", kOAuthRedirectUrl)
+                                         << Param("scope", "r_usr w_usr")
+                                         << Param("code_verifier", code_verifier_);
 
     QUrlQuery url_query;
     for (const Param &param : params) {
@@ -344,9 +351,11 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
       QString failure_reason;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("redirectUri")) {
-          QString redirect_uri = json_obj["redirectUri"].toString();
-          failure_reason = QString("Authentication failure: %1").arg(redirect_uri);
+        if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
+          int status = json_obj["status"].toInt();
+          int sub_status = json_obj["subStatus"].toInt();
+          QString user_message = json_obj["userMessage"].toString();
+          failure_reason = QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
       if (failure_reason.isEmpty()) {

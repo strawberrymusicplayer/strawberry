@@ -731,6 +731,11 @@ QString GetRandomStringWithCharsAndNumbers(const int len) {
   return GetRandomString(len, UseCharacters);
 }
 
+QString CryptographicRandomString(const int len) {
+  const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~");
+  return GetRandomString(len, UseCharacters);
+}
+
 QString GetRandomString(const int len, const QString &UseCharacters) {
 
    QString randstr;
