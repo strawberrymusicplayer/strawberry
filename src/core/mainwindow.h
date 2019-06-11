@@ -255,6 +255,8 @@ signals:
 
   void ScrobblingEnabledChanged(bool value);
   void ScrobbleButtonVisibilityChanged(bool value);
+  void LoveButtonVisibilityChanged(bool value);
+  void Love();
 
  private:
 

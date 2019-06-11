@@ -414,6 +414,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     << Param("artist", song.artist())
     << Param("track", song.title())
     << Param("album", album);
+  if (!song.albumartist().isEmpty()) params << Param("albumArtist", song.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(UpdateNowPlayingRequestFinished(QNetworkReply*)), reply);
@@ -447,6 +448,10 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
     return;
   }
 
+}
+
+void ScrobblingAPI20::ClearPlaying() {
+  song_playing_ = Song();
 }
 
 void ScrobblingAPI20::Scrobble(const Song &song) {
@@ -488,14 +493,13 @@ void ScrobblingAPI20::DoSubmit() {
 
 void ScrobblingAPI20::Submit() {
 
-  qLog(Debug) << __PRETTY_FUNCTION__ << name_;
-
   submitted_ = false;
 
   if (!IsEnabled() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
 
-  ParamList params = ParamList()
-    << Param("method", "track.scrobble");
+  qLog(Debug) << name_ << "Submitting scrobbles.";
+
+  ParamList params = ParamList() << Param("method", "track.scrobble");
 
   int i(0);
   QList<quint64> list;
@@ -820,18 +824,73 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
 
 }
 
-void ScrobblingAPI20::Love(const Song &song) {
+void ScrobblingAPI20::Love() {
+
+  if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
   if (!IsAuthenticated()) app_->scrobbler()->ShowConfig();
 
+  qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
+
   ParamList params = ParamList()
     << Param("method", "track.love")
-    << Param("artist", song.artist())
-    << Param("track", song.title())
-    << Param("album", song.album());
+    << Param("artist", song_playing_.artist())
+    << Param("track", song_playing_.title())
+    << Param("album", song_playing_.album());
+  if (!song_playing_.albumartist().isEmpty()) params << Param("albumArtist", song_playing_.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*)), reply);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(LoveRequestFinished(QNetworkReply*)), reply);
+
+}
+
+void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
+
+  reply->deleteLater();
+
+  QByteArray data = GetReplyData(reply);
+  if (data.isEmpty()) {
+    return;
+  }
+
+  QJsonObject json_obj = ExtractJsonObj(data, true);
+  if (json_obj.isEmpty()) {
+    return;
+  }
+
+  if (json_obj.contains("error")) {
+    QJsonValue json_value = json_obj["error"];
+    if (!json_value.isObject()) {
+      Error("Error is not on object.");
+      return;
+    }
+    QJsonObject json_obj_error = json_value.toObject();
+    if (json_obj_error.isEmpty()) {
+      Error("Received empty json error object.", json_obj);
+      return;
+    }
+    if (json_obj_error.contains("code") && json_obj_error.contains("#text")) {
+      int code = json_obj_error["code"].toInt();
+      QString text = json_obj_error["#text"].toString();
+      QString error_reason = QString("%1 (%2)").arg(text).arg(code);
+      Error(error_reason);
+      return;
+    }
+  }
+
+  if (json_obj.contains("lfm")) {
+    QJsonValue json_value = json_obj["lfm"];
+    if (json_value.isObject()) {
+      QJsonObject json_obj_lfm = json_value.toObject();
+      if (json_obj_lfm.contains("status")) {
+        QString status = json_obj_lfm["status"].toString();
+        qLog(Debug) << name_ << "Received love status:" << status;
+        return;
+      }
+    }
+  }
+
+  qLog(Debug) << name_ << json_obj;
 
 }
 

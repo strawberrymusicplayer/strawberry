@@ -39,7 +39,7 @@ class SystemTrayIcon : public QObject {
   SystemTrayIcon(QObject *parent = nullptr);
 
   // Called once to create the icon's context menu
-  virtual void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit) = 0;
+  virtual void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) = 0;
 
   virtual bool IsVisible() const { return true; }
   virtual void SetVisible(bool visible) {}
@@ -60,6 +60,8 @@ class SystemTrayIcon : public QObject {
   virtual void SetPaused();
   virtual void SetPlaying(bool enable_play_pause = false);
   virtual void SetStopped();
+  virtual void LoveVisibilityChanged(bool value) {}
+  virtual void LoveStateChanged(bool value) {}
   virtual void MuteButtonStateChanged(bool value) {}
 
  signals:

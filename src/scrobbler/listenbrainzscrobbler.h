@@ -65,8 +65,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void ShowConfig();
   void Submit();
   void UpdateNowPlaying(const Song &song);
+  void ClearPlaying();
   void Scrobble(const Song &song);
-  void Love(const Song &song);
 
  signals:
   void AuthenticationComplete(bool success, QString error = QString());

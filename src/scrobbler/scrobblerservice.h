@@ -49,8 +49,9 @@ class ScrobblerService : public QObject {
   virtual bool IsAuthenticated() const { return false; }
 
   virtual void UpdateNowPlaying(const Song &song) = 0;
+  virtual void ClearPlaying() = 0;
   virtual void Scrobble(const Song &song) = 0;
-  virtual void Love(const Song &song) = 0;
+  virtual void Love() {}
   virtual void Error(QString error, QVariant debug = QVariant()) = 0;
 
   virtual void DoSubmit() = 0;
@@ -61,7 +62,7 @@ class ScrobblerService : public QObject {
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<Param> ParamList;
 
-  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonObject ExtractJsonObj(const QByteArray &data, const bool ignore_empty = false);
 
  public slots:
   virtual void Submit() = 0;

@@ -85,6 +85,7 @@ class GlobalShortcuts : public QWidget {
   void CycleRepeatMode();
   void RemoveCurrentSong();
   void ToggleScrobbling();
+  void Love();
 
  private:
   void AddShortcut(const QString &id, const QString &name, const char *signal, const QKeySequence &default_key = QKeySequence(0));

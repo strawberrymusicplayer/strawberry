@@ -179,6 +179,41 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QWidget" name="widget_love" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <property name="spacing">
+                    <number>1</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="Line" name="line_love">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="button_love">
+                     <property name="autoRaise">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
                  <widget class="Line" name="line_buttons">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -407,7 +442,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>27</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -424,6 +459,7 @@
     <addaction name="separator"/>
     <addaction name="action_mute"/>
     <addaction name="separator"/>
+    <addaction name="action_love"/>
     <addaction name="separator"/>
     <addaction name="action_quit"/>
    </widget>
@@ -526,6 +562,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+V</string>
+   </property>
+  </action>
+  <action name="action_love">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Love</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+L</string>
    </property>
   </action>
   <action name="action_clear_playlist">

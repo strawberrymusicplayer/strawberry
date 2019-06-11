@@ -49,6 +49,7 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   enabled_(false),
   offline_(false),
   scrobble_button_(false),
+  love_button_(false),
   submit_delay_(0)
   {
 
@@ -69,11 +70,13 @@ void AudioScrobbler::ReloadSettings() {
   enabled_ = s.value("enabled", false).toBool();
   offline_ = s.value("offline", false).toBool();
   scrobble_button_ = s.value("scrobble_button", false).toBool();
+  love_button_ = s.value("love_button", false).toBool();
   submit_delay_ = s.value("submit", 0).toInt();
   s.endGroup();
 
   emit ScrobblingEnabledChanged(enabled_);
   emit ScrobbleButtonVisibilityChanged(scrobble_button_);
+  emit LoveButtonVisibilityChanged(love_button_);
 
   for (ScrobblerService *service : scrobbler_services_->List()) {
     service->ReloadSettings();
@@ -116,25 +119,32 @@ void AudioScrobbler::ShowConfig() {
 }
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {
-  qLog(Debug) << "Sending now playing for song" << song.title();
+  qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->UpdateNowPlaying(song);
   }
 }
 
+void AudioScrobbler::ClearPlaying() {
+  for (ScrobblerService *service : scrobbler_services_->List()) {
+    if (!service->IsEnabled()) continue;
+    service->ClearPlaying();
+  }
+}
+
 void AudioScrobbler::Scrobble(const Song &song, const int scrobble_point) {
-  qLog(Debug) << "Scrobbling song" << QString("") + song.title() + QString("") << "at" << scrobble_point;
+  qLog(Debug) << "Scrobbling song" << song.artist() << song.album() << song.title() << "at" << scrobble_point;
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->Scrobble(song);
   }
 }
 
-void AudioScrobbler::Love(const Song &song) {
+void AudioScrobbler::Love() {
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated()) continue;
-    service->Love(song);
+    service->Love();
   }
 }
 

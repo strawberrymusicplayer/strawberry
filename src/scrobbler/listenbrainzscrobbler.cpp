@@ -340,7 +340,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   album = album.remove(Song::kAlbumRemoveMisc);
 
   QJsonObject object_track_metadata;
-  object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
+  object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.effective_albumartist()));
   object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(song.title()));
 
@@ -392,6 +392,10 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
     Error(status);
   }
 
+}
+
+void ListenBrainzScrobbler::ClearPlaying() {
+  song_playing_ = Song();
 }
 
 void ListenBrainzScrobbler::Scrobble(const Song &song) {
@@ -450,7 +454,8 @@ void ListenBrainzScrobbler::Submit() {
     QJsonObject object_listen;
     object_listen.insert("listened_at", QJsonValue::fromVariant(item->timestamp_));
     QJsonObject object_track_metadata;
-    object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
+    if (item->albumartist_.isEmpty()) object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
+    else object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->albumartist_));
     object_track_metadata.insert("release_name", QJsonValue::fromVariant(item->album_));
     object_track_metadata.insert("track_name", QJsonValue::fromVariant(item->song_));
     object_listen.insert("track_metadata", object_track_metadata);
@@ -507,8 +512,6 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
   DoSubmit();
 
 }
-
-void ListenBrainzScrobbler::Love(const Song &song) {}
 
 void ListenBrainzScrobbler::AuthError(QString error) {
   emit AuthenticationComplete(false, error);

@@ -69,9 +69,10 @@ class ScrobblingAPI20 : public ScrobblerService {
   void Authenticate(const bool https = false);
   void Logout();
   void UpdateNowPlaying(const Song &song);
+  void ClearPlaying();
   void Scrobble(const Song &song);
   void Submit();
-  void Love(const Song &song);
+  void Love();
 
  signals:
   void AuthenticationComplete(bool success, QString error = QString());
@@ -85,6 +86,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
   void SingleScrobbleRequestFinished(QNetworkReply *reply, quint64 timestamp);
+  void LoveRequestFinished(QNetworkReply *reply);
 
  private:
 

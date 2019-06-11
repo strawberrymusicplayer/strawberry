@@ -52,6 +52,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_love_button">
+     <property name="text">
+      <string>Show love button</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="layout_submit">
      <item>
       <widget class="QLabel" name="label_submit">

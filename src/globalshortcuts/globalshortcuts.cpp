@@ -80,6 +80,7 @@ GlobalShortcuts::GlobalShortcuts(QWidget *parent)
   AddShortcut("shuffle_mode", "Change shuffle mode", SIGNAL(CycleShuffleMode()));
   AddShortcut("repeat_mode", "Change repeat mode", SIGNAL(CycleRepeatMode()));
   AddShortcut("toggle_scrobbling", "Enable/disable scrobbling", SIGNAL(ToggleScrobbling()));
+  AddShortcut("love", "Love", SIGNAL(Love()));
 
   // Create backends - these do the actual shortcut registration
 #ifdef HAVE_DBUS

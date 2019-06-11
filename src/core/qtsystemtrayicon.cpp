@@ -131,7 +131,7 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
 
 }
 
-void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit) {
+void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) {
 
   // Creating new actions and connecting them to old ones.
   // This allows us to use old actions without displaying shortcuts that can not be used when Strawberry's window is hidden
@@ -147,6 +147,9 @@ void QtSystemTrayIcon::SetupMenu(QAction *previous, QAction *play, QAction *stop
   action_mute_->setChecked(mute->isChecked());
 
   menu_->addSeparator();
+  action_love_ = menu_->addAction(love->icon(), love->text(), love, SLOT(trigger()));
+  action_love_->setVisible(love->isVisible());
+  action_love_->setEnabled(love->isEnabled());
   menu_->addSeparator();
   menu_->addAction(quit->icon(), quit->text(), quit, SLOT(trigger()));
 
@@ -216,6 +219,8 @@ void QtSystemTrayIcon::SetStopped() {
 
   action_play_pause_->setEnabled(true);
 
+  action_love_->setEnabled(false);
+
 }
 
 void QtSystemTrayIcon::MuteButtonStateChanged(bool value) {
@@ -277,4 +282,12 @@ void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path
 
 void QtSystemTrayIcon::ClearNowPlaying() {
   tray_->setToolTip(app_name_);
+}
+
+void QtSystemTrayIcon::LoveVisibilityChanged(bool value) {
+  action_love_->setVisible(value);
+}
+
+void QtSystemTrayIcon::LoveStateChanged(bool value) {
+  action_love_->setEnabled(value);
 }

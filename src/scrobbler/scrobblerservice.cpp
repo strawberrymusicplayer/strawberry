@@ -30,7 +30,7 @@
 
 ScrobblerService::ScrobblerService(const QString &name, Application *app, QObject *parent) : QObject(parent), name_(name) {}
 
-QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data) {
+QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data, const bool ignore_empty) {
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
@@ -49,7 +49,8 @@ QJsonObject ScrobblerService::ExtractJsonObj(const QByteArray &data) {
   }
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
+    if (!ignore_empty)
+      Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
 

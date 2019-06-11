@@ -359,7 +359,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Scrobble
 
-  ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
+  ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled"));
+  ui_->action_love->setIcon(IconLoader::Load("love"));
 
   // File view connections
   connect(file_view_, SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
@@ -419,6 +420,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 
   connect(ui_->action_toggle_scrobbling, SIGNAL(triggered()), app_->scrobbler(), SLOT(ToggleScrobbling()));
+  connect(ui_->action_love, SIGNAL(triggered()), SLOT(Love()));
   connect(app_->scrobbler(), SIGNAL(ErrorMessage(QString)), SLOT(ShowErrorDialog(QString)));
 
   // Playlist view actions
@@ -435,6 +437,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->pause_play_button->setDefaultAction(ui_->action_play_pause);
   ui_->stop_button->setDefaultAction(ui_->action_stop);
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
+  ui_->button_love->setDefaultAction(ui_->action_love);
 
   ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist,    /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */ );
 
@@ -615,13 +618,14 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   connect(app_->scrobbler(), SIGNAL(ScrobblingEnabledChanged(bool)), SLOT(ScrobblingEnabledChanged(bool)));
   connect(app_->scrobbler(), SIGNAL(ScrobbleButtonVisibilityChanged(bool)), SLOT(ScrobbleButtonVisibilityChanged(bool)));
+  connect(app_->scrobbler(), SIGNAL(LoveButtonVisibilityChanged(bool)), SLOT(LoveButtonVisibilityChanged(bool)));
 
 #ifdef Q_OS_MACOS
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
   if (tray_icon_) {
-    tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_quit);
+    tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
     connect(tray_icon_, SIGNAL(PlayPause()), app_->player(), SLOT(PlayPause()));
     connect(tray_icon_, SIGNAL(SeekForward()), app_->player(), SLOT(SeekForward()));
     connect(tray_icon_, SIGNAL(SeekBackward()), app_->player(), SLOT(SeekBackward()));
@@ -632,7 +636,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   }
 
   // Windows 7 thumbbar buttons
-  thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr); // spacer
+  thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 
 #if (defined(Q_OS_MACOS) && defined(HAVE_SPARKLE))
   // Add check for updates item to application menu.
@@ -659,6 +663,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(global_shortcuts_, SIGNAL(ShowOSD()), app_->player(), SLOT(ShowOSD()));
   connect(global_shortcuts_, SIGNAL(TogglePrettyOSD()), app_->player(), SLOT(TogglePrettyOSD()));
   connect(global_shortcuts_, SIGNAL(ToggleScrobbling()), app_->scrobbler(), SLOT(ToggleScrobbling()));
+  connect(global_shortcuts_, SIGNAL(Love()), app_->scrobbler(), SLOT(Love()));
 #endif
 
   // Fancy tabs
@@ -725,6 +730,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->playlist_manager()->sequence(), SIGNAL(ShuffleModeChanged(PlaylistSequence::ShuffleMode)), osd_, SLOT(ShuffleModeChanged(PlaylistSequence::ShuffleMode)));
 
   ScrobbleButtonVisibilityChanged(app_->scrobbler()->ScrobbleButton());
+  LoveButtonVisibilityChanged(app_->scrobbler()->LoveButton());
   ScrobblingEnabledChanged(app_->scrobbler()->IsEnabled());
 
   // Load settings
@@ -913,6 +919,10 @@ void MainWindow::MediaStopped() {
 
   ui_->action_play_pause->setEnabled(true);
 
+  ui_->action_love->setEnabled(false);
+  ui_->button_love->setEnabled(false);
+  if (tray_icon_) tray_icon_->LoveStateChanged(false);
+
   track_position_timer_->stop();
   track_slider_timer_->stop();
   ui_->track_slider->SetStopped();
@@ -924,6 +934,8 @@ void MainWindow::MediaStopped() {
   song_playing_ = Song();
   song_ = Song();
   image_original_ = QImage();
+
+  app_->scrobbler()->ClearPlaying();
 
 }
 
@@ -939,7 +951,9 @@ void MainWindow::MediaPaused() {
   track_position_timer_->stop();
   track_slider_timer_->stop();
 
-  if (tray_icon_) tray_icon_->SetPaused();
+  if (tray_icon_) {
+    tray_icon_->SetPaused();
+  }
 
 }
 
@@ -971,6 +985,9 @@ void MainWindow::MediaPlaying() {
   if (app_->scrobbler()->IsEnabled() && playlist && !playlist->nowplaying() && item->Metadata().is_metadata_good() && item->Metadata().length_nanosec() > 0) {
     app_->scrobbler()->UpdateNowPlaying(item->Metadata());
     playlist->set_nowplaying(true);
+    ui_->action_love->setEnabled(true);
+    ui_->button_love->setEnabled(true);
+    if (tray_icon_) tray_icon_->LoveStateChanged(true);
   }
 
 }
@@ -2409,9 +2426,21 @@ void MainWindow::ScrobblingEnabledChanged(bool value) {
 }
 
 void MainWindow::ScrobbleButtonVisibilityChanged(bool value) {
+
   ui_->button_scrobble->setVisible(value);
   ui_->action_toggle_scrobbling->setVisible(value);
   if (value) SetToggleScrobblingIcon(app_->scrobbler()->IsEnabled());
+
+}
+
+void MainWindow::LoveButtonVisibilityChanged(bool value) {
+
+  if (value)
+    ui_->widget_love->show();
+  else
+    ui_->widget_love->hide();
+
+  if (tray_icon_) tray_icon_->LoveVisibilityChanged(value);
 
 }
 
@@ -2426,5 +2455,14 @@ void MainWindow::SetToggleScrobblingIcon(bool value) {
   else {
     ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble-disabled", 22));
   }
+
+}
+
+void MainWindow::Love() {
+
+  app_->scrobbler()->Love();
+  ui_->button_love->setEnabled(false);
+  ui_->action_love->setEnabled(false);
+  if (tray_icon_) tray_icon_->LoveStateChanged(false);
 
 }

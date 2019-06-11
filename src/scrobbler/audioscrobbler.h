@@ -46,11 +46,12 @@ class AudioScrobbler : public QObject {
   bool IsEnabled() const { return enabled_; }
   bool IsOffline() const { return offline_; }
   bool ScrobbleButton() const { return scrobble_button_; }
+  bool LoveButton() const { return love_button_; }
   int SubmitDelay() const { return submit_delay_; }
 
   void UpdateNowPlaying(const Song &song);
+  void ClearPlaying();
   void Scrobble(const Song &song, const int scrobble_point);
-  void Love(const Song &song);
   void ShowConfig();
   void ConnectError();
 
@@ -65,6 +66,7 @@ class AudioScrobbler : public QObject {
   void ToggleScrobbling();
   void ToggleOffline();
   void Submit();
+  void Love();
   void WriteCache();
   void ErrorReceived(QString);
 
@@ -73,6 +75,7 @@ class AudioScrobbler : public QObject {
   void ScrobblingEnabledChanged(bool value);
   void ScrobblingOfflineChanged(bool value);
   void ScrobbleButtonVisibilityChanged(bool value);
+  void LoveButtonVisibilityChanged(bool value);
 
  private:
 
@@ -82,6 +85,7 @@ class AudioScrobbler : public QObject {
   bool enabled_;
   bool offline_;
   bool scrobble_button_;
+  bool love_button_;
   int submit_delay_;
 
 };
