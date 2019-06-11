@@ -97,7 +97,6 @@ class TidalBaseRequest : public QObject {
   QString session_id() { return service_->session_id(); }
 
   bool authenticated() { return service_->authenticated(); }
-  bool need_login() { return service_->need_login(); }
   bool login_sent() { return service_->login_sent(); }
   int max_login_attempts() { return service_->max_login_attempts(); }
   int login_attempts() { return service_->login_attempts(); }
