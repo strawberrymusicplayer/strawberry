@@ -24,9 +24,7 @@ before_install:
       brew unlink python;
       brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw;
       brew install sqlite --with-fts;
-      brew install gstreamer gst-plugins-base;
-      brew install gst-plugins-good --with-flac;
-      brew install gst-plugins-bad gst-plugins-ugly gst-libav;
+      brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
@@ -36,19 +34,19 @@ before_install:
       ls /usr/local/lib/gstreamer-1.0;
     fi
 before_script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild -DENABLE_TRANSLATIONS=ON ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON -DENABLE_TRANSLATIONS=ON ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir build; cd build; cmake .. -DUSE_BUNDLE=ON ; fi
 script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build make -C build -j8 ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       make -j8;
       sudo make install;
       sudo ../dist/macos/macdeploy.py strawberry.app;
-      ../dist/macos/create-dmg.sh strawberry.app $CC_FOR_BUILD;
+      ../dist/macos/create-dmg.sh strawberry.app;
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TRAVIS_BRANCH" == "master" ]]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
 
 branches:
   except:

@@ -40,7 +40,7 @@ class MacSystemTrayIcon : public SystemTrayIcon {
   MacSystemTrayIcon(QObject *parent = nullptr);
   ~MacSystemTrayIcon();
 
-  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *quit);
+  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
 
   void SetNowPlaying(const Song& song, const QString& image_path);
   void ClearNowPlaying();

@@ -100,7 +100,8 @@ GSTREAMER_PLUGINS = [
     'libgsttaglib.so',
     'libgstvorbis.so',
     'libgstisomp4.so',
-    'libgstlame.so',
+    #'libgstlame.so',
+    #'libgsttwolame.so',
     'libgstlibav.so',
 
 ]
@@ -465,7 +466,7 @@ def main():
 
   FixPlugin(FindGstreamerPlugin('gst-plugin-scanner'), '.')
   FixPlugin(FindGioModule('libgiognutls.so'), 'gio-modules')
-  FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
+  #FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
 
   try:
     FixPlugin('strawberry-tagreader', '.')

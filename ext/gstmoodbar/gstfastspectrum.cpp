@@ -22,6 +22,9 @@
 #include <cstring>
 #include <cmath>
 
+#include <gst/gst.h>
+#include <gst/audio/gstaudiofilter.h>
+
 #include <QMutex>
 #include <QMutexLocker>
 
