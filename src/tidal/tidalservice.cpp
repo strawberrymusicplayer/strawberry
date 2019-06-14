@@ -199,7 +199,8 @@ void TidalService::ReloadSettings() {
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
 
-  oauth_ = s.value("oauth", false).toBool();
+  //oauth_ = s.value("oauth", false).toBool();
+  oauth_ = false;
   client_id_ = s.value("client_id").toString();
   if (client_id_.isEmpty()) client_id_ = QString::fromUtf8(QByteArray::fromBase64(kClientIdB64));
   api_token_ = s.value("api_token").toString();

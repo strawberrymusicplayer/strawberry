@@ -70,6 +70,14 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   ui_->streamurl->addItem("urlpostpaywall", StreamUrlMethod_UrlPostPaywall);
   ui_->streamurl->addItem("playbackinfopostpaywall", StreamUrlMethod_PlaybackInfoPostPaywall);
 
+  ui_->oauth->hide();
+  ui_->label_client_id->hide();
+  ui_->client_id->hide();
+  ui_->label_user_id->hide();
+  ui_->user_id->hide();
+  ui_->label_country_code->hide();
+  ui_->country_code->hide();
+
 }
 
 TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
@@ -80,7 +88,8 @@ void TidalSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->oauth->setChecked(s.value("oauth", false).toBool());
+  //ui_->oauth->setChecked(s.value("oauth", false).toBool());
+  ui_->oauth->setChecked(false);
 
   ui_->client_id->setText(s.value("client_id").toString());
   ui_->api_token->setText(s.value("api_token").toString());
