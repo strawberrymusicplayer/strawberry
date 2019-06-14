@@ -156,7 +156,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
   reply_ = nullptr;
 
-  qLog(Debug) << "Tidal:" << data;
+  //qLog(Debug) << "Tidal:" << data;
 
   QJsonObject json_obj = ExtractJsonObj(data, error);
   if (json_obj.isEmpty()) {
@@ -196,10 +196,10 @@ void TidalStreamURLRequest::StreamURLReceived() {
     QString manifest(json_obj["manifest"].toString());
     QByteArray data_manifest = QByteArray::fromBase64(manifest.toUtf8());
 
-    qLog(Debug) << "Tidal:" << data_manifest;
+    //qLog(Debug) << "Tidal:" << data_manifest;
 
     QXmlStreamReader xml_reader(data_manifest);
-    if (!xml_reader.hasError()) {
+    if (xml_reader.readNextStartElement()) {
 
       QString filepath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/tidalstreams";
       QString filename = "tidal-" + QString::number(song_id_) + ".xml";
