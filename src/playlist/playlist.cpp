@@ -262,29 +262,29 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
 
 }
 
-QVariant Playlist::data(const QModelIndex &index, int role) const {
+QVariant Playlist::data(const QModelIndex &idx, int role) const {
 
   switch (role) {
     case Role_IsCurrent:
-      return current_item_index_.isValid() && index.row() == current_item_index_.row();
+      return current_item_index_.isValid() && idx.row() == current_item_index_.row();
 
     case Role_IsPaused:
       return current_is_paused_;
 
     case Role_StopAfter:
-      return stop_after_.isValid() && stop_after_.row() == index.row();
+      return stop_after_.isValid() && stop_after_.row() == idx.row();
 
     case Role_QueuePosition:
-      return queue_->PositionOf(index);
+      return queue_->PositionOf(idx);
 
     case Qt::EditRole:
     case Qt::ToolTipRole:
     case Qt::DisplayRole: {
-      PlaylistItemPtr item = items_[index.row()];
+      PlaylistItemPtr item = items_[idx.row()];
       Song song = item->Metadata();
 
       // Don't forget to change Playlist::CompareItems when adding new columns
-      switch (index.column()) {
+      switch (idx.column()) {
         case Column_Title:              return song.PrettyTitle();
         case Column_Artist:             return song.artist();
         case Column_Album:              return song.album();
@@ -326,33 +326,33 @@ QVariant Playlist::data(const QModelIndex &index, int role) const {
     }
 
     case Qt::TextAlignmentRole:
-      return QVariant(column_alignments_.value(index.column(), (Qt::AlignLeft | Qt::AlignVCenter)));
+      return QVariant(column_alignments_.value(idx.column(), (Qt::AlignLeft | Qt::AlignVCenter)));
 
     case Qt::ForegroundRole:
-      if (data(index, Role_IsCurrent).toBool()) {
+      if (data(idx, Role_IsCurrent).toBool()) {
         // Ignore any custom colours for the currently playing item - they might clash with the glowing current track indicator.
         return QVariant();
       }
 
-      if (items_[index.row()]->HasCurrentForegroundColor()) {
-        return QBrush(items_[index.row()]->GetCurrentForegroundColor());
+      if (items_[idx.row()]->HasCurrentForegroundColor()) {
+        return QBrush(items_[idx.row()]->GetCurrentForegroundColor());
       }
 
       return QVariant();
 
     case Qt::BackgroundRole:
-      if (data(index, Role_IsCurrent).toBool()) {
+      if (data(idx, Role_IsCurrent).toBool()) {
         // Ignore any custom colours for the currently playing item - they might clash with the glowing current track indicator.
         return QVariant();
       }
 
-      if (items_[index.row()]->HasCurrentBackgroundColor()) {
-        return QBrush(items_[index.row()]->GetCurrentBackgroundColor());
+      if (items_[idx.row()]->HasCurrentBackgroundColor()) {
+        return QBrush(items_[idx.row()]->GetCurrentBackgroundColor());
       }
       return QVariant();
 
     case Qt::FontRole:
-      if (items_[index.row()]->GetShouldSkip()) {
+      if (items_[idx.row()]->GetShouldSkip()) {
         QFont track_font;
         track_font.setStrikeOut(true);
         return track_font;
@@ -1794,12 +1794,16 @@ void Playlist::QueueLayoutChanged() {
 }
 
 void Playlist::ItemChanged(PlaylistItemPtr item) {
+
   for (int row = 0; row < items_.count(); ++row) {
     if (items_[row] == item) {
-      emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
-      return;
+      QModelIndex idx = index(row, ColumnCount - 1);
+      if (idx.isValid()) {
+        emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
+      }
     }
   }
+
 }
 
 void Playlist::InformOfCurrentSongChange() {
