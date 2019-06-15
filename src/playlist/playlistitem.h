@@ -81,6 +81,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   void SetTemporaryMetadata(const Song &metadata);
   void ClearTemporaryMetadata();
   bool HasTemporaryMetadata() const { return temp_metadata_.is_valid(); }
+  QUrl MediaUrl() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.url().isValid() ? temp_metadata_.url() : QUrl(); }
 
   // Background colors.
   void SetBackgroundColor(short priority, const QColor &color);
