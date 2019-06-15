@@ -81,13 +81,6 @@ class UrlHandler : public QObject {
   // Called by the Player when a song starts loading - gives the handler a chance to do something clever to get a playable track.
   virtual LoadResult StartLoading(const QUrl &url) { return LoadResult(url); }
 
-  // Called by the player when a song finishes - gives the handler a chance to get another track to play.
-  virtual LoadResult LoadNext(const QUrl &url) { return LoadResult(url); }
-
-  // Functions to be warned when something happen to a track handled by UrlHandler.
-  virtual void TrackAboutToEnd() {};
-  virtual void TrackSkipped() {};
-
  signals:
   void AsyncLoadComplete(const UrlHandler::LoadResult &result);
 

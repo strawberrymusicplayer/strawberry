@@ -232,7 +232,7 @@ class Player : public PlayerInterface {
 
   QMap<QString, UrlHandler*> url_handlers_;
 
-  QUrl loading_async_;
+  QList<QUrl> loading_async_;
   int volume_before_mute_;
   QDateTime last_pressed_previous_;
 
