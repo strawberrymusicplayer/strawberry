@@ -24,8 +24,6 @@
 
 #include <QObject>
 #include <QStandardPaths>
-#include <QDesktopServices>
-#include <QCryptographicHash>
 #include <QByteArray>
 #include <QPair>
 #include <QList>
@@ -34,7 +32,6 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QTimer>
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -48,7 +45,6 @@
 #include "core/network.h"
 #include "core/database.h"
 #include "core/song.h"
-#include "core/utilities.h"
 #include "internet/internetsearch.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
