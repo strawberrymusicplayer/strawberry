@@ -58,7 +58,6 @@
 #include "tidalfavoriterequest.h"
 #include "tidalstreamurlrequest.h"
 #include "settings/tidalsettingspage.h"
-#include "internet/localredirectserver.h"
 
 using std::shared_ptr;
 
