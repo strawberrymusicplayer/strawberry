@@ -74,6 +74,7 @@ class Song {
     Source_Device = 4,
     Source_Stream = 5,
     Source_Tidal = 6,
+    Source_Subsonic = 7,
   };
 
   // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.

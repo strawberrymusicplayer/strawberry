@@ -33,7 +33,7 @@
 #include "internettabsview.h"
 #include "ui_internettabsview.h"
 
-InternetTabsView::InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, QWidget *parent)
+InternetTabsView::InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
       service_(service),

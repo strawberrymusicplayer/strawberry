@@ -91,6 +91,7 @@ class TranscodeDialog;
 #endif
 class Ui_MainWindow;
 class Windows7ThumbBar;
+class InternetSongsView;
 class InternetTabsView;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
@@ -313,6 +314,7 @@ signals:
 #endif
 
   InternetTabsView *tidal_view_;
+  InternetSongsView *subsonic_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

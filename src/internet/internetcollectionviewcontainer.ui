@@ -30,13 +30,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QPushButton" name="refresh">
-     <property name="text">
-      <string>Refresh catalogue</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QStackedWidget" name="stacked">
      <widget class="QWidget" name="help_page">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -134,6 +127,13 @@
        </property>
        <item>
         <widget class="CollectionFilterWidget" name="filter" native="true"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="refresh">
+         <property name="text">
+          <string>Refresh catalogue</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="InternetCollectionView" name="view"/>

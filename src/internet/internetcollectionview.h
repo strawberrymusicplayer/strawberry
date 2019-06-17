@@ -54,7 +54,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
  public:
   InternetCollectionView(QWidget *parent = nullptr);
   ~InternetCollectionView();
-  
+
   void Init(Application *app, CollectionBackend *backend, CollectionModel *model);
 
   // Returns Songs currently selected in the collection view.
