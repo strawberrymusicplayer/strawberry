@@ -66,7 +66,7 @@ Description: Audio player and music collection organizer
   - Audio analyzer
   - Audio equalizer
   - Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  - Streaming support for Tidal
+  - Streaming support for Tidal and Subsonic
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
  .
  It is a fork of Clementine. The name is inspired by the band Strawbs.

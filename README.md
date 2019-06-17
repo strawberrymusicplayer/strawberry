@@ -25,7 +25,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
   * Audio analyzer
   * Audio equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  * Streaming support for Tidal
+  * Streaming support for Tidal and Subsonic
   * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
 It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
