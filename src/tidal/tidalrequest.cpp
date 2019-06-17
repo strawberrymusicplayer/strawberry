@@ -705,7 +705,7 @@ void TidalRequest::AddAlbumSongsRequest(const int artist_id, const int album_id,
 
 void TidalRequest::FlushAlbumSongsRequests() {
 
-  while (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentArtistAlbumsRequests) {
+  while (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) {
 
     Request request = album_songs_requests_queue_.dequeue();
     ++album_songs_requests_active_;
