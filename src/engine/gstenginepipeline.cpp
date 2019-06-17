@@ -420,6 +420,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl orig
   if (!pipeline_) return false;
 
   g_object_set(G_OBJECT(pipeline_), "uri", media_url.constData(), nullptr);
+
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
@@ -888,13 +889,15 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *pspec, 
   }
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
-    QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()); g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
+    QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
+    g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
+    g_object_set(element, "ssl-strict", FALSE, nullptr);
 
-#ifdef Q_OS_MACOS
-    g_object_set(element, "tls-database", instance->engine_->tls_database(), nullptr);
-    g_object_set(element, "ssl-use-system-ca-file", false, nullptr);
-    g_object_set(element, "ssl-strict", TRUE, nullptr);
-#endif
+//#ifdef Q_OS_MACOS
+    //g_object_set(element, "tls-database", instance->engine_->tls_database(), nullptr);
+    //g_object_set(element, "ssl-use-system-ca-file", false, nullptr);
+    //g_object_set(element, "ssl-strict", TRUE, nullptr);
+//#endif
   }
 
   // If the pipeline was buffering we stop that now.
