@@ -51,6 +51,9 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
 
   dialog()->installEventFilter(this);
 
+  ui_->scheme->addItem("HTTP", "http");
+  ui_->scheme->addItem("HTTPS", "https");
+
 }
 
 SubsonicSettingsPage::~SubsonicSettingsPage() { delete ui_; }
@@ -61,6 +64,7 @@ void SubsonicSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
+  dialog()->ComboBoxLoadFromSettings(s, ui_->scheme, "scheme", "https");
   ui_->hostname->setText(s.value("hostname").toString());
   ui_->port->setText(QString::number(s.value("port", 4040).toInt()));
   ui_->username->setText(s.value("username").toString());
@@ -78,6 +82,7 @@ void SubsonicSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
+  s.setValue("scheme", ui_->scheme->itemData(ui_->scheme->currentIndex()));
   s.setValue("hostname", ui_->hostname->text());
   s.setValue("port", ui_->port->text().toInt());
   s.setValue("username", ui_->username->text());

@@ -45,7 +45,8 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   }
 
   QUrl media_url;
-  media_url.setScheme("https");
+  if (server_scheme().isEmpty()) media_url.setScheme("https");
+  else media_url.setScheme(server_scheme());
   media_url.setHost(service_->hostname());
   if (service_->port() > 0 && service_->port() != 443)
     media_url.setPort(service_->port());

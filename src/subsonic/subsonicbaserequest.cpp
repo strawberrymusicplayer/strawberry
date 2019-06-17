@@ -73,7 +73,8 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
   }
 
   QUrl url;
-  url.setScheme("https");
+  if (scheme().isEmpty()) url.setScheme("https");
+  else url.setScheme(scheme());
   url.setHost(hostname());
   if (port() > 0 && port() != 443)
     url.setPort(port());

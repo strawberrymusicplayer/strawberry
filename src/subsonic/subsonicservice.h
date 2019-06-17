@@ -63,6 +63,7 @@ class SubsonicService : public InternetService {
 
   QString client_name() { return kClientName; }
   QString api_version() { return kApiVersion; }
+  QString scheme() { return scheme_; }
   QString hostname() { return hostname_; }
   int port() { return port_; }
   QString username() { return username_; }
@@ -118,6 +119,7 @@ class SubsonicService : public InternetService {
 
   std::shared_ptr<SubsonicRequest> songs_request_;
 
+  QString scheme_;
   QString hostname_;
   int port_;
   QString username_;

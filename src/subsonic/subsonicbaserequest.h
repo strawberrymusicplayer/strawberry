@@ -68,6 +68,7 @@ class SubsonicBaseRequest : public QObject {
 
   QString client_name() { return service_->client_name(); }
   QString api_version() { return service_->api_version(); }
+  QString scheme() { return service_->scheme(); }
   QString hostname() { return service_->hostname(); }
   int port() { return service_->port(); }
   QString username() { return service_->username(); }

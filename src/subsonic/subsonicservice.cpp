@@ -105,6 +105,7 @@ void SubsonicService::ReloadSettings() {
   QSettings s;
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
 
+  scheme_ = s.value("scheme", "https").toString();
   hostname_ = s.value("hostname").toString();
   port_ = s.value("port", 443).toInt();
   username_ = s.value("username").toString();
@@ -142,7 +143,8 @@ void SubsonicService::SendPing(const QString &hostname, const int port, const QS
   }
 
   QUrl url;
-  url.setScheme("https");
+  if (scheme_.isEmpty()) url.setScheme("https");
+  else url.setScheme(scheme_);
   url.setHost(hostname);
   url.setPort(port);
   url.setPath("/rest/ping.view");

@@ -37,11 +37,7 @@
       <item>
        <layout class="QHBoxLayout" name="layout_server">
         <item>
-         <widget class="QLabel" name="label_server_url">
-          <property name="text">
-           <string>Hostname</string>
-          </property>
-         </widget>
+         <widget class="QComboBox" name="scheme"/>
         </item>
         <item>
          <widget class="QLineEdit" name="hostname"/>
