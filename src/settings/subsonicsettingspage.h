@@ -45,7 +45,7 @@ class SubsonicSettingsPage : public SettingsPage {
 
  signals:
   void Test();
-  void Test(const QString &hostname, const int port, const QString &username, const QString &password);
+  void Test(QUrl url, const QString &username, const QString &password);
 
  private slots:
   void TestClicked();

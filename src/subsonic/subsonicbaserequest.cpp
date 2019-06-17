@@ -72,12 +72,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<P
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
-  QUrl url;
-  if (scheme().isEmpty()) url.setScheme("https");
-  else url.setScheme(scheme());
-  url.setHost(hostname());
-  if (port() > 0 && port() != 443)
-    url.setPort(port());
+  QUrl url(server_url());
   url.setPath(QString("/rest/") + ressource_name);
   url.setQuery(url_query);
 
@@ -90,7 +85,7 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   QUrl url = CreateUrl(ressource_name, params_provided);
   QNetworkRequest req(url);
 
-  if (!verify_certificate()) {
+  if (url.scheme() == "https" && !verify_certificate()) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
     req.setSslConfiguration(sslconfig);
@@ -117,7 +112,13 @@ QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply, QString &erro
   QByteArray data;
 
   if (reply->error() == QNetworkReply::NoError) {
-    data = reply->readAll();
+    int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (http_code == 200) {
+      data = reply->readAll();
+    }
+    else {
+      error = Error(QString("Received HTTP code %1").arg(http_code));
+    }
   }
   else {
     if (reply->error() < 200) {
@@ -149,7 +150,6 @@ QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply, QString &erro
       }
       error = Error(failure_reason);
     }
-    return QByteArray();
   }
 
   return data;

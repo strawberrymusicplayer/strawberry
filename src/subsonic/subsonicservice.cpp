@@ -105,9 +105,7 @@ void SubsonicService::ReloadSettings() {
   QSettings s;
   s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
 
-  scheme_ = s.value("scheme", "https").toString();
-  hostname_ = s.value("hostname").toString();
-  port_ = s.value("port", 443).toInt();
+  server_url_ = s.value("url").toUrl();
   username_ = s.value("username").toString();
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) password_.clear();
@@ -125,10 +123,10 @@ QString SubsonicService::CoverCacheDir() {
 }
 
 void SubsonicService::SendPing() {
-  SendPing(hostname_, port_, username_, password_);
+  SendPing(server_url_, username_, password_);
 }
 
-void SubsonicService::SendPing(const QString &hostname, const int port, const QString &username, const QString &password) {
+void SubsonicService::SendPing(QUrl url, const QString &username, const QString &password) {
 
   const ParamList params = ParamList() << Param("c", kClientName)
                                        << Param("v", kApiVersion)
@@ -142,17 +140,12 @@ void SubsonicService::SendPing(const QString &hostname, const int port, const QS
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
-  QUrl url;
-  if (scheme_.isEmpty()) url.setScheme("https");
-  else url.setScheme(scheme_);
-  url.setHost(hostname);
-  url.setPort(port);
   url.setPath("/rest/ping.view");
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
 
-  if (!verify_certificate_) {
+  if (url.scheme() == "https" && !verify_certificate_) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
     req.setSslConfiguration(sslconfig);
@@ -203,6 +196,12 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
       PingError(failure_reason);
       return;
     }
+  }
+
+  int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  if (http_code != 200) {
+    PingError(QString("Received HTTP code %1").arg(http_code));
+    return;
   }
 
   QByteArray data(reply->readAll());
@@ -288,8 +287,8 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
 
 void SubsonicService::CheckConfiguration() {
 
-  if (hostname_.isEmpty()) {
-    emit TestComplete(false, "Missing Subsonic hostname.");
+  if (server_url_.isEmpty()) {
+    emit TestComplete(false, "Missing Subsonic server url.");
     return;
   }
   if (username_.isEmpty()) {

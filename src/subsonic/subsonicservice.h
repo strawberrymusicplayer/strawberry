@@ -63,9 +63,7 @@ class SubsonicService : public InternetService {
 
   QString client_name() { return kClientName; }
   QString api_version() { return kApiVersion; }
-  QString scheme() { return scheme_; }
-  QString hostname() { return hostname_; }
-  int port() { return port_; }
+  QUrl server_url() { return server_url_; }
   QString username() { return username_; }
   QString password() { return password_; }
   bool verify_certificate() { return verify_certificate_; }
@@ -86,7 +84,7 @@ class SubsonicService : public InternetService {
  public slots:
   void ShowConfig();
   void SendPing();
-  void SendPing(const QString &hostname, const int port, const QString &username, const QString &password);
+  void SendPing(QUrl url, const QString &username, const QString &password);
   void GetSongs();
   void ResetSongsRequest();
 
@@ -119,9 +117,7 @@ class SubsonicService : public InternetService {
 
   std::shared_ptr<SubsonicRequest> songs_request_;
 
-  QString scheme_;
-  QString hostname_;
-  int port_;
+  QUrl server_url_;
   QString username_;
   QString password_;
   bool verify_certificate_;

@@ -44,15 +44,12 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
 
   connect(ui_->button_test, SIGNAL(clicked()), SLOT(TestClicked()));
 
-  connect(this, SIGNAL(Test(QString, int, QString, QString)), service_, SLOT(SendPing(QString, int, QString, QString)));
+  connect(this, SIGNAL(Test(QUrl, const QString&, const QString&)), service_, SLOT(SendPing(QUrl, const QString&, const QString&)));
 
   connect(service_, SIGNAL(TestFailure(QString)), SLOT(TestFailure(QString)));
   connect(service_, SIGNAL(TestSuccess()), SLOT(TestSuccess()));
 
   dialog()->installEventFilter(this);
-
-  ui_->scheme->addItem("HTTP", "http");
-  ui_->scheme->addItem("HTTPS", "https");
 
 }
 
@@ -64,9 +61,7 @@ void SubsonicSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
-  dialog()->ComboBoxLoadFromSettings(s, ui_->scheme, "scheme", "https");
-  ui_->hostname->setText(s.value("hostname").toString());
-  ui_->port->setText(QString::number(s.value("port", 4040).toInt()));
+  ui_->url->setText(s.value("url").toString());
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
@@ -82,9 +77,7 @@ void SubsonicSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("scheme", ui_->scheme->itemData(ui_->scheme->currentIndex()));
-  s.setValue("hostname", ui_->hostname->text());
-  s.setValue("port", ui_->port->text().toInt());
+  s.setValue("url", QUrl(ui_->url->text()));
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
@@ -97,12 +90,18 @@ void SubsonicSettingsPage::Save() {
 
 void SubsonicSettingsPage::TestClicked() {
 
-  if (ui_->hostname->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing hostname, username or password."));
+  if (ui_->url->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing url, username or password."));
     return;
   }
 
-  emit Test(ui_->hostname->text(), ui_->port->text().toInt(), ui_->username->text(), ui_->password->text());
+  QUrl url(ui_->url->text());
+  if (!url.isValid()) {
+    QMessageBox::critical(this, tr("Configuration incorrect"), tr("URL is invalid."));
+    return;
+  }
+
+  emit Test(url, ui_->username->text(), ui_->password->text());
   ui_->button_test->setEnabled(false);
 
 }
