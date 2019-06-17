@@ -150,11 +150,13 @@ void SubsonicService::SendPing(const QString &hostname, const int port, const QS
 
   QNetworkRequest req(url);
 
-  QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
-  sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
+  if (!verify_certificate_) {
+    QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
+    sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
+    req.setSslConfiguration(sslconfig);
+  }
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setSslConfiguration(sslconfig);
 
   QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandlePingReply(QNetworkReply*)), reply);
