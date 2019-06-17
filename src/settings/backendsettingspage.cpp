@@ -102,6 +102,8 @@ void BackendSettingsPage::Load() {
   ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(enginetype));
   if (EngineInitialised()) Load_Engine(enginetype);
 
+  ui_->checkbox_volume_control->setChecked(s_.value("volume_control", true).toBool());
+
   ui_->spinbox_bufferduration->setValue(s_.value("bufferduration", 4000).toInt());
   ui_->slider_bufferminfill->setValue(s_.value("bufferminfill", 33).toInt());
 
@@ -144,8 +146,6 @@ void BackendSettingsPage::Load() {
   ui_->widget_alsa_plugin->hide();
 #endif
 
-  ui_->checkbox_volume_control->setChecked(s_.value("volume_control", true).toBool());
-
   if (!EngineInitialised()) return;
 
   if (engine()->state() == Engine::Empty) {
@@ -156,13 +156,7 @@ void BackendSettingsPage::Load() {
     ui_->combobox_engine->setEnabled(false);
   }
 
-  ConnectSignals();
-
   configloaded_ = true;
-
-}
-
-void BackendSettingsPage::ConnectSignals() {
 
   connect(ui_->combobox_engine, SIGNAL(currentIndexChanged(int)), SLOT(EngineChanged(int)));
   connect(ui_->combobox_output, SIGNAL(currentIndexChanged(int)), SLOT(OutputChanged(int)));
@@ -178,6 +172,8 @@ void BackendSettingsPage::ConnectSignals() {
   connect(ui_->checkbox_fadeout_cross, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_fadeout_auto, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
   connect(ui_->checkbox_volume_control, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
+
+  FadingOptionsChanged();
 
 }
 
@@ -269,6 +265,8 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
 
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
+
+  FadingOptionsChanged();
 
 }
 
@@ -608,17 +606,17 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
 
 void BackendSettingsPage::FadingOptionsChanged() {
 
-  if (EngineInitialised()) {
-    EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-    if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty()) && ui_->checkbox_volume_control->isChecked()) {
-      ui_->groupbox_fading->setDisabled(false);
-    }
-    else {
-      ui_->groupbox_fading->setDisabled(true);
-      ui_->checkbox_fadeout_stop->setChecked(false);
-      ui_->checkbox_fadeout_cross->setChecked(false);
-      ui_->checkbox_fadeout_auto->setChecked(false);
-    }
+  if (!configloaded_ || !EngineInitialised()) return;
+
+  EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
+  if (engine()->type() == Engine::GStreamer && !(engine()->ALSADeviceSupport(output.name) && !ui_->lineedit_device->text().isEmpty()) && ui_->checkbox_volume_control->isChecked()) {
+    ui_->groupbox_fading->setDisabled(false);
+  }
+  else {
+    ui_->groupbox_fading->setDisabled(true);
+    ui_->checkbox_fadeout_stop->setChecked(false);
+    ui_->checkbox_fadeout_cross->setChecked(false);
+    ui_->checkbox_fadeout_auto->setChecked(false);
   }
 
   ui_->widget_fading_options->setEnabled(ui_->checkbox_fadeout_stop->isChecked() || ui_->checkbox_fadeout_cross->isChecked() || ui_->checkbox_fadeout_auto->isChecked());

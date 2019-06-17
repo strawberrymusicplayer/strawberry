@@ -79,7 +79,6 @@ private:
 
   Ui_BackendSettingsPage *ui_;
 
-  void ConnectSignals();
   bool EngineInitialised();
 
   void EngineChanged(Engine::EngineType enginetype);
