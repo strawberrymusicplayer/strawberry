@@ -71,6 +71,10 @@
 #  include "covermanager/tidalcoverprovider.h"
 #endif
 
+#ifdef HAVE_SUBSONIC
+#  include "subsonic/subsonicservice.h"
+#endif
+
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarloader.h"
@@ -135,6 +139,9 @@ class ApplicationImpl {
           InternetServices *internet_services = new InternetServices(app);
 #ifdef HAVE_TIDAL
           internet_services->AddService(new TidalService(app, internet_services));
+#endif
+#ifdef HAVE_SUBSONIC
+          internet_services->AddService(new SubsonicService(app, internet_services));
 #endif
           return internet_services;
         }),

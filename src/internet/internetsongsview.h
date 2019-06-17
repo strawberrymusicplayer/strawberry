@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef INTERNETTABSVIEW_H
-#define INTERNETTABSVIEW_H
+#ifndef INTERNETSONGSVIEW_H
+#define INTERNETSONGSVIEW_H
 
 #include "config.h"
 
@@ -27,56 +27,41 @@
 
 #include "settings/settingsdialog.h"
 #include "internetcollectionviewcontainer.h"
-#include "internetcollectionview.h"
-#include "ui_internettabsview.h"
+#include "ui_internetcollectionviewcontainer.h"
 #include "core/song.h"
 
 class QContextMenuEvent;
 
 class Application;
 class InternetService;
-class InternetSearch;
-class Ui_InternetTabsView;
+class Ui_InternetCollectionViewContainer;
 class InternetCollectionView;
-class InternetSearchView;
 
-class InternetTabsView : public QWidget {
+class InternetSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
-  ~InternetTabsView();
+  InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  ~InternetSongsView();
 
   void ReloadSettings();
 
-  InternetCollectionView *artists_collection_view() const { return ui_->artists_collection->view(); }
-  InternetCollectionView *albums_collection_view() const { return ui_->albums_collection->view(); }
-  InternetCollectionView *songs_collection_view() const { return ui_->songs_collection->view(); }
-  InternetSearchView *search_view() const { return ui_->search_view; }
+  InternetCollectionView *view() const { return ui_->view; }
 
  private slots:
   void contextMenuEvent(QContextMenuEvent *e);
-  void GetArtists();
-  void GetAlbums();
   void GetSongs();
-  void AbortGetArtists();
-  void AbortGetAlbums();
-  void AbortGetSongs();
-  void ArtistsError(QString error);
-  void AlbumsError(QString error);
+  void AbortGetSongs();;
   void SongsError(QString error);
-  void ArtistsFinished(SongList songs);
-  void AlbumsFinished(SongList songs);
   void SongsFinished(SongList songs);
 
  private:
   Application *app_;
   InternetService *service_;
-  InternetSearch *engine_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
-  Ui_InternetTabsView *ui_;
+  Ui_InternetCollectionViewContainer *ui_;
 
 };
 
-#endif  // INTERNETTABSVIEW_H
+#endif  // INTERNETSONGSVIEW_H

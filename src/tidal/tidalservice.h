@@ -33,13 +33,13 @@
 #include <QUrl>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QSortFilterProxyModel>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 #include "settings/tidalsettingspage.h"
 
-class QSortFilterProxyModel;
 class Application;
 class NetworkAccessManager;
 class TidalUrlHandler;

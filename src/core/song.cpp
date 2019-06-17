@@ -333,7 +333,7 @@ bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
 bool Song::is_collection_song() const { return !is_cdda() && !is_stream() && id() != -1; }
 bool Song::is_metadata_good() const { return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0; }
-bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal; }
+bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Subsonic; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 
 const QString &Song::error() const { return d->error_; }
@@ -410,6 +410,7 @@ Song::Source Song::SourceFromURL(const QUrl &url) {
   if (url.scheme() == "file") return Source_LocalFile;
   else if (url.scheme() == "cdda") return Source_CDDA;
   else if (url.scheme() == "tidal") return Source_Tidal;
+  else if (url.scheme() == "subsonic") return Source_Subsonic;
   else if (url.scheme() == "http" || url.scheme() == "https" || url.scheme() == "rtsp") return Source_Stream;
   else return Source_Unknown;
 
@@ -424,8 +425,10 @@ QString Song::TextForSource(Source source) {
     case Song::Source_Device:      return QObject::tr("Device");
     case Song::Source_Stream:      return QObject::tr("Stream");
     case Song::Source_Tidal:       return QObject::tr("Tidal");
-    default:                       return QObject::tr("Unknown");
+    case Song::Source_Subsonic:    return QObject::tr("subsonic");
+    case Song::Source_Unknown:     return QObject::tr("Unknown");
   }
+  return QObject::tr("Unknown");
 
 }
 
@@ -438,8 +441,10 @@ QIcon Song::IconForSource(Source source) {
     case Song::Source_Device:      return IconLoader::Load("device");
     case Song::Source_Stream:      return IconLoader::Load("applications-internet");
     case Song::Source_Tidal:       return IconLoader::Load("tidal");
-    default:                       return IconLoader::Load("edit-delete");
+    case Song::Source_Subsonic:    return IconLoader::Load("subsonic");
+    case Song::Source_Unknown:     return IconLoader::Load("edit-delete");
   }
+  return IconLoader::Load("edit-delete");
 
 }
 
