@@ -113,13 +113,12 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply, QString &error) 
       data = reply->readAll();
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
-      int code = 0;
       QString failure_reason;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
           QString status = json_obj["status"].toString();
-          code = json_obj["code"].toInt();
+          int code = json_obj["code"].toInt();
           QString message = json_obj["message"].toString();
           failure_reason = QString("%1 (%2)").arg(message).arg(code);
         }

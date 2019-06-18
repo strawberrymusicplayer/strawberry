@@ -1217,7 +1217,6 @@ void QobuzRequest::FinishCheck() {
       artist_albums_received_ >= artist_albums_requested_ &&
       album_songs_requests_active_ <= 0 &&
       album_songs_received_ >= album_songs_requested_ &&
-      album_covers_requested_ <= album_covers_received_ &&
       album_covers_requests_active_ <= 0 &&
       album_covers_received_ >= album_covers_requested_
   ) {
