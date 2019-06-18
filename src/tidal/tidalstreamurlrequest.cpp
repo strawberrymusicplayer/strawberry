@@ -271,7 +271,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
   if (urls.isEmpty()) {
     error = Error("Missing stream urls.", json_obj);
-    emit StreamURLFinished(original_url_, original_url_, filetype);
+    emit StreamURLFinished(original_url_, original_url_, filetype, error);
     return;
   }
 

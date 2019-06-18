@@ -172,7 +172,7 @@ void TidalRequest::FlushArtistsRequests() {
     if (type_ == QueryType_SearchArtists) {
       reply = CreateRequest("search/artists", parameters);
     }
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
 
@@ -214,7 +214,7 @@ void TidalRequest::FlushAlbumsRequests() {
     if (type_ == QueryType_SearchAlbums) {
       reply = CreateRequest("search/albums", parameters);
     }
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
 
@@ -256,7 +256,7 @@ void TidalRequest::FlushSongsRequests() {
     if (type_ == QueryType_SearchSongs) {
       reply = CreateRequest("search/tracks", parameters);
     }
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
 
@@ -469,7 +469,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     ParamList parameters;
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artists/%1/albums").arg(request.artist_id), parameters);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, int, int)), reply, request.artist_id, request.offset);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, const int, const int)), reply, request.artist_id, request.offset);
 
   }
 
@@ -712,13 +712,13 @@ void TidalRequest::FlushAlbumSongsRequests() {
     ParamList parameters;
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("albums/%1/tracks").arg(request.album_id), parameters);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, int, int, int, QString)), reply, request.artist_id, request.album_id, request.offset, request.album_artist);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const int, const int, const int, const QString&)), reply, request.artist_id, request.album_id, request.offset, request.album_artist);
 
   }
 
 }
 
-void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int offset_requested, const QString album_artist) {
+void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int offset_requested, const QString &album_artist) {
 
   --album_songs_requests_active_;
   ++album_songs_received_;
@@ -729,7 +729,7 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artis
 
 }
 
-void TidalRequest::SongsReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int limit_requested, const int offset_requested, const bool auto_login, const QString album_artist) {
+void TidalRequest::SongsReceived(QNetworkReply *reply, const int artist_id, const int album_id, const int limit_requested, const int offset_requested, const bool auto_login, const QString &album_artist) {
 
   QString error;
   QByteArray data = GetReplyData(reply, error, auto_login);
@@ -1033,13 +1033,13 @@ void TidalRequest::FlushAlbumCoverRequests() {
     QNetworkRequest req(request.url);
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, int, QUrl)), reply, request.album_id, request.url);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const int, const QUrl&)), reply, request.album_id, request.url);
 
   }
 
 }
 
-void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl url) {
+void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl &url) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);

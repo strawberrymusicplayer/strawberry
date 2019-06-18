@@ -85,11 +85,9 @@ QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, 
                            << Param("sessionId", service_->session_id())
                            << Param("countryCode", service_->country_code());
 
-  QStringList query_items;
   QUrlQuery url_query;
   for (const Param& param : parameters) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    query_items << QString(encoded_param.first + "=" + encoded_param.second);
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
