@@ -113,7 +113,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
 
   quint64 timestamp = QDateTime::currentDateTime().toTime_t();
 
-  ParamList params_to_sign = ParamList() << Param("format", QString::number(format()))
+  ParamList params_to_sign = ParamList() << Param("format_id", QString::number(format()))
                                          << Param("track_id", QString::number(song_id_));
 
   std::sort(params_to_sign.begin(), params_to_sign.end());
@@ -137,8 +137,6 @@ void QobuzStreamURLRequest::GetStreamURL() {
   params << Param("user_auth_token", access_token());
 
   std::sort(params.begin(), params.end());
-  
-  qLog(Debug) << params;
 
   reply_ = CreateRequest(QString("track/getFileUrl"), params);
   connect(reply_, SIGNAL(finished()), this, SLOT(StreamURLReceived()));
