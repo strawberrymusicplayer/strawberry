@@ -106,7 +106,7 @@ Features:
   - Audio analyzer
   - Audio equalizer
   - Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  - Streaming support for Tidal and Subsonic
+  - Streaming support for Tidal, Qobuz and Subsonic
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
 
 %prep
