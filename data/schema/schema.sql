@@ -455,6 +455,21 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts3(
 
 );
 
+CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts3(
+
+  ftstitle,
+  ftsalbum,
+  ftsartist,
+  ftsalbumartist,
+  ftscomposer,
+  ftsperformer,
+  ftsgrouping,
+  ftsgenre,
+  ftscomment,
+  tokenize=unicode
+
+);
+
 CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts3(
 
   ftstitle,
