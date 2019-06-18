@@ -82,9 +82,10 @@ class SettingsDialog : public QDialog {
     Page_Transcoding,
     Page_Proxy,
     Page_Scrobbler,
+    Page_Moodbar,
     Page_Tidal,
     Page_Subsonic,
-    Page_Moodbar,
+    Page_Qobuz,
   };
 
   enum Role {
@@ -111,7 +112,8 @@ class SettingsDialog : public QDialog {
   // QWidget
   void showEvent(QShowEvent *e);
 
-  void ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value);
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
 
  signals:
   void ReloadSettings();

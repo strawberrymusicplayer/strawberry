@@ -62,11 +62,14 @@
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
 #include "scrobblersettingspage.h"
+#ifdef HAVE_MOODBAR
+#  include "moodbarsettingspage.h"
+#endif
 #ifdef HAVE_TIDAL
 #  include "tidalsettingspage.h"
 #endif
-#ifdef HAVE_MOODBAR
-#  include "moodbarsettingspage.h"
+#ifdef HAVE_QOBUZ
+#  include "qobuzsettingspage.h"
 #endif
 #ifdef HAVE_SUBSONIC
 #  include "subsonicsettingspage.h"
@@ -143,11 +146,14 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_TIDAL) || defined(HAVE_SUBSONIC)
+#if defined(HAVE_TIDAL) || defined(HAVE_SUBSONIC) || defined(HAVE_QOBUZ)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
 #ifdef HAVE_TIDAL
   AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
+#endif
+#ifdef HAVE_QOBUZ
+  AddPage(Page_Qobuz, new QobuzSettingsPage(this), streaming);
 #endif
 #ifdef HAVE_SUBSONIC
   AddPage(Page_Subsonic, new SubsonicSettingsPage(this), streaming);
@@ -320,9 +326,20 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
 
 }
 
-void SettingsDialog::ComboBoxLoadFromSettings(QSettings &s, QComboBox *combobox, QString setting, QString default_value) {
+void SettingsDialog::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value) {
+
   QString value = s.value(setting, default_value).toString();
   int i = combobox->findData(value);
   if (i == -1) i = combobox->findData(default_value);
   combobox->setCurrentIndex(i);
+
+}
+
+void SettingsDialog::ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value) {
+
+  int value = s.value(setting, default_value).toInt();
+  int i = combobox->findData(value);
+  if (i == -1) i = combobox->findData(default_value);
+  combobox->setCurrentIndex(i);
+
 }

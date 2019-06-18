@@ -911,6 +911,27 @@ optional_source(HAVE_TIDAL
     settings/tidalsettingspage.ui
 )
 
+optional_source(HAVE_QOBUZ
+  SOURCES
+    qobuz/qobuzservice.cpp
+    qobuz/qobuzurlhandler.cpp
+    qobuz/qobuzbaserequest.cpp
+    qobuz/qobuzrequest.cpp
+    qobuz/qobuzstreamurlrequest.cpp
+    qobuz/qobuzfavoriterequest.cpp
+    settings/qobuzsettingspage.cpp
+  HEADERS
+    qobuz/qobuzservice.h
+    qobuz/qobuzurlhandler.h
+    qobuz/qobuzbaserequest.h
+    qobuz/qobuzrequest.h
+    qobuz/qobuzstreamurlrequest.h
+    qobuz/qobuzfavoriterequest.h
+    settings/qobuzsettingspage.h
+  UI
+    settings/qobuzsettingspage.ui
+)
+
 optional_source(HAVE_SUBSONIC
   SOURCES
     subsonic/subsonicservice.cpp

@@ -71,6 +71,10 @@
 #  include "covermanager/tidalcoverprovider.h"
 #endif
 
+#ifdef HAVE_QOBUZ
+#  include "qobuz/qobuzservice.h"
+#endif
+
 #ifdef HAVE_SUBSONIC
 #  include "subsonic/subsonicservice.h"
 #endif
@@ -140,6 +144,9 @@ class ApplicationImpl {
 #ifdef HAVE_TIDAL
           internet_services->AddService(new TidalService(app, internet_services));
 #endif
+#ifdef HAVE_QOBUZ
+          internet_services->AddService(new QobuzService(app, internet_services));
+#endif
 #ifdef HAVE_SUBSONIC
           internet_services->AddService(new SubsonicService(app, internet_services));
 #endif
@@ -147,6 +154,9 @@ class ApplicationImpl {
         }),
 #ifdef HAVE_TIDAL
         tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
+#endif
+#ifdef HAVE_QOBUZ
+        qobuz_search_([=]() { return new InternetSearch(app, Song::Source_Qobuz, app); }),
 #endif
         scrobbler_([=]() { return new AudioScrobbler(app, app); }),
 
@@ -177,6 +187,9 @@ class ApplicationImpl {
   Lazy<InternetServices> internet_services_;
 #ifdef HAVE_TIDAL
   Lazy<InternetSearch> tidal_search_;
+#endif
+#ifdef HAVE_QOBUZ
+  Lazy<InternetSearch> qobuz_search_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
 #ifdef HAVE_MOODBAR
@@ -253,6 +266,9 @@ PlaylistManager *Application::playlist_manager() const { return p_->playlist_man
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
 #ifdef HAVE_TIDAL
 InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
+#endif
+#ifdef HAVE_QOBUZ
+InternetSearch *Application::qobuz_search() const { return p_->qobuz_search_.get(); }
 #endif
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
 #ifdef HAVE_MOODBAR

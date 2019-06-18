@@ -314,6 +314,7 @@ signals:
 #endif
 
   InternetTabsView *tidal_view_;
+  InternetTabsView *qobuz_view_;
   InternetSongsView *subsonic_view_;
 
   QAction *collection_show_all_;

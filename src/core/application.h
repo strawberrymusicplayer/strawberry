@@ -102,6 +102,9 @@ class Application : public QObject {
 #ifdef HAVE_TIDAL
   InternetSearch *tidal_search() const;
 #endif
+#ifdef HAVE_QOBUZ
+  InternetSearch *qobuz_search() const;
+#endif
 
 #ifdef HAVE_MOODBAR
   MoodbarController *moodbar_controller() const;
