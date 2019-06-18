@@ -45,7 +45,13 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   }
 
   QUrl media_url(server_url());
-  media_url.setPath("/rest/stream");
+
+  if (media_url.path().right(1) == '/') {
+    media_url.setPath(media_url.path() + QString("rest/stream"));
+  }
+  else
+    media_url.setPath(media_url.path() + QString("/rest/stream"));
+
   media_url.setQuery(url_query);
 
   return LoadResult(url, LoadResult::TrackAvailable, media_url);
