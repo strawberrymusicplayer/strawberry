@@ -63,11 +63,9 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   ParamList params = ParamList() << params_provided
                            << Param("countryCode", country_code());
 
-  QStringList query_items;
   QUrlQuery url_query;
   for (const Param& param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    query_items << QString(encoded_param.first + "=" + encoded_param.second);
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
@@ -97,7 +95,13 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, 
   QByteArray data;
 
   if (reply->error() == QNetworkReply::NoError) {
-    data = reply->readAll();
+    int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (http_code == 200) {
+      data = reply->readAll();
+    }
+    else {
+      error = Error(QString("Received HTTP code %1").arg(http_code));
+    }
   }
   else {
     if (reply->error() < 200) {

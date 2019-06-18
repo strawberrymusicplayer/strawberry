@@ -366,6 +366,12 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     }
   }
 
+  int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  if (http_code != 200) {
+    LoginError(QString("Received HTTP code %1").arg(http_code));
+    return;
+  }
+
   QByteArray data(reply->readAll());
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
@@ -459,11 +465,9 @@ void TidalService::SendLogin(const QString &username, const QString &password, c
                                        << Param("password", password)
                                        << Param("clientVersion", "2.2.1--7");
 
-  QStringList query_items;
   QUrlQuery url_query;
   for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    query_items << QString(encoded_param.first + "=" + encoded_param.second);
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
