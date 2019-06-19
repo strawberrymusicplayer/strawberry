@@ -138,6 +138,10 @@
 #  include "tidal/tidalservice.h"
 #  include "settings/tidalsettingspage.h"
 #endif
+#ifdef HAVE_QOBUZ
+#  include "qobuz/qobuzservice.h"
+#  include "settings/qobuzsettingspage.h"
+#endif
 #ifdef HAVE_SUBSONIC
 #  include "subsonic/subsonicservice.h"
 #  include "settings/subsonicsettingspage.h"
@@ -216,6 +220,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifdef HAVE_TIDAL
       tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), app_->tidal_search(), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
 #endif
+#ifdef HAVE_QOBUZ
+      qobuz_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Qobuz), app_->qobuz_search(), QobuzSettingsPage::kSettingsGroup, SettingsDialog::Page_Qobuz, this)),
+#endif
 #ifdef HAVE_SUBSONIC
       subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source_Subsonic), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, this)),
 #endif
@@ -272,6 +279,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 #ifdef HAVE_TIDAL
   ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
+#endif
+#ifdef HAVE_QOBUZ
+  ui_->tabs->AddTab(qobuz_view_, "qobuz", IconLoader::Load("qobuz"), tr("Qobuz"));
 #endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic"), tr("Subsonic"));
@@ -566,7 +576,13 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal));
   if (tidalservice)
     connect(this, SIGNAL(AuthorisationUrlReceived(const QUrl&)), tidalservice, SLOT(AuthorisationUrlReceived(const QUrl&)));
+#endif
 
+#ifdef HAVE_QOBUZ
+  connect(qobuz_view_->artists_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(qobuz_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
 #ifdef HAVE_SUBSONIC
@@ -889,6 +905,16 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->DisableTab(tidal_view_);
 #endif
 
+#ifdef HAVE_QOBUZ
+  settings.beginGroup(QobuzSettingsPage::kSettingsGroup);
+  bool enable_qobuz = settings.value("enabled", false).toBool();
+  settings.endGroup();
+  if (enable_qobuz)
+    ui_->tabs->EnableTab(qobuz_view_);
+  else
+    ui_->tabs->DisableTab(qobuz_view_);
+#endif
+
 #ifdef HAVE_SUBSONIC
   settings.beginGroup(SubsonicSettingsPage::kSettingsGroup);
   bool enable_subsonic = settings.value("enabled", false).toBool();
@@ -916,6 +942,9 @@ void MainWindow::ReloadAllSettings() {
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
 #ifdef HAVE_TIDAL
   tidal_view_->ReloadSettings();
+#endif
+#ifdef HAVE_QOBUZ
+  qobuz_view_->ReloadSettings();
 #endif
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();

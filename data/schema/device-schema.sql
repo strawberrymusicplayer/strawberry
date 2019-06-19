@@ -76,4 +76,3 @@ CREATE VIRTUAL TABLE device_%deviceid_fts USING fts3(
 );
 
 UPDATE devices SET schema_version=0 WHERE ROWID=%deviceid;
-

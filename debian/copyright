@@ -58,9 +58,11 @@ Files: src/core/main.h
        src/lyrics/*
        src/scrobbler/*
        src/tidal/*
+       src/qobuz/*
+       src/subsonic/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
-Copyright: 2012-2014, 2017-2018, Jonas Kvinge <jonas@jkvinge.net>
+Copyright: 2012-2014, 2017-2019, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/core/main.cpp
