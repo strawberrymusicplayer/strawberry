@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -264,7 +264,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -378,7 +378,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -508,7 +508,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL;
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
