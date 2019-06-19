@@ -140,7 +140,7 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
 
-  if (url.path().right(1) == '/') {
+  if (!url.path().isEmpty() && url.path().right(1) == "/") {
     url.setPath(url.path() + QString("rest/ping.view"));
   }
   else

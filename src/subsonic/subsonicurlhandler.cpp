@@ -46,7 +46,7 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 
   QUrl media_url(server_url());
 
-  if (media_url.path().right(1) == '/') {
+  if (!media_url.path().isEmpty() && media_url.path().right(1) == "/") {
     media_url.setPath(media_url.path() + QString("rest/stream"));
   }
   else
