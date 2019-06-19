@@ -148,13 +148,14 @@ void QobuzRequest::FlushArtistsRequests() {
     else if (type_ == QueryType_SearchArtists) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply = nullptr;
     if (type_ == QueryType_Artists) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
     else if (type_ == QueryType_SearchArtists) {
       reply = CreateRequest("artist/search", params);
     }
+    if (!reply) continue;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
 
   }
@@ -194,13 +195,14 @@ void QobuzRequest::FlushAlbumsRequests() {
     else if (type_ == QueryType_SearchAlbums) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply = nullptr;
     if (type_ == QueryType_Albums) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
     else if (type_ == QueryType_SearchAlbums) {
       reply = CreateRequest("album/search", params);
     }
+    if (!reply) continue;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
 
   }
@@ -237,16 +239,17 @@ void QobuzRequest::FlushSongsRequests() {
       params << Param("type", "tracks");
       params << Param("user_auth_token", access_token());
     }
-    if (type_ == QueryType_SearchSongs) params << Param("query", search_text_);
+    else if (type_ == QueryType_SearchSongs) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply = nullptr;
     if (type_ == QueryType_Songs) {
       reply = CreateRequest(QString("favorite/getUserFavorites"), params);
     }
-    if (type_ == QueryType_SearchSongs) {
+    else if (type_ == QueryType_SearchSongs) {
       reply = CreateRequest("track/search", params);
     }
+    if (!reply) continue;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReplyReceived(QNetworkReply*, int, int)), reply, request.limit, request.offset);
 
   }
