@@ -73,10 +73,6 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   ui_->oauth->hide();
   ui_->label_client_id->hide();
   ui_->client_id->hide();
-  ui_->label_user_id->hide();
-  ui_->user_id->hide();
-  ui_->label_country_code->hide();
-  ui_->country_code->hide();
 
 }
 
@@ -93,8 +89,6 @@ void TidalSettingsPage::Load() {
 
   ui_->client_id->setText(s.value("client_id").toString());
   ui_->api_token->setText(s.value("api_token").toString());
-  ui_->user_id->setText(s.value("user_id").toString());
-  ui_->country_code->setText(s.value("country_code").toString());
 
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
@@ -129,8 +123,6 @@ void TidalSettingsPage::Save() {
   s.setValue("oauth", ui_->oauth->isChecked());
   s.setValue("client_id", ui_->client_id->text());
   s.setValue("api_token", ui_->api_token->text());
-  s.setValue("user_id", ui_->user_id->text());
-  s.setValue("country_code", ui_->country_code->text());
 
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));

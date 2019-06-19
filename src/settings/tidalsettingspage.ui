@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>715</width>
-    <height>794</height>
+    <height>836</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,31 +40,10 @@
       <string>Authentication</string>
      </property>
      <layout class="QFormLayout" name="layout_credential_group">
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_username">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="oauth">
         <property name="text">
-         <string>Username</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLineEdit" name="username"/>
-        </item>
-       </layout>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_password">
-        <property name="text">
-         <string>Password</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="password">
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <string>Use OAuth</string>
         </property>
        </widget>
       </item>
@@ -107,32 +86,33 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="oauth">
-        <property name="text">
-         <string>Use OAuth</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_user_id">
+       <widget class="QLabel" name="label_username">
         <property name="text">
-         <string>User ID</string>
+         <string>Username</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="user_id"/>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="username"/>
+        </item>
+       </layout>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_country_code">
+       <widget class="QLabel" name="label_password">
         <property name="text">
-         <string>Country Code</string>
+         <string>Password</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="country_code"/>
+       <widget class="QLineEdit" name="password">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
