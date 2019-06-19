@@ -55,7 +55,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   InternetCollectionView(QWidget *parent = nullptr);
   ~InternetCollectionView();
 
-  void Init(Application *app, CollectionBackend *backend, CollectionModel *model);
+  void Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite = false);
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
@@ -115,6 +115,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   CollectionBackend *collection_backend_;
   CollectionModel*collection_model_;
   CollectionFilterWidget *filter_;
+  bool favorite_;
 
   int total_song_count_;
   int total_artist_count_;

@@ -45,7 +45,7 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->setupUi(this);
 
   ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
-  ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model());
+  ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
   ui_->view->setModel(service_->songs_collection_sort_model());
   ui_->view->SetFilter(ui_->filter);
   ui_->filter->SetSettingsGroup(settings_group);
