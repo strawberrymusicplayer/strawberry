@@ -52,7 +52,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
-    ui_->artists_collection->view()->Init(app_, service_->artists_collection_backend(), service_->artists_collection_model());
+    ui_->artists_collection->view()->Init(app_, service_->artists_collection_backend(), service_->artists_collection_model(), true);
     ui_->artists_collection->view()->setModel(service_->artists_collection_sort_model());
     ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter());
     ui_->artists_collection->filter()->SetSettingsGroup(settings_group);
@@ -84,7 +84,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
 
   if (service_->albums_collection_model()) {
     ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
-    ui_->albums_collection->view()->Init(app_, service_->albums_collection_backend(), service_->albums_collection_model());
+    ui_->albums_collection->view()->Init(app_, service_->albums_collection_backend(), service_->albums_collection_model(), true);
     ui_->albums_collection->view()->setModel(service_->albums_collection_sort_model());
     ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter());
     ui_->albums_collection->filter()->SetSettingsGroup(settings_group);
@@ -116,7 +116,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
 
   if (service_->songs_collection_model()) {
     ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
-    ui_->songs_collection->view()->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model());
+    ui_->songs_collection->view()->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), true);
     ui_->songs_collection->view()->setModel(service_->songs_collection_sort_model());
     ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter());
     ui_->songs_collection->filter()->SetSettingsGroup(settings_group);

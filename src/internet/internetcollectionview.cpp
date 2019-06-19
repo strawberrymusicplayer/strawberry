@@ -51,11 +51,18 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
       collection_backend_(nullptr),
       collection_model_(nullptr),
       filter_(nullptr),
+      favorite_(false),
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
       nomusic_(":/pictures/nomusic.png"),
       context_menu_(nullptr),
+      load_(nullptr),
+      add_to_playlist_(nullptr),
+      add_to_playlist_enqueue_(nullptr),
+      add_to_playlist_enqueue_next_(nullptr),
+      open_in_new_playlist_(nullptr),
+      remove_songs_(nullptr),
       is_in_keyboard_search_(false)
   {
 
@@ -74,11 +81,12 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
 
 InternetCollectionView::~InternetCollectionView() {}
 
-void InternetCollectionView::Init(Application *app, CollectionBackend *backend, CollectionModel *model) {
+void InternetCollectionView::Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite) {
 
   app_ = app;
   collection_backend_ = backend;
   collection_model_ = model;
+  favorite_ = favorite;
 
   collection_model_->set_pretty_covers(true);
   collection_model_->set_show_dividers(true);
@@ -301,8 +309,10 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-    remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
-    context_menu_->addSeparator();
+    if (favorite_) {
+      remove_songs_ = context_menu_->addAction(IconLoader::Load("edit-delete"), tr("Remove from favorites"), this, SLOT(RemoveSongs()));
+      context_menu_->addSeparator();
+    }
 
     if (filter_) context_menu_->addMenu(filter_->menu());
 
@@ -320,7 +330,7 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
   add_to_playlist_->setEnabled(songs_selected);
   open_in_new_playlist_->setEnabled(songs_selected);
   add_to_playlist_enqueue_->setEnabled(songs_selected);
-  remove_songs_->setEnabled(songs_selected);
+  if (remove_songs_) remove_songs_->setEnabled(songs_selected);
 
   context_menu_->popup(e->globalPos());
 
