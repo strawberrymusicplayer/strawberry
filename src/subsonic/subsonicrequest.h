@@ -68,24 +68,24 @@ class SubsonicRequest : public SubsonicBaseRequest {
  private slots:
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const int artist_id, const int album_id, const QString album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl &url, const QString &filename);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist);
+  void AlbumCoverReceived(QNetworkReply *reply, const qint64 album_id, const QUrl &url, const QString &filename);
 
  private:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
   struct Request {
-    int artist_id = 0;
-    int album_id = 0;
-    int song_id = 0;
+    qint64 artist_id = 0;
+    qint64 album_id = 0;
+    qint64 song_id = 0;
     int offset = 0;
     int size = 0;
     QString album_artist;
   };
   struct AlbumCoverRequest {
-    int artist_id = 0;
-    int album_id = 0;
+    qint64 artist_id = 0;
+    qint64 album_id = 0;
     QUrl url;
     QString filename;
   };
@@ -96,11 +96,11 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumsFinishCheck(const int offset = 0, const int albums_received = 0);
   void SongsFinishCheck();
 
-  void AddAlbumSongsRequest(const int artist_id, const int album_id, const QString &album_artist, const int offset = 0);
+  void AddAlbumSongsRequest(const qint64 artist_id, const qint64 album_id, const QString &album_artist, const int offset = 0);
   QString AlbumCoverFileName(const Song &song);
   void FlushAlbumSongsRequests();
 
-  int ParseSong(Song &song, const QJsonObject &json_obj, const int artist_id_requested = 0, const int album_id_requested = 0, const QString &album_artist = QString());
+  int ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested = 0, const qint64 album_id_requested = 0, const QString &album_artist = QString());
 
   void GetAlbumCovers();
   void AddAlbumCoverRequest(Song &song);

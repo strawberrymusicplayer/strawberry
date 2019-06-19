@@ -199,9 +199,9 @@ class Song {
   const QString &comment() const;
   const QString &lyrics() const;
 
-  int artist_id() const;
-  int album_id() const;
-  int song_id() const;
+  qint64 artist_id() const;
+  qint64 album_id() const;
+  qint64 song_id() const;
 
   qint64 beginning_nanosec() const;
   qint64 end_nanosec() const;
@@ -289,9 +289,9 @@ class Song {
   void set_comment(const QString &v);
   void set_lyrics(const QString &v);
 
-  void set_artist_id(int v);
-  void set_album_id(int v);
-  void set_song_id(int v);
+  void set_artist_id(qint64 v);
+  void set_album_id(qint64 v);
+  void set_song_id(qint64 v);
 
   void set_beginning_nanosec(qint64 v);
   void set_end_nanosec(qint64 v);

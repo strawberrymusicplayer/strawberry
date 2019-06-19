@@ -242,7 +242,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
       continue;
     }
 
-    int album_id = json_obj["id"].toString().toInt();
+    qint64 album_id = json_obj["id"].toString().toLongLong();
     QString artist = json_obj["artist"].toString();
     QString album;
     if (json_obj.contains("album")) album = json_obj["album"].toString();
@@ -295,7 +295,7 @@ void SubsonicRequest::AlbumsFinishCheck(const int offset, const int albums_recei
 
 }
 
-void SubsonicRequest::AddAlbumSongsRequest(const int artist_id, const int album_id, const QString &album_artist, const int offset) {
+void SubsonicRequest::AddAlbumSongsRequest(const qint64 artist_id, const qint64 album_id, const QString &album_artist, const int offset) {
 
   Request request;
   request.artist_id = artist_id;
@@ -316,13 +316,13 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     ++album_songs_requests_active_;
     ParamList params = ParamList() << Param("id", QString::number(request.album_id));
     QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, int, int, QString)), reply, request.artist_id, request.album_id, request.album_artist);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const qint64, const qint64, const QString&)), reply, request.artist_id, request.album_id, request.album_artist);
 
   }
 
 }
 
-void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artist_id, const int album_id, const QString album_artist) {
+void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist) {
 
   --album_songs_requests_active_;
   ++album_songs_received_;
@@ -449,7 +449,7 @@ void SubsonicRequest::SongsFinishCheck() {
 
 }
 
-int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const int artist_id_requested, const int album_id_requested, const QString &album_artist) {
+int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested, const qint64 album_id_requested, const QString &album_artist) {
 
   if (
       !json_obj.contains("id") ||
@@ -469,9 +469,9 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const in
     return -1;
   }
 
-  int song_id = json_obj["id"].toString().toInt();
-  int album_id = json_obj["albumId"].toString().toInt();
-  int artist_id = json_obj["artistId"].toString().toInt();
+  qint64 song_id = json_obj["id"].toString().toLongLong();
+  qint64 album_id = json_obj["albumId"].toString().toLongLong();
+  qint64 artist_id = json_obj["artistId"].toString().toLongLong();
 
   QString title = json_obj["title"].toString();
   title.remove(Song::kTitleRemoveMisc);
@@ -628,13 +628,13 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const int, const QUrl&, const QString&)), reply, request.album_id, request.url, request.filename);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const qint64, const QUrl&, const QString&)), reply, request.album_id, request.url, request.filename);
 
   }
 
 }
 
-void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const int album_id, const QUrl &url, const QString &filename) {
+void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const qint64 album_id, const QUrl &url, const QString &filename) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);

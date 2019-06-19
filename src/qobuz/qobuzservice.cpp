@@ -556,7 +556,6 @@ void QobuzService::SendSearch() {
   connect(search_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SearchUpdateStatus(QString)));
   connect(search_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SearchProgressSetMaximum(int)));
   connect(search_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SearchUpdateProgress(int)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), search_request_.get(), SLOT(LoginComplete(bool, QString)));
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
@@ -570,7 +569,6 @@ void QobuzService::GetStreamURL(const QUrl &url) {
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
   connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), stream_url_req, SLOT(LoginComplete(bool, QString)));
 
   stream_url_req->Process();
 

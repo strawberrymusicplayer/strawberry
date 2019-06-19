@@ -176,9 +176,9 @@ struct Song::Private : public QSharedData {
   QString comment_;
   QString lyrics_;
 
-  int artist_id_;
-  int album_id_;
-  int song_id_;
+  qint64 artist_id_;
+  qint64 album_id_;
+  qint64 song_id_;
 
   qint64 beginning_;
   qint64 end_;
@@ -274,9 +274,9 @@ bool Song::is_valid() const { return d->valid_; }
 bool Song::is_unavailable() const { return d->unavailable_; }
 int Song::id() const { return d->id_; }
 
-int Song::artist_id() const { return d->artist_id_; }
-int Song::album_id() const { return d->album_id_; }
-int Song::song_id() const { return d->song_id_; }
+qint64 Song::artist_id() const { return d->artist_id_; }
+qint64 Song::album_id() const { return d->album_id_; }
+qint64 Song::song_id() const { return d->song_id_; }
 
 const QString &Song::title() const { return d->title_; }
 const QString &Song::album() const { return d->album_; }
@@ -341,9 +341,9 @@ const QString &Song::error() const { return d->error_; }
 void Song::set_id(int id) { d->id_ = id; }
 void Song::set_valid(bool v) { d->valid_ = v; }
 
-void Song::set_artist_id(int v) { d->artist_id_ = v; }
-void Song::set_album_id(int v) { d->album_id_ = v; }
-void Song::set_song_id(int v) { d->song_id_ = v; }
+void Song::set_artist_id(qint64 v) { d->artist_id_ = v; }
+void Song::set_album_id(qint64 v) { d->album_id_ = v; }
+void Song::set_song_id(qint64 v) { d->song_id_ = v; }
 
 void Song::set_title(const QString &v) { d->title_ = v; }
 void Song::set_album(const QString &v) { d->album_ = v; }
@@ -771,13 +771,13 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
 
     else if (Song::kColumns.value(i) == "artist_id") {
-      d->artist_id_ = toint(x);
+      d->artist_id_ = tolonglong(x);
     }
     else if (Song::kColumns.value(i) == "album_id") {
-      d->album_id_ = toint(x);
+      d->album_id_ = tolonglong(x);
     }
     else if (Song::kColumns.value(i) == "song_id") {
-      d->song_id_ = toint(x);
+      d->song_id_ = tolonglong(x);
     }
 
     else if (Song::kColumns.value(i) == "beginning") {

@@ -401,7 +401,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
       continue;
     }
 
-    int artist_id = json_obj["id"].toInt();
+    qint64 artist_id = json_obj["id"].toInt();
     if (artist_albums_requests_pending_.contains(artist_id)) continue;
     artist_albums_requests_pending_.append(artist_id);
 
@@ -431,7 +431,7 @@ void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   if (artists_requests_queue_.isEmpty() && artists_requests_active_ <= 0) {  // Artist query is finished, get all albums for all artists.
 
     // Get artist albums
-    for (int artist_id : artist_albums_requests_pending_) {
+    for (qint64 artist_id : artist_albums_requests_pending_) {
       AddArtistAlbumsRequest(artist_id);
       ++artist_albums_requested_;
     }
@@ -456,7 +456,7 @@ void QobuzRequest::AlbumsReplyReceived(QNetworkReply *reply, const int limit_req
   if (!albums_requests_queue_.isEmpty() && albums_requests_active_ < kMaxConcurrentAlbumsRequests) FlushAlbumsRequests();
 }
 
-void QobuzRequest::AddArtistAlbumsRequest(const int artist_id, const int offset) {
+void QobuzRequest::AddArtistAlbumsRequest(const qint64 artist_id, const int offset) {
 
   Request request;
   request.artist_id = artist_id;
@@ -478,13 +478,13 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artist/get"), params);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, int, int)), reply, request.artist_id, request.offset);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, const qint64, int)), reply, request.artist_id, request.offset);
 
   }
 
 }
 
-void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const int artist_id, const int offset_requested) {
+void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const int offset_requested) {
 
   --artist_albums_requests_active_;
   ++artist_albums_received_;
@@ -494,7 +494,7 @@ void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const int art
 
 }
 
-void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id_requested, const int limit_requested, const int offset_requested) {
+void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const int limit_requested, const int offset_requested) {
 
   QString error;
   QByteArray data = GetReplyData(reply, error);
@@ -512,7 +512,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id_requ
     return;
   }
 
-  int artist_id = 0;
+  qint64 artist_id = 0;
   if (json_obj.contains("id")) {
     artist_id = json_obj["id"].toInt();
   }
@@ -614,7 +614,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const int artist_id_requ
 
 }
 
-void QobuzRequest::AlbumsFinishCheck(const int artist_id, const int limit, const int offset, const int albums_total, const int albums_received) {
+void QobuzRequest::AlbumsFinishCheck(const qint64 artist_id, const int limit, const int offset, const int albums_total, const int albums_received) {
 
   if (finished_) return;
 
@@ -673,7 +673,7 @@ void QobuzRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requ
 
 }
 
-void QobuzRequest::AddAlbumSongsRequest(const int artist_id, const QString &album_id, const QString &album_artist, const int offset) {
+void QobuzRequest::AddAlbumSongsRequest(const qint64 artist_id, const QString &album_id, const QString &album_artist, const int offset) {
 
   Request request;
   request.artist_id = artist_id;
@@ -695,13 +695,13 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     ParamList params = ParamList() << Param("album_id", request.album_id);
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("album/get"), params);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, int, const QString&, int, const QString&)), reply, request.artist_id, request.album_id, request.offset, request.album_artist);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const qint64, const QString&, int, const QString&)), reply, request.artist_id, request.album_id, request.offset, request.album_artist);
 
   }
 
 }
 
-void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artist_id, const QString &album_id, const int offset_requested, const QString &album_artist) {
+void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const QString &album_id, const int offset_requested, const QString &album_artist) {
 
   --album_songs_requests_active_;
   ++album_songs_received_;
@@ -712,7 +712,7 @@ void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const int artis
 
 }
 
-void QobuzRequest::SongsReceived(QNetworkReply *reply, const int artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested) {
+void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested) {
 
   QString error;
   QByteArray data = GetReplyData(reply, error);
@@ -738,7 +738,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const int artist_id_reque
     return;
   }
 
-  int artist_id = 0;
+  qint64 artist_id = 0;
   QString album_artist;
   QString album_id;
   QString album;
@@ -862,7 +862,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const int artist_id_reque
 
 }
 
-void QobuzRequest::SongsFinishCheck(const int artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist) {
+void QobuzRequest::SongsFinishCheck(const qint64 artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist) {
 
   if (finished_) return;
 
@@ -912,7 +912,7 @@ void QobuzRequest::SongsFinishCheck(const int artist_id, const QString &album_id
 
 }
 
-int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, int artist_id, QString album_id, QString album_artist, QString album, QUrl cover_url) {
+int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, qint64 artist_id, QString album_id, QString album_artist, QString album, QUrl cover_url) {
 
   if (
       !json_obj.contains("id") ||
@@ -926,7 +926,7 @@ int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, int artist_
     return -1;
   }
 
-  int song_id = json_obj["id"].toInt();
+  qint64 song_id = json_obj["id"].toInt();
   QString title = json_obj["title"].toString();
   int track = json_obj["track_number"].toInt();
   QString copyright = json_obj["copyright"].toString();
@@ -934,7 +934,7 @@ int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, int artist_
   //bool streamable = json_obj["streamable"].toBool();
   QString composer;
   QString performer;
-  
+
   if (json_obj.contains("album")) {
 
     QJsonValue json_album = json_obj["album"];
