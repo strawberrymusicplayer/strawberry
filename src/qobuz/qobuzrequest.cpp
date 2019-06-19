@@ -996,7 +996,7 @@ int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, int artist_
       Error("Invalid Json reply, track composer is missing id or name.", json_obj_composer);
       return -1;
     }
-    QString composer = json_obj_composer["name"].toString();
+    composer = json_obj_composer["name"].toString();
   }
 
   if (json_obj.contains("performer")) {

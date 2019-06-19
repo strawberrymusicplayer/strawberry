@@ -72,7 +72,6 @@ class QobuzRequest : public QobuzBaseRequest {
   void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  private slots:
-  //void LoginComplete(bool success, QString error = QString());
 
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
