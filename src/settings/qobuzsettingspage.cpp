@@ -136,14 +136,14 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void QobuzSettingsPage::LogoutClicked() {
   service_->Logout();
-  ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedOut);
+  ui_->button_login->setEnabled(true);
 }
 
 void QobuzSettingsPage::LoginSuccess() {
   if (!this->isVisible()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
-  ui_->button_login->setEnabled(false);
+  ui_->button_login->setEnabled(true);
 }
 
 void QobuzSettingsPage::LoginFailure(QString failure_reason) {

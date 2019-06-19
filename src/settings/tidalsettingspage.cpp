@@ -187,10 +187,11 @@ void TidalSettingsPage::LogoutClicked() {
 void TidalSettingsPage::LoginSuccess() {
   if (!this->isVisible()) return;
   ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
-  ui_->button_login->setEnabled(false);
+  ui_->button_login->setEnabled(true);
 }
 
 void TidalSettingsPage::LoginFailure(QString failure_reason) {
   if (!this->isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+  ui_->button_login->setEnabled(true);
 }
