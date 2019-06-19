@@ -61,7 +61,7 @@ TidalBaseRequest::~TidalBaseRequest() {
 QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 
   ParamList params = ParamList() << params_provided
-                           << Param("countryCode", country_code());
+                                 << Param("countryCode", country_code());
 
   QUrlQuery url_query;
   for (const Param& param : params) {

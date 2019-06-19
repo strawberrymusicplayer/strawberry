@@ -108,8 +108,8 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         id = QString::number(song.artist_id());
         break;
     case FavoriteType_Albums:
-        if (song.album_id() <= 0) continue;
-        id = QString::number(song.album_id());
+        if (song.album_id().isEmpty()) continue;
+        id = song.album_id();
         break;
     case FavoriteType_Songs:
         if (song.song_id() <= 0) continue;
@@ -215,8 +215,8 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         id = QString::number(song.artist_id());
         break;
     case FavoriteType_Albums:
-        if (song.album_id() <= 0) continue;
-        id = QString::number(song.album_id());
+        if (song.album_id().isEmpty()) continue;
+        id = song.album_id();
         break;
     case FavoriteType_Songs:
         if (song.song_id() <= 0) continue;

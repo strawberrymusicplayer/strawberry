@@ -109,8 +109,8 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         id = QString::number(song.artist_id());
         break;
     case FavoriteType_Albums:
-        if (song.album_id() <= 0) continue;
-        id = QString::number(song.album_id());
+        if (song.album_id().isEmpty()) continue;
+        id = song.album_id();
         break;
     case FavoriteType_Songs:
         if (song.song_id() <= 0) continue;
@@ -201,18 +201,18 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
   if (songs.isEmpty()) return;
 
-  QList<int> ids;
-  QMultiMap<int, Song> songs_map;
+  QList<qint64> ids;
+  QMultiMap<qint64, Song> songs_map;
   for (const Song &song : songs) {
-    int id = -1;
+    qint64 id = -1;
     switch (type) {
       case FavoriteType_Artists:
         if (song.artist_id() <= 0) continue;
         id = song.artist_id();
         break;
     case FavoriteType_Albums:
-        if (song.album_id() <= 0) continue;
-        id = song.album_id();
+        if (song.album_id().isEmpty()) continue;
+        id = song.album_id().toLongLong();
         break;
     case FavoriteType_Songs:
         if (song.song_id() <= 0) continue;

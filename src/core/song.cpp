@@ -177,7 +177,7 @@ struct Song::Private : public QSharedData {
   QString lyrics_;
 
   qint64 artist_id_;
-  qint64 album_id_;
+  QString album_id_;
   qint64 song_id_;
 
   qint64 beginning_;
@@ -230,7 +230,6 @@ Song::Private::Private(Song::Source source)
       compilation_(false),
 
       artist_id_(-1),
-      album_id_(-1),
       song_id_(-1),
 
       beginning_(0),
@@ -275,7 +274,7 @@ bool Song::is_unavailable() const { return d->unavailable_; }
 int Song::id() const { return d->id_; }
 
 qint64 Song::artist_id() const { return d->artist_id_; }
-qint64 Song::album_id() const { return d->album_id_; }
+QString Song::album_id() const { return d->album_id_; }
 qint64 Song::song_id() const { return d->song_id_; }
 
 const QString &Song::title() const { return d->title_; }
@@ -342,7 +341,8 @@ void Song::set_id(int id) { d->id_ = id; }
 void Song::set_valid(bool v) { d->valid_ = v; }
 
 void Song::set_artist_id(qint64 v) { d->artist_id_ = v; }
-void Song::set_album_id(qint64 v) { d->album_id_ = v; }
+void Song::set_album_id(qint64 v) { d->album_id_ = QString::number(v); }
+void Song::set_album_id(const QString &v) { d->album_id_ = v; }
 void Song::set_song_id(qint64 v) { d->song_id_ = v; }
 
 void Song::set_title(const QString &v) { d->title_ = v; }
@@ -774,7 +774,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->artist_id_ = tolonglong(x);
     }
     else if (Song::kColumns.value(i) == "album_id") {
-      d->album_id_ = tolonglong(x);
+      d->album_id_ = tostr(x);
     }
     else if (Song::kColumns.value(i) == "song_id") {
       d->song_id_ = tolonglong(x);
@@ -1130,7 +1130,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":lyrics", strval(d->lyrics_));
 
   query->bindValue(":artist_id", intval(d->artist_id_));
-  query->bindValue(":album_id", intval(d->album_id_));
+  query->bindValue(":album_id", strval(d->album_id_));
   query->bindValue(":song_id", intval(d->song_id_));
 
   query->bindValue(":beginning", d->beginning_);

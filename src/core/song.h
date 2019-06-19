@@ -200,7 +200,7 @@ class Song {
   const QString &lyrics() const;
 
   qint64 artist_id() const;
-  qint64 album_id() const;
+  QString album_id() const;
   qint64 song_id() const;
 
   qint64 beginning_nanosec() const;
@@ -291,6 +291,7 @@ class Song {
 
   void set_artist_id(qint64 v);
   void set_album_id(qint64 v);
+  void set_album_id(const QString &v);
   void set_song_id(qint64 v);
 
   void set_beginning_nanosec(qint64 v);

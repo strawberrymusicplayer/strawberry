@@ -69,7 +69,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const qint64 album_id, const QUrl &url, const QString &filename);
+  void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -85,7 +85,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   };
   struct AlbumCoverRequest {
     qint64 artist_id = 0;
-    qint64 album_id = 0;
+    QString album_id = 0;
     QUrl url;
     QString filename;
   };
@@ -127,7 +127,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QQueue<AlbumCoverRequest> album_cover_requests_queue_;
 
   QHash<int, Request> album_songs_requests_pending_;
-  QMultiMap<int, Song*> album_covers_requests_sent_;
+  QMultiMap<QString, Song*> album_covers_requests_sent_;
 
   int albums_requests_active_;
 

@@ -85,7 +85,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
   bool has_album_icon = false;
   QString display_text;
   QString sort_text;
-  int unique_tag = -1;
+  QString unique_tag;
   int year = 0;
 
   switch (group_by_[level]) {
@@ -222,7 +222,7 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
   if (sort_text.isEmpty()) sort_text = "Unknown";
 
   // Find a container for this level
-  key->group_[level] = display_text + QString::number(unique_tag);
+  key->group_[level] = display_text + unique_tag;
   QStandardItem *container = containers_[*key];
   if (!container) {
     container = new QStandardItem(display_text);

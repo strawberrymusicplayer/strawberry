@@ -628,13 +628,13 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const qint64, const QUrl&, const QString&)), reply, request.album_id, request.url, request.filename);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const QString&, const QUrl&, const QString&)), reply, request.album_id, request.url, request.filename);
 
   }
 
 }
 
-void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const qint64 album_id, const QUrl &url, const QString &filename) {
+void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);
