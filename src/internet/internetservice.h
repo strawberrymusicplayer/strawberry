@@ -80,12 +80,12 @@ class InternetService : public QObject {
   void Login(const QString &username, const QString &password, const QString &token);
   void Login(const QString &hostname, const int, const QString &username, const QString &password);
   void LoginSuccess();
-  void LoginFailure(QString failure_reason);
-  void LoginComplete(bool success, QString error = QString());
+  void LoginFailure(const QString &failure_reason);
+  void LoginComplete(const bool success, QString error = QString());
 
   void TestSuccess();
-  void TestFailure(QString failure_reason);
-  void TestComplete(bool success, QString error = QString());
+  void TestFailure(const QString &failure_reason);
+  void TestComplete(const bool success, QString error = QString());
 
   void Error(const QString &error);
   void Results(const SongList &songs, const QString &error);
@@ -121,7 +121,7 @@ class InternetService : public QObject {
   void RemoveAlbums(const SongList& songs);
   void RemoveSongs(const SongList& songs);
 
-  void StreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error = QString());
+  void StreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType &filetype, const QString &error = QString());
 
  protected:
   Application *app_;

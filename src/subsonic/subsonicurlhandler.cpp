@@ -31,6 +31,14 @@ SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *servic
 
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 
+  if (!server_url().isValid()) {
+    return LoadResult(url, LoadResult::Error, url, Song::FileType_Stream, -1, tr("Subsonic server URL is invalid."));
+  }
+
+  if (username().isEmpty() || password().isEmpty()) {
+    return LoadResult(url, LoadResult::Error, url, Song::FileType_Stream, -1, tr("Missing Subsonic username or password."));
+  }
+
   ParamList params = ParamList() << Param("c", service_->client_name())
                                  << Param("v", service_->api_version())
                                  << Param("f", "json")

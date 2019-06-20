@@ -51,14 +51,14 @@ class TidalSettingsPage : public SettingsPage {
 
  signals:
   void Login();
-  void Login(const QString &username, const QString &password, const QString &token);
+  void Login(const QString &api_token, const QString &username, const QString &password);
 
  private slots:
-  void OAuthClicked(bool enabled);
+  void OAuthClicked(const bool enabled);
   void LoginClicked();
   void LogoutClicked();
   void LoginSuccess();
-  void LoginFailure(QString failure_reason);
+  void LoginFailure(const QString &failure_reason);
 
  private:
   Ui_TidalSettingsPage* ui_;

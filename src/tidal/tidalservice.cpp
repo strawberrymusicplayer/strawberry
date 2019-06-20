@@ -447,10 +447,10 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
 }
 
 void TidalService::SendLogin() {
-  SendLogin(username_, password_, api_token_);
+  SendLogin(api_token_, username_, password_);
 }
 
-void TidalService::SendLogin(const QString &username, const QString &password, const QString &token) {
+void TidalService::SendLogin(const QString &api_token, const QString &username, const QString &password) {
 
   login_sent_ = true;
   ++login_attempts_;
@@ -458,7 +458,7 @@ void TidalService::SendLogin(const QString &username, const QString &password, c
   timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
   timer_login_attempt_->start();
 
-  const ParamList params = ParamList() << Param("token", (token.isEmpty() ? api_token_ : token))
+  const ParamList params = ParamList() << Param("token", (api_token.isEmpty() ? api_token_ : api_token))
                                        << Param("username", username)
                                        << Param("password", password)
                                        << Param("clientVersion", "2.2.1--7");
@@ -473,7 +473,7 @@ void TidalService::SendLogin(const QString &username, const QString &password, c
   QNetworkRequest req(url);
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-Tidal-Token", (token.isEmpty() ? api_token_.toUtf8() : token.toUtf8()));
+  req.setRawHeader("X-Tidal-Token", (api_token.isEmpty() ? api_token_.toUtf8() : api_token.toUtf8()));
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
@@ -600,20 +600,20 @@ void TidalService::TryLogin() {
 
   if (authenticated() || login_sent_) return;
 
-  if (login_attempts_ >= kLoginAttempts) {
-    emit LoginComplete(false, "Maximum number of login attempts reached.");
-    return;
-  }
   if (api_token_.isEmpty()) {
-    emit LoginComplete(false, "Missing Tidal API token.");
+    emit LoginComplete(false, tr("Missing Tidal API token."));
     return;
   }
   if (username_.isEmpty()) {
-    emit LoginComplete(false, "Missing Tidal username.");
+    emit LoginComplete(false, tr("Missing Tidal username."));
     return;
   }
   if (password_.isEmpty()) {
-    emit LoginComplete(false, "Missing Tidal password.");
+    emit LoginComplete(false, tr("Missing Tidal password."));
+    return;
+  }
+  if (login_attempts_ >= kLoginAttempts) {
+    emit LoginComplete(false, tr("Not authenticated with Tidal and reached maximum number of login attempts."));
     return;
   }
 
@@ -633,6 +633,19 @@ void TidalService::ResetArtistsRequest() {
 
 void TidalService::GetArtists() {
 
+  if (!authenticated()) {
+    if (oauth_) {
+      emit ArtistsResults(SongList(), tr("Not authenticated with Tidal."));
+      ShowConfig();
+      return;
+    }
+    else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
+      emit ArtistsResults(SongList(), tr("Missing Tidal API token, username or passord."));
+      ShowConfig();
+      return;
+    }
+  }
+
   ResetArtistsRequest();
 
   artists_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Artists, this));
@@ -641,7 +654,7 @@ void TidalService::GetArtists() {
   connect(artists_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(ArtistsUpdateStatusReceived(const int, const QString&)));
   connect(artists_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(ArtistsProgressSetMaximumReceived(const int, const int)));
   connect(artists_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(ArtistsUpdateProgressReceived(const int, const int)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), artists_request_.get(), SLOT(LoginComplete(bool, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, QString)), artists_request_.get(), SLOT(LoginComplete(const bool, QString)));
 
   artists_request_->Process();
 
@@ -675,13 +688,26 @@ void TidalService::ResetAlbumsRequest() {
 
 void TidalService::GetAlbums() {
 
+  if (!authenticated()) {
+    if (oauth_) {
+      emit AlbumsResults(SongList(), tr("Not authenticated with Tidal."));
+      ShowConfig();
+      return;
+    }
+    else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
+      emit AlbumsResults(SongList(), tr("Missing Tidal API token, username or passord."));
+      ShowConfig();
+      return;
+    }
+  }
+
   ResetAlbumsRequest();
   albums_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Albums, this));
   connect(albums_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(AlbumsResultsReceived(const int, const SongList&, const QString&)));
   connect(albums_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(AlbumsUpdateStatusReceived(const int, const QString&)));
   connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(AlbumsProgressSetMaximumReceived(const int, const int)));
   connect(albums_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(AlbumsUpdateProgressReceived(const int, const int)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), albums_request_.get(), SLOT(LoginComplete(bool, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, const QString&)), albums_request_.get(), SLOT(LoginComplete(const bool, const QString&)));
 
   albums_request_->Process();
 
@@ -715,13 +741,26 @@ void TidalService::ResetSongsRequest() {
 
 void TidalService::GetSongs() {
 
+  if (!authenticated()) {
+    if (oauth_) {
+      emit SongsResults(SongList(), tr("Not authenticated with Tidal."));
+      ShowConfig();
+      return;
+    }
+    else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
+      emit SongsResults(SongList(), tr("Missing Tidal API token, username or passord."));
+      ShowConfig();
+      return;
+    }
+  }
+
   ResetSongsRequest();
   songs_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Songs, this));
   connect(songs_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SongsResultsReceived(const int, const SongList&, const QString&)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(SongsUpdateStatusReceived(const int, const QString&)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(SongsProgressSetMaximumReceived(const int, const int)));
   connect(songs_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(SongsUpdateProgressReceived(const int, const int)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), songs_request_.get(), SLOT(LoginComplete(bool, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, const QString&)), songs_request_.get(), SLOT(LoginComplete(const bool, const QString&)));
 
   songs_request_->Process();
 
@@ -764,11 +803,17 @@ int TidalService::Search(const QString &text, InternetSearch::SearchType type) {
 
 void TidalService::StartSearch() {
 
-  if ((oauth_ && !authenticated()) || api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-    emit SearchResults(pending_search_id_, SongList(), tr("Not authenticated."));
-    next_pending_search_id_ = 1;
-    ShowConfig();
-    return;
+  if (!authenticated()) {
+    if (oauth_) {
+      emit SearchResults(pending_search_id_, SongList(), tr("Not authenticated with Tidal."));
+      ShowConfig();
+      return;
+    }
+    else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
+      emit SearchResults(pending_search_id_, SongList(), tr("Missing Tidal API token, username or passord."));
+      ShowConfig();
+      return;
+    }
   }
 
   search_id_ = pending_search_id_;
@@ -806,7 +851,7 @@ void TidalService::SendSearch() {
   connect(search_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SIGNAL(SearchUpdateStatus(const int, const QString&)));
   connect(search_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SIGNAL(SearchProgressSetMaximum(const int, const int)));
   connect(search_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SIGNAL(SearchUpdateProgress(const int, const int)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), search_request_.get(), SLOT(LoginComplete(bool, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, const QString&)), search_request_.get(), SLOT(LoginComplete(const bool, const QString&)));
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
@@ -819,18 +864,29 @@ void TidalService::SearchResultsReceived(const int id, const SongList &songs, co
 
 void TidalService::GetStreamURL(const QUrl &url) {
 
+  if (!authenticated()) {
+    if (oauth_) {
+      emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Not authenticated with Tidal."));
+      return;
+    }
+    else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
+      emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Missing Tidal API token, username or passord."));
+      return;
+    }
+  }
+
   TidalStreamURLRequest *stream_url_req = new TidalStreamURLRequest(this, network_, url, this);
   stream_url_requests_ << stream_url_req;
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
-  connect(this, SIGNAL(LoginComplete(bool, QString)), stream_url_req, SLOT(LoginComplete(bool, QString)));
+  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const QString&)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, const QString&)), stream_url_req, SLOT(LoginComplete(const bool, QString)));
 
   stream_url_req->Process();
 
 }
 
-void TidalService::HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error) {
+void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error) {
 
   TidalStreamURLRequest *stream_url_req = qobject_cast<TidalStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;

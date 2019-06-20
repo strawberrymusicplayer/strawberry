@@ -143,7 +143,7 @@ void QobuzRequest::FlushArtistsRequests() {
     ParamList params;
     if (type_ == QueryType_Artists) {
       params << Param("type", "artists");
-      params << Param("user_auth_token", access_token());
+      params << Param("user_auth_token", user_auth_token());
     }
     else if (type_ == QueryType_SearchArtists) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
@@ -190,7 +190,7 @@ void QobuzRequest::FlushAlbumsRequests() {
     ParamList params;
     if (type_ == QueryType_Albums) {
       params << Param("type", "albums");
-      params << Param("user_auth_token", access_token());
+      params << Param("user_auth_token", user_auth_token());
     }
     else if (type_ == QueryType_SearchAlbums) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));
@@ -237,7 +237,7 @@ void QobuzRequest::FlushSongsRequests() {
     ParamList params;
     if (type_ == QueryType_Songs) {
       params << Param("type", "tracks");
-      params << Param("user_auth_token", access_token());
+      params << Param("user_auth_token", user_auth_token());
     }
     else if (type_ == QueryType_SearchSongs) params << Param("query", search_text_);
     if (request.limit > 0) params << Param("limit", QString::number(request.limit));

@@ -121,7 +121,7 @@ class TidalService : public InternetService {
  public slots:
   void ShowConfig();
   void TryLogin();
-  void SendLogin(const QString &username, const QString &password, const QString &token);
+  void SendLogin(const QString &api_token, const QString &username, const QString &password);
   void GetArtists();
   void GetAlbums();
   void GetSongs();
@@ -150,7 +150,7 @@ class TidalService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error = QString());
+  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error = QString());
 
  private:
   typedef QPair<QString, QString> Param;

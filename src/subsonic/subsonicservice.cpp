@@ -319,6 +319,16 @@ void SubsonicService::ResetSongsRequest() {
 
 void SubsonicService::GetSongs() {
 
+  if (!server_url().isValid()) {
+    emit SongsResults(SongList(), tr("Server URL is invalid."));
+    return;
+  }
+
+  if (username().isEmpty() || password().isEmpty()) {
+    emit SongsResults(SongList(), tr("Missing username or password."));
+    return;
+  }
+
   ResetSongsRequest();
   songs_request_.reset(new SubsonicRequest(this, url_handler_, network_, this));
   connect(songs_request_.get(), SIGNAL(Results(const SongList&, const QString&)), SLOT(SongsResultsReceived(const SongList&, const QString&)));

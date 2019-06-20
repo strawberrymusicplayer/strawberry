@@ -85,7 +85,7 @@ TidalRequest::~TidalRequest() {
 
 }
 
-void TidalRequest::LoginComplete(bool success, QString error) {
+void TidalRequest::LoginComplete(const bool success, QString error) {
 
   if (!need_login_) return;
   need_login_ = false;

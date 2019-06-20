@@ -207,7 +207,7 @@ void QobuzService::ReloadSettings() {
   songssearchlimit_ = s.value("songssearchlimit", 100).toInt();
   cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
 
-  access_token_ = s.value("access_token").toString();
+  user_auth_token_ = s.value("user_auth_token").toString();
 
   s.endGroup();
 
@@ -325,14 +325,14 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
     return;
   }
 
-  access_token_ = json_obj["user_auth_token"].toString();
+  user_auth_token_ = json_obj["user_auth_token"].toString();
 
   QSettings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
-  s.setValue("access_token", access_token_);
+  s.setValue("user_auth_token", user_auth_token_);
   s.endGroup();
 
-  qLog(Debug) << "Qobuz: Login successful" << "access token" << access_token_;
+  qLog(Debug) << "Qobuz: Login successful" << "user auth token" << user_auth_token_;
 
   login_attempts_ = 0;
   if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
@@ -344,7 +344,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 
 void QobuzService::Logout() {
 
-  access_token_.clear();
+  user_auth_token_.clear();
 
   QSettings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
@@ -362,19 +362,19 @@ void QobuzService::TryLogin() {
   if (authenticated() || login_sent_) return;
 
   if (login_attempts_ >= kLoginAttempts) {
-    emit LoginComplete(false, "Maximum number of login attempts reached.");
+    emit LoginComplete(false, tr("Maximum number of login attempts reached."));
     return;
   }
   if (app_id_.isEmpty()) {
-    emit LoginComplete(false, "Missing Qobuz app ID.");
+    emit LoginComplete(false, tr("Missing Qobuz app ID."));
     return;
   }
   if (username_.isEmpty()) {
-    emit LoginComplete(false, "Missing Qobuz username.");
+    emit LoginComplete(false, tr("Missing Qobuz username."));
     return;
   }
   if (password_.isEmpty()) {
-    emit LoginComplete(false, "Missing Qobuz password.");
+    emit LoginComplete(false, tr("Missing Qobuz password."));
     return;
   }
 
@@ -393,6 +393,16 @@ void QobuzService::ResetArtistsRequest() {
 }
 
 void QobuzService::GetArtists() {
+
+  if (app_id().isEmpty()) {
+    emit ArtistsResults(SongList(), tr("Missing Qobuz app ID."));
+    return;
+  }
+
+  if (!authenticated()) {
+    emit ArtistsResults(SongList(), tr("Not authenticated with Qobuz."));
+    return;
+  }
 
   ResetArtistsRequest();
 
@@ -435,6 +445,16 @@ void QobuzService::ResetAlbumsRequest() {
 
 void QobuzService::GetAlbums() {
 
+  if (app_id().isEmpty()) {
+    emit AlbumsResults(SongList(), tr("Missing Qobuz app ID."));
+    return;
+  }
+
+  if (!authenticated()) {
+    emit AlbumsResults(SongList(), tr("Not authenticated with Qobuz."));
+    return;
+  }
+
   ResetAlbumsRequest();
   albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Albums, this));
   connect(albums_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(AlbumsResultsReceived(const int, const SongList&, const QString&)));
@@ -473,6 +493,16 @@ void QobuzService::ResetSongsRequest() {
 }
 
 void QobuzService::GetSongs() {
+
+  if (app_id().isEmpty()) {
+    emit SongsResults(SongList(), tr("Missing Qobuz app ID."));
+    return;
+  }
+
+  if (!authenticated()) {
+    emit SongsResults(SongList(), tr("Not authenticated with Qobuz."));
+    return;
+  }
 
   ResetSongsRequest();
   songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Songs, this));
@@ -522,15 +552,13 @@ int QobuzService::Search(const QString &text, InternetSearch::SearchType type) {
 
 void QobuzService::StartSearch() {
 
-  if (app_id_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-    emit SearchResults(pending_search_id_, SongList(), tr("Not authenticated."));
-    next_pending_search_id_ = 1;
-    ShowConfig();
-    return;
-  }
-
   search_id_ = pending_search_id_;
   search_text_ = pending_search_text_;
+
+  if (app_id_.isEmpty()) { // App ID is the only thing needed to search.
+    emit SearchResults(search_id_, SongList(), tr("Missing Qobuz app ID."));
+    return;
+  }
 
   SendSearch();
 
@@ -576,17 +604,23 @@ void QobuzService::SearchResultsReceived(const int id, const SongList &songs, co
 
 void QobuzService::GetStreamURL(const QUrl &url) {
 
+  if (app_id().isEmpty() || app_secret().isEmpty()) { // Don't check for login here, because we allow automatic login.
+    emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Missing Qobuz app ID or secret."));
+    return;
+  }
+
   QobuzStreamURLRequest *stream_url_req = new QobuzStreamURLRequest(this, network_, url, this);
   stream_url_requests_ << stream_url_req;
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
+  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType&, QString)));
+  connect(this, SIGNAL(LoginComplete(const bool, QString)), stream_url_req, SLOT(LoginComplete(const bool, QString)));
 
   stream_url_req->Process();
 
 }
 
-void QobuzService::HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error) {
+void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error) {
 
   QobuzStreamURLRequest *stream_url_req = qobject_cast<QobuzStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;

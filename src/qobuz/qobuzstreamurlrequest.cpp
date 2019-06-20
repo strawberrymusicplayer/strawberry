@@ -77,7 +77,7 @@ void QobuzStreamURLRequest::LoginComplete(bool success, QString error) {
 void QobuzStreamURLRequest::Process() {
 
   if (app_id().isEmpty() || app_secret().isEmpty()) {
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, tr("Missing app ID or secret."));
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, tr("Missing Qobuz app ID or secret."));
     return;
   }
 
@@ -134,7 +134,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   ParamList params = params_to_sign;
   params << Param("request_ts", QString::number(timestamp));
   params << Param("request_sig", signature);
-  params << Param("user_auth_token", access_token());
+  params << Param("user_auth_token", user_auth_token());
 
   std::sort(params.begin(), params.end());
 

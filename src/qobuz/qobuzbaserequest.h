@@ -88,7 +88,7 @@ class QobuzBaseRequest : public QObject {
   int albumssearchlimit() { return service_->albumssearchlimit(); }
   int songssearchlimit() { return service_->songssearchlimit(); }
 
-  QString access_token() { return service_->access_token(); }
+  QString user_auth_token() { return service_->user_auth_token(); }
 
   bool authenticated() { return service_->authenticated(); }
   bool login_sent() { return service_->login_sent(); }

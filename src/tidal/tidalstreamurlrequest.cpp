@@ -59,7 +59,7 @@ TidalStreamURLRequest::~TidalStreamURLRequest() {
 
 }
 
-void TidalStreamURLRequest::LoginComplete(bool success, QString error) {
+void TidalStreamURLRequest::LoginComplete(const bool success, QString error) {
 
   if (!need_login_) return;
   need_login_ = false;
@@ -77,13 +77,18 @@ void TidalStreamURLRequest::Process() {
 
   if (!authenticated()) {
     if (oauth()) {
-      emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, tr("Not authenticated."));
+      emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, tr("Not authenticated with Tidal."));
+      return;
+    }
+    else if (api_token().isEmpty() || username().isEmpty() || password().isEmpty()) {
+      emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, tr("Missing Tidal API token, username or passord."));
       return;
     }
     need_login_ = true;
     emit TryLogin();
     return;
   }
+
   GetStreamURL();
 
 }

@@ -48,9 +48,9 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   connect(ui_->oauth, SIGNAL(toggled(bool)), SLOT(OAuthClicked(bool)));
 
   connect(this, SIGNAL(Login()), service_, SLOT(StartAuthorisation()));
-  connect(this, SIGNAL(Login(QString, QString, QString)), service_, SLOT(SendLogin(QString, QString, QString)));
+  connect(this, SIGNAL(Login(const QString&, const QString&, const QString&)), service_, SLOT(SendLogin(const QString&, const QString&, const QString&)));
 
-  connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
+  connect(service_, SIGNAL(LoginFailure(const QString&)), SLOT(LoginFailure(const QString&)));
   connect(service_, SIGNAL(LoginSuccess()), SLOT(LoginSuccess()));
 
   dialog()->installEventFilter(this);
@@ -152,7 +152,7 @@ void TidalSettingsPage::LoginClicked() {
       QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing username or password."));
       return;
     }
-    emit Login(ui_->username->text(), ui_->password->text(), ui_->api_token->text());
+    emit Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());
   }
   ui_->button_login->setEnabled(false);
 
@@ -169,7 +169,7 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 }
 
-void TidalSettingsPage::OAuthClicked(bool enabled) {
+void TidalSettingsPage::OAuthClicked(const bool enabled) {
 
   ui_->client_id->setEnabled(enabled);
   ui_->api_token->setEnabled(!enabled);
@@ -190,7 +190,7 @@ void TidalSettingsPage::LoginSuccess() {
   ui_->button_login->setEnabled(true);
 }
 
-void TidalSettingsPage::LoginFailure(QString failure_reason) {
+void TidalSettingsPage::LoginFailure(const QString &failure_reason) {
   if (!this->isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
   ui_->button_login->setEnabled(true);

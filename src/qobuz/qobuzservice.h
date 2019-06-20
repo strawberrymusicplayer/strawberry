@@ -80,9 +80,9 @@ class QobuzService : public InternetService {
   int songssearchlimit() { return songssearchlimit_; }
   bool cache_album_covers() { return cache_album_covers_; }
 
-  QString access_token() { return access_token_; }
+  QString user_auth_token() { return user_auth_token_; }
 
-  const bool authenticated() { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !access_token_.isEmpty()); }
+  const bool authenticated() { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
   const bool login_sent() { return login_sent_; }
   const bool login_attempts() { return login_attempts_; }
 
@@ -114,7 +114,7 @@ class QobuzService : public InternetService {
  public slots:
   void ShowConfig();
   void TryLogin();
-  void SendLogin(const QString &username, const QString &password, const QString &token);
+  void SendLogin(const QString &app_id, const QString &username, const QString &password);
   void GetArtists();
   void GetAlbums();
   void GetSongs();
@@ -140,7 +140,7 @@ class QobuzService : public InternetService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error = QString());
+  void HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error = QString());
 
  private:
   typedef QPair<QString, QString> Param;
@@ -200,7 +200,7 @@ class QobuzService : public InternetService {
   int songssearchlimit_;
   bool cache_album_covers_;
 
-  QString access_token_;
+  QString user_auth_token_;
 
   int pending_search_id_;
   int next_pending_search_id_;

@@ -129,7 +129,7 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   typedef QList<EncodedParam> EncodedParamList;
 
   ParamList params = ParamList() << Param("app_id", app_id())
-                                 << Param("user_auth_token", access_token())
+                                 << Param("user_auth_token", user_auth_token())
                                  << Param(text, ids);
 
   QUrlQuery url_query;
@@ -233,7 +233,7 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
   QString ids = ids_list.join(',');
 
   ParamList params = ParamList() << Param("app_id", app_id())
-                                 << Param("user_auth_token", access_token())
+                                 << Param("user_auth_token", user_auth_token())
                                  << Param(text, ids);
 
   QUrlQuery url_query;
