@@ -337,7 +337,7 @@ void InternetSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
 
 }
 
-void InternetSearchView::ArtLoaded(int id, const QPixmap &pixmap) {
+void InternetSearchView::ArtLoaded(const int id, const QPixmap &pixmap) {
 
   if (!art_requests_.contains(id)) return;
   QModelIndex index = art_requests_.take(id);
@@ -586,7 +586,7 @@ void InternetSearchView::SearchSongsClicked(bool checked) {
   SetSearchType(InternetSearch::SearchType_Songs);
 }
 
-void InternetSearchView::SetSearchType(InternetSearch::SearchType type) {
+void InternetSearchView::SetSearchType(const InternetSearch::SearchType type) {
   search_type_ = type;
   QSettings s;
   s.beginGroup(settings_group_);

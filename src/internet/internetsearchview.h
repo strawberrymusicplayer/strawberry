@@ -104,7 +104,7 @@ class InternetSearchView : public QWidget {
   void SearchAlbumsClicked(bool);
   void SearchSongsClicked(bool);
   void GroupByClicked(QAction *action);
-  void SetSearchType(InternetSearch::SearchType type);
+  void SetSearchType(const InternetSearch::SearchType type);
   void SetGroupBy(const CollectionModel::Grouping &g);
 
   void AddArtists();
