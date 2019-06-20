@@ -2118,6 +2118,7 @@ void MainWindow::PlaylistOpenInBrowser() {
   }
 
   Utilities::OpenInFileBrowser(urls);
+
 }
 
 void MainWindow::PlaylistQueue() {

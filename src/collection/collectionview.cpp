@@ -592,12 +592,15 @@ void CollectionView::FilterReturnPressed() {
 }
 
 void CollectionView::ShowInBrowser() {
+
+  SongList songs = GetSelectedSongs();
   QList<QUrl> urls;
-  for (const Song &song : GetSelectedSongs()) {
+  for (const Song &song : songs) {
     urls << song.url();
   }
 
   Utilities::OpenInFileBrowser(urls);
+
 }
 
 int CollectionView::TotalSongs() {

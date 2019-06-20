@@ -57,6 +57,7 @@
 #include <QXmlStreamReader>
 #include <QSettings>
 #include <QtEvents>
+#include <QMessageBox>
 #include <QtDebug>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
@@ -355,6 +356,25 @@ void ShowFileInExplorer(QString const &path) {
 #endif
 
 void OpenInFileBrowser(const QList<QUrl> &urls) {
+
+  if (urls.count() > 50) {
+    QMessageBox messagebox(QMessageBox::Critical, tr("Error"), tr("Too many songs selected."));
+    messagebox.exec();
+    return;
+  }
+
+  if (urls.count() > 5) {
+    QMessageBox messagebox(QMessageBox::Information, tr("Show in file browser"), tr("%1 songs selected, are you sure you want to open them all?").arg(urls.count()), QMessageBox::Open|QMessageBox::Cancel);
+    messagebox.setTextFormat(Qt::RichText);
+    int result = messagebox.exec();
+    switch (result) {
+    case QMessageBox::Open:
+      break;
+    case QMessageBox::Cancel:
+    default:
+      return;
+    }
+  }
 
   QSet<QString> dirs;
 
