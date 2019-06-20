@@ -2,6 +2,26 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Compare artist and album case-insensitive when generating score for album covers.
+    * Fixed broken return value of sendMessage() in SingleApplication causing application to be started twice.
+    * Improved error handling in local redirectserver.
+    * Added new tabs view with search and favorites to Tidal.
+    * Fixed gst_pad_send_event lock in gstreamer pipeline.
+    * Made Xine analyzer optional to fix compilation with newer Xine.
+    * Implemented offset and queue to all Tidal requests.
+    * Added new artist, album and song ids to songs schemas to add/remove favorites.
+    * Improved lyrics searcher.
+    * Fixed disabling fading option in backend settings when volume control is disabled.
+    * Added x-scheme-handler/tidal to desktop file to handle tidal songs and allow OAuth redirect url.
+    * Added love button for scrobblers.
+    * Fixed gapless playback when using url handler.
+    * Fixed enabling/disabling fading options in backend settings.
+    * Added support for Subsonic streaming.
+    * Added support for Qobuz streaming.
+    * Added confirmation box for opening songs in file browser to avoid users accidentally opening too many songs.
+
 Version 0.5.5:
 
     * Fixed Tidal API url
