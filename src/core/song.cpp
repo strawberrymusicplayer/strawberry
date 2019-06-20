@@ -102,7 +102,7 @@ const QStringList Song::kColumns = QStringList() << "title"
 
                                                  << "source"
                                                  << "directory_id"
-                                                 << "filename"
+                                                 << "url"
                                                  << "filetype"
                                                  << "filesize"
                                                  << "mtime"
@@ -803,7 +803,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     else if (Song::kColumns.value(i) == "directory_id") {
       d->directory_id_ = toint(x);
     }
-    else if (Song::kColumns.value(i) == "filename") {
+    else if (Song::kColumns.value(i) == "url") {
      set_url(QUrl::fromEncoded(tostr(x).toUtf8()));
      d->basefilename_ = QFileInfo(d->url_.toLocalFile()).fileName();
     }
@@ -944,7 +944,8 @@ void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
   filename.replace(':', '/');
   if (prefix.contains("://")) {
     set_url(QUrl(prefix + filename));
-  } else {
+  }
+  else {
     set_url(QUrl::fromLocalFile(prefix + filename));
   }
   d->basefilename_ = QFileInfo(filename).fileName();
@@ -1152,7 +1153,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
       url = d->url_.toEncoded();
     }
   }
-  query->bindValue(":filename", url);
+  query->bindValue(":url", url);
 
   query->bindValue(":filetype", d->filetype_);
   query->bindValue(":filesize", notnullintval(d->filesize_));

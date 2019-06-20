@@ -136,7 +136,7 @@ void CollectionBackend::ChangeDirPath(int id, const QString &old_path, const QSt
   // Do the songs table
   {
     QSqlQuery q(db);
-    q.prepare(QString("UPDATE %1 SET filename=:path || substr(filename, %2) WHERE directory=:id").arg(songs_table_).arg(path_len));
+    q.prepare(QString("UPDATE %1 SET url=:path || substr(url, %2) WHERE directory=:id").arg(songs_table_).arg(path_len));
     q.bindValue(":path", new_url);
     q.bindValue(":id", id);
     q.exec();
@@ -748,7 +748,7 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
 
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("filename", url.toString());
+  query.AddWhere("url", url.toString());
   query.AddWhere("beginning", beginning);
 
   Song song;
@@ -763,7 +763,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
 
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("filename", url.toString());
+  query.AddWhere("url", url.toString());
 
   SongList songlist;
   if (ExecQuery(&query)) {
@@ -860,7 +860,7 @@ void CollectionBackend::UpdateCompilations() {
   // Look for albums that have songs by more than one 'effective album artist' in the same directory
 
   QSqlQuery q(db);
-  q.prepare(QString("SELECT effective_albumartist, album, filename, compilation_detected FROM %1 WHERE unavailable = 0 ORDER BY album").arg(songs_table_));
+  q.prepare(QString("SELECT effective_albumartist, album, url, compilation_detected FROM %1 WHERE unavailable = 0 ORDER BY album").arg(songs_table_));
   q.exec();
   if (db_->CheckErrors(q)) return;
 
@@ -948,7 +948,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
   AlbumList ret;
 
   CollectionQuery query(opt);
-  query.SetColumnSpec("album, artist, albumartist, compilation, compilation_detected, art_automatic, art_manual, filename");
+  query.SetColumnSpec("album, artist, albumartist, compilation, compilation_detected, art_automatic, art_manual, url");
   query.SetOrderBy("album");
 
   if (compilation) {
@@ -1000,7 +1000,7 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
   ret.album_artist = albumartist;
 
   CollectionQuery query = CollectionQuery(QueryOptions());
-  query.SetColumnSpec("art_automatic, art_manual, filename");
+  query.SetColumnSpec("art_automatic, art_manual, url");
   if (!albumartist.isEmpty()) {
     query.AddWhere("albumartist", albumartist);
   }

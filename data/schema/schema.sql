@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -219,7 +219,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -276,7 +276,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -333,7 +333,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -390,7 +390,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,
@@ -489,7 +489,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
   collection_id INTEGER,
-  url TEXT,
+  playlist_url TEXT,
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -520,7 +520,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER,
-  filename TEXT,
+  url TEXT,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER,
   mtime INTEGER,
@@ -556,7 +556,7 @@ CREATE TABLE IF NOT EXISTS devices (
   transcode_format NOT NULL DEFAULT 5
 );
 
-CREATE INDEX IF NOT EXISTS idx_filename ON songs (filename);
+CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
 
 CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
 
