@@ -321,25 +321,18 @@ void SubsonicService::GetSongs() {
 
   ResetSongsRequest();
   songs_request_.reset(new SubsonicRequest(this, url_handler_, network_, this));
-  connect(songs_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(SongsErrorReceived(QString)));
-  connect(songs_request_.get(), SIGNAL(Results(SongList)), SLOT(SongsResultsReceived(SongList)));
-  connect(songs_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SongsUpdateStatus(QString)));
-  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SongsProgressSetMaximum(int)));
-  connect(songs_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SongsUpdateProgress(int)));
+  connect(songs_request_.get(), SIGNAL(Results(const SongList&, const QString&)), SLOT(SongsResultsReceived(const SongList&, const QString&)));
+  connect(songs_request_.get(), SIGNAL(UpdateStatus(const QString&)), SIGNAL(SongsUpdateStatus(const QString&)));
+  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int)), SIGNAL(SongsProgressSetMaximum(const int)));
+  connect(songs_request_.get(), SIGNAL(UpdateProgress(const int)), SIGNAL(SongsUpdateProgress(const int)));
 
   songs_request_->GetAlbums();
 
 }
 
-void SubsonicService::SongsResultsReceived(SongList songs) {
+void SubsonicService::SongsResultsReceived(const SongList &songs, const QString &error) {
 
-  emit SongsResults(songs);
-
-}
-
-void SubsonicService::SongsErrorReceived(QString error) {
-
-  emit SongsError(error);
+  emit SongsResults(songs, error);
 
 }
 

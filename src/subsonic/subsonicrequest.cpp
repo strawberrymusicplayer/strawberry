@@ -722,15 +722,8 @@ void SubsonicRequest::FinishCheck() {
       album_covers_received_ >= album_covers_requested_
   ) {
     finished_ = true;
-    if (songs_.isEmpty()) {
-      if (no_results_) emit Results(songs_);
-      else if (errors_.isEmpty()) emit ErrorSignal(tr("Unknown error"));
-      else emit ErrorSignal(errors_);
-    }
-    else {
-      emit Results(songs_);
-    }
-
+    if (no_results_) emit Results(SongList(), QString());
+    else emit Results(songs_, errors_);
   }
 
 }

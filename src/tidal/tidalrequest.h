@@ -63,13 +63,10 @@ class TidalRequest : public TidalBaseRequest {
   void Login(const QString &username, const QString &password, const QString &token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
-  void Results(SongList songs);
-  void SearchResults(int id, SongList songs);
-  void ErrorSignal(QString message);
-  void ErrorSignal(int id, QString message);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
+  void Results(const int id, const SongList &songs, const QString &error);
+  void UpdateStatus(const int id, const QString &text);
+  void ProgressSetMaximum(const int id, const int max);
+  void UpdateProgress(const int id, const int max);
   void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  private slots:
@@ -160,8 +157,10 @@ class TidalRequest : public TidalBaseRequest {
   NetworkAccessManager *network_;
 
   QueryType type_;
+  bool fetchalbums_;
+  QString coversize_;
 
-  int search_id_;
+  int query_id_;
   QString search_text_;
 
   bool finished_;

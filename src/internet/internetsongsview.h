@@ -52,8 +52,7 @@ class InternetSongsView : public QWidget {
   void contextMenuEvent(QContextMenuEvent *e);
   void GetSongs();
   void AbortGetSongs();;
-  void SongsError(QString error);
-  void SongsFinished(SongList songs);
+  void SongsFinished(const SongList &songs, const QString &error);
 
  private:
   Application *app_;

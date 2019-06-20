@@ -90,8 +90,6 @@ class TidalBaseRequest : public QObject {
   int artistssearchlimit() { return service_->artistssearchlimit(); }
   int albumssearchlimit() { return service_->albumssearchlimit(); }
   int songssearchlimit() { return service_->songssearchlimit(); }
-  bool fetchalbums() { return service_->fetchalbums(); }
-  QString coversize() { return service_->coversize(); }
 
   QString access_token() { return service_->access_token(); }
   QString session_id() { return service_->session_id(); }

@@ -59,7 +59,7 @@ class InternetSearchView : public QWidget {
   InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView();
 
-  void Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, const bool artists = false, const bool albums = false, const bool songs = false);
+  void Init(Application *app, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, const bool artists = false, const bool albums = false, const bool songs = false);
 
   static const int kSwapModelsTimeoutMsec;
 
@@ -84,12 +84,12 @@ class InternetSearchView : public QWidget {
  private slots:
   void SwapModels();
   void TextEdited(const QString &text);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int progress);
-  void UpdateProgress(int max);
-  void AddResults(int id, const InternetSearch::ResultList &results);
-  void SearchError(const int id, const QString error);
-  void ArtLoaded(int id, const QPixmap &pixmap);
+  void UpdateStatus(const int id, const QString &text);
+  void ProgressSetMaximum(const int id, const int progress);
+  void UpdateProgress(const int id, const int max);
+  void AddResults(const int id, const InternetSearch::ResultList &results);
+  void SearchError(const int id, const QString &error);
+  void ArtLoaded(const int id, const QPixmap &pixmap);
 
   void FocusOnFilter(QKeyEvent *event);
 

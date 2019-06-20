@@ -62,13 +62,10 @@ class QobuzRequest : public QobuzBaseRequest {
   void Login(const QString &username, const QString &password, const QString &token);
   void LoginSuccess();
   void LoginFailure(QString failure_reason);
-  void Results(SongList songs);
-  void SearchResults(int id, SongList songs);
-  void ErrorSignal(QString message);
-  void ErrorSignal(int id, QString message);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
+  void Results(const int id, const SongList &songs, const QString &error);
+  void UpdateStatus(const int id, const QString &text);
+  void ProgressSetMaximum(const int id, const int max);
+  void UpdateProgress(const int id, const int max);
   void StreamURLFinished(const QUrl original_url, const QUrl url, const Song::FileType, QString error = QString());
 
  private slots:
@@ -79,10 +76,10 @@ class QobuzRequest : public QobuzBaseRequest {
   void AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const int limit_requested, const int offset_requested);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested = QString());
+  void SongsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested = QString(), const QString &album_requested = QString());
 
   void ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const QString &album_id, const int offset_requested, const QString &album_artist);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const QString &album_id, const int offset_requested, const QString &album_artist, const QString &album);
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename);
 
  private:
@@ -126,12 +123,12 @@ class QobuzRequest : public QobuzBaseRequest {
 
   void ArtistsFinishCheck(const int limit = 0, const int offset = 0, const int artists_received = 0);
   void AlbumsFinishCheck(const qint64 artist_id, const int limit = 0, const int offset = 0, const int albums_total = 0, const int albums_received = 0);
-  void SongsFinishCheck(const qint64 artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist);
+  void SongsFinishCheck(const qint64 artist_id, const QString &album_id, const int limit, const int offset, const int songs_total, const int songs_received, const QString &album_artist, const QString &album);
 
   void AddArtistAlbumsRequest(const qint64 artist_id, const int offset = 0);
   void FlushArtistAlbumsRequests();
 
-  void AddAlbumSongsRequest(const qint64 artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
+  void AddAlbumSongsRequest(const qint64 artist_id, const QString &album_id, const QString &album_artist, const QString &album, const int offset = 0);
   void FlushAlbumSongsRequests();
 
   int ParseSong(Song &song, const QJsonObject &json_obj, qint64 artist_id, QString album_id, QString album_artist, QString album, QUrl cover_url);
@@ -159,8 +156,7 @@ class QobuzRequest : public QobuzBaseRequest {
   NetworkAccessManager *network_;
 
   QueryType type_;
-
-  int search_id_;
+  int query_id_;
   QString search_text_;
 
   bool finished_;

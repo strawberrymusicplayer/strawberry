@@ -57,11 +57,10 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   connect(ui_->refresh, SIGNAL(clicked()), SLOT(GetSongs()));
   connect(ui_->close, SIGNAL(clicked()), SLOT(AbortGetSongs()));
   connect(ui_->abort, SIGNAL(clicked()), SLOT(AbortGetSongs()));
-  connect(service_, SIGNAL(SongsResults(SongList)), SLOT(SongsFinished(SongList)));
-  connect(service_, SIGNAL(SongsError(QString)), SLOT(SongsError(QString)));
-  connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->status, SLOT(setText(QString)));
-  connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->progressbar, SLOT(setMaximum(int)));
-  connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->progressbar, SLOT(setValue(int)));
+  connect(service_, SIGNAL(SongsResults(const SongList&, const QString&)), SLOT(SongsFinished(const SongList&, const QString&)));
+  connect(service_, SIGNAL(SongsUpdateStatus(const QString&)), ui_->status, SLOT(setText(const QString&)));
+  connect(service_, SIGNAL(SongsProgressSetMaximum(const int)), ui_->progressbar, SLOT(setMaximum(const int)));
+  connect(service_, SIGNAL(SongsUpdateProgress(const int)), ui_->progressbar, SLOT(setValue(const int)));
 
   connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->view, SLOT(TotalArtistCountUpdated(int)));
   connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->view, SLOT(TotalAlbumCountUpdated(int)));
@@ -104,21 +103,20 @@ void InternetSongsView::AbortGetSongs() {
 
 }
 
-void InternetSongsView::SongsError(QString error) {
+void InternetSongsView::SongsFinished(const SongList &songs, const QString &error) {
 
-  ui_->status->setText(error);
-  ui_->progressbar->setValue(0);
-  ui_->progressbar->hide();
-  ui_->abort->hide();
-  ui_->close->show();
-
-}
-
-void InternetSongsView::SongsFinished(SongList songs) {
-
-  service_->songs_collection_backend()->DeleteAll();
-  ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
-  ui_->status->clear();
-  service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+  if (songs.isEmpty() && !error.isEmpty()) {
+    ui_->status->setText(error);
+    ui_->progressbar->setValue(0);
+    ui_->progressbar->hide();
+    ui_->abort->hide();
+    ui_->close->show();
+  }
+  else {
+    service_->songs_collection_backend()->DeleteAll();
+    ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
+    ui_->status->clear();
+    service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+  }
 
 }

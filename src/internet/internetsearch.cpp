@@ -61,14 +61,13 @@ InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *p
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
-  connect(this, SIGNAL(SearchAsyncSig(int, QString, SearchType)), this, SLOT(DoSearchAsync(int, QString, SearchType)));
+  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(const quint64, const QImage&)));
+  connect(this, SIGNAL(SearchAsyncSig(const int, const QString&, const SearchType)), this, SLOT(DoSearchAsync(const int, const QString&, const SearchType)));
 
-  connect(service_, SIGNAL(SearchUpdateStatus(QString)), SLOT(UpdateStatusSlot(QString)));
-  connect(service_, SIGNAL(SearchProgressSetMaximum(int)), SLOT(ProgressSetMaximumSlot(int)));
-  connect(service_, SIGNAL(SearchUpdateProgress(int)), SLOT(UpdateProgressSlot(int)));
-  connect(service_, SIGNAL(SearchResults(int, SongList)), SLOT(SearchDone(int, SongList)));
-  connect(service_, SIGNAL(SearchError(int, QString)), SLOT(HandleError(int, QString)));
+  connect(service_, SIGNAL(SearchUpdateStatus(const int, const QString&)), SLOT(UpdateStatusSlot(const int, const QString&)));
+  connect(service_, SIGNAL(SearchProgressSetMaximum(const int, const int)), SLOT(ProgressSetMaximumSlot(const int, const int)));
+  connect(service_, SIGNAL(SearchUpdateProgress(const int, const int)), SLOT(UpdateProgressSlot(const int, const int)));
+  connect(service_, SIGNAL(SearchResults(const int, const SongList&, const QString&)), SLOT(SearchDone(const int, const SongList&, const QString&)));
 
 }
 
@@ -105,7 +104,7 @@ bool InternetSearch::Matches(const QStringList &tokens, const QString &string) {
 
 }
 
-int InternetSearch::SearchAsync(const QString &query, SearchType type) {
+int InternetSearch::SearchAsync(const QString &query, const SearchType type) {
 
   const int id = searches_next_id_++;
 
@@ -115,14 +114,14 @@ int InternetSearch::SearchAsync(const QString &query, SearchType type) {
 
 }
 
-void InternetSearch::SearchAsync(int id, const QString &query, SearchType type) {
+void InternetSearch::SearchAsync(const int id, const QString &query, const SearchType type) {
 
   const int service_id = service_->Search(query, type);
   pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
 
 }
 
-void InternetSearch::DoSearchAsync(int id, const QString &query, SearchType type) {
+void InternetSearch::DoSearchAsync(const int id, const QString &query, const SearchType type) {
 
   int timer_id = startTimer(kDelayedSearchTimeoutMs);
   delayed_searches_[timer_id].id_ = id;
@@ -131,11 +130,18 @@ void InternetSearch::DoSearchAsync(int id, const QString &query, SearchType type
 
 }
 
-void InternetSearch::SearchDone(int service_id, const SongList &songs) {
+void InternetSearch::SearchDone(const int service_id, const SongList &songs, const QString &error) {
+
+  if (!pending_searches_.contains(service_id)) return;
 
   // Map back to the original id.
   const PendingState state = pending_searches_.take(service_id);
   const int search_id = state.orig_id_;
+
+  if (songs.isEmpty()) {
+    emit SearchError(search_id, error);
+    return;
+  }
 
   ResultList results;
   for (const Song &song : songs) {
@@ -157,13 +163,7 @@ void InternetSearch::SearchDone(int service_id, const SongList &songs) {
 
 }
 
-void InternetSearch::HandleError(const int id, const QString error) {
-
-  emit SearchError(id, error);
-
-}
-
-void InternetSearch::MaybeSearchFinished(int id) {
+void InternetSearch::MaybeSearchFinished(const int id) {
 
   if (pending_searches_.keys(PendingState(id, QStringList())).isEmpty()) {
     emit SearchFinished(id);
@@ -171,7 +171,7 @@ void InternetSearch::MaybeSearchFinished(int id) {
 
 }
 
-void InternetSearch::CancelSearch(int id) {
+void InternetSearch::CancelSearch(const int id) {
 
   QMap<int, DelayedSearch>::iterator it;
   for (it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
@@ -219,7 +219,7 @@ int InternetSearch::LoadArtAsync(const InternetSearch::Result &result) {
 
 }
 
-void InternetSearch::AlbumArtLoaded(quint64 id, const QImage &image) {
+void InternetSearch::AlbumArtLoaded(const quint64 id, const QImage &image) {
 
   if (!cover_loader_tasks_.contains(id)) return;
   int orig_id = cover_loader_tasks_.take(id);
@@ -289,14 +289,29 @@ MimeData *InternetSearch::LoadTracks(const ResultList &results) {
 
 }
 
-void InternetSearch::UpdateStatusSlot(QString text) {
-  emit UpdateStatus(text);
+void InternetSearch::UpdateStatusSlot(const int service_id, const QString &text) {
+
+  if (!pending_searches_.contains(service_id)) return;
+  const PendingState state = pending_searches_[service_id];
+  const int search_id = state.orig_id_;
+  emit UpdateStatus(search_id, text);
+
 }
 
-void InternetSearch::ProgressSetMaximumSlot(int max) {
-  emit ProgressSetMaximum(max);
+void InternetSearch::ProgressSetMaximumSlot(const int service_id, const int max) {
+
+  if (!pending_searches_.contains(service_id)) return;
+  const PendingState state = pending_searches_[service_id];
+  const int search_id = state.orig_id_;
+  emit ProgressSetMaximum(search_id, max);
+
 }
 
-void InternetSearch::UpdateProgressSlot(int progress) {
-  emit UpdateProgress(progress);
+void InternetSearch::UpdateProgressSlot(const int service_id, const int progress) {
+
+  if (!pending_searches_.contains(service_id)) return;
+  const PendingState state = pending_searches_[service_id];
+  const int search_id = state.orig_id_;
+  emit UpdateProgress(search_id, progress);
+
 }

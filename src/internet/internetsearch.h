@@ -69,24 +69,24 @@ class InternetSearch : public QObject {
   int SearchAsync(const QString &query, SearchType type);
   int LoadArtAsync(const InternetSearch::Result &result);
 
-  void CancelSearch(int id);
-  void CancelArt(int id);
+  void CancelSearch(const int id);
+  void CancelArt(const int id);
 
   // Loads tracks for results that were previously emitted by ResultsAvailable.
   // The implementation creates a SongMimeData with one Song for each Result.
   MimeData *LoadTracks(const ResultList &results);
 
  signals:
-  void SearchAsyncSig(int id, const QString &query, SearchType type);
-  void ResultsAvailable(int id, const InternetSearch::ResultList &results);
-  void AddResults(int id, const InternetSearch::ResultList &results);
-  void SearchError(const int id, const QString error);
-  void SearchFinished(int id);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int progress);
-  void UpdateProgress(int max);
+  void SearchAsyncSig(const int id, const QString &query, const SearchType type);
+  void ResultsAvailable(const int id, const InternetSearch::ResultList &results);
+  void AddResults(const int id, const InternetSearch::ResultList &results);
+  void SearchError(const int id, const QString &error);
+  void SearchFinished(const int id);
+  void UpdateStatus(const int id, const QString &text);
+  void ProgressSetMaximum(const int id, const int progress);
+  void UpdateProgress(const int id, const int max);
 
-  void ArtLoaded(int id, const QPixmap &pixmap);
+  void ArtLoaded(const int id, const QPixmap &pixmap);
 
  protected:
 
@@ -114,22 +114,20 @@ class InternetSearch : public QObject {
   static bool Matches(const QStringList &tokens, const QString &string);
 
  private slots:
-  void DoSearchAsync(int id, const QString &query, SearchType type);
-  void SearchDone(int id, const SongList &songs);
-  void HandleError(const int id, const QString error);
+  void DoSearchAsync(const int id, const QString &query, const SearchType type);
+  void SearchDone(const int service_id, const SongList &songs, const QString &error);
 
-  void AlbumArtLoaded(quint64 id, const QImage &image);
+  void AlbumArtLoaded(const quint64 id, const QImage &image);
 
-  void UpdateStatusSlot(QString text);
-  void ProgressSetMaximumSlot(int progress);
-  void UpdateProgressSlot(int max);
+  void UpdateStatusSlot(const int id, const QString &text);
+  void ProgressSetMaximumSlot(const int id, const int progress);
+  void UpdateProgressSlot(const int id, const int max);
 
  private:
-  void SearchAsync(int id, const QString &query, SearchType type);
-  void HandleLoadedArt(int id, const QImage &image);
+  void SearchAsync(const int id, const QString &query, const SearchType type);
   bool FindCachedPixmap(const InternetSearch::Result &result, QPixmap *pixmap) const;
   QString PixmapCacheKey(const InternetSearch::Result &result) const;
-  void MaybeSearchFinished(int id);
+  void MaybeSearchFinished(const int id);
   void ShowConfig() {}
   static QImage ScaleAndPad(const QImage &image);
 

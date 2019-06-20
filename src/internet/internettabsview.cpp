@@ -65,11 +65,10 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     connect(ui_->artists_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetArtists()));
     connect(ui_->artists_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
     connect(ui_->artists_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
-    connect(service_, SIGNAL(ArtistsResults(SongList)), SLOT(ArtistsFinished(SongList)));
-    connect(service_, SIGNAL(ArtistsError(QString)), SLOT(ArtistsError(QString)));
-    connect(service_, SIGNAL(ArtistsUpdateStatus(QString)), ui_->artists_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(ArtistsProgressSetMaximum(int)), ui_->artists_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(ArtistsUpdateProgress(int)), ui_->artists_collection->progressbar(), SLOT(setValue(int)));
+    connect(service_, SIGNAL(ArtistsResults(const SongList&, const QString&)), SLOT(ArtistsFinished(const SongList&, const QString&)));
+    connect(service_, SIGNAL(ArtistsUpdateStatus(const QString&)), ui_->artists_collection->status(), SLOT(setText(const QString&)));
+    connect(service_, SIGNAL(ArtistsProgressSetMaximum(const int)), ui_->artists_collection->progressbar(), SLOT(setMaximum(const int)));
+    connect(service_, SIGNAL(ArtistsUpdateProgress(const int)), ui_->artists_collection->progressbar(), SLOT(setValue(const int)));
 
     connect(service_->artists_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->artists_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -97,11 +96,10 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     connect(ui_->albums_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetAlbums()));
     connect(ui_->albums_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
     connect(ui_->albums_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
-    connect(service_, SIGNAL(AlbumsResults(SongList)), SLOT(AlbumsFinished(SongList)));
-    connect(service_, SIGNAL(AlbumsError(QString)), SLOT(AlbumsError(QString)));
-    connect(service_, SIGNAL(AlbumsUpdateStatus(QString)), ui_->albums_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(AlbumsProgressSetMaximum(int)), ui_->albums_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(AlbumsUpdateProgress(int)), ui_->albums_collection->progressbar(), SLOT(setValue(int)));
+    connect(service_, SIGNAL(AlbumsResults(const SongList&, const QString&)), SLOT(AlbumsFinished(const SongList&, const QString&)));
+    connect(service_, SIGNAL(AlbumsUpdateStatus(const QString&)), ui_->albums_collection->status(), SLOT(setText(const QString&)));
+    connect(service_, SIGNAL(AlbumsProgressSetMaximum(const int)), ui_->albums_collection->progressbar(), SLOT(setMaximum(const int)));
+    connect(service_, SIGNAL(AlbumsUpdateProgress(const int)), ui_->albums_collection->progressbar(), SLOT(setValue(const int)));
 
     connect(service_->albums_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->albums_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -129,11 +127,10 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     connect(ui_->songs_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetSongs()));
     connect(ui_->songs_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
     connect(ui_->songs_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
-    connect(service_, SIGNAL(SongsResults(SongList)), SLOT(SongsFinished(SongList)));
-    connect(service_, SIGNAL(SongsError(QString)), SLOT(SongsError(QString)));
-    connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->songs_collection->status(), SLOT(setText(QString)));
-    connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->songs_collection->progressbar(), SLOT(setMaximum(int)));
-    connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->songs_collection->progressbar(), SLOT(setValue(int)));
+    connect(service_, SIGNAL(SongsResults(const SongList&, const QString&)), SLOT(SongsFinished(const SongList&, const QString&)));
+    connect(service_, SIGNAL(SongsUpdateStatus(const QString&)), ui_->songs_collection->status(), SLOT(setText(const QString&)));
+    connect(service_, SIGNAL(SongsProgressSetMaximum(const int)), ui_->songs_collection->progressbar(), SLOT(setMaximum(const int)));
+    connect(service_, SIGNAL(SongsUpdateProgress(const int)), ui_->songs_collection->progressbar(), SLOT(setValue(const int)));
 
     connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -208,22 +205,21 @@ void InternetTabsView::AbortGetArtists() {
 
 }
 
-void InternetTabsView::ArtistsError(QString error) {
+void InternetTabsView::ArtistsFinished(const SongList &songs, const QString &error) {
 
-  ui_->artists_collection->status()->setText(error);
-  ui_->artists_collection->progressbar()->setValue(0);
-  ui_->artists_collection->progressbar()->hide();
-  ui_->artists_collection->button_abort()->hide();
-  ui_->artists_collection->button_close()->show();
-
-}
-
-void InternetTabsView::ArtistsFinished(SongList songs) {
-
-  service_->artists_collection_backend()->DeleteAll();
-  ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
-  ui_->artists_collection->status()->clear();
-  service_->artists_collection_backend()->AddOrUpdateSongs(songs);
+  if (songs.isEmpty() && !error.isEmpty()) {
+    ui_->artists_collection->status()->setText(error);
+    ui_->artists_collection->progressbar()->setValue(0);
+    ui_->artists_collection->progressbar()->hide();
+    ui_->artists_collection->button_abort()->hide();
+    ui_->artists_collection->button_close()->show();
+  }
+  else {
+    service_->artists_collection_backend()->DeleteAll();
+    ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
+    ui_->artists_collection->status()->clear();
+    service_->artists_collection_backend()->AddOrUpdateSongs(songs);
+  }
 
 }
 
@@ -252,22 +248,21 @@ void InternetTabsView::AbortGetAlbums() {
 
 }
 
-void InternetTabsView::AlbumsError(QString error) {
+void InternetTabsView::AlbumsFinished(const SongList &songs, const QString &error) {
 
-  ui_->albums_collection->status()->setText(error);
-  ui_->albums_collection->progressbar()->setValue(0);
-  ui_->albums_collection->progressbar()->hide();
-  ui_->albums_collection->button_abort()->hide();
-  ui_->albums_collection->button_close()->show();
-
-}
-
-void InternetTabsView::AlbumsFinished(SongList songs) {
-
-  service_->albums_collection_backend()->DeleteAll();
-  ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
-  ui_->albums_collection->status()->clear();
-  service_->albums_collection_backend()->AddOrUpdateSongs(songs);
+  if (songs.isEmpty() && !error.isEmpty()) {
+    ui_->albums_collection->status()->setText(error);
+    ui_->albums_collection->progressbar()->setValue(0);
+    ui_->albums_collection->progressbar()->hide();
+    ui_->albums_collection->button_abort()->hide();
+    ui_->albums_collection->button_close()->show();
+  }
+  else {
+    service_->albums_collection_backend()->DeleteAll();
+    ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
+    ui_->albums_collection->status()->clear();
+    service_->albums_collection_backend()->AddOrUpdateSongs(songs);
+  }
 
 }
 
@@ -296,21 +291,20 @@ void InternetTabsView::AbortGetSongs() {
 
 }
 
-void InternetTabsView::SongsError(QString error) {
+void InternetTabsView::SongsFinished(const SongList &songs, const QString &error) {
 
-  ui_->songs_collection->status()->setText(error);
-  ui_->songs_collection->progressbar()->setValue(0);
-  ui_->songs_collection->progressbar()->hide();
-  ui_->songs_collection->button_abort()->hide();
-  ui_->songs_collection->button_close()->show();
-
-}
-
-void InternetTabsView::SongsFinished(SongList songs) {
-
-  service_->songs_collection_backend()->DeleteAll();
-  ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
-  ui_->songs_collection->status()->clear();
-  service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+  if (songs.isEmpty() && !error.isEmpty()) {
+    ui_->songs_collection->status()->setText(error);
+    ui_->songs_collection->progressbar()->setValue(0);
+    ui_->songs_collection->progressbar()->hide();
+    ui_->songs_collection->button_abort()->hide();
+    ui_->songs_collection->button_close()->show();
+  }
+  else {
+    service_->songs_collection_backend()->DeleteAll();
+    ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
+    ui_->songs_collection->status()->clear();
+    service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+  }
 
 }

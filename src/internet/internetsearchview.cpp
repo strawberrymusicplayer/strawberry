@@ -110,7 +110,7 @@ InternetSearchView::InternetSearchView(QWidget *parent)
 
 InternetSearchView::~InternetSearchView() { delete ui_; }
 
-void InternetSearchView::Init(Application *app, InternetSearch *engine, QString settings_group, SettingsDialog::Page settings_page, const bool artists, const bool albums, const bool songs) {
+void InternetSearchView::Init(Application *app, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, const bool artists, const bool albums, const bool songs) {
 
   app_ = app;
   engine_ = engine;
@@ -167,13 +167,13 @@ void InternetSearchView::Init(Application *app, InternetSearch *engine, QString 
 
   // These have to be queued connections because they may get emitted before our call to Search() (or whatever) returns and we add the ID to the map.
 
-  connect(engine_, SIGNAL(UpdateStatus(QString)), SLOT(UpdateStatus(QString)));
-  connect(engine_, SIGNAL(ProgressSetMaximum(int)), SLOT(ProgressSetMaximum(int)), Qt::QueuedConnection);
-  connect(engine_, SIGNAL(UpdateProgress(int)), SLOT(UpdateProgress(int)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(UpdateStatus(const int, const QString&)), SLOT(UpdateStatus(const int, const QString&)));
+  connect(engine_, SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(ProgressSetMaximum(const int, const int)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(UpdateProgress(const int, const int)), SLOT(UpdateProgress(const int, const int)), Qt::QueuedConnection);
 
-  connect(engine_, SIGNAL(AddResults(int, InternetSearch::ResultList)), SLOT(AddResults(int, InternetSearch::ResultList)), Qt::QueuedConnection);
-  connect(engine_, SIGNAL(SearchError(int, QString)), SLOT(SearchError(int, QString)), Qt::QueuedConnection);
-  connect(engine_, SIGNAL(ArtLoaded(int, QPixmap)), SLOT(ArtLoaded(int, QPixmap)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(AddResults(const int, InternetSearch::ResultList)), SLOT(AddResults(const int, const InternetSearch::ResultList)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(SearchError(const int, const QString&)), SLOT(SearchError(const int, const QString&)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(ArtLoaded(const int, const QPixmap&)), SLOT(ArtLoaded(const int, const QPixmap&)), Qt::QueuedConnection);
 
   ReloadSettings();
 
@@ -253,7 +253,7 @@ void InternetSearchView::TextEdited(const QString &text) {
 
 }
 
-void InternetSearchView::AddResults(int id, const InternetSearch::ResultList &results) {
+void InternetSearchView::AddResults(const int id, const InternetSearch::ResultList &results) {
 
   if (id != last_search_id_) return;
   if (results.isEmpty()) return;
@@ -264,8 +264,9 @@ void InternetSearchView::AddResults(int id, const InternetSearch::ResultList &re
 
 }
 
-void InternetSearchView::SearchError(const int id, const QString error) {
+void InternetSearchView::SearchError(const int id, const QString &error) {
 
+  if (id != last_search_id_) return;
   error_ = true;
   ui_->label_helptext->setText(error);
   ui_->label_status->clear();
@@ -594,17 +595,26 @@ void InternetSearchView::SetSearchType(InternetSearch::SearchType type) {
   TextEdited(ui_->search->text());
 }
 
-void InternetSearchView::UpdateStatus(QString text) {
+void InternetSearchView::UpdateStatus(const int id, const QString &text) {
+
+  if (id != last_search_id_) return;
   ui_->progressbar->show();
   ui_->label_status->setText(text);
+
 }
 
-void InternetSearchView::ProgressSetMaximum(int max) {
+void InternetSearchView::ProgressSetMaximum(const int id, const int max) {
+
+  if (id != last_search_id_) return;
   ui_->progressbar->setMaximum(max);
+
 }
 
-void InternetSearchView::UpdateProgress(int progress) {
+void InternetSearchView::UpdateProgress(const int id, const int progress) {
+
+  if (id != last_search_id_) return;
   ui_->progressbar->setValue(progress);
+
 }
 
 void InternetSearchView::AddArtists() {

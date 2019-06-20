@@ -90,8 +90,7 @@ class SubsonicService : public InternetService {
 
  private slots:
   void HandlePingReply(QNetworkReply *reply);
-  void SongsResultsReceived(SongList songs);
-  void SongsErrorReceived(QString error);
+  void SongsResultsReceived(const SongList &songs, const QString &error);
 
  private:
   typedef QPair<QString, QString> Param;

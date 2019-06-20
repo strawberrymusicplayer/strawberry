@@ -398,26 +398,29 @@ void QobuzService::GetArtists() {
 
   artists_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Artists, this));
 
-  connect(artists_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(ArtistsErrorReceived(QString)));
-  connect(artists_request_.get(), SIGNAL(Results(SongList)), SLOT(ArtistsResultsReceived(SongList)));
-  connect(artists_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(ArtistsUpdateStatus(QString)));
-  connect(artists_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(ArtistsProgressSetMaximum(int)));
-  connect(artists_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(ArtistsUpdateProgress(int)));
+  connect(artists_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(ArtistsResultsReceived(const int, const SongList&, const QString&)));
+  connect(artists_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(ArtistsUpdateStatusReceived(const int, const QString&)));
+  connect(artists_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(ArtistsProgressSetMaximumReceived(const int, const int)));
+  connect(artists_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(ArtistsUpdateProgressReceived(const int, const int)));
 
   artists_request_->Process();
 
 }
 
-void QobuzService::ArtistsResultsReceived(SongList songs) {
-
-  emit ArtistsResults(songs);
-
+void QobuzService::ArtistsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  emit ArtistsResults(songs, error);
 }
 
-void QobuzService::ArtistsErrorReceived(QString error) {
+void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
+  emit ArtistsUpdateStatus(text);
+}
 
-  emit ArtistsError(error);
+void QobuzService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
+  emit ArtistsProgressSetMaximum(max);
+}
 
+void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progress) {
+  emit ArtistsUpdateProgress(progress);
 }
 
 void QobuzService::ResetAlbumsRequest() {
@@ -434,26 +437,29 @@ void QobuzService::GetAlbums() {
 
   ResetAlbumsRequest();
   albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Albums, this));
-  connect(albums_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(AlbumsErrorReceived(QString)));
-  connect(albums_request_.get(), SIGNAL(Results(SongList)), SLOT(AlbumsResultsReceived(SongList)));
-  connect(albums_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(AlbumsUpdateStatus(QString)));
-  connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(AlbumsProgressSetMaximum(int)));
-  connect(albums_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(AlbumsUpdateProgress(int)));
+  connect(albums_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(AlbumsResultsReceived(const int, const SongList&, const QString&)));
+  connect(albums_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(AlbumsUpdateStatusReceived(const int, const QString&)));
+  connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(AlbumsProgressSetMaximumReceived(const int, const int)));
+  connect(albums_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(AlbumsUpdateProgressReceived(const int, const int)));
 
   albums_request_->Process();
 
 }
 
-void QobuzService::AlbumsResultsReceived(SongList songs) {
-
-  emit AlbumsResults(songs);
-
+void QobuzService::AlbumsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  emit AlbumsResults(songs, error);
 }
 
-void QobuzService::AlbumsErrorReceived(QString error) {
+void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
+  emit AlbumsUpdateStatus(text);
+}
 
-  emit AlbumsError(error);
+void QobuzService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
+  emit AlbumsProgressSetMaximum(max);
+}
 
+void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress) {
+  emit AlbumsUpdateProgress(progress);
 }
 
 void QobuzService::ResetSongsRequest() {
@@ -470,26 +476,29 @@ void QobuzService::GetSongs() {
 
   ResetSongsRequest();
   songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Songs, this));
-  connect(songs_request_.get(), SIGNAL(ErrorSignal(QString)), SLOT(SongsErrorReceived(QString)));
-  connect(songs_request_.get(), SIGNAL(Results(SongList)), SLOT(SongsResultsReceived(SongList)));
-  connect(songs_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SongsUpdateStatus(QString)));
-  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SongsProgressSetMaximum(int)));
-  connect(songs_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SongsUpdateProgress(int)));
+  connect(songs_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SongsResultsReceived(const int, const SongList&, const QString&)));
+  connect(songs_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(SongsUpdateStatusReceived(const int, const QString&)));
+  connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(SongsProgressSetMaximumReceived(const int, const int)));
+  connect(songs_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SLOT(SongsUpdateProgressReceived(const int, const int)));
 
   songs_request_->Process();
 
 }
 
-void QobuzService::SongsResultsReceived(SongList songs) {
-
-  emit SongsResults(songs);
-
+void QobuzService::SongsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  emit SongsResults(songs, error);
 }
 
-void QobuzService::SongsErrorReceived(QString error) {
+void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
+  emit SongsUpdateStatus(text);
+}
 
-  emit SongsError(error);
+void QobuzService::SongsProgressSetMaximumReceived(const int id, const int max) {
+  emit SongsProgressSetMaximum(max);
+}
 
+void QobuzService::SongsUpdateProgressReceived(const int id, const int progress) {
+  emit SongsUpdateProgress(progress);
 }
 
 int QobuzService::Search(const QString &text, InternetSearch::SearchType type) {
@@ -514,7 +523,7 @@ int QobuzService::Search(const QString &text, InternetSearch::SearchType type) {
 void QobuzService::StartSearch() {
 
   if (app_id_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-    emit SearchError(pending_search_id_, tr("Not authenticated."));
+    emit SearchResults(pending_search_id_, SongList(), tr("Not authenticated."));
     next_pending_search_id_ = 1;
     ShowConfig();
     return;
@@ -551,15 +560,18 @@ void QobuzService::SendSearch() {
 
   search_request_.reset(new QobuzRequest(this, url_handler_, network_, type, this));
 
-  connect(search_request_.get(), SIGNAL(SearchResults(int, SongList)), SIGNAL(SearchResults(int, SongList)));
-  connect(search_request_.get(), SIGNAL(ErrorSignal(int, QString)), SIGNAL(SearchError(int, QString)));
-  connect(search_request_.get(), SIGNAL(UpdateStatus(QString)), SIGNAL(SearchUpdateStatus(QString)));
-  connect(search_request_.get(), SIGNAL(ProgressSetMaximum(int)), SIGNAL(SearchProgressSetMaximum(int)));
-  connect(search_request_.get(), SIGNAL(UpdateProgress(int)), SIGNAL(SearchUpdateProgress(int)));
+  connect(search_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SearchResultsReceived(const int, const SongList&, const QString&)));
+  connect(search_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SIGNAL(SearchUpdateStatus(const int, const QString&)));
+  connect(search_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SIGNAL(SearchProgressSetMaximum(const int, const int)));
+  connect(search_request_.get(), SIGNAL(UpdateProgress(const int, const int)), SIGNAL(SearchUpdateProgress(const int, const int)));
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
 
+}
+
+void QobuzService::SearchResultsReceived(const int id, const SongList &songs, const QString &error) {
+  emit SearchResults(id, songs, error);
 }
 
 void QobuzService::GetStreamURL(const QUrl &url) {

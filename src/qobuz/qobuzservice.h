@@ -127,12 +127,19 @@ class QobuzService : public InternetService {
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
-  void ArtistsResultsReceived(SongList songs);
-  void ArtistsErrorReceived(QString error);
-  void AlbumsResultsReceived(SongList songs);
-  void AlbumsErrorReceived(QString error);
-  void SongsResultsReceived(SongList songs);
-  void SongsErrorReceived(QString error);
+  void ArtistsResultsReceived(const int id, const SongList &songs, const QString &error);
+  void AlbumsResultsReceived(const int id, const SongList &songs, const QString &error);
+  void SongsResultsReceived(const int id, const SongList &songs, const QString &error);
+  void SearchResultsReceived(const int id, const SongList &songs, const QString &error);
+  void ArtistsUpdateStatusReceived(const int id, const QString &text);
+  void AlbumsUpdateStatusReceived(const int id, const QString &text);
+  void SongsUpdateStatusReceived(const int id, const QString &text);
+  void ArtistsProgressSetMaximumReceived(const int id, const int max);
+  void AlbumsProgressSetMaximumReceived(const int id, const int max);
+  void SongsProgressSetMaximumReceived(const int id, const int max);
+  void ArtistsUpdateProgressReceived(const int id, const int progress);
+  void AlbumsUpdateProgressReceived(const int id, const int progress);
+  void SongsUpdateProgressReceived(const int id, const int progress);
   void HandleStreamURLFinished(const QUrl original_url, const QUrl stream_url, const Song::FileType filetype, QString error = QString());
 
  private:

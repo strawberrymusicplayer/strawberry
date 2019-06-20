@@ -87,35 +87,31 @@ class InternetService : public QObject {
   void TestFailure(QString failure_reason);
   void TestComplete(bool success, QString error = QString());
 
-  void Error(QString message);
-  void Results(SongList songs);
-  void UpdateStatus(QString text);
-  void ProgressSetMaximum(int max);
-  void UpdateProgress(int max);
+  void Error(const QString &error);
+  void Results(const SongList &songs, const QString &error);
+  void UpdateStatus(const QString &text);
+  void ProgressSetMaximum(const int max);
+  void UpdateProgress(const int max);
 
-  void ArtistsError(QString message);
-  void ArtistsResults(SongList songs);
-  void ArtistsUpdateStatus(QString text);
-  void ArtistsProgressSetMaximum(int max);
-  void ArtistsUpdateProgress(int max);
+  void ArtistsResults(const SongList &songs, const QString &error);
+  void ArtistsUpdateStatus(const QString &text);
+  void ArtistsProgressSetMaximum(const int max);
+  void ArtistsUpdateProgress(const int max);
 
-  void AlbumsError(QString message);
-  void AlbumsResults(SongList songs);
-  void AlbumsUpdateStatus(QString text);
-  void AlbumsProgressSetMaximum(int max);
-  void AlbumsUpdateProgress(int max);
+  void AlbumsResults(const SongList &songs, const QString &error);
+  void AlbumsUpdateStatus(const QString &text);
+  void AlbumsProgressSetMaximum(const int max);
+  void AlbumsUpdateProgress(const int max);
 
-  void SongsError(QString message);
-  void SongsResults(SongList songs);
-  void SongsUpdateStatus(QString text);
-  void SongsProgressSetMaximum(int max);
-  void SongsUpdateProgress(int max);
+  void SongsResults(const SongList &songs, const QString &error);
+  void SongsUpdateStatus(const QString &text);
+  void SongsProgressSetMaximum(const int max);
+  void SongsUpdateProgress(const int max);
 
-  void SearchResults(int id, SongList songs);
-  void SearchError(int id, QString message);
-  void SearchUpdateStatus(QString text);
-  void SearchProgressSetMaximum(int max);
-  void SearchUpdateProgress(int max);
+  void SearchResults(const int id, const SongList &songs, const QString &error);
+  void SearchUpdateStatus(const int id, const QString &text);
+  void SearchProgressSetMaximum(const int id, const int max);
+  void SearchUpdateProgress(const int id, const int max);
 
   void AddArtists(const SongList& songs);
   void AddAlbums(const SongList& songs);
