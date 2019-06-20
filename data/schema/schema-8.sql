@@ -18,7 +18,7 @@ ALTER TABLE subsonic_songs RENAME TO subsonic_songs_old;
 
 DROP INDEX idx_filename;
 
-CREATE TABLE IF NOT EXISTS songs (
+CREATE TABLE songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS tidal_artists_songs (
+CREATE TABLE tidal_artists_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS tidal_albums_songs (
+CREATE TABLE tidal_albums_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS tidal_songs (
+CREATE TABLE tidal_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS subsonic_songs (
+CREATE TABLE subsonic_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -303,7 +303,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
+CREATE TABLE qobuz_artists_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -360,7 +360,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
+CREATE TABLE qobuz_albums_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -417,7 +417,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_songs (
+CREATE TABLE qobuz_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -474,7 +474,7 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS playlist_items (
+CREATE TABLE playlist_items (
 
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
@@ -590,6 +590,6 @@ FROM playlist_items_old;
 
 DROP TABLE playlist_items_old;
 
-CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
+CREATE INDEX idx_url ON songs (url);
 
 UPDATE schema_version SET version=8;
