@@ -358,7 +358,7 @@ void ShowFileInExplorer(QString const &path) {
 void OpenInFileBrowser(const QList<QUrl> &urls) {
 
   if (urls.count() > 50) {
-    QMessageBox messagebox(QMessageBox::Critical, tr("Error"), tr("Too many songs selected."));
+    QMessageBox messagebox(QMessageBox::Critical, tr("Show in file browser"), tr("Too many songs selected."));
     messagebox.exec();
     return;
   }
