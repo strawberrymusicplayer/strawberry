@@ -1011,7 +1011,7 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->key = row.value(0).toString();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
-      item->metadata.set_album_id(row.value(1).toInt());
+      item->metadata.set_album_id(row.value(1).toString());
       break;
 
     case GroupBy_OriginalYear:{

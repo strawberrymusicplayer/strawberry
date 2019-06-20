@@ -1027,6 +1027,7 @@ int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, qint64 arti
 
   song.set_source(Song::Source_Qobuz);
   song.set_song_id(song_id);
+  song.set_album_id(album_id);
   song.set_artist_id(artist_id);
   song.set_album(album);
   song.set_artist(album_artist);

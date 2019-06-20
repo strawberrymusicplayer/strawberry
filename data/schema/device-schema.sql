@@ -28,7 +28,7 @@ CREATE TABLE device_%deviceid_songs (
   lyrics TEXT NOT NULL,
 
   artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id INTEGER NOT NULL DEFAULT -1,
+  album_id TEXT NOT NULL,
   song_id INTEGER NOT NULL DEFAULT -1,
 
   beginning INTEGER NOT NULL DEFAULT 0,
@@ -40,7 +40,7 @@ CREATE TABLE device_%deviceid_songs (
 
   source INTEGER NOT NULL DEFAULT 0,
   directory_id INTEGER NOT NULL,
-  filename TEXT NOT NULL,
+  url TEXT NOT NULL,
   filetype INTEGER NOT NULL DEFAULT 0,
   filesize INTEGER NOT NULL DEFAULT 0,
   mtime INTEGER NOT NULL DEFAULT 0,

@@ -204,8 +204,6 @@ void TidalService::ReloadSettings() {
   if (client_id_.isEmpty()) client_id_ = QString::fromUtf8(QByteArray::fromBase64(kClientIdB64));
   api_token_ = s.value("api_token").toString();
   if (api_token_.isEmpty()) api_token_ = QString::fromUtf8(QByteArray::fromBase64(kApiTokenB64));
-  user_id_ = s.value("user_id", 0).toInt();
-  country_code_ = s.value("country_code", "US").toString();
 
   username_ = s.value("username").toString();
   QByteArray password = s.value("password").toByteArray();
@@ -222,6 +220,8 @@ void TidalService::ReloadSettings() {
   cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
 
+  user_id_ = s.value("user_id").toInt();
+  country_code_ = s.value("country_code", "US").toString();
   access_token_ = s.value("access_token").toString();
   refresh_token_ = s.value("refresh_token").toString();
   session_id_ = s.value("session_id").toString();
@@ -559,12 +559,12 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
-  s.setValue("user_id", user_id_);
-  s.setValue("session_id", session_id_);
-  s.setValue("country_code", country_code_);
   s.remove("access_token");
   s.remove("refresh_token");
   s.remove("expiry_time");
+  s.setValue("user_id", user_id_);
+  s.setValue("session_id", session_id_);
+  s.setValue("country_code", country_code_);
   s.endGroup();
 
   qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "session id" << session_id_ << "country code" << country_code_;
@@ -585,6 +585,8 @@ void TidalService::Logout() {
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  s.remove("user_id");
+  s.remove("country_code");
   s.remove("access_token");
   s.remove("session_id");
   s.remove("expiry_time");

@@ -1,80 +1,24 @@
-CREATE TABLE IF NOT EXISTS schema_version (
-  version INTEGER NOT NULL
-);
+ALTER TABLE songs RENAME TO songs_old;
 
-DELETE FROM schema_version;
+ALTER TABLE playlist_items RENAME TO playlist_items_old;
 
-INSERT INTO schema_version (version) VALUES (8);
+ALTER TABLE tidal_artists_songs RENAME TO tidal_artists_songs_old;
 
-CREATE TABLE IF NOT EXISTS directories (
-  path TEXT NOT NULL,
-  subdirs INTEGER NOT NULL
-);
+ALTER TABLE tidal_albums_songs RENAME TO tidal_albums_songs_old;
 
-CREATE TABLE IF NOT EXISTS subdirectories (
-  directory_id INTEGER NOT NULL,
-  path TEXT NOT NULL,
-  mtime INTEGER NOT NULL
-);
+ALTER TABLE tidal_songs RENAME TO tidal_songs_old;
 
-CREATE TABLE IF NOT EXISTS songs (
+ALTER TABLE qobuz_artists_songs RENAME TO qobuz_artists_songs_old;
 
-  title TEXT NOT NULL,
-  album TEXT NOT NULL,
-  artist TEXT NOT NULL,
-  albumartist TEXT NOT NULL,
-  track INTEGER NOT NULL DEFAULT -1,
-  disc INTEGER NOT NULL DEFAULT -1,
-  year INTEGER NOT NULL DEFAULT -1,
-  originalyear INTEGER NOT NULL DEFAULT 0,
-  genre TEXT NOT NULL,
-  compilation INTEGER NOT NULL DEFAULT -1,
-  composer TEXT NOT NULL,
-  performer TEXT NOT NULL,
-  grouping TEXT NOT NULL,
-  comment TEXT NOT NULL,
-  lyrics TEXT NOT NULL,
+ALTER TABLE qobuz_albums_songs RENAME TO qobuz_albums_songs_old;
 
-  artist_id INTEGER NOT NULL DEFAULT -1,
-  album_id TEXT NOT NULL,
-  song_id INTEGER NOT NULL DEFAULT -1,
+ALTER TABLE qobuz_songs RENAME TO qobuz_songs_old;
 
-  beginning INTEGER NOT NULL DEFAULT 0,
-  length INTEGER NOT NULL DEFAULT 0,
+ALTER TABLE subsonic_songs RENAME TO subsonic_songs_old;
 
-  bitrate INTEGER NOT NULL DEFAULT 0,
-  samplerate INTEGER NOT NULL DEFAULT 0,
-  bitdepth INTEGER NOT NULL DEFAULT 0,
+DROP INDEX idx_filename;
 
-  source INTEGER NOT NULL DEFAULT 0,
-  directory_id INTEGER NOT NULL,
-  url TEXT NOT NULL,
-  filetype INTEGER NOT NULL DEFAULT 0,
-  filesize INTEGER NOT NULL DEFAULT 0,
-  mtime INTEGER NOT NULL DEFAULT 0,
-  ctime INTEGER NOT NULL DEFAULT 0,
-  unavailable INTEGER DEFAULT 0,
-
-  playcount INTEGER NOT NULL DEFAULT 0,
-  skipcount INTEGER NOT NULL DEFAULT 0,
-  lastplayed INTEGER NOT NULL DEFAULT 0,
-
-  compilation_detected INTEGER DEFAULT 0,
-  compilation_on INTEGER NOT NULL DEFAULT 0,
-  compilation_off INTEGER NOT NULL DEFAULT 0,
-  compilation_effective INTEGER NOT NULL DEFAULT 0,
-
-  art_automatic TEXT,
-  art_manual TEXT,
-
-  effective_albumartist TEXT,
-  effective_originalyear INTEGER NOT NULL DEFAULT 0,
-
-  cue_path TEXT
-
-);
-
-CREATE TABLE IF NOT EXISTS tidal_artists_songs (
+CREATE TABLE songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -131,7 +75,7 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS tidal_albums_songs (
+CREATE TABLE tidal_artists_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -188,7 +132,7 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS tidal_songs (
+CREATE TABLE tidal_albums_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -245,7 +189,7 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS subsonic_songs (
+CREATE TABLE tidal_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -302,7 +246,7 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
+CREATE TABLE subsonic_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -359,7 +303,7 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
+CREATE TABLE qobuz_artists_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -416,7 +360,7 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS qobuz_songs (
+CREATE TABLE qobuz_albums_songs (
 
   title TEXT NOT NULL,
   album TEXT NOT NULL,
@@ -473,18 +417,64 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
 
 );
 
-CREATE TABLE IF NOT EXISTS playlists (
+CREATE TABLE qobuz_songs (
 
-  name TEXT NOT NULL,
-  last_played INTEGER NOT NULL DEFAULT -1,
-  ui_order INTEGER NOT NULL DEFAULT 0,
-  special_type TEXT,
-  ui_path TEXT,
-  is_favorite INTEGER NOT NULL DEFAULT 0
+  title TEXT NOT NULL,
+  album TEXT NOT NULL,
+  artist TEXT NOT NULL,
+  albumartist TEXT NOT NULL,
+  track INTEGER NOT NULL DEFAULT -1,
+  disc INTEGER NOT NULL DEFAULT -1,
+  year INTEGER NOT NULL DEFAULT -1,
+  originalyear INTEGER NOT NULL DEFAULT 0,
+  genre TEXT NOT NULL,
+  compilation INTEGER NOT NULL DEFAULT -1,
+  composer TEXT NOT NULL,
+  performer TEXT NOT NULL,
+  grouping TEXT NOT NULL,
+  comment TEXT NOT NULL,
+  lyrics TEXT NOT NULL,
+
+  artist_id INTEGER NOT NULL DEFAULT -1,
+  album_id TEXT NOT NULL,
+  song_id INTEGER NOT NULL DEFAULT -1,
+
+  beginning INTEGER NOT NULL DEFAULT 0,
+  length INTEGER NOT NULL DEFAULT 0,
+
+  bitrate INTEGER NOT NULL DEFAULT 0,
+  samplerate INTEGER NOT NULL DEFAULT 0,
+  bitdepth INTEGER NOT NULL DEFAULT 0,
+
+  source INTEGER NOT NULL DEFAULT 0,
+  directory_id INTEGER NOT NULL,
+  url TEXT NOT NULL,
+  filetype INTEGER NOT NULL DEFAULT 0,
+  filesize INTEGER NOT NULL DEFAULT 0,
+  mtime INTEGER NOT NULL DEFAULT 0,
+  ctime INTEGER NOT NULL DEFAULT 0,
+  unavailable INTEGER DEFAULT 0,
+
+  playcount INTEGER NOT NULL DEFAULT 0,
+  skipcount INTEGER NOT NULL DEFAULT 0,
+  lastplayed INTEGER NOT NULL DEFAULT 0,
+
+  compilation_detected INTEGER DEFAULT 0,
+  compilation_on INTEGER NOT NULL DEFAULT 0,
+  compilation_off INTEGER NOT NULL DEFAULT 0,
+  compilation_effective INTEGER NOT NULL DEFAULT 0,
+
+  art_automatic TEXT,
+  art_manual TEXT,
+
+  effective_albumartist TEXT,
+  effective_originalyear INTEGER NOT NULL DEFAULT 0,
+
+  cue_path TEXT
 
 );
 
-CREATE TABLE IF NOT EXISTS playlist_items (
+CREATE TABLE playlist_items (
 
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
@@ -546,178 +536,60 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
 );
 
-CREATE TABLE IF NOT EXISTS devices (
-  unique_id TEXT NOT NULL,
-  friendly_name TEXT,
-  size INTEGER,
-  icon TEXT,
-  schema_version INTEGER NOT NULL DEFAULT 0,
-  transcode_mode NOT NULL DEFAULT 3,
-  transcode_format NOT NULL DEFAULT 5
-);
+INSERT INTO songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM songs_old;
 
-CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
+DROP TABLE songs_old;
 
-CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
+INSERT INTO tidal_artists_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM tidal_artists_songs_old;
 
-CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
+DROP TABLE tidal_artists_songs_old;
 
-CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
+INSERT INTO tidal_albums_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM tidal_albums_songs_old;
 
-CREATE VIEW IF NOT EXISTS duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
+DROP TABLE tidal_albums_songs_old;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts3(
+INSERT INTO tidal_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM tidal_songs_old;
 
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
+DROP TABLE tidal_songs_old;
 
-);
+INSERT INTO qobuz_artists_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM qobuz_artists_songs_old;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_artists_songs_fts USING fts3(
+DROP TABLE qobuz_artists_songs_old;
 
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
+INSERT INTO qobuz_albums_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM qobuz_albums_songs_old;
 
-);
+DROP TABLE qobuz_albums_songs_old;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_albums_songs_fts USING fts3(
+INSERT INTO qobuz_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM qobuz_songs_old;
 
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
+DROP TABLE qobuz_songs_old;
 
-);
+INSERT INTO subsonic_songs (title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM subsonic_songs_old;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts3(
+DROP TABLE subsonic_songs_old;
 
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
+INSERT INTO playlist_items (playlist, type, collection_id, playlist_url, title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path)
+SELECT playlist, type, collection_id, url, title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, artist_id, album_id, song_id, beginning, length, bitrate, samplerate, bitdepth, source, directory_id, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path
+FROM playlist_items_old;
 
-);
+DROP TABLE playlist_items_old;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts3(
+CREATE INDEX idx_url ON songs (url);
 
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_artists_songs_fts USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_albums_songs_fts USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_songs_fts USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts3(
-
-  ftstitle,
-  ftsalbum,
-  ftsartist,
-  ftsalbumartist,
-  ftscomposer,
-  ftsperformer,
-  ftsgrouping,
-  ftsgenre,
-  ftscomment,
-  tokenize=unicode
-
-);
-
-INSERT INTO songs_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
-SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment FROM songs;
-
-INSERT INTO %allsongstables_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
-SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment FROM %allsongstables;
+UPDATE schema_version SET version=8;

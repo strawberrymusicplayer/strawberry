@@ -1033,13 +1033,13 @@ void TidalRequest::FlushAlbumCoverRequests() {
     QNetworkRequest req(request.url);
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const qint64, const QUrl&)), reply, request.album_id, request.url);
+    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, const QString&, const QUrl&)), reply, request.album_id, request.url);
 
   }
 
 }
 
-void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const qint64 album_id, const QUrl &url) {
+void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);
@@ -1083,7 +1083,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const qint64 album_i
 
     QDir dir;
     if (dir.mkpath(service_->CoverCacheDir())) {
-      QString filename(service_->CoverCacheDir() + "/" + QString::number(album_id) + "-" + url.fileName());
+      QString filename(service_->CoverCacheDir() + "/" + album_id + "-" + url.fileName());
       if (image.save(filename, "JPG")) {
         while (album_covers_requests_sent_.contains(album_id)) {
           Song *song = album_covers_requests_sent_.take(album_id);
