@@ -58,7 +58,7 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
       album_songs_requests_active_(0),
       album_songs_requested_(0),
       album_songs_received_(0),
-      album_covers_requests_active_(),
+      album_covers_requests_active_(0),
       album_covers_requested_(0),
       album_covers_received_(0),
       no_results_(false)
