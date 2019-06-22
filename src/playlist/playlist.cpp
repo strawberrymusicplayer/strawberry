@@ -400,7 +400,7 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
     }
   }
 
-  reply->deleteLater();
+  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
 
 }
 

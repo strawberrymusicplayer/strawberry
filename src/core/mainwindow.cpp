@@ -1728,10 +1728,12 @@ void MainWindow::RenumberTracks() {
 }
 
 void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &index) {
+
   if (reply->is_successful() && index.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>()<< index.row());
   }
-  reply->deleteLater();
+  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+
 }
 
 void MainWindow::SelectionSetValue() {
