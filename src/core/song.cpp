@@ -274,7 +274,7 @@ bool Song::is_unavailable() const { return d->unavailable_; }
 int Song::id() const { return d->id_; }
 
 qint64 Song::artist_id() const { return d->artist_id_; }
-QString Song::album_id() const { return d->album_id_; }
+QString Song::album_id() const { return d->album_id_.isNull() ? "" : d->album_id_; }
 qint64 Song::song_id() const { return d->song_id_; }
 
 const QString &Song::title() const { return d->title_; }
