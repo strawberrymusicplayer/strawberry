@@ -36,7 +36,7 @@ TidalUrlHandler::TidalUrlHandler(Application *app, TidalService *service) :
   task_id_(-1)
   {
 
-  connect(service, SIGNAL(StreamURLFinished(QUrl, QUrl, Song::FileType, QString)), this, SLOT(GetStreamURLFinished(QUrl, QUrl, Song::FileType, QString)));
+  connect(service, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)), this, SLOT(GetStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)));
 
 }
 
@@ -51,14 +51,14 @@ UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 
 }
 
-void TidalUrlHandler::GetStreamURLFinished(QUrl original_url, QUrl url, Song::FileType filetype, QString error) {
+void TidalUrlHandler::GetStreamURLFinished(const QUrl &original_url, const QUrl &media_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
 
   if (task_id_ == -1) return;
   CancelTask();
   if (error.isEmpty())
-    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, url, filetype));
+    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::TrackAvailable, media_url, filetype, samplerate, bit_depth, duration));
   else
-    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, url, filetype, -1, error));
+    emit AsyncLoadComplete(LoadResult(original_url, LoadResult::Error, media_url, filetype, -1, -1, -1, error));
 
 }
 

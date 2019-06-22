@@ -605,7 +605,7 @@ void QobuzService::SearchResultsReceived(const int id, const SongList &songs, co
 void QobuzService::GetStreamURL(const QUrl &url) {
 
   if (app_id().isEmpty() || app_secret().isEmpty()) { // Don't check for login here, because we allow automatic login.
-    emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Missing Qobuz app ID or secret."));
+    emit StreamURLFinished(url, url, Song::FileType_Stream, -1, -1, -1, tr("Missing Qobuz app ID or secret."));
     return;
   }
 
@@ -613,21 +613,21 @@ void QobuzService::GetStreamURL(const QUrl &url) {
   stream_url_requests_ << stream_url_req;
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, QString)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType&, QString)));
+  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)));
   connect(this, SIGNAL(LoginComplete(const bool, QString)), stream_url_req, SLOT(LoginComplete(const bool, QString)));
 
   stream_url_req->Process();
 
 }
 
-void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error) {
+void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &media_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
 
   QobuzStreamURLRequest *stream_url_req = qobject_cast<QobuzStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
   stream_url_req->deleteLater();
   stream_url_requests_.removeAll(stream_url_req);
 
-  emit StreamURLFinished(original_url, stream_url, filetype, error);
+  emit StreamURLFinished(original_url, media_url, filetype, samplerate, bit_depth, duration, error);
 
 }
 

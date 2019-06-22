@@ -77,7 +77,7 @@ class InternetService : public QObject {
  signals:
   void Login();
   void Logout();
-  void Login(const QString &username, const QString &password, const QString &token);
+  void Login(const QString &api_token, const QString &username, const QString &password);
   void Login(const QString &hostname, const int, const QString &username, const QString &password);
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
@@ -121,7 +121,7 @@ class InternetService : public QObject {
   void RemoveAlbums(const SongList& songs);
   void RemoveSongs(const SongList& songs);
 
-  void StreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType &filetype, const QString &error = QString());
+  void StreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error = QString());
 
  protected:
   Application *app_;

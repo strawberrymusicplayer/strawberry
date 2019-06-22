@@ -866,11 +866,11 @@ void TidalService::GetStreamURL(const QUrl &url) {
 
   if (!authenticated()) {
     if (oauth_) {
-      emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Not authenticated with Tidal."));
+      emit StreamURLFinished(url, url, Song::FileType_Stream, -1, -1, -1, tr("Not authenticated with Tidal."));
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
-      emit StreamURLFinished(url, url, Song::FileType_Stream, tr("Missing Tidal API token, username or passord."));
+      emit StreamURLFinished(url, url, Song::FileType_Stream, -1, -1, -1, tr("Missing Tidal API token, username or passord."));
       return;
     }
   }
@@ -879,21 +879,21 @@ void TidalService::GetStreamURL(const QUrl &url) {
   stream_url_requests_ << stream_url_req;
 
   connect(stream_url_req, SIGNAL(TryLogin()), this, SLOT(TryLogin()));
-  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const QString&)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, QString)));
+  connect(stream_url_req, SIGNAL(StreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)), this, SLOT(HandleStreamURLFinished(const QUrl&, const QUrl&, const Song::FileType, const int, const int, const qint64, QString)));
   connect(this, SIGNAL(LoginComplete(const bool, const QString&)), stream_url_req, SLOT(LoginComplete(const bool, QString)));
 
   stream_url_req->Process();
 
 }
 
-void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, QString error) {
+void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
 
   TidalStreamURLRequest *stream_url_req = qobject_cast<TidalStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
   stream_url_req->deleteLater();
   stream_url_requests_.removeAll(stream_url_req);
 
-  emit StreamURLFinished(original_url, stream_url, filetype, error);
+  emit StreamURLFinished(original_url, stream_url, filetype, samplerate, bit_depth, duration, error);
 
 }
 

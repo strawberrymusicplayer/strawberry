@@ -321,6 +321,18 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
         update = true;
       }
 
+      // If there was no samplerate info in song's metadata, use the one provided by URL handler, if there is one.
+      if (song.samplerate() <= 0 && result.samplerate_ > 0) {
+        song.set_samplerate(result.samplerate_);
+        update = true;
+      }
+
+      // If there was no bit depth info in song's metadata, use the one provided by URL handler, if there is one.
+      if (song.bitdepth() <= 0 && result.bit_depth_ > 0) {
+        song.set_bitdepth(result.bit_depth_);
+        update = true;
+      }
+
       // If there was no length info in song's metadata, use the one provided by URL handler, if there is one.
       if (song.length_nanosec() <= 0 && result.length_nanosec_ != -1) {
         song.set_length_nanosec(result.length_nanosec_);
