@@ -202,9 +202,9 @@ void QobuzService::ReloadSettings() {
 
   format_ = s.value("format", 27).toInt();
   search_delay_ = s.value("searchdelay", 1500).toInt();
-  artistssearchlimit_ = s.value("artistssearchlimit", 5).toInt();
-  albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
-  songssearchlimit_ = s.value("songssearchlimit", 100).toInt();
+  artistssearchlimit_ = s.value("artistssearchlimit", 4).toInt();
+  albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
+  songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
 
   user_auth_token_ = s.value("user_auth_token").toString();

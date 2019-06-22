@@ -78,9 +78,9 @@ void QobuzSettingsPage::Load() {
 
   dialog()->ComboBoxLoadFromSettings(s, ui_->format, "format", 27);
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 5).toInt());
-  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 100).toInt());
-  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 100).toInt());
+  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
+  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
+  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_cache_album_covers->setChecked(s.value("cachealbumcovers", true).toBool());
 
   s.endGroup();

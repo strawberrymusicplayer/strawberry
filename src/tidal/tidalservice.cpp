@@ -212,9 +212,9 @@ void TidalService::ReloadSettings() {
 
   quality_ = s.value("quality", "LOSSLESS").toString();
   search_delay_ = s.value("searchdelay", 1500).toInt();
-  artistssearchlimit_ = s.value("artistssearchlimit", 5).toInt();
-  albumssearchlimit_ = s.value("albumssearchlimit", 100).toInt();
-  songssearchlimit_ = s.value("songssearchlimit", 100).toInt();
+  artistssearchlimit_ = s.value("artistssearchlimit", 4).toInt();
+  albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
+  songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
   coversize_ = s.value("coversize", "320x320").toString();
   cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
