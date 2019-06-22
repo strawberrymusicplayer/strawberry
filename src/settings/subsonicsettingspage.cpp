@@ -61,7 +61,7 @@ void SubsonicSettingsPage::Load() {
 
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->url->setText(s.value("url").toString());
+  ui_->server_url->setText(s.value("url").toString());
   ui_->username->setText(s.value("username").toString());
   QByteArray password = s.value("password").toByteArray();
   if (password.isEmpty()) ui_->password->clear();
@@ -77,7 +77,7 @@ void SubsonicSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("url", QUrl(ui_->url->text()));
+  s.setValue("url", QUrl(ui_->server_url->text()));
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
@@ -90,18 +90,18 @@ void SubsonicSettingsPage::Save() {
 
 void SubsonicSettingsPage::TestClicked() {
 
-  if (ui_->url->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing url, username or password."));
+  if (ui_->server_url->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing server url, username or password."));
     return;
   }
 
-  QUrl url(ui_->url->text());
-  if (!url.isValid()) {
-    QMessageBox::critical(this, tr("Configuration incorrect"), tr("URL is invalid."));
+  QUrl server_url(ui_->server_url->text());
+  if (!server_url.isValid() || server_url.scheme().isEmpty() || server_url.host().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incorrect"), tr("Server URL is invalid."));
     return;
   }
 
-  emit Test(url, ui_->username->text(), ui_->password->text());
+  emit Test(server_url, ui_->username->text(), ui_->password->text());
   ui_->button_test->setEnabled(false);
 
 }
