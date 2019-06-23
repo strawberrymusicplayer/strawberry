@@ -39,17 +39,17 @@ class ChartLyricsProvider : public LyricsProvider {
  public:
   explicit ChartLyricsProvider(QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
   void CancelSearch(quint64 id);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, quint64 id, const QString artist, const QString title);
+  void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
 
  private:
   static const char *kUrlSearch;
   static const int kMaxLength;
   QNetworkAccessManager *network_;
-  void Error(quint64 id, QString error, QVariant debug = QVariant());
+  void Error(const quint64 id, const QString &error, QVariant debug = QVariant());
 
 };
 

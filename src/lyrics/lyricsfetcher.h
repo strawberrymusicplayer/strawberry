@@ -73,7 +73,7 @@ signals:
   void SearchFinished(const quint64 request_id, const LyricsSearchResults &results);
 
  private slots:
-  void SingleSearchFinished(const quint64 request_id, LyricsSearchResults results);
+  void SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results);
   void SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
   void StartRequests();
 
