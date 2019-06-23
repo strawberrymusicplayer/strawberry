@@ -47,26 +47,20 @@ ChartLyricsProvider::ChartLyricsProvider(QObject *parent) : LyricsProvider("Char
 
 bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) {
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
-  ParamList params = ParamList() << Param("artist", artist)
-                                 << Param("song", title);
+  const ParamList params = ParamList() << Param("artist", artist)
+                                       << Param("song", title);
 
   QUrlQuery url_query;
-  QUrl url(kUrlSearch);
-
   for (const Param &param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
+  QUrl url(kUrlSearch);
   url.setQuery(url_query);
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
+
+  //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 
   return true;
 

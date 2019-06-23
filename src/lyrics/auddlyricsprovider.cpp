@@ -55,26 +55,15 @@ AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : LyricsProvider("AudD",
 
 bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) {
 
-  QString search(artist + " " + title);
-
-  typedef QPair<QString, QString> Arg;
-  typedef QList<Arg> ArgList;
-
-  typedef QPair<QByteArray, QByteArray> EncodedArg;
-  typedef QList<EncodedArg> EncodedArgList;
-
-  ArgList args = ArgList();
-  args.append(Arg("api_token", QByteArray::fromBase64(kAPITokenB64)));
-  args.append(Arg("q", search));
+  const ParamList params = ParamList() << Param("api_token", QByteArray::fromBase64(kAPITokenB64))
+                                       << Param("q", QString(artist + " " + title));
 
   QUrlQuery url_query;
-  QUrl url(kUrlSearch);
-
-  for (const Arg &arg : args) {
-    EncodedArg encoded_arg(QUrl::toPercentEncoding(arg.first), QUrl::toPercentEncoding(arg.second));
-    url_query.addQueryItem(encoded_arg.first, encoded_arg.second);
+  for (const Param &param : params) {
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
+  QUrl url(kUrlSearch);
   url.setQuery(url_query);
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
