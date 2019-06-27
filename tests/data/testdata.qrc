@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+      <file>audio/strawberry.wav</file>
+      <file>audio/strawberry.flac</file>
+      <file>audio/strawberry.wv</file>
+      <file>audio/strawberry.oga</file>
+      <file>audio/strawberry.opus</file>
+      <file>audio/strawberry.spx</file>
+      <file>audio/strawberry.aif</file>
+      <file>audio/strawberry.asf</file>
+      <file>audio/strawberry.mp3</file>
+      <file>audio/strawberry.m4a</file>
+      <file>audio/strawberry.mp4</file>
+    </qresource>
+</RCC>

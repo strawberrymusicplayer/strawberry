@@ -69,7 +69,8 @@
 using std::shared_ptr;
 using std::stable_sort;
 
-const char *OrganiseDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }%albumartist - %album - %title.%extension";
+const char *OrganiseDialog::kDefaultFormat = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
+
 const char *OrganiseDialog::kSettingsGroup = "OrganiseDialog";
 
 OrganiseDialog::OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend, QWidget *parent)

@@ -59,6 +59,8 @@ class OrganiseDialog : public QDialog {
   OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parent = nullptr);
   ~OrganiseDialog();
 
+  static const char *kDefaultFormat;
+
   QSize sizeHint() const;
 
   void SetDestinationModel(QAbstractItemModel *model, bool devices = false);
@@ -70,6 +72,8 @@ class OrganiseDialog : public QDialog {
   bool SetFilenames(const QStringList &filenames);
 
   void SetCopy(bool copy);
+
+  static Organise::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganiseFormat &format);
 
  signals:
   void FileCopied(int);
@@ -97,10 +101,7 @@ class OrganiseDialog : public QDialog {
   SongList LoadSongsBlocking(const QStringList &filenames);
   void SetLoadingSongs(bool loading);
 
-  static Organise::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganiseFormat &format);
-
  private:
-  static const char *kDefaultFormat;
   static const char *kSettingsGroup;
 
   Ui_OrganiseDialog *ui_;
