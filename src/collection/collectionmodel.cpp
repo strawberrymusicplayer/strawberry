@@ -106,7 +106,8 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
+  if (app_)
+    connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
 
   //icon_cache_->setCacheDirectory(Utilities::GetConfigPath(Utilities::Path_CacheRoot) + "/pixmapcache");
   //icon_cache_->setMaximumCacheSize(CollectionModel::kIconCacheSize);
@@ -172,7 +173,8 @@ void CollectionModel::Init(bool async) {
     endResetModel();
 
     // Show a loading indicator in the status bar too.
-    init_task_id_ = app_->task_manager()->StartTask(tr("Loading songs"));
+    if (app_)
+      init_task_id_ = app_->task_manager()->StartTask(tr("Loading songs"));
 
     ResetAsync();
   }
@@ -794,7 +796,8 @@ void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResu
   PostQuery(root_, result, false);
 
   if (init_task_id_ != -1) {
-    app_->task_manager()->SetTaskFinished(init_task_id_);
+    if (app_)
+      app_->task_manager()->SetTaskFinished(init_task_id_);
     init_task_id_ = -1;
   }
 
