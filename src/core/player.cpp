@@ -450,6 +450,7 @@ void Player::PlayPause() {
   switch (engine_->state()) {
     case Engine::Paused:
       engine_->Unpause();
+      emit Resumed();
       break;
 
     case Engine::Playing: {

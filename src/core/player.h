@@ -104,6 +104,8 @@ class PlayerInterface : public QObject {
  signals:
   void Playing();
   void Paused();
+  // Emitted only when playback is manually resumed
+  void Resumed();
   void Stopped();
   void Error();
   void PlaylistFinished();

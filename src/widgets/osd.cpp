@@ -186,9 +186,9 @@ void OSD::Paused() {
 }
 
 void OSD::Resumed() {
-    if (show_on_resume_) {
-        AlbumArtLoaded(last_song_, last_image_uri_, last_image_);
-    }
+  if (show_on_resume_) {
+    AlbumArtLoaded(last_song_, last_image_uri_, last_image_);
+  }
 }
 
 void OSD::Stopped() {
