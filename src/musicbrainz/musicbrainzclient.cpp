@@ -103,7 +103,6 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
         }
       }
       error = Error(error);
-      abort();
     }
     return QByteArray();
   }
