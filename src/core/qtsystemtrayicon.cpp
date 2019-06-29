@@ -46,7 +46,7 @@ QtSystemTrayIcon::QtSystemTrayIcon(QObject *parent)
       tray_(new QSystemTrayIcon(this)),
       menu_(new QMenu),
       app_name_(QCoreApplication::applicationName()),
-      icon_(":/icons/48x48/strawberry.png"),
+      icon_(IconLoader::Load("strawberry")),
       normal_icon_(icon_.pixmap(48, QIcon::Normal)),
       grey_icon_(icon_.pixmap(48, QIcon::Disabled)),
       action_play_pause_(nullptr),
