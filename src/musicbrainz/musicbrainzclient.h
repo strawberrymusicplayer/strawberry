@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,17 +29,16 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
-#include <QHash>
 #include <QMap>
 #include <QMultiMap>
-#include <QSet>
+#include <QQueue>
 #include <QString>
 #include <QStringList>
-#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
-#include <QVector>
 
+class QNetworkAccessManager;
+class QTimer;
 class NetworkTimeouts;
 
 class MusicBrainzClient : public QObject {
@@ -91,7 +91,7 @@ class MusicBrainzClient : public QObject {
   typedef QList<Result> ResultList;
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
-  void Start(int id, const QStringList &mbid);
+  void Start(const int id, const QStringList &mbid);
   void StartDiscIdRequest(const QString &discid);
 
   // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
@@ -100,18 +100,30 @@ class MusicBrainzClient : public QObject {
   // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
-signals:
+ signals:
   // Finished signal emitted when fechting songs tags
-  void Finished(int id, const MusicBrainzClient::ResultList& result);
+  void Finished(const int id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
   // Finished signal emitted when fechting album's songs tags using DiscId
-  void Finished(const QString& artist, const QString album, const MusicBrainzClient::ResultList& result);
+  void Finished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &result, const QString &error = QString());
 
  private slots:
+  void FlushRequests();
   // id identifies the track, and request_number means it's the 'request_number'th request for this track
-  void RequestFinished(QNetworkReply* reply, int id, int request_number);
-  void DiscIdRequestFinished(const QString& discid, QNetworkReply* reply);
+  void RequestFinished(QNetworkReply* reply, const int id, const int request_number);
+  void DiscIdRequestFinished(const QString &discid, QNetworkReply* reply);
 
  private:
+  typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
+
+  struct Request {
+    Request() : id(0), number(0) {}
+    Request(const int _id, const QString &_mbid, const int _number) : id(_id), mbid(_mbid), number(_number) {}
+    int id;
+    QString mbid;
+    int number;
+  };
+
   // Used as parameter for UniqueResults
   enum UniqueResultsSortOption {
     SortResults = 0,
@@ -178,6 +190,8 @@ signals:
     ResultList results_;
   };
 
+  QNetworkReply *CreateRequest(const QString &ressource, const ParamList &params_provided);
+  QByteArray GetReplyData(QNetworkReply *reply, QString &error);
   static bool MediumHasDiscid(const QString& discid, QXmlStreamReader* reader);
   static ResultList ParseMedium(QXmlStreamReader* reader);
   static Result ParseTrackFromDisc(QXmlStreamReader* reader);
@@ -185,20 +199,25 @@ signals:
   static void ParseArtist(QXmlStreamReader* reader, QString* artist);
   static Release ParseRelease(QXmlStreamReader* reader);
   static ResultList UniqueResults(const ResultList& results, UniqueResultsSortOption opt = SortResults);
-
+  QString Error(QString error, QVariant debug = QVariant());
 
  private:
-  static const char* kTrackUrl;
-  static const char* kDiscUrl;
-  static const char* kDateRegex;
+
+  static const char *kTrackUrl;
+  static const char *kDiscUrl;
+  static const char *kDateRegex;
+  static const int kRequestsDelay;
   static const int kDefaultTimeout;
   static const int kMaxRequestPerTrack;
 
   QNetworkAccessManager* network_;
   NetworkTimeouts* timeouts_;
+  QQueue<Request> requests_pending_;
   QMultiMap<int, QNetworkReply*> requests_;
   // Results we received so far, kept here until all the replies are finished
   QMap<int, QList<PendingResults>> pending_results_;
+  QTimer *timer_flush_requests_;
+
 };
 
 inline uint qHash(const MusicBrainzClient::Result& result) {

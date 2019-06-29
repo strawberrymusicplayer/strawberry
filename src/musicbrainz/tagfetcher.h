@@ -46,14 +46,14 @@ class TagFetcher : public QObject {
  public slots:
   void Cancel();
 
-signals:
+ signals:
   void Progress(const Song &original_song, const QString &stage);
-  void ResultAvailable(const Song &original_song, const SongList &songs_guessed);
+  void ResultAvailable(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
 
  private slots:
-  void FingerprintFound(int index);
-  void PuidsFound(int index, const QStringList &puid_list);
-  void TagsFetched(int index, const MusicBrainzClient::ResultList &result);
+  void FingerprintFound(const int index);
+  void PuidsFound(const int index, const QStringList &puid_list, const QString &error = QString());
+  void TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error = QString());
 
  private:
   static QString GetFingerprint(const Song &song);

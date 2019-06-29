@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +25,10 @@
 
 #include <QObject>
 #include <QList>
-#include <QPair>
 #include <QSet>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QStringBuilder>
 #include <QRegExp>
 #include <QUrl>
 #include <QUrlQuery>
@@ -37,7 +36,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QXmlStreamReader>
+#include <QTimer>
 #include <QtDebug>
 
 #include "core/closure.h"
@@ -52,65 +55,179 @@ using std::stable_sort;
 const char *MusicBrainzClient::kTrackUrl = "http://musicbrainz.org/ws/2/recording/";
 const char *MusicBrainzClient::kDiscUrl = "http://musicbrainz.org/ws/2/discid/";
 const char *MusicBrainzClient::kDateRegex = "^[12]\\d{3}";
-const int MusicBrainzClient::kDefaultTimeout = 5000;  // msec
+const int MusicBrainzClient::kRequestsDelay = 1200;
+const int MusicBrainzClient::kDefaultTimeout = 8000;
 const int MusicBrainzClient::kMaxRequestPerTrack = 3;
 
 MusicBrainzClient::MusicBrainzClient(QObject *parent, QNetworkAccessManager *network)
     : QObject(parent),
       network_(network ? network : new NetworkAccessManager(this)),
-      timeouts_(new NetworkTimeouts(kDefaultTimeout, this)) {}
+      timeouts_(new NetworkTimeouts(kDefaultTimeout, this)),
+      timer_flush_requests_(new QTimer(this)) {
 
-void MusicBrainzClient::Start(int id, const QStringList &mbid_list) {
+  timer_flush_requests_->setInterval(kRequestsDelay);
+  timer_flush_requests_->setSingleShot(true);
+  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
 
-  typedef QPair<QString, QString> Param;
+}
+
+QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error) {
+
+  QByteArray data;
+
+  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+      data = reply->readAll();
+  }
+  else {
+    if (reply->error() < 200) {
+      // This is a network error, there is nothing more to do.
+      error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    }
+    else {
+      // See if there is Json data containing "error" - then use that instead.
+      data = reply->readAll();
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+      if (json_error.error == QJsonParseError::NoError && json_doc.isObject()) {
+        QJsonObject json_obj = json_doc.object();
+        if (!json_obj.isEmpty() && json_obj.contains("error")) {
+          error = json_obj["error"].toString();
+        }
+      }
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+        }
+      }
+      error = Error(error);
+      abort();
+    }
+    return QByteArray();
+  }
+
+  return data;
+
+}
+
+void MusicBrainzClient::Cancel(int id) {
+
+  while (!requests_.isEmpty() && requests_.contains(id)) {
+    QNetworkReply *reply = requests_.take(id);
+    disconnect(reply, 0, nullptr, 0);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
+void MusicBrainzClient::CancelAll() {
+
+  qDeleteAll(requests_.values());
+  requests_.clear();
+
+}
+
+void MusicBrainzClient::Start(const int id, const QStringList &mbid_list) {
 
   int request_number = 0;
   for (const QString &mbid : mbid_list) {
-    QList<Param> parameters;
-    parameters << Param("inc", "artists+releases+media");
-
-    QUrl url(kTrackUrl + mbid);
-    QUrlQuery url_query;
-    url_query.setQueryItems(parameters);
-    url.setQuery(url_query);
-    QNetworkRequest req(url);
-
-    QNetworkReply *reply = network_->get(req);
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, int, int)), reply, id, request_number++);
-    requests_.insert(id, reply);
-
-    timeouts_->AddReply(reply);
-
-    if (request_number >= kMaxRequestPerTrack) {
-      break;
-    }
+    ++request_number;
+    if (request_number > kMaxRequestPerTrack) break;
+    Request request(id, mbid, request_number);
+    requests_pending_.enqueue(request);
   }
+
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
+  }
+
 }
 
 void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
 
-  typedef QPair<QString, QString> Param;
+  const ParamList params = ParamList() << Param("inc", "artists+recordings");
 
-  QList<Param> parameters;
-  parameters << Param("inc", "artists+recordings");
-
-  QUrl url(kDiscUrl + discid);
   QUrlQuery url_query;
-  url_query.setQueryItems(parameters);
+  url_query.setQueryItems(params);
+  QUrl url(kDiscUrl + discid);
   url.setQuery(url_query);
-  QNetworkRequest req(url);
 
+  QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(DiscIdRequestFinished(const QString&, QNetworkReply*)), discid, reply);
 
   timeouts_->AddReply(reply);
+
 }
 
-void MusicBrainzClient::Cancel(int id) { delete requests_.take(id); }
+void MusicBrainzClient::FlushRequests() {
 
-void MusicBrainzClient::CancelAll() {
-  qDeleteAll(requests_.values());
-  requests_.clear();
+  if (!requests_.isEmpty() || requests_pending_.isEmpty()) return;
+
+  Request request = requests_pending_.dequeue();
+
+  const ParamList params = ParamList() << Param("inc", "artists+releases+media");
+
+  QUrlQuery url_query;
+  url_query.setQueryItems(params);
+  QUrl url(kTrackUrl + request.mbid);
+  url.setQuery(url_query);
+
+  QNetworkRequest req(url);
+  QNetworkReply *reply = network_->get(req);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, const int, const int)), reply, request.id, request.number);
+  requests_.insert(request.id, reply);
+
+  timeouts_->AddReply(reply);
+
+}
+
+void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, const int request_number) {
+
+  reply->deleteLater();
+
+  const int nb_removed = requests_.remove(id, reply);
+  if (nb_removed != 1) {
+    qLog(Debug) << "MusicBrainz: Unknown reply received:" << nb_removed << "requests removed, while only one was supposed to be removed";
+  }
+
+  if (!timer_flush_requests_->isActive() && requests_.isEmpty() && !requests_pending_.isEmpty()) {
+    timer_flush_requests_->start();
+  }
+
+  QString error;
+  QByteArray data = GetReplyData(reply, error);
+  if (!data.isEmpty()) {
+    QXmlStreamReader reader(data);
+    ResultList res;
+    while (!reader.atEnd()) {
+    if (reader.readNext() == QXmlStreamReader::StartElement && reader.name() == "recording") {
+        ResultList tracks = ParseTrack(&reader);
+        for (const Result &track : tracks) {
+          if (!track.title_.isEmpty()) {
+            res << track;
+          }
+        }
+      }
+    }
+    pending_results_[id] << PendingResults(request_number, res);
+  }
+
+  // No more pending requests for this id: emit the results we have.
+  if (!requests_.contains(id)) {
+    // Merge the results we have
+    ResultList ret;
+    QList<PendingResults> result_list_list = pending_results_.take(id);
+    std::sort(result_list_list.begin(), result_list_list.end());
+    for (const PendingResults &result_list : result_list_list) {
+      ret << result_list.results_;
+    }
+    emit Finished(id, UniqueResults(ret, KeepOriginalOrder), error);
+  }
+
 }
 
 void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkReply *reply) {
@@ -122,10 +239,10 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   QString album;
   int year = 0;
 
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    qLog(Error) << "Error:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << "http status code received";
-    qLog(Error) << reply->readAll();
-    emit Finished(artist, album, ret);
+  QString error;
+  QByteArray data = GetReplyData(reply, error);
+  if (data.isEmpty()) {
+    emit Finished(artist, album, ret, error);
     return;
   }
 
@@ -136,7 +253,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   // -get all the tracks' tags
   // Note: If there are multiple releases for the discid, the first
   // release is chosen.
-  QXmlStreamReader reader(reply);
+  QXmlStreamReader reader(data);
   while (!reader.atEnd()) {
     QXmlStreamReader::TokenType type = reader.readNext();
     if (type == QXmlStreamReader::StartElement) {
@@ -188,49 +305,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   }
 
   emit Finished(artist, album, UniqueResults(ret, SortResults));
-}
 
-void MusicBrainzClient::RequestFinished(QNetworkReply *reply, int id, int request_number) {
-
-  reply->deleteLater();
-
-  const int nb_removed = requests_.remove(id, reply);
-  if (nb_removed != 1) {
-    qLog(Error) << "Error: unknown reply received:" << nb_removed <<
-        "requests removed, while only one was supposed to be removed";
-  }
-
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    QXmlStreamReader reader(reply);
-    ResultList res;
-    while (!reader.atEnd()) {
-    if (reader.readNext() == QXmlStreamReader::StartElement && reader.name() == "recording") {
-        ResultList tracks = ParseTrack(&reader);
-        for (const Result &track : tracks) {
-          if (!track.title_.isEmpty()) {
-            res << track;
-          }
-        }
-      }
-    }
-    pending_results_[id] << PendingResults(request_number, res);
-  }
-  else {
-    qLog(Error) << "Error:" <<  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << "http status code received";
-    qLog(Error) << reply->readAll();
-  }
-
-  // No more pending requests for this id: emit the results we have.
-  if (!requests_.contains(id)) {
-    // Merge the results we have
-    ResultList ret;
-    QList<PendingResults> result_list_list = pending_results_.take(id);
-    std::sort(result_list_list.begin(), result_list_list.end());
-    for (const PendingResults &result_list : result_list_list) {
-      ret << result_list.results_;
-    }
-    emit Finished(id, UniqueResults(ret, KeepOriginalOrder));
-  }
 }
 
 bool MusicBrainzClient::MediumHasDiscid(const QString &discid, QXmlStreamReader *reader) {
@@ -419,4 +494,13 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList&
     }
   }
   return ret;
+}
+
+QString MusicBrainzClient::Error(QString error, QVariant debug) {
+
+  qLog(Error) << "MusicBrainz:" << error;
+  if (debug.isValid()) qLog(Debug) << debug;
+
+  return error;
+
 }

@@ -39,8 +39,8 @@ TagFetcher::TagFetcher(QObject *parent)
       acoustid_client_(new AcoustidClient(this)),
       musicbrainz_client_(new MusicBrainzClient(this)) {
 
-  connect(acoustid_client_, SIGNAL(Finished(int, QStringList)), SLOT(PuidsFound(int, QStringList)));
-  connect(musicbrainz_client_, SIGNAL(Finished(int, MusicBrainzClient::ResultList)), SLOT(TagsFetched(int, MusicBrainzClient::ResultList)));
+  connect(acoustid_client_, SIGNAL(Finished(const int, const QStringList&, const QString&)), SLOT(PuidsFound(const int, const QStringList&, const QString&)));
+  connect(musicbrainz_client_, SIGNAL(Finished(const int, const MusicBrainzClient::ResultList&, const QString&)), SLOT(TagsFetched(const int, const MusicBrainzClient::ResultList&, const QString&)));
 
 }
 
@@ -57,7 +57,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
   QFuture<QString> future = QtConcurrent::mapped(songs_, GetFingerprint);
   fingerprint_watcher_ = new QFutureWatcher<QString>(this);
   fingerprint_watcher_->setFuture(future);
-  connect(fingerprint_watcher_, SIGNAL(resultReadyAt(int)), SLOT(FingerprintFound(int)));
+  connect(fingerprint_watcher_, SIGNAL(resultReadyAt(const int)), SLOT(FingerprintFound(const int)));
 
   for (const Song &song : songs) {
     emit Progress(song, tr("Fingerprinting song"));
@@ -80,7 +80,7 @@ void TagFetcher::Cancel() {
 
 }
 
-void TagFetcher::FingerprintFound(int index) {
+void TagFetcher::FingerprintFound(const int index) {
 
   QFutureWatcher<QString>* watcher = reinterpret_cast<QFutureWatcher<QString>*>(sender());
   if (!watcher || index >= songs_.count()) {
@@ -100,7 +100,7 @@ void TagFetcher::FingerprintFound(int index) {
 
 }
 
-void TagFetcher::PuidsFound(int index, const QStringList &puid_list) {
+void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const QString &error) {
 
   if (index >= songs_.count()) {
     return;
@@ -109,7 +109,7 @@ void TagFetcher::PuidsFound(int index, const QStringList &puid_list) {
   const Song &song = songs_[index];
 
   if (puid_list.isEmpty()) {
-    emit ResultAvailable(song, SongList());
+    emit ResultAvailable(song, SongList(), error);
     return;
   }
 
@@ -118,7 +118,7 @@ void TagFetcher::PuidsFound(int index, const QStringList &puid_list) {
 
 }
 
-void TagFetcher::TagsFetched(int index, const MusicBrainzClient::ResultList &results) {
+void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error) {
 
   if (index >= songs_.count()) {
     return;
@@ -135,7 +135,7 @@ void TagFetcher::TagsFetched(int index, const MusicBrainzClient::ResultList &res
     songs_guessed << song;
   }
 
-  emit ResultAvailable(original_song, songs_guessed);
+  emit ResultAvailable(original_song, songs_guessed, error);
 
 }
 
