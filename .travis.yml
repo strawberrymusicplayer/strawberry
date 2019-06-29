@@ -10,8 +10,10 @@ compiler:
   - clang
 
 before_install:
-  - echo $DEPLOY_KEY_ENC | base64 --decode | openssl aes-256-cbc -K $encrypted_83a41ac424a6_key -iv $encrypted_83a41ac424a6_iv -out ~/.ssh/id_rsa -d
-  - chmod 600 ~/.ssh/id_rsa
+  - if ! [ "$DEPLOY_KEY_ENC" == "" ]; then
+      echo $DEPLOY_KEY_ENC | base64 --decode | openssl aes-256-cbc -K $encrypted_83a41ac424a6_key -iv $encrypted_83a41ac424a6_iv -out ~/.ssh/id_rsa -d ;
+      chmod 600 ~/.ssh/id_rsa ;
+    fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       docker build -f Dockerfile -t strawberry-build .;
       docker run --name build -itd strawberry-build /bin/bash;
@@ -46,7 +48,7 @@ script:
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
 
 branches:
   except:
