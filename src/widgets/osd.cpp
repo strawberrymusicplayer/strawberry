@@ -58,6 +58,7 @@ OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       show_art_(true),
       show_on_play_mode_change_(true),
       show_on_pause_(true),
+      show_on_resume_(false),
       use_custom_text_(false),
       custom_text1_(QString()),
       custom_text2_(QString()),
@@ -90,6 +91,7 @@ void OSD::ReloadSettings() {
   show_art_ = s.value("ShowArt", true).toBool();
   show_on_play_mode_change_ = s.value("ShowOnPlayModeChange", true).toBool();
   show_on_pause_ = s.value("ShowOnPausePlayback", true).toBool();
+  show_on_resume_ = s.value("ShowOnResumePlayback", false).toBool();
   use_custom_text_ = s.value(("CustomTextEnabled"), false).toBool();
   custom_text1_ = s.value("CustomText1").toString();
   custom_text2_ = s.value("CustomText2").toString();
@@ -180,6 +182,12 @@ void OSD::AlbumArtLoaded(const Song &song, const QString &uri, const QImage &ima
 void OSD::Paused() {
   if (show_on_pause_) {
     ShowMessage(app_name_, tr("Paused"));
+  }
+}
+
+void OSD::Resumed() {
+  if (show_on_resume_) {
+    AlbumArtLoaded(last_song_, last_image_uri_, last_image_);
   }
 }
 

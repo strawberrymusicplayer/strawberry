@@ -169,6 +169,7 @@ void NotificationsSettingsPage::Load() {
   ui_->notifications_volume->setChecked( s.value("ShowOnVolumeChange", false).toBool());
   ui_->notifications_play_mode->setChecked( s.value("ShowOnPlayModeChange", true).toBool());
   ui_->notifications_pause->setChecked(s.value("ShowOnPausePlayback", true).toBool());
+  ui_->notifications_resume->setChecked(s.value("ShowOnResumePlayback", false).toBool());
   ui_->notifications_art->setChecked(s.value("ShowArt", true).toBool());
   ui_->notifications_custom_text_enabled->setChecked(s.value("CustomTextEnabled", false).toBool());
   ui_->notifications_custom_text1->setText(s.value("CustomText1").toString());
@@ -211,6 +212,7 @@ void NotificationsSettingsPage::Save() {
   s.setValue("ShowOnVolumeChange", ui_->notifications_volume->isChecked());
   s.setValue("ShowOnPlayModeChange", ui_->notifications_play_mode->isChecked());
   s.setValue("ShowOnPausePlayback", ui_->notifications_pause->isChecked());
+  s.setValue("ShowOnResumePlayback", ui_->notifications_resume->isChecked());
   s.setValue("ShowArt", ui_->notifications_art->isChecked());
   s.setValue("CustomTextEnabled", ui_->notifications_custom_text_enabled->isChecked());
   s.setValue("CustomText1", ui_->notifications_custom_text1->text());
