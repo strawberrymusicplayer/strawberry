@@ -111,7 +111,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   connect(tag_fetcher_, SIGNAL(ResultAvailable(Song, SongList)), results_dialog_, SLOT(FetchTagFinished(Song, SongList)), Qt::QueuedConnection);
-  connect(tag_fetcher_, SIGNAL(Progress(Song,QString)), results_dialog_, SLOT(FetchTagProgress(Song,QString)));
+  connect(tag_fetcher_, SIGNAL(Progress(Song, QString)), results_dialog_, SLOT(FetchTagProgress(Song, QString)));
   connect(results_dialog_, SIGNAL(SongChosen(Song, Song)), SLOT(FetchTagSongChosen(Song, Song)));
   connect(results_dialog_, SIGNAL(finished(int)), tag_fetcher_, SLOT(Cancel()));
 #endif

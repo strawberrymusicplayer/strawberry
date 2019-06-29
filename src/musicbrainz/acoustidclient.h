@@ -46,22 +46,22 @@ class AcoustidClient : public QObject {
   AcoustidClient(QObject *parent = nullptr);
 
   // Network requests will be aborted after this interval.
-  void SetTimeout(int msec);
+  void SetTimeout(const int msec);
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
-  void Start(int id, const QString &fingerprint, int duration_msec);
+  void Start(const int id, const QString &fingerprint, int duration_msec);
 
   // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
-  void Cancel(int id);
+  void Cancel(const int id);
 
   // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
-signals:
-  void Finished(int id, const QStringList &mbid_list);
+ signals:
+  void Finished(const int id, const QStringList &mbid_list, const QString &error = QString());
 
  private slots:
-  void RequestFinished(QNetworkReply *reply, int id);
+  void RequestFinished(QNetworkReply *reply, const int id);
 
  private:
   static const char *kClientId;

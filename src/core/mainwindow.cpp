@@ -2338,7 +2338,7 @@ void MainWindow::AutoCompleteTags() {
     track_selection_dialog_->set_save_on_close(true);
 
     connect(tag_fetcher_.get(), SIGNAL(ResultAvailable(Song, SongList)), track_selection_dialog_.get(), SLOT(FetchTagFinished(Song, SongList)), Qt::QueuedConnection);
-    connect(tag_fetcher_.get(), SIGNAL(Progress(Song, QString)), track_selection_dialog_.get(), SLOT(FetchTagProgress(Song,QString)));
+    connect(tag_fetcher_.get(), SIGNAL(Progress(Song, QString)), track_selection_dialog_.get(), SLOT(FetchTagProgress(Song, QString)));
     connect(track_selection_dialog_.get(), SIGNAL(accepted()), SLOT(AutoCompleteTagsAccepted()));
     connect(track_selection_dialog_.get(), SIGNAL(finished(int)), tag_fetcher_.get(), SLOT(Cancel()));
     connect(track_selection_dialog_.get(), SIGNAL(Error(QString)), SLOT(ShowErrorDialog(QString)));

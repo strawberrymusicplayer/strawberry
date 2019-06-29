@@ -58,25 +58,25 @@ AcoustidClient::AcoustidClient(QObject *parent)
       network_(new NetworkAccessManager(this)),
       timeouts_(new NetworkTimeouts(kDefaultTimeout, this)) {}
 
-void AcoustidClient::SetTimeout(int msec) { timeouts_->SetTimeout(msec); }
+void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
 
-void AcoustidClient::Start(int id, const QString &fingerprint, int duration_msec) {
+void AcoustidClient::Start(const int id, const QString &fingerprint, int duration_msec) {
 
   typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
 
-  QList<Param> parameters;
-  parameters << Param("format", "json")
-             << Param("client", kClientId)
-             << Param("duration", QString::number(duration_msec / kMsecPerSec))
-             << Param("meta", "recordingids+sources")
-             << Param("fingerprint", fingerprint);
+  const ParamList params = ParamList () << Param("format", "json")
+                                        << Param("client", kClientId)
+                                        << Param("duration", QString::number(duration_msec / kMsecPerSec))
+                                        << Param("meta", "recordingids+sources")
+                                        << Param("fingerprint", fingerprint);
 
-  QUrl url(kUrl);
   QUrlQuery url_query;
-  url_query.setQueryItems(parameters);
+  url_query.setQueryItems(params);
+  QUrl url(kUrl);
   url.setQuery(url_query);
-  QNetworkRequest req(url);
 
+  QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, int)), reply, id);
   requests_[id] = reply;
@@ -84,11 +84,15 @@ void AcoustidClient::Start(int id, const QString &fingerprint, int duration_msec
   timeouts_->AddReply(reply);
 }
 
-void AcoustidClient::Cancel(int id) { delete requests_.take(id); }
+void AcoustidClient::Cancel(const int id) {
+  if (requests_.contains(id)) delete requests_.take(id);
+}
 
 void AcoustidClient::CancelAll() {
+
   qDeleteAll(requests_.values());
   requests_.clear();
+
 }
 
 namespace {
@@ -107,12 +111,12 @@ struct IdSource {
 };
 }
 
-void AcoustidClient::RequestFinished(QNetworkReply *reply, int request_id) {
+void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id) {
 
   reply->deleteLater();
   requests_.remove(request_id);
 
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     emit Finished(request_id, QStringList());
     return;
   }
@@ -129,7 +133,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, int request_id) {
 
   QString status = json_object["status"].toString();
   if (status != "ok") {
-    emit Finished(request_id, QStringList());
+    emit Finished(request_id, QStringList(), status);
     return;
   }
 
