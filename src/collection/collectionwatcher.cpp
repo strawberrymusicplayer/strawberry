@@ -70,15 +70,16 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       backend_(nullptr),
       task_manager_(nullptr),
       fs_watcher_(FileSystemWatcherInterface::Create(this)),
-      stop_requested_(false),
       scan_on_startup_(true),
       monitor_(true),
+      live_scanning_(false),
+      prevent_delete_(false),
+      stop_requested_(false),
       rescan_in_progress_(false),
       rescan_timer_(new QTimer(this)),
       rescan_paused_(false),
       total_watches_(0),
-      cue_parser_(new CueParser(backend_, this)),
-      prevent_delete_(false) {
+      cue_parser_(new CueParser(backend_, this)) {
 
   rescan_timer_->setInterval(1000);
   rescan_timer_->setSingleShot(true);
@@ -444,7 +445,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
   t->AddToProgress(1);
 
-  emit t->CommitNewOrUpdatedSongs();
+  if (live_scanning_) t->CommitNewOrUpdatedSongs();
 
   // Recurse into the new subdirs that we found
   t->AddToProgressMax(my_new_subdirs.count());
@@ -758,13 +759,15 @@ void CollectionWatcher::ReloadSettings() {
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   scan_on_startup_ = s.value("startup_scan", true).toBool();
   monitor_ = s.value("monitor", true).toBool();
+  live_scanning_ = s.value("live_scanning", false).toBool();
   prevent_delete_ = s.value("prevent_delete", false).toBool();
+  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
+  s.endGroup();
 
   best_image_filters_.clear();
-  QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   for (const QString &filter : filters) {
-    QString s = filter.trimmed();
-    if (!s.isEmpty()) best_image_filters_ << s;
+    QString str = filter.trimmed();
+    if (!str.isEmpty()) best_image_filters_ << str;
   }
 
   if (!monitor_ && was_monitoring_before) {

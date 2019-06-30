@@ -183,9 +183,12 @@ signals:
   // e.g. using ["front", "cover"] would identify front.jpg and exclude back.jpg.
   QStringList best_image_filters_;
 
-  bool stop_requested_;
   bool scan_on_startup_;
   bool monitor_;
+  bool live_scanning_;
+  bool prevent_delete_;
+
+  bool stop_requested_;
   bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.
 
   QMap<int, Directory> watched_dirs_;
@@ -201,7 +204,6 @@ signals:
 
   SongList song_rescan_queue_; // Set by ui thread
 
-  bool prevent_delete_;
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString& fileName) {
