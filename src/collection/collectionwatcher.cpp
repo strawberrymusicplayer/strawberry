@@ -832,8 +832,8 @@ void CollectionWatcher::RescanTracksNow() {
 
     // Currently we are too stupid to rescan one file at a time, so we'll just scan the full directiories
     QStringList scanned_dirs; // To avoid double scans
-    while(!song_rescan_queue_.isEmpty()) {
-      if(stop_requested_) break;
+    while (!song_rescan_queue_.isEmpty()) {
+      if (stop_requested_) break;
       Song song = song_rescan_queue_.takeFirst();
       QString songdir = song.url().toLocalFile().section('/', 0, -2);
       if (!scanned_dirs.contains(songdir)) {

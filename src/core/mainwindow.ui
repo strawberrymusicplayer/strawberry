@@ -513,7 +513,7 @@
   </widget>
   <action name="action_previous_track">
    <property name="text">
-    <string>&amp;Previous track</string>
+    <string>Previous track</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -521,7 +521,7 @@
   </action>
   <action name="action_play_pause">
    <property name="text">
-    <string>P&amp;lay</string>
+    <string>&amp;Play</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
@@ -822,9 +822,9 @@
     <string notr="true">Ctrl+Shift+T</string>
    </property>
   </action>
-  <action name="action_rescan_track">
+  <action name="action_rescan_songs">
    <property name="text">
-    <string>Rescan track(s)</string>
+    <string>Rescan songs(s)</string>
    </property>
   </action>
  </widget>

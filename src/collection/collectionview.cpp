@@ -352,7 +352,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
 
-    rescan_files_ = context_menu_->addAction(tr("Rescan files"), this, SLOT(RescanTracks()));
+    rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, SLOT(RescanSongs()));
 
     context_menu_->addSeparator();
     show_in_various_ = context_menu_->addAction( tr("Show in various artists"), this, SLOT(ShowInVarious()));
@@ -400,8 +400,8 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
 
-  rescan_files_->setVisible(edit_track_->isVisible());
-  rescan_files_->setEnabled(true);
+  rescan_songs_->setVisible(edit_track_->isVisible());
+  rescan_songs_->setEnabled(true);
 
   organise_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
@@ -569,9 +569,9 @@ void CollectionView::EditTagError(const QString &message) {
   emit Error(message);
 }
 
-void CollectionView::RescanTracks() {
+void CollectionView::RescanSongs() {
 
-    app_->collection()->Rescan(GetSelectedSongs());
+  app_->collection()->Rescan(GetSelectedSongs());
 
 }
 

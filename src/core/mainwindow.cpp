@@ -410,7 +410,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_remove_unavailable, SIGNAL(triggered()), app_->playlist_manager(), SLOT(RemoveUnavailableCurrent()));
   connect(ui_->action_remove_from_playlist, SIGNAL(triggered()), SLOT(PlaylistRemoveCurrent()));
   connect(ui_->action_edit_track, SIGNAL(triggered()), SLOT(EditTracks()));
-  connect(ui_->action_rescan_track, SIGNAL(triggered()), SLOT(RescanTracks()));
+  connect(ui_->action_rescan_songs, SIGNAL(triggered()), SLOT(RescanSongs()));
   connect(ui_->action_renumber_tracks, SIGNAL(triggered()), SLOT(RenumberTracks()));
   connect(ui_->action_selection_set_value, SIGNAL(triggered()), SLOT(SelectionSetValue()));
   connect(ui_->action_edit_value, SIGNAL(triggered()), SLOT(EditValue()));
@@ -616,7 +616,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
-  playlist_menu_->addAction(ui_->action_rescan_track);
+  playlist_menu_->addAction(ui_->action_rescan_songs);
 #ifdef HAVE_GSTREAMER
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
 #endif
@@ -1516,8 +1516,8 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   ui_->action_auto_complete_tags->setVisible(false);
 #endif
 
-  ui_->action_rescan_track->setEnabled(editable);
-  ui_->action_rescan_track->setVisible(editable);
+  ui_->action_rescan_songs->setEnabled(editable);
+  ui_->action_rescan_songs->setVisible(editable);
 
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
@@ -1666,7 +1666,7 @@ void MainWindow::PlaylistStopAfter() {
   app_->playlist_manager()->current()->StopAfter(playlist_menu_index_.row());
 }
 
-void MainWindow::RescanTracks() {
+void MainWindow::RescanSongs() {
 
   SongList songs;
   PlaylistItemList items;

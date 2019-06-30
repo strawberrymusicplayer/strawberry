@@ -114,7 +114,7 @@ class CollectionView : public AutoExpandingTreeView {
   void Organise();
   void CopyToDevice();
   void EditTracks();
-  void RescanTracks();
+  void RescanSongs();
   void ShowInBrowser();
   void ShowInVarious();
   void NoShowInVarious();
@@ -149,7 +149,7 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *delete_;
   QAction *edit_track_;
   QAction *edit_tracks_;
-  QAction *rescan_files_;
+  QAction *rescan_songs_;
   QAction *show_in_browser_;
   QAction *show_in_various_;
   QAction *no_show_in_various_;
