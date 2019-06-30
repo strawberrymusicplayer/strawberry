@@ -52,6 +52,7 @@ public:
   static const char *kBackgroundImageFilename;
   static const char *kBackgroundImagePosition;
   static const char *kBackgroundImageStretch;
+  static const char *kBackgroundImageDoNotCut;
   static const char *kBackgroundImageKeepAspectRatio;
   static const char *kBackgroundImageMaxSize;
 

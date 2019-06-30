@@ -207,6 +207,7 @@ class PlaylistView : public QTreeView {
   AppearanceSettingsPage::BackgroundImagePosition background_image_position_;
   int background_image_maxsize_;
   bool background_image_stretch_;
+  bool background_image_do_not_cut_;
   bool background_image_keep_aspect_ratio_;
   int blur_radius_;
   int opacity_level_;

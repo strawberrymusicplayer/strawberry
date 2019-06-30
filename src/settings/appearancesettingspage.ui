@@ -269,6 +269,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="checkbox_background_image_do_not_cut">
+              <property name="text">
+               <string>Do not cut image</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="checkbox_background_image_keep_aspect_ratio">
               <property name="text">
                <string>Keep aspect ratio</string>
