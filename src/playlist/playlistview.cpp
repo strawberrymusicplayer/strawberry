@@ -136,6 +136,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       background_image_position_(AppearanceSettingsPage::BackgroundImagePosition_BottomRight),
       background_image_maxsize_(0),
       background_image_stretch_(false),
+      background_image_do_not_cut_(true),
       background_image_keep_aspect_ratio_(true),
       blur_radius_(AppearanceSettingsPage::kDefaultBlurRadius),
       opacity_level_(AppearanceSettingsPage::kDefaultOpacityLevel),
@@ -802,8 +803,11 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
     if (!background_image_.isNull() || !previous_background_image_.isNull()) {
       QPainter background_painter(viewport());
 
+      int pb_height = height() - header_->height();
+      int pb_width = verticalScrollBar()->isVisible() ? width() - style()->pixelMetric(QStyle::PM_ScrollBarExtent) : width();
+
       // Check if we should recompute the background image
-      if (height() != last_height_ || width() != last_width_ || force_background_redraw_) {
+      if (pb_height != last_height_ || pb_width != last_width_ || force_background_redraw_) {
 
         if (background_image_.isNull()) {
           cached_scaled_background_image_ = QPixmap();
@@ -811,21 +815,31 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
         else {
           if (background_image_stretch_) {
             if (background_image_keep_aspect_ratio_) {
-              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+              if (background_image_do_not_cut_){
+                cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(pb_width, pb_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+              }
+              else {
+                if (pb_height >= pb_width){
+                  cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaledToHeight(pb_height, Qt::SmoothTransformation));
+                }
+                else {
+                  cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaledToWidth(pb_width, Qt::SmoothTransformation));
+                }
+              }
             }
             else {
-              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(pb_width, pb_height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
             }
           }
           else {
-            int resize_width = qMin(qMin(background_image_.size().width(), (width() >= 50 ? (width() - 25) : width())), background_image_maxsize_);
-            int resize_height = qMin(qMin(background_image_.size().height(), (height() >= 50 ? (height() - 25) : height())), background_image_maxsize_);
+            int resize_width = qMin(qMin(background_image_.size().width(), pb_width), background_image_maxsize_);
+            int resize_height = qMin(qMin(background_image_.size().height(), pb_height), background_image_maxsize_);
             cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(resize_width, resize_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
           }
         }
 
-        last_height_ = height();
-        last_width_ = width();
+        last_height_ = pb_height;
+        last_width_ = pb_width;
         force_background_redraw_ = false;
       }
 
@@ -841,21 +855,21 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
             current_background_image_y_ = 0;
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_UpperRight:
-            current_background_image_x_ = (width() - cached_scaled_background_image_.width() - 0);
+            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
             current_background_image_y_ = 0;
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_Middle:
-            current_background_image_x_ = ((width() - cached_scaled_background_image_.width()) / 2);
-            current_background_image_y_ = ((height() - cached_scaled_background_image_.height()) / 2);
+            current_background_image_x_ = ((pb_width - cached_scaled_background_image_.width()) / 2);
+            current_background_image_y_ = ((pb_height - cached_scaled_background_image_.height()) / 2);
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_BottomLeft:
             current_background_image_x_ = 0;
-            current_background_image_y_ = (height() - cached_scaled_background_image_.height() - 25);
+            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_BottomRight:
           default:
-            current_background_image_x_ = (width() - cached_scaled_background_image_.width() - 0);
-            current_background_image_y_ = (height() - cached_scaled_background_image_.height() - 25);
+            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
+            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
         }
         background_painter.drawPixmap(current_background_image_x_, current_background_image_y_, cached_scaled_background_image_);
       }
@@ -987,6 +1001,7 @@ void PlaylistView::ReloadSettings() {
   if (background_image_maxsize <= 10) background_image_maxsize = 9000;
   QString background_image_filename = s.value(AppearanceSettingsPage::kBackgroundImageFilename).toString();
   bool background_image_stretch = s.value(AppearanceSettingsPage::kBackgroundImageStretch, false).toBool();
+  bool background_image_do_not_cut = s.value(AppearanceSettingsPage::kBackgroundImageDoNotCut, true).toBool();
   bool background_image_keep_aspect_ratio = s.value(AppearanceSettingsPage::kBackgroundImageKeepAspectRatio, true).toBool();
   int blur_radius = s.value(AppearanceSettingsPage::kBlurRadius, AppearanceSettingsPage::kDefaultBlurRadius).toInt();
   int opacity_level = s.value(AppearanceSettingsPage::kOpacityLevel, AppearanceSettingsPage::kDefaultOpacityLevel).toInt();
@@ -1049,6 +1064,7 @@ void PlaylistView::ReloadSettings() {
       background_image_position != background_image_position_ ||
       background_image_maxsize != background_image_maxsize_ ||
       background_image_stretch != background_image_stretch_ ||
+      background_image_do_not_cut != background_image_do_not_cut_ ||
       background_image_keep_aspect_ratio != background_image_keep_aspect_ratio_ ||
       blur_radius_ != blur_radius ||
       opacity_level_ != opacity_level
@@ -1060,6 +1076,7 @@ void PlaylistView::ReloadSettings() {
     background_image_position_ = background_image_position;
     background_image_maxsize_ = background_image_maxsize;
     background_image_stretch_ = background_image_stretch;
+    background_image_do_not_cut_ = background_image_do_not_cut;
     background_image_keep_aspect_ratio_ = background_image_keep_aspect_ratio;
     blur_radius_ = blur_radius;
     opacity_level_ = opacity_level;

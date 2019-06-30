@@ -52,6 +52,7 @@ const char *AppearanceSettingsPage::kBackgroundImageType = "background_image_typ
 const char *AppearanceSettingsPage::kBackgroundImageFilename = "background_image_file";
 const char *AppearanceSettingsPage::kBackgroundImagePosition = "background_image_position";
 const char *AppearanceSettingsPage::kBackgroundImageStretch = "background_image_stretch";
+const char *AppearanceSettingsPage::kBackgroundImageDoNotCut = "background_image_do_not_cut";
 const char *AppearanceSettingsPage::kBackgroundImageKeepAspectRatio = "background_image_keep_aspect_ratio";
 const char *AppearanceSettingsPage::kBackgroundImageMaxSize = "background_image_max_size";
 
@@ -94,6 +95,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->background_image_filename, SLOT(setEnabled(bool)));
   connect(ui_->use_custom_background_image, SIGNAL(toggled(bool)), ui_->select_background_image_filename_button, SLOT(setEnabled(bool)));
 
+  connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_do_not_cut, SLOT(setEnabled(bool)));
   connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_keep_aspect_ratio, SLOT(setEnabled(bool)));
   connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->spinbox_background_image_maxsize, SLOT(setDisabled(bool)));
 
@@ -151,12 +153,16 @@ void AppearanceSettingsPage::Load() {
   ui_->combobox_backgroundimageposition->setCurrentIndex(ui_->combobox_backgroundimageposition->findData(s.value(kBackgroundImagePosition, BackgroundImagePosition_BottomRight).toInt()));
   ui_->spinbox_background_image_maxsize->setValue(s.value(kBackgroundImageMaxSize, 0).toInt());
   ui_->checkbox_background_image_stretch->setChecked(s.value(kBackgroundImageStretch, false).toBool());
+  ui_->checkbox_background_image_do_not_cut->setChecked(s.value(kBackgroundImageDoNotCut, true).toBool());
   ui_->checkbox_background_image_keep_aspect_ratio->setChecked(s.value(kBackgroundImageKeepAspectRatio, true).toBool());
   ui_->blur_slider->setValue(s.value(kBlurRadius, kDefaultBlurRadius).toInt());
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 
-  if (!ui_->checkbox_background_image_stretch->isChecked()) ui_->checkbox_background_image_keep_aspect_ratio->setDisabled(true);
+  if (!ui_->checkbox_background_image_stretch->isChecked()) {
+    ui_->checkbox_background_image_do_not_cut->setDisabled(true);
+    ui_->checkbox_background_image_keep_aspect_ratio->setDisabled(true);
+  }
 
   s.endGroup();
 
@@ -201,6 +207,7 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kBackgroundImageMaxSize, ui_->spinbox_background_image_maxsize->value());
   s.setValue(kBackgroundImagePosition, backgroundimageposition);
   s.setValue(kBackgroundImageStretch, ui_->checkbox_background_image_stretch->isChecked());
+  s.setValue(kBackgroundImageDoNotCut, ui_->checkbox_background_image_do_not_cut->isChecked());
   s.setValue(kBackgroundImageKeepAspectRatio, ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
   s.setValue(kBlurRadius, ui_->blur_slider->value());
