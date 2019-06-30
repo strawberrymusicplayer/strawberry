@@ -811,7 +811,12 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
         else {
           if (background_image_stretch_) {
             if (background_image_keep_aspect_ratio_) {
-              cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+              if (height() >= width()){
+                cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaledToHeight(height(), Qt::SmoothTransformation));
+              }
+              else {
+                cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaledToWidth(width(), Qt::SmoothTransformation));
+              }
             }
             else {
               cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
