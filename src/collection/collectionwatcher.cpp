@@ -416,7 +416,6 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       QString image = ImageForSong(file, album_art);
 
       for (Song song : song_list) {
-        song.set_source(source_);
         song.set_directory_id(t->dir());
         if (song.art_automatic().isEmpty()) song.set_art_automatic(image);
         t->new_songs << song;
@@ -507,8 +506,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const So
     }
   }
 
-  Song song_on_disk;
-  song_on_disk.set_source(source_);
+  Song song_on_disk(source_);
   song_on_disk.set_directory_id(t->dir());
   TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
 
@@ -550,9 +548,8 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // it's a normal media file
   }
   else {
-    Song song;
+    Song song(source_);
     TagReaderClient::Instance()->ReadFileBlocking(file, &song);
-
     if (song.is_valid()) {
       song_list << song;
     }
