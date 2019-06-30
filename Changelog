@@ -21,6 +21,11 @@ Unreleased:
     * Added support for Subsonic streaming.
     * Added support for Qobuz streaming.
     * Added confirmation box for opening songs in file browser to avoid users accidentally opening too many songs.
+    * Added OSD notification on playback resume option.
+    * Fixed MusicBrainz tag fetcher to respect rate limiting when fetching tags.
+    * Fixed hardcoded systemtray icon.
+    * Added live scanning and option to rescan songs.
+    * Added playlist background image stretch option to zoom image with cutting the height.
 
 Version 0.5.5:
 
