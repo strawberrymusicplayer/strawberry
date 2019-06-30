@@ -804,7 +804,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
       QPainter background_painter(viewport());
 
       int pb_height = height() - header_->height();
-      int pb_width = width() - style()->pixelMetric(QStyle::PM_ScrollBarExtent);
+      int pb_width = verticalScrollBar()->isVisible() ? width() - style()->pixelMetric(QStyle::PM_ScrollBarExtent) : width();
 
       // Check if we should recompute the background image
       if (pb_height != last_height_ || pb_width != last_width_ || force_background_redraw_) {
