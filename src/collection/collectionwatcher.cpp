@@ -119,19 +119,20 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
 
 CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
-  watcher_->task_manager_->SetTaskFinished(task_id_);
-
   // If we're stopping then don't commit the transaction
-  if (watcher_->stop_requested_) return;
+  if (!watcher_->stop_requested_) {
 
-  CommitNewOrUpdatedSongs();
+    CommitNewOrUpdatedSongs();
 
-  if (watcher_->monitor_) {
-    // Watch the new subdirectories
-    for (const Subdirectory &subdir : new_subdirs) {
-      watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+    if (watcher_->monitor_) {
+      // Watch the new subdirectories
+      for (const Subdirectory &subdir : new_subdirs) {
+        watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+      }
     }
   }
+
+  watcher_->task_manager_->SetTaskFinished(task_id_);
 
 }
 
