@@ -93,6 +93,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="prevent_delete">
+        <property name="text">
+         <string>Never delete tracks from the collection</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_preferred_cover_filenames">
         <property name="text">
          <string>Preferred album art filenames (comma separated)</string>
