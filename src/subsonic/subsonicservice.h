@@ -67,7 +67,7 @@ class SubsonicService : public InternetService {
   QString username() { return username_; }
   QString password() { return password_; }
   bool verify_certificate() { return verify_certificate_; }
-  bool cache_album_covers() { return cache_album_covers_; }
+  bool download_album_covers() { return download_album_covers_; }
 
   CollectionBackend *collection_backend() { return collection_backend_; }
   CollectionModel *collection_model() { return collection_model_; }
@@ -120,7 +120,7 @@ class SubsonicService : public InternetService {
   QString username_;
   QString password_;
   bool verify_certificate_;
-  bool cache_album_covers_;
+  bool download_album_covers_;
 
 };
 

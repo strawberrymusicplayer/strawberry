@@ -96,7 +96,7 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       artistssearchlimit_(1),
       albumssearchlimit_(1),
       songssearchlimit_(1),
-      cache_album_covers_(true),
+      download_album_covers_(true),
       pending_search_id_(0),
       next_pending_search_id_(1),
       search_id_(0),
@@ -205,7 +205,7 @@ void QobuzService::ReloadSettings() {
   artistssearchlimit_ = s.value("artistssearchlimit", 4).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
-  cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
+  download_album_covers_ = s.value("cachealbumcovers", true).toBool();
 
   user_auth_token_ = s.value("user_auth_token").toString();
 

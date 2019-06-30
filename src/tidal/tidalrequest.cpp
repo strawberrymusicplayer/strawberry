@@ -862,7 +862,8 @@ void TidalRequest::SongsFinishCheck(const qint64 artist_id, const qint64 album_i
   if (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
 
   if (
-      service_->cache_album_covers() &&
+      service_->download_album_covers() &&
+      IsQuery() &&
       songs_requests_queue_.isEmpty() &&
       songs_requests_active_ <= 0 &&
       album_songs_requests_queue_.isEmpty() &&

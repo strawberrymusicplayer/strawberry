@@ -67,7 +67,7 @@ void SubsonicSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
   ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
-  ui_->checkbox_cache_album_covers->setChecked(s.value("cachealbumcovers", true).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   s.endGroup();
 
 }
@@ -81,7 +81,7 @@ void SubsonicSettingsPage::Save() {
   s.setValue("username", ui_->username->text());
   s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
-  s.setValue("cachealbumcovers", ui_->checkbox_cache_album_covers->isChecked());
+  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
 
   service_->ReloadSettings();

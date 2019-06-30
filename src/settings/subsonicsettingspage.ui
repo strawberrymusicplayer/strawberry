@@ -128,9 +128,9 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="checkbox_cache_album_covers">
+       <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
-         <string>Cache album covers</string>
+         <string>Download album covers</string>
         </property>
        </widget>
       </item>

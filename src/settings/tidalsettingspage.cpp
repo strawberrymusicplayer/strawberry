@@ -101,7 +101,7 @@ void TidalSettingsPage::Load() {
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
-  ui_->checkbox_cache_album_covers->setChecked(s.value("cachealbumcovers", true).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   dialog()->ComboBoxLoadFromSettings(s, ui_->coversize, "coversize", "320x320");
 
   StreamUrlMethod stream_url = static_cast<StreamUrlMethod>(s.value("streamurl").toInt());
@@ -133,7 +133,7 @@ void TidalSettingsPage::Save() {
   s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
   s.setValue("songssearchlimit", ui_->songssearchlimit->value());
   s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
-  s.setValue("cachealbumcovers", ui_->checkbox_cache_album_covers->isChecked());
+  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
   s.setValue("coversize", ui_->coversize->itemData(ui_->coversize->currentIndex()));
   s.setValue("streamurl", ui_->streamurl->itemData(ui_->streamurl->currentIndex()));
   s.endGroup();

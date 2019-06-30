@@ -83,7 +83,7 @@ class TidalService : public InternetService {
   int songssearchlimit() { return songssearchlimit_; }
   bool fetchalbums() { return fetchalbums_; }
   QString coversize() { return coversize_; }
-  bool cache_album_covers() { return cache_album_covers_; }
+  bool download_album_covers() { return download_album_covers_; }
   TidalSettingsPage::StreamUrlMethod stream_url_method() { return stream_url_method_; }
 
   QString access_token() { return access_token_; }
@@ -218,7 +218,7 @@ class TidalService : public InternetService {
   int songssearchlimit_;
   bool fetchalbums_;
   QString coversize_;
-  bool cache_album_covers_;
+  bool download_album_covers_;
   TidalSettingsPage::StreamUrlMethod stream_url_method_;
 
   QString access_token_;

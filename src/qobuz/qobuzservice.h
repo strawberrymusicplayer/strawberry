@@ -78,7 +78,7 @@ class QobuzService : public InternetService {
   int artistssearchlimit() { return artistssearchlimit_; }
   int albumssearchlimit() { return albumssearchlimit_; }
   int songssearchlimit() { return songssearchlimit_; }
-  bool cache_album_covers() { return cache_album_covers_; }
+  bool download_album_covers() { return download_album_covers_; }
 
   QString user_auth_token() { return user_auth_token_; }
 
@@ -198,7 +198,7 @@ class QobuzService : public InternetService {
   int artistssearchlimit_;
   int albumssearchlimit_;
   int songssearchlimit_;
-  bool cache_album_covers_;
+  bool download_album_covers_;
 
   QString user_auth_token_;
 

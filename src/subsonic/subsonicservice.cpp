@@ -70,7 +70,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       collection_model_(nullptr),
       collection_sort_model_(new QSortFilterProxyModel(this)),
       verify_certificate_(false),
-      cache_album_covers_(true)
+      download_album_covers_(true)
   {
 
   app->player()->RegisterUrlHandler(url_handler_);
@@ -112,7 +112,7 @@ void SubsonicService::ReloadSettings() {
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
   verify_certificate_ = s.value("verifycertificate", false).toBool();
-  cache_album_covers_ = s.value("cachealbumcovers", true).toBool();
+  download_album_covers_ = s.value("cachealbumcovers", true).toBool();
 
   s.endGroup();
 

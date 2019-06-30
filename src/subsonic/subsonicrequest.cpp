@@ -434,7 +434,7 @@ void SubsonicRequest::SongsFinishCheck() {
   if (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
 
   if (
-      cache_album_covers() &&
+      download_album_covers() &&
       album_songs_requests_queue_.isEmpty() &&
       album_songs_requests_active_ <= 0 &&
       album_cover_requests_queue_.isEmpty() &&

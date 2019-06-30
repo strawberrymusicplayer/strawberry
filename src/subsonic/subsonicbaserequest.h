@@ -72,7 +72,7 @@ class SubsonicBaseRequest : public QObject {
   QString username() { return service_->username(); }
   QString password() { return service_->password(); }
   bool verify_certificate() { return service_->verify_certificate(); }
-  bool cache_album_covers() { return service_->cache_album_covers(); }
+  bool download_album_covers() { return service_->download_album_covers(); }
 
  private:
 
