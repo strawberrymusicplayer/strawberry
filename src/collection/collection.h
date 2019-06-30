@@ -66,6 +66,8 @@ class SCollection : public QObject {
   void ResumeWatcher();
 
   void FullScan();
+  void AbortScan();
+  void Rescan(const SongList &songs);
 
  private slots:
   void IncrementalScan();

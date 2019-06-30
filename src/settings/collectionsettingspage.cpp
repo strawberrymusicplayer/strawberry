@@ -111,6 +111,8 @@ void CollectionSettingsPage::Load() {
   ui_->show_dividers->setChecked(s.value("show_dividers", true).toBool());
   ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
   ui_->monitor->setChecked(s.value("monitor", true).toBool());
+  ui_->live_scanning->setChecked(s.value("live_scanning", false).toBool());
+  ui_->prevent_delete->setChecked(s.value("prevent_delete", false).toBool());
 
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   ui_->cover_art_patterns->setText(filters.join(","));
@@ -141,6 +143,8 @@ void CollectionSettingsPage::Save() {
   s.setValue("show_dividers", ui_->show_dividers->isChecked());
   s.setValue("startup_scan", ui_->startup_scan->isChecked());
   s.setValue("monitor", ui_->monitor->isChecked());
+  s.setValue("live_scanning", ui_->live_scanning->isChecked());
+  s.setValue("prevent_delete", ui_->prevent_delete->isChecked());
 
   QString filter_text = ui_->cover_art_patterns->text();
   QStringList filters = filter_text.split(',', QString::SkipEmptyParts);

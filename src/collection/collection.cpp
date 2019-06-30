@@ -103,6 +103,15 @@ void SCollection::IncrementalScan() { watcher_->IncrementalScanAsync(); }
 
 void SCollection::FullScan() { watcher_->FullScanAsync(); }
 
+void SCollection::AbortScan() { watcher_->Stop(); }
+
+void SCollection::Rescan(const SongList &songs) {
+
+    qLog(Debug) << "Rescan" << songs.size() << "songs";
+    if (!songs.isEmpty()) watcher_->RescanTracksAsync(songs);
+
+}
+
 void SCollection::PauseWatcher() { watcher_->SetRescanPausedAsync(true); }
 
 void SCollection::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }

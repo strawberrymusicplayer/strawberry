@@ -154,6 +154,7 @@ signals:
   void PlaylistSkip();
   void PlaylistRemoveCurrent();
   void PlaylistEditFinished(const QModelIndex& index);
+  void RescanSongs();
   void EditTracks();
   void EditTagDialogAccepted();
   void RenumberTracks();

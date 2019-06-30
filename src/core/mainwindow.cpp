@@ -410,6 +410,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_remove_unavailable, SIGNAL(triggered()), app_->playlist_manager(), SLOT(RemoveUnavailableCurrent()));
   connect(ui_->action_remove_from_playlist, SIGNAL(triggered()), SLOT(PlaylistRemoveCurrent()));
   connect(ui_->action_edit_track, SIGNAL(triggered()), SLOT(EditTracks()));
+  connect(ui_->action_rescan_songs, SIGNAL(triggered()), SLOT(RescanSongs()));
   connect(ui_->action_renumber_tracks, SIGNAL(triggered()), SLOT(RenumberTracks()));
   connect(ui_->action_selection_set_value, SIGNAL(triggered()), SLOT(SelectionSetValue()));
   connect(ui_->action_edit_value, SIGNAL(triggered()), SLOT(EditValue()));
@@ -434,6 +435,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_jump, SIGNAL(triggered()), ui_->playlist->view(), SLOT(JumpToCurrentlyPlayingTrack()));
   connect(ui_->action_update_collection, SIGNAL(triggered()), app_->collection(), SLOT(IncrementalScan()));
   connect(ui_->action_full_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(FullScan()));
+  connect(ui_->action_abort_collection_scan, SIGNAL(triggered()), app_->collection(), SLOT(AbortScan()));
 #if defined(HAVE_GSTREAMER)
   connect(ui_->action_add_files_to_transcoder, SIGNAL(triggered()), SLOT(AddFilesToTranscoder()));
 #else
@@ -614,6 +616,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
+  playlist_menu_->addAction(ui_->action_rescan_songs);
 #ifdef HAVE_GSTREAMER
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
 #endif
@@ -1512,6 +1515,10 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   ui_->action_auto_complete_tags->setEnabled(false);
   ui_->action_auto_complete_tags->setVisible(false);
 #endif
+
+  ui_->action_rescan_songs->setEnabled(editable);
+  ui_->action_rescan_songs->setVisible(editable);
+
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
 
@@ -1657,6 +1664,25 @@ void MainWindow::PlaylistPlay() {
 
 void MainWindow::PlaylistStopAfter() {
   app_->playlist_manager()->current()->StopAfter(playlist_menu_index_.row());
+}
+
+void MainWindow::RescanSongs() {
+
+  SongList songs;
+  PlaylistItemList items;
+
+  for (const QModelIndex& index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (index.column() != 0) continue;
+    int row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(row));
+    Song song = item->Metadata();
+
+    songs << song;
+    items << item;
+  }
+
+  app_->collection()->Rescan(songs);
+
 }
 
 void MainWindow::EditTracks() {

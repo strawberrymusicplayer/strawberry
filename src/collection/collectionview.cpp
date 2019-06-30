@@ -60,6 +60,7 @@
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/utilities.h"
+#include "collection.h"
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 #include "collectionfilterwidget.h"
@@ -350,6 +351,10 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
     show_in_browser_ = context_menu_->addAction(IconLoader::Load("document-open-folder"), tr("Show in file browser..."), this, SLOT(ShowInBrowser()));
 
     context_menu_->addSeparator();
+
+    rescan_songs_ = context_menu_->addAction(tr("Rescan song(s)"), this, SLOT(RescanSongs()));
+
+    context_menu_->addSeparator();
     show_in_various_ = context_menu_->addAction( tr("Show in various artists"), this, SLOT(ShowInVarious()));
     no_show_in_various_ = context_menu_->addAction( tr("Don't show in various artists"), this, SLOT(NoShowInVarious()));
 
@@ -394,6 +399,9 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   // if neither edit_track not edit_tracks are available, we show disabled edit_track element
   edit_track_->setVisible(regular_editable <= 1);
   edit_track_->setEnabled(regular_editable == 1);
+
+  rescan_songs_->setVisible(edit_track_->isVisible());
+  rescan_songs_->setEnabled(true);
 
   organise_->setVisible(regular_elements_only);
 #ifndef Q_OS_WIN
@@ -559,6 +567,12 @@ void CollectionView::EditTracks() {
 
 void CollectionView::EditTagError(const QString &message) {
   emit Error(message);
+}
+
+void CollectionView::RescanSongs() {
+
+  app_->collection()->Rescan(GetSelectedSongs());
+
 }
 
 void CollectionView::CopyToDevice() {

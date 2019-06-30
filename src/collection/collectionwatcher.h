@@ -54,6 +54,7 @@ class CollectionWatcher : public QObject {
 
   void IncrementalScanAsync();
   void FullScanAsync();
+  void RescanTracksAsync(const SongList &songs);
   void SetRescanPausedAsync(bool pause);
   void ReloadSettingsAsync();
 
@@ -85,7 +86,7 @@ signals:
   // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
    public:
-    ScanTransaction(CollectionWatcher *watcher, int dir, bool incremental, bool ignores_mtime = false);
+    ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool prevent_delete);
     ~ScanTransaction();
 
     SongList FindSongsInSubdirectory(const QString &path);
@@ -96,6 +97,9 @@ signals:
 
     void AddToProgress(int n = 1);
     void AddToProgressMax(int n);
+
+    // Emits the signals for new & deleted songs etc and clears the lists. This causes the new stuff to be updated on UI.
+    void CommitNewOrUpdatedSongs();
 
     int dir() const { return dir_; }
     bool is_incremental() const { return incremental_; }
@@ -124,6 +128,10 @@ signals:
     // Also, since it's ignoring mtimes on folders too, it will go as deep in the folder hierarchy as it's possible.
     bool ignores_mtime_;
 
+    // Set this to true to prevent deleting missing files from database.
+    // Useful for unstable network connections.
+    bool prevent_delete_;
+
     CollectionWatcher *watcher_;
 
     SongList cached_songs_;
@@ -137,6 +145,7 @@ signals:
   void DirectoryChanged(const QString &path);
   void IncrementalScanNow();
   void FullScanNow();
+  void RescanTracksNow();
   void RescanPathsNow();
   void ScanSubdirectory(const QString &path, const Subdirectory &subdir, ScanTransaction *t, bool force_noincremental = false);
 
@@ -174,9 +183,13 @@ signals:
   // e.g. using ["front", "cover"] would identify front.jpg and exclude back.jpg.
   QStringList best_image_filters_;
 
-  bool stop_requested_;
   bool scan_on_startup_;
   bool monitor_;
+  bool live_scanning_;
+  bool prevent_delete_;
+
+  bool stop_requested_;
+  bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.
 
   QMap<int, Directory> watched_dirs_;
   QTimer *rescan_timer_;
@@ -188,6 +201,9 @@ signals:
   CueParser *cue_parser_;
 
   static QStringList sValidImages;
+
+  SongList song_rescan_queue_; // Set by ui thread
+
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString& fileName) {

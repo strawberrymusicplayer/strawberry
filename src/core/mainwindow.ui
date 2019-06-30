@@ -442,7 +442,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -501,6 +501,7 @@
     <addaction name="separator"/>
     <addaction name="action_update_collection"/>
     <addaction name="action_full_collection_scan"/>
+    <addaction name="action_abort_collection_scan"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
     <addaction name="action_console"/>
@@ -512,7 +513,7 @@
   </widget>
   <action name="action_previous_track">
    <property name="text">
-    <string>&amp;Previous track</string>
+    <string>Previous track</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -520,7 +521,7 @@
   </action>
   <action name="action_play_pause">
    <property name="text">
-    <string>P&amp;lay</string>
+    <string>&amp;Play</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
@@ -775,6 +776,11 @@
     <string>&amp;Do a full collection rescan</string>
    </property>
   </action>
+  <action name="action_abort_collection_scan">
+   <property name="text">
+    <string>Abort collection scan</string>
+   </property>
+  </action>
   <action name="action_auto_complete_tags">
    <property name="icon">
     <iconset resource="../../data/data.qrc">
@@ -814,6 +820,11 @@
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="action_rescan_songs">
+   <property name="text">
+    <string>Rescan songs(s)</string>
    </property>
   </action>
  </widget>
