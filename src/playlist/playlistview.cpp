@@ -832,8 +832,8 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
             }
           }
           else {
-            int resize_width = qMin(qMin(background_image_.size().width(), (pb_width >= 50 ? (pb_width - 25) : pb_width)), background_image_maxsize_);
-            int resize_height = qMin(qMin(background_image_.size().height(), (pb_height >= 50 ? (pb_height - 25) : pb_height)), background_image_maxsize_);
+            int resize_width = qMin(qMin(background_image_.size().width(), pb_width), background_image_maxsize_);
+            int resize_height = qMin(qMin(background_image_.size().height(), pb_height), background_image_maxsize_);
             cached_scaled_background_image_ = QPixmap::fromImage(background_image_.scaled(resize_width, resize_height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
           }
         }
@@ -855,7 +855,7 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
             current_background_image_y_ = 0;
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_UpperRight:
-            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width() - 0);
+            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
             current_background_image_y_ = 0;
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_Middle:
@@ -864,12 +864,12 @@ void PlaylistView::paintEvent(QPaintEvent *event) {
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_BottomLeft:
             current_background_image_x_ = 0;
-            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height() - 25);
+            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
             break;
           case AppearanceSettingsPage::BackgroundImagePosition_BottomRight:
           default:
-            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width() - 0);
-            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height() - 25);
+            current_background_image_x_ = (pb_width - cached_scaled_background_image_.width());
+            current_background_image_y_ = (pb_height - cached_scaled_background_image_.height());
         }
         background_painter.drawPixmap(current_background_image_x_, current_background_image_y_, cached_scaled_background_image_);
       }
