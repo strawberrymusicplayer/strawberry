@@ -150,10 +150,9 @@ bool AbstractMessageHandler<MT>::RawMessageArrived(const QByteArray &data) {
     return false;
   }
 
-  ReplyType *reply = pending_replies_.take(message.id());
-
-  if (reply) {
+  if (pending_replies_.contains(message.id())) {
     // This is a reply to a message that we created earlier.
+    ReplyType *reply = pending_replies_.take(message.id());
     reply->SetReply(message);
   }
   else {
