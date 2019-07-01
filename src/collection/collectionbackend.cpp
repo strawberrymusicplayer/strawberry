@@ -53,8 +53,9 @@ CollectionBackend::CollectionBackend(QObject *parent) :
     CollectionBackendInterface(parent),
     db_(nullptr) {}
 
-void CollectionBackend::Init(Database *db, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
+void CollectionBackend::Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
   db_ = db;
+  source_ = source;
   songs_table_ = songs_table;
   dirs_table_ = dirs_table;
   subdirs_table_ = subdirs_table;
@@ -328,6 +329,7 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   // Take a song and update its path
   Song updated_song = song;
   updated_song.InitFromFilePartial(new_file.absoluteFilePath());
+  updated_song.set_source(source_);
   SongList updated_songs;
   updated_songs << updated_song;
   AddOrUpdateSongs(updated_songs);

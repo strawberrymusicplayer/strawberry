@@ -55,7 +55,7 @@ SCollection::SCollection(Application *app, QObject *parent)
   backend_ = new CollectionBackend();
   backend()->moveToThread(app->database()->thread());
 
-  backend_->Init(app->database(), kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
+  backend_->Init(app->database(), Song::Source_Collection, kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
 
   model_ = new CollectionModel(backend_, app_, this);
 

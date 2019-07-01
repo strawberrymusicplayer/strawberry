@@ -110,15 +110,15 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   artists_collection_backend_ = new CollectionBackend();
   artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), kArtistsSongsTable, QString(), QString(), kArtistsSongsFtsTable);
+  artists_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kArtistsSongsTable, QString(), QString(), kArtistsSongsFtsTable);
 
   albums_collection_backend_ = new CollectionBackend();
   albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), kAlbumsSongsTable, QString(), QString(), kAlbumsSongsFtsTable);
+  albums_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kAlbumsSongsTable, QString(), QString(), kAlbumsSongsFtsTable);
 
   songs_collection_backend_ = new CollectionBackend();
   songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), kSongsTable, QString(), QString(), kSongsFtsTable);
+  songs_collection_backend_->Init(app_->database(), Song::Source_Qobuz, kSongsTable, QString(), QString(), kSongsFtsTable);
 
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);

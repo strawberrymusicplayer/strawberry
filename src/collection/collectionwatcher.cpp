@@ -357,7 +357,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     // associated cue
     QString matching_cue = NoExtensionPart(file) + ".cue";
 
-    Song matching_song;
+    Song matching_song(source_);
     if (FindSongByPath(songs_in_db, file, &matching_song)) {
       uint matching_cue_mtime = GetMtimeForCue(matching_cue);
 
@@ -553,6 +553,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     Song song(source_);
     TagReaderClient::Instance()->ReadFileBlocking(file, &song);
     if (song.is_valid()) {
+      song.set_source(source_);
       song_list << song;
     }
   }

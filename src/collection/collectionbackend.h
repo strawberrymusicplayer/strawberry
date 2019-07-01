@@ -123,7 +123,7 @@ class CollectionBackend : public CollectionBackendInterface {
   static const char *kSettingsGroup;
 
   Q_INVOKABLE CollectionBackend(QObject *parent = nullptr);
-  void Init(Database *db, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table);
+  void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table);
 
   Database *db() const { return db_; }
 
@@ -238,6 +238,7 @@ signals:
 
  private:
   Database *db_;
+  Song::Source source_;
   QString songs_table_;
   QString dirs_table_;
   QString subdirs_table_;

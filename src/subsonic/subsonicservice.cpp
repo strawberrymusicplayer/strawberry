@@ -79,7 +79,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
   collection_backend_ = new CollectionBackend();
   collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), kSongsTable, QString(), QString(), kSongsFtsTable);
+  collection_backend_->Init(app_->database(), Song::Source_Subsonic, kSongsTable, QString(), QString(), kSongsFtsTable);
 
   // Model
 
