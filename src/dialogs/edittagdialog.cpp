@@ -892,7 +892,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 }
 #endif
 
-void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString filename, const Song song) {
+void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString &filename, const Song &song) {
 
   pending_--;
 

@@ -126,7 +126,7 @@ class EditTagDialog : public QDialog {
   void PreviousSong();
   void NextSong();
 
-  void SongSaveComplete(TagReaderReply *reply, const QString filename, const Song song);
+  void SongSaveComplete(TagReaderReply *reply, const QString &filename, const Song &song);
 
  private:
   struct FieldData {
