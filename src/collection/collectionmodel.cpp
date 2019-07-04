@@ -1286,14 +1286,12 @@ QString CollectionModel::SortTextForArtist(QString artist) {
 
   artist = SortText(artist);
 
-  if (artist.startsWith("the ")) {
-    artist = artist.right(artist.length() - 4) + ", the";
-  }
-  else if (artist.startsWith("a ")) {
-    artist = artist.right(artist.length() - 2) + ", a";
-  }
-  else if (artist.startsWith("an ")) {
-    artist = artist.right(artist.length() - 3) + ", an";
+  for (const auto &i : Song::kArticles) {
+    if (artist.startsWith(i)) {
+      int ilen = i.length();
+      artist = artist.right(artist.length() - ilen) + ", " + i.left(ilen - 1);
+      break;
+    }
   }
 
   return artist;
