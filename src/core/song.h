@@ -126,6 +126,8 @@ class Song {
   static const QRegExp kTitleRemoveMisc;
   static const QRegExp kFilenameRemoveNonFatChars;
 
+  static const QStringList kArticles;
+
   static QString JoinSpec(const QString &table);
 
   static Source SourceFromURL(const QUrl &url);
@@ -184,7 +186,9 @@ class Song {
   int id() const;
 
   const QString &title() const;
+  const QString &title_sortable() const;
   const QString &album() const;
+  const QString &album_sortable() const;
   const QString &artist() const;
   const QString &albumartist() const;
   int track() const;
@@ -342,6 +346,8 @@ class Song {
 
  private:
   struct Private;
+
+  QString sortable(const QString &v) const;
 
   QSharedDataPointer<Private> d;
 };

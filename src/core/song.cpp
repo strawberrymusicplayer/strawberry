@@ -153,6 +153,8 @@ const QRegExp Song::kAlbumRemoveDisc(" ?-? ((\\(|\\[)?)(Disc|CD) ?([0-9]{1,2})((
 const QRegExp Song::kAlbumRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
 const QRegExp Song::kTitleRemoveMisc(" ?-? ((\\(|\\[)?)(Remastered|Live|Remastered Version|([0-9]{1,4}) *Remaster) ?((\\)|\\])?)$");
 
+const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
+
 struct Song::Private : public QSharedData {
 
   Private(Source source = Source_Unknown);
@@ -161,7 +163,9 @@ struct Song::Private : public QSharedData {
   int id_;
 
   QString title_;
+  QString title_sortable_;
   QString album_;
+  QString album_sortable_;
   QString artist_;
   QString albumartist_;
   int track_;
@@ -278,7 +282,9 @@ QString Song::album_id() const { return d->album_id_.isNull() ? "" : d->album_id
 qint64 Song::song_id() const { return d->song_id_; }
 
 const QString &Song::title() const { return d->title_; }
+const QString &Song::title_sortable() const { return d->title_sortable_; }
 const QString &Song::album() const { return d->album_; }
+const QString &Song::album_sortable() const { return d->album_sortable_; }
 // This value is useful for singles, which are one-track albums on their own.
 const QString &Song::effective_album() const { return d->album_.isEmpty() ? d->title_ : d->album_; }
 const QString &Song::artist() const { return d->artist_; }
@@ -345,8 +351,22 @@ void Song::set_album_id(qint64 v) { d->album_id_ = QString::number(v); }
 void Song::set_album_id(const QString &v) { d->album_id_ = v; }
 void Song::set_song_id(qint64 v) { d->song_id_ = v; }
 
-void Song::set_title(const QString &v) { d->title_ = v; }
-void Song::set_album(const QString &v) { d->album_ = v; }
+QString Song::sortable(const QString &v) const {
+
+  QString copy = v.toLower();
+
+  for (const auto &i : kArticles) {
+    if (copy.startsWith(i)) {
+      int ilen = i.length();
+      return copy.right(copy.length() - ilen) + ", " + copy.left(ilen - 1);
+    }
+  }
+
+  return copy;
+}
+
+void Song::set_title(const QString &v) { d->title_sortable_ = sortable(v); d->title_ = v; }
+void Song::set_album(const QString &v) { d->album_sortable_ = sortable(v); d->album_ = v; }
 void Song::set_artist(const QString &v) { d->artist_ = v; }
 void Song::set_albumartist(const QString &v) { d->albumartist_ = v; }
 void Song::set_track(int v) { d->track_ = v; }
@@ -584,9 +604,9 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
   d->valid_ = true;
 
-  d->title_ = title;
+  set_title(title);
   d->artist_ = artist;
-  d->album_ = album;
+  set_album(album);
 
   set_length_nanosec(length_nanosec);
 
@@ -596,9 +616,9 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
   d->valid_ = true;
 
-  d->title_ = title;
+  set_title(title);
   d->artist_ = artist;
-  d->album_ = album;
+  set_album(album);
 
   d->beginning_ = beginning;
   d->end_ = end;
@@ -623,8 +643,8 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
 
   d->init_from_file_ = true;
   d->valid_ = pb.valid();
-  d->title_ = QStringFromStdString(pb.title());
-  d->album_ = QStringFromStdString(pb.album());
+  set_title(QStringFromStdString(pb.title()));
+  set_album(QStringFromStdString(pb.album()));
   d->artist_ = QStringFromStdString(pb.artist());
   d->albumartist_ = QStringFromStdString(pb.albumartist());
   d->track_ = pb.track();
@@ -725,10 +745,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     //qLog(Debug) << "Index:" << i << x << Song::kColumns.value(i) << q.value(x).toString();
 
     if (Song::kColumns.value(i) == "title") {
-      d->title_ = tostr(x);
+      set_title(tostr(x));
     }
     else if (Song::kColumns.value(i) == "album") {
-      d->album_ = tostr(x);
+      set_album(tostr(x));
     }
     else if (Song::kColumns.value(i) == "artist") {
       d->artist_ = tostr(x);
@@ -920,8 +940,8 @@ void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
 
   d->valid_ = true;
 
-  d->title_ = QString::fromUtf8(track->title);
-  d->album_ = QString::fromUtf8(track->album);
+  set_title(QString::fromUtf8(track->title));
+  set_album(QString::fromUtf8(track->album));
   d->artist_ = QString::fromUtf8(track->artist);
   d->albumartist_ = QString::fromUtf8(track->albumartist);
   d->track_ = track->track_nr;
@@ -1000,9 +1020,9 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
   d->valid_ = true;
 
-  d->title_ = QString::fromUtf8(track->title);
+  set_title(QString::fromUtf8(track->title));
   d->artist_ = QString::fromUtf8(track->artist);
-  d->album_ = QString::fromUtf8(track->album);
+  set_album(QString::fromUtf8(track->album));
   d->genre_ = QString::fromUtf8(track->genre);
   d->composer_ = QString::fromUtf8(track->composer);
   d->track_ = track->tracknumber;
@@ -1090,9 +1110,9 @@ void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
   }
 
   d->valid_ = true;
-  if (!bundle.title.isEmpty()) d->title_ = bundle.title;
+  if (!bundle.title.isEmpty()) set_title(bundle.title);
   if (!bundle.artist.isEmpty()) d->artist_ = bundle.artist;
-  if (!bundle.album.isEmpty()) d->album_ = bundle.album;
+  if (!bundle.album.isEmpty()) set_album(bundle.album);
   if (!bundle.comment.isEmpty()) d->comment_ = bundle.comment;
   if (!bundle.genre.isEmpty()) d->genre_ = bundle.genre;
   if (bundle.length > 0) set_length_nanosec(bundle.length);
