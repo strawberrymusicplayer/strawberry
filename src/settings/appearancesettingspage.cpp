@@ -99,6 +99,8 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->checkbox_background_image_keep_aspect_ratio, SLOT(setEnabled(bool)));
   connect(ui_->checkbox_background_image_stretch, SIGNAL(toggled(bool)), ui_->spinbox_background_image_maxsize, SLOT(setDisabled(bool)));
 
+  connect(ui_->checkbox_background_image_keep_aspect_ratio, SIGNAL(toggled(bool)), ui_->checkbox_background_image_do_not_cut, SLOT(setEnabled(bool)));
+
   Load();
 
 }
@@ -159,10 +161,8 @@ void AppearanceSettingsPage::Load() {
   ui_->opacity_slider->setValue(s.value(kOpacityLevel, kDefaultOpacityLevel).toInt());
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 
-  if (!ui_->checkbox_background_image_stretch->isChecked()) {
-    ui_->checkbox_background_image_do_not_cut->setDisabled(true);
-    ui_->checkbox_background_image_keep_aspect_ratio->setDisabled(true);
-  }
+  ui_->checkbox_background_image_keep_aspect_ratio->setEnabled(ui_->checkbox_background_image_stretch->isChecked());
+  ui_->checkbox_background_image_do_not_cut->setEnabled(ui_->checkbox_background_image_stretch->isChecked() && ui_->checkbox_background_image_keep_aspect_ratio->isChecked());
 
   s.endGroup();
 

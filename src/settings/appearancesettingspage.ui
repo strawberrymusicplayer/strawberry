@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
+    <width>674</width>
     <height>627</height>
    </rect>
   </property>
@@ -264,7 +264,14 @@
             <item>
              <widget class="QCheckBox" name="checkbox_background_image_stretch">
               <property name="text">
-               <string>Stretch background image to fill playlist background</string>
+               <string>Stretch image to fill playlist</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkbox_background_image_keep_aspect_ratio">
+              <property name="text">
+               <string>Keep aspect ratio</string>
               </property>
              </widget>
             </item>
@@ -276,11 +283,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkbox_background_image_keep_aspect_ratio">
-              <property name="text">
-               <string>Keep aspect ratio</string>
+             <spacer name="spacer_background_image_stretch">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
-             </widget>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
