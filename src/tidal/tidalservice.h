@@ -162,7 +162,6 @@ class TidalService : public InternetService {
   void SendSearch();
   QString LoginError(QString error, QVariant debug = QVariant());
 
-  static const char *kClientIdB64;
   static const char *kApiTokenB64;
   static const char *kOAuthUrl;
   static const char *kOAuthAccessTokenUrl;

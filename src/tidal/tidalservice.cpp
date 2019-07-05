@@ -62,7 +62,6 @@
 using std::shared_ptr;
 
 const Song::Source TidalService::kSource = Song::Source_Tidal;
-const char *TidalService::kClientIdB64 = "dTVxUE5OWUliRDBTMG8zNk1yQWlGWjU2SzZxTUNyQ21ZUHpadVRuVg==";
 const char *TidalService::kApiTokenB64 = "UDVYYmVvNUxGdkVTZUR5Ng==";
 const char *TidalService::kOAuthUrl = "https://login.tidal.com/authorize";
 const char *TidalService::kOAuthAccessTokenUrl = "https://login.tidal.com/oauth2/token";
@@ -198,10 +197,8 @@ void TidalService::ReloadSettings() {
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
 
-  //oauth_ = s.value("oauth", false).toBool();
-  oauth_ = false;
+  oauth_ = s.value("oauth", false).toBool();
   client_id_ = s.value("client_id").toString();
-  if (client_id_.isEmpty()) client_id_ = QString::fromUtf8(QByteArray::fromBase64(kClientIdB64));
   api_token_ = s.value("api_token").toString();
   if (api_token_.isEmpty()) api_token_ = QString::fromUtf8(QByteArray::fromBase64(kApiTokenB64));
 
