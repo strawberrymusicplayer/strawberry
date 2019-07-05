@@ -112,7 +112,7 @@ void SubsonicService::ReloadSettings() {
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
   verify_certificate_ = s.value("verifycertificate", false).toBool();
-  download_album_covers_ = s.value("cachealbumcovers", true).toBool();
+  download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
 
   s.endGroup();
 

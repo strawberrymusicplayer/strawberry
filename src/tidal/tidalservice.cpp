@@ -214,7 +214,7 @@ void TidalService::ReloadSettings() {
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
   coversize_ = s.value("coversize", "320x320").toString();
-  download_album_covers_ = s.value("cachealbumcovers", true).toBool();
+  download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
 
   user_id_ = s.value("user_id").toInt();
