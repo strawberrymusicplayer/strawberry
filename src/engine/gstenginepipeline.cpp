@@ -246,7 +246,7 @@ bool GstEnginePipeline::InitAudioBin() {
   queue_ = engine_->CreateElement("queue2", audiobin_);
   audioconvert_ = engine_->CreateElement("audioconvert", audiobin_);
   GstElement *tee = engine_->CreateElement("tee", audiobin_);
-  GstElement *probe_queue = engine_->CreateElement("queue", audiobin_);
+  GstElement *probe_queue = engine_->CreateElement("queue2", audiobin_);
   GstElement *probe_converter = engine_->CreateElement("audioconvert", audiobin_);
   GstElement *probe_sink = engine_->CreateElement("fakesink", audiobin_);
   GstElement *audio_queue = engine_->CreateElement("queue", audiobin_);
@@ -347,10 +347,15 @@ bool GstEnginePipeline::InitAudioBin() {
   g_object_set(G_OBJECT(queue_), "max-size-bytes", 0, nullptr);
   g_object_set(G_OBJECT(queue_), "max-size-time", buffer_duration_nanosec_, nullptr);
   g_object_set(G_OBJECT(queue_), "low-percent", buffer_min_fill_, nullptr);
-
   if (buffer_duration_nanosec_ > 0) {
     g_object_set(G_OBJECT(queue_), "use-buffering", true, nullptr);
   }
+
+  g_object_set(G_OBJECT(probe_queue), "max-size-buffers", 0, nullptr);
+  g_object_set(G_OBJECT(probe_queue), "max-size-bytes", 0, nullptr);
+  g_object_set(G_OBJECT(probe_queue), "max-size-time", 0, nullptr);
+  g_object_set(G_OBJECT(probe_queue), "low-watermark", 0.0, nullptr);
+  g_object_set(G_OBJECT(probe_queue), "use-buffering", true, nullptr);
 
   gst_element_link_many(queue_, audioconvert_, convert_sink, nullptr);
   gst_element_link(probe_converter, probe_sink);
