@@ -223,7 +223,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("filename", url.toEncoded());
+  query.AddWhere("url", url.toEncoded());
 
   if (collection_->ExecQuery(&query) && query.Next()) {
     // We may have many results when the file has many sections
