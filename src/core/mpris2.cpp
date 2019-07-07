@@ -394,8 +394,8 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QIm
   using mpris::AddMetadata;
   AddMetadata("mpris:trackid", current_track_id(), &last_metadata_);
 
-  if (!cover_url.isValid()) {
-    AddMetadata("mpris:artUrl", cover_url.toLocalFile(), &last_metadata_);
+  if (cover_url.isValid()) {
+    AddMetadata("mpris:artUrl", cover_url.toString(), &last_metadata_);
   }
 
   AddMetadata("year", song.year(), &last_metadata_);
