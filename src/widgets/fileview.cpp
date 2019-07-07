@@ -48,10 +48,10 @@
 #endif
 
 const char *FileView::kFileFilter =
-    "*.mp3 *.ogg *.flac *.mpc *.m4a *.aac *.wma "
-    "*.mp4 *.spx *.wav *.m3u *.m3u8 *.pls *.xspf "
-    "*.asx *.asxini *.cue *.ape *.wv *.mka *.opus "
-    "*.oga *.mka *.mp2";
+    "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
+    "*.mp2 *.mp3 *.m4a *.mp4 *.aac *.asf *.asx *.wma "
+    "*.aif *.aiff *.mka *.tta *.dsf *.dsd "
+    "*.cue *.m3u *.m3u8 *.pls *.xspf *.asxini ";
 
 FileView::FileView(QWidget *parent)
     : QWidget(parent),
