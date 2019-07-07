@@ -940,14 +940,12 @@ void Song::InitFromFilePartial(const QString &filename) {
 
 void Song::InitArtManual() {
 
-  QString album2 = d->album_;
-  album2.remove(Song::kAlbumRemoveDisc);
-
-  //qLog(Debug) << __PRETTY_FUNCTION__ << d->artist_ << d->album_ << album2;
+  QString album = d->album_;
+  album.remove(Song::kAlbumRemoveDisc);
 
   // If we don't have an art, check if we have one in the cache
   if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty()) {
-    QString filename(Utilities::Sha1CoverHash(d->artist_, album2).toHex() + ".jpg");
+    QString filename(Utilities::Sha1CoverHash(effective_albumartist(), album).toHex() + ".jpg");
     QString path(AlbumCoverLoader::ImageCacheDir(d->source_) + "/" + filename);
     if (QFile::exists(path)) {
       d->art_manual_.setScheme("file");
