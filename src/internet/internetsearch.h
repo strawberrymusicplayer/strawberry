@@ -67,7 +67,7 @@ class InternetSearch : public QObject {
   InternetService *service() const { return service_; }
 
   int SearchAsync(const QString &query, SearchType type);
-  int LoadArtAsync(const InternetSearch::Result &result);
+  int LoadAlbumCoverAsync(const InternetSearch::Result &result);
 
   void CancelSearch(const int id);
   void CancelArt(const int id);
@@ -86,7 +86,7 @@ class InternetSearch : public QObject {
   void ProgressSetMaximum(const int id, const int progress);
   void UpdateProgress(const int id, const int max);
 
-  void ArtLoaded(const int id, const QPixmap &pixmap);
+  void AlbumCoverLoaded(const int id, const QPixmap &pixmap);
 
  protected:
 
@@ -117,7 +117,7 @@ class InternetSearch : public QObject {
   void DoSearchAsync(const int id, const QString &query, const SearchType type);
   void SearchDone(const int service_id, const SongList &songs, const QString &error);
 
-  void AlbumArtLoaded(const quint64 id, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
 
   void UpdateStatusSlot(const int id, const QString &text);
   void ProgressSetMaximumSlot(const int id, const int progress);

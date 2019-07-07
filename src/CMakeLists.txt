@@ -196,7 +196,7 @@ set(SOURCES
   covermanager/coversearchstatistics.cpp
   covermanager/coversearchstatisticsdialog.cpp
   covermanager/coverexportrunnable.cpp
-  covermanager/currentartloader.cpp
+  covermanager/currentalbumcoverloader.cpp
   covermanager/coverfromurldialog.cpp
   covermanager/lastfmcoverprovider.cpp
   covermanager/musicbrainzcoverprovider.cpp
@@ -378,7 +378,7 @@ set(HEADERS
   covermanager/coverproviders.h
   covermanager/coversearchstatisticsdialog.h
   covermanager/coverexportrunnable.h
-  covermanager/currentartloader.h
+  covermanager/currentalbumcoverloader.h
   covermanager/coverfromurldialog.h
   covermanager/lastfmcoverprovider.h
   covermanager/musicbrainzcoverprovider.h

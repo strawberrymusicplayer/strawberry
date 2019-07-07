@@ -39,7 +39,6 @@
 #include "internet/internetsearch.h"
 #include "subsonicservice.h"
 
-class Application;
 class NetworkAccessManager;
 class SubsonicUrlHandler;
 class CollectionBackend;
@@ -61,10 +60,11 @@ class SubsonicBaseRequest : public QObject {
 
   QUrl CreateUrl(const QString &ressource_name, const QList<Param> &params_provided);
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const QList<Param> &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply, QString &error);
-  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(QByteArray &data);
 
-  virtual QString Error(QString error, QVariant debug = QVariant());
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+  QString ErrorsToHTML(const QStringList &errors);
 
   QString client_name() { return service_->client_name(); }
   QString api_version() { return service_->api_version(); }
@@ -73,6 +73,9 @@ class SubsonicBaseRequest : public QObject {
   QString password() { return service_->password(); }
   bool verify_certificate() { return service_->verify_certificate(); }
   bool download_album_covers() { return service_->download_album_covers(); }
+
+ private slots:
+  void HandleSSLErrors(QList<QSslError> ssl_errors);
 
  private:
 

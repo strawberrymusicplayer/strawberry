@@ -61,7 +61,7 @@ InternetSearch::InternetSearch(Application *app, Song::Source source, QObject *p
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(const quint64, const QImage&)));
+  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(AlbumCoverLoaded(quint64, QUrl, QImage)));
   connect(this, SIGNAL(SearchAsyncSig(const int, const QString&, const SearchType)), this, SLOT(DoSearchAsync(const int, const QString&, const SearchType)));
 
   connect(service_, SIGNAL(SearchUpdateStatus(const int, const QString&)), SLOT(UpdateStatusSlot(const int, const QString&)));
@@ -206,7 +206,7 @@ bool InternetSearch::FindCachedPixmap(const InternetSearch::Result &result, QPix
   return pixmap_cache_.find(result.pixmap_cache_key_, pixmap);
 }
 
-int InternetSearch::LoadArtAsync(const InternetSearch::Result &result) {
+int InternetSearch::LoadAlbumCoverAsync(const InternetSearch::Result &result) {
 
   const int id = art_searches_next_id_++;
 
@@ -219,7 +219,7 @@ int InternetSearch::LoadArtAsync(const InternetSearch::Result &result) {
 
 }
 
-void InternetSearch::AlbumArtLoaded(const quint64 id, const QImage &image) {
+void InternetSearch::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
   if (!cover_loader_tasks_.contains(id)) return;
   int orig_id = cover_loader_tasks_.take(id);
@@ -229,7 +229,7 @@ void InternetSearch::AlbumArtLoaded(const quint64 id, const QImage &image) {
   QPixmap pixmap = QPixmap::fromImage(image);
   pixmap_cache_.insert(key, pixmap);
 
-  emit ArtLoaded(orig_id, pixmap);
+  emit AlbumCoverLoaded(orig_id, pixmap);
 
 }
 

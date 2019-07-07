@@ -31,6 +31,7 @@
 #include <QMultiMap>
 #include <QQueue>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -40,6 +41,7 @@
 #include "core/song.h"
 #include "qobuzbaserequest.h"
 
+class Application;
 class NetworkAccessManager;
 class QobuzService;
 class QobuzUrlHandler;
@@ -49,7 +51,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  public:
 
-  QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, NetworkAccessManager *network, QueryType type, QObject *parent);
+  QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
   ~QobuzRequest();
 
   void ReloadSettings();
@@ -141,8 +143,8 @@ class QobuzRequest : public QobuzBaseRequest {
   void AlbumCoverFinishCheck();
 
   void FinishCheck();
-  void Warn(QString error, QVariant debug = QVariant());
-  QString Error(QString error, QVariant debug = QVariant());
+  void Warn(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
   static const int kMaxConcurrentArtistsRequests;
   static const int kMaxConcurrentAlbumsRequests;
@@ -153,6 +155,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
   QobuzService *service_;
   QobuzUrlHandler *url_handler_;
+  Application *app_;
   NetworkAccessManager *network_;
 
   QueryType type_;
@@ -193,7 +196,7 @@ class QobuzRequest : public QobuzBaseRequest {
   int album_covers_received_;
 
   SongList songs_;
-  QString errors_;
+  QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> album_cover_replies_;
 

@@ -29,8 +29,9 @@
 #include <QList>
 #include <QString>
 
+#include "albumcoverfetcher.h"
+
 class Application;
-struct CoverSearchResult;
 
 // Each implementation of this interface downloads covers from one online service.
 // There are no limitations on what this service might be - last.fm, Amazon, Google Images - you name it.
@@ -53,7 +54,7 @@ class CoverProvider : public QObject {
   virtual void CancelSearch(int id) {}
 
  signals:
-  void SearchFinished(int id, const QList<CoverSearchResult>& results);
+  void SearchFinished(int id, const CoverSearchResults& results);
 
  private:
   Application *app_;

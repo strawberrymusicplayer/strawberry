@@ -73,7 +73,7 @@
 #include "playlistdelegates.h"
 #include "playlistheader.h"
 #include "playlistview.h"
-#include "covermanager/currentartloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 #include "settings/appearancesettingspage.h"
 #include "settings/playlistsettingspage.h"
 
@@ -212,7 +212,7 @@ void PlaylistView::SetApplication(Application *app) {
 
   Q_ASSERT(app);
   app_ = app;
-  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(const Song&, const QString&, const QImage&)), SLOT(CurrentSongChanged(const Song&, const QString&, const QImage&)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)), SLOT(CurrentSongChanged(const Song&, const QUrl&, const QImage&)));
   connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
   connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(StopGlowing()));
@@ -1210,7 +1210,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
 
 }
 
-void PlaylistView::CurrentSongChanged(const Song &song, const QString &uri, const QImage &song_art) {
+void PlaylistView::CurrentSongChanged(const Song &song, const QUrl &cover_url, const QImage &song_art) {
 
   if (current_song_cover_art_ == song_art) return;
 
@@ -1262,6 +1262,7 @@ void PlaylistView::set_background_image(const QImage &image) {
 
   if (isVisible()) {
     previous_background_image_opacity_ = 1.0;
+    if (fade_animation_->state() == QTimeLine::Running) fade_animation_->stop();
     fade_animation_->start();
   }
 
@@ -1280,7 +1281,7 @@ void PlaylistView::FadePreviousBackgroundImage(qreal value) {
 }
 
 void PlaylistView::PlayerStopped() {
-  CurrentSongChanged(Song(), QString(), QImage());
+  CurrentSongChanged(Song(), QUrl(), QImage());
 }
 
 void PlaylistView::focusInEvent(QFocusEvent *event) {

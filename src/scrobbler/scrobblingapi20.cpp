@@ -224,30 +224,34 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   else {
     if (reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      AuthError(failure_reason);
+      AuthError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "error" and "message" - then use that instead.
       data = reply->readAll();
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-      QString failure_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      QString error;
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("message")) {
-          int error = json_obj["error"].toInt();
+          int code = json_obj["error"].toInt();
           QString message = json_obj["message"].toString();
-          failure_reason = "Error: " + QString::number(error) + ": " + message;
+          error = "Error: " + QString::number(code) + ": " + message;
         }
         else {
-          failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
       }
-      else {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
-      AuthError(failure_reason);
+      AuthError(error);
     }
     return;
   }
@@ -348,31 +352,32 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
     data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString error_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(error_reason);
+      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
+      QString error;
       // See if there is Json data containing "error" and "message" - then use that instead.
       data = reply->readAll();
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       int error_code = -1;
-      QString error_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error") && json_obj.contains("message")) {
           error_code = json_obj["error"].toInt();
           QString error_message = json_obj["message"].toString();
-          error_reason = QString("%1 (%2)").arg(error_message).arg(error_code);
-        }
-        else {
-          error_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QString("%1 (%2)").arg(error_message).arg(error_code);
         }
       }
-      else {
-        error_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
       if (reply->error() == QNetworkReply::ContentAccessDenied ||
           reply->error() == QNetworkReply::ContentOperationNotPermittedError ||
@@ -382,14 +387,8 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
         ){
         // Session is probably expired
         Logout();
-        Error(error_reason);
       }
-      else if (reply->error() == QNetworkReply::ContentNotFoundError) { // Ignore this error
-        Error(error_reason);
-      }
-      else { // Fail
-        Error(error_reason);
-      }
+      Error(error);
     }
     return QByteArray();
   }

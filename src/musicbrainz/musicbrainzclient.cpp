@@ -79,7 +79,7 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
       data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }

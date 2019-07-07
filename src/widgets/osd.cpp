@@ -43,7 +43,7 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/systemtrayicon.h"
-#include "covermanager/currentartloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 
 const char *OSD::kSettingsGroup = "OSD";
 
@@ -68,7 +68,7 @@ OSD::OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent)
       pretty_popup_(new OSDPretty(OSDPretty::Mode_Popup))
   {
 
-  connect(app_->current_art_loader(), SIGNAL(ThumbnailLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
+  connect(app_->current_albumcover_loader(), SIGNAL(ThumbnailLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
 
   ReloadSettings();
   Init();
@@ -114,18 +114,18 @@ void OSD::ReloadPrettyOSDSettings() {
 
 void OSD::ReshowCurrentSong() {
   force_show_next_ = true;
-  AlbumArtLoaded(last_song_, last_image_uri_, last_image_);
+  AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
 }
 
-void OSD::AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image) {
+void OSD::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
   // Don't change tray icon details if it's a preview
   if (!preview_mode_ && tray_icon_)
-    tray_icon_->SetNowPlaying(song, uri);
+    tray_icon_->SetNowPlaying(song, cover_url);
 
   last_song_ = song;
   last_image_ = image;
-  last_image_uri_ = uri;
+  last_image_uri_ = cover_url;
 
   QStringList message_parts;
   QString summary;
@@ -187,7 +187,7 @@ void OSD::Paused() {
 
 void OSD::Resumed() {
   if (show_on_resume_) {
-    AlbumArtLoaded(last_song_, last_image_uri_, last_image_);
+    AlbumCoverLoaded(last_song_, last_image_uri_, last_image_);
   }
 }
 
@@ -373,7 +373,8 @@ void OSD::ShowPreview(const Behaviour type, const QString &line1, const QString 
 
   // We want to reload the settings, but we can't do this here because the cover art loading is asynch
   preview_mode_ = true;
-  AlbumArtLoaded(song, QString(), QImage());
+  AlbumCoverLoaded(song, QUrl(), QImage());
+
 }
 
 void OSD::SetPrettyOSDToggleMode(bool toggle) {

@@ -43,7 +43,6 @@
 #include <QImage>
 #include <QIcon>
 #include <QPixmap>
-#include <QNetworkDiskCache>
 #include <QSettings>
 
 #include "core/simpletreemodel.h"
@@ -135,7 +134,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   // Get information about the collection
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
-  SongList GetChildSongs(const QModelIndex &index) const;
+  SongList GetChildSongs(const QModelIndex &idx) const;
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
   // Might be accurate
@@ -144,8 +143,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count() const { return total_album_count_; }
 
   // QAbstractItemModel
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-  Qt::ItemFlags flags(const QModelIndex &index) const;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
+  Qt::ItemFlags flags(const QModelIndex &idx) const;
   QStringList mimeTypes() const;
   QMimeData *mimeData(const QModelIndexList &indexes) const;
   bool canFetchMore(const QModelIndex &parent) const;
@@ -203,7 +202,7 @@ signals:
   // Called after ResetAsync
   void ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future);
 
-  void AlbumArtLoaded(quint64 id, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
 
  private:
   // Provides some optimisations for loading the list of items in the root.
@@ -236,8 +235,8 @@ signals:
   QString DividerDisplayText(GroupBy type, const QString &key) const;
 
   // Helpers
-  QString AlbumIconPixmapCacheKey(const QModelIndex &index) const;
-  QVariant AlbumIcon(const QModelIndex &index);
+  QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
+  QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
 
@@ -269,8 +268,6 @@ signals:
   QPixmap no_cover_icon_;
   QIcon playlists_dir_icon_;
   QIcon playlist_icon_;
-
-  QNetworkDiskCache *icon_cache_;
 
   int init_task_id_;
 

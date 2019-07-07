@@ -65,6 +65,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
 
  private:
+  void Error(const QString &error, const QVariant &debug = QVariant());
   QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList &songs);

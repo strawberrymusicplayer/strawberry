@@ -60,13 +60,13 @@ class AlbumCoverFetcherSearch : public QObject {
 
  signals:
   // It's the end of search (when there was no fetch-me-a-cover request).
-  void SearchFinished(quint64, const CoverSearchResults &results);
+  void SearchFinished(const quint64, const CoverSearchResults &results);
 
   // It's the end of search and we've fetched a cover.
-  void AlbumCoverFetched(quint64, const QImage &cover);
+  void AlbumCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
 
  private slots:
-  void ProviderSearchFinished(int id, const QList<CoverSearchResult> &results);
+  void ProviderSearchFinished(const int id, const CoverSearchResults &results);
   void ProviderCoverFetchFinished(RedirectFollower *reply);
   void TerminateSearch();
 
@@ -106,4 +106,3 @@ class AlbumCoverFetcherSearch : public QObject {
 };
 
 #endif  // ALBUMCOVERFETCHERSEARCH_H
-

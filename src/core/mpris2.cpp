@@ -55,7 +55,7 @@
 #include "playlist/playlistitem.h"
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
-#include "covermanager/currentartloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 
 #include <core/mpris2_player.h>
 #include <core/mpris2_playlists.h>
@@ -120,7 +120,7 @@ Mpris2::Mpris2(Application *app, QObject *parent)
     return;
   }
 
-  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song,QString,QImage)), SLOT(ArtLoaded(Song,QString)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
 
   connect(app_->player()->engine(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
   connect(app_->player(), SIGNAL(VolumeChanged(int)), SLOT(VolumeChanged()));
@@ -376,7 +376,7 @@ QString Mpris2::current_track_id() const {
 // We send Metadata change notification as soon as the process of changing song starts...
 void Mpris2::CurrentSongChanged(const Song &song) {
 
-  ArtLoaded(song, "");
+  AlbumCoverLoaded(song, QUrl(), QImage());
   EmitNotification("CanPlay");
   EmitNotification("CanPause");
   EmitNotification("CanGoNext", CanGoNext());
@@ -386,7 +386,7 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 }
 
 // ... and we add the cover information later, when it's available.
-void Mpris2::ArtLoaded(const Song &song, const QString &art_uri) {
+void Mpris2::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
@@ -394,8 +394,8 @@ void Mpris2::ArtLoaded(const Song &song, const QString &art_uri) {
   using mpris::AddMetadata;
   AddMetadata("mpris:trackid", current_track_id(), &last_metadata_);
 
-  if (!art_uri.isEmpty()) {
-    AddMetadata("mpris:artUrl", art_uri, &last_metadata_);
+  if (!cover_url.isValid()) {
+    AddMetadata("mpris:artUrl", cover_url.toLocalFile(), &last_metadata_);
   }
 
   AddMetadata("year", song.year(), &last_metadata_);

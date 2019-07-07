@@ -210,8 +210,8 @@ struct Song::Private : public QSharedData {
   bool compilation_off_;	// Set by the user
 
   // Filenames to album art for this song.
-  QString art_automatic_;	// Guessed by CollectionWatcher
-  QString art_manual_;		// Set by the user - should take priority
+  QUrl art_automatic_;	        // Guessed by CollectionWatcher
+  QUrl art_manual_;		// Set by the user - should take priority
 
   QString cue_path_;		// If the song has a CUE, this contains it's path.
 
@@ -325,12 +325,12 @@ int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
 int Song::lastplayed() const { return d->lastplayed_; }
 
-const QString &Song::art_automatic() const { return d->art_automatic_; }
-const QString &Song::art_manual() const { return d->art_manual_; }
-bool Song::has_manually_unset_cover() const { return d->art_manual_ == kManuallyUnsetCover; }
-void Song::manually_unset_cover() { d->art_manual_ = kManuallyUnsetCover; }
-bool Song::has_embedded_cover() const { return d->art_automatic_ == kEmbeddedCover; }
-void Song::set_embedded_cover() { d->art_automatic_ = kEmbeddedCover; }
+const QUrl &Song::art_automatic() const { return d->art_automatic_; }
+const QUrl &Song::art_manual() const { return d->art_manual_; }
+bool Song::has_manually_unset_cover() const { return d->art_manual_.path() == kManuallyUnsetCover; }
+void Song::manually_unset_cover() { d->art_manual_.clear(); d->art_manual_.setPath(kManuallyUnsetCover); }
+bool Song::has_embedded_cover() const { return d->art_automatic_.path() == kEmbeddedCover; }
+void Song::set_embedded_cover() { d->art_automatic_.clear(); d->art_automatic_.setPath(kEmbeddedCover); }
 const QImage &Song::image() const { return d->image_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
@@ -340,6 +340,26 @@ bool Song::is_collection_song() const { return !is_cdda() && !is_stream() && id(
 bool Song::is_metadata_good() const { return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0; }
 bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
+
+bool Song::art_automatic_is_valid() const {
+  return (
+         (d->art_automatic_.path() == kManuallyUnsetCover) ||
+         (d->art_automatic_.path() == kEmbeddedCover) ||
+         (d->art_automatic_.isValid() && !d->art_automatic_.isLocalFile()) ||
+         (d->art_automatic_.isLocalFile() && QFile::exists(d->art_automatic_.toLocalFile())) ||
+         (d->art_automatic_.scheme().isEmpty() && !d->art_automatic_.path().isEmpty() && QFile::exists(d->art_automatic_.path()))
+         );
+}
+
+bool Song::art_manual_is_valid() const {
+  return (
+         (d->art_manual_.path() == kManuallyUnsetCover) ||
+         (d->art_manual_.path() == kEmbeddedCover) ||
+         (d->art_manual_.isValid() && !d->art_manual_.isLocalFile()) ||
+         (d->art_manual_.isLocalFile() && QFile::exists(d->art_manual_.toLocalFile())) ||
+         (d->art_manual_.scheme().isEmpty() && !d->art_manual_.path().isEmpty() && QFile::exists(d->art_manual_.path()))
+         );
+}
 
 const QString &Song::error() const { return d->error_; }
 
@@ -415,8 +435,8 @@ void Song::set_compilation_detected(bool v) { d->compilation_detected_ = v; }
 void Song::set_compilation_on(bool v) { d->compilation_on_ = v; }
 void Song::set_compilation_off(bool v) { d->compilation_off_ = v; }
 
-void Song::set_art_automatic(const QString &v) { d->art_automatic_ = v; }
-void Song::set_art_manual(const QString &v) { d->art_manual_ = v; }
+void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
+void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
 void Song::set_image(const QImage &i) { d->image_ = i; }
@@ -677,7 +697,7 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   }
 
   if (pb.has_art_automatic()) {
-    d->art_automatic_ = QStringFromStdString(pb.art_automatic());
+    set_art_automatic(QUrl::fromEncoded(QByteArray(pb.art_automatic().data(), pb.art_automatic().size())));
   }
 
   InitArtManual();
@@ -687,6 +707,7 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
 void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
 
   const QByteArray url(d->url_.toEncoded());
+  const QByteArray art_automatic(d->art_automatic_.toEncoded());
 
   pb->set_valid(d->valid_);
   pb->set_title(DataCommaSizeFromQString(d->title_));
@@ -717,7 +738,7 @@ void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
   pb->set_ctime(d->ctime_);
   pb->set_filesize(d->filesize_);
   pb->set_suspicious_tags(d->suspicious_tags_);
-  pb->set_art_automatic(DataCommaSizeFromQString(d->art_automatic_));
+  pb->set_art_automatic(art_automatic.constData(), art_automatic.size());
   pb->set_filetype(static_cast<pb::tagreader::SongMetadata_FileType>(d->filetype_));
 
 }
@@ -866,10 +887,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
 
     else if (Song::kColumns.value(i) == "art_automatic") {
-      d->art_automatic_ = q.value(x).toString();
+      set_art_automatic(QUrl::fromEncoded(tostr(x).toUtf8()));
     }
     else if (Song::kColumns.value(i) == "art_manual") {
-      d->art_manual_ = q.value(x).toString();
+      set_art_manual(QUrl::fromEncoded(tostr(x).toUtf8()));
     }
 
     else if (Song::kColumns.value(i) == "effective_albumartist") {
@@ -927,9 +948,10 @@ void Song::InitArtManual() {
   // If we don't have an art, check if we have one in the cache
   if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty()) {
     QString filename(Utilities::Sha1CoverHash(d->artist_, album2).toHex() + ".jpg");
-    QString path(AlbumCoverLoader::ImageCacheDir() + "/" + filename);
+    QString path(AlbumCoverLoader::ImageCacheDir(d->source_) + "/" + filename);
     if (QFile::exists(path)) {
-      d->art_manual_ = path;
+      d->art_manual_.setScheme("file");
+      d->art_manual_.setPath(path);
     }
   }
 
@@ -1117,7 +1139,7 @@ void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
   if (!bundle.genre.isEmpty()) d->genre_ = bundle.genre;
   if (bundle.length > 0) set_length_nanosec(bundle.length);
   if (bundle.year > 0) d->year_ = bundle.year;
-  if (bundle.tracknr > 0) d->track_ = bundle.tracknr;
+  if (bundle.track > 0) d->track_ = bundle.track;
   if (bundle.filetype != FileType_Unknown) d->filetype_ = bundle.filetype;
   if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
   if (bundle.bitdepth > 0) d->samplerate_ = bundle.bitdepth;

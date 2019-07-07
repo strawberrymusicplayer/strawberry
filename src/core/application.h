@@ -54,7 +54,7 @@ class DeviceManager;
 #endif
 class CoverProviders;
 class AlbumCoverLoader;
-class CurrentArtLoader;
+class CurrentAlbumCoverLoader;
 class LyricsProviders;
 class AudioScrobbler;
 class InternetServices;
@@ -92,7 +92,7 @@ class Application : public QObject {
 
   CoverProviders *cover_providers() const;
   AlbumCoverLoader *album_cover_loader() const;
-  CurrentArtLoader *current_art_loader() const;
+  CurrentAlbumCoverLoader *current_albumcover_loader() const;
 
   LyricsProviders *lyrics_providers() const;
 

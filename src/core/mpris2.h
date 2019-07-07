@@ -207,7 +207,7 @@ signals:
   void PlaylistChanged(const MprisPlaylist &playlist);
 
  private slots:
-  void ArtLoaded(const Song &song, const QString &art_uri);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
   void EngineStateChanged(Engine::State newState);
   void VolumeChanged();
 

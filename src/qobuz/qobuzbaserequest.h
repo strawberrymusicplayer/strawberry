@@ -71,12 +71,13 @@ class QobuzBaseRequest : public QObject {
   typedef QList<EncodedParam> EncodedParamList;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply, QString &error);
-  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(QByteArray &data);
+  QJsonValue ExtractItems(QByteArray &data);
+  QJsonValue ExtractItems(QJsonObject &json_obj);
 
-  virtual QString Error(QString error, QVariant debug = QVariant());
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+  QString ErrorsToHTML(const QStringList &errors);
 
   QString api_url() { return QString(kApiUrl); }
   QString app_id() { return service_->app_id(); }
@@ -94,6 +95,9 @@ class QobuzBaseRequest : public QObject {
   bool login_sent() { return service_->login_sent(); }
   int max_login_attempts() { return service_->max_login_attempts(); }
   int login_attempts() { return service_->login_attempts(); }
+
+ private slots:
+  void HandleSSLErrors(QList<QSslError> ssl_errors);
 
  private:
 

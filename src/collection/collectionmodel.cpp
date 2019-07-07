@@ -107,10 +107,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   cover_loader_options_.scale_output_image_ = true;
 
   if (app_)
-    connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
-
-  //icon_cache_->setCacheDirectory(Utilities::GetConfigPath(Utilities::Path_CacheRoot) + "/pixmapcache");
-  //icon_cache_->setMaximumCacheSize(CollectionModel::kIconCacheSize);
+    connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(AlbumCoverLoaded(quint64, QUrl, QImage)));
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -422,7 +419,11 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
       if (node->parent != root_) parents << node->parent;
 
-      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
+      QModelIndex idx = ItemToIndex(node->parent);
+      const QString cache_key = AlbumIconPixmapCacheKey(idx);
+      QPixmapCache::remove(cache_key);
+
+      beginRemoveRows(idx, node->row, node->row);
       node->parent->Delete(node->row);
       song_nodes_.remove(song.id());
       endRemoveRows();
@@ -491,43 +492,39 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
 }
 
-QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &index) const {
+QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
 
   QStringList path;
-  QModelIndex index_copy(index);
-  while (index_copy.isValid()) {
-    path.prepend(index_copy.data().toString());
-    index_copy = index_copy.parent();
+  QModelIndex idx_copy(idx);
+  while (idx_copy.isValid()) {
+    //const CollectionItem *item = IndexToItem(idx_copy);
+    //if (item && group_by_[item->container_level] == GroupBy_Album) {
+    //  QString album = idx_copy.data().toString();
+    //  album.remove(Song::kAlbumRemoveDisc);
+    //  path.prepend(album);
+    //}
+    //else {
+      path.prepend(idx_copy.data().toString());
+    //}
+    idx_copy = idx_copy.parent();
   }
 
   return "collectionart:" + path.join("/");
 
 }
 
-QVariant CollectionModel::AlbumIcon(const QModelIndex &index) {
+QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
-  CollectionItem *item = IndexToItem(index);
+  CollectionItem *item = IndexToItem(idx);
   if (!item) return no_cover_icon_;
 
   // Check the cache for a pixmap we already loaded.
-  const QString cache_key = AlbumIconPixmapCacheKey(index);
+  const QString cache_key = AlbumIconPixmapCacheKey(idx);
 
   QPixmap cached_pixmap;
   if (QPixmapCache::find(cache_key, &cached_pixmap)) {
     return cached_pixmap;
   }
-
-#if 0
-  // Try to load it from the disk cache
-  std::unique_ptr<QIODevice> cache(icon_cache_->data(QUrl(cache_key)));
-  if (cache) {
-    QImage cached_image;
-    if (cached_image.load(cache.get(), "XPM")) {
-      QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_image));
-      return QPixmap::fromImage(cached_image);
-    }
-  }
-#endif
 
   // Maybe we're loading a pixmap already?
   if (pending_cache_keys_.contains(cache_key)) {
@@ -535,7 +532,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &index) {
   }
 
   // No art is cached and we're not loading it already.  Load art for the first song in the album.
-  SongList songs = GetChildSongs(index);
+  SongList songs = GetChildSongs(idx);
   if (!songs.isEmpty()) {
     const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, songs.first());
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
@@ -546,13 +543,15 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &index) {
 
 }
 
-void CollectionModel::AlbumArtLoaded(quint64 id, const QImage &image) {
+void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
+
+  if (!pending_art_.contains(id)) return;
 
   ItemAndCacheKey item_and_cache_key = pending_art_.take(id);
   CollectionItem *item = item_and_cache_key.first;
-  const QString &cache_key = item_and_cache_key.second;
-
   if (!item) return;
+
+  const QString &cache_key = item_and_cache_key.second;
 
   pending_cache_keys_.remove(cache_key);
 
@@ -562,35 +561,19 @@ void CollectionModel::AlbumArtLoaded(quint64 id, const QImage &image) {
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
   else {
-    //qLog(Debug) << cache_key;
     QPixmap image_pixmap;
     image_pixmap = QPixmap::fromImage(image);
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 
-#if 0
-  // if not already in the disk cache
-  std::unique_ptr<QIODevice> cached_img(icon_cache_->data(QUrl(cache_key)));
-  if (!cached_img && !image.isNull()) {
-    QNetworkCacheMetaData item_metadata;
-    item_metadata.setSaveToDisk(true);
-    item_metadata.setUrl(QUrl(cache_key));
-    QIODevice *cache = icon_cache_->prepare(item_metadata);
-    if (cache) {
-      image.save(cache, "XPM");
-      icon_cache_->insert(cache);
-    }
-  }
-#endif
-
-  const QModelIndex index = ItemToIndex(item);
-  emit dataChanged(index, index);
+  const QModelIndex idx = ItemToIndex(item);
+  emit dataChanged(idx, idx);
 
 }
 
-QVariant CollectionModel::data(const QModelIndex &index, int role) const {
+QVariant CollectionModel::data(const QModelIndex &idx, int role) const {
 
-  const CollectionItem *item = IndexToItem(index);
+  const CollectionItem *item = IndexToItem(idx);
 
   // Handle a special case for returning album artwork instead of a generic CD icon.
   // this is here instead of in the other data() function to let us use the
@@ -604,7 +587,7 @@ QVariant CollectionModel::data(const QModelIndex &index, int role) const {
     }
     if (is_album_node) {
       // It has const behaviour some of the time - that's ok right?
-      return const_cast<CollectionModel*>(this)->AlbumIcon(index);
+      return const_cast<CollectionModel*>(this)->AlbumIcon(idx);
     }
   }
 
@@ -1326,9 +1309,9 @@ QString CollectionModel::SortTextForSong(const Song &song) {
 
 }
 
-Qt::ItemFlags CollectionModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
 
-  switch (IndexToItem(index)->type) {
+  switch (IndexToItem(idx)->type) {
     case CollectionItem::Type_Song:
     case CollectionItem::Type_Container:
       return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
@@ -1355,8 +1338,8 @@ QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
 
   data->backend = backend_;
 
-  for (const QModelIndex &index : indexes) {
-    GetChildSongs(IndexToItem(index), &urls, &data->songs, &song_ids);
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(IndexToItem(idx), &urls, &data->songs, &song_ids);
   }
 
   data->setUrls(urls);
@@ -1410,15 +1393,15 @@ SongList CollectionModel::GetChildSongs(const QModelIndexList &indexes) const {
   SongList ret;
   QSet<int> song_ids;
 
-  for (const QModelIndex &index : indexes) {
-    GetChildSongs(IndexToItem(index), &dontcare, &ret, &song_ids);
+  for (const QModelIndex &idx : indexes) {
+    GetChildSongs(IndexToItem(idx), &dontcare, &ret, &song_ids);
   }
   return ret;
 
 }
 
-SongList CollectionModel::GetChildSongs(const QModelIndex &index) const {
-  return GetChildSongs(QModelIndexList() << index);
+SongList CollectionModel::GetChildSongs(const QModelIndex &idx) const {
+  return GetChildSongs(QModelIndexList() << idx);
 }
 
 void CollectionModel::SetFilterAge(int age) {

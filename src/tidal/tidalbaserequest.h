@@ -29,6 +29,7 @@
 #include <QString>
 #include <QUrl>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
@@ -71,12 +72,13 @@ class TidalBaseRequest : public QObject {
   typedef QList<EncodedParam> EncodedParamList;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply, QString &error, const bool send_login);
-  QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QByteArray &data, QString &error);
-  QJsonValue ExtractItems(QJsonObject &json_obj, QString &error);
+  QByteArray GetReplyData(QNetworkReply *reply, const bool send_login);
+  QJsonObject ExtractJsonObj(QByteArray &data);
+  QJsonValue ExtractItems(QByteArray &data);
+  QJsonValue ExtractItems(QJsonObject &json_obj);
 
-  virtual QString Error(QString error, QVariant debug = QVariant());
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+  QString ErrorsToHTML(const QStringList &errors);
 
   QString api_url() { return QString(kApiUrl); }
   const bool oauth() { return service_->oauth(); }
@@ -100,6 +102,9 @@ class TidalBaseRequest : public QObject {
   int login_attempts() { return service_->login_attempts(); }
 
   virtual void NeedLogin() = 0;
+  
+ private slots:
+  void HandleSSLErrors(QList<QSslError> ssl_errors);
 
  private:
 

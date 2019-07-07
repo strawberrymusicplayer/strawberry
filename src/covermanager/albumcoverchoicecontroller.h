@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +59,7 @@ class AlbumCoverChoiceController : public QWidget {
   AlbumCoverChoiceController(QWidget *parent = nullptr);
   ~AlbumCoverChoiceController();
 
-  void SetApplication(Application *app);
+  void Init(Application *app);
   void ReloadSettings();
 
   // Getters for all QActions implemented by this controller.
@@ -85,7 +86,7 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Lets the user choose a cover from disk. If no cover will be chosen or the chosen cover will not be a proper image, this returns an empty string.
   // Otherwise, the path to the chosen cover will be returned.
-  QString LoadCoverFromFile(Song *song);
+  QUrl LoadCoverFromFile(Song *song);
 
   // Shows a dialog that allows user to save the given image on disk.
   // The image is supposed to be the cover of the given song's album.
@@ -93,14 +94,14 @@ class AlbumCoverChoiceController : public QWidget {
 
   // Downloads the cover from an URL given by user.
   // This returns the downloaded image or null image if something went wrong for example when user cancelled the dialog.
-  QString LoadCoverFromURL(Song *song);
+  QUrl LoadCoverFromURL(Song *song);
 
   // Lets the user choose a cover among all that have been found on last.fm.
   // Returns the chosen cover or null cover if user didn't choose anything.
-  QString SearchForCover(Song *song);
+  QUrl SearchForCover(Song *song);
 
   // Returns a path which indicates that the cover has been unset manually.
-  QString UnsetCover(Song *song);
+  QUrl UnsetCover(Song *song);
 
   // Shows the cover of given song in it's original size.
   void ShowCover(const Song &song);
@@ -111,15 +112,14 @@ class AlbumCoverChoiceController : public QWidget {
   void SearchCoverAutomatically(const Song &song);
 
   // Saves the chosen cover as manual cover path of this song in collection.
-  void SaveCover(Song *song, const QString &cover);
+  void SaveCoverToSong(Song *song, const QUrl &cover_url);
 
   // Saves the cover that the user picked through a drag and drop operation.
-  QString SaveCover(Song *song, const QDropEvent *e);
+  QUrl SaveCover(Song *song, const QDropEvent *e);
 
   // Saves the given image in album directory or cache as a cover for 'album artist' - 'album'. The method returns path of the image.
-  QString SaveCoverToFileAutomatic(const QString &albumartist, const QString &artist, const QString &album, const QString &album_dir, const QImage &image);
-  QString SaveCoverToFileAutomatic(const Song *song, const QImage &image);
-  QString CreateCoverFilename(const QString &albumartist, const QString &artist, const QString &album);
+  QUrl SaveCoverToFileAutomatic(const Song *song, const QUrl &cover_url, const QImage &image, const bool overwrite = false);
+  QUrl SaveCoverToFileAutomatic(const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QImage &image, const bool overwrite = false);
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
@@ -127,7 +127,7 @@ signals:
   void AutomaticCoverSearchDone();
 
  private slots:
-  void AlbumCoverFetched(quint64 id, const QImage &image, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(const quint64 id, const QUrl &cover_url, const QImage &image, const CoverSearchStatistics &statistics);
 
  private:
   QString GetInitialPathForFileDialog(const Song &song, const QString &filename);

@@ -228,8 +228,8 @@ class Song {
   int skipcount() const;
   int lastplayed() const;
 
-  const QString &art_automatic() const;
-  const QString &art_manual() const;
+  const QUrl &art_automatic() const;
+  const QUrl &art_manual() const;
 
   const QString &cue_path() const;
   bool has_cue() const;
@@ -242,6 +242,8 @@ class Song {
   bool is_stream() const;
   bool is_cdda() const;
   bool is_metadata_good() const;
+  bool art_automatic_is_valid() const;
+  bool art_manual_is_valid() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;
@@ -324,8 +326,8 @@ class Song {
   void set_compilation_on(bool v);
   void set_compilation_off(bool v);
 
-  void set_art_automatic(const QString &v);
-  void set_art_manual(const QString &v);
+  void set_art_automatic(const QUrl &v);
+  void set_art_manual(const QUrl &v);
 
   void set_cue_path(const QString &v);
 

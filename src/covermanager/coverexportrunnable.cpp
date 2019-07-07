@@ -59,11 +59,11 @@ QString CoverExportRunnable::GetCoverPath() {
     // Export downloaded covers?
   }
   else if (!song_.art_manual().isEmpty() && dialog_result_.export_downloaded_) {
-    return song_.art_manual();
+    return song_.art_manual().toLocalFile();
     // Export embedded covers?
   }
-  else if (!song_.art_automatic().isEmpty() && song_.art_automatic() == Song::kEmbeddedCover && dialog_result_.export_embedded_) {
-    return song_.art_automatic();
+  else if (!song_.art_automatic().isEmpty() && song_.art_automatic().path() == Song::kEmbeddedCover && dialog_result_.export_embedded_) {
+    return song_.art_automatic().toLocalFile();
   }
   else {
     return QString();
@@ -168,8 +168,7 @@ void CoverExportRunnable::ExportCover() {
     return;
   }
 
-  // we're handling overwrite as remove + copy so we need to delete the old file
-  // first
+  // We're handling overwrite as remove + copy so we need to delete the old file first
   if (dialog_result_.overwrite_ != AlbumCoverExport::OverwriteMode_None && QFile::exists(new_file)) {
     if (!QFile::remove(new_file)) {
       EmitCoverSkipped();
@@ -186,7 +185,7 @@ void CoverExportRunnable::ExportCover() {
     }
   }
   else {
-    // automatic or manual cover, available in an image file
+    // Automatic or manual cover, available in an image file
     if (!QFile::copy(cover_path, new_file)) {
       EmitCoverSkipped();
       return;

@@ -40,7 +40,7 @@ StandardItemIconLoader::StandardItemIconLoader(AlbumCoverLoader *cover_loader, Q
 
   cover_options_.desired_height_ = 16;
 
-  connect(cover_loader_, SIGNAL(ImageLoaded(quint64, QImage)), SLOT(ImageLoaded(quint64, QImage)));
+  connect(cover_loader_, SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(ImageLoaded(quint64, QUrl, QImage)));
 }
 
 void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
@@ -56,7 +56,7 @@ void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
 }
 
-void StandardItemIconLoader::LoadIcon(const QString &art_automatic, const QString &art_manual, QStandardItem *for_item) {
+void StandardItemIconLoader::LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item) {
 
   const quint64 id = cover_loader_->LoadImageAsync(cover_options_, art_automatic, art_manual);
   pending_covers_[id] = for_item;
@@ -92,7 +92,7 @@ void StandardItemIconLoader::ModelReset() {
 
 }
 
-void StandardItemIconLoader::ImageLoaded(quint64 id, const QImage &image) {
+void StandardItemIconLoader::ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;

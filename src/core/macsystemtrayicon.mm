@@ -28,6 +28,7 @@
 #include <QApplication>
 #include <QAction>
 #include <QIcon>
+#include <QUrl>
 #include <QtDebug>
 
 #include <AppKit/NSMenu.h>
@@ -205,6 +206,6 @@ void MacSystemTrayIcon::ClearNowPlaying() {
   p_->ClearNowPlaying();
 }
 
-void MacSystemTrayIcon::SetNowPlaying(const Song& song, const QString& image_path) {
+void MacSystemTrayIcon::SetNowPlaying(const Song& song, const QUrl& cover_url) {
   p_->ShowNowPlaying(song.artist(), song.PrettyTitle());
 }

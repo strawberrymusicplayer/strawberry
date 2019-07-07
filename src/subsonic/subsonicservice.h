@@ -30,6 +30,7 @@
 #include <QPair>
 #include <QList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QTimer>
@@ -59,7 +60,8 @@ class SubsonicService : public InternetService {
   static const Song::Source kSource;
 
   void ReloadSettings();
-  QString CoverCacheDir();  
+
+  Application *app() { return app_; }
 
   QString client_name() { return kClientName; }
   QString api_version() { return kApiVersion; }
@@ -89,6 +91,8 @@ class SubsonicService : public InternetService {
   void ResetSongsRequest();
 
  private slots:
+  //void HandlePingSSLErrors(QNetworkReply *reply, QList<QSslError> ssl_errors);
+  void HandlePingSSLErrors(QList<QSslError> ssl_errors);
   void HandlePingReply(QNetworkReply *reply);
   void SongsResultsReceived(const SongList &songs, const QString &error);
 
@@ -99,7 +103,7 @@ class SubsonicService : public InternetService {
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<EncodedParam> EncodedParamList;
 
-  QString PingError(QString error, QVariant debug = QVariant());
+  void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kClientName;
   static const char *kApiVersion;
@@ -121,6 +125,8 @@ class SubsonicService : public InternetService {
   QString password_;
   bool verify_certificate_;
   bool download_album_covers_;
+
+  QStringList errors_;
 
 };
 

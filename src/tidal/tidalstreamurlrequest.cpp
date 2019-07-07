@@ -147,37 +147,35 @@ void TidalStreamURLRequest::StreamURLReceived() {
   disconnect(reply_, 0, nullptr, 0);
   reply_->deleteLater();
 
-  QString error;
-
-  QByteArray data = GetReplyData(reply_, error, true);
+  QByteArray data = GetReplyData(reply_, true);
   if (data.isEmpty()) {
     reply_ = nullptr;
     if (!authenticated() && login_sent() && tries_ <= 1) {
       need_login_ = true;
       return;
     }
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
     return;
   }
   reply_ = nullptr;
 
   //qLog(Debug) << "Tidal:" << data;
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
     return;
   }
 
   if (!json_obj.contains("trackId")) {
-    error = Error("Invalid Json reply, stream missing trackId.", json_obj);
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+    Error("Invalid Json reply, stream missing trackId.", json_obj);
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
     return;
   }
   int track_id(json_obj["trackId"].toInt());
   if (track_id != song_id_) {
-    error = Error("Incorrect track ID returned.", json_obj);
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+    Error("Incorrect track ID returned.", json_obj);
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
     return;
   }
 
@@ -209,8 +207,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
       QString filepath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/tidalstreams";
       QString filename = "tidal-" + QString::number(song_id_) + ".xml";
       if (!QDir().mkpath(filepath)) {
-        error = Error(QString("Failed to create directory %1.").arg(filepath), json_obj);
-        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+         Error(QString("Failed to create directory %1.").arg(filepath), json_obj);
+        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
         return;
       }
       QUrl url("file://" + filepath + "/" + filename);
@@ -218,8 +216,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
       if (file.exists())
        file.remove();
       if (!file.open(QIODevice::WriteOnly)) {
-        error = Error(QString("Failed to open file %1 for writing.").arg(url.toLocalFile()), json_obj);
-        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+        Error(QString("Failed to open file %1 for writing.").arg(url.toLocalFile()), json_obj);
+        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
         return;
       }
       file.write(data_manifest);
@@ -231,15 +229,15 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
     else {
 
-      json_obj = ExtractJsonObj(data_manifest, error);
+      json_obj = ExtractJsonObj(data_manifest);
       if (json_obj.isEmpty()) {
-        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
         return;
       }
 
       if (!json_obj.contains("mimeType")) {
-        error = Error("Invalid Json reply, stream url reply manifest is missing mimeType.", json_obj);
-        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+        Error("Invalid Json reply, stream url reply manifest is missing mimeType.", json_obj);
+        emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
         return;
       }
 
@@ -260,8 +258,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
   if (json_obj.contains("urls")) {
     QJsonValue json_urls = json_obj["urls"];
     if (!json_urls.isArray()) {
-      error = Error("Invalid Json reply, urls is not an array.", json_urls);
-      emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
+      Error("Invalid Json reply, urls is not an array.", json_urls);
+      emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, ErrorsToHTML(errors_));
       return;
     }
     QJsonArray json_array_urls = json_urls.toArray();
@@ -275,11 +273,22 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   if (urls.isEmpty()) {
-    error = Error("Missing stream urls.", json_obj);
-    emit StreamURLFinished(original_url_, original_url_, filetype, -1, -1, -1, error);
+    Error("Missing stream urls.", json_obj);
+    emit StreamURLFinished(original_url_, original_url_, filetype, -1, -1, -1, ErrorsToHTML(errors_));
     return;
   }
 
   emit StreamURLFinished(original_url_, urls.first(), filetype, -1, -1, -1);
+
+}
+
+void TidalStreamURLRequest::Error(const QString &error, const QVariant &debug) {
+
+  qLog(Error) << "Tidal:" << error;
+  if (debug.isValid()) qLog(Debug) << debug;
+
+  if (!error.isEmpty()) {
+    errors_ << error;
+  }
 
 }

@@ -53,13 +53,13 @@ DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): Cov
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
 
   typedef QPair<QString, QString> Param;
-  typedef QList<Param> Parameters;
+  typedef QList<Param> Params;
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<EncodedParam> EncodedParamList;
 
-  Parameters params = Parameters() << Param("output", "json")
-                                   << Param("q", QString(artist + " " + album))
-                                   << Param("limit", QString::number(kLimit));
+  const Params params = Params() << Param("output", "json")
+                                 << Param("q", QString(artist + " " + album))
+                                 << Param("limit", QString::number(kLimit));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -88,18 +88,18 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
     data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(failure_reason);
+      QString error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      Error(error);
     }
     else {
-      // See if there is Json data containing "error" - then use that instead.
+      // See if there is Json data containing "error" object - then use that instead.
       data = reply->readAll();
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-      QString failure_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+      QString error;
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error")) {
           QJsonValue json_value_error = json_obj["error"];
@@ -108,12 +108,19 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
             int code = json_error["code"].toInt();
             QString message = json_error["message"].toString();
             QString type = json_error["type"].toString();
-            failure_reason = QString("%1 (%2)").arg(message).arg(code);
+            error = QString("%1 (%2)").arg(message).arg(code);
           }
         }
       }
-      if (failure_reason.isEmpty()) failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(failure_reason);
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
+      }
+      Error(error);
     }
     return QByteArray();
   }

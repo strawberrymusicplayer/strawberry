@@ -109,7 +109,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   void LazyPopulate(CollectionItem *item, bool signal);
 
  private slots:
-  void AlbumArtLoaded(quint64 id, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
 
  private:
   QueryResult RunQuery(CollectionItem *parent);

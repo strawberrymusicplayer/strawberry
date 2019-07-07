@@ -50,7 +50,7 @@
 #include "playlist/playlistmanager.h"
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/coverproviders.h"
-#include "covermanager/currentartloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/lastfmcoverprovider.h"
 #include "covermanager/discogscoverprovider.h"
 #include "covermanager/musicbrainzcoverprovider.h"
@@ -132,7 +132,7 @@ class ApplicationImpl {
           app->MoveToNewThread(loader);
           return loader;
         }),
-        current_art_loader_([=]() { return new CurrentArtLoader(app, app); }),
+        current_albumcover_loader_([=]() { return new CurrentAlbumCoverLoader(app, app); }),
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
@@ -182,7 +182,7 @@ class ApplicationImpl {
   Lazy<PlaylistManager> playlist_manager_;
   Lazy<CoverProviders> cover_providers_;
   Lazy<AlbumCoverLoader> album_cover_loader_;
-  Lazy<CurrentArtLoader> current_art_loader_;
+  Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetServices> internet_services_;
 #ifdef HAVE_TIDAL
@@ -259,7 +259,7 @@ CollectionBackend *Application::collection_backend() const { return collection()
 CollectionModel *Application::collection_model() const { return collection()->model(); }
 AlbumCoverLoader *Application::album_cover_loader() const { return p_->album_cover_loader_.get(); }
 CoverProviders *Application::cover_providers() const { return p_->cover_providers_.get(); }
-CurrentArtLoader *Application::current_art_loader() const { return p_->current_art_loader_.get(); }
+CurrentAlbumCoverLoader *Application::current_albumcover_loader() const { return p_->current_albumcover_loader_.get(); }
 LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_providers_.get(); }
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }

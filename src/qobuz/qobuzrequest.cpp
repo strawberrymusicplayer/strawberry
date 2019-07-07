@@ -35,7 +35,8 @@
 #include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
-#include "organise/organiseformat.h"
+#include "core/application.h"
+#include "covermanager/albumcoverloader.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
 #include "qobuzrequest.h"
@@ -47,10 +48,11 @@ const int QobuzRequest::kMaxConcurrentArtistAlbumsRequests = 3;
 const int QobuzRequest::kMaxConcurrentAlbumSongsRequests = 3;
 const int QobuzRequest::kMaxConcurrentAlbumCoverRequests = 1;
 
-QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, NetworkAccessManager *network, QueryType type, QObject *parent)
+QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),
+      app_(app),
       network_(network),
       type_(type),
       query_id_(-1),
@@ -300,8 +302,7 @@ void QobuzRequest::AddSongsSearchRequest(const int offset) {
 
 void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
 
-  QString error;
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply);
 
   --artists_requests_active_;
 
@@ -312,7 +313,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     ArtistsFinishCheck();
     return;
@@ -363,7 +364,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     emit UpdateProgress(query_id_, artists_received_);
   }
 
-  QJsonValue json_value = ExtractItems(json_obj_artists, error);
+  QJsonValue json_value = ExtractItems(json_obj_artists);
   if (!json_value.isArray()) {
     ArtistsFinishCheck();
     return;
@@ -496,8 +497,7 @@ void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 
 
 void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const int limit_requested, const int offset_requested) {
 
-  QString error;
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -506,7 +506,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_r
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     AlbumsFinishCheck(artist_id_requested);
     return;
@@ -559,7 +559,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_r
     return;
   }
 
-  QJsonValue json_value = ExtractItems(json_obj_albums, error);
+  QJsonValue json_value = ExtractItems(json_obj_albums);
   if (!json_value.isArray()) {
     AlbumsFinishCheck(artist_id_requested);
     return;
@@ -726,8 +726,7 @@ void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 ar
 
 void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested, const QString &album_requested) {
 
-  QString error;
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -736,7 +735,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_re
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     SongsFinishCheck(artist_id_requested, album_id_requested, limit_requested, offset_requested, 0, 0, album_artist_requested, album_requested);
     return;
@@ -825,7 +824,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_re
     return;
   }
 
-  QJsonValue json_value = ExtractItems(json_obj_tracks, error);
+  QJsonValue json_value = ExtractItems(json_obj_tracks);
   if (!json_value.isArray()) {
     SongsFinishCheck(artist_id, album_id, limit_requested, offset_requested, songs_total, 0, album_artist, album);
     return;
@@ -1045,7 +1044,7 @@ int QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, qint64 arti
   song.set_track(track);
   song.set_url(url);
   song.set_length_nanosec(duration);
-  song.set_art_automatic(cover_url.toEncoded());
+  song.set_art_automatic(cover_url);
   song.set_comment(copyright);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType_Stream);
@@ -1082,12 +1081,13 @@ void QobuzRequest::AddAlbumCoverRequest(Song &song) {
     return;
   }
 
-  album_covers_requests_sent_.insertMulti(cover_url, &song);
-  ++album_covers_requested_;
-
   AlbumCoverRequest request;
   request.url = cover_url;
-  request.filename = AlbumCoverFileName(song);
+  request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), cover_url);
+  if (request.filename.isEmpty()) return;
+
+  album_covers_requests_sent_.insertMulti(cover_url, &song);
+  ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);
 
@@ -1132,9 +1132,8 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     return;
   }
 
-  QString error;
   if (reply->error() != QNetworkReply::NoError) {
-    error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;
@@ -1142,7 +1141,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    error = Error(QString("Received empty image data for %1").arg(cover_url.toString()));
+    Error(QString("Received empty image data for %1").arg(cover_url.toString()));
     album_covers_requests_sent_.remove(cover_url);
     AlbumCoverFinishCheck();
     return;
@@ -1151,54 +1150,23 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
   QImage image;
   if (image.loadFromData(data)) {
 
-    QDir dir;
-    if (dir.mkpath(service_->CoverCacheDir())) {
-      QString filepath(service_->CoverCacheDir() + "/" + filename);
-      if (image.save(filepath, "JPG")) {
-        while (album_covers_requests_sent_.contains(cover_url)) {
-          Song *song = album_covers_requests_sent_.take(cover_url);
-          song->set_art_automatic(filepath);
-        }
+    if (image.save(filename, "JPG")) {
+      while (album_covers_requests_sent_.contains(cover_url)) {
+        Song *song = album_covers_requests_sent_.take(cover_url);
+        QUrl cover_url;
+        cover_url.setScheme("file");
+        cover_url.setPath(filename);
+        song->set_art_automatic(cover_url);
       }
     }
 
   }
   else {
     album_covers_requests_sent_.remove(cover_url);
-    error = Error(QString("Error decoding image data from %1").arg(cover_url.toString()));
+    Error(QString("Error decoding image data from %1").arg(cover_url.toString()));
   }
 
   AlbumCoverFinishCheck();
-
-}
-
-QString QobuzRequest::AlbumCoverFileName(const Song &song) {
-
-  QString artist = song.effective_albumartist();
-  QString album = song.effective_album();
-  QString title = song.title();
-
-  artist.remove('/');
-  album.remove('/');
-  title.remove('/');
-
-  QString filename = artist + "-" + album + ".jpg";
-  filename = filename.toLower();
-  filename.replace(' ', '-');
-  filename.replace("--", "-");
-  filename.replace(230, "ae");
-  filename.replace(198, "AE");
-  filename.replace(246, 'o');
-  filename.replace(248, 'o');
-  filename.replace(214, 'O');
-  filename.replace(216, 'O');
-  filename.replace(228, 'a');
-  filename.replace(229, 'a');
-  filename.replace(196, 'A');
-  filename.replace(197, 'A');
-  filename.remove(OrganiseFormat::kValidFatCharacters);
-
-  return filename;
 
 }
 
@@ -1245,28 +1213,24 @@ void QobuzRequest::FinishCheck() {
       if (songs_.isEmpty() && errors_.isEmpty())
         emit Results(query_id_, songs_, tr("Unknown error"));
       else
-        emit Results(query_id_, songs_, errors_);
+        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
     }
   }
 
 }
 
-QString QobuzRequest::Error(QString error, QVariant debug) {
-
-  qLog(Error) << "Qobuz:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
+void QobuzRequest::Error(const QString &error, const QVariant &debug) {
 
   if (!error.isEmpty()) {
-    errors_ += error;
-    errors_ += "<br />";
+    errors_ << error;
+    qLog(Error) << "Qobuz:" << error;
   }
+  if (debug.isValid()) qLog(Debug) << debug;
   FinishCheck();
-
-  return error;
 
 }
 
-void QobuzRequest::Warn(QString error, QVariant debug) {
+void QobuzRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

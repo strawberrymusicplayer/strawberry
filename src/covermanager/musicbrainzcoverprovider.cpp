@@ -184,7 +184,7 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
     data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
       Error(failure_reason);
@@ -192,22 +192,24 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
     else {
       // See if there is Json data containing "error" - then use that instead.
       data = reply->readAll();
-      QJsonParseError error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-      QString failure_reason;
-      if (error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      QString error;
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (json_obj.contains("error")) {
-          failure_reason = json_obj["error"].toString();
+          error = json_obj["error"].toString();
+        }
+      }
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
       }
-      else {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      }
-      Error(failure_reason);
+      Error(error);
     }
     return QByteArray();
   }

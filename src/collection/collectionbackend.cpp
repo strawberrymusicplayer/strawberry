@@ -976,8 +976,8 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     info.artist = compilation ? QString() : query.Value(1).toString();
     info.album_artist = compilation ? QString() : query.Value(2).toString();
     info.album_name = query.Value(0).toString();
-    info.art_automatic = query.Value(5).toString();
-    info.art_manual = query.Value(6).toString();
+    info.art_automatic = query.Value(5).toUrl();
+    info.art_manual = query.Value(6).toUrl();
     info.first_url = QUrl::fromEncoded(query.Value(7).toByteArray());
 
     if ((info.artist == last_artist || info.album_artist == last_album_artist) && info.album_name == last_album)
@@ -1015,8 +1015,8 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
   if (!ExecQuery(&query)) return ret;
 
   if (query.Next()) {
-    ret.art_automatic = query.Value(0).toString();
-    ret.art_manual = query.Value(1).toString();
+    ret.art_automatic = query.Value(0).toUrl();
+    ret.art_manual = query.Value(1).toUrl();
     ret.first_url = QUrl::fromEncoded(query.Value(2).toByteArray());
   }
 
@@ -1024,13 +1024,13 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
 
 }
 
-void CollectionBackend::UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QString &art) {
+void CollectionBackend::UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) {
 
-  metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, artist), Q_ARG(QString, albumartist), Q_ARG(QString, album), Q_ARG(QString, art));
+  metaObject()->invokeMethod(this, "UpdateManualAlbumArt", Qt::QueuedConnection, Q_ARG(QString, artist), Q_ARG(QString, albumartist), Q_ARG(QString, album), Q_ARG(QUrl, cover_url));
 
 }
 
-void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QString &albumartist, const QString &album, const QString &art) {
+void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
@@ -1040,10 +1040,10 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   query.SetColumnSpec("ROWID, " + Song::kColumnSpec);
   query.AddWhere("album", album);
 
-  if (!albumartist.isNull() && !albumartist.isEmpty()) {
+  if (!albumartist.isEmpty()) {
     query.AddWhere("albumartist", albumartist);
   }
-  else if (!artist.isNull()) {
+  else if (!artist.isEmpty()) {
     query.AddWhere("artist", artist);
   }
 
@@ -1057,7 +1057,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   }
 
   // Update the songs
-  QString sql(QString("UPDATE %1 SET art_manual = :art WHERE album = :album AND unavailable = 0").arg(songs_table_));
+  QString sql(QString("UPDATE %1 SET art_manual = :cover WHERE album = :album AND unavailable = 0").arg(songs_table_));
 
   if (!albumartist.isNull() && !albumartist.isEmpty()) {
     sql += " AND albumartist = :albumartist";
@@ -1068,12 +1068,12 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
 
   QSqlQuery q(db);
   q.prepare(sql);
-  q.bindValue(":art", art);
+  q.bindValue(":cover", cover_url);
   q.bindValue(":album", album);
-  if (!albumartist.isNull() && !albumartist.isEmpty()) {
+  if (!albumartist.isEmpty()) {
     q.bindValue(":albumartist", albumartist);
   }
-  else if (!artist.isNull()) {
+  else if (!artist.isEmpty()) {
     q.bindValue(":artist", artist);
   }
 

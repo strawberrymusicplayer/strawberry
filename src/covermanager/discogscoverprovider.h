@@ -40,6 +40,7 @@ class Application;
 
 // This struct represents a single search-for-cover request. It identifies and describes the request.
 struct DiscogsCoverSearchContext {
+  DiscogsCoverSearchContext() : id(-1), r_count(0) {}
 
   // The unique request identifier
   int id;
@@ -55,6 +56,7 @@ Q_DECLARE_METATYPE(DiscogsCoverSearchContext)
 
 // This struct represents a single release request. It identifies and describes the request.
 struct DiscogsCoverReleaseContext {
+  DiscogsCoverReleaseContext() : id(-1) {}
 
   int id;			// The unique request identifier
   int s_id;			// The search request identifier
@@ -102,4 +104,3 @@ class DiscogsCoverProvider : public CoverProvider {
 };
 
 #endif  // DISCOGSCOVERPROVIDER_H
-

@@ -39,4 +39,3 @@ struct AlbumCoverLoaderOptions {
 };
 
 #endif  // ALBUMCOVERLOADEROPTIONS_H
-

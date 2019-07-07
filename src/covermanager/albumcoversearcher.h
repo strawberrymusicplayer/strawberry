@@ -87,8 +87,8 @@ protected:
 
 private slots:
   void Search();
-  void SearchFinished(quint64 id, const CoverSearchResults &results);
-  void ImageLoaded(quint64 id, const QImage &image);
+  void SearchFinished(const quint64 id, const CoverSearchResults &results);
+  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
 
   void CoverDoubleClicked(const QModelIndex &index);
 

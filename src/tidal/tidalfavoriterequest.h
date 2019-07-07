@@ -22,7 +22,10 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QList>
+#include <QString>
+#include <QStringList>
 
 #include "tidalbaserequest.h"
 #include "core/song.h"
@@ -69,6 +72,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
 
  private:
+  void Error(const QString &error, const QVariant &debug = QVariant());
   QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList songs);

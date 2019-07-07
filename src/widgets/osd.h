@@ -104,7 +104,7 @@ class OSD : public QObject {
 #if defined(HAVE_DBUS)
   void CallFinished(QDBusPendingCallWatcher *watcher);
 #endif
-  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
 
  private:
   Application *app_;
@@ -128,7 +128,7 @@ class OSD : public QObject {
   OSDPretty *pretty_popup_;
 
   Song last_song_;
-  QString last_image_uri_;
+  QUrl last_image_uri_;
   QImage last_image_;
 
 #ifdef HAVE_DBUS

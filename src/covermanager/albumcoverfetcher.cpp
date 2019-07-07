@@ -114,15 +114,15 @@ void AlbumCoverFetcher::StartRequests() {
     AlbumCoverFetcherSearch *search = new AlbumCoverFetcherSearch(request, network_, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(quint64, CoverSearchResults)), SLOT(SingleSearchFinished(quint64, CoverSearchResults)));
-    connect(search, SIGNAL(AlbumCoverFetched(quint64, const QImage&)), SLOT(SingleCoverFetched(quint64, const QImage&)));
+    connect(search, SIGNAL(SearchFinished(const quint64, const CoverSearchResults)), SLOT(SingleSearchFinished(const quint64, const CoverSearchResults)));
+    connect(search, SIGNAL(AlbumCoverFetched(const quint64, const QUrl&, const QImage&)), SLOT(SingleCoverFetched(const quint64, const QUrl&, const QImage&)));
 
     search->Start(cover_providers_);
   }
 
 }
 
-void AlbumCoverFetcher::SingleSearchFinished(quint64 request_id, CoverSearchResults results) {
+void AlbumCoverFetcher::SingleSearchFinished(const quint64 request_id, const CoverSearchResults results) {
 
   AlbumCoverFetcherSearch *search = active_requests_.take(request_id);
   if (!search) return;
@@ -132,13 +132,13 @@ void AlbumCoverFetcher::SingleSearchFinished(quint64 request_id, CoverSearchResu
 
 }
 
-void AlbumCoverFetcher::SingleCoverFetched(quint64 request_id, const QImage &image) {
+void AlbumCoverFetcher::SingleCoverFetched(const quint64 request_id, const QUrl &cover_url, const QImage &image) {
 
   AlbumCoverFetcherSearch *search = active_requests_.take(request_id);
   if (!search) return;
 
   search->deleteLater();
-  emit AlbumCoverFetched(request_id, image, search->statistics());
+  emit AlbumCoverFetched(request_id, cover_url, image, search->statistics());
 
 }
 

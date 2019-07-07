@@ -68,7 +68,7 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
 
 void AlbumCoverFetcherSearch::TerminateSearch() {
 
-  for (int id : pending_requests_.keys()) {
+  for (quint64 id : pending_requests_.keys()) {
     pending_requests_.take(id)->CancelSearch(id);
   }
 
@@ -86,7 +86,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 	continue;
     }
 
-    connect(provider, SIGNAL(SearchFinished(int, QList<CoverSearchResult>)), SLOT(ProviderSearchFinished(int, QList<CoverSearchResult>)));
+    connect(provider, SIGNAL(SearchFinished(int, CoverSearchResults)), SLOT(ProviderSearchFinished(int, CoverSearchResults)));
     const int id = cover_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, id);
 
@@ -107,7 +107,7 @@ static bool CompareProviders(const CoverSearchResult &a, const CoverSearchResult
   return a.provider < b.provider;
 }
 
-void AlbumCoverFetcherSearch::ProviderSearchFinished(int id, const QList<CoverSearchResult> &results) {
+void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
   CoverProvider *provider = pending_requests_.take(id);
@@ -155,7 +155,7 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   // No results?
   if (results_.isEmpty()) {
     statistics_.missing_images_++;
-    emit AlbumCoverFetched(request_.id, QImage());
+    emit AlbumCoverFetched(request_.id, QUrl(), QImage());
     return;
   }
 
@@ -265,10 +265,12 @@ float AlbumCoverFetcherSearch::ScoreImage(const QImage &image) const {
 
 void AlbumCoverFetcherSearch::SendBestImage() {
 
+  QUrl cover_url;
   QImage image;
 
   if (!candidate_images_.isEmpty()) {
     const CandidateImage best_image = candidate_images_.values().back();
+    cover_url = best_image.first.image_url;
     image = best_image.second;
 
     qLog(Info) << "Using " << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score;
@@ -282,7 +284,7 @@ void AlbumCoverFetcherSearch::SendBestImage() {
     statistics_.missing_images_++;
   }
 
-  emit AlbumCoverFetched(request_.id, image);
+  emit AlbumCoverFetched(request_.id, cover_url, image);
 
 }
 

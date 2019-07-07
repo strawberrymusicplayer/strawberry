@@ -49,11 +49,11 @@ class StandardItemIconLoader : public QObject {
 
   void SetModel(QAbstractItemModel *model);
 
-  void LoadIcon(const QString &art_automatic, const QString &art_manual, QStandardItem *for_item);
+  void LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item);
   void LoadIcon(const Song &song, QStandardItem *for_item);
 
 private slots:
-  void ImageLoaded(quint64 id, const QImage &image);
+  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
   void RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end);
   void ModelReset();
 

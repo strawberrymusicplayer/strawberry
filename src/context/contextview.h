@@ -131,9 +131,9 @@ class ContextView : public QWidget {
   void ActionShowAlbums();
   void ActionShowLyrics();
   void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
-  void SearchCoverAutomatically();
+  void SearchCoverInProgress();
   void AutomaticCoverSearchDone();
-  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
   void FadePreviousTrack(qreal value);
 
 };

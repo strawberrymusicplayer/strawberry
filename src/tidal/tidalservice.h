@@ -30,6 +30,7 @@
 #include <QPair>
 #include <QList>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QTimer>
@@ -61,13 +62,14 @@ class TidalService : public InternetService {
   static const Song::Source kSource;
 
   void ReloadSettings();
-  QString CoverCacheDir();  
 
   void Logout();
   int Search(const QString &query, InternetSearch::SearchType type);
   void CancelSearch();
 
   const int max_login_attempts() { return kLoginAttempts; }
+
+  Application *app() { return app_; }
 
   const bool oauth() { return oauth_; }
   QString client_id() { return client_id_; }
@@ -132,6 +134,7 @@ class TidalService : public InternetService {
  private slots:
   void StartAuthorisation();
   void AuthorisationUrlReceived(const QUrl &url);
+  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void SendLogin();
   void HandleAuthReply(QNetworkReply *reply);
@@ -160,7 +163,7 @@ class TidalService : public InternetService {
   typedef QList<EncodedParam> EncodedParamList;
 
   void SendSearch();
-  QString LoginError(QString error, QVariant debug = QVariant());
+  void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kApiTokenB64;
   static const char *kOAuthUrl;
@@ -239,6 +242,8 @@ class TidalService : public InternetService {
   QString code_challenge_;
 
   QList<TidalStreamURLRequest*> stream_url_requests_;
+
+  QStringList login_errors_;
 
 };
 

@@ -43,20 +43,21 @@ class TidalCoverProvider : public CoverProvider {
 
  public:
   explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
-  bool StartSearch(const QString &artist, const QString &album, int id);
+  bool StartSearch(const QString &artist, const QString &album, const int id);
   void CancelSearch(int id);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, int id);
+  void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
   typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
+  typedef QPair<QByteArray, QByteArray> EncodedParam;
   static const char *kApiUrl;
   static const char *kResourcesUrl;
-  static const char *kApiTokenB64;
   static const int kLimit;
 
-  QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_supplied);
+  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_supplied);
   QByteArray GetReplyData(QNetworkReply *reply, QString &error);
   QJsonObject ExtractJsonObj(QByteArray &data, QString &error);
   QJsonValue ExtractItems(QByteArray &data, QString &error);

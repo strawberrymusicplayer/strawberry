@@ -52,7 +52,7 @@ class CollectionBackendInterface : public QObject {
 
   struct Album {
     Album() {}
-    Album(const QString &_artist, const QString &_album_artist, const QString &_album_name, const QString &_art_automatic, const QString &_art_manual, const QUrl &_first_url) :
+    Album(const QString &_artist, const QString &_album_artist, const QString &_album_name, const QUrl &_art_automatic, const QUrl &_art_manual, const QUrl &_first_url) :
       artist(_artist),
       album_artist(_album_artist),
       album_name(_album_name),
@@ -68,8 +68,8 @@ class CollectionBackendInterface : public QObject {
     QString album_artist;
     QString album_name;
 
-    QString art_automatic;
-    QString art_manual;
+    QUrl art_automatic;
+    QUrl art_manual;
     QUrl first_url;
   };
   typedef QList<Album> AlbumList;
@@ -99,7 +99,7 @@ class CollectionBackendInterface : public QObject {
   virtual AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) = 0;
   virtual AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) = 0;
 
-  virtual void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QString &art) = 0;
+  virtual void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) = 0;
   virtual Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) = 0;
 
   virtual Song GetSongById(int id) = 0;
@@ -155,7 +155,7 @@ class CollectionBackend : public CollectionBackendInterface {
   AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions());
   AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions());
 
-  void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QString &art);
+  void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url);
   Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album);
 
   Song GetSongById(int id);
@@ -193,7 +193,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void MarkSongsUnavailable(const SongList &songs, bool unavailable = true);
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
   void UpdateCompilations();
-  void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QString &art);
+  void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QUrl &cover_url);
   void ForceCompilation(const QString &album, const QList<QString> &artists, bool on);
   void IncrementPlayCount(int id);
   void IncrementSkipCount(int id, float progress);

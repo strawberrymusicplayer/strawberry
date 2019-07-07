@@ -624,7 +624,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
   bundle.length = 0;
   bundle.year = 0;
-  bundle.tracknr = 0;
+  bundle.track = 0;
   bundle.filetype = Song::FileType_Unknown;
   bundle.samplerate = 0;
   bundle.bitdepth = 0;

@@ -114,7 +114,7 @@ class EditTagDialog : public QDialog {
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
 #endif
 
-  void ArtLoaded(quint64 id, const QImage &scaled, const QImage &original);
+  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
 
   void LoadCoverFromFile();
   void SaveCoverToFile();
@@ -139,7 +139,7 @@ class EditTagDialog : public QDialog {
   };
 
   Song *GetFirstSelected();
-  void UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QString &cover);
+  void UpdateCoverOf(const Song &selected, const QModelIndexList &sel, const QUrl &cover_url);
 
   bool DoesValueVary(const QModelIndexList &sel, const QString &id) const;
   bool IsValueModified(const QModelIndexList &sel, const QString &id) const;

@@ -57,14 +57,14 @@ TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) :
 
 }
 
-bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
+bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album, const int id) {
 
   if (!service_ || !service_->authenticated()) return false;
 
-  QList<Param> parameters;
-  parameters << Param("query", QString(artist + " " + album));
-  parameters << Param("limit", QString::number(kLimit));
-  QNetworkReply *reply = CreateRequest("search/albums", parameters);
+  ParamList params = ParamList() << Param("query", QString(artist + " " + album))
+                                 << Param("limit", QString::number(kLimit));
+
+  QNetworkReply *reply = CreateRequest("search/albums", params);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, int)), reply, id);
 
   return true;
@@ -73,20 +73,13 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
 
 void TidalCoverProvider::CancelSearch(int id) {}
 
-QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, const QList<Param> &params_supplied) {
+QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, const ParamList &params_supplied) {
 
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
-  ParamList parameters = ParamList()
-                           << params_supplied
-                           << Param("sessionId", service_->session_id())
-                           << Param("countryCode", service_->country_code());
+  const ParamList params = ParamList() << params_supplied
+                                       << Param("countryCode", service_->country_code());
 
   QUrlQuery url_query;
-  for (const Param& param : parameters) {
+  for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
     url_query.addQueryItem(encoded_param.first, encoded_param.second);
   }
@@ -95,7 +88,8 @@ QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, 
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
+  if (!service_->access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + service_->access_token().toUtf8());
+  if (!service_->session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
   QNetworkReply *reply = network_->get(req);
 
   return reply;
@@ -106,38 +100,42 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply, QString &error
 
   QByteArray data;
 
-  if (reply->error() == QNetworkReply::NoError) {
+  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
     data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
-      // See if there is Json data containing "userMessage" - then use that instead.
+      // See if there is Json data containing "status" and "userMessage" - then use that instead.
       data = reply->readAll();
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       int status = 0;
       int sub_status = 0;
-      QString failure_reason;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           status = json_obj["status"].toInt();
           sub_status = json_obj["subStatus"].toInt();
           QString user_message = json_obj["userMessage"].toString();
-          failure_reason = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+          error = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (error.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         service_->Logout();
       }
-      error = Error(failure_reason);
+      error = Error(error);
     }
     return QByteArray();
   }
@@ -195,7 +193,7 @@ QJsonValue TidalCoverProvider::ExtractItems(QJsonObject &json_obj, QString &erro
 
 }
 
-void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, int id) {
+void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   reply->deleteLater();
 

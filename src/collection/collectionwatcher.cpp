@@ -382,8 +382,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
       bool changed = (matching_song.mtime() != qMax(file_info.lastModified().toTime_t(), song_cue_mtime)) || cue_deleted || cue_added;
 
       // Also want to look to see whether the album art has changed
-      QString image = ImageForSong(file, album_art);
-      if ((matching_song.art_automatic().isEmpty() && !image.isEmpty()) || (!matching_song.art_automatic().isEmpty() && !matching_song.has_embedded_cover() && !QFile::exists(matching_song.art_automatic()))) {
+      QUrl image = ImageForSong(file, album_art);
+      if ((matching_song.art_automatic().isEmpty() && !image.isEmpty()) || (!matching_song.art_automatic().isEmpty() && !matching_song.has_embedded_cover() && !QFile::exists(matching_song.art_automatic().toLocalFile()))) {
         changed = true;
       }
 
@@ -415,7 +415,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
       qLog(Debug) << file << "created";
       // choose an image for the song(s)
-      QString image = ImageForSong(file, album_art);
+      QUrl image = ImageForSong(file, album_art);
 
       for (Song song : song_list) {
         song.set_directory_id(t->dir());
@@ -457,7 +457,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
 
 }
 
-void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &matching_cue, const QString &image, ScanTransaction *t) {
+void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &matching_cue, const QUrl &image, ScanTransaction *t) {
 
   QFile cue(matching_cue);
   cue.open(QIODevice::ReadOnly);
@@ -497,7 +497,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file, const QStr
 
 }
 
-void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QString &image, bool cue_deleted, ScanTransaction *t) {
+void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file, const Song &matching_song, const QUrl &image, bool cue_deleted, ScanTransaction *t) {
 
   // If a cue got deleted, we turn it's first section into the new 'raw' (cueless) song and we just remove the rest of the sections from the collection
   if (cue_deleted) {
@@ -562,7 +562,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
 
 }
 
-void CollectionWatcher::PreserveUserSetData(const QString &file, const QString &image, const Song &matching_song, Song *out, ScanTransaction *t) {
+void CollectionWatcher::PreserveUserSetData(const QString &file, const QUrl &image, const Song &matching_song, Song *out, ScanTransaction *t) {
 
   out->set_id(matching_song.id());
 
@@ -731,20 +731,27 @@ QString CollectionWatcher::PickBestImage(const QStringList &images) {
 
 }
 
-QString CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringList> &album_art) {
+QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringList> &album_art) {
 
   QString dir(DirectoryPart(path));
 
   if (album_art.contains(dir)) {
-    if (album_art[dir].count() == 1)
-      return album_art[dir][0];
+    if (album_art[dir].count() == 1) {
+      QUrl url;
+      url.setScheme("file");
+      url.setPath(album_art[dir][0]);
+      return url;
+    }
     else {
       QString best_image = PickBestImage(album_art[dir]);
       album_art[dir] = QStringList() << best_image;
-      return best_image;
+      QUrl url;
+      url.setScheme("file");
+      url.setPath(best_image);
+      return url;
     }
   }
-  return QString();
+  return QUrl();
 
 }
 

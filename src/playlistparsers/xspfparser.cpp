@@ -168,32 +168,18 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
         writer.writeTextElement("trackNum", QString::number(song.track()));
       }
 
-      QString art = song.art_manual().isEmpty() ? song.art_automatic() : song.art_manual();
+      QUrl cover_url = song.art_manual().isEmpty() || song.art_manual().path().isEmpty() ? song.art_automatic() : song.art_manual();
       // Ignore images that are in our resource bundle.
-      if (!art.startsWith(":") && !art.isEmpty()) {
-        QString art_filename;
-        if (!art.contains("://")) {
-          art_filename = art;
+      if (!cover_url.isEmpty() && !cover_url.path().isEmpty() && cover_url.path() != Song::kManuallyUnsetCover && cover_url.path() != Song::kEmbeddedCover) {
+        if (cover_url.scheme().isEmpty()) {
+          cover_url.setScheme("file");
         }
-        else if (QUrl(art).scheme() == "file") {
-          art_filename = QUrl(art).toLocalFile();
-        }
-
-        if (!art_filename.isEmpty() && !(art_filename == "(embedded)")) {
-          // Make this filename relative to the directory we're saving the playlist.
-          QUrl url = QUrl(art_filename);
-          url.setScheme("file");  // Need to explicitly set this.
-          art_filename = URLOrFilename(url, dir, path_type).toUtf8();
-        }
-        else {
-          // Just use whatever URL was in the Song.
-          art_filename = art;
-        }
-
-        writer.writeTextElement("image", art_filename);
+        QString cover_filename = URLOrFilename(cover_url, dir, path_type).toUtf8();
+        writer.writeTextElement("image", cover_filename);
       }
     }
   }
+
   writer.writeEndDocument();
 
 }

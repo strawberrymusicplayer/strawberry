@@ -28,6 +28,7 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -39,7 +40,8 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
-const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
+//const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
+const char *TidalBaseRequest::kApiUrl = "https://192.168.1.112";
 
 TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
@@ -77,6 +79,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
   replies_ << reply;
 
   //qLog(Debug) << "Tidal: Sending request" << url;
@@ -85,7 +88,15 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
 
 }
 
-QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, const bool send_login) {
+void TidalBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
+
+  for (QSslError &ssl_error : ssl_errors) {
+    Error(ssl_error.errorString());
+  }
+
+}
+
+QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_login) {
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
@@ -94,54 +105,51 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, 
 
   QByteArray data;
 
-  if (reply->error() == QNetworkReply::NoError) {
-    int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (http_code == 200) {
-      data = reply->readAll();
-    }
-    else {
-      error = Error(QString("Received HTTP code %1").arg(http_code));
-    }
+  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+    data = reply->readAll();
   }
   else {
-    if (reply->error() < 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
-      // See if there is Json data containing "userMessage" - then use that instead.
+      // See if there is Json data containing "status" and "userMessage" - then use that instead.
       data = reply->readAll();
-      QJsonParseError parse_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
+      QString error;
+      QJsonParseError json_error;
+      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       int status = 0;
       int sub_status = 0;
-      QString failure_reason;
-      if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           status = json_obj["status"].toInt();
           sub_status = json_obj["subStatus"].toInt();
           QString user_message = json_obj["userMessage"].toString();
-          failure_reason = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+          error = QString("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (reply->error() != QNetworkReply::NoError) {
+        error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      }
+      else {
+        error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         emit service_->Logout();
         if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
-          qLog(Error) << "Tidal:" << failure_reason;
+          qLog(Error) << "Tidal:" << error;
           qLog(Info) << "Tidal:" << "Attempting to login.";
           NeedLogin();
           emit service_->Login();
         }
         else {
-          error = Error(failure_reason);
+          Error(error);
         }
       }
-      else { // Fail
-        error = Error(failure_reason);
+      else {
+        Error(error);
       }
     }
     return QByteArray();
@@ -151,29 +159,29 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, QString &error, 
 
 }
 
-QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data, QString &error) {
+QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data) {
 
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    error = Error("Reply from server missing Json data.", data);
+    Error("Reply from server missing Json data.", data);
     return QJsonObject();
   }
 
   if (json_doc.isNull() || json_doc.isEmpty()) {
-    error = Error("Received empty Json document.", data);
+    Error("Received empty Json document.", data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    error = Error("Json document is not an object.", json_doc);
+    Error("Json document is not an object.", json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    error = Error("Received empty Json object.", json_doc);
+     Error("Received empty Json object.", json_doc);
     return QJsonObject();
   }
 
@@ -181,18 +189,18 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data, QString &error) {
 
 }
 
-QJsonValue TidalBaseRequest::ExtractItems(QByteArray &data, QString &error) {
+QJsonValue TidalBaseRequest::ExtractItems(QByteArray &data) {
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonValue();
-  return ExtractItems(json_obj, error);
+  return ExtractItems(json_obj);
 
 }
 
-QJsonValue TidalBaseRequest::ExtractItems(QJsonObject &json_obj, QString &error) {
+QJsonValue TidalBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
-  if (!json_obj.contains("items")) {
-    error = Error("Json reply is missing items.", json_obj);
+  if (!json_obj.contains("items_")) {
+    Error("Json reply is missing items.", json_obj);
     return QJsonArray();
   }
   QJsonValue json_items = json_obj["items"];
@@ -200,11 +208,12 @@ QJsonValue TidalBaseRequest::ExtractItems(QJsonObject &json_obj, QString &error)
 
 }
 
-QString TidalBaseRequest::Error(QString error, QVariant debug) {
+QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
-  qLog(Error) << "Tidal:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
-
-  return error;
+  QString error_html;
+  for (const QString &error : errors) {
+    error_html += error + "<br />";
+  }
+  return error_html;
 
 }

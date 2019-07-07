@@ -30,7 +30,7 @@ InternetSearchItemDelegate::InternetSearchItemDelegate(InternetSearchView *view)
 void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
   // Tell the view we painted this item so it can lazy load some art.
-  const_cast<InternetSearchView*>(view_)->LazyLoadArt(index);
+  const_cast<InternetSearchView*>(view_)->LazyLoadAlbumCover(index);
 
   CollectionItemDelegate::paint(painter, option, index);
 

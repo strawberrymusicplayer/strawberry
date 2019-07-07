@@ -122,7 +122,7 @@
 #include "covermanager/albumcovermanager.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
-#include "covermanager/currentartloader.h"
+#include "covermanager/currentalbumcoverloader.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
@@ -251,8 +251,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   ui_->menu_help->menuAction()->setVisible(false);
 #endif
 
-  connect(app_->current_art_loader(), SIGNAL(ArtLoaded(Song, QString, QImage)), SLOT(AlbumArtLoaded(Song, QString, QImage)));
-  album_cover_choice_controller_->SetApplication(app);
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  album_cover_choice_controller_->Init(app);
   connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
   connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
   connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
@@ -263,7 +263,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
   context_view_->Init(app_, collection_view_->view(), album_cover_choice_controller_);
-  ui_->widget_playing->SetApplication(app_, album_cover_choice_controller_);
+  ui_->widget_playing->Init(app_, album_cover_choice_controller_);
 
   // Initialise the search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
@@ -521,10 +521,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->track_slider, SIGNAL(Previous()), app_->player(), SLOT(Previous()));
   connect(ui_->track_slider, SIGNAL(Next()), app_->player(), SLOT(Next()));
 
-  // Context connections
-
-  connect(context_view_->albums(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
-
   // Collection connections
   connect(collection_view_->view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(collection_view_->view(), SIGNAL(ShowConfigDialog()), SLOT(ShowCollectionConfig()));
@@ -576,8 +572,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(tidal_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
-  TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal));
-  if (tidalservice)
+  if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal)))
     connect(this, SIGNAL(AuthorisationUrlReceived(const QUrl&)), tidalservice, SLOT(AuthorisationUrlReceived(const QUrl&)));
 #endif
 
@@ -710,6 +705,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Playing()), context_view_, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Stopped()), context_view_, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), context_view_, SLOT(Error()));
+  connect(this, SIGNAL(AlbumCoverReady(Song, QUrl, QImage)), context_view_, SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(this, SIGNAL(SearchCoverInProgress()), context_view_, SLOT(SearchCoverInProgress()));
+  connect(context_view_->albums(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 
   // Analyzer
   connect(ui_->analyzer, SIGNAL(WheelEvent(int)), SLOT(VolumeWheelEvent(int)));
@@ -735,6 +733,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Stopped()), ui_->widget_playing, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), ui_->widget_playing, SLOT(Error()));
   connect(ui_->widget_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
+  connect(this, SIGNAL(AlbumCoverReady(Song, QUrl, QImage)), ui_->widget_playing, SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(this, SIGNAL(SearchCoverInProgress()), ui_->widget_playing, SLOT(SearchCoverInProgress()));
 
   connect(ui_->action_console, SIGNAL(triggered()), SLOT(ShowConsole()));
   PlayingWidgetPositionChanged(ui_->widget_playing->show_above_status_bar());
@@ -942,6 +942,7 @@ void MainWindow::ReloadAllSettings() {
   osd_->ReloadSettings();
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
+  app_->album_cover_loader()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
 #ifdef HAVE_TIDAL
@@ -960,6 +961,41 @@ void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
   setStyleSheet("");
   setStyleSheet(contents);
+}
+
+void MainWindow::SaveSettings() {
+
+  SaveGeometry();
+  SavePlaybackStatus();
+  ui_->tabs->SaveSettings(kSettingsGroup);
+  ui_->playlist->view()->SaveGeometry();
+  ui_->playlist->view()->SaveSettings();
+  app_->scrobbler()->WriteCache();
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  s.endGroup();
+
+}
+
+void MainWindow::Exit() {
+
+  SaveSettings();
+
+  if (app_->player()->engine()->is_fadeout_enabled()) {
+    // To shut down the application when fadeout will be finished
+    connect(app_->player()->engine(), SIGNAL(FadeoutFinishedSignal()), qApp, SLOT(quit()));
+    if (app_->player()->GetState() == Engine::Playing) {
+      app_->player()->Stop();
+      hide();
+      if (tray_icon_) tray_icon_->SetVisible(false);
+      return; // Don't quit the application now: wait for the fadeout finished signal
+    }
+  }
+
+  qApp->quit();
+
 }
 
 void MainWindow::EngineChanged(Engine::EngineType enginetype) {
@@ -2331,30 +2367,6 @@ bool MainWindow::winEvent(MSG *msg, long*) {
 }
 #endif  // Q_OS_WIN32
 
-void MainWindow::Exit() {
-
-  SaveGeometry();
-  SavePlaybackStatus();
-  ui_->tabs->SaveSettings(kSettingsGroup);
-  ui_->playlist->view()->SaveGeometry();
-  ui_->playlist->view()->SaveSettings();
-  app_->scrobbler()->WriteCache();
-
-  if (app_->player()->engine()->is_fadeout_enabled()) {
-    // To shut down the application when fadeout will be finished
-    connect(app_->player()->engine(), SIGNAL(FadeoutFinishedSignal()), qApp, SLOT(quit()));
-    if (app_->player()->GetState() == Engine::Playing) {
-      app_->player()->Stop();
-      hide();
-      if (tray_icon_) tray_icon_->SetVisible(false);
-      return; // Don't quit the application now: wait for the fadeout finished signal
-    }
-  }
-
-  qApp->quit();
-
-}
-
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void MainWindow::AutoCompleteTags() {
 
@@ -2475,20 +2487,19 @@ void MainWindow::ShowCover() {
 
 void MainWindow::SearchCoverAutomatically() {
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
-  s.endGroup();
   GetCoverAutomatically();
 
 }
 
-void MainWindow::AlbumArtLoaded(const Song &song, const QString&, const QImage &image) {
+void MainWindow::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
   if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
 
   song_ = song;
   image_original_ = image;
+
+  emit AlbumCoverReady(song, cover_url, image);
+
   GetCoverAutomatically();
 
 }
@@ -2497,14 +2508,18 @@ void MainWindow::GetCoverAutomatically() {
 
   // Search for cover automatically?
   bool search =
+               (song_.source() == Song::Source_LocalFile || song_.source() == Song::Source_Collection || song_.source() == Song::Source_CDDA) &&
                album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
                !song_.has_manually_unset_cover() &&
-               song_.art_automatic().isEmpty() &&
-               song_.art_manual().isEmpty() &&
+               !song_.art_automatic_is_valid() &&
+               !song_.art_manual_is_valid() &&
                !song_.effective_albumartist().isEmpty() &&
                !song_.effective_album().isEmpty();
 
-  if (search) album_cover_choice_controller_->SearchCoverAutomatically(song_);
+  if (search) {
+    album_cover_choice_controller_->SearchCoverAutomatically(song_);
+    emit SearchCoverInProgress();
+  }
 
 }
 

@@ -163,7 +163,7 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
   }
 
   QString error;
-  QByteArray data = GetReplyData(reply, error, false);
+  QByteArray data = GetReplyData(reply, false);
 
   if (reply->error() != QNetworkReply::NoError) {
     return;
@@ -265,7 +265,7 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
   }
 
   QString error;
-  QByteArray data = GetReplyData(reply, error, false);
+  QByteArray data = GetReplyData(reply, false);
   if (reply->error() != QNetworkReply::NoError) {
     return;
   }
@@ -283,5 +283,12 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
       emit SongsRemoved(songs);
       break;
   }
+
+}
+
+void TidalFavoriteRequest::Error(const QString &error, const QVariant &debug) {
+
+  qLog(Error) << "Tidal:" << error;
+  if (debug.isValid()) qLog(Debug) << debug;
 
 }

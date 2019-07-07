@@ -173,7 +173,7 @@ void InternetSearchView::Init(Application *app, InternetSearch *engine, const QS
 
   connect(engine_, SIGNAL(AddResults(const int, InternetSearch::ResultList)), SLOT(AddResults(const int, const InternetSearch::ResultList)), Qt::QueuedConnection);
   connect(engine_, SIGNAL(SearchError(const int, const QString&)), SLOT(SearchError(const int, const QString&)), Qt::QueuedConnection);
-  connect(engine_, SIGNAL(ArtLoaded(const int, const QPixmap&)), SLOT(ArtLoaded(const int, const QPixmap&)), Qt::QueuedConnection);
+  connect(engine_, SIGNAL(AlbumCoverLoaded(const int, const QPixmap&)), SLOT(AlbumCoverLoaded(const int, const QPixmap&)), Qt::QueuedConnection);
 
   ReloadSettings();
 
@@ -294,7 +294,7 @@ void InternetSearchView::SwapModels() {
 
 }
 
-void InternetSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
+void InternetSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
 
   if (!proxy_index.isValid() || proxy_index.model() != front_proxy_) {
     return;
@@ -332,12 +332,12 @@ void InternetSearchView::LazyLoadArt(const QModelIndex &proxy_index) {
   const InternetSearch::Result result = item->data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
 
   // Load the art.
-  int id = engine_->LoadArtAsync(result);
+  int id = engine_->LoadAlbumCoverAsync(result);
   art_requests_[id] = source_index;
 
 }
 
-void InternetSearchView::ArtLoaded(const int id, const QPixmap &pixmap) {
+void InternetSearchView::AlbumCoverLoaded(const int id, const QPixmap &pixmap) {
 
   if (!art_requests_.contains(id)) return;
   QModelIndex index = art_requests_.take(id);
@@ -545,7 +545,7 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 
   // Clear requests: changing "group by" on the models will cause all the items to be removed/added again,
   // so all the QModelIndex here will become invalid. New requests will be created for those
-  // songs when they will be displayed again anyway (when InternetSearchItemDelegate::paint will call LazyLoadArt)
+  // songs when they will be displayed again anyway (when InternetSearchItemDelegate::paint will call LazyLoadAlbumCover)
   art_requests_.clear();
   // Update the models
   front_model_->SetGroupBy(g, true);

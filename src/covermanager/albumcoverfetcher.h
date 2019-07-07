@@ -36,7 +36,6 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QVector>
 #include <QNetworkAccessManager>
 
 class CoverProviders;
@@ -45,6 +44,8 @@ struct CoverSearchStatistics;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
+  CoverSearchRequest() : id(-1), search(false), fetchall(false) {}
+
   // An unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
 
@@ -61,6 +62,8 @@ struct CoverSearchRequest {
 
 // This structure represents a single result of some album's cover search request.
 struct CoverSearchResult {
+  CoverSearchResult() : score(0.0) {}
+
   // Used for grouping in the user interface.
   QString provider;
 
@@ -92,17 +95,17 @@ class AlbumCoverFetcher : public QObject {
   static const int kMaxConcurrentRequests;
 
   quint64 SearchForCovers(const QString &artist, const QString &album);
-  quint64 FetchAlbumCover(const QString &artist, const QString &album, bool fetchall);
+  quint64 FetchAlbumCover(const QString &artist, const QString &album, const bool fetchall);
 
   void Clear();
 
 signals:
-  void AlbumCoverFetched(quint64, const QImage &cover, const CoverSearchStatistics &statistics);
-  void SearchFinished(quint64, const CoverSearchResults &results, const CoverSearchStatistics &statistics);
+  void AlbumCoverFetched(const quint64 request_id, const QUrl &cover_url, const QImage &cover, const CoverSearchStatistics &statistics);
+  void SearchFinished(const quint64 request_id, const CoverSearchResults &results, const CoverSearchStatistics &statistics);
 
  private slots:
-  void SingleSearchFinished(quint64, CoverSearchResults results);
-  void SingleCoverFetched(quint64, const QImage &cover);
+  void SingleSearchFinished(const quint64, const CoverSearchResults results);
+  void SingleCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
   void StartRequests();
 
  private:

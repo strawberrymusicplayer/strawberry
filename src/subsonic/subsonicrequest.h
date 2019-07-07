@@ -27,19 +27,18 @@
 #include <QPair>
 #include <QList>
 #include <QHash>
-#include <QMap>
 #include <QMultiMap>
 #include <QQueue>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 
 #include "core/song.h"
 #include "subsonicbaserequest.h"
 
+class Application;
 class NetworkAccessManager;
 class SubsonicService;
 class SubsonicUrlHandler;
@@ -49,7 +48,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
  public:
 
-  SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, NetworkAccessManager *network, QObject *parent);
+  SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QObject *parent);
   ~SubsonicRequest();
 
   void ReloadSettings();
@@ -64,7 +63,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void UpdateProgress(const int max);
 
  private slots:
-
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
@@ -95,7 +93,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void SongsFinishCheck();
 
   void AddAlbumSongsRequest(const qint64 artist_id, const qint64 album_id, const QString &album_artist, const int offset = 0);
-  QString AlbumCoverFileName(const Song &song);
   void FlushAlbumSongsRequests();
 
   int ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested = 0, const qint64 album_id_requested = 0, const QString &album_artist = QString());
@@ -106,8 +103,8 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumCoverFinishCheck();
 
   void FinishCheck();
-  void Warn(QString error, QVariant debug = QVariant());
-  QString Error(QString error, QVariant debug = QVariant());
+  void Warn(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
   static const int kMaxConcurrentAlbumsRequests;
   static const int kMaxConcurrentArtistAlbumsRequests;
@@ -116,6 +113,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
+  Application *app_;
   NetworkAccessManager *network_;
 
   bool finished_;
@@ -138,7 +136,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   int album_covers_received_;
 
   SongList songs_;
-  QString errors_;
+  QStringList errors_;
   bool no_results_;
   QList<QNetworkReply*> album_cover_replies_;
 

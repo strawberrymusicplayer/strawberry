@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QDir>
 #include <QQueue>
 #include <QMutex>
 #include <QStandardPaths>
@@ -37,11 +39,15 @@
 #include <QPainter>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QSettings>
 
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
+#include "core/utilities.h"
+#include "settings/collectionsettingspage.h"
+#include "organise/organiseformat.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
 
@@ -49,13 +55,147 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
     : QObject(parent),
       stop_requested_(false),
       next_id_(1),
-      network_(new NetworkAccessManager(this)){}
+      network_(new NetworkAccessManager(this)),
+      cover_album_dir_(false),
+      cover_filename_(CollectionSettingsPage::SaveCover_Hash),
+      cover_overwrite_(false),
+      cover_lowercase_(true),
+      cover_replace_spaces_(true)
+      {
 
-QString AlbumCoverLoader::ImageCacheDir() {
-  return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
+  ReloadSettings();
+
 }
 
-void AlbumCoverLoader::CancelTask(quint64 id) {
+void AlbumCoverLoader::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  cover_album_dir_ = s.value("cover_album_dir", false).toBool();
+  cover_filename_ = CollectionSettingsPage::SaveCover(s.value("cover_filename", CollectionSettingsPage::SaveCover_Hash).toInt());
+  cover_pattern_ = s.value("cover_pattern", "%albumartist-%album").toString();
+  cover_overwrite_ = s.value("cover_overwrite", false).toBool();
+  cover_lowercase_ = s.value("cover_lowercase", false).toBool();
+  cover_replace_spaces_ = s.value("cover_replace_spaces", false).toBool();
+  s.endGroup();
+
+}
+
+QString AlbumCoverLoader::ImageCacheDir(const Song::Source source) {
+
+  switch (source) {
+    case Song::Source_LocalFile:
+    case Song::Source_Collection:
+    case Song::Source_CDDA:
+    case Song::Source_Device:
+    case Song::Source_Stream:
+    case Song::Source_Unknown:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
+    case Song::Source_Tidal:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
+    case Song::Source_Qobuz:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
+    case Song::Source_Subsonic:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/subsonicalbumcovers";
+  }
+
+  return QString();
+
+}
+
+QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url) {
+
+  album.remove(Song::kAlbumRemoveDisc);
+
+  QString path;
+  if (source == Song::Source_Collection && cover_album_dir_ && !album_dir.isEmpty()) {
+    path = album_dir;
+  }
+  else {
+    path = AlbumCoverLoader::ImageCacheDir(source);
+  }
+
+  if (path.right(1) == QDir::separator()) {
+    path.chop(1);
+  }
+
+  QDir dir;
+  if (!dir.mkpath(path)) {
+    qLog(Error) << "Unable to create directory" << path;
+    return QString();
+  }
+
+  QString filename;
+  if (source == Song::Source_Collection && cover_album_dir_ && cover_filename_ == CollectionSettingsPage::SaveCover_Pattern && !cover_pattern_.isEmpty()) {
+    filename = CreateCoverFilename(artist, album) + ".jpg";
+    filename.remove(OrganiseFormat::kValidFatCharacters);
+    if (cover_lowercase_) filename = filename.toLower();
+    if (cover_replace_spaces_) filename.replace(QRegExp("\\s"), "-");
+  }
+  else {
+    switch (source) {
+      case Song::Source_Collection:
+      case Song::Source_LocalFile:
+      case Song::Source_CDDA:
+      case Song::Source_Device:
+      case Song::Source_Stream:
+      case Song::Source_Unknown:
+        filename = Utilities::Sha1CoverHash(artist, album).toHex() + ".jpg";
+        break;
+      case Song::Source_Tidal:
+        filename = album_id + "-" + cover_url.fileName();
+        break;
+      case Song::Source_Qobuz:
+      case Song::Source_Subsonic:
+        filename = AlbumCoverFileName(artist, album);
+        break;
+    }
+  }
+
+  if (filename.isEmpty()) return QString();
+
+  QString filepath(path + "/" + filename);
+
+  return filepath;
+
+}
+
+QString AlbumCoverLoader::AlbumCoverFileName(QString artist, QString album) {
+
+  artist.remove('/');
+  album.remove('/');
+
+  QString filename = artist + "-" + album + ".jpg";
+  filename = filename.toLower();
+  filename.replace(' ', '-');
+  filename.replace("--", "-");
+  filename.replace(230, "ae");
+  filename.replace(198, "AE");
+  filename.replace(246, 'o');
+  filename.replace(248, 'o');
+  filename.replace(214, 'O');
+  filename.replace(216, 'O');
+  filename.replace(228, 'a');
+  filename.replace(229, 'a');
+  filename.replace(196, 'A');
+  filename.replace(197, 'A');
+  filename.remove(OrganiseFormat::kValidFatCharacters);
+
+  return filename;
+
+}
+
+QString AlbumCoverLoader::CreateCoverFilename(const QString &artist, const QString &album) {
+
+  QString filename(cover_pattern_);
+  filename.replace("%albumartist", artist);
+  filename.replace("%artist", artist);
+  filename.replace("%album", album);
+  return filename;
+
+}
+
+void AlbumCoverLoader::CancelTask(const quint64 id) {
 
   QMutexLocker l(&mutex_);
   for (QQueue<Task>::iterator it = tasks_.begin(); it != tasks_.end(); ++it) {
@@ -83,7 +223,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions& options,
   return LoadImageAsync(options, song.art_automatic(), song.art_manual(), song.url().toLocalFile(), song.image());
 }
 
-quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QString &art_automatic, const QString &art_manual, const QString &song_filename, const QImage &embedded_image) {
+quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QString &song_filename, const QImage &embedded_image) {
 
   Task task;
   task.options = options;
@@ -102,6 +242,7 @@ quint64 AlbumCoverLoader::LoadImageAsync(const AlbumCoverLoaderOptions &options,
   metaObject()->invokeMethod(this, "ProcessTasks", Qt::QueuedConnection);
 
   return task.id;
+
 }
 
 void AlbumCoverLoader::ProcessTasks() {
@@ -129,12 +270,13 @@ void AlbumCoverLoader::ProcessTask(Task *task) {
 
   if (result.loaded_success) {
     QImage scaled = ScaleAndPad(task->options, result.image);
-    emit ImageLoaded(task->id, scaled);
-    emit ImageLoaded(task->id, scaled, result.image);
+    emit ImageLoaded(task->id, result.cover_url, scaled);
+    emit ImageLoaded(task->id, result.cover_url, scaled, result.image);
     return;
   }
 
   NextState(task);
+
 }
 
 void AlbumCoverLoader::NextState(Task *task) {
@@ -146,8 +288,8 @@ void AlbumCoverLoader::NextState(Task *task) {
   }
   else {
     // Give up
-    emit ImageLoaded(task->id, task->options.default_output_image_);
-    emit ImageLoaded(task->id, task->options.default_output_image_, task->options.default_output_image_);
+    emit ImageLoaded(task->id, QUrl(), task->options.default_output_image_);
+    emit ImageLoaded(task->id, QUrl(), task->options.default_output_image_, task->options.default_output_image_);
   }
 
 }
@@ -156,47 +298,56 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
 
   // An image embedded in the song itself takes priority
   if (!task.embedded_image.isNull())
-    return TryLoadResult(false, true, ScaleAndPad(task.options, task.embedded_image));
+    return TryLoadResult(false, true, QUrl(), ScaleAndPad(task.options, task.embedded_image));
 
-  QString filename;
+  QUrl cover_url;
+
   switch (task.state) {
-    case State_TryingAuto:   filename = task.art_automatic; break;
-    case State_TryingManual: filename = task.art_manual;    break;
+    case State_TryingAuto:   cover_url = task.art_automatic; break;
+    case State_TryingManual: cover_url = task.art_manual;    break;
   }
 
-  if (filename == Song::kManuallyUnsetCover)
-    return TryLoadResult(false, true, task.options.default_output_image_);
+  if (cover_url.path() == Song::kManuallyUnsetCover)
+    return TryLoadResult(false, true, QUrl(), task.options.default_output_image_);
 
-  if (filename == Song::kEmbeddedCover && !task.song_filename.isEmpty()) {
+  else if (cover_url.path() == Song::kEmbeddedCover && !task.song_filename.isEmpty()) {
     const QImage taglib_image = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task.song_filename);
 
     if (!taglib_image.isNull())
-      return TryLoadResult(false, true, ScaleAndPad(task.options, taglib_image));
+      return TryLoadResult(false, true, QUrl(), ScaleAndPad(task.options, taglib_image));
   }
 
-  if (filename.toLower().startsWith("http://") || filename.toLower().startsWith("https://")) {
-
-    QUrl url(filename);
-    QNetworkReply *reply = network_->get(QNetworkRequest(url));
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), reply);
-
-    remote_tasks_.insert(reply, task);
-    return TryLoadResult(true, false, QImage());
+  if (cover_url.path().isEmpty()) {
+    return TryLoadResult(false, false, cover_url, task.options.default_output_image_);
   }
-  else if (filename.isEmpty()) {
-    // Avoid "QFSFileEngine::open: No file name specified" messages if we know that the filename is empty
-    return TryLoadResult(false, false, task.options.default_output_image_);
+  else {
+    if (cover_url.scheme() == "file") {
+      QImage image(cover_url.toLocalFile());
+      return TryLoadResult(false, !image.isNull(), cover_url, image.isNull() ? task.options.default_output_image_ : image);
+    }
+    else if (cover_url.scheme().isEmpty()) {  // Assume a local file with no scheme.
+      QImage image(cover_url.path());
+      return TryLoadResult(false, !image.isNull(), cover_url, image.isNull() ? task.options.default_output_image_ : image);
+    }
+    else if (!cover_url.scheme().isEmpty()) {  // Assume remote URL
+
+      QNetworkReply *reply = network_->get(QNetworkRequest(cover_url));
+      NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, const QUrl&)), reply, cover_url);
+
+      remote_tasks_.insert(reply, task);
+      return TryLoadResult(true, false, cover_url, QImage());
+    }
   }
 
-  QImage image(filename);
-  return TryLoadResult(false, !image.isNull(), image.isNull() ? task.options.default_output_image_ : image);
+  return TryLoadResult(false, false, cover_url, task.options.default_output_image_);
 
 }
 
-void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
+void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url) {
 
   reply->deleteLater();
 
+  if (!remote_tasks_.contains(reply)) return;
   Task task = remote_tasks_.take(reply);
 
   // Handle redirects.
@@ -208,7 +359,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
     QNetworkRequest request = reply->request();
     request.setUrl(redirect.toUrl());
     QNetworkReply *redirected_reply = network_->get(request);
-    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*)), redirected_reply);
+    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, const QUrl&)), redirected_reply, redirect.toUrl());
 
     remote_tasks_.insert(redirected_reply, task);
     return;
@@ -219,8 +370,8 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply) {
     QImage image;
     if (image.load(reply, 0)) {
       QImage scaled = ScaleAndPad(task.options, image);
-      emit ImageLoaded(task.id, scaled);
-      emit ImageLoaded(task.id, scaled, image);
+      emit ImageLoaded(task.id, cover_url, scaled);
+      emit ImageLoaded(task.id, cover_url, scaled, image);
       return;
     }
   }
@@ -256,16 +407,30 @@ QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, con
 
 }
 
-QPixmap AlbumCoverLoader::TryLoadPixmap(const QString &automatic, const QString &manual, const QString &filename) {
+QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QString &filename) {
 
   QPixmap ret;
-  if (manual == Song::kManuallyUnsetCover) return ret;
-  if (!manual.isEmpty()) ret.load(manual);
+  if (manual.path() == Song::kManuallyUnsetCover) return ret;
+  if (!manual.path().isEmpty()) {
+    if (manual.scheme().isEmpty()) {
+      ret.load(manual.path());
+    }
+    else if (manual.scheme() == "file") {
+      ret.load(manual.toLocalFile());
+    }
+  }
   if (ret.isNull()) {
-    if (automatic == Song::kEmbeddedCover && !filename.isNull())
+    if (automatic.path() == Song::kEmbeddedCover && !filename.isEmpty()) {
       ret = QPixmap::fromImage(TagReaderClient::Instance()->LoadEmbeddedArtBlocking(filename));
-    else if (!automatic.isEmpty())
-      ret.load(automatic);
+    }
+    else if (!automatic.path().isEmpty()) {
+      if (automatic.scheme().isEmpty()) {
+        ret.load(automatic.path());
+      }
+      else if (manual.scheme() == "file") {
+        ret.load(automatic.toLocalFile());
+      }
+    }
   }
   return ret;
 

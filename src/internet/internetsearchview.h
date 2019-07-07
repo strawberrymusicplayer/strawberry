@@ -63,7 +63,7 @@ class InternetSearchView : public QWidget {
 
   static const int kSwapModelsTimeoutMsec;
 
-  void LazyLoadArt(const QModelIndex &index);
+  void LazyLoadAlbumCover(const QModelIndex &index);
 
   void showEvent(QShowEvent *e);
   void hideEvent(QHideEvent *e);
@@ -89,7 +89,7 @@ class InternetSearchView : public QWidget {
   void UpdateProgress(const int id, const int max);
   void AddResults(const int id, const InternetSearch::ResultList &results);
   void SearchError(const int id, const QString &error);
-  void ArtLoaded(const int id, const QPixmap &pixmap);
+  void AlbumCoverLoaded(const int id, const QPixmap &pixmap);
 
   void FocusOnFilter(QKeyEvent *event);
 

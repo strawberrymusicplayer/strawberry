@@ -126,7 +126,7 @@ class PlaylistView : public QTreeView {
   void SetColumnAlignment(int section, Qt::Alignment alignment);
 
   void CopyCurrentSongToClipboard() const;
-  void CurrentSongChanged(const Song &new_song, const QString &uri, const QImage &cover_art);
+  void CurrentSongChanged(const Song &new_song, const QUrl &cover_url, const QImage &song_art);
   void PlayerStopped();
 
  signals:

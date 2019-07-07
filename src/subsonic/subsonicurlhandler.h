@@ -54,6 +54,8 @@ class SubsonicUrlHandler : public UrlHandler {
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<EncodedParam> EncodedParamList;
 
+  void Error(const QString &error, const QVariant &debug) {}
+
   SubsonicService *service_;
 
 };

@@ -29,6 +29,7 @@
 #include <QMenu>
 #include <QIcon>
 #include <QString>
+#include <QUrl>
 #include <QtEvents>
 #include <QSettings>
 
@@ -235,14 +236,14 @@ void QtSystemTrayIcon::SetVisible(bool visible) {
   tray_->setVisible(visible);
 }
 
-void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path) {
+void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QUrl &cover_url) {
 
 #ifdef Q_OS_WIN
   // Windows doesn't support HTML in tooltips, so just show something basic
   tray_->setToolTip(song.PrettyTitleWithArtist());
 #else
 
-  int columns = image_path == nullptr ? 1 : 2;
+  int columns = cover_url.isEmpty() ? 1 : 2;
 
   QString tooltip(pattern_);
 
@@ -260,7 +261,7 @@ void QtSystemTrayIcon::SetNowPlaying(const Song &song, const QString &image_path
   tooltip.replace("%lengthValue", song.PrettyLength().toHtmlEscaped());
 
   if (columns == 2) {
-    QString final_path = image_path.startsWith("file://") ? image_path.mid(7) : image_path;
+    QString final_path = cover_url.isLocalFile() ? cover_url.path() : cover_url.toString();
     if (de_ == "kde") {
       tooltip.replace("%image", "<img src=\"" % final_path % "\" />");
     }

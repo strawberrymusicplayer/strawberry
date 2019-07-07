@@ -23,7 +23,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QByteArray>
 #include <QPair>
 #include <QList>
@@ -32,6 +31,7 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -118,10 +118,6 @@ void SubsonicService::ReloadSettings() {
 
 }
 
-QString SubsonicService::CoverCacheDir() {
-  return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/subsonicalbumcovers";
-}
-
 void SubsonicService::SendPing() {
   SendPing(server_url_, username_, password_);
 }
@@ -158,10 +154,20 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
 
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
+  errors_.clear();
   QNetworkReply *reply = network_->get(req);
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandlePingSSLErrors(QList<QSslError>)));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandlePingReply(QNetworkReply*)), reply);
 
   //qLog(Debug) << "Subsonic: Sending request" << url << query;
+
+}
+
+void SubsonicService::HandlePingSSLErrors(QList<QSslError> ssl_errors) {
+
+  for (QSslError &ssl_error : ssl_errors) {
+    errors_ += ssl_error.errorString();
+  }
 
 }
 
@@ -169,8 +175,8 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
 
   reply->deleteLater();
 
-  if (reply->error() != QNetworkReply::NoError) {
-    if (reply->error() < 200) {
+  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       PingError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
@@ -180,7 +186,6 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
       QByteArray data = reply->readAll();
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
-      QString failure_reason;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("error")) {
@@ -190,24 +195,25 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
             if (!json_obj.isEmpty() && json_obj.contains("code") && json_obj.contains("message")) {
               int code = json_obj["code"].toInt();
               QString message = json_obj["message"].toString();
-              failure_reason = QString("%1 (%2)").arg(message).arg(code);
+              errors_ << QString("%1 (%2)").arg(message).arg(code);
             }
           }
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (errors_.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
-      PingError(failure_reason);
+      PingError();
       return;
     }
   }
 
-  int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  if (http_code != 200) {
-    PingError(QString("Received HTTP code %1").arg(http_code));
-    return;
-  }
+  errors_.clear();
 
   QByteArray data(reply->readAll());
 
@@ -330,7 +336,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_, network_, this));
+  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_, network_, this));
   connect(songs_request_.get(), SIGNAL(Results(const SongList&, const QString&)), SLOT(SongsResultsReceived(const SongList&, const QString&)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(const QString&)), SIGNAL(SongsUpdateStatus(const QString&)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int)), SIGNAL(SongsProgressSetMaximum(const int)));
@@ -346,14 +352,20 @@ void SubsonicService::SongsResultsReceived(const SongList &songs, const QString 
 
 }
 
-QString SubsonicService::PingError(QString error, QVariant debug) {
+void SubsonicService::PingError(const QString &error, const QVariant &debug) {
 
-  qLog(Error) << "Subsonic:" << error;
+  if (!error.isEmpty()) errors_ << error;
+
+  QString error_html;
+  for (const QString &error : errors_) {
+    qLog(Error) << "Subsonic:" << error;
+    error_html += error + "<br />";
+  }
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit TestFailure(error);
-  emit TestComplete(false, error);
+  emit TestFailure(error_html);
+  emit TestComplete(false, error_html);
 
-  return error;
+  errors_.clear();
 
 }

@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef CURRENTARTLOADER_H
-#define CURRENTARTLOADER_H
+#ifndef CURRENTALBUMCOVERLOADER_H
+#define CURRENTALBUMCOVERLOADER_H
 
 #include "config.h"
 
@@ -36,25 +36,25 @@
 
 class Application;
 
-class CurrentArtLoader : public QObject {
+class CurrentAlbumCoverLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit CurrentArtLoader(Application *app, QObject *parent = nullptr);
-  ~CurrentArtLoader();
+  explicit CurrentAlbumCoverLoader(Application *app, QObject *parent = nullptr);
+  ~CurrentAlbumCoverLoader();
 
   const AlbumCoverLoaderOptions &options() const { return options_; }
   const Song &last_song() const { return last_song_; }
 
  public slots:
-  void LoadArt(const Song &song);
+  void LoadAlbumCover(const Song &song);
 
-signals:
-  void ArtLoaded(const Song &song, const QString &uri, const QImage &image);
-  void ThumbnailLoaded(const Song &song, const QString &uri, const QImage &image);
+ signals:
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+  void ThumbnailLoaded(const Song &song, const QUrl &thumbnail_uri, const QImage &image);
 
  private slots:
-  void TempArtLoaded(quint64 id, const QImage &image);
+  void TempAlbumCoverLoaded(const quint64 id, const QUrl &remote_url, const QImage &image);
 
  private:
   Application *app_;
@@ -62,11 +62,12 @@ signals:
 
   QString temp_file_pattern_;
 
-  std::unique_ptr<QTemporaryFile> temp_art_;
-  std::unique_ptr<QTemporaryFile> temp_art_thumbnail_;
+  std::unique_ptr<QTemporaryFile> temp_cover_;
+  std::unique_ptr<QTemporaryFile> temp_cover_thumbnail_;
   quint64 id_;
 
   Song last_song_;
+
 };
 
-#endif  // CURRENTARTLOADER_H
+#endif  // CURRENTALBUMCOVERLOADER_H

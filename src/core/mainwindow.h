@@ -127,6 +127,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool LoadUrl(const QString& url);
 
 signals:
+  void AlbumCoverReady(const Song &song, const QUrl &cover_url, const QImage &image);
+  void SearchCoverInProgress();
   // Signals that stop playing after track was toggled.
   void StopAfterToggled(bool stop);
 
@@ -253,7 +255,7 @@ signals:
   void UnsetCover();
   void ShowCover();
   void SearchCoverAutomatically();
-  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
 
   void ScrobblingEnabledChanged(bool value);
   void ScrobbleButtonVisibilityChanged(bool value);
@@ -261,6 +263,8 @@ signals:
   void Love();
 
  private:
+
+  void SaveSettings();
 
   void ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *data) const;
   void ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *data) const;

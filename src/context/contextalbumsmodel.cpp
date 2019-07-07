@@ -81,7 +81,7 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(AlbumArtLoaded(quint64, QImage)));
+  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(AlbumCoverLoaded(quint64, QUrl, QImage)));
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -165,14 +165,16 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &index) {
 
 }
 
-void ContextAlbumsModel::AlbumArtLoaded(quint64 id, const QImage &image) {
+void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
+
+  if (!pending_art_.contains(id)) return;
 
   ItemAndCacheKey item_and_cache_key = pending_art_.take(id);
-  CollectionItem *item = item_and_cache_key.first;
-  const QString &cache_key = item_and_cache_key.second;
 
+  CollectionItem *item = item_and_cache_key.first;
   if (!item) return;
 
+  const QString &cache_key = item_and_cache_key.second;
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
@@ -181,7 +183,6 @@ void ContextAlbumsModel::AlbumArtLoaded(quint64 id, const QImage &image) {
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
   else {
-    //qLog(Debug) << cache_key;
     QPixmap image_pixmap;
     image_pixmap = QPixmap::fromImage(image);
     QPixmapCache::insert(cache_key, image_pixmap);

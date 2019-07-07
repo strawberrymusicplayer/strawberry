@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +38,7 @@
 #include <QNetworkReply>
 
 #include "core/song.h"
+#include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 
 class Song;
@@ -48,26 +50,31 @@ class AlbumCoverLoader : public QObject {
  public:
   explicit AlbumCoverLoader(QObject *parent = nullptr);
 
+  void ReloadSettings();
+
   void Stop() { stop_requested_ = true; }
 
-  static QString ImageCacheDir();
+  static QString ImageCacheDir(const Song::Source source);
+  QString CreateCoverFilename(const QString &artist, const QString &album);
+  QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url);
+  QString AlbumCoverFileName(QString artist, QString album);
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
-  virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QString &art_automatic, const QString &art_manual, const QString &song_filename = QString(), const QImage &embedded_image = QImage());
+  virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QString &song_filename = QString(), const QImage &embedded_image = QImage());
 
-  void CancelTask(quint64 id);
+  void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
-  static QPixmap TryLoadPixmap(const QString &automatic, const QString &manual, const QString &filename = QString());
+  static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QString &filename = QString());
   static QImage ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
 
 signals:
-  void ImageLoaded(quint64 id, const QImage &image);
-  void ImageLoaded(quint64 id, const QImage &scaled, const QImage &original);
+  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
+  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
 
  protected slots:
   void ProcessTasks();
-  void RemoteFetchFinished(QNetworkReply *reply);
+  void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
 
  protected:
   enum State {
@@ -81,8 +88,8 @@ signals:
     AlbumCoverLoaderOptions options;
 
     quint64 id;
-    QString art_automatic;
-    QString art_manual;
+    QUrl art_automatic;
+    QUrl art_manual;
     QString song_filename;
     QImage embedded_image;
     State state;
@@ -90,10 +97,12 @@ signals:
   };
 
   struct TryLoadResult {
-    TryLoadResult(bool async, bool success, const QImage &i) : started_async(async), loaded_success(success), image(i) {}
+    TryLoadResult(bool async, bool success, const QUrl &_cover_url, const QImage &_image) : started_async(async), loaded_success(success), cover_url(_cover_url), image(_image) {}
 
     bool started_async;
     bool loaded_success;
+
+    QUrl cover_url;
     QImage image;
   };
 
@@ -111,6 +120,14 @@ signals:
   NetworkAccessManager *network_;
 
   static const int kMaxRedirects = 3;
+
+  bool cover_album_dir_;
+  CollectionSettingsPage::SaveCover cover_filename_;
+  QString cover_pattern_;
+  bool cover_overwrite_;
+  bool cover_lowercase_;
+  bool cover_replace_spaces_;
+
 };
 
 #endif  // ALBUMCOVERLOADER_H

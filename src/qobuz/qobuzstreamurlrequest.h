@@ -22,7 +22,9 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 #include "core/song.h"
@@ -57,12 +59,15 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   void StreamURLReceived();
 
  private:
+  void Error(const QString &error, const QVariant &debug = QVariant());
+
   QobuzService *service_;
   QNetworkReply *reply_;
   QUrl original_url_;
   int song_id_;
   int tries_;
   bool need_login_;
+  QStringList errors_;
 
 };
 

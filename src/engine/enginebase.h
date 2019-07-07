@@ -206,6 +206,7 @@ private:
 };
 
 struct SimpleMetaBundle {
+  SimpleMetaBundle() : length(-1), year(-1), track(-1), samplerate(-1), bitdepth(-1) {}
   QUrl url;
   QString title;
   QString artist;
@@ -214,7 +215,7 @@ struct SimpleMetaBundle {
   QString genre;
   qlonglong length;
   int year;
-  int tracknr;
+  int track;
   Song::FileType filetype;
   int samplerate;
   int bitdepth;

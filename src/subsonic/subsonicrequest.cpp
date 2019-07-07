@@ -28,18 +28,20 @@
 #include <QUrl>
 #include <QImage>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QSslConfiguration>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QMimeDatabase>
 
+#include "core/application.h"
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
-#include "organise/organiseformat.h"
+#include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
@@ -48,10 +50,11 @@ const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumSongsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumCoverRequests = 1;
 
-SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, NetworkAccessManager *network, QObject *parent)
+SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QObject *parent)
     : SubsonicBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),
+      app_(app),
       network_(network),
       finished_(false),
       albums_requests_active_(0),
@@ -141,8 +144,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   --albums_requests_active_;
 
-  QString error;
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -151,7 +153,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     AlbumsFinishCheck(offset_requested);
     return;
@@ -180,7 +182,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   }
 
   if (!json_obj.contains("albumList") && !json_obj.contains("albumList2")) {
-    error = Error("Json reply is missing albumList.", json_obj);
+    Error("Json reply is missing albumList.", json_obj);
     AlbumsFinishCheck(offset_requested);
     return;
   }
@@ -189,7 +191,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   else if (json_obj.contains("albumList2")) json_albumlist = json_obj["albumList2"];
 
   if (!json_albumlist.isObject()) {
-    error = Error("Json album list is not an object.", json_albumlist);
+    Error("Json album list is not an object.", json_albumlist);
     AlbumsFinishCheck(offset_requested);
   }
   json_obj = json_albumlist.toObject();
@@ -200,7 +202,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   }
 
   if (!json_obj.contains("album")) {
-    error = Error("Json album list does not contain album array.", json_obj);
+    Error("Json album list does not contain album array.", json_obj);
     AlbumsFinishCheck(offset_requested);
   }
   QJsonValue json_album = json_obj["album"];
@@ -210,7 +212,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     return;
   }
   if (!json_album.isArray()) {
-    error = Error("Json album is not an array.", json_album);
+    Error("Json album is not an array.", json_album);
     AlbumsFinishCheck(offset_requested);
   }
   QJsonArray json_albums = json_album.toArray();
@@ -329,8 +331,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64
 
   emit UpdateProgress(album_songs_received_);
 
-  QString error;
-  QByteArray data = GetReplyData(reply, error);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -339,7 +340,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data, error);
+  QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     SongsFinishCheck();
     return;
@@ -367,27 +368,27 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64
   }
 
   if (!json_obj.contains("album")) {
-    error = Error("Json reply is missing albumList.", json_obj);
+    Error("Json reply is missing albumList.", json_obj);
     SongsFinishCheck();
     return;
   }
   QJsonValue json_album = json_obj["album"];
 
   if (!json_album.isObject()) {
-    error = Error("Json album is not an object.", json_album);
+    Error("Json album is not an object.", json_album);
     SongsFinishCheck();
     return;
   }
   QJsonObject json_album_obj = json_album.toObject();
 
   if (!json_album_obj.contains("song")) {
-    error = Error("Json album object does not contain song array.", json_obj);
+    Error("Json album object does not contain song array.", json_obj);
     SongsFinishCheck();
     return;
   }
   QJsonValue json_song = json_album_obj["song"];
   if (!json_song.isArray()) {
-    error = Error("Json song is not an array.", json_album_obj);
+    Error("Json song is not an array.", json_album_obj);
     SongsFinishCheck();
     return;
   }
@@ -531,7 +532,7 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   if (year > 0) song.set_year(year);
   song.set_url(url);
   song.set_length_nanosec(duration);
-  if (cover_url.isValid()) song.set_art_automatic(cover_url.toEncoded());
+  if (cover_url.isValid()) song.set_art_automatic(cover_url);
   song.set_genre(genre);
   song.set_directory_id(0);
   song.set_filetype(filetype);
@@ -561,53 +562,24 @@ void SubsonicRequest::GetAlbumCovers() {
 
 void SubsonicRequest::AddAlbumCoverRequest(Song &song) {
 
-  QUrl url(song.art_automatic());
-  if (!url.isValid()) return;
+  QUrl cover_url(song.art_automatic());
+  if (!cover_url.isValid()) return;
 
   if (album_covers_requests_sent_.contains(song.album_id())) {
     album_covers_requests_sent_.insertMulti(song.album_id(), &song);
     return;
   }
 
+  AlbumCoverRequest request;
+  request.album_id = song.album_id();
+  request.url = cover_url;
+  request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), cover_url);
+  if (request.filename.isEmpty()) return;
+
   album_covers_requests_sent_.insertMulti(song.album_id(), &song);
   ++album_covers_requested_;
 
-  AlbumCoverRequest request;
-  request.album_id = song.album_id();
-  request.url = url;
-  request.filename = AlbumCoverFileName(song);
-
   album_cover_requests_queue_.enqueue(request);
-
-}
-
-QString SubsonicRequest::AlbumCoverFileName(const Song &song) {
-
-  QString artist = song.effective_albumartist();
-  QString album = song.effective_album();
-  QString title = song.title();
-
-  artist.remove('/');
-  album.remove('/');
-  title.remove('/');
-
-  QString filename = artist + "-" + album + ".jpg";
-  filename = filename.toLower();
-  filename.replace(' ', '-');
-  filename.replace("--", "-");
-  filename.replace(230, "ae");
-  filename.replace(198, "AE");
-  filename.replace(246, 'o');
-  filename.replace(248, 'o');
-  filename.replace(214, 'O');
-  filename.replace(216, 'O');
-  filename.replace(228, 'a');
-  filename.replace(229, 'a');
-  filename.replace(196, 'A');
-  filename.replace(197, 'A');
-  filename.remove(OrganiseFormat::kValidFatCharacters);
-
-  return filename;
 
 }
 
@@ -657,9 +629,8 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &al
     return;
   }
 
-  QString error;
   if (reply->error() != QNetworkReply::NoError) {
-    error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
@@ -667,7 +638,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &al
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    error = Error(QString("Received empty image data for %1").arg(url.toString()));
+    Error(QString("Received empty image data for %1").arg(url.toString()));
     album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
@@ -675,22 +646,19 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &al
 
   QImage image;
   if (image.loadFromData(data)) {
-
-    QDir dir;
-    if (dir.mkpath(service_->CoverCacheDir())) {
-      QString filepath(service_->CoverCacheDir() + "/" + filename);
-      if (image.save(filepath, "JPG")) {
-        while (album_covers_requests_sent_.contains(album_id)) {
-          Song *song = album_covers_requests_sent_.take(album_id);
-          song->set_art_automatic(filepath);
-        }
+    if (image.save(filename, "JPG")) {
+      while (album_covers_requests_sent_.contains(album_id)) {
+        Song *song = album_covers_requests_sent_.take(album_id);
+        QUrl cover_url;
+        cover_url.setScheme("file");
+        cover_url.setPath(filename);
+        song->set_art_automatic(cover_url);
       }
     }
-
   }
   else {
     album_covers_requests_sent_.remove(album_id);
-    error = Error(QString("Error decoding image data from %1").arg(url.toString()));
+    Error(QString("Error decoding image data from %1").arg(url.toString()));
   }
 
   AlbumCoverFinishCheck();
@@ -729,29 +697,26 @@ void SubsonicRequest::FinishCheck() {
       if (songs_.isEmpty() && errors_.isEmpty())
         emit Results(songs_, tr("Unknown error"));
       else
-        emit Results(songs_, errors_);
+        emit Results(songs_, ErrorsToHTML(errors_));
     }
 
   }
 
 }
 
-QString SubsonicRequest::Error(QString error, QVariant debug) {
-
-  qLog(Error) << "Subsonic:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
+void SubsonicRequest::Error(const QString &error, const QVariant &debug) {
 
   if (!error.isEmpty()) {
-    errors_ += error;
-    errors_ += "<br />";
+    qLog(Error) << "Subsonic:" << error;
+    errors_ << error;
   }
-  FinishCheck();
+  if (debug.isValid()) qLog(Debug) << debug;
 
-  return error;
+  FinishCheck();
 
 }
 
-void SubsonicRequest::Warn(QString error, QVariant debug) {
+void SubsonicRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Subsonic:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

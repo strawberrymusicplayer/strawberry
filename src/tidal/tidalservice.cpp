@@ -23,7 +23,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QDesktopServices>
 #include <QCryptographicHash>
 #include <QByteArray>
@@ -34,6 +33,7 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslError>
 #include <QTimer>
 #include <QJsonParseError>
 #include <QJsonDocument>
@@ -228,10 +228,6 @@ void TidalService::ReloadSettings() {
 
 }
 
-QString TidalService::CoverCacheDir() {
-  return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
-}
-
 void TidalService::StartAuthorisation() {
 
   login_sent_ = true;
@@ -315,7 +311,10 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
     QUrl url(kOAuthAccessTokenUrl);
     QNetworkRequest request = QNetworkRequest(url);
     QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
+
+    login_errors_.clear();
     QNetworkReply *reply = network_->post(request, query);
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AccessTokenRequestFinished(QNetworkReply*)), reply);
 
   }
@@ -328,45 +327,51 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
 
 }
 
+void TidalService::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+
+  for (QSslError &ssl_error : ssl_errors) {
+    login_errors_ += ssl_error.errorString();
+  }
+
+}
+
 void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   reply->deleteLater();
 
   login_sent_ = false;
 
-  if (reply->error() != QNetworkReply::NoError) {
-    if (reply->error() < 200) {
+  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
     }
     else {
-      // See if there is Json data containing "redirectUri" then use that instead.
+      // See if there is Json data containing "status" and "userMessage" then use that instead.
       QByteArray data(reply->readAll());
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      QString failure_reason;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           int status = json_obj["status"].toInt();
           int sub_status = json_obj["subStatus"].toInt();
           QString user_message = json_obj["userMessage"].toString();
-          failure_reason = QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+          login_errors_ << QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (login_errors_.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
-      LoginError(failure_reason);
+      LoginError();
       return;
     }
-  }
-
-  int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  if (http_code != 200) {
-    LoginError(QString("Received HTTP code %1").arg(http_code));
-    return;
   }
 
   QByteArray data(reply->readAll());
@@ -474,6 +479,7 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleAuthReply(QNetworkReply*)), reply);
 
   //qLog(Debug) << "Tidal: Sending request" << url << query;
@@ -486,10 +492,11 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
   login_sent_ = false;
 
-  if (reply->error() != QNetworkReply::NoError) {
-    if (reply->error() < 200) {
+  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      login_errors_.clear();
       return;
     }
     else {
@@ -497,23 +504,30 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       QByteArray data(reply->readAll());
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      QString failure_reason;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("userMessage")) {
           int status = json_obj["status"].toInt();
           int sub_status = json_obj["subStatus"].toInt();
           QString user_message = json_obj["userMessage"].toString();
-          failure_reason = QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
+          login_errors_ << QString("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (login_errors_.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
-      LoginError(failure_reason);
+      LoginError();
+      login_errors_.clear();
       return;
     }
   }
+
+  login_errors_.clear();
 
   QByteArray data(reply->readAll());
   QJsonParseError json_error;
@@ -645,7 +659,7 @@ void TidalService::GetArtists() {
 
   ResetArtistsRequest();
 
-  artists_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Artists, this));
+  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Artists, this));
 
   connect(artists_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(ArtistsResultsReceived(const int, const SongList&, const QString&)));
   connect(artists_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(ArtistsUpdateStatusReceived(const int, const QString&)));
@@ -699,7 +713,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Albums, this));
+  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Albums, this));
   connect(albums_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(AlbumsResultsReceived(const int, const SongList&, const QString&)));
   connect(albums_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(AlbumsUpdateStatusReceived(const int, const QString&)));
   connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(AlbumsProgressSetMaximumReceived(const int, const int)));
@@ -752,7 +766,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::QueryType_Songs, this));
+  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::QueryType_Songs, this));
   connect(songs_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SongsResultsReceived(const int, const SongList&, const QString&)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(SongsUpdateStatusReceived(const int, const QString&)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(SongsProgressSetMaximumReceived(const int, const int)));
@@ -842,7 +856,7 @@ void TidalService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new TidalRequest(this, url_handler_, network_, type, this));
+  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, type, this));
 
   connect(search_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SearchResultsReceived(const int, const SongList&, const QString&)));
   connect(search_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SIGNAL(SearchUpdateStatus(const int, const QString&)));
@@ -894,14 +908,20 @@ void TidalService::HandleStreamURLFinished(const QUrl &original_url, const QUrl 
 
 }
 
-QString TidalService::LoginError(QString error, QVariant debug) {
+void TidalService::LoginError(const QString &error, const QVariant &debug) {
 
-  qLog(Error) << "Tidal:" << error;
+  if (!error.isEmpty()) login_errors_ << error;
+
+  QString error_html;
+  for (const QString &error : login_errors_) {
+    qLog(Error) << "Tidal:" << error;
+    error_html += error + "<br />";
+  }
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit LoginFailure(error);
-  emit LoginComplete(false, error);
+  emit LoginFailure(error_html);
+  emit LoginComplete(false, error_html);
 
-  return error;
+  login_errors_.clear();
 
 }

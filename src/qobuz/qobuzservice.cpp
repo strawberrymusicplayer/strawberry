@@ -23,7 +23,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QDesktopServices>
 #include <QCryptographicHash>
 #include <QByteArray>
@@ -213,10 +212,6 @@ void QobuzService::ReloadSettings() {
 
 }
 
-QString QobuzService::CoverCacheDir() {
-  return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
-}
-
 void QobuzService::SendLogin() {
   SendLogin(app_id_, username_, password_);
 }
@@ -224,6 +219,7 @@ void QobuzService::SendLogin() {
 void QobuzService::SendLogin(const QString &app_id, const QString &username, const QString &password) {
 
   emit UpdateStatus(tr("Authenticating..."));
+  login_errors_.clear();
 
   login_sent_ = true;
   ++login_attempts_;
@@ -248,9 +244,19 @@ void QobuzService::SendLogin(const QString &app_id, const QString &username, con
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
+
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleAuthReply(QNetworkReply*)), reply);
 
   qLog(Debug) << "Qobuz: Sending request" << url << query;
+
+}
+
+void QobuzService::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
+
+  for (QSslError &ssl_error : ssl_errors) {
+    login_errors_ += ssl_error.errorString();
+  }
 
 }
 
@@ -260,8 +266,8 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 
   login_sent_ = false;
 
-  if (reply->error() != QNetworkReply::NoError) {
-    if (reply->error() < 200) {
+  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
       LoginError(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
@@ -271,29 +277,29 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
       QByteArray data(reply->readAll());
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      QString failure_reason;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
           QString status = json_obj["status"].toString();
           int code = json_obj["code"].toInt();
           QString message = json_obj["message"].toString();
-          failure_reason = QString("%1 (%2)").arg(message).arg(code);
+          login_errors_ << QString("%1 (%2)").arg(message).arg(code);
         }
       }
-      if (failure_reason.isEmpty()) {
-        failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      if (login_errors_.isEmpty()) {
+        if (reply->error() != QNetworkReply::NoError) {
+          login_errors_ << QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+        }
+        else {
+          login_errors_ << QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        }
       }
-      LoginError(failure_reason);
+      LoginError();
       return;
     }
   }
 
-  int http_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-  if (http_code != 200) {
-    LoginError(QString("Received HTTP code %1").arg(http_code));
-    return;
-  }
+  login_errors_.clear();
 
   QByteArray data(reply->readAll());
   QJsonParseError json_error;
@@ -406,7 +412,7 @@ void QobuzService::GetArtists() {
 
   ResetArtistsRequest();
 
-  artists_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Artists, this));
+  artists_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Artists, this));
 
   connect(artists_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(ArtistsResultsReceived(const int, const SongList&, const QString&)));
   connect(artists_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(ArtistsUpdateStatusReceived(const int, const QString&)));
@@ -456,7 +462,7 @@ void QobuzService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Albums, this));
+  albums_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Albums, this));
   connect(albums_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(AlbumsResultsReceived(const int, const SongList&, const QString&)));
   connect(albums_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(AlbumsUpdateStatusReceived(const int, const QString&)));
   connect(albums_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(AlbumsProgressSetMaximumReceived(const int, const int)));
@@ -505,7 +511,7 @@ void QobuzService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::QueryType_Songs, this));
+  songs_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, QobuzBaseRequest::QueryType_Songs, this));
   connect(songs_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SongsResultsReceived(const int, const SongList&, const QString&)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SLOT(SongsUpdateStatusReceived(const int, const QString&)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int, const int)), SLOT(SongsProgressSetMaximumReceived(const int, const int)));
@@ -586,7 +592,7 @@ void QobuzService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new QobuzRequest(this, url_handler_, network_, type, this));
+  search_request_.reset(new QobuzRequest(this, url_handler_, app_, network_, type, this));
 
   connect(search_request_.get(), SIGNAL(Results(const int, const SongList&, const QString&)), SLOT(SearchResultsReceived(const int, const SongList&, const QString&)));
   connect(search_request_.get(), SIGNAL(UpdateStatus(const int, const QString&)), SIGNAL(SearchUpdateStatus(const int, const QString&)));
@@ -631,14 +637,20 @@ void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl 
 
 }
 
-QString QobuzService::LoginError(QString error, QVariant debug) {
+void QobuzService::LoginError(const QString &error, const QVariant &debug) {
 
-  qLog(Error) << "Qobuz:" << error;
+  if (!error.isEmpty()) login_errors_ << error;
+
+  QString error_html;
+  for (const QString &error : login_errors_) {
+    qLog(Error) << "Qobuz:" << error;
+    error_html += error + "<br />";
+  }
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit LoginFailure(error);
-  emit LoginComplete(false, error);
+  emit LoginFailure(error_html);
+  emit LoginComplete(false, error_html);
 
-  return error;
+  login_errors_.clear();
 
 }

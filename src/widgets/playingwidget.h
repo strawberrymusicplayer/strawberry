@@ -66,7 +66,7 @@ class PlayingWidget : public QWidget {
   PlayingWidget(QWidget *parent = nullptr);
   ~PlayingWidget();
 
-  void SetApplication(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
+  void Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
   bool IsEnabled() { return enabled_; }
   void SetEnabled(bool enabled);
   void SetEnabled();
@@ -83,6 +83,7 @@ class PlayingWidget : public QWidget {
   void Stopped();
   void Error();
   void SongChanged(const Song &song);
+  void SearchCoverInProgress();
 
  protected:
   void paintEvent(QPaintEvent *e);
@@ -97,10 +98,9 @@ class PlayingWidget : public QWidget {
   void ShowAboveStatusBar(bool above);
   void FitCoverWidth(bool fit);
 
-  void SearchCoverAutomatically();
   void AutomaticCoverSearchDone();
 
-  void AlbumArtLoaded(const Song &song, const QString &uri, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
   void SetHeight(int height);
   void FadePreviousTrack(qreal value);
 

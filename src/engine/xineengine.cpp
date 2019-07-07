@@ -821,7 +821,7 @@ Engine::SimpleMetaBundle XineEngine::FetchMetaData() const {
   bundle.length     = 0;
 
   bundle.year       = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_YEAR)).toInt();
-  bundle.tracknr    = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_TRACK_NUMBER)).toInt();
+  bundle.track      = QString::fromUtf8(xine_get_meta_info(stream_, XINE_META_INFO_TRACK_NUMBER)).toInt();
 
   bundle.samplerate = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_SAMPLERATE);
   bundle.bitdepth   = xine_get_stream_info(stream_, XINE_STREAM_INFO_AUDIO_BITS);
@@ -834,7 +834,7 @@ Engine::SimpleMetaBundle XineEngine::FetchMetaData() const {
                                      << bundle.genre
                                      << bundle.length
                                      << bundle.year
-                                     << bundle.tracknr
+                                     << bundle.track
                                      << bundle.samplerate
                                      << bundle.bitdepth
                                      << bundle.bitrate;

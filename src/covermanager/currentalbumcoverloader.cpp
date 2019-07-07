@@ -28,63 +28,71 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QImage>
+#include <QStandardPaths>
 #include <QTemporaryFile>
 
 #include "core/application.h"
 #include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
-#include "currentartloader.h"
+#include "currentalbumcoverloader.h"
 
-CurrentArtLoader::CurrentArtLoader(Application *app, QObject *parent)
+CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
-    temp_file_pattern_(QDir::tempPath() + "/strawberry-art-XXXXXX.jpg"),
-    id_(0)
+      temp_file_pattern_(QDir::tempPath() + "/strawberry-cover-XXXXXX.jpg"),
+      id_(0)
   {
 
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
   options_.default_output_image_ = QImage(":/pictures/cdcase.png");
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QImage)), SLOT(TempArtLoaded(quint64, QImage)));
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(LoadArt(Song)));
+  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(TempAlbumCoverLoaded(quint64, QUrl, QImage)));
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(LoadAlbumCover(Song)));
 
 }
 
-CurrentArtLoader::~CurrentArtLoader() {}
+CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {}
 
-void CurrentArtLoader::LoadArt(const Song &song) {
+void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
   last_song_ = song;
   id_ = app_->album_cover_loader()->LoadImageAsync(options_, last_song_);
 }
 
-void CurrentArtLoader::TempArtLoaded(quint64 id, const QImage &image) {
+void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, const QUrl &remote_url, const QImage &image) {
 
   if (id != id_) return;
   id_ = 0;
 
-  QString uri;
-  QString thumbnail_uri;
+  QUrl cover_url;
+  QUrl thumbnail_url;
   QImage thumbnail;
 
   if (!image.isNull()) {
-    temp_art_.reset(new QTemporaryFile(temp_file_pattern_));
-    temp_art_->setAutoRemove(true);
-    temp_art_->open();
-    image.save(temp_art_->fileName(), "JPEG");
+
+    QString filename;
+
+    temp_cover_.reset(new QTemporaryFile(temp_file_pattern_));
+    temp_cover_->setAutoRemove(true);
+    temp_cover_->open();
+
+    image.save(temp_cover_->fileName(), "JPEG");
 
     // Scale the image down to make a thumbnail.  It's a bit crap doing it here since it's the GUI thread, but the alternative is hard.
-    temp_art_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
-    temp_art_thumbnail_->open();
-    temp_art_thumbnail_->setAutoRemove(true);
+    temp_cover_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
+    temp_cover_thumbnail_->open();
+    temp_cover_thumbnail_->setAutoRemove(true);
     thumbnail = image.scaledToHeight(120, Qt::SmoothTransformation);
-    thumbnail.save(temp_art_thumbnail_->fileName(), "JPEG");
+    thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG");
 
-    uri = "file://" + temp_art_->fileName();
-    thumbnail_uri = "file://" + temp_art_thumbnail_->fileName();
+    cover_url.setScheme("file");
+    cover_url.setPath(temp_cover_->fileName());
+
+    thumbnail_url.setScheme("file");
+    thumbnail_url.setPath(temp_cover_thumbnail_->fileName());
   }
 
-  emit ArtLoaded(last_song_, uri, image);
-  emit ThumbnailLoaded(last_song_, thumbnail_uri, thumbnail);
+  emit AlbumCoverLoaded(last_song_, cover_url, image);
+  emit ThumbnailLoaded(last_song_, thumbnail_url, thumbnail);
 
 }

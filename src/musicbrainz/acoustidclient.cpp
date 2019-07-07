@@ -46,6 +46,7 @@
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/timeconstants.h"
+#include "core/logging.h"
 
 using std::stable_sort;
 
@@ -117,6 +118,12 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   requests_.remove(request_id);
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if (reply->error() != QNetworkReply::NoError) {
+      qLog(Error) << QString("Acoustid: %1 (%2)").arg(reply->errorString()).arg(reply->error());
+    }
+    else {
+      qLog(Error) << QString("Acoustid: Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    }
     emit Finished(request_id, QStringList());
     return;
   }

@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QSystemTrayIcon>
 #include <QString>
+#include <QUrl>
 #include <QPixmap>
 #include <QAction>
 #include <QMenu>
@@ -52,7 +53,7 @@ class QtSystemTrayIcon : public SystemTrayIcon {
 
   void ShowPopup(const QString &summary, const QString &message, int timeout);
 
-  void SetNowPlaying(const Song &song, const QString &image_path);
+  void SetNowPlaying(const Song &song, const QUrl &cover_url);
   void ClearNowPlaying();
 
   bool MuteEnabled() { return action_mute_->isVisible(); }

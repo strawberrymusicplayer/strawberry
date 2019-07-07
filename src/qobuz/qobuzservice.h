@@ -61,7 +61,6 @@ class QobuzService : public InternetService {
   static const Song::Source kSource;
 
   void ReloadSettings();
-  QString CoverCacheDir();  
 
   void Logout();
   int Search(const QString &query, InternetSearch::SearchType type);
@@ -69,6 +68,7 @@ class QobuzService : public InternetService {
 
   const int max_login_attempts() { return kLoginAttempts; }
 
+  Application *app() { return app_; }
   QString app_id() { return app_id_; }
   QString app_secret() { return app_secret_; }
   QString username() { return username_; }
@@ -124,6 +124,7 @@ class QobuzService : public InternetService {
 
  private slots:
   void SendLogin();
+  void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void HandleAuthReply(QNetworkReply *reply);
   void ResetLoginAttempts();
   void StartSearch();
@@ -150,7 +151,7 @@ class QobuzService : public InternetService {
   typedef QList<EncodedParam> EncodedParamList;
 
   void SendSearch();
-  QString LoginError(QString error, QVariant debug = QVariant());
+  void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kAuthUrl;
   static const int kLoginAttempts;
@@ -213,6 +214,8 @@ class QobuzService : public InternetService {
   int login_attempts_;
 
   QList<QobuzStreamURLRequest*> stream_url_requests_;
+
+  QStringList login_errors_;
 
 };
 

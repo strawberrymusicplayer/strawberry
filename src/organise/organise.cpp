@@ -37,6 +37,7 @@
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "core/tagreaderclient.h"
+#include "core/song.h"
 #include "organise.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"
@@ -200,11 +201,21 @@ void Organise::ProcessSomeFiles() {
     job.albumcover_ = albumcover_;
     job.remove_original_ = !copy_;
 
-    if (!task.song_info_.song_.art_manual().isEmpty()) {
-      job.cover_source_ = task.song_info_.song_.art_manual();
+    if (task.song_info_.song_.art_manual_is_valid() && task.song_info_.song_.art_manual().path() != Song::kManuallyUnsetCover) {
+      if (task.song_info_.song_.art_manual().scheme() == "file" && QFile::exists(task.song_info_.song_.art_manual().toLocalFile())) {
+        job.cover_source_ = task.song_info_.song_.art_manual().toLocalFile();
+      }
+      else if (task.song_info_.song_.art_manual().scheme().isEmpty() && QFile::exists(task.song_info_.song_.art_manual().path())) {
+        job.cover_source_ = task.song_info_.song_.art_manual().path();
+      }
     }
-    else if (!task.song_info_.song_.art_automatic().isEmpty()) {
-      job.cover_source_ = task.song_info_.song_.art_automatic();
+    else if (task.song_info_.song_.art_automatic_is_valid() && task.song_info_.song_.art_automatic().path() != Song::kEmbeddedCover) {
+      if (task.song_info_.song_.art_automatic().scheme() == "file" && QFile::exists(task.song_info_.song_.art_automatic().toLocalFile())) {
+        job.cover_source_ = task.song_info_.song_.art_automatic().toLocalFile();
+      }
+      else if (task.song_info_.song_.art_automatic().scheme().isEmpty() && QFile::exists(task.song_info_.song_.art_automatic().path())) {
+        job.cover_source_ = task.song_info_.song_.art_automatic().path();
+      }
     }
     if (!job.cover_source_.isEmpty()) {
       job.cover_dest_ = QFileInfo(job.destination_).path() + "/" + QFileInfo(job.cover_source_).fileName();

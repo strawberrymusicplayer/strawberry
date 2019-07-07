@@ -37,19 +37,21 @@ class LyricsProviders;
 class LyricsFetcherSearch;
 
 struct LyricsSearchRequest {
-  quint64 id = -1;
+  LyricsSearchRequest() : id(-1) {}
+  quint64 id;
   QString artist;
   QString album;
   QString title;
 };
 
 struct LyricsSearchResult {
+  LyricsSearchResult() : score(0.0) {}
   QString provider;
   QString artist;
   QString album;
   QString title;
   QString lyrics;
-  float score = 0.0;
+  float score;
 };
 Q_DECLARE_METATYPE(LyricsSearchResult);
 

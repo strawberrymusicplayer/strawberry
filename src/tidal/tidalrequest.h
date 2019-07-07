@@ -31,6 +31,7 @@
 #include <QMultiMap>
 #include <QQueue>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QNetworkReply>
 #include <QJsonObject>
@@ -49,7 +50,7 @@ class TidalRequest : public TidalBaseRequest {
 
  public:
 
-  TidalRequest(TidalService *service, TidalUrlHandler *url_handler, NetworkAccessManager *network, QueryType type, QObject *parent);
+  TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
   ~TidalRequest();
 
   void ReloadSettings();
@@ -82,7 +83,7 @@ class TidalRequest : public TidalBaseRequest {
 
   void ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const int offset_requested, const QString &album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url);
+  void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -100,6 +101,7 @@ class TidalRequest : public TidalBaseRequest {
     qint64 artist_id = 0;
     QString album_id = 0;
     QUrl url;
+    QString filename;
   };
 
   const bool IsQuery() { return (type_ == QueryType_Artists || type_ == QueryType_Albums || type_ == QueryType_Songs); }
@@ -142,7 +144,7 @@ class TidalRequest : public TidalBaseRequest {
 
   void FinishCheck();
   void Warn(QString error, QVariant debug = QVariant());
-  QString Error(QString error, QVariant debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
   static const char *kResourcesUrl;
   static const int kMaxConcurrentArtistsRequests;
@@ -154,6 +156,7 @@ class TidalRequest : public TidalBaseRequest {
 
   TidalService *service_;
   TidalUrlHandler *url_handler_;
+  Application *app_;
   NetworkAccessManager *network_;
 
   QueryType type_;
@@ -197,7 +200,7 @@ class TidalRequest : public TidalBaseRequest {
   int album_covers_received_;
 
   SongList songs_;
-  QString errors_;
+  QStringList errors_;
   bool need_login_;
   bool no_results_;
   QList<QNetworkReply*> album_cover_replies_;
