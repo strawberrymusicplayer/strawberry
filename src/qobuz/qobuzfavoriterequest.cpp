@@ -126,7 +126,6 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   QString ids = ids_list.join(',');
 
   typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
 
   ParamList params = ParamList() << Param("app_id", app_id())
                                  << Param("user_auth_token", user_auth_token())

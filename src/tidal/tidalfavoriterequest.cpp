@@ -127,7 +127,6 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   QString ids = ids_list.join(',');
 
   typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
 
   ParamList params = ParamList() << Param("countryCode", country_code())
                                  << Param(text, ids);
