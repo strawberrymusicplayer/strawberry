@@ -407,31 +407,31 @@ QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, con
 
 }
 
-QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QString &filename) {
+QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QString &filename) {
 
   QPixmap ret;
-  if (manual.path() == Song::kManuallyUnsetCover) return ret;
-  if (!manual.path().isEmpty()) {
-    if (manual.scheme().isEmpty()) {
-      ret.load(manual.path());
+
+  if (!art_manual.path().isEmpty()) {
+    if (art_manual.path() == Song::kManuallyUnsetCover) return ret;
+    else if (art_manual.isLocalFile()) {
+      ret.load(art_manual.toLocalFile());
     }
-    else if (manual.scheme() == "file") {
-      ret.load(manual.toLocalFile());
+    else if (art_manual.scheme().isEmpty()) {
+      ret.load(art_manual.path());
     }
   }
-  if (ret.isNull()) {
-    if (automatic.path() == Song::kEmbeddedCover && !filename.isEmpty()) {
+  if (ret.isNull() && !art_automatic.path().isEmpty()) {
+    if (art_automatic.path() == Song::kEmbeddedCover && !filename.isEmpty() && filename.isLocalFile()) {
       ret = QPixmap::fromImage(TagReaderClient::Instance()->LoadEmbeddedArtBlocking(filename));
     }
-    else if (!automatic.path().isEmpty()) {
-      if (automatic.scheme().isEmpty()) {
-        ret.load(automatic.path());
-      }
-      else if (manual.scheme() == "file") {
-        ret.load(automatic.toLocalFile());
-      }
+    else if (art_automatic.isLocalFile()) {
+      ret.load(art_automatic.toLocalFile());
+    }
+    else if (art_automatic.scheme().isEmpty()) {
+      ret.load(art_automatic.path());
     }
   }
+
   return ret;
 
 }
