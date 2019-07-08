@@ -40,8 +40,7 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
-//const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
-const char *TidalBaseRequest::kApiUrl = "https://192.168.1.112";
+const char *TidalBaseRequest::kApiUrl = "https://api.tidalhifi.com/v1";
 
 TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),
