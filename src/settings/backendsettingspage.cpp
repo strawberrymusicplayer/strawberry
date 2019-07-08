@@ -58,8 +58,13 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("soundcard"));
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
   ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).horizontalAdvance("WW%"));
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance("-WW.W dB"));
+#else
+  ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).width("WW%"));
+  ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
+#endif
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
   s_.beginGroup(BackendSettingsPage::kSettingsGroup);
