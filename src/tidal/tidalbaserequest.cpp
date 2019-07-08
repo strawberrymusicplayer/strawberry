@@ -198,7 +198,7 @@ QJsonValue TidalBaseRequest::ExtractItems(QByteArray &data) {
 
 QJsonValue TidalBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
-  if (!json_obj.contains("items_")) {
+  if (!json_obj.contains("items")) {
     Error("Json reply is missing items.", json_obj);
     return QJsonArray();
   }
