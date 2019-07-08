@@ -23,7 +23,7 @@ THE SOFTWARE.
 #include "qsearchfield.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QPointer>
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QToolButton>
