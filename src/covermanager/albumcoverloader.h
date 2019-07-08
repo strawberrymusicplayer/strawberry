@@ -65,7 +65,7 @@ class AlbumCoverLoader : public QObject {
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
-  static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QString &filename = QString());
+  static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());
   static QImage ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
 
 signals:

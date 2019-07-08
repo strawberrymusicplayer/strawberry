@@ -407,7 +407,7 @@ QImage AlbumCoverLoader::ScaleAndPad(const AlbumCoverLoaderOptions &options, con
 
 }
 
-QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QString &filename) {
+QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &art_automatic, const QUrl &art_manual, const QUrl &url) {
 
   QPixmap ret;
 
@@ -421,8 +421,8 @@ QPixmap AlbumCoverLoader::TryLoadPixmap(const QUrl &art_automatic, const QUrl &a
     }
   }
   if (ret.isNull() && !art_automatic.path().isEmpty()) {
-    if (art_automatic.path() == Song::kEmbeddedCover && !filename.isEmpty() && filename.isLocalFile()) {
-      ret = QPixmap::fromImage(TagReaderClient::Instance()->LoadEmbeddedArtBlocking(filename));
+    if (art_automatic.path() == Song::kEmbeddedCover && !url.isEmpty() && url.isLocalFile()) {
+      ret = QPixmap::fromImage(TagReaderClient::Instance()->LoadEmbeddedArtBlocking(url.toLocalFile()));
     }
     else if (art_automatic.isLocalFile()) {
       ret.load(art_automatic.toLocalFile());
