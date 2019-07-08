@@ -20,28 +20,22 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QWidget>
-#include <QApplication>
+#include <QDialog>
+#include <QWindow>
+#include <QScreen>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
-#include <QDesktopWidget>
-#include <QVariant>
+#include <QTreeWidget>
 #include <QString>
-#include <QStringBuilder>
-#include <QIcon>
 #include <QPainter>
-#include <QFlags>
 #include <QFrame>
 #include <QKeySequence>
-#include <QLabel>
-#include <QLayout>
 #include <QRect>
+#include <QSize>
 #include <QDialogButtonBox>
-#include <QPushButton>
 #include <QScrollArea>
-#include <QStackedWidget>
-#include <QTreeWidget>
+#include <QComboBox>
+#include <QPushButton>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -287,7 +281,7 @@ void SettingsDialog::showEvent(QShowEvent *e) {
   loading_settings_ = false;
 
   // Resize the dialog if it's too big
-  const QSize available = QApplication::desktop()->availableGeometry(this).size();
+  const QRect available = window()->windowHandle()->screen()->geometry();
   if (available.height() < height()) {
     resize(width(), sizeHint().height());
   }
