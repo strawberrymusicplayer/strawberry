@@ -98,9 +98,7 @@ void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
 
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
-
   typedef QPair<QByteArray, QByteArray> EncodedArg;
-  typedef QList<EncodedArg> EncodedArgList;
 
   ArgList args = ArgList()
   << Arg("key", QByteArray::fromBase64(kAccessKeyB64))
@@ -143,9 +141,7 @@ void DiscogsCoverProvider::SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, 
 
   typedef QPair<QString, QString> Arg;
   typedef QList<Arg> ArgList;
-
   typedef QPair<QByteArray, QByteArray> EncodedArg;
-  typedef QList<EncodedArg> EncodedArgList;
 
   QUrlQuery url_query;
   QStringList query_items;

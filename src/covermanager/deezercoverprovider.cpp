@@ -55,7 +55,6 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   typedef QPair<QString, QString> Param;
   typedef QList<Param> Params;
   typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
 
   const Params params = Params() << Param("output", "json")
                                  << Param("q", QString(artist + " " + album))
