@@ -337,6 +337,7 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
   if (id == "grouping") return song.grouping();
   if (id == "genre") return song.genre();
   if (id == "comment") return song.comment();
+  if (id == "lyrics") return song.lyrics();
   if (id == "track") return song.track();
   if (id == "disc") return song.disc();
   if (id == "year") return song.year();
@@ -356,6 +357,7 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
   else if (id == "grouping") current_.set_grouping(value.toString());
   else if (id == "genre") current_.set_genre(value.toString());
   else if (id == "comment") current_.set_comment(value.toString());
+  else if (id == "lyrics") current_.set_lyrics(value.toString());
   else if (id == "track") current_.set_track(value.toInt());
   else if (id == "disc") current_.set_disc(value.toInt());
   else if (id == "year") current_.set_year(value.toInt());
