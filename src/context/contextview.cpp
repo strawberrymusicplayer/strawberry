@@ -610,7 +610,7 @@ void ContextView::SetImage(const QImage &image) {
 
   // Cache the current pixmap so we can fade between them
   pixmap_previous_ = QPixmap(size());
-  pixmap_previous_.fill(palette().background().color());
+  pixmap_previous_.fill(palette().window().color());
   pixmap_previous_opacity_ = 1.0;
 
   QPainter p(&pixmap_previous_);
