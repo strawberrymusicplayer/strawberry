@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.11)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Woverloaded-virtual -Wno-sign-compare -Wno-deprecated-declarations -Wno-unused-local-typedefs -fpermissive")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Woverloaded-virtual -Wno-sign-compare -fpermissive")
 
 set(SINGLEAPP-SOURCES singleapplication.cpp singleapplication_p.cpp)
 set(SINGLEAPP-MOC-HEADERS singleapplication.h singleapplication_p.h)
