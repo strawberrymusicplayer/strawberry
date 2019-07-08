@@ -46,7 +46,6 @@
 #include <QGroupBox>
 #include <QListWidget>
 #include <QPushButton>
-#include <QSignalMapper>
 #include <QStackedWidget>
 #include <QToolButton>
 #include <QFlags>
@@ -124,13 +123,11 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, CollectionBackend *bac
 
   // Build the insert menu
   QMenu *tag_menu = new QMenu(this);
-  QSignalMapper *tag_mapper = new QSignalMapper(this);
   for (const QString &title : tag_titles) {
-    QAction *action = tag_menu->addAction(title, tag_mapper, SLOT(map()));
-    tag_mapper->setMapping(action, tags[title]);
+    QAction *action = tag_menu->addAction(title);
+    QString tag = tags[title];
+    connect(action, &QAction::triggered, [this, tag]() { InsertTag(tag); } );
   }
-
-  connect(tag_mapper, SIGNAL(mapped(QString)), SLOT(InsertTag(QString)));
 
   ui_->insert->setMenu(tag_menu);
 

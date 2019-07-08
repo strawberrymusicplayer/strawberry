@@ -35,7 +35,6 @@
 #include <QPainter>
 #include <QPalette>
 #include <QBrush>
-#include <QSignalMapper>
 #include <QTextDocument>
 #include <QTimeLine>
 #include <QAction>
@@ -101,10 +100,8 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
   // Context menu
   QActionGroup *mode_group = new QActionGroup(this);
-  QSignalMapper *mode_mapper = new QSignalMapper(this);
-  connect(mode_mapper, SIGNAL(mapped(int)), SLOT(SetMode(int)));
-  CreateModeAction(SmallSongDetails, tr("Small album cover"), mode_group, mode_mapper);
-  CreateModeAction(LargeSongDetails, tr("Large album cover"), mode_group, mode_mapper);
+  CreateModeAction(SmallSongDetails, tr("Small album cover"), mode_group);
+  CreateModeAction(LargeSongDetails, tr("Large album cover"), mode_group);
   menu_->addActions(mode_group->actions());
 
   fit_cover_width_action_ = menu_->addAction(tr("Fit cover to width"));
@@ -200,12 +197,11 @@ QSize PlayingWidget::sizeHint() const {
   return QSize(cover_loader_options_.desired_height_, total_height_);
 }
 
-void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper *mapper) {
+void PlayingWidget::CreateModeAction(Mode mode, const QString &text, QActionGroup *group) {
 
   QAction *action = new QAction(text, group);
   action->setCheckable(true);
-  mapper->setMapping(action, mode);
-  connect(action, SIGNAL(triggered()), mapper, SLOT(map()));
+  connect(action, &QAction::triggered, [this, mode]() { SetMode(mode); } );
 
   if (mode == mode_) action->setChecked(true);
 
@@ -287,7 +283,7 @@ void PlayingWidget::SetImage(const QImage &image) {
     QSize psize(size());
     if (size().height() <= 0) psize.setHeight(total_height_);
     pixmap_previous_track_ = QPixmap(psize);
-    pixmap_previous_track_.fill(palette().background().color());
+    pixmap_previous_track_.fill(palette().window().color());
     pixmap_previous_track_opacity_ = 1.0;
     QPainter p(&pixmap_previous_track_);
     DrawContents(&p);

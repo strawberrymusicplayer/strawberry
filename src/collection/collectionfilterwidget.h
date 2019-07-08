@@ -28,17 +28,17 @@
 
 #include <QWidget>
 #include <QObject>
+#include <QMap>
 #include <QString>
-#include <QMenu>
-#include <QSignalMapper>
-#include <QTimer>
-#include <QAction>
-#include <QActionGroup>
 #include <QtEvents>
 
 #include "collectionquery.h"
 #include "collectionmodel.h"
 
+class QTimer;
+class QMenu;
+class QAction;
+class QActionGroup;
 class QKeyEvent;
 
 class GroupByDialog;
@@ -120,7 +120,7 @@ signals:
   QMenu *group_by_menu_;
   QMenu *collection_menu_;
   QActionGroup *group_by_group_;
-  QSignalMapper *filter_age_mapper_;
+  QMap<QAction*, int> filter_ages_;
 
   QTimer *filter_delay_;
 
@@ -129,6 +129,7 @@ signals:
 
   QString settings_group_;
   QString settings_prefix_;
+
 };
 
 #endif  // COLLECTIONFILTERWIDGET_H

@@ -23,13 +23,11 @@
 #include <stdbool.h>
 
 #include <QWidget>
-#include <QAbstractItemModel>
 #include <QFlags>
-#include <QMenu>
-#include <QSignalMapper>
 #include <QVariant>
 #include <QString>
 #include <QtAlgorithms>
+#include <QMenu>
 #include <QAction>
 #include <QActionGroup>
 #include <QContextMenuEvent>
@@ -41,9 +39,7 @@
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)
     : StretchHeaderView(orientation, parent),
       view_(view),
-      menu_(new QMenu(this)),
-      show_mapper_(new QSignalMapper(this))
-{
+      menu_(new QMenu(this)) {
 
   hide_action_ = menu_->addAction(tr("&Hide..."), this, SLOT(HideCurrent()));
   stretch_action_ = menu_->addAction(tr("&Stretch columns to fit window"), this, SLOT(ToggleStretchEnabled()));
@@ -69,7 +65,6 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   stretch_action_->setCheckable(true);
   stretch_action_->setChecked(is_stretch_enabled());
 
-  connect(show_mapper_, SIGNAL(mapped(int)), SLOT(ToggleVisible(int)));
   connect(this, SIGNAL(StretchEnabledChanged(bool)), stretch_action_, SLOT(setChecked(bool)));
 
 }
@@ -112,12 +107,12 @@ void PlaylistHeader::AddColumnAction(int index) {
 
   QString title(model()->headerData(index, Qt::Horizontal).toString());
 
-  QAction *action = menu_->addAction(title, show_mapper_, SLOT(map()));
+  QAction *action = menu_->addAction(title);
   action->setCheckable(true);
   action->setChecked(!isSectionHidden(index));
   show_actions_ << action;
 
-  show_mapper_->setMapping(action, index);
+  connect(action, &QAction::triggered, [this, index]() { ToggleVisible(index); } );
 
 }
 

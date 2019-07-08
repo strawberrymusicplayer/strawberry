@@ -28,13 +28,12 @@
 #include <QObject>
 #include <QWidget>
 #include <QList>
-#include <QAction>
-#include <QMenu>
-#include <QSignalMapper>
-#include <QString>
 #include <QtEvents>
 
 #include "widgets/stretchheaderview.h"
+
+class QMenu;
+class QAction;
 
 class PlaylistView;
 
@@ -74,7 +73,6 @@ class PlaylistHeader : public StretchHeaderView {
   QAction *align_right_action_;
   QList<QAction*> show_actions_;
 
-  QSignalMapper *show_mapper_;
 };
 
 #endif  // PLAYLISTHEADER_H

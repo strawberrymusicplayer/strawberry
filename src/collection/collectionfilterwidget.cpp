@@ -37,7 +37,6 @@
 #include <QTimer>
 #include <QMenu>
 #include <QSettings>
-#include <QSignalMapper>
 #include <QToolButton>
 #include <QtEvents>
 
@@ -87,20 +86,12 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_age_menu_ = new QMenu(tr("Show"), this);
   filter_age_menu_->addActions(filter_age_group->actions());
 
-  filter_age_mapper_ = new QSignalMapper(this);
-  filter_age_mapper_->setMapping(ui_->filter_age_all, -1);
-  filter_age_mapper_->setMapping(ui_->filter_age_today, 60 * 60 * 24);
-  filter_age_mapper_->setMapping(ui_->filter_age_week, 60 * 60 * 24 * 7);
-  filter_age_mapper_->setMapping(ui_->filter_age_month, 60 * 60 * 24 * 30);
-  filter_age_mapper_->setMapping(ui_->filter_age_three_months, 60 * 60 * 24 * 30 * 3);
-  filter_age_mapper_->setMapping(ui_->filter_age_year, 60 * 60 * 24 * 365);
-
-  connect(ui_->filter_age_all, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
-  connect(ui_->filter_age_today, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
-  connect(ui_->filter_age_week, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
-  connect(ui_->filter_age_month, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
-  connect(ui_->filter_age_three_months, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
-  connect(ui_->filter_age_year, SIGNAL(triggered()), filter_age_mapper_, SLOT(map()));
+  filter_ages_[ui_->filter_age_all] = -1;
+  filter_ages_[ui_->filter_age_today] = 60 * 60 * 24;
+  filter_ages_[ui_->filter_age_week] = 60 * 60 * 24 * 7;
+  filter_ages_[ui_->filter_age_month] = 60 * 60 * 24 * 30;
+  filter_ages_[ui_->filter_age_three_months] = 60 * 60 * 24 * 30 * 3;
+  filter_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
 
   // "Group by ..."
   group_by_group_ = CreateGroupByActions(this);
@@ -244,7 +235,9 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     disconnect(model_, 0, this, 0);
     disconnect(model_, 0, group_by_dialog_.get(), 0);
     disconnect(group_by_dialog_.get(), 0, model_, 0);
-    disconnect(filter_age_mapper_, 0, model_, 0);
+    for (QAction *action : filter_ages_.keys()) {
+      disconnect(action, &QAction::triggered, model_, 0);
+    }
   }
 
   model_ = model;
@@ -253,7 +246,11 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
   connect(model_, SIGNAL(GroupingChanged(CollectionModel::Grouping)), group_by_dialog_.get(), SLOT(CollectionGroupingChanged(CollectionModel::Grouping)));
   connect(model_, SIGNAL(GroupingChanged(CollectionModel::Grouping)), SLOT(GroupingChanged(CollectionModel::Grouping)));
   connect(group_by_dialog_.get(), SIGNAL(Accepted(CollectionModel::Grouping)), model_, SLOT(SetGroupBy(CollectionModel::Grouping)));
-  connect(filter_age_mapper_, SIGNAL(mapped(int)), model_, SLOT(SetFilterAge(int)));
+
+  for (QAction *action : filter_ages_.keys()) {
+    int age = filter_ages_[action];
+    connect(action, &QAction::triggered, [this, age]() { model_->SetFilterAge(age); } );
+  }
 
   // Load settings
   if (!settings_group_.isEmpty()) {

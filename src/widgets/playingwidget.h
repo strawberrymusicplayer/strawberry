@@ -31,24 +31,24 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
+#include <QUrl>
 #include <QImage>
 #include <QPixmap>
-#include <QPainter>
 #include <QSize>
-#include <QSignalMapper>
-#include <QTextDocument>
-#include <QTimeLine>
-#include <QAction>
-#include <QActionGroup>
 #include <QMenu>
 #include <QMovie>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
 using std::unique_ptr;
 
+class QTimeLine;
+class QTextDocument;
+class QPainter;
+class QMenu;
+class QAction;
+class QActionGroup;
 class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
@@ -148,7 +148,7 @@ class PlayingWidget : public QWidget {
   std::unique_ptr<QMovie> spinner_animation_;
 
   void SetVisible(bool visible);
-  void CreateModeAction(Mode mode, const QString &text, QActionGroup *group, QSignalMapper *mapper);
+  void CreateModeAction(Mode mode, const QString &text, QActionGroup *group);
   void UpdateDetailsText();
   void UpdateHeight();
   void SetImage(const QImage &image);

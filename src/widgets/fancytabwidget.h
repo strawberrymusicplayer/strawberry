@@ -24,18 +24,16 @@
 
 #include <memory>
 
-#include <QObject>
 #include <QTabWidget>
-#include <QWidget>
-#include <QActionGroup>
-#include <QMenu>
-#include <QSignalMapper>
+#include <QMap>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
 #include <QSize>
 #include <QtEvents>
 
+class QMenu;
+class QActionGroup;
 class TabData;
 
 namespace Core {
@@ -95,7 +93,7 @@ class FancyTabWidget : public QTabWidget {
     void paintEvent(QPaintEvent *);
     void contextMenuEvent(QContextMenuEvent* e);
   private:
-    void addMenuItem(QSignalMapper* mapper, QActionGroup* group, const QString& text, Mode mode);
+    void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
 
     QPixmap background_pixmap_;
     QMenu* menu_;

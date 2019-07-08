@@ -32,7 +32,6 @@
 #include <QString>
 #include <QAction>
 #include <QShortcut>
-#include <QSignalMapper>
 #include <QKeySequence>
 #include <QSettings>
 
