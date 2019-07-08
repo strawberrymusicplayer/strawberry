@@ -1153,10 +1153,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
     if (image.save(filename, "JPG")) {
       while (album_covers_requests_sent_.contains(cover_url)) {
         Song *song = album_covers_requests_sent_.take(cover_url);
-        QUrl cover_url;
-        cover_url.setScheme("file");
-        cover_url.setPath(filename);
-        song->set_art_automatic(cover_url);
+        song->set_art_automatic(QUrl::fromLocalFile(filename));
       }
     }
 

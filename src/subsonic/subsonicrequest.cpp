@@ -649,10 +649,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &al
     if (image.save(filename, "JPG")) {
       while (album_covers_requests_sent_.contains(album_id)) {
         Song *song = album_covers_requests_sent_.take(album_id);
-        QUrl cover_url;
-        cover_url.setScheme("file");
-        cover_url.setPath(filename);
-        song->set_art_automatic(cover_url);
+        song->set_art_automatic(QUrl::fromLocalFile(filename));
       }
     }
   }

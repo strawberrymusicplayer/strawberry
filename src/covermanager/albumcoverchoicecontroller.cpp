@@ -22,6 +22,8 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QWidget>
 #include <QDialog>
 #include <QDir>
@@ -43,7 +45,6 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QLabel>
-#include <QDesktopWidget>
 #include <QtEvents>
 
 #include "core/utilities.h"
@@ -146,9 +147,7 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
     return QUrl();
   }
   else {
-    QUrl cover_url;
-    cover_url.setScheme("file");
-    cover_url.setPath(cover_file);
+    QUrl cover_url(QUrl::fromLocalFile(cover_file));
     SaveCoverToSong(song, cover_url);
     return cover_url;
   }
@@ -188,7 +187,7 @@ QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song
     if (song.art_automatic().scheme().isEmpty() && QFile::exists(QFileInfo(song.art_automatic().path()).path())) {
       return song.art_automatic().path();
     }
-    else if (song.art_automatic().scheme() == "file" && QFile::exists(QFileInfo(song.art_automatic().toLocalFile()).path())) {
+    else if (song.art_automatic().isLocalFile() && QFile::exists(QFileInfo(song.art_automatic().toLocalFile()).path())) {
       return song.art_automatic().toLocalFile();
     }
     // If no automatic art, start in the song's folder
@@ -243,9 +242,7 @@ QUrl AlbumCoverChoiceController::SearchForCover(Song *song) {
 
 QUrl AlbumCoverChoiceController::UnsetCover(Song *song) {
 
-  QUrl cover_url;
-  cover_url.setScheme("file");
-  cover_url.setPath(Song::kManuallyUnsetCover);
+  QUrl cover_url(QUrl::fromLocalFile(Song::kManuallyUnsetCover));
   SaveCoverToSong(song, cover_url);
 
   return cover_url;
@@ -288,10 +285,10 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   title_text += " (" + QString::number(label->pixmap()->width()) + "x" + QString::number(label->pixmap()->height()) + "px)";
 
   // If the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
-  QDesktopWidget desktop;
-  int current_screen = desktop.screenNumber(this);
-  int desktop_height = desktop.screenGeometry(current_screen).height();
-  int desktop_width = desktop.screenGeometry(current_screen).width();
+  QScreen *screen = QGuiApplication::primaryScreen();
+  QRect screenGeometry = screen->geometry();
+  int desktop_height = screenGeometry.height();
+  int desktop_width = screenGeometry.width();
 
   // Resize differently if monitor is in portrait mode
   if (desktop_width < desktop_height) {
@@ -387,9 +384,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   QString filepath = app_->album_cover_loader()->CoverFilePath(source, artist, album, album_id, album_dir, cover_url);
   if (filepath.isEmpty()) return QUrl();
 
-  QUrl new_cover_url;
-  new_cover_url.setScheme("file");
-  new_cover_url.setPath(filepath);
+  QUrl new_cover_url(QUrl::fromLocalFile(filepath));
 
   // Don't overwrite when saving in album dir if the filename is set to pattern unless the "overwrite" is set.
   if (source == Song::Source_Collection && QFile::exists(filepath) && !cover_overwrite_ && !overwrite && cover_album_dir_ && cover_filename_ == CollectionSettingsPage::SaveCover_Pattern) {

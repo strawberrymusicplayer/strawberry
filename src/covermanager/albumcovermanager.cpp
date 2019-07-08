@@ -622,23 +622,17 @@ void AlbumCoverManager::SaveCoverToFile() {
     image = no_cover_image_;
   }
   else {
-    if (!song.art_manual().isEmpty() && !song.art_manual().path().isEmpty() &&
-        (
-        (song.art_manual().scheme().isEmpty() && QFile::exists(song.art_manual().path()))
-        ||
-        (song.art_manual().scheme() == "file" && QFile::exists(song.art_manual().toLocalFile()))
-        )
-    ) {
+    if (!song.art_manual().isEmpty() && !song.art_manual().isLocalFile() && QFile::exists(song.art_manual().toLocalFile())) {
       image = QImage(song.art_manual().toLocalFile());
     }
-    if (!song.art_automatic().isEmpty() && !song.art_automatic().path().isEmpty() &&
-        (
-        (song.art_automatic().scheme().isEmpty() && QFile::exists(song.art_automatic().path()))
-        ||
-        (song.art_automatic().scheme() == "file" && QFile::exists(song.art_automatic().toLocalFile()))
-        )
-    ) {
+    else if (!song.art_manual().isEmpty() && !song.art_manual().path().isEmpty() && song.art_manual().scheme().isEmpty() && QFile::exists(song.art_manual().path())) {
+      image = QImage(song.art_manual().path());
+    }
+    else if (!song.art_automatic().isEmpty() && !song.art_automatic().isLocalFile() && QFile::exists(song.art_automatic().toLocalFile())) {
       image = QImage(song.art_automatic().toLocalFile());
+    }
+    else if (!song.art_automatic().isEmpty() && !song.art_automatic().path().isEmpty() && song.art_automatic().scheme().isEmpty() && QFile::exists(song.art_automatic().path())) {
+      image = QImage(song.art_automatic().path());
     }
     else {
       image = no_cover_image_;

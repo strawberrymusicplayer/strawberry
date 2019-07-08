@@ -737,18 +737,12 @@ QUrl CollectionWatcher::ImageForSong(const QString &path, QMap<QString, QStringL
 
   if (album_art.contains(dir)) {
     if (album_art[dir].count() == 1) {
-      QUrl url;
-      url.setScheme("file");
-      url.setPath(album_art[dir][0]);
-      return url;
+      return QUrl::fromLocalFile(album_art[dir][0]);
     }
     else {
       QString best_image = PickBestImage(album_art[dir]);
       album_art[dir] = QStringList() << best_image;
-      QUrl url;
-      url.setScheme("file");
-      url.setPath(best_image);
-      return url;
+      return QUrl::fromLocalFile(best_image);
     }
   }
   return QUrl();

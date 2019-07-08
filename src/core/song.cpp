@@ -743,7 +743,7 @@ void Song::ToProtobuf(pb::tagreader::SongMetadata *pb) const {
 
 }
 
-#define tostr(n) (q.value(n).isNull() ? QString::null : q.value(n).toString())
+#define tostr(n) (q.value(n).isNull() ? QString() : q.value(n).toString())
 #define toint(n) (q.value(n).isNull() ? -1 : q.value(n).toInt())
 #define tolonglong(n) (q.value(n).isNull() ? -1 : q.value(n).toLongLong())
 #define tofloat(n) (q.value(n).isNull() ? -1 : q.value(n).toDouble())
@@ -808,7 +808,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       d->comment_ = tostr(x);
     }
     else if (Song::kColumns.value(i) == "lyrics") {
-      d->comment_ = tostr(x);
+      d->lyrics_ = tostr(x);
     }
 
     else if (Song::kColumns.value(i) == "artist_id") {
@@ -887,10 +887,22 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
     }
 
     else if (Song::kColumns.value(i) == "art_automatic") {
-      set_art_automatic(QUrl::fromEncoded(tostr(x).toUtf8()));
+      QString art_automatic = tostr(x);
+      if (art_automatic.contains(QRegExp("..+:.*"))) {
+        set_art_automatic(QUrl::fromEncoded(art_automatic.toUtf8()));
+      }
+      else {
+        set_art_automatic(QUrl::fromLocalFile(art_automatic.toUtf8()));
+      }
     }
     else if (Song::kColumns.value(i) == "art_manual") {
-      set_art_manual(QUrl::fromEncoded(tostr(x).toUtf8()));
+      QString art_manual = tostr(x);
+      if (art_manual.contains(QRegExp("..+:.*"))) {
+        set_art_manual(QUrl::fromEncoded(art_manual.toUtf8()));
+      }
+      else {
+        set_art_manual(QUrl::fromLocalFile(art_manual.toUtf8()));
+      }
     }
 
     else if (Song::kColumns.value(i) == "effective_albumartist") {
@@ -948,8 +960,7 @@ void Song::InitArtManual() {
     QString filename(Utilities::Sha1CoverHash(effective_albumartist(), album).toHex() + ".jpg");
     QString path(AlbumCoverLoader::ImageCacheDir(d->source_) + "/" + filename);
     if (QFile::exists(path)) {
-      d->art_manual_.setScheme("file");
-      d->art_manual_.setPath(path);
+      d->art_manual_ = QUrl::fromLocalFile(path);
     }
   }
 
@@ -1261,7 +1272,7 @@ QString Song::PrettyTitleWithArtist() const {
 
 QString Song::PrettyLength() const {
 
-  if (length_nanosec() == -1) return QString::null;
+  if (length_nanosec() == -1) return QString();
 
   return Utilities::PrettyTimeNanosec(length_nanosec());
 
@@ -1269,7 +1280,7 @@ QString Song::PrettyLength() const {
 
 QString Song::PrettyYear() const {
 
-  if (d->year_ == -1) return QString::null;
+  if (d->year_ == -1) return QString();
 
   return QString::number(d->year_);
 

@@ -85,11 +85,8 @@ void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, const QUrl 
     thumbnail = image.scaledToHeight(120, Qt::SmoothTransformation);
     thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG");
 
-    cover_url.setScheme("file");
-    cover_url.setPath(temp_cover_->fileName());
-
-    thumbnail_url.setScheme("file");
-    thumbnail_url.setPath(temp_cover_thumbnail_->fileName());
+    cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
+    thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->fileName());
   }
 
   emit AlbumCoverLoaded(last_song_, cover_url, image);

@@ -31,6 +31,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QRegExp>
 #include <QUrl>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -976,9 +977,23 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     info.artist = compilation ? QString() : query.Value(1).toString();
     info.album_artist = compilation ? QString() : query.Value(2).toString();
     info.album_name = query.Value(0).toString();
-    info.art_automatic = query.Value(5).toUrl();
-    info.art_manual = query.Value(6).toUrl();
     info.first_url = QUrl::fromEncoded(query.Value(7).toByteArray());
+
+    QString art_automatic = query.Value(5).toString();
+    if (art_automatic.contains(QRegExp("..+:.*"))) {
+      info.art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
+    }
+    else {
+      info.art_automatic = QUrl::fromLocalFile(art_automatic.toUtf8());
+    }
+
+    QString art_manual = query.Value(6).toString();
+    if (art_manual.contains(QRegExp("..+:.*"))) {
+      info.art_manual = QUrl::fromEncoded(art_manual.toUtf8());
+    }
+    else {
+      info.art_manual = QUrl::fromLocalFile(art_manual.toUtf8());
+    }
 
     if ((info.artist == last_artist || info.album_artist == last_album_artist) && info.album_name == last_album)
       continue;
