@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +23,9 @@
 
 #include <QtGlobal>
 #include <QApplication>
+#include <QGuiApplication>
+#include <QWindow>
+#include <QScreen>
 #include <QWidget>
 #include <QVariant>
 #include <QString>
@@ -44,7 +48,6 @@
 #include <QTransform>
 #include <QLayout>
 #include <QBoxLayout>
-#include <QDesktopWidget>
 #include <QLinearGradient>
 #include <QSettings>
 #include <QFlags>
@@ -56,6 +59,7 @@
 # include <QtWin>
 #endif
 
+#include "core/logging.h"
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
@@ -81,7 +85,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
       mode_(mode),
       background_color_(kPresetBlue),
       background_opacity_(0.85),
-      popup_display_(0),
+      popup_screen_(nullptr),
       font_(QFont()),
       disable_duration_(false),
       timeout_(new QTimer(this)),
@@ -98,8 +102,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   ui_->setupUi(this);
 
 #ifdef Q_OS_WIN32
-  // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it
-  // adds an extra ugly shadow.
+  // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
   int ex_style = GetWindowLong((HWND) winId(), GWL_EXSTYLE);
   ex_style |= WS_EX_NOACTIVATE;
   SetWindowLong((HWND) winId(), GWL_EXSTYLE, ex_style);
@@ -146,19 +149,64 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   int margin = l->margin() + kDropShadowSize;
   l->setMargin(margin);
 
-  // Get current screen resolution
-  QRect screenResolution = QApplication::desktop()->screenGeometry();
-  // Leave 200 px for icon
-  ui_->summary->setMaximumWidth(screenResolution.width()-200);
-  ui_->message->setMaximumWidth(screenResolution.width()-200);
-  // Set maximum size for the OSD, a little margin here too
-  setMaximumSize(screenResolution.width()-100,screenResolution.height()-100);
+  connect(qApp, SIGNAL(screenAdded(QScreen*)), this, SLOT(ScreenAdded(QScreen*)));
+  connect(qApp, SIGNAL(screenRemoved(QScreen*)), this, SLOT(ScreenRemoved(QScreen*)));
 
-  // Don't load settings here, they will be reloaded anyway on creation
 }
 
 OSDPretty::~OSDPretty() {
   delete ui_;
+}
+
+void OSDPretty::showEvent(QShowEvent *e) {
+
+  screens_.clear();
+  for(QScreen *screen : qApp->screens()) {
+    screens_.insert(screen->name(), screen);
+  }
+
+  // Get current screen resolution
+  QRect screenResolution = window()->windowHandle()->screen()->availableGeometry();
+
+  // Leave 200 px for icon
+  ui_->summary->setMaximumWidth(screenResolution.width() - 200);
+  ui_->message->setMaximumWidth(screenResolution.width() - 200);
+  // Set maximum size for the OSD, a little margin here too
+  setMaximumSize(screenResolution.width() - 100, screenResolution.height() - 100);
+
+  // Don't load settings here, they will be reloaded anyway on creation
+
+  setWindowOpacity(fading_enabled_ ? 0.0 : 1.0);
+
+  QWidget::showEvent(e);
+
+  Load();
+  Reposition();
+
+  if (fading_enabled_) {
+    fader_->setDirection(QTimeLine::Forward);
+    fader_->start();  // Timeout will be started in FaderFinished
+  }
+  else if (mode_ == Mode_Popup) {
+    if (!disable_duration())
+      timeout_->start();
+    // Ensures it is above when showing the preview
+    raise();
+  }
+
+}
+
+void OSDPretty::ScreenAdded(QScreen *screen) {
+
+  screens_.insert(screen->name(), screen);
+
+}
+
+void OSDPretty::ScreenRemoved(QScreen *screen) {
+
+  if (screens_.contains(screen->name())) screens_.remove(screen->name());
+  if (screen == popup_screen_) popup_screen_ = current_screen();
+
 }
 
 bool OSDPretty::IsTransparencyAvailable() {
@@ -176,11 +224,14 @@ void OSDPretty::Load() {
   foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
   background_opacity_ = s.value("background_opacity", 0.85).toDouble();
-  popup_display_ = s.value("popup_display", -1).toInt();
+  popup_screen_name_ = s.value("popup_screen").toString();
   popup_pos_ = s.value("popup_pos", QPoint(0, 0)).toPoint();
   font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
   s.endGroup();
+
+  if (screens_.contains(popup_screen_name_)) popup_screen_ = screens_[popup_screen_name_];
+  else popup_screen_ = current_screen();
 
   set_font(font());
   set_foreground_color(foreground_color());
@@ -242,6 +293,7 @@ void OSDPretty::paintEvent(QPaintEvent *) {
   p.setBrush(QBrush());
   p.setPen(QPen(background_color_.darker(150), 2));
   p.drawRoundedRect(box, kBorderRadius, kBorderRadius);
+
 }
 
 void OSDPretty::SetMessage(const QString& summary, const QString& message, const QImage &image) {
@@ -259,6 +311,7 @@ void OSDPretty::SetMessage(const QString& summary, const QString& message, const
   ui_->message->setText(message);
 
   if (isVisible()) Reposition();
+
 }
 
 // Set the desired message and then show the OSD
@@ -285,27 +338,6 @@ void OSDPretty::ShowMessage(const QString &summary, const QString &message, cons
       set_toggle_mode(false);
     // The OSD is not visible, show it
     show();
-  }
-
-}
-
-void OSDPretty::showEvent(QShowEvent *e) {
-
-  setWindowOpacity(fading_enabled_ ? 0.0 : 1.0);
-
-  QWidget::showEvent(e);
-
-  Reposition();
-
-  if (fading_enabled_) {
-    fader_->setDirection(QTimeLine::Forward);
-    fader_->start();  // Timeout will be started in FaderFinished
-  }
-  else if (mode_ == Mode_Popup) {
-    if (!disable_duration())
-      timeout_->start();
-    // Ensures it is above when showing the preview
-    raise();
   }
 
 }
@@ -337,19 +369,19 @@ void OSDPretty::FaderValueChanged(qreal value) {
 
 void OSDPretty::Reposition() {
 
-  QDesktopWidget *desktop = QApplication::desktop();
-
   // Make the OSD the proper size
   layout()->activate();
   resize(sizeHint());
 
   // Work out where to place the OSD.  -1 for x or y means "on the right or bottom edge".
-  QRect geometry(desktop->availableGeometry(popup_display_));
+  if (popup_screen_) {
+    QRect geometry = popup_screen_->availableGeometry();
 
-  int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
-  int y = popup_pos_.y() < 0 ? geometry.bottom() - height() : geometry.top() + popup_pos_.y();
+    int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
+    int y = popup_pos_.y() < 0 ? geometry.bottom() - height() : geometry.top() + popup_pos_.y();
 
-  move(qBound(0, x, geometry.right() - width()), qBound(0, y, geometry.bottom() - height()));
+    move(qBound(0, x, geometry.right() - width()), qBound(0, y, geometry.bottom() - height()));
+  }
 
   // Create a mask for the actual area of the OSD
   QBitmap mask(size());
@@ -400,8 +432,14 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
     QPoint new_pos = original_window_pos_ + delta;
 
     // Keep it to the bounds of the desktop
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect geometry(desktop->availableGeometry(e->globalPos()));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+    QScreen *screen = QGuiApplication::screenAt(e->globalPos());
+#else
+    QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : nullptr);
+#endif
+    if (!screen) return;
+
+    QRect geometry = screen->availableGeometry();
 
     new_pos.setX(qBound(geometry.left(), new_pos.x(), geometry.right() - width()));
     new_pos.setY(qBound(geometry.top(), new_pos.y(), geometry.bottom() - height()));
@@ -414,27 +452,34 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
     move(new_pos);
 
-    popup_display_ = current_display();
+    popup_screen_ = screen;
+    popup_screen_name_ = screen->name();
     popup_pos_ = current_pos();
   }
 
 }
 
-QPoint OSDPretty::current_pos() const {
-
-  QDesktopWidget *desktop = QApplication::desktop();
-  QRect geometry(desktop->availableGeometry(current_display()));
-
-  int x = pos().x() >= geometry.right() - width() ? -1 : pos().x() - geometry.left();
-  int y = pos().y() >= geometry.bottom() - height() ? -1 : pos().y() - geometry.top();
-
-  return QPoint(x, y);
-
+QScreen *OSDPretty::current_screen() const {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+  return QGuiApplication::screenAt(pos());
+#else
+  return (window() && window()->windowHandle() ? window()->windowHandle()->screen() : nullptr);
+#endif
 }
 
-int OSDPretty::current_display() const {
-  QDesktopWidget *desktop = QApplication::desktop();
-  return desktop->screenNumber(pos());
+QPoint OSDPretty::current_pos() const {
+
+  if (current_screen()) {
+    QRect geometry = current_screen()->availableGeometry();
+
+    int x = pos().x() >= geometry.right() - width() ? -1 : pos().x() - geometry.left();
+    int y = pos().y() >= geometry.bottom() - height() ? -1 : pos().y() - geometry.top();
+
+    return QPoint(x, y);
+  }
+
+  return QPoint(0, 0);
+
 }
 
 void OSDPretty::set_background_color(QRgb color) {
@@ -448,6 +493,7 @@ void OSDPretty::set_background_opacity(qreal opacity) {
 }
 
 void OSDPretty::set_foreground_color(QRgb color) {
+
   foreground_color_ = QColor(color);
 
   QPalette p;
@@ -455,6 +501,7 @@ void OSDPretty::set_foreground_color(QRgb color) {
 
   ui_->summary->setPalette(p);
   ui_->message->setPalette(p);
+
 }
 
 void OSDPretty::set_popup_duration(int msec) {
@@ -462,10 +509,13 @@ void OSDPretty::set_popup_duration(int msec) {
 }
 
 void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
+
   if (mode_ == Mode_Draggable) {
-    popup_display_ = current_display();
+    popup_screen_ = current_screen();
+    popup_screen_name_ = current_screen()->name();
     popup_pos_ = current_pos();
   }
+
 }
 
 void OSDPretty::set_font(QFont font) {
