@@ -1826,7 +1826,7 @@ void Playlist::InvalidateDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
-    if (song.url().scheme() == "file") {
+    if (song.url().isLocalFile()) {
       bool exists = QFile::exists(song.url().toLocalFile());
 
       if (!exists && !item->HasForegroundColor(kInvalidSongPriority)) {

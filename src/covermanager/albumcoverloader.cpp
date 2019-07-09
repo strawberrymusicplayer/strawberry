@@ -321,7 +321,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
     return TryLoadResult(false, false, cover_url, task.options.default_output_image_);
   }
   else {
-    if (cover_url.scheme() == "file") {
+    if (cover_url.isLocalFile()) {
       QImage image(cover_url.toLocalFile());
       return TryLoadResult(false, !image.isNull(), cover_url, image.isNull() ? task.options.default_output_image_ : image);
     }

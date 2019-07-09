@@ -543,7 +543,7 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
 
   ui_->filetype->setText(song.TextForFiletype());
 
-  if (song.url().scheme() == "file")
+  if (song.url().isLocalFile())
     ui_->filename->setText(QDir::toNativeSeparators(song.url().toLocalFile()));
   else
     ui_->filename->setText(song.url().toString());

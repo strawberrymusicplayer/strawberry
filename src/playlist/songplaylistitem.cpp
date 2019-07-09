@@ -40,7 +40,7 @@ bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
 QUrl SongPlaylistItem::Url() const { return song_.url(); }
 
 void SongPlaylistItem::Reload() {
-  if (song_.url().scheme() != "file") return;
+  if (!song_.url().isLocalFile()) return;
   TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
 }
 

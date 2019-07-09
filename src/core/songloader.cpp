@@ -118,7 +118,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
 
   url_ = url;
 
-  if (url_.scheme() == "file") {
+  if (url_.isLocalFile()) {
     return LoadLocal(url_.toLocalFile());
   }
 

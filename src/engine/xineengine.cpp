@@ -502,7 +502,7 @@ uint XineEngine::length() const {
 
   // Xine often delivers nonsense values for VBR files and such, so we only use the length for remote files
 
-  if (media_url_.scheme().toLower() == "file") return 0;
+  if (media_url_.isLocalFile()) return 0;
   else {
     int pos = 0, time = 0, length = 0;
 

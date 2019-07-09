@@ -252,17 +252,18 @@ QUrl AlbumCoverChoiceController::UnsetCover(Song *song) {
 void AlbumCoverChoiceController::ShowCover(const Song &song) {
 
   QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url());
+  if (pixmap.isNull()) return;
   ShowCover(song, pixmap);
 
 }
 
 void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image) {
 
-  if (!image.isNull()) ShowCover(song, QPixmap::fromImage(image));
-  else if (!song.art_manual().isEmpty() || !song.art_automatic().isEmpty()) {
+  if (song.art_manual().isLocalFile() || song.art_automatic().isLocalFile()) {
     QPixmap pixmap = AlbumCoverLoader::TryLoadPixmap(song.art_automatic(), song.art_manual(), song.url());
     if (!pixmap.isNull()) ShowCover(song, pixmap);
   }
+  else if (!image.isNull()) ShowCover(song, QPixmap::fromImage(image));
 
 }
 

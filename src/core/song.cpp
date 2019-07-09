@@ -328,9 +328,9 @@ int Song::lastplayed() const { return d->lastplayed_; }
 const QUrl &Song::art_automatic() const { return d->art_automatic_; }
 const QUrl &Song::art_manual() const { return d->art_manual_; }
 bool Song::has_manually_unset_cover() const { return d->art_manual_.path() == kManuallyUnsetCover; }
-void Song::manually_unset_cover() { d->art_manual_.clear(); d->art_manual_.setPath(kManuallyUnsetCover); }
+void Song::manually_unset_cover() { d->art_manual_ = QUrl::fromLocalFile(kManuallyUnsetCover); }
 bool Song::has_embedded_cover() const { return d->art_automatic_.path() == kEmbeddedCover; }
-void Song::set_embedded_cover() { d->art_automatic_.clear(); d->art_automatic_.setPath(kEmbeddedCover); }
+void Song::set_embedded_cover() { d->art_automatic_ = QUrl::fromLocalFile(kEmbeddedCover); }
 const QImage &Song::image() const { return d->image_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
@@ -447,7 +447,7 @@ QString Song::JoinSpec(const QString &table) {
 
 Song::Source Song::SourceFromURL(const QUrl &url) {
 
-  if (url.scheme() == "file") return Source_LocalFile;
+  if (url.isLocalFile()) return Source_LocalFile;
   else if (url.scheme() == "cdda") return Source_CDDA;
   else if (url.scheme() == "tidal") return Source_Tidal;
   else if (url.scheme() == "subsonic") return Source_Subsonic;
@@ -697,7 +697,7 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   }
 
   if (pb.has_art_automatic()) {
-    set_art_automatic(QUrl::fromEncoded(QByteArray(pb.art_automatic().data(), pb.art_automatic().size())));
+    set_art_automatic(QUrl::fromLocalFile(QByteArray(pb.art_automatic().data(), pb.art_automatic().size())));
   }
 
   InitArtManual();
@@ -1407,4 +1407,3 @@ void Song::MergeUserSetData(const Song &other) {
   set_art_manual(other.art_manual());
 
 }
-

@@ -426,7 +426,7 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
     return QDir::toNativeSeparators(string_value);
   }
 
-  if (url.scheme() == "file") {
+  if (url.isLocalFile()) {
     return QDir::toNativeSeparators(url.toLocalFile());
   }
   return string_value;

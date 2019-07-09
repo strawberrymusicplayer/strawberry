@@ -157,7 +157,7 @@ bool OrganiseDialog::SetSongs(const SongList &songs) {
   songs_.clear();
 
   for (const Song &song : songs) {
-    if (song.url().scheme() != "file") {
+    if (!song.url().isLocalFile()) {
       continue;
     }
 

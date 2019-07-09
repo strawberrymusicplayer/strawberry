@@ -379,7 +379,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
   QSet<QString> dirs;
 
   for (const QUrl &url : urls) {
-    if (url.scheme() != "file") {
+    if (!url.isLocalFile()) {
       continue;
     }
     QString path = url.toLocalFile();
@@ -662,7 +662,7 @@ bool IsLaptop() {
 
 bool UrlOnSameDriveAsStrawberry(const QUrl &url) {
 
-  if (!url.isValid() || url.scheme() != "file" || url.toLocalFile().isEmpty()) return false;
+  if (!url.isValid() || !url.isLocalFile() || url.toLocalFile().isEmpty()) return false;
 
 #ifdef Q_OS_WIN
   QUrl appUrl = QUrl::fromLocalFile(QCoreApplication::applicationDirPath());
