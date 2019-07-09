@@ -166,7 +166,7 @@ void OSDPretty::showEvent(QShowEvent *e) {
   }
 
   // Get current screen resolution
-  QRect screenResolution = window()->windowHandle()->screen()->availableGeometry();
+  QRect screenResolution = current_screen()->availableGeometry();
 
   // Leave 200 px for icon
   ui_->summary->setMaximumWidth(screenResolution.width() - 200);
@@ -174,13 +174,12 @@ void OSDPretty::showEvent(QShowEvent *e) {
   // Set maximum size for the OSD, a little margin here too
   setMaximumSize(screenResolution.width() - 100, screenResolution.height() - 100);
 
-  // Don't load settings here, they will be reloaded anyway on creation
-
   setWindowOpacity(fading_enabled_ ? 0.0 : 1.0);
 
   QWidget::showEvent(e);
 
   Load();
+
   Reposition();
 
   if (fading_enabled_) {
@@ -225,13 +224,27 @@ void OSDPretty::Load() {
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
   background_opacity_ = s.value("background_opacity", 0.85).toDouble();
   popup_screen_name_ = s.value("popup_screen").toString();
-  popup_pos_ = s.value("popup_pos", QPoint(0, 0)).toPoint();
+  popup_pos_ = s.value("popup_pos", QPoint()).toPoint();
   font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
   s.endGroup();
 
   if (screens_.contains(popup_screen_name_)) popup_screen_ = screens_[popup_screen_name_];
-  else popup_screen_ = current_screen();
+  else {
+    popup_screen_ = current_screen();
+    if (current_screen()) popup_screen_name_ = current_screen()->name();
+  }
+  if (popup_pos_.isNull()) {
+    if (current_screen()) {
+      QRect screenResolution = current_screen()->availableGeometry();
+      popup_pos_.setX(screenResolution.width() - width() - 10);
+      popup_pos_.setY(10);
+    }
+    else {
+      popup_pos_.setX(10);
+      popup_pos_.setY(10);
+    }
+  }
 
   set_font(font());
   set_foreground_color(foreground_color());
