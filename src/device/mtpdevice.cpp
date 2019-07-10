@@ -88,6 +88,7 @@ void MtpDevice::ConnectAsync() {
 
 void MtpDevice::LoadFinished(bool success) {
 
+  loader_thread_->exit();
   loader_->deleteLater();
   loader_ = nullptr;
   db_busy_.unlock();
