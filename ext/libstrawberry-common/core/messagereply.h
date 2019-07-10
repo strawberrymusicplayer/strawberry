@@ -80,15 +80,18 @@ MessageReply<MessageType>::MessageReply(const MessageType& request_message, QObj
 
 template<typename MessageType>
 void MessageReply<MessageType>::SetReply(const MessageType& message) {
+
   Q_ASSERT(!finished_);
 
   reply_message_.MergeFrom(message);
   finished_ = true;
   success_ = true;
 
-  emit Finished(success_);
   qLog(Debug) << "Releasing ID" << id() << "(finished)";
   semaphore_.release();
+
+  emit Finished(success_);
+
 }
 
 #endif  // MESSAGEREPLY_H
