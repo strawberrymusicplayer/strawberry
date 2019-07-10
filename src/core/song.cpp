@@ -167,7 +167,9 @@ struct Song::Private : public QSharedData {
   QString album_;
   QString album_sortable_;
   QString artist_;
+  QString artist_sortable_;
   QString albumartist_;
+  QString albumartist_sortable_;
   int track_;
   int disc_;
   int year_;
@@ -288,9 +290,12 @@ const QString &Song::album_sortable() const { return d->album_sortable_; }
 // This value is useful for singles, which are one-track albums on their own.
 const QString &Song::effective_album() const { return d->album_.isEmpty() ? d->title_ : d->album_; }
 const QString &Song::artist() const { return d->artist_; }
+const QString &Song::artist_sortable() const { return d->artist_sortable_; }
 const QString &Song::albumartist() const { return d->albumartist_; }
+const QString &Song::albumartist_sortable() const { return d->albumartist_sortable_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
-const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_ : effective_albumartist(); }
+const QString &Song::effective_albumartist_sortable() const { return d->albumartist_.isEmpty() ? d->artist_sortable_ : d->albumartist_sortable_; }
+const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_sortable_ : effective_albumartist_sortable(); }
 int Song::track() const { return d->track_; }
 int Song::disc() const { return d->disc_; }
 int Song::year() const { return d->year_; }
@@ -387,8 +392,8 @@ QString Song::sortable(const QString &v) const {
 
 void Song::set_title(const QString &v) { d->title_sortable_ = sortable(v); d->title_ = v; }
 void Song::set_album(const QString &v) { d->album_sortable_ = sortable(v); d->album_ = v; }
-void Song::set_artist(const QString &v) { d->artist_ = v; }
-void Song::set_albumartist(const QString &v) { d->albumartist_ = v; }
+void Song::set_artist(const QString &v) { d->artist_sortable_ = sortable(v); d->artist_ = v; }
+void Song::set_albumartist(const QString &v) { d->albumartist_sortable_ = sortable(v); d->albumartist_ = v; }
 void Song::set_track(int v) { d->track_ = v; }
 void Song::set_disc(int v) { d->disc_ = v; }
 void Song::set_year(int v) { d->year_ = v; }
@@ -625,7 +630,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
   d->valid_ = true;
 
   set_title(title);
-  d->artist_ = artist;
+  set_artist(artist);
   set_album(album);
 
   set_length_nanosec(length_nanosec);
@@ -637,7 +642,7 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
   d->valid_ = true;
 
   set_title(title);
-  d->artist_ = artist;
+  set_artist(artist);
   set_album(album);
 
   d->beginning_ = beginning;
@@ -665,8 +670,8 @@ void Song::InitFromProtobuf(const pb::tagreader::SongMetadata &pb) {
   d->valid_ = pb.valid();
   set_title(QStringFromStdString(pb.title()));
   set_album(QStringFromStdString(pb.album()));
-  d->artist_ = QStringFromStdString(pb.artist());
-  d->albumartist_ = QStringFromStdString(pb.albumartist());
+  set_artist(QStringFromStdString(pb.artist()));
+  set_albumartist(QStringFromStdString(pb.albumartist()));
   d->track_ = pb.track();
   d->disc_ = pb.disc();
   d->year_ = pb.year();
@@ -772,10 +777,10 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
       set_album(tostr(x));
     }
     else if (Song::kColumns.value(i) == "artist") {
-      d->artist_ = tostr(x);
+      set_artist(tostr(x));
     }
     else if (Song::kColumns.value(i) == "albumartist") {
-      d->albumartist_ = tostr(x);
+      set_albumartist(tostr(x));
     }
     else if (Song::kColumns.value(i) == "track") {
       d->track_ = toint(x);
@@ -973,8 +978,8 @@ void Song::InitFromItdb(const Itdb_Track *track, const QString &prefix) {
 
   set_title(QString::fromUtf8(track->title));
   set_album(QString::fromUtf8(track->album));
-  d->artist_ = QString::fromUtf8(track->artist);
-  d->albumartist_ = QString::fromUtf8(track->albumartist);
+  set_artist(QString::fromUtf8(track->artist));
+  set_albumartist(QString::fromUtf8(track->albumartist));
   d->track_ = track->track_nr;
   d->disc_ = track->cd_nr;
   d->year_ = track->year;
@@ -1052,7 +1057,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->valid_ = true;
 
   set_title(QString::fromUtf8(track->title));
-  d->artist_ = QString::fromUtf8(track->artist);
+  set_artist(QString::fromUtf8(track->artist));
   set_album(QString::fromUtf8(track->album));
   d->genre_ = QString::fromUtf8(track->genre);
   d->composer_ = QString::fromUtf8(track->composer);
@@ -1142,7 +1147,7 @@ void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
   d->valid_ = true;
   if (!bundle.title.isEmpty()) set_title(bundle.title);
-  if (!bundle.artist.isEmpty()) d->artist_ = bundle.artist;
+  if (!bundle.artist.isEmpty()) set_artist(bundle.artist);
   if (!bundle.album.isEmpty()) set_album(bundle.album);
   if (!bundle.comment.isEmpty()) d->comment_ = bundle.comment;
   if (!bundle.genre.isEmpty()) d->genre_ = bundle.genre;
