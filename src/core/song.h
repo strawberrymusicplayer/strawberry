@@ -190,7 +190,9 @@ class Song {
   const QString &album() const;
   const QString &album_sortable() const;
   const QString &artist() const;
+  const QString &artist_sortable() const;
   const QString &albumartist() const;
+  const QString &albumartist_sortable() const;
   int track() const;
   int disc() const;
   int year() const;
@@ -237,6 +239,7 @@ class Song {
   const QString &effective_album() const;
   int effective_originalyear() const;
   const QString &effective_albumartist() const;
+  const QString &effective_albumartist_sortable() const;
 
   bool is_collection_song() const;
   bool is_stream() const;

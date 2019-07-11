@@ -1103,7 +1103,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
   switch (column) {
 
     case Column_Title:        strcmp(title_sortable);
-    case Column_Artist:       strcmp(artist);
+    case Column_Artist:       strcmp(artist_sortable);
     case Column_Album:        strcmp(album_sortable);
     case Column_Length:       cmp(length_nanosec);
     case Column_Track:        cmp(track);
