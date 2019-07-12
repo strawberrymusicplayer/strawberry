@@ -63,7 +63,7 @@ bool MtpLoader::TryLoad() {
 
   MtpConnection dev(url_);
   if (!dev.is_valid()) {
-    emit Error(tr("Error connecting MTP device"));
+    emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));
     return false;
   }
 
