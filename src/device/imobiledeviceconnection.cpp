@@ -41,17 +41,17 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
     return;
   }
 
-  lockdownd_client_t lockdown;
-  lockdownd_service_descriptor_t lockdown_service_desc;
-
-  QByteArray label_ascii = QCoreApplication::applicationName().toLatin1();
+  QByteArray label_ascii = QCoreApplication::applicationName().toUtf8();
   const char *label = label_ascii.constData();
+
+  lockdownd_client_t lockdown;
   lockdownd_error_t lockdown_err = lockdownd_client_new_with_handshake(device_, &lockdown, label);
   if (lockdown_err != LOCKDOWN_E_SUCCESS) {
     qLog(Warning) << "lockdown error:" << lockdown_err;
     return;
   }
 
+  lockdownd_service_descriptor_t lockdown_service_desc;
   lockdown_err = lockdownd_start_service(lockdown, "com.apple.afc", &lockdown_service_desc);
   if (lockdown_err != LOCKDOWN_E_SUCCESS) {
     qLog(Warning) << "lockdown error:" << lockdown_err;
@@ -62,10 +62,12 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
   afc_error_t afc_err = afc_client_new(device_, lockdown_service_desc, &afc_);
   if (afc_err != 0) {
     qLog(Warning) << "afc error:" << afc_err;
+    lockdownd_service_descriptor_free(lockdown_service_desc);
     lockdownd_client_free(lockdown);
     return;
   }
 
+  lockdownd_service_descriptor_free(lockdown_service_desc);
   lockdownd_client_free(lockdown);
 
 }
@@ -90,8 +92,10 @@ T GetPListValue(plist_t node, F f) {
 
 QVariant iMobileDeviceConnection::GetProperty(const QString &property, const QString &domain) {
 
+  if (!device_) return QVariant();
+
   lockdownd_client_t lockdown;
-  QByteArray label_ascii = QCoreApplication::applicationName().toLatin1();
+  QByteArray label_ascii = QCoreApplication::applicationName().toUtf8();
   const char *label = label_ascii.constData();
 
   lockdownd_error_t lockdown_err = lockdownd_client_new_with_handshake(device_, &lockdown, label);
@@ -101,10 +105,10 @@ QVariant iMobileDeviceConnection::GetProperty(const QString &property, const QSt
   }
 
   plist_t node = NULL;
-  QByteArray domain_ascii = domain.toLatin1();
+  QByteArray domain_ascii = domain.toUtf8();
   const char *d = domain_ascii.isEmpty() ? NULL : domain_ascii.constData();
   //const char *d = domain.isEmpty() ? NULL : "com.apple.disk_usage";
-  lockdownd_get_value(lockdown, d, property.toLatin1().constData(), &node);
+  lockdownd_get_value(lockdown, d, property.toUtf8().constData(), &node);
   lockdownd_client_free(lockdown);
 
   if (!node) {
@@ -134,6 +138,8 @@ QVariant iMobileDeviceConnection::GetProperty(const QString &property, const QSt
 }
 
 QStringList iMobileDeviceConnection::ReadDirectory(const QString &path, QDir::Filters filters) {
+
+  if (!afc_) return QStringList();
 
   char **list = NULL;
   afc_error_t err = afc_read_directory(afc_, path.toUtf8().constData(), &list);
@@ -166,11 +172,16 @@ QStringList iMobileDeviceConnection::ReadDirectory(const QString &path, QDir::Fi
 }
 
 bool iMobileDeviceConnection::MkDir(const QString &path) {
+
+  if (!afc_) return false;
+
   afc_error_t err = afc_make_directory(afc_, path.toUtf8().constData());
   return err == AFC_E_SUCCESS;
 }
 
 QString iMobileDeviceConnection::GetFileInfo(const QString &path, const QString &key) {
+
+  if (!afc_) return QString();
 
   QString ret;
   char **infolist = NULL;
