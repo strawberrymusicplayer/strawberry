@@ -306,10 +306,6 @@ optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" CDIO_FOUND
 )
 
-optional_component(DEVICEKIT ON "Devices: DeviceKit backend"
-  DEPENDS "D-Bus support" DBUS_FOUND
-)
-
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"
   DEPENDS "D-Bus support" DBUS_FOUND
 )

@@ -30,7 +30,6 @@
 #cmakedefine HAVE_X11
 #cmakedefine HAVE_UDISKS2
 #cmakedefine HAVE_ALSA
-#cmakedefine HAVE_DEVICEKIT
 #cmakedefine HAVE_IMOBILEDEVICE
 #cmakedefine HAVE_AUDIOCD
 #cmakedefine HAVE_LIBGPOD

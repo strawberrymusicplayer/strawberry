@@ -604,10 +604,6 @@ if(UNIX AND HAVE_DBUS)
     SOURCES core/mpris.cpp core/mpris2.cpp core/dbusscreensaver.cpp
     HEADERS core/mpris.h core/mpris2.h
   )
-  optional_source(HAVE_DEVICEKIT
-    SOURCES device/devicekitlister.cpp
-    HEADERS device/devicekitlister.h
-  )
   optional_source(HAVE_UDISKS2
     SOURCES device/udisks2lister.cpp
     HEADERS device/udisks2lister.h
@@ -666,20 +662,6 @@ if(UNIX AND HAVE_DBUS)
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   list(APPEND HEADERS ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.h)
   list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/dbus/avahientrygroup.cpp)
-
-  # DeviceKit DBUS interfaces
-  if(HAVE_DEVICEKIT)
-    set_source_files_properties(dbus/org.freedesktop.UDisks.xml
-        PROPERTIES NO_NAMESPACE dbus/udisks)
-    set_source_files_properties(dbus/org.freedesktop.UDisks.Device.xml
-        PROPERTIES NO_NAMESPACE dbus/udisksdevice)
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.freedesktop.UDisks.xml
-        dbus/udisks)
-    qt5_add_dbus_interface(SOURCES
-        dbus/org.freedesktop.UDisks.Device.xml
-        dbus/udisksdevice)
-  endif(HAVE_DEVICEKIT)
 
   if(HAVE_UDISKS2)
        set_source_files_properties(dbus/org.freedesktop.DBus.ObjectManager.xml

@@ -66,9 +66,6 @@
 #  include "cddadevice.h"
 #endif
 #ifdef HAVE_DBUS
-#  ifdef HAVE_DEVICEKIT
-#    include "devicekitlister.h"
-#  endif
 #  ifdef HAVE_UDISKS2
 #    include "udisks2lister.h"
 #  endif
@@ -120,9 +117,6 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 // CD devices are detected via the DiskArbitration framework instead on MacOs.
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER) && !defined(Q_OS_MACOS)
   AddLister(new CddaLister);
-#endif
-#if defined(HAVE_DBUS) && defined(HAVE_DEVICEKIT)
-  AddLister(new DeviceKitLister);
 #endif
 #if defined(HAVE_DBUS) && defined(HAVE_UDISKS2)
   AddLister(new Udisks2Lister);
