@@ -65,6 +65,8 @@ void iLister::EventCallback(const idevice_event_t *event, void *context) {
 void iLister::DeviceAddedCallback(const char *uuid) {
 
   DeviceInfo info = ReadDeviceInfo(uuid);
+  if (!info.valid) return;
+
   QString id = UniqueId(uuid);
 
   QString name = MakeFriendlyName(id);
@@ -196,6 +198,8 @@ iLister::DeviceInfo iLister::ReadDeviceInfo(const char *uuid) {
   DeviceInfo ret;
 
   iMobileDeviceConnection conn(uuid);
+  if (!conn.is_valid()) return ret;
+  ret.valid = conn.is_valid();
   ret.uuid = uuid;
   ret.product_type = conn.GetProperty("ProductType").toString();
   ret.free_bytes = conn.GetProperty("AmountDataAvailable", "com.apple.disk_usage").toULongLong();

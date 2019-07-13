@@ -59,7 +59,9 @@ class iLister : public DeviceLister {
 
  private:
   struct DeviceInfo {
-    DeviceInfo() : free_bytes(0), total_bytes(0) {}
+    DeviceInfo() : valid(false), free_bytes(0), total_bytes(0) {}
+
+    bool valid;
 
     QString uuid;
     QString product_type;

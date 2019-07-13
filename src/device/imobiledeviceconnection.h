@@ -52,6 +52,8 @@ public:
 
   QString GetUnusedFilename(Itdb_iTunesDB *itdb, const Song &metadata);
 
+  bool is_valid() { return device_ && afc_; }
+
 private:
   Q_DISABLE_COPY(iMobileDeviceConnection);
 
