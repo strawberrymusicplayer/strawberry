@@ -45,7 +45,6 @@ include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${GOBJECT_INCLUDE_DIRS})
 include_directories(${GNUTLS_INCLUDE_DIR})
 include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${LIBXML_INCLUDE_DIRS})
 include_directories(${CHROMAPRINT_INCLUDE_DIRS})
 
 if (X11_FOUND)
