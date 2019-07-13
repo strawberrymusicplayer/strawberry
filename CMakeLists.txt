@@ -388,10 +388,6 @@ include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
-if(HAVE_IMOBILEDEVICE AND LIBIMOBILEDEVICE_VERSION VERSION_GREATER 1.1.1)
-  set(IMOBILEDEVICE_USES_UDIDS ON)
-endif()
-
 # Subdirectories
 add_subdirectory(src)
 add_subdirectory(dist)

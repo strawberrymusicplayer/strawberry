@@ -43,13 +43,10 @@ bool iLister::Init() {
 }
 
 void iLister::EventCallback(const idevice_event_t *event, void *context) {
+
   iLister *me = reinterpret_cast<iLister*>(context);
 
-#ifdef IMOBILEDEVICE_USES_UDIDS
   const char *uuid = event->udid;
-#else
-  const char *uuid = event->uuid;
-#endif
 
   switch (event->event) {
     case IDEVICE_DEVICE_ADD:
