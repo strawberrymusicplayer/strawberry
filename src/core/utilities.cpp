@@ -23,6 +23,7 @@
 
 #include <memory>
 #include <stdlib.h>
+#include <iconv.h>
 
 #include <QtGlobal>
 #include <QApplication>
@@ -792,6 +793,31 @@ QString DesktopEnvironment() {
   else if (session == "xfce")     return "XFCE";
 
   return "Unknown";
+
+}
+
+QString UnicodeToAscii(const QString &unicode) {
+
+  setlocale(LC_ALL, "");
+
+  iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
+  if (conv == (iconv_t) -1) return QString();
+
+  QByteArray utf8 = unicode.toUtf8();
+  size_t input_len = utf8.length() + 1;
+  char input[input_len];
+
+  snprintf(input, input_len, "%s", utf8.constData());
+
+  char output[input_len*2];
+  size_t output_len = sizeof(output);
+
+  char *input_ptr = input;
+  char *output_ptr = output;
+  iconv(conv, &input_ptr, &input_len, &output_ptr, &output_len);
+  iconv_close(conv);
+
+  return QString(output);
 
 }
 

@@ -155,6 +155,8 @@ QString GetRandomString(const int len, const QString &UseCharacters);
 
 QString DesktopEnvironment();
 
+QString UnicodeToAscii(const QString &unicode);
+
 #ifdef HAVE_TRANSLATIONS
 QString SystemLanguageName();
 void LoadTranslation(const QString &prefix, const QString &path, const QString &language);

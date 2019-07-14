@@ -166,19 +166,9 @@ QString AlbumCoverLoader::AlbumCoverFileName(QString artist, QString album) {
   album.remove('/');
 
   QString filename = artist + "-" + album + ".jpg";
-  filename = filename.toLower();
+  filename = Utilities::UnicodeToAscii(filename.toLower());
   filename.replace(' ', '-');
   filename.replace("--", "-");
-  filename.replace(230, "ae");
-  filename.replace(198, "AE");
-  filename.replace(246, 'o');
-  filename.replace(248, 'o');
-  filename.replace(214, 'O');
-  filename.replace(216, 'O');
-  filename.replace(228, 'a');
-  filename.replace(229, 'a');
-  filename.replace(196, 'A');
-  filename.replace(197, 'A');
   filename.remove(OrganiseFormat::kValidFatCharacters);
 
   return filename;
