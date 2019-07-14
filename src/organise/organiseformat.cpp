@@ -115,7 +115,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
     filename = Utilities::PathWithoutFilenameExtension(filename) + song.basefilename();
   }
 
-  if (remove_non_fat_ || remove_non_ascii_) filename = Utilities::UnicodeToAscii(filename);
+  if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::UnicodeToAscii(filename);
   if (remove_non_fat_) filename.remove(kValidFatCharacters);
   if (replace_spaces_) filename.replace(QRegExp("\\s"), "_");
 
