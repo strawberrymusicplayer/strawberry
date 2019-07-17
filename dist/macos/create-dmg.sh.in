@@ -21,4 +21,4 @@ rm -f "$output_file"
 
 mkdir -p "$temp_dir"
 
-create-dmg --volname "$name" --background ../dist/macos/dmg_background.png --app-drop-link 450 218 --icon $bundle_dir 150 218 --window-size 600 450 $output_file $bundle_dir
+/usr/local/bin/create-dmg --volname "$name" --background "@CMAKE_SOURCE_DIR@/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon $bundle_dir 150 218 --window-size 600 450 $output_file $bundle_dir

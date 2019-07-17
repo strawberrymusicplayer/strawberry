@@ -1150,7 +1150,7 @@ target_link_libraries(strawberry
   strawberry_lib
 )
 
-# macdeploy.py relies on the blob being built first.
+# macdeployqt relies on the blob being built first.
 add_dependencies(strawberry strawberry-tagreader)
 
 if (NOT APPLE)
