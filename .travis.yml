@@ -29,6 +29,7 @@ before_install:
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
+      brew install create-dmg;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
       export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools;
       export PATH="/usr/local/opt/gettext/bin:$PATH";
