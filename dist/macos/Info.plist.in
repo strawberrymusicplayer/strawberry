@@ -11,7 +11,7 @@
   <key>CFBundleGetInfoString</key>
   <string>Strawberry ${STRAWBERRY_VERSION_DISPLAY}</string>
   <key>CFBundleIconFile</key>
-  <string>strawberry</string>
+  <string>strawberry.icns</string>
   <key>CFBundleIdentifier</key>
   <string>org.strawberry.strawberry</string>
   <key>CFBundleInfoDictionaryVersion</key>
