@@ -70,7 +70,6 @@
         <file>icons/128x128/star-grey.png</file>
         <file>icons/128x128/star.png</file>
         <file>icons/128x128/strawberry.png</file>
-        <file>icons/128x128/strawberry.svg</file>
         <file>icons/128x128/tools-wizard.png</file>
         <file>icons/128x128/view-choose.png</file>
         <file>icons/128x128/view-fullscreen.png</file>
@@ -347,7 +346,6 @@
         <file>icons/32x32/star-grey.png</file>
         <file>icons/32x32/star.png</file>
         <file>icons/32x32/strawberry.png</file>
-        <file>icons/32x32/strawberry.svg</file>
         <file>icons/32x32/tools-wizard.png</file>
         <file>icons/32x32/view-choose.png</file>
         <file>icons/32x32/view-fullscreen.png</file>
@@ -441,7 +439,6 @@
         <file>icons/22x22/star-grey.png</file>
         <file>icons/22x22/star.png</file>
         <file>icons/22x22/strawberry.png</file>
-        <file>icons/22x22/strawberry.svg</file>
         <file>icons/22x22/tools-wizard.png</file>
         <file>icons/22x22/view-choose.png</file>
         <file>icons/22x22/view-fullscreen.png</file>
