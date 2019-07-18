@@ -49,7 +49,9 @@ script:
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ]; then rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ] && [[[ "$TRAVIS_BRANCH" == "master" ]] || [[ "$TRAVIS_BRANCH" == "macos" ]]]; then
+      rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+    fi
 
 branches:
   except:
