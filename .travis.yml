@@ -24,8 +24,7 @@ before_install:
       git pull || travis_terminate 1;
       brew update || travis_terminate 1;
       brew unlink python || travis_terminate 1;
-      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw;
-      brew install sqlite --with-fts;
+      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite;
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
       brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
@@ -49,8 +48,10 @@ script:
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ] && [[[ "$TRAVIS_BRANCH" == "master" ]] || [[ "$TRAVIS_BRANCH" == "macos" ]]]; then
-      rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ]; then
+      if [[ "$TRAVIS_BRANCH" == "master" ]] || [[ "$TRAVIS_BRANCH" == "macos" ]]; then
+        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+      fi
     fi
 
 branches:
