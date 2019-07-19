@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +35,7 @@
 class TaskManager;
 class CollectionBackend;
 class ConnectedDevice;
+class MtpDevice;
 class MtpConnection;
 
 class MtpLoader : public QObject {
@@ -57,13 +59,13 @@ class MtpLoader : public QObject {
   bool TryLoad();
 
  private:
-  std::shared_ptr<ConnectedDevice> device_;
-  QThread *original_thread_;
-
   QUrl url_;
   TaskManager *task_manager_;
   CollectionBackend *backend_;
-  MtpConnection *connection_;
+  std::shared_ptr<ConnectedDevice> device_;
+  std::shared_ptr<MtpConnection> connection_;
+  QThread *original_thread_;
+
 };
 
 #endif  // MTPLOADER_H

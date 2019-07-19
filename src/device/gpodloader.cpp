@@ -88,7 +88,7 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
   for (GList *tracks = db->tracks; tracks != nullptr; tracks = tracks->next) {
     Itdb_Track *track = static_cast<Itdb_Track*>(tracks->data);
 
-    Song song;
+    Song song(Song::Source_Device);
     song.InitFromItdb(track, prefix);
     song.set_directory_id(1);
 

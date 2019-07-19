@@ -125,10 +125,11 @@ QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
   QList<QUrl> ret;
   if (!device_data_.contains(id)) return ret;
   // Special case for Apple
-  if(id.contains("iPod")) {
-      ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
-  } else {
-      ret << QUrl::fromLocalFile(device_data_[id].mount_paths.at(0));
+  if (id.contains("iPod")) {
+    ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
+  }
+  else {
+    ret << QUrl::fromLocalFile(device_data_[id].mount_paths.at(0));
   }
   return ret;
 }

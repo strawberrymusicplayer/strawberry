@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,17 +28,19 @@
 
 #include "core/taskmanager.h"
 #include "core/song.h"
+#include "core/logging.h"
 #include "collection/collectionbackend.h"
+#include "connecteddevice.h"
+#include "mtpdevice.h"
 #include "mtpconnection.h"
 #include "mtploader.h"
 
 MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device)
     : QObject(nullptr),
-      device_(device),
       url_(url),
       task_manager_(task_manager),
       backend_(backend),
-      connection_(nullptr) {
+      device_(device) {
   original_thread_ = thread();
 }
 
@@ -61,23 +64,28 @@ void MtpLoader::LoadDatabase() {
 
 bool MtpLoader::TryLoad() {
 
-  MtpConnection dev(url_);
-  if (!dev.is_valid()) {
+  MtpDevice *device = dynamic_cast<MtpDevice*>(device_.get()); // FIXME
+
+  if (!device->connection() || !device->connection()->is_valid())
+    device->NewConnection();
+
+  if (!device->connection() || !device->connection()->is_valid()) {
     emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));
     return false;
   }
 
   // Load the list of songs on the device
   SongList songs;
-  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(dev.device(), nullptr, nullptr);
+  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(device->connection()->device(), nullptr, nullptr);
   while (tracks) {
     LIBMTP_track_t *track = tracks;
 
-    Song song;
+    Song song(Song::Source_Device);
     song.InitFromMTP(track, url_.host());
-    song.set_directory_id(1);
-    songs << song;
-
+    if (song.is_valid() && !song.artist().isEmpty() && !song.title().isEmpty()) {
+      song.set_directory_id(1);
+      songs << song;
+    }
     tracks = tracks->next;
     LIBMTP_destroy_track_t(track);
   }

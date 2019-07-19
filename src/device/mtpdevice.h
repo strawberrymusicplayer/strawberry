@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +41,7 @@
 class Application;
 class DeviceLister;
 class DeviceManager;
+class DeviceConnection;
 class MtpConnection;
 class MtpLoader;
 struct LIBMTP_mtpdevice_struct;
@@ -54,6 +56,7 @@ class MtpDevice : public ConnectedDevice {
   static QStringList url_schemes() { return QStringList() << "mtp" << "gphoto2"; }
 
   bool Init();
+  void NewConnection();
   void ConnectAsync();
 
   bool GetSupportedFiletypes(QList<Song::FileType>* ret);
@@ -67,6 +70,8 @@ class MtpDevice : public ConnectedDevice {
   void StartDelete();
   bool DeleteFromStorage(const DeleteJob& job);
   void FinishDelete(bool success);
+
+  MtpConnection *connection() { return connection_.get(); }
 
  private slots:
   void LoadFinished(bool success);
@@ -87,7 +92,8 @@ class MtpDevice : public ConnectedDevice {
   SongList songs_to_add_;
   SongList songs_to_remove_;
 
-  std::unique_ptr<MtpConnection> connection_;
+  std::shared_ptr<MtpConnection> connection_;
+
 };
 
 #endif  // MTPDEVICE_H

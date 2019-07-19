@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +51,7 @@ class DeviceManager;
 bool MtpDevice::sInitialisedLibMTP = false;
 
 MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-  : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), loader_thread_(new QThread(this)), loader_(nullptr) {
+  : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), loader_thread_(new QThread()), loader_(nullptr) {
 
   if (!sInitialisedLibMTP) {
     LIBMTP_Init();
@@ -59,7 +60,15 @@ MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &uniqu
 
 }
 
-MtpDevice::~MtpDevice() {}
+MtpDevice::~MtpDevice() {
+  if (loader_) {
+    loader_thread_->exit();
+    loader_->deleteLater();
+    loader_ = nullptr;
+    db_busy_.unlock();
+    loader_thread_->deleteLater();
+  }
+}
 
 bool MtpDevice::Init() {
 
@@ -76,6 +85,12 @@ bool MtpDevice::Init() {
   connect(loader_thread_, SIGNAL(started()), loader_, SLOT(LoadDatabase()));
 
   return true;
+
+}
+
+void MtpDevice::NewConnection() {
+
+  connection_.reset(new MtpConnection(url_));
 
 }
 
@@ -96,7 +111,9 @@ void MtpDevice::LoadFinished(bool success) {
 
 }
 
-void MtpDevice::LoaderError(const QString& message) { app_->AddError(message); }
+void MtpDevice::LoaderError(const QString& message) {
+  app_->AddError(message);
+}
 
 bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
 
@@ -104,7 +121,8 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
   db_busy_.lock();
 
   // Connect to the device
-  connection_.reset(new MtpConnection(url_));
+  if (!connection_.get() || !connection_->is_valid()) NewConnection();
+  if (!connection_.get() || !connection_->is_valid()) return false;
 
   // Did the caller want a list of supported types?
   if (supported_types) {
@@ -129,7 +147,7 @@ static int ProgressCallback(uint64_t const sent, uint64_t const total, void cons
 
 bool MtpDevice::CopyToStorage(const CopyJob &job) {
 
-  if (!connection_->is_valid()) return false;
+  if (!connection_.get() || !connection_->is_valid()) return false;
 
   // Convert metadata
   LIBMTP_track_t track;
@@ -140,9 +158,11 @@ bool MtpDevice::CopyToStorage(const CopyJob &job) {
   if (ret != 0) return false;
 
   // Add it to our CollectionModel
-  Song metadata_on_device;
+  Song metadata_on_device(Song::Source_Device);
   metadata_on_device.InitFromMTP(&track, url_.host());
   metadata_on_device.set_directory_id(1);
+  metadata_on_device.set_artist(metadata_on_device.effective_albumartist());
+  metadata_on_device.set_albumartist("");
   songs_to_add_ << metadata_on_device;
 
   // Remove the original if requested
@@ -164,8 +184,6 @@ void MtpDevice::FinishCopy(bool success) {
   songs_to_add_.clear();
   songs_to_remove_.clear();
 
-  connection_.reset();
-
   db_busy_.unlock();
 
   ConnectedDevice::FinishCopy(success);
@@ -175,6 +193,8 @@ void MtpDevice::FinishCopy(bool success) {
 void MtpDevice::StartDelete() { StartCopy(nullptr); }
 
 bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
+
+  if (!connection_.get() || !connection_->is_valid()) return false;
 
   // Extract the ID from the song's URL
   QString filename = job.metadata_.url().path();
@@ -201,6 +221,7 @@ bool MtpDevice::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   QMutexLocker l(&db_busy_);
   MtpConnection connection(url_);
+
   if (!connection.is_valid()) {
     qLog(Warning) << "Error connecting to MTP device, couldn't get list of supported filetypes";
     return false;

@@ -1055,6 +1055,7 @@ void Song::ToItdb(Itdb_Track *track) const {
 void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
   d->valid_ = true;
+  d->source_ = Source_Device;
 
   set_title(QString::fromUtf8(track->title));
   set_artist(QString::fromUtf8(track->artist));
@@ -1063,7 +1064,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   d->composer_ = QString::fromUtf8(track->composer);
   d->track_ = track->tracknumber;
 
-  d->url_ = QUrl(QString("mtp://%1/%2").arg(host, track->item_id));
+  d->url_ = QUrl(QString("mtp://%1/%2").arg(host, QString::number(track->item_id)));
   d->basefilename_ = QString::number(track->item_id);
   d->filesize_ = track->filesize;
   d->mtime_ = track->modificationdate;
@@ -1072,7 +1073,7 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
   set_length_nanosec(track->duration * kNsecPerMsec);
 
   d->samplerate_ = track->samplerate;
-  d->bitdepth_ = 0; //track->bitdepth;
+  d->bitdepth_ = 0;
   d->bitrate_ = track->bitrate;
 
   d->playcount_ = track->usecount;
@@ -1087,10 +1088,11 @@ void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
       case LIBMTP_FILETYPE_FLAC: d->filetype_ = FileType_OggFlac;   break;
       case LIBMTP_FILETYPE_MP2:  d->filetype_ = FileType_MPEG;      break;
       case LIBMTP_FILETYPE_M4A:  d->filetype_ = FileType_MP4;       break;
-      default:                   d->filetype_ = FileType_Unknown;   break;
+      default:
+        d->filetype_ = FileType_Unknown;
+        d->valid_ = false;
+        break;
   }
-
-  d->source_ = Source_Device;
 
 }
 
@@ -1101,14 +1103,18 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
   track->storage_id = 0;
 
   track->title = strdup(d->title_.toUtf8().constData());
-  track->artist = strdup(d->artist_.toUtf8().constData());
+  track->artist = strdup(effective_albumartist().toUtf8().constData());
   track->album = strdup(d->album_.toUtf8().constData());
   track->genre = strdup(d->genre_.toUtf8().constData());
   track->date = nullptr;
   track->tracknumber = d->track_;
-  track->composer = strdup(d->composer_.toUtf8().constData());
+  if (d->composer_.isEmpty())
+    track->composer = nullptr;
+  else
+    track->composer = strdup(d->composer_.toUtf8().constData());
 
   track->filename = strdup(d->basefilename_.toUtf8().constData());
+
   track->filesize = d->filesize_;
   track->modificationdate = d->mtime_;
 
@@ -1123,15 +1129,15 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
   track->usecount = d->playcount_;
 
   switch (d->filetype_) {
-      case FileType_ASF:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
-      case FileType_MP4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
-      case FileType_MPEG:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
+    case FileType_ASF:       track->filetype = LIBMTP_FILETYPE_ASF;         break;
+    case FileType_MP4:       track->filetype = LIBMTP_FILETYPE_MP4;         break;
+    case FileType_MPEG:      track->filetype = LIBMTP_FILETYPE_MP3;         break;
     case FileType_FLAC:
-      case FileType_OggFlac:   track->filetype = LIBMTP_FILETYPE_FLAC;        break;
+    case FileType_OggFlac:   track->filetype = LIBMTP_FILETYPE_FLAC;        break;
     case FileType_OggSpeex:
-      case FileType_OggVorbis: track->filetype = LIBMTP_FILETYPE_OGG;         break;
-      case FileType_WAV:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
-      default:                 track->filetype = LIBMTP_FILETYPE_UNDEF_AUDIO; break;
+    case FileType_OggVorbis: track->filetype = LIBMTP_FILETYPE_OGG;         break;
+    case FileType_WAV:       track->filetype = LIBMTP_FILETYPE_WAV;         break;
+    default:                 track->filetype = LIBMTP_FILETYPE_UNDEF_AUDIO; break;
   }
 
 }

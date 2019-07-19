@@ -47,10 +47,12 @@ using std::placeholders::_3;
 
 QString GioLister::DeviceInfo::unique_id() const {
 
+  if (!volume_root_uri.isEmpty()) return volume_root_uri;
+
   if (mount)
     return QString("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
-
-  return QString("Gio/unmounted/%1").arg((qulonglong)volume.get());
+  else
+    return QString("Gio/unmounted/%1").arg((qulonglong)volume.get());
 
 }
 
@@ -191,43 +193,65 @@ QVariantMap GioLister::DeviceHardwareInfo(const QString &id) {
 
 QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
+  QString volume_root_uri;
   QString mount_point;
-  QString uri;
+  QString mount_uri;
   QString unix_device;
 
   {
     QMutexLocker l(&mutex_);
+    volume_root_uri = devices_[id].volume_root_uri;
     mount_point = devices_[id].mount_path;
-    uri = devices_[id].mount_uri;
+    mount_uri = devices_[id].mount_uri;
     unix_device = devices_[id].volume_unix_device;
   }
 
-  // gphoto2 gives invalid hostnames with []:, characters in
-  uri.replace(QRegExp("//\\[usb:(\\d+),(\\d+)\\]"), "//usb-\\1-\\2");
+  QStringList uris;
+  if (!volume_root_uri.isEmpty())
+    uris << volume_root_uri;
 
-  QUrl url(uri);
+  if (!mount_uri.isEmpty())
+    uris << mount_uri;
 
   QList<QUrl> ret;
 
-  if (url.isValid()) {
-    QRegExp device_re("usb/(\\d+)/(\\d+)");
-    if (device_re.indexIn(unix_device) >= 0) {
-      QUrlQuery url_query(url);
-      url_query.addQueryItem("busnum", device_re.cap(1));
-      url_query.addQueryItem("devnum", device_re.cap(2));
-      url.setQuery(url_query);
-    }
+  for (QString uri : uris) {
 
-    // Special case for file:// GIO URIs - we have to check whether they point to an ipod.
-    if (url.scheme() == "file") {
-      ret << MakeUrlFromLocalPath(url.path());
+    // gphoto2 gives invalid hostnames with []:, characters in
+    uri.replace(QRegExp("//\\[usb:(\\d+),(\\d+)\\]"), "//usb-\\1-\\2");
+
+    QUrl url;
+
+    if (uri.contains(QRegExp("..+:.*"))) {
+      url = QUrl::fromEncoded(uri.toUtf8());
     }
     else {
+      url = MakeUrlFromLocalPath(uri);
+    }
+
+    if (url.isValid()) {
+
+      // Special case for file:// GIO URIs - we have to check whether they point to an ipod.
+      if (url.isLocalFile() && IsIpod(url.path())) {
+        url.setScheme("ipod");
+      }
+
+      QRegExp device_re("usb/(\\d+)/(\\d+)");
+      if (device_re.indexIn(unix_device) >= 0) {
+        QUrlQuery url_query(url);
+        url_query.addQueryItem("busnum", device_re.cap(1));
+        url_query.addQueryItem("devnum", device_re.cap(2));
+        url.setQuery(url_query);
+      }
+
       ret << url;
+
     }
   }
 
-  ret << MakeUrlFromLocalPath(mount_point);
+  if (!mount_point.isEmpty()) {
+    ret << MakeUrlFromLocalPath(mount_point);
+  }
 
   return ret;
 
@@ -473,6 +497,7 @@ void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
 }
 
 void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
+
   this->drive.reset_without_add(drive);
   if (!drive) return;
 
@@ -485,6 +510,7 @@ QString GioLister::FindUniqueIdByMount(GMount *mount) const {
     if (info.mount == mount) return info.unique_id();
   }
   return QString();
+
 }
 
 QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
@@ -509,7 +535,7 @@ void GioLister::MountUnmountFinished(GObject *object, GAsyncResult *result, gpoi
 void GioLister::UnmountDevice(const QString &id) {
 
   QMutexLocker l(&mutex_);
-  if (!devices_.contains(id)) return;
+  if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
 
   const DeviceInfo &info = devices_[id];
 
@@ -537,7 +563,7 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 
   {
     QMutexLocker l(&mutex_);
-    if (!devices_.contains(id)) return;
+    if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
 
     DeviceInfo &device_info = devices_[id];
 
@@ -563,10 +589,11 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 
 bool GioLister::DeviceNeedsMount(const QString &id) {
   QMutexLocker l(&mutex_);
-  return devices_.contains(id) && !devices_[id].mount;
+  return devices_.contains(id) && !devices_[id].mount && !devices_[id].volume_root_uri.startsWith("mtp://");
 }
 
 int GioLister::MountDevice(const QString &id) {
+
   const int request_id = next_mount_request_id_++;
   metaObject()->invokeMethod(this, "DoMountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
   return request_id;

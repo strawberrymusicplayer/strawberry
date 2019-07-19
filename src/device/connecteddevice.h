@@ -40,9 +40,7 @@ class CollectionModel;
 class DeviceLister;
 class DeviceManager;
 
-class ConnectedDevice : public QObject,
-                        public virtual MusicStorage,
-                        public std::enable_shared_from_this<ConnectedDevice> {
+class ConnectedDevice : public QObject, public virtual MusicStorage, public std::enable_shared_from_this<ConnectedDevice> {
   Q_OBJECT
 
  public:
@@ -50,6 +48,7 @@ class ConnectedDevice : public QObject,
   ~ConnectedDevice();
 
   virtual bool Init() = 0;
+  virtual void NewConnection() {}
   virtual void ConnectAsync();
   // For some devices (e.g. CD devices) we don't have callbacks to be notified when something change:
   // we can call this method to refresh device's state

@@ -79,6 +79,13 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
 
 }
 
+Organise::~Organise() {
+  if (thread_) {
+    thread_->quit();
+    thread_->deleteLater();
+  }
+}
+
 void Organise::Start() {
 
   if (thread_) return;
@@ -95,6 +102,7 @@ void Organise::Start() {
 
   moveToThread(thread_);
   thread_->start();
+
 }
 
 void Organise::ProcessSomeFiles() {

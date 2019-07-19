@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,5 +104,44 @@ MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
 
 MtpConnection::~MtpConnection() {
   if (device_) LIBMTP_Release_Device(device_);
+}
+
+bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
+
+  if (!device_) return false;
+
+  uint16_t *list = nullptr;
+  uint16_t length = 0;
+
+  if (LIBMTP_Get_Supported_Filetypes(device_, &list, &length) || !list || !length)
+    return false;
+
+  for (int i = 0; i < length; ++i) {
+    switch (LIBMTP_filetype_t(list[i])) {
+      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType_WAV; break;
+      case LIBMTP_FILETYPE_MP2:
+      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType_MPEG; break;
+      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType_ASF; break;
+      case LIBMTP_FILETYPE_MP4:
+      case LIBMTP_FILETYPE_M4A:
+      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType_MP4; break;
+      case LIBMTP_FILETYPE_FLAC:
+        *ret << Song::FileType_FLAC;
+        *ret << Song::FileType_OggFlac;
+        break;
+      case LIBMTP_FILETYPE_OGG:
+        *ret << Song::FileType_OggVorbis;
+        *ret << Song::FileType_OggSpeex;
+        *ret << Song::FileType_OggFlac;
+        break;
+      default:
+        qLog(Error) << "Unknown MTP file format" << LIBMTP_Get_Filetype_Description(LIBMTP_filetype_t(list[i]));
+        break;
+    }
+  }
+
+  free(list);
+  return true;
+
 }
 
