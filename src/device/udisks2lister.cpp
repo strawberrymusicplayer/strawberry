@@ -122,8 +122,15 @@ QString Udisks2Lister::MakeFriendlyName(const QString &id) {
 
 QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return QList<QUrl>();
-  return QList<QUrl>() << QUrl::fromLocalFile(device_data_[id].mount_paths.at(0));
+  QList<QUrl> ret;
+  if (!device_data_.contains(id)) return ret;
+  // Special case for Apple
+  if(id.contains("iPod")) {
+      ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
+  } else {
+      ret << QUrl::fromLocalFile(device_data_[id].mount_paths.at(0));
+  }
+  return ret;
 }
 
 void Udisks2Lister::UnmountDevice(const QString &id) {
