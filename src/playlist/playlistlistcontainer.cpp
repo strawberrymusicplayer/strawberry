@@ -329,27 +329,27 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
 void PlaylistListContainer::CopyToDevice()
 {
 #ifndef Q_OS_WIN
-    // Reuse the organise dialog, but set the detail about the playlist name
-    if(!organise_dialog_) {
-        organise_dialog_.reset(new OrganiseDialog {app_->task_manager()});
-    }
-    organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
-    organise_dialog_->SetCopy(true);
+  // Reuse the organise dialog, but set the detail about the playlist name
+  if (!organise_dialog_) {
+    organise_dialog_.reset(new OrganiseDialog {app_->task_manager()});
+  }
+  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organise_dialog_->SetCopy(true);
 
-    const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
+  const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
 
-    // Is it a playlist?
-    if (current_index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
-      const int playlist_id = current_index.data(PlaylistListModel::Role_PlaylistId).toInt();
+  // Is it a playlist?
+  if (current_index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
+    const int playlist_id = current_index.data(PlaylistListModel::Role_PlaylistId).toInt();
 
-      QStandardItem *item = model_->PlaylistById(playlist_id);
-      QString playlist_name = item ? item->text() : tr("Playlist");
-      organise_dialog_->SetPlaylist(playlist_name);
+    QStandardItem *item = model_->PlaylistById(playlist_id);
+    QString playlist_name = item ? item->text() : tr("Playlist");
+    organise_dialog_->SetPlaylist(playlist_name);
 
-      // Get the songs in the playlist
-      organise_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
-      organise_dialog_->show();
-    }
+    // Get the songs in the playlist
+    organise_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
+    organise_dialog_->show();
+  }
 #endif
 }
 
