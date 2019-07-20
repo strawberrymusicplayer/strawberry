@@ -947,6 +947,7 @@ void Song::InitFromFilePartial(const QString &filename) {
   if (fileref.file()) {
     d->valid_ = true;
     d->source_ = Source_LocalFile;
+    if (d->art_manual_.isEmpty()) InitArtManual();
   }
   else {
     d->valid_ = false;
