@@ -24,9 +24,8 @@ before_install:
       git pull || travis_terminate 1;
       brew update || travis_terminate 1;
       brew unlink python || travis_terminate 1;
-      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite;
+      brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint;
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
-      brew install chromaprint;
       brew install libcdio libmtp libimobiledevice libplist;
       brew install create-dmg;
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
@@ -34,6 +33,7 @@ before_install:
       export PATH="/usr/local/opt/gettext/bin:$PATH";
       export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig/:$PKG_CONFIG_PATH;
       ls /usr/local/lib/gstreamer-1.0;
+      ls /usr/local/lib/gio/modules;
     fi
 before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker exec build cmake -Hstrawberry -Bbuild ; fi
@@ -43,14 +43,15 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       make -j8 || travis_terminate 1;
       make install || travis_terminate 1;
-      sudo ../dist/macos/macdeploy.py strawberry.app || travis_terminate 1;
-      sudo ../dist/macos/create-dmg.sh strawberry.app;
+      sudo make dmg;
   fi
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry.dmg; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry*.dmg; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CC_FOR_BUILD" == "gcc" ]] && [ -f ~/.ssh/id_rsa ]; then
-      if [[ "$TRAVIS_BRANCH" == "master" ]] || [[ "$TRAVIS_BRANCH" == "macos" ]]; then
+      if [[ "$TRAVIS_BRANCH" == "master" ]]; then
         rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos;
+      elif [[ "$TRAVIS_BRANCH" == "macos" ]]; then
+        rsync -e "ssh -o StrictHostKeyChecking=no" -va strawberry*.dmg travis@echoes.jkvinge.net:/home/travis/builds/macos-test;
       fi
     fi
 

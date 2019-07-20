@@ -36,13 +36,23 @@ FRAMEWORK_SEARCH_PATH = [
 
 QT_PLUGINS = [
     'platforms/libqcocoa.dylib',
+    'platforminputcontexts/libqtvirtualkeyboardplugin.dylib',
+    'styles/libqmacstyle.dylib',
     'sqldrivers/libqsqlite.dylib',
+    'bearer/libqgenericbearer.dylib'
+    'iconengines/libqsvgicon.dylib'
     'imageformats/libqgif.dylib',
     'imageformats/libqicns.dylib',
     'imageformats/libqico.dylib',
     'imageformats/libqjpeg.dylib',
     'imageformats/libqsvg.dylib',
     'imageformats/libqtiff.dylib',
+    'printsupport/libcocoaprintersupport.dylib',
+    'virtualkeyboard/libqtvirtualkeyboard_hangul.dylib',
+    'virtualkeyboard/libqtvirtualkeyboard_openwnn.dylib',
+    'virtualkeyboard/libqtvirtualkeyboard_pinyin.dylib',
+    'virtualkeyboard/libqtvirtualkeyboard_tcime.dylib',
+    'virtualkeyboard/libqtvirtualkeyboard_thai.dylib',
 ]
 
 QT_PLUGINS_SEARCH_PATH = [
@@ -458,7 +468,12 @@ def FindGioModule(name):
 def main():
   logging.basicConfig(filename='macdeploy.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s')
 
-  FixBinary(binary)
+  #FixBinary(binary)
+
+  try:
+    FixPlugin('strawberry-tagreader', '.')
+  except:
+    print 'Failed to find blob: %s' % traceback.format_exc()
 
   for plugin in GSTREAMER_PLUGINS:
     FixPlugin(FindGstreamerPlugin(plugin), 'gstreamer')
@@ -467,13 +482,8 @@ def main():
   FixPlugin(FindGioModule('libgiognutls.so'), 'gio-modules')
   #FixPlugin(FindGioModule('libgiognomeproxy.so'), 'gio-modules')
 
-  try:
-    FixPlugin('strawberry-tagreader', '.')
-  except:
-    print 'Failed to find blob: %s' % traceback.format_exc()
-
-  for plugin in QT_PLUGINS:
-    FixPlugin(FindQtPlugin(plugin), os.path.dirname(plugin))
+  #for plugin in QT_PLUGINS:
+    #FixPlugin(FindQtPlugin(plugin), os.path.dirname(plugin))
 
   if len(sys.argv) <= 2:
     print 'Would run %d commands:' % len(commands)
