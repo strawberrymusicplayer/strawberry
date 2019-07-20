@@ -26,6 +26,18 @@ Unreleased:
     * Fixed hardcoded systemtray icon.
     * Added live scanning and option to rescan songs.
     * Added playlist background image stretch option to zoom image with cutting the height.
+    * Replaced use of QDesktopWidget with QDesktop
+    * Replaced all uses of QSignalMapper with lambda expressions
+    * Fixed collection album covers stuck to old ones when new album covers are fetched
+    * Fixed all Json services to check HttpStatusCodeAttribute in addition to checking network errors
+    * Fixed track change hang
+    * Fixed playlist sorting to ignore articles
+    * Fixed MessageReply crash in tagreader
+    * Fixed MTP support
+    * Fixed possible crashes with libimobiledevice devices
+    * Removed older devicekit udisks backend
+    * Using iconv to replace non-ascii characters when organising files
+    * Fixed IPod support when listed from UDisks2
 
 Version 0.5.5:
 
