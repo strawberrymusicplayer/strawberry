@@ -168,6 +168,8 @@ Section "Strawberry" Strawberry
   File "Qt5Widgets.dll"
   File "Qt5WinExtras.dll"
   File "zlib1.dll"
+  File "libzstd.dll"
+  File "libtasn1-6.dll"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -418,6 +420,8 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt5Widgets.dll"
   Delete "$INSTDIR\Qt5WinExtras.dll"
   Delete "$INSTDIR\zlib1.dll"
+  Delete "$INSTDIR\libzstd.dll"
+  Delete "$INSTDIR\libtasn1-6.dll"
 
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
