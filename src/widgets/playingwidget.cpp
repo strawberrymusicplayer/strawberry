@@ -79,6 +79,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
       playing_(false),
       active_(false),
       small_ideal_height_(0),
+      total_height_(0),
       fit_width_(false),
       timeline_show_hide_(new QTimeLine(500, this)),
       timeline_fade_(new QTimeLine(1000, this)),
