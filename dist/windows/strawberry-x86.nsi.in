@@ -102,7 +102,7 @@ Section "Strawberry" Strawberry
   File "strawberry.ico"
 
   File "libbz2.dll"
-  File "libcdio-18.dll"
+  File "libcdio-19.dll"
   File "libchromaprint.dll"
   File "libcrypto-3.dll"
   File "libfaad-2.dll"
@@ -320,7 +320,7 @@ Section "Uninstall"
   Delete "$INSTDIR\strawberry-tagreader.exe"
 
   Delete "$INSTDIR\libbz2.dll"
-  Delete "$INSTDIR\libcdio-18.dll"
+  Delete "$INSTDIR\libcdio-19.dll"
   Delete "$INSTDIR\libchromaprint.dll"
   Delete "$INSTDIR\libcrypto-3.dll"
   Delete "$INSTDIR\libfaad-2.dll"
