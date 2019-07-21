@@ -60,6 +60,7 @@ class FileRefFactory;
 class TagReader {
  public:
   TagReader();
+  ~TagReader();
 
   pb::tagreader::SongMetadata_FileType GuessFileType(TagLib::FileRef *fileref) const;
 

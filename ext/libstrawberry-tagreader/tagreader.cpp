@@ -136,7 +136,13 @@ const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
 TagReader::TagReader() :
   factory_(new TagLibFileRefFactory),
   network_(new QNetworkAccessManager),
-  kEmbeddedCover("(embedded)") {}
+  kEmbeddedCover("(embedded)") {
+}
+
+TagReader::~TagReader() {
+  delete network_;
+  delete factory_;
+}
 
 pb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *fileref) const {
 
