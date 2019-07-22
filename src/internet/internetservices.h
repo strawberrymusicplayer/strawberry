@@ -48,9 +48,6 @@ class InternetServices : public QObject {
   void RemoveService(InternetService *service);
   void ReloadSettings();
 
- private slots:
-  void ServiceDeleted();
-
  private:
   QMap<Song::Source, InternetService*> services_;
 

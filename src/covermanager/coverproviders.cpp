@@ -31,6 +31,14 @@
 
 CoverProviders::CoverProviders(QObject *parent) : QObject(parent) {}
 
+CoverProviders::~CoverProviders() {
+
+  while (!cover_providers_.isEmpty()) {
+    delete cover_providers_.firstKey();
+  }
+
+}
+
 void CoverProviders::AddProvider(CoverProvider *provider) {
 
   {

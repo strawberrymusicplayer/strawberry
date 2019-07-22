@@ -43,6 +43,7 @@ GstStartup::GstStartup(QObject *parent) : QObject(parent) {
 }
 
 GstStartup::~GstStartup() {
+  //gst_deinit();
 }
 
 void GstStartup::InitialiseGStreamer() {

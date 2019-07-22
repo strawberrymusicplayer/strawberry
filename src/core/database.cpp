@@ -210,6 +210,7 @@ int Database::FTSNext(sqlite3_tokenizer_cursor *cursor, const char* *token, int 
 
 void Database::StaticInit() {
 
+  if (sFTSTokenizer) return;
   sFTSTokenizer = new sqlite3_tokenizer_module;
   sFTSTokenizer->iVersion = 0;
   sFTSTokenizer->xCreate = &Database::FTSCreate;
@@ -240,6 +241,8 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
   Connect();
 
 }
+
+Database::~Database() {}
 
 QSqlDatabase Database::Connect() {
 
@@ -273,7 +276,7 @@ QSqlDatabase Database::Connect() {
   }
 
   // Find Sqlite3 functions in the Qt plugin.
-  StaticInit();
+  if (!sFTSTokenizer) StaticInit();
 
   {
 

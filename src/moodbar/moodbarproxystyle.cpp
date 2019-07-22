@@ -24,6 +24,7 @@
 #include <QStyleOptionComplex>
 #include <QStyleOptionSlider>
 #include <QTimeLine>
+#include <QStyle>
 #include <QEvent>
 #include <QContextMenuEvent>
 
@@ -59,7 +60,10 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
 
   connect(app, SIGNAL(SettingsChanged()), SLOT(ReloadSettings()));
   ReloadSettings();
+
 }
+
+MoodbarProxyStyle::~MoodbarProxyStyle() {}
 
 void MoodbarProxyStyle::ReloadSettings() {
 

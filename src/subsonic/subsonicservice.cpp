@@ -94,7 +94,9 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 
 }
 
-SubsonicService::~SubsonicService() {}
+SubsonicService::~SubsonicService() {
+  collection_backend_->deleteLater();
+}
 
 void SubsonicService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Subsonic);

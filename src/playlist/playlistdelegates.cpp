@@ -395,12 +395,17 @@ TagCompleter::TagCompleter(CollectionBackend *backend, Playlist::Column column, 
 
 }
 
+TagCompleter::~TagCompleter() {
+  delete model();
+}
+
 void TagCompleter::ModelReady(QFuture<TagCompletionModel*> future) {
 
   TagCompletionModel *model = future.result();
   setModel(model);
   setCaseSensitivity(Qt::CaseInsensitive);
   editor_->setCompleter(this);
+
 }
 
 QWidget *TagCompletionItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem&, const QModelIndex&) const {
@@ -409,6 +414,7 @@ QWidget *TagCompletionItemDelegate::createEditor(QWidget *parent, const QStyleOp
   new TagCompleter(backend_, column_, editor);
 
   return editor;
+
 }
 
 QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLocale&) const {

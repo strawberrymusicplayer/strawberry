@@ -42,6 +42,7 @@ class CoverProviders : public QObject {
 
  public:
   explicit CoverProviders(QObject *parent = nullptr);
+  ~CoverProviders();
 
   // Lets a cover provider register itself in the repository.
   void AddProvider(CoverProvider *provider);

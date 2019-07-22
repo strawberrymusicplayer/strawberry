@@ -47,6 +47,7 @@ class QTimerEvent;
 class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
  public:
   explicit ThreadSafeNetworkDiskCache(QObject *parent);
+  ~ThreadSafeNetworkDiskCache();
 
   qint64 cacheSize() const;
   QIODevice *data(const QUrl &url);
@@ -60,6 +61,7 @@ class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
 
  private:
   static QMutex sMutex;
+  static ThreadSafeNetworkDiskCache *sInstance;
   static QNetworkDiskCache *sCache;
 };
 

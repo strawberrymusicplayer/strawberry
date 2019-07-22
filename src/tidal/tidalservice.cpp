@@ -186,6 +186,10 @@ TidalService::~TidalService() {
     stream_url_req->deleteLater();
   }
 
+  artists_collection_backend_->deleteLater();
+  albums_collection_backend_->deleteLater();
+  songs_collection_backend_->deleteLater();
+
 }
 
 void TidalService::ShowConfig() {

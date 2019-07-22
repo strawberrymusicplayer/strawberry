@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,25 +19,32 @@
 
 #include "config.h"
 
-#include <QFileSystemWatcher>
+#include <QCoreApplication>
+#include <QTranslator>
 #include <QString>
 
-#include "core/logging.h"
+#include "translations.h"
+#include "core/potranslator.h"
 
-#include "filesystemwatcherinterface.h"
-#include "qtfslistener.h"
+Translations::Translations() {}
+Translations::~Translations() {
 
-QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
-
-  connect(&watcher_, SIGNAL(directoryChanged(const QString&)), SIGNAL(PathChanged(const QString&)));
+  for (QTranslator *t : translations_) {
+    QCoreApplication::removeTranslator(t);
+    delete t;
+  }
 
 }
 
-void QtFSListener::AddPath(const QString &path) { watcher_.addPath(path); }
+void Translations::LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
 
-void QtFSListener::RemovePath(const QString &path) { watcher_.removePath(path); }
+  QTranslator *t = new PoTranslator;
+  if (t->load(prefix + "_" + language, path)) {
+    QCoreApplication::installTranslator(t);
+    translations_ << t;
+  }
+  else {
+    delete t;
+  }
 
-void QtFSListener::Clear() {
-  watcher_.removePaths(watcher_.directories());
-  watcher_.removePaths(watcher_.files());
 }

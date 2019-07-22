@@ -399,8 +399,7 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
       emit Error(tr("An error occurred writing metadata to '%1'").arg(QString::fromStdString(reply->request_message().save_file_request().filename())));
     }
   }
-
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }
 

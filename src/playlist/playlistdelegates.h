@@ -144,6 +144,7 @@ class TagCompleter : public QCompleter {
 
 public:
   TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor);
+  ~TagCompleter();
 
  private slots:
   void ModelReady(QFuture<TagCompletionModel*> future);

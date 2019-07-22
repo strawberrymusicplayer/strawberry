@@ -910,6 +910,6 @@ void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString &filen
 
   if (pending_ <= 0) AcceptFinished();
 
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }

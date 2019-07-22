@@ -39,6 +39,8 @@ class LyricsProviders : public QObject {
 
  public:
   explicit LyricsProviders(QObject *parent = nullptr);
+  ~LyricsProviders();
+
   void AddProvider(LyricsProvider *provider);
   void RemoveProvider(LyricsProvider *provider);
   QList<LyricsProvider*> List() const { return lyrics_providers_.keys(); }

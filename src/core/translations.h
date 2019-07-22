@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,25 +19,18 @@
 
 #include "config.h"
 
-#include <QFileSystemWatcher>
+#include <QObject>
+#include <QTranslator>
+#include <QList>
 #include <QString>
 
-#include "core/logging.h"
+class Translations : public QObject {
+ public:
+  Translations();
+  ~Translations();
+  void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 
-#include "filesystemwatcherinterface.h"
-#include "qtfslistener.h"
+ private:
+  QList<QTranslator*> translations_;
 
-QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
-
-  connect(&watcher_, SIGNAL(directoryChanged(const QString&)), SIGNAL(PathChanged(const QString&)));
-
-}
-
-void QtFSListener::AddPath(const QString &path) { watcher_.addPath(path); }
-
-void QtFSListener::RemovePath(const QString &path) { watcher_.removePath(path); }
-
-void QtFSListener::Clear() {
-  watcher_.removePaths(watcher_.directories());
-  watcher_.removePaths(watcher_.files());
-}
+};

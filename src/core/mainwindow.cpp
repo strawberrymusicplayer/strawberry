@@ -1799,7 +1799,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
   if (reply->is_successful() && index.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>()<< index.row());
   }
-  metaObject()->invokeMethod(reply, "deleteLater", Qt::QueuedConnection);
+  reply->deleteLater();
 
 }
 

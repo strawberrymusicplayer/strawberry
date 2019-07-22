@@ -32,14 +32,19 @@
 
 ScrobblerServices::ScrobblerServices(QObject *parent) : QObject(parent) {}
 
-ScrobblerServices::~ScrobblerServices() {}
+ScrobblerServices::~ScrobblerServices() {
+
+  while (!scrobbler_services_.isEmpty()) {
+    delete scrobbler_services_.take(scrobbler_services_.firstKey());
+  }
+
+}
 
 void ScrobblerServices::AddService(ScrobblerService *service) {
 
   {
     QMutexLocker locker(&mutex_);
     scrobbler_services_.insert(service->name(), service);
-    connect(service, SIGNAL(destroyed()), SLOT(ServiceDestroyed()));
   }
 
   qLog(Debug) << "Registered scrobbler service" << service->name();
@@ -57,13 +62,6 @@ void ScrobblerServices::RemoveService(ScrobblerService *service) {
   }
 
   qLog(Debug) << "Unregistered scrobbler service" << service->name();
-
-}
-
-void ScrobblerServices::ServiceDestroyed() {
-
-  ScrobblerService *service = static_cast<ScrobblerService*>(sender());
-  RemoveService(service);
 
 }
 

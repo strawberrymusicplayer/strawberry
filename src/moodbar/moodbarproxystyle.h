@@ -38,6 +38,7 @@ class MoodbarProxyStyle : public QProxyStyle {
 
  public:
   MoodbarProxyStyle(Application* app, QSlider* slider);
+  ~MoodbarProxyStyle();
 
   // QProxyStyle
   void drawComplexControl(ComplexControl control, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget) const;

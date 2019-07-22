@@ -46,6 +46,7 @@ DeviceLister::~DeviceLister() {
   if (thread_) {
     thread_->quit();
     thread_->wait(1000);
+    thread_->deleteLater();
   }
 
 }

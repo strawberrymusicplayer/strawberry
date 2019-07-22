@@ -53,9 +53,6 @@ class ScrobblerServices : public QObject {
     return static_cast<T*>(this->ServiceByName(T::kName));
   }
 
- private slots:
-  void ServiceDestroyed();
-
  private:
   Q_DISABLE_COPY(ScrobblerServices);
 

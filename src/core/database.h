@@ -51,6 +51,7 @@ class Database : public QObject {
 
  public:
   Database(Application *app, QObject *parent = nullptr, const QString &database_name = QString());
+  ~Database();
 
   struct AttachedDatabase {
     AttachedDatabase() {}

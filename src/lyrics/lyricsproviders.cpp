@@ -32,6 +32,14 @@
 
 LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent) {}
 
+LyricsProviders::~LyricsProviders() {
+
+  while (!lyrics_providers_.isEmpty()) {
+    delete lyrics_providers_.firstKey();
+  }
+
+}
+
 void LyricsProviders::AddProvider(LyricsProvider *provider) {
 
   {
