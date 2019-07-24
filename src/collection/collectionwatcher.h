@@ -60,6 +60,8 @@ class CollectionWatcher : public QObject {
 
   void Stop() { stop_requested_ = true; }
 
+  void ExitAsync();
+
 signals:
   void NewOrUpdatedSongs(const SongList &songs);
   void SongsMTimeUpdated(const SongList &songs);
@@ -68,6 +70,7 @@ signals:
   void SubdirsDiscovered(const SubdirectoryList &subdirs);
   void SubdirsMTimeUpdated(const SubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
+  void ExitFinished();
 
   void ScanStarted(int task_id);
 
@@ -142,6 +145,7 @@ signals:
   };
 
  private slots:
+  void Exit();
   void DirectoryChanged(const QString &path);
   void IncrementalScanNow();
   void FullScanNow();
@@ -203,6 +207,8 @@ signals:
   static QStringList sValidImages;
 
   SongList song_rescan_queue_; // Set by ui thread
+
+  QThread *original_thread_;
 
 };
 

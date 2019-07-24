@@ -115,7 +115,7 @@ void MusicBrainzClient::Cancel(int id) {
 
   while (!requests_.isEmpty() && requests_.contains(id)) {
     QNetworkReply *reply = requests_.take(id);
-    disconnect(reply, 0, nullptr, 0);
+    disconnect(reply, 0, this, 0);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }

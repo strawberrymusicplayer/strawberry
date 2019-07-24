@@ -40,6 +40,7 @@
 #include "internet/internetsearch.h"
 #include "settings/qobuzsettingspage.h"
 
+class QThread;
 class Application;
 class NetworkAccessManager;
 class QobuzUrlHandler;
@@ -60,6 +61,7 @@ class QobuzService : public InternetService {
 
   static const Song::Source kSource;
 
+  void Exit();
   void ReloadSettings();
 
   void Logout();
@@ -123,6 +125,7 @@ class QobuzService : public InternetService {
   void ResetSongsRequest();
 
  private slots:
+  void ExitReceived();
   void SendLogin();
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void HandleAuthReply(QNetworkReply *reply);
@@ -216,6 +219,8 @@ class QobuzService : public InternetService {
   QList<QobuzStreamURLRequest*> stream_url_requests_;
 
   QStringList login_errors_;
+
+  QList<QObject*> wait_for_exit_;
 
 };
 

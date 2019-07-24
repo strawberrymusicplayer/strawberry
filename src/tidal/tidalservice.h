@@ -61,6 +61,7 @@ class TidalService : public InternetService {
 
   static const Song::Source kSource;
 
+  void Exit();
   void ReloadSettings();
 
   void Logout();
@@ -132,6 +133,7 @@ class TidalService : public InternetService {
   void ResetSongsRequest();
 
  private slots:
+  void ExitReceived();
   void StartAuthorisation();
   void AuthorisationUrlReceived(const QUrl &url);
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
@@ -244,6 +246,8 @@ class TidalService : public InternetService {
   QList<TidalStreamURLRequest*> stream_url_requests_;
 
   QStringList login_errors_;
+
+  QList<QObject*> wait_for_exit_;
 
 };
 

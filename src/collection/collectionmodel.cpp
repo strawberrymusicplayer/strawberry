@@ -129,7 +129,10 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
 
 }
 
-CollectionModel::~CollectionModel() { delete root_; }
+CollectionModel::~CollectionModel() {
+  backend_->Close();
+  delete root_;
+}
 
 void CollectionModel::set_pretty_covers(bool use_pretty_covers) {
 
@@ -757,6 +760,11 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
   while (q.Next()) {
     result.rows << SqlRow(q);
   }
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
+    backend_->Close();
+  }
+
   return result;
 
 }

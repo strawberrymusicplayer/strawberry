@@ -77,7 +77,7 @@ QobuzRequest::~QobuzRequest() {
 
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
-    disconnect(reply, 0, nullptr, 0);
+    disconnect(reply, 0, this, 0);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }

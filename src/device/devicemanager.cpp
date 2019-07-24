@@ -158,9 +158,17 @@ DeviceManager::~DeviceManager() {
     delete lister;
   }
 
-  backend_->deleteLater();
+  backend_->Close();
 
   delete root_;
+  delete backend_;
+
+}
+
+void DeviceManager::Exit() {
+
+  connect(backend_, SIGNAL(ExitFinished()), this, SIGNAL(ExitFinished()));
+  backend_->ExitAsync();
 
 }
 
@@ -174,6 +182,7 @@ void DeviceManager::LoadAllDevices() {
     info->InitFromDb(device);
     emit DeviceCreatedFromDB(info);
   }
+  backend_->Close();
 
 }
 

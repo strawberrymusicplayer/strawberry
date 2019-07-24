@@ -40,6 +40,7 @@ class DeviceDatabaseBackend : public QObject {
 
  public:
   Q_INVOKABLE DeviceDatabaseBackend(QObject *parent = nullptr);
+  ~DeviceDatabaseBackend();
 
   struct Device {
     Device() : id_(-1) {}
@@ -58,6 +59,9 @@ class DeviceDatabaseBackend : public QObject {
   static const int kDeviceSchemaVersion;
 
   void Init(Database *db);
+  void Close();
+  void ExitAsync();
+
   Database *db() const { return db_; }
 
   DeviceList GetAllDevices();
@@ -66,8 +70,16 @@ class DeviceDatabaseBackend : public QObject {
 
   void SetDeviceOptions(int id, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
 
+ private slots:
+  void Exit();
+
+ signals:
+  void ExitFinished();
+
  private:
   Database *db_;
+  QThread *original_thread_;
+
 };
 
 #endif  // DEVICEDATABASEBACKEND_H

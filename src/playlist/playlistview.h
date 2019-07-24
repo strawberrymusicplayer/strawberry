@@ -80,6 +80,7 @@ class PlaylistHeader;
 class PlaylistProxyStyle : public QProxyStyle {
 public:
   PlaylistProxyStyle(QStyle *base);
+
   void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
   void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
 

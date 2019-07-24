@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QApplication>
 #include <QObject>
 #include <QWidget>
 #include <QtConcurrentRun>
@@ -361,6 +362,10 @@ TagCompletionModel::TagCompletionModel(CollectionBackend *backend, Playlist::Col
   QString col = database_column(column);
   if (!col.isEmpty()) {
     setStringList(backend->GetAll(col));
+  }
+
+  if (QThread::currentThread() != backend->thread() && QThread::currentThread() != qApp->thread()) {
+    backend->Close();
   }
 
 }

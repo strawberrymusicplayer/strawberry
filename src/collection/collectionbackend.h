@@ -41,6 +41,7 @@
 #include "collectionquery.h"
 #include "directory.h"
 
+class QThread;
 class Database;
 
 class CollectionBackendInterface : public QObject {
@@ -123,7 +124,12 @@ class CollectionBackend : public CollectionBackendInterface {
   static const char *kSettingsGroup;
 
   Q_INVOKABLE CollectionBackend(QObject *parent = nullptr);
+  ~CollectionBackend();
+
   void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table);
+  void Close();
+
+  void ExitAsync();
 
   Database *db() const { return db_; }
 
@@ -183,6 +189,7 @@ class CollectionBackend : public CollectionBackendInterface {
   SongList GetSongsBySongId(const QStringList &song_ids);
 
  public slots:
+  void Exit();
   void LoadDirectories();
   void UpdateTotalSongCount();
   void UpdateTotalArtistCount();
@@ -200,7 +207,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void ResetStatistics(int id);
   void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
-signals:
+ signals:
   void DirectoryDiscovered(const Directory &dir, const SubdirectoryList &subdirs);
   void DirectoryDeleted(const Directory &dir);
 
@@ -213,6 +220,8 @@ signals:
   void TotalSongCountUpdated(int total);
   void TotalArtistCountUpdated(int total);
   void TotalAlbumCountUpdated(int total);
+
+  void ExitFinished();
 
  private:
   struct CompilationInfo {
@@ -243,6 +252,7 @@ signals:
   QString dirs_table_;
   QString subdirs_table_;
   QString fts_table_;
+  QThread *original_thread_;
 
 };
 

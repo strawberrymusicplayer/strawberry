@@ -20,7 +20,11 @@
 
 #include "config.h"
 
+#include <assert.h>
+
 #include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QIODevice>
 #include <QDir>
 #include <QDirIterator>
@@ -79,7 +83,10 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       rescan_timer_(new QTimer(this)),
       rescan_paused_(false),
       total_watches_(0),
-      cue_parser_(new CueParser(backend_, this)) {
+      cue_parser_(new CueParser(backend_, this)),
+      original_thread_(nullptr) {
+
+  original_thread_ = thread();
 
   rescan_timer_->setInterval(1000);
   rescan_timer_->setSingleShot(true);
@@ -91,6 +98,21 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
   ReloadSettings();
 
   connect(rescan_timer_, SIGNAL(timeout()), SLOT(RescanPathsNow()));
+}
+
+void CollectionWatcher::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void CollectionWatcher::Exit() {
+
+  assert(QThread::currentThread() == thread());
+
+  Stop();
+  if (backend_) backend_->Close();
+  moveToThread(original_thread_);
+  emit ExitFinished();
+
 }
 
 CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool prevent_delete)

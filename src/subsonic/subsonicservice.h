@@ -60,6 +60,7 @@ class SubsonicService : public InternetService {
   static const Song::Source kSource;
 
   void ReloadSettings();
+  void Exit();
 
   Application *app() { return app_; }
 

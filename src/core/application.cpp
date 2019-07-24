@@ -223,10 +223,12 @@ Application::~Application() {
 
   for (QThread *thread : threads_) {
     thread->wait();
+    thread->deleteLater();
   }
+
 }
 
-void Application::MoveToNewThread(QObject *object) {
+QThread *Application::MoveToNewThread(QObject *object) {
 
   QThread *thread = new QThread(this);
 
@@ -234,11 +236,46 @@ void Application::MoveToNewThread(QObject *object) {
 
   thread->start();
   threads_ << thread;
+
+  return thread;
+
 }
 
 void Application::MoveToThread(QObject *object, QThread *thread) {
   object->setParent(nullptr);
   object->moveToThread(thread);
+}
+
+void Application::Exit() {
+
+  wait_for_exit_ << collection()
+                 << playlist_backend()
+                 << device_manager()
+                 << internet_services();
+
+  connect(collection(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  collection()->Exit();
+
+  connect(playlist_backend(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  playlist_backend()->ExitAsync();
+
+  connect(device_manager(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  device_manager()->Exit();
+
+  connect(internet_services(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  internet_services()->Exit();
+
+  database()->Close();
+
+}
+
+void Application::ExitReceived() {
+
+  disconnect(sender(), 0, this, 0);
+
+  wait_for_exit_.removeAll(sender());
+  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
 }
 
 void Application::AddError(const QString& message) { emit ErrorAdded(message); }

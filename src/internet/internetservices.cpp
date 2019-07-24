@@ -72,3 +72,22 @@ void InternetServices::ReloadSettings() {
     service->ReloadSettings();
   }
 }
+
+void InternetServices::Exit() {
+
+  for (InternetService *service : services_.values()) {
+    wait_for_exit_ << service;
+    connect(service, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+    service->Exit();
+  }
+
+}
+
+void InternetServices::ExitReceived() {
+
+  InternetService *service = qobject_cast<InternetService*>(sender());
+
+  wait_for_exit_.removeAll(service);
+  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
+}

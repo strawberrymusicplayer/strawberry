@@ -211,6 +211,7 @@ int Database::FTSNext(sqlite3_tokenizer_cursor *cursor, const char* *token, int 
 void Database::StaticInit() {
 
   if (sFTSTokenizer) return;
+
   sFTSTokenizer = new sqlite3_tokenizer_module;
   sFTSTokenizer->iVersion = 0;
   sFTSTokenizer->xCreate = &Database::FTSCreate;
@@ -242,7 +243,21 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
 
 }
 
-Database::~Database() {}
+Database::~Database() {
+
+  QMutexLocker l(&connect_mutex_);
+
+  for (QString connection : connections_) {
+    qLog(Error) << connection << "still open!";
+  }
+
+  if (!connections_.isEmpty())
+    qLog(Error) << connections_.count() << "connections still open!";
+
+  if (sFTSTokenizer)
+    delete sFTSTokenizer;
+
+}
 
 QSqlDatabase Database::Connect() {
 
@@ -256,6 +271,11 @@ QSqlDatabase Database::Connect() {
   }
 
   const QString connection_id = QString("%1_thread_%2").arg(connection_id_).arg(reinterpret_cast<quint64>(QThread::currentThread()));
+
+  if (!connections_.contains(connection_id)) {
+    //qLog(Debug) << "Opened database with connection id" << connection_id;
+    connections_ << connection_id;
+  }
 
   // Try to find an existing connection for this thread
   QSqlDatabase db = QSqlDatabase::database(connection_id);
@@ -343,6 +363,25 @@ QSqlDatabase Database::Connect() {
   }
 
   return db;
+
+}
+
+void Database::Close() {
+
+  QMutexLocker l(&connect_mutex_);
+
+  const QString connection_id = QString("%1_thread_%2").arg(connection_id_).arg(reinterpret_cast<quint64>(QThread::currentThread()));
+
+  // Try to find an existing connection for this thread
+  QSqlDatabase db = QSqlDatabase::database(connection_id);
+  if (db.isOpen()) {
+    db.close();
+  }
+
+  if (connections_.contains(connection_id)) {
+    //qLog(Debug) << "Closed database with connection id" << connection_id;
+    connections_.removeAll(connection_id);
+  }
 
 }
 

@@ -52,7 +52,10 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
 
 }
 
-CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {}
+CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {
+  if (temp_cover_) temp_cover_->remove();
+  if (temp_cover_thumbnail_) temp_cover_thumbnail_->remove();
+}
 
 void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
   last_song_ = song;

@@ -47,9 +47,17 @@ class InternetServices : public QObject {
   void AddService(InternetService *service);
   void RemoveService(InternetService *service);
   void ReloadSettings();
+  void Exit();
+
+ signals:
+  void ExitFinished();
+
+ private slots:
+  void ExitReceived();
 
  private:
   QMap<Song::Source, InternetService*> services_;
+  QList<InternetService*> wait_for_exit_;
 
 };
 

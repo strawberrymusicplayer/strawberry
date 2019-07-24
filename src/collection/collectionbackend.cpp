@@ -20,8 +20,12 @@
 
 #include "config.h"
 
+#include <assert.h>
+
 #include <QtGlobal>
 #include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QMutex>
 #include <QSet>
 #include <QMap>
@@ -52,7 +56,14 @@ const char *CollectionBackend::kSettingsGroup = "Collection";
 
 CollectionBackend::CollectionBackend(QObject *parent) :
     CollectionBackendInterface(parent),
-    db_(nullptr) {}
+    db_(nullptr),
+    original_thread_(nullptr) {
+
+  original_thread_ = thread();
+
+}
+
+CollectionBackend::~CollectionBackend() {}
 
 void CollectionBackend::Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
   db_ = db;
@@ -61,6 +72,29 @@ void CollectionBackend::Init(Database *db, const Song::Source source, const QStr
   dirs_table_ = dirs_table;
   subdirs_table_ = subdirs_table;
   fts_table_ = fts_table;
+}
+
+void CollectionBackend::Close() {
+
+  if (db_) {
+    QMutexLocker l(db_->Mutex());
+    db_->Close();
+  }
+
+}
+
+void CollectionBackend::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void CollectionBackend::Exit() {
+
+  assert(QThread::currentThread() == thread());
+
+  Close();
+  moveToThread(original_thread_);
+  emit ExitFinished();
+
 }
 
 void CollectionBackend::LoadDirectoriesAsync() {

@@ -55,7 +55,7 @@ void DeleteFiles::Start(const SongList &songs) {
   task_id_ = task_manager_->StartTask(tr("Deleting files"));
   task_manager_->SetTaskBlocksCollectionScans(true);
 
-  thread_ = new QThread;
+  thread_ = new QThread(this);
   connect(thread_, SIGNAL(started()), SLOT(ProcessSomeFiles()));
 
   moveToThread(thread_);

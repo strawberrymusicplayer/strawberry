@@ -85,6 +85,8 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   static const int kDeviceIconSize;
   static const int kDeviceIconOverlaySize;
 
+  void Exit();
+
   DeviceStateFilterModel *connected_devices_model() const { return connected_devices_model_; }
 
   // Get info about devices
@@ -115,6 +117,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void Unmount(QModelIndex idx);
 
  signals:
+  void ExitFinished();
   void DeviceConnected(QModelIndex idx);
   void DeviceDisconnected(QModelIndex idx);
   void DeviceCreatedFromDB(DeviceInfo* info);

@@ -111,8 +111,13 @@ class Application : public QObject {
   MoodbarLoader *moodbar_loader() const;
 #endif
 
-  void MoveToNewThread(QObject *object);
+  void Exit();
+
+  QThread *MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);
+
+private slots:
+  void ExitReceived();
 
  public slots:
   void AddError(const QString &message);
@@ -123,10 +128,12 @@ signals:
   void ErrorAdded(const QString &message);
   void SettingsChanged();
   void SettingsDialogRequested(SettingsDialog::Page page);
+  void ExitFinished();
 
  private:
   std::unique_ptr<ApplicationImpl> p_;
   QList<QThread*> threads_;
+  QList<QObject*> wait_for_exit_;
 
 };
 

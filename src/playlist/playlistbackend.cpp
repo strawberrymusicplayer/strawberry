@@ -20,8 +20,11 @@
 
 #include <memory>
 #include <functional>
+#include <assert.h>
 
 #include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QMutex>
 #include <QIODevice>
 #include <QDir>
@@ -56,7 +59,36 @@ using std::shared_ptr;
 const int PlaylistBackend::kSongTableJoins = 2;
 
 PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
-    : QObject(parent), app_(app), db_(app_->database()) {}
+    : QObject(parent), app_(app), db_(app_->database()), original_thread_(nullptr) {
+
+  original_thread_ = thread();
+
+}
+
+PlaylistBackend::~PlaylistBackend() {}
+
+void PlaylistBackend::Close() {
+
+  if (db_) {
+    QMutexLocker l(db_->Mutex());
+    db_->Close();
+  }
+
+}
+
+void PlaylistBackend::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void PlaylistBackend::Exit() {
+
+  assert(QThread::currentThread() == thread());
+
+  Close();
+  moveToThread(original_thread_);
+  emit ExitFinished();
+
+}
 
 PlaylistBackend::PlaylistList PlaylistBackend::GetAllPlaylists() {
   return GetPlaylists(GetPlaylists_All);
@@ -156,6 +188,10 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
   q.prepare(query);
   q.bindValue(":playlist", playlist);
   q.exec();
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
+    db_->Close();
+  }
 
   return q;
 

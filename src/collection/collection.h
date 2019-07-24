@@ -49,6 +49,7 @@ class SCollection : public QObject {
   static const char *kFtsTable;
 
   void Init();
+  void Exit();
 
   CollectionBackend *backend() const { return backend_; }
   CollectionModel *model() const { return model_; }
@@ -70,11 +71,16 @@ class SCollection : public QObject {
   void Rescan(const SongList &songs);
 
  private slots:
+  void ExitReceived();
+
   void IncrementalScan();
 
   void CurrentSongChanged(const Song &song);
   void SongsStatisticsChanged(const SongList& songs);
   void Stopped();
+
+ signals:
+  void ExitFinished();
 
  private:
   Application *app_;
@@ -83,9 +89,12 @@ class SCollection : public QObject {
 
   CollectionWatcher *watcher_;
   Thread *watcher_thread_;
+  QThread *original_thread_;
 
   // DB schema versions which should trigger a full collection rescan (each of those with a short reason why).
   QHash<int, QString> full_rescan_revisions_;
+
+  QList<QObject*> wait_for_exit_;
 };
 
 #endif

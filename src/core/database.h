@@ -68,6 +68,7 @@ class Database : public QObject {
   static const char *kMagicAllSongsTables;
 
   QSqlDatabase Connect();
+  void Close();
   bool CheckErrors(const QSqlQuery &query);
   QMutex *Mutex() { return &mutex_; }
 
@@ -111,6 +112,7 @@ signals:
 
   // This ID makes the QSqlDatabase name unique to the object as well as the thread
   int connection_id_;
+  QStringList connections_;
 
   static QMutex sNextConnectionIdMutex;
   static int sNextConnectionId;

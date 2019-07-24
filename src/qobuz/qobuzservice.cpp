@@ -176,13 +176,35 @@ QobuzService::~QobuzService() {
 
   while (!stream_url_requests_.isEmpty()) {
     QobuzStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
-    disconnect(stream_url_req, 0, nullptr, 0);
+    disconnect(stream_url_req, 0, this, 0);
     stream_url_req->deleteLater();
   }
 
-  artists_collection_backend_->deleteLater();
-  albums_collection_backend_->deleteLater();
-  songs_collection_backend_->deleteLater();
+  delete artists_collection_backend_;
+  delete albums_collection_backend_;
+  delete songs_collection_backend_;
+
+}
+
+void QobuzService::Exit() {
+
+  wait_for_exit_ << artists_collection_backend_ << albums_collection_backend_ << songs_collection_backend_;
+
+  connect(artists_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  connect(albums_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  connect(songs_collection_backend_, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+
+  artists_collection_backend_->ExitAsync();
+  albums_collection_backend_->ExitAsync();
+  songs_collection_backend_->ExitAsync();
+
+}
+
+void QobuzService::ExitReceived() {
+
+  disconnect(sender(), 0, this, 0);
+  wait_for_exit_.removeAll(sender());
+  if (wait_for_exit_.isEmpty()) emit ExitFinished();
 
 }
 
@@ -395,7 +417,7 @@ void QobuzService::TryLogin() {
 void QobuzService::ResetArtistsRequest() {
 
   if (artists_request_.get()) {
-    disconnect(artists_request_.get(), 0, nullptr, 0);
+    disconnect(artists_request_.get(), 0, this, 0);
     disconnect(this, 0, artists_request_.get(), 0);
     artists_request_.reset();
   }
@@ -446,7 +468,7 @@ void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progres
 void QobuzService::ResetAlbumsRequest() {
 
   if (albums_request_.get()) {
-    disconnect(albums_request_.get(), 0, nullptr, 0);
+    disconnect(albums_request_.get(), 0, this, 0);
     disconnect(this, 0, albums_request_.get(), 0);
     albums_request_.reset();
   }
@@ -495,7 +517,7 @@ void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress
 void QobuzService::ResetSongsRequest() {
 
   if (songs_request_.get()) {
-    disconnect(songs_request_.get(), 0, nullptr, 0);
+    disconnect(songs_request_.get(), 0, this, 0);
     disconnect(this, 0, songs_request_.get(), 0);
     songs_request_.reset();
   }

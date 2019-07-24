@@ -34,6 +34,8 @@
 #include <QList>
 #include <QTimer>
 
+#include "core/logging.h"
+
 namespace _detail {
 
 class ObjectHelper;
@@ -62,6 +64,7 @@ class ObjectHelper : public QObject {
   Q_OBJECT
  public:
   ObjectHelper(QObject *parent, const char *signal, ClosureBase *closure);
+  ~ObjectHelper();
 
  private slots:
   void Invoked();

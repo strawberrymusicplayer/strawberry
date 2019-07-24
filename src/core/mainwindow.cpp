@@ -989,7 +989,7 @@ void MainWindow::Exit() {
 
   if (app_->player()->engine()->is_fadeout_enabled()) {
     // To shut down the application when fadeout will be finished
-    connect(app_->player()->engine(), SIGNAL(FadeoutFinishedSignal()), qApp, SLOT(quit()));
+    connect(app_->player()->engine(), SIGNAL(FadeoutFinishedSignal()), this, SLOT(DoExit()));
     if (app_->player()->GetState() == Engine::Playing) {
       app_->player()->Stop();
       hide();
@@ -997,6 +997,19 @@ void MainWindow::Exit() {
       return; // Don't quit the application now: wait for the fadeout finished signal
     }
   }
+
+  DoExit();
+
+}
+
+void MainWindow::DoExit() {
+
+  connect(app_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
+  app_->Exit();
+
+}
+
+void MainWindow::ExitFinished() {
 
   qApp->quit();
 

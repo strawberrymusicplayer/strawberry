@@ -96,6 +96,8 @@ bool MtpLoader::TryLoad() {
   // Add the songs we've just loaded
   backend_->AddOrUpdateSongs(songs);
 
+  backend_->Close();
+
   return true;
 
 }

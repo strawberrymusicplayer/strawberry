@@ -18,9 +18,14 @@
  *
  */
 
+#include "config.h"
+
 #include <stdbool.h>
+#include <assert.h>
 
 #include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QMutex>
 #include <QIODevice>
 #include <QFile>
@@ -32,16 +37,46 @@
 
 #include "core/database.h"
 #include "core/scopedtransaction.h"
+#include "core/logging.h"
 #include "devicedatabasebackend.h"
 
 const int DeviceDatabaseBackend::kDeviceSchemaVersion = 0;
 
 DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
     QObject(parent),
-    db_(nullptr)
-    {}
+    db_(nullptr),
+    original_thread_(nullptr)
+    {
+
+  original_thread_ = thread();
+
+}
+
+DeviceDatabaseBackend::~DeviceDatabaseBackend() {}
 
 void DeviceDatabaseBackend::Init(Database* db) { db_ = db; }
+
+void DeviceDatabaseBackend::Close() {
+
+  if (db_) {
+    QMutexLocker l(db_->Mutex());
+    db_->Close();
+  }
+
+}
+
+void DeviceDatabaseBackend::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void DeviceDatabaseBackend::Exit() {
+
+  assert(QThread::currentThread() == thread());
+  Close();
+  moveToThread(original_thread_);
+  emit ExitFinished();
+
+}
 
 DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
 
@@ -101,6 +136,7 @@ int DeviceDatabaseBackend::AddDevice(const Device &device) {
   db_->ExecSchemaCommands(db, schema, 0, true);
 
   t.Commit();
+
   return id;
 
 }

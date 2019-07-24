@@ -49,7 +49,7 @@ QobuzFavoriteRequest::~QobuzFavoriteRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, nullptr, 0);
+    disconnect(reply, 0, this, 0);
     reply->abort();
     reply->deleteLater();
   }

@@ -52,7 +52,7 @@ TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, NetworkAcces
 TidalStreamURLRequest::~TidalStreamURLRequest() {
 
   if (reply_) {
-    disconnect(reply_, 0, nullptr, 0);
+    disconnect(reply_, 0, this, 0);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -109,7 +109,7 @@ void TidalStreamURLRequest::GetStreamURL() {
   ++tries_;
 
   if (reply_) {
-    disconnect(reply_, 0, nullptr, 0);
+    disconnect(reply_, 0, this, 0);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -144,7 +144,7 @@ void TidalStreamURLRequest::GetStreamURL() {
 void TidalStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
-  disconnect(reply_, 0, nullptr, 0);
+  disconnect(reply_, 0, this, 0);
   reply_->deleteLater();
 
   QByteArray data = GetReplyData(reply_, true);

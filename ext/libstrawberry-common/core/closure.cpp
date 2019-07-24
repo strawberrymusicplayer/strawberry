@@ -22,6 +22,7 @@
 
 #include "closure.h"
 
+#include "core/logging.h"
 #include "core/timeconstants.h"
 
 namespace _detail {
@@ -30,8 +31,7 @@ ClosureBase::ClosureBase(ObjectHelper *helper)
     : helper_(helper) {
 }
 
-ClosureBase::~ClosureBase() {
-}
+ClosureBase::~ClosureBase() {}
 
 CallbackClosure::CallbackClosure(QObject *sender, const char *signal, std::function<void()> callback)
     : ClosureBase(new ObjectHelper(sender, signal, this)),
@@ -52,6 +52,8 @@ ObjectHelper::ObjectHelper(QObject *sender, const char *signal, ClosureBase *clo
   connect(sender, SIGNAL(destroyed()), SLOT(deleteLater()));
 
 }
+
+ObjectHelper::~ObjectHelper() {}
 
 void ObjectHelper::Invoked() {
   closure_->Invoke();

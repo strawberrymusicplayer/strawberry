@@ -54,7 +54,7 @@ QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, NetworkAcces
 QobuzStreamURLRequest::~QobuzStreamURLRequest() {
 
   if (reply_) {
-    disconnect(reply_, 0, nullptr, 0);
+    disconnect(reply_, 0, this, 0);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -107,7 +107,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   ++tries_;
 
   if (reply_) {
-    disconnect(reply_, 0, nullptr, 0);
+    disconnect(reply_, 0, this, 0);
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
@@ -147,7 +147,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
 void QobuzStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
-  disconnect(reply_, 0, nullptr, 0);
+  disconnect(reply_, 0, this, 0);
   reply_->deleteLater();
 
   QByteArray data = GetReplyData(reply_);

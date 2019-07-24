@@ -40,6 +40,7 @@ class InternetService : public QObject {
   InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent = nullptr);
 
   virtual ~InternetService() {}
+  virtual void Exit() {}
 
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
@@ -75,6 +76,7 @@ class InternetService : public QObject {
   virtual void ResetSongsRequest() {}
 
  signals:
+  void ExitFinished();
   void Login();
   void Logout();
   void Login(const QString &api_token, const QString &username, const QString &password);

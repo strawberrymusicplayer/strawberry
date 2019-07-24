@@ -243,6 +243,7 @@ signals:
   void Raise();
 
   void Exit();
+  void DoExit();
 
   void HandleNotificationPreview(OSD::Behaviour type, QString line1, QString line2);
 
@@ -261,6 +262,8 @@ signals:
   void ScrobbleButtonVisibilityChanged(bool value);
   void LoveButtonVisibilityChanged(bool value);
   void Love();
+
+  void ExitFinished();
 
  private:
 

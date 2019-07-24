@@ -39,6 +39,7 @@
 #include "collection/sqlrow.h"
 #include "playlistitem.h"
 
+class QThread;
 class Application;
 class Database;
 
@@ -47,6 +48,7 @@ class PlaylistBackend : public QObject {
 
  public:
   Q_INVOKABLE PlaylistBackend(Application *app, QObject *parent = nullptr);
+  ~PlaylistBackend();
 
   struct Playlist {
     Playlist() : id(-1), favorite(false), last_played(0) {}
@@ -61,6 +63,9 @@ class PlaylistBackend : public QObject {
   typedef QList<Playlist> PlaylistList;
 
   static const int kSongTableJoins;
+
+  void Close();
+  void ExitAsync();
 
   PlaylistList GetAllPlaylists();
   PlaylistList GetAllOpenPlaylists();
@@ -82,7 +87,11 @@ class PlaylistBackend : public QObject {
   Application *app() const { return app_; }
 
  public slots:
+  void Exit();
   void SavePlaylist(int playlist, const PlaylistItemList &items, int last_played);
+
+signals:
+  void ExitFinished();
 
  private:
   struct NewSongFromQueryState {
@@ -105,6 +114,7 @@ class PlaylistBackend : public QObject {
 
   Application *app_;
   Database *db_;
+  QThread *original_thread_;
 };
 
 #endif  // PLAYLISTBACKEND_H
