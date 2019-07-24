@@ -127,8 +127,10 @@ void SCollection::Exit() {
 
 void SCollection::ExitReceived() {
 
-  disconnect(sender(), 0, this, 0);
-  wait_for_exit_.removeAll(sender());
+  QObject *obj = static_cast<QObject*>(sender());
+  disconnect(obj, 0, this, 0);
+  qLog(Debug) << obj << "successfully exited.";
+  wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
 
 }

@@ -86,7 +86,6 @@ void InternetServices::Exit() {
 void InternetServices::ExitReceived() {
 
   InternetService *service = qobject_cast<InternetService*>(sender());
-
   wait_for_exit_.removeAll(service);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
 

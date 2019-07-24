@@ -369,6 +369,7 @@ signals:
   Song song_;
   Song song_playing_;
   QImage image_original_;
+  int exit_count_;
 
 };
 

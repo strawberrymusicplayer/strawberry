@@ -42,6 +42,7 @@ TagReaderClient *TagReaderClient::sInstance = nullptr;
 TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool_(new WorkerPool<HandlerType>(this)) {
 
   sInstance = this;
+  original_thread_ = thread();
 
   worker_pool_->SetExecutableName(kWorkerExecutableName);
   worker_pool_->SetWorkerCount(QThread::idealThreadCount());
@@ -49,6 +50,18 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
 }
 
 void TagReaderClient::Start() { worker_pool_->Start(); }
+
+void TagReaderClient::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void TagReaderClient::Exit() {
+
+  assert(QThread::currentThread() == thread());
+  moveToThread(original_thread_);
+  emit ExitFinished();
+
+}
 
 void TagReaderClient::WorkerFailedToStart() {
   qLog(Error) << "The" << kWorkerExecutableName << "executable was not found in the current directory or on the PATH.  Strawberry will not be able to read music file tags without it.";

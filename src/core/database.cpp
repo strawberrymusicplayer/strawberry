@@ -229,7 +229,10 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
       mutex_(QMutex::Recursive),
       injected_database_name_(database_name),
       query_hash_(0),
-      startup_schema_version_(-1) {
+      startup_schema_version_(-1),
+      original_thread_(nullptr) {
+
+  original_thread_ = thread();
 
   {
     QMutexLocker l(&sNextConnectionIdMutex);
@@ -256,6 +259,19 @@ Database::~Database() {
 
   if (sFTSTokenizer)
     delete sFTSTokenizer;
+
+}
+
+void Database::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void Database::Exit() {
+
+  assert(QThread::currentThread() == thread());
+  Close();
+  moveToThread(original_thread_);
+  emit ExitFinished();
 
 }
 

@@ -44,6 +44,7 @@ struct sqlite3_tokenizer_cursor;
 struct sqlite3_tokenizer_module;
 }
 
+class QThread;
 class Application;
 
 class Database : public QObject {
@@ -67,6 +68,7 @@ class Database : public QObject {
   static const char *kDatabaseFilename;
   static const char *kMagicAllSongsTables;
 
+  void ExitAsync();
   QSqlDatabase Connect();
   void Close();
   bool CheckErrors(const QSqlQuery &query);
@@ -82,8 +84,12 @@ class Database : public QObject {
   void AttachDatabaseOnDbConnection(const QString &database_name, const AttachedDatabase &database, QSqlDatabase &db);
   void DetachDatabase(const QString &database_name);
 
-signals:
+ signals:
+  void ExitFinished();
   void Error(const QString &message);
+
+ private slots:
+  void Exit();
 
  public slots:
   void DoBackup();
@@ -125,6 +131,8 @@ signals:
 
   // This is the schema version of Strawberry's DB from the app's last run.
   int startup_schema_version_;
+
+  QThread *original_thread_;
 
   // Do static initialisation like loading sqlite functions.
   static void StaticInit();

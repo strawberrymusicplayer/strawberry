@@ -36,6 +36,7 @@
 #include "song.h"
 #include "tagreadermessages.pb.h"
 
+class QThread;
 class Song;
 template <typename HandlerType> class WorkerPool;
 
@@ -51,6 +52,7 @@ class TagReaderClient : public QObject {
   static const char *kWorkerExecutableName;
 
   void Start();
+  void ExitAsync();
 
   ReplyType *ReadFile(const QString &filename);
   ReplyType *SaveFile(const QString &filename, const Song &metadata);
@@ -67,7 +69,11 @@ class TagReaderClient : public QObject {
   // TODO: Make this not a singleton
   static TagReaderClient *Instance() { return sInstance; }
 
+ signals:
+  void ExitFinished();
+
  private slots:
+  void Exit();
   void WorkerFailedToStart();
 
  private:
@@ -75,6 +81,7 @@ class TagReaderClient : public QObject {
 
   WorkerPool<HandlerType> *worker_pool_;
   QList<pb::tagreader::Message> message_queue_;
+  QThread *original_thread_;
 };
 
 typedef TagReaderClient::ReplyType TagReaderReply;

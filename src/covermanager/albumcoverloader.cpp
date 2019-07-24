@@ -23,12 +23,12 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QDir>
-#include <QQueue>
-#include <QMutex>
 #include <QStandardPaths>
-#include <QSize>
+#include <QDir>
+#include <QThread>
+#include <QMutex>
 #include <QList>
+#include <QQueue>
 #include <QSet>
 #include <QVariant>
 #include <QString>
@@ -37,6 +37,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
+#include <QSize>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -61,10 +62,27 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       cover_filename_(CollectionSettingsPage::SaveCover_Hash),
       cover_overwrite_(false),
       cover_lowercase_(true),
-      cover_replace_spaces_(true)
+      cover_replace_spaces_(true),
+      original_thread_(nullptr)
       {
 
+  original_thread_ = thread();
   ReloadSettings();
+
+}
+
+void AlbumCoverLoader::ExitAsync() {
+
+  stop_requested_ = true;
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+
+}
+
+void AlbumCoverLoader::Exit() {
+
+  assert(QThread::currentThread() == thread());
+  moveToThread(original_thread_);
+  emit ExitFinished();
 
 }
 

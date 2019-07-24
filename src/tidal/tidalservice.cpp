@@ -186,9 +186,9 @@ TidalService::~TidalService() {
     stream_url_req->deleteLater();
   }
 
-  delete artists_collection_backend_;
-  delete albums_collection_backend_;
-  delete songs_collection_backend_;
+  artists_collection_backend_->deleteLater();
+  albums_collection_backend_->deleteLater();
+  songs_collection_backend_->deleteLater();
 
 }
 
@@ -208,8 +208,10 @@ void TidalService::Exit() {
 
 void TidalService::ExitReceived() {
 
-  disconnect(sender(), 0, this, 0);
-  wait_for_exit_.removeAll(sender());
+  QObject *obj = static_cast<QObject*>(sender());
+  disconnect(obj, 0, this, 0);
+  qLog(Debug) << obj << "successfully exited.";
+  wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
 
 }

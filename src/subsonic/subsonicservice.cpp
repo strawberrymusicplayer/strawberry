@@ -95,7 +95,7 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 }
 
 SubsonicService::~SubsonicService() {
-  delete collection_backend_;
+  collection_backend_->deleteLater();
 }
 
 void SubsonicService::Exit() {

@@ -248,18 +248,26 @@ void Application::MoveToThread(QObject *object, QThread *thread) {
 
 void Application::Exit() {
 
-  wait_for_exit_ << collection()
+  wait_for_exit_ << tag_reader_client()
+                 << collection()
                  << playlist_backend()
+                 << album_cover_loader()
 #ifndef Q_OS_WIN
                  << device_manager()
 #endif
                  << internet_services();
+
+  connect(tag_reader_client(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  tag_reader_client()->ExitAsync();
 
   connect(collection(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   collection()->Exit();
 
   connect(playlist_backend(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   playlist_backend()->ExitAsync();
+
+  connect(album_cover_loader(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
+  album_cover_loader()->ExitAsync();
 
 #ifndef Q_OS_WIN
   connect(device_manager(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
@@ -269,16 +277,21 @@ void Application::Exit() {
   connect(internet_services(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   internet_services()->Exit();
 
-  database()->Close();
-
 }
 
 void Application::ExitReceived() {
 
-  disconnect(sender(), 0, this, 0);
+  QObject *obj = static_cast<QObject*>(sender());
+  disconnect(obj, 0, this, 0);
 
-  wait_for_exit_.removeAll(sender());
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  qLog(Debug) << obj << "successfully exited.";
+
+  wait_for_exit_.removeAll(obj);
+  if (wait_for_exit_.isEmpty()) {
+    database()->Close();
+    connect(database(), SIGNAL(ExitFinished()), this, SIGNAL(ExitFinished()));
+    database()->ExitAsync();
+  }
 
 }
 

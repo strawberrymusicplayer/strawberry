@@ -41,6 +41,7 @@
 #include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 
+class QThread;
 class Song;
 class NetworkAccessManager;
 
@@ -52,6 +53,7 @@ class AlbumCoverLoader : public QObject {
 
   void ReloadSettings();
 
+  void ExitAsync();
   void Stop() { stop_requested_ = true; }
 
   static QString ImageCacheDir(const Song::Source source);
@@ -68,11 +70,13 @@ class AlbumCoverLoader : public QObject {
   static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());
   static QImage ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
 
-signals:
+ signals:
+  void ExitFinished();
   void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
   void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
 
  protected slots:
+  void Exit();
   void ProcessTasks();
   void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
 
@@ -127,6 +131,8 @@ signals:
   bool cover_overwrite_;
   bool cover_lowercase_;
   bool cover_replace_spaces_;
+
+  QThread *original_thread_;
 
 };
 
