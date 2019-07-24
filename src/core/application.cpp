@@ -250,7 +250,9 @@ void Application::Exit() {
 
   wait_for_exit_ << collection()
                  << playlist_backend()
+#ifndef Q_OS_WIN
                  << device_manager()
+#endif
                  << internet_services();
 
   connect(collection(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
@@ -259,8 +261,10 @@ void Application::Exit() {
   connect(playlist_backend(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   playlist_backend()->ExitAsync();
 
+#ifndef Q_OS_WIN
   connect(device_manager(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   device_manager()->Exit();
+#endif
 
   connect(internet_services(), SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
   internet_services()->Exit();
