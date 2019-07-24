@@ -37,6 +37,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>
@@ -319,8 +320,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
       QImage image(cover_url.path());
       return TryLoadResult(false, !image.isNull(), cover_url, image.isNull() ? task.options.default_output_image_ : image);
     }
-    else if (!cover_url.scheme().isEmpty()) {  // Assume remote URL
-
+    else if (network_->supportedSchemes().contains(cover_url.scheme())) {  // Remote URL
       QNetworkReply *reply = network_->get(QNetworkRequest(cover_url));
       NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, const QUrl&)), reply, cover_url);
 
