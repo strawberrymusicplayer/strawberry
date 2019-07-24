@@ -189,10 +189,6 @@ QSqlQuery PlaylistBackend::GetPlaylistRows(int playlist) {
   q.bindValue(":playlist", playlist);
   q.exec();
 
-  if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
-    db_->Close();
-  }
-
   return q;
 
 }
@@ -209,6 +205,11 @@ QList<PlaylistItemPtr> PlaylistBackend::GetPlaylistItems(int playlist) {
   while (q.next()) {
     playlistitems << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
   }
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
+    db_->Close();
+  }
+
   return playlistitems;
 
 }
@@ -225,6 +226,11 @@ QList<Song> PlaylistBackend::GetPlaylistSongs(int playlist) {
   while (q.next()) {
     songs << NewSongFromQuery(SqlRow(q), state_ptr);
   }
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != qApp->thread()) {
+    db_->Close();
+  }
+
   return songs;
 
 }
