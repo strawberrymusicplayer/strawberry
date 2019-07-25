@@ -250,12 +250,9 @@ Database::~Database() {
 
   QMutexLocker l(&connect_mutex_);
 
-  for (QString connection : connections_) {
-    qLog(Error) << connection << "still open!";
+  for (QString &connection_id : QSqlDatabase::connectionNames()) {
+    qLog(Error) << "Connection" << connection_id << "is still open!";
   }
-
-  if (!connections_.isEmpty())
-    qLog(Error) << connections_.count() << "connections still open!";
 
   if (sFTSTokenizer)
     delete sFTSTokenizer;
@@ -288,18 +285,18 @@ QSqlDatabase Database::Connect() {
 
   const QString connection_id = QString("%1_thread_%2").arg(connection_id_).arg(reinterpret_cast<quint64>(QThread::currentThread()));
 
-  if (!connections_.contains(connection_id)) {
-    //qLog(Debug) << "Opened database with connection id" << connection_id;
-    connections_ << connection_id;
-  }
-
   // Try to find an existing connection for this thread
-  QSqlDatabase db = QSqlDatabase::database(connection_id);
+  QSqlDatabase db;
+  if (QSqlDatabase::connectionNames().contains(connection_id)) {
+    db = QSqlDatabase::database(connection_id);
+  }
+  else {
+    db = QSqlDatabase::addDatabase("QSQLITE", connection_id);
+  }
   if (db.isOpen()) {
     return db;
   }
-
-  db = QSqlDatabase::addDatabase("QSQLITE", connection_id);
+  //qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (!injected_database_name_.isNull())
     db.setDatabaseName(injected_database_name_);
@@ -389,14 +386,15 @@ void Database::Close() {
   const QString connection_id = QString("%1_thread_%2").arg(connection_id_).arg(reinterpret_cast<quint64>(QThread::currentThread()));
 
   // Try to find an existing connection for this thread
-  QSqlDatabase db = QSqlDatabase::database(connection_id);
-  if (db.isOpen()) {
-    db.close();
-  }
-
-  if (connections_.contains(connection_id)) {
-    //qLog(Debug) << "Closed database with connection id" << connection_id;
-    connections_.removeAll(connection_id);
+  if (QSqlDatabase::connectionNames().contains(connection_id)) {
+    {
+      QSqlDatabase db = QSqlDatabase::database(connection_id);
+      if (db.isOpen()) {
+        db.close();
+        //qLog(Debug) << "Closed database with connection id" << connection_id;
+      }
+    }
+    QSqlDatabase::removeDatabase(connection_id);
   }
 
 }

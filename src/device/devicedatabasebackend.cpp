@@ -80,27 +80,31 @@ void DeviceDatabaseBackend::Exit() {
 
 DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
 
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
-
   DeviceList ret;
 
-  QSqlQuery q(db);
-  q.prepare("SELECT ROWID, unique_id, friendly_name, size, icon, transcode_mode, transcode_format FROM devices");
-  q.exec();
-  if (db_->CheckErrors(q)) return ret;
+  {
+    QMutexLocker l(db_->Mutex());
+    QSqlDatabase db(db_->Connect());
+    QSqlQuery q(db);
+    q.prepare("SELECT ROWID, unique_id, friendly_name, size, icon, transcode_mode, transcode_format FROM devices");
+    q.exec();
+    if (db_->CheckErrors(q)) return ret;
 
-  while (q.next()) {
-    Device dev;
-    dev.id_ = q.value(0).toInt();
-    dev.unique_id_ = q.value(1).toString();
-    dev.friendly_name_ = q.value(2).toString();
-    dev.size_ = q.value(3).toLongLong();
-    dev.icon_name_ = q.value(4).toString();
-    dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(5).toInt());
-    dev.transcode_format_ = Song::FileType(q.value(6).toInt());
-    ret << dev;
+    while (q.next()) {
+      Device dev;
+      dev.id_ = q.value(0).toInt();
+      dev.unique_id_ = q.value(1).toString();
+      dev.friendly_name_ = q.value(2).toString();
+      dev.size_ = q.value(3).toLongLong();
+      dev.icon_name_ = q.value(4).toString();
+      dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(5).toInt());
+      dev.transcode_format_ = Song::FileType(q.value(6).toInt());
+      ret << dev;
+    }
   }
+
+  Close();
+
   return ret;
 
 }

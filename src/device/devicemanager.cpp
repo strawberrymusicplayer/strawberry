@@ -182,6 +182,7 @@ void DeviceManager::LoadAllDevices() {
     info->InitFromDb(device);
     emit DeviceCreatedFromDB(info);
   }
+
   backend_->Close();
 
 }

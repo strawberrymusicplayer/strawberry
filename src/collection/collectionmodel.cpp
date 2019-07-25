@@ -754,11 +754,10 @@ CollectionModel::QueryResult CollectionModel::RunQuery(CollectionItem *parent) {
 
   // Execute the query
   QMutexLocker l(backend_->db()->Mutex());
-
-  if (!backend_->ExecQuery(&q)) return result;
-
-  while (q.Next()) {
-    result.rows << SqlRow(q);
+  if (backend_->ExecQuery(&q)) {
+    while (q.Next()) {
+      result.rows << SqlRow(q);
+    }
   }
 
   if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
@@ -810,6 +809,10 @@ void CollectionModel::ResetAsync() {
 }
 
 void CollectionModel::ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future) {
+
+  if (QThread::currentThread() != thread() && QThread::currentThread() != backend_->thread()) {
+    backend_->Close();
+  }
 
   const struct QueryResult result = future.result();
 

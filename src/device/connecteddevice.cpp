@@ -70,6 +70,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 }
 
 ConnectedDevice::~ConnectedDevice() {
+  backend_->Close();
   backend_->deleteLater();
 }
 

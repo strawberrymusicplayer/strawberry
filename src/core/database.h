@@ -118,7 +118,6 @@ class Database : public QObject {
 
   // This ID makes the QSqlDatabase name unique to the object as well as the thread
   int connection_id_;
-  QStringList connections_;
 
   static QMutex sNextConnectionIdMutex;
   static int sNextConnectionId;

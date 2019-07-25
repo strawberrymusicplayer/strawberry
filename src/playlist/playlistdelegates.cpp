@@ -353,7 +353,6 @@ QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &
 }
 
 QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-
   return new QLineEdit(parent);
 }
 

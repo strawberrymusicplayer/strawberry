@@ -219,6 +219,8 @@ void GPodDevice::WriteDatabase(bool success) {
     }
   }
 
+  backend_->Close();
+
   songs_to_add_.clear();
   songs_to_remove_.clear();
   db_busy_.unlock();

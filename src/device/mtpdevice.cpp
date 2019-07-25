@@ -184,6 +184,8 @@ void MtpDevice::FinishCopy(bool success) {
   songs_to_add_.clear();
   songs_to_remove_.clear();
 
+  backend_->Close();
+
   db_busy_.unlock();
 
   ConnectedDevice::FinishCopy(success);
