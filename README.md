@@ -34,16 +34,15 @@ It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
-* [GLib, GIO and GObject](https://developer.gnome.org/glib/)
-* [POSIX thread (pthread) libraries](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
 * [CMake and Make tools](https://cmake.org/)
 * [GCC](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/) compiler
+* [Boost](https://www.boost.org/)
+* [POSIX thread (pthread)](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
+* [GLib](https://developer.gnome.org/glib/)
 * [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
-* [Boost development headers](https://www.boost.org/)
 * [Qt 5 with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for macOS and WinExtras for Windows](https://www.qt.io/)
 * [SQLite3](https://www.sqlite.org)
-* [TagLib 1.11.1 or higher](http://taglib.org/)
 * [Chromaprint library](https://acoustid.org/chromaprint)
 * [ALSA library (linux)](https://www.alsa-project.org/)
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
@@ -70,13 +69,11 @@ You should also install the gstreamer plugins base and good, and optionally bad 
 
 ### Compile and install:
 
-    mkdir strawberry-build
-    cd strawberry-build
-    cmake ../strawberry
-    make -j8
+    cd strawberry
+    mkdir build && cd build
+    cmake ..
+    make -j4
     sudo make install
-
-    (dont change to the source directory, if you created the build directory inside the source directory type: cmake .. instead).
 
 ### :penguin:	Packaging status
 

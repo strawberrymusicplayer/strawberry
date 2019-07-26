@@ -589,19 +589,17 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 
   // Playlist menu
+  connect(playlist_menu_, SIGNAL(aboutToHide()), SLOT(PlaylistMenuHidden()));
   playlist_play_pause_ = playlist_menu_->addAction(tr("Play"), this, SLOT(PlaylistPlay()));
   playlist_menu_->addAction(ui_->action_stop);
   playlist_stop_after_ = playlist_menu_->addAction(IconLoader::Load("media-stop"), tr("Stop after this track"), this, SLOT(PlaylistStopAfter()));
   playlist_queue_ = playlist_menu_->addAction(IconLoader::Load("go-next"), tr("Toggle queue status"), this, SLOT(PlaylistQueue()));
-  playlist_queue_->setVisible(false);
   playlist_queue_->setShortcut(QKeySequence("Ctrl+D"));
   ui_->playlist->addAction(playlist_queue_);
   playlist_queue_play_next_ = playlist_menu_->addAction(IconLoader::Load("go-next"), tr("Queue selected tracks to play next"), this, SLOT(PlaylistQueuePlayNext()));
   playlist_queue_play_next_->setShortcut(QKeySequence("Ctrl+Shift+D"));
-  playlist_queue_play_next_->setVisible(false);
   ui_->playlist->addAction(playlist_queue_play_next_);
   playlist_skip_ = playlist_menu_->addAction(IconLoader::Load("media-forward"), tr("Toggle skip status"), this, SLOT(PlaylistSkip()));
-  playlist_skip_->setVisible(false);
   ui_->playlist->addAction(playlist_skip_);
 
   playlist_menu_->addSeparator();
@@ -1501,6 +1499,14 @@ void MainWindow::AddToPlaylist(QAction *action) {
     // we're inserting in a existing playlist
     app_->playlist_manager()->playlist(destination)->InsertItems(items);
   }
+
+}
+
+void MainWindow::PlaylistMenuHidden() {
+
+  playlist_queue_->setVisible(true);
+  playlist_queue_play_next_->setVisible(true);
+  playlist_skip_->setVisible(true);
 
 }
 

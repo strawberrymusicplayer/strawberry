@@ -38,6 +38,10 @@ Unreleased:
     * Removed older devicekit udisks backend
     * Using iconv to replace non-ascii characters when organising files
     * Fixed IPod support when listed from UDisks2
+    * Fixed memory leaks when establishing database connections and in database backup.
+    * Fixed dangling database connections when loading collection, playlists and devices.
+    * Fixed closing and deleting backends to free memory and database connections on exit.
+    * Fixed dangling pointers causing crashes when loading new album covers in collection.
 
 Version 0.5.5:
 

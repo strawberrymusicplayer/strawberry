@@ -126,7 +126,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Activate();
   bool LoadUrl(const QString& url);
 
-signals:
+ signals:
   void AlbumCoverReady(const Song &song, const QUrl &cover_url, const QImage &image);
   void SearchCoverInProgress();
   // Signals that stop playing after track was toggled.
@@ -146,6 +146,7 @@ signals:
   void TrackSkipped(PlaylistItemPtr item);
   void ForceShowOSD(const Song& song, const bool toggle);
 
+  void PlaylistMenuHidden();
   void PlaylistRightClick(const QPoint& global_pos, const QModelIndex& index);
   void PlaylistCurrentChanged(const QModelIndex& current);
   void PlaylistViewSelectionModelChanged();
