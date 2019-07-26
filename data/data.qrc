@@ -9,6 +9,7 @@
         <file>schema/schema-6.sql</file>
         <file>schema/schema-7.sql</file>
         <file>schema/schema-8.sql</file>
+        <file>schema/schema-9.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
         <file>html/playing-tooltip-plain.html</file>

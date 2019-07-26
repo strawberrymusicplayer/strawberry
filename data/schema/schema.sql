@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (8);
+INSERT INTO schema_version (version) VALUES (9);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -560,13 +560,17 @@ CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
 
 CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
 
+CREATE INDEX IF NOT EXISTS idx_albumartist ON songs (albumartist);
+
+CREATE INDEX IF NOT EXISTS idx_artist ON songs (artist);
+
 CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
 
 CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
 
 CREATE VIEW IF NOT EXISTS duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
 
-CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -577,11 +581,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_artists_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS tidal_artists_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -592,11 +596,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_artists_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_albums_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS tidal_albums_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -607,11 +611,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_albums_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -622,11 +626,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS tidal_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -637,11 +641,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS subsonic_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_artists_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_artists_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -652,11 +656,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_artists_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_albums_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_albums_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -667,11 +671,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_albums_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_songs_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_songs_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -682,11 +686,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS qobuz_songs_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -697,11 +701,11 @@ CREATE VIRTUAL TABLE IF NOT EXISTS playlist_items_fts_ USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
 
-CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts3(
+CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts5(
 
   ftstitle,
   ftsalbum,
@@ -712,12 +716,6 @@ CREATE VIRTUAL TABLE IF NOT EXISTS %allsongstables_fts USING fts3(
   ftsgrouping,
   ftsgenre,
   ftscomment,
-  tokenize=unicode
+  tokenize = "unicode61 remove_diacritics 0"
 
 );
-
-INSERT INTO songs_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
-SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment FROM songs;
-
-INSERT INTO %allsongstables_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
-SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment FROM %allsongstables;

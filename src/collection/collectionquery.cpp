@@ -40,7 +40,7 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
     : include_unavailable_(false), join_with_fts_(false), limit_(-1) {
 
   if (!options.filter().isEmpty()) {
-    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS3:
+    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
     //  1) Append * to all tokens.
     //  2) Prefix "fts" to column names.
     //  3) Remove colons which don't correspond to column names.
@@ -62,7 +62,8 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
           QString subtoken = token.section(':', 1, -1);
           subtoken.replace(":", " ");
           subtoken = subtoken.trimmed();
-          query += "fts" + columntoken + subtoken + "* ";
+          if (!subtoken.isEmpty())
+            query += "fts" + columntoken + subtoken + "* ";
         }
         else {
           token.replace(":", " ");
@@ -74,10 +75,11 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
         query += token + "* ";
       }
     }
-
-    where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
-    bound_values_ << query;
-    join_with_fts_ = true;
+    if (!query.isEmpty()) {
+      where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
+      bound_values_ << query;
+      join_with_fts_ = true;
+    }
   }
 
   if (options.max_age() != -1) {

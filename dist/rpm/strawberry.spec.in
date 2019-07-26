@@ -44,7 +44,7 @@ BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(gnutls)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(protobuf)
-BuildRequires:  pkgconfig(sqlite3)
+BuildRequires:  pkgconfig(sqlite3) >= 3.9
 %if ! 0%{?centos} && ! 0%{?mageia}
 BuildRequires:  pkgconfig(taglib)
 %endif
