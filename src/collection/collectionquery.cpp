@@ -62,7 +62,8 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
           QString subtoken = token.section(':', 1, -1);
           subtoken.replace(":", " ");
           subtoken = subtoken.trimmed();
-          query += "fts" + columntoken + subtoken + "* ";
+          if (!subtoken.isEmpty())
+            query += "fts" + columntoken + subtoken + "* ";
         }
         else {
           token.replace(":", " ");
@@ -74,10 +75,11 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
         query += token + "* ";
       }
     }
-
-    where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
-    bound_values_ << query;
-    join_with_fts_ = true;
+    if (!query.isEmpty()) {
+      where_clauses_ << "fts.%fts_table_noprefix MATCH ?";
+      bound_values_ << query;
+      join_with_fts_ = true;
+    }
   }
 
   if (options.max_age() != -1) {
