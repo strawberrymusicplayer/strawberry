@@ -1,14 +1,55 @@
-!define PRODUCT_NAME "Strawberry"
-!define PRODUCT_PUBLISHER "Strawberry"
+!if "@ARCH@" == x86
+  !define arch_x86
+!endif
+
+!if "@ARCH@" == i686-w64-mingw32.shared
+  !define arch_x86
+!endif
+
+!if "@ARCH@" == x86_64
+  !define arch_x64
+!endif
+
+!if "@ARCH@" == x86_64-w64-mingw32.shared
+  !define arch_x64
+!endif
+
+!if "@CMAKE_BUILD_TYPE@" == Debug
+  !define debug
+!endif
+
+!ifdef debug
+  !define PRODUCT_NAME "Strawberry Music Player Debug"
+  !define PRODUCT_NAME_SHORT "Strawberry"
+  !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME_SHORT}Debug"
+  !ifdef arch_x86
+    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player Debug"
+  !endif
+  !ifdef arch_x64
+    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player Debug"
+  !endif
+!else
+  !define PRODUCT_NAME "Strawberry Music Player"
+  !define PRODUCT_NAME_SHORT "Strawberry"
+  !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME_SHORT}"
+  !ifdef arch_x86
+    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player"
+  !endif
+  !ifdef arch_x64
+    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player"
+  !endif
+!endif
+
 !define PRODUCT_VERSION_MAJOR @STRAWBERRY_VERSION_MAJOR@
 !define PRODUCT_VERSION_MINOR @STRAWBERRY_VERSION_MINOR@
 !define PRODUCT_VERSION_PATCH @STRAWBERRY_VERSION_PATCH@
 !define PRODUCT_DISPLAY_VERSION "@STRAWBERRY_VERSION_PACKAGE@"
 !define PRODUCT_DISPLAY_VERSION_SHORT "@STRAWBERRY_VERSION_PACKAGE@"
+
+!define PRODUCT_PUBLISHER "Jonas Kvinge"
 !define PRODUCT_WEB_SITE "http://www.strawbs.org/"
-!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
-!define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player"
 
 ; Set Application Capabilities info
 !define CAPABILITIES_NAME "Strawberry Music Player"
@@ -22,6 +63,7 @@
 !define CAPABILITIES_SHOW_ICONS "Command to show icons"
 
 SetCompressor /SOLID lzma
+
 !addplugindir nsisplugins
 !include "MUI2.nsh"
 !include "FileAssociation.nsh"
@@ -42,13 +84,28 @@ SetCompressor /SOLID lzma
 
 ; Uninstaller pages
 !insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES  
+!insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
 
 Name "${PRODUCT_NAME}"
-OutFile "${PRODUCT_NAME}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
+!ifdef arch_x86
+  !ifdef debug
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x86.exe"
+  !else
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x86.exe"
+  !endif
+!endif
+
+!ifdef arch_x64
+  !ifdef debug
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-Debug-x64.exe"
+  !else
+    OutFile "${PRODUCT_NAME_SHORT}Setup-${PRODUCT_DISPLAY_VERSION}-x64.exe"
+  !endif
+!endif
+
 InstallDir "${PRODUCT_INSTALL_DIR}"
 
 ; Get the path where Strawberry was installed previously and set it as default path
@@ -104,13 +161,11 @@ Section "Strawberry" Strawberry
   File "libbz2.dll"
   File "libcdio-19.dll"
   File "libchromaprint.dll"
-  File "libcrypto-3-x64.dll"
   File "libfaad-2.dll"
   File "libffi-6.dll"
   File "libfftw3-3.dll"
   File "libFLAC-8.dll"
   File "libfreetype-6.dll"
-  File "libgcc_s_seh-1.dll"
   File "libgio-2.0-0.dll"
   File "libglib-2.0-0.dll"
   File "libgmodule-2.0-0.dll"
@@ -148,7 +203,6 @@ Section "Strawberry" Strawberry
   File "libsoup-2.4-1.dll"
   File "libspeex-1.dll"
   File "libsqlite3-0.dll"
-  File "libssl-3-x64.dll"
   File "libstdc++-6.dll"
   File "libtag.dll"
   File "libunistring-2.dll"
@@ -167,6 +221,24 @@ Section "Strawberry" Strawberry
   File "zlib1.dll"
   File "libzstd.dll"
   File "libtasn1-6.dll"
+
+!ifdef arch_x86
+  File "libgcc_s_sjlj-1.dll"
+  File "libcrypto-3.dll"
+  File "libssl-3.dll"
+!endif
+
+!ifdef arch_x64
+  File "libgcc_s_seh-1.dll"
+  File "libcrypto-3-x64.dll"
+  File "libssl-3-x64.dll"
+!endif
+
+!ifdef debug
+  File "libmpcdec-5.dll"
+  File "libtheora-0.dll"
+  File "libxine-2.dll"
+!endif
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -264,6 +336,38 @@ Section "Gstreamer plugins" gstreamer-plugins
 
 SectionEnd
 
+!ifdef debug
+Section "Xine plugins" xine-plugins
+  SetOutPath "$INSTDIR\xine-plugins"
+  File "/oname=xineplug_ao_out_directx2.dll" "xine-plugins\xineplug_ao_out_directx2.dll"
+  File "/oname=xineplug_ao_out_directx.dll" "xine-plugins\xineplug_ao_out_directx.dll"
+  File "/oname=xineplug_decode_dts.dll" "xine-plugins\xineplug_decode_dts.dll"
+  File "/oname=xineplug_decode_dvaudio.dll" "xine-plugins\xineplug_decode_dvaudio.dll"
+  File "/oname=xineplug_decode_faad.dll" "xine-plugins\xineplug_decode_faad.dll"
+  File "/oname=xineplug_decode_gsm610.dll" "xine-plugins\xineplug_decode_gsm610.dll"
+  File "/oname=xineplug_decode_lpcm.dll" "xine-plugins\xineplug_decode_lpcm.dll"
+  File "/oname=xineplug_decode_mad.dll" "xine-plugins\xineplug_decode_mad.dll"
+  File "/oname=xineplug_decode_mpc.dll" "xine-plugins\xineplug_decode_mpc.dll"
+  File "/oname=xineplug_decode_mpeg2.dll" "xine-plugins\xineplug_decode_mpeg2.dll"
+  File "/oname=xineplug_dmx_asf.dll" "xine-plugins\xineplug_dmx_asf.dll"
+  File "/oname=xineplug_dmx_audio.dll" "xine-plugins\xineplug_dmx_audio.dll"
+  File "/oname=xineplug_dmx_playlist.dll" "xine-plugins\xineplug_dmx_playlist.dll"
+  File "/oname=xineplug_dmx_slave.dll" "xine-plugins\xineplug_dmx_slave.dll"
+  File "/oname=xineplug_flac.dll" "xine-plugins\xineplug_flac.dll"
+  File "/oname=xineplug_wavpack.dll" "xine-plugins\xineplug_wavpack.dll"
+  File "/oname=xineplug_xiph.dll" "xine-plugins\xineplug_xiph.dll"
+  File "/oname=xineplug_inp_cdda.dll" "xine-plugins\xineplug_inp_cdda.dll"
+
+  File "/oname=xineplug_post_audio_filters.dll" "xine-plugins\xineplug_post_audio_filters.dll"
+  File "/oname=xineplug_post_goom.dll" "xine-plugins\xineplug_post_goom.dll"
+  File "/oname=xineplug_post_mosaico.dll" "xine-plugins\xineplug_post_mosaico.dll"
+  File "/oname=xineplug_post_planar.dll" "xine-plugins\xineplug_post_planar.dll"
+  File "/oname=xineplug_post_switch.dll" "xine-plugins\xineplug_post_switch.dll"
+  File "/oname=xineplug_post_tvtime.dll" "xine-plugins\xineplug_post_tvtime.dll"
+  File "/oname=xineplug_post_visualizations.dll" "xine-plugins\xineplug_post_visualizations.dll"
+SectionEnd
+!endif
+
 Section "Start menu items" startmenu
   ; Create Start Menu folders and shortcuts.
   SetShellVarContext all
@@ -322,13 +426,11 @@ Section "Uninstall"
   Delete "$INSTDIR\libbz2.dll"
   Delete "$INSTDIR\libcdio-19.dll"
   Delete "$INSTDIR\libchromaprint.dll"
-  Delete "$INSTDIR\libcrypto-3-x64.dll"
   Delete "$INSTDIR\libfaad-2.dll"
   Delete "$INSTDIR\libffi-6.dll"
   Delete "$INSTDIR\libfftw3-3.dll"
   Delete "$INSTDIR\libFLAC-8.dll"
   Delete "$INSTDIR\libfreetype-6.dll"
-  Delete "$INSTDIR\libgcc_s_seh-1.dll"
   Delete "$INSTDIR\libgio-2.0-0.dll"
   Delete "$INSTDIR\libglib-2.0-0.dll"
   Delete "$INSTDIR\libgmodule-2.0-0.dll"
@@ -366,7 +468,6 @@ Section "Uninstall"
   Delete "$INSTDIR\libsoup-2.4-1.dll"
   Delete "$INSTDIR\libspeex-1.dll"
   Delete "$INSTDIR\libsqlite3-0.dll"
-  Delete "$INSTDIR\libssl-3-x64.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libtag.dll"
   Delete "$INSTDIR\libunistring-2.dll"
@@ -385,6 +486,24 @@ Section "Uninstall"
   Delete "$INSTDIR\zlib1.dll"
   Delete "$INSTDIR\libzstd.dll"
   Delete "$INSTDIR\libtasn1-6.dll"
+
+!ifdef arch_x86
+  Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
+  Delete "$INSTDIR\libcrypto-3.dll"
+  Delete "$INSTDIR\libssl-3.dll"
+!endif
+
+!ifdef arch_x64
+  Delete "$INSTDIR\libgcc_s_seh-1.dll"
+  Delete "$INSTDIR\libcrypto-3-x64.dll"
+  Delete "$INSTDIR\libssl-3-x64.dll"
+!endif
+
+!ifdef debug
+  Delete "$INSTDIR\libmpcdec-5.dll"
+  Delete "$INSTDIR\libtheora-0.dll"
+  Delete "$INSTDIR\libxine-2.dll"
+!endif
 
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
