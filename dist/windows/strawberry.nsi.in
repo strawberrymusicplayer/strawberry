@@ -84,7 +84,7 @@ SetCompressor /SOLID lzma
 
 ; Uninstaller pages
 !insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES  
+!insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
 !insertmacro MUI_LANGUAGE "English" ;first language is the default language
