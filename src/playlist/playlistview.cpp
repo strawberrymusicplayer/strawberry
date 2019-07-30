@@ -69,6 +69,7 @@
 #include "core/player.h"
 #include "core/qt_blurimage.h"
 #include "core/song.h"
+#include "playlistmanager.h"
 #include "playlist.h"
 #include "playlistdelegates.h"
 #include "playlistheader.h"
@@ -216,11 +217,11 @@ void PlaylistView::SetApplication(Application *app) {
 
   Q_ASSERT(app);
   app_ = app;
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)), SLOT(CurrentSongChanged(const Song&, const QUrl&, const QImage&)));
-  connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(const Song&)), this, SLOT(SongChanged(const Song&)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)), SLOT(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)));
   connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(StopGlowing()));
-  connect(app_->player(), SIGNAL(Stopped()), SLOT(PlayerStopped()));
+  connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
+  connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
 
 }
 
@@ -502,24 +503,30 @@ void PlaylistView::GlowIntensityChanged() {
 }
 
 void PlaylistView::StopGlowing() {
+
   currently_glowing_ = false;
   glow_timer_.stop();
   glow_intensity_step_ = kGlowIntensitySteps;
+
 }
 
 void PlaylistView::StartGlowing() {
+
   currently_glowing_ = true;
   if (isVisible() && glow_enabled_)
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
+
 }
 
 void PlaylistView::hideEvent(QHideEvent *) { glow_timer_.stop(); }
 
 void PlaylistView::showEvent(QShowEvent *) {
+
   if (currently_glowing_ && glow_enabled_)
     glow_timer_.start(1500 / kGlowIntensitySteps, this);
 
   MaybeAutoscroll();
+
 }
 
 bool CompareSelectionRanges(const QItemSelectionRange &a, const QItemSelectionRange &b) {
@@ -1214,9 +1221,24 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
 
 }
 
-void PlaylistView::CurrentSongChanged(const Song &song, const QUrl &cover_url, const QImage &song_art) {
+void PlaylistView::SongChanged(const Song &song) {
+  song_playing_ = song;
+}
 
-  if (current_song_cover_art_ == song_art) return;
+void PlaylistView::Playing() {}
+
+void PlaylistView::Stopped() {
+
+  if (song_playing_ == Song()) return;
+  song_playing_ = Song();
+  StopGlowing();
+  AlbumCoverLoaded(Song(), QUrl(), QImage());
+
+}
+
+void PlaylistView::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &song_art) {
+
+  if ((song != Song() && song_playing_ == Song()) || song_art == current_song_cover_art_) return;
 
   current_song_cover_art_ = song_art;
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
@@ -1282,10 +1304,6 @@ void PlaylistView::FadePreviousBackgroundImage(qreal value) {
 
   update();
 
-}
-
-void PlaylistView::PlayerStopped() {
-  CurrentSongChanged(Song(), QUrl(), QImage());
 }
 
 void PlaylistView::focusInEvent(QFocusEvent *event) {
