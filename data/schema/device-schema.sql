@@ -72,7 +72,7 @@ CREATE INDEX idx_device_%deviceid_songs_comp_artist ON device_%deviceid_songs (c
 
 CREATE VIRTUAL TABLE device_%deviceid_fts USING fts5(
   ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment,
-  tokenize=unicode61
+  tokenize = "unicode61 remove_diacritics 0"
 );
 
 UPDATE devices SET schema_version=0 WHERE ROWID=%deviceid;
