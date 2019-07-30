@@ -1357,6 +1357,10 @@ bool Song::operator==(const Song &other) const {
   return url() == other.url() && beginning_nanosec() == other.beginning_nanosec();
 }
 
+bool Song::operator!=(const Song &other) const {
+  return id() != other.id() || url() != other.url() || beginning_nanosec() != other.beginning_nanosec();
+}
+
 uint qHash(const Song &song) {
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());
