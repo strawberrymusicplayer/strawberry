@@ -40,7 +40,7 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
     : include_unavailable_(false), join_with_fts_(false), limit_(-1) {
 
   if (!options.filter().isEmpty()) {
-    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS3:
+    // We need to munge the filter text a little bit to get it to work as expected with sqlite's FTS5:
     //  1) Append * to all tokens.
     //  2) Prefix "fts" to column names.
     //  3) Remove colons which don't correspond to column names.
