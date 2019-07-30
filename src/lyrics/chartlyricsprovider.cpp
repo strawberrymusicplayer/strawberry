@@ -79,6 +79,12 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
     return;
   }
 
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    QString failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    Error(id, failure_reason);
+    return;
+  }
+
   QXmlStreamReader reader(reply);
   LyricsSearchResults results;
   LyricsSearchResult result;
@@ -125,6 +131,5 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
 void ChartLyricsProvider::Error(const quint64 id, const QString &error, QVariant debug) {
   qLog(Error) << "ChartLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-  LyricsSearchResults results;
-  emit SearchFinished(id, results);
+  emit SearchFinished(id, LyricsSearchResults());
 }

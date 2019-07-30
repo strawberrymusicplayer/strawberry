@@ -93,6 +93,7 @@ void MoodbarPipeline::Start() {
   GstElement* fakesink = CreateElement("fakesink");
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
+    gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
     emit Finished(false);
     return;
@@ -101,6 +102,7 @@ void MoodbarPipeline::Start() {
   // Join them together
   if (!gst_element_link(convert_element_, spectrum) || !gst_element_link(spectrum, fakesink)) {
     qLog(Error) << "Failed to link elements";
+    gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
     emit Finished(false);
     return;

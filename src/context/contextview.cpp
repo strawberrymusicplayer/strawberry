@@ -189,7 +189,18 @@ void ContextView::UpdateNoSong() {
 
 void ContextView::SongChanged(const Song &song) {
 
-  if (song_playing_.is_valid() && song.id() == song_playing_.id() && song.url() == song_playing_.url()) {
+  if (song_playing_.is_valid() && song.id() == song_playing_.id() && song.source() == song_playing_.source() &&
+      (
+      song.url() == song_playing_.url()
+      ||
+      (
+      song.albumartist() == song_playing_.albumartist() &&
+      song.artist() == song_playing_.artist() &&
+      song.album() == song_playing_.album() &&
+      song.title() == song_playing_.title()
+      )
+      )
+    ) {
     UpdateSong(song);
   }
   else {

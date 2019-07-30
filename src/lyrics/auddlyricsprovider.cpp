@@ -135,6 +135,12 @@ QJsonObject AuddLyricsProvider::ExtractJsonObj(QNetworkReply *reply, const quint
     return QJsonObject();
   }
 
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    QString failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    Error(id, failure_reason);
+    return QJsonObject();
+  }
+
   QByteArray data(reply->readAll());
 
   QJsonParseError error;
@@ -209,6 +215,5 @@ QJsonArray AuddLyricsProvider::ExtractResult(QNetworkReply *reply, const quint64
 void AuddLyricsProvider::Error(const quint64 id, const QString &error, QVariant debug) {
   qLog(Error) << "AudDLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-  LyricsSearchResults results;
-  emit SearchFinished(id, results);
+  emit SearchFinished(id, LyricsSearchResults());
 }

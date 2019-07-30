@@ -50,6 +50,7 @@
 #include <QStyleOptionViewItem>
 #include <QtEvents>
 
+#include "core/song.h"
 #include "settings/appearancesettingspage.h"
 #include "playlist.h"
 
@@ -68,7 +69,6 @@ class QPaintEvent;
 class QTimerEvent;
 
 class Application;
-class Song;
 class CollectionBackend;
 class PlaylistHeader;
 
@@ -119,16 +119,8 @@ class PlaylistView : public QTreeView {
   void ReloadSettings();
   void SaveGeometry();
   void SaveSettings();
-  void StopGlowing();
-  void StartGlowing();
-  void JumpToCurrentlyPlayingTrack();
-  void JumpToLastPlayedTrack();
-  void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
   void SetColumnAlignment(int section, Qt::Alignment alignment);
-
-  void CopyCurrentSongToClipboard() const;
-  void CurrentSongChanged(const Song &new_song, const QUrl &cover_url, const QImage &song_art);
-  void PlayerStopped();
+  void JumpToCurrentlyPlayingTrack();
 
  signals:
   void PlayItem(const QModelIndex &index);
@@ -155,7 +147,6 @@ class PlaylistView : public QTreeView {
   void dragEnterEvent(QDragEnterEvent *event);
   void dragLeaveEvent(QDragLeaveEvent *event);
   void dropEvent(QDropEvent *event);
-  //void resizeEvent(QResizeEvent *event);
   bool eventFilter(QObject *object, QEvent *event);
   void focusInEvent(QFocusEvent *event);
 
@@ -164,18 +155,26 @@ class PlaylistView : public QTreeView {
 
   // QAbstractItemView
   void rowsInserted(const QModelIndex &parent, int start, int end);
+  void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
 
  private slots:
-  void LoadGeometry();
-  void GlowIntensityChanged();
   void InhibitAutoscrollTimeout();
   void MaybeAutoscroll();
   void InvalidateCachedCurrentPixmap();
   void PlaylistDestroyed();
   void StretchChanged(bool stretch);
   void FadePreviousBackgroundImage(qreal value);
+  void StopGlowing();
+  void StartGlowing();
+  void JumpToLastPlayedTrack();
+  void CopyCurrentSongToClipboard() const;
+  void Playing();
+  void Stopped();
+  void SongChanged(const Song &song);
+  void AlbumCoverLoaded(const Song &new_song, const QUrl &cover_url, const QImage &song_art);
 
  private:
+  void LoadGeometry();
   void ReloadBarPixmaps();
   QList<QPixmap> LoadBarPixmap(const QString &filename);
   void UpdateCachedCurrentRowPixmap(QStyleOptionViewItem option, const QModelIndex &index);
@@ -187,6 +186,8 @@ class PlaylistView : public QTreeView {
   // Save image as the background_image_ after applying some modifications (opacity, ...).
   // Should be used instead of modifying background_image_ directly
   void set_background_image(const QImage &image);
+
+  void GlowIntensityChanged();
 
  private:
   static const int kGlowIntensitySteps;
@@ -267,6 +268,8 @@ class PlaylistView : public QTreeView {
   ColumnAlignmentMap column_alignment_;
 
   QByteArray state_;
+
+  Song song_playing_;
 
 };
 
