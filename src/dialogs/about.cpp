@@ -42,7 +42,16 @@ About::About(QWidget *parent):QDialog(parent) {
   setWindowFlags(this->windowFlags()|Qt::WindowStaysOnTopHint);
 
   strawberry_authors_ \
-           << Person("Jonas Kvinge", "jonas@strawbs.net");
+           << Person("Jonas Kvinge", "jonas@jkvinge.net");
+
+  strawberry_constributors_ \
+           << Person("Gavin D. Howard", "yzena.tech@gmail.com")
+           << Person("Martin Delille", "martin@lylo.tv");
+
+  strawberry_thanks_ \
+           << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
+           << Person("Thomas Pierson", "contact@thomaspierson.fr")
+           << Person("Fabio Loli", "fabio.lolix@gmail.com");
 
   clementine_authors_
            << Person("David Sansome", "me@davidsansome.com")
@@ -50,7 +59,7 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
            << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
 
- constributors_ \
+  clementine_constributors_ \
            << Person("Mark Kretschmann", "kretschmann@kde.org")
            << Person("Max Howell", "max.howell@methylblue.com")
            << Person("Jakub Stachowski", "qbast@go2.pl")
@@ -129,25 +138,37 @@ QString About::ContributorsHtml() const {
 
   QString ret;
 
-  ret += tr("<p><b>Strawberry Authors</b>");
+  ret += tr("<p><b>Strawberry authors</b>");
   for (const Person &person : strawberry_authors_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";
 
-  ret += tr("<p><b>Clementine Authors</b>");
+  ret += tr("<p><b>Strawberry contributors</b>");
+  for (const Person &person : strawberry_constributors_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += "</p>";
+
+  ret += tr("<p><b>Thanks to</b>");
+  for (const Person &person : strawberry_thanks_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += "</p>";
+
+  ret += tr("<p><b>Clementine authors</b>");
   for (const Person &person : clementine_authors_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";
 
-  ret += tr("<p><b>Clementine Contributors</b>");
-  for (const Person &person : constributors_) {
+  ret += tr("<p><b>Clementine contributors</b>");
+  for (const Person &person : clementine_constributors_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";
 
-  ret += tr("<p>Thanks to all the Amarok and Clementine contributors.</p>");
+  ret += tr("<p>Thanks to all the other Amarok and Clementine contributors.</p>");
   return ret;
 
 }
