@@ -32,18 +32,24 @@
 
 #include "core/timeconstants.h"
 #include "core/utilities.h"
-#include "tracksliderpopup.h"
+#ifndef Q_OS_MACOS
+#  include "tracksliderpopup.h"
+#endif
 #include "tracksliderslider.h"
 
 TrackSliderSlider::TrackSliderSlider(QWidget* parent)
     : QSlider(parent),
+#ifndef Q_OS_MACOS
       popup_(new TrackSliderPopup(window())),
+#endif
     mouse_hover_seconds_(0) {
 
   setMouseTracking(true);
+#ifndef Q_OS_MACOS
   popup_->hide();
-
   connect(this, SIGNAL(valueChanged(int)), SLOT(UpdateDeltaTime()));
+#endif
+
 }
 
 void TrackSliderSlider::mousePressEvent(QMouseEvent* e) {
@@ -94,9 +100,11 @@ void TrackSliderSlider::mouseMoveEvent(QMouseEvent* e) {
 
   mouse_hover_seconds_ = QStyle::sliderValueFromPosition(minimum() / kMsecPerSec, maximum() / kMsecPerSec, e->x() - slider_length / 2 - slider_min + 1, slider_max - slider_min);
 
+#ifndef Q_OS_MACOS
   popup_->SetText(Utilities::PrettyTime(mouse_hover_seconds_));
   UpdateDeltaTime();
   popup_->SetPopupPosition(mapTo(window(), QPoint(e->x(), rect().center().y())));
+#endif
 }
 
 void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
@@ -111,18 +119,22 @@ void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
 
 void TrackSliderSlider::enterEvent(QEvent* e) {
   QSlider::enterEvent(e);
+#ifndef Q_OS_MACOS
   if (isEnabled()) {
     popup_->show();
   }
+#endif
 }
 
 void TrackSliderSlider::leaveEvent(QEvent* e) {
   QSlider::leaveEvent(e);
+#ifndef Q_OS_MACOS
   // On some (but not all) systems, displaying the TrackSliderPopup
   // generates a leaveEvent. Ensure that this leaveEvent is genuine.
   if (!geometry().contains(mapFromGlobal(QCursor::pos()))) {
     popup_->hide();
   }
+#endif
 }
 
 void TrackSliderSlider::keyPressEvent(QKeyEvent* event) {
@@ -139,9 +151,11 @@ void TrackSliderSlider::keyPressEvent(QKeyEvent* event) {
   }
 }
 
+#ifndef Q_OS_MACOS
 void TrackSliderSlider::UpdateDeltaTime() {
   if (popup_->isVisible()) {
     int delta_seconds = mouse_hover_seconds_ - (value() / kMsecPerSec);
     popup_->SetSmallText(Utilities::PrettyTimeDelta(delta_seconds));
   }
 }
+#endif

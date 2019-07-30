@@ -33,7 +33,9 @@ class QEvent;
 class QKeyEvent;
 class QMouseEvent;
 class QWheelEvent;
+#ifndef Q_OS_MACOS
 class TrackSliderPopup;
+#endif
 
 // It's the slider inside the TrackSliderSlider
 class TrackSliderSlider : public QSlider {
@@ -42,7 +44,7 @@ class TrackSliderSlider : public QSlider {
  public:
   TrackSliderSlider(QWidget* parent = nullptr);
 
-signals:
+ signals:
   void SeekForward();
   void SeekBackward();
   void Previous();
@@ -57,11 +59,15 @@ signals:
   void leaveEvent(QEvent*);
   void keyPressEvent(QKeyEvent* event);
 
-private slots:
+ private slots:
+#ifndef Q_OS_MACOS
   void UpdateDeltaTime();
+#endif
 
-private:
+ private:
+#ifndef Q_OS_MACOS
   TrackSliderPopup* popup_;
+#endif
 
   int mouse_hover_seconds_;
 };
