@@ -267,8 +267,7 @@ void PlayingWidget::SongChanged(const Song &song) {
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
-  if (!playing_ || song.id() != song_playing_.id() || song.url() != song_playing_.url() || song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
-  if (timeline_fade_->state() == QTimeLine::Running && image == image_original_) return;
+  if (!playing_ || song != song_playing_ || (timeline_fade_->state() == QTimeLine::Running && image == image_original_)) return;
 
   active_ = true;
   downloading_covers_ = false;

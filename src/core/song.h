@@ -261,6 +261,8 @@ class Song {
   // Sets a flag saying that this song (it's media file) has an embedded cover.
   void set_embedded_cover();
 
+  const QUrl &stream_url() const;
+  const QUrl &effective_stream_url() const;
   const QImage &image() const;
 
   const QString &error() const;
@@ -334,6 +336,7 @@ class Song {
 
   void set_cue_path(const QString &v);
 
+  void set_stream_url(const QUrl &v);
   void set_image(const QImage &i);
 
   // Comparison functions

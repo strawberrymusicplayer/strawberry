@@ -189,18 +189,7 @@ void ContextView::UpdateNoSong() {
 
 void ContextView::SongChanged(const Song &song) {
 
-  if (song_playing_.is_valid() && song.id() == song_playing_.id() && song.source() == song_playing_.source() &&
-      (
-      song.url() == song_playing_.url()
-      ||
-      (
-      song.albumartist() == song_playing_.albumartist() &&
-      song.artist() == song_playing_.artist() &&
-      song.album() == song_playing_.album() &&
-      song.title() == song_playing_.title()
-      )
-      )
-    ) {
+  if (song_playing_.is_valid() && song == song_playing_) {
     UpdateSong(song);
   }
   else {
@@ -606,9 +595,7 @@ void ContextView::ScaleCover() {
 
 void ContextView::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
-  if (song.id() != song_playing_.id() || song.url() != song_playing_.url()) return;
-  if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
-  if (image == image_original_) return;
+  if (song != song_playing_ || image == image_original_) return;
 
   active_ = true;
   downloading_covers_ = false;

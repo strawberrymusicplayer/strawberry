@@ -207,21 +207,22 @@ struct Song::Private : public QSharedData {
   int skipcount_;
   int lastplayed_;
 
-  bool compilation_detected_;	// From the collection scanner
-  bool compilation_on_;		// Set by the user
-  bool compilation_off_;	// Set by the user
+  bool compilation_detected_;   // From the collection scanner
+  bool compilation_on_;         // Set by the user
+  bool compilation_off_;        // Set by the user
 
   // Filenames to album art for this song.
-  QUrl art_automatic_;	        // Guessed by CollectionWatcher
-  QUrl art_manual_;		// Set by the user - should take priority
+  QUrl art_automatic_;          // Guessed by CollectionWatcher
+  QUrl art_manual_;             // Set by the user - should take priority
 
-  QString cue_path_;		// If the song has a CUE, this contains it's path.
+  QString cue_path_;            // If the song has a CUE, this contains it's path.
 
-  QImage image_;
-  bool init_from_file_;		// Whether this song was loaded from a file using taglib.
-  bool suspicious_tags_;	// Whether our encoding guesser thinks these tags might be incorrectly encoded.
+  QUrl stream_url_;             // Temporary stream url set by url handler.
+  QImage image_;                // Album Cover image set by album cover loader.
+  bool init_from_file_;         // Whether this song was loaded from a file using taglib.
+  bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
 
-  QString error_;
+  QString error_;               // Song load error set by song loader.
 
 };
 
@@ -336,12 +337,15 @@ bool Song::has_manually_unset_cover() const { return d->art_manual_.path() == kM
 void Song::manually_unset_cover() { d->art_manual_ = QUrl::fromLocalFile(kManuallyUnsetCover); }
 bool Song::has_embedded_cover() const { return d->art_automatic_.path() == kEmbeddedCover; }
 void Song::set_embedded_cover() { d->art_automatic_ = QUrl::fromLocalFile(kEmbeddedCover); }
+
+const QUrl &Song::stream_url() const { return d->stream_url_; }
+const QUrl &Song::effective_stream_url() const { return d->stream_url_.isEmpty() ? d->url_ : d->stream_url_; }
 const QImage &Song::image() const { return d->image_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }
 bool Song::has_cue() const { return !d->cue_path_.isEmpty(); }
 
-bool Song::is_collection_song() const { return !is_cdda() && !is_stream() && id() != -1; }
+bool Song::is_collection_song() const { return d->source_ == Source_Collection; }
 bool Song::is_metadata_good() const { return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0; }
 bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
@@ -444,6 +448,7 @@ void Song::set_art_automatic(const QUrl &v) { d->art_automatic_ = v; }
 void Song::set_art_manual(const QUrl &v) { d->art_manual_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
+void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
 void Song::set_image(const QImage &i) { d->image_ = i; }
 
 QString Song::JoinSpec(const QString &table) {
@@ -1354,11 +1359,11 @@ bool Song::IsEditable() const {
 }
 
 bool Song::operator==(const Song &other) const {
-  return url() == other.url() && beginning_nanosec() == other.beginning_nanosec();
+  return source() == other.source() && url() == other.url() && beginning_nanosec() == other.beginning_nanosec();
 }
 
 bool Song::operator!=(const Song &other) const {
-  return id() != other.id() || url() != other.url() || beginning_nanosec() != other.beginning_nanosec();
+  return source() != other.source() || url() != other.url() || beginning_nanosec() != other.beginning_nanosec();
 }
 
 uint qHash(const Song &song) {
@@ -1398,7 +1403,7 @@ void Song::ToXesam(QVariantMap *map) const {
   using mpris::AddMetadataAsList;
   using mpris::AsMPRISDateTimeType;
 
-  AddMetadata("xesam:url", url().toString(), map);
+  AddMetadata("xesam:url", effective_stream_url().toString(), map);
   AddMetadata("xesam:title", PrettyTitle(), map);
   AddMetadataAsList("xesam:artist", artist(), map);
   AddMetadata("xesam:album", album(), map);

@@ -306,7 +306,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
         (result.media_url_ != song.url())
          )
       {
-        song.set_url(result.media_url_);
+        song.set_stream_url(result.media_url_);
         update = true;
       }
 

@@ -307,7 +307,7 @@ QVariant Playlist::data(const QModelIndex &idx, int role) const {
         case Column_Bitdepth:           return song.bitdepth();
         case Column_Bitrate:            return song.bitrate();
 
-        case Column_Filename:           return song.url();
+        case Column_Filename:           return song.effective_stream_url();
         case Column_BaseFilename:       return song.basefilename();
         case Column_Filesize:           return song.filesize();
         case Column_Filetype:           return song.filetype();
@@ -1020,10 +1020,9 @@ void Playlist::UpdateItems(const SongList &songs) {
            item->Metadata().source() == Song::Source_Unknown ||
            item->Metadata().filetype() == Song::FileType_Unknown ||
            // Stream may change and may need to be updated too
-           item->Metadata().source() == Song::Source_Stream ||
-           item->Metadata().source() == Song::Source_Tidal ||
+           item->Metadata().is_stream() ||
            // And CD tracks as well (tags are loaded in a second step)
-           item->Metadata().source() == Song::Source_CDDA
+           item->Metadata().is_cdda()
           )
        ) {
         PlaylistItemPtr new_item;
