@@ -151,11 +151,11 @@ void TrackSliderSlider::keyPressEvent(QKeyEvent* event) {
   }
 }
 
-#ifndef Q_OS_MACOS
 void TrackSliderSlider::UpdateDeltaTime() {
+#ifndef Q_OS_MACOS
   if (popup_->isVisible()) {
     int delta_seconds = mouse_hover_seconds_ - (value() / kMsecPerSec);
     popup_->SetSmallText(Utilities::PrettyTimeDelta(delta_seconds));
   }
-}
 #endif
+}

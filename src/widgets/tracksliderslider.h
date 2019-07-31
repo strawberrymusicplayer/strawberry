@@ -60,9 +60,7 @@ class TrackSliderSlider : public QSlider {
   void keyPressEvent(QKeyEvent* event);
 
  private slots:
-#ifndef Q_OS_MACOS
   void UpdateDeltaTime();
-#endif
 
  private:
 #ifndef Q_OS_MACOS
