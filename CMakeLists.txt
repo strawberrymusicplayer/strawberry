@@ -21,6 +21,7 @@ if(CMAKE_VERSION VERSION_GREATER 3.0)
 endif()
 
 include(CheckCXXCompilerFlag)
+include(CheckCXXSourceRuns)
 include(CheckIncludeFiles)
 include(FindPkgConfig)
 include(cmake/C++11Compat.cmake)
@@ -358,6 +359,26 @@ if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
   set(USE_BUNDLE_DIR "../PlugIns")
 endif()
 
+# Check that we have sqlite3 with FTS5
+
+set(CMAKE_REQUIRED_LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Sql_LIBRARIES})
+set(CMAKE_REQUIRED_INCLUDES ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
+
+check_cxx_source_runs("
+  #include <QSqlDatabase>
+  #include <QSqlQuery>
+  int main() {
+    QSqlDatabase db = QSqlDatabase::addDatabase(\"QSQLITE\");
+    db.setDatabaseName(\":memory:\");
+    if (!db.open()) { return 1; }
+    QSqlQuery q(db);
+    q.prepare(\"CREATE VIRTUAL TABLE test_fts USING fts5(test, tokenize = 'unicode61 remove_diacritics 0');\");
+    if (!q.exec()) return 1;
+  }
+  "
+  SQLITE3_FTS5
+)
+
 if(HAVE_XINE)
   check_cxx_source_compiles("
     #define METRONOM_INTERNAL
@@ -410,4 +431,8 @@ if(NOT HAVE_GSTREAMER AND NOT HAVE_XINE AND NOT HAVE_VLC AND NOT HAVE_PHONON)
   message(FATAL_ERROR "You need to have either GStreamer, Xine, VLC or Phonon to compile!")
 elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
+endif()
+
+if(NOT SQLITE3_FTS5)
+  message(WARNING "sqlite3 must be enabled with FTS5. See: https://www.sqlite.org/fts5.html")
 endif()
