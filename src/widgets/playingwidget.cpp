@@ -159,12 +159,16 @@ void PlayingWidget::SetEnabled(bool enabled) {
 
 void PlayingWidget::SetEnabled() {
   enabled_ = true;
-  if (!visible_ && active_) SetVisible(true);
+  if (active_ && (!visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() <= 2))) {
+    SetVisible(true);
+  }
 }
 
 void PlayingWidget::SetDisabled() {
   enabled_ = false;
-  if (visible_) SetVisible(false);
+  if (visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() > 2 && total_height_ - timeline_show_hide_->currentFrame() <= 2)) {
+    SetVisible(false);
+  }
 }
 
 void PlayingWidget::SetVisible(bool visible) {
