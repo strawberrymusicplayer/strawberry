@@ -362,6 +362,7 @@ endif()
 # Check that we have sqlite3 with FTS5
 
 if(NOT CMAKE_CROSSCOMPILING)
+  set(CMAKE_REQUIRED_FLAGS "--std=c++11")
   set(CMAKE_REQUIRED_LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Sql_LIBRARIES})
   set(CMAKE_REQUIRED_INCLUDES ${Qt5Core_INCLUDE_DIRS} ${Qt5Sql_INCLUDE_DIRS})
   check_cxx_source_runs("
