@@ -129,9 +129,7 @@ void TrackSliderSlider::enterEvent(QEvent* e) {
 void TrackSliderSlider::leaveEvent(QEvent* e) {
   QSlider::leaveEvent(e);
 #ifndef Q_OS_MACOS
-  // On some (but not all) systems, displaying the TrackSliderPopup
-  // generates a leaveEvent. Ensure that this leaveEvent is genuine.
-  if (!geometry().contains(mapFromGlobal(QCursor::pos()))) {
+  if (popup_->isVisible()) {
     popup_->hide();
   }
 #endif
