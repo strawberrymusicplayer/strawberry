@@ -42,6 +42,10 @@ Unreleased:
     * Fixed dangling database connections when loading collection, playlists and devices.
     * Fixed closing and deleting backends to free memory and database connections on exit.
     * Fixed dangling pointers causing crashes when loading new album covers in collection.
+    * Fixed playlist shortcuts being broken because they were hidden in playlist right click menu.
+    * Replaced FTS3 and custom tokenizer with FTS5 with unicode61.
+    * Fixed certain cases where track slider popup was stuck.
+    * Fixed certain cases where the playing widget gets stuck when switching fast between context and other widgets.
 
 Version 0.5.5:
 
