@@ -40,27 +40,27 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
       else()
         set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
       endif()
-      add_custom_target(rpm
-        COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
-        COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
-        COMMAND ${RPMBUILD_EXEC} -bs ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
-        COMMAND ${RPMBUILD_EXEC} -bb ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
-      )
     elseif (${DIST_NAME} STREQUAL "fedora")
       if (DIST_VERSION)
         set(RPM_DISTRO "fc${DIST_VERSION}" CACHE STRING "Suffix of the rpm file")
       else ()
         set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
       endif()
-      add_custom_target(rpm
-        COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
-        COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
-        COMMAND ${RPMBUILD_EXEC} -bs ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
-        COMMAND ${RPMBUILD_EXEC} -bb ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
-      )
+    elseif (${DIST_NAME} STREQUAL "mageia")
+      if (DIST_VERSION)
+        set(RPM_DISTRO "${DIST_VERSION}" CACHE STRING "Suffix of the rpm file")
+      else ()
+        set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
+      endif()
     else()
       set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
     endif()
     message(STATUS "RPM Suffix: ${RPM_DISTRO}")
+    add_custom_target(rpm
+      COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
+      COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
+      COMMAND ${RPMBUILD_EXEC} -bs ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
+      COMMAND ${RPMBUILD_EXEC} -bb ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec
+    )
   endif()
 endif()
