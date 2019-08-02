@@ -435,6 +435,6 @@ elseif(NOT HAVE_GSTREAMER)
   message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
 endif()
 
-if(NOT SQLITE3_FTS5)
-  message(WARNING "sqlite3 must be enabled with FTS5. See: https://www.sqlite.org/fts5.html")
+if(NOT SQLITE3_FTS5 AND NOT CMAKE_CROSSCOMPILING)
+  message(FATAL_ERROR "sqlite3 must be enabled with FTS5. See: https://www.sqlite.org/fts5.html")
 endif()
