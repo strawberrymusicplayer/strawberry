@@ -143,15 +143,7 @@ CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
   // If we're stopping then don't commit the transaction
   if (!watcher_->stop_requested_) {
-
     CommitNewOrUpdatedSongs();
-
-    if (watcher_->monitor_) {
-      // Watch the new subdirectories
-      for (const Subdirectory &subdir : new_subdirs) {
-        watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
-      }
-    }
   }
 
   watcher_->task_manager_->SetTaskFinished(task_id_);
@@ -196,13 +188,21 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
   if (!new_subdirs.isEmpty()) {
     emit watcher_->SubdirsDiscovered(new_subdirs);
-    new_subdirs.clear();
   }
 
   if (!touched_subdirs.isEmpty()) {
     emit watcher_->SubdirsMTimeUpdated(touched_subdirs);
     touched_subdirs.clear();
   }
+
+  if (watcher_->monitor_) {
+    // Watch the new subdirectories
+    for (const Subdirectory &subdir : new_subdirs) {
+      watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+    }
+  }
+
+  new_subdirs.clear();
 
 }
 
