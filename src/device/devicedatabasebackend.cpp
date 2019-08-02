@@ -40,7 +40,7 @@
 #include "core/logging.h"
 #include "devicedatabasebackend.h"
 
-const int DeviceDatabaseBackend::kDeviceSchemaVersion = 0;
+const int DeviceDatabaseBackend::kDeviceSchemaVersion = 1;
 
 DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
     QObject(parent),
@@ -81,12 +81,13 @@ void DeviceDatabaseBackend::Exit() {
 DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
 
   DeviceList ret;
+  DeviceList old_devices;
 
   {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
     QSqlQuery q(db);
-    q.prepare("SELECT ROWID, unique_id, friendly_name, size, icon, transcode_mode, transcode_format FROM devices");
+    q.prepare("SELECT ROWID, unique_id, friendly_name, size, icon, schema_version, transcode_mode, transcode_format FROM devices");
     q.exec();
     if (db_->CheckErrors(q)) return ret;
 
@@ -97,10 +98,20 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
       dev.friendly_name_ = q.value(2).toString();
       dev.size_ = q.value(3).toLongLong();
       dev.icon_name_ = q.value(4).toString();
-      dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(5).toInt());
-      dev.transcode_format_ = Song::FileType(q.value(6).toInt());
-      ret << dev;
+      int schema_version = q.value(5).toInt();
+      dev.transcode_mode_ = MusicStorage::TranscodeMode(q.value(6).toInt());
+      dev.transcode_format_ = Song::FileType(q.value(7).toInt());
+      if (schema_version < kDeviceSchemaVersion) { // Device is using old schema, drop it.
+        old_devices << dev;
+      }
+      else {
+        ret << dev;
+      }
     }
+  }
+
+  for (Device dev : old_devices) {
+    RemoveDevice(dev.id_);
   }
 
   Close();

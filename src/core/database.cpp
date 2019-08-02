@@ -147,7 +147,10 @@ QSqlDatabase Database::Connect() {
     UpdateDatabaseSchema(0, db);
   }
 
-  else if (SchemaVersion(&db) <= 8) { //  Register unicode from unicode61 tokenizer to drop old FTS3 tables.
+  {
+    //  Register unicode from unicode61 tokenizer to drop old FTS3 tables.
+    //  We need it also to drop old devices later when loading devices.
+    //  And that's done in a different thread after schemas are upgraded, so register it anyway.
 #ifdef SQLITE_DBCONFIG_ENABLE_FTS3_TOKENIZER
     QVariant v = db.driver()->handle();
     if (v.isValid() && qstrcmp(v.typeName(), "sqlite3*") == 0) {
