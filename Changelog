@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.6.1:
 
     * Compare artist and album case-insensitive when generating score for album covers.
     * Fixed broken return value of sendMessage() in SingleApplication causing application to be started twice.
