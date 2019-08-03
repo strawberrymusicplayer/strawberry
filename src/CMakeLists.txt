@@ -208,7 +208,6 @@ set(SOURCES
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
   lyrics/auddlyricsprovider.cpp
-  lyrics/chartlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -390,7 +389,6 @@ set(HEADERS
   lyrics/lyricsfetcher.h
   lyrics/lyricsfetchersearch.h
   lyrics/auddlyricsprovider.h
-  lyrics/chartlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h

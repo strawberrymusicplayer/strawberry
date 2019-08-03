@@ -59,7 +59,6 @@
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
 #include "lyrics/auddlyricsprovider.h"
-#include "lyrics/chartlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
 
@@ -136,7 +135,6 @@ class ApplicationImpl {
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
-          lyrics_providers->AddProvider(new ChartLyricsProvider(app));
           return lyrics_providers;
         }),
         internet_services_([=]() {

@@ -101,7 +101,7 @@ Features:
   - Edit tags on music files
   - Fetch tags from MusicBrainz
   - Album cover art from Last.fm, Musicbrainz, Discogs, Deezer and Tidal
-  - Song lyrics from AudD and ChartLyrics
+  - Song lyrics from AudD
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
