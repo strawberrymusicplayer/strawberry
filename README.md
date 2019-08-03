@@ -30,6 +30,8 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
 
 It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
 
+**We do not provide releases for macOS, only exprimental builds, they may have issues. There currently isn't any macOS developers actively working on this project.**
+
 ### :heavy_exclamation_mark: Requirements
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
@@ -40,7 +42,7 @@ To build Strawberry from source you need the following installed on your system 
 * [POSIX thread (pthread)](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
 * [GLib](https://developer.gnome.org/glib/)
 * [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
-* [Qt 5 with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
+* [Qt 5.5 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for macOS and WinExtras for Windows](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
 * [Chromaprint library](https://acoustid.org/chromaprint)
