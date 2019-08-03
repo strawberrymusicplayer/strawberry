@@ -2,6 +2,10 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.6.2:
+
+    * Disabled fatal error for FTS5 cmake test.
+
 Version 0.6.1:
 
     * Compare artist and album case-insensitive when generating score for album covers.
