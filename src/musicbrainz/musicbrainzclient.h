@@ -31,7 +31,6 @@
 #include <QList>
 #include <QMap>
 #include <QMultiMap>
-#include <QQueue>
 #include <QString>
 #include <QStringList>
 #include <QNetworkReply>
@@ -199,7 +198,7 @@ class MusicBrainzClient : public QObject {
   static void ParseArtist(QXmlStreamReader* reader, QString* artist);
   static Release ParseRelease(QXmlStreamReader* reader);
   static ResultList UniqueResults(const ResultList& results, UniqueResultsSortOption opt = SortResults);
-  QString Error(QString error, QVariant debug = QVariant());
+  void Error(const QString &error, QVariant debug = QVariant());
 
  private:
 
@@ -212,7 +211,7 @@ class MusicBrainzClient : public QObject {
 
   QNetworkAccessManager* network_;
   NetworkTimeouts* timeouts_;
-  QQueue<Request> requests_pending_;
+  QMultiMap<int, Request> requests_pending_;
   QMultiMap<int, QNetworkReply*> requests_;
   // Results we received so far, kept here until all the replies are finished
   QMap<int, QList<PendingResults>> pending_results_;

@@ -81,7 +81,7 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
   else {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
       // This is a network error, there is nothing more to do.
-      error = Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
       // See if there is Json data containing "error" - then use that instead.
@@ -99,10 +99,11 @@ QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error)
           error = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
         }
         else {
-          error = Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+          error = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
         }
+        Error(error, data);
       }
-      error = Error(error);
+      else Error(error);
     }
     return QByteArray();
   }
@@ -136,7 +137,7 @@ void MusicBrainzClient::Start(const int id, const QStringList &mbid_list) {
     ++request_number;
     if (request_number > kMaxRequestPerTrack) break;
     Request request(id, mbid, request_number);
-    requests_pending_.enqueue(request);
+    requests_pending_.insert(id, request);
   }
 
   if (!timer_flush_requests_->isActive()) {
@@ -166,7 +167,7 @@ void MusicBrainzClient::FlushRequests() {
 
   if (!requests_.isEmpty() || requests_pending_.isEmpty()) return;
 
-  Request request = requests_pending_.dequeue();
+  Request request = requests_pending_.take(requests_pending_.firstKey());
 
   const ParamList params = ParamList() << Param("inc", "artists+releases+media");
 
@@ -216,7 +217,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
   }
 
   // No more pending requests for this id: emit the results we have.
-  if (!requests_.contains(id)) {
+  if (!requests_.contains(id) && !requests_pending_.contains(id)) {
     // Merge the results we have
     ResultList ret;
     QList<PendingResults> result_list_list = pending_results_.take(id);
@@ -493,13 +494,12 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList&
     }
   }
   return ret;
+
 }
 
-QString MusicBrainzClient::Error(QString error, QVariant debug) {
+void MusicBrainzClient::Error(const QString &error, QVariant debug) {
 
   qLog(Error) << "MusicBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-
-  return error;
 
 }
