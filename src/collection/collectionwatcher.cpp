@@ -195,13 +195,21 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
     touched_subdirs.clear();
   }
 
+  for (const Subdirectory &subdir : deleted_subdirs) {
+    if (watcher_->watched_dirs_.contains(dir_)) {
+      watcher_->RemoveWatch(watcher_->watched_dirs_[dir_], subdir);
+    }
+  }
+  deleted_subdirs.clear();
+
   if (watcher_->monitor_) {
     // Watch the new subdirectories
     for (const Subdirectory &subdir : new_subdirs) {
-      watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+      if (watcher_->watched_dirs_.contains(dir_)) {
+        watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+      }
     }
   }
-
   new_subdirs.clear();
 
 }
@@ -329,10 +337,10 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
   // If a directory is moved then only its parent gets a changed notification, so we need to look and see if any of our children don't exist any more.
   // If one has been removed, "rescan" it to get the deleted songs
   SubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
-  for (const Subdirectory &subdir : previous_subdirs) {
-    if (!QFile::exists(subdir.path) && subdir.path != path) {
+  for (const Subdirectory &prev_subdir : previous_subdirs) {
+    if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
       t->AddToProgressMax(1);
-      ScanSubdirectory(subdir.path, subdir, t, true);
+      ScanSubdirectory(prev_subdir.path, prev_subdir, t, true);
     }
   }
 
@@ -465,6 +473,10 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const Subdirectory
     t->new_subdirs << updated_subdir;
   else
     t->touched_subdirs << updated_subdir;
+
+  if (updated_subdir.mtime == 0) { // Subdirectory deleted, mark it for removal from the watcher.
+    t->deleted_subdirs << updated_subdir;
+  }
 
   t->AddToProgress(1);
 
@@ -634,9 +646,23 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
   if (!QFile::exists(path)) return;
 
+  qLog(Debug) << "Adding collection watch for" << path;
+
   connect(fs_watcher_, SIGNAL(PathChanged(const QString&)), this, SLOT(DirectoryChanged(const QString&)), Qt::UniqueConnection);
   fs_watcher_->AddPath(path);
   subdir_mapping_[path] = dir;
+
+}
+
+void CollectionWatcher::RemoveWatch(const Directory &dir, const Subdirectory &subdir) {
+
+  for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
+    if (subdir_path != subdir.path) continue;
+    qLog(Debug) << "Removing collection watch for" << subdir_path;
+    fs_watcher_->RemovePath(subdir_path);
+    subdir_mapping_.remove(subdir_path);
+    break;
+  }
 
 }
 
@@ -647,6 +673,7 @@ void CollectionWatcher::RemoveDirectory(const Directory &dir) {
 
   // Stop watching the directory's subdirectories
   for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
+    qLog(Debug) << "Removing collection watch for" << subdir_path;
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
@@ -687,7 +714,7 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 void CollectionWatcher::RescanPathsNow() {
 
   for (int dir : rescan_queue_.keys()) {
-    if (stop_requested_) return;
+    if (stop_requested_) break;
     ScanTransaction transaction(this, dir, false, false, prevent_delete_);
     transaction.AddToProgressMax(rescan_queue_[dir].count());
 
