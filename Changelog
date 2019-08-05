@@ -2,6 +2,13 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.6.3:
+
+    * Fixed crash when using internet services.
+    * Fixed musicbrainz tagfetcher only showing 1 result per song.
+    * Fixed collection watcher to unwatch deleted directories.
+    * Added "album - disc" grouping.
+
 Version 0.6.2:
 
     * Disabled fatal error for FTS5 cmake test.
