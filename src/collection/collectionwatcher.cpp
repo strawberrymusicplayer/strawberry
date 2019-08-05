@@ -646,8 +646,6 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
   if (!QFile::exists(path)) return;
 
-  qLog(Debug) << "Adding collection watch for" << path;
-
   connect(fs_watcher_, SIGNAL(PathChanged(const QString&)), this, SLOT(DirectoryChanged(const QString&)), Qt::UniqueConnection);
   fs_watcher_->AddPath(path);
   subdir_mapping_[path] = dir;
@@ -658,7 +656,6 @@ void CollectionWatcher::RemoveWatch(const Directory &dir, const Subdirectory &su
 
   for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
     if (subdir_path != subdir.path) continue;
-    qLog(Debug) << "Removing collection watch for" << subdir_path;
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
     break;
@@ -673,7 +670,6 @@ void CollectionWatcher::RemoveDirectory(const Directory &dir) {
 
   // Stop watching the directory's subdirectories
   for (const QString &subdir_path : subdir_mapping_.keys(dir)) {
-    qLog(Debug) << "Removing collection watch for" << subdir_path;
     fs_watcher_->RemovePath(subdir_path);
     subdir_mapping_.remove(subdir_path);
   }
