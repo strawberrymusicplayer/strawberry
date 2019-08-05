@@ -81,7 +81,6 @@ class SubsonicBaseRequest : public QObject {
 
   SubsonicService *service_;
   NetworkAccessManager *network_;
-  QList<QNetworkReply*> replies_;
 
 };
 

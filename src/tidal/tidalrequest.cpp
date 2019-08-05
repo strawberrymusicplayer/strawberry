@@ -78,6 +78,13 @@ TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, 
 
 TidalRequest::~TidalRequest() {
 
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, 0, this, 0);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
     disconnect(reply, 0, this, 0);
@@ -177,6 +184,8 @@ void TidalRequest::FlushArtistsRequests() {
     if (type_ == QueryType_SearchArtists) {
       reply = CreateRequest("search/artists", parameters);
     }
+    if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -219,6 +228,8 @@ void TidalRequest::FlushAlbumsRequests() {
     if (type_ == QueryType_SearchAlbums) {
       reply = CreateRequest("search/albums", parameters);
     }
+    if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -261,6 +272,8 @@ void TidalRequest::FlushSongsRequests() {
     if (type_ == QueryType_SearchSongs) {
       reply = CreateRequest("search/tracks", parameters);
     }
+    if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -310,6 +323,10 @@ void TidalRequest::AddSongsSearchRequest(const int offset) {
 }
 
 void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, (offset_requested == 0));
 
@@ -474,6 +491,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artists/%1/albums").arg(request.artist_id), parameters);
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, const qint64, const int)), reply, request.artist_id, request.offset);
+    replies_ << reply;
 
   }
 
@@ -490,6 +508,10 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 
 }
 
 void TidalRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const int limit_requested, const int offset_requested, const bool auto_login) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
 
@@ -717,6 +739,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
     ParamList parameters;
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("albums/%1/tracks").arg(request.album_id), parameters);
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const qint64, const qint64, const int, const QString&)), reply, request.artist_id, request.album_id, request.offset, request.album_artist);
 
   }
@@ -735,6 +758,10 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 ar
 }
 
 void TidalRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const int limit_requested, const int offset_requested, const bool auto_login, const QString &album_artist) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
 

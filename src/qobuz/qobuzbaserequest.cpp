@@ -47,16 +47,7 @@ QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *
       network_(network)
       {}
 
-QobuzBaseRequest::~QobuzBaseRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
-    if (reply->isRunning()) reply->abort();
-    reply->deleteLater();
-  }
-
-}
+QobuzBaseRequest::~QobuzBaseRequest() {}
 
 QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 
@@ -78,7 +69,6 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
 
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
-  replies_ << reply;
 
   //qLog(Debug) << "Qobuz: Sending request" << url;
 
@@ -95,11 +85,6 @@ void QobuzBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
 }
 
 QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
-
-  if (replies_.contains(reply)) {
-    replies_.removeAll(reply);
-    reply->deleteLater();
-  }
 
   QByteArray data;
 

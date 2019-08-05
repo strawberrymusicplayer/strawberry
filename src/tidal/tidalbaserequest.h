@@ -112,7 +112,6 @@ class TidalBaseRequest : public QObject {
 
   TidalService *service_;
   NetworkAccessManager *network_;
-  QList<QNetworkReply*> replies_;
 
 };
 

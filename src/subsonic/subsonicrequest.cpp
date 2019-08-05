@@ -69,6 +69,13 @@ SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *u
 
 SubsonicRequest::~SubsonicRequest() {
 
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, 0, this, 0);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
     disconnect(reply, 0, this, 0);
@@ -99,6 +106,7 @@ void SubsonicRequest::Reset() {
   songs_.clear();
   errors_.clear();
   no_results_ = false;
+  replies_.clear();
   album_cover_replies_.clear();
 
 }
@@ -134,6 +142,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
 
     QNetworkReply *reply;
     reply = CreateGetRequest(QString("getAlbumList2"), params);
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, int)), reply, request.offset);
 
   }
@@ -141,6 +150,10 @@ void SubsonicRequest::FlushAlbumsRequests() {
 }
 
 void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   --albums_requests_active_;
 
@@ -318,6 +331,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     ++album_songs_requests_active_;
     ParamList params = ParamList() << Param("id", QString::number(request.album_id));
     QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const qint64, const qint64, const QString&)), reply, request.artist_id, request.album_id, request.album_artist);
 
   }
@@ -325,6 +339,10 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
 }
 
 void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   --album_songs_requests_active_;
   ++album_songs_received_;
@@ -719,4 +737,3 @@ void SubsonicRequest::Warn(const QString &error, const QVariant &debug) {
   if (debug.isValid()) qLog(Debug) << debug;
 
 }
-

@@ -46,16 +46,7 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, NetworkAccess
       network_(network)
       {}
 
-SubsonicBaseRequest::~SubsonicBaseRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
-    if (reply->isRunning()) reply->abort();
-    reply->deleteLater();
-  }
-
-}
+SubsonicBaseRequest::~SubsonicBaseRequest() {}
 
 QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) {
 
@@ -101,7 +92,6 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
 
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
-  replies_ << reply;
 
   //qLog(Debug) << "Subsonic: Sending request" << url;
 
@@ -118,11 +108,6 @@ void SubsonicBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
 }
 
 QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply) {
-
-  if (replies_.contains(reply)) {
-    replies_.removeAll(reply);
-    reply->deleteLater();
-  }
 
   QByteArray data;
 

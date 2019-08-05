@@ -105,7 +105,6 @@ class QobuzBaseRequest : public QObject {
 
   QobuzService *service_;
   NetworkAccessManager *network_;
-  QList<QNetworkReply*> replies_;
 
 };
 

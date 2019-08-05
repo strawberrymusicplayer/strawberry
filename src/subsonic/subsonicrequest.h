@@ -138,6 +138,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   SongList songs_;
   QStringList errors_;
   bool no_results_;
+  QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
 
 };

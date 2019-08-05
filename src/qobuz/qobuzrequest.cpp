@@ -75,6 +75,13 @@ QobuzRequest::QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, 
 
 QobuzRequest::~QobuzRequest() {
 
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, 0, this, 0);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
     disconnect(reply, 0, this, 0);
@@ -158,6 +165,7 @@ void QobuzRequest::FlushArtistsRequests() {
       reply = CreateRequest("artist/search", params);
     }
     if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -205,6 +213,7 @@ void QobuzRequest::FlushAlbumsRequests() {
       reply = CreateRequest("album/search", params);
     }
     if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -252,6 +261,7 @@ void QobuzRequest::FlushSongsRequests() {
       reply = CreateRequest("track/search", params);
     }
     if (!reply) continue;
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(SongsReplyReceived(QNetworkReply*, const int, const int)), reply, request.limit, request.offset);
 
   }
@@ -301,6 +311,10 @@ void QobuzRequest::AddSongsSearchRequest(const int offset) {
 }
 
 void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
 
@@ -479,6 +493,7 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("artist/get"), params);
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(ArtistAlbumsReplyReceived(QNetworkReply*, const qint64, const int)), reply, request.artist_id, request.offset);
 
   }
@@ -496,6 +511,10 @@ void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const qint64 
 }
 
 void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const int limit_requested, const int offset_requested) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
 
@@ -707,6 +726,7 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     ParamList params = ParamList() << Param("album_id", request.album_id);
     if (request.offset > 0) params << Param("offset", QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QString("album/get"), params);
+    replies_ << reply;
     NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, const qint64, const QString&, const int, const QString&, const QString&)), reply, request.artist_id, request.album_id, request.offset, request.album_artist, request.album);
 
   }
@@ -725,6 +745,10 @@ void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 ar
 }
 
 void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_requested, const QString &album_id_requested, const int limit_requested, const int offset_requested, const QString &album_artist_requested, const QString &album_requested) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
 

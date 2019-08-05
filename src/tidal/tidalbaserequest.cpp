@@ -48,16 +48,7 @@ TidalBaseRequest::TidalBaseRequest(TidalService *service, NetworkAccessManager *
       network_(network)
       {}
 
-TidalBaseRequest::~TidalBaseRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
-    if (reply->isRunning()) reply->abort();
-    reply->deleteLater();
-  }
-
-}
+TidalBaseRequest::~TidalBaseRequest() {}
 
 QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const QList<Param> &params_provided) {
 
@@ -79,7 +70,6 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
 
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
-  replies_ << reply;
 
   //qLog(Debug) << "Tidal: Sending request" << url;
 
@@ -96,11 +86,6 @@ void TidalBaseRequest::HandleSSLErrors(QList<QSslError> ssl_errors) {
 }
 
 QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_login) {
-
-  if (replies_.contains(reply)) {
-    replies_.removeAll(reply);
-    reply->deleteLater();
-  }
 
   QByteArray data;
 
