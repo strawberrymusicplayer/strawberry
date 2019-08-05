@@ -1365,8 +1365,7 @@ QString CollectionModel::PrettyYearAlbum(const int year, const QString &album) {
 
 QString CollectionModel::PrettyAlbumDisc(const QString &album, const int disc) {
 
-  if (disc <= 0) return TextOrUnknown(album);
-  else if (album.contains(QRegExp(Song::kAlbumRemoveDisc))) return TextOrUnknown(album);
+  if (disc <= 0 || album.contains(QRegExp(Song::kAlbumRemoveDisc))) return TextOrUnknown(album);
   else return TextOrUnknown(album) + " - (Disc " + QString::number(disc) + ")";
 
 }
