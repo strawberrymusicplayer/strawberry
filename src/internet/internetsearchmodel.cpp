@@ -86,7 +86,6 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
   QString display_text;
   QString sort_text;
   QString unique_tag;
-  int year = 0;
 
   switch (group_by_[level]) {
 
@@ -114,33 +113,37 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       has_artist_icon = true;
       break;
 
-    case CollectionModel::GroupBy_YearAlbum:
-      year = qMax(0, s.year());
+    case CollectionModel::GroupBy_YearAlbum:{
+      int year = qMax(0, s.year());
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
       unique_tag = s.album_id();
       has_album_icon = true;
       break;
+    }
 
-    case CollectionModel::GroupBy_OriginalYearAlbum:
-      year = qMax(0, s.effective_originalyear());
+    case CollectionModel::GroupBy_OriginalYearAlbum:{
+      int year = qMax(0, s.effective_originalyear());
       display_text = CollectionModel::PrettyYearAlbum(year, s.album());
       sort_text = CollectionModel::SortTextForNumber(year) + s.album();
       unique_tag = s.album_id();
       has_album_icon = true;
       break;
+    }
 
-    case CollectionModel::GroupBy_Year:
-      year = qMax(0, s.year());
+    case CollectionModel::GroupBy_Year:{
+      int year = qMax(0, s.year());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
+    }
 
-    case CollectionModel::GroupBy_OriginalYear:
-      year = qMax(0, s.effective_originalyear());
+    case CollectionModel::GroupBy_OriginalYear:{
+      int year = qMax(0, s.effective_originalyear());
       display_text = QString::number(year);
       sort_text = CollectionModel::SortTextForNumber(year) + " ";
       break;
+    }
 
     case CollectionModel::GroupBy_Composer:
       display_text = CollectionModel::TextOrUnknown(s.composer());
@@ -214,6 +217,23 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
       sort_text = display_text;
       break;
 
+    case CollectionModel::GroupBy_AlbumDisc:{
+      int disc = qMax(0, s.disc());
+      display_text = CollectionModel::PrettyAlbumDisc(s.album(), disc);
+      sort_text = s.album() + CollectionModel::SortTextForNumber(disc);
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+    }
+    case CollectionModel::GroupBy_YearAlbumDisc:{
+      int year = qMax(0, s.year());
+      int disc = qMax(0, s.disc());
+      display_text = CollectionModel::PrettyYearAlbumDisc(year, s.album(), disc);
+      sort_text = CollectionModel::SortTextForNumber(year) + s.album() + CollectionModel::SortTextForNumber(disc);
+      unique_tag = s.album_id();
+      has_album_icon = true;
+      break;
+    }
     case CollectionModel::GroupBy_None:
       return parent;
   }

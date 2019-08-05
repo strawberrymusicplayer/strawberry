@@ -100,7 +100,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     GroupBy_OriginalYear = 14,
     GroupBy_Samplerate = 15,
     GroupBy_Bitdepth = 16,
-    GroupBy_Format = 17
+    GroupBy_Format = 17,
+    GroupBy_AlbumDisc = 18,
+    GroupBy_YearAlbumDisc = 19
   };
 
   struct Grouping {
@@ -161,7 +163,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   // Utility functions for manipulating text
   static QString TextOrUnknown(const QString &text);
-  static QString PrettyYearAlbum(int year, const QString &album);
+  static QString PrettyYearAlbum(const int year, const QString &album);
+  static QString PrettyAlbumDisc(const QString &album, const int disc);
+  static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString SortText(QString text);
   static QString SortTextForNumber(int year);
   static QString SortTextForArtist(QString artist);

@@ -77,35 +77,53 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     case CollectionModel::GroupBy_None: {
       return tr("None");
     }
-    case CollectionModel::GroupBy_AlbumArtist: {
-      return tr("Album artist");
-    }
     case CollectionModel::GroupBy_Artist: {
       return tr("Artist");
+    }
+    case CollectionModel::GroupBy_AlbumArtist: {
+      return tr("Album artist");
     }
     case CollectionModel::GroupBy_Album: {
       return tr("Album");
     }
-    case CollectionModel::GroupBy_YearAlbum: {
-      return tr("Year - Album");
+    case CollectionModel::GroupBy_AlbumDisc: {
+      return tr("Album - Disc");
     }
-    case CollectionModel::GroupBy_Year: {
-      return tr("Year");
+    case CollectionModel::GroupBy_Disc: {
+      return tr("Disc");
     }
-    case CollectionModel::GroupBy_Composer: {
-      return tr("Composer");
+    case CollectionModel::GroupBy_Format: {
+      return tr("Format");
     }
     case CollectionModel::GroupBy_Genre: {
       return tr("Genre");
     }
-    case CollectionModel::GroupBy_FileType: {
-      return tr("File type");
+    case CollectionModel::GroupBy_Year: {
+      return tr("Year");
+    }
+    case CollectionModel::GroupBy_YearAlbum: {
+      return tr("Year - Album");
+    }
+    case CollectionModel::GroupBy_YearAlbumDisc: {
+      return tr("Year - Album - Disc");
+    }
+    case CollectionModel::GroupBy_OriginalYear: {
+      return tr("Original year");
+    }
+    case CollectionModel::GroupBy_OriginalYearAlbum: {
+      return tr("Original year - Album");
+    }
+    case CollectionModel::GroupBy_Composer: {
+      return tr("Composer");
     }
     case CollectionModel::GroupBy_Performer: {
       return tr("Performer");
     }
     case CollectionModel::GroupBy_Grouping: {
       return tr("Grouping");
+    }
+    case CollectionModel::GroupBy_FileType: {
+      return tr("File type");
     }
     case CollectionModel::GroupBy_Samplerate: {
       return tr("Sample rate");
@@ -115,18 +133,6 @@ QString SavedGroupingManager::GroupByToString(const CollectionModel::GroupBy &g)
     }
     case CollectionModel::GroupBy_Bitrate: {
       return tr("Bitrate");
-    }
-    case CollectionModel::GroupBy_Disc: {
-      return tr("Disc");
-    }
-    case CollectionModel::GroupBy_OriginalYearAlbum: {
-      return tr("Original year - Album");
-    }
-    case CollectionModel::GroupBy_OriginalYear: {
-      return tr("Original year");
-    }
-    case CollectionModel::GroupBy_Format: {
-      return tr("Format");
     }
     default: { return tr("Unknown"); }
   }

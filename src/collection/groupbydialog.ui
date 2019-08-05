@@ -65,6 +65,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Disc</string>
          </property>
         </item>
@@ -80,22 +85,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Original year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Original year - Album</string>
+          <string>Year - Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year - Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year - Album</string>
          </property>
         </item>
         <item>
@@ -166,6 +176,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Disc</string>
          </property>
         </item>
@@ -181,22 +196,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Original year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Original year - Album</string>
+          <string>Year - Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year - Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year - Album</string>
          </property>
         </item>
         <item>
@@ -267,6 +287,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Disc</string>
          </property>
         </item>
@@ -282,22 +307,27 @@
         </item>
         <item>
          <property name="text">
-          <string>Original year</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
           <string>Year</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Original year - Album</string>
+          <string>Year - Album</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Year - Album</string>
+          <string>Year - Album - Disc</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Original year - Album</string>
          </property>
         </item>
         <item>

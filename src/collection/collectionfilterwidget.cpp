@@ -153,11 +153,23 @@ void CollectionFilterWidget::UpdateGroupByActions() {
 QActionGroup *CollectionFilterWidget::CreateGroupByActions(QObject *parent) {
 
   QActionGroup *ret = new QActionGroup(parent);
+
   ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_AlbumDisc)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_YearAlbum)));
+  ret->addAction(CreateGroupByAction(tr("Group by Album artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_YearAlbumDisc)));
+
   ret->addAction(CreateGroupByAction(tr("Group by Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Genre/Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_Album)));
-  ret->addAction(CreateGroupByAction(tr("Group by Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_AlbumDisc)));
   ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_YearAlbum)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist/Year - Album - Disc"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_YearAlbumDisc)));
+
+  ret->addAction(CreateGroupByAction(tr("Group by Genre/Album artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_AlbumArtist, CollectionModel::GroupBy_Album)));
+  ret->addAction(CreateGroupByAction(tr("Group by Genre/Artist/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_Artist, CollectionModel::GroupBy_Album)));
+
+  ret->addAction(CreateGroupByAction(tr("Group by Album Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_AlbumArtist)));
+  ret->addAction(CreateGroupByAction(tr("Group by Artist"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Artist)));
+
   ret->addAction(CreateGroupByAction(tr("Group by Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Album)));
   ret->addAction(CreateGroupByAction(tr("Group by Genre/Album"), parent, CollectionModel::Grouping(CollectionModel::GroupBy_Genre, CollectionModel::GroupBy_Album)));
 
