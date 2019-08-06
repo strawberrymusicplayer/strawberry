@@ -164,9 +164,8 @@ class MacSystemTrayIconPrivate {
 
 MacSystemTrayIcon::MacSystemTrayIcon(QObject* parent)
     : SystemTrayIcon(parent),
-      orange_icon_(QPixmap(":/icons/64x64/strawberry.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
-      grey_icon_(QPixmap(":icon_large_grey.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)) {
-  QApplication::setWindowIcon(orange_icon_);
+      normal_icon_(QPixmap(":/pictures/strawberry.png").scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)) {
+  QApplication::setWindowIcon(normal_icon_);
 }
 
 MacSystemTrayIcon::~MacSystemTrayIcon() {
@@ -194,7 +193,7 @@ void MacSystemTrayIcon::SetupMenuItem(QAction* action) {
 }
 
 void MacSystemTrayIcon::UpdateIcon() {
-  QApplication::setWindowIcon(CreateIcon(orange_icon_, grey_icon_));
+  QApplication::setWindowIcon(CreateIcon(normal_icon_, normal_icon_));
 }
 
 void MacSystemTrayIcon::ActionChanged() {

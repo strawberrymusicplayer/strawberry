@@ -57,8 +57,7 @@ protected:
   void UpdateIcon();
 
 private:
-  QPixmap orange_icon_;
-  QPixmap grey_icon_;
+  QPixmap normal_icon_;
   std::unique_ptr<MacSystemTrayIconPrivate> p_;
   Q_DISABLE_COPY(MacSystemTrayIcon);
 };
