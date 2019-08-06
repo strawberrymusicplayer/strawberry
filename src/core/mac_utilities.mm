@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2011, David Sansome <me@davidsansome.com>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +19,18 @@
 
 #include "config.h"
 
-#include <QWidget>
-#include <QKeySequence>
+#include <QtGlobal>
 
-#include <CoreFoundation/CFDictionary.h>
-
-#ifdef __OBJC__
-@class NSEvent;
-#else
-class NSEvent;
-#endif
-
-namespace mac {
-
-QKeySequence KeySequenceFromNSEvent(NSEvent* event);
-void DumpDictionary(CFDictionaryRef dict);
-float GetDevicePixelRatio(QWidget *widget);
-}
+#import <Foundation/Foundation.h>
+#import <Foundation/NSProcessInfo.h>
 
 namespace Utilities {
-qint32 GetMacOsVersion();
+
+qint32 GetMacOsVersion() {
+
+  NSOperatingSystemVersion version = [ [NSProcessInfo processInfo] operatingSystemVersion];
+  return version.minorVersion;
+
 }
+
+}  // namespace Utilities

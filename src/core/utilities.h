@@ -125,9 +125,6 @@ void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();
 void CheckPortable();
 
-// Returns the minor version of OS X (ie. 6 for Snow Leopard, 7 for Lion).
-qint32 GetMacOsVersion();
-
 // Borrowed from schedutils
 enum IoPriority {
   IOPRIO_CLASS_NONE = 0,

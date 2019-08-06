@@ -329,14 +329,6 @@ QString ColorToRgba(const QColor &c) {
 }
 
 #ifdef Q_OS_MACOS
-qint32 GetMacOsVersion() {
-
-  SInt32 minor_version;
-  Gestalt(gestaltSystemVersionMinor, &minor_version);
-  return minor_version;
-
-}
-
 // Better than openUrl(dirname(path)) - also highlights file at path
 void RevealFileInFinder(QString const &path) {
   QProcess::execute("/usr/bin/open", QStringList() << "-R" << path);

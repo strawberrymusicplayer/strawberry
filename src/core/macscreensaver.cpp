@@ -25,6 +25,7 @@
 #include <QtDebug>
 
 #include "core/utilities.h"
+#include "core/mac_utilities.h"
 
 // kIOPMAssertionTypePreventUserIdleDisplaySleep from Lion.
 #define kLionDisplayAssertion CFSTR("PreventUserIdleDisplaySleep")

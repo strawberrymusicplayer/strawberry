@@ -40,6 +40,9 @@
 
 #include "core/iconloader.h"
 #include "core/utilities.h"
+#ifdef Q_OS_MACOS
+#  include "core/mac_utilities.h"
+#endif
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcuts.h"
 #include "settingspage.h"

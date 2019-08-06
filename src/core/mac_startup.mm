@@ -68,19 +68,23 @@
 #include <QtDebug>
 
 QDebug operator<<(QDebug dbg, NSObject* object) {
-  QString ns_format = [[NSString stringWithFormat:@"%@", object] UTF8String];
+
+  QString ns_format = [ [NSString stringWithFormat:@"%@", object] UTF8String];
   dbg.nospace() << ns_format;
   return dbg.space();
+
 }
 
 // Capture global media keys on Mac (Cocoa only!)
 // See: http://www.rogueamoeba.com/utm/2007/09/29/apple-keyboard-media-key-event-handling/
 
 @interface MacApplication : NSApplication {
+
   PlatformInterface* application_handler_;
   AppDelegate* delegate_;
   // shortcut_handler_ only used to temporarily save it AppDelegate does all the heavy-shortcut-lifting
   GlobalShortcutBackendMacOS* shortcut_handler_;
+
 }
 
 - (GlobalShortcutBackendMacOS*)shortcut_handler;
@@ -91,52 +95,36 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 @end
 
-#ifdef HAVE_BREAKPAD
-static bool BreakpadCallback(int, int, mach_port_t, void*) { return true; }
-
-static BreakpadRef InitBreakpad() {
-  ScopedNSAutoreleasePool pool;
-  BreakpadRef breakpad = nil;
-  NSDictionary* plist = [[NSBundle mainBundle] infoDictionary];
-  if (plist) {
-    breakpad = BreakpadCreate(plist);
-    BreakpadSetFilterCallback(breakpad, &BreakpadCallback, nullptr);
-  }
-  [pool release];
-  return breakpad;
-}
-#endif  // HAVE_BREAKPAD
-
 @implementation AppDelegate
 
 - (id)init {
+
   if ((self = [super init])) {
     application_handler_ = nil;
     shortcut_handler_ = nil;
     dock_menu_ = nil;
   }
   return self;
+
 }
 
 - (id)initWithHandler:(PlatformInterface*)handler {
+
   application_handler_ = handler;
 
-#ifdef HAVE_BREAKPAD
-  breakpad_ = InitBreakpad();
-#endif
-
   // Register defaults for the whitelist of apps that want to use media keys
-  [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-     [SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey,
-      nil]];
+  [ [NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey, nil] ];
   return self;
+
 }
 
 - (BOOL) applicationShouldHandleReopen: (NSApplication*)app hasVisibleWindows:(BOOL)flag {
+
   if (application_handler_) {
     application_handler_->Activate();
   }
   return YES;
+
 }
 
 - (void)setDockMenu:(NSMenu*)menu {
@@ -156,21 +144,19 @@ static BreakpadRef InitBreakpad() {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
-  key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
-  if ([SPMediaKeyTap usesGlobalMediaKeyTap] &&
-      ![[NSProcessInfo processInfo]
-          isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){
-                                              .majorVersion = 10,
-                                              .minorVersion = 12,
-                                              .patchVersion = 0}]) {
+
+  key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
+  if ([SPMediaKeyTap usesGlobalMediaKeyTap] && ![ [NSProcessInfo processInfo]isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){.majorVersion = 10, .minorVersion = 12, .patchVersion = 0}]) {
     [key_tap_ startWatchingMediaKeys];
   }
   else {
     qLog(Warning) << "Media key monitoring disabled";
   }
+
 }
 
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)filename {
+
   qLog(Debug) << "Wants to open:" << [filename UTF8String];
 
   if (application_handler_->LoadUrl(QString::fromUtf8([filename UTF8String]))) {
@@ -178,16 +164,20 @@ static BreakpadRef InitBreakpad() {
   }
 
   return NO;
+
 }
 
 - (void)application:(NSApplication*)app openFiles:(NSArray*)filenames {
+
   qLog(Debug) << "Wants to open:" << filenames;
   [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL* stop) {
-          [self application:app openFile:(NSString*)object];
-      }];
+    [self application:app openFile:(NSString*)object];
+  }];
+
 }
 
 - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
+
   NSAssert([event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys, @"Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:");
 
   int key_code = (([event data1] & 0xFFFF0000) >> 16);
@@ -202,12 +192,10 @@ static BreakpadRef InitBreakpad() {
   if (key_is_released) {
     shortcut_handler_->MacMediaKeyPressed(key_code);
   }
+
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*) sender {
-#ifdef HAVE_BREAKPAD
-  BreakpadRelease(breakpad_);
-#endif
   return NSTerminateNow;
 }
 
@@ -242,17 +230,19 @@ static BreakpadRef InitBreakpad() {
 }
 
 - (void)SetApplicationHandler:(PlatformInterface*)handler {
-  delegate_ = [[AppDelegate alloc] initWithHandler:handler];
+
+  delegate_ = [ [AppDelegate alloc] initWithHandler:handler];
   // App-shortcut-handler set before delegate is set.
   // this makes sure the delegate's shortcut_handler is set
   [delegate_ setShortcutHandler:shortcut_handler_];
   [self setDelegate:delegate_];
 
-  [[NSUserNotificationCenter defaultUserNotificationCenter]
-      setDelegate:delegate_];
+  [ [NSUserNotificationCenter defaultUserNotificationCenter]setDelegate:delegate_];
+
 }
 
 - (void)sendEvent:(NSEvent*)event {
+
   // If event tap is not installed, handle events that reach the app instead
   BOOL shouldHandleMediaKeyEventLocally = ![SPMediaKeyTap usesGlobalMediaKeyTap];
 
@@ -261,6 +251,7 @@ static BreakpadRef InitBreakpad() {
   }
 
   [super sendEvent:event];
+
 }
 
 @end
@@ -268,13 +259,15 @@ static BreakpadRef InitBreakpad() {
 namespace mac {
 
 void MacMain() {
+
   ScopedNSAutoreleasePool pool;
   // Creates and sets the magic global variable so QApplication will find it.
   [MacApplication sharedApplication];
 #ifdef HAVE_SPARKLE
   // Creates and sets the magic global variable for Sparkle.
-  [[SUUpdater sharedUpdater] setDelegate:NSApp];
+  [ [SUUpdater sharedUpdater] setDelegate:NSApp];
 #endif
+
 }
 
 void SetShortcutHandler(GlobalShortcutBackendMacOS* handler) {
@@ -287,52 +280,61 @@ void SetApplicationHandler(PlatformInterface* handler) {
 
 void CheckForUpdates() {
 #ifdef HAVE_SPARKLE
-  [[SUUpdater sharedUpdater] checkForUpdates:NSApp];
+  [ [SUUpdater sharedUpdater] checkForUpdates:NSApp];
 #endif
 }
 
 QString GetBundlePath() {
+
   ScopedCFTypeRef<CFURLRef> app_url(CFBundleCopyBundleURL(CFBundleGetMainBundle()));
   ScopedCFTypeRef<CFStringRef> mac_path(CFURLCopyFileSystemPath(app_url.get(), kCFURLPOSIXPathStyle));
   const char* path = CFStringGetCStringPtr(mac_path.get(), CFStringGetSystemEncoding());
   QString bundle_path = QString::fromUtf8(path);
   return bundle_path;
+
 }
 
 QString GetResourcesPath() {
+
   QString bundle_path = GetBundlePath();
   return bundle_path + "/Contents/Resources";
+
 }
 
 QString GetApplicationSupportPath() {
+
   ScopedNSAutoreleasePool pool;
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(
-      NSApplicationSupportDirectory, NSUserDomainMask, YES);
+  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
   QString ret;
   if ([paths count] > 0) {
     NSString* user_path = [paths objectAtIndex:0];
     ret = QString::fromUtf8([user_path UTF8String]);
-  } else {
+  }
+  else {
     ret = "~/Library/Application Support";
   }
   return ret;
+
 }
 
 QString GetMusicDirectory() {
+
   ScopedNSAutoreleasePool pool;
-  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory,
-                                                       NSUserDomainMask, YES);
+  NSArray* paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
   QString ret;
   if ([paths count] > 0) {
     NSString* user_path = [paths objectAtIndex:0];
     ret = QString::fromUtf8([user_path UTF8String]);
-  } else {
+  }
+  else {
     ret = "~/Music";
   }
   return ret;
+
 }
 
 static int MapFunctionKey(int keycode) {
+
   switch (keycode) {
     // Function keys
     case NSInsertFunctionKey: return Qt::Key_Insert;
@@ -392,6 +394,7 @@ static int MapFunctionKey(int keycode) {
 }
 
 QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
+
   NSString* str = [event charactersIgnoringModifiers];
   NSString* upper = [str uppercaseString];
   const char* chars = [upper UTF8String];
@@ -409,7 +412,8 @@ QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
   if (key == 0) {
     if (c >= 0x20 && c <= 0x7e) {  // ASCII from space to ~
       key = c;
-    } else {
+    }
+    else {
       key = MapFunctionKey([event keyCode]);
       if (key == 0) {
         return QKeySequence();
@@ -431,11 +435,14 @@ QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
   }
 
   return QKeySequence(key);
+
 }
 
 void DumpDictionary(CFDictionaryRef dict) {
+
   NSDictionary* d = (NSDictionary*)dict;
   NSLog(@"%@", d);
+
 }
 
 // NSWindowCollectionBehaviorFullScreenPrimary
@@ -446,11 +453,14 @@ void EnableFullScreen(const QWidget& main_window) {
   NSView* view = reinterpret_cast<NSView*>(main_window.winId());
   NSWindow* window = [view window];
   [window setCollectionBehavior:kFullScreenPrimary];
+
 }
 
 float GetDevicePixelRatio(QWidget* widget) {
+
   NSView* view = reinterpret_cast<NSView*>(widget->winId());
-  return [[view window] backingScaleFactor];
+  return [ [view window] backingScaleFactor];
+
 }
 
 }  // namespace mac
