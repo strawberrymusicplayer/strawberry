@@ -53,6 +53,11 @@
 #include "playlistlistmodel.h"
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
+#include "collection/collectionmodel.h"
+#ifndef Q_OS_WIN
+#  include "device/devicemanager.h"
+#  include "device/devicestatefiltermodel.h"
+#endif
 
 class PlaylistListSortFilterModel : public QSortFilterProxyModel {
 public:
@@ -80,6 +85,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
       action_new_folder_(new QAction(this)),
       action_remove_(new QAction(this)),
       action_save_playlist_(new QAction(this)),
+      action_copy_to_device_(new QAction(this)),
       model_(new PlaylistListModel(this)),
       proxy_(new PlaylistListSortFilterModel(this)),
       loaded_icons_(false),
@@ -92,6 +98,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   action_new_folder_->setText(tr("New folder"));
   action_remove_->setText(tr("Delete"));
   action_save_playlist_->setText(tr("Save playlist", "Save playlist menu action."));
+  action_copy_to_device_->setText(tr("Copy to device..."));
 
   ui_->new_folder->setDefaultAction(action_new_folder_);
   ui_->remove->setDefaultAction(action_remove_);
@@ -100,6 +107,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   connect(action_new_folder_, SIGNAL(triggered()), SLOT(NewFolderClicked()));
   connect(action_remove_, SIGNAL(triggered()), SLOT(DeleteClicked()));
   connect(action_save_playlist_, SIGNAL(triggered()), SLOT(SavePlaylist()));
+  connect(action_copy_to_device_, SIGNAL(triggered()), SLOT(CopyToDevice()));
   connect(model_, SIGNAL(PlaylistPathChanged(int, QString)), SLOT(PlaylistPathChanged(int, QString)));
 
   proxy_->setSourceModel(model_);
@@ -127,6 +135,7 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
   action_new_folder_->setIcon(IconLoader::Load("folder-new"));
   action_remove_->setIcon(IconLoader::Load("edit-delete"));
   action_save_playlist_->setIcon(IconLoader::Load("document-save"));
+  action_copy_to_device_->setIcon(IconLoader::Load("device"));
 
   model_->SetIcons(IconLoader::Load("view-media-playlist"), IconLoader::Load("folder"));
 
@@ -317,6 +326,33 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_index) {
 
 }
 
+void PlaylistListContainer::CopyToDevice()
+{
+#ifndef Q_OS_WIN
+  // Reuse the organise dialog, but set the detail about the playlist name
+  if (!organise_dialog_) {
+    organise_dialog_.reset(new OrganiseDialog {app_->task_manager()});
+  }
+  organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+  organise_dialog_->SetCopy(true);
+
+  const QModelIndex &current_index = proxy_->mapToSource(ui_->tree->currentIndex());
+
+  // Is it a playlist?
+  if (current_index.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
+    const int playlist_id = current_index.data(PlaylistListModel::Role_PlaylistId).toInt();
+
+    QStandardItem *item = model_->PlaylistById(playlist_id);
+    QString playlist_name = item ? item->text() : tr("Playlist");
+    organise_dialog_->SetPlaylist(playlist_name);
+
+    // Get the songs in the playlist
+    organise_dialog_->SetSongs(app_->playlist_manager()->playlist(playlist_id)->GetAllSongs());
+    organise_dialog_->show();
+  }
+#endif
+}
+
 void PlaylistListContainer::DeleteClicked() {
 
   QSet<int> ids;
@@ -386,6 +422,8 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
     menu_->addAction(action_remove_);
     menu_->addSeparator();
     menu_->addAction(action_save_playlist_);
+    menu_->addSeparator();
+    menu_->addAction(action_copy_to_device_);
   }
   menu_->popup(e->globalPos());
 

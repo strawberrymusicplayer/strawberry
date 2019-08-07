@@ -244,7 +244,12 @@ SongList OrganiseDialog::LoadSongsBlocking(const QStringList &filenames) {
 }
 
 void OrganiseDialog::SetCopy(bool copy) {
-  ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
+    ui_->aftercopying->setCurrentIndex(copy ? 0 : 1);
+}
+
+void OrganiseDialog::SetPlaylist(const QString &playlist)
+{
+    playlist_ = playlist;
 }
 
 void OrganiseDialog::InsertTag(const QString &tag) {
@@ -399,7 +404,7 @@ void OrganiseDialog::accept() {
 
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
-  Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked());
+  Organise *organise = new Organise(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->mark_as_listened->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
   connect(organise, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganiseFinished(QStringList, QStringList)));
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
   if (backend_)

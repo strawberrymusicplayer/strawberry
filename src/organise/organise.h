@@ -61,7 +61,7 @@ class Organise : public QObject {
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after);
+  Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
   ~Organise();
 
   static const int kBatchSize;
@@ -123,6 +123,7 @@ class Organise : public QObject {
   const bool albumcover_;
   const bool eject_after_;
   int task_count_;
+  const QString playlist_;
 
 #ifdef HAVE_GSTREAMER
   QBasicTimer transcode_progress_timer_;

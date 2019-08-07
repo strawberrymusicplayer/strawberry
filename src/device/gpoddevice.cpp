@@ -188,6 +188,19 @@ bool GPodDevice::CopyToStorage(const CopyJob &job) {
     return false;
   }
 
+  // Put the track in the playlist, if one is specified
+  if (!job.playlist_.isEmpty()) {
+    // Does the playlist already exist?
+    auto itdbPlaylist = itdb_playlist_by_name(db_, job.playlist_.toUtf8().data());
+    if (itdbPlaylist == nullptr) {
+      // Create the playlist
+      itdbPlaylist = itdb_playlist_new(job.playlist_.toUtf8().data(), false);
+      itdb_playlist_add(db_, itdbPlaylist, -1);
+    }
+    // Playlist should exist so add the track to the playlist
+    itdb_playlist_add_track(itdbPlaylist, track, -1);
+  }
+
   AddTrackToModel(track, url_.path());
 
   // Remove the original if it was requested
