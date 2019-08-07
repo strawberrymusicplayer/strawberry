@@ -65,6 +65,7 @@ class MusicStorage {
     QString cover_source_;
     QString cover_dest_;
     ProgressFunction progress_;
+    QString playlist_;
   };
 
   struct DeleteJob {

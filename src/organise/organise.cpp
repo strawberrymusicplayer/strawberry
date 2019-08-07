@@ -52,7 +52,7 @@ const int Organise::kBatchSize = 10;
 const int Organise::kTranscodeProgressInterval = 500;
 #endif
 
-Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after)
+Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs_info, bool eject_after, const QString &playlist)
     : thread_(nullptr),
       task_manager_(task_manager),
 #ifdef HAVE_GSTREAMER
@@ -66,10 +66,11 @@ Organise::Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> dest
       albumcover_(albumcover),
       eject_after_(eject_after),
       task_count_(songs_info.count()),
+      playlist_(playlist),
       tasks_complete_(0),
       started_(false),
       task_id_(0),
-      current_copy_progress_(0) {
+      current_copy_progress_(0){
 
   original_thread_ = thread();
 
@@ -208,6 +209,7 @@ void Organise::ProcessSomeFiles() {
     job.mark_as_listened_ = mark_as_listened_;
     job.albumcover_ = albumcover_;
     job.remove_original_ = !copy_;
+    job.playlist_ = playlist_;
 
     if (task.song_info_.song_.art_manual_is_valid() && task.song_info_.song_.art_manual().path() != Song::kManuallyUnsetCover) {
       if (task.song_info_.song_.art_manual().isLocalFile() && QFile::exists(task.song_info_.song_.art_manual().toLocalFile())) {

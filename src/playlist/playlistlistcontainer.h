@@ -35,6 +35,8 @@
 #include <QStandardItem>
 #include <QtEvents>
 
+#include <organise/organisedialog.h>
+
 class QModelIndex;
 class Application;
 class Playlist;
@@ -59,6 +61,7 @@ private slots:
   void NewFolderClicked();
   void DeleteClicked();
   void ItemDoubleClicked(const QModelIndex &index);
+  void CopyToDevice();
 
   // From the model
   void PlaylistPathChanged(int id, const QString &new_path);
@@ -94,6 +97,7 @@ private:
   QAction *action_new_folder_;
   QAction *action_remove_;
   QAction *action_save_playlist_;
+  QAction *action_copy_to_device_;
 
   PlaylistListModel *model_;
   QSortFilterProxyModel *proxy_;
@@ -102,6 +106,8 @@ private:
   QIcon padded_play_icon_;
 
   int active_playlist_id_;
+
+  std::unique_ptr<OrganiseDialog> organise_dialog_;
 };
 
 #endif  // PLAYLISTLISTCONTAINER_H

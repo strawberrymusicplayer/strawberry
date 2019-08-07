@@ -74,6 +74,8 @@ class OrganiseDialog : public QDialog {
   void SetCopy(bool copy);
 
   static Organise::NewSongInfoList ComputeNewSongsFilenames(const SongList &songs, const OrganiseFormat &format);
+  
+  void SetPlaylist(const QString &playlist);
 
  signals:
   void FileCopied(int);
@@ -114,6 +116,7 @@ class OrganiseDialog : public QDialog {
   SongList songs_;
   Organise::NewSongInfoList new_songs_info_;
   quint64 total_size_;
+  QString playlist_;
 
   std::unique_ptr<OrganiseErrorDialog> error_dialog_;
 
