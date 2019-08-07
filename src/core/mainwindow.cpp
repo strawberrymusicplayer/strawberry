@@ -248,9 +248,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Initialise the UI
   ui_->setupUi(this);
-#ifdef Q_OS_MACOS
-  ui_->menu_help->menuAction()->setVisible(true);
-#endif
 
   connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
   album_cover_choice_controller_->Init(app);
