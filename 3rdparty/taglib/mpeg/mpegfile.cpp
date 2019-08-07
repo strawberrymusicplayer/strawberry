@@ -109,8 +109,8 @@ bool MPEG::File::isSupported(IOStream *stream)
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), true, &headerOffset);
 
   if(buffer.isEmpty())
-	  return false;
-  
+    return false;
+
   const long originalPosition = stream->tell();
   AdapterFile file(stream);
 
@@ -182,7 +182,7 @@ PropertyMap MPEG::File::setProperties(const PropertyMap &properties)
 {
   // update ID3v1 tag if it exists, but ignore the return value
 
-  if(ID3v1Tag())
+  if(hasID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return ID3v2Tag(true)->setProperties(properties);
@@ -195,7 +195,11 @@ MPEG::Properties *MPEG::File::audioProperties() const
 
 bool MPEG::File::save()
 {
-  return save(AllTags);
+  if (hasID3v1Tag() || !ID3v1Tag()->isEmpty()) {
+    return save(AllTags, true, 4, true);
+  } else {
+    return save(AllTags, true, 4, false);
+  }
 }
 
 bool MPEG::File::save(int tags)

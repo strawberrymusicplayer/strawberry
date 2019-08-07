@@ -493,6 +493,7 @@ void FileStream::truncate(long length)
 
 #else
 
+  fflush(d->file);
   const int error = ftruncate(fileno(d->file), length);
   if(error != 0)
     debug("FileStream::truncate() -- Coundn't truncate the file.");

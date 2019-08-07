@@ -164,14 +164,15 @@ namespace TagLib {
       virtual Properties *audioProperties() const;
 
       /*!
-       * Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this
-       * will duplicate its content into the other tag.  This returns true
-       * if saving was successful.
+       * Save the file.  If an ID3v1 tag exists this will duplicate the tag
+       * content into the other tag.  This returns true if saving was
+       * successful.
        *
        * If neither exists or if both tags are empty, this will strip the tags
        * from the file.
        *
-       * This is the same as calling save(AllTags);
+       * This is the same as calling save(AllTags, true, 4, false); or if an
+       * ID3v1 tag exists, save(AllTags, true, 4, true).
        *
        * If you would like more granular control over the content of the tags,
        * with the concession of generality, use parameterized save call below.
