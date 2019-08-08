@@ -22,6 +22,7 @@
 #include "fancytabwidget.h"
 #include "core/stylehelper.h"
 #include "core/logging.h"
+#include "settings/appearancesettingspage.h"
 
 #include <QDebug>
 
@@ -48,6 +49,7 @@
 #include <QActionGroup>
 #include <QSettings>
 #include <QMouseEvent>
+#include <QPixmapCache>
 
 const QSize FancyTabWidget::IconSize_LargeSidebar = QSize(24, 24);
 const QSize FancyTabWidget::IconSize_SmallSidebar = QSize(22, 22);
@@ -425,6 +427,19 @@ void FancyTabWidget::SaveSettings(const QString &kSettingsGroup) {
 
 }
 
+void FancyTabWidget::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  bg_color_system_ = s.value(AppearanceSettingsPage::kTabBarSystemColor, false).toBool();
+  bg_gradient_ = s.value(AppearanceSettingsPage::kTabBarGradient, true).toBool();
+  bg_color_ = s.value(AppearanceSettingsPage::kTabBarColor, StyleHelper::highlightColor()).value<QColor>();
+  s.endGroup();
+
+  update();
+
+}
+
 void FancyTabWidget::addBottomWidget(QWidget *widget_view) {
   bottom_widget_ = widget_view;
 }
@@ -469,20 +484,42 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
     QTabWidget::paintEvent(pe);
     return;
   }
-  QStylePainter p(this);
 
-  // The brown color (Ubuntu) you see on the background gradient
-  QColor baseColor = StyleHelper::baseColor();
-
+  QStylePainter painter(this);
   QRect backgroundRect = rect();
   backgroundRect.setWidth(tabBar()->width());
-  p.fillRect(backgroundRect, baseColor);
 
-  // Horizontal gradient over the sidebar from transparent to dark
-  StyleHelper::verticalGradient(&p, backgroundRect, backgroundRect, false);
+  QString key;
+  key.sprintf("mh_vertical %d %d %d %d %d", backgroundRect.width(), backgroundRect.height(), bg_color_.rgb(), (bg_gradient_ ? 1 : 0), (background_pixmap_.isNull() ? 0 : 1));
 
-  // Draw the translucent png graphics over the gradient fill
-  {
+  QPixmap pixmap;
+  if (!QPixmapCache::find(key, &pixmap)) {
+
+    pixmap = QPixmap(backgroundRect.size());
+    QPainter p(&pixmap);
+    p.fillRect(backgroundRect, bg_color_);
+
+    // Draw the gradient fill.
+    if (bg_gradient_) {
+
+      QRect rect(0, 0, backgroundRect.width(), backgroundRect.height());
+
+      QColor shadow = StyleHelper::shadowColor(false);
+      QLinearGradient grad(backgroundRect.topRight(), backgroundRect.topLeft());
+      grad.setColorAt(0, bg_color_.lighter(117));
+      grad.setColorAt(1, shadow.darker(109));
+      p.fillRect(rect, grad);
+
+      QColor light(255, 255, 255, 80);
+      p.setPen(light);
+      p.drawLine(rect.topRight() - QPoint(1, 0), rect.bottomRight() - QPoint(1, 0));
+      QColor dark(0, 0, 0, 90);
+      p.setPen(dark);
+      p.drawLine(rect.topLeft(), rect.bottomLeft());
+
+    }
+
+    // Draw the translucent png graphics over the gradient fill
     if (!background_pixmap_.isNull()) {
       QRect pixmap_rect(background_pixmap_.rect());
       pixmap_rect.moveTo(backgroundRect.topLeft());
@@ -490,14 +527,12 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
       while (pixmap_rect.top() < backgroundRect.bottom()) {
         QRect source_rect(pixmap_rect.intersected(backgroundRect));
         source_rect.moveTo(0, 0);
-        p.drawPixmap(pixmap_rect.topLeft(), background_pixmap_,source_rect);
+        p.drawPixmap(pixmap_rect.topLeft(), background_pixmap_, source_rect);
         pixmap_rect.moveTop(pixmap_rect.bottom() - 10);
       }
     }
-  }
 
-  // Shadow effect of the background
-  {
+    // Shadow effect of the background
     QColor light(255, 255, 255, 80);
     p.setPen(light);
     p.drawLine(backgroundRect.topRight() - QPoint(1, 0),  backgroundRect.bottomRight() - QPoint(1, 0));
@@ -507,7 +542,14 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
 
     p.setPen(StyleHelper::borderColor());
     p.drawLine(backgroundRect.topRight(), backgroundRect.bottomRight());
+
+    p.end();
+
+    QPixmapCache::insert(key, pixmap);
+
   }
+
+  painter.drawPixmap(backgroundRect.topLeft(), pixmap);
 
 }
 

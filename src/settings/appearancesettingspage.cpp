@@ -36,6 +36,7 @@
 #include "appearancesettingspage.h"
 #include "core/appearance.h"
 #include "core/iconloader.h"
+#include "core/stylehelper.h"
 #include "playlist/playlistview.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "settingspage.h"
@@ -63,6 +64,10 @@ const int AppearanceSettingsPage::kDefaultBlurRadius = 0;
 const int AppearanceSettingsPage::kDefaultOpacityLevel = 40;
 
 const char *AppearanceSettingsPage::kSystemThemeIcons = "system_icons";
+
+const char *AppearanceSettingsPage::kTabBarSystemColor= "tab_system_color";
+const char *AppearanceSettingsPage::kTabBarGradient = "tab_gradient";
+const char *AppearanceSettingsPage::kTabBarColor = "tab_color";
 
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
@@ -101,6 +106,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
 
   connect(ui_->checkbox_background_image_keep_aspect_ratio, SIGNAL(toggled(bool)), ui_->checkbox_background_image_do_not_cut, SLOT(setEnabled(bool)));
 
+  connect(ui_->select_tabbar_color, SIGNAL(pressed()), SLOT(TabBarSelectBGColor()));
+  connect(ui_->tabbar_system_color, SIGNAL(toggled(bool)), SLOT(TabBarSystemColor(bool)));
+
   Load();
 
 }
@@ -126,10 +134,18 @@ void AppearanceSettingsPage::Load() {
 
   InitColorSelectorsColors();
 
-  s.endGroup();
+  // Tab widget BG color settings.
+  bool tabbar_system_color = s.value(kTabBarSystemColor, true).toBool();
+  ui_->tabbar_gradient->setChecked(s.value(kTabBarGradient, true).toBool());
+  ui_->tabbar_system_color->setChecked(tabbar_system_color);
+  ui_->tabbar_custom_color->setChecked(!tabbar_system_color);
+
+  current_tabbar_bg_color_ = s.value(kTabBarColor, StyleHelper::highlightColor()).value<QColor>();
+
+  UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+  TabBarSystemColor(ui_->tabbar_system_color->isChecked());
 
   // Playlist settings
-  s.beginGroup(kSettingsGroup);
   background_image_type_ = static_cast<BackgroundImageType>(s.value(kBackgroundImageType).toInt());
   background_image_filename_ = s.value(kBackgroundImageFilename).toString();
 
@@ -181,6 +197,8 @@ void AppearanceSettingsPage::Save() {
   }
   else {
     dialog()->appearance()->ResetToSystemDefaultTheme();
+    s.remove(kBackgroundColor);
+    s.remove(kForegroundColor);
   }
 
   background_image_filename_ = ui_->background_image_filename->text();
@@ -214,6 +232,10 @@ void AppearanceSettingsPage::Save() {
   s.setValue(kOpacityLevel, ui_->opacity_slider->value());
 
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
+
+  s.setValue(kTabBarSystemColor, ui_->tabbar_system_color->isChecked());
+  s.setValue(kTabBarGradient, ui_->tabbar_gradient->isChecked());
+  s.setValue(kTabBarColor, current_tabbar_bg_color_);
 
   s.endGroup();
 
@@ -263,18 +285,25 @@ void AppearanceSettingsPage::UseCustomColorSetOptionChanged(bool checked) {
   }
   else {
     dialog()->appearance()->ResetToSystemDefaultTheme();
+    QPalette p = QApplication::palette();
+    current_foreground_color_ = p.color(QPalette::WindowText);
+    current_background_color_ = p.color(QPalette::Window);
+    UpdateColorSelectorColor(ui_->select_foreground_color, current_foreground_color_);
+    UpdateColorSelectorColor(ui_->select_background_color, current_background_color_);
   }
 
 }
 
 void AppearanceSettingsPage::InitColorSelectorsColors() {
+
   UpdateColorSelectorColor(ui_->select_foreground_color, current_foreground_color_);
   UpdateColorSelectorColor(ui_->select_background_color, current_background_color_);
+
 }
 
 void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, const QColor &color) {
 
-  QString css = QString("background-color: rgb(%1, %2, %3); color: rgb(255, 255, 255)").arg(color.red()).arg(color.green()).arg(color.blue());
+  QString css = QString("background-color: rgb(%1, %2, %3); color: rgb(255, 255, 255); border: 1px dotted black;").arg(color.red()).arg(color.green()).arg(color.blue());
   color_selector->setStyleSheet(css);
 
 }
@@ -294,4 +323,26 @@ void AppearanceSettingsPage::BlurLevelChanged(int value) {
 
 void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
   ui_->background_opacity_label->setText(QString("%1\%").arg(percent));
+}
+
+void AppearanceSettingsPage::TabBarSystemColor(bool checked) {
+
+  if (checked) {
+    current_tabbar_bg_color_ = StyleHelper::highlightColor();
+    UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+  }
+  ui_->layout_tabbar_color->setEnabled(!checked);
+  ui_->select_tabbar_color->setEnabled(!checked);
+
+}
+
+void AppearanceSettingsPage::TabBarSelectBGColor() {
+
+  if (ui_->tabbar_system_color->isChecked()) return;
+
+  QColor color_selected = QColorDialog::getColor(current_tabbar_bg_color_);
+  if (!color_selected.isValid()) return;
+  current_tabbar_bg_color_ = color_selected;
+  UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+
 }

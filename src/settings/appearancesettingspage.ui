@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>674</width>
-    <height>627</height>
+    <height>755</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
         <item>
          <widget class="QLabel" name="select_foreground_color_label">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>Select foreground color:</string>
@@ -63,7 +63,7 @@
         <item>
          <widget class="QLabel" name="select_background_color_label">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>Select background color:</string>
@@ -72,6 +72,60 @@
         </item>
         <item>
          <widget class="QPushButton" name="select_background_color">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_tabbar_colors">
+     <property name="title">
+      <string>Tabbar colors</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_tabbar_colors">
+      <item>
+       <widget class="QRadioButton" name="tabbar_system_color">
+        <property name="text">
+         <string>&amp;Use the system default color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="tabbar_custom_color">
+        <property name="text">
+         <string>Use custom color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="tabbar_gradient">
+        <property name="text">
+         <string>Use gradient background</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_tabbar_color">
+        <item>
+         <widget class="QLabel" name="label_tabbar_color">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Select tabbar color:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="select_tabbar_color">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -430,22 +484,6 @@
   <connection>
    <sender>use_a_custom_color_set</sender>
    <signal>toggled(bool)</signal>
-   <receiver>select_background_color_label</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>301</x>
-     <y>72</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>162</x>
-     <y>139</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>use_a_custom_color_set</sender>
-   <signal>toggled(bool)</signal>
    <receiver>select_foreground_color</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -455,22 +493,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>440</x>
-     <y>104</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>use_a_custom_color_set</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>select_foreground_color_label</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>301</x>
-     <y>72</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>162</x>
      <y>104</y>
     </hint>
    </hints>

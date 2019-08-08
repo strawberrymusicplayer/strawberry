@@ -64,6 +64,10 @@ public:
 
   static const char *kSystemThemeIcons;
 
+  static const char *kTabBarSystemColor;
+  static const char *kTabBarGradient;
+  static const char *kTabBarColor;
+
   enum BackgroundImageType {
     BackgroundImageType_Default,
     BackgroundImageType_None,
@@ -90,6 +94,8 @@ public:
   void SelectBackgroundImage();
   void BlurLevelChanged(int);
   void OpacityLevelChanged(int);
+  void TabBarSystemColor(bool checked);
+  void TabBarSelectBGColor();
 
  private:
 
@@ -105,6 +111,7 @@ public:
   QColor original_background_color_;
   QColor current_foreground_color_;
   QColor current_background_color_;
+  QColor current_tabbar_bg_color_;
   BackgroundImageType background_image_type_;
   QString background_image_filename_;
 

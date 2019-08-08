@@ -57,6 +57,7 @@ class FancyTabWidget : public QTabWidget {
 
     void Load(const QString &kSettingsGroup);
     void SaveSettings(const QString &kSettingsGroup);
+    void ReloadSettings();
 
     // Values are persisted - only add to the end
     enum Mode {
@@ -101,6 +102,10 @@ class FancyTabWidget : public QTabWidget {
     QWidget *bottom_widget_;
 
     QMap <QWidget*, TabData*> tabs_;
+
+    bool bg_color_system_;
+    bool bg_gradient_;
+    QColor bg_color_;
 
 };
 

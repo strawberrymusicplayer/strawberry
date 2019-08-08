@@ -929,6 +929,8 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->DisableTab(subsonic_view_);
 #endif
 
+  ui_->tabs->ReloadSettings();
+
 }
 
 void MainWindow::ReloadAllSettings() {
