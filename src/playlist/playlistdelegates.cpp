@@ -475,11 +475,8 @@ void SongSourceDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   const Song::Source &source = Song::Source(index.data().toInt());
   QPixmap pixmap = LookupPixmap(source, option_copy.decorationSize);
 
-  float device_pixel_ratio = 1.0f;
-#ifdef Q_OS_MACOS
   QWidget *parent_widget = reinterpret_cast<QWidget*>(parent());
-  device_pixel_ratio = mac::GetDevicePixelRatio(parent_widget);
-#endif
+  int device_pixel_ratio = parent_widget->devicePixelRatio();
 
   // Draw the pixmap in the middle of the rectangle
   QRect draw_rect(QPoint(0, 0), option_copy.decorationSize / device_pixel_ratio);
