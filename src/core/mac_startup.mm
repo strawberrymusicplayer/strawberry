@@ -39,8 +39,6 @@
 
 #import <QuartzCore/CALayer.h>
 
-#import "3rdparty/SPMediaKeyTap/SPMediaKeyTap.h"
-
 #include "config.h"
 
 #include "mac_delegate.h"
@@ -112,8 +110,6 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
   application_handler_ = handler;
 
-  // Register defaults for the whitelist of apps that want to use media keys
-  [ [NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:[SPMediaKeyTap defaultMediaKeyUserBundleIdentifiers], kMediaKeyUsingBundleIdentifiersDefaultsKey, nil] ];
   return self;
 
 }
@@ -145,14 +141,6 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification {
 
-  key_tap_ = [ [SPMediaKeyTap alloc] initWithDelegate:self];
-  if ([SPMediaKeyTap usesGlobalMediaKeyTap] && ![ [NSProcessInfo processInfo]isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){.majorVersion = 10, .minorVersion = 12, .patchVersion = 0}]) {
-    [key_tap_ startWatchingMediaKeys];
-  }
-  else {
-    qLog(Warning) << "Media key monitoring disabled";
-  }
-
 }
 
 - (BOOL)application:(NSApplication*)app openFile:(NSString*)filename {
@@ -173,25 +161,6 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
   [filenames enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL* stop) {
     [self application:app openFile:(NSString*)object];
   }];
-
-}
-
-- (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
-
-  NSAssert([event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys, @"Unexpected NSEvent in mediaKeyTap:receivedMediaKeyEvent:");
-
-  int key_code = (([event data1] & 0xFFFF0000) >> 16);
-  int key_flags = ([event data1] & 0x0000FFFF);
-  BOOL key_is_released = (((key_flags & 0xFF00) >> 8)) == 0xB;
-  // not used. keep just in case
-  //  int key_repeat = (key_flags & 0x1);
-
-  if (!shortcut_handler_) {
-    return;
-  }
-  if (key_is_released) {
-    shortcut_handler_->MacMediaKeyPressed(key_code);
-  }
 
 }
 
@@ -243,11 +212,13 @@ QDebug operator<<(QDebug dbg, NSObject* object) {
 
 - (void)sendEvent:(NSEvent*)event {
 
-  // If event tap is not installed, handle events that reach the app instead
-  BOOL shouldHandleMediaKeyEventLocally = ![SPMediaKeyTap usesGlobalMediaKeyTap];
-
-  if(shouldHandleMediaKeyEventLocally && [event type] == NSSystemDefined && [event subtype] == SPSystemDefinedEventMediaKeys) {
-    [(id)[self delegate] mediaKeyTap:nil receivedMediaKeyEvent:event];
+  if ([event type] == NSEventTypeSystemDefined && [event subtype] == 8) {
+	int keyCode = (([event data1] & 0xFFFF0000) >> 16);
+	int keyFlags = ([event data1] & 0x0000FFFF);
+	int keyIsReleased = (((keyFlags & 0xFF00) >> 8)) == 0xB;
+	if (keyIsReleased) {
+	  shortcut_handler_->MacMediaKeyPressed(keyCode);
+	}
   }
 
   [super sendEvent:event];
@@ -453,13 +424,6 @@ void EnableFullScreen(const QWidget& main_window) {
   NSView* view = reinterpret_cast<NSView*>(main_window.winId());
   NSWindow* window = [view window];
   [window setCollectionBehavior:kFullScreenPrimary];
-
-}
-
-float GetDevicePixelRatio(QWidget* widget) {
-
-  NSView* view = reinterpret_cast<NSView*>(widget->winId());
-  return [ [view window] backingScaleFactor];
 
 }
 
