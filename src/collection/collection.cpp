@@ -97,7 +97,8 @@ void SCollection::Init() {
   connect(backend_, SIGNAL(DirectoryDeleted(Directory)), watcher_, SLOT(RemoveDirectory(Directory)));
   connect(watcher_, SIGNAL(NewOrUpdatedSongs(SongList)), backend_, SLOT(AddOrUpdateSongs(SongList)));
   connect(watcher_, SIGNAL(SongsMTimeUpdated(SongList)), backend_, SLOT(UpdateMTimesOnly(SongList)));
-  connect(watcher_, SIGNAL(SongsDeleted(SongList)), backend_, SLOT(MarkSongsUnavailable(SongList)));
+  connect(watcher_, SIGNAL(SongsDeleted(SongList)), backend_, SLOT(DeleteSongs(SongList)));
+  connect(watcher_, SIGNAL(SongsUnavailable(SongList)), backend_, SLOT(MarkSongsUnavailable(SongList)));
   connect(watcher_, SIGNAL(SongsReadded(SongList, bool)), backend_, SLOT(MarkSongsUnavailable(SongList, bool)));
   connect(watcher_, SIGNAL(SubdirsDiscovered(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));
   connect(watcher_, SIGNAL(SubdirsMTimeUpdated(SubdirectoryList)), backend_, SLOT(AddOrUpdateSubdirs(SubdirectoryList)));

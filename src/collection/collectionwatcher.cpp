@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,8 +77,8 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       fs_watcher_(FileSystemWatcherInterface::Create(this)),
       scan_on_startup_(true),
       monitor_(true),
+      mark_songs_unavailable_(false),
       live_scanning_(false),
-      prevent_delete_(false),
       stop_requested_(false),
       rescan_in_progress_(false),
       rescan_timer_(new QTimer(this)),
@@ -115,13 +116,13 @@ void CollectionWatcher::Exit() {
 
 }
 
-CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool prevent_delete)
+CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable)
     : progress_(0),
       progress_max_(0),
       dir_(dir),
       incremental_(incremental),
       ignores_mtime_(ignores_mtime),
-      prevent_delete_(prevent_delete),
+      mark_songs_unavailable_(mark_songs_unavailable),
       watcher_(watcher),
       cached_songs_dirty_(true),
       known_subdirs_dirty_(true)
@@ -176,8 +177,13 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
     touched_songs.clear();
   }
 
-  if (!deleted_songs.isEmpty() && !prevent_delete_) {
-    emit watcher_->SongsDeleted(deleted_songs);
+  if (!deleted_songs.isEmpty()) {
+    if (mark_songs_unavailable_) {
+      emit watcher_->SongsUnavailable(deleted_songs);
+    }
+    else {
+      emit watcher_->SongsDeleted(deleted_songs);
+    }
     deleted_songs.clear();
   }
 
@@ -279,14 +285,14 @@ void CollectionWatcher::AddDirectory(const Directory &dir, const SubdirectoryLis
 
   if (subdirs.isEmpty()) {
     // This is a new directory that we've never seen before. Scan it fully.
-    ScanTransaction transaction(this, dir.id, false, false, prevent_delete_);
+    ScanTransaction transaction(this, dir.id, false, false, mark_songs_unavailable_);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(1);
     ScanSubdirectory(dir.path, Subdirectory(), &transaction);
   }
   else {
     // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
-    ScanTransaction transaction(this, dir.id, true, false, prevent_delete_);
+    ScanTransaction transaction(this, dir.id, true, false, mark_songs_unavailable_);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(subdirs.count());
     for (const Subdirectory &subdir : subdirs) {
@@ -711,7 +717,7 @@ void CollectionWatcher::RescanPathsNow() {
 
   for (int dir : rescan_queue_.keys()) {
     if (stop_requested_) break;
-    ScanTransaction transaction(this, dir, false, false, prevent_delete_);
+    ScanTransaction transaction(this, dir, false, false, mark_songs_unavailable_);
     transaction.AddToProgressMax(rescan_queue_[dir].count());
 
     for (const QString &path : rescan_queue_[dir]) {
@@ -807,8 +813,8 @@ void CollectionWatcher::ReloadSettings() {
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
   scan_on_startup_ = s.value("startup_scan", true).toBool();
   monitor_ = s.value("monitor", true).toBool();
+  mark_songs_unavailable_ = s.value("mark_songs_unavailable", false).toBool();
   live_scanning_ = s.value("live_scanning", false).toBool();
-  prevent_delete_ = s.value("prevent_delete", false).toBool();
   QStringList filters = s.value("cover_art_patterns", QStringList() << "front" << "cover").toStringList();
   s.endGroup();
 
@@ -886,7 +892,7 @@ void CollectionWatcher::RescanTracksNow() {
       QString songdir = song.url().toLocalFile().section('/', 0, -2);
       if (!scanned_dirs.contains(songdir)) {
         qLog(Debug) << "Song" << song.title() << "dir id" << song.directory_id() << "dir" << songdir;
-        ScanTransaction transaction(this, song.directory_id(), false, false, prevent_delete_);
+        ScanTransaction transaction(this, song.directory_id(), false, false, mark_songs_unavailable_);
         ScanSubdirectory(songdir, Subdirectory(), &transaction);
         scanned_dirs << songdir;
         emit CompilationsNeedUpdating();
@@ -907,7 +913,7 @@ void CollectionWatcher::PerformScan(bool incremental, bool ignore_mtimes) {
   for (const Directory &dir : watched_dirs_.values()) {
 
     if (stop_requested_) break;
-    ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, prevent_delete_);
+    ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
     SubdirectoryList subdirs(transaction.GetAllSubdirs());
     transaction.AddToProgressMax(subdirs.count());
 

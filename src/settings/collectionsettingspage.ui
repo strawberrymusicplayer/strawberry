@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>509</width>
-    <height>697</height>
+    <height>746</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,16 +93,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="live_scanning">
+       <widget class="QCheckBox" name="mark_songs_unavailable">
         <property name="text">
-         <string>Use live scanning</string>
+         <string>Mark disappeared songs unavailable</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="prevent_delete">
+       <widget class="QCheckBox" name="live_scanning">
         <property name="text">
-         <string>Never delete songs from the collection</string>
+         <string>Use live scanning</string>
         </property>
        </widget>
       </item>

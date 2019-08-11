@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +67,7 @@ signals:
   void NewOrUpdatedSongs(const SongList &songs);
   void SongsMTimeUpdated(const SongList &songs);
   void SongsDeleted(const SongList &songs);
+  void SongsUnavailable(const SongList &songs);
   void SongsReadded(const SongList &songs, bool unavailable = false);
   void SubdirsDiscovered(const SubdirectoryList &subdirs);
   void SubdirsMTimeUpdated(const SubdirectoryList &subdirs);
@@ -89,7 +91,7 @@ signals:
   // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
    public:
-    ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool prevent_delete);
+    ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable);
     ~ScanTransaction();
 
     SongList FindSongsInSubdirectory(const QString &path);
@@ -134,7 +136,7 @@ signals:
 
     // Set this to true to prevent deleting missing files from database.
     // Useful for unstable network connections.
-    bool prevent_delete_;
+    bool mark_songs_unavailable_;
 
     CollectionWatcher *watcher_;
 
@@ -191,8 +193,8 @@ signals:
 
   bool scan_on_startup_;
   bool monitor_;
+  bool mark_songs_unavailable_;
   bool live_scanning_;
-  bool prevent_delete_;
 
   bool stop_requested_;
   bool rescan_in_progress_; // True if RescanTracksNow() has been called and is working.
