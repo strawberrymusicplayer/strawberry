@@ -40,10 +40,3 @@ utf8-cpp
 This is 2 header files used by taglib, but kept in a seperate directory because it is maintained by others.
 
 URL: http://utfcpp.sourceforge.net/
-
-
-SPMediaKeyTap
--------------
-
-This is used for macOS only to enable strawberry to grab global shortcuts and can safely be deleted on other
-platforms.
