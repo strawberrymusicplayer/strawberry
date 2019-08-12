@@ -21,14 +21,8 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QList>
-#include <QPair>
-#include <QMap>
-#include <QSet>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkAccessManager>
@@ -42,7 +36,6 @@
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
-#include "core/utilities.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "auddlyricsprovider.h"

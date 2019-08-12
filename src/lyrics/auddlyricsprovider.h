@@ -25,14 +25,13 @@
 #include <stdbool.h>
 
 #include <QObject>
-#include <QHash>
-#include <QMetaType>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
+
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class AuddLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT

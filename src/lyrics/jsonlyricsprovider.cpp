@@ -35,19 +35,24 @@ JsonLyricsProvider::JsonLyricsProvider(const QString &name, QObject *parent) : L
 
 QJsonObject JsonLyricsProvider::ExtractJsonObj(QNetworkReply *reply, const quint64 id) {
 
+  QString failure_reason;
   if (reply->error() != QNetworkReply::NoError) {
-    QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-    Error(id, failure_reason);
-    return QJsonObject();
+    failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    if (reply->error() < 200) {
+      Error(id, failure_reason);
+      return QJsonObject();
+    }
   }
-
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    QString failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-    Error(id, failure_reason);
-    return QJsonObject();
+  else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
   }
 
   QByteArray data = reply->readAll();
+  if (data.isEmpty()) {
+    if (failure_reason.isEmpty()) failure_reason = "Empty reply received from server.";
+    Error(id, failure_reason);
+    return QJsonObject();
+  }
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
