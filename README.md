@@ -20,7 +20,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
   * Edit tags on music files
   * Fetch tags from MusicBrainz
   * Album cover art from Last.fm, Musicbrainz, Discogs, Deezer and Tidal
-  * Song lyrics from AudD and lyrics.ovh
+  * Song lyrics from AudD, lyrics.ovh and lololyrics.com
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer

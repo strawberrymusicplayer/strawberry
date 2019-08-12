@@ -210,6 +210,7 @@ set(SOURCES
   lyrics/jsonlyricsprovider.cpp
   lyrics/auddlyricsprovider.cpp
   lyrics/ovhlyricsprovider.cpp
+  lyrics/lololyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -393,6 +394,7 @@ set(HEADERS
   lyrics/jsonlyricsprovider.h
   lyrics/auddlyricsprovider.h
   lyrics/ovhlyricsprovider.h
+  lyrics/lololyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
