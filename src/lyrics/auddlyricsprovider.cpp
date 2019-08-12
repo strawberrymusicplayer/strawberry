@@ -43,7 +43,7 @@
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
-#include "lyricsprovider.h"
+#include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "auddlyricsprovider.h"
 
@@ -51,7 +51,7 @@ const char *AuddLyricsProvider::kUrlSearch = "https://api.audd.io/findLyrics/";
 const char *AuddLyricsProvider::kAPITokenB64 = "ZjA0NjQ4YjgyNDM3ZTc1MjY3YjJlZDI5ZDBlMzQxZjk=";
 const int AuddLyricsProvider::kMaxLength = 6000;
 
-AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : LyricsProvider("AudD", parent), network_(new NetworkAccessManager(this)) {}
+AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : JsonLyricsProvider("AudD", parent), network_(new NetworkAccessManager(this)) {}
 
 bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
@@ -74,8 +74,7 @@ bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album
 
 }
 
-void AuddLyricsProvider::CancelSearch(quint64 id) {
-}
+void AuddLyricsProvider::CancelSearch(quint64 id) {}
 
 void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
@@ -124,50 +123,6 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
   else qLog(Debug) << "AudDLyrics: Got lyrics for" << artist << title;
 
   emit SearchFinished(id, results);
-
-}
-
-QJsonObject AuddLyricsProvider::ExtractJsonObj(QNetworkReply *reply, const quint64 id) {
-
-  if (reply->error() != QNetworkReply::NoError) {
-    QString failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-    Error(id, failure_reason);
-    return QJsonObject();
-  }
-
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    QString failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-    Error(id, failure_reason);
-    return QJsonObject();
-  }
-
-  QByteArray data(reply->readAll());
-
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Error(id, "Reply from server missing Json data.");
-    return QJsonObject();
-  }
-
-  if (json_doc.isNull() || json_doc.isEmpty()) {
-    Error(id, "Received empty Json document.");
-    return QJsonObject();
-  }
-
-  if (!json_doc.isObject()) {
-    Error(id, "Json document is not an object.");
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error(id, "Received empty Json object.");
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

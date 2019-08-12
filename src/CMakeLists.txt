@@ -207,7 +207,9 @@ set(SOURCES
   lyrics/lyricsprovider.cpp
   lyrics/lyricsfetcher.cpp
   lyrics/lyricsfetchersearch.cpp
+  lyrics/jsonlyricsprovider.cpp
   lyrics/auddlyricsprovider.cpp
+  lyrics/ovhlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -388,7 +390,9 @@ set(HEADERS
   lyrics/lyricsprovider.h
   lyrics/lyricsfetcher.h
   lyrics/lyricsfetchersearch.h
+  lyrics/jsonlyricsprovider.h
   lyrics/auddlyricsprovider.h
+  lyrics/ovhlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
