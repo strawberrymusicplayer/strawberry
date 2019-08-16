@@ -392,16 +392,16 @@ QKeySequence KeySequenceFromNSEvent(NSEvent* event) {
     }
   }
 
-  if (modifiers & NSShiftKeyMask) {
+  if (modifiers & NSEventModifierFlagShift) {
     key += Qt::SHIFT;
   }
-  if (modifiers & NSControlKeyMask) {
+  if (modifiers & NSEventModifierFlagControl) {
     key += Qt::META;
   }
-  if (modifiers & NSAlternateKeyMask) {
+  if (modifiers & NSEventModifierFlagOption) {
     key += Qt::ALT;
   }
-  if (modifiers & NSCommandKeyMask) {
+  if (modifiers & NSEventModifierFlagCommand) {
     key += Qt::CTRL;
   }
 

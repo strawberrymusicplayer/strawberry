@@ -51,10 +51,10 @@ class GlobalShortcutBackendMacOSPrivate : boost::noncopyable {
       : global_monitor_(nil), local_monitor_(nil), backend_(backend) {}
 
   bool Register() {
-    global_monitor_ = [NSEvent addGlobalMonitorForEventsMatchingMask:NSKeyDownMask handler:^(NSEvent* event) {
+    global_monitor_ = [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent* event) {
       HandleKeyEvent(event);
     } ];
-    local_monitor_ = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^(NSEvent* event) {
+    local_monitor_ = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^(NSEvent* event) {
       // Filter event if we handle it as a global shortcut.
       return HandleKeyEvent(event) ? nil : event;
     } ];
