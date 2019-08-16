@@ -39,8 +39,8 @@ QT_PLUGINS = [
     'platforminputcontexts/libqtvirtualkeyboardplugin.dylib',
     'styles/libqmacstyle.dylib',
     'sqldrivers/libqsqlite.dylib',
-    'bearer/libqgenericbearer.dylib'
-    'iconengines/libqsvgicon.dylib'
+    'bearer/libqgenericbearer.dylib',
+    'iconengines/libqsvgicon.dylib',
     'imageformats/libqgif.dylib',
     'imageformats/libqicns.dylib',
     'imageformats/libqico.dylib',
