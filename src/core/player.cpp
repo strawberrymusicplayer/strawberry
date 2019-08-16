@@ -606,9 +606,10 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url;
-    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->Metadata().beginning_nanosec(), current_item_->Metadata().end_nanosec());
-    if (current_item_->HasTemporaryMetadata())
+    if (current_item_->HasTemporaryMetadata()) {
       app_->playlist_manager()->active()->InformOfCurrentSongChange();
+    }
+    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->Metadata().beginning_nanosec(), current_item_->Metadata().end_nanosec());
   }
 
 }
