@@ -22,9 +22,11 @@ THE SOFTWARE.
 
 #include <AppKit/NSImage.h>
 #include <Foundation/NSString.h>
+#include <QByteArray>
 #include <QString>
+#include <QImage>
+#include <QPixmap>
 #include <QBoxLayout>
-#include <QtMacExtras>
 #include <QMacCocoaViewContainer>
 
 static inline NSString* fromQString(const QString &string) {
@@ -44,7 +46,8 @@ static inline QString toQString(NSString *string) {
 
 static inline NSImage* fromQPixmap(const QPixmap &pixmap) {
 
-  CGImageRef cgImage = QtMac::toCGImageRef(pixmap);
+  QImage image = pixmap.toImage();
+  CGImageRef cgImage = image.toCGImage();
   return [ [NSImage alloc] initWithCGImage:cgImage size:NSZeroSize];
 
 }
