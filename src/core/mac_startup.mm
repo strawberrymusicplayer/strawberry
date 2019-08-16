@@ -19,6 +19,7 @@
  */
 
 #import <AppKit/NSApplication.h>
+#import <AppKit/NSWindow.h>
 #import <AppKit/NSEvent.h>
 #import <AppKit/NSGraphics.h>
 #import <AppKit/NSNibDeclarations.h>
