@@ -996,7 +996,12 @@ void PlaylistView::ReloadSettings() {
   QSettings s;
 
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  glow_enabled_ = s.value("glow_effect", true).toBool();
+#ifdef Q_OS_MACOS
+  bool glow_effect = false;
+#else
+  bool glow_effect = true;
+#endif
+  glow_enabled_ = s.value("glow_effect", glow_effect).toBool();
   bool editmetadatainline = s.value("editmetadatainline", false).toBool();
   s.endGroup();
 

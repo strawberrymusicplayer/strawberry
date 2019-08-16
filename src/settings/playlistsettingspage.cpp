@@ -55,7 +55,13 @@ void PlaylistSettingsPage::Load() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
-  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", true).toBool());
+#ifdef Q_OS_MACOS
+  bool glow_effect = false;
+#else
+  bool glow_effect = true;
+#endif
+
+  ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", glow_effect).toBool());
   ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
   ui_->checkbox_continueonerror->setChecked(s.value("continue_on_error", false).toBool());
   ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
