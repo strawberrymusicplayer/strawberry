@@ -112,6 +112,7 @@ GSTREAMER_PLUGINS = [
     'libgstisomp4.so',
     'libgstlibav.so',
     'libgstaiff.so',
+    'libgstlame.so',
 
 ]
 
