@@ -46,8 +46,13 @@
 SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent) :
       QObject(parent),
       service_(service),
-      network_(new QNetworkAccessManager)
-      {}
+      network_(new QNetworkAccessManager) {
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
+
+}
 
 SubsonicBaseRequest::~SubsonicBaseRequest() {}
 
@@ -123,6 +128,7 @@ QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply) {
       Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     }
     else {
+
       // See if there is Json data containing "error" - then use that instead.
       data = reply->readAll();
       QString error;
