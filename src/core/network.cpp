@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +22,11 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QCoreApplication>
 #include <QObject>
+#include <QCoreApplication>
 #include <QStandardPaths>
-#include <QMutex>
 #include <QIODevice>
+#include <QMutex>
 #include <QString>
 #include <QUrl>
 #include <QNetworkAccessManager>
@@ -35,7 +36,6 @@
 #include <QNetworkCacheMetaData>
 #include <QAbstractNetworkCache>
 
-#include "core/closure.h"
 #include "network.h"
 
 QMutex ThreadSafeNetworkDiskCache::sMutex;
@@ -104,7 +104,13 @@ void ThreadSafeNetworkDiskCache::clear() {
 
 NetworkAccessManager::NetworkAccessManager(QObject *parent)
     : QNetworkAccessManager(parent) {
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+  setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
+
   setCache(new ThreadSafeNetworkDiskCache(this));
+
 }
 
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
@@ -130,111 +136,3 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
 
   return QNetworkAccessManager::createRequest(op, new_request, outgoingData);
 }
-
-
-NetworkTimeouts::NetworkTimeouts(int timeout_msec, QObject *parent)
-    : QObject(parent), timeout_msec_(timeout_msec) {}
-
-void NetworkTimeouts::AddReply(QNetworkReply *reply) {
-
-  if (timers_.contains(reply)) return;
-
-  connect(reply, SIGNAL(destroyed()), SLOT(ReplyFinished()));
-  connect(reply, SIGNAL(finished()), SLOT(ReplyFinished()));
-  timers_[reply] = startTimer(timeout_msec_);
-
-}
-
-void NetworkTimeouts::AddReply(RedirectFollower *reply) {
-
-  if (redirect_timers_.contains(reply)) {
-    return;
-  }
-
-  NewClosure(reply, SIGNAL(destroyed()), this, SLOT(RedirectFinished(RedirectFollower*)), reply);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RedirectFinished(RedirectFollower*)), reply);
-  redirect_timers_[reply] = startTimer(timeout_msec_);
-
-}
-
-void NetworkTimeouts::ReplyFinished() {
-
-  QNetworkReply *reply = reinterpret_cast<QNetworkReply*>(sender());
-  if (timers_.contains(reply)) {
-    killTimer(timers_.take(reply));
-  }
-
-}
-
-void NetworkTimeouts::RedirectFinished(RedirectFollower *reply) {
-
-  if (redirect_timers_.contains(reply)) {
-    killTimer(redirect_timers_.take(reply));
-  }
-
-}
-
-void NetworkTimeouts::timerEvent(QTimerEvent *e) {
-
-  QNetworkReply *reply = timers_.key(e->timerId());
-  if (reply) {
-    reply->abort();
-  }
-
-  RedirectFollower *redirect = redirect_timers_.key(e->timerId());
-  if (redirect) {
-    redirect->abort();
-  }
-
-}
-
-
-RedirectFollower::RedirectFollower(QNetworkReply *first_reply, int max_redirects) : QObject(nullptr), current_reply_(first_reply), redirects_remaining_(max_redirects) {
-  ConnectReply(first_reply);
-}
-
-void RedirectFollower::ConnectReply(QNetworkReply *reply) {
-
-  connect(reply, SIGNAL(readyRead()), SLOT(ReadyRead()));
-  connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), SIGNAL(error(QNetworkReply::NetworkError)));
-  connect(reply, SIGNAL(downloadProgress(qint64,qint64)), SIGNAL(downloadProgress(qint64,qint64)));
-  connect(reply, SIGNAL(uploadProgress(qint64,qint64)), SIGNAL(uploadProgress(qint64,qint64)));
-  connect(reply, SIGNAL(finished()), SLOT(ReplyFinished()));
-
-}
-
-void RedirectFollower::ReadyRead() {
-
-  // Don't re-emit this signal for redirect replies.
-  if (current_reply_->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid()) {
-    return;
-  }
-
-  emit readyRead();
-
-}
-
-void RedirectFollower::ReplyFinished() {
-
-  current_reply_->deleteLater();
-
-  if (current_reply_->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid()) {
-    if (redirects_remaining_-- == 0) {
-      emit finished();
-      return;
-    }
-
-    const QUrl next_url = current_reply_->url().resolved(current_reply_->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl());
-
-    QNetworkRequest req(current_reply_->request());
-    req.setUrl(next_url);
-
-    current_reply_ = current_reply_->manager()->get(req);
-    ConnectReply(current_reply_);
-    return;
-  }
-
-  emit finished();
-
-}
-

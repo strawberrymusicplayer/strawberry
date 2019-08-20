@@ -1,0 +1,60 @@
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#ifndef NETWORKTIMEOUTS_H
+#define NETWORKTIMEOUTS_H
+
+#include "config.h"
+
+#include <stdbool.h>
+
+#include <QtGlobal>
+#include <QObject>
+#include <QMap>
+
+class QNetworkReply;
+class QTimerEvent;
+class RedirectFollower;
+
+class NetworkTimeouts : public QObject {
+  Q_OBJECT
+
+ public:
+  explicit NetworkTimeouts(int timeout_msec, QObject *parent = nullptr);
+
+  // TODO: Template this to avoid code duplication.
+  void AddReply(QNetworkReply *reply);
+  void AddReply(RedirectFollower *reply);
+  void SetTimeout(int msec) { timeout_msec_ = msec; }
+
+ protected:
+  void timerEvent(QTimerEvent *e);
+
+ private slots:
+  void ReplyFinished();
+  void RedirectFinished(RedirectFollower *redirect);
+
+ private:
+  int timeout_msec_;
+  QMap<QNetworkReply*, int> timers_;
+  QMap<RedirectFollower*, int> redirect_timers_;
+};
+
+#endif  // NETWORKTIMEOUTS_H

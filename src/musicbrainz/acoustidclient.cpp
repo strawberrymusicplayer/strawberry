@@ -45,6 +45,7 @@
 #include "acoustidclient.h"
 #include "core/closure.h"
 #include "core/network.h"
+#include "core/networktimeouts.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
 

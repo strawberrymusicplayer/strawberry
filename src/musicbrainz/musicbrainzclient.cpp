@@ -46,6 +46,7 @@
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/networktimeouts.h"
 #include "core/utilities.h"
 #include "musicbrainzclient.h"
 

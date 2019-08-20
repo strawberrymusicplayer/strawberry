@@ -38,6 +38,8 @@
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
+#include "core/networktimeouts.h"
+#include "core/redirectfollower.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 #include "coverprovider.h"
