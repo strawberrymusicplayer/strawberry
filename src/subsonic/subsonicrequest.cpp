@@ -19,7 +19,8 @@
 
 #include "config.h"
 
-#include <assert.h>
+#include <stdbool.h>
+#include <memory>
 
 #include <QObject>
 #include <QByteArray>
@@ -27,8 +28,8 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QSslError>
 #include <QSslConfiguration>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -38,7 +39,6 @@
 #include "core/application.h"
 #include "core/closure.h"
 #include "core/logging.h"
-#include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "covermanager/albumcoverloader.h"
@@ -50,12 +50,12 @@ const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumSongsRequests = 3;
 const int SubsonicRequest::kMaxConcurrentAlbumCoverRequests = 1;
 
-SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QObject *parent)
-    : SubsonicBaseRequest(service, network, parent),
+SubsonicRequest::SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
+    : SubsonicBaseRequest(service, parent),
       service_(service),
       url_handler_(url_handler),
       app_(app),
-      network_(network),
+      network_(new QNetworkAccessManager),
       finished_(false),
       albums_requests_active_(0),
       album_songs_requests_active_(0),

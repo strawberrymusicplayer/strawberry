@@ -32,8 +32,8 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkReply>
 #include <QTimer>
+#include <QSslError>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
@@ -41,8 +41,10 @@
 #include "settings/subsonicsettingspage.h"
 
 class QSortFilterProxyModel;
+class QNetworkAccessManager;
+class QNetworkReply;
+
 class Application;
-class NetworkAccessManager;
 class SubsonicUrlHandler;
 class SubsonicRequest;
 class CollectionBackend;
@@ -87,14 +89,13 @@ class SubsonicService : public InternetService {
  public slots:
   void ShowConfig();
   void SendPing();
-  void SendPing(QUrl url, const QString &username, const QString &password);
+  void SendPing(QUrl url, const QString &username, const QString &password, const bool redirect = false);
   void GetSongs();
   void ResetSongsRequest();
 
  private slots:
-  //void HandlePingSSLErrors(QNetworkReply *reply, QList<QSslError> ssl_errors);
   void HandlePingSSLErrors(QList<QSslError> ssl_errors);
-  void HandlePingReply(QNetworkReply *reply);
+  void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password);
   void SongsResultsReceived(const SongList &songs, const QString &error);
 
  private:
@@ -110,9 +111,10 @@ class SubsonicService : public InternetService {
   static const char *kApiVersion;
   static const char *kSongsTable;
   static const char *kSongsFtsTable;
+  static const int kMaxRedirects;
 
   Application *app_;
-  NetworkAccessManager *network_;
+  std::unique_ptr<QNetworkAccessManager> network_;
   SubsonicUrlHandler *url_handler_;
 
   CollectionBackend *collection_backend_;
@@ -128,6 +130,7 @@ class SubsonicService : public InternetService {
   bool download_album_covers_;
 
   QStringList errors_;
+  int ping_redirects_;
 
 };
 

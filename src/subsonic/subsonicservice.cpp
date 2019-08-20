@@ -60,17 +60,19 @@ const char *SubsonicService::kClientName = "Strawberry";
 const char *SubsonicService::kApiVersion = "1.15.0";
 const char *SubsonicService::kSongsTable = "subsonic_songs";
 const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
+const int SubsonicService::kMaxRedirects = 3;
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
     : InternetService(Song::Source_Subsonic, "Subsonic", "subsonic", app, parent),
       app_(app),
-      network_(new NetworkAccessManager(this)),
+      network_(new QNetworkAccessManager),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
       collection_sort_model_(new QSortFilterProxyModel(this)),
       verify_certificate_(false),
-      download_album_covers_(true)
+      download_album_covers_(true),
+      ping_redirects_(0)
   {
 
   app->player()->RegisterUrlHandler(url_handler_);
@@ -131,7 +133,12 @@ void SubsonicService::SendPing() {
   SendPing(server_url_, username_, password_);
 }
 
-void SubsonicService::SendPing(QUrl url, const QString &username, const QString &password) {
+void SubsonicService::SendPing(QUrl url, const QString &username, const QString &password, const bool redirect) {
+
+  if (!redirect) {
+    network_.reset(new QNetworkAccessManager);
+    ping_redirects_ = 0;
+  }
 
   const ParamList params = ParamList() << Param("c", kClientName)
                                        << Param("v", kApiVersion)
@@ -139,17 +146,21 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
                                        << Param("u", username)
                                        << Param("p", QString("enc:" + password.toUtf8().toHex()));
 
-  QUrlQuery url_query;
+  QUrlQuery url_query(url.query());
   for (const Param &param : params) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    if (!url_query.hasQueryItem(encoded_param.first)) {
+      url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    }
   }
 
-  if (!url.path().isEmpty() && url.path().right(1) == "/") {
-    url.setPath(url.path() + QString("rest/ping.view"));
+  if (!redirect) {
+    if (!url.path().isEmpty() && url.path().right(1) == "/") {
+      url.setPath(url.path() + QString("rest/ping.view"));
+    }
+    else
+      url.setPath(url.path() + QString("/rest/ping.view"));
   }
-  else
-    url.setPath(url.path() + QString("/rest/ping.view"));
 
   url.setQuery(url_query);
 
@@ -166,7 +177,7 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandlePingSSLErrors(QList<QSslError>)));
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandlePingReply(QNetworkReply*)), reply);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandlePingReply(QNetworkReply*, QUrl, QString, QString)), reply, url, username, password);
 
   //qLog(Debug) << "Subsonic: Sending request" << url << query;
 
@@ -180,7 +191,7 @@ void SubsonicService::HandlePingSSLErrors(QList<QSslError> ssl_errors) {
 
 }
 
-void SubsonicService::HandlePingReply(QNetworkReply *reply) {
+void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password) {
 
   reply->deleteLater();
 
@@ -191,6 +202,27 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply) {
       return;
     }
     else {
+
+      // Check for a valid redirect first.
+      if (
+          (
+          reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301 ||
+          reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 302 ||
+          reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 307
+          )
+          &&
+          ping_redirects_ <= kMaxRedirects
+      )
+      {
+        QUrl redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+        if (!redirect_url.isEmpty()) {
+          ++ping_redirects_;
+          qLog(Debug) << "Redirecting ping request to" << redirect_url.toString(QUrl::RemoveQuery);
+          SendPing(redirect_url, username, password, true);
+          return;
+        }
+      }
+
       // See if there is Json data containing "error" - then use that instead.
       QByteArray data = reply->readAll();
       QJsonParseError parse_error;
@@ -345,7 +377,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_, network_, this));
+  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_, this));
   connect(songs_request_.get(), SIGNAL(Results(const SongList&, const QString&)), SLOT(SongsResultsReceived(const SongList&, const QString&)));
   connect(songs_request_.get(), SIGNAL(UpdateStatus(const QString&)), SIGNAL(SongsUpdateStatus(const QString&)));
   connect(songs_request_.get(), SIGNAL(ProgressSetMaximum(const int)), SIGNAL(SongsProgressSetMaximum(const int)));

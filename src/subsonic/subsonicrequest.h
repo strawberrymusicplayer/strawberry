@@ -22,6 +22,9 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
@@ -48,7 +51,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
  public:
 
-  SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QObject *parent);
+  SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
   ~SubsonicRequest();
 
   void ReloadSettings();
@@ -114,7 +117,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
   Application *app_;
-  NetworkAccessManager *network_;
+  std::unique_ptr<QNetworkAccessManager> network_;
 
   bool finished_;
 

@@ -112,7 +112,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   QByteArray user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
 
   if (request.hasRawHeader("User-Agent")) {
-    // Append the existing user-agent set by a client collection (such as libmygpo-qt).
+    // Append the existing user-agent set by a client library.
     user_agent += " " + request.rawHeader("User-Agent");
   }
 

@@ -19,6 +19,9 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <memory>
+
 #include <QObject>
 #include <QByteArray>
 #include <QPair>
@@ -27,6 +30,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QSslConfiguration>
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonParseError>
@@ -36,14 +40,13 @@
 #include <QJsonValue>
 
 #include "core/logging.h"
-#include "core/network.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
 
-SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, NetworkAccessManager *network, QObject *parent) :
+SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent) :
       QObject(parent),
       service_(service),
-      network_(network)
+      network_(new QNetworkAccessManager)
       {}
 
 SubsonicBaseRequest::~SubsonicBaseRequest() {}

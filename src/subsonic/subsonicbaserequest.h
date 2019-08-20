@@ -22,16 +22,17 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QPair>
 #include <QString>
 #include <QUrl>
-#include <QNetworkReply>
+#include <QSslError>
 #include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 
 #include "core/song.h"
 #include "internet/internetservices.h"
@@ -39,7 +40,9 @@
 #include "internet/internetsearch.h"
 #include "subsonicservice.h"
 
-class NetworkAccessManager;
+class QNetworkAccessManager;
+class QNetworkReply;
+
 class SubsonicUrlHandler;
 class CollectionBackend;
 class CollectionModel;
@@ -49,7 +52,7 @@ class SubsonicBaseRequest : public QObject {
 
  public:
 
-  SubsonicBaseRequest(SubsonicService *service, NetworkAccessManager *network, QObject *parent);
+  SubsonicBaseRequest(SubsonicService *service, QObject *parent);
   ~SubsonicBaseRequest();
 
   typedef QPair<QString, QString> Param;
@@ -78,9 +81,8 @@ class SubsonicBaseRequest : public QObject {
   void HandleSSLErrors(QList<QSslError> ssl_errors);
 
  private:
-
   SubsonicService *service_;
-  NetworkAccessManager *network_;
+  std::unique_ptr<QNetworkAccessManager> network_;
 
 };
 
