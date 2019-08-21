@@ -1372,12 +1372,14 @@ uint qHash(const Song &song) {
 }
 
 bool Song::IsSimilar(const Song &other) const {
-  return title().compare(other.title(), Qt::CaseInsensitive) == 0 && artist().compare(other.artist(), Qt::CaseInsensitive) == 0;
+  return title().compare(other.title(), Qt::CaseInsensitive) == 0 &&
+         artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
+         album().compare(other.album(), Qt::CaseInsensitive) == 0;
 }
 
 uint HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
-  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower());
+  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
 }
 
 bool Song::IsOnSameAlbum(const Song &other) const {

@@ -1860,6 +1860,8 @@ void Playlist::RemoveDeletedSongs() {
 
 }
 
+namespace {
+
 struct SongSimilarHash {
   long operator() (const Song &song) const {
     return HashSimilar(song);
@@ -1871,6 +1873,8 @@ struct SongSimilarEqual {
     return song1.IsSimilar(song2);
   }
 };
+
+}  // namespace
 
 void Playlist::RemoveDuplicateSongs() {
 
