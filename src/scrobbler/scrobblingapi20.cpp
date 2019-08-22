@@ -658,7 +658,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
     }
 
     if (!json_obj_artist.contains("#text") || !json_obj_album.contains("#text") || !json_obj_song.contains("#text")) {
-      // Just ignore this, as Last.fm seem to return 1 ignored scrobble for a blank song for each requst (no idea why).
+      // Just ignore this, as Last.fm seem to return 1 ignored scrobble for a blank song for each request (no idea why).
       continue;
     }
 

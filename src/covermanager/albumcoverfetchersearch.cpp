@@ -63,7 +63,7 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
       network_(network),
       cancel_requested_(false) {
 
-  // We will terminate the search after kSearchTimeoutMs miliseconds if we are not able to find all of the results before that point in time
+  // We will terminate the search after kSearchTimeoutMs milliseconds if we are not able to find all of the results before that point in time
   QTimer::singleShot(kSearchTimeoutMs, this, SLOT(TerminateSearch()));
 
 }

@@ -55,7 +55,7 @@ public:
 namespace {
 
   // These functions are needed to try to aim for backward compatibility with
-  // an API that previously (unreasonably) required null bytes to be appeneded
+  // an API that previously (unreasonably) required null bytes to be appended
   // at the end of identifiers explicitly by the API user.
 
   // BIC: remove these

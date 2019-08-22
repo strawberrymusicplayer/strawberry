@@ -189,7 +189,6 @@ class MusicBrainzClient : public QObject {
     ResultList results_;
   };
 
-  QNetworkReply *CreateRequest(const QString &ressource, const ParamList &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply, QString &error);
   static bool MediumHasDiscid(const QString& discid, QXmlStreamReader* reader);
   static ResultList ParseMedium(QXmlStreamReader* reader);

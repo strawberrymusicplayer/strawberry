@@ -69,7 +69,7 @@ public:
      * if there is already a primary instance.
      * @arg {Mode} mode - Whether for the SingleApplication block to be applied
      * User wide or System wide.
-     * @arg {int} timeout - Timeout to wait in miliseconds.
+     * @arg {int} timeout - Timeout to wait in milliseconds.
      * @note argc and argv may be changed as Qt removes arguments that it
      * recognizes
      * @note Mode::SecondaryNotification only works if set on both the primary

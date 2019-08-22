@@ -678,7 +678,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
     }
     else {
       // Currently, Gstreamer can't handle input CD devices inside cdda URL.
-      // So we handle them ourselve: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
+      // So we handle them ourselves: we extract the track number and re-create an URL with only cdda:// + the track number (which can be handled by Gstreamer).
       // We keep the device in mind, and we will set it later using SourceSetupCallback
       QStringList path = url.path().split('/');
       str = QString("cdda://%1").arg(path.takeLast());

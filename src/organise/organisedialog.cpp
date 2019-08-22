@@ -316,7 +316,7 @@ void OrganiseDialog::UpdatePreviews() {
 
   const bool format_valid = !has_local_destination || format_.IsValid();
 
-  // Are we gonna enable the ok button?
+  // Are we going to enable the ok button?
   bool ok = format_valid && !songs_.isEmpty();
   if (capacity != 0 && total_size_ > free) ok = false;
 

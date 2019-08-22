@@ -19,7 +19,7 @@ TagLib is a library for reading and editing the meta-data of several popular aud
 by Strawberry to identify audio files. It is important that it is kept up-to-date for Strawberry to function
 correctly.
 
-It is kept in 3rdparty because there currently is no offical release of TagLib with the features and bugfixes
+It is kept in 3rdparty because there currently is no official release of TagLib with the features and bugfixes
 that are in the official repository. And also because some distros use older, or unpatched versions.
 
 There is a bug in the latest version (1.11.1) corrupting Ogg files,
@@ -37,6 +37,6 @@ URL: https://github.com/taglib/taglib
 utf8-cpp
 --------
 
-This is 2 header files used by taglib, but kept in a seperate directory because it is maintained by others.
+This is 2 header files used by taglib, but kept in a separate directory because it is maintained by others.
 
 URL: http://utfcpp.sourceforge.net/

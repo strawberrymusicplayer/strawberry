@@ -385,7 +385,7 @@ void PlaylistManager::SetActiveToCurrent() {
 
   // Check if we need to update the active playlist.
   // By calling SetActiveToCurrent, the playlist manager emits the signal "ActiveChanged".
-  // This signal causes the network remote module to send all playlists to the clients, even no change happend.
+  // This signal causes the network remote module to send all playlists to the clients, even if no change happen.
   if (current_id() != active_id()) {
     SetActivePlaylist(current_id());
   }

@@ -167,8 +167,8 @@ bool CommandlineOptions::Parse() {
                 .arg(tr("Skip backwards in playlist"),
                      tr("Skip forwards in playlist"),
                      tr("Set the volume to <value> percent"),
-                     tr("Increase the volume by 4 precent"),
-                     tr("Decrease the volume by 4 precent"),
+                     tr("Increase the volume by 4 percent"),
+                     tr("Decrease the volume by 4 percent"),
                      tr("Increase the volume by <value> percent"),
                      tr("Decrease the volume by <value> percent"))
                 .arg(tr("Seek the currently playing track to an absolute position"),

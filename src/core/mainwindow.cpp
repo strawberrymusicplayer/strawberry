@@ -741,7 +741,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Load theme
   // This is tricky: we need to save the default/system palette now,
-  // before loading user preferred theme (which will overide it), to be able to restore it later
+  // before loading user preferred theme (which will override it), to be able to restore it later
   const_cast<QPalette&>(Appearance::kDefaultPalette) = QApplication::palette();
   app_->appearance()->LoadUserTheme();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);

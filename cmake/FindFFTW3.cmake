@@ -54,8 +54,7 @@ SET(FFTW3_POSSIBLE_LIBRARY_PATH
 )
 
   
-# the lib prefix is containe din filename onf W32, unfortuantely. JW
-# teh "general" lib: 
+# The lib prefix is contained in filename of W32, unfortunately. In the "general" lib:
 FIND_LIBRARY(FFTW3_FFTW_LIBRARY
   NAMES fftw3 libfftw libfftw3 libfftw3-3
   PATHS 

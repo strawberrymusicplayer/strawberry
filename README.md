@@ -30,7 +30,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
 
 It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
 
-**We do not provide releases for macOS, only exprimental builds, they may have issues. There currently isn't any macOS developers actively working on this project.**
+**We do not provide releases for macOS, only experimental builds, they may have issues. There currently isn't any macOS developers actively working on this project.**
 
 ### :heavy_exclamation_mark: Requirements
 

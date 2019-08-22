@@ -225,7 +225,7 @@ namespace TagLib {
        * This is useful for reading strings sequentially.
        */
       String readStringField(const ByteVector &data, String::Type encoding,
-                             int *positon = 0);
+                             int *position = 0);
 
       /*!
        * Checks a the list of string values to see if they can be used with the
@@ -256,7 +256,7 @@ namespace TagLib {
 
 
       /*!
-       * Parses the contents of this frame as PropertyMap. If that fails, the returend
+       * Parses the contents of this frame as PropertyMap. If that fails, the returned
        * PropertyMap will be empty, and its unsupportedData() will contain this frame's
        * ID.
        * BIC: Will be a virtual function in future releases.

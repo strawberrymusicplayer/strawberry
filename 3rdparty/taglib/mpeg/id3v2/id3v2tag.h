@@ -311,7 +311,7 @@ namespace TagLib {
        *    - otherwise, the key "LYRICS:<description>" is used;
        *  - if the frame ID is "TIPL" (involved peoples list), and if all the
        *    roles defined in the frame are known in TextIdentificationFrame::involvedPeopleMap(),
-       *    then "<role>=<name>" will be contained in the returned obejct for each
+       *    then "<role>=<name>" will be contained in the returned object for each
        *  - if the frame ID is "TMCL" (musician credit list), then
        *    "PERFORMER:<instrument>=<name>" will be contained in the returned
        *    PropertyMap for each defined musician

@@ -46,7 +46,7 @@ class SystemTrayIcon : public QObject {
 
   // Called by the OSD
   virtual void ShowPopup(const QString &summary, const QString &message, int timeout) {}
-  // If this get's invoked with image_path equal to nullptr, the tooltip should still be shown - just without the cover art.
+  // If this gets invoked with image_path equal to nullptr, the tooltip should still be shown - just without the cover art.
   virtual void SetNowPlaying(const Song &song, const QUrl &cover_url) {}
   virtual void ClearNowPlaying() {}
 

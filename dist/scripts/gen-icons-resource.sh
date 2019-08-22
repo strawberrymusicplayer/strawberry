@@ -11,12 +11,12 @@ do
 
   id=`identify "$i"` || exit 1
   if [ "$id" = "" ] ; then
-    echo "ERROR: Cannot dermine format and geometry for image: \"$i\"."
+    echo "ERROR: Cannot determine format and geometry for image: \"$i\"."
     continue
   fi
   g=`echo $id | awk '{print $3}'` || exit 1
   if [ "$g" = "" ] ; then
-    echo "ERROR: Cannot dermine geometry for image: \"$i\"."
+    echo "ERROR: Cannot determine geometry for image: \"$i\"."
     continue
   fi
 
@@ -24,12 +24,12 @@ do
   # we need to get rid of the plus (+) and the x characters:
   w=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $1}'` || exit 1
   if [ "$w" = "" ] ; then
-    echo "ERROR: Cannot dermine width for image: \"$x\"."
+    echo "ERROR: Cannot determine width for image: \"$x\"."
     continue
   fi
   h=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $2}'` || exit 1
   if [ "$h" = "" ] ; then
-    echo "ERROR: Cannot dermine height for image: \"$x\"."
+    echo "ERROR: Cannot determine height for image: \"$x\"."
     continue
   fi
 
@@ -66,12 +66,12 @@ do
 
     id=`identify "$x"` || exit 1
     if [ "$id" = "" ] ; then
-      echo "ERROR: Cannot dermine format and geometry for image: \"$x\"."
+      echo "ERROR: Cannot determine format and geometry for image: \"$x\"."
       continue
     fi
     g=`echo $id | awk '{print $3}'` || exit 1
     if [ "$g" = "" ] ; then
-      echo "ERROR: Cannot dermine geometry for image: \"$x\"."
+      echo "ERROR: Cannot determine geometry for image: \"$x\"."
       continue
     fi
 
@@ -79,12 +79,12 @@ do
     # we need to get rid of the plus (+) and the x characters:
     w=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $1}'` || exit 1
     if [ "$w" = "" ] ; then
-      echo "ERROR: Cannot dermine width for image: \"$x\"."
+      echo "ERROR: Cannot determine width for image: \"$x\"."
       continue
     fi
     h=`echo $g | sed 's/[^0-9]/ /g' | awk '{print $2}'` || exit 1
     if [ "$h" = "" ] ; then
-      echo "ERROR: Cannot dermine height for image: \"$x\"."
+      echo "ERROR: Cannot determine height for image: \"$x\"."
       continue
     fi
 
