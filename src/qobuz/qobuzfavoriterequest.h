@@ -22,7 +22,10 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QList>
+#include <QVariant>
+#include <QString>
 
 #include "qobuzbaserequest.h"
 #include "core/song.h"

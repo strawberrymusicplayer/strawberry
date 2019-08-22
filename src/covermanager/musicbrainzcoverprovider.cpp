@@ -62,9 +62,11 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
   QUrl url(kReleaseSearchUrl);
   url.setQuery(url_query);
-  QNetworkRequest request(url);
-
-  QNetworkReply *reply = network_->get(request);
+  QNetworkRequest req(url);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
+  QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply *, int)), reply, id);
 
   return true;

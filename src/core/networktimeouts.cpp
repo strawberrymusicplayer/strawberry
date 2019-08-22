@@ -29,7 +29,6 @@
 
 #include "core/closure.h"
 #include "networktimeouts.h"
-#include "redirectfollower.h"
 
 NetworkTimeouts::NetworkTimeouts(int timeout_msec, QObject *parent)
     : QObject(parent), timeout_msec_(timeout_msec) {}
@@ -44,31 +43,11 @@ void NetworkTimeouts::AddReply(QNetworkReply *reply) {
 
 }
 
-void NetworkTimeouts::AddReply(RedirectFollower *reply) {
-
-  if (redirect_timers_.contains(reply)) {
-    return;
-  }
-
-  NewClosure(reply, SIGNAL(destroyed()), this, SLOT(RedirectFinished(RedirectFollower*)), reply);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RedirectFinished(RedirectFollower*)), reply);
-  redirect_timers_[reply] = startTimer(timeout_msec_);
-
-}
-
 void NetworkTimeouts::ReplyFinished() {
 
   QNetworkReply *reply = reinterpret_cast<QNetworkReply*>(sender());
   if (timers_.contains(reply)) {
     killTimer(timers_.take(reply));
-  }
-
-}
-
-void NetworkTimeouts::RedirectFinished(RedirectFollower *reply) {
-
-  if (redirect_timers_.contains(reply)) {
-    killTimer(redirect_timers_.take(reply));
   }
 
 }
@@ -80,11 +59,5 @@ void NetworkTimeouts::timerEvent(QTimerEvent *e) {
     reply->abort();
   }
 
-  RedirectFollower *redirect = redirect_timers_.key(e->timerId());
-  if (redirect) {
-    redirect->abort();
-  }
-
 }
-
 

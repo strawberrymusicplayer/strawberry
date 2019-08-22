@@ -31,7 +31,6 @@
 
 class QNetworkReply;
 class QTimerEvent;
-class RedirectFollower;
 
 class NetworkTimeouts : public QObject {
   Q_OBJECT
@@ -39,9 +38,7 @@ class NetworkTimeouts : public QObject {
  public:
   explicit NetworkTimeouts(int timeout_msec, QObject *parent = nullptr);
 
-  // TODO: Template this to avoid code duplication.
   void AddReply(QNetworkReply *reply);
-  void AddReply(RedirectFollower *reply);
   void SetTimeout(int msec) { timeout_msec_ = msec; }
 
  protected:
@@ -49,12 +46,11 @@ class NetworkTimeouts : public QObject {
 
  private slots:
   void ReplyFinished();
-  void RedirectFinished(RedirectFollower *redirect);
 
  private:
   int timeout_msec_;
   QMap<QNetworkReply*, int> timers_;
-  QMap<RedirectFollower*, int> redirect_timers_;
+
 };
 
 #endif  // NETWORKTIMEOUTS_H

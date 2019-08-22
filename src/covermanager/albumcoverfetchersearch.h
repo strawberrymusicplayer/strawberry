@@ -37,10 +37,10 @@
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
 
+class QNetworkReply;
 class CoverProvider;
 class CoverProviders;
 class NetworkTimeouts;
-class RedirectFollower;
 
 // This class encapsulates a single search for covers initiated by an AlbumCoverFetcher.
 // The search engages all of the known cover providers.
@@ -67,7 +67,7 @@ class AlbumCoverFetcherSearch : public QObject {
 
  private slots:
   void ProviderSearchFinished(const int id, const CoverSearchResults &results);
-  void ProviderCoverFetchFinished(RedirectFollower *reply);
+  void ProviderCoverFetchFinished(QNetworkReply *reply);
   void TerminateSearch();
 
  private:
@@ -92,7 +92,7 @@ class AlbumCoverFetcherSearch : public QObject {
   CoverSearchResults results_;
 
   QMap<int, CoverProvider*> pending_requests_;
-  QMap<RedirectFollower*, CoverSearchResult> pending_image_loads_;
+  QMap<QNetworkReply*, CoverSearchResult> pending_image_loads_;
   NetworkTimeouts* image_load_timeout_;
 
   // QMap is sorted by key (score).  Values are (result, image)

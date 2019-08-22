@@ -92,7 +92,6 @@ set(SOURCES
   core/musicstorage.cpp
   core/network.cpp
   core/networktimeouts.cpp
-  core/redirectfollower.cpp
   core/networkproxyfactory.cpp
   core/qtfslistener.cpp
   core/settingsprovider.cpp
@@ -301,7 +300,6 @@ set(HEADERS
   core/mergedproxymodel.h
   core/network.h
   core/networktimeouts.h
-  core/redirectfollower.h
   core/qtfslistener.h
   core/songloader.h
   core/tagreaderclient.h

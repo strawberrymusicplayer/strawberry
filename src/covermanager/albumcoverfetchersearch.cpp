@@ -39,7 +39,6 @@
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/networktimeouts.h"
-#include "core/redirectfollower.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"
 #include "coverprovider.h"
@@ -183,12 +182,16 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
     qLog(Debug) << "Loading" << result.image_url << "from" << result.provider;
 
-    RedirectFollower *image_reply = new RedirectFollower(network_->get(QNetworkRequest(result.image_url)));
-    NewClosure(image_reply, SIGNAL(finished()), this, SLOT(ProviderCoverFetchFinished(RedirectFollower*)), image_reply);
+    QNetworkRequest req(result.image_url);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+    req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
+    QNetworkReply *image_reply = network_->get(req);
+    NewClosure(image_reply, SIGNAL(finished()), this, SLOT(ProviderCoverFetchFinished(QNetworkReply*)), image_reply);
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);
 
-    statistics_.network_requests_made_++;
+    ++statistics_.network_requests_made_;
   }
 
   if (pending_image_loads_.isEmpty()) {
@@ -198,7 +201,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
 }
 
-void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(RedirectFollower *reply) {
+void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
   reply->deleteLater();
 
@@ -298,7 +301,7 @@ void AlbumCoverFetcherSearch::Cancel() {
     TerminateSearch();
   }
   else if (!pending_image_loads_.isEmpty()) {
-    for (RedirectFollower *reply : pending_image_loads_.keys()) {
+    for (QNetworkReply *reply : pending_image_loads_.keys()) {
       reply->abort();
     }
     pending_image_loads_.clear();

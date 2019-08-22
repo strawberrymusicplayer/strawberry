@@ -105,6 +105,10 @@ QobuzService::QobuzService(Application *app, QObject *parent)
 
   app->player()->RegisterUrlHandler(url_handler_);
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+  network_->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
+
   // Backends
 
   artists_collection_backend_ = new CollectionBackend();
