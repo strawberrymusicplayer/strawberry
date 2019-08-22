@@ -44,7 +44,7 @@ About::About(QWidget *parent):QDialog(parent) {
   strawberry_authors_ \
            << Person("Jonas Kvinge", "jonas@jkvinge.net");
 
-  strawberry_constributors_ \
+  strawberry_contributors_ \
            << Person("Gavin D. Howard", "yzena.tech@gmail.com")
            << Person("Martin Delille", "martin@lylo.tv");
 
@@ -59,7 +59,7 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person(QString::fromUtf8("Paweł Bara"), "keirangtp@gmail.com")
            << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
 
-  clementine_constributors_ \
+  clementine_contributors_ \
            << Person("Mark Kretschmann", "kretschmann@kde.org")
            << Person("Max Howell", "max.howell@methylblue.com")
            << Person("Jakub Stachowski", "qbast@go2.pl")
@@ -96,8 +96,8 @@ About::About(QWidget *parent):QDialog(parent) {
   ui_.label_title->setText(Title);
 
   ui_.label_text->setText(MainHtml());
-  ui_.text_constributors->setText(ContributorsHtml());
-  ui_.text_constributors->updateGeometry();
+  ui_.text_contributors->setText(ContributorsHtml());
+  ui_.text_contributors->updateGeometry();
   updateGeometry();
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
@@ -145,7 +145,7 @@ QString About::ContributorsHtml() const {
   ret += "</p>";
 
   ret += tr("<p><b>Strawberry contributors</b>");
-  for (const Person &person : strawberry_constributors_) {
+  for (const Person &person : strawberry_contributors_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";
@@ -163,7 +163,7 @@ QString About::ContributorsHtml() const {
   ret += "</p>";
 
   ret += tr("<p><b>Clementine contributors</b>");
-  for (const Person &person : clementine_constributors_) {
+  for (const Person &person : clementine_contributors_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";

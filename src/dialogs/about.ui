@@ -119,7 +119,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTextBrowser" name="text_constributors">
+        <widget class="QTextBrowser" name="text_contributors">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>

@@ -56,10 +56,10 @@ class About : public QDialog {
   Ui::About ui_;
 
   QList<Person> strawberry_authors_;
-  QList<Person> strawberry_constributors_;
+  QList<Person> strawberry_contributors_;
   QList<Person> strawberry_thanks_;
   QList<Person> clementine_authors_;
-  QList<Person> clementine_constributors_;
+  QList<Person> clementine_contributors_;
 };
 
 #endif  // ABOUT_H
