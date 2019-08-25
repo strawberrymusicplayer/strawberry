@@ -783,7 +783,9 @@ QString DesktopEnvironment() {
 
 QString UnicodeToAscii(const QString &unicode) {
 
+#ifdef LC_ALL
   setlocale(LC_ALL, "");
+#endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
   if (conv == (iconv_t) -1) return QString();
