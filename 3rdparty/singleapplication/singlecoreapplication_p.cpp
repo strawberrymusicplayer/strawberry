@@ -60,14 +60,12 @@
 #endif
 
 SingleCoreApplicationPrivate::SingleCoreApplicationPrivate(SingleCoreApplication *q_ptr)
-  : q_ptr(q_ptr) {
-
-  server = nullptr;
-  socket = nullptr;
-  memory = nullptr;
-  instanceNumber = -1;
-
-}
+  : q_ptr(q_ptr),
+    memory(nullptr),
+    socket(nullptr),
+    server(nullptr),
+    instanceNumber(-1)
+    {}
 
 SingleCoreApplicationPrivate::~SingleCoreApplicationPrivate() {
 
