@@ -805,13 +805,23 @@ MP4::Tag::setGenre(const String &value)
 void
 MP4::Tag::setYear(unsigned int value)
 {
-  d->items["\251day"] = StringList(String::number(value));
+  if (value == 0) {
+    d->items.erase("\251day");
+  }
+  else {
+    d->items["\251day"] = StringList(String::number(value));
+  }
 }
 
 void
 MP4::Tag::setTrack(unsigned int value)
 {
-  d->items["trkn"] = MP4::Item(value, 0);
+  if (value == 0) {
+    d->items.erase("trkn");
+  }
+  else {
+    d->items["trkn"] = MP4::Item(value, 0);
+  }
 }
 
 bool MP4::Tag::isEmpty() const
