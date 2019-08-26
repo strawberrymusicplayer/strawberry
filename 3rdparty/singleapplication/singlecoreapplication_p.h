@@ -24,76 +24,80 @@
 //  W A R N I N G !!!
 //  -----------------
 //
-// This file is not part of the SingleCoreApplication API. It is used purely as an
-// implementation detail. This header file may change from version to
-// version without notice, or may even be removed.
+// This is a modified version of SingleApplication,
+// The original version is at:
+//
+// https://github.com/itay-grudev/SingleApplication
+//
 //
 
 #ifndef SINGLECOREAPPLICATION_P_H
 #define SINGLECOREAPPLICATION_P_H
 
-#include <QtCore/QSharedMemory>
-#include <QtNetwork/QLocalServer>
-#include <QtNetwork/QLocalSocket>
+#include <QtGlobal>
+#include <QLocalSocket>
+#include <QLocalServer>
+#include <QSharedMemory>
+#include <QMap>
+
 #include "singlecoreapplication.h"
 
 struct InstancesInfo {
-    bool primary;
-    quint32 secondary;
-    qint64 primaryPid;
-    quint16 checksum;
+  bool primary;
+  quint32 secondary;
+  qint64 primaryPid;
+  quint16 checksum;
 };
 
 struct ConnectionInfo {
-    explicit ConnectionInfo() :
-        msgLen(0), instanceId(0), stage(0) {}
-    qint64 msgLen;
-    quint32 instanceId;
-    quint8 stage;
+  explicit ConnectionInfo() : msgLen(0), instanceId(0), stage(0) {}
+  qint64 msgLen;
+  quint32 instanceId;
+  quint8 stage;
 };
 
 class SingleCoreApplicationPrivate : public QObject {
-Q_OBJECT
-public:
-    enum ConnectionType : quint8 {
-        InvalidConnection = 0,
-        NewInstance = 1,
-        SecondaryInstance = 2,
-        Reconnect = 3
-    };
-    enum ConnectionStage : quint8 {
-        StageHeader = 0,
-        StageBody = 1,
-        StageConnected = 2,
-    };
-    Q_DECLARE_PUBLIC(SingleCoreApplication)
+  Q_OBJECT
+ public:
+  enum ConnectionType : quint8 {
+    InvalidConnection = 0,
+    NewInstance = 1,
+    SecondaryInstance = 2,
+    Reconnect = 3
+  };
+  enum ConnectionStage : quint8 {
+    StageHeader = 0,
+    StageBody = 1,
+    StageConnected = 2,
+  };
+  Q_DECLARE_PUBLIC(SingleCoreApplication)
 
-    SingleCoreApplicationPrivate( SingleCoreApplication *q_ptr );
-     ~SingleCoreApplicationPrivate();
+  SingleCoreApplicationPrivate( SingleCoreApplication *q_ptr );
+  ~SingleCoreApplicationPrivate();
 
-    void genBlockServerName();
-    void initializeMemoryBlock();
-    void startPrimary();
-    void startSecondary();
-    void connectToPrimary(int msecs, ConnectionType connectionType );
-    quint16 blockChecksum();
-    qint64 primaryPid();
-    void readInitMessageHeader(QLocalSocket *socket);
-    void readInitMessageBody(QLocalSocket *socket);
+  void genBlockServerName();
+  void initializeMemoryBlock();
+  void startPrimary();
+  void startSecondary();
+  void connectToPrimary(int msecs, ConnectionType connectionType );
+  quint16 blockChecksum();
+  qint64 primaryPid();
+  void readInitMessageHeader(QLocalSocket *socket);
+  void readInitMessageBody(QLocalSocket *socket);
 
-    SingleCoreApplication *q_ptr;
-    QSharedMemory *memory;
-    QLocalSocket *socket;
-    QLocalServer *server;
-    quint32 instanceNumber;
-    QString blockServerName;
-    SingleCoreApplication::Options options;
-    QMap<QLocalSocket*, ConnectionInfo> connectionMap;
+  SingleCoreApplication *q_ptr;
+  QSharedMemory *memory;
+  QLocalSocket *socket;
+  QLocalServer *server;
+  quint32 instanceNumber;
+  QString blockServerName;
+  SingleCoreApplication::Options options;
+  QMap<QLocalSocket*, ConnectionInfo> connectionMap;
 
-public Q_SLOTS:
-    void slotConnectionEstablished();
-    void slotDataAvailable( QLocalSocket*, quint32 );
-    void slotClientConnectionClosed( QLocalSocket*, quint32 );
+ public slots:
+  void slotConnectionEstablished();
+  void slotDataAvailable(QLocalSocket*, quint32);
+  void slotClientConnectionClosed(QLocalSocket*, quint32);
 };
 
-#endif // SINGLECOREAPPLICATION_P_H
+#endif  // SINGLECOREAPPLICATION_P_H
