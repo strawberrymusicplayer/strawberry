@@ -123,7 +123,6 @@ void SingleApplicationPrivate::genBlockServerName() {
         username = pw->pw_name;
       }
     }
-    qDebug() << username;
 #endif
     if (username.isEmpty()) username = qgetenv("USER");
     appData.addData(username);
