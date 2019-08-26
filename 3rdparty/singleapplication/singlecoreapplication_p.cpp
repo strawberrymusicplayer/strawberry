@@ -132,6 +132,9 @@ void SingleCoreApplicationPrivate::genBlockServerName() {
     if (GetUserNameW(username, &usernameLength)) {
       appData.addData(QString::fromWCharArray(username).toUtf8());
     }
+    else {
+      appData.addData(qgetenv("USERNAME"));
+    }
 #endif
   }
 
