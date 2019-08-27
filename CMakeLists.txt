@@ -347,14 +347,20 @@ optional_component(MOODBAR ON "Moodbar"
   DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
-if(APPLE)
-  option(USE_BUNDLE "Bundle macOS dependencies" OFF)
+if(LINUX OR APPLE)
+  option(USE_BUNDLE "Bundle dependencies" OFF)
 elseif(WIN32)
-  option(USE_BUNDLE "Bundle Windows dependencies" ON)
+  option(USE_BUNDLE "Bundle dependencies" ON)
 endif()
-if (APPLE AND USE_BUNDLE AND NOT USE_BUNDLE_DIR)
+
+if (USE_BUNDLE AND NOT USE_BUNDLE_DIR)
+if(LINUX)
+  set(USE_BUNDLE_DIR "../plugins")
+endif(LINUX)
+if(APPLE)
   set(USE_BUNDLE_DIR "../PlugIns")
-endif()
+endif(APPLE)
+endif(USE_BUNDLE AND NOT USE_BUNDLE_DIR)
 
 # Check that we have sqlite3 with FTS5
 

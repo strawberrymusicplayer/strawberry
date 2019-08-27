@@ -66,7 +66,7 @@ void GstStartup::SetEnvironment() {
 
 // On Windows and macOS we bundle the gstreamer plugins with strawberry
 #ifdef USE_BUNDLE
-#if defined(Q_OS_MACOS)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
   scanner_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gst-plugin-scanner";
   plugin_path = QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR + "/gstreamer";
 #elif defined(Q_OS_WIN32)
