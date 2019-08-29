@@ -74,7 +74,6 @@
 #include "stylehelper.h"
 #include "stylesheetloader.h"
 #include "systemtrayicon.h"
-#include "windows7thumbbar.h"
 #include "application.h"
 #include "database.h"
 #include "player.h"
@@ -167,6 +166,10 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+#ifdef Q_OS_WIN
+#  include "windows7thumbbar.h"
+#endif
+
 using std::bind;
 using std::floor;
 using std::stable_sort;
@@ -182,7 +185,9 @@ const int kTrackPositionUpdateTimeMs = 1000;
 MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, const CommandlineOptions &options, QWidget *parent) :
       QMainWindow(parent),
       ui_(new Ui_MainWindow),
+#ifdef Q_OS_WIN
       thumbbar_(new Windows7ThumbBar(this)),
+#endif
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
@@ -662,7 +667,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   }
 
   // Windows 7 thumbbar buttons
+#ifdef Q_OS_WIN
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
+#endif
 
 #if (defined(Q_OS_MACOS) && defined(HAVE_SPARKLE))
   // Add check for updates item to application menu.
@@ -2389,12 +2396,15 @@ void MainWindow::Raise() {
   activateWindow();
 }
 
-#ifdef Q_OS_WIN32
-bool MainWindow::winEvent(MSG *msg, long*) {
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
+
+#ifdef Q_OS_WIN
+  MSG *msg = static_cast<MSG*>(message);
   thumbbar_->HandleWinEvent(msg);
+#endif
   return false;
+
 }
-#endif  // Q_OS_WIN32
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void MainWindow::AutoCompleteTags() {

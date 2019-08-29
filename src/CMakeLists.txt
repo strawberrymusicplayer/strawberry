@@ -110,7 +110,6 @@ set(SOURCES
   core/qtsystemtrayicon.cpp
   core/standarditemiconloader.cpp
   core/systemtrayicon.cpp
-  core/windows7thumbbar.cpp
   core/screensaver.cpp
   core/scopedtransaction.cpp
   core/translations.cpp
@@ -308,7 +307,6 @@ set(HEADERS
   core/qtsystemtrayicon.h
   core/standarditemiconloader.h
   core/systemtrayicon.h
-  core/windows7thumbbar.h
   core/mimedata.h
 
   engine/enginebase.h
@@ -875,6 +873,9 @@ optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
     widgets/osd_win.cpp
+    core/windows7thumbbar.cpp
+  HEADERS
+    core/windows7thumbbar.h
 )
 
 optional_source(HAVE_TIDAL
