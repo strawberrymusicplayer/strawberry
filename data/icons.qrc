@@ -57,11 +57,13 @@
         <file>icons/128x128/mcintosh-player.png</file>
         <file>icons/128x128/mcintosh-text.png</file>
         <file>icons/128x128/media-eject.png</file>
-        <file>icons/128x128/media-forward.png</file>
         <file>icons/128x128/media-pause.png</file>
         <file>icons/128x128/media-play.png</file>
-        <file>icons/128x128/media-rewind.png</file>
         <file>icons/128x128/media-stop.png</file>
+        <file>icons/128x128/media-skip-forward.png</file>
+        <file>icons/128x128/media-skip-backward.png</file>
+        <file>icons/128x128/media-seek-forward.png</file>
+        <file>icons/128x128/media-seek-backward.png</file>
         <file>icons/128x128/nvidia.png</file>
         <file>icons/128x128/realtek.png</file>
         <file>icons/128x128/search.png</file>
@@ -146,11 +148,13 @@
         <file>icons/64x64/mcintosh-player.png</file>
         <file>icons/64x64/mcintosh-text.png</file>
         <file>icons/64x64/media-eject.png</file>
-        <file>icons/64x64/media-forward.png</file>
         <file>icons/64x64/media-pause.png</file>
         <file>icons/64x64/media-play.png</file>
-        <file>icons/64x64/media-rewind.png</file>
         <file>icons/64x64/media-stop.png</file>
+        <file>icons/64x64/media-skip-forward.png</file>
+        <file>icons/64x64/media-skip-backward.png</file>
+        <file>icons/64x64/media-seek-forward.png</file>
+        <file>icons/64x64/media-seek-backward.png</file>
         <file>icons/64x64/nvidia.png</file>
         <file>icons/64x64/pulseaudio.png</file>
         <file>icons/64x64/realtek.png</file>
@@ -237,13 +241,15 @@
         <file>icons/48x48/mcintosh.png</file>
         <file>icons/48x48/mcintosh-text.png</file>
         <file>icons/48x48/media-eject.png</file>
-        <file>icons/48x48/media-forward.png</file>
         <file>icons/48x48/media-pause.png</file>
         <file>icons/48x48/media-playlist-repeat.png</file>
         <file>icons/48x48/media-playlist-shuffle.png</file>
         <file>icons/48x48/media-play.png</file>
-        <file>icons/48x48/media-rewind.png</file>
         <file>icons/48x48/media-stop.png</file>
+        <file>icons/48x48/media-skip-forward.png</file>
+        <file>icons/48x48/media-skip-backward.png</file>
+        <file>icons/48x48/media-seek-forward.png</file>
+        <file>icons/48x48/media-seek-backward.png</file>
         <file>icons/48x48/nvidia.png</file>
         <file>icons/48x48/pulseaudio.png</file>
         <file>icons/48x48/realtek.png</file>
@@ -330,13 +336,15 @@
         <file>icons/32x32/mcintosh.png</file>
         <file>icons/32x32/mcintosh-text.png</file>
         <file>icons/32x32/media-eject.png</file>
-        <file>icons/32x32/media-forward.png</file>
         <file>icons/32x32/media-pause.png</file>
         <file>icons/32x32/media-playlist-repeat.png</file>
         <file>icons/32x32/media-playlist-shuffle.png</file>
         <file>icons/32x32/media-play.png</file>
-        <file>icons/32x32/media-rewind.png</file>
         <file>icons/32x32/media-stop.png</file>
+        <file>icons/32x32/media-skip-forward.png</file>
+        <file>icons/32x32/media-skip-backward.png</file>
+        <file>icons/32x32/media-seek-forward.png</file>
+        <file>icons/32x32/media-seek-backward.png</file>
         <file>icons/32x32/nvidia.png</file>
         <file>icons/32x32/pulseaudio.png</file>
         <file>icons/32x32/realtek.png</file>
@@ -423,13 +431,15 @@
         <file>icons/22x22/mcintosh.png</file>
         <file>icons/22x22/mcintosh-text.png</file>
         <file>icons/22x22/media-eject.png</file>
-        <file>icons/22x22/media-forward.png</file>
         <file>icons/22x22/media-pause.png</file>
         <file>icons/22x22/media-playlist-repeat.png</file>
         <file>icons/22x22/media-playlist-shuffle.png</file>
         <file>icons/22x22/media-play.png</file>
-        <file>icons/22x22/media-rewind.png</file>
         <file>icons/22x22/media-stop.png</file>
+        <file>icons/22x22/media-skip-forward.png</file>
+        <file>icons/22x22/media-skip-backward.png</file>
+        <file>icons/22x22/media-seek-forward.png</file>
+        <file>icons/22x22/media-seek-backward.png</file>
         <file>icons/22x22/nvidia.png</file>
         <file>icons/22x22/pulseaudio.png</file>
         <file>icons/22x22/realtek.png</file>

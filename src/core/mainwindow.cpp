@@ -347,11 +347,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->action_open_file->setIcon(IconLoader::Load("document-open"));
   ui_->action_open_cd->setIcon(IconLoader::Load("cd"));
-  ui_->action_previous_track->setIcon(IconLoader::Load("media-rewind"));
+  ui_->action_previous_track->setIcon(IconLoader::Load("media-skip-backward"));
   ui_->action_play_pause->setIcon(IconLoader::Load("media-play"));
   ui_->action_stop->setIcon(IconLoader::Load("media-stop"));
   ui_->action_stop_after_this_track->setIcon(IconLoader::Load("media-stop"));
-  ui_->action_next_track->setIcon(IconLoader::Load("media-forward"));
+  ui_->action_next_track->setIcon(IconLoader::Load("media-skip-forward"));
   ui_->action_quit->setIcon(IconLoader::Load("application-exit"));
 
   // Playlist
@@ -601,7 +601,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   playlist_queue_play_next_ = playlist_menu_->addAction(IconLoader::Load("go-next"), tr("Queue selected tracks to play next"), this, SLOT(PlaylistQueuePlayNext()));
   playlist_queue_play_next_->setShortcut(QKeySequence("Ctrl+Shift+D"));
   ui_->playlist->addAction(playlist_queue_play_next_);
-  playlist_skip_ = playlist_menu_->addAction(IconLoader::Load("media-forward"), tr("Toggle skip status"), this, SLOT(PlaylistSkip()));
+  playlist_skip_ = playlist_menu_->addAction(IconLoader::Load("media-skip-forward"), tr("Toggle skip status"), this, SLOT(PlaylistSkip()));
   ui_->playlist->addAction(playlist_skip_);
 
   playlist_menu_->addSeparator();
@@ -1641,7 +1641,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   if (not_in_queue == 0) playlist_queue_->setIcon(IconLoader::Load("go-previous"));
   else playlist_queue_->setIcon(IconLoader::Load("go-next"));
 
-  if (in_skipped < selected) playlist_skip_->setIcon(IconLoader::Load("media-forward"));
+  if (in_skipped < selected) playlist_skip_->setIcon(IconLoader::Load("media-skip-forward"));
   else playlist_skip_->setIcon(IconLoader::Load("media-play"));
 
 
