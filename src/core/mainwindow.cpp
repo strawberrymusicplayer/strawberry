@@ -1329,12 +1329,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
   settings.endGroup();
 
   if (keep_running && event->spontaneous() && QSystemTrayIcon::isSystemTrayAvailable()) {
-    event->ignore();
     SetHiddenInTray(true);
   }
   else {
     Exit();
   }
+  event->ignore();
 
 }
 
