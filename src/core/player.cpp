@@ -291,7 +291,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
     case UrlHandler::LoadResult::TrackAvailable: {
 
-      qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.media_url_;
+      qLog(Debug) << "URL handler for" << result.original_url_ << "returned" << result.stream_url_;
 
       Song song;
       if (is_current) song = item->Metadata();
@@ -299,14 +299,14 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       bool update(false);
 
-      // Set the media url in the temporary metadata.
+      // Set the stream url in the temporary metadata.
       if (
-        (result.media_url_.isValid())
+        (result.stream_url_.isValid())
         &&
-        (result.media_url_ != song.url())
+        (result.stream_url_ != song.url())
          )
       {
-        song.set_stream_url(result.media_url_);
+        song.set_stream_url(result.stream_url_);
         update = true;
       }
 
@@ -351,13 +351,13 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
 
       if (is_current) {
-        qLog(Debug) << "Playing song" << item->Metadata().title() << result.media_url_;
-        engine_->Play(result.media_url_, result.original_url_, stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
+        qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_;
+        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
         current_item_ = item;
       }
       else if (is_next) {
-        qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.media_url_;
-        engine_->StartPreloading(result.media_url_, next_item->Url(), next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
+        qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
+        engine_->StartPreloading(result.stream_url_, next_item->Url(), next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
       }
 
       break;
@@ -595,7 +595,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   }
 
   current_item_ = app_->playlist_manager()->active()->current_item();
-  const QUrl url = (current_item_->MediaUrl().isValid() ? current_item_->MediaUrl() : current_item_->Url());
+  const QUrl url = (current_item_->StreamUrl().isValid() ? current_item_->StreamUrl() : current_item_->Url());
 
   if (url_handlers_.contains(url.scheme())) {
     // It's already loading
@@ -663,32 +663,13 @@ void Player::EngineMetadataReceived(const Engine::SimpleMetaBundle &bundle) {
   PlaylistItemPtr item = app_->playlist_manager()->active()->current_item();
   if (!item) return;
 
-  if (bundle.url != item->Metadata().url()) return;
+  if (bundle.url != item->Url()) return;
 
   Engine::SimpleMetaBundle bundle_copy = bundle;
-
-  // Maybe the metadata is from icycast and has "Artist - Title" shoved together in the title field.
-  const int dash_pos = bundle_copy.title.indexOf('-');
-  if (dash_pos != -1 && bundle_copy.artist.isEmpty()) {
-    // Split on " - " if it exists, otherwise split on "-".
-    const int space_dash_pos = bundle_copy.title.indexOf(" - ");
-    if (space_dash_pos != -1) {
-      bundle_copy.artist = bundle_copy.title.left(space_dash_pos).trimmed();
-      bundle_copy.title = bundle_copy.title.mid(space_dash_pos + 3).trimmed();
-    }
-    else {
-      bundle_copy.artist = bundle_copy.title.left(dash_pos).trimmed();
-      bundle_copy.title = bundle_copy.title.mid(dash_pos + 1).trimmed();
-    }
-  }
-
   Song song = item->Metadata();
-  song.MergeFromSimpleMetaBundle(bundle_copy);
+  bool minor = song.MergeFromSimpleMetaBundle(bundle);
 
-  // Ignore useless metadata
-  if (song.title().isEmpty() && song.artist().isEmpty()) return;
-
-  app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song);
+  app_->playlist_manager()->active()->SetStreamMetadata(item->Url(), song, minor);
 
 }
 
@@ -768,7 +749,7 @@ void Player::TrackAboutToEnd() {
   // Crossfade is off, so start preloading the next track so we don't get a gap between songs.
   if (!has_next_row || !next_item) return;
 
-  QUrl url = (next_item->MediaUrl().isValid() ? next_item->MediaUrl() : next_item->Url());
+  QUrl url = (next_item->StreamUrl().isValid() ? next_item->StreamUrl() : next_item->Url());
 
   // Get the actual track URL rather than the stream URL.
   if (url_handlers_.contains(url.scheme())) {
@@ -784,7 +765,7 @@ void Player::TrackAboutToEnd() {
         loading_async_ << url;
         return;
       case UrlHandler::LoadResult::TrackAvailable:
-        url = result.media_url_;
+        url = result.stream_url_;
         break;
     }
   }

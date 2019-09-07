@@ -704,6 +704,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   // Context
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), context_view_, SLOT(SongChanged(Song)));
+  connect(app_->playlist_manager(), SIGNAL(SongMetadataChanged(Song)), context_view_, SLOT(SongChanged(Song)));
   connect(app_->player(), SIGNAL(PlaylistFinished()), context_view_, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Playing()), context_view_, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Stopped()), context_view_, SLOT(Stopped()));
@@ -854,7 +855,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   RefreshStyleSheet();
 
-  qLog(Debug) << "Started";
+  qLog(Debug) << "Started" << QThread::currentThread();
   initialised_ = true;
 
   app_->scrobbler()->ConnectError();

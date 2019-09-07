@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -51,6 +52,7 @@ void GstStartup::InitialiseGStreamer() {
   SetEnvironment();
 
   gst_init(nullptr, nullptr);
+  gst_pb_utils_init();
 
 #ifdef HAVE_MOODBAR
   gstfastspectrum_register_static();

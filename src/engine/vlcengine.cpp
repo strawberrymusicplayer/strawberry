@@ -98,12 +98,12 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   if (!Initialised()) return false;
 
   // Create the media object
-  VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, media_url.toEncoded().constData()));
+  VlcScopedRef<libvlc_media_t> media(libvlc_media_new_location(instance_, stream_url.toEncoded().constData()));
 
   libvlc_media_player_set_media(player_, media);
 

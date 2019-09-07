@@ -140,6 +140,7 @@ Playlist *PlaylistManager::AddPlaylist(int id, const QString &name, const QStrin
   ret->set_ui_path(ui_path);
 
   connect(ret, SIGNAL(CurrentSongChanged(Song)), SIGNAL(CurrentSongChanged(Song)));
+  connect(ret, SIGNAL(SongMetadataChanged(Song)), SIGNAL(SongMetadataChanged(Song)));
   connect(ret, SIGNAL(PlaylistChanged()), SLOT(OneOfPlaylistsChanged()));
   connect(ret, SIGNAL(PlaylistChanged()), SLOT(UpdateSummaryText()));
   connect(ret, SIGNAL(EditingFinished(QModelIndex)), SIGNAL(EditingFinished(QModelIndex)));

@@ -281,7 +281,7 @@ class Playlist : public QAbstractListModel {
   void IgnoreSorting(bool value) { ignore_sorting_ = value; }
 
   void ClearStreamMetadata();
-  void SetStreamMetadata(const QUrl &url, const Song &song);
+  void SetStreamMetadata(const QUrl &url, const Song &song, const bool minor);
   void ItemChanged(PlaylistItemPtr item);
   void UpdateItems(const SongList &songs);
 
@@ -298,10 +298,11 @@ class Playlist : public QAbstractListModel {
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const QList<int> &indices);
 
-signals:
+ signals:
   void RestoreFinished();
   void PlaylistLoaded();
   void CurrentSongChanged(const Song &metadata);
+  void SongMetadataChanged(const Song &metadata);
   void EditingFinished(const QModelIndex &index);
   void PlayRequested(const QModelIndex &index);
 
@@ -314,7 +315,7 @@ signals:
   // Signals that the queue has changed, meaning that the remaining queued items should update their position.
   void QueueChanged();
 
-private:
+ private:
   void SetCurrentIsPaused(bool paused);
   int NextVirtualIndex(int i, bool ignore_repeat_track) const;
   int PreviousVirtualIndex(int i, bool ignore_repeat_track) const;
@@ -346,7 +347,7 @@ private:
   void ItemsLoaded(QFuture<PlaylistItemList> future);
   void SongInsertVetoListenerDestroyed();
 
-private:
+ private:
   bool is_loading_;
   PlaylistFilter *proxy_;
   Queue *queue_;
@@ -396,8 +397,4 @@ private:
 
 };
 
-// QDataStream& operator <<(QDataStream&, const Playlist*);
-// QDataStream& operator >>(QDataStream&, Playlist*&);
-
 #endif  // PLAYLIST_H
-

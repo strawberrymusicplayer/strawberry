@@ -1478,29 +1478,25 @@ void Playlist::StopAfter(int row) {
 
 }
 
-void Playlist::SetStreamMetadata(const QUrl &url, const Song &song) {
+void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool minor) {
 
-  if (!current_item()) return;
-  if (current_item()->Url() != url) return;
+  if (!current_item() || current_item()->Url() != url) return;
 
-  // Don't update the metadata if it's only a minor change from before
-  if (
-      current_item()->Metadata().filetype() == song.filetype() &&
-      current_item()->Metadata().artist() == song.artist() &&
-      current_item()->Metadata().title() == song.title() &&
-      current_item()->Metadata().album() == song.album()
-  ) return;
-
-  // TODO: Update context & playlist if changed, but don't show popup.
-  //(song.bitrate() <= 0 || current_item()->Metadata().bitrate() == song.bitrate())
-  //(song.samplerate() <= 0 || current_item()->Metadata().samplerate() == song.samplerate())
-  //(song.bitdepth() <= 0 || current_item()->Metadata().bitdepth() == song.bitdepth())
-
-  qLog(Debug) << "Setting metadata for" << url << "to" << song.artist() << song.title();
+  //qLog(Debug) << "Setting temporary metadata for" << url;
 
   current_item()->SetTemporaryMetadata(song);
 
-  InformOfCurrentSongChange();
+  if (minor) {
+    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    // if the song is invalid, we won't play it - there's no point in informing anybody about the change
+    const Song metadata(current_item_metadata());
+    if (metadata.is_valid()) {
+      emit SongMetadataChanged(metadata);
+    }
+  }
+  else {
+    InformOfCurrentSongChange();
+  }
 
   UpdateScrobblePoint();
 
@@ -1936,12 +1932,11 @@ bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, bool valid) {
     Song current_song = current->Metadata();
 
     // If validity has changed, reload the item
-    // FIXME: Why?
-    // Removed this because it caused "Empty filename passed to function" errors when not using local filenames.
-    // It also causes Context and Playing widget to reload the image and getting stuck in playing mode when the URL is broken.
-    //if(!current_song.is_cdda() && current_song.url() == url && current_song.is_valid() != QFile::exists(current_song.url().toLocalFile())) {
-      //ReloadItems(QList<int>() << current_row());
-    //}
+    if (current_song.source() == Song::Source_LocalFile || current_song.source() == Song::Source_Collection) {
+      if (current_song.url() == url && current_song.url().isLocalFile() && current_song.is_valid() != QFile::exists(current_song.url().toLocalFile())) {
+        ReloadItems(QList<int>() << current_row());
+      }
+    }
 
     // Gray out the song if it's now broken; otherwise undo the gray color
     if (valid) {

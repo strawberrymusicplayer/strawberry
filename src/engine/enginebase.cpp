@@ -59,11 +59,11 @@ Engine::Base::Base()
 
 Engine::Base::~Base() {}
 
-bool Engine::Base::Load(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Load(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   Q_UNUSED(force_stop_at_end);
 
-  media_url_ = media_url;
+  stream_url_ = stream_url;
   original_url_ = original_url;
   beginning_nanosec_ = beginning_nanosec;
   end_nanosec_ = end_nanosec;
@@ -73,9 +73,9 @@ bool Engine::Base::Load(const QUrl &media_url, const QUrl &original_url, TrackCh
 
 }
 
-bool Engine::Base::Play(const QUrl &media_url, const QUrl &original_url, TrackChangeFlags flags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags flags, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
-  if (!Load(media_url, original_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec))
+  if (!Load(stream_url, original_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec))
     return false;
 
   return Play(0);

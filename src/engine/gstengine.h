@@ -69,8 +69,8 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   bool Init();
   Engine::State state() const;
-  void StartPreloading(const QUrl &media_url, const QUrl &original_url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec);
-  bool Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
+  void StartPreloading(const QUrl &stream_url, const QUrl &original_url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec);
+  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
   bool Play(quint64 offset_nanosec);
   void Stop(bool stop_after = false);
   void Pause();

@@ -301,22 +301,22 @@ Engine::State XineEngine::state() const {
       return Engine::Empty;
     case XINE_STATUS_STOP:
     default:
-      return media_url_.isEmpty() ? Engine::Empty : Engine::Idle;
+      return stream_url_.isEmpty() ? Engine::Empty : Engine::Idle;
   }
 
 }
 
-bool XineEngine::Load(const QUrl &media_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool XineEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
 
   if (!EnsureStream()) return false;
 
   have_metadata_ = false;
 
-  Engine::Base::Load(media_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
+  Engine::Base::Load(stream_url, original_url, change, force_stop_at_end, beginning_nanosec, end_nanosec);
 
   xine_close(stream_);
 
-  int result = xine_open(stream_, media_url.toString().toUtf8());
+  int result = xine_open(stream_, stream_url.toString().toUtf8());
   if (result) {
 
 #if !defined(XINE_SAFE_MODE) && defined(XINE_ANALYZER)
@@ -502,7 +502,7 @@ uint XineEngine::length() const {
 
   // Xine often delivers nonsense values for VBR files and such, so we only use the length for remote files
 
-  if (media_url_.isLocalFile()) return 0;
+  if (stream_url_.isLocalFile()) return 0;
   else {
     int pos = 0, time = 0, length = 0;
 
@@ -695,7 +695,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_UNKNOWN_HOST:
           message = "The host is unknown.";
@@ -704,7 +704,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_UNKNOWN_DEVICE:
           message = "The device name you specified seems invalid.";
@@ -713,7 +713,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_NETWORK_UNREACHABLE:
           message = "The network appears unreachable.";
@@ -722,7 +722,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_AUDIO_OUT_UNAVAILABLE:
           message = "Audio output unavailable; the device is busy.";
@@ -740,7 +740,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_FILE_NOT_FOUND:
           message = "File not found.";
@@ -749,7 +749,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_PERMISSION_ERROR:
           message = "Access denied.";
@@ -758,7 +758,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_READ_ERROR:
           message = "Read error.";
@@ -767,7 +767,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
             message += QString::fromUtf8((char*)data + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
-          emit engine->InvalidSongRequested(engine->media_url_);
+          emit engine->InvalidSongRequested(engine->stream_url_);
           break;
         case XINE_MSG_LIBRARY_LOAD_ERROR:
           message = "A problem occurred while loading a library or decoder.";
@@ -885,7 +885,7 @@ void XineEngine::DetermineAndShowErrorMessage() {
         // xine can read the plugin but it didn't find any codec
         // THUS xine=daft for telling us it could handle the format in canDecode!
         message = "There is no available decoder.";
-        QString const ext = QFileInfo(media_url_.path()).completeSuffix();
+        QString const ext = QFileInfo(stream_url_.path()).completeSuffix();
         break;
       }
       result = xine_get_stream_info(stream_, XINE_STREAM_INFO_HAS_AUDIO);

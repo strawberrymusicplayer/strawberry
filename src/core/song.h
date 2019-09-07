@@ -156,7 +156,7 @@ class Song {
   void InitFromFilePartial(const QString &filename);  // Just store the filename: incomplete but fast
   void InitArtManual();  // Check if there is already a art in the cache and store the filename in art_manual
 
-  void MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
+  bool MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle);
 
 #ifdef HAVE_LIBGPOD
   void InitFromItdb(const _Itdb_Track *track, const QString &prefix);

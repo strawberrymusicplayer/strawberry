@@ -1149,28 +1149,57 @@ void Song::ToMTP(LIBMTP_track_t *track) const {
 }
 #endif
 
-void Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
-
-  if (d->init_from_file_ || d->url_.scheme() == "file") {
-    // This Song was already loaded using taglib. Our tags are probably better than the engine's.
-    // Note: init_from_file_ is used for non-file:// URLs when the metadata is known to be good, like from Jamendo.
-    return;
-  }
+bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
   d->valid_ = true;
-  if (!bundle.title.isEmpty()) set_title(bundle.title);
-  if (!bundle.artist.isEmpty()) set_artist(bundle.artist);
-  if (!bundle.album.isEmpty()) set_album(bundle.album);
-  if (!bundle.comment.isEmpty()) d->comment_ = bundle.comment;
-  if (!bundle.genre.isEmpty()) d->genre_ = bundle.genre;
+
+  bool minor = true;
+
+  if (d->init_from_file_ || is_collection_song() || d->url_.isLocalFile()) {
+    // This Song was already loaded using taglib. Our tags are probably better than the engine's.
+    if (title() != bundle.title && title().isEmpty() && !bundle.title.isEmpty()) {
+      set_title(bundle.title);
+      minor = false;
+    }
+    if (artist() != bundle.artist && artist().isEmpty() && !bundle.artist.isEmpty()) {
+      set_artist(bundle.artist);
+      minor = false;
+    }
+    if (album() != bundle.album && album().isEmpty() && !bundle.album.isEmpty()) {
+      set_album(bundle.album);
+      minor = false;
+    }
+    if (comment().isEmpty() && !bundle.comment.isEmpty()) set_comment(bundle.comment);
+    if (genre().isEmpty() && !bundle.genre.isEmpty()) set_genre(bundle.genre);
+    if (lyrics().isEmpty() && !bundle.lyrics.isEmpty()) set_lyrics(bundle.lyrics);
+  }
+  else {
+    if (title() != bundle.title && !bundle.title.isEmpty()) {
+      set_title(bundle.title);
+      minor = false;
+    }
+    if (artist() != bundle.artist && !bundle.artist.isEmpty()) {
+      set_artist(bundle.artist);
+      minor = false;
+    }
+    if (album() != bundle.album && !bundle.album.isEmpty()) {
+      set_album(bundle.album);
+      minor = false;
+    }
+    if (!bundle.comment.isEmpty()) set_comment(bundle.comment);
+    if (!bundle.genre.isEmpty()) set_genre(bundle.genre);
+    if (!bundle.lyrics.isEmpty()) set_lyrics(bundle.lyrics);
+  }
+
   if (bundle.length > 0) set_length_nanosec(bundle.length);
   if (bundle.year > 0) d->year_ = bundle.year;
   if (bundle.track > 0) d->track_ = bundle.track;
   if (bundle.filetype != FileType_Unknown) d->filetype_ = bundle.filetype;
   if (bundle.samplerate > 0) d->samplerate_ = bundle.samplerate;
-  if (bundle.bitdepth > 0) d->samplerate_ = bundle.bitdepth;
+  if (bundle.bitdepth > 0) d->bitdepth_ = bundle.bitdepth;
   if (bundle.bitrate > 0) d->bitrate_ = bundle.bitrate;
-  if (!bundle.lyrics.isEmpty()) d->lyrics_ = bundle.lyrics;
+
+  return minor;
 
 }
 

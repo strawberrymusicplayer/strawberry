@@ -30,6 +30,7 @@
 #include <glib-object.h>
 #include <glib/gtypes.h>
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -74,7 +75,7 @@ class GstEnginePipeline : public QObject {
   void set_buffer_min_fill(int percent);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &media_url, const QUrl original_url, qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, qint64 end_nanosec);
   bool InitFromString(const QString &pipeline);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
@@ -92,13 +93,13 @@ class GstEnginePipeline : public QObject {
   void StartFader(qint64 duration_nanosec, QTimeLine::Direction direction = QTimeLine::Forward, QTimeLine::CurveShape shape = QTimeLine::LinearCurve, bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
-  void SetNextUrl(const QByteArray &media_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
-  bool has_next_valid_url() const { return !next_media_url_.isNull() && !next_media_url_.isEmpty(); }
+  void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
+  bool has_next_valid_url() const { return !next_stream_url_.isNull() && !next_stream_url_.isEmpty(); }
 
   void SetSourceDevice(QString device) { source_device_ = device; }
 
   // Get information about the music playback
-  QByteArray media_url() const { return media_url_; }
+  QByteArray stream_url() const { return stream_url_; }
   QUrl original_url() const { return original_url_; }
   bool is_valid() const { return valid_; }
   // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
@@ -165,12 +166,17 @@ signals:
   void UpdateEqualizer();
   void UpdateStereoBalance();
 
+  static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer instance);
+  static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer instance);
+  static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
+
  private slots:
   void FaderTimelineFinished();
 
  private:
   static const int kGstStateTimeoutNanosecs;
   static const int kFaderFudgeMsec;
+  static const int kDiscoveryTimeoutS;
   static const int kEqBandCount;
   static const int kEqBandFrequencies[];
 
@@ -217,9 +223,9 @@ signals:
   bool segment_start_received_;
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
-  QByteArray media_url_;
+  QByteArray stream_url_;
   QUrl original_url_;
-  QByteArray next_media_url_;
+  QByteArray next_stream_url_;
   QUrl next_original_url_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
@@ -278,6 +284,7 @@ signals:
   GstElement *equalizer_;
   GstElement *rgvolume_;
   GstElement *rglimiter_;
+  GstDiscoverer *discoverer_;
 
   uint bus_cb_id_;
 

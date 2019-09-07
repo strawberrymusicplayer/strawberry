@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -51,6 +52,7 @@
 
 const int GstEnginePipeline::kGstStateTimeoutNanosecs = 10000000;
 const int GstEnginePipeline::kFaderFudgeMsec = 2000;
+const int GstEnginePipeline::kDiscoveryTimeoutS = 10;
 
 const int GstEnginePipeline::kEqBandCount = 10;
 const int GstEnginePipeline::kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
@@ -102,7 +104,8 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       equalizer_preamp_(nullptr),
       equalizer_(nullptr),
       rgvolume_(nullptr),
-      rglimiter_(nullptr)
+      rglimiter_(nullptr),
+      discoverer_(nullptr)
       {
 
   if (!sElementDeleter) {
@@ -120,6 +123,11 @@ GstEnginePipeline::~GstEnginePipeline() {
     g_source_remove(bus_cb_id_);
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(pipeline_));
+  }
+
+  if (discoverer_) {
+    gst_discoverer_stop(discoverer_);
+    g_object_unref(discoverer_);
   }
 
 }
@@ -403,6 +411,11 @@ bool GstEnginePipeline::InitAudioBin() {
   bus_cb_id_ = gst_bus_add_watch(bus, BusCallback, this);
   gst_object_unref(bus);
 
+  // Add request to discover the stream
+  if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
+    qLog(Error) << "Failed to start stream discovery for" << stream_url_;
+  }
+
   return true;
 
 }
@@ -415,21 +428,28 @@ bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &media_url, const QUrl original_url, qint64 end_nanosec) {
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, qint64 end_nanosec) {
 
-  media_url_ = media_url;
+  stream_url_ = stream_url;
   original_url_ = original_url;
   end_offset_nanosec_ = end_nanosec;
 
   pipeline_ = engine_->CreateElement("playbin");
   if (!pipeline_) return false;
 
-  g_object_set(G_OBJECT(pipeline_), "uri", media_url.constData(), nullptr);
+  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
 
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
+
+  // Setting up a discoverer
+  discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, NULL);
+  if (!discoverer_) return false;
+  CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
+  CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
+  gst_discoverer_start(discoverer_);
 
   if (!InitAudioBin()) return false;
 
@@ -536,10 +556,10 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   if (next_uri_set_) {
     next_uri_set_ = false;
 
-    media_url_ = next_media_url_;
+    stream_url_ = next_stream_url_;
     original_url_ = next_original_url_;
     end_offset_nanosec_ = next_end_offset_nanosec_;
-    next_media_url_ = QByteArray();
+    next_stream_url_ = QByteArray();
     next_original_url_ = QUrl();
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
@@ -613,6 +633,8 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
+  if (ignore_tags_) return;
+
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
 
@@ -633,10 +655,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
   gst_tag_list_free(taglist);
 
-  if (ignore_tags_) return;
-
-  if (!bundle.title.isEmpty() || !bundle.artist.isEmpty() || !bundle.comment.isEmpty() || !bundle.album.isEmpty())
-    emit MetadataFound(id(), bundle);
+  emit MetadataFound(id(), bundle);
 
 }
 
@@ -688,7 +707,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     if (next_uri_set_ && new_state == GST_STATE_READY) {
       // Revert uri and go back to PLAY state again
       next_uri_set_ = false;
-      g_object_set(G_OBJECT(pipeline_), "uri", media_url_.constData(), nullptr);
+      g_object_set(G_OBJECT(pipeline_), "uri", stream_url_.constData(), nullptr);
       SetState(GST_STATE_PLAYING);
     }
   }
@@ -816,10 +835,10 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
     quint64 end_time = start_time + duration;
 
     if (end_time > instance->end_offset_nanosec_) {
-      if (instance->has_next_valid_url() && instance->next_media_url_ == instance->media_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
+      if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
           // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
           instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-          instance->next_media_url_ = QByteArray();
+          instance->next_stream_url_ = QByteArray();
           instance->next_original_url_ = QUrl();
           instance->next_beginning_offset_nanosec_ = 0;
           instance->next_end_offset_nanosec_ = 0;
@@ -867,13 +886,13 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
 
 void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *bin, gpointer self) {
 
-  GstEnginePipeline* instance = reinterpret_cast<GstEnginePipeline*>(self);
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   if (instance->has_next_valid_url() && !instance->next_uri_set_) {
     // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
     // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
     instance->next_uri_set_ = true;
-    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_media_url_.constData(), nullptr);
+    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_stream_url_.constData(), nullptr);
   }
 
 }
@@ -1123,11 +1142,79 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QByteArray &media_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec) {
 
-  next_media_url_ = media_url;
+  next_stream_url_ = stream_url;
   next_original_url_ = original_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
+
+}
+
+void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return;
+
+  QString discovered_url(gst_discoverer_info_get_uri(info));
+
+  GstDiscovererResult result = gst_discoverer_info_get_result(info);
+  if (result != GST_DISCOVERER_OK) {
+    QString error_message = GSTdiscovererErrorMessage(result);
+    qLog(Error) << QString("Stream discovery for %1 failed: %2").arg(discovered_url).arg(error_message);
+    return;
+  }
+
+  GList *audio_streams = gst_discoverer_info_get_audio_streams(info);
+  if (audio_streams) {
+
+    GstDiscovererStreamInfo *stream_info = (GstDiscovererStreamInfo*) g_list_first(audio_streams)->data;
+
+    Engine::SimpleMetaBundle bundle;
+    bundle.minor = true;
+    bundle.url = instance->original_url();
+    bundle.stream_url = QUrl(discovered_url);
+    bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));
+    bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
+    bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info));
+
+    GstCaps *stream_caps = gst_discoverer_stream_info_get_caps(stream_info);
+    gchar *decoder_description = gst_pb_utils_get_codec_description(stream_caps);
+    QString filetype_description = (decoder_description ? QString(decoder_description) : QString("Unknown"));
+
+    gst_caps_unref(stream_caps);
+    g_free(decoder_description);
+    gst_discoverer_stream_info_list_free(audio_streams);
+
+    qLog(Info) << QString("Got stream info for %1: %2").arg(discovered_url).arg(filetype_description);
+
+    emit instance->MetadataFound(instance->id(), bundle);
+
+  }
+  else {
+    qLog(Error) << QString("Could not detect an audio stream in %1").arg(discovered_url);
+  }
+
+}
+
+void GstEnginePipeline::StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer self) {
+  //GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+}
+
+QString GstEnginePipeline::GSTdiscovererErrorMessage(GstDiscovererResult result) {
+
+  switch (result) {
+    case (GST_DISCOVERER_URI_INVALID):
+      return tr("Invalid URL");
+    case (GST_DISCOVERER_TIMEOUT):
+      return tr("Connection timed out");
+    case (GST_DISCOVERER_BUSY):
+      return tr("The discoverer is busy");
+    case (GST_DISCOVERER_MISSING_PLUGINS):
+      return tr("Missing plugins");
+    case (GST_DISCOVERER_ERROR):
+    default:
+      return tr("Could not get details");
+  }
 
 }

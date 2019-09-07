@@ -658,14 +658,14 @@ void QobuzService::GetStreamURL(const QUrl &url) {
 
 }
 
-void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &media_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
+void QobuzService::HandleStreamURLFinished(const QUrl &original_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration, QString error) {
 
   QobuzStreamURLRequest *stream_url_req = qobject_cast<QobuzStreamURLRequest*>(sender());
   if (!stream_url_req || !stream_url_requests_.contains(stream_url_req)) return;
   stream_url_req->deleteLater();
   stream_url_requests_.removeAll(stream_url_req);
 
-  emit StreamURLFinished(original_url, media_url, filetype, samplerate, bit_depth, duration, error);
+  emit StreamURLFinished(original_url, stream_url, filetype, samplerate, bit_depth, duration, error);
 
 }
 
