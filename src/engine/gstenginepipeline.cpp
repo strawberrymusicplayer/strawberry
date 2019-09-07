@@ -1171,7 +1171,6 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovere
     GstDiscovererStreamInfo *stream_info = (GstDiscovererStreamInfo*) g_list_first(audio_streams)->data;
 
     Engine::SimpleMetaBundle bundle;
-    bundle.minor = true;
     bundle.url = instance->original_url();
     bundle.stream_url = QUrl(discovered_url);
     bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));

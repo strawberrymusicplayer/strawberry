@@ -206,10 +206,9 @@ private:
 };
 
 struct SimpleMetaBundle {
-  SimpleMetaBundle() : minor(true), length(-1), year(-1), track(-1), samplerate(-1), bitdepth(-1) {}
+  SimpleMetaBundle() : length(-1), year(-1), track(-1), samplerate(-1), bitdepth(-1) {}
   QUrl url;
   QUrl stream_url;
-  bool minor;
   QString title;
   QString artist;
   QString album;
