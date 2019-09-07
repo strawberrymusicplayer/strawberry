@@ -51,7 +51,10 @@ class DeviceManager;
 bool MtpDevice::sInitialisedLibMTP = false;
 
 MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-  : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time), loader_thread_(new QThread()), loader_(nullptr) {
+  : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
+    loader_(nullptr),
+    loader_thread_(nullptr),
+    closing_(false) {
 
   if (!sInitialisedLibMTP) {
     LIBMTP_Init();
@@ -61,6 +64,7 @@ MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &uniqu
 }
 
 MtpDevice::~MtpDevice() {
+
   if (loader_) {
     loader_thread_->exit();
     loader_->deleteLater();
@@ -68,6 +72,7 @@ MtpDevice::~MtpDevice() {
     db_busy_.unlock();
     loader_thread_->deleteLater();
   }
+
 }
 
 bool MtpDevice::Init() {
@@ -75,22 +80,16 @@ bool MtpDevice::Init() {
   InitBackendDirectory("/", first_time_, false);
   model_->Init();
 
-  loader_ = new MtpLoader(url_, app_->task_manager(), backend_, shared_from_this());
-
+  loader_ = new MtpLoader(url_, app_->task_manager(), backend_);
+  loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
   connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
   connect(loader_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
-  connect(loader_, SIGNAL(LoadFinished(bool)), SLOT(LoadFinished(bool)));
+  connect(loader_, SIGNAL(LoadFinished(bool, MtpConnection*)), SLOT(LoadFinished(bool, MtpConnection*)));
   connect(loader_thread_, SIGNAL(started()), loader_, SLOT(LoadDatabase()));
 
   return true;
-
-}
-
-void MtpDevice::NewConnection() {
-
-  connection_.reset(new MtpConnection(url_));
 
 }
 
@@ -101,13 +100,33 @@ void MtpDevice::ConnectAsync() {
 
 }
 
-void MtpDevice::LoadFinished(bool success) {
+void MtpDevice::Close() {
+
+  closing_ = true;
+
+  if (IsLoading()) {
+    loader_->Abort();
+  }
+  else {
+    ConnectedDevice::Close();
+  }
+
+}
+
+void MtpDevice::LoadFinished(bool success, MtpConnection *connection) {
+
+  connection_.reset(connection);
 
   loader_thread_->exit();
   loader_->deleteLater();
   loader_ = nullptr;
   db_busy_.unlock();
-  emit ConnectFinished(unique_id_, success);
+  if (closing_) {
+    ConnectedDevice::Close();
+  }
+  else {
+    emit ConnectFinished(unique_id_, success);
+  }
 
 }
 
@@ -120,9 +139,7 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
   // Ensure only one "organise files" can be active at any one time
   db_busy_.lock();
 
-  // Connect to the device
-  if (!connection_.get() || !connection_->is_valid()) NewConnection();
-  if (!connection_.get() || !connection_->is_valid()) return false;
+  if (!connection_ || !connection_->is_valid()) return false;
 
   // Did the caller want a list of supported types?
   if (supported_types) {
@@ -147,7 +164,7 @@ static int ProgressCallback(uint64_t const sent, uint64_t const total, void cons
 
 bool MtpDevice::CopyToStorage(const CopyJob &job) {
 
-  if (!connection_.get() || !connection_->is_valid()) return false;
+  if (!connection_ || !connection_->is_valid()) return false;
 
   // Convert metadata
   LIBMTP_track_t track;
@@ -184,6 +201,7 @@ void MtpDevice::FinishCopy(bool success) {
   songs_to_add_.clear();
   songs_to_remove_.clear();
 
+  // This is done in the organise thread so close the unique DB connection.
   backend_->Close();
 
   db_busy_.unlock();

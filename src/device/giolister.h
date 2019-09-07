@@ -67,10 +67,9 @@ class GioLister : public DeviceLister {
   QString MakeFriendlyName(const QString &id);
   QList<QUrl> MakeDeviceUrls(const QString &id);
 
-  int MountDevice(const QString &id);
-  void UnmountDevice(const QString &id);
-
  public slots:
+  void MountDevice(const QString &id, const int request_id);
+  void UnmountDevice(const QString &id);
   void UpdateDeviceFreeSpace(const QString &id);
 
  protected:
@@ -139,9 +138,6 @@ class GioLister : public DeviceLister {
 
   template <typename T>
   T LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field);
-
- private slots:
-  void DoMountDevice(const QString &id, int request_id);
 
  private:
   ScopedGObject<GVolumeMonitor> monitor_;

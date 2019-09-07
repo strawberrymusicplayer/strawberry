@@ -157,21 +157,86 @@ DeviceManager::~DeviceManager() {
     lister->ShutDown();
     delete lister;
   }
-
-  backend_->Close();
+  listers_.clear();
 
   delete root_;
-  delete backend_;
+  root_ = nullptr;
+
+  backend_->deleteLater();
+  backend_ = nullptr;
 
 }
 
 void DeviceManager::Exit() {
+  CloseDevices();
+}
 
-  connect(backend_, SIGNAL(ExitFinished()), this, SIGNAL(ExitFinished()));
+void DeviceManager::CloseDevices() {
+
+  for (DeviceInfo *info : devices_) {
+    if (!info->device_) continue;
+    if (wait_for_exit_.contains(info->device_.get())) continue;
+    wait_for_exit_ << info->device_.get();
+    connect(info->device_.get(), SIGNAL(destroyed()), SLOT(DeviceDestroyed()));
+    info->device_->Close();
+  }
+  if (wait_for_exit_.isEmpty()) CloseListers();
+
+}
+
+void DeviceManager::CloseListers() {
+
+  for (DeviceLister *lister : listers_) {
+    if (wait_for_exit_.contains(lister)) continue;
+    wait_for_exit_ << lister;
+    connect(lister, SIGNAL(ExitFinished()), this, SLOT(ListerClosed()));
+    lister->ExitAsync();
+  }
+  if (wait_for_exit_.isEmpty()) CloseBackend();
+
+}
+
+void DeviceManager::CloseBackend() {
+
+  if (!backend_ || wait_for_exit_.contains(backend_)) return;
+  wait_for_exit_ << backend_;
+  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(BackendClosed()));
   backend_->ExitAsync();
 
 }
 
+void DeviceManager::BackendClosed() {
+
+  QObject *obj = static_cast<QObject*>(sender());
+  disconnect(obj, 0, this, 0);
+  qLog(Debug) << obj << "successfully closed.";
+  wait_for_exit_.removeAll(obj);
+  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+
+}
+
+void DeviceManager::ListerClosed() {
+
+  DeviceLister *lister = static_cast<DeviceLister*>(sender());
+  if (!lister) return;
+
+  disconnect(lister, 0, this, 0);
+  qLog(Debug) << lister << "successfully closed.";
+  wait_for_exit_.removeAll(lister);
+
+  if (wait_for_exit_.isEmpty()) CloseBackend();
+
+}
+
+void DeviceManager::DeviceDestroyed() {
+
+  ConnectedDevice *device = static_cast<ConnectedDevice*>(sender());
+  if (!wait_for_exit_.contains(device) || !backend_) return;
+
+  wait_for_exit_.removeAll(device);
+  if (wait_for_exit_.isEmpty()) CloseListers();
+
+}
 void DeviceManager::LoadAllDevices() {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -183,6 +248,7 @@ void DeviceManager::LoadAllDevices() {
     emit DeviceCreatedFromDB(info);
   }
 
+  // This is done in a concurrent thread so close the unique DB connection.
   backend_->Close();
 
 }
@@ -238,7 +304,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
     case Qt::DecorationRole: {
       QPixmap pixmap = info->icon_.pixmap(kDeviceIconSize);
 
-      if (info->backends_.isEmpty() || !info->BestBackend()->lister_) {
+      if (info->backends_.isEmpty() || !info->BestBackend() || !info->BestBackend()->lister_) {
         // Disconnected but remembered
         QPainter p(&pixmap);
         p.drawPixmap(kDeviceIconSize - kDeviceIconOverlaySize, kDeviceIconSize - kDeviceIconOverlaySize, not_connected_overlay_.pixmap(kDeviceIconOverlaySize));
@@ -404,7 +470,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       info->backends_ << DeviceInfo::Backend(lister, id);
 
       // If the user hasn't saved the device in the DB yet then overwrite the device's name and icon etc.
-      if (info->database_id_ == -1 && info->BestBackend()->lister_ == lister) {
+      if (info->database_id_ == -1 && info->BestBackend() && info->BestBackend()->lister_ == lister) {
         info->friendly_name_ = lister->MakeFriendlyName(id);
         info->size_ = lister->DeviceCapacity(id);
         info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
@@ -414,12 +480,12 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
     }
     else {
       // It's a completely new device
-      beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
       DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
       info->backends_ << DeviceInfo::Backend(lister, id);
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);
       info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
+      beginInsertRows(ItemToIndex(root_), devices_.count(), devices_.count());
       devices_ << info;
       endInsertRows();
     }
@@ -448,7 +514,9 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
       }
     }
 
-    if (info->device_ && info->device_->lister() == lister) info->device_.reset();
+    if (info->device_ && info->device_->lister() == lister) {
+      info->device_->Close();
+    }
 
     if (!info->device_) emit DeviceDisconnected(idx);
 
@@ -510,7 +578,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   }
 
   if (info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {  // Mount the device
-    info->BestBackend()->lister_->MountDevice(info->BestBackend()->unique_id_);
+    info->BestBackend()->lister_->MountDeviceAsync(info->BestBackend()->unique_id_);
     return ret;
   }
 
@@ -597,6 +665,7 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
   connect(info->device_.get(), SIGNAL(ConnectFinished(const QString&, bool)), SLOT(DeviceConnectFinished(const QString&, bool)));
+  connect(info->device_.get(), SIGNAL(CloseFinished(const QString&)), SLOT(DeviceCloseFinished(const QString&)));
   ret->ConnectAsync();
   return ret;
 
@@ -614,7 +683,30 @@ void DeviceManager::DeviceConnectFinished(const QString &id, bool success) {
     emit DeviceConnected(idx);
   }
   else {
-    info->device_.reset();
+    info->device_->Close();
+  }
+
+}
+
+void DeviceManager::DeviceCloseFinished(const QString &id) {
+
+  DeviceInfo *info = FindDeviceById(id);
+  if (!info) return;
+
+  info->device_.reset();
+
+  QModelIndex idx = ItemToIndex(info);
+  if (!idx.isValid()) return;
+
+  emit DeviceDisconnected(idx);
+  emit dataChanged(idx, idx);
+
+  if (info->unmount_ && info->BestBackend() && info->BestBackend()->lister_) {
+    info->BestBackend()->lister_->UnmountDeviceAsync(info->BestBackend()->unique_id_);
+  }
+
+  if (info->forget_) {
+    RemoveFromDB(info, idx);
   }
 
 }
@@ -663,17 +755,9 @@ DeviceLister *DeviceManager::GetLister(QModelIndex idx) const {
 
 }
 
-void DeviceManager::Disconnect(QModelIndex idx) {
+void DeviceManager::Disconnect(DeviceInfo *info, QModelIndex idx) {
 
-  if (!idx.isValid()) return;
-
-  DeviceInfo *info = IndexToItem(idx);
-  if (!info || !info->device_) return;
-
-  info->device_.reset();
-
-  emit DeviceDisconnected(idx);
-  emit dataChanged(idx, idx);
+  info->device_->Close();
 
 }
 
@@ -685,7 +769,18 @@ void DeviceManager::Forget(QModelIndex idx) {
   if (!info) return;
 
   if (info->database_id_ == -1) return;
-  if (info->device_) Disconnect(idx);
+
+  if (info->device_) {
+    info->forget_ = true;
+    Disconnect(info, idx);
+  }
+  else {
+    RemoveFromDB(info, idx);
+  }
+
+}
+
+void DeviceManager::RemoveFromDB(DeviceInfo *info, QModelIndex idx) {
 
   backend_->RemoveDevice(info->database_id_);
   info->database_id_ = -1;
@@ -701,7 +796,6 @@ void DeviceManager::Forget(QModelIndex idx) {
 
     info->friendly_name_ = info->BestBackend()->lister_->MakeFriendlyName(id);
     info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
-
     dataChanged(idx, idx);
   }
 
@@ -795,10 +889,13 @@ void DeviceManager::Unmount(QModelIndex idx) {
 
   if (info->database_id_ != -1 && !info->device_) return;
 
-  if (info->device_) Disconnect(idx);
-
-  if (info->BestBackend()->lister_)
-    info->BestBackend()->lister_->UnmountDevice(info->BestBackend()->unique_id_);
+  if (info->device_) {
+    info->unmount_ = true;
+    Disconnect(info, idx);
+  }
+  else if (info->BestBackend() && info->BestBackend()->lister_) {
+    info->BestBackend()->lister_->UnmountDeviceAsync(info->BestBackend()->unique_id_);
+  }
 
 }
 

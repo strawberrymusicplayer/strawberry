@@ -91,7 +91,6 @@ void CollectionBackend::Exit() {
 
   assert(QThread::currentThread() == thread());
 
-  Close();
   moveToThread(original_thread_);
   emit ExitFinished();
 

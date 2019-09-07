@@ -246,6 +246,7 @@ QThread *Application::MoveToNewThread(QObject *object) {
 void Application::MoveToThread(QObject *object, QThread *thread) {
   object->setParent(nullptr);
   object->moveToThread(thread);
+  qLog(Debug) << object << "moved to thread" << thread;
 }
 
 void Application::Exit() {

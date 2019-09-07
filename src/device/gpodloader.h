@@ -46,6 +46,8 @@ class GPodLoader : public QObject {
   void set_music_path_prefix(const QString &prefix) { path_prefix_ = prefix; }
   void set_song_type(Song::FileType type) { type_ = type; }
 
+  void Abort() { abort_ = true; }
+
  public slots:
   void LoadDatabase();
 
@@ -66,6 +68,8 @@ class GPodLoader : public QObject {
   Song::FileType type_;
   TaskManager *task_manager_;
   CollectionBackend *backend_;
+  bool abort_;
+
 };
 
 #endif  // GPODLOADER_H

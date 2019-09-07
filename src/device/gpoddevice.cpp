@@ -47,9 +47,10 @@ class DeviceManager;
 
 GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
       : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time),
-      loader_thread_(new QThread()),
       loader_(nullptr),
-      db_(nullptr) {}
+      loader_thread_(nullptr),
+      db_(nullptr),
+      closing_(false) {}
 
 bool GPodDevice::Init() {
 
@@ -57,6 +58,7 @@ bool GPodDevice::Init() {
   model_->Init();
 
   loader_ = new GPodLoader(url_.path(), app_->task_manager(), backend_, shared_from_this());
+  loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
   connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
@@ -82,6 +84,19 @@ void GPodDevice::ConnectAsync() {
 
 }
 
+void GPodDevice::Close() {
+
+  closing_ = true;
+
+  if (IsLoading()) {
+    loader_->Abort();
+  }
+  else {
+    ConnectedDevice::Close();
+  }
+
+}
+
 void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
 
   QMutexLocker l(&db_mutex_);
@@ -98,7 +113,12 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, bool success) {
   loader_->deleteLater();
   loader_ = nullptr;
 
-  emit ConnectFinished(unique_id_, success);
+  if (closing_) {
+    ConnectedDevice::Close();
+  }
+  else {
+    emit ConnectFinished(unique_id_, success);
+  }
 
 }
 
@@ -232,6 +252,7 @@ void GPodDevice::WriteDatabase(bool success) {
     }
   }
 
+  // This is done in the organise thread so close the unique DB connection.
   backend_->Close();
 
   songs_to_add_.clear();

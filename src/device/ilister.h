@@ -52,7 +52,6 @@ class iLister : public DeviceLister {
   virtual QVariantMap DeviceHardwareInfo(const QString &id);
   virtual QString MakeFriendlyName(const QString &id);
   virtual QList<QUrl> MakeDeviceUrls(const QString &id);
-  virtual void UnmountDevice(const QString &id);
 
  public slots:
   virtual void UpdateDeviceFreeSpace(const QString &id);

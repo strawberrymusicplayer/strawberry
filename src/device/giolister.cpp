@@ -532,33 +532,6 @@ void GioLister::MountUnmountFinished(GObject *object, GAsyncResult *result, gpoi
   OperationFinished<GMount>(std::bind(g_mount_unmount_with_operation_finish, _1, _2, _3), object, result);
 }
 
-void GioLister::UnmountDevice(const QString &id) {
-
-  QMutexLocker l(&mutex_);
-  if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
-
-  const DeviceInfo &info = devices_[id];
-
-  if (!info.mount) return;
-
-  if (info.volume) {
-    if (g_volume_can_eject(info.volume)) {
-      g_volume_eject_with_operation(info.volume, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)VolumeEjectFinished, nullptr);
-      g_object_unref(info.volume);
-      return;
-    }
-  }
-  else return;
-
-  if (g_mount_can_eject(info.mount)) {
-    g_mount_eject_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);
-  }
-  else if (g_mount_can_unmount(info.mount)) {
-    g_mount_unmount_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountUnmountFinished, nullptr);
-  }
-
-}
-
 void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 
   {
@@ -592,14 +565,7 @@ bool GioLister::DeviceNeedsMount(const QString &id) {
   return devices_.contains(id) && !devices_[id].mount && !devices_[id].volume_root_uri.startsWith("mtp://");
 }
 
-int GioLister::MountDevice(const QString &id) {
-
-  const int request_id = next_mount_request_id_++;
-  metaObject()->invokeMethod(this, "DoMountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
-  return request_id;
-}
-
-void GioLister::DoMountDevice(const QString &id, int request_id) {
+void GioLister::MountDevice(const QString &id, const int request_id) {
 
   QMutexLocker l(&mutex_);
   if (!devices_.contains(id)) {
@@ -619,3 +585,29 @@ void GioLister::DoMountDevice(const QString &id, int request_id) {
 
 }
 
+void GioLister::UnmountDevice(const QString &id) {
+
+  QMutexLocker l(&mutex_);
+  if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
+
+  const DeviceInfo &info = devices_[id];
+
+  if (!info.mount) return;
+
+  if (info.volume) {
+    if (g_volume_can_eject(info.volume)) {
+      g_volume_eject_with_operation(info.volume, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)VolumeEjectFinished, nullptr);
+      g_object_unref(info.volume);
+      return;
+    }
+  }
+  else return;
+
+  if (g_mount_can_eject(info.mount)) {
+    g_mount_eject_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);
+  }
+  else if (g_mount_can_unmount(info.mount)) {
+    g_mount_unmount_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountUnmountFinished, nullptr);
+  }
+
+}

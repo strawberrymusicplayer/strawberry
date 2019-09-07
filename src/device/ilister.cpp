@@ -31,11 +31,9 @@
 #include "ilister.h"
 #include "imobiledeviceconnection.h"
 
-iLister::iLister() {
-}
+iLister::iLister() {}
 
-iLister::~iLister() {
-}
+iLister::~iLister() {}
 
 bool iLister::Init() {
   idevice_event_subscribe(&EventCallback, reinterpret_cast<void*>(this));
@@ -190,8 +188,6 @@ QList<QUrl> iLister::MakeDeviceUrls(const QString &id) {
   return ret;
 
 }
-
-void iLister::UnmountDevice(const QString &id) { }
 
 iLister::DeviceInfo iLister::ReadDeviceInfo(const char *uuid) {
 

@@ -65,9 +65,8 @@ class Udisks2Lister : public DeviceLister {
   QString MakeFriendlyName(const QString &id) override;
   QList<QUrl> MakeDeviceUrls(const QString &id) override;
 
-  void UnmountDevice(const QString &id) override;
-
  public slots:
+  void UnmountDevice(const QString &id) override;
   void UpdateDeviceFreeSpace(const QString &id) override;
 
  protected:

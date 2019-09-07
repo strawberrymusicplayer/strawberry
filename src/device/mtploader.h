@@ -32,6 +32,8 @@
 #include <QString>
 #include <QUrl>
 
+//#include "mtpconnection.h"
+
 class TaskManager;
 class CollectionBackend;
 class ConnectedDevice;
@@ -42,10 +44,11 @@ class MtpLoader : public QObject {
   Q_OBJECT
 
  public:
-  MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device);
+  MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend);
   ~MtpLoader();
 
   bool Init();
+  void Abort() { abort_ = true; }
 
  public slots:
   void LoadDatabase();
@@ -53,7 +56,7 @@ class MtpLoader : public QObject {
  signals:
   void Error(const QString &message);
   void TaskStarted(int task_id);
-  void LoadFinished(bool success);
+  void LoadFinished(bool success, MtpConnection*);
 
  private:
   bool TryLoad();
@@ -62,9 +65,9 @@ class MtpLoader : public QObject {
   QUrl url_;
   TaskManager *task_manager_;
   CollectionBackend *backend_;
-  std::shared_ptr<ConnectedDevice> device_;
-  std::shared_ptr<MtpConnection> connection_;
+  std::unique_ptr<MtpConnection> connection_;
   QThread *original_thread_;
+  bool abort_;
 
 };
 

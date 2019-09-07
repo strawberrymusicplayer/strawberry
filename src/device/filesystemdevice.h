@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QThread>
+#include <QList>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
@@ -51,12 +52,18 @@ public:
   ~FilesystemDevice();
 
   bool Init();
+  void CloseAsync();
 
   static QStringList url_schemes() { return QStringList() << "file"; }
+
+ private slots:
+  void Close();
+  void ExitFinished();
 
 private:
   CollectionWatcher *watcher_;
   QThread *watcher_thread_;
+  QList<QObject*> wait_for_exit_;
 };
 
 #endif // FILESYSTEMDEVICE_H

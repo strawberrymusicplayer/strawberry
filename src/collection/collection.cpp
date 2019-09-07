@@ -58,6 +58,7 @@ SCollection::SCollection(Application *app, QObject *parent)
 
   backend_ = new CollectionBackend();
   backend()->moveToThread(app->database()->thread());
+  qLog(Debug) << backend_ << "moved to thread" << app->database()->thread();
 
   backend_->Init(app->database(), Song::Source_Collection, kSongsTable, kDirsTable, kSubdirsTable, kFtsTable);
 
@@ -89,6 +90,7 @@ void SCollection::Init() {
 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
+  qLog(Debug) << watcher_ << "moved to thread" << watcher_thread_;
 
   watcher_->set_backend(backend_);
   watcher_->set_task_manager(app_->task_manager());

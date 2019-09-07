@@ -39,7 +39,12 @@
 
 DeviceLister::DeviceLister() :
   thread_(nullptr),
-  next_mount_request_id_(0) {}
+  original_thread_(nullptr),
+  next_mount_request_id_(0) {
+
+  original_thread_ = thread();
+
+}
 
 DeviceLister::~DeviceLister() {
 
@@ -58,10 +63,41 @@ void DeviceLister::Start() {
 
   moveToThread(thread_);
   thread_->start();
+  qLog(Debug) << this << "moved to thread" << thread_;
 
 }
 
 void DeviceLister::ThreadStarted() { Init(); }
+
+int DeviceLister::MountDeviceAsync(const QString &id) {
+
+  const int request_id = next_mount_request_id_++;
+  metaObject()->invokeMethod(this, "MountDevice", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(int, request_id));
+  return request_id;
+
+}
+
+void DeviceLister::UnmountDeviceAsync(const QString &id) {
+  metaObject()->invokeMethod(this, "UnmountDevice", Qt::QueuedConnection, Q_ARG(QString, id));
+}
+
+void DeviceLister::MountDevice(const QString &id, const int request_id) {
+  emit DeviceMounted(id, request_id, true);
+}
+
+void DeviceLister::ExitAsync() {
+  metaObject()->invokeMethod(this, "Exit", Qt::QueuedConnection);
+}
+
+void DeviceLister::Exit() {
+
+  ShutDown();
+  if (thread_) {
+    moveToThread(original_thread_);
+  }
+  emit ExitFinished();
+
+}
 
 namespace {
 
@@ -231,12 +267,3 @@ QStringList DeviceLister::GuessIconForModel(const QString &vendor, const QString
   return ret;
 
 }
-
-int DeviceLister::MountDevice(const QString &id) {
-
-  const int ret = next_mount_request_id_++;
-  emit DeviceMounted(id, ret, true);
-  return ret;
-
-}
-

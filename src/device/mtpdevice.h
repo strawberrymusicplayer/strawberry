@@ -37,13 +37,13 @@
 
 #include "core/song.h"
 #include "connecteddevice.h"
+#include "mtploader.h"
 
 class Application;
 class DeviceLister;
 class DeviceManager;
 class DeviceConnection;
 class MtpConnection;
-class MtpLoader;
 struct LIBMTP_mtpdevice_struct;
 
 class MtpDevice : public ConnectedDevice {
@@ -56,8 +56,9 @@ class MtpDevice : public ConnectedDevice {
   static QStringList url_schemes() { return QStringList() << "mtp" << "gphoto2"; }
 
   bool Init();
-  void NewConnection();
   void ConnectAsync();
+  void Close();
+  bool IsLoading() { return loader_; }
 
   bool GetSupportedFiletypes(QList<Song::FileType>* ret);
   int GetFreeSpace();
@@ -71,10 +72,8 @@ class MtpDevice : public ConnectedDevice {
   bool DeleteFromStorage(const DeleteJob& job);
   void FinishDelete(bool success);
 
-  MtpConnection *connection() { return connection_.get(); }
-
  private slots:
-  void LoadFinished(bool success);
+  void LoadFinished(bool success, MtpConnection *connection);
   void LoaderError(const QString& message);
 
  private:
@@ -85,14 +84,15 @@ class MtpDevice : public ConnectedDevice {
  private:
   static bool sInitialisedLibMTP;
 
-  QThread *loader_thread_;
   MtpLoader *loader_;
+  QThread *loader_thread_;
+  bool closing_;
 
   QMutex db_busy_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
 
-  std::shared_ptr<MtpConnection> connection_;
+  std::unique_ptr<MtpConnection> connection_;
 
 };
 

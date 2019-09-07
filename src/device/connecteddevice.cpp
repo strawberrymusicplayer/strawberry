@@ -54,6 +54,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   // Create the backend in the database thread.
   backend_ = new CollectionBackend();
   backend_->moveToThread(app_->database()->thread());
+  qLog(Debug) << backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
   connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(BackendTotalSongCountUpdated(int)));
 
@@ -70,7 +71,6 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 }
 
 ConnectedDevice::~ConnectedDevice() {
-  backend_->Close();
   backend_->deleteLater();
 }
 
@@ -102,6 +102,19 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, bool firs
 }
 
 void ConnectedDevice::ConnectAsync() { emit ConnectFinished(unique_id_, true); }
+
+void ConnectedDevice::Close() {
+
+  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(CloseFinished()));
+  backend_->ExitAsync();
+
+}
+
+void ConnectedDevice::CloseFinished() {
+
+  emit CloseFinished(unique_id_);
+
+}
 
 void ConnectedDevice::Eject() {
 

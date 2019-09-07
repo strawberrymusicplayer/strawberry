@@ -35,12 +35,12 @@
 #include "mtpconnection.h"
 #include "mtploader.h"
 
-MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device)
+MtpLoader::MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend)
     : QObject(nullptr),
       url_(url),
       task_manager_(task_manager),
       backend_(backend),
-      device_(device) {
+      abort_(false) {
   original_thread_ = thread();
 }
 
@@ -58,26 +58,26 @@ void MtpLoader::LoadDatabase() {
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished(success);
+  emit LoadFinished(success, connection_.release());
 
 }
 
 bool MtpLoader::TryLoad() {
 
-  MtpDevice *device = dynamic_cast<MtpDevice*>(device_.get()); // FIXME
+  connection_.reset(new MtpConnection(url_));
 
-  if (!device->connection() || !device->connection()->is_valid())
-    device->NewConnection();
-
-  if (!device->connection() || !device->connection()->is_valid()) {
+  if (!connection_ || !connection_->is_valid()) {
     emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));
     return false;
   }
 
   // Load the list of songs on the device
   SongList songs;
-  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(device->connection()->device(), nullptr, nullptr);
+  LIBMTP_track_t* tracks = LIBMTP_Get_Tracklisting_With_Callback(connection_->device(), nullptr, nullptr);
   while (tracks) {
+
+    if (abort_) break;
+
     LIBMTP_track_t *track = tracks;
 
     Song song(Song::Source_Device);
@@ -90,15 +90,18 @@ bool MtpLoader::TryLoad() {
     LIBMTP_destroy_track_t(track);
   }
 
-  // Need to remove all the existing songs in the database first
-  backend_->DeleteSongs(backend_->FindSongsInDirectory(1));
+  if (!abort_) {
+    // Need to remove all the existing songs in the database first
+    backend_->DeleteSongs(backend_->FindSongsInDirectory(1));
 
-  // Add the songs we've just loaded
-  backend_->AddOrUpdateSongs(songs);
+    // Add the songs we've just loaded
+    backend_->AddOrUpdateSongs(songs);
+  }
 
+  // This is done in the loader thread so close the unique DB connection.
   backend_->Close();
 
-  return true;
+  return !abort_;
 
 }
 

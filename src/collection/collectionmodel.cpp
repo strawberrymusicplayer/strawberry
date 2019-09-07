@@ -130,7 +130,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
 }
 
 CollectionModel::~CollectionModel() {
-  backend_->Close();
   delete root_;
 }
 

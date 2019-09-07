@@ -46,6 +46,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
 
   watcher_->moveToThread(watcher_thread_);
   watcher_thread_->start(QThread::IdlePriority);
+  qLog(Debug) << watcher_ << "for device" << unique_id << "moved to thread" << watcher_thread_;
 
   watcher_->set_device_name(manager->DeviceNameByID(unique_id));
   watcher_->set_backend(backend_);
@@ -63,16 +64,52 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
 
 }
 
-bool FilesystemDevice::Init() {
-  InitBackendDirectory(url_.toLocalFile(), first_time_);
-  model_->Init();
-  return true;
-}
-
 FilesystemDevice::~FilesystemDevice() {
+
   watcher_->Stop();
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait();
+
 }
 
+bool FilesystemDevice::Init() {
+
+  InitBackendDirectory(url_.toLocalFile(), first_time_);
+  model_->Init();
+  return true;
+
+}
+
+void FilesystemDevice::CloseAsync() {
+  metaObject()->invokeMethod(this, "Close", Qt::QueuedConnection);
+}
+
+void FilesystemDevice::Close() {
+
+  assert(QThread::currentThread() == thread());
+
+  wait_for_exit_ << backend_ << watcher_;
+
+  disconnect(backend_, 0, watcher_, 0);
+  disconnect(watcher_, 0, backend_, 0);
+
+  connect(backend_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
+  connect(watcher_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
+  backend_->ExitAsync();
+  watcher_->ExitAsync();
+
+}
+
+void FilesystemDevice::ExitFinished() {
+
+  QObject *obj = static_cast<QObject*>(sender());
+  if (!obj) return;
+  disconnect(obj, 0, this, 0);
+  qLog(Debug) << obj << "successfully exited.";
+  wait_for_exit_.removeAll(obj);
+  if (wait_for_exit_.isEmpty()) {
+    emit CloseFinished(unique_id());
+  }
+
+}

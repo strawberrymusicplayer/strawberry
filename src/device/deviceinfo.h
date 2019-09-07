@@ -68,7 +68,9 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
         size_(0),
         transcode_mode_(MusicStorage::Transcode_Unsupported),
         transcode_format_(Song::FileType_Unknown),
-        task_percentage_(-1) {}
+        task_percentage_(-1),
+        unmount_(false),
+        forget_(false) {}
 
   DeviceInfo(Type type, DeviceInfo *parent = nullptr)
       : SimpleTreeItem<DeviceInfo>(type, parent),
@@ -76,7 +78,9 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
         size_(0),
         transcode_mode_(MusicStorage::Transcode_Unsupported),
         transcode_format_(Song::FileType_Unknown),
-        task_percentage_(-1) {}
+        task_percentage_(-1),
+        unmount_(false),
+        forget_(false) {}
 
   // A device can be discovered in different ways (udisks2, gio, etc.)
   // Sometimes the same device is discovered more than once.  In this case the device will have multiple "backends".
@@ -115,6 +119,9 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   Song::FileType transcode_format_;
 
   int task_percentage_;
+
+  bool unmount_;
+  bool forget_;
 
 };
 

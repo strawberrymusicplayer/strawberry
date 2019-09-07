@@ -48,6 +48,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   ~ConnectedDevice();
 
   virtual bool Init() = 0;
+  virtual bool IsLoading() { return false; }
   virtual void NewConnection() {}
   virtual void ConnectAsync();
   // For some devices (e.g. CD devices) we don't have callbacks to be notified when something change:
@@ -67,11 +68,16 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   virtual void FinishDelete(bool success);
 
   virtual void Eject();
+  virtual void Close();
+
+ public slots:
+  void CloseFinished();
 
  signals:
   void TaskStarted(int id);
   void SongCountUpdated(int count);
   void ConnectFinished(const QString& id, bool success);
+  void CloseFinished(const QString& id);
 
  protected:
   void InitBackendDirectory(const QString &mount_point, bool first_time, bool rewrite_path = true);

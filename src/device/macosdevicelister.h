@@ -35,7 +35,6 @@ class MacOsDeviceLister : public DeviceLister {
   virtual QString MakeFriendlyName(const QString &id);
   virtual QList<QUrl> MakeDeviceUrls(const QString &id);
 
-  virtual void UnmountDevice(const QString &id);
   virtual void UpdateDeviceFreeSpace(const QString &id);
 
   struct MTPDevice {
@@ -54,6 +53,7 @@ class MacOsDeviceLister : public DeviceLister {
   };
 
  public slots:
+  virtual void UnmountDevice(const QString &id);
   virtual void ShutDown();
 
  private:

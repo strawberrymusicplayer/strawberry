@@ -38,11 +38,11 @@
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "connecteddevice.h"
+#include "gpodloader.h"
 
 class Application;
 class DeviceLister;
 class DeviceManager;
-class GPodLoader;
 
 class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
@@ -59,6 +59,9 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
 
   bool Init();
   void ConnectAsync();
+  void Close();
+  bool IsLoading() { return loader_; }
+  QObject *Loader() { return loader_; }
 
   static QStringList url_schemes() { return QStringList() << "ipod"; }
 
@@ -86,12 +89,13 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   void WriteDatabase(bool success);
 
  protected:
-  QThread *loader_thread_;
   GPodLoader *loader_;
+  QThread *loader_thread_;
 
   QWaitCondition db_wait_cond_;
   QMutex db_mutex_;
   Itdb_iTunesDB *db_;
+  bool closing_;
 
   QMutex db_busy_;
   SongList songs_to_add_;

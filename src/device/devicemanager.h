@@ -104,7 +104,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   // Actions on devices
   std::shared_ptr<ConnectedDevice> Connect(DeviceInfo *info);
   std::shared_ptr<ConnectedDevice> Connect(QModelIndex idx);
-  void Disconnect(QModelIndex idx);
+  void Disconnect(DeviceInfo *info, QModelIndex idx);
   void Forget(QModelIndex idx);
   void UnmountAsync(QModelIndex idx);
 
@@ -131,7 +131,11 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void DeviceSongCountUpdated(int count);
   void LoadAllDevices();
   void DeviceConnectFinished(const QString &id, bool success);
+  void DeviceCloseFinished(const QString &id);
   void AddDeviceFromDB(DeviceInfo *info);
+  void BackendClosed();
+  void ListerClosed();
+  void DeviceDestroyed();
 
  protected:
   void LazyPopulate(DeviceInfo *item) { LazyPopulate(item, true); }
@@ -143,6 +147,12 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   template <typename T> void AddDeviceClass();
 
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
+
+  void RemoveFromDB(DeviceInfo *info, QModelIndex idx);
+
+  void CloseDevices();
+  void CloseListers();
+  void CloseBackend();
 
  private:
   Application *app_;
@@ -161,6 +171,9 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   QMap<int, QPersistentModelIndex> active_tasks_;
 
   QThreadPool thread_pool_;
+
+  QList<QObject*> wait_for_exit_;
+
 };
 
 template <typename T>

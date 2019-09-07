@@ -41,7 +41,8 @@ GPodLoader::GPodLoader(const QString &mount_point, TaskManager *task_manager, Co
       mount_point_(mount_point),
       type_(Song::FileType_Unknown),
       task_manager_(task_manager),
-      backend_(backend) {
+      backend_(backend),
+      abort_(false) {
   original_thread_ = thread();
 }
 
@@ -57,7 +58,7 @@ void GPodLoader::LoadDatabase() {
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished(db, db);
+  emit LoadFinished(db, !abort_);
 
 }
 
@@ -86,6 +87,9 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
 
   SongList songs;
   for (GList *tracks = db->tracks; tracks != nullptr; tracks = tracks->next) {
+
+    if (abort_) break;
+
     Itdb_Track *track = static_cast<Itdb_Track*>(tracks->data);
 
     Song song(Song::Source_Device);
@@ -99,9 +103,12 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
   // Need to remove all the existing songs in the database first
   backend_->DeleteSongs(backend_->FindSongsInDirectory(1));
 
-  // Add the songs we've just loaded
-  backend_->AddOrUpdateSongs(songs);
+  if (!abort_) {
+    // Add the songs we've just loaded
+    backend_->AddOrUpdateSongs(songs);
+  }
 
+  // This is done in the loader thread so close the unique DB connection.
   backend_->Close();
 
   return db;
