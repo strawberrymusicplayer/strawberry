@@ -32,8 +32,6 @@
 #include <QString>
 #include <QUrl>
 
-//#include "mtpconnection.h"
-
 class TaskManager;
 class CollectionBackend;
 class ConnectedDevice;

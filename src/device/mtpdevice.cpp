@@ -41,9 +41,9 @@
 #include "core/application.h"
 #include "core/musicstorage.h"
 #include "connecteddevice.h"
-#include "mtpconnection.h"
 #include "mtpdevice.h"
 #include "mtploader.h"
+#include "mtpconnection.h"
 
 class DeviceLister;
 class DeviceManager;
