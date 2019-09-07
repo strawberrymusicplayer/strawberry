@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <assert.h>
 #include <sqlite3.h>
 #include <boost/scope_exit.hpp>
 

@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <assert.h>
+
 #include <QThread>
 #include <QVariant>
 #include <QString>
