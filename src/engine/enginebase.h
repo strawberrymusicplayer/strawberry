@@ -206,7 +206,7 @@ private:
 };
 
 struct SimpleMetaBundle {
-  SimpleMetaBundle() : length(-1), year(-1), track(-1), samplerate(-1), bitdepth(-1) {}
+  SimpleMetaBundle() : length(-1), year(-1), track(-1), filetype(Song::FileType_Unknown), samplerate(-1), bitdepth(-1), bitrate(-1) {}
   QUrl url;
   QUrl stream_url;
   QString title;
