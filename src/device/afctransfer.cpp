@@ -61,7 +61,7 @@ void AfcTransfer::CopyFromDevice() {
 
   // Copy directories.  If one fails we stop.
   bool success = true;
-  foreach (const QString &dir, important_directories_) {
+  for (const QString &dir : important_directories_) {
     if (!CopyDirFromDevice(&c, dir)) {
       success = false;
       break;
@@ -82,7 +82,7 @@ bool AfcTransfer::CopyToDevice(iMobileDeviceConnection *connection) {
   if (!connection)
     connection = new iMobileDeviceConnection(uuid_);
 
-  foreach (const QString &dir, important_directories_)
+  for (const QString &dir : important_directories_)
     if (!CopyDirToDevice(connection, dir))
       return false;
 
@@ -92,12 +92,12 @@ bool AfcTransfer::CopyToDevice(iMobileDeviceConnection *connection) {
 
 bool AfcTransfer::CopyDirFromDevice(iMobileDeviceConnection *c, const QString &path) {
 
-  foreach (const QString &filename, c->ReadDirectory(path, QDir::Files | QDir::NoDotAndDotDot)) {
+  for (const QString &filename : c->ReadDirectory(path, QDir::Files | QDir::NoDotAndDotDot)) {
     if (!CopyFileFromDevice(c, path + "/" + filename))
       return false;
   }
 
-  foreach (const QString &dir, c->ReadDirectory(path, QDir::Dirs | QDir::NoDotAndDotDot)) {
+  for (const QString &dir : c->ReadDirectory(path, QDir::Dirs | QDir::NoDotAndDotDot)) {
     if (!CopyDirFromDevice(c, path + "/" + dir))
       return false;
   }
@@ -113,12 +113,12 @@ bool AfcTransfer::CopyDirToDevice(iMobileDeviceConnection *c, const QString &pat
     c->MkDir(path);
   }
 
-  foreach (const QString &filename, dir.entryList(QDir::Files | QDir::NoDotAndDotDot)) {
+  for (const QString &filename : dir.entryList(QDir::Files | QDir::NoDotAndDotDot)) {
     if (!CopyFileToDevice(c, path + "/" + filename))
       return false;
   }
 
-  foreach (const QString &dir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+  for (const QString &dir : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
     if (!CopyDirToDevice(c, path + "/" + dir))
       return false;
   }

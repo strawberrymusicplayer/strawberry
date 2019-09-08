@@ -40,7 +40,7 @@ std::ostream& operator <<(std::ostream& stream, const QNetworkRequest& req);
 template <typename T>
 std::ostream& operator <<(std::ostream& stream, const QList<T>& list) {
   stream << "QList(";
-  foreach (const T& item, list) {
+  for (const T& item : list) {
     stream << item << ",";
   }
   stream << ")";
