@@ -55,10 +55,10 @@ UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
   QUrl stream_url(server_url());
 
   if (!stream_url.path().isEmpty() && stream_url.path().right(1) == "/") {
-    stream_url.setPath(stream_url.path() + QString("rest/stream"));
+    stream_url.setPath(stream_url.path() + QString("rest/stream.view"));
   }
   else
-    stream_url.setPath(stream_url.path() + QString("/rest/stream"));
+    stream_url.setPath(stream_url.path() + QString("/rest/stream.view"));
 
   stream_url.setQuery(url_query);
 

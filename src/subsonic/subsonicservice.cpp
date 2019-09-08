@@ -57,7 +57,7 @@ using std::shared_ptr;
 
 const Song::Source SubsonicService::kSource = Song::Source_Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
-const char *SubsonicService::kApiVersion = "1.13.0";
+const char *SubsonicService::kApiVersion = "1.11.0";
 const char *SubsonicService::kSongsTable = "subsonic_songs";
 const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
 const int SubsonicService::kMaxRedirects = 3;

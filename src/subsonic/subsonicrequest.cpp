@@ -264,6 +264,10 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     }
 
     qint64 album_id = json_obj["id"].toString().toLongLong();
+    if (album_id == 0) {
+      album_id = json_obj["id"].toInt();
+    }
+
     QString artist = json_obj["artist"].toString();
     QString album;
     if (json_obj.contains("album")) album = json_obj["album"].toString();
@@ -495,8 +499,13 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   }
 
   qint64 song_id = json_obj["id"].toString().toLongLong();
+  if (song_id == 0) song_id = json_obj["id"].toInt();
+
   qint64 album_id = json_obj["albumId"].toString().toLongLong();
+  if (album_id == 0) album_id = json_obj["albumId"].toInt();
+
   qint64 artist_id = json_obj["artistId"].toString().toLongLong();
+  if (artist_id == 0) artist_id = json_obj["artistId"].toInt();
 
   QString title = json_obj["title"].toString();
   title.remove(Song::kTitleRemoveMisc);
@@ -511,7 +520,10 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   if (json_obj.contains("year")) year = json_obj["year"].toInt();
 
   int disc = 0;
-  if (json_obj.contains("disc")) disc = json_obj["disc"].toString().toInt();
+  if (json_obj.contains("disc")) {
+    disc = json_obj["disc"].toString().toInt();
+    if (disc == 0) disc = json_obj["disc"].toInt();
+  }
 
   int track = 0;
   if (json_obj.contains("track")) track = json_obj["track"].toInt();
@@ -520,7 +532,10 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   if (json_obj.contains("genre")) genre = json_obj["genre"].toString();
 
   int cover_art_id = -1;
-  if (json_obj.contains("coverArt")) cover_art_id = json_obj["coverArt"].toString().toInt();
+  if (json_obj.contains("coverArt")) {
+    cover_art_id = json_obj["coverArt"].toString().toInt();
+    if (cover_art_id == 0) cover_art_id = json_obj["coverArt"].toInt();
+  }
 
   QUrl url;
   url.setScheme(url_handler_->scheme());
