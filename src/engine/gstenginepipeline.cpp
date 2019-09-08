@@ -126,7 +126,9 @@ GstEnginePipeline::~GstEnginePipeline() {
   }
 
   if (discoverer_) {
+#ifndef Q_OS_WIN
     gst_discoverer_stop(discoverer_);
+#endif
     g_object_unref(discoverer_);
   }
 
@@ -412,8 +414,10 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_object_unref(bus);
 
   // Add request to discover the stream
-  if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
-    qLog(Error) << "Failed to start stream discovery for" << stream_url_;
+  if (discoverer_) {
+    if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
+      qLog(Error) << "Failed to start stream discovery for" << stream_url_;
+    }
   }
 
   return true;
@@ -446,10 +450,11 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
 
   // Setting up a discoverer
   discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, NULL);
-  if (!discoverer_) return false;
-  CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
-  CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
-  gst_discoverer_start(discoverer_);
+  if (discoverer_) {
+    CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
+    CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
+    gst_discoverer_start(discoverer_);
+  }
 
   if (!InitAudioBin()) return false;
 
