@@ -84,7 +84,7 @@ void CddaSongLoader::LoadSongs() {
     g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
   }
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (cdda_), "paranoia-mode")) {
-    g_object_set (cdda_, "paranoia-mode", 0, NULL);
+    g_object_set (cdda_, "paranoia-mode", 0, nullptr);
   }
 
   // Change the element's state to ready and paused, to be able to query it
@@ -123,8 +123,8 @@ void CddaSongLoader::LoadSongs() {
   gst_tag_register_musicbrainz_tags();
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
-  GstElement *sink = gst_element_factory_make ("fakesink", NULL);
-  gst_bin_add_many (GST_BIN (pipeline), cdda_, sink, NULL);
+  GstElement *sink = gst_element_factory_make ("fakesink", nullptr);
+  gst_bin_add_many (GST_BIN (pipeline), cdda_, sink, nullptr);
   gst_element_link (cdda_, sink);
   gst_element_set_state(pipeline, GST_STATE_READY);
   gst_element_set_state(pipeline, GST_STATE_PAUSED);

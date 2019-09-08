@@ -36,7 +36,7 @@
 #include "imobiledeviceconnection.h"
 
 AfcDevice::AfcDevice(const QUrl &url, DeviceLister* lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-      : GPodDevice(url, lister, unique_id, manager, app, database_id, first_time), transfer_(NULL)
+      : GPodDevice(url, lister, unique_id, manager, app, database_id, first_time), transfer_(nullptr)
 {
 }
 
@@ -66,7 +66,7 @@ bool AfcDevice::Init() {
 void AfcDevice::CopyFinished(bool success) {
 
   transfer_->deleteLater();
-  transfer_ = NULL;
+  transfer_ = nullptr;
 
   if (!success) {
     app_->AddError(tr("An error occurred copying the iTunes database from the device"));
@@ -147,7 +147,7 @@ bool AfcDevice::CopyToStorage(const CopyJob &job) {
 void AfcDevice::FinishCopy(bool success) {
 
   // Temporarily unset the GUID so libgpod doesn't lock the device for syncing
-  itdb_device_set_sysinfo(db_->device, "FirewireGuid", NULL);
+  itdb_device_set_sysinfo(db_->device, "FirewireGuid", nullptr);
 
   GPodDevice::FinishCopy(success);
 
@@ -163,7 +163,7 @@ void AfcDevice::FinaliseDatabase() {
 
   // Copy the files back to the iPod
   // No need to start another thread since we're already in the organiser thread
-  AfcTransfer transfer(url_.host(), local_path_, NULL, shared_from_this());
+  AfcTransfer transfer(url_.host(), local_path_, nullptr, shared_from_this());
 
   itdb_start_sync(db_);
   bool success = transfer.CopyToDevice(connection_.get());

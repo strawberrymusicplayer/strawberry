@@ -104,10 +104,10 @@ QVariant iMobileDeviceConnection::GetProperty(const QString &property, const QSt
     return QVariant();
   }
 
-  plist_t node = NULL;
+  plist_t node = nullptr;
   QByteArray domain_ascii = domain.toUtf8();
-  const char *d = domain_ascii.isEmpty() ? NULL : domain_ascii.constData();
-  //const char *d = domain.isEmpty() ? NULL : "com.apple.disk_usage";
+  const char *d = domain_ascii.isEmpty() ? nullptr : domain_ascii.constData();
+  //const char *d = domain.isEmpty() ? nullptr : "com.apple.disk_usage";
   lockdownd_get_value(lockdown, d, property.toUtf8().constData(), &node);
   lockdownd_client_free(lockdown);
 
@@ -141,14 +141,14 @@ QStringList iMobileDeviceConnection::ReadDirectory(const QString &path, QDir::Fi
 
   if (!afc_) return QStringList();
 
-  char **list = NULL;
+  char **list = nullptr;
   afc_error_t err = afc_read_directory(afc_, path.toUtf8().constData(), &list);
   if (err != AFC_E_SUCCESS || !list) {
     return QStringList();
   }
 
   QStringList ret;
-  for (char **p = list ; *p != NULL ; ++p) {
+  for (char **p = list ; *p != nullptr ; ++p) {
     QString filename = QString::fromUtf8(*p);
     free(*p);
 
@@ -184,14 +184,14 @@ QString iMobileDeviceConnection::GetFileInfo(const QString &path, const QString 
   if (!afc_) return QString();
 
   QString ret;
-  char **infolist = NULL;
+  char **infolist = nullptr;
   afc_error_t err = afc_get_file_info(afc_, path.toUtf8().constData(), &infolist);
   if (err != AFC_E_SUCCESS || !infolist) {
     return ret;
   }
 
   QString last_key;
-  for (char **p = infolist ; *p != NULL ; ++p) {
+  for (char **p = infolist ; *p != nullptr ; ++p) {
     if (last_key.isNull()) {
       last_key = QString::fromUtf8(*p);
     }

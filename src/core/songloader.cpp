@@ -447,12 +447,12 @@ SongLoader::Result SongLoader::LoadRemote() {
   // Connect callbacks
   GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline.get()));
   CHECKED_GCONNECT(typefind, "have-type", &TypeFound, this);
-  gst_bus_set_sync_handler(bus, BusCallbackSync, this, NULL);
+  gst_bus_set_sync_handler(bus, BusCallbackSync, this, nullptr);
   gst_bus_add_watch(bus, BusCallback, this);
 
   // Add a probe to the sink so we can capture the data if it's a playlist
   GstPad *pad = gst_element_get_static_pad(fakesink, "sink");
-  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, &DataReady, this, NULL);
+  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, &DataReady, this, nullptr);
   gst_object_unref(pad);
 
   QEventLoop loop;

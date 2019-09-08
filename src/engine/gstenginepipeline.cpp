@@ -307,7 +307,7 @@ bool GstEnginePipeline::InitAudioBin() {
   // Add a data probe on the src pad of the audioconvert element for our scope.
   // We do it here because we want pre-equalized and pre-volume samples so that our visualization are not be affected by them.
   pad = gst_element_get_static_pad(event_probe, "src");
-  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &EventHandoffCallback, this, NULL);
+  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &EventHandoffCallback, this, nullptr);
   gst_object_unref(pad);
 
   // Configure the fakesink properly
@@ -449,7 +449,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
 
   // Setting up a discoverer
-  discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, NULL);
+  discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
   if (discoverer_) {
     CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
     CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
@@ -459,7 +459,7 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
   if (!InitAudioBin()) return false;
 
   // Set playbin's sink to be our costum audio-sink.
-  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, NULL);
+  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
   pipeline_is_connected_ = true;
 
   return true;
@@ -550,7 +550,7 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
     const GValue *val = gst_message_get_stream_status_object(msg);
     if (G_VALUE_TYPE(val) == GST_TYPE_TASK) {
       GstTask *task = static_cast<GstTask*>(g_value_get_object(val));
-      gst_task_set_enter_callback(task, &TaskEnterCallback, this, NULL);
+      gst_task_set_enter_callback(task, &TaskEnterCallback, this, nullptr);
     }
   }
 

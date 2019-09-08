@@ -101,7 +101,7 @@ QString Chromaprinter::CreateFingerprint() {
       "format", G_TYPE_STRING, "S16LE",
       "channels", G_TYPE_INT, kDecodeChannels,
       "rate", G_TYPE_INT, kDecodeRate,
-      NULL);
+      nullptr);
   gst_element_link_filtered(resample, sink, caps);
   gst_caps_unref(caps);
 
