@@ -199,7 +199,7 @@ void ContextView::SongChanged(const Song &song) {
     song_playing_ = song;
     song_ = song;
     SetSong(song);
-    if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) {
+    if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song.artist().isEmpty() && !song.title().isEmpty()) {
       lyrics_fetcher_->Clear();
       lyrics_id_ = lyrics_fetcher_->Search(song.effective_albumartist(), song.album(), song.title());
     }
@@ -680,7 +680,7 @@ void ContextView::ActionShowLyrics() {
   s.setValue("show_lyrics", action_show_lyrics_->isChecked());
   s.endGroup();
   SetSong(song_);
-  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked()) {
+  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song_.artist().isEmpty() && !song_.title().isEmpty()) {
     lyrics_fetcher_->Clear();
     lyrics_id_ = lyrics_fetcher_->Search(song_.artist(), song_.album(), song_.title());
   }
