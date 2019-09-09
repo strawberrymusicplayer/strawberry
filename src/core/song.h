@@ -143,7 +143,9 @@ class Song {
   QIcon IconForFiletype() const { return IconForFiletype(filetype()); }
 
   bool IsFileLossless() const;
-  static FileType FiletypeByExtension(QString ext);
+  static FileType FiletypeByMimetype(const QString &mimetype);
+  static FileType FiletypeByDescription(const QString &text);
+  static FileType FiletypeByExtension(const QString &ext);
 
   // Sort songs alphabetically using their pretty title
   static void SortSongsListAlphabetically(QList<Song> *songs);

@@ -601,7 +601,48 @@ bool Song::IsFileLossless() const {
   }
 }
 
-Song::FileType Song::FiletypeByExtension(QString ext) {
+Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
+
+  if (mimetype.toLower() == "audio/wav" || mimetype.toLower() == "audio/x-wav") return Song::FileType_WAV;
+  else if (mimetype.toLower() == "audio/x-flac") return Song::FileType_FLAC;
+  else if (mimetype.toLower() == "audio/x-wavpack") return Song::FileType_WavPack;
+  else if (mimetype.toLower() == "audio/x-vorbis") return Song::FileType_OggVorbis;
+  else if (mimetype.toLower() == "audio/x-opus") return Song::FileType_OggOpus;
+  else if (mimetype.toLower() == "audio/x-speex")  return Song::FileType_OggSpeex;
+  // Gstreamer returns audio/mpeg for both MP3 and MP4/AAC.
+  // else if (mimetype.toLower() == "audio/mpeg") return Song::FileType_MPEG;
+  else if (mimetype.toLower() == "audio/aac") return Song::FileType_MP4;
+  else if (mimetype.toLower() == "audio/x-wma") return Song::FileType_ASF;
+  else if (mimetype.toLower() == "audio/aiff" || mimetype.toLower() == "audio/x-aiff") return Song::FileType_AIFF;
+  else if (mimetype.toLower() == "application/x-project") return Song::FileType_MPC;
+  else if (mimetype.toLower() == "audio/x-dsf") return Song::FileType_DSF;
+  else if (mimetype.toLower() == "audio/x-dsd") return Song::FileType_DSDIFF;
+  else if (mimetype.toLower() == "audio/x-ape" || mimetype.toLower() == "application/x-ape" || mimetype.toLower() == "audio/x-ffmpeg-parsed-ape") return Song::FileType_APE;
+  else return Song::FileType_Unknown;
+
+}
+
+Song::FileType Song::FiletypeByDescription(const QString &text) {
+
+  if (text == "WAV") return Song::FileType_WAV;
+  else if (text == "Free Lossless Audio Codec (FLAC)") return Song::FileType_FLAC;
+  else if (text == "Wavpack") return Song::FileType_WavPack;
+  else if (text == "Vorbis") return Song::FileType_OggVorbis;
+  else if (text == "Opus") return Song::FileType_OggOpus;
+  else if (text == "Speex") return Song::FileType_OggSpeex;
+  else if (text == "MPEG-1 Layer 3 (MP3)") return Song::FileType_MPEG;
+  else if (text == "MPEG-4 AAC") return Song::FileType_MP4;
+  else if (text == "WMA") return Song::FileType_ASF;
+  else if (text == "Audio Interchange File Format") return Song::FileType_AIFF;
+  else if (text == "MPC") return Song::FileType_MPC;
+  else if (text == "audio/x-dsf") return Song::FileType_DSF;
+  else if (text == "audio/x-dsd") return Song::FileType_DSDIFF;
+  else if (text == "audio/x-ffmpeg-parsed-ape") return Song::FileType_APE;
+  else return Song::FileType_Unknown;
+
+}
+
+Song::FileType Song::FiletypeByExtension(const QString &ext) {
 
   if (ext.toLower() == "wav" || ext.toLower() == "wave") return Song::FileType_WAV;
   else if (ext.toLower() == "flac") return Song::FileType_FLAC;

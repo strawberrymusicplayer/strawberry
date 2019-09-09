@@ -1182,21 +1182,31 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovere
     bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
     bundle.bitrate = gst_discoverer_audio_info_get_bitrate(GST_DISCOVERER_AUDIO_INFO(stream_info));
 
-    GstCaps *stream_caps = gst_discoverer_stream_info_get_caps(stream_info);
-    gchar *decoder_description = gst_pb_utils_get_codec_description(stream_caps);
-    QString filetype_description = (decoder_description ? QString(decoder_description) : QString("Unknown"));
+    GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
+    gchar *codec_description = gst_pb_utils_get_codec_description(caps);
+    QString filetype_description = (codec_description ? QString(codec_description) : QString("Unknown"));
+    g_free(codec_description);
 
-    gst_caps_unref(stream_caps);
-    g_free(decoder_description);
+    gchar *caps_gchar = gst_caps_to_string(caps);
+    QString caps_str(caps_gchar);
+    g_free (caps_gchar);
+
+    gst_caps_unref(caps);
     gst_discoverer_stream_info_list_free(audio_streams);
 
-    qLog(Info) << QString("Got stream info for %1: %2").arg(discovered_url).arg(filetype_description);
+    int i = caps_str.indexOf(',');
+    QString mimetype = (i > 1 ? caps_str.left(i) : caps_str);
+    bundle.filetype = Song::FiletypeByMimetype(mimetype);
+    if (bundle.filetype == Song::FileType_Unknown) {
+      bundle.filetype = Song::FiletypeByDescription(filetype_description);
+    }
+    qLog(Info) << "Got stream info for" << discovered_url + ":" << mimetype << filetype_description;
 
     emit instance->MetadataFound(instance->id(), bundle);
 
   }
   else {
-    qLog(Error) << QString("Could not detect an audio stream in %1").arg(discovered_url);
+    qLog(Error) << "Could not detect an audio stream in" << discovered_url;
   }
 
 }
@@ -1208,17 +1218,12 @@ void GstEnginePipeline::StreamDiscoveryFinished(GstDiscoverer *discoverer, gpoin
 QString GstEnginePipeline::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 
   switch (result) {
-    case (GST_DISCOVERER_URI_INVALID):
-      return tr("Invalid URL");
-    case (GST_DISCOVERER_TIMEOUT):
-      return tr("Connection timed out");
-    case (GST_DISCOVERER_BUSY):
-      return tr("The discoverer is busy");
-    case (GST_DISCOVERER_MISSING_PLUGINS):
-      return tr("Missing plugins");
-    case (GST_DISCOVERER_ERROR):
-    default:
-      return tr("Could not get details");
+    case GST_DISCOVERER_URI_INVALID:     return "The URI is invalid";
+    case GST_DISCOVERER_TIMEOUT:         return "The discovery timed-out";
+    case GST_DISCOVERER_BUSY:            return "The discoverer was already discovering a file";
+    case GST_DISCOVERER_MISSING_PLUGINS: return "Some plugins are missing for full discovery";
+    case GST_DISCOVERER_ERROR:
+    default:                             return "An error happened and the GError is set";
   }
 
 }
