@@ -113,15 +113,16 @@ bool AfcTransfer::CopyDirToDevice(iMobileDeviceConnection *c, const QString &pat
     c->MkDir(path);
   }
 
-  for (const QString &filename : dir.entryList(QDir::Files | QDir::NoDotAndDotDot)) {
-    if (!CopyFileToDevice(c, path + "/" + filename))
+  for (const QString &i : dir.entryList(QDir::Files | QDir::NoDotAndDotDot)) {
+    if (!CopyFileToDevice(c, path + "/" + i))
       return false;
   }
 
-  for (const QString &dir : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-    if (!CopyDirToDevice(c, path + "/" + dir))
+  for (const QString &i : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+    if (!CopyDirToDevice(c, path + "/" + i))
       return false;
   }
+
   return true;
 
 }
