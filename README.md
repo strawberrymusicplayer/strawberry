@@ -12,7 +12,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
 ### :heavy_check_mark: Features:
 
   * Play and organize music
-  * Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
+  * Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis/Opus/Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
   * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
