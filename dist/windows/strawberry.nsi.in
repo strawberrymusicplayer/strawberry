@@ -333,6 +333,9 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgstasf.dll" "gstreamer-plugins\libgstasf.dll"
   File "/oname=libgstasfmux.dll" "gstreamer-plugins\libgstasfmux.dll"
   File "/oname=libgstlibav.dll" "gstreamer-plugins\libgstlibav.dll"
+  File "/oname=libgstpbtypes.dll" "gstreamer-plugins\libgstpbtypes.dll"
+  File "/oname=libgstrtp.dll" "gstreamer-plugins\libgstrtp.dll"
+  File "/oname=libgstrtsp.dll" "gstreamer-plugins\libgstrtsp.dll"
 
 SectionEnd
 
@@ -553,6 +556,9 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\libgstasf.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstasfmux.dll"
   Delete "$INSTDIR\gstreamer-plugins\libgstlibav.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstpbtypes.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstrtp.dll"
+  Delete "$INSTDIR\gstreamer-plugins\libgstrtsp.dll"
 
 !ifdef debug
   Delete "$INSTDIR\xine-plugins\xineplug_ao_out_directx2.dll"
