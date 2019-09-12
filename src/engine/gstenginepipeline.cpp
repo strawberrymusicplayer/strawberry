@@ -443,6 +443,12 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
 
   g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
 
+  gint flags;
+  g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
+  flags |= 0x00000002;
+  flags &= ~0x00000001;
+  g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
+
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
   CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
