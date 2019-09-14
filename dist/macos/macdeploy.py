@@ -97,6 +97,9 @@ GSTREAMER_PLUGINS = [
     'libgstxingmux.so',
     'libgsttcp.so',
     'libgstudp.so',
+    'libgstpbtypes.so',
+    'libgstrtp.so',
+    'libgstrtsp.so',
 
     'libgstflac.so',
     'libgstwavparse.so',
