@@ -43,7 +43,7 @@ class DeviceLister : public QObject {
 
   // Tries to start the thread and initialise the engine.  This object will be moved to the new thread.
   void Start();
-  void ExitAsync();
+  virtual void ExitAsync();
 
   // If two listers know about the same device, then the metadata will get taken from the one with the highest priority.
   virtual int priority() const { return 100; }
@@ -70,14 +70,12 @@ class DeviceLister : public QObject {
   // Do whatever needs to be done to safely remove the device.
   virtual void UnmountDeviceAsync(const QString &id);
 
- private slots:
-  void Exit();
-
  public slots:
   virtual void UpdateDeviceFreeSpace(const QString &id) = 0;
   virtual void ShutDown() {}
   virtual void MountDevice(const QString &id, const int ret);
   virtual void UnmountDevice(const QString &id) {}
+  virtual void Exit();
 
  signals:
   void DeviceAdded(const QString &id);

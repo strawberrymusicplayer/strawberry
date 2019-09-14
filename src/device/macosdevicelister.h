@@ -1,3 +1,23 @@
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #ifndef MACDEVICELISTER_H
 #define MACDEVICELISTER_H
 
@@ -20,22 +40,23 @@
 
 class MacOsDeviceLister : public DeviceLister {
   Q_OBJECT
+
  public:
   MacOsDeviceLister();
   ~MacOsDeviceLister();
 
-  virtual QStringList DeviceUniqueIDs();
-  virtual QVariantList DeviceIcons(const QString &id);
-  virtual QString DeviceManufacturer(const QString &id);
-  virtual QString DeviceModel(const QString &id);
-  virtual quint64 DeviceCapacity(const QString &id);
-  virtual quint64 DeviceFreeSpace(const QString &id);
-  virtual QVariantMap DeviceHardwareInfo(const QString &id);
-  virtual bool AskForScan(const QString &serial) const;
-  virtual QString MakeFriendlyName(const QString &id);
-  virtual QList<QUrl> MakeDeviceUrls(const QString &id);
+  QStringList DeviceUniqueIDs();
+  QVariantList DeviceIcons(const QString &id);
+  QString DeviceManufacturer(const QString &id);
+  QString DeviceModel(const QString &id);
+  quint64 DeviceCapacity(const QString &id);
+  quint64 DeviceFreeSpace(const QString &id);
+  QVariantMap DeviceHardwareInfo(const QString &id);
+  bool AskForScan(const QString &serial) const;
+  QString MakeFriendlyName(const QString &id);
+  QList<QUrl> MakeDeviceUrls(const QString &id);
 
-  virtual void UpdateDeviceFreeSpace(const QString &id);
+  void UpdateDeviceFreeSpace(const QString &id);
 
   struct MTPDevice {
     MTPDevice() : capacity(0), free_space(0) {}
@@ -52,12 +73,14 @@ class MacOsDeviceLister : public DeviceLister {
     quint64 free_space;
   };
 
+  void ExitAsync();
+
  public slots:
-  virtual void UnmountDevice(const QString &id);
-  virtual void ShutDown();
+  void UnmountDevice(const QString &id);
+  void ShutDown();
 
  private:
-  virtual bool Init();
+  bool Init();
 
   static void DiskAddedCallback(DADiskRef disk, void* context);
   static void DiskRemovedCallback(DADiskRef disk, void* context);
