@@ -126,7 +126,7 @@ GstEnginePipeline::~GstEnginePipeline() {
   }
 
   if (discoverer_) {
-#ifndef Q_OS_WIN
+#ifdef Q_OS_LINUX
     gst_discoverer_stop(discoverer_);
 #endif
     g_object_unref(discoverer_);
