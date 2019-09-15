@@ -757,6 +757,8 @@ DeviceLister *DeviceManager::GetLister(QModelIndex idx) const {
 
 void DeviceManager::Disconnect(DeviceInfo *info, QModelIndex idx) {
 
+  Q_UNUSED(idx);
+
   info->device_->Close();
 
 }
@@ -901,6 +903,8 @@ void DeviceManager::Unmount(QModelIndex idx) {
 
 void DeviceManager::DeviceSongCountUpdated(int count) {
 
+  Q_UNUSED(count);
+
   ConnectedDevice *device = qobject_cast<ConnectedDevice*>(sender());
   if (!device) return;
 
@@ -915,11 +919,14 @@ void DeviceManager::DeviceSongCountUpdated(int count) {
 }
 
 void DeviceManager::LazyPopulate(DeviceInfo *parent, bool signal) {
+
+  Q_UNUSED(signal);
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;
+
 }
 
-QString DeviceManager::DeviceNameByID(QString unique_id) {
+QString DeviceManager::DeviceNameByID(const QString &unique_id) {
 
   DeviceInfo *info = FindDeviceById(unique_id);
   if (!info) return QString();

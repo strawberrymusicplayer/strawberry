@@ -57,6 +57,8 @@ QSize FavoriteWidget::sizeHint() const {
 
 void FavoriteWidget::paintEvent(QPaintEvent *e) {
 
+  Q_UNUSED(e);
+
   QStylePainter p(this);
 
   if (favorite_) {
@@ -69,7 +71,11 @@ void FavoriteWidget::paintEvent(QPaintEvent *e) {
 }
 
 void FavoriteWidget::mouseReleaseEvent(QMouseEvent *e) {
+
+  Q_UNUSED(e);
+
   favorite_ = !favorite_;
   update();
   emit FavoriteStateChanged(tab_index_, favorite_);
+
 }

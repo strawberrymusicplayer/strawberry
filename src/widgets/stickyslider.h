@@ -31,8 +31,9 @@ class QMouseEvent;
 
 class StickySlider : public QSlider {
   Q_OBJECT
-  Q_PROPERTY(int sticky_center READ sticky_center WRITE set_sticky_center);
-  Q_PROPERTY(int sticky_threshold READ sticky_threshold WRITE set_sticky_threshold);
+
+  Q_PROPERTY(int sticky_center READ sticky_center WRITE set_sticky_center)
+  Q_PROPERTY(int sticky_threshold READ sticky_threshold WRITE set_sticky_threshold)
 
  public:
   StickySlider(QWidget* parent = nullptr);

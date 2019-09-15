@@ -298,7 +298,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
 
 }
 
-void LocalRedirectServer::SSLErrors(const QList<QSslError> &errors) {}
+void LocalRedirectServer::SSLErrors(const QList<QSslError> &errors) { Q_UNUSED(errors); }
 
 void LocalRedirectServer::Encrypted() {}
 

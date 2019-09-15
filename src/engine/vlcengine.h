@@ -48,14 +48,14 @@ class VLCEngine : public Engine::Base {
 
   bool Init();
   Engine::State state() const { return state_; }
-  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  bool Play(quint64 offset_nanosec);
-  void Stop(bool stop_after = false);
+  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  bool Play(const quint64 offset_nanosec);
+  void Stop(const bool stop_after = false);
   void Pause();
   void Unpause();
-  void Seek(quint64 offset_nanosec);
+  void Seek(const quint64 offset_nanosec);
  protected:
-  void SetVolumeSW(uint percent);
+  void SetVolumeSW(const uint percent);
  public:
   virtual qint64 position_nanosec() const;
   virtual qint64 length_nanosec() const;
@@ -79,7 +79,7 @@ class VLCEngine : public Engine::Base {
   static void StateChangedCallback(const libvlc_event_t* e, void* data);
 
   PluginDetailsList GetPluginList() const;
-  void GetDevicesList(QString output) const;
+  void GetDevicesList(const QString &output) const;
 
 };
 

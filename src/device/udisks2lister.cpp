@@ -61,6 +61,7 @@ QStringList Udisks2Lister::DeviceUniqueIDs() {
 }
 
 QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
+  Q_UNUSED(id);
   return QVariantList();
 }
 
@@ -245,6 +246,7 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
 }
 
 void Udisks2Lister::DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &ifaces) {
+  Q_UNUSED(ifaces);
   if (!isPendingJob(path)) RemoveDevice(path);
 }
 
@@ -295,6 +297,8 @@ QList<QDBusObjectPath> Udisks2Lister::GetMountedPartitionsFromDBusArgument(const
 }
 
 void Udisks2Lister::JobCompleted(bool success, const QString &message) {
+
+  Q_UNUSED(message);
 
   auto job = qobject_cast<OrgFreedesktopUDisks2JobInterface*>(sender());
   QDBusObjectPath jobPath(job->path());

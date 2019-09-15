@@ -478,6 +478,8 @@ void TagReader::ParseOggTag(const TagLib::Ogg::FieldListMap &map, const QTextCod
 
 void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCodec *codec, QString *disc, QString *compilation, pb::tagreader::SongMetadata *song) const {
 
+  Q_UNUSED(codec);
+
   TagLib::APE::ItemListMap::ConstIterator it = map.find("ALBUM ARTIST");
   if (it != map.end()) {
     TagLib::StringList album_artists = it->second.toStringList();

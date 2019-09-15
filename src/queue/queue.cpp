@@ -128,10 +128,12 @@ void Queue::SourceLayoutChanged() {
 }
 
 QModelIndex Queue::index(int row, int column, const QModelIndex &parent) const {
+  Q_UNUSED(parent);
   return createIndex(row, column);
 }
 
 QModelIndex Queue::parent(const QModelIndex &child) const {
+  Q_UNUSED(child);
   return QModelIndex();
 }
 
@@ -428,6 +430,9 @@ int Queue::TakeNext() {
 }
 
 QVariant Queue::headerData(int section, Qt::Orientation orientation, int role) const {
+  Q_UNUSED(section);
+  Q_UNUSED(orientation);
+  Q_UNUSED(role);
   return QVariant();
 }
 

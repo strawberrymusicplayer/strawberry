@@ -29,6 +29,7 @@
 class PoTranslator : public QTranslator {
  public:
   QString translate(const char *context, const char *source_text, const char *disambiguation = 0, int n = -1) const {
+    Q_UNUSED(n);
     QString ret = QTranslator::translate(context, source_text, disambiguation);
     if (!ret.isEmpty()) return ret;
     return QTranslator::translate(nullptr, source_text, disambiguation);

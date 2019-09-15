@@ -388,6 +388,8 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 // ... and we add the cover information later, when it's available.
 void Mpris2::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(image);
+
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
 
@@ -502,19 +504,31 @@ TrackIds Mpris2::Tracks() const {
 bool Mpris2::CanEditTracks() const { return false; }
 
 TrackMetadata Mpris2::GetTracksMetadata(const TrackIds &tracks) const {
+
+  Q_UNUSED(tracks);
+
   // TODO
   return TrackMetadata();
+
 }
 
 void Mpris2::AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent) {
+
+  Q_UNUSED(uri);
+  Q_UNUSED(afterTrack);
+  Q_UNUSED(setAsCurrent);
+
   // TODO
+
 }
 
 void Mpris2::RemoveTrack(const QDBusObjectPath &trackId) {
+  Q_UNUSED(trackId);
   // TODO
 }
 
 void Mpris2::GoTo(const QDBusObjectPath &trackId) {
+  Q_UNUSED(trackId);
   // TODO
 }
 
@@ -571,6 +585,8 @@ void Mpris2::ActivatePlaylist(const QDBusObjectPath &playlist_id) {
 // TODO: Support sort orders.
 MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order) {
 
+  Q_UNUSED(order);
+
   MprisPlaylistList ret;
   for (Playlist *p : app_->playlist_manager()->GetAllPlaylists()) {
     MprisPlaylist mpris_playlist;
@@ -597,6 +613,7 @@ void Mpris2::PlaylistChanged(Playlist *playlist) {
 }
 
 void Mpris2::PlaylistCollectionChanged(Playlist *playlist) {
+  Q_UNUSED(playlist);
   EmitNotification("PlaylistCount", "", "org.mpris.MediaPlayer2.Playlists");
 }
 

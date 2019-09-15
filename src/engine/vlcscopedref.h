@@ -52,9 +52,9 @@ class VlcScopedRef {
 template <typename T>
 void VlcScopedRef_Release(T* ptr);
 
-VLCSCOPEDREF_DEFINE2(instance, libvlc_release);
-VLCSCOPEDREF_DEFINE(media_player);
-VLCSCOPEDREF_DEFINE(media);
+VLCSCOPEDREF_DEFINE2(instance, libvlc_release)
+VLCSCOPEDREF_DEFINE(media_player)
+VLCSCOPEDREF_DEFINE(media)
 
 template <> void VlcScopedRef_Release<char>(char* ptr) { free(ptr); }
 

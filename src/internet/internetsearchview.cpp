@@ -575,14 +575,17 @@ void InternetSearchView::SetGroupBy(const CollectionModel::Grouping &g) {
 }
 
 void InternetSearchView::SearchArtistsClicked(bool checked) {
+  Q_UNUSED(checked);
   SetSearchType(InternetSearch::SearchType_Artists);
 }
 
 void InternetSearchView::SearchAlbumsClicked(bool checked) {
+  Q_UNUSED(checked);
   SetSearchType(InternetSearch::SearchType_Albums);
 }
 
 void InternetSearchView::SearchSongsClicked(bool checked) {
+  Q_UNUSED(checked);
   SetSearchType(InternetSearch::SearchType_Songs);
 }
 

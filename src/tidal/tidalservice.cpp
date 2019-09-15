@@ -700,18 +700,22 @@ void TidalService::GetArtists() {
 }
 
 void TidalService::ArtistsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit ArtistsResults(songs, error);
 }
 
 void TidalService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
 }
 
 void TidalService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit ArtistsProgressSetMaximum(max);
 }
 
 void TidalService::ArtistsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit ArtistsUpdateProgress(progress);
 }
 
@@ -753,18 +757,22 @@ void TidalService::GetAlbums() {
 }
 
 void TidalService::AlbumsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit AlbumsResults(songs, error);
 }
 
 void TidalService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
 }
 
 void TidalService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit AlbumsProgressSetMaximum(max);
 }
 
 void TidalService::AlbumsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit AlbumsUpdateProgress(progress);
 }
 
@@ -806,18 +814,22 @@ void TidalService::GetSongs() {
 }
 
 void TidalService::SongsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit SongsResults(songs, error);
 }
 
 void TidalService::SongsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit SongsUpdateStatus(text);
 }
 
 void TidalService::SongsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit SongsProgressSetMaximum(max);
 }
 
 void TidalService::SongsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit SongsUpdateProgress(progress);
 }
 

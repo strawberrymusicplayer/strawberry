@@ -56,7 +56,7 @@ enum {
 };
 
 #define gst_fastspectrum_parent_class parent_class
-G_DEFINE_TYPE (GstFastSpectrum, gst_fastspectrum, GST_TYPE_AUDIO_FILTER);
+G_DEFINE_TYPE (GstFastSpectrum, gst_fastspectrum, GST_TYPE_AUDIO_FILTER)
 
 static void gst_fastspectrum_finalize (GObject * object);
 static void gst_fastspectrum_set_property (GObject * object, guint prop_id, const GValue * value, GParamSpec * pspec);
@@ -260,6 +260,8 @@ static gboolean gst_fastspectrum_stop (GstBaseTransform * trans) {
 
 static void input_data_mixed_float(const guint8* _in, double* out, guint len, double max_value, guint op, guint nfft) {
 
+  Q_UNUSED(max_value);
+
   guint j, ip = 0;
   gfloat *in = (gfloat *) _in;
 
@@ -271,6 +273,8 @@ static void input_data_mixed_float(const guint8* _in, double* out, guint len, do
 }
 
 static void input_data_mixed_double (const guint8 * _in, double* out, guint len, double max_value, guint op, guint nfft) {
+
+  Q_UNUSED(max_value);
 
   guint j, ip = 0;
   gdouble *in = (gdouble *) _in;

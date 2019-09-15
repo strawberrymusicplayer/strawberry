@@ -74,6 +74,7 @@ TranscoderOptionsDialog::~TranscoderOptionsDialog() {
 }
 
 void TranscoderOptionsDialog::showEvent(QShowEvent *e) {
+  Q_UNUSED(e);
   if (options_) {
     options_->Load();
   }

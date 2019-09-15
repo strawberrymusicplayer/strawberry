@@ -51,7 +51,7 @@ class CoverProvider : public QObject {
   // The provider should remember the ID and emit it along with the result when it finishes.
   virtual bool StartSearch(const QString &artist, const QString &album, int id) = 0;
 
-  virtual void CancelSearch(int id) {}
+  virtual void CancelSearch(int id) { Q_UNUSED(id); }
 
  signals:
   void SearchFinished(int id, const CoverSearchResults& results);

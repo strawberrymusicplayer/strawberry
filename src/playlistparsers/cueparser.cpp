@@ -352,7 +352,14 @@ qint64 CueParser::IndexToMarker(const QString &index) const {
 }
 
 void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
+
+  Q_UNUSED(songs);
+  Q_UNUSED(device);
+  Q_UNUSED(dir);
+  Q_UNUSED(path_type);
+
   // TODO
+
 }
 
 // Looks for a track starting with one of the .cue's keywords.

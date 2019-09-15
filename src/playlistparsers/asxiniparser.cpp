@@ -39,6 +39,8 @@ bool AsxIniParser::TryMagic(const QByteArray &data) const {
 
 SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir) const {
 
+  Q_UNUSED(playlist_path);
+
   SongList ret;
 
   while (!device->atEnd()) {

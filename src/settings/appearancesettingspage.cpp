@@ -322,7 +322,7 @@ void AppearanceSettingsPage::BlurLevelChanged(int value) {
 }
 
 void AppearanceSettingsPage::OpacityLevelChanged(int percent) {
-  ui_->background_opacity_label->setText(QString("%1\%").arg(percent));
+  ui_->background_opacity_label->setText(QString("%1%").arg(percent));
 }
 
 void AppearanceSettingsPage::TabBarSystemColor(bool checked) {

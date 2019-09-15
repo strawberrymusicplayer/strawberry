@@ -908,6 +908,8 @@ void TidalRequest::SongsFinishCheck(const qint64 artist_id, const qint64 album_i
 
 int TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested, const qint64 album_id_requested, const QString &album_artist) {
 
+  Q_UNUSED(artist_id_requested);
+
   if (
       !json_obj.contains("album") ||
       !json_obj.contains("allowStreaming") ||

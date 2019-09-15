@@ -69,23 +69,23 @@ public:
 
   virtual bool Init() = 0;
   virtual State state() const = 0;
-  virtual void StartPreloading(const QUrl &stream_url, const QUrl &original_url, bool, qint64, qint64) {}
-  virtual bool Load(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  virtual bool Play(quint64 offset_nanosec) = 0;
-  virtual void Stop(bool stop_after = false) = 0;
+  virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
+  virtual bool Load(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  virtual bool Play(const quint64 offset_nanosec) = 0;
+  virtual void Stop(const bool stop_after = false) = 0;
   virtual void Pause() = 0;
   virtual void Unpause() = 0;
-  virtual void Seek(quint64 offset_nanosec) = 0;
-  virtual void SetVolumeSW(uint percent) = 0;
+  virtual void Seek(const quint64 offset_nanosec) = 0;
+  virtual void SetVolumeSW(const uint percent) = 0;
 
   virtual qint64 position_nanosec() const = 0;
   virtual qint64 length_nanosec() const = 0;
 
-  virtual const Scope &scope(int chunk_length) { return scope_; }
+  virtual const Scope &scope(const int chunk_length) { Q_UNUSED(chunk_length); return scope_; }
 
   // Sets new values for the beginning and end markers of the currently playing song.
   // This doesn't change the state of engine or the stream's current position.
-  virtual void RefreshMarkers(quint64 beginning_nanosec, qint64 end_nanosec) {
+  virtual void RefreshMarkers(const quint64 beginning_nanosec, const qint64 end_nanosec) {
     beginning_nanosec_ = beginning_nanosec;
     end_nanosec_ = end_nanosec;
   }
@@ -98,9 +98,9 @@ public:
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &stream_url, const QUrl &original_url, TrackChangeFlags c, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  void SetVolume(uint value);
-  static uint MakeVolumeLogarithmic(uint volume);
+  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags c, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  void SetVolume(const uint value);
+  static uint MakeVolumeLogarithmic(const uint volume);
 
 public slots:
   virtual void ReloadSettings();
@@ -125,12 +125,12 @@ public:
 
   QVariant device() { return device_; }
 
-public slots:
-  virtual void SetEqualizerEnabled(bool) {}
-  virtual void SetEqualizerParameters(int preamp, const QList<int> &bandGains) {}
-  virtual void SetStereoBalance(float value) {}
+ public slots:
+  virtual void SetEqualizerEnabled(const bool) {}
+  virtual void SetEqualizerParameters(const int preamp, const QList<int> &bandGains) { Q_UNUSED(preamp); Q_UNUSED(bandGains); }
+  virtual void SetStereoBalance(float value) { Q_UNUSED(value); }
 
-signals:
+ signals:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing
   void TrackAboutToEnd();
 
@@ -201,7 +201,7 @@ signals:
 
 private:
   bool about_to_end_emitted_;
-  Q_DISABLE_COPY(Base);
+  Q_DISABLE_COPY(Base)
 
 };
 
@@ -226,6 +226,6 @@ struct SimpleMetaBundle {
 
 }  // namespace
 
-Q_DECLARE_METATYPE(EngineBase::OutputDetails);
+Q_DECLARE_METATYPE(EngineBase::OutputDetails)
 
 #endif

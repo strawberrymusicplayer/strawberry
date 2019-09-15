@@ -152,7 +152,7 @@ QVariantList GioLister::DeviceIcons(const QString &id) {
 
 }
 
-QString GioLister::DeviceManufacturer(const QString &id) { return QString(); }
+QString GioLister::DeviceManufacturer(const QString &id) { Q_UNUSED(id); return QString(); }
 
 QString GioLister::DeviceModel(const QString &id) {
 

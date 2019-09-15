@@ -221,6 +221,8 @@ int InternetSearch::LoadAlbumCoverAsync(const InternetSearch::Result &result) {
 
 void InternetSearch::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   if (!cover_loader_tasks_.contains(id)) return;
   int orig_id = cover_loader_tasks_.take(id);
 

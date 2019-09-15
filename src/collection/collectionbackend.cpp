@@ -1222,6 +1222,8 @@ void CollectionBackend::IncrementPlayCount(int id) {
 
 void CollectionBackend::IncrementSkipCount(int id, float progress) {
 
+  Q_UNUSED(progress);
+
   if (id == -1) return;
 
   QMutexLocker l(db_->Mutex());

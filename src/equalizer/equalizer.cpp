@@ -303,12 +303,16 @@ void Equalizer::Save() {
 }
 
 void Equalizer::closeEvent(QCloseEvent *e) {
+
+  Q_UNUSED(e);
+
   QString name = ui_->preset->currentText();
   if (!presets_.contains(name)) return;
 
   if (presets_[name] == current_params()) return;
 
   SavePreset();
+
 }
 
 Equalizer::Params::Params() : preamp(0) {
@@ -342,6 +346,7 @@ bool Equalizer::Params::operator !=(const Equalizer::Params& other) const {
 }
 
 void Equalizer::StereoSliderChanged(int value) {
+  Q_UNUSED(value);
   emit StereoBalanceChanged(stereo_balance());
   Save();
 }

@@ -69,21 +69,21 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   bool Init();
   Engine::State state() const;
-  void StartPreloading(const QUrl &stream_url, const QUrl &original_url, bool force_stop_at_end, qint64 beginning_nanosec, qint64 end_nanosec);
-  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  bool Play(quint64 offset_nanosec);
-  void Stop(bool stop_after = false);
+  void StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec);
+  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  bool Play(const quint64 offset_nanosec);
+  void Stop(const bool stop_after = false);
   void Pause();
   void Unpause();
-  void Seek(quint64 offset_nanosec);
+  void Seek(const quint64 offset_nanosec);
 
  protected:
-  void SetVolumeSW(uint percent);
+  void SetVolumeSW(const uint percent);
 
  public:
   qint64 position_nanosec() const;
   qint64 length_nanosec() const;
-  const Engine::Scope &scope(int chunk_length);
+  const Engine::Scope &scope(const int chunk_length);
 
   OutputDetailsList GetOutputsList() const;
   bool ValidOutput(const QString &output);
@@ -94,7 +94,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
   void EnsureInitialised() { gst_startup_->EnsureInitialised(); }
 
-  GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, bool showerror = true);
+  GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, const bool showerror = true);
   void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
 
  public slots:
@@ -102,13 +102,13 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void ReloadSettings();
 
   /** Set whether equalizer is enabled */
-  void SetEqualizerEnabled(bool);
+  void SetEqualizerEnabled(const bool);
 
   /** Set equalizer preamp and gains, range -100..100. Gains are 10 values. */
-  void SetEqualizerParameters(int preamp, const QList<int> &bandGains);
+  void SetEqualizerParameters(const int preamp, const QList<int> &bandGains);
 
   /** Set Stereo balance, range -1.0f..1.0f */
-  void SetStereoBalance(float value);
+  void SetStereoBalance(const float value);
 
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);
@@ -121,10 +121,10 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void timerEvent(QTimerEvent*);
 
  private slots:
-  void EndOfStreamReached(int pipeline_id, bool has_next_track);
-  void HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code);
-  void NewMetaData(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
-  void AddBufferToScope(GstBuffer *buf, int pipeline_id);
+  void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
+  void HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code);
+  void NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
+  void AddBufferToScope(GstBuffer *buf, const int pipeline_id);
   void FadeoutFinished();
   void FadeoutPauseFinished();
   void SeekNow();
@@ -158,7 +158,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void StopTimers();
 
   std::shared_ptr<GstEnginePipeline> CreatePipeline();
-  std::shared_ptr<GstEnginePipeline> CreatePipeline(const QByteArray &gst_url, const QUrl &original_url,  qint64 end_nanosec);
+  std::shared_ptr<GstEnginePipeline> CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec);
 
   void UpdateScope(int chunk_length);
 

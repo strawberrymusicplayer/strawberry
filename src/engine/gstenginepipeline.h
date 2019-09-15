@@ -69,13 +69,13 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &sink, const QVariant &device);
-  void set_volume_control(bool volume_control);
-  void set_replaygain(bool enabled, int mode, float preamp, bool compression);
+  void set_volume_control(const bool volume_control);
+  void set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression);
   void set_buffer_duration_nanosec(qint64 duration_nanosec);
   void set_buffer_min_fill(int percent);
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, qint64 end_nanosec);
+  bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec);
   bool InitFromString(const QString &pipeline);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
@@ -84,13 +84,13 @@ class GstEnginePipeline : public QObject {
   void RemoveAllBufferConsumers();
 
   // Control the music playback
-  QFuture<GstStateChangeReturn> SetState(GstState state);
-  Q_INVOKABLE bool Seek(qint64 nanosec);
-  void SetEqualizerEnabled(bool enabled);
-  void SetEqualizerParams(int preamp, const QList<int> &band_gains);
-  void SetVolume(int percent);
-  void SetStereoBalance(float value);
-  void StartFader(qint64 duration_nanosec, QTimeLine::Direction direction = QTimeLine::Forward, QTimeLine::CurveShape shape = QTimeLine::LinearCurve, bool use_fudge_timer = true);
+  QFuture<GstStateChangeReturn> SetState(const GstState state);
+  Q_INVOKABLE bool Seek(const qint64 nanosec);
+  void SetEqualizerEnabled(const bool enabled);
+  void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
+  void SetVolume(const int percent);
+  void SetStereoBalance(const float value);
+  void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QTimeLine::CurveShape shape = QTimeLine::LinearCurve, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
   void SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec);
@@ -121,11 +121,11 @@ class GstEnginePipeline : public QObject {
   void SetVolumeModifier(qreal mod);
 
 signals:
-  void EndOfStreamReached(int pipeline_id, bool has_next_track);
-  void MetadataFound(int pipeline_id, const Engine::SimpleMetaBundle &bundle);
+  void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
+  void MetadataFound(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
   // This indicates an error, delegated from GStreamer, in the pipeline.
   // The message, domain and error_code are related to GStreamer's GError.
-  void Error(int pipeline_id, const QString &message, int domain, int error_code);
+  void Error(const int pipeline_id, const QString &message, const int domain, const int error_code);
   void FaderFinished();
 
   void BufferingStarted();

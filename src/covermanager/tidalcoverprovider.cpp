@@ -71,7 +71,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
 
 }
 
-void TidalCoverProvider::CancelSearch(int id) {}
+void TidalCoverProvider::CancelSearch(int id) { Q_UNUSED(id); }
 
 QNetworkReply *TidalCoverProvider::CreateRequest(const QString &ressource_name, const ParamList &params_supplied) {
 

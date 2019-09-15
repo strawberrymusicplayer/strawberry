@@ -1243,6 +1243,8 @@ void PlaylistView::Stopped() {
 
 void PlaylistView::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &song_art) {
 
+  Q_UNUSED(cover_url);
+
   if ((song != Song() && song_playing_ == Song()) || song_art == current_song_cover_art_) return;
 
   current_song_cover_art_ = song_art;

@@ -27,11 +27,10 @@
 #include "renametablineedit.h"
 
 RenameTabLineEdit::RenameTabLineEdit(QWidget *parent) :
-    QLineEdit(parent)
-{
-}
+    QLineEdit(parent) {}
 
 void RenameTabLineEdit::keyPressEvent (QKeyEvent *e) {
+
   if (e->key() == Qt::Key_Escape) {
     e->accept();
     emit EditingCanceled();
@@ -39,11 +38,16 @@ void RenameTabLineEdit::keyPressEvent (QKeyEvent *e) {
   else {
     QLineEdit::keyPressEvent(e);
   }
+
 }
 
 void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
+
+  Q_UNUSED(e);
+
   //if the user hasn't explicitly accepted, discard the value
   emit EditingCanceled();
   //we don't call the default event since it will trigger editingFished()
+
 }
 

@@ -55,7 +55,7 @@ public:
   bool is_valid() { return device_ && afc_; }
 
 private:
-  Q_DISABLE_COPY(iMobileDeviceConnection);
+  Q_DISABLE_COPY(iMobileDeviceConnection)
 
   idevice_t device_;
   afc_client_t afc_;

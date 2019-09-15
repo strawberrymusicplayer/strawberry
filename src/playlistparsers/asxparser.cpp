@@ -41,6 +41,8 @@ ASXParser::ASXParser(CollectionBackendInterface *collection, QObject *parent)
 
 SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir) const {
 
+  Q_UNUSED(playlist_path);
+
   // We have to load everything first so we can munge the "XML".
   QByteArray data = device->readAll();
 
@@ -129,7 +131,7 @@ return_song:
 
 }
 
-void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, Playlist::Path path_type) const {
+void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, Playlist::Path) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);

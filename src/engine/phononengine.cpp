@@ -39,6 +39,8 @@ PhononEngine::PhononEngine(TaskManager *task_manager)
     state_timer_(new QTimer(this)),
     seek_offset_(-1) {
 
+  Q_UNUSED(task_manager);
+
   type_ = Engine::Phonon;
 
   Phonon::createPath(media_object_, audio_output_);
@@ -61,16 +63,24 @@ bool PhononEngine::Init() {
 }
 
 bool PhononEngine::CanDecode(const QUrl &url) {
+  Q_UNUSED(url);
   // TODO
   return true;
 }
 
-bool PhononEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool PhononEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+
+  Q_UNUSED(original_url);
+  Q_UNUSED(change);
+  Q_UNUSED(force_stop_at_end);
+  Q_UNUSED(beginning_nanosec);
+  Q_UNUSED(end_nanosec);
+
   media_object_->setCurrentSource(Phonon::MediaSource(stream_url));
   return true;
 }
 
-bool PhononEngine::Play(quint64 offset_nanosec) {
+bool PhononEngine::Play(const quint64 offset_nanosec) {
 
   // The seek happens in PhononStateChanged - phonon doesn't seem to change currentTime() if we seek before we start playing :S
   seek_offset_ = (offset_nanosec / kNsecPerMsec);
@@ -80,7 +90,8 @@ bool PhononEngine::Play(quint64 offset_nanosec) {
 
 }
 
-void PhononEngine::Stop(bool stop_after) {
+void PhononEngine::Stop(const bool stop_after) {
+  Q_UNUSED(stop_after);
   media_object_->stop();
 }
 
@@ -119,12 +130,12 @@ uint PhononEngine::length() const {
   return media_object_->totalTime();
 }
 
-void PhononEngine::Seek(quint64 offset_nanosec) {
+void PhononEngine::Seek(const quint64 offset_nanosec) {
   int offset = (offset_nanosec / kNsecPerMsec);
   media_object_->seek(offset);
 }
 
-void PhononEngine::SetVolumeSW(uint volume) {
+void PhononEngine::SetVolumeSW(const uint volume) {
   audio_output_->setVolume(volume);
 }
 
@@ -132,7 +143,7 @@ void PhononEngine::PhononFinished() {
   emit TrackEnded();
 }
 
-void PhononEngine::PhononStateChanged(Phonon::State new_state) {
+void PhononEngine::PhononStateChanged(const Phonon::State new_state) {
 
   if (new_state == Phonon::ErrorState) {
     emit Error(media_object_->errorString());
@@ -159,6 +170,7 @@ qint64 PhononEngine::position_nanosec() const {
 }
 
 qint64 PhononEngine::length_nanosec() const {
+
   if (state() == Engine::Empty) return 0;
   const qint64 result = end_nanosec_ - beginning_nanosec_;
   if (result > 0) {
@@ -168,9 +180,11 @@ qint64 PhononEngine::length_nanosec() const {
     // Get the length from the pipeline if we don't know.
     return (length() * kNsecPerMsec);
   }
+
 }
 
 EngineBase::OutputDetailsList PhononEngine::GetOutputsList() const {
+
   OutputDetailsList ret;
   OutputDetails output;
   output.name = "none";
@@ -178,6 +192,7 @@ EngineBase::OutputDetailsList PhononEngine::GetOutputsList() const {
   output.iconname = "soundcard";
   ret << output;
   return ret;
+
 }
 
 bool PhononEngine::ValidOutput(const QString &output) {
@@ -187,9 +202,11 @@ bool PhononEngine::ValidOutput(const QString &output) {
 }
 
 bool PhononEngine::CustomDeviceSupport(const QString &output) {
+  Q_UNUSED(output);
   return false;
 }
 
 bool PhononEngine::ALSADeviceSupport(const QString &output) {
+  Q_UNUSED(output);
   return false;
 }

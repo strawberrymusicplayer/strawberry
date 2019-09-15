@@ -62,7 +62,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
     // Disables the seek slider.
     SeekDisabled = 0x04,
   };
-  Q_DECLARE_FLAGS(Options, Option);
+  Q_DECLARE_FLAGS(Options, Option)
 
   virtual Song::Source source() const { return source_; }
 

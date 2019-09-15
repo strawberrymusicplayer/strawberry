@@ -51,7 +51,7 @@ class LyricsProviders : public QObject {
   void ProviderDestroyed();
 
  private:
-  Q_DISABLE_COPY(LyricsProviders);
+  Q_DISABLE_COPY(LyricsProviders)
 
   QMap<LyricsProvider *, QString> lyrics_providers_;
   QMutex mutex_;

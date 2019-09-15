@@ -53,10 +53,10 @@ struct LyricsSearchResult {
   QString lyrics;
   float score;
 };
-Q_DECLARE_METATYPE(LyricsSearchResult);
+Q_DECLARE_METATYPE(LyricsSearchResult)
 
 typedef QList<LyricsSearchResult> LyricsSearchResults;
-Q_DECLARE_METATYPE(QList<LyricsSearchResult>);
+Q_DECLARE_METATYPE(QList<LyricsSearchResult>)
 
 class LyricsFetcher : public QObject {
   Q_OBJECT

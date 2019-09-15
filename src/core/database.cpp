@@ -440,6 +440,8 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
 
 QStringList Database::SongsTables(QSqlDatabase &db, int schema_version) const {
 
+  Q_UNUSED(schema_version);
+
   QStringList ret;
 
   // look for the tables in the main db

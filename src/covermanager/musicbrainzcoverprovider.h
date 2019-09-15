@@ -42,11 +42,11 @@ class MusicbrainzCoverProvider : public CoverProvider {
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, int id);
-  void CancelSearch(int id);
+  bool StartSearch(const QString &artist, const QString &album, const int id);
+  void CancelSearch(const int id);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, int search_id);
+  void HandleSearchReply(QNetworkReply *reply, const int search_id);
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);

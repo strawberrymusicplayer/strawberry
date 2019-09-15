@@ -42,7 +42,7 @@ class LyricsProvider : public QObject {
   QString name() const { return name_; }
 
   virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) = 0;
-  virtual void CancelSearch(const quint64 id) {}
+  virtual void CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
  signals:
   void SearchFinished(const quint64 id, const LyricsSearchResults &results);

@@ -51,7 +51,7 @@ const int MusicbrainzCoverProvider::kLimit = 8;
 
 MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", 1.5, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
-bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
+bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const int id) {
 
   QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(album.trimmed().replace('"', "\\\"")).arg(artist.trimmed().replace('"', "\\\""));
 
@@ -73,9 +73,9 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
 }
 
-void MusicbrainzCoverProvider::CancelSearch(int id) {}
+void MusicbrainzCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
-void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, int search_id) {
+void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int search_id) {
 
   reply->deleteLater();
 

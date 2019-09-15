@@ -95,6 +95,8 @@ void Rainbow::RainbowAnalyzer::timerEvent(QTimerEvent* e) {
 
 void Rainbow::RainbowAnalyzer::resizeEvent(QResizeEvent* e) {
 
+  Q_UNUSED(e);
+
   // Invalidate the buffer so it's recreated from scratch in the next paint event.
   buffer_[0] = QPixmap();
   buffer_[1] = QPixmap();

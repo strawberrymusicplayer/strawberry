@@ -480,6 +480,9 @@ void SubsonicRequest::SongsFinishCheck() {
 
 int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested, const qint64 album_id_requested, const QString &album_artist) {
 
+  Q_UNUSED(artist_id_requested);
+  Q_UNUSED(album_id_requested);
+
   if (
       !json_obj.contains("id") ||
       !json_obj.contains("title") ||

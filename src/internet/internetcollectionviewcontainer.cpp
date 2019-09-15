@@ -54,4 +54,4 @@ InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent
 
 InternetCollectionViewContainer::~InternetCollectionViewContainer() { delete ui_; }
 
-void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) {}
+void InternetCollectionViewContainer::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }

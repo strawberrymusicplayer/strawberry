@@ -27,7 +27,9 @@
 
 class Application;
 
-SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *service) : UrlHandler(service), service_(service) {}
+SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *service) : UrlHandler(service), service_(service) {
+  Q_UNUSED(app);
+}
 
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 

@@ -66,8 +66,8 @@ class SortItems;
 }
 
 typedef QMap<int, Qt::Alignment> ColumnAlignmentMap;
-Q_DECLARE_METATYPE(Qt::Alignment);
-Q_DECLARE_METATYPE(ColumnAlignmentMap);
+Q_DECLARE_METATYPE(Qt::Alignment)
+Q_DECLARE_METATYPE(ColumnAlignmentMap)
 
 // Objects that may prevent a song being added to the playlist.
 // When there is something about to be inserted into it,
@@ -198,7 +198,7 @@ class Playlist : public QAbstractListModel {
   void set_special_type(const QString &v) { special_type_ = v; }
 
   const PlaylistItemPtr &item_at(int index) const { return items_[index]; }
-  const bool has_item_at(int index) const { return index >= 0 && index < rowCount(); }
+  bool has_item_at(int index) const { return index >= 0 && index < rowCount(); }
 
   PlaylistItemPtr current_item() const;
 

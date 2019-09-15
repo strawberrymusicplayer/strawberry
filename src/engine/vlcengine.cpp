@@ -43,6 +43,8 @@ VLCEngine::VLCEngine(TaskManager *task_manager)
     player_(nullptr),
     state_(Engine::Empty) {
 
+  Q_UNUSED(task_manager);
+
   type_ = Engine::VLC;
   ReloadSettings();
 
@@ -98,7 +100,13 @@ bool VLCEngine::Init() {
 
 }
 
-bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
+
+  Q_UNUSED(original_url);
+  Q_UNUSED(change);
+  Q_UNUSED(force_stop_at_end);
+  Q_UNUSED(beginning_nanosec);
+  Q_UNUSED(end_nanosec);
 
   if (!Initialised()) return false;
 
@@ -111,7 +119,7 @@ bool VLCEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
 
 }
 
-bool VLCEngine::Play(quint64 offset_nanosec) {
+bool VLCEngine::Play(const quint64 offset_nanosec) {
 
   if (!Initialised()) return false;
 
@@ -135,7 +143,9 @@ bool VLCEngine::Play(quint64 offset_nanosec) {
 
 }
 
-void VLCEngine::Stop(bool stop_after) {
+void VLCEngine::Stop(const bool stop_after) {
+
+  Q_UNUSED(stop_after);
 
   if (!Initialised()) return;
   libvlc_media_player_stop(player_);
@@ -156,7 +166,7 @@ void VLCEngine::Unpause() {
 
 }
 
-void VLCEngine::Seek(quint64 offset_nanosec) {
+void VLCEngine::Seek(const quint64 offset_nanosec) {
 
   if (!Initialised()) return;
 
@@ -171,7 +181,7 @@ void VLCEngine::Seek(quint64 offset_nanosec) {
 
 }
 
-void VLCEngine::SetVolumeSW(uint percent) {
+void VLCEngine::SetVolumeSW(const uint percent) {
   if (!Initialised()) return;
   if (!volume_control_ && percent != 100) return;
   libvlc_audio_set_volume(player_, percent);
@@ -261,7 +271,7 @@ uint VLCEngine::length() const {
 
 }
 
-bool VLCEngine::CanDecode(const QUrl &url) { return true; }
+bool VLCEngine::CanDecode(const QUrl &url) { Q_UNUSED(url); return true; }
 
 void VLCEngine::AttachCallback(libvlc_event_manager_t *em, libvlc_event_type_t type, libvlc_callback_t callback) {
 
@@ -336,7 +346,9 @@ EngineBase::PluginDetailsList VLCEngine::GetPluginList() const {
 
 }
 
-void VLCEngine::GetDevicesList(QString output) const {
+void VLCEngine::GetDevicesList(const QString &output) const {
+
+  Q_UNUSED(output);
 
   libvlc_audio_output_device_t *audio_output_device_list = libvlc_audio_output_device_list_get(instance_, output_.toUtf8().constData());
   for (libvlc_audio_output_device_t *audio_device = audio_output_device_list ; audio_device ; audio_device = audio_device->p_next) {

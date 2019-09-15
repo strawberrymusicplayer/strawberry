@@ -49,9 +49,9 @@ class PhononEngine : public Engine::Base {
 
   bool CanDecode(const QUrl &url);
 
-  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  bool Play(quint64 offset_nanosec);
-  void Stop(bool stop_after = false);
+  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  bool Play(const quint64 offset_nanosec);
+  void Stop(const bool stop_after = false);
   void Pause();
   void Unpause();
 
@@ -59,22 +59,22 @@ class PhononEngine : public Engine::Base {
   uint position() const;
   uint length() const;
 
-  void Seek(quint64 offset_nanosec);
+  void Seek(const quint64 offset_nanosec);
 
   qint64 position_nanosec() const;
   qint64 length_nanosec() const;
 
-  QString DefaultOutput() { return ""; }
+  QString DefaultOutput() { return QString(""); }
   bool ValidOutput(const QString &output);
   bool CustomDeviceSupport(const QString &output);
   bool ALSADeviceSupport(const QString &output);
 
  protected:
-  void SetVolumeSW( uint percent );
+  void SetVolumeSW(const uint percent );
 
  private slots:
   void PhononFinished();
-  void PhononStateChanged(Phonon::State new_state);
+  void PhononStateChanged(const Phonon::State new_state);
   void StateTimeoutExpired();
 
  private:

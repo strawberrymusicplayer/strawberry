@@ -59,7 +59,8 @@ class CollectionItem;
 
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
-  Q_ENUMS(GroupBy);
+
+  Q_ENUMS(GroupBy)
 
  public:
   CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
@@ -285,7 +286,7 @@ signals:
   QSet<QString> pending_cache_keys_;
 };
 
-Q_DECLARE_METATYPE(CollectionModel::Grouping);
+Q_DECLARE_METATYPE(CollectionModel::Grouping)
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g);
 QDataStream &operator>>(QDataStream &s, CollectionModel::Grouping &g);

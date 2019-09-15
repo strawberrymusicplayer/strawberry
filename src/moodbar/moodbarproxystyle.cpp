@@ -148,7 +148,10 @@ void MoodbarProxyStyle::NextState() {
 
 }
 
-void MoodbarProxyStyle::FaderValueChanged(qreal value) { slider_->update(); }
+void MoodbarProxyStyle::FaderValueChanged(qreal value) {
+  Q_UNUSED(value);
+  slider_->update();
+}
 
 bool MoodbarProxyStyle::eventFilter(QObject* object, QEvent* event) {
 
@@ -323,6 +326,8 @@ void MoodbarProxyStyle::DrawArrow(const QStyleOptionSlider* option, QPainter* pa
 }
 
 QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector& colors, const QSize& size, const QPalette& palette, const QStyleOptionSlider* opt) {
+
+  Q_UNUSED(opt);
 
   QRect rect(QPoint(0, 0), size);
   QRect border_rect(rect);

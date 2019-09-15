@@ -373,6 +373,8 @@ void Playlist::MoodbarUpdated(const QModelIndex& index) {
 
 bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role) {
 
+  Q_UNUSED(role);
+
   int row = index.row();
   PlaylistItemPtr item = item_at(row);
   Song song = item->Metadata();

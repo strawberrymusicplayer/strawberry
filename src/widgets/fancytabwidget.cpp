@@ -103,6 +103,7 @@ class FancyTabBar: public QTabBar {
   }
 
   void leaveEvent(QEvent *event) {
+    Q_UNUSED(event);
     mouseHoverTabIndex = -1;
     update();
   }

@@ -563,6 +563,8 @@ void EditTagDialog::UpdateStatisticsTab(const Song &song) {
 
 void EditTagDialog::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original) {
 
+  Q_UNUSED(cover_url);
+
   if (id == cover_art_id_) {
     ui_->art->setPixmap(QPixmap::fromImage(scaled));
     original_ = original;

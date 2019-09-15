@@ -43,10 +43,10 @@ class LastFmCoverProvider : public CoverProvider {
 
  public:
   explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
-  bool StartSearch(const QString &artist, const QString &album, int id);
+  bool StartSearch(const QString &artist, const QString &album, const int id);
 
  private slots:
-  void QueryFinished(QNetworkReply *reply, int id);
+  void QueryFinished(QNetworkReply *reply, const int id);
 
  private:
   static const char *kUrl;
@@ -62,12 +62,11 @@ class LastFmCoverProvider : public CoverProvider {
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonValue ExtractResults(const QByteArray &data);
-  LastFmImageSize ImageSizeFromString(const QString size);
-  void Error(QString error, QVariant debug = QVariant());
+  LastFmImageSize ImageSizeFromString(const QString &size);
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
   QNetworkAccessManager *network_;
 
 };
 
 #endif  // LASTFMCOVERPROVIDER_H
-

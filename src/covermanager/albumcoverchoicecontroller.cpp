@@ -318,6 +318,8 @@ void AlbumCoverChoiceController::SearchCoverAutomatically(const Song &song) {
 
 void AlbumCoverChoiceController::AlbumCoverFetched(const quint64 id, const QUrl &cover_url, const QImage &image, const CoverSearchStatistics &statistics) {
 
+  Q_UNUSED(statistics);
+
   Song song;
   if (cover_fetching_tasks_.contains(id)) {
     song = cover_fetching_tasks_.take(id);

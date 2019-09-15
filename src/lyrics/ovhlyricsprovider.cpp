@@ -45,6 +45,8 @@ OVHLyricsProvider::OVHLyricsProvider(QObject *parent) : JsonLyricsProvider("Lyri
 
 bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
+  Q_UNUSED(album);
+
   QUrl url(kUrlSearch + QString(QUrl::toPercentEncoding(artist)) + "/" + QString(QUrl::toPercentEncoding(title)));
   QNetworkRequest req(url);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
@@ -59,7 +61,7 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
 
 }
 
-void OVHLyricsProvider::CancelSearch(quint64 id) {}
+void OVHLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
 void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
@@ -91,7 +93,7 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
 }
 
 
-void OVHLyricsProvider::Error(const quint64 id, const QString &error, QVariant debug) {
+void OVHLyricsProvider::Error(const quint64 id, const QString &error, const QVariant &debug) {
 
   qLog(Error) << "OVHLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

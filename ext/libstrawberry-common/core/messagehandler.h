@@ -103,7 +103,7 @@ public:
 
 protected:
   // Called when a message is received from the socket.
-  virtual void MessageArrived(const MessageType &message) {}
+  virtual void MessageArrived(const MessageType &message) { Q_UNUSED(message); }
 
   // _MessageHandlerBase
   bool RawMessageArrived(const QByteArray &data);

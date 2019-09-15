@@ -213,6 +213,8 @@ bool iMobileDeviceConnection::Exists(const QString &path) {
 
 QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const Song &metadata) {
 
+  Q_UNUSED(itdb);
+
   // This function does the same as itdb_cp_get_dest_filename, except it accesses the device's filesystem through imobiledevice.
 
   // Get the total number of F.. directories

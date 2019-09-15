@@ -50,7 +50,7 @@ const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 
 LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent) : CoverProvider("last.fm", 1.0, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
-bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
+bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const int id) {
 
   typedef QPair<QString, QString> Param;
   typedef QPair<QByteArray, QByteArray> EncodedParam;
@@ -90,7 +90,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
 
 }
 
-void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, int id) {
+void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id) {
 
   reply->deleteLater();
 
@@ -290,12 +290,12 @@ QJsonValue LastFmCoverProvider::ExtractResults(const QByteArray &data) {
 
 }
 
-void LastFmCoverProvider::Error(QString error, QVariant debug) {
+void LastFmCoverProvider::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << "LastFm:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 }
 
-LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(const QString size) {
+LastFmCoverProvider::LastFmImageSize LastFmCoverProvider::ImageSizeFromString(const QString &size) {
   if (size == "small") return LastFmImageSize::Small;
   else if (size == "medium") return LastFmImageSize::Medium;
   else if (size == "large") return LastFmImageSize::Large;

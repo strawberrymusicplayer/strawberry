@@ -50,7 +50,7 @@ const int DeezerCoverProvider::kLimit = 10;
 
 DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", 2.0, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
-bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, int id) {
+bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const int id) {
 
   typedef QPair<QString, QString> Param;
   typedef QList<Param> Params;
@@ -80,7 +80,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
 
 }
 
-void DeezerCoverProvider::CancelSearch(int id) {}
+void DeezerCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
 
@@ -131,7 +131,7 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
   
 }
   
-QJsonObject DeezerCoverProvider::ExtractJsonObj(QByteArray &data) {
+QJsonObject DeezerCoverProvider::ExtractJsonObj(const QByteArray &data) {
 
   QJsonParseError error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
@@ -161,7 +161,7 @@ QJsonObject DeezerCoverProvider::ExtractJsonObj(QByteArray &data) {
 
 }
 
-QJsonValue DeezerCoverProvider::ExtractData(QByteArray &data) {
+QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonObject();
@@ -193,7 +193,7 @@ QJsonValue DeezerCoverProvider::ExtractData(QByteArray &data) {
 
 }
 
-void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, int id) {
+void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   reply->deleteLater();
 
@@ -292,7 +292,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, int id) {
 
 }
 
-void DeezerCoverProvider::Error(QString error, QVariant debug) {
+void DeezerCoverProvider::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << "Deezer:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 }

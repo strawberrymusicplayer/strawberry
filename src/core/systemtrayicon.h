@@ -42,16 +42,16 @@ class SystemTrayIcon : public QObject {
   virtual void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) = 0;
 
   virtual bool IsVisible() const { return true; }
-  virtual void SetVisible(bool visible) {}
+  virtual void SetVisible(bool visible) { Q_UNUSED(visible); }
 
   // Called by the OSD
-  virtual void ShowPopup(const QString &summary, const QString &message, int timeout) {}
+  virtual void ShowPopup(const QString &summary, const QString &message, int timeout) { Q_UNUSED(summary); Q_UNUSED(message); Q_UNUSED(timeout); }
   // If this gets invoked with image_path equal to nullptr, the tooltip should still be shown - just without the cover art.
-  virtual void SetNowPlaying(const Song &song, const QUrl &cover_url) {}
+  virtual void SetNowPlaying(const Song &song, const QUrl &cover_url) { Q_UNUSED(song); Q_UNUSED(cover_url); }
   virtual void ClearNowPlaying() {}
 
   virtual bool MuteEnabled() { return false; }
-  virtual void SetMuteEnabled(bool enabled) {}
+  virtual void SetMuteEnabled(bool enabled) { Q_UNUSED(enabled); }
 
   static SystemTrayIcon *CreateSystemTrayIcon(QObject *parent = nullptr);
 
@@ -60,9 +60,9 @@ class SystemTrayIcon : public QObject {
   virtual void SetPaused();
   virtual void SetPlaying(bool enable_play_pause = false);
   virtual void SetStopped();
-  virtual void LoveVisibilityChanged(bool value) {}
-  virtual void LoveStateChanged(bool value) {}
-  virtual void MuteButtonStateChanged(bool value) {}
+  virtual void LoveVisibilityChanged(bool value) { Q_UNUSED(value); }
+  virtual void LoveStateChanged(bool value) { Q_UNUSED(value); }
+  virtual void MuteButtonStateChanged(bool value) { Q_UNUSED(value); }
 
  signals:
   void ChangeVolume(int delta);

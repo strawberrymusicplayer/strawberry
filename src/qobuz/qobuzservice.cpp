@@ -456,18 +456,22 @@ void QobuzService::GetArtists() {
 }
 
 void QobuzService::ArtistsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit ArtistsResults(songs, error);
 }
 
 void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit ArtistsUpdateStatus(text);
 }
 
 void QobuzService::ArtistsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit ArtistsProgressSetMaximum(max);
 }
 
 void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit ArtistsUpdateProgress(progress);
 }
 
@@ -505,18 +509,22 @@ void QobuzService::GetAlbums() {
 }
 
 void QobuzService::AlbumsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit AlbumsResults(songs, error);
 }
 
 void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit AlbumsUpdateStatus(text);
 }
 
 void QobuzService::AlbumsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit AlbumsProgressSetMaximum(max);
 }
 
 void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit AlbumsUpdateProgress(progress);
 }
 
@@ -554,18 +562,22 @@ void QobuzService::GetSongs() {
 }
 
 void QobuzService::SongsResultsReceived(const int id, const SongList &songs, const QString &error) {
+  Q_UNUSED(id);
   emit SongsResults(songs, error);
 }
 
 void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
+  Q_UNUSED(id);
   emit SongsUpdateStatus(text);
 }
 
 void QobuzService::SongsProgressSetMaximumReceived(const int id, const int max) {
+  Q_UNUSED(id);
   emit SongsProgressSetMaximum(max);
 }
 
 void QobuzService::SongsUpdateProgressReceived(const int id, const int progress) {
+  Q_UNUSED(id);
   emit SongsUpdateProgress(progress);
 }
 

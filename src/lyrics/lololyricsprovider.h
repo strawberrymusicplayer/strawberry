@@ -41,7 +41,7 @@ class LoloLyricsProvider : public LyricsProvider {
   explicit LoloLyricsProvider(QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
-  void CancelSearch(quint64 id);
+  void CancelSearch(const quint64 id);
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
@@ -49,7 +49,7 @@ class LoloLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
   QNetworkAccessManager *network_;
-  void Error(const quint64 id, const QString &error, QVariant debug = QVariant());
+  void Error(const quint64 id, const QString &error, const QVariant &debug = QVariant());
 
 };
 

@@ -78,11 +78,11 @@ struct CoverSearchResult {
   float score;
 
 };
-Q_DECLARE_METATYPE(CoverSearchResult);
+Q_DECLARE_METATYPE(CoverSearchResult)
 
 // This is a complete result of a single search request (a list of results, each describing one image, actually).
 typedef QList<CoverSearchResult> CoverSearchResults;
-Q_DECLARE_METATYPE(QList<CoverSearchResult>);
+Q_DECLARE_METATYPE(QList<CoverSearchResult>)
 
 // This class searches for album covers for a given query or artist/album and returns URLs. It's NOT thread-safe.
 class AlbumCoverFetcher : public QObject {

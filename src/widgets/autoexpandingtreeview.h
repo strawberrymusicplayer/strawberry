@@ -47,7 +47,7 @@ class AutoExpandingTreeView : public QTreeView {
   void SetAddOnDoubleClick(bool v) { add_on_double_click_ = v; }
 
 public slots:
-  void RecursivelyExpand(const QModelIndex &index);
+  void RecursivelyExpand(const QModelIndex &idx);
   void UpAndFocus();
   void DownAndFocus();
 
@@ -64,21 +64,20 @@ protected:
   void mouseDoubleClickEvent(QMouseEvent *event);
   void keyPressEvent(QKeyEvent *event);
 
-  virtual bool CanRecursivelyExpand(const QModelIndex &index) const { return true; }
+  virtual bool CanRecursivelyExpand(const QModelIndex &idx) const { Q_UNUSED(idx); return true; }
 
 private slots:
-  void ItemExpanded(const QModelIndex &index);
-  void ItemClicked(const QModelIndex &index);
-  void ItemDoubleClicked(const QModelIndex &index);
+  void ItemExpanded(const QModelIndex &idx);
+  void ItemClicked(const QModelIndex &idx);
+  void ItemDoubleClicked(const QModelIndex &idx);
 
 private:
-  bool RecursivelyExpand(const QModelIndex &index, int *count);
+  bool RecursivelyExpand(const QModelIndex &idx, int *count);
 
 private:
   bool auto_open_;
   bool expand_on_reset_;
   bool add_on_double_click_;
-
   bool ignore_next_click_;
 };
 

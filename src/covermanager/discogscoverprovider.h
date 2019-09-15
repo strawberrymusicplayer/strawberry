@@ -71,13 +71,13 @@ class DiscogsCoverProvider : public CoverProvider {
  public:
   explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, int s_id);
+  bool StartSearch(const QString &artist, const QString &album, const int s_id);
 
-  void CancelSearch(int id);
+  void CancelSearch(const int id);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, int s_id);
-  void HandleReleaseReply(QNetworkReply *reply, int s_id, int r_id);
+  void HandleSearchReply(QNetworkReply *reply, const int s_id);
+  void HandleReleaseReply(QNetworkReply *reply, const int s_id, const int r_id);
 
  private:
   static const char *kUrlSearch;
@@ -89,17 +89,17 @@ class DiscogsCoverProvider : public CoverProvider {
   QHash<int, DiscogsCoverSearchContext*> requests_search_;
   QHash<int, DiscogsCoverReleaseContext*> requests_release_;
 
-  bool StartRelease(DiscogsCoverSearchContext *s_ctx, int r_id, QString &resource_url);
+  bool StartRelease(DiscogsCoverSearchContext *s_ctx, const int r_id, const QString &resource_url);
 
   void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);
   void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractData(const QByteArray &data, const QString name, const bool silent = false);
+  QJsonValue ExtractData(const QByteArray &data, const QString &name, const bool silent = false);
   void EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
   void EndSearch(DiscogsCoverSearchContext *s_ctx);
   void EndSearch(DiscogsCoverReleaseContext *r_ctx);
-  void Error(QString error, QVariant debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
 };
 

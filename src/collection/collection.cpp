@@ -168,6 +168,8 @@ void SCollection::Stopped() {
 
 void SCollection::CurrentSongChanged(const Song &song) {  // FIXME
 
+  Q_UNUSED(song);
+
   TagReaderReply *reply = nullptr;
 
   if (reply) {
@@ -177,4 +179,5 @@ void SCollection::CurrentSongChanged(const Song &song) {  // FIXME
 }
 
 void SCollection::SongsStatisticsChanged(const SongList &songs) {
+  Q_UNUSED(songs);
 }

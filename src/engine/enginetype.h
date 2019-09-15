@@ -40,6 +40,6 @@ QString EngineName(Engine::EngineType enginetype);
 QString EngineDescription(Engine::EngineType enginetype);
 
 }
-Q_DECLARE_METATYPE(Engine::EngineType);
+Q_DECLARE_METATYPE(Engine::EngineType)
 
 #endif

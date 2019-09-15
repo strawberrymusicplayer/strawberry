@@ -359,6 +359,8 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
 
 void AlbumCoverManager::CoverImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   if (!cover_loading_tasks_.contains(id)) return;
 
   QListWidgetItem *item = cover_loading_tasks_.take(id);

@@ -53,6 +53,9 @@ static QtMessageHandler sOriginalMessageHandler = nullptr;
 
 void GLog(const char *domain, int level, const char *message, void *user_data) {
 
+  Q_UNUSED(domain);
+  Q_UNUSED(user_data);
+
   switch (level) {
     case G_LOG_FLAG_RECURSION:
     case G_LOG_FLAG_FATAL:
@@ -68,6 +71,8 @@ void GLog(const char *domain, int level, const char *message, void *user_data) {
 }
 
 static void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
+
+  Q_UNUSED(context);
 
   if (strncmp(kMessageHandlerMagic, message.toLocal8Bit().data(), kMessageHandlerMagicLength) == 0) {
     fprintf(stderr, "%s\n", message.toLocal8Bit().data() + kMessageHandlerMagicLength);
@@ -90,6 +95,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext &context, co
   if (type == QtFatalMsg) {
     abort();
   }
+
 }
 
 void Init() {

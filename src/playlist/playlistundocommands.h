@@ -40,7 +40,7 @@ namespace PlaylistUndoCommands {
   };
 
   class Base : public QUndoCommand {
-    Q_DECLARE_TR_FUNCTIONS(PlaylistUndoCommands);
+    Q_DECLARE_TR_FUNCTIONS(PlaylistUndoCommands)
 
    public:
     Base(Playlist *playlist);
@@ -116,9 +116,6 @@ namespace PlaylistUndoCommands {
    public:
     SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
 
-   private:
-    //int column_;
-    //Qt::SortOrder order_;
   };
 
   class ShuffleItems : public ReOrderItems {

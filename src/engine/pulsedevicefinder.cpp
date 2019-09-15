@@ -117,7 +117,10 @@ retry:
 
 void PulseDeviceFinder::GetSinkInfoCallback(pa_context *c, const pa_sink_info *info, int eol, void *state_voidptr) {
 
+  Q_UNUSED(c);
+
   ListDevicesState *state = reinterpret_cast<ListDevicesState*>(state_voidptr);
+  if (!state) return;
 
   if (info) {
     Device dev;

@@ -193,6 +193,8 @@ void SubsonicService::HandlePingSSLErrors(QList<QSslError> ssl_errors) {
 
 void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password) {
 
+  Q_UNUSED(url);
+
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {

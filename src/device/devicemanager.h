@@ -98,7 +98,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   DeviceInfo *FindDeviceById(const QString &id) const;
   DeviceInfo *FindDeviceByUrl(const QList<QUrl> &url) const;
-  QString DeviceNameByID(QString unique_id);
+  QString DeviceNameByID(const QString &unique_id);
   DeviceInfo *FindEquivalentDevice(DeviceInfo *info) const;
 
   // Actions on devices

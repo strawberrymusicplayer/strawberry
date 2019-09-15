@@ -61,13 +61,13 @@ QobuzStreamURLRequest::~QobuzStreamURLRequest() {
 
 }
 
-void QobuzStreamURLRequest::LoginComplete(bool success, QString error) {
+void QobuzStreamURLRequest::LoginComplete(const bool success, const QString &error) {
 
   if (!need_login_) return;
   need_login_ = false;
 
   if (!success) {
-    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, errors_.first());
+    emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, error);
     return;
   }
 

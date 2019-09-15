@@ -51,7 +51,7 @@ class FilterTree {
 // trivial filter that accepts *anything*
 class NopFilter : public FilterTree {
  public:
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const { return true; }
+  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const { Q_UNUSED(row); Q_UNUSED(parent); Q_UNUSED(model); return true; }
   virtual FilterType type() { return Nop; }
 };
 

@@ -38,7 +38,7 @@ class JsonLyricsProvider : public LyricsProvider {
   QJsonObject ExtractJsonObj(QNetworkReply *reply, const quint64 id);
 
  private:
-  virtual void Error(const quint64 id, const QString &error, QVariant debug = QVariant()) = 0;
+  virtual void Error(const quint64 id, const QString &error, const QVariant &debug = QVariant()) = 0;
 
 };
 

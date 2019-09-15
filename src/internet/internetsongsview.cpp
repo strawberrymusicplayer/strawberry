@@ -76,7 +76,7 @@ InternetSongsView::~InternetSongsView() { delete ui_; }
 
 void InternetSongsView::ReloadSettings() {}
 
-void InternetSongsView::contextMenuEvent(QContextMenuEvent *e) {}
+void InternetSongsView::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }
 
 void InternetSongsView::GetSongs() {
 

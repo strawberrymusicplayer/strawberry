@@ -559,6 +559,8 @@ void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
 
 void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
 
+  Q_UNUSED(checked);
+
   if (!configloaded_ || !EngineInitialised()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
@@ -583,6 +585,8 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
 }
 
 void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
+
+  Q_UNUSED(checked);
 
   if (!configloaded_ || !EngineInitialised()) return;
 

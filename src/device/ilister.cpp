@@ -106,10 +106,12 @@ QStringList iLister::DeviceUniqueIDs() {
 }
 
 QVariantList iLister::DeviceIcons(const QString &id) {
+  Q_UNUSED(id);
   return QVariantList() << "ipodtouchicon";
 }
 
 QString iLister::DeviceManufacturer(const QString &id) {
+  Q_UNUSED(id);
   return "Apple";
 }
 

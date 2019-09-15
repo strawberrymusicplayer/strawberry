@@ -76,21 +76,21 @@ class MusicStorage {
 
   virtual TranscodeMode GetTranscodeMode() const { return Transcode_Never; }
   virtual Song::FileType GetTranscodeFormat() const { return Song::FileType_Unknown; }
-  virtual bool GetSupportedFiletypes(QList<Song::FileType>* ret) { return true; }
+  virtual bool GetSupportedFiletypes(QList<Song::FileType>* ret) { Q_UNUSED(ret); return true; }
 
-  virtual bool StartCopy(QList<Song::FileType>* supported_types) { return true;}
+  virtual bool StartCopy(QList<Song::FileType>* supported_types) { Q_UNUSED(supported_types); return true; }
   virtual bool CopyToStorage(const CopyJob& job) = 0;
-  virtual void FinishCopy(bool success) {}
+  virtual void FinishCopy(bool success) { Q_UNUSED(success); }
 
   virtual void StartDelete() {}
   virtual bool DeleteFromStorage(const DeleteJob& job) = 0;
-  virtual void FinishDelete(bool success) {}
+  virtual void FinishDelete(bool success) { Q_UNUSED(success); }
 
   virtual void Eject() {}
 };
 
-Q_DECLARE_METATYPE(MusicStorage*);
-Q_DECLARE_METATYPE(std::shared_ptr<MusicStorage>);
+Q_DECLARE_METATYPE(MusicStorage*)
+Q_DECLARE_METATYPE(std::shared_ptr<MusicStorage>)
 
 #endif  // MUSICSTORAGE_H
 

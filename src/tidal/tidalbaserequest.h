@@ -81,7 +81,7 @@ class TidalBaseRequest : public QObject {
   QString ErrorsToHTML(const QStringList &errors);
 
   QString api_url() { return QString(kApiUrl); }
-  const bool oauth() { return service_->oauth(); }
+  bool oauth() { return service_->oauth(); }
   QString client_id() { return service_->client_id(); }
   QString api_token() { return service_->api_token(); }
   quint64 user_id() { return service_->user_id(); }

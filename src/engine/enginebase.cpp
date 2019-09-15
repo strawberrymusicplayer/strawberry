@@ -138,6 +138,8 @@ void Engine::Base::EmitAboutToEnd() {
 
 bool Engine::Base::ValidOutput(const QString &output) {
 
+  Q_UNUSED(output);
+
   return (true);
 
 }

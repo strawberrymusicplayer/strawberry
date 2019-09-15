@@ -47,7 +47,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void NeedLogin() { need_login_ = true; }
   void Cancel();
 
-  const bool oauth() { return service_->oauth(); }
+  bool oauth() { return service_->oauth(); }
   TidalSettingsPage::StreamUrlMethod stream_url_method() { return service_->stream_url_method(); }
   QUrl original_url() { return original_url_; }
   int song_id() { return song_id_; }

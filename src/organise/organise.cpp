@@ -333,6 +333,8 @@ void Organise::UpdateProgress() {
 #ifdef HAVE_GSTREAMER
 void Organise::FileTranscoded(const QString &input, const QString &output, bool success) {
 
+  Q_UNUSED(output);
+
   qLog(Info) << "File finished" << input << success;
   transcode_progress_timer_.stop();
 

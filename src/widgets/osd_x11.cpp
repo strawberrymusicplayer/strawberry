@@ -102,6 +102,7 @@ QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 }
 
 const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
+  Q_UNUSED(image);
   // This is needed to link but shouldn't be called.
   Q_ASSERT(0);
   return arg;

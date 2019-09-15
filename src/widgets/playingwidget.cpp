@@ -271,6 +271,8 @@ void PlayingWidget::SongChanged(const Song &song) {
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   if (!playing_ || song != song_playing_ || (timeline_fade_->state() == QTimeLine::Running && image == image_original_)) return;
 
   active_ = true;
@@ -389,6 +391,8 @@ void PlayingWidget::UpdateDetailsText() {
 
 void PlayingWidget::paintEvent(QPaintEvent *e) {
 
+  Q_UNUSED(e);
+
   QPainter p(this);
 
   DrawContents(&p);
@@ -398,6 +402,7 @@ void PlayingWidget::paintEvent(QPaintEvent *e) {
     p.setOpacity(pixmap_previous_track_opacity_);
     p.drawPixmap(0, 0, pixmap_previous_track_);
   }
+
 }
 
 void PlayingWidget::DrawContents(QPainter *p) {

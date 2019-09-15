@@ -64,6 +64,8 @@ void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
 
 void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, const QUrl &remote_url, const QImage &image) {
 
+  Q_UNUSED(remote_url);
+
   if (id != id_) return;
   id_ = 0;
 

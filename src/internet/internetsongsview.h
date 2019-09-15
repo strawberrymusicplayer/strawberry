@@ -51,7 +51,7 @@ class InternetSongsView : public QWidget {
  private slots:
   void contextMenuEvent(QContextMenuEvent *e);
   void GetSongs();
-  void AbortGetSongs();;
+  void AbortGetSongs();
   void SongsFinished(const SongList &songs, const QString &error);
 
  private:

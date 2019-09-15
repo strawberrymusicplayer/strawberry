@@ -167,6 +167,8 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &index) {
 
 void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   if (!pending_art_.contains(id)) return;
 
   ItemAndCacheKey item_and_cache_key = pending_art_.take(id);

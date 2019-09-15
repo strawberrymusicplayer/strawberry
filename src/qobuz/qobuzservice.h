@@ -68,7 +68,7 @@ class QobuzService : public InternetService {
   int Search(const QString &query, InternetSearch::SearchType type);
   void CancelSearch();
 
-  const int max_login_attempts() { return kLoginAttempts; }
+  int max_login_attempts() { return kLoginAttempts; }
 
   Application *app() { return app_; }
   QString app_id() { return app_id_; }
@@ -84,9 +84,9 @@ class QobuzService : public InternetService {
 
   QString user_auth_token() { return user_auth_token_; }
 
-  const bool authenticated() { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
-  const bool login_sent() { return login_sent_; }
-  const bool login_attempts() { return login_attempts_; }
+  bool authenticated() { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
+  bool login_sent() { return login_sent_; }
+  bool login_attempts() { return login_attempts_; }
 
   void GetStreamURL(const QUrl &url);
 

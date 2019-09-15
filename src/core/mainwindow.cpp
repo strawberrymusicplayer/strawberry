@@ -2069,10 +2069,14 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 }
 
 void MainWindow::ForceShowOSD(const Song &song, const bool toggle) {
+
+  Q_UNUSED(song);
+
   if (toggle) {
     osd_->SetPrettyOSDToggleMode(toggle);
   }
   osd_->ReshowCurrentSong();
+
 }
 
 void MainWindow::Activate() {
@@ -2385,11 +2389,13 @@ void MainWindow::PlaylistViewSelectionModelChanged() {
 }
 
 void MainWindow::PlaylistCurrentChanged(const QModelIndex &proxy_current) {
+
   const QModelIndex source_current =app_->playlist_manager()->current()->proxy()->mapToSource(proxy_current);
 
   // If the user moves the current index using the keyboard and then presses
   // F2, we don't want that editing the last column that was right clicked on.
   if (source_current != playlist_menu_index_) playlist_menu_index_ = QModelIndex();
+
 }
 
 void MainWindow::Raise() {
@@ -2399,10 +2405,16 @@ void MainWindow::Raise() {
 
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
 
+  Q_UNUSED(eventType);
+  Q_UNUSED(result);
+
 #ifdef Q_OS_WIN
   MSG *msg = static_cast<MSG*>(message);
   thumbbar_->HandleWinEvent(msg);
+#else
+  Q_UNUSED(message);
 #endif
+
   return false;
 
 }

@@ -68,11 +68,11 @@ class TidalService : public InternetService {
   int Search(const QString &query, InternetSearch::SearchType type);
   void CancelSearch();
 
-  const int max_login_attempts() { return kLoginAttempts; }
+  int max_login_attempts() { return kLoginAttempts; }
 
   Application *app() { return app_; }
 
-  const bool oauth() { return oauth_; }
+  bool oauth() { return oauth_; }
   QString client_id() { return client_id_; }
   QString api_token() { return api_token_; }
   quint64 user_id() { return user_id_; }
@@ -92,9 +92,9 @@ class TidalService : public InternetService {
   QString access_token() { return access_token_; }
   QString session_id() { return session_id_; }
 
-  const bool authenticated() { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
-  const bool login_sent() { return login_sent_; }
-  const bool login_attempts() { return login_attempts_; }
+  bool authenticated() { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
+  bool login_sent() { return login_sent_; }
+  bool login_attempts() { return login_attempts_; }
 
   void GetStreamURL(const QUrl &url);
 

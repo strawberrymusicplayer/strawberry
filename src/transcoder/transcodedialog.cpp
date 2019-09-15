@@ -210,6 +210,9 @@ void TranscodeDialog::Cancel() {
 
 void TranscodeDialog::JobComplete(const QString &input, const QString &output, bool success) {
 
+  Q_UNUSED(input);
+  Q_UNUSED(output);
+
   (*(success ? &finished_success_ : &finished_failed_))++;
   queued_--;
 

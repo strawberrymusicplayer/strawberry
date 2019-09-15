@@ -1,6 +1,8 @@
 #ifndef ENGINE_FWD_H
 #define ENGINE_FWD_H
 
+#include <QtGlobal>
+
 /// Used by eg engineobserver.h, and thus we reduce header dependencies on enginebase.h
 
 namespace Engine {
@@ -31,7 +33,7 @@ enum TrackChangeType {
   SameAlbum = 0x10,
 };
 
-Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType);
+Q_DECLARE_FLAGS(TrackChangeFlags, TrackChangeType)
 
 }
 

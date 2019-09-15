@@ -94,6 +94,8 @@ void StandardItemIconLoader::ModelReset() {
 
 void StandardItemIconLoader::ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   QStandardItem *item = pending_covers_.take(id);
   if (!item) return;
 

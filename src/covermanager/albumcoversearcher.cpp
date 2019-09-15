@@ -238,6 +238,8 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverSearchResul
 
 void AlbumCoverSearcher::ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
 
+  Q_UNUSED(cover_url);
+
   if (!cover_loading_tasks_.contains(id)) return;
   QStandardItem *item = cover_loading_tasks_.take(id);
 

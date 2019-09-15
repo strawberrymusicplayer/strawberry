@@ -40,7 +40,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   explicit AuddLyricsProvider(QObject *parent = nullptr);
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
-  void CancelSearch(quint64 id);
+  void CancelSearch(const quint64 id);
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
@@ -50,7 +50,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   static const char *kAPITokenB64;
   static const int kMaxLength;
   QNetworkAccessManager *network_;
-  void Error(const quint64 id, const QString &error, QVariant debug = QVariant());
+  void Error(const quint64 id, const QString &error, const QVariant &debug = QVariant());
 
   QJsonArray ExtractResult(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
 

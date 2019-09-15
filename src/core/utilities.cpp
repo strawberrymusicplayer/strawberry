@@ -791,20 +791,26 @@ QString UnicodeToAscii(const QString &unicode) {
   if (conv == (iconv_t) -1) return QString();
 
   QByteArray utf8 = unicode.toUtf8();
+
   size_t input_len = utf8.length() + 1;
-  char input[input_len];
+  char *input = new char[input_len];
+  char *input_ptr = input;
+
+  size_t output_len = input_len*2;
+  char *output = new char[output_len];
+  char *output_ptr = output;
 
   snprintf(input, input_len, "%s", utf8.constData());
 
-  char output[input_len*2];
-  size_t output_len = sizeof(output);
-
-  char *input_ptr = input;
-  char *output_ptr = output;
-  iconv(conv, &input_ptr, &input_len, &output_ptr, &output_len);
+  iconv(conv, &input, &input_len, &output, &output_len);
   iconv_close(conv);
 
-  return QString(output);
+  QString ret(output_ptr);
+
+  delete[] input_ptr;
+  delete[] output_ptr;
+
+  return ret;
 
 }
 

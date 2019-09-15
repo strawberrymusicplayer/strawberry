@@ -156,7 +156,7 @@ void GstEnginePipeline::set_replaygain(bool enabled, int mode, float preamp, boo
 
 }
 
-void GstEnginePipeline::set_buffer_duration_nanosec(qint64 buffer_duration_nanosec) {
+void GstEnginePipeline::set_buffer_duration_nanosec(const qint64 buffer_duration_nanosec) {
   buffer_duration_nanosec_ = buffer_duration_nanosec;
 }
 
@@ -432,7 +432,7 @@ bool GstEnginePipeline::InitFromString(const QString &pipeline) {
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, qint64 end_nanosec) {
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
 
   stream_url_ = stream_url;
   original_url_ = original_url;
@@ -758,6 +758,8 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return;
+
   GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
 
   // Link decodebin's sink pad to audiobin's src pad.
@@ -787,6 +789,8 @@ void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) 
 GstPadProbeReturn GstEnginePipeline::DecodebinProbe(GstPad *pad, GstPadProbeInfo *info, gpointer data) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(data);
+  if (!instance) return GST_PAD_PROBE_OK;
+
   const GstPadProbeType info_type = GST_PAD_PROBE_INFO_TYPE(info);
 
   if (info_type & GST_PAD_PROBE_TYPE_BUFFER) {
@@ -826,6 +830,8 @@ GstPadProbeReturn GstEnginePipeline::DecodebinProbe(GstPad *pad, GstPadProbeInfo
 GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return GST_PAD_PROBE_OK;
+
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
 
   QList<GstBufferConsumer*> consumers;
@@ -872,6 +878,8 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
 GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return GST_PAD_PROBE_OK;
+
   GstEvent *e = gst_pad_probe_info_get_event(info);
 
   qLog(Debug) << instance->id() << "event" << GST_EVENT_TYPE_NAME(e);
@@ -897,7 +905,10 @@ GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeIn
 
 void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *bin, gpointer self) {
 
+  Q_UNUSED(bin);
+
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return;
 
   if (instance->has_next_valid_url() && !instance->next_uri_set_) {
     // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
@@ -910,7 +921,11 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *bin, gpointer self) {
 
 void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *pspec, gpointer self) {
 
+  Q_UNUSED(pspec);
+
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+  if (!instance) return;
+
   GstElement *element;
   g_object_get(bin, "source", &element, nullptr);
   if (!element) {
@@ -927,12 +942,6 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *pspec, 
     QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
     g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
     g_object_set(element, "ssl-strict", FALSE, nullptr);
-
-//#ifdef Q_OS_MACOS
-    //g_object_set(element, "tls-database", instance->engine_->tls_database(), nullptr);
-    //g_object_set(element, "ssl-use-system-ca-file", false, nullptr);
-    //g_object_set(element, "ssl-strict", TRUE, nullptr);
-//#endif
   }
 
   // If the pipeline was buffering we stop that now.
@@ -978,7 +987,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(GstState state) {
 
 }
 
-bool GstEnginePipeline::Seek(qint64 nanosec) {
+bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (ignore_next_seek_) {
     ignore_next_seek_ = false;
@@ -1011,7 +1020,7 @@ void GstEnginePipeline::SetEqualizerEnabled(bool enabled) {
 
 }
 
-void GstEnginePipeline::SetEqualizerParams(int preamp, const QList<int>& band_gains) {
+void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int>& band_gains) {
 
   eq_preamp_ = preamp;
   eq_band_gains_ = band_gains;
@@ -1019,7 +1028,7 @@ void GstEnginePipeline::SetEqualizerParams(int preamp, const QList<int>& band_ga
 
 }
 
-void GstEnginePipeline::SetStereoBalance(float value) {
+void GstEnginePipeline::SetStereoBalance(const float value) {
 
   stereo_balance_ = value;
   UpdateStereoBalance();
@@ -1059,13 +1068,13 @@ void GstEnginePipeline::UpdateStereoBalance() {
   }
 }
 
-void GstEnginePipeline::SetVolume(int percent) {
+void GstEnginePipeline::SetVolume(const int percent) {
   if (!volume_) return;
   volume_percent_ = percent;
   UpdateVolume();
 }
 
-void GstEnginePipeline::SetVolumeModifier(qreal mod) {
+void GstEnginePipeline::SetVolumeModifier(const qreal mod) {
   if (!volume_) return;
   volume_modifier_ = mod;
   UpdateVolume();
@@ -1077,7 +1086,7 @@ void GstEnginePipeline::UpdateVolume() {
   g_object_set(G_OBJECT(volume_), "volume", vol, nullptr);
 }
 
-void GstEnginePipeline::StartFader(qint64 duration_nanosec, QTimeLine::Direction direction, QTimeLine::CurveShape shape, bool use_fudge_timer) {
+void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QTimeLine::CurveShape shape, const bool use_fudge_timer) {
 
   const int duration_msec = duration_nanosec / kNsecPerMsec;
 
@@ -1153,7 +1162,7 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   buffer_consumers_.clear();
 }
 
-void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, qint64 beginning_nanosec, qint64 end_nanosec) {
+void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &original_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
 
   next_stream_url_ = stream_url;
   next_original_url_ = original_url;
@@ -1163,6 +1172,9 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
 }
 
 void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer self) {
+
+  Q_UNUSED(discoverer);
+  Q_UNUSED(err);
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
   if (!instance) return;
@@ -1218,6 +1230,8 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovere
 }
 
 void GstEnginePipeline::StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer self) {
+  Q_UNUSED(discoverer);
+  Q_UNUSED(self);
   //GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 }
 

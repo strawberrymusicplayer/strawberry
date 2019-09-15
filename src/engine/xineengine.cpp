@@ -95,6 +95,8 @@ XineEngine::XineEngine(TaskManager *task_manager)
     preamp_(1.0),
     have_metadata_(false) {
 
+  Q_UNUSED(task_manager);
+
   type_ = Engine::Xine;
   ReloadSettings();
 
@@ -306,7 +308,7 @@ Engine::State XineEngine::state() const {
 
 }
 
-bool XineEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) {
+bool XineEngine::Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) {
 
   if (!EnsureStream()) return false;
 
@@ -333,7 +335,7 @@ bool XineEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::
 
 }
 
-bool XineEngine::Play(quint64 offset_nanosec) {
+bool XineEngine::Play(const quint64 offset_nanosec) {
 
   if (!EnsureStream()) return false;
 
@@ -354,7 +356,9 @@ bool XineEngine::Play(quint64 offset_nanosec) {
 
 }
 
-void XineEngine::Stop(bool stop_after) {
+void XineEngine::Stop(const bool stop_after) {
+
+  Q_UNUSED(stop_after);
 
   if (!stream_) return;
 
@@ -394,7 +398,7 @@ void XineEngine::Unpause() {
 
 }
 
-void XineEngine::Seek(quint64 offset_nanosec) {
+void XineEngine::Seek(const quint64 offset_nanosec) {
 
   if (!EnsureStream()) return;
 
@@ -409,7 +413,7 @@ void XineEngine::Seek(quint64 offset_nanosec) {
 
 }
 
-void XineEngine::SetVolumeSW(uint vol) {
+void XineEngine::SetVolumeSW(const uint vol) {
 
   if (!stream_) return;
   if (!volume_control_ && vol != 100) return;
@@ -582,7 +586,7 @@ bool XineEngine::CanDecode(const QUrl &url) {
 
 }
 
-void XineEngine::SetEqualizerEnabled(bool enabled) {
+void XineEngine::SetEqualizerEnabled(const bool enabled) {
 
   if (!stream_) return;
 
@@ -609,7 +613,7 @@ void XineEngine::SetEqualizerEnabled(bool enabled) {
     pre: (-100..100)
     post: (1..200) - (1 = down, 100 = middle, 200 = up, 0 = off)
 */
-void XineEngine::SetEqualizerParameters(int preamp, const QList<int> &gains) {
+void XineEngine::SetEqualizerParameters(const int preamp, const QList<int> &gains) {
 
   if (!stream_) return;
 
@@ -902,7 +906,9 @@ void XineEngine::DetermineAndShowErrorMessage() {
 
 #ifdef XINE_ANALYZER
 
-const Engine::Scope &XineEngine::scope(int chunk_length) {
+const Engine::Scope &XineEngine::scope(const int chunk_length) {
+
+  Q_UNUSED(chunk_length);
 
   if (!post_ || !stream_ || xine_get_status(stream_) != XINE_STATUS_PLAY)
     return scope_;

@@ -319,6 +319,8 @@ QString SizeItemDelegate::displayText(const QVariant &value, const QLocale&) con
 
 QString DateItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
 
+  Q_UNUSED(locale);
+
   bool ok = false;
   int time = value.toInt(&ok);
 
@@ -343,6 +345,8 @@ QString LastPlayedItemDelegate::displayText(const QVariant &value, const QLocale
 
 QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &locale) const {
 
+  Q_UNUSED(locale);
+
   bool ok = false;
   Song::FileType type = Song::FileType(value.toInt(&ok));
 
@@ -352,7 +356,9 @@ QString FileTypeItemDelegate::displayText(const QVariant &value, const QLocale &
 
 }
 
-QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
+  Q_UNUSED(option);
+  Q_UNUSED(idx);
   return new QLineEdit(parent);
 }
 
@@ -446,6 +452,7 @@ QString NativeSeparatorsDelegate::displayText(const QVariant &value, const QLoca
 SongSourceDelegate::SongSourceDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
 
 QString SongSourceDelegate::displayText(const QVariant &value, const QLocale&) const {
+  Q_UNUSED(value);
   return QString();
 }
 

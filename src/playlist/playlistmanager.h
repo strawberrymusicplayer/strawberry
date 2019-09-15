@@ -47,7 +47,7 @@ class PlaylistManagerInterface : public QObject {
   Q_OBJECT
 
 public:
-  PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) {}
+  PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) { Q_UNUSED(app); }
 
   virtual int current_id() const = 0;
   virtual int active_id() const = 0;

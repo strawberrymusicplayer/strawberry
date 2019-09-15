@@ -119,11 +119,13 @@ void ReOrderItems::undo() { playlist_->ReOrderWithoutUndo(old_items_); }
 void ReOrderItems::redo() { playlist_->ReOrderWithoutUndo(new_items_); }
 
 SortItems::SortItems(Playlist* playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items)
-  : ReOrderItems(playlist, new_items)
-    //column_(column),
-    //order_(order)
-{
+  : ReOrderItems(playlist, new_items) {
+
+  Q_UNUSED(column);
+  Q_UNUSED(order);
+
   setText(tr("sort songs"));
+
 }
 
 

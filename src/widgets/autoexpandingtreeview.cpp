@@ -58,60 +58,67 @@ void AutoExpandingTreeView::reset() {
   }
 }
 
-void AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &index) {
-  int rows = model()->rowCount(index);
-  RecursivelyExpand(index, &rows);
+void AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx) {
+  int rows = model()->rowCount(idx);
+  RecursivelyExpand(idx, &rows);
 }
 
-bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &index, int *count) {
-  if (!CanRecursivelyExpand(index))
+bool AutoExpandingTreeView::RecursivelyExpand(const QModelIndex &idx, int *count) {
+
+  if (!CanRecursivelyExpand(idx))
     return true;
 
-  if (model()->canFetchMore(index))
-    model()->fetchMore(index);
+  if (model()->canFetchMore(idx))
+    model()->fetchMore(idx);
 
-  int children = model()->rowCount(index);
+  int children = model()->rowCount(idx);
   if (*count + children > kRowsToShow)
     return false;
 
-  expand(index);
+  expand(idx);
   *count += children;
 
   for (int i = 0 ; i < children ; ++i) {
-    if (!RecursivelyExpand(model()->index(i, 0, index), count))
+    if (!RecursivelyExpand(model()->index(i, 0, idx), count))
       return false;
   }
 
   return true;
+
 }
 
-void AutoExpandingTreeView::ItemExpanded(const QModelIndex &index) {
-  if (model()->rowCount(index) == 1 && auto_open_)
-    expand(model()->index(0, 0, index));
+void AutoExpandingTreeView::ItemExpanded(const QModelIndex &idx) {
+  if (model()->rowCount(idx) == 1 && auto_open_)
+    expand(model()->index(0, 0, idx));
 }
 
-void AutoExpandingTreeView::ItemClicked(const QModelIndex &index) {
+void AutoExpandingTreeView::ItemClicked(const QModelIndex &idx) {
+
   if (ignore_next_click_) {
     ignore_next_click_ = false;
     return;
   }
 
-  setExpanded(index, !isExpanded(index));
+  setExpanded(idx, !isExpanded(idx));
+
 }
 
-void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &index) {
+void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
+
   ignore_next_click_ = true;
 
   if (add_on_double_click_) {
-    QMimeData *data = model()->mimeData(QModelIndexList() << index);
+    QMimeData *data = model()->mimeData(QModelIndexList() << idx);
     if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
       mime_data->from_doubleclick_ = true;
     }
     emit AddToPlaylistSignal(data);
   }
+
 }
 
 void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
+
   if (event->modifiers() != Qt::NoModifier) {
     ignore_next_click_ = true;
   }
@@ -126,23 +133,27 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
     }
     emit AddToPlaylistSignal(data);
   }
+
 }
 
 void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
+
   State p_state = state();
-  QModelIndex index = indexAt(event->pos());
+  QModelIndex idx = indexAt(event->pos());
 
   QTreeView::mouseDoubleClickEvent(event);
 
   // If the p_state was the "AnimatingState", then the base class's
   // "mouseDoubleClickEvent" method just did nothing, hence the "doubleClicked" signal is not emitted. So let's do it ourselves.
-  if (index.isValid() && p_state == AnimatingState) {
-    emit doubleClicked(index);
+  if (idx.isValid() && p_state == AnimatingState) {
+    emit doubleClicked(idx);
   }
+
 }
 
 void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
-  QModelIndex index = currentIndex();
+
+  QModelIndex idx = currentIndex();
 
   switch (e->key()) {
     case Qt::Key_Enter:
@@ -160,8 +171,8 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
 
     case Qt::Key_Left:
       // Set focus on the root of the current branch
-      if (index.isValid() && index.parent() != rootIndex() && (!isExpanded(index) || model()->rowCount(index) == 0)) {
-        setCurrentIndex(index.parent());
+      if (idx.isValid() && idx.parent() != rootIndex() && (!isExpanded(idx) || model()->rowCount(idx) == 0)) {
+        setCurrentIndex(idx.parent());
         setFocus();
         e->accept();
       }
@@ -169,6 +180,7 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
   }
 
   QTreeView::keyPressEvent(e);
+
 }
 
 void AutoExpandingTreeView::UpAndFocus() {

@@ -47,6 +47,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
 
 QPixmap SystemTrayIcon::CreateIcon(const QPixmap &icon, const QPixmap &grey_icon) {
 
+  Q_UNUSED(grey_icon);
+
   QRect rect(icon.rect());
 
   // The angle of the line that's used to cover the icon.
@@ -97,8 +99,12 @@ void SystemTrayIcon::SetPaused() {
 }
 
 void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
+
+  Q_UNUSED(enable_play_pause);
+
   current_state_icon_ = playing_icon_;
   UpdateIcon();
+
 }
 
 void SystemTrayIcon::SetStopped() {

@@ -9,8 +9,8 @@ class QSearchFieldPrivate;
 class QSearchField : public QWidget {
   Q_OBJECT
 
-  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged USER true);
-  Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText);
+  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged USER true)
+  Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText)
 
 public:
   explicit QSearchField(QWidget *parent);

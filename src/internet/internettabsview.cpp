@@ -177,8 +177,7 @@ InternetTabsView::~InternetTabsView() {
 
 void InternetTabsView::ReloadSettings() { ui_->search_view->ReloadSettings(); }
 
-void InternetTabsView::contextMenuEvent(QContextMenuEvent *e) {
-}
+void InternetTabsView::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }
 
 void InternetTabsView::GetArtists() {
 

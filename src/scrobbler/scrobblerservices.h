@@ -54,7 +54,7 @@ class ScrobblerServices : public QObject {
   }
 
  private:
-  Q_DISABLE_COPY(ScrobblerServices);
+  Q_DISABLE_COPY(ScrobblerServices)
 
   QMap<QString, ScrobblerService *> scrobbler_services_;
   QMutex mutex_;
