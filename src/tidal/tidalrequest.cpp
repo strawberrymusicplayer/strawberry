@@ -867,11 +867,12 @@ void TidalRequest::SongsFinishCheck(const qint64 artist_id, const qint64 album_i
           AddSongsRequest(offset_next);
           break;
         case QueryType_SearchSongs:
-          // If artist_id and album_id isn't zero it means that it's a songs search where we fetch all albums too. So pass through.
+          // If artist_id and album_id isn't zero it means that it's a songs search where we fetch all albums too. So fallthrough.
           if (artist_id == 0 && album_id == 0) {
             AddSongsSearchRequest(offset_next);
             break;
           }
+          // fallthrough
         case QueryType_Artists:
         case QueryType_SearchArtists:
         case QueryType_Albums:

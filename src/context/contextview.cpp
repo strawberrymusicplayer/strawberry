@@ -514,6 +514,7 @@ bool ContextView::eventFilter(QObject *object, QEvent *event) {
     case QEvent::Paint:{
       handlePaintEvent(object, event);
     }
+    // fallthrough
     default:{
       return QObject::eventFilter(object, event);
     }

@@ -552,6 +552,7 @@ void Player::EngineStateChanged(Engine::State state) {
       break;
     case Engine::Error:
       emit Error();
+      // fallthrough
     case Engine::Empty:
     case Engine::Idle:
       emit Stopped();

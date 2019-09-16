@@ -150,6 +150,7 @@ void ScrobblingAPI20::Authenticate(const bool https) {
       messagebox_error.setTextFormat(Qt::RichText);
       messagebox_error.exec();
     }
+    // fallthrough
   case QMessageBox::Save:
     QApplication::clipboard()->setText(url.toString());
     break;

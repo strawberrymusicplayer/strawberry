@@ -1239,10 +1239,17 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->sort_text = SortTextForNumber(year) + " ";
       break;
     }
-    case GroupBy_Composer:  if (item->key.isNull()) item->key = s.composer();
-    case GroupBy_Performer: if (item->key.isNull()) item->key = s.performer();
-    case GroupBy_Grouping:  if (item->key.isNull()) item->key = s.grouping();
-    case GroupBy_Genre:     if (item->key.isNull()) item->key = s.genre();
+    case GroupBy_Composer:
+      if (item->key.isNull()) item->key = s.composer();
+      // fallthrough
+    case GroupBy_Performer:
+      if (item->key.isNull()) item->key = s.performer();
+      // fallthrough
+    case GroupBy_Grouping:
+      if (item->key.isNull()) item->key = s.grouping();
+      // fallthrough
+    case GroupBy_Genre:
+      if (item->key.isNull()) item->key = s.genre();
       item->display_text = TextOrUnknown(item->key);
       item->sort_text = SortTextForArtist(item->key);
       break;
