@@ -286,11 +286,17 @@ signals:
   GstElement *rglimiter_;
   GstDiscoverer *discoverer_;
 
-  uint bus_cb_id_;
+  int about_to_finish_cb_id_;
+  int pad_added_cb_id_;
+  int notify_source_cb_id_;
+  int bus_cb_id_;
+  int discovery_finished_cb_id_;
+  int discovery_discovered_cb_id_;
 
   QThreadPool set_state_threadpool_;
 
   GstSegment last_decodebin_segment_;
+
 };
 
 #endif  // GSTENGINEPIPELINE_H
