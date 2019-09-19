@@ -221,6 +221,7 @@ Section "Strawberry" Strawberry
   File "zlib1.dll"
   File "libzstd.dll"
   File "libtasn1-6.dll"
+  File "libbrotlicommon.dll"
   File "libbrotlidec.dll"
   File "libpsl-5.dll"
 
@@ -491,6 +492,7 @@ Section "Uninstall"
   Delete "$INSTDIR\zlib1.dll"
   Delete "$INSTDIR\libzstd.dll"
   Delete "$INSTDIR\libtasn1-6.dll"
+  Delete "$INSTDIR\libbrotlicommon.dll"
   Delete "$INSTDIR\libbrotlidec.dll"
   Delete "$INSTDIR\libpsl-5.dll"
 
