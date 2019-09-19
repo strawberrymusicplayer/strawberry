@@ -46,6 +46,8 @@ QList<DeviceFinder::Device> DirectSoundDeviceFinder::ListDevices() {
 
 BOOL DirectSoundDeviceFinder::EnumerateCallback(LPGUID guid, LPCSTR description, LPCSTR module, LPVOID state_voidptr) {
 
+  Q_UNUSED(module);
+
   State *state = reinterpret_cast<State*>(state_voidptr);
 
   Device dev;

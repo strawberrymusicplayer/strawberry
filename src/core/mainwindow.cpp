@@ -2171,6 +2171,8 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+#else
+  Q_UNUSED(urls);
 #endif
 }
 

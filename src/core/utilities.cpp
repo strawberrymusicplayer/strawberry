@@ -602,6 +602,7 @@ int SetThreadIOPriority(IoPriority priority) {
 #elif defined(Q_OS_MACOS)
   return setpriority(PRIO_DARWIN_THREAD, 0, priority == IOPRIO_CLASS_IDLE ? PRIO_DARWIN_BG : 0);
 #else
+  Q_UNUSED(priority);
   return 0;
 #endif
 
