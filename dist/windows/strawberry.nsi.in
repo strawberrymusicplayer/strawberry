@@ -275,6 +275,11 @@ Section "Strawberry" Strawberry
 
 SectionEnd
 
+Section "GIO modules" gio-modules
+  SetOutPath "$INSTDIR\gio-modules"
+  File "/oname=libgiognutls.dll" "gio-modules\libgiognutls.dll"
+SectionEnd
+
 Section "Qt Platforms" platforms
   SetOutPath "$INSTDIR\platforms"
   File "/oname=qwindows.dll" "platforms\qwindows.dll"
@@ -514,6 +519,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libxine-2.dll"
 !endif
 
+  Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
 
