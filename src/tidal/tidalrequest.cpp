@@ -40,7 +40,7 @@
 #include "tidalurlhandler.h"
 #include "tidalrequest.h"
 
-const char *TidalRequest::kResourcesUrl = "http://resources.tidal.com";
+const char *TidalRequest::kResourcesUrl = "https://resources.tidal.com";
 const int TidalRequest::kMaxConcurrentArtistsRequests = 3;
 const int TidalRequest::kMaxConcurrentAlbumsRequests = 3;
 const int TidalRequest::kMaxConcurrentSongsRequests = 3;

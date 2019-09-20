@@ -61,7 +61,7 @@
 using std::shared_ptr;
 
 const Song::Source QobuzService::kSource = Song::Source_Qobuz;
-const char *QobuzService::kAuthUrl = "http://www.qobuz.com/api.json/0.2/user/login";
+const char *QobuzService::kAuthUrl = "https://www.qobuz.com/api.json/0.2/user/login";
 const int QobuzService::kLoginAttempts = 2;
 const int QobuzService::kTimeResetLoginAttempts = 60000;
 

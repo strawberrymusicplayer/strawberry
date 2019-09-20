@@ -47,7 +47,7 @@
 #include "tidalcoverprovider.h"
 
 const char *TidalCoverProvider::kApiUrl = "https://api.tidalhifi.com/v1";
-const char *TidalCoverProvider::kResourcesUrl = "http://resources.tidal.com";
+const char *TidalCoverProvider::kResourcesUrl = "https://resources.tidal.com";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 

@@ -39,7 +39,7 @@
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
-const char *QobuzBaseRequest::kApiUrl = "http://www.qobuz.com/api.json/0.2";
+const char *QobuzBaseRequest::kApiUrl = "https://www.qobuz.com/api.json/0.2";
 
 QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, NetworkAccessManager *network, QObject *parent) :
       QObject(parent),

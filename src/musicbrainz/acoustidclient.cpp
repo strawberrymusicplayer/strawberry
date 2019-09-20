@@ -52,7 +52,7 @@
 using std::stable_sort;
 
 const char *AcoustidClient::kClientId = "0qjUoxbowg";
-const char *AcoustidClient::kUrl = "http://api.acoustid.org/v2/lookup";
+const char *AcoustidClient::kUrl = "https://api.acoustid.org/v2/lookup";
 const int AcoustidClient::kDefaultTimeout = 5000;  // msec
 
 AcoustidClient::AcoustidClient(QObject *parent)
