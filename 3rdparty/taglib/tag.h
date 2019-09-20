@@ -39,7 +39,7 @@ namespace TagLib {
    * of various audio codecs and tagging schemes.  As such it is generally a
    * subset of what is available in the specific formats but should be suitable
    * for most applications.  This is meant to compliment the generic APIs found
-   * in Strawberry_TagLib::TagLib::AudioProperties, Strawberry_TagLib::TagLib::File and Strawberry_TagLib::TagLib::FileRef.
+   * in TagLib::AudioProperties, TagLib::File and TagLib::FileRef.
    */
 
   class PropertyMap;
@@ -66,7 +66,7 @@ namespace TagLib {
      * The parameter \a properties must contain only entries from
      * properties().unsupportedData().
      * BIC: Will become virtual in future releases. Currently the non-virtual
-     * standard implementation of Strawberry_TagLib::TagLib::Tag does nothing, since there are
+     * standard implementation of TagLib::Tag does nothing, since there are
      * no unsupported elements.
      */
     void removeUnsupportedProperties(const StringList& properties);

@@ -33,21 +33,13 @@
 #include "tmap.h"
 #include "taglib_export.h"
 
+#include "id3v2.h"
 #include "id3v2framefactory.h"
 
 namespace Strawberry_TagLib {
 namespace TagLib {
 
   class File;
-
-  //! An ID3v2 implementation
-
-  /*!
-   * This is a relatively complete and flexible framework for working with ID3v2
-   * tags.
-   *
-   * \see ID3v2::Tag
-   */
 
   namespace ID3v2 {
 
@@ -126,7 +118,7 @@ namespace TagLib {
      * heart and should not be done without much meditation on the spec.  It's
      * rather long, but if you're planning on messing with this class and others
      * that deal with the details of ID3v2 (rather than the nice, safe, abstract
-     * Strawberry_TagLib::TagLib::Tag and friends), it's worth your time to familiarize yourself
+     * TagLib::Tag and friends), it's worth your time to familiarize yourself
      * with said spec (which is distributed with the TagLib sources).  TagLib
      * tries to do most of the work, but with a little luck, you can still
      * convince it to generate invalid ID3v2 tags.  The APIs for ID3v2 assume a
@@ -202,7 +194,7 @@ namespace TagLib {
        * prone to change my mind, so this gets to stay around until near a
        * release.
        */
-      Footer *footer() const;
+      TAGLIB_DEPRECATED Footer *footer() const;
 
       /*!
        * Returns a reference to the frame list map.  This is an FrameListMap of
@@ -217,7 +209,7 @@ namespace TagLib {
        * beats per minute -- the TBPM frame.
        *
        * \code
-       * Strawberry_TagLib::TagLib::MPEG::File f("foo.mp3");
+       * TagLib::MPEG::File f("foo.mp3");
        *
        * // Check to make sure that it has an ID3v2 tag
        *
@@ -225,7 +217,7 @@ namespace TagLib {
        *
        *   // Get the list of frames for a specific frame type
        *
-       *   Strawberry_TagLib::TagLib::ID3v2::FrameList l = f.ID3v2Tag()->frameListMap()["TBPM"];
+       *   TagLib::ID3v2::FrameList l = f.ID3v2Tag()->frameListMap()["TBPM"];
        *
        *   if(!l.isEmpty())
        *     std::cout << l.front()->toString() << std::endl;
@@ -347,13 +339,17 @@ namespace TagLib {
       ByteVector render() const;
 
       /*!
+       * \deprecated
+       */
+      TAGLIB_DEPRECATED ByteVector render(int version) const;
+
+      /*!
        * Render the tag back to binary data, suitable to be written to disk.
        *
-       * The \a version parameter specifies the version of the rendered
-       * ID3v2 tag. It can be either 4 or 3.
+       * The \a version parameter specifies whether ID3v2.4 (default) or ID3v2.3
+       * should be used.
        */
-      // BIC: combine with the above method
-      ByteVector render(int version) const;
+      ByteVector render(Version version) const;
 
       /*!
        * Gets the current string handler that decides how the "Latin-1" data
@@ -397,6 +393,9 @@ namespace TagLib {
        */
       void setTextFrame(const ByteVector &id, const String &value);
 
+      /*!
+       * Dowgrade frames from ID3v2.4 (used internally and by default) to ID3v2.3
+       */
       void downgradeFrames(FrameList *existingFrames, FrameList *newFrames) const;
 
     private:

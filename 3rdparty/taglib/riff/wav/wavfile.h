@@ -47,12 +47,12 @@ namespace TagLib {
 
     namespace WAV {
 
-      //! An implementation of Strawberry_TagLib::TagLib::File with WAV specific methods
+      //! An implementation of TagLib::File with WAV specific methods
 
       /*!
        * This implements and provides an interface for WAV files to the
-       * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-       * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+       * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+       * the abstract TagLib::File API as well as providing some additional
        * information specific to WAV files.
        */
 
@@ -160,7 +160,19 @@ namespace TagLib {
          */
         virtual bool save();
 
-        bool save(TagTypes tags, bool stripOthers = true, int id3v2Version = 4);
+        /*!
+         * \deprecated
+         */
+        TAGLIB_DEPRECATED bool save(TagTypes tags, bool stripOthers, int id3v2Version = 4);
+
+        /*!
+         * Save the file.  If \a strip is specified, it is possible to choose if
+         * tags not specified in \a tags should be stripped from the file or
+         * retained.  With \a version, it is possible to specify whether ID3v2.4
+         * or ID3v2.3 should be used.
+         */
+        bool save(TagTypes tags, StripTags strip = StripOthers,
+                  ID3v2::Version version = ID3v2::v4);
 
         /*!
          * Returns whether or not the file on disk actually has an ID3v2 tag.

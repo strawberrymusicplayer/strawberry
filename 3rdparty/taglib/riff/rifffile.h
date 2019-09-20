@@ -32,14 +32,14 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! An implementation of Strawberry_TagLib::TagLib::File with RIFF specific methods
+  //! An implementation of TagLib::File with RIFF specific methods
 
   namespace RIFF {
 
     //! An RIFF file class with some useful methods specific to RIFF
 
     /*!
-     * This implements the generic Strawberry_TagLib::TagLib::File API and additionally provides
+     * This implements the generic TagLib::File API and additionally provides
      * access to properties that are distinct to RIFF files, notably access
      * to the different ID3 tags.
      */

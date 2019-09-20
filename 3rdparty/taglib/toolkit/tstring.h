@@ -34,9 +34,9 @@
 #include <iostream>
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
- * Converts a QString to a Strawberry_TagLib::TagLib::String without a requirement to link to Qt.
+ * Converts a QString to a TagLib::String without a requirement to link to Qt.
  *
  * \note consider conversion via usual char-by-char for loop to avoid UTF16->UTF8->UTF16
  * conversion happening in the background
@@ -49,9 +49,9 @@
 #endif
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
- * Converts a Strawberry_TagLib::TagLib::String to a QString without a requirement to link to Qt.
+ * Converts a TagLib::String to a QString without a requirement to link to Qt.
  *
  * \note consider conversion via usual char-by-char for loop to avoid UTF16->UTF8->UTF16
  * conversion happening in the background
@@ -69,7 +69,7 @@ namespace TagLib {
 
   /*!
    * This is an implicitly shared \e wide string.  For storage it uses
-   * Strawberry_TagLib::TagLib::wstring, but as this is an <i>implementation detail</i> this of
+   * TagLib::wstring, but as this is an <i>implementation detail</i> this of
    * course could change.  Strings are stored internally as UTF-16(without BOM/
    * CPU byte order)
    *
@@ -542,7 +542,7 @@ namespace TagLib {
      * may lead to a linkage error.
      */
      // BIC: remove
-    static const Type WCharByteOrder;
+    TAGLIB_DEPRECATED static const Type WCharByteOrder;
 
     class StringPrivate;
     StringPrivate *d;
@@ -552,21 +552,21 @@ namespace TagLib {
 }
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
 TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const Strawberry_TagLib::TagLib::String &s1, const Strawberry_TagLib::TagLib::String &s2);
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
 TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const char *s1, const Strawberry_TagLib::TagLib::String &s2);
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
  * Concatenates \a s1 and \a s2 and returns the result as a string.
  */
@@ -574,7 +574,7 @@ TAGLIB_EXPORT const Strawberry_TagLib::TagLib::String operator+(const Strawberry
 
 
 /*!
- * \relates Strawberry_TagLib::TagLib::String
+ * \relates TagLib::String
  *
  * Send the string to an output stream.
  */

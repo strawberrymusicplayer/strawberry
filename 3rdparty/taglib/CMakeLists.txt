@@ -93,6 +93,7 @@ set(tag_HDRS
   mpeg/xingheader.h
   mpeg/id3v1/id3v1tag.h
   mpeg/id3v1/id3v1genres.h
+  mpeg/id3v2/id3v2.h
   mpeg/id3v2/id3v2extendedheader.h
   mpeg/id3v2/id3v2frame.h
   mpeg/id3v2/id3v2header.h

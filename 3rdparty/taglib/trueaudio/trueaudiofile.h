@@ -52,12 +52,12 @@ namespace TagLib {
 
   namespace TrueAudio {
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with TrueAudio specific methods
+    //! An implementation of TagLib::File with TrueAudio specific methods
 
     /*!
      * This implements and provides an interface for TrueAudio files to the
-     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+     * the abstract TagLib::File API as well as providing some additional
      * information specific to TrueAudio files.
      */
 
@@ -167,7 +167,7 @@ namespace TagLib {
        * \see ID3v2FrameFactory
        * \deprecated This value should be passed in via the constructor
        */
-      void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
+      TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
 
       /*!
        * Saves the file.

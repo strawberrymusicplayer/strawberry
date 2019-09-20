@@ -90,14 +90,15 @@ namespace TagLib {
        * non-binary compatible release this will be made into a non-static
        * member that checks the internal ID3v2 version.
        */
-      static unsigned int headerSize(); // BIC: remove and make non-static
+      static unsigned int headerSize(); // BIC: make non-static
 
       /*!
        * Returns the size of the frame header for the given ID3v2 version.
        *
        * \deprecated Please see the explanation above.
        */
-      static unsigned int headerSize(unsigned int version); // BIC: remove and make non-static
+      // BIC: remove
+      static unsigned int headerSize(unsigned int version);
 
       /*!
        * Sets the data that will be used as the frame.  Since the length is not
@@ -335,7 +336,7 @@ namespace TagLib {
        * \deprecated Please use the constructor below that accepts a version
        * number.
        */
-      Header(const ByteVector &data, bool synchSafeInts);
+      TAGLIB_DEPRECATED Header(const ByteVector &data, bool synchSafeInts);
 
       /*!
        * Construct a Frame Header based on \a data.  \a data must at least
@@ -412,6 +413,7 @@ namespace TagLib {
        * removed in the next binary incompatible release (2.0) and will be
        * replaced with a non-static method that checks the frame version.
        */
+      // BIC: make non-static
       static unsigned int size();
 
       /*!
@@ -420,6 +422,7 @@ namespace TagLib {
        *
        * \deprecated Please see the explanation in the version above.
        */
+      // BIC: remove
       static unsigned int size(unsigned int version);
 
       /*!
@@ -503,7 +506,7 @@ namespace TagLib {
       /*!
        * \deprecated
        */
-      bool frameAlterPreservation() const;
+      TAGLIB_DEPRECATED bool frameAlterPreservation() const;
 
     private:
       Header(const Header &);

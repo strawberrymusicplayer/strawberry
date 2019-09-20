@@ -32,6 +32,8 @@
 
 #include "mpegproperties.h"
 
+#include "id3v2.h"
+
 namespace Strawberry_TagLib {
 namespace TagLib {
 
@@ -39,14 +41,14 @@ namespace TagLib {
   namespace ID3v1 { class Tag; }
   namespace APE { class Tag; }
 
-  //! An implementation of Strawberry_TagLib::TagLib::File with MPEG (MP3) specific methods
+  //! An implementation of TagLib::File with MPEG (MP3) specific methods
 
   namespace MPEG {
 
     //! An MPEG file class with some useful methods specific to MPEG
 
     /*!
-     * This implements the generic Strawberry_TagLib::TagLib::File API and additionally provides
+     * This implements the generic TagLib::File API and additionally provides
      * access to properties that are distinct to MPEG files, notably access
      * to the different ID3 tags.
      */
@@ -164,15 +166,14 @@ namespace TagLib {
       virtual Properties *audioProperties() const;
 
       /*!
-       * Save the file.  If an ID3v1 tag exists this will duplicate the tag
-       * content into the other tag.  This returns true if saving was
-       * successful.
+       * Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this
+       * will duplicate its content into the other tag.  This returns true
+       * if saving was successful.
        *
        * If neither exists or if both tags are empty, this will strip the tags
        * from the file.
        *
-       * This is the same as calling save(AllTags, true, 4, false); or if an
-       * ID3v1 tag exists, save(AllTags, true, 4, true).
+       * This is the same as calling save(AllTags);
        *
        * If you would like more granular control over the content of the tags,
        * with the concession of generality, use parameterized save call below.
@@ -193,49 +194,39 @@ namespace TagLib {
       bool save(int tags);
 
       /*!
-       * Save the file.  This will attempt to save all of the tag types that are
-       * specified by OR-ing together TagTypes values.  The save() method above
-       * uses AllTags.  This returns true if saving was successful.
-       *
-       * If \a stripOthers is true this strips all tags not included in the mask,
-       * but does not modify them in memory, so later calls to save() which make
-       * use of these tags will remain valid.  This also strips empty tags.
+       * \deprecated
        */
       // BIC: combine with the above method
-      bool save(int tags, bool stripOthers);
+      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers);
+
+      /*!
+       * \deprecated
+       */
+      // BIC: combine with the above method
+      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version);
+
+      /*!
+       * \deprecated
+       */
+      // BIC: combine with the above method
+      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version, bool duplicateTags);
 
       /*!
        * Save the file.  This will attempt to save all of the tag types that are
-       * specified by OR-ing together TagTypes values.  The save() method above
-       * uses AllTags.  This returns true if saving was successful.
+       * specified by OR-ing together TagTypes values.
        *
-       * If \a stripOthers is true this strips all tags not included in the mask,
-       * but does not modify them in memory, so later calls to save() which make
-       * use of these tags will remain valid.  This also strips empty tags.
+       * \a strip can be set to strip all tags except those in \a tags.  Those
+       * tags will not be modified in memory, and thus remain valid.
        *
-       * The \a id3v2Version parameter specifies the version of the saved
-       * ID3v2 tag. It can be either 4 or 3.
+       * \a version specifies the ID3v2 version to be used for writing tags.  By
+       * default, the latest standard, ID3v2.4 is used.
+       *
+       * If \a duplicate is set to DuplicateTags and at least one tag -- ID3v1
+       * or ID3v2 -- exists this will duplicate its content into the other tag.
        */
-      // BIC: combine with the above method
-      bool save(int tags, bool stripOthers, int id3v2Version);
-
-      /*!
-       * Save the file.  This will attempt to save all of the tag types that are
-       * specified by OR-ing together TagTypes values.  The save() method above
-       * uses AllTags.  This returns true if saving was successful.
-       *
-       * If \a stripOthers is true this strips all tags not included in the mask,
-       * but does not modify them in memory, so later calls to save() which make
-       * use of these tags will remain valid.  This also strips empty tags.
-       *
-       * The \a id3v2Version parameter specifies the version of the saved
-       * ID3v2 tag. It can be either 4 or 3.
-       *
-       * If \a duplicateTags is true and at least one tag -- ID3v1 or ID3v2 --
-       * exists this will duplicate its content into the other tag.
-       */
-      // BIC: combine with the above method
-      bool save(int tags, bool stripOthers, int id3v2Version, bool duplicateTags);
+      bool save(int tags, StripTags strip,
+                ID3v2::Version version = ID3v2::v4,
+                DuplicateTags duplicate = Duplicate);
 
       /*!
        * Returns a pointer to the ID3v2 tag of the file.
@@ -327,7 +318,7 @@ namespace TagLib {
        * \see ID3v2FrameFactory
        * \deprecated This value should be passed in via the constructor
        */
-      void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
+      TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
 
       /*!
        * Returns the position in the file of the first MPEG frame.

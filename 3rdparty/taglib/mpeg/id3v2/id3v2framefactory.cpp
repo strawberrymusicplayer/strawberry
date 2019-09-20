@@ -127,6 +127,11 @@ Frame *FrameFactory::createFrame(const ByteVector &data, unsigned int version) c
 
 Frame *FrameFactory::createFrame(const ByteVector &origData, Header *tagHeader) const
 {
+    return createFrame(origData, const_cast<const Header *>(tagHeader));
+}
+
+Frame *FrameFactory::createFrame(const ByteVector &origData, const Header *tagHeader) const
+{
   ByteVector data = origData;
   unsigned int version = tagHeader->majorVersion();
   Frame::Header *header = new Frame::Header(data, version);

@@ -53,7 +53,7 @@ namespace TagLib {
          *
          * \deprecated
          */
-        Properties(const ByteVector &data, ReadStyle style);
+        TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
 
         /*!
          * Create an instance of AIFF::Properties with the data read from the
@@ -74,7 +74,7 @@ namespace TagLib {
          *
          * \deprecated
          */
-        virtual int length() const;
+        TAGLIB_DEPRECATED virtual int length() const;
 
         /*!
          * Returns the length of the file in seconds.  The length is rounded down to
@@ -120,7 +120,7 @@ namespace TagLib {
          *
          * \deprecated
          */
-        int sampleWidth() const;
+        TAGLIB_DEPRECATED int sampleWidth() const;
 
         /*!
          * Returns the number of sample frames

@@ -85,7 +85,7 @@ namespace TagLib {
         /*!
          * Returns the XiphComment for this file.  XiphComment implements the tag
          * interface, so this serves as the reimplementation of
-         * Strawberry_TagLib::TagLib::File::tag().
+         * TagLib::File::tag().
          */
         virtual Ogg::XiphComment *tag() const;
 

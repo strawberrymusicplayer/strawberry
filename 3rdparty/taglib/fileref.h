@@ -42,7 +42,7 @@ namespace TagLib {
   /*!
    * FileRef exists to provide a minimal, generic and value-based wrapper around
    * a File.  It is lightweight and implicitly shared, and as such suitable for
-   * pass-by-value use.  This hides some of the uglier details of Strawberry_TagLib::TagLib::File
+   * pass-by-value use.  This hides some of the uglier details of TagLib::File
    * and the non-generic portions of the concrete file implementations.
    *
    * This class is useful in a "simple usage" situation where it is desirable

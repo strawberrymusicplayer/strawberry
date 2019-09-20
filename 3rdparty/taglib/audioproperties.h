@@ -36,7 +36,7 @@ namespace TagLib {
   /*!
    * The values here are common to most audio formats.  For more specific, codec
    * dependent values, please see see the subclasses APIs.  This is meant to
-   * compliment the Strawberry_TagLib::TagLib::File and Strawberry_TagLib::TagLib::Tag APIs in providing a simple
+   * compliment the TagLib::File and TagLib::Tag APIs in providing a simple
    * interface that is sufficient for most applications.
    */
 

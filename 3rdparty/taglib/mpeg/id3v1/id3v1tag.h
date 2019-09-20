@@ -89,7 +89,7 @@ namespace TagLib {
      * This is an implementation of the ID3v1 format.  ID3v1 is both the simplest
      * and most common of tag formats but is rather limited.  Because of its
      * pervasiveness and the way that applications have been written around the
-     * fields that it provides, the generic Strawberry_TagLib::TagLib::Tag API is a mirror of what is
+     * fields that it provides, the generic TagLib::Tag API is a mirror of what is
      * provided by ID3v1.
      *
      * ID3v1 tags should generally only contain Latin1 information.  However because

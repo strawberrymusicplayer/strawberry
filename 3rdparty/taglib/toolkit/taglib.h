@@ -44,6 +44,16 @@
 #define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long>(x)
 #endif
 
+#if __cplusplus >= 201402
+#define TAGLIB_DEPRECATED [[deprecated]]
+#elif defined(__GNUC__) || defined(__clang__)
+#define TAGLIB_DEPRECATED __attribute__((deprecated))
+#elif defined(_MSC_VER)
+#define TAGLIB_DEPRECATED __declspec(deprecated)
+#else
+#define TAGLIB_DEPRECATED
+#endif
+
 #include <string>
 
 //! A namespace for all TagLib related classes and functions
@@ -52,7 +62,7 @@
  * This namespace contains everything in TagLib.  For projects working with
  * TagLib extensively it may be convenient to add a
  * \code
- * using namespace Strawberry_TagLib::TagLib;
+ * using namespace TagLib;
  * \endcode
  */
 

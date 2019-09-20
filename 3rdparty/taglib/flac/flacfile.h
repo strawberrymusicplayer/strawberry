@@ -55,12 +55,12 @@ namespace TagLib {
 
   namespace FLAC {
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with FLAC specific methods
+    //! An implementation of TagLib::File with FLAC specific methods
 
     /*!
      * This implements and provides an interface for FLAC files to the
-     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+     * the abstract TagLib::File API as well as providing some additional
      * information specific to FLAC files.
      */
 
@@ -241,7 +241,7 @@ namespace TagLib {
        * \see ID3v2FrameFactory
        * \deprecated This value should be passed in via the constructor
        */
-      void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
+      TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
 
       /*!
        * Returns the block of data used by FLAC::Properties for parsing the
@@ -249,7 +249,7 @@ namespace TagLib {
        *
        * \deprecated Always returns an empty vector.
        */
-      ByteVector streamInfoData(); // BIC: remove
+      TAGLIB_DEPRECATED ByteVector streamInfoData(); // BIC: remove
 
       /*!
        * Returns the length of the audio-stream, used by FLAC::Properties for
@@ -257,7 +257,7 @@ namespace TagLib {
        *
        * \deprecated Always returns zero.
        */
-      long streamLength();  // BIC: remove
+      TAGLIB_DEPRECATED long streamLength();  // BIC: remove
 
       /*!
        * Returns a list of pictures attached to the FLAC file.

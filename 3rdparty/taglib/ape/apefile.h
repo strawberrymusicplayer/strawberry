@@ -57,12 +57,12 @@ namespace TagLib {
 
   namespace APE {
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with APE specific methods
+    //! An implementation of TagLib::File with APE specific methods
 
     /*!
      * This implements and provides an interface for APE files to the
-     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+     * the abstract TagLib::File API as well as providing some additional
      * information specific to APE files.
      */
 

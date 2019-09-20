@@ -42,8 +42,8 @@ namespace TagLib {
 
     /*!
      * This implements and provides an interface for MP4 files to the
-     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+     * the abstract TagLib::File API as well as providing some additional
      * information specific to MP4 files.
      */
     class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
@@ -79,7 +79,7 @@ namespace TagLib {
        * Returns a pointer to the MP4 tag of the file.
        *
        * MP4::Tag implements the tag interface, so this serves as the
-       * reimplementation of Strawberry_TagLib::TagLib::File::tag().
+       * reimplementation of TagLib::File::tag().
        *
        * \note The Tag <b>is still</b> owned by the MP4::File and should not be
        * deleted by the user.  It will be deleted when the file (object) is

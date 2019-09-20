@@ -199,7 +199,7 @@ String::String(const wstring &s, Type t) :
     copyFromUTF16(d->data, s.c_str(), s.length(), t);
   }
   else {
-    debug("String::String() -- Strawberry_TagLib::TagLib::wstring should not contain Latin1 or UTF-8.");
+    debug("String::String() -- TagLib::wstring should not contain Latin1 or UTF-8.");
   }
 }
 

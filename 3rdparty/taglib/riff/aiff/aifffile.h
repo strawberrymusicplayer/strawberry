@@ -46,12 +46,12 @@ namespace TagLib {
 
     namespace AIFF {
 
-      //! An implementation of Strawberry_TagLib::TagLib::File with AIFF specific methods
+      //! An implementation of TagLib::File with AIFF specific methods
 
       /*!
        * This implements and provides an interface for AIFF files to the
-       * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-       * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+       * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+       * the abstract TagLib::File API as well as providing some additional
        * information specific to AIFF files.
        */
 
@@ -119,6 +119,11 @@ namespace TagLib {
          * Saves the file.
          */
         virtual bool save();
+
+        /*!
+         * Save using a specific ID3v2 version (e.g. v3)
+         */
+        bool save(ID3v2::Version version);
 
         /*!
          * Returns whether or not the file on disk actually has an ID3v2 tag.

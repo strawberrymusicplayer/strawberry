@@ -112,7 +112,7 @@ namespace TagLib {
        *
        * \deprecated Always returns 0.
        */
-      static int xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version v,
+      TAGLIB_DEPRECATED static int xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version v,
                                   Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode c);
 
     private:

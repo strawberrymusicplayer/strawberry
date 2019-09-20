@@ -81,7 +81,7 @@ namespace TagLib
        * only one may be of type 1 and only one may be of type 2.
        *
        * The specification also states that the description of the picture can be no longer than 64 characters, but can be empty.
-       * WM/Picture attributes added with Strawberry_TagLib::TagLib::ASF are not automatically validated to conform to ID3 specifications.
+       * WM/Picture attributes added with TagLib::ASF are not automatically validated to conform to ID3 specifications.
        * You must add code in your application to perform validations if you want to maintain complete compatibility with ID3.
        */
       Attribute(const Picture &value);

@@ -54,12 +54,12 @@ namespace TagLib {
 
   namespace MPC {
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with MPC specific methods
+    //! An implementation of TagLib::File with MPC specific methods
 
     /*!
      * This implements and provides an interface for MPC files to the
-     * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
-     * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
+     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+     * the abstract TagLib::File API as well as providing some additional
      * information specific to MPC files.
      * The only invalid tag combination supported is an ID3v1 tag after an APE tag.
      */
@@ -199,7 +199,7 @@ namespace TagLib {
        * \deprecated
        * \see strip
        */
-      void remove(int tags = AllTags);
+      TAGLIB_DEPRECATED void remove(int tags = AllTags);
 
       /*!
        * Returns whether or not the file on disk actually has an ID3v1 tag.

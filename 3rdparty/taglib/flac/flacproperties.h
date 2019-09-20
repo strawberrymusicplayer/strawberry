@@ -73,7 +73,7 @@ namespace TagLib {
        *
        * \deprecated
        */
-      virtual int length() const;
+      TAGLIB_DEPRECATED virtual int length() const;
 
       /*!
        * Returns the length of the file in seconds.  The length is rounded down to
@@ -121,7 +121,7 @@ namespace TagLib {
        *
        * \deprecated
        */
-      int sampleWidth() const;
+      TAGLIB_DEPRECATED int sampleWidth() const;
 
       /*!
        * Return the number of sample frames.
