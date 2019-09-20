@@ -227,14 +227,14 @@ Section "Strawberry" Strawberry
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
-  File "libcrypto-3.dll"
-  File "libssl-3.dll"
+  File "libcrypto-1_1.dll"
+  File "libssl-1_1.dll"
 !endif
 
 !ifdef arch_x64
   File "libgcc_s_seh-1.dll"
-  File "libcrypto-3-x64.dll"
-  File "libssl-3-x64.dll"
+  File "libcrypto-1_1-x64.dll"
+  File "libssl-1_1-x64.dll"
 !endif
 
 !ifdef debug
@@ -503,14 +503,14 @@ Section "Uninstall"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
-  Delete "$INSTDIR\libcrypto-3.dll"
-  Delete "$INSTDIR\libssl-3.dll"
+  Delete "$INSTDIR\libcrypto-1_1.dll"
+  Delete "$INSTDIR\libssl-1_1.dll"
 !endif
 
 !ifdef arch_x64
   Delete "$INSTDIR\libgcc_s_seh-1.dll"
-  Delete "$INSTDIR\libcrypto-3-x64.dll"
-  Delete "$INSTDIR\libssl-3-x64.dll"
+  Delete "$INSTDIR\libcrypto-1_1-x64.dll"
+  Delete "$INSTDIR\libssl-1_1-x64.dll"
 !endif
 
 !ifdef debug
