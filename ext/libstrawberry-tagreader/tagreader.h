@@ -25,7 +25,6 @@
 
 #include <QByteArray>
 #include <QString>
-#include <QNetworkAccessManager>
 #include <QTextCodec>
 
 #include <taglib/xiphcomment.h>
@@ -91,7 +90,6 @@ class TagReader {
  private:
 
   FileRefFactory *factory_;
-  QNetworkAccessManager *network_;
 
   const std::string kEmbeddedCover;
 };

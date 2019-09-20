@@ -83,7 +83,6 @@
 #include <QUrl>
 #include <QTextCodec>
 #include <QVector>
-#include <QNetworkAccessManager>
 #include <QtDebug>
 
 #include "core/logging.h"
@@ -135,12 +134,10 @@ const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
 
 TagReader::TagReader() :
   factory_(new TagLibFileRefFactory),
-  network_(new QNetworkAccessManager),
   kEmbeddedCover("(embedded)") {
 }
 
 TagReader::~TagReader() {
-  delete network_;
   delete factory_;
 }
 
@@ -320,37 +317,33 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
     if (file->tag()) {
       TagLib::MP4::Tag *mp4_tag = file->tag();
-      const TagLib::MP4::ItemListMap& items = mp4_tag->itemListMap();
 
       // Find album artists
-      TagLib::MP4::ItemListMap::ConstIterator it = items.find("aART");
-      if (it != items.end()) {
-        TagLib::StringList album_artists = it->second.toStringList();
+      if (mp4_tag->item("aART").isValid()) {
+        TagLib::StringList album_artists = mp4_tag->item("aART").toStringList();
         if (!album_artists.isEmpty()) {
           Decode(album_artists.front(), nullptr, song->mutable_albumartist());
         }
       }
 
       // Find album cover art
-      if (items.find("covr") != items.end()) {
+      if (mp4_tag->item("covr").isValid()) {
         song->set_art_automatic(kEmbeddedCover);
       }
 
-      if (items.contains("disk")) {
-        disc = TStringToQString(TagLib::String::number(items["disk"].toIntPair().first));
+      if (mp4_tag->item("disk").isValid()) {
+        disc = TStringToQString(TagLib::String::number(mp4_tag->item("disk").toIntPair().first));
       }
 
-
-      if(items.contains("\251wrt")) {
-        Decode(items["\251wrt"].toStringList().toString(", "), nullptr, song->mutable_composer());
+      if (mp4_tag->item("\251wrt").isValid()) {
+        Decode(mp4_tag->item("\251wrt").toStringList().toString(", "), nullptr, song->mutable_composer());
       }
-      if(items.contains("\251grp")) {
-        Decode(items["\251grp"].toStringList().toString(" "), nullptr, song->mutable_grouping());
+      if (mp4_tag->item("\251grp").isValid()) {
+        Decode(mp4_tag->item("\251grp").toStringList().toString(" "), nullptr, song->mutable_grouping());
       }
 
-      if (items.contains(kMP4_OriginalYear_ID)) {
-        song->set_originalyear(
-            TStringToQString(items[kMP4_OriginalYear_ID].toStringList().toString('\n')).left(4).toInt());
+      if (mp4_tag->item(kMP4_OriginalYear_ID).isValid()) {
+        song->set_originalyear(TStringToQString(mp4_tag->item(kMP4_OriginalYear_ID).toStringList().toString('\n')).left(4).toInt());
       }
 
       Decode(mp4_tag->comment(), nullptr, song->mutable_comment());
@@ -560,10 +553,10 @@ void TagReader::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comments, con
   // Try to be coherent, the two forms are used but the first one is preferred
 
   vorbis_comments->addField("ALBUMARTIST", StdStringToTaglibString(song.albumartist()), true);
-  vorbis_comments->removeField("ALBUM ARTIST");
+  vorbis_comments->removeFields("ALBUM ARTIST");
 
   vorbis_comments->addField("LYRICS", StdStringToTaglibString(song.lyrics()), true);
-  vorbis_comments->removeField("UNSYNCEDLYRICS");
+  vorbis_comments->removeFields("UNSYNCEDLYRICS");
 
 }
 
@@ -620,11 +613,11 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
 
   else if (TagLib::MP4::File *file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
     TagLib::MP4::Tag *tag = file->tag();
-    tag->itemListMap()["disk"]    = TagLib::MP4::Item(song.disc() <= 0 -1 ? 0 : song.disc(), 0);
-    tag->itemListMap()["\251wrt"] = TagLib::StringList(song.composer().c_str());
-    tag->itemListMap()["\251grp"] = TagLib::StringList(song.grouping().c_str());
-    tag->itemListMap()["aART"]    = TagLib::StringList(song.albumartist().c_str());
-    tag->itemListMap()["cpil"]    = TagLib::StringList(song.compilation() ? "1" : "0");
+    tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 -1 ? 0 : song.disc(), 0));
+    tag->setItem("\251wrt", TagLib::StringList(song.composer().c_str()));
+    tag->setItem("\251grp", TagLib::StringList(song.grouping().c_str()));
+    tag->setItem("aART", TagLib::StringList(song.albumartist().c_str()));
+    tag->setItem("cpil", TagLib::StringList(song.compilation() ? "1" : "0"));
   }
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
@@ -797,9 +790,10 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
     // Ogg lacks a definitive standard for embedding cover art, but it seems
     // b64 encoding a field called COVERART is the general convention
-    if (!map.contains("COVERART")) return QByteArray();
+    if (map.contains("COVERART"))
+      return QByteArray::fromBase64(map["COVERART"].toString().toCString());
 
-    return QByteArray::fromBase64(map["COVERART"].toString().toCString());
+    return QByteArray();
   }
 
   // MP3
@@ -818,10 +812,8 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
   TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(ref.file());
   if (aac_file) {
     TagLib::MP4::Tag *tag = aac_file->tag();
-    const TagLib::MP4::ItemListMap &items = tag->itemListMap();
-    TagLib::MP4::ItemListMap::ConstIterator it = items.find("covr");
-    if (it != items.end()) {
-      const TagLib::MP4::CoverArtList &art_list = it->second.toCoverArtList();
+    if (tag->item("covr").isValid()) {
+      const TagLib::MP4::CoverArtList &art_list = tag->item("covr").toCoverArtList();
 
       if (!art_list.isEmpty()) {
         // Just take the first one for now
