@@ -66,7 +66,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-  req.setRawHeader("X-App-Id", user_auth_token().toUtf8());
+  req.setRawHeader("X-App-Id", app_id().toUtf8());
   if (authenticated())
     req.setRawHeader("X-User-Auth-Token", user_auth_token().toUtf8());
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
