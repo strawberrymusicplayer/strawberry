@@ -581,7 +581,16 @@ int Playlist::previous_row(bool ignore_repeat_track) const {
 void Playlist::set_current_row(int i, bool is_stopping) {
 
   QModelIndex old_current_item_index = current_item_index_;
+
   ClearStreamMetadata();
+
+  if (next_row() != -1 && next_row() != i) {
+    PlaylistItemPtr next_item = item_at(next_row());
+    if (next_item) {
+      next_item->ClearTemporaryMetadata();
+      emit dataChanged(index(next_row(), 0), index(next_row(), ColumnCount - 1));
+    }
+  }
 
   current_item_index_ = QPersistentModelIndex(index(i, 0, QModelIndex()));
 
