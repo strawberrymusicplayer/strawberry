@@ -164,7 +164,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
  private:
   static const qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
-  static const qint64 kPreloadGapNanosec = 3000 * kNsecPerMsec;     // 3s
+  static const qint64 kPreloadGapNanosec = 5000 * kNsecPerMsec;     // 5s
   static const qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 
   TaskManager *task_manager_;
