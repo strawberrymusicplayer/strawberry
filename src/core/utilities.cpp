@@ -827,7 +827,11 @@ QString MacAddress() {
         !(interface.flags() & QNetworkInterface::IsUp) ||
         !(interface.flags() & QNetworkInterface::IsRunning)
         ) { continue; }
-    if (ret.isEmpty() || interface.type() == QNetworkInterface::Ethernet || interface.type() == QNetworkInterface::Wifi) {
+    if (ret.isEmpty()
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+        || interface.type() == QNetworkInterface::Ethernet || interface.type() == QNetworkInterface::Wifi
+#endif
+    ) {
       ret = interface.hardwareAddress();
     }
   }
