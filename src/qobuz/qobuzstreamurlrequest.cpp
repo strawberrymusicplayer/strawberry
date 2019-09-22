@@ -20,7 +20,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QMimeDatabase>
 #include <QFile>
 #include <QDir>
@@ -31,7 +30,6 @@
 #include <QDateTime>
 #include <QJsonValue>
 #include <QJsonObject>
-#include <QXmlStreamReader>
 
 #include "core/logging.h"
 #include "core/network.h"
@@ -122,9 +120,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   QString data_to_sign;
   data_to_sign += "trackgetFileUrl";
   for (const Param &param : params_to_sign) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    data_to_sign += param.first;
-    data_to_sign += param.second;
+    data_to_sign += param.first + param.second;
   }
   data_to_sign += QString::number(timestamp);
   data_to_sign += app_secret();
@@ -147,12 +143,14 @@ void QobuzStreamURLRequest::GetStreamURL() {
 void QobuzStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
-  disconnect(reply_, 0, this, 0);
-  reply_->deleteLater();
 
   QByteArray data = GetReplyData(reply_);
+
+  disconnect(reply_, 0, this, 0);
+  reply_->deleteLater();
+  reply_ = nullptr;
+
   if (data.isEmpty()) {
-    reply_ = nullptr;
     if (!authenticated() && login_sent() && tries_ <= 1) {
       need_login_ = true;
       return;
@@ -160,7 +158,6 @@ void QobuzStreamURLRequest::StreamURLReceived() {
     emit StreamURLFinished(original_url_, original_url_, Song::FileType_Stream, -1, -1, -1, errors_.first());
     return;
   }
-  reply_ = nullptr;
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {

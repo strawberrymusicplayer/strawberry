@@ -96,6 +96,8 @@ QobuzService::QobuzService(Application *app, QObject *parent)
       albumssearchlimit_(1),
       songssearchlimit_(1),
       download_album_covers_(true),
+      user_id_(-1),
+      credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
       search_id_(0),
@@ -238,6 +240,8 @@ void QobuzService::ReloadSettings() {
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
 
+  user_id_ = s.value("user_id").toInt();
+  device_id_ = s.value("device_id").toString();
   user_auth_token_ = s.value("user_auth_token").toString();
 
   s.endGroup();
@@ -261,7 +265,8 @@ void QobuzService::SendLogin(const QString &app_id, const QString &username, con
 
   const ParamList params = ParamList() << Param("app_id", app_id)
                                        << Param("username", username)
-                                       << Param("password", password);
+                                       << Param("password", password)
+                                       << Param("device_manufacturer_id", Utilities::MacAddress());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -309,7 +314,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
       QByteArray data(reply->readAll());
       QJsonParseError json_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
           QString status = json_obj["status"].toString();
@@ -342,7 +347,7 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
     return;
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     LoginError("Authentication reply from server has empty Json document.");
     return;
   }
@@ -362,15 +367,68 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
     LoginError("Authentication reply from server is missing user_auth_token", json_obj);
     return;
   }
-
   user_auth_token_ = json_obj["user_auth_token"].toString();
+
+  if (!json_obj.contains("user")) {
+    LoginError("Authentication reply from server is missing user", json_obj);
+    return;
+  }
+  QJsonValue json_user = json_obj["user"];
+  if (!json_user.isObject()) {
+    LoginError("Authentication reply user is not a object", json_obj);
+    return;
+  }
+  QJsonObject json_obj_user = json_user.toObject();
+
+  if (!json_obj_user.contains("id")) {
+    LoginError("Authentication reply from server is missing user id", json_obj_user);
+    return;
+  }
+  user_id_ = json_obj_user["id"].toInt();
+
+  if (!json_obj_user.contains("device")) {
+    LoginError("Authentication reply from server is missing user device", json_obj_user);
+    return;
+  }
+  QJsonValue json_device = json_obj_user["device"];
+  if (!json_device.isObject()) {
+    LoginError("Authentication reply from server user device is not a object", json_device);
+    return;
+  }
+  QJsonObject json_obj_device = json_device.toObject();
+
+  if (!json_obj_device.contains("device_manufacturer_id")) {
+    LoginError("Authentication reply from server device is missing device_manufacturer_id", json_obj_device);
+    return;
+  }
+  device_id_ = json_obj_device["device_manufacturer_id"].toString();
+
+  if (!json_obj_user.contains("credential")) {
+    LoginError("Authentication reply from server is missing user credential", json_obj_user);
+    return;
+  }
+  QJsonValue json_credential = json_obj_user["credential"];
+  if (!json_credential.isObject()) {
+    LoginError("Authentication reply from serve userr credential is not a object", json_device);
+    return;
+  }
+  QJsonObject json_obj_credential = json_credential.toObject();
+
+  if (!json_obj_credential.contains("id")) {
+    LoginError("Authentication reply user credential from server is missing user credential id", json_obj_device);
+    return;
+  }
+  credential_id_ = json_obj_credential["id"].toInt();
 
   QSettings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
   s.setValue("user_auth_token", user_auth_token_);
+  s.setValue("user_id", user_id_);
+  s.setValue("credential_id", credential_id_);
+  s.setValue("device_id", device_id_);
   s.endGroup();
 
-  qLog(Debug) << "Qobuz: Login successful" << "user auth token" << user_auth_token_;
+  qLog(Debug) << "Qobuz: Login successful" << "user id" << user_id_ << "user auth token" << user_auth_token_ << "device id" << device_id_;
 
   login_attempts_ = 0;
   if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
@@ -383,9 +441,15 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 void QobuzService::Logout() {
 
   user_auth_token_.clear();
+  device_id_.clear();
+  user_id_ = -1;
+  credential_id_ = -1;
 
   QSettings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);
+  s.remove("user_id");
+  s.remove("credential_id");
+  s.remove("device_id");
   s.remove("user_auth_token");
   s.endGroup();
 

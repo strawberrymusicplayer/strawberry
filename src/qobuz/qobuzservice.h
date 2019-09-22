@@ -83,6 +83,9 @@ class QobuzService : public InternetService {
   bool download_album_covers() { return download_album_covers_; }
 
   QString user_auth_token() { return user_auth_token_; }
+  qint64 user_id() { return user_id_; }
+  QString device_id() { return device_id_; }
+  qint64 credential_id() { return credential_id_; }
 
   bool authenticated() { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
   bool login_sent() { return login_sent_; }
@@ -204,7 +207,10 @@ class QobuzService : public InternetService {
   int songssearchlimit_;
   bool download_album_covers_;
 
+  qint64 user_id_;
   QString user_auth_token_;
+  QString device_id_;
+  qint64 credential_id_;
 
   int pending_search_id_;
   int next_pending_search_id_;

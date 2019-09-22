@@ -108,7 +108,7 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
       QString error;
       QJsonParseError parse_error;
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
-      if (parse_error.error == QJsonParseError::NoError && !json_doc.isNull() && !json_doc.isEmpty() && json_doc.isObject()) {
+      if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
         if (!json_obj.isEmpty() && json_obj.contains("status") && json_obj.contains("code") && json_obj.contains("message")) {
           QString status = json_obj["status"].toString();
@@ -144,7 +144,7 @@ QJsonObject QobuzBaseRequest::ExtractJsonObj(QByteArray &data) {
     return QJsonObject();
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     Error("Received empty Json document.", data);
     return QJsonObject();
   }
