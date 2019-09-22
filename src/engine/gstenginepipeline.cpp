@@ -740,6 +740,14 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
       next_uri_set_ = false;
       g_object_set(G_OBJECT(pipeline_), "uri", stream_url_.constData(), nullptr);
       SetState(GST_STATE_PLAYING);
+
+      // Add request to discover the stream
+      if (discoverer_) {
+        if (!gst_discoverer_discover_uri_async(discoverer_, stream_url_.toStdString().c_str())) {
+          qLog(Error) << "Failed to start stream discovery for" << stream_url_;
+        }
+      }
+
     }
   }
 
@@ -1189,6 +1197,13 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
 
+  // Add request to discover the stream
+  if (discoverer_) {
+    if (!gst_discoverer_discover_uri_async(discoverer_, next_stream_url_.toStdString().c_str())) {
+      qLog(Error) << "Failed to start stream discovery for" << next_stream_url_;
+    }
+  }
+
 }
 
 void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer self) {
@@ -1214,7 +1229,12 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovere
     GstDiscovererStreamInfo *stream_info = (GstDiscovererStreamInfo*) g_list_first(audio_streams)->data;
 
     Engine::SimpleMetaBundle bundle;
-    bundle.url = instance->original_url();
+    if (discovered_url == instance->stream_url_) {
+      bundle.url = instance->original_url_;
+    }
+    else if (discovered_url == instance->next_stream_url_) {
+      bundle.url = instance->next_original_url_;
+    }
     bundle.stream_url = QUrl(discovered_url);
     bundle.samplerate = gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info));
     bundle.bitdepth = gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info));
