@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QtEvents>
 #include <QMessageBox>
+#include <QNetworkInterface>
 #include <QtDebug>
 
 #ifdef Q_OS_LINUX
@@ -810,6 +811,28 @@ QString UnicodeToAscii(const QString &unicode) {
 
   delete[] input_ptr;
   delete[] output_ptr;
+
+  return ret;
+
+}
+
+QString MacAddress() {
+
+  QString ret;
+
+  for (QNetworkInterface &interface : QNetworkInterface::allInterfaces()) {
+    if (
+        (interface.hardwareAddress() == "00:00:00:00:00:00") ||
+        (interface.flags() & QNetworkInterface::IsLoopBack) ||
+        !(interface.flags() & QNetworkInterface::IsUp) ||
+        !(interface.flags() & QNetworkInterface::IsRunning)
+        ) { continue; }
+    if (ret.isEmpty() || interface.type() == QNetworkInterface::Ethernet || interface.type() == QNetworkInterface::Wifi) {
+      ret = interface.hardwareAddress();
+    }
+  }
+
+  if (ret.isEmpty()) ret = "00:00:00:00:00:00";
 
   return ret;
 
