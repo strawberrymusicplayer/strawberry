@@ -154,6 +154,8 @@ QString DesktopEnvironment();
 
 QString UnicodeToAscii(const QString &unicode);
 
+QString MacAddress();
+
 }  // namespace
 
 class ScopedWCharArray {
