@@ -81,7 +81,12 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   void SetTemporaryMetadata(const Song &metadata);
   void ClearTemporaryMetadata();
   bool HasTemporaryMetadata() const { return temp_metadata_.is_valid(); }
-  QUrl StreamUrl() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.url().isValid() ? temp_metadata_.url() : QUrl(); }
+
+  Song StreamMetadata() { return HasTemporaryMetadata() ? temp_metadata_ : Metadata(); }
+  QUrl StreamUrl() const { return HasTemporaryMetadata() && temp_metadata_.effective_stream_url().isValid() ? temp_metadata_.effective_stream_url() : Url(); }
+
+  qint64 effective_beginning_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.beginning_nanosec() != -1 ? temp_metadata_.beginning_nanosec() : Metadata().beginning_nanosec(); }
+  qint64 effective_end_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.end_nanosec() != -1 ? temp_metadata_.end_nanosec() : Metadata().end_nanosec(); }
 
   // Background colors.
   void SetBackgroundColor(short priority, const QColor &color);

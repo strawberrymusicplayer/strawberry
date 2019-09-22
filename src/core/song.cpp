@@ -339,7 +339,7 @@ bool Song::has_embedded_cover() const { return d->art_automatic_.path() == kEmbe
 void Song::set_embedded_cover() { d->art_automatic_ = QUrl::fromLocalFile(kEmbeddedCover); }
 
 const QUrl &Song::stream_url() const { return d->stream_url_; }
-const QUrl &Song::effective_stream_url() const { return d->stream_url_.isEmpty() ? d->url_ : d->stream_url_; }
+const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QImage &Song::image() const { return d->image_; }
 
 const QString &Song::cue_path() const { return d->cue_path_; }

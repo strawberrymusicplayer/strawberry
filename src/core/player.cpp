@@ -352,12 +352,12 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << item->Metadata().title() << result.stream_url_;
-        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, item->Metadata().has_cue(), item->Metadata().beginning_nanosec(), item->Metadata().end_nanosec());
+        engine_->Play(result.stream_url_, result.original_url_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
         current_item_ = item;
       }
       else if (is_next) {
         qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
-        engine_->StartPreloading(result.stream_url_, next_item->Url(), next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
+        engine_->StartPreloading(result.stream_url_, next_item->Url(), song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
       }
 
       break;
@@ -596,7 +596,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
   }
 
   current_item_ = app_->playlist_manager()->active()->current_item();
-  const QUrl url = (current_item_->StreamUrl().isValid() ? current_item_->StreamUrl() : current_item_->Url());
+  const QUrl url = current_item_->StreamUrl();
 
   if (url_handlers_.contains(url.scheme())) {
     // It's already loading
@@ -610,7 +610,7 @@ void Player::PlayAt(int index, Engine::TrackChangeFlags change, bool reshuffle) 
     if (current_item_->HasTemporaryMetadata()) {
       app_->playlist_manager()->active()->InformOfCurrentSongChange();
     }
-    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->Metadata().beginning_nanosec(), current_item_->Metadata().end_nanosec());
+    engine_->Play(url, current_item_->Url(), change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec());
   }
 
 }
@@ -750,7 +750,7 @@ void Player::TrackAboutToEnd() {
   // Crossfade is off, so start preloading the next track so we don't get a gap between songs.
   if (!has_next_row || !next_item) return;
 
-  QUrl url = (next_item->StreamUrl().isValid() ? next_item->StreamUrl() : next_item->Url());
+  QUrl url = next_item->StreamUrl();
 
   // Get the actual track URL rather than the stream URL.
   if (url_handlers_.contains(url.scheme())) {
@@ -771,7 +771,7 @@ void Player::TrackAboutToEnd() {
     }
   }
 
-  engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->Metadata().beginning_nanosec(), next_item->Metadata().end_nanosec());
+  engine_->StartPreloading(url, next_item->Url(), next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
 
 }
 
