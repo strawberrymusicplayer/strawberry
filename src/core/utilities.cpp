@@ -820,19 +820,19 @@ QString MacAddress() {
 
   QString ret;
 
-  for (QNetworkInterface &interface : QNetworkInterface::allInterfaces()) {
+  for (QNetworkInterface &netif : QNetworkInterface::allInterfaces()) {
     if (
-        (interface.hardwareAddress() == "00:00:00:00:00:00") ||
-        (interface.flags() & QNetworkInterface::IsLoopBack) ||
-        !(interface.flags() & QNetworkInterface::IsUp) ||
-        !(interface.flags() & QNetworkInterface::IsRunning)
+        (netif.hardwareAddress() == "00:00:00:00:00:00") ||
+        (netif.flags() & QNetworkInterface::IsLoopBack) ||
+        !(netif.flags() & QNetworkInterface::IsUp) ||
+        !(netif.flags() & QNetworkInterface::IsRunning)
         ) { continue; }
     if (ret.isEmpty()
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-        || interface.type() == QNetworkInterface::Ethernet || interface.type() == QNetworkInterface::Wifi
+        || netif.type() == QNetworkInterface::Ethernet || netif.type() == QNetworkInterface::Wifi
 #endif
     ) {
-      ret = interface.hardwareAddress();
+      ret = netif.hardwareAddress();
     }
   }
 
