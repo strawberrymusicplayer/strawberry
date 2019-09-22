@@ -115,11 +115,12 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
 
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
 
-  QByteArray user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
-
+  QByteArray user_agent;
   if (request.hasRawHeader("User-Agent")) {
-    // Append the existing user-agent set by a client library.
-    user_agent += " " + request.rawHeader("User-Agent");
+    user_agent = request.rawHeader("User-Agent");
+  }
+  else {
+    user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
   }
 
   QNetworkRequest new_request(request);
