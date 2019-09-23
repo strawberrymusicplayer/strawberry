@@ -74,8 +74,8 @@ parts:
       cmake ../src -DCMAKE_INSTALL_PREFIX=/usr
       make -j $(getconf _NPROCESSORS_ONLN)
       make DESTDIR=$SNAPCRAFT_PART_INSTALL install
-      sed -i 's|Icon=strawberry|Icon=/usr/share/icons/hicolor/128x128/apps/strawberry\.png|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
-      sed -i 's|TryExec=.*|TryExec=/snap/bin/strawberry|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawbs.strawberry.desktop
+      sed -i 's|Icon=strawberry|Icon=/usr/share/icons/hicolor/128x128/apps/strawberry\.png|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawberrymusicplayer.strawberry.desktop
+      sed -i 's|TryExec=.*|TryExec=/snap/bin/strawberry|' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.strawberrymusicplayer.strawberry.desktop
 
     build-packages:
       - cmake
@@ -166,7 +166,7 @@ parts:
 apps:
   strawberry:
     command: desktop-launch $SNAP/usr/bin/strawberry
-    desktop: usr/share/applications/org.strawbs.strawberry.desktop
+    desktop: usr/share/applications/org.strawberrymusicplayer.strawberry.desktop
     environment:
       ALSA_CONFIG_PATH: /snap/$SNAPCRAFT_PROJECT_NAME/current/usr/share/alsa/alsa.conf
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio

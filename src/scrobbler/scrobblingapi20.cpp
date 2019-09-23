@@ -61,7 +61,7 @@
 
 const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *ScrobblingAPI20::kSecret = "80fd738f49596e9709b1bf9319c444a8";
-const char *ScrobblingAPI20::kRedirectUrl = "https://oauth.strawbs.net";
+const char *ScrobblingAPI20::kRedirectUrl = "https://oauth.strawberrymusicplayer.org";
 const int ScrobblingAPI20::kScrobblesPerRequest = 50;
 
 ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent) :

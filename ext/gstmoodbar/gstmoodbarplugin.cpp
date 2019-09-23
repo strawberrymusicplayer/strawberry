@@ -46,5 +46,5 @@ int gstfastspectrum_register_static() {
     "GPL",
     "FastSpectrum",
     "FastSpectrum",
-    "https://www.strawbs.org");
+    "https://www.strawberrymusicplayer.org");
 }

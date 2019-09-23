@@ -4,7 +4,7 @@ Release:        @STRAWBERRY_VERSION_RPM_R@.@RPM_DISTRO@
 Summary:        A music player and music collection organiser
 Group:          Applications/Multimedia
 License:        GPL-3.0+
-URL:            http://www.strawbs.org/
+URL:            https://www.strawberrymusicplayer.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -146,11 +146,11 @@ Features:
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} < 1500
-rm -f %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
+rm -f %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
 %endif
 
 %if 0%{?suse_version}
-  %suse_update_desktop_file org.strawbs.strawberry Qt AudioVideo Audio Player
+  %suse_update_desktop_file org.strawberrymusicplayer.strawberry Qt AudioVideo Audio Player
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} < 1500
@@ -164,12 +164,12 @@ rm -f %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
 %endif
 
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawbs.strawberry.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
 %if 0%{?fedora_version}
-  appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawbs.strawberry.appdata.xml
+  appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.strawberrymusicplayer.strawberry.appdata.xml
 %else
   %if ! 0%{?suse_version} || ( 0%{?suse_version} && 0%{?suse_version} >= 1500 )
-    appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawbs.strawberry.appdata.xml
+    appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
   %endif
 %endif
 

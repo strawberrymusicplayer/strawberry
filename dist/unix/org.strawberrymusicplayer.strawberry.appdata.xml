@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
-  <id>org.strawbs.strawberry</id>
-  <launchable type="desktop-id">org.strawbs.strawberry.desktop</launchable>
+  <id>org.strawberrymusicplayer.strawberry</id>
+  <launchable type="desktop-id">org.strawberrymusicplayer.strawberry.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <provides>
@@ -10,7 +10,7 @@
   </provides>
   <name>Strawberry Music Player</name>
   <summary>A music player and collection organizer</summary>
-  <url type="homepage">https://www.strawbs.org/</url>
+  <url type="homepage">https://www.strawberrymusicplayer.org/</url>
   <url type="bugtracker">https://github.com/jonaski/strawberry/</url>
   ​<translation type="qt">strawberry</translation>
   <description>
@@ -41,11 +41,11 @@
   <screenshots>
     <screenshot type="default">
       <caption>Song playing showing context</caption>
-      <image width="1600" height="874">https://www.strawbs.org/pictures/appdata-screenshot-001.png</image>
+      <image width="1600" height="874">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-001.png</image>
     </screenshot>
     <screenshot>
       <caption>Collection overview</caption>
-      <image width="1600" height="874">https://www.strawbs.org/pictures/appdata-screenshot-002.png</image>
+      <image width="1600" height="874">https://www.strawberrymusicplayer.org/pictures/appdata-screenshot-002.png</image>
     </screenshot>
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>

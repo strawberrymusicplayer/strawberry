@@ -370,7 +370,7 @@ void Mpris2::SetShuffle(bool enable) {
 QVariantMap Mpris2::Metadata() const { return last_metadata_; }
 
 QString Mpris2::current_track_id() const {
-  return QString("/org/strawbs/strawberry/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row()));
+  return QString("/org/strawberrymusicplayer/strawberry/Track/%1").arg(QString::number(app_->playlist_manager()->active()->current_row()));
 }
 
 // We send Metadata change notification as soon as the process of changing song starts...
@@ -541,7 +541,7 @@ QStringList Mpris2::Orderings() const { return QStringList() << "User"; }
 namespace {
 
 QDBusObjectPath MakePlaylistPath(int id) {
-  return QDBusObjectPath(QString("/org/strawbs/strawberry/PlaylistId/%1").arg(id));
+  return QDBusObjectPath(QString("/org/strawberrymusicplayer/strawberry/PlaylistId/%1").arg(id));
 }
 
 }

@@ -13,7 +13,7 @@
   <key>CFBundleIconFile</key>
   <string>strawberry.icns</string>
   <key>CFBundleIdentifier</key>
-  <string>org.strawbs.strawberry</string>
+  <string>org.strawberrymusicplayer.strawberry</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleLongVersionString</key>

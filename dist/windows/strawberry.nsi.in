@@ -47,7 +47,7 @@
 !define PRODUCT_DISPLAY_VERSION_SHORT "@STRAWBERRY_VERSION_PACKAGE@"
 
 !define PRODUCT_PUBLISHER "Jonas Kvinge"
-!define PRODUCT_WEB_SITE "http://www.strawbs.org/"
+!define PRODUCT_WEB_SITE "https://www.strawberrymusicplayer.org/"
 
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 

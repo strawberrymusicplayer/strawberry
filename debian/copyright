@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: strawberry
 Upstream-Contact: Jonas Kvinge <jonas@jkvinge.net>
-Source: https://www.strawbs.org/
+Source: https://www.strawberrymusicplayer.org/
 
 Files: *
 Copyright: 2010-2015, David Sansome <me@davidsansome.com>

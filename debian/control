@@ -44,7 +44,7 @@ Depends: ${shlibs:Depends},
          gstreamer1.0-plugins-good,
          gstreamer1.0-alsa,
          gstreamer1.0-pulseaudio
-Homepage: http://www.strawbs.org/
+Homepage: http://www.strawberrymusicplayer.org/
 Description: Audio player and music collection organizer
  Strawberry is a music player aimed at music collectors, audio enthusiasts and audiophiles.
  .

@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setOrganizationName("strawberry");
 #endif
   QCoreApplication::setApplicationVersion(STRAWBERRY_VERSION_DISPLAY);
-  QCoreApplication::setOrganizationDomain("strawbs.org");
+  QCoreApplication::setOrganizationDomain("strawberrymusicplayer.org");
 
 // This makes us show up nicely in gnome-volume-control
 #if !GLIB_CHECK_VERSION(2, 36, 0) // Deprecated in glib 2.36.0
