@@ -486,15 +486,11 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   if (
       !json_obj.contains("id") ||
       !json_obj.contains("title") ||
-      !json_obj.contains("album") ||
-      !json_obj.contains("artist") ||
       !json_obj.contains("size") ||
       !json_obj.contains("contentType") ||
       !json_obj.contains("suffix") ||
       !json_obj.contains("duration") ||
       !json_obj.contains("bitRate") ||
-      !json_obj.contains("albumId") ||
-      !json_obj.contains("artistId") ||
       !json_obj.contains("type")
     ) {
     Error("Invalid Json reply, song is missing one or more values.", json_obj);
@@ -504,16 +500,30 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   qint64 song_id = json_obj["id"].toString().toLongLong();
   if (song_id == 0) song_id = json_obj["id"].toInt();
 
-  qint64 album_id = json_obj["albumId"].toString().toLongLong();
-  if (album_id == 0) album_id = json_obj["albumId"].toInt();
+  qint64 album_id = -1;
+  if (json_obj.contains("albumId")) {
+    album_id = json_obj["albumId"].toString().toLongLong();
+    if (album_id == 0) album_id = json_obj["albumId"].toInt();
+  }
 
-  qint64 artist_id = json_obj["artistId"].toString().toLongLong();
-  if (artist_id == 0) artist_id = json_obj["artistId"].toInt();
+  qint64 artist_id = -1;
+  if (json_obj.contains("artistId")) {
+    artist_id = json_obj["artistId"].toString().toLongLong();
+    if (artist_id == 0) artist_id = json_obj["artistId"].toInt();
+  }
 
   QString title = json_obj["title"].toString();
   title.remove(Song::kTitleRemoveMisc);
-  QString album = json_obj["album"].toString();
-  QString artist = json_obj["artist"].toString();
+
+  QString album;
+  if (json_obj.contains("album")) {
+    album = json_obj["album"].toString();
+  }
+  QString artist;
+  if (json_obj.contains("artist")) {
+    artist = json_obj["artist"].toString();
+  }
+
   int size = json_obj["size"].toInt();
   QString mimetype = json_obj["contentType"].toString();
   quint64 duration = json_obj["duration"].toInt() * kNsecPerSec;
@@ -563,8 +573,8 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
 
   song.set_source(Song::Source_Subsonic);
   song.set_song_id(song_id);
-  song.set_album_id(album_id);
-  song.set_artist_id(artist_id);
+  if (album_id > 0) song.set_album_id(album_id);
+  if (artist_id > 0) song.set_artist_id(artist_id);
   if (album_artist != artist) song.set_albumartist(album_artist);
   song.set_album(album);
   song.set_artist(artist);
