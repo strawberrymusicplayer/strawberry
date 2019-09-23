@@ -21,7 +21,7 @@
     <p>Features:</p>
     <ul>
       <li>Play and organize music</li>
-      <li>Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF</li>
+      <li>Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.</li>
       <li>Audio CD playback</li>
       <li>Native desktop notifications</li>
       <li>Playlists in multiple formats</li>
