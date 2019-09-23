@@ -2,6 +2,33 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Added setting for fancy tabbar background color
+    * Added setting to make marking songs unavailable optional
+    * Added lyrics from lyrics.ovh and lololyrics.com
+    * Fixed so that Subsonic verify certificate setting takes affect immediately
+    * Fixed all services to follow redirects
+    * Fixed so that songs with different albums are not treated as duplicates
+    * Fixed SingleApplication to use native system calls on Linux for getting username
+    * Added stream discoverer to gstreamer pipeline to detect stream filetype, samplerate and bit depth
+    * Disabled video in gstreamer pipeline
+    * Fixed ampache compatibility
+    * Fixed lyrics searcher not to try search for lyrics with empty song artist or title
+    * Fixed Qobuz login to send mac address as device manufacturer id on login
+    * Fixed Qobuz invalid signature parameter error when retrieving stream urls
+    * Fixed player not using preloaded stream url causing gapless playback to break
+    * Increased preload gap for gstreamer to make sure gapless playback works better
+    * Fixed setting and resetting temporary metadata for next playlist item
+    * Replaced media buttons with more correct ones
+    * Fixed windows thumbbar
+    * Lowered required Subsonic API version to 1.11.0
+    * Fixed Subsonic to allow empty artist and album in song replies
+    * Added Russian translations
+    * Fixed some services API urls using http to use https
+    * Fixed restoring to original window size when restoring from system tray
+    * Updated 3rdparty taglib
+
 Version 0.6.3:
 
     * Fixed crash when using internet services.
