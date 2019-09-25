@@ -131,12 +131,12 @@ msgstr "Аутентификация скроблерра %1"
 msgid "%1 dB"
 msgstr "%1 дБ"
 
-#: core/utilities.cpp:139
+#: core/utilities.cpp:140
 #, qt-format
 msgid "%1 days"
 msgstr "%1 дней"
 
-#: core/utilities.cpp:159
+#: core/utilities.cpp:160
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 дней назад"
@@ -156,7 +156,7 @@ msgstr "%1 выбрано из"
 msgid "%1 song%2"
 msgstr "%1 песня%2"
 
-#: core/utilities.cpp:353
+#: core/utilities.cpp:354
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 выбранных песен, вы уверены, что хотите открыть их всех?"
@@ -391,7 +391,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:139
+#: core/utilities.cpp:140
 msgid "1 day"
 msgstr "1 день"
 
@@ -698,8 +698,8 @@ msgstr "После копирования…"
 msgid "Albu&m cover"
 msgstr "О&бложка альбома"
 
-#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:87
-#: playlist/playlist.cpp:1163 organise/organisedialog.cpp:90
+#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
+#: playlist/playlist.cpp:1173 organise/organisedialog.cpp:90
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112 ../build/src/ui_edittagdialog.h:664
@@ -716,7 +716,7 @@ msgstr "Альбом (идеальная громкость всех треко�
 msgid "Album - Disc"
 msgstr "raАльбом - Диск"
 
-#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1170
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1180
 #: organise/organisedialog.cpp:93 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:666
@@ -802,7 +802,7 @@ msgstr "Произошла ошибка при копировании базы �
 msgid "An error occurred loading the iTunes database"
 msgstr "Произошла ошибка при загрузке данных iTunes"
 
-#: playlist/playlist.cpp:401 dialogs/edittagdialog.cpp:904
+#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:904
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ошибка при записи мета-данных в '%1'"
@@ -850,8 +850,8 @@ msgstr "Вы действительно хотите удалить профил
 msgid "Are you sure you want to reset this song's statistics?"
 msgstr "Вы действительно хотите сбросить статистику этой песни?"
 
-#: core/qtsystemtrayicon.cpp:255 collection/savedgroupingmanager.cpp:81
-#: playlist/playlist.cpp:1162 organise/organisedialog.cpp:91
+#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
+#: playlist/playlist.cpp:1172 organise/organisedialog.cpp:91
 #: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
 #: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:670
@@ -889,7 +889,7 @@ msgstr "Вывод звука"
 msgid "Audio quality"
 msgstr "Качество звука"
 
-#: tidal/tidalrequest.cpp:114 qobuz/qobuzservice.cpp:253
+#: tidal/tidalrequest.cpp:114 qobuz/qobuzservice.cpp:257
 msgid "Authenticating..."
 msgstr "Аутентификация..."
 
@@ -947,7 +947,7 @@ msgstr "Фоновое изображение"
 msgid "Background opacity"
 msgstr "Прозрачность фона"
 
-#: core/database.cpp:550
+#: core/database.cpp:551
 msgid "Backing up database"
 msgstr "Резервное копирование базы данных"
 
@@ -967,7 +967,7 @@ msgstr "Поведение"
 msgid "Best"
 msgstr "Лучшее"
 
-#: collection/savedgroupingmanager.cpp:132 playlist/playlist.cpp:1180
+#: collection/savedgroupingmanager.cpp:132 playlist/playlist.cpp:1190
 #: organise/organisedialog.cpp:106 ../build/src/ui_contextviewcontainer.h:354
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:652
@@ -978,7 +978,7 @@ msgstr "Разрядность"
 msgid "Bit rate"
 msgstr "Битрейт"
 
-#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1181
+#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1191
 #: ../build/src/ui_contextviewcontainer.h:362
 #: ../build/src/ui_groupbydialog.h:146 ../build/src/ui_groupbydialog.h:170
 #: ../build/src/ui_groupbydialog.h:194
@@ -1055,7 +1055,7 @@ msgstr "CD"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Воспроизведение CD доступно только с движком GStreamer."
 
-#: tidal/tidalstreamurlrequest.cpp:102 qobuz/qobuzstreamurlrequest.cpp:100
+#: tidal/tidalstreamurlrequest.cpp:102 qobuz/qobuzstreamurlrequest.cpp:98
 msgid "Cancelled."
 msgstr "Отменено."
 
@@ -1150,7 +1150,7 @@ msgstr "Фонотека"
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2382
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1166,7 +1166,7 @@ msgstr "Цвета"
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Разделённый запятыми список «класс:уровень», где уровень от 0 до 3"
 
-#: playlist/playlist.cpp:1190 organise/organisedialog.cpp:102
+#: playlist/playlist.cpp:1200 organise/organisedialog.cpp:102
 #: ../build/src/ui_edittagdialog.h:668
 msgid "Comment"
 msgstr "Комментарий"
@@ -1179,7 +1179,7 @@ msgstr "Заполнить поля автоматически"
 msgid "Complete tags automatically..."
 msgstr "Заполнить теги автоматически..."
 
-#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1171
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1181
 #: organise/organisedialog.cpp:94 ../build/src/ui_groupbydialog.h:140
 #: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_edittagdialog.h:667
@@ -1432,15 +1432,15 @@ msgstr "Путь D-Bus"
 msgid "Dance"
 msgstr "Танцевальный"
 
-#: core/database.cpp:503
+#: core/database.cpp:504
 msgid "Database corruption detected."
 msgstr "Обнаружено повреждение базы данных."
 
-#: playlist/playlist.cpp:1188 ../build/src/ui_edittagdialog.h:657
+#: playlist/playlist.cpp:1198 ../build/src/ui_edittagdialog.h:657
 msgid "Date created"
 msgstr "Дата создания"
 
-#: playlist/playlist.cpp:1187 ../build/src/ui_edittagdialog.h:656
+#: playlist/playlist.cpp:1197 ../build/src/ui_edittagdialog.h:656
 msgid "Date modified"
 msgstr "Дата изменения"
 
@@ -1536,7 +1536,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Отключено"
 
-#: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1165
+#: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1175
 #: organise/organisedialog.cpp:98 ../build/src/ui_groupbydialog.h:132
 #: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
 #: ../build/src/ui_edittagdialog.h:665
@@ -1720,7 +1720,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2276
+#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Ошибка"
@@ -1874,11 +1874,11 @@ msgstr "Расширение файла"
 msgid "File formats"
 msgstr "Форматы файлов"
 
-#: playlist/playlist.cpp:1183 ../build/src/ui_edittagdialog.h:658
+#: playlist/playlist.cpp:1193 ../build/src/ui_edittagdialog.h:658
 msgid "File name"
 msgstr "Полное имя файла"
 
-#: playlist/playlist.cpp:1184
+#: playlist/playlist.cpp:1194
 msgid "File name (without path)"
 msgstr "Имя файла"
 
@@ -1886,11 +1886,11 @@ msgstr "Имя файла"
 msgid "File paths"
 msgstr "Пути файлов"
 
-#: playlist/playlist.cpp:1185 ../build/src/ui_edittagdialog.h:653
+#: playlist/playlist.cpp:1195 ../build/src/ui_edittagdialog.h:653
 msgid "File size"
 msgstr "Размер файла"
 
-#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1186
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1196
 #: ../build/src/ui_groupbydialog.h:143 ../build/src/ui_groupbydialog.h:167
 #: ../build/src/ui_groupbydialog.h:191 ../build/src/ui_edittagdialog.h:654
 msgid "File type"
@@ -2005,7 +2005,7 @@ msgstr "Общие"
 msgid "General settings"
 msgstr "Общие настройки"
 
-#: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1169
+#: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1179
 #: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:134
 #: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
 #: ../build/src/ui_edittagdialog.h:661
@@ -2100,7 +2100,7 @@ msgstr "Группировать по жанр/исполнитель альбо
 msgid "Group by Genre/Artist/Album"
 msgstr "Группировать по жанр/исполнитель/альбом"
 
-#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1173
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:96 ../build/src/ui_groupbydialog.h:142
 #: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_edittagdialog.h:663
@@ -2186,12 +2186,12 @@ msgstr "Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm
 msgid "Import..."
 msgstr "Импортировать..."
 
-#: core/utilities.cpp:173
+#: core/utilities.cpp:174
 #, qt-format
 msgid "In %1 days"
 msgstr "В течение %1 дней"
 
-#: core/utilities.cpp:176
+#: core/utilities.cpp:177
 #, qt-format
 msgid "In %1 weeks"
 msgstr "В течение %1 недель"
@@ -2216,7 +2216,7 @@ msgstr "Информация"
 msgid "Insert..."
 msgstr "Вставить…"
 
-#: core/database.cpp:488
+#: core/database.cpp:489
 msgid "Integrity check"
 msgstr "Проверка целостности"
 
@@ -2224,7 +2224,7 @@ msgstr "Проверка целостности"
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/scrobblingapi20.cpp:185
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Неверный ответ от веб-браузера. Отсутствует токен."
 
@@ -2272,7 +2272,7 @@ msgstr "Большая обложка альбома"
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
-#: playlist/playlist.cpp:1177
+#: playlist/playlist.cpp:1187
 msgid "Last played"
 msgstr "Последнее прослушивание"
 
@@ -2289,7 +2289,7 @@ msgstr "Last.fm"
 msgid "Left"
 msgstr "Левый канал"
 
-#: core/qtsystemtrayicon.cpp:260 playlist/playlist.cpp:1166
+#: core/qtsystemtrayicon.cpp:262 playlist/playlist.cpp:1176
 #: organise/organisedialog.cpp:103 ../build/src/ui_contextviewcontainer.h:357
 #: ../build/src/ui_edittagdialog.h:646
 msgid "Length"
@@ -2343,7 +2343,7 @@ msgstr "Загрузка устройства MTP"
 msgid "Loading iPod database"
 msgstr "Загрузка база данных iPod"
 
-#: collection/collectionmodel.cpp:178
+#: collection/collectionmodel.cpp:179
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
@@ -2355,7 +2355,7 @@ msgstr "Загрузка композиций"
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
-#: collection/collectionmodel.cpp:171 ../build/src/ui_organisedialog.h:271
+#: collection/collectionmodel.cpp:172 ../build/src/ui_organisedialog.h:271
 msgid "Loading..."
 msgstr "Загрузка…"
 
@@ -2432,7 +2432,7 @@ msgstr "Максимальный размер обложки"
 msgid "Maximum bitrate"
 msgstr "Максимальный битрейт"
 
-#: qobuz/qobuzservice.cpp:403
+#: qobuz/qobuzservice.cpp:467
 msgid "Maximum number of login attempts reached."
 msgstr "Достигнуто максимальное количество попыток входа в систему."
 
@@ -2457,21 +2457,21 @@ msgstr "Минимальный битрейт"
 msgid "Minimum buffer fill"
 msgstr "Наим. заполнение буфера"
 
-#: qobuz/qobuzservice.cpp:658 qobuz/qobuzstreamurlrequest.cpp:81
+#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:79
 msgid "Missing Qobuz app ID or secret."
 msgstr "Отсутствует идентификатор приложения Qobuz или секрет."
 
-#: qobuz/qobuzservice.cpp:407 qobuz/qobuzservice.cpp:436
-#: qobuz/qobuzservice.cpp:491 qobuz/qobuzservice.cpp:544
-#: qobuz/qobuzservice.cpp:609
+#: qobuz/qobuzservice.cpp:471 qobuz/qobuzservice.cpp:500
+#: qobuz/qobuzservice.cpp:555 qobuz/qobuzservice.cpp:608
+#: qobuz/qobuzservice.cpp:673
 msgid "Missing Qobuz app ID."
 msgstr "Отсутствует идентификатор приложения Qobuz."
 
-#: qobuz/qobuzservice.cpp:415
+#: qobuz/qobuzservice.cpp:479
 msgid "Missing Qobuz password."
 msgstr "Отсутствует пароль Qobuz."
 
-#: qobuz/qobuzservice.cpp:411
+#: qobuz/qobuzservice.cpp:475
 msgid "Missing Qobuz username."
 msgstr "Отсутствует имя пользователя Qobuz."
 
@@ -2521,7 +2521,7 @@ msgstr "Модель"
 msgid "Monitor the collection for changes"
 msgstr "Следить за изменениями фонотеки"
 
-#: playlist/playlist.cpp:1192
+#: playlist/playlist.cpp:1202
 msgid "Mood"
 msgstr "Mood"
 
@@ -2605,7 +2605,7 @@ msgstr "Новые композиции"
 msgid "Next"
 msgstr "Дальше"
 
-#: core/utilities.cpp:174
+#: core/utilities.cpp:175
 msgid "Next week"
 msgstr "На следующей неделе"
 
@@ -2621,7 +2621,7 @@ msgstr "Нет обложек для экспорта."
 msgid "No long blocks"
 msgstr "Без длинных блоков"
 
-#: tidal/tidalrequest.cpp:1178 qobuz/qobuzrequest.cpp:1232
+#: tidal/tidalrequest.cpp:1179 qobuz/qobuzrequest.cpp:1232
 msgid "No match."
 msgstr "Не совпадает."
 
@@ -2644,7 +2644,7 @@ msgstr "Нет воспроизводимой песни"
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2276
+#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -2657,8 +2657,8 @@ msgstr "Нормальный"
 msgid "Normal block type"
 msgstr "Нормальный тип блоков"
 
-#: qobuz/qobuzservice.cpp:441 qobuz/qobuzservice.cpp:496
-#: qobuz/qobuzservice.cpp:549
+#: qobuz/qobuzservice.cpp:505 qobuz/qobuzservice.cpp:560
+#: qobuz/qobuzservice.cpp:613
 msgid "Not authenticated with Qobuz."
 msgstr "Не аутентифицирован с помощью Qobuz."
 
@@ -2786,7 +2786,7 @@ msgstr "Упорядочивание файлов"
 msgid "Original tags"
 msgstr "Исходные теги"
 
-#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1168
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1178
 #: organise/organisedialog.cpp:100 ../build/src/ui_groupbydialog.h:138
 #: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
 msgid "Original year"
@@ -2858,7 +2858,7 @@ msgstr "Приостановить воспроизведение"
 msgid "Paused"
 msgstr "Приостановлен"
 
-#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1172
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1182
 #: organise/organisedialog.cpp:95 ../build/src/ui_groupbydialog.h:141
 #: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_edittagdialog.h:672
@@ -2879,7 +2879,7 @@ msgstr "Нормальная боковая панель"
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: playlist/playlist.cpp:1175 ../build/src/ui_edittagdialog.h:647
+#: playlist/playlist.cpp:1185 ../build/src/ui_edittagdialog.h:647
 msgid "Play count"
 msgstr "Количество проигрываний"
 
@@ -3071,7 +3071,7 @@ msgstr "&Относительно"
 msgid "Really cancel?"
 msgstr "Действительно отменить?"
 
-#: scrobbler/scrobblingapi20.cpp:178
+#: scrobbler/scrobblingapi20.cpp:179
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3229,14 +3229,14 @@ msgstr "Ограничить разрешенными символами в фа
 msgid "Resume playback on start"
 msgstr "Продолжить воспроизведение при запуске"
 
-#: tidal/tidalrequest.cpp:1037 qobuz/qobuzrequest.cpp:1091
-#: subsonic/subsonicrequest.cpp:598
+#: tidal/tidalrequest.cpp:1038 qobuz/qobuzrequest.cpp:1091
+#: subsonic/subsonicrequest.cpp:608
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Получение обложки альбома для %1"
 
-#: tidal/tidalrequest.cpp:1038 qobuz/qobuzrequest.cpp:1092
-#: subsonic/subsonicrequest.cpp:599
+#: tidal/tidalrequest.cpp:1039 qobuz/qobuzrequest.cpp:1092
+#: subsonic/subsonicrequest.cpp:609
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1"
@@ -3308,7 +3308,7 @@ msgstr "Безопасно извлечь устройство"
 msgid "Safely remove the device after copying"
 msgstr "Безопасно извлечь устройство после копирования"
 
-#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1179
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1189
 #: organise/organisedialog.cpp:105 ../build/src/ui_groupbydialog.h:144
 #: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_edittagdialog.h:651
@@ -3385,7 +3385,7 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:471
+#: scrobbler/scrobblingapi20.cpp:472
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
@@ -3456,7 +3456,7 @@ msgstr "Перемотка с помощью горячих клавиш кла�
 msgid "Select background color:"
 msgstr "Выбрать цвет фона:"
 
-#: settings/appearancesettingspage.cpp:313
+#: settings/appearancesettingspage.cpp:314
 msgid "Select background image"
 msgstr "Выбрать фоновое изображение"
 
@@ -3591,7 +3591,7 @@ msgstr "Показать в полный размер…"
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:347 core/utilities.cpp:353
+#: core/utilities.cpp:348 core/utilities.cpp:354
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
@@ -3680,7 +3680,7 @@ msgstr "Ска"
 msgid "Skip backwards in playlist"
 msgstr "Переместить назад в плейлисте"
 
-#: playlist/playlist.cpp:1176 ../build/src/ui_edittagdialog.h:648
+#: playlist/playlist.cpp:1186 ../build/src/ui_edittagdialog.h:648
 msgid "Skip count"
 msgstr "Пропустить подсчёт"
 
@@ -3736,7 +3736,7 @@ msgstr "Лимит поиска песен"
 msgid "Sorry"
 msgstr "Извините"
 
-#: playlist/playlist.cpp:1191
+#: playlist/playlist.cpp:1201
 msgid "Source"
 msgstr "Источник"
 
@@ -3959,7 +3959,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2374
+#: core/mainwindow.cpp:2376
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4081,13 +4081,13 @@ msgstr "Шаг времени"
 msgid "Timezone"
 msgstr "Часовой пояс"
 
-#: core/qtsystemtrayicon.cpp:253 playlist/playlist.cpp:1161
+#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1171
 #: organise/organisedialog.cpp:89 ../build/src/ui_edittagdialog.h:662
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "Название"
 
-#: core/utilities.cpp:157 core/utilities.cpp:171
+#: core/utilities.cpp:158 core/utilities.cpp:172
 msgid "Today"
 msgstr "Сегодня"
 
@@ -4107,11 +4107,11 @@ msgstr "Переключить статус пропуска"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость OSD"
 
-#: core/utilities.cpp:172
+#: core/utilities.cpp:173
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:347
+#: core/utilities.cpp:348
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
@@ -4127,7 +4127,7 @@ msgstr "Всего передано байт"
 msgid "Total network requests made"
 msgstr "Всего выполнено сетевых запросов"
 
-#: playlist/playlist.cpp:1164 organise/organisedialog.cpp:97
+#: playlist/playlist.cpp:1174 organise/organisedialog.cpp:97
 #: ../build/src/ui_edittagdialog.h:669
 #: ../build/src/ui_trackselectiondialog.h:212
 msgid "Track"
@@ -4171,18 +4171,18 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
 #: core/song.cpp:481 core/song.cpp:483 core/song.cpp:527
-#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:397
-#: collection/collectionmodel.cpp:402 collection/collectionmodel.cpp:406
-#: collection/collectionmodel.cpp:410 collection/collectionmodel.cpp:414
-#: collection/collectionmodel.cpp:1355 collection/savedgroupingmanager.cpp:137
+#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
+#: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
+#: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
+#: collection/collectionmodel.cpp:1363 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: tidal/tidalrequest.cpp:1184 qobuz/qobuzrequest.cpp:1238
-#: subsonic/subsonicrequest.cpp:740
+#: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1238
+#: subsonic/subsonicrequest.cpp:750
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -4334,7 +4334,7 @@ msgstr "После добавления песни через меню…"
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
-#: collection/collectionmodel.cpp:311 playlist/playlistmanager.cpp:554
+#: collection/collectionmodel.cpp:312 playlist/playlistmanager.cpp:554
 #: covermanager/albumcovermanager.cpp:282 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4412,7 +4412,7 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "исполнители»?"
 
-#: core/mainwindow.cpp:2378
+#: core/mainwindow.cpp:2380
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
@@ -4420,7 +4420,7 @@ msgstr "Желаете запустить повторное сканирова�
 msgid "Write metadata when saving playlists"
 msgstr "Записывать метаданные при сохранении плейлистов"
 
-#: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1167
+#: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1177
 #: organise/organisedialog.cpp:99 ../build/src/ui_groupbydialog.h:135
 #: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_edittagdialog.h:671
@@ -4438,7 +4438,7 @@ msgstr "Год - Альбом"
 msgid "Year - Album - Disc"
 msgstr "Год - Альбом - Диск"
 
-#: core/utilities.cpp:158
+#: core/utilities.cpp:159
 msgid "Yesterday"
 msgstr "Вчера"
 
@@ -4568,7 +4568,7 @@ msgstr ""
 "в соответствии с условиями GNU General Public License, опубликованной <br />"
 
 #: context/contextview.cpp:310 context/contextview.cpp:490
-#: playlist/playlistview.cpp:248 dialogs/edittagdialog.cpp:533
+#: playlist/playlistview.cpp:249 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "кбит/с"
 
