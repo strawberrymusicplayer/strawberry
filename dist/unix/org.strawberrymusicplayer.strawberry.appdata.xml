@@ -15,14 +15,12 @@
   ​<translation type="qt">strawberry</translation>
   <description>
     <p>
-      Strawberry is a music player and music collection organizer.
-      It is a fork of Clementine. The name is inspired by the band Strawbs.
+      Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles. The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.
     </p>
     <p>Features:</p>
     <ul>
       <li>Play and organize music</li>
-      <li>Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.</li>
-      <li>Audio CD playback</li>
+      <li>Supports most popular audio formats and CD playback</li>
       <li>Native desktop notifications</li>
       <li>Playlists in multiple formats</li>
       <li>Advanced audio output and device configuration for bit-perfect playback on Linux</li>
@@ -31,8 +29,7 @@
       <li>Album cover art from Last.fm, Musicbrainz and Discogs</li>
       <li>Song lyrics from AudD, lyrics.ovh and lololyrics.com</li>
       <li>Support for multiple backends</li>
-      <li>Audio analyzer</li>
-      <li>Audio equalizer</li>
+      <li>Audio analyzer and equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
       <li>Streaming support for Tidal, Qobuz and Subsonic</li>
       <li>Scrobbler with support for Last.fm, Libre.fm and ListenBrainz</li>
