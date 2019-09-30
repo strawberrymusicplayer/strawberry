@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 0.6.5:
+
+    * Fixed scrobbler not to send scrobbles multiple times when metadata is updated
+    * Fixed Listenbrainz scrobbler not don't send "various artists" as album artist
+    * Fixed missing cover image in OSD pretty reposition image
+    * Fixed OSD pretty upper left positioning
+    * Fixed OSD pretty positioning on Windows on screens with negative geometry
+    * Fixed appdata file to pass full validation
+
 Version 0.6.4:
 
     * Added setting for fancy tabbar background color
