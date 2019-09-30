@@ -101,7 +101,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   setAttribute(Qt::WA_ShowWithoutActivating, true);
   ui_->setupUi(this);
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
   // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
   int ex_style = GetWindowLong((HWND) winId(), GWL_EXSTYLE);
   ex_style |= WS_EX_NOACTIVATE;
@@ -130,7 +130,7 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   connect(fader_, SIGNAL(valueChanged(qreal)), SLOT(FaderValueChanged(qreal)));
   connect(fader_, SIGNAL(finished()), SLOT(FaderFinished()));
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
   set_fading_enabled(true);
 #endif
 
@@ -179,7 +179,6 @@ void OSDPretty::showEvent(QShowEvent *e) {
   QWidget::showEvent(e);
 
   Load();
-
   Reposition();
 
   if (fading_enabled_) {
@@ -219,35 +218,47 @@ void OSDPretty::Load() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-
   foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
   background_opacity_ = s.value("background_opacity", 0.85).toDouble();
-  popup_screen_name_ = s.value("popup_screen").toString();
-  popup_pos_ = s.value("popup_pos", QPoint()).toPoint();
   font_.fromString(s.value("font", "Verdana,9,-1,5,50,0,0,0,0,0").toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
-  s.endGroup();
 
-  if (screens_.contains(popup_screen_name_)) popup_screen_ = screens_[popup_screen_name_];
+  if (s.contains("popup_screen")) {
+    popup_screen_name_ = s.value("popup_screen").toString();
+    if (screens_.contains(popup_screen_name_)) {
+      popup_screen_ = screens_[popup_screen_name_];
+    }
+    else {
+      popup_screen_ = current_screen();
+      if (current_screen()) popup_screen_name_ = current_screen()->name();
+      else popup_screen_name_.clear();
+    }
+  }
   else {
     popup_screen_ = current_screen();
     if (current_screen()) popup_screen_name_ = current_screen()->name();
   }
-  if (popup_pos_.isNull()) {
-    if (current_screen()) {
-      QRect screenResolution = current_screen()->availableGeometry();
-      popup_pos_.setX(screenResolution.width() - width() - 10);
-      popup_pos_.setY(10);
+
+  if (s.contains("popup_pos")) {
+    popup_pos_ = s.value("popup_pos").toPoint();
+  }
+  else {
+    if (popup_screen_) {
+      QRect geometry = popup_screen_->availableGeometry();
+      popup_pos_.setX(geometry.width() - width());
+      popup_pos_.setY(0);
     }
     else {
-      popup_pos_.setX(10);
-      popup_pos_.setY(10);
+      popup_pos_.setX(0);
+      popup_pos_.setY(0);
     }
   }
 
   set_font(font());
   set_foreground_color(foreground_color());
+
+  s.endGroup();
 
 }
 
@@ -388,12 +399,17 @@ void OSDPretty::Reposition() {
 
   // Work out where to place the OSD.  -1 for x or y means "on the right or bottom edge".
   if (popup_screen_) {
+
     QRect geometry = popup_screen_->availableGeometry();
 
     int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
     int y = popup_pos_.y() < 0 ? geometry.bottom() - height() : geometry.top() + popup_pos_.y();
 
-    move(qBound(0, x, geometry.right() - width()), qBound(0, y, geometry.bottom() - height()));
+#ifndef Q_OS_WIN
+    x = qBound(0, x, geometry.right() - width());
+    y = qBound(0, y, geometry.bottom() - height());
+#endif
+    move(x, y);
   }
 
   // Create a mask for the actual area of the OSD
@@ -412,7 +428,7 @@ void OSDPretty::Reposition() {
     setMask(mask);
   }
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
   // On windows, enable blurbehind on the masked area
   QtWin::enableBlurBehindWindow(this, QRegion(mask));
 #endif
@@ -467,6 +483,15 @@ void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
     popup_screen_ = screen;
     popup_screen_name_ = screen->name();
+  }
+
+}
+
+void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
+
+  if (mode_ == Mode_Draggable) {
+    popup_screen_ = current_screen();
+    popup_screen_name_ = current_screen()->name();
     popup_pos_ = current_pos();
   }
 
@@ -519,16 +544,6 @@ void OSDPretty::set_foreground_color(QRgb color) {
 
 void OSDPretty::set_popup_duration(int msec) {
   timeout_->setInterval(msec);
-}
-
-void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
-
-  if (mode_ == Mode_Draggable) {
-    popup_screen_ = current_screen();
-    popup_screen_name_ = current_screen()->name();
-    popup_pos_ = current_pos();
-  }
-
 }
 
 void OSDPretty::set_font(QFont font) {

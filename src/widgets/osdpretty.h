@@ -111,13 +111,13 @@ class OSDPretty : public QWidget {
   void ReloadSettings();
 
  protected:
-  void paintEvent(QPaintEvent *);
-  void enterEvent(QEvent *);
-  void leaveEvent(QEvent *);
-  void mousePressEvent(QMouseEvent *);
-  void showEvent(QShowEvent *);
-  void mouseMoveEvent(QMouseEvent *);
-  void mouseReleaseEvent(QMouseEvent *);
+  void paintEvent(QPaintEvent *e);
+  void enterEvent(QEvent *e);
+  void leaveEvent(QEvent *e);
+  void mousePressEvent(QMouseEvent *e);
+  void showEvent(QShowEvent *e);
+  void mouseMoveEvent(QMouseEvent *e);
+  void mouseReleaseEvent(QMouseEvent *e);
 
  private:
   void Reposition();
