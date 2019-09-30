@@ -156,8 +156,8 @@ void ContextView::AddActions() {
   s.beginGroup(kSettingsGroup);
   action_show_data_->setChecked(s.value("show_data", true).toBool());
   action_show_output_->setChecked(s.value("show_output", true).toBool());
-  action_show_albums_->setChecked(s.value("show_albums", true).toBool());
-  action_show_lyrics_->setChecked(s.value("show_lyrics", false).toBool());
+  action_show_albums_->setChecked(s.value("show_albums", false).toBool());
+  action_show_lyrics_->setChecked(s.value("show_lyrics", true).toBool());
   s.endGroup();
 
   connect(action_show_data_, SIGNAL(triggered()), this, SLOT(ActionShowData()));
