@@ -675,12 +675,6 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.artist = ParseStrTag(taglist, GST_TAG_ARTIST);
   bundle.comment = ParseStrTag(taglist, GST_TAG_COMMENT);
   bundle.album = ParseStrTag(taglist, GST_TAG_ALBUM);
-  bundle.length = 0;
-  bundle.year = 0;
-  bundle.track = 0;
-  bundle.filetype = Song::FileType_Unknown;
-  bundle.samplerate = 0;
-  bundle.bitdepth = 0;
   bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
