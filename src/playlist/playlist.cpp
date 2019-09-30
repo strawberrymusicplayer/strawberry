@@ -1496,6 +1496,8 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
 
   //qLog(Debug) << "Setting temporary metadata for" << url;
 
+  bool length_changed = song.length_nanosec() != current_item_metadata().length_nanosec();
+
   current_item()->SetTemporaryMetadata(song);
 
   if (minor) {
@@ -1510,7 +1512,7 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
     InformOfCurrentSongChange();
   }
 
-  UpdateScrobblePoint();
+  if (length_changed) UpdateScrobblePoint();
 
 }
 
@@ -1977,7 +1979,7 @@ void Playlist::SkipTracks(const QModelIndexList &source_indexes) {
 
 }
 
-void Playlist::UpdateScrobblePoint(qint64 seek_point_nanosec) {
+void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
 
   const qint64 length = current_item_metadata().length_nanosec();
 

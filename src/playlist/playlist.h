@@ -222,7 +222,7 @@ class Playlist : public QAbstractListModel {
   void set_scrobbled(bool state) { scrobbled_ = state; }
   void set_nowplaying(bool state) { nowplaying_ = state; }
   qint64 scrobble_point_nanosec() const { return scrobble_point_; }
-  void UpdateScrobblePoint(qint64 seek_point_nanosec = 0);
+  void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
 
   // Changing the playlist
   void InsertItems (const PlaylistItemList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
