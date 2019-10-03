@@ -296,7 +296,8 @@ const QString &Song::albumartist() const { return d->albumartist_; }
 const QString &Song::albumartist_sortable() const { return d->albumartist_sortable_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
 const QString &Song::effective_albumartist_sortable() const { return d->albumartist_.isEmpty() ? d->artist_sortable_ : d->albumartist_sortable_; }
-const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_sortable_ : effective_albumartist_sortable(); }
+const QString &Song::playlist_albumartist() const { return is_compilation() ? d->albumartist_ : effective_albumartist(); }
+const QString &Song::playlist_albumartist_sortable() const { return is_compilation() ? d->albumartist_sortable_ : effective_albumartist_sortable(); }
 int Song::track() const { return d->track_; }
 int Song::disc() const { return d->disc_; }
 int Song::year() const { return d->year_; }

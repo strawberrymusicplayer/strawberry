@@ -252,6 +252,7 @@ class Song {
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;
+  const QString &playlist_albumartist_sortable() const;
 
   // Returns true if this Song had it's cover manually unset by user.
   bool has_manually_unset_cover() const;

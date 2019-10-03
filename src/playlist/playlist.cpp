@@ -1121,7 +1121,7 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
     case Column_Year:         cmp(year);
     case Column_OriginalYear: cmp(originalyear);
     case Column_Genre:        strcmp(genre);
-    case Column_AlbumArtist:  strcmp(playlist_albumartist);
+    case Column_AlbumArtist:  strcmp(playlist_albumartist_sortable);
     case Column_Composer:     strcmp(composer);
     case Column_Performer:    strcmp(performer);
     case Column_Grouping:     strcmp(grouping);
