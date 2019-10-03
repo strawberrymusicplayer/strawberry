@@ -252,6 +252,8 @@ QStringList DeviceLister::GuessIconForPath(const QString &path) {
       ret << model_icon.arg(model);
     }
   }
+#else
+  Q_UNUSED(path)
 #endif
 
   return ret;

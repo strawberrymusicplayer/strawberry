@@ -35,7 +35,7 @@
 #include "core/song.h"
 
 class MtpConnection : public QObject, public std::enable_shared_from_this<MtpConnection> {
-public:
+ public:
   MtpConnection(const QUrl &url);
   ~MtpConnection();
 
@@ -43,7 +43,7 @@ public:
   LIBMTP_mtpdevice_t *device() const { return device_; }
   bool GetSupportedFiletypes(QList<Song::FileType> *ret);
 
-private:
+ private:
   Q_DISABLE_COPY(MtpConnection)
 
   LIBMTP_mtpdevice_t *device_;

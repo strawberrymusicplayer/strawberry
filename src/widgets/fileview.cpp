@@ -213,8 +213,9 @@ void FileView::UndoCommand::undo() {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void FileView::Delete(const QStringList &filenames) {
+
+#ifdef HAVE_GSTREAMER
 
   if (filenames.isEmpty())
     return;
@@ -228,9 +229,15 @@ void FileView::Delete(const QStringList &filenames) {
   connect(delete_files, SIGNAL(Finished(SongList)), SLOT(DeleteFinished(SongList)));
   delete_files->Start(filenames);
 
+#else
+  Q_UNUSED(filenames)
+#endif
+
 }
 
 void FileView::DeleteFinished(const SongList &songs_with_errors) {
+
+#ifdef HAVE_GSTREAMER
 
   if (songs_with_errors.isEmpty()) return;
 
@@ -238,8 +245,11 @@ void FileView::DeleteFinished(const SongList &songs_with_errors) {
   dialog->Show(OrganiseErrorDialog::Type_Delete, songs_with_errors);
   // It deletes itself when the user closes it
 
-}
+#else
+  Q_UNUSED(songs_with_errors)
 #endif
+
+}
 
 void FileView::showEvent(QShowEvent *e) {
 

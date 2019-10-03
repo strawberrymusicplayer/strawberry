@@ -79,10 +79,8 @@ class FileView : public QWidget {
   void ItemActivated(const QModelIndex &index);
   void ItemDoubleClick(const QModelIndex &index);
 
-#ifdef HAVE_GSTREAMER
   void Delete(const QStringList &filenames);
   void DeleteFinished(const SongList &songs_with_errors);
-#endif
 
  private:
   void ChangeFilePathWithoutUndo(const QString &new_path);

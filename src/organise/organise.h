@@ -81,9 +81,7 @@ class Organise : public QObject {
 
  private slots:
   void ProcessSomeFiles();
-#ifdef HAVE_GSTREAMER
   void FileTranscoded(const QString &input, const QString &output, bool success);
-#endif
   void LogLine(const QString message);
 
  private:
@@ -125,14 +123,9 @@ class Organise : public QObject {
   int task_count_;
   const QString playlist_;
 
-#ifdef HAVE_GSTREAMER
   QBasicTimer transcode_progress_timer_;
-#endif
-
   QList<Task> tasks_pending_;
-#ifdef HAVE_GSTREAMER
   QMap<QString, Task> tasks_transcoding_;
-#endif
   int tasks_complete_;
 
   bool started_;

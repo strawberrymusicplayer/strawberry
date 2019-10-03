@@ -63,10 +63,8 @@ public:
   void DeviceStringChanged();
   void RgPreampChanged(int value);
   void BufferMinFillChanged(int value);
-#ifdef HAVE_ALSA
   void radiobutton_alsa_hw_clicked(bool checked);
   void radiobutton_alsa_plughw_clicked(bool checked);
-#endif
   void FadingOptionsChanged();
 
 private:

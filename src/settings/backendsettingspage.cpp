@@ -556,10 +556,13 @@ void BackendSettingsPage::SwitchALSADevices(alsa_plugin alsaplugin) {
   }
 
 }
+#endif
 
 void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
 
   Q_UNUSED(checked);
+
+#ifdef HAVE_ALSA
 
   if (!configloaded_ || !EngineInitialised()) return;
 
@@ -582,11 +585,15 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(bool checked) {
     if (!found) ui_->lineedit_device->setText(device_new);
   }
 
+#endif
+
 }
 
 void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
 
   Q_UNUSED(checked);
+
+#ifdef HAVE_ALSA
 
   if (!configloaded_ || !EngineInitialised()) return;
 
@@ -609,9 +616,9 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(bool checked) {
     if (!found) ui_->lineedit_device->setText(device_new);
   }
 
-}
-
 #endif
+
+}
 
 void BackendSettingsPage::FadingOptionsChanged() {
 

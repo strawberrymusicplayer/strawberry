@@ -80,6 +80,8 @@ TrackSlider::~TrackSlider() {
 void TrackSlider::SetApplication(Application* app) {
 #ifdef HAVE_MOODBAR
   if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
+#else
+  Q_UNUSED(app);
 #endif
 }
 

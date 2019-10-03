@@ -2106,8 +2106,9 @@ void MainWindow::PlaylistUndoRedoChanged(QAction *undo, QAction *redo) {
   playlist_menu_->insertAction(playlist_undoredo_, redo);
 }
 
-#ifdef HAVE_GSTREAMER
 void MainWindow::AddFilesToTranscoder() {
+
+#ifdef HAVE_GSTREAMER
 
   QStringList filenames;
 
@@ -2122,21 +2123,24 @@ void MainWindow::AddFilesToTranscoder() {
   transcode_dialog_->SetFilenames(filenames);
 
   ShowTranscodeDialog();
-}
+
 #endif
 
+}
+
 void MainWindow::ShowCollectionConfig() {
-  //EnsureSettingsDialogCreated();
   settings_dialog_->OpenAtPage(SettingsDialog::Page_Collection);
 }
 
 void MainWindow::TaskCountChanged(int count) {
+
   if (count == 0) {
     ui_->status_bar_stack->setCurrentWidget(ui_->playlist_summary_page);
   }
   else {
     ui_->status_bar_stack->setCurrentWidget(ui_->multi_loading_indicator);
   }
+
 }
 
 void MainWindow::PlayingWidgetPositionChanged(bool above_status_bar) {
@@ -2339,13 +2343,13 @@ void MainWindow::ShowAboutDialog() {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void MainWindow::ShowTranscodeDialog() {
 
+#ifdef HAVE_GSTREAMER
   transcode_dialog_->show();
+#endif
 
 }
-#endif
 
 void MainWindow::ShowErrorDialog(const QString &message) {
   error_dialog_->ShowMessage(message);
@@ -2421,8 +2425,9 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
 
 }
 
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 void MainWindow::AutoCompleteTags() {
+
+#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
@@ -2456,6 +2461,9 @@ void MainWindow::AutoCompleteTags() {
   tag_fetcher_->StartFetch(songs);
 
   track_selection_dialog_->show();
+
+#endif
+
 }
 
 void MainWindow::AutoCompleteTagsAccepted() {
@@ -2466,8 +2474,8 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
   // This is really lame but we don't know what rows have changed
   ui_->playlist->view()->update();
+
 }
-#endif
 
 void MainWindow::HandleNotificationPreview(OSD::Behaviour type, QString line1, QString line2) {
 

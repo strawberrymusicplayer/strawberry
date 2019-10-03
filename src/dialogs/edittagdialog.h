@@ -109,10 +109,8 @@ class EditTagDialog : public QDialog {
   void ResetField();
   void ButtonClicked(QAbstractButton *button);
   void ResetPlayCounts();
-#if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
-#endif
 
   void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
 

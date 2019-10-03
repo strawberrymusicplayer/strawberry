@@ -255,8 +255,12 @@ void OSD::ShowMessage(const QString &summary, const QString &message, const QStr
 
 }
 
-#if !defined(HAVE_X11) && defined(HAVE_DBUS)
+#if !defined(HAVE_X11)
+#if defined(HAVE_DBUS)
 void OSD::CallFinished(QDBusPendingCallWatcher*) {}
+#else
+void OSD::CallFinished() {}
+#endif
 #endif
 
 void OSD::ShuffleModeChanged(PlaylistSequence::ShuffleMode mode) {
