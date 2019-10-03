@@ -327,7 +327,7 @@ optional_component(IMOBILEDEVICE ON "Devices: iPhone, iPod Touch, iPad and Apple
   DEPENDS "libimobiledevice" LIBIMOBILEDEVICE_FOUND
   DEPENDS "libplist" LIBPLIST_FOUND
   DEPENDS "libusbmuxd" LIBUSBMUXD_FOUND
-  DEPENDS "libgpod" LIBGPOD_FOUND
+  DEPENDS "libgpod" HAVE_LIBGPOD
 )
 
 optional_component(SPARKLE ON "Sparkle integration"
