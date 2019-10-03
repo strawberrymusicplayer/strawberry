@@ -802,7 +802,7 @@ msgstr "Произошла ошибка при копировании базы �
 msgid "An error occurred loading the iTunes database"
 msgstr "Произошла ошибка при загрузке данных iTunes"
 
-#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:904
+#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:913
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Ошибка при записи мета-данных в '%1'"
@@ -1047,7 +1047,7 @@ msgstr "Буферизация"
 msgid "C&onsole"
 msgstr "&Консоль"
 
-#: core/song.cpp:475
+#: core/song.cpp:476
 msgid "CD"
 msgstr "CD"
 
@@ -1141,7 +1141,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:276 core/song.cpp:474
+#: core/mainwindow.cpp:276 core/song.cpp:475
 #: ../build/src/ui_collectionsettingspage.h:261
 msgid "Collection"
 msgstr "Фонотека"
@@ -1150,7 +1150,7 @@ msgstr "Фонотека"
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2382
+#: core/mainwindow.cpp:2386
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1461,7 +1461,7 @@ msgstr "&Фоновое изображение по умолчанию"
 msgid "Delete"
 msgstr "Удалить"
 
-#: widgets/fileview.cpp:222 device/deviceview.cpp:408
+#: widgets/fileview.cpp:223 device/deviceview.cpp:408
 msgid "Delete files"
 msgstr "Удалить файлы"
 
@@ -1501,7 +1501,7 @@ msgstr "Назначение"
 msgid "Details..."
 msgstr "Подробнее…"
 
-#: core/song.cpp:476 device/giolister.cpp:188
+#: core/song.cpp:477 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:453
 msgid "Device"
@@ -1568,7 +1568,7 @@ msgstr "Не вырезать изображение"
 msgid "Do not overwrite"
 msgstr "Не перезаписывать"
 
-#: widgets/osd.cpp:279 ../build/src/ui_playlistsequence.h:110
+#: widgets/osd.cpp:283 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Не повторять"
 
@@ -1576,7 +1576,7 @@ msgstr "Не повторять"
 msgid "Don't show in various artists"
 msgstr "Не показывать в «Различных исполнителях»"
 
-#: widgets/osd.cpp:266 ../build/src/ui_playlistsequence.h:116
+#: widgets/osd.cpp:270 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Не перемешивать"
 
@@ -1720,7 +1720,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Ошибка"
@@ -1857,11 +1857,11 @@ msgstr "Получать весь альбом при поиске песен"
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/song.cpp:473
+#: core/song.cpp:474
 msgid "File"
 msgstr "Файл"
 
-#: core/song.cpp:1000
+#: core/song.cpp:1001
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."
@@ -2220,7 +2220,7 @@ msgstr "Вставить…"
 msgid "Integrity check"
 msgstr "Проверка целостности"
 
-#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:115
+#: widgets/osd.cpp:288 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
@@ -2644,7 +2644,7 @@ msgstr "Нет воспроизводимой песни"
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -3148,15 +3148,15 @@ msgstr "Перенумеровать треки в данном порядке�
 msgid "Repeat"
 msgstr "Повтор"
 
-#: widgets/osd.cpp:281 ../build/src/ui_playlistsequence.h:112
+#: widgets/osd.cpp:285 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Повторять альбом"
 
-#: widgets/osd.cpp:282 ../build/src/ui_playlistsequence.h:113
+#: widgets/osd.cpp:286 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Повторять плейлист"
 
-#: widgets/osd.cpp:280 ../build/src/ui_playlistsequence.h:111
+#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Повторять трек"
 
@@ -3644,15 +3644,15 @@ msgstr "Показывать значок в системном трее"
 msgid "Shuffle"
 msgstr "Перемешивание"
 
-#: widgets/osd.cpp:269 ../build/src/ui_playlistsequence.h:119
+#: widgets/osd.cpp:273 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Перемешать альбомы"
 
-#: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:118
+#: widgets/osd.cpp:271 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Перемешать все"
 
-#: widgets/osd.cpp:268 ../build/src/ui_playlistsequence.h:117
+#: widgets/osd.cpp:272 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Перемешать треки в этом альбоме"
 
@@ -3765,7 +3765,7 @@ msgstr "Запуск %1"
 msgid "Stop after each track"
 msgstr "Останавливать после каждого трека"
 
-#: widgets/osd.cpp:283
+#: widgets/osd.cpp:287
 msgid "Stop after every track"
 msgstr "Останавливать после каждого трека"
 
@@ -3835,7 +3835,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry не смог найти результаты по запросу для этого файла"
 
-#: core/song.cpp:477
+#: core/song.cpp:478
 msgid "Stream"
 msgstr "Поток"
 
@@ -3959,7 +3959,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2376
+#: core/mainwindow.cpp:2380
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -3987,7 +3987,7 @@ msgstr ""
 "В процессе удаления некоторых композиций возникли проблемы. Следующие файлы "
 "не могут быть удалены:"
 
-#: widgets/fileview.cpp:223
+#: widgets/fileview.cpp:224
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr "Эти файлы будут удалены с диска, вы уверены, что хотите продолжить?"
@@ -4068,7 +4068,7 @@ msgstr "Эта опция может быть изменена в настрой
 msgid "This type of device is not supported: %1"
 msgstr "Не поддерживаемый тип устройства: %1"
 
-#: core/mainwindow.cpp:284 core/song.cpp:478
+#: core/mainwindow.cpp:284 core/song.cpp:479
 #: ../build/src/ui_tidalsettingspage.h:310
 msgid "Tidal"
 msgstr "Tidal"
@@ -4170,7 +4170,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
-#: core/song.cpp:481 core/song.cpp:483 core/song.cpp:527
+#: core/song.cpp:482 core/song.cpp:484 core/song.cpp:528
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
@@ -4412,7 +4412,7 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "исполнители»?"
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2384
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
@@ -4591,7 +4591,7 @@ msgstr "настройки"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:480
+#: core/song.cpp:481
 msgid "qobuz"
 msgstr "qobuz"
 
@@ -4617,7 +4617,7 @@ msgstr "сортировать песни"
 msgid "stop"
 msgstr "стоп"
 
-#: core/song.cpp:479
+#: core/song.cpp:480
 msgid "subsonic"
 msgstr "subsonic"
 
