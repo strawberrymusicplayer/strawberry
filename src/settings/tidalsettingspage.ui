@@ -22,13 +22,6 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_1">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="credential_group">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -126,13 +119,6 @@
    </item>
    <item>
     <widget class="LoginStateWidget" name="login_state" native="true"/>
-   </item>
-   <item>
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="groupbox_preferences">

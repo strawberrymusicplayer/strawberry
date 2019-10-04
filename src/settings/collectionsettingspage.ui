@@ -125,13 +125,6 @@ If there are no matches then it will use the largest image in the directory.</st
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_1">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupbox_display">
      <property name="title">
       <string>Display options</string>
@@ -159,13 +152,6 @@ If there are no matches then it will use the largest image in the directory.</st
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
     </widget>
    </item>
    <item>
