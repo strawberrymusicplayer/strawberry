@@ -37,10 +37,12 @@ bool IconLoader::custom_icons_ = false;
 
 void IconLoader::Init() {
 
-  QSettings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  system_icons_ = s.value("system_icons", false).toBool();
-  s.endGroup();
+  // TODO: Fix use system icons option properly.
+
+  //QSettings s;
+  //s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  //system_icons_ = s.value("system_icons", false).toBool();
+  //s.endGroup();
 
   QDir dir;
   if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/icons")) {
