@@ -803,7 +803,7 @@ msgstr "Se produjo un error copiando la base de datos iTunes al dispositivo"
 msgid "An error occurred loading the iTunes database"
 msgstr "Se produjo un error cargando la base de datos iTunes"
 
-#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:904
+#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:913
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Se produjo un error al escribir los metadatos en «%1»"
@@ -1048,7 +1048,7 @@ msgstr "Guardando en búfer"
 msgid "C&onsole"
 msgstr "C&onsola"
 
-#: core/song.cpp:475
+#: core/song.cpp:476
 msgid "CD"
 msgstr "CD"
 
@@ -1143,7 +1143,7 @@ msgstr ""
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:276 core/song.cpp:474
+#: core/mainwindow.cpp:276 core/song.cpp:475
 #: ../build/src/ui_collectionsettingspage.h:261
 msgid "Collection"
 msgstr "Colección"
@@ -1152,7 +1152,7 @@ msgstr "Colección"
 msgid "Collection advanced grouping"
 msgstr "Agrupamiento avanzado de la colección"
 
-#: core/mainwindow.cpp:2382
+#: core/mainwindow.cpp:2386
 msgid "Collection rescan notice"
 msgstr "Notificación de nuevo análisis de la colección"
 
@@ -1463,7 +1463,7 @@ msgstr "Imagen de fondo por defecto"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: widgets/fileview.cpp:222 device/deviceview.cpp:408
+#: widgets/fileview.cpp:223 device/deviceview.cpp:408
 msgid "Delete files"
 msgstr "Eliminar archivos"
 
@@ -1503,7 +1503,7 @@ msgstr "Destino"
 msgid "Details..."
 msgstr "Detalles…"
 
-#: core/song.cpp:476 device/giolister.cpp:188
+#: core/song.cpp:477 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:453
 msgid "Device"
@@ -1570,7 +1570,7 @@ msgstr "No recortar la imagen"
 msgid "Do not overwrite"
 msgstr "No sobrescribir"
 
-#: widgets/osd.cpp:279 ../build/src/ui_playlistsequence.h:110
+#: widgets/osd.cpp:283 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "No repetir"
 
@@ -1578,7 +1578,7 @@ msgstr "No repetir"
 msgid "Don't show in various artists"
 msgstr "No mostrar en Varios artistas"
 
-#: widgets/osd.cpp:266 ../build/src/ui_playlistsequence.h:116
+#: widgets/osd.cpp:270 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "No mezclar"
 
@@ -1724,7 +1724,7 @@ msgstr "Equivalente a --log-levels*:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels*:3"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Error"
@@ -1861,11 +1861,11 @@ msgstr "Devolver el álbum completo al buscar pistas"
 msgid "Fetching cover error"
 msgstr "Error al obtener la portada"
 
-#: core/song.cpp:473
+#: core/song.cpp:474
 msgid "File"
 msgstr "Archivo"
 
-#: core/song.cpp:1000
+#: core/song.cpp:1001
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "El archivo de audio %1 no parece válido."
@@ -2227,7 +2227,7 @@ msgstr "Insertar…"
 msgid "Integrity check"
 msgstr "Comprobación de integridad"
 
-#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:115
+#: widgets/osd.cpp:288 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Pistas de introducción"
 
@@ -2653,7 +2653,7 @@ msgstr "Nada en reproducción"
 msgid "None"
 msgstr "Ninguno"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -3157,15 +3157,15 @@ msgstr "Reordenar pistas en este orden…"
 msgid "Repeat"
 msgstr "Repetir"
 
-#: widgets/osd.cpp:281 ../build/src/ui_playlistsequence.h:112
+#: widgets/osd.cpp:285 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Repetir álbum"
 
-#: widgets/osd.cpp:282 ../build/src/ui_playlistsequence.h:113
+#: widgets/osd.cpp:286 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Repetir lista de reproducción"
 
-#: widgets/osd.cpp:280 ../build/src/ui_playlistsequence.h:111
+#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Repetir pista"
 
@@ -3654,15 +3654,15 @@ msgstr "Mostrar icono en la bandeja del sistema"
 msgid "Shuffle"
 msgstr "Aleatorio"
 
-#: widgets/osd.cpp:269 ../build/src/ui_playlistsequence.h:119
+#: widgets/osd.cpp:273 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Mezclar álbumes"
 
-#: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:118
+#: widgets/osd.cpp:271 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Mezclar todo"
 
-#: widgets/osd.cpp:268 ../build/src/ui_playlistsequence.h:117
+#: widgets/osd.cpp:272 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Mezclar pistas de este álbum"
 
@@ -3774,7 +3774,7 @@ msgstr "Iniciando %1"
 msgid "Stop after each track"
 msgstr "Detener reproducción al finalizar cada pista"
 
-#: widgets/osd.cpp:283
+#: widgets/osd.cpp:287
 msgid "Stop after every track"
 msgstr "Detener reproducción al finalizar cada pista"
 
@@ -3842,7 +3842,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry no encontró resultados para este archivo"
 
-#: core/song.cpp:477
+#: core/song.cpp:478
 msgid "Stream"
 msgstr "Transmisión"
 
@@ -3967,7 +3967,7 @@ msgstr "El sitio indicado no existe."
 msgid "The site you requested is not an image!"
 msgstr "El sitio indicado no es una imagen."
 
-#: core/mainwindow.cpp:2376
+#: core/mainwindow.cpp:2380
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -3996,7 +3996,7 @@ msgstr ""
 "Hubo problemas al eliminar algunas pistas. No se pudieron eliminar los "
 "siguientes archivos:"
 
-#: widgets/fileview.cpp:223
+#: widgets/fileview.cpp:224
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr ""
@@ -4081,7 +4081,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "No se admite este tipo de dispositivo: %1"
 
-#: core/mainwindow.cpp:284 core/song.cpp:478
+#: core/mainwindow.cpp:284 core/song.cpp:479
 #: ../build/src/ui_tidalsettingspage.h:310
 msgid "Tidal"
 msgstr "Tidal"
@@ -4183,7 +4183,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Banda ultraancha (UWB)"
 
-#: core/song.cpp:481 core/song.cpp:483 core/song.cpp:527
+#: core/song.cpp:482 core/song.cpp:484 core/song.cpp:528
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
@@ -4425,7 +4425,7 @@ msgstr ""
 "¿Le gustaría mover también el resto de canciones de este álbum a Varios "
 "artistas?"
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2384
 msgid "Would you like to run a full rescan right now?"
 msgstr "¿Quiere ejecutar un reanálisis completo ahora?"
 
@@ -4608,7 +4608,7 @@ msgstr "opciones"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:480
+#: core/song.cpp:481
 msgid "qobuz"
 msgstr "qobuz"
 
@@ -4634,7 +4634,7 @@ msgstr "ordenar canciones"
 msgid "stop"
 msgstr "detener"
 
-#: core/song.cpp:479
+#: core/song.cpp:480
 msgid "subsonic"
 msgstr "subsonic"
 

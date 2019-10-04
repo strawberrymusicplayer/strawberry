@@ -778,7 +778,7 @@ msgstr "En feil oppsto ved innlasting av iTunes-databasen til enheten"
 msgid "An error occurred loading the iTunes database"
 msgstr "En feil oppsto ved innlasting av iTunes-databasen"
 
-#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:904
+#: playlist/playlist.cpp:402 dialogs/edittagdialog.cpp:913
 #, qt-format
 msgid "An error occurred writing metadata to '%1'"
 msgstr "Det oppstod en feil når metadata skulle skrives til '%1'"
@@ -1024,7 +1024,7 @@ msgstr "Mellomlagring"
 msgid "C&onsole"
 msgstr "K&onsoll"
 
-#: core/song.cpp:475
+#: core/song.cpp:476
 msgid "CD"
 msgstr "CD"
 
@@ -1117,7 +1117,7 @@ msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 msgid "Club"
 msgstr "Klubbmusikk"
 
-#: core/mainwindow.cpp:276 core/song.cpp:474
+#: core/mainwindow.cpp:276 core/song.cpp:475
 #: ../build/src/ui_collectionsettingspage.h:261
 msgid "Collection"
 msgstr "Samling"
@@ -1126,7 +1126,7 @@ msgstr "Samling"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2382
+#: core/mainwindow.cpp:2386
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1436,7 +1436,7 @@ msgstr "Forhåndsvalgt bak&grunnsbilde"
 msgid "Delete"
 msgstr "Slett"
 
-#: widgets/fileview.cpp:222 device/deviceview.cpp:408
+#: widgets/fileview.cpp:223 device/deviceview.cpp:408
 msgid "Delete files"
 msgstr "Slett filer"
 
@@ -1476,7 +1476,7 @@ msgstr "Mål"
 msgid "Details..."
 msgstr "Detaljer…"
 
-#: core/song.cpp:476 device/giolister.cpp:188
+#: core/song.cpp:477 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:453
 msgid "Device"
@@ -1543,7 +1543,7 @@ msgstr ""
 msgid "Do not overwrite"
 msgstr "Ikke overskriv"
 
-#: widgets/osd.cpp:279 ../build/src/ui_playlistsequence.h:110
+#: widgets/osd.cpp:283 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
 msgstr "Ikke gjenta"
 
@@ -1551,7 +1551,7 @@ msgstr "Ikke gjenta"
 msgid "Don't show in various artists"
 msgstr "Ikke vis under diverse artister"
 
-#: widgets/osd.cpp:266 ../build/src/ui_playlistsequence.h:116
+#: widgets/osd.cpp:270 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
 msgstr "Ikke stokk"
 
@@ -1695,7 +1695,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Feil"
@@ -1832,11 +1832,11 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:473
+#: core/song.cpp:474
 msgid "File"
 msgstr "Fil"
 
-#: core/song.cpp:1000
+#: core/song.cpp:1001
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -2190,7 +2190,7 @@ msgstr "Sett inn…"
 msgid "Integrity check"
 msgstr "Integritetskontrol"
 
-#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:115
+#: widgets/osd.cpp:288 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Introspor"
 
@@ -2613,7 +2613,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2172 core/mainwindow.cpp:2278
+#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -3112,15 +3112,15 @@ msgstr "Renummerer sporene i denne rekkefølgen…"
 msgid "Repeat"
 msgstr "Gjenta"
 
-#: widgets/osd.cpp:281 ../build/src/ui_playlistsequence.h:112
+#: widgets/osd.cpp:285 ../build/src/ui_playlistsequence.h:112
 msgid "Repeat album"
 msgstr "Gjenta album"
 
-#: widgets/osd.cpp:282 ../build/src/ui_playlistsequence.h:113
+#: widgets/osd.cpp:286 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
 msgstr "Gjenta spilleliste"
 
-#: widgets/osd.cpp:280 ../build/src/ui_playlistsequence.h:111
+#: widgets/osd.cpp:284 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
 msgstr "Gjenta spor"
 
@@ -3608,15 +3608,15 @@ msgstr "Vis systemikon"
 msgid "Shuffle"
 msgstr "Stokk om"
 
-#: widgets/osd.cpp:269 ../build/src/ui_playlistsequence.h:119
+#: widgets/osd.cpp:273 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
 msgstr "Stokk om album"
 
-#: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:118
+#: widgets/osd.cpp:271 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
 msgstr "Stokk alle"
 
-#: widgets/osd.cpp:268 ../build/src/ui_playlistsequence.h:117
+#: widgets/osd.cpp:272 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
 msgstr "Stokk om dette albumet"
 
@@ -3728,7 +3728,7 @@ msgstr "Starter %1"
 msgid "Stop after each track"
 msgstr "Stopp etter hvert spor"
 
-#: widgets/osd.cpp:283
+#: widgets/osd.cpp:287
 msgid "Stop after every track"
 msgstr "Stopp etter hvert spor"
 
@@ -3795,7 +3795,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry klarte ikke å finne resultater for denne filen"
 
-#: core/song.cpp:477
+#: core/song.cpp:478
 msgid "Stream"
 msgstr "Strøm"
 
@@ -3919,7 +3919,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2376
+#: core/mainwindow.cpp:2380
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -3947,7 +3947,7 @@ msgstr ""
 "Fikk problemer med å slette enkelte sanger.  Følgende filer kunne ikke "
 "slettes:"
 
-#: widgets/fileview.cpp:223
+#: widgets/fileview.cpp:224
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr "Filene vil bli slettet fra harddisken. Er du sikker?"
@@ -4027,7 +4027,7 @@ msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
 msgid "This type of device is not supported: %1"
 msgstr "Denne enhetstypen (%1) støttes ikke."
 
-#: core/mainwindow.cpp:284 core/song.cpp:478
+#: core/mainwindow.cpp:284 core/song.cpp:479
 #: ../build/src/ui_tidalsettingspage.h:310
 msgid "Tidal"
 msgstr "Tidal"
@@ -4129,7 +4129,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultrabredt bånd (UWB)"
 
-#: core/song.cpp:481 core/song.cpp:483 core/song.cpp:527
+#: core/song.cpp:482 core/song.cpp:484 core/song.cpp:528
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
@@ -4366,7 +4366,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2384
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
@@ -4546,7 +4546,7 @@ msgstr "innstillinger"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:480
+#: core/song.cpp:481
 msgid "qobuz"
 msgstr ""
 
@@ -4572,7 +4572,7 @@ msgstr "sorter sanger"
 msgid "stop"
 msgstr "stopp"
 
-#: core/song.cpp:479
+#: core/song.cpp:480
 msgid "subsonic"
 msgstr ""
 
