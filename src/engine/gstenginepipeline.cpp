@@ -1239,20 +1239,11 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovere
     QString filetype_description = (codec_description ? QString(codec_description) : QString("Unknown"));
     g_free(codec_description);
 
-    gchar *caps_gchar = gst_caps_to_string(caps);
-    QString caps_str(caps_gchar);
-    g_free (caps_gchar);
-
     gst_caps_unref(caps);
     gst_discoverer_stream_info_list_free(audio_streams);
 
-    int i = caps_str.indexOf(',');
-    QString mimetype = (i > 1 ? caps_str.left(i) : caps_str);
-    bundle.filetype = Song::FiletypeByMimetype(mimetype);
-    if (bundle.filetype == Song::FileType_Unknown) {
-      bundle.filetype = Song::FiletypeByDescription(filetype_description);
-    }
-    qLog(Info) << "Got stream info for" << discovered_url + ":" << mimetype << filetype_description;
+    bundle.filetype = Song::FiletypeByDescription(filetype_description);
+    qLog(Info) << "Got stream info for" << discovered_url + ":" << filetype_description;
 
     emit instance->MetadataFound(instance->id(), bundle);
 
