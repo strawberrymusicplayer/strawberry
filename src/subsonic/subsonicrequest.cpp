@@ -533,9 +533,9 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   if (json_obj.contains("year")) year = json_obj["year"].toInt();
 
   int disc = 0;
-  if (json_obj.contains("disc")) {
-    disc = json_obj["disc"].toString().toInt();
-    if (disc == 0) disc = json_obj["disc"].toInt();
+  if (json_obj.contains("discNumber")) {
+    disc = json_obj["discNumber"].toString().toInt();
+    if (disc == 0) disc = json_obj["discNumber"].toInt();
   }
 
   int track = 0;
