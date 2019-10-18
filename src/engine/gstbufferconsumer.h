@@ -25,6 +25,8 @@
 
 #include <gst/gstbuffer.h>
 
+#include <QString>
+
 class GstEnginePipeline;
 
 class GstBufferConsumer {
@@ -33,7 +35,7 @@ public:
 
   // This is called in some unspecified GStreamer thread.
   // Ownership of the buffer is transferred to the BufferConsumer and it should gst_buffer_unref it.
-  virtual void ConsumeBuffer(GstBuffer *buffer, int pipeline_id) = 0;
+  virtual void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) = 0;
 };
 
 #endif // GSTBUFFERCONSUMER_H

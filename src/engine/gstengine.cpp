@@ -411,10 +411,10 @@ GstElement *GstEngine::CreateElement(const QString &factoryName, GstElement *bin
   return element;
 }
 
-void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id) {
+void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) {
 
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
-  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id))) {
+  if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id), Q_ARG(QString, format))) {
     qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
   }
 
@@ -520,7 +520,7 @@ void GstEngine::NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundl
 
 }
 
-void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id) {
+void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format) {
 
   if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) {
     gst_buffer_unref(buf);
@@ -531,6 +531,7 @@ void GstEngine::AddBufferToScope(GstBuffer *buf, const int pipeline_id) {
     gst_buffer_unref(latest_buffer_);
   }
 
+  buffer_format_ = format;
   latest_buffer_ = buf;
   have_new_buffer_ = true;
 
@@ -806,13 +807,23 @@ void GstEngine::UpdateScope(const int chunk_length) {
   }
 
   scope_chunk_++;
-  memcpy(dest, source, bytes);
+
+  if (buffer_format_ == "S16LE" ||
+      buffer_format_ == "S16BE" ||
+      buffer_format_ == "U16LE" ||
+      buffer_format_ == "U16BE" ||
+      buffer_format_ == "S16" ||
+      buffer_format_ == "U16")
+    memcpy(dest, source, bytes);
+  else
+    memset(dest, 0, bytes);
 
   gst_buffer_unmap(latest_buffer_, &map);
 
   if (scope_chunk_ == scope_chunks_) {
     gst_buffer_unref(latest_buffer_);
     latest_buffer_ = nullptr;
+    buffer_format_.clear();
   }
 
 }

@@ -95,7 +95,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void EnsureInitialised() { gst_startup_->EnsureInitialised(); }
 
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, const bool showerror = true);
-  void ConsumeBuffer(GstBuffer *buffer, int pipeline_id);
+  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format);
 
  public slots:
 
@@ -124,7 +124,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
   void HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code);
   void NewMetaData(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
-  void AddBufferToScope(GstBuffer *buf, const int pipeline_id);
+  void AddBufferToScope(GstBuffer *buf, const int pipeline_id, const QString &format);
   void FadeoutFinished();
   void FadeoutPauseFinished();
   void SeekNow();
@@ -201,6 +201,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   int scope_chunk_;
   bool have_new_buffer_;
   int scope_chunks_;
+  QString buffer_format_;
 
 #ifdef Q_OS_MACOS
   GTlsDatabase* tls_database_;
