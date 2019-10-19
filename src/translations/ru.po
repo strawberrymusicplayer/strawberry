@@ -3460,7 +3460,7 @@ msgstr "Перемотка с помощью горячих клавиш кла�
 msgid "Select background color:"
 msgstr "Выбрать цвет фона:"
 
-#: settings/appearancesettingspage.cpp:316
+#: settings/appearancesettingspage.cpp:314
 msgid "Select background image"
 msgstr "Выбрать фоновое изображение"
 

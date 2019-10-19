@@ -3470,7 +3470,7 @@ msgstr "Moverse en la pista mediante un atajo de teclado o la rueda del ratón"
 msgid "Select background color:"
 msgstr "Elija el color de fondo:"
 
-#: settings/appearancesettingspage.cpp:316
+#: settings/appearancesettingspage.cpp:314
 msgid "Select background image"
 msgstr "Elija la imagen de fondo"
 

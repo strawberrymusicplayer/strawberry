@@ -3424,7 +3424,7 @@ msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:316
+#: settings/appearancesettingspage.cpp:314
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
