@@ -54,7 +54,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
   // Icons
-  setWindowIcon(IconLoader::Load("vinyl"));
+  setWindowIcon(IconLoader::Load("library-music"));
   ui_->add->setIcon(IconLoader::Load("document-open-folder"));
 
   connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));

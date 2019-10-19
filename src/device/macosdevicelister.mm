@@ -755,7 +755,7 @@ QVariantList MacOsDeviceLister::DeviceIcons(const QString& serial) {
   }
 
   if (IsCDDevice(serial)) {
-    return QVariantList() << "cd";
+    return QVariantList() << "media-optical";
   }
 
   QString bsd_name = current_devices_[serial];

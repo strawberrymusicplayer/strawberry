@@ -225,8 +225,8 @@ void DeviceView::contextMenuEvent(QContextMenuEvent *e) {
     properties_action_ = device_menu_->addAction(IconLoader::Load("configure"), tr("Device properties..."), this, SLOT(Properties()));
 
     // Collection menu
-    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
-    load_action_ = collection_menu_->addAction(IconLoader::Load("media-play"), tr("Replace current playlist"), this, SLOT(Load()));
+    add_to_playlist_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylist()));
+    load_action_ = collection_menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(Load()));
     open_in_new_playlist_ = collection_menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylist()));
 
     collection_menu_->addSeparator();

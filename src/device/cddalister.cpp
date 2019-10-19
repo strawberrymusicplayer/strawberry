@@ -41,7 +41,7 @@ QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
 
 QVariantList CddaLister::DeviceIcons(const QString &) {
   QVariantList icons;
-  icons << QString("cd");
+  icons << QString("media-optical");
   return icons;
 }
 

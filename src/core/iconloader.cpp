@@ -29,6 +29,7 @@
 #include <QSettings>
 
 #include "core/logging.h"
+#include "iconmapper.h"
 #include "settings/appearancesettingspage.h"
 #include "iconloader.h"
 
@@ -37,12 +38,10 @@ bool IconLoader::custom_icons_ = false;
 
 void IconLoader::Init() {
 
-  // TODO: Fix use system icons option properly.
-
-  //QSettings s;
-  //s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  //system_icons_ = s.value("system_icons", false).toBool();
-  //s.endGroup();
+  QSettings s;
+  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  system_icons_ = s.value("system_icons", false).toBool();
+  s.endGroup();
 
   QDir dir;
   if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/icons")) {
@@ -66,7 +65,17 @@ QIcon IconLoader::Load(const QString &name, const int size) {
   else sizes << size;
 
   if (system_icons_) {
+    IconMapper::IconProperties icon_prop;
+    if (IconMapper::iconmapper_.contains(name)) {
+      icon_prop = IconMapper::iconmapper_[name];
+    }
     ret = QIcon::fromTheme(name);
+    if (ret.isNull()) {
+      for (QString alt_name : icon_prop.names) {
+        ret = QIcon::fromTheme(alt_name);
+        if (!ret.isNull()) break;
+      }
+    }
     if (!ret.isNull()) return ret;
     qLog(Warning) << "Couldn't load icon" << name << "from system theme icons.";
   }

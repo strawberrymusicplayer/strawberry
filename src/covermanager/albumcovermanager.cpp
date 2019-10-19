@@ -95,8 +95,8 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
       cover_searcher_(nullptr),
       cover_export_(nullptr),
       cover_exporter_(new AlbumCoverExporter(this)),
-      artist_icon_(IconLoader::Load("folder-sound" )),
-      all_artists_icon_(IconLoader::Load("vinyl" )),
+      artist_icon_(IconLoader::Load("folder-sound")),
+      all_artists_icon_(IconLoader::Load("library-music")),
       no_cover_icon_(":/pictures/cdcase.png"),
       no_cover_image_(GenerateNoCoverImage(no_cover_icon_)),
       no_cover_item_icon_(QPixmap::fromImage(no_cover_image_)),
@@ -110,12 +110,12 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
   ui_->albums->set_cover_manager(this);
 
   // Icons
-  ui_->action_fetch->setIcon(IconLoader::Load("download" ));
-  ui_->export_covers->setIcon(IconLoader::Load("document-save" ));
-  ui_->view->setIcon(IconLoader::Load("view-choose" ));
-  ui_->button_fetch->setIcon(IconLoader::Load("download" ));
-  ui_->action_add_to_playlist->setIcon(IconLoader::Load("media-play" ));
-  ui_->action_load->setIcon(IconLoader::Load("media-play" ));
+  ui_->action_fetch->setIcon(IconLoader::Load("download"));
+  ui_->export_covers->setIcon(IconLoader::Load("document-save"));
+  ui_->view->setIcon(IconLoader::Load("view-choose"));
+  ui_->button_fetch->setIcon(IconLoader::Load("download"));
+  ui_->action_add_to_playlist->setIcon(IconLoader::Load("media-playback-start"));
+  ui_->action_load->setIcon(IconLoader::Load("media-playback-start"));
 
   album_cover_choice_controller_->Init(app_);
 

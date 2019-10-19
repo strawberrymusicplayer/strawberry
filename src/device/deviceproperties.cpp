@@ -97,7 +97,7 @@ void DeviceProperties::ShowDevice(QModelIndex idx) {
                              << "device"
                              << "device-usb-drive"
                              << "device-usb-flash"
-                             << "cd"
+                             << "media-optical"
                              << "device-ipod"
                              << "device-ipod-nano"
                              << "device-phone";

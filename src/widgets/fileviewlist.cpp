@@ -40,8 +40,8 @@ FileViewList::FileViewList(QWidget *parent)
       menu_(new QMenu(this))
 {
 
-  menu_->addAction(IconLoader::Load("media-play"), tr("Append to current playlist"), this, SLOT(AddToPlaylistSlot()));
-  menu_->addAction(IconLoader::Load("media-play"), tr("Replace current playlist"), this, SLOT(LoadSlot()));
+  menu_->addAction(IconLoader::Load("media-playback-start"), tr("Append to current playlist"), this, SLOT(AddToPlaylistSlot()));
+  menu_->addAction(IconLoader::Load("media-playback-start"), tr("Replace current playlist"), this, SLOT(LoadSlot()));
   menu_->addAction(IconLoader::Load("document-new"), tr("Open in new playlist"), this, SLOT(OpenInNewPlaylistSlot()));
   menu_->addSeparator();
   menu_->addAction(IconLoader::Load("edit-copy"), tr("Copy to collection..."), this, SLOT(CopyToCollectionSlot()));

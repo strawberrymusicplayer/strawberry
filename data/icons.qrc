@@ -6,7 +6,7 @@
         <file>icons/128x128/applications-internet.png</file>
         <file>icons/128x128/bluetooth.png</file>
         <file>icons/128x128/cdcase.png</file>
-        <file>icons/128x128/cd.png</file>
+        <file>icons/128x128/media-optical.png</file>
         <file>icons/128x128/configure.png</file>
         <file>icons/128x128/device-ipod-nano.png</file>
         <file>icons/128x128/device-ipod.png</file>
@@ -57,9 +57,9 @@
         <file>icons/128x128/mcintosh-player.png</file>
         <file>icons/128x128/mcintosh-text.png</file>
         <file>icons/128x128/media-eject.png</file>
-        <file>icons/128x128/media-pause.png</file>
-        <file>icons/128x128/media-play.png</file>
-        <file>icons/128x128/media-stop.png</file>
+        <file>icons/128x128/media-playback-pause.png</file>
+        <file>icons/128x128/media-playback-start.png</file>
+        <file>icons/128x128/media-playback-stop.png</file>
         <file>icons/128x128/media-skip-forward.png</file>
         <file>icons/128x128/media-skip-backward.png</file>
         <file>icons/128x128/media-seek-forward.png</file>
@@ -79,7 +79,7 @@
         <file>icons/128x128/view-media-playlist.png</file>
         <file>icons/128x128/view-media-visualization.png</file>
         <file>icons/128x128/view-refresh.png</file>
-        <file>icons/128x128/vinyl.png</file>
+        <file>icons/128x128/library-music.png</file>
         <file>icons/128x128/vlc.png</file>
         <file>icons/128x128/xine.png</file>
         <file>icons/128x128/zoom-in.png</file>
@@ -97,7 +97,7 @@
         <file>icons/64x64/applications-internet.png</file>
         <file>icons/64x64/bluetooth.png</file>
         <file>icons/64x64/cdcase.png</file>
-        <file>icons/64x64/cd.png</file>
+        <file>icons/64x64/media-optical.png</file>
         <file>icons/64x64/configure.png</file>
         <file>icons/64x64/device-ipod-nano.png</file>
         <file>icons/64x64/device-ipod.png</file>
@@ -148,9 +148,9 @@
         <file>icons/64x64/mcintosh-player.png</file>
         <file>icons/64x64/mcintosh-text.png</file>
         <file>icons/64x64/media-eject.png</file>
-        <file>icons/64x64/media-pause.png</file>
-        <file>icons/64x64/media-play.png</file>
-        <file>icons/64x64/media-stop.png</file>
+        <file>icons/64x64/media-playback-pause.png</file>
+        <file>icons/64x64/media-playback-start.png</file>
+        <file>icons/64x64/media-playback-stop.png</file>
         <file>icons/64x64/media-skip-forward.png</file>
         <file>icons/64x64/media-skip-backward.png</file>
         <file>icons/64x64/media-seek-forward.png</file>
@@ -171,7 +171,7 @@
         <file>icons/64x64/view-media-playlist.png</file>
         <file>icons/64x64/view-media-visualization.png</file>
         <file>icons/64x64/view-refresh.png</file>
-        <file>icons/64x64/vinyl.png</file>
+        <file>icons/64x64/library-music.png</file>
         <file>icons/64x64/vlc.png</file>
         <file>icons/64x64/xine.png</file>
         <file>icons/64x64/zoom-in.png</file>
@@ -189,7 +189,7 @@
         <file>icons/48x48/applications-internet.png</file>
         <file>icons/48x48/bluetooth.png</file>
         <file>icons/48x48/cdcase.png</file>
-        <file>icons/48x48/cd.png</file>
+        <file>icons/48x48/media-optical.png</file>
         <file>icons/48x48/configure.png</file>
         <file>icons/48x48/device-ipod-nano.png</file>
         <file>icons/48x48/device-ipod.png</file>
@@ -241,11 +241,11 @@
         <file>icons/48x48/mcintosh.png</file>
         <file>icons/48x48/mcintosh-text.png</file>
         <file>icons/48x48/media-eject.png</file>
-        <file>icons/48x48/media-pause.png</file>
+        <file>icons/48x48/media-playback-pause.png</file>
         <file>icons/48x48/media-playlist-repeat.png</file>
         <file>icons/48x48/media-playlist-shuffle.png</file>
-        <file>icons/48x48/media-play.png</file>
-        <file>icons/48x48/media-stop.png</file>
+        <file>icons/48x48/media-playback-start.png</file>
+        <file>icons/48x48/media-playback-stop.png</file>
         <file>icons/48x48/media-skip-forward.png</file>
         <file>icons/48x48/media-skip-backward.png</file>
         <file>icons/48x48/media-seek-forward.png</file>
@@ -266,7 +266,7 @@
         <file>icons/48x48/view-media-playlist.png</file>
         <file>icons/48x48/view-media-visualization.png</file>
         <file>icons/48x48/view-refresh.png</file>
-        <file>icons/48x48/vinyl.png</file>
+        <file>icons/48x48/library-music.png</file>
         <file>icons/48x48/vlc.png</file>
         <file>icons/48x48/xine.png</file>
         <file>icons/48x48/zoom-in.png</file>
@@ -284,7 +284,7 @@
         <file>icons/32x32/applications-internet.png</file>
         <file>icons/32x32/bluetooth.png</file>
         <file>icons/32x32/cdcase.png</file>
-        <file>icons/32x32/cd.png</file>
+        <file>icons/32x32/media-optical.png</file>
         <file>icons/32x32/configure.png</file>
         <file>icons/32x32/device-ipod-nano.png</file>
         <file>icons/32x32/device-ipod.png</file>
@@ -336,11 +336,11 @@
         <file>icons/32x32/mcintosh.png</file>
         <file>icons/32x32/mcintosh-text.png</file>
         <file>icons/32x32/media-eject.png</file>
-        <file>icons/32x32/media-pause.png</file>
+        <file>icons/32x32/media-playback-pause.png</file>
         <file>icons/32x32/media-playlist-repeat.png</file>
         <file>icons/32x32/media-playlist-shuffle.png</file>
-        <file>icons/32x32/media-play.png</file>
-        <file>icons/32x32/media-stop.png</file>
+        <file>icons/32x32/media-playback-start.png</file>
+        <file>icons/32x32/media-playback-stop.png</file>
         <file>icons/32x32/media-skip-forward.png</file>
         <file>icons/32x32/media-skip-backward.png</file>
         <file>icons/32x32/media-seek-forward.png</file>
@@ -361,7 +361,7 @@
         <file>icons/32x32/view-media-playlist.png</file>
         <file>icons/32x32/view-media-visualization.png</file>
         <file>icons/32x32/view-refresh.png</file>
-        <file>icons/32x32/vinyl.png</file>
+        <file>icons/32x32/library-music.png</file>
         <file>icons/32x32/vlc.png</file>
         <file>icons/32x32/xine.png</file>
         <file>icons/32x32/zoom-in.png</file>
@@ -379,7 +379,7 @@
         <file>icons/22x22/applications-internet.png</file>
         <file>icons/22x22/bluetooth.png</file>
         <file>icons/22x22/cdcase.png</file>
-        <file>icons/22x22/cd.png</file>
+        <file>icons/22x22/media-optical.png</file>
         <file>icons/22x22/configure.png</file>
         <file>icons/22x22/device-ipod-nano.png</file>
         <file>icons/22x22/device-ipod.png</file>
@@ -431,11 +431,11 @@
         <file>icons/22x22/mcintosh.png</file>
         <file>icons/22x22/mcintosh-text.png</file>
         <file>icons/22x22/media-eject.png</file>
-        <file>icons/22x22/media-pause.png</file>
+        <file>icons/22x22/media-playback-pause.png</file>
         <file>icons/22x22/media-playlist-repeat.png</file>
         <file>icons/22x22/media-playlist-shuffle.png</file>
-        <file>icons/22x22/media-play.png</file>
-        <file>icons/22x22/media-stop.png</file>
+        <file>icons/22x22/media-playback-start.png</file>
+        <file>icons/22x22/media-playback-stop.png</file>
         <file>icons/22x22/media-skip-forward.png</file>
         <file>icons/22x22/media-skip-backward.png</file>
         <file>icons/22x22/media-seek-forward.png</file>
@@ -456,7 +456,7 @@
         <file>icons/22x22/view-media-playlist.png</file>
         <file>icons/22x22/view-media-visualization.png</file>
         <file>icons/22x22/view-refresh.png</file>
-        <file>icons/22x22/vinyl.png</file>
+        <file>icons/22x22/library-music.png</file>
         <file>icons/22x22/vlc.png</file>
         <file>icons/22x22/xine.png</file>
         <file>icons/22x22/zoom-in.png</file>

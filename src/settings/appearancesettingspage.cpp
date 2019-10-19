@@ -110,8 +110,6 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog)
   connect(ui_->select_tabbar_color, SIGNAL(pressed()), SLOT(TabBarSelectBGColor()));
   connect(ui_->tabbar_system_color, SIGNAL(toggled(bool)), SLOT(TabBarSystemColor(bool)));
 
-  ui_->checkbox_system_icons->hide();
-
   Load();
 
 }

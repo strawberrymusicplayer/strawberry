@@ -489,8 +489,8 @@ QIcon Song::IconForSource(Source source) {
 
   switch (source) {
     case Song::Source_LocalFile:   return IconLoader::Load("folder-sound");
-    case Song::Source_Collection:  return IconLoader::Load("vinyl");
-    case Song::Source_CDDA:        return IconLoader::Load("cd");
+    case Song::Source_Collection:  return IconLoader::Load("library-music");
+    case Song::Source_CDDA:        return IconLoader::Load("media-optical");
     case Song::Source_Device:      return IconLoader::Load("device");
     case Song::Source_Stream:      return IconLoader::Load("applications-internet");
     case Song::Source_Tidal:       return IconLoader::Load("tidal");
