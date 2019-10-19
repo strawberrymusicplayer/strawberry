@@ -102,7 +102,7 @@ msgstr "Los atajos deberían configurarse en ajustes %1."
 msgid " kbps"
 msgstr " kb/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:298
+#: ../build/src/ui_scrobblersettingspage.h:304
 msgid " minutes"
 msgstr "minutos"
 
@@ -120,7 +120,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " segundos"
 
-#: scrobbler/scrobblingapi20.cpp:140 scrobbler/scrobblingapi20.cpp:149
+#: scrobbler/scrobblingapi20.cpp:145 scrobbler/scrobblingapi20.cpp:154
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Inicio de sesión en el servicio de registro de reproducción %1"
@@ -360,7 +360,7 @@ msgstr "&Usar la combinación de colores del sistema"
 msgid "&Use the system proxy settings"
 msgstr "&Usar los ajustes de proxy del sistema"
 
-#: ../build/src/ui_scrobblersettingspage.h:300
+#: ../build/src/ui_scrobblersettingspage.h:306
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -408,7 +408,7 @@ msgstr "40 %"
 msgid "<b>Albums by %1</b>"
 msgstr "<b>Álbumes de %1</b>"
 
-#: ../build/src/ui_scrobblersettingspage.h:311
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid ""
 "<html><head/><body><p>Enter your user token found on: <a href=\"https://"
 "listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
@@ -544,7 +544,7 @@ msgstr "Añadir todas las pistas de una carpeta y sus subcarpetas"
 msgid "Add directory..."
 msgstr "Añadir carpeta…"
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1891
 msgid "Add file"
 msgstr "Añadir archivo"
 
@@ -560,7 +560,7 @@ msgstr "Añadir archivo(s) a convertir"
 msgid "Add files to transcode"
 msgstr "Añadir archivos a convertir"
 
-#: core/mainwindow.cpp:1915 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1916 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Añadir carpeta"
 
@@ -640,7 +640,7 @@ msgstr "Añadir etiqueta de año a la canción"
 msgid "Add to albums"
 msgstr "Añadir a álbumes"
 
-#: core/mainwindow.cpp:1703
+#: core/mainwindow.cpp:1704
 msgid "Add to another playlist"
 msgstr "Añadir a otra lista de reproducción"
 
@@ -1040,7 +1040,7 @@ msgstr "Búfer"
 msgid "Buffer duration"
 msgstr "Duración del búfer"
 
-#: engine/gstengine.cpp:616
+#: engine/gstengine.cpp:617
 msgid "Buffering"
 msgstr "Guardando en búfer"
 
@@ -1152,7 +1152,7 @@ msgstr "Colección"
 msgid "Collection advanced grouping"
 msgstr "Agrupamiento avanzado de la colección"
 
-#: core/mainwindow.cpp:2386
+#: core/mainwindow.cpp:2387
 msgid "Collection rescan notice"
 msgstr "Notificación de nuevo análisis de la colección"
 
@@ -1264,7 +1264,7 @@ msgstr ""
 "No se pudo crear el elemento «%1» de GStreamer. Asegúrese de tener "
 "instalados todos los complementos necesarios de GStreamer."
 
-#: scrobbler/scrobblingapi20.cpp:149
+#: scrobbler/scrobblingapi20.cpp:154
 #, qt-format
 msgid ""
 "Could not open URL. Please open this URL in your browser:<br /><a href="
@@ -1487,11 +1487,11 @@ msgstr "Eliminar los archivos originales"
 msgid "Deleting files"
 msgstr "Eliminando los archivos"
 
-#: core/mainwindow.cpp:1625
+#: core/mainwindow.cpp:1626
 msgid "Dequeue selected tracks"
 msgstr "Quitar las pistas seleccionadas de la cola"
 
-#: core/mainwindow.cpp:1624
+#: core/mainwindow.cpp:1625
 msgid "Dequeue track"
 msgstr "Quitar la pista de la cola"
 
@@ -1612,7 +1612,7 @@ msgstr "Descargando los metadatos"
 msgid "Drag to reposition"
 msgstr "Arrastre para reposicionar"
 
-#: core/mainwindow.cpp:1667
+#: core/mainwindow.cpp:1668
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Editar la etiqueta «%1»…"
@@ -1638,10 +1638,10 @@ msgstr "Editar información de la pista…"
 msgid "Edit tracks information..."
 msgstr "Editar información de las pistas…"
 
-#: ../build/src/ui_scrobblersettingspage.h:292
-#: ../build/src/ui_scrobblersettingspage.h:302
-#: ../build/src/ui_scrobblersettingspage.h:306
+#: ../build/src/ui_scrobblersettingspage.h:298
 #: ../build/src/ui_scrobblersettingspage.h:309
+#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:316
 #: ../build/src/ui_tidalsettingspage.h:294
 #: ../build/src/ui_qobuzsettingspage.h:256
 #: ../build/src/ui_subsonicsettingspage.h:181
@@ -1724,7 +1724,7 @@ msgstr "Equivalente a --log-levels*:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels*:3"
 
-#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
+#: core/mainwindow.cpp:2177 core/mainwindow.cpp:2283
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Error"
@@ -2231,7 +2231,7 @@ msgstr "Comprobación de integridad"
 msgid "Intro tracks"
 msgstr "Pistas de introducción"
 
-#: scrobbler/scrobblingapi20.cpp:185
+#: scrobbler/scrobblingapi20.cpp:190
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Respuesta inválida del servidor web. Falta token."
 
@@ -2288,7 +2288,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Última reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:301
+#: ../build/src/ui_scrobblersettingspage.h:308
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2302,7 +2302,7 @@ msgstr "Izquierda"
 msgid "Length"
 msgstr "Duración"
 
-#: ../build/src/ui_scrobblersettingspage.h:305
+#: ../build/src/ui_scrobblersettingspage.h:312
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2310,7 +2310,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "Inicio de sesión en ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:308
+#: ../build/src/ui_scrobblersettingspage.h:315
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2370,9 +2370,9 @@ msgstr "Cargando…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Carga archivos/URL, reemplaza la lista de reproducción actual"
 
-#: ../build/src/ui_scrobblersettingspage.h:304
-#: ../build/src/ui_scrobblersettingspage.h:307
-#: ../build/src/ui_scrobblersettingspage.h:312
+#: ../build/src/ui_scrobblersettingspage.h:311
+#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:319
 #: ../build/src/ui_tidalsettingspage.h:301
 #: ../build/src/ui_qobuzsettingspage.h:262
 msgid "Login"
@@ -2562,7 +2562,7 @@ msgstr "Mover a la colección…"
 msgid "Move up"
 msgstr "Subir"
 
-#: core/mainwindow.cpp:1890 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1891 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Música"
 
@@ -2601,7 +2601,7 @@ msgstr "Nunca comenzar la reproducción"
 msgid "New folder"
 msgstr "Carpeta nueva"
 
-#: core/mainwindow.cpp:1719
+#: core/mainwindow.cpp:1720
 msgid "New playlist"
 msgstr "Lista de reproducción nueva"
 
@@ -2653,7 +2653,7 @@ msgstr "Nada en reproducción"
 msgid "None"
 msgstr "Ninguno"
 
-#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
+#: core/mainwindow.cpp:2177 core/mainwindow.cpp:2283
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2729,7 +2729,7 @@ msgstr "Al iniciar"
 msgid "Opacity"
 msgstr "Opacidad"
 
-#: scrobbler/scrobblingapi20.cpp:140
+#: scrobbler/scrobblingapi20.cpp:145
 #, qt-format
 msgid ""
 "Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
@@ -2855,7 +2855,7 @@ msgstr "Contraseña"
 msgid "Password Protected"
 msgstr "Protegido con contraseña"
 
-#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1528
+#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1529
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pausar"
@@ -2884,7 +2884,7 @@ msgid "Plain sidebar"
 msgstr "Barra lateral simple"
 
 #: core/mainwindow.cpp:595 core/mainwindow.cpp:1044 core/mainwindow.cpp:1073
-#: core/mainwindow.cpp:1532 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:1533 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Reproducir"
@@ -2958,6 +2958,10 @@ msgstr "Posición"
 #: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:447
 msgid "Pre-amp"
 msgstr "Pre-amplificador"
+
+#: ../build/src/ui_scrobblersettingspage.h:307
+msgid "Prefer album artist when sending scrobbles"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:302
 #: ../build/src/ui_qobuzsettingspage.h:263
@@ -3045,20 +3049,20 @@ msgstr "Consultando dispositivo…"
 msgid "Queue"
 msgstr "Cola"
 
-#: core/mainwindow.cpp:1627
+#: core/mainwindow.cpp:1628
 msgid "Queue selected tracks"
 msgstr "Encolar las pistas seleccionadas"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1632
 msgid "Queue selected tracks to play next"
 msgstr "Encolar las pistas seleccionadas para reproducir a continuación"
 
-#: core/mainwindow.cpp:1633 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1634 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Encolar para reproducir a continuación"
 
-#: core/mainwindow.cpp:1626 context/contextalbumsview.cpp:363
+#: core/mainwindow.cpp:1627 context/contextalbumsview.cpp:363
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3080,7 +3084,7 @@ msgstr "Re&lativo"
 msgid "Really cancel?"
 msgstr "¿Seguro que quiere cancelar?"
 
-#: scrobbler/scrobblingapi20.cpp:179
+#: scrobbler/scrobblingapi20.cpp:184
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3390,11 +3394,11 @@ msgstr "Perfil de tasa de muestreo escalable (SSR)"
 msgid "Scale size"
 msgstr "Tamaño de escala"
 
-#: ../build/src/ui_scrobblersettingspage.h:291
+#: ../build/src/ui_scrobblersettingspage.h:297
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:472
+#: scrobbler/scrobblingapi20.cpp:478
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -3498,7 +3502,7 @@ msgstr "URL del servidor"
 msgid "Server URL is invalid."
 msgstr "La dirección URL del servidor es inválida."
 
-#: core/mainwindow.cpp:1666
+#: core/mainwindow.cpp:1667
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Establecer %1 a «%2»…"
@@ -3614,7 +3618,7 @@ msgstr "Mostrar en el gestor de archivos…"
 msgid "Show in various artists"
 msgstr "Mostrar en Varios artistas"
 
-#: ../build/src/ui_scrobblersettingspage.h:296
+#: ../build/src/ui_scrobblersettingspage.h:302
 msgid "Show love button"
 msgstr "Mostrar el botón \"Love\""
 
@@ -3634,7 +3638,7 @@ msgstr "Solo mostrar no etiquetadas"
 msgid "Show playing widget"
 msgstr "Mostrar mini aplicación de reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:295
+#: ../build/src/ui_scrobblersettingspage.h:301
 msgid "Show scrobble button"
 msgstr "Mostrar botón de registro de reproducción"
 
@@ -3698,11 +3702,11 @@ msgstr "Número de omisiones"
 msgid "Skip forwards in playlist"
 msgstr "Saltar hacia adelante en la lista de reproducción"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1639
 msgid "Skip selected tracks"
 msgstr "Omitir pistas seleccionadas"
 
-#: core/mainwindow.cpp:1637
+#: core/mainwindow.cpp:1638
 msgid "Skip track"
 msgstr "Omitir pista"
 
@@ -3726,7 +3730,7 @@ msgstr "Soft rock"
 msgid "Songs"
 msgstr "Pistas"
 
-#: ../build/src/ui_scrobblersettingspage.h:293
+#: ../build/src/ui_scrobblersettingspage.h:299
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3858,7 +3862,7 @@ msgstr "Transmitiendo"
 msgid "Stretch image to fill playlist"
 msgstr "Ajustar la imagen a la lista de reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:297
+#: ../build/src/ui_scrobblersettingspage.h:303
 msgid "Submit scrobbles every"
 msgstr "Emitir al servidor de registro cada"
 
@@ -3967,7 +3971,7 @@ msgstr "El sitio indicado no existe."
 msgid "The site you requested is not an image!"
 msgstr "El sitio indicado no es una imagen."
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2381
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4104,7 +4108,7 @@ msgstr "Título"
 msgid "Today"
 msgstr "Hoy"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1629
 msgid "Toggle queue status"
 msgstr "Cambiar estado de la cola"
 
@@ -4112,7 +4116,7 @@ msgstr "Cambiar estado de la cola"
 msgid "Toggle scrobbling"
 msgstr "Conmutar registro de reproducción"
 
-#: core/mainwindow.cpp:604 core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:604 core/mainwindow.cpp:1640
 msgid "Toggle skip status"
 msgstr "Conmutar estado de avance"
 
@@ -4203,11 +4207,11 @@ msgstr "Error desconocido"
 msgid "Unset cover"
 msgstr "Eliminar la carátula"
 
-#: core/mainwindow.cpp:1636
+#: core/mainwindow.cpp:1637
 msgid "Unskip selected tracks"
 msgstr "No omitir pistas seleccionadas"
 
-#: core/mainwindow.cpp:1635
+#: core/mainwindow.cpp:1636
 msgid "Unskip track"
 msgstr "No omitir pista"
 
@@ -4245,7 +4249,7 @@ msgstr "Uso"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Usar atajos de teclado D-BUS de Gnome (GDS)"
 
-#: ../build/src/ui_scrobblersettingspage.h:303
+#: ../build/src/ui_scrobblersettingspage.h:310
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr ""
 "Usar HTTPS para redirección de servidor local para evitar problemas de "
@@ -4320,7 +4324,7 @@ msgstr "En uso:"
 msgid "User interface"
 msgstr "Interfaz de usuario"
 
-#: ../build/src/ui_scrobblersettingspage.h:310
+#: ../build/src/ui_scrobblersettingspage.h:317
 msgid "User token:"
 msgstr "Token de usuario:"
 
@@ -4413,7 +4417,7 @@ msgstr "Banda ancha (WB)"
 msgid "Without cover:"
 msgstr "Sin portada:"
 
-#: ../build/src/ui_scrobblersettingspage.h:294
+#: ../build/src/ui_scrobblersettingspage.h:300
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Trabajar fuera de línea (solo registros de reproducción en cache)"
 
@@ -4425,7 +4429,7 @@ msgstr ""
 "¿Le gustaría mover también el resto de canciones de este álbum a Varios "
 "artistas?"
 
-#: core/mainwindow.cpp:2384
+#: core/mainwindow.cpp:2385
 msgid "Would you like to run a full rescan right now?"
 msgstr "¿Quiere ejecutar un reanálisis completo ahora?"
 

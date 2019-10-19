@@ -79,7 +79,7 @@ msgstr ""
 msgid " kbps"
 msgstr "kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:298
+#: ../build/src/ui_scrobblersettingspage.h:304
 msgid " minutes"
 msgstr " minutter"
 
@@ -97,7 +97,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " sekunder"
 
-#: scrobbler/scrobblingapi20.cpp:140 scrobbler/scrobblingapi20.cpp:149
+#: scrobbler/scrobblingapi20.cpp:145 scrobbler/scrobblingapi20.cpp:154
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
@@ -337,7 +337,7 @@ msgstr "&Bruk system standard fargeoppsett"
 msgid "&Use the system proxy settings"
 msgstr "&Bruk forvalgte mellomtjener-innstillinger"
 
-#: ../build/src/ui_scrobblersettingspage.h:300
+#: ../build/src/ui_scrobblersettingspage.h:306
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -384,7 +384,7 @@ msgstr "40%"
 msgid "<b>Albums by %1</b>"
 msgstr "<b>Album av %1</b>"
 
-#: ../build/src/ui_scrobblersettingspage.h:311
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid ""
 "<html><head/><body><p>Enter your user token found on: <a href=\"https://"
 "listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
@@ -520,7 +520,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:1890
+#: core/mainwindow.cpp:1891
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -536,7 +536,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:1915 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1916 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -616,7 +616,7 @@ msgstr "Fest etikett for utgivelsesår på sporet"
 msgid "Add to albums"
 msgstr ""
 
-#: core/mainwindow.cpp:1703
+#: core/mainwindow.cpp:1704
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
@@ -1016,7 +1016,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
-#: engine/gstengine.cpp:616
+#: engine/gstengine.cpp:617
 msgid "Buffering"
 msgstr "Mellomlagring"
 
@@ -1126,7 +1126,7 @@ msgstr "Samling"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2386
+#: core/mainwindow.cpp:2387
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1237,7 +1237,7 @@ msgstr ""
 "Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
 "nødvendige GStreamer-programutvidelser installert"
 
-#: scrobbler/scrobblingapi20.cpp:149
+#: scrobbler/scrobblingapi20.cpp:154
 #, qt-format
 msgid ""
 "Could not open URL. Please open this URL in your browser:<br /><a href="
@@ -1460,11 +1460,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1625
+#: core/mainwindow.cpp:1626
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1624
+#: core/mainwindow.cpp:1625
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1585,7 +1585,7 @@ msgstr "Laster ned metadata"
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
-#: core/mainwindow.cpp:1667
+#: core/mainwindow.cpp:1668
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1611,10 +1611,10 @@ msgstr "Rediger spor informasjon…"
 msgid "Edit tracks information..."
 msgstr "Rediger spor informasjon…"
 
-#: ../build/src/ui_scrobblersettingspage.h:292
-#: ../build/src/ui_scrobblersettingspage.h:302
-#: ../build/src/ui_scrobblersettingspage.h:306
+#: ../build/src/ui_scrobblersettingspage.h:298
 #: ../build/src/ui_scrobblersettingspage.h:309
+#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:316
 #: ../build/src/ui_tidalsettingspage.h:294
 #: ../build/src/ui_qobuzsettingspage.h:256
 #: ../build/src/ui_subsonicsettingspage.h:181
@@ -1695,7 +1695,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
+#: core/mainwindow.cpp:2177 core/mainwindow.cpp:2283
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Feil"
@@ -2194,7 +2194,7 @@ msgstr "Integritetskontrol"
 msgid "Intro tracks"
 msgstr "Introspor"
 
-#: scrobbler/scrobblingapi20.cpp:185
+#: scrobbler/scrobblingapi20.cpp:190
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
@@ -2251,7 +2251,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Sist spilt"
 
-#: ../build/src/ui_scrobblersettingspage.h:301
+#: ../build/src/ui_scrobblersettingspage.h:308
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2265,7 +2265,7 @@ msgstr "Venstre"
 msgid "Length"
 msgstr "Lengde"
 
-#: ../build/src/ui_scrobblersettingspage.h:305
+#: ../build/src/ui_scrobblersettingspage.h:312
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
@@ -2273,7 +2273,7 @@ msgstr "Libre.fm"
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
 
-#: ../build/src/ui_scrobblersettingspage.h:308
+#: ../build/src/ui_scrobblersettingspage.h:315
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2333,9 +2333,9 @@ msgstr "Åpner…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Åpne filer/URL-er; erstatt gjeldende spilleliste"
 
-#: ../build/src/ui_scrobblersettingspage.h:304
-#: ../build/src/ui_scrobblersettingspage.h:307
-#: ../build/src/ui_scrobblersettingspage.h:312
+#: ../build/src/ui_scrobblersettingspage.h:311
+#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:319
 #: ../build/src/ui_tidalsettingspage.h:301
 #: ../build/src/ui_qobuzsettingspage.h:262
 msgid "Login"
@@ -2524,7 +2524,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:1890 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1891 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Musikk"
 
@@ -2563,7 +2563,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1719
+#: core/mainwindow.cpp:1720
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -2613,7 +2613,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2176 core/mainwindow.cpp:2282
+#: core/mainwindow.cpp:2177 core/mainwindow.cpp:2283
 #: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -2686,7 +2686,7 @@ msgstr "Ved oppstart"
 msgid "Opacity"
 msgstr "Dekkevne"
 
-#: scrobbler/scrobblingapi20.cpp:140
+#: scrobbler/scrobblingapi20.cpp:145
 #, qt-format
 msgid ""
 "Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
@@ -2811,7 +2811,7 @@ msgstr "Passord"
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1528
+#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1529
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2840,7 +2840,7 @@ msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
 #: core/mainwindow.cpp:595 core/mainwindow.cpp:1044 core/mainwindow.cpp:1073
-#: core/mainwindow.cpp:1532 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:1533 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Spill"
@@ -2914,6 +2914,10 @@ msgstr "Posisjon"
 #: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:447
 msgid "Pre-amp"
 msgstr "Forforsterker"
+
+#: ../build/src/ui_scrobblersettingspage.h:307
+msgid "Prefer album artist when sending scrobbles"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:302
 #: ../build/src/ui_qobuzsettingspage.h:263
@@ -3000,20 +3004,20 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1627
+#: core/mainwindow.cpp:1628
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1632
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1633 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1634 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1626 context/contextalbumsview.cpp:363
+#: core/mainwindow.cpp:1627 context/contextalbumsview.cpp:363
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3035,7 +3039,7 @@ msgstr "Relativ"
 msgid "Really cancel?"
 msgstr "Vil du virkelig avbryte?"
 
-#: scrobbler/scrobblingapi20.cpp:179
+#: scrobbler/scrobblingapi20.cpp:184
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3345,11 +3349,11 @@ msgstr "Skalerbar samplingsrate-profil (SSR)"
 msgid "Scale size"
 msgstr "Skaler størrelse"
 
-#: ../build/src/ui_scrobblersettingspage.h:291
+#: ../build/src/ui_scrobblersettingspage.h:297
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:472
+#: scrobbler/scrobblingapi20.cpp:478
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 er ikke autentisert!"
@@ -3452,7 +3456,7 @@ msgstr ""
 msgid "Server URL is invalid."
 msgstr ""
 
-#: core/mainwindow.cpp:1666
+#: core/mainwindow.cpp:1667
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -3568,7 +3572,7 @@ msgstr "Vis i filbehandler…"
 msgid "Show in various artists"
 msgstr "Vis under diverse artister"
 
-#: ../build/src/ui_scrobblersettingspage.h:296
+#: ../build/src/ui_scrobblersettingspage.h:302
 msgid "Show love button"
 msgstr ""
 
@@ -3588,7 +3592,7 @@ msgstr "Bare vis filer uten etiketter"
 msgid "Show playing widget"
 msgstr "Vis spille widget"
 
-#: ../build/src/ui_scrobblersettingspage.h:295
+#: ../build/src/ui_scrobblersettingspage.h:301
 msgid "Show scrobble button"
 msgstr "Vis knappen for rapportering av lyttevaner"
 
@@ -3652,11 +3656,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1639
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1637
+#: core/mainwindow.cpp:1638
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -3680,7 +3684,7 @@ msgstr "Soft rock"
 msgid "Songs"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:293
+#: ../build/src/ui_scrobblersettingspage.h:299
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3811,7 +3815,7 @@ msgstr "Strømming"
 msgid "Stretch image to fill playlist"
 msgstr ""
 
-#: ../build/src/ui_scrobblersettingspage.h:297
+#: ../build/src/ui_scrobblersettingspage.h:303
 msgid "Submit scrobbles every"
 msgstr "Send scrobbles hver"
 
@@ -3919,7 +3923,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2380
+#: core/mainwindow.cpp:2381
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4050,7 +4054,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1629
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4058,7 +4062,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:604 core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:604 core/mainwindow.cpp:1640
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4149,11 +4153,11 @@ msgstr ""
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1636
+#: core/mainwindow.cpp:1637
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1635
+#: core/mainwindow.cpp:1636
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -4191,7 +4195,7 @@ msgstr "Bruk"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Bruk Gnome (GSD) D-Bus snarveier"
 
-#: ../build/src/ui_scrobblersettingspage.h:303
+#: ../build/src/ui_scrobblersettingspage.h:310
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr "Bruk HTTPS for å unngå påloggingsproblem"
 
@@ -4263,7 +4267,7 @@ msgstr "Brukt"
 msgid "User interface"
 msgstr "Brukergrensesnitt"
 
-#: ../build/src/ui_scrobblersettingspage.h:310
+#: ../build/src/ui_scrobblersettingspage.h:317
 msgid "User token:"
 msgstr "Bruker nøkkel:"
 
@@ -4355,7 +4359,7 @@ msgstr "Bredbånd (WB)"
 msgid "Without cover:"
 msgstr "Uten omslag:"
 
-#: ../build/src/ui_scrobblersettingspage.h:294
+#: ../build/src/ui_scrobblersettingspage.h:300
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Jobb i frakoblet modus (bare cache scrobbler)"
 
@@ -4366,7 +4370,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2384
+#: core/mainwindow.cpp:2385
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
