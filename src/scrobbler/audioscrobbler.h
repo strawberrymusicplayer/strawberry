@@ -48,6 +48,7 @@ class AudioScrobbler : public QObject {
   bool ScrobbleButton() const { return scrobble_button_; }
   bool LoveButton() const { return love_button_; }
   int SubmitDelay() const { return submit_delay_; }
+  bool PreferAlbumArtist() const { return prefer_albumartist_; }
 
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
@@ -87,6 +88,7 @@ class AudioScrobbler : public QObject {
   bool scrobble_button_;
   bool love_button_;
   int submit_delay_;
+  bool prefer_albumartist_;
 
 };
 

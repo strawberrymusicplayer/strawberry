@@ -103,6 +103,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_albumartist">
+     <property name="text">
+      <string>Prefer album artist when sending scrobbles</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_lastfm">
      <property name="title">
       <string>Last.fm</string>

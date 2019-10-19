@@ -81,9 +81,14 @@ ScrobblingAPI20::~ScrobblingAPI20() {}
 void ScrobblingAPI20::ReloadSettings() {
 
   QSettings s;
+
   s.beginGroup(settings_group_);
   enabled_ = s.value("enabled", false).toBool();
   https_ = s.value("https", false).toBool();
+  s.endGroup();
+
+  s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
+  prefer_albumartist_ = s.value("albumartist", false).toBool();
   s.endGroup();
 
 }
@@ -417,10 +422,11 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
   ParamList params = ParamList()
     << Param("method", "track.updateNowPlaying")
-    << Param("artist", song.artist())
+    << Param("artist", prefer_albumartist_ ? song.effective_albumartist() : song.artist())
     << Param("track", song.title())
     << Param("album", album);
-  if (!song.albumartist().isEmpty()) params << Param("albumArtist", song.albumartist());
+
+  if (!prefer_albumartist_ && !song.albumartist().isEmpty()) params << Param("albumArtist", song.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(UpdateNowPlayingRequestFinished(QNetworkReply*)), reply);
@@ -515,12 +521,12 @@ void ScrobblingAPI20::Submit() {
     if (!batch_) { SendSingleScrobble(item); continue; }
     i++;
     list << item->timestamp_;
-    params << Param(QString("%1[%2]").arg("artist").arg(i), item->artist_);
+    params << Param(QString("%1[%2]").arg("artist").arg(i), prefer_albumartist_ ? item->effective_albumartist() : item->artist_);
     params << Param(QString("%1[%2]").arg("album").arg(i), item->album_);
     params << Param(QString("%1[%2]").arg("track").arg(i), item->song_);
     params << Param(QString("%1[%2]").arg("timestamp").arg(i), QString::number(item->timestamp_));
     params << Param(QString("%1[%2]").arg("duration").arg(i), QString::number(item->duration_ / kNsecPerSec));
-    if (!item->albumartist_.isEmpty()) params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->albumartist_);
+    if (!prefer_albumartist_ && !item->albumartist_.isEmpty()) params << Param(QString("%1[%2]").arg("albumArtist").arg(i), item->albumartist_);
     if (item->track_ > 0) params << Param(QString("%1[%2]").arg(i).arg("trackNumber"), QString::number(item->track_));
     if (i >= kScrobblesPerRequest) break;
   }
@@ -692,13 +698,13 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItem *item) {
 
   ParamList params = ParamList()
     << Param("method", "track.scrobble")
-    << Param("artist", item->artist_)
+    << Param("artist", prefer_albumartist_ ? item->effective_albumartist() : item->artist_)
     << Param("album", item->album_)
     << Param("track", item->song_)
     << Param("timestamp", QString::number(item->timestamp_))
     << Param("duration", QString::number(item->duration_ / kNsecPerSec));
 
-  if (!item->albumartist_.isEmpty()) params << Param("albumArtist", item->albumartist_);
+  if (!prefer_albumartist_ && !item->albumartist_.isEmpty()) params << Param("albumArtist", item->albumartist_);
   if (item->track_ > 0) params << Param("trackNumber", QString::number(item->track_));
 
   QNetworkReply *reply = CreateRequest(params);

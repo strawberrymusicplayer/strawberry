@@ -72,6 +72,7 @@ void AudioScrobbler::ReloadSettings() {
   scrobble_button_ = s.value("scrobble_button", false).toBool();
   love_button_ = s.value("love_button", false).toBool();
   submit_delay_ = s.value("submit", 0).toInt();
+  prefer_albumartist_ = s.value("albumartist", false).toBool();
   s.endGroup();
 
   emit ScrobblingEnabledChanged(enabled_);

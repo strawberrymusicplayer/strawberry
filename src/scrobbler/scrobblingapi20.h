@@ -147,6 +147,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   bool enabled_;
   bool https_;
+  bool prefer_albumartist_;
 
   bool subscriber_;
   QString username_;
