@@ -158,11 +158,13 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
   : _WorkerPoolBase(parent),
     next_worker_(0),
     next_id_(0) {
+
   worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 2);
   local_server_name_ = qApp->applicationName().toLower();
 
   if (local_server_name_.isEmpty())
     local_server_name_ = "workerpool";
+
 }
 
 template <typename HandlerType>

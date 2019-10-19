@@ -46,8 +46,9 @@ TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool
   original_thread_ = thread();
 
   worker_pool_->SetExecutableName(kWorkerExecutableName);
-  worker_pool_->SetWorkerCount(QThread::idealThreadCount());
+  worker_pool_->SetWorkerCount(qBound(1, QThread::idealThreadCount() / 2, 2));
   connect(worker_pool_, SIGNAL(WorkerFailedToStart()), SLOT(WorkerFailedToStart()));
+
 }
 
 void TagReaderClient::Start() { worker_pool_->Start(); }
