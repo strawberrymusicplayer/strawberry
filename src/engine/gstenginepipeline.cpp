@@ -274,10 +274,6 @@ bool GstEnginePipeline::InitAudioBin() {
   gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, &EventHandoffCallback, this, nullptr);
   gst_object_unref(pad);
 
-  pad = gst_element_get_static_pad(queue_, "src");
-  gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_EVENT_UPSTREAM, SourceHandoffCallback, this, nullptr);
-  gst_object_unref(pad);
-
   // Setting the equalizer bands:
   //
   // GStreamer's GstIirEqualizerNBands sets up shelve filters for the first and last bands as corner cases.
@@ -376,7 +372,6 @@ bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl ori
   stream_url_ = stream_url;
   original_url_ = original_url;
   end_offset_nanosec_ = end_nanosec;
-  format_.clear();
 
   pipeline_ = engine_->CreateElement("playbin");
   if (!pipeline_) return false;
@@ -509,12 +504,10 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     stream_url_ = next_stream_url_;
     original_url_ = next_original_url_;
     end_offset_nanosec_ = next_end_offset_nanosec_;
-    format_ = next_format_;
     next_stream_url_.clear();
     next_original_url_.clear();
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
-    next_format_.clear();
 
     emit EndOfStreamReached(id(), true);
   }
@@ -769,11 +762,39 @@ GstPadProbeReturn GstEnginePipeline::PlaybinProbe(GstPad *pad, GstPadProbeInfo *
 
 }
 
-GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
+GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  GstCaps *caps = gst_pad_get_current_caps(pad);
+  GstStructure *structure = gst_caps_get_structure(caps, 0);
+  QString format = QString(gst_structure_get_string(structure, "format"));
+  int channels = 0;
+  int rate = 0;
+  gst_structure_get_int(structure, "channels", &channels);
+  gst_structure_get_int(structure, "rate", &rate);
+
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
+  GstBuffer *buf16 = nullptr;
+
+  if (format.startsWith("S32")) {
+
+    GstMapInfo map_info;
+    gst_buffer_map(buf, &map_info, GST_MAP_READ);
+
+    int32_t *s = (int32_t*) map_info.data;
+    int samples = (map_info.size / sizeof(int32_t)) / channels;
+    int buf16_size = samples * sizeof(int16_t) * channels;
+    int16_t *d = (int16_t*) g_malloc(buf16_size);
+    memset(d, 0, buf16_size);
+    for (int i = 0 ; i <= samples ; ++i) {
+      d[i] = (int16_t) (s[i] >> 16);
+    }
+    gst_buffer_unmap(buf, &map_info);
+    buf16 = gst_buffer_new_wrapped(d, buf16_size);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    buf = buf16;
+  }
 
   QList<GstBufferConsumer*> consumers;
   {
@@ -783,7 +804,11 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
 
   for (GstBufferConsumer *consumer : consumers) {
     gst_buffer_ref(buf);
-    consumer->ConsumeBuffer(buf, instance->id(), instance->format_);
+    consumer->ConsumeBuffer(buf, instance->id(), format);
+  }
+
+  if (buf16) {
+    gst_buffer_unref(buf16);
   }
 
   // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
@@ -800,7 +825,6 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
           instance->next_original_url_.clear();
           instance->next_beginning_offset_nanosec_ = 0;
           instance->next_end_offset_nanosec_ = 0;
-          instance->next_format_.clear();
 
           // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
           instance->ignore_next_seek_ = true;
@@ -811,25 +835,6 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad*, GstPadProbeInfo *i
         emit instance->EndOfStreamReached(instance->id(), false);
       }
     }
-  }
-
-  return GST_PAD_PROBE_OK;
-
-}
-
-GstPadProbeReturn GstEnginePipeline::SourceHandoffCallback(GstPad *pad, GstPadProbeInfo *, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  GstCaps *caps = gst_pad_get_current_caps(pad);
-  GstStructure *structure = gst_caps_get_structure(caps, 0);
-  const gchar *format = gst_structure_get_string(structure, "format");
-
-  if (instance->next_uri_set_) {
-    instance->next_format_ = QString(format);
-  }
-  else {
-    instance->format_ = QString(format);
   }
 
   return GST_PAD_PROBE_OK;
@@ -1122,7 +1127,6 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
   next_original_url_ = original_url;
   next_beginning_offset_nanosec_ = beginning_nanosec;
   next_end_offset_nanosec_ = end_nanosec;
-  next_format_.clear();
 
   // Add request to discover the stream
   if (discoverer_) {

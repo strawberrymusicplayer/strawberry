@@ -223,10 +223,8 @@ signals:
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
   QByteArray stream_url_;
   QUrl original_url_;
-  QString format_;
   QByteArray next_stream_url_;
   QUrl next_original_url_;
-  QString next_format_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;

@@ -104,6 +104,10 @@ GstEngine::GstEngine(TaskManager *task_manager)
 GstEngine::~GstEngine() {
   EnsureInitialised();
   current_pipeline_.reset();
+  if (latest_buffer_) {
+    gst_buffer_unref(latest_buffer_);
+    latest_buffer_ = nullptr;
+  }
 }
 
 bool GstEngine::Init() {
@@ -808,15 +812,15 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   scope_chunk_++;
 
-  if (buffer_format_ == "S16LE" ||
-      buffer_format_ == "S16BE" ||
-      buffer_format_ == "U16LE" ||
-      buffer_format_ == "U16BE" ||
-      buffer_format_ == "S16" ||
-      buffer_format_ == "U16")
+  if (buffer_format_.startsWith("S16") ||
+      buffer_format_.startsWith("S16") ||
+      buffer_format_.startsWith("U16") ||
+      buffer_format_.startsWith("S32")) {
     memcpy(dest, source, bytes);
-  else
+  }
+  else {
     memset(dest, 0, bytes);
+  }
 
   gst_buffer_unmap(latest_buffer_, &map);
 
