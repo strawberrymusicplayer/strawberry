@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
+#include <gst/audio/audio.h>
 #include <gst/pbutils/pbutils.h>
 
 #include <QtGlobal>
