@@ -76,7 +76,6 @@ class GstEnginePipeline : public QObject {
 
   // Creates the pipeline, returns false on error
   bool InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec);
-  bool InitFromString(const QString &pipeline);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -141,9 +140,10 @@ signals:
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
   static void NewPadCallback(GstElement*, GstPad*, gpointer);
   static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static GstPadProbeReturn SourceHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
   static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
   static void AboutToFinishCallback(GstPlayBin*, gpointer);
-  static GstPadProbeReturn DecodebinProbe(GstPad*, GstPadProbeInfo*, gpointer);
+  static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
   static void SourceSetupCallback(GstPlayBin*, GParamSpec* pspec, gpointer);
   static void TaskEnterCallback(GstTask*, GThread*, gpointer);
 
@@ -158,9 +158,7 @@ signals:
   QString ParseStrTag(GstTagList *list, const char *tag) const;
   guint ParseUIntTag(GstTagList *list, const char *tag) const;
 
-  bool InitDecodeBin(GstElement *new_bin);
   bool InitAudioBin();
-  GstElement *CreateDecodeBinFromString(const char *pipeline);
 
   void UpdateVolume();
   void UpdateEqualizer();
@@ -225,8 +223,10 @@ signals:
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
   QByteArray stream_url_;
   QUrl original_url_;
+  QString format_;
   QByteArray next_stream_url_;
   QUrl next_original_url_;
+  QString next_format_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;
@@ -247,7 +247,8 @@ signals:
   // When we need to specify the device to use as source (for CD device)
   QString source_device_;
 
-  // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING. Also we have to wait for the decodebin to be connected.
+  // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING.
+  // Also we have to wait for the playbin to be connected.
   bool pipeline_is_initialised_;
   bool pipeline_is_connected_;
   qint64 pending_seek_nanosec_;
@@ -269,7 +270,7 @@ signals:
 
   GstElement *pipeline_;
 
-  // The audiobin is either linked with a decodebin or set as sink of the playbin pipeline.
+  // The audiobin is either linked with a playbin or set as sink of the playbin pipeline.
   GstElement *audiobin_;
 
   // Elements in the audiobin.  See comments in Init()'s definition.
@@ -295,7 +296,7 @@ signals:
 
   QThreadPool set_state_threadpool_;
 
-  GstSegment last_decodebin_segment_;
+  GstSegment last_playbin_segment_;
 
 };
 
