@@ -82,6 +82,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="enable_stereo_balancer">
+     <property name="text">
+      <string>Enable stereo balancer</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="slider_label_layout">
      <item>
       <widget class="QLabel" name="label_left">

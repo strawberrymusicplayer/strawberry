@@ -80,6 +80,9 @@ Equalizer::Equalizer(QWidget *parent)
   connect(ui_->preset, SIGNAL(currentIndexChanged(int)), SLOT(PresetChanged(int)));
   connect(ui_->preset_save, SIGNAL(clicked()), SLOT(SavePreset()));
   connect(ui_->preset_del, SIGNAL(clicked()), SLOT(DelPreset()));
+
+  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), SLOT(Save()));
+  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), ui_->balance_slider, SLOT(setEnabled(bool)));
   connect(ui_->balance_slider, SIGNAL(valueChanged(int)), SLOT(StereoSliderChanged(int)));
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
@@ -118,6 +121,10 @@ void Equalizer::ReloadSettings() {
   // Enabled?
   ui_->enable->setChecked(s.value("enabled", false).toBool());
   ui_->slider_container->setEnabled(ui_->enable->isChecked());
+
+  ui_->enable_stereo_balancer->setChecked(s.value("enable_stereo_balancer", false).toBool());
+  ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
+  ui_->balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
   int stereo_balance = s.value("stereo_balance", 0).toInt();
   ui_->balance_slider->setValue(stereo_balance);
@@ -240,7 +247,11 @@ EqualizerSlider *Equalizer::AddSlider(const QString &label) {
 
 }
 
-bool Equalizer::is_enabled() const {
+bool Equalizer::is_stereo_balancer_enabled() const {
+  return ui_->enable_stereo_balancer->isChecked();
+}
+
+bool Equalizer::is_equalizer_enabled() const {
   return ui_->enable->isChecked();
 }
 
@@ -298,6 +309,7 @@ void Equalizer::Save() {
   // Enabled?
   s.setValue("enabled", ui_->enable->isChecked());
 
+  s.setValue("enable_stereo_balancer", ui_->enable_stereo_balancer->isChecked());
   s.setValue("stereo_balance", ui_->balance_slider->value());
 
 }
@@ -347,7 +359,7 @@ bool Equalizer::Params::operator !=(const Equalizer::Params& other) const {
 
 void Equalizer::StereoSliderChanged(int value) {
   Q_UNUSED(value);
-  emit StereoBalanceChanged(stereo_balance());
+  emit StereoBalanceChanged(is_stereo_balancer_enabled(), stereo_balance());
   Save();
 }
 

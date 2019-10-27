@@ -128,7 +128,7 @@ public:
  public slots:
   virtual void SetEqualizerEnabled(const bool) {}
   virtual void SetEqualizerParameters(const int preamp, const QList<int> &bandGains) { Q_UNUSED(preamp); Q_UNUSED(bandGains); }
-  virtual void SetStereoBalance(float value) { Q_UNUSED(value); }
+  virtual void SetStereoBalance(const bool enabled, const float value) { Q_UNUSED(enabled); Q_UNUSED(value); }
 
  signals:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing
@@ -214,13 +214,13 @@ struct SimpleMetaBundle {
   QString album;
   QString comment;
   QString genre;
-  qlonglong length;
+  qint64 length;
   int year;
   int track;
   Song::FileType filetype;
   int samplerate;
   int bitdepth;
-  qlonglong bitrate;
+  qint64 bitrate;
   QString lyrics;
 };
 

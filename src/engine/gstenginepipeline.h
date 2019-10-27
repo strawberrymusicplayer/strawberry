@@ -88,7 +88,7 @@ class GstEnginePipeline : public QObject {
   void SetEqualizerEnabled(const bool enabled);
   void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
   void SetVolume(const int percent);
-  void SetStereoBalance(const float value);
+  void SetStereoBalance(const bool enabled, const float value);
   void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QTimeLine::CurveShape shape = QTimeLine::LinearCurve, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
@@ -193,15 +193,16 @@ signals:
   QVariant device_;
   bool volume_control_;
 
+  // Stereo balance.
+  // From -1.0 - 1.0
+  // -1.0 is left, 1.0 is right.
+  bool stereo_balance_enabled_;
+  float stereo_balance_;
+
   // Equalizer
   bool eq_enabled_;
   int eq_preamp_;
   QList<int> eq_band_gains_;
-
-  // Stereo balance.
-  // From -1.0 - 1.0
-  // -1.0 is left, 1.0 is right.
-  float stereo_balance_;
 
   // ReplayGain
   bool rg_enabled_;
@@ -267,22 +268,12 @@ signals:
   bool use_fudge_timer_;
 
   GstElement *pipeline_;
-
-  // The audiobin is either linked with a playbin or set as sink of the playbin pipeline.
   GstElement *audiobin_;
-
-  // Elements in the audiobin.  See comments in Init()'s definition.
-  GstElement *queue_;
-  GstElement *audioconvert_;
-  GstElement *audioconvert2_;
-  GstElement *audioscale_;
-  GstElement *audiosink_;
+  GstElement *audioqueue_;
   GstElement *volume_;
-  GstElement *audio_panorama_;
-  GstElement *equalizer_preamp_;
+  GstElement *audiopanorama_;
   GstElement *equalizer_;
-  GstElement *rgvolume_;
-  GstElement *rglimiter_;
+  GstElement *equalizer_preamp_;
   GstDiscoverer *discoverer_;
 
   int about_to_finish_cb_id_;

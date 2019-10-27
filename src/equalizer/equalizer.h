@@ -61,7 +61,8 @@ class Equalizer : public QDialog {
     int gain[kBands];
   };
 
-  bool is_enabled() const;
+  bool is_equalizer_enabled() const;
+  bool is_stereo_balancer_enabled() const;
   int preamp_value() const;
   QList<int> gain_values() const;
   Params current_params() const;
@@ -70,7 +71,7 @@ class Equalizer : public QDialog {
  signals:
   void EnabledChanged(bool enabled);
   void ParametersChanged(int preamp, const QList<int> &band_gains);
-  void StereoBalanceChanged(float balance);
+  void StereoBalanceChanged(bool enabled, float balance);
 
  protected:
   void closeEvent(QCloseEvent *);

@@ -203,11 +203,11 @@ void Player::Init() {
   qLog(Debug) << "Creating equalizer";
   connect(equalizer_, SIGNAL(ParametersChanged(int,QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int,QList<int>)));
   connect(equalizer_, SIGNAL(EnabledChanged(bool)), app_->player()->engine(), SLOT(SetEqualizerEnabled(bool)));
-  connect(equalizer_, SIGNAL(StereoBalanceChanged(float)), app_->player()->engine(), SLOT(SetStereoBalance(float)));
+  connect(equalizer_, SIGNAL(StereoBalanceChanged(bool, float)), app_->player()->engine(), SLOT(SetStereoBalance(bool, float)));
 
-  engine_->SetEqualizerEnabled(equalizer_->is_enabled());
+  engine_->SetStereoBalance(equalizer_->is_stereo_balancer_enabled(), equalizer_->stereo_balance());
+  engine_->SetEqualizerEnabled(equalizer_->is_equalizer_enabled());
   engine_->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
-  engine_->SetStereoBalance(equalizer_->stereo_balance());
 
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   volume_control_ = s.value("volume_control", true).toBool();

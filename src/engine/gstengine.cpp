@@ -83,6 +83,7 @@ GstEngine::GstEngine(TaskManager *task_manager)
       task_manager_(task_manager),
       buffering_task_id_(-1),
       latest_buffer_(nullptr),
+      stereo_balancer_enabled_(false),
       stereo_balance_(0.0f),
       seek_timer_(new QTimer(this)),
       timer_id_(-1),
@@ -174,7 +175,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
   current_pipeline_ = pipeline;
 
   SetVolume(volume_);
-  SetStereoBalance(stereo_balance_);
+  SetStereoBalance(stereo_balancer_enabled_, stereo_balance_);
   SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
@@ -441,11 +442,11 @@ void GstEngine::SetEqualizerParameters(const int preamp, const QList<int> &band_
 
 }
 
-void GstEngine::SetStereoBalance(const float value) {
+void GstEngine::SetStereoBalance(const bool enabled, const float value) {
 
   stereo_balance_ = value;
 
-  if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
+  if (current_pipeline_) current_pipeline_->SetStereoBalance(enabled, value);
 
 }
 

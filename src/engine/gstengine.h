@@ -50,11 +50,6 @@
 class TaskManager;
 class GstEnginePipeline;
 
-#ifdef Q_OS_MACOS
-struct _GTlsDatabase;
-typedef struct _GTlsDatabase GTlsDatabase;
-#endif
-
 /**
  * @class GstEngine
  * @short GStreamer engine plugin
@@ -98,7 +93,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format);
 
  public slots:
-
   void ReloadSettings();
 
   /** Set whether equalizer is enabled */
@@ -108,14 +102,10 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void SetEqualizerParameters(const int preamp, const QList<int> &bandGains);
 
   /** Set Stereo balance, range -1.0f..1.0f */
-  void SetStereoBalance(const float value);
+  void SetStereoBalance(const bool enabled, const float value);
 
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);
-
-#ifdef Q_OS_MACOS
-  GTlsDatabase *tls_database() const { return tls_database_; }
-#endif
 
  protected:
   void timerEvent(QTimerEvent*);
@@ -180,9 +170,11 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
   GstBuffer *latest_buffer_;
 
+  bool stereo_balancer_enabled_;
+  float stereo_balance_;
+
   int equalizer_preamp_;
   QList<int> equalizer_gains_;
-  float stereo_balance_;
 
   mutable bool can_decode_success_;
   mutable bool can_decode_last_;
@@ -202,10 +194,6 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   bool have_new_buffer_;
   int scope_chunks_;
   QString buffer_format_;
-
-#ifdef Q_OS_MACOS
-  GTlsDatabase* tls_database_;
-#endif
 
 };
 

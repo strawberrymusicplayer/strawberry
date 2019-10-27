@@ -1257,9 +1257,11 @@ void MainWindow::PlayIndex(const QModelIndex &index) {
 
   app_->playlist_manager()->SetActiveToCurrent();
   app_->player()->PlayAt(row, Engine::Manual, true);
+
 }
 
 void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
+
   if (!index.isValid()) return;
 
   int row = index.row();
@@ -1284,6 +1286,7 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
       }
       break;
   }
+
 }
 
 void MainWindow::VolumeWheelEvent(int delta) {
@@ -1315,6 +1318,7 @@ void MainWindow::ToggleShowHide() {
     activateWindow();
     raise();
   }
+
 }
 
 void MainWindow::StopAfterCurrent() {
