@@ -19,9 +19,6 @@
      <property name="text">
       <string>Show a glowing animation on the current track</string>
      </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
    <item>
@@ -49,6 +46,13 @@
     <widget class="QCheckBox" name="checkbox_greyout_songs_startup">
      <property name="text">
       <string>Grey out unavailable songs in playlists on startup</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkbox_select_track">
+     <property name="text">
+      <string>Automatically select current playing track</string>
      </property>
     </widget>
    </item>

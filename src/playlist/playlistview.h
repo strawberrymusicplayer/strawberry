@@ -240,6 +240,8 @@ class PlaylistView : public QTreeView {
   int previous_background_image_y_;
 
   bool glow_enabled_;
+  bool select_track_;
+
   bool currently_glowing_;
   QBasicTimer glow_timer_;
   int glow_intensity_step_;

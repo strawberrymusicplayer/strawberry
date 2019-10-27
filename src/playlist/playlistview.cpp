@@ -161,6 +161,7 @@ PlaylistView::PlaylistView(QWidget *parent)
       previous_background_image_x_(0),
       previous_background_image_y_(0),
       glow_enabled_(true),
+      select_track_(false),
       currently_glowing_(false),
       glow_intensity_step_(0),
       inhibit_autoscroll_timer_(new QTimer(this)),
@@ -1004,6 +1005,7 @@ void PlaylistView::ReloadSettings() {
 #endif
   glow_enabled_ = s.value("glow_effect", glow_effect).toBool();
   bool editmetadatainline = s.value("editmetadatainline", false).toBool();
+  select_track_ = s.value("select_track", false).toBool();
   s.endGroup();
 
   s.beginGroup(Playlist::kSettingsGroup);
@@ -1228,7 +1230,15 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
 }
 
 void PlaylistView::SongChanged(const Song &song) {
+
   song_playing_ = song;
+
+  if (select_track_ && playlist_) {
+    clearSelection();
+    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), playlist_->ColumnCount - 1));
+    selectionModel()->select(selection, QItemSelectionModel::Select);
+  }
+
 }
 
 void PlaylistView::Playing() {}
