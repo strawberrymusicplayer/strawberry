@@ -600,7 +600,11 @@ void Playlist::set_current_row(int i, bool is_stopping) {
     queue_->TakeNext();
   }
 
-  if (current_item_index_ == old_current_item_index) return;
+  if (current_item_index_ == old_current_item_index) {
+    UpdateScrobblePoint();
+    nowplaying_ = false;
+    return;
+  }
 
   if (old_current_item_index.isValid()) {
     emit dataChanged(old_current_item_index, old_current_item_index.sibling(old_current_item_index.row(), ColumnCount - 1));
