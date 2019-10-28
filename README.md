@@ -29,7 +29,7 @@ Strawberry is a music player and music collection organizer. It is a fork of Cle
   * Unofficial streaming support for Tidal and Qobuz
   * Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
   
-**Tidal and Qobuz streaming in Strawberry is unofficial. You need an offical API token (or App ID/Secret) to use it, we can not provide API tokens, or help getting them. Tidal will not work with Tidal Masters (MQA), because MQA is a proprietary format in lossy quality without an open source decoder, we can't support it.**
+**Tidal and Qobuz streaming in Strawberry is unofficial. You need an official API token (or App ID/Secret) to use it, we can not provide API tokens, or help getting them. Tidal will not work with Tidal Masters (MQA), because MQA is a proprietary format in lossy quality without an open source decoder, we can't support it.**
 
 It has so far been tested to work on Linux, OpenBSD, macOS and Windows.
 
