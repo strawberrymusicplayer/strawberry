@@ -46,7 +46,7 @@ About::About(QWidget *parent):QDialog(parent) {
 
   strawberry_contributors_ \
            << Person("Gavin D. Howard", "yzena.tech@gmail.com")
-           << Person("Martin Delille", "martin@lylo.tv");
+           << Person("Martin Delille", "martin@delille.org");
 
   strawberry_thanks_ \
            << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
