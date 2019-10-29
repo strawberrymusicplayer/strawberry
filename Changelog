@@ -2,6 +2,21 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed lowercased album artist in playlist column
+    * Fixed compiling with different optional features turned off
+    * Fixed hang in stream discoverer with certain formats
+    * Fixed Subsonic to correctly read disc
+    * Fixed preventing system logoff or shutdown
+    * Simplified gstreamer pipeline code
+    * Disabled showing analyzer for bit depths not supported by the analyzer
+    * Added option to prefer album artist when sending scrobbles
+    * Removed lines in settings
+    * Added limit for number of tagreader processes to 2
+    * Improved system theme icon option to better pick correct icons
+    * (Windows) Added support for WASAPI
+
 Version 0.6.5:
 
     * Fixed scrobbler not to send scrobbles multiple times when metadata is updated
