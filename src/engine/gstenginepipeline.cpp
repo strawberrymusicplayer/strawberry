@@ -910,7 +910,6 @@ void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpoin
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") && !instance->source_device().isEmpty()) {
     // Gstreamer is not able to handle device in URL (referring to Gstreamer documentation, this might be added in the future).
     // Despite that, for now we include device inside URL: we decompose it during Init and set device here, when this callback is called.
-    qLog(Info) << instance->source_device().toLocal8Bit().constData();
     g_object_set(element, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
   }
 
