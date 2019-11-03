@@ -41,7 +41,7 @@
 #include "core/logging.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
-#include "engine/enginedevice.h"
+#include "engine/devicefinders.h"
 #include "engine/enginetype.h"
 #include "engine/devicefinder.h"
 #include "widgets/lineedit.h"
@@ -291,7 +291,7 @@ void BackendSettingsPage::Load_Device(QString output, QVariant device) {
 #endif
     ui_->combobox_device->addItem(IconLoader::Load("soundcard"), "Automatically select", QVariant());
 
-  for (DeviceFinder *f : dialog()->app()->enginedevice()->device_finders_) {
+  for (DeviceFinder *f : dialog()->app()->device_finders()->ListFinders()) {
     if (!f->outputs().contains(output)) continue;
     for (const DeviceFinder::Device &d : f->ListDevices()) {
       devices++;

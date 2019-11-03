@@ -41,7 +41,7 @@
 #include "player.h"
 #include "appearance.h"
 
-#include "engine/enginedevice.h"
+#include "engine/devicefinders.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #endif
@@ -105,7 +105,7 @@ class ApplicationImpl {
         appearance_([=]() { return new Appearance(app); }),
         task_manager_([=]() { return new TaskManager(app); }),
         player_([=]() { return new Player(app, app); }),
-        enginedevice_([=]() { return new EngineDevice(app); }),
+        device_finders_([=]() { return new DeviceFinders(app); }),
 #ifndef Q_OS_WIN
         device_manager_([=]() { return new DeviceManager(app, app); }),
 #endif
@@ -175,7 +175,7 @@ class ApplicationImpl {
   Lazy<Appearance> appearance_;
   Lazy<TaskManager> task_manager_;
   Lazy<Player> player_;
-  Lazy<EngineDevice> enginedevice_;
+  Lazy<DeviceFinders> device_finders_;
 #ifndef Q_OS_WIN
   Lazy<DeviceManager> device_manager_;
 #endif
@@ -205,7 +205,7 @@ class ApplicationImpl {
 Application::Application(QObject *parent)
     : QObject(parent), p_(new ApplicationImpl(this)) {
 
-  enginedevice()->Init();
+  device_finders()->Init();
   collection()->Init();
   tag_reader_client();
 
@@ -307,7 +307,7 @@ Appearance *Application::appearance() const { return p_->appearance_.get(); }
 Database *Application::database() const { return p_->database_.get(); }
 TaskManager *Application::task_manager() const { return p_->task_manager_.get(); }
 Player *Application::player() const { return p_->player_.get(); }
-EngineDevice *Application::enginedevice() const { return p_->enginedevice_.get(); }
+DeviceFinders *Application::device_finders() const { return p_->device_finders_.get(); }
 #ifndef Q_OS_WIN
 DeviceManager *Application::device_manager() const { return p_->device_manager_.get(); }
 #endif

@@ -41,7 +41,7 @@ class TaskManager;
 class ApplicationImpl;
 class TagReaderClient;
 class Database;
-class EngineDevice;
+class DeviceFinders;
 class Player;
 class Appearance;
 class SCollection;
@@ -78,7 +78,7 @@ class Application : public QObject {
   Appearance *appearance() const;
   TaskManager *task_manager() const;
   Player *player() const;
-  EngineDevice *enginedevice() const;
+  DeviceFinders *device_finders() const;
 #ifndef Q_OS_WIN
   DeviceManager *device_manager() const;
 #endif

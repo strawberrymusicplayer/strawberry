@@ -121,7 +121,7 @@ set(SOURCES
 
   engine/enginetype.cpp
   engine/enginebase.cpp
-  engine/enginedevice.cpp
+  engine/devicefinders.cpp
   engine/devicefinder.cpp
 
   analyzer/fht.cpp
@@ -315,7 +315,7 @@ set(HEADERS
   core/mimedata.h
 
   engine/enginebase.h
-  engine/enginedevice.h
+  engine/devicefinders.h
 
   analyzer/analyzerbase.h
   analyzer/analyzercontainer.h
@@ -877,6 +877,7 @@ endif()
 optional_source(WIN32
   SOURCES
     engine/directsounddevicefinder.cpp
+    engine/mmdevicefinder.cpp
     widgets/osd_win.cpp
     core/windows7thumbbar.cpp
   HEADERS

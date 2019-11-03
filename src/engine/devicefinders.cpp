@@ -26,8 +26,8 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "devicefinders.h"
 #include "devicefinder.h"
-#include "enginedevice.h"
 
 #ifdef HAVE_ALSA
 #  include "alsadevicefinder.h"
@@ -43,16 +43,16 @@
 
 #ifdef Q_OS_WIN32
 #  include "directsounddevicefinder.h"
+#  include "mmdevicefinder.h"
 #endif
 
-EngineDevice::EngineDevice(QObject *parent) : QObject(parent) {
-}
+DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {}
 
-EngineDevice::~EngineDevice() {
+DeviceFinders::~DeviceFinders() {
   qDeleteAll(device_finders_);
 }
 
-void EngineDevice::Init() {
+void DeviceFinders::Init() {
 
   QList<DeviceFinder*> device_finders;
 
@@ -67,6 +67,7 @@ void EngineDevice::Init() {
 #endif
 #ifdef Q_OS_WIN32
   device_finders.append(new DirectSoundDeviceFinder);
+  device_finders.append(new MMDeviceFinder);
 #endif
 
   for (DeviceFinder *finder : device_finders) {

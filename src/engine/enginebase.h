@@ -41,7 +41,7 @@
 
 #include "engine_fwd.h"
 #include "enginetype.h"
-#include "enginedevice.h"
+#include "devicefinders.h"
 #include "core/song.h"
 
 namespace Engine {

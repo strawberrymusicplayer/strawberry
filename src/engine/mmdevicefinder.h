@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2014, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,32 +17,18 @@
  *
  */
 
-#ifndef ENGINEDEVICE_H
-#define ENGINEDEVICE_H
+#ifndef MMDEVICEFINDER_H
+#define MMDEVICEFINDER_H
 
 #include "config.h"
 
-#include <QObject>
-#include <QList>
-#include <QString>
+#include "devicefinder.h"
 
-class DeviceFinder;
-
-class EngineDevice : public QObject {
-  Q_OBJECT
-
+class MMDeviceFinder : public DeviceFinder {
  public:
-  explicit EngineDevice(QObject *parent = nullptr);
-  ~EngineDevice();
-
-  void Init();
-
-  QList<DeviceFinder*> device_finders_;
-
- private:
-  QString output_;
-
+  MMDeviceFinder();
+  virtual bool Initialise() { return true; }
+  virtual QList<Device> ListDevices();
 };
 
-#endif // ENGINEDEVICE_H
-
+#endif  // MMDEVICEFINDER_H

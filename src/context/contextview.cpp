@@ -51,7 +51,7 @@
 #include "engine/engine_fwd.h"
 #include "engine/enginebase.h"
 #include "engine/enginetype.h"
-#include "engine/enginedevice.h"
+#include "engine/devicefinders.h"
 #include "engine/devicefinder.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
@@ -341,7 +341,7 @@ void ContextView::SetSong(const Song &song) {
     ui_->spacer_play_output->changeSize(20, 20, QSizePolicy::Fixed);
 
     DeviceFinder::Device device;
-    for (DeviceFinder *f : app_->enginedevice()->device_finders_) {
+    for (DeviceFinder *f : app_->device_finders()->ListFinders()) {
       for (const DeviceFinder::Device &d : f->ListDevices()) {
         if (d.value != app_->player()->engine()->device()) continue;
         device = d;
