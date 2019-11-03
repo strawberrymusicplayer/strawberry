@@ -914,9 +914,7 @@ void EditTagDialog::SongSaveComplete(TagReaderReply *reply, const QString &filen
     emit Error(message);
   }
   else if (song.directory_id() != -1) {
-    SongList songs;
-    songs << song;
-    app_->collection_backend()->AddOrUpdateSongs(songs);
+    app_->collection_backend()->AddOrUpdateSongs(SongList() << song);
   }
 
   if (pending_ <= 0) AcceptFinished();

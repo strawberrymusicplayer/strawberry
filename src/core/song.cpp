@@ -304,7 +304,7 @@ int Song::year() const { return d->year_; }
 int Song::originalyear() const { return d->originalyear_; }
 int Song::effective_originalyear() const { return d->originalyear_ < 0 ? d->year_ : d->originalyear_; }
 const QString &Song::genre() const { return d->genre_; }
-bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && ! d->compilation_off_; }
+bool Song::compilation() const { return d->compilation_; }
 const QString &Song::composer() const { return d->composer_; }
 const QString &Song::performer() const { return d->performer_; }
 const QString &Song::grouping() const { return d->grouping_; }
@@ -332,6 +332,10 @@ int Song::playcount() const { return d->playcount_; }
 int Song::skipcount() const { return d->skipcount_; }
 int Song::lastplayed() const { return d->lastplayed_; }
 
+bool Song::compilation_detected() const { return d->compilation_detected_; }
+bool Song::compilation_off() const { return d->compilation_off_; }
+bool Song::compilation_on() const { return d->compilation_on_; }
+
 const QUrl &Song::art_automatic() const { return d->art_automatic_; }
 const QUrl &Song::art_manual() const { return d->art_manual_; }
 bool Song::has_manually_unset_cover() const { return d->art_manual_.path() == kManuallyUnsetCover; }
@@ -350,6 +354,7 @@ bool Song::is_collection_song() const { return d->source_ == Source_Collection; 
 bool Song::is_metadata_good() const { return !d->title_.isEmpty() && !d->album_.isEmpty() && !d->artist_.isEmpty() && !d->url_.isEmpty() && d->end_ > 0; }
 bool Song::is_stream() const { return d->source_ == Source_Stream || d->source_ == Source_Tidal || d->source_ == Source_Subsonic || d->source_ == Source_Qobuz; }
 bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
+bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 
 bool Song::art_automatic_is_valid() const {
   return (

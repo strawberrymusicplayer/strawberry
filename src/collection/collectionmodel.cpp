@@ -449,7 +449,6 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
           break;
         }
       }
-
       beginRemoveRows(idx, node->row, node->row);
       node->parent->Delete(node->row);
       song_nodes_.remove(song.id());

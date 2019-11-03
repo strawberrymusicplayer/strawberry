@@ -200,7 +200,7 @@ class Song {
   int year() const;
   int originalyear() const;
   const QString &genre() const;
-  bool is_compilation() const;
+  bool compilation() const;
   const QString &composer() const;
   const QString &performer() const;
   const QString &grouping() const;
@@ -232,6 +232,10 @@ class Song {
   int skipcount() const;
   int lastplayed() const;
 
+  bool compilation_detected() const;
+  bool compilation_off() const;
+  bool compilation_on() const;
+
   const QUrl &art_automatic() const;
   const QUrl &art_manual() const;
 
@@ -249,6 +253,7 @@ class Song {
   bool is_metadata_good() const;
   bool art_automatic_is_valid() const;
   bool art_manual_is_valid() const;
+  bool is_compilation() const;
 
   // Playlist views are special because you don't want to fill in album artists automatically for compilations, but you do for normal albums:
   const QString &playlist_albumartist() const;
