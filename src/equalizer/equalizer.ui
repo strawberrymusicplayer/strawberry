@@ -61,7 +61,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="enable">
+    <widget class="QCheckBox" name="enable_equalizer">
      <property name="text">
       <string>Enable equalizer</string>
      </property>
@@ -133,7 +133,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QSlider" name="balance_slider">
+    <widget class="QSlider" name="stereo_balance_slider">
      <property name="minimum">
       <number>-100</number>
      </property>

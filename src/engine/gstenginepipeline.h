@@ -69,7 +69,9 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &sink, const QVariant &device);
-  void set_volume_control(const bool volume_control);
+  void set_volume_enabled(const bool enabled);
+  void set_stereo_balancer_enabled(const bool enabled);
+  void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression);
   void set_buffer_duration_nanosec(qint64 duration_nanosec);
   void set_buffer_min_fill(int percent);
@@ -85,10 +87,10 @@ class GstEnginePipeline : public QObject {
   // Control the music playback
   QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
-  void SetEqualizerEnabled(const bool enabled);
-  void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
   void SetVolume(const int percent);
-  void SetStereoBalance(const bool enabled, const float value);
+  void SetStereoBalance(const float value);
+  void SetEqualizerParams(const int preamp, const QList<int> &band_gains);
+
   void StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction = QTimeLine::Forward, const QTimeLine::CurveShape shape = QTimeLine::LinearCurve, const bool use_fudge_timer = true);
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
@@ -101,6 +103,7 @@ class GstEnginePipeline : public QObject {
   QByteArray stream_url() const { return stream_url_; }
   QUrl original_url() const { return original_url_; }
   bool is_valid() const { return valid_; }
+
   // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
   qint64 position() const;
   // Please note that this method (unlike GstEngine's.length()) is multiple-section media unaware.
@@ -119,7 +122,7 @@ class GstEnginePipeline : public QObject {
  public slots:
   void SetVolumeModifier(qreal mod);
 
-signals:
+ signals:
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);
   void MetadataFound(const int pipeline_id, const Engine::SimpleMetaBundle &bundle);
   // This indicates an error, delegated from GStreamer, in the pipeline.
@@ -135,17 +138,21 @@ signals:
   void timerEvent(QTimerEvent*);
 
  private:
+  bool InitAudioBin();
+
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
+  static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static void SourceSetupCallback(GstPlayBin*, GParamSpec* pspec, gpointer);
+  static void NewPadCallback(GstElement*, GstPad*, gpointer);
+  static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
+  static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
+  static void AboutToFinishCallback(GstPlayBin*, gpointer);
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
-  static void NewPadCallback(GstElement*, GstPad*, gpointer);
-  static GstPadProbeReturn HandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static GstPadProbeReturn SourceHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static GstPadProbeReturn EventHandoffCallback(GstPad*, GstPadProbeInfo*, gpointer);
-  static void AboutToFinishCallback(GstPlayBin*, gpointer);
-  static GstPadProbeReturn PlaybinProbe(GstPad*, GstPadProbeInfo*, gpointer);
-  static void SourceSetupCallback(GstPlayBin*, GParamSpec* pspec, gpointer);
   static void TaskEnterCallback(GstTask*, GThread*, gpointer);
+  static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer instance);
+  static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer instance);
+  static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
   void TagMessageReceived(GstMessage*);
   void ErrorMessageReceived(GstMessage*);
@@ -158,15 +165,9 @@ signals:
   QString ParseStrTag(GstTagList *list, const char *tag) const;
   guint ParseUIntTag(GstTagList *list, const char *tag) const;
 
-  bool InitAudioBin();
-
   void UpdateVolume();
-  void UpdateEqualizer();
   void UpdateStereoBalance();
-
-  static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer instance);
-  static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer instance);
-  static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
+  void UpdateEqualizer();
 
  private slots:
   void FaderTimelineFinished();
@@ -191,21 +192,21 @@ signals:
   bool valid_;
   QString output_;
   QVariant device_;
-  bool volume_control_;
+  bool volume_enabled_;
+  bool stereo_balancer_enabled_;
+  bool eq_enabled_;
+  bool rg_enabled_;
 
-  // Stereo balance.
+  // Stereo balance:
   // From -1.0 - 1.0
   // -1.0 is left, 1.0 is right.
-  bool stereo_balance_enabled_;
   float stereo_balance_;
 
   // Equalizer
-  bool eq_enabled_;
   int eq_preamp_;
   QList<int> eq_band_gains_;
 
   // ReplayGain
-  bool rg_enabled_;
   int rg_mode_;
   float rg_preamp_;
   bool rg_compression_;
@@ -276,9 +277,9 @@ signals:
   GstElement *equalizer_preamp_;
   GstDiscoverer *discoverer_;
 
-  int about_to_finish_cb_id_;
   int pad_added_cb_id_;
   int notify_source_cb_id_;
+  int about_to_finish_cb_id_;
   int bus_cb_id_;
   int discovery_finished_cb_id_;
   int discovery_discovered_cb_id_;

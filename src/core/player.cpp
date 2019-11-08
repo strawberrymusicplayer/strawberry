@@ -200,12 +200,13 @@ void Player::Init() {
   connect(engine_.get(), SIGNAL(MetaData(Engine::SimpleMetaBundle)), SLOT(EngineMetadataReceived(Engine::SimpleMetaBundle)));
 
   // Equalizer
-  qLog(Debug) << "Creating equalizer";
-  connect(equalizer_, SIGNAL(ParametersChanged(int,QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int,QList<int>)));
-  connect(equalizer_, SIGNAL(EnabledChanged(bool)), app_->player()->engine(), SLOT(SetEqualizerEnabled(bool)));
-  connect(equalizer_, SIGNAL(StereoBalanceChanged(bool, float)), app_->player()->engine(), SLOT(SetStereoBalance(bool, float)));
+  connect(equalizer_, SIGNAL(StereoBalancerEnabledChanged(bool)), app_->player()->engine(), SLOT(SetStereoBalancerEnabled(bool)));
+  connect(equalizer_, SIGNAL(StereoBalanceChanged(float)), app_->player()->engine(), SLOT(SetStereoBalance(float)));
+  connect(equalizer_, SIGNAL(EqualizerEnabledChanged(bool)), app_->player()->engine(), SLOT(SetEqualizerEnabled(bool)));
+  connect(equalizer_, SIGNAL(EqualizerParametersChanged(int, QList<int>)), app_->player()->engine(), SLOT(SetEqualizerParameters(int, QList<int>)));
 
-  engine_->SetStereoBalance(equalizer_->is_stereo_balancer_enabled(), equalizer_->stereo_balance());
+  engine_->SetStereoBalancerEnabled(equalizer_->is_stereo_balancer_enabled());
+  engine_->SetStereoBalance(equalizer_->stereo_balance());
   engine_->SetEqualizerEnabled(equalizer_->is_equalizer_enabled());
   engine_->SetEqualizerParameters(equalizer_->preamp_value(), equalizer_->gain_values());
 

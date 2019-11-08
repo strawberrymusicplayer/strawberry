@@ -67,12 +67,12 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       engine_(engine),
       id_(sId++),
       valid_(false),
-      volume_control_(true),
-      stereo_balance_enabled_(false),
-      stereo_balance_(0.0f),
+      volume_enabled_(true),
+      stereo_balancer_enabled_(false),
       eq_enabled_(false),
-      eq_preamp_(0),
       rg_enabled_(false),
+      stereo_balance_(0.0f),
+      eq_preamp_(0),
       rg_mode_(0),
       rg_preamp_(0.0),
       rg_compression_(true),
@@ -89,9 +89,10 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       pipeline_is_initialised_(false),
       pipeline_is_connected_(false),
       pending_seek_nanosec_(-1),
+      last_known_position_ns_(0),
       next_uri_set_(false),
       volume_percent_(100),
-      volume_modifier_(1.0),
+      volume_modifier_(1.0f),
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
@@ -101,9 +102,9 @@ GstEnginePipeline::GstEnginePipeline(GstEngine *engine)
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
       discoverer_(nullptr),
-      about_to_finish_cb_id_(-1),
       pad_added_cb_id_(-1),
       notify_source_cb_id_(-1),
+      about_to_finish_cb_id_(-1),
       bus_cb_id_(-1),
       discovery_finished_cb_id_(-1),
       discovery_discovered_cb_id_(-1)
@@ -131,14 +132,14 @@ GstEnginePipeline::~GstEnginePipeline() {
 
   if (pipeline_) {
 
-    if (about_to_finish_cb_id_ != -1)
-      g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
-
     if (pad_added_cb_id_ != -1)
       g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_);
 
     if (notify_source_cb_id_ != -1)
       g_signal_handler_disconnect(G_OBJECT(pipeline_), notify_source_cb_id_);
+
+    if (about_to_finish_cb_id_ != -1)
+      g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
 
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(pipeline_)), nullptr, nullptr, nullptr);
 
@@ -159,13 +160,22 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
 
 }
 
-void GstEnginePipeline::set_volume_control(bool volume_control) {
-
-  volume_control_ = volume_control;
-
+void GstEnginePipeline::set_volume_enabled(const bool enabled) {
+  volume_enabled_ = enabled;
 }
 
-void GstEnginePipeline::set_replaygain(bool enabled, int mode, float preamp, bool compression) {
+void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
+  stereo_balancer_enabled_ = enabled;
+  if (!enabled) stereo_balance_ = 0.0f;
+  if (pipeline_) UpdateStereoBalance();
+}
+
+void GstEnginePipeline::set_equalizer_enabled(const bool enabled) {
+  eq_enabled_ = enabled;
+  if (pipeline_) UpdateEqualizer();
+}
+
+void GstEnginePipeline::set_replaygain(const bool enabled, const int mode, const float preamp, const bool compression) {
 
   rg_enabled_ = enabled;
   rg_mode_ = mode;
@@ -180,6 +190,45 @@ void GstEnginePipeline::set_buffer_duration_nanosec(const qint64 buffer_duration
 
 void GstEnginePipeline::set_buffer_min_fill(int percent) {
   buffer_min_fill_ = percent;
+}
+
+bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
+
+  stream_url_ = stream_url;
+  original_url_ = original_url;
+  end_offset_nanosec_ = end_nanosec;
+
+  pipeline_ = engine_->CreateElement("playbin");
+  if (!pipeline_) return false;
+
+  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
+
+  gint flags;
+  g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
+  flags |= 0x00000002;
+  flags &= ~0x00000001;
+  g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
+
+  pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
+  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
+  about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
+
+  // Setting up a discoverer
+  discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
+  if (discoverer_) {
+    discovery_discovered_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
+    discovery_finished_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
+    gst_discoverer_start(discoverer_);
+  }
+
+  if (!InitAudioBin()) return false;
+
+  // Set playbin's sink to be our custom audio-sink.
+  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
+  pipeline_is_connected_ = true;
+
+  return true;
+
 }
 
 bool GstEnginePipeline::InitAudioBin() {
@@ -239,12 +288,12 @@ bool GstEnginePipeline::InitAudioBin() {
   }
 
   // Create the volume elements if it's enabled.
-  if (volume_control_) {
+  if (volume_enabled_) {
     volume_ = engine_->CreateElement("volume", audiobin_);
   }
 
   // Create the stereo balancer elements if it's enabled.
-  if (stereo_balance_enabled_) {
+  if (stereo_balancer_enabled_) {
     audiopanorama_ = engine_->CreateElement("audiopanorama", audiobin_, false);
     // Set the stereo balance.
     if (audiopanorama_) g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
@@ -293,13 +342,13 @@ bool GstEnginePipeline::InitAudioBin() {
   GstElement *eventprobe = audioqueue_;
   GstElement *rgvolume = nullptr;
   GstElement *rglimiter = nullptr;
-  GstElement *audioconverter2 = nullptr;
+  GstElement *rgconverter = nullptr;
   if (rg_enabled_) {
     rgvolume = engine_->CreateElement("rgvolume", audiobin_, false);
     rglimiter = engine_->CreateElement("rglimiter", audiobin_, false);
-    audioconverter2 = engine_->CreateElement("audioconvert", audiobin_, false);
-    if (rgvolume && rglimiter && audioconverter2) {
-      eventprobe = audioconverter2;
+    rgconverter = engine_->CreateElement("audioconvert", audiobin_, false);
+    if (rgvolume && rglimiter && rgconverter) {
+      eventprobe = rgconverter;
       // Set replaygain settings
       g_object_set(G_OBJECT(rgvolume), "album-mode", rg_mode_, nullptr);
       g_object_set(G_OBJECT(rgvolume), "pre-amp", double(rg_preamp_), nullptr);
@@ -335,9 +384,9 @@ bool GstEnginePipeline::InitAudioBin() {
   GstElement *next = audioqueue_; // The next element to link from.
 
   // Link replaygain elements if enabled.
-  if (rg_enabled_ && rgvolume && rglimiter && audioconverter2) {
-    gst_element_link_many(next, rgvolume, rglimiter, audioconverter2, nullptr);
-    next = audioconverter2;
+  if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
+    gst_element_link_many(next, rgvolume, rglimiter, rgconverter, nullptr);
+    next = rgconverter;
   }
 
   // Link equalizer elements if enabled.
@@ -347,20 +396,19 @@ bool GstEnginePipeline::InitAudioBin() {
   }
 
   // Link equalizer elements if enabled.
-  if (stereo_balance_enabled_ && audiopanorama_) {
+  if (stereo_balancer_enabled_ && audiopanorama_) {
     gst_element_link(next, audiopanorama_);
     next = audiopanorama_;
   }
 
   // Link volume elements if enabled.
-  if (volume_control_ && volume_) {
+  if (volume_enabled_ && volume_) {
     gst_element_link(next, volume_);
     next = volume_;
   }
 
   gst_element_link(next, audioconverter);
 
-  // Let the audio output of the tee autonegotiate the bit depth and format.
   GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
   gst_element_link_filtered(audioconverter, audiosink, caps);
   gst_caps_unref(caps);
@@ -386,42 +434,225 @@ bool GstEnginePipeline::InitAudioBin() {
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QByteArray &stream_url, const QUrl original_url, const qint64 end_nanosec) {
+GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
 
-  stream_url_ = stream_url;
-  original_url_ = original_url;
-  end_offset_nanosec_ = end_nanosec;
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  pipeline_ = engine_->CreateElement("playbin");
-  if (!pipeline_) return false;
+  GstEvent *e = gst_pad_probe_info_get_event(info);
 
-  g_object_set(G_OBJECT(pipeline_), "uri", stream_url.constData(), nullptr);
+  qLog(Debug) << instance->id() << "event" << GST_EVENT_TYPE_NAME(e);
 
-  gint flags;
-  g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
-  flags |= 0x00000002;
-  flags &= ~0x00000001;
-  g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
+  switch (GST_EVENT_TYPE(e)) {
+    case GST_EVENT_SEGMENT:
+      if (!instance->segment_start_received_) {
+        // The segment start time is used to calculate the proper offset of data buffers from the start of the stream
+        const GstSegment *segment = nullptr;
+        gst_event_parse_segment(e, &segment);
+        instance->segment_start_ = segment->start;
+        instance->segment_start_received_ = true;
+      }
+      break;
 
-  about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
-  pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &NewPadCallback, this);
-  notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "notify::source", &SourceSetupCallback, this);
-
-  // Setting up a discoverer
-  discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
-  if (discoverer_) {
-    discovery_discovered_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
-    discovery_finished_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
-    gst_discoverer_start(discoverer_);
+    default:
+      break;
   }
 
-  if (!InitAudioBin()) return false;
+  return GST_PAD_PROBE_OK;
 
-  // Set playbin's sink to be our costum audio-sink.
-  g_object_set(GST_OBJECT(pipeline_), "audio-sink", audiobin_, nullptr);
-  pipeline_is_connected_ = true;
+}
 
-  return true;
+void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  GstElement *element = nullptr;
+  g_object_get(bin, "source", &element, nullptr);
+  if (!element) {
+    return;
+  }
+
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") && !instance->source_device().isEmpty()) {
+    // Gstreamer is not able to handle device in URL (referring to Gstreamer documentation, this might be added in the future).
+    // Despite that, for now we include device inside URL: we decompose it during Init and set device here, when this callback is called.
+    g_object_set(element, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
+  }
+
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
+    QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
+    g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
+    g_object_set(element, "ssl-strict", FALSE, nullptr);
+  }
+
+  // If the pipeline was buffering we stop that now.
+  if (instance->buffering_) {
+    instance->buffering_ = false;
+    emit instance->BufferingFinished();
+    instance->SetState(GST_STATE_PLAYING);
+  }
+
+  g_object_unref(element);
+
+}
+
+void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
+
+  // Link playbin's sink pad to audiobin's src pad.
+  if (GST_PAD_IS_LINKED(audiopad)) {
+    qLog(Warning) << instance->id() << "audiopad is already linked, unlinking old pad";
+    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
+  }
+
+  gst_pad_link(pad, audiopad);
+  gst_object_unref(audiopad);
+
+  // Offset the timestamps on all the buffers coming out of the playbin so they line up exactly with the end of the last buffer from the old playbin.
+  // "Running time" is the time since the last flushing seek.
+  GstClockTime running_time = gst_segment_to_running_time(&instance->last_playbin_segment_, GST_FORMAT_TIME, instance->last_playbin_segment_.position);
+  gst_pad_set_offset(pad, running_time);
+
+  // Add a probe to the pad so we can update last_playbin_segment_.
+  gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbe, instance, nullptr);
+
+  instance->pipeline_is_connected_ = true;
+  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialised_) {
+    QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
+  }
+
+}
+
+GstPadProbeReturn GstEnginePipeline::PlaybinProbe(GstPad *pad, GstPadProbeInfo *info, gpointer data) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(data);
+
+  const GstPadProbeType info_type = GST_PAD_PROBE_INFO_TYPE(info);
+
+  if (info_type & GST_PAD_PROBE_TYPE_BUFFER) {
+    // The playbin produced a buffer.  Record its end time, so we can offset the buffers produced by the next playbin when transitioning to the next song.
+    GstBuffer *buffer = GST_PAD_PROBE_INFO_BUFFER(info);
+
+    GstClockTime timestamp = GST_BUFFER_TIMESTAMP(buffer);
+    GstClockTime duration = GST_BUFFER_DURATION(buffer);
+    if (timestamp == GST_CLOCK_TIME_NONE) {
+      timestamp = instance->last_playbin_segment_.position;
+    }
+
+    if (duration != GST_CLOCK_TIME_NONE) {
+      timestamp += duration;
+    }
+
+    instance->last_playbin_segment_.position = timestamp;
+  }
+  else if (info_type & GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM) {
+    GstEvent *event = GST_PAD_PROBE_INFO_EVENT(info);
+    GstEventType event_type = GST_EVENT_TYPE(event);
+
+    if (event_type == GST_EVENT_SEGMENT) {
+      // A new segment started, we need to save this to calculate running time offsets later.
+      gst_event_copy_segment(event, &instance->last_playbin_segment_);
+    }
+    else if (event_type == GST_EVENT_FLUSH_START) {
+      // A flushing seek resets the running time to 0, so remove any offset we set on this pad before.
+      gst_pad_set_offset(pad, 0);
+    }
+  }
+
+  return GST_PAD_PROBE_OK;
+
+}
+
+GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  GstCaps *caps = gst_pad_get_current_caps(pad);
+  GstStructure *structure = gst_caps_get_structure(caps, 0);
+  QString format = QString(gst_structure_get_string(structure, "format"));
+  int channels = 0;
+  int rate = 0;
+  gst_structure_get_int(structure, "channels", &channels);
+  gst_structure_get_int(structure, "rate", &rate);
+
+  GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
+  GstBuffer *buf16 = nullptr;
+
+  if (format.startsWith("S32")) {
+
+    GstMapInfo map_info;
+    gst_buffer_map(buf, &map_info, GST_MAP_READ);
+
+    int32_t *s = (int32_t*) map_info.data;
+    int samples = (map_info.size / sizeof(int32_t)) / channels;
+    int buf16_size = samples * sizeof(int16_t) * channels;
+    int16_t *d = (int16_t*) g_malloc(buf16_size);
+    memset(d, 0, buf16_size);
+    for (int i = 0 ; i < (samples * 2) ; ++i) {
+      d[i] = (int16_t) (s[i] >> 16);
+    }
+    gst_buffer_unmap(buf, &map_info);
+    buf16 = gst_buffer_new_wrapped(d, buf16_size);
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
+    buf = buf16;
+  }
+
+  QList<GstBufferConsumer*> consumers;
+  {
+    QMutexLocker l(&instance->buffer_consumers_mutex_);
+    consumers = instance->buffer_consumers_;
+  }
+
+  for (GstBufferConsumer *consumer : consumers) {
+    gst_buffer_ref(buf);
+    consumer->ConsumeBuffer(buf, instance->id(), format);
+  }
+
+  if (buf16) {
+    gst_buffer_unref(buf16);
+  }
+
+  // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
+  if (instance->end_offset_nanosec_ > 0) {
+    quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
+    quint64 duration = GST_BUFFER_DURATION(buf);
+    quint64 end_time = start_time + duration;
+
+    if (end_time > instance->end_offset_nanosec_) {
+      if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
+          // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
+          instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
+          instance->next_stream_url_.clear();
+          instance->next_original_url_.clear();
+          instance->next_beginning_offset_nanosec_ = 0;
+          instance->next_end_offset_nanosec_ = 0;
+
+          // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
+          instance->ignore_next_seek_ = true;
+          emit instance->EndOfStreamReached(instance->id(), true);
+      }
+      else {
+        // There's no next song
+        emit instance->EndOfStreamReached(instance->id(), false);
+      }
+    }
+  }
+
+  return GST_PAD_PROBE_OK;
+
+}
+
+void GstEnginePipeline::AboutToFinishCallback(GstPlayBin*, gpointer self) {
+
+  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
+
+  if (instance->has_next_valid_url() && !instance->next_uri_set_) {
+    // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
+    // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
+    instance->next_uri_set_ = true;
+    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_stream_url_.constData(), nullptr);
+  }
 
 }
 
@@ -710,230 +941,8 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 }
 
-void GstEnginePipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-  if (!instance) return;
-
-  GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
-
-  // Link playbin's sink pad to audiobin's src pad.
-  if (GST_PAD_IS_LINKED(audiopad)) {
-    qLog(Warning) << instance->id() << "audiopad is already linked, unlinking old pad";
-    gst_pad_unlink(audiopad, GST_PAD_PEER(audiopad));
-  }
-
-  gst_pad_link(pad, audiopad);
-  gst_object_unref(audiopad);
-
-  // Offset the timestamps on all the buffers coming out of the playbin so they line up exactly with the end of the last buffer from the old playbin.
-  // "Running time" is the time since the last flushing seek.
-  GstClockTime running_time = gst_segment_to_running_time(&instance->last_playbin_segment_, GST_FORMAT_TIME, instance->last_playbin_segment_.position);
-  gst_pad_set_offset(pad, running_time);
-
-  // Add a probe to the pad so we can update last_playbin_segment_.
-  gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbe, instance, nullptr);
-
-  instance->pipeline_is_connected_ = true;
-  if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_is_initialised_) {
-    QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_));
-  }
-
-}
-
-GstPadProbeReturn GstEnginePipeline::PlaybinProbe(GstPad *pad, GstPadProbeInfo *info, gpointer data) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(data);
-
-  const GstPadProbeType info_type = GST_PAD_PROBE_INFO_TYPE(info);
-
-  if (info_type & GST_PAD_PROBE_TYPE_BUFFER) {
-    // The playbin produced a buffer.  Record its end time, so we can offset the buffers produced by the next playbin when transitioning to the next song.
-    GstBuffer *buffer = GST_PAD_PROBE_INFO_BUFFER(info);
-
-    GstClockTime timestamp = GST_BUFFER_TIMESTAMP(buffer);
-    GstClockTime duration = GST_BUFFER_DURATION(buffer);
-    if (timestamp == GST_CLOCK_TIME_NONE) {
-      timestamp = instance->last_playbin_segment_.position;
-    }
-
-    if (duration != GST_CLOCK_TIME_NONE) {
-      timestamp += duration;
-    }
-
-    instance->last_playbin_segment_.position = timestamp;
-  }
-  else if (info_type & GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM) {
-    GstEvent *event = GST_PAD_PROBE_INFO_EVENT(info);
-    GstEventType event_type = GST_EVENT_TYPE(event);
-
-    if (event_type == GST_EVENT_SEGMENT) {
-      // A new segment started, we need to save this to calculate running time offsets later.
-      gst_event_copy_segment(event, &instance->last_playbin_segment_);
-    }
-    else if (event_type == GST_EVENT_FLUSH_START) {
-      // A flushing seek resets the running time to 0, so remove any offset we set on this pad before.
-      gst_pad_set_offset(pad, 0);
-    }
-  }
-
-  return GST_PAD_PROBE_OK;
-
-}
-
-GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  GstCaps *caps = gst_pad_get_current_caps(pad);
-  GstStructure *structure = gst_caps_get_structure(caps, 0);
-  QString format = QString(gst_structure_get_string(structure, "format"));
-  int channels = 0;
-  int rate = 0;
-  gst_structure_get_int(structure, "channels", &channels);
-  gst_structure_get_int(structure, "rate", &rate);
-
-  GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
-  GstBuffer *buf16 = nullptr;
-
-  if (format.startsWith("S32")) {
-
-    GstMapInfo map_info;
-    gst_buffer_map(buf, &map_info, GST_MAP_READ);
-
-    int32_t *s = (int32_t*) map_info.data;
-    int samples = (map_info.size / sizeof(int32_t)) / channels;
-    int buf16_size = samples * sizeof(int16_t) * channels;
-    int16_t *d = (int16_t*) g_malloc(buf16_size);
-    memset(d, 0, buf16_size);
-    for (int i = 0 ; i < (samples * 2) ; ++i) {
-      d[i] = (int16_t) (s[i] >> 16);
-    }
-    gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(d, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) * channels, rate);
-    buf = buf16;
-  }
-
-  QList<GstBufferConsumer*> consumers;
-  {
-    QMutexLocker l(&instance->buffer_consumers_mutex_);
-    consumers = instance->buffer_consumers_;
-  }
-
-  for (GstBufferConsumer *consumer : consumers) {
-    gst_buffer_ref(buf);
-    consumer->ConsumeBuffer(buf, instance->id(), format);
-  }
-
-  if (buf16) {
-    gst_buffer_unref(buf16);
-  }
-
-  // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
-  if (instance->end_offset_nanosec_ > 0) {
-    quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
-    quint64 duration = GST_BUFFER_DURATION(buf);
-    quint64 end_time = start_time + duration;
-
-    if (end_time > instance->end_offset_nanosec_) {
-      if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
-          // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
-          instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-          instance->next_stream_url_.clear();
-          instance->next_original_url_.clear();
-          instance->next_beginning_offset_nanosec_ = 0;
-          instance->next_end_offset_nanosec_ = 0;
-
-          // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
-          instance->ignore_next_seek_ = true;
-          emit instance->EndOfStreamReached(instance->id(), true);
-      }
-      else {
-        // There's no next song
-        emit instance->EndOfStreamReached(instance->id(), false);
-      }
-    }
-  }
-
-  return GST_PAD_PROBE_OK;
-
-}
-
-GstPadProbeReturn GstEnginePipeline::EventHandoffCallback(GstPad*, GstPadProbeInfo *info, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  GstEvent *e = gst_pad_probe_info_get_event(info);
-
-  qLog(Debug) << instance->id() << "event" << GST_EVENT_TYPE_NAME(e);
-
-  switch (GST_EVENT_TYPE(e)) {
-    case GST_EVENT_SEGMENT:
-      if (!instance->segment_start_received_) {
-        // The segment start time is used to calculate the proper offset of data buffers from the start of the stream
-        const GstSegment *segment = nullptr;
-        gst_event_parse_segment(e, &segment);
-        instance->segment_start_ = segment->start;
-        instance->segment_start_received_ = true;
-      }
-      break;
-
-    default:
-      break;
-  }
-
-  return GST_PAD_PROBE_OK;
-
-}
-
-void GstEnginePipeline::AboutToFinishCallback(GstPlayBin*, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  if (instance->has_next_valid_url() && !instance->next_uri_set_) {
-    // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
-    // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
-    instance->next_uri_set_ = true;
-    g_object_set(G_OBJECT(instance->pipeline_), "uri", instance->next_stream_url_.constData(), nullptr);
-  }
-
-}
-
-void GstEnginePipeline::SourceSetupCallback(GstPlayBin *bin, GParamSpec *, gpointer self) {
-
-  GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-
-  GstElement *element;
-  g_object_get(bin, "source", &element, nullptr);
-  if (!element) {
-    return;
-  }
-
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "device") && !instance->source_device().isEmpty()) {
-    // Gstreamer is not able to handle device in URL (referring to Gstreamer documentation, this might be added in the future).
-    // Despite that, for now we include device inside URL: we decompose it during Init and set device here, when this callback is called.
-    g_object_set(element, "device", instance->source_device().toLocal8Bit().constData(), nullptr);
-  }
-
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(element), "user-agent")) {
-    QString user_agent = QString("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion());
-    g_object_set(element, "user-agent", user_agent.toUtf8().constData(), nullptr);
-    g_object_set(element, "ssl-strict", FALSE, nullptr);
-  }
-
-  // If the pipeline was buffering we stop that now.
-  if (instance->buffering_) {
-    instance->buffering_ = false;
-    emit instance->BufferingFinished();
-    instance->SetState(GST_STATE_PLAYING);
-  }
-
-  g_object_unref(element);
-
-}
-
 qint64 GstEnginePipeline::position() const {
+
   if (pipeline_is_initialised_)
     gst_element_query_position(pipeline_, GST_FORMAT_TIME, &last_known_position_ns_);
 
@@ -942,6 +951,7 @@ qint64 GstEnginePipeline::position() const {
 }
 
 qint64 GstEnginePipeline::length() const {
+
   gint64 value = 0;
   gst_element_query_duration(pipeline_, GST_FORMAT_TIME, &value);
 
@@ -977,8 +987,6 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
   }
 
   if (next_uri_set_) {
-    qDebug() << "MYTODO: gstenginepipeline.seek: seeking after Transition";
-
     pending_seek_nanosec_ = nanosec;
     SetState(GST_STATE_READY);
     return true;
@@ -993,7 +1001,6 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 void GstEnginePipeline::SetVolume(const int percent) {
 
   if (!volume_) return;
-
   volume_percent_ = percent;
   UpdateVolume();
 
@@ -1015,23 +1022,18 @@ void GstEnginePipeline::UpdateVolume() {
 
 }
 
-void GstEnginePipeline::SetStereoBalance(const bool enabled, const float value) {
+void GstEnginePipeline::SetStereoBalance(const float value) {
 
-  stereo_balance_enabled_ = enabled;
-  if (enabled) {
-    stereo_balance_ = value;
-  }
-  else {
-    stereo_balance_ = 0.0f;
-  }
+  stereo_balance_ = value;
   UpdateStereoBalance();
 
 }
 
-void GstEnginePipeline::SetEqualizerEnabled(bool enabled) {
+void GstEnginePipeline::UpdateStereoBalance() {
 
-  eq_enabled_ = enabled;
-  UpdateEqualizer();
+  if (audiopanorama_) {
+    g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
+  }
 
 }
 
@@ -1041,12 +1043,6 @@ void GstEnginePipeline::SetEqualizerParams(const int preamp, const QList<int>& b
   eq_band_gains_ = band_gains;
   UpdateEqualizer();
 
-}
-
-void GstEnginePipeline::UpdateStereoBalance() {
-  if (audiopanorama_) {
-    g_object_set(G_OBJECT(audiopanorama_), "panorama", stereo_balance_, nullptr);
-  }
 }
 
 void GstEnginePipeline::UpdateEqualizer() {
@@ -1168,10 +1164,9 @@ void GstEnginePipeline::SetNextUrl(const QByteArray &stream_url, const QUrl &ori
 
 }
 
-void GstEnginePipeline::StreamDiscovered(GstDiscoverer *, GstDiscovererInfo *info, GError *, gpointer self) {
+void GstEnginePipeline::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
-  if (!instance) return;
 
   QString discovered_url(gst_discoverer_info_get_uri(info));
 

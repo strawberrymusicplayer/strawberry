@@ -102,13 +102,13 @@ public:
   void SetVolume(const uint value);
   static uint MakeVolumeLogarithmic(const uint volume);
 
-public slots:
+ public slots:
   virtual void ReloadSettings();
 
-protected:
+ protected:
   void EmitAboutToEnd();
 
-public:
+ public:
 
   // Simple accessors
   EngineType type() const { return type_; }
@@ -126,9 +126,10 @@ public:
   QVariant device() { return device_; }
 
  public slots:
+  virtual void SetStereoBalancerEnabled(const bool) {}
+  virtual void SetStereoBalance(const float) {}
   virtual void SetEqualizerEnabled(const bool) {}
-  virtual void SetEqualizerParameters(const int preamp, const QList<int> &bandGains) { Q_UNUSED(preamp); Q_UNUSED(bandGains); }
-  virtual void SetStereoBalance(const bool enabled, const float value) { Q_UNUSED(enabled); Q_UNUSED(value); }
+  virtual void SetEqualizerParameters(const int, const QList<int>&) {}
 
  signals:
   // Emitted when crossfading is enabled and the track is crossfade_duration_ away from finishing
@@ -199,7 +200,7 @@ public:
   qint64 fadeout_pause_duration_;
   qint64 fadeout_pause_duration_nanosec_;
 
-private:
+ private:
   bool about_to_end_emitted_;
   Q_DISABLE_COPY(Base)
 

@@ -74,16 +74,14 @@ Equalizer::Equalizer(QWidget *parent)
   // Must be done before the signals are connected
   ReloadSettings();
 
-  connect(ui_->enable, SIGNAL(toggled(bool)), SIGNAL(EnabledChanged(bool)));
-  connect(ui_->enable, SIGNAL(toggled(bool)), ui_->slider_container, SLOT(setEnabled(bool)));
-  connect(ui_->enable, SIGNAL(toggled(bool)), SLOT(Save()));
+  connect(ui_->enable_equalizer, SIGNAL(toggled(bool)), SLOT(EqualizerEnabledChangedSlot(bool)));
+
   connect(ui_->preset, SIGNAL(currentIndexChanged(int)), SLOT(PresetChanged(int)));
   connect(ui_->preset_save, SIGNAL(clicked()), SLOT(SavePreset()));
   connect(ui_->preset_del, SIGNAL(clicked()), SLOT(DelPreset()));
 
-  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), SLOT(Save()));
-  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), ui_->balance_slider, SLOT(setEnabled(bool)));
-  connect(ui_->balance_slider, SIGNAL(valueChanged(int)), SLOT(StereoSliderChanged(int)));
+  connect(ui_->enable_stereo_balancer, SIGNAL(toggled(bool)), SLOT(StereoBalancerEnabledChangedSlot(bool)));
+  connect(ui_->stereo_balance_slider, SIGNAL(valueChanged(int)), SLOT(StereoBalanceSliderChanged(int)));
 
   QShortcut *close = new QShortcut(QKeySequence::Close, this);
   connect(close, SIGNAL(activated()), SLOT(close()));
@@ -119,16 +117,16 @@ void Equalizer::ReloadSettings() {
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);
 
   // Enabled?
-  ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->slider_container->setEnabled(ui_->enable->isChecked());
+  ui_->enable_equalizer->setChecked(s.value("enabled", false).toBool());
+  ui_->slider_container->setEnabled(ui_->enable_equalizer->isChecked());
 
   ui_->enable_stereo_balancer->setChecked(s.value("enable_stereo_balancer", false).toBool());
   ui_->slider_label_layout->setEnabled(ui_->enable_stereo_balancer->isChecked());
-  ui_->balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
+  ui_->stereo_balance_slider->setEnabled(ui_->enable_stereo_balancer->isChecked());
 
   int stereo_balance = s.value("stereo_balance", 0).toInt();
-  ui_->balance_slider->setValue(stereo_balance);
-  StereoSliderChanged(stereo_balance);
+  ui_->stereo_balance_slider->setValue(stereo_balance);
+  StereoBalanceSliderChanged(stereo_balance);
 
   PresetChanged(selected_preset);
 
@@ -191,7 +189,7 @@ void Equalizer::PresetChanged(const QString& name) {
   for (int i = 0; i < kBands; ++i) gain_[i]->set_value(p.gain[i]);
   loading_ = false;
 
-  ParametersChanged();
+  EqualizerParametersChangedSlot();
   Save();
 
 }
@@ -241,7 +239,7 @@ EqualizerSlider *Equalizer::AddSlider(const QString &label) {
 
   EqualizerSlider *ret = new EqualizerSlider(label, ui_->slider_container);
   ui_->slider_container->layout()->addWidget(ret);
-  connect(ret, SIGNAL(ValueChanged(int)), SLOT(ParametersChanged()));
+  connect(ret, SIGNAL(ValueChanged(int)), SLOT(EqualizerParametersChangedSlot()));
 
   return ret;
 
@@ -252,7 +250,7 @@ bool Equalizer::is_stereo_balancer_enabled() const {
 }
 
 bool Equalizer::is_equalizer_enabled() const {
-  return ui_->enable->isChecked();
+  return ui_->enable_equalizer->isChecked();
 }
 
 int Equalizer::preamp_value() const {
@@ -279,13 +277,41 @@ Equalizer::Params Equalizer::current_params() const {
 }
 
 float Equalizer::stereo_balance() const {
-  return qBound(-1.0f, ui_->balance_slider->value() / 100.0f, 1.0f);
+  return qBound(-1.0f, ui_->stereo_balance_slider->value() / 100.0f, 1.0f);
 }
 
-void Equalizer::ParametersChanged() {
-  if (loading_) return;
+void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
 
-  emit ParametersChanged(preamp_value(), gain_values());
+  if (!enabled) {
+    ui_->stereo_balance_slider->setValue(0);
+    emit StereoBalanceChanged(stereo_balance());
+  }
+  ui_->stereo_balance_slider->setEnabled(enabled);
+  emit StereoBalancerEnabledChanged(enabled);
+  Save();
+
+}
+
+void Equalizer::StereoBalanceSliderChanged(int) {
+
+  emit StereoBalanceChanged(stereo_balance());
+  Save();
+
+}
+
+void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
+
+  emit EqualizerEnabledChanged(enabled);
+  ui_->slider_container->setEnabled(enabled);
+  Save();
+
+}
+
+void Equalizer::EqualizerParametersChangedSlot() {
+
+  if (loading_) return;
+  emit EqualizerParametersChanged(preamp_value(), gain_values());
+
 }
 
 void Equalizer::Save() {
@@ -307,16 +333,14 @@ void Equalizer::Save() {
   s.setValue("selected_preset", ui_->preset->itemData(ui_->preset->currentIndex()).toString());
 
   // Enabled?
-  s.setValue("enabled", ui_->enable->isChecked());
+  s.setValue("enabled", ui_->enable_equalizer->isChecked());
 
   s.setValue("enable_stereo_balancer", ui_->enable_stereo_balancer->isChecked());
-  s.setValue("stereo_balance", ui_->balance_slider->value());
+  s.setValue("stereo_balance", ui_->stereo_balance_slider->value());
 
 }
 
-void Equalizer::closeEvent(QCloseEvent *e) {
-
-  Q_UNUSED(e);
+void Equalizer::closeEvent(QCloseEvent*) {
 
   QString name = ui_->preset->currentText();
   if (!presets_.contains(name)) return;
@@ -331,8 +355,7 @@ Equalizer::Params::Params() : preamp(0) {
   for (int i = 0; i < Equalizer::kBands; ++i) gain[i] = 0;
 }
 
-Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6, int g7, int g8, int g9, int pre)
-    : preamp(pre) {
+Equalizer::Params::Params(int g0, int g1, int g2, int g3, int g4, int g5, int g6, int g7, int g8, int g9, int pre) : preamp(pre) {
   gain[0] = g0;
   gain[1] = g1;
   gain[2] = g2;
@@ -355,12 +378,6 @@ bool Equalizer::Params::operator ==(const Equalizer::Params& other) const {
 
 bool Equalizer::Params::operator !=(const Equalizer::Params& other) const {
   return ! (*this == other);
-}
-
-void Equalizer::StereoSliderChanged(int value) {
-  Q_UNUSED(value);
-  emit StereoBalanceChanged(is_stereo_balancer_enabled(), stereo_balance());
-  Save();
 }
 
 QDataStream &operator<<(QDataStream& s, const Equalizer::Params& p) {

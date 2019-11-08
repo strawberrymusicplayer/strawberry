@@ -85,6 +85,8 @@ GstEngine::GstEngine(TaskManager *task_manager)
       latest_buffer_(nullptr),
       stereo_balancer_enabled_(false),
       stereo_balance_(0.0f),
+      equalizer_enabled_(false),
+      equalizer_preamp_(0),
       seek_timer_(new QTimer(this)),
       timer_id_(-1),
       next_element_id_(0),
@@ -103,12 +105,15 @@ GstEngine::GstEngine(TaskManager *task_manager)
 }
 
 GstEngine::~GstEngine() {
+
   EnsureInitialised();
   current_pipeline_.reset();
+
   if (latest_buffer_) {
     gst_buffer_unref(latest_buffer_);
     latest_buffer_ = nullptr;
   }
+
 }
 
 bool GstEngine::Init() {
@@ -175,7 +180,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
   current_pipeline_ = pipeline;
 
   SetVolume(volume_);
-  SetStereoBalance(stereo_balancer_enabled_, stereo_balance_);
+  SetStereoBalance(stereo_balance_);
   SetEqualizerParameters(equalizer_preamp_, equalizer_gains_);
 
   // Maybe fade in this track
@@ -425,11 +430,25 @@ void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QS
 
 }
 
+void GstEngine::SetStereoBalancerEnabled(const bool enabled) {
+
+  stereo_balancer_enabled_ = enabled;
+  if (current_pipeline_) current_pipeline_->set_stereo_balancer_enabled(enabled);
+
+}
+
+void GstEngine::SetStereoBalance(const float value) {
+
+  stereo_balance_ = value;
+  if (current_pipeline_) current_pipeline_->SetStereoBalance(value);
+
+}
+
 void GstEngine::SetEqualizerEnabled(const bool enabled) {
 
   equalizer_enabled_ = enabled;
+  if (current_pipeline_) current_pipeline_->set_equalizer_enabled(enabled);
 
-  if (current_pipeline_) current_pipeline_->SetEqualizerEnabled(enabled);
 }
 
 void GstEngine::SetEqualizerParameters(const int preamp, const QList<int> &band_gains) {
@@ -437,27 +456,22 @@ void GstEngine::SetEqualizerParameters(const int preamp, const QList<int> &band_
   equalizer_preamp_ = preamp;
   equalizer_gains_ = band_gains;
 
-  if (current_pipeline_)
-    current_pipeline_->SetEqualizerParams(preamp, band_gains);
-
-}
-
-void GstEngine::SetStereoBalance(const bool enabled, const float value) {
-
-  stereo_balance_ = value;
-
-  if (current_pipeline_) current_pipeline_->SetStereoBalance(enabled, value);
+  if (current_pipeline_) current_pipeline_->SetEqualizerParams(preamp, band_gains);
 
 }
 
 void GstEngine::AddBufferConsumer(GstBufferConsumer *consumer) {
+
   buffer_consumers_ << consumer;
   if (current_pipeline_) current_pipeline_->AddBufferConsumer(consumer);
+
 }
 
 void GstEngine::RemoveBufferConsumer(GstBufferConsumer *consumer) {
+
   buffer_consumers_.removeAll(consumer);
   if (current_pipeline_) current_pipeline_->RemoveBufferConsumer(consumer);
+
 }
 
 void GstEngine::timerEvent(QTimerEvent *e) {
@@ -745,11 +759,12 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
   ret->set_output_device(output_, device_);
-  ret->set_volume_control(volume_control_);
+  ret->set_volume_enabled(volume_control_);
+  ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
+  ret->set_equalizer_enabled(equalizer_enabled_);
   ret->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_compression_);
   ret->set_buffer_duration_nanosec(buffer_duration_nanosec_);
   ret->set_buffer_min_fill(buffer_min_fill_);
-  ret->SetEqualizerEnabled(equalizer_enabled_);
 
   ret->AddBufferConsumer(this);
   for (GstBufferConsumer *consumer : buffer_consumers_) {

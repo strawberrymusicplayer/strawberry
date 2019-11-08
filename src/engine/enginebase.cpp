@@ -82,7 +82,7 @@ bool Engine::Base::Play(const QUrl &stream_url, const QUrl &original_url, TrackC
 
 }
 
-void Engine::Base::SetVolume(uint value) {
+void Engine::Base::SetVolume(const uint value) {
 
   volume_ = value;
   SetVolumeSW(MakeVolumeLogarithmic(value));
