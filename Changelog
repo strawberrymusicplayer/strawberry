@@ -9,12 +9,15 @@ Unreleased:
     * Fixed hang in stream discoverer with certain formats
     * Fixed Subsonic to correctly read disc
     * Fixed preventing system logoff or shutdown
+    * Fixed correctly updating compilations
     * Simplified gstreamer pipeline code
     * Disabled showing analyzer for bit depths not supported by the analyzer
+    * Made stereo balancer independent from equalizer
     * Added option to prefer album artist when sending scrobbles
     * Removed lines in settings
     * Added limit for number of tagreader processes to 2
     * Improved system theme icon option to better pick correct icons
+    * Added option to automatically select current playing track
     * (Windows) Added support for WASAPI
 
 Version 0.6.5:
