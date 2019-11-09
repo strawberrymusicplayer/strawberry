@@ -589,7 +589,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     int buf16_size = samples * sizeof(int16_t) * channels;
     int16_t *d = (int16_t*) g_malloc(buf16_size);
     memset(d, 0, buf16_size);
-    for (int i = 0 ; i < (samples * 2) ; ++i) {
+    for (int i = 0 ; i < (samples * channels) ; ++i) {
       d[i] = (int16_t) (s[i] >> 16);
     }
     gst_buffer_unmap(buf, &map_info);
