@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.6.6:
 
     * Fixed lowercased album artist in playlist column
     * Fixed compiling with different optional features turned off
