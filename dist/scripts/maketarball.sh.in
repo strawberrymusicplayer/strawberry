@@ -24,6 +24,7 @@ tar -cJf $name-$version.tar.xz \
     --exclude=".directory" \
     --exclude="*.spec" \
     --exclude="*.nsi" \
+    --exclude="$root/.github" \
     --exclude="$root/Dockerfile" \
     --exclude="$root/.travis.yml" \
     --exclude="$root/CMakeLists.txt.user" \
