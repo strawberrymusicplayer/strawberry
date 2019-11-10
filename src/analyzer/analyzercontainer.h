@@ -59,7 +59,6 @@ signals:
 
  protected:
   void mouseReleaseEvent(QMouseEvent*);
-  void mouseDoubleClickEvent(QMouseEvent*);
   void wheelEvent(QWheelEvent *e);
 
  private slots:
@@ -93,7 +92,6 @@ signals:
   QList<QAction*> actions_;
   QAction *disable_action_;
 
-  QAction *visualisation_action_;
   QTimer *double_click_timer_;
   QPoint last_click_pos_;
   bool ignore_next_click_;

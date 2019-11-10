@@ -59,7 +59,6 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
       context_menu_framerate_(new QMenu(tr("Framerate"), this)),
       group_(new QActionGroup(this)),
       group_framerate_(new QActionGroup(this)),
-      visualisation_action_(nullptr),
       double_click_timer_(new QTimer(this)),
       ignore_next_click_(false),
       current_analyzer_(nullptr),
@@ -88,7 +87,6 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
   group_->addAction(disable_action_);
 
   context_menu_->addSeparator();
-  // Visualisation action gets added in SetActions
 
   double_click_timer_->setSingleShot(true);
   double_click_timer_->setInterval(250);
@@ -98,26 +96,11 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
 }
 
-void AnalyzerContainer::SetActions(QAction *visualisation) {
-  visualisation_action_ = visualisation;
-  context_menu_->addAction(visualisation_action_);
-}
-
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
   if (engine_->type() != Engine::EngineType::GStreamer && engine_->type() != Engine::EngineType::Xine) return;
 
-  if (e->button() == Qt::LeftButton) {
-    if (ignore_next_click_) {
-      ignore_next_click_ = false;
-    }
-    else {
-      // Might be the first click in a double click, so wait a while before actually doing anything
-      double_click_timer_->start();
-      last_click_pos_ = e->globalPos();
-    }
-  }
-  else if (e->button() == Qt::RightButton) {
+  if (e->button() == Qt::RightButton) {
     context_menu_->popup(e->globalPos());
   }
 
@@ -125,16 +108,6 @@ void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
 void AnalyzerContainer::ShowPopupMenu() {
   context_menu_->popup(last_click_pos_);
-}
-
-void AnalyzerContainer::mouseDoubleClickEvent(QMouseEvent*) {
-
-  if (engine_->type() != Engine::EngineType::GStreamer && engine_->type() != Engine::EngineType::Xine) return;
-
-  double_click_timer_->stop();
-  ignore_next_click_ = true;
-
-  if (visualisation_action_) visualisation_action_->trigger();
 }
 
 void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
