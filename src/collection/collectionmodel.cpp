@@ -539,15 +539,7 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
   QStringList path;
   QModelIndex idx_copy(idx);
   while (idx_copy.isValid()) {
-    //const CollectionItem *item = IndexToItem(idx_copy);
-    //if (item && group_by_[item->container_level] == GroupBy_Album) {
-    //  QString album = idx_copy.data().toString();
-    //  album.remove(Song::kAlbumRemoveDisc);
-    //  path.prepend(album);
-    //}
-    //else {
-      path.prepend(idx_copy.data().toString());
-    //}
+    path.prepend(idx_copy.data().toString());
     idx_copy = idx_copy.parent();
   }
 
