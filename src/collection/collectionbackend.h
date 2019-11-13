@@ -227,16 +227,14 @@ class CollectionBackend : public CollectionBackendInterface {
   struct CompilationInfo {
     CompilationInfo() : has_compilation_detected(0), has_not_compilation_detected(0) {}
 
-    QString directory;
-    QString album;
     QList<QUrl> urls;
-    QSet<QString> artists;
+    QStringList artists;
 
     int has_compilation_detected;
     int has_not_compilation_detected;
   };
 
-  void UpdateCompilations(QSqlQuery &find_songs, QSqlQuery &update_songs, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
+  void UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
   AlbumList GetAlbums(const QString &artist, const QString &album_artist, bool compilation = false, const QueryOptions &opt = QueryOptions());
   AlbumList GetAlbums(const QString &artist, bool compilation, const QueryOptions &opt = QueryOptions());
   SubdirectoryList SubdirsInDirectory(int id, QSqlDatabase &db);

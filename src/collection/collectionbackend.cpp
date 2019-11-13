@@ -911,23 +911,22 @@ void CollectionBackend::UpdateCompilations() {
     if (album.isEmpty()) continue;
 
     // Find the directory the song is in
-    QString directory = url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename|QUrl::StripTrailingSlash);
+    QString directory = url.toString(QUrl::PreferLocalFile|QUrl::RemoveFilename);
 
     CompilationInfo &info = compilation_info[directory + album];
     info.urls << url;
-    info.directory = directory;
-    info.album = album;
-    info.artists.insert(artist);
+    if (!info.artists.contains(artist))
+      info.artists << artist;
     if (compilation_detected) info.has_compilation_detected++;
     else info.has_not_compilation_detected++;
   }
 
   // Now mark the songs that we think are in compilations
-  QSqlQuery find_songs(db);
-  find_songs.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE url = :url AND compilation_detected = :compilation_detected AND unavailable = 0").arg(songs_table_));
+  QSqlQuery find_song(db);
+  find_song.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE url = :url AND compilation_detected = :compilation_detected AND unavailable = 0").arg(songs_table_));
 
-  QSqlQuery update_songs(db);
-  update_songs.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE url = :url AND unavailable = 0").arg(songs_table_));
+  QSqlQuery update_song(db);
+  update_song.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE url = :url AND unavailable = 0").arg(songs_table_));
 
   SongList deleted_songs;
   SongList added_songs;
@@ -938,16 +937,16 @@ void CollectionBackend::UpdateCompilations() {
   for (; it != compilation_info.constEnd(); ++it) {
     const CompilationInfo &info = it.value();
 
-    // If there were more 'effective album artists' than there were directories for this album then it's a compilation.
+    // If there were more than one 'effective album artist' for this album directory, then it's a compilation.
 
     for (const QUrl &url : info.urls) {
       if (info.artists.count() > 1) {  // This directory+album is a compilation.
         if (info.has_not_compilation_detected > 0)  // Run updates if any of the songs is not marked as compilations.
-          UpdateCompilations(find_songs, update_songs, deleted_songs, added_songs, url, true);
+          UpdateCompilations(find_song, update_song, deleted_songs, added_songs, url, true);
       }
       else {
         if (info.has_compilation_detected > 0)
-          UpdateCompilations(find_songs, update_songs, deleted_songs, added_songs, url, false);
+          UpdateCompilations(find_song, update_song, deleted_songs, added_songs, url, false);
       }
     }
   }
@@ -961,25 +960,25 @@ void CollectionBackend::UpdateCompilations() {
 
 }
 
-void CollectionBackend::UpdateCompilations(QSqlQuery &find_songs, QSqlQuery &update_songs, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected) {
+void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected) {
 
   // Get song, so we can tell the model its updated
-  find_songs.bindValue(":url", url.toString());
-  find_songs.bindValue(":compilation_detected", int(!compilation_detected));
-  find_songs.exec();
-  while (find_songs.next()) {
+  find_song.bindValue(":url", url.toString());
+  find_song.bindValue(":compilation_detected", int(!compilation_detected));
+  find_song.exec();
+  while (find_song.next()) {
     Song song;
-    song.InitFromQuery(find_songs, true);
+    song.InitFromQuery(find_song, true);
     deleted_songs << song;
     song.set_compilation_detected(compilation_detected);
     added_songs << song;
   }
 
   // Update the song
-  update_songs.bindValue(":compilation_detected", int(compilation_detected));
-  update_songs.bindValue(":url", url);
-  update_songs.exec();
-  db_->CheckErrors(update_songs);
+  update_song.bindValue(":compilation_detected", int(compilation_detected));
+  update_song.bindValue(":url", url.toString());
+  update_song.exec();
+  db_->CheckErrors(update_song);
 
 }
 
