@@ -167,7 +167,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
     LoadLocalDirectory(filename);
     return Success;
   }
-  Song song;
+  Song song(Song::Source_LocalFile);
   song.InitFromFilePartial(filename);
   if (song.is_valid()) {
     songs_ << song;
@@ -228,7 +228,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   if (collection_->ExecQuery(&query) && query.Next()) {
     // We may have many results when the file has many sections
     do {
-      Song song;
+      Song song(Song::Source_LocalFile);
       song.InitFromQuery(query, true);
 
       if (song.is_valid()) {
@@ -289,7 +289,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   }
 
   // Assume it's just a normal file
-  Song song;
+  Song song(Song::Source_LocalFile);
   song.InitFromFilePartial(filename);
   if (song.is_valid()) {
     songs_ << song;

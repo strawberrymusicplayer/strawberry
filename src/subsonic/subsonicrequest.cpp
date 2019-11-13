@@ -435,7 +435,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const qint64
     QJsonObject json_obj = value.toObject();
 
     ++songs_received;
-    Song song;
+    Song song(Song::Source_Subsonic);
     ParseSong(song, json_obj, artist_id, album_id, album_artist);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;

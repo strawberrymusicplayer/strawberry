@@ -834,7 +834,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id, c
     }
 
     ++songs_received;
-    Song song;
+    Song song(Song::Source_Tidal);
     ParseSong(song, json_obj, artist_id, album_id, album_artist);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;

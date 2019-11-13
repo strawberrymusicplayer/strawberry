@@ -876,7 +876,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const qint64 artist_id_re
     QJsonObject json_obj = value.toObject();
 
     ++songs_received;
-    Song song;
+    Song song(Song::Source_Qobuz);
     ParseSong(song, json_obj, artist_id, album_id, album_artist, album, cover_url);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;

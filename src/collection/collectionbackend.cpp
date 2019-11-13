@@ -350,7 +350,7 @@ SongList CollectionBackend::FindSongsInDirectory(int id) {
 
   SongList ret;
   while (q.next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(q, true);
     ret << song;
   }
@@ -698,7 +698,7 @@ SongList CollectionBackend::ExecCollectionQuery(CollectionQuery *query) {
 
   SongList ret;
   while (query->Next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(*query, true);
     ret << song;
   }
@@ -772,7 +772,7 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
 
   SongList ret;
   while (q.next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(q, true);
     ret << song;
   }
@@ -787,7 +787,7 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
   query.AddWhere("url", url.toString());
   query.AddWhere("beginning", beginning);
 
-  Song song;
+  Song song(source_);
   if (ExecQuery(&query) && query.Next()) {
     song.InitFromQuery(query, true);
   }
@@ -804,7 +804,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
   SongList songlist;
   if (ExecQuery(&query)) {
     while (query.Next()) {
-      Song song;
+      Song song(source_);
       song.InitFromQuery(query, true);
       songlist << song;
     }
@@ -856,7 +856,7 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
 
   SongList ret;
   while (q.next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(q, true);
     ret << song;
   }
@@ -880,7 +880,7 @@ SongList CollectionBackend::GetCompilationSongs(const QString &album, const Quer
 
   SongList ret;
   while (query.Next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(query, true);
     ret << song;
   }
@@ -967,7 +967,7 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
   find_song.bindValue(":compilation_detected", int(!compilation_detected));
   find_song.exec();
   while (find_song.next()) {
-    Song song(Song::Source_Collection);
+    Song song(source_);
     song.InitFromQuery(find_song, true);
     deleted_songs << song;
     song.set_compilation_detected(compilation_detected);
@@ -1102,7 +1102,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
 
   SongList deleted_songs;
   while (query.Next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(query, true);
     deleted_songs << song;
   }
@@ -1136,7 +1136,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
 
   SongList added_songs;
   while (query.Next()) {
-    Song song;
+    Song song(source_);
     song.InitFromQuery(query, true);
     added_songs << song;
   }
@@ -1164,7 +1164,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
     if (!ExecQuery(&query)) return;
 
     while (query.Next()) {
-      Song song;
+      Song song(source_);
       song.InitFromQuery(query, true);
       deleted_songs << song;
     }
@@ -1187,7 +1187,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QList<QStri
     if (!ExecQuery(&query)) return;
 
     while (query.Next()) {
-      Song song;
+      Song song(source_);
       song.InitFromQuery(query, true);
       added_songs << song;
     }
