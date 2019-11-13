@@ -963,11 +963,11 @@ void CollectionBackend::UpdateCompilations() {
 void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected) {
 
   // Get song, so we can tell the model its updated
-  find_song.bindValue(":url", url.toString());
+  find_song.bindValue(":url", url.toString(QUrl::FullyEncoded));
   find_song.bindValue(":compilation_detected", int(!compilation_detected));
   find_song.exec();
   while (find_song.next()) {
-    Song song;
+    Song song(Song::Source_Collection);
     song.InitFromQuery(find_song, true);
     deleted_songs << song;
     song.set_compilation_detected(compilation_detected);
@@ -976,7 +976,7 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 
   // Update the song
   update_song.bindValue(":compilation_detected", int(compilation_detected));
-  update_song.bindValue(":url", url.toString());
+  update_song.bindValue(":url", url.toString(QUrl::FullyEncoded));
   update_song.exec();
   db_->CheckErrors(update_song);
 
