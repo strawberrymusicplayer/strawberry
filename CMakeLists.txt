@@ -61,27 +61,17 @@ if (CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-uninitialized")
 endif()
 
-if (APPLE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --stdlib=libc++")
-endif(APPLE)
-
 find_program(CCACHE_EXECUTABLE NAMES ccache)
 if (CCACHE_EXECUTABLE)
   message(STATUS "ccache found: will be used for compilation and linkage")
   SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_EXECUTABLE})
   SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_LINK ${CCACHE_EXECUTABLE})
 endif ()
-find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5 PATHS ${QT_BINARY_DIR} NO_DEFAULT_PATH)
-find_program(QT_LCONVERT_EXECUTABLE NAMES lconvert lconvert-qt5)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GLIB REQUIRED glib-2.0)
-pkg_check_modules(GIO REQUIRED gio-2.0)
-pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
-pkg_check_modules(CDIO libcdio)
+find_package(Boost REQUIRED)
 find_package(Threads)
 find_package(GnuTLS)
-find_package(Boost REQUIRED)
 find_package(Protobuf REQUIRED)
 find_library(PROTOBUF_STATIC_LIBRARY libprotobuf.a libprotobuf)
 if(LINUX)
@@ -98,6 +88,10 @@ endif()
 if(X11_FOUND)
   set(HAVE_X11 ON)
 endif()
+pkg_check_modules(GLIB REQUIRED glib-2.0)
+pkg_check_modules(GIO REQUIRED gio-2.0)
+pkg_check_modules(GOBJECT REQUIRED gobject-2.0)
+pkg_check_modules(LIBCDIO libcdio)
 pkg_check_modules(GSTREAMER gstreamer-1.0)
 pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
 pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
@@ -303,7 +297,7 @@ optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
-  DEPENDS "libcdio" CDIO_FOUND
+  DEPENDS "libcdio" LIBCDIO_FOUND
 )
 
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"
