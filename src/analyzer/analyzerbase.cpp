@@ -72,7 +72,7 @@ void Analyzer::Base::showEvent(QShowEvent*) { timer_.start(timeout(), this); }
 void Analyzer::Base::transform(Scope& scope) {
 
   QVector<float> aux(fht_->size());
-  if (aux.size() >= scope.size()) {
+  if ((long unsigned int)aux.size() >= scope.size()) {
     std::copy(scope.begin(), scope.end(), aux.begin());
   }
   else {

@@ -617,7 +617,7 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
   if (instance->end_offset_nanosec_ > 0) {
     quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_;
     quint64 duration = GST_BUFFER_DURATION(buf);
-    quint64 end_time = start_time + duration;
+    qint64 end_time = start_time + duration;
 
     if (end_time > instance->end_offset_nanosec_) {
       if (instance->has_next_valid_url() && instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
@@ -804,7 +804,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   free(debugs);
 
-  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == (int)GST_RESOURCE_ERROR || domain == (int)GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Debug) << "Ignoring error when loading next track";

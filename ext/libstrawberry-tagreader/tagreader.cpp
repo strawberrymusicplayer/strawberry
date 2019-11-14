@@ -290,7 +290,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
       if (!map["APIC"].isEmpty()) song->set_art_automatic(kEmbeddedCover);
 
       // Find a suitable comment tag.  For now we ignore iTunNORM comments.
-      for (int i = 0; i < map["COMM"].size(); ++i) {
+      for (uint i = 0; i < map["COMM"].size(); ++i) {
         const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map["COMM"][i]);
 
         if (frame && TStringToQString(frame->description()) != "iTunNORM") {
@@ -300,7 +300,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
       }
 
       // Parse FMPS frames
-      for (int i = 0; i < map["TXXX"].size(); ++i) {
+      for (uint i = 0; i < map["TXXX"].size(); ++i) {
         const TagLib::ID3v2::UserTextIdentificationFrame *frame = dynamic_cast<const TagLib::ID3v2::UserTextIdentificationFrame*>(map["TXXX"][i]);
 
         if (frame && frame->description().startsWith("FMPS_")) {
@@ -836,7 +836,7 @@ QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) co
     TagLib::ByteVector data = it->second.binaryData();
 
     int pos = data.find('\0') + 1;
-    if ((pos > 0) && (pos < data.size())) {
+    if ((pos > 0) && ((uint)pos < data.size())) {
       ret = QByteArray(data.data() + pos, data.size() - pos);
     }
   }

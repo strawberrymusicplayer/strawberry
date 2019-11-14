@@ -196,7 +196,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
     canvas_painter.drawPixmap(x * (kWidth + 1), y * (kHeight + 1) + y_, *bar(), 0, y * (kHeight + 1), bar()->width(), bar()->height());
   }
 
-  for (uint x = 0; x < store_.size(); ++x)
+  for (int x = 0; x < store_.size(); ++x)
     canvas_painter.drawPixmap(x * (kWidth + 1), static_cast<int>(store_[x]) * (kHeight + 1) + y_, topbarpixmap_);
 
   p.drawPixmap(0, 0, canvas_);

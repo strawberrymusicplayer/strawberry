@@ -114,12 +114,9 @@ void SingleApplicationPrivate::genBlockServerName() {
 #ifdef Q_OS_UNIX
     QByteArray username;
 #if defined(HAVE_GETEUID) && defined(HAVE_GETPWUID)
-    uid_t uid = geteuid();
-    if (uid != -1) {
-      struct passwd *pw = getpwuid(uid);
-      if (pw) {
-        username = pw->pw_name;
-      }
+    struct passwd *pw = getpwuid(geteuid());
+    if (pw) {
+      username = pw->pw_name;
     }
 #endif
     if (username.isEmpty()) username = qgetenv("USER");

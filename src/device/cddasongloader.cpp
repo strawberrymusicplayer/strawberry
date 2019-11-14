@@ -149,7 +149,7 @@ void CddaSongLoader::LoadSongs() {
     gst_message_parse_toc (msg_toc, &toc, nullptr);
     if (toc) {
       GList *entries = gst_toc_get_entries(toc);
-      if (entries && songs.size() <= g_list_length (entries)) {
+      if (entries && (guint)songs.size() <= g_list_length(entries)) {
         int i = 0;
         for (GList *node = entries; node != nullptr; node = node->next) {
           GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);

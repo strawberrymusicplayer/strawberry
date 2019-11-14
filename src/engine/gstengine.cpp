@@ -511,7 +511,7 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
 
 }
 
-void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int domain, int error_code) {
+void GstEngine::HandlePipelineError(const int pipeline_id, const QString &message, const int domain, const int error_code) {
 
   if (!current_pipeline_.get() || current_pipeline_->id() != pipeline_id) return;
 
@@ -521,7 +521,7 @@ void GstEngine::HandlePipelineError(int pipeline_id, const QString &message, int
   BufferingFinished();
   emit StateChanged(Engine::Error);
 
-  if (domain == GST_RESOURCE_ERROR && (error_code == GST_RESOURCE_ERROR_NOT_FOUND || error_code == GST_RESOURCE_ERROR_NOT_AUTHORIZED)) {
+  if (domain == (int)GST_RESOURCE_ERROR && (error_code == (int)GST_RESOURCE_ERROR_NOT_FOUND || error_code == (int)GST_RESOURCE_ERROR_NOT_AUTHORIZED)) {
      emit InvalidSongRequested(stream_url_);
    }
   else {

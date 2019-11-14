@@ -575,7 +575,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
   guint properties_count = 0;
   GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);
 
-  for (int i = 0; i < properties_count; ++i) {
+  for (uint i = 0; i < properties_count; ++i) {
     GParamSpec *property = properties[i];
 
     const QVariant value = s.value(property->name);
