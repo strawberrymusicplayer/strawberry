@@ -41,7 +41,7 @@ script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       make -j8 || travis_terminate 1;
       make install || travis_terminate 1;
-      sudo make dmg;
+      make dmg;
   fi
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ls -lh strawberry*.dmg; fi

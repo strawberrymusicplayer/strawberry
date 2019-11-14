@@ -304,10 +304,9 @@ def CopyLibrary(path):
   new_path = os.path.join(frameworks_dir, os.path.basename(path))
   #args = ['cp', path, new_path]
   args = ['ditto', '--arch=i386', '--arch=x86_64', path, new_path]
+  commands.append(args)
+  commands.append(['chmod', '+w', new_path])
   LOGGER.info("Copying library '%s'", path)
-  commands.append(args)
-  args = ['chmod', 'u+w', new_path]
-  commands.append(args)
   return new_path
 
 
@@ -318,9 +317,8 @@ def CopyPlugin(path, subdir):
   #args = ['cp', path, new_path]
   args = ['ditto', '--arch=i386', '--arch=x86_64', path, new_path]
   commands.append(args)
+  commands.append(['chmod', '+w', new_path])
   LOGGER.info("Copying plugin '%s'", path)
-  args = ['chmod', 'u+w', new_path]
-  commands.append(args)
   return new_path
 
 def CopyFramework(path):
@@ -351,6 +349,7 @@ def CopyFramework(src_binary):
 
   commands.append(['mkdir', '-p', dest_dir])
   commands.append(['cp', src_binary, dest_binary])
+  commands.append(['chmod', '+w', dest_binary])
 
   # Copy special files from various places:
   #   QtCore has Resources/qt_menu.nib (copy to app's Resources)
