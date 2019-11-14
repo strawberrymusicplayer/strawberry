@@ -26,7 +26,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QNetworkReply>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
@@ -35,6 +34,8 @@
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
+
+class QNetworkReply;
 
 class Application;
 class NetworkAccessManager;
@@ -81,7 +82,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   void WriteCache() { cache()->WriteCache(); }
 
  private slots:
-  void RedirectArrived(LocalRedirectServer *server);
+  void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
@@ -130,11 +131,11 @@ class ScrobblingAPI20 : public ScrobblerService {
   QNetworkReply *CreateRequest(const ParamList &request_params);
   QByteArray GetReplyData(QNetworkReply *reply);
 
-  void RequestSession(QString token);
-  void AuthError(QString error);
+  void RequestSession(const QString &token);
+  void AuthError(const QString &error);
   void SendSingleScrobble(ScrobblerCacheItem *item);
-  void Error(QString error, QVariant debug = QVariant());
-  QString ErrorString(ScrobbleErrorCode error) const;
+  void Error(const QString &error, const QVariant &debug = QVariant());
+  QString ErrorString(const ScrobbleErrorCode error) const;
   void DoSubmit();
 
   QString name_;
@@ -144,6 +145,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   bool batch_;
 
   Application *app_;
+  LocalRedirectServer *server_;
 
   bool enabled_;
   bool https_;

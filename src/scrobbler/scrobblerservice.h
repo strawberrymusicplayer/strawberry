@@ -52,7 +52,7 @@ class ScrobblerService : public QObject {
   virtual void ClearPlaying() = 0;
   virtual void Scrobble(const Song &song) = 0;
   virtual void Love() {}
-  virtual void Error(QString error, QVariant debug = QVariant()) = 0;
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
   virtual void DoSubmit() = 0;
   virtual void Submitted() = 0;

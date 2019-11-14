@@ -26,7 +26,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QNetworkReply>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
@@ -36,6 +35,8 @@
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
+
+class QNetworkReply;
 
 class Application;
 class NetworkAccessManager;
@@ -75,7 +76,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void WriteCache() { cache_->WriteCache(); }
 
  private slots:
-  void RedirectArrived(LocalRedirectServer *server);
+  void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
@@ -84,9 +85,9 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);
   QByteArray GetReplyData(QNetworkReply *reply);
 
-  void RequestSession(QUrl url, QString token);
-  void AuthError(QString error);
-  void Error(QString error, QVariant debug = QVariant());
+  void RequestSession(const QUrl &url, const QString &token);
+  void AuthError(const QString &error);
+  void Error(const QString &error, const QVariant &debug = QVariant());
   void DoSubmit();
 
   static const char *kAuthUrl;
@@ -101,6 +102,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   Application *app_;
   NetworkAccessManager *network_;
   ScrobblerCache *cache_;
+  LocalRedirectServer *server_;
   bool enabled_;
   QString user_token_;
   QString access_token_;

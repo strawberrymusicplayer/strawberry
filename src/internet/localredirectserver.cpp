@@ -52,7 +52,9 @@ LocalRedirectServer::LocalRedirectServer(const bool https, QObject *parent)
       socket_(nullptr)
       {}
 
-LocalRedirectServer::~LocalRedirectServer() {}
+LocalRedirectServer::~LocalRedirectServer() {
+  if (isListening()) close();
+}
 
 bool LocalRedirectServer::GenerateCertificate() {
 

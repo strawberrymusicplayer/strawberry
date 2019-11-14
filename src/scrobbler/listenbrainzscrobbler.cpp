@@ -71,9 +71,11 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
   app_(app),
   network_(new NetworkAccessManager(this)),
   cache_(new ScrobblerCache(kCacheFile, this)),
+  server_(nullptr),
   enabled_(false),
   expires_in_(-1),
-  submitted_(false) {
+  submitted_(false),
+  timestamp_(0) {
 
   ReloadSettings();
   LoadSession();
@@ -123,16 +125,19 @@ void ListenBrainzScrobbler::Logout() {
 
 void ListenBrainzScrobbler::Authenticate(const bool https) {
 
-  LocalRedirectServer *server = new LocalRedirectServer(https, this);
-  if (!server->Listen()) {
-    AuthError(server->error());
-    delete server;
-    return;
+  if (!server_) {
+    server_ = new LocalRedirectServer(https, this);
+    if (!server_->Listen()) {
+      AuthError(server_->error());
+      delete server_;
+      server_ = nullptr;
+      return;
+    }
+    connect(server_, SIGNAL(Finished()), this, SLOT(RedirectArrived()));
   }
-  NewClosure(server, SIGNAL(Finished()), this, &ListenBrainzScrobbler::RedirectArrived, server);
 
   QUrl redirect_url(kRedirectUrl);
-  redirect_url.setPort(server->url().port());
+  redirect_url.setPort(server_->url().port());
 
   QUrlQuery url_query;
   url_query.addQueryItem("response_type", "code");
@@ -151,25 +156,39 @@ void ListenBrainzScrobbler::Authenticate(const bool https) {
 
 }
 
-void ListenBrainzScrobbler::RedirectArrived(LocalRedirectServer *server) {
+void ListenBrainzScrobbler::RedirectArrived() {
 
-  server->deleteLater();
+  if (!server_) return;
 
-  QUrl url = server->request_url();
-  if (!QUrlQuery(url).queryItemValue("error").isEmpty()) {
-    AuthError(QUrlQuery(url).queryItemValue("error"));
-    return;
+  if (server_->error().isEmpty()) {
+    QUrl url = server_->request_url();
+    if (url.isValid()) {
+      QUrlQuery url_query(url);
+      if (url_query.hasQueryItem("error")) {
+        AuthError(QUrlQuery(url).queryItemValue("error"));
+      }
+      else if (url_query.hasQueryItem("code")) {
+        RequestSession(url, url_query.queryItemValue("code"));
+      }
+      else {
+        AuthError(tr("Redirect missing token code!"));
+      }
+    }
+    else {
+      AuthError(tr("Received invalid reply from web browser."));
+    }
   }
-  if (QUrlQuery(url).queryItemValue("code").isEmpty()) {
-    AuthError("Redirect missing token code!");
-    return;
+  else {
+    AuthError(server_->error());
   }
 
-  RequestSession(url, QUrlQuery(url).queryItemValue("code").toUtf8());
+  server_->close();
+  server_->deleteLater();
+  server_ = nullptr;
 
 }
 
-void ListenBrainzScrobbler::RequestSession(QUrl url, QString token) {
+void ListenBrainzScrobbler::RequestSession(const QUrl &url, const QString &token) {
 
   QUrl session_url(kAuthTokenUrl);
   QUrlQuery url_query;
@@ -525,11 +544,11 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<
 
 }
 
-void ListenBrainzScrobbler::AuthError(QString error) {
+void ListenBrainzScrobbler::AuthError(const QString &error) {
   emit AuthenticationComplete(false, error);
 }
 
-void ListenBrainzScrobbler::Error(QString error, QVariant debug) {
+void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ListenBrainz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
