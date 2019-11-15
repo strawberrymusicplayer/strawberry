@@ -56,11 +56,6 @@ if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
   set(DEBUG ON)
 endif()
 
-if (CMAKE_CXX_COMPILER MATCHES ".*clang")
-  set(CMAKE_COMPILER_IS_CLANGXX 1)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-uninitialized")
-endif()
-
 find_program(CCACHE_EXECUTABLE NAMES ccache)
 if (CCACHE_EXECUTABLE)
   message(STATUS "ccache found: will be used for compilation and linkage")
