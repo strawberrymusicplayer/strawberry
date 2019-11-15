@@ -72,9 +72,9 @@ SetCompressor /SOLID lzma
 !define MUI_ICON "strawberry.ico"
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
-;!define MUI_FINISHPAGE_RUN
-;!define MUI_FINISHPAGE_RUN_TEXT "Run Strawberry"
-;!define MUI_FINISHPAGE_RUN_FUNCTION "RunStrawberry"
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT "Run Strawberry"
+!define MUI_FINISHPAGE_RUN_FUNCTION "RunStrawberry"
 
 ; Installer pages
 !insertmacro MUI_PAGE_WELCOME
@@ -144,9 +144,9 @@ Function .onInit
 
 FunctionEnd
 
-;Function RunStrawberry
-  ;ShellExecAsUser::ShellExecAsUser "" "$INSTDIR/strawberry.exe" ""
-;FunctionEnd
+Function RunStrawberry
+  ShellExecAsUser::ShellExecAsUser "" "$INSTDIR/strawberry.exe" ""
+FunctionEnd
 
 Section "Delete old files" oldfiles
 SectionEnd
@@ -408,26 +408,26 @@ SectionEnd
 Section "Uninstall"
   ; Kill strawberry.exe if it's running
   ; This calling convention is retarded...
-  ;StrCpy $0 "strawberry.exe"
-  ;KillProc::FindProcesses
-  ;StrCmp $1 "-1" wooops
+  StrCpy $0 "strawberry.exe"
+  KillProc::FindProcesses
+  StrCmp $1 "-1" wooops
 
-  ;StrCmp $0 "0" completed
+  StrCmp $0 "0" completed
 
-  ;DetailPrint "Killing running strawberry.exe..."
+  DetailPrint "Killing running strawberry.exe..."
 
-  ;StrCpy $0 "strawberry.exe"
-  ;KillProc::KillProcesses
-  ;StrCmp $1 "-1" wooops
+  StrCpy $0 "strawberry.exe"
+  KillProc::KillProcesses
+  StrCmp $1 "-1" wooops
 
-  ;Sleep 2000
-  ;Goto completed
+  Sleep 2000
+  Goto completed
 
-  ;wooops:
-  ;DetailPrint "-> Error: Something went wrong while killing running strawberry.exe"
-  ;Abort
+  wooops:
+  DetailPrint "-> Error: Something went wrong while killing running strawberry.exe"
+  Abort
 
-  ;completed:
+  completed:
 
   ; Delete all the files
 
@@ -608,6 +608,7 @@ Section "Uninstall"
   RMDir "$INSTDIR\platforms"
   RMDir "$INSTDIR\sqldrivers"
   RMDir "$INSTDIR\imageformats"
+  RMDir "$INSTDIR\gio-modules"
   RMDir "$INSTDIR\gstreamer-plugins"
   RMDir "$INSTDIR\xine-plugins"
   RMDir "$INSTDIR"
