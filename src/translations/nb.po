@@ -97,7 +97,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " sekunder"
 
-#: scrobbler/scrobblingapi20.cpp:145 scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:150 scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler bruker autentisering"
@@ -817,7 +817,7 @@ msgstr "Legg til i spillelista"
 msgid "Apply compression to prevent clipping"
 msgstr "Legg til kompressor, for å unngå klipping"
 
-#: equalizer/equalizer.cpp:229
+#: equalizer/equalizer.cpp:227
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Er du sikker på at du vil slette \"%1\"-forhåndsinnstillingen?"
@@ -1020,7 +1020,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Mellomlagringslengde"
 
-#: engine/gstengine.cpp:622
+#: engine/gstengine.cpp:636
 msgid "Buffering"
 msgstr "Mellomlagring"
 
@@ -1068,7 +1068,7 @@ msgstr "Velg farge…"
 msgid "Choose font..."
 msgstr "Velg skrifttype…"
 
-#: equalizer/equalizer.cpp:140
+#: equalizer/equalizer.cpp:138
 msgid "Classical"
 msgstr "Klassisk"
 
@@ -1117,7 +1117,7 @@ msgstr "Lukk spillelista"
 msgid "Closing this window will stop searching for album covers."
 msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 
-#: equalizer/equalizer.cpp:141
+#: equalizer/equalizer.cpp:139
 msgid "Club"
 msgstr "Klubbmusikk"
 
@@ -1241,7 +1241,7 @@ msgstr ""
 "Kunne ikke opprette GStreamer-elementet \"%1\" - sørg for at du har alle "
 "nødvendige GStreamer-programutvidelser installert"
 
-#: scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid ""
 "Could not open URL. Please open this URL in your browser:<br /><a href="
@@ -1387,7 +1387,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Opp"
 
-#: equalizer/equalizer.cpp:139
+#: equalizer/equalizer.cpp:137
 msgid "Custom"
 msgstr "Egendefinert"
 
@@ -1407,7 +1407,7 @@ msgstr "Egendefinert…"
 msgid "D-Bus path"
 msgstr "D-Bus sti"
 
-#: equalizer/equalizer.cpp:142
+#: equalizer/equalizer.cpp:140
 msgid "Dance"
 msgstr "Dansemusikk"
 
@@ -1452,7 +1452,7 @@ msgstr "Slett fra enhet…"
 msgid "Delete from disk..."
 msgstr "Slett fra disk…"
 
-#: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:174
+#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:174
 msgid "Delete preset"
 msgstr "Slett forhåndsinnstilling"
 
@@ -1963,15 +1963,15 @@ msgstr "Bilder per buffer"
 msgid "Frozen"
 msgstr "Frossen"
 
-#: equalizer/equalizer.cpp:143
+#: equalizer/equalizer.cpp:141
 msgid "Full Bass"
 msgstr "Full bass"
 
-#: equalizer/equalizer.cpp:145
+#: equalizer/equalizer.cpp:143
 msgid "Full Bass + Treble"
 msgstr "Full bass + diskant"
 
-#: equalizer/equalizer.cpp:144
+#: equalizer/equalizer.cpp:142
 msgid "Full Treble"
 msgstr "Full diskant"
 
@@ -2121,7 +2121,7 @@ msgstr "Hjelp"
 msgid "High"
 msgstr "Høy"
 
-#: analyzer/analyzercontainer.cpp:75
+#: analyzer/analyzercontainer.cpp:74
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Høy (%1 bilder/sekund)"
@@ -2202,7 +2202,7 @@ msgstr "Integritetskontrol"
 msgid "Intro tracks"
 msgstr "Introspor"
 
-#: scrobbler/scrobblingapi20.cpp:190
+#: scrobbler/scrobblingapi20.cpp:194
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
@@ -2234,11 +2234,11 @@ msgstr "Behold originalfilene"
 msgid "Language"
 msgstr "Språk"
 
-#: equalizer/equalizer.cpp:146
+#: equalizer/equalizer.cpp:144
 msgid "Laptop/Headphones"
 msgstr "Laptop/hodetelefoner"
 
-#: equalizer/equalizer.cpp:147
+#: equalizer/equalizer.cpp:145
 msgid "Large Hall"
 msgstr "Storsal"
 
@@ -2277,7 +2277,7 @@ msgstr "Lengde"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
 
@@ -2285,7 +2285,7 @@ msgstr "ListenBrainz autentisering"
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
-#: equalizer/equalizer.cpp:148
+#: equalizer/equalizer.cpp:146
 msgid "Live"
 msgstr "Live"
 
@@ -2357,7 +2357,7 @@ msgstr "Profil for langtidspredikie (LTP)"
 msgid "Love"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:73
+#: analyzer/analyzercontainer.cpp:72
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Lav (%1 bilder/sekund)"
@@ -2414,7 +2414,7 @@ msgstr "Høyeste bitrate"
 msgid "Maximum number of login attempts reached."
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:74
+#: analyzer/analyzercontainer.cpp:73
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Medium (%1 bilder/sekund)"
@@ -2540,7 +2540,7 @@ msgstr "Musikk"
 msgid "Mute"
 msgstr "Demp"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:55
+#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
 #: ../build/src/ui_deviceproperties.h:368
 msgid "Name"
 msgstr "Navn"
@@ -2587,7 +2587,7 @@ msgstr "Neste"
 msgid "Next week"
 msgstr "Neste uke"
 
-#: analyzer/analyzercontainer.cpp:86
+#: analyzer/analyzercontainer.cpp:85
 msgid "No analyzer"
 msgstr "Ingen analyse"
 
@@ -2694,7 +2694,7 @@ msgstr "Ved oppstart"
 msgid "Opacity"
 msgstr "Dekkevne"
 
-#: scrobbler/scrobblingapi20.cpp:145
+#: scrobbler/scrobblingapi20.cpp:150
 #, qt-format
 msgid ""
 "Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
@@ -2804,7 +2804,7 @@ msgstr "Spilleliste"
 msgid "Partition label"
 msgstr "Partisjonsnavn"
 
-#: equalizer/equalizer.cpp:149
+#: equalizer/equalizer.cpp:147
 msgid "Party"
 msgstr "Fest"
 
@@ -2898,12 +2898,12 @@ msgstr "Spillelister"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Lukk nettleseren og gå tilbake til Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 #, qt-format
 msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
 msgstr "Vennligst åpne lenke i din nettleser:<br /><a href=\"%1\">%1</a>"
 
-#: equalizer/equalizer.cpp:150
+#: equalizer/equalizer.cpp:148
 msgid "Pop"
 msgstr "Pop"
 
@@ -3047,7 +3047,11 @@ msgstr "Relativ"
 msgid "Really cancel?"
 msgstr "Vil du virkelig avbryte?"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/listenbrainzscrobbler.cpp:178
+msgid "Received invalid reply from web browser."
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:198
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3055,11 +3059,15 @@ msgstr ""
 "Mottok ugyldig svar fra nettleseren. Prøv HTTPS valget, eller bruk en annen "
 "nettleser som Chromium eller Chrome."
 
+#: scrobbler/listenbrainzscrobbler.cpp:174
+msgid "Redirect missing token code!"
+msgstr ""
+
 #: ../build/src/ui_internetcollectionviewcontainer.h:142
 msgid "Refresh catalogue"
 msgstr ""
 
-#: equalizer/equalizer.cpp:151
+#: equalizer/equalizer.cpp:149
 msgid "Reggae"
 msgstr "Reggae"
 
@@ -3260,7 +3268,7 @@ msgstr "Gå tilbake til Strawberry"
 msgid "Right"
 msgstr "Høyre"
 
-#: equalizer/equalizer.cpp:152
+#: equalizer/equalizer.cpp:150
 msgid "Rock"
 msgstr "Rock"
 
@@ -3329,7 +3337,7 @@ msgstr "Lagre spilleliste"
 msgid "Save playlist..."
 msgstr "Lagre spilleliste…"
 
-#: equalizer/equalizer.cpp:211 ../build/src/ui_equalizer.h:171
+#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
 msgid "Save preset"
 msgstr "Lagre forhåndsinnstilling"
 
@@ -3361,7 +3369,7 @@ msgstr "Skaler størrelse"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:478
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 er ikke autentisert!"
@@ -3648,7 +3656,7 @@ msgstr "Størrelse"
 msgid "Size:"
 msgstr "Størrelse:"
 
-#: equalizer/equalizer.cpp:154
+#: equalizer/equalizer.cpp:152
 msgid "Ska"
 msgstr "Ska"
 
@@ -3680,11 +3688,11 @@ msgstr "Lite albumomslag"
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
-#: equalizer/equalizer.cpp:153
+#: equalizer/equalizer.cpp:151
 msgid "Soft"
 msgstr "Myk"
 
-#: equalizer/equalizer.cpp:155
+#: equalizer/equalizer.cpp:153
 msgid "Soft Rock"
 msgstr "Soft rock"
 
@@ -3853,7 +3861,7 @@ msgstr "Foreslåtte etiketter"
 msgid "Summary"
 msgstr "Sammendrag"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:75
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Superhøy (%1 bilder/sek)"
@@ -3882,7 +3890,7 @@ msgstr "Etikett-henter"
 msgid "Target bitrate"
 msgstr "Ønsket bitrate"
 
-#: equalizer/equalizer.cpp:156
+#: equalizer/equalizer.cpp:154
 msgid "Techno"
 msgstr "Tekno"
 
@@ -4145,7 +4153,7 @@ msgstr "Ultrabredt bånd (UWB)"
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
-#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1339 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4479,7 +4487,7 @@ msgstr "Du må starte Strawberry på nytt for å bytte språk."
 msgid "Your collection is empty!"
 msgstr "Samlingen din er tom!"
 
-#: equalizer/equalizer.cpp:157
+#: equalizer/equalizer.cpp:155
 msgid "Zero"
 msgstr "Null"
 

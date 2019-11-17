@@ -120,7 +120,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " segundos"
 
-#: scrobbler/scrobblingapi20.cpp:145 scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:150 scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Inicio de sesión en el servicio de registro de reproducción %1"
@@ -842,7 +842,7 @@ msgstr "Añadir a la lista de reproducción"
 msgid "Apply compression to prevent clipping"
 msgstr "Aplicar compresión para evitar saturación"
 
-#: equalizer/equalizer.cpp:229
+#: equalizer/equalizer.cpp:227
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "¿Seguro que desea eliminar el ajuste predefinido «%1»?"
@@ -1044,7 +1044,7 @@ msgstr "Búfer"
 msgid "Buffer duration"
 msgstr "Duración del búfer"
 
-#: engine/gstengine.cpp:622
+#: engine/gstengine.cpp:636
 msgid "Buffering"
 msgstr "Guardando en búfer"
 
@@ -1092,7 +1092,7 @@ msgstr "Elegir color…"
 msgid "Choose font..."
 msgstr "Elegir tipo de letra…"
 
-#: equalizer/equalizer.cpp:140
+#: equalizer/equalizer.cpp:138
 msgid "Classical"
 msgstr "Clásica"
 
@@ -1143,7 +1143,7 @@ msgid "Closing this window will stop searching for album covers."
 msgstr ""
 "Si cierra esta ventana se detendrá la búsqueda de portadas para los álbumes."
 
-#: equalizer/equalizer.cpp:141
+#: equalizer/equalizer.cpp:139
 msgid "Club"
 msgstr "Club"
 
@@ -1268,7 +1268,7 @@ msgstr ""
 "No se pudo crear el elemento «%1» de GStreamer. Asegúrese de tener "
 "instalados todos los complementos necesarios de GStreamer."
 
-#: scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid ""
 "Could not open URL. Please open this URL in your browser:<br /><a href="
@@ -1414,7 +1414,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Arriba"
 
-#: equalizer/equalizer.cpp:139
+#: equalizer/equalizer.cpp:137
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -1434,7 +1434,7 @@ msgstr "Personalizado…"
 msgid "D-Bus path"
 msgstr "Ruta de D-Bus"
 
-#: equalizer/equalizer.cpp:142
+#: equalizer/equalizer.cpp:140
 msgid "Dance"
 msgstr "Dance"
 
@@ -1479,7 +1479,7 @@ msgstr "Eliminar del dispositivo…"
 msgid "Delete from disk..."
 msgstr "Eliminar del disco…"
 
-#: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:174
+#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:174
 msgid "Delete preset"
 msgstr "Eliminar ajuste predefinido"
 
@@ -1992,15 +1992,15 @@ msgstr "Tramas por búfer"
 msgid "Frozen"
 msgstr "Congelado"
 
-#: equalizer/equalizer.cpp:143
+#: equalizer/equalizer.cpp:141
 msgid "Full Bass"
 msgstr "Graves completos"
 
-#: equalizer/equalizer.cpp:145
+#: equalizer/equalizer.cpp:143
 msgid "Full Bass + Treble"
 msgstr "Graves y agudos completos"
 
-#: equalizer/equalizer.cpp:144
+#: equalizer/equalizer.cpp:142
 msgid "Full Treble"
 msgstr "Agudos completos"
 
@@ -2155,7 +2155,7 @@ msgstr "Ayuda"
 msgid "High"
 msgstr "Alto"
 
-#: analyzer/analyzercontainer.cpp:75
+#: analyzer/analyzercontainer.cpp:74
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Alta (%1 fps)"
@@ -2239,7 +2239,7 @@ msgstr "Comprobación de integridad"
 msgid "Intro tracks"
 msgstr "Pistas de introducción"
 
-#: scrobbler/scrobblingapi20.cpp:190
+#: scrobbler/scrobblingapi20.cpp:194
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Respuesta inválida del servidor web. Falta token."
 
@@ -2271,11 +2271,11 @@ msgstr "Mantener los archivos originales"
 msgid "Language"
 msgstr "Idioma"
 
-#: equalizer/equalizer.cpp:146
+#: equalizer/equalizer.cpp:144
 msgid "Laptop/Headphones"
 msgstr "Portátil/auriculares"
 
-#: equalizer/equalizer.cpp:147
+#: equalizer/equalizer.cpp:145
 msgid "Large Hall"
 msgstr "Salón grande"
 
@@ -2314,7 +2314,7 @@ msgstr "Duración"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 msgid "ListenBrainz Authentication"
 msgstr "Inicio de sesión en ListenBrainz"
 
@@ -2322,7 +2322,7 @@ msgstr "Inicio de sesión en ListenBrainz"
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
-#: equalizer/equalizer.cpp:148
+#: equalizer/equalizer.cpp:146
 msgid "Live"
 msgstr "En directo"
 
@@ -2394,7 +2394,7 @@ msgstr "Perfil de predicción a largo plazo (LTP)"
 msgid "Love"
 msgstr "Amor"
 
-#: analyzer/analyzercontainer.cpp:73
+#: analyzer/analyzercontainer.cpp:72
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Baja (%1 fps)"
@@ -2452,7 +2452,7 @@ msgstr "Tasa de bits máxima"
 msgid "Maximum number of login attempts reached."
 msgstr "Se ha alcanzado el número máximo de intentos de inicio de sesión."
 
-#: analyzer/analyzercontainer.cpp:74
+#: analyzer/analyzercontainer.cpp:73
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Media (%1 fps)"
@@ -2578,7 +2578,7 @@ msgstr "Música"
 msgid "Mute"
 msgstr "Silenciar"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:55
+#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
 #: ../build/src/ui_deviceproperties.h:368
 msgid "Name"
 msgstr "Nombre"
@@ -2625,7 +2625,7 @@ msgstr "Siguiente"
 msgid "Next week"
 msgstr "Próxima semana"
 
-#: analyzer/analyzercontainer.cpp:86
+#: analyzer/analyzercontainer.cpp:85
 msgid "No analyzer"
 msgstr "Sin analizador"
 
@@ -2737,7 +2737,7 @@ msgstr "Al iniciar"
 msgid "Opacity"
 msgstr "Opacidad"
 
-#: scrobbler/scrobblingapi20.cpp:145
+#: scrobbler/scrobblingapi20.cpp:150
 #, qt-format
 msgid ""
 "Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
@@ -2848,7 +2848,7 @@ msgstr "Lista de re&producción"
 msgid "Partition label"
 msgstr "Etiqueta de partición"
 
-#: equalizer/equalizer.cpp:149
+#: equalizer/equalizer.cpp:147
 msgid "Party"
 msgstr "Fiesta"
 
@@ -2942,12 +2942,12 @@ msgstr "Listas"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Por favor, cierre el navegador y regrese a Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 #, qt-format
 msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
 msgstr "Por favor, abra esta URL en su navegador: <br /><a href=\"%1\">%1</a>"
 
-#: equalizer/equalizer.cpp:150
+#: equalizer/equalizer.cpp:148
 msgid "Pop"
 msgstr "Pop"
 
@@ -3092,7 +3092,11 @@ msgstr "Re&lativo"
 msgid "Really cancel?"
 msgstr "¿Seguro que quiere cancelar?"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/listenbrainzscrobbler.cpp:178
+msgid "Received invalid reply from web browser."
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:198
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3100,11 +3104,15 @@ msgstr ""
 "Se ha recibido una respuesta inválida del navegador. Prueba usando la opción "
 "de HTTPS o utiliza otro navegador como Chromium o Chrome."
 
+#: scrobbler/listenbrainzscrobbler.cpp:174
+msgid "Redirect missing token code!"
+msgstr ""
+
 #: ../build/src/ui_internetcollectionviewcontainer.h:142
 msgid "Refresh catalogue"
 msgstr "Actualiza el catálogo"
 
-#: equalizer/equalizer.cpp:151
+#: equalizer/equalizer.cpp:149
 msgid "Reggae"
 msgstr "Reggae"
 
@@ -3305,7 +3313,7 @@ msgstr "Volver a Strawberry"
 msgid "Right"
 msgstr "Derecha"
 
-#: equalizer/equalizer.cpp:152
+#: equalizer/equalizer.cpp:150
 msgid "Rock"
 msgstr "Rock"
 
@@ -3374,7 +3382,7 @@ msgstr "Guardar lista de reproducción"
 msgid "Save playlist..."
 msgstr "Guardar lista de reproducción…"
 
-#: equalizer/equalizer.cpp:211 ../build/src/ui_equalizer.h:171
+#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
 msgid "Save preset"
 msgstr "Guardar ajuste predefinido"
 
@@ -3406,7 +3414,7 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:478
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -3694,7 +3702,7 @@ msgstr "Tamaño"
 msgid "Size:"
 msgstr "Tamaño:"
 
-#: equalizer/equalizer.cpp:154
+#: equalizer/equalizer.cpp:152
 msgid "Ska"
 msgstr "Ska"
 
@@ -3726,11 +3734,11 @@ msgstr "Portada de álbum pequeña"
 msgid "Small sidebar"
 msgstr "Barra lateral pequeña"
 
-#: equalizer/equalizer.cpp:153
+#: equalizer/equalizer.cpp:151
 msgid "Soft"
 msgstr "Soft"
 
-#: equalizer/equalizer.cpp:155
+#: equalizer/equalizer.cpp:153
 msgid "Soft Rock"
 msgstr "Soft rock"
 
@@ -3900,7 +3908,7 @@ msgstr "Etiquetas sugeridas"
 msgid "Summary"
 msgstr "Resumen"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:75
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Muy alta (%1 fps)"
@@ -3929,7 +3937,7 @@ msgstr "Obtener etiquetas"
 msgid "Target bitrate"
 msgstr "Tasa de bits objetivo"
 
-#: equalizer/equalizer.cpp:156
+#: equalizer/equalizer.cpp:154
 msgid "Techno"
 msgstr "Techno"
 
@@ -4199,7 +4207,7 @@ msgstr "Banda ultraancha (UWB)"
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
-#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1339 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4540,7 +4548,7 @@ msgstr "Necesitará reiniciar Strawberry si cambia el idioma."
 msgid "Your collection is empty!"
 msgstr "La colección está vacía."
 
-#: equalizer/equalizer.cpp:157
+#: equalizer/equalizer.cpp:155
 msgid "Zero"
 msgstr "Cero"
 

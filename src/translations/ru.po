@@ -120,7 +120,7 @@ msgstr " с"
 msgid " seconds"
 msgstr " секунд"
 
-#: scrobbler/scrobblingapi20.cpp:145 scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:150 scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентификация скроблерра %1"
@@ -841,7 +841,7 @@ msgstr "Добавить в плейлист"
 msgid "Apply compression to prevent clipping"
 msgstr "Применить сжатие для предотвращения искажений"
 
-#: equalizer/equalizer.cpp:229
+#: equalizer/equalizer.cpp:227
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Вы действительно хотите удалить профиль \"%1\"?"
@@ -1043,7 +1043,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:622
+#: engine/gstengine.cpp:636
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -1091,7 +1091,7 @@ msgstr "Выбрать цвет…"
 msgid "Choose font..."
 msgstr "Выбрать шрифт…"
 
-#: equalizer/equalizer.cpp:140
+#: equalizer/equalizer.cpp:138
 msgid "Classical"
 msgstr "Классический"
 
@@ -1141,7 +1141,7 @@ msgstr "Закрыть плейлист"
 msgid "Closing this window will stop searching for album covers."
 msgstr "Закрытие этого окна остановит поиск обложек для альбомов."
 
-#: equalizer/equalizer.cpp:141
+#: equalizer/equalizer.cpp:139
 msgid "Club"
 msgstr "Клубный"
 
@@ -1266,7 +1266,7 @@ msgstr ""
 "Невозможно создать элемент GStreamer «%1» - убедитесь, что у вас установлены "
 "все необходимые дополнения GStreamer"
 
-#: scrobbler/scrobblingapi20.cpp:154
+#: scrobbler/scrobblingapi20.cpp:159
 #, qt-format
 msgid ""
 "Could not open URL. Please open this URL in your browser:<br /><a href="
@@ -1412,7 +1412,7 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
-#: equalizer/equalizer.cpp:139
+#: equalizer/equalizer.cpp:137
 msgid "Custom"
 msgstr "Пользовательский"
 
@@ -1432,7 +1432,7 @@ msgstr "Пользовательский…"
 msgid "D-Bus path"
 msgstr "Путь D-Bus"
 
-#: equalizer/equalizer.cpp:142
+#: equalizer/equalizer.cpp:140
 msgid "Dance"
 msgstr "Танцевальный"
 
@@ -1477,7 +1477,7 @@ msgstr "Удалить с устройства..."
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
 
-#: equalizer/equalizer.cpp:228 ../build/src/ui_equalizer.h:174
+#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:174
 msgid "Delete preset"
 msgstr "Удалить профиль"
 
@@ -1988,15 +1988,15 @@ msgstr "Фреймов на буфер"
 msgid "Frozen"
 msgstr "Замороженный"
 
-#: equalizer/equalizer.cpp:143
+#: equalizer/equalizer.cpp:141
 msgid "Full Bass"
 msgstr "Бас"
 
-#: equalizer/equalizer.cpp:145
+#: equalizer/equalizer.cpp:143
 msgid "Full Bass + Treble"
 msgstr "Бас + высокие частоты"
 
-#: equalizer/equalizer.cpp:144
+#: equalizer/equalizer.cpp:142
 msgid "Full Treble"
 msgstr "Высокие частоты"
 
@@ -2148,7 +2148,7 @@ msgstr "Помощь"
 msgid "High"
 msgstr "Высокое"
 
-#: analyzer/analyzercontainer.cpp:75
+#: analyzer/analyzercontainer.cpp:74
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Высокая (%1 fps)"
@@ -2232,7 +2232,7 @@ msgstr "Проверка целостности"
 msgid "Intro tracks"
 msgstr "Вступительные треки"
 
-#: scrobbler/scrobblingapi20.cpp:190
+#: scrobbler/scrobblingapi20.cpp:194
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Неверный ответ от веб-браузера. Отсутствует токен."
 
@@ -2264,11 +2264,11 @@ msgstr "Сохранять оригинальные файлы"
 msgid "Language"
 msgstr "Язык"
 
-#: equalizer/equalizer.cpp:146
+#: equalizer/equalizer.cpp:144
 msgid "Laptop/Headphones"
 msgstr "Наушники/ноутбук"
 
-#: equalizer/equalizer.cpp:147
+#: equalizer/equalizer.cpp:145
 msgid "Large Hall"
 msgstr "Большой зал"
 
@@ -2307,7 +2307,7 @@ msgstr "Длина"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 msgid "ListenBrainz Authentication"
 msgstr "Аутентификация ListenBrainz"
 
@@ -2315,7 +2315,7 @@ msgstr "Аутентификация ListenBrainz"
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
-#: equalizer/equalizer.cpp:148
+#: equalizer/equalizer.cpp:146
 msgid "Live"
 msgstr "Лайв"
 
@@ -2387,7 +2387,7 @@ msgstr "Профиль Long term prediction (LTP)"
 msgid "Love"
 msgstr "Нравится"
 
-#: analyzer/analyzercontainer.cpp:73
+#: analyzer/analyzercontainer.cpp:72
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Низкая (%1 fps)"
@@ -2444,7 +2444,7 @@ msgstr "Максимальный битрейт"
 msgid "Maximum number of login attempts reached."
 msgstr "Достигнуто максимальное количество попыток входа в систему."
 
-#: analyzer/analyzercontainer.cpp:74
+#: analyzer/analyzercontainer.cpp:73
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Средняя (%1 fps)"
@@ -2570,7 +2570,7 @@ msgstr "Музыка"
 msgid "Mute"
 msgstr "Приглушить звук"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:55
+#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
 #: ../build/src/ui_deviceproperties.h:368
 msgid "Name"
 msgstr "Имя"
@@ -2617,7 +2617,7 @@ msgstr "Дальше"
 msgid "Next week"
 msgstr "На следующей неделе"
 
-#: analyzer/analyzercontainer.cpp:86
+#: analyzer/analyzercontainer.cpp:85
 msgid "No analyzer"
 msgstr "Без анализатора"
 
@@ -2727,7 +2727,7 @@ msgstr "При запуске"
 msgid "Opacity"
 msgstr "Непрозрачность"
 
-#: scrobbler/scrobblingapi20.cpp:145
+#: scrobbler/scrobblingapi20.cpp:150
 #, qt-format
 msgid ""
 "Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
@@ -2838,7 +2838,7 @@ msgstr "&Плейлист"
 msgid "Partition label"
 msgstr "Метка раздела"
 
-#: equalizer/equalizer.cpp:149
+#: equalizer/equalizer.cpp:147
 msgid "Party"
 msgstr "Вечеринка"
 
@@ -2932,12 +2932,12 @@ msgstr "Плейлисты"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Пожалуйста, закройте браузер и вернитесь в Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:147
+#: scrobbler/listenbrainzscrobbler.cpp:152
 #, qt-format
 msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
 msgstr "Откройте этот URL в своем браузере:<br /><a href=\"%1\">%1</a>"
 
-#: equalizer/equalizer.cpp:150
+#: equalizer/equalizer.cpp:148
 msgid "Pop"
 msgstr "Поп"
 
@@ -3083,7 +3083,11 @@ msgstr "&Относительно"
 msgid "Really cancel?"
 msgstr "Действительно отменить?"
 
-#: scrobbler/scrobblingapi20.cpp:184
+#: scrobbler/listenbrainzscrobbler.cpp:178
+msgid "Received invalid reply from web browser."
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:198
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3091,11 +3095,15 @@ msgstr ""
 "Получен неверный ответ от веб-браузера. Попробуйте опцию HTTPS или "
 "используйте другой браузер, такой как Chromium или Chrome."
 
+#: scrobbler/listenbrainzscrobbler.cpp:174
+msgid "Redirect missing token code!"
+msgstr ""
+
 #: ../build/src/ui_internetcollectionviewcontainer.h:142
 msgid "Refresh catalogue"
 msgstr "Обновить каталог"
 
-#: equalizer/equalizer.cpp:151
+#: equalizer/equalizer.cpp:149
 msgid "Reggae"
 msgstr "Регги"
 
@@ -3296,7 +3304,7 @@ msgstr "Вернуться в Strawberry"
 msgid "Right"
 msgstr "Правый канал"
 
-#: equalizer/equalizer.cpp:152
+#: equalizer/equalizer.cpp:150
 msgid "Rock"
 msgstr "Рок"
 
@@ -3365,7 +3373,7 @@ msgstr "Сохранить плейлист"
 msgid "Save playlist..."
 msgstr "Сохранить плейлист…"
 
-#: equalizer/equalizer.cpp:211 ../build/src/ui_equalizer.h:171
+#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
 msgid "Save preset"
 msgstr "Сохранить профиль"
 
@@ -3397,7 +3405,7 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:478
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
@@ -3684,7 +3692,7 @@ msgstr "Размер"
 msgid "Size:"
 msgstr "Размер:"
 
-#: equalizer/equalizer.cpp:154
+#: equalizer/equalizer.cpp:152
 msgid "Ska"
 msgstr "Ска"
 
@@ -3716,11 +3724,11 @@ msgstr "Маленькая обложка альбома"
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
-#: equalizer/equalizer.cpp:153
+#: equalizer/equalizer.cpp:151
 msgid "Soft"
 msgstr "Мягкий"
 
-#: equalizer/equalizer.cpp:155
+#: equalizer/equalizer.cpp:153
 msgid "Soft Rock"
 msgstr "Софт-рок"
 
@@ -3893,7 +3901,7 @@ msgstr "Предлагаемые теги"
 msgid "Summary"
 msgstr "Сводка"
 
-#: analyzer/analyzercontainer.cpp:76
+#: analyzer/analyzercontainer.cpp:75
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Очень высокая (%1 fps)"
@@ -3922,7 +3930,7 @@ msgstr "Сборщик тегов"
 msgid "Target bitrate"
 msgstr "Целевой битрейт"
 
-#: equalizer/equalizer.cpp:156
+#: equalizer/equalizer.cpp:154
 msgid "Techno"
 msgstr "Техно"
 
@@ -4186,7 +4194,7 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
-#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1339 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4524,7 +4532,7 @@ msgstr "Для применения языка потребуется перез
 msgid "Your collection is empty!"
 msgstr "Ваша фонотека пуста!"
 
-#: equalizer/equalizer.cpp:157
+#: equalizer/equalizer.cpp:155
 msgid "Zero"
 msgstr "По-умолчанию"
 
