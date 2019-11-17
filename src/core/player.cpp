@@ -96,7 +96,7 @@ Player::Player(Application *app, QObject *parent)
     last_pressed_previous_(QDateTime::currentDateTime()),
     continue_on_error_(false),
     greyout_(true),
-    menu_previousmode_(PreviousBehaviour_DontRestart),
+    menu_previousmode_(BehaviourSettingsPage::PreviousBehaviour_DontRestart),
     seek_step_sec_(10),
     volume_control_(true)
     {
@@ -230,10 +230,10 @@ void Player::ReloadSettings() {
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
   continue_on_error_ = s.value("continue_on_error", false).toBool();
   greyout_ = s.value("greyout_songs_play", true).toBool();
-  menu_previousmode_ = PreviousBehaviour(s.value("menu_previousmode", PreviousBehaviour_DontRestart).toInt());
   s.endGroup();
 
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  menu_previousmode_ = BehaviourSettingsPage::PreviousBehaviour(s.value("menu_previousmode", BehaviourSettingsPage::PreviousBehaviour_DontRestart).toInt());
   seek_step_sec_ = s.value("seek_step_sec", 10).toInt();
   s.endGroup();
 
@@ -503,7 +503,7 @@ void Player::StopAfterCurrent() {
 bool Player::PreviousWouldRestartTrack() const {
 
   // Check if it has been over two seconds since previous button was pressed
-  return menu_previousmode_ == PreviousBehaviour_Restart && last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(QDateTime::currentDateTime()) >= 2;
+  return menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour_Restart && last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(QDateTime::currentDateTime()) >= 2;
 }
 
 void Player::Previous() { PreviousItem(Engine::Manual); }
@@ -512,7 +512,7 @@ void Player::PreviousItem(Engine::TrackChangeFlags change) {
 
   const bool ignore_repeat_track = change & Engine::Manual;
 
-  if (menu_previousmode_ == PreviousBehaviour_Restart) {
+  if (menu_previousmode_ == BehaviourSettingsPage::PreviousBehaviour_Restart) {
     // Check if it has been over two seconds since previous button was pressed
     QDateTime now = QDateTime::currentDateTime();
     if (last_pressed_previous_.isValid() && last_pressed_previous_.secsTo(now) >= 2) {

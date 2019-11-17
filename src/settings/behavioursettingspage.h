@@ -43,7 +43,17 @@ public:
 
   static const char *kSettingsGroup;
 
-  // Don't change the values
+  enum PlayBehaviour {
+    PlayBehaviour_Never = 1,
+    PlayBehaviour_IfStopped = 2,
+    PlayBehaviour_Always = 3,
+  };
+
+  enum PreviousBehaviour {
+    PreviousBehaviour_DontRestart = 1,
+    PreviousBehaviour_Restart = 2
+  };
+
   enum AddBehaviour {
     AddBehaviour_Append = 1,
     AddBehaviour_Enqueue = 2,
@@ -51,14 +61,6 @@ public:
     AddBehaviour_OpenInNew = 4
   };
 
-  // Don't change the values
-  enum PlayBehaviour {
-    PlayBehaviour_Never = 1,
-    PlayBehaviour_IfStopped = 2,
-    PlayBehaviour_Always = 3,
-  };
-
-  // Don't change the values
   enum PlaylistAddBehaviour {
     PlaylistAddBehaviour_Play = 1,
     PlaylistAddBehaviour_Enqueue = 2,

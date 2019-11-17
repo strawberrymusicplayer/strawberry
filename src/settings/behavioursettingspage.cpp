@@ -71,19 +71,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   }
 #endif
 
-  ui_->combobox_doubleclickaddmode->setItemData(0, AddBehaviour_Append);
-  ui_->combobox_doubleclickaddmode->setItemData(1, AddBehaviour_Load);
-  ui_->combobox_doubleclickaddmode->setItemData(2, AddBehaviour_OpenInNew);
-  ui_->combobox_doubleclickaddmode->setItemData(3, AddBehaviour_Enqueue);
-
-  ui_->combobox_doubleclickplaymode->setItemData(0, PlayBehaviour_Never);
-  ui_->combobox_doubleclickplaymode->setItemData(1, PlayBehaviour_IfStopped);
-  ui_->combobox_doubleclickplaymode->setItemData(2, PlayBehaviour_Always);
-
-  ui_->combobox_menuplaymode->setItemData(0, PlayBehaviour_Never);
-  ui_->combobox_menuplaymode->setItemData(1, PlayBehaviour_IfStopped);
-  ui_->combobox_menuplaymode->setItemData(2, PlayBehaviour_Always);
-
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
   QDir dir(":/translations/");
@@ -121,6 +108,25 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog) : SettingsP
   ui_->groupbox_language->setVisible(false);
 #endif
 
+  ui_->combobox_menuplaymode->setItemData(0, PlayBehaviour_Never);
+  ui_->combobox_menuplaymode->setItemData(1, PlayBehaviour_IfStopped);
+  ui_->combobox_menuplaymode->setItemData(2, PlayBehaviour_Always);
+
+  ui_->combobox_previousmode->setItemData(0, PreviousBehaviour_DontRestart);
+  ui_->combobox_previousmode->setItemData(1, PreviousBehaviour_Restart);
+
+  ui_->combobox_doubleclickaddmode->setItemData(0, AddBehaviour_Append);
+  ui_->combobox_doubleclickaddmode->setItemData(1, AddBehaviour_Load);
+  ui_->combobox_doubleclickaddmode->setItemData(2, AddBehaviour_OpenInNew);
+  ui_->combobox_doubleclickaddmode->setItemData(3, AddBehaviour_Enqueue);
+
+  ui_->combobox_doubleclickplaymode->setItemData(0, PlayBehaviour_Never);
+  ui_->combobox_doubleclickplaymode->setItemData(1, PlayBehaviour_IfStopped);
+  ui_->combobox_doubleclickplaymode->setItemData(2, PlayBehaviour_Always);
+
+  ui_->combobox_doubleclickplaylistaddmode->setItemData(0, PlaylistAddBehaviour_Play);
+  ui_->combobox_doubleclickplaylistaddmode->setItemData(1, PlaylistAddBehaviour_Enqueue);
+
 #ifdef HAVE_X11
   QString de = Utilities::DesktopEnvironment();
   if (de.toLower() == "kde")
@@ -154,7 +160,7 @@ void BehaviourSettingsPage::Load() {
     ui_->checkbox_keeprunning->setChecked(false);
   }
 #endif
-
+  ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
   ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
 
   MainWindow::StartupBehaviour behaviour = MainWindow::StartupBehaviour(s.value("startupbehaviour", MainWindow::Startup_Remember).toInt());
@@ -164,19 +170,23 @@ void BehaviourSettingsPage::Load() {
     case MainWindow::Startup_Remember:   ui_->radiobutton_remember->setChecked(true); break;
   }
 
-  ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
-
-  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", AddBehaviour_Append).toInt()));
-  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", PlayBehaviour_Never).toInt()));
-  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", PlayBehaviour_Never).toInt()));
-
-  ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
-
   QString name = language_map_.key(s.value("language").toString());
   if (name.isEmpty())
     ui_->combobox_language->setCurrentIndex(0);
   else
     ui_->combobox_language->setCurrentIndex(ui_->combobox_language->findText(name));
+
+  ui_->combobox_menuplaymode->setCurrentIndex(ui_->combobox_menuplaymode->findData(s.value("menu_playmode", PlayBehaviour_Never).toInt()));
+
+  ui_->combobox_previousmode->setCurrentIndex(ui_->combobox_previousmode->findData(s.value("menu_previousmode", PreviousBehaviour_DontRestart).toInt()));
+
+  ui_->combobox_doubleclickaddmode->setCurrentIndex(ui_->combobox_doubleclickaddmode->findData(s.value("doubleclick_addmode", AddBehaviour_Append).toInt()));
+
+  ui_->combobox_doubleclickplaymode->setCurrentIndex(ui_->combobox_doubleclickplaymode->findData(s.value("doubleclick_playmode", PlayBehaviour_Never).toInt()));
+
+  ui_->combobox_doubleclickplaylistaddmode->setCurrentIndex(ui_->combobox_doubleclickplaylistaddmode->findData(s.value("doubleclick_playlist_addmode", PlaylistAddBehaviour_Play).toInt()));
+
+  ui_->spinbox_seekstepsec->setValue(s.value("seek_step_sec", 10).toInt());
 
   s.endGroup();
 
@@ -187,27 +197,36 @@ void BehaviourSettingsPage::Save() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
 
+  s.setValue("showtrayicon", ui_->checkbox_showtrayicon->isChecked());
+  s.setValue("keeprunning", ui_->checkbox_keeprunning->isChecked());
+  s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
+  s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
+  s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
+
   MainWindow::StartupBehaviour behaviour = MainWindow::Startup_Remember;
   if (ui_->radiobutton_alwayshide->isChecked()) behaviour = MainWindow::Startup_AlwaysHide;
   if (ui_->radiobutton_alwaysshow->isChecked()) behaviour = MainWindow::Startup_AlwaysShow;
   if (ui_->radiobutton_remember->isChecked()) behaviour = MainWindow::Startup_Remember;
-
-  AddBehaviour doubleclick_addmode = AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
-  PlayBehaviour doubleclick_playmode = PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
-  PlayBehaviour menu_playmode = PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
-
-  s.setValue("showtrayicon", ui_->checkbox_showtrayicon->isChecked());
-  s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
-  s.setValue("keeprunning", ui_->checkbox_keeprunning->isChecked());
-  s.setValue("resumeplayback", ui_->checkbox_resumeplayback->isChecked());
-  s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
   s.setValue("startupbehaviour", int(behaviour));
-  s.setValue("doubleclick_addmode", doubleclick_addmode);
-  s.setValue("doubleclick_playmode", doubleclick_playmode);
-  s.setValue("menu_playmode", menu_playmode);
-  s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
 
   s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
+
+  PlayBehaviour menu_playmode = PlayBehaviour(ui_->combobox_menuplaymode->itemData(ui_->combobox_menuplaymode->currentIndex()).toInt());
+
+  PreviousBehaviour menu_previousmode = PreviousBehaviour(ui_->combobox_previousmode->itemData(ui_->combobox_previousmode->currentIndex()).toInt());
+  AddBehaviour doubleclick_addmode = AddBehaviour(ui_->combobox_doubleclickaddmode->itemData(ui_->combobox_doubleclickaddmode->currentIndex()).toInt());
+
+  PlayBehaviour doubleclick_playmode = PlayBehaviour(ui_->combobox_doubleclickplaymode->itemData(ui_->combobox_doubleclickplaymode->currentIndex()).toInt());
+
+  PlaylistAddBehaviour doubleclick_playlist_addmode = PlaylistAddBehaviour(ui_->combobox_doubleclickplaylistaddmode->itemData(ui_->combobox_doubleclickplaylistaddmode->currentIndex()).toInt());
+
+  s.setValue("menu_playmode", menu_playmode);
+  s.setValue("menu_previousmode", menu_previousmode);
+  s.setValue("doubleclick_addmode", doubleclick_addmode);
+  s.setValue("doubleclick_playmode", doubleclick_playmode);
+  s.setValue("doubleclick_playlist_addmode", doubleclick_playlist_addmode);
+
+  s.setValue("seek_step_sec", ui_->spinbox_seekstepsec->value());
 
   s.endGroup();
 

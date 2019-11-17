@@ -42,6 +42,7 @@
 #include "engine/gststartup.h"
 #endif
 #include "playlist/playlistitem.h"
+#include "settings/behavioursettingspage.h"
 
 class Application;
 class Song;
@@ -135,12 +136,6 @@ class Player : public PlayerInterface {
   ~Player();
 
   static const char *kSettingsGroup;
-
-  // Don't change the values: they are saved in preferences
-  enum PreviousBehaviour {
-    PreviousBehaviour_DontRestart = 1,
-    PreviousBehaviour_Restart = 2
-  };
 
   Engine::EngineType CreateEngine(Engine::EngineType enginetype);
   void Init();
@@ -240,7 +235,7 @@ class Player : public PlayerInterface {
 
   bool continue_on_error_;
   bool greyout_;
-  PreviousBehaviour menu_previousmode_;
+  BehaviourSettingsPage::PreviousBehaviour menu_previousmode_;
   int seek_step_sec_;
 
   bool volume_control_;
