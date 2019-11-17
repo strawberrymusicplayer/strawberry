@@ -68,13 +68,12 @@ SetCompressor /SOLID lzma
 !include "MUI2.nsh"
 !include "FileAssociation.nsh"
 !include "Capabilities.nsh"
+!include LogicLib.nsh
+!include x64.nsh
 
 !define MUI_ICON "strawberry.ico"
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
-!define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_TEXT "Run Strawberry"
-!define MUI_FINISHPAGE_RUN_FUNCTION "RunStrawberry"
 
 ; Installer pages
 !insertmacro MUI_PAGE_WELCOME
@@ -144,15 +143,13 @@ Function .onInit
 
 FunctionEnd
 
-Function RunStrawberry
-  ShellExecAsUser::ShellExecAsUser "" "$INSTDIR/strawberry.exe" ""
-FunctionEnd
-
 Section "Delete old files" oldfiles
 SectionEnd
 
 Section "Strawberry" Strawberry
   SetOutPath "$INSTDIR"
+
+  nsExec::Exec '"$INSTDIR\killproc.exe" strawberry.exe'
 
   File "strawberry.exe"
   File "strawberry-tagreader.exe"
@@ -242,6 +239,8 @@ Section "Strawberry" Strawberry
   File "libtheora-0.dll"
   File "libxine-2.dll"
 !endif
+
+  File "killproc.exe"
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -406,28 +405,8 @@ Section "Uninstaller"
 SectionEnd
 
 Section "Uninstall"
-  ; Kill strawberry.exe if it's running
-  ; This calling convention is retarded...
-  StrCpy $0 "strawberry.exe"
-  KillProc::FindProcesses
-  StrCmp $1 "-1" wooops
 
-  StrCmp $0 "0" completed
-
-  DetailPrint "Killing running strawberry.exe..."
-
-  StrCpy $0 "strawberry.exe"
-  KillProc::KillProcesses
-  StrCmp $1 "-1" wooops
-
-  Sleep 2000
-  Goto completed
-
-  wooops:
-  DetailPrint "-> Error: Something went wrong while killing running strawberry.exe"
-  Abort
-
-  completed:
+  nsExec::Exec '"$INSTDIR\killproc.exe" strawberry.exe'
 
   ; Delete all the files
 
@@ -602,6 +581,7 @@ Section "Uninstall"
   Delete "$INSTDIR\xine-plugins\xineplug_post_visualizations.dll"
 !endif
 
+  Delete "$INSTDIR\killproc.exe"
   Delete "$INSTDIR\Uninstall.exe"
 
   ; Remove the installation folders.
