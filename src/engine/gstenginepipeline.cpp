@@ -395,7 +395,7 @@ bool GstEnginePipeline::InitAudioBin() {
     next = equalizer_;
   }
 
-  // Link equalizer elements if enabled.
+  // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
     gst_element_link(next, audiopanorama_);
     next = audiopanorama_;
