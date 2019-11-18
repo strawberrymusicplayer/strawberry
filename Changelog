@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed crash when cancelling scrobbler authentication
+    * Fixed "Double clicking a song in the playlist" behaviour setting
+    * Fixed "Pressing Previous in player" behaviour setting
+    * Improved updating compilations code
+    * Removed left click on analyzer to popup menu
+    * (Windows) Added killproc executable to terminate running process before uninstalling
+
 Version 0.6.6:
 
     * Fixed lowercased album artist in playlist column
