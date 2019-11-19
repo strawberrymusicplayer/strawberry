@@ -131,7 +131,7 @@ void AlbumCoverChoiceController::ReloadSettings() {
 }
 
 QList<QAction*> AlbumCoverChoiceController::GetAllActions() {
-  return QList<QAction*>() << cover_from_file_ << cover_to_file_ << separator_ << cover_from_url_ << search_for_cover_ << unset_cover_ << show_cover_;
+  return QList<QAction*>() << cover_from_file_ << cover_to_file_ << separator_ << cover_from_url_ << search_for_cover_ << unset_cover_ << separator_ << show_cover_;
 }
 
 QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
