@@ -70,7 +70,6 @@ using std::placeholders::_2;
 
 const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
-const qint64 CollectionModel::kIconCacheSize = 100000000;  //~100MB
 
 static bool IsArtistGroupBy(const CollectionModel::GroupBy by) {
   return by == CollectionModel::GroupBy_Artist || by == CollectionModel::GroupBy_AlbumArtist;
@@ -126,7 +125,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   backend_->UpdateTotalArtistCountAsync();
   backend_->UpdateTotalAlbumCountAsync();
 
-  QPixmapCache::setCacheLimit(61440);
+  QPixmapCache::setCacheLimit(QPixmapCache::cacheLimit() * 8);
 
 }
 
