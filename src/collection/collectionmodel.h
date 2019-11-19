@@ -70,6 +70,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static const char *kSavedGroupingsSettingsGroup;
 
   static const int kPrettyCoverSize;
+  static const int kPixmapCacheLimit;
 
   enum Role {
     Role_Type = Qt::UserRole + 1,
