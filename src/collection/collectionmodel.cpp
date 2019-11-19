@@ -836,7 +836,6 @@ void CollectionModel::BeginReset() {
   divider_nodes_.clear();
   pending_art_.clear();
   pending_cache_keys_.clear();
-  QPixmapCache::clear();
 
   root_ = new CollectionItem(this);
   root_->compilation_artist_node_ = nullptr;
