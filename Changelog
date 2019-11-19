@@ -120,7 +120,6 @@ Version 0.6.1:
     * Replaced FTS3 and custom tokenizer with FTS5 with unicode61.
     * Fixed certain cases where track slider popup was stuck.
     * Fixed certain cases where the playing widget gets stuck when switching fast between context and other widgets.
-    * Removed ChartLyrics provider (service have been down for a long time).
 
 Version 0.5.5:
 

@@ -58,7 +58,7 @@ Description: Audio player and music collection organizer
   - Edit tags on music files
   - Fetch tags from MusicBrainz
   - Album cover art from Lastfm, Musicbrainz, Discogs, Deezer and Tidal
-  - Song lyrics from AudD, lyrics.ovh and lololyrics.com
+  - Song lyrics from AudD, ChartLyrics, lyrics.ovh and lololyrics.com
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
