@@ -7,6 +7,7 @@ Unreleased:
     * Fixed crash when cancelling scrobbler authentication
     * Fixed "Double clicking a song in the playlist" behaviour setting
     * Fixed "Pressing Previous in player" behaviour setting
+    * Added back lyrics from Chartlyrics
     * Improved updating compilations code
     * Removed left click on analyzer to popup menu
     * (Windows) Added killproc executable to terminate running process before uninstalling
@@ -120,6 +121,7 @@ Version 0.6.1:
     * Replaced FTS3 and custom tokenizer with FTS5 with unicode61.
     * Fixed certain cases where track slider popup was stuck.
     * Fixed certain cases where the playing widget gets stuck when switching fast between context and other widgets.
+    * Removed ChartLyrics provider (service have been down for a long time).
 
 Version 0.5.5:
 
