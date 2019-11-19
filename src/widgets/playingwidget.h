@@ -89,7 +89,7 @@ class PlayingWidget : public QWidget {
   void paintEvent(QPaintEvent *e);
   void resizeEvent(QResizeEvent*);
   void contextMenuEvent(QContextMenuEvent *e);
-  void mouseReleaseEvent(QMouseEvent*);
+  void mouseDoubleClickEvent(QMouseEvent*);
   void dragEnterEvent(QDragEnterEvent *e);
   void dropEvent(QDropEvent *e);
 

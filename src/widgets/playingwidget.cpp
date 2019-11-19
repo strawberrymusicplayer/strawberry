@@ -474,8 +474,12 @@ void PlayingWidget::contextMenuEvent(QContextMenuEvent* e) {
   menu_->popup(mapToGlobal(e->pos()));
 }
 
-void PlayingWidget::mouseReleaseEvent(QMouseEvent*) {
+void PlayingWidget::mouseDoubleClickEvent(QMouseEvent* e) {
+
   // Same behaviour as right-click > Show Fullsize
+  if (e->button() == Qt::LeftButton && song_.is_valid()) {
+    album_cover_choice_controller_->ShowCover(song_, image_original_);
+  }
 
 }
 
