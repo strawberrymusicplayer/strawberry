@@ -45,7 +45,7 @@ const int ChartLyricsProvider::kMaxLength = 6000;
 
 ChartLyricsProvider::ChartLyricsProvider(QObject *parent) : LyricsProvider("ChartLyrics", parent), network_(new NetworkAccessManager(this)) {}
 
-bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
+bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const quint64 id) {
 
   const ParamList params = ParamList() << Param("artist", artist)
                                        << Param("song", title);
@@ -66,7 +66,7 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString &albu
 
 }
 
-void ChartLyricsProvider::CancelSearch(const quint64 id) {
+void ChartLyricsProvider::CancelSearch(const quint64) {
 }
 
 void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
