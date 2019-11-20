@@ -126,6 +126,8 @@ class Song {
   static const QRegExp kTitleRemoveMisc;
   static const QRegExp kFilenameRemoveNonFatChars;
 
+  static const QString kVariousArtists;
+
   static const QStringList kArticles;
 
   static QString JoinSpec(const QString &table);

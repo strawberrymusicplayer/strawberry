@@ -364,13 +364,16 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
   album = album.remove(Song::kAlbumRemoveMisc);
 
   QJsonObject object_track_metadata;
-  if (song.albumartist().isEmpty() || song.albumartist().toLower() == "various artists") {
+  if (song.albumartist().isEmpty() || song.albumartist().toLower() == Song::kVariousArtists) {
     object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.artist()));
   }
   else {
     object_track_metadata.insert("artist_name", QJsonValue::fromVariant(song.albumartist()));
   }
-  object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
+
+  if (!album.isEmpty())
+    object_track_metadata.insert("release_name", QJsonValue::fromVariant(album));
+
   object_track_metadata.insert("track_name", QJsonValue::fromVariant(song.title()));
 
   QJsonObject object_listen;
@@ -478,16 +481,19 @@ void ListenBrainzScrobbler::Submit() {
   for (ScrobblerCacheItem *item : cache_->List()) {
     if (item->sent_) continue;
     item->sent_ = true;
-    i++;
+    ++i;
     list << item->timestamp_;
     QJsonObject object_listen;
     object_listen.insert("listened_at", QJsonValue::fromVariant(item->timestamp_));
     QJsonObject object_track_metadata;
-    if (item->albumartist_.isEmpty() || item->albumartist_.toLower() == "various artists")
+    if (item->albumartist_.isEmpty() || item->albumartist_.toLower() == Song::kVariousArtists)
       object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->artist_));
     else
       object_track_metadata.insert("artist_name", QJsonValue::fromVariant(item->albumartist_));
-    object_track_metadata.insert("release_name", QJsonValue::fromVariant(item->album_));
+
+    if (!item->album_.isEmpty())
+      object_track_metadata.insert("release_name", QJsonValue::fromVariant(item->album_));
+
     object_track_metadata.insert("track_name", QJsonValue::fromVariant(item->song_));
     object_listen.insert("track_metadata", object_track_metadata);
     array.append(QJsonValue::fromVariant(object_listen));
