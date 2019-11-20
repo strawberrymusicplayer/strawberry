@@ -514,6 +514,26 @@ bool ParseUntilElement(QXmlStreamReader *reader, const QString &name) {
 
 }
 
+bool ParseUntilElementCI(QXmlStreamReader *reader, const QString &name) {
+
+  while (!reader->atEnd()) {
+    QXmlStreamReader::TokenType type = reader->readNext();
+    switch (type) {
+      case QXmlStreamReader::StartElement:{
+        QString element = reader->name().toString().toLower();
+        if (element == name) {
+          return true;
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  }
+  return false;
+
+}
+
 QDateTime ParseRFC822DateTime(const QString &text) {
 
   QRegExp regexp("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})");

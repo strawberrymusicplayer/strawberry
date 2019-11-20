@@ -27,4 +27,3 @@ class CollectionBackendInterface;
 
 XMLParser::XMLParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}
-

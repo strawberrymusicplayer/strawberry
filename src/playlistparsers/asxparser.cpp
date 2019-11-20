@@ -46,21 +46,9 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   // We have to load everything first so we can munge the "XML".
   QByteArray data = device->readAll();
 
-  // (thanks Amarok...)
-  // ASX looks a lot like xml, but doesn't require tags to be case sensitive,
-  // meaning we have to accept things like: <Abstract>...</abstract>
-  // We use a dirty way to achieve this: we make all tags lower case
-  QRegExp ex("(<[/]?[^>]*[A-Z]+[^>]*>)");
-  ex.setCaseSensitivity(Qt::CaseInsensitive);
-  int index = 0;
-  while ((index = ex.indexIn(data, index)) != -1) {
-    data.replace(ex.cap(1).toLocal8Bit(), ex.cap(1).toLower().toLocal8Bit());
-    index += ex.matchedLength();
-  }
-
   // Some playlists have unescaped & characters in URLs :(
-  ex.setPattern("(href\\s*=\\s*\")([^\"]+)\"");
-  index = 0;
+  QRegExp ex("(href\\s*=\\s*\")([^\"]+)\"");
+  int index = 0;
   while ((index = ex.indexIn(data, index)) != -1) {
     QString url = ex.cap(2);
     url.replace(QRegExp("&(?!amp;|quot;|apos;|lt;|gt;)"), "&amp;");
@@ -76,16 +64,17 @@ SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const 
   SongList ret;
 
   QXmlStreamReader reader(&buffer);
-  if (!Utilities::ParseUntilElement(&reader, "asx")) {
+  if (!Utilities::ParseUntilElementCI(&reader, "asx")) {
     return ret;
   }
 
-  while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, "entry")) {
+  while (!reader.atEnd() && Utilities::ParseUntilElementCI(&reader, "entry")) {
     Song song = ParseTrack(&reader, dir);
     if (song.is_valid()) {
       ret << song;
     }
   }
+
   return ret;
 
 }
@@ -99,18 +88,21 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir) const {
 
     switch (type) {
       case QXmlStreamReader::StartElement: {
-        QStringRef name = reader->name();
+        QString name = reader->name().toString().toLower();
         if (name == "ref") {
           ref = reader->attributes().value("href").toString();
-        } else if (name == "title") {
+        }
+        else if (name == "title") {
           title = reader->readElementText();
-        } else if (name == "author") {
+        }
+        else if (name == "author") {
           artist = reader->readElementText();
         }
         break;
       }
       case QXmlStreamReader::EndElement: {
-        if (reader->name() == "entry") {
+        QString name = reader->name().toString().toLower();
+        if (name == "entry") {
           goto return_song;
         }
         break;
@@ -124,9 +116,12 @@ return_song:
   Song song = LoadSong(ref, 0, dir);
 
   // Override metadata with what was in the playlist
-  song.set_title(title);
-  song.set_artist(artist);
-  song.set_album(album);
+  if (song.source() != Song::Source_Collection) {
+    if (!title.isEmpty()) song.set_title(title);
+    if (!artist.isEmpty()) song.set_artist(artist);
+    if (!album.isEmpty()) song.set_album(album);
+  }
+
   return song;
 
 }

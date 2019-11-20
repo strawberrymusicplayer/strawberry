@@ -228,7 +228,7 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   if (collection_->ExecQuery(&query) && query.Next()) {
     // We may have many results when the file has many sections
     do {
-      Song song(Song::Source_LocalFile);
+      Song song(Song::Source_Collection);
       song.InitFromQuery(query, true);
 
       if (song.is_valid()) {

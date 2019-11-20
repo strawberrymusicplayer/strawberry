@@ -124,11 +124,14 @@ return_song:
   Song song = LoadSong(location, 0, dir);
 
   // Override metadata with what was in the playlist
-  song.set_title(title);
-  song.set_artist(artist);
-  song.set_album(album);
-  song.set_length_nanosec(nanosec);
-  song.set_track(track_num);
+  if (song.source() != Song::Source_Collection) {
+    if (!title.isEmpty()) song.set_title(title);
+    if (!artist.isEmpty()) song.set_artist(artist);
+    if (!album.isEmpty()) song.set_album(album);
+    if (nanosec > 0) song.set_length_nanosec(nanosec);
+    if (track_num > 0) song.set_track(track_num);
+  }
+
   return song;
 
 }
