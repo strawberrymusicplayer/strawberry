@@ -974,10 +974,6 @@ int TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qint6
   QString album = json_album["title"].toString();
   QString cover = json_album["cover"].toString();
 
-  if (json_obj.contains("explicit") && json_obj["explicit"].toBool()) {
-    album = album + " (Explicit)";
-  }
-
   if (!allow_streaming) {
     Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist).arg(album).arg(title));
   }
