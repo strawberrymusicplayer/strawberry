@@ -1051,7 +1051,7 @@ msgstr "Буферизация"
 msgid "C&onsole"
 msgstr "&Консоль"
 
-#: core/song.cpp:481
+#: core/song.cpp:482
 msgid "CD"
 msgstr "CD"
 
@@ -1145,7 +1145,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:276 core/song.cpp:480
+#: core/mainwindow.cpp:276 core/song.cpp:481
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Фонотека"
@@ -1505,7 +1505,7 @@ msgstr "Назначение"
 msgid "Details..."
 msgstr "Подробнее…"
 
-#: core/song.cpp:482 device/giolister.cpp:188
+#: core/song.cpp:483 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:428
 msgid "Device"
@@ -1865,11 +1865,11 @@ msgstr "Получать весь альбом при поиске песен"
 msgid "Fetching cover error"
 msgstr "Ошибка получения обложки"
 
-#: core/song.cpp:479
+#: core/song.cpp:480
 msgid "File"
 msgstr "Файл"
 
-#: core/song.cpp:1006
+#: core/song.cpp:1007
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Файл %1 не распознается как допустимый аудиофайл."
@@ -3405,7 +3405,7 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:492
+#: scrobbler/scrobblingapi20.cpp:495
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
@@ -3855,7 +3855,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry не смог найти результаты по запросу для этого файла"
 
-#: core/song.cpp:483
+#: core/song.cpp:484
 msgid "Stream"
 msgstr "Поток"
 
@@ -4088,7 +4088,7 @@ msgstr "Эта опция может быть изменена в настрой
 msgid "This type of device is not supported: %1"
 msgstr "Не поддерживаемый тип устройства: %1"
 
-#: core/mainwindow.cpp:284 core/song.cpp:484
+#: core/mainwindow.cpp:284 core/song.cpp:485
 #: ../build/src/ui_tidalsettingspage.h:293
 msgid "Tidal"
 msgstr "Tidal"
@@ -4190,11 +4190,11 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
-#: core/song.cpp:487 core/song.cpp:489 core/song.cpp:533
+#: core/song.cpp:488 core/song.cpp:490 core/song.cpp:534
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
-#: collection/collectionmodel.cpp:1339 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1338 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4611,7 +4611,7 @@ msgstr "настройки"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:486
+#: core/song.cpp:487
 msgid "qobuz"
 msgstr "qobuz"
 
@@ -4637,7 +4637,7 @@ msgstr "сортировать песни"
 msgid "stop"
 msgstr "стоп"
 
-#: core/song.cpp:485
+#: core/song.cpp:486
 msgid "subsonic"
 msgstr "subsonic"
 
