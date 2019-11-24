@@ -44,7 +44,7 @@ class CollectionModelTest : public ::testing::Test {
   void SetUp() {
     database_.reset(new MemoryDatabase(nullptr));
     backend_.reset(new CollectionBackend);
-    backend_->Init(database_.get(), SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
+    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
     model_.reset(new CollectionModel(backend_.get(), nullptr));
 
     added_dir_ = false;
