@@ -65,7 +65,6 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog) : SettingsPage(
   ui_->label_bufferminfillvalue->setMinimumWidth(QFontMetrics(ui_->label_bufferminfillvalue->font()).width("WW%"));
   ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).width("-WW.W dB"));
 #endif
-  RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
   s_.beginGroup(BackendSettingsPage::kSettingsGroup);
 
@@ -179,6 +178,7 @@ void BackendSettingsPage::Load() {
   connect(ui_->checkbox_volume_control, SIGNAL(toggled(bool)), SLOT(FadingOptionsChanged()));
 
   FadingOptionsChanged();
+  RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
 }
 
