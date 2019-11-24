@@ -284,12 +284,6 @@ void CollectionBackend::AddDirectory(const QString &path) {
   QString canonical_path = QFileInfo(path).canonicalFilePath();
   QString db_path = canonical_path;
 
-  if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(QUrl::fromLocalFile(canonical_path))) {
-
-    db_path = Utilities::GetRelativePathToStrawberryBin(QUrl::fromLocalFile(db_path)).toLocalFile();
-    qLog(Debug) << "db_path" << db_path;
-  }
-
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
@@ -780,11 +774,11 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
 
 }
 
-Song CollectionBackend::GetSongByUrl(const QUrl &url, qint64 beginning) {
+Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
 
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("url", url.toString());
+  query.AddWhere("url", url.toString(QUrl::FullyEncoded));
   query.AddWhere("beginning", beginning);
 
   Song song(source_);
@@ -799,7 +793,7 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
 
   CollectionQuery query;
   query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("url", url.toString());
+  query.AddWhere("url", url.toString(QUrl::FullyEncoded));
 
   SongList songlist;
   if (ExecQuery(&query)) {
@@ -923,7 +917,7 @@ void CollectionBackend::UpdateCompilations() {
 
   // Now mark the songs that we think are in compilations
   QSqlQuery find_song(db);
-  find_song.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE url = :url AND compilation_detected = :compilation_detected AND unavailable = 0").arg(songs_table_));
+  find_song.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE url = :url AND unavailable = 0").arg(songs_table_));
 
   QSqlQuery update_song(db);
   update_song.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE url = :url AND unavailable = 0").arg(songs_table_));
@@ -964,8 +958,8 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 
   // Get song, so we can tell the model its updated
   find_song.bindValue(":url", url.toString(QUrl::FullyEncoded));
-  find_song.bindValue(":compilation_detected", int(!compilation_detected));
   find_song.exec();
+
   while (find_song.next()) {
     Song song(source_);
     song.InitFromQuery(find_song, true);

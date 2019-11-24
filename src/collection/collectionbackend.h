@@ -109,7 +109,7 @@ class CollectionBackendInterface : public QObject {
   virtual SongList GetSongsByUrl(const QUrl &url) = 0;
   // Returns a section of a song with the given filename and beginning. If the section is not present in collection, returns invalid song.
   // Using default beginning value is suitable when searching for single-section songs.
-  virtual Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) = 0;
+  virtual Song GetSongByUrl(const QUrl &url, const qint64 beginning = 0) = 0;
 
   virtual void AddDirectory(const QString &path) = 0;
   virtual void RemoveDirectory(const Directory &dir) = 0;
