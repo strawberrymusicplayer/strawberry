@@ -68,8 +68,6 @@ class Application : public QObject {
   Q_OBJECT
 
  public:
-  static bool kIsPortable;
-
   explicit Application(QObject *parent = nullptr);
   ~Application();
 

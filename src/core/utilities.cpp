@@ -736,19 +736,6 @@ void IncreaseFDLimit() {
 
 }
 
-void CheckPortable() {
-
-  QFile f(QApplication::applicationDirPath() + QDir::separator() + "data");
-  if (f.exists()) {
-    // We are portable. Set the bool and change the qsettings path
-    Application::kIsPortable = true;
-
-    QSettings::setDefaultFormat(QSettings::IniFormat);
-    QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, f.fileName());
-  }
-
-}
-
 QString GetRandomStringWithChars(const int len) {
   const QString UseCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
   return GetRandomString(len, UseCharacters);

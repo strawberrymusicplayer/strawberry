@@ -86,8 +86,6 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
-bool Application::kIsPortable = false;
-
 class ApplicationImpl {
  public:
   explicit ApplicationImpl(Application *app) :

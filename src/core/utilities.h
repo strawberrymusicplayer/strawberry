@@ -124,7 +124,6 @@ QString FiddleFileExtension(const QString &filename, const QString &new_extensio
 QString GetEnv(const QString &key);
 void SetEnv(const char *key, const QString &value);
 void IncreaseFDLimit();
-void CheckPortable();
 
 // Borrowed from schedutils
 enum IoPriority {

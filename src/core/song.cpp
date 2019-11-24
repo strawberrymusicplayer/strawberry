@@ -427,15 +427,7 @@ void Song::set_bitdepth(int v) { d->bitdepth_ = v; }
 
 void Song::set_source(Source v) { d->source_ = v; }
 void Song::set_directory_id(int v) { d->directory_id_ = v; }
-void Song::set_url(const QUrl &v) {
-  if (Application::kIsPortable) {
-    QUrl base = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/");
-    d->url_ = base.resolved(v);
-  }
-  else {
-    d->url_ = v;
-  }
-}
+void Song::set_url(const QUrl &v) { d->url_ = v; }
 void Song::set_basefilename(const QString &v) { d->basefilename_ = v; }
 void Song::set_filetype(FileType v) { d->filetype_ = v; }
 void Song::set_filesize(int v) { d->filesize_ = v; }
@@ -1288,18 +1280,7 @@ void Song::BindToQuery(QSqlQuery *query) const {
 
   query->bindValue(":source", d->source_);
   query->bindValue(":directory_id", notnullintval(d->directory_id_));
-
-  QString url;
-  if (d->url_.isValid()) {
-    if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(d->url_)) {
-      url = Utilities::GetRelativePathToStrawberryBin(d->url_).toEncoded();
-    }
-    else {
-      url = d->url_.toEncoded();
-    }
-  }
-  query->bindValue(":url", url);
-
+  query->bindValue(":url", d->url_.toString(QUrl::FullyEncoded));
   query->bindValue(":filetype", d->filetype_);
   query->bindValue(":filesize", notnullintval(d->filesize_));
   query->bindValue(":mtime", notnullintval(d->mtime_));

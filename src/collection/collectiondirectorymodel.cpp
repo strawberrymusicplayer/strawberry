@@ -53,13 +53,7 @@ CollectionDirectoryModel::~CollectionDirectoryModel() {}
 
 void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
 
-  QStandardItem *item;
-  if (Application::kIsPortable && Utilities::UrlOnSameDriveAsStrawberry(QUrl::fromLocalFile(dir.path))) {
-    item = new QStandardItem(Utilities::GetRelativePathToStrawberryBin(QUrl::fromLocalFile(dir.path)).toLocalFile());
-  }
-  else {
-    item = new QStandardItem(dir.path);
-  }
+  QStandardItem *item = new QStandardItem(dir.path);
   item->setData(dir.id, kIdRole);
   item->setIcon(dir_icon_);
   storage_ << std::shared_ptr<MusicStorage>(new FilesystemMusicStorage(dir.path));
