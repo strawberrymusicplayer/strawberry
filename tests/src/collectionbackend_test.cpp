@@ -30,6 +30,7 @@
 
 #include "test_utils.h"
 
+#include "core/timeconstants.h"
 #include "core/song.h"
 #include "core/database.h"
 #include "core/logging.h"
@@ -43,7 +44,7 @@ class CollectionBackendTest : public ::testing::Test {
   virtual void SetUp() {
     database_.reset(new MemoryDatabase(nullptr));
     backend_.reset(new CollectionBackend);
-    backend_->Init(database_.get(), SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
+    backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
   }
 
   Song MakeDummySong(int directory_id) {
@@ -364,6 +365,48 @@ TEST_F(SingleSong, MarkSongsUnavailable) {
 
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_EQ(0, albums.size());
+
+}
+
+TEST_F(SingleSong, TestUrls) {
+
+  QStringList strings = QStringList() << "file:///mnt/music/01 - Pink Floyd - Echoes.flac"
+                                      << "file:///mnt/music/02 - Björn Afzelius - Det räcker nu.flac"
+                                      << "file:///mnt/music/03 - Vazelina Bilopphøggers - Bomull i øra.flac"
+                                      << "file:///mnt/music/Test !#$%&'()-@^_`{}~..flac";
+
+  QList<QUrl> urls = QUrl::fromStringList(strings);
+
+  for (const QUrl &url : urls) {
+
+    QString str = url.toString(QUrl::FullyEncoded);
+    QUrl test_url = QUrl::fromEncoded(str.toUtf8());
+    EXPECT_EQ(url, test_url);
+
+    Song song(Song::Source_Collection);
+    song.set_directory_id(1);
+    song.set_title("Test Title");
+    song.set_album("Test Album");
+    song.set_artist("Test Artist");
+    song.set_url(url);
+    song.set_length_nanosec(kNsecPerSec);
+    song.set_mtime(1);
+    song.set_ctime(1);
+    song.set_filesize(1);
+    song.set_valid(true);
+
+    backend_->AddOrUpdateSongs(SongList() << song);
+    if (HasFatalFailure()) continue;
+
+    SongList songs = backend_->GetSongsByUrl(url);
+    EXPECT_EQ(1, songs.count());
+    if (songs.count() < 1) continue;
+
+    Song new_song = songs.first();
+
+    EXPECT_TRUE(new_song.is_valid());
+    EXPECT_EQ(new_song.url(), url);
+  }
 
 }
 
