@@ -1,0 +1,48 @@
+name: C/C++ CI
+on: [push, pull_request]
+
+jobs:
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Packages
+      run:
+        sudo apt-get install -y git make cmake g++ gettext libglib2.0-dev libdbus-1-dev libboost-dev libprotobuf-dev protobuf-compiler libsqlite3-dev sqlite3 libgnutls28-dev libasound2-dev libpulse-dev qtbase5-dev qtbase5-dev-tools qtbase5-private-dev libqt5core5a libqt5gui5 libqt5widgets5 libqt5concurrent5 libqt5network5 libqt5sql5 libqt5x11extras5-dev libqt5dbus5 qttools5-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-alsa gstreamer1.0-pulseaudio libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libgstreamer-plugins-bad1.0-0 libchromaprint-dev libfftw3-dev libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev libusbmuxd-dev libxine2-dev libvlc-dev
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+    - name: Configure CMake
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Update HomeBrew
+      run: brew update
+    - name: Install Packages
+      run: brew install glib pkgconfig boost libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav libcdio libmtp libimobiledevice libplist create-dmg
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+    - name: Configure CMake
+      env:
+        Qt5_DIR: /usr/local/opt/qt5/lib/cmake
+        Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+    - name: Install
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: make install
