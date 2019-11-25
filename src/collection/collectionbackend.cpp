@@ -776,34 +776,50 @@ SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &d
 
 Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
 
-  CollectionQuery query;
-  query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("url", url.toString(QUrl::FullyEncoded));
-  query.AddWhere("beginning", beginning);
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  QSqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning AND unavailable = 0").arg(songs_table_));
+
+  q.bindValue(":url1", url);
+  q.bindValue(":url2", url.toString());
+  q.bindValue(":url3", url.toString(QUrl::FullyEncoded));
+  q.bindValue(":url4", url.toEncoded());
+  q.bindValue(":beginning", beginning);
+  q.exec();
 
   Song song(source_);
-  if (ExecQuery(&query) && query.Next()) {
-    song.InitFromQuery(query, true);
+  if (q.next()) {
+    song.InitFromQuery(q, true);
   }
+
   return song;
 
 }
 
 SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
 
-  CollectionQuery query;
-  query.SetColumnSpec("%songs_table.ROWID, " + Song::kColumnSpec);
-  query.AddWhere("url", url.toString(QUrl::FullyEncoded));
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
 
-  SongList songlist;
-  if (ExecQuery(&query)) {
-    while (query.Next()) {
-      Song song(source_);
-      song.InitFromQuery(query, true);
-      songlist << song;
-    }
+  QSqlQuery q(db);
+  q.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
+
+  q.bindValue(":url1", url);
+  q.bindValue(":url2", url.toString());
+  q.bindValue(":url3", url.toString(QUrl::FullyEncoded));
+  q.bindValue(":url4", url.toEncoded());
+  q.exec();
+
+  SongList songs;
+  while (q.next()) {
+    Song song(source_);
+    song.InitFromQuery(q, true);
+    songs << song;
   }
-  return songlist;
+
+  return songs;
 
 }
 
@@ -917,10 +933,10 @@ void CollectionBackend::UpdateCompilations() {
 
   // Now mark the songs that we think are in compilations
   QSqlQuery find_song(db);
-  find_song.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE url = :url AND unavailable = 0").arg(songs_table_));
+  find_song.prepare(QString("SELECT ROWID, " + Song::kColumnSpec + " FROM %1 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
 
   QSqlQuery update_song(db);
-  update_song.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE url = :url AND unavailable = 0").arg(songs_table_));
+  update_song.prepare(QString("UPDATE %1 SET compilation_detected = :compilation_detected, compilation_effective = ((compilation OR :compilation_detected OR compilation_on) AND NOT compilation_off) + 0 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND unavailable = 0").arg(songs_table_));
 
   SongList deleted_songs;
   SongList added_songs;
@@ -957,7 +973,10 @@ void CollectionBackend::UpdateCompilations() {
 void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected) {
 
   // Get song, so we can tell the model its updated
-  find_song.bindValue(":url", url.toString(QUrl::FullyEncoded));
+  find_song.bindValue(":url1", url);
+  find_song.bindValue(":url2", url.toString());
+  find_song.bindValue(":url3", url.toString(QUrl::FullyEncoded));
+  find_song.bindValue(":url4", url.toEncoded());
   find_song.exec();
 
   while (find_song.next()) {
@@ -970,7 +989,10 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 
   // Update the song
   update_song.bindValue(":compilation_detected", int(compilation_detected));
-  update_song.bindValue(":url", url.toString(QUrl::FullyEncoded));
+  update_song.bindValue(":url1", url);
+  update_song.bindValue(":url2", url.toString());
+  update_song.bindValue(":url3", url.toString(QUrl::FullyEncoded));
+  update_song.bindValue(":url4", url.toEncoded());
   update_song.exec();
   db_->CheckErrors(update_song);
 
@@ -1014,7 +1036,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
     }
     else {
-      info.art_automatic = QUrl::fromLocalFile(art_automatic.toUtf8());
+      info.art_automatic = QUrl::fromLocalFile(art_automatic);
     }
 
     QString art_manual = query.Value(6).toString();
@@ -1022,7 +1044,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       info.art_manual = QUrl::fromEncoded(art_manual.toUtf8());
     }
     else {
-      info.art_manual = QUrl::fromLocalFile(art_manual.toUtf8());
+      info.art_manual = QUrl::fromLocalFile(art_manual);
     }
 
     if ((info.artist == last_artist || info.album_artist == last_album_artist) && info.album_name == last_album)
@@ -1060,8 +1082,8 @@ CollectionBackend::Album CollectionBackend::GetAlbumArt(const QString &artist, c
   if (!ExecQuery(&query)) return ret;
 
   if (query.Next()) {
-    ret.art_automatic = query.Value(0).toUrl();
-    ret.art_manual = query.Value(1).toUrl();
+    ret.art_automatic = QUrl::fromEncoded(query.Value(0).toByteArray());
+    ret.art_manual = QUrl::fromEncoded(query.Value(1).toByteArray());
     ret.first_url = QUrl::fromEncoded(query.Value(2).toByteArray());
   }
 
@@ -1104,7 +1126,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
   // Update the songs
   QString sql(QString("UPDATE %1 SET art_manual = :cover WHERE album = :album AND unavailable = 0").arg(songs_table_));
 
-  if (!albumartist.isNull() && !albumartist.isEmpty()) {
+  if (!albumartist.isEmpty()) {
     sql += " AND albumartist = :albumartist";
   }
   else if (!artist.isNull()) {
@@ -1113,7 +1135,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &artist, const QStrin
 
   QSqlQuery q(db);
   q.prepare(sql);
-  q.bindValue(":cover", cover_url);
+  q.bindValue(":cover", cover_url.toString(QUrl::FullyEncoded));
   q.bindValue(":album", album);
   if (!albumartist.isEmpty()) {
     q.bindValue(":albumartist", albumartist);
