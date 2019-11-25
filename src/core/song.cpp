@@ -942,7 +942,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
         set_art_automatic(QUrl::fromEncoded(art_automatic.toUtf8()));
       }
       else {
-        set_art_automatic(QUrl::fromLocalFile(art_automatic.toUtf8()));
+        set_art_automatic(QUrl::fromLocalFile(art_automatic));
       }
     }
     else if (Song::kColumns.value(i) == "art_manual") {
@@ -951,7 +951,7 @@ void Song::InitFromQuery(const SqlRow &q, bool reliable_metadata, int col) {
         set_art_manual(QUrl::fromEncoded(art_manual.toUtf8()));
       }
       else {
-        set_art_manual(QUrl::fromLocalFile(art_manual.toUtf8()));
+        set_art_manual(QUrl::fromLocalFile(art_manual));
       }
     }
 
@@ -1296,8 +1296,8 @@ void Song::BindToQuery(QSqlQuery *query) const {
   query->bindValue(":compilation_off", d->compilation_off_ ? 1 : 0);
   query->bindValue(":compilation_effective", is_compilation() ? 1 : 0);
 
-  query->bindValue(":art_automatic", d->art_automatic_);
-  query->bindValue(":art_manual", d->art_manual_);
+  query->bindValue(":art_automatic", d->art_automatic_.toString(QUrl::FullyEncoded));
+  query->bindValue(":art_manual", d->art_manual_.toString(QUrl::FullyEncoded));
 
   query->bindValue(":effective_albumartist", this->effective_albumartist());
   query->bindValue(":effective_originalyear", intval(this->effective_originalyear()));
