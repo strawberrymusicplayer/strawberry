@@ -37,6 +37,7 @@
 #include <QVariant>
 #include <QList>
 #include <QSet>
+#include <QMap>
 #include <QChar>
 #include <QRegExp>
 #include <QString>
@@ -439,21 +440,26 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       // Remove from pixmap cache
       const QString cache_key = AlbumIconPixmapCacheKey(idx);
       QPixmapCache::remove(cache_key);
-      if (pending_cache_keys_.contains(cache_key)) pending_cache_keys_.remove(cache_key);
+      if (pending_cache_keys_.contains(cache_key)) {
+        pending_cache_keys_.remove(cache_key);
+      }
 
       // Remove from pending art loading
-      QMapIterator<quint64, ItemAndCacheKey> i(pending_art_);
-      while (i.hasNext()) {
-        i.next();
-        if (i.value().first == node) {
-          pending_art_.remove(i.key());
-          break;
+      QMap<quint64, ItemAndCacheKey>::iterator i = pending_art_.begin();
+      while (i != pending_art_.end()) {
+        if (i.value().first == node->parent) {
+          i = pending_art_.erase(i);
+        }
+        else {
+          ++i;
         }
       }
+
       beginRemoveRows(idx, node->row, node->row);
       node->parent->Delete(node->row);
       song_nodes_.remove(song.id());
       endRemoveRows();
+
     }
     else {
       // If we get here it means some of the songs we want to delete haven't been lazy-loaded yet.
@@ -486,6 +492,24 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
         node->parent->compilation_artist_node_ = nullptr;
       else
         container_nodes_[node->container_level].remove(node->key);
+
+      // Remove from pixmap cache
+      const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
+      QPixmapCache::remove(cache_key);
+      if (pending_cache_keys_.contains(cache_key)) {
+        pending_cache_keys_.remove(cache_key);
+      }
+
+      // Remove from pending art loading
+      QMap<quint64, ItemAndCacheKey>::iterator i = pending_art_.begin();
+      while (i != pending_art_.end()) {
+        if (i.value().first == node) {
+          i = pending_art_.erase(i);
+        }
+        else {
+          ++i;
+        }
+      }
 
       // It was empty - delete it
       beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
