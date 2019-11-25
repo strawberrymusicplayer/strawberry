@@ -403,9 +403,28 @@ TEST_F(SingleSong, TestUrls) {
     if (songs.count() < 1) continue;
 
     Song new_song = songs.first();
+    EXPECT_TRUE(new_song.is_valid());
+    EXPECT_EQ(new_song.url(), url);
+
+    new_song = backend_->GetSongByUrl(url);
+    EXPECT_EQ(1, songs.count());
+    if (songs.count() < 1) continue;
 
     EXPECT_TRUE(new_song.is_valid());
     EXPECT_EQ(new_song.url(), url);
+
+    QSqlDatabase db(database_.get()->Connect());
+    QSqlQuery q(db);
+    q.prepare(QString("SELECT url FROM %1 WHERE url = :url").arg(SCollection::kSongsTable));
+
+    q.bindValue(":url", url.toString(QUrl::FullyEncoded));
+    q.exec();
+
+    while (q.next()) {
+      EXPECT_EQ(url, q.value(0).toUrl());
+      EXPECT_EQ(url, QUrl::fromEncoded(q.value(0).toByteArray()));
+    }
+
   }
 
 }
