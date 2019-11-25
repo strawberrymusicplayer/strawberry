@@ -787,10 +787,9 @@ Song CollectionBackend::GetSongByUrl(const QUrl &url, const qint64 beginning) {
   q.bindValue(":url3", url.toString(QUrl::FullyEncoded));
   q.bindValue(":url4", url.toEncoded());
   q.bindValue(":beginning", beginning);
-  q.exec();
 
   Song song(source_);
-  if (q.next()) {
+  if (q.exec() && q.next()) {
     song.InitFromQuery(q, true);
   }
 
@@ -810,13 +809,14 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
   q.bindValue(":url2", url.toString());
   q.bindValue(":url3", url.toString(QUrl::FullyEncoded));
   q.bindValue(":url4", url.toEncoded());
-  q.exec();
 
   SongList songs;
-  while (q.next()) {
-    Song song(source_);
-    song.InitFromQuery(q, true);
-    songs << song;
+  if (q.exec()) {
+    while (q.next()) {
+      Song song(source_);
+      song.InitFromQuery(q, true);
+      songs << song;
+    }
   }
 
   return songs;
@@ -977,14 +977,15 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
   find_song.bindValue(":url2", url.toString());
   find_song.bindValue(":url3", url.toString(QUrl::FullyEncoded));
   find_song.bindValue(":url4", url.toEncoded());
-  find_song.exec();
 
-  while (find_song.next()) {
-    Song song(source_);
-    song.InitFromQuery(find_song, true);
-    deleted_songs << song;
-    song.set_compilation_detected(compilation_detected);
-    added_songs << song;
+  if (find_song.exec()) {
+    while (find_song.next()) {
+      Song song(source_);
+      song.InitFromQuery(find_song, true);
+      deleted_songs << song;
+      song.set_compilation_detected(compilation_detected);
+      added_songs << song;
+    }
   }
 
   // Update the song
