@@ -1052,7 +1052,7 @@ msgstr "Guardando en búfer"
 msgid "C&onsole"
 msgstr "C&onsola"
 
-#: core/song.cpp:482
+#: core/song.cpp:474
 msgid "CD"
 msgstr "CD"
 
@@ -1147,7 +1147,7 @@ msgstr ""
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:276 core/song.cpp:481
+#: core/mainwindow.cpp:276 core/song.cpp:473
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Colección"
@@ -1507,7 +1507,7 @@ msgstr "Destino"
 msgid "Details..."
 msgstr "Detalles…"
 
-#: core/song.cpp:483 device/giolister.cpp:188
+#: core/song.cpp:475 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:428
 msgid "Device"
@@ -1869,11 +1869,11 @@ msgstr "Devolver el álbum completo al buscar pistas"
 msgid "Fetching cover error"
 msgstr "Error al obtener la portada"
 
-#: core/song.cpp:480
+#: core/song.cpp:472
 msgid "File"
 msgstr "Archivo"
 
-#: core/song.cpp:1007
+#: core/song.cpp:999
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "El archivo de audio %1 no parece válido."
@@ -3862,7 +3862,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry no encontró resultados para este archivo"
 
-#: core/song.cpp:484
+#: core/song.cpp:476
 msgid "Stream"
 msgstr "Transmisión"
 
@@ -4101,7 +4101,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "No se admite este tipo de dispositivo: %1"
 
-#: core/mainwindow.cpp:284 core/song.cpp:485
+#: core/mainwindow.cpp:284 core/song.cpp:477
 #: ../build/src/ui_tidalsettingspage.h:293
 msgid "Tidal"
 msgstr "Tidal"
@@ -4203,7 +4203,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Banda ultraancha (UWB)"
 
-#: core/song.cpp:488 core/song.cpp:490 core/song.cpp:534
+#: core/song.cpp:480 core/song.cpp:482 core/song.cpp:526
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
@@ -4628,7 +4628,7 @@ msgstr "opciones"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:487
+#: core/song.cpp:479
 msgid "qobuz"
 msgstr "qobuz"
 
@@ -4654,7 +4654,7 @@ msgstr "ordenar canciones"
 msgid "stop"
 msgstr "detener"
 
-#: core/song.cpp:486
+#: core/song.cpp:478
 msgid "subsonic"
 msgstr "subsonic"
 

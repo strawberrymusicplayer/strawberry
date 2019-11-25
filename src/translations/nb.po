@@ -1028,7 +1028,7 @@ msgstr "Mellomlagring"
 msgid "C&onsole"
 msgstr "K&onsoll"
 
-#: core/song.cpp:482
+#: core/song.cpp:474
 msgid "CD"
 msgstr "CD"
 
@@ -1121,7 +1121,7 @@ msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 msgid "Club"
 msgstr "Klubbmusikk"
 
-#: core/mainwindow.cpp:276 core/song.cpp:481
+#: core/mainwindow.cpp:276 core/song.cpp:473
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Samling"
@@ -1480,7 +1480,7 @@ msgstr "Mål"
 msgid "Details..."
 msgstr "Detaljer…"
 
-#: core/song.cpp:483 device/giolister.cpp:188
+#: core/song.cpp:475 device/giolister.cpp:188
 #: ../build/src/ui_contextviewcontainer.h:369
 #: ../build/src/ui_backendsettingspage.h:428
 msgid "Device"
@@ -1840,11 +1840,11 @@ msgstr "Hent hele album når en søker etter sanger"
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:480
+#: core/song.cpp:472
 msgid "File"
 msgstr "Fil"
 
-#: core/song.cpp:1007
+#: core/song.cpp:999
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -3815,7 +3815,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry klarte ikke å finne resultater for denne filen"
 
-#: core/song.cpp:484
+#: core/song.cpp:476
 msgid "Stream"
 msgstr "Strøm"
 
@@ -4047,7 +4047,7 @@ msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
 msgid "This type of device is not supported: %1"
 msgstr "Denne enhetstypen (%1) støttes ikke."
 
-#: core/mainwindow.cpp:284 core/song.cpp:485
+#: core/mainwindow.cpp:284 core/song.cpp:477
 #: ../build/src/ui_tidalsettingspage.h:293
 msgid "Tidal"
 msgstr "Tidal"
@@ -4149,7 +4149,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultrabredt bånd (UWB)"
 
-#: core/song.cpp:488 core/song.cpp:490 core/song.cpp:534
+#: core/song.cpp:480 core/song.cpp:482 core/song.cpp:526
 #: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
 #: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
 #: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
@@ -4566,7 +4566,7 @@ msgstr "innstillinger"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: core/song.cpp:487
+#: core/song.cpp:479
 msgid "qobuz"
 msgstr ""
 
@@ -4592,7 +4592,7 @@ msgstr "sorter sanger"
 msgid "stop"
 msgstr "stopp"
 
-#: core/song.cpp:486
+#: core/song.cpp:478
 msgid "subsonic"
 msgstr ""
 
