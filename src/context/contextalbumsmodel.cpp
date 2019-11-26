@@ -62,18 +62,13 @@ using std::placeholders::_1;
 using std::placeholders::_2;
 
 const int ContextAlbumsModel::kPrettyCoverSize = 32;
-const qint64 ContextAlbumsModel::kIconCacheSize = 100000000;  //~100MB
 
 ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent) :
       SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
       backend_(backend),
       app_(app),
-      artist_icon_(IconLoader::Load("folder-sound")),
       album_icon_(IconLoader::Load("cdcase")),
-      playlists_dir_icon_(IconLoader::Load("folder-sound")),
-      playlist_icon_(IconLoader::Load("albums")),
-      use_pretty_covers_(true)
-  {
+      playlists_dir_icon_(IconLoader::Load("folder-sound")) {
 
   root_->lazy_loaded = true;
 
@@ -89,15 +84,6 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
 }
 
 ContextAlbumsModel::~ContextAlbumsModel() { delete root_; }
-
-void ContextAlbumsModel::set_pretty_covers(bool use_pretty_covers) {
-
-  if (use_pretty_covers != use_pretty_covers_) {
-    use_pretty_covers_ = use_pretty_covers;
-    Reset();
-  }
-
-}
 
 void ContextAlbumsModel::AddSongs(const SongList &songs) {
 
@@ -199,18 +185,8 @@ QVariant ContextAlbumsModel::data(const QModelIndex &index, int role) const {
 
   const CollectionItem *item = IndexToItem(index);
 
-  // Handle a special case for returning album artwork instead of a generic CD icon.
-  // This is here instead of in the other data() function to let us use the QModelIndex& version of GetChildSongs,
-  // which satisfies const-ness, instead of the CollectionItem *version, which doesn't.
-  if (use_pretty_covers_) {
-    bool is_album_node = false;
-    if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container) {
-      is_album_node = (item->container_level == 0);
-    }
-    if (is_album_node) {
-      // It has const behaviour some of the time - that's ok right?
-      return const_cast<ContextAlbumsModel*>(this)->AlbumIcon(index);
-    }
+  if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container && item->container_level == 0) {
+    return const_cast<ContextAlbumsModel*>(this)->AlbumIcon(index);
   }
 
   return data(item, role);
@@ -239,9 +215,6 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
     case Role_Type:
       return item->type;
 
-    case Role_IsDivider:
-      return item->type == CollectionItem::Type_Divider;
-
     case Role_ContainerType:
       return item->type;
 
@@ -265,7 +238,8 @@ QVariant ContextAlbumsModel::data(const CollectionItem *item, int role) const {
             }
           }
           return true;
-        } else {
+        }
+        else {
           return false;
         }
       }
@@ -349,11 +323,19 @@ void ContextAlbumsModel::LazyPopulate(CollectionItem *parent, bool signal) {
 
 void ContextAlbumsModel::Reset() {
 
+  QMap<QString, CollectionItem*>::iterator i = container_nodes_.begin();
+  while (i != container_nodes_.end()) {
+    const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(i.value()));
+    QPixmapCache::remove(cache_key);
+    ++i;
+  }
+
   beginResetModel();
   delete root_;
   song_nodes_.clear();
   container_nodes_.clear();
   pending_art_.clear();
+  pending_cache_keys_.clear();
 
   root_ = new CollectionItem(this);
   root_->lazy_loaded = false;
@@ -434,7 +416,6 @@ Qt::ItemFlags ContextAlbumsModel::flags(const QModelIndex &index) const {
     case CollectionItem::Type_Song:
     case CollectionItem::Type_Container:
       return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
-    case CollectionItem::Type_Divider:
     case CollectionItem::Type_Root:
     case CollectionItem::Type_LoadingIndicator:
     default:

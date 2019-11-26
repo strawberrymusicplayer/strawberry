@@ -55,7 +55,6 @@ class ContextItemDelegate : public QStyledItemDelegate {
 
  public:
   ContextItemDelegate(QObject *parent);
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  public slots:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
@@ -72,7 +71,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
   SongList GetSelectedSongs() const;
 
-  void SetApplication(Application *app);
+  void Init(Application *app);
 
   // QTreeView
   void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
@@ -80,13 +79,8 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   ContextAlbumsModel *albums_model() { return model_; }
 
  public slots:
-  void ReloadSettings();
-
   void SaveFocus();
   void RestoreFocus();
-
-signals:
-  void ShowConfigDialog();
 
  protected:
   // QWidget
@@ -122,7 +116,6 @@ signals:
 #ifndef Q_OS_WIN
   QAction *copy_to_device_;
 #endif
-  QAction *delete_;
   QAction *edit_track_;
   QAction *edit_tracks_;
   QAction *show_in_browser_;

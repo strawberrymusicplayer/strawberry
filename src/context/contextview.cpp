@@ -110,7 +110,7 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
 
-  ui_->widget_play_albums->SetApplication(app_);
+  ui_->widget_play_albums->Init(app_);
   lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
 
   connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));

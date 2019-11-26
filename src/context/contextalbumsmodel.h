@@ -37,11 +37,9 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QMimeData>
 #include <QImage>
 #include <QIcon>
 #include <QPixmap>
-#include <QNetworkDiskCache>
 #include <QSettings>
 
 #include "core/simpletreemodel.h"
@@ -50,6 +48,8 @@
 #include "collection/collectionitem.h"
 #include "collection/sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
+
+class QMimeData;
 
 class Application;
 class CollectionBackend;
@@ -63,7 +63,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   ~ContextAlbumsModel();
 
   static const int kPrettyCoverSize;
-  static const qint64 kIconCacheSize;
 
   enum Role {
     Role_Type = Qt::UserRole + 1,
@@ -71,7 +70,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
     Role_SortText,
     Role_Key,
     Role_Artist,
-    Role_IsDivider,
     Role_Editable,
     LastRole
   };
@@ -80,8 +78,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
     QueryResult() {}
     SqlRowList rows;
   };
-
-  CollectionBackend *backend() const { return backend_; }
 
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
   SongList GetChildSongs(const QModelIndex &index) const;
@@ -92,9 +88,6 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   QStringList mimeTypes() const;
   QMimeData *mimeData(const QModelIndexList &indexes) const;
   bool canFetchMore(const QModelIndex &parent) const;
-
-  void set_pretty_covers(bool use_pretty_covers);
-  bool use_pretty_covers() const { return use_pretty_covers_; }
 
   static QString TextOrUnknown(const QString &text);
   static QString SortText(QString text);
@@ -125,15 +118,11 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   CollectionBackend *backend_;
   Application *app_;
   QueryOptions query_options_;
-  QMap<int, CollectionItem*> song_nodes_;
   QMap<QString, CollectionItem*> container_nodes_;
-  QIcon artist_icon_;
+  QMap<int, CollectionItem*> song_nodes_;
   QIcon album_icon_;
   QPixmap no_cover_icon_;
   QIcon playlists_dir_icon_;
-  QIcon playlist_icon_;
-  QNetworkDiskCache *icon_cache_;
-  bool use_pretty_covers_;
   AlbumCoverLoaderOptions cover_loader_options_;
   typedef QPair<CollectionItem*, QString> ItemAndCacheKey;
   QMap<quint64, ItemAndCacheKey> pending_art_;

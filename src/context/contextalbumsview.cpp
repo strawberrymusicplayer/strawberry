@@ -82,76 +82,6 @@
 
 ContextItemDelegate::ContextItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
-void ContextItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt, const QModelIndex &index) const {
-
-  const bool is_divider = index.data(ContextAlbumsModel::Role_IsDivider).toBool();
-
-  if (is_divider) {
-    QString text(index.data().toString());
-
-    painter->save();
-
-    QRect text_rect(opt.rect);
-
-    // Does this item have an icon?
-    QPixmap pixmap;
-    QVariant decoration = index.data(Qt::DecorationRole);
-    if (!decoration.isNull()) {
-      if (decoration.canConvert<QPixmap>()) {
-        pixmap = decoration.value<QPixmap>();
-      }
-      else if (decoration.canConvert<QIcon>()) {
-        pixmap = decoration.value<QIcon>().pixmap(opt.decorationSize);
-      }
-    }
-
-    // Draw the icon at the left of the text rectangle
-    if (!pixmap.isNull()) {
-      QRect icon_rect(text_rect.topLeft(), opt.decorationSize);
-      const int padding = (text_rect.height() - icon_rect.height()) / 2;
-      icon_rect.adjust(padding, padding, padding, padding);
-      text_rect.moveLeft(icon_rect.right() + padding + 6);
-
-      if (pixmap.size() != opt.decorationSize) {
-        pixmap = pixmap.scaled(opt.decorationSize, Qt::KeepAspectRatio);
-      }
-
-      painter->drawPixmap(icon_rect, pixmap);
-    }
-    else {
-      text_rect.setLeft(text_rect.left() + 30);
-    }
-
-    // Draw the text
-    QFont bold_font(opt.font);
-    bold_font.setBold(true);
-
-    painter->setPen(opt.palette.color(QPalette::Text));
-    painter->setFont(bold_font);
-    painter->drawText(text_rect, text);
-
-    // Draw the line under the item
-    QColor line_color = opt.palette.color(QPalette::Text);
-    QLinearGradient grad_color(opt.rect.bottomLeft(), opt.rect.bottomRight());
-    const double fade_start_end = (opt.rect.width()/3.0)/opt.rect.width();
-    line_color.setAlphaF(0.0);
-    grad_color.setColorAt(0, line_color);
-    line_color.setAlphaF(0.5);
-    grad_color.setColorAt(fade_start_end, line_color);
-    grad_color.setColorAt(1.0 - fade_start_end, line_color);
-    line_color.setAlphaF(0.0);
-    grad_color.setColorAt(1, line_color);
-    painter->setPen(QPen(grad_color, 1));
-    painter->drawLine(opt.rect.bottomLeft(), opt.rect.bottomRight());
-
-    painter->restore();
-  }
-  else {
-    if (!is_divider) QStyledItemDelegate::paint(painter, opt, index);
-  }
-
-}
-
 bool ContextItemDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) {
 
   return true;
@@ -311,22 +241,7 @@ bool ContextAlbumsView::RestoreLevelFocus(const QModelIndex &parent) {
 
 }
 
-void ContextAlbumsView::ReloadSettings() {
-
-  QSettings settings;
-
-  settings.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  SetAutoOpen(settings.value("auto_open", true).toBool());
-
-  if (app_ && model_) {
-    model_->set_pretty_covers(settings.value("pretty_covers", true).toBool());
-  }
-
-  settings.endGroup();
-
-}
-
-void ContextAlbumsView::SetApplication(Application *app) {
+void ContextAlbumsView::Init(Application *app) {
 
   app_ = app;
 
@@ -337,8 +252,6 @@ void ContextAlbumsView::SetApplication(Application *app) {
 
   connect(model_, SIGNAL(modelAboutToBeReset()), this, SLOT(SaveFocus()));
   connect(model_, SIGNAL(modelReset()), this, SLOT(RestoreFocus()));
-
-  ReloadSettings();
 
 }
 
