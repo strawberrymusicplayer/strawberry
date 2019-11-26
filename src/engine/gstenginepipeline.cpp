@@ -270,12 +270,6 @@ bool GstEnginePipeline::InitAudioBin() {
     }
   }
 
-  if (output_ == "wasapisink") {
-    // Dont set exclusive, there is a bug in gstreamer causing freeze/crash:
-    // https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/issues/868
-    g_object_set(G_OBJECT(audiosink), "low-latency", true, nullptr);
-  }
-
   // Create all the other elements
 
   audioqueue_ = engine_->CreateElement("queue2", audiobin_);
