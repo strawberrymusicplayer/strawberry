@@ -2351,7 +2351,7 @@ msgstr "Загрузка устройства MTP"
 msgid "Loading iPod database"
 msgstr "Загрузка база данных iPod"
 
-#: collection/collectionmodel.cpp:179
+#: collection/collectionmodel.cpp:180
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
@@ -2363,7 +2363,7 @@ msgstr "Загрузка композиций"
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
-#: collection/collectionmodel.cpp:172 ../build/src/ui_organisedialog.h:271
+#: collection/collectionmodel.cpp:173 ../build/src/ui_organisedialog.h:271
 msgid "Loading..."
 msgstr "Загрузка…"
 
@@ -4191,10 +4191,10 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
 #: core/song.cpp:480 core/song.cpp:482 core/song.cpp:526
-#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:398
-#: collection/collectionmodel.cpp:403 collection/collectionmodel.cpp:407
-#: collection/collectionmodel.cpp:411 collection/collectionmodel.cpp:415
-#: collection/collectionmodel.cpp:1338 collection/savedgroupingmanager.cpp:137
+#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:399
+#: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
+#: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
+#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4354,7 +4354,7 @@ msgstr "После добавления песни через меню…"
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
-#: collection/collectionmodel.cpp:312 playlist/playlistmanager.cpp:554
+#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:554
 #: covermanager/albumcovermanager.cpp:282 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
