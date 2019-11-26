@@ -435,27 +435,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
 
       if (node->parent != root_) parents << node->parent;
 
-      QModelIndex idx = ItemToIndex(node->parent);
-
-      // Remove from pixmap cache
-      const QString cache_key = AlbumIconPixmapCacheKey(idx);
-      QPixmapCache::remove(cache_key);
-      if (pending_cache_keys_.contains(cache_key)) {
-        pending_cache_keys_.remove(cache_key);
-      }
-
-      // Remove from pending art loading
-      QMap<quint64, ItemAndCacheKey>::iterator i = pending_art_.begin();
-      while (i != pending_art_.end()) {
-        if (i.value().first == node->parent) {
-          i = pending_art_.erase(i);
-        }
-        else {
-          ++i;
-        }
-      }
-
-      beginRemoveRows(idx, node->row, node->row);
+      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
       node->parent->Delete(node->row);
       song_nodes_.remove(song.id());
       endRemoveRows();
