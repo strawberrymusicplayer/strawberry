@@ -17,6 +17,9 @@ Copyright: 2011, 2012, David Sansome <me@davidsansome.com>
 License: Apache-2.0
 
 Files: src/core/main.h
+       src/core/iconloader.cpp
+       src/core/iconloader.h
+       src/core/iconmapper.h
        src/config.h.in
        src/version.h.in
        src/context/contextview.cpp
@@ -25,6 +28,8 @@ Files: src/core/main.h
        src/engine/enginetype.h
        src/engine/alsadevicefinder.cpp
        src/engine/alsadevicefinder.h
+       src/engine/mmdevicefinder.cpp
+       src/engine/mmdevicefinder.h
        src/engine/devicefinder.cpp
        src/engine/devicefinder.h
        src/engine/enginedevice.cpp
@@ -33,6 +38,8 @@ Files: src/core/main.h
        src/engine/phononengine.h
        src/internet/internetservice.cpp
        src/internet/internetservice.h
+       src/internet/internettabsview.cpp
+       src/internet/internettabsview.h
        src/settings/backendsettingspage.cpp
        src/settings/backendsettingspage.h
        src/settings/scrobblersettingspage.cpp
@@ -72,28 +79,50 @@ Files: src/core/main.cpp
        src/core/player.h
        src/core/song.cpp
        src/core/song.h
+       src/core/songloader.cpp
+       src/core/songloader.h
        src/core/urlhandler.cpp
        src/core/urlhandler.h
        src/core/utilities.cpp
        src/core/utilities.h
-       src/core/iconloader.cpp
-       src/core/iconloader.h
+       src/core/network.cpp
+       src/core/network.h
+       src/core/filesystemmusicstorage.cpp
+       src/core/filesystemmusicstorage.h
+       src/core/stylesheetloader.cpp
+       src/core/stylesheetloader.h
        src/engine/gstenginepipeline.cpp
        src/engine/gstenginepipeline.h
        src/engine/vlcengine.cpp
        src/engine/vlcengine.h
+       src/collection/collectionwatcher.cpp
+       src/collection/collectionwatcher.h
+       src/collection/collectionbackend.cpp
+       src/collection/collectionbackend.h
+       src/collection/collectionmodel.cpp
+       src/collection/collectionmodel.h
        src/context/contextalbumsmodel.cpp
        src/context/contextalbumsview.cpp
        src/context/contextalbumsmodel.h
        src/context/contextalbumsview.h
        src/widgets/playingwidget.cpp
        src/widgets/playingwidget.h
+       src/widgets/osdpretty.cpp
+       src/widgets/osdpretty.h
        src/dialogs/about.cpp
        src/dialogs/about.h
+       src/playlist/playlist.cpp
+       src/playlist/playlist.h
        src/playlist/playlistitem.cpp
        src/playlist/playlistitem.h
        src/playlist/playlistdelegates.cpp
        src/playlist/playlistdelegates.h
+       src/playlist/playlistbackend.cpp
+       src/playlist/playlistbackend.h
+       src/playlist/playlistview.cpp
+       src/playlist/playlistview.h
+       src/playlist/songplaylistitem.cpp
+       src/playlist/songplaylistitem.h
        src/internet/internetplaylistitem.cpp
        src/internet/internetsearch.cpp
        src/internet/internetsearch.h
@@ -101,6 +130,10 @@ Files: src/core/main.cpp
        src/internet/internetsearchview.h
        src/internet/internetservices.cpp
        src/internet/internetservices.h
+       src/internet/internetsongsview.cpp
+       src/internet/internetsongsview.h
+       src/internet/internetcollectionview.cpp
+       src/internet/internetcollectionview.h
        ext/libstrawberry-tagreader/tagreader.cpp
        ext/libstrawberry-tagreader/tagreader.h
        src/device/devicemanager.cpp
@@ -113,10 +146,16 @@ Files: src/core/main.cpp
        src/device/deviceview.h
        src/device/connecteddevice.cpp
        src/device/connecteddevice.h
+       src/device/mtpconnection.cpp
+       src/device/mtpconnection.h
+       src/device/mtpdevice.cpp
+       src/device/mtpdevice.h
        src/globalshortcuts/globalshortcuts.cpp
        src/globalshortcuts/globalshortcuts.h
        src/settings/shortcutssettingspage.cpp
        src/settings/shortcutssettingspage.h
+       src/settings/appearancesettingspage.cpp
+       src/settings/appearancesettingspage.h
        src/organise/organise.cpp
        src/organise/organise.h
        src/organise/organisedialog.cpp
@@ -125,8 +164,10 @@ Files: src/core/main.cpp
        src/organise/organiseerrordialog.h
        src/transcoder/transcoder.cpp
        src/transcoder/transcoder.h
+       src/musicbrainz/musicbrainzclient.cpp
+       src/musicbrainz/musicbrainzclient.h
 Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
-           2012-2014, 2017-2018 Jonas Kvinge <jonas@jkvinge.net>
+           2012-2014, 2017-2019 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/engine/enginebase.cpp
@@ -262,6 +303,7 @@ Files: src/internet/localredirectserver.cpp
        src/internet/localredirectserver.h
 Copyright: 2012, 2014, John Maguire <john.maguire@gmail.com>
            2014, Krzysztof Sobiecki <sobkas@gmail.com>
+           2018-2019, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/transcoder/transcoderoptionsopus.cpp
