@@ -11,7 +11,6 @@ Unreleased:
     * Fixed cases where songs were stuck in "Various Artists" because not all songs in
       the same compilation was removed from the model before readded with actual artist.
     * Fixed a bug when importing playlists where metadata was reset
-    * Fixed previous player and doubleclick playlist song behaviour settings
     * Fixed scrobbler to also scrobble songs without album title
     * Fixed text for replay gain setting not loading in backend setting
     * Added back lyrics from Chartlyrics
