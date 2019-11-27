@@ -803,7 +803,7 @@ msgstr "Utseende"
 msgid "Append files/URLs to the playlist"
 msgstr "Tilføy filer/URLer til spillelista"
 
-#: context/contextalbumsview.cpp:358 collection/collectionview.cpp:333
+#: context/contextalbumsview.cpp:271 collection/collectionview.cpp:333
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:302 device/deviceview.cpp:228
 msgid "Append to current playlist"
@@ -1032,7 +1032,7 @@ msgstr "K&onsoll"
 msgid "CD"
 msgstr "CD"
 
-#: core/songloader.cpp:195
+#: core/songloader.cpp:196
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
@@ -1222,7 +1222,7 @@ msgstr "Kopier album omslaggrafikk"
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
-#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:368
+#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:281
 #: collection/collectionview.cpp:344 playlist/playlistlistcontainer.cpp:101
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1250,12 +1250,12 @@ msgstr ""
 "Kunne ikke åpne adressen. Åpne denne nettadressen i nettleseren din:<br /><a "
 "href=\"%1\">%1</a>"
 
-#: core/songloader.cpp:260
+#: core/songloader.cpp:261
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Kan ikke åpne fil %1"
 
-#: core/songloader.cpp:436
+#: core/songloader.cpp:437
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Kunne ikke opprette gstreamer kilde for %1"
@@ -1606,12 +1606,12 @@ msgstr "Rediger tagger"
 msgid "Edit track information"
 msgstr "Rediger spor informasjon"
 
-#: context/contextalbumsview.cpp:372 collection/collectionview.cpp:349
+#: context/contextalbumsview.cpp:285 collection/collectionview.cpp:349
 #: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Rediger spor informasjon…"
 
-#: context/contextalbumsview.cpp:373 collection/collectionview.cpp:350
+#: context/contextalbumsview.cpp:286 collection/collectionview.cpp:350
 msgid "Edit tracks information..."
 msgstr "Rediger spor informasjon…"
 
@@ -1704,7 +1704,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Feil"
 
@@ -2622,7 +2622,7 @@ msgid "None"
 msgstr "Ingen"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
 
@@ -2715,7 +2715,7 @@ msgstr "Åpne lyd &CD"
 msgid "Open device"
 msgstr "Åpne enhet"
 
-#: context/contextalbumsview.cpp:360 collection/collectionview.cpp:335
+#: context/contextalbumsview.cpp:273 collection/collectionview.cpp:335
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:435
 #: internet/internetcollectionview.cpp:304 device/deviceview.cpp:230
 #: ../build/src/ui_behavioursettingspage.h:274
@@ -2747,7 +2747,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Organiser filer"
 
-#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:366
+#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:279
 #: collection/collectionview.cpp:342
 msgid "Organise files..."
 msgstr "Organiser filer…"
@@ -2941,7 +2941,7 @@ msgstr "Foretrukne filnavn for omslag (inndelt med komma)"
 msgid "Preferred format"
 msgstr "Foretrukket format"
 
-#: core/songloader.cpp:156
+#: core/songloader.cpp:157
 msgid "Preload function was not set for blocking operation."
 msgstr "Preload function was not set for blocking operation."
 
@@ -3025,7 +3025,7 @@ msgstr "Legg valgte spor i kø for å spille som neste"
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1631 context/contextalbumsview.cpp:363
+#: core/mainwindow.cpp:1631 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3144,7 +3144,7 @@ msgstr "Gjenta spilleliste"
 msgid "Repeat track"
 msgstr "Gjenta spor"
 
-#: context/contextalbumsview.cpp:359 collection/collectionview.cpp:334
+#: context/contextalbumsview.cpp:272 collection/collectionview.cpp:334
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:434
 #: internet/internetcollectionview.cpp:303 device/deviceview.cpp:229
 msgid "Replace current playlist"
@@ -3579,7 +3579,7 @@ msgstr "Vis i samling…"
 msgid "Show in file browser"
 msgstr ""
 
-#: core/mainwindow.cpp:626 context/contextalbumsview.cpp:374
+#: core/mainwindow.cpp:626 context/contextalbumsview.cpp:287
 #: collection/collectionview.cpp:351 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Vis i filbehandler…"
@@ -4150,10 +4150,10 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ultrabredt bånd (UWB)"
 
 #: core/song.cpp:480 core/song.cpp:482 core/song.cpp:526
-#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:399
+#: context/contextalbumsmodel.cpp:367 collection/collectionmodel.cpp:399
 #: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
 #: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
-#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1342 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4449,7 +4449,7 @@ msgstr "Du er innlogget"
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Du kan velge hvordan sangene i biblioteket er organisert."
 
-#: core/songloader.cpp:137 core/songloader.cpp:142
+#: core/songloader.cpp:138 core/songloader.cpp:143
 msgid "You need GStreamer for this URL."
 msgstr "Du trenge gstreamer for denne URLen"
 

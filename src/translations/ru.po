@@ -827,7 +827,7 @@ msgstr "Внешний вид"
 msgid "Append files/URLs to the playlist"
 msgstr "Добавить файлы/ссылки в плейлист"
 
-#: context/contextalbumsview.cpp:358 collection/collectionview.cpp:333
+#: context/contextalbumsview.cpp:271 collection/collectionview.cpp:333
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:302 device/deviceview.cpp:228
 msgid "Append to current playlist"
@@ -1055,7 +1055,7 @@ msgstr "&Консоль"
 msgid "CD"
 msgstr "CD"
 
-#: core/songloader.cpp:195
+#: core/songloader.cpp:196
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Воспроизведение CD доступно только с движком GStreamer."
 
@@ -1247,7 +1247,7 @@ msgstr "Копировать обложку альбома"
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
 
-#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:368
+#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:281
 #: collection/collectionview.cpp:344 playlist/playlistlistcontainer.cpp:101
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1275,12 +1275,12 @@ msgstr ""
 "Не удалось открыть URL. Откройте этот URL в своем браузере:<br /><a href="
 "\"%1\">%1</a>"
 
-#: core/songloader.cpp:260
+#: core/songloader.cpp:261
 #, qt-format
 msgid "Could not open file %1"
 msgstr "Не удалось открыть файл %1"
 
-#: core/songloader.cpp:436
+#: core/songloader.cpp:437
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
 msgstr "Не удалось создать исходный элемент gstreamer для %1"
@@ -1631,12 +1631,12 @@ msgstr "Изменить теги"
 msgid "Edit track information"
 msgstr "Изменить информацию о треке"
 
-#: context/contextalbumsview.cpp:372 collection/collectionview.cpp:349
+#: context/contextalbumsview.cpp:285 collection/collectionview.cpp:349
 #: widgets/fileviewlist.cpp:53 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Изменить информацию о треке"
 
-#: context/contextalbumsview.cpp:373 collection/collectionview.cpp:350
+#: context/contextalbumsview.cpp:286 collection/collectionview.cpp:350
 msgid "Edit tracks information..."
 msgstr "Изменить информацию о треках"
 
@@ -1729,7 +1729,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
 msgid "Error"
 msgstr "Ошибка"
 
@@ -2653,7 +2653,7 @@ msgid "None"
 msgstr "Ничего"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:488 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
 
@@ -2749,7 +2749,7 @@ msgstr "Открыть аудио &CD..."
 msgid "Open device"
 msgstr "Открыть устройство"
 
-#: context/contextalbumsview.cpp:360 collection/collectionview.cpp:335
+#: context/contextalbumsview.cpp:273 collection/collectionview.cpp:335
 #: widgets/fileviewlist.cpp:45 internet/internetsearchview.cpp:435
 #: internet/internetcollectionview.cpp:304 device/deviceview.cpp:230
 #: ../build/src/ui_behavioursettingspage.h:274
@@ -2781,7 +2781,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Упорядочить файлы"
 
-#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:366
+#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:279
 #: collection/collectionview.cpp:342
 msgid "Organise files..."
 msgstr "Упорядочить файлы…"
@@ -2975,7 +2975,7 @@ msgstr "Приоритетные имена файлов обложек (чер�
 msgid "Preferred format"
 msgstr "Предпочитаемый формат"
 
-#: core/songloader.cpp:156
+#: core/songloader.cpp:157
 msgid "Preload function was not set for blocking operation."
 msgstr ""
 "Функция предварительной нагрузки не была установлена ​​для операции "
@@ -3061,7 +3061,7 @@ msgstr "Очередь выбранных треков для последующ
 msgid "Queue to play next"
 msgstr "Очередь воспроизведения"
 
-#: core/mainwindow.cpp:1631 context/contextalbumsview.cpp:363
+#: core/mainwindow.cpp:1631 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3180,7 +3180,7 @@ msgstr "Повторять плейлист"
 msgid "Repeat track"
 msgstr "Повторять трек"
 
-#: context/contextalbumsview.cpp:359 collection/collectionview.cpp:334
+#: context/contextalbumsview.cpp:272 collection/collectionview.cpp:334
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:434
 #: internet/internetcollectionview.cpp:303 device/deviceview.cpp:229
 msgid "Replace current playlist"
@@ -3615,7 +3615,7 @@ msgstr "Показать в фонотеке…"
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
-#: core/mainwindow.cpp:626 context/contextalbumsview.cpp:374
+#: core/mainwindow.cpp:626 context/contextalbumsview.cpp:287
 #: collection/collectionview.cpp:351 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Открыть в диспетчере файлов"
@@ -4191,10 +4191,10 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
 #: core/song.cpp:480 core/song.cpp:482 core/song.cpp:526
-#: context/contextalbumsmodel.cpp:385 collection/collectionmodel.cpp:399
+#: context/contextalbumsmodel.cpp:367 collection/collectionmodel.cpp:399
 #: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
 #: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
-#: collection/collectionmodel.cpp:1362 collection/savedgroupingmanager.cpp:137
+#: collection/collectionmodel.cpp:1342 collection/savedgroupingmanager.cpp:137
 #: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
 #: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
@@ -4495,7 +4495,7 @@ msgstr "Вы вошли в систему."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Можно изменить способ организации композиций в фонотеке."
 
-#: core/songloader.cpp:137 core/songloader.cpp:142
+#: core/songloader.cpp:138 core/songloader.cpp:143
 msgid "You need GStreamer for this URL."
 msgstr "Вам нужен GStreamer для этого URL."
 
