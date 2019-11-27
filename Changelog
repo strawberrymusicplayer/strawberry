@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.6.7:
 
     * Fixed crash when cancelling scrobbler authentication
     * Fixed "Double clicking a song in the playlist" behaviour setting
