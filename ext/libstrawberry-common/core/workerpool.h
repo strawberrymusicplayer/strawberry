@@ -159,7 +159,7 @@ WorkerPool<HandlerType>::WorkerPool(QObject *parent)
     next_worker_(0),
     next_id_(0) {
 
-  worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 2);
+  worker_count_ = qBound(1, QThread::idealThreadCount() / 2, 4);
   local_server_name_ = qApp->applicationName().toLower();
 
   if (local_server_name_.isEmpty())
