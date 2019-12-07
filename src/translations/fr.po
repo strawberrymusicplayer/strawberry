@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-12-03 06:34+0000\n"
+"PO-Revision-Date: 2019-12-06 03:57+0000\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -246,7 +246,7 @@ msgstr "&Par défaut"
 
 #: ../build/src/ui_mainwindow.h:688
 msgid "&Do a full collection rescan"
-msgstr "&Réanalyser complètement la bibliothèque"
+msgstr "&Refaire une analyse complète de la bibliothèque"
 
 #: ../build/src/ui_mainwindow.h:661
 msgid "&Equalizer"
@@ -351,7 +351,7 @@ msgstr "&Transcoder la musique"
 
 #: ../build/src/ui_mainwindow.h:682
 msgid "&Update changed collection folders"
-msgstr "&Mettre à jour le dossier de collection"
+msgstr "&Mettre à jour les dossiers de la bibliothèque"
 
 #: ../build/src/ui_appearancesettingspage.h:374
 msgid "&Use the system default color"
@@ -824,7 +824,7 @@ msgstr ""
 
 #: moodbar/moodbarrenderer.cpp:166
 msgid "Angry"
-msgstr "Faché"
+msgstr "En colère"
 
 #: ../build/src/ui_qobuzsettingspage.h:258
 msgid "App ID"
@@ -890,7 +890,7 @@ msgstr "Limite de recherche d'artistes"
 
 #: ../build/src/ui_playlistsettingspage.h:154
 msgid "As&k when saving"
-msgstr "Confirmer avant &sauvegarde"
+msgstr "Demander lors de la &sauvegarde"
 
 #: ../build/src/ui_transcodedialog.h:223
 #: ../build/src/ui_qobuzsettingspage.h:264
@@ -1612,11 +1612,13 @@ msgstr "Double-cliquer pour ouvrir"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Double clicking a song in the playlist will..."
-msgstr "Double-cliquer sur un morceau dans la liste de lecture va..."
+msgstr ""
+"Double-cliquer sur un morceau dans la liste de lecture aura comme effet de..."
+""
 
 #: ../build/src/ui_behavioursettingspage.h:269
 msgid "Double clicking a song will..."
-msgstr "Double-cliquer sur un morceau va..."
+msgstr "Double-cliquer sur un morceau aura comme effet de..."
 
 #: ../build/src/ui_tidalsettingspage.h:309
 #: ../build/src/ui_qobuzsettingspage.h:270
@@ -2150,7 +2152,7 @@ msgstr "Serveur mandataire HTTP"
 
 #: moodbar/moodbarrenderer.cpp:170
 msgid "Happy"
-msgstr "Content(e)"
+msgstr "Heureux"
 
 #: ../build/src/ui_deviceproperties.h:370
 msgid "Hardware information"
@@ -2406,7 +2408,7 @@ msgstr "Profil de prédiction à long terme (PLT)"
 
 #: ../build/src/ui_mainwindow.h:620
 msgid "Love"
-msgstr "Aimer"
+msgstr "J'aime"
 
 #: analyzer/analyzercontainer.cpp:72
 #, qt-format
@@ -2427,7 +2429,7 @@ msgstr "Paroles"
 
 #: dialogs/about.cpp:126
 msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
-msgstr "QUALITÉ MARCHANDE ou APTITUDE À UN USAGE PARTICULIER. Voir le<br />"
+msgstr "QUALITÉ MARCHANDE ou APTITUDE À UN USAGE PARTICULIER. Voir la<br />"
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2772,7 +2774,7 @@ msgstr "Ouvrir un répertoire pour en importer la musique"
 
 #: ../build/src/ui_mainwindow.h:655
 msgid "Open audio &CD..."
-msgstr "Ouvrir audio & CD..."
+msgstr "Ouvrir un &CD audio..."
 
 #: ../build/src/ui_deviceproperties.h:381
 msgid "Open device"
@@ -3605,7 +3607,7 @@ msgstr "Afficher une notification lorsque je reprends la lecture"
 
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Show a popup fro&m the system tray"
-msgstr "Afficher une popup depuis la &barre de tâche"
+msgstr "Afficher une pop-up depuis la &barre de tâche"
 
 #: ../build/src/ui_notificationssettingspage.h:446
 msgid "Show a pretty OSD"
@@ -3658,7 +3660,7 @@ msgstr "Classer dans la catégorie « Compilations d'artistes »"
 
 #: ../build/src/ui_scrobblersettingspage.h:302
 msgid "Show love button"
-msgstr "Afficher le bouton Aimer"
+msgstr "Afficher le bouton J'aime"
 
 #: moodbar/moodbarproxystyle.cpp:364
 msgid "Show moodbar"
@@ -4388,7 +4390,7 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:256
 msgid "Using the menu to add a song will..."
-msgstr "Utiliser le menu pour ajouter un morceau va..."
+msgstr "Utiliser le menu pour ajouter un morceau aura comme effet de..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Variable bit rate"
@@ -4475,7 +4477,8 @@ msgstr ""
 #: core/mainwindow.cpp:2389
 msgid "Would you like to run a full rescan right now?"
 msgstr ""
-"Voulez-vous effectuer une analyse complète de la bibliothèque maintenant ?"
+"Souhaitez-vous effectuer une nouvelle analyse complète de la bibliothèque "
+"maintenant ?"
 
 #: ../build/src/ui_playlistsettingspage.h:160
 msgid "Write metadata when saving playlists"
@@ -4597,8 +4600,8 @@ msgid ""
 "along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/"
 "\">http://www.gnu.org/licenses/</a>."
 msgstr ""
-"à coté de Strawberry.  Sinon, veuillez voir <a href=\\\"http://www.gnu.org/"
-"licenses/\\\">http://www.gnu.org/licenses/</a>."
+"en même temps que Strawberry.  Sinon, veuillez voir <a href=\\\"http://www."
+"gnu.org/licenses/\\\">http://www.gnu.org/licenses/</a>."
 
 #: ../build/src/ui_internetsearchview.h:229
 msgid "ar&tists"
