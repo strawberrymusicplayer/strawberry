@@ -220,8 +220,7 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
   // Get the total number of F.. directories
   int total_musicdirs = 0;
   for ( ; ; ++total_musicdirs) {
-    QString dir;
-    dir.sprintf("/iTunes_Control/Music/F%02d", total_musicdirs);
+    QString dir = QString("/iTunes_Control/Music/F%02d").arg(total_musicdirs);
 
     if (!Exists(dir))
       break;
@@ -234,8 +233,7 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
 
   // Pick one at random
   const int dir_num = qrand() % total_musicdirs;
-  QString dir;
-  dir.sprintf("/iTunes_Control/Music/F%02d", dir_num);
+  QString dir = QString("/iTunes_Control/Music/F%02d").arg(dir_num);
 
   if (!Exists(dir)) {
     qLog(Warning) << "Music directory doesn't exist:" << dir;
@@ -252,7 +250,7 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
   static const int kRandMax = 999999;
   QString filename;
   forever {
-    filename.sprintf("libgpod%06d", qrand() % kRandMax);
+    filename = QString("libgpod%06d").arg(qrand() % kRandMax);
     filename += "." + extension;
 
     if (!Exists(dir + "/" + filename))

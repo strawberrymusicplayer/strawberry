@@ -119,8 +119,8 @@ QString PrettyTime(int seconds) {
   seconds %= 60;
 
   QString ret;
-  if (hours) ret.sprintf("%d:%02d:%02d", hours, minutes, seconds);
-  else ret.sprintf("%d:%02d", minutes, seconds);
+  if (hours) ret = QString("%d:%02d:%02d").arg(hours).arg(minutes).arg(seconds);
+  else ret = QString("%d:%02d").arg(minutes).arg(seconds);
 
   return ret;
 
@@ -186,11 +186,11 @@ QString PrettySize(quint64 bytes) {
     if (bytes <= 1000)
       ret = QString::number(bytes) + " bytes";
     else if (bytes <= 1000 * 1000)
-      ret.sprintf("%.1f KB", float(bytes) / 1000);
+      ret = QString("%.1f KB").arg(float(bytes) / 1000);
     else if (bytes <= 1000 * 1000 * 1000)
-      ret.sprintf("%.1f MB", float(bytes) / (1000 * 1000));
+      ret = QString("%.1f MB").arg(float(bytes) / (1000 * 1000));
     else
-      ret.sprintf("%.1f GB", float(bytes) / (1000 * 1000 * 1000));
+      ret = QString("%.1f GB").arg(float(bytes) / (1000 * 1000 * 1000));
   }
   return ret;
 

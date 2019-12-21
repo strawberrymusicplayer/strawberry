@@ -526,8 +526,7 @@ void BackendSettingsPage::DeviceStringChanged() {
 void BackendSettingsPage::RgPreampChanged(int value) {
 
   float db = float(value) / 10 - 15;
-  QString db_str;
-  db_str.sprintf("%+.1f dB", db);
+  QString db_str = QString("%+.1f dB").arg(db);
   ui_->label_replaygainpreamp->setText(db_str);
 
 }

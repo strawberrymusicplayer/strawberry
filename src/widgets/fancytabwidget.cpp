@@ -490,8 +490,7 @@ void FancyTabWidget::paintEvent(QPaintEvent *pe) {
   QRect backgroundRect = rect();
   backgroundRect.setWidth(tabBar()->width());
 
-  QString key;
-  key.sprintf("mh_vertical %d %d %d %d %d", backgroundRect.width(), backgroundRect.height(), bg_color_.rgb(), (bg_gradient_ ? 1 : 0), (background_pixmap_.isNull() ? 0 : 1));
+  QString key = QString::asprintf("mh_vertical %d %d %d %d %d", backgroundRect.width(), backgroundRect.height(), bg_color_.rgb(), (bg_gradient_ ? 1 : 0), (background_pixmap_.isNull() ? 0 : 1));
 
   QPixmap pixmap;
   if (!QPixmapCache::find(key, &pixmap)) {
