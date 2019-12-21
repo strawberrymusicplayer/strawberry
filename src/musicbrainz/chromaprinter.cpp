@@ -36,7 +36,7 @@
 #include <QByteArray>
 #include <QDateTime>
 #include <QString>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QtDebug>
 
 #include "chromaprinter.h"
@@ -125,7 +125,7 @@ QString Chromaprinter::CreateFingerprint() {
   gst_element_get_state(pipeline, nullptr, nullptr, kTimeoutSecs * GST_SECOND);
   gst_element_seek(pipeline, 1.0, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, GST_SEEK_TYPE_SET, 0 * GST_SECOND, GST_SEEK_TYPE_SET, kPlayLengthSecs * GST_SECOND);
 
-  QTime time;
+  QElapsedTimer time;
   time.start();
 
   // Start playing

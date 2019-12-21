@@ -37,7 +37,7 @@
 #include <QSharedMemory>
 #include <QByteArray>
 #include <QDateTime>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "singlecoreapplication.h"
 #include "singlecoreapplication_p.h"
@@ -89,7 +89,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
   }
 
   InstancesInfo* inst = static_cast<InstancesInfo*>(d->memory->data());
-  QTime time;
+  QElapsedTimer time;
   time.start();
 
   // Make sure the shared memory block is initialised and in consistent state
