@@ -79,6 +79,7 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   virtual QUrl Url() const = 0;
 
   void SetTemporaryMetadata(const Song &metadata);
+  void UpdateTemporaryMetadata(const Song &metadata);
   void ClearTemporaryMetadata();
   bool HasTemporaryMetadata() const { return temp_metadata_.is_valid(); }
 
