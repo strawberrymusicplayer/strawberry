@@ -658,7 +658,7 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const QueryOptions &opt) 
     artists << query2.Value(0).toString();
   }
 
-  return QStringList(artists.toList());
+  return QStringList(artists.values());
 
 }
 
