@@ -65,9 +65,9 @@ PlaylistFilter::PlaylistFilter(QObject *parent)
                      << Playlist::Column_Track
                      << Playlist::Column_Disc
                      << Playlist::Column_Length
-		     << Playlist::Column_Samplerate
-		     << Playlist::Column_Bitdepth
-                     <<  Playlist::Column_Bitrate;
+                     << Playlist::Column_Samplerate
+                     << Playlist::Column_Bitdepth
+                     << Playlist::Column_Bitrate;
 }
 
 PlaylistFilter::~PlaylistFilter() {
