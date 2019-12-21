@@ -33,7 +33,7 @@
 #include "core/logging.h"
 #include "imobiledeviceconnection.h"
 
-iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(nullptr), afc_(nullptr), afc_port_(0) {
+iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(nullptr), afc_(nullptr) {
 
   idevice_error_t err = idevice_new(&device_, uuid.toUtf8().constData());
   if (err != IDEVICE_E_SUCCESS) {

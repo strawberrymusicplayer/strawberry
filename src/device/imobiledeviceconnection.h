@@ -59,7 +59,6 @@ private:
 
   idevice_t device_;
   afc_client_t afc_;
-  uint16_t afc_port_;
 };
 
 #endif // IMOBILEDEVICECONNECTION_H
