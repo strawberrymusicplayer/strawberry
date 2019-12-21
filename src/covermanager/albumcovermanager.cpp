@@ -251,7 +251,11 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
 
 void AlbumCoverManager::CancelRequests() {
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  app_->album_cover_loader()->CancelTasks(QSet<quint64>(cover_loading_tasks_.begin(), cover_loading_tasks_.end()));
+#else
   app_->album_cover_loader()->CancelTasks(QSet<quint64>::fromList(cover_loading_tasks_.keys()));
+#endif
   cover_loading_tasks_.clear();
 
   cover_exporter_->Cancel();

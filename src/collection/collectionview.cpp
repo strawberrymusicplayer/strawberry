@@ -463,7 +463,11 @@ void CollectionView::ShowInVarious(bool on) {
     }
   }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  for (const QString &album : QSet<QString>(albums.begin(), albums.end())) {
+#else
   for (const QString &album : QSet<QString>::fromList(albums.keys())) {
+#endif
     app_->collection_backend()->ForceCompilation(album, albums.values(album), on);
   }
 
