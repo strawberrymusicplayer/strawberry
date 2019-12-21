@@ -60,7 +60,7 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
   }
 
   afc_error_t afc_err = afc_client_new(device_, lockdown_service_desc, &afc_);
-  if (afc_err != 0) {
+  if (afc_err != AFC_E_SUCCESS) {
     qLog(Warning) << "afc error:" << afc_err;
     lockdownd_service_descriptor_free(lockdown_service_desc);
     lockdownd_client_free(lockdown);
