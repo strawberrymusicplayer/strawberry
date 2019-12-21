@@ -71,6 +71,7 @@ class SettingsDialog : public QDialog {
     Page_Behaviour,
     Page_Collection,
     Page_Backend,
+    Page_Context,
     Page_Playback,
     Page_Playlist,
     Page_GlobalShortcuts,

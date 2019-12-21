@@ -71,9 +71,9 @@ class ContextView : public QWidget {
   void Stopped();
   void Error();
   void SongChanged(const Song &song);
+  void ReloadSettings();
 
  private:
-  static const char *kSettingsGroup;
 
   Ui_ContextViewContainer *ui_;
   Application *app_;
@@ -103,6 +103,8 @@ class ContextView : public QWidget {
   std::unique_ptr<QMovie> spinner_animation_;
   qint64 lyrics_id_;
   QString lyrics_;
+  QString title_fmt_;
+  QString summary_fmt_;
 
   void AddActions();
   void SetLabelEnabled(QLabel *label);

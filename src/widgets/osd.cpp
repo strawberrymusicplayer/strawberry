@@ -141,28 +141,8 @@ void OSD::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage
       message_parts << tr("track %1").arg(song.track());
   }
   else {
-    QRegExp variable_replacer("[%][a-z]+[%]");
-    summary = custom_text1_;
-    QString message(custom_text2_);
-
-    // Replace the first line
-    int pos = 0;
-    variable_replacer.indexIn(custom_text1_);
-    while ((pos = variable_replacer.indexIn(custom_text1_, pos)) != -1) {
-      QStringList captured = variable_replacer.capturedTexts();
-      summary.replace(captured[0], ReplaceVariable(captured[0], song));
-      pos += variable_replacer.matchedLength();
-    }
-
-    // Replace the second line
-    pos = 0;
-    variable_replacer.indexIn(custom_text2_);
-    while ((pos = variable_replacer.indexIn(custom_text2_, pos)) != -1) {
-      QStringList captured = variable_replacer.capturedTexts();
-      message.replace(captured[0], ReplaceVariable(captured[0], song));
-      pos += variable_replacer.matchedLength();
-    }
-    message_parts << message;
+    summary = ReplaceMessage(custom_text1_, song, behaviour_);
+    message_parts << ReplaceMessage(custom_text2_, song, behaviour_);
   }
 
   if (show_art_) {
@@ -291,57 +271,74 @@ void OSD::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
   }
 }
 
-QString OSD::ReplaceVariable(const QString &variable, const Song &song) {
+QString OSD::ReplaceMessage(const QString &message, const Song &song, OSD::Behaviour behaviour) {
+
+  QRegExp variable_replacer("[%][a-z]+[%]");
+  QString copy(message);
+
+  // Replace the first line
+  int pos = 0;
+  variable_replacer.indexIn(message);
+  while ((pos = variable_replacer.indexIn(message, pos)) != -1) {
+    QStringList captured = variable_replacer.capturedTexts();
+    copy.replace(captured[0], ReplaceVariable(captured[0], song, behaviour));
+    pos += variable_replacer.matchedLength();
+  }
+
+  return copy;
+}
+
+QString OSD::ReplaceVariable(const QString &variable, const Song &song, OSD::Behaviour behaviour) {
 
   QString return_value;
   if (variable == "%artist%") {
-    return song.artist();
+    return song.artist().toHtmlEscaped();
   }
   else if (variable == "%album%") {
-    return song.album();
+    return song.album().toHtmlEscaped();
   }
   else if (variable == "%title%") {
-    return song.PrettyTitle();
+    return song.PrettyTitle().toHtmlEscaped();
   }
   else if (variable == "%albumartist%") {
-    return song.effective_albumartist();
+    return song.effective_albumartist().toHtmlEscaped();
   }
   else if (variable == "%year%") {
-    return song.PrettyYear();
+    return song.PrettyYear().toHtmlEscaped();
   }
   else if (variable == "%composer%") {
-    return song.composer();
+    return song.composer().toHtmlEscaped();
   }
   else if (variable == "%performer%") {
-    return song.performer();
+    return song.performer().toHtmlEscaped();
   }
   else if (variable == "%grouping%") {
-    return song.grouping();
+    return song.grouping().toHtmlEscaped();
   }
   else if (variable == "%length%") {
-    return song.PrettyLength();
+    return song.PrettyLength().toHtmlEscaped();
   }
   else if (variable == "%disc%") {
-    return return_value.setNum(song.disc());
+    return return_value.setNum(song.disc()).toHtmlEscaped();
   }
   else if (variable == "%track%") {
-    return return_value.setNum(song.track());
+    return return_value.setNum(song.track()).toHtmlEscaped();
   }
   else if (variable == "%genre%") {
-    return song.genre();
+    return song.genre().toHtmlEscaped();
   }
   else if (variable == "%playcount%") {
-    return return_value.setNum(song.playcount());
+    return return_value.setNum(song.playcount()).toHtmlEscaped();
   }
   else if (variable == "%skipcount%") {
-    return return_value.setNum(song.skipcount());
+    return return_value.setNum(song.skipcount()).toHtmlEscaped();
   }
   else if (variable == "%filename%") {
-    return song.basefilename();
+    return song.basefilename().toHtmlEscaped();
   }
   else if (variable == "%newline%") {
     // We need different strings depending on notification type
-    switch (behaviour_) {
+    switch (behaviour) {
       case Native:
 #ifdef Q_OS_MACOS
         return "\n";

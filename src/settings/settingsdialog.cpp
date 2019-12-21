@@ -49,6 +49,7 @@
 #include "appearancesettingspage.h"
 #include "backendsettingspage.h"
 #include "behavioursettingspage.h"
+#include "contextsettingspage.h"
 #include "collectionsettingspage.h"
 #include "notificationssettingspage.h"
 #include "playlistsettingspage.h"
@@ -120,6 +121,7 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   QTreeWidgetItem *general = AddCategory(tr("General"));
   AddPage(Page_Behaviour, new BehaviourSettingsPage(this), general);
   AddPage(Page_Collection, new CollectionSettingsPage(this), general);
+  AddPage(Page_Context, new ContextSettingsPage(this), general);
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
   AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
   AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
