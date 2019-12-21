@@ -220,7 +220,7 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
   // Get the total number of F.. directories
   int total_musicdirs = 0;
   for ( ; ; ++total_musicdirs) {
-    QString dir = QString:asprintf("/iTunes_Control/Music/F%02d", total_musicdirs);
+    QString dir = QString::asprintf("/iTunes_Control/Music/F%02d", total_musicdirs);
 
     if (!Exists(dir))
       break;
