@@ -121,7 +121,6 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   QTreeWidgetItem *general = AddCategory(tr("General"));
   AddPage(Page_Behaviour, new BehaviourSettingsPage(this), general);
   AddPage(Page_Collection, new CollectionSettingsPage(this), general);
-  AddPage(Page_Context, new ContextSettingsPage(this), general);
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
   AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
   AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
@@ -132,6 +131,7 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
+  AddPage(Page_Context, new ContextSettingsPage(this), iface);
   AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
 
 #ifdef HAVE_GLOBALSHORTCUTS
