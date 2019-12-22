@@ -88,6 +88,7 @@
 #endif
 
 #include "core/logging.h"
+#include "core/song.h"
 
 #include "utilities.h"
 #include "timeconstants.h"
@@ -847,6 +848,79 @@ QString MacAddress() {
 
   return ret;
 
+}
+
+QString ReplaceMessage(const QString &message, const Song &song, const QString &newline) {
+
+  QRegExp variable_replacer("[%][a-z]+[%]");
+  QString copy(message);
+
+  // Replace the first line
+  int pos = 0;
+  variable_replacer.indexIn(message);
+  while ((pos = variable_replacer.indexIn(message, pos)) != -1) {
+    QStringList captured = variable_replacer.capturedTexts();
+    copy.replace(captured[0], ReplaceVariable(captured[0], song, newline));
+    pos += variable_replacer.matchedLength();
+  }
+
+  return copy;
+}
+
+QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline) {
+
+  QString return_value;
+  if (variable == "%artist%") {
+    return song.artist().toHtmlEscaped();
+  }
+  else if (variable == "%album%") {
+    return song.album().toHtmlEscaped();
+  }
+  else if (variable == "%title%") {
+    return song.PrettyTitle().toHtmlEscaped();
+  }
+  else if (variable == "%albumartist%") {
+    return song.effective_albumartist().toHtmlEscaped();
+  }
+  else if (variable == "%year%") {
+    return song.PrettyYear().toHtmlEscaped();
+  }
+  else if (variable == "%composer%") {
+    return song.composer().toHtmlEscaped();
+  }
+  else if (variable == "%performer%") {
+    return song.performer().toHtmlEscaped();
+  }
+  else if (variable == "%grouping%") {
+    return song.grouping().toHtmlEscaped();
+  }
+  else if (variable == "%length%") {
+    return song.PrettyLength().toHtmlEscaped();
+  }
+  else if (variable == "%disc%") {
+    return return_value.setNum(song.disc()).toHtmlEscaped();
+  }
+  else if (variable == "%track%") {
+    return return_value.setNum(song.track()).toHtmlEscaped();
+  }
+  else if (variable == "%genre%") {
+    return song.genre().toHtmlEscaped();
+  }
+  else if (variable == "%playcount%") {
+    return return_value.setNum(song.playcount()).toHtmlEscaped();
+  }
+  else if (variable == "%skipcount%") {
+    return return_value.setNum(song.skipcount()).toHtmlEscaped();
+  }
+  else if (variable == "%filename%") {
+    return song.basefilename().toHtmlEscaped();
+  }
+  else if (variable == "%newline%") {
+    return QString(newline);
+  }
+
+  //if the variable is not recognized, just return it
+  return variable;
 }
 
 }  // namespace Utilities

@@ -44,6 +44,8 @@
 #include <QXmlStreamReader>
 #include <QtEvents>
 
+#include "core/song.h"
+
 namespace Utilities {
 QString PrettyTime(int seconds);
 QString PrettyTimeDelta(int seconds);
@@ -155,6 +157,9 @@ QString DesktopEnvironment();
 QString UnicodeToAscii(const QString &unicode);
 
 QString MacAddress();
+
+QString ReplaceMessage(const QString &message, const Song &song, const QString &newline);
+QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline);
 
 }  // namespace
 

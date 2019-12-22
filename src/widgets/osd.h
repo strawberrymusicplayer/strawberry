@@ -72,9 +72,6 @@ class OSD : public QObject {
   static bool SupportsNativeNotifications();
   static bool SupportsTrayPopups();
 
-  static QString ReplaceMessage(const QString &message, const Song &song, OSD::Behaviour behaviour);
-  static QString ReplaceVariable(const QString &variable, const Song &song, OSD::Behaviour behaviour);
-
   void ReloadPrettyOSDSettings();
 
   void SetPrettyOSDToggleMode(bool toggle);
@@ -97,6 +94,8 @@ class OSD : public QObject {
 
  private:
   void ShowMessage(const QString &summary, const QString &message = QString(), const QString icon = QString("strawberry"), const QImage &image = QImage());
+
+  QString ReplaceMessage(const QString &message, const Song &song);
 
   // These are implemented in the OS-specific files
   void Init();
