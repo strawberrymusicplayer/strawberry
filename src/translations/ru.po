@@ -175,7 +175,7 @@ msgstr "%1 песен<br />\n"
 msgid "%1 tracks"
 msgstr "%1 треков"
 
-#: covermanager/albumcovermanager.cpp:487
+#: covermanager/albumcovermanager.cpp:491
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 передано"
@@ -752,7 +752,7 @@ msgstr "Все файлы (*)"
 msgid "All albums"
 msgstr "Все альбомы"
 
-#: covermanager/albumcovermanager.cpp:281
+#: covermanager/albumcovermanager.cpp:285
 msgid "All artists"
 msgstr "Все исполнители"
 
@@ -1729,7 +1729,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Ошибка"
 
@@ -1784,12 +1784,12 @@ msgstr "Экспорт загруженных обложек"
 msgid "Export embedded covers"
 msgstr "Экспорт встроенных обложек"
 
-#: covermanager/albumcovermanager.cpp:839
-#: covermanager/albumcovermanager.cpp:865
+#: covermanager/albumcovermanager.cpp:843
+#: covermanager/albumcovermanager.cpp:869
 msgid "Export finished"
 msgstr "Экспорт завершён"
 
-#: covermanager/albumcovermanager.cpp:850
+#: covermanager/albumcovermanager.cpp:854
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Экспортировано %1 обложек из %2 (%3 пропущено)"
@@ -2028,7 +2028,7 @@ msgstr "Перейти к следующему плейлисту"
 msgid "Go to previous playlist tab"
 msgstr "Перейти к предудыщему плейлисту"
 
-#: covermanager/albumcovermanager.cpp:481
+#: covermanager/albumcovermanager.cpp:485
 #: covermanager/coversearchstatisticsdialog.cpp:70
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2157,7 +2157,7 @@ msgstr "Высокая (%1 fps)"
 msgid "Icon"
 msgstr "Значок"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:600
 msgid "Icons on top"
 msgstr "Значки сверху"
 
@@ -2276,7 +2276,7 @@ msgstr "Большой зал"
 msgid "Large album cover"
 msgstr "Большая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:597
+#: widgets/fancytabwidget.cpp:596
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
@@ -2621,7 +2621,7 @@ msgstr "На следующей неделе"
 msgid "No analyzer"
 msgstr "Без анализатора"
 
-#: covermanager/albumcovermanager.cpp:840
+#: covermanager/albumcovermanager.cpp:844
 msgid "No covers to export."
 msgstr "Нет обложек для экспорта."
 
@@ -2653,7 +2653,7 @@ msgid "None"
 msgstr "Ничего"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
 
@@ -2877,7 +2877,7 @@ msgstr "Исполнитель"
 msgid "Pixel"
 msgstr "Пиксель"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:598
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
@@ -2910,7 +2910,7 @@ msgstr "Настройки проигрывателя"
 
 #: playlist/playlistcontainer.cpp:286 playlist/playlistlistcontainer.cpp:258
 #: playlist/playlistlistcontainer.cpp:346 playlist/playlistmanager.cpp:103
-#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:535
+#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:143
 msgid "Playlist"
 msgstr "Плейлист"
@@ -3720,7 +3720,7 @@ msgstr "Пропустить трек"
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:598
+#: widgets/fancytabwidget.cpp:597
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
@@ -3918,7 +3918,7 @@ msgstr "Системные цвета"
 msgid "Tabbar colors"
 msgstr "Цвета вкладок"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:599
 msgid "Tabs on top"
 msgstr "Вкладки вверху"
 
@@ -4195,8 +4195,8 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 #: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
 #: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
 #: collection/collectionmodel.cpp:1342 collection/savedgroupingmanager.cpp:137
-#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
-#: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
+#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:543
+#: playlist/playlistmanager.cpp:544 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
 msgid "Unknown"
 msgstr "Неизвестный"
@@ -4354,8 +4354,8 @@ msgstr "После добавления песни через меню…"
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
-#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:554
-#: covermanager/albumcovermanager.cpp:282 internet/internetsearchmodel.cpp:94
+#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:555
+#: covermanager/albumcovermanager.cpp:286 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Различные исполнители"

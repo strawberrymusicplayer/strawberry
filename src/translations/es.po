@@ -175,7 +175,7 @@ msgstr "%1 pistas<br />\n"
 msgid "%1 tracks"
 msgstr "%1 pistas"
 
-#: covermanager/albumcovermanager.cpp:487
+#: covermanager/albumcovermanager.cpp:491
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 transferido"
@@ -752,7 +752,7 @@ msgstr "Todos los archivos (*)"
 msgid "All albums"
 msgstr "Todos los álbumes"
 
-#: covermanager/albumcovermanager.cpp:281
+#: covermanager/albumcovermanager.cpp:285
 msgid "All artists"
 msgstr "Todos los artistas"
 
@@ -1733,7 +1733,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels*:3"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Error"
 
@@ -1788,12 +1788,12 @@ msgstr "Exportar portadas descargadas"
 msgid "Export embedded covers"
 msgstr "Exportar portadas incrustadas"
 
-#: covermanager/albumcovermanager.cpp:839
-#: covermanager/albumcovermanager.cpp:865
+#: covermanager/albumcovermanager.cpp:843
+#: covermanager/albumcovermanager.cpp:869
 msgid "Export finished"
 msgstr "Exportación finalizada"
 
-#: covermanager/albumcovermanager.cpp:850
+#: covermanager/albumcovermanager.cpp:854
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Se han exportado %1 carátulas de %2 (%3 omitidas)"
@@ -2031,7 +2031,7 @@ msgstr "Ir a la siguiente pestaña de lista de reproducción"
 msgid "Go to previous playlist tab"
 msgstr "Ir a la anterior pestaña de lista de reproducción"
 
-#: covermanager/albumcovermanager.cpp:481
+#: covermanager/albumcovermanager.cpp:485
 #: covermanager/coversearchstatisticsdialog.cpp:70
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2164,7 +2164,7 @@ msgstr "Alta (%1 fps)"
 msgid "Icon"
 msgstr "Icono"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:600
 msgid "Icons on top"
 msgstr "Iconos en la parte superior"
 
@@ -2283,7 +2283,7 @@ msgstr "Salón grande"
 msgid "Large album cover"
 msgstr "Portada de álbum grande"
 
-#: widgets/fancytabwidget.cpp:597
+#: widgets/fancytabwidget.cpp:596
 msgid "Large sidebar"
 msgstr "Barra lateral grande"
 
@@ -2629,7 +2629,7 @@ msgstr "Próxima semana"
 msgid "No analyzer"
 msgstr "Sin analizador"
 
-#: covermanager/albumcovermanager.cpp:840
+#: covermanager/albumcovermanager.cpp:844
 msgid "No covers to export."
 msgstr "No hay ninguna portada que exportar."
 
@@ -2662,7 +2662,7 @@ msgid "None"
 msgstr "Ninguno"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Ninguna de las pistas seleccionadas era apta para copiarse en un dispositivo"
@@ -2887,7 +2887,7 @@ msgstr "Intérprete"
 msgid "Pixel"
 msgstr "Píxel"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:598
 msgid "Plain sidebar"
 msgstr "Barra lateral simple"
 
@@ -2920,7 +2920,7 @@ msgstr "Opciones del reproductor"
 
 #: playlist/playlistcontainer.cpp:286 playlist/playlistlistcontainer.cpp:258
 #: playlist/playlistlistcontainer.cpp:346 playlist/playlistmanager.cpp:103
-#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:535
+#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:143
 msgid "Playlist"
 msgstr "Lista de reproducción"
@@ -3730,7 +3730,7 @@ msgstr "Omitir pista"
 msgid "Small album cover"
 msgstr "Portada de álbum pequeña"
 
-#: widgets/fancytabwidget.cpp:598
+#: widgets/fancytabwidget.cpp:597
 msgid "Small sidebar"
 msgstr "Barra lateral pequeña"
 
@@ -3925,7 +3925,7 @@ msgstr "Colores del sistema"
 msgid "Tabbar colors"
 msgstr "Colores barra pestañas"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:599
 msgid "Tabs on top"
 msgstr "Pestañas en la parte superior"
 
@@ -4208,8 +4208,8 @@ msgstr "Banda ultraancha (UWB)"
 #: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
 #: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
 #: collection/collectionmodel.cpp:1342 collection/savedgroupingmanager.cpp:137
-#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
-#: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
+#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:543
+#: playlist/playlistmanager.cpp:544 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
 msgid "Unknown"
 msgstr "Desconocido"
@@ -4368,8 +4368,8 @@ msgstr "Al usar el menú para añadir una canción…"
 msgid "Variable bit rate"
 msgstr "Tasa de bits variable"
 
-#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:554
-#: covermanager/albumcovermanager.cpp:282 internet/internetsearchmodel.cpp:94
+#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:555
+#: covermanager/albumcovermanager.cpp:286 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Varios artistas"

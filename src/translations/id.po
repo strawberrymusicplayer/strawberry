@@ -156,7 +156,7 @@ msgstr "%1 lagu<br />\n"
 msgid "%1 tracks"
 msgstr "%1 trek"
 
-#: covermanager/albumcovermanager.cpp:487
+#: covermanager/albumcovermanager.cpp:491
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
@@ -734,7 +734,7 @@ msgstr "Semua Berkas (*)"
 msgid "All albums"
 msgstr "Semua album"
 
-#: covermanager/albumcovermanager.cpp:281
+#: covermanager/albumcovermanager.cpp:285
 msgid "All artists"
 msgstr "Semua artis"
 
@@ -1709,7 +1709,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Kesalahan"
 
@@ -1764,12 +1764,12 @@ msgstr "Ekspor sampul yang sudah diunduh"
 msgid "Export embedded covers"
 msgstr "Ekspor sampul yang tertanam"
 
-#: covermanager/albumcovermanager.cpp:839
-#: covermanager/albumcovermanager.cpp:865
+#: covermanager/albumcovermanager.cpp:843
+#: covermanager/albumcovermanager.cpp:869
 msgid "Export finished"
 msgstr "Ekspor selesai"
 
-#: covermanager/albumcovermanager.cpp:850
+#: covermanager/albumcovermanager.cpp:854
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Mengekspor %1 sampul dari %2 (%3 dilewati)"
@@ -2007,7 +2007,7 @@ msgstr "Buka tab daftar putar selanjutnya"
 msgid "Go to previous playlist tab"
 msgstr "Buka tab daftar putar sebelumnya"
 
-#: covermanager/albumcovermanager.cpp:481
+#: covermanager/albumcovermanager.cpp:485
 #: covermanager/coversearchstatisticsdialog.cpp:70
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2134,7 +2134,7 @@ msgstr "Tinggi (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:600
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2252,7 +2252,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:597
+#: widgets/fancytabwidget.cpp:596
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2597,7 +2597,7 @@ msgstr "Minggu depan"
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
-#: covermanager/albumcovermanager.cpp:840
+#: covermanager/albumcovermanager.cpp:844
 msgid "No covers to export."
 msgstr "Tidak ada sampul untuk diekspor."
 
@@ -2630,7 +2630,7 @@ msgid "None"
 msgstr "Nihil"
 
 #: core/mainwindow.cpp:2181 core/mainwindow.cpp:2287
-#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:552
+#: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
 "Tidak satu pun dari lagu yang dipilih cocok untuk disalin ke perangkat"
@@ -2854,7 +2854,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:598
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -2887,7 +2887,7 @@ msgstr "Opsi pemutar"
 
 #: playlist/playlistcontainer.cpp:286 playlist/playlistlistcontainer.cpp:258
 #: playlist/playlistlistcontainer.cpp:346 playlist/playlistmanager.cpp:103
-#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:535
+#: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:143
 msgid "Playlist"
 msgstr "Daftar putar"
@@ -3695,7 +3695,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:598
+#: widgets/fancytabwidget.cpp:597
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -3892,7 +3892,7 @@ msgstr "Warna sistem"
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:599
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4173,8 +4173,8 @@ msgstr "Pita ultra lebar (UWB)"
 #: collection/collectionmodel.cpp:404 collection/collectionmodel.cpp:408
 #: collection/collectionmodel.cpp:412 collection/collectionmodel.cpp:416
 #: collection/collectionmodel.cpp:1342 collection/savedgroupingmanager.cpp:137
-#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:542
-#: playlist/playlistmanager.cpp:543 dialogs/edittagdialog.cpp:490
+#: playlist/playlistdelegates.cpp:353 playlist/playlistmanager.cpp:543
+#: playlist/playlistmanager.cpp:544 dialogs/edittagdialog.cpp:490
 #: dialogs/edittagdialog.cpp:538
 msgid "Unknown"
 msgstr "Tidak diketahui"
@@ -4330,8 +4330,8 @@ msgstr "Menggunakan menu untuk menambah lagu akan..."
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:554
-#: covermanager/albumcovermanager.cpp:282 internet/internetsearchmodel.cpp:94
+#: collection/collectionmodel.cpp:313 playlist/playlistmanager.cpp:555
+#: covermanager/albumcovermanager.cpp:286 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Artis beraga"
