@@ -43,6 +43,7 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/systemtrayicon.h"
+#include "core/utilities.h"
 #include "covermanager/currentalbumcoverloader.h"
 
 const char *OSD::kSettingsGroup = "OSD";
@@ -141,28 +142,8 @@ void OSD::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage
       message_parts << tr("track %1").arg(song.track());
   }
   else {
-    QRegExp variable_replacer("[%][a-z]+[%]");
-    summary = custom_text1_;
-    QString message(custom_text2_);
-
-    // Replace the first line
-    int pos = 0;
-    variable_replacer.indexIn(custom_text1_);
-    while ((pos = variable_replacer.indexIn(custom_text1_, pos)) != -1) {
-      QStringList captured = variable_replacer.capturedTexts();
-      summary.replace(captured[0], ReplaceVariable(captured[0], song));
-      pos += variable_replacer.matchedLength();
-    }
-
-    // Replace the second line
-    pos = 0;
-    variable_replacer.indexIn(custom_text2_);
-    while ((pos = variable_replacer.indexIn(custom_text2_, pos)) != -1) {
-      QStringList captured = variable_replacer.capturedTexts();
-      message.replace(captured[0], ReplaceVariable(captured[0], song));
-      pos += variable_replacer.matchedLength();
-    }
-    message_parts << message;
+    summary = ReplaceMessage(custom_text1_, song);
+    message_parts << ReplaceMessage(custom_text2_, song);
   }
 
   if (show_art_) {
@@ -291,81 +272,39 @@ void OSD::RepeatModeChanged(PlaylistSequence::RepeatMode mode) {
   }
 }
 
-QString OSD::ReplaceVariable(const QString &variable, const Song &song) {
+QString OSD::ReplaceMessage(const QString &message, const Song &song) {
 
-  QString return_value;
-  if (variable == "%artist%") {
-    return song.artist();
-  }
-  else if (variable == "%album%") {
-    return song.album();
-  }
-  else if (variable == "%title%") {
-    return song.PrettyTitle();
-  }
-  else if (variable == "%albumartist%") {
-    return song.effective_albumartist();
-  }
-  else if (variable == "%year%") {
-    return song.PrettyYear();
-  }
-  else if (variable == "%composer%") {
-    return song.composer();
-  }
-  else if (variable == "%performer%") {
-    return song.performer();
-  }
-  else if (variable == "%grouping%") {
-    return song.grouping();
-  }
-  else if (variable == "%length%") {
-    return song.PrettyLength();
-  }
-  else if (variable == "%disc%") {
-    return return_value.setNum(song.disc());
-  }
-  else if (variable == "%track%") {
-    return return_value.setNum(song.track());
-  }
-  else if (variable == "%genre%") {
-    return song.genre();
-  }
-  else if (variable == "%playcount%") {
-    return return_value.setNum(song.playcount());
-  }
-  else if (variable == "%skipcount%") {
-    return return_value.setNum(song.skipcount());
-  }
-  else if (variable == "%filename%") {
-    return song.basefilename();
-  }
-  else if (variable == "%newline%") {
+  QString newline = "<br/>";
+
+  if (message.indexOf("%newline%") != -1) {
     // We need different strings depending on notification type
     switch (behaviour_) {
       case Native:
 #ifdef Q_OS_MACOS
-        return "\n";
+        newline = "\n";
+        break;
 #endif
 #ifdef Q_OS_LINUX
-        return "<br/>";
+        break;
 #endif
 #ifdef Q_OS_WIN32
         // Other OS don't support native notifications
         qLog(Debug) << "New line not supported by this notification type under Windows";
-        return "";
+        newline = "";
+        break;
 #endif
       case TrayPopup:
         qLog(Debug) << "New line not supported by this notification type";
-        return "";
+        newline = "";
+        break;
       case Pretty:
       default:
         // When notifications are disabled, we force the PrettyOSD
-        return "<br/>";
+        break;
     }
   }
 
-  //if the variable is not recognized, just return it
-  return variable;
+  return Utilities::ReplaceMessage(message, song, newline);
 }
 
 void OSD::ShowPreview(const Behaviour type, const QString &line1, const QString &line2, const Song &song) {

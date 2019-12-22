@@ -95,10 +95,11 @@ class OSD : public QObject {
  private:
   void ShowMessage(const QString &summary, const QString &message = QString(), const QString icon = QString("strawberry"), const QImage &image = QImage());
 
+  QString ReplaceMessage(const QString &message, const Song &song);
+
   // These are implemented in the OS-specific files
   void Init();
   void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
-  QString ReplaceVariable(const QString &variable, const Song &song);
 
  private slots:
 #ifdef HAVE_DBUS

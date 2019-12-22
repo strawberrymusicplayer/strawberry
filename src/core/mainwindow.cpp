@@ -955,6 +955,7 @@ void MainWindow::ReloadAllSettings() {
   app_->album_cover_loader()->ReloadSettings();
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
+  context_view_->ReloadSettings();
 #ifdef HAVE_TIDAL
   tidal_view_->ReloadSettings();
 #endif

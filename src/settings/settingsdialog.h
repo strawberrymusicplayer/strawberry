@@ -75,6 +75,7 @@ class SettingsDialog : public QDialog {
     Page_Playlist,
     Page_GlobalShortcuts,
     Page_Appearance,
+    Page_Context,
     Page_Notifications,
     Page_Transcoding,
     Page_Proxy,

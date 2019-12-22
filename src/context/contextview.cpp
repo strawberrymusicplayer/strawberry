@@ -62,14 +62,14 @@
 #include "covermanager/albumcoverloader.h"
 #include "covermanager/currentalbumcoverloader.h"
 #include "lyrics/lyricsfetcher.h"
+#include "settings/contextsettingspage.h"
+#include "widgets/osd.h"
 
 #include "contextview.h"
 #include "contextalbumsmodel.h"
 #include "ui_contextviewcontainer.h"
 
 using std::unique_ptr;
-
-const char *ContextView::kSettingsGroup = "ContextView";
 
 ContextView::ContextView(QWidget *parent) :
     QWidget(parent),
@@ -152,13 +152,7 @@ void ContextView::AddActions() {
   menu_->addActions(cover_actions);
   menu_->addSeparator();
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  action_show_data_->setChecked(s.value("show_data", true).toBool());
-  action_show_output_->setChecked(s.value("show_output", true).toBool());
-  action_show_albums_->setChecked(s.value("show_albums", false).toBool());
-  action_show_lyrics_->setChecked(s.value("show_lyrics", true).toBool());
-  s.endGroup();
+  ReloadSettings();
 
   connect(action_show_data_, SIGNAL(triggered()), this, SLOT(ActionShowData()));
   connect(action_show_output_, SIGNAL(triggered()), this, SLOT(ActionShowOutput()));
@@ -205,6 +199,26 @@ void ContextView::SongChanged(const Song &song) {
     }
   }
 
+}
+
+void ContextView::ReloadSettings() {
+
+  QSettings s;
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, "%title% - %artist%").toString();
+  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, "%album%").toString();
+  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], true).toBool());
+  action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], true).toBool());
+  action_show_albums_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], false).toBool());
+  action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], true).toBool());
+  s.endGroup();
+
+  if (song_.is_valid()) {
+    SetSong(song_);
+  }
+  else {
+    UpdateNoSong();
+  }
 }
 
 void ContextView::SetLabelEnabled(QLabel *label) {
@@ -269,7 +283,7 @@ void ContextView::SetSong(const Song &song) {
                                      "font: 11pt;"
                                      "font-weight: regular;"
                                      );
-  ui_->label_play_top->setText( QString("<b>%1 - %2</b><br/>%3").arg(song.PrettyTitle().toHtmlEscaped(), song.artist().toHtmlEscaped(), song.album().toHtmlEscaped()));
+  ui_->label_play_top->setText(QString("<b>%1</b><br/>%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br/>"), Utilities::ReplaceMessage(summary_fmt_, song, "<br/>")));
 
   if (action_show_data_->isChecked()) {
     ui_->layout_play_data->setEnabled(true);
@@ -447,9 +461,7 @@ void ContextView::SetSong(const Song &song) {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  if (song.artist() != song_playing_.artist() || song.album() != song_playing_.album() || song.title() != song_playing_.title()) {
-    ui_->label_play_top->setText( QString("<b>%1 - %2</b><br/>%3").arg(song.PrettyTitle().toHtmlEscaped(), song.artist().toHtmlEscaped(), song.album().toHtmlEscaped()));
-  }
+  ui_->label_play_top->setText(QString("<b>%1</b><br/>%2").arg(Utilities::ReplaceMessage(title_fmt_, song, "<br/>"), Utilities::ReplaceMessage(summary_fmt_, song, "<br/>")));
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) ui_->filetype->setText(song.TextForFiletype());
@@ -657,24 +669,24 @@ void ContextView::AutomaticCoverSearchDone() {
 
 void ContextView::ActionShowData() {
   QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("show_data", action_show_data_->isChecked());
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA], action_show_data_->isChecked());
   s.endGroup();
   SetSong(song_);
 }
 
 void ContextView::ActionShowOutput() {
   QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("show_output", action_show_output_->isChecked());
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], action_show_output_->isChecked());
   s.endGroup();
   SetSong(song_);
 }
 
 void ContextView::ActionShowAlbums() {
   QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("show_albums", action_show_albums_->isChecked());
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], action_show_albums_->isChecked());
   s.endGroup();
   song_prev_ = Song();
   SetSong(song_);
@@ -682,8 +694,8 @@ void ContextView::ActionShowAlbums() {
 
 void ContextView::ActionShowLyrics() {
   QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("show_lyrics", action_show_lyrics_->isChecked());
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], action_show_lyrics_->isChecked());
   s.endGroup();
   SetSong(song_);
   if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song_.artist().isEmpty() && !song_.title().isEmpty()) {
