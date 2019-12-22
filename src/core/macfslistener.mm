@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <QTimer>
+
 #include <CoreFoundation/CFArray.h>
 #include <Foundation/NSArray.h>
 #include <Foundation/NSString.h>
@@ -30,21 +32,21 @@
 #include "scoped_nsobject.h"
 
 MacFSListener::MacFSListener(QObject* parent)
-    : FileSystemWatcherInterface(parent), run_loop_(nullptr), stream_(nullptr) {
-  update_timer_.setSingleShot(true);
-  update_timer_.setInterval(2000);
-  connect(&update_timer_, SIGNAL(timeout()), SLOT(UpdateStream()));
+    : FileSystemWatcherInterface(parent),
+    run_loop_(nullptr),
+    stream_(nullptr),
+    update_timer_(new QTimer(this)) {
+
+  update_timer_->setSingleShot(true);
+  update_timer_->setInterval(2000);
+  connect(update_timer_, SIGNAL(timeout()), SLOT(UpdateStream()));
+
 }
 
 void MacFSListener::Init() { run_loop_ = CFRunLoopGetCurrent(); }
 
-void MacFSListener::EventStreamCallback(
-    ConstFSEventStreamRef stream,
-    void* user_data,
-    size_t num_events,
-    void* event_paths,
-    const FSEventStreamEventFlags event_flags[],
-    const FSEventStreamEventId event_ids[]) {
+void MacFSListener::EventStreamCallback(ConstFSEventStreamRef stream, void* user_data, size_t num_events, void* event_paths, const FSEventStreamEventFlags event_flags[], const FSEventStreamEventId event_ids[]) {
+
   MacFSListener* me = reinterpret_cast<MacFSListener*>(user_data);
   char** paths = reinterpret_cast<char**>(event_paths);
   for (int i = 0; i < num_events; ++i) {
@@ -55,26 +57,35 @@ void MacFSListener::EventStreamCallback(
     }
     emit me->PathChanged(path);
   }
+
 }
 
 void MacFSListener::AddPath(const QString& path) {
+
   Q_ASSERT(run_loop_);
   paths_.insert(path);
   UpdateStreamAsync();
+
 }
 
 void MacFSListener::RemovePath(const QString& path) {
+
   Q_ASSERT(run_loop_);
   paths_.remove(path);
   UpdateStreamAsync();
+
 }
 
 void MacFSListener::Clear() {
+
   paths_.clear();
   UpdateStreamAsync();
+
 }
 
-void MacFSListener::UpdateStreamAsync() { update_timer_.start(); }
+void MacFSListener::UpdateStreamAsync() {
+  update_timer_->start();
+}
 
 void MacFSListener::UpdateStream() {
   if (stream_) {
@@ -88,11 +99,10 @@ void MacFSListener::UpdateStream() {
     return;
   }
 
-  scoped_nsobject<NSMutableArray> array([[NSMutableArray alloc] init]);
+  scoped_nsobject<NSMutableArray> array([ [NSMutableArray alloc] init]);
 
   for (const QString& path : paths_) {
-    scoped_nsobject<NSString> string(
-        [[NSString alloc] initWithUTF8String:path.toUtf8().constData()]);
+    scoped_nsobject<NSString> string([ [NSString alloc] initWithUTF8String:path.toUtf8().constData()]);
     [array addObject:string.get()];
   }
 

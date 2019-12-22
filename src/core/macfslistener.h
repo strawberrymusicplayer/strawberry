@@ -26,11 +26,12 @@
 #include <CoreServices/CoreServices.h>
 
 #include <QObject>
-#include <QString>
 #include <QSet>
-#include <QTimer>
+#include <QString>
 
 #include "filesystemwatcherinterface.h"
+
+class QTimer;
 
 class MacFSListener : public FileSystemWatcherInterface {
   Q_OBJECT
@@ -57,7 +58,7 @@ signals:
   FSEventStreamRef stream_;
 
   QSet<QString> paths_;
-  QTimer update_timer_;
+  QTimer *update_timer_;
 };
 
 #endif
