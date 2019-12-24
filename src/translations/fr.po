@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-12-06 03:57+0000\n"
+"PO-Revision-Date: 2019-12-23 05:45+0000\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -187,7 +187,7 @@ msgstr "%1 transférés"
 
 #: ../build/src/ui_contextsettingspage.h:322
 msgid "%album%"
-msgstr ""
+msgstr "%album%"
 
 #: ../build/src/ui_collectionsettingspage.h:267
 #, c-format
@@ -219,7 +219,7 @@ msgstr "%n restant"
 
 #: ../build/src/ui_contextsettingspage.h:318
 msgid "%title - %artist%"
-msgstr ""
+msgstr "%titre - %artiste%"
 
 #: ../build/src/ui_mainwindow.h:642
 msgid "&About Strawberry"
@@ -769,7 +769,7 @@ msgstr "Albums"
 
 #: ../build/src/ui_contextsettingspage.h:327
 msgid "Albums by Artist"
-msgstr ""
+msgstr "Albums par artiste"
 
 #: ../build/src/ui_tidalsettingspage.h:307
 #: ../build/src/ui_qobuzsettingspage.h:268
@@ -1475,7 +1475,7 @@ msgstr "Paramètres de message personnalisé"
 
 #: ../build/src/ui_contextsettingspage.h:317
 msgid "Custom text settings"
-msgstr ""
+msgstr "Réglages de texte personnalisés"
 
 #: ../build/src/ui_notificationssettingspage.h:471
 msgid "Custom..."
@@ -1707,7 +1707,7 @@ msgstr "Activer"
 
 #: ../build/src/ui_contextsettingspage.h:324
 msgid "Enable Items"
-msgstr ""
+msgstr "Activer les éléments"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1750,7 +1750,7 @@ msgstr "Moteur"
 
 #: ../build/src/ui_contextsettingspage.h:326
 msgid "Engine and Device"
-msgstr ""
+msgstr "Moteur et périphérique"
 
 #: ../build/src/ui_coverfromurldialog.h:102
 msgid "Enter a URL to download a cover from the Internet:"
@@ -3811,7 +3811,7 @@ msgstr "Soft Rock"
 
 #: ../build/src/ui_contextsettingspage.h:328
 msgid "Song Lyrics"
-msgstr ""
+msgstr "Paroles des morceaux"
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Songs"
@@ -4013,7 +4013,7 @@ msgstr "Débit cible"
 
 #: ../build/src/ui_contextsettingspage.h:325
 msgid "Technical Data"
-msgstr ""
+msgstr "Données techniques"
 
 #: equalizer/equalizer.cpp:154
 msgid "Techno"
