@@ -80,6 +80,7 @@ void InternetServices::Exit() {
     connect(service, SIGNAL(ExitFinished()), this, SLOT(ExitReceived()));
     service->Exit();
   }
+  if (wait_for_exit_.isEmpty()) emit ExitFinished();
 
 }
 
