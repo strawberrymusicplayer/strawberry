@@ -200,8 +200,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
 #ifndef Q_OS_WIN
-      device_view_container_(new DeviceViewContainer(this)),
-      device_view_(device_view_container_->view()),
+      device_view_(new DeviceViewContainer(this)),
 #endif
       playlist_list_(new PlaylistListContainer(this)),
       queue_view_(new QueueView(this)),
@@ -214,8 +213,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         connect(cover_manager, SIGNAL(AddToPlaylist(QMimeData*)), this, SLOT(AddToPlaylist(QMimeData*)));
         return cover_manager;
       }),
-
-      //organise_dialog_(new OrganiseDialog(app_->task_manager())),
       equalizer_(new Equalizer),
       organise_dialog_([=]() {
         OrganiseDialog *dialog = new OrganiseDialog(app->task_manager(), app->collection_backend());
@@ -329,7 +326,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   collection_view_->view()->setModel(collection_sort_model_);
   collection_view_->view()->SetApplication(app_);
 #ifndef Q_OS_WIN
-  device_view_->SetApplication(app_);
+  device_view_->view()->SetApplication(app_);
 #endif
   playlist_list_->SetApplication(app_);
 
@@ -539,7 +536,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
 #ifndef Q_OS_WIN
   // Devices connections
-  connect(device_view_, SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(device_view_->view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 #endif
 
   // Collection filter widget

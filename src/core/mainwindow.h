@@ -282,7 +282,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 
   Application *app_;
-  SystemTrayIcon  *tray_icon_;
+  SystemTrayIcon *tray_icon_;
   OSD *osd_;
   Lazy<About> about_dialog_;
   Lazy<EditTagDialog> edit_tag_dialog_;
@@ -294,8 +294,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   CollectionViewContainer *collection_view_;
   FileView *file_view_;
 #ifndef Q_OS_WIN
-  DeviceViewContainer *device_view_container_;
-  DeviceView *device_view_;
+  DeviceViewContainer *device_view_;
 #endif
   PlaylistListContainer *playlist_list_;
   QueueView *queue_view_;
