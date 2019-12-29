@@ -246,15 +246,18 @@ void ContextView::NoSong() {
 
   ui_->label_stop_top->setText(tr("No song playing"));
 
-  QString html = tr(
-                    "%1 songs<br />\n"
-                    "%2 artists<br />\n"
-                    "%3 albums<br />\n"
-                    )
-                    .arg(collectionview_->TotalSongs())
-                    .arg(collectionview_->TotalArtists())
-                    .arg(collectionview_->TotalAlbums())
-                    ;
+  QString html;
+  if (collectionview_->TotalSongs() == 1) html += tr("%1 song").arg(collectionview_->TotalSongs());
+  else html += tr("%1 songs").arg(collectionview_->TotalSongs());
+  html += "<br />";
+
+  if (collectionview_->TotalArtists() == 1) html += tr("%1 artist").arg(collectionview_->TotalArtists());
+  else html += tr("%1 artists").arg(collectionview_->TotalArtists());
+  html += "<br />";
+
+  if (collectionview_->TotalAlbums() == 1) html += tr("%1 album").arg(collectionview_->TotalAlbums());
+  else html += tr("%1 albums").arg(collectionview_->TotalAlbums());
+  html += "<br />";
 
   ui_->label_stop_summary->setStyleSheet(
                                          "font: 12pt;"
@@ -416,7 +419,7 @@ void ContextView::SetSong(const Song &song) {
     if (albumlist.count() > 1) {
       ui_->label_play_albums->setVisible(true);
       ui_->label_play_albums->setMinimumSize(0, 20);
-      ui_->label_play_albums->setText(tr("<b>Albums by %1</b>").arg( song.artist().toHtmlEscaped()));
+      ui_->label_play_albums->setText("<b>" + tr("Albums by %1").arg( song.artist().toHtmlEscaped()) + "</b>");
       ui_->label_play_albums->setStyleSheet("background-color: #3DADE8; color: rgb(255, 255, 255); font: 11pt;");
       for (CollectionBackend::Album album : albumlist) {
         SongList songs = app_->collection_backend()->GetSongs(song.artist(), album.album_name, opt);

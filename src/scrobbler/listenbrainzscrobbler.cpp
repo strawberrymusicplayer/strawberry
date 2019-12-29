@@ -149,7 +149,7 @@ void ListenBrainzScrobbler::Authenticate(const bool https) {
 
   bool result = QDesktopServices::openUrl(url);
   if (!result) {
-    QMessageBox messagebox(QMessageBox::Information, tr("ListenBrainz Authentication"), tr("Please open this URL in your browser:<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
+    QMessageBox messagebox(QMessageBox::Information, tr("ListenBrainz Authentication"), tr("Please open this URL in your browser") + QString(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
     messagebox.setTextFormat(Qt::RichText);
     messagebox.exec();
   }

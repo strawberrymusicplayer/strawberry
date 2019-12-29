@@ -71,6 +71,8 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *parent)
   connect(ui_->widget_listenbrainz_login_state, SIGNAL(LogoutClicked()), SLOT(ListenBrainz_Logout()));
   ui_->widget_listenbrainz_login_state->AddCredentialGroup(ui_->widget_listenbrainz_login);
 
+  ui_->label_listenbrainz_token->setText("<html><head/><body><p>" + tr("Enter your user token from") + " " + "<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>");
+
   resize(sizeHint());
 
 }

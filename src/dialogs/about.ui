@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>700</height>
+    <width>500</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -138,6 +138,12 @@
          </property>
          <property name="sizeType">
           <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
         </spacer>
        </item>
