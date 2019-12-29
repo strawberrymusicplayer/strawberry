@@ -176,7 +176,9 @@ QString About::ContributorsHtml() const {
   }
   ret += "</p>";
 
-  ret += tr("<p>Thanks to all the other Amarok and Clementine contributors.</p>");
+  ret += "<p>";
+  ret += tr("Thanks to all the other Amarok and Clementine contributors.");
+  ret += "</p>";
   return ret;
 
 }
