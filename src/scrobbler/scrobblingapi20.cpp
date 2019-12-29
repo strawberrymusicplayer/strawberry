@@ -147,7 +147,7 @@ void ScrobblingAPI20::Authenticate(const bool https) {
   QUrl url(auth_url_);
   url.setQuery(url_query);
 
-  QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to copy the URL to clipboard and manually open it in a web browser.").arg(url.toString()), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
+  QMessageBox messagebox(QMessageBox::Information, tr("%1 Scrobbler Authentication").arg(name_), tr("Open URL in web browser?") + QString("<br /><a href=\"%1\">%1</a><br />").arg(url.toString()) + tr("Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."), QMessageBox::Open|QMessageBox::Save|QMessageBox::Cancel);
   messagebox.setTextFormat(Qt::RichText);
   int result = messagebox.exec();
   switch (result) {
