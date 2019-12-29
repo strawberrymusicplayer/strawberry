@@ -7,12 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Udate Packages
-      run:
-        sudo apt-get update -y
-    - name: Upgrade Packages
-      run:
-        sudo apt-get upgrade -y
+    - name: Update Packages
+      run: sudo apt-get update -y
     - name: Install Packages
       run:
         sudo apt-get install -y git make cmake g++ gettext libglib2.0-dev libdbus-1-dev libboost-dev libprotobuf-dev protobuf-compiler libsqlite3-dev sqlite3 libgnutls28-dev libasound2-dev libpulse-dev qtbase5-dev qtbase5-dev-tools qtbase5-private-dev libqt5core5a libqt5gui5 libqt5widgets5 libqt5concurrent5 libqt5network5 libqt5sql5 libqt5x11extras5-dev libqt5dbus5 qttools5-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-alsa gstreamer1.0-pulseaudio libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libgstreamer-plugins-bad1.0-0 libchromaprint-dev libfftw3-dev libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev libusbmuxd-dev libxine2-dev libvlc-dev
@@ -33,6 +29,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Update HomeBrew
       run: brew update
+    - name: Unlink python
+      run: brew unlink python@2
     - name: Install Packages
       run: brew install glib pkgconfig boost libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav libcdio libmtp libimobiledevice libplist create-dmg
     - name: Create Build Environment
