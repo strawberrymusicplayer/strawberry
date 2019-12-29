@@ -131,6 +131,26 @@ msgstr " Sekunden"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Scrobbler Authentifizierung"
 
+#: context/contextview.cpp:258
+#, qt-format
+msgid "%1 album"
+msgstr ""
+
+#: context/contextview.cpp:259
+#, qt-format
+msgid "%1 albums"
+msgstr ""
+
+#: context/contextview.cpp:254
+#, qt-format
+msgid "%1 artist"
+msgstr ""
+
+#: context/contextview.cpp:255
+#, qt-format
+msgid "%1 artists"
+msgstr ""
+
 #: equalizer/equalizerslider.cpp:40 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:45 equalizer/equalizerslider.cpp:62
 #, qt-format
@@ -157,24 +177,25 @@ msgstr "%1 Wiedergabelisten (%2)"
 msgid "%1 selected of"
 msgstr "%1 ausgewählt von"
 
+#: context/contextview.cpp:250
+#, qt-format
+msgid "%1 song"
+msgstr ""
+
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 Lied%2"
 
+#: context/contextview.cpp:251
+#, qt-format
+msgid "%1 songs"
+msgstr ""
+
 #: core/utilities.cpp:355
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 Lieder ausgewählt, wollen sie wirklich alle öffnen?"
-
-#: context/contextview.cpp:250
-#, qt-format
-msgid "%1 songs<br />\n"
-"%2 artists<br />\n"
-"%3 albums<br />\n"
-msgstr "%1 Lieder<br />\n"
-"%2 Sänger<br />\n"
-"%3 Alben<br />\n"
 
 #: playlist/playlistmanager.cpp:448 queue/queue.cpp:251
 #, qt-format
@@ -385,10 +406,6 @@ msgstr ""
 "die Scrobbles an den Server geschickt werden. Bei 0 werden diese sofort "
 "verschickt)."
 
-#: dialogs/about.cpp:122
-msgid "(at your option) any later version.<br />"
-msgstr "(at your option) any later version.<br />"
-
 #: dialogs/edittagdialog.cpp:89
 msgid "(different across multiple songs)"
 msgstr "(unterschiedlich für mehrere Titel)"
@@ -418,59 +435,7 @@ msgstr "1 Titel"
 msgid "40%"
 msgstr "40%"
 
-#: context/contextview.cpp:419
-#, qt-format
-msgid "<b>Albums by %1</b>"
-msgstr "<b>Alben von %1</b>"
-
-#: ../build/src/ui_scrobblersettingspage.h:318
-msgid ""
-"<html><head/><body><p>Enter your user token found on: <a href=\"https://"
-"listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
-"#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"
-msgstr ""
-"<html><head/><body><p>Geben sie Ihr Benutzertoken von: <a href=\"https://"
-"listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
-"#0000ff;\">https://listenbrainz.org/profile/</span></a>ein</p></body></html>"
-
-#: ../build/src/ui_collectionfilterwidget.h:104
-#, qt-format
-msgid ""
-"<html><head/><body><p>Prefix a word with a field name to limit the search to "
-"that field, e.g. <span style=\" font-weight:600;\">artist:</span><span style="
-"\" font-style:italic;\">Bode</span> searches the collection for all artists "
-"that contain the word Bode.</p><p><span style=\" font-weight:"
-"600;\">Available fields: </span><span style=\" font-style:italic;\">%1</"
-"span>.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Prefix a word with a field name to limit the search to "
-"that field, e.g. <span style=\" font-weight:600;\">artist:</span><span style="
-"\" font-style:italic;\">Bode</span> searches the collection for all artists "
-"that contain the word Bode.</p><p><span style=\" font-weight:"
-"600;\">Available fields: </span><span style=\" font-style:italic;\">%1</"
-"span>.</p></body></html>"
-
-#: dialogs/about.cpp:159
-msgid "<p><b>Clementine authors</b>"
-msgstr "<p><b>Clementine Autoren</b>"
-
-#: dialogs/about.cpp:165
-msgid "<p><b>Clementine contributors</b>"
-msgstr "<p><b>Clementine Unterstützer</b>"
-
-#: dialogs/about.cpp:141
-msgid "<p><b>Strawberry authors</b>"
-msgstr "<p><b>Strawberry Autoren</b>"
-
-#: dialogs/about.cpp:147
-msgid "<p><b>Strawberry contributors</b>"
-msgstr "<p><b>Strawberry Unterstützer</b>"
-
-#: dialogs/about.cpp:153
-msgid "<p><b>Thanks to</b>"
-msgstr "<p><b>Dank an</b>"
-
-#: dialogs/about.cpp:171
+#: dialogs/about.cpp:179
 msgid "<p>Thanks to all the other Amarok and Clementine contributors.</p>"
 msgstr "<p>Dank an all die anderen Amarok und Clementine Unterstützer.</p>"
 
@@ -485,11 +450,6 @@ msgstr ""
 "\n"
 "<p>Steht ein Textbereich in geschweiften Klammern, wird dieser nicht "
 "angezeigt, falls das Schlüsselwort leer ist.</p>"
-
-#: dialogs/about.cpp:111
-#, qt-format
-msgid "<p>Version %1</p>"
-msgstr "<p>Version %1</p>"
 
 #: ../build/src/ui_playlistsettingspage.h:151
 msgid "A&utomatic"
@@ -720,7 +680,7 @@ msgstr "Heute hinzugefügt"
 msgid "Added within three months"
 msgstr "In den letzten drei Monaten hinzugefügt"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:215
 msgid "Advanced grouping..."
 msgstr "Erweiterte Sortierung …"
 
@@ -764,6 +724,11 @@ msgstr "Album cover Größe"
 #: ../build/src/ui_internettabsview.h:111
 msgid "Albums"
 msgstr "Alben"
+
+#: context/contextview.cpp:422
+#, qt-format
+msgid "Albums by %1"
+msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:327
 msgid "Albums by Artist"
@@ -970,6 +935,10 @@ msgstr "automatisch den aktuellen Song auswählen"
 msgid "Available"
 msgstr "Verfügbar"
 
+#: collection/collectionfilterwidget.cpp:79
+msgid "Available fields"
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 msgid "Average bitrate"
 msgstr "Durchschnittliche Bitrate"
@@ -1147,6 +1116,14 @@ msgstr "Leeren"
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
+#: dialogs/about.cpp:163
+msgid "Clementine authors"
+msgstr ""
+
+#: dialogs/about.cpp:172
+msgid "Clementine contributors"
+msgstr ""
+
 #: collection/collectionview.cpp:311
 msgid "Click here to add some music"
 msgstr "Hier klicken, um Musik hinzuzufügen"
@@ -1192,6 +1169,10 @@ msgstr "Club"
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Bibliothek"
+
+#: ../build/src/ui_collectionfilterwidget.h:91
+msgid "Collection Filter"
+msgstr ""
 
 #: ../build/src/ui_groupbydialog.h:121
 msgid "Collection advanced grouping"
@@ -1273,6 +1254,10 @@ msgstr ""
 "Zum nächsten Lied in der PlayList weitergehen, wenn das Lieb nicht verfügbar "
 "ist"
 
+#: dialogs/about.cpp:145
+msgid "Contributors"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:378
 msgid "Convert all music"
 msgstr "Gesamte Musik umwandeln"
@@ -1310,13 +1295,8 @@ msgstr ""
 "dass alle nötigen GStreamer-Erweiterungen installiert sind."
 
 #: scrobbler/scrobblingapi20.cpp:159
-#, qt-format
-msgid ""
-"Could not open URL. Please open this URL in your browser:<br /><a href="
-"\"%1\">%1</a>"
+msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
-"Konnte die URL nicht üffnen, Bitte öffnen Sie diese URL in Ihrem Browser<br /"
-"><a href=\"%1\">%1</a>"
 
 #: core/songloader.cpp:261
 #, qt-format
@@ -1598,7 +1578,7 @@ msgstr "CD-Nr."
 msgid "Discontinuous transmission"
 msgstr "Unterbrochene Übertragung"
 
-#: collection/collectionfilterwidget.cpp:107
+#: collection/collectionfilterwidget.cpp:126
 #: ../build/src/ui_collectionsettingspage.h:258
 msgid "Display options"
 msgstr "Anzeigeoptionen"
@@ -1761,7 +1741,7 @@ msgstr "Neuer Name für diese Wiedergabeliste"
 msgid "Enter search terms above to find music"
 msgstr "Oberhalb Suchkriterien eingeben um Musik zu finden"
 
-#: ../build/src/ui_collectionfilterwidget.h:106
+#: ../build/src/ui_collectionfilterwidget.h:103
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "Enter search terms here"
 msgstr "Sammlung durchsuchen"
@@ -1769,6 +1749,10 @@ msgstr "Sammlung durchsuchen"
 #: playlist/playlistlistcontainer.cpp:196
 msgid "Enter the name of the folder"
 msgstr "Geben Sie den Namen des Ordners ein"
+
+#: settings/scrobblersettingspage.cpp:74
+msgid "Enter your user token from"
+msgstr ""
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Entire collection"
@@ -2011,7 +1995,6 @@ msgstr ""
 "Das Vergessen eines Geräts wird es aus dieser Liste entfernen und Strawberry "
 "wird beim nächsten Verbinden alle Titel erneut erfassen müssen."
 
-#: ../build/src/ui_collectionfilterwidget.h:91
 #: ../build/src/ui_collectionviewcontainer.h:58
 #: ../build/src/ui_playlistcontainer.h:150
 #: ../build/src/ui_playlistlistcontainer.h:125 ../build/src/ui_trackslider.h:68
@@ -2058,10 +2041,6 @@ msgstr "Maximale Tiefen und Höhen"
 msgid "Full Treble"
 msgstr "Maximale Höhen"
 
-#: dialogs/about.cpp:127
-msgid "GNU General Public License for more details.<br />"
-msgstr "GNU General Public License for more details.<br />"
-
 #: settings/settingsdialog.cpp:121
 msgid "General"
 msgstr "Allgemein"
@@ -2104,63 +2083,64 @@ msgstr "Ausgrauen von Lieder die nicht verfügbar sind während des startens"
 msgid "Group Collection by..."
 msgstr "Bibliothek sortieren nach …"
 
-#: collection/collectionfilterwidget.cpp:99 internet/internetsearchview.cpp:457
+#: collection/collectionfilterwidget.cpp:118
+#: internet/internetsearchview.cpp:457
 msgid "Group by"
 msgstr "Sortieren nach"
 
-#: collection/collectionfilterwidget.cpp:173
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album"
 msgstr "Album"
 
-#: collection/collectionfilterwidget.cpp:170
+#: collection/collectionfilterwidget.cpp:189
 msgid "Group by Album Artist"
 msgstr "Gropieren nach Album Künster"
 
-#: collection/collectionfilterwidget.cpp:157
+#: collection/collectionfilterwidget.cpp:176
 msgid "Group by Album artist/Album"
 msgstr "Nach Albuminterpret/Album gruppieren"
 
-#: collection/collectionfilterwidget.cpp:158
+#: collection/collectionfilterwidget.cpp:177
 msgid "Group by Album artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:159
+#: collection/collectionfilterwidget.cpp:178
 msgid "Group by Album artist/Year - Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:160
+#: collection/collectionfilterwidget.cpp:179
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:171
+#: collection/collectionfilterwidget.cpp:190
 msgid "Group by Artist"
 msgstr "Interpret"
 
-#: collection/collectionfilterwidget.cpp:162
+#: collection/collectionfilterwidget.cpp:181
 msgid "Group by Artist/Album"
 msgstr "Interpret/Album"
 
-#: collection/collectionfilterwidget.cpp:163
+#: collection/collectionfilterwidget.cpp:182
 msgid "Group by Artist/Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:164
+#: collection/collectionfilterwidget.cpp:183
 msgid "Group by Artist/Year - Album"
 msgstr "Interpret/Jahr"
 
-#: collection/collectionfilterwidget.cpp:165
+#: collection/collectionfilterwidget.cpp:184
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:174
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Genre/Album"
 msgstr "Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:167
+#: collection/collectionfilterwidget.cpp:186
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:168
+#: collection/collectionfilterwidget.cpp:187
 msgid "Group by Genre/Artist/Album"
 msgstr "Genre/Interpret/Album"
 
@@ -2171,11 +2151,11 @@ msgstr "Genre/Interpret/Album"
 msgid "Grouping"
 msgstr "Sortierung"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:236
 msgid "Grouping Name"
 msgstr "Sortiername"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:236
 msgid "Grouping name:"
 msgstr "Sortiername:"
 
@@ -2292,10 +2272,10 @@ msgstr "Einleitungstitel"
 msgid "Invalid reply from web browser. Missing token."
 msgstr ""
 
-#: dialogs/about.cpp:115
+#: dialogs/about.cpp:118
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors, audio "
-"enthusiasts and audiophiles.<br />"
+"enthusiasts and audiophiles."
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:266
@@ -2458,10 +2438,6 @@ msgstr ""
 msgid "Lyrics"
 msgstr ""
 
-#: dialogs/about.cpp:126
-msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
-msgstr ""
-
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
 msgstr "MP3"
@@ -2469,6 +2445,10 @@ msgstr "MP3"
 #: ../build/src/ui_transcoderoptionsaac.h:133
 msgid "Main profile (MAIN)"
 msgstr "Hauptprofil (MAIN)"
+
+#: dialogs/about.cpp:136
+msgid "Maintainer"
+msgstr ""
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 msgid "Manage saved groupings"
@@ -2984,8 +2964,7 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Bitte Browser schließen und zu Strawberry zurückkehren"
 
 #: scrobbler/listenbrainzscrobbler.cpp:152
-#, qt-format
-msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
+msgid "Please open this URL in your browser"
 msgstr ""
 
 #: equalizer/equalizer.cpp:148
@@ -3025,6 +3004,11 @@ msgstr "Bevorzugte Dateinamen für Titelbilder (durch Komma getrennt):"
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Preferred format"
 msgstr "Bevorzugtes Format"
+
+#: collection/collectionfilterwidget.cpp:68
+msgid ""
+"Prefix a word with a field name to limit the search to that field, e.g.:"
+msgstr ""
 
 #: core/songloader.cpp:157
 msgid "Preload function was not set for blocking operation."
@@ -3587,7 +3571,7 @@ msgstr "Tastenkürzel für %1"
 msgid "Shortcuts"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:105
 msgid "Show"
 msgstr "Anzeigen"
 
@@ -3884,17 +3868,16 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry kann Benachrichtigungen beim Titelwechsel anzeigen"
 
-#: dialogs/about.cpp:114
-msgid "Strawberry is a music player and music collection organizer.<br />"
+#: dialogs/about.cpp:116
+msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 
-#: dialogs/about.cpp:124
-msgid "Strawberry is distributed in the hope that it will be useful,<br />"
-msgstr ""
-
-#: dialogs/about.cpp:119
+#: dialogs/about.cpp:123
 msgid ""
-"Strawberry is free software: you can redistribute it and/or modify<br />"
+"Strawberry is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
 msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:205
@@ -4001,6 +3984,10 @@ msgstr ""
 msgid "Text options"
 msgstr "Texteinstellungen:"
 
+#: dialogs/about.cpp:154
+msgid "Thanks to"
+msgstr ""
+
 #: settings/shortcutssettingspage.cpp:243
 #, qt-format
 msgid "The \"%1\" command could not be started."
@@ -4014,7 +4001,7 @@ msgstr "Das Titelbild des gerade abgespielten Titels"
 msgid "The internet collection is empty!"
 msgstr ""
 
-#: dialogs/about.cpp:116
+#: dialogs/about.cpp:120
 msgid ""
 "The name is inspired by the band Strawbs. It's based on a heavily modified "
 "version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
@@ -4413,6 +4400,11 @@ msgstr "Verschiedene Interpreten"
 msgid "Verify server certificate"
 msgstr ""
 
+#: dialogs/about.cpp:112
+#, qt-format
+msgid "Version %1"
+msgstr ""
+
 #: ../build/src/ui_albumcovermanager.h:219
 msgid "View"
 msgstr "Ansicht"
@@ -4566,11 +4558,6 @@ msgid ""
 "shortcuts in Strawberry."
 msgstr ""
 
-#: dialogs/about.cpp:129
-msgid ""
-"You should have received a copy of the GNU General Public License<br />"
-msgstr ""
-
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "Sie müssen Strawberry nach dem Ändern der Sprache neu starten."
@@ -4593,23 +4580,17 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "%n Titel hinzufügen"
 
-#: dialogs/about.cpp:130
-msgid ""
-"along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/"
-"\">http://www.gnu.org/licenses/</a>."
-msgstr ""
-
 #: ../build/src/ui_internetsearchview.h:229
 msgid "ar&tists"
+msgstr ""
+
+#: collection/collectionfilterwidget.cpp:71
+msgid "artist"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
 msgstr "automatisch"
-
-#: dialogs/about.cpp:125
-msgid "but WITHOUT ANY WARRANTY; without even the implied warranty of<br />"
-msgstr ""
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsvorbis.h:209
@@ -4626,12 +4607,7 @@ msgstr "CD %1"
 msgid "hw"
 msgstr ""
 
-#: dialogs/about.cpp:120
-msgid ""
-"it under the terms of the GNU General Public License as published by<br />"
-msgstr ""
-
-#: context/contextview.cpp:324 context/contextview.cpp:502
+#: context/contextview.cpp:327 context/contextview.cpp:505
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "Kb/s"
@@ -4665,6 +4641,10 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "%n Titel entfernen"
 
+#: collection/collectionfilterwidget.cpp:75
+msgid "searches the collection for all artists that contain the word"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "Titel mischen"
@@ -4683,11 +4663,6 @@ msgstr "Anhalten"
 
 #: core/song.cpp:478
 msgid "subsonic"
-msgstr ""
-
-#: dialogs/about.cpp:121
-msgid ""
-"the Free Software Foundation, either version 3 of the License, or<br />"
 msgstr ""
 
 #: widgets/osd.cpp:142

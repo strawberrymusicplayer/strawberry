@@ -106,6 +106,26 @@ msgstr " detik"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
+#: context/contextview.cpp:258
+#, qt-format
+msgid "%1 album"
+msgstr ""
+
+#: context/contextview.cpp:259
+#, qt-format
+msgid "%1 albums"
+msgstr ""
+
+#: context/contextview.cpp:254
+#, qt-format
+msgid "%1 artist"
+msgstr ""
+
+#: context/contextview.cpp:255
+#, qt-format
+msgid "%1 artists"
+msgstr ""
+
 #: equalizer/equalizerslider.cpp:40 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:45 equalizer/equalizerslider.cpp:62
 #, qt-format
@@ -132,24 +152,25 @@ msgstr "%1 daftar putar (%2)"
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
+#: context/contextview.cpp:250
+#, qt-format
+msgid "%1 song"
+msgstr ""
+
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
+#: context/contextview.cpp:251
+#, qt-format
+msgid "%1 songs"
+msgstr ""
+
 #: core/utilities.cpp:355
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 lagu terpilih, apakah Anda yakin ingin membuka semuanya?"
-
-#: context/contextview.cpp:250
-#, qt-format
-msgid "%1 songs<br />\n"
-"%2 artists<br />\n"
-"%3 albums<br />\n"
-msgstr "%1 lagu<br />\n"
-"%2 artis<br />\n"
-"%3 album<br />"
 
 #: playlist/playlistmanager.cpp:448 queue/queue.cpp:251
 #, qt-format
@@ -360,10 +381,6 @@ msgstr ""
 "dikirimkan ke server. Mengatur waktu ke 0 menit akan mengirimkan scrobble "
 "segera)."
 
-#: dialogs/about.cpp:122
-msgid "(at your option) any later version.<br />"
-msgstr "(sesuai pilihan Anda) versi yang lebih baru.<br />"
-
 #: dialogs/edittagdialog.cpp:89
 msgid "(different across multiple songs)"
 msgstr "(berbeda diantara berbagai lagu)"
@@ -393,60 +410,7 @@ msgstr "1 trek"
 msgid "40%"
 msgstr "40%"
 
-#: context/contextview.cpp:419
-#, qt-format
-msgid "<b>Albums by %1</b>"
-msgstr "<b>Album oleh %1</b>"
-
-#: ../build/src/ui_scrobblersettingspage.h:318
-msgid ""
-"<html><head/><body><p>Enter your user token found on: <a href=\"https://"
-"listenbrainz.org/profile/\"><span style=\" text-decoration: underline; color:"
-"#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"
-msgstr ""
-"<html><head/><body><p>Masukkan token Anda yang dapat ditemukan di: <a href="
-"\"https://listenbrainz.org/profile/\"><span style=\" text-decoration: "
-"underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></"
-"p></body></html>"
-
-#: ../build/src/ui_collectionfilterwidget.h:104
-#, qt-format
-msgid ""
-"<html><head/><body><p>Prefix a word with a field name to limit the search to "
-"that field, e.g. <span style=\" font-weight:600;\">artist:</span><span style="
-"\" font-style:italic;\">Bode</span> searches the collection for all artists "
-"that contain the word Bode.</p><p><span style=\" font-weight:"
-"600;\">Available fields: </span><span style=\" font-style:italic;\">%1</"
-"span>.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Awali kata dengan nama bidang untuk membatasi "
-"pencarian ke bidang itu, misalnya <span style=\" font-weight:600;\">artis:</"
-"span><span style=\" font-style:italic;\">Bode</span> mencari koleksi untuk "
-"semua artis yang mengandung kata Bode.</p><p><span style=\" font-weight:"
-"600;\">Bidang yang tersedia: </span><span style=\" font-style:italic;\">%1</"
-"span>.</p></body></html>"
-
-#: dialogs/about.cpp:159
-msgid "<p><b>Clementine authors</b>"
-msgstr "<p><b>Penulis Clementine</b>"
-
-#: dialogs/about.cpp:165
-msgid "<p><b>Clementine contributors</b>"
-msgstr "<p><b>Kontributor Clementine</b>"
-
-#: dialogs/about.cpp:141
-msgid "<p><b>Strawberry authors</b>"
-msgstr "<p><b>Penulis Strawberry</b>"
-
-#: dialogs/about.cpp:147
-msgid "<p><b>Strawberry contributors</b>"
-msgstr "<p><b>Kontributor Strawberry</b>"
-
-#: dialogs/about.cpp:153
-msgid "<p><b>Thanks to</b>"
-msgstr "<p><b>Terima kasih kepada</b>"
-
-#: dialogs/about.cpp:171
+#: dialogs/about.cpp:179
 msgid "<p>Thanks to all the other Amarok and Clementine contributors.</p>"
 msgstr "<p>Terima kasih kepada seluruh kontributor Amarok dan Clementine.</p>"
 
@@ -462,11 +426,6 @@ msgstr ""
 "<p>Jika Anda mengurung bagian dari teks yang mengandung token dengan kurung "
 "kurawal, maka bagian tersebut akan disembunyikan jika token tersebut kosong."
 "</p>"
-
-#: dialogs/about.cpp:111
-#, qt-format
-msgid "<p>Version %1</p>"
-msgstr "<p>Versi %1</p>"
 
 #: ../build/src/ui_playlistsettingspage.h:151
 msgid "A&utomatic"
@@ -695,7 +654,7 @@ msgstr "Ditambahkan hari ini"
 msgid "Added within three months"
 msgstr "Ditambahkan pada tiga bulan terakhir"
 
-#: collection/collectionfilterwidget.cpp:196
+#: collection/collectionfilterwidget.cpp:215
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
@@ -739,6 +698,11 @@ msgstr "Ukuran sampul album"
 #: ../build/src/ui_internettabsview.h:111
 msgid "Albums"
 msgstr "Album"
+
+#: context/contextview.cpp:422
+#, qt-format
+msgid "Albums by %1"
+msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:327
 msgid "Albums by Artist"
@@ -940,6 +904,10 @@ msgstr "Pilih trek yang sedang diputar secara otomatis"
 msgid "Available"
 msgstr "Tersedia"
 
+#: collection/collectionfilterwidget.cpp:79
+msgid "Available fields"
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 msgid "Average bitrate"
 msgstr "Lajubit rerata"
@@ -1117,6 +1085,14 @@ msgstr "Bersihkan"
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
+#: dialogs/about.cpp:163
+msgid "Clementine authors"
+msgstr ""
+
+#: dialogs/about.cpp:172
+msgid "Clementine contributors"
+msgstr ""
+
 #: collection/collectionview.cpp:311
 msgid "Click here to add some music"
 msgstr "Klik di sini untuk menambahkan musik"
@@ -1161,6 +1137,10 @@ msgstr "Klub"
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Pustakascan"
+
+#: ../build/src/ui_collectionfilterwidget.h:91
+msgid "Collection Filter"
+msgstr ""
 
 #: ../build/src/ui_groupbydialog.h:121
 msgid "Collection advanced grouping"
@@ -1241,6 +1221,10 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
 
+#: dialogs/about.cpp:145
+msgid "Contributors"
+msgstr ""
+
 #: ../build/src/ui_deviceproperties.h:378
 msgid "Convert all music"
 msgstr "Konversi semua musik"
@@ -1278,13 +1262,8 @@ msgstr ""
 "plugin GStreamer yang dibutuhkan terpasang"
 
 #: scrobbler/scrobblingapi20.cpp:159
-#, qt-format
-msgid ""
-"Could not open URL. Please open this URL in your browser:<br /><a href="
-"\"%1\">%1</a>"
+msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
-"Tidak dapat membuka URL. Harap buka URL ini di peramban Anda:<br /><a href="
-"\"%1\">%1</a>"
 
 #: core/songloader.cpp:261
 #, qt-format
@@ -1566,7 +1545,7 @@ msgstr "Cakram"
 msgid "Discontinuous transmission"
 msgstr "Transmisi putus-putus"
 
-#: collection/collectionfilterwidget.cpp:107
+#: collection/collectionfilterwidget.cpp:126
 #: ../build/src/ui_collectionsettingspage.h:258
 msgid "Display options"
 msgstr "Opsi tampilan"
@@ -1726,7 +1705,7 @@ msgstr "Masukkan nama baru untuk daftar putar ini"
 msgid "Enter search terms above to find music"
 msgstr "Masukkan kata pencarian di atas untuk mencari musik"
 
-#: ../build/src/ui_collectionfilterwidget.h:106
+#: ../build/src/ui_collectionfilterwidget.h:103
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "Enter search terms here"
 msgstr "Masukkan lema pencarian di sini"
@@ -1734,6 +1713,10 @@ msgstr "Masukkan lema pencarian di sini"
 #: playlist/playlistlistcontainer.cpp:196
 msgid "Enter the name of the folder"
 msgstr "Masukkan nama folder"
+
+#: settings/scrobblersettingspage.cpp:74
+msgid "Enter your user token from"
+msgstr ""
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Entire collection"
@@ -1976,7 +1959,6 @@ msgstr ""
 "Melupakan perangkat akan membuangnya dari daftar ini dan Strawberry harus "
 "memindai ulang semua lagu ketika Anda menyambungkannya lagi."
 
-#: ../build/src/ui_collectionfilterwidget.h:91
 #: ../build/src/ui_collectionviewcontainer.h:58
 #: ../build/src/ui_playlistcontainer.h:150
 #: ../build/src/ui_playlistlistcontainer.h:125 ../build/src/ui_trackslider.h:68
@@ -2023,10 +2005,6 @@ msgstr "Bass + Treble Penuh"
 msgid "Full Treble"
 msgstr "Treble Penuh"
 
-#: dialogs/about.cpp:127
-msgid "GNU General Public License for more details.<br />"
-msgstr "Lisensi Publik Umum GNU untuk perincian lebih lanjut.<br />"
-
 #: settings/settingsdialog.cpp:121
 msgid "General"
 msgstr "Umum"
@@ -2069,63 +2047,64 @@ msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
-#: collection/collectionfilterwidget.cpp:99 internet/internetsearchview.cpp:457
+#: collection/collectionfilterwidget.cpp:118
+#: internet/internetsearchview.cpp:457
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:173
+#: collection/collectionfilterwidget.cpp:192
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:170
+#: collection/collectionfilterwidget.cpp:189
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:157
+#: collection/collectionfilterwidget.cpp:176
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:158
+#: collection/collectionfilterwidget.cpp:177
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:159
+#: collection/collectionfilterwidget.cpp:178
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:160
+#: collection/collectionfilterwidget.cpp:179
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:171
+#: collection/collectionfilterwidget.cpp:190
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:162
+#: collection/collectionfilterwidget.cpp:181
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:163
+#: collection/collectionfilterwidget.cpp:182
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:164
+#: collection/collectionfilterwidget.cpp:183
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:165
+#: collection/collectionfilterwidget.cpp:184
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:174
+#: collection/collectionfilterwidget.cpp:193
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:167
+#: collection/collectionfilterwidget.cpp:186
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:168
+#: collection/collectionfilterwidget.cpp:187
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
@@ -2136,11 +2115,11 @@ msgstr "Grup berdasarkan Genre/Artis/Album"
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:236
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:217
+#: collection/collectionfilterwidget.cpp:236
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
@@ -2255,13 +2234,11 @@ msgstr "Trek intro"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
-#: dialogs/about.cpp:115
+#: dialogs/about.cpp:118
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors, audio "
-"enthusiasts and audiophiles.<br />"
+"enthusiasts and audiophiles."
 msgstr ""
-"Ini adalah sebuah fork dari Clementine yang dirilis pada tahun 2018 yang "
-"ditujukan untuk para kolektor musik, penggemar audio, dan audiophiles.<br />"
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -2423,10 +2400,6 @@ msgstr "Nama berkas huruf kecil"
 msgid "Lyrics"
 msgstr "Lirik"
 
-#: dialogs/about.cpp:126
-msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />"
-msgstr "PERDAGANGAN atau KESESUAIAN UNTUK TUJUAN TERTENTU.  Lihat<br />"
-
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
 msgstr "MP3"
@@ -2434,6 +2407,10 @@ msgstr "MP3"
 #: ../build/src/ui_transcoderoptionsaac.h:133
 msgid "Main profile (MAIN)"
 msgstr "Profil utama (MAIN)"
+
+#: dialogs/about.cpp:136
+msgid "Maintainer"
+msgstr ""
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 msgid "Manage saved groupings"
@@ -2953,9 +2930,8 @@ msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
 #: scrobbler/listenbrainzscrobbler.cpp:152
-#, qt-format
-msgid "Please open this URL in your browser:<br /><a href=\"%1\">%1</a>"
-msgstr "Harap buka URL ini di peramban Anda:<br /><a href=\"%1\">%1</a>"
+msgid "Please open this URL in your browser"
+msgstr ""
 
 #: equalizer/equalizer.cpp:148
 msgid "Pop"
@@ -2994,6 +2970,11 @@ msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Preferred format"
 msgstr "Format yang diinginkan"
+
+#: collection/collectionfilterwidget.cpp:68
+msgid ""
+"Prefix a word with a field name to limit the search to that field, e.g.:"
+msgstr ""
 
 #: core/songloader.cpp:157
 msgid "Preload function was not set for blocking operation."
@@ -3557,7 +3538,7 @@ msgstr "Pintasan untuk %1"
 msgid "Shortcuts"
 msgstr "Pintasan"
 
-#: collection/collectionfilterwidget.cpp:86
+#: collection/collectionfilterwidget.cpp:105
 msgid "Show"
 msgstr "Tampilkan"
 
@@ -3855,22 +3836,17 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry dapat menampilkan pesan ketika trek berubah."
 
-#: dialogs/about.cpp:114
-msgid "Strawberry is a music player and music collection organizer.<br />"
+#: dialogs/about.cpp:116
+msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
-"Strawberry adalah sebuah pemutar musik dan penyusun koleksi musik.<br />"
 
-#: dialogs/about.cpp:124
-msgid "Strawberry is distributed in the hope that it will be useful,<br />"
-msgstr ""
-"Strawberry didistribusikan dengan harapan dapat menjadi berguna,<br />"
-
-#: dialogs/about.cpp:119
+#: dialogs/about.cpp:123
 msgid ""
-"Strawberry is free software: you can redistribute it and/or modify<br />"
+"Strawberry is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
 msgstr ""
-"Strawberry adalah perangkat lunak gratis: Anda dapat mendistribusikan "
-"kembali dan/atau memodifikasi<br />"
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -3976,6 +3952,10 @@ msgstr "Tes berhasil!"
 msgid "Text options"
 msgstr "Opsi teks"
 
+#: dialogs/about.cpp:154
+msgid "Thanks to"
+msgstr ""
+
 #: settings/shortcutssettingspage.cpp:243
 #, qt-format
 msgid "The \"%1\" command could not be started."
@@ -3989,7 +3969,7 @@ msgstr "Sampul album dari lagu yang diputar saat ini"
 msgid "The internet collection is empty!"
 msgstr "Koleksi internet kosong!"
 
-#: dialogs/about.cpp:116
+#: dialogs/about.cpp:120
 msgid ""
 "The name is inspired by the band Strawbs. It's based on a heavily modified "
 "version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
@@ -4393,6 +4373,11 @@ msgstr "Artis beraga"
 msgid "Verify server certificate"
 msgstr "Verifikasi sertifikat server"
 
+#: dialogs/about.cpp:112
+#, qt-format
+msgid "Version %1"
+msgstr ""
+
 #: ../build/src/ui_albumcovermanager.h:219
 msgid "View"
 msgstr "Tampilan"
@@ -4549,11 +4534,6 @@ msgstr ""
 "style:italic;\">Perbolehkan akses untuk perangkat pembantu</span>\" untuk "
 "menggunakan pintasan global di Strawberry."
 
-#: dialogs/about.cpp:129
-msgid ""
-"You should have received a copy of the GNU General Public License<br />"
-msgstr "Anda seharusnya telah menerima salinan Lisensi Publik Umum GNU<br />"
-
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "Anda perlu memulai ulang Strawberry jika Anda mengubah bahasa."
@@ -4576,25 +4556,17 @@ msgctxt ""
 msgid "add %n songs"
 msgstr "tambahkan %n lagu"
 
-#: dialogs/about.cpp:130
-msgid ""
-"along with Strawberry.  If not, see <a href=\"http://www.gnu.org/licenses/"
-"\">http://www.gnu.org/licenses/</a>."
-msgstr ""
-"bersama dengan Strawberry.  Jika tidak, lihat <a href=\"http://www.gnu.org/"
-"licenses/\">http://www.gnu.org/licenses/</a>."
-
 #: ../build/src/ui_internetsearchview.h:229
 msgid "ar&tists"
 msgstr "ar&tis"
 
+#: collection/collectionfilterwidget.cpp:71
+msgid "artist"
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
 msgstr "otomatis"
-
-#: dialogs/about.cpp:125
-msgid "but WITHOUT ANY WARRANTY; without even the implied warranty of<br />"
-msgstr "tapi TANPA GARANSI APA PUN; bahkan tanpa jaminan tersirat dari <br />"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:206
 #: ../build/src/ui_transcoderoptionsvorbis.h:209
@@ -4611,13 +4583,7 @@ msgstr "cakram %1"
 msgid "hw"
 msgstr "hw"
 
-#: dialogs/about.cpp:120
-msgid ""
-"it under the terms of the GNU General Public License as published by<br />"
-msgstr ""
-"berdasarkan ketentuan Lisensi Publik Umum GNU yang diterbitkan oleh<br />"
-
-#: context/contextview.cpp:324 context/contextview.cpp:502
+#: context/contextview.cpp:327 context/contextview.cpp:505
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "kbps"
@@ -4651,6 +4617,10 @@ msgctxt ""
 msgid "remove %n songs"
 msgstr "buang %n lagu"
 
+#: collection/collectionfilterwidget.cpp:75
+msgid "searches the collection for all artists that contain the word"
+msgstr ""
+
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "karau lagu"
@@ -4670,11 +4640,6 @@ msgstr "berhenti"
 #: core/song.cpp:478
 msgid "subsonic"
 msgstr "subsonic"
-
-#: dialogs/about.cpp:121
-msgid ""
-"the Free Software Foundation, either version 3 of the License, or<br />"
-msgstr "Yayasan Perangkat Lunak Bebas, baik versi 3 dari lisensi, atau<br />"
 
 #: widgets/osd.cpp:142
 #, qt-format
