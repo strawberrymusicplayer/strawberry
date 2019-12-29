@@ -435,10 +435,6 @@ msgstr "1 Titel"
 msgid "40%"
 msgstr "40%"
 
-#: dialogs/about.cpp:179
-msgid "<p>Thanks to all the other Amarok and Clementine contributors.</p>"
-msgstr "<p>Dank an all die anderen Amarok und Clementine Unterstützer.</p>"
-
 #: ../build/src/ui_organisedialog.h:258
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
@@ -2667,7 +2663,7 @@ msgstr "Keine langen Blöcke"
 msgid "No match."
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:376
+#: playlist/playlistcontainer.cpp:372
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2761,10 +2757,7 @@ msgid "Opacity"
 msgstr "Deckkraft"
 
 #: scrobbler/scrobblingapi20.cpp:150
-#, qt-format
-msgid ""
-"Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
-"copy the URL to clipboard and manually open it in a web browser."
+msgid "Open URL in web browser?"
 msgstr ""
 
 #: transcoder/transcodedialog.cpp:281
@@ -3017,6 +3010,12 @@ msgstr ""
 #: ../build/src/ui_equalizer.h:169
 msgid "Preset:"
 msgstr "Voreinstellung:"
+
+#: scrobbler/scrobblingapi20.cpp:150
+msgid ""
+"Press \"Save\" to copy the URL to clipboard and manually open it in a web "
+"browser."
+msgstr ""
 
 #: ../build/src/ui_globalshortcutgrabber.h:70
 msgid "Press a key"
@@ -3986,6 +3985,10 @@ msgstr "Texteinstellungen:"
 
 #: dialogs/about.cpp:154
 msgid "Thanks to"
+msgstr ""
+
+#: dialogs/about.cpp:180
+msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
 #: settings/shortcutssettingspage.cpp:243

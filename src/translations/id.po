@@ -410,10 +410,6 @@ msgstr "1 trek"
 msgid "40%"
 msgstr "40%"
 
-#: dialogs/about.cpp:179
-msgid "<p>Thanks to all the other Amarok and Clementine contributors.</p>"
-msgstr "<p>Terima kasih kepada seluruh kontributor Amarok dan Clementine.</p>"
-
 #: ../build/src/ui_organisedialog.h:258
 msgid ""
 "<p>Tokens start with %, for example: %artist %album %title </p>\n"
@@ -2629,7 +2625,7 @@ msgstr "Tanpa blok panjang"
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
-#: playlist/playlistcontainer.cpp:376
+#: playlist/playlistcontainer.cpp:372
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2725,14 +2721,8 @@ msgid "Opacity"
 msgstr "Kelegapan"
 
 #: scrobbler/scrobblingapi20.cpp:150
-#, qt-format
-msgid ""
-"Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
-"copy the URL to clipboard and manually open it in a web browser."
+msgid "Open URL in web browser?"
 msgstr ""
-"Buka URL ini di peramban web?<br /><a href=\"%1\">%1</a><br />Klik "
-"\"Simpan\" untuk menyalin URL ke papan klip Anda lalu bukalah di sebuah "
-"peramban web."
 
 #: transcoder/transcodedialog.cpp:281
 msgid "Open a directory to import music from"
@@ -2983,6 +2973,12 @@ msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 #: ../build/src/ui_equalizer.h:169
 msgid "Preset:"
 msgstr "Prasetel:"
+
+#: scrobbler/scrobblingapi20.cpp:150
+msgid ""
+"Press \"Save\" to copy the URL to clipboard and manually open it in a web "
+"browser."
+msgstr ""
 
 #: ../build/src/ui_globalshortcutgrabber.h:70
 msgid "Press a key"
@@ -3954,6 +3950,10 @@ msgstr "Opsi teks"
 
 #: dialogs/about.cpp:154
 msgid "Thanks to"
+msgstr ""
+
+#: dialogs/about.cpp:180
+msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
 #: settings/shortcutssettingspage.cpp:243

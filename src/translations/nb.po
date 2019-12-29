@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-12-29 10:30+0000\n"
+"PO-Revision-Date: 2019-12-29 11:08+0000\n"
 "Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Norwegian Bokmål\n"
 "Language: nb\n"
@@ -105,22 +105,22 @@ msgstr "%1 Scrobbler bruker autentisering"
 #: context/contextview.cpp:258
 #, qt-format
 msgid "%1 album"
-msgstr ""
+msgstr "%1 album"
 
 #: context/contextview.cpp:259
 #, qt-format
 msgid "%1 albums"
-msgstr ""
+msgstr "%1 albumer"
 
 #: context/contextview.cpp:254
 #, qt-format
 msgid "%1 artist"
-msgstr ""
+msgstr "%1 artist"
 
 #: context/contextview.cpp:255
 #, qt-format
 msgid "%1 artists"
-msgstr ""
+msgstr "%1 artister"
 
 #: equalizer/equalizerslider.cpp:40 equalizer/equalizerslider.cpp:42
 #: equalizer/equalizerslider.cpp:45 equalizer/equalizerslider.cpp:62
@@ -151,7 +151,7 @@ msgstr "%1 valgte av"
 #: context/contextview.cpp:250
 #, qt-format
 msgid "%1 song"
-msgstr ""
+msgstr "%1 sang"
 
 #: device/deviceview.cpp:146
 #, qt-format
@@ -161,7 +161,7 @@ msgstr "%1 sanger"
 #: context/contextview.cpp:251
 #, qt-format
 msgid "%1 songs"
-msgstr ""
+msgstr "%1 sanger"
 
 #: core/utilities.cpp:355
 #, qt-format
@@ -404,10 +404,6 @@ msgstr "1 spor"
 #: ../build/src/ui_appearancesettingspage.h:404
 msgid "40%"
 msgstr "40%"
-
-#: dialogs/about.cpp:179
-msgid "<p>Thanks to all the other Amarok and Clementine contributors.</p>"
-msgstr ""
 
 #: ../build/src/ui_organisedialog.h:258
 msgid ""
@@ -1082,11 +1078,11 @@ msgstr "Tøm spillelisten"
 
 #: dialogs/about.cpp:163
 msgid "Clementine authors"
-msgstr ""
+msgstr "Clementine authors"
 
 #: dialogs/about.cpp:172
 msgid "Clementine contributors"
-msgstr ""
+msgstr "Clementine contributors"
 
 #: collection/collectionview.cpp:311
 msgid "Click here to add some music"
@@ -1135,7 +1131,7 @@ msgstr "Samling"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Collection Filter"
-msgstr ""
+msgstr "Collection Filter"
 
 #: ../build/src/ui_groupbydialog.h:121
 msgid "Collection advanced grouping"
@@ -1218,7 +1214,7 @@ msgstr ""
 
 #: dialogs/about.cpp:145
 msgid "Contributors"
-msgstr ""
+msgstr "Bidragsytere"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid "Convert all music"
@@ -1258,7 +1254,7 @@ msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:159
 msgid "Could not open URL. Please open this URL in your browser"
-msgstr ""
+msgstr "Kunne ikke åpne URL. Prøv å åpne denne URLen  i din nettleser"
 
 #: core/songloader.cpp:261
 #, qt-format
@@ -1711,7 +1707,7 @@ msgstr "Skriv inn navn på mappa"
 
 #: settings/scrobblersettingspage.cpp:74
 msgid "Enter your user token from"
-msgstr ""
+msgstr "Tast inn din bruker token fra"
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Entire collection"
@@ -2233,6 +2229,8 @@ msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors, audio "
 "enthusiasts and audiophiles."
 msgstr ""
+"It is a fork of Clementine released in 2018 aimed at music collectors, audio "
+"enthusiasts and audiophiles."
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -2623,7 +2621,7 @@ msgstr "Ingen lange blokker"
 msgid "No match."
 msgstr "Ingen treff."
 
-#: playlist/playlistcontainer.cpp:376
+#: playlist/playlistcontainer.cpp:372
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "Ingen treff.  Visk ut søkefeltet for å vise hele spillelisten igjen."
@@ -2715,13 +2713,8 @@ msgid "Opacity"
 msgstr "Dekkevne"
 
 #: scrobbler/scrobblingapi20.cpp:150
-#, qt-format
-msgid ""
-"Open URL in web browser?<br /><a href=\"%1\">%1</a><br />Press \"Save\" to "
-"copy the URL to clipboard and manually open it in a web browser."
+msgid "Open URL in web browser?"
 msgstr ""
-"Åpne lenke i nettleser?<br /><a href=\"%1\">%1</a><br />Trykk \"Lagre\" for "
-"å kopiere lenke til utklippstavle og manuelt kopiere den inn i nettleser."
 
 #: transcoder/transcodedialog.cpp:281
 msgid "Open a directory to import music from"
@@ -2920,7 +2913,7 @@ msgstr "Lukk nettleseren og gå tilbake til Strawberry."
 
 #: scrobbler/listenbrainzscrobbler.cpp:152
 msgid "Please open this URL in your browser"
-msgstr ""
+msgstr "Vennligst åpne denne URLen i din nettleser"
 
 #: equalizer/equalizer.cpp:148
 msgid "Pop"
@@ -2964,6 +2957,7 @@ msgstr "Foretrukket format"
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
+"Prefix a word with a field name to limit the search to that field, e.g.:"
 
 #: core/songloader.cpp:157
 msgid "Preload function was not set for blocking operation."
@@ -2972,6 +2966,12 @@ msgstr "Preload function was not set for blocking operation."
 #: ../build/src/ui_equalizer.h:169
 msgid "Preset:"
 msgstr "Forhåndsinnstilling:"
+
+#: scrobbler/scrobblingapi20.cpp:150
+msgid ""
+"Press \"Save\" to copy the URL to clipboard and manually open it in a web "
+"browser."
+msgstr ""
 
 #: ../build/src/ui_globalshortcutgrabber.h:70
 msgid "Press a key"
@@ -3827,7 +3827,7 @@ msgstr "Strawberry kan vise en melding ved sporendring."
 
 #: dialogs/about.cpp:116
 msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
+msgstr "Strawberry is a music player and music collection organizer."
 
 #: dialogs/about.cpp:123
 msgid ""
@@ -3836,6 +3836,10 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Strawberry is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -3931,7 +3935,7 @@ msgstr "Test"
 
 #: settings/subsonicsettingspage.cpp:134
 msgid "Test failed!"
-msgstr ""
+msgstr "Test feilet!"
 
 #: settings/subsonicsettingspage.cpp:125
 msgid "Test successful!"
@@ -3943,6 +3947,10 @@ msgstr "Tekstinnstillinger"
 
 #: dialogs/about.cpp:154
 msgid "Thanks to"
+msgstr "Takk til"
+
+#: dialogs/about.cpp:180
+msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
 #: settings/shortcutssettingspage.cpp:243
@@ -4199,7 +4207,7 @@ msgstr "Ukjent"
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1238
 #: subsonic/subsonicrequest.cpp:750
 msgid "Unknown error"
-msgstr ""
+msgstr "Ukjent feil"
 
 #: covermanager/albumcoverchoicecontroller.cpp:91
 msgid "Unset cover"
@@ -4360,7 +4368,7 @@ msgstr "Verifiser server sertifikat"
 #: dialogs/about.cpp:112
 #, qt-format
 msgid "Version %1"
-msgstr ""
+msgstr "Versjon %1"
 
 #: ../build/src/ui_albumcovermanager.h:219
 msgid "View"
@@ -4542,7 +4550,7 @@ msgstr "ar&tister"
 
 #: collection/collectionfilterwidget.cpp:71
 msgid "artist"
-msgstr ""
+msgstr "artist"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4589,7 +4597,7 @@ msgstr "p&lughw"
 
 #: core/song.cpp:479
 msgid "qobuz"
-msgstr ""
+msgstr "qobuz"
 
 #: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
@@ -4599,7 +4607,7 @@ msgstr "fjern %n sanger"
 
 #: collection/collectionfilterwidget.cpp:75
 msgid "searches the collection for all artists that contain the word"
-msgstr ""
+msgstr "searches the collection for all artists that contain the word"
 
 #: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
