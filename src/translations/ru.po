@@ -554,7 +554,7 @@ msgstr "Добавить все треки из папки и её подпап�
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
-#: core/mainwindow.cpp:1896
+#: core/mainwindow.cpp:1893
 msgid "Add file"
 msgstr "Добавить файл"
 
@@ -570,7 +570,7 @@ msgstr "Добавить файл(ы) в конвертер"
 msgid "Add files to transcode"
 msgstr "Добавить файлы для конвертирования"
 
-#: core/mainwindow.cpp:1921 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1918 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Добавить папку"
 
@@ -667,7 +667,7 @@ msgstr "Добавить тег \"Год\""
 msgid "Add to albums"
 msgstr "Добавить в альбомы"
 
-#: core/mainwindow.cpp:1709
+#: core/mainwindow.cpp:1706
 msgid "Add to another playlist"
 msgstr "Добавить в другой плейлист"
 
@@ -1110,7 +1110,7 @@ msgstr "Сменить текущий трек"
 msgid "Change the language"
 msgstr "Изменить язык"
 
-#: core/mainwindow.cpp:676
+#: core/mainwindow.cpp:673
 msgid "Check for updates..."
 msgstr "Проверить обновления…"
 
@@ -1176,7 +1176,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:276 core/song.cpp:473
+#: core/mainwindow.cpp:273 core/song.cpp:473
 #: ../build/src/ui_collectionsettingspage.h:244
 msgid "Collection"
 msgstr "Фонотека"
@@ -1185,7 +1185,7 @@ msgstr "Фонотека"
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2392
+#: core/mainwindow.cpp:2389
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1235,7 +1235,7 @@ msgstr "Некорректная конфигурация"
 msgid "Configure %1..."
 msgstr "Настроить %1…"
 
-#: core/mainwindow.cpp:559
+#: core/mainwindow.cpp:556
 msgid "Configure collection..."
 msgstr "Настроить фонотеку…"
 
@@ -1251,7 +1251,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Постоянный битрейт"
 
-#: core/mainwindow.cpp:275 ../build/src/ui_contextsettingspage.h:261
+#: core/mainwindow.cpp:272 ../build/src/ui_contextsettingspage.h:261
 msgid "Context"
 msgstr "Контекст"
 
@@ -1273,12 +1273,12 @@ msgstr "Конвертировать всю музыку, не поддержи�
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
-#: core/mainwindow.cpp:623 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:620 widgets/fileviewlist.cpp:47
 #: device/deviceview.cpp:233
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
 
-#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:281
+#: core/mainwindow.cpp:618 context/contextalbumsview.cpp:281
 #: collection/collectionview.cpp:344 playlist/playlistlistcontainer.cpp:101
 #: widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
@@ -1524,11 +1524,11 @@ msgstr "Удалить оригинальные файлы"
 msgid "Deleting files"
 msgstr "Удаление файлов"
 
-#: core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:1628
 msgid "Dequeue selected tracks"
 msgstr "Убрать выбранные треки из очереди"
 
-#: core/mainwindow.cpp:1630
+#: core/mainwindow.cpp:1627
 msgid "Dequeue track"
 msgstr "Убрать трек из очереди"
 
@@ -1554,7 +1554,7 @@ msgstr "Свойства устройства"
 msgid "Device properties..."
 msgstr "Свойства устройства…"
 
-#: core/mainwindow.cpp:281
+#: core/mainwindow.cpp:278
 msgid "Devices"
 msgstr "Устройства"
 
@@ -1649,7 +1649,7 @@ msgstr "Загрузка метаданных"
 msgid "Drag to reposition"
 msgstr "Тащите для перемещения"
 
-#: core/mainwindow.cpp:1673
+#: core/mainwindow.cpp:1670
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Изменить тег \"%1\"…"
@@ -1771,7 +1771,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2182 core/mainwindow.cpp:2288
+#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Ошибка"
@@ -1955,7 +1955,7 @@ msgstr "Имя файла"
 msgid "Filename:"
 msgstr "Имя файла:"
 
-#: core/mainwindow.cpp:277
+#: core/mainwindow.cpp:274
 msgid "Files"
 msgstr "Файлы"
 
@@ -2597,7 +2597,7 @@ msgstr "Точки монтирования"
 msgid "Move down"
 msgstr "Переместить вниз"
 
-#: core/mainwindow.cpp:624 widgets/fileviewlist.cpp:48
+#: core/mainwindow.cpp:621 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Переместить в фонотеку…"
 
@@ -2605,7 +2605,7 @@ msgstr "Переместить в фонотеку…"
 msgid "Move up"
 msgstr "Переместить вверх"
 
-#: core/mainwindow.cpp:1896 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1893 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Музыка"
 
@@ -2644,7 +2644,7 @@ msgstr "Никогда не начинать воспроизведение"
 msgid "New folder"
 msgstr "Новая папка"
 
-#: core/mainwindow.cpp:1725
+#: core/mainwindow.cpp:1722
 msgid "New playlist"
 msgstr "Новый плейлист"
 
@@ -2695,7 +2695,7 @@ msgstr "Нет воспроизводимой песни"
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2182 core/mainwindow.cpp:2288
+#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -2824,7 +2824,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Упорядочить файлы"
 
-#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:279
+#: core/mainwindow.cpp:622 context/contextalbumsview.cpp:279
 #: collection/collectionview.cpp:342
 msgid "Organise files..."
 msgstr "Упорядочить файлы…"
@@ -2896,7 +2896,7 @@ msgstr "Пароль"
 msgid "Password Protected"
 msgstr "Пароль защищен"
 
-#: core/mainwindow.cpp:1092 core/mainwindow.cpp:1534
+#: core/mainwindow.cpp:1089 core/mainwindow.cpp:1531
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Пауза"
@@ -2924,8 +2924,8 @@ msgstr "Пиксель"
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
-#: core/mainwindow.cpp:595 core/mainwindow.cpp:1045 core/mainwindow.cpp:1074
-#: core/mainwindow.cpp:1538 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:592 core/mainwindow.cpp:1042 core/mainwindow.cpp:1071
+#: core/mainwindow.cpp:1535 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Воспроизвести"
@@ -2967,7 +2967,7 @@ msgstr "Плейлист закончился"
 msgid "Playlist options"
 msgstr "Настройки плейлиста"
 
-#: core/mainwindow.cpp:278
+#: core/mainwindow.cpp:275
 msgid "Playlists"
 msgstr "Плейлисты"
 
@@ -3071,7 +3071,7 @@ msgstr "Профиль"
 msgid "Progress"
 msgstr "Ход выполнения"
 
-#: core/mainwindow.cpp:287 ../build/src/ui_qobuzsettingspage.h:255
+#: core/mainwindow.cpp:284 ../build/src/ui_qobuzsettingspage.h:255
 msgid "Qobuz"
 msgstr "Qobuz"
 
@@ -3087,24 +3087,24 @@ msgstr "Качество"
 msgid "Querying device..."
 msgstr "Опрашиваем устройство…"
 
-#: core/mainwindow.cpp:279
+#: core/mainwindow.cpp:276
 msgid "Queue"
 msgstr "Очередь"
 
-#: core/mainwindow.cpp:1633
+#: core/mainwindow.cpp:1630
 msgid "Queue selected tracks"
 msgstr "Выбранные треки в очередь"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1637
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
 msgid "Queue selected tracks to play next"
 msgstr "Очередь выбранных треков для последующего воспроизведения"
 
-#: core/mainwindow.cpp:1639 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1636 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Очередь воспроизведения"
 
-#: core/mainwindow.cpp:1632 context/contextalbumsview.cpp:276
+#: core/mainwindow.cpp:1629 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3551,7 +3551,7 @@ msgstr "URL сервера"
 msgid "Server URL is invalid."
 msgstr "URL сервера недействителен."
 
-#: core/mainwindow.cpp:1672
+#: core/mainwindow.cpp:1669
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
@@ -3634,7 +3634,7 @@ msgstr "Показать обложку альбома в коллекции"
 msgid "Show albums by artist"
 msgstr "Показать альбомы исполнителя"
 
-#: core/mainwindow.cpp:548
+#: core/mainwindow.cpp:545
 msgid "Show all songs"
 msgstr "Показать все композиции"
 
@@ -3650,7 +3650,7 @@ msgstr "Показать движок и устройство"
 msgid "Show fullsize..."
 msgstr "Показать в полный размер…"
 
-#: core/mainwindow.cpp:628
+#: core/mainwindow.cpp:625
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
@@ -3658,7 +3658,7 @@ msgstr "Показать в фонотеке…"
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
-#: core/mainwindow.cpp:626 context/contextalbumsview.cpp:287
+#: core/mainwindow.cpp:623 context/contextalbumsview.cpp:287
 #: collection/collectionview.cpp:351 widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Открыть в диспетчере файлов"
@@ -3675,11 +3675,11 @@ msgstr "Показать кнопку нравится"
 msgid "Show moodbar"
 msgstr "Показать moodbar"
 
-#: core/mainwindow.cpp:549
+#: core/mainwindow.cpp:546
 msgid "Show only duplicates"
 msgstr "Показывать только повторяющиеся"
 
-#: core/mainwindow.cpp:550
+#: core/mainwindow.cpp:547
 msgid "Show only untagged"
 msgstr "Показывать только без тегов"
 
@@ -3751,11 +3751,11 @@ msgstr "Пропустить подсчёт"
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперед в плейлисте"
 
-#: core/mainwindow.cpp:1644
+#: core/mainwindow.cpp:1641
 msgid "Skip selected tracks"
 msgstr "Пропустить выбранные треки"
 
-#: core/mainwindow.cpp:1643
+#: core/mainwindow.cpp:1640
 msgid "Skip track"
 msgstr "Пропустить трек"
 
@@ -3836,7 +3836,7 @@ msgstr "Останавливать после каждого трека"
 msgid "Stop after every track"
 msgstr "Останавливать после каждого трека"
 
-#: core/mainwindow.cpp:597 ../build/src/ui_mainwindow.h:616
+#: core/mainwindow.cpp:594 ../build/src/ui_mainwindow.h:616
 msgid "Stop after this track"
 msgstr "Остановить после этого трека"
 
@@ -3922,7 +3922,7 @@ msgstr "Растягивать изображение для заполнени�
 msgid "Submit scrobbles every"
 msgstr "Отправить скробблы каждые"
 
-#: core/mainwindow.cpp:290 ../build/src/ui_subsonicsettingspage.h:180
+#: core/mainwindow.cpp:287 ../build/src/ui_subsonicsettingspage.h:180
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4031,7 +4031,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2386
+#: core/mainwindow.cpp:2383
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4140,7 +4140,7 @@ msgstr "Эта опция может быть изменена в настрой
 msgid "This type of device is not supported: %1"
 msgstr "Не поддерживаемый тип устройства: %1"
 
-#: core/mainwindow.cpp:284 core/song.cpp:477
+#: core/mainwindow.cpp:281 core/song.cpp:477
 #: ../build/src/ui_tidalsettingspage.h:293
 msgid "Tidal"
 msgstr "Tidal"
@@ -4164,7 +4164,7 @@ msgstr "Название"
 msgid "Today"
 msgstr "Сегодня"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
+#: core/mainwindow.cpp:595 core/mainwindow.cpp:1631
 msgid "Toggle queue status"
 msgstr "Переключить состояние очереди"
 
@@ -4172,7 +4172,7 @@ msgstr "Переключить состояние очереди"
 msgid "Toggle scrobbling"
 msgstr "Вкл/выкл скробблинг"
 
-#: core/mainwindow.cpp:604 core/mainwindow.cpp:1645
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
@@ -4263,11 +4263,11 @@ msgstr "Неизвестная ошибка"
 msgid "Unset cover"
 msgstr "Удалить обложку"
 
-#: core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:1639
 msgid "Unskip selected tracks"
 msgstr "Не пропускать выбранные треки"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1638
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
@@ -4485,7 +4485,7 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "исполнители»?"
 
-#: core/mainwindow.cpp:2390
+#: core/mainwindow.cpp:2387
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
