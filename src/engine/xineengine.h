@@ -23,7 +23,6 @@
 #endif
 
 #include <memory>
-#include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <xine.h>

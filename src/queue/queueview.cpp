@@ -18,7 +18,6 @@
  *
  */
 
-#include <stdbool.h>
 #include <algorithm>
 
 #include <QWidget>

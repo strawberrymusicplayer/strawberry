@@ -25,7 +25,6 @@
 
 #include <memory>
 #include <cstddef>
-#include <stdbool.h>
 
 #include <QObject>
 #include <QMimeData>

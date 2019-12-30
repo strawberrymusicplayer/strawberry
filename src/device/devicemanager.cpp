@@ -23,7 +23,6 @@
 
 #include <memory>
 #include <functional>
-#include <stdbool.h>
 
 #include <QApplication>
 #include <QObject>

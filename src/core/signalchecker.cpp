@@ -23,7 +23,6 @@
 #include "config.h"
 
 #include <glib-object.h>
-#include <stdbool.h>
 
 #include <QtGlobal>
 

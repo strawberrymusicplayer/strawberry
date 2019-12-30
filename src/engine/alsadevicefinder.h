@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 #include <QList>
 
 #include "devicefinder.h"

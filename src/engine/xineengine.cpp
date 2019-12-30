@@ -23,7 +23,6 @@
 #  define METRONOM_INTERNAL
 #endif
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <time.h>

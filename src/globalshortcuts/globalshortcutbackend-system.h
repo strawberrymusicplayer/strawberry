@@ -24,7 +24,6 @@
 
 #include "core/logging.h"
 
-#include <stdbool.h>
 
 #include <QObject>
 #include <QtGlobal>

@@ -31,7 +31,6 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
-#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QObject>

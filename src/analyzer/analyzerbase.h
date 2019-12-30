@@ -29,7 +29,6 @@
 #  include <sys/types.h>
 #endif
 
-#include <stdbool.h>
 #include <vector>
 
 #include <QtGlobal>

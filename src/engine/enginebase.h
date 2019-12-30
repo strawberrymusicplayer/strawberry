@@ -29,7 +29,6 @@
 #include <sys/types.h>
 #include <cstdint>
 #include <vector>
-#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QObject>

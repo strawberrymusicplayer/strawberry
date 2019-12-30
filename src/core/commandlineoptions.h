@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 
 #include <QDataStream>
 #include <QByteArray>

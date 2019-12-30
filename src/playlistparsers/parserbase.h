@@ -21,7 +21,6 @@
 #ifndef PARSERBASE_H
 #define PARSERBASE_H
 
-#include <stdbool.h>
 
 #include <QtGlobal>
 #include <QObject>

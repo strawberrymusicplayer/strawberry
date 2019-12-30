@@ -18,7 +18,6 @@
  *
  */
 
-#include <stdbool.h>
 
 #include <QDialog>
 #include <QWidget>

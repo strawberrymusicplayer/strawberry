@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 
 #include <QWidget>
 #include <QList>

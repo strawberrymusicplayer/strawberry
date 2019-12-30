@@ -21,7 +21,6 @@
 #ifndef TRACKSELECTIONDIALOG_H
 #define TRACKSELECTIONDIALOG_H
 
-#include <stdbool.h>
 
 #include <QObject>
 #include <QDialog>

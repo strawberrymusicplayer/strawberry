@@ -21,7 +21,6 @@
 #ifndef ASXINIPARSER_H
 #define ASXINIPARSER_H
 
-#include <stdbool.h>
 #include <QObject>
 #include <QIODevice>
 #include <QByteArray>

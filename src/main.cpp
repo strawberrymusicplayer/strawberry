@@ -26,7 +26,6 @@
 
 #include <glib.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <memory>
 #include <time.h>
 

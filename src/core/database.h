@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 #include <sqlite3.h>
 
 #include <QtGlobal>

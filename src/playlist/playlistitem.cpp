@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 
 #include <QtConcurrentRun>
 #include <QFuture>

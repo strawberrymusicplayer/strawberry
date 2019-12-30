@@ -24,7 +24,6 @@
 #include "config.h"
 
 #include <memory>
-#include <stdbool.h>
 
 #include <QObject>
 #include <QThread>

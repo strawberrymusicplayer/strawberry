@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 #include <algorithm>
 
 #include <QObject>

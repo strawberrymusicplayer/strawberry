@@ -27,7 +27,6 @@
 #include <memory>
 #include <functional>
 #include <glib.h>
-#include <stdbool.h>
 
 #ifdef HAVE_GSTREAMER
 #  include <gst/gst.h>

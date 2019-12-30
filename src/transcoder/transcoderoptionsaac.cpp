@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 
 #include <QVariant>
 #include <QString>

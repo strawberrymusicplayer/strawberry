@@ -24,7 +24,6 @@
 #ifndef BLOCKANALYZER_H
 #define BLOCKANALYZER_H
 
-#include <stdbool.h>
 #include <vector>
 
 #include <QtGlobal>

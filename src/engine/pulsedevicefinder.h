@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 #include <pulse/context.h>
 #include <pulse/introspect.h>
 #include <pulse/mainloop.h>

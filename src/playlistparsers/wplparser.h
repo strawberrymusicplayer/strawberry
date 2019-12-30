@@ -21,7 +21,6 @@
 #ifndef WPLPARSER_H
 #define WPLPARSER_H
 
-#include <stdbool.h>
 #include <QObject>
 #include <QIODevice>
 #include <QDir>

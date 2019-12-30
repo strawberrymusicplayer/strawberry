@@ -21,7 +21,6 @@
 #ifndef PLSPARSER_H
 #define PLSPARSER_H
 
-#include <stdbool.h>
 
 #include <QObject>
 #include <QIODevice>

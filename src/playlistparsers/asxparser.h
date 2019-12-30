@@ -21,7 +21,6 @@
 #ifndef ASXPARSER_H
 #define ASXPARSER_H
 
-#include <stdbool.h>
 
 #include <QObject>
 #include <QIODevice>

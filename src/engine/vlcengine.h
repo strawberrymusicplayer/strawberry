@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <stdbool.h>
 #include <vlc/vlc.h>
 
 #include <QtGlobal>

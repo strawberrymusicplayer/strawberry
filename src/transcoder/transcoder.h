@@ -25,7 +25,6 @@
 #include "config.h"
 
 #include <memory>
-#include <stdbool.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
