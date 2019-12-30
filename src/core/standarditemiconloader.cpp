@@ -88,7 +88,7 @@ void StandardItemIconLoader::RowsAboutToBeRemoved(const QModelIndex &parent, int
 void StandardItemIconLoader::ModelReset() {
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  cover_loader_->CancelTasks(QSet<quint64>(pending_covers_.begin(), pending_covers_.end()));
+  cover_loader_->CancelTasks(QSet<quint64>(pending_covers_.keyBegin(), pending_covers_.keyEnd()));
 #else
   cover_loader_->CancelTasks(QSet<quint64>::fromList(pending_covers_.keys()));
 #endif
