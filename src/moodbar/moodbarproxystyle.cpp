@@ -40,7 +40,7 @@ const int MoodbarProxyStyle::kArrowWidth = 17;
 const int MoodbarProxyStyle::kArrowHeight = 13;
 
 MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
-    : QProxyStyle(slider->style()),
+    : QProxyStyle(nullptr),
       app_(app),
       slider_(slider),
       enabled_(true),
@@ -53,6 +53,7 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
       show_moodbar_action_(nullptr),
       style_action_group_(nullptr) {
 
+  setBaseStyle(slider->style());
   slider->setStyle(this);
   slider->installEventFilter(this);
 

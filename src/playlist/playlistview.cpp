@@ -91,7 +91,12 @@ const int PlaylistView::kDropIndicatorWidth = 2;
 const int PlaylistView::kDropIndicatorGradientWidth = 5;
 
 PlaylistProxyStyle::PlaylistProxyStyle(QStyle *base)
-    : QProxyStyle(base), common_style_(new QCommonStyle) {}
+    : QProxyStyle(nullptr),
+    common_style_(new QCommonStyle) {
+
+  setBaseStyle(base);
+
+}
 
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
