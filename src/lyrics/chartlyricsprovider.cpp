@@ -112,6 +112,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
            result.score = 0.0;
            if (result.artist.toLower() == artist.toLower()) result.score += 1.0;
            if (result.title.toLower() == title.toLower()) result.score += 1.0;
+           if (result.lyrics.length() > LyricsFetcher::kGoodLyricsLength) result.score += 1.0;
            if (result.artist.toLower() == artist.toLower() || result.title.toLower() == title.toLower()) {
              results << result;
            }

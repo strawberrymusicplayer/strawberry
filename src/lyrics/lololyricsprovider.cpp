@@ -119,6 +119,12 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
       else if (type == QXmlStreamReader::EndElement) {
          if (name == "result") {
            if (!result.lyrics.isEmpty()) {
+             if (result.artist.toLower() == artist.toLower())
+               result.score += 1.0;
+             if (result.title.toLower() == title.toLower())
+               result.score += 1.0;
+             if (result.lyrics.length() > LyricsFetcher::kGoodLyricsLength)
+               result.score += 1.0;
              results << result;
            }
            result = LyricsSearchResult();

@@ -30,6 +30,7 @@
 #include "lyricsfetchersearch.h"
 
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
+const int LyricsFetcher::kGoodLyricsLength = 60;
 
 LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
     : QObject(parent),

@@ -113,6 +113,7 @@ void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     result.score = 0.0;
     if (result.artist.toLower() == artist.toLower()) result.score += 1.0;
     if (result.title.toLower() == title.toLower()) result.score += 1.0;
+    if (result.lyrics.length() > LyricsFetcher::kGoodLyricsLength) result.score += 1.0;
     //qLog(Debug) << "AudDLyrics:" << result.artist << result.title << result.lyrics.length();
 
     results << result;

@@ -87,6 +87,9 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
 
   LyricsSearchResult result;
   result.lyrics = json_obj["lyrics"].toString();
+  if (result.lyrics.length() > LyricsFetcher::kGoodLyricsLength)
+    result.score += 1.0;
+
   qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
   emit SearchFinished(id, LyricsSearchResults() << result);
 

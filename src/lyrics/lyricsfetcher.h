@@ -65,6 +65,7 @@ class LyricsFetcher : public QObject {
   virtual ~LyricsFetcher() {}
 
   static const int kMaxConcurrentRequests;
+  static const int kGoodLyricsLength;
 
   quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();
