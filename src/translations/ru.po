@@ -2553,7 +2553,7 @@ msgstr "Mood"
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:369 ../build/src/ui_moodbarsettingspage.h:89
+#: moodbar/moodbarproxystyle.cpp:370 ../build/src/ui_moodbarsettingspage.h:89
 msgid "Moodbar style"
 msgstr "Стиль Moodbar"
 
@@ -3647,7 +3647,7 @@ msgstr "Показать в «Различных исполнителях»"
 msgid "Show love button"
 msgstr "Показать кнопку нравится"
 
-#: moodbar/moodbarproxystyle.cpp:364
+#: moodbar/moodbarproxystyle.cpp:365
 msgid "Show moodbar"
 msgstr "Показать moodbar"
 
@@ -4606,7 +4606,7 @@ msgid "hw"
 msgstr "hw"
 
 #: context/contextview.cpp:327 context/contextview.cpp:505
-#: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:533
+#: playlist/playlistview.cpp:255 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "кбит/с"
 

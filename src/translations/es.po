@@ -2561,7 +2561,7 @@ msgstr "Humor"
 msgid "Moodbar"
 msgstr "Barra de humor"
 
-#: moodbar/moodbarproxystyle.cpp:369 ../build/src/ui_moodbarsettingspage.h:89
+#: moodbar/moodbarproxystyle.cpp:370 ../build/src/ui_moodbarsettingspage.h:89
 msgid "Moodbar style"
 msgstr "Estilo de la barra de humor"
 
@@ -3657,7 +3657,7 @@ msgstr "Mostrar en Varios artistas"
 msgid "Show love button"
 msgstr "Mostrar el botón \"Love\""
 
-#: moodbar/moodbarproxystyle.cpp:364
+#: moodbar/moodbarproxystyle.cpp:365
 msgid "Show moodbar"
 msgstr "Mostrar barra de humor"
 
@@ -4623,7 +4623,7 @@ msgid "hw"
 msgstr "hw"
 
 #: context/contextview.cpp:327 context/contextview.cpp:505
-#: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:533
+#: playlist/playlistview.cpp:255 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "kb/s"
 

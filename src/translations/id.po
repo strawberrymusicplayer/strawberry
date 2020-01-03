@@ -2530,7 +2530,7 @@ msgstr "Mood"
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:369 ../build/src/ui_moodbarsettingspage.h:89
+#: moodbar/moodbarproxystyle.cpp:370 ../build/src/ui_moodbarsettingspage.h:89
 msgid "Moodbar style"
 msgstr "Gaya moodbar"
 
@@ -3623,7 +3623,7 @@ msgstr "Tampilkan di artis beragam"
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
-#: moodbar/moodbarproxystyle.cpp:364
+#: moodbar/moodbarproxystyle.cpp:365
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
@@ -4584,7 +4584,7 @@ msgid "hw"
 msgstr "hw"
 
 #: context/contextview.cpp:327 context/contextview.cpp:505
-#: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:533
+#: playlist/playlistview.cpp:255 dialogs/edittagdialog.cpp:533
 msgid "kbps"
 msgstr "kbps"
 
