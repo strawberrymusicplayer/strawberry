@@ -1137,10 +1137,7 @@ if (APPLE)
 endif (APPLE)
 
 if (WIN32)
-  target_link_libraries(strawberry_lib
-    ${ZLIB_LIBRARIES}
-    dsound
-  )
+  target_link_libraries(strawberry_lib dsound)
 endif (WIN32)
 
 if (UNIX AND NOT APPLE)

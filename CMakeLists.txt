@@ -107,10 +107,6 @@ pkg_check_modules(LIBPLIST libplist)
 find_package(Gettext)
 find_package(FFTW3)
 
-if(WIN32)
-  find_package(ZLIB REQUIRED)
-endif(WIN32)
-
 # QT
 set(QT_MIN_VERSION 5.5)
 set(QT_COMPONENTS Core Concurrent Widgets Network Sql)
@@ -128,7 +124,7 @@ if(WIN32)
   list(APPEND QT_COMPONENTS WinExtras)
 endif()
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED ${QT_COMPONENTS})
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS ${QT_COMPONENTS})
 
 set(QT_LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Concurrent_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5Sql_LIBRARIES})
 
@@ -146,7 +142,7 @@ if(Qt5WinExtras_FOUND)
   list(APPEND QT_LIBRARIES ${Qt5WinExtras_LIBRARIES})
 endif()
 
-find_package(Qt5LinguistTools CONFIG)
+find_package(Qt5 ${QT_MIN_VERSION} QUIET COMPONENTS LinguistTools CONFIG)
 if (Qt5LinguistTools_FOUND)
   set(QT_LCONVERT_EXECUTABLE Qt5::lconvert)
 endif()
