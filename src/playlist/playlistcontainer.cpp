@@ -118,6 +118,8 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   connect(ui_->playlist, SIGNAL(FocusOnFilterSignal(QKeyEvent*)), SLOT(FocusOnFilter(QKeyEvent*)));
   ui_->filter->installEventFilter(this);
 
+  ReloadSettings();
+
 }
 
 PlaylistContainer::~PlaylistContainer() { delete ui_; }
@@ -222,6 +224,18 @@ void PlaylistContainer::SetViewModel(Playlist *playlist) {
   ui_->redo->setDefaultAction(redo_);
 
   emit UndoRedoActionsChanged(undo_, redo_);
+
+}
+
+void PlaylistContainer::ReloadSettings() {
+
+  bool playlist_clear = settings_.value("playlist_clear", true).toBool();
+  if (playlist_clear) {
+    ui_->clear->show();
+  }
+  else {
+    ui_->clear->hide();
+  }
 
 }
 

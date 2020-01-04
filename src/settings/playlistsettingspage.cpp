@@ -66,6 +66,7 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
   ui_->checkbox_greyout_songs_play->setChecked(s.value("greyout_songs_play", true).toBool());
   ui_->checkbox_select_track->setChecked(s.value("select_track", false).toBool());
+  ui_->checkbox_playlist_clear->setChecked(s.value("playlist_clear", true).toBool());
 
   Playlist::Path path = Playlist::Path(s.value(Playlist::kPathType, Playlist::Path_Automatic).toInt());
   switch (path) {
@@ -114,6 +115,7 @@ void PlaylistSettingsPage::Save() {
   s.setValue("greyout_songs_startup", ui_->checkbox_greyout_songs_startup->isChecked());
   s.setValue("greyout_songs_play", ui_->checkbox_greyout_songs_play->isChecked());
   s.setValue("select_track", ui_->checkbox_select_track->isChecked());
+  s.setValue("playlist_clear", ui_->checkbox_playlist_clear->isChecked());
   s.setValue(Playlist::kPathType, static_cast<int>(path));
   s.setValue("editmetadatainline", ui_->checkbox_editmetadatainline->isChecked());
   s.setValue(Playlist::kWriteMetadata, ui_->checkbox_writemetadata->isChecked());

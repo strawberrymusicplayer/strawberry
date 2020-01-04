@@ -57,6 +57,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_playlist_clear">
+     <property name="text">
+      <string>Enable playlist clear button</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_paths">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>
