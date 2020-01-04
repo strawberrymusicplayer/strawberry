@@ -405,7 +405,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_stop_after_this_track, SIGNAL(triggered()), SLOT(StopAfterCurrent()));
   connect(ui_->action_mute, SIGNAL(triggered()), app_->player(), SLOT(Mute()));
 
-  connect(ui_->action_clear_playlist, SIGNAL(triggered()), app_->playlist_manager(), SLOT(ClearCurrent()));
+  connect(ui_->action_clear_playlist, SIGNAL(triggered()), SLOT(PlaylistClearCurrent()));
   connect(ui_->action_remove_duplicates, SIGNAL(triggered()), app_->playlist_manager(), SLOT(RemoveDuplicatesCurrent()));
   connect(ui_->action_remove_unavailable, SIGNAL(triggered()), app_->playlist_manager(), SLOT(RemoveUnavailableCurrent()));
   connect(ui_->action_remove_from_playlist, SIGNAL(triggered()), SLOT(PlaylistRemoveCurrent()));
@@ -1958,6 +1958,25 @@ void MainWindow::ShowInCollection() {
 
 void MainWindow::PlaylistRemoveCurrent() {
   ui_->playlist->view()->RemoveSelected(false);
+}
+
+void MainWindow::PlaylistClearCurrent() {
+
+  if (app_->playlist_manager()->current()->rowCount() > Playlist::kUndoItemLimit) {
+    QMessageBox messagebox(QMessageBox::Warning, tr("Clear playlist"), tr("Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?").arg(app_->playlist_manager()->current()->rowCount()), QMessageBox::Ok|QMessageBox::Cancel);
+    messagebox.setTextFormat(Qt::RichText);
+    int result = messagebox.exec();
+    switch (result) {
+    case QMessageBox::Ok:
+      break;
+    case QMessageBox::Cancel:
+    default:
+      return;
+    }
+  }
+
+  app_->playlist_manager()->ClearCurrent();
+
 }
 
 void MainWindow::PlaylistEditFinished(const QModelIndex &index) {
