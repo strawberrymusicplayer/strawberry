@@ -8,11 +8,12 @@ Version 0.6.8:
     * Fixed possible crashes related to QProxyStyle.
     * Fixed a bug where metadata in the playlist was not updated when editing metadata for the current playing track.
     * Fixed crash when deleting a folder with playlists.
+    * Fixed restoring to correct screen when maximized.
     * Increased lyrics score if lyrics text is larger than 60 characters to avoid using "no lyrics available" text.
     * Made context title and summary changeable.
     * Added option to disable playlist clear button.
     * Added confirmation dialog before clearing playlists with more than 500 songs.
-    * Added German, French and Indonesian translations.
+    * Added German, French, Italian and Indonesian translations.
     * Added StartupWMClass to desktop file.
     * Replaced use of Qt deprecated functionality as of 5.14.
     * (macOS) Fixed filesystem watcher to correctly pick up changed collection directories.
