@@ -441,7 +441,7 @@ msgstr ""
 "<p>Если Вы окружили часть текста фигурными скобками, то эта часть текста не "
 "будет видна, если значения полей будут пустыми</p>"
 
-#: ../build/src/ui_playlistsettingspage.h:151
+#: ../build/src/ui_playlistsettingspage.h:158
 msgid "A&utomatic"
 msgstr "А&втоматически"
 
@@ -479,7 +479,7 @@ msgstr "О &Qt"
 msgid "About Strawberry"
 msgstr "О Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:152
+#: ../build/src/ui_playlistsettingspage.h:159
 msgid "Absolu&te"
 msgstr "Абсолю&тные"
 
@@ -509,7 +509,7 @@ msgstr "Добавить все треки из папки и её подпап�
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
-#: core/mainwindow.cpp:1893
+#: core/mainwindow.cpp:1894
 msgid "Add file"
 msgstr "Добавить файл"
 
@@ -525,7 +525,7 @@ msgstr "Добавить файл(ы) в конвертер"
 msgid "Add files to transcode"
 msgstr "Добавить файлы для конвертирования"
 
-#: core/mainwindow.cpp:1918 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1919 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Добавить папку"
 
@@ -622,7 +622,7 @@ msgstr "Добавить тег \"Год\""
 msgid "Add to albums"
 msgstr "Добавить в альбомы"
 
-#: core/mainwindow.cpp:1706
+#: core/mainwindow.cpp:1707
 msgid "Add to another playlist"
 msgstr "Добавить в другой плейлист"
 
@@ -863,7 +863,7 @@ msgstr "Исполнители"
 msgid "Artists search limit"
 msgstr "Лимит поиска артистов"
 
-#: ../build/src/ui_playlistsettingspage.h:154
+#: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
 msgstr "Сп&рашивать при сохранении"
 
@@ -910,7 +910,7 @@ msgstr "Автоматическое обновление"
 msgid "Automatically open single categories in the collection tree"
 msgstr "Автоматически раскрывать одиночные категории в дереве фонотеки"
 
-#: ../build/src/ui_playlistsettingspage.h:149
+#: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
 msgstr ""
 
@@ -1095,7 +1095,7 @@ msgstr "Классический"
 msgid "Clear"
 msgstr "Очистить"
 
-#: ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1967 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Очистить плейлист"
 
@@ -1161,7 +1161,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Расширенная группировка фонотеки"
 
-#: core/mainwindow.cpp:2389
+#: core/mainwindow.cpp:2409
 msgid "Collection rescan notice"
 msgstr "Уведомление о сканировании фонотеки"
 
@@ -1231,7 +1231,7 @@ msgstr "Постоянный битрейт"
 msgid "Context"
 msgstr "Контекст"
 
-#: ../build/src/ui_playlistsettingspage.h:146
+#: ../build/src/ui_playlistsettingspage.h:152
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Переход к следующему элементу в списке воспроизведения, если песня "
@@ -1499,11 +1499,11 @@ msgstr "Удалить оригинальные файлы"
 msgid "Deleting files"
 msgstr "Удаление файлов"
 
-#: core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:1629
 msgid "Dequeue selected tracks"
 msgstr "Убрать выбранные треки из очереди"
 
-#: core/mainwindow.cpp:1627
+#: core/mainwindow.cpp:1628
 msgid "Dequeue track"
 msgstr "Убрать трек из очереди"
 
@@ -1624,7 +1624,7 @@ msgstr "Загрузка метаданных"
 msgid "Drag to reposition"
 msgstr "Тащите для перемещения"
 
-#: core/mainwindow.cpp:1670
+#: core/mainwindow.cpp:1671
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Изменить тег \"%1\"…"
@@ -1668,7 +1668,11 @@ msgstr ""
 msgid "Enable equalizer"
 msgstr "Включить эквалайзер"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:156
+msgid "Enable playlist clear button"
+msgstr ""
+
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable song metadata inline edition with click"
 msgstr "Включить редактирование метаданных песни по клику"
 
@@ -1750,7 +1754,7 @@ msgstr "Аналогично --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Аналогично --log-levels *:3"
 
-#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Ошибка"
@@ -2051,12 +2055,12 @@ msgstr "Перейти к предудыщему плейлисту"
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Получено %1 обложек из %2 (%3 загрузить не удалось)"
 
-#: ../build/src/ui_playlistsettingspage.h:147
+#: ../build/src/ui_playlistsettingspage.h:153
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr ""
 "Помечать серым недоступные песни в плейлистах во время воспроизведения"
 
-#: ../build/src/ui_playlistsettingspage.h:148
+#: ../build/src/ui_playlistsettingspage.h:154
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Помечать недоступные песни в пейлистах при запуске"
 
@@ -2182,7 +2186,7 @@ msgstr "Значки сверху"
 msgid "Identifying song"
 msgstr "Определение песни"
 
-#: ../build/src/ui_playlistsettingspage.h:157
+#: ../build/src/ui_playlistsettingspage.h:164
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2354,7 +2358,7 @@ msgstr "Загрузить обложку с диска"
 msgid "Load cover from disk..."
 msgstr "Загрузить обложку с диска…"
 
-#: playlist/playlistcontainer.cpp:291
+#: playlist/playlistcontainer.cpp:305
 msgid "Load playlist"
 msgstr "Загрузить плейлист"
 
@@ -2464,7 +2468,7 @@ msgstr "Достигнуто максимальное количество по�
 msgid "Medium (%1 fps)"
 msgstr "Средняя (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:155
+#: ../build/src/ui_playlistsettingspage.h:162
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -2577,7 +2581,7 @@ msgstr "Переместить в фонотеку…"
 msgid "Move up"
 msgstr "Переместить вверх"
 
-#: core/mainwindow.cpp:1893 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1894 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Музыка"
 
@@ -2616,7 +2620,7 @@ msgstr "Никогда не начинать воспроизведение"
 msgid "New folder"
 msgstr "Новая папка"
 
-#: core/mainwindow.cpp:1722
+#: core/mainwindow.cpp:1723
 msgid "New playlist"
 msgstr "Новый плейлист"
 
@@ -2648,7 +2652,7 @@ msgstr "Без длинных блоков"
 msgid "No match."
 msgstr "Не совпадает."
 
-#: playlist/playlistcontainer.cpp:372
+#: playlist/playlistcontainer.cpp:386
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2667,7 +2671,7 @@ msgstr "Нет воспроизводимой песни"
 msgid "None"
 msgstr "Ничего"
 
-#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Ни одна из выбранных песен не была скопирована на устройство"
@@ -2862,7 +2866,7 @@ msgstr "Пароль"
 msgid "Password Protected"
 msgstr "Пароль защищен"
 
-#: core/mainwindow.cpp:1089 core/mainwindow.cpp:1531
+#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1532
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Пауза"
@@ -2890,8 +2894,8 @@ msgstr "Пиксель"
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
-#: core/mainwindow.cpp:592 core/mainwindow.cpp:1042 core/mainwindow.cpp:1071
-#: core/mainwindow.cpp:1535 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:592 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
+#: core/mainwindow.cpp:1536 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Воспроизвести"
@@ -2917,16 +2921,23 @@ msgstr "Воспроизвести <n>-ную композицию в плейл
 msgid "Player options"
 msgstr "Настройки проигрывателя"
 
-#: playlist/playlistcontainer.cpp:286 playlist/playlistlistcontainer.cpp:258
+#: playlist/playlistcontainer.cpp:300 playlist/playlistlistcontainer.cpp:258
 #: playlist/playlistlistcontainer.cpp:346 playlist/playlistmanager.cpp:103
 #: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
-#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:143
+#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Плейлист"
 
 #: widgets/osd.cpp:193
 msgid "Playlist finished"
 msgstr "Плейлист закончился"
+
+#: core/mainwindow.cpp:1967
+#, qt-format
+msgid ""
+"Playlist has %1 songs, too large to undo, are you sure you want to clear the "
+"playlist?"
+msgstr ""
 
 #: core/commandlineoptions.cpp:177
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3067,20 +3078,20 @@ msgstr "Опрашиваем устройство…"
 msgid "Queue"
 msgstr "Очередь"
 
-#: core/mainwindow.cpp:1630
+#: core/mainwindow.cpp:1631
 msgid "Queue selected tracks"
 msgstr "Выбранные треки в очередь"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1635
 msgid "Queue selected tracks to play next"
 msgstr "Очередь выбранных треков для последующего воспроизведения"
 
-#: core/mainwindow.cpp:1636 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1637 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Очередь воспроизведения"
 
-#: core/mainwindow.cpp:1629 context/contextalbumsview.cpp:276
+#: core/mainwindow.cpp:1630 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3094,7 +3105,7 @@ msgstr "Просмотр очереди"
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Радио (одинаковая громкость для всех треков)"
 
-#: ../build/src/ui_playlistsettingspage.h:153
+#: ../build/src/ui_playlistsettingspage.h:160
 msgid "Re&lative"
 msgstr "&Относительно"
 
@@ -3527,7 +3538,7 @@ msgstr "URL сервера"
 msgid "Server URL is invalid."
 msgstr "URL сервера недействителен."
 
-#: core/mainwindow.cpp:1669
+#: core/mainwindow.cpp:1670
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Установить %1 в «%2»…"
@@ -3566,7 +3577,7 @@ msgstr "Показать"
 msgid "Show a &native desktop notification"
 msgstr "Показать системные уведомления на рабочем столе"
 
-#: ../build/src/ui_playlistsettingspage.h:144
+#: ../build/src/ui_playlistsettingspage.h:150
 msgid "Show a glowing animation on the current track"
 msgstr "Подсвечивать проигрываемый трек"
 
@@ -3727,11 +3738,11 @@ msgstr "Пропустить подсчёт"
 msgid "Skip forwards in playlist"
 msgstr "Переместить вперед в плейлисте"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1642
 msgid "Skip selected tracks"
 msgstr "Пропустить выбранные треки"
 
-#: core/mainwindow.cpp:1640
+#: core/mainwindow.cpp:1641
 msgid "Skip track"
 msgstr "Пропустить трек"
 
@@ -4010,7 +4021,7 @@ msgstr "Запрошенный сайт не существует!"
 msgid "The site you requested is not an image!"
 msgstr "Запрошенная ссылка не является изображением!"
 
-#: core/mainwindow.cpp:2383
+#: core/mainwindow.cpp:2403
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4143,7 +4154,7 @@ msgstr "Название"
 msgid "Today"
 msgstr "Сегодня"
 
-#: core/mainwindow.cpp:595 core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:595 core/mainwindow.cpp:1632
 msgid "Toggle queue status"
 msgstr "Переключить состояние очереди"
 
@@ -4151,7 +4162,7 @@ msgstr "Переключить состояние очереди"
 msgid "Toggle scrobbling"
 msgstr "Вкл/выкл скробблинг"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1643
 msgid "Toggle skip status"
 msgstr "Переключить статус пропуска"
 
@@ -4242,11 +4253,11 @@ msgstr "Неизвестная ошибка"
 msgid "Unset cover"
 msgstr "Удалить обложку"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1640
 msgid "Unskip selected tracks"
 msgstr "Не пропускать выбранные треки"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1639
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
@@ -4422,7 +4433,7 @@ msgstr "Громкость %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:145
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
 msgid "Warn me when closing a playlist tab"
 msgstr "Оповещать при закрытии вкладки плейлиста"
 
@@ -4441,7 +4452,7 @@ msgstr ""
 "При отсутствии совпадений будет использовано наибольшее изображение в "
 "каталоге."
 
-#: ../build/src/ui_playlistsettingspage.h:150
+#: ../build/src/ui_playlistsettingspage.h:157
 msgid "When saving a playlist, file paths should be"
 msgstr "При сохранении плейлистов пути файлов должны быть"
 
@@ -4469,11 +4480,11 @@ msgstr ""
 "Хотите ли вы переместить и другие песни из этого альбома в «Различные "
 "исполнители»?"
 
-#: core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2407
 msgid "Would you like to run a full rescan right now?"
 msgstr "Желаете запустить повторное сканирование?"
 
-#: ../build/src/ui_playlistsettingspage.h:160
+#: ../build/src/ui_playlistsettingspage.h:167
 msgid "Write metadata when saving playlists"
 msgstr "Записывать метаданные при сохранении плейлистов"
 

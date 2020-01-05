@@ -447,7 +447,7 @@ msgstr ""
 "champ, celle-ci ne sera pas affichée si le contenu du champ n'est pas "
 "renseigné.</p>"
 
-#: ../build/src/ui_playlistsettingspage.h:151
+#: ../build/src/ui_playlistsettingspage.h:158
 msgid "A&utomatic"
 msgstr "A&utomatique"
 
@@ -485,7 +485,7 @@ msgstr "À propos de &Qt"
 msgid "About Strawberry"
 msgstr "À propos de Strawberry"
 
-#: ../build/src/ui_playlistsettingspage.h:152
+#: ../build/src/ui_playlistsettingspage.h:159
 msgid "Absolu&te"
 msgstr "Absol&u"
 
@@ -517,7 +517,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Ajouter un dossier..."
 
-#: core/mainwindow.cpp:1893
+#: core/mainwindow.cpp:1894
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
@@ -533,7 +533,7 @@ msgstr "Ajouter des fichiers à transcoder"
 msgid "Add files to transcode"
 msgstr "Ajouter des fichiers à transcoder"
 
-#: core/mainwindow.cpp:1918 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1919 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Ajouter un dossier"
 
@@ -630,7 +630,7 @@ msgstr "Ajouter le tag année du morceau"
 msgid "Add to albums"
 msgstr "Ajouter aux albums"
 
-#: core/mainwindow.cpp:1706
+#: core/mainwindow.cpp:1707
 msgid "Add to another playlist"
 msgstr "Ajouter à une autre liste de lecture"
 
@@ -878,7 +878,7 @@ msgstr "Artistes"
 msgid "Artists search limit"
 msgstr "Limite de recherche d'artistes"
 
-#: ../build/src/ui_playlistsettingspage.h:154
+#: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
 msgstr "Demander lors de la &sauvegarde"
 
@@ -926,7 +926,7 @@ msgid "Automatically open single categories in the collection tree"
 msgstr ""
 "Ouvrir automatiquement les catégories seules dans l'arbre de la bibliothèque"
 
-#: ../build/src/ui_playlistsettingspage.h:149
+#: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
 msgstr "Sélectionner automatiquement la piste en cours de lecture"
 
@@ -1111,7 +1111,7 @@ msgstr "Classique"
 msgid "Clear"
 msgstr "Effacer"
 
-#: ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1967 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Vider la liste de lecture"
 
@@ -1176,7 +1176,7 @@ msgstr "Filtre de collection"
 msgid "Collection advanced grouping"
 msgstr "Groupement avancé de la bibliothèque"
 
-#: core/mainwindow.cpp:2389
+#: core/mainwindow.cpp:2409
 msgid "Collection rescan notice"
 msgstr "Avertissement de réanalyse de la bibliothèque"
 
@@ -1248,7 +1248,7 @@ msgstr "Débit constant"
 msgid "Context"
 msgstr "Contexte"
 
-#: ../build/src/ui_playlistsettingspage.h:146
+#: ../build/src/ui_playlistsettingspage.h:152
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Passer à la piste suivante de la liste de lecture si un morceau est "
@@ -1517,11 +1517,11 @@ msgstr "Supprimer les fichiers originaux"
 msgid "Deleting files"
 msgstr "Suppression des fichiers"
 
-#: core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:1629
 msgid "Dequeue selected tracks"
 msgstr "Enlever les pistes sélectionnées de la file d'attente"
 
-#: core/mainwindow.cpp:1627
+#: core/mainwindow.cpp:1628
 msgid "Dequeue track"
 msgstr "Enlever cette piste de la file d'attente"
 
@@ -1644,7 +1644,7 @@ msgstr "Téléchargement des métadonnées"
 msgid "Drag to reposition"
 msgstr "Déplacer pour repositionner"
 
-#: core/mainwindow.cpp:1670
+#: core/mainwindow.cpp:1671
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifier le tag « %1 »..."
@@ -1688,7 +1688,11 @@ msgstr "Activer les éléments"
 msgid "Enable equalizer"
 msgstr "Activer l'égaliseur"
 
-#: ../build/src/ui_playlistsettingspage.h:159
+#: ../build/src/ui_playlistsettingspage.h:156
+msgid "Enable playlist clear button"
+msgstr ""
+
+#: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable song metadata inline edition with click"
 msgstr ""
 "Permettre d'éditer les tags en cliquant sur un morceau, dans la liste de "
@@ -1774,7 +1778,7 @@ msgstr "Equivalent à --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalent à --log-levels *:3"
 
-#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Erreur"
@@ -2076,11 +2080,11 @@ msgstr "Aller à la liste de lecture précédente"
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "%1 pochettes récupérées sur %2 (%3 échouées)"
 
-#: ../build/src/ui_playlistsettingspage.h:147
+#: ../build/src/ui_playlistsettingspage.h:153
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Griser les morceaux indisponibles de la liste lors de la lecture"
 
-#: ../build/src/ui_playlistsettingspage.h:148
+#: ../build/src/ui_playlistsettingspage.h:154
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Griser les morceaux indisponibles de la liste de lecture au démarrage"
 
@@ -2207,7 +2211,7 @@ msgstr "Icônes au dessus"
 msgid "Identifying song"
 msgstr "Identification du morceau"
 
-#: ../build/src/ui_playlistsettingspage.h:157
+#: ../build/src/ui_playlistsettingspage.h:164
 msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
@@ -2380,7 +2384,7 @@ msgstr "Charger la pochette depuis le disque"
 msgid "Load cover from disk..."
 msgstr "Charger la pochette depuis le disque..."
 
-#: playlist/playlistcontainer.cpp:291
+#: playlist/playlistcontainer.cpp:305
 msgid "Load playlist"
 msgstr "Charger une liste de lecture"
 
@@ -2490,7 +2494,7 @@ msgstr "Nombre maximum de tentatives de connexion atteint."
 msgid "Medium (%1 fps)"
 msgstr "Moyen (%1 fps)"
 
-#: ../build/src/ui_playlistsettingspage.h:155
+#: ../build/src/ui_playlistsettingspage.h:162
 msgid "Metadata"
 msgstr "Métadonnées"
 
@@ -2608,7 +2612,7 @@ msgstr "Déplacer vers la bibliothèque..."
 msgid "Move up"
 msgstr "Déplacer vers le haut"
 
-#: core/mainwindow.cpp:1893 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1894 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Musique"
 
@@ -2647,7 +2651,7 @@ msgstr "Ne jamais commencer la lecture"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
-#: core/mainwindow.cpp:1722
+#: core/mainwindow.cpp:1723
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -2679,7 +2683,7 @@ msgstr "Aucun bloc long"
 msgid "No match."
 msgstr "Aucune correspondance."
 
-#: playlist/playlistcontainer.cpp:372
+#: playlist/playlistcontainer.cpp:386
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
@@ -2699,7 +2703,7 @@ msgstr "Aucun morceau en cours de lecture"
 msgid "None"
 msgstr "Aucun"
 
-#: core/mainwindow.cpp:2179 core/mainwindow.cpp:2285
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2896,7 +2900,7 @@ msgstr "Mot de passe"
 msgid "Password Protected"
 msgstr "Protégé par mot de passe"
 
-#: core/mainwindow.cpp:1089 core/mainwindow.cpp:1531
+#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1532
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2924,8 +2928,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barre latérale simple"
 
-#: core/mainwindow.cpp:592 core/mainwindow.cpp:1042 core/mainwindow.cpp:1071
-#: core/mainwindow.cpp:1535 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:592 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
+#: core/mainwindow.cpp:1536 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Lecture"
@@ -2951,16 +2955,23 @@ msgstr "Lire la <n>ème piste de la liste de lecture"
 msgid "Player options"
 msgstr "Options du lecteur"
 
-#: playlist/playlistcontainer.cpp:286 playlist/playlistlistcontainer.cpp:258
+#: playlist/playlistcontainer.cpp:300 playlist/playlistlistcontainer.cpp:258
 #: playlist/playlistlistcontainer.cpp:346 playlist/playlistmanager.cpp:103
 #: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
-#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:143
+#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
 msgstr "Liste de lecture"
 
 #: widgets/osd.cpp:193
 msgid "Playlist finished"
 msgstr "Liste de lecture terminée"
+
+#: core/mainwindow.cpp:1967
+#, qt-format
+msgid ""
+"Playlist has %1 songs, too large to undo, are you sure you want to clear the "
+"playlist?"
+msgstr ""
 
 #: core/commandlineoptions.cpp:177
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3104,22 +3115,22 @@ msgstr "Requête du périphérique..."
 msgid "Queue"
 msgstr "Liste d'attente"
 
-#: core/mainwindow.cpp:1630
+#: core/mainwindow.cpp:1631
 msgid "Queue selected tracks"
 msgstr "Mettre les pistes sélectionnées en liste d'attente"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1635
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Mettre les pistes sélectionnées en liste d'attente pour une lecture "
 "ultérieure"
 
-#: core/mainwindow.cpp:1636 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1637 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Mettre en liste d'attente pour une lecture ultérieure"
 
-#: core/mainwindow.cpp:1629 context/contextalbumsview.cpp:276
+#: core/mainwindow.cpp:1630 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3133,7 +3144,7 @@ msgstr "Vue de la liste d'attente"
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (volume égalisé pour toutes les pistes)"
 
-#: ../build/src/ui_playlistsettingspage.h:153
+#: ../build/src/ui_playlistsettingspage.h:160
 msgid "Re&lative"
 msgstr "Re&latif"
 
@@ -3566,7 +3577,7 @@ msgstr "L'URL du serveur"
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
-#: core/mainwindow.cpp:1669
+#: core/mainwindow.cpp:1670
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Définir %1 à la valeur « %2 »..."
@@ -3605,7 +3616,7 @@ msgstr "Afficher"
 msgid "Show a &native desktop notification"
 msgstr "Afficher une notification native au bureau"
 
-#: ../build/src/ui_playlistsettingspage.h:144
+#: ../build/src/ui_playlistsettingspage.h:150
 msgid "Show a glowing animation on the current track"
 msgstr "Mettre en surbrillance la piste en cours de lecture"
 
@@ -3767,11 +3778,11 @@ msgstr "Compteur de morceaux sautés"
 msgid "Skip forwards in playlist"
 msgstr "Lire la piste suivante"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1642
 msgid "Skip selected tracks"
 msgstr "Passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1640
+#: core/mainwindow.cpp:1641
 msgid "Skip track"
 msgstr "Passer la piste"
 
@@ -4055,7 +4066,7 @@ msgstr "Le site demandé n'existe pas !"
 msgid "The site you requested is not an image!"
 msgstr "Le site demandé n'est pas une image !"
 
-#: core/mainwindow.cpp:2383
+#: core/mainwindow.cpp:2403
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4196,7 +4207,7 @@ msgstr "Titre"
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: core/mainwindow.cpp:595 core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:595 core/mainwindow.cpp:1632
 msgid "Toggle queue status"
 msgstr "Basculer l'état de la file d'attente"
 
@@ -4204,7 +4215,7 @@ msgstr "Basculer l'état de la file d'attente"
 msgid "Toggle scrobbling"
 msgstr "Basculer le scrobbling"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1643
 msgid "Toggle skip status"
 msgstr "Basculer le saut du statut"
 
@@ -4295,11 +4306,11 @@ msgstr "Erreur inconnue"
 msgid "Unset cover"
 msgstr "Enlever cette pochette"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1640
 msgid "Unskip selected tracks"
 msgstr "Ne pas passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1639
 msgid "Unskip track"
 msgstr "Ne pas passer la piste"
 
@@ -4475,7 +4486,7 @@ msgstr "Volume %1%"
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:145
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
 msgid "Warn me when closing a playlist tab"
 msgstr "M'avertir lors de la fermeture d'un onglet de liste de lecture"
 
@@ -4494,7 +4505,7 @@ msgstr ""
 "S'il n'en existe pas alors Strawberry utilisera la plus grande image du "
 "dossier."
 
-#: ../build/src/ui_playlistsettingspage.h:150
+#: ../build/src/ui_playlistsettingspage.h:157
 msgid "When saving a playlist, file paths should be"
 msgstr "Emplacement des fichiers lors de la sauvegarde d'une liste de lecture"
 
@@ -4522,13 +4533,13 @@ msgstr ""
 "Voulez-vous aussi déplacer les autres morceaux de cet album dans la "
 "catégorie « Compilations d'artistes » ?"
 
-#: core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2407
 msgid "Would you like to run a full rescan right now?"
 msgstr ""
 "Souhaitez-vous effectuer une nouvelle analyse complète de la bibliothèque "
 "maintenant ?"
 
-#: ../build/src/ui_playlistsettingspage.h:160
+#: ../build/src/ui_playlistsettingspage.h:167
 msgid "Write metadata when saving playlists"
 msgstr "Écrire des métadonnées lors de la sauvegarde des listes de lecture"
 
