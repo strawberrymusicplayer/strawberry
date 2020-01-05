@@ -517,7 +517,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Ajouter un dossier..."
 
-#: core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:1893
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
@@ -533,7 +533,7 @@ msgstr "Ajouter des fichiers à transcoder"
 msgid "Add files to transcode"
 msgstr "Ajouter des fichiers à transcoder"
 
-#: core/mainwindow.cpp:1919 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1918 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Ajouter un dossier"
 
@@ -630,7 +630,7 @@ msgstr "Ajouter le tag année du morceau"
 msgid "Add to albums"
 msgstr "Ajouter aux albums"
 
-#: core/mainwindow.cpp:1707
+#: core/mainwindow.cpp:1706
 msgid "Add to another playlist"
 msgstr "Ajouter à une autre liste de lecture"
 
@@ -755,7 +755,7 @@ msgstr "Tous les albums"
 msgid "All artists"
 msgstr "Tous les artistes"
 
-#: covermanager/albumcoverchoicecontroller.cpp:69
+#: covermanager/albumcoverchoicecontroller.cpp:70
 msgid "All files (*)"
 msgstr "Tous les fichiers (*)"
 
@@ -1111,7 +1111,7 @@ msgstr "Classique"
 msgid "Clear"
 msgstr "Effacer"
 
-#: core/mainwindow.cpp:1967 ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1966 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Vider la liste de lecture"
 
@@ -1176,7 +1176,7 @@ msgstr "Filtre de collection"
 msgid "Collection advanced grouping"
 msgstr "Groupement avancé de la bibliothèque"
 
-#: core/mainwindow.cpp:2409
+#: core/mainwindow.cpp:2408
 msgid "Collection rescan notice"
 msgstr "Avertissement de réanalyse de la bibliothèque"
 
@@ -1517,11 +1517,11 @@ msgstr "Supprimer les fichiers originaux"
 msgid "Deleting files"
 msgstr "Suppression des fichiers"
 
-#: core/mainwindow.cpp:1629
+#: core/mainwindow.cpp:1628
 msgid "Dequeue selected tracks"
 msgstr "Enlever les pistes sélectionnées de la file d'attente"
 
-#: core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:1627
 msgid "Dequeue track"
 msgstr "Enlever cette piste de la file d'attente"
 
@@ -1644,7 +1644,7 @@ msgstr "Téléchargement des métadonnées"
 msgid "Drag to reposition"
 msgstr "Déplacer pour repositionner"
 
-#: core/mainwindow.cpp:1671
+#: core/mainwindow.cpp:1670
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifier le tag « %1 »..."
@@ -1778,7 +1778,7 @@ msgstr "Equivalent à --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalent à --log-levels *:3"
 
-#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
+#: core/mainwindow.cpp:2198 core/mainwindow.cpp:2304
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Erreur"
@@ -2227,11 +2227,11 @@ msgstr ""
 "Si vous continuez, ce périphérique fonctionnera lentement et les morceaux "
 "que vous y copiez pourraient ne pas fonctionner."
 
-#: covermanager/albumcoverchoicecontroller.cpp:67
+#: covermanager/albumcoverchoicecontroller.cpp:68
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:68
+#: covermanager/albumcoverchoicecontroller.cpp:69
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2372,15 +2372,15 @@ msgstr "Charger"
 msgid "Load cover from URL"
 msgstr "Charger une pochette à partir d'une URL"
 
-#: covermanager/albumcoverchoicecontroller.cpp:89
+#: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Load cover from URL..."
 msgstr "Charger une pochette à partir d'une URL..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:139
+#: covermanager/albumcoverchoicecontroller.cpp:140
 msgid "Load cover from disk"
 msgstr "Charger la pochette depuis le disque"
 
-#: covermanager/albumcoverchoicecontroller.cpp:87
+#: covermanager/albumcoverchoicecontroller.cpp:88
 msgid "Load cover from disk..."
 msgstr "Charger la pochette depuis le disque..."
 
@@ -2612,7 +2612,7 @@ msgstr "Déplacer vers la bibliothèque..."
 msgid "Move up"
 msgstr "Déplacer vers le haut"
 
-#: core/mainwindow.cpp:1894 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1893 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Musique"
 
@@ -2651,7 +2651,7 @@ msgstr "Ne jamais commencer la lecture"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
-#: core/mainwindow.cpp:1723
+#: core/mainwindow.cpp:1722
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -2703,7 +2703,7 @@ msgstr "Aucun morceau en cours de lecture"
 msgid "None"
 msgstr "Aucun"
 
-#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
+#: core/mainwindow.cpp:2198 core/mainwindow.cpp:2304
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2900,7 +2900,7 @@ msgstr "Mot de passe"
 msgid "Password Protected"
 msgstr "Protégé par mot de passe"
 
-#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1532
+#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1531
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2928,8 +2928,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barre latérale simple"
 
-#: core/mainwindow.cpp:592 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
-#: core/mainwindow.cpp:1536 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:592 core/mainwindow.cpp:1044 core/mainwindow.cpp:1073
+#: core/mainwindow.cpp:1535 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Lecture"
@@ -2966,7 +2966,7 @@ msgstr "Liste de lecture"
 msgid "Playlist finished"
 msgstr "Liste de lecture terminée"
 
-#: core/mainwindow.cpp:1967
+#: core/mainwindow.cpp:1966
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3115,22 +3115,22 @@ msgstr "Requête du périphérique..."
 msgid "Queue"
 msgstr "Liste d'attente"
 
-#: core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:1630
 msgid "Queue selected tracks"
 msgstr "Mettre les pistes sélectionnées en liste d'attente"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1635
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Mettre les pistes sélectionnées en liste d'attente pour une lecture "
 "ultérieure"
 
-#: core/mainwindow.cpp:1637 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1636 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Mettre en liste d'attente pour une lecture ultérieure"
 
-#: core/mainwindow.cpp:1630 context/contextalbumsview.cpp:276
+#: core/mainwindow.cpp:1629 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3412,7 +3412,7 @@ msgstr "Échantillonnage"
 msgid "Save &playlist..."
 msgstr "Enregistrer la &liste de lecture..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:169
+#: covermanager/albumcoverchoicecontroller.cpp:170
 msgid "Save album cover"
 msgstr "Enregistrer les pochettes d'albums"
 
@@ -3420,7 +3420,7 @@ msgstr "Enregistrer les pochettes d'albums"
 msgid "Save album covers in album directory"
 msgstr "Enregistrer les pochettes dans le dossier album"
 
-#: covermanager/albumcoverchoicecontroller.cpp:88
+#: covermanager/albumcoverchoicecontroller.cpp:89
 msgid "Save cover to disk..."
 msgstr "Enregistrer la pochette sur le disque..."
 
@@ -3490,7 +3490,7 @@ msgstr "Faites défiler l'icône pour changer de piste"
 msgid "Search"
 msgstr "Recherche"
 
-#: covermanager/albumcoverchoicecontroller.cpp:94
+#: covermanager/albumcoverchoicecontroller.cpp:95
 msgid "Search automatically"
 msgstr "Rechercher automatiquement"
 
@@ -3499,7 +3499,7 @@ msgstr "Rechercher automatiquement"
 msgid "Search delay"
 msgstr "Délais de recherche"
 
-#: covermanager/albumcoverchoicecontroller.cpp:90
+#: covermanager/albumcoverchoicecontroller.cpp:91
 msgid "Search for album covers..."
 msgstr "Rechercher des pochettes pour cet album..."
 
@@ -3577,7 +3577,7 @@ msgstr "L'URL du serveur"
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
-#: core/mainwindow.cpp:1670
+#: core/mainwindow.cpp:1669
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Définir %1 à la valeur « %2 »..."
@@ -3673,7 +3673,7 @@ msgstr "Afficher les séparateurs"
 msgid "Show engine and device"
 msgstr "Afficher le moteur et le périphérique"
 
-#: covermanager/albumcoverchoicecontroller.cpp:92
+#: covermanager/albumcoverchoicecontroller.cpp:93
 msgid "Show fullsize..."
 msgstr "Afficher en taille réelle..."
 
@@ -3778,11 +3778,11 @@ msgstr "Compteur de morceaux sautés"
 msgid "Skip forwards in playlist"
 msgstr "Lire la piste suivante"
 
-#: core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:1641
 msgid "Skip selected tracks"
 msgstr "Passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1640
 msgid "Skip track"
 msgstr "Passer la piste"
 
@@ -4066,7 +4066,7 @@ msgstr "Le site demandé n'existe pas !"
 msgid "The site you requested is not an image!"
 msgstr "Le site demandé n'est pas une image !"
 
-#: core/mainwindow.cpp:2403
+#: core/mainwindow.cpp:2402
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4207,7 +4207,7 @@ msgstr "Titre"
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: core/mainwindow.cpp:595 core/mainwindow.cpp:1632
+#: core/mainwindow.cpp:595 core/mainwindow.cpp:1631
 msgid "Toggle queue status"
 msgstr "Basculer l'état de la file d'attente"
 
@@ -4215,7 +4215,7 @@ msgstr "Basculer l'état de la file d'attente"
 msgid "Toggle scrobbling"
 msgstr "Basculer le scrobbling"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1643
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
 msgid "Toggle skip status"
 msgstr "Basculer le saut du statut"
 
@@ -4302,15 +4302,15 @@ msgstr "Inconnu"
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: covermanager/albumcoverchoicecontroller.cpp:91
+#: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Unset cover"
 msgstr "Enlever cette pochette"
 
-#: core/mainwindow.cpp:1640
+#: core/mainwindow.cpp:1639
 msgid "Unskip selected tracks"
 msgstr "Ne pas passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1638
 msgid "Unskip track"
 msgstr "Ne pas passer la piste"
 
@@ -4533,7 +4533,7 @@ msgstr ""
 "Voulez-vous aussi déplacer les autres morceaux de cet album dans la "
 "catégorie « Compilations d'artistes » ?"
 
-#: core/mainwindow.cpp:2407
+#: core/mainwindow.cpp:2406
 msgid "Would you like to run a full rescan right now?"
 msgstr ""
 "Souhaitez-vous effectuer une nouvelle analyse complète de la bibliothèque "
@@ -4739,6 +4739,6 @@ msgstr "subsonic"
 msgid "track %1"
 msgstr "piste %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:164
+#: covermanager/albumcoverchoicecontroller.cpp:165
 msgid "unknown"
 msgstr "Inconnu"

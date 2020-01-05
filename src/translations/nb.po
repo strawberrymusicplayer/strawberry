@@ -485,7 +485,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:1894
+#: core/mainwindow.cpp:1893
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -501,7 +501,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:1919 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1918 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -598,7 +598,7 @@ msgstr "Fest etikett for utgivelsesår på sporet"
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1707
+#: core/mainwindow.cpp:1706
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
@@ -723,7 +723,7 @@ msgstr "Alle album"
 msgid "All artists"
 msgstr "Alle artister"
 
-#: covermanager/albumcoverchoicecontroller.cpp:69
+#: covermanager/albumcoverchoicecontroller.cpp:70
 msgid "All files (*)"
 msgstr "Alle filer (*)"
 
@@ -1072,7 +1072,7 @@ msgstr "Klassisk"
 msgid "Clear"
 msgstr "Tøm"
 
-#: core/mainwindow.cpp:1967 ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1966 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1137,7 +1137,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2409
+#: core/mainwindow.cpp:2408
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1474,11 +1474,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1629
+#: core/mainwindow.cpp:1628
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1628
+#: core/mainwindow.cpp:1627
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1599,7 +1599,7 @@ msgstr "Laster ned metadata"
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
-#: core/mainwindow.cpp:1671
+#: core/mainwindow.cpp:1670
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1729,7 +1729,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
+#: core/mainwindow.cpp:2198 core/mainwindow.cpp:2304
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "Error"
 msgstr "Feil"
@@ -2174,11 +2174,11 @@ msgstr ""
 "Hvis du fortsetter, vil enheten bli treg, og du vil kanskje ikke kunne "
 "spille av sanger kopiert til den."
 
-#: covermanager/albumcoverchoicecontroller.cpp:67
+#: covermanager/albumcoverchoicecontroller.cpp:68
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:68
+#: covermanager/albumcoverchoicecontroller.cpp:69
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
@@ -2319,15 +2319,15 @@ msgstr "Hent"
 msgid "Load cover from URL"
 msgstr "Hent omslag fra URL"
 
-#: covermanager/albumcoverchoicecontroller.cpp:89
+#: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Load cover from URL..."
 msgstr "Hent omslag fra URL…"
 
-#: covermanager/albumcoverchoicecontroller.cpp:139
+#: covermanager/albumcoverchoicecontroller.cpp:140
 msgid "Load cover from disk"
 msgstr "Hent omslag fra disk"
 
-#: covermanager/albumcoverchoicecontroller.cpp:87
+#: covermanager/albumcoverchoicecontroller.cpp:88
 msgid "Load cover from disk..."
 msgstr "Hent omslag fra disk…"
 
@@ -2554,7 +2554,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:1894 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1893 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Musikk"
 
@@ -2593,7 +2593,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1723
+#: core/mainwindow.cpp:1722
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -2643,7 +2643,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2305
+#: core/mainwindow.cpp:2198 core/mainwindow.cpp:2304
 #: context/contextalbumsview.cpp:401 collection/collectionview.cpp:556
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -2836,7 +2836,7 @@ msgstr "Passord"
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1532
+#: core/mainwindow.cpp:1091 core/mainwindow.cpp:1531
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2864,8 +2864,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
-#: core/mainwindow.cpp:592 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
-#: core/mainwindow.cpp:1536 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:592 core/mainwindow.cpp:1044 core/mainwindow.cpp:1073
+#: core/mainwindow.cpp:1535 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Spill"
@@ -2902,7 +2902,7 @@ msgstr "Spilleliste"
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:1967
+#: core/mainwindow.cpp:1966
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3047,20 +3047,20 @@ msgstr "Spør enhet…"
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1631
+#: core/mainwindow.cpp:1630
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1635
+#: core/mainwindow.cpp:598 core/mainwindow.cpp:1634
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1637 collection/collectionview.cpp:339
+#: core/mainwindow.cpp:1636 collection/collectionview.cpp:339
 #: internet/internetcollectionview.cpp:308
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1630 context/contextalbumsview.cpp:276
+#: core/mainwindow.cpp:1629 context/contextalbumsview.cpp:276
 #: collection/collectionview.cpp:338 internet/internetsearchview.cpp:438
 #: internet/internetcollectionview.cpp:307
 msgid "Queue track"
@@ -3342,7 +3342,7 @@ msgstr "Samplingsrate"
 msgid "Save &playlist..."
 msgstr "Lagre &spilleliste..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:169
+#: covermanager/albumcoverchoicecontroller.cpp:170
 msgid "Save album cover"
 msgstr "Lagre albumomslag"
 
@@ -3350,7 +3350,7 @@ msgstr "Lagre albumomslag"
 msgid "Save album covers in album directory"
 msgstr "Lagre album kover i album mappen"
 
-#: covermanager/albumcoverchoicecontroller.cpp:88
+#: covermanager/albumcoverchoicecontroller.cpp:89
 msgid "Save cover to disk..."
 msgstr "Lagre bilde til disk…"
 
@@ -3420,7 +3420,7 @@ msgstr "Rull over ikon for å endre spor"
 msgid "Search"
 msgstr "Søk"
 
-#: covermanager/albumcoverchoicecontroller.cpp:94
+#: covermanager/albumcoverchoicecontroller.cpp:95
 msgid "Search automatically"
 msgstr "Automatisk søk"
 
@@ -3429,7 +3429,7 @@ msgstr "Automatisk søk"
 msgid "Search delay"
 msgstr "Søke forsinkelse"
 
-#: covermanager/albumcoverchoicecontroller.cpp:90
+#: covermanager/albumcoverchoicecontroller.cpp:91
 msgid "Search for album covers..."
 msgstr "Søk etter albumomslag…"
 
@@ -3507,7 +3507,7 @@ msgstr "Server URL"
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
-#: core/mainwindow.cpp:1670
+#: core/mainwindow.cpp:1669
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -3602,7 +3602,7 @@ msgstr "Vis adskillere"
 msgid "Show engine and device"
 msgstr "Vis motor og enhet"
 
-#: covermanager/albumcoverchoicecontroller.cpp:92
+#: covermanager/albumcoverchoicecontroller.cpp:93
 msgid "Show fullsize..."
 msgstr "Fullskjermvisning…"
 
@@ -3707,11 +3707,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:1641
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1640
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -3993,7 +3993,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2403
+#: core/mainwindow.cpp:2402
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4125,7 +4125,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:595 core/mainwindow.cpp:1632
+#: core/mainwindow.cpp:595 core/mainwindow.cpp:1631
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -4133,7 +4133,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1643
+#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4220,15 +4220,15 @@ msgstr "Ukjent"
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
-#: covermanager/albumcoverchoicecontroller.cpp:91
+#: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1640
+#: core/mainwindow.cpp:1639
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1638
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -4446,7 +4446,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2407
+#: core/mainwindow.cpp:2406
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
@@ -4645,6 +4645,6 @@ msgstr "subsonic"
 msgid "track %1"
 msgstr "spor %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:164
+#: covermanager/albumcoverchoicecontroller.cpp:165
 msgid "unknown"
 msgstr "ukjent"
