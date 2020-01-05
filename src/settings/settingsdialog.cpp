@@ -21,8 +21,8 @@
 #include "config.h"
 
 #include <QDialog>
-#include <QWindow>
 #include <QScreen>
+#include <QWindow>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QTreeWidget>
@@ -283,8 +283,12 @@ void SettingsDialog::showEvent(QShowEvent *e) {
   loading_settings_ = false;
 
   // Resize the dialog if it's too big
-  const QRect available = window()->windowHandle()->screen()->geometry();
-  if (available.height() < height()) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = QWidget::screen();
+#else
+  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
+#endif
+  if (screen->availableGeometry().height() < height()) {
     resize(width(), sizeHint().height());
   }
 
