@@ -34,12 +34,13 @@
 # David Geiger <geiger.david68210@gmail.com>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Sébastien Morin <sebsweb@gmail.com>, 2019. #zanata
+# David Geiger <geiger.david68210@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-12-30 09:11+0000\n"
+"PO-Revision-Date: 2020-01-06 06:36+0000\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -1690,7 +1691,7 @@ msgstr "Activer l'égaliseur"
 
 #: ../build/src/ui_playlistsettingspage.h:156
 msgid "Enable playlist clear button"
-msgstr ""
+msgstr "Activer le bouton d'effacement de la liste de lecture"
 
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable song metadata inline edition with click"
@@ -2972,6 +2973,8 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
+"La liste de lecture contient %1 morceaux, trop volumineux pour être annulés. "
+"Voulez-vous vraiment effacer la liste de lecture ?"
 
 #: core/commandlineoptions.cpp:177
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
