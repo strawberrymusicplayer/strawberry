@@ -43,7 +43,7 @@ parts:
 
   alsa-lib:
     plugin: autotools
-    source: https://www.alsa-project.org/files/pub/lib/alsa-lib-1.1.5.tar.bz2
+    source: https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.1.2.tar.bz2
     configflags:
       - --prefix=/usr
       - --sysconfdir=/etc
