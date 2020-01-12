@@ -1,4 +1,4 @@
-:strawberry: Strawberry Music Player [![Build Status](https://travis-ci.org/jonaski/strawberry.svg?branch=master)](https://travis-ci.org/jonaski/strawberry)
+:strawberry: Strawberry Music Player [![Build Status](https://github.com/jonaski/strawberry/workflows/C/C++%20CI/badge.svg)](https://github.com/jonaski/strawberry/actions)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/jonaskvinge)
 =======================
 
