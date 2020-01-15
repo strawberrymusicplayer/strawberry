@@ -296,6 +296,11 @@ Section "Qt image format plugins" imageformats
   File "/oname=qjpeg.dll" "imageformats\qjpeg.dll"
 SectionEnd
 
+Section "Qt style plugins" styles
+  SetOutPath "$INSTDIR\styles"
+  File "/oname=qwindowsvistastyle.dll" "styles\qwindowsvistastyle.dll"
+SectionEnd
+
 Section "Gstreamer plugins" gstreamer-plugins
   SetOutPath "$INSTDIR\gstreamer-plugins"
 
