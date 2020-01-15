@@ -507,6 +507,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\sqldrivers\qsqlite.dll"
+  Delete "$INSTDIR\styles\qwindowsvistastyle.dll"
 
   Delete "$INSTDIR\imageformats\qgif.dll"
   Delete "$INSTDIR\imageformats\qico.dll"
