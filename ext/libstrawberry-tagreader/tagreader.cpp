@@ -91,10 +91,6 @@
 #include "fmpsparser.h"
 #include "core/timeconstants.h"
 
-#ifndef USE_SYSTEM_TAGLIB
-using namespace Strawberry_TagLib;
-#endif
-
 class FileRefFactory {
  public:
   virtual ~FileRefFactory() {}
