@@ -195,6 +195,7 @@ else()
   add_subdirectory(3rdparty/utf8-cpp)
   add_subdirectory(3rdparty/taglib)
   set(HAVE_TAGLIB_DSFFILE ON)
+  add_definitions(-DTAGLIB_STATIC)
 endif()
 
 # SingleApplication
@@ -392,7 +393,6 @@ add_definitions(${QT_DEFINITIONS})
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
-add_definitions(-DTAGLIB_STATIC)
 
 include_directories(${GLIB_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
