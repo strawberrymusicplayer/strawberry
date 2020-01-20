@@ -500,7 +500,7 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   QString album_id;
   if (json_obj.contains("albumId")) {
     album_id = json_obj["albumId"].toString();
-    if (album_id.isEmpty()) album_id = json_obj["albumId"].toInt();
+    if (album_id.isEmpty()) album_id = QString::number(json_obj["albumId"].toInt());
   }
 
   qint64 artist_id = -1;
