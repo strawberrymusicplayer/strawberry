@@ -75,7 +75,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
   struct Request {
     qint64 artist_id = 0;
-    qint64 album_id = 0;
+    QString album_id;
     qint64 song_id = 0;
     int offset = 0;
     int size = 0;
@@ -94,7 +94,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumsFinishCheck(const int offset = 0, const int albums_received = 0);
   void SongsFinishCheck();
 
-  void AddAlbumSongsRequest(const qint64 artist_id, const qint64 album_id, const QString &album_artist, const int offset = 0);
+  void AddAlbumSongsRequest(const qint64 artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
   void FlushAlbumSongsRequests();
 
   int ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested = 0, const qint64 album_id_requested = 0, const QString &album_artist = QString());
@@ -124,7 +124,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QQueue<Request> album_songs_requests_queue_;
   QQueue<AlbumCoverRequest> album_cover_requests_queue_;
 
-  QHash<int, Request> album_songs_requests_pending_;
+  QHash<QString, Request> album_songs_requests_pending_;
   QMultiMap<QString, Song*> album_covers_requests_sent_;
 
   int albums_requests_active_;
