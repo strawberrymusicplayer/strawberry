@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QString>
 #include <QUrl>
+#include <QRegExp>
 #include <QImage>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -494,7 +495,8 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
     return -1;
   }
 
-  qint64 song_id = json_obj["id"].toString().toLongLong();
+  QString song_id_str = json_obj["id"].toString();
+  qint64 song_id = QString(song_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
   if (song_id == 0) song_id = json_obj["id"].toInt();
 
   QString album_id;
@@ -505,7 +507,8 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
 
   qint64 artist_id = -1;
   if (json_obj.contains("artistId")) {
-    artist_id = json_obj["artistId"].toString().toLongLong();
+    QString artist_id_str = json_obj["artistId"].toString();
+    artist_id = QString(artist_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
     if (artist_id == 0) artist_id = json_obj["artistId"].toInt();
   }
 
@@ -557,7 +560,7 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
 
   QUrl url;
   url.setScheme(url_handler_->scheme());
-  url.setPath(QString::number(song_id));
+  url.setPath(song_id_str);
 
   QUrl cover_url;
   if (!cover_art_id.isEmpty()) {
