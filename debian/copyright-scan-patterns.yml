@@ -11,7 +11,9 @@ ignore:
   - /cmake/
   - /data/
   - /dist/
+  - /snap/
 
   suffixes:
   - jpg
   - png
+  - gif

@@ -2,7 +2,7 @@ Source: strawberry
 Section: sound
 Priority: optional
 Maintainer: Jonas Kvinge <jonas@jkvinge.net>
-Build-Depends: debhelper (>= 7),
+Build-Depends: debhelper (>= 11),
                make,
                cmake,
                gcc,
@@ -16,10 +16,8 @@ Build-Depends: debhelper (>= 7),
                libasound2-dev,
                libpulse-dev,
                libtag1-dev,
-               libqt5-dev,
                qtbase5-dev,
                qtbase5-dev-tools,
-               qtbase5-private-dev,
                qttools5-dev,
                libqt5x11extras5-dev,
                libgstreamer1.0-dev,
@@ -32,7 +30,7 @@ Build-Depends: debhelper (>= 7),
                libusbmuxd-dev,
                libchromaprint-dev,
                libfftw3-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.2.1
 
 Package: strawberry
 Architecture: any

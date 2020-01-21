@@ -1,4 +1,4 @@
-strawberry (${STRAWBERRY_VERSION_DISPLAY}) unstable; urgency=low
+strawberry (${STRAWBERRY_VERSION_DISPLAY}-${DEB_CODENAME}) ${DEB_CODENAME}; urgency=low
 
   * Version ${STRAWBERRY_VERSION_DISPLAY}
 
