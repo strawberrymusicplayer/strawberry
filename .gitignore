@@ -73,6 +73,10 @@ CMakeLists.txt.user*
 target_wrapper.*
 compile_commands.json
 
+*.kdev4
+*.vscode
+*.code-workspace
+
 # Temporary files
 *~
 *.autosave
