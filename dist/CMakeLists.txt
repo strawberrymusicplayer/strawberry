@@ -1,15 +1,14 @@
-execute_process(COMMAND env LC_ALL="en_US.utf8" date "+%a %b %d %Y" OUTPUT_VARIABLE RPM_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
-execute_process(COMMAND env LC_ALL=C date "+%a, %-d %b %Y %H:%M:%S %z" OUTPUT_VARIABLE DEB_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
-if (RPM_DISTRO)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec.in ${CMAKE_CURRENT_SOURCE_DIR}/rpm/strawberry.spec @ONLY)
-endif()
-configure_file(${CMAKE_SOURCE_DIR}/debian/changelog.in ${CMAKE_SOURCE_DIR}/debian/changelog)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
+
+if (APPLE)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/create-dmg.sh)
+endif (APPLE)
+
+if (WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
+endif (WIN32)
 
 if (UNIX AND NOT APPLE)
   install(FILES ../data/icons/48x48/strawberry.png DESTINATION share/icons/hicolor/48x48/apps/)
@@ -18,7 +17,7 @@ if (UNIX AND NOT APPLE)
   install(FILES unix/org.strawberrymusicplayer.strawberry.desktop DESTINATION share/applications)
   install(FILES unix/org.strawberrymusicplayer.strawberry.appdata.xml DESTINATION share/metainfo)
   install(FILES man/strawberry.1 man/strawberry-tagreader.1 DESTINATION share/man/man1)
-endif()
+endif (UNIX AND NOT APPLE)
 
 if (APPLE)
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../dist/macos/Info.plist" DESTINATION "${CMAKE_BINARY_DIR}/strawberry.app/Contents")

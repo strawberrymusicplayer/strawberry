@@ -2,6 +2,8 @@ find_program(LSB_RELEASE_EXEC lsb_release)
 find_program(RPMBUILD_EXEC rpmbuild)
 
 if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
+  execute_process(COMMAND env LC_ALL="en_US.utf8" date "+%a %b %d %Y" OUTPUT_VARIABLE RPM_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
+
   execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -is | tr '[:upper:]' '[:lower:]' | cut -d' ' -f1"
     OUTPUT_VARIABLE DIST_NAME
     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -22,7 +24,6 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
     if (DIST_VERSION)
       message(STATUS "Distro Version: ${DIST_VERSION}")
     endif()
-    set(RPM_ARCH x86_64 CACHE STRING "Architecture of the rpm file")
     set(RPMBUILD_DIR ~/rpmbuild CACHE STRING "Rpmbuild directory, for the rpm target")
     if (${DIST_NAME} STREQUAL "opensuse")
       if (DIST_RELEASE)
@@ -56,6 +57,7 @@ if (LSB_RELEASE_EXEC AND RPMBUILD_EXEC)
       set(RPM_DISTRO ${DIST_NAME} CACHE STRING "Suffix of the rpm file")
     endif()
     message(STATUS "RPM Suffix: ${RPM_DISTRO}")
+    configure_file(${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec.in ${CMAKE_SOURCE_DIR}/dist/rpm/strawberry.spec @ONLY)
     add_custom_target(rpm
       COMMAND ${CMAKE_SOURCE_DIR}/dist/scripts/maketarball.sh
       COMMAND ${CMAKE_COMMAND} -E copy strawberry-${STRAWBERRY_VERSION_PACKAGE}.tar.xz ${RPMBUILD_DIR}/SOURCES/
