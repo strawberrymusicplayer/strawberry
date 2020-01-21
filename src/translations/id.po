@@ -3256,13 +3256,13 @@ msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
 #: tidal/tidalrequest.cpp:1038 qobuz/qobuzrequest.cpp:1091
-#: subsonic/subsonicrequest.cpp:607
+#: subsonic/subsonicrequest.cpp:617
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
 #: tidal/tidalrequest.cpp:1039 qobuz/qobuzrequest.cpp:1092
-#: subsonic/subsonicrequest.cpp:608
+#: subsonic/subsonicrequest.cpp:618
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
@@ -3278,7 +3278,7 @@ msgid "Retrieving albums for %1 artists..."
 msgstr "Mengambil album untuk %1 artis..."
 
 #: tidal/tidalrequest.cpp:197 qobuz/qobuzrequest.cpp:177
-#: subsonic/subsonicrequest.cpp:121
+#: subsonic/subsonicrequest.cpp:122
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
 
@@ -3287,13 +3287,13 @@ msgid "Retrieving artists..."
 msgstr "Mengambil artis..."
 
 #: tidal/tidalrequest.cpp:697 qobuz/qobuzrequest.cpp:688
-#: subsonic/subsonicrequest.cpp:311
+#: subsonic/subsonicrequest.cpp:312
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
 #: tidal/tidalrequest.cpp:698 qobuz/qobuzrequest.cpp:689
-#: subsonic/subsonicrequest.cpp:312
+#: subsonic/subsonicrequest.cpp:313
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mengambil lagu untuk %1 album..."
@@ -4224,7 +4224,7 @@ msgid "Unknown"
 msgstr "Tidak diketahui"
 
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1238
-#: subsonic/subsonicrequest.cpp:749
+#: subsonic/subsonicrequest.cpp:759
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 

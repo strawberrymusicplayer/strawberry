@@ -3280,13 +3280,13 @@ msgid "Resume playback on start"
 msgstr "Продолжить воспроизведение при запуске"
 
 #: tidal/tidalrequest.cpp:1038 qobuz/qobuzrequest.cpp:1091
-#: subsonic/subsonicrequest.cpp:607
+#: subsonic/subsonicrequest.cpp:617
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Получение обложки альбома для %1"
 
 #: tidal/tidalrequest.cpp:1039 qobuz/qobuzrequest.cpp:1092
-#: subsonic/subsonicrequest.cpp:608
+#: subsonic/subsonicrequest.cpp:618
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1"
@@ -3302,7 +3302,7 @@ msgid "Retrieving albums for %1 artists..."
 msgstr "Получение альбомов для исполнителей %1..."
 
 #: tidal/tidalrequest.cpp:197 qobuz/qobuzrequest.cpp:177
-#: subsonic/subsonicrequest.cpp:121
+#: subsonic/subsonicrequest.cpp:122
 msgid "Retrieving albums..."
 msgstr "Получение альбомов..."
 
@@ -3311,13 +3311,13 @@ msgid "Retrieving artists..."
 msgstr "Получение исполнителей..."
 
 #: tidal/tidalrequest.cpp:697 qobuz/qobuzrequest.cpp:688
-#: subsonic/subsonicrequest.cpp:311
+#: subsonic/subsonicrequest.cpp:312
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Получение песен для альбома %1..."
 
 #: tidal/tidalrequest.cpp:698 qobuz/qobuzrequest.cpp:689
-#: subsonic/subsonicrequest.cpp:312
+#: subsonic/subsonicrequest.cpp:313
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Получение песен для альбомов %1..."
@@ -4245,7 +4245,7 @@ msgid "Unknown"
 msgstr "Неизвестный"
 
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1238
-#: subsonic/subsonicrequest.cpp:749
+#: subsonic/subsonicrequest.cpp:759
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 

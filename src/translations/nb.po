@@ -3249,13 +3249,13 @@ msgid "Resume playback on start"
 msgstr "Gjenoppta avspilling etter oppstart"
 
 #: tidal/tidalrequest.cpp:1038 qobuz/qobuzrequest.cpp:1091
-#: subsonic/subsonicrequest.cpp:607
+#: subsonic/subsonicrequest.cpp:617
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mottar album kover for %1 album..."
 
 #: tidal/tidalrequest.cpp:1039 qobuz/qobuzrequest.cpp:1092
-#: subsonic/subsonicrequest.cpp:608
+#: subsonic/subsonicrequest.cpp:618
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mottar album kover for %1 albums..."
@@ -3271,7 +3271,7 @@ msgid "Retrieving albums for %1 artists..."
 msgstr "Mottar albumer for %1 artister..."
 
 #: tidal/tidalrequest.cpp:197 qobuz/qobuzrequest.cpp:177
-#: subsonic/subsonicrequest.cpp:121
+#: subsonic/subsonicrequest.cpp:122
 msgid "Retrieving albums..."
 msgstr "Mottar albumer..."
 
@@ -3280,13 +3280,13 @@ msgid "Retrieving artists..."
 msgstr "Mottar artister..."
 
 #: tidal/tidalrequest.cpp:697 qobuz/qobuzrequest.cpp:688
-#: subsonic/subsonicrequest.cpp:311
+#: subsonic/subsonicrequest.cpp:312
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mottar sanger for %1 album..."
 
 #: tidal/tidalrequest.cpp:698 qobuz/qobuzrequest.cpp:689
-#: subsonic/subsonicrequest.cpp:312
+#: subsonic/subsonicrequest.cpp:313
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mottar sanger for %1 albumer..."
@@ -4216,7 +4216,7 @@ msgid "Unknown"
 msgstr "Ukjent"
 
 #: tidal/tidalrequest.cpp:1185 qobuz/qobuzrequest.cpp:1238
-#: subsonic/subsonicrequest.cpp:749
+#: subsonic/subsonicrequest.cpp:759
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
