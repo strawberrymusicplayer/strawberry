@@ -67,7 +67,7 @@ parts:
   strawberry:
     plugin: cmake
     source-type: git
-    source: https://github.com/jonaski/strawberry
+    source: https://github.com/strawberrymusicplayer/strawberry
     after:
       - alsa-lib
       - desktop-qt5

@@ -11,7 +11,7 @@
   <name>Strawberry Music Player</name>
   <summary>A music player and collection organizer</summary>
   <url type="homepage">https://www.strawberrymusicplayer.org/</url>
-  <url type="bugtracker">https://github.com/jonaski/strawberry/</url>
+  <url type="bugtracker">https://github.com/strawberrymusicplayer/strawberry/</url>
   ​<translation type="qt">strawberry</translation>
   <description>
     <p>
