@@ -46,17 +46,18 @@ class TrackSelectionDialog : public QDialog {
 
   void Init(const SongList &songs);
 
-public slots:
+ public slots:
   void FetchTagProgress(const Song &original_song, const QString &progress);
   void FetchTagFinished(const Song &original_song, const SongList &songs_guessed);
 
   // QDialog
   void accept();
 
-signals:
+ signals:
+  void Error(const QString&);
   void SongChosen(const Song &original_song, const Song &new_metadata);
 
-private slots:
+ private slots:
   void UpdateStack();
 
   void NextSong();
@@ -65,7 +66,7 @@ private slots:
   void ResultSelected();
   void AcceptFinished();
 
-private:
+ private:
   Ui_TrackSelectionDialog *ui_;
 
   struct Data {
@@ -84,7 +85,7 @@ private:
   void SetLoading(const QString &message);
   static void SaveData(const QList<Data> &data);
 
-private:
+ private:
   QList<Data> data_;
 
   QPushButton *previous_button_;
@@ -94,5 +95,3 @@ private:
 };
 
 #endif  // TRACKSELECTIONDIALOG_H
-
-
