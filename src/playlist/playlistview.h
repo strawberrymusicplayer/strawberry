@@ -78,7 +78,7 @@ class PlaylistHeader;
 // This proxy style uses QCommonStyle to paint the affected elements.
 // This class is used by internet search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
-public:
+ public:
   PlaylistProxyStyle(QStyle *base);
 
   void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
@@ -121,6 +121,7 @@ class PlaylistView : public QTreeView {
   void SaveSettings();
   void SetColumnAlignment(int section, Qt::Alignment alignment);
   void JumpToCurrentlyPlayingTrack();
+  void edit(const QModelIndex &index) { return QAbstractItemView::edit(index); }
 
  signals:
   void PlayItem(const QModelIndex &index);
@@ -155,6 +156,7 @@ class PlaylistView : public QTreeView {
 
   // QAbstractItemView
   void rowsInserted(const QModelIndex &parent, int start, int end);
+  bool edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event);
   void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
 
  private slots:

@@ -220,6 +220,7 @@ class Playlist : public QAbstractListModel {
   bool nowplaying() const { return nowplaying_; }
   void set_scrobbled(bool state) { scrobbled_ = state; }
   void set_nowplaying(bool state) { nowplaying_ = state; }
+  void set_editing(const int row) { editing_ = row; }
   qint64 scrobble_point_nanosec() const { return scrobble_point_; }
   void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
 
@@ -394,6 +395,8 @@ class Playlist : public QAbstractListModel {
   bool scrobbled_;
   bool nowplaying_;
   qint64 scrobble_point_;
+
+  int editing_;
 
 };
 

@@ -139,7 +139,8 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
       cancel_restore_(false),
       scrobbled_(false),
       nowplaying_(false),
-      scrobble_point_(-1) {
+      scrobble_point_(-1),
+      editing_(-1) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -1504,7 +1505,9 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
   current_item()->SetTemporaryMetadata(song);
 
   if (minor) {
-    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    if (editing_ != current_item_index_.row()) {
+      emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    }
     // if the song is invalid, we won't play it - there's no point in informing anybody about the change
     const Song metadata(current_item_metadata());
     if (metadata.is_valid()) {

@@ -674,6 +674,16 @@ QModelIndex PlaylistView::PrevEditableIndex(const QModelIndex &current) {
 
 }
 
+bool PlaylistView::edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event) {
+
+  bool result = QAbstractItemView::edit(index, trigger, event);
+  if (result && trigger == QAbstractItemView::AllEditTriggers && !event) {
+    playlist_->set_editing(index.row());
+  }
+  return result;
+
+}
+
 void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) {
 
   if (hint == QAbstractItemDelegate::NoHint) {
@@ -693,12 +703,14 @@ void PlaylistView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHi
     else {
       QTreeView::closeEditor(editor, QAbstractItemDelegate::NoHint);
       setCurrentIndex(index);
-      edit(index);
+      QAbstractItemView::edit(index);
     }
   }
   else {
     QTreeView::closeEditor(editor, hint);
   }
+
+  playlist_->set_editing(-1);
 
 }
 

@@ -1880,6 +1880,7 @@ void MainWindow::EditValue() {
   }
 
   ui_->playlist->view()->edit(current.sibling(current.row(), column));
+
 }
 
 void MainWindow::AddFile() {
