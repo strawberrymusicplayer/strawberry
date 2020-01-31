@@ -1532,8 +1532,8 @@ int CollectionModel::MaximumCacheSize(const char *size_id, const char *size_unit
   QSettings s;
 
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  size = s.value(size_id).toInt();
-  unit = s.value(size_unit_id).toInt() + 1;
+  size = s.value(size_id, 80).toInt();
+  unit = s.value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
   s.endGroup();
 
   do {
@@ -1547,7 +1547,7 @@ int CollectionModel::MaximumCacheSize(const char *size_id, const char *size_unit
 bool CollectionModel::UseDiskCache() const {
   QSettings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  bool ret = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable).toBool();
+  bool ret = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
   s.endGroup();
   return ret;
 }
