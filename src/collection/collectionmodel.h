@@ -43,6 +43,7 @@
 #include <QImage>
 #include <QIcon>
 #include <QPixmap>
+#include <QNetworkDiskCache>
 #include <QSettings>
 
 #include "core/simpletreemodel.h"
@@ -69,7 +70,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static const char *kSavedGroupingsSettingsGroup;
 
   static const int kPrettyCoverSize;
-  static const int kPixmapCacheLimit;
+  static const char *kPixmapDiskCacheDir;
 
   enum Role {
     Role_Type = Qt::UserRole + 1,
@@ -162,6 +163,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Save the current grouping
   void SaveGrouping(QString name);
 
+  // Reload settings.
+  void ReloadSettings();
+
   // Utility functions for manipulating text
   static QString TextOrUnknown(const QString &text);
   static QString PrettyYearAlbum(const int year, const QString &album);
@@ -203,6 +207,7 @@ signals:
   void TotalSongCountUpdatedSlot(int count);
   void TotalArtistCountUpdatedSlot(int count);
   void TotalAlbumCountUpdatedSlot(int count);
+  void ClearDiskCache();
 
   // Called after ResetAsync
   void ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future);
@@ -244,6 +249,8 @@ signals:
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
+  int MaximumCacheSize(const char *size_id, const char *size_unit_id) const;
+  bool UseDiskCache() const;
 
  private:
   CollectionBackend *backend_;
@@ -273,6 +280,8 @@ signals:
   QPixmap no_cover_icon_;
   QIcon playlists_dir_icon_;
   QIcon playlist_icon_;
+
+  QNetworkDiskCache* icon_cache_;
 
   int init_task_id_;
 
