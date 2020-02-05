@@ -14,6 +14,8 @@
    limitations under the License.
 */
 
+#include "backtrace_inc.h"
+
 #include <QtGlobal>
 #include <QByteArray>
 #include <QList>
@@ -32,9 +34,6 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#ifdef Q_OS_UNIX
-  #include <execinfo.h>
-#endif
 
 #include "logging.h"
 
@@ -255,7 +254,7 @@ QString DemangleSymbol(const QString &symbol) {
 }
 
 void DumpStackTrace() {
-#ifdef Q_OS_UNIX
+#ifdef HAVE_BACKTRACE
   void* callstack[128];
   int callstack_size = backtrace(reinterpret_cast<void**>(&callstack), sizeof(callstack));
   char** symbols = backtrace_symbols(reinterpret_cast<void**>(&callstack), callstack_size);
