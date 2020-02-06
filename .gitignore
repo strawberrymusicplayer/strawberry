@@ -76,6 +76,7 @@ compile_commands.json
 *.kdev4
 *.vscode
 *.code-workspace
+*.sublime-workspace
 
 # Temporary files
 *~
