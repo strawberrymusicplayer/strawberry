@@ -120,7 +120,6 @@ private slots:
   void AddError(const QString &message);
   void ReloadSettings();
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);
-  void ClearPixmapDiskCacheSlot();
 
 signals:
   void ErrorAdded(const QString &message);

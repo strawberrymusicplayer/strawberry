@@ -34,6 +34,7 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include "core/application.h"
 #include "core/iconloader.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collectionsettingspage.h"
@@ -157,7 +158,7 @@ void CollectionSettingsPage::Load() {
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
 
   connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
-  connect(ui_->button_disk_cache, SIGNAL(clicked()), SLOT(dialog->app()->ClearPixmapDiskCacheSlot()));
+  connect(ui_->button_disk_cache, SIGNAL(clicked()), dialog()->app(), SIGNAL(ClearPixmapDiskCache()));
 
   s.endGroup();
 

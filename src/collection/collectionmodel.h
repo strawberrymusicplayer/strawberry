@@ -249,8 +249,7 @@ signals:
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
-  int MaximumCacheSize(const char *size_id, const char *size_unit_id) const;
-  bool UseDiskCache() const;
+  int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const;
 
  private:
   CollectionBackend *backend_;
@@ -281,12 +280,13 @@ signals:
   QIcon playlists_dir_icon_;
   QIcon playlist_icon_;
 
-  QNetworkDiskCache* icon_cache_;
+  static QNetworkDiskCache *icon_cache_;
 
   int init_task_id_;
 
   bool use_pretty_covers_;
   bool show_dividers_;
+  bool use_disk_cache_;
 
   AlbumCoverLoaderOptions cover_loader_options_;
 

@@ -301,7 +301,6 @@ void Application::ExitReceived() {
 void Application::AddError(const QString& message) { emit ErrorAdded(message); }
 void Application::ReloadSettings() { emit SettingsChanged(); }
 void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { emit SettingsDialogRequested(page); }
-void Application::ClearPixmapDiskCacheSlot() { emit ClearPixmapDiskCache(); }
 
 TagReaderClient *Application::tag_reader_client() const { return p_->tag_reader_client_.get(); }
 Appearance *Application::appearance() const { return p_->appearance_.get(); }

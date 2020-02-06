@@ -75,6 +75,8 @@ const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
 const char *CollectionModel::kPixmapDiskCacheDir = "/pixmapcache";
 
+QNetworkDiskCache *CollectionModel::icon_cache_ = nullptr;
+
 static bool IsArtistGroupBy(const CollectionModel::GroupBy by) {
   return by == CollectionModel::GroupBy_Artist || by == CollectionModel::GroupBy_AlbumArtist;
 }
@@ -96,10 +98,10 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       album_icon_(IconLoader::Load("cdcase")),
       playlists_dir_icon_(IconLoader::Load("folder-sound")),
       playlist_icon_(IconLoader::Load("albums")),
-      icon_cache_(new QNetworkDiskCache(this)),
       init_task_id_(-1),
       use_pretty_covers_(false),
-      show_dividers_(true) {
+      show_dividers_(true),
+      use_disk_cache_(false) {
 
   root_->lazy_loaded = true;
 
@@ -117,6 +119,11 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+  // When running under gdb, all calls to this constructor came from the same thread.
+  // If this ever changes, these two lines might need to be protected by a mutex.
+  if (icon_cache_ == nullptr)
+    icon_cache_ = new QNetworkDiskCache(this);
 
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
@@ -172,15 +179,22 @@ void CollectionModel::SaveGrouping(QString name) {
 
 void CollectionModel::ReloadSettings() {
 
-  if (UseDiskCache()) {
+  QSettings s;
+
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+
+  use_disk_cache_ = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
+
+  if (!use_disk_cache_) {
     icon_cache_->clear();
   }
 
   icon_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + kPixmapDiskCacheDir);
-  icon_cache_->setMaximumCacheSize(MaximumCacheSize(CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
+  icon_cache_->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
 
-  QPixmapCache::setCacheLimit(MaximumCacheSize(CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit) / 1024);
+  QPixmapCache::setCacheLimit(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit) / 1024);
 
+  s.endGroup();
 }
 
 void CollectionModel::Init(bool async) {
@@ -494,7 +508,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       // Remove from pixmap cache
       const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
       QPixmapCache::remove(cache_key);
-      if (UseDiskCache()) icon_cache_->remove(QUrl(cache_key));
+      if (use_disk_cache_) icon_cache_->remove(QUrl(cache_key));
       if (pending_cache_keys_.contains(cache_key)) {
         pending_cache_keys_.remove(cache_key);
       }
@@ -551,7 +565,7 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
     idx_copy = idx_copy.parent();
   }
 
-  return "collectionart:" + path.join("/");
+  return Song::TextForSource(backend_->Source()) + path.join("/");
 
 }
 
@@ -569,7 +583,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   }
 
   // Try to load it from the disk cache
-  if (UseDiskCache()) {
+  if (use_disk_cache_) {
     std::unique_ptr<QIODevice> cache(icon_cache_->data(QUrl(cache_key)));
     if (cache) {
       QImage cached_pixmap;
@@ -623,7 +637,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, 
   }
 
   // If we have a valid cover not already in the disk cache
-  if (UseDiskCache()) {
+  if (use_disk_cache_) {
     std::unique_ptr<QIODevice> cached_img(icon_cache_->data(QUrl(cache_key)));
     if (!cached_img && !image.isNull()) {
       QNetworkCacheMetaData item_metadata;
@@ -1525,16 +1539,13 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 }
 
-int CollectionModel::MaximumCacheSize(const char *size_id, const char *size_unit_id) const {
+int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const {
 
   int size;
   int unit;
-  QSettings s;
 
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  size = s.value(size_id, 80).toInt();
-  unit = s.value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
-  s.endGroup();
+  size = s->value(size_id, 80).toInt();
+  unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
 
   do {
     size *= 1024;
@@ -1542,14 +1553,6 @@ int CollectionModel::MaximumCacheSize(const char *size_id, const char *size_unit
   } while (unit > 0);
 
   return size;
-}
-
-bool CollectionModel::UseDiskCache() const {
-  QSettings s;
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  bool ret = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
-  s.endGroup();
-  return ret;
 }
 
 void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
