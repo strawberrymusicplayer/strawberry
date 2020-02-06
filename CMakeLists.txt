@@ -172,13 +172,13 @@ pkg_check_modules(TAGLIB taglib)
 # - Audio file detection by content.
 # - DSF and DSDIFF support
 #
-if (TAGLIB_VERSION VERSION_GREATER 1.11.1 OR WIN32)
+if (TAGLIB_VERSION VERSION_GREATER 1.11.1)
   option(USE_SYSTEM_TAGLIB "Use system taglib" ON)
 else()
   option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
 endif()
 if (TAGLIB_FOUND AND USE_SYSTEM_TAGLIB)
-  if (TAGLIB_VERSION VERSION_GREATER 1.11.1 OR WIN32)
+  if (TAGLIB_VERSION VERSION_GREATER 1.11.1)
     message(STATUS "Using system taglib library")
   else()
     message(WARNING "Using system taglib library. Version 1.11.1 or less has a bug corrupting Ogg files, make sure your systems version has been patched!")
