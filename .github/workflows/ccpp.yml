@@ -27,8 +27,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Update HomeBrew
-      run: brew update
     - name: Unlink python
       run: brew unlink python@2
     - name: Install Packages
