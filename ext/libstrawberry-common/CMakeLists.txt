@@ -1,7 +1,13 @@
+if (Backtrace_FOUND)
+  include_directories(${Backtrace_INCLUDE_DIRS})
+endif (Backtrace_FOUND)
+
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/backtrace_inc.h.in ${CMAKE_CURRENT_BINARY_DIR}/backtrace_inc.h)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_STANDARD 11)
@@ -37,6 +43,10 @@ add_library(libstrawberry-common STATIC
   ${SOURCES}
   ${MOC}
 )
+
+if (Backtrace_FOUND)
+  target_link_libraries(libstrawberry-common ${Backtrace_LIBRARIES})
+endif (Backtrace_FOUND)
 
 target_link_libraries(libstrawberry-common
   #${PROTOBUF_LIBRARY}
