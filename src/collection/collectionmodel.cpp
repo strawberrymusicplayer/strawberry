@@ -75,7 +75,7 @@ const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
 const char *CollectionModel::kPixmapDiskCacheDir = "/pixmapcache";
 
-QNetworkDiskCache *CollectionModel::icon_cache_ = nullptr;
+QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
 
 static bool IsArtistGroupBy(const CollectionModel::GroupBy by) {
   return by == CollectionModel::GroupBy_Artist || by == CollectionModel::GroupBy_AlbumArtist;
@@ -122,8 +122,8 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
 
   // When running under gdb, all calls to this constructor came from the same thread.
   // If this ever changes, these two lines might need to be protected by a mutex.
-  if (icon_cache_ == nullptr)
-    icon_cache_ = new QNetworkDiskCache(this);
+  if (sIconCache == nullptr)
+    sIconCache = new QNetworkDiskCache(this);
 
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
@@ -186,11 +186,11 @@ void CollectionModel::ReloadSettings() {
   use_disk_cache_ = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
 
   if (!use_disk_cache_) {
-    icon_cache_->clear();
+    sIconCache->clear();
   }
 
-  icon_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + kPixmapDiskCacheDir);
-  icon_cache_->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
+  sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + kPixmapDiskCacheDir);
+  sIconCache->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
 
   QPixmapCache::setCacheLimit(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit) / 1024);
 
@@ -508,7 +508,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       // Remove from pixmap cache
       const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
       QPixmapCache::remove(cache_key);
-      if (use_disk_cache_) icon_cache_->remove(QUrl(cache_key));
+      if (use_disk_cache_) sIconCache->remove(QUrl(cache_key));
       if (pending_cache_keys_.contains(cache_key)) {
         pending_cache_keys_.remove(cache_key);
       }
@@ -584,7 +584,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
   // Try to load it from the disk cache
   if (use_disk_cache_) {
-    std::unique_ptr<QIODevice> cache(icon_cache_->data(QUrl(cache_key)));
+    std::unique_ptr<QIODevice> cache(sIconCache->data(QUrl(cache_key)));
     if (cache) {
       QImage cached_pixmap;
       if (cached_pixmap.load(cache.get(), "XPM")) {
@@ -638,15 +638,15 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, 
 
   // If we have a valid cover not already in the disk cache
   if (use_disk_cache_) {
-    std::unique_ptr<QIODevice> cached_img(icon_cache_->data(QUrl(cache_key)));
+    std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
     if (!cached_img && !image.isNull()) {
       QNetworkCacheMetaData item_metadata;
       item_metadata.setSaveToDisk(true);
       item_metadata.setUrl(QUrl(cache_key));
-      QIODevice* cache = icon_cache_->prepare(item_metadata);
+      QIODevice* cache = sIconCache->prepare(item_metadata);
       if (cache) {
         image.save(cache, "XPM");
-        icon_cache_->insert(cache);
+        sIconCache->insert(cache);
       }
     }
   }
@@ -1541,11 +1541,8 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const {
 
-  int size;
-  int unit;
-
-  size = s->value(size_id, 80).toInt();
-  unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
+  int size = s->value(size_id, 80).toInt();
+  int unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
 
   do {
     size *= 1024;
@@ -1683,7 +1680,7 @@ void CollectionModel::TotalAlbumCountUpdatedSlot(int count) {
 }
 
 void CollectionModel::ClearDiskCache() {
-  icon_cache_->clear();
+  sIconCache->clear();
 }
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g) {

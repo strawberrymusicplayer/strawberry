@@ -280,7 +280,7 @@ signals:
   QIcon playlists_dir_icon_;
   QIcon playlist_icon_;
 
-  static QNetworkDiskCache *icon_cache_;
+  static QNetworkDiskCache *sIconCache;
 
   int init_task_id_;
 
