@@ -158,6 +158,7 @@ void SCollection::ResumeWatcher() { watcher_->SetRescanPausedAsync(false); }
 void SCollection::ReloadSettings() {
 
   watcher_->ReloadSettingsAsync();
+  model_->ReloadSettings();
 
 }
 

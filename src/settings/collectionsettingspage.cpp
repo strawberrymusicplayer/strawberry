@@ -34,6 +34,7 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include "core/application.h"
 #include "core/iconloader.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collectionsettingspage.h"
@@ -43,6 +44,13 @@
 #include "ui_collectionsettingspage.h"
 
 const char *CollectionSettingsPage::kSettingsGroup = "Collection";
+const char *CollectionSettingsPage::kSettingsCacheSize = "cache_size";
+const char *CollectionSettingsPage::kSettingsCacheSizeUnit = "cache_size_unit";
+const char *CollectionSettingsPage::kSettingsDiskCacheEnable = "disk_cache_enable";
+const char *CollectionSettingsPage::kSettingsDiskCacheSize = "disk_cache_size";
+const char *CollectionSettingsPage::kSettingsDiskCacheSizeUnit = "disk_cache_size_unit";
+
+const QStringList CollectionSettingsPage::cacheUnitNames = { "KB", "MB", "GB", "TB" };
 
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
     : SettingsPage(dialog),
@@ -91,6 +99,14 @@ void CollectionSettingsPage::CurrentRowChanged(const QModelIndex& index) {
   ui_->remove->setEnabled(index.isValid());
 }
 
+void CollectionSettingsPage::DiskCacheEnable(int state) {
+  bool checked = state == Qt::Checked;
+  ui_->button_disk_cache->setEnabled(checked);
+  ui_->label_disk_cache_size->setEnabled(checked);
+  ui_->spinbox_disk_cache_size->setEnabled(checked);
+  ui_->combobox_disk_cache_size->setEnabled(checked);
+}
+
 void CollectionSettingsPage::Load() {
 
   if (!initialised_model_) {
@@ -130,6 +146,20 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_cover_lowercase->setChecked(s.value("cover_lowercase", true).toBool());
   ui_->checkbox_cover_replace_spaces->setChecked(s.value("cover_replace_spaces", true).toBool());
 
+  ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, 80).toInt());
+  ui_->combobox_cache_size->addItems(cacheUnitNames);
+  ui_->combobox_cache_size->setCurrentIndex(s.value(kSettingsCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
+  ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, false).toBool());
+  ui_->label_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
+  ui_->spinbox_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
+  ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, 80).toInt());
+  ui_->combobox_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
+  ui_->combobox_disk_cache_size->addItems(cacheUnitNames);
+  ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
+
+  connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
+  connect(ui_->button_disk_cache, SIGNAL(clicked()), dialog()->app(), SIGNAL(ClearPixmapDiskCache()));
+
   s.endGroup();
 
 }
@@ -160,6 +190,12 @@ void CollectionSettingsPage::Save() {
   s.setValue("cover_overwrite", ui_->checkbox_cover_overwrite->isChecked());
   s.setValue("cover_lowercase", ui_->checkbox_cover_lowercase->isChecked());
   s.setValue("cover_replace_spaces", ui_->checkbox_cover_replace_spaces->isChecked());
+
+  s.setValue(kSettingsCacheSize, ui_->spinbox_cache_size->value());
+  s.setValue(kSettingsCacheSizeUnit, ui_->combobox_cache_size->currentIndex());
+  s.setValue(kSettingsDiskCacheEnable, ui_->checkbox_disk_cache->isChecked());
+  s.setValue(kSettingsDiskCacheSize, ui_->spinbox_disk_cache_size->value());
+  s.setValue(kSettingsDiskCacheSizeUnit, ui_->combobox_disk_cache_size->currentIndex());
 
   s.endGroup();
 

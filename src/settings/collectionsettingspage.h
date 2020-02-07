@@ -39,6 +39,18 @@ public:
   ~CollectionSettingsPage();
 
   static const char *kSettingsGroup;
+  static const char *kSettingsCacheSize;
+  static const char *kSettingsCacheSizeUnit;
+  static const char *kSettingsDiskCacheEnable;
+  static const char *kSettingsDiskCacheSize;
+  static const char *kSettingsDiskCacheSizeUnit;
+
+  enum CacheSizeUnit {
+    CacheSizeUnit_KB,
+    CacheSizeUnit_MB,
+    CacheSizeUnit_GB,
+    CacheSizeUnit_TB,
+  };
 
   enum SaveCover {
     SaveCover_Hash = 1,
@@ -53,11 +65,14 @@ private slots:
   void Remove();
 
   void CurrentRowChanged(const QModelIndex &index);
+  void DiskCacheEnable(int state);
   void CoverSaveInAlbumDirChanged();
 
 private:
   Ui_CollectionSettingsPage *ui_;
   bool initialised_model_;
+
+  static const QStringList cacheUnitNames;
 };
 
 #endif  // COLLECTIONSETTINGSPAGE_H

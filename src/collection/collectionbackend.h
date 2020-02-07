@@ -188,6 +188,8 @@ class CollectionBackend : public CollectionBackendInterface {
   SongList GetSongsBySongId(const QList<int> &song_ids);
   SongList GetSongsBySongId(const QStringList &song_ids);
 
+  Song::Source Source() const;
+
  public slots:
   void Exit();
   void LoadDirectories();

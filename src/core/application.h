@@ -126,6 +126,7 @@ signals:
   void SettingsChanged();
   void SettingsDialogRequested(SettingsDialog::Page page);
   void ExitFinished();
+  void ClearPixmapDiskCache();
 
  private:
   std::unique_ptr<ApplicationImpl> p_;

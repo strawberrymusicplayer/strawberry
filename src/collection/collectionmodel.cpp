@@ -46,6 +46,7 @@
 #include <QImage>
 #include <QPixmapCache>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QtDebug>
 
 #include "core/application.h"
@@ -63,6 +64,7 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
+#include "settings/collectionsettingspage.h"
 
 using std::bind;
 using std::sort;
@@ -71,7 +73,9 @@ using std::placeholders::_2;
 
 const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
-const int CollectionModel::kPixmapCacheLimit = QPixmapCache::cacheLimit() * 8;
+const char *CollectionModel::kPixmapDiskCacheDir = "/pixmapcache";
+
+QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
 
 static bool IsArtistGroupBy(const CollectionModel::GroupBy by) {
   return by == CollectionModel::GroupBy_Artist || by == CollectionModel::GroupBy_AlbumArtist;
@@ -96,7 +100,8 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
       playlist_icon_(IconLoader::Load("albums")),
       init_task_id_(-1),
       use_pretty_covers_(false),
-      show_dividers_(true) {
+      show_dividers_(true),
+      use_disk_cache_(false) {
 
   root_->lazy_loaded = true;
 
@@ -115,6 +120,11 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
+  // When running under gdb, all calls to this constructor came from the same thread.
+  // If this ever changes, these two lines might need to be protected by a mutex.
+  if (sIconCache == nullptr)
+    sIconCache = new QNetworkDiskCache(this);
+
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
   connect(backend_, SIGNAL(DatabaseReset()), SLOT(Reset()));
@@ -127,7 +137,9 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   backend_->UpdateTotalArtistCountAsync();
   backend_->UpdateTotalAlbumCountAsync();
 
-  QPixmapCache::setCacheLimit(kPixmapCacheLimit);
+  connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
+
+  ReloadSettings();
 
 }
 
@@ -163,6 +175,26 @@ void CollectionModel::SaveGrouping(QString name) {
   s.beginGroup(kSavedGroupingsSettingsGroup);
   s.setValue(name, buffer);
 
+}
+
+void CollectionModel::ReloadSettings() {
+
+  QSettings s;
+
+  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+
+  use_disk_cache_ = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
+
+  if (!use_disk_cache_) {
+    sIconCache->clear();
+  }
+
+  sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + kPixmapDiskCacheDir);
+  sIconCache->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
+
+  QPixmapCache::setCacheLimit(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit) / 1024);
+
+  s.endGroup();
 }
 
 void CollectionModel::Init(bool async) {
@@ -476,6 +508,7 @@ void CollectionModel::SongsDeleted(const SongList &songs) {
       // Remove from pixmap cache
       const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(node));
       QPixmapCache::remove(cache_key);
+      if (use_disk_cache_) sIconCache->remove(QUrl(cache_key));
       if (pending_cache_keys_.contains(cache_key)) {
         pending_cache_keys_.remove(cache_key);
       }
@@ -532,7 +565,7 @@ QString CollectionModel::AlbumIconPixmapCacheKey(const QModelIndex &idx) const {
     idx_copy = idx_copy.parent();
   }
 
-  return "collectionart:" + path.join("/");
+  return Song::TextForSource(backend_->Source()) + path.join("/");
 
 }
 
@@ -547,6 +580,18 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   QPixmap cached_pixmap;
   if (QPixmapCache::find(cache_key, &cached_pixmap)) {
     return cached_pixmap;
+  }
+
+  // Try to load it from the disk cache
+  if (use_disk_cache_) {
+    std::unique_ptr<QIODevice> cache(sIconCache->data(QUrl(cache_key)));
+    if (cache) {
+      QImage cached_pixmap;
+      if (cached_pixmap.load(cache.get(), "XPM")) {
+        QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_pixmap));
+        return QPixmap::fromImage(cached_pixmap);
+      }
+    }
   }
 
   // Maybe we're loading a pixmap already?
@@ -589,6 +634,21 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, 
     QPixmap image_pixmap;
     image_pixmap = QPixmap::fromImage(image);
     QPixmapCache::insert(cache_key, image_pixmap);
+  }
+
+  // If we have a valid cover not already in the disk cache
+  if (use_disk_cache_) {
+    std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
+    if (!cached_img && !image.isNull()) {
+      QNetworkCacheMetaData item_metadata;
+      item_metadata.setSaveToDisk(true);
+      item_metadata.setUrl(QUrl(cache_key));
+      QIODevice* cache = sIconCache->prepare(item_metadata);
+      if (cache) {
+        image.save(cache, "XPM");
+        sIconCache->insert(cache);
+      }
+    }
   }
 
   const QModelIndex idx = ItemToIndex(item);
@@ -1479,6 +1539,19 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 }
 
+int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const {
+
+  int size = s->value(size_id, 80).toInt();
+  int unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
+
+  do {
+    size *= 1024;
+    unit -= 1;
+  } while (unit > 0);
+
+  return size;
+}
+
 void CollectionModel::GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const {
 
   switch (item->type) {
@@ -1604,6 +1677,10 @@ void CollectionModel::TotalAlbumCountUpdatedSlot(int count) {
   total_album_count_ = count;
   emit TotalAlbumCountUpdated(count);
 
+}
+
+void CollectionModel::ClearDiskCache() {
+  sIconCache->clear();
 }
 
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping &g) {
