@@ -217,8 +217,12 @@
   <tabstop>files</tabstop>
   <tabstop>add</tabstop>
   <tabstop>remove</tabstop>
+  <tabstop>import</tabstop>
   <tabstop>format</tabstop>
-  <tabstop>button_box</tabstop>
+  <tabstop>options</tabstop>
+  <tabstop>destination</tabstop>
+  <tabstop>select</tabstop>
+  <tabstop>details</tabstop>
  </tabstops>
  <resources/>
  <connections>

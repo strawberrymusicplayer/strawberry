@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -443,13 +443,16 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
   <tabstop>name</tabstop>
   <tabstop>icon</tabstop>
   <tabstop>hardware_info</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>supported_formats</tabstop>
+  <tabstop>open_device</tabstop>
+  <tabstop>transcode_off</tabstop>
+  <tabstop>transcode_unsupported</tabstop>
+  <tabstop>transcode_all</tabstop>
   <tabstop>transcode_format</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

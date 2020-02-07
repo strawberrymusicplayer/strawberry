@@ -272,8 +272,18 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>enable</tabstop>
+  <tabstop>app_id</tabstop>
+  <tabstop>app_secret</tabstop>
   <tabstop>username</tabstop>
   <tabstop>password</tabstop>
+  <tabstop>button_login</tabstop>
+  <tabstop>format</tabstop>
+  <tabstop>searchdelay</tabstop>
+  <tabstop>artistssearchlimit</tabstop>
+  <tabstop>albumssearchlimit</tabstop>
+  <tabstop>songssearchlimit</tabstop>
+  <tabstop>checkbox_download_album_covers</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

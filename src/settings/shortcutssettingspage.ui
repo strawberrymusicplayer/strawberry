@@ -294,6 +294,10 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>checkbox_gsd</tabstop>
+  <tabstop>button_gsd_open</tabstop>
+  <tabstop>checkbox_x11</tabstop>
+  <tabstop>button_macos_open</tabstop>
   <tabstop>list</tabstop>
   <tabstop>radio_none</tabstop>
   <tabstop>radio_default</tabstop>

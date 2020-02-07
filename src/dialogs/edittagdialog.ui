@@ -30,7 +30,7 @@
      </widget>
      <widget class="QTabWidget" name="tab_widget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="summary_tab">
        <attribute name="title">
@@ -879,6 +879,28 @@
    <header>widgets/lineedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>song_list</tabstop>
+  <tabstop>tab_widget</tabstop>
+  <tabstop>summary</tabstop>
+  <tabstop>summary_art_button</tabstop>
+  <tabstop>playcount_reset</tabstop>
+  <tabstop>filename</tabstop>
+  <tabstop>title</tabstop>
+  <tabstop>track</tabstop>
+  <tabstop>artist</tabstop>
+  <tabstop>disc</tabstop>
+  <tabstop>album</tabstop>
+  <tabstop>year</tabstop>
+  <tabstop>albumartist</tabstop>
+  <tabstop>composer</tabstop>
+  <tabstop>performer</tabstop>
+  <tabstop>grouping</tabstop>
+  <tabstop>genre</tabstop>
+  <tabstop>fetch_tag</tabstop>
+  <tabstop>lyrics</tabstop>
+  <tabstop>comment</tabstop>
+ </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>

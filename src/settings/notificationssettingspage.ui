@@ -507,6 +507,29 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>notifications_none</tabstop>
+  <tabstop>notifications_native</tabstop>
+  <tabstop>notifications_pretty</tabstop>
+  <tabstop>notifications_tray</tabstop>
+  <tabstop>notifications_duration</tabstop>
+  <tabstop>notifications_disable_duration</tabstop>
+  <tabstop>notifications_volume</tabstop>
+  <tabstop>notifications_play_mode</tabstop>
+  <tabstop>notifications_pause</tabstop>
+  <tabstop>notifications_resume</tabstop>
+  <tabstop>notifications_art</tabstop>
+  <tabstop>notifications_custom_text_enabled</tabstop>
+  <tabstop>notifications_preview</tabstop>
+  <tabstop>notifications_custom_text1</tabstop>
+  <tabstop>notifications_exp_chooser1</tabstop>
+  <tabstop>notifications_custom_text2</tabstop>
+  <tabstop>notifications_exp_chooser2</tabstop>
+  <tabstop>notifications_opacity</tabstop>
+  <tabstop>notifications_bg_preset</tabstop>
+  <tabstop>notifications_fg_choose</tabstop>
+  <tabstop>notifications_font_choose</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

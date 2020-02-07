@@ -449,6 +449,30 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>use_system_color_set</tabstop>
+  <tabstop>use_a_custom_color_set</tabstop>
+  <tabstop>select_foreground_color</tabstop>
+  <tabstop>select_background_color</tabstop>
+  <tabstop>tabbar_system_color</tabstop>
+  <tabstop>tabbar_custom_color</tabstop>
+  <tabstop>tabbar_gradient</tabstop>
+  <tabstop>select_tabbar_color</tabstop>
+  <tabstop>use_default_background</tabstop>
+  <tabstop>use_no_background</tabstop>
+  <tabstop>use_album_cover_background</tabstop>
+  <tabstop>use_custom_background_image</tabstop>
+  <tabstop>background_image_filename</tabstop>
+  <tabstop>select_background_image_filename_button</tabstop>
+  <tabstop>combobox_backgroundimageposition</tabstop>
+  <tabstop>spinbox_background_image_maxsize</tabstop>
+  <tabstop>checkbox_background_image_stretch</tabstop>
+  <tabstop>checkbox_background_image_keep_aspect_ratio</tabstop>
+  <tabstop>checkbox_background_image_do_not_cut</tabstop>
+  <tabstop>blur_slider</tabstop>
+  <tabstop>opacity_slider</tabstop>
+  <tabstop>checkbox_system_icons</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

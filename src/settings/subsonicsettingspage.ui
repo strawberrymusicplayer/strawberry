@@ -175,8 +175,13 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>enable</tabstop>
+  <tabstop>server_url</tabstop>
   <tabstop>username</tabstop>
   <tabstop>password</tabstop>
+  <tabstop>button_test</tabstop>
+  <tabstop>checkbox_verify_certificate</tabstop>
+  <tabstop>checkbox_download_album_covers</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>

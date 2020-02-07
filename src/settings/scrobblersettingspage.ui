@@ -313,6 +313,22 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>checkbox_enable</tabstop>
+  <tabstop>checkbox_offline</tabstop>
+  <tabstop>checkbox_scrobble_button</tabstop>
+  <tabstop>checkbox_love_button</tabstop>
+  <tabstop>spinbox_submit</tabstop>
+  <tabstop>checkbox_albumartist</tabstop>
+  <tabstop>checkbox_lastfm_enable</tabstop>
+  <tabstop>checkbox_lastfm_https</tabstop>
+  <tabstop>button_lastfm_login</tabstop>
+  <tabstop>checkbox_librefm_enable</tabstop>
+  <tabstop>button_librefm_login</tabstop>
+  <tabstop>checkbox_listenbrainz_enable</tabstop>
+  <tabstop>lineedit_listenbrainz_user_token</tabstop>
+  <tabstop>button_listenbrainz_login</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

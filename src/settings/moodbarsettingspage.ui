@@ -56,6 +56,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>moodbar_enabled</tabstop>
+  <tabstop>moodbar_show</tabstop>
+  <tabstop>moodbar_style</tabstop>
+  <tabstop>moodbar_save</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

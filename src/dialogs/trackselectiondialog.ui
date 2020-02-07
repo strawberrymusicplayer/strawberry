@@ -189,11 +189,11 @@
           <property name="rootIsDecorated">
            <bool>false</bool>
           </property>
-          <attribute name="headerDefaultSectionSize">
-           <number>150</number>
-          </attribute>
           <attribute name="headerMinimumSectionSize">
            <number>50</number>
+          </attribute>
+          <attribute name="headerDefaultSectionSize">
+           <number>150</number>
           </attribute>
           <column>
            <property name="text">

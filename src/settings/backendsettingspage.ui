@@ -580,6 +580,27 @@
    <header>widgets/lineedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>combobox_engine</tabstop>
+  <tabstop>combobox_output</tabstop>
+  <tabstop>combobox_device</tabstop>
+  <tabstop>radiobutton_alsa_hw</tabstop>
+  <tabstop>radiobutton_alsa_plughw</tabstop>
+  <tabstop>checkbox_volume_control</tabstop>
+  <tabstop>spinbox_bufferduration</tabstop>
+  <tabstop>slider_bufferminfill</tabstop>
+  <tabstop>checkbox_replaygain</tabstop>
+  <tabstop>combobox_replaygainmode</tabstop>
+  <tabstop>stickslider_replaygainpreamp</tabstop>
+  <tabstop>checkbox_replaygaincompression</tabstop>
+  <tabstop>checkbox_fadeout_stop</tabstop>
+  <tabstop>checkbox_fadeout_cross</tabstop>
+  <tabstop>checkbox_fadeout_auto</tabstop>
+  <tabstop>checkbox_fadeout_samealbum</tabstop>
+  <tabstop>spinbox_fadeduration</tabstop>
+  <tabstop>checkbox_fadeout_pauseresume</tabstop>
+  <tabstop>spinbox_fadeduration_pauseresume</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -351,6 +351,27 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>list</tabstop>
   <tabstop>add</tabstop>
   <tabstop>remove</tabstop>
+  <tabstop>startup_scan</tabstop>
+  <tabstop>monitor</tabstop>
+  <tabstop>mark_songs_unavailable</tabstop>
+  <tabstop>live_scanning</tabstop>
+  <tabstop>cover_art_patterns</tabstop>
+  <tabstop>auto_open</tabstop>
+  <tabstop>pretty_covers</tabstop>
+  <tabstop>show_dividers</tabstop>
+  <tabstop>checkbox_cover_album_dir</tabstop>
+  <tabstop>radiobutton_cover_hash</tabstop>
+  <tabstop>radiobutton_cover_pattern</tabstop>
+  <tabstop>lineedit_cover_pattern</tabstop>
+  <tabstop>checkbox_cover_overwrite</tabstop>
+  <tabstop>checkbox_cover_lowercase</tabstop>
+  <tabstop>checkbox_cover_replace_spaces</tabstop>
+  <tabstop>spinbox_cache_size</tabstop>
+  <tabstop>combobox_cache_size</tabstop>
+  <tabstop>checkbox_disk_cache</tabstop>
+  <tabstop>button_disk_cache</tabstop>
+  <tabstop>spinbox_disk_cache_size</tabstop>
+  <tabstop>combobox_disk_cache_size</tabstop>
  </tabstops>
  <resources/>
  <connections/>

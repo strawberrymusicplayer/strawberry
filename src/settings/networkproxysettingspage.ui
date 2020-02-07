@@ -145,6 +145,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>proxy_system</tabstop>
+  <tabstop>proxy_direct</tabstop>
+  <tabstop>proxy_manual</tabstop>
+  <tabstop>proxy_type</tabstop>
+  <tabstop>proxy_hostname</tabstop>
+  <tabstop>proxy_port</tabstop>
+  <tabstop>proxy_auth</tabstop>
+  <tabstop>proxy_username</tabstop>
+  <tabstop>proxy_password</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
