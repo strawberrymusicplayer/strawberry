@@ -22,18 +22,17 @@
 
 #include "config.h"
 
-
 #include <QWidget>
 #include <QList>
 #include <QString>
 #include <QPoint>
 #include <QMenu>
 #include <QAction>
-#include <QActionGroup>
 
 #include "engine/engine_fwd.h"
 
 class QTimer;
+class QActionGroup;
 class QMouseEvent;
 class QWheelEvent;
 

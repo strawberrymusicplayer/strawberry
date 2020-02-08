@@ -33,7 +33,6 @@
 #include <QIODevice>
 #include <QBuffer>
 #include <QByteArray>
-#include <QtAlgorithms>
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>

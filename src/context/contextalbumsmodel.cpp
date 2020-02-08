@@ -26,7 +26,6 @@
 
 #include <QObject>
 #include <QtGlobal>
-#include <QtAlgorithms>
 #include <QMutex>
 #include <QMimeData>
 #include <QVariant>
@@ -38,14 +37,10 @@
 #include <QUrl>
 #include <QImage>
 #include <QPixmapCache>
-#include <QSettings>
-#include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/database.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "collection/collectionquery.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionitem.h"

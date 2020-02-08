@@ -40,10 +40,10 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QTimer>
 
 #include "song.h"
 
+class QTimer;
 class Player;
 class CollectionBackendInterface;
 class PlaylistParser;

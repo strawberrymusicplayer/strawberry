@@ -23,9 +23,9 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
+#include <QStandardItem>
 #include <QMap>
 #include <QSet>
-#include <QString>
 #include <QImage>
 #include <QPixmap>
 #include <QIcon>

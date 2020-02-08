@@ -20,9 +20,11 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QWidget>
 #include <QString>
 #include <QLabel>
+#include <QFontMetrics>
 
 #include "widgets/stickyslider.h"
 #include "equalizerslider.h"

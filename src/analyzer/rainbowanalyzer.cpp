@@ -27,17 +27,19 @@
 
 #include <cmath>
 
-#include <QObject>
+#include <QtGlobal>
 #include <QWidget>
 #include <QPixmap>
 #include <QPainter>
 #include <QColor>
 #include <QBrush>
 #include <QPen>
+#include <QPoint>
+#include <QSize>
 #include <QTimerEvent>
 
-#include "core/arraysize.h"
-#include "core/logging.h"
+#include "fht.h"
+#include "analyzerbase.h"
 
 using Analyzer::Scope;
 

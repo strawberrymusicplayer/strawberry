@@ -27,14 +27,14 @@
 #include <cstddef>
 
 #include <QObject>
-#include <QMimeData>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
-#include <QPersistentModelIndex>
 #include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+
+class QMimeData;
 
 std::size_t hash_value(const QModelIndex &index);
 

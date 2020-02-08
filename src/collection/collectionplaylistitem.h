@@ -23,9 +23,7 @@
 
 #include "config.h"
 
-
 #include <QVariant>
-#include <QString>
 #include <QUrl>
 
 #include "core/song.h"

@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QMetaType>
 #include <QVariant>
 #include <QString>
@@ -32,7 +31,6 @@
 #include <QSqlQuery>
 
 class Song;
-class CollectionBackend;
 
 // This structure let's you customize behaviour of any CollectionQuery.
 struct QueryOptions {

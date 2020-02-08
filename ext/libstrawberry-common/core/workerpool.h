@@ -25,12 +25,11 @@
 #include <QCoreApplication>
 #include <QThread>
 #include <QMutex>
+#include <QLocalServer>
 #include <QProcess>
-#include <QQueue>
 #include <QFile>
 #include <QList>
-#include <QLocalServer>
-#include <QLocalSocket>
+#include <QQueue>
 #include <QString>
 #include <QStringList>
 #include <QAtomicInt>
@@ -38,7 +37,6 @@
 #include "core/logging.h"
 
 class QLocalSocket;
-
 
 // Base class containing signals and slots - required because moc doesn't do templated objects.
 class _WorkerPoolBase : public QObject {

@@ -22,9 +22,10 @@
 
 #include <QList>
 #include <QMetaType>
-#include <QVariant>
 #include <QString>
 #include <QRegExp>
+
+class QVariant;
 
 class FMPSParser {
 public:

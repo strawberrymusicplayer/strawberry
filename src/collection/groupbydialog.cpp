@@ -23,10 +23,10 @@
 #include <functional>
 
 #include <QDialog>
+#include <QWidget>
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QPushButton>
-#include <QWidget>
 
 #include "collectionmodel.h"
 #include "groupbydialog.h"
@@ -42,6 +42,7 @@ using std::placeholders::_2;
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index_container_fwd.hpp>
+#include <boost/multi_index/detail/ord_index_impl.hpp>
 #include <boost/operators.hpp>
 
 using boost::multi_index_container;

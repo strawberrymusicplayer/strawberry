@@ -23,18 +23,18 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QSystemTrayIcon>
 #include <QString>
 #include <QUrl>
+#include <QIcon>
 #include <QPixmap>
 #include <QAction>
-#include <QMenu>
 #include <QtEvents>
 
 #include "systemtrayicon.h"
 
+class QMenu;
 class QEvent;
 
 class Song;

@@ -24,47 +24,30 @@
 #include <qcoreevent.h>
 
 #include <QtGlobal>
-#include <QWidget>
+#include <QTreeView>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
 #include <QAbstractItemView>
 #include <QStyleOptionViewItem>
-#include <QAction>
+#include <QAbstractScrollArea>
+#include <QMimeData>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QList>
 #include <QLocale>
-#include <QMap>
 #include <QMessageBox>
 #include <QMenu>
-#include <QMimeData>
-#include <QPainter>
-#include <QPalette>
-#include <QPen>
-#include <QPoint>
+#include <QAction>
 #include <QRect>
-#include <QSet>
 #include <QSize>
 #include <QToolTip>
-#include <QTreeView>
-#include <QHeaderView>
 #include <QWhatsThis>
-#include <QBrush>
-#include <QColor>
-#include <QFont>
-#include <QFontMetrics>
-#include <QPixmap>
-#include <QIcon>
-#include <QLinearGradient>
-#include <QSettings>
-#include <QtEvents>
 
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/utilities.h"
-#include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionitem.h"
@@ -74,9 +57,7 @@
 #endif
 #include "dialogs/edittagdialog.h"
 #include "organise/organisedialog.h"
-#include "settings/collectionsettingspage.h"
 
-#include "contextview.h"
 #include "contextalbumsmodel.h"
 #include "contextalbumsview.h"
 

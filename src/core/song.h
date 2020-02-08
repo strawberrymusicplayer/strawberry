@@ -38,8 +38,9 @@
 #include <QUrl>
 #include <QImage>
 #include <QIcon>
-#include <QTextCodec>
-#include <QSqlQuery>
+
+class QTextCodec;
+class QSqlQuery;
 
 namespace Engine {
 struct SimpleMetaBundle;

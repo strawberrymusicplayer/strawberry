@@ -26,13 +26,13 @@
 
 #include <QObject>
 #include <QDialog>
-#include <QWidget>
 #include <QList>
 #include <QMap>
 #include <QMetaType>
 #include <QDataStream>
 #include <QString>
 
+class QWidget;
 class QCloseEvent;
 
 class EqualizerSlider;

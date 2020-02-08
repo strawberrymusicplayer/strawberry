@@ -22,6 +22,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QChar>
 
 #include "fmpsparser.h"
 

@@ -24,20 +24,17 @@
 #ifndef BLOCKANALYZER_H
 #define BLOCKANALYZER_H
 
-#include <vector>
-
 #include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QVector>
 #include <QString>
 #include <QPixmap>
 #include <QPainter>
 #include <QPalette>
-#include <QtEvents>
 
 #include "analyzerbase.h"
 
+class QWidget;
 class QResizeEvent;
 
 class BlockAnalyzer : public Analyzer::Base {

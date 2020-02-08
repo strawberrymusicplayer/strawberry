@@ -30,13 +30,7 @@
 #include <QString>
 #include <QImage>
 #include <QPixmap>
-#include <QPainter>
 #include <QMovie>
-#include <QTimeLine>
-#include <QAction>
-#include <QMenu>
-#include <QLabel>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
@@ -44,6 +38,17 @@
 #include "ui_contextviewcontainer.h"
 
 using std::unique_ptr;
+
+class QTimeLine;
+class QPainter;
+class QMenu;
+class QAction;
+class QLabel;
+class QEvent;
+class QContextMenuEvent;
+class QMouseEvent;
+class QDragEnterEvent;
+class QDropEvent;
 
 class Application;
 class CollectionView;

@@ -23,8 +23,6 @@
 #include <QFileSystemWatcher>
 #include <QString>
 
-#include "core/logging.h"
-
 #include "filesystemwatcherinterface.h"
 #include "qtfslistener.h"
 

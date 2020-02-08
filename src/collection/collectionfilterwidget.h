@@ -29,7 +29,6 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
-#include <QtEvents>
 
 #include "collectionquery.h"
 #include "collectionmodel.h"
@@ -44,7 +43,6 @@ class GroupByDialog;
 class SavedGroupingManager;
 class SettingsDialog;
 class Ui_CollectionFilterWidget;
-struct QueryOptions;
 
 class CollectionFilterWidget : public QWidget {
   Q_OBJECT

@@ -24,18 +24,18 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QAbstractNetworkCache>
-#include <QIODevice>
 #include <QMutex>
 #include <QUrl>
 #include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QNetworkDiskCache>
 #include <QNetworkCacheMetaData>
+
+class QIODevice;
+class QNetworkReply;
+class QNetworkDiskCache;
 
 class NetworkAccessManager : public QNetworkAccessManager {
   Q_OBJECT

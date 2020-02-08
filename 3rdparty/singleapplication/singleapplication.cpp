@@ -31,13 +31,18 @@
 //
 //
 
+#include <stdlib.h>
+#include <limits>
+
 #include <QtGlobal>
 #include <QCoreApplication>
 #include <QThread>
 #include <QSharedMemory>
+#include <QLocalSocket>
 #include <QByteArray>
 #include <QDateTime>
 #include <QElapsedTimer>
+#include <QtDebug>
 
 #include "singleapplication.h"
 #include "singleapplication_p.h"

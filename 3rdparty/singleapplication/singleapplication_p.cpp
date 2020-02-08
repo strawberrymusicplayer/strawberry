@@ -44,12 +44,14 @@
 #  include <pwd.h>
 #endif
 
-#include <QDir>
+#include <QIODevice>
+#include <QSharedMemory>
 #include <QByteArray>
 #include <QDataStream>
 #include <QCryptographicHash>
 #include <QLocalServer>
 #include <QLocalSocket>
+#include <QDir>
 
 #include "singleapplication.h"
 #include "singleapplication_p.h"

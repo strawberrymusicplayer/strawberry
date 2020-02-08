@@ -26,25 +26,19 @@
 #include <memory>
 
 #include <QObject>
-#include <QWidget>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QString>
 #include <QPixmap>
-#include <QPainter>
 #include <QSet>
-#include <QStyleOption>
-#include <QStyledItemDelegate>
-#include <QStyleOptionViewItem>
-#include <QAction>
-#include <QMenu>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "widgets/autoexpandingtreeview.h"
 
+class QWidget;
+class QMenu;
+class QAction;
 class QContextMenuEvent;
-class QHelpEvent;
 class QMouseEvent;
 class QPaintEvent;
 

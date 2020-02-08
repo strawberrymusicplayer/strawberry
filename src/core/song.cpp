@@ -27,12 +27,10 @@
 #include <taglib/id3v1genres.h>
 
 #include <QtGlobal>
-#include <QCoreApplication>
 #include <QObject>
 #include <QFile>
 #include <QFileInfo>
 #include <QSharedData>
-#include <QtAlgorithms>
 #include <QHash>
 #include <QByteArray>
 #include <QVariant>

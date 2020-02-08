@@ -23,11 +23,12 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QObject>
 #include <QString>
 #include <QPixmap>
-#include <QAction>
+
+class QAction;
 
 class Song;
 

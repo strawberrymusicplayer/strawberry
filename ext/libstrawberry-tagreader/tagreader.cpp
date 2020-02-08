@@ -23,7 +23,6 @@
 #include <memory>
 #include <list>
 #include <map>
-#include <utility>
 #include <sys/stat.h>
 
 #include <taglib/taglib.h>
@@ -42,6 +41,8 @@
 #include <taglib/commentsframe.h>
 #include <taglib/tag.h>
 #include <taglib/apetag.h>
+#include <taglib/apeitem.h>
+#include <taglib/apeproperties.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2frame.h>
 #include <taglib/flacfile.h>
@@ -52,6 +53,7 @@
 #include <taglib/speexfile.h>
 #include <taglib/wavfile.h>
 #include <taglib/wavpackfile.h>
+#include <taglib/wavpackproperties.h>
 #include <taglib/aifffile.h>
 #include <taglib/asffile.h>
 #include <taglib/asftag.h>

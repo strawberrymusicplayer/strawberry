@@ -30,9 +30,15 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QDateTime>
+#include <QPixmap>
 #include <QPainter>
 #include <QPen>
+#include <QBrush>
+#include <QRect>
+
+class QWidget;
+class QTimerEvent;
+class QResizeEvent;
 
 namespace Rainbow {
 class RainbowAnalyzer : public Analyzer::Base {

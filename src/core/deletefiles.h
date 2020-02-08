@@ -26,12 +26,11 @@
 #include <memory>
 
 #include <QObject>
-#include <QThread>
-#include <QString>
 #include <QStringList>
 
 #include "song.h"
 
+class QThread;
 class TaskManager;
 class MusicStorage;
 

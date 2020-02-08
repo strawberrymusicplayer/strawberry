@@ -25,13 +25,14 @@
 
 #include <QByteArray>
 #include <QString>
-#include <QTextCodec>
 
 #include <taglib/xiphcomment.h>
 #include <taglib/apetag.h>
 #include <taglib/apefile.h>
 
 #include "tagreadermessages.pb.h"
+
+class QTextCodec;
 
 #ifndef USE_SYSTEM_TAGLIB
 namespace Strawberry_TagLib {

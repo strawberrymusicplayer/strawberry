@@ -36,7 +36,8 @@
 
 #include <QtGlobal>
 #include <QApplication>
-#include <QLocalSocket>
+#include <QFlags>
+#include <QByteArray>
 
 class SingleApplicationPrivate;
 

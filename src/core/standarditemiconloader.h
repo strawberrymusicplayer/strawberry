@@ -26,12 +26,12 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QMap>
-#include <QString>
 #include <QImage>
-#include <QStandardItem>
-#include <QAbstractItemModel>
 
 #include "covermanager/albumcoverloaderoptions.h"
+
+class QAbstractItemModel;
+class QStandardItem;
 
 class Song;
 class AlbumCoverLoader;

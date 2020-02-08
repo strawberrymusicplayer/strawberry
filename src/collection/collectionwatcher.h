@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QHash>
@@ -32,10 +31,13 @@
 #include <QSet>
 #include <QString>
 #include <QStringList>
-#include <QTimer>
+#include <QUrl>
 
 #include "directory.h"
 #include "core/song.h"
+
+class QThread;
+class QTimer;
 
 class CollectionBackend;
 class FileSystemWatcherInterface;

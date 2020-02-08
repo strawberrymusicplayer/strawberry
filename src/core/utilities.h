@@ -27,8 +27,6 @@
 #include <memory>
 
 #include <QtGlobal>
-#include <QWidget>
-#include <QIODevice>
 #include <QByteArray>
 #include <QFile>
 #include <QSize>
@@ -40,10 +38,13 @@
 #include <QStringList>
 #include <QUrl>
 #include <QColor>
-#include <QXmlStreamReader>
 #include <QtEvents>
 
 #include "core/song.h"
+
+class QWidget;
+class QIODevice;
+class QXmlStreamReader;
 
 namespace Utilities {
 QString PrettyTime(int seconds);

@@ -31,7 +31,6 @@
 #include <QSqlQuery>
 
 #include "collectionquery.h"
-#include "core/logging.h"
 #include "core/song.h"
 
 QueryOptions::QueryOptions() : max_age_(-1), query_mode_(QueryMode_All) {}

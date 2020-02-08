@@ -27,7 +27,7 @@
 #  include <gst/gstelement.h>
 #endif
 
-#include <QtGlobal>
+#include <QDataStream>
 #include <QAbstractSocket>
 #include <QMetaType>
 #include <QFileInfo>

@@ -20,7 +20,6 @@
 #ifndef ICONLOADER_H
 #define ICONLOADER_H
 
-#include <QList>
 #include <QString>
 #include <QIcon>
 

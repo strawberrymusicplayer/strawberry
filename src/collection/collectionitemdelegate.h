@@ -23,12 +23,13 @@
 
 #include "config.h"
 
-
+#include <QObject>
 #include <QStyledItemDelegate>
-#include <QAbstractItemView>
-#include <QPainter>
+#include <QStyleOption>
 #include <QStyleOptionViewItem>
 
+class QAbstractItemView;
+class QPainter;
 class QHelpEvent;
 
 class CollectionItemDelegate : public QStyledItemDelegate {

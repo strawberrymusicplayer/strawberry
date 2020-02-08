@@ -25,9 +25,7 @@
 #include <QAbstractItemModel>
 #include <QVariant>
 #include <QString>
-#include <QUrl>
 
-#include "core/application.h"
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"

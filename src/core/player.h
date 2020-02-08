@@ -37,9 +37,6 @@
 #include "urlhandler.h"
 #include "engine/engine_fwd.h"
 #include "engine/enginetype.h"
-#ifdef HAVE_GSTREAMER
-#include "engine/gststartup.h"
-#endif
 #include "playlist/playlistitem.h"
 #include "settings/behavioursettingspage.h"
 
@@ -47,6 +44,9 @@ class Application;
 class Song;
 class AnalyzerContainer;
 class Equalizer;
+#ifdef HAVE_GSTREAMER
+class GstStartup;
+#endif
 
 using std::unique_ptr;
 

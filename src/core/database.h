@@ -29,8 +29,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
-#include <QByteArray>
-#include <QList>
 #include <QMap>
 #include <QSqlDatabase>
 #include <QSqlQuery>

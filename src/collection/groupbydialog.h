@@ -27,10 +27,11 @@
 
 #include <QDialog>
 #include <QObject>
-#include <QWidget>
 #include <QString>
 
 #include "collectionmodel.h"
+
+class QWidget;
 
 class GroupByDialogPrivate;
 class Ui_GroupByDialog;

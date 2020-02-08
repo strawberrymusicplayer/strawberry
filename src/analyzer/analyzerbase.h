@@ -37,7 +37,6 @@
 #include <QBasicTimer>
 #include <QString>
 #include <QPainter>
-#include <QtEvents>
 
 #include "analyzer/fht.h"
 #include "engine/engine_fwd.h"

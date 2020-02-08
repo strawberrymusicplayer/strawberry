@@ -22,11 +22,13 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 #include <QMetaType>
 #include <QDateTime>
 #include <QVariant>
 #include <QString>
+#include <QChar>
 
 #include "multisortfilterproxy.h"
 

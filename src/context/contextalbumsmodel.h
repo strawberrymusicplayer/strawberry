@@ -24,22 +24,20 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
-#include <QList>
-#include <QMap>
 #include <QPair>
 #include <QSet>
+#include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
-#include <QIcon>
 #include <QPixmap>
-#include <QSettings>
+#include <QIcon>
 
 #include "core/simpletreemodel.h"
 #include "core/song.h"

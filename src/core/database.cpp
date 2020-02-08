@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <stddef.h>
 #include <assert.h>
 #include <sqlite3.h>
 #include <boost/scope_exit.hpp>
@@ -31,7 +32,6 @@
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
-#include <QChar>
 #include <QList>
 #include <QByteArray>
 #include <QVariant>
@@ -43,7 +43,6 @@
 #include <QSqlDriver>
 #include <QSqlDatabase>
 #include <QSqlQuery>
-#include <QSqlResult>
 #include <QSqlError>
 #include <QStandardPaths>
 #include <QtDebug>

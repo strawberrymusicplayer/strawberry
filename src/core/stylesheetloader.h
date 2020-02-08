@@ -24,13 +24,14 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
-#include <QEvent>
+#include <QPair>
 #include <QMap>
 #include <QPalette>
 #include <QString>
+
+class QWidget;
+class QEvent;
 
 class StyleSheetLoader : public QObject {
  public:

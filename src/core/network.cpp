@@ -21,12 +21,16 @@
 
 #include "config.h"
 
+#include <type_traits>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <QIODevice>
 #include <QMutex>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QNetworkAccessManager>
@@ -42,8 +46,7 @@ QMutex ThreadSafeNetworkDiskCache::sMutex;
 ThreadSafeNetworkDiskCache *ThreadSafeNetworkDiskCache::sInstance = nullptr;
 QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;
 
-ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent)
-: QAbstractNetworkCache(parent) {
+ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent) : QAbstractNetworkCache(parent) {
 
   QMutexLocker l(&sMutex);
   if (!sCache) {

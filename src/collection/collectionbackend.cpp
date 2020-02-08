@@ -30,23 +30,20 @@
 #include <QMutex>
 #include <QSet>
 #include <QMap>
-#include <QByteArray>
-#include <QFileInfo>
-#include <QDateTime>
+#include <QVector>
 #include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
 #include <QUrl>
+#include <QFileInfo>
+#include <QDateTime>
+#include <QRegExp>
 #include <QSqlDatabase>
 #include <QSqlQuery>
-#include <QtDebug>
 
-#include "core/application.h"
 #include "core/database.h"
-#include "core/logging.h"
 #include "core/scopedtransaction.h"
-#include "core/utilities.h"
 
 #include "directory.h"
 #include "collectionbackend.h"

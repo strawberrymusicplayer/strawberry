@@ -24,7 +24,6 @@
 #include <assert.h>
 
 #include <QObject>
-#include <QApplication>
 #include <QThread>
 #include <QIODevice>
 #include <QDir>
@@ -50,7 +49,6 @@
 #include "core/logging.h"
 #include "core/tagreaderclient.h"
 #include "core/taskmanager.h"
-#include "core/utilities.h"
 #include "directory.h"
 #include "collectionbackend.h"
 #include "collectionwatcher.h"

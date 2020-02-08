@@ -49,6 +49,7 @@
 #include "collectionfilterwidget.h"
 #include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
+#include "widgets/qsearchfield.h"
 
 CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
     : QWidget(parent),

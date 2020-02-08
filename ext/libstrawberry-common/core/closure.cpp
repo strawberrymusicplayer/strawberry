@@ -22,7 +22,6 @@
 
 #include "closure.h"
 
-#include "core/logging.h"
 #include "core/timeconstants.h"
 
 namespace _detail {

@@ -24,6 +24,7 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <iostream>
+#include <type_traits>
 
 #include <QtGlobal>
 #include <QObject>

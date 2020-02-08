@@ -42,18 +42,19 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QHostAddress>
-#include <QPoint>
-#include <QRect>
-#include <QSize>
-#include <QMap>
-#include <QList>
 #include <QSet>
+#include <QList>
+#include <QMap>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QRegExp>
 #include <QTcpServer>
 #include <QTemporaryFile>
-#include <QUrl>
+#include <QPoint>
+#include <QRect>
+#include <QSize>
 #include <QMetaEnum>
 #include <QXmlStreamReader>
 #include <QSettings>
@@ -61,6 +62,8 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QtDebug>
+
+#include <stdio.h>
 
 #ifdef Q_OS_LINUX
 #  include <unistd.h>

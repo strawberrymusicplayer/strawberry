@@ -21,11 +21,14 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QStyleOptionViewItem>
 #include <QVariant>
 #include <QString>
 #include <QLocale>
+#include <QPixmap>
+#include <QIcon>
 #include <QPainter>
 #include <QPalette>
 #include <QPen>
@@ -34,8 +37,7 @@
 #include <QBrush>
 #include <QColor>
 #include <QFont>
-#include <QPixmap>
-#include <QIcon>
+#include <QPoint>
 #include <QLinearGradient>
 #include <QToolTip>
 #include <QWhatsThis>

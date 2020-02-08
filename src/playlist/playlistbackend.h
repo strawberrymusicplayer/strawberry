@@ -32,7 +32,6 @@
 #include <QList>
 #include <QSet>
 #include <QString>
-#include <QVector>
 #include <QSqlQuery>
 
 #include "core/song.h"

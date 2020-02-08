@@ -27,12 +27,13 @@
 
 #include "analyzerbase.h"
 
+#include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QPixmap>
 #include <QPainter>
 #include <QColor>
 
+class QWidget;
 class QResizeEvent;
 
 class BoomAnalyzer : public Analyzer::Base {

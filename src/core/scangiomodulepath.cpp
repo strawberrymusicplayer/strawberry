@@ -22,7 +22,6 @@
 
 #include <gio/gio.h>
 
-#include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
 #include <QByteArray>
@@ -32,6 +31,7 @@
 #include "core/logging.h"
 
 void ScanGIOModulePath() {
+
   QString gio_module_path;
 
 #if defined(Q_OS_WIN32)
@@ -43,4 +43,5 @@ void ScanGIOModulePath() {
     QByteArray bytes = gio_module_path.toLocal8Bit();
     g_io_modules_scan_all_in_directory(bytes.data());
   }
+
 }

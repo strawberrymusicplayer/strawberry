@@ -21,11 +21,11 @@
 
 #include "config.h"
 
-#include <unistd.h>
-
+#include <QtGlobal>
 #include <QObject>
 #include <QThread>
 #include <QList>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/database.h"
@@ -34,6 +34,7 @@
 #include "core/thread.h"
 #include "core/utilities.h"
 #include "core/song.h"
+#include "core/logging.h"
 #include "collection.h"
 #include "collectionwatcher.h"
 #include "collectionbackend.h"

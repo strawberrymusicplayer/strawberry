@@ -25,11 +25,12 @@
 
 #include <QDialog>
 #include <QObject>
-#include <QWidget>
-#include <QStandardItemModel>
 #include <QString>
 
 #include "collectionmodel.h"
+
+class QWidget;
+class QStandardItemModel;
 
 class CollectionFilterWidget;
 class Ui_SavedGroupingManager;

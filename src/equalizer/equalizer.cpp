@@ -41,8 +41,8 @@
 #include <QToolButton>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QBoxLayout>
 #include <QSettings>
-#include <QtEvents>
 
 #include "core/iconloader.h"
 #include "equalizer.h"

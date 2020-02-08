@@ -25,11 +25,13 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QHash>
 #include <QString>
-#include <QUrl>
 
 #include "core/song.h"
+
+class QThread;
 
 class Application;
 class Thread;

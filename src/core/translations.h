@@ -20,9 +20,10 @@
 #include "config.h"
 
 #include <QObject>
-#include <QTranslator>
 #include <QList>
 #include <QString>
+
+class QTranslator;
 
 class Translations : public QObject {
  public:

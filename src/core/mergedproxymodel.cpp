@@ -23,8 +23,11 @@
 #include <functional>
 #include <limits>
 
+#include <boost/multi_index/detail/ord_index_impl.hpp>
+
 #include <QObject>
 #include <QMimeData>
+#include <QList>
 #include <QStringList>
 #include <QtAlgorithms>
 #include <QAbstractItemModel>

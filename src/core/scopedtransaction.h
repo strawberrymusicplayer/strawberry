@@ -25,7 +25,7 @@
 
 #include <boost/noncopyable.hpp>
 
-#include <QSqlDatabase>
+class QSqlDatabase;
 
 // Opens a transaction on a database.
 // Rolls back the transaction if the object goes out of scope before Commit() is called.

@@ -26,11 +26,16 @@
 
 #include <cmath>
 
-#include <QObject>
 #include <QWidget>
 #include <QPixmap>
 #include <QPainter>
+#include <QPalette>
 #include <QColor>
+
+#include "engine/engine_fwd.h"
+#include "engine/enginebase.h"
+#include "fht.h"
+#include "analyzerbase.h"
 
 using Analyzer::Scope;
 

@@ -21,30 +21,32 @@
 
 #include "config.h"
 
+#include <memory>
 #include <functional>
 #include <algorithm>
 
 #include <QObject>
 #include <QtGlobal>
 #include <QtConcurrentRun>
-#include <QtAlgorithms>
+#include <QThread>
 #include <QMutex>
 #include <QFuture>
 #include <QDataStream>
 #include <QMimeData>
 #include <QIODevice>
-#include <QByteArray>
-#include <QVariant>
 #include <QList>
 #include <QSet>
 #include <QMap>
-#include <QChar>
-#include <QRegExp>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
+#include <QChar>
+#include <QRegExp>
 #include <QPixmapCache>
+#include <QNetworkDiskCache>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QtDebug>

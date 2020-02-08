@@ -41,6 +41,7 @@
 #include "rainbowanalyzer.h"
 
 #include "core/logging.h"
+#include "engine/enginebase.h"
 #include "engine/enginetype.h"
 
 const char *AnalyzerContainer::kSettingsGroup = "Analyzer";

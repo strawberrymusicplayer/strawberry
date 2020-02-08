@@ -21,7 +21,6 @@
 #include "config.h"
 
 #include <QVariant>
-#include <QString>
 #include <QUrl>
 
 #include "collectionplaylistitem.h"

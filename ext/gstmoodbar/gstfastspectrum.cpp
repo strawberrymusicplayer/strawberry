@@ -19,14 +19,16 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <QtGlobal>
+
 #include <cstring>
-#include <cmath>
+
+#include <glib.h>
 
 #include <gst/gst.h>
 #include <gst/audio/gstaudiofilter.h>
 
 #include <QMutex>
-#include <QMutexLocker>
 
 #include "gstfastspectrum.h"
 

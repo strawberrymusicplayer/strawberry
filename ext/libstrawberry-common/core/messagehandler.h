@@ -23,7 +23,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QThread>
-#include <QIODevice>
 #include <QBuffer>
 #include <QByteArray>
 #include <QMap>
@@ -32,6 +31,8 @@
 #include <QAbstractSocket>
 
 #include "core/messagereply.h"
+
+class QIODevice;
 
 #define QStringFromStdString(x) QString::fromUtf8(x.data(), x.size())
 #define DataCommaSizeFromQString(x) x.toUtf8().constData(), x.toUtf8().length()

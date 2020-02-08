@@ -31,7 +31,6 @@
 #include <QPainter>
 #include <QPalette>
 #include <QColor>
-#include <QtEvents>
 
 #include "analyzerbase.h"
 #include "fht.h"

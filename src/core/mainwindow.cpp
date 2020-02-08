@@ -23,12 +23,14 @@
 
 #include <memory>
 #include <functional>
+#include <algorithm>
 #include <cmath>
 
 #include <QMainWindow>
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
+#include <QThread>
 #include <QSystemTrayIcon>
 #include <QSortFilterProxyModel>
 #include <QByteArray>
@@ -47,7 +49,6 @@
 #include <QMimeData>
 #include <QPalette>
 #include <QTimer>
-#include <QtAlgorithms>
 #include <QKeySequence>
 #include <QMenu>
 #include <QAction>
@@ -56,7 +57,16 @@
 #include <QMessageBox>
 #include <QtEvents>
 #include <QSettings>
-#include <QtDebug>
+#include <QColor>
+#include <QFrame>
+#include <QItemSelectionModel>
+#include <QLabel>
+#include <QLayout>
+#include <QSize>
+#include <QSplitter>
+#include <QStackedWidget>
+#include <QTabBar>
+#include <QToolButton>
 
 #include "core/logging.h"
 #include "core/closure.h"
@@ -80,6 +90,7 @@
 #include "appearance.h"
 #include "engine/enginetype.h"
 #include "engine/enginebase.h"
+#include "engine/engine_fwd.h"
 #include "dialogs/errordialog.h"
 #include "dialogs/about.h"
 #include "dialogs/console.h"
@@ -94,7 +105,7 @@
 #include "widgets/osd.h"
 #include "widgets/trackslider.h"
 #include "context/contextview.h"
-#include "collection/collectionview.h"
+#include "context/contextalbumsview.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
@@ -138,11 +149,9 @@
 #  include "settings/tidalsettingspage.h"
 #endif
 #ifdef HAVE_QOBUZ
-#  include "qobuz/qobuzservice.h"
 #  include "settings/qobuzsettingspage.h"
 #endif
 #ifdef HAVE_SUBSONIC
-#  include "subsonic/subsonicservice.h"
 #  include "settings/subsonicsettingspage.h"
 #endif
 
@@ -150,6 +159,8 @@
 #include "internet/internetservice.h"
 #include "internet/internetsongsview.h"
 #include "internet/internettabsview.h"
+#include "internet/internetcollectionview.h"
+#include "internet/internetsearchview.h"
 
 #include "scrobbler/audioscrobbler.h"
 

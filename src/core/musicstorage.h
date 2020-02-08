@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <QtGlobal>
+
 #include <functional>
 #include <memory>
 

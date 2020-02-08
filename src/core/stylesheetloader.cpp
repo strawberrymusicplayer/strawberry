@@ -21,13 +21,16 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QWidget>
 #include <QIODevice>
+#include <QTextStream>
 #include <QFile>
 #include <QString>
 #include <QColor>
 #include <QPalette>
+#include <QEvent>
 #include <QtDebug>
 
 #include "core/logging.h"

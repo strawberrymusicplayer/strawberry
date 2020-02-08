@@ -24,18 +24,16 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QFuture>
 #include <QDataStream>
-#include <QList>
-#include <QMap>
 #include <QMetaType>
-#include <QMimeData>
 #include <QPair>
 #include <QSet>
+#include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -43,8 +41,6 @@
 #include <QImage>
 #include <QIcon>
 #include <QPixmap>
-#include <QNetworkDiskCache>
-#include <QSettings>
 
 #include "core/simpletreemodel.h"
 #include "core/song.h"
@@ -53,10 +49,12 @@
 #include "sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
+class QSettings;
+class QNetworkDiskCache;
+
 class Application;
 class CollectionBackend;
 class CollectionDirectoryModel;
-class CollectionItem;
 
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
