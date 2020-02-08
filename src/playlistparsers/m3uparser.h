@@ -23,19 +23,18 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
-#include <QIODevice>
 #include <QByteArray>
-#include <QDir>
 #include <QString>
 #include <QStringList>
+#include <QDir>
 
 #include "core/song.h"
 #include "parserbase.h"
 #include "playlist/playlist.h"
 
+class QIODevice;
 class CollectionBackendInterface;
 
 class M3UParser : public ParserBase {

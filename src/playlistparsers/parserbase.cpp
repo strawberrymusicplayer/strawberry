@@ -26,10 +26,11 @@
 #include <QRegExp>
 #include <QUrl>
 
-#include "collection/collectionbackend.h"
+#include "core/logging.h"
 #include "core/tagreaderclient.h"
-#include "parserbase.h"
+#include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
+#include "parserbase.h"
 
 ParserBase::ParserBase(CollectionBackendInterface *collection, QObject *parent)
     : QObject(parent), collection_(collection) {}

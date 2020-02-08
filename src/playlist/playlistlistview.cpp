@@ -20,13 +20,14 @@
 
 #include "config.h"
 
-
+#include <QAbstractItemModel>
 #include <QWidget>
 #include <QFlags>
 #include <QFont>
 #include <QPainter>
 #include <QPalette>
 #include <QRect>
+#include <QPaintEvent>
 
 #include "playlistlistview.h"
 

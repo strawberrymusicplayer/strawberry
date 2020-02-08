@@ -28,8 +28,13 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QWidget>
+#include <QAbstractItemDelegate>
+#include <QAbstractItemModel>
+#include <QStyleOptionViewItem>
+#include <QAbstractItemView>
+#include <QTreeView>
 #include <QList>
+#include <QByteArray>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
@@ -38,22 +43,18 @@
 #include <QStyle>
 #include <QStyleOption>
 #include <QProxyStyle>
-#include <QTreeView>
 #include <QPoint>
-#include <QTimer>
 #include <QBasicTimer>
-#include <QTimeLine>
 #include <QCommonStyle>
-#include <QPainter>
-#include <QAbstractItemDelegate>
-#include <QAbstractItemModel>
-#include <QStyleOptionViewItem>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "settings/appearancesettingspage.h"
 #include "playlist.h"
 
+class QWidget;
+class QTimer;
+class QTimeLine;
+class QPainter;
 class QEvent;
 class QShowEvent;
 class QContextMenuEvent;

@@ -24,11 +24,12 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
 #include <QString>
 
 #include "playlist.h"
+
+class QWidget;
 
 namespace Ui {
 class PlaylistSaveOptionsDialog;

@@ -26,9 +26,10 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QPaintEvent>
 
 #include "widgets/autoexpandingtreeview.h"
+
+class QPaintEvent;
 
 class PlaylistListView : public AutoExpandingTreeView {
   Q_OBJECT

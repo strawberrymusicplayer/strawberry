@@ -23,29 +23,31 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
-#include <QObject>
-#include <QWidget>
 #include <QMainWindow>
+#include <QObject>
 #include <QAbstractItemModel>
-#include <QNetworkAccessManager>
 #include <QList>
 #include <QListWidgetItem>
 #include <QMap>
 #include <QString>
 #include <QImage>
 #include <QIcon>
-#include <QAction>
-#include <QMenu>
-#include <QMimeData>
-#include <QProgressBar>
-#include <QPushButton>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "coversearchstatistics.h"
+
+class QWidget;
+class QMimeData;
+class QNetworkAccessManager;
+class QMenu;
+class QAction;
+class QProgressBar;
+class QPushButton;
+class QEvent;
+class QCloseEvent;
+class QShowEvent;
 
 class Application;
 class CollectionBackend;

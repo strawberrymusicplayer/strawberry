@@ -23,19 +23,17 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QIcon>
-#include <QTimer>
-#include <QTimeLine>
 #include <QSettings>
-#include <QAction>
-#include <QEvent>
-#include <QLabel>
-#include <QtEvents>
 
+class QTimer;
+class QTimeLine;
+class QLabel;
+class QAction;
+class QEvent;
 class QKeyEvent;
 class QResizeEvent;
 

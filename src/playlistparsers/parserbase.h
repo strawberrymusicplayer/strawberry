@@ -21,10 +21,8 @@
 #ifndef PARSERBASE_H
 #define PARSERBASE_H
 
-
 #include <QtGlobal>
 #include <QObject>
-#include <QIODevice>
 #include <QDir>
 #include <QByteArray>
 #include <QString>
@@ -35,6 +33,7 @@
 #include "core/song.h"
 #include "playlist/playlist.h"
 
+class QIODevice;
 class CollectionBackendInterface;
 
 class ParserBase : public QObject {

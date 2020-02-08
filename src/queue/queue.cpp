@@ -20,26 +20,26 @@
 
 #include "config.h"
 
+#include <memory>
 #include <algorithm>
 
 #include <QObject>
 #include <QIODevice>
 #include <QDataStream>
 #include <QBuffer>
-#include <QFlags>
 #include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QStringBuilder>
 #include <QMimeData>
-#include <QtAlgorithms>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
-#include <QPersistentModelIndex>
 
 #include "core/utilities.h"
+#include "core/song.h"
 #include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
 #include "queue.h"
 
 using std::stable_sort;

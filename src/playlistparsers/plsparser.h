@@ -21,9 +21,7 @@
 #ifndef PLSPARSER_H
 #define PLSPARSER_H
 
-
 #include <QObject>
-#include <QIODevice>
 #include <QDir>
 #include <QByteArray>
 #include <QString>
@@ -34,6 +32,7 @@
 #include "parserbase.h"
 #include "playlist/playlist.h"
 
+class QIODevice;
 class CollectionBackendInterface;
 
 class PLSParser : public ParserBase {

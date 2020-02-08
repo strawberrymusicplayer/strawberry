@@ -22,6 +22,7 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QList>
 #include <QUrl>
 #include <QUndoStack>

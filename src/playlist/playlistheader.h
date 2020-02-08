@@ -23,16 +23,16 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QList>
-#include <QtEvents>
 
 #include "widgets/stretchheaderview.h"
 
 class QMenu;
 class QAction;
+class QEvent;
+class QContextMenuEvent;
 
 class PlaylistView;
 

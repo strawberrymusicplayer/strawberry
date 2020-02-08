@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-
+#include <QAbstractItemModel>
 #include <QWidget>
 #include <QFlags>
 #include <QVariant>
@@ -29,8 +29,8 @@
 #include <QMenu>
 #include <QAction>
 #include <QActionGroup>
+#include <QEvent>
 #include <QContextMenuEvent>
-#include <QtEvents>
 
 #include "playlistheader.h"
 #include "playlistview.h"

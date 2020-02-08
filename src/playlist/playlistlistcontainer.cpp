@@ -22,26 +22,25 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QAction>
-#include <QList>
+#include <QStandardItemModel>
+#include <QAbstractItemModel>
+#include <QItemSelectionModel>
+#include <QSortFilterProxyModel>
 #include <QSet>
+#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QMenu>
 #include <QPixmap>
 #include <QPainter>
 #include <QIcon>
 #include <QSize>
-#include <QStandardItemModel>
-#include <QAbstractItemModel>
-#include <QItemSelectionModel>
-#include <QPersistentModelIndex>
-#include <QSortFilterProxyModel>
+#include <QMenu>
+#include <QAction>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QToolButton>
-#include <QtEvents>
+#include <QShowEvent>
+#include <QContextMenuEvent>
 
 #include "core/application.h"
 #include "core/iconloader.h"
@@ -53,7 +52,7 @@
 #include "playlistlistmodel.h"
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
-#include "collection/collectionmodel.h"
+#include "organise/organisedialog.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"

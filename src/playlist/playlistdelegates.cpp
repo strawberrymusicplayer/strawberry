@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QObject>
 #include <QWidget>
+#include <QThread>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QAbstractItemModel>

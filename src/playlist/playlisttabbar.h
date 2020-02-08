@@ -23,18 +23,16 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
 #include <QBasicTimer>
 #include <QList>
 #include <QString>
 #include <QIcon>
 #include <QTabBar>
-#include <QAction>
-#include <QMenu>
-#include <QtEvents>
 
+class QWidget;
+class QMenu;
+class QAction;
 class QEvent;
 class QContextMenuEvent;
 class QDragEnterEvent;

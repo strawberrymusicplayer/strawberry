@@ -22,11 +22,10 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QNetworkAccessManager>
 #include <QTimer>
 #include <QString>
-#include <QRegExp>
 #include <QImage>
-#include <QNetworkAccessManager>
 
 #include "core/network.h"
 #include "core/song.h"

@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QObject>
 #include <QItemSelectionModel>
 #include <QFuture>
@@ -34,6 +34,8 @@
 
 #include "core/song.h"
 #include "playlist.h"
+
+class QModelIndex;
 
 class Application;
 class CollectionBackend;

@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QAbstractItemView>
@@ -41,6 +40,7 @@
 #include <QPainter>
 #include <QRect>
 #include <QColor>
+#include <QRgb>
 #include <QSize>
 #include <QFont>
 #include <QString>
@@ -50,6 +50,7 @@
 #include <QLineEdit>
 
 #include "playlist.h"
+#include "core/song.h"
 
 class CollectionBackend;
 class Player;

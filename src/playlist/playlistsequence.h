@@ -30,8 +30,9 @@
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
-#include <QAction>
-#include <QMenu>
+
+class QMenu;
+class QAction;
 
 class SettingsProvider;
 class Ui_PlaylistSequence;

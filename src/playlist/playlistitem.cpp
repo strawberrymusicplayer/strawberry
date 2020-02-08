@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QString>

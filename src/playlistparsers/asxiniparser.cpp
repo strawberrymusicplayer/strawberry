@@ -18,6 +18,7 @@
  *
  */
 
+#include <QtGlobal>
 #include <QObject>
 #include <QIODevice>
 #include <QByteArray>

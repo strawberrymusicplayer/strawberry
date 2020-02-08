@@ -22,17 +22,17 @@
 #define ASXINIPARSER_H
 
 #include <QObject>
-#include <QIODevice>
 #include <QByteArray>
-#include <QDir>
 #include <QString>
 #include <QStringList>
+#include <QDir>
 
 #include "config.h"
 #include "core/song.h"
 #include "parserbase.h"
 #include "playlist/playlist.h"
 
+class QIODevice;
 class CollectionBackendInterface;
 
 class AsxIniParser : public ParserBase {

@@ -33,7 +33,6 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
-#include <QtAlgorithms>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QIODevice>
@@ -48,18 +47,17 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QColor>
 #include <QFont>
 #include <QBrush>
 #include <QLinkedList>
 #include <QUndoStack>
 #include <QUndoCommand>
 #include <QAbstractListModel>
-#include <QPersistentModelIndex>
 #include <QMutableListIterator>
 #include <QMutableLinkedListIterator>
 #include <QFlags>
 #include <QSettings>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"
@@ -85,7 +83,6 @@
 #include "songplaylistitem.h"
 #include "tagreadermessages.pb.h"
 
-#include "internet/internetservices.h"
 #include "internet/internetplaylistitem.h"
 #include "internet/internetsongmimedata.h"
 

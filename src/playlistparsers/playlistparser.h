@@ -22,7 +22,6 @@
 #define PLAYLISTPARSER_H
 
 #include <QObject>
-#include <QIODevice>
 #include <QDir>
 #include <QByteArray>
 #include <QList>
@@ -33,6 +32,7 @@
 #include "core/song.h"
 #include "playlist/playlist.h"
 
+class QIODevice;
 class CollectionBackendInterface;
 class ParserBase;
 

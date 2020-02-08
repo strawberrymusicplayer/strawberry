@@ -23,12 +23,11 @@
 
 #include "config.h"
 
-
-#include <QMap>
 #include <QSet>
+#include <QMap>
 #include <QString>
-#include <QAbstractItemModel>
 
+class QAbstractItemModel;
 class QModelIndex;
 
 // structure for filter parse tree

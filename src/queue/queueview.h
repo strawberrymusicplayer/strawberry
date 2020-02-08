@@ -25,7 +25,6 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QDialog>
 #include <QString>
 
 class Playlist;

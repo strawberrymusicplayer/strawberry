@@ -27,6 +27,7 @@
 #include <QListView>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QStringList>
 #include <QMimeData>
 #include <QUrl>
 #include <QDropEvent>

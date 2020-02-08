@@ -27,7 +27,6 @@
 #include <memory>
 
 #include <QFuture>
-#include <QFlags>
 #include <QMetaType>
 #include <QList>
 #include <QMap>
@@ -36,11 +35,11 @@
 #include <QString>
 #include <QUrl>
 #include <QColor>
-#include <QVector>
-#include <QAction>
-#include <QSqlQuery>
 
 #include "core/song.h"
+
+class QSqlQuery;
+class QAction;
 
 class SqlRow;
 

@@ -23,20 +23,19 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
-#include <QQueue>
-#include <QTimer>
 #include <QMetaType>
-#include <QHash>
-#include <QList>
 #include <QSet>
+#include <QList>
+#include <QHash>
+#include <QQueue>
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QNetworkAccessManager>
 
+class QTimer;
+class QNetworkAccessManager;
 class CoverProviders;
 class AlbumCoverFetcherSearch;
 struct CoverSearchStatistics;

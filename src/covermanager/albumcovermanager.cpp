@@ -29,12 +29,9 @@
 #include <QWidget>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
-#include <QAction>
-#include <QActionGroup>
+#include <QNetworkAccessManager>
 #include <QFile>
-#include <QMenu>
 #include <QSet>
-#include <QTimer>
 #include <QVariant>
 #include <QString>
 #include <QStringBuilder>
@@ -43,7 +40,10 @@
 #include <QImage>
 #include <QPixmap>
 #include <QPainter>
-#include <QNetworkAccessManager>
+#include <QTimer>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
 #include <QShortcut>
 #include <QSplitter>
 #include <QStatusBar>
@@ -54,9 +54,10 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QKeySequence>
-#include <QtAlgorithms>
-#include <QtEvents>
 #include <QSettings>
+#include <QFlags>
+#include <QSize>
+#include <QtEvents>
 
 #include "core/application.h"
 #include "core/iconloader.h"

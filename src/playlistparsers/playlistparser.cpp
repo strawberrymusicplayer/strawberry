@@ -18,6 +18,8 @@
  *
  */
 
+#include <algorithm>
+
 #include <QObject>
 #include <QIODevice>
 #include <QDir>
@@ -27,7 +29,6 @@
 #include <QString>
 #include <QStringBuilder>
 #include <QStringList>
-#include <QtAlgorithms>
 #include <QtDebug>
 
 #include "asxiniparser.h"

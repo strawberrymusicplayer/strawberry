@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QMap>
@@ -31,8 +30,6 @@
 #include <QScopedPointer>
 #include <QString>
 #include <QSortFilterProxyModel>
-
-#include "playlist.h"
 
 class FilterTree;
 

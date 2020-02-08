@@ -24,14 +24,14 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QList>
 #include <QListWidget>
-#include <QListWidgetItem>
 #include <QString>
-#include <QMimeData>
-#include <QDropEvent>
 
+class QWidget;
+class QMimeData;
+class QListWidgetItem;
+class QDropEvent;
 class AlbumCoverManager;
 
 class AlbumCoverManagerList : public QListWidget {

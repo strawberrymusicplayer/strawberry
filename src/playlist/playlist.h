@@ -24,29 +24,30 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QAbstractListModel>
-#include <QSortFilterProxyModel>
 #include <QPersistentModelIndex>
 #include <QFuture>
 #include <QList>
 #include <QMap>
 #include <QMetaType>
-#include <QMimeData>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QColor>
-#include <QUndoStack>
+#include <QRgb>
 
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "playlistitem.h"
 #include "playlistsequence.h"
+
+class QMimeData;
+class QSortFilterProxyModel;
+class QUndoStack;
 
 class CollectionBackend;
 class PlaylistBackend;

@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QCoreApplication>
 #include <QList>
 #include <QUndoStack>

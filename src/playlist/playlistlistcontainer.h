@@ -23,24 +23,26 @@
 
 #include "config.h"
 
+#include <memory>
 
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QIcon>
-#include <QAction>
-#include <QMenu>
-#include <QSortFilterProxyModel>
-#include <QStandardItem>
-#include <QtEvents>
 
-#include <organise/organisedialog.h>
+class QStandardItem;
+class QSortFilterProxyModel;
+class QMenu;
+class QAction;
+class QContextMenuEvent;
+class QShowEvent;
 
 class QModelIndex;
 class Application;
 class Playlist;
 class PlaylistListModel;
 class Ui_PlaylistListContainer;
+class OrganiseDialog;
 
 class PlaylistListContainer : public QWidget {
   Q_OBJECT

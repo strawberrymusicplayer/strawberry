@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <QString>
 #include <QUrl>
 
 #include "core/song.h"
@@ -52,4 +51,4 @@ class SongPlaylistItem : public PlaylistItem {
   Song song_;
 };
 
-#endif // SONGPLAYLISTITEM_H
+#endif  // SONGPLAYLISTITEM_H

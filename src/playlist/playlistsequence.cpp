@@ -21,12 +21,13 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QMenu>
-#include <QSize>
+#include <QList>
 #include <QVariant>
 #include <QIcon>
 #include <QPixmap>
 #include <QPainter>
+#include <QMenu>
+#include <QSize>
 #include <QAction>
 #include <QActionGroup>
 #include <QToolButton>
