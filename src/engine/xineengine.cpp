@@ -39,6 +39,7 @@
 
 #include <QtGlobal>
 #include <QMutex>
+#include <QCoreApplication>
 #include <QByteArray>
 #include <QChar>
 #include <QFileInfo>
