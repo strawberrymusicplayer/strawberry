@@ -19,10 +19,10 @@
 
 #include "config.h"
 
-#include <algorithm>
-#include <functional>
-
+#include <QtGlobal>
 #include <QObject>
+#include <QPair>
+#include <QSet>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
@@ -36,11 +36,13 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"
 #include "core/network.h"
 #include "core/logging.h"
+#include "core/song.h"
 #include "albumcoverfetcher.h"
 #include "coverprovider.h"
 #include "deezercoverprovider.h"

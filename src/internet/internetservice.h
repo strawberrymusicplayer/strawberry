@@ -20,15 +20,17 @@
 #ifndef INTERNETSERVICE_H
 #define INTERNETSERVICE_H
 
+#include <QtGlobal>
 #include <QObject>
+#include <QMetaType>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
-#include <QSortFilterProxyModel>
 
 #include "core/song.h"
 #include "internetsearch.h"
 
+class QSortFilterProxyModel;
 class Application;
 class CollectionBackend;
 class CollectionModel;

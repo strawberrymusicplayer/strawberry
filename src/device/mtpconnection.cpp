@@ -22,7 +22,9 @@
 #include "config.h"
 
 #include <stdlib.h>
+#include <stdint.h>
 
+#include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QRegExp>

@@ -22,18 +22,19 @@
 #ifndef FANCYTABWIDGET_H
 #define FANCYTABWIDGET_H
 
-#include <memory>
-
+#include <QObject>
 #include <QTabWidget>
 #include <QMap>
 #include <QString>
 #include <QIcon>
 #include <QPixmap>
 #include <QSize>
-#include <QtEvents>
+#include <QColor>
 
 class QMenu;
 class QActionGroup;
+class QContextMenuEvent;
+class QPaintEvent;
 class TabData;
 
 namespace Core {

@@ -23,11 +23,7 @@
 
 #include "config.h"
 
-
-#include <QtGlobal>
 #include <QObject>
-#include <QPair>
-#include <QHash>
 #include <QString>
 
 class GlobalShortcuts;

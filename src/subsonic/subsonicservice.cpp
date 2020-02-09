@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
 #include <QPair>
@@ -28,14 +29,18 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QSslConfiguration>
+#include <QSslSocket>
 #include <QSslError>
-#include <QJsonParseError>
+#include <QJsonValue>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
 #include <QSortFilterProxyModel>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -44,12 +49,12 @@
 #include "core/network.h"
 #include "core/database.h"
 #include "core/song.h"
-#include "internet/internetsearch.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
+#include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
 using std::shared_ptr;

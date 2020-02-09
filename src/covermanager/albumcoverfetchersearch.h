@@ -23,19 +23,18 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
-#include <QMap>
 #include <QPair>
+#include <QMap>
 #include <QString>
+#include <QUrl>
 #include <QImage>
-#include <QNetworkAccessManager>
 
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
 
+class QNetworkAccessManager;
 class QNetworkReply;
 class CoverProvider;
 class CoverProviders;

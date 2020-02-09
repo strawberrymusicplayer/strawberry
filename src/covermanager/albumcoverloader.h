@@ -24,24 +24,22 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
-#include <QQueue>
-#include <QMap>
 #include <QSet>
+#include <QMap>
+#include <QQueue>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
-#include <QNetworkReply>
 
 #include "core/song.h"
 #include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
 
 class QThread;
-class Song;
+class QNetworkReply;
 class NetworkAccessManager;
 
 class AlbumCoverLoader : public QObject {
@@ -117,7 +115,7 @@ class AlbumCoverLoader : public QObject {
 
   QMutex mutex_;
   QQueue<Task> tasks_;
-  QMap<QNetworkReply *, Task> remote_tasks_;
+  QMap<QNetworkReply*, Task> remote_tasks_;
   quint64 next_id_;
 
   NetworkAccessManager *network_;

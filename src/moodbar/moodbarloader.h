@@ -19,15 +19,16 @@
 #define MOODBARLOADER_H
 
 #include <QObject>
-#include <QThread>
 #include <QList>
 #include <QMap>
 #include <QSet>
-#include <QByteArray>
+#include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkDiskCache>
 
+class QThread;
+class QByteArray;
+class QNetworkDiskCache;
 class Application;
 class MoodbarPipeline;
 

@@ -20,14 +20,12 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QPixmap>
 #include <QRect>
 #include <QSize>
-#include <QtEvents>
 
 class QMouseEvent;
 class QPaintEvent;

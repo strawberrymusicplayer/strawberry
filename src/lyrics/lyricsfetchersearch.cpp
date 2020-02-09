@@ -19,16 +19,11 @@
 
 #include "config.h"
 
-#include <algorithm>
-#include <cmath>
-
 #include <QObject>
-#include <QtAlgorithms>
 #include <QTimer>
 #include <QList>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"

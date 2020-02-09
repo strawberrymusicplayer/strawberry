@@ -24,22 +24,24 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QSet>
 #include <QList>
 #include <QMap>
-#include <QSet>
 #include <QString>
+#include <QUrl>
 #include <QImage>
-#include <QAction>
-#include <QFileDialog>
-#include <QtEvents>
 
+#include "core/song.h"
 #include "settings/collectionsettingspage.h"
 
-class Song;
+class QFileDialog;
+class QAction;
+class QDragEnterEvent;
+class QDropEvent;
+
 class Application;
 class AlbumCoverFetcher;
 class AlbumCoverSearcher;

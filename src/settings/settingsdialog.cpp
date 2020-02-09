@@ -20,13 +20,18 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QDialog>
+#include <QWidget>
 #include <QScreen>
 #include <QWindow>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QTreeWidget>
+#include <QList>
+#include <QVariant>
 #include <QString>
+#include <QIcon>
 #include <QPainter>
 #include <QFrame>
 #include <QKeySequence>
@@ -36,11 +41,13 @@
 #include <QScrollArea>
 #include <QComboBox>
 #include <QPushButton>
+#include <QLabel>
+#include <QLayout>
+#include <QStackedWidget>
+#include <QSettings>
 
 #include "core/application.h"
 #include "core/player.h"
-#include "core/logging.h"
-#include "engine/enginebase.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
 

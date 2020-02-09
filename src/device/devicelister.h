@@ -26,12 +26,13 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QThread>
 #include <QList>
 #include <QMetaType>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+
+class QThread;
 
 class DeviceLister : public QObject {
   Q_OBJECT

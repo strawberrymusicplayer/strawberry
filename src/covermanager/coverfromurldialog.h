@@ -24,10 +24,11 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
 #include <QString>
 #include <QImage>
+
+class QWidget;
 
 class NetworkAccessManager;
 class Ui_CoverFromURLDialog;

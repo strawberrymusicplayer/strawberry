@@ -15,6 +15,7 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <algorithm>
 #include <cmath>
 
 #include <QList>

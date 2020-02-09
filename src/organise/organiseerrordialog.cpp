@@ -25,9 +25,9 @@
 
 #include <QWidget>
 #include <QDialog>
-#include <QtAlgorithms>
 #include <QIcon>
 #include <QStyle>
+#include <QList>
 #include <QStringList>
 #include <QUrl>
 #include <QLabel>

@@ -32,6 +32,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QKeySequence>
+#include <QTextBrowser>
 
 #include "about.h"
 #include "ui_about.h"

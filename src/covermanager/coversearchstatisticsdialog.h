@@ -25,9 +25,10 @@
 
 #include <QObject>
 #include <QDialog>
-#include <QWidget>
 #include <QString>
-#include <QBoxLayout>
+
+class QWidget;
+class QVBoxLayout;
 
 class Ui_CoverSearchStatisticsDialog;
 struct CoverSearchStatistics;

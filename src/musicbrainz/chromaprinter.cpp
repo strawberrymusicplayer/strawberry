@@ -34,7 +34,6 @@
 #include <QIODevice>
 #include <QBuffer>
 #include <QByteArray>
-#include <QDateTime>
 #include <QString>
 #include <QElapsedTimer>
 #include <QtDebug>

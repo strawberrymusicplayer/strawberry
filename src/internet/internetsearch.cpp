@@ -29,17 +29,16 @@
 #include <QStringList>
 #include <QStringBuilder>
 #include <QUrl>
+#include <QRegExp>
 #include <QImage>
 #include <QPixmap>
-#include <QIcon>
 #include <QPainter>
+#include <QSize>
 #include <QTimerEvent>
-#include <QSettings>
 
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/song.h"
-#include "playlist/songmimedata.h"
+#include "core/mimedata.h"
 #include "covermanager/albumcoverloader.h"
 #include "internet/internetsongmimedata.h"
 #include "internetsearch.h"

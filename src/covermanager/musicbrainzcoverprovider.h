@@ -22,18 +22,16 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QJsonObject>
 
 #include "coverprovider.h"
-#include "albumcoverfetcher.h"
 
+class QNetworkAccessManager;
+class QNetworkReply;
 class Application;
 
 class MusicbrainzCoverProvider : public CoverProvider {

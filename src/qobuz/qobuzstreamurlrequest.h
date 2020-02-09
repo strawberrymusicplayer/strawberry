@@ -22,7 +22,9 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>

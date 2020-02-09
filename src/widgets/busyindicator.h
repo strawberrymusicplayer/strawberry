@@ -23,17 +23,18 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QMovie>
-#include <QLabel>
-#include <QtEvents>
 
+class QMovie;
+class QLabel;
 class QShowEvent;
 class QHideEvent;
 
 class BusyIndicator : public QWidget {
   Q_OBJECT
+
   Q_PROPERTY(QString text READ text WRITE set_text)
 
  public:

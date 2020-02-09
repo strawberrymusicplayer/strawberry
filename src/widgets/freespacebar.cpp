@@ -39,7 +39,6 @@
 #include <QSize>
 #include <QTransform>
 #include <QLinearGradient>
-#include <QtEvents>
 
 #include "core/utilities.h"
 #include "freespacebar.h"
@@ -78,7 +77,7 @@ QSize FreeSpaceBar::sizeHint() const {
   return QSize(150, kBarHeight + kLabelBoxPadding + fontMetrics().height());
 }
 
-void FreeSpaceBar::paintEvent(QPaintEvent *) {
+void FreeSpaceBar::paintEvent(QPaintEvent*) {
 
   // Geometry
   QRect bar_rect(rect());

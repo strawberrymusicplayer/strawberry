@@ -28,6 +28,7 @@
 #include <libmtp.h>
 
 #include <QtGlobal>
+#include <QObject>
 #include <QList>
 #include <QUrl>
 

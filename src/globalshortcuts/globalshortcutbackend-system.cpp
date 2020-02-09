@@ -23,9 +23,10 @@
 
 #include "core/logging.h"
 
-#include <QtGlobal>
 #include <QObject>
+#include <QMap>
 #include <QAction>
+#include <QKeySequence>
 #include <QtAlgorithms>
 
 #include "globalshortcuts.h"

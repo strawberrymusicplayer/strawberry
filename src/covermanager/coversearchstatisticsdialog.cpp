@@ -22,14 +22,15 @@
 
 #include <algorithm>
 
+#include <QtGlobal>
 #include <QWidget>
+#include <QList>
 #include <QMap>
 #include <QString>
 #include <QStringList>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QFrame>
-#include <QtAlgorithms>
 
 #include "core/utilities.h"
 #include "coversearchstatistics.h"

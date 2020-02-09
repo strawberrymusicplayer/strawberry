@@ -31,8 +31,8 @@
 #include <QObject>
 #include <QMutex>
 #include <QThread>
-#include <QEvent>
 #include <QList>
+#include <QVariant>
 #include <QString>
 #include <QUrl>
 

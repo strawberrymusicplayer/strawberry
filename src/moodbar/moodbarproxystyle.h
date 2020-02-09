@@ -18,18 +18,29 @@
 #ifndef MOODBARPROXYSTYLE_H
 #define MOODBARPROXYSTYLE_H
 
+#include <QtGlobal>
+#include <QObject>
 #include <QProxyStyle>
-#include <QTimeLine>
 #include <QByteArray>
+#include <QString>
 #include <QPixmap>
-#include <QPainter>
-#include <QSlider>
-#include <QMenu>
-#include <QActionGroup>
-#include <QStyleOptionSlider>
-#include <QEvent>
+#include <QPalette>
+#include <QRect>
+#include <QPoint>
+#include <QStyle>
 
 #include "moodbarrenderer.h"
+
+class QAction;
+class QActionGroup;
+class QMenu;
+class QPainter;
+class QSlider;
+class QStyleOptionComplex;
+class QStyleOptionSlider;
+class QTimeLine;
+class QWidget;
+class QEvent;
 
 class Application;
 

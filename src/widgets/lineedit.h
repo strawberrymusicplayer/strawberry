@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -31,15 +30,14 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QSpinBox>
-#include <QToolButton>
-#include <QPaintDevice>
-#include <QtEvents>
 
+class QToolButton;
+class QPaintDevice;
 class QPaintEvent;
 class QResizeEvent;
 
 class LineEditInterface {
-public:
+ public:
   LineEditInterface(QWidget *widget) : widget_(widget) {}
 
   QWidget *widget() const { return widget_; }
@@ -62,7 +60,7 @@ protected:
 };
 
 class ExtendedEditor : public LineEditInterface {
-public:
+ public:
   ExtendedEditor(QWidget *widget, int extra_right_padding = 0, bool draw_hint = true);
   virtual ~ExtendedEditor() {}
 
@@ -81,14 +79,14 @@ public:
   qreal font_point_size() const { return font_point_size_; }
   void set_font_point_size(qreal size) { font_point_size_ = size; }
 
-protected:
+ protected:
   void Paint(QPaintDevice *device);
   void Resize();
 
-private:
+ private:
   void UpdateButtonGeometry();
 
-protected:
+ protected:
   QString hint_;
 
   bool has_clear_button_;
@@ -118,7 +116,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   void set_text(const QString& text) { QLineEdit::setText(text); }
   void set_enabled(bool enabled) { QLineEdit::setEnabled(enabled); }
 
-protected:
+ protected:
   void paintEvent(QPaintEvent*);
   void resizeEvent(QResizeEvent*);
 
@@ -129,7 +127,7 @@ protected:
  private slots:
   void text_changed(const QString& text);
 
-signals:
+ signals:
   void Reset();
 };
 
@@ -148,11 +146,11 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   void set_text(const QString& text) { QPlainTextEdit::setPlainText(text); }
   void set_enabled(bool enabled) { QPlainTextEdit::setEnabled(enabled); }
 
-protected:
+ protected:
   void paintEvent(QPaintEvent*);
   void resizeEvent(QResizeEvent*);
 
-signals:
+ signals:
   void Reset();
 };
 
@@ -175,11 +173,11 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   void set_text(const QString& text) { QSpinBox::setValue(text.toInt()); }
   void set_enabled(bool enabled) { QSpinBox::setEnabled(enabled); }
 
-protected:
+ protected:
   void paintEvent(QPaintEvent*);
   void resizeEvent(QResizeEvent*);
 
-signals:
+ signals:
   void Reset();
 };
 

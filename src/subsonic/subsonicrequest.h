@@ -27,21 +27,24 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
+#include <QSet>
 #include <QList>
 #include <QHash>
+#include <QMap>
 #include <QMultiMap>
 #include <QQueue>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkReply>
+#include <QNetworkAccessManager>
 #include <QJsonObject>
 
 #include "core/song.h"
 #include "subsonicbaserequest.h"
 
+class QNetworkReply;
 class Application;
-class NetworkAccessManager;
 class SubsonicService;
 class SubsonicUrlHandler;
 

@@ -17,15 +17,18 @@
 
 #include "moodbarpipeline.h"
 
+#include <stdlib.h>
+#include <glib-object.h>
+
 #include <QObject>
 #include <QCoreApplication>
 #include <QThread>
 #include <QString>
 #include <QUrl>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
-#include "core/timeconstants.h"
 #include "core/utilities.h"
 #include "moodbar/moodbarbuilder.h"
 

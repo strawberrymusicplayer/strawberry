@@ -22,18 +22,20 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 
 #include "core/song.h"
+#include "tidalservice.h"
 #include "tidalbaserequest.h"
 #include "settings/tidalsettingspage.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
-class TidalService;
 
 class TidalStreamURLRequest : public TidalBaseRequest {
   Q_OBJECT

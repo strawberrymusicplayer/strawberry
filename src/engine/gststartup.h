@@ -24,7 +24,6 @@
 
 #include <gst/gst.h>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QFuture>
 

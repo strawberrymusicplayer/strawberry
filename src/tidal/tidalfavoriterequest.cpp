@@ -19,9 +19,11 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QPair>
 #include <QList>
+#include <QMap>
 #include <QMultiMap>
 #include <QByteArray>
 #include <QString>
@@ -30,7 +32,7 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonObject>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/network.h"

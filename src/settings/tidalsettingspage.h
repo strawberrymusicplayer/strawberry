@@ -22,11 +22,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QEvent>
 
 #include "settings/settingspage.h"
 
+class QEvent;
 class TidalService;
+class SettingsDialog;
 class Ui_TidalSettingsPage;
 
 class TidalSettingsPage : public SettingsPage {

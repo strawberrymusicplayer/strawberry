@@ -24,20 +24,21 @@
 #include <algorithm>
 
 #include <QObject>
-#include <QList>
 #include <QSet>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QRegExp>
 #include <QtAlgorithms>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonDocument>
+#include <QJsonValue>
 #include <QJsonObject>
 #include <QXmlStreamReader>
 #include <QTimer>

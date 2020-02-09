@@ -35,12 +35,10 @@
 #include <QVector>
 #include <QPoint>
 #include <QPolygon>
-#include <QtEvents>
+#include <QPaintEvent>
 
 #include "core/qt_blurimage.h"
 #include "tracksliderpopup.h"
-
-class QPaintEvent;
 
 const int TrackSliderPopup::kTextMargin = 4;
 const int TrackSliderPopup::kPointLength = 16;

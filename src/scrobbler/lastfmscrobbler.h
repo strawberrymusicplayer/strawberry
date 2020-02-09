@@ -22,13 +22,11 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
 
 #include "core/song.h"
-#include "scrobblerservice.h"
 #include "scrobblingapi20.h"
 
 class Application;

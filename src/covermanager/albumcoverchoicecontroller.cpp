@@ -28,14 +28,13 @@
 #include <QWidget>
 #include <QDialog>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
-#include <QList>
-#include <QSet>
 #include <QMimeData>
-#include <QByteArray>
+#include <QSet>
+#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QRegExp>
 #include <QUrl>
 #include <QImage>
@@ -43,12 +42,12 @@
 #include <QPixmap>
 #include <QIcon>
 #include <QRect>
-#include <QAction>
 #include <QFileDialog>
 #include <QLabel>
+#include <QAction>
+#include <QSettings>
 #include <QtEvents>
 
-#include "core/utilities.h"
 #include "core/song.h"
 #include "core/iconloader.h"
 #include "core/application.h"

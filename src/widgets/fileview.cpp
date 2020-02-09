@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-
 #include <QWidget>
 #include <QUndoStack>
 #include <QDir>

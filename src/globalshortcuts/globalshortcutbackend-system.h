@@ -24,15 +24,13 @@
 
 #include "core/logging.h"
 
-
 #include <QObject>
-#include <QtGlobal>
-#include <QAction>
 #include <QList>
-#include <QKeySequence>
+#include <QString>
 
 #include "globalshortcutbackend.h"
 
+class QAction;
 class GlobalShortcuts;
 class GlobalShortcut;
 

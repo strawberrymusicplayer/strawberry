@@ -30,7 +30,6 @@
 #include <QMutex>
 #include <QList>
 #include <QMap>
-#include <QMetaType>
 #include <QReadWriteLock>
 #include <QString>
 #include <QStringList>

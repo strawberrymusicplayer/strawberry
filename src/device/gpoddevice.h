@@ -27,7 +27,6 @@
 
 #include <QObject>
 #include <QMutex>
-#include <QThread>
 #include <QWaitCondition>
 #include <QList>
 #include <QString>
@@ -39,6 +38,7 @@
 #include "connecteddevice.h"
 #include "gpodloader.h"
 
+class QThread;
 class Application;
 class DeviceLister;
 class DeviceManager;

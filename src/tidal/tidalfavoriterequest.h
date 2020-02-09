@@ -24,8 +24,8 @@
 
 #include <QObject>
 #include <QList>
+#include <QVariant>
 #include <QString>
-#include <QStringList>
 
 #include "tidalbaserequest.h"
 #include "core/song.h"

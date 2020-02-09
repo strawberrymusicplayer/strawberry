@@ -21,16 +21,17 @@
 #include "config.h"
 
 #include <QStandardItemModel>
+#include <QSortFilterProxyModel>
 #include <QMimeData>
 #include <QList>
 #include <QSet>
 #include <QVariant>
 #include <QString>
 #include <QPixmap>
+#include <QSize>
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "internetsearch.h"
 #include "internetsearchmodel.h"
 

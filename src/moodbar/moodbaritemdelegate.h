@@ -26,9 +26,16 @@
 #include <QFuture>
 #include <QSet>
 #include <QByteArray>
+#include <QString>
 #include <QUrl>
-#include <QPainter>
+#include <QImage>
+#include <QPixmap>
+#include <QSize>
+#include <QStyleOption>
 
+class QPainter;
+class QModelIndex;
+class QPersistentModelIndex;
 class Application;
 class MoodbarPipeline;
 class PlaylistView;

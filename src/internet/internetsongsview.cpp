@@ -25,12 +25,17 @@
 #include <QStackedWidget>
 #include <QContextMenuEvent>
 #include <QSortFilterProxyModel>
+#include <QLabel>
+#include <QProgressBar>
+#include <QPushButton>
 
 #include "core/application.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
 #include "internetservice.h"
 #include "internetsongsview.h"
+#include "internetcollectionview.h"
 #include "ui_internetcollectionviewcontainer.h"
 
 InternetSongsView::InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)

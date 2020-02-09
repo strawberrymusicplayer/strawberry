@@ -25,11 +25,10 @@
 
 #include <QObject>
 #include <QString>
-#include <QAction>
-#include <QtEvents>
 
 #include "settingspage.h"
 
+class QAction;
 class QHideEvent;
 class QShowEvent;
 

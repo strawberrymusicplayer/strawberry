@@ -22,11 +22,10 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QMap>
+#include <QString>
 
 #include "lyricsfetcher.h"
 

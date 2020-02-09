@@ -22,16 +22,17 @@
 #ifndef LOCALREDIRECTSERVER_H
 #define LOCALREDIRECTSERVER_H
 
+#include <QtGlobal>
 #include <QByteArray>
 #include <QObject>
-#include <QSslCertificate>
-#include <QSslKey>
-#include <QTcpServer>
-#include <QAbstractSocket>
-#include <QTcpSocket>
-#include <QSslSocket>
+#include <QList>
 #include <QString>
 #include <QUrl>
+#include <QTcpServer>
+#include <QSslCertificate>
+#include <QSslKey>
+
+class QAbstractSocket;
 
 class LocalRedirectServer : public QTcpServer {
   Q_OBJECT

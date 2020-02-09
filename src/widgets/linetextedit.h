@@ -24,12 +24,11 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QSize>
 #include <QString>
 #include <QTextEdit>
-#include <QtEvents>
 
+class QWidget;
 class QKeyEvent;
 
 class LineTextEdit : public QTextEdit {

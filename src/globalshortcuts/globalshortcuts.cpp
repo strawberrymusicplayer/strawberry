@@ -34,8 +34,6 @@
 #include <QX11Info>
 #endif
 
-#include "core/logging.h"
-
 #include "globalshortcuts.h"
 #include "globalshortcutbackend.h"
 

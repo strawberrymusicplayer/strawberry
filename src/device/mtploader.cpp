@@ -28,10 +28,7 @@
 
 #include "core/taskmanager.h"
 #include "core/song.h"
-#include "core/logging.h"
 #include "collection/collectionbackend.h"
-#include "connecteddevice.h"
-#include "mtpdevice.h"
 #include "mtpconnection.h"
 #include "mtploader.h"
 

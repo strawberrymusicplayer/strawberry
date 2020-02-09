@@ -24,11 +24,10 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
+#include <QObject>
 #include <QWidget>
 #include <QMap>
-#include <QScreen>
 #include <QString>
 #include <QImage>
 #include <QPixmap>
@@ -36,8 +35,9 @@
 #include <QFont>
 #include <QPoint>
 #include <QRect>
-#include <QtEvents>
+#include <QRgb>
 
+class QScreen;
 class QTimer;
 class QTimeLine;
 class QEvent;

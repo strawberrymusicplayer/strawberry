@@ -23,12 +23,11 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
 #include <QString>
 
+class QWidget;
 class Ui_AlbumCoverExport;
 
 // Controller for the "Export covers" dialog.

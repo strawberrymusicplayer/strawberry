@@ -24,12 +24,12 @@
 #include "config.h"
 
 #include <QObject>
-#include <QThreadPool>
 #include <QQueue>
 #include <QString>
 
 #include "albumcoverexport.h"
 
+class QThreadPool;
 class Song;
 class CoverExportRunnable;
 

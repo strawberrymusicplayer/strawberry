@@ -21,12 +21,13 @@
 
 #include "config.h"
 
-#include <stddef.h>
 #include <vlc/vlc.h>
 
 #include <QtGlobal>
+#include <QVariant>
 #include <QByteArray>
 #include <QUrl>
+#include <QtDebug>
 
 #include "core/timeconstants.h"
 #include "core/taskmanager.h"

@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QString>
 #include <QUrl>
 
 class Application;

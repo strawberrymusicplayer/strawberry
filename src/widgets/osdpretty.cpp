@@ -27,6 +27,7 @@
 #include <QWindow>
 #include <QScreen>
 #include <QWidget>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QImage>
@@ -59,7 +60,6 @@
 # include <QtWin>
 #endif
 
-#include "core/logging.h"
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 

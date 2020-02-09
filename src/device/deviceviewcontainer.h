@@ -23,11 +23,9 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QShowEvent>
 
 class DeviceView;
 class Ui_DeviceViewContainer;

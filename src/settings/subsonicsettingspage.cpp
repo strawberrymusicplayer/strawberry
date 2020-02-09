@@ -20,11 +20,18 @@
 #include "config.h"
 
 #include <QObject>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
+#include <QUrl>
 #include <QSettings>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QMessageBox>
 #include <QEvent>
 
+#include "settingsdialog.h"
 #include "subsonicsettingspage.h"
 #include "ui_subsonicsettingspage.h"
 #include "core/application.h"

@@ -26,17 +26,16 @@
 
 #include <memory>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QSettings>
 #include <QMap>
 #include <QString>
 #include <QKeySequence>
-#include <QTreeWidgetItem>
 
 #include "globalshortcuts/globalshortcuts.h"
 #include "settingspage.h"
 
+class QTreeWidgetItem;
 class GlobalShortcutGrabber;
 class SettingsDialog;
 class Ui_GlobalShortcutsSettingsPage;
@@ -66,7 +65,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 #endif
 #endif
 
-  void ItemClicked(QTreeWidgetItem *);
+  void ItemClicked(QTreeWidgetItem*);
   void NoneClicked();
   void DefaultClicked();
   void ChangeClicked();

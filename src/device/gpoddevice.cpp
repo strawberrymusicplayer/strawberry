@@ -32,6 +32,7 @@
 #include <QList>
 #include <QString>
 #include <QUrl>
+#include <QImage>
 #include <QtDebug>
 
 #include "core/logging.h"

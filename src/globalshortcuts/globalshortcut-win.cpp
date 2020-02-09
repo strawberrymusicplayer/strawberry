@@ -18,16 +18,10 @@
  */
 
 #include <QtGlobal>
-#include <QObject>
-#include <QAbstractEventDispatcher>
 #include <QByteArray>
 
 #include <qt_windows.h>
 
-#include "core/logging.h"
-
-#include "globalshortcuts.h"
-#include "globalshortcutbackend.h"
 #include "globalshortcut.h"
 #include "keymapper_win.h"
 

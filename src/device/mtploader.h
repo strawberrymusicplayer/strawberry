@@ -27,14 +27,12 @@
 #include <memory>
 
 #include <QObject>
-#include <QThread>
 #include <QString>
 #include <QUrl>
 
+class QThread;
 class TaskManager;
 class CollectionBackend;
-class ConnectedDevice;
-class MtpDevice;
 class MtpConnection;
 
 class MtpLoader : public QObject {

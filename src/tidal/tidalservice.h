@@ -27,18 +27,24 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
+#include <QSet>
 #include <QList>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QNetworkReply>
-#include <QTimer>
-#include <QSortFilterProxyModel>
+#include <QDateTime>
+#include <QSslError>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
 #include "internet/internetsearch.h"
 #include "settings/tidalsettingspage.h"
+
+class QSortFilterProxyModel;
+class QNetworkReply;
+class QTimer;
 
 class Application;
 class NetworkAccessManager;

@@ -20,6 +20,7 @@
  */
 
 #include <QObject>
+#include <QThread>
 #include <QAbstractItemModel>
 #include <QVariant>
 #include <QString>
@@ -35,6 +36,7 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
+#include "deviceinfo.h"
 
 ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
     : QObject(manager),

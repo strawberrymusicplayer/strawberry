@@ -17,21 +17,32 @@
 
 #include <QProxyStyle>
 #include <QSettings>
-#include <QMenu>
+#include <QList>
+#include <QVector>
+#include <QVariant>
 #include <QPixmap>
 #include <QPainter>
+#include <QPen>
+#include <QPoint>
+#include <QPolygon>
+#include <QSize>
+#include <QSizePolicy>
 #include <QSlider>
+#include <QStyleOption>
 #include <QStyleOptionComplex>
 #include <QStyleOptionSlider>
 #include <QTimeLine>
 #include <QStyle>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
 #include <QEvent>
 #include <QContextMenuEvent>
 
 #include "core/application.h"
-#include "core/logging.h"
 
 #include "moodbarproxystyle.h"
+#include "moodbarrenderer.h"
 #include "settings/moodbarsettingspage.h"
 
 const int MoodbarProxyStyle::kMarginSize = 3;

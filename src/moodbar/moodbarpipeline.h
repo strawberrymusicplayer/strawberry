@@ -23,6 +23,7 @@
 #include <QString>
 #include <QUrl>
 
+#include <glib.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
 

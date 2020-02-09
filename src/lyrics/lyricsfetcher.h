@@ -22,16 +22,17 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
+#include <QMetaType>
 #include <QQueue>
-#include <QTimer>
-#include <QHash>
+#include <QSet>
 #include <QList>
+#include <QHash>
 #include <QString>
 #include <QUrl>
 
+class QTimer;
 class LyricsProviders;
 class LyricsFetcherSearch;
 

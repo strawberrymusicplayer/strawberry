@@ -23,15 +23,16 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QString>
-#include <QMimeData>
 #include <QTreeView>
-#include <QtEvents>
 
+class QMimeData;
+class QWidget;
 class QModelIndex;
+class QKeyEvent;
+class QMouseEvent;
 
 class AutoExpandingTreeView : public QTreeView {
   Q_OBJECT

@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QByteArray>
 #include <QPair>
@@ -28,13 +30,12 @@
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonParseError>
+#include <QSslError>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/logging.h"
 #include "core/network.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"

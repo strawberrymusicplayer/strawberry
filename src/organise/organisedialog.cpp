@@ -26,7 +26,6 @@
 
 #include <QtGlobal>
 #include <QtConcurrentRun>
-#include <QtAlgorithms>
 #include <QAbstractItemModel>
 #include <QDialog>
 #include <QHash>
@@ -49,7 +48,7 @@
 #include <QStackedWidget>
 #include <QToolButton>
 #include <QFlags>
-#include <QtEvents>
+#include <QShowEvent>
 #include <QSettings>
 
 #include "core/closure.h"
@@ -61,6 +60,7 @@
 #include "widgets/linetextedit.h"
 #include "collection/collectionbackend.h"
 #include "organise.h"
+#include "organiseformat.h"
 #include "organisedialog.h"
 #include "organiseerrordialog.h"
 #include "ui_organisedialog.h"

@@ -23,14 +23,12 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QDialog>
 #include <QList>
 #include <QString>
 #include <QKeySequence>
-#include <QtEvents>
 
 class QEvent;
 class QHideEvent;

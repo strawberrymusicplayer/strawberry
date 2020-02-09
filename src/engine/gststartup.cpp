@@ -22,7 +22,6 @@
 #include <gst/gst.h>
 #include <gst/pbutils/pbutils.h>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QCoreApplication>
 #include <QStandardPaths>

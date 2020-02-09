@@ -20,15 +20,13 @@
 
 #include "config.h"
 
-
 #include <QWidget>
 #include <QDialog>
-#include <QStandardItem>
 #include <QStandardItemModel>
 #include <QAbstractItemModel>
 #include <QStyledItemDelegate>
 #include <QStyleOptionViewItem>
-#include <QSize>
+#include <QStandardItem>
 #include <QList>
 #include <QVariant>
 #include <QString>
@@ -41,6 +39,7 @@
 #include <QFontMetrics>
 #include <QColor>
 #include <QRect>
+#include <QSize>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QKeySequence>
@@ -55,6 +54,7 @@
 #include "albumcoversearcher.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
+#include "albumcoverloaderoptions.h"
 #include "ui_albumcoversearcher.h"
 
 const int SizeOverlayDelegate::kMargin = 4;

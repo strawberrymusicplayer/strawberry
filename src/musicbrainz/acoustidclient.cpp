@@ -22,10 +22,11 @@
 
 #include <algorithm>
 
+#include <QtGlobal>
 #include <QObject>
-#include <QList>
-#include <QByteArray>
 #include <QPair>
+#include <QSet>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>

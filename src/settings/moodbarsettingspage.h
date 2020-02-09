@@ -24,7 +24,9 @@
 #include "settingspage.h"
 
 #include <QObject>
+#include <QString>
 
+class SettingsDialog;
 class Ui_MoodbarSettingsPage;
 
 class MoodbarSettingsPage : public SettingsPage {

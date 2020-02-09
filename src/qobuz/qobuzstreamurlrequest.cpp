@@ -19,23 +19,28 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QObject>
 #include <QMimeDatabase>
-#include <QFile>
-#include <QDir>
+#include <QMimeType>
+#include <QPair>
 #include <QList>
 #include <QByteArray>
 #include <QString>
+#include <QChar>
 #include <QUrl>
 #include <QDateTime>
+#include <QNetworkReply>
+#include <QCryptographicHash>
 #include <QJsonValue>
 #include <QJsonObject>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
-#include "settings/qobuzsettingspage.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"

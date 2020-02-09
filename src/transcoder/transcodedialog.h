@@ -23,16 +23,15 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
 #include <QBasicTimer>
 #include <QString>
 #include <QStringList>
-#include <QPushButton>
-#include <QTimerEvent>
 
+class QWidget;
+class QPushButton;
+class QTimerEvent;
 class Transcoder;
 class Ui_TranscodeDialog;
 class Ui_TranscodeLogDialog;

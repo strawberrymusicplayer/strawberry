@@ -22,10 +22,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QEvent>
+#include <QUrl>
 
 #include "settings/settingspage.h"
 
+class QEvent;
+class SettingsDialog;
 class SubsonicService;
 class Ui_SubsonicSettingsPage;
 

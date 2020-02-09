@@ -19,11 +19,14 @@
 
 #include "config.h"
 
+#include <algorithm>
 
 #include <QtGlobal>
 #include <QApplication>
 #include <QDesktopServices>
+#include <QLocale>
 #include <QClipboard>
+#include <QPair>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -31,16 +34,16 @@
 #include <QUrlQuery>
 #include <QDateTime>
 #include <QCryptographicHash>
-#include <QMenu>
 #include <QMessageBox>
 #include <QSettings>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QFlags>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"
@@ -49,11 +52,10 @@
 #include "core/timeconstants.h"
 #include "core/logging.h"
 #include "internet/localredirectserver.h"
-#include "settings/settingsdialog.h"
 #include "settings/scrobblersettingspage.h"
 
 #include "audioscrobbler.h"
-#include "scrobblerservices.h"
+#include "scrobblerservice.h"
 #include "scrobblingapi20.h"
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"

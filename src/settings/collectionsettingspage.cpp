@@ -32,6 +32,11 @@
 #include <QLineEdit>
 #include <QListView>
 #include <QPushButton>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QRadioButton>
+#include <QSpinBox>
 #include <QSettings>
 
 #include "core/application.h"

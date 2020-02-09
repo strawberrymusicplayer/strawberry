@@ -21,20 +21,18 @@
 
 #include "config.h"
 
-
-#include <QObject>
 #include <QVariant>
+#include <QVariantList>
 #include <QString>
 #include <QStringList>
 #include <QIcon>
 #include <QPixmap>
 
 #include "core/iconloader.h"
-#include "core/logging.h"
-#include "core/simpletreemodel.h"
 
-#include "deviceinfo.h"
+#include "devicelister.h"
 #include "devicedatabasebackend.h"
+#include "deviceinfo.h"
 
 DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
 

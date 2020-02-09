@@ -27,6 +27,7 @@
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 #include <QImage>
 #include <QPixmap>
 #include <QSize>
@@ -45,7 +46,6 @@
 #include "core/application.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
-#include "covermanager/currentalbumcoverloader.h"
 #include "playingwidget.h"
 
 using std::unique_ptr;

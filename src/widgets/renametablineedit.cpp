@@ -20,16 +20,18 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QWidget>
 #include <QLineEdit>
-#include <QtEvents>
+#include <QKeyEvent>
+#include <QFocusEvent>
 
 #include "renametablineedit.h"
 
 RenameTabLineEdit::RenameTabLineEdit(QWidget *parent) :
     QLineEdit(parent) {}
 
-void RenameTabLineEdit::keyPressEvent (QKeyEvent *e) {
+void RenameTabLineEdit::keyPressEvent(QKeyEvent *e) {
 
   if (e->key() == Qt::Key_Escape) {
     e->accept();

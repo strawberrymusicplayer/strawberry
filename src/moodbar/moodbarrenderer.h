@@ -18,14 +18,18 @@
 #ifndef MOODBARRENDERER_H
 #define MOODBARRENDERER_H
 
-#include <QByteArray>
-#include <QImage>
-#include <QPixmap>
 #include <QMetaType>
+#include <QList>
+#include <QByteArray>
+#include <QString>
+#include <QImage>
 #include <QVector>
 #include <QColor>
-#include <QPainter>
 #include <QPalette>
+#include <QRect>
+#include <QSize>
+
+class QPainter;
 
 typedef QVector<QColor> ColorVector;
 

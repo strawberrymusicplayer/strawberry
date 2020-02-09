@@ -19,12 +19,12 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QString>
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonParseError>
 
 #include "scrobblerservice.h"
 

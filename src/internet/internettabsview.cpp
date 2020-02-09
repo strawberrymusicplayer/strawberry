@@ -21,16 +21,26 @@
 
 #include <QtGlobal>
 #include <QWidget>
+#include <QVariant>
 #include <QString>
+#include <QLabel>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QSortFilterProxyModel>
+#include <QTabWidget>
 #include <QStackedWidget>
 #include <QContextMenuEvent>
 #include <QSettings>
 
 #include "core/application.h"
 #include "collection/collectionbackend.h"
+#include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
 #include "internetservice.h"
 #include "internettabsview.h"
+#include "internetcollectionview.h"
+#include "internetcollectionviewcontainer.h"
+#include "internetsearchview.h"
 #include "ui_internettabsview.h"
 
 InternetTabsView::InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)

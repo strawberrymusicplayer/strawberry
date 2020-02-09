@@ -19,17 +19,24 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QObject>
 #include <QThread>
 #include <QCoreApplication>
 #include <QStandardPaths>
 #include <QIODevice>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
+#include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
 #include <QTimer>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
+#include <QSettings>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"

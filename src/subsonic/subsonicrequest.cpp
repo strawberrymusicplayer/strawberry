@@ -22,19 +22,22 @@
 #include <memory>
 
 #include <QObject>
+#include <QMimeType>
+#include <QMimeDatabase>
 #include <QByteArray>
-#include <QDir>
 #include <QString>
 #include <QUrl>
 #include <QRegExp>
 #include <QImage>
 #include <QNetworkAccessManager>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslConfiguration>
+#include <QSslSocket>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QMimeDatabase>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"
@@ -44,6 +47,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
+#include "subsonicbaserequest.h"
 #include "subsonicrequest.h"
 
 const int SubsonicRequest::kMaxConcurrentAlbumsRequests = 3;

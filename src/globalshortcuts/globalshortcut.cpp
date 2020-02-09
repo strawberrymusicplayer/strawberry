@@ -21,15 +21,14 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QApplication>
 #include <QAbstractEventDispatcher>
 #include <QPair>
 #include <QHash>
+#include <QFlags>
 #include <QtDebug>
 
 #include "core/logging.h"
 
-#include "globalshortcutbackend.h"
 #include "globalshortcut.h"
 
 GlobalShortcut *GlobalShortcut::initialized_ = nullptr;

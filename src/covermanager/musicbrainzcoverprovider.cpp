@@ -19,11 +19,8 @@
 
 #include "config.h"
 
-#include <algorithm>
-#include <functional>
-
+#include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -36,6 +33,7 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"

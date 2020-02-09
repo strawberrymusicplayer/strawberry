@@ -20,6 +20,8 @@
 #include "config.h"
 
 #include <QObject>
+#include <QPair>
+#include <QList>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -29,6 +31,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlStreamReader>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"

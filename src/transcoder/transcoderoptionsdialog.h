@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QDialog>
 #include <QWidget>
 #include <QObject>

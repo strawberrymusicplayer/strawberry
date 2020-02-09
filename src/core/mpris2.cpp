@@ -26,6 +26,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QGuiApplication>
 #include <QObject>
 #include <QFile>
 #include <QList>
@@ -35,6 +36,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QImage>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusArgument>

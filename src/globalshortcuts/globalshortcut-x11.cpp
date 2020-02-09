@@ -20,20 +20,14 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QApplication>
-#include <QObject>
-#include <QAbstractEventDispatcher>
-#include <QDataStream>
+#include <QMap>
 #include <QVector>
 #include <QByteArray>
+#include <QString>
 #include <QX11Info>
 #include <QKeySequence>
-#include <QtAlgorithms>
+#include <QFlags>
 
-#include "core/logging.h"
-
-#include "globalshortcuts.h"
-#include "globalshortcutbackend.h"
 #include "globalshortcut.h"
 #include "keymapper_x11.h"
 

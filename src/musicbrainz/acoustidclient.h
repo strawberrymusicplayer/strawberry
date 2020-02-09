@@ -27,9 +27,9 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 
+class QNetworkAccessManager;
+class QNetworkReply;
 class NetworkTimeouts;
 
 class AcoustidClient : public QObject {

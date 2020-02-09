@@ -25,7 +25,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include <QtGlobal>
 #include <QThread>
 #include <QMutex>
 #include <QFile>

@@ -24,6 +24,7 @@
 #include <memory>
 #include <functional>
 
+#include <QtGlobal>
 #include <QApplication>
 #include <QObject>
 #include <QMetaObject>

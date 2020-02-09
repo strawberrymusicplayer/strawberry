@@ -23,13 +23,14 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QString>
-#include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 
 #include "devicemanager.h"
+
+class QAbstractItemModel;
+class QModelIndex;
 
 class DeviceStateFilterModel : public QSortFilterProxyModel {
   Q_OBJECT

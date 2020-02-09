@@ -27,21 +27,22 @@
 #include <memory>
 
 #include <QObject>
-#include <QWidget>
-#include <QString>
 #include <QStyleOption>
 #include <QStyleOptionViewItem>
-#include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
-#include <QPainter>
-#include <QAction>
-#include <QMenu>
-#include <QMouseEvent>
-#include <QContextMenuEvent>
+#include <QString>
 
 #include "core/song.h"
 #include "collection/collectionitemdelegate.h"
 #include "widgets/autoexpandingtreeview.h"
+
+class QSortFilterProxyModel;
+class QPainter;
+class QWidget;
+class QMenu;
+class QAction;
+class QMouseEvent;
+class QContextMenuEvent;
 
 class Application;
 class DeviceProperties;

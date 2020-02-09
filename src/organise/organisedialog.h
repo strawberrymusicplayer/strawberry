@@ -28,9 +28,7 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
-#include <QAbstractItemModel>
 #include <QFuture>
 #include <QList>
 #include <QSize>
@@ -43,6 +41,8 @@
 #include "organise.h"
 #include "organiseformat.h"
 
+class QAbstractItemModel;
+class QWidget;
 class QResizeEvent;
 class QShowEvent;
 

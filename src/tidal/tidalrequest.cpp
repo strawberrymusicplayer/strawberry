@@ -24,10 +24,12 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
@@ -38,6 +40,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
+#include "tidalbaserequest.h"
 #include "tidalrequest.h"
 
 const char *TidalRequest::kResourcesUrl = "https://resources.tidal.com";

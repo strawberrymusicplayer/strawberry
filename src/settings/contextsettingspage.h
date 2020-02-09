@@ -26,12 +26,11 @@
 
 #include <QObject>
 #include <QString>
-#include <QAction>
-#include <QtEvents>
-#include <QCheckBox>
-#include <QLabel>
 
 #include "settingspage.h"
+
+class QAction;
+class QCheckBox;
 
 class SettingsDialog;
 class Ui_ContextSettingsPage;

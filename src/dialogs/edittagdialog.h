@@ -23,28 +23,27 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
+#include <QAbstractItemModel>
 #include <QDialog>
-#include <QWidget>
 #include <QFuture>
-#include <QModelIndexList>
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 #include <QImage>
-#include <QMenu>
-#include <QAbstractButton>
-#include <QLabel>
-#include <QPushButton>
-#include <QtEvents>
 
 #include "core/song.h"
 #include "core/tagreaderclient.h"
 #include "playlist/playlistitem.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
+class QWidget;
+class QMenu;
+class QLabel;
+class QAbstractButton;
+class QPushButton;
 class QEvent;
 class QShowEvent;
 class QHideEvent;

@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -34,7 +33,6 @@
 #include <QString>
 #include <QStringList>
 #include <QImage>
-#include <QVector>
 #include <QtDBus>
 #include <QDBusArgument>
 #include <qdbusextratypes.h>

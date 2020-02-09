@@ -30,6 +30,8 @@
 #include <QDBusMessage>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#include <QAction>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"

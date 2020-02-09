@@ -24,9 +24,8 @@
 #include "config.h"
 
 #include <QObject>
-#include <QtEvents>
-#include <QAbstractItemView>
 
+class QAbstractItemView;
 class QEvent;
 
 // Some KDE styles override the ScrollMode property of QAbstractItemViews.

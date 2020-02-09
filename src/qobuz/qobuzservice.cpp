@@ -22,8 +22,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QDesktopServices>
-#include <QCryptographicHash>
 #include <QByteArray>
 #include <QPair>
 #include <QList>
@@ -33,11 +31,13 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>
-#include <QJsonParseError>
+#include <QJsonValue>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
 #include <QSortFilterProxyModel>
+#include <QSslError>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -52,9 +52,11 @@
 #include "collection/collectionmodel.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
+#include "qobuzbaserequest.h"
 #include "qobuzrequest.h"
 #include "qobuzfavoriterequest.h"
 #include "qobuzstreamurlrequest.h"
+#include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
 using std::shared_ptr;

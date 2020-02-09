@@ -24,11 +24,9 @@
 #include <QString>
 #include <QtDebug>
 
-#include "core/application.h"
 #include "core/logging.h"
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
-#include "lyricsfetcher.h"
 
 LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent) {}
 

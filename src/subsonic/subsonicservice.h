@@ -24,20 +24,19 @@
 
 #include <memory>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QPair>
+#include <QSet>
 #include <QList>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QTimer>
 #include <QSslError>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
-#include "internet/internetsearch.h"
-#include "settings/subsonicsettingspage.h"
 
 class QSortFilterProxyModel;
 class QNetworkAccessManager;

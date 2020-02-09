@@ -25,7 +25,8 @@
 #include <QList>
 #include <QString>
 #include <QDate>
-#include <QtEvents>
+
+class QEvent;
 
 class Ui_LoginStateWidget;
 

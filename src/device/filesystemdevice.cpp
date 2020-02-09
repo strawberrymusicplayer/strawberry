@@ -23,9 +23,9 @@
 #include <assert.h>
 
 #include <QThread>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/logging.h"

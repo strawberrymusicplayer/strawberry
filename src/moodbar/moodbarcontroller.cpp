@@ -15,15 +15,19 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <memory>
+
 #include <QObject>
 #include <QByteArray>
 #include <QUrl>
 
 #include "core/application.h"
 #include "core/closure.h"
-#include "core/logging.h"
 #include "core/player.h"
+#include "core/song.h"
+#include "engine/engine_fwd.h"
 #include "playlist/playlistmanager.h"
+#include "playlist/playlistitem.h"
 
 #include "moodbarcontroller.h"
 #include "moodbarloader.h"

@@ -27,20 +27,18 @@
 #include <memory>
 
 #include <QObject>
-#include <QThread>
 #include <QBasicTimer>
 #include <QFileInfo>
-#include <QList>
-#include <QVector>
-#include <QMap>
 #include <QSet>
+#include <QList>
+#include <QMap>
 #include <QString>
 #include <QStringList>
-#include <QTemporaryFile>
 
 #include "core/song.h"
 #include "organiseformat.h"
 
+class QThread;
 class QTimerEvent;
 
 class MusicStorage;

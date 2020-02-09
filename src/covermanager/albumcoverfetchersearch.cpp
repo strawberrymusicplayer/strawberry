@@ -24,7 +24,6 @@
 #include <cmath>
 
 #include <QObject>
-#include <QtAlgorithms>
 #include <QTimer>
 #include <QList>
 #include <QString>
@@ -37,7 +36,6 @@
 
 #include "core/closure.h"
 #include "core/logging.h"
-#include "core/network.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverfetchersearch.h"

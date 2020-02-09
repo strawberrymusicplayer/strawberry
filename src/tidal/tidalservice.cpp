@@ -28,17 +28,19 @@
 #include <QPair>
 #include <QList>
 #include <QString>
+#include <QChar>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
 #include <QTimer>
-#include <QJsonParseError>
+#include <QJsonValue>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
 #include <QSortFilterProxyModel>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -53,9 +55,11 @@
 #include "collection/collectionmodel.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
+#include "tidalbaserequest.h"
 #include "tidalrequest.h"
 #include "tidalfavoriterequest.h"
 #include "tidalstreamurlrequest.h"
+#include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
 using std::shared_ptr;

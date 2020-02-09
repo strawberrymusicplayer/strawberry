@@ -21,13 +21,17 @@
 
 #include "config.h"
 
+#include <algorithm>
+#include <type_traits>
+
+#include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
 #include <QList>
 #include <QPair>
+#include <QSet>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
@@ -38,6 +42,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"

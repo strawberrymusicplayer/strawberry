@@ -24,7 +24,6 @@
 #include <QString>
 #include <QtDebug>
 
-#include "core/application.h"
 #include "core/logging.h"
 
 #include "scrobblerservices.h"

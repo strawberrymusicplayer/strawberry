@@ -24,19 +24,19 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QMap>
 #include <QMultiMap>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QNetworkReply>
-#include <QXmlStreamReader>
 
 class QNetworkAccessManager;
+class QNetworkReply;
 class QTimer;
+class QXmlStreamReader;
 class NetworkTimeouts;
 
 class MusicBrainzClient : public QObject {

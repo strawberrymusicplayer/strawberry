@@ -22,15 +22,20 @@
 #include <QObject>
 #include <QStandardPaths>
 #include <QMimeDatabase>
+#include <QMimeType>
+#include <QIODevice>
 #include <QFile>
 #include <QDir>
 #include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
+#include <QNetworkReply>
 #include <QJsonValue>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QXmlStreamReader>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/network.h"

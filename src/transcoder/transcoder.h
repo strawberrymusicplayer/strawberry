@@ -36,7 +36,6 @@
 #include <QSet>
 #include <QString>
 #include <QEvent>
-#include <QVector>
 
 #include "core/song.h"
 

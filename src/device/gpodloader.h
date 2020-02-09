@@ -27,11 +27,11 @@
 #include <gpod/itdb.h>
 
 #include <QObject>
-#include <QThread>
 #include <QString>
 
 #include "core/song.h"
 
+class QThread;
 class TaskManager;
 class CollectionBackend;
 class ConnectedDevice;

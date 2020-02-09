@@ -22,13 +22,12 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QObject>
 #include <QVariant>
 #include <QString>
 
 #include "lyricsprovider.h"
-#include "lyricsfetcher.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;

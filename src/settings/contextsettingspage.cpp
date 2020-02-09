@@ -24,17 +24,12 @@
 #include <QtGlobal>
 #include <QAction>
 #include <QVariant>
-#include <QImage>
 #include <QMenu>
 #include <QCursor>
-#include <QGroupBox>
-#include <QLabel>
 #include <QCheckBox>
-#include <QPushButton>
-#include <QSpinBox>
 #include <QToolButton>
 #include <QToolTip>
-#include <QtEvents>
+#include <QLineEdit>
 #include <QSettings>
 
 #include "core/iconloader.h"

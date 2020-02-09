@@ -22,9 +22,11 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QVariant>
 #include <QString>
+#include <QJsonObject>
 
 #include "lyricsprovider.h"
 

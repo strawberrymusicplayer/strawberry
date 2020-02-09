@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QList>
 #include <QMap>
 #include <QString>
 

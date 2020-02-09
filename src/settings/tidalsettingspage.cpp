@@ -20,18 +20,26 @@
 #include "config.h"
 
 #include <QObject>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QSettings>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
 #include <QMessageBox>
 #include <QEvent>
 
+#include "settingsdialog.h"
 #include "tidalsettingspage.h"
 #include "ui_tidalsettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "internet/internetservices.h"
 #include "tidal/tidalservice.h"
-#include "tidal/tidalstreamurlrequest.h"
+#include "widgets/loginstatewidget.h"
 
 const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 

@@ -24,27 +24,22 @@
 
 #include <memory>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QList>
+#include <QSet>
 #include <QPair>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 #include <QSslError>
 #include <QJsonObject>
 
-#include "core/song.h"
-#include "internet/internetservices.h"
-#include "internet/internetservice.h"
-#include "internet/internetsearch.h"
 #include "subsonicservice.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
-
-class SubsonicUrlHandler;
-class CollectionBackend;
-class CollectionModel;
 
 class SubsonicBaseRequest : public QObject {
   Q_OBJECT

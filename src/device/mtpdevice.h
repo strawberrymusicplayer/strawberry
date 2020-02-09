@@ -27,7 +27,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QThread>
 #include <QMutex>
 #include <QList>
 #include <QString>
@@ -36,12 +35,12 @@
 
 #include "core/song.h"
 #include "connecteddevice.h"
-#include "mtploader.h"
 
+class QThread;
 class Application;
 class DeviceLister;
 class DeviceManager;
-class DeviceConnection;
+class MtpLoader;
 class MtpConnection;
 struct LIBMTP_mtpdevice_struct;
 

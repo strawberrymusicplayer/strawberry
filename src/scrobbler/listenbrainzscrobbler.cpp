@@ -32,11 +32,11 @@
 #include <QSettings>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"
@@ -45,11 +45,8 @@
 #include "core/timeconstants.h"
 #include "core/logging.h"
 #include "internet/localredirectserver.h"
-#include "settings/settingsdialog.h"
-#include "settings/scrobblersettingspage.h"
 
 #include "audioscrobbler.h"
-#include "scrobblerservices.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"

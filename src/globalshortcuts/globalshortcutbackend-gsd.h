@@ -23,17 +23,12 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QtGlobal>
-#include <QPair>
-#include <QVector>
-#include <QHash>
 #include <QString>
-#include <QDBusPendingCallWatcher>
 
 #include "globalshortcutbackend.h"
 
+class QDBusPendingCallWatcher;
 class GlobalShortcuts;
 class OrgGnomeSettingsDaemonMediaKeysInterface;
 

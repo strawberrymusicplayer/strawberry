@@ -25,9 +25,12 @@
 #include "config.h"
 
 #include <QObject>
+#include <QString>
+#include <QStringList>
 
 #include "settingspage.h"
 
+class QModelIndex;
 class SettingsDialog;
 class Ui_CollectionSettingsPage;
 

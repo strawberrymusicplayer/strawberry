@@ -23,7 +23,6 @@
 #include <assert.h>
 
 #include <QObject>
-#include <QApplication>
 #include <QThread>
 #include <QMutex>
 #include <QIODevice>
@@ -36,7 +35,6 @@
 
 #include "core/database.h"
 #include "core/scopedtransaction.h"
-#include "core/logging.h"
 #include "devicedatabasebackend.h"
 
 const int DeviceDatabaseBackend::kDeviceSchemaVersion = 1;

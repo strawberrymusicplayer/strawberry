@@ -19,21 +19,11 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QObject>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/network.h"
-#include "core/song.h"
-#include "core/timeconstants.h"
-#include "core/logging.h"
-#include "internet/localredirectserver.h"
-#include "settings/settingsdialog.h"
-#include "settings/scrobblersettingspage.h"
 
-#include "audioscrobbler.h"
-#include "scrobblerservices.h"
 #include "scrobblercache.h"
 #include "scrobblingapi20.h"
 #include "lastfmscrobbler.h"

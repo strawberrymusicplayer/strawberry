@@ -30,8 +30,6 @@
 #include "core/song.h"
 #include "albumcoverexport.h"
 
-class AlbumCoverExporter;
-
 class CoverExportRunnable : public QObject, public QRunnable {
   Q_OBJECT
 

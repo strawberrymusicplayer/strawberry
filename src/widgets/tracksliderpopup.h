@@ -31,7 +31,6 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QPoint>
-#include <QtEvents>
 
 class QMouseEvent;
 class QPaintEvent;

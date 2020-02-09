@@ -23,22 +23,26 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QDialog>
 #include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QStyleOption>
 #include <QMap>
 #include <QSize>
 #include <QString>
-#include <QPainter>
 #include <QSettings>
 
-#include "core/logging.h"
+#include "engine/engine_fwd.h"
 #include "widgets/osd.h"
 
+class QWidget;
+class QModelIndex;
+class QPainter;
 class QTreeWidgetItem;
 class QComboBox;
 class QScrollArea;
 class QAbstractButton;
-class QStyleOptionViewItem;
 class QShowEvent;
 
 class Application;

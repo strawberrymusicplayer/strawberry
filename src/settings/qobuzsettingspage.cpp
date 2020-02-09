@@ -20,18 +20,26 @@
 #include "config.h"
 
 #include <QObject>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
 #include <QSettings>
 #include <QMessageBox>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
 #include <QEvent>
 
+#include "settingsdialog.h"
 #include "qobuzsettingspage.h"
 #include "ui_qobuzsettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "widgets/loginstatewidget.h"
 #include "internet/internetservices.h"
 #include "qobuz/qobuzservice.h"
-#include "qobuz/qobuzstreamurlrequest.h"
 
 const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
 

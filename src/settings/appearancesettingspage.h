@@ -24,13 +24,13 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
 #include <QString>
 #include <QColor>
 
 #include "settingspage.h"
+
+class QWidget;
 
 class SettingsDialog;
 class Ui_AppearanceSettingsPage;

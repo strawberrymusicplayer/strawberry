@@ -28,7 +28,6 @@
 #include <QJsonObject>
 
 #include "lyricsprovider.h"
-#include "lyricsfetcher.h"
 #include "jsonlyricsprovider.h"
 
 JsonLyricsProvider::JsonLyricsProvider(const QString &name, QObject *parent) : LyricsProvider(name, parent) {}

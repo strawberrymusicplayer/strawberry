@@ -23,9 +23,7 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QThread>
 #include <QList>
 #include <QString>
 #include <QStringList>
@@ -34,6 +32,7 @@
 #include "core/filesystemmusicstorage.h"
 #include "connecteddevice.h"
 
+class QThread;
 class Application;
 class CollectionWatcher;
 class DeviceLister;

@@ -22,19 +22,17 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QJsonValue>
 #include <QJsonObject>
-#include <QJsonArray>
 
 #include "coverprovider.h"
 
+class QNetworkAccessManager;
+class QNetworkReply;
 class Application;
 
 class DeezerCoverProvider : public CoverProvider {

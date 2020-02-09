@@ -27,7 +27,6 @@
 #include <QLabel>
 #include <QSizePolicy>
 #include <QBoxLayout>
-#include <QtEvents>
 
 #include "busyindicator.h"
 
@@ -70,11 +69,11 @@ BusyIndicator::~BusyIndicator() {
   delete movie_;
 }
 
-void BusyIndicator::showEvent(QShowEvent *) {
+void BusyIndicator::showEvent(QShowEvent*) {
   movie_->start();
 }
 
-void BusyIndicator::hideEvent(QHideEvent *) {
+void BusyIndicator::hideEvent(QHideEvent*) {
   movie_->stop();
 }
 

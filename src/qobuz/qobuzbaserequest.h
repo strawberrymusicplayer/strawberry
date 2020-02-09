@@ -24,26 +24,21 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QPair>
+#include <QSet>
+#include <QList>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
-#include <QUrl>
-#include <QNetworkReply>
+#include <QStringList>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QJsonValue>
 
 #include "core/song.h"
-#include "internet/internetservices.h"
-#include "internet/internetservice.h"
-#include "internet/internetsearch.h"
 #include "qobuzservice.h"
 
-class Application;
+class QNetworkReply;
 class NetworkAccessManager;
-class QobuzUrlHandler;
-class CollectionBackend;
-class CollectionModel;
 
 class QobuzBaseRequest : public QObject {
   Q_OBJECT

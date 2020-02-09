@@ -27,7 +27,6 @@
 #include <QWidget>
 #include <QString>
 #include <QLineEdit>
-#include <QtEvents>
 
 class QFocusEvent;
 class QKeyEvent;

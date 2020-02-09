@@ -24,18 +24,15 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QWidget>
 #include <QMap>
 #include <QString>
-#include <QAction>
-#include <QShortcut>
 #include <QKeySequence>
 #include <QSettings>
 
-#include "globalshortcut.h"
-
+class QShortcut;
+class QAction;
 class GlobalShortcutBackend;
 
 class GlobalShortcuts : public QWidget {

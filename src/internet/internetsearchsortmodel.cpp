@@ -21,10 +21,14 @@
 #include "config.h"
 
 #include <QObject>
+#include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
+#include <QVariant>
 #include <QString>
 
-#include "core/logging.h"
+#include "core/song.h"
+#include "collection/collectionmodel.h"
+#include "internetsearch.h"
 #include "internetsearchmodel.h"
 #include "internetsearchsortmodel.h"
 

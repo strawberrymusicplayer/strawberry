@@ -20,10 +20,7 @@
 #include "config.h"
 
 #include <QWidget>
-#include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QSlider>
 #include <QSettings>
 
 #include "transcoderoptionsinterface.h"

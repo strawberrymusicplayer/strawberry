@@ -22,7 +22,7 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QHash>

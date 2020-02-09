@@ -23,17 +23,16 @@
 #include <QDialog>
 #include <QWidget>
 #include <QString>
-#include <QStringBuilder>
 #include <QLabel>
 #include <QKeySequence>
-#include <QtEvents>
+#include <QDialogButtonBox>
+#include <QEvent>
+#include <QShowEvent>
+#include <QHideEvent>
+#include <QKeyEvent>
 
 #include "globalshortcutgrabber.h"
 #include "ui_globalshortcutgrabber.h"
-
-class QShowEvent;
-class QHideEvent;
-class QKeyEvent;
 
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
     : QDialog(parent), ui_(new Ui::GlobalShortcutGrabber) {

@@ -20,9 +20,13 @@
 
 #include "config.h"
 
+#include <algorithm>
+
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QRegExp>
 #include <QDir>
 #include <QLocale>
 #include <QSettings>
@@ -30,6 +34,8 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QSpinBox>
+#include <QComboBox>
+#include <QGroupBox>
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"

@@ -23,16 +23,16 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QColor>
-#include <QTextDocument>
-#include <QTextEdit>
+#include <QRegExp>
+#include <QRgb>
 #include <QSyntaxHighlighter>
 #include <QValidator>
 
+class QTextDocument;
+class QTextEdit;
 class Song;
 
 class OrganiseFormat {

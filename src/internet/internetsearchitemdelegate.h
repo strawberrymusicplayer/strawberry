@@ -22,10 +22,12 @@
 #define INTERNETSEARCHITEMDELEGATE_H
 
 #include <QStyleOptionViewItem>
+#include <QStyleOption>
 
 #include "collection/collectionitemdelegate.h"
 
 class QPainter;
+class QModelIndex;
 class InternetSearchView;
 
 class InternetSearchItemDelegate : public CollectionItemDelegate {

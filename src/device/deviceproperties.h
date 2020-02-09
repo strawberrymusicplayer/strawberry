@@ -24,17 +24,16 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QDialog>
-#include <QWidget>
 #include <QFuture>
 #include <QAbstractItemModel>
-#include <QPersistentModelIndex>
 #include <QList>
 #include <QString>
 
 #include "core/song.h"
+
+class QWidget;
 
 class DeviceManager;
 class Ui_DeviceProperties;

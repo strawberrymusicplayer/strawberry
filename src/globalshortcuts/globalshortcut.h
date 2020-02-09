@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QAbstractNativeEventFilter>
@@ -31,6 +30,7 @@
 #include <QVector>
 #include <QHash>
 #include <QByteArray>
+#include <QString>
 
 class GlobalShortcutBackend;
 

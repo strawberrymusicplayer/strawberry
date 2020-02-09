@@ -24,14 +24,14 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
 #include <QList>
 #include <QString>
 
 #include "ui_about.h"
+
+class QWidget;
 
 class About : public QDialog {
   Q_OBJECT

@@ -28,6 +28,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
+#include <QUrl>
 #include <QDateTime>
 #include <QImage>
 #ifdef HAVE_DBUS
@@ -36,7 +37,6 @@
 #endif
 
 #include "core/song.h"
-#include "engine/engine_fwd.h"
 #include "playlist/playlistsequence.h"
 
 class Application;

@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QString>
 
+class SettingsDialog;
 class Ui_ScrobblerSettingsPage;
 class AudioScrobbler;
 class LastFMScrobbler;

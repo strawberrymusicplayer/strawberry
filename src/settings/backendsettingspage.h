@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QVariant>
 #include <QString>
@@ -31,11 +30,10 @@
 #include "engine/enginetype.h"
 #include "dialogs/errordialog.h"
 #include "settingspage.h"
-#include "settingsdialog.h"
 
 #include "core/application.h"
 #include "core/player.h"
-#include "engine/enginebase.h"
+#include "engine/engine_fwd.h"
 
 class SettingsDialog;
 class Ui_BackendSettingsPage;

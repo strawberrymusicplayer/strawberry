@@ -15,16 +15,22 @@
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "moodbarrenderer.h"
+#include <string>
 
+#include <QtGlobal>
+#include <QObject>
+#include <QArrayData>
+#include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QImage>
 #include <QPainter>
 #include <QPalette>
 #include <QColor>
+#include <QRect>
+#include <QSize>
 
-#include "core/arraysize.h"
+#include "moodbarrenderer.h"
 
 const int MoodbarRenderer::kNumHues = 12;
 

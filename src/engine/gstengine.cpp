@@ -43,14 +43,12 @@
 #include <QStringList>
 #include <QUrl>
 #include <QTimeLine>
-#include <QTimerEvent>
 #include <QMetaObject>
 #include <QFlags>
-#include <QSettings>
+#include <QTimerEvent>
 #include <QtDebug>
 
 #include "core/closure.h"
-#include "core/utilities.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/timeconstants.h"
@@ -59,8 +57,6 @@
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-
-#include "settings/backendsettingspage.h"
 
 using std::shared_ptr;
 using std::vector;

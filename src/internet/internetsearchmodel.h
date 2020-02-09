@@ -25,20 +25,22 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QMimeData>
+#include <QAbstractItemModel>
 #include <QStandardItemModel>
 #include <QStandardItem>
-#include <QSortFilterProxyModel>
-#include <QMap>
 #include <QSet>
 #include <QList>
+#include <QMap>
 #include <QString>
-#include <QStringList>
 #include <QIcon>
 #include <QPixmap>
 
+#include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "internetsearch.h"
+
+class QMimeData;
+class QSortFilterProxyModel;
 
 class InternetSearchModel : public QStandardItemModel {
   Q_OBJECT

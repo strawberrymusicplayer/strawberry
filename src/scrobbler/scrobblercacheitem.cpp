@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QtGlobal>
 #include <QString>
 

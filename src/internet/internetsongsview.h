@@ -22,19 +22,18 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
 #include <QString>
 
-#include "settings/settingsdialog.h"
-#include "internetcollectionviewcontainer.h"
-#include "ui_internetcollectionviewcontainer.h"
 #include "core/song.h"
+#include "settings/settingsdialog.h"
+#include "ui_internetcollectionviewcontainer.h"
 
 class QContextMenuEvent;
 
 class Application;
 class InternetService;
-class Ui_InternetCollectionViewContainer;
 class InternetCollectionView;
 
 class InternetSongsView : public QWidget {

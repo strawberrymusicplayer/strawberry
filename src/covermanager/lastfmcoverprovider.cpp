@@ -19,14 +19,17 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
+#include <QLocale>
 #include <QList>
 #include <QPair>
+#include <QSet>
 #include <QByteArray>
 #include <QString>
-#include <QStringBuilder>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QCryptographicHash>
@@ -34,6 +37,7 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QtDebug>
 
 #include "core/application.h"
 #include "core/closure.h"

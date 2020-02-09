@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -32,9 +31,8 @@
 #include <QColor>
 #include <QPalette>
 #include <QSlider>
-#include <QTimer>
-#include <QtEvents>
 
+class QTimer;
 class QEvent;
 class QMouseEvent;
 class QPaintEvent;

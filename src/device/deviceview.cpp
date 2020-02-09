@@ -50,7 +50,6 @@
 #include <QMessageBox>
 #include <QtEvents>
 
-#include "core/logging.h"
 #include "core/iconloader.h"
 #include "core/application.h"
 #include "core/deletefiles.h"
@@ -65,7 +64,6 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
-#include "deviceinfo.h"
 #include "deviceproperties.h"
 #include "deviceview.h"
 

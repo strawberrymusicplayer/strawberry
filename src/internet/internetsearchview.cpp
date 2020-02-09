@@ -37,14 +37,12 @@
 #include <QtEvents>
 
 #include "core/application.h"
-#include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "internet/internetsongmimedata.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
-#include "playlist/songmimedata.h"
 #include "internetsearch.h"
 #include "internetsearchitemdelegate.h"
 #include "internetsearchmodel.h"

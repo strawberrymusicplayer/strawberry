@@ -29,6 +29,7 @@
 
 #include "core/song.h"
 #include "core/tagreaderclient.h"
+#include "albumcoverexport.h"
 #include "coverexportrunnable.h"
 
 CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song) :

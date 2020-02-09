@@ -20,18 +20,23 @@
 #include "config.h"
 
 #include <QtGlobal>
+#include <QWidget>
 #include <QSettings>
+#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
+#include <QStringList>
+#include <QRegExp>
 #include <QFontMetrics>
+#include <QAbstractItemView>
+#include <QListView>
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSlider>
 #include <QSpinBox>
 #include <QLabel>
-#include <QListView>
+#include <QRadioButton>
 
 #include "backendsettingspage.h"
 

@@ -21,18 +21,21 @@
 
 #include "config.h"
 
-#include <QtGlobal>
+#include <QWidget>
 #include <QTreeView>
 #include <QSortFilterProxyModel>
 #include <QAbstractItemView>
+#include <QItemSelectionModel>
 #include <QVariant>
 #include <QString>
+#include <QUrl>
 #include <QPainter>
 #include <QRect>
 #include <QFont>
 #include <QFontMetrics>
 #include <QMimeData>
 #include <QMenu>
+#include <QAction>
 #include <QtEvents>
 
 #include "core/application.h"

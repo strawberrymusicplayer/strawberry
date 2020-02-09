@@ -34,20 +34,16 @@
 #include <QStandardPaths>
 #include <QByteArray>
 #include <QDir>
-#include <QFile>
 #include <QFileInfo>
 #include <QList>
 #include <QMap>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
-#include <QtAlgorithms>
 #include <QSettings>
 #include <QtDebug>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
-#include "core/utilities.h"
 #include "transcoder.h"
 
 using std::shared_ptr;

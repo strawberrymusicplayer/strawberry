@@ -27,12 +27,12 @@
 #include <QObject>
 #include <QWidget>
 #include <QString>
-#include <QPainter>
 #include <QColor>
+#include <QRgb>
 #include <QRect>
 #include <QSize>
-#include <QtEvents>
 
+class QPainter;
 class QPaintEvent;
 
 class FreeSpaceBar : public QWidget {

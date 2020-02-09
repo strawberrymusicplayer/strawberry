@@ -27,20 +27,18 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QFileSystemModel>
 #include <QAbstractItemModel>
 #include <QList>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QMimeData>
-#include <QUndoStack>
 #include <QUndoCommand>
-#include <QtEvents>
 
 #include "core/song.h"
 
-class QModelIndex;
+class QMimeData;
+class QFileSystemModel;
+class QUndoStack;
 class QKeyEvent;
 class QShowEvent;
 

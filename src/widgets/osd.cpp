@@ -26,11 +26,9 @@
 
 #include <QObject>
 #include <QCoreApplication>
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
 #include <QImage>
 #include <QSettings>
 #ifdef HAVE_DBUS

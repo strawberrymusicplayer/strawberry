@@ -22,10 +22,11 @@
 
 #include <QObject>
 #include <QString>
-#include <QEvent>
 
 #include "settings/settingspage.h"
 
+class QEvent;
+class SettingsDialog;
 class QobuzService;
 class Ui_QobuzSettingsPage;
 

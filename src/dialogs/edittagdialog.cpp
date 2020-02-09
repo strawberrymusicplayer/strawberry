@@ -85,6 +85,7 @@
 #include "edittagdialog.h"
 #include "trackselectiondialog.h"
 #include "ui_edittagdialog.h"
+#include "tagreadermessages.pb.h"
 
 const char *EditTagDialog::kHintText = QT_TR_NOOP("(different across multiple songs)");
 const char *EditTagDialog::kSettingsGroup = "EditTagDialog";

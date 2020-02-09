@@ -24,6 +24,7 @@
 #include <QThreadPool>
 
 #include "core/song.h"
+#include "albumcoverexport.h"
 #include "albumcoverexporter.h"
 #include "coverexportrunnable.h"
 

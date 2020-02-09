@@ -20,21 +20,19 @@
 #include "config.h"
 
 #include <QObject>
-#include <QByteArray>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QUrlQuery>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
+#include <QJsonValue>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
-#include "core/utilities.h"
-#include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"

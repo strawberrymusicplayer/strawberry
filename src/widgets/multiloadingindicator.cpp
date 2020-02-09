@@ -31,13 +31,11 @@
 #include <QSizePolicy>
 #include <QStringList>
 #include <QFontMetrics>
-#include <QtEvents>
+#include <QPaintEvent>
 
 #include "core/taskmanager.h"
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
-
-class QPaintEvent;
 
 const int MultiLoadingIndicator::kVerticalPadding = 4;
 const int MultiLoadingIndicator::kHorizontalPadding = 6;

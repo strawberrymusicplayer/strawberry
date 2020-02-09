@@ -24,17 +24,20 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QHash>
 #include <QMetaType>
+#include <QHash>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+#include <QJsonObject>
+#include <QJsonValue>
 
 #include "coverprovider.h"
 #include "albumcoverfetcher.h"
 
+class QNetworkAccessManager;
+class QNetworkReply;
 class Application;
 
 // This struct represents a single search-for-cover request. It identifies and describes the request.

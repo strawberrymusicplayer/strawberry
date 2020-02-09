@@ -24,11 +24,10 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QString>
 #include <QSlider>
-#include <QtEvents>
 
+class QWidget;
 class QEvent;
 class QKeyEvent;
 class QMouseEvent;

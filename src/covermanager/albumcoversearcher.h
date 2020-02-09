@@ -25,24 +25,24 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QWidget>
 #include <QDialog>
-#include <QStandardItem>
-#include <QStandardItemModel>
+#include <QStyleOption>
+#include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
 #include <QMap>
 #include <QString>
 #include <QImage>
 #include <QIcon>
-#include <QPainter>
-#include <QStyleOption>
-#include <QStyledItemDelegate>
-#include <QStyleOptionViewItem>
-#include <QtEvents>
 
 #include "albumcoverfetcher.h"
 #include "albumcoverloaderoptions.h"
 
+class QWidget;
+class QStandardItem;
+class QStandardItemModel;
+class QPainter;
 class QModelIndex;
+class QKeyEvent;
 
 class Application;
 class Ui_AlbumCoverSearcher;
@@ -83,7 +83,7 @@ public:
   QImage Exec(const QString &artist, const QString &album);
 
 protected:
-  void keyPressEvent(QKeyEvent *);
+  void keyPressEvent(QKeyEvent*);
 
 private slots:
   void Search();

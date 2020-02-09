@@ -26,7 +26,6 @@
 
 #include <memory>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QMetaObject>
 #include <QThreadPool>
@@ -34,7 +33,6 @@
 #include <QList>
 #include <QMap>
 #include <QMultiMap>
-#include <QMetaType>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
@@ -47,6 +45,9 @@
 #include "collection/collectionmodel.h"
 #include "devicedatabasebackend.h"
 #include "deviceinfo.h"
+
+class QModelIndex;
+class QPersistentModelIndex;
 
 class Application;
 class ConnectedDevice;

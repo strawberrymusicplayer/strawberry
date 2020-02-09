@@ -23,17 +23,15 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
-#include <QAbstractItemModel>
 #include <QByteArray>
 #include <QHeaderView>
 #include <QList>
 #include <QString>
 #include <QVector>
-#include <QtEvents>
 
+class QWidget;
+class QAbstractItemModel;
 class QMouseEvent;
 class QResizeEvent;
 

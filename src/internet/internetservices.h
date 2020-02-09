@@ -25,7 +25,9 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QMap>
+#include <QString>
 
 #include "core/song.h"
 

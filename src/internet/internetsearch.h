@@ -26,9 +26,13 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QMetaType>
+#include <QSet>
+#include <QList>
 #include <QMap>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QImage>
 #include <QPixmap>
 #include <QPixmapCache>
@@ -36,6 +40,7 @@
 #include "core/song.h"
 #include "covermanager/albumcoverloaderoptions.h"
 
+class QTimerEvent;
 class Application;
 class MimeData;
 class AlbumCoverLoader;

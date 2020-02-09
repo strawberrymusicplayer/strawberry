@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkReply>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/network.h"

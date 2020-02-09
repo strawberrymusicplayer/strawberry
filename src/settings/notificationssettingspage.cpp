@@ -25,6 +25,7 @@
 #include <QVariant>
 #include <QImage>
 #include <QColor>
+#include <QRgb>
 #include <QMenu>
 #include <QFont>
 #include <QFontDialog>

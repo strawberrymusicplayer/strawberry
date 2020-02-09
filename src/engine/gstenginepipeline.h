@@ -38,15 +38,15 @@
 #include <QFuture>
 #include <QTimeLine>
 #include <QBasicTimer>
-#include <QByteArray>
 #include <QList>
+#include <QByteArray>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QTimerEvent>
 
 using std::unique_ptr;
 
+class QTimerEvent;
 class GstEngine;
 class GstBufferConsumer;
 class GstElementDeleter;

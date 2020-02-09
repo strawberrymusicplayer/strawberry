@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QAbstractItemView>
 #include <QScrollBar>
-#include <QtEvents>
+#include <QEvent>
 
 #include "forcescrollperpixel.h"
 

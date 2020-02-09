@@ -22,13 +22,13 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
+#include <QUrl>
 #include <QJsonDocument>
 
 #include "core/song.h"

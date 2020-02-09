@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include <QtGlobal>
 #include <QObject>
 #include <QByteArray>
 #include <QPair>
@@ -28,17 +29,16 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QSslConfiguration>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonParseError>
+#include <QSslConfiguration>
+#include <QSslSocket>
+#include <QSslError>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/logging.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
 

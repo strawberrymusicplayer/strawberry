@@ -24,15 +24,17 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
 #include <QMap>
 #include <QList>
 #include <QString>
 #include <QPixmap>
+#include <QScopedPointer>
 
+#include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "settings/settingsdialog.h"
-#include "playlist/playlistmanager.h"
 #include "internetsearch.h"
 
 class QSortFilterProxyModel;
@@ -47,7 +49,9 @@ class QShowEvent;
 class QHideEvent;
 class QContextMenuEvent;
 
+class QModelIndex;
 class Application;
+class MimeData;
 class GroupByDialog;
 class InternetSearchModel;
 class Ui_InternetSearchView;

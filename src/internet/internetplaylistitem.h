@@ -23,11 +23,11 @@
 
 #include "config.h"
 
-#include <QString>
 #include <QVariant>
 #include <QUrl>
 
 #include "core/song.h"
+#include "collection/sqlrow.h"
 #include "playlist/playlistitem.h"
 
 class InternetService;

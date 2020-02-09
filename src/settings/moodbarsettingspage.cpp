@@ -22,17 +22,20 @@
 
 #include <QIODevice>
 #include <QFile>
+#include <QVariant>
 #include <QByteArray>
 #include <QPixmap>
 #include <QPainter>
 #include <QSettings>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QSize>
 
-#include "core/application.h"
-#include "core/mainwindow.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
 
 #include "settingsdialog.h"
+#include "settingspage.h"
 
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarrenderer.h"

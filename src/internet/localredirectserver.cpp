@@ -29,22 +29,25 @@
 #include <QIODevice>
 #include <QBuffer>
 #include <QFile>
-#include <QRegExp>
-#include <QStyle>
-#include <QSslKey>
-#include <QSslCertificate>
-#include <QTcpServer>
-#include <QAbstractSocket>
-#include <QTcpSocket>
-#include <QSslSocket>
 #include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
+#include <QIcon>
+#include <QImage>
+#include <QPixmap>
+#include <QRegExp>
+#include <QStyle>
+#include <QHostAddress>
+#include <QSsl>
+#include <QSslKey>
+#include <QSslCertificate>
+#include <QSslError>
+#include <QTcpServer>
+#include <QAbstractSocket>
+#include <QTcpSocket>
+#include <QSslSocket>
 #include <QDateTime>
-
-#include "core/logging.h"
-#include "core/closure.h"
 
 LocalRedirectServer::LocalRedirectServer(const bool https, QObject *parent)
     : QTcpServer(parent),

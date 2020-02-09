@@ -21,8 +21,10 @@
 #ifndef INTERNETSEARCHSORTMODEL_H
 #define INTERNETSEARCHSORTMODEL_H
 
-#include <QObject>
 #include <QSortFilterProxyModel>
+
+class QObject;
+class QModelIndex;
 
 class InternetSearchSortModel : public QSortFilterProxyModel {
  public:

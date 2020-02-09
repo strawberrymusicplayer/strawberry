@@ -24,27 +24,22 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QSet>
 #include <QList>
 #include <QPair>
+#include <QVariant>
+#include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
-#include <QNetworkReply>
 #include <QSslError>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/song.h"
-#include "internet/internetservices.h"
-#include "internet/internetservice.h"
-#include "internet/internetsearch.h"
 #include "tidalservice.h"
 
-class Application;
+class QNetworkReply;
 class NetworkAccessManager;
-class TidalUrlHandler;
-class CollectionBackend;
-class CollectionModel;
 
 class TidalBaseRequest : public QObject {
   Q_OBJECT

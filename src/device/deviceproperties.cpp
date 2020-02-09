@@ -29,7 +29,6 @@
 #include <QDialog>
 #include <QtConcurrentRun>
 #include <QFuture>
-#include <QMetaType>
 #include <QMap>
 #include <QSize>
 #include <QByteArray>
@@ -55,7 +54,6 @@
 #include "connecteddevice.h"
 #include "devicelister.h"
 #include "devicemanager.h"
-#include "deviceinfo.h"
 #include "deviceproperties.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"

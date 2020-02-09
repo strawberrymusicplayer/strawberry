@@ -32,7 +32,8 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QList>
-#include <QtEvents>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 #include "stretchheaderview.h"
 

@@ -24,7 +24,6 @@
 #include <QTimer>
 #include <QString>
 
-#include "core/logging.h"
 #include "core/song.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"

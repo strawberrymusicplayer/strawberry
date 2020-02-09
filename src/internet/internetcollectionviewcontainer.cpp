@@ -19,19 +19,16 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QWidget>
-#include <QPushButton>
-#include <QLabel>
 #include <QProgressBar>
 #include <QKeyEvent>
 #include <QContextMenuEvent>
 
-#include "core/application.h"
+#include "collection/collectionfilterwidget.h"
 #include "internetcollectionview.h"
 #include "internetcollectionviewcontainer.h"
 #include "ui_internetcollectionviewcontainer.h"
-#include "collection/collectionfilterwidget.h"
-#include "internetservice.h"
 
 InternetCollectionViewContainer::InternetCollectionViewContainer(QWidget *parent) :
   QWidget(parent),

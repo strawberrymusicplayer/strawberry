@@ -34,7 +34,6 @@
 #include <QFileDialog>
 #include <QVariant>
 #include <QString>
-#include <QStringBuilder>
 #include <QStringList>
 #include <QIcon>
 #include <QDateTime>
@@ -49,6 +48,7 @@
 #include <QTreeWidget>
 #include <QDialogButtonBox>
 #include <QSettings>
+#include <QTimerEvent>
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"

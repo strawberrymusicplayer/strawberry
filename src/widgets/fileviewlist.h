@@ -24,17 +24,16 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
-#include <QMimeData>
 #include <QListView>
+#include <QItemSelectionModel>
 #include <QList>
 #include <QUrl>
 #include <QString>
 #include <QStringList>
-#include <QMenu>
-#include <QItemSelectionModel>
-#include <QtEvents>
 
+class QWidget;
+class QMimeData;
+class QMenu;
 class QMouseEvent;
 class QContextMenuEvent;
 

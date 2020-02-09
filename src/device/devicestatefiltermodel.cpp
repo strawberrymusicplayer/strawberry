@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>

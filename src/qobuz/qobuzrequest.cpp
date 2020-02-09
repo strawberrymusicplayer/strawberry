@@ -21,14 +21,15 @@
 
 #include <QObject>
 #include <QByteArray>
-#include <QDir>
 #include <QString>
 #include <QUrl>
 #include <QImage>
+#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
@@ -39,6 +40,7 @@
 #include "covermanager/albumcoverloader.h"
 #include "qobuzservice.h"
 #include "qobuzurlhandler.h"
+#include "qobuzbaserequest.h"
 #include "qobuzrequest.h"
 
 const int QobuzRequest::kMaxConcurrentArtistsRequests = 3;

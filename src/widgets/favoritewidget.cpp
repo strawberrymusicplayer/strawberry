@@ -20,12 +20,13 @@
 
 #include "config.h"
 
-
+#include <QtGlobal>
 #include <QWidget>
 #include <QSize>
 #include <QStyle>
 #include <QStylePainter>
-#include <QtEvents>
+#include <QPaintEvent>
+#include <QMouseEvent>
 
 #include "favoritewidget.h"
 

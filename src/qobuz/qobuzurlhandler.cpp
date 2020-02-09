@@ -23,8 +23,6 @@
 
 #include "core/application.h"
 #include "core/taskmanager.h"
-#include "core/iconloader.h"
-#include "core/logging.h"
 #include "core/song.h"
 #include "qobuz/qobuzservice.h"
 #include "qobuzurlhandler.h"

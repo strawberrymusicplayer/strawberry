@@ -22,12 +22,12 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
 #include <QString>
 
 #include "settings/settingsdialog.h"
 #include "internetcollectionviewcontainer.h"
-#include "internetcollectionview.h"
 #include "ui_internettabsview.h"
 #include "core/song.h"
 
@@ -36,7 +36,6 @@ class QContextMenuEvent;
 class Application;
 class InternetService;
 class InternetSearch;
-class Ui_InternetTabsView;
 class InternetCollectionView;
 class InternetSearchView;
 

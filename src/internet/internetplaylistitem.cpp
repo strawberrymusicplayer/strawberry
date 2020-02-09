@@ -25,6 +25,7 @@
 #include <QSettings>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
 #include <QtDebug>
 
 #include "internetplaylistitem.h"

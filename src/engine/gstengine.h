@@ -34,11 +34,8 @@
 #include <QFuture>
 #include <QByteArray>
 #include <QList>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
-#include <QTimer>
-#include <QTimerEvent>
 
 #include "core/timeconstants.h"
 #include "engine_fwd.h"
@@ -46,6 +43,8 @@
 #include "gststartup.h"
 #include "gstbufferconsumer.h"
 
+class QTimer;
+class QTimerEvent;
 class TaskManager;
 class GstEnginePipeline;
 

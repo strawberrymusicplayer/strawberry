@@ -23,12 +23,19 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QSettings>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpinBox>
 
+#include "settingsdialog.h"
+#include "settingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "widgets/loginstatewidget.h"
 
 #include "scrobbler/audioscrobbler.h"
-#include "scrobbler/scrobblerservice.h"
 #include "scrobbler/lastfmscrobbler.h"
 #include "scrobbler/librefmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"

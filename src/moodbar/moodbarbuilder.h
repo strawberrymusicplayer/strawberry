@@ -18,6 +18,7 @@
 #ifndef MOODBARBUILDER_H
 #define MOODBARBUILDER_H
 
+#include <QtGlobal>
 #include <QList>
 #include <QByteArray>
 

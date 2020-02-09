@@ -37,13 +37,11 @@
 #include <QPlainTextEdit>
 #include <QSpinBox>
 #include <QFlags>
-#include <QtEvents>
+#include <QPaintEvent>
+#include <QResizeEvent>
 
 #include "core/iconloader.h"
 #include "lineedit.h"
-
-class QPaintEvent;
-class QResizeEvent;
 
 ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool draw_hint)
     : LineEditInterface(widget),

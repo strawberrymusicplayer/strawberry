@@ -20,6 +20,7 @@
 #ifndef QOBUZURLHANDLER_H
 #define QOBUZURLHANDLER_H
 
+#include <QtGlobal>
 #include <QObject>
 #include <QString>
 #include <QUrl>
@@ -29,7 +30,6 @@
 #include "qobuz/qobuzservice.h"
 
 class Application;
-class QobuzService;
 
 class QobuzUrlHandler : public UrlHandler {
   Q_OBJECT

@@ -22,19 +22,21 @@
 
 #include "config.h"
 
+#include <QObject>
 #include <QWidget>
+#include <QString>
 
+#include "internetcollectionview.h"
 #include "ui_internetcollectionviewcontainer.h"
 
 class QStackedWidget;
 class QPushButton;
 class QLabel;
 class QProgressBar;
+class QContextMenuEvent;
 class Application;
-class InternetCollectionView;
 class CollectionFilterWidget;
 class InternetService;
-class Ui_InternetCollectionViewContainer;
 
 class InternetCollectionViewContainer : public QWidget {
   Q_OBJECT

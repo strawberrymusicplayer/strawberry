@@ -20,6 +20,8 @@
 #include "config.h"
 
 #include <QObject>
+#include <QPair>
+#include <QList>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -28,16 +30,17 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QtDebug>
 
 #include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
+#include "lyricsprovider.h"
 #include "auddlyricsprovider.h"
 
 const char *AuddLyricsProvider::kUrlSearch = "https://api.audd.io/findLyrics/";

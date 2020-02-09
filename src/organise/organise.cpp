@@ -26,10 +26,10 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTimer>
+#include <QDateTime>
 #include <QString>
-#include <QStringBuilder>
 #include <QUrl>
-#include <QStandardPaths>
+#include <QImage>
 #include <QtDebug>
 
 #include "core/logging.h"

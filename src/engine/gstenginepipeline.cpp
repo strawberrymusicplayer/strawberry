@@ -22,6 +22,8 @@
 #include "config.h"
 
 #include <stdlib.h>
+#include <stdint.h>
+#include <string>
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
@@ -39,13 +41,14 @@
 #include <QUrl>
 #include <QTimeLine>
 #include <QMetaObject>
-#include <QtDebug>
 #include <QUuid>
+#include <QtDebug>
 
 #include "core/concurrentrun.h"
 #include "core/logging.h"
 #include "core/signalchecker.h"
 #include "core/timeconstants.h"
+#include "core/song.h"
 #include "enginebase.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"

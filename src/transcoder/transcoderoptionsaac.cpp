@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-
 #include <QVariant>
 #include <QString>
 #include <QStringBuilder>

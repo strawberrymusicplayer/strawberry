@@ -35,7 +35,6 @@
 #include <QString>
 #include <QStringList>
 #include <QImage>
-#include <QColor>
 #ifdef HAVE_DBUS
 #  include <QCoreApplication>
 #  include <QDBusArgument>

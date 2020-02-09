@@ -34,7 +34,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QSize>
-#include <QMenu>
+#include <QAction>
 #include <QMovie>
 
 #include "core/song.h"
@@ -46,7 +46,6 @@ class QTimeLine;
 class QTextDocument;
 class QPainter;
 class QMenu;
-class QAction;
 class QActionGroup;
 class QContextMenuEvent;
 class QDragEnterEvent;

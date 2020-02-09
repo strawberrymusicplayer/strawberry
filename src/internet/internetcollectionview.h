@@ -24,21 +24,20 @@
 
 #include "config.h"
 
-
 #include <QObject>
-#include <QWidget>
+#include <QAbstractItemModel>
+#include <QAbstractItemView>
 #include <QSet>
 #include <QString>
 #include <QPixmap>
-#include <QAction>
-#include <QMenu>
-#include <QtEvents>
 
 #include "widgets/autoexpandingtreeview.h"
 #include "core/song.h"
 
+class QWidget;
+class QMenu;
+class QAction;
 class QContextMenuEvent;
-class QHelpEvent;
 class QMouseEvent;
 class QPaintEvent;
 

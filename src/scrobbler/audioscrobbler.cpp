@@ -19,18 +19,15 @@
 
 #include "config.h"
 
-
-#include <algorithm>
-
-#include <QtGlobal>
+#include <QList>
+#include <QVariant>
 #include <QString>
 #include <QSettings>
+#include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "core/timeconstants.h"
 #include "settings/settingsdialog.h"
 #include "settings/scrobblersettingspage.h"
 

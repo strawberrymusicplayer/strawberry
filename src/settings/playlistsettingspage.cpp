@@ -24,11 +24,9 @@
 #include <QVariant>
 #include <QSettings>
 #include <QCheckBox>
-#include <QComboBox>
 #include <QRadioButton>
 
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "playlist/playlist.h"
 #include "settingspage.h"
 #include "playlistsettingspage.h"

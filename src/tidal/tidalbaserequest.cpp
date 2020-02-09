@@ -29,11 +29,11 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
-#include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QtDebug>
 
 #include "core/logging.h"
 #include "core/network.h"

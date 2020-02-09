@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QWidget>
+#include <QList>
 #include <QVariant>
 #include <QStringList>
 #include <QAction>
@@ -37,8 +37,10 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QLabel>
 
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "core/utilities.h"
 #ifdef Q_OS_MACOS
 #  include "core/mac_utilities.h"

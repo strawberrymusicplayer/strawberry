@@ -21,11 +21,10 @@
 #include "config.h"
 
 #include <QObject>
-#include <QWidget>
 #include <QString>
 #include <QLabel>
-#include <QtEvents>
 
+class QWidget;
 class QMouseEvent;
 
 class ClickableLabel : public QLabel {

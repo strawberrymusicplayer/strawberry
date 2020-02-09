@@ -27,21 +27,19 @@
 #include <memory>
 
 #include <QtGlobal>
-#include <QObject>
+#include <QMetaType>
 #include <QList>
-#include <QVariant>
+#include <QVariantList>
 #include <QString>
-#include <QStringList>
 #include <QIcon>
 
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "core/simpletreemodel.h"
 #include "core/simpletreeitem.h"
-#include "collection/collectionmodel.h"
 #include "devicedatabasebackend.h"
-#include "devicelister.h"
 
+class DeviceLister;
 class ConnectedDevice;
 
 // Devices can be in three different states:

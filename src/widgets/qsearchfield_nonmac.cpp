@@ -22,16 +22,20 @@ THE SOFTWARE.
 
 #include "qsearchfield.h"
 
+#include <QtGlobal>
+#include <QObject>
+#include <QWidget>
 #include <QApplication>
+#include <QString>
+#include <QIcon>
 #include <QPointer>
 #include <QLineEdit>
-#include <QVBoxLayout>
 #include <QToolButton>
 #include <QStyle>
+#include <QSize>
+#include <QBoxLayout>
 #include <QEvent>
-
-#include <QDir>
-#include <QDebug>
+#include <QResizeEvent>
 
 #include "core/iconloader.h"
 

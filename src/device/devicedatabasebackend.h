@@ -25,10 +25,9 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QSet>
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "core/song.h"
 #include "core/musicstorage.h"

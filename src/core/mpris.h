@@ -30,7 +30,6 @@ class Application;
 
 namespace mpris {
 
-class Mpris1;
 class Mpris2;
 
 class Mpris : public QObject {
