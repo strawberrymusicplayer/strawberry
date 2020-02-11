@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-
 #include <QList>
 #include <QVariant>
 #include <QString>

@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QSharedData>
 #include <QSharedDataPointer>

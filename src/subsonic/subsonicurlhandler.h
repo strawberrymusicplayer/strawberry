@@ -20,6 +20,8 @@
 #ifndef SUBSONICURLHANDLER_H
 #define SUBSONICURLHANDLER_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QPair>
 #include <QSet>

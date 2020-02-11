@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QObject>
 #include <QMutex>
 #include <QString>

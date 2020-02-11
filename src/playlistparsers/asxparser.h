@@ -21,7 +21,6 @@
 #ifndef ASXPARSER_H
 #define ASXPARSER_H
 
-
 #include <QObject>
 #include <QByteArray>
 #include <QString>

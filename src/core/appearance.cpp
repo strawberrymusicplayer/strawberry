@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-
 #include <QApplication>
 #include <QObject>
 #include <QVariant>

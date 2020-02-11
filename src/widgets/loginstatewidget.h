@@ -20,6 +20,8 @@
 #ifndef LOGINSTATEWIDGET_H
 #define LOGINSTATEWIDGET_H
 
+#include "config.h"
+
 #include <QWidget>
 #include <QObject>
 #include <QList>

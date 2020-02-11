@@ -20,7 +20,6 @@
 
 #include "config.h"
 
-
 #include <QWidget>
 #include <QAbstractItemModel>
 #include <QFileInfo>

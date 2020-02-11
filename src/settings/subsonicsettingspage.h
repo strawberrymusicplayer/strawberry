@@ -20,6 +20,8 @@
 #ifndef SUBSONICSETTINGSPAGE_H
 #define SUBSONICSETTINGSPAGE_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QString>
 #include <QUrl>

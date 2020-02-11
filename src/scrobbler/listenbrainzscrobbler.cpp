@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-
 #include <QtGlobal>
 #include <QDesktopServices>
 #include <QVariant>

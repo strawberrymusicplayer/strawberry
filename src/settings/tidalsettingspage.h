@@ -20,6 +20,8 @@
 #ifndef TIDALSETTINGSPAGE_H
 #define TIDALSETTINGSPAGE_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QString>
 

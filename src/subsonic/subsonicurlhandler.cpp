@@ -17,6 +17,8 @@
  *
  */
 
+#include "config.h"
+
 #include <QtGlobal>
 #include <QString>
 #include <QUrl>

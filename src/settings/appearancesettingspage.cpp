@@ -19,6 +19,8 @@
  *
  */
 
+#include "config.h"
+
 #include <QApplication>
 #include <QWidget>
 #include <QVariant>

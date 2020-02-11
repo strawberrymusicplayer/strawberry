@@ -19,6 +19,8 @@
  *
  */
 
+#include "config.h"
+
 #include <memory>
 #include <functional>
 #include <assert.h>

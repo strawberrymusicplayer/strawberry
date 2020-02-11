@@ -21,7 +21,6 @@
 
 #include "config.h"
 
-
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>

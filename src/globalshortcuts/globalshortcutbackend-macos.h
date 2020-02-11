@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <memory>
 
 #include "globalshortcutbackend.h"

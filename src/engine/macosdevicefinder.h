@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-
 #include <QList>
 
 #include "devicefinder.h"
