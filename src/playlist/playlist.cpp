@@ -1864,7 +1864,7 @@ void Playlist::RemoveDeletedSongs() {
     PlaylistItemPtr item = items_[row];
     Song song = item->Metadata();
 
-    if (!song.is_stream() && !QFile::exists(song.url().toLocalFile())) {
+    if (song.url().isLocalFile() && !QFile::exists(song.url().toLocalFile())) {
       rows_to_remove.append(row);
     }
   }
