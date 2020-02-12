@@ -656,7 +656,7 @@ msgstr "Etter kopiering…"
 msgid "Albu&m cover"
 msgstr "Albu&m kover"
 
-#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:86
+#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
 #: playlist/playlist.cpp:1174 organise/organisedialog.cpp:90
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
@@ -669,7 +669,7 @@ msgstr "Album"
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (ideell lydstyrkeutgjevning for alle spor)"
 
-#: collection/savedgroupingmanager.cpp:89 ../build/src/ui_groupbydialog.h:131
+#: collection/savedgroupingmanager.cpp:90 ../build/src/ui_groupbydialog.h:131
 #: ../build/src/ui_groupbydialog.h:155 ../build/src/ui_groupbydialog.h:179
 msgid "Album - Disc"
 msgstr "Album - Disc"
@@ -678,7 +678,7 @@ msgstr "Album - Disc"
 msgid "Album art cache"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:83 playlist/playlist.cpp:1181
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1181
 #: organise/organisedialog.cpp:93 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
@@ -799,7 +799,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Tilføy filer/URLer til spillelista"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:41 internet/internetsearchview.cpp:431
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Legg til i gjeldende spilleliste"
@@ -822,7 +822,7 @@ msgid "Are you sure you want to reset this song's statistics?"
 msgstr ""
 "Er du sikker på at du ønsker å nullstille statistikk for denne sangen?"
 
-#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:80
+#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
 #: playlist/playlist.cpp:1173 organise/organisedialog.cpp:91
 #: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
 #: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
@@ -895,7 +895,7 @@ msgstr "Åpne enkeltkategorier i bibliotektreet automatisk"
 msgid "Automatically select current playing track"
 msgstr "Velg spor automatisk"
 
-#: widgets/freespacebar.cpp:69
+#: widgets/freespacebar.cpp:68
 msgid "Available"
 msgstr "Tilgjengelig"
 
@@ -947,7 +947,7 @@ msgstr "Adferd"
 msgid "Best"
 msgstr "Best"
 
-#: collection/savedgroupingmanager.cpp:131 playlist/playlist.cpp:1191
+#: collection/savedgroupingmanager.cpp:132 playlist/playlist.cpp:1191
 #: organise/organisedialog.cpp:106 ../build/src/ui_contextviewcontainer.h:354
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
@@ -958,7 +958,7 @@ msgstr "Bit dybde"
 msgid "Bit rate"
 msgstr "Bitrate"
 
-#: collection/savedgroupingmanager.cpp:134 playlist/playlist.cpp:1192
+#: collection/savedgroupingmanager.cpp:135 playlist/playlist.cpp:1192
 #: ../build/src/ui_contextviewcontainer.h:362
 #: ../build/src/ui_groupbydialog.h:146 ../build/src/ui_groupbydialog.h:170
 #: ../build/src/ui_groupbydialog.h:194
@@ -1169,7 +1169,7 @@ msgstr "Fyll ut etiketter automatisk"
 msgid "Complete tags automatically..."
 msgstr "Full ut etiketter automatisk…"
 
-#: collection/savedgroupingmanager.cpp:116 playlist/playlist.cpp:1182
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1182
 #: organise/organisedialog.cpp:94 ../build/src/ui_groupbydialog.h:140
 #: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
 #: ../build/src/ui_edittagdialog.h:686
@@ -1231,14 +1231,14 @@ msgstr "Konverter all musikk som enheten ikke kan spille"
 msgid "Copy album cover artwork"
 msgstr "Kopier album omslaggrafikk"
 
-#: core/mainwindow.cpp:631 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:631 widgets/fileviewlist.cpp:45
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
 #: core/mainwindow.cpp:629 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
-#: widgets/fileviewlist.cpp:48
+#: widgets/fileviewlist.cpp:47
 msgid "Copy to device..."
 msgstr "Kopier til enhet…"
 
@@ -1461,7 +1461,7 @@ msgstr "Slett filer"
 msgid "Delete from device..."
 msgstr "Slett fra enhet…"
 
-#: widgets/fileviewlist.cpp:49
+#: widgets/fileviewlist.cpp:48
 msgid "Delete from disk..."
 msgstr "Slett fra disk…"
 
@@ -1527,7 +1527,7 @@ msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Avskrudd"
 
-#: collection/savedgroupingmanager.cpp:92 playlist/playlist.cpp:1176
+#: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1176
 #: organise/organisedialog.cpp:98 ../build/src/ui_groupbydialog.h:132
 #: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
 #: ../build/src/ui_edittagdialog.h:684
@@ -1623,7 +1623,7 @@ msgid "Edit track information"
 msgstr "Rediger spor informasjon"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:337
-#: widgets/fileviewlist.cpp:52 ../build/src/ui_mainwindow.h:628
+#: widgets/fileviewlist.cpp:51 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Rediger spor informasjon…"
 
@@ -1774,7 +1774,7 @@ msgstr "Unntatt mellom spor fra samme album eller CUE-fil"
 msgid "Existing covers"
 msgstr "Eksisterende omslag"
 
-#: widgets/loginstatewidget.cpp:147
+#: widgets/loginstatewidget.cpp:149
 #, qt-format
 msgid "Expires on %1"
 msgstr "Utgår den %1"
@@ -1905,7 +1905,7 @@ msgstr "Filstier"
 msgid "File size"
 msgstr "Filstørrelse"
 
-#: collection/savedgroupingmanager.cpp:125 playlist/playlist.cpp:1197
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1197
 #: ../build/src/ui_groupbydialog.h:143 ../build/src/ui_groupbydialog.h:167
 #: ../build/src/ui_groupbydialog.h:191 ../build/src/ui_edittagdialog.h:673
 msgid "File type"
@@ -1935,7 +1935,7 @@ msgstr "Filtype"
 msgid "Fingerprinting song"
 msgstr "Vannmerker sangen"
 
-#: collection/savedgroupingmanager.cpp:55 ../build/src/ui_groupbydialog.h:124
+#: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:124
 msgid "First level"
 msgstr "Første nivå"
 
@@ -1977,7 +1977,7 @@ msgstr ""
 msgid "Form"
 msgstr "Skjema"
 
-#: collection/savedgroupingmanager.cpp:95 ../build/src/ui_groupbydialog.h:133
+#: collection/savedgroupingmanager.cpp:96 ../build/src/ui_groupbydialog.h:133
 #: ../build/src/ui_groupbydialog.h:157 ../build/src/ui_groupbydialog.h:181
 msgid "Format"
 msgstr "Format"
@@ -2014,7 +2014,7 @@ msgstr "Generelt"
 msgid "General settings"
 msgstr "Generelle innstillinger"
 
-#: collection/savedgroupingmanager.cpp:98 playlist/playlist.cpp:1180
+#: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1180
 #: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:134
 #: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
 #: ../build/src/ui_edittagdialog.h:680
@@ -2109,7 +2109,7 @@ msgstr "Grupper etter sjanger/album artist/album"
 msgid "Group by Genre/Artist/Album"
 msgstr "Grupper etter sjanger/artist/album"
 
-#: collection/savedgroupingmanager.cpp:122 playlist/playlist.cpp:1184
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1184
 #: organise/organisedialog.cpp:96 ../build/src/ui_groupbydialog.h:142
 #: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
 #: ../build/src/ui_edittagdialog.h:682
@@ -2158,7 +2158,7 @@ msgstr "Høy (%1 bilder/sekund)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:605
 msgid "Icons on top"
 msgstr "Ikoner øverst"
 
@@ -2274,7 +2274,7 @@ msgstr "Storsal"
 msgid "Large album cover"
 msgstr "Stort omslag"
 
-#: widgets/fancytabwidget.cpp:599
+#: widgets/fancytabwidget.cpp:601
 msgid "Large sidebar"
 msgstr "Stort sidefelt"
 
@@ -2305,7 +2305,7 @@ msgstr "Lengde"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: scrobbler/listenbrainzscrobbler.cpp:147
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz autentisering"
 
@@ -2337,7 +2337,7 @@ msgstr "Hent omslag fra disk"
 msgid "Load cover from disk..."
 msgstr "Hent omslag fra disk…"
 
-#: playlist/playlistcontainer.cpp:305
+#: playlist/playlistcontainer.cpp:307
 msgid "Load playlist"
 msgstr "Åpne spilleliste"
 
@@ -2481,7 +2481,7 @@ msgstr "Mangler Qobuz passord."
 msgid "Missing Qobuz username."
 msgstr "Mangler Qobuz brukernavn."
 
-#: subsonic/subsonicurlhandler.cpp:43
+#: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
 msgstr "Mangler Subsonic brukernavn eller passord."
 
@@ -2552,7 +2552,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytt nedover"
 
-#: core/mainwindow.cpp:632 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:632 widgets/fileviewlist.cpp:46
 msgid "Move to collection..."
 msgstr "Flytt til samling…"
 
@@ -2568,7 +2568,7 @@ msgstr "Musikk"
 msgid "Mute"
 msgstr "Demp"
 
-#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:54
+#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
 #: ../build/src/ui_deviceproperties.h:371
 msgid "Name"
 msgstr "Navn"
@@ -2603,7 +2603,7 @@ msgstr "Ny mappe"
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
-#: widgets/freespacebar.cpp:70
+#: widgets/freespacebar.cpp:69
 msgid "New songs"
 msgstr "Nye sanger"
 
@@ -2631,7 +2631,7 @@ msgstr "Ingen lange blokker"
 msgid "No match."
 msgstr "Ingen treff."
 
-#: playlist/playlistcontainer.cpp:386
+#: playlist/playlistcontainer.cpp:388
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "Ingen treff.  Visk ut søkefeltet for å vise hele spillelisten igjen."
@@ -2644,7 +2644,7 @@ msgstr "Ikke korte blokker"
 msgid "No song playing"
 msgstr "Ingen sang spilles"
 
-#: collection/savedgroupingmanager.cpp:77 ../build/src/ui_groupbydialog.h:127
+#: collection/savedgroupingmanager.cpp:78 ../build/src/ui_groupbydialog.h:127
 #: ../build/src/ui_groupbydialog.h:151 ../build/src/ui_groupbydialog.h:175
 msgid "None"
 msgstr "Ingen"
@@ -2739,7 +2739,7 @@ msgid "Open device"
 msgstr "Åpne enhet"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -2783,13 +2783,13 @@ msgstr "Organiserer filer"
 msgid "Original tags"
 msgstr "Opprinnelige tagger"
 
-#: collection/savedgroupingmanager.cpp:110 playlist/playlist.cpp:1179
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1179
 #: organise/organisedialog.cpp:100 ../build/src/ui_groupbydialog.h:138
 #: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
 msgid "Original year"
 msgstr "Opprinnelig år"
 
-#: collection/savedgroupingmanager.cpp:113 ../build/src/ui_groupbydialog.h:139
+#: collection/savedgroupingmanager.cpp:114 ../build/src/ui_groupbydialog.h:139
 #: ../build/src/ui_groupbydialog.h:163 ../build/src/ui_groupbydialog.h:187
 msgid "Original year - Album"
 msgstr "Opprinnelig år - album"
@@ -2855,7 +2855,7 @@ msgstr "Sett avspilling på pause"
 msgid "Paused"
 msgstr "På pause"
 
-#: collection/savedgroupingmanager.cpp:119 playlist/playlist.cpp:1183
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:95 ../build/src/ui_groupbydialog.h:141
 #: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
 #: ../build/src/ui_edittagdialog.h:691
@@ -2866,7 +2866,7 @@ msgstr "Utøver"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:603
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
@@ -2897,7 +2897,7 @@ msgstr "Spill av <n>ende spor i spillelista"
 msgid "Player options"
 msgstr "Innstillinger for avspiller"
 
-#: playlist/playlistcontainer.cpp:300 playlist/playlistlistcontainer.cpp:257
+#: playlist/playlistcontainer.cpp:302 playlist/playlistlistcontainer.cpp:257
 #: playlist/playlistlistcontainer.cpp:345 playlist/playlistmanager.cpp:103
 #: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
@@ -2928,7 +2928,7 @@ msgstr "Spillelister"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Lukk nettleseren og gå tilbake til Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: scrobbler/listenbrainzscrobbler.cpp:147
 msgid "Please open this URL in your browser"
 msgstr "Vennligst åpne denne URLen i din nettleser"
 
@@ -3088,7 +3088,7 @@ msgstr "Relativ"
 msgid "Really cancel?"
 msgstr "Vil du virkelig avbryte?"
 
-#: scrobbler/listenbrainzscrobbler.cpp:174
+#: scrobbler/listenbrainzscrobbler.cpp:173
 msgid "Received invalid reply from web browser."
 msgstr "Mottok ugyldig svar fra nettleseren."
 
@@ -3100,7 +3100,7 @@ msgstr ""
 "Mottok ugyldig svar fra nettleseren. Prøv HTTPS valget, eller bruk en annen "
 "nettleser som Chromium eller Chrome."
 
-#: scrobbler/listenbrainzscrobbler.cpp:170
+#: scrobbler/listenbrainzscrobbler.cpp:169
 msgid "Redirect missing token code!"
 msgstr "Redirect missing token code!"
 
@@ -3186,7 +3186,7 @@ msgid "Repeat track"
 msgstr "Gjenta spor"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:432
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Erstatt gjeldende spilleliste"
@@ -3333,7 +3333,7 @@ msgstr "Trygg fjerning av enhet"
 msgid "Safely remove the device after copying"
 msgstr "Kjør trygg fjerning av enhet etter kopiering"
 
-#: collection/savedgroupingmanager.cpp:128 playlist/playlist.cpp:1190
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1190
 #: organise/organisedialog.cpp:105 ../build/src/ui_groupbydialog.h:144
 #: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
 #: ../build/src/ui_edittagdialog.h:670
@@ -3457,7 +3457,7 @@ msgstr "Søketype"
 msgid "Searching..."
 msgstr "Søker..."
 
-#: collection/savedgroupingmanager.cpp:56
+#: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
 msgstr "Andre nivå"
 
@@ -3481,7 +3481,7 @@ msgstr "Gå frem-/bakover ved bruk av en tastatursnarvei eller musehjulet"
 msgid "Select background color:"
 msgstr "Velg bakgrunnsfarge:"
 
-#: settings/appearancesettingspage.cpp:317
+#: settings/appearancesettingspage.cpp:319
 msgid "Select background image"
 msgstr "Velg bakgrunnsbilde"
 
@@ -3621,7 +3621,7 @@ msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
 #: core/mainwindow.cpp:634 context/contextalbumsview.cpp:268
-#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
+#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:52
 msgid "Show in file browser..."
 msgstr "Vis i fil utforsker"
 
@@ -3726,7 +3726,7 @@ msgstr "Hopp over spor"
 msgid "Small album cover"
 msgstr "Lite albumomslag"
 
-#: widgets/fancytabwidget.cpp:600
+#: widgets/fancytabwidget.cpp:602
 msgid "Small sidebar"
 msgstr "Lite sidefelt"
 
@@ -3883,7 +3883,7 @@ msgstr "Send scrobbles hver"
 msgid "Subsonic"
 msgstr "Subsonic"
 
-#: subsonic/subsonicurlhandler.cpp:39
+#: subsonic/subsonicurlhandler.cpp:41
 msgid "Subsonic server URL is invalid."
 msgstr "Subsonic server URL er ugyldig."
 
@@ -3923,7 +3923,7 @@ msgstr "Systemfarger"
 msgid "Tabbar colors"
 msgstr "Tabbar farger"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:604
 msgid "Tabs on top"
 msgstr "Faner på toppen"
 
@@ -4048,7 +4048,7 @@ msgstr ""
 "Disse innstillingene brukes i \"Omkod musikk\"-dialogvinduet, og når "
 "musikken omkodes før kopiering til en enhet."
 
-#: collection/savedgroupingmanager.cpp:57
+#: collection/savedgroupingmanager.cpp:58
 msgid "Third Level"
 msgstr "Tredje nivå"
 
@@ -4210,7 +4210,7 @@ msgstr "Ultrabredt bånd (UWB)"
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1404
-#: collection/savedgroupingmanager.cpp:136 playlist/playlistdelegates.cpp:354
+#: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:543 playlist/playlistmanager.cpp:544
 #: dialogs/edittagdialog.cpp:491 dialogs/edittagdialog.cpp:539
 msgid "Unknown"
@@ -4331,7 +4331,7 @@ msgstr "Bruk midlertidig støyforming"
 msgid "Use the system default"
 msgstr "Bruk systemforevalg"
 
-#: widgets/freespacebar.cpp:71
+#: widgets/freespacebar.cpp:70
 msgid "Used"
 msgstr "Brukt"
 
@@ -4455,7 +4455,7 @@ msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 msgid "Write metadata when saving playlists"
 msgstr "Skrev metadata når spilleliste lagres"
 
-#: collection/savedgroupingmanager.cpp:101 playlist/playlist.cpp:1178
+#: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1178
 #: organise/organisedialog.cpp:99 ../build/src/ui_groupbydialog.h:135
 #: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
 #: ../build/src/ui_edittagdialog.h:690
@@ -4463,12 +4463,12 @@ msgstr "Skrev metadata når spilleliste lagres"
 msgid "Year"
 msgstr "År"
 
-#: collection/savedgroupingmanager.cpp:104 ../build/src/ui_groupbydialog.h:136
+#: collection/savedgroupingmanager.cpp:105 ../build/src/ui_groupbydialog.h:136
 #: ../build/src/ui_groupbydialog.h:160 ../build/src/ui_groupbydialog.h:184
 msgid "Year - Album"
 msgstr "År - album"
 
-#: collection/savedgroupingmanager.cpp:107 ../build/src/ui_groupbydialog.h:137
+#: collection/savedgroupingmanager.cpp:108 ../build/src/ui_groupbydialog.h:137
 #: ../build/src/ui_groupbydialog.h:161 ../build/src/ui_groupbydialog.h:185
 msgid "Year - Album - Disc"
 msgstr "År - album - disc"
@@ -4497,12 +4497,12 @@ msgstr ""
 msgid "You are not signed in."
 msgstr "Du har ikke logget inn."
 
-#: widgets/loginstatewidget.cpp:79
+#: widgets/loginstatewidget.cpp:81
 #, qt-format
 msgid "You are signed in as %1."
 msgstr "Du er innlogget som %1."
 
-#: widgets/loginstatewidget.cpp:78
+#: widgets/loginstatewidget.cpp:80
 msgid "You are signed in."
 msgstr "Du er innlogget"
 
