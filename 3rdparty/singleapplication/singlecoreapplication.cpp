@@ -180,7 +180,7 @@ bool SingleCoreApplication::sendMessage(QByteArray message, int timeout) {
   if(isPrimary()) return false;
 
   // Make sure the socket is connected
-  d->connectToPrimary(timeout,  SingleCoreApplicationPrivate::Reconnect);
+  d->connectToPrimary(timeout, SingleCoreApplicationPrivate::Reconnect);
 
   d->socket->write(message);
   bool dataWritten = d->socket->waitForBytesWritten(timeout);
