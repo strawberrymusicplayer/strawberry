@@ -31,12 +31,13 @@
 # Alberto <tuscriaturas@gmail.com>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Pablo Felip <takerna@gmail.com>, 2019. #zanata
+# Pablo Felip <takerna@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2019-09-03 10:05+0000\n"
+"PO-Revision-Date: 2020-02-16 11:22+0000\n"
 "Last-Translator: Pablo Felip <takerna@gmail.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -53,10 +54,10 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Puede marcar listas de reproducción como favoritas haciendo clic en los "
+"Puedes marcar listas de reproducción como favoritas haciendo clic en los "
 "iconos con forma de estrella junto a sus nombres\n"
 "\n"
-"Sus listas favoritas se guardarán aquí"
+"Tus listas favoritas se guardarán aquí"
 
 #: settings/shortcutssettingspage.cpp:317
 #, qt-format
@@ -128,22 +129,22 @@ msgstr "Inicio de sesión en el servicio de registro de reproducción %1"
 #: context/contextview.cpp:259
 #, qt-format
 msgid "%1 album"
-msgstr ""
+msgstr "%1 álbum"
 
 #: context/contextview.cpp:260
 #, qt-format
 msgid "%1 albums"
-msgstr ""
+msgstr "%1 álbums"
 
 #: context/contextview.cpp:255
 #, qt-format
 msgid "%1 artist"
-msgstr ""
+msgstr "%1 artista"
 
 #: context/contextview.cpp:256
 #, qt-format
 msgid "%1 artists"
-msgstr ""
+msgstr "%1 artistas"
 
 #: equalizer/equalizerslider.cpp:42 equalizer/equalizerslider.cpp:44
 #: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
@@ -174,7 +175,7 @@ msgstr "%1 seleccionado de"
 #: context/contextview.cpp:251
 #, qt-format
 msgid "%1 song"
-msgstr ""
+msgstr "%1 tema"
 
 #: device/deviceview.cpp:144
 #, qt-format
@@ -184,7 +185,7 @@ msgstr "%1 canción%2"
 #: context/contextview.cpp:252
 #, qt-format
 msgid "%1 songs"
-msgstr ""
+msgstr "%1 temas"
 
 #: core/utilities.cpp:358
 #, qt-format
@@ -203,7 +204,7 @@ msgstr "%1 transferido"
 
 #: ../build/src/ui_contextsettingspage.h:322
 msgid "%album%"
-msgstr ""
+msgstr "%album%"
 
 #: ../build/src/ui_collectionsettingspage.h:382
 #, c-format
@@ -235,7 +236,7 @@ msgstr "%n pendientes"
 
 #: ../build/src/ui_contextsettingspage.h:318
 msgid "%title - %artist%"
-msgstr ""
+msgstr "%title - %artist%"
 
 #: ../build/src/ui_mainwindow.h:642
 msgid "&About Strawberry"
@@ -700,7 +701,7 @@ msgstr "Álbum - Disco"
 
 #: ../build/src/ui_collectionsettingspage.h:386
 msgid "Album art cache"
-msgstr ""
+msgstr "Caché de carátulas"
 
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1181
 #: organise/organisedialog.cpp:93 ../build/src/ui_groupbydialog.h:129
@@ -720,11 +721,11 @@ msgstr "Álbumes"
 #: context/contextview.cpp:423
 #, qt-format
 msgid "Albums by %1"
-msgstr ""
+msgstr "Álbums de %1"
 
 #: ../build/src/ui_contextsettingspage.h:327
 msgid "Albums by Artist"
-msgstr ""
+msgstr "Albums por artista"
 
 #: ../build/src/ui_tidalsettingspage.h:321
 #: ../build/src/ui_qobuzsettingspage.h:278
@@ -840,11 +841,11 @@ msgstr "Aplicar compresión para evitar saturación"
 #: equalizer/equalizer.cpp:227
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "¿Seguro que desea eliminar el ajuste predefinido «%1»?"
+msgstr "¿Seguro que deseas eliminar el ajuste predefinido «%1»?"
 
 #: dialogs/edittagdialog.cpp:833
 msgid "Are you sure you want to reset this song's statistics?"
-msgstr "¿Seguro que desea restablecer las estadísticas de esta canción?"
+msgstr "¿Seguro que deseas restablecer las estadísticas de esta canción?"
 
 #: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
 #: playlist/playlist.cpp:1173 organise/organisedialog.cpp:91
@@ -917,7 +918,7 @@ msgstr "Expandir automáticamente categorías únicas en la colección"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
-msgstr ""
+msgstr "Seleccionar automáticamente la pista en reproducción"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -925,7 +926,7 @@ msgstr "Disponible"
 
 #: collection/collectionfilterwidget.cpp:80
 msgid "Available fields"
-msgstr ""
+msgstr "Campos disponibles"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:220
 msgid "Average bitrate"
@@ -1098,7 +1099,7 @@ msgstr "Borrar"
 
 #: ../build/src/ui_collectionsettingspage.h:389
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Inicializar caché de disco"
 
 #: core/mainwindow.cpp:1978 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
@@ -1106,11 +1107,11 @@ msgstr "Vaciar lista de reproducción"
 
 #: dialogs/about.cpp:164
 msgid "Clementine authors"
-msgstr ""
+msgstr "Autores de Clementine"
 
 #: dialogs/about.cpp:173
 msgid "Clementine contributors"
-msgstr ""
+msgstr "Colaboradores de Clementine"
 
 #: collection/collectionview.cpp:299
 msgid "Click here to add some music"
@@ -1127,7 +1128,7 @@ msgstr ""
 
 #: internet/internetcollectionview.cpp:283
 msgid "Click here to retrieve music"
-msgstr "Hac clic aquí para buscar música"
+msgstr "Haz clic aquí para buscar música"
 
 #: ../build/src/ui_trackslider.h:71
 msgid "Click to toggle between remaining time and total time"
@@ -1148,7 +1149,8 @@ msgstr "Cerrar lista de reproducción"
 #: covermanager/albumcovermanager.cpp:233
 msgid "Closing this window will stop searching for album covers."
 msgstr ""
-"Si cierra esta ventana se detendrá la búsqueda de portadas para los álbumes."
+"Si cierras esta ventana se detendrá la búsqueda de portadas para los álbumes."
+""
 
 #: equalizer/equalizer.cpp:139
 msgid "Club"
@@ -1160,7 +1162,7 @@ msgstr "Colección"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Collection Filter"
-msgstr ""
+msgstr "Filtro de colección"
 
 #: ../build/src/ui_groupbydialog.h:121
 msgid "Collection advanced grouping"
@@ -1193,7 +1195,7 @@ msgstr "Completar etiquetas automáticamente"
 
 #: ../build/src/ui_mainwindow.h:690
 msgid "Complete tags automatically..."
-msgstr "Completar etiquetas automáticamente…"
+msgstr "Completar etiquetas automáticamente"
 
 #: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1182
 #: organise/organisedialog.cpp:94 ../build/src/ui_groupbydialog.h:140
@@ -1244,7 +1246,7 @@ msgstr ""
 
 #: dialogs/about.cpp:146
 msgid "Contributors"
-msgstr ""
+msgstr "Colaboradores"
 
 #: ../build/src/ui_deviceproperties.h:381
 msgid "Convert all music"
@@ -1279,12 +1281,12 @@ msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
 "required GStreamer plugins installed"
 msgstr ""
-"No se pudo crear el elemento «%1» de GStreamer. Asegúrese de tener "
+"No se pudo crear el elemento «%1» de GStreamer. Asegúrate de tener "
 "instalados todos los complementos necesarios de GStreamer."
 
 #: scrobbler/scrobblingapi20.cpp:160
 msgid "Could not open URL. Please open this URL in your browser"
-msgstr ""
+msgstr "No se ha podido abrir URL. Por favor, ábrela en tu navegador"
 
 #: core/songloader.cpp:260
 #, qt-format
@@ -1306,7 +1308,7 @@ msgid ""
 "Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
 "installed"
 msgstr ""
-"No se pudo encontrar un mezclador para %1, compruebe que tiene instalados "
+"No se pudo encontrar un mezclador para %1, comprueba que tienes instalados "
 "los complementos correctos de GStreamer"
 
 #: transcoder/transcoder.cpp:438
@@ -1315,7 +1317,7 @@ msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
 "plugins installed"
 msgstr ""
-"No se pudo encontrar un codificador para %1, compruebe que tiene instalados "
+"No se pudo encontrar un codificador para %1, comprueba que tienes instalados "
 "los complementos de GStreamer correctos"
 
 #: ../build/src/ui_albumcovermanager.h:214
@@ -1437,7 +1439,7 @@ msgstr "Configuración de mensaje personalizado"
 
 #: ../build/src/ui_contextsettingspage.h:317
 msgid "Custom text settings"
-msgstr ""
+msgstr "Ajustes de texto personalizados"
 
 #: ../build/src/ui_notificationssettingspage.h:491
 msgid "Custom..."
@@ -1567,7 +1569,7 @@ msgstr "Transmisión discontinua"
 
 #: ../build/src/ui_collectionsettingspage.h:390
 msgid "Disk Cache Size"
-msgstr ""
+msgstr "Tamaño de caché de disco"
 
 #: collection/collectionfilterwidget.cpp:127
 #: ../build/src/ui_collectionsettingspage.h:373
@@ -1670,11 +1672,11 @@ msgstr "Activar"
 
 #: ../build/src/ui_collectionsettingspage.h:388
 msgid "Enable Disk Cache"
-msgstr ""
+msgstr "Activar caché de disco"
 
 #: ../build/src/ui_contextsettingspage.h:324
 msgid "Enable Items"
-msgstr ""
+msgstr "Activar elementos"
 
 #: ../build/src/ui_equalizer.h:176
 msgid "Enable equalizer"
@@ -1682,7 +1684,7 @@ msgstr "Activar el ecualizador"
 
 #: ../build/src/ui_playlistsettingspage.h:156
 msgid "Enable playlist clear button"
-msgstr ""
+msgstr "Activar botón de borrado de lista de reproducción"
 
 #: ../build/src/ui_playlistsettingspage.h:166
 msgid "Enable song metadata inline edition with click"
@@ -1690,7 +1692,7 @@ msgstr "Editar metadatos de pistas directamente"
 
 #: ../build/src/ui_equalizer.h:177
 msgid "Enable stereo balancer"
-msgstr ""
+msgstr "Activar ajuste de balance estéreo"
 
 #: ../build/src/ui_backendsettingspage.h:451
 msgid "Enable volume control"
@@ -1719,38 +1721,38 @@ msgstr "Motor"
 
 #: ../build/src/ui_contextsettingspage.h:326
 msgid "Engine and Device"
-msgstr ""
+msgstr "Motor y Dispositivo"
 
 #: ../build/src/ui_coverfromurldialog.h:102
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Introduzca una URL para descargar una portada de la Internet:"
+msgstr "Introduce una URL para descargar una portada de la Internet:"
 
 #: ../build/src/ui_albumcoverexport.h:204
 msgid "Enter a filename for exported covers (no extension):"
 msgstr ""
-"Introduzca un nombre de archivo para las portadas exportadas (sin extensión):"
-""
+"Introduce un nombre de archivo para las portadas exportadas (sin extensión):"
 
 #: playlist/playlisttabbar.cpp:173
 msgid "Enter a new name for this playlist"
-msgstr "Introduzca un nombre nuevo para esta lista de reproducción"
+msgstr "Introduce un nombre nuevo para esta lista de reproducción"
 
 #: ../build/src/ui_internetsearchview.h:233
 msgid "Enter search terms above to find music"
-msgstr "Introduzca aquí arriba palabras para buscar en la colección"
+msgstr ""
+"Introduce términos de búsqueda aquí arriba para buscar en la colección"
 
 #: ../build/src/ui_collectionfilterwidget.h:103
 #: ../build/src/ui_albumcovermanager.h:218
 msgid "Enter search terms here"
-msgstr "Introduzca aquí términos de búsqueda"
+msgstr "Introduce aquí términos de búsqueda"
 
 #: playlist/playlistlistcontainer.cpp:195
 msgid "Enter the name of the folder"
-msgstr "Escriba el nombre de la carpeta"
+msgstr "Escribe el nombre de la carpeta"
 
 #: settings/scrobblersettingspage.cpp:81
 msgid "Enter your user token from"
-msgstr ""
+msgstr "Introduce tu token de usuario de"
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Entire collection"
@@ -2205,7 +2207,7 @@ msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
 msgstr ""
-"Al activar esta opción podrá hacer clic en la canción seleccionada de la "
+"Al activar esta opción podrás hacer clic en la canción seleccionada de la "
 "lista de reproducción y editar la etiqueta directamente"
 
 #: device/devicemanager.cpp:611 device/devicemanager.cpp:619
@@ -2213,8 +2215,8 @@ msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
 msgstr ""
-"Si continúa este dispositivo funcionará con lentitud y las pistas que se "
-"copien a él podrían no funcionar."
+"Si continúas este dispositivo funcionará con lentitud y las pistas que se "
+"copien en él podrían no funcionar."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2276,6 +2278,8 @@ msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors, audio "
 "enthusiasts and audiophiles."
 msgstr ""
+"Es un fork de Clementine lanzado en 2018 destinado a coleccionistas, "
+"aficionados al audio y audiófilos"
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -2418,7 +2422,7 @@ msgstr "Perfil de predicción a largo plazo (LTP)"
 
 #: ../build/src/ui_mainwindow.h:620
 msgid "Love"
-msgstr "Amor"
+msgstr "Me gusta"
 
 #: analyzer/analyzercontainer.cpp:73
 #, qt-format
@@ -2447,7 +2451,7 @@ msgstr "Perfil principal (MAIN)"
 
 #: dialogs/about.cpp:137
 msgid "Maintainer"
-msgstr ""
+msgstr "Mantenedor"
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 msgid "Manage saved groupings"
@@ -2463,7 +2467,7 @@ msgstr "Marcar como escuchado"
 
 #: ../build/src/ui_collectionsettingspage.h:366
 msgid "Mark disappeared songs unavailable"
-msgstr "Marca las pistas desaparecidas como no disponibles"
+msgstr "Marcar las pistas desaparecidas como no disponibles"
 
 #: ../build/src/ui_appearancesettingspage.h:418
 msgid "Max cover size"
@@ -2670,7 +2674,7 @@ msgstr "Sin coincidencias."
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr ""
-"No se encontraron coincidencias.  Borre el texto introducido en el cuadro de "
+"No se encontraron coincidencias.  Borra el texto introducido en el cuadro de "
 "búsqueda para mostrar la lista completa de nuevo."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
@@ -2764,7 +2768,7 @@ msgstr "Opacidad"
 
 #: scrobbler/scrobblingapi20.cpp:151
 msgid "Open URL in web browser?"
-msgstr ""
+msgstr "¿Abrir URL en navegador?"
 
 #: transcoder/transcodedialog.cpp:281
 msgid "Open a directory to import music from"
@@ -2954,6 +2958,8 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
+"La lista de reproducción tiene %1 canciones, demasiadas para deshacer, "
+"¿estás seguro de que quieres eliminarla?"
 
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -2966,11 +2972,11 @@ msgstr "Listas"
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
-msgstr "Por favor, cierre el navegador y regrese a Strawberry."
+msgstr "Por favor, cierra el navegador y regresa a Strawberry."
 
 #: scrobbler/listenbrainzscrobbler.cpp:147
 msgid "Please open this URL in your browser"
-msgstr ""
+msgstr "Por favor, abre este URL en tu navegador"
 
 #: equalizer/equalizer.cpp:148
 msgid "Pop"
@@ -2994,7 +3000,7 @@ msgstr "Pre-amplificador"
 
 #: ../build/src/ui_scrobblersettingspage.h:320
 msgid "Prefer album artist when sending scrobbles"
-msgstr ""
+msgstr "Preferir artista del álbum al registrar reproducción"
 
 #: ../build/src/ui_tidalsettingspage.h:316
 #: ../build/src/ui_qobuzsettingspage.h:273
@@ -3014,6 +3020,8 @@ msgstr "Formato preferido"
 msgid ""
 "Prefix a word with a field name to limit the search to that field, e.g.:"
 msgstr ""
+"Utiliza un nombre de campo como prefijo de palabra para limitar la búsqueda "
+"a ese campo, p.ej.:"
 
 #: core/songloader.cpp:156
 msgid "Preload function was not set for blocking operation."
@@ -3029,6 +3037,8 @@ msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
 msgstr ""
+"Haz clic en \"Guardar\" para copiar el URL en el portapapeles y ábrelo en tu "
+"navegador manualmente."
 
 #: ../build/src/ui_globalshortcutgrabber.h:70
 msgid "Press a key"
@@ -3126,11 +3136,11 @@ msgstr "Re&lativo"
 
 #: covermanager/albumcovermanager.cpp:233
 msgid "Really cancel?"
-msgstr "¿Seguro que quiere cancelar?"
+msgstr "¿Seguro que deseas cancelar?"
 
 #: scrobbler/listenbrainzscrobbler.cpp:173
 msgid "Received invalid reply from web browser."
-msgstr ""
+msgstr "Recibida una respuesta inválida del navegador."
 
 #: scrobbler/scrobblingapi20.cpp:199
 msgid ""
@@ -3142,7 +3152,7 @@ msgstr ""
 
 #: scrobbler/listenbrainzscrobbler.cpp:169
 msgid "Redirect missing token code!"
-msgstr ""
+msgstr "¡Falta código del token de redirección!"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:142
 msgid "Refresh catalogue"
@@ -3599,7 +3609,7 @@ msgstr "Mostrar una animación brillante en la pista actual"
 
 #: ../build/src/ui_moodbarsettingspage.h:91
 msgid "Show a moodbar in the track progress bar"
-msgstr "Muestra una barra de humor en la barra de progreso"
+msgstr "Mostrar una barra de humor en la barra de progreso"
 
 #: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a notification when I change the repeat/shuffle mode"
@@ -3672,7 +3682,7 @@ msgstr "Mostrar en Varios artistas"
 
 #: ../build/src/ui_scrobblersettingspage.h:315
 msgid "Show love button"
-msgstr "Mostrar el botón \"Love\""
+msgstr "Mostrar el botón \"Me gusta\""
 
 #: moodbar/moodbarproxystyle.cpp:376
 msgid "Show moodbar"
@@ -3781,7 +3791,7 @@ msgstr "Soft rock"
 
 #: ../build/src/ui_contextsettingspage.h:328
 msgid "Song Lyrics"
-msgstr ""
+msgstr "Letra de la canción"
 
 #: ../build/src/ui_internettabsview.h:112
 msgid "Songs"
@@ -3870,14 +3880,14 @@ msgstr "Strawberry Music Player"
 
 #: ../build/src/ui_notificationssettingspage.h:490
 msgid "Strawberry Red"
-msgstr "Strawberry Red"
+msgstr "Rojo de Strawberry"
 
 #: ../build/src/ui_deviceproperties.h:378
 msgid ""
 "Strawberry can automatically convert the music you copy to this device into "
 "a format that it can play."
 msgstr ""
-"Strawberry puede convertir automáticamente la música que copie a este "
+"Strawberry puede convertir automáticamente la música que copies a este "
 "dispositivo en un formato que pueda reproducir."
 
 #: ../build/src/ui_notificationssettingspage.h:462
@@ -3886,7 +3896,7 @@ msgstr "Strawberry puede mostrar un mensaje cuando la pista cambie."
 
 #: dialogs/about.cpp:117
 msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
+msgstr "Strawberry es un reproductor y catalogador de colecciones musicales."
 
 #: dialogs/about.cpp:124
 msgid ""
@@ -3895,6 +3905,10 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"Strawberry es software libre: puedes distribuirlo y/o modificarlo de acuerdo "
+"con los términos de la licencia pública general GNU, tal y como indica la "
+"Free Software Foundation en la versión 3 de dicha licencia o (según "
+"prefieras) cualquier versión posterior."
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -3974,7 +3988,7 @@ msgstr "Tasa de bits objetivo"
 
 #: ../build/src/ui_contextsettingspage.h:325
 msgid "Technical Data"
-msgstr ""
+msgstr "Información técnica"
 
 #: equalizer/equalizer.cpp:154
 msgid "Techno"
@@ -3998,11 +4012,11 @@ msgstr "Opciones del texto"
 
 #: dialogs/about.cpp:155
 msgid "Thanks to"
-msgstr ""
+msgstr "Gracias a"
 
 #: dialogs/about.cpp:181
 msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr ""
+msgstr "Gracias al resto de colaboradores de Amarok y Clementine"
 
 #: settings/shortcutssettingspage.cpp:245
 #, qt-format
@@ -4040,8 +4054,7 @@ msgid ""
 "rescan because of the new features listed below:"
 msgstr ""
 "La versión de Strawberry a la que se acaba de actualizar necesita volver a "
-"analizar la colección debido a funciones nuevas que se enumeran a "
-"continuación:"
+"analizar la colección debido a estas nuevas funciones:"
 
 #: collection/collectionview.cpp:443
 msgid "There are other songs in this album"
@@ -4067,14 +4080,14 @@ msgstr ""
 msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr ""
-"Estos archivos serán eliminados del disco, ¿seguro que desea continuar?"
+"Estos archivos serán eliminados del disco, ¿seguro que deseas continuar?"
 
 #: device/deviceview.cpp:407
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
 msgstr ""
-"Se eliminarán estos archivos del dispositivo. ¿seguro que desea continuar?"
+"Se eliminarán estos archivos del dispositivo. ¿seguro que deseas continuar?"
 
 #: ../build/src/ui_collectionsettingspage.h:360
 msgid "These folders will be scanned for music to make up your collection"
@@ -4134,14 +4147,14 @@ msgid ""
 "This is the first time you have connected this device.  Strawberry will now "
 "scan the device to find music files - this may take some time."
 msgstr ""
-"Esta es la primera vez que conecta este dispositivo.  Strawberry analizará "
-"el dispositivo ahora para encontrar archivos de música; esto podría tardar "
-"un poco."
+"Esta es la primera vez que conecta este dispositivo. Strawberry analizará el "
+"dispositivo ahora para encontrar archivos de música; esto podría tardar un "
+"poco."
 
 #: playlist/playlisttabbar.cpp:222
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
-"Puede modificar esta opción en la pestaña «Comportamiento» en Preferencias"
+"Puedes modificar esta opción en la pestaña «Comportamiento» en Preferencias"
 
 #: device/devicemanager.cpp:632
 #, qt-format
@@ -4427,7 +4440,7 @@ msgstr "Verificar el certificado del servidor"
 #: dialogs/about.cpp:113
 #, qt-format
 msgid "Version %1"
-msgstr ""
+msgstr "Versión %1"
 
 #: ../build/src/ui_albumcovermanager.h:219
 msgid "View"
@@ -4486,23 +4499,23 @@ msgstr "Sin portada:"
 
 #: ../build/src/ui_scrobblersettingspage.h:313
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr "Trabajar fuera de línea (solo registros de reproducción en cache)"
+msgstr "Trabajar fuera de línea (solo registros de reproducción en caché)"
 
 #: collection/collectionview.cpp:444
 msgid ""
 "Would you like to move the other songs in this album to Various Artists as "
 "well?"
 msgstr ""
-"¿Le gustaría mover también el resto de canciones de este álbum a Varios "
+"¿Te gustaría mover también el resto de canciones de este álbum a Varios "
 "artistas?"
 
 #: core/mainwindow.cpp:2418
 msgid "Would you like to run a full rescan right now?"
-msgstr "¿Quiere ejecutar un reanálisis completo ahora?"
+msgstr "¿Quieres ejecutar un nuevo análisis completo ahora?"
 
 #: ../build/src/ui_playlistsettingspage.h:167
 msgid "Write metadata when saving playlists"
-msgstr "Escribe los metadatos al guardar las listas de reproducción"
+msgstr "Escribir los metadatos al guardar las listas de reproducción"
 
 #: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1178
 #: organise/organisedialog.cpp:99 ../build/src/ui_groupbydialog.h:135
@@ -4531,7 +4544,7 @@ msgstr "Ayer"
 msgid ""
 "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr ""
-"¿Confirma que quiere eliminar %1 listas de reproducción de sus favoritos?"
+"¿Confirmas que quiere eliminar %1 listas de reproducción de tus favoritos?"
 
 #: playlist/playlisttabbar.cpp:213
 msgid ""
@@ -4539,27 +4552,27 @@ msgid ""
 "playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr ""
-"Está a punto de eliminar una lista de reproducción que no está entre sus "
+"Estás a punto de eliminar una lista de reproducción que no está entre tus "
 "favoritas (esta acción no se puede deshacer).\n"
-"¿Confirma que desea continuar?"
+"¿Confirmas que desea continuar?"
 
 #: ../build/src/ui_loginstatewidget.h:168
 msgid "You are not signed in."
-msgstr "No ha iniciado sesión en su cuenta."
+msgstr "No has iniciado sesión en su cuenta."
 
 #: widgets/loginstatewidget.cpp:81
 #, qt-format
 msgid "You are signed in as %1."
-msgstr "Ha iniciado sesión como %1."
+msgstr "Has iniciado sesión como %1."
 
 #: widgets/loginstatewidget.cpp:80
 msgid "You are signed in."
-msgstr "Ha iniciado sesión en su cuenta."
+msgstr "Has iniciado sesión en su cuenta."
 
 #: ../build/src/ui_groupbydialog.h:122
 msgid "You can change the way the songs in the collection are organised."
 msgstr ""
-"Puede modificar el modo en que se organizan las canciones en la colección."
+"Puedes modificar el modo en que se organizan las canciones en la colección."
 
 #: core/songloader.cpp:137 core/songloader.cpp:142
 msgid "You need GStreamer for this URL."
@@ -4571,7 +4584,7 @@ msgid ""
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"Debe abrir las Preferencias del Sistema y permitir que Strawberry «<span "
+"Debes abrir las Preferencias del Sistema y permitir que Strawberry «<span "
 "style=\"font-style:italic\">controle el equipo</span>» para utilizar atajos "
 "globales en Strawberry."
 
@@ -4581,13 +4594,13 @@ msgid ""
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
 "shortcuts in Strawberry."
 msgstr ""
-"Debe abrir las Preferencias del Sistema y activar\"<span style=\" font-style:"
-"italic;\">Habilitar dispositivos de accesibilidad</span>\" para utilizar "
-"atajos globales en Strawberry."
+"Debes abrir las Preferencias del Sistema y activar\"<span style=\" font-"
+"style:italic;\">Habilitar dispositivos de accesibilidad</span>\" para "
+"utilizar atajos globales en Strawberry."
 
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
-msgstr "Necesitará reiniciar Strawberry si cambia el idioma."
+msgstr "Necesitarás reiniciar Strawberry si cambias el idioma."
 
 #: collection/collectionview.cpp:293
 msgid "Your collection is empty!"
@@ -4613,7 +4626,7 @@ msgstr "ar&tistas"
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
-msgstr ""
+msgstr "artista"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4666,7 +4679,7 @@ msgstr "quitar %n canciones"
 
 #: collection/collectionfilterwidget.cpp:76
 msgid "searches the collection for all artists that contain the word"
-msgstr ""
+msgstr "busca en la colección todos los artistas que contengan la palabra"
 
 #: playlist/playlistundocommands.cpp:136
 msgid "shuffle songs"
