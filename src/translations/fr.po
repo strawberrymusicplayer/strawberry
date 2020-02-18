@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-01-06 06:36+0000\n"
+"PO-Revision-Date: 2020-02-17 04:32+0000\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -709,7 +709,7 @@ msgstr "Album - CD"
 
 #: ../build/src/ui_collectionsettingspage.h:386
 msgid "Album art cache"
-msgstr ""
+msgstr "Cache de pochette d'album"
 
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1181
 #: organise/organisedialog.cpp:93 ../build/src/ui_groupbydialog.h:129
@@ -1114,7 +1114,7 @@ msgstr "Effacer"
 
 #: ../build/src/ui_collectionsettingspage.h:389
 msgid "Clear Disk Cache"
-msgstr ""
+msgstr "Vider le cache disque"
 
 #: core/mainwindow.cpp:1978 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
@@ -1584,7 +1584,7 @@ msgstr "Transmission discontinue"
 
 #: ../build/src/ui_collectionsettingspage.h:390
 msgid "Disk Cache Size"
-msgstr ""
+msgstr "Taille du cache disque"
 
 #: collection/collectionfilterwidget.cpp:127
 #: ../build/src/ui_collectionsettingspage.h:373
@@ -1689,7 +1689,7 @@ msgstr "Activer"
 
 #: ../build/src/ui_collectionsettingspage.h:388
 msgid "Enable Disk Cache"
-msgstr ""
+msgstr "Activer le cache disque"
 
 #: ../build/src/ui_contextsettingspage.h:324
 msgid "Enable Items"
