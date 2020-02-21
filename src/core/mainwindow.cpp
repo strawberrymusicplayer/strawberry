@@ -1129,7 +1129,7 @@ void MainWindow::MediaPlaying() {
 
 }
 
-void MainWindow::VolumeChanged(int volume) {
+void MainWindow::VolumeChanged(const int volume) {
   ui_->action_mute->setChecked(!volume);
   if (tray_icon_) tray_icon_->MuteButtonStateChanged(!volume);
 }
@@ -1298,7 +1298,7 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &index) {
 
 }
 
-void MainWindow::VolumeWheelEvent(int delta) {
+void MainWindow::VolumeWheelEvent(const int delta) {
   ui_->volume->setValue(ui_->volume->value() + delta / 30);
 }
 
@@ -1352,7 +1352,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 }
 
-void MainWindow::SetHiddenInTray(bool hidden) {
+void MainWindow::SetHiddenInTray(const bool hidden) {
 
   settings_.setValue("hidden", hidden);
 
@@ -1488,26 +1488,26 @@ void MainWindow::AddToPlaylist(QMimeData *data) {
 
 void MainWindow::AddToPlaylist(QAction *action) {
 
-  int destination = action->data().toInt();
+  const int destination = action->data().toInt();
   PlaylistItemList items;
+  SongList songs;
 
   // Get the selected playlist items
-  for (const QModelIndex &index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
-    if (index.column() != 0) continue;
-    int row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
-    items << app_->playlist_manager()->current()->item_at(row);
-  }
-
-  SongList songs;
-  for (const PlaylistItemPtr item : items) {
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    if (!item) continue;
+    items << item;
     songs << item->Metadata();
   }
 
   // We're creating a new playlist
   if (destination == -1) {
     // Save the current playlist to reactivate it
-    int current_id = app_->playlist_manager()->current_id();
-    // get the name from selection
+    const int current_id = app_->playlist_manager()->current_id();
+    // Get the name from selection
     app_->playlist_manager()->New(app_->playlist_manager()->GetNameForNewPlaylist(songs));
     if (app_->playlist_manager()->current()->id() != current_id) {
       // I'm sure the new playlist was created and is selected, so I can just insert items
@@ -1738,6 +1738,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   connect(add_to_another_menu, SIGNAL(triggered(QAction*)), SLOT(AddToPlaylist(QAction*)));
 
   playlist_menu_->popup(global_pos);
+
 }
 
 void MainWindow::PlaylistPlay() {
@@ -1759,14 +1760,13 @@ void MainWindow::RescanSongs() {
 
   SongList songs;
 
-  for (const QModelIndex& index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
-    if (index.column() != 0) continue;
-    const int row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(row));
-    if (!item) continue;
-    Song song = item->Metadata();
-    if (!song.is_valid() || song.source() != Song::Source_Collection) continue;
-    songs << song;
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    if (!item || !item->IsLocalCollectionItem()) continue;
+    songs << item->Metadata();
   }
 
   if (songs.isEmpty()) return;
@@ -1780,12 +1780,11 @@ void MainWindow::EditTracks() {
   SongList songs;
   PlaylistItemList items;
 
-  for (const QModelIndex &idx : ui_->playlist->view()->selectionModel()->selection().indexes()) {
-    if (idx.column() != 0) continue;
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(idx);
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    const int row = source_index.row();
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(row));
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
     Song song = item->Metadata();
     if (song.IsEditable()) {
@@ -1807,7 +1806,7 @@ void MainWindow::EditTagDialogAccepted() {
     item->Reload();
   }
 
-  // This is really lame but we don't know what rows have changed
+  // FIXME: This is really lame but we don't know what rows have changed.
   ui_->playlist->view()->update();
 
   app_->playlist_manager()->current()->Save();
@@ -1825,25 +1824,22 @@ void MainWindow::RenumberTracks() {
   // if first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
     const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->Metadata();
-
     if (first_song.track() > 0) track = first_song.track();
   }
 
-  for (const QModelIndex &index : indexes) {
-    if (index.column() != 0) continue;
-
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(index);
-    const int row = source_index.row();
-    Song song = app_->playlist_manager()->current()->item_at(row)->Metadata();
-
+  for (const QModelIndex &proxy_index : indexes) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    if (!item) continue;
+    Song song = item->Metadata();
     if (song.IsEditable()) {
       song.set_track(track);
-
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
-
       NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)),reply, QPersistentModelIndex(source_index));
     }
-    track++;
+    ++track;
   }
 
 }
@@ -1862,18 +1858,16 @@ void MainWindow::SelectionSetValue() {
   Playlist::Column column = (Playlist::Column)playlist_menu_index_.column();
   QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
 
-  QModelIndexList indexes = ui_->playlist->view()->selectionModel()->selection().indexes();
-
-  for (const QModelIndex &index : indexes) {
-    if (index.column() != 0) continue;
-
-    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(index);
-    const int row = source_index.row();
-    Song song = app_->playlist_manager()->current()->item_at(row)->Metadata();
-
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    if (!item) continue;
+    Song song = item->Metadata();
+    if (!song.is_valid() || !song.url().isLocalFile()) continue;
     if (Playlist::set_column_value(song, column, column_value)) {
       TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
-
       NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(source_index));
     }
   }
@@ -1883,7 +1877,6 @@ void MainWindow::SelectionSetValue() {
 void MainWindow::EditValue() {
 
   QModelIndex current = ui_->playlist->view()->currentIndex();
-
   if (!current.isValid()) return;
 
   // Edit the last column that was right-clicked on.  If nothing's ever been right clicked then look for the first editable column.
@@ -1934,7 +1927,7 @@ void MainWindow::AddFolder() {
   QString directory =settings_.value("add_folder_path", QDir::currentPath()).toString();
 
   // Show dialog
-  directory =QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);
+  directory = QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);
   if (directory.isEmpty()) return;
 
   // Save last used directory
@@ -1960,13 +1953,14 @@ void MainWindow::AddCDTracks() {
 void MainWindow::ShowInCollection() {
 
   // Show the first valid selected track artist/album in CollectionView
-  QModelIndexList proxy_indexes =ui_->playlist->view()->selectionModel()->selectedRows();
-  SongList songs;
 
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    QModelIndex index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
-    if (app_->playlist_manager()->current()->item_at(index.row())->IsLocalCollectionItem()) {
-      songs << app_->playlist_manager()->current()->item_at(index.row())->Metadata();
+  SongList songs;
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
+    if (item && item->IsLocalCollectionItem()) {
+      songs << item->Metadata();
       break;
     }
   }
@@ -2102,7 +2096,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     app_->player()->SeekTo(options.seek_to());
   }
   else if (options.seek_by() != 0) {
-    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() /kNsecPerSec +options.seek_by());
+    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
   }
 
   if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), Engine::Manual, true);
@@ -2158,13 +2152,14 @@ void MainWindow::AddFilesToTranscoder() {
 
   QStringList filenames;
 
-  for (const QModelIndex &index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
-    if (index.column() != 0) continue;
-    const int row = app_->playlist_manager()->current()->proxy()->mapToSource(index).row();
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(row));
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
     Song song = item->Metadata();
-    if (!song.is_valid()) continue;
+    if (!song.is_valid() || !song.url().isLocalFile()) continue;
     filenames << song.url().toLocalFile();
   }
 
@@ -2182,7 +2177,7 @@ void MainWindow::ShowCollectionConfig() {
   settings_dialog_->OpenAtPage(SettingsDialog::Page_Collection);
 }
 
-void MainWindow::TaskCountChanged(int count) {
+void MainWindow::TaskCountChanged(const int count) {
 
   if (count == 0) {
     ui_->status_bar_stack->setCurrentWidget(ui_->playlist_summary_page);
@@ -2193,7 +2188,7 @@ void MainWindow::TaskCountChanged(int count) {
 
 }
 
-void MainWindow::PlayingWidgetPositionChanged(bool above_status_bar) {
+void MainWindow::PlayingWidgetPositionChanged(const bool above_status_bar) {
 
   if (above_status_bar) ui_->status_bar->setParent(ui_->centralWidget);
   else ui_->status_bar->setParent(ui_->player_controls_container);
@@ -2263,14 +2258,15 @@ void MainWindow::PlaylistMoveToCollection() {
 
 void MainWindow::PlaylistOrganiseSelected(const bool copy) {
 
-  QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
   SongList songs;
-
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    QModelIndex index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
-    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(index.row());
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
-    songs << item->Metadata();
+    Song song = item->Metadata();
+    if (!song.is_valid() || !song.url().isLocalFile()) continue;
+    songs << song;
   }
   if (songs.isEmpty()) return;
 
@@ -2284,11 +2280,10 @@ void MainWindow::PlaylistOrganiseSelected(const bool copy) {
 void MainWindow::PlaylistOpenInBrowser() {
 
   QList<QUrl> urls;
-  QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
-
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    const QModelIndex index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
-    urls << QUrl(index.sibling(index.row(), Playlist::Column_Filename).data().toString());
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    urls << QUrl(source_index.sibling(source_index.row(), Playlist::Column_Filename).data().toString());
   }
 
   Utilities::OpenInFileBrowser(urls);
@@ -2332,15 +2327,16 @@ void MainWindow::PlaylistSkip() {
 void MainWindow::PlaylistCopyToDevice() {
 
 #ifndef Q_OS_WIN
-  QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
+
   SongList songs;
 
-  for (const QModelIndex &proxy_index : proxy_indexes) {
-    QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     Song song = item->Metadata();
-    if (!song.is_valid()) continue;
+    if (!song.is_valid() || !song.url().isLocalFile()) continue;
     songs << song;
   }
   if (songs.isEmpty()) return;
@@ -2352,6 +2348,7 @@ void MainWindow::PlaylistCopyToDevice() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+
 #endif
 
 }
@@ -2441,9 +2438,8 @@ void MainWindow::CheckFullRescanRevisions() {
 
   // Collect all reasons
   QSet<QString> reasons;
-  for (int i = from; i <= to; i++) {
+  for (int i = from ; i <= to ; ++i) {
     QString reason = app_->collection()->full_rescan_reason(i);
-
     if (!reason.isEmpty()) {
       reasons.insert(reason);
     }
@@ -2456,7 +2452,6 @@ void MainWindow::CheckFullRescanRevisions() {
       message += ("<li>" + reason + "</li>");
     }
     message += "</ul>" + tr("Would you like to run a full rescan right now?");
-
     if (QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
       app_->collection()->FullScan();
     }
@@ -2504,6 +2499,8 @@ void MainWindow::AutoCompleteTags() {
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
 
+  autocomplete_tag_items_.clear();
+
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
     tag_fetcher_.reset(new TagFetcher);
@@ -2519,12 +2516,11 @@ void MainWindow::AutoCompleteTags() {
 
   // Get the selected songs and start fetching tags for them
   SongList songs;
-  autocomplete_tag_items_.clear();
-  for (const QModelIndex &index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
-    if (index.column() != 0) continue;
-    const QModelIndex &source_index = app_->playlist_manager()->current()->proxy()->mapToSource(index);
-    const int row = source_index.row();
-    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(row));
+  for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selection().indexes()) {
+    if (proxy_index.column() != 0) continue;
+    const QModelIndex source_index = app_->playlist_manager()->current()->proxy()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
     Song song = item->Metadata();
     if (song.IsEditable()) {
@@ -2537,7 +2533,6 @@ void MainWindow::AutoCompleteTags() {
 
   track_selection_dialog_->Init(songs);
   tag_fetcher_->StartFetch(songs);
-
   track_selection_dialog_->show();
 
 #endif
@@ -2666,11 +2661,11 @@ void MainWindow::GetCoverAutomatically() {
 
 }
 
-void MainWindow::ScrobblingEnabledChanged(bool value) {
+void MainWindow::ScrobblingEnabledChanged(const bool value) {
   if (app_->scrobbler()->ScrobbleButton()) SetToggleScrobblingIcon(value);
 }
 
-void MainWindow::ScrobbleButtonVisibilityChanged(bool value) {
+void MainWindow::ScrobbleButtonVisibilityChanged(const bool value) {
 
   ui_->button_scrobble->setVisible(value);
   ui_->action_toggle_scrobbling->setVisible(value);
@@ -2678,7 +2673,7 @@ void MainWindow::ScrobbleButtonVisibilityChanged(bool value) {
 
 }
 
-void MainWindow::LoveButtonVisibilityChanged(bool value) {
+void MainWindow::LoveButtonVisibilityChanged(const bool value) {
 
   if (value)
     ui_->widget_love->show();
@@ -2689,7 +2684,7 @@ void MainWindow::LoveButtonVisibilityChanged(bool value) {
 
 }
 
-void MainWindow::SetToggleScrobblingIcon(bool value) {
+void MainWindow::SetToggleScrobblingIcon(const bool value) {
 
   if (value) {
     if (app_->playlist_manager()->active()->scrobbled())
