@@ -171,7 +171,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistCopyToCollection();
   void PlaylistMoveToCollection();
   void PlaylistCopyToDevice();
-  void PlaylistOrganiseSelected(bool copy);
+  void PlaylistOrganiseSelected(const bool copy);
   void PlaylistOpenInBrowser();
   void ShowInCollection();
 
