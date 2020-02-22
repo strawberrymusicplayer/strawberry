@@ -64,7 +64,6 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
       show_moodbar_action_(nullptr),
       style_action_group_(nullptr) {
 
-  setBaseStyle(slider->style());
   slider->setStyle(this);
   slider->installEventFilter(this);
 
