@@ -29,7 +29,8 @@ Build-Depends: debhelper (>= 11),
                libplist-dev,
                libusbmuxd-dev,
                libchromaprint-dev,
-               libfftw3-dev
+               libfftw3-dev,
+               qt5keychain-dev
 Standards-Version: 4.2.1
 
 Package: strawberry

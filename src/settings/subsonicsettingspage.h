@@ -32,6 +32,9 @@ class QEvent;
 class SettingsDialog;
 class SubsonicService;
 class Ui_SubsonicSettingsPage;
+namespace QKeychain {
+class Job;
+}
 
 class SubsonicSettingsPage : public SettingsPage {
   Q_OBJECT
@@ -55,10 +58,13 @@ class SubsonicSettingsPage : public SettingsPage {
   void TestClicked();
   void TestSuccess();
   void TestFailure(QString failure_reason);
+  void PasswordReadFinished(QKeychain::Job *job);
+  void PasswordWriteFinished(QKeychain::Job *job);
 
  private:
   Ui_SubsonicSettingsPage* ui_;
   SubsonicService *service_;
+  QString username_;
 };
 
 #endif  // SUBSONICSETTINGSPAGE_H

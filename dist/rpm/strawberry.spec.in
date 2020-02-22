@@ -78,6 +78,7 @@ BuildRequires:  pkgconfig(libudf)
 BuildRequires:  pkgconfig(libxine)
 BuildRequires:  pkgconfig(libvlc)
 %endif
+BuildRequires:  qtkeychain-qt5-devel
 
 %if 0%{?suse_version}
 Requires:       libQt5Sql5-sqlite

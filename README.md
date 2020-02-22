@@ -54,6 +54,7 @@ To build Strawberry from source you need the following installed on your system 
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
 * [GStreamer](https://gstreamer.freedesktop.org/), [Xine](https://www.xine-project.org), [VLC](https://www.videolan.org) or [Phonon](https://techbase.kde.org/Phonon)
 * [GnuTLS](https://www.gnutls.org/)
+* [QtKeychain](https://github.com/frankosterfeld/qtkeychain)
 
 Optional dependencies:
 

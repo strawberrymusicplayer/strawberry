@@ -41,6 +41,7 @@
 #include <QSettings>
 #include <QSortFilterProxyModel>
 #include <QtDebug>
+#include <qt5keychain/keychain.h>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -122,14 +123,33 @@ void SubsonicService::ReloadSettings() {
 
   server_url_ = s.value("url").toUrl();
   username_ = s.value("username").toString();
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) password_.clear();
-  else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
-
+  if (s.contains("password")) {
+    QByteArray password = s.value("password").toByteArray();
+    if (password.isEmpty()) password_.clear();
+    else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
+  }
   verify_certificate_ = s.value("verifycertificate", false).toBool();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
 
   s.endGroup();
+
+  QKeychain::ReadPasswordJob *passwd_job = new QKeychain::ReadPasswordJob("Strawberry" + QString(SubsonicSettingsPage::kSettingsGroup), this);
+  passwd_job->setKey(username_);
+  passwd_job->connect(passwd_job, SIGNAL(finished(QKeychain::Job*)), this, SLOT(PasswordReadFinished(QKeychain::Job*)));
+  passwd_job->start();
+
+}
+
+void SubsonicService::PasswordReadFinished(QKeychain::Job *job) {
+
+  QKeychain::ReadPasswordJob *passwd_job = qobject_cast<QKeychain::ReadPasswordJob*>(job);
+
+  if (passwd_job->error()) {
+    qLog(Debug) << passwd_job->errorString();
+  }
+  else {
+    password_ = passwd_job->textData();
+  }
 
 }
 

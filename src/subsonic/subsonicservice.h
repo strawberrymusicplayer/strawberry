@@ -41,6 +41,9 @@
 class QSortFilterProxyModel;
 class QNetworkAccessManager;
 class QNetworkReply;
+namespace QKeychain {
+class Job;
+}
 
 class Application;
 class SubsonicUrlHandler;
@@ -82,8 +85,6 @@ class SubsonicService : public InternetService {
 
   void CheckConfiguration();
 
- signals:
-
  public slots:
   void ShowConfig();
   void SendPing();
@@ -91,7 +92,11 @@ class SubsonicService : public InternetService {
   void GetSongs();
   void ResetSongsRequest();
 
+ private:
+  void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
+
  private slots:
+  void PasswordReadFinished(QKeychain::Job *job);
   void HandlePingSSLErrors(QList<QSslError> ssl_errors);
   void HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password);
   void SongsResultsReceived(const SongList &songs, const QString &error);
@@ -102,8 +107,6 @@ class SubsonicService : public InternetService {
 
   typedef QPair<QByteArray, QByteArray> EncodedParam;
   typedef QList<EncodedParam> EncodedParamList;
-
-  void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
   static const char *kClientName;
   static const char *kApiVersion;

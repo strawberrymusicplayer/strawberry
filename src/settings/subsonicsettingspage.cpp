@@ -30,12 +30,14 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QEvent>
+#include <qt5keychain/keychain.h>
 
 #include "settingsdialog.h"
 #include "subsonicsettingspage.h"
 #include "ui_subsonicsettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "internet/internetservices.h"
 #include "subsonic/subsonicservice.h"
 
@@ -69,13 +71,21 @@ void SubsonicSettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
   ui_->server_url->setText(s.value("url").toString());
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+  username_ = s.value("username").toString();
+  ui_->username->setText(username_);
+  if (s.contains("password")) {
+    QByteArray password = s.value("password").toByteArray();
+    if (password.isEmpty()) ui_->password->clear();
+    else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+  }
   ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   s.endGroup();
+
+  QKeychain::ReadPasswordJob *passwd_job = new QKeychain::ReadPasswordJob("Strawberry" + QString(kSettingsGroup), this);
+  passwd_job->setKey(ui_->username->text());
+  passwd_job->connect(passwd_job, SIGNAL(finished(QKeychain::Job*)), this, SLOT(PasswordReadFinished(QKeychain::Job*)));
+  passwd_job->start();
 
 }
 
@@ -83,15 +93,56 @@ void SubsonicSettingsPage::Save() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+
   s.setValue("enabled", ui_->enable->isChecked());
   s.setValue("url", QUrl(ui_->server_url->text()));
   s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
   s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
   s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
+
+  if (s.contains("password")) {
+    s.remove("password");
+  }
+
   s.endGroup();
 
+  if (username_ != ui_->username->text()) {
+    QKeychain::DeletePasswordJob *passwd_job = new QKeychain::DeletePasswordJob("Strawberry" + QString(kSettingsGroup), this);
+    passwd_job->setKey(username_);
+    passwd_job->start();
+    username_ = ui_->username->text();
+  }
+
+  QKeychain::WritePasswordJob *passwd_job = new QKeychain::WritePasswordJob("Strawberry" + QString(kSettingsGroup), this);
+  passwd_job->setKey(ui_->username->text());
+  passwd_job->setTextData(ui_->password->text());
+  passwd_job->connect(passwd_job, SIGNAL(finished(QKeychain::Job*)), this, SLOT(PasswordWriteFinished(QKeychain::Job*)));
+  passwd_job->start();
+
   service_->ReloadSettings();
+
+}
+
+void SubsonicSettingsPage::PasswordReadFinished(QKeychain::Job *job) {
+
+  QKeychain::ReadPasswordJob *passwd_job = qobject_cast<QKeychain::ReadPasswordJob*>(job);
+
+  if (passwd_job->error()) {
+    qLog(Debug) << passwd_job->errorString();
+  }
+  else {
+    ui_->password->setText(passwd_job->textData());
+  }
+
+}
+
+void SubsonicSettingsPage::PasswordWriteFinished(QKeychain::Job *job) {
+
+  QKeychain::WritePasswordJob *passwd_job = qobject_cast<QKeychain::WritePasswordJob*>(job);
+
+  if (passwd_job->error()) {
+    qLog(Debug) << passwd_job->errorString();
+  }
 
 }
 

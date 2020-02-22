@@ -221,6 +221,7 @@ Section "Strawberry" Strawberry
   File "libbrotlicommon.dll"
   File "libbrotlidec.dll"
   File "libpsl-5.dll"
+  File "libqt5keychain.dll"
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
@@ -485,6 +486,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libbrotlicommon.dll"
   Delete "$INSTDIR\libbrotlidec.dll"
   Delete "$INSTDIR\libpsl-5.dll"
+  Delete "$INSTDIR\libqt5keychain.dll"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
