@@ -801,17 +801,17 @@ QString UnicodeToAscii(const QString &unicode) {
 #endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
-  if (conv == (iconv_t) -1) return QString();
+  if (conv == (iconv_t) -1) return unicode;
 
   QByteArray utf8 = unicode.toUtf8();
 
   size_t input_len = utf8.length() + 1;
-  char *input = new char[input_len];
-  char *input_ptr = input;
+  char *input_ptr = new char[input_len];
+  char *input = input_ptr;
 
-  size_t output_len = input_len*2;
-  char *output = new char[output_len];
-  char *output_ptr = output;
+  size_t output_len = input_len * 2;
+  char *output_ptr = new char[output_len];
+  char *output = output_ptr;
 
   snprintf(input, input_len, "%s", utf8.constData());
 
