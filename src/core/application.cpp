@@ -67,15 +67,6 @@
 #include "internet/internetservices.h"
 #include "internet/internetsearch.h"
 
-#ifdef HAVE_TIDAL
-#  include "tidal/tidalservice.h"
-#  include "covermanager/tidalcoverprovider.h"
-#endif
-
-#ifdef HAVE_QOBUZ
-#  include "qobuz/qobuzservice.h"
-#endif
-
 #ifdef HAVE_SUBSONIC
 #  include "subsonic/subsonicservice.h"
 #endif
@@ -121,9 +112,6 @@ class ApplicationImpl {
           cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app));
           cover_providers->AddProvider(new DeezerCoverProvider(app, app));
-#ifdef HAVE_TIDAL
-          cover_providers->AddProvider(new TidalCoverProvider(app, app));
-#endif
           return cover_providers;
         }),
         album_cover_loader_([=]() {
@@ -141,23 +129,11 @@ class ApplicationImpl {
         }),
         internet_services_([=]() {
           InternetServices *internet_services = new InternetServices(app);
-#ifdef HAVE_TIDAL
-          internet_services->AddService(new TidalService(app, internet_services));
-#endif
-#ifdef HAVE_QOBUZ
-          internet_services->AddService(new QobuzService(app, internet_services));
-#endif
 #ifdef HAVE_SUBSONIC
           internet_services->AddService(new SubsonicService(app, internet_services));
 #endif
           return internet_services;
         }),
-#ifdef HAVE_TIDAL
-        tidal_search_([=]() { return new InternetSearch(app, Song::Source_Tidal, app); }),
-#endif
-#ifdef HAVE_QOBUZ
-        qobuz_search_([=]() { return new InternetSearch(app, Song::Source_Qobuz, app); }),
-#endif
         scrobbler_([=]() { return new AudioScrobbler(app, app); }),
 
 #ifdef HAVE_MOODBAR
@@ -185,12 +161,6 @@ class ApplicationImpl {
   Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
   Lazy<LyricsProviders> lyrics_providers_;
   Lazy<InternetServices> internet_services_;
-#ifdef HAVE_TIDAL
-  Lazy<InternetSearch> tidal_search_;
-#endif
-#ifdef HAVE_QOBUZ
-  Lazy<InternetSearch> qobuz_search_;
-#endif
   Lazy<AudioScrobbler> scrobbler_;
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
@@ -319,12 +289,6 @@ LyricsProviders *Application::lyrics_providers() const { return p_->lyrics_provi
 PlaylistBackend *Application::playlist_backend() const { return p_->playlist_backend_.get(); }
 PlaylistManager *Application::playlist_manager() const { return p_->playlist_manager_.get(); }
 InternetServices *Application::internet_services() const { return p_->internet_services_.get(); }
-#ifdef HAVE_TIDAL
-InternetSearch *Application::tidal_search() const { return p_->tidal_search_.get(); }
-#endif
-#ifdef HAVE_QOBUZ
-InternetSearch *Application::qobuz_search() const { return p_->qobuz_search_.get(); }
-#endif
 AudioScrobbler *Application::scrobbler() const { return p_->scrobbler_.get(); }
 #ifdef HAVE_MOODBAR
 MoodbarController *Application::moodbar_controller() const { return p_->moodbar_controller_.get(); }

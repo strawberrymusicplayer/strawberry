@@ -44,14 +44,10 @@ Files: src/core/main.h
        src/settings/backendsettingspage.h
        src/settings/scrobblersettingspage.cpp
        src/settings/scrobblersettingspage.h
-       src/settings/tidalsettingspage.cpp
-       src/settings/tidalsettingspage.h
        src/covermanager/lastfmcoverprovider.cpp
        src/covermanager/lastfmcoverprovider.h
        src/covermanager/musicbrainzcoverprovider.cpp
        src/covermanager/musicbrainzcoverprovider.h
-       src/covermanager/tidalcoverprovider.cpp
-       src/covermanager/tidalcoverprovider.h
        src/covermanager/deezercoverprovider.cpp
        src/covermanager/deezercoverprovider.h
        src/globalshortcuts/globalshortcutbackend-system.cpp
@@ -64,8 +60,6 @@ Files: src/core/main.h
        src/globalshortcuts/keymapper_win.h
        src/lyrics/*
        src/scrobbler/*
-       src/tidal/*
-       src/qobuz/*
        src/subsonic/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h

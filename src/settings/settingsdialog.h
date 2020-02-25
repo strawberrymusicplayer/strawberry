@@ -84,9 +84,7 @@ class SettingsDialog : public QDialog {
     Page_Proxy,
     Page_Scrobbler,
     Page_Moodbar,
-    Page_Tidal,
-    Page_Subsonic,
-    Page_Qobuz,
+    Page_Subsonic
   };
 
   enum Role {

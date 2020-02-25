@@ -55,13 +55,13 @@ Description: Audio player and music collection organizer
   - Advanced audio output and device configuration for bit-perfect playback on Linux
   - Edit tags on music files
   - Fetch tags from MusicBrainz
-  - Album cover art from Lastfm, Musicbrainz, Discogs, Deezer and Tidal
+  - Album cover art from Lastfm, Musicbrainz, Discogs and Deezer
   - Song lyrics from AudD, lyrics.ovh and lololyrics.com
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
   - Transfer music to iPod, iPhone, MTP or mass-storage USB player
-  - Streaming support for Tidal, Qobuz and Subsonic
   - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+  - Streaming support for Subsonic
  .
  It is a fork of Clementine. The name is inspired by the band Strawbs.

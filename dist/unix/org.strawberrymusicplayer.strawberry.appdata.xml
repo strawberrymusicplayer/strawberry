@@ -31,8 +31,8 @@
       <li>Support for multiple backends</li>
       <li>Audio analyzer and equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>
-      <li>Streaming support for Tidal, Qobuz and Subsonic</li>
       <li>Scrobbler with support for Last.fm, Libre.fm and ListenBrainz</li>
+      <li>Streaming support for Subsonic</li>
     </ul>
   </description>
   <screenshots>
