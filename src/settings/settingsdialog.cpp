@@ -67,12 +67,6 @@
 #ifdef HAVE_MOODBAR
 #  include "moodbarsettingspage.h"
 #endif
-#ifdef HAVE_TIDAL
-#  include "tidalsettingspage.h"
-#endif
-#ifdef HAVE_QOBUZ
-#  include "qobuzsettingspage.h"
-#endif
 #ifdef HAVE_SUBSONIC
 #  include "subsonicsettingspage.h"
 #endif
@@ -149,14 +143,8 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_TIDAL) || defined(HAVE_SUBSONIC) || defined(HAVE_QOBUZ)
+#if defined(HAVE_SUBSONIC)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
-#endif
-#ifdef HAVE_TIDAL
-  AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
-#endif
-#ifdef HAVE_QOBUZ
-  AddPage(Page_Qobuz, new QobuzSettingsPage(this), streaming);
 #endif
 #ifdef HAVE_SUBSONIC
   AddPage(Page_Subsonic, new SubsonicSettingsPage(this), streaming);

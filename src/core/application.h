@@ -97,12 +97,6 @@ class Application : public QObject {
   AudioScrobbler *scrobbler() const;
 
   InternetServices *internet_services() const;
-#ifdef HAVE_TIDAL
-  InternetSearch *tidal_search() const;
-#endif
-#ifdef HAVE_QOBUZ
-  InternetSearch *qobuz_search() const;
-#endif
 
 #ifdef HAVE_MOODBAR
   MoodbarController *moodbar_controller() const;
@@ -114,7 +108,7 @@ class Application : public QObject {
   QThread *MoveToNewThread(QObject *object);
   void MoveToThread(QObject *object, QThread *thread);
 
-private slots:
+ private slots:
   void ExitReceived();
 
  public slots:
@@ -122,7 +116,7 @@ private slots:
   void ReloadSettings();
   void OpenSettingsDialogAtPage(SettingsDialog::Page page);
 
-signals:
+ signals:
   void ErrorAdded(const QString &message);
   void SettingsChanged();
   void SettingsDialogRequested(SettingsDialog::Page page);

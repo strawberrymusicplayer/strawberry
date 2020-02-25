@@ -328,8 +328,6 @@ optional_component(TRANSLATIONS ON "Translations"
   DEPENDS "Qt5LinguistTools" Qt5LinguistTools_FOUND
 )
 
-optional_component(TIDAL ON "Tidal support")
-optional_component(QOBUZ ON "Qobuz support")
 optional_component(SUBSONIC ON "Subsonic support")
 
 optional_component(MOODBAR ON "Moodbar"
