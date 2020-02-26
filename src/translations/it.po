@@ -431,10 +431,6 @@ msgstr "AAC"
 msgid "ALSA plugin"
 msgstr "Plugin ALSA"
 
-#: ../build/src/ui_tidalsettingspage.h:312
-msgid "API Token"
-msgstr "Token API"
-
 #: ../build/src/ui_transcodersettingspage.h:196
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
@@ -488,7 +484,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Aggiungi cartella..."
 
-#: core/mainwindow.cpp:1897
+#: core/mainwindow.cpp:1836
 msgid "Add file"
 msgstr "Aggiungi file"
 
@@ -504,7 +500,7 @@ msgstr "Aggiungi file al transcodificatore"
 msgid "Add files to transcode"
 msgstr "Aggiungi file da transcodificare"
 
-#: core/mainwindow.cpp:1922 transcoder/transcodedialog.cpp:350
+#: core/mainwindow.cpp:1861 transcoder/transcodedialog.cpp:350
 msgid "Add folder"
 msgstr "Aggiungi cartella"
 
@@ -601,7 +597,7 @@ msgstr "Aggiungi il tag anno al brano"
 msgid "Add to albums"
 msgstr "Aggiungi agli album"
 
-#: core/mainwindow.cpp:1713
+#: core/mainwindow.cpp:1652
 msgid "Add to another playlist"
 msgstr "Aggiungi a un'altra scaletta"
 
@@ -688,10 +684,6 @@ msgstr ""
 msgid "Album artist"
 msgstr "Artista dell'album"
 
-#: ../build/src/ui_tidalsettingspage.h:325
-msgid "Album cover size"
-msgstr "Dimensione cover dell'album"
-
 #: ../build/src/ui_internettabsview.h:111
 msgid "Albums"
 msgstr "Album"
@@ -705,11 +697,6 @@ msgstr "Album di %1"
 msgid "Albums by Artist"
 msgstr "Album per Artista"
 
-#: ../build/src/ui_tidalsettingspage.h:321
-#: ../build/src/ui_qobuzsettingspage.h:278
-msgid "Albums search limit"
-msgstr "Limite di ricerca degli album"
-
 #: covermanager/albumcovermanager.cpp:162
 msgid "Albums with covers"
 msgstr "Album con copertina"
@@ -718,7 +705,7 @@ msgstr "Album con copertina"
 msgid "Albums without covers"
 msgstr "Album senza copertina"
 
-#: core/mainwindow.cpp:189
+#: core/mainwindow.cpp:182
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
 
@@ -786,14 +773,6 @@ msgstr "Si è verificato un errore durante la scrittura dei metadati su '%1'"
 msgid "Angry"
 msgstr "Arrabbiato"
 
-#: ../build/src/ui_qobuzsettingspage.h:268
-msgid "App ID"
-msgstr "ID dell'App"
-
-#: ../build/src/ui_qobuzsettingspage.h:271
-msgid "App Secret"
-msgstr "Segreto dell'App"
-
 #: ../build/src/ui_appearancesettingspage.h:386
 msgid "Appearance"
 msgstr "Aspetto"
@@ -842,17 +821,11 @@ msgstr "Iniziale dell'artista"
 msgid "Artists"
 msgstr "Artisti"
 
-#: ../build/src/ui_tidalsettingspage.h:320
-#: ../build/src/ui_qobuzsettingspage.h:277
-msgid "Artists search limit"
-msgstr "Limite di ricerca degli artisti"
-
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
 msgstr "&Chiedi durante il salvataggio"
 
 #: ../build/src/ui_transcodedialog.h:227
-#: ../build/src/ui_qobuzsettingspage.h:274
 msgid "Audio format"
 msgstr "Formato audio"
 
@@ -860,23 +833,9 @@ msgstr "Formato audio"
 msgid "Audio output"
 msgstr "Uscita audio"
 
-#: ../build/src/ui_tidalsettingspage.h:317
-msgid "Audio quality"
-msgstr "Qualità audio"
-
-#: tidal/tidalrequest.cpp:117 qobuz/qobuzservice.cpp:258
-msgid "Authenticating..."
-msgstr "Autenticazione in corso..."
-
-#: ../build/src/ui_tidalsettingspage.h:309
-#: ../build/src/ui_qobuzsettingspage.h:267
 #: ../build/src/ui_subsonicsettingspage.h:188
 msgid "Authentication"
 msgstr "Autenticazione"
-
-#: settings/tidalsettingspage.cpp:203 settings/qobuzsettingspage.cpp:159
-msgid "Authentication failed"
-msgstr "Autenticazione non riuscita"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -1035,10 +994,6 @@ msgid "CD playback is only available with the GStreamer engine."
 msgstr ""
 "La riproduzione CD è disponibile unicamente tramite l'engine GStreamer"
 
-#: tidal/tidalstreamurlrequest.cpp:107 qobuz/qobuzstreamurlrequest.cpp:103
-msgid "Cancelled."
-msgstr "Cancellato."
-
 #: ../build/src/ui_edittagdialog.h:663
 msgid "Change cover art"
 msgstr "Cambia copertina"
@@ -1055,7 +1010,7 @@ msgstr "Cambierà la traccia in riproduzione"
 msgid "Change the language"
 msgstr "Cambia la lingua"
 
-#: core/mainwindow.cpp:684
+#: core/mainwindow.cpp:649
 msgid "Check for updates..."
 msgstr "Controlla aggiornamenti..."
 
@@ -1080,7 +1035,7 @@ msgstr "Svuota"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:1974 ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1913 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
@@ -1113,10 +1068,6 @@ msgstr "Clicca qui per recuperare la musica"
 msgid "Click to toggle between remaining time and total time"
 msgstr "Clic per passare dal tempo rimanente al tempo totale"
 
-#: ../build/src/ui_tidalsettingspage.h:311
-msgid "Client ID"
-msgstr "ID del Client"
-
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Chiudi"
@@ -1133,7 +1084,7 @@ msgstr "La chiusura di questa finestra fermerà la ricerca delle copertine."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:359
+#: core/mainwindow.cpp:271 ../build/src/ui_collectionsettingspage.h:359
 msgid "Collection"
 msgstr "Raccolta"
 
@@ -1145,7 +1096,7 @@ msgstr "Filtro della Collezione"
 msgid "Collection advanced grouping"
 msgstr "Raggruppamento avanzato della raccolta"
 
-#: core/mainwindow.cpp:2446
+#: core/mainwindow.cpp:2377
 msgid "Collection rescan notice"
 msgstr "Notifica nuova scansione della raccolta"
 
@@ -1181,8 +1132,7 @@ msgstr "Completa automaticamente i tag..."
 msgid "Composer"
 msgstr "Compositore"
 
-#: settings/tidalsettingspage.cpp:153 settings/tidalsettingspage.cpp:160
-#: settings/qobuzsettingspage.cpp:126 settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:101
 msgid "Configuration incomplete"
 msgstr "Configurazione incompleta"
 
@@ -1195,7 +1145,7 @@ msgstr "Configurazione incorretta"
 msgid "Configure %1..."
 msgstr "Configura %1..."
 
-#: core/mainwindow.cpp:567
+#: core/mainwindow.cpp:548
 msgid "Configure collection..."
 msgstr "Configura raccolta..."
 
@@ -1211,7 +1161,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Bitrate costante"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:261
+#: core/mainwindow.cpp:270 ../build/src/ui_contextsettingspage.h:261
 msgid "Context"
 msgstr "Contesto"
 
@@ -1237,12 +1187,12 @@ msgstr "Converti qualsiasi musica che il dispositivo non può riprodurre"
 msgid "Copy album cover artwork"
 msgstr "Copia la copertina dell'album"
 
-#: core/mainwindow.cpp:631 widgets/fileviewlist.cpp:45
+#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:45
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Copia nella raccolta..."
 
-#: core/mainwindow.cpp:629 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:594 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
 #: widgets/fileviewlist.cpp:47
 msgid "Copy to device..."
@@ -1483,11 +1433,11 @@ msgstr "Elimina i file originali"
 msgid "Deleting files"
 msgstr "Eliminazione dei file"
 
-#: core/mainwindow.cpp:1636
+#: core/mainwindow.cpp:1575
 msgid "Dequeue selected tracks"
 msgstr "Rimuovi le tracce selezionate dalla coda"
 
-#: core/mainwindow.cpp:1635
+#: core/mainwindow.cpp:1574
 msgid "Dequeue track"
 msgstr "Rimuovi tracce dalla coda"
 
@@ -1512,7 +1462,7 @@ msgstr "Proprietà del dispositivo"
 msgid "Device properties..."
 msgstr "Proprietà del dispositivo..."
 
-#: core/mainwindow.cpp:289
+#: core/mainwindow.cpp:276
 msgid "Devices"
 msgstr "Dispositivi"
 
@@ -1597,8 +1547,6 @@ msgstr "Il doppio clic su un brano nella scaletta..."
 msgid "Double clicking a song will..."
 msgstr "Al doppio clic su un brano..."
 
-#: ../build/src/ui_tidalsettingspage.h:323
-#: ../build/src/ui_qobuzsettingspage.h:280
 #: ../build/src/ui_subsonicsettingspage.h:194
 msgid "Download album covers"
 msgstr "Scarica le copertine dell'album"
@@ -1611,7 +1559,7 @@ msgstr "Scaricamento metadati in corso"
 msgid "Drag to reposition"
 msgstr "Trascina per riposizionare"
 
-#: core/mainwindow.cpp:1677
+#: core/mainwindow.cpp:1616
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifica tag \"%1\"..."
@@ -1641,8 +1589,6 @@ msgstr "Modifica le informazioni sulle tracce..."
 #: ../build/src/ui_scrobblersettingspage.h:322
 #: ../build/src/ui_scrobblersettingspage.h:326
 #: ../build/src/ui_scrobblersettingspage.h:329
-#: ../build/src/ui_tidalsettingspage.h:308
-#: ../build/src/ui_qobuzsettingspage.h:266
 #: ../build/src/ui_subsonicsettingspage.h:186
 msgid "Enable"
 msgstr "Abilita"
@@ -1747,7 +1693,7 @@ msgstr "Equivalente a --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente a --log-levels *:3"
 
-#: core/mainwindow.cpp:2218 core/mainwindow.cpp:2340
+#: core/mainwindow.cpp:2149 core/mainwindow.cpp:2271
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "Error"
 msgstr "Errore"
@@ -1875,10 +1821,6 @@ msgstr "Scarica automaticamente"
 msgid "Fetch completed"
 msgstr "Scaricamento completato"
 
-#: ../build/src/ui_tidalsettingspage.h:324
-msgid "Fetch entire albums when searching songs"
-msgstr "Ottieni gli album interi quando cerchi delle canzoni"
-
 #: covermanager/coverfromurldialog.cpp:83
 #: covermanager/coverfromurldialog.cpp:95
 msgid "Fetching cover error"
@@ -1927,7 +1869,7 @@ msgstr "Nome file"
 msgid "Filename:"
 msgstr "Nome del file:"
 
-#: core/mainwindow.cpp:285
+#: core/mainwindow.cpp:272
 msgid "Files"
 msgstr "File"
 
@@ -2015,7 +1957,7 @@ msgstr "Bassi e alti al massimo"
 msgid "Full Treble"
 msgstr "Alti al massimo"
 
-#: settings/settingsdialog.cpp:128
+#: settings/settingsdialog.cpp:122
 msgid "General"
 msgstr "Generale"
 
@@ -2386,8 +2328,6 @@ msgstr "Carica file/URL, sostituendo la scaletta attuale"
 #: ../build/src/ui_scrobblersettingspage.h:324
 #: ../build/src/ui_scrobblersettingspage.h:327
 #: ../build/src/ui_scrobblersettingspage.h:332
-#: ../build/src/ui_tidalsettingspage.h:315
-#: ../build/src/ui_qobuzsettingspage.h:272
 msgid "Login"
 msgstr "Accedi"
 
@@ -2452,10 +2392,6 @@ msgstr "Dimensione massima della copertina"
 msgid "Maximum bitrate"
 msgstr "Bitrate massimo"
 
-#: qobuz/qobuzservice.cpp:468
-msgid "Maximum number of login attempts reached."
-msgstr "Massimo numero di tentativi di login raggiunto."
-
 #: analyzer/analyzercontainer.cpp:74
 #, qt-format
 msgid "Medium (%1 fps)"
@@ -2477,59 +2413,15 @@ msgstr "Bitrate minimo"
 msgid "Minimum buffer fill"
 msgstr "Valore minimo buffer"
 
-#: qobuz/qobuzservice.cpp:723 qobuz/qobuzstreamurlrequest.cpp:84
-msgid "Missing Qobuz app ID or secret."
-msgstr "ID dell'app (o segreto) di Qobuz mancante"
-
-#: qobuz/qobuzservice.cpp:472 qobuz/qobuzservice.cpp:501
-#: qobuz/qobuzservice.cpp:556 qobuz/qobuzservice.cpp:609
-#: qobuz/qobuzservice.cpp:674
-msgid "Missing Qobuz app ID."
-msgstr "ID dell'app di Qobuz mancante."
-
-#: qobuz/qobuzservice.cpp:480
-msgid "Missing Qobuz password."
-msgstr "Password di Qobuz mancante."
-
-#: qobuz/qobuzservice.cpp:476
-msgid "Missing Qobuz username."
-msgstr "Nome utente di Qobuz mancante."
-
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
 msgstr "Nome utente o password di Subsonic mancante."
-
-#: tidal/tidalservice.cpp:685 tidal/tidalservice.cpp:744
-#: tidal/tidalservice.cpp:801 tidal/tidalservice.cpp:867
-#: tidal/tidalservice.cpp:927 tidal/tidalstreamurlrequest.cpp:89
-msgid "Missing Tidal API token, username or passord."
-msgstr "Token API, nome utente o password di Tidal mancanti."
-
-#: tidal/tidalservice.cpp:646
-msgid "Missing Tidal API token."
-msgstr "Token API di Tidal mancante."
-
-#: settings/tidalsettingspage.cpp:153
-msgid "Missing Tidal client ID."
-msgstr "ID del client di Tidal mancante."
-
-#: tidal/tidalservice.cpp:654
-msgid "Missing Tidal password."
-msgstr "Password di Tidal mancante."
-
-#: tidal/tidalservice.cpp:650
-msgid "Missing Tidal username."
-msgstr "Nome utente di Tidal mancante."
-
-#: settings/qobuzsettingspage.cpp:126
-msgid "Missing app id, username or password."
-msgstr "ID dell'app, nome utente o password mancanti."
 
 #: settings/subsonicsettingspage.cpp:101
 msgid "Missing server url, username or password."
 msgstr "URL del server, nome utente o password mancanti."
 
-#: settings/tidalsettingspage.cpp:160 subsonic/subsonicservice.cpp:381
+#: subsonic/subsonicservice.cpp:381
 msgid "Missing username or password."
 msgstr "Nome utente o password mancanti."
 
@@ -2566,7 +2458,7 @@ msgstr "Punti di mount"
 msgid "Move down"
 msgstr "Sposta in basso"
 
-#: core/mainwindow.cpp:632 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:46
 msgid "Move to collection..."
 msgstr "Sposta nella raccolta..."
 
@@ -2574,7 +2466,7 @@ msgstr "Sposta nella raccolta..."
 msgid "Move up"
 msgstr "Sposta in alto"
 
-#: core/mainwindow.cpp:1897 transcoder/transcodedialog.cpp:265
+#: core/mainwindow.cpp:1836 transcoder/transcodedialog.cpp:265
 msgid "Music"
 msgstr "Musica"
 
@@ -2613,7 +2505,7 @@ msgstr "Non iniziare mai la riproduzione"
 msgid "New folder"
 msgstr "Nuova cartella"
 
-#: core/mainwindow.cpp:1729
+#: core/mainwindow.cpp:1668
 msgid "New playlist"
 msgstr "Nuova scaletta"
 
@@ -2641,10 +2533,6 @@ msgstr "Nessuna copertina da esportare."
 msgid "No long blocks"
 msgstr "Nessun blocco lungo"
 
-#: tidal/tidalrequest.cpp:1182 qobuz/qobuzrequest.cpp:1234
-msgid "No match."
-msgstr "Nessuna corrispondenza."
-
 #: playlist/playlistcontainer.cpp:388
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
@@ -2665,7 +2553,7 @@ msgstr "Nessuna canzone in riproduzione"
 msgid "None"
 msgstr "Nessuna"
 
-#: core/mainwindow.cpp:2218 core/mainwindow.cpp:2340
+#: core/mainwindow.cpp:2149 core/mainwindow.cpp:2271
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2678,24 +2566,6 @@ msgstr "Normale"
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
 msgstr "Tipo di blocco normale"
-
-#: qobuz/qobuzservice.cpp:506 qobuz/qobuzservice.cpp:561
-#: qobuz/qobuzservice.cpp:614
-msgid "Not authenticated with Qobuz."
-msgstr "Non sei autenticato con Qobuz."
-
-#: tidal/tidalservice.cpp:658
-msgid ""
-"Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr ""
-"Non sei autenticato con Tidal ed hai raggiunto il massimo numero di "
-"tentativi di accesso."
-
-#: tidal/tidalservice.cpp:680 tidal/tidalservice.cpp:739
-#: tidal/tidalservice.cpp:796 tidal/tidalservice.cpp:862
-#: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:85
-msgid "Not authenticated with Tidal."
-msgstr "Non sei autenticato con Tidal."
 
 #: device/deviceview.cpp:129
 msgid "Not connected"
@@ -2789,7 +2659,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Organizza file"
 
-#: core/mainwindow.cpp:633 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:598 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:330
 msgid "Organise files..."
 msgstr "Organizza file..."
@@ -2851,8 +2721,6 @@ msgid "Party"
 msgstr "Festa"
 
 #: ../build/src/ui_networkproxysettingspage.h:176
-#: ../build/src/ui_tidalsettingspage.h:314
-#: ../build/src/ui_qobuzsettingspage.h:270
 #: ../build/src/ui_subsonicsettingspage.h:190
 msgid "Password"
 msgstr "Password"
@@ -2861,7 +2729,7 @@ msgstr "Password"
 msgid "Password Protected"
 msgstr "Protetto da Password"
 
-#: core/mainwindow.cpp:1102 core/mainwindow.cpp:1541
+#: core/mainwindow.cpp:1041 core/mainwindow.cpp:1480
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pausa"
@@ -2889,8 +2757,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
-#: core/mainwindow.cpp:603 core/mainwindow.cpp:1055 core/mainwindow.cpp:1084
-#: core/mainwindow.cpp:1545 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:568 core/mainwindow.cpp:994 core/mainwindow.cpp:1023
+#: core/mainwindow.cpp:1484 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Riproduci"
@@ -2927,7 +2795,7 @@ msgstr "Scaletta"
 msgid "Playlist finished"
 msgstr "Scaletta terminata"
 
-#: core/mainwindow.cpp:1974
+#: core/mainwindow.cpp:1913
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -2939,7 +2807,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Opzioni della scaletta"
 
-#: core/mainwindow.cpp:286
+#: core/mainwindow.cpp:273
 msgid "Playlists"
 msgstr "Playlist"
 
@@ -2975,8 +2843,6 @@ msgstr "Preamplificazione"
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferisci l'artista dell'album nell'invio degli scrobble"
 
-#: ../build/src/ui_tidalsettingspage.h:316
-#: ../build/src/ui_qobuzsettingspage.h:273
 #: ../build/src/ui_subsonicsettingspage.h:192
 msgid "Preferences"
 msgstr "Preferenze"
@@ -3057,10 +2923,6 @@ msgstr "Profilo"
 msgid "Progress"
 msgstr "Avanzamento"
 
-#: core/mainwindow.cpp:295 ../build/src/ui_qobuzsettingspage.h:265
-msgid "Qobuz"
-msgstr "Qobuz"
-
 #: ../build/src/ui_transcoderoptionsflac.h:80
 #: ../build/src/ui_transcoderoptionsvorbis.h:201
 #: ../build/src/ui_transcoderoptionsspeex.h:216
@@ -3073,24 +2935,24 @@ msgstr "Qualità"
 msgid "Querying device..."
 msgstr "Interrogazione dispositivo..."
 
-#: core/mainwindow.cpp:287
+#: core/mainwindow.cpp:274
 msgid "Queue"
 msgstr "Coda"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1577
 msgid "Queue selected tracks"
 msgstr "Accoda le tracce selezionate"
 
-#: core/mainwindow.cpp:609 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:574 core/mainwindow.cpp:1581
 msgid "Queue selected tracks to play next"
 msgstr "Accoda i brani selezionati per riprodurli successivamente"
 
-#: core/mainwindow.cpp:1644 collection/collectionview.cpp:327
+#: core/mainwindow.cpp:1583 collection/collectionview.cpp:327
 #: internet/internetcollectionview.cpp:311
 msgid "Queue to play next"
 msgstr "Accoda cosa riprodurre dopo"
 
-#: core/mainwindow.cpp:1637 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1576 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:326 internet/internetsearchview.cpp:436
 #: internet/internetcollectionview.cpp:310
 msgid "Queue track"
@@ -3235,10 +3097,6 @@ msgstr "Guadagno di riproduzione"
 msgid "Replay Gain mode"
 msgstr "Modalità guadagno di riproduzione"
 
-#: tidal/tidalservice.cpp:355
-msgid "Reply from Tidal is missing query items."
-msgstr "Mancano elementi di query alla risposta dei server di Tidal."
-
 #: collection/collectionview.cpp:343
 msgid "Rescan song(s)"
 msgstr "Riscansiona canzone/i"
@@ -3278,52 +3136,29 @@ msgstr "Restringi i caratteri a quelli permessi dal filesystem FAT"
 msgid "Resume playback on start"
 msgstr "Riprendi la riproduzione all'avvio"
 
-#: tidal/tidalrequest.cpp:1041 qobuz/qobuzrequest.cpp:1093
 #: subsonic/subsonicrequest.cpp:621
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Recupero della copertina per l'album %1..."
 
-#: tidal/tidalrequest.cpp:1042 qobuz/qobuzrequest.cpp:1094
 #: subsonic/subsonicrequest.cpp:622
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Recupero delle copertine per gli album %1..."
 
-#: tidal/tidalrequest.cpp:458 qobuz/qobuzrequest.cpp:458
-#, qt-format
-msgid "Retrieving albums for %1 artist..."
-msgstr "Recupero degli album per l'artista %1..."
-
-#: tidal/tidalrequest.cpp:459 qobuz/qobuzrequest.cpp:459
-#, qt-format
-msgid "Retrieving albums for %1 artists..."
-msgstr "Recupero degli album per gli artisti %1..."
-
-#: tidal/tidalrequest.cpp:200 qobuz/qobuzrequest.cpp:179
 #: subsonic/subsonicrequest.cpp:126
 msgid "Retrieving albums..."
 msgstr "Recupero degli album..."
 
-#: tidal/tidalrequest.cpp:156 qobuz/qobuzrequest.cpp:131
-msgid "Retrieving artists..."
-msgstr "Recupero degli artisti..."
-
-#: tidal/tidalrequest.cpp:700 qobuz/qobuzrequest.cpp:690
 #: subsonic/subsonicrequest.cpp:316
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Recupero delle canzoni per l'album %1..."
 
-#: tidal/tidalrequest.cpp:701 qobuz/qobuzrequest.cpp:691
 #: subsonic/subsonicrequest.cpp:317
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Recupero delle canzoni per gli album %1..."
-
-#: tidal/tidalrequest.cpp:244 qobuz/qobuzrequest.cpp:227
-msgid "Retrieving songs..."
-msgstr "Recupero delle canzoni..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3454,11 +3289,6 @@ msgstr "Cerca"
 msgid "Search automatically"
 msgstr "Cerca automaticamente"
 
-#: ../build/src/ui_tidalsettingspage.h:318
-#: ../build/src/ui_qobuzsettingspage.h:275
-msgid "Search delay"
-msgstr "Ritardo nella ricerca"
-
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
 msgstr "Cerca copertine degli album..."
@@ -3474,12 +3304,6 @@ msgstr "Cerca questo"
 #: ../build/src/ui_internetsearchview.h:228
 msgid "Search type"
 msgstr "Tipo di ricerca"
-
-#: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
-#: tidal/tidalrequest.cpp:316 qobuz/qobuzrequest.cpp:275
-#: qobuz/qobuzrequest.cpp:289 qobuz/qobuzrequest.cpp:303
-msgid "Searching..."
-msgstr "Ricerca..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
@@ -3539,7 +3363,7 @@ msgstr "URL del server"
 msgid "Server URL is invalid."
 msgstr "L'URL del server non è valido."
 
-#: core/mainwindow.cpp:1676
+#: core/mainwindow.cpp:1615
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Imposta %1 a \"%2\"..."
@@ -3623,7 +3447,7 @@ msgstr "Mostra la copertina dell'album nella collezione"
 msgid "Show albums by artist"
 msgstr "Mostra gli album in base all'artista"
 
-#: core/mainwindow.cpp:556
+#: core/mainwindow.cpp:537
 msgid "Show all songs"
 msgstr "Mostra tutti i brani"
 
@@ -3639,7 +3463,7 @@ msgstr "Mostra l'engine ed il dispositivo"
 msgid "Show fullsize..."
 msgstr "Mostra a dimensioni originali..."
 
-#: core/mainwindow.cpp:636
+#: core/mainwindow.cpp:601
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
@@ -3647,7 +3471,7 @@ msgstr "Mostra nella raccolta..."
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
-#: core/mainwindow.cpp:634 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:599 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:52
 msgid "Show in file browser..."
 msgstr "Mostra nel navigatore file..."
@@ -3664,11 +3488,11 @@ msgstr "Mostra il pulsante love"
 msgid "Show moodbar"
 msgstr "Mostra la barra dell'umore"
 
-#: core/mainwindow.cpp:557
+#: core/mainwindow.cpp:538
 msgid "Show only duplicates"
 msgstr "Mostra solo i duplicati"
 
-#: core/mainwindow.cpp:558
+#: core/mainwindow.cpp:539
 msgid "Show only untagged"
 msgstr "Mostra solo i brani senza tag"
 
@@ -3741,11 +3565,11 @@ msgstr "Salta il conteggio"
 msgid "Skip forwards in playlist"
 msgstr "Salta in avanti nella scaletta"
 
-#: core/mainwindow.cpp:1649
+#: core/mainwindow.cpp:1588
 msgid "Skip selected tracks"
 msgstr "Salta le tracce selezionate"
 
-#: core/mainwindow.cpp:1648
+#: core/mainwindow.cpp:1587
 msgid "Skip track"
 msgstr "Salta la traccia"
 
@@ -3784,11 +3608,6 @@ msgstr ""
 "della loro lunghezza totale o per 4 minuti (qualsiasi dei quali avvenga "
 "prima)"
 
-#: ../build/src/ui_tidalsettingspage.h:322
-#: ../build/src/ui_qobuzsettingspage.h:279
-msgid "Songs search limit"
-msgstr "Limite di ricerca per le canzoni"
-
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
 msgstr "Spiacente"
@@ -3826,7 +3645,7 @@ msgstr "Ferma dopo ogni traccia"
 msgid "Stop after every track"
 msgstr "Ferma dopo tutte le tracce"
 
-#: core/mainwindow.cpp:605 ../build/src/ui_mainwindow.h:616
+#: core/mainwindow.cpp:570 ../build/src/ui_mainwindow.h:616
 msgid "Stop after this track"
 msgstr "Ferma dopo questa traccia"
 
@@ -3892,11 +3711,7 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry non ha trovato risultati per questo file"
 
-#: ../build/src/ui_tidalsettingspage.h:326
-msgid "Stream URL method"
-msgstr "Metodo per lo Stream dell'URL"
-
-#: settings/settingsdialog.cpp:153
+#: settings/settingsdialog.cpp:147
 msgid "Streaming"
 msgstr "Streaming"
 
@@ -3908,7 +3723,7 @@ msgstr "Allarga l'immagine per riempire la playlist"
 msgid "Submit scrobbles every"
 msgstr "Invia gli scrobbles ogni"
 
-#: core/mainwindow.cpp:298 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:279 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4026,7 +3841,7 @@ msgstr "Il sito richiesto non esiste!"
 msgid "The site you requested is not an image!"
 msgstr "Il sito richiesto non è un'immagine!"
 
-#: core/mainwindow.cpp:2441
+#: core/mainwindow.cpp:2372
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4142,10 +3957,6 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Questi tipo di dispositivo non è supportato: %1"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_tidalsettingspage.h:307
-msgid "Tidal"
-msgstr "Tidal"
-
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
 msgstr "Intervallo di tempo"
@@ -4165,7 +3976,7 @@ msgstr "Titolo"
 msgid "Today"
 msgstr "Oggi"
 
-#: core/mainwindow.cpp:606 core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:571 core/mainwindow.cpp:1578
 msgid "Toggle queue status"
 msgstr "Cambia lo stato della coda"
 
@@ -4173,7 +3984,7 @@ msgstr "Cambia lo stato della coda"
 msgid "Toggle scrobbling"
 msgstr "Commuta lo scrobbling"
 
-#: core/mainwindow.cpp:612 core/mainwindow.cpp:1650
+#: core/mainwindow.cpp:577 core/mainwindow.cpp:1589
 msgid "Toggle skip status"
 msgstr "Attiva / Disattiva lo status di ignoramento"
 
@@ -4254,7 +4065,6 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: tidal/tidalrequest.cpp:1188 qobuz/qobuzrequest.cpp:1240
 #: subsonic/subsonicrequest.cpp:763
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
@@ -4263,11 +4073,11 @@ msgstr "Errore sconosciuto"
 msgid "Unset cover"
 msgstr "Rimuovi copertina"
 
-#: core/mainwindow.cpp:1647
+#: core/mainwindow.cpp:1586
 msgid "Unskip selected tracks"
 msgstr "Ripristina le tracce selezionate"
 
-#: core/mainwindow.cpp:1646
+#: core/mainwindow.cpp:1585
 msgid "Unskip track"
 msgstr "Ripristina la traccia"
 
@@ -4310,10 +4120,6 @@ msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr ""
 "Usa l'HTTPS per il ridirezionamento locale al server per bypassare problemi "
 "legati al login"
-
-#: ../build/src/ui_tidalsettingspage.h:310
-msgid "Use OAuth"
-msgstr "Usa OAuth"
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4375,7 +4181,7 @@ msgstr "Usa i valori predefiniti di sistema"
 msgid "Used"
 msgstr "Utilizzato"
 
-#: settings/settingsdialog.cpp:139
+#: settings/settingsdialog.cpp:133
 msgid "User interface"
 msgstr "Interfaccia utente"
 
@@ -4384,8 +4190,6 @@ msgid "User token:"
 msgstr "Token utente:"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
-#: ../build/src/ui_tidalsettingspage.h:313
-#: ../build/src/ui_qobuzsettingspage.h:269
 #: ../build/src/ui_subsonicsettingspage.h:189
 msgid "Username"
 msgstr "Nome utente"
@@ -4488,7 +4292,7 @@ msgid ""
 "well?"
 msgstr "Vuoi spostare anche gli altri brani di questo album in Artisti vari?"
 
-#: core/mainwindow.cpp:2445
+#: core/mainwindow.cpp:2376
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vuoi eseguire subito una nuova scansione completa?"
 
@@ -4636,11 +4440,6 @@ msgstr "kbps"
 msgctxt ""
 msgid "move %n songs"
 msgstr "sposta %n brani"
-
-#: ../build/src/ui_tidalsettingspage.h:319
-#: ../build/src/ui_qobuzsettingspage.h:276
-msgid "ms"
-msgstr "ms"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
