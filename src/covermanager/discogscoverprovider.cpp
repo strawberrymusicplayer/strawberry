@@ -138,9 +138,7 @@ void DiscogsCoverProvider::SendSearchRequest(DiscogsCoverSearchContext *s_ctx) {
   url_query.addQueryItem("Signature", QUrl::toPercentEncoding(signature.toBase64()));
 
   QNetworkRequest req(url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, int)), reply, s_ctx->id);
 
@@ -177,9 +175,7 @@ void DiscogsCoverProvider::SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, 
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   QNetworkReply *reply = network_->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleReleaseReply(QNetworkReply*, int, int)), reply, s_ctx->id, r_ctx->id);
 

@@ -83,9 +83,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
 
   QUrl url(kUrl);
   QNetworkRequest req(url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   NewClosure(reply, SIGNAL(finished()), this, SLOT(QueryFinished(QNetworkReply*, int)), reply, id);

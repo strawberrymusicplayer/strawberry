@@ -194,9 +194,7 @@ void ListenBrainzScrobbler::RequestSession(const QUrl &url, const QString &token
   url_query.addQueryItem("redirect_uri", url.toString());
 
   QNetworkRequest req(session_url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
@@ -284,9 +282,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJsonDocument &json_doc) {
 
   QNetworkRequest req(url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   req.setRawHeader("Authorization", QString("Token %1").arg(user_token_).toUtf8());
   QNetworkReply *reply = network_->post(req, json_doc.toJson());

@@ -108,7 +108,7 @@ find_package(Gettext)
 find_package(FFTW3)
 
 # QT
-set(QT_MIN_VERSION 5.5)
+set(QT_MIN_VERSION 5.6)
 set(QT_COMPONENTS Core Concurrent Widgets Network Sql)
 
 if(X11_FOUND)
