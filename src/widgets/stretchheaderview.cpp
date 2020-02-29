@@ -247,12 +247,7 @@ void StretchHeaderView::SetColumnWidth(int logical, ColumnWidthType width) {
 bool StretchHeaderView::RestoreState(const QByteArray& data) {
 
   QDataStream s(data);
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 6, 0)
-  s.setVersion(QDataStream::Qt_5_5);
-#else
   s.setVersion(QDataStream::Qt_5_6);
-#endif
 
   int magic_number = 0;
   s >> magic_number;
@@ -316,11 +311,7 @@ QByteArray StretchHeaderView::SaveState() const {
     visual_indices << logicalIndex(i);
   }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 6, 0)
-  s.setVersion(QDataStream::Qt_5_5);
-#else
   s.setVersion(QDataStream::Qt_5_6);
-#endif
 
   s << kMagicNumber;
 

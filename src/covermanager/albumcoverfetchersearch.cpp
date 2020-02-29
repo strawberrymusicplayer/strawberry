@@ -181,9 +181,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
     qLog(Debug) << "Loading" << result.image_url << "from" << result.provider;
 
     QNetworkRequest req(result.image_url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
     QNetworkReply *image_reply = network_->get(req);
     NewClosure(image_reply, SIGNAL(finished()), this, SLOT(ProviderCoverFetchFinished(QNetworkReply*)), image_reply);
     pending_image_loads_[image_reply] = result;

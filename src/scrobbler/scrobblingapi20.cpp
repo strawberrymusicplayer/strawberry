@@ -228,9 +228,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   session_url.setQuery(session_url_query);
 
   QNetworkRequest req(session_url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   QNetworkReply *reply = network()->get(req);
   NewClosure(reply, SIGNAL(finished()), this, SLOT(AuthenticateReplyFinished(QNetworkReply*)), reply);
 
@@ -358,9 +356,7 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
 
   QUrl url(api_url_);
   QNetworkRequest req(url);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network()->post(req, query);
