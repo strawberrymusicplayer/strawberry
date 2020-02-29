@@ -43,7 +43,7 @@ To build Strawberry from source you need the following installed on your system 
 * [POSIX thread (pthread)](http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html)
 * [GLib](https://developer.gnome.org/glib/)
 * [Protobuf library and compiler](https://developers.google.com/protocol-buffers/)
-* [Qt 5.5 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
+* [Qt 5.6 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [Qt 5 components X11Extras and DBus for Linux/BSD, MacExtras for macOS and WinExtras for Windows](https://www.qt.io/)
 * [SQLite 3.9 or newer with FTS5](https://www.sqlite.org)
 * [Chromaprint library](https://acoustid.org/chromaprint)
