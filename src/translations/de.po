@@ -3290,7 +3290,7 @@ msgstr "Bildgröße anpassen"
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4069,7 +4069,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr ""
 

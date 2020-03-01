@@ -3269,7 +3269,7 @@ msgstr "Riscala le dimensioni"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Lo Scrobbler %1 non è autenticato!"
@@ -4065,7 +4065,7 @@ msgstr "Banda ultra larga (UWB)"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
