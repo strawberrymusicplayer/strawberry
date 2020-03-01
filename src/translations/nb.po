@@ -3247,7 +3247,7 @@ msgstr "Skaler størrelse"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 er ikke autentisert!"
@@ -4029,7 +4029,7 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr "Ukjent feil"
 

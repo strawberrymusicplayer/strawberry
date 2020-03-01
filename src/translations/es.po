@@ -3295,7 +3295,7 @@ msgstr "Tamaño de escala"
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -4084,7 +4084,7 @@ msgstr "Banda ultraancha (UWB)"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr "Error desconocido"
 

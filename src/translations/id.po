@@ -3253,7 +3253,7 @@ msgstr "Ukuran skala"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
@@ -4036,7 +4036,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 

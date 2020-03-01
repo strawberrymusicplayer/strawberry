@@ -3276,7 +3276,7 @@ msgstr "Размер масштабирования"
 msgid "Scrobbler"
 msgstr "Скробблер"
 
-#: scrobbler/scrobblingapi20.cpp:496
+#: scrobbler/scrobblingapi20.cpp:492
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Скробблер %1 не аутентифицирован!"
@@ -4056,7 +4056,7 @@ msgstr "Ультраширокая полоса пропускания (UWB)"
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: subsonic/subsonicrequest.cpp:763
+#: subsonic/subsonicrequest.cpp:761
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
