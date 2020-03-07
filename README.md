@@ -4,10 +4,15 @@
 
 Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles. The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.
 
+Resources:
+
   * Website: https://www.strawberrymusicplayer.org/
   * Github: https://github.com/strawberrymusicplayer/strawberry
   * Buildbot: http://buildbot.strawberrymusicplayer.org/
   * Latest builds: https://builds.strawberrymusicplayer.org/
+  * openSUSE buildservice: https://build.opensuse.org/package/show/home:jonaski:audio/strawberry
+  * PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry
+  * Translations: https://translate.zanata.org/iteration/view/strawberry/master
 
 ### :heavy_check_mark: Features:
 
