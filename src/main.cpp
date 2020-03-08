@@ -119,6 +119,9 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setApplicationVersion(STRAWBERRY_VERSION_DISPLAY);
   QCoreApplication::setOrganizationDomain("strawberrymusicplayer.org");
 
+  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
   // This makes us show up nicely in gnome-volume-control
   g_set_application_name(QCoreApplication::applicationName().toLocal8Bit());
 
@@ -176,9 +179,6 @@ int main(int argc, char* argv[]) {
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
-
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 #ifndef Q_OS_MACOS
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
