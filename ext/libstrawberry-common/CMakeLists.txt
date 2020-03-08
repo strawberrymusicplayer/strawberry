@@ -1,14 +1,3 @@
-if (Backtrace_FOUND)
-  include_directories(${Backtrace_INCLUDE_DIRS})
-endif (Backtrace_FOUND)
-
-include_directories(${PROTOBUF_INCLUDE_DIRS})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/backtrace_inc.h.in ${CMAKE_CURRENT_BINARY_DIR}/backtrace_inc.h)
-
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Wextra -Wpedantic -Woverloaded-virtual -fpermissive")
@@ -16,6 +5,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Wex
 if(APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
 endif()
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/src)
+
+if (Backtrace_FOUND)
+  include_directories(${Backtrace_INCLUDE_DIRS})
+endif(Backtrace_FOUND)
+
+include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 set(SOURCES
   core/closure.cpp
@@ -49,7 +51,6 @@ if (Backtrace_FOUND)
 endif (Backtrace_FOUND)
 
 target_link_libraries(libstrawberry-common
-  #${PROTOBUF_LIBRARY}
   ${TAGLIB_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
 )

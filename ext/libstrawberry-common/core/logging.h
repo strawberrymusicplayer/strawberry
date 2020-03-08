@@ -26,14 +26,20 @@
 
 #ifdef QT_NO_DEBUG_STREAM
 #  define qLog(level) while (false) QNoDebug()
+#  define qLogCat(level, category) while (false) QNoDebug()
 #else
-#define qLog(level) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__)
+#  define qLog(level) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, nullptr)
 
-#define qCreateLogger(line, class_name, level) logging::CreateLogger(logging::Level_##level, logging::ParsePrettyFunction(class_name), line)
-#endif // QT_NO_DEBUG_STREAM
+// This macro specifies a separate category for message filtering.
+// The default qLog will use the class name extracted from the function name for this purpose.
+// The category is also printed in the message along with the class name.
+#  define qLogCat(level, category) logging::CreateLogger##level(__LINE__, __PRETTY_FUNCTION__, category)
+
+#endif  // QT_NO_DEBUG_STREAM
 
 namespace logging {
-  class NullDevice : public QIODevice {
+
+class NullDevice : public QIODevice {
  protected:
   qint64 readData(char*, qint64) { return -1; }
   qint64 writeData(const char*, qint64 len) { return len; }
@@ -52,33 +58,30 @@ enum Level {
 
   void DumpStackTrace();
 
-  QString ParsePrettyFunction(const char *pretty_function);
-  QDebug CreateLogger(Level level, const QString &class_name, int line);
-
-QDebug CreateLoggerFatal(int line, const char *class_name);
-QDebug CreateLoggerError(int line, const char *class_name);
+QDebug CreateLoggerFatal(int line, const char *pretty_function, const char* category);
+QDebug CreateLoggerError(int line, const char *pretty_function, const char* category);
 
 #ifdef QT_NO_WARNING_OUTPUT
-QNoDebug CreateLoggerWarning(int, const char*);
+  QNoDebug CreateLoggerWarning(int, const char*, const char*);
 #else
-QDebug CreateLoggerWarning(int line, const char *class_name);
+  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char* category);
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-QNoDebug CreateLoggerInfo(int, const char*);
-QNoDebug CreateLoggerDebug(int, const char*);
+  QNoDebug CreateLoggerInfo(int, const char*, const char*);
+  QNoDebug CreateLoggerDebug(int, const char*, const char*);
 #else
-QDebug CreateLoggerInfo(int line, const char *class_name);
-QDebug CreateLoggerDebug(int line, const char *class_name);
-#endif // QT_NO_DEBUG_OUTPUT
+  QDebug CreateLoggerInfo(int line, const char *pretty_function, const char* category);
+  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char* category);
+#endif  // QT_NO_DEBUG_OUTPUT
 
 
-void GLog(const char *domain, int level, const char *message, void *user_data);
+void GLog(const char* domain, int level, const char* message, void* user_data);
 
 extern const char *kDefaultLogLevels;
-}
+
+}  // namespace logging
 
 QDebug operator<<(QDebug debug, std::chrono::seconds secs);
 
 #endif  // LOGGING_H
-
