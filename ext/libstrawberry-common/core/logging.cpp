@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <memory>
 #include <cxxabi.h>
 #include <glib.h>
 
