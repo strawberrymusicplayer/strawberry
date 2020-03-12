@@ -16,6 +16,11 @@ Resources:
   * PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry
   * Translations: https://translate.zanata.org/iteration/view/strawberry/master
 
+The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help funding the project.
+To sponsor, visit [my GitHub sponsors profile](https://github.com/sponsors/jonaski).
+Funding developers through GitHub Sponsors is one more way to contribute to open source projects you appreciate, it helps developers get the resources they need, and recognize contributors working behind the scenes to make open source better for everyone.
+You can also make a one-time payment through [paypal.me/jonaskvinge](https://paypal.me/jonaskvinge)
+
 ### :heavy_check_mark: Features:
 
   * Play and organize music
@@ -38,7 +43,7 @@ Resources:
 
 It has so far been tested to work on Linux, OpenBSD and Windows.
 
-**We do not provide releases for macOS. There currently isn't any macOS developers actively working on this project.**
+**We currently do not provide releases for macOS because there aren't any macOS developers actively working on this project. It is still possible to compile by following the instructions in the Wiki**
 
 ### :heavy_exclamation_mark: Requirements
 
@@ -90,6 +95,3 @@ You should also install the gstreamer plugins base and good, and optionally bad 
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/strawberry.svg)](https://repology.org/metapackage/strawberry/versions)
 
-### :moneybag: Donate
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/jonaskvinge)
