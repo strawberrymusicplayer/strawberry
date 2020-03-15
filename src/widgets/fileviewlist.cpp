@@ -24,6 +24,7 @@
 #include <QAbstractItemModel>
 #include <QFileInfo>
 #include <QFileSystemModel>
+#include <QDir>
 #include <QMenu>
 #include <QUrl>
 #include <QtEvents>
@@ -83,11 +84,28 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   QList<QString> filenames = FilenamesFromSelection();
   // if just one folder selected - use it's path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {
-    data->name_for_new_playlist_ = filenames.first();
-    // otherwise, use the current root path
+    if (filenames.first().length() > 20) {
+      data->name_for_new_playlist_ = QDir(filenames.first()).dirName();
+    }
+    else {
+      data->name_for_new_playlist_ = filenames.first();
+    }
   }
+  // otherwise, use the current root path
   else {
-    data->name_for_new_playlist_ = static_cast<QFileSystemModel*>(model())->rootPath();
+    QString path = static_cast<QFileSystemModel*>(model())->rootPath();
+    if (path.length() > 20) {
+      QFileInfo info(path);
+      if (info.isDir()) {
+        data->name_for_new_playlist_ = QDir(info.filePath()).dirName();
+      }
+      else {
+        data->name_for_new_playlist_ = info.baseName();
+      }
+    }
+    else {
+      data->name_for_new_playlist_ = path;
+    }
   }
 
   return data;
@@ -130,7 +148,6 @@ void FileViewList::MoveToCollectionSlot() {
 }
 
 void FileViewList::CopyToDeviceSlot() {
-  //qLog(Debug) << __PRETTY_FUNCTION__;
   emit CopyToDevice(UrlListFromSelection());
 }
 
