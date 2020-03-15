@@ -2567,7 +2567,7 @@ void MainWindow::GetCoverAutomatically() {
 
   // Search for cover automatically?
   bool search =
-               (song_.source() == Song::Source_LocalFile || song_.source() == Song::Source_Collection || song_.source() == Song::Source_CDDA) &&
+               song_.source() == Song::Source_Collection &&
                album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
                !song_.has_manually_unset_cover() &&
                !song_.art_automatic_is_valid() &&
