@@ -41,6 +41,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QProcess>
 #include <QHostAddress>
 #include <QSet>
 #include <QList>
@@ -82,12 +83,9 @@
 #endif
 
 #ifdef Q_OS_MACOS
-#  include <QProcess>
 #  include "CoreServices/CoreServices.h"
 #  include "IOKit/ps/IOPSKeys.h"
 #  include "IOKit/ps/IOPowerSources.h"
-#elif defined(Q_OS_WIN)
-  #include <QProcess>
 #endif
 
 #include "core/logging.h"
@@ -333,6 +331,63 @@ QString ColorToRgba(const QColor &c) {
 
 }
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+void OpenInFileManager(const QString &path) {
+
+  QProcess proc;
+  proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+  proc.waitForFinished();
+  QString desktop_file = proc.readLine().simplified();
+  QStringList data_dirs = QString(getenv("XDG_DATA_DIRS")).split(":");
+
+  QString command;
+  QStringList command_params;
+  for (const QString &data_dir : data_dirs) {
+    QString desktop_file_path = QString("%1/applications/%2").arg(data_dir, desktop_file);
+    if (!QFile::exists(desktop_file_path)) continue;
+    QSettings setting(desktop_file_path, QSettings::IniFormat);
+    setting.beginGroup("Desktop Entry");
+    if (setting.contains("Exec")) {
+      QString cmd = setting.value("Exec").toString();
+      if (cmd.isEmpty()) break;
+      command_params = cmd.split(' ');
+      command = command_params.first();
+      command_params.removeFirst();
+    }
+    setting.endGroup();
+    if (!command.isEmpty()) break;
+  }
+
+  if (command_params.contains("%u")) {
+    command_params.removeAt(command_params.indexOf("%u"));
+  }
+  if (command_params.contains("%U")) {
+    command_params.removeAt(command_params.indexOf("%U"));
+  }
+
+  if (command.isEmpty() || command == "exo-open") {
+    QFileInfo info(path);
+    if (!info.exists()) return;
+    QString directory = info.dir().path();
+    if (directory.isEmpty()) return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile(directory));
+  }
+  else if (command.startsWith("nautilus")) {
+    proc.startDetached(command, QStringList() << command_params << "--select" << path);
+  }
+  else if (command.startsWith("dolphin") || command.startsWith("konqueror") || command.startsWith("kfmclient")) {
+    proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << path);
+  }
+  else if (command.startsWith("caja")) {
+    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
+  }
+  else {
+    proc.startDetached(command, QStringList() << command_params << path);
+  }
+
+}
+#endif
+
 #ifdef Q_OS_MACOS
 // Better than openUrl(dirname(path)) - also highlights file at path
 void RevealFileInFinder(QString const &path) {
@@ -380,14 +435,14 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
     const QString directory = QFileInfo(path).dir().path();
     if (dirs.contains(directory)) continue;
     dirs.insert(directory);
-    qLog(Debug) << path;
-#ifdef Q_OS_MACOS
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+    OpenInFileManager(path);
+#elif Q_OS_MACOS
     // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
     RevealFileInFinder(path);
 #elif defined(Q_OS_WIN32)
     ShowFileInExplorer(path);
-#else
-    QDesktopServices::openUrl(QUrl::fromLocalFile(directory));
 #endif
   }
 
@@ -453,8 +508,6 @@ QByteArray Sha1CoverHash(const QString &artist, const QString &album) {
   QCryptographicHash hash(QCryptographicHash::Sha1);
   hash.addData(artist.toLower().toUtf8().constData());
   hash.addData(album.toLower().toUtf8().constData());
-
-  //qLog(Debug) << artist << album << hash.result();
 
   return hash.result();
 
