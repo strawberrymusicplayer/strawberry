@@ -438,7 +438,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     OpenInFileManager(path);
-#elif Q_OS_MACOS
+#elif defined(Q_OS_MACOS)
     // Revealing multiple files in the finder only opens one window, so it also makes sense to reveal at most one per directory
     RevealFileInFinder(path);
 #elif defined(Q_OS_WIN32)
