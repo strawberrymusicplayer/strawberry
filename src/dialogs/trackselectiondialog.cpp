@@ -235,7 +235,8 @@ void TrackSelectionDialog::AddSong(const Song &song, int result_index, QTreeWidg
 
   QTreeWidgetItem *item = new QTreeWidgetItem(parent, values);
   item->setData(0, Qt::UserRole, result_index);
-  item->setData(0, Qt::TextAlignmentRole, Qt::AlignRight);
+  item->setData(0, Qt::TextAlignmentRole, Qt::AlignCenter);
+
 }
 
 void TrackSelectionDialog::ResultSelected() {
