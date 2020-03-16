@@ -151,12 +151,12 @@ msgstr ""
 msgid "%1 dB"
 msgstr "%1 дБ"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 #, qt-format
 msgid "%1 days"
 msgstr "%1 дней"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:162
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 дней назад"
@@ -186,7 +186,7 @@ msgstr "%1 песня%2"
 msgid "%1 songs"
 msgstr ""
 
-#: core/utilities.cpp:358
+#: core/utilities.cpp:413
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 выбранных песен, вы уверены, что хотите открыть их всех?"
@@ -417,7 +417,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 msgid "1 day"
 msgstr "1 день"
 
@@ -802,7 +802,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Добавить файлы/ссылки в плейлист"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:41 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Добавить в текущий плейлист"
@@ -1206,14 +1206,14 @@ msgstr "Конвертировать всю музыку, не поддержи�
 msgid "Copy album cover artwork"
 msgstr "Копировать обложку альбома"
 
-#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:45
+#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Копировать в фонотеку…"
 
 #: core/mainwindow.cpp:594 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
-#: widgets/fileviewlist.cpp:47
+#: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Копировать на устройство..."
 
@@ -1436,7 +1436,7 @@ msgstr "Удалить файлы"
 msgid "Delete from device..."
 msgstr "Удалить с устройства..."
 
-#: widgets/fileviewlist.cpp:48
+#: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Удалить с диска…"
 
@@ -1596,7 +1596,7 @@ msgid "Edit track information"
 msgstr "Изменить информацию о треке"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:337
-#: widgets/fileviewlist.cpp:51 ../build/src/ui_mainwindow.h:628
+#: widgets/fileviewlist.cpp:52 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Изменить информацию о треке"
 
@@ -2163,12 +2163,12 @@ msgstr "Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm
 msgid "Import..."
 msgstr "Импортировать..."
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:176
 #, qt-format
 msgid "In %1 days"
 msgstr "В течение %1 дней"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:179
 #, qt-format
 msgid "In %1 weeks"
 msgstr "В течение %1 недель"
@@ -2471,7 +2471,7 @@ msgstr "Точки монтирования"
 msgid "Move down"
 msgstr "Переместить вниз"
 
-#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Переместить в фонотеку…"
 
@@ -2530,7 +2530,7 @@ msgstr "Новые композиции"
 msgid "Next"
 msgstr "Дальше"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:177
 msgid "Next week"
 msgstr "На следующей неделе"
 
@@ -2639,7 +2639,7 @@ msgid "Open device"
 msgstr "Открыть устройство"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -3079,7 +3079,7 @@ msgid "Repeat track"
 msgstr "Повторять трек"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Заменить текущий плейлист"
@@ -3471,12 +3471,12 @@ msgstr "Показать в полный размер…"
 msgid "Show in collection..."
 msgstr "Показать в фонотеке…"
 
-#: core/utilities.cpp:352 core/utilities.cpp:358
+#: core/utilities.cpp:407 core/utilities.cpp:413
 msgid "Show in file browser"
 msgstr "Показать в файловом браузере"
 
 #: core/mainwindow.cpp:599 context/contextalbumsview.cpp:268
-#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Открыть в диспетчере файлов"
 
@@ -3963,7 +3963,7 @@ msgstr "Часовой пояс"
 msgid "Title"
 msgstr "Название"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:160 core/utilities.cpp:174
 msgid "Today"
 msgstr "Сегодня"
 
@@ -3983,11 +3983,11 @@ msgstr "Переключить статус пропуска"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Переключить видимость OSD"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:175
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: core/utilities.cpp:352
+#: core/utilities.cpp:407
 msgid "Too many songs selected."
 msgstr "Слишком много песен выбрано."
 
@@ -4311,7 +4311,7 @@ msgstr "Год - Альбом"
 msgid "Year - Album - Disc"
 msgstr "Год - Альбом - Диск"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:161
 msgid "Yesterday"
 msgstr "Вчера"
 

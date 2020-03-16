@@ -157,12 +157,12 @@ msgstr ""
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 #, qt-format
 msgid "%1 days"
 msgstr "%1 Tage"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:162
 #, qt-format
 msgid "%1 days ago"
 msgstr "vor %1 Tagen"
@@ -192,7 +192,7 @@ msgstr "%1 Lied%2"
 msgid "%1 songs"
 msgstr ""
 
-#: core/utilities.cpp:358
+#: core/utilities.cpp:413
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 Lieder ausgewählt, wollen sie wirklich alle öffnen?"
@@ -423,7 +423,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 msgid "1 day"
 msgstr "1 Tag"
 
@@ -814,7 +814,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Dateien/Adressen an die Wiedergabeliste anhängen"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:41 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Zur aktuellen Wiedergabeliste hinzufügen"
@@ -1219,14 +1219,14 @@ msgstr "Musik umwandeln, die das Gerät nicht wiedergeben kann"
 msgid "Copy album cover artwork"
 msgstr "Kopiere Album Cover "
 
-#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:45
+#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Zur Bibliothek kopieren …"
 
 #: core/mainwindow.cpp:594 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
-#: widgets/fileviewlist.cpp:47
+#: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Auf das Gerät kopieren …"
 
@@ -1449,7 +1449,7 @@ msgstr "Dateien löschen"
 msgid "Delete from device..."
 msgstr "Vom Gerät löschen …"
 
-#: widgets/fileviewlist.cpp:48
+#: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Vom Datenträger löschen …"
 
@@ -1609,7 +1609,7 @@ msgid "Edit track information"
 msgstr "Metadaten bearbeiten"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:337
-#: widgets/fileviewlist.cpp:51 ../build/src/ui_mainwindow.h:628
+#: widgets/fileviewlist.cpp:52 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Metadaten bearbeiten …"
 
@@ -2178,12 +2178,12 @@ msgstr "Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import..."
 msgstr ""
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:176
 #, qt-format
 msgid "In %1 days"
 msgstr "In %1 Tagen"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:179
 #, qt-format
 msgid "In %1 weeks"
 msgstr "In %1 Wochen"
@@ -2486,7 +2486,7 @@ msgstr "Einhängepunkte"
 msgid "Move down"
 msgstr "Nach unten"
 
-#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Zur Bibliothek verschieben …"
 
@@ -2545,7 +2545,7 @@ msgstr "Neue Titel"
 msgid "Next"
 msgstr "Weiter"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:177
 msgid "Next week"
 msgstr "Nächste Woche"
 
@@ -2655,7 +2655,7 @@ msgid "Open device"
 msgstr "Gerät öffnen"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -3092,7 +3092,7 @@ msgid "Repeat track"
 msgstr "Titel wiederholen"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Wiedergabeliste ersetzen"
@@ -3487,12 +3487,12 @@ msgstr "In Originalgröße anzeigen …"
 msgid "Show in collection..."
 msgstr "In Bibliothek anzeigen …"
 
-#: core/utilities.cpp:352 core/utilities.cpp:358
+#: core/utilities.cpp:407 core/utilities.cpp:413
 msgid "Show in file browser"
 msgstr ""
 
 #: core/mainwindow.cpp:599 context/contextalbumsview.cpp:268
-#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "In Dateiverwaltung anzeigen …"
 
@@ -3976,7 +3976,7 @@ msgstr ""
 msgid "Title"
 msgstr "Titel"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:160 core/utilities.cpp:174
 msgid "Today"
 msgstr "Heute"
 
@@ -3996,11 +3996,11 @@ msgstr ""
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Sichtbarkeit der Strawberry-Bildschirmanzeige anpassen"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:175
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: core/utilities.cpp:352
+#: core/utilities.cpp:407
 msgid "Too many songs selected."
 msgstr ""
 
@@ -4321,7 +4321,7 @@ msgstr "Jahr – Album"
 msgid "Year - Album - Disc"
 msgstr ""
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:161
 msgid "Yesterday"
 msgstr "Gestern"
 
