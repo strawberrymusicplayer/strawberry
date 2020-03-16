@@ -152,12 +152,12 @@ msgstr "%1 artistas"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 #, qt-format
 msgid "%1 days"
 msgstr "%1 días"
 
-#: core/utilities.cpp:164
+#: core/utilities.cpp:162
 #, qt-format
 msgid "%1 days ago"
 msgstr "hace %1 días"
@@ -187,7 +187,7 @@ msgstr "%1 canción%2"
 msgid "%1 songs"
 msgstr "%1 temas"
 
-#: core/utilities.cpp:358
+#: core/utilities.cpp:413
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 temas seleccionados, ¿seguro que quieres abrirlos todos?"
@@ -418,7 +418,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:144
+#: core/utilities.cpp:142
 msgid "1 day"
 msgstr "1 día"
 
@@ -804,7 +804,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Añadir archivos/URL a la lista de reproducción"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:41 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Añadir a la lista de reproducción actual"
@@ -1210,14 +1210,14 @@ msgstr "Convertir las pistas que el dispositivo no pueda reproducir"
 msgid "Copy album cover artwork"
 msgstr "Copiar la portada del álbum"
 
-#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:45
+#: core/mainwindow.cpp:596 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Copiar en la colección…"
 
 #: core/mainwindow.cpp:594 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
-#: widgets/fileviewlist.cpp:47
+#: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
 msgstr "Copiar en un dispositivo…"
 
@@ -1440,7 +1440,7 @@ msgstr "Eliminar archivos"
 msgid "Delete from device..."
 msgstr "Eliminar del dispositivo…"
 
-#: widgets/fileviewlist.cpp:48
+#: widgets/fileviewlist.cpp:49
 msgid "Delete from disk..."
 msgstr "Eliminar del disco…"
 
@@ -1600,7 +1600,7 @@ msgid "Edit track information"
 msgstr "Editar información de la pista"
 
 #: context/contextalbumsview.cpp:266 collection/collectionview.cpp:337
-#: widgets/fileviewlist.cpp:51 ../build/src/ui_mainwindow.h:628
+#: widgets/fileviewlist.cpp:52 ../build/src/ui_mainwindow.h:628
 msgid "Edit track information..."
 msgstr "Editar información de la pista…"
 
@@ -2173,12 +2173,12 @@ msgstr "Imágenes (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import..."
 msgstr "Importar..."
 
-#: core/utilities.cpp:178
+#: core/utilities.cpp:176
 #, qt-format
 msgid "In %1 days"
 msgstr "En %1 días"
 
-#: core/utilities.cpp:181
+#: core/utilities.cpp:179
 #, qt-format
 msgid "In %1 weeks"
 msgstr "En %1 semanas"
@@ -2483,7 +2483,7 @@ msgstr "Puntos de montaje"
 msgid "Move down"
 msgstr "Bajar"
 
-#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:597 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Mover a la colección…"
 
@@ -2542,7 +2542,7 @@ msgstr "Pistas nuevas"
 msgid "Next"
 msgstr "Siguiente"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:177
 msgid "Next week"
 msgstr "Próxima semana"
 
@@ -2653,7 +2653,7 @@ msgid "Open device"
 msgstr "Abrir dispositivo"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -3098,7 +3098,7 @@ msgid "Repeat track"
 msgstr "Repetir pista"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Reemplazar lista de reproducción actual"
@@ -3491,12 +3491,12 @@ msgstr "Mostrar a tamaño completo…"
 msgid "Show in collection..."
 msgstr "Mostrar en la colección…"
 
-#: core/utilities.cpp:352 core/utilities.cpp:358
+#: core/utilities.cpp:407 core/utilities.cpp:413
 msgid "Show in file browser"
 msgstr "Mostrar en el navegador de archivos"
 
 #: core/mainwindow.cpp:599 context/contextalbumsview.cpp:268
-#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:52
+#: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Mostrar en el gestor de archivos…"
 
@@ -3991,7 +3991,7 @@ msgstr "Zona horaria"
 msgid "Title"
 msgstr "Título"
 
-#: core/utilities.cpp:162 core/utilities.cpp:176
+#: core/utilities.cpp:160 core/utilities.cpp:174
 msgid "Today"
 msgstr "Hoy"
 
@@ -4011,11 +4011,11 @@ msgstr "Conmutar estado de avance"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Conmutar visibilidad del panel de información en pantalla chulo"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:175
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: core/utilities.cpp:352
+#: core/utilities.cpp:407
 msgid "Too many songs selected."
 msgstr "Demasiadas pistas seleccionadas"
 
@@ -4339,7 +4339,7 @@ msgstr "Año - Álbum"
 msgid "Year - Album - Disc"
 msgstr "Año - Álbum - Disco"
 
-#: core/utilities.cpp:163
+#: core/utilities.cpp:161
 msgid "Yesterday"
 msgstr "Ayer"
 
