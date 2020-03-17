@@ -73,6 +73,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
     Role_TranscodeMode,
     Role_TranscodeFormat,
     Role_SongCount,
+    Role_CopyMusic,
     LastRole,
   };
 
