@@ -3279,7 +3279,7 @@ msgstr "Gestor de agrupamientos guardados"
 msgid "Saving album covers"
 msgstr "Guardando carátulas"
 
-#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:290
+#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Guardando las pistas"
 

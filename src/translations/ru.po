@@ -3260,7 +3260,7 @@ msgstr "Менеджер сохранённых групп"
 msgid "Saving album covers"
 msgstr "Сохранение обложек альбомов"
 
-#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:290
+#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Сохранение треков"
 
