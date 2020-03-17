@@ -385,6 +385,10 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       if (!info->device_) return QVariant();
       return info->device_->song_count();
 
+    case Role_CopyMusic:
+      if (info->BestBackend() && info->BestBackend()->lister_) return info->BestBackend()->lister_->CopyMusic();
+      else return false;
+
     default:
       return QVariant();
   }

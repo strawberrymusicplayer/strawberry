@@ -69,6 +69,8 @@ class DeviceLister : public QObject {
   // Do whatever needs to be done to safely remove the device.
   virtual void UnmountDeviceAsync(const QString &id);
 
+  virtual bool CopyMusic() { return true; }
+
  public slots:
   virtual void UpdateDeviceFreeSpace(const QString &id) = 0;
   virtual void ShutDown() {}

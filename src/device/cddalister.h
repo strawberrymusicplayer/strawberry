@@ -52,6 +52,7 @@ class CddaLister : public DeviceLister {
   void UnmountDevice(const QString&);
   void UpdateDeviceFreeSpace(const QString&);
   bool Init();
+  bool CopyMusic() { return false; }
 
  private:
   QStringList devices_list_;

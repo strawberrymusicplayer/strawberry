@@ -40,7 +40,7 @@ DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::S
 }
 
 bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex&) const {
-  return sourceModel()->index(row, 0).data(DeviceManager::Role_State).toInt() != state_;
+  return sourceModel()->index(row, 0).data(DeviceManager::Role_State).toInt() != state_ && sourceModel()->index(row, 0).data(DeviceManager::Role_CopyMusic).toBool();
 }
 
 void DeviceStateFilterModel::ProxyRowCountChanged() {
