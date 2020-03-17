@@ -3211,7 +3211,7 @@ msgstr "그룹 관리자 저장됨"
 msgid "Saving album covers"
 msgstr "앨범 표지 저장 중"
 
-#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:290
+#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 

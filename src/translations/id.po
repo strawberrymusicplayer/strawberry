@@ -3237,7 +3237,7 @@ msgstr "Pengelola Pengelompokan Tersimpan"
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
-#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:290
+#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
 msgstr "Menyimpan trek"
 
