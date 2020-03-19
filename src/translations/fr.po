@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-02-17 04:32+0000\n"
+"PO-Revision-Date: 2020-02-17 04:32-0500\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -2168,7 +2168,7 @@ msgstr ""
 "Si cette option est activée, cliquer sur un morceau sélectionné dans la "
 "liste de lecture vous permettra d'éditer directement la valeur du tag"
 
-#: device/devicemanager.cpp:611 device/devicemanager.cpp:619
+#: device/devicemanager.cpp:615 device/devicemanager.cpp:623
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -3965,18 +3965,18 @@ msgstr ""
 msgid "This device supports the following file formats:"
 msgstr "Ce périphérique supporte les formats suivant :"
 
-#: device/devicemanager.cpp:609 device/devicemanager.cpp:617
+#: device/devicemanager.cpp:613 device/devicemanager.cpp:621
 msgid "This device will not work properly"
 msgstr "Ce périphérique ne fonctionne pas correctement"
 
-#: device/devicemanager.cpp:610
+#: device/devicemanager.cpp:614
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr ""
 "Ceci est un périphérique MTP, mais vous avez compilé Strawberry sans le "
 "support libmtp."
 
-#: device/devicemanager.cpp:618
+#: device/devicemanager.cpp:622
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr ""
 "Ceci est un iPod, mais vous avez compilé Strawberry sans le support libgpod."
@@ -3995,7 +3995,7 @@ msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr ""
 "Cette option peut être modifiée dans les préférences de « Comportement »"
 
-#: device/devicemanager.cpp:632
+#: device/devicemanager.cpp:636
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Ce type de périphérique n'est pas supporté : %1"

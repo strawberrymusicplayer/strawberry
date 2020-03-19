@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-02-15 10:36+0000\n"
+"PO-Revision-Date: 2020-02-15 10:36-0500\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Korean\n"
 "Language: ko\n"
@@ -2101,7 +2101,7 @@ msgid ""
 "edit the tag value directly"
 msgstr "활성화하면 재생 목록에서 선택한 노래를 클릭하여 태그 값을 직접 수정할 수 있습니다."
 
-#: device/devicemanager.cpp:611 device/devicemanager.cpp:619
+#: device/devicemanager.cpp:615 device/devicemanager.cpp:623
 msgid ""
 "If you continue, this device will work slowly and songs copied to it may not "
 "work."
@@ -3853,16 +3853,16 @@ msgstr "Strawberry에서 이 장치가 지원하는 파일 형식을 파악하�
 msgid "This device supports the following file formats:"
 msgstr "이 장치는 다음 파일 형식을 지원합니다:"
 
-#: device/devicemanager.cpp:609 device/devicemanager.cpp:617
+#: device/devicemanager.cpp:613 device/devicemanager.cpp:621
 msgid "This device will not work properly"
 msgstr "이 장치는 올바르게 작동하지 않을 수 있음"
 
-#: device/devicemanager.cpp:610
+#: device/devicemanager.cpp:614
 msgid ""
 "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr "이 장치는 MTP 장치이지만 Strawberry를 컴파일할 때 libmtp 지원이 빠졌습니다."
 
-#: device/devicemanager.cpp:618
+#: device/devicemanager.cpp:622
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr "이 장치는 iPod이지만 Strawberry를 컴파일할 때 libgpod 지원이 빠졌습니다."
 
@@ -3876,7 +3876,7 @@ msgstr "이 장치를 처음 연결했습니다. Strawberry에서 장치에 있�
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 
-#: device/devicemanager.cpp:632
+#: device/devicemanager.cpp:636
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
