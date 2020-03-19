@@ -471,7 +471,7 @@ def FindGioModule(name):
 def main():
   logging.basicConfig(filename='macdeploy.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s')
 
-  #FixBinary(binary)
+  FixBinary(binary)
 
   try:
     FixPlugin('strawberry-tagreader', '.')
