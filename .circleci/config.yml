@@ -1,0 +1,520 @@
+version: 2.1
+commands:
+
+  cmake:
+    description: Configure build
+    steps:
+      - run:
+          name: Configure build
+          command: cmake ..
+          working_directory: build
+
+
+  build_source:
+    description: Create source tarball
+    steps:
+      - run:
+          name: Create source tarball
+          command: ../dist/scripts/maketarball.sh
+          working_directory: build
+
+
+  build_rpm:
+    description: Build RPM
+    steps:
+      - run:
+          name: Create RPM build sources directories
+          command: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - run:
+          name: Copy source tarball 1
+          command: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+          working_directory: build
+      - run:
+          name: Copy source tarball 2
+          command: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+          working_directory: build
+      - run:
+          name: Build RPM
+          command: rpmbuild -ba ../dist/rpm/strawberry.spec
+          working_directory: build
+
+
+  build_deb:
+    description: Build Deb
+    steps:
+      - run:
+          name: make deb
+          command: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  install_opensuse_dependencies:
+    description: Install openSUSE dependencies
+    steps:
+      - run:
+          name: Install openSUSE dependencies
+          command: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            rpmdevtools
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            pkg-config
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            libxine-devel
+            vlc-devel
+            taglib-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+
+
+  install_fedora_dependencies:
+    description: Install Fedora dependencies
+    steps:
+      - run:
+          name: Install Fedora dependencies
+          command: >
+            dnf install --assumeyes
+            @development-tools
+            redhat-lsb-core
+            git
+            glibc
+            gcc-c++
+            rpmdevtools
+            make
+            cmake
+            pkgconfig
+            glib
+            man
+            tar
+            gettext
+            openssh
+            boost-devel
+            dbus-devel
+            protobuf-devel
+            protobuf-compiler
+            sqlite-devel
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            libnotify-devel
+            gnutls-devel
+            qt5-devel
+            qt5-qtbase-devel
+            qt5-qtx11extras-devel
+            qt5-qttools-devel
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+            taglib-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libusbmuxd-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw-devel
+            desktop-file-utils
+            libappstream-glib
+            hicolor-icon-theme
+
+
+  install_mageia_dependencies:
+    description: Install Mageia dependencies
+    steps:
+      - run:
+          name: Add extra media
+          command: urpmi.addmedia --distrib http://www.mirrorservice.org/sites/mageia.org/pub/mageia/distrib/7/x86_64
+      - run:
+          name: Update packages
+          command: urpmi.update -a
+      - run:
+          name: Configure auto update
+          command: urpmi --auto-update
+      - run:
+          name: Install dependencies
+          command: >
+            urpmi --force
+            urpmi-debuginfo-install
+            git
+            tar
+            rpmdevtools
+            make
+            cmake
+            glibc
+            binutils
+            gcc-c++
+            man
+            gettext
+            notification-daemon
+            dbus-devel
+            libgnutls-devel
+            lib64boost-devel
+            lib64protobuf-devel
+            protobuf-compiler
+            lib64sqlite3-devel
+            lib64alsa2-devel
+            lib64pulseaudio-devel
+            lib64notify-devel
+            lib64qt5core-devel
+            lib64qt5gui-devel
+            lib64qt5widgets-devel
+            lib64qt5network-devel
+            lib64qt5concurrent-devel
+            lib64qt5sql-devel
+            lib64qt5dbus-devel
+            lib64qt5x11extras-devel
+            lib64qt5help-devel
+            libqt5test-devel
+            lib64gstreamer1.0-devel
+            lib64gstreamer-plugins-base1.0-devel
+            lib64cdio-devel
+            lib64gpod-devel
+            lib64plist-devel
+            lib64usbmuxd-devel
+            lib64mtp-devel
+            lib64raw1394-devel
+            lib64chromaprint-devel
+            libfftw-devel
+            desktop-file-utils
+            appstream-util
+            libappstream-glib8
+            hicolor-icon-theme
+            qt5ct
+            lib64mesaegl1
+
+
+  install_debian_dependencies:
+    description: Install Debian dependencies
+    steps:
+      - run:
+          name: Install Debian dependencies
+          command: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            gcc
+            pkg-config
+            fakeroot
+            gettext
+            lsb-release
+            libglib2.0-dev
+            dpkg-dev
+            libdbus-1-dev
+            libboost-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+
+
+  install_ubuntu_dependencies:
+    description: Install Ubuntu dependencies
+    steps:
+      - run:
+          name: Setup environment
+          command: |
+            echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Install Ubuntu dependencies
+          command: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+
+
+jobs:
+
+  build_source:
+    docker:
+      - image: opensuse/tumbleweed
+    steps:
+      - install_opensuse_dependencies
+      - checkout
+      - cmake
+      - build_source
+
+
+  build_opensuse_tumbleweed:
+    docker:
+      - image: opensuse/tumbleweed
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_opensuse_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+  build_opensuse_lp151:
+    docker:
+      - image: opensuse/leap:15.1
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_opensuse_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+  build_opensuse_lp152:
+    docker:
+      - image: opensuse/leap:15.2
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_opensuse_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+
+  build_fedora_30:
+    docker:
+      - image: fedora:30
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_fedora_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+  build_fedora_31:
+    docker:
+      - image: fedora:31
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_fedora_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+
+  build_mageia_7:
+    docker:
+      - image: mageia:7
+    environment:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - install_mageia_dependencies
+      - checkout
+      - cmake
+      - build_source
+      - build_rpm
+
+
+  build_debian_stretch:
+    docker:
+      - image: debian:stretch
+    steps:
+      - install_debian_dependencies
+      - checkout
+      - cmake
+      - build_deb
+
+  build_debian_buster:
+    docker:
+      - image: debian:buster
+    steps:
+      - install_debian_dependencies
+      - checkout
+      - cmake
+      - build_deb
+
+  build_debian_bullseye:
+    docker:
+      - image: debian:bullseye
+    steps:
+      - install_debian_dependencies
+      - checkout
+      - cmake
+      - build_deb
+
+
+  build_ubuntu_bionic:
+    docker:
+      - image: ubuntu:bionic
+
+    steps:
+      - install_ubuntu_dependencies
+      - checkout
+      - cmake
+      - build_deb
+
+  build_ubuntu_eoan:
+    docker:
+      - image: ubuntu:eoan
+    steps:
+      - install_ubuntu_dependencies
+      - checkout
+      - cmake
+      - build_deb
+
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+
+      - build_source:
+          filters:
+            tags:
+              only: /.*/
+
+
+      - build_opensuse_tumbleweed:
+          filters:
+            tags:
+              only: /.*/
+      - build_opensuse_lp151:
+          filters:
+            tags:
+              only: /.*/
+      - build_opensuse_lp152:
+          filters:
+            tags:
+              only: /.*/
+
+
+      - build_fedora_30:
+          filters:
+            tags:
+              only: /.*/
+      - build_fedora_31:
+          filters:
+            tags:
+              only: /.*/
+
+
+      - build_mageia_7:
+          filters:
+            tags:
+              only: /.*/
+
+
+      - build_debian_stretch:
+          filters:
+            tags:
+              only: /.*/
+      - build_debian_buster:
+          filters:
+            tags:
+              only: /.*/
+      - build_debian_bullseye:
+          filters:
+            tags:
+              only: /.*/
+
+
+      - build_ubuntu_eoan:
+          filters:
+            tags:
+              only: /.*/
+      - build_ubuntu_bionic:
+          filters:
+            tags:
+              only: /.*/
