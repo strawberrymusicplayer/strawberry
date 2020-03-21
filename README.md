@@ -10,7 +10,7 @@ Resources:
 
   * Website: https://www.strawberrymusicplayer.org/
   * Github: https://github.com/strawberrymusicplayer/strawberry
-  * Buildbot: http://buildbot.strawberrymusicplayer.org/
+  * Buildbot: https://buildbot.strawberrymusicplayer.org/
   * Latest builds: https://builds.strawberrymusicplayer.org/
   * openSUSE buildservice: https://build.opensuse.org/package/show/home:jonaski:audio/strawberry
   * PPA: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry
