@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+For general technical questions and help with technical issues please use the forum on https://forum.strawberrymusicplayer.org/
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
