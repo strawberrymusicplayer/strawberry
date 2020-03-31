@@ -3120,12 +3120,12 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:621
+#: subsonic/subsonicrequest.cpp:624
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:622
+#: subsonic/subsonicrequest.cpp:625
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
@@ -4036,7 +4036,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:761
+#: subsonic/subsonicrequest.cpp:764
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 

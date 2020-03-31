@@ -3157,12 +3157,12 @@ msgstr ""
 msgid "Resume playback on start"
 msgstr "Wiedergabe beim Start fortsetzten"
 
-#: subsonic/subsonicrequest.cpp:621
+#: subsonic/subsonicrequest.cpp:624
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr ""
 
-#: subsonic/subsonicrequest.cpp:622
+#: subsonic/subsonicrequest.cpp:625
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr ""
@@ -4069,7 +4069,7 @@ msgstr "Ulte Weit Band (UWB)"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: subsonic/subsonicrequest.cpp:761
+#: subsonic/subsonicrequest.cpp:764
 msgid "Unknown error"
 msgstr ""
 
