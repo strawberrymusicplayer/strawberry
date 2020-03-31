@@ -551,7 +551,10 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   }
 
   int track = 0;
-  if (json_obj.contains("track")) track = json_obj["track"].toInt();
+  if (json_obj.contains("track")) {
+    track = json_obj["track"].toString().toInt();
+    if (track == 0) track = json_obj["track"].toInt();
+  }
 
   QString genre;
   if (json_obj.contains("genre")) genre = json_obj["genre"].toString();
