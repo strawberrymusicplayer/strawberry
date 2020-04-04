@@ -499,21 +499,36 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
     return -1;
   }
 
-  QString song_id_str = json_obj["id"].toString();
-  qint64 song_id = QString(song_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
-  if (song_id == 0) song_id = json_obj["id"].toInt();
+  qint64 song_id = 0;
+  QString song_id_str;
+  if (json_obj["id"].type() == QJsonValue::String) {
+    song_id_str = json_obj["id"].toString();
+    song_id = QString(song_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
+  }
+  else {
+    song_id = json_obj["id"].toInt();
+    song_id_str = QString::number(song_id);
+  }
 
   QString album_id;
   if (json_obj.contains("albumId")) {
-    album_id = json_obj["albumId"].toString();
-    if (album_id.isEmpty()) album_id = QString::number(json_obj["albumId"].toInt());
+    if (json_obj["albumId"].type() == QJsonValue::String) {
+      album_id = json_obj["albumId"].toString();
+    }
+    else {
+      album_id = QString::number(json_obj["albumId"].toInt());
+    }
   }
 
   qint64 artist_id = -1;
   if (json_obj.contains("artistId")) {
-    QString artist_id_str = json_obj["artistId"].toString();
-    artist_id = QString(artist_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
-    if (artist_id == 0) artist_id = json_obj["artistId"].toInt();
+    if (json_obj["artistId"].type() == QJsonValue::String) {
+      QString artist_id_str = json_obj["artistId"].toString();
+      artist_id = QString(artist_id_str).remove(QRegExp("[^0-9]+")).toLongLong();
+    }
+    else {
+      artist_id = json_obj["artistId"].toInt();
+    }
   }
 
   QString title = json_obj["title"].toString();
@@ -529,11 +544,22 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   }
 
   int size = json_obj["size"].toInt();
-  quint64 duration = json_obj["duration"].toInt() * kNsecPerSec;
+  quint64 duration = 0;
+  if (json_obj["size"].type() == QJsonValue::String) {
+    duration = json_obj["duration"].toString().toInt() * kNsecPerSec;
+  }
+  else {
+    duration = json_obj["duration"].toInt() * kNsecPerSec;
+  }
 
   int bitrate = 0;
   if (json_obj.contains("bitRate")) {
-    bitrate = json_obj["bitRate"].toInt();
+    if (json_obj["bitRate"].type() == QJsonValue::String) {
+      bitrate = json_obj["bitRate"].toString().toInt();
+    }
+    else {
+      bitrate = json_obj["bitRate"].toInt();
+    }
   }
 
   QString mimetype;
@@ -542,18 +568,33 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
   }
 
   int year = 0;
-  if (json_obj.contains("year")) year = json_obj["year"].toInt();
+  if (json_obj.contains("year")) {
+    if (json_obj["year"].type() == QJsonValue::String) {
+      year = json_obj["year"].toString().toInt();
+    }
+    else {
+      year = json_obj["year"].toInt();
+    }
+  }
 
   int disc = 0;
   if (json_obj.contains("discNumber")) {
-    disc = json_obj["discNumber"].toString().toInt();
-    if (disc == 0) disc = json_obj["discNumber"].toInt();
+    if (json_obj["discNumber"].type() == QJsonValue::String) {
+      disc = json_obj["discNumber"].toString().toInt();
+    }
+    else {
+      disc = json_obj["discNumber"].toInt();
+    }
   }
 
   int track = 0;
   if (json_obj.contains("track")) {
-    track = json_obj["track"].toString().toInt();
-    if (track == 0) track = json_obj["track"].toInt();
+    if (json_obj["track"].type() == QJsonValue::String) {
+      track = json_obj["track"].toString().toInt();
+    }
+    else {
+      track = json_obj["track"].toInt();
+    }
   }
 
   QString genre;
@@ -561,8 +602,12 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
 
   QString cover_art_id;
   if (json_obj.contains("coverArt")) {
-    cover_art_id = json_obj["coverArt"].toString();
-    if (cover_art_id.isEmpty()) cover_art_id = QString::number(json_obj["coverArt"].toInt());
+    if (json_obj["coverArt"].type() == QJsonValue::String) {
+      cover_art_id = json_obj["coverArt"].toString();
+    }
+    else {
+      cover_art_id = QString::number(json_obj["coverArt"].toInt());
+    }
   }
 
   QUrl url;
