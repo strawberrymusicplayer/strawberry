@@ -543,9 +543,16 @@ int SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, const qi
     artist = json_obj["artist"].toString();
   }
 
-  int size = json_obj["size"].toInt();
-  quint64 duration = 0;
+  int size = 0;
   if (json_obj["size"].type() == QJsonValue::String) {
+    size = json_obj["size"].toString().toInt();
+  }
+  else {
+    size = json_obj["size"].toInt();
+  }
+
+  quint64 duration = 0;
+  if (json_obj["duration"].type() == QJsonValue::String) {
     duration = json_obj["duration"].toString().toInt() * kNsecPerSec;
   }
   else {
