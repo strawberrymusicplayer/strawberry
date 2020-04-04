@@ -3162,12 +3162,12 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:624
+#: subsonic/subsonicrequest.cpp:676
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando carátula del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:625
+#: subsonic/subsonicrequest.cpp:677
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Buscando carátulas de %1 álbums."
@@ -4084,7 +4084,7 @@ msgstr "Banda ultraancha (UWB)"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:764
+#: subsonic/subsonicrequest.cpp:816
 msgid "Unknown error"
 msgstr "Error desconocido"
 
