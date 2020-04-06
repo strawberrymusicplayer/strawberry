@@ -230,7 +230,7 @@ void SettingsDialog::LoadGeometry() {
   }
 
   // Center the dialog on the same screen as mainwindow.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
   screen = mainwindow_->screen();
 #else
   screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
