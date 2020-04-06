@@ -26,6 +26,7 @@
 #include <QMainWindow>
 #include <QScreen>
 #include <QWindow>
+#include <QGuiApplication>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QTreeWidget>
@@ -107,7 +108,7 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QDialog *parent)
+SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent)
     : QDialog(parent),
       mainwindow_(mainwindow),
       app_(app),

@@ -69,7 +69,7 @@ class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  SettingsDialog(Application *app, QMainWindow *mainwindow, QDialog *parent = nullptr);
+  SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~SettingsDialog();
 
   enum Page {
