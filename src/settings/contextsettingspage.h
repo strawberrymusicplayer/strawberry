@@ -35,8 +35,7 @@ class QCheckBox;
 class SettingsDialog;
 class Ui_ContextSettingsPage;
 
-class ContextSettingsPage : public SettingsPage
-{
+class ContextSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
@@ -48,7 +47,8 @@ public:
     ENGINE_AND_DEVICE,
     ALBUMS_BY_ARTIST,
     SONG_LYRICS,
-    NELEMS,
+    ALBUM,
+    NELEMS
   };
 
   static const char *kSettingsGroup;

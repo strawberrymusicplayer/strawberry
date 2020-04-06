@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>526</width>
-    <height>733</height>
+    <width>500</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,64 +147,53 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame2">
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+       <widget class="QCheckBox" name="context_item1_enable">
+        <property name="text">
+         <string>Album</string>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+        <property name="checked">
+         <bool>true</bool>
         </property>
-        <property name="lineWidth">
-         <number>0</number>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="context_item2_enable">
+        <property name="text">
+         <string>Technical Data</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout2">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="context_item1_enable">
-           <property name="text">
-            <string>Technical Data</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="context_item2_enable">
-           <property name="text">
-            <string>Engine and Device</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="context_item3_enable">
-           <property name="text">
-            <string>Albums by Artist</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="context_item4_enable">
-           <property name="text">
-            <string>Song Lyrics</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="context_item3_enable">
+        <property name="text">
+         <string>Engine and Device</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="context_item4_enable">
+        <property name="text">
+         <string>Albums by Artist</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="context_item5_enable">
+        <property name="text">
+         <string>Song Lyrics</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -334,22 +323,6 @@
    </property>
    <property name="toolTip">
     <string>Add song skip count</string>
-   </property>
-  </action>
-  <action name="action_rating">
-   <property name="text">
-    <string notr="true">%rating%</string>
-   </property>
-   <property name="toolTip">
-    <string>Add song rating</string>
-   </property>
-  </action>
-  <action name="action_score">
-   <property name="text">
-    <string notr="true">%score%</string>
-   </property>
-   <property name="toolTip">
-    <string>Add song auto score</string>
    </property>
   </action>
   <action name="action_newline">

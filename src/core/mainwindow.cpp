@@ -683,8 +683,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Stopped()), context_view_, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), context_view_, SLOT(Error()));
   connect(this, SIGNAL(AlbumCoverReady(Song, QUrl, QImage)), context_view_, SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
-  connect(this, SIGNAL(SearchCoverInProgress()), context_view_, SLOT(SearchCoverInProgress()));
-  connect(context_view_->albums(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(this, SIGNAL(SearchCoverInProgress()), context_view_->album_widget(), SLOT(SearchCoverInProgress()));
+  connect(context_view_, SIGNAL(AlbumEnabledChanged()), SLOT(TabSwitched()));
+  connect(context_view_->albums_widget(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
 
   // Analyzer
   connect(ui_->analyzer, SIGNAL(WheelEvent(int)), SLOT(VolumeWheelEvent(int)));
@@ -1105,7 +1106,7 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 void MainWindow::TabSwitched() {
 
-  if (playing_widget_ && ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context") {
+  if (playing_widget_ && (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context" || !context_view_->album_enabled())) {
     ui_->widget_playing->SetEnabled();
   }
   else {

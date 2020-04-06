@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
+ * Copyright 2013-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,39 +22,31 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
 #include <QString>
 #include <QImage>
-#include <QPixmap>
-#include <QMovie>
 
 #include "core/song.h"
-#include "covermanager/albumcoverloaderoptions.h"
+#include "contextalbum.h"
 
-#include "ui_contextviewcontainer.h"
-
-using std::unique_ptr;
-
-class QTimeLine;
-class QPainter;
 class QMenu;
 class QAction;
 class QLabel;
-class QEvent;
+class QStackedWidget;
+class QVBoxLayout;
+class QGridLayout;
+class QScrollArea;
+class QSpacerItem;
+class QResizeEvent;
 class QContextMenuEvent;
-class QMouseEvent;
 class QDragEnterEvent;
 class QDropEvent;
 
 class Application;
 class CollectionView;
-class CollectionModel;
 class AlbumCoverChoiceController;
-class Ui_ContextViewContainer;
 class ContextAlbumsView;
 class LyricsFetcher;
 
@@ -63,86 +55,123 @@ class ContextView : public QWidget {
 
  public:
   ContextView(QWidget *parent = nullptr);
-  ~ContextView();
 
   void Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
 
-  ContextAlbumsView *albums() { return ui_->widget_play_albums; }
+  ContextAlbum *album_widget() const { return widget_album_; }
+  ContextAlbumsView *albums_widget() const { return widget_albums_; }
+  bool album_enabled() const { return widget_album_->isVisible(); }
 
- public slots:
+ protected:
+  void resizeEvent(QResizeEvent*);
+  void contextMenuEvent(QContextMenuEvent*);
+  void dragEnterEvent(QDragEnterEvent*);
+  void dropEvent(QDropEvent*);
+
+ private:
+  void AddActions();
+  void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
+  void NoSong();
+  void SetSong();
+  void UpdateSong(const Song &song);
+  void ResetSong();
+  void GetCoverAutomatically();
+
+ signals:
+  void AlbumEnabledChanged();
+
+ private slots:
+  void ActionShowAlbum();
+  void ActionShowData();
+  void ActionShowOutput();
+  void ActionShowAlbums();
+  void ActionShowLyrics();
   void UpdateNoSong();
   void Playing();
   void Stopped();
   void Error();
   void SongChanged(const Song &song);
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+  void FadeStopFinished();
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+
+ public slots:
   void ReloadSettings();
 
  private:
-
-  Ui_ContextViewContainer *ui_;
   Application *app_;
   CollectionView *collectionview_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
   LyricsFetcher *lyrics_fetcher_;
 
   QMenu *menu_;
-  QTimeLine *timeline_fade_;
-  QImage image_strawberry_;
-  bool active_;
-  bool downloading_covers_;
-
+  QAction *action_show_album_;
   QAction *action_show_data_;
   QAction *action_show_output_;
   QAction *action_show_albums_;
   QAction *action_show_lyrics_;
-  AlbumCoverLoaderOptions cover_loader_options_;
-  Song song_;
+
+  QVBoxLayout *layout_container_;
+  QWidget *widget_scrollarea_;
+  QVBoxLayout *layout_scrollarea_;
+  QScrollArea *scrollarea_;
+  QLabel *label_top_;
+  ContextAlbum *widget_album_;
+  QStackedWidget *widget_stacked_;
+  QWidget *widget_stop_;
+  QWidget *widget_play_;
+  QVBoxLayout *layout_stop_;
+  QVBoxLayout *layout_play_;
+
+  QLabel *label_stop_summary_;
+  QSpacerItem *spacer_stop_bottom_;
+
+  QWidget *widget_play_data_;
+  QWidget *widget_play_engine_device_;
+  QGridLayout *layout_play_data_;
+  QGridLayout *layout_play_output_;
+  QLabel *label_play_albums_;
+  QLabel *label_play_lyrics_;
+  ContextAlbumsView *widget_albums_;
+
+  //QSpacerItem *spacer_play_album_;
+  QSpacerItem *spacer_play_output_;
+  QSpacerItem *spacer_play_data_;
+  QSpacerItem *spacer_play_albums_;
+  QSpacerItem *spacer_play_bottom_;
+
+  QLabel *label_filetype_title_;
+  QLabel *label_length_title_;
+  QLabel *label_samplerate_title_;
+  QLabel *label_bitdepth_title_;
+  QLabel *label_bitrate_title_;
+
+  QLabel *label_filetype_;
+  QLabel *label_length_;
+  QLabel *label_samplerate_;
+  QLabel *label_bitdepth_;
+  QLabel *label_bitrate_;
+
+  QLabel *label_device_title_;
+  QLabel *label_engine_title_;
+  QLabel *label_device_space_;
+  QLabel *label_engine_space_;
+  QLabel *label_device_;
+  QLabel *label_engine_;
+  QLabel *label_device_icon_;
+  QLabel *label_engine_icon_;
+
+  QSpacerItem *spacer_bottom_;
+
   Song song_playing_;
   Song song_prev_;
   QImage image_original_;
-  QImage image_previous_;
-  QPixmap pixmap_current_;
-  QPixmap pixmap_previous_;
-  qreal pixmap_previous_opacity_;
-  std::unique_ptr<QMovie> spinner_animation_;
   qint64 lyrics_id_;
   QString lyrics_;
   QString title_fmt_;
   QString summary_fmt_;
-
-  void AddActions();
-  void SetLabelEnabled(QLabel *label);
-  void SetLabelDisabled(QLabel *label);
-  void SetLabelText(QLabel *label, int value, const QString &suffix, const QString &def = QString());
-  void NoSong();
-  void SetSong(const Song &song);
-  void UpdateSong(const Song &song);
-  void SetImage(const QImage &image);
-  void DrawImage(QPainter *p);
-  void ScaleCover();
-  void GetCoverAutomatically();
-
- protected:
-  bool eventFilter(QObject *, QEvent *);
-  void handlePaintEvent(QObject *object, QEvent *event);
-  void PaintEventAlbum(QEvent *event);
-  void contextMenuEvent(QContextMenuEvent *e);
-  void mouseReleaseEvent(QMouseEvent *);
-  void dragEnterEvent(QDragEnterEvent *e);
-  void dropEvent(QDropEvent *e);
-
- private slots:
-  void ActionShowData();
-  void ActionShowOutput();
-  void ActionShowAlbums();
-  void ActionShowLyrics();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
-  void SearchCoverInProgress();
-  void AutomaticCoverSearchDone();
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
-  void FadePreviousTrack(qreal value);
+  int prev_width_;
 
 };
 
 #endif  // CONTEXTVIEW_H
-

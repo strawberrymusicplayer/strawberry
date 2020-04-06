@@ -46,30 +46,33 @@ const char *ContextSettingsPage::kSettingsGroupLabels[ContextSettingsOrder::NELE
   "Engine and Device",
   "Albums by Artist",
   "Song Lyrics",
+  "Album",
 };
 const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELEMS] = {
   "TechnicalDataEnable",
   "EngineAndDeviceEnable",
   "AlbumsByArtistEnable",
   "SongLyricsEnable",
+  "AlbumEnable",
 };
 
-ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog)
-    : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
+ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
+
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose"));
 
-  checkboxes[ContextSettingsOrder::TECHNICAL_DATA] = ui_->context_item1_enable;
-  checkboxes[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->context_item2_enable;
-  checkboxes[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->context_item3_enable;
-  checkboxes[ContextSettingsOrder::SONG_LYRICS] = ui_->context_item4_enable;
+  checkboxes[ContextSettingsOrder::ALBUM] = ui_->context_item1_enable;
+  checkboxes[ContextSettingsOrder::TECHNICAL_DATA] = ui_->context_item2_enable;
+  checkboxes[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->context_item3_enable;
+  checkboxes[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->context_item4_enable;
+  checkboxes[ContextSettingsOrder::SONG_LYRICS] = ui_->context_item5_enable;
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
+  menu->addAction(ui_->action_albumartist);
   menu->addAction(ui_->action_artist);
   menu->addAction(ui_->action_album);
   menu->addAction(ui_->action_title);
-  menu->addAction(ui_->action_albumartist);
   menu->addAction(ui_->action_year);
   menu->addAction(ui_->action_composer);
   menu->addAction(ui_->action_performer);
@@ -81,8 +84,6 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog)
   menu->addAction(ui_->action_playcount);
   menu->addAction(ui_->action_skipcount);
   menu->addAction(ui_->action_filename);
-  menu->addAction(ui_->action_rating);
-  menu->addAction(ui_->action_score);
   menu->addSeparator();
   menu->addAction(ui_->action_newline);
   ui_->context_exp_chooser1->setMenu(menu);
@@ -101,10 +102,7 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog)
 
 }
 
-ContextSettingsPage::~ContextSettingsPage()
-{
-  delete ui_;
-}
+ContextSettingsPage::~ContextSettingsPage() { delete ui_; }
 
 void ContextSettingsPage::Load() {
 
@@ -113,7 +111,7 @@ void ContextSettingsPage::Load() {
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
-  for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
+  for (int i = 0 ; i < ContextSettingsOrder::NELEMS ; ++i) {
     checkboxes[i]->setChecked(s.value(kSettingsGroupEnable[i], i != ContextSettingsOrder::ALBUMS_BY_ARTIST).toBool());
   }
   s.endGroup();

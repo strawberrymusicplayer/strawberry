@@ -52,19 +52,14 @@ macos QMenu {
   font-size: 13pt;
 }
 
-#scrollarea_play {
+#context-layout-container {
   background-color: %palette-base;
-  font: 11pt;
 }
 
-#scrollarea_stop {
+#context-widget-scrollarea {
   background-color: %palette-base;
-  font: 11pt;
 }
 
-#scrollAreaWidgetContents_stop {
-  background-color: %palette-base;
-}
-#scrollAreaWidgetContents_play {
+#context-layout-scrollarea {
   background-color: %palette-base;
 }
