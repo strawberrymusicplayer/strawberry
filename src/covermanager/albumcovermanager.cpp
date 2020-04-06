@@ -27,9 +27,11 @@
 #include <QObject>
 #include <QMainWindow>
 #include <QWidget>
+#include <QScreen>
+#include <QWindow>
+#include <QGuiApplication>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
-#include <QNetworkAccessManager>
 #include <QFile>
 #include <QSet>
 #include <QVariant>
@@ -82,17 +84,15 @@
 
 #include "ui_albumcovermanager.h"
 
-using std::unique_ptr;
-using std::stable_sort;
-
 const char *AlbumCoverManager::kSettingsGroup = "CoverManager";
 
-AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QWidget *parent, QNetworkAccessManager *network)
+AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_CoverManager),
+      mainwindow_(mainwindow),
       app_(app),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
-      cover_fetcher_(new AlbumCoverFetcher(app_->cover_providers(), this, network)),
+      cover_fetcher_(new AlbumCoverFetcher(app_->cover_providers(), this)),
       cover_searcher_(nullptr),
       cover_export_(nullptr),
       cover_exporter_(new AlbumCoverExporter(this)),
@@ -142,8 +142,10 @@ AlbumCoverManager::AlbumCoverManager(Application *app, CollectionBackend *collec
 }
 
 AlbumCoverManager::~AlbumCoverManager() {
+
   CancelRequests();
   delete ui_;
+
 }
 
 void AlbumCoverManager::ReloadSettings() {
@@ -224,7 +226,10 @@ void AlbumCoverManager::Init() {
 }
 
 void AlbumCoverManager::showEvent(QShowEvent *) {
+
+  LoadGeometry();
   Reset();
+
 }
 
 void AlbumCoverManager::closeEvent(QCloseEvent *e) {
@@ -239,15 +244,62 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
     }
   }
 
-  // Save geometry
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-
-  s.setValue("geometry", saveGeometry());
-  s.setValue("splitter_state", ui_->splitter->saveState());
+  SaveGeometry();
 
   // Cancel any outstanding requests
   CancelRequests();
+
+}
+
+void AlbumCoverManager::LoadGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
+  if (s.contains("splitter_state")) {
+    ui_->splitter->restoreState(s.value("splitter_state").toByteArray());
+  }
+  else {
+    // Sensible default size for the artists view
+    ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
+  }
+  s.endGroup();
+
+  // Resize the window if it's too big
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = QWidget::screen();
+#else
+  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
+#endif
+  if (screen && screen->availableGeometry().height() < height()) {
+    resize(width(), sizeHint().height());
+  }
+
+  // Center the window on the same screen as the mainwindow.
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+  screen = mainwindow_->screen();
+#else
+  screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
+#endif
+  if (screen) {
+    const QRect sr = screen->availableGeometry();
+    const QRect wr({}, size().boundedTo(sr.size()));
+    resize(wr.size());
+    move(sr.center() - wr.center());
+  }
+
+}
+
+void AlbumCoverManager::SaveGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
+  s.setValue("splitter_state", ui_->splitter->saveState());
+  s.endGroup();
+
 }
 
 void AlbumCoverManager::CancelRequests() {

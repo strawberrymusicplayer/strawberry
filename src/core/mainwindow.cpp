@@ -210,7 +210,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
       cover_manager_([=]() {
-        AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend());
+        AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend(), this);
         cover_manager->Init();
 
         // Cover manager connections
