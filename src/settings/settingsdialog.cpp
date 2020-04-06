@@ -219,21 +219,11 @@ void SettingsDialog::LoadGeometry() {
   }
   s.endGroup();
 
-  // Resize the dialog if it's too big
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = QWidget::screen();
-#else
-  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
-#endif
-  if (screen && screen->availableGeometry().height() < height()) {
-    resize(width(), sizeHint().height());
-  }
-
   // Center the dialog on the same screen as mainwindow.
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-  screen = mainwindow_->screen();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = mainwindow_->screen();
 #else
-  screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
+  QScreen *screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
 #endif
   if (screen) {
     const QRect sr = screen->availableGeometry();
