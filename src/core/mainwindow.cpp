@@ -219,8 +219,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       }),
       equalizer_(new Equalizer),
       organise_dialog_([=]() {
-        OrganiseDialog *dialog = new OrganiseDialog(app->task_manager(), app->collection_backend());
+        OrganiseDialog *dialog = new OrganiseDialog(app->task_manager(), app->collection_backend(), this);
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
+        return dialog;
+      }),
+      transcode_dialog_([=]() {
+        TranscodeDialog *dialog = new TranscodeDialog(this);
         return dialog;
       }),
 #ifdef HAVE_SUBSONIC

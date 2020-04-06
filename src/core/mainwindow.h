@@ -222,8 +222,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ShowCoverManager();
 
   void ShowAboutDialog();
-  void ShowTranscodeDialog();
   void ShowErrorDialog(const QString& message);
+  void ShowTranscodeDialog();
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
@@ -300,14 +300,14 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   PlaylistListContainer *playlist_list_;
   QueueView *queue_view_;
 
+  Lazy<ErrorDialog> error_dialog_;
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
   std::unique_ptr<Equalizer> equalizer_;
+  Lazy<OrganiseDialog> organise_dialog_;
 #ifdef HAVE_GSTREAMER
   Lazy<TranscodeDialog> transcode_dialog_;
 #endif
-  Lazy<ErrorDialog> error_dialog_;
-  Lazy<OrganiseDialog> organise_dialog_;
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   std::unique_ptr<TagFetcher> tag_fetcher_;

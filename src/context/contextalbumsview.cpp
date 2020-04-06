@@ -372,7 +372,7 @@ SongList ContextAlbumsView::GetSelectedSongs() const {
 void ContextAlbumsView::Organise() {
 
   if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
+    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend(), this));
 
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organise_dialog_->SetCopy(false);
@@ -381,6 +381,7 @@ void ContextAlbumsView::Organise() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
+
 }
 
 void ContextAlbumsView::EditTracks() {

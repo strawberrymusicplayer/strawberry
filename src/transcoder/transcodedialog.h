@@ -30,8 +30,11 @@
 #include <QStringList>
 
 class QWidget;
+class QMainWindow;
 class QPushButton;
 class QTimerEvent;
+class QShowEvent;
+class QCloseEvent;
 class Transcoder;
 class Ui_TranscodeDialog;
 class Ui_TranscodeLogDialog;
@@ -41,7 +44,7 @@ class TranscodeDialog : public QDialog {
   Q_OBJECT
 
  public:
-  TranscodeDialog(QWidget *parent = nullptr);
+  TranscodeDialog(QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~TranscodeDialog();
 
   static const char *kSettingsGroup;
@@ -51,7 +54,18 @@ class TranscodeDialog : public QDialog {
   void SetFilenames(const QStringList &filenames);
 
  protected:
+  void showEvent(QShowEvent*);
+  void closeEvent(QCloseEvent*);
   void timerEvent(QTimerEvent *e);
+
+ private:
+  void LoadGeometry();
+  void SaveGeometry();
+  void SetWorking(bool working);
+  void UpdateStatusText();
+  void UpdateProgress();
+  QString TrimPath(const QString &path) const;
+  QString GetOutputFileName(const QString &input, const TranscoderPreset &preset) const;
 
  private slots:
   void Add();
@@ -68,14 +82,7 @@ class TranscodeDialog : public QDialog {
   void reject();
 
  private:
-  void SetWorking(bool working);
-  void UpdateStatusText();
-  void UpdateProgress();
-  QString TrimPath(const QString &path) const;
-  QString GetOutputFileName(const QString &input, const TranscoderPreset &preset) const;
-  void SaveGeometry();
-
- private:
+  QMainWindow *mainwindow_;
   Ui_TranscodeDialog *ui_;
   Ui_TranscodeLogDialog *log_ui_;
   QDialog *log_dialog_;

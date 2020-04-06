@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>499</width>
-    <height>448</height>
+    <width>500</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset>
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="layout_dialog">
+  <layout class="QVBoxLayout" name="layout_transcodedialog">
    <item>
     <widget class="QGroupBox" name="input_group">
      <property name="title">

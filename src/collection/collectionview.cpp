@@ -534,7 +534,7 @@ SongList CollectionView::GetSelectedSongs() const {
 void CollectionView::Organise() {
 
   if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend()));
+    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), app_->collection_backend(), this));
 
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
   organise_dialog_->SetCopy(false);
@@ -568,15 +568,17 @@ void CollectionView::RescanSongs() {
 }
 
 void CollectionView::CopyToDevice() {
+
 #ifndef Q_OS_WIN
   if (!organise_dialog_)
-    organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
+    organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), nullptr, this));
 
   organise_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organise_dialog_->SetCopy(true);
   organise_dialog_->SetSongs(GetSelectedSongs());
   organise_dialog_->show();
 #endif
+
 }
 
 void CollectionView::FilterReturnPressed() {

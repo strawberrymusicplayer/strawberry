@@ -25,6 +25,10 @@
 #include <QtGlobal>
 #include <QWidget>
 #include <QDialog>
+#include <QScreen>
+#include <QWindow>
+#include <QGuiApplication>
+#include <QMainWindow>
 #include <QAbstractItemModel>
 #include <QtAlgorithms>
 #include <QDir>
@@ -49,6 +53,8 @@
 #include <QDialogButtonBox>
 #include <QSettings>
 #include <QTimerEvent>
+#include <QShowEvent>
+#include <QCloseEvent>
 
 #include "core/iconloader.h"
 #include "core/mainwindow.h"
@@ -74,8 +80,9 @@ static bool ComparePresetsByName(const TranscoderPreset &left, const TranscoderP
   return left.name_ < right.name_;
 }
 
-TranscodeDialog::TranscodeDialog(QWidget *parent)
+TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
     : QDialog(parent),
+      mainwindow_(mainwindow),
       ui_(new Ui_TranscodeDialog),
       log_ui_(new Ui_TranscodeLogDialog),
       log_dialog_(new QDialog(this)),
@@ -85,6 +92,9 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
       finished_failed_(0) {
 
   ui_->setupUi(this);
+
+  setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
+
   ui_->files->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
   log_ui_->setupUi(log_dialog_);
@@ -101,12 +111,8 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
   // Load settings
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains("geometry")) {
-    restoreGeometry(s.value("geometry").toByteArray());
-  }
   last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
   last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
-
   QString last_output_format = s.value("last_output_format", "audio/x-vorbis").toString();
   s.endGroup();
 
@@ -148,6 +154,65 @@ TranscodeDialog::TranscodeDialog(QWidget *parent)
 TranscodeDialog::~TranscodeDialog() {
   delete log_ui_;
   delete ui_;
+}
+
+void TranscodeDialog::showEvent(QShowEvent*) {
+
+  LoadGeometry();
+
+}
+
+void TranscodeDialog::closeEvent(QCloseEvent*) {
+
+  SaveGeometry();
+
+}
+
+void TranscodeDialog::accept() {
+
+  SaveGeometry();
+  QDialog::accept();
+
+}
+
+void TranscodeDialog::reject() {
+
+  SaveGeometry();
+  QDialog::reject();
+
+}
+
+void TranscodeDialog::LoadGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  if (s.contains("geometry")) {
+    restoreGeometry(s.value("geometry").toByteArray());
+  }
+  s.endGroup();
+
+  // Center the window on the same screen as the mainwindow.
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = mainwindow_->screen();
+#else
+  QScreen *screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
+#endif
+  if (screen) {
+    const QRect sr = screen->availableGeometry();
+    const QRect wr({}, size().boundedTo(sr.size()));
+    resize(wr.size());
+    move(sr.center() - wr.center());
+  }
+
+}
+
+void TranscodeDialog::SaveGeometry() {
+
+  QSettings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("geometry", saveGeometry());
+  s.endGroup();
+
 }
 
 void TranscodeDialog::SetWorking(bool working) {
@@ -390,25 +455,3 @@ QString TranscodeDialog::GetOutputFileName(const QString &input, const Transcode
 
 }
 
-void TranscodeDialog::SaveGeometry() {
-
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("geometry", saveGeometry());
-  s.endGroup();
-
-}
-
-void TranscodeDialog::accept() {
-
-  SaveGeometry();
-  QDialog::accept();
-
-}
-
-void TranscodeDialog::reject() {
-
-  SaveGeometry();
-  QDialog::reject();
-
-}

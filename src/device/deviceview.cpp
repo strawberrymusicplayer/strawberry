@@ -205,7 +205,7 @@ void DeviceView::SetApplication(Application *app) {
 
   properties_dialog_->SetDeviceManager(app_->device_manager());
 
-  organise_dialog_.reset(new OrganiseDialog(app_->task_manager()));
+  organise_dialog_.reset(new OrganiseDialog(app_->task_manager(), nullptr, this));
   organise_dialog_->SetDestinationModel(app_->collection_model()->directory_model());
 
 }

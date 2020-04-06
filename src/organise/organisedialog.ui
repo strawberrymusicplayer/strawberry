@@ -17,7 +17,7 @@
    <iconset resource="../../data/icons.qrc">
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="layout_dialog">
+  <layout class="QVBoxLayout" name="layout_organisedialog">
    <item>
     <layout class="QFormLayout" name="layout_copying">
      <item row="0" column="0">
