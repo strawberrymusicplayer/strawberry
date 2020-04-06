@@ -2298,7 +2298,7 @@ void MainWindow::ShowCoverManager() {
 
 SettingsDialog *MainWindow::CreateSettingsDialog() {
 
-  SettingsDialog *settings_dialog = new SettingsDialog(app_);
+  SettingsDialog *settings_dialog = new SettingsDialog(app_, this);
 #ifdef HAVE_GLOBALSHORTCUTS
   settings_dialog->SetGlobalShortcutManager(global_shortcuts_);
 #endif

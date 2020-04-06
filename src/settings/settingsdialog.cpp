@@ -23,6 +23,7 @@
 #include <QtGlobal>
 #include <QDialog>
 #include <QWidget>
+#include <QMainWindow>
 #include <QScreen>
 #include <QWindow>
 #include <QAbstractItemModel>
@@ -45,6 +46,8 @@
 #include <QLayout>
 #include <QStackedWidget>
 #include <QSettings>
+#include <QShowEvent>
+#include <QCloseEvent>
 
 #include "core/application.h"
 #include "core/player.h"
@@ -72,8 +75,6 @@
 #endif
 
 #include "ui_settingsdialog.h"
-
-class QShowEvent;
 
 const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
 
@@ -106,8 +107,9 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
+SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QDialog *parent)
     : QDialog(parent),
+      mainwindow_(mainwindow),
       app_(app),
       player_(app_->player()),
       engine_(app_->player()->engine()),
@@ -159,6 +161,56 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
 
   ui_->buttonBox->button(QDialogButtonBox::Cancel)->setShortcut(QKeySequence::Close);
 
+}
+
+SettingsDialog::~SettingsDialog() {
+  delete ui_;
+}
+
+void SettingsDialog::showEvent(QShowEvent *e) {
+
+  LoadGeometry();
+
+  // Load settings
+  loading_settings_ = true;
+  for (const PageData &data : pages_.values()) {
+    data.page_->Load();
+  }
+  loading_settings_ = false;
+
+  QDialog::showEvent(e);
+
+}
+
+void SettingsDialog::closeEvent(QCloseEvent*) {
+
+  SaveGeometry();
+
+}
+
+void SettingsDialog::accept() {
+
+  Save();
+  SaveGeometry();
+
+  QDialog::accept();
+
+}
+
+void SettingsDialog::reject() {
+
+  // Notify each page that user clicks on Cancel
+  for (const PageData &data : pages_.values()) {
+    data.page_->Cancel();
+  }
+  SaveGeometry();
+
+  QDialog::reject();
+
+}
+
+void SettingsDialog::LoadGeometry() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup);
   if (s.contains("geometry")) {
@@ -166,10 +218,29 @@ SettingsDialog::SettingsDialog(Application *app, QWidget *parent)
   }
   s.endGroup();
 
-}
+  // Resize the dialog if it's too big
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+  QScreen *screen = QWidget::screen();
+#else
+  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
+#endif
+  if (screen && screen->availableGeometry().height() < height()) {
+    resize(width(), sizeHint().height());
+  }
 
-SettingsDialog::~SettingsDialog() {
-  delete ui_;
+  // Center the dialog on the same screen as mainwindow.
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+  screen = mainwindow_->screen();
+#else
+  screen = (mainwindow_->window() && mainwindow_->window()->windowHandle() ? mainwindow_->window()->windowHandle()->screen() : nullptr);
+#endif
+  if (screen) {
+    const QRect sr = screen->availableGeometry();
+    const QRect wr({}, size().boundedTo(sr.size()));
+    resize(wr.size());
+    move(sr.center() - wr.center());
+  }
+
 }
 
 void SettingsDialog::SaveGeometry() {
@@ -243,52 +314,12 @@ void SettingsDialog::Save() {
 
 }
 
-void SettingsDialog::accept() {
-  Save();
-  SaveGeometry();
-  QDialog::accept();
-}
-
-void SettingsDialog::reject() {
-
-  // Notify each page that user clicks on Cancel
-  for (const PageData &data : pages_.values()) {
-    data.page_->Cancel();
-  }
-  SaveGeometry();
-
-  QDialog::reject();
-}
-
 void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
 
   // While we only connect Apply at the moment, this might change in the future
   if (ui_->buttonBox->button(QDialogButtonBox::Apply) == button) {
     Save();
   }
-}
-
-void SettingsDialog::showEvent(QShowEvent *e) {
-
-  // Load settings
-  loading_settings_ = true;
-  for (const PageData &data : pages_.values()) {
-    data.page_->Load();
-  }
-  loading_settings_ = false;
-
-  // Resize the dialog if it's too big
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = QWidget::screen();
-#else
-  QScreen *screen = (window() && window()->windowHandle() ? window()->windowHandle()->screen() : QGuiApplication::primaryScreen());
-#endif
-  if (screen->availableGeometry().height() < height()) {
-    resize(width(), sizeHint().height());
-  }
-
-  QDialog::showEvent(e);
-
 }
 
 void SettingsDialog::OpenAtPage(Page page) {

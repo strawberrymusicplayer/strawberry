@@ -36,6 +36,7 @@
 #include "engine/engine_fwd.h"
 #include "widgets/osd.h"
 
+class QMainWindow;
 class QWidget;
 class QModelIndex;
 class QPainter;
@@ -44,6 +45,7 @@ class QComboBox;
 class QScrollArea;
 class QAbstractButton;
 class QShowEvent;
+class QCloseEvent;
 
 class Application;
 class Player;
@@ -67,7 +69,7 @@ class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  SettingsDialog(Application *app, QWidget *parent = nullptr);
+  SettingsDialog(Application *app, QMainWindow *mainwindow, QDialog *parent = nullptr);
   ~SettingsDialog();
 
   enum Page {
@@ -104,15 +106,31 @@ class SettingsDialog : public QDialog {
 
   void OpenAtPage(Page page);
 
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
+  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
+
+ protected:
+  void showEvent(QShowEvent *e);
+  void closeEvent(QCloseEvent*);
+
+ private:
+  struct PageData {
+    QTreeWidgetItem *item_;
+    QScrollArea *scroll_area_;
+    SettingsPage *page_;
+  };
+
   // QDialog
   void accept();
   void reject();
 
-  // QWidget
-  void showEvent(QShowEvent *e);
+  void LoadGeometry();
+  void SaveGeometry();
 
-  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const QString &default_value);
-  void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
+  QTreeWidgetItem *AddCategory(const QString &name);
+  void AddPage(Page id, SettingsPage *page, QTreeWidgetItem *parent = nullptr);
+
+  void Save();
 
  signals:
   void ReloadSettings();
@@ -123,22 +141,9 @@ class SettingsDialog : public QDialog {
   void DialogButtonClicked(QAbstractButton *button);
 
  private:
-  struct PageData {
-    QTreeWidgetItem *item_;
-    QScrollArea *scroll_area_;
-    SettingsPage *page_;
-  };
-
-  QTreeWidgetItem *AddCategory(const QString &name);
-  void AddPage(Page id, SettingsPage *page, QTreeWidgetItem *parent = nullptr);
-
-  void Save();
-
-  void SaveGeometry();
-
- private:
   static const char *kSettingsGroup;
 
+  QMainWindow *mainwindow_;
   Application *app_;
   Player *player_;
   EngineBase *engine_;
