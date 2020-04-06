@@ -379,7 +379,10 @@ void OpenInFileManager(const QString &path) {
     proc.startDetached(command, QStringList() << command_params << "--select" << "--new-window" << path);
   }
   else if (command.startsWith("caja")) {
-    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << path);
+    QFileInfo info(path);
+    if (!info.exists()) return;
+    QString directory = info.dir().path();
+    proc.startDetached(command, QStringList() << command_params << "--no-desktop" << directory);
   }
   else {
     proc.startDetached(command, QStringList() << command_params << path);
