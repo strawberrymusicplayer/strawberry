@@ -29,7 +29,6 @@
 #include <QWidget>
 #include <QScreen>
 #include <QWindow>
-#include <QGuiApplication>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>
 #include <QFile>

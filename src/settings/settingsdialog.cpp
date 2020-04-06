@@ -26,7 +26,6 @@
 #include <QMainWindow>
 #include <QScreen>
 #include <QWindow>
-#include <QGuiApplication>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QTreeWidget>
