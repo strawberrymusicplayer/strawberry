@@ -454,6 +454,14 @@ jobs:
       - cmake
       - build_deb
 
+  build_ubuntu_focal:
+    docker:
+      - image: ubuntu:focal
+    steps:
+      - install_ubuntu_dependencies
+      - checkout
+      - cmake
+      - build_deb
 
 workflows:
   version: 2
@@ -515,6 +523,10 @@ workflows:
             tags:
               only: /.*/
       - build_ubuntu_bionic:
+          filters:
+            tags:
+              only: /.*/
+      - build_ubuntu_focal:
           filters:
             tags:
               only: /.*/
