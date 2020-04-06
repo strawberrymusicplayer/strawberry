@@ -98,6 +98,7 @@ class OSDPretty : public QWidget {
   // When the user has been moving the popup, use these to get its current position and screen.
   // Note that these return invalid values if the popup is hidden.
   QScreen *current_screen() const;
+  QScreen *current_screen(const QPoint &pos) const;
   QPoint current_pos() const;
 
   // QWidget
