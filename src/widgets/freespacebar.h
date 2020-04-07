@@ -39,7 +39,7 @@ class FreeSpaceBar : public QWidget {
   Q_OBJECT
 
  public:
-  FreeSpaceBar(QWidget *parent = nullptr);
+  explicit FreeSpaceBar(QWidget *parent = nullptr);
 
   static const int kBarHeight;
   static const int kBarBorderRadius;
@@ -66,12 +66,12 @@ class FreeSpaceBar : public QWidget {
 
   QSize sizeHint() const;
 
-protected:
+ protected:
   void paintEvent(QPaintEvent*);
 
-private:
+ private:
   struct Label {
-    Label(const QString &t, const QColor &c) : text(t), color(c) {}
+    explicit Label(const QString &t, const QColor &c) : text(t), color(c) {}
 
     QString text;
     QColor color;
@@ -82,7 +82,7 @@ private:
   void DrawBar(QPainter *p, const QRect &r);
   void DrawText(QPainter *p, const QRect &r);
 
-private:
+ private:
   qint64 free_;
   qint64 additional_;
   qint64 total_;

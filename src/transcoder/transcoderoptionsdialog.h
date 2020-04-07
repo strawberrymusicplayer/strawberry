@@ -39,7 +39,7 @@ class TranscoderOptionsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  TranscoderOptionsDialog(Song::FileType type, QWidget *parent = nullptr);
+  explicit TranscoderOptionsDialog(Song::FileType type, QWidget *parent = nullptr);
   ~TranscoderOptionsDialog();
 
   bool is_valid() const { return options_; }
@@ -51,7 +51,7 @@ class TranscoderOptionsDialog : public QDialog {
  protected:
   void showEvent(QShowEvent *e);
 
-private:
+ private:
   Ui_TranscoderOptionsDialog *ui_;
   TranscoderOptionsInterface *options_;
 };

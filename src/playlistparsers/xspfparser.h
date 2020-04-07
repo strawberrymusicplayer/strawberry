@@ -41,7 +41,7 @@ class XSPFParser : public XMLParser {
   Q_OBJECT
 
  public:
-  XSPFParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit XSPFParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
   QString name() const { return "XSPF"; }
   QStringList file_extensions() const { return QStringList() << "xspf"; }

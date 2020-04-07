@@ -35,14 +35,14 @@ class RenameTabLineEdit : public QLineEdit {
   Q_OBJECT
 
  public:
-  RenameTabLineEdit(QWidget* parent = nullptr);
+  explicit RenameTabLineEdit(QWidget* parent = nullptr);
 
-signals:
+ signals:
   void EditingCanceled();
 
-public slots:
+ public slots:
 
-protected:
+ protected:
   void focusOutEvent(QFocusEvent* e);
   void keyPressEvent(QKeyEvent* e);
 };

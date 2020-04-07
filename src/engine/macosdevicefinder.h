@@ -29,7 +29,7 @@
 
 class MacOsDeviceFinder : public DeviceFinder {
  public:
-  MacOsDeviceFinder();
+  explicit MacOsDeviceFinder();
 
   virtual bool Initialise() { return true; }
   virtual QList<Device> ListDevices();

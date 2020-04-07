@@ -48,7 +48,7 @@ class CollectionFilterWidget : public QWidget {
   Q_OBJECT
 
  public:
-  CollectionFilterWidget(QWidget *parent = nullptr);
+  explicit CollectionFilterWidget(QWidget *parent = nullptr);
   ~CollectionFilterWidget();
 
   static const int kFilterDelay = 500;  // msec

@@ -60,7 +60,7 @@ class EditTagDialog : public QDialog {
   Q_OBJECT
 
  public:
-  EditTagDialog(Application *app, QWidget *parent = nullptr);
+  explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
   ~EditTagDialog();
 
   static const char *kHintText;

@@ -60,7 +60,7 @@ class GstEnginePipeline : public QObject {
   Q_OBJECT
 
  public:
-  GstEnginePipeline(GstEngine *engine);
+  explicit GstEnginePipeline(GstEngine *engine);
   ~GstEnginePipeline();
 
   // Globally unique across all pipelines.

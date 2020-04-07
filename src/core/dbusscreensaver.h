@@ -30,7 +30,7 @@
 
 class DBusScreensaver : public Screensaver {
  public:
-  DBusScreensaver(const QString &service, const QString &path, const QString &interface);
+  explicit DBusScreensaver(const QString &service, const QString &path, const QString &interface);
 
   void Inhibit();
   void Uninhibit();

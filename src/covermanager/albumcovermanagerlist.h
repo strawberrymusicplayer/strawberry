@@ -36,16 +36,17 @@ class AlbumCoverManager;
 
 class AlbumCoverManagerList : public QListWidget {
   Q_OBJECT
+
  public:
-  AlbumCoverManagerList(QWidget *parent = nullptr);
+  explicit AlbumCoverManagerList(QWidget *parent = nullptr);
 
   void set_cover_manager(AlbumCoverManager *manager) { manager_ = manager; }
 
-protected:
+ protected:
   QMimeData *mimeData(const QList<QListWidgetItem*> items) const;
   void dropEvent(QDropEvent *event);
 
-private:
+ private:
   AlbumCoverManager* manager_;
 };
 

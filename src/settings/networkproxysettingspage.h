@@ -34,15 +34,15 @@ class Ui_NetworkProxySettingsPage;
 class NetworkProxySettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
-  NetworkProxySettingsPage(SettingsDialog* dialog);
+ public:
+  explicit NetworkProxySettingsPage(SettingsDialog* dialog);
   ~NetworkProxySettingsPage();
   static const char *kSettingsGroup;
 
   void Load();
   void Save();
 
-private:
+ private:
   Ui_NetworkProxySettingsPage* ui_;
 };
 

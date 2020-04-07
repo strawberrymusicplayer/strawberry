@@ -52,8 +52,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-
-  SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
+  explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
   ~SubsonicRequest();
 
   void ReloadSettings();

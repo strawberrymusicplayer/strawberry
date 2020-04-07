@@ -38,7 +38,7 @@ class Windows7ThumbBar : public QObject {
 
 public:
   // Creates a list of buttons in the taskbar icon for this window.  Does nothing and is safe to use on other operating systems too.
-  Windows7ThumbBar(QWidget *widget = 0);
+  explicit Windows7ThumbBar(QWidget *widget = 0);
 
   static const int kIconSize;
   static const int kMaxButtonCount;

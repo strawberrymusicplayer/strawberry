@@ -48,7 +48,7 @@ class XineEngine : public Engine::Base {
     Q_OBJECT
 
  public:
-  XineEngine(TaskManager *task_manager);
+  explicit XineEngine(TaskManager *task_manager);
   ~XineEngine();
 
   bool Init();

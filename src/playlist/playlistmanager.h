@@ -47,8 +47,8 @@ class PlaylistSequence;
 class PlaylistManagerInterface : public QObject {
   Q_OBJECT
 
-public:
-  PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) { Q_UNUSED(app); }
+ public:
+  explicit PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) { Q_UNUSED(app); }
 
   virtual int current_id() const = 0;
   virtual int active_id() const = 0;
@@ -76,7 +76,7 @@ public:
   virtual PlaylistParser *parser() const = 0;
   virtual PlaylistContainer *playlist_container() const = 0;
 
-public slots:
+ public slots:
   virtual void New(const QString &name, const SongList& songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
   virtual void Save(int id, const QString &filename, Playlist::Path path_type) = 0;
@@ -132,7 +132,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   Q_OBJECT
 
  public:
-  PlaylistManager(Application *app, QObject *parent = nullptr);
+  explicit PlaylistManager(Application *app, QObject *parent = nullptr);
   ~PlaylistManager();
 
   int current_id() const { return current_; }
@@ -223,7 +223,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
  private:
   struct Data {
-    Data(Playlist *_p = nullptr, const QString& _name = QString()) : p(_p), name(_name) {}
+    explicit Data(Playlist *_p = nullptr, const QString& _name = QString()) : p(_p), name(_name) {}
     Playlist *p;
     QString name;
     QItemSelection selection;

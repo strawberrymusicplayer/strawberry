@@ -31,7 +31,7 @@ class Ui_TranscoderOptionsFLAC;
 
 class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsFLAC(QWidget *parent = nullptr);
+  explicit TranscoderOptionsFLAC(QWidget *parent = nullptr);
   ~TranscoderOptionsFLAC();
 
   void Load();

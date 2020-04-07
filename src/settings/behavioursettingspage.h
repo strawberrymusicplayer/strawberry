@@ -36,7 +36,7 @@ class BehaviourSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  BehaviourSettingsPage(SettingsDialog *dialog);
+  explicit BehaviourSettingsPage(SettingsDialog *dialog);
   ~BehaviourSettingsPage();
 
   static const char *kSettingsGroup;

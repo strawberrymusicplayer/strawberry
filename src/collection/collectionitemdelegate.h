@@ -36,7 +36,7 @@ class CollectionItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
  public:
-  CollectionItemDelegate(QObject *parent);
+  explicit CollectionItemDelegate(QObject *parent);
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  public slots:

@@ -49,7 +49,7 @@ class PlaylistTabBar : public QTabBar {
   Q_OBJECT
 
  public:
-  PlaylistTabBar(QWidget *parent = nullptr);
+  explicit PlaylistTabBar(QWidget *parent = nullptr);
 
   static const int kDragHoverTimeout = 500;
   static const char *kSettingsGroup;
@@ -70,7 +70,7 @@ class PlaylistTabBar : public QTabBar {
   void RemoveTab(int id);
   void InsertTab(int id, int index, const QString &text, bool favorite);
 
-signals:
+ signals:
   void CurrentIdChanged(int id);
   void Rename(int id, const QString &name);
   void Close(int id);
@@ -78,7 +78,7 @@ signals:
   void PlaylistOrderChanged(const QList<int> &ids);
   void PlaylistFavorited(int id, bool favorite);
 
-protected:
+ protected:
   void contextMenuEvent(QContextMenuEvent *e);
   void mouseReleaseEvent(QMouseEvent *e);
   void mouseDoubleClickEvent(QMouseEvent *e);
@@ -89,7 +89,7 @@ protected:
   void timerEvent(QTimerEvent *e);
   bool event(QEvent *e);
 
-private slots:
+ private slots:
   void CurrentIndexChanged(int index);
   void Rename();
   void RenameInline();
@@ -103,7 +103,7 @@ private slots:
   void TabMoved();
   void Save();
 
-private:
+ private:
   PlaylistManager *manager_;
 
   QMenu *menu_;

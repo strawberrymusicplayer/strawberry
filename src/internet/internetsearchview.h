@@ -60,7 +60,7 @@ class InternetSearchView : public QWidget {
   Q_OBJECT
 
  public:
-  InternetSearchView(QWidget *parent = nullptr);
+  explicit InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView();
 
   void Init(Application *app, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, const bool artists = false, const bool albums = false, const bool songs = false);

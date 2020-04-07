@@ -50,7 +50,7 @@ class InternetSearch : public QObject {
   Q_OBJECT
 
  public:
-  InternetSearch(Application *app, Song::Source source, QObject *parent = nullptr);
+  explicit InternetSearch(Application *app, Song::Source source, QObject *parent = nullptr);
   ~InternetSearch();
 
   enum SearchType {

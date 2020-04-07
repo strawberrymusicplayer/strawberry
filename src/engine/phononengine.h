@@ -40,7 +40,7 @@ class PhononEngine : public Engine::Base {
   Q_OBJECT
 
  public:
-  PhononEngine(TaskManager *task_manager);
+  explicit PhononEngine(TaskManager *task_manager);
   ~PhononEngine();
 
   bool Init();

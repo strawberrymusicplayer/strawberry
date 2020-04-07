@@ -47,7 +47,7 @@ class GlobalShortcutGrabber : public QDialog {
   Q_OBJECT
 
  public:
-  GlobalShortcutGrabber(QWidget *parent = nullptr);
+  explicit GlobalShortcutGrabber(QWidget *parent = nullptr);
   ~GlobalShortcutGrabber();
 
   QKeySequence GetKey(const QString &name);
@@ -59,7 +59,7 @@ class GlobalShortcutGrabber : public QDialog {
   void grabKeyboard();
   void releaseKeyboard();
 
-private slots:
+ private slots:
   void Accepted();
   void Rejected();
 

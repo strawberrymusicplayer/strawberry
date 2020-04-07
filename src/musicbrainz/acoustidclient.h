@@ -33,7 +33,6 @@ class QNetworkReply;
 class NetworkTimeouts;
 
 class AcoustidClient : public QObject {
-
   Q_OBJECT
 
   // Gets a MBID from a Chromaprint fingerprint.
@@ -43,7 +42,7 @@ class AcoustidClient : public QObject {
   // IDs are provided by the caller when a request is started and included in the Finished signal - they have no meaning to AcoustidClient.
 
  public:
-  AcoustidClient(QObject *parent = nullptr);
+  explicit AcoustidClient(QObject *parent = nullptr);
 
   // Network requests will be aborted after this interval.
   void SetTimeout(const int msec);

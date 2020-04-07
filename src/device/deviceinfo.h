@@ -60,7 +60,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
     Type_Device,
   };
 
-  DeviceInfo(SimpleTreeModel<DeviceInfo> *model)
+  explicit DeviceInfo(SimpleTreeModel<DeviceInfo> *model)
       : SimpleTreeItem<DeviceInfo>(Type_Root, model),
         database_id_(-1),
         size_(0),
@@ -70,7 +70,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
         unmount_(false),
         forget_(false) {}
 
-  DeviceInfo(Type type, DeviceInfo *parent = nullptr)
+  explicit DeviceInfo(Type type, DeviceInfo *parent = nullptr)
       : SimpleTreeItem<DeviceInfo>(type, parent),
         database_id_(-1),
         size_(0),
@@ -83,7 +83,7 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   // A device can be discovered in different ways (udisks2, gio, etc.)
   // Sometimes the same device is discovered more than once.  In this case the device will have multiple "backends".
   struct Backend {
-    Backend(DeviceLister *lister = nullptr, const QString &id = QString())
+    explicit Backend(DeviceLister *lister = nullptr, const QString &id = QString())
         :
         lister_(lister),
         unique_id_(id)

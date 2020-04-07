@@ -36,7 +36,7 @@ class LoginStateWidget : public QWidget {
   Q_OBJECT
 
  public:
-  LoginStateWidget(QWidget *parent = nullptr);
+  explicit LoginStateWidget(QWidget *parent = nullptr);
   ~LoginStateWidget();
 
   enum State { LoggedIn, LoginInProgress, LoggedOut };
@@ -63,7 +63,7 @@ class LoginStateWidget : public QWidget {
 
   void SetExpires(const QDate &expires);
 
-signals:
+ signals:
   void LogoutClicked();
   void LoginClicked();
 

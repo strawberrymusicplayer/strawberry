@@ -156,7 +156,7 @@ const QStringList Song::kArticles = QStringList() << "the " << "a " << "an ";
 
 struct Song::Private : public QSharedData {
 
-  Private(Source source = Source_Unknown);
+  explicit Private(Source source = Source_Unknown);
 
   bool valid_;
   int id_;

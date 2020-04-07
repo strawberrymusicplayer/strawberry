@@ -40,7 +40,7 @@
 #include "core/song.h"
 
 struct TranscoderPreset {
-  TranscoderPreset() : type_(Song::FileType_Unknown) {}
+  explicit TranscoderPreset() : type_(Song::FileType_Unknown) {}
   TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
 
   Song::FileType type_;
@@ -55,7 +55,7 @@ class Transcoder : public QObject {
   Q_OBJECT
 
  public:
-  Transcoder(QObject *parent = nullptr, const QString &settings_postfix = "");
+  explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = "");
 
   static TranscoderPreset PresetForFileType(Song::FileType type);
   static QList<TranscoderPreset> GetAllPresets();
@@ -92,7 +92,7 @@ class Transcoder : public QObject {
 
   // State held by a job and shared across gstreamer callbacks - lives in the job's thread.
   struct JobState {
-    JobState(const Job &job, Transcoder *parent)
+    explicit JobState(const Job &job, Transcoder *parent)
         : job_(job),
           parent_(parent),
           pipeline_(nullptr),
@@ -110,7 +110,7 @@ class Transcoder : public QObject {
 
   // Event passed from a GStreamer callback to the Transcoder when a job finishes.
   struct JobFinishedEvent : public QEvent {
-    JobFinishedEvent(JobState *state, bool success);
+    explicit JobFinishedEvent(JobState *state, bool success);
 
     static int sEventType;
 

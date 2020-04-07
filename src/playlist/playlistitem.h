@@ -45,7 +45,7 @@ class SqlRow;
 
 class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
  public:
-  PlaylistItem(const Song::Source &source) : should_skip_(false), source_(source) {}
+  explicit PlaylistItem(const Song::Source &source) : should_skip_(false), source_(source) {}
   virtual ~PlaylistItem();
 
   static PlaylistItem *NewFromSource(const Song::Source &source);

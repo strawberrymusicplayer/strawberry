@@ -39,7 +39,7 @@ class SavedGroupingManager : public QDialog {
   Q_OBJECT
 
  public:
-  SavedGroupingManager(QWidget *parent = nullptr);
+  explicit SavedGroupingManager(QWidget *parent = nullptr);
   ~SavedGroupingManager();
 
   void UpdateModel();

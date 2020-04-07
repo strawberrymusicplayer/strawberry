@@ -40,7 +40,7 @@ class InternetSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~InternetSongsView();
 
   void ReloadSettings();

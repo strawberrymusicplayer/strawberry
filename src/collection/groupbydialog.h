@@ -40,7 +40,7 @@ class GroupByDialog : public QDialog {
   Q_OBJECT
 
  public:
-  GroupByDialog(QWidget *parent = nullptr);
+  explicit GroupByDialog(QWidget *parent = nullptr);
   ~GroupByDialog();
 
  public slots:

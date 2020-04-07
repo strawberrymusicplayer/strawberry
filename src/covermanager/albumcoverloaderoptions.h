@@ -26,7 +26,7 @@
 #include <QImage>
 
 struct AlbumCoverLoaderOptions {
-  AlbumCoverLoaderOptions()
+  explicit AlbumCoverLoaderOptions()
       : desired_height_(120),
         scale_output_image_(true),
         pad_output_image_(true) {}

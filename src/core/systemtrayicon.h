@@ -36,7 +36,7 @@ class SystemTrayIcon : public QObject {
   Q_OBJECT
 
  public:
-  SystemTrayIcon(QObject *parent = nullptr);
+  explicit SystemTrayIcon(QObject *parent = nullptr);
 
   // Called once to create the icon's context menu
   virtual void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) = 0;

@@ -42,7 +42,7 @@ class VLCEngine : public Engine::Base {
   Q_OBJECT
 
  public:
-  VLCEngine(TaskManager *task_manager);
+  explicit VLCEngine(TaskManager *task_manager);
   ~VLCEngine();
 
   bool Init();

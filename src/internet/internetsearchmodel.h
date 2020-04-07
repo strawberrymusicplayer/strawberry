@@ -46,7 +46,7 @@ class InternetSearchModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  InternetSearchModel(InternetSearch *engine, QObject *parent = nullptr);
+  explicit InternetSearchModel(InternetSearch *engine, QObject *parent = nullptr);
 
   enum Role {
     Role_Result = CollectionModel::LastRole,

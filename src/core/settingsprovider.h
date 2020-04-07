@@ -29,7 +29,7 @@
 
 class SettingsProvider {
  public:
-  SettingsProvider();
+  explicit SettingsProvider();
   virtual ~SettingsProvider() {}
 
   virtual void set_group(const char *group) = 0;

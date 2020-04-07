@@ -61,7 +61,7 @@ class PlayingWidget : public QWidget {
   Q_OBJECT
 
  public:
-  PlayingWidget(QWidget *parent = nullptr);
+  explicit PlayingWidget(QWidget *parent = nullptr);
   ~PlayingWidget();
 
   void Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);

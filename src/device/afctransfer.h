@@ -38,26 +38,26 @@ class iMobileDeviceConnection;
 class AfcTransfer : public QObject {
   Q_OBJECT
 
-public:
-  AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, std::shared_ptr<ConnectedDevice> device);
+ public:
+  explicit AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, std::shared_ptr<ConnectedDevice> device);
   ~AfcTransfer();
 
   bool CopyToDevice(iMobileDeviceConnection *connection);
 
-public slots:
+ public slots:
   void CopyFromDevice();
 
-signals:
+ signals:
   void TaskStarted(int task_id);
   void CopyFinished(bool success);
 
-private:
+ private:
   bool CopyDirFromDevice(iMobileDeviceConnection *c, const QString &path);
   bool CopyDirToDevice(iMobileDeviceConnection *c, const QString &path);
   bool CopyFileFromDevice(iMobileDeviceConnection *c, const QString &path);
   bool CopyFileToDevice(iMobileDeviceConnection *c, const QString &path);
 
-private:
+ private:
   QThread *original_thread_;
   std::shared_ptr<ConnectedDevice> device_;
   TaskManager *task_manager_;

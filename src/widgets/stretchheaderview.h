@@ -39,7 +39,7 @@ class StretchHeaderView : public QHeaderView {
   Q_OBJECT
 
  public:
-  StretchHeaderView(Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit StretchHeaderView(Qt::Orientation orientation, QWidget* parent = nullptr);
 
   typedef double ColumnWidthType;
 
@@ -68,17 +68,17 @@ class StretchHeaderView : public QHeaderView {
 
   bool is_stretch_enabled() const { return stretch_enabled_; }
 
-public slots:
+ public slots:
   // Changes the stretch mode.  Enabling stretch mode will initialise the
   // proportional column widths from the current state of the header.
   void ToggleStretchEnabled();
   void SetStretchEnabled(bool enabled);
 
-signals:
+ signals:
   // Emitted when the stretch mode is changed.
   void StretchEnabledChanged(bool enabled);
 
-protected:
+ protected:
   // QWidget
   void mouseMoveEvent(QMouseEvent* e);
   void resizeEvent(QResizeEvent* event);
@@ -90,10 +90,10 @@ protected:
   // Resizes the actual columns to make them match the proportional values in column_widths_.
   void UpdateWidths(const QList<int>& sections = QList<int>());
 
-private slots:
+ private slots:
   void SectionResized(int logical, int old_size, int new_size);
 
-private:
+ private:
   bool stretch_enabled_;
   QVector<ColumnWidthType> column_widths_;
 

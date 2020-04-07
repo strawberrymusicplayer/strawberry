@@ -58,7 +58,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   Q_OBJECT
 
  public:
-  DeviceManager(Application *app, QObject *parent = nullptr);
+  explicit DeviceManager(Application *app, QObject *parent = nullptr);
   ~DeviceManager();
 
   enum Role {

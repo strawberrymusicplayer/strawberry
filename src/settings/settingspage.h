@@ -34,8 +34,8 @@ class SettingsDialog;
 class SettingsPage : public QWidget {
   Q_OBJECT
 
-public:
-  SettingsPage(SettingsDialog *dialog);
+ public:
+  explicit SettingsPage(SettingsDialog *dialog);
 
   // Return false to grey out the page's item in the list.
   virtual bool IsEnabled() const { return true; }
@@ -49,10 +49,10 @@ public:
   // The dialog that this page belongs to.
   SettingsDialog *dialog() const { return dialog_; }
 
-signals:
+ signals:
   void NotificationPreview(OSD::Behaviour, QString, QString);
 
-private:
+ private:
   SettingsDialog *dialog_;
 };
 

@@ -36,7 +36,7 @@
 
 class MusicStorage {
  public:
-  MusicStorage();
+  explicit MusicStorage();
   virtual ~MusicStorage() {}
 
   enum Role {

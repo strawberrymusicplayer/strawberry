@@ -28,7 +28,7 @@ class IconLoader {
   static void Init();
   static QIcon Load(const QString &name, const int size = 0);
  private:
-  IconLoader() {}
+  explicit IconLoader() {}
   static bool system_icons_;
   static bool custom_icons_;
 };

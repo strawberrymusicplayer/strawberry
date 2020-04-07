@@ -31,7 +31,7 @@ class Ui_TranscoderOptionsASF;
 
 class TranscoderOptionsASF : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsASF(QWidget *parent = nullptr);
+  explicit TranscoderOptionsASF(QWidget *parent = nullptr);
   ~TranscoderOptionsASF();
 
   void Load();

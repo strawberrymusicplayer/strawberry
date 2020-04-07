@@ -31,7 +31,7 @@ class QSqlDatabase;
 // Rolls back the transaction if the object goes out of scope before Commit() is called.
 class ScopedTransaction : boost::noncopyable {
  public:
-  ScopedTransaction(QSqlDatabase *db);
+  explicit ScopedTransaction(QSqlDatabase *db);
   ~ScopedTransaction();
 
   void Commit();

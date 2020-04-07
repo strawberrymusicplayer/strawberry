@@ -35,7 +35,7 @@ class QueueView : public QWidget {
   Q_OBJECT
 
  public:
-  QueueView(QWidget *parent = nullptr);
+  explicit QueueView(QWidget *parent = nullptr);
   ~QueueView();
 
   void SetPlaylistManager(PlaylistManager *manager);

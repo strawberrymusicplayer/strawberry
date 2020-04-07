@@ -34,7 +34,7 @@ class CoverExportRunnable : public QObject, public QRunnable {
   Q_OBJECT
 
  public:
-  CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song);
+  explicit CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const Song &song);
   virtual ~CoverExportRunnable() {}
 
   void run();

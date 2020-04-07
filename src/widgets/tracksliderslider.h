@@ -41,7 +41,7 @@ class TrackSliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  TrackSliderSlider(QWidget* parent = nullptr);
+  explicit TrackSliderSlider(QWidget* parent = nullptr);
 
  signals:
   void SeekForward();

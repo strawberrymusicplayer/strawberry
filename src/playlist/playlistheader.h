@@ -40,7 +40,7 @@ class PlaylistHeader : public StretchHeaderView {
   Q_OBJECT
 
  public:
-  PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent = nullptr);
+  explicit PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent = nullptr);
 
   // QWidget
   void contextMenuEvent(QContextMenuEvent *e);

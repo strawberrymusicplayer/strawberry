@@ -41,7 +41,7 @@ class Equalizer : public QDialog {
   Q_OBJECT
 
  public:
-  Equalizer(QWidget *parent = nullptr);
+  explicit Equalizer(QWidget *parent = nullptr);
   ~Equalizer();
 
   static const int kBands = 10;

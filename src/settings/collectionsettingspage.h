@@ -37,8 +37,8 @@ class Ui_CollectionSettingsPage;
 class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
-  CollectionSettingsPage(SettingsDialog *dialog);
+ public:
+  explicit CollectionSettingsPage(SettingsDialog *dialog);
   ~CollectionSettingsPage();
 
   static const char *kSettingsGroup;
@@ -63,7 +63,7 @@ public:
   void Load();
   void Save();
 
-private slots:
+ private slots:
   void Add();
   void Remove();
 
@@ -71,7 +71,7 @@ private slots:
   void DiskCacheEnable(int state);
   void CoverSaveInAlbumDirChanged();
 
-private:
+ private:
   Ui_CollectionSettingsPage *ui_;
   bool initialised_model_;
 

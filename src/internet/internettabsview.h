@@ -43,7 +43,7 @@ class InternetTabsView : public QWidget {
   Q_OBJECT
 
  public:
-  InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~InternetTabsView();
 
   void ReloadSettings();

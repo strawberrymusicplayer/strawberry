@@ -37,7 +37,7 @@ class LyricsProviders;
 class LyricsFetcherSearch;
 
 struct LyricsSearchRequest {
-  LyricsSearchRequest() : id(-1) {}
+  explicit LyricsSearchRequest() : id(-1) {}
   quint64 id;
   QString artist;
   QString album;
@@ -45,7 +45,7 @@ struct LyricsSearchRequest {
 };
 
 struct LyricsSearchResult {
-  LyricsSearchResult() : score(0.0) {}
+  explicit LyricsSearchResult() : score(0.0) {}
   QString provider;
   QString artist;
   QString album;
@@ -62,7 +62,7 @@ class LyricsFetcher : public QObject {
   Q_OBJECT
 
  public:
-  LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
+  explicit LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
   virtual ~LyricsFetcher() {}
 
   static const int kMaxConcurrentRequests;

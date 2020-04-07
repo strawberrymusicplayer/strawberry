@@ -30,13 +30,13 @@ class Ui_TranscoderOptionsWavPack;
 
 class TranscoderOptionsWavPack : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsWavPack(QWidget *parent = nullptr);
+  explicit TranscoderOptionsWavPack(QWidget *parent = nullptr);
   ~TranscoderOptionsWavPack();
 
   void Load();
   void Save();
 
-private:
+ private:
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsWavPack *ui_;

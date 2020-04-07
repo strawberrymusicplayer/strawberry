@@ -28,7 +28,7 @@
 
 class AlsaDeviceFinder : public DeviceFinder {
  public:
-  AlsaDeviceFinder();
+  explicit AlsaDeviceFinder();
 
   virtual bool Initialise() { return true; }
   virtual QList<Device> ListDevices();

@@ -33,8 +33,9 @@
 class CollectionBackendInterface;
 
 class XMLParser : public ParserBase {
+
  protected:
-  XMLParser(CollectionBackendInterface *collection, QObject *parent);
+  explicit XMLParser(CollectionBackendInterface *collection, QObject *parent);
 
   class StreamElement {
    public:

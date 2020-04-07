@@ -38,7 +38,7 @@ class Queue : public QAbstractProxyModel {
   Q_OBJECT
 
  public:
-  Queue(Playlist *parent = nullptr);
+  explicit Queue(Playlist *parent = nullptr);
 
   static const char *kRowsMimetype;
 

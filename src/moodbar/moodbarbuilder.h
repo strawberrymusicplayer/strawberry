@@ -24,7 +24,7 @@
 
 class MoodbarBuilder {
  public:
-  MoodbarBuilder();
+  explicit MoodbarBuilder();
 
   void Init(int bands, int rate_hz);
   void AddFrame(const double* magnitudes, int size);

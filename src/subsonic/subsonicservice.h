@@ -54,7 +54,7 @@ class SubsonicService : public InternetService {
   Q_OBJECT
 
  public:
-  SubsonicService(Application *app, QObject *parent);
+  explicit SubsonicService(Application *app, QObject *parent);
   ~SubsonicService();
 
   static const Song::Source kSource;
@@ -81,8 +81,6 @@ class SubsonicService : public InternetService {
   QSortFilterProxyModel *songs_collection_sort_model() { return collection_sort_model_; }
 
   void CheckConfiguration();
-
- signals:
 
  public slots:
   void ShowConfig();

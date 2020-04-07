@@ -37,7 +37,7 @@ class PlaylistListModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  PlaylistListModel(QObject *parent = nullptr);
+  explicit PlaylistListModel(QObject *parent = nullptr);
 
   enum Types {
     Type_Folder,

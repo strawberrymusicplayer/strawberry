@@ -50,7 +50,7 @@ class MusicBrainzClient : public QObject {
  public:
   // The second argument allows for specifying a custom network access manager.
   // It is used in tests. The ownership of network is not transferred.
-  MusicBrainzClient(QObject *parent = nullptr, QNetworkAccessManager *network = nullptr);
+  explicit MusicBrainzClient(QObject *parent = nullptr, QNetworkAccessManager *network = nullptr);
 
   struct Result {
     Result() : duration_msec_(0), track_(0), year_(-1) {}

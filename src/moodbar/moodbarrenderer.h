@@ -54,10 +54,10 @@ class MoodbarRenderer {
   static QImage RenderToImage(const ColorVector& colors, const QSize& size);
 
  private:
-  MoodbarRenderer();
+  explicit MoodbarRenderer();
 
   struct StyleProperties {
-    StyleProperties(int threshold = 0, int range_start = 0, int range_delta = 0, int sat = 0, int val = 0)
+    explicit StyleProperties(int threshold = 0, int range_start = 0, int range_delta = 0, int sat = 0, int val = 0)
         : threshold_(threshold),
           range_start_(range_start),
           range_delta_(range_delta),

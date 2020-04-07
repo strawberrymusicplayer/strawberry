@@ -40,7 +40,7 @@ class ParserBase : public QObject {
   Q_OBJECT
 
  public:
-  ParserBase(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit ParserBase(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
   virtual QString name() const = 0;
   virtual QStringList file_extensions() const = 0;
@@ -56,7 +56,7 @@ class ParserBase : public QObject {
   virtual SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const = 0;
   virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const = 0;
 
-protected:
+ protected:
   // Loads a song.  If filename_or_url is a URL (with a scheme other than "file") then it is set on the song and the song marked as a stream.
   // If it is a filename or a file:// URL then it is made absolute and canonical and set as a file:// url on the song.
   // Also sets the song's metadata by searching in the Collection, or loading from the file as a fallback.
@@ -68,7 +68,7 @@ protected:
   // Otherwise returns the URL as is. This function should always be used when saving a playlist.
   QString URLOrFilename(const QUrl &url, const QDir &dir, Playlist::Path path_type) const;
 
-private:
+ private:
   CollectionBackendInterface *collection_;
 };
 

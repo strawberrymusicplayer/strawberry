@@ -44,7 +44,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  GlobalShortcutsSettingsPage(SettingsDialog *dialog);
+  explicit GlobalShortcutsSettingsPage(SettingsDialog *dialog);
   ~GlobalShortcutsSettingsPage();
   static const char *kSettingsGroup;
 

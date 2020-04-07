@@ -33,7 +33,7 @@
 
 class PulseDeviceFinder : public DeviceFinder {
  public:
-  PulseDeviceFinder();
+  explicit PulseDeviceFinder();
   ~PulseDeviceFinder();
 
   virtual bool Initialise();

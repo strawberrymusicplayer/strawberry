@@ -38,7 +38,7 @@ class OrganiseErrorDialog : public QDialog {
   Q_OBJECT
 
  public:
-  OrganiseErrorDialog(QWidget *parent = nullptr);
+  explicit OrganiseErrorDialog(QWidget *parent = nullptr);
   ~OrganiseErrorDialog();
 
   enum OperationType {

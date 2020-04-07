@@ -37,7 +37,7 @@ class CddaLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  CddaLister() {}
+  explicit CddaLister() {}
 
   QStringList DeviceUniqueIDs();
   QVariantList DeviceIcons(const QString &id);

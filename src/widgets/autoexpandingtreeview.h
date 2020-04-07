@@ -38,7 +38,7 @@ class AutoExpandingTreeView : public QTreeView {
   Q_OBJECT
 
  public:
-  AutoExpandingTreeView(QWidget *parent = nullptr);
+  explicit AutoExpandingTreeView(QWidget *parent = nullptr);
 
   static const int kRowsToShow;
 

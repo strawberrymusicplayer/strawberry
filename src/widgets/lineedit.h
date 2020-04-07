@@ -38,7 +38,7 @@ class QResizeEvent;
 
 class LineEditInterface {
  public:
-  LineEditInterface(QWidget *widget) : widget_(widget) {}
+  explicit LineEditInterface(QWidget *widget) : widget_(widget) {}
 
   QWidget *widget() const { return widget_; }
 
@@ -55,13 +55,13 @@ class LineEditInterface {
 
   virtual void set_enabled(bool enabled) = 0;
 
-protected:
+ protected:
   QWidget *widget_;
 };
 
 class ExtendedEditor : public LineEditInterface {
  public:
-  ExtendedEditor(QWidget *widget, int extra_right_padding = 0, bool draw_hint = true);
+  explicit ExtendedEditor(QWidget *widget, int extra_right_padding = 0, bool draw_hint = true);
   virtual ~ExtendedEditor() {}
 
   virtual bool is_empty() const { return text().isEmpty(); }
@@ -108,7 +108,7 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
 
  public:
-  LineEdit(QWidget *parent = nullptr);
+  explicit LineEdit(QWidget *parent = nullptr);
 
   // ExtendedEditor
   void set_focus() { QLineEdit::setFocus(); }
@@ -138,7 +138,7 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
 
  public:
-  TextEdit(QWidget *parent = nullptr);
+  explicit TextEdit(QWidget *parent = nullptr);
 
   // ExtendedEditor
   void set_focus() { QPlainTextEdit::setFocus(); }
@@ -161,7 +161,7 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   Q_PROPERTY(bool has_reset_button READ has_reset_button WRITE set_reset_button)
 
  public:
-  SpinBox(QWidget *parent = nullptr);
+  explicit SpinBox(QWidget *parent = nullptr);
 
   // QSpinBox
   QString textFromValue(int val) const;

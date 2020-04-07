@@ -34,8 +34,8 @@ class Ui_TranscoderSettingsPage;
 class TranscoderSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
-  TranscoderSettingsPage(SettingsDialog* dialog);
+ public:
+  explicit TranscoderSettingsPage(SettingsDialog* dialog);
   ~TranscoderSettingsPage();
 
   static const char *kSettingsGroup;
@@ -43,7 +43,7 @@ public:
   void Load();
   void Save();
 
-private:
+ private:
   Ui_TranscoderSettingsPage* ui_;
 };
 

@@ -33,7 +33,7 @@ class MoodbarSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  MoodbarSettingsPage(SettingsDialog* dialog);
+  explicit MoodbarSettingsPage(SettingsDialog* dialog);
   ~MoodbarSettingsPage();
 
   static const char *kSettingsGroup;

@@ -43,7 +43,7 @@ class FileViewList : public QListView {
   Q_OBJECT
 
  public:
-  FileViewList(QWidget *parent = nullptr);
+  explicit FileViewList(QWidget *parent = nullptr);
 
   void mousePressEvent(QMouseEvent *e);
 

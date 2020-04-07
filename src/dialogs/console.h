@@ -34,8 +34,9 @@ class Application;
 
 class Console : public QDialog {
   Q_OBJECT
+
  public:
-  Console(Application *app, QWidget *parent = nullptr);
+  explicit Console(Application *app, QWidget *parent = nullptr);
 
  private slots:
   void RunQuery();

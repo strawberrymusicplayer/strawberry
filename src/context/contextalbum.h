@@ -44,7 +44,7 @@ class ContextAlbum : public QWidget {
   Q_OBJECT
 
  public:
-  ContextAlbum(QWidget *parent = nullptr);
+  explicit ContextAlbum(QWidget *parent = nullptr);
 
   void Init(AlbumCoverChoiceController *album_cover_choice_controller);
   void SetImage(QImage image = QImage());

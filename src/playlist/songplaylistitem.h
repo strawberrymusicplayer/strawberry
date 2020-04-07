@@ -32,8 +32,8 @@
 
 class SongPlaylistItem : public PlaylistItem {
  public:
-  SongPlaylistItem(const Song::Source &source);
-  SongPlaylistItem(const Song &song);
+  explicit SongPlaylistItem(const Song::Source &source);
+  explicit SongPlaylistItem(const Song &song);
 
   // Restores a stream- or file-related playlist item using query row.
   // If it's a file related playlist item, this will restore it's CUE attributes (if any) but won't parse the CUE!

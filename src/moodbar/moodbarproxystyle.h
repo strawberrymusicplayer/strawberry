@@ -48,7 +48,7 @@ class MoodbarProxyStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  MoodbarProxyStyle(Application* app, QSlider* slider);
+  explicit MoodbarProxyStyle(Application* app, QSlider* slider);
   ~MoodbarProxyStyle();
 
   // QProxyStyle

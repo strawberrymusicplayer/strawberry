@@ -48,7 +48,7 @@ class CollectionWatcher : public QObject {
   Q_OBJECT
 
  public:
-  CollectionWatcher(Song::Source source, QObject *parent = nullptr);
+  explicit CollectionWatcher(Song::Source source, QObject *parent = nullptr);
 
   void set_backend(CollectionBackend *backend) { backend_ = backend; }
   void set_task_manager(TaskManager *task_manager) { task_manager_ = task_manager; }
@@ -64,7 +64,7 @@ class CollectionWatcher : public QObject {
 
   void ExitAsync();
 
-signals:
+ signals:
   void NewOrUpdatedSongs(const SongList &songs);
   void SongsMTimeUpdated(const SongList &songs);
   void SongsDeleted(const SongList &songs);

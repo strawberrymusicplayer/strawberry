@@ -31,13 +31,13 @@ class Ui_TranscoderOptionsVorbis;
 
 class TranscoderOptionsVorbis : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsVorbis(QWidget* parent = nullptr);
+  explicit TranscoderOptionsVorbis(QWidget* parent = nullptr);
   ~TranscoderOptionsVorbis();
 
   void Load();
   void Save();
 
-private:
+ private:
   static const char *kSettingsGroup;
 
   Ui_TranscoderOptionsVorbis *ui_;

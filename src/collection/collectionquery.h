@@ -72,7 +72,7 @@ struct QueryOptions {
 
 class CollectionQuery {
  public:
-  CollectionQuery(const QueryOptions &options = QueryOptions());
+  explicit CollectionQuery(const QueryOptions &options = QueryOptions());
 
   // Sets contents of SELECT clause on the query (list of columns to get).
   void SetColumnSpec(const QString &spec) { column_spec_ = spec; }

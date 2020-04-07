@@ -42,7 +42,7 @@ class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  BackendSettingsPage(SettingsDialog *dialog);
+  explicit BackendSettingsPage(SettingsDialog *dialog);
   ~BackendSettingsPage();
 
   static const char *kSettingsGroup;

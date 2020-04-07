@@ -78,7 +78,7 @@ class Mpris2 : public QObject {
   Q_OBJECT
 
  public:
-  Mpris2(Application *app, QObject *parent = nullptr);
+  explicit Mpris2(Application *app, QObject *parent = nullptr);
 
   // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
   Q_PROPERTY(bool CanQuit READ CanQuit)

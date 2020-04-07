@@ -103,7 +103,7 @@ class Song {
     FileType_Stream = 91,
   };
 
-  Song(Song::Source source = Song::Source_Unknown);
+  explicit Song(Song::Source source = Song::Source_Unknown);
   Song(const Song &other);
   ~Song();
 

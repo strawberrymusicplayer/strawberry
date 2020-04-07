@@ -53,7 +53,7 @@ class DeviceItemDelegate : public CollectionItemDelegate {
   Q_OBJECT
 
  public:
-  DeviceItemDelegate(QObject *parent);
+  explicit DeviceItemDelegate(QObject *parent);
 
   static const int kIconPadding;
 
@@ -65,7 +65,7 @@ class DeviceView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  DeviceView(QWidget *parent = nullptr);
+  explicit DeviceView(QWidget *parent = nullptr);
   ~DeviceView();
 
   void SetApplication(Application *app);

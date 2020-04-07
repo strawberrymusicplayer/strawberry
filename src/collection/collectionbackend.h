@@ -45,7 +45,7 @@ class CollectionBackendInterface : public QObject {
   Q_OBJECT
 
  public:
-  CollectionBackendInterface(QObject *parent = nullptr) : QObject(parent) {}
+  explicit CollectionBackendInterface(QObject *parent = nullptr) : QObject(parent) {}
   virtual ~CollectionBackendInterface() {}
 
   struct Album {

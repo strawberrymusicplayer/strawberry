@@ -31,12 +31,12 @@ class ClickableLabel : public QLabel {
   Q_OBJECT
 
  public:
-  ClickableLabel(QWidget *parent = nullptr);
+  explicit ClickableLabel(QWidget *parent = nullptr);
 
-signals:
+ signals:
   void Clicked();
 
-protected:
+ protected:
   void mousePressEvent(QMouseEvent *event);
 };
 

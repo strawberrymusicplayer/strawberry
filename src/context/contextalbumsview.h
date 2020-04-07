@@ -54,7 +54,7 @@ class ContextItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
  public:
-  ContextItemDelegate(QObject *parent);
+  explicit ContextItemDelegate(QObject *parent);
 
  public slots:
   bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);

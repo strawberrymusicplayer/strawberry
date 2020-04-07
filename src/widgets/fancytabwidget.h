@@ -48,7 +48,7 @@ class FancyTabWidget : public QTabWidget {
   ~FancyTabWidget();
 
   public:
-    FancyTabWidget(QWidget* parent = 0);
+    explicit FancyTabWidget(QWidget *parent = nullptr);
     void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
     bool EnableTab(QWidget *widget_view);
     bool DisableTab(QWidget *widget_view);

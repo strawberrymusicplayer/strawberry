@@ -35,7 +35,7 @@ class PlaylistListView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  PlaylistListView(QWidget *parent = nullptr);
+  explicit PlaylistListView(QWidget *parent = nullptr);
   ~PlaylistListView() {}
 
  protected:

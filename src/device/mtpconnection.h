@@ -36,7 +36,7 @@
 
 class MtpConnection : public QObject, public std::enable_shared_from_this<MtpConnection> {
  public:
-  MtpConnection(const QUrl &url);
+  explicit MtpConnection(const QUrl &url);
   ~MtpConnection();
 
   bool is_valid() const { return device_; }

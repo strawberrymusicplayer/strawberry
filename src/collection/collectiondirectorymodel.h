@@ -42,7 +42,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  CollectionDirectoryModel(CollectionBackend* backend, QObject *parent = nullptr);
+  explicit CollectionDirectoryModel(CollectionBackend* backend, QObject *parent = nullptr);
   ~CollectionDirectoryModel();
 
   // To be called by GUIs

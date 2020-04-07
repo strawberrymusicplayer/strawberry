@@ -78,7 +78,7 @@ private:
 class PlaylistDelegateBase : public QueuedItemDelegate {
   Q_OBJECT
  public:
-  PlaylistDelegateBase(QObject *parent, const QString &suffix = QString());
+  explicit PlaylistDelegateBase(QObject *parent, const QString &suffix = QString());
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   QString displayText(const QVariant &value, const QLocale &locale) const;
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
@@ -97,19 +97,19 @@ class PlaylistDelegateBase : public QueuedItemDelegate {
 
 class LengthItemDelegate : public PlaylistDelegateBase {
  public:
-  LengthItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit LengthItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const;
 };
 
 class SizeItemDelegate : public PlaylistDelegateBase {
  public:
-  SizeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit SizeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const;
 };
 
 class DateItemDelegate : public PlaylistDelegateBase {
  public:
-  DateItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit DateItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const;
 };
 
@@ -127,13 +127,13 @@ class FileTypeItemDelegate : public PlaylistDelegateBase {
 
 class TextItemDelegate : public PlaylistDelegateBase {
  public:
-  TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 class TagCompletionModel : public QStringListModel {
 public:
-  TagCompletionModel(CollectionBackend *backend, Playlist::Column column);
+  explicit TagCompletionModel(CollectionBackend *backend, Playlist::Column column);
 
 private:
   static QString database_column(Playlist::Column column);
@@ -143,7 +143,7 @@ class TagCompleter : public QCompleter {
   Q_OBJECT
 
 public:
-  TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor);
+  explicit TagCompleter(CollectionBackend *backend, Playlist::Column column, QLineEdit *editor);
   ~TagCompleter();
 
  private slots:
@@ -155,7 +155,7 @@ private:
 
 class TagCompletionItemDelegate : public PlaylistDelegateBase {
  public:
-  TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
+  explicit TagCompletionItemDelegate(QObject *parent, CollectionBackend *backend, Playlist::Column column) : PlaylistDelegateBase(parent), backend_(backend), column_(column) {};
 
   QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
@@ -166,13 +166,13 @@ class TagCompletionItemDelegate : public PlaylistDelegateBase {
 
 class NativeSeparatorsDelegate : public PlaylistDelegateBase {
  public:
-  NativeSeparatorsDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit NativeSeparatorsDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const;
 };
 
 class SongSourceDelegate : public PlaylistDelegateBase {
  public:
-  SongSourceDelegate(QObject *parent);
+  explicit SongSourceDelegate(QObject *parent);
   QString displayText(const QVariant &value, const QLocale &locale) const;
   void paint(QPainter *paint, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 

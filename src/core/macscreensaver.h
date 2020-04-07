@@ -29,7 +29,7 @@
 
 class MacScreensaver : public Screensaver {
  public:
-  MacScreensaver();
+  explicit MacScreensaver();
 
   void Inhibit();
   void Uninhibit();

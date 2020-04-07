@@ -37,7 +37,7 @@ class About : public QDialog {
   Q_OBJECT
 
  public:
-  About(QWidget *parent = nullptr);
+  explicit About(QWidget *parent = nullptr);
 
   struct Person {
     Person(const QString &n, const QString &e = QString()) : name(n), email(e) {}

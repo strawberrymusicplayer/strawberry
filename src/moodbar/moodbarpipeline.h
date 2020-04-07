@@ -36,7 +36,7 @@ class MoodbarPipeline : public QObject {
   Q_OBJECT
 
  public:
-  MoodbarPipeline(const QUrl& local_filename);
+  explicit MoodbarPipeline(const QUrl& local_filename);
   ~MoodbarPipeline();
 
   static bool IsAvailable();

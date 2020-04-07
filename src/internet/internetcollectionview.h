@@ -50,7 +50,7 @@ class InternetCollectionView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  InternetCollectionView(QWidget *parent = nullptr);
+  explicit InternetCollectionView(QWidget *parent = nullptr);
   ~InternetCollectionView();
 
   void Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite = false);

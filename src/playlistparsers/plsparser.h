@@ -39,7 +39,7 @@ class PLSParser : public ParserBase {
   Q_OBJECT
 
  public:
-  PLSParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit PLSParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
   QString name() const { return "PLS"; }
   QStringList file_extensions() const { return QStringList() << "pls"; }

@@ -37,12 +37,12 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
     Type_LoadingIndicator,
   };
 
-  CollectionItem(SimpleTreeModel<CollectionItem> *model)
+  explicit CollectionItem(SimpleTreeModel<CollectionItem> *model)
       : SimpleTreeItem<CollectionItem>(Type_Root, model),
         container_level(-1),
         compilation_artist_node_(nullptr) {}
 
-  CollectionItem(Type type, CollectionItem *parent = nullptr)
+  explicit CollectionItem(Type type, CollectionItem *parent = nullptr)
       : SimpleTreeItem<CollectionItem>(type, parent),
         container_level(-1),
         compilation_artist_node_(nullptr) {}

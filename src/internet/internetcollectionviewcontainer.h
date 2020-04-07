@@ -42,7 +42,7 @@ class InternetCollectionViewContainer : public QWidget {
   Q_OBJECT
 
  public:
-  InternetCollectionViewContainer(QWidget *parent = nullptr);
+  explicit InternetCollectionViewContainer(QWidget *parent = nullptr);
   ~InternetCollectionViewContainer();
 
   QStackedWidget *stacked() const { return ui_->stacked; }

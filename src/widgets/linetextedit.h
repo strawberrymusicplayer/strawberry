@@ -35,12 +35,12 @@ class LineTextEdit : public QTextEdit {
   Q_OBJECT
 
  public:
-  LineTextEdit(QWidget *parent = nullptr);
+  explicit LineTextEdit(QWidget *parent = nullptr);
 
   QSize sizeHint() const;
   QSize minimumSizeHint() const;
 
-protected:
+ protected:
   void keyPressEvent(QKeyEvent *e);
 };
 

@@ -28,7 +28,7 @@
 template <typename T>
 class VlcScopedRef {
  public:
-  VlcScopedRef(T* ptr);
+  explicit VlcScopedRef(T* ptr);
   ~VlcScopedRef();
 
   operator T* () const { return ptr_; }
@@ -36,7 +36,7 @@ class VlcScopedRef {
   T* operator ->() const { return ptr_; }
 
  private:
-  VlcScopedRef(VlcScopedRef&) {}
+  explicit VlcScopedRef(VlcScopedRef&) {}
   VlcScopedRef& operator =(const VlcScopedRef&) { return *this; }
 
   T* ptr_;

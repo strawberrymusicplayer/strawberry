@@ -42,7 +42,7 @@ struct CoverSearchStatistics;
 
 // This class represents a single search-for-cover request. It identifies and describes the request.
 struct CoverSearchRequest {
-  CoverSearchRequest() : id(-1), search(false), fetchall(false) {}
+  explicit CoverSearchRequest() : id(-1), search(false), fetchall(false) {}
 
   // An unique (for one AlbumCoverFetcher) request identifier
   quint64 id;
@@ -60,7 +60,7 @@ struct CoverSearchRequest {
 
 // This structure represents a single result of some album's cover search request.
 struct CoverSearchResult {
-  CoverSearchResult() : score(0.0) {}
+  explicit CoverSearchResult() : score(0.0) {}
 
   // Used for grouping in the user interface.
   QString provider;
@@ -87,7 +87,7 @@ class AlbumCoverFetcher : public QObject {
   Q_OBJECT
 
  public:
-  AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent = nullptr, QNetworkAccessManager *network = 0);
+  explicit AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent = nullptr, QNetworkAccessManager *network = 0);
   virtual ~AlbumCoverFetcher() {}
 
   static const int kMaxConcurrentRequests;

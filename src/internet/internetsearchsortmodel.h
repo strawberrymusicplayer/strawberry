@@ -28,7 +28,7 @@ class QModelIndex;
 
 class InternetSearchSortModel : public QSortFilterProxyModel {
  public:
-  InternetSearchSortModel(QObject *parent = nullptr);
+  explicit InternetSearchSortModel(QObject *parent = nullptr);
 
  protected:
   bool lessThan(const QModelIndex &left, const QModelIndex &right) const;

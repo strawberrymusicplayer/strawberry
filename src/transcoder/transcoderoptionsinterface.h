@@ -27,8 +27,8 @@
 #include <QString>
 
 class TranscoderOptionsInterface : public QWidget {
-public:
-  TranscoderOptionsInterface(QWidget *parent) : QWidget(parent) {}
+ public:
+  explicit TranscoderOptionsInterface(QWidget *parent) : QWidget(parent) {}
   virtual ~TranscoderOptionsInterface() {}
 
   virtual void Load() = 0;

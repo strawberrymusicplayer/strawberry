@@ -79,7 +79,7 @@ class PlaylistHeader;
 // This class is used by internet search view as well.
 class PlaylistProxyStyle : public QProxyStyle {
  public:
-  PlaylistProxyStyle();
+  explicit PlaylistProxyStyle();
 
   void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
   void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
@@ -92,7 +92,7 @@ class PlaylistView : public QTreeView {
   Q_OBJECT
  public:
 
-  PlaylistView(QWidget *parent = nullptr);
+  explicit PlaylistView(QWidget *parent = nullptr);
   ~PlaylistView();
 
   static ColumnAlignmentMap DefaultColumnAlignment();

@@ -16,8 +16,8 @@ class iMobileDeviceConnection;
 class AfcFile : public QIODevice {
   Q_OBJECT
 
-public:
-  AfcFile(iMobileDeviceConnection* connection, const QString &path, QObject *parent = 0);
+ public:
+  explicit AfcFile(iMobileDeviceConnection* connection, const QString &path, QObject *parent = 0);
   ~AfcFile();
 
   // QIODevice
@@ -26,7 +26,7 @@ public:
   bool seek(qint64 pos);
   qint64 size() const;
 
-private:
+ private:
   // QIODevice
   qint64 readData(char *data, qint64 max_size);
   qint64 writeData(const char *data, qint64 max_size);

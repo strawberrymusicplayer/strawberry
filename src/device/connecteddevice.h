@@ -43,7 +43,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   Q_OBJECT
 
  public:
-  ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
+  explicit ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
   ~ConnectedDevice();
 
   virtual bool Init() = 0;

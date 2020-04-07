@@ -57,7 +57,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   Q_OBJECT
 
  public:
-  GstEngine(TaskManager *task_manager);
+  explicit GstEngine(TaskManager *task_manager);
   ~GstEngine();
 
   bool Init();

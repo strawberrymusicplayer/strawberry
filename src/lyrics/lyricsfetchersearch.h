@@ -36,7 +36,7 @@ class LyricsFetcherSearch : public QObject {
   Q_OBJECT
 
  public:
-  LyricsFetcherSearch(const LyricsSearchRequest &request, QObject *parent);
+  explicit LyricsFetcherSearch(const LyricsSearchRequest &request, QObject *parent);
 
   void Start(LyricsProviders *cover_providers);
   void Cancel();

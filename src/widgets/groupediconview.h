@@ -59,7 +59,7 @@ class GroupedIconView : public QListView {
   Q_PROPERTY(QString header_text READ header_text WRITE set_header_text)
 
  public:
-  GroupedIconView(QWidget *parent = nullptr);
+  explicit GroupedIconView(QWidget *parent = nullptr);
 
   enum Role {
     Role_Group = 1158300,
@@ -83,7 +83,7 @@ class GroupedIconView : public QListView {
 
   static void DrawHeader(QPainter *painter, const QRect &rect, const QFont &font, const QPalette &palette, const QString &text);
 
-protected:
+ protected:
   virtual int header_height() const;
 
   // QWidget
@@ -98,10 +98,10 @@ protected:
   QRect visualRect(const QModelIndex &index) const;
   QRegion visualRegionForSelection(const QItemSelection &selection) const;
 
-private slots:
+ private slots:
   void LayoutItems();
 
-private:
+ private:
   static const int kBarThickness;
   static const int kBarMarginTop;
 

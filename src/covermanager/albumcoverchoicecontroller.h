@@ -57,7 +57,7 @@ class AlbumCoverChoiceController : public QWidget {
   static const char *kSaveImageFileFilter;
   static const char *kAllFilesFilter;
 
-  AlbumCoverChoiceController(QWidget *parent = nullptr);
+  explicit AlbumCoverChoiceController(QWidget *parent = nullptr);
   ~AlbumCoverChoiceController();
 
   void Init(Application *app);

@@ -44,7 +44,7 @@ class TranscodeDialog : public QDialog {
   Q_OBJECT
 
  public:
-  TranscodeDialog(QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit TranscodeDialog(QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~TranscodeDialog();
 
   static const char *kSettingsGroup;

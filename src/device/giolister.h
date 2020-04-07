@@ -49,7 +49,7 @@ class GioLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  GioLister() {}
+  explicit GioLister() {}
   ~GioLister();
 
   int priority() const { return 50; }

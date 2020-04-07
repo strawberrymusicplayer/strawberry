@@ -32,12 +32,12 @@ class QEvent;
 // This helper class forces the mode back to ScrollPerPixel.
 class ForceScrollPerPixel : public QObject {
  public:
-  ForceScrollPerPixel(QAbstractItemView *item_view, QObject *parent = nullptr);
+  explicit ForceScrollPerPixel(QAbstractItemView *item_view, QObject *parent = nullptr);
 
-protected:
+ protected:
   bool eventFilter(QObject *object, QEvent *event);
 
-private:
+ private:
   QAbstractItemView *item_view_;
 };
 

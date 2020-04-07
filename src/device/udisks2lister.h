@@ -49,7 +49,7 @@ class Udisks2Lister : public DeviceLister {
   Q_OBJECT
 
  public:
-  Udisks2Lister();
+  explicit Udisks2Lister();
   ~Udisks2Lister();
 
   QStringList DeviceUniqueIDs() override;

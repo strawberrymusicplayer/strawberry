@@ -34,7 +34,7 @@ class CollectionViewContainer : public QWidget {
   Q_OBJECT
 
  public:
-  CollectionViewContainer(QWidget *parent = nullptr);
+  explicit CollectionViewContainer(QWidget *parent = nullptr);
   ~CollectionViewContainer();
 
   CollectionFilterWidget *filter() const;

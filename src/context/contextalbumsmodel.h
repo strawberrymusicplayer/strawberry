@@ -56,7 +56,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
 
  public:
-  ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
+  explicit ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
   ~ContextAlbumsModel();
 
   static const int kPrettyCoverSize;

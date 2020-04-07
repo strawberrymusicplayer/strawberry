@@ -42,7 +42,7 @@ class MacOsDeviceLister : public DeviceLister {
   Q_OBJECT
 
  public:
-  MacOsDeviceLister();
+  explicit MacOsDeviceLister();
   ~MacOsDeviceLister();
 
   QStringList DeviceUniqueIDs();

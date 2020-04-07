@@ -39,7 +39,7 @@ class TagFetcher : public QObject {
   // High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient.
 
  public:
-  TagFetcher(QObject *parent = nullptr);
+  explicit TagFetcher(QObject *parent = nullptr);
 
   void StartFetch(const SongList &songs);
 

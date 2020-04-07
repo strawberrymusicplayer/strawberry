@@ -50,7 +50,7 @@ class FileView : public QWidget {
   Q_OBJECT
 
  public:
-  FileView(QWidget *parent = nullptr);
+  explicit FileView(QWidget *parent = nullptr);
   ~FileView();
 
   static const char *kFileFilter;

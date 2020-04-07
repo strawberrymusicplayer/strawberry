@@ -29,7 +29,7 @@
 
 class DirectSoundDeviceFinder : public DeviceFinder {
  public:
-  DirectSoundDeviceFinder();
+  explicit DirectSoundDeviceFinder();
 
   virtual bool Initialise() { return true; }
   virtual QList<Device> ListDevices();

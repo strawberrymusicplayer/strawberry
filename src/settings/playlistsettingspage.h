@@ -34,17 +34,15 @@ class Ui_PlaylistSettingsPage;
 class PlaylistSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
-  PlaylistSettingsPage(SettingsDialog* dialog);
+ public:
+  explicit PlaylistSettingsPage(SettingsDialog* dialog);
   ~PlaylistSettingsPage();
   static const char *kSettingsGroup;
 
   void Load();
   void Save();
 
-private slots:
-
-private:
+ private:
   Ui_PlaylistSettingsPage* ui_;
 
 };

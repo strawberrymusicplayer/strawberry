@@ -38,7 +38,7 @@
 class iLister : public DeviceLister {
   Q_OBJECT
  public:
-  iLister();
+  explicit iLister();
   ~iLister();
 
   int priority() const { return 120; }

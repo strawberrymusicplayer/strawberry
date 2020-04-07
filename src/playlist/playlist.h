@@ -91,7 +91,7 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommands::ReOrderItems;
 
  public:
-  Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type = QString(), bool favorite = false, QObject *parent = nullptr);
+  explicit Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type = QString(), bool favorite = false, QObject *parent = nullptr);
   ~Playlist();
 
   void SkipTracks(const QModelIndexList &source_indexes);

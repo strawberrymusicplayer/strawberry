@@ -54,7 +54,7 @@ class ContextView : public QWidget {
   Q_OBJECT
 
  public:
-  ContextView(QWidget *parent = nullptr);
+  explicit ContextView(QWidget *parent = nullptr);
 
   void Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller);
 

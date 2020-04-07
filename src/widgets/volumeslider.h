@@ -43,7 +43,7 @@ class SliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  SliderSlider(Qt::Orientation, QWidget*, uint max = 0);
+  explicit SliderSlider(Qt::Orientation, QWidget*, uint max = 0);
 
   virtual void setValue(int);
 
@@ -86,7 +86,7 @@ class PrettySlider : public SliderSlider {
     Pretty
   } SliderMode;
 
-  PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max = 0);
+  explicit PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max = 0);
 
  protected:
   virtual void slideEvent(QMouseEvent*);
@@ -103,7 +103,7 @@ class VolumeSlider : public SliderSlider {
   Q_OBJECT
 
  public:
-  VolumeSlider(QWidget* parent, uint max = 0);
+  explicit VolumeSlider(QWidget *parent, uint max = 0);
   void SetEnabled(const bool enabled);
 
  protected:

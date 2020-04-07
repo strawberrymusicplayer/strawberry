@@ -44,7 +44,7 @@ class MoodbarItemDelegate : public QItemDelegate {
   Q_OBJECT
 
  public:
-  MoodbarItemDelegate(Application* app, PlaylistView* view, QObject* parent = nullptr);
+  explicit MoodbarItemDelegate(Application* app, PlaylistView* view, QObject* parent = nullptr);
 
   void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 

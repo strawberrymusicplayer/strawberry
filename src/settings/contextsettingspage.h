@@ -39,7 +39,7 @@ class ContextSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  ContextSettingsPage(SettingsDialog *dialog);
+  explicit ContextSettingsPage(SettingsDialog *dialog);
   ~ContextSettingsPage();
 
   enum ContextSettingsOrder {

@@ -39,8 +39,9 @@ class QXmlStreamWriter;
 class CollectionBackendInterface;
 
 class WplParser : public XMLParser {
+
  public:
-  WplParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
+  explicit WplParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
   QString name() const { return "WPL"; }
   QStringList file_extensions() const { return QStringList() << "wpl"; }

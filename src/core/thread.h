@@ -29,8 +29,7 @@ class QObject;
 // Improve QThread by adding a SetIoPriority function
 class Thread : public QThread {
  public:
-  Thread(QObject* parent = nullptr)
-      : QThread(parent), io_priority_(Utilities::IOPRIO_CLASS_NONE) {}
+  explicit Thread(QObject* parent = nullptr) : QThread(parent), io_priority_(Utilities::IOPRIO_CLASS_NONE) {}
 
   void SetIoPriority(Utilities::IoPriority priority) {
     io_priority_ = priority;

@@ -30,7 +30,7 @@
 
 struct CoverSearchStatistics {
 
-  CoverSearchStatistics();
+  explicit CoverSearchStatistics();
 
   CoverSearchStatistics& operator +=(const CoverSearchStatistics &other);
 

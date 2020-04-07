@@ -84,7 +84,7 @@ class AlbumCoverLoader : public QObject {
   };
 
   struct Task {
-    Task() : redirects(0) {}
+    explicit Task() : redirects(0) {}
 
     AlbumCoverLoaderOptions options;
 
@@ -98,7 +98,7 @@ class AlbumCoverLoader : public QObject {
   };
 
   struct TryLoadResult {
-    TryLoadResult(bool async, bool success, const QUrl &_cover_url, const QImage &_image) : started_async(async), loaded_success(success), cover_url(_cover_url), image(_image) {}
+    explicit TryLoadResult(bool async, bool success, const QUrl &_cover_url, const QImage &_image) : started_async(async), loaded_success(success), cover_url(_cover_url), image(_image) {}
 
     bool started_async;
     bool loaded_success;

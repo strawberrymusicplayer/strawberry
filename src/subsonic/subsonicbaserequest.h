@@ -46,7 +46,7 @@ class SubsonicBaseRequest : public QObject {
 
  public:
 
-  SubsonicBaseRequest(SubsonicService *service, QObject *parent);
+  explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent);
   ~SubsonicBaseRequest();
 
   typedef QPair<QString, QString> Param;

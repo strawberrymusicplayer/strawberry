@@ -31,13 +31,13 @@ class Ui_TranscoderOptionsOpus;
 
 class TranscoderOptionsOpus : public TranscoderOptionsInterface {
  public:
-  TranscoderOptionsOpus(QWidget *parent = nullptr);
+  explicit TranscoderOptionsOpus(QWidget *parent = nullptr);
   ~TranscoderOptionsOpus();
 
   void Load();
   void Save();
 
-private:
+ private:
   static const char* kSettingsGroup;
 
   Ui_TranscoderOptionsOpus* ui_;

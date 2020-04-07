@@ -56,7 +56,7 @@ class OSDPretty : public QWidget {
     Mode_Draggable,
   };
 
-  OSDPretty(Mode mode, QWidget *parent = nullptr);
+  explicit OSDPretty(Mode mode, QWidget *parent = nullptr);
   ~OSDPretty();
 
   static const char *kSettingsGroup;

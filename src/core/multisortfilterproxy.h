@@ -32,7 +32,7 @@ class QObject;
 
 class MultiSortFilterProxy : public QSortFilterProxyModel {
  public:
-  MultiSortFilterProxy(QObject *parent = nullptr);
+  explicit MultiSortFilterProxy(QObject *parent = nullptr);
 
   void AddSortSpec(int role, Qt::SortOrder order = Qt::AscendingOrder);
 

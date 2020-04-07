@@ -40,7 +40,7 @@ class GPodLoader : public QObject {
   Q_OBJECT
 
  public:
-  GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device);
+  explicit GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device);
   ~GPodLoader();
 
   void set_music_path_prefix(const QString &prefix) { path_prefix_ = prefix; }

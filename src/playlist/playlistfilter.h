@@ -37,7 +37,7 @@ class PlaylistFilter : public QSortFilterProxyModel {
   Q_OBJECT
 
  public:
-  PlaylistFilter(QObject *parent = nullptr);
+  explicit PlaylistFilter(QObject *parent = nullptr);
   ~PlaylistFilter();
 
   // QAbstractItemModel

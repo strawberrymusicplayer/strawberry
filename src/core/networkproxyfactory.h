@@ -44,7 +44,7 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
   QList<QNetworkProxy> queryProxy(const QNetworkProxyQuery &query);
 
  private:
-  NetworkProxyFactory();
+  explicit NetworkProxyFactory();
 
   static NetworkProxyFactory *sInstance;
 

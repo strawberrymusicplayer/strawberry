@@ -39,7 +39,7 @@ class AppearanceSettingsPage : public SettingsPage {
   Q_OBJECT
 
 public:
-  AppearanceSettingsPage(SettingsDialog *dialog);
+  explicit AppearanceSettingsPage(SettingsDialog *dialog);
   ~AppearanceSettingsPage();
 
   static const char *kSettingsGroup;

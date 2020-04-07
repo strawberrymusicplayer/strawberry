@@ -58,8 +58,8 @@ class Ui_SettingsDialog;
 
 
 class SettingsItemDelegate : public QStyledItemDelegate {
-public:
-  SettingsItemDelegate(QObject *parent);
+ public:
+  explicit SettingsItemDelegate(QObject *parent);
   QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
@@ -69,7 +69,7 @@ class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~SettingsDialog();
 
   enum Page {

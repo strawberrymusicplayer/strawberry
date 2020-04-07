@@ -38,7 +38,7 @@ class Chromaprinter {
   // This class works well with QtConcurrentMap.
 
  public:
-  Chromaprinter(const QString &filename);
+  explicit Chromaprinter(const QString &filename);
   ~Chromaprinter();
 
   // Creates a fingerprint from the song.

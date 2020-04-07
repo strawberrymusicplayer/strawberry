@@ -52,13 +52,13 @@ class Organise : public QObject {
 
  public:
   struct NewSongInfo {
-    NewSongInfo(const Song &song = Song(), const QString &new_filename = QString()) : song_(song), new_filename_(new_filename) {}
+    explicit NewSongInfo(const Song &song = Song(), const QString &new_filename = QString()) : song_(song), new_filename_(new_filename) {}
     Song song_;
     QString new_filename_;
   };
   typedef QList<NewSongInfo> NewSongInfoList;
 
-  Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
+  explicit Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
   ~Organise();
 
   static const int kBatchSize;

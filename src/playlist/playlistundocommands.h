@@ -41,7 +41,7 @@ namespace PlaylistUndoCommands {
     Q_DECLARE_TR_FUNCTIONS(PlaylistUndoCommands)
 
    public:
-    Base(Playlist *playlist);
+    explicit Base(Playlist *playlist);
 
    protected:
     Playlist *playlist_;
@@ -49,7 +49,7 @@ namespace PlaylistUndoCommands {
 
   class InsertItems : public Base {
    public:
-    InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
+    explicit InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
 
     void undo();
     void redo();
@@ -67,7 +67,7 @@ namespace PlaylistUndoCommands {
 
   class RemoveItems : public Base {
    public:
-    RemoveItems(Playlist *playlist, int pos, int count);
+    explicit RemoveItems(Playlist *playlist, int pos, int count);
 
     int id() const { return Type_RemoveItems; }
 
@@ -88,7 +88,7 @@ namespace PlaylistUndoCommands {
 
   class MoveItems : public Base {
    public:
-    MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
+    explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
 
     void undo();
     void redo();
@@ -100,7 +100,7 @@ namespace PlaylistUndoCommands {
 
   class ReOrderItems : public Base {
    public:
-    ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
+    explicit ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
 
     void undo();
     void redo();
@@ -112,13 +112,13 @@ namespace PlaylistUndoCommands {
 
   class SortItems : public ReOrderItems {
    public:
-    SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
+    explicit SortItems(Playlist *playlist, int column, Qt::SortOrder order, const PlaylistItemList &new_items);
 
   };
 
   class ShuffleItems : public ReOrderItems {
    public:
-    ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
+    explicit ShuffleItems(Playlist *playlist, const PlaylistItemList &new_items);
   };
 } //namespace
 

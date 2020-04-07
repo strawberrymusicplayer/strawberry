@@ -29,7 +29,7 @@
 #include "musicstorage.h"
 
 class FilesystemMusicStorage : public virtual MusicStorage {
-public:
+ public:
   explicit FilesystemMusicStorage(const QString &root);
   ~FilesystemMusicStorage() {}
 
@@ -38,7 +38,7 @@ public:
   bool CopyToStorage(const CopyJob &job);
   bool DeleteFromStorage(const DeleteJob &job);
 
-private:
+ private:
   QString root_;
 };
 

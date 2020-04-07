@@ -25,7 +25,7 @@
 namespace IconMapper {
 
 struct IconProperties {
-  IconProperties() : min_size(0), max_size(0) {}
+  explicit IconProperties() : min_size(0), max_size(0) {}
   IconProperties(const QStringList &_names, const int _min_size, const int _max_size) : names(_names), min_size(_min_size), max_size(_max_size) {}
   QStringList names;
   int min_size;

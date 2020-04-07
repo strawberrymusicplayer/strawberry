@@ -62,7 +62,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_ENUMS(GroupBy)
 
  public:
-  CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
+  explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
   ~CollectionModel();
 
   static const char *kSavedGroupingsSettingsGroup;
