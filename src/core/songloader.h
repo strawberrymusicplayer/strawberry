@@ -57,7 +57,7 @@ class CddaSongLoader;
 class SongLoader : public QObject {
   Q_OBJECT
  public:
-  SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
+  explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
   ~SongLoader();
 
   enum Result {
@@ -87,15 +87,15 @@ class SongLoader : public QObject {
   QStringList errors() { return errors_; }
 
  signals:
-  void AudioCDTracksLoaded();
-  void LoadAudioCDFinished(bool success);
+  void AudioCDTracksLoadFinished();
+  void LoadAudioCDFinished(const bool success);
   void LoadRemoteFinished();
 
  private slots:
   void Timeout();
   void StopTypefind();
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-  void AudioCDTracksLoadedSlot(const SongList &songs);
+  void AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error);
   void AudioCDTracksTagsLoaded(const SongList &songs);
 #endif  // HAVE_AUDIOCD && HAVE_GSTREAMER
 

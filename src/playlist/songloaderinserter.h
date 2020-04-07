@@ -38,8 +38,9 @@ class Playlist;
 
 class SongLoaderInserter : public QObject {
   Q_OBJECT
+
  public:
-  SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player);
+  explicit SongLoaderInserter(TaskManager *task_manager, CollectionBackendInterface *collection, const Player *player);
   ~SongLoaderInserter();
 
   void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);
@@ -52,8 +53,8 @@ class SongLoaderInserter : public QObject {
 
  private slots:
   void DestinationDestroyed();
-  void AudioCDTracksLoaded(SongLoader *loader);
-  void AudioCDTagsLoaded(bool success);
+  void AudioCDTracksLoadFinished(SongLoader *loader);
+  void AudioCDTagsLoaded(const bool success);
   void InsertSongs();
 
  private:

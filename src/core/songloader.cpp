@@ -185,7 +185,7 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
   if (player_->engine()->type() == Engine::GStreamer) {
     CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
-    connect(cdda_song_loader, SIGNAL(SongsDurationLoaded(SongList)), this, SLOT(AudioCDTracksLoadedSlot(SongList)));
+    connect(cdda_song_loader, SIGNAL(SongsDurationLoaded(SongList, QString)), this, SLOT(AudioCDTracksLoadFinishedSlot(SongList, QString)));
     connect(cdda_song_loader, SIGNAL(SongsMetadataLoaded(SongList)), this, SLOT(AudioCDTracksTagsLoaded(SongList)));
     cdda_song_loader->LoadSongs();
     return Success;
@@ -201,16 +201,22 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 }
 
 #if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
-void SongLoader::AudioCDTracksLoadedSlot(const SongList &songs) {
+
+void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error) {
+
   songs_ = songs;
-  emit AudioCDTracksLoaded();
+  errors_ << error;
+  emit AudioCDTracksLoadFinished();
+
 }
 
 void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
+
   CddaSongLoader *cdda_song_loader = qobject_cast<CddaSongLoader*>(sender());
   cdda_song_loader->deleteLater();
   songs_ = songs;
   emit LoadAudioCDFinished(true);
+
 }
 #endif
 

@@ -67,6 +67,7 @@ void CddaSongLoader::LoadSongs() {
   QMutexLocker locker(&mutex_load_);
   cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
   if (cdio_ == nullptr) {
+    Error("Unable to open CDIO device.");
     return;
   }
 
@@ -74,7 +75,7 @@ void CddaSongLoader::LoadSongs() {
   GError *error = nullptr;
   cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
   if (error) {
-    qLog(Error) << error->code << error->message;
+    Error(QString("%1: %2").arg(error->code).arg(error->message));
   }
   if (cdda_ == nullptr) {
     return;
@@ -84,13 +85,23 @@ void CddaSongLoader::LoadSongs() {
     g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
   }
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (cdda_), "paranoia-mode")) {
-    g_object_set (cdda_, "paranoia-mode", 0, nullptr);
+    g_object_set(cdda_, "paranoia-mode", 0, nullptr);
   }
 
   // Change the element's state to ready and paused, to be able to query it
-  if (gst_element_set_state(cdda_, GST_STATE_READY) == GST_STATE_CHANGE_FAILURE || gst_element_set_state(cdda_, GST_STATE_PAUSED) == GST_STATE_CHANGE_FAILURE) {
+  if (gst_element_set_state(cdda_, GST_STATE_READY) == GST_STATE_CHANGE_FAILURE) {
     gst_element_set_state(cdda_, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(cdda_));
+    cdda_ = nullptr;
+    Error(tr("Error while setting CDDA device to ready state."));
+    return;
+  }
+
+  if (gst_element_set_state(cdda_, GST_STATE_PAUSED) == GST_STATE_CHANGE_FAILURE) {
+    gst_element_set_state(cdda_, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda_));
+    cdda_ = nullptr;
+    Error(tr("Error while setting CDDA device to pause state."));
     return;
   }
 
@@ -98,9 +109,20 @@ void CddaSongLoader::LoadSongs() {
   GstFormat fmt = gst_format_get_by_nick("track");
   GstFormat out_fmt = fmt;
   gint64 num_tracks = 0;
-  if (!gst_element_query_duration(cdda_, out_fmt, &num_tracks) || out_fmt != fmt) {
-    qLog(Error) << "Error while querying cdda GstElement";
+  if (!gst_element_query_duration(cdda_, out_fmt, &num_tracks)) {
+    gst_element_set_state(cdda_, GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(cdda_));
+    cdda_ = nullptr;
+    Error(tr("Error while querying CDDA tracks."));
+    return;
+  }
+
+  if (out_fmt != fmt) {
+    qLog(Error) << "Error while querying cdda GstElement (2).";
+    gst_element_set_state(cdda_, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda_));
+    cdda_ = nullptr;
+    Error(tr("Error while querying CDDA tracks."));
     return;
   }
 
@@ -232,3 +254,9 @@ bool CddaSongLoader::HasChanged() {
 
 }
 
+void CddaSongLoader::Error(const QString &error) {
+
+  qLog(Error) << error;
+  emit SongsDurationLoaded(SongList(), error);
+
+}

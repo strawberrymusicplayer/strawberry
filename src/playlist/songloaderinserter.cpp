@@ -100,7 +100,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   enqueue_next_ = enqueue_next;
 
   SongLoader *loader = new SongLoader(collection_, player_, this);
-  NewClosure(loader, SIGNAL(AudioCDTracksLoaded()), this, SLOT(AudioCDTracksLoaded(SongLoader*)), loader);
+  NewClosure(loader, SIGNAL(AudioCDTracksLoadFinished()), this, SLOT(AudioCDTracksLoadFinished(SongLoader*)), loader);
   connect(loader, SIGNAL(LoadAudioCDFinished(bool)), SLOT(AudioCDTagsLoaded(bool)));
   qLog(Info) << "Loading audio CD...";
   SongLoader::Result ret = loader->LoadAudioCD();
@@ -114,18 +114,27 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
     }
     delete loader;
   }
-  // Songs will be loaded later: see AudioCDTracksLoaded and AudioCDTagsLoaded slots
+  // Songs will be loaded later: see AudioCDTracksLoadFinished and AudioCDTagsLoaded slots
 
 }
 
 void SongLoaderInserter::DestinationDestroyed() { destination_ = nullptr; }
 
-void SongLoaderInserter::AudioCDTracksLoaded(SongLoader *loader) {
+void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
+
   songs_ = loader->songs();
-  InsertSongs();
+  if (songs_.isEmpty()) {
+    for (const QString &error : loader->errors()) {
+      emit Error(error);
+    }
+  }
+  else {
+    InsertSongs();
+  }
+
 }
 
-void SongLoaderInserter::AudioCDTagsLoaded(bool success) {
+void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
 
   SongLoader *loader = qobject_cast<SongLoader*>(sender());
   if (!loader || !destination_) return;
@@ -140,10 +149,12 @@ void SongLoaderInserter::AudioCDTagsLoaded(bool success) {
 }
 
 void SongLoaderInserter::InsertSongs() {
+
   // Insert songs (that haven't been completely loaded) to allow user to see and play them while not loaded completely
   if (destination_) {
     destination_->InsertSongsOrCollectionItems(songs_, row_, play_now_, enqueue_, enqueue_next_);
   }
+
 }
 
 void SongLoaderInserter::AsyncLoad() {

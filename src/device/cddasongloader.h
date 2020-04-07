@@ -44,19 +44,21 @@ class CddaSongLoader : public QObject {
   Q_OBJECT
 
  public:
-  CddaSongLoader(
-      // Url of the CD device. Will use the default device if empty
-      const QUrl &url = QUrl(),
-      QObject *parent = nullptr);
+  explicit CddaSongLoader(const QUrl &url = QUrl(), QObject *parent = nullptr);
   ~CddaSongLoader();
 
   // Load songs. Signals declared below will be emitted anytime new information will be available.
   void LoadSongs();
   bool HasChanged();
 
+ private:
+  void Error(const QString &error);
+  QUrl GetUrlFromTrack(const int track_number) const;
+
  signals:
+  void SongsLoadError(const QString &error);
   void SongsLoaded(const SongList &songs);
-  void SongsDurationLoaded(const SongList &songs);
+  void SongsDurationLoaded(const SongList &songs, const QString &error = QString());
   void SongsMetadataLoaded(const SongList &songs);
 
  private slots:
@@ -65,8 +67,6 @@ class CddaSongLoader : public QObject {
 #endif
 
  private:
-  QUrl GetUrlFromTrack(int track_number) const;
-
   QUrl url_;
   GstElement *cdda_;
   CdIo_t *cdio_;
@@ -74,4 +74,3 @@ class CddaSongLoader : public QObject {
 };
 
 #endif // CDDASONGLOADER_H
-
