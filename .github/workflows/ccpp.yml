@@ -5,23 +5,24 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
     steps:
     - uses: actions/checkout@v1
     - name: Update Packages
-      run: sudo apt-get update -y
+      run: zypper ref
     - name: Upgrade Packages
-      run: sudo apt-get upgrade -y
+      run: zypper dup
     - name: Install Packages
-      run:
-        sudo apt-get install -y git make cmake g++ gettext libglib2.0-dev libdbus-1-dev libboost-dev libprotobuf-dev protobuf-compiler libsqlite3-dev sqlite3 libgnutls28-dev libasound2-dev libpulse-dev qtbase5-dev qtbase5-dev-tools qtbase5-private-dev libqt5core5a libqt5gui5 libqt5widgets5 libqt5concurrent5 libqt5network5 libqt5sql5 libqt5x11extras5-dev libqt5dbus5 qttools5-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev gstreamer1.0-alsa gstreamer1.0-pulseaudio libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libgstreamer-plugins-bad1.0-0 libchromaprint-dev libfftw3-dev libcdio-dev libmtp-dev libgpod-dev libimobiledevice-dev libplist-dev libusbmuxd-dev libxine2-dev libvlc-dev
+      run: zypper --non-interactive --gpg-auto-import-keys install lsb-release rpm-build rpmdevtools git tar make cmake gcc gcc-c++ pkg-config gettext-tools glibc-devel libboost_headers-devel boost-devel glib2-devel glib2-tools dbus-1-devel alsa-devel libnotify-devel libgnutls-devel protobuf-devel sqlite3-devel libpulse-devel gstreamer-devel gstreamer-plugins-base-devel libxine-devel vlc-devel taglib-devel libQt5Core-devel libQt5Gui-devel libQt5Widgets-devel libQt5Concurrent-devel libQt5Network-devel libQt5Sql-devel libQt5DBus-devel libQt5Test-devel libqt5-qtx11extras-devel libqt5-qtbase-common-devel libQt5Sql5-sqlite libqt5-linguist-devel libcdio-devel libgpod-devel libplist-devel libmtp-devel libusbmuxd-devel libchromaprint-devel desktop-file-utils update-desktop-files appstream-glib hicolor-icon-theme
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: mkdir -p build
     - name: Configure CMake
-      working-directory: ${{runner.workspace}}/build
+      working-directory: build
       shell: bash
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
     - name: Build
-      working-directory: ${{runner.workspace}}/build
+      working-directory: build
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
