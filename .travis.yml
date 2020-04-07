@@ -20,8 +20,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       git fetch --unshallow || travis_terminate 1;
       git pull || travis_terminate 1;
-      #brew update || travis_terminate 1;
-      #brew upgrade || travis_terminate 1;
       brew unlink python@2 || travis_terminate 1;
       brew install glib pkgconfig libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint zlib;
       brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav;
@@ -30,7 +28,7 @@ before_install:
       export Qt5_DIR=/usr/local/opt/qt5/lib/cmake;
       export Qt5LinguistTools_DIR=/usr/local/opt/qt5/lib/cmake/Qt5LinguistTools;
       export PATH="/usr/local/opt/gettext/bin:$PATH";
-      export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig/:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH;
+      export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig/:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH";
       ls /usr/local/lib/gstreamer-1.0;
     fi
 before_script:
