@@ -985,7 +985,11 @@ void MainWindow::ExitFinished() {
 void MainWindow::EngineChanged(Engine::EngineType enginetype) {
 
   ui_->action_equalizer->setEnabled(enginetype == Engine::EngineType::GStreamer || enginetype == Engine::EngineType::Xine);
+#ifdef Q_OS_WIN
+  ui_->action_open_cd->setEnabled(false);
+#else
   ui_->action_open_cd->setEnabled(enginetype == Engine::EngineType::GStreamer);
+#endif
 
 }
 
