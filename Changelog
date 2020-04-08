@@ -14,6 +14,7 @@ Unreleased:
     * Fixed Subsonic support to handle numeric Json values like track and disc both as strings and integers.
     * Fixed Subsonic compatibility with LMS (Lightweight Music Server).
     * Disabled "open Audio CD" from menu on Windows where CD support is currently not supported.
+    * Fixed files containing "MAC" being detected as Monkey's Audio.
 
   Enhancements:
     * Improved support for High DPI displays.
