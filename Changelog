@@ -2,6 +2,37 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  BugFixes:
+    * Fixed playlist metadata updating interfering with manual tag editing.
+    * Fixed order of tabs in all windows.
+    * Fixed playlist right click using wrong songs for determining menu options when playlist was filtered.
+    * Fixed possible crashes on playlist right click.
+    * Fixed possible null pointer crash in OSD pretty.
+    * Fixed track and title in playlist not being movable.
+    * Fixed Subsonic support to handle numeric Json values like track and disc both as strings and integers.
+    * Fixed Subsonic compatibility with LMS (Lightweight Music Server).
+    * Disabled "open Audio CD" from menu on Windows where CD support is currently not supported.
+
+  Enhancements:
+    * Improved support for High DPI displays.
+    * Added CMake check for backtrace() to fix compilation with musl libc.
+    * Made album cover in context adjust to width.
+    * Made settings, cover manager, organise dialog and transcode music dialog center on the same display where the mainwindow is located.
+    * Removing empty directories when organizing music.
+    * Made file selection work in "Show file in browser" for Dolphin and Nautilus.
+    * Implemented disk caching of album thumbnails in collection tree.
+    * Use a shorter playlist name when songs are added from file view.
+    * Disabled optical drives in copy to device menu.
+    * Added better error handling for CDDA loading.
+    * Added Polish, Hungarian and Korean translations.
+
+  Removed features:
+    * Chartlyrics support (Unstable API).
+    * Tidal support (No agreement).
+    * QObuz support (No agreement).
+
 Version 0.6.8:
 
     * Fixed stuck tabbar and collection GUI with some themes.
