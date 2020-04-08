@@ -122,12 +122,10 @@ class ContextView : public QWidget {
   QWidget *widget_play_;
   QVBoxLayout *layout_stop_;
   QVBoxLayout *layout_play_;
-
   QLabel *label_stop_summary_;
   QSpacerItem *spacer_stop_bottom_;
-
   QWidget *widget_play_data_;
-  QWidget *widget_play_engine_device_;
+  QWidget *widget_play_output_;
   QGridLayout *layout_play_data_;
   QGridLayout *layout_play_output_;
   QLabel *label_play_albums_;

@@ -94,7 +94,7 @@ ContextView::ContextView(QWidget *parent) :
     label_stop_summary_(new QLabel(this)),
     spacer_stop_bottom_(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
     widget_play_data_(new QWidget(this)),
-    widget_play_engine_device_(new QWidget(this)),
+    widget_play_output_(new QWidget(this)),
     layout_play_data_(new QGridLayout()),
     layout_play_output_(new QGridLayout()),
     label_play_albums_(new QLabel(this)),
@@ -204,7 +204,7 @@ ContextView::ContextView(QWidget *parent) :
   layout_play_output_->addWidget(label_device_icon_, 1, 2);
   layout_play_output_->addWidget(label_device_, 1, 3);
 
-  widget_play_engine_device_->setLayout(layout_play_output_);
+  widget_play_output_->setLayout(layout_play_output_);
 
   label_filetype_title_->setText(tr("Filetype"));
   label_length_title_->setText(tr("Length"));
@@ -242,7 +242,7 @@ ContextView::ContextView(QWidget *parent) :
   label_play_lyrics_->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
   layout_play_->setContentsMargins(5, 0, 40, 0);
-  layout_play_->addWidget(widget_play_engine_device_);
+  layout_play_->addWidget(widget_play_output_);
   layout_play_->addSpacerItem(spacer_play_output_);
   layout_play_->addWidget(widget_play_data_);
   layout_play_->addSpacerItem(spacer_play_data_);
@@ -491,7 +491,7 @@ void ContextView::SetSong() {
   }
 
   if (action_show_output_->isChecked()) {
-    widget_play_engine_device_->show();
+    widget_play_output_->show();
     Engine::EngineType enginetype(Engine::None);
     if (app_->player()->engine()) enginetype = app_->player()->engine()->type();
     QIcon icon_engine = IconLoader::Load(EngineName(enginetype), 32);
@@ -525,7 +525,7 @@ void ContextView::SetSong() {
     }
   }
   else {
-    widget_play_engine_device_->hide();
+    widget_play_output_->hide();
     label_engine_icon_->clear();
     label_engine_->clear();
     label_device_icon_->clear();
