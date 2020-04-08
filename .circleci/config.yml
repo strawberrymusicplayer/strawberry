@@ -51,6 +51,9 @@ commands:
     description: Install openSUSE dependencies
     steps:
       - run:
+          name: Update packages
+          command: zypper --non-interactive --gpg-auto-import-keys ref
+      - run:
           name: Install openSUSE dependencies
           command: >
             zypper --non-interactive --gpg-auto-import-keys install
@@ -109,6 +112,12 @@ commands:
   install_fedora_dependencies:
     description: Install Fedora dependencies
     steps:
+      - run:
+          name: Update packages
+          command: yum update --assumeyes
+      - run:
+          name: Upgrade packages
+          command: yum upgrade --assumeyes
       - run:
           name: Install Fedora dependencies
           command: >
