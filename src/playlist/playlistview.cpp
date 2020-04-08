@@ -174,6 +174,9 @@ PlaylistView::PlaylistView(QWidget *parent)
 
   setHeader(header_);
   header_->setSectionsMovable(true);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+  header_->setFirstSectionMovable(true);
+#endif
   setStyle(style_);
   setMouseTracking(true);
 
