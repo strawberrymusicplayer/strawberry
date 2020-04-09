@@ -85,7 +85,6 @@ class OrganiseDialog : public QDialog {
   void LoadGeometry();
   void SaveGeometry();
   void LoadSettings();
-  void SaveSettings();
 
   SongList LoadSongsBlocking(const QStringList &filenames);
   void SetLoadingSongs(bool loading);
@@ -98,7 +97,8 @@ class OrganiseDialog : public QDialog {
   void reject();
 
  private slots:
-  void Reset();
+  void SaveSettings();
+  void RestoreDefaults();
 
   void InsertTag(const QString &tag);
   void UpdatePreviews();

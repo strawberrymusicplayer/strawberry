@@ -70,6 +70,7 @@ const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
                                                              << "lyrics";
 
 const QRegExp OrganiseFormat::kInvalidDirCharacters("[/\\\\]");
+const QRegExp OrganiseFormat::kProblematicCharacters("[:?*\"<>|]");
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
 const QRegExp OrganiseFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
 
@@ -86,6 +87,7 @@ const QRgb OrganiseFormat::SyntaxHighlighter::kBlockColorDark = qRgb(64, 64, 64)
 
 OrganiseFormat::OrganiseFormat(const QString &format)
     : format_(format),
+      remove_problematic_(false),
       remove_non_fat_(false),
       remove_non_ascii_(false),
       allow_ascii_ext_(false),
@@ -116,8 +118,9 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
     filename = Utilities::PathWithoutFilenameExtension(filename) + song.basefilename();
   }
 
+  if (remove_problematic_) filename = filename.remove(kProblematicCharacters);
   if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::UnicodeToAscii(filename);
-  if (remove_non_fat_) filename.remove(kInvalidFatCharacters);
+  if (remove_non_fat_) filename = filename.remove(kInvalidFatCharacters);
 
   if (remove_non_ascii_) {
     int ascii = 128;
@@ -151,7 +154,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
     QString part = parts_old[i];
     for (int j = 0 ; j < kInvalidPrefixCharactersCount ; ++j) {
       if (part.startsWith(kInvalidPrefixCharacters[j])) {
-        part.remove(0, 1);
+        part = part.remove(0, 1);
         break;
       }
     }
@@ -262,6 +265,7 @@ QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
 
   // Replace characters that really shouldn't be in paths
   value = value.remove(kInvalidDirCharacters);
+  if (remove_problematic_) value = value.remove('.');
   value = value.trimmed();
 
   return value;

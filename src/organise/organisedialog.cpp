@@ -84,7 +84,11 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, CollectionBackend *bac
 
   setWindowFlags(windowFlags()|Qt::WindowMaximizeButtonHint);
 
-  connect(ui_->button_box->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(Reset()));
+  QPushButton *button_save = ui_->button_box->addButton("Save settings", QDialogButtonBox::ApplyRole);
+  connect(button_save, SIGNAL(clicked()), SLOT(SaveSettings()));
+  button_save->setIcon(IconLoader::Load("document-save"));
+  ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load("edit-undo"));
+  connect(ui_->button_box->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), SLOT(RestoreDefaults()));
 
   ui_->aftercopying->setItemIcon(1, IconLoader::Load("edit-delete"));
 
@@ -115,6 +119,7 @@ OrganiseDialog::OrganiseDialog(TaskManager *task_manager, CollectionBackend *bac
 
   connect(ui_->destination, SIGNAL(currentIndexChanged(int)), SLOT(UpdatePreviews()));
   connect(ui_->naming, SIGNAL(textChanged()), SLOT(UpdatePreviews()));
+  connect(ui_->remove_problematic, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->remove_non_fat, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->remove_non_ascii, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
   connect(ui_->allow_ascii_ext, SIGNAL(toggled(bool)), SLOT(UpdatePreviews()));
@@ -164,6 +169,7 @@ void OrganiseDialog::closeEvent(QCloseEvent*) {
 
 void OrganiseDialog::accept() {
 
+  SaveGeometry();
   SaveSettings();
 
   const QModelIndex destination = ui_->destination->model()->index(ui_->destination->currentIndex(), 0);
@@ -180,8 +186,6 @@ void OrganiseDialog::accept() {
     connect(organise, SIGNAL(SongPathChanged(const Song&, const QFileInfo&)), backend_, SLOT(SongPathChanged(const Song&, const QFileInfo&)));
 
   organise->Start();
-
-  SaveGeometry();
 
   QDialog::accept();
 
@@ -232,11 +236,29 @@ void OrganiseDialog::SaveGeometry() {
 
 }
 
+void OrganiseDialog::RestoreDefaults() {
+
+  ui_->naming->setPlainText(kDefaultFormat);
+  ui_->remove_problematic->setChecked(true);
+  ui_->remove_non_fat->setChecked(false);
+  ui_->remove_non_ascii->setChecked(false);
+  ui_->allow_ascii_ext->setChecked(false);
+  ui_->replace_spaces->setChecked(true);
+  ui_->overwrite->setChecked(false);
+  ui_->mark_as_listened->setChecked(false);
+  ui_->albumcover->setChecked(true);
+  ui_->eject_after->setChecked(false);
+
+  SaveSettings();
+
+}
+
 void OrganiseDialog::LoadSettings() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
   ui_->naming->setPlainText(s.value("format", kDefaultFormat).toString());
+  ui_->remove_problematic->setChecked(s.value("remove_problematic", true).toBool());
   ui_->remove_non_fat->setChecked(s.value("remove_non_fat", false).toBool());
   ui_->remove_non_ascii->setChecked(s.value("remove_non_ascii", false).toBool());
   ui_->allow_ascii_ext->setChecked(s.value("allow_ascii_ext", false).toBool());
@@ -263,6 +285,7 @@ void OrganiseDialog::SaveSettings() {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("format", ui_->naming->toPlainText());
+  s.setValue("remove_problematic", ui_->remove_problematic->isChecked());
   s.setValue("remove_non_fat", ui_->remove_non_fat->isChecked());
   s.setValue("remove_non_ascii", ui_->remove_non_ascii->isChecked());
   s.setValue("allow_ascii_ext", ui_->allow_ascii_ext->isChecked());
@@ -434,6 +457,7 @@ void OrganiseDialog::UpdatePreviews() {
 
   // Update the format object
   format_.set_format(ui_->naming->toPlainText());
+  format_.set_remove_problematic(ui_->remove_problematic->isChecked());
   format_.set_remove_non_fat(ui_->remove_non_fat->isChecked());
   format_.set_remove_non_ascii(ui_->remove_non_ascii->isChecked());
   format_.set_allow_ascii_ext(ui_->allow_ascii_ext->isChecked());
@@ -464,20 +488,6 @@ void OrganiseDialog::UpdatePreviews() {
 }
 
 QSize OrganiseDialog::sizeHint() const { return QSize(650, 0); }
-
-void OrganiseDialog::Reset() {
-
-  ui_->naming->setPlainText(kDefaultFormat);
-  ui_->remove_non_fat->setChecked(false);
-  ui_->remove_non_ascii->setChecked(false);
-  ui_->allow_ascii_ext->setChecked(false);
-  ui_->replace_spaces->setChecked(true);
-  ui_->overwrite->setChecked(false);
-  ui_->mark_as_listened->setChecked(false);
-  ui_->albumcover->setChecked(true);
-  ui_->eject_after->setChecked(false);
-
-}
 
 void OrganiseDialog::OrganiseFinished(const QStringList files_with_errors, const QStringList log) {
   if (files_with_errors.isEmpty()) return;

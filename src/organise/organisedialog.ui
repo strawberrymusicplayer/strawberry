@@ -92,6 +92,13 @@
        </layout>
       </item>
       <item>
+       <widget class="QCheckBox" name="remove_problematic">
+        <property name="text">
+         <string>Remove problematic characters from filenames</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="remove_non_fat">
         <property name="text">
          <string>Restrict to characters allowed on FAT filesystems</string>
@@ -242,11 +249,8 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="button_box">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
      </property>
     </widget>
    </item>
