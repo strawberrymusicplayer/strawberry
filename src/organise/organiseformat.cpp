@@ -145,7 +145,7 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
 
   QFileInfo info(filename);
   QString extension = info.suffix();
-  QString filepath = info.path() + QDir::separator() + info.completeBaseName();
+  QString filepath = info.path() + "/" + info.completeBaseName();
 
   // Fix any parts of the path that start with dots.
   QStringList parts_old = filepath.split("/");
