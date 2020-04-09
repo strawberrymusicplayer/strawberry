@@ -164,7 +164,7 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const Q
   initial_file_name = initial_file_name + "-" + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + ".jpg";
   initial_file_name = initial_file_name.toLower();
   initial_file_name.replace(QRegExp("\\s"), "-");
-  initial_file_name.remove(OrganiseFormat::kValidFatCharacters);
+  initial_file_name.remove(OrganiseFormat::kInvalidFatCharacters);
 
   QString save_filename = QFileDialog::getSaveFileName(this, tr("Save album cover"), GetInitialPathForFileDialog(song, initial_file_name), tr(kSaveImageFileFilter) + ";;" + tr(kAllFilesFilter));
 

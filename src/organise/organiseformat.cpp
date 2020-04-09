@@ -22,7 +22,6 @@
 
 #include <QObject>
 #include <QApplication>
-#include <QFileInfo>
 #include <QList>
 #include <QChar>
 #include <QString>
@@ -30,6 +29,8 @@
 #include <QStringList>
 #include <QRegExp>
 #include <QUrl>
+#include <QFileInfo>
+#include <QDir>
 #include <QColor>
 #include <QPalette>
 #include <QValidator>
@@ -68,9 +69,9 @@ const QStringList OrganiseFormat::kKnownTags = QStringList() << "title"
                                                              << "grouping"
                                                              << "lyrics";
 
+const QRegExp OrganiseFormat::kInvalidDirCharacters("[/\\\\]");
 // From http://en.wikipedia.org/wiki/8.3_filename#Directory_table
-const QRegExp OrganiseFormat::kValidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
-const QRegExp OrganiseFormat::kInvalidFatCharacters("[\"*\\:<>?|/.]");
+const QRegExp OrganiseFormat::kInvalidFatCharacters("[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~/. ]");
 
 const char OrganiseFormat::kInvalidPrefixCharacters[] = ".";
 const int OrganiseFormat::kInvalidPrefixCharactersCount = arraysize(OrganiseFormat::kInvalidPrefixCharacters) - 1;
@@ -116,14 +117,13 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
   }
 
   if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filename = Utilities::UnicodeToAscii(filename);
-  if (remove_non_fat_) filename.remove(kValidFatCharacters);
-  if (replace_spaces_) filename.replace(QRegExp("\\s"), "_");
+  if (remove_non_fat_) filename.remove(kInvalidFatCharacters);
 
   if (remove_non_ascii_) {
     int ascii = 128;
     if (allow_ascii_ext_) ascii = 255;
     QString stripped;
-    for (int i = 0; i < filename.length(); ++i) {
+    for (int i = 0 ; i < filename.length() ; ++i) {
       const QCharRef c = filename[i];
       if (c < ascii) {
         stripped.append(c);
@@ -132,26 +132,41 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
         const QString decomposition = c.decomposition();
         if (!decomposition.isEmpty() && decomposition[0] < ascii)
           stripped.append(decomposition[0]);
-        else
-          stripped.append("_");
       }
     }
     filename = stripped;
   }
 
+  // Remove repeated whitespaces in the filename.
+  filename = filename.simplified();
+
+  QFileInfo info(filename);
+  QString extension = info.suffix();
+  QString filepath = info.path() + QDir::separator() + info.completeBaseName();
+
   // Fix any parts of the path that start with dots.
-  QStringList parts = filename.split("/");
-  for (int i = 0; i < parts.count(); ++i) {
-    QString *part = &parts[i];
-    for (int j = 0; j < kInvalidPrefixCharactersCount; ++j) {
-      if (part->startsWith(kInvalidPrefixCharacters[j])) {
-        part->replace(0, 1, '_');
+  QStringList parts_old = filepath.split("/");
+  QStringList parts_new;
+  for (int i = 0 ; i < parts_old.count() ; ++i) {
+    QString part = parts_old[i];
+    for (int j = 0 ; j < kInvalidPrefixCharactersCount ; ++j) {
+      if (part.startsWith(kInvalidPrefixCharacters[j])) {
+        part.remove(0, 1);
         break;
       }
     }
+    part = part.trimmed();
+    parts_new.append(part);
+  }
+  filename = parts_new.join("/");
+
+  if (replace_spaces_) filename.replace(QRegExp("\\s"), "_");
+
+  if (!extension.isEmpty()) {
+    filename.append(QString(".%1").arg(extension));
   }
 
-  return parts.join("/");
+  return filename;
 
 }
 
@@ -223,8 +238,10 @@ QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
     value = QString::number(song.length_nanosec() / kNsecPerSec);
   else if (tag == "bitrate")
     value = QString::number(song.bitrate());
-  else if (tag == "samplerate") value = QString::number(song.samplerate());
-  else if (tag == "bitdepth") value = QString::number(song.bitdepth());
+  else if (tag == "samplerate")
+    value = QString::number(song.samplerate());
+  else if (tag == "bitdepth")
+    value = QString::number(song.bitdepth());
   else if (tag == "extension")
     value = QFileInfo(song.url().toLocalFile()).suffix();
   else if (tag == "artistinitial") {
@@ -244,7 +261,8 @@ QString OrganiseFormat::TagValue(const QString &tag, const Song &song) const {
   if (tag == "track" && value.length() == 1) value.prepend('0');
 
   // Replace characters that really shouldn't be in paths
-  value.remove(kInvalidFatCharacters);
+  value = value.remove(kInvalidDirCharacters);
+  value = value.trimmed();
 
   return value;
 

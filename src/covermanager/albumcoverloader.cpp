@@ -145,7 +145,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
   QString filename;
   if (source == Song::Source_Collection && cover_album_dir_ && cover_filename_ == CollectionSettingsPage::SaveCover_Pattern && !cover_pattern_.isEmpty()) {
     filename = CreateCoverFilename(artist, album) + ".jpg";
-    filename.remove(OrganiseFormat::kValidFatCharacters);
+    filename.remove(OrganiseFormat::kInvalidFatCharacters);
     if (cover_lowercase_) filename = filename.toLower();
     if (cover_replace_spaces_) filename.replace(QRegExp("\\s"), "-");
   }
@@ -186,7 +186,7 @@ QString AlbumCoverLoader::AlbumCoverFileName(QString artist, QString album) {
   filename = Utilities::UnicodeToAscii(filename.toLower());
   filename.replace(' ', '-');
   filename.replace("--", "-");
-  filename.remove(OrganiseFormat::kValidFatCharacters);
+  filename.remove(OrganiseFormat::kInvalidFatCharacters);
 
   return filename;
 

@@ -43,7 +43,7 @@ class OrganiseFormat {
   static const char *kTagPattern;
   static const char *kBlockPattern;
   static const QStringList kKnownTags;
-  static const QRegExp kValidFatCharacters;
+  static const QRegExp kInvalidDirCharacters;
   static const QRegExp kInvalidFatCharacters;
 
   static const char kInvalidPrefixCharacters[];
