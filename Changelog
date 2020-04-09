@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 0.6.9:
 
   BugFixes:
     * Fixed playlist metadata updating interfering with manual tag editing.
