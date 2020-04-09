@@ -16,17 +16,20 @@ echo "Creating $name-$version.tar.xz..."
 rm -f "$name-$version.tar.xz"
 tar -cJf $name-$version.tar.xz \
     --transform "s,^$rootnoslash,$name-$version," $exclude_vcs \
+    --exclude=".directory" \
     --exclude="*.tar" \
     --exclude="*.tar.*" \
     --exclude="*.bz" \
     --exclude="*.bz2" \
     --exclude="*.xz" \
-    --exclude=".directory" \
     --exclude="*.spec" \
     --exclude="*.nsi" \
+    --exclude="*.kdev4" \
+    --exclude=".vscode" \
     --exclude="$root/.github" \
-    --exclude="$root/Dockerfile" \
     --exclude="$root/.travis.yml" \
+    --exclude="$root/.circleci" \
+    --exclude="$root/Dockerfile" \
     --exclude="$root/CMakeLists.txt.user" \
     --exclude="$root/build" \
     --exclude="$root/zanata.xml" \
