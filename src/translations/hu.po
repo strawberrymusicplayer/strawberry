@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-09 12:26-0400\n"
+"PO-Revision-Date: 2020-04-10 04:49-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -64,7 +64,7 @@ msgstr ""
 #: settings/shortcutssettingspage.cpp:319
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
-msgstr " Shortcuts should be configured in %1 settings instead."
+msgstr "A gyorsbillentyűket inkább a %1 beállításaiban kell konfigurálni."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -231,7 +231,7 @@ msgstr "&Középre"
 
 #: ../build/src/ui_mainwindow.h:621
 msgid "&Clear playlist"
-msgstr "&lejátszólista törlése"
+msgstr "&Lejátszólista törlése"
 
 #: ../build/src/ui_mainwindow.h:656
 msgid "&Cover Manager"
@@ -460,7 +460,7 @@ msgstr "Abszolút"
 #: ../build/src/ui_shortcutssettingspage.h:237
 msgctxt "Category label"
 msgid "Action"
-msgstr "Esemény"
+msgstr "Művelet"
 
 #: ../build/src/ui_mainwindow.h:663
 msgid "Add &folder..."
@@ -996,7 +996,7 @@ msgstr "Billentyűparancs módosítása..."
 
 #: ../build/src/ui_behavioursettingspage.h:286
 msgid "Change the currently playing song"
-msgstr "Az éppen játszott dalra váltás"
+msgstr "Váltás a dalra"
 
 #: core/commandlineoptions.cpp:185
 msgid "Change the language"
@@ -1048,6 +1048,8 @@ msgid ""
 "Click here to favorite this playlist so it will be saved and remain "
 "accessiblethrough the \"Playlists\" panel on the left side bar"
 msgstr ""
+"Ide kattintva kedvenccé teheti a lejátszólistát, így elmenti éselérhető a "
+"bal oldali sávban „Lejátszólisták” panelen keresztül"
 
 #: internet/internetcollectionview.cpp:283
 msgid "Click here to retrieve music"
@@ -1154,7 +1156,7 @@ msgstr "Állandó bitráta"
 
 #: core/mainwindow.cpp:274 ../build/src/ui_contextsettingspage.h:247
 msgid "Context"
-msgstr ""
+msgstr "Adatok"
 
 #: ../build/src/ui_playlistsettingspage.h:152
 msgid "Continue to the next item in the playlist if a song is unavailable"
@@ -1213,7 +1215,7 @@ msgstr "Nem lehet megnyitni a fájlt: %1"
 #: core/songloader.cpp:442
 #, qt-format
 msgid "Couldn't create gstreamer source element for %1"
-msgstr ""
+msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára."
 
 #: playlist/playlistmanager.cpp:193
 msgid "Couldn't create playlist"
@@ -1234,7 +1236,7 @@ msgid ""
 "Couldn't find an encoder for %1, check you have the correct GStreamer "
 "plugins installed"
 msgstr ""
-"Nem található megfelelő kódoló %1 tömörítéséhez. Ellenőrizze, hogy a "
+"Nem található megfelelő kódoló a %1 tömörítéséhez. Ellenőrizze, hogy a "
 "GStreamer beépülők megfelelően vannak-e telepítve"
 
 #: ../build/src/ui_albumcovermanager.h:214
@@ -1511,7 +1513,7 @@ msgstr "Ne írja felül"
 
 #: widgets/osd.cpp:262 ../build/src/ui_playlistsequence.h:110
 msgid "Don't repeat"
-msgstr "Ne ismételjen"
+msgstr "Nincs ismétlés"
 
 #: collection/collectionview.cpp:347
 msgid "Don't show in various artists"
@@ -1519,7 +1521,7 @@ msgstr "Ne mutassa a különböző előadók között"
 
 #: widgets/osd.cpp:249 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
-msgstr "Ne keverje össze"
+msgstr "Nincs keverés"
 
 #: covermanager/albumcovermanager.cpp:238
 msgid "Don't stop!"
@@ -2794,6 +2796,8 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
+"A %1 dal van lejátszólistában, túl nagy ahhoz, hogy visszavonja, biztosan "
+"törölni szeretné?"
 
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
@@ -3130,26 +3134,26 @@ msgstr "Lejátszás folytatása induláskor"
 #: subsonic/subsonicrequest.cpp:676
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr ""
+msgstr "Albumborító lekérése %1 albumhoz..."
 
 #: subsonic/subsonicrequest.cpp:677
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
+msgstr "Albumborítók lekérése %1 albumhoz..."
 
 #: subsonic/subsonicrequest.cpp:126
 msgid "Retrieving albums..."
-msgstr ""
+msgstr "Albumok lekérésre..."
 
 #: subsonic/subsonicrequest.cpp:316
 #, qt-format
 msgid "Retrieving songs for %1 album..."
-msgstr ""
+msgstr "Dalok lekérése %1 albumhoz..."
 
 #: subsonic/subsonicrequest.cpp:317
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
-msgstr ""
+msgstr "Dalok lekérése %1 albumhoz..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3445,7 +3449,7 @@ msgstr "Összes dal megjelenítése"
 
 #: ../build/src/ui_collectionsettingspage.h:376
 msgid "Show dividers"
-msgstr "Elválasztók mutatása"
+msgstr "Elválasztók megjelenítése"
 
 #: context/contextview.cpp:296
 msgid "Show engine and device"
@@ -4098,6 +4102,8 @@ msgstr ""
 #: ../build/src/ui_scrobblersettingspage.h:323
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr ""
+"A bejelentkezési problémák elkerülése érdekében használjon HTTPS-t a helyi "
+"átirányító szerverhez."
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4105,7 +4111,7 @@ msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
 #: ../build/src/ui_shortcutssettingspage.h:229
 msgid "Use X11's shortcut keys"
-msgstr ""
+msgstr "X11 gyorsbillentyűk használata"
 
 #: ../build/src/ui_appearancesettingspage.h:389
 msgid "Use a custom color set"
@@ -4181,7 +4187,7 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:256
 msgid "Using the menu to add a song will..."
-msgstr "Dal felvételéhez a menü használatával..."
+msgstr "Dal felvételénél a menü használatával..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Variable bit rate"
@@ -4317,7 +4323,7 @@ msgstr ""
 
 #: ../build/src/ui_loginstatewidget.h:168
 msgid "You are not signed in."
-msgstr "Nem vagy bejelentkezve."
+msgstr "Nincs bejelentkezve."
 
 #: widgets/loginstatewidget.cpp:81
 #, qt-format
