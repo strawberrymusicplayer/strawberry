@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-10 04:49-0400\n"
+"PO-Revision-Date: 2020-04-11 03:14-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -140,7 +140,7 @@ msgstr "%1 nappal ezelőtt"
 #: playlistparsers/playlistparser.cpp:112
 #, qt-format
 msgid "%1 playlists (%2)"
-msgstr "%1 lejátszási lista (%2)"
+msgstr "%1 lejátszólista (%2)"
 
 #: playlist/playlistmanager.cpp:442
 #, qt-format
@@ -256,7 +256,7 @@ msgstr "&Hangerőszabályzó"
 #: playlist/playlistheader.cpp:81
 #, qt-format
 msgid "&Hide %1"
-msgstr "&%1 elrejtése"
+msgstr "%1 &elrejtése"
 
 #: playlist/playlistheader.cpp:43
 msgid "&Hide..."
@@ -592,7 +592,7 @@ msgstr "Hozzáadás albumokhoz"
 
 #: core/mainwindow.cpp:1662
 msgid "Add to another playlist"
-msgstr "Hozzáadás másik lejátszási listához"
+msgstr "Hozzáadás másik lejátszólistához"
 
 #: internet/internetsearchview.cpp:442
 msgid "Add to artists"
@@ -609,7 +609,7 @@ msgstr "Hozzáadás dalokhoz"
 #: ../build/src/ui_behavioursettingspage.h:275
 #: ../build/src/ui_behavioursettingspage.h:287
 msgid "Add to the queue"
-msgstr "Hozzáadás a lejátszási sorhoz"
+msgstr "Hozzáadás a lejátszósorhoz"
 
 #: ../build/src/ui_transcodedialog.h:220
 msgid "Add..."
@@ -773,13 +773,13 @@ msgstr "Megjelenés"
 
 #: core/commandlineoptions.cpp:180
 msgid "Append files/URLs to the playlist"
-msgstr "Fájlok/URL-ek hozzáfűzése a lejátszási listához"
+msgstr "Fájlok/URL-ek hozzáfűzése a lejátszólistához"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
 #: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
-msgstr "Hozzáfűz az aktuális lejátszási listához"
+msgstr "Hozzáfűzés az aktuális lejátszólistához"
 
 #: ../build/src/ui_behavioursettingspage.h:272
 msgid "Append to the playlist"
@@ -1065,7 +1065,7 @@ msgstr "Bezárás"
 
 #: playlist/playlisttabbar.cpp:73
 msgid "Close playlist"
-msgstr "Lejátszási lista bezárása"
+msgstr "Lejátszólista bezárása"
 
 #: covermanager/albumcovermanager.cpp:237
 msgid "Closing this window will stop searching for album covers."
@@ -1219,7 +1219,7 @@ msgstr "Nem sikerült létrehozni a Gstreamer forráselemet a(z) %1 számára."
 
 #: playlist/playlistmanager.cpp:193
 msgid "Couldn't create playlist"
-msgstr "Nem lehet létrehozni a lejátszási listát"
+msgstr "Nem lehet létrehozni a lejátszólistát"
 
 #: transcoder/transcoder.cpp:443
 #, qt-format
@@ -1974,7 +1974,7 @@ msgstr "Műfaj"
 
 #: ../build/src/ui_mainwindow.h:680
 msgid "Go to next playlist tab"
-msgstr "Váltás a következő lejátszási lista lapra"
+msgstr "Váltás a következő lejátszólista lapra"
 
 #: ../build/src/ui_mainwindow.h:681
 msgid "Go to previous playlist tab"
@@ -2291,7 +2291,7 @@ msgstr "Borító betöltése lemezről..."
 
 #: playlist/playlistcontainer.cpp:307
 msgid "Load playlist"
-msgstr "Lejátszási lista betöltése"
+msgstr "Lejátszólista betöltése"
 
 #: device/mtploader.cpp:50
 msgid "Loading MTP device"
@@ -2319,7 +2319,7 @@ msgstr "Betöltés..."
 
 #: core/commandlineoptions.cpp:181
 msgid "Loads files/URLs, replacing current playlist"
-msgstr "Fájlok/URL-ek betöltése, lejátszási lista cseréje"
+msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
 #: ../build/src/ui_scrobblersettingspage.h:324
 #: ../build/src/ui_scrobblersettingspage.h:327
@@ -2503,7 +2503,7 @@ msgstr "Új mappa"
 
 #: core/mainwindow.cpp:1678
 msgid "New playlist"
-msgstr "Új lejátszási lista"
+msgstr "Új lejátszólista"
 
 #: widgets/freespacebar.cpp:69
 msgid "New songs"
@@ -2640,7 +2640,7 @@ msgstr "Opti&malizálás bitrátára"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:190
 msgid "Optimize for &quality"
-msgstr "Optimalizálás &rminőségre"
+msgstr "Optimalizálás &minőségre"
 
 #: ../build/src/ui_transcodedialog.h:228
 msgid "Options..."
@@ -2705,7 +2705,7 @@ msgstr "&Csak a kisebbeket írja felül"
 
 #: ../build/src/ui_mainwindow.h:704
 msgid "P&laylist"
-msgstr "&lejátszólista"
+msgstr "&Lejátszólista"
 
 #: device/udisks2lister.cpp:111
 msgid "Partition label"
@@ -2773,7 +2773,7 @@ msgstr "Lejátszás, ha nincs lejátszás folyamatban"
 
 #: core/commandlineoptions.cpp:182
 msgid "Play the <n>th track in the playlist"
-msgstr "A(z) <n>. szám lejátszása a lejátszási listában"
+msgstr "A(z) <n>. szám lejátszása a lejátszólistában"
 
 #: core/commandlineoptions.cpp:163
 msgid "Player options"
@@ -2784,11 +2784,11 @@ msgstr "Lejátszó beállítások"
 #: playlist/playlistmanager.cpp:180 playlist/playlistmanager.cpp:536
 #: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
 msgid "Playlist"
-msgstr "Lejátszási lista"
+msgstr "Lejátszólista"
 
 #: widgets/osd.cpp:191
 msgid "Playlist finished"
-msgstr "A lejátszási lista befejezve"
+msgstr "A lejátszólista befejezve"
 
 #: core/mainwindow.cpp:1923
 #, qt-format
@@ -2802,7 +2802,7 @@ msgstr ""
 #: core/commandlineoptions.cpp:178
 #: ../build/src/ui_playlistsaveoptionsdialog.h:94
 msgid "Playlist options"
-msgstr "Lejátszási lista beállítások"
+msgstr "Lejátszólista beállítások"
 
 #: core/mainwindow.cpp:277
 msgid "Playlists"
@@ -3025,15 +3025,15 @@ msgstr "Eltávolítás a kedvencek közül"
 
 #: ../build/src/ui_mainwindow.h:660
 msgid "Remove from playlist"
-msgstr "Eltávolítás a lejátszási listáról"
+msgstr "Törlés a lejátszólistáról"
 
 #: playlist/playlisttabbar.cpp:210
 msgid "Remove playlist"
-msgstr "Lejátszási lista eltávolítása"
+msgstr "Lejátszólista eltávolítása"
 
 #: playlist/playlistlistcontainer.cpp:379
 msgid "Remove playlists"
-msgstr "Lejátszási lista eltávolítása"
+msgstr "Lejátszólisták eltávolítása"
 
 #: ../build/src/ui_organisedialog.h:274
 msgid "Remove problematic characters from filenames"
@@ -3041,11 +3041,11 @@ msgstr ""
 
 #: playlist/playlisttabbar.cpp:173
 msgid "Rename playlist"
-msgstr "Lejátszási lista átnevezése"
+msgstr "Lejátszólista átnevezése"
 
 #: playlist/playlisttabbar.cpp:74
 msgid "Rename playlist..."
-msgstr "Lejátszási lista átnevezése…"
+msgstr "Lejátszólista átnevezése…"
 
 #: ../build/src/ui_mainwindow.h:632
 msgid "Renumber tracks in this order..."
@@ -3061,7 +3061,7 @@ msgstr "Album ismétlése"
 
 #: widgets/osd.cpp:265 ../build/src/ui_playlistsequence.h:113
 msgid "Repeat playlist"
-msgstr "Lejátszási lista ismétlése"
+msgstr "Lejátszólista ismétlése"
 
 #: widgets/osd.cpp:263 ../build/src/ui_playlistsequence.h:111
 msgid "Repeat track"
@@ -3071,7 +3071,7 @@ msgstr "Szám ismétlése"
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
-msgstr "Az aktuális lejátszási lista cseréje"
+msgstr "Aktuális lejátszólista cseréje"
 
 #: ../build/src/ui_collectionsettingspage.h:385
 msgid "Replace spaces with dashes"
@@ -3221,16 +3221,16 @@ msgstr "Jelenlegi csoportosítás mentése"
 #: playlist/playlistlistcontainer.cpp:99
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
-msgstr "Lejátszási lista mentése"
+msgstr "Lejátszólista mentése"
 
 #: playlist/playlistmanager.cpp:255
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
-msgstr "Lejátszási lista mentése"
+msgstr "Lejátszólista mentése"
 
 #: playlist/playlisttabbar.cpp:75
 msgid "Save playlist..."
-msgstr "Lejátszási lista mentése..."
+msgstr "Lejátszólista mentése..."
 
 #: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
 msgid "Save preset"
@@ -3551,7 +3551,7 @@ msgstr "Ska"
 
 #: core/commandlineoptions.cpp:168
 msgid "Skip backwards in playlist"
-msgstr "Visszalépés a lejátszási listában"
+msgstr "Visszaléptetés a lejátszólistában"
 
 #: playlist/playlist.cpp:1187 ../build/src/ui_edittagdialog.h:667
 msgid "Skip count"
@@ -3693,7 +3693,7 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
-"A Strawberry egy szabad szoftver, ami a Free Software Foundation által "
+"A Strawberry szabad szoftver, ami a Free Software Foundation által "
 "megjelentetett GNU General Public Licensz 3-as, vagy későbbi verzióiban "
 "felsorolt feltételekkel szabadon terjeszthető, módosítható."
 
@@ -3759,7 +3759,7 @@ msgstr "Lapsáv színei"
 
 #: widgets/fancytabwidget.cpp:604
 msgid "Tabs on top"
-msgstr "Lapfülek felül"
+msgstr "Fülek felül"
 
 #: ../build/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
@@ -3820,8 +3820,8 @@ msgid ""
 "version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
 msgstr ""
 "A nevet a Strawbs együttes ihlette. A Clementine egy erősen módosított "
-"verzióján alapul,  2012 és 2013 között készült. C ++ és Qt 5 nyelven íródott."
-""
+"verzióján alapul, amely  2012 és 2013 között készült. C ++ és Qt 5 nyelven "
+"íródott."
 
 #: covermanager/coverfromurldialog.cpp:83
 msgid "The site you requested does not exist!"
@@ -4231,7 +4231,7 @@ msgstr "Vorbis"
 
 #: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
 msgid "Warn me when closing a playlist tab"
-msgstr "Figyelmeztessen a lejátszási lista bezárásakor"
+msgstr "Figyelmeztessen a lejátszólista bezárásakor"
 
 #: ../build/src/ui_transcodersettingspage.h:191
 msgid "WavPack"
@@ -4249,7 +4249,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:157
 msgid "When saving a playlist, file paths should be"
-msgstr "A lejátszási lista mentésekor a fájl elérési útvonal"
+msgstr "A lejátszólista mentésekor a fájl elérési útvonal"
 
 #: device/ilister.cpp:137
 msgid "WiFi MAC Address"
@@ -4319,7 +4319,7 @@ msgid ""
 msgstr ""
 "A lejátszólista nem tartozik a kedvencek közé, a törlés után a listát nem "
 "lehet visszaállítani.\n"
-"Biztos, hogy folytatod?"
+"Biztos, hogy folytatja?"
 
 #: ../build/src/ui_loginstatewidget.h:168
 msgid "You are not signed in."
@@ -4369,7 +4369,7 @@ msgstr "Az ön gyűjtemény üres!"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
-msgstr "Nulla"
+msgstr "Alap"
 
 #: ../build/src/ui_internetsearchview.h:230
 msgid "a&lbums"
