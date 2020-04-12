@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-08 11:56-0400\n"
+"PO-Revision-Date: 2020-04-12 06:14-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -1553,11 +1553,11 @@ msgstr "Kliknij podwójnie, by otworzyć"
 
 #: ../build/src/ui_behavioursettingspage.h:283
 msgid "Double clicking a song in the playlist will..."
-msgstr "Podwójne kliknięcie utworu na liście odtwarzania spowoduje…"
+msgstr "Po podwójnym kliknięciu utworu na liście odtwarzania…"
 
 #: ../build/src/ui_behavioursettingspage.h:269
 msgid "Double clicking a song will..."
-msgstr "Podwójne kliknięcie utworu spowoduje…"
+msgstr "Po podwójnym kliknięciu utworu…"
 
 #: ../build/src/ui_subsonicsettingspage.h:194
 msgid "Download album covers"
@@ -2834,7 +2834,7 @@ msgstr "Opcje listy odtwarzania"
 
 #: core/mainwindow.cpp:277
 msgid "Playlists"
-msgstr "Listy odtwarzania"
+msgstr "Listy odtw."
 
 #: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
@@ -2917,7 +2917,7 @@ msgstr "Naciśnij kombinację klawiszy dla %1…"
 
 #: ../build/src/ui_behavioursettingspage.h:263
 msgid "Pressing \"Previous\" in player will..."
-msgstr "Wciśnięcie „Wstecz” na odtwarzaczu…"
+msgstr "Po wciśnięciu „Wstecz” na odtwarzaczu…"
 
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid "Pretty OSD options"
@@ -3071,7 +3071,7 @@ msgstr "Usuń listy odtwarzania"
 
 #: ../build/src/ui_organisedialog.h:274
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Usuń problematyczne znaki z nazw plików"
 
 #: playlist/playlisttabbar.cpp:173
 msgid "Rename playlist"
@@ -3117,7 +3117,7 @@ msgstr "Zamień znaki odstępu na podkreślniki"
 
 #: ../build/src/ui_behavioursettingspage.h:273
 msgid "Replace the playlist"
-msgstr "Zastąp listę odtwarzania"
+msgstr "Zastąpienie listy odtwarzania"
 
 #: ../build/src/ui_backendsettingspage.h:457
 msgid "Replay Gain"
@@ -3145,7 +3145,7 @@ msgstr "Wyzeruj licznik odtworzeń"
 
 #: ../build/src/ui_behavioursettingspage.h:267
 msgid "Restart song, then jump to previous if pressed again"
-msgstr "Rozpocznij utwór od nowa, przeskocz przy kolejnym wciśnięciu"
+msgstr "Rozpocznie utwór od nowa, przeskoczy przy kolejnym wciśnięciu"
 
 #: core/commandlineoptions.cpp:177
 msgid ""
@@ -3164,7 +3164,7 @@ msgstr "Ogranicz do znaków dozwolonych na systemach plików FAT"
 
 #: ../build/src/ui_behavioursettingspage.h:243
 msgid "Resume playback on start"
-msgstr "Wznów odtwarzanie po uruchomieniu programu"
+msgstr "Wznawiaj odtwarzanie po uruchomieniu programu"
 
 #: subsonic/subsonicrequest.cpp:676
 #, qt-format
@@ -4226,7 +4226,7 @@ msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:256
 msgid "Using the menu to add a song will..."
-msgstr "Dodanie utworu z menu kontekstowego…"
+msgstr "Po dodaniu utworu z menu kontekstowego..."
 
 #: ../build/src/ui_transcoderoptionsspeex.h:231
 msgid "Variable bit rate"

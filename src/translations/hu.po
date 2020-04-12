@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-11 03:14-0400\n"
+"PO-Revision-Date: 2020-04-12 02:30-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -80,7 +80,7 @@ msgstr " kbit/s"
 
 #: ../build/src/ui_scrobblersettingspage.h:317
 msgid " minutes"
-msgstr " perc"
+msgstr " percben"
 
 #: ../build/src/ui_backendsettingspage.h:454
 #: ../build/src/ui_backendsettingspage.h:473
@@ -99,7 +99,7 @@ msgstr " másodperc"
 #: scrobbler/scrobblingapi20.cpp:151 scrobbler/scrobblingapi20.cpp:160
 #, qt-format
 msgid "%1 Scrobbler Authentication"
-msgstr "%1 Scrobbler hitelesítés"
+msgstr "%1 scrobbler hitelesítés"
 
 #: context/contextview.cpp:420
 #, qt-format
@@ -300,7 +300,7 @@ msgstr "&Nincs háttérkép"
 
 #: ../build/src/ui_shortcutssettingspage.h:239
 msgid "&None"
-msgstr "&Egyik sem"
+msgstr "&Nincs"
 
 #: ../build/src/ui_mainwindow.h:654
 msgid "&Open file..."
@@ -372,6 +372,9 @@ msgid ""
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
 "immediately)."
 msgstr ""
+"(Ez a késleltetés a dal scrobble-ja, és a scrobble-ok szerverre küldése "
+"között. \n"
+"Ha 0 percre állítja, a scrobble-ok rögtön el lesznek küldve)."
 
 #: dialogs/edittagdialog.cpp:90
 msgid "(different across multiple songs)"
@@ -609,7 +612,7 @@ msgstr "Hozzáadás dalokhoz"
 #: ../build/src/ui_behavioursettingspage.h:275
 #: ../build/src/ui_behavioursettingspage.h:287
 msgid "Add to the queue"
-msgstr "Hozzáadás a lejátszósorhoz"
+msgstr "Hozzáadás a lejátszási sorhoz"
 
 #: ../build/src/ui_transcodedialog.h:220
 msgid "Add..."
@@ -817,7 +820,7 @@ msgstr "Előadók"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
-msgstr "&Kérdezzen rá mentéskor"
+msgstr "&Rákérdezés mentéskor"
 
 #: ../build/src/ui_transcodedialog.h:227
 msgid "Audio format"
@@ -992,7 +995,7 @@ msgstr "Albumborító módosítása"
 
 #: ../build/src/ui_shortcutssettingspage.h:242
 msgid "Change shortcut..."
-msgstr "Billentyűparancs módosítása..."
+msgstr "Kombináció módosítása..."
 
 #: ../build/src/ui_behavioursettingspage.h:286
 msgid "Change the currently playing song"
@@ -1021,7 +1024,7 @@ msgstr "Klasszikus"
 #: widgets/lineedit.cpp:60 transcoder/transcodedialog.cpp:101
 #: ../build/src/ui_queueview.h:141
 msgid "Clear"
-msgstr "Kiürít"
+msgstr "Ürítés"
 
 #: ../build/src/ui_collectionsettingspage.h:389
 msgid "Clear Disk Cache"
@@ -1048,7 +1051,7 @@ msgid ""
 "Click here to favorite this playlist so it will be saved and remain "
 "accessiblethrough the \"Playlists\" panel on the left side bar"
 msgstr ""
-"Ide kattintva kedvenccé teheti a lejátszólistát, így elmenti éselérhető a "
+"Ide kattintva kedvenccé teheti a lejátszólistát, így elmenti és elérhető a "
 "bal oldali sávban „Lejátszólisták” panelen keresztül"
 
 #: internet/internetcollectionview.cpp:283
@@ -1497,7 +1500,7 @@ msgstr "Beállítások megtekintése"
 
 #: core/commandlineoptions.cpp:183
 msgid "Display the on-screen-display"
-msgstr "OSD mutatása"
+msgstr "OSD megjelenítése"
 
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
@@ -1607,7 +1610,7 @@ msgstr "Dalok metaadatainak szerkesztése kattintásra"
 
 #: ../build/src/ui_equalizer.h:177
 msgid "Enable stereo balancer"
-msgstr ""
+msgstr "Hangbalansz engedélyezése"
 
 #: ../build/src/ui_backendsettingspage.h:451
 msgid "Enable volume control"
@@ -1711,15 +1714,17 @@ msgstr "Hiba a CD betöltése közben."
 
 #: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "Hiba történt a CDDA számok lekérdezése során."
 
 #: device/cddasongloader.cpp:104
+#, fuzzy
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "Hiba történt a CDDA-eszköz szüneteltetési állapotának beállításakor."
 
 #: device/cddasongloader.cpp:96
+#, fuzzy
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "Hiba történt a CDDA eszköz készenléti állapotba állításakor."
 
 #: ../build/src/ui_backendsettingspage.h:471
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -1892,7 +1897,7 @@ msgstr "Első szinten"
 
 #: widgets/playingwidget.cpp:108
 msgid "Fit cover to width"
-msgstr "Album méretezése szélességre"
+msgstr "Albumborító átméretezése szélesség szerint"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2415,7 +2420,7 @@ msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 
 #: settings/subsonicsettingspage.cpp:101
 msgid "Missing server url, username or password."
-msgstr "Hiányzó szerver url, felhasználónév vagy jelszó."
+msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
 #: subsonic/subsonicservice.cpp:381
 msgid "Missing username or password."
@@ -2838,7 +2843,7 @@ msgstr "Előerősítő"
 
 #: ../build/src/ui_scrobblersettingspage.h:320
 msgid "Prefer album artist when sending scrobbles"
-msgstr "Scrobble-"
+msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 
 #: ../build/src/ui_subsonicsettingspage.h:192
 msgid "Preferences"
@@ -2887,7 +2892,7 @@ msgstr "Az \"Előző\" gomb megnyomásakor..."
 
 #: ../build/src/ui_notificationssettingspage.h:484
 msgid "Pretty OSD options"
-msgstr "Pretty OSD beállítások"
+msgstr "Saját OSD beállítások"
 
 #: ../build/src/ui_notificationssettingspage.h:479
 #: ../build/src/ui_organisedialog.h:282
@@ -2950,8 +2955,9 @@ msgid "Queue track"
 msgstr "Szám hozzáadása a lejátszási sorhoz"
 
 #: ../build/src/ui_queueview.h:123
+#, fuzzy
 msgid "QueueView"
-msgstr ""
+msgstr "Lejátszási sor nézet"
 
 #: ../build/src/ui_backendsettingspage.h:462
 msgid "Radio (equal loudness for all tracks)"
@@ -3037,7 +3043,7 @@ msgstr "Lejátszólisták eltávolítása"
 
 #: ../build/src/ui_organisedialog.h:274
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Problémás karakterek eltávolítása a fájlnevekből"
 
 #: playlist/playlisttabbar.cpp:173
 msgid "Rename playlist"
@@ -3375,13 +3381,13 @@ msgstr "Beállítások"
 
 #: ../build/src/ui_shortcutssettingspage.h:236
 msgid "Shortcut"
-msgstr "Billentyűparancs"
+msgstr "Kombináció"
 
 #: settings/shortcutssettingspage.cpp:270
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
-msgstr "%1 billentyűparancsa"
+msgstr "%1 billentyűkombinációja"
 
 #: ../build/src/ui_shortcutssettingspage.h:226
 msgid "Shortcuts"
@@ -3425,11 +3431,11 @@ msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 
 #: ../build/src/ui_notificationssettingspage.h:466
 msgid "Show a pretty OSD"
-msgstr "Saját értesítés megjelenítése"
+msgstr "Saját OSD megjelenítése"
 
 #: widgets/playingwidget.cpp:143
 msgid "Show above status bar"
-msgstr "Megjelenítés az állapotsáv fölött"
+msgstr "Megjelenítés az állapotsáv felett"
 
 #: context/contextview.cpp:288
 msgid "Show album cover"
@@ -3494,7 +3500,7 @@ msgstr "Csak a címke nélküliek mutatása"
 
 #: ../build/src/ui_behavioursettingspage.h:244
 msgid "Show playing widget"
-msgstr ""
+msgstr "Albumborító megjelenítése az oldalsávban"
 
 #: ../build/src/ui_scrobblersettingspage.h:314
 msgid "Show scrobble button"
@@ -3599,6 +3605,9 @@ msgid ""
 "seconds, have been playing for at least half its duration or for 4 minutes "
 "(whichever occurs earlier)."
 msgstr ""
+"A dalok akkor lesznek scrobble-ozva, ha érvényes metaadataik vannak, és 30 \n"
+"másodpercnél hosszabbak, illetve félig, vagy 4 percig le vannak játszva "
+"(amelyik korábban érvényesül)."
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -3711,7 +3720,7 @@ msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Submit scrobbles every"
-msgstr ""
+msgstr "Scrobble-ok beküldése minden"
 
 #: core/mainwindow.cpp:283 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
@@ -3719,7 +3728,7 @@ msgstr "Subsonic"
 
 #: subsonic/subsonicurlhandler.cpp:41
 msgid "Subsonic server URL is invalid."
-msgstr "A Subsonic szerver url-je érvénytelen."
+msgstr "A Subsonic szerver URL-je érvénytelen."
 
 #: ../data/html/oauthsuccess.html:36
 msgid "Success!"
@@ -3974,7 +3983,7 @@ msgstr ""
 
 #: core/commandlineoptions.cpp:184
 msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "OSD láthatóság bekapcsolása"
+msgstr "rlOSD láthatóság bekapcsolása"
 
 #: core/utilities.cpp:175
 msgid "Tomorrow"
@@ -4249,7 +4258,7 @@ msgstr ""
 
 #: ../build/src/ui_playlistsettingspage.h:157
 msgid "When saving a playlist, file paths should be"
-msgstr "A lejátszólista mentésekor a fájl elérési útvonal"
+msgstr "A lejátszólista mentésekor a fájl elérési útvonala"
 
 #: device/ilister.cpp:137
 msgid "WiFi MAC Address"
@@ -4257,7 +4266,7 @@ msgstr "WiFi MAC cím"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:228
 msgid "Wide band (WB)"
-msgstr "Széles sávú (WB)"
+msgstr "Szélessávú (WB)"
 
 #: ../build/src/ui_albumcovermanager.h:221
 msgid "Without cover:"
@@ -4265,7 +4274,7 @@ msgstr "Borító nélkül:"
 
 #: ../build/src/ui_scrobblersettingspage.h:313
 msgid "Work in offline mode (Only cache scrobbles)"
-msgstr "Offline mód (csak gyorsítótárba menti)"
+msgstr "Offline mód (mentés csak gyorsítótárba)"
 
 #: collection/collectionview.cpp:444
 msgid ""
@@ -4369,7 +4378,7 @@ msgstr "Az ön gyűjtemény üres!"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
-msgstr "Alap"
+msgstr "Nulla"
 
 #: ../build/src/ui_internetsearchview.h:230
 msgid "a&lbums"
