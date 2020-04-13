@@ -1,3 +1,17 @@
+DROP VIEW IF EXISTS duplicated_songs;
+
+DROP INDEX IF EXISTS idx_url;
+
+DROP INDEX IF EXISTS idx_comp_artist;
+
+DROP INDEX IF EXISTS idx_albumartist;
+
+DROP INDEX IF EXISTS idx_artist;
+
+DROP INDEX IF EXISTS idx_album;
+
+DROP INDEX IF EXISTS idx_title;
+
 ALTER TABLE songs RENAME TO songs_old;
 
 ALTER TABLE subsonic_songs RENAME TO subsonic_songs_old;
@@ -60,6 +74,20 @@ CREATE TABLE songs (
   cue_path TEXT
 
 );
+
+CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
+
+CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
+
+CREATE INDEX IF NOT EXISTS idx_albumartist ON songs (albumartist);
+
+CREATE INDEX IF NOT EXISTS idx_artist ON songs (artist);
+
+CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
+
+CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
+
+CREATE VIEW duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
 
 CREATE TABLE subsonic_songs (
 
