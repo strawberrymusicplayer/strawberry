@@ -194,13 +194,13 @@ void AlbumCoverManager::Init() {
   ui_->albums->installEventFilter(this);
 
   // Connections
-  connect(ui_->artists, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), SLOT(ArtistChanged(QListWidgetItem*)));
+  connect(ui_->artists, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), SLOT(ArtistChanged(QListWidgetItem*)));
   connect(ui_->filter, SIGNAL(textChanged(QString)), SLOT(UpdateFilter()));
   connect(filter_group, SIGNAL(triggered(QAction*)), SLOT(UpdateFilter()));
   connect(ui_->view, SIGNAL(clicked()), ui_->view, SLOT(showMenu()));
   connect(ui_->button_fetch, SIGNAL(clicked()), SLOT(FetchAlbumCovers()));
   connect(ui_->export_covers, SIGNAL(clicked()), SLOT(ExportCovers()));
-  connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(const quint64, const QUrl&, const QImage&, const CoverSearchStatistics&)), SLOT(AlbumCoverFetched(const quint64, const QUrl&, const QImage&, const CoverSearchStatistics&)));
+  connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)), SLOT(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)));
   connect(ui_->action_fetch, SIGNAL(triggered()), SLOT(FetchSingleCover()));
   connect(ui_->albums, SIGNAL(doubleClicked(QModelIndex)), SLOT(AlbumDoubleClicked(QModelIndex)));
   connect(ui_->action_add_to_playlist, SIGNAL(triggered()), SLOT(AddSelectedToPlaylist()));
@@ -216,7 +216,7 @@ void AlbumCoverManager::Init() {
     ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   }
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(const quint64, const QUrl&, const QImage&)), SLOT(CoverImageLoaded(const quint64, const QUrl&, const QImage&)));
+  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(CoverImageLoaded(quint64, QUrl, QImage)));
 
   cover_searcher_->Init(cover_fetcher_);
 

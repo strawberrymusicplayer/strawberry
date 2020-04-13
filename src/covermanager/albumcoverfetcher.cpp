@@ -113,8 +113,8 @@ void AlbumCoverFetcher::StartRequests() {
     AlbumCoverFetcherSearch *search = new AlbumCoverFetcherSearch(request, network_, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(const quint64, const CoverSearchResults)), SLOT(SingleSearchFinished(const quint64, const CoverSearchResults)));
-    connect(search, SIGNAL(AlbumCoverFetched(const quint64, const QUrl&, const QImage&)), SLOT(SingleCoverFetched(const quint64, const QUrl&, const QImage&)));
+    connect(search, SIGNAL(SearchFinished(quint64, CoverSearchResults)), SLOT(SingleSearchFinished(quint64, CoverSearchResults)));
+    connect(search, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage)), SLOT(SingleCoverFetched(quint64, QUrl, QImage)));
 
     search->Start(cover_providers_);
   }

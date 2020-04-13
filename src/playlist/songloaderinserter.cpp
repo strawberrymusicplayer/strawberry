@@ -55,7 +55,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
 
   connect(destination, SIGNAL(destroyed()), SLOT(DestinationDestroyed()));
   connect(this, SIGNAL(PreloadFinished()), SLOT(InsertSongs()));
-  connect(this, SIGNAL(EffectiveLoadFinished(const SongList&)), destination, SLOT(UpdateItems(const SongList&)));
+  connect(this, SIGNAL(EffectiveLoadFinished(SongList)), destination, SLOT(UpdateItems(SongList)));
 
   for (const QUrl &url : urls) {
     SongLoader *loader = new SongLoader(collection_, player_, this);

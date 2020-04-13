@@ -338,7 +338,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(const Task &task)
     }
     else if (network_->supportedSchemes().contains(cover_url.scheme())) {  // Remote URL
       QNetworkReply *reply = network_->get(QNetworkRequest(cover_url));
-      NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, const QUrl&)), reply, cover_url);
+      NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, QUrl)), reply, cover_url);
 
       remote_tasks_.insert(reply, task);
       return TryLoadResult(true, false, cover_url, QImage());
@@ -365,7 +365,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
     QNetworkRequest request = reply->request();
     request.setUrl(redirect.toUrl());
     QNetworkReply *redirected_reply = network_->get(request);
-    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, const QUrl&)), redirected_reply, redirect.toUrl());
+    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, QUrl)), redirected_reply, redirect.toUrl());
 
     remote_tasks_.insert(redirected_reply, task);
     return;

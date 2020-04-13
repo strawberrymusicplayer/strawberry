@@ -51,7 +51,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *parent)
 
   connect(ui_->button_test, SIGNAL(clicked()), SLOT(TestClicked()));
 
-  connect(this, SIGNAL(Test(QUrl, const QString&, const QString&)), service_, SLOT(SendPing(QUrl, const QString&, const QString&)));
+  connect(this, SIGNAL(Test(QUrl, QString, QString)), service_, SLOT(SendPing(QUrl, QString, QString)));
 
   connect(service_, SIGNAL(TestFailure(QString)), SLOT(TestFailure(QString)));
   connect(service_, SIGNAL(TestSuccess()), SLOT(TestSuccess()));

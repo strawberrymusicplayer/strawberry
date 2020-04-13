@@ -112,7 +112,7 @@ void AlbumCoverChoiceController::Init(Application *app) {
   cover_searcher_ = new AlbumCoverSearcher(QIcon(":/pictures/cdcase.png"), app, this);
   cover_searcher_->Init(cover_fetcher_);
 
-  connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(const quint64, const QUrl&, const QImage&, CoverSearchStatistics)), this, SLOT(AlbumCoverFetched(const quint64, const QUrl&, const QImage&, CoverSearchStatistics)));
+  connect(cover_fetcher_, SIGNAL(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)), this, SLOT(AlbumCoverFetched(quint64, QUrl, QImage, CoverSearchStatistics)));
 
 }
 

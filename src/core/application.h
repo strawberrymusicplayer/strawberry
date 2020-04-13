@@ -33,8 +33,6 @@
 
 #include "settings/settingsdialog.h"
 
-using std::unique_ptr;
-
 class QThread;
 
 class TaskManager;
@@ -58,7 +56,6 @@ class CurrentAlbumCoverLoader;
 class LyricsProviders;
 class AudioScrobbler;
 class InternetServices;
-class InternetSearch;
 #ifdef HAVE_MOODBAR
 class MoodbarController;
 class MoodbarLoader;

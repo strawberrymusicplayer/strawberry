@@ -668,8 +668,8 @@ std::shared_ptr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
   connect(info->device_.get(), SIGNAL(TaskStarted(int)), SLOT(DeviceTaskStarted(int)));
   connect(info->device_.get(), SIGNAL(SongCountUpdated(int)), SLOT(DeviceSongCountUpdated(int)));
-  connect(info->device_.get(), SIGNAL(ConnectFinished(const QString&, bool)), SLOT(DeviceConnectFinished(const QString&, bool)));
-  connect(info->device_.get(), SIGNAL(CloseFinished(const QString&)), SLOT(DeviceCloseFinished(const QString&)));
+  connect(info->device_.get(), SIGNAL(ConnectFinished(QString, bool)), SLOT(DeviceConnectFinished(QString, bool)));
+  connect(info->device_.get(), SIGNAL(CloseFinished(QString)), SLOT(DeviceCloseFinished(QString)));
   ret->ConnectAsync();
   return ret;
 

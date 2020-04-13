@@ -39,8 +39,8 @@ TagFetcher::TagFetcher(QObject *parent)
       acoustid_client_(new AcoustidClient(this)),
       musicbrainz_client_(new MusicBrainzClient(this)) {
 
-  connect(acoustid_client_, SIGNAL(Finished(const int, const QStringList&, const QString&)), SLOT(PuidsFound(const int, const QStringList&, const QString&)));
-  connect(musicbrainz_client_, SIGNAL(Finished(const int, const MusicBrainzClient::ResultList&, const QString&)), SLOT(TagsFetched(const int, const MusicBrainzClient::ResultList&, const QString&)));
+  connect(acoustid_client_, SIGNAL(Finished(int, QStringList, QString)), SLOT(PuidsFound(int, QStringList, QString)));
+  connect(musicbrainz_client_, SIGNAL(Finished(int, MusicBrainzClient::ResultList, QString)), SLOT(TagsFetched(int, MusicBrainzClient::ResultList, QString)));
 
 }
 
@@ -57,7 +57,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
   QFuture<QString> future = QtConcurrent::mapped(songs_, GetFingerprint);
   fingerprint_watcher_ = new QFutureWatcher<QString>(this);
   fingerprint_watcher_->setFuture(future);
-  connect(fingerprint_watcher_, SIGNAL(resultReadyAt(const int)), SLOT(FingerprintFound(const int)));
+  connect(fingerprint_watcher_, SIGNAL(resultReadyAt(int)), SLOT(FingerprintFound(int)));
 
   for (const Song &song : songs) {
     emit Progress(song, tr("Fingerprinting song"));

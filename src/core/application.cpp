@@ -65,7 +65,6 @@
 #include "scrobbler/audioscrobbler.h"
 
 #include "internet/internetservices.h"
-#include "internet/internetsearch.h"
 
 #ifdef HAVE_SUBSONIC
 #  include "subsonic/subsonicservice.h"

@@ -277,7 +277,7 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   connect(collectionview_, SIGNAL(TotalSongCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalArtistCountUpdated_()), this, SLOT(UpdateNoSong()));
   connect(collectionview_, SIGNAL(TotalAlbumCountUpdated_()), this, SLOT(UpdateNoSong()));
-  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(const quint64, const QString&, const QString&)), this, SLOT(UpdateLyrics(const quint64, const QString&, const QString&)));
+  connect(lyrics_fetcher_, SIGNAL(LyricsFetched(quint64, QString, QString)), this, SLOT(UpdateLyrics(quint64, QString, QString)));
 
   AddActions();
 

@@ -183,7 +183,7 @@ void OrganiseDialog::accept() {
   connect(organise, SIGNAL(Finished(QStringList, QStringList)), SLOT(OrganiseFinished(QStringList, QStringList)));
   connect(organise, SIGNAL(FileCopied(int)), this, SIGNAL(FileCopied(int)));
   if (backend_)
-    connect(organise, SIGNAL(SongPathChanged(const Song&, const QFileInfo&)), backend_, SLOT(SongPathChanged(const Song&, const QFileInfo&)));
+    connect(organise, SIGNAL(SongPathChanged(Song, QFileInfo)), backend_, SLOT(SongPathChanged(Song, QFileInfo)));
 
   organise->Start();
 

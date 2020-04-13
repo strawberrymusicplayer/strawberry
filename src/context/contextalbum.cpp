@@ -162,7 +162,7 @@ void ContextAlbum::SearchCoverInProgress() {
 
   // Show a spinner animation
   spinner_animation_.reset(new QMovie(":/pictures/spinner.gif", QByteArray(), this));
-  connect(spinner_animation_.get(), SIGNAL(updated(const QRect&)), SLOT(update()));
+  connect(spinner_animation_.get(), SIGNAL(updated(QRect)), SLOT(update()));
   spinner_animation_->start();
   update();
 

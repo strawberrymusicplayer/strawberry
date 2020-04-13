@@ -180,14 +180,14 @@ PlaylistView::PlaylistView(QWidget *parent)
   setStyle(style_);
   setMouseTracking(true);
 
-  connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)), SLOT(SaveGeometry()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SLOT(SaveGeometry()));
+  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(SaveGeometry()));
 
-  connect(header_, SIGNAL(sectionResized(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(sectionMoved(int,int,int)), SLOT(InvalidateCachedCurrentPixmap()));
-  connect(header_, SIGNAL(SectionVisibilityChanged(int,bool)), SLOT(InvalidateCachedCurrentPixmap()));
+  connect(header_, SIGNAL(sectionResized(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
+  connect(header_, SIGNAL(sectionMoved(int, int, int)), SLOT(InvalidateCachedCurrentPixmap()));
+  connect(header_, SIGNAL(SectionVisibilityChanged(int, bool)), SLOT(InvalidateCachedCurrentPixmap()));
   connect(header_, SIGNAL(StretchEnabledChanged(bool)), SLOT(StretchChanged(bool)));
 
   inhibit_autoscroll_timer_->setInterval(kAutoscrollGraceTimeout * 1000);
@@ -220,8 +220,8 @@ void PlaylistView::SetApplication(Application *app) {
 
   Q_ASSERT(app);
   app_ = app;
-  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(const Song&)), this, SLOT(SongChanged(const Song&)));
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)), SLOT(AlbumCoverLoaded(const Song&, const QUrl&, const QImage&)));
+  connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), this, SLOT(SongChanged(Song)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
   connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
   connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));

@@ -141,8 +141,8 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
-  connect(this, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SIGNAL(PlaylistChanged()));
-  connect(this, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SIGNAL(PlaylistChanged()));
+  connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(PlaylistChanged()));
+  connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(PlaylistChanged()));
 
   Restore();
 
@@ -152,7 +152,7 @@ Playlist::Playlist(PlaylistBackend *backend, TaskManager *task_manager, Collecti
   connect(queue_, SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)), SLOT(TracksAboutToBeDequeued(QModelIndex, int, int)));
   connect(queue_, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(TracksDequeued()));
 
-  connect(queue_, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SLOT(TracksEnqueued(const QModelIndex&, int, int)));
+  connect(queue_, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(TracksEnqueued(QModelIndex, int, int)));
 
   connect(queue_, SIGNAL(layoutChanged()), SLOT(QueueLayoutChanged()));
 

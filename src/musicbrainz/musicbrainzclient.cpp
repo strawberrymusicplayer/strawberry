@@ -160,7 +160,7 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(DiscIdRequestFinished(const QString&, QNetworkReply*)), discid, reply);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(DiscIdRequestFinished(QString, QNetworkReply*)), discid, reply);
 
   timeouts_->AddReply(reply);
 
@@ -182,7 +182,7 @@ void MusicBrainzClient::FlushRequests() {
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, const int, const int)), reply, request.id, request.number);
+  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, int, int)), reply, request.id, request.number);
   requests_.insert(request.id, reply);
 
   timeouts_->AddReply(reply);

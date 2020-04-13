@@ -197,7 +197,7 @@ void CddaSongLoader::LoadSongs() {
       qLog(Info) << "MusicBrainz discid: " << musicbrainz_discid;
 
       MusicBrainzClient *musicbrainz_client = new MusicBrainzClient;
-      connect(musicbrainz_client, SIGNAL(Finished(const QString&, const QString&, MusicBrainzClient::ResultList)), SLOT(AudioCDTagsLoaded(const QString&, const QString&, MusicBrainzClient::ResultList)));
+      connect(musicbrainz_client, SIGNAL(Finished(QString, QString, MusicBrainzClient::ResultList)), SLOT(AudioCDTagsLoaded(QString, QString, MusicBrainzClient::ResultList)));
       musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
       g_free(string_mb);
       gst_message_unref(msg_tag);

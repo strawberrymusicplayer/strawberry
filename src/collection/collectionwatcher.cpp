@@ -650,7 +650,7 @@ void CollectionWatcher::AddWatch(const Directory &dir, const QString &path) {
 
   if (!QFile::exists(path)) return;
 
-  connect(fs_watcher_, SIGNAL(PathChanged(const QString&)), this, SLOT(DirectoryChanged(const QString&)), Qt::UniqueConnection);
+  connect(fs_watcher_, SIGNAL(PathChanged(QString)), this, SLOT(DirectoryChanged(QString)), Qt::UniqueConnection);
   fs_watcher_->AddPath(path);
   subdir_mapping_[path] = dir;
 

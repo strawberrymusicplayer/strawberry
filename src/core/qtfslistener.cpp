@@ -28,7 +28,7 @@
 
 QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
 
-  connect(&watcher_, SIGNAL(directoryChanged(const QString&)), SIGNAL(PathChanged(const QString&)));
+  connect(&watcher_, SIGNAL(directoryChanged(QString)), SIGNAL(PathChanged(QString)));
 
 }
 

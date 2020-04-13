@@ -240,7 +240,7 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
       mounting_jobs_[path].dbus_interface = job;
       mounting_jobs_[path].is_mount = is_mount_job;
       mounting_jobs_[path].mounted_partitions = mounted_partitions;
-      connect(job.get(), SIGNAL(Completed(bool, const QString&)), SLOT(JobCompleted(bool, const QString&)));
+      connect(job.get(), SIGNAL(Completed(bool, QString)), SLOT(JobCompleted(bool, QString)));
     }
   }
 }

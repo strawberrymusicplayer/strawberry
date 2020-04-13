@@ -94,8 +94,8 @@ void LyricsFetcher::StartRequests() {
     LyricsFetcherSearch *search = new LyricsFetcherSearch(request, this);
     active_requests_.insert(request.id, search);
 
-    connect(search, SIGNAL(SearchFinished(const quint64, const LyricsSearchResults&)), SLOT(SingleSearchFinished(const quint64, const LyricsSearchResults&)));
-    connect(search, SIGNAL(LyricsFetched(const quint64, const QString&, const QString&)), SLOT(SingleLyricsFetched(const quint64, const QString&, const QString&)));
+    connect(search, SIGNAL(SearchFinished(quint64, LyricsSearchResults)), SLOT(SingleSearchFinished(quint64, LyricsSearchResults)));
+    connect(search, SIGNAL(LyricsFetched(quint64, QString, QString)), SLOT(SingleLyricsFetched(quint64, QString, QString)));
 
     search->Start(lyrics_providers_);
   }
