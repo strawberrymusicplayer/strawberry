@@ -89,6 +89,7 @@
         <file>icons/128x128/moodbar.png</file>
         <file>icons/128x128/love.png</file>
         <file>icons/128x128/subsonic.png</file>
+        <file>icons/128x128/tidal.png</file>
         <file>icons/64x64/albums.png</file>
         <file>icons/64x64/alsa.png</file>
         <file>icons/64x64/application-exit.png</file>
@@ -179,6 +180,7 @@
         <file>icons/64x64/moodbar.png</file>
         <file>icons/64x64/love.png</file>
         <file>icons/64x64/subsonic.png</file>
+        <file>icons/64x64/tidal.png</file>
         <file>icons/48x48/albums.png</file>
         <file>icons/48x48/alsa.png</file>
         <file>icons/48x48/application-exit.png</file>
@@ -272,6 +274,7 @@
         <file>icons/48x48/moodbar.png</file>
         <file>icons/48x48/love.png</file>
         <file>icons/48x48/subsonic.png</file>
+	<file>icons/48x48/tidal.png</file>
         <file>icons/32x32/albums.png</file>
         <file>icons/32x32/alsa.png</file>
         <file>icons/32x32/application-exit.png</file>
@@ -365,6 +368,7 @@
         <file>icons/32x32/moodbar.png</file>
         <file>icons/32x32/love.png</file>
         <file>icons/32x32/subsonic.png</file>
+        <file>icons/32x32/tidal.png</file>
         <file>icons/22x22/albums.png</file>
         <file>icons/22x22/alsa.png</file>
         <file>icons/22x22/application-exit.png</file>
@@ -458,5 +462,6 @@
         <file>icons/22x22/moodbar.png</file>
         <file>icons/22x22/love.png</file>
         <file>icons/22x22/subsonic.png</file>
+        <file>icons/22x22/tidal.png</file>
     </qresource>
 </RCC>

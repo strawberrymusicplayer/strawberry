@@ -330,6 +330,7 @@ optional_component(TRANSLATIONS ON "Translations"
 )
 
 optional_component(SUBSONIC ON "Subsonic support")
+optional_component(TIDAL ON "Tidal support")
 
 optional_component(MOODBAR ON "Moodbar"
   DEPENDS "fftw3" FFTW3_FOUND

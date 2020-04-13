@@ -921,6 +921,29 @@ optional_source(HAVE_SUBSONIC
     settings/subsonicsettingspage.ui
 )
 
+optional_source(HAVE_TIDAL
+  SOURCES
+    tidal/tidalservice.cpp
+    tidal/tidalurlhandler.cpp
+    tidal/tidalbaserequest.cpp
+    tidal/tidalrequest.cpp
+    tidal/tidalstreamurlrequest.cpp
+    tidal/tidalfavoriterequest.cpp
+    settings/tidalsettingspage.cpp
+    covermanager/tidalcoverprovider.cpp
+  HEADERS
+    tidal/tidalservice.h
+    tidal/tidalurlhandler.h
+    tidal/tidalbaserequest.h
+    tidal/tidalrequest.h
+    tidal/tidalstreamurlrequest.h
+    tidal/tidalfavoriterequest.h
+    settings/tidalsettingspage.h
+    covermanager/tidalcoverprovider.h
+  UI
+    settings/tidalsettingspage.ui
+)
+
 # Moodbar
 optional_source(HAVE_MOODBAR
   SOURCES

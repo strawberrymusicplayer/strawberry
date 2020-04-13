@@ -49,6 +49,7 @@
 #cmakedefine XINE_ANALYZER
 
 #cmakedefine HAVE_SUBSONIC
+#cmakedefine HAVE_TIDAL
 
 #cmakedefine HAVE_MOODBAR
 

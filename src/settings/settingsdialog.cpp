@@ -73,6 +73,9 @@
 #ifdef HAVE_SUBSONIC
 #  include "subsonicsettingspage.h"
 #endif
+#ifdef HAVE_TIDAL
+#  include "tidalsettingspage.h"
+#endif
 
 #include "ui_settingsdialog.h"
 
@@ -145,11 +148,15 @@ SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidge
   AddPage(Page_Moodbar, new MoodbarSettingsPage(this), iface);
 #endif
 
-#if defined(HAVE_SUBSONIC)
+#if defined(HAVE_SUBSONIC) || defined(HAVE_TIDAL)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
+
 #ifdef HAVE_SUBSONIC
   AddPage(Page_Subsonic, new SubsonicSettingsPage(this), streaming);
+#endif
+#ifdef HAVE_TIDAL
+  AddPage(Page_Tidal, new TidalSettingsPage(this), streaming);
 #endif
 
   // List box

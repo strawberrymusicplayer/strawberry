@@ -316,6 +316,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   PlaylistItemList autocomplete_tag_items_;
 
   InternetSongsView *subsonic_view_;
+  InternetTabsView *tidal_view_;
 
   QAction *collection_show_all_;
   QAction *collection_show_duplicates_;

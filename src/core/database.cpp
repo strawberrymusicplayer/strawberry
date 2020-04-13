@@ -53,8 +53,8 @@
 #include "application.h"
 #include "scopedtransaction.h"
 
-const char *Database::kDatabaseFilename = "strawberry.db";
-const int Database::kSchemaVersion = 11;
+const char *Database::kDatabaseFilename = "strawberry-tidal.db";
+const int Database::kSchemaVersion = 12;
 const char *Database::kMagicAllSongsTables = "%allsongstables";
 
 int Database::sNextConnectionId = 1;
