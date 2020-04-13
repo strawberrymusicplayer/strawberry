@@ -37,16 +37,19 @@
 
 #include "core/song.h"
 #include "collection/collectionmodel.h"
-#include "internetsearch.h"
+#include "internetsearchview.h"
 
 class QMimeData;
 class QSortFilterProxyModel;
+
+class MimeData;
+class InternetService;
 
 class InternetSearchModel : public QStandardItemModel {
   Q_OBJECT
 
  public:
-  explicit InternetSearchModel(InternetSearch *engine, QObject *parent = nullptr);
+  explicit InternetSearchModel(InternetService *service, QObject *parent = nullptr);
 
   enum Role {
     Role_Result = CollectionModel::LastRole,
@@ -61,25 +64,29 @@ class InternetSearchModel : public QStandardItemModel {
   };
 
   void set_proxy(QSortFilterProxyModel *proxy) { proxy_ = proxy; }
-  void set_use_pretty_covers(bool pretty) { use_pretty_covers_ = pretty; }
+  void set_use_pretty_covers(const bool pretty) { use_pretty_covers_ = pretty; }
   void SetGroupBy(const CollectionModel::Grouping &grouping, bool regroup_now);
 
   void Clear();
 
-  InternetSearch::ResultList GetChildResults(const QModelIndexList &indexes) const;
-  InternetSearch::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
+  InternetSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
+  InternetSearchView::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
 
   QMimeData *mimeData(const QModelIndexList &indexes) const;
 
+  // Loads tracks for results that were previously emitted by ResultsAvailable.
+  // The implementation creates a SongMimeData with one Song for each Result.
+  MimeData *LoadTracks(const InternetSearchView::ResultList &results) const;
+
  public slots:
-  void AddResults(const InternetSearch::ResultList &results);
+  void AddResults(const InternetSearchView::ResultList &results);
 
  private:
   QStandardItem *BuildContainers(const Song &metadata, QStandardItem *parent, ContainerKey *key, int level = 0);
-  void GetChildResults(const QStandardItem *item, InternetSearch::ResultList *results, QSet<const QStandardItem*> *visited) const;
+  void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
 
  private:
-  InternetSearch *engine_;
+  InternetService *service_;
   QSortFilterProxyModel *proxy_;
   bool use_pretty_covers_;
   QIcon artist_icon_;

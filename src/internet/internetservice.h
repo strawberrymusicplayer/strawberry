@@ -28,7 +28,8 @@
 #include <QIcon>
 
 #include "core/song.h"
-#include "internetsearch.h"
+#include "settings/settingsdialog.h"
+#include "internetsearchview.h"
 
 class QSortFilterProxyModel;
 class Application;
@@ -39,7 +40,7 @@ class InternetService : public QObject {
   Q_OBJECT
 
  public:
-  explicit InternetService(Song::Source source, const QString &name, const QString &url_scheme, Application *app, QObject *parent = nullptr);
+  explicit InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
 
   virtual ~InternetService() {}
   virtual void Exit() {}
@@ -47,13 +48,15 @@ class InternetService : public QObject {
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
   virtual QString url_scheme() const { return url_scheme_; }
+  virtual QString settings_group() const { return settings_group_; }
+  virtual SettingsDialog::Page settings_page() const { return settings_page_; }
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
   virtual QIcon Icon() { return Song::IconForSource(source_); }
   virtual bool oauth() { return false; }
   virtual bool authenticated() { return false; }
-  virtual int Search(const QString &query, InternetSearch::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
+  virtual int Search(const QString &query, InternetSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
 
   virtual CollectionBackend *artists_collection_backend() { return nullptr; }
@@ -129,10 +132,13 @@ class InternetService : public QObject {
 
  protected:
   Application *app_;
+
  private:
   Song::Source source_;
   QString name_;
   QString url_scheme_;
+  QString settings_group_;
+  SettingsDialog::Page settings_page_;
 
 };
 Q_DECLARE_METATYPE(InternetService*)

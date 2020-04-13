@@ -28,9 +28,9 @@
 
 #include "core/song.h"
 #include "collection/collectionmodel.h"
-#include "internetsearch.h"
 #include "internetsearchmodel.h"
 #include "internetsearchsortmodel.h"
+#include "internetsearchview.h"
 
 InternetSearchSortModel::InternetSearchSortModel(QObject *parent)
     : QSortFilterProxyModel(parent) {}
@@ -58,8 +58,8 @@ bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelInde
   }
 
   // Otherwise we're comparing songs.  Sort by disc, track, then title.
-  const InternetSearch::Result r1 = left.data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
-  const InternetSearch::Result r2 = right.data(InternetSearchModel::Role_Result).value<InternetSearch::Result>();
+  const InternetSearchView::Result r1 = left.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
+  const InternetSearchView::Result r2 = right.data(InternetSearchModel::Role_Result).value<InternetSearchView::Result>();
 
 #define CompareInt(field)                                       \
   if (r1.metadata_.field() < r2.metadata_.field()) return true; \

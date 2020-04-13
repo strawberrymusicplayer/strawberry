@@ -61,7 +61,7 @@
 #  include "dbus/metatypes.h"
 #endif
 
-#include "internet/internetsearch.h"
+#include "internet/internetsearchview.h"
 
 void RegisterMetaTypes() {
 
@@ -117,7 +117,7 @@ void RegisterMetaTypes() {
 #endif
 #endif
 
-  qRegisterMetaType<InternetSearch::ResultList>("InternetSearch::ResultList");
-  qRegisterMetaType<InternetSearch::Result>("InternetSearch::Result");
+  qRegisterMetaType<InternetSearchView::ResultList>("InternetSearchView::ResultList");
+  qRegisterMetaType<InternetSearchView::Result>("InternetSearchView::Result");
 
 }

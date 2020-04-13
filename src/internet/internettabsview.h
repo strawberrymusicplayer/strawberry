@@ -35,7 +35,6 @@ class QContextMenuEvent;
 
 class Application;
 class InternetService;
-class InternetSearch;
 class InternetCollectionView;
 class InternetSearchView;
 
@@ -43,7 +42,7 @@ class InternetTabsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit InternetTabsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~InternetTabsView();
 
   void ReloadSettings();
@@ -68,7 +67,6 @@ class InternetTabsView : public QWidget {
  private:
   Application *app_;
   InternetService *service_;
-  InternetSearch *engine_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;
   Ui_InternetTabsView *ui_;

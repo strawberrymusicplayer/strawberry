@@ -57,15 +57,15 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter->SetCollectionModel(service_->songs_collection_model());
 
   connect(ui_->view, SIGNAL(GetSongs()), SLOT(GetSongs()));
-  connect(ui_->view, SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveSongs(const SongList&)));
+  connect(ui_->view, SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
 
   connect(ui_->refresh, SIGNAL(clicked()), SLOT(GetSongs()));
   connect(ui_->close, SIGNAL(clicked()), SLOT(AbortGetSongs()));
   connect(ui_->abort, SIGNAL(clicked()), SLOT(AbortGetSongs()));
-  connect(service_, SIGNAL(SongsResults(const SongList&, const QString&)), SLOT(SongsFinished(const SongList&, const QString&)));
-  connect(service_, SIGNAL(SongsUpdateStatus(const QString&)), ui_->status, SLOT(setText(const QString&)));
-  connect(service_, SIGNAL(SongsProgressSetMaximum(const int)), ui_->progressbar, SLOT(setMaximum(const int)));
-  connect(service_, SIGNAL(SongsUpdateProgress(const int)), ui_->progressbar, SLOT(setValue(const int)));
+  connect(service_, SIGNAL(SongsResults(SongList, QString)), SLOT(SongsFinished(SongList, QString)));
+  connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->status, SLOT(setText(QString)));
+  connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->progressbar, SLOT(setMaximum(int)));
+  connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->progressbar, SLOT(setValue(int)));
 
   connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->view, SLOT(TotalArtistCountUpdated(int)));
   connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->view, SLOT(TotalAlbumCountUpdated(int)));

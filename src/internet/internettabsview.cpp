@@ -40,14 +40,12 @@
 #include "internettabsview.h"
 #include "internetcollectionview.h"
 #include "internetcollectionviewcontainer.h"
-#include "internetsearchview.h"
 #include "ui_internettabsview.h"
 
-InternetTabsView::InternetTabsView(Application *app, InternetService *service, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+InternetTabsView::InternetTabsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
       service_(service),
-      engine_(engine),
       settings_group_(settings_group),
       settings_page_(settings_page),
       ui_(new Ui_InternetTabsView)
@@ -55,10 +53,10 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
 
   ui_->setupUi(this);
 
-  ui_->search_view->Init(app, engine, settings_group, settings_page, service_->artists_collection_model(), service_->albums_collection_model(), service_->songs_collection_model());
-  connect(ui_->search_view, SIGNAL(AddArtistsSignal(const SongList&)), service_, SIGNAL(AddArtists(const SongList&)));
-  connect(ui_->search_view, SIGNAL(AddAlbumsSignal(const SongList&)), service_, SIGNAL(AddAlbums(const SongList&)));
-  connect(ui_->search_view, SIGNAL(AddSongsSignal(const SongList&)), service_, SIGNAL(AddSongs(const SongList&)));
+  ui_->search_view->Init(app, service);
+  connect(ui_->search_view, SIGNAL(AddArtistsSignal(SongList)), service_, SIGNAL(AddArtists(SongList)));
+  connect(ui_->search_view, SIGNAL(AddAlbumsSignal(SongList)), service_, SIGNAL(AddAlbums(SongList)));
+  connect(ui_->search_view, SIGNAL(AddSongsSignal(SongList)), service_, SIGNAL(AddSongs(SongList)));
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
@@ -70,15 +68,15 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->artists_collection->filter()->SetCollectionModel(service_->artists_collection_model());
 
     connect(ui_->artists_collection->view(), SIGNAL(GetSongs()), SLOT(GetArtists()));
-    connect(ui_->artists_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveArtists(const SongList&)));
+    connect(ui_->artists_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveArtists(SongList)));
 
     connect(ui_->artists_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetArtists()));
     connect(ui_->artists_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
     connect(ui_->artists_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetArtists()));
-    connect(service_, SIGNAL(ArtistsResults(const SongList&, const QString&)), SLOT(ArtistsFinished(const SongList&, const QString&)));
-    connect(service_, SIGNAL(ArtistsUpdateStatus(const QString&)), ui_->artists_collection->status(), SLOT(setText(const QString&)));
-    connect(service_, SIGNAL(ArtistsProgressSetMaximum(const int)), ui_->artists_collection->progressbar(), SLOT(setMaximum(const int)));
-    connect(service_, SIGNAL(ArtistsUpdateProgress(const int)), ui_->artists_collection->progressbar(), SLOT(setValue(const int)));
+    connect(service_, SIGNAL(ArtistsResults(SongList, QString)), SLOT(ArtistsFinished(SongList, QString)));
+    connect(service_, SIGNAL(ArtistsUpdateStatus(QString)), ui_->artists_collection->status(), SLOT(setText(QString)));
+    connect(service_, SIGNAL(ArtistsProgressSetMaximum(int)), ui_->artists_collection->progressbar(), SLOT(setMaximum(int)));
+    connect(service_, SIGNAL(ArtistsUpdateProgress(int)), ui_->artists_collection->progressbar(), SLOT(setValue(int)));
 
     connect(service_->artists_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->artists_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->artists_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -101,15 +99,15 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->albums_collection->filter()->SetCollectionModel(service_->albums_collection_model());
 
     connect(ui_->albums_collection->view(), SIGNAL(GetSongs()), SLOT(GetAlbums()));
-    connect(ui_->albums_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveAlbums(const SongList&)));
+    connect(ui_->albums_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveAlbums(SongList)));
 
     connect(ui_->albums_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetAlbums()));
     connect(ui_->albums_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
     connect(ui_->albums_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetAlbums()));
-    connect(service_, SIGNAL(AlbumsResults(const SongList&, const QString&)), SLOT(AlbumsFinished(const SongList&, const QString&)));
-    connect(service_, SIGNAL(AlbumsUpdateStatus(const QString&)), ui_->albums_collection->status(), SLOT(setText(const QString&)));
-    connect(service_, SIGNAL(AlbumsProgressSetMaximum(const int)), ui_->albums_collection->progressbar(), SLOT(setMaximum(const int)));
-    connect(service_, SIGNAL(AlbumsUpdateProgress(const int)), ui_->albums_collection->progressbar(), SLOT(setValue(const int)));
+    connect(service_, SIGNAL(AlbumsResults(SongList, QString)), SLOT(AlbumsFinished(SongList, QString)));
+    connect(service_, SIGNAL(AlbumsUpdateStatus(QString)), ui_->albums_collection->status(), SLOT(setText(QString)));
+    connect(service_, SIGNAL(AlbumsProgressSetMaximum(int)), ui_->albums_collection->progressbar(), SLOT(setMaximum(int)));
+    connect(service_, SIGNAL(AlbumsUpdateProgress(int)), ui_->albums_collection->progressbar(), SLOT(setValue(int)));
 
     connect(service_->albums_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->albums_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->albums_collection->view(), SLOT(TotalAlbumCountUpdated(int)));
@@ -132,15 +130,15 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, I
     ui_->songs_collection->filter()->SetCollectionModel(service_->songs_collection_model());
 
     connect(ui_->songs_collection->view(), SIGNAL(GetSongs()), SLOT(GetSongs()));
-    connect(ui_->songs_collection->view(), SIGNAL(RemoveSongs(const SongList&)), service_, SIGNAL(RemoveSongs(const SongList&)));
+    connect(ui_->songs_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
 
     connect(ui_->songs_collection->button_refresh(), SIGNAL(clicked()), SLOT(GetSongs()));
     connect(ui_->songs_collection->button_close(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
     connect(ui_->songs_collection->button_abort(), SIGNAL(clicked()), SLOT(AbortGetSongs()));
-    connect(service_, SIGNAL(SongsResults(const SongList&, const QString&)), SLOT(SongsFinished(const SongList&, const QString&)));
-    connect(service_, SIGNAL(SongsUpdateStatus(const QString&)), ui_->songs_collection->status(), SLOT(setText(const QString&)));
-    connect(service_, SIGNAL(SongsProgressSetMaximum(const int)), ui_->songs_collection->progressbar(), SLOT(setMaximum(const int)));
-    connect(service_, SIGNAL(SongsUpdateProgress(const int)), ui_->songs_collection->progressbar(), SLOT(setValue(const int)));
+    connect(service_, SIGNAL(SongsResults(SongList, QString)), SLOT(SongsFinished(SongList, QString)));
+    connect(service_, SIGNAL(SongsUpdateStatus(QString)), ui_->songs_collection->status(), SLOT(setText(QString)));
+    connect(service_, SIGNAL(SongsProgressSetMaximum(int)), ui_->songs_collection->progressbar(), SLOT(setMaximum(int)));
+    connect(service_, SIGNAL(SongsUpdateProgress(int)), ui_->songs_collection->progressbar(), SLOT(setValue(int)));
 
     connect(service_->songs_collection_model(), SIGNAL(TotalArtistCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalArtistCountUpdated(int)));
     connect(service_->songs_collection_model(), SIGNAL(TotalAlbumCountUpdated(int)), ui_->songs_collection->view(), SLOT(TotalAlbumCountUpdated(int)));

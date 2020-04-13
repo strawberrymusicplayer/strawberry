@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,18 +24,25 @@
 
 #include "config.h"
 
+#include <QtGlobal>
 #include <QObject>
 #include <QWidget>
-#include <QMap>
+#include <QSet>
 #include <QList>
+#include <QMap>
 #include <QString>
+#include <QStringList>
+#include <QUrl>
+#include <QImage>
 #include <QPixmap>
+#include <QPixmapCache>
 #include <QScopedPointer>
+#include <QMetaType>
 
 #include "core/song.h"
 #include "collection/collectionmodel.h"
+#include "covermanager/albumcoverloaderoptions.h"
 #include "settings/settingsdialog.h"
-#include "internetsearch.h"
 
 class QSortFilterProxyModel;
 class QMimeData;
@@ -48,11 +55,13 @@ class QKeyEvent;
 class QShowEvent;
 class QHideEvent;
 class QContextMenuEvent;
+class QTimerEvent;
 
-class QModelIndex;
 class Application;
 class MimeData;
 class GroupByDialog;
+class AlbumCoverLoader;
+class InternetService;
 class InternetSearchModel;
 class Ui_InternetSearchView;
 
@@ -63,79 +72,126 @@ class InternetSearchView : public QWidget {
   explicit InternetSearchView(QWidget *parent = nullptr);
   ~InternetSearchView();
 
-  void Init(Application *app, InternetSearch *engine, const QString &settings_group, const SettingsDialog::Page settings_page, const bool artists = false, const bool albums = false, const bool songs = false);
+  enum SearchType {
+    SearchType_Artists = 1,
+    SearchType_Albums = 2,
+    SearchType_Songs = 3,
+  };
+  struct Result {
+    Song metadata_;
+    QString pixmap_cache_key_;
+  };
+  typedef QList<Result> ResultList;
 
-  static const int kSwapModelsTimeoutMsec;
+  void Init(Application *app, InternetService *service);
 
   void LazyLoadAlbumCover(const QModelIndex &index);
 
+  protected:
+  struct PendingState {
+    PendingState() : orig_id_(-1) {}
+    PendingState(int orig_id, QStringList tokens) : orig_id_(orig_id), tokens_(tokens) {}
+    int orig_id_;
+    QStringList tokens_;
+
+    bool operator<(const PendingState &b) const {
+      return orig_id_ < b.orig_id_;
+    }
+
+    bool operator==(const PendingState &b) const {
+      return orig_id_ == b.orig_id_;
+    }
+  };
+
   void showEvent(QShowEvent *e);
   void hideEvent(QHideEvent *e);
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *e);
+  void timerEvent(QTimerEvent *e);
 
- public slots:
-  void ReloadSettings();
-  void StartSearch(const QString &query);
+  // These functions treat queries in the same way as CollectionQuery.
+  // They're useful for figuring out whether you got a result because it matched in the song title or the artist/album name.
+  static QStringList TokenizeQuery(const QString &query);
+  static bool Matches(const QStringList &tokens, const QString &string);
+
+ private:
+  struct DelayedSearch {
+    int id_;
+    QString query_;
+    SearchType type_;
+  };
+
+  bool SearchKeyEvent(QKeyEvent *e);
+  bool ResultsContextMenuEvent(QContextMenuEvent *e);
   void FocusSearchField();
-  void OpenSettingsDialog();
+
+  MimeData *SelectedMimeData();
+
+  void SetSearchType(const SearchType type);
+
+  int SearchAsync(const QString &query, SearchType type);
+  void SearchAsync(const int id, const QString &query, const SearchType type);
+  void SearchError(const int id, const QString &error);
+  void CancelSearch(const int id);
+
+  QString PixmapCacheKey(const Result &result) const;
+  bool FindCachedPixmap(const Result &result, QPixmap *pixmap) const;
+  static QImage ScaleAndPad(const QImage &image);
+  int LoadAlbumCoverAsync(const Result &result);
 
  signals:
-  void AddToPlaylist(QMimeData *data);
-  void AddArtistsSignal(SongList songs);
-  void AddAlbumsSignal(SongList songs);
-  void AddSongsSignal(SongList songs);
+  void AddToPlaylist(QMimeData*);
+  void AddArtistsSignal(SongList);
+  void AddAlbumsSignal(SongList);
+  void AddSongsSignal(SongList);
 
  private slots:
   void SwapModels();
   void TextEdited(const QString &text);
+  void StartSearch(const QString &query);
+  void SearchDone(const int service_id, const SongList &songs, const QString &error);
+
   void UpdateStatus(const int id, const QString &text);
   void ProgressSetMaximum(const int id, const int progress);
   void UpdateProgress(const int id, const int max);
-  void AddResults(const int id, const InternetSearch::ResultList &results);
-  void SearchError(const int id, const QString &error);
-  void AlbumCoverLoaded(const int id, const QPixmap &pixmap);
+  void AddResults(const int id, const ResultList &results);
 
-  void FocusOnFilter(QKeyEvent *event);
+  void FocusOnFilter(QKeyEvent *e);
 
   void AddSelectedToPlaylist();
   void LoadSelected();
   void OpenSelectedInNewPlaylist();
   void AddSelectedToPlaylistEnqueue();
-
-  void SearchForThis();
-
-  void SearchArtistsClicked(bool);
-  void SearchAlbumsClicked(bool);
-  void SearchSongsClicked(bool);
-  void GroupByClicked(QAction *action);
-  void SetSearchType(const InternetSearch::SearchType type);
-  void SetGroupBy(const CollectionModel::Grouping &g);
-
   void AddArtists();
   void AddAlbums();
   void AddSongs();
+  void SearchForThis();
+  void OpenSettingsDialog();
+
+  void SearchArtistsClicked(const bool);
+  void SearchAlbumsClicked(const bool);
+  void SearchSongsClicked(const bool);
+  void GroupByClicked(QAction *action);
+  void SetGroupBy(const CollectionModel::Grouping &g);
+
+  void AlbumCoverLoaded(const quint64 id, const QUrl&, const QImage &image);
+
+ public slots:
+  void ReloadSettings();
 
  private:
-  MimeData *SelectedMimeData();
+  static const int kSwapModelsTimeoutMsec;
+  static const int kDelayedSearchTimeoutMs;
+  static const int kArtHeight;
 
-  bool SearchKeyEvent(QKeyEvent *event);
-  bool ResultsContextMenuEvent(QContextMenuEvent *event);
-
+ private:
   Application *app_;
-  InternetSearch *engine_;
-  QString settings_group_;
-  SettingsDialog::Page settings_page_;
+  InternetService *service_;
   Ui_InternetSearchView *ui_;
   QScopedPointer<GroupByDialog> group_by_dialog_;
-  bool artists_;
-  bool albums_;
-  bool songs_;
 
   QMenu *context_menu_;
   QList<QAction*> context_actions_;
   QActionGroup *group_by_actions_;
-
-  int last_search_id_;
 
   // Like graphics APIs have a front buffer and a back buffer, there's a front model and a back model
   // The front model is the one that's shown in the UI and the back model is the one that lies in wait.
@@ -148,13 +204,24 @@ class InternetSearchView : public QWidget {
   QSortFilterProxyModel *back_proxy_;
   QSortFilterProxyModel *current_proxy_;
 
-  QMap<int, QModelIndex> art_requests_;
-
   QTimer *swap_models_timer_;
 
-  InternetSearch::SearchType search_type_;
-  bool error_;
+  SearchType search_type_;
+  bool search_error_;
+  int last_search_id_;
+  int searches_next_id_;
+  int art_searches_next_id_;
+
+  QMap<int, DelayedSearch> delayed_searches_;
+  QMap<int, PendingState> pending_searches_;
+  QMap<int, QString> pending_art_searches_;
+  QMap<int, QModelIndex> art_requests_;
+  AlbumCoverLoaderOptions cover_loader_options_;
+  QMap<quint64, quint64> cover_loader_tasks_;
+  QPixmapCache pixmap_cache_;
 
 };
+Q_DECLARE_METATYPE(InternetSearchView::Result)
+Q_DECLARE_METATYPE(InternetSearchView::ResultList)
 
 #endif  // INTERNETSEARCHVIEW_H

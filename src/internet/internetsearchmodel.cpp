@@ -32,12 +32,14 @@
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"
-#include "internetsearch.h"
+#include "internetsongmimedata.h"
+#include "internetservice.h"
 #include "internetsearchmodel.h"
+#include "internetsearchview.h"
 
-InternetSearchModel::InternetSearchModel(InternetSearch *engine, QObject *parent)
+InternetSearchModel::InternetSearchModel(InternetService *service, QObject *parent)
     : QStandardItemModel(parent),
-      engine_(engine),
+      service_(service),
       proxy_(nullptr),
       use_pretty_covers_(true),
       artist_icon_(IconLoader::Load("folder-sound")),
@@ -52,11 +54,11 @@ InternetSearchModel::InternetSearchModel(InternetSearch *engine, QObject *parent
 
 }
 
-void InternetSearchModel::AddResults(const InternetSearch::ResultList &results) {
+void InternetSearchModel::AddResults(const InternetSearchView::ResultList &results) {
 
   int sort_index = 0;
 
-  for (const InternetSearch::Result &result : results) {
+  for (const InternetSearchView::Result &result : results) {
     QStandardItem *parent = invisibleRootItem();
 
     // Find (or create) the container nodes for this result if we can.
@@ -277,7 +279,7 @@ void InternetSearchModel::Clear() {
   clear();
 }
 
-InternetSearch::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
+InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
 
   QList<QStandardItem*> items;
   for (const QModelIndex &index : indexes) {
@@ -287,9 +289,9 @@ InternetSearch::ResultList InternetSearchModel::GetChildResults(const QModelInde
 
 }
 
-InternetSearch::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
+InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QList<QStandardItem*> &items) const {
 
-  InternetSearch::ResultList results;
+  InternetSearchView::ResultList results;
   QSet<const QStandardItem*> visited;
 
   for (QStandardItem *item : items) {
@@ -300,7 +302,7 @@ InternetSearch::ResultList InternetSearchModel::GetChildResults(const QList<QSta
 
 }
 
-void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearch::ResultList *results, QSet<const QStandardItem*> *visited) const {
+void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const {
 
   if (visited->contains(item)) {
     return;
@@ -322,7 +324,7 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
     // No - maybe it's a song, add its result if valid
     QVariant result = item->data(Role_Result);
     if (result.isValid()) {
-      results->append(result.value<InternetSearch::Result>());
+      results->append(result.value<InternetSearchView::Result>());
     }
     else {
       // Maybe it's a provider then?
@@ -344,15 +346,17 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
 }
 
 QMimeData *InternetSearchModel::mimeData(const QModelIndexList &indexes) const {
-  return engine_->LoadTracks(GetChildResults(indexes));
+
+  return LoadTracks(GetChildResults(indexes));
+
 }
 
 namespace {
-void GatherResults(const QStandardItem *parent, InternetSearch::ResultList *results) {
+void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *results) {
 
   QVariant result_variant = parent->data(InternetSearchModel::Role_Result);
   if (result_variant.isValid()) {
-    InternetSearch::Result result = result_variant.value<InternetSearch::Result>();
+    InternetSearchView::Result result = result_variant.value<InternetSearchView::Result>();
     (*results).append(result);
   }
 
@@ -369,7 +373,7 @@ void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, 
 
   if (regroup_now && group_by_ != old_group_by) {
     // Walk the tree gathering the results we have already
-    InternetSearch::ResultList results;
+    InternetSearchView::ResultList results;
     GatherResults(invisibleRootItem(), &results);
 
     // Reset the model and re-add all the results using the new grouping.
@@ -378,3 +382,34 @@ void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, 
   }
 
 }
+
+MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &results) const {
+
+  if (results.isEmpty()) {
+    return nullptr;
+  }
+
+  InternetSearchView::ResultList results_copy;
+  for (const InternetSearchView::Result &result : results) {
+    results_copy << result;
+  }
+
+  SongList songs;
+  for (const InternetSearchView::Result &result : results) {
+    songs << result.metadata_;
+  }
+
+  InternetSongMimeData *internet_song_mime_data = new InternetSongMimeData(service_);
+  internet_song_mime_data->songs = songs;
+  MimeData *mime_data = internet_song_mime_data;
+
+  QList<QUrl> urls;
+  for (const InternetSearchView::Result &result : results) {
+    urls << result.metadata_.url();
+  }
+  mime_data->setUrls(urls);
+
+  return mime_data;
+
+}
+

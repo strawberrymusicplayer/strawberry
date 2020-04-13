@@ -286,7 +286,6 @@ set(SOURCES
   internet/internetservices.cpp
   internet/internetservice.cpp
   internet/internetplaylistitem.cpp
-  internet/internetsearch.cpp
   internet/internetsearchview.cpp
   internet/internetsearchmodel.cpp
   internet/internetsearchsortmodel.cpp
@@ -472,7 +471,6 @@ set(HEADERS
   internet/internetservices.h
   internet/internetservice.h
   internet/internetsongmimedata.h
-  internet/internetsearch.h
   internet/internetsearchview.h
   internet/internetsearchmodel.h
   internet/localredirectserver.h

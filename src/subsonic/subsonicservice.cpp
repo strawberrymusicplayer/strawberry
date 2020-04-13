@@ -67,7 +67,7 @@ const char *SubsonicService::kSongsFtsTable = "subsonic_songs_fts";
 const int SubsonicService::kMaxRedirects = 3;
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : InternetService(Song::Source_Subsonic, "Subsonic", "subsonic", app, parent),
+    : InternetService(Song::Source_Subsonic, "Subsonic", "subsonic", SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, app, parent),
       app_(app),
       network_(new QNetworkAccessManager),
       url_handler_(new SubsonicUrlHandler(app, this)),
