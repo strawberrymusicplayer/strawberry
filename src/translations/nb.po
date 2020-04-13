@@ -429,6 +429,10 @@ msgstr "AAC"
 msgid "ALSA plugin"
 msgstr "ALSA plugin"
 
+#: ../build/src/ui_tidalsettingspage.h:321
+msgid "API Token"
+msgstr "API Token"
+
 #: ../build/src/ui_transcodersettingspage.h:196
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
@@ -481,7 +485,7 @@ msgstr "Legg til alle filer fra ei mappe og dens undermapper"
 msgid "Add directory..."
 msgstr "Legg til mappe…"
 
-#: core/mainwindow.cpp:1846
+#: core/mainwindow.cpp:1878
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -497,7 +501,7 @@ msgstr "Legg fil(er) til omkoder"
 msgid "Add files to transcode"
 msgstr "Legg filer til for omkoding"
 
-#: core/mainwindow.cpp:1871 transcoder/transcodedialog.cpp:415
+#: core/mainwindow.cpp:1903 transcoder/transcodedialog.cpp:415
 msgid "Add folder"
 msgstr "Legg til mappe"
 
@@ -588,15 +592,15 @@ msgstr "Fest etikett for låtnummer til sporet"
 msgid "Add song year tag"
 msgstr "Fest etikett for utgivelsesår på sporet"
 
-#: internet/internetsearchview.cpp:444
+#: internet/internetsearchview.cpp:319
 msgid "Add to albums"
 msgstr "Legg til albumer"
 
-#: core/mainwindow.cpp:1662
+#: core/mainwindow.cpp:1694
 msgid "Add to another playlist"
 msgstr "Legg til i annen spilleliste"
 
-#: internet/internetsearchview.cpp:442
+#: internet/internetsearchview.cpp:316
 msgid "Add to artists"
 msgstr "Legg til artister"
 
@@ -604,7 +608,7 @@ msgstr "Legg til artister"
 msgid "Add to playlist"
 msgstr "Legg til i spilleliste"
 
-#: internet/internetsearchview.cpp:446
+#: internet/internetsearchview.cpp:322
 msgid "Add to songs"
 msgstr "Legg til sanger"
 
@@ -681,7 +685,11 @@ msgstr ""
 msgid "Album artist"
 msgstr "Album artist"
 
-#: ../build/src/ui_internettabsview.h:111
+#: ../build/src/ui_tidalsettingspage.h:334
+msgid "Album cover size"
+msgstr "Plateomslag størrelse"
+
+#: ../build/src/ui_internettabsview.h:117
 msgid "Albums"
 msgstr "Albumer"
 
@@ -694,6 +702,10 @@ msgstr ""
 msgid "Albums by Artist"
 msgstr "Albumer av artist"
 
+#: ../build/src/ui_tidalsettingspage.h:330
+msgid "Albums search limit"
+msgstr "Album søke begrensning"
+
 #: covermanager/albumcovermanager.cpp:163
 msgid "Albums with covers"
 msgstr "Album med omslag"
@@ -702,7 +714,7 @@ msgstr "Album med omslag"
 msgid "Albums without covers"
 msgstr "Album uten omslag"
 
-#: core/mainwindow.cpp:182
+#: core/mainwindow.cpp:186
 msgid "All Files (*)"
 msgstr "Alle filer (*)"
 
@@ -778,7 +790,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Tilføy filer/URLer til spillelista"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:305
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Legg til i gjeldende spilleliste"
@@ -814,9 +826,13 @@ msgstr "Artist"
 msgid "Artist's initial"
 msgstr "Artistens initialer"
 
-#: ../build/src/ui_internettabsview.h:110
+#: ../build/src/ui_internettabsview.h:116
 msgid "Artists"
 msgstr "Artister"
+
+#: ../build/src/ui_tidalsettingspage.h:329
+msgid "Artists search limit"
+msgstr "Artist søkebegrensning"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
@@ -830,9 +846,22 @@ msgstr "Lydformat"
 msgid "Audio output"
 msgstr "Lyd-utenhet"
 
+#: ../build/src/ui_tidalsettingspage.h:326
+msgid "Audio quality"
+msgstr "Lydkvalitet"
+
+#: tidal/tidalrequest.cpp:117
+msgid "Authenticating..."
+msgstr "Autentiserer..."
+
 #: ../build/src/ui_subsonicsettingspage.h:188
+#: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Autentisering"
+
+#: settings/tidalsettingspage.cpp:203
+msgid "Authentication failed"
+msgstr "Identitetsbekreftelse feilet"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -989,6 +1018,10 @@ msgstr "K&onsoll"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD avspilling er kun mulig med gstreamer"
 
+#: tidal/tidalstreamurlrequest.cpp:107
+msgid "Cancelled."
+msgstr "Avbrutt"
+
 #: ../build/src/ui_edittagdialog.h:663
 msgid "Change cover art"
 msgstr "Endre omslagsbilde"
@@ -1005,7 +1038,7 @@ msgstr "Bytt låten som spilles"
 msgid "Change the language"
 msgstr "Endre språk"
 
-#: core/mainwindow.cpp:653
+#: core/mainwindow.cpp:672
 msgid "Check for updates..."
 msgstr "Se etter oppdateringer…"
 
@@ -1030,7 +1063,7 @@ msgstr "Tøm"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:1923 ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1955 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
@@ -1062,6 +1095,10 @@ msgstr "Klikk her for å få inn musikk"
 msgid "Click to toggle between remaining time and total time"
 msgstr "Klikk for å bytte mellom gjenværende og total tid"
 
+#: ../build/src/ui_tidalsettingspage.h:320
+msgid "Client ID"
+msgstr "Client ID"
+
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Lukk"
@@ -1078,7 +1115,7 @@ msgstr "Lukking av dette vinduet vil medføre stopp i søk etter albumomslag."
 msgid "Club"
 msgstr "Klubbmusikk"
 
-#: core/mainwindow.cpp:275 ../build/src/ui_collectionsettingspage.h:359
+#: core/mainwindow.cpp:282 ../build/src/ui_collectionsettingspage.h:359
 msgid "Collection"
 msgstr "Samling"
 
@@ -1090,7 +1127,7 @@ msgstr "Collection Filter"
 msgid "Collection advanced grouping"
 msgstr "Avansert samlingsgruppering"
 
-#: core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2427
 msgid "Collection rescan notice"
 msgstr "Melding om gjennomsøk av samlingen"
 
@@ -1126,7 +1163,8 @@ msgstr "Full ut etiketter automatisk…"
 msgid "Composer"
 msgstr "Komponist"
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:160
 msgid "Configuration incomplete"
 msgstr "Oppsett ikke komplett"
 
@@ -1134,12 +1172,12 @@ msgstr "Oppsett ikke komplett"
 msgid "Configuration incorrect"
 msgstr "Uriktig oppsett"
 
-#: internet/internetsearchview.cpp:150 internet/internetsearchview.cpp:457
+#: internet/internetsearchview.cpp:182 internet/internetsearchview.cpp:334
 #, qt-format
 msgid "Configure %1..."
 msgstr "Sett opp %1…"
 
-#: core/mainwindow.cpp:552
+#: core/mainwindow.cpp:562
 msgid "Configure collection..."
 msgstr "Sett opp samling…"
 
@@ -1155,7 +1193,7 @@ msgstr "Konsoll"
 msgid "Constant bitrate"
 msgstr "Konstant bitrate"
 
-#: core/mainwindow.cpp:274 ../build/src/ui_contextsettingspage.h:247
+#: core/mainwindow.cpp:281 ../build/src/ui_contextsettingspage.h:247
 msgid "Context"
 msgstr "Kontekst"
 
@@ -1180,12 +1218,12 @@ msgstr "Konverter all musikk som enheten ikke kan spille"
 msgid "Copy album cover artwork"
 msgstr "Kopier album omslaggrafikk"
 
-#: core/mainwindow.cpp:600 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:619 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Kopier til samling…"
 
-#: core/mainwindow.cpp:598 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:617 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
 #: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
@@ -1426,11 +1464,11 @@ msgstr "Slett de originale filene"
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: core/mainwindow.cpp:1585
+#: core/mainwindow.cpp:1617
 msgid "Dequeue selected tracks"
 msgstr "Fjern valgte spor fra avspillingskøen"
 
-#: core/mainwindow.cpp:1584
+#: core/mainwindow.cpp:1616
 msgid "Dequeue track"
 msgstr "Fjern sporet fra avspillingskøen"
 
@@ -1455,7 +1493,7 @@ msgstr "Egenskaper for enhet"
 msgid "Device properties..."
 msgstr "Egenskaper for enhet…"
 
-#: core/mainwindow.cpp:280
+#: core/mainwindow.cpp:287
 msgid "Devices"
 msgstr "Enheter"
 
@@ -1541,6 +1579,7 @@ msgid "Double clicking a song will..."
 msgstr "Dobbeltklikking på en sang vil…"
 
 #: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_tidalsettingspage.h:332
 msgid "Download album covers"
 msgstr "Last ned album kover"
 
@@ -1552,7 +1591,7 @@ msgstr "Laster ned metadata"
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
-#: core/mainwindow.cpp:1626
+#: core/mainwindow.cpp:1658
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Rediger etiketten \"%1\"…"
@@ -1583,6 +1622,7 @@ msgstr "Rediger spor informasjon…"
 #: ../build/src/ui_scrobblersettingspage.h:326
 #: ../build/src/ui_scrobblersettingspage.h:329
 #: ../build/src/ui_subsonicsettingspage.h:186
+#: ../build/src/ui_tidalsettingspage.h:316
 msgid "Enable"
 msgstr "Aktiver"
 
@@ -1650,7 +1690,7 @@ msgstr "Skriv inn et filnavn for eksportert albumomslag (uten filendelse):"
 msgid "Enter a new name for this playlist"
 msgstr "Gi denne spillelista et nytt navn"
 
-#: ../build/src/ui_internetsearchview.h:233
+#: ../build/src/ui_internetsearchview.h:230
 msgid "Enter search terms above to find music"
 msgstr "Skriv inn søkeord ovenfor for å finne musikk"
 
@@ -1683,7 +1723,7 @@ msgstr "Tilsvarer --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Tilsvarer --log-levels *:3"
 
-#: core/mainwindow.cpp:2159 core/mainwindow.cpp:2281
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2321
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "Error"
 msgstr "Feil"
@@ -1823,12 +1863,16 @@ msgstr "Hent automatisk"
 msgid "Fetch completed"
 msgstr "Innhenting fullført"
 
+#: ../build/src/ui_tidalsettingspage.h:333
+msgid "Fetch entire albums when searching songs"
+msgstr "Hent hele album når en søker etter sanger"
+
 #: covermanager/coverfromurldialog.cpp:83
 #: covermanager/coverfromurldialog.cpp:95
 msgid "Fetching cover error"
 msgstr "Kunne ikke hente albumgrafikk"
 
-#: core/song.cpp:997
+#: core/song.cpp:996
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Fil %1 er ikke gjenkjent som en lydfil"
@@ -1871,7 +1915,7 @@ msgstr "Filnavn"
 msgid "Filename:"
 msgstr "Filnavn:"
 
-#: core/mainwindow.cpp:276
+#: core/mainwindow.cpp:283
 msgid "Files"
 msgstr "Filer"
 
@@ -1958,7 +2002,7 @@ msgstr "Full bass + diskant"
 msgid "Full Treble"
 msgstr "Full diskant"
 
-#: settings/settingsdialog.cpp:124
+#: settings/settingsdialog.cpp:127
 msgid "General"
 msgstr "Generelt"
 
@@ -2001,7 +2045,7 @@ msgid "Group Collection by..."
 msgstr "Grupper samling etter…"
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:455
+#: internet/internetsearchview.cpp:332
 msgid "Group by"
 msgstr "Grupper etter"
 
@@ -2178,6 +2222,14 @@ msgstr "Sett inn…"
 msgid "Integrity check"
 msgstr "Integritetskontrol"
 
+#: ../build/src/ui_internetsearchview.h:224
+msgid "Internet Search View"
+msgstr ""
+
+#: ../build/src/ui_internettabsview.h:115
+msgid "Internet Tabs View"
+msgstr ""
+
 #: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Introspor"
@@ -2324,6 +2376,7 @@ msgstr "Åpne filer/URL-er; erstatt gjeldende spilleliste"
 #: ../build/src/ui_scrobblersettingspage.h:324
 #: ../build/src/ui_scrobblersettingspage.h:327
 #: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_tidalsettingspage.h:324
 msgid "Login"
 msgstr "Innlogging"
 
@@ -2409,9 +2462,35 @@ msgstr "Minimal bitrate"
 msgid "Minimum buffer fill"
 msgstr "Minimum mellomlagerutfylling"
 
+#: settings/tidalsettingspage.cpp:160
+msgid "Missing API token, username or password."
+msgstr ""
+
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
 msgstr "Mangler Subsonic brukernavn eller passord."
+
+#: tidal/tidalservice.cpp:681 tidal/tidalservice.cpp:740
+#: tidal/tidalservice.cpp:797 tidal/tidalservice.cpp:863
+#: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:89
+msgid "Missing Tidal API token, username or password."
+msgstr ""
+
+#: tidal/tidalservice.cpp:642
+msgid "Missing Tidal API token."
+msgstr "Mangler Tidal API token."
+
+#: settings/tidalsettingspage.cpp:153
+msgid "Missing Tidal client ID."
+msgstr "Mangler Tidal client ID."
+
+#: tidal/tidalservice.cpp:650
+msgid "Missing Tidal password."
+msgstr "Mangler Tidal passord."
+
+#: tidal/tidalservice.cpp:646
+msgid "Missing Tidal username."
+msgstr "Mangler Tidal brukernavn."
 
 #: settings/subsonicsettingspage.cpp:101
 msgid "Missing server url, username or password."
@@ -2454,7 +2533,7 @@ msgstr "Monteringspunkter"
 msgid "Move down"
 msgstr "Flytt nedover"
 
-#: core/mainwindow.cpp:601 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:620 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Flytt til samling…"
 
@@ -2462,7 +2541,7 @@ msgstr "Flytt til samling…"
 msgid "Move up"
 msgstr "Flytt oppover"
 
-#: core/mainwindow.cpp:1846 transcoder/transcodedialog.cpp:330
+#: core/mainwindow.cpp:1878 transcoder/transcodedialog.cpp:330
 msgid "Music"
 msgstr "Musikk"
 
@@ -2501,7 +2580,7 @@ msgstr "Aldri begynn avspilling"
 msgid "New folder"
 msgstr "Ny mappe"
 
-#: core/mainwindow.cpp:1678
+#: core/mainwindow.cpp:1710
 msgid "New playlist"
 msgstr "Ny spilleliste"
 
@@ -2529,6 +2608,10 @@ msgstr "Ingen omslag å eksportere."
 msgid "No long blocks"
 msgstr "Ingen lange blokker"
 
+#: tidal/tidalrequest.cpp:1220
+msgid "No match."
+msgstr "Ingen treff."
+
 #: playlist/playlistcontainer.cpp:388
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
@@ -2547,7 +2630,7 @@ msgstr "Ingen sang spilles"
 msgid "None"
 msgstr "Ingen"
 
-#: core/mainwindow.cpp:2159 core/mainwindow.cpp:2281
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2321
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Kunne ikke kopiere noen av de valgte sangene til en enhet"
@@ -2559,6 +2642,17 @@ msgstr "Normal"
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
 msgstr "Normal blokktype"
+
+#: tidal/tidalservice.cpp:654
+msgid ""
+"Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr "Autentisering med Tidal  har nådd maksimalt antall påloggingsforsøk."
+
+#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
+#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
+#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:85
+msgid "Not authenticated with Tidal."
+msgstr "Ikke autentisert med Tidal."
 
 #: device/deviceview.cpp:129
 msgid "Not connected"
@@ -2621,7 +2715,7 @@ msgid "Open device"
 msgstr "Åpne enhet"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:307
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -2652,7 +2746,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Organiser filer"
 
-#: core/mainwindow.cpp:602 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:330
 msgid "Organise files..."
 msgstr "Organiser filer…"
@@ -2715,6 +2809,7 @@ msgstr "Fest"
 
 #: ../build/src/ui_networkproxysettingspage.h:176
 #: ../build/src/ui_subsonicsettingspage.h:190
+#: ../build/src/ui_tidalsettingspage.h:323
 msgid "Password"
 msgstr "Passord"
 
@@ -2722,7 +2817,7 @@ msgstr "Passord"
 msgid "Password Protected"
 msgstr "Passordbeskyttet"
 
-#: core/mainwindow.cpp:1051 core/mainwindow.cpp:1490
+#: core/mainwindow.cpp:1083 core/mainwindow.cpp:1522
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2750,8 +2845,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Enkelt sidefelt"
 
-#: core/mainwindow.cpp:572 core/mainwindow.cpp:1004 core/mainwindow.cpp:1033
-#: core/mainwindow.cpp:1494 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:591 core/mainwindow.cpp:1036 core/mainwindow.cpp:1065
+#: core/mainwindow.cpp:1526 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Spill"
@@ -2788,7 +2883,7 @@ msgstr "Spilleliste"
 msgid "Playlist finished"
 msgstr "Spillelisten er ferdigspilt"
 
-#: core/mainwindow.cpp:1923
+#: core/mainwindow.cpp:1955
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -2800,7 +2895,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Innstillinger for spilleliste"
 
-#: core/mainwindow.cpp:277
+#: core/mainwindow.cpp:284
 msgid "Playlists"
 msgstr "Spillelister"
 
@@ -2837,6 +2932,7 @@ msgid "Prefer album artist when sending scrobbles"
 msgstr "Foretrekk album artist når scrobbler sendes"
 
 #: ../build/src/ui_subsonicsettingspage.h:192
+#: ../build/src/ui_tidalsettingspage.h:325
 msgid "Preferences"
 msgstr "Innstillinger"
 
@@ -2923,25 +3019,25 @@ msgstr "Kvalitet"
 msgid "Querying device..."
 msgstr "Spør enhet…"
 
-#: core/mainwindow.cpp:278
+#: core/mainwindow.cpp:285
 msgid "Queue"
 msgstr "Kø"
 
-#: core/mainwindow.cpp:1587
+#: core/mainwindow.cpp:1619
 msgid "Queue selected tracks"
 msgstr "Legg valgte spor i kø"
 
-#: core/mainwindow.cpp:578 core/mainwindow.cpp:1591
+#: core/mainwindow.cpp:597 core/mainwindow.cpp:1623
 msgid "Queue selected tracks to play next"
 msgstr "Legg valgte spor i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1593 collection/collectionview.cpp:327
+#: core/mainwindow.cpp:1625 collection/collectionview.cpp:327
 #: internet/internetcollectionview.cpp:311
 msgid "Queue to play next"
 msgstr "Legg i kø for å spille som neste"
 
-#: core/mainwindow.cpp:1586 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:326 internet/internetsearchview.cpp:436
+#: core/mainwindow.cpp:1618 context/contextalbumsview.cpp:257
+#: collection/collectionview.cpp:326 internet/internetsearchview.cpp:310
 #: internet/internetcollectionview.cpp:310
 msgid "Queue track"
 msgstr "Legg spor i kø"
@@ -3064,7 +3160,7 @@ msgid "Repeat track"
 msgstr "Gjenta spor"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:306
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Erstatt gjeldende spilleliste"
@@ -3088,6 +3184,10 @@ msgstr "Normalisering"
 #: ../build/src/ui_backendsettingspage.h:459
 msgid "Replay Gain mode"
 msgstr "ReplayGain-modus"
+
+#: tidal/tidalservice.cpp:351
+msgid "Reply from Tidal is missing query items."
+msgstr "Svar fra Tidal mangler query items."
 
 #: collection/collectionview.cpp:343
 msgid "Rescan song(s)"
@@ -3128,29 +3228,47 @@ msgstr "Begrens til tegn tillat på FAT filsystem"
 msgid "Resume playback on start"
 msgstr "Gjenoppta avspilling etter oppstart"
 
-#: subsonic/subsonicrequest.cpp:676
+#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mottar album kover for %1 album..."
 
-#: subsonic/subsonicrequest.cpp:677
+#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1082
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mottar album kover for %1 albums..."
 
-#: subsonic/subsonicrequest.cpp:126
+#: tidal/tidalrequest.cpp:464
+#, qt-format
+msgid "Retrieving albums for %1 artist..."
+msgstr "Mottar albumer for %1 artist..."
+
+#: tidal/tidalrequest.cpp:465
+#, qt-format
+msgid "Retrieving albums for %1 artists..."
+msgstr "Mottar albumer for %1 artister..."
+
+#: subsonic/subsonicrequest.cpp:126 tidal/tidalrequest.cpp:200
 msgid "Retrieving albums..."
 msgstr "Mottar albumer..."
 
-#: subsonic/subsonicrequest.cpp:316
+#: tidal/tidalrequest.cpp:156
+msgid "Retrieving artists..."
+msgstr "Mottar artister..."
+
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mottar sanger for %1 album..."
 
-#: subsonic/subsonicrequest.cpp:317
+#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:723
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mottar sanger for %1 albumer..."
+
+#: tidal/tidalrequest.cpp:244
+msgid "Retrieving songs..."
+msgstr "Mottar sanger..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3273,7 +3391,7 @@ msgstr "Rull over ikon for å endre spor"
 #: covermanager/albumcoversearcher.cpp:193
 #: covermanager/albumcoversearcher.cpp:212
 #: ../build/src/ui_albumcoversearcher.h:113
-#: ../build/src/ui_internettabsview.h:113
+#: ../build/src/ui_internettabsview.h:119
 msgid "Search"
 msgstr "Søk"
 
@@ -3281,21 +3399,22 @@ msgstr "Søk"
 msgid "Search automatically"
 msgstr "Automatisk søk"
 
+#: ../build/src/ui_tidalsettingspage.h:327
+msgid "Search delay"
+msgstr "Søke forsinkelse"
+
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
 msgstr "Søk etter albumomslag…"
 
-#: ../build/src/ui_internetsearchview.h:227
-msgid "Search for anything"
-msgstr "Søk etter hva som helst"
-
-#: internet/internetsearchview.cpp:451
+#: internet/internetsearchview.cpp:328
 msgid "Search for this"
 msgstr "Søk etter dette"
 
-#: ../build/src/ui_internetsearchview.h:228
-msgid "Search type"
-msgstr "Søketype"
+#: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
+#: tidal/tidalrequest.cpp:316
+msgid "Searching..."
+msgstr "Søker..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
@@ -3353,7 +3472,7 @@ msgstr "Server URL"
 msgid "Server URL is invalid."
 msgstr "Server URL er ugyldig."
 
-#: core/mainwindow.cpp:1625
+#: core/mainwindow.cpp:1657
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Sett %1 til \"%2\"…"
@@ -3440,7 +3559,7 @@ msgstr "Vis albumbilder i samlingen"
 msgid "Show albums by artist"
 msgstr "Vis albumer med artist"
 
-#: core/mainwindow.cpp:541
+#: core/mainwindow.cpp:551
 msgid "Show all songs"
 msgstr "Vis alle sanger"
 
@@ -3456,7 +3575,7 @@ msgstr "Vis motor og enhet"
 msgid "Show fullsize..."
 msgstr "Fullskjermvisning…"
 
-#: core/mainwindow.cpp:605
+#: core/mainwindow.cpp:624
 msgid "Show in collection..."
 msgstr "Vis i samling…"
 
@@ -3464,7 +3583,7 @@ msgstr "Vis i samling…"
 msgid "Show in file browser"
 msgstr "Vis i fil utforsker"
 
-#: core/mainwindow.cpp:603 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:622 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Vis i fil utforsker"
@@ -3481,11 +3600,11 @@ msgstr "Vis love knapp"
 msgid "Show moodbar"
 msgstr "Vis moodbar"
 
-#: core/mainwindow.cpp:542
+#: core/mainwindow.cpp:552
 msgid "Show only duplicates"
 msgstr "Bare vis duplikater"
 
-#: core/mainwindow.cpp:543
+#: core/mainwindow.cpp:553
 msgid "Show only untagged"
 msgstr "Bare vis filer uten etiketter"
 
@@ -3558,11 +3677,11 @@ msgstr "Antall ganger hoppet over"
 msgid "Skip forwards in playlist"
 msgstr "Gå fremover i spillelista"
 
-#: core/mainwindow.cpp:1598
+#: core/mainwindow.cpp:1630
 msgid "Skip selected tracks"
 msgstr "Hopp over valgte spor"
 
-#: core/mainwindow.cpp:1597
+#: core/mainwindow.cpp:1629
 msgid "Skip track"
 msgstr "Hopp over spor"
 
@@ -3586,7 +3705,7 @@ msgstr "Soft rock"
 msgid "Song Lyrics"
 msgstr "Sangtekst"
 
-#: ../build/src/ui_internettabsview.h:112
+#: ../build/src/ui_internettabsview.h:118
 msgid "Songs"
 msgstr "Sanger"
 
@@ -3599,6 +3718,10 @@ msgstr ""
 "Sanger blir scrobblet når de har gyldig metadata, er lengre enn 30 seconds, "
 "og har blitt spilt for minst halve tiden, eller 30 sekunder (det som skjer "
 "tidligst)."
+
+#: ../build/src/ui_tidalsettingspage.h:331
+msgid "Songs search limit"
+msgstr "Søkebegrensing for sanger"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -3637,7 +3760,7 @@ msgstr "Stopp etter hvert spor"
 msgid "Stop after every track"
 msgstr "Stopp etter hvert spor"
 
-#: core/mainwindow.cpp:574 ../build/src/ui_mainwindow.h:616
+#: core/mainwindow.cpp:593 ../build/src/ui_mainwindow.h:616
 msgid "Stop after this track"
 msgstr "Stopp etter denne sangen"
 
@@ -3702,7 +3825,11 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry klarte ikke å finne resultater for denne filen"
 
-#: settings/settingsdialog.cpp:149
+#: ../build/src/ui_tidalsettingspage.h:335
+msgid "Stream URL method"
+msgstr "Strøm URL metode"
+
+#: settings/settingsdialog.cpp:152
 msgid "Streaming"
 msgstr "Strømming"
 
@@ -3714,7 +3841,7 @@ msgstr "Utvid bildet til å fylle spilleliste"
 msgid "Submit scrobbles every"
 msgstr "Send scrobbles hver"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:290 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -3831,7 +3958,7 @@ msgstr "Siden du forespurte finnes ikke!"
 msgid "The site you requested is not an image!"
 msgstr "Siden du forespurte er ikke et bilde!"
 
-#: core/mainwindow.cpp:2382
+#: core/mainwindow.cpp:2422
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -3939,6 +4066,16 @@ msgstr "Dette valget kan endres under innstillinger for \"Oppførsel\""
 msgid "This type of device is not supported: %1"
 msgstr "Denne enhetstypen (%1) støttes ikke."
 
+#: core/mainwindow.cpp:293 ../build/src/ui_tidalsettingspage.h:315
+msgid "Tidal"
+msgstr "Tidal"
+
+#: ../build/src/ui_tidalsettingspage.h:317
+msgid ""
+"Tidal support is not official and requires a API token from a registered "
+"application to work. We can't help you getting these."
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
 msgstr "Tidstrinn"
@@ -3958,7 +4095,7 @@ msgstr "Tittel"
 msgid "Today"
 msgstr "I dag"
 
-#: core/mainwindow.cpp:575 core/mainwindow.cpp:1588
+#: core/mainwindow.cpp:594 core/mainwindow.cpp:1620
 msgid "Toggle queue status"
 msgstr "Slå av/på køstatus"
 
@@ -3966,7 +4103,7 @@ msgstr "Slå av/på køstatus"
 msgid "Toggle scrobbling"
 msgstr "Slå av/på deling av lyttevaner"
 
-#: core/mainwindow.cpp:581 core/mainwindow.cpp:1599
+#: core/mainwindow.cpp:600 core/mainwindow.cpp:1631
 msgid "Toggle skip status"
 msgstr "Slå av/på hopp over status"
 
@@ -4037,7 +4174,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultrabredt bånd (UWB)"
 
-#: core/song.cpp:524 context/contextalbumsmodel.cpp:362
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:362
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1404
@@ -4047,7 +4184,7 @@ msgstr "Ultrabredt bånd (UWB)"
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: subsonic/subsonicrequest.cpp:816
+#: subsonic/subsonicrequest.cpp:812 tidal/tidalrequest.cpp:1226
 msgid "Unknown error"
 msgstr "Ukjent feil"
 
@@ -4055,11 +4192,11 @@ msgstr "Ukjent feil"
 msgid "Unset cover"
 msgstr "Fjern omslagsvalg"
 
-#: core/mainwindow.cpp:1596
+#: core/mainwindow.cpp:1628
 msgid "Unskip selected tracks"
 msgstr "Ikke hopp over de valgte sporene"
 
-#: core/mainwindow.cpp:1595
+#: core/mainwindow.cpp:1627
 msgid "Unskip track"
 msgstr "Ikke hopp over sporet"
 
@@ -4100,6 +4237,10 @@ msgstr "Bruk Gnome (GSD) D-Bus snarveier"
 #: ../build/src/ui_scrobblersettingspage.h:323
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr "Bruk HTTPS for å unngå påloggingsproblem"
+
+#: ../build/src/ui_tidalsettingspage.h:319
+msgid "Use OAuth"
+msgstr "Bruk OAuth"
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4161,7 +4302,7 @@ msgstr "Bruk systemforevalg"
 msgid "Used"
 msgstr "Brukt"
 
-#: settings/settingsdialog.cpp:135
+#: settings/settingsdialog.cpp:138
 msgid "User interface"
 msgstr "Brukergrensesnitt"
 
@@ -4171,6 +4312,7 @@ msgstr "Bruker nøkkel:"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 #: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_tidalsettingspage.h:322
 msgid "Username"
 msgstr "Brukernavn"
 
@@ -4192,8 +4334,8 @@ msgid "Variable bit rate"
 msgstr "Variabel bitrate"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:555
-#: covermanager/albumcovermanager.cpp:328 internet/internetsearchmodel.cpp:95
-#: internet/internetsearchmodel.cpp:107
+#: covermanager/albumcovermanager.cpp:328 internet/internetsearchmodel.cpp:97
+#: internet/internetsearchmodel.cpp:109
 msgid "Various artists"
 msgstr "Diverse artister"
 
@@ -4271,7 +4413,7 @@ msgid ""
 msgstr ""
 "Ønsker du å også flytte resten av sangene fra albumet til diverse artister?"
 
-#: core/mainwindow.cpp:2386
+#: core/mainwindow.cpp:2426
 msgid "Would you like to run a full rescan right now?"
 msgstr "Vil du søke gjennom hele samlingen på ny nå?"
 
@@ -4370,23 +4512,23 @@ msgstr "Samlingen din er tom!"
 msgid "Zero"
 msgstr "Null"
 
-#: ../build/src/ui_internetsearchview.h:230
-msgid "a&lbums"
-msgstr "a&lbumer"
-
 #: playlist/playlistundocommands.cpp:47
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
 msgstr "legg til %n sanger"
 
-#: ../build/src/ui_internetsearchview.h:229
-msgid "ar&tists"
-msgstr "ar&tister"
+#: ../build/src/ui_internetsearchview.h:227
+msgid "albums"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
 msgstr "artist"
+
+#: ../build/src/ui_internetsearchview.h:226
+msgid "artists"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4418,6 +4560,10 @@ msgctxt ""
 msgid "move %n songs"
 msgstr "flytt %n sanger"
 
+#: ../build/src/ui_tidalsettingspage.h:328
+msgid "ms"
+msgstr "ms"
+
 #: core/commandlineoptions.cpp:162
 msgid "options"
 msgstr "innstillinger"
@@ -4440,9 +4586,9 @@ msgstr "searches the collection for all artists that contain the word"
 msgid "shuffle songs"
 msgstr "stokk spor"
 
-#: ../build/src/ui_internetsearchview.h:231
-msgid "son&gs"
-msgstr "san&ger"
+#: ../build/src/ui_internetsearchview.h:228
+msgid "songs"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:128
 msgid "sort songs"

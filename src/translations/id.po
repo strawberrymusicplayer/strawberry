@@ -435,6 +435,10 @@ msgstr "AAC"
 msgid "ALSA plugin"
 msgstr "Plugin ALSA"
 
+#: ../build/src/ui_tidalsettingspage.h:321
+msgid "API Token"
+msgstr "Token API"
+
 #: ../build/src/ui_transcodersettingspage.h:196
 msgid "ASF (WMA)"
 msgstr "ASF (WMA)"
@@ -487,7 +491,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:1846
+#: core/mainwindow.cpp:1878
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -503,7 +507,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:1871 transcoder/transcodedialog.cpp:415
+#: core/mainwindow.cpp:1903 transcoder/transcodedialog.cpp:415
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -594,15 +598,15 @@ msgstr "Tambahkan nomor trek"
 msgid "Add song year tag"
 msgstr "Tambahkan tahun rilis"
 
-#: internet/internetsearchview.cpp:444
+#: internet/internetsearchview.cpp:319
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1662
+#: core/mainwindow.cpp:1694
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
-#: internet/internetsearchview.cpp:442
+#: internet/internetsearchview.cpp:316
 msgid "Add to artists"
 msgstr "Tambahkan ke artis"
 
@@ -610,7 +614,7 @@ msgstr "Tambahkan ke artis"
 msgid "Add to playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: internet/internetsearchview.cpp:446
+#: internet/internetsearchview.cpp:322
 msgid "Add to songs"
 msgstr "Tambahkan ke lagu"
 
@@ -687,7 +691,11 @@ msgstr ""
 msgid "Album artist"
 msgstr "Album artis"
 
-#: ../build/src/ui_internettabsview.h:111
+#: ../build/src/ui_tidalsettingspage.h:334
+msgid "Album cover size"
+msgstr "Ukuran sampul album"
+
+#: ../build/src/ui_internettabsview.h:117
 msgid "Albums"
 msgstr "Album"
 
@@ -700,6 +708,10 @@ msgstr ""
 msgid "Albums by Artist"
 msgstr ""
 
+#: ../build/src/ui_tidalsettingspage.h:330
+msgid "Albums search limit"
+msgstr "Batasan pencarian album"
+
 #: covermanager/albumcovermanager.cpp:163
 msgid "Albums with covers"
 msgstr "Album dengan sampul"
@@ -708,7 +720,7 @@ msgstr "Album dengan sampul"
 msgid "Albums without covers"
 msgstr "Album tanpa sampul"
 
-#: core/mainwindow.cpp:182
+#: core/mainwindow.cpp:186
 msgid "All Files (*)"
 msgstr "Semua Berkas (*)"
 
@@ -784,7 +796,7 @@ msgid "Append files/URLs to the playlist"
 msgstr "Tambahkan berkas/URL ke daftar putar"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:321
-#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:431
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:305
 #: internet/internetcollectionview.cpp:305 device/deviceview.cpp:226
 msgid "Append to current playlist"
 msgstr "Tambahkan ke daftar putar saat ini"
@@ -819,9 +831,13 @@ msgstr "Artis"
 msgid "Artist's initial"
 msgstr "Inisial artis"
 
-#: ../build/src/ui_internettabsview.h:110
+#: ../build/src/ui_internettabsview.h:116
 msgid "Artists"
 msgstr "Artis"
+
+#: ../build/src/ui_tidalsettingspage.h:329
+msgid "Artists search limit"
+msgstr "Batasan pencarian artis"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
@@ -835,9 +851,22 @@ msgstr "Format audio"
 msgid "Audio output"
 msgstr "Keluaran audio"
 
+#: ../build/src/ui_tidalsettingspage.h:326
+msgid "Audio quality"
+msgstr "Kualitas audio"
+
+#: tidal/tidalrequest.cpp:117
+msgid "Authenticating..."
+msgstr "Mengautentikasi..."
+
 #: ../build/src/ui_subsonicsettingspage.h:188
+#: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Otentikasi"
+
+#: settings/tidalsettingspage.cpp:203
+msgid "Authentication failed"
+msgstr "Otentikasi gagal"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -994,6 +1023,10 @@ msgstr "K&onsol"
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
+#: tidal/tidalstreamurlrequest.cpp:107
+msgid "Cancelled."
+msgstr "Dibatalkan."
+
 #: ../build/src/ui_edittagdialog.h:663
 msgid "Change cover art"
 msgstr "Ubah sampul album"
@@ -1010,7 +1043,7 @@ msgstr "Ganti lagu yang diputar saat ini"
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:653
+#: core/mainwindow.cpp:672
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
@@ -1035,7 +1068,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:1923 ../build/src/ui_mainwindow.h:623
+#: core/mainwindow.cpp:1955 ../build/src/ui_mainwindow.h:623
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1067,6 +1100,10 @@ msgstr "Klik di sini untuk menerima musik"
 msgid "Click to toggle between remaining time and total time"
 msgstr "Klik untuk beralih antara waktu tersisa dan total waktu"
 
+#: ../build/src/ui_tidalsettingspage.h:320
+msgid "Client ID"
+msgstr "Client ID"
+
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
 msgstr "Tutup"
@@ -1083,7 +1120,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:275 ../build/src/ui_collectionsettingspage.h:359
+#: core/mainwindow.cpp:282 ../build/src/ui_collectionsettingspage.h:359
 msgid "Collection"
 msgstr "Pustakascan"
 
@@ -1095,7 +1132,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2387
+#: core/mainwindow.cpp:2427
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1131,7 +1168,8 @@ msgstr "Lengkapi tag secara otomatis..."
 msgid "Composer"
 msgstr "Komposer"
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:160
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
@@ -1139,12 +1177,12 @@ msgstr "Konfigurasi tidak lengkap"
 msgid "Configuration incorrect"
 msgstr "Konfigurasi tidak benar"
 
-#: internet/internetsearchview.cpp:150 internet/internetsearchview.cpp:457
+#: internet/internetsearchview.cpp:182 internet/internetsearchview.cpp:334
 #, qt-format
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: core/mainwindow.cpp:552
+#: core/mainwindow.cpp:562
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
@@ -1160,7 +1198,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:274 ../build/src/ui_contextsettingspage.h:247
+#: core/mainwindow.cpp:281 ../build/src/ui_contextsettingspage.h:247
 msgid "Context"
 msgstr "Konteks"
 
@@ -1185,12 +1223,12 @@ msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:600 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:619 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:231
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
-#: core/mainwindow.cpp:598 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:617 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:332 playlist/playlistlistcontainer.cpp:100
 #: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
@@ -1431,11 +1469,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1585
+#: core/mainwindow.cpp:1617
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1584
+#: core/mainwindow.cpp:1616
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1460,7 +1498,7 @@ msgstr "Properti Perangkat"
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
-#: core/mainwindow.cpp:280
+#: core/mainwindow.cpp:287
 msgid "Devices"
 msgstr "Perangkat"
 
@@ -1546,6 +1584,7 @@ msgid "Double clicking a song will..."
 msgstr "Klik ganda pada lagu akan..."
 
 #: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_tidalsettingspage.h:332
 msgid "Download album covers"
 msgstr "Unduh sampul album"
 
@@ -1557,7 +1596,7 @@ msgstr "Mengunduh metadata"
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
-#: core/mainwindow.cpp:1626
+#: core/mainwindow.cpp:1658
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1588,6 +1627,7 @@ msgstr "Sunting informasi trek..."
 #: ../build/src/ui_scrobblersettingspage.h:326
 #: ../build/src/ui_scrobblersettingspage.h:329
 #: ../build/src/ui_subsonicsettingspage.h:186
+#: ../build/src/ui_tidalsettingspage.h:316
 msgid "Enable"
 msgstr "Fungsikan"
 
@@ -1655,7 +1695,7 @@ msgstr "Masukkan nama berkas untuk sampul yang diekspor (tanpa ekstensi):"
 msgid "Enter a new name for this playlist"
 msgstr "Masukkan nama baru untuk daftar putar ini"
 
-#: ../build/src/ui_internetsearchview.h:233
+#: ../build/src/ui_internetsearchview.h:230
 msgid "Enter search terms above to find music"
 msgstr "Masukkan kata pencarian di atas untuk mencari musik"
 
@@ -1688,7 +1728,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2159 core/mainwindow.cpp:2281
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2321
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "Error"
 msgstr "Kesalahan"
@@ -1828,12 +1868,16 @@ msgstr "Ambil secara otomatis"
 msgid "Fetch completed"
 msgstr "Pengambilan selesai"
 
+#: ../build/src/ui_tidalsettingspage.h:333
+msgid "Fetch entire albums when searching songs"
+msgstr "Ambil seluruh album saat mencari lagu"
+
 #: covermanager/coverfromurldialog.cpp:83
 #: covermanager/coverfromurldialog.cpp:95
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/song.cpp:997
+#: core/song.cpp:996
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
@@ -1876,7 +1920,7 @@ msgstr "Nama berkas"
 msgid "Filename:"
 msgstr "Nama berkas:"
 
-#: core/mainwindow.cpp:276
+#: core/mainwindow.cpp:283
 msgid "Files"
 msgstr "Berkas"
 
@@ -1963,7 +2007,7 @@ msgstr "Bass + Treble Penuh"
 msgid "Full Treble"
 msgstr "Treble Penuh"
 
-#: settings/settingsdialog.cpp:124
+#: settings/settingsdialog.cpp:127
 msgid "General"
 msgstr "Umum"
 
@@ -2006,7 +2050,7 @@ msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
 #: collection/collectionfilterwidget.cpp:119
-#: internet/internetsearchview.cpp:455
+#: internet/internetsearchview.cpp:332
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
@@ -2184,6 +2228,14 @@ msgstr "Sisipkan..."
 msgid "Integrity check"
 msgstr "Periksa integritas"
 
+#: ../build/src/ui_internetsearchview.h:224
+msgid "Internet Search View"
+msgstr ""
+
+#: ../build/src/ui_internettabsview.h:115
+msgid "Internet Tabs View"
+msgstr ""
+
 #: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
 msgstr "Trek intro"
@@ -2328,6 +2380,7 @@ msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 #: ../build/src/ui_scrobblersettingspage.h:324
 #: ../build/src/ui_scrobblersettingspage.h:327
 #: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_tidalsettingspage.h:324
 msgid "Login"
 msgstr "Masuk"
 
@@ -2413,9 +2466,35 @@ msgstr "Lajubit minimum"
 msgid "Minimum buffer fill"
 msgstr "Minimum pengisian bufer"
 
+#: settings/tidalsettingspage.cpp:160
+msgid "Missing API token, username or password."
+msgstr ""
+
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
+
+#: tidal/tidalservice.cpp:681 tidal/tidalservice.cpp:740
+#: tidal/tidalservice.cpp:797 tidal/tidalservice.cpp:863
+#: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:89
+msgid "Missing Tidal API token, username or password."
+msgstr ""
+
+#: tidal/tidalservice.cpp:642
+msgid "Missing Tidal API token."
+msgstr "Token API Tidal tidak tersedia."
+
+#: settings/tidalsettingspage.cpp:153
+msgid "Missing Tidal client ID."
+msgstr "Client ID Tidal tidak tersedia."
+
+#: tidal/tidalservice.cpp:650
+msgid "Missing Tidal password."
+msgstr "Kata sandi Tidal tidak tersedia."
+
+#: tidal/tidalservice.cpp:646
+msgid "Missing Tidal username."
+msgstr "Nama pengguna Tidal tidak tersedia."
 
 #: settings/subsonicsettingspage.cpp:101
 msgid "Missing server url, username or password."
@@ -2458,7 +2537,7 @@ msgstr "Titik kait"
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:601 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:620 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
@@ -2466,7 +2545,7 @@ msgstr "Pindah ke pustaka..."
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:1846 transcoder/transcodedialog.cpp:330
+#: core/mainwindow.cpp:1878 transcoder/transcodedialog.cpp:330
 msgid "Music"
 msgstr "Musik"
 
@@ -2505,7 +2584,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1678
+#: core/mainwindow.cpp:1710
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -2533,6 +2612,10 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
+#: tidal/tidalrequest.cpp:1220
+msgid "No match."
+msgstr "Tidak ada yang cocok."
+
 #: playlist/playlistcontainer.cpp:388
 msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
@@ -2553,7 +2636,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2159 core/mainwindow.cpp:2281
+#: core/mainwindow.cpp:2199 core/mainwindow.cpp:2321
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:544
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2566,6 +2649,18 @@ msgstr "Normal"
 #: ../build/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
 msgstr "Tipe blok normal"
+
+#: tidal/tidalservice.cpp:654
+msgid ""
+"Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr ""
+"Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
+
+#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
+#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
+#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:85
+msgid "Not authenticated with Tidal."
+msgstr "Tidak terautentikasi dengan Tidal."
 
 #: device/deviceview.cpp:129
 msgid "Not connected"
@@ -2628,7 +2723,7 @@ msgid "Open device"
 msgstr "Buka perangkat"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:323
-#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:433
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:307
 #: internet/internetcollectionview.cpp:307 device/deviceview.cpp:228
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
@@ -2659,7 +2754,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Atur Berkas"
 
-#: core/mainwindow.cpp:602 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:621 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:330
 msgid "Organise files..."
 msgstr "Atur berkas..."
@@ -2722,6 +2817,7 @@ msgstr "Pesta"
 
 #: ../build/src/ui_networkproxysettingspage.h:176
 #: ../build/src/ui_subsonicsettingspage.h:190
+#: ../build/src/ui_tidalsettingspage.h:323
 msgid "Password"
 msgstr "Sandi"
 
@@ -2729,7 +2825,7 @@ msgstr "Sandi"
 msgid "Password Protected"
 msgstr "Terlindungi dengan Kata Sandi"
 
-#: core/mainwindow.cpp:1051 core/mainwindow.cpp:1490
+#: core/mainwindow.cpp:1083 core/mainwindow.cpp:1522
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Jeda"
@@ -2757,8 +2853,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:572 core/mainwindow.cpp:1004 core/mainwindow.cpp:1033
-#: core/mainwindow.cpp:1494 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:591 core/mainwindow.cpp:1036 core/mainwindow.cpp:1065
+#: core/mainwindow.cpp:1526 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Putar"
@@ -2795,7 +2891,7 @@ msgstr "Daftar putar"
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:1923
+#: core/mainwindow.cpp:1955
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -2807,7 +2903,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
 
-#: core/mainwindow.cpp:277
+#: core/mainwindow.cpp:284
 msgid "Playlists"
 msgstr "Daftar putar"
 
@@ -2844,6 +2940,7 @@ msgid "Prefer album artist when sending scrobbles"
 msgstr "Kemukakan artis album saat scrobble"
 
 #: ../build/src/ui_subsonicsettingspage.h:192
+#: ../build/src/ui_tidalsettingspage.h:325
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -2929,25 +3026,25 @@ msgstr "Kualitas"
 msgid "Querying device..."
 msgstr "Meminta perangkat..."
 
-#: core/mainwindow.cpp:278
+#: core/mainwindow.cpp:285
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1587
+#: core/mainwindow.cpp:1619
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:578 core/mainwindow.cpp:1591
+#: core/mainwindow.cpp:597 core/mainwindow.cpp:1623
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1593 collection/collectionview.cpp:327
+#: core/mainwindow.cpp:1625 collection/collectionview.cpp:327
 #: internet/internetcollectionview.cpp:311
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1586 context/contextalbumsview.cpp:257
-#: collection/collectionview.cpp:326 internet/internetsearchview.cpp:436
+#: core/mainwindow.cpp:1618 context/contextalbumsview.cpp:257
+#: collection/collectionview.cpp:326 internet/internetsearchview.cpp:310
 #: internet/internetcollectionview.cpp:310
 msgid "Queue track"
 msgstr "Antre trek"
@@ -3070,7 +3167,7 @@ msgid "Repeat track"
 msgstr "Ulang trek"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:322
-#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:432
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:306
 #: internet/internetcollectionview.cpp:306 device/deviceview.cpp:227
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
@@ -3094,6 +3191,10 @@ msgstr "Replay Gain"
 #: ../build/src/ui_backendsettingspage.h:459
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
+
+#: tidal/tidalservice.cpp:351
+msgid "Reply from Tidal is missing query items."
+msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
 #: collection/collectionview.cpp:343
 msgid "Rescan song(s)"
@@ -3134,29 +3235,47 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:676
+#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:677
+#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1082
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:126
+#: tidal/tidalrequest.cpp:464
+#, qt-format
+msgid "Retrieving albums for %1 artist..."
+msgstr "Mengambil album untuk %1 artis..."
+
+#: tidal/tidalrequest.cpp:465
+#, qt-format
+msgid "Retrieving albums for %1 artists..."
+msgstr "Mengambil album untuk %1 artis..."
+
+#: subsonic/subsonicrequest.cpp:126 tidal/tidalrequest.cpp:200
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
 
-#: subsonic/subsonicrequest.cpp:316
+#: tidal/tidalrequest.cpp:156
+msgid "Retrieving artists..."
+msgstr "Mengambil artis..."
+
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:317
+#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:723
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mengambil lagu untuk %1 album..."
+
+#: tidal/tidalrequest.cpp:244
+msgid "Retrieving songs..."
+msgstr "Mengambil lagu..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3279,7 +3398,7 @@ msgstr "Gulir pada ikon untuk mengganti trek"
 #: covermanager/albumcoversearcher.cpp:193
 #: covermanager/albumcoversearcher.cpp:212
 #: ../build/src/ui_albumcoversearcher.h:113
-#: ../build/src/ui_internettabsview.h:113
+#: ../build/src/ui_internettabsview.h:119
 msgid "Search"
 msgstr "Cari"
 
@@ -3287,21 +3406,22 @@ msgstr "Cari"
 msgid "Search automatically"
 msgstr "Cari secara otomatis"
 
+#: ../build/src/ui_tidalsettingspage.h:327
+msgid "Search delay"
+msgstr "Jeda pencarian"
+
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
 msgstr "Cari sampul album..."
 
-#: ../build/src/ui_internetsearchview.h:227
-msgid "Search for anything"
-msgstr "Cari apapun"
-
-#: internet/internetsearchview.cpp:451
+#: internet/internetsearchview.cpp:328
 msgid "Search for this"
 msgstr "Cari ini"
 
-#: ../build/src/ui_internetsearchview.h:228
-msgid "Search type"
-msgstr "Tipe pencarian"
+#: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
+#: tidal/tidalrequest.cpp:316
+msgid "Searching..."
+msgstr "Mencari..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
@@ -3359,7 +3479,7 @@ msgstr "URL server"
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
-#: core/mainwindow.cpp:1625
+#: core/mainwindow.cpp:1657
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -3446,7 +3566,7 @@ msgstr "Tampilkan sampul album di pustaka"
 msgid "Show albums by artist"
 msgstr "Tampilkan album berdasarkan artis"
 
-#: core/mainwindow.cpp:541
+#: core/mainwindow.cpp:551
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
@@ -3462,7 +3582,7 @@ msgstr "Tampilkan mesin dan perangkat"
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:605
+#: core/mainwindow.cpp:624
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
@@ -3470,7 +3590,7 @@ msgstr "Tampilkan di pustaka..."
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:603 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:622 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:339 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
@@ -3487,11 +3607,11 @@ msgstr "Tampilkan tombol suka"
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:542
+#: core/mainwindow.cpp:552
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:543
+#: core/mainwindow.cpp:553
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
@@ -3564,11 +3684,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1598
+#: core/mainwindow.cpp:1630
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1597
+#: core/mainwindow.cpp:1629
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -3592,7 +3712,7 @@ msgstr "Soft Rock"
 msgid "Song Lyrics"
 msgstr ""
 
-#: ../build/src/ui_internettabsview.h:112
+#: ../build/src/ui_internettabsview.h:118
 msgid "Songs"
 msgstr "Lagu"
 
@@ -3605,6 +3725,10 @@ msgstr ""
 "Lagu akan di-scrobble jika memiliki metadata yang benar dan lebih panjang "
 "dari 30 detik, sudah berputar setidaknya setengah dari durasinya atau 4 "
 "menit (yang mana terdahulu terjadi)."
+
+#: ../build/src/ui_tidalsettingspage.h:331
+msgid "Songs search limit"
+msgstr "Batasan pencarian lagu"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -3643,7 +3767,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:574 ../build/src/ui_mainwindow.h:616
+#: core/mainwindow.cpp:593 ../build/src/ui_mainwindow.h:616
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -3704,7 +3828,11 @@ msgstr ""
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry tidak dapat menemukan hasil untuk berkas ini"
 
-#: settings/settingsdialog.cpp:149
+#: ../build/src/ui_tidalsettingspage.h:335
+msgid "Stream URL method"
+msgstr "Metode URL Stream"
+
+#: settings/settingsdialog.cpp:152
 msgid "Streaming"
 msgstr "Streaming"
 
@@ -3716,7 +3844,7 @@ msgstr "Regangkan gambar hingga memenuhi daftar putar"
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:290 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -3834,7 +3962,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2382
+#: core/mainwindow.cpp:2422
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -3946,6 +4074,16 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
+#: core/mainwindow.cpp:293 ../build/src/ui_tidalsettingspage.h:315
+msgid "Tidal"
+msgstr "Tidal"
+
+#: ../build/src/ui_tidalsettingspage.h:317
+msgid ""
+"Tidal support is not official and requires a API token from a registered "
+"application to work. We can't help you getting these."
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
 msgstr "Selang waktu"
@@ -3965,7 +4103,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:575 core/mainwindow.cpp:1588
+#: core/mainwindow.cpp:594 core/mainwindow.cpp:1620
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -3973,7 +4111,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:581 core/mainwindow.cpp:1599
+#: core/mainwindow.cpp:600 core/mainwindow.cpp:1631
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -4044,7 +4182,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
-#: core/song.cpp:524 context/contextalbumsmodel.cpp:362
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:362
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1404
@@ -4054,7 +4192,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:816
+#: subsonic/subsonicrequest.cpp:812 tidal/tidalrequest.cpp:1226
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
@@ -4062,11 +4200,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1596
+#: core/mainwindow.cpp:1628
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1595
+#: core/mainwindow.cpp:1627
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4107,6 +4245,10 @@ msgstr "Gunakan pintasan D-Bus Gnome (GSD)"
 #: ../build/src/ui_scrobblersettingspage.h:323
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr "Gunakan HTTPS pada redirectserver lokal untuk mengatasi masalah masuk"
+
+#: ../build/src/ui_tidalsettingspage.h:319
+msgid "Use OAuth"
+msgstr "Gunakan OAuth"
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4168,7 +4310,7 @@ msgstr "Gunakan bawaan sistem"
 msgid "Used"
 msgstr "Bekas"
 
-#: settings/settingsdialog.cpp:135
+#: settings/settingsdialog.cpp:138
 msgid "User interface"
 msgstr "Antarmuka"
 
@@ -4178,6 +4320,7 @@ msgstr "Token pengguna:"
 
 #: ../build/src/ui_networkproxysettingspage.h:175
 #: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_tidalsettingspage.h:322
 msgid "Username"
 msgstr "Nama pengguna"
 
@@ -4199,8 +4342,8 @@ msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:555
-#: covermanager/albumcovermanager.cpp:328 internet/internetsearchmodel.cpp:95
-#: internet/internetsearchmodel.cpp:107
+#: covermanager/albumcovermanager.cpp:328 internet/internetsearchmodel.cpp:97
+#: internet/internetsearchmodel.cpp:109
 msgid "Various artists"
 msgstr "Artis beraga"
 
@@ -4281,7 +4424,7 @@ msgstr ""
 "Apakah Anda ingin memindahkan lagu lainnya di dalam album ini ke Artis "
 "Beragam?"
 
-#: core/mainwindow.cpp:2386
+#: core/mainwindow.cpp:2426
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
@@ -4381,22 +4524,22 @@ msgstr "Pustaka Anda kosong!"
 msgid "Zero"
 msgstr "Nol"
 
-#: ../build/src/ui_internetsearchview.h:230
-msgid "a&lbums"
-msgstr "a&lbum"
-
 #: playlist/playlistundocommands.cpp:47
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
 msgstr "tambahkan %n lagu"
 
-#: ../build/src/ui_internetsearchview.h:229
-msgid "ar&tists"
-msgstr "ar&tis"
+#: ../build/src/ui_internetsearchview.h:227
+msgid "albums"
+msgstr ""
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
+msgstr ""
+
+#: ../build/src/ui_internetsearchview.h:226
+msgid "artists"
 msgstr ""
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
@@ -4429,6 +4572,10 @@ msgctxt ""
 msgid "move %n songs"
 msgstr "pindah %n lagu"
 
+#: ../build/src/ui_tidalsettingspage.h:328
+msgid "ms"
+msgstr "ms"
+
 #: core/commandlineoptions.cpp:162
 msgid "options"
 msgstr "opsi"
@@ -4451,9 +4598,9 @@ msgstr ""
 msgid "shuffle songs"
 msgstr "karau lagu"
 
-#: ../build/src/ui_internetsearchview.h:231
-msgid "son&gs"
-msgstr "la&gu"
+#: ../build/src/ui_internetsearchview.h:228
+msgid "songs"
+msgstr ""
 
 #: playlist/playlistundocommands.cpp:128
 msgid "sort songs"
