@@ -115,6 +115,7 @@ static const QMap<QString, IconProperties> iconmapper_ = {
     { "star",                          { {}, 0, 0 } },
     { "strawberry",                    { {}, 0, 0 } },
     { "subsonic",                      { {}, 0, 0 } },
+    { "tidal",                         { {}, 0, 0 } },
     { "tools-wizard",                  { {}, 0, 0 } },
     { "view-choose",                   { {}, 0, 0 } },
     { "view-fullscreen",               { {}, 0, 0 } },

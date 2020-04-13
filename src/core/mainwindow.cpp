@@ -147,6 +147,10 @@
 #ifdef HAVE_SUBSONIC
 #  include "settings/subsonicsettingspage.h"
 #endif
+#ifdef HAVE_TIDAL
+#  include "tidal/tidalservice.h"
+#  include "settings/tidalsettingspage.h"
+#endif
 
 #include "internet/internetservices.h"
 #include "internet/internetservice.h"
@@ -230,6 +234,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifdef HAVE_SUBSONIC
       subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source_Subsonic), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, this)),
 #endif
+#ifdef HAVE_TIDAL
+      tidal_view_(new InternetTabsView(app_, app->internet_services()->ServiceBySource(Song::Source_Tidal), TidalSettingsPage::kSettingsGroup, SettingsDialog::Page_Tidal, this)),
+#endif
       playlist_menu_(new QMenu(this)),
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
@@ -281,6 +288,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, "subsonic", IconLoader::Load("subsonic"), tr("Subsonic"));
+#endif
+#ifdef HAVE_TIDAL
+  ui_->tabs->AddTab(tidal_view_, "tidal", IconLoader::Load("tidal"), tr("Tidal"));
 #endif
 
   // Add the playing widget to the fancy tab widget
@@ -565,6 +575,15 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
 #ifdef HAVE_SUBSONIC
   connect(subsonic_view_->view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+#endif
+
+#ifdef HAVE_TIDAL
+  connect(tidal_view_->artists_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->albums_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
+  if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal)))
+    connect(this, SIGNAL(AuthorisationUrlReceived(QUrl)), tidalservice, SLOT(AuthorisationUrlReceived(QUrl)));
 #endif
 
   // Playlist menu
@@ -896,6 +915,16 @@ void MainWindow::ReloadSettings() {
     ui_->tabs->DisableTab(subsonic_view_);
 #endif
 
+#ifdef HAVE_TIDAL
+  settings.beginGroup(TidalSettingsPage::kSettingsGroup);
+  bool enable_tidal = settings.value("enabled", false).toBool();
+  settings.endGroup();
+  if (enable_tidal)
+    ui_->tabs->EnableTab(tidal_view_);
+  else
+    ui_->tabs->DisableTab(tidal_view_);
+#endif
+
   ui_->tabs->ReloadSettings();
 
 }
@@ -918,6 +947,9 @@ void MainWindow::ReloadAllSettings() {
   context_view_->ReloadSettings();
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
+#endif
+#ifdef HAVE_TIDAL
+  tidal_view_->ReloadSettings();
 #endif
 
 }
@@ -1992,6 +2024,14 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
   if (!options.urls().empty()) {
 
+#ifdef HAVE_TIDAL
+    for (const QUrl url : options.urls()) {
+      if (url.scheme() == "tidal" && url.host() == "login") {
+        emit AuthorisationUrlReceived(url);
+        return;
+      }
+    }
+#endif
     MimeData *data = new MimeData;
     data->setUrls(options.urls());
     // Behaviour depends on command line options, so set it here
