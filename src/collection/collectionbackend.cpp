@@ -467,7 +467,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
       continue;
 
     }
-    else if (song.song_id() != -1) {  // Song has a unique id, check if the song exists.
+    else if (!song.song_id().isEmpty()) {  // Song has a unique id, check if the song exists.
 
       // Get the previous song data first
       Song old_song(GetSongBySongId(song.song_id()));
