@@ -822,35 +822,29 @@ SongList CollectionBackend::GetSongsByUrl(const QUrl &url) {
 }
 
 
-Song CollectionBackend::GetSongBySongId(int song_id) {
+Song CollectionBackend::GetSongBySongId(const QString &song_id) {
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   return GetSongBySongId(song_id, db);
-}
 
-SongList CollectionBackend::GetSongsBySongId(const QList<int> &song_ids) {
-  QMutexLocker l(db_->Mutex());
-  QSqlDatabase db(db_->Connect());
-
-  QStringList str_song_ids;
-  for (int song_id : song_ids) {
-    str_song_ids << QString::number(song_id);
-  }
-
-  return GetSongsBySongId(str_song_ids, db);
 }
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids) {
+
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   return GetSongsBySongId(song_ids, db);
+
 }
 
-Song CollectionBackend::GetSongBySongId(int song_id, QSqlDatabase &db) {
-  SongList list = GetSongsBySongId(QStringList() << QString::number(song_id), db);
+Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db) {
+
+  SongList list = GetSongsBySongId(QStringList() << song_id, db);
   if (list.isEmpty()) return Song();
   return list.first();
+
 }
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {

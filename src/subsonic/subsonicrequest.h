@@ -68,7 +68,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
  private slots:
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const qint64 artist_id, const qint64 album_id, const QString &album_artist);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  private:
@@ -76,15 +76,15 @@ class SubsonicRequest : public SubsonicBaseRequest {
   typedef QList<Param> ParamList;
 
   struct Request {
-    qint64 artist_id = 0;
+    QString artist_id = 0;
     QString album_id;
-    qint64 song_id = 0;
+    QString song_id = 0;
     int offset = 0;
     int size = 0;
     QString album_artist;
   };
   struct AlbumCoverRequest {
-    qint64 artist_id = 0;
+    QString artist_id = 0;
     QString album_id = 0;
     QUrl url;
     QString filename;
@@ -96,10 +96,10 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumsFinishCheck(const int offset = 0, const int albums_received = 0);
   void SongsFinishCheck();
 
-  void AddAlbumSongsRequest(const qint64 artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
+  void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
   void FlushAlbumSongsRequests();
 
-  int ParseSong(Song &song, const QJsonObject &json_obj, const qint64 artist_id_requested = 0, const qint64 album_id_requested = 0, const QString &album_artist = QString());
+  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString());
 
   void GetAlbumCovers();
   void AddAlbumCoverRequest(Song &song);
