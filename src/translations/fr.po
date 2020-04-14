@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-13 12:43-0400\n"
+"PO-Revision-Date: 2020-04-14 05:14-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -2278,11 +2278,11 @@ msgstr "Vérification de l'intégrité"
 
 #: ../build/src/ui_internetsearchview.h:224
 msgid "Internet Search View"
-msgstr ""
+msgstr "Affichage des recherches Internet"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Internet Tabs View"
-msgstr ""
+msgstr "Affichage des onglets Internet"
 
 #: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
@@ -2519,6 +2519,7 @@ msgstr "Remplissage minimum du tampon"
 #: settings/tidalsettingspage.cpp:160
 msgid "Missing API token, username or password."
 msgstr ""
+"Le jeton de l'API, le nom d'utilisateur ou le mot de passe est manquant."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2529,6 +2530,8 @@ msgstr "Le nom d'utilisateur ou le mot de passe de Subsonic est manquant."
 #: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
+"Le jeton de l'API Tidal, le nom d'utilisateur ou le mot de passe est "
+"manquant."
 
 #: tidal/tidalservice.cpp:642
 msgid "Missing Tidal API token."
@@ -4156,6 +4159,9 @@ msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
+"Le support Tidal n'est pas officiel et nécessite un jeton d'API à partir "
+"d'une application enregistrée pour fonctionner. Nous ne pouvons pas vous "
+"aider à les obtenir."
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
@@ -4612,7 +4618,7 @@ msgstr "ajouter %n morceaux"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "albums"
-msgstr ""
+msgstr "albums"
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
@@ -4620,7 +4626,7 @@ msgstr "artiste"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "artists"
-msgstr ""
+msgstr "artistes"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4681,7 +4687,7 @@ msgstr "mélanger les morceaux"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "songs"
-msgstr ""
+msgstr "morceaux"
 
 #: playlist/playlistundocommands.cpp:128
 msgid "sort songs"

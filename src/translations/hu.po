@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-13 05:01-0400\n"
+"PO-Revision-Date: 2020-04-14 12:10-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -96,7 +96,7 @@ msgstr " ms"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
-msgstr " másodperc"
+msgstr " mp"
 
 #: ../build/src/ui_notificationssettingspage.h:470
 msgid " seconds"
@@ -438,7 +438,7 @@ msgstr "ALSA plugin"
 
 #: ../build/src/ui_tidalsettingspage.h:321
 msgid "API Token"
-msgstr ""
+msgstr "API token"
 
 #: ../build/src/ui_transcodersettingspage.h:196
 msgid "ASF (WMA)"
@@ -694,7 +694,7 @@ msgstr "Album-előadó"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
-msgstr ""
+msgstr "Albumborító mérete"
 
 #: ../build/src/ui_internettabsview.h:117
 msgid "Albums"
@@ -711,7 +711,7 @@ msgstr "Albumok az előadótól"
 
 #: ../build/src/ui_tidalsettingspage.h:330
 msgid "Albums search limit"
-msgstr ""
+msgstr "Album keresés korlát"
 
 #: covermanager/albumcovermanager.cpp:163
 msgid "Albums with covers"
@@ -838,7 +838,7 @@ msgstr "Előadók"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Artists search limit"
-msgstr ""
+msgstr "Előadó keresés korlát"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
@@ -854,11 +854,11 @@ msgstr "Hang kimenet"
 
 #: ../build/src/ui_tidalsettingspage.h:326
 msgid "Audio quality"
-msgstr ""
+msgstr "Hangminőség"
 
 #: tidal/tidalrequest.cpp:117
 msgid "Authenticating..."
-msgstr ""
+msgstr "Hitelesítés..."
 
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
@@ -1026,7 +1026,7 @@ msgstr "A CD-lejátszás csak a GStreamer-rel érhető el."
 
 #: tidal/tidalstreamurlrequest.cpp:107
 msgid "Cancelled."
-msgstr ""
+msgstr "Bezárva."
 
 #: ../build/src/ui_edittagdialog.h:663
 msgid "Change cover art"
@@ -1095,7 +1095,7 @@ msgstr ""
 
 #: internet/internetcollectionview.cpp:283
 msgid "Click here to retrieve music"
-msgstr "Kattintson ide a zenék visszaállításához"
+msgstr "Kattintson ide a zenék lekéréséhez"
 
 #: ../build/src/ui_trackslider.h:71
 msgid "Click to toggle between remaining time and total time"
@@ -1103,7 +1103,7 @@ msgstr "Kattintásra vált a hátralévő és a teljes idő kijelzése között"
 
 #: ../build/src/ui_tidalsettingspage.h:320
 msgid "Client ID"
-msgstr ""
+msgstr "Kliens azonosító"
 
 #: ../build/src/ui_internetcollectionviewcontainer.h:140
 msgid "Close"
@@ -1875,7 +1875,7 @@ msgstr "Letöltés sikeres"
 
 #: ../build/src/ui_tidalsettingspage.h:333
 msgid "Fetch entire albums when searching songs"
-msgstr ""
+msgstr "Dalok keresésénél teljes albumok letöltése"
 
 #: covermanager/coverfromurldialog.cpp:83
 #: covermanager/coverfromurldialog.cpp:95
@@ -2235,11 +2235,11 @@ msgstr "Integritás ellenőrzése"
 
 #: ../build/src/ui_internetsearchview.h:224
 msgid "Internet Search View"
-msgstr ""
+msgstr "Internet keresés nézet"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Internet Tabs View"
-msgstr ""
+msgstr "Internet lap nézet"
 
 #: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
@@ -2475,7 +2475,7 @@ msgstr "Minimum puffer"
 
 #: settings/tidalsettingspage.cpp:160
 msgid "Missing API token, username or password."
-msgstr ""
+msgstr "Hiányzó API token, felhasználónév vagy jelszó."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2485,23 +2485,23 @@ msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 #: tidal/tidalservice.cpp:797 tidal/tidalservice.cpp:863
 #: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Hiányzó Tidal API token, felhasználónév vagy jelszó."
 
 #: tidal/tidalservice.cpp:642
 msgid "Missing Tidal API token."
-msgstr ""
+msgstr "Hiányzó Tidal API token."
 
 #: settings/tidalsettingspage.cpp:153
 msgid "Missing Tidal client ID."
-msgstr ""
+msgstr "Hiányzó Tidal kliens azonosító."
 
 #: tidal/tidalservice.cpp:650
 msgid "Missing Tidal password."
-msgstr ""
+msgstr "Hiányzó Tidal jelszó."
 
 #: tidal/tidalservice.cpp:646
 msgid "Missing Tidal username."
-msgstr ""
+msgstr "Hiányzó Tidal felhasználónév."
 
 #: settings/subsonicsettingspage.cpp:101
 msgid "Missing server url, username or password."
@@ -2621,7 +2621,7 @@ msgstr "Hosszú blokkok nélkül"
 
 #: tidal/tidalrequest.cpp:1220
 msgid "No match."
-msgstr ""
+msgstr "Nincs egyezés."
 
 #: playlist/playlistcontainer.cpp:388
 msgid ""
@@ -2660,12 +2660,14 @@ msgstr "Normál blokkok"
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
+"Nincs hitelesítve a Tidallal, és elérte a maximális bejelentkezési "
+"kísérletek számát."
 
 #: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
 #: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
 #: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
-msgstr ""
+msgstr "Nincs hitelesítve Tidallal."
 
 #: device/deviceview.cpp:129
 msgid "Not connected"
@@ -3210,7 +3212,7 @@ msgstr "Visszhangerősítés módja"
 
 #: tidal/tidalservice.cpp:351
 msgid "Reply from Tidal is missing query items."
-msgstr ""
+msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 
 #: collection/collectionview.cpp:343
 msgid "Rescan song(s)"
@@ -3258,17 +3260,17 @@ msgstr "Albumborító lekérése %1 albumhoz..."
 #: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1082
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "Albumborítók lekérése %1 albumhoz..."
+msgstr "Albumborítók lekérése %1 albumokhoz..."
 
 #: tidal/tidalrequest.cpp:464
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
-msgstr ""
+msgstr "Dalok lekérése %1 előadótól..."
 
 #: tidal/tidalrequest.cpp:465
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
-msgstr ""
+msgstr "Albumok lekérése %1 előadóktól..."
 
 #: subsonic/subsonicrequest.cpp:126 tidal/tidalrequest.cpp:200
 msgid "Retrieving albums..."
@@ -3276,7 +3278,7 @@ msgstr "Albumok lekérésre..."
 
 #: tidal/tidalrequest.cpp:156
 msgid "Retrieving artists..."
-msgstr ""
+msgstr "Előadók lekérése..."
 
 #: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
 #, qt-format
@@ -3290,7 +3292,7 @@ msgstr "Dalok lekérése %1 albumhoz..."
 
 #: tidal/tidalrequest.cpp:244
 msgid "Retrieving songs..."
-msgstr ""
+msgstr "Dalok lekérése..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3423,7 +3425,7 @@ msgstr "Automatikus keresés"
 
 #: ../build/src/ui_tidalsettingspage.h:327
 msgid "Search delay"
-msgstr ""
+msgstr "Keresés késleltetése"
 
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
@@ -3436,7 +3438,7 @@ msgstr "Keresés erre"
 #: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
 #: tidal/tidalrequest.cpp:316
 msgid "Searching..."
-msgstr ""
+msgstr "Keresés..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
@@ -3743,7 +3745,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:331
 msgid "Songs search limit"
-msgstr ""
+msgstr "Dal keresés korlát"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -3848,7 +3850,7 @@ msgstr "Nincsenek találatok ehhez a fájlhoz"
 
 #: ../build/src/ui_tidalsettingspage.h:335
 msgid "Stream URL method"
-msgstr ""
+msgstr "URL streamelése ezzel"
 
 #: settings/settingsdialog.cpp:152
 msgid "Streaming"
@@ -4092,13 +4094,16 @@ msgstr "A %1 eszköztípus nem támogatott"
 
 #: core/mainwindow.cpp:293 ../build/src/ui_tidalsettingspage.h:315
 msgid "Tidal"
-msgstr ""
+msgstr "Tidal"
 
 #: ../build/src/ui_tidalsettingspage.h:317
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
+"\n"
+"A Tidal-támogatás nem hivatalos, és ahhoz, hogy működjön, regisztrált "
+"alkalmazás API-tokenje szükséges. Nem tudunk segíteni, ezek beszerzésében."
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
@@ -4267,7 +4272,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:319
 msgid "Use OAuth"
-msgstr ""
+msgstr "OAuth használata"
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4537,7 +4542,7 @@ msgstr "A nyelv megváltoztatásához újra kell indítani a Strawberry-t."
 
 #: collection/collectionview.cpp:293
 msgid "Your collection is empty!"
-msgstr "Az ön gyűjtemény üres!"
+msgstr "Az ön gyűjteménye üres!"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
@@ -4551,7 +4556,7 @@ msgstr "%n dal felvétele"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "albums"
-msgstr ""
+msgstr "albumok"
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
@@ -4559,7 +4564,7 @@ msgstr "előadó"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "artists"
-msgstr ""
+msgstr "előadók"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4593,7 +4598,7 @@ msgstr "%n dal áthelyezése"
 
 #: ../build/src/ui_tidalsettingspage.h:328
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
@@ -4619,7 +4624,7 @@ msgstr "dalok keverése"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "songs"
-msgstr ""
+msgstr "dalok"
 
 #: playlist/playlistundocommands.cpp:128
 msgid "sort songs"
