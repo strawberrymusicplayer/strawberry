@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-14 12:10-0400\n"
+"PO-Revision-Date: 2020-04-15 12:14-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -711,7 +711,7 @@ msgstr "Albumok az előadótól"
 
 #: ../build/src/ui_tidalsettingspage.h:330
 msgid "Albums search limit"
-msgstr "Album keresés korlát"
+msgstr "Album keresési korlát"
 
 #: covermanager/albumcovermanager.cpp:163
 msgid "Albums with covers"
@@ -838,7 +838,7 @@ msgstr "Előadók"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Artists search limit"
-msgstr "Előadó keresés korlát"
+msgstr "Előadó keresési korlát"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
@@ -1597,7 +1597,7 @@ msgstr "Metaadatok letöltése"
 
 #: settings/notificationssettingspage.cpp:66
 msgid "Drag to reposition"
-msgstr "Húzza meg az áthelyezéshez"
+msgstr "Húzza el az áthelyezéshez"
 
 #: core/mainwindow.cpp:1658
 #, qt-format
@@ -2979,7 +2979,6 @@ msgid "Preset:"
 msgstr "Beállítás:"
 
 #: scrobbler/scrobblingapi20.cpp:151
-#, fuzzy
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3745,7 +3744,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:331
 msgid "Songs search limit"
-msgstr "Dal keresés korlát"
+msgstr "Dal keresési korlát"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -4296,7 +4295,7 @@ msgstr "Hitelesítés használata"
 
 #: ../build/src/ui_transcoderoptionsvorbis.h:202
 msgid "Use bitrate management engine"
-msgstr "Bitráta menedzselés használata"
+msgstr "Bitráta kezelés használata"
 
 #: ../build/src/ui_appearancesettingspage.h:396
 msgid "Use custom color"
@@ -4598,7 +4597,7 @@ msgstr "%n dal áthelyezése"
 
 #: ../build/src/ui_tidalsettingspage.h:328
 msgid "ms"
-msgstr "ms"
+msgstr " ms"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
