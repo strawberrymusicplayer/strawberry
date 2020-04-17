@@ -168,7 +168,6 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
       case Song::Source_Stream:
       case Song::Source_Unknown:
         filename = Utilities::Sha1CoverHash(artist, album).toHex() + ".jpg";
-        qLog(Debug) << filename << artist << album;
         break;
     }
   }
