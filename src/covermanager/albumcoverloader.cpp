@@ -151,6 +151,16 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
   }
   else {
     switch (source) {
+      case Song::Source_Tidal:
+        filename = album_id + "-" + cover_url.fileName();
+        break;
+      case Song::Source_Subsonic:
+      case Song::Source_Qobuz:
+        filename = AlbumCoverFileName(artist, album);
+        if (filename.length() > 8 && (filename.length() - 5) >= (artist.length() + album.length() - 2)) {
+          break;
+        }
+        // fallthrough
       case Song::Source_Collection:
       case Song::Source_LocalFile:
       case Song::Source_CDDA:
@@ -158,13 +168,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
       case Song::Source_Stream:
       case Song::Source_Unknown:
         filename = Utilities::Sha1CoverHash(artist, album).toHex() + ".jpg";
-        break;
-      case Song::Source_Tidal:
-        filename = album_id + "-" + cover_url.fileName();
-        break;
-      case Song::Source_Qobuz:
-      case Song::Source_Subsonic:
-        filename = AlbumCoverFileName(artist, album);
+        qLog(Debug) << filename << artist << album;
         break;
     }
   }
@@ -184,9 +188,10 @@ QString AlbumCoverLoader::AlbumCoverFileName(QString artist, QString album) {
 
   QString filename = artist + "-" + album + ".jpg";
   filename = Utilities::UnicodeToAscii(filename.toLower());
-  filename.replace(' ', '-');
-  filename.replace("--", "-");
-  filename.remove(OrganiseFormat::kInvalidFatCharacters);
+  filename = filename.replace(' ', '-');
+  filename = filename.replace("--", "-");
+  filename = filename.remove(OrganiseFormat::kInvalidFatCharacters);
+  filename = filename.trimmed();
 
   return filename;
 
