@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-15 12:14-0400\n"
+"PO-Revision-Date: 2020-04-17 02:33-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -346,7 +346,7 @@ msgstr "&Leállítás"
 
 #: playlist/playlistheader.cpp:44
 msgid "&Stretch columns to fit window"
-msgstr "&Oszlopszélességek igazítása az ablakhoz"
+msgstr "&Oszlopszélesség igazítása az ablakhoz"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "&Tools"
@@ -519,17 +519,17 @@ msgstr "Új mappa hozzáadása…"
 #: ../build/src/ui_contextsettingspage.h:252
 #: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song album tag"
-msgstr "Album címke hozzáadása"
+msgstr "Album hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:258
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song albumartist tag"
-msgstr "Album előadó hozzáadása"
+msgstr "Albumelőadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:249
 #: ../build/src/ui_notificationssettingspage.h:408
 msgid "Add song artist tag"
-msgstr "Előadó címke hozzáadása"
+msgstr "Előadó hozzáadása"
 
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song auto score"
@@ -538,12 +538,12 @@ msgstr "Automatikus dal pontozás hozzáadása"
 #: ../build/src/ui_contextsettingspage.h:264
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song composer tag"
-msgstr "Zeneszerző címke hozzáadása"
+msgstr "Zeneszerző hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:273
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song disc tag"
-msgstr "Lemezsorszám címke hozzáadása"
+msgstr "Lemez hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:295
 #: ../build/src/ui_notificationssettingspage.h:460
@@ -553,7 +553,7 @@ msgstr "A dal fájlnevének hozzáadása"
 #: ../build/src/ui_contextsettingspage.h:279
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song genre tag"
-msgstr "Műfaj címke hozzáadása"
+msgstr "Műfaj hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:270
 #: ../build/src/ui_notificationssettingspage.h:429
@@ -568,7 +568,7 @@ msgstr "Számhossz hozzáadása"
 #: ../build/src/ui_contextsettingspage.h:267
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song performer tag"
-msgstr "A dal előadó címkéjének létrehozása"
+msgstr "A dalelőadó hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:285
 #: ../build/src/ui_notificationssettingspage.h:444
@@ -587,7 +587,7 @@ msgstr "Számkihagyás számláló hozzáadása"
 #: ../build/src/ui_contextsettingspage.h:255
 #: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song title tag"
-msgstr "Dalcím címke hozzáadása"
+msgstr "Cím hozzáadása"
 
 #: ../build/src/ui_contextsettingspage.h:276
 #: ../build/src/ui_notificationssettingspage.h:435
@@ -690,7 +690,7 @@ msgstr "Albumkép gyorsítótár"
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
-msgstr "Album-előadó"
+msgstr "Albumelőadó"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -727,7 +727,7 @@ msgstr "Minden fájl (*)"
 
 #: covermanager/albumcovermanager.cpp:162
 msgid "All albums"
-msgstr "Minden album"
+msgstr "Összes album"
 
 #: covermanager/albumcovermanager.cpp:327
 msgid "All artists"
@@ -887,7 +887,7 @@ msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
-msgstr "Az aktuális szám automatikus kiválasztása"
+msgstr "A legutóbbi szám automatikus kiválasztása"
 
 #: widgets/freespacebar.cpp:68
 msgid "Available"
@@ -1038,7 +1038,7 @@ msgstr "Kombináció módosítása..."
 
 #: ../build/src/ui_behavioursettingspage.h:286
 msgid "Change the currently playing song"
-msgstr "Váltás a dalra"
+msgstr "Váltás a legutóbb játszott dalra"
 
 #: core/commandlineoptions.cpp:185
 msgid "Change the language"
@@ -1083,7 +1083,7 @@ msgstr "A Clementine közreműködői"
 
 #: collection/collectionview.cpp:299
 msgid "Click here to add some music"
-msgstr "Zene felvételéhez kattintson ide"
+msgstr "Zene hozzáadásához kattintson ide"
 
 #: playlist/playlisttabbar.cpp:327
 msgid ""
@@ -1216,7 +1216,7 @@ msgstr "Közreműködők"
 
 #: ../build/src/ui_deviceproperties.h:381
 msgid "Convert all music"
-msgstr "Összes szám tömörítése"
+msgstr "Összes zene konvertálása"
 
 #: ../build/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
@@ -1247,7 +1247,7 @@ msgid ""
 "Could not create the GStreamer element \"%1\" - make sure you have all the "
 "required GStreamer plugins installed"
 msgstr ""
-"Nem hozható létre a \"%1\" GStreamer objektum. Ellenőrizze, hogy telepített "
+"Nem hozható létre a \"%1\" GStreamer elem. Ellenőrizze, hogy telepített "
 "minden szükséges GStreamer modult."
 
 #: scrobbler/scrobblingapi20.cpp:160
@@ -1413,7 +1413,7 @@ msgstr "Egyéni..."
 
 #: device/udisks2lister.cpp:108
 msgid "D-Bus path"
-msgstr "D-Bus elérési útvonal"
+msgstr "D-Bus útvonal"
 
 #: equalizer/equalizer.cpp:140
 msgid "Dance"
@@ -1474,11 +1474,11 @@ msgstr "Fájlok törlése"
 
 #: core/mainwindow.cpp:1617
 msgid "Dequeue selected tracks"
-msgstr "Kijelölt számok törlése a lejátszási sorból"
+msgstr "Kijelölt számok eltávolítása a lejátszási sorból"
 
 #: core/mainwindow.cpp:1616
 msgid "Dequeue track"
-msgstr "Szám törlése a lejátszási sorból"
+msgstr "Szám eltávolítása a lejátszási sorból"
 
 #: ../build/src/ui_organisedialog.h:260 ../build/src/ui_transcodedialog.h:229
 msgid "Destination"
@@ -1548,7 +1548,7 @@ msgstr "OSD megjelenítése"
 
 #: ../build/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
-msgstr "Ne konvertáljon egy számot sem"
+msgstr "Ne konvertáljon egy zenét sem"
 
 #: ../build/src/ui_appearancesettingspage.h:421
 msgid "Do not cut image"
@@ -1606,7 +1606,7 @@ msgstr "\"%1\" címke szerkesztése..."
 
 #: ../build/src/ui_mainwindow.h:634
 msgid "Edit tag..."
-msgstr "Címke módosítása..."
+msgstr "Címke szerkesztése..."
 
 #: ../build/src/ui_edittagdialog.h:693
 msgid "Edit tags"
@@ -1739,7 +1739,7 @@ msgstr "Hiba"
 #: device/mtploader.cpp:67
 #, qt-format
 msgid "Error connecting MTP device %1"
-msgstr "Hiba az MTP eszközre való csatlakozáskor: %1."
+msgstr "Hiba az MTP eszközre való csatlakozáskor: %1"
 
 #: organise/organiseerrordialog.cpp:73
 msgid "Error copying songs"
@@ -1763,14 +1763,12 @@ msgid "Error while querying CDDA tracks."
 msgstr "Hiba történt a CDDA számok lekérdezése során."
 
 #: device/cddasongloader.cpp:104
-#, fuzzy
 msgid "Error while setting CDDA device to pause state."
-msgstr "Hiba történt a CDDA-eszköz szüneteltetési állapotának beállításakor."
+msgstr "Hiba történt a CDDA-eszköz szünetre állításakor."
 
 #: device/cddasongloader.cpp:96
-#, fuzzy
 msgid "Error while setting CDDA device to ready state."
-msgstr "Hiba történt a CDDA eszköz készenléti állapotba állításakor."
+msgstr "Hiba történt a CDDA eszköz készre állításakor."
 
 #: ../build/src/ui_backendsettingspage.h:471
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -1799,7 +1797,7 @@ msgstr "Letöltött borítók exportálása"
 
 #: ../build/src/ui_albumcoverexport.h:206
 msgid "Export embedded covers"
-msgstr "Beépített borítók exportálása"
+msgstr "Beágyazott borítók exportálása"
 
 #: covermanager/albumcovermanager.cpp:885
 #: covermanager/albumcovermanager.cpp:911
@@ -1809,7 +1807,7 @@ msgstr "Eportálás befejezve"
 #: covermanager/albumcovermanager.cpp:896
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "%1 borító a %2-ból/ből exportálva (%3 sikertelen)"
+msgstr "%1 borító exportálva ennyiből %2 (%3 sikertelen)"
 
 #: ../build/src/ui_mainwindow.h:644
 msgid "F1"
@@ -1882,7 +1880,7 @@ msgstr "Dalok keresésénél teljes albumok letöltése"
 msgid "Fetching cover error"
 msgstr "Hiba a borító betöltése közben"
 
-#: core/song.cpp:996
+#: core/song.cpp:993
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "A (z)% 1 fájl nem ismerhető fel érvényes hangfájlként."
@@ -1939,7 +1937,7 @@ msgstr "Fájltípus"
 
 #: musicbrainz/tagfetcher.cpp:63
 msgid "Fingerprinting song"
-msgstr "Ujjlenyomat generálása a dalhoz"
+msgstr "Ujjlenyomat készítése a dalhoz"
 
 #: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:124
 msgid "First level"
@@ -2177,7 +2175,8 @@ msgid ""
 "If activated, clicking a selected song in the playlist view will let you "
 "edit the tag value directly"
 msgstr ""
-"Aktiválásakor a kiválasztott dal címkéje szerkeszthető lesz kiválasztáskor"
+"Ha engedélyezve van, a kijelölt dal címkéje szerkeszthető lesz a "
+"lejátszólistán"
 
 #: device/devicemanager.cpp:615 device/devicemanager.cpp:623
 msgid ""
@@ -2374,7 +2373,7 @@ msgstr "Számok betöltése"
 
 #: playlist/songloaderinserter.cpp:194
 msgid "Loading tracks info"
-msgstr "Szám információk betöltése"
+msgstr "Száminformációk betöltése"
 
 #: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
@@ -2393,7 +2392,7 @@ msgstr "Bejelentkezés"
 
 #: ../build/src/ui_transcoderoptionsaac.h:136
 msgid "Long term prediction profile (LTP)"
-msgstr "Hosszú távú előrejelzésen alapuló profil (LTP"
+msgstr "Hosszú távú előrejelzésen alapuló profil (LTP)"
 
 #: ../build/src/ui_mainwindow.h:620
 msgid "Love"
@@ -2613,7 +2612,7 @@ msgstr "Kikapcsolva"
 
 #: covermanager/albumcovermanager.cpp:886
 msgid "No covers to export."
-msgstr "Nincsenek exportálandó boírtók"
+msgstr "Nincsenek exportálandó borítók"
 
 #: ../build/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
@@ -2699,11 +2698,11 @@ msgstr "OSD Előnézet"
 
 #: widgets/osd.cpp:184
 msgid "Off"
-msgstr "Kikapcsolás"
+msgstr "Ki"
 
 #: widgets/osd.cpp:184
 msgid "On"
-msgstr "Bekapcsolás"
+msgstr "Be"
 
 #: ../build/src/ui_behavioursettingspage.h:246
 msgid "On startup"
@@ -2904,7 +2903,7 @@ msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
 "playlist?"
 msgstr ""
-"A %1 dal van lejátszólistában, túl nagy ahhoz, hogy visszavonja, biztosan "
+"%1 dal van lejátszólistában, túl nagy ahhoz, hogy visszavonja, biztosan "
 "törölni szeretné?"
 
 #: core/commandlineoptions.cpp:178
@@ -3019,7 +3018,7 @@ msgstr "Előző szám"
 
 #: core/commandlineoptions.cpp:189
 msgid "Print out version information"
-msgstr "Verzió információ mutatása..."
+msgstr "Verzióinformáció megjelenítése..."
 
 #: ../build/src/ui_transcoderoptionsaac.h:130
 msgid "Profile"
@@ -3079,7 +3078,7 @@ msgstr "Re&latív"
 
 #: covermanager/albumcovermanager.cpp:237
 msgid "Really cancel?"
-msgstr "Tényleg mégse?"
+msgstr "Tényleg kilép?"
 
 #: scrobbler/listenbrainzscrobbler.cpp:173
 msgid "Received invalid reply from web browser."
@@ -3090,9 +3089,8 @@ msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
 msgstr ""
-"Érvénytelen válasz érkezett a böngészőből. Próbálja Próbálja ki a HTTPS "
-"lehetőséget, vagy használjonegy másik böngészőt, például a Chromiumot vagy a "
-"Chrome-ot."
+"Érvénytelen válasz érkezett a böngészőből. Próbálja ki a HTTPS lehetőséget, "
+"vagy használjon egy másik böngészőt, például Chromiumot vagy Chrome-ot."
 
 #: scrobbler/listenbrainzscrobbler.cpp:169
 msgid "Redirect missing token code!"
@@ -3461,7 +3459,7 @@ msgstr "Keresés billentyűparanccsal, vagy egérgörgővel"
 
 #: ../build/src/ui_appearancesettingspage.h:392
 msgid "Select background color:"
-msgstr "Válasszon háttérszínt:"
+msgstr "Háttérszín kiválasztása:"
 
 #: settings/appearancesettingspage.cpp:319
 msgid "Select background image"
@@ -3473,7 +3471,7 @@ msgstr "A legjobban illeszkedő találatot választja"
 
 #: ../build/src/ui_appearancesettingspage.h:390
 msgid "Select foreground color:"
-msgstr "Válasszon előtérszínt:"
+msgstr "Előtérszín kiválasztása:"
 
 #: ../build/src/ui_appearancesettingspage.h:398
 msgid "Select tabbar color:"
@@ -3625,7 +3623,7 @@ msgstr "Hangulatsáv megjelenítése"
 
 #: core/mainwindow.cpp:552
 msgid "Show only duplicates"
-msgstr "Csak az ismétlődések mutatása"
+msgstr "Csak a másolatok megjelenítése"
 
 #: core/mainwindow.cpp:553
 msgid "Show only untagged"
@@ -3798,7 +3796,7 @@ msgstr "Leállítás az aktuális szám után"
 #: widgets/osd.cpp:184
 #, qt-format
 msgid "Stop playing after track: %1"
-msgstr "Leállítás a következő szám után: %1"
+msgstr "Leállítás az aktuális szám után: %1"
 
 #: widgets/osd.cpp:180
 msgid "Stopped"
@@ -4031,8 +4029,8 @@ msgid ""
 "These settings are used in the \"Transcode Music\" dialog, and when "
 "converting music before copying it to a device."
 msgstr ""
-"Ezek a beállítások a „Zene átkódolása” ablakban lesznek használva, és amikor "
-"zenéket konvertál mielőtt egy eszközre másolná azokat."
+"Ezek a beállítások a „Zene átkódolása” ablakban lesznek használva, illetve "
+"amikor zenéket konvertál mielőtt egy eszközre másolná azokat."
 
 #: collection/savedgroupingmanager.cpp:58
 msgid "Third Level"
@@ -4203,7 +4201,7 @@ msgstr "UUID"
 msgid "Ultra wide band (UWB)"
 msgstr "Ultra szélessávú (UWB)"
 
-#: core/song.cpp:523 context/contextalbumsmodel.cpp:362
+#: core/song.cpp:520 context/contextalbumsmodel.cpp:362
 #: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
 #: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
 #: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1404
@@ -4257,7 +4255,7 @@ msgstr "Jobbra fent"
 
 #: core/commandlineoptions.cpp:162
 msgid "Usage"
-msgstr "Kihasználtság"
+msgstr "Használat"
 
 #: ../build/src/ui_shortcutssettingspage.h:227
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
@@ -4283,7 +4281,7 @@ msgstr "X11 gyorsbillentyűk használata"
 
 #: ../build/src/ui_appearancesettingspage.h:389
 msgid "Use a custom color set"
-msgstr "Saját színkészlet használata"
+msgstr "Egyéni színkészlet használata"
 
 #: ../build/src/ui_notificationssettingspage.h:478
 msgid "Use a custom message for notifications"
@@ -4303,7 +4301,7 @@ msgstr "Egyéni szín"
 
 #: ../build/src/ui_appearancesettingspage.h:397
 msgid "Use gradient background"
-msgstr "Átmenetes"
+msgstr "Átmenetes háttérszín"
 
 #: ../build/src/ui_collectionsettingspage.h:380
 msgid "Use hash"
@@ -4499,11 +4497,11 @@ msgstr "Nincs bejelentkezve."
 #: widgets/loginstatewidget.cpp:81
 #, qt-format
 msgid "You are signed in as %1."
-msgstr "Be vagy jelentkezve, mint %1."
+msgstr "Be van jelentkezve, mint %1."
 
 #: widgets/loginstatewidget.cpp:80
 msgid "You are signed in."
-msgstr "Be vagy jelentkezve."
+msgstr "Be van jelentkezve."
 
 #: ../build/src/ui_groupbydialog.h:122
 msgid "You can change the way the songs in the collection are organised."
@@ -4514,24 +4512,22 @@ msgid "You need GStreamer for this URL."
 msgstr "Ehhez az URL-hez szüksége van a GStreamerre."
 
 #: ../build/src/ui_shortcutssettingspage.h:233
-#, fuzzy
 msgid ""
 "You need to launch System Preferences and allow Strawberry to \"<span style="
 "\"font-style:italic\">control your computer</span>\" to use global shortcuts "
 "in Strawberry."
 msgstr ""
-"A Rendszerbeállításokban engedélyezie kell a \"<span style=\" font-style:"
+"A Rendszerbeállításokban engedélyeznie kell a \"<span style=\" font-style:"
 "italic;\">számítógép irányítása</span>\" opciót a globális "
 "billentyűparancsok használatához a Strawberry-ben."
 
 #: ../build/src/ui_shortcutssettingspage.h:232
-#, fuzzy
 msgid ""
 "You need to launch System Preferences and turn on \"<span style=\" font-"
 "style:italic;\">Enable access for assistive devices</span>\" to use global "
 "shortcuts in Strawberry."
 msgstr ""
-"A Rendszerbeállításokban engedélyezie kell a \"<span style=\" font-style:"
+"A Rendszerbeállításokban engedélyeznie kell a \"<span style=\" font-style:"
 "italic;\">Hozzáférés a kisegítő lehetőségekhez</span>\" a globális "
 "gyorsbillentyűk használatához a Strawberry-ben."
 
