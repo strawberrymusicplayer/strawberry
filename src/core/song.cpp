@@ -235,9 +235,6 @@ Song::Private::Private(Song::Source source)
       originalyear_(-1),
       compilation_(false),
 
-      artist_id_(-1),
-      song_id_(-1),
-
       beginning_(0),
       end_(-1),
 
