@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-18 01:22-0400\n"
+"PO-Revision-Date: 2020-04-19 06:08-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -3455,7 +3455,7 @@ msgstr "A lejátszott szám adott pozícióra tekerése"
 
 #: ../build/src/ui_behavioursettingspage.h:289
 msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Tekerés billentyűparanccsal, vagy egérgörgővel"
+msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 
 #: ../build/src/ui_appearancesettingspage.h:392
 msgid "Select background color:"
