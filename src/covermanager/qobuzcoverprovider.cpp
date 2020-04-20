@@ -57,18 +57,18 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  QString request;
-  QString search;
+  QString resource;
+  QString query;
   if (album.isEmpty()) {
-    request = "track/search";
-    search = artist + " " + title;
+    resource = "track/search";
+    query = artist + " " + title;
   }
   else {
-    request = "album/search";
-    search = artist + " " + album;
+    resource = "album/search";
+    query = artist + " " + album;
   }
 
-  ParamList params = ParamList() << Param("query", search)
+  ParamList params = ParamList() << Param("query", query)
                                  << Param("limit", QString::number(kLimit))
                                  << Param("app_id", QString::fromUtf8(QByteArray::fromBase64(kAppID)));
 
@@ -79,7 +79,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
     url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
-  QUrl url(kApiUrl + QString("/") + request);
+  QUrl url(kApiUrl + QString("/") + resource);
   url.setQuery(url_query);
 
   QNetworkRequest req(url);
@@ -89,13 +89,11 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   QNetworkReply *reply = network_->get(req);
   connect(reply, &QNetworkReply::finished, [=] { this->HandleSearchReply(reply, id); });
 
-  qLog(Debug) << "Qobuz: Sending request" << url;
-
   return true;
 
 }
 
-void QobuzCoverProvider::CancelSearch(int id) { Q_UNUSED(id); }
+void QobuzCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 QByteArray QobuzCoverProvider::GetReplyData(QNetworkReply *reply) {
 
@@ -189,12 +187,12 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     return;
   }
 
-  QJsonValue json_type;
+  QJsonValue value_type;
   if (json_obj.contains("albums")) {
-    json_type = json_obj["albums"];
+    value_type = json_obj["albums"];
   }
   else if (json_obj.contains("tracks")) {
-    json_type = json_obj["tracks"];
+    value_type = json_obj["tracks"];
   }
   else {
     Error("Json reply is missing albums and tracks object.", json_obj);
@@ -202,74 +200,74 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     return;
   }
 
-  if (!json_type.isObject()) {
-    Error("Json albums or tracks is not a object.", json_type);
+  if (!value_type.isObject()) {
+    Error("Json albums or tracks is not a object.", value_type);
     emit SearchFinished(id, results);
     return;
   }
-  QJsonObject obj_type = json_type.toObject();
+  QJsonObject obj_type = value_type.toObject();
 
   if (!obj_type.contains("items")) {
     Error("Json albums or tracks object does not contain items.", obj_type);
     emit SearchFinished(id, results);
     return;
   }
-  QJsonValue json_items = obj_type["items"];
+  QJsonValue value_items = obj_type["items"];
 
-  if (!json_items.isArray()) {
-    Error("Json albums or track object items is not a array.", json_items);
+  if (!value_items.isArray()) {
+    Error("Json albums or track object items is not a array.", value_items);
     emit SearchFinished(id, results);
     return;
   }
-  QJsonArray json_array = json_items.toArray();
+  QJsonArray array_items = value_items.toArray();
 
-  for (const QJsonValue &value : json_array) {
+  for (const QJsonValue &value : array_items) {
 
     if (!value.isObject()) {
       Error("Invalid Json reply, value in items is not a object.", value);
       continue;
     }
-    json_obj = value.toObject();
+    QJsonObject item_obj = value.toObject();
 
     QJsonObject obj_album;
-    if (json_obj.contains("album")) {
-      if (!json_obj["album"].isObject()) {
-        Error("Invalid Json reply, items album is not a object.", json_obj);
+    if (item_obj.contains("album")) {
+      if (!item_obj["album"].isObject()) {
+        Error("Invalid Json reply, items album is not a object.", item_obj);
         continue;
       }
-      obj_album = json_obj["album"].toObject();
+      obj_album = item_obj["album"].toObject();
     }
     else {
-      obj_album = json_obj;
+      obj_album = item_obj;
     }
 
     if (!obj_album.contains("artist") || !obj_album.contains("image") || !obj_album.contains("title")) {
-      Error("Invalid Json reply, item is missing artist, title or image.", json_obj);
+      Error("Invalid Json reply, item is missing artist, title or image.", item_obj);
       continue;
     }
 
     QString album = obj_album["title"].toString();
 
     // Artist
-    QJsonValue json_artist = obj_album["artist"];
-    if (!json_artist.isObject()) {
-      Error("Invalid Json reply, items (album) artist is not a object.", json_artist);
+    QJsonValue value_artist = obj_album["artist"];
+    if (!value_artist.isObject()) {
+      Error("Invalid Json reply, items (album) artist is not a object.", value_artist);
       continue;
     }
-    QJsonObject obj_artist = json_artist.toObject();
+    QJsonObject obj_artist = value_artist.toObject();
     if (!obj_artist.contains("name")) {
       Error("Invalid Json reply, items (album) artist is missing name.", obj_artist);
       continue;
     }
-    QString artist = json_artist["name"].toString();
+    QString artist = obj_artist["name"].toString();
 
     // Image
-    QJsonValue json_image = obj_album["image"];
-    if (!json_image.isObject()) {
-      Error("Invalid Json reply, items (album) image is not a object.", json_image);
+    QJsonValue value_image = obj_album["image"];
+    if (!value_image.isObject()) {
+      Error("Invalid Json reply, items (album) image is not a object.", value_image);
       continue;
     }
-    QJsonObject obj_image = json_image.toObject();
+    QJsonObject obj_image = value_image.toObject();
     if (!obj_image.contains("large")) {
       Error("Invalid Json reply, items (album) image is missing large.", obj_image);
       continue;
@@ -284,8 +282,6 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     cover_result.album = album;
     cover_result.image_url = cover_url;
     results << cover_result;
-
-    qLog(Debug) << artist << album << cover_url;
 
   }
   emit SearchFinished(id, results);
