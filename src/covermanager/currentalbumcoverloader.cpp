@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +33,7 @@
 #include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 #include "currentalbumcoverloader.h"
 
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
@@ -43,56 +45,73 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
 
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
+  options_.create_thumbnail_ = true;
+  options_.thumbnail_size_ = QSize(120, 120);
   options_.default_output_image_ = QImage(":/pictures/cdcase.png");
+  options_.default_thumbnail_image_ = options_.default_output_image_.scaledToHeight(120, Qt::SmoothTransformation);
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(TempAlbumCoverLoaded(quint64, QUrl, QImage)));
+  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(TempAlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(LoadAlbumCover(Song)));
 
 }
 
 CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {
+
   if (temp_cover_) temp_cover_->remove();
   if (temp_cover_thumbnail_) temp_cover_thumbnail_->remove();
+
 }
 
 void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
+
   last_song_ = song;
   id_ = app_->album_cover_loader()->LoadImageAsync(options_, last_song_);
+
 }
 
-void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, const QUrl &remote_url, const QImage &image) {
-
-  Q_UNUSED(remote_url);
+void CurrentAlbumCoverLoader::TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result) {
 
   if (id != id_) return;
   id_ = 0;
 
-  QUrl cover_url;
-  QUrl thumbnail_url;
-  QImage thumbnail;
-
-  if (!image.isNull()) {
-
-    QString filename;
-
+  if (!result.image_scaled.isNull()) {
     temp_cover_.reset(new QTemporaryFile(temp_file_pattern_));
     temp_cover_->setAutoRemove(true);
-    temp_cover_->open();
-
-    image.save(temp_cover_->fileName(), "JPEG");
-
-    // Scale the image down to make a thumbnail.  It's a bit crap doing it here since it's the GUI thread, but the alternative is hard.
-    temp_cover_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
-    temp_cover_thumbnail_->open();
-    temp_cover_thumbnail_->setAutoRemove(true);
-    thumbnail = image.scaledToHeight(120, Qt::SmoothTransformation);
-    thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG");
-
-    cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
-    thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->fileName());
+    if (temp_cover_->open()) {
+      if (result.image_scaled.save(temp_cover_->fileName(), "JPEG")) {
+        result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
+      }
+      else {
+        qLog(Error) << "Unable to save cover image to" << temp_cover_->fileName();
+      }
+    }
+    else {
+      qLog(Error) << "Unable to open" << temp_cover_->fileName();
+    }
   }
 
-  emit AlbumCoverLoaded(last_song_, cover_url, image);
-  emit ThumbnailLoaded(last_song_, thumbnail_url, thumbnail);
+  QUrl thumbnail_url;
+  if (!result.image_thumbnail.isNull()) {
+    temp_cover_thumbnail_.reset(new QTemporaryFile(temp_file_pattern_));
+    temp_cover_thumbnail_->setAutoRemove(true);
+    if (temp_cover_thumbnail_->open()) {
+      if (result.image_thumbnail.save(temp_cover_thumbnail_->fileName(), "JPEG")) {
+        thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->fileName());
+      }
+      else {
+        qLog(Error) << "Unable to save cover thumbnail image to" << temp_cover_thumbnail_->fileName();
+      }
+    }
+    else {
+      qLog(Error) << "Unable to open" << temp_cover_thumbnail_->fileName();
+    }
+  }
+
+  if (result.updated) {
+    last_song_.set_art_manual(result.cover_url);
+  }
+
+  emit AlbumCoverLoaded(last_song_, result);
+  emit ThumbnailLoaded(last_song_, thumbnail_url, result.image_thumbnail);
 
 }

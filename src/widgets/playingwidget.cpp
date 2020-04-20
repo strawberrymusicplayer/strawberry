@@ -48,8 +48,6 @@
 #include "covermanager/albumcoverloader.h"
 #include "playingwidget.h"
 
-using std::unique_ptr;
-
 const char *PlayingWidget::kSettingsGroup = "PlayingWidget";
 
 // Space between the cover and the details in small mode
@@ -269,9 +267,7 @@ void PlayingWidget::SongChanged(const Song &song) {
   song_ = song;
 }
 
-void PlayingWidget::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
   if (!playing_ || song != song_playing_ || (timeline_fade_->state() == QTimeLine::Running && image == image_original_)) return;
 
@@ -313,7 +309,7 @@ void PlayingWidget::SetImage(const QImage &image) {
 }
 
 void PlayingWidget::ScaleCover() {
-  pixmap_cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_));
+  pixmap_cover_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
   update();
 }
 

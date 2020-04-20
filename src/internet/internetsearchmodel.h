@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,18 +55,16 @@ class InternetSearchModel : public QStandardItemModel {
   enum Role {
     Role_Result = CollectionModel::LastRole,
     Role_LazyLoadingArt,
-    Role_ProviderIndex,
     LastRole
   };
 
   struct ContainerKey {
-    int provider_index_;
     QString group_[3];
   };
 
   void set_proxy(QSortFilterProxyModel *proxy) { proxy_ = proxy; }
   void set_use_pretty_covers(const bool pretty) { use_pretty_covers_ = pretty; }
-  void SetGroupBy(const CollectionModel::Grouping &grouping, bool regroup_now);
+  void SetGroupBy(const CollectionModel::Grouping &grouping, const bool regroup_now);
 
   void Clear();
 
@@ -82,7 +81,7 @@ class InternetSearchModel : public QStandardItemModel {
   void AddResults(const InternetSearchView::ResultList &results);
 
  private:
-  QStandardItem *BuildContainers(const Song &metadata, QStandardItem *parent, ContainerKey *key, int level = 0);
+  QStandardItem *BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level = 0);
   void GetChildResults(const QStandardItem *item, InternetSearchView::ResultList *results, QSet<const QStandardItem*> *visited) const;
 
  private:
@@ -98,7 +97,7 @@ class InternetSearchModel : public QStandardItemModel {
 };
 
 inline uint qHash(const InternetSearchModel::ContainerKey &key) {
-  return qHash(key.provider_index_) ^ qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
+  return qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
 }
 
 inline bool operator<(const InternetSearchModel::ContainerKey &left, const InternetSearchModel::ContainerKey &right) {
@@ -106,7 +105,6 @@ inline bool operator<(const InternetSearchModel::ContainerKey &left, const Inter
   if (left.field < right.field) return true; \
   if (left.field > right.field) return false
 
-  CMP(provider_index_);
   CMP(group_[0]);
   CMP(group_[1]);
   CMP(group_[2]);

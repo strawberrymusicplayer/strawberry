@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
+ * Copyright 2013-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,8 +59,7 @@
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
 #include "settings/behavioursettingspage.h"
-
-using std::unique_ptr;
+#include "covermanager/albumcoverloaderresult.h"
 
 class About;
 class AlbumCoverManager;
@@ -95,6 +94,7 @@ class InternetTabsView;
 #ifdef Q_OS_WIN
 class Windows7ThumbBar;
 #endif
+class AddStreamDialog;
 
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
@@ -126,7 +126,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool LoadUrl(const QString& url);
 
  signals:
-  void AlbumCoverReady(const Song &song, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverReady(const Song &song, const QImage &image);
   void SearchCoverInProgress();
   // Signals that stop playing after track was toggled.
   void StopAfterToggled(bool stop);
@@ -210,6 +210,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void AddFile();
   void AddFolder();
   void AddCDTracks();
+  void AddStream();
+  void AddStreamAccepted();
 
   void CommandlineOptionsReceived(const quint32 instanceId, const QByteArray &string_options);
 
@@ -251,7 +253,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void UnsetCover();
   void ShowCover();
   void SearchCoverAutomatically();
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
   void ScrobblingEnabledChanged(const bool value);
   void ScrobbleButtonVisibilityChanged(const bool value);
@@ -308,6 +310,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_GSTREAMER
   Lazy<TranscodeDialog> transcode_dialog_;
 #endif
+  Lazy<AddStreamDialog> add_stream_dialog_;
 
 #if defined(HAVE_GSTREAMER) && defined(HAVE_CHROMAPRINT)
   std::unique_ptr<TagFetcher> tag_fetcher_;

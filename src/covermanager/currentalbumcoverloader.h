@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +34,7 @@
 
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 
 class Application;
 
@@ -50,11 +52,11 @@ class CurrentAlbumCoverLoader : public QObject {
   void LoadAlbumCover(const Song &song);
 
  signals:
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
-  void ThumbnailLoaded(const Song &song, const QUrl &thumbnail_uri, const QImage &image);
+  void AlbumCoverLoaded(Song song, AlbumCoverLoaderResult result);
+  void ThumbnailLoaded(Song song, QUrl thumbnail_uri, QImage image);
 
  private slots:
-  void TempAlbumCoverLoaded(const quint64 id, const QUrl &remote_url, const QImage &image);
+  void TempAlbumCoverLoaded(const quint64 id, AlbumCoverLoaderResult result);
 
  private:
   Application *app_;

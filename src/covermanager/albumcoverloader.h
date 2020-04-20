@@ -27,6 +27,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QMutex>
+#include <QPair>
 #include <QSet>
 #include <QMap>
 #include <QQueue>
@@ -37,6 +38,7 @@
 #include "core/song.h"
 #include "settings/collectionsettingspage.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 
 class QThread;
 class QNetworkReply;
@@ -48,29 +50,36 @@ class AlbumCoverLoader : public QObject {
  public:
   explicit AlbumCoverLoader(QObject *parent = nullptr);
 
+  enum State {
+    State_None,
+    State_Manual,
+    State_Automatic,
+  };
+
   void ReloadSettings();
 
   void ExitAsync();
   void Stop() { stop_requested_ = true; }
 
-  static QString ImageCacheDir(const Song::Source source);
-  QString CreateCoverFilename(const QString &artist, const QString &album);
+  static QString AlbumCoverFilename(QString artist, QString album);
+
+  QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id);
+  QString CoverFilenameFromVariable(const QString &artist, const QString &album);
+  QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url);
   QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url);
-  QString AlbumCoverFileName(QString artist, QString album);
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
-  virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QString &song_filename = QString(), const QImage &embedded_image = QImage());
+  virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song song = Song(), const QImage &embedded_image = QImage());
 
   void CancelTask(const quint64 id);
   void CancelTasks(const QSet<quint64> &ids);
 
   static QPixmap TryLoadPixmap(const QUrl &automatic, const QUrl &manual, const QUrl &url = QUrl());
-  static QImage ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
+  static QPair<QImage, QImage> ScaleAndPad(const AlbumCoverLoaderOptions &options, const QImage &image);
 
  signals:
   void ExitFinished();
-  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
-  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
+  void AlbumCoverLoaded(quint64 id, AlbumCoverLoaderResult result);
 
  protected slots:
   void Exit();
@@ -78,38 +87,38 @@ class AlbumCoverLoader : public QObject {
   void RemoteFetchFinished(QNetworkReply *reply, const QUrl &cover_url);
 
  protected:
-  enum State {
-    State_TryingManual,
-    State_TryingAuto,
-  };
 
   struct Task {
-    explicit Task() : redirects(0) {}
+    explicit Task() : id(0), state(State_None), type(AlbumCoverLoaderResult::Type_None), art_updated(false), redirects(0) {}
 
     AlbumCoverLoaderOptions options;
 
     quint64 id;
-    QUrl art_automatic;
     QUrl art_manual;
-    QString song_filename;
+    QUrl art_automatic;
+    QUrl song_url;
+    Song song;
     QImage embedded_image;
     State state;
+    AlbumCoverLoaderResult::Type type;
+    bool art_updated;
     int redirects;
   };
 
   struct TryLoadResult {
-    explicit TryLoadResult(bool async, bool success, const QUrl &_cover_url, const QImage &_image) : started_async(async), loaded_success(success), cover_url(_cover_url), image(_image) {}
+    explicit TryLoadResult(const bool _started_async = false, const bool _loaded_success = false, const AlbumCoverLoaderResult::Type _type = AlbumCoverLoaderResult::Type_None, const QUrl &_cover_url = QUrl(), const QImage &_image = QImage()) : started_async(_started_async), loaded_success(_loaded_success), type(_type), cover_url(_cover_url), image(_image) {}
 
     bool started_async;
     bool loaded_success;
 
+    AlbumCoverLoaderResult::Type type;
     QUrl cover_url;
     QImage image;
   };
 
   void ProcessTask(Task *task);
   void NextState(Task *task);
-  TryLoadResult TryLoadImage(const Task &task);
+  TryLoadResult TryLoadImage(Task *task);
 
   bool stop_requested_;
 

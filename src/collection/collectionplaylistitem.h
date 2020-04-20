@@ -46,6 +46,8 @@ class CollectionPlaylistItem : public PlaylistItem {
 
   bool IsLocalCollectionItem() const { return true; }
 
+  void SetArtManual(const QUrl &cover_url);
+
  protected:
   QVariant DatabaseValue(DatabaseColumn column) const;
   Song DatabaseSongMetadata() const { return Song(Song::Source_Collection); }

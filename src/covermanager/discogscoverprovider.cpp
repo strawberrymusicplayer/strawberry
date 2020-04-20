@@ -59,9 +59,11 @@ const char *DiscogsCoverProvider::kUrlReleases = "https://api.discogs.com/releas
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : CoverProvider("Discogs", 0.0, false, app, parent), network_(new NetworkAccessManager(this)) {}
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : CoverProvider("Discogs", 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
-bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, const int s_id) {
+bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int s_id) {
+
+  Q_UNUSED(title);
 
   DiscogsCoverSearchContext *s_ctx = new DiscogsCoverSearchContext;
 

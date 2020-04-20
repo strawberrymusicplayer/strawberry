@@ -47,6 +47,7 @@
 #include <QCommonStyle>
 
 #include "core/song.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
 #include "playlist.h"
 
@@ -173,7 +174,7 @@ class PlaylistView : public QTreeView {
   void Playing();
   void Stopped();
   void SongChanged(const Song &song);
-  void AlbumCoverLoaded(const Song &new_song, const QUrl &cover_url, const QImage &song_art);
+  void AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result = AlbumCoverLoaderResult());
 
  private:
   void LoadGeometry();

@@ -839,6 +839,16 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   bundle.bitrate = ParseUIntTag(taglist, GST_TAG_BITRATE) / 1000;
   bundle.lyrics = ParseStrTag(taglist, GST_TAG_LYRICS);
 
+  if (!bundle.title.isEmpty() && bundle.artist.isEmpty() && bundle.album.isEmpty() && bundle.title.contains(" - ")) {
+    QStringList title_splitted = bundle.title.split(" - ");
+    if (title_splitted.count() == 2) {
+      bundle.artist = title_splitted.first();
+      bundle.title = title_splitted.last();
+      bundle.artist = bundle.artist.trimmed();
+      bundle.title = bundle.title.trimmed();
+    }
+  }
+
   gst_tag_list_free(taglist);
 
   emit MetadataFound(id(), bundle);

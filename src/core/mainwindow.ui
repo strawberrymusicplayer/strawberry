@@ -469,6 +469,7 @@
     </property>
     <addaction name="action_add_file"/>
     <addaction name="action_add_folder"/>
+    <addaction name="action_add_stream"/>
     <addaction name="separator"/>
     <addaction name="action_shuffle_mode"/>
     <addaction name="action_repeat_mode"/>
@@ -825,6 +826,11 @@
   <action name="action_rescan_songs">
    <property name="text">
     <string>Rescan songs(s)</string>
+   </property>
+  </action>
+  <action name="action_add_stream">
+   <property name="text">
+    <string>Add stream...</string>
    </property>
   </action>
  </widget>

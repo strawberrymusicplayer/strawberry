@@ -124,6 +124,7 @@ ContextView::ContextView(QWidget *parent) :
     label_device_icon_(new QLabel(this)),
     label_engine_icon_(new QLabel(this)),
     spacer_bottom_(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding)),
+    lyrics_tried_(false),
     lyrics_id_(-1),
     prev_width_(0)
   {
@@ -365,19 +366,22 @@ void ContextView::Error() {}
 
 void ContextView::SongChanged(const Song &song) {
 
-  if (widget_stacked_->currentWidget() == widget_play_ && song_playing_.is_valid() && song == song_playing_) {
+  if (widget_stacked_->currentWidget() == widget_play_ && song_playing_.is_valid() && song == song_playing_ && song.title() == song_playing_.title() && song.album() == song_playing_.album() && song.artist() == song_playing_.artist()) {
     UpdateSong(song);
   }
   else {
     song_prev_ = song_playing_;
+    song_playing_ = song;
     lyrics_ = song.lyrics();
     lyrics_id_ = -1;
-    song_playing_ = song;
+    lyrics_tried_ = false;
     SetSong();
-    if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song.artist().isEmpty() && !song.title().isEmpty()) {
-      lyrics_fetcher_->Clear();
-      lyrics_id_ = lyrics_fetcher_->Search(song.effective_albumartist(), song.album(), song.title());
-    }
+  }
+
+  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song.artist().isEmpty() && !song.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
+    lyrics_fetcher_->Clear();
+    lyrics_tried_ = true;
+    lyrics_id_ = lyrics_fetcher_->Search(song.effective_albumartist(), song.album(), song.title());
   }
 
 }
@@ -684,9 +688,7 @@ void ContextView::dropEvent(QDropEvent *e) {
 
 }
 
-void ContextView::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void ContextView::AlbumCoverLoaded(const Song &song, const QImage &image) {
 
   if (song != song_playing_ || image == image_original_) return;
 

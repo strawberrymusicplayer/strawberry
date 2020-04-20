@@ -47,9 +47,11 @@ const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.o
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", 1.5, true, app, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
-bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const int id) {
+bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
+
+  Q_UNUSED(title);
 
   QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(album.trimmed().replace('"', "\\\"")).arg(artist.trimmed().replace('"', "\\\""));
 

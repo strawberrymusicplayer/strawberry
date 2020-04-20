@@ -39,7 +39,7 @@ class MusicbrainzCoverProvider : public CoverProvider {
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
 
  private slots:

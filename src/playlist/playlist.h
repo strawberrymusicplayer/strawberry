@@ -42,6 +42,7 @@
 
 #include "core/song.h"
 #include "core/tagreaderclient.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "playlistitem.h"
 #include "playlistsequence.h"
 
@@ -348,6 +349,7 @@ class Playlist : public QAbstractListModel {
   void ItemReloadComplete(const QPersistentModelIndex &index);
   void ItemsLoaded(QFuture<PlaylistItemList> future);
   void SongInsertVetoListenerDestroyed();
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
 
  private:
   bool is_loading_;
@@ -364,8 +366,10 @@ class Playlist : public QAbstractListModel {
   bool favorite_;
 
   PlaylistItemList items_;
+
   // Contains the indices into items_ in the order that they will be played.
   QList<int> virtual_items_;
+
   // A map of collection ID to playlist item - for fast lookups when collection items change.
   QMultiMap<int, PlaylistItemPtr> collection_items_by_id_;
 

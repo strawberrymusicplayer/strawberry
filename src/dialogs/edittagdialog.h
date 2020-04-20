@@ -38,6 +38,7 @@
 #include "core/tagreaderclient.h"
 #include "playlist/playlistitem.h"
 #include "covermanager/albumcoverloaderoptions.h"
+#include "covermanager/albumcoverloaderresult.h"
 
 class QWidget;
 class QMenu;
@@ -110,7 +111,7 @@ class EditTagDialog : public QDialog {
   void FetchTag();
   void FetchTagSongChosen(const Song &original_song, const Song &new_metadata);
 
-  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &scaled, const QImage &original);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
   void LoadCoverFromFile();
   void SaveCoverToFile();

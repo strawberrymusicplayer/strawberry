@@ -36,6 +36,7 @@
 
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 #include "coversearchstatistics.h"
 
 class QWidget;
@@ -132,7 +133,7 @@ class AlbumCoverManager : public QMainWindow {
 
  private slots:
   void ArtistChanged(QListWidgetItem *current);
-  void CoverImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
   void UpdateFilter();
   void FetchAlbumCovers();
   void ExportCovers();

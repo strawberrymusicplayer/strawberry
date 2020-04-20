@@ -47,6 +47,7 @@
 
 #include "core/application.h"
 #include "core/utilities.h"
+#include "core/logging.h"
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
@@ -55,6 +56,7 @@
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 #include "ui_albumcoversearcher.h"
 
 const int SizeOverlayDelegate::kMargin = 4;
@@ -129,8 +131,11 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *
 
   options_.scale_output_image_ = false;
   options_.pad_output_image_ = false;
+  options_.create_thumbnail_ = true;
+  options_.pad_thumbnail_image_ = true;
+  options_.thumbnail_size_ = ui_->covers->iconSize();
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(ImageLoaded(quint64, QUrl, QImage)));
+  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
 
   connect(ui_->search, SIGNAL(clicked()), SLOT(Search()));
   connect(ui_->covers, SIGNAL(doubleClicked(QModelIndex)), SLOT(CoverDoubleClicked(QModelIndex)));
@@ -235,37 +240,25 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverSearchResul
 
 }
 
-void AlbumCoverSearcher::ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void AlbumCoverSearcher::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (!cover_loading_tasks_.contains(id)) return;
   QStandardItem *item = cover_loading_tasks_.take(id);
 
   if (cover_loading_tasks_.isEmpty()) ui_->busy->hide();
 
-  if (image.isNull()) {
+  if (result.image_original.isNull()) {
     model_->removeRow(item->row());
     return;
   }
 
-  QIcon icon(QPixmap::fromImage(image));
-
-  // Create a pixmap that's padded and exactly the right size for the icon.
-  QImage scaled_image(image.scaled(ui_->covers->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-  QImage padded_image(ui_->covers->iconSize(), QImage::Format_ARGB32_Premultiplied);
-  padded_image.fill(0);
-
-  QPainter p(&padded_image);
-  p.drawImage((padded_image.width() - scaled_image.width()) / 2, (padded_image.height() - scaled_image.height()) / 2, scaled_image);
-  p.end();
-
-  icon.addPixmap(QPixmap::fromImage(padded_image));
+  QIcon icon;
+  icon.addPixmap(QPixmap::fromImage(result.image_original));
+  icon.addPixmap(QPixmap::fromImage(result.image_thumbnail));
 
   item->setData(true, Role_ImageFetchFinished);
-  item->setData(image.width() * image.height(), Role_ImageDimensions);
-  item->setData(image.size(), Role_ImageSize);
+  item->setData(result.image_original.width() * result.image_original.height(), Role_ImageDimensions);
+  item->setData(result.image_original.size(), Role_ImageSize);
   item->setIcon(icon);
 
 }

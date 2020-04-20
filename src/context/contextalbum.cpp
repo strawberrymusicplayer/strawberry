@@ -57,7 +57,8 @@ ContextAlbum::ContextAlbum(QWidget *parent) :
   cover_loader_options_.desired_height_ = 600;
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
-  pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_strawberry_));
+  QPair<QImage, QImage> images = AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_strawberry_);
+  pixmap_current_ = QPixmap::fromImage(images.first);
 
   connect(timeline_fade_, SIGNAL(valueChanged(qreal)), SLOT(FadePreviousTrack(qreal)));
   timeline_fade_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
@@ -89,7 +90,7 @@ void ContextAlbum::DrawImage(QPainter *p) {
 
   if (width() != prev_width_) {
     cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
-    pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_));
+    pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
     prev_width_ = width();
   }
 
@@ -118,7 +119,7 @@ void ContextAlbum::FadePreviousTrack(const qreal value) {
 void ContextAlbum::ScaleCover() {
 
   cover_loader_options_.desired_height_ = width() - kWidgetSpacing;
-  pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_));
+  pixmap_current_ = QPixmap::fromImage(AlbumCoverLoader::ScaleAndPad(cover_loader_options_, image_original_).first);
   prev_width_ = width();
   update();
 

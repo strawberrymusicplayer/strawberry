@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This code was part of Clementine (GlobalSearch)
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,20 +17,35 @@
  *
  */
 
-#include <QStyleOptionViewItem>
-#include <QPainter>
+#ifndef ADDSTREAMDIALOG_H
+#define ADDSTREAMDIALOG_H
 
-#include "internetsearchitemdelegate.h"
-#include "internetsearchview.h"
+#include <QDialog>
+#include <QString>
+#include <QUrl>
+#include <QLineEdit>
 
-InternetSearchItemDelegate::InternetSearchItemDelegate(InternetSearchView *view)
-    : CollectionItemDelegate(view), view_(view) {}
+#include "ui_addstreamdialog.h"
 
-void InternetSearchItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
+class AddStreamDialog : public QDialog {
+  Q_OBJECT
 
-  // Tell the view we painted this item so it can lazy load some art.
-  const_cast<InternetSearchView*>(view_)->LazyLoadAlbumCover(idx);
+ public:
+  AddStreamDialog(QWidget *parent = nullptr);
+  ~AddStreamDialog();
 
-  CollectionItemDelegate::paint(painter, option, idx);
+  QUrl url() const { return QUrl(ui_->url->text()); }
+  void set_url(const QUrl &url) { ui_->url->setText(url.toString());}
 
-}
+ protected:
+  void showEvent(QShowEvent*);
+
+ private slots:
+  void TextChanged(const QString &text);
+
+ private:
+  Ui_AddStreamDialog *ui_;
+
+};
+
+#endif  // ADDSTREAMDIALOG_H

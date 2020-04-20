@@ -32,15 +32,9 @@
 #include "internetsearchsortmodel.h"
 #include "internetsearchview.h"
 
-InternetSearchSortModel::InternetSearchSortModel(QObject *parent)
-    : QSortFilterProxyModel(parent) {}
+InternetSearchSortModel::InternetSearchSortModel(QObject *parent) : QSortFilterProxyModel(parent) {}
 
 bool InternetSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
-  // Compare the provider sort index first.
-  const int index_left = left.data(InternetSearchModel::Role_ProviderIndex).toInt();
-  const int index_right = right.data(InternetSearchModel::Role_ProviderIndex).toInt();
-  if (index_left < index_right) return true;
-  if (index_left > index_right) return false;
 
   // Dividers always go first
   if (left.data(CollectionModel::Role_IsDivider).toBool()) return true;

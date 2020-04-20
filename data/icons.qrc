@@ -203,6 +203,7 @@
         <file>icons/48x48/document-download.png</file>
         <file>icons/48x48/document-new.png</file>
         <file>icons/48x48/document-open-folder.png</file>
+        <file>icons/48x48/document-open-remote.png</file>
         <file>icons/48x48/document-open.png</file>
         <file>icons/48x48/document-save.png</file>
         <file>icons/48x48/document-search.png</file>
@@ -297,6 +298,7 @@
         <file>icons/32x32/document-download.png</file>
         <file>icons/32x32/document-new.png</file>
         <file>icons/32x32/document-open-folder.png</file>
+        <file>icons/32x32/document-open-remote.png</file>
         <file>icons/32x32/document-open.png</file>
         <file>icons/32x32/document-save.png</file>
         <file>icons/32x32/document-search.png</file>
@@ -391,6 +393,7 @@
         <file>icons/22x22/document-download.png</file>
         <file>icons/22x22/document-new.png</file>
         <file>icons/22x22/document-open-folder.png</file>
+        <file>icons/22x22/document-open-remote.png</file>
         <file>icons/22x22/document-open.png</file>
         <file>icons/22x22/document-save.png</file>
         <file>icons/22x22/document-search.png</file>

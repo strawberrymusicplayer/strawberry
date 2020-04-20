@@ -91,7 +91,7 @@ class ContextView : public QWidget {
   void Stopped();
   void Error();
   void SongChanged(const Song &song);
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const QImage &image);
   void FadeStopFinished();
   void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
 
@@ -164,6 +164,7 @@ class ContextView : public QWidget {
   Song song_playing_;
   Song song_prev_;
   QImage image_original_;
+  bool lyrics_tried_;
   qint64 lyrics_id_;
   QString lyrics_;
   QString title_fmt_;

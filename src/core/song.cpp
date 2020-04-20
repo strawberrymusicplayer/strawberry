@@ -30,6 +30,7 @@
 #include <QObject>
 #include <QFile>
 #include <QFileInfo>
+#include <QDir>
 #include <QSharedData>
 #include <QHash>
 #include <QByteArray>
@@ -42,6 +43,7 @@
 #include <QIcon>
 #include <QTextCodec>
 #include <QSqlQuery>
+#include <QStandardPaths>
 #include <QtDebug>
 
 #ifdef HAVE_LIBGPOD
@@ -66,7 +68,6 @@
 #include "covermanager/albumcoverloader.h"
 #include "tagreadermessages.pb.h"
 
-using std::sort;
 #ifndef USE_SYSTEM_TAGLIB
 using namespace Strawberry_TagLib;
 #endif
@@ -353,7 +354,8 @@ bool Song::is_cdda() const { return d->source_ == Source_CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 
 bool Song::art_automatic_is_valid() const {
-  return (
+  return !d->art_automatic_.isEmpty() &&
+         (
          (d->art_automatic_.path() == kManuallyUnsetCover) ||
          (d->art_automatic_.path() == kEmbeddedCover) ||
          (d->art_automatic_.isValid() && !d->art_automatic_.isLocalFile()) ||
@@ -363,7 +365,8 @@ bool Song::art_automatic_is_valid() const {
 }
 
 bool Song::art_manual_is_valid() const {
-  return (
+  return !d->art_manual_.isEmpty() &&
+         (
          (d->art_manual_.path() == kManuallyUnsetCover) ||
          (d->art_manual_.path() == kEmbeddedCover) ||
          (d->art_manual_.isValid() && !d->art_manual_.isLocalFile()) ||
@@ -652,6 +655,29 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   else if (ext.toLower() == "dsd" || ext.toLower() == "dff") return Song::FileType_DSDIFF;
   else if (ext.toLower() == "ape") return Song::FileType_APE;
   else return Song::FileType_Unknown;
+
+}
+
+QString Song::ImageCacheDir(const Song::Source source) {
+
+  switch (source) {
+    case Song::Source_Collection:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/collectionalbumcovers";
+    case Song::Source_Subsonic:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/subsonicalbumcovers";
+    case Song::Source_Tidal:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/tidalalbumcovers";
+    case Song::Source_Qobuz:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/qobuzalbumcovers";
+    case Song::Source_LocalFile:
+    case Song::Source_CDDA:
+    case Song::Source_Device:
+    case Song::Source_Stream:
+    case Song::Source_Unknown:
+      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/albumcovers";
+  }
+
+  return QString();
 
 }
 
@@ -997,15 +1023,23 @@ void Song::InitFromFilePartial(const QString &filename) {
 
 void Song::InitArtManual() {
 
-  QString album = d->album_;
+  QString album = effective_album();
   album.remove(Song::kAlbumRemoveDisc);
 
   // If we don't have an art, check if we have one in the cache
-  if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty()) {
+  if (d->art_manual_.isEmpty() && d->art_automatic_.isEmpty() && !effective_albumartist().isEmpty() && !album.isEmpty()) {
     QString filename(Utilities::Sha1CoverHash(effective_albumartist(), album).toHex() + ".jpg");
-    QString path(AlbumCoverLoader::ImageCacheDir(d->source_) + "/" + filename);
+    QString path(ImageCacheDir(d->source_) + "/" + filename);
     if (QFile::exists(path)) {
       d->art_manual_ = QUrl::fromLocalFile(path);
+    }
+    else if (d->url_.isLocalFile()) { // Pick the first image file in the album directory.
+      QFileInfo file(d->url_.toLocalFile());
+      QDir dir(file.path());
+      QStringList files = dir.entryList(QStringList() << "*.jpg" << "*.png" << "*.gif" << "*.jpeg", QDir::Files|QDir::Readable, QDir::Name);
+      if (files.count() > 0) {
+        d->art_manual_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
+      }
     }
   }
 

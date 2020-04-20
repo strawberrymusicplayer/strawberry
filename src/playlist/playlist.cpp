@@ -69,6 +69,7 @@
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
+#include "covermanager/albumcoverloader.h"
 #include "queue/queue.h"
 #include "playlist.h"
 #include "playlistitem.h"
@@ -88,12 +89,6 @@
 
 using std::placeholders::_1;
 using std::placeholders::_2;
-using std::shared_ptr;
-using std::unordered_map;
-using std::sort;
-using std::stable_sort;
-using std::greater;
-using std::swap;
 
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
 const char *Playlist::kRowsMimetype = "application/x-strawberry-playlist-rows";
@@ -256,6 +251,7 @@ bool Playlist::set_column_value(Song &song, Playlist::Column column, const QVari
     default:
       break;
   }
+
   return true;
 
 }
@@ -392,7 +388,9 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
 
   if (reply->is_successful() && index.isValid()) {
     if (reply->message().save_file_response().success()) {
-      QFuture<void> future = item_at(index.row())->BackgroundReload();
+      PlaylistItemPtr item = item_at(index.row());
+      if (!item) return;
+      QFuture<void> future = item->BackgroundReload();
       NewClosure(future, this, SLOT(ItemReloadComplete(QPersistentModelIndex)), index);
     }
     else {
@@ -406,6 +404,20 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
 void Playlist::ItemReloadComplete(const QPersistentModelIndex &index) {
 
   if (index.isValid()) {
+
+    PlaylistItemPtr item = item_at(index.row());
+    if (item) {
+
+      // Update temporary metadata for songs that are not in the collection.
+      // Songs that are in the collection is updated through the collection watcher/backend in playlist manager.
+      if (item->Metadata().source() != Song::Source_Collection) {
+        SongPlaylistItem *song_item = static_cast<SongPlaylistItem*>(item.get());
+        if (song_item) {
+          song_item->UpdateTemporaryMetadata(song_item->DatabaseSongMetadata());
+        }
+      }
+    }
+
     emit dataChanged(index, index);
     emit EditingFinished(index);
   }
@@ -879,7 +891,7 @@ void Playlist::InsertItems(const PlaylistItemList &itemsIn, int pos, bool play_n
   // exercise vetoes
   SongList songs;
 
-  for (const PlaylistItemPtr item : items) {
+  for (PlaylistItemPtr item : items) {
     songs << item->Metadata();
   }
 
@@ -1004,7 +1016,7 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 
   PlaylistItemList playlist_items;
   for (const Song &song : songs) {
-    playlist_items << shared_ptr<PlaylistItem>(new InternetPlaylistItem(service, song));
+    playlist_items << std::shared_ptr<PlaylistItem>(new InternetPlaylistItem(service, song));
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1014,6 +1026,7 @@ void Playlist::InsertInternetItems(InternetService *service, const SongList &son
 void Playlist::UpdateItems(const SongList &songs) {
 
   qLog(Debug) << "Updating playlist with new tracks' info";
+
   // We first convert our songs list into a linked list (a 'real' list), because removals are faster with QLinkedList.
   // Next, we walk through the list of playlist's items then the list of songs
   // we want to update: if an item corresponds to the song (we rely on URL for this), we update the item with the new metadata,
@@ -1027,20 +1040,12 @@ void Playlist::UpdateItems(const SongList &songs) {
     QMutableLinkedListIterator<Song> it(songs_list);
     while (it.hasNext()) {
       const Song &song = it.next();
-      PlaylistItemPtr &item = items_[i];
-      if (item->Metadata().url() == song.url() &&
-          (
-           item->Metadata().source() == Song::Source_Unknown ||
-           item->Metadata().filetype() == Song::FileType_Unknown ||
-           // Stream may change and may need to be updated too
-           item->Metadata().is_stream() ||
-           // And CD tracks as well (tags are loaded in a second step)
-           item->Metadata().is_cdda()
-          )
-       ) {
+      const PlaylistItemPtr &item = items_[i];
+      if (item->Metadata().url() == song.url()) {
         PlaylistItemPtr new_item;
         if (song.is_collection_song()) {
           new_item = PlaylistItemPtr(new CollectionPlaylistItem(song));
+          if (collection_items_by_id_.contains(song.id(), item)) collection_items_by_id_.remove(song.id(), item);
           collection_items_by_id_.insertMulti(song.id(), new_item);
         }
         else {
@@ -1103,10 +1108,10 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
 }
 
-bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<PlaylistItem> _a, shared_ptr<PlaylistItem> _b) {
+bool Playlist::CompareItems(int column, Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
 
-  shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
+  std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
 #define cmp(field) return a->Metadata().field() < b->Metadata().field()
 #define strcmp(field) return QString::localeAwareCompare(a->Metadata().field().toLower(), b->Metadata().field().toLower()) < 0;
@@ -1154,10 +1159,10 @@ bool Playlist::CompareItems(int column, Qt::SortOrder order, shared_ptr<Playlist
 
 }
 
-bool Playlist::ComparePathDepths(Qt::SortOrder order, shared_ptr<PlaylistItem> _a, shared_ptr<PlaylistItem> _b) {
+bool Playlist::ComparePathDepths(Qt::SortOrder order, std::shared_ptr<PlaylistItem> _a, std::shared_ptr<PlaylistItem> _b) {
 
-  shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
-  shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
+  std::shared_ptr<PlaylistItem> a = order == Qt::AscendingOrder ? _a : _b;
+  std::shared_ptr<PlaylistItem> b = order == Qt::AscendingOrder ? _b : _a;
 
   int a_dir_level = a->Url().path().count('/');
   int b_dir_level = b->Url().path().count('/');
@@ -1293,6 +1298,7 @@ void Playlist::SetCurrentIsPaused(bool paused) {
 }
 
 void Playlist::Save() const {
+
   if (!backend_ || is_loading_) return;
 
   backend_->SavePlaylistAsync(id_, items_, last_played_row());
@@ -1443,7 +1449,7 @@ PlaylistItemList Playlist::RemoveItemsWithoutUndo(int row, int count) {
 
     if (item->source() == Song::Source_Collection) {
       int id = item->Metadata().id();
-      if (id != -1) {
+      if (id != -1 && collection_items_by_id_.contains(id, item)) {
         collection_items_by_id_.remove(id, item);
       }
     }
@@ -1755,22 +1761,26 @@ void Playlist::set_sequence(PlaylistSequence *v) {
 QSortFilterProxyModel *Playlist::proxy() const { return proxy_; }
 
 SongList Playlist::GetAllSongs() const {
+
   SongList ret;
-  for (const PlaylistItemPtr item : items_) {
+  for (PlaylistItemPtr item : items_) {
     ret << item->Metadata();
   }
   return ret;
+
 }
 
 PlaylistItemList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
+
   quint64 ret = 0;
-  for (const PlaylistItemPtr item : items_) {
+  for (PlaylistItemPtr item : items_) {
     quint64 length = item->Metadata().length_nanosec();
     if (length > 0) ret += length;
   }
   return ret;
+
 }
 
 PlaylistItemList Playlist::collection_items_by_id(int id) const {
@@ -1778,30 +1788,38 @@ PlaylistItemList Playlist::collection_items_by_id(int id) const {
 }
 
 void Playlist::TracksAboutToBeDequeued(const QModelIndex&, int begin, int end) {
+
   for (int i = begin; i <= end; ++i) {
     temp_dequeue_change_indexes_ << queue_->mapToSource(queue_->index(i, Column_Title));
   }
+
 }
 
 void Playlist::TracksDequeued() {
+
   for (const QModelIndex &index : temp_dequeue_change_indexes_) {
     emit dataChanged(index, index);
   }
   temp_dequeue_change_indexes_.clear();
   emit QueueChanged();
+
 }
 
 void Playlist::TracksEnqueued(const QModelIndex&, int begin, int end) {
+
   const QModelIndex &b = queue_->mapToSource(queue_->index(begin, Column_Title));
   const QModelIndex &e = queue_->mapToSource(queue_->index(end, Column_Title));
   emit dataChanged(b, e);
+
 }
 
 void Playlist::QueueLayoutChanged() {
+
   for (int i = 0; i < queue_->rowCount(); ++i) {
     const QModelIndex &index = queue_->mapToSource(queue_->index(i, Column_Title));
     emit dataChanged(index, index);
   }
+
 }
 
 void Playlist::ItemChanged(PlaylistItemPtr item) {
@@ -1858,6 +1876,7 @@ void Playlist::InvalidateDeletedSongs() {
 }
 
 void Playlist::RemoveDeletedSongs() {
+
   QList<int> rows_to_remove;
 
   for (int row = 0; row < items_.count(); ++row) {
@@ -1892,7 +1911,7 @@ struct SongSimilarEqual {
 void Playlist::RemoveDuplicateSongs() {
 
   QList<int> rows_to_remove;
-  unordered_map<Song, int, SongSimilarHash, SongSimilarEqual> unique_songs;
+  std::unordered_map<Song, int, SongSimilarHash, SongSimilarEqual> unique_songs;
 
   for (int row = 0; row < items_.count(); ++row) {
     PlaylistItemPtr item = items_[row];
@@ -2007,3 +2026,16 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
 
 }
 
+void Playlist::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
+
+  // Update art_manual for local songs that are not in the collection.
+  if (result.type == AlbumCoverLoaderResult::Type_Manual && result.cover_url.isLocalFile() && (song.source() == Song::Source_LocalFile || song.source() == Song::Source_CDDA || song.source() == Song::Source_Device)) {
+    PlaylistItemPtr item = current_item();
+    if (item && item->Metadata() == song && !item->Metadata().art_manual_is_valid()) {
+      qLog(Debug) << "Updating art manual for local song" << song.title() << song.album() << song.title() << "to" << result.cover_url << "in playlist.";
+      item->SetArtManual(result.cover_url);
+      Save();
+    }
+  }
+
+}

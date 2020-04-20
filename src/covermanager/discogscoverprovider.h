@@ -73,7 +73,7 @@ class DiscogsCoverProvider : public CoverProvider {
  public:
   explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, const int s_id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int s_id);
 
   void CancelSearch(const int id);
 

@@ -147,6 +147,7 @@ class Song {
   static FileType FiletypeByMimetype(const QString &mimetype);
   static FileType FiletypeByDescription(const QString &text);
   static FileType FiletypeByExtension(const QString &ext);
+  static QString ImageCacheDir(const Song::Source source);
 
   // Sort songs alphabetically using their pretty title
   static void SortSongsListAlphabetically(QList<Song> *songs);

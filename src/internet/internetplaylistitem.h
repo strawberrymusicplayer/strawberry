@@ -36,10 +36,11 @@ class InternetPlaylistItem : public PlaylistItem {
 
  public:
   explicit InternetPlaylistItem(const Song::Source &type);
-  InternetPlaylistItem(InternetService *service, const Song &metadata);
+  explicit InternetPlaylistItem(InternetService *service, const Song &metadata);
   bool InitFromQuery(const SqlRow &query);
   Song Metadata() const;
   QUrl Url() const;
+  void SetArtManual(const QUrl &cover_url);
 
  protected:
   QVariant DatabaseValue(DatabaseColumn) const;

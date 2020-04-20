@@ -48,6 +48,8 @@
 #include "core/utilities.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
+#include "covermanager/albumcoverloaderresult.h"
+#include "covermanager/currentalbumcoverloader.h"
 #include "playlist.h"
 #include "playlistbackend.h"
 #include "playlistcontainer.h"
@@ -147,6 +149,7 @@ Playlist *PlaylistManager::AddPlaylist(int id, const QString &name, const QStrin
   connect(ret, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
   connect(ret, SIGNAL(PlayRequested(QModelIndex)), SIGNAL(PlayRequested(QModelIndex)));
   connect(playlist_container_->view(), SIGNAL(ColumnAlignmentChanged(ColumnAlignmentMap)), ret, SLOT(SetColumnAlignment(ColumnAlignmentMap)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), ret, SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
 
   playlists_[id] = Data(ret, name);
 
@@ -440,7 +443,8 @@ void PlaylistManager::UpdateSummaryText() {
   QString summary;
   if (selected > 1) {
     summary += tr("%1 selected of").arg(selected) + " ";
-  } else {
+  }
+  else {
     nanoseconds = current()->GetTotalLength();
   }
 
@@ -466,7 +470,7 @@ void PlaylistManager::SongsDiscovered(const SongList &songs) {
   for (const Song &song : songs) {
     for (const Data &data : playlists_) {
       PlaylistItemList items = data.p->collection_items_by_id(song.id());
-      for (const PlaylistItemPtr item : items) {
+      for (PlaylistItemPtr item : items) {
         if (item->Metadata().directory_id() != song.directory_id()) continue;
         static_cast<CollectionPlaylistItem*>(item.get())->SetMetadata(song);
         item->UpdateTemporaryMetadata(song);

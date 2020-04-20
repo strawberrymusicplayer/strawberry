@@ -26,9 +26,11 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QMap>
+#include <QUrl>
 #include <QImage>
 
 #include "covermanager/albumcoverloaderoptions.h"
+#include "covermanager/albumcoverloaderresult.h"
 
 class QAbstractItemModel;
 class QStandardItem;
@@ -52,12 +54,12 @@ class StandardItemIconLoader : public QObject {
   void LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item);
   void LoadIcon(const Song &song, QStandardItem *for_item);
 
-private slots:
-  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
+ private slots:
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult result);
   void RowsAboutToBeRemoved(const QModelIndex &parent, int begin, int end);
   void ModelReset();
 
-private:
+ private:
   AlbumCoverLoader *cover_loader_;
   AlbumCoverLoaderOptions cover_options_;
 

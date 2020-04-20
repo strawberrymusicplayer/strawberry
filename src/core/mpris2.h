@@ -39,6 +39,7 @@
 #include <QJsonObject>
 
 #include "engine/engine_fwd.h"
+#include "covermanager/albumcoverloaderresult.h"
 
 class Application;
 class Song;
@@ -204,7 +205,7 @@ signals:
   void PlaylistChanged(const MprisPlaylist &playlist);
 
  private slots:
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result = AlbumCoverLoaderResult());
   void EngineStateChanged(Engine::State newState);
   void VolumeChanged();
 

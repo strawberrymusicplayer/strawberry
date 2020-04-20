@@ -297,6 +297,7 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
 }
 
 void CollectionFilterWidget::GroupByClicked(QAction *action) {
+
   if (action->property("group_by").isNull()) {
     group_by_dialog_->show();
     return;
@@ -304,6 +305,7 @@ void CollectionFilterWidget::GroupByClicked(QAction *action) {
 
   CollectionModel::Grouping g = action->property("group_by").value<CollectionModel::Grouping>();
   model_->SetGroupBy(g);
+
 }
 
 void CollectionFilterWidget::GroupingChanged(const CollectionModel::Grouping &g) {

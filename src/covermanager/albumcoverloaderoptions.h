@@ -24,17 +24,24 @@
 #include "config.h"
 
 #include <QImage>
+#include <QSize>
 
 struct AlbumCoverLoaderOptions {
   explicit AlbumCoverLoaderOptions()
       : desired_height_(120),
         scale_output_image_(true),
-        pad_output_image_(true) {}
+        pad_output_image_(true),
+        create_thumbnail_(false),
+        pad_thumbnail_image_(false) {}
 
   int desired_height_;
+  QSize thumbnail_size_;
   bool scale_output_image_;
   bool pad_output_image_;
+  bool create_thumbnail_;
+  bool pad_thumbnail_image_;
   QImage default_output_image_;
+  QImage default_thumbnail_image_;
 };
 
 #endif  // ALBUMCOVERLOADEROPTIONS_H

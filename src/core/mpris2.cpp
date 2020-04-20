@@ -58,13 +58,12 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/playlistsequence.h"
 #include "covermanager/currentalbumcoverloader.h"
+#include "covermanager/albumcoverloaderresult.h"
 
 #include <core/mpris2_player.h>
 #include <core/mpris2_playlists.h>
 #include <core/mpris2_root.h>
 #include <core/mpris2_tracklist.h>
-
-using std::reverse;
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   arg.beginStructure();
@@ -122,7 +121,7 @@ Mpris2::Mpris2(Application *app, QObject *parent)
     return;
   }
 
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
 
   connect(app_->player()->engine(), SIGNAL(StateChanged(Engine::State)), SLOT(EngineStateChanged(Engine::State)));
   connect(app_->player(), SIGNAL(VolumeChanged(int)), SLOT(VolumeChanged()));
@@ -378,7 +377,7 @@ QString Mpris2::current_track_id() const {
 // We send Metadata change notification as soon as the process of changing song starts...
 void Mpris2::CurrentSongChanged(const Song &song) {
 
-  AlbumCoverLoaded(song, QUrl(), QImage());
+  AlbumCoverLoaded(song);
   EmitNotification("CanPlay");
   EmitNotification("CanPause");
   EmitNotification("CanGoNext", CanGoNext());
@@ -388,9 +387,7 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 }
 
 // ... and we add the cover information later, when it's available.
-void Mpris2::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(image);
+void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
@@ -398,9 +395,14 @@ void Mpris2::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QIm
   using mpris::AddMetadata;
   AddMetadata("mpris:trackid", current_track_id(), &last_metadata_);
 
-  if (cover_url.isValid()) {
-    AddMetadata("mpris:artUrl", cover_url.toString(), &last_metadata_);
+  QUrl cover_url;
+  if (result.cover_url.isValid() && result.cover_url.isLocalFile()) {
+    cover_url = result.cover_url;
   }
+  else if (result.temp_cover_url.isValid() && result.temp_cover_url.isLocalFile()) {
+    cover_url = result.temp_cover_url;
+  }
+  if (cover_url.isValid()) AddMetadata("mpris:artUrl", result.cover_url.toString(), &last_metadata_);
 
   AddMetadata("year", song.year(), &last_metadata_);
   AddMetadata("bitrate", song.bitrate(), &last_metadata_);

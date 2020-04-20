@@ -77,6 +77,8 @@
 #include "albumcoverexporter.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"
+#include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 #include "albumcovermanagerlist.h"
 #include "coversearchstatistics.h"
 #include "coversearchstatisticsdialog.h"
@@ -216,7 +218,7 @@ void AlbumCoverManager::Init() {
     ui_->splitter->setSizes(QList<int>() << 200 << width() - 200);
   }
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(CoverImageLoaded(quint64, QUrl, QImage)));
+  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
 
   cover_searcher_->Init(cover_fetcher_);
 
@@ -392,7 +394,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
     }
 
     if (!info.art_automatic.isEmpty() || !info.art_manual.isEmpty()) {
-      quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, info.art_automatic, info.art_manual, info.first_url.toLocalFile());
+      quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options_, info.art_automatic, info.art_manual, info.first_url);
       item->setData(Role_PathAutomatic, info.art_automatic);
       item->setData(Role_PathManual, info.art_manual);
       cover_loading_tasks_[id] = item;
@@ -403,17 +405,15 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
 
 }
 
-void AlbumCoverManager::CoverImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void AlbumCoverManager::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (!cover_loading_tasks_.contains(id)) return;
 
   QListWidgetItem *item = cover_loading_tasks_.take(id);
 
-  if (image.isNull()) return;
+  if (result.image_scaled.isNull()) return;
 
-  item->setIcon(QPixmap::fromImage(image));
+  item->setIcon(QPixmap::fromImage(result.image_scaled));
   UpdateFilter();
 
 }
@@ -488,7 +488,7 @@ void AlbumCoverManager::FetchAlbumCovers() {
     if (item->isHidden()) continue;
     if (ItemHasCover(*item)) continue;
 
-    quint64 id = cover_fetcher_->FetchAlbumCover(EffectiveAlbumArtistName(*item), item->data(Role_AlbumName).toString(), true);
+    quint64 id = cover_fetcher_->FetchAlbumCover(EffectiveAlbumArtistName(*item), item->data(Role_AlbumName).toString(), QString(), true);
     cover_fetching_tasks_[id] = item;
     jobs_++;
   }
@@ -623,7 +623,7 @@ void AlbumCoverManager::ShowCover() {
 void AlbumCoverManager::FetchSingleCover() {
 
   for (QListWidgetItem *item : context_menu_items_) {
-    quint64 id = cover_fetcher_->FetchAlbumCover(EffectiveAlbumArtistName(*item), item->data(Role_AlbumName).toString(), false);
+    quint64 id = cover_fetcher_->FetchAlbumCover(EffectiveAlbumArtistName(*item), item->data(Role_AlbumName).toString(), QString(), false);
     cover_fetching_tasks_[id] = item;
     jobs_++;
   }

@@ -44,7 +44,7 @@ class TidalCoverProvider : public CoverProvider {
 
  public:
   explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
-  bool StartSearch(const QString &artist, const QString &album, const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(int id);
 
  private slots:

@@ -110,7 +110,7 @@ class AlbumCoverChoiceController : public QWidget {
   void ShowCover(const Song &song, const QPixmap &pixmap);
 
   // Search for covers automatically
-  void SearchCoverAutomatically(const Song &song);
+  qint64 SearchCoverAutomatically(const Song &song);
 
   // Saves the chosen cover as manual cover path of this song in collection.
   void SaveCoverToSong(Song *song, const QUrl &cover_url);
@@ -124,7 +124,7 @@ class AlbumCoverChoiceController : public QWidget {
 
   static bool CanAcceptDrag(const QDragEnterEvent *e);
 
-signals:
+ signals:
   void AutomaticCoverSearchDone();
 
  private slots:

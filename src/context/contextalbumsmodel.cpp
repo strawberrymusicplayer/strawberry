@@ -48,11 +48,11 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderoptions.h"
+#include "covermanager/albumcoverloaderresult.h"
 
 #include "contextalbumsmodel.h"
 
-using std::bind;
-using std::sort;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
@@ -71,7 +71,7 @@ ContextAlbumsModel::ContextAlbumsModel(CollectionBackend *backend, Application *
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(AlbumCoverLoaded(quint64, QUrl, QImage)));
+  connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -146,9 +146,7 @@ QVariant ContextAlbumsModel::AlbumIcon(const QModelIndex &index) {
 
 }
 
-void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (!pending_art_.contains(id)) return;
 
@@ -161,13 +159,13 @@ void ContextAlbumsModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_ur
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (image.isNull()) {
+  if (result.image_scaled.isNull()) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
   else {
     QPixmap image_pixmap;
-    image_pixmap = QPixmap::fromImage(image);
+    image_pixmap = QPixmap::fromImage(result.image_scaled);
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 

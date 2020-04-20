@@ -44,8 +44,8 @@ class SongPlaylistItem : public PlaylistItem {
 
   QUrl Url() const;
 
- protected:
   Song DatabaseSongMetadata() const { return song_; }
+  void SetArtManual(const QUrl &cover_url);
 
  private:
   Song song_;

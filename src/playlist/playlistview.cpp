@@ -75,14 +75,13 @@
 #include "playlistheader.h"
 #include "playlistview.h"
 #include "covermanager/currentalbumcoverloader.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "settings/appearancesettingspage.h"
 #include "settings/playlistsettingspage.h"
 
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbaritemdelegate.h"
 #endif
-
-using std::sort;
 
 const int PlaylistView::kGlowIntensitySteps = 24;
 const int PlaylistView::kAutoscrollGraceTimeout = 30;  // seconds
@@ -221,7 +220,7 @@ void PlaylistView::SetApplication(Application *app) {
   Q_ASSERT(app);
   app_ = app;
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), this, SLOT(SongChanged(Song)));
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
   connect(app_->player(), SIGNAL(Playing()), SLOT(StartGlowing()));
   connect(app_->player(), SIGNAL(Paused()), SLOT(StopGlowing()));
   connect(app_->player(), SIGNAL(Stopped()), SLOT(Stopped()));
@@ -1261,17 +1260,15 @@ void PlaylistView::Stopped() {
   if (song_playing_ == Song()) return;
   song_playing_ = Song();
   StopGlowing();
-  AlbumCoverLoaded(Song(), QUrl(), QImage());
+  AlbumCoverLoaded(Song());
 
 }
 
-void PlaylistView::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &song_art) {
+void PlaylistView::AlbumCoverLoaded(const Song &song, AlbumCoverLoaderResult result) {
 
-  Q_UNUSED(cover_url);
+  if ((song != Song() && song_playing_ == Song()) || result.image_original == current_song_cover_art_) return;
 
-  if ((song != Song() && song_playing_ == Song()) || song_art == current_song_cover_art_) return;
-
-  current_song_cover_art_ = song_art;
+  current_song_cover_art_ = result.image_original;
   if (background_image_type_ == AppearanceSettingsPage::BackgroundImageType_Album) {
     if (song.art_automatic().isEmpty() && song.art_manual().isEmpty()) {
       set_background_image(QImage());

@@ -49,7 +49,6 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
   virtual ~PlaylistItem();
 
   static PlaylistItem *NewFromSource(const Song::Source &source);
-  static PlaylistItem *NewFromSongsTable(const QString &table, const Song &song);
 
   enum Option {
     Default = 0x00,
@@ -86,6 +85,8 @@ class PlaylistItem : public std::enable_shared_from_this<PlaylistItem> {
 
   qint64 effective_beginning_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.beginning_nanosec() != -1 ? temp_metadata_.beginning_nanosec() : Metadata().beginning_nanosec(); }
   qint64 effective_end_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.end_nanosec() != -1 ? temp_metadata_.end_nanosec() : Metadata().end_nanosec(); }
+
+  virtual void SetArtManual(const QUrl &cover_url) = 0;
 
   // Background colors.
   void SetBackgroundColor(short priority, const QColor &color);

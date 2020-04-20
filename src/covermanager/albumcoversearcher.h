@@ -36,6 +36,7 @@
 
 #include "albumcoverfetcher.h"
 #include "albumcoverloaderoptions.h"
+#include "albumcoverloaderresult.h"
 
 class QWidget;
 class QStandardItem;
@@ -88,7 +89,7 @@ class AlbumCoverSearcher : public QDialog {
  private slots:
   void Search();
   void SearchFinished(const quint64 id, const CoverSearchResults &results);
-  void ImageLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
   void CoverDoubleClicked(const QModelIndex &index);
 

@@ -37,17 +37,18 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const float &quality, const bool &fetchall, Application *app, QObject *parent);
+  explicit CoverProvider(const QString &name, const float quality, const bool fetchall, const bool allow_missing_album, Application *app, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
   bool quality() const { return quality_; }
   bool fetchall() const { return fetchall_; }
+  bool allow_missing_album() const { return allow_missing_album_; }
 
   // Starts searching for covers matching the given query text.
   // Returns true if the query has been started, or false if an error occurred.
   // The provider should remember the ID and emit it along with the result when it finishes.
-  virtual bool StartSearch(const QString &artist, const QString &album, int id) = 0;
+  virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) = 0;
 
   virtual void CancelSearch(int id) { Q_UNUSED(id); }
 
@@ -59,6 +60,7 @@ class CoverProvider : public QObject {
   QString name_;
   float quality_;
   bool fetchall_;
+  bool allow_missing_album_;
 
 };
 

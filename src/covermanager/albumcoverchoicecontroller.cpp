@@ -312,11 +312,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
 
 }
 
-void AlbumCoverChoiceController::SearchCoverAutomatically(const Song &song) {
+qint64 AlbumCoverChoiceController::SearchCoverAutomatically(const Song &song) {
 
-  qint64 id = cover_fetcher_->FetchAlbumCover(song.effective_albumartist(), song.effective_album(), true);
+  qint64 id = cover_fetcher_->FetchAlbumCover(song.effective_albumartist(), song.album(), song.title(), true);
 
   cover_fetching_tasks_[id] = song;
+
+  return id;
 
 }
 
@@ -371,7 +373,7 @@ void AlbumCoverChoiceController::SaveCoverToSong(Song *song, const QUrl &cover_u
 
   }
 
-  if (song->url() == app_->current_albumcover_loader()->last_song().url()) {
+  if (*song == app_->current_albumcover_loader()->last_song()) {
     app_->current_albumcover_loader()->LoadAlbumCover(*song);
   }
 

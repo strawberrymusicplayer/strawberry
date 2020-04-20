@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
+ * Copyright 2013-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,6 +96,7 @@
 #include "dialogs/console.h"
 #include "dialogs/trackselectiondialog.h"
 #include "dialogs/edittagdialog.h"
+#include "dialogs/addstreamdialog.h"
 #include "organise/organisedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
@@ -131,7 +132,7 @@
 #endif
 #include "covermanager/albumcovermanager.h"
 #include "covermanager/albumcoverchoicecontroller.h"
-#include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
@@ -177,10 +178,6 @@
 #ifdef Q_OS_WIN
 #  include "windows7thumbbar.h"
 #endif
-
-using std::bind;
-using std::floor;
-using std::stable_sort;
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
@@ -231,6 +228,11 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         TranscodeDialog *dialog = new TranscodeDialog(this);
         return dialog;
       }),
+      add_stream_dialog_([=]() {
+        AddStreamDialog *add_stream_dialog = new AddStreamDialog;
+        connect(add_stream_dialog, SIGNAL(accepted()), this, SLOT(AddStreamAccepted()));
+        return add_stream_dialog;
+      }),
 #ifdef HAVE_SUBSONIC
       subsonic_view_(new InternetSongsView(app_, app->internet_services()->ServiceBySource(Song::Source_Subsonic), SubsonicSettingsPage::kSettingsGroup, SettingsDialog::Page_Subsonic, this)),
 #endif
@@ -260,7 +262,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Initialise the UI
   ui_->setupUi(this);
 
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, QUrl, QImage)), SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
   album_cover_choice_controller_->Init(app);
   connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
   connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
@@ -361,6 +363,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   ui_->action_add_file->setIcon(IconLoader::Load("document-open"));
   ui_->action_add_folder->setIcon(IconLoader::Load("document-open-folder"));
+  ui_->action_add_stream->setIcon(IconLoader::Load("document-open-remote"));
   ui_->action_shuffle_mode->setIcon(IconLoader::Load("media-playlist-shuffle"));
   ui_->action_repeat_mode->setIcon(IconLoader::Load("media-playlist-repeat"));
   ui_->action_new_playlist->setIcon(IconLoader::Load("document-new"));
@@ -431,6 +434,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_open_cd, SIGNAL(triggered()), SLOT(AddCDTracks()));
   connect(ui_->action_add_file, SIGNAL(triggered()), SLOT(AddFile()));
   connect(ui_->action_add_folder, SIGNAL(triggered()), SLOT(AddFolder()));
+  connect(ui_->action_add_stream, SIGNAL(triggered()), SLOT(AddStream()));
   connect(ui_->action_cover_manager, SIGNAL(triggered()), SLOT(ShowCoverManager()));
   connect(ui_->action_equalizer, SIGNAL(triggered()), equalizer_.get(), SLOT(show()));
 #if defined(HAVE_GSTREAMER)
@@ -705,7 +709,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Playing()), context_view_, SLOT(Playing()));
   connect(app_->player(), SIGNAL(Stopped()), context_view_, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), context_view_, SLOT(Error()));
-  connect(this, SIGNAL(AlbumCoverReady(Song, QUrl, QImage)), context_view_, SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(this, SIGNAL(AlbumCoverReady(Song, QImage)), context_view_, SLOT(AlbumCoverLoaded(Song, QImage)));
   connect(this, SIGNAL(SearchCoverInProgress()), context_view_->album_widget(), SLOT(SearchCoverInProgress()));
   connect(context_view_, SIGNAL(AlbumEnabledChanged()), SLOT(TabSwitched()));
   connect(context_view_->albums_widget(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
@@ -738,7 +742,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(Stopped()), ui_->widget_playing, SLOT(Stopped()));
   connect(app_->player(), SIGNAL(Error()), ui_->widget_playing, SLOT(Error()));
   connect(ui_->widget_playing, SIGNAL(ShowAboveStatusBarChanged(bool)), SLOT(PlayingWidgetPositionChanged(bool)));
-  connect(this, SIGNAL(AlbumCoverReady(Song, QUrl, QImage)), ui_->widget_playing, SLOT(AlbumCoverLoaded(Song, QUrl, QImage)));
+  connect(this, SIGNAL(AlbumCoverReady(Song, QImage)), ui_->widget_playing, SLOT(AlbumCoverLoaded(Song, QImage)));
   connect(this, SIGNAL(SearchCoverInProgress()), ui_->widget_playing, SLOT(SearchCoverInProgress()));
 
   connect(ui_->action_console, SIGNAL(triggered()), SLOT(ShowConsole()));
@@ -1777,7 +1781,7 @@ void MainWindow::EditTracks() {
 
 void MainWindow::EditTagDialogAccepted() {
 
-  for (const PlaylistItemPtr item : edit_tag_dialog_->playlist_items()) {
+  for (PlaylistItemPtr item : edit_tag_dialog_->playlist_items()) {
     item->Reload();
   }
 
@@ -1919,6 +1923,16 @@ void MainWindow::AddCDTracks() {
   // We are putting empty data, but we specify cdda mimetype to indicate that we want to load audio cd tracks
   data->open_in_new_playlist_ = true;
   data->setData(Playlist::kCddaMimeType, QByteArray());
+  AddToPlaylist(data);
+
+}
+
+void MainWindow::AddStream() { add_stream_dialog_->show(); }
+
+void MainWindow::AddStreamAccepted() {
+
+  MimeData* data = new MimeData;
+  data->setUrls(QList<QUrl>() << add_stream_dialog_->url());
   AddToPlaylist(data);
 
 }
@@ -2512,7 +2526,7 @@ void MainWindow::AutoCompleteTags() {
 
 void MainWindow::AutoCompleteTagsAccepted() {
 
-  for (const PlaylistItemPtr item : autocomplete_tag_items_) {
+  for (PlaylistItemPtr item : autocomplete_tag_items_) {
     item->Reload();
   }
   autocomplete_tag_items_.clear();
@@ -2600,14 +2614,14 @@ void MainWindow::SearchCoverAutomatically() {
 
 }
 
-void MainWindow::AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image) {
+void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
-  if (song.effective_albumartist() != song_playing_.effective_albumartist() || song.effective_album() != song_playing_.effective_album() || song.title() != song_playing_.title()) return;
+  if (song != song_playing_) return;
 
   song_ = song;
-  image_original_ = image;
+  image_original_ = result.image_original;
 
-  emit AlbumCoverReady(song, cover_url, image);
+  emit AlbumCoverReady(song, result.image_original);
 
   GetCoverAutomatically();
 
@@ -2617,13 +2631,12 @@ void MainWindow::GetCoverAutomatically() {
 
   // Search for cover automatically?
   bool search =
-               song_.source() == Song::Source_Collection &&
-               album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
-               !song_.has_manually_unset_cover() &&
-               !song_.art_automatic_is_valid() &&
-               !song_.art_manual_is_valid() &&
-               !song_.effective_albumartist().isEmpty() &&
-               !song_.effective_album().isEmpty();
+                album_cover_choice_controller_->search_cover_auto_action()->isChecked() &&
+                !song_.has_manually_unset_cover() &&
+                !song_.art_automatic_is_valid() &&
+                !song_.art_manual_is_valid() &&
+                !song_.effective_albumartist().isEmpty() &&
+                !song_.effective_album().isEmpty();
 
   if (search) {
     album_cover_choice_controller_->SearchCoverAutomatically(song_);

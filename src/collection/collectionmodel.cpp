@@ -66,10 +66,9 @@
 #include "playlist/playlistmanager.h"
 #include "playlist/songmimedata.h"
 #include "covermanager/albumcoverloader.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "settings/collectionsettingspage.h"
 
-using std::bind;
-using std::sort;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
@@ -116,7 +115,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   cover_loader_options_.scale_output_image_ = true;
 
   if (app_)
-    connect(app_->album_cover_loader(), SIGNAL(ImageLoaded(quint64, QUrl, QImage)), SLOT(AlbumCoverLoaded(quint64, QUrl, QImage)));
+    connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -613,9 +612,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
 
 }
 
-void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image) {
-
-  Q_UNUSED(cover_url);
+void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result) {
 
   if (!pending_art_.contains(id)) return;
 
@@ -628,26 +625,26 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, 
   pending_cache_keys_.remove(cache_key);
 
   // Insert this image in the cache.
-  if (image.isNull()) {
+  if (result.image_scaled.isNull()) {
     // Set the no_cover image so we don't continually try to load art.
     QPixmapCache::insert(cache_key, no_cover_icon_);
   }
   else {
     QPixmap image_pixmap;
-    image_pixmap = QPixmap::fromImage(image);
+    image_pixmap = QPixmap::fromImage(result.image_scaled);
     QPixmapCache::insert(cache_key, image_pixmap);
   }
 
   // If we have a valid cover not already in the disk cache
   if (use_disk_cache_) {
     std::unique_ptr<QIODevice> cached_img(sIconCache->data(QUrl(cache_key)));
-    if (!cached_img && !image.isNull()) {
+    if (!cached_img && !result.image_scaled.isNull()) {
       QNetworkCacheMetaData item_metadata;
       item_metadata.setSaveToDisk(true);
       item_metadata.setUrl(QUrl(cache_key));
       QIODevice* cache = sIconCache->prepare(item_metadata);
       if (cache) {
-        image.save(cache, "XPM");
+        result.image_scaled.save(cache, "XPM");
         sIconCache->insert(cache);
       }
     }

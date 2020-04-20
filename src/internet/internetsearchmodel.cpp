@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,21 +57,17 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
 
 void InternetSearchModel::AddResults(const InternetSearchView::ResultList &results) {
 
-  int sort_index = 0;
-
   for (const InternetSearchView::Result &result : results) {
     QStandardItem *parent = invisibleRootItem();
 
     // Find (or create) the container nodes for this result if we can.
     ContainerKey key;
-    key.provider_index_ = sort_index;
     parent = BuildContainers(result.metadata_, parent, &key);
 
     // Create the item
     QStandardItem *item = new QStandardItem;
     item->setText(result.metadata_.TitleWithCompilationArtist());
     item->setData(QVariant::fromValue(result), Role_Result);
-    item->setData(sort_index, Role_ProviderIndex);
 
     parent->appendRow(item);
 
@@ -78,7 +75,7 @@ void InternetSearchModel::AddResults(const InternetSearchView::ResultList &resul
 
 }
 
-QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, int level) {
+QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem *parent, ContainerKey *key, const int level) {
 
   if (level >= 3) {
     return parent;
@@ -249,7 +246,6 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
   QStandardItem *container = containers_[*key];
   if (!container) {
     container = new QStandardItem(display_text);
-    container->setData(key->provider_index_, Role_ProviderIndex);
     container->setData(sort_text, CollectionModel::Role_SortText);
     container->setData(group_by_[level], CollectionModel::Role_ContainerType);
 
@@ -275,8 +271,10 @@ QStandardItem *InternetSearchModel::BuildContainers(const Song &s, QStandardItem
 }
 
 void InternetSearchModel::Clear() {
+
   containers_.clear();
   clear();
+
 }
 
 InternetSearchView::ResultList InternetSearchModel::GetChildResults(const QModelIndexList &indexes) const {
@@ -314,7 +312,7 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
     const QModelIndex parent_proxy_index = proxy_->mapFromSource(item->index());
 
     // Yes - visit all the children, but do so through the proxy so we get them in the right order.
-    for (int i = 0; i < item->rowCount(); ++i) {
+    for (int i = 0 ; i < item->rowCount() ; ++i) {
       const QModelIndex proxy_index = parent_proxy_index.model()->index(i, 0, parent_proxy_index);
       const QModelIndex index = proxy_->mapToSource(proxy_index);
       GetChildResults(itemFromIndex(index), results, visited);
@@ -325,21 +323,6 @@ void InternetSearchModel::GetChildResults(const QStandardItem *item, InternetSea
     QVariant result = item->data(Role_Result);
     if (result.isValid()) {
       results->append(result.value<InternetSearchView::Result>());
-    }
-    else {
-      // Maybe it's a provider then?
-      bool is_provider;
-      const int sort_index = item->data(Role_ProviderIndex).toInt(&is_provider);
-      if (is_provider) {
-        // Go through all the items (through the proxy to keep them ordered) and add the ones belonging to this provider to our list
-        for (int i = 0; i < proxy_->rowCount(invisibleRootItem()->index()); ++i) {
-          QModelIndex child_index = proxy_->index(i, 0, invisibleRootItem()->index());
-          const QStandardItem *child_item = itemFromIndex(proxy_->mapToSource(child_index));
-          if (child_item->data(Role_ProviderIndex).toInt() == sort_index) {
-            GetChildResults(child_item, results, visited);
-          }
-        }
-      }
     }
   }
 
@@ -360,13 +343,13 @@ void GatherResults(const QStandardItem *parent, InternetSearchView::ResultList *
     (*results).append(result);
   }
 
-  for (int i = 0; i < parent->rowCount(); ++i) {
+  for (int i = 0 ; i < parent->rowCount() ; ++i) {
     GatherResults(parent->child(i), results);
   }
 }
 }
 
-void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, bool regroup_now) {
+void InternetSearchModel::SetGroupBy(const CollectionModel::Grouping &grouping, const bool regroup_now) {
 
   const CollectionModel::Grouping old_group_by = group_by_;
   group_by_ = grouping;
@@ -389,24 +372,17 @@ MimeData *InternetSearchModel::LoadTracks(const InternetSearchView::ResultList &
     return nullptr;
   }
 
-  InternetSearchView::ResultList results_copy;
-  for (const InternetSearchView::Result &result : results) {
-    results_copy << result;
-  }
-
   SongList songs;
+  QList<QUrl> urls;
   for (const InternetSearchView::Result &result : results) {
     songs << result.metadata_;
+    urls << result.metadata_.url();
   }
 
   InternetSongMimeData *internet_song_mime_data = new InternetSongMimeData(service_);
   internet_song_mime_data->songs = songs;
   MimeData *mime_data = internet_song_mime_data;
 
-  QList<QUrl> urls;
-  for (const InternetSearchView::Result &result : results) {
-    urls << result.metadata_.url();
-  }
   mime_data->setUrls(urls);
 
   return mime_data;

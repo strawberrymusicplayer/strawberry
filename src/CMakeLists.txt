@@ -254,6 +254,7 @@ set(SOURCES
   dialogs/errordialog.cpp
   dialogs/edittagdialog.cpp
   dialogs/trackselectiondialog.cpp
+  dialogs/addstreamdialog.cpp
 
   widgets/autoexpandingtreeview.cpp
   widgets/busyindicator.cpp
@@ -439,6 +440,7 @@ set(HEADERS
   dialogs/console.h
   dialogs/edittagdialog.h
   dialogs/trackselectiondialog.h
+  dialogs/addstreamdialog.h
 
   widgets/autoexpandingtreeview.h
   widgets/busyindicator.h
@@ -537,6 +539,7 @@ set(UI
   dialogs/console.ui
   dialogs/edittagdialog.ui
   dialogs/trackselectiondialog.ui
+  dialogs/addstreamdialog.ui
 
   widgets/trackslider.ui
   widgets/osdpretty.ui

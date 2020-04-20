@@ -43,20 +43,33 @@ void CollectionPlaylistItem::Reload() {
 }
 
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
+
   // Rows from the songs tables come first
   song_.InitFromQuery(query, true);
   song_.set_source(Song::Source_Collection);
   return song_.is_valid();
+
 }
 
 QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn column) const {
+
   switch (column) {
     case Column_CollectionId: return song_.id();
     default: return PlaylistItem::DatabaseValue(column);
   }
+
 }
 
 Song CollectionPlaylistItem::Metadata() const {
+
   if (HasTemporaryMetadata()) return temp_metadata_;
   return song_;
+
+}
+
+void CollectionPlaylistItem::SetArtManual(const QUrl &cover_url) {
+
+  song_.set_art_manual(cover_url);
+  temp_metadata_.set_art_manual(cover_url);
+
 }

@@ -43,21 +43,21 @@ PlaylistItem::~PlaylistItem() {}
 PlaylistItem *PlaylistItem::NewFromSource(const Song::Source &source) {
 
   switch (source) {
-    case Song::Source_Collection:  return new CollectionPlaylistItem();
+    case Song::Source_Collection:
+      return new CollectionPlaylistItem();
+    case Song::Source_Subsonic:
     case Song::Source_Tidal:
-    case Song::Source_Stream:      return new InternetPlaylistItem(source);
-    default:                       return new SongPlaylistItem(source);
+    case Song::Source_Qobuz:
+    case Song::Source_Stream:
+      return new InternetPlaylistItem(source);
+    case Song::Source_LocalFile:
+    case Song::Source_CDDA:
+    case Song::Source_Device:
+    case Song::Source_Unknown:
+      break;
   }
 
-}
-
-PlaylistItem *PlaylistItem::NewFromSongsTable(const QString &table, const Song &song) {
-
-  if (table == SCollection::kSongsTable)
-    return new CollectionPlaylistItem(song);
-
-  qLog(Warning) << "Invalid PlaylistItem songs table:" << table;
-  return nullptr;
+  return new SongPlaylistItem(source);
 
 }
 

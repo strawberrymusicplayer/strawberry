@@ -44,6 +44,7 @@
 
 #include "core/simpletreemodel.h"
 #include "core/song.h"
+#include "covermanager/albumcoverloader.h"
 #include "collectionquery.h"
 #include "collectionitem.h"
 #include "sqlrow.h"
@@ -210,7 +211,7 @@ signals:
   // Called after ResetAsync
   void ResetAsyncQueryFinished(QFuture<CollectionModel::QueryResult> future);
 
-  void AlbumCoverLoaded(const quint64 id, const QUrl &cover_url, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
 
  private:
   // Provides some optimisations for loading the list of items in the root.

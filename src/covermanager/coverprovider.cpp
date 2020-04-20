@@ -26,5 +26,5 @@
 #include "core/application.h"
 #include "coverprovider.h"
 
-CoverProvider::CoverProvider(const QString &name, const float &quality, const bool &fetchall, Application *app, QObject *parent)
-    : QObject(parent), app_(app),  name_(name), quality_(quality), fetchall_(fetchall) {}
+CoverProvider::CoverProvider(const QString &name, const float quality, const bool fetchall, const bool allow_missing_album, Application *app, QObject *parent)
+    : QObject(parent), app_(app),  name_(name), quality_(quality), fetchall_(fetchall), allow_missing_album_(allow_missing_album) {}

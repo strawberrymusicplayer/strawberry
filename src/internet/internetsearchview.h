@@ -24,10 +24,13 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
 #include <QSet>
+#include <QPair>
 #include <QList>
 #include <QMap>
 #include <QString>
@@ -36,12 +39,12 @@
 #include <QImage>
 #include <QPixmap>
 #include <QPixmapCache>
-#include <QScopedPointer>
 #include <QMetaType>
 
 #include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "covermanager/albumcoverloaderoptions.h"
+#include "covermanager/albumcoverloaderresult.h"
 #include "settings/settingsdialog.h"
 
 class QSortFilterProxyModel;
@@ -53,14 +56,12 @@ class QActionGroup;
 class QEvent;
 class QKeyEvent;
 class QShowEvent;
-class QHideEvent;
 class QContextMenuEvent;
 class QTimerEvent;
 
 class Application;
 class MimeData;
 class GroupByDialog;
-class AlbumCoverLoader;
 class InternetService;
 class InternetSearchModel;
 class Ui_InternetSearchView;
@@ -104,7 +105,6 @@ class InternetSearchView : public QWidget {
   };
 
   void showEvent(QShowEvent *e);
-  void hideEvent(QHideEvent *e);
   bool eventFilter(QObject *object, QEvent *e);
   void timerEvent(QTimerEvent *e);
 
@@ -135,7 +135,6 @@ class InternetSearchView : public QWidget {
 
   QString PixmapCacheKey(const Result &result) const;
   bool FindCachedPixmap(const Result &result, QPixmap *pixmap) const;
-  static QImage ScaleAndPad(const QImage &image);
   int LoadAlbumCoverAsync(const Result &result);
 
  signals:
@@ -173,7 +172,7 @@ class InternetSearchView : public QWidget {
   void GroupByClicked(QAction *action);
   void SetGroupBy(const CollectionModel::Grouping &g);
 
-  void AlbumCoverLoaded(const quint64 id, const QUrl&, const QImage &image);
+  void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &albumcover_result);
 
  public slots:
   void ReloadSettings();
@@ -187,7 +186,7 @@ class InternetSearchView : public QWidget {
   Application *app_;
   InternetService *service_;
   Ui_InternetSearchView *ui_;
-  QScopedPointer<GroupByDialog> group_by_dialog_;
+  std::unique_ptr<GroupByDialog> group_by_dialog_;
 
   QMenu *context_menu_;
   QList<QAction*> context_actions_;
@@ -206,18 +205,17 @@ class InternetSearchView : public QWidget {
 
   QTimer *swap_models_timer_;
 
+  bool use_pretty_covers_;
   SearchType search_type_;
   bool search_error_;
   int last_search_id_;
   int searches_next_id_;
-  int art_searches_next_id_;
 
   QMap<int, DelayedSearch> delayed_searches_;
   QMap<int, PendingState> pending_searches_;
-  QMap<int, QString> pending_art_searches_;
-  QMap<int, QModelIndex> art_requests_;
+
   AlbumCoverLoaderOptions cover_loader_options_;
-  QMap<quint64, quint64> cover_loader_tasks_;
+  QMap<quint64, QPair<QModelIndex, QString>> cover_loader_tasks_;
   QPixmapCache pixmap_cache_;
 
 };

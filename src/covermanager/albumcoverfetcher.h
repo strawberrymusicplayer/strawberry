@@ -50,6 +50,7 @@ struct CoverSearchRequest {
   // A search query
   QString artist;
   QString album;
+  QString title;
 
   // Is this only a search request or should we also fetch the first cover that's found?
   bool search;
@@ -92,12 +93,12 @@ class AlbumCoverFetcher : public QObject {
 
   static const int kMaxConcurrentRequests;
 
-  quint64 SearchForCovers(const QString &artist, const QString &album);
-  quint64 FetchAlbumCover(const QString &artist, const QString &album, const bool fetchall);
+  quint64 SearchForCovers(const QString &artist, const QString &album, const QString &title = QString());
+  quint64 FetchAlbumCover(const QString &artist, const QString &album, const QString &title, const bool fetchall);
 
   void Clear();
 
-signals:
+ signals:
   void AlbumCoverFetched(const quint64 request_id, const QUrl &cover_url, const QImage &cover, const CoverSearchStatistics &statistics);
   void SearchFinished(const quint64 request_id, const CoverSearchResults &results, const CoverSearchStatistics &statistics);
 

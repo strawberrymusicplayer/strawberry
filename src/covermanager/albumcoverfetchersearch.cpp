@@ -42,11 +42,6 @@
 #include "coverprovider.h"
 #include "coverproviders.h"
 
-using std::min;
-using std::max;
-using std::stable_sort;
-using std::sqrt;
-
 const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 25000;
 const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
@@ -81,13 +76,16 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
     // Skip provider if it does not have fetchall set, and we are doing fetchall - "Fetch Missing Covers".
     if (!provider->fetchall() && request_.fetchall) {
-	//qLog(Debug) << "Skipping provider" << provider->name();
+	continue;
+    }
+    // If album is missing, check if we can still use this provider by searching using artist + title.
+    if (!provider->allow_missing_album() && request_.album.isEmpty()) {
 	continue;
     }
 
     connect(provider, SIGNAL(SearchFinished(int, CoverSearchResults)), SLOT(ProviderSearchFinished(int, CoverSearchResults)));
     const int id = cover_providers->NextId();
-    const bool success = provider->StartSearch(request_.artist, request_.album, id);
+    const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
 
     if (success) {
       pending_requests_[id] = provider;
@@ -112,7 +110,7 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSe
   CoverProvider *provider = pending_requests_.take(id);
 
   CoverSearchResults results_copy(results);
-  for (int i = 0; i < results_copy.count(); ++i) {
+  for (int i = 0 ; i < results_copy.count() ; ++i) {
     results_copy[i].provider = provider->name();
     results_copy[i].score = provider->quality();
     if (results_copy[i].artist.toLower() == request_.artist.toLower()) {
@@ -170,7 +168,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
   // Try the first one in each category.
   QString last_provider;
-  for (int i = 0; i < results_.count(); ++i) {
+  for (int i = 0 ; i < results_.count() ; ++i) {
     if (results_[i].provider == last_provider) {
       continue;
     }
