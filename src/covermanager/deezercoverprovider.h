@@ -47,13 +47,14 @@ class DeezerCoverProvider : public CoverProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
-  static const char *kApiUrl;
-  static const int kLimit;
-
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonValue ExtractData(const QByteArray &data);
   void Error(const QString &error, const QVariant &debug = QVariant());
+
+ private:
+  static const char *kApiUrl;
+  static const int kLimit;
 
   QNetworkAccessManager *network_;
 
