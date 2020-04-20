@@ -451,7 +451,16 @@ void ContextView::SetSong() {
   if (action_show_data_->isChecked()) {
     widget_play_data_->show();
     label_filetype_->setText(song_playing_.TextForFiletype());
-    label_length_->setText(Utilities::PrettyTimeNanosec(song_playing_.length_nanosec()));
+    if (song_playing_.length_nanosec() <= 0) {
+      label_length_title_->hide();
+      label_length_->hide();
+      label_length_->clear();
+    }
+    else {
+      label_length_title_->show();
+      label_length_->show();
+      label_length_->setText(Utilities::PrettyTimeNanosec(song_playing_.length_nanosec()));
+    }
     if (song_playing_.samplerate() <= 0) {
       label_samplerate_title_->hide();
       label_samplerate_->hide();
@@ -587,7 +596,18 @@ void ContextView::UpdateSong(const Song &song) {
 
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
-    if (song.length_nanosec() != song_playing_.length_nanosec()) label_length_->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
+    if (song.length_nanosec() != song_playing_.length_nanosec()){
+      if (song_playing_.length_nanosec() <= 0) {
+        label_length_title_->hide();
+        label_length_->hide();
+        label_length_->clear();
+      }
+      else {
+        label_length_title_->show();
+        label_length_->show();
+        label_length_->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
+      }
+    }
     if (song.samplerate() != song_playing_.samplerate()) {
       if (song.samplerate() <= 0) {
         label_samplerate_title_->hide();
