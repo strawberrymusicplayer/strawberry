@@ -597,7 +597,7 @@ void ContextView::UpdateSong(const Song &song) {
   if (action_show_data_->isChecked()) {
     if (song.filetype() != song_playing_.filetype()) label_filetype_->setText(song.TextForFiletype());
     if (song.length_nanosec() != song_playing_.length_nanosec()){
-      if (song_playing_.length_nanosec() <= 0) {
+      if (song.length_nanosec() <= 0) {
         label_length_title_->hide();
         label_length_->hide();
         label_length_->clear();
