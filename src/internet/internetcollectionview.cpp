@@ -82,8 +82,6 @@ InternetCollectionView::InternetCollectionView(QWidget *parent)
 
 }
 
-InternetCollectionView::~InternetCollectionView() {}
-
 void InternetCollectionView::Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite) {
 
   app_ = app;
@@ -98,7 +96,11 @@ void InternetCollectionView::Init(Application *app, CollectionBackend *backend, 
 
 }
 
-void InternetCollectionView::SetFilter(CollectionFilterWidget *filter) { filter_ = filter; }
+void InternetCollectionView::SetFilter(CollectionFilterWidget *filter) {
+
+  filter_ = filter;
+
+}
 
 void InternetCollectionView::ReloadSettings() {}
 
@@ -318,6 +320,10 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
     }
 
     if (filter_) context_menu_->addMenu(filter_->menu());
+
+    context_menu_->addSeparator();
+
+    context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(collection_backend_->Source())), this, SLOT(OpenSettingsDialog()));
 
   }
 

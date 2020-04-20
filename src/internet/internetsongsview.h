@@ -48,7 +48,7 @@ class InternetSongsView : public QWidget {
   InternetCollectionView *view() const { return ui_->view; }
 
  private slots:
-  void contextMenuEvent(QContextMenuEvent *e);
+  void OpenSettingsDialog();
   void GetSongs();
   void AbortGetSongs();
   void SongsFinished(const SongList &songs, const QString &error);

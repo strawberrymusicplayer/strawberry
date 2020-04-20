@@ -30,9 +30,11 @@
 #include <QTabWidget>
 #include <QStackedWidget>
 #include <QContextMenuEvent>
+#include <QAction>
 #include <QSettings>
 
 #include "core/application.h"
+#include "core/iconloader.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
@@ -58,6 +60,9 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
   connect(ui_->search_view, SIGNAL(AddAlbumsSignal(SongList)), service_, SIGNAL(AddAlbums(SongList)));
   connect(ui_->search_view, SIGNAL(AddSongsSignal(SongList)), service_, SIGNAL(AddSongs(SongList)));
 
+  QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
+  connect(action_configure, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
     ui_->artists_collection->view()->Init(app_, service_->artists_collection_backend(), service_->artists_collection_model(), true);
@@ -66,6 +71,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->artists_collection->filter()->SetSettingsGroup(settings_group);
     ui_->artists_collection->filter()->SetSettingsPrefix("artists");
     ui_->artists_collection->filter()->SetCollectionModel(service_->artists_collection_model());
+    ui_->artists_collection->filter()->AddMenuAction(action_configure);
 
     connect(ui_->artists_collection->view(), SIGNAL(GetSongs()), SLOT(GetArtists()));
     connect(ui_->artists_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveArtists(SongList)));
@@ -97,6 +103,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->albums_collection->filter()->SetSettingsGroup(settings_group);
     ui_->albums_collection->filter()->SetSettingsPrefix("albums");
     ui_->albums_collection->filter()->SetCollectionModel(service_->albums_collection_model());
+    ui_->albums_collection->filter()->AddMenuAction(action_configure);
 
     connect(ui_->albums_collection->view(), SIGNAL(GetSongs()), SLOT(GetAlbums()));
     connect(ui_->albums_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveAlbums(SongList)));
@@ -128,6 +135,7 @@ InternetTabsView::InternetTabsView(Application *app, InternetService *service, c
     ui_->songs_collection->filter()->SetSettingsGroup(settings_group);
     ui_->songs_collection->filter()->SetSettingsPrefix("songs");
     ui_->songs_collection->filter()->SetCollectionModel(service_->songs_collection_model());
+    ui_->songs_collection->filter()->AddMenuAction(action_configure);
 
     connect(ui_->songs_collection->view(), SIGNAL(GetSongs()), SLOT(GetSongs()));
     connect(ui_->songs_collection->view(), SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
@@ -184,8 +192,6 @@ InternetTabsView::~InternetTabsView() {
 }
 
 void InternetTabsView::ReloadSettings() { ui_->search_view->ReloadSettings(); }
-
-void InternetTabsView::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }
 
 void InternetTabsView::GetArtists() {
 
@@ -314,4 +320,8 @@ void InternetTabsView::SongsFinished(const SongList &songs, const QString &error
     service_->songs_collection_backend()->AddOrUpdateSongs(songs);
   }
 
+}
+
+void InternetTabsView::OpenSettingsDialog() {
+  app_->OpenSettingsDialogAtPage(service_->settings_page());
 }

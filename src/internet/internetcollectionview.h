@@ -51,7 +51,6 @@ class InternetCollectionView : public AutoExpandingTreeView {
 
  public:
   explicit InternetCollectionView(QWidget *parent = nullptr);
-  ~InternetCollectionView();
 
   void Init(Application *app, CollectionBackend *backend, CollectionModel *model, const bool favorite = false);
 

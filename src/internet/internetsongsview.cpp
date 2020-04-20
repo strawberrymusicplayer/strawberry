@@ -28,8 +28,10 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QAction>
 
 #include "core/application.h"
+#include "core/iconloader.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilterwidget.h"
@@ -56,6 +58,10 @@ InternetSongsView::InternetSongsView(Application *app, InternetService *service,
   ui_->filter->SetSettingsGroup(settings_group);
   ui_->filter->SetCollectionModel(service_->songs_collection_model());
 
+  QAction *action_configure = new QAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
+  connect(action_configure, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+  ui_->filter->AddMenuAction(action_configure);
+
   connect(ui_->view, SIGNAL(GetSongs()), SLOT(GetSongs()));
   connect(ui_->view, SIGNAL(RemoveSongs(SongList)), service_, SIGNAL(RemoveSongs(SongList)));
 
@@ -81,7 +87,10 @@ InternetSongsView::~InternetSongsView() { delete ui_; }
 
 void InternetSongsView::ReloadSettings() {}
 
-void InternetSongsView::contextMenuEvent(QContextMenuEvent *e) { Q_UNUSED(e); }
+void InternetSongsView::OpenSettingsDialog() {
+  app_->OpenSettingsDialogAtPage(service_->settings_page());
+}
+
 
 void InternetSongsView::GetSongs() {
 

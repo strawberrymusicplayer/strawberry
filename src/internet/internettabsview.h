@@ -53,7 +53,7 @@ class InternetTabsView : public QWidget {
   InternetSearchView *search_view() const { return ui_->search_view; }
 
  private slots:
-  void contextMenuEvent(QContextMenuEvent *e);
+  void OpenSettingsDialog();
   void GetArtists();
   void GetAlbums();
   void GetSongs();
