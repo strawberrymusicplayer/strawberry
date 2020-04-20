@@ -36,8 +36,6 @@
 #include "organiseerrordialog.h"
 #include "ui_organiseerrordialog.h"
 
-using std::stable_sort;
-
 OrganiseErrorDialog::OrganiseErrorDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_OrganiseErrorDialog) {
 
   ui_->setupUi(this);

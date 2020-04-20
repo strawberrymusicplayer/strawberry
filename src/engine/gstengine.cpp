@@ -58,9 +58,6 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
-using std::shared_ptr;
-using std::vector;
-
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
 const char *GstEngine::kOpenALSASink = "openalsink";
@@ -167,7 +164,7 @@ bool GstEngine::Load(const QUrl &stream_url, const QUrl &original_url, Engine::T
     return true;
   }
 
-  shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
+  std::shared_ptr<GstEnginePipeline> pipeline = CreatePipeline(gst_url, original_url, force_stop_at_end ? end_nanosec : 0);
   if (!pipeline) return false;
 
   if (crossfade) StartFadeout();
@@ -749,11 +746,11 @@ void GstEngine::StopTimers() {
   }
 }
 
-shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
+std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
   EnsureInitialised();
 
-  shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
+  std::shared_ptr<GstEnginePipeline> ret(new GstEnginePipeline(this));
   ret->set_output_device(output_, device_);
   ret->set_volume_enabled(volume_control_);
   ret->set_stereo_balancer_enabled(stereo_balancer_enabled_);
@@ -778,9 +775,9 @@ shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline() {
 
 }
 
-shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
+std::shared_ptr<GstEnginePipeline> GstEngine::CreatePipeline(const QByteArray &gst_url, const QUrl &original_url, const qint64 end_nanosec) {
 
-  shared_ptr<GstEnginePipeline> ret = CreatePipeline();
+  std::shared_ptr<GstEnginePipeline> ret = CreatePipeline();
   if (!ret->InitFromUrl(gst_url, original_url, end_nanosec)) ret.reset();
   return ret;
 

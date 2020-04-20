@@ -39,8 +39,6 @@
 #include "engine_fwd.h"
 #include "enginebase.h"
 
-using std::shared_ptr;
-
 class TaskManager;
 class PruneScopeThread;
 

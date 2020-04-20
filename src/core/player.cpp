@@ -75,9 +75,6 @@
 #include "internet/internetservice.h"
 #include "scrobbler/audioscrobbler.h"
 
-using std::shared_ptr;
-using std::unique_ptr;
-
 const char *Player::kSettingsGroup = "Player";
 
 Player::Player(Application *app, QObject *parent)
@@ -125,7 +122,7 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
 #ifdef HAVE_GSTREAMER
       case Engine::GStreamer:{
         use_enginetype=Engine::GStreamer;
-        unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
+        std::unique_ptr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
         gst_engine->SetStartup(gst_startup_);
         engine_.reset(gst_engine.release());
         break;

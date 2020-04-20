@@ -50,8 +50,6 @@
 #  include <windows.h>
 #endif
 
-using std::unique_ptr;
-
 MoodbarLoader::MoodbarLoader(Application* app, QObject* parent)
     : QObject(parent),
       cache_(new QNetworkDiskCache(this)),

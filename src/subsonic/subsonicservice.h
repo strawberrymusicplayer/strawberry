@@ -48,8 +48,6 @@ class SubsonicRequest;
 class CollectionBackend;
 class CollectionModel;
 
-using std::shared_ptr;
-
 class SubsonicService : public InternetService {
   Q_OBJECT
 

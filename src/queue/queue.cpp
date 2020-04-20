@@ -42,8 +42,6 @@
 #include "playlist/playlistitem.h"
 #include "queue.h"
 
-using std::stable_sort;
-
 const char *Queue::kRowsMimetype = "application/x-strawberry-queue-rows";
 
 Queue::Queue(Playlist *parent) : QAbstractProxyModel(parent), playlist_(parent), total_length_ns_(0) {

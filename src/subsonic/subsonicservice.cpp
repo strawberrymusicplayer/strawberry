@@ -57,8 +57,6 @@
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
-using std::shared_ptr;
-
 const Song::Source SubsonicService::kSource = Song::Source_Subsonic;
 const char *SubsonicService::kClientName = "Strawberry";
 const char *SubsonicService::kApiVersion = "1.11.0";

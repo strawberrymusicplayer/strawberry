@@ -46,9 +46,6 @@
 #include "core/signalchecker.h"
 #include "transcoder.h"
 
-using std::shared_ptr;
-using std::sort;
-
 int Transcoder::JobFinishedEvent::sEventType = -1;
 
 TranscoderPreset::TranscoderPreset(Song::FileType type, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype)
@@ -414,7 +411,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) {
 
 bool Transcoder::StartJob(const Job &job) {
 
-  shared_ptr<JobState> state(new JobState(job, this));
+  std::shared_ptr<JobState> state(new JobState(job, this));
 
   emit LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
@@ -526,7 +523,7 @@ void Transcoder::Cancel() {
   // Stop the running ones
   JobStateList::iterator it = current_jobs_.begin();
   while (it != current_jobs_.end()) {
-    shared_ptr<JobState> state(*it);
+    std::shared_ptr<JobState> state(*it);
 
     // Remove event handlers from the gstreamer pipeline so they don't get called after the pipeline is shutting down
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(state->pipeline_)), nullptr, nullptr, nullptr);

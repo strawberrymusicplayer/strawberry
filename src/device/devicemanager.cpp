@@ -87,8 +87,6 @@
 #  include "giolister.h" // Needs to be last because of #undef signals.
 #endif
 
-using std::bind;
-
 const int DeviceManager::kDeviceIconSize = 32;
 const int DeviceManager::kDeviceIconOverlaySize = 16;
 
@@ -108,7 +106,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   connect(this, SIGNAL(DeviceCreatedFromDB(DeviceInfo*)), SLOT(AddDeviceFromDB(DeviceInfo*)));
 
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
-  ConcurrentRun::Run<void>(&thread_pool_, bind(&DeviceManager::LoadAllDevices, this));
+  ConcurrentRun::Run<void>(&thread_pool_, std::bind(&DeviceManager::LoadAllDevices, this));
 
   // This proxy model only shows connected devices
   connected_devices_model_ = new DeviceStateFilterModel(this);

@@ -34,8 +34,6 @@
 #include "collectionbackend.h"
 #include "collectiondirectorymodel.h"
 
-using std::shared_ptr;
-
 CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, QObject *parent)
     : QStandardItemModel(parent),
       dir_icon_(IconLoader::Load("document-open-folder")),

@@ -70,8 +70,6 @@
 #undef AddJob
 #endif
 
-using std::sort;
-
 const char *TranscodeDialog::kSettingsGroup = "Transcoder";
 const int TranscodeDialog::kProgressInterval = 500;
 const int TranscodeDialog::kMaxDestinationItems = 10;

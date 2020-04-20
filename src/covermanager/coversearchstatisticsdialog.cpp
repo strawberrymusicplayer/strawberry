@@ -37,8 +37,6 @@
 #include "coversearchstatisticsdialog.h"
 #include "ui_coversearchstatisticsdialog.h"
 
-using std::sort;
-
 CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
     : QDialog(parent), ui_(new Ui_CoverSearchStatisticsDialog) {
 

@@ -64,8 +64,6 @@
 #include "organise/organisedialog.h"
 #include "settings/collectionsettingspage.h"
 
-using std::unique_ptr;
-
 CollectionView::CollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       app_(nullptr),

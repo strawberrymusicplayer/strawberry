@@ -66,9 +66,6 @@
 #endif
 
 using std::placeholders::_1;
-using std::bind;
-using std::stable_sort;
-using std::shared_ptr;
 
 QSet<QString> SongLoader::sRawUriSchemes;
 const int SongLoader::kDefaultTimeout = 5000;

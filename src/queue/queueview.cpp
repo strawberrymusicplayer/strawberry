@@ -40,8 +40,6 @@
 #include "queueview.h"
 #include "ui_queueview.h"
 
-using std::stable_sort;
-
 QueueView::QueueView(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_QueueView),

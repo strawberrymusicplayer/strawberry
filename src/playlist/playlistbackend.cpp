@@ -57,7 +57,6 @@
 #include "playlistparsers/cueparser.h"
 
 using std::placeholders::_1;
-using std::shared_ptr;
 
 const int PlaylistBackend::kSongTableJoins = 2;
 
@@ -346,7 +345,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemList &items, 
   if (db_->CheckErrors(clear)) return;
 
   // Save the new ones
-  for (const PlaylistItemPtr item : items) {
+  for (PlaylistItemPtr item : items) {
     insert.bindValue(":playlist", playlist);
     item->BindToQuery(&insert);
 

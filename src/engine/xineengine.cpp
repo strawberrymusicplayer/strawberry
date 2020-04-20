@@ -62,8 +62,6 @@
 #  include "xinescope.h"
 #endif
 
-using std::shared_ptr;
-
 #ifndef LLONG_MAX
 #define LLONG_MAX 9223372036854775807LL
 #endif

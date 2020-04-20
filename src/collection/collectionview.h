@@ -47,8 +47,6 @@ class CollectionFilterWidget;
 class EditTagDialog;
 class OrganiseDialog;
 
-using std::unique_ptr;
-
 class CollectionView : public AutoExpandingTreeView {
   Q_OBJECT
 

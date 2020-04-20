@@ -44,8 +44,6 @@
 #include <QString>
 #include <QUrl>
 
-using std::unique_ptr;
-
 class QTimerEvent;
 class GstEngine;
 class GstBufferConsumer;

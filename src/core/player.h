@@ -48,8 +48,6 @@ class Equalizer;
 class GstStartup;
 #endif
 
-using std::unique_ptr;
-
 namespace Engine {
 struct SimpleMetaBundle;
 }  // namespace Engine

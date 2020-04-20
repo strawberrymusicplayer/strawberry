@@ -51,9 +51,6 @@
 #include "core/utilities.h"
 #include "musicbrainzclient.h"
 
-using std::sort;
-using std::stable_sort;
-
 const char *MusicBrainzClient::kTrackUrl = "https://musicbrainz.org/ws/2/recording/";
 const char *MusicBrainzClient::kDiscUrl = "https://musicbrainz.org/ws/2/discid/";
 const char *MusicBrainzClient::kDateRegex = "^[12]\\d{3}";

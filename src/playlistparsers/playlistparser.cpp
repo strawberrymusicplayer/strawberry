@@ -42,8 +42,6 @@
 #include "wplparser.h"
 #include "xspfparser.h"
 
-using std::stable_sort;
-
 const int PlaylistParser::kMagicSize = 512;
 
 PlaylistParser::PlaylistParser(CollectionBackendInterface *collection, QObject *parent)
