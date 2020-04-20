@@ -242,7 +242,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     }
 
     if (!obj_album.contains("artist") || !obj_album.contains("image") || !obj_album.contains("title")) {
-      Error("Invalid Json reply, item is missing artist, title or image.", item_obj);
+      Error("Invalid Json reply, item is missing artist, title or image.", obj_album);
       continue;
     }
 
