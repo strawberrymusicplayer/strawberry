@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-14 05:14-0400\n"
+"PO-Revision-Date: 2020-04-21 04:57-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -505,7 +505,7 @@ msgstr "Ajouter un &dossier..."
 
 #: ../build/src/ui_addstreamdialog.h:77
 msgid "Add Stream"
-msgstr ""
+msgstr "Ajouter un flux"
 
 #: ../build/src/ui_contextsettingspage.h:291
 #: ../build/src/ui_notificationssettingspage.h:456
@@ -631,7 +631,7 @@ msgstr "Ajouter le tag année du morceau"
 
 #: ../build/src/ui_mainwindow.h:706
 msgid "Add stream..."
-msgstr ""
+msgstr "Ajouter un flux..."
 
 #: internet/internetsearchview.cpp:319
 msgid "Add to albums"
@@ -1761,7 +1761,7 @@ msgstr "Saisissez les termes à rechercher ici"
 
 #: ../build/src/ui_addstreamdialog.h:78
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "Saisissez l'URL d'un flux :"
 
 #: playlist/playlistlistcontainer.cpp:195
 msgid "Enter the name of the folder"
