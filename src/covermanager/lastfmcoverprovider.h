@@ -26,7 +26,6 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QJsonValue>
 #include <QJsonObject>
 
 #include "coverprovider.h"
@@ -43,12 +42,9 @@ class LastFmCoverProvider : public CoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
 
  private slots:
-  void QueryFinished(QNetworkReply *reply, const int id);
+  void QueryFinished(QNetworkReply *reply, const int id, const QString &type);
 
  private:
-  static const char *kUrl;
-  static const char *kApiKey;
-  static const char *kSecret;
   enum LastFmImageSize {
     Unknown,
     Small,
@@ -56,11 +52,16 @@ class LastFmCoverProvider : public CoverProvider {
     Large,
     ExtraLarge
   };
+
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractResults(const QByteArray &data);
   LastFmImageSize ImageSizeFromString(const QString &size);
   void Error(const QString &error, const QVariant &debug = QVariant());
+
+ private:
+  static const char *kUrl;
+  static const char *kApiKey;
+  static const char *kSecret;
 
   QNetworkAccessManager *network_;
 
