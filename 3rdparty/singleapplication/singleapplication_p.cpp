@@ -61,8 +61,8 @@
 #  include <lmcons.h>
 #endif
 
-SingleApplicationPrivate::SingleApplicationPrivate(SingleApplication *q_ptr)
-  : q_ptr(q_ptr),
+SingleApplicationPrivate::SingleApplicationPrivate(SingleApplication *_q_ptr)
+  : q_ptr(_q_ptr),
     memory(nullptr),
     socket(nullptr),
     server(nullptr),
@@ -186,7 +186,7 @@ void SingleApplicationPrivate::startPrimary() {
 
 void SingleApplicationPrivate::startSecondary() {}
 
-void SingleApplicationPrivate::connectToPrimary(int msecs, ConnectionType connectionType) {
+void SingleApplicationPrivate::connectToPrimary(const int msecs, const ConnectionType connectionType) {
 
   // Connect to the Local Server of the Primary Instance if not already connected.
   if (socket == nullptr) {
@@ -386,14 +386,14 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
 
 }
 
-void SingleApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, quint32 instanceId) {
+void SingleApplicationPrivate::slotDataAvailable(QLocalSocket *dataSocket, const quint32 instanceId) {
 
   Q_Q(SingleApplication);
   Q_EMIT q->receivedMessage(instanceId, dataSocket->readAll());
 
 }
 
-void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSocket, quint32 instanceId) {
+void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket *closedSocket, const quint32 instanceId) {
 
   if (closedSocket->bytesAvailable() > 0)
     Q_EMIT slotDataAvailable(closedSocket, instanceId);

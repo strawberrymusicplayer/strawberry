@@ -74,14 +74,14 @@ class SingleCoreApplicationPrivate : public QObject {
   };
   Q_DECLARE_PUBLIC(SingleCoreApplication)
 
-  SingleCoreApplicationPrivate( SingleCoreApplication *q_ptr );
+  SingleCoreApplicationPrivate(SingleCoreApplication *_q_ptr);
   ~SingleCoreApplicationPrivate();
 
   void genBlockServerName();
   void initializeMemoryBlock();
   void startPrimary();
   void startSecondary();
-  void connectToPrimary(int msecs, ConnectionType connectionType );
+  void connectToPrimary(const int msecs, const ConnectionType connectionType);
   quint16 blockChecksum();
   qint64 primaryPid();
   void readInitMessageHeader(QLocalSocket *socket);
@@ -98,8 +98,8 @@ class SingleCoreApplicationPrivate : public QObject {
 
  public slots:
   void slotConnectionEstablished();
-  void slotDataAvailable(QLocalSocket*, quint32);
-  void slotClientConnectionClosed(QLocalSocket*, quint32);
+  void slotDataAvailable(QLocalSocket*, const quint32);
+  void slotClientConnectionClosed(QLocalSocket*, const quint32);
 };
 
 #endif  // SINGLECOREAPPLICATION_P_H
