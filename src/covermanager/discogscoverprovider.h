@@ -24,14 +24,15 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QObject>
 #include <QMetaType>
-#include <QHash>
+#include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>
-#include <QJsonValue>
 
 #include "coverprovider.h"
 #include "albumcoverfetcher.h"
@@ -40,69 +41,58 @@ class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-// This struct represents a single search-for-cover request. It identifies and describes the request.
-struct DiscogsCoverSearchContext {
-  explicit DiscogsCoverSearchContext() : id(-1), r_count(0) {}
-
-  // The unique request identifier
-  int id;
-
-  // The search query
-  QString artist;
-  QString album;
-  int r_count;
-
-  CoverSearchResults results;
-};
-Q_DECLARE_METATYPE(DiscogsCoverSearchContext)
-
-// This struct represents a single release request. It identifies and describes the request.
-struct DiscogsCoverReleaseContext {
-  explicit DiscogsCoverReleaseContext() : id(-1) {}
-
-  int id;			// The unique request identifier
-  int s_id;			// The search request identifier
-
-  QString resource_url;
-};
-Q_DECLARE_METATYPE(DiscogsCoverReleaseContext)
-
 class DiscogsCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
   explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
+  ~DiscogsCoverProvider();
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int s_id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
 
   void CancelSearch(const int id);
 
  private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int s_id);
-  void HandleReleaseReply(QNetworkReply *reply, const int s_id, const int r_id);
+  void HandleSearchReply(QNetworkReply *reply, const int id);
+  void HandleReleaseReply(QNetworkReply *reply, const int id, const quint64 release_id);
+
+ public:
+  struct DiscogsCoverReleaseContext {
+    explicit DiscogsCoverReleaseContext(const quint64 _id = 0, const QUrl &_url = QUrl()) : id(_id), url(_url) {}
+    quint64 id;
+    QUrl url;
+  };
+  struct DiscogsCoverSearchContext {
+    explicit DiscogsCoverSearchContext() : id(-1) {}
+    int id;
+    QString artist;
+    QString album;
+    QMap<quint64, DiscogsCoverReleaseContext> requests_release_;
+    CoverSearchResults results;
+  };
+
+ private:
+  typedef QPair<QString, QString> Param;
+  typedef QList<Param> ParamList;
+
+  QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
+  QByteArray GetReplyData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  void StartRelease(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
+  void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const DiscogsCoverReleaseContext &release = DiscogsCoverReleaseContext());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
   static const char *kUrlSearch;
-  static const char *kUrlReleases;
   static const char *kAccessKeyB64;
   static const char *kSecretKeyB64;
 
   QNetworkAccessManager *network_;
-  QHash<int, DiscogsCoverSearchContext*> requests_search_;
-  QHash<int, DiscogsCoverReleaseContext*> requests_release_;
-
-  bool StartRelease(DiscogsCoverSearchContext *s_ctx, const int r_id, const QString &resource_url);
-
-  void SendSearchRequest(DiscogsCoverSearchContext *s_ctx);
-  void SendReleaseRequest(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractData(const QByteArray &data, const QString &name, const bool silent = false);
-  void EndSearch(DiscogsCoverSearchContext *s_ctx, DiscogsCoverReleaseContext *r_ctx);
-  void EndSearch(DiscogsCoverSearchContext *s_ctx);
-  void EndSearch(DiscogsCoverReleaseContext *r_ctx);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  QMap<int, std::shared_ptr<DiscogsCoverSearchContext>> requests_search_;
 
 };
+
+Q_DECLARE_METATYPE(DiscogsCoverProvider::DiscogsCoverSearchContext)
+Q_DECLARE_METATYPE(DiscogsCoverProvider::DiscogsCoverReleaseContext)
 
 #endif  // DISCOGSCOVERPROVIDER_H
