@@ -32,7 +32,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 list(APPEND COMPILE_OPTIONS
-  --std=c++11
+  $<$<COMPILE_LANGUAGE:C>:--std=c99>
+  $<$<COMPILE_LANGUAGE:CXX>:--std=c++11>
   -U__STRICT_ANSI__
   -Wall
   -Wextra
@@ -44,7 +45,6 @@ list(APPEND COMPILE_OPTIONS
   -Wredundant-decls
   -Wcast-align
   -Winit-self
-  -Woverloaded-virtual
   -Wmissing-include-dirs
   -Wmissing-declarations
   -Wstrict-overflow=2
@@ -52,8 +52,9 @@ list(APPEND COMPILE_OPTIONS
   -Wformat=2
   -Wdisabled-optimization
   -Wno-sign-conversion
-  -Wno-old-style-cast
-  -fpermissive
+  $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
+  $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
+  $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
 )
 
 if(APPLE)
@@ -65,7 +66,6 @@ if(BUILD_WERROR)
   list(APPEND COMPILE_OPTIONS -Werror)
 endif(BUILD_WERROR)
 
-message(STATUS "COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
 add_compile_options(${COMPILE_OPTIONS})
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Release")
