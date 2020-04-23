@@ -49,11 +49,8 @@ list(APPEND COMPILE_OPTIONS
   -Wmissing-declarations
   -Wstrict-overflow=2
   -Wunused-parameter
-  -Wduplicated-branches
-  -Wduplicated-cond
   -Wformat=2
   -Wdisabled-optimization
-  -Wunsafe-loop-optimizations
   -Wno-sign-conversion
   -Wno-old-style-cast
   -fpermissive
@@ -63,7 +60,7 @@ if(APPLE)
   list(APPEND COMPILE_OPTIONS -Wno-unused-parameter)
 endif()
 
-option(BUILD_WERROR "Build with -Werror" ON)
+option(BUILD_WERROR "Build with -Werror" OFF)
 if(BUILD_WERROR)
   list(APPEND COMPILE_OPTIONS -Werror)
 endif(BUILD_WERROR)
