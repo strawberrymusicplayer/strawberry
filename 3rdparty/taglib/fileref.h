@@ -92,8 +92,8 @@ namespace TagLib {
 
     class TAGLIB_EXPORT FileTypeResolver
     {
-      TAGLIB_IGNORE_MISSING_DESTRUCTOR
     public:
+      virtual ~FileTypeResolver();
       /*!
        * This method must be overridden to provide an additional file type
        * resolver.  If the resolver is able to determine the file type it should
@@ -286,4 +286,4 @@ namespace TagLib {
 }
 } // namespace Strawberry_TagLib::TagLib
 
-#endif
+#endif  // TAGLIB_FILEREF_H

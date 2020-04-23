@@ -51,7 +51,7 @@ namespace
 
   int chunkIndex(const ChunkList &chunks, const ByteVector &id)
   {
-    for(int i = 0; i < chunks.size(); i++) {
+    for (unsigned long int i = 0 ; i < chunks.size() ; i++) {
       if(chunks[i].name == id)
         return i;
     }
@@ -64,8 +64,8 @@ namespace
     if(name.size() != 4)
       return false;
 
-    for(int i = 0; i < 4; i++) {
-      if(name[i] < 32 || name[i] > 127)
+    for (int i = 0 ; i < 4 ; i++) {
+      if (name[i] < 32)
         return false;
     }
 
@@ -227,7 +227,7 @@ bool DSDIFF::File::save()
   return save(AllTags);
 }
 
-bool DSDIFF::File::save(TagTypes tags, StripTags strip, ID3v2::Version version)
+bool DSDIFF::File::save(TagTypes tags, StripTags, ID3v2::Version version)
 {
   if(readOnly()) {
     debug("DSDIFF::File::save() -- File is read only.");

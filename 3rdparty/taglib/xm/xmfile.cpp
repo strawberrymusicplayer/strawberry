@@ -110,7 +110,7 @@ template<typename T>
 class ValueReader : public Reader
 {
 public:
-  explicit ValueReader(T &value) : value(value)
+  explicit ValueReader(T &_value) : value(_value)
   {
   }
 
@@ -172,8 +172,8 @@ template<typename T>
 class NumberReader : public ValueReader<T>
 {
 public:
-  NumberReader(T &value, bool bigEndian) :
-    ValueReader<T>(value), bigEndian(bigEndian)
+  NumberReader(T &_value, bool _bigEndian) :
+    ValueReader<T>(_value), bigEndian(_bigEndian)
   {
   }
 
@@ -184,8 +184,8 @@ protected:
 class U16Reader : public NumberReader<unsigned short>
 {
 public:
-  U16Reader(unsigned short &value, bool bigEndian)
-  : NumberReader<unsigned short>(value, bigEndian) {}
+  U16Reader(unsigned short &_value, bool _bigEndian)
+  : NumberReader<unsigned short>(_value, _bigEndian) {}
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {
@@ -203,8 +203,8 @@ public:
 class U32Reader : public NumberReader<unsigned long>
 {
 public:
-  U32Reader(unsigned long &value, bool bigEndian = true) :
-    NumberReader<unsigned long>(value, bigEndian)
+  U32Reader(unsigned long &_value, bool _bigEndian = true) :
+    NumberReader<unsigned long>(_value, _bigEndian)
   {
   }
 
@@ -479,11 +479,11 @@ bool XM::File::save()
 
         if(sampleHeaderSize > 18U) {
           seek(pos + 18);
-          const unsigned int len = std::min(sampleHeaderSize - 18U, 22UL);
+          const unsigned int len2 = std::min(sampleHeaderSize - 18U, 22UL);
           if(sampleNameIndex >= lines.size())
-            writeString(String(), len);
+            writeString(String(), len2);
           else
-            writeString(lines[sampleNameIndex ++], len);
+            writeString(lines[sampleNameIndex ++], len2);
         }
       }
       pos += sampleHeaderSize;
@@ -560,10 +560,10 @@ void XM::File::read(bool)
     StructReader pattern;
     pattern.byte(packingType).u16L(rowCount).u16L(dataSize);
 
-    unsigned int count = pattern.read(*this, patternHeaderLength - 4U);
-    READ_ASSERT(count == std::min(patternHeaderLength - 4U, (unsigned long)pattern.size()));
+    unsigned int count2 = pattern.read(*this, patternHeaderLength - 4U);
+    READ_ASSERT(count2 == std::min(patternHeaderLength - 4U, (unsigned long)pattern.size()));
 
-    seek(patternHeaderLength - (4 + count) + dataSize, Current);
+    seek(patternHeaderLength - (4 + count2) + dataSize, Current);
   }
 
   StringList intrumentNames;
@@ -583,17 +583,17 @@ void XM::File::read(bool)
     instrument.string(instrumentName, 22).byte(instrumentType).u16L(sampleCount);
 
     // 4 for instrumentHeaderSize
-    unsigned int count = 4 + instrument.read(*this, instrumentHeaderSize - 4U);
-    READ_ASSERT(count == std::min(instrumentHeaderSize, (unsigned long)instrument.size() + 4));
+    unsigned int count2 = 4 + instrument.read(*this, instrumentHeaderSize - 4U);
+    READ_ASSERT(count2 == std::min(instrumentHeaderSize, (unsigned long)instrument.size() + 4));
 
     long offset = 0;
     if(sampleCount > 0) {
       unsigned long sampleHeaderSize = 0;
       sumSampleCount += sampleCount;
       // wouldn't know which header size to assume otherwise:
-      READ_ASSERT(instrumentHeaderSize >= count + 4 && readU32L(sampleHeaderSize));
+      READ_ASSERT(instrumentHeaderSize >= count2 + 4 && readU32L(sampleHeaderSize));
       // skip unhandled header proportion:
-      seek(instrumentHeaderSize - count - 4, Current);
+      seek(instrumentHeaderSize - count2 - 4, Current);
 
       for(unsigned short j = 0; j < sampleCount; ++ j) {
         unsigned long sampleLength = 0;
@@ -618,17 +618,17 @@ void XM::File::read(bool)
               .byte(compression)
               .string(sampleName, 22);
 
-        unsigned int count = sample.read(*this, sampleHeaderSize);
-        READ_ASSERT(count == std::min(sampleHeaderSize, (unsigned long)sample.size()));
+        unsigned int count3 = sample.read(*this, sampleHeaderSize);
+        READ_ASSERT(count3 == std::min(sampleHeaderSize, (unsigned long)sample.size()));
         // skip unhandled header proportion:
-        seek(sampleHeaderSize - count, Current);
+        seek(sampleHeaderSize - count3, Current);
 
         offset += sampleLength;
         sampleNames.append(sampleName);
       }
     }
     else {
-      offset = instrumentHeaderSize - count;
+      offset = instrumentHeaderSize - count2;
     }
     intrumentNames.append(instrumentName);
     seek(offset, Current);

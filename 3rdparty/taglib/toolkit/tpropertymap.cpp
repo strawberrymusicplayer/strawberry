@@ -28,16 +28,10 @@
 using namespace Strawberry_TagLib::TagLib;
 
 
-PropertyMap::PropertyMap() : SimplePropertyMap()
-{
-}
+PropertyMap::PropertyMap() : SimplePropertyMap() {}
 
-PropertyMap::PropertyMap(const PropertyMap &m) : SimplePropertyMap(m), unsupported(m.unsupported)
-{
-}
+PropertyMap::PropertyMap(const SimplePropertyMap &m) {
 
-PropertyMap::PropertyMap(const SimplePropertyMap &m)
-{
   for(SimplePropertyMap::ConstIterator it = m.begin(); it != m.end(); ++it){
     String key = it->first.upper();
     if(!key.isEmpty())
@@ -45,14 +39,13 @@ PropertyMap::PropertyMap(const SimplePropertyMap &m)
     else
       unsupported.append(it->first);
   }
+
 }
 
-PropertyMap::~PropertyMap()
-{
-}
+PropertyMap::~PropertyMap() {}
 
-bool PropertyMap::insert(const String &key, const StringList &values)
-{
+bool PropertyMap::insert(const String &key, const StringList &values) {
+
   String realKey = key.upper();
   Iterator result = SimplePropertyMap::find(realKey);
   if(result == end())
@@ -60,6 +53,7 @@ bool PropertyMap::insert(const String &key, const StringList &values)
   else
     SimplePropertyMap::operator[](realKey).append(values);
   return true;
+
 }
 
 bool PropertyMap::replace(const String &key, const StringList &values)

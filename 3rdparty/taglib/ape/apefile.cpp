@@ -87,7 +87,7 @@ public:
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool APE::File::isSupported(IOStream *stream)
+bool APE::File::isSupported(IOStream*)
 {
   // An APE file has an ID "MAC " somewhere. An ID3v2 tag may precede.
 

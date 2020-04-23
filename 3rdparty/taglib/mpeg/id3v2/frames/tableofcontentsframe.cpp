@@ -334,14 +334,14 @@ ByteVector TableOfContentsFrame::renderFields() const
   data.append(flags);
   data.append((char)(entryCount()));
   ByteVectorList::ConstIterator it = d->childElements.begin();
-  while(it != d->childElements.end()) {
+  while (it != d->childElements.end()) {
     data.append(*it);
     data.append('\0');
     it++;
   }
   FrameList l = d->embeddedFrameList;
-  for(FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
-    data.append((*it)->render());
+  for (FrameList::ConstIterator it2 = l.begin(); it2 != l.end(); ++it2)
+    data.append((*it2)->render());
 
   return data;
 }

@@ -54,13 +54,6 @@ namespace TagLib {
     virtual ~ByteVectorList();
 
     /*!
-     * Make a shallow, implicitly shared, copy of \a l.  Because this is
-     * implicitly shared, this method is lightweight and suitable for
-     * pass-by-value usage.
-     */
-    ByteVectorList(const ByteVectorList &l);
-
-    /*!
      * Convert the ByteVectorList to a ByteVector separated by \a separator.  By
      * default a space is used.
      */

@@ -193,7 +193,7 @@ namespace TagLib
         // The last resort. May cause a buffer overflow.
 
         length = vsprintf(buf, format, args);
-        if(length >= BufferSize) {
+        if(length >= (int)BufferSize) {
           debug("Utils::formatString() - Buffer overflow! Returning an empty string.");
           length = -1;
         }

@@ -43,8 +43,8 @@ public:
   long position;
 };
 
-ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &data) :
-  data(data),
+ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &_data) :
+  data(_data),
   position(0)
 {
 }

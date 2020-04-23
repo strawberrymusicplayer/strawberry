@@ -122,15 +122,15 @@ MP4::Atom::find(const char *name1, const char *name2, const char *name3, const c
 }
 
 MP4::AtomList
-MP4::Atom::findall(const char *name, bool recursive)
+MP4::Atom::findall(const char *_name, bool recursive)
 {
   MP4::AtomList result;
   for(AtomList::ConstIterator it = children.begin(); it != children.end(); ++it) {
-    if((*it)->name == name) {
+    if((*it)->name == _name) {
       result.append(*it);
     }
     if(recursive) {
-      result.append((*it)->findall(name, recursive));
+      result.append((*it)->findall(_name, recursive));
     }
   }
   return result;

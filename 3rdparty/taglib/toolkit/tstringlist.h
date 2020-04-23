@@ -57,7 +57,7 @@ namespace TagLib {
      * implicitly shared, this method is lightweight and suitable for
      * pass-by-value usage.
      */
-    StringList(const StringList &l);
+    StringList(const StringList &l) = default;
 
     /*!
      * Constructs a StringList with \a s as a member.

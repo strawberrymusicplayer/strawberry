@@ -77,11 +77,6 @@ ByteVectorList::ByteVectorList() :
 
 }
 
-ByteVectorList::ByteVectorList(const ByteVectorList &l) : List<ByteVector>(l)
-{
-
-}
-
 ByteVectorList::~ByteVectorList()
 {
 

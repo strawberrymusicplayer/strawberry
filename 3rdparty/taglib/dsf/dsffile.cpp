@@ -180,7 +180,7 @@ bool DSF::File::save()
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void DSF::File::read(bool readProperties, Properties::ReadStyle propertiesStyle)
+void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
 {
   // A DSF file consists of four chunks: DSD chunk, format chunk, data chunk, and metadata chunk
   // The file format is not chunked in the sense of a RIFF File, though

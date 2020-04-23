@@ -115,8 +115,6 @@ namespace TagLib {
 
     PropertyMap();
 
-    PropertyMap(const PropertyMap &m);
-
     /*!
      * Creates a PropertyMap initialized from a SimplePropertyMap. Copies all
      * entries from \a m that have valid keys.

@@ -69,7 +69,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::Header::Header(const ByteVector &data) :
+MPEG::Header::Header(const ByteVector&) :
   d(new HeaderPrivate())
 {
   debug("MPEG::Header::Header() - This constructor is no longer used.");

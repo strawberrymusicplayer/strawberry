@@ -62,13 +62,6 @@ StringList::StringList() :
 
 }
 
-StringList::StringList(const StringList &l) :
-  List<String>(l),
-  d(nullptr)
-{
-
-}
-
 StringList::StringList(const String &s) :
   List<String>(),
   d(nullptr)

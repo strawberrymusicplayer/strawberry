@@ -71,9 +71,9 @@ using namespace Strawberry_TagLib::TagLib;
 class File::FilePrivate
 {
 public:
-  FilePrivate(IOStream *stream, bool owner) :
-    stream(stream),
-    streamOwner(owner),
+  FilePrivate(IOStream *_stream, bool _owner) :
+    stream(_stream),
+    streamOwner(_owner),
     valid(true) {}
 
   ~FilePrivate()

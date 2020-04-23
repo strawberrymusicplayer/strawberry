@@ -228,10 +228,10 @@ namespace
       return new Ogg::Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(ext == "OGA") {
       /* .oga can be any audio in the Ogg container. First try FLAC, then Vorbis. */
-      File *file = new Ogg::FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
-      if(file->isValid())
-        return file;
-      delete file;
+      File *file_flac = new Ogg::FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
+      if (file_flac->isValid())
+        return file_flac;
+      delete file_flac;
       return new Ogg::Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
     }
     if(ext == "FLAC")

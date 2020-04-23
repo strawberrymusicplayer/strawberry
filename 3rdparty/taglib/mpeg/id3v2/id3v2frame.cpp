@@ -417,7 +417,7 @@ namespace
     {"TYER", "TDRC"}, // 2.3 -> 2.4
     {"TIME", "TDRC"}, // 2.3 -> 2.4
   };
-  const size_t deprecatedFramesSize = sizeof(deprecatedFrames) / sizeof(deprecatedFrames[0]);;
+  const size_t deprecatedFramesSize = sizeof(deprecatedFrames) / sizeof(deprecatedFrames[0]);
 }
 
 String Frame::frameIDToKey(const ByteVector &id)

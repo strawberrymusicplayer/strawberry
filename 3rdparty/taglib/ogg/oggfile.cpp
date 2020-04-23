@@ -296,10 +296,10 @@ void Ogg::File::writePacket(unsigned int i, const ByteVector &packet)
         break;
 
       page.setPageSequenceNumber(page.pageSequenceNumber() + numberOfNewPages);
-      const ByteVector data = page.render();
+      const ByteVector data2 = page.render();
 
       seek(pageOffset + 18);
-      writeBlock(data.mid(18, 8));
+      writeBlock(data2.mid(18, 8));
 
       if(page.header()->lastPageOfStream())
         break;

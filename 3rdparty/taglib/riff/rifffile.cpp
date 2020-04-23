@@ -46,8 +46,8 @@ struct Chunk
 class RIFF::File::FilePrivate
 {
 public:
-  explicit FilePrivate(Endianness endianness) :
-    endianness(endianness),
+  explicit FilePrivate(Endianness _endianness) :
+    endianness(_endianness),
     size(0),
     sizeOffset(0) {}
 
