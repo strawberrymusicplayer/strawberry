@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
@@ -81,7 +83,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  connect(reply, &QNetworkReply::finished, [=] { this->HandleSearchReply(reply, id); });
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
 
