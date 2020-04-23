@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.8.11)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fpermissive -Wno-c++11-narrowing -U__STRICT_ANSI__")
-
 find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS Test)
 find_package(GTest)
 find_library(GMOCK_LIBRARY gmock)
@@ -79,8 +75,7 @@ if(Qt5Test_FOUND AND GTEST_FOUND AND GMOCK_LIBRARY)
         set_target_properties(${TEST_NAME} PROPERTIES COMPILE_FLAGS "-Wno-bool-conversions")
       endif (SUPPORTS_NOBOOL)
 
-      add_custom_command(TARGET strawberry_test POST_BUILD
-          COMMAND ./${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX})
+      add_custom_command(TARGET strawberry_test POST_BUILD COMMAND ./${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX})
       add_dependencies(build_tests ${TEST_NAME})
   endmacro (add_test_file)
 

@@ -1,49 +1,16 @@
-# Strawberry Music Player
-# Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
-#
-# Strawberry is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Strawberry is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Wextra -Wpedantic -Woverloaded-virtual -fpermissive")
-
-if(APPLE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
-endif()
-
-option(BUILD_WERROR "Build with -Werror" OFF)
-
-if(BUILD_WERROR)
-  if (LINUX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-  endif (LINUX)
-endif(BUILD_WERROR)
+cmake_minimum_required(VERSION 3.0)
 
 if(HAVE_TRANSLATIONS)
   include(../cmake/Translations.cmake)
 endif(HAVE_TRANSLATIONS)
 
-# Set up definitions and paths
+include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
+include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
+include_directories(${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader)
 
-add_definitions(${QT_DEFINITIONS})
-add_definitions(-DQT_USE_QSTRINGBUILDER)
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS)
-
-include_directories(${CMAKE_BINARY_DIR})
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${GLIB_INCLUDE_DIRS})
@@ -95,10 +62,6 @@ if(HAVE_LIBMTP)
   link_directories(${LIBMTP_LIBRARY_DIRS})
   include_directories(${LIBMTP_INCLUDE_DIRS})
 endif(HAVE_LIBMTP)
-
-include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
-include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader)
-include_directories(${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader)
 
 set(SOURCES
   core/mainwindow.cpp
@@ -1077,11 +1040,7 @@ if(HAVE_AUDIOCD)
 endif(HAVE_AUDIOCD)
 
 if(HAVE_IMOBILEDEVICE)
-  target_link_libraries(strawberry_lib
-    ${LIBIMOBILEDEVICE_LIBRARIES}
-    ${LIBPLIST_LIBRARIES}
-    ${LIBUSBMUXD_LIBRARIES}
-  )
+  target_link_libraries(strawberry_lib ${LIBIMOBILEDEVICE_LIBRARIES} ${LIBPLIST_LIBRARIES} ${LIBUSBMUXD_LIBRARIES})
   link_directories(${LIBIMOBILEDEVICE_LIBRARY_DIRS})
   link_directories(${LIBUSBMUXD_LIBRARY_DIRS})
 endif(HAVE_IMOBILEDEVICE)
@@ -1109,7 +1068,6 @@ if (APPLE)
     "-framework ScriptingBridge"
   )
 
-  target_link_libraries(strawberry_lib ${SPMEDIAKEYTAP_LIBRARIES})
   if (HAVE_SPARKLE)
     include_directories(${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib ${SPARKLE})
@@ -1132,9 +1090,9 @@ if (UNIX AND NOT APPLE)
   endif ()
 endif ()
 
-if(NOT USE_SYSTEM_SINGLEAPPLICATION)
-add_dependencies(strawberry_lib ${SINGLEAPPLICATION_LIBRARIES} ${SINGLECOREAPPLICATION_LIBRARIES})
-endif()
+if (NOT USE_SYSTEM_SINGLEAPPLICATION)
+  add_dependencies(strawberry_lib ${SINGLEAPPLICATION_LIBRARIES} ${SINGLECOREAPPLICATION_LIBRARIES})
+endif ()
 
 ###############################################################################
 
@@ -1162,9 +1120,7 @@ if(FREEBSD)
   target_link_libraries(strawberry execinfo)
 endif()
 
-target_link_libraries(strawberry
-  strawberry_lib
-)
+target_link_libraries(strawberry strawberry_lib)
 
 # macdeploy.py relies on the blob being built first.
 add_dependencies(strawberry strawberry-tagreader)

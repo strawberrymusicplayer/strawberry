@@ -1,13 +1,7 @@
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11 -U__STRICT_ANSI__ -Wall -Wextra -Wpedantic -Woverloaded-virtual -fpermissive")
+cmake_minimum_required(VERSION 3.0)
 
-if(APPLE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
-endif()
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/src)
@@ -17,6 +11,8 @@ if (Backtrace_FOUND)
   include_directories(${Backtrace_INCLUDE_DIRS})
 endif(Backtrace_FOUND)
 
+include_directories(${GLIB_INCLUDE_DIRS})
+include_directories(${GLIBCONFIG_INCLUDE_DIRS})
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 set(SOURCES
@@ -41,18 +37,11 @@ endif(APPLE)
 
 qt5_wrap_cpp(MOC ${HEADERS})
 
-add_library(libstrawberry-common STATIC
-  ${SOURCES}
-  ${MOC}
-)
+add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
-if (Backtrace_FOUND)
+if(Backtrace_FOUND)
   target_link_libraries(libstrawberry-common ${Backtrace_LIBRARIES})
-endif (Backtrace_FOUND)
+endif(Backtrace_FOUND)
 
-target_link_libraries(libstrawberry-common
-  ${TAGLIB_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT}
-)
-
+target_link_libraries(libstrawberry-common ${TAGLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(libstrawberry-common Qt5::Core Qt5::Network)

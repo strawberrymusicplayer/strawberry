@@ -1,24 +1,7 @@
-# Strawberry Music Player
-# Copyright 2013, Jonas Kvinge <jonas@strawbs.net>
-#
-# Strawberry is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Strawberry is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-
 project(strawberry)
-cmake_minimum_required(VERSION 2.8.11)
-if(CMAKE_VERSION VERSION_GREATER 3.0)
-  cmake_policy(SET CMP0054 NEW)
-endif()
+
+cmake_minimum_required(VERSION 3.0)
+cmake_policy(SET CMP0054 NEW)
 
 include(CheckCXXCompilerFlag)
 include(CheckCXXSourceRuns)
@@ -32,6 +15,8 @@ include(cmake/Rpm.cmake)
 include(cmake/Deb.cmake)
 include(cmake/Dmg.cmake)
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
   set(LINUX ON)
 endif()
@@ -42,8 +27,49 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD")
   set(OPENBSD ON)
 endif()
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+list(APPEND COMPILE_OPTIONS
+  --std=c++11
+  -U__STRICT_ANSI__
+  -Wall
+  -Wextra
+  -Wpedantic
+  -Wunused
+  -Wshadow
+  -Wundef
+  -Wuninitialized
+  -Wredundant-decls
+  -Wcast-align
+  -Winit-self
+  -Woverloaded-virtual
+  -Wmissing-include-dirs
+  -Wmissing-declarations
+  -Wstrict-overflow=2
+  -Wunused-parameter
+  -Wduplicated-branches
+  -Wduplicated-cond
+  -Wformat=2
+  -Wdisabled-optimization
+  -Wunsafe-loop-optimizations
+  -Wno-sign-conversion
+  -Wno-old-style-cast
+  -fpermissive
+)
+
+if(APPLE)
+  list(APPEND COMPILE_OPTIONS -Wno-unused-parameter)
+endif()
+
+option(BUILD_WERROR "Build with -Werror" ON)
+if(BUILD_WERROR)
+  list(APPEND COMPILE_OPTIONS -Werror)
+endif(BUILD_WERROR)
+
+message(STATUS "COMPILE_OPTIONS: ${COMPILE_OPTIONS}")
+add_compile_options(${COMPILE_OPTIONS})
 
 if(${CMAKE_BUILD_TYPE} MATCHES "Release")
   add_definitions(-DNDEBUG)
@@ -175,11 +201,10 @@ pkg_check_modules(TAGLIB taglib)
 # - Audio file detection by content.
 # - DSF and DSDIFF support
 #
-if (TAGLIB_VERSION VERSION_GREATER 1.11.1)
-  option(USE_SYSTEM_TAGLIB "Use system taglib" ON)
-else()
-  option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
-endif()
+# Some distros create their own version numbers for taglib so versions are not reliable anymore.
+# Force to use our own copy of taglib unless USE_SYSTEM_TAGLIB is set.
+
+option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
 if (TAGLIB_FOUND AND USE_SYSTEM_TAGLIB)
   if (TAGLIB_VERSION VERSION_GREATER 1.11.1)
     message(STATUS "Using system taglib library")
@@ -388,17 +413,14 @@ if(HAVE_XINE)
   XINE_ANALYZER)
 endif()
 
-# Set up definitions and paths
+# Set up definitions
 
 add_definitions(-DBOOST_BIND_NO_PLACEHOLDERS)
 add_definitions(${QT_DEFINITIONS})
+add_definitions(-DQT_STRICT_ITERATORS)
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_STRICT_ITERATORS)
-
-include_directories(${GLIB_INCLUDE_DIRS})
-include_directories(${GLIBCONFIG_INCLUDE_DIRS})
-include_directories(${TAGLIB_INCLUDE_DIRS})
+add_definitions(-DQT_NO_CAST_TO_ASCII)
 
 # Subdirectories
 add_subdirectory(src)
