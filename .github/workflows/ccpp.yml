@@ -31,7 +31,7 @@ jobs:
     - name: Unlink python
       run: brew unlink python@2
     - name: Install Packages
-      run: brew install glib pkgconfig boost libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav libcdio libmtp libimobiledevice libplist create-dmg
+      run: brew install glib pkgconfig boost libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav libcdio libmtp libimobiledevice libplist create-dmg taglib
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
     - name: Configure CMake
@@ -40,7 +40,7 @@ jobs:
         Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=ON
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
