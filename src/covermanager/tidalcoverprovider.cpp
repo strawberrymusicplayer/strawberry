@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -93,7 +95,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   if (!service_->session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
-  connect(reply, &QNetworkReply::finished, [=] { this->HandleSearchReply(reply, id); });
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
 
