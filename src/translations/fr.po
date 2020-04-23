@@ -191,7 +191,7 @@ msgstr "%1 morceau %2"
 msgid "%1 songs"
 msgstr "%1 morceaux"
 
-#: core/utilities.cpp:416
+#: core/utilities.cpp:418
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr ""
@@ -1494,7 +1494,7 @@ msgstr "Image d'arrière-&plan par défaut"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: widgets/fileview.cpp:221 device/deviceview.cpp:406
+#: widgets/fileview.cpp:221 device/deviceview.cpp:409
 msgid "Delete files"
 msgstr "Supprimer les fichiers"
 
@@ -2539,15 +2539,15 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Le nom d'utilisateur ou le mot de passe de Subsonic est manquant."
 
-#: tidal/tidalservice.cpp:681 tidal/tidalservice.cpp:740
-#: tidal/tidalservice.cpp:797 tidal/tidalservice.cpp:863
-#: tidal/tidalservice.cpp:923 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:677 tidal/tidalservice.cpp:736
+#: tidal/tidalservice.cpp:793 tidal/tidalservice.cpp:859
+#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 "Le jeton de l'API Tidal, le nom d'utilisateur ou le mot de passe est "
 "manquant."
 
-#: tidal/tidalservice.cpp:642
+#: tidal/tidalservice.cpp:638
 msgid "Missing Tidal API token."
 msgstr "Le jeton de l'API Tidal est manquant."
 
@@ -2555,11 +2555,11 @@ msgstr "Le jeton de l'API Tidal est manquant."
 msgid "Missing Tidal client ID."
 msgstr "L'ID du client Tidal est manquant."
 
-#: tidal/tidalservice.cpp:650
+#: tidal/tidalservice.cpp:646
 msgid "Missing Tidal password."
 msgstr "Le mot de passe de Tidal est manquant."
 
-#: tidal/tidalservice.cpp:646
+#: tidal/tidalservice.cpp:642
 msgid "Missing Tidal username."
 msgstr "Le nom d'utilisateur de Tidal est manquant."
 
@@ -2568,7 +2568,7 @@ msgid "Missing server url, username or password."
 msgstr ""
 "L'URL du serveur, le nom d'utilisateur ou le mot de passe est manquant."
 
-#: subsonic/subsonicservice.cpp:379
+#: subsonic/subsonicservice.cpp:378
 msgid "Missing username or password."
 msgstr "Le nom d'utilisateur ou le mot de passe est manquant."
 
@@ -2719,16 +2719,16 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Type de bloc normal"
 
-#: tidal/tidalservice.cpp:654
+#: tidal/tidalservice.cpp:650
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Aucune authentification sur Tidal et nombre maximum de tentatives de "
 "connexion atteint."
 
-#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
-#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
-#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:672 tidal/tidalservice.cpp:731
+#: tidal/tidalservice.cpp:788 tidal/tidalservice.cpp:854
+#: tidal/tidalservice.cpp:915 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Aucune authentification sur Tidal."
 
@@ -3271,7 +3271,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode du Replay Gain"
 
-#: tidal/tidalservice.cpp:351
+#: tidal/tidalservice.cpp:348
 msgid "Reply from Tidal is missing query items."
 msgstr "La réponse de Tidal est : élément de requête manquante."
 
@@ -3554,7 +3554,7 @@ msgstr "Numéro de série"
 msgid "Server URL"
 msgstr "L'URL du serveur"
 
-#: subsonic/subsonicservice.cpp:374 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:373 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
@@ -3666,7 +3666,7 @@ msgstr "Afficher en taille réelle..."
 msgid "Show in collection..."
 msgstr "Afficher dans la bibliothèque..."
 
-#: core/utilities.cpp:410 core/utilities.cpp:416
+#: core/utilities.cpp:412 core/utilities.cpp:418
 msgid "Show in file browser"
 msgstr "Afficher dans l'explorateur de fichiers"
 
@@ -4082,7 +4082,7 @@ msgstr ""
 "Ces fichiers vont être supprimés du disque dur, êtes-vous sûr(e) de vouloir "
 "continuer ?"
 
-#: device/deviceview.cpp:407
+#: device/deviceview.cpp:410
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4216,7 +4216,7 @@ msgstr "Basculer la visibilité de l'OSD"
 msgid "Tomorrow"
 msgstr "Demain"
 
-#: core/utilities.cpp:410
+#: core/utilities.cpp:412
 msgid "Too many songs selected."
 msgstr "Trop de morceaux sélectionnés."
 
