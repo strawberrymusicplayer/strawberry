@@ -197,7 +197,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
       AlbumsFinishCheck(offset_requested);
     }
     else {
-      Error("Json error object missing code or message.", json_obj);
+      Error("Json error object is missing code or message.", json_obj);
       AlbumsFinishCheck(offset_requested);
       return;
     }
@@ -209,15 +209,15 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     AlbumsFinishCheck(offset_requested);
     return;
   }
-  QJsonValue json_albumlist;
-  if (json_obj.contains("albumList")) json_albumlist = json_obj["albumList"];
-  else if (json_obj.contains("albumList2")) json_albumlist = json_obj["albumList2"];
+  QJsonValue value_albumlist;
+  if (json_obj.contains("albumList")) value_albumlist = json_obj["albumList"];
+  else if (json_obj.contains("albumList2")) value_albumlist = json_obj["albumList2"];
 
-  if (!json_albumlist.isObject()) {
-    Error("Json album list is not an object.", json_albumlist);
+  if (!value_albumlist.isObject()) {
+    Error("Json album list is not an object.", value_albumlist);
     AlbumsFinishCheck(offset_requested);
   }
-  json_obj = json_albumlist.toObject();
+  json_obj = value_albumlist.toObject();
   if (json_obj.isEmpty()) {
     if (offset_requested == 0) no_results_ = true;
     AlbumsFinishCheck(offset_requested);
@@ -238,44 +238,44 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     Error("Json album is not an array.", json_album);
     AlbumsFinishCheck(offset_requested);
   }
-  QJsonArray json_albums = json_album.toArray();
+  QJsonArray array_albums = json_album.toArray();
 
-  if (json_albums.isEmpty()) {
+  if (array_albums.isEmpty()) {
     if (offset_requested == 0) no_results_ = true;
     AlbumsFinishCheck(offset_requested);
     return;
   }
 
   int albums_received = 0;
-  for (const QJsonValue &value : json_albums) {
+  for (const QJsonValue &value_album : array_albums) {
 
     ++albums_received;
 
-    if (!value.isObject()) {
-      Error("Invalid Json reply, album is not an object.", value);
+    if (!value_album.isObject()) {
+      Error("Invalid Json reply, album is not an object.", value_album);
       continue;
     }
-    QJsonObject json_obj = value.toObject();
+    QJsonObject obj_album = value_album.toObject();
 
-    if (!json_obj.contains("id") || !json_obj.contains("artist")) {
-      Error("Invalid Json reply, album object is missing ID or artist.", json_obj);
-      continue;
-    }
-
-    if (!json_obj.contains("album") && !json_obj.contains("name")) {
-      Error("Invalid Json reply, album object is missing album or name.", json_obj);
+    if (!obj_album.contains("id") || !obj_album.contains("artist")) {
+      Error("Invalid Json reply, album object in array is missing ID or artist.", obj_album);
       continue;
     }
 
-    QString album_id = json_obj["id"].toString();
+    if (!obj_album.contains("album") && !obj_album.contains("name")) {
+      Error("Invalid Json reply, album object in array is missing album or name.", obj_album);
+      continue;
+    }
+
+    QString album_id = obj_album["id"].toString();
     if (album_id.isEmpty()) {
-      album_id = QString::number(json_obj["id"].toInt());
+      album_id = QString::number(obj_album["id"].toInt());
     }
 
-    QString artist = json_obj["artist"].toString();
+    QString artist = obj_album["artist"].toString();
     QString album;
-    if (json_obj.contains("album")) album = json_obj["album"].toString();
-    else if (json_obj.contains("name")) album = json_obj["name"].toString();
+    if (obj_album.contains("album")) album = obj_album["album"].toString();
+    else if (obj_album.contains("name")) album = obj_album["name"].toString();
 
     if (album_songs_requests_pending_.contains(album_id)) continue;
 
@@ -404,43 +404,43 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     SongsFinishCheck();
     return;
   }
-  QJsonValue json_album = json_obj["album"];
+  QJsonValue value_album = json_obj["album"];
 
-  if (!json_album.isObject()) {
-    Error("Json album is not an object.", json_album);
+  if (!value_album.isObject()) {
+    Error("Json album is not an object.", value_album);
     SongsFinishCheck();
     return;
   }
-  QJsonObject json_album_obj = json_album.toObject();
+  QJsonObject obj_album = value_album.toObject();
 
-  if (!json_album_obj.contains("song")) {
+  if (!obj_album.contains("song")) {
     Error("Json album object does not contain song array.", json_obj);
     SongsFinishCheck();
     return;
   }
-  QJsonValue json_song = json_album_obj["song"];
+  QJsonValue json_song = obj_album["song"];
   if (!json_song.isArray()) {
-    Error("Json song is not an array.", json_album_obj);
+    Error("Json song is not an array.", obj_album);
     SongsFinishCheck();
     return;
   }
-  QJsonArray json_array = json_song.toArray();
+  QJsonArray array_songs = json_song.toArray();
 
   bool compilation = false;
   bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValue &value : json_array) {
+  for (const QJsonValue &value_song : array_songs) {
 
-    if (!value.isObject()) {
-      Error("Invalid Json reply, track is not a object.", value);
+    if (!value_song.isObject()) {
+      Error("Invalid Json reply, track is not a object.", value_song);
       continue;
     }
-    QJsonObject json_obj = value.toObject();
+    QJsonObject obj_song = value_song.toObject();
 
     ++songs_received;
     Song song(Song::Source_Subsonic);
-    ParseSong(song, json_obj, artist_id, album_id, album_artist);
+    ParseSong(song, obj_song, artist_id, album_id, album_artist);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
     if (song.is_compilation()) compilation = true;
