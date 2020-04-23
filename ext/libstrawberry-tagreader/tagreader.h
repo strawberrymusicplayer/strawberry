@@ -26,28 +26,18 @@
 #include <QByteArray>
 #include <QString>
 
+#include <taglib/tstring.h>
+#include <taglib/fileref.h>
 #include <taglib/xiphcomment.h>
 #include <taglib/apetag.h>
 #include <taglib/apefile.h>
+#include <taglib/id3v2tag.h>
 
 #include "tagreadermessages.pb.h"
 
 class QTextCodec;
 
 #ifndef USE_SYSTEM_TAGLIB
-namespace Strawberry_TagLib {
-#endif
-namespace TagLib {
-  class FileRef;
-  class String;
-
-  namespace ID3v2 {
-    class Tag;
-    class PopularimeterFrame;
-  }
-}
-#ifndef USE_SYSTEM_TAGLIB
-}
 using namespace Strawberry_TagLib;
 #endif
 
