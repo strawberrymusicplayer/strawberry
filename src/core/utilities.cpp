@@ -400,6 +400,7 @@ void RevealFileInFinder(QString const &path) {
 #endif  // Q_OS_MACOS
 
 #ifdef Q_OS_WIN
+void ShowFileInExplorer(QString const &path);
 void ShowFileInExplorer(QString const &path) {
   QProcess::execute("explorer.exe", QStringList() << "/select," << QDir::toNativeSeparators(path));
 }
