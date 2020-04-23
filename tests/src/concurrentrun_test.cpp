@@ -9,6 +9,7 @@
 #include "core/concurrentrun.h"
 #include "test_utils.h"
 
+int f();
 int f() {
   return 1337;
 }
@@ -26,6 +27,7 @@ TEST(ConcurrentRunTest, ConcurrentRun0StartAndWait) {
 
 }
 
+int g(int i);
 int g(int i) {
   return ++i;
 }
@@ -44,6 +46,7 @@ TEST(ConcurrentRunTest, ConcurrentRun1StartAndWait) {
 
 }
 
+int max(int i, int j);
 int max(int i, int j) {
   return (i > j ? i : j);
 }
@@ -63,6 +66,7 @@ TEST(ConcurrentRunTest, ConcurrentRun2StartAndWait) {
 
 }
 
+int sum(int a, int b, int c);
 int sum(int a, int b, int c) {
   return a + b + c;
 }
@@ -83,15 +87,18 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
 
 }
 
+void aFunction(int* n);
 void aFunction(int* n) {
   *n = 1337;
 }
 
+void bFunction(int* n, int *m);
 void bFunction(int* n, int *m) {
   aFunction(n);
   *m = 1338;
 }
 
+void cFunction(int* n, int *m, int *o);
 void cFunction(int* n, int *m, int *o) {
   bFunction(n, m);
   *o = 1339;

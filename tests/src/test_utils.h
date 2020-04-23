@@ -58,7 +58,7 @@ void PrintTo(const ::QUrl& url, std::ostream& os);
 #define EXPOSE_SIGNAL2(n, t1, t2) \
     void Emit##n(const t1& a1, const t2& a2) { emit n(a1, a2); }
 
-Q_DECLARE_METATYPE(QModelIndex);
+Q_DECLARE_METATYPE(QModelIndex)
 
 class TemporaryResource : public QTemporaryFile {
 public:

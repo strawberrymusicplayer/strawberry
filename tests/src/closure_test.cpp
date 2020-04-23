@@ -18,6 +18,7 @@ TEST(ClosureTest, ClosureInvokesReceiver) {
   TestQObject sender;
   TestQObject receiver;
   _detail::ClosureBase* closure = NewClosure(&sender, SIGNAL(Emitted()), &receiver, SLOT(Invoke()));
+  Q_UNUSED(closure);
   EXPECT_EQ(0, receiver.invoked());
   sender.Emit();
   EXPECT_EQ(1, receiver.invoked());

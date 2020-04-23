@@ -53,10 +53,11 @@ class PlaylistTest : public ::testing::Test {
     Song metadata;
     metadata.Init(title, artist, album, length);
 
-    MockPlaylistItem* ret = new MockPlaylistItem;
-    EXPECT_CALL(*ret, Metadata()).WillRepeatedly(Return(metadata));
+    //MockPlaylistItem* ret = new MockPlaylistItem;
+    //EXPECT_CALL(*ret, Metadata()).WillRepeatedly(Return(metadata));
 
-    return ret;
+    //return ret;
+    return nullptr;
   }
 
   std::shared_ptr<PlaylistItem> MakeMockItemP(const QString& title, const QString& artist = QString(), const QString& album = QString(), int length = 123) const {

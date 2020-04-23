@@ -58,8 +58,8 @@ class CollectionModelTest : public ::testing::Test {
 
   Song AddSong(Song& song) {
     song.set_directory_id(1);
-    if (song.mtime() == -1) song.set_mtime(1);
-    if (song.ctime() == -1) song.set_ctime(1);
+    if (song.mtime() == 0) song.set_mtime(1);
+    if (song.ctime() == 0) song.set_ctime(1);
     if (song.url().isEmpty()) song.set_url(QUrl("file:///tmp/foo"));
     if (song.filesize() == -1) song.set_filesize(1);
 

@@ -43,7 +43,7 @@ class MockPlaylistItem : public PlaylistItem {
   MOCK_CONST_METHOD0(Url, QUrl());
   MOCK_METHOD1(SetTemporaryMetadata, void(const Song& metadata));
   MOCK_METHOD0(ClearTemporaryMetadata, void());
-  MOCK_METHOD1(DatabaseValue, QVariant(DatabaseColumn));
+  //MOCK_METHOD1(DatabaseValue, QVariant(DatabaseColumn));
 
 };
 

@@ -40,7 +40,7 @@ class DummySettingsProvider : public SettingsProvider {
  public:
   DummySettingsProvider() {}
 
-  void set_group(const char *group) {}
+  void set_group(const char*) {}
 
   QVariant value(const QString&, const QVariant& = QVariant()) const { return QVariant(); }
   void setValue(const QString&, const QVariant&) {}
