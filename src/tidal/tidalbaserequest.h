@@ -63,14 +63,11 @@ class TidalBaseRequest : public QObject {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
-  typedef QList<EncodedParam> EncodedParamList;
-
   QNetworkReply *CreateRequest(const QString &ressource_name, const QList<Param> &params_provided);
   QByteArray GetReplyData(QNetworkReply *reply, const bool send_login);
-  QJsonObject ExtractJsonObj(QByteArray &data);
-  QJsonValue ExtractItems(QByteArray &data);
-  QJsonValue ExtractItems(QJsonObject &json_obj);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonValue ExtractItems(const QByteArray &data);
+  QJsonValue ExtractItems(const QJsonObject &json_obj);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
   QString ErrorsToHTML(const QStringList &errors);

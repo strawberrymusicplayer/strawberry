@@ -56,9 +56,8 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
                                  << Param("countryCode", country_code());
 
   QUrlQuery url_query;
-  for (const Param& param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+  for (const Param &param : params) {
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url(kApiUrl + QString("/") + ressource_name);
@@ -72,7 +71,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleSSLErrors(QList<QSslError>)));
 
-  qLog(Debug) << "Tidal: Sending request" << url;
+  //qLog(Debug) << "Tidal: Sending request" << url;
 
   return reply;
 
@@ -144,7 +143,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
 
 }
 
-QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data) {
+QJsonObject TidalBaseRequest::ExtractJsonObj(const QByteArray &data) {
 
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
@@ -154,7 +153,7 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data) {
     return QJsonObject();
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     Error("Received empty Json document.", data);
     return QJsonObject();
   }
@@ -174,7 +173,7 @@ QJsonObject TidalBaseRequest::ExtractJsonObj(QByteArray &data) {
 
 }
 
-QJsonValue TidalBaseRequest::ExtractItems(QByteArray &data) {
+QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonValue();
@@ -182,7 +181,7 @@ QJsonValue TidalBaseRequest::ExtractItems(QByteArray &data) {
 
 }
 
-QJsonValue TidalBaseRequest::ExtractItems(QJsonObject &json_obj) {
+QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
 
   if (!json_obj.contains("items")) {
     Error("Json reply is missing items.", json_obj);

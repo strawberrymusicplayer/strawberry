@@ -279,8 +279,7 @@ void TidalService::StartAuthorisation() {
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url = QUrl(kOAuthUrl);
@@ -329,15 +328,14 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
                                          << Param("scope", "r_usr w_usr")
                                          << Param("code_verifier", code_verifier_);
 
-    QUrlQuery url_query;
+    QUrlQuery new_url_query;
     for (const Param &param : params) {
-      EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-      url_query.addQueryItem(encoded_param.first, encoded_param.second);
+      new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
     }
 
-    QUrl url(kOAuthAccessTokenUrl);
-    QNetworkRequest request = QNetworkRequest(url);
-    QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
+    QUrl new_url(kOAuthAccessTokenUrl);
+    QNetworkRequest request = QNetworkRequest(new_url);
+    QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
 
     login_errors_.clear();
     QNetworkReply *reply = network_->post(request, query);
@@ -347,7 +345,6 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
   }
 
   else {
-
     LoginError(tr("Reply from Tidal is missing query items."));
     return;
   }
@@ -410,7 +407,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (json_doc.isNull() || json_doc.isEmpty()) {
+  if (json_doc.isEmpty()) {
     LoginError("Authentication reply from server has empty Json document.");
     return;
   }
@@ -494,8 +491,7 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
 
   QUrlQuery url_query;
   for (const Param &param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url(kAuthUrl);
@@ -952,9 +948,9 @@ void TidalService::LoginError(const QString &error, const QVariant &debug) {
   if (!error.isEmpty()) login_errors_ << error;
 
   QString error_html;
-  for (const QString &error : login_errors_) {
-    qLog(Error) << "Tidal:" << error;
-    error_html += error + "<br />";
+  for (const QString &e : login_errors_) {
+    qLog(Error) << "Tidal:" << e;
+    error_html += e + "<br />";
   }
   if (debug.isValid()) qLog(Debug) << debug;
 

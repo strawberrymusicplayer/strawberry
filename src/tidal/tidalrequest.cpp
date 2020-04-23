@@ -380,50 +380,50 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     emit UpdateProgress(query_id_, artists_received_);
   }
 
-  QJsonValue json_value = ExtractItems(json_obj);
-  if (!json_value.isArray()) {
+  QJsonValue value_items = ExtractItems(json_obj);
+  if (!value_items.isArray()) {
     ArtistsFinishCheck();
     return;
   }
 
-  QJsonArray json_items = json_value.toArray();
-  if (json_items.isEmpty()) {  // Empty array means no results
+  QJsonArray array_items = value_items.toArray();
+  if (array_items.isEmpty()) {  // Empty array means no results
     if (offset_requested == 0) no_results_ = true;
     ArtistsFinishCheck();
     return;
   }
 
   int artists_received = 0;
-  for (const QJsonValue &value : json_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++artists_received;
 
-    if (!value.isObject()) {
-      Error("Invalid Json reply, item not a object.", value);
+    if (!value_item.isObject()) {
+      Error("Invalid Json reply, item in array is not a object.", value_item);
       continue;
     }
-    QJsonObject json_obj = value.toObject();
+    QJsonObject obj_item = value_item.toObject();
 
-    if (json_obj.contains("item")) {
-      QJsonValue json_item = json_obj["item"];
+    if (obj_item.contains("item")) {
+      QJsonValue json_item = obj_item["item"];
       if (!json_item.isObject()) {
-        Error("Invalid Json reply, item not a object.", json_item);
+        Error("Invalid Json reply, item in array is not a object.", json_item);
         continue;
       }
-      json_obj = json_item.toObject();
+      obj_item = json_item.toObject();
     }
 
-    if (!json_obj.contains("id") || !json_obj.contains("name")) {
-      Error("Invalid Json reply, item missing id or album.", json_obj);
+    if (!obj_item.contains("id") || !obj_item.contains("name")) {
+      Error("Invalid Json reply, item missing id or album.", obj_item);
       continue;
     }
 
     QString artist_id;
-    if (json_obj["id"].isString()) {
-      artist_id = json_obj["id"].toString();
+    if (obj_item["id"].isString()) {
+      artist_id = obj_item["id"].toString();
     }
     else {
-      artist_id = QString::number(json_obj["id"].toInt());
+      artist_id = QString::number(obj_item["id"].toInt());
     }
     if (artist_albums_requests_pending_.contains(artist_id)) continue;
     artist_albums_requests_pending_.append(artist_id);
@@ -556,13 +556,13 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
     return;
   }
 
-  QJsonValue json_value = ExtractItems(json_obj);
-  if (!json_value.isArray()) {
+  QJsonValue value_items = ExtractItems(json_obj);
+  if (!value_items.isArray()) {
     AlbumsFinishCheck(artist_id_requested);
     return;
   }
-  QJsonArray json_items = json_value.toArray();
-  if (json_items.isEmpty()) {
+  QJsonArray array_items = value_items.toArray();
+  if (array_items.isEmpty()) {
     if ((type_ == QueryType_Albums || type_ == QueryType_SearchAlbums || (type_ == QueryType_SearchSongs && fetchalbums_)) && offset_requested == 0) {
       no_results_ = true;
     }
@@ -571,93 +571,93 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
   }
 
   int albums_received = 0;
-  for (const QJsonValue &value : json_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++albums_received;
 
-    if (!value.isObject()) {
-      Error("Invalid Json reply, item not a object.", value);
+    if (!value_item.isObject()) {
+      Error("Invalid Json reply, item in array is not a object.", value_item);
       continue;
     }
-    QJsonObject json_obj = value.toObject();
+    QJsonObject obj_item = value_item.toObject();
 
-    if (json_obj.contains("item")) {
-      QJsonValue json_item = json_obj["item"];
+    if (obj_item.contains("item")) {
+      QJsonValue json_item = obj_item["item"];
       if (!json_item.isObject()) {
-        Error("Invalid Json reply, item not a object.", json_item);
+        Error("Invalid Json reply, item in array is not a object.", json_item);
         continue;
       }
-      json_obj = json_item.toObject();
+      obj_item = json_item.toObject();
     }
 
     QString album_id;
     QString album;
-    if (json_obj.contains("type")) {  // This was a albums request or search
-      if (!json_obj.contains("id") || !json_obj.contains("title")) {
-        Error("Invalid Json reply, item is missing ID or title.", json_obj);
+    if (obj_item.contains("type")) {  // This was a albums request or search
+      if (!obj_item.contains("id") || !obj_item.contains("title")) {
+        Error("Invalid Json reply, item is missing ID or title.", obj_item);
         continue;
       }
-      if (json_obj["id"].isString()) {
-        album_id = json_obj["id"].toString();
+      if (obj_item["id"].isString()) {
+        album_id = obj_item["id"].toString();
       }
       else {
-        album_id = QString::number(json_obj["id"].toInt());
+        album_id = QString::number(obj_item["id"].toInt());
       }
-      album = json_obj["title"].toString();
+      album = obj_item["title"].toString();
     }
-    else if (json_obj.contains("album")) {  // This was a tracks request or search
-      QJsonValue json_value_album = json_obj["album"];
-      if (!json_value_album.isObject()) {
-        Error("Invalid Json reply, item album is not a object.", json_value_album);
+    else if (obj_item.contains("album")) {  // This was a tracks request or search
+      QJsonValue value_album = obj_item["album"];
+      if (!value_album.isObject()) {
+        Error("Invalid Json reply, item album is not a object.", value_album);
         continue;
       }
-      QJsonObject json_album = json_value_album.toObject();
-      if (!json_album.contains("id") || !json_album.contains("title")) {
-        Error("Invalid Json reply, item album is missing ID or title.", json_album);
+      QJsonObject obj_album = value_album.toObject();
+      if (!obj_album.contains("id") || !obj_album.contains("title")) {
+        Error("Invalid Json reply, item album is missing ID or title.", obj_album);
         continue;
       }
-      if (json_album["id"].isString()) {
-        album_id = json_album["id"].toString();
+      if (obj_album["id"].isString()) {
+        album_id = obj_album["id"].toString();
       }
       else {
-        album_id = QString::number(json_album["id"].toInt());
+        album_id = QString::number(obj_album["id"].toInt());
       }
-      album = json_album["title"].toString();
+      album = obj_album["title"].toString();
 
     }
     else {
-      Error("Invalid Json reply, item missing type or album.", json_obj);
+      Error("Invalid Json reply, item missing type or album.", obj_item);
       continue;
     }
 
     if (album_songs_requests_pending_.contains(album_id)) continue;
 
-    if (!json_obj.contains("artist") || !json_obj.contains("title") || !json_obj.contains("audioQuality")) {
-      Error("Invalid Json reply, item missing artist, title or audioQuality.", json_obj);
+    if (!obj_item.contains("artist") || !obj_item.contains("title") || !obj_item.contains("audioQuality")) {
+      Error("Invalid Json reply, item missing artist, title or audioQuality.", obj_item);
       continue;
     }
-    QJsonValue json_value_artist = json_obj["artist"];
-    if (!json_value_artist.isObject()) {
-      Error("Invalid Json reply, item artist is not a object.", json_value_artist);
+    QJsonValue value_artist = obj_item["artist"];
+    if (!value_artist.isObject()) {
+      Error("Invalid Json reply, item artist is not a object.", value_artist);
       continue;
     }
-    QJsonObject json_artist = json_value_artist.toObject();
-    if (!json_artist.contains("id") || !json_artist.contains("name")) {
-      Error("Invalid Json reply, item artist missing id or name.", json_artist);
+    QJsonObject obj_artist = value_artist.toObject();
+    if (!obj_artist.contains("id") || !obj_artist.contains("name")) {
+      Error("Invalid Json reply, item artist missing id or name.", obj_artist);
       continue;
     }
 
     QString artist_id;
-    if (json_artist["id"].isString()) {
-      artist_id = json_artist["id"].toString();
+    if (obj_artist["id"].isString()) {
+      artist_id = obj_artist["id"].toString();
     }
     else {
-      artist_id = QString::number(json_artist["id"].toInt());
+      artist_id = QString::number(obj_artist["id"].toInt());
     }
-    QString artist = json_artist["name"].toString();
+    QString artist = obj_artist["name"].toString();
 
-    QString quality = json_obj["audioQuality"].toString();
-    QString copyright = json_obj["copyright"].toString();
+    QString quality = obj_item["audioQuality"].toString();
+    QString copyright = obj_item["copyright"].toString();
 
     //qLog(Debug) << "Tidal:" << artist << album << quality << copyright;
 
@@ -841,26 +841,26 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
   bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValue &value : json_items) {
+  for (const QJsonValue &value_item : json_items) {
 
-    if (!value.isObject()) {
-      Error("Invalid Json reply, track is not a object.", value);
+    if (!value_item.isObject()) {
+      Error("Invalid Json reply, track is not a object.", value_item);
       continue;
     }
-    QJsonObject json_obj = value.toObject();
+    QJsonObject obj_item = value_item.toObject();
 
-    if (json_obj.contains("item")) {
-      QJsonValue json_item = json_obj["item"];
-      if (!json_item.isObject()) {
-        Error("Invalid Json reply, item not a object.", json_item);
+    if (obj_item.contains("item")) {
+      QJsonValue item = obj_item["item"];
+      if (!item.isObject()) {
+        Error("Invalid Json reply, item is not a object.", item);
         continue;
       }
-      json_obj = json_item.toObject();
+      obj_item = item.toObject();
     }
 
     ++songs_received;
     Song song(Song::Source_Tidal);
-    ParseSong(song, json_obj, artist_id, album_id, album_artist);
+    ParseSong(song, obj_item, artist_id, album_id, album_artist);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
     if (song.is_compilation()) compilation = true;
@@ -955,10 +955,10 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
     return QString();
   }
 
-  QJsonValue json_value_artist = json_obj["artist"];
-  QJsonValue json_value_album = json_obj["album"];
+  QJsonValue value_artist = json_obj["artist"];
+  QJsonValue value_album = json_obj["album"];
   QJsonValue json_duration = json_obj["duration"];
-  QJsonArray json_artists = json_obj["artists"].toArray();
+  QJsonArray array_artists = json_obj["artists"].toArray();
 
   QString song_id;
   if (json_obj["id"].isString()) {
@@ -976,46 +976,46 @@ QString TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Q
   bool stream_ready = json_obj["streamReady"].toBool();
   QString copyright = json_obj["copyright"].toString();
 
-  if (!json_value_artist.isObject()) {
-    Error("Invalid Json reply, track artist is not a object.", json_value_artist);
+  if (!value_artist.isObject()) {
+    Error("Invalid Json reply, track artist is not a object.", value_artist);
     return QString();
   }
-  QJsonObject json_artist = json_value_artist.toObject();
-  if (!json_artist.contains("id") || !json_artist.contains("name")) {
-    Error("Invalid Json reply, track artist is missing id or name.", json_artist);
+  QJsonObject obj_artist = value_artist.toObject();
+  if (!obj_artist.contains("id") || !obj_artist.contains("name")) {
+    Error("Invalid Json reply, track artist is missing id or name.", obj_artist);
     return QString();
   }
   QString artist_id;
-  if (json_artist["id"].isString()) {
-    artist_id = json_artist["id"].toString();
+  if (obj_artist["id"].isString()) {
+    artist_id = obj_artist["id"].toString();
   }
   else {
-    artist_id = QString::number(json_artist["id"].toInt());
+    artist_id = QString::number(obj_artist["id"].toInt());
   }
-  QString artist = json_artist["name"].toString();
+  QString artist = obj_artist["name"].toString();
 
-  if (!json_value_album.isObject()) {
-    Error("Invalid Json reply, track album is not a object.", json_value_album);
+  if (!value_album.isObject()) {
+    Error("Invalid Json reply, track album is not a object.", value_album);
     return QString();
   }
-  QJsonObject json_album = json_value_album.toObject();
-  if (!json_album.contains("id") || !json_album.contains("title") || !json_album.contains("cover")) {
-    Error("Invalid Json reply, track album is missing id, title or cover.", json_album);
+  QJsonObject obj_album = value_album.toObject();
+  if (!obj_album.contains("id") || !obj_album.contains("title") || !obj_album.contains("cover")) {
+    Error("Invalid Json reply, track album is missing id, title or cover.", obj_album);
     return QString();
   }
   QString album_id;
-  if (json_album["id"].isString()) {
-    album_id = json_album["id"].toString();
+  if (obj_album["id"].isString()) {
+    album_id = obj_album["id"].toString();
   }
   else {
-    album_id = QString::number(json_album["id"].toInt());
+    album_id = QString::number(obj_album["id"].toInt());
   }
   if (!album_id_requested.isEmpty() && album_id_requested != album_id) {
-    Error("Invalid Json reply, track album id is wrong.", json_album);
+    Error("Invalid Json reply, track album id is wrong.", obj_album);
     return QString();
   }
-  QString album = json_album["title"].toString();
-  QString cover = json_album["cover"].toString();
+  QString album = obj_album["title"].toString();
+  QString cover = obj_album["cover"].toString();
 
   if (!allow_streaming) {
     Warn(QString("Song %1 %2 %3 is not allowStreaming").arg(artist).arg(album).arg(title));
@@ -1244,7 +1244,7 @@ void TidalRequest::Error(const QString &error, const QVariant &debug) {
 
 }
 
-void TidalRequest::Warn(QString error, QVariant debug) {
+void TidalRequest::Warn(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "Tidal:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

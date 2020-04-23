@@ -102,7 +102,7 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
       break;
   }
 
-  QStringList ids_list;
+  QStringList id_list;
   for (const Song &song : songs) {
     QString id;
     switch (type) {
@@ -120,23 +120,18 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
         break;
     }
     if (id.isEmpty()) continue;
-    if (!ids_list.contains(id)) {
-      ids_list << id;
+    if (!id_list.contains(id)) {
+      id_list << id;
     }
   }
-  if (ids_list.isEmpty()) return;
-
-  QString ids = ids_list.join(',');
-
-  typedef QPair<QByteArray, QByteArray> EncodedParam;
+  if (id_list.isEmpty()) return;
 
   ParamList params = ParamList() << Param("countryCode", country_code())
-                                 << Param(text, ids);
+                                 << Param(text, id_list.join(','));
 
   QUrlQuery url_query;
   for (const Param& param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type));
@@ -209,15 +204,15 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
     QString id;
     switch (type) {
       case FavoriteType_Artists:
-        if (song.artist_id() <= 0) continue;
+        if (song.artist_id().isEmpty()) continue;
         id = song.artist_id();
         break;
     case FavoriteType_Albums:
         if (song.album_id().isEmpty()) continue;
-        id = song.album_id().toLongLong();
+        id = song.album_id();
         break;
     case FavoriteType_Songs:
-        if (song.song_id() <= 0) continue;
+        if (song.song_id().isEmpty()) continue;
         id = song.song_id();
         break;
     }
@@ -238,8 +233,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QStrin
 
   QUrlQuery url_query;
   for (const Param& param : params) {
-    EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    url_query.addQueryItem(encoded_param.first, encoded_param.second);
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl url(api_url() + QString("/") + "users/" + QString::number(service_->user_id()) + "/favorites/" + FavoriteText(type) + QString("/") + id);

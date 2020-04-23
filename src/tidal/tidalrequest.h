@@ -87,9 +87,6 @@ class TidalRequest : public TidalBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
-
   struct Request {
     QString artist_id = 0;
     QString album_id = 0;
@@ -144,7 +141,7 @@ class TidalRequest : public TidalBaseRequest {
   void AlbumCoverFinishCheck();
 
   void FinishCheck();
-  void Warn(QString error, QVariant debug = QVariant());
+  void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant());
 
   static const char *kResourcesUrl;
