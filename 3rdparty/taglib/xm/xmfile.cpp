@@ -151,7 +151,7 @@ private:
 class ByteReader : public ValueReader<unsigned char>
 {
 public:
-  explicit ByteReader(unsigned char &byte) : ValueReader<unsigned char>(byte) {}
+  explicit ByteReader(unsigned char &_byte) : ValueReader<unsigned char>(_byte) {}
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit)
   {

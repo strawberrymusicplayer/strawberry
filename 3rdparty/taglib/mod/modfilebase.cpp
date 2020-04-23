@@ -60,9 +60,9 @@ bool Mod::FileBase::readString(String &s, unsigned long size)
   return true;
 }
 
-void Mod::FileBase::writeByte(unsigned char byte)
+void Mod::FileBase::writeByte(unsigned char _byte)
 {
-  ByteVector data(1, byte);
+  ByteVector data(1, _byte);
   writeBlock(data);
 }
 
@@ -86,11 +86,11 @@ void Mod::FileBase::writeU32B(unsigned long number)
   writeBlock(ByteVector::fromUInt(number, true));
 }
 
-bool Mod::FileBase::readByte(unsigned char &byte)
+bool Mod::FileBase::readByte(unsigned char &_byte)
 {
   ByteVector data(readBlock(1));
   if(data.size() < 1) return false;
-  byte = data[0];
+  _byte = data[0];
   return true;
 }
 
