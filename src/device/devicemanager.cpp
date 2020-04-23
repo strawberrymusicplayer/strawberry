@@ -482,7 +482,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
     }
     else {
       // It's a completely new device
-      DeviceInfo *info = new DeviceInfo(DeviceInfo::Type_Device, root_);
+      info = new DeviceInfo(DeviceInfo::Type_Device, root_);
       info->backends_ << DeviceInfo::Backend(lister, id);
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);

@@ -108,11 +108,11 @@ void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
   ignore_next_click_ = true;
 
   if (add_on_double_click_) {
-    QMimeData *data = model()->mimeData(QModelIndexList() << idx);
-    if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
-      mime_data->from_doubleclick_ = true;
+    QMimeData *q_mimedata = model()->mimeData(QModelIndexList() << idx);
+    if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+      mimedata->from_doubleclick_ = true;
     }
-    emit AddToPlaylistSignal(data);
+    emit AddToPlaylistSignal(q_mimedata);
   }
 
 }
@@ -127,11 +127,11 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
 
   //enqueue to playlist with middleClick
   if (event->button() == Qt::MidButton) {
-    QMimeData *data = model()->mimeData(selectedIndexes());
-    if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
-      mime_data->enqueue_now_ = true;
+    QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+    if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+      mimedata->enqueue_now_ = true;
     }
-    emit AddToPlaylistSignal(data);
+    emit AddToPlaylistSignal(q_mimedata);
   }
 
 }

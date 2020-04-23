@@ -212,46 +212,46 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
-  if (TagLib::Ogg::XiphComment *tag = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    ParseOggTag(tag->fieldListMap(), nullptr, &disc, &compilation, song);
-    if (!tag->pictureList().isEmpty()) {
+  if (TagLib::Ogg::XiphComment *tag_ogg = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    ParseOggTag(tag_ogg->fieldListMap(), nullptr, &disc, &compilation, song);
+    if (!tag_ogg->pictureList().isEmpty()) {
       song->set_art_automatic(kEmbeddedCover);
     }
   }
 
-  if (TagLib::FLAC::File *file = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
+  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File *>(fileref->file())) {
 
-    song->set_bitdepth(file->audioProperties()->bitsPerSample());
+    song->set_bitdepth(file_flac->audioProperties()->bitsPerSample());
 
-    if (file->xiphComment()) {
-      ParseOggTag(file->xiphComment()->fieldListMap(), nullptr, &disc, &compilation, song);
-      if (!file->pictureList().isEmpty()) {
+    if (file_flac->xiphComment()) {
+      ParseOggTag(file_flac->xiphComment()->fieldListMap(), nullptr, &disc, &compilation, song);
+      if (!file_flac->pictureList().isEmpty()) {
         song->set_art_automatic(kEmbeddedCover);
       }
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
-  else if (TagLib::WavPack::File *file = dynamic_cast<TagLib::WavPack::File *>(fileref->file())) {
-    song->set_bitdepth(file->audioProperties()->bitsPerSample());
-    if (file->tag()) {
-      ParseAPETag(file->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
+  else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File *>(fileref->file())) {
+    song->set_bitdepth(file_wavpack->audioProperties()->bitsPerSample());
+    if (file_wavpack->tag()) {
+      ParseAPETag(file_wavpack->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
-  else if (TagLib::APE::File *file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    if (file->tag()) {
-      ParseAPETag(file->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
+  else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    if (file_ape->tag()) {
+      ParseAPETag(file_ape->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
-    song->set_bitdepth(file->audioProperties()->bitsPerSample());
+    song->set_bitdepth(file_ape->audioProperties()->bitsPerSample());
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
 
-  else if (TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+  else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
 
-    if (file->ID3v2Tag()) {
-      const TagLib::ID3v2::FrameListMap &map = file->ID3v2Tag()->frameListMap();
+    if (file_mpeg->ID3v2Tag()) {
+      const TagLib::ID3v2::FrameListMap &map = file_mpeg->ID3v2Tag()->frameListMap();
 
       if (!map["TPOS"].isEmpty()) disc = TStringToQString(map["TPOS"].front()->toString()).trimmed();
       if (!map["TCOM"].isEmpty()) Decode(map["TCOM"].front()->toString(), nullptr, song->mutable_composer());
@@ -309,12 +309,12 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     }
   }
 
-  else if (TagLib::MP4::File *file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+  else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
 
-    song->set_bitdepth(file->audioProperties()->bitsPerSample());
+    song->set_bitdepth(file_mp4->audioProperties()->bitsPerSample());
 
-    if (file->tag()) {
-      TagLib::MP4::Tag *mp4_tag = file->tag();
+    if (file_mp4->tag()) {
+      TagLib::MP4::Tag *mp4_tag = file_mp4->tag();
 
       // Find album artists
       if (mp4_tag->item("aART").isValid()) {
@@ -348,11 +348,11 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     }
   }
 
-  else if (TagLib::ASF::File *file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+  else if (TagLib::ASF::File *file_asf = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
 
-    song->set_bitdepth(file->audioProperties()->bitsPerSample());
+    song->set_bitdepth(file_asf->audioProperties()->bitsPerSample());
 
-    const TagLib::ASF::AttributeListMap &attributes_map = file->tag()->attributeListMap();
+    const TagLib::ASF::AttributeListMap &attributes_map = file_asf->tag()->attributeListMap();
 
     if (attributes_map.contains(kASF_OriginalDate_ID)) {
       const TagLib::ASF::AttributeList &attributes = attributes_map[kASF_OriginalDate_ID];
@@ -368,9 +368,9 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
     }
   }
 
-  else if (TagLib::MPC::File* file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    if (file->tag()) {
-      ParseAPETag(file->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
+  else if (TagLib::MPC::File* file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+    if (file_mpc->tag()) {
+      ParseAPETag(file_mpc->APETag()->itemListMap(), nullptr, &disc, &compilation, song);
     }
     if (tag) Decode(tag->comment(), nullptr, song->mutable_comment());
   }
@@ -578,26 +578,26 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetVorbisComments(tag, song);
   }
 
-  else if (TagLib::WavPack::File *file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file->APETag(true);
+  else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = file_wavpack->APETag(true);
     if (!tag) return false;
     SaveAPETag(tag, song);
   }
 
-  else if (TagLib::APE::File *file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file->APETag(true);
+  else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = file_ape->APETag(true);
     if (!tag) return false;
     SaveAPETag(tag, song);
   }
 
-  else if (TagLib::MPC::File *file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file->APETag(true);
+  else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+    TagLib::APE::Tag *tag = file_mpc->APETag(true);
     if (!tag) return false;
     SaveAPETag(tag, song);
   }
 
-  else if (TagLib::MPEG::File *file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file->ID3v2Tag(true);
+  else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+    TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
     if (!tag) return false;
     SetTextFrame("TPOS", song.disc() <= 0 -1 ? QString() : QString::number(song.disc()), tag);
     SetTextFrame("TCOM", song.composer(), tag);
@@ -609,8 +609,8 @@ bool TagReader::SaveFile(const QString &filename, const pb::tagreader::SongMetad
     SetUnsyncLyricsFrame(song.lyrics(), tag);
   }
 
-  else if (TagLib::MP4::File *file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = file->tag();
+  else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+    TagLib::MP4::Tag *tag = file_mp4->tag();
     tag->setItem("disk", TagLib::MP4::Item(song.disc() <= 0 -1 ? 0 : song.disc(), 0));
     tag->setItem("\251wrt", TagLib::StringList(song.composer().c_str()));
     tag->setItem("\251grp", TagLib::StringList(song.grouping().c_str()));

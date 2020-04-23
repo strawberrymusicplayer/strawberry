@@ -372,8 +372,8 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
       else
         result.friendly_name = result.model + " " + result.uuid;
 
-      for (const auto &path : filesystem.mountPoints())
-        result.mount_paths.push_back(path);
+      for (const auto &p : filesystem.mountPoints())
+        result.mount_paths.push_back(p);
 
       result.free_space = Utilities::FileSystemFreeSpace(result.mount_paths.at(0));
     }

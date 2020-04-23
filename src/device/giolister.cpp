@@ -49,18 +49,18 @@ QString GioLister::DeviceInfo::unique_id() const {
 
   if (!volume_root_uri.isEmpty()) return volume_root_uri;
 
-  if (mount)
+  if (mount_ptr)
     return QString("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
   else
-    return QString("Gio/unmounted/%1").arg((qulonglong)volume.get());
+    return QString("Gio/unmounted/%1").arg((qulonglong)volume_ptr.get());
 
 }
 
 bool GioLister::DeviceInfo::is_suitable() const {
 
-  if (!volume) return false;  // This excludes smb or ssh mounts
+  if (!volume_ptr) return false;  // This excludes smb or ssh mounts
 
-  if (drive && !drive_removable) return false;  // This excludes internal drives
+  if (drive_ptr && !drive_removable) return false;  // This excludes internal drives
 
   if (filesystem_type.isEmpty()) return true;
 
@@ -141,7 +141,7 @@ QVariantList GioLister::DeviceIcons(const QString &id) {
 
   const DeviceInfo &info = devices_[id];
 
-  if (info.mount) {
+  if (info.mount_ptr) {
     ret << DeviceLister::GuessIconForPath(info.mount_path);
     ret << info.mount_icon_names;
   }
@@ -337,7 +337,7 @@ void GioLister::MountAdded(GMount *mount) {
 
     // The volume might already exist - either mounted or unmounted.
     for (const QString &id : devices_.keys()) {
-      if (devices_[id].volume == info.volume) {
+      if (devices_[id].volume_ptr == info.volume_ptr) {
         old_id = id;
         break;
       }
@@ -411,7 +411,7 @@ QString GioLister::DeviceInfo::ConvertAndFree(char *str) {
 void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
 
   // Get basic information
-  this->mount.reset_without_add(mount);
+  mount_ptr.reset_without_add(mount);
   if (!mount) return;
 
   mount_name = ConvertAndFree(g_mount_get_name(mount));
@@ -481,7 +481,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
 
 void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
 
-  this->volume.reset_without_add(volume);
+  volume_ptr.reset_without_add(volume);
   if (!volume) return;
 
   volume_name = ConvertAndFree(g_volume_get_name(volume));
@@ -498,7 +498,7 @@ void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
 
 void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
 
-  this->drive.reset_without_add(drive);
+  drive_ptr.reset_without_add(drive);
   if (!drive) return;
 
   drive_name = ConvertAndFree(g_drive_get_name(drive));
@@ -506,18 +506,21 @@ void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
 }
 
 QString GioLister::FindUniqueIdByMount(GMount *mount) const {
+
   for (const DeviceInfo &info : devices_) {
-    if (info.mount == mount) return info.unique_id();
+    if (info.mount_ptr == mount) return info.unique_id();
   }
   return QString();
 
 }
 
 QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
+
   for (const DeviceInfo &info : devices_) {
-    if (info.volume == volume) return info.unique_id();
+    if (info.volume_ptr == volume) return info.unique_id();
   }
   return QString();
+
 }
 
 void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
@@ -536,11 +539,11 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 
   {
     QMutexLocker l(&mutex_);
-    if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
+    if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_[id].volume_root_uri.startsWith("mtp://")) return;
 
     DeviceInfo &device_info = devices_[id];
 
-    GFile *root = g_mount_get_root(device_info.mount);
+    GFile *root = g_mount_get_root(device_info.mount_ptr);
 
     GError *error = nullptr;
     GFileInfo *info = g_file_query_filesystem_info(root, G_FILE_ATTRIBUTE_FILESYSTEM_FREE, nullptr, &error);
@@ -561,8 +564,10 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 }
 
 bool GioLister::DeviceNeedsMount(const QString &id) {
+
   QMutexLocker l(&mutex_);
-  return devices_.contains(id) && !devices_[id].mount && !devices_[id].volume_root_uri.startsWith("mtp://");
+  return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith("mtp://");
+
 }
 
 void GioLister::MountDevice(const QString &id, const int request_id) {
@@ -574,13 +579,13 @@ void GioLister::MountDevice(const QString &id, const int request_id) {
   }
 
   const DeviceInfo &info = devices_[id];
-  if (info.mount) {
+  if (info.mount_ptr) {
     // Already mounted
     emit DeviceMounted(id, request_id, true);
     return;
   }
 
-  g_volume_mount(info.volume, G_MOUNT_MOUNT_NONE, nullptr, nullptr, VolumeMountFinished, nullptr);
+  g_volume_mount(info.volume_ptr, G_MOUNT_MOUNT_NONE, nullptr, nullptr, VolumeMountFinished, nullptr);
   emit DeviceMounted(id, request_id, true);
 
 }
@@ -588,26 +593,26 @@ void GioLister::MountDevice(const QString &id, const int request_id) {
 void GioLister::UnmountDevice(const QString &id) {
 
   QMutexLocker l(&mutex_);
-  if (!devices_.contains(id) || !devices_[id].mount || devices_[id].volume_root_uri.startsWith("mtp://")) return;
+  if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_[id].volume_root_uri.startsWith("mtp://")) return;
 
   const DeviceInfo &info = devices_[id];
 
-  if (!info.mount) return;
+  if (!info.mount_ptr) return;
 
-  if (info.volume) {
-    if (g_volume_can_eject(info.volume)) {
-      g_volume_eject_with_operation(info.volume, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)VolumeEjectFinished, nullptr);
-      g_object_unref(info.volume);
+  if (info.volume_ptr) {
+    if (g_volume_can_eject(info.volume_ptr)) {
+      g_volume_eject_with_operation(info.volume_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)VolumeEjectFinished, nullptr);
+      g_object_unref(info.volume_ptr);
       return;
     }
   }
   else return;
 
-  if (g_mount_can_eject(info.mount)) {
-    g_mount_eject_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);
+  if (g_mount_can_eject(info.mount_ptr)) {
+    g_mount_eject_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);
   }
-  else if (g_mount_can_unmount(info.mount)) {
-    g_mount_unmount_with_operation(info.mount, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountUnmountFinished, nullptr);
+  else if (g_mount_can_unmount(info.mount_ptr)) {
+    g_mount_unmount_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountUnmountFinished, nullptr);
   }
 
 }

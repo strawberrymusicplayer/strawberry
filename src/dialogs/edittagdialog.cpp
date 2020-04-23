@@ -310,8 +310,8 @@ void EditTagDialog::SetSongsFinished(QFuture<QList<Data>> future) {
   }
 
   // Add the filenames to the list
-  for (const Data &data : data_) {
-    ui_->song_list->addItem(data.current_.basefilename());
+  for (const Data &tag_data : data_) {
+    ui_->song_list->addItem(tag_data.current_.basefilename());
   }
 
   // Select all
@@ -443,8 +443,8 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 
   // Reset each selected song
   for (const QModelIndex &i : sel) {
-    Data &data = data_[i.row()];
-    data.set_value(field.id_, data.original_value(field.id_));
+    Data &tag_data = data_[i.row()];
+    tag_data.set_value(field.id_, tag_data.original_value(field.id_));
   }
 
   // Reset the field
@@ -733,10 +733,10 @@ void EditTagDialog::ButtonClicked(QAbstractButton *button) {
   }
 }
 
-void EditTagDialog::SaveData(const QList<Data> &data) {
+void EditTagDialog::SaveData(const QList<Data> &tag_data) {
 
-  for (int i = 0; i < data.count(); ++i) {
-    const Data &ref = data[i];
+  for (int i = 0; i < tag_data.count(); ++i) {
+    const Data &ref = tag_data[i];
     if (ref.current_.IsMetadataEqual(ref.original_)) continue;
 
     pending_++;

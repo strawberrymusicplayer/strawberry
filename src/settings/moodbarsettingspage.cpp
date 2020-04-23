@@ -104,13 +104,13 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
     qLog(Warning) << "Unable to open moodbar sample file";
     return;
   }
-  QByteArray data(file.readAll());
+  QByteArray file_data = file.readAll();
 
   // Render and set each preview
   for (int i = 0; i < MoodbarRenderer::StyleCount; ++i) {
 
     const MoodbarRenderer::MoodbarStyle style = MoodbarRenderer::MoodbarStyle(i);
-    const ColorVector colors = MoodbarRenderer::Colors(data, style, palette());
+    const ColorVector colors = MoodbarRenderer::Colors(file_data, style, palette());
 
     QPixmap pixmap(preview_size);
     QPainter p(&pixmap);

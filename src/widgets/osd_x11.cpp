@@ -51,6 +51,9 @@
 
 #ifdef HAVE_DBUS
 
+QDBusArgument &operator<< (QDBusArgument &arg, const QImage &image);
+const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
+
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 
   if (image.isNull()) {

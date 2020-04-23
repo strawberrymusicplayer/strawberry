@@ -419,11 +419,11 @@ void TranscodeDialog::AddDestination() {
     }
 
     QIcon icon = IconLoader::Load("folder");
-    QVariant data = QVariant::fromValue(dir);
+    QVariant data_var = QVariant::fromValue(dir);
     // Do not insert duplicates.
-    int duplicate_index = ui_->destination->findData(data);
+    int duplicate_index = ui_->destination->findData(data_var);
     if (duplicate_index == -1) {
-      ui_->destination->addItem(icon, dir, data);
+      ui_->destination->addItem(icon, dir, data_var);
       ui_->destination->setCurrentIndex(ui_->destination->count() - 1);
     }
     else {

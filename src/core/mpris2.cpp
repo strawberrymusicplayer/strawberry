@@ -500,14 +500,14 @@ void Mpris2::OpenUri(const QString &uri) {
   app_->playlist_manager()->active()->InsertUrls(QList<QUrl>() << QUrl(uri), -1, true);
 }
 
-TrackIds Mpris2::Tracks() const {
+Track_Ids Mpris2::Tracks() const {
   // TODO
-  return TrackIds();
+  return Track_Ids();
 }
 
 bool Mpris2::CanEditTracks() const { return false; }
 
-TrackMetadata Mpris2::GetTracksMetadata(const TrackIds &tracks) const {
+TrackMetadata Mpris2::GetTracksMetadata(const Track_Ids &tracks) const {
 
   Q_UNUSED(tracks);
 

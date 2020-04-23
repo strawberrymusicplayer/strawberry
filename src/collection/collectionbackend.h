@@ -141,10 +141,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateTotalArtistCountAsync();
   void UpdateTotalAlbumCountAsync();
 
-  SongList FindSongsInDirectory(int id);
-  SubdirectoryList SubdirsInDirectory(int id);
+  SongList FindSongsInDirectory(const int id);
+  SubdirectoryList SubdirsInDirectory(const int id);
   DirectoryList GetAllDirectories();
-  void ChangeDirPath(int id, const QString &old_path, const QString &new_path);
+  void ChangeDirPath(const int id, const QString &old_path, const QString &new_path);
 
   QStringList GetAll(const QString &column, const QueryOptions &opt = QueryOptions());
   QStringList GetAllArtists(const QueryOptions &opt = QueryOptions());
@@ -161,7 +161,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url);
   Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album);
 
-  Song GetSongById(int id);
+  Song GetSongById(const int id);
   SongList GetSongsById(const QList<int> &ids);
   SongList GetSongsById(const QStringList &ids);
   SongList GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column);
@@ -175,9 +175,9 @@ class CollectionBackend : public CollectionBackendInterface {
   bool ExecQuery(CollectionQuery *q);
   SongList ExecCollectionQuery(CollectionQuery *query);
 
-  void IncrementPlayCountAsync(int id);
-  void IncrementSkipCountAsync(int id, float progress);
-  void ResetStatisticsAsync(int id);
+  void IncrementPlayCountAsync(const int id);
+  void IncrementSkipCountAsync(const int id, const float progress);
+  void ResetStatisticsAsync(const int id);
 
   void DeleteAll();
 
@@ -199,10 +199,10 @@ class CollectionBackend : public CollectionBackendInterface {
   void AddOrUpdateSubdirs(const SubdirectoryList &subdirs);
   void UpdateCompilations();
   void UpdateManualAlbumArt(const QString &artist,  const QString &albumartist, const QString &album, const QUrl &cover_url);
-  void ForceCompilation(const QString &album, const QList<QString> &artists, bool on);
-  void IncrementPlayCount(int id);
-  void IncrementSkipCount(int id, float progress);
-  void ResetStatistics(int id);
+  void ForceCompilation(const QString &album, const QList<QString> &artists, const bool on);
+  void IncrementPlayCount(const int id);
+  void IncrementSkipCount(const int id, const float progress);
+  void ResetStatistics(const int id);
   void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
  signals:
@@ -215,9 +215,9 @@ class CollectionBackend : public CollectionBackendInterface {
 
   void DatabaseReset();
 
-  void TotalSongCountUpdated(int total);
-  void TotalArtistCountUpdated(int total);
-  void TotalAlbumCountUpdated(int total);
+  void TotalSongCountUpdated(const int total);
+  void TotalArtistCountUpdated(const int total);
+  void TotalAlbumCountUpdated(const int total);
 
   void ExitFinished();
 
@@ -233,11 +233,11 @@ class CollectionBackend : public CollectionBackendInterface {
   };
 
   void UpdateCompilations(QSqlQuery &find_song, QSqlQuery &update_song, SongList &deleted_songs, SongList &added_songs, const QUrl &url, const bool compilation_detected);
-  AlbumList GetAlbums(const QString &artist, const QString &album_artist, bool compilation = false, const QueryOptions &opt = QueryOptions());
-  AlbumList GetAlbums(const QString &artist, bool compilation, const QueryOptions &opt = QueryOptions());
-  SubdirectoryList SubdirsInDirectory(int id, QSqlDatabase &db);
+  AlbumList GetAlbums(const QString &artist, const QString &album_artist, const bool compilation_required = false, const QueryOptions &opt = QueryOptions());
+  AlbumList GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt = QueryOptions());
+  SubdirectoryList SubdirsInDirectory(const int id, QSqlDatabase &db);
 
-  Song GetSongById(int id, QSqlDatabase &db);
+  Song GetSongById(const int id, QSqlDatabase &db);
   SongList GetSongsById(const QStringList &ids, QSqlDatabase &db);
 
   Song GetSongBySongId(const QString &song_id, QSqlDatabase &db);

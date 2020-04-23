@@ -75,20 +75,20 @@ class RainbowAnalyzer : public Analyzer::Base {
 
   static RainbowType rainbowtype;
 
-  inline QRect SourceRect(RainbowType rainbowtype) const {
-    return QRect(0, kHeight[rainbowtype] * frame_, kWidth[rainbowtype], kHeight[rainbowtype]);
+  inline QRect SourceRect(RainbowType _rainbowtype) const {
+    return QRect(0, kHeight[_rainbowtype] * frame_, kWidth[_rainbowtype], kHeight[_rainbowtype]);
   }
 
-  inline QRect SleepingSourceRect(RainbowType rainbowtype) const {
-    return QRect(0, kHeight[rainbowtype] * kFrameCount[rainbowtype], kWidth[rainbowtype], kSleepingHeight[rainbowtype]);
+  inline QRect SleepingSourceRect(RainbowType _rainbowtype) const {
+    return QRect(0, kHeight[_rainbowtype] * kFrameCount[_rainbowtype], kWidth[_rainbowtype], kSleepingHeight[_rainbowtype]);
   }
 
-  inline QRect DestRect(RainbowType rainbowtype) const {
-    return QRect(width() - kWidth[rainbowtype], (height() - kHeight[rainbowtype]) / 2, kWidth[rainbowtype], kHeight[rainbowtype]);
+  inline QRect DestRect(RainbowType _rainbowtype) const {
+    return QRect(width() - kWidth[_rainbowtype], (height() - kHeight[_rainbowtype]) / 2, kWidth[_rainbowtype], kHeight[_rainbowtype]);
   }
 
-  inline QRect SleepingDestRect(RainbowType rainbowtype) const {
-    return QRect(width() - kWidth[rainbowtype], (height() - kSleepingHeight[rainbowtype]) / 2, kWidth[rainbowtype], kSleepingHeight[rainbowtype]);
+  inline QRect SleepingDestRect(RainbowType _rainbowtype) const {
+    return QRect(width() - kWidth[_rainbowtype], (height() - kSleepingHeight[_rainbowtype]) / 2, kWidth[_rainbowtype], kSleepingHeight[_rainbowtype]);
   }
 
  private:

@@ -60,8 +60,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
     Type_Device,
   };
 
-  explicit DeviceInfo(SimpleTreeModel<DeviceInfo> *model)
-      : SimpleTreeItem<DeviceInfo>(Type_Root, model),
+  explicit DeviceInfo(SimpleTreeModel<DeviceInfo> *_model)
+      : SimpleTreeItem<DeviceInfo>(Type_Root, _model),
         database_id_(-1),
         size_(0),
         transcode_mode_(MusicStorage::Transcode_Unsupported),
@@ -70,8 +70,8 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
         unmount_(false),
         forget_(false) {}
 
-  explicit DeviceInfo(Type type, DeviceInfo *parent = nullptr)
-      : SimpleTreeItem<DeviceInfo>(type, parent),
+  explicit DeviceInfo(const Type _type, DeviceInfo *_parent = nullptr)
+      : SimpleTreeItem<DeviceInfo>(_type, _parent),
         database_id_(-1),
         size_(0),
         transcode_mode_(MusicStorage::Transcode_Unsupported),

@@ -995,7 +995,7 @@ void CollectionBackend::UpdateCompilations(QSqlQuery &find_song, QSqlQuery &upda
 
 }
 
-CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, bool compilation, const QueryOptions &opt) {
+CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist, const bool compilation_required, const QueryOptions &opt) {
 
   AlbumList ret;
 
@@ -1003,7 +1003,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
   query.SetColumnSpec("album, artist, albumartist, compilation, compilation_detected, art_automatic, art_manual, url");
   query.SetOrderBy("album");
 
-  if (compilation) {
+  if (compilation_required) {
     query.AddCompilationRequirement(true);
   }
   else if (!artist.isEmpty()) {
@@ -1020,11 +1020,11 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
   QString last_artist;
   QString last_album_artist;
   while (query.Next()) {
-    bool compilation = query.Value(3).toBool() | query.Value(4).toBool();
+    bool is_compilation = query.Value(3).toBool() | query.Value(4).toBool();
 
     Album info;
-    info.artist = compilation ? QString() : query.Value(1).toString();
-    info.album_artist = compilation ? QString() : query.Value(2).toString();
+    info.artist = is_compilation ? QString() : query.Value(1).toString();
+    info.album_artist = is_compilation ? QString() : query.Value(2).toString();
     info.album_name = query.Value(0).toString();
     info.first_url = QUrl::fromEncoded(query.Value(7).toByteArray());
 

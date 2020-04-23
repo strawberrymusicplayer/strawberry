@@ -185,8 +185,8 @@ void BlockAnalyzer::analyze(QPainter &p, const Analyzer::Scope &s, bool new_fram
 
     if (fade_intensity_[x] > 0) {
       const uint offset = --fade_intensity_[x];
-      const uint y = y_ + (fade_pos_[x] * (kHeight + 1));
-      canvas_painter.drawPixmap(x * (kWidth + 1), y, fade_bars_[offset], 0, 0, kWidth, height() - y);
+      const uint y2 = y_ + (fade_pos_[x] * (kHeight + 1));
+      canvas_painter.drawPixmap(x * (kWidth + 1), y2, fade_bars_[offset], 0, 0, kWidth, height() - y2);
     }
 
     if (fade_intensity_[x] == 0) fade_pos_[x] = rows_;
@@ -237,7 +237,8 @@ static inline void adjustToLimits(int &b, int &f, uint &amount) {
  * It won't modify the hue of fg unless absolutely necessary
  * @return the adjusted form of fg
  */
-QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount = 150) {
+QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount = 150);
+QColor ensureContrast(const QColor &bg, const QColor &fg, uint amount) {
 
   class OutputOnExit {
    public:
@@ -344,18 +345,18 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
     p.fillRect(0, y * (kHeight + 1), kWidth, kHeight, QColor(r + static_cast<int>(dr * y), g + static_cast<int>(dg * y), b + static_cast<int>(db * y)));
 
   {
-    const QColor bg = palette().color(QPalette::Background).darker(112);
+    const QColor bg2 = palette().color(QPalette::Background).darker(112);
 
     // make a complimentary fadebar colour
     // TODO dark is not always correct, dumbo!
     int h, s, v;
     palette().color(QPalette::Background).darker(150).getHsv(&h, &s, &v);
-    const QColor fg(QColor::fromHsv(h + 120, s, v));
+    const QColor fg2(QColor::fromHsv(h + 120, s, v));
 
-    const double dr = fg.red() - bg.red();
-    const double dg = fg.green() - bg.green();
-    const double db = fg.blue() - bg.blue();
-    const int r = bg.red(), g = bg.green(), b = bg.blue();
+    const double dr2 = fg2.red() - bg2.red();
+    const double dg2 = fg2.green() - bg2.green();
+    const double db2 = fg2.blue() - bg2.blue();
+    const int r2 = bg2.red(), g2 = bg2.green(), b2 = bg2.blue();
 
     // Precalculate all fade-bar pixmaps
     for (uint y = 0; y < kFadeSize; ++y) {
@@ -363,7 +364,7 @@ void BlockAnalyzer::paletteChange(const QPalette&) {
       QPainter f(&fade_bars_[y]);
       for (int z = 0; static_cast<uint>(z) < rows_; ++z) {
         const double Y = 1.0 - (log10(kFadeSize - y) / log10(kFadeSize));
-        f.fillRect(0, z * (kHeight + 1), kWidth, kHeight, QColor(r + static_cast<int>(dr * Y), g + static_cast<int>(dg * Y), b + static_cast<int>(db * Y)));
+        f.fillRect(0, z * (kHeight + 1), kWidth, kHeight, QColor(r2 + static_cast<int>(dr2 * Y), g2 + static_cast<int>(dg2 * Y), b2 + static_cast<int>(db2 * Y)));
       }
     }
   }

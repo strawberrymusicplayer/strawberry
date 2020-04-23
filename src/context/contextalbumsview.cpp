@@ -321,11 +321,11 @@ void ContextAlbumsView::contextMenuEvent(QContextMenuEvent *e) {
 
 void ContextAlbumsView::Load() {
 
-  QMimeData *data = model()->mimeData(selectedIndexes());
-  if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
-    mime_data->clear_first_ = true;
+  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+    mimedata->clear_first_ = true;
   }
-  emit AddToPlaylistSignal(data);
+  emit AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -337,21 +337,21 @@ void ContextAlbumsView::AddToPlaylist() {
 
 void ContextAlbumsView::AddToPlaylistEnqueue() {
 
-  QMimeData *data = model()->mimeData(selectedIndexes());
-  if (MimeData* mime_data = qobject_cast<MimeData*>(data)) {
-    mime_data->enqueue_now_ = true;
+  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+    mimedata->enqueue_now_ = true;
   }
-  emit AddToPlaylistSignal(data);
+  emit AddToPlaylistSignal(q_mimedata);
 
 }
 
 void ContextAlbumsView::OpenInNewPlaylist() {
 
-  QMimeData *data = model()->mimeData(selectedIndexes());
-  if (MimeData* mime_data = qobject_cast<MimeData*>(data)) {
-    mime_data->open_in_new_playlist_ = true;
+  QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
+    mimedata->open_in_new_playlist_ = true;
   }
-  emit AddToPlaylistSignal(data);
+  emit AddToPlaylistSignal(q_mimedata);
 
 }
 

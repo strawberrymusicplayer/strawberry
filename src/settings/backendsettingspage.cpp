@@ -237,12 +237,10 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (output.isEmpty()) output = engine()->DefaultOutput();
 
   ui_->combobox_output->clear();
-  int i = 0;
   for (const EngineBase::OutputDetails &o : engine()->GetOutputsList()) {
-    i++;
     ui_->combobox_output->addItem(IconLoader::Load(o.iconname), o.description, QVariant::fromValue(o));
   }
-  if (i > 1) ui_->combobox_output->setEnabled(true);
+  if (ui_->combobox_output->count() > 1) ui_->combobox_output->setEnabled(true);
 
   bool found(false);
   for (int i = 0; i < ui_->combobox_output->count(); ++i) {

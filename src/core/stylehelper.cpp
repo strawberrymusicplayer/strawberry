@@ -296,20 +296,20 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
   if (!QPixmapCache::find(pixmapName, &pixmap)) {
     QImage image(size * devicePixelRatio, size * devicePixelRatio, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::transparent);
-    QPainter painter(&image);
+    QPainter p(&image);
 
     QStyleOption tweakedOption(*option);
     tweakedOption.state = QStyle::State_Enabled;
 
-    auto drawCommonStyleArrow = [&tweakedOption, element, &painter](const QRect &rect, const QColor &color) -> void
+    auto drawCommonStyleArrow = [&tweakedOption, element, &p](const QRect &rect, const QColor &color) -> void
     {
       static const QCommonStyle* const style = qobject_cast<QCommonStyle*>(QApplication::style());
       if (!style)
         return;
       tweakedOption.palette.setColor(QPalette::ButtonText, color.rgb());
       tweakedOption.rect = rect;
-      painter.setOpacity(color.alphaF());
-      style->QCommonStyle::drawPrimitive(element, &tweakedOption, &painter);
+      p.setOpacity(color.alphaF());
+      style->QCommonStyle::drawPrimitive(element, &tweakedOption, &p);
     };
 
     if (!enabled) {
@@ -319,7 +319,7 @@ void StyleHelper::drawArrow(QStyle::PrimitiveElement element, QPainter *painter,
       drawCommonStyleArrow(image.rect().translated(0, devicePixelRatio), toolBarDropShadowColor());
       drawCommonStyleArrow(image.rect(), m_IconsBaseColor);
     }
-    painter.end();
+    p.end();
     pixmap = QPixmap::fromImage(image);
     pixmap.setDevicePixelRatio(devicePixelRatio);
     QPixmapCache::insert(pixmapName, pixmap);

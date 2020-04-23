@@ -531,9 +531,11 @@ void PlaylistView::showEvent(QShowEvent *) {
 
 }
 
+namespace {
 bool CompareSelectionRanges(const QItemSelectionRange &a, const QItemSelectionRange &b) {
   return b.bottom() < a.bottom();
 }
+}  // namespace
 
 void PlaylistView::keyPressEvent(QKeyEvent *event) {
 
@@ -1224,9 +1226,9 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
       continue;
     }
 
-    const QVariant data = model()->data(currentIndex().sibling(currentIndex().row(), i));
-    if (data.type() == QVariant::String) {
-      columns << data.toString();
+    const QVariant var_data = model()->data(currentIndex().sibling(currentIndex().row(), i));
+    if (var_data.type() == QVariant::String) {
+      columns << var_data.toString();
     }
   }
 

@@ -40,15 +40,14 @@
 const int StretchHeaderView::kMinimumColumnWidth = 10;
 const int StretchHeaderView::kMagicNumber = 0x502c950f;
 
-StretchHeaderView::StretchHeaderView(Qt::Orientation orientation, QWidget* parent)
+StretchHeaderView::StretchHeaderView(const Qt::Orientation orientation, QWidget *parent)
     : QHeaderView(orientation, parent),
       stretch_enabled_(false),
-    in_mouse_move_event_(false)
-{
+    in_mouse_move_event_(false) {
   connect(this, SIGNAL(sectionResized(int,int,int)), SLOT(SectionResized(int,int,int)));
 }
 
-void StretchHeaderView::setModel(QAbstractItemModel* model) {
+void StretchHeaderView::setModel(QAbstractItemModel *model) {
 
   QHeaderView::setModel(model);
 
@@ -113,7 +112,7 @@ void StretchHeaderView::UpdateWidths(const QList<int>& sections) {
 
 }
 
-void StretchHeaderView::HideSection(int logical) {
+void StretchHeaderView::HideSection(const int logical) {
 
   // Would this hide the last section?
   bool all_hidden = true;
@@ -151,36 +150,41 @@ void StretchHeaderView::ShowSection(int logical) {
       visible_count ++;
   }
 
-  column_widths_[logical] =
-      visible_count == 0 ? 1.0 : 1.0 / visible_count;
+  column_widths_[logical] = visible_count == 0 ? 1.0 : 1.0 / visible_count;
   NormaliseWidths();
   UpdateWidths();
 }
 
-void StretchHeaderView::SetSectionHidden(int logical, bool hidden) {
+void StretchHeaderView::SetSectionHidden(const int logical, const bool hidden) {
+
   if (hidden) {
     HideSection(logical);
   }
   else {
     ShowSection(logical);
   }
+
 }
 
-void StretchHeaderView::resizeEvent(QResizeEvent* event) {
+void StretchHeaderView::resizeEvent(QResizeEvent *event) {
+
   QHeaderView::resizeEvent(event);
 
   if (!stretch_enabled_) return;
 
   UpdateWidths();
+
 }
 
-void StretchHeaderView::mouseMoveEvent(QMouseEvent* e) {
+void StretchHeaderView::mouseMoveEvent(QMouseEvent *e) {
+
   in_mouse_move_event_ = true;
   QHeaderView::mouseMoveEvent(e);
   in_mouse_move_event_ = false;
+
 }
 
-void StretchHeaderView::SectionResized(int logical, int, int new_size) {
+void StretchHeaderView::SectionResized(const int logical, const int, const int new_size) {
 
   if (!stretch_enabled_) return;
 
@@ -210,7 +214,7 @@ void StretchHeaderView::ToggleStretchEnabled() {
   SetStretchEnabled(!is_stretch_enabled());
 }
 
-void StretchHeaderView::SetStretchEnabled(bool enabled) {
+void StretchHeaderView::SetStretchEnabled(const bool enabled) {
 
   stretch_enabled_ = enabled;
 
@@ -230,7 +234,7 @@ void StretchHeaderView::SetStretchEnabled(bool enabled) {
 
 }
 
-void StretchHeaderView::SetColumnWidth(int logical, ColumnWidthType width) {
+void StretchHeaderView::SetColumnWidth(const int logical, const ColumnWidthType width) {
 
   if (!stretch_enabled_) return;
 
@@ -240,13 +244,14 @@ void StretchHeaderView::SetColumnWidth(int logical, ColumnWidthType width) {
   for (int i=0 ; i<count() ; ++i)
     if (!isSectionHidden(i) && i != logical)
       other_columns << i;
+
   NormaliseWidths(other_columns);
 
 }
 
-bool StretchHeaderView::RestoreState(const QByteArray& data) {
+bool StretchHeaderView::RestoreState(const QByteArray &sdata) {
 
-  QDataStream s(data);
+  QDataStream s(sdata);
   s.setVersion(QDataStream::Qt_5_6);
 
   int magic_number = 0;

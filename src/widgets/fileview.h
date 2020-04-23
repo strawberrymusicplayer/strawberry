@@ -74,8 +74,8 @@ class FileView : public QWidget {
   void FileUp();
   void FileHome();
   void ChangeFilePath(const QString &new_path);
-  void ItemActivated(const QModelIndex &index);
-  void ItemDoubleClick(const QModelIndex &index);
+  void ItemActivated(const QModelIndex &idx);
+  void ItemDoubleClick(const QModelIndex &idx);
 
   void Delete(const QStringList &filenames);
   void DeleteFinished(const SongList &songs_with_errors);

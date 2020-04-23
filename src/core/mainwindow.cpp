@@ -1400,71 +1400,71 @@ void MainWindow::UpdateTrackSliderPosition() {
 
 }
 
-void MainWindow::ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *data) const {
+void MainWindow::ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const {
 
   switch (b) {
       case BehaviourSettingsPage::AddBehaviour_Append:
-      data->clear_first_ = false;
-      data->enqueue_now_ = false;
+      mimedata->clear_first_ = false;
+      mimedata->enqueue_now_ = false;
       break;
 
     case BehaviourSettingsPage::AddBehaviour_Enqueue:
-      data->clear_first_ = false;
-      data->enqueue_now_ = true;
+      mimedata->clear_first_ = false;
+      mimedata->enqueue_now_ = true;
       break;
 
     case BehaviourSettingsPage::AddBehaviour_Load:
-      data->clear_first_ = true;
-      data->enqueue_now_ = false;
+      mimedata->clear_first_ = true;
+      mimedata->enqueue_now_ = false;
       break;
 
     case BehaviourSettingsPage::AddBehaviour_OpenInNew:
-      data->open_in_new_playlist_ = true;
+      mimedata->open_in_new_playlist_ = true;
       break;
   }
 }
 
-void MainWindow::ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *data) const {
+void MainWindow::ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const {
 
   switch (b) {
     case BehaviourSettingsPage::PlayBehaviour_Always:
-      data->play_now_ = true;
+      mimedata->play_now_ = true;
       break;
 
     case BehaviourSettingsPage::PlayBehaviour_Never:
-      data->play_now_ = false;
+      mimedata->play_now_ = false;
       break;
 
     case BehaviourSettingsPage::PlayBehaviour_IfStopped:
-      data->play_now_ = !(app_->player()->GetState() == Engine::Playing);
+      mimedata->play_now_ = !(app_->player()->GetState() == Engine::Playing);
       break;
   }
 }
 
-void MainWindow::AddToPlaylist(QMimeData *data) {
+void MainWindow::AddToPlaylist(QMimeData *q_mimedata) {
 
-  if (!data) return;
+  if (!q_mimedata) return;
 
-  if (MimeData *mime_data = qobject_cast<MimeData*>(data)) {
+  if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     // Should we replace the flags with the user's preference?
-    if (mime_data->override_user_settings_) {
+    if (mimedata->override_user_settings_) {
       // Do nothing
     }
-    else if (mime_data->from_doubleclick_) {
-      ApplyAddBehaviour(doubleclick_addmode_, mime_data);
-      ApplyPlayBehaviour(doubleclick_playmode_, mime_data);
+    else if (mimedata->from_doubleclick_) {
+      ApplyAddBehaviour(doubleclick_addmode_, mimedata);
+      ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
     }
     else {
-      ApplyPlayBehaviour(menu_playmode_, mime_data);
+      ApplyPlayBehaviour(menu_playmode_, mimedata);
     }
 
     // Should we create a new playlist for the songs?
-    if (mime_data->open_in_new_playlist_) {
-      app_->playlist_manager()->New(mime_data->get_name_for_new_playlist());
+    if (mimedata->open_in_new_playlist_) {
+      app_->playlist_manager()->New(mimedata->get_name_for_new_playlist());
     }
   }
-  app_->playlist_manager()->current()->dropMimeData(data, Qt::CopyAction, -1, 0, QModelIndex());
-  delete data;
+  app_->playlist_manager()->current()->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
+  delete q_mimedata;
 
 }
 
@@ -1892,9 +1892,9 @@ void MainWindow::AddFile() {
     urls << QUrl::fromLocalFile(QFileInfo(path).canonicalFilePath());
   }
 
-  MimeData *data = new MimeData;
-  data->setUrls(urls);
-  AddToPlaylist(data);
+  MimeData *mimedata = new MimeData;
+  mimedata->setUrls(urls);
+  AddToPlaylist(mimedata);
 
 }
 
@@ -1911,19 +1911,19 @@ void MainWindow::AddFolder() {
   settings_.setValue("add_folder_path", directory);
 
   // Add media
-  MimeData *data = new MimeData;
-  data->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QFileInfo(directory).canonicalFilePath()));
-  AddToPlaylist(data);
+  MimeData *mimedata = new MimeData;
+  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(QFileInfo(directory).canonicalFilePath()));
+  AddToPlaylist(mimedata);
 
 }
 
 void MainWindow::AddCDTracks() {
 
-  MimeData *data = new MimeData;
+  MimeData *mimedata = new MimeData;
   // We are putting empty data, but we specify cdda mimetype to indicate that we want to load audio cd tracks
-  data->open_in_new_playlist_ = true;
-  data->setData(Playlist::kCddaMimeType, QByteArray());
-  AddToPlaylist(data);
+  mimedata->open_in_new_playlist_ = true;
+  mimedata->setData(Playlist::kCddaMimeType, QByteArray());
+  AddToPlaylist(mimedata);
 
 }
 
@@ -1931,9 +1931,9 @@ void MainWindow::AddStream() { add_stream_dialog_->show(); }
 
 void MainWindow::AddStreamAccepted() {
 
-  MimeData* data = new MimeData;
-  data->setUrls(QList<QUrl>() << add_stream_dialog_->url());
-  AddToPlaylist(data);
+  MimeData *mimedata = new MimeData;
+  mimedata->setUrls(QList<QUrl>() << add_stream_dialog_->url());
+  AddToPlaylist(mimedata);
 
 }
 
@@ -2046,31 +2046,31 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       }
     }
 #endif
-    MimeData *data = new MimeData;
-    data->setUrls(options.urls());
+    MimeData *mimedata = new MimeData;
+    mimedata->setUrls(options.urls());
     // Behaviour depends on command line options, so set it here
-    data->override_user_settings_ = true;
+    mimedata->override_user_settings_ = true;
 
-    if (options.player_action() == CommandlineOptions::Player_Play) data->play_now_ = true;
-    else ApplyPlayBehaviour(doubleclick_playmode_, data);
+    if (options.player_action() == CommandlineOptions::Player_Play) mimedata->play_now_ = true;
+    else ApplyPlayBehaviour(doubleclick_playmode_, mimedata);
 
     switch (options.url_list_action()) {
       case CommandlineOptions::UrlList_Load:
-        data->clear_first_ = true;
+        mimedata->clear_first_ = true;
         break;
       case CommandlineOptions::UrlList_Append:
         // Nothing to do
         break;
       case CommandlineOptions::UrlList_None:
-        ApplyAddBehaviour(doubleclick_addmode_, data);
+        ApplyAddBehaviour(doubleclick_addmode_, mimedata);
         break;
       case CommandlineOptions::UrlList_CreateNew:
-        data->name_for_new_playlist_ = options.playlist_name();
-        ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour_OpenInNew, data);
+        mimedata->name_for_new_playlist_ = options.playlist_name();
+        ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour_OpenInNew, mimedata);
         break;
     }
 
-    AddToPlaylist(data);
+    AddToPlaylist(mimedata);
   }
 
   if (options.set_volume() != -1) app_->player()->SetVolume(options.set_volume());
@@ -2113,9 +2113,9 @@ bool MainWindow::LoadUrl(const QString &url) {
 
   if (!QFile::exists(url)) return false;
 
-  MimeData *data = new MimeData;
-  data->setUrls(QList<QUrl>() << QUrl::fromLocalFile(url));
-  AddToPlaylist(data);
+  MimeData *mimedata = new MimeData;
+  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(url));
+  AddToPlaylist(mimedata);
 
   return true;
 

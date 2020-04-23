@@ -189,7 +189,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CopyFilesToDevice(const QList<QUrl>& urls);
   void EditFileTags(const QList<QUrl>& urls);
 
-  void AddToPlaylist(QMimeData *data);
+  void AddToPlaylist(QMimeData *q_mimedata);
   void AddToPlaylist(QAction *action);
 
   void VolumeWheelEvent(const int delta);
@@ -266,8 +266,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void SaveSettings();
 
-  void ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *data) const;
-  void ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *data) const;
+  void ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) const;
+  void ApplyPlayBehaviour(BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const;
 
   void CheckFullRescanRevisions();
 

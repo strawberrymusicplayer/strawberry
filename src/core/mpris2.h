@@ -46,7 +46,7 @@ class Song;
 class Playlist;
 
 typedef QList<QVariantMap> TrackMetadata;
-typedef QList<QDBusObjectPath> TrackIds;
+typedef QList<QDBusObjectPath> Track_Ids;
 Q_DECLARE_METATYPE(TrackMetadata)
 
 struct MprisPlaylist {
@@ -112,7 +112,7 @@ class Mpris2 : public QObject {
   Q_PROPERTY(bool CanControl READ CanControl)
 
   // org.mpris.MediaPlayer2.TrackList MPRIS 2.0 Player interface
-  Q_PROPERTY(TrackIds Tracks READ Tracks)
+  Q_PROPERTY(Track_Ids Tracks READ Tracks)
   Q_PROPERTY(bool CanEditTracks READ CanEditTracks)
 
   // org.mpris.MediaPlayer2.Playlists MPRIS 2.1 Playlists interface
@@ -171,11 +171,11 @@ class Mpris2 : public QObject {
   void OpenUri(const QString &uri);
 
   // TrackList Properties
-  TrackIds Tracks() const;
+  Track_Ids Tracks() const;
   bool CanEditTracks() const;
 
   // Methods
-  TrackMetadata GetTracksMetadata(const TrackIds &tracks) const;
+  TrackMetadata GetTracksMetadata(const Track_Ids &tracks) const;
   void AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent);
   void RemoveTrack(const QDBusObjectPath &trackId);
   void GoTo(const QDBusObjectPath &trackId);
@@ -194,7 +194,7 @@ signals:
   void Seeked(qlonglong position);
 
   // TrackList
-  void TrackListReplaced(const TrackIds &Tracks, QDBusObjectPath CurrentTrack);
+  void TrackListReplaced(const Track_Ids &Tracks, QDBusObjectPath CurrentTrack);
   void TrackAdded(const TrackMetadata &Metadata, QDBusObjectPath AfterTrack);
   void TrackRemoved(const QDBusObjectPath &trackId);
   void TrackMetadataChanged(const QDBusObjectPath &trackId, const TrackMetadata &metadata);

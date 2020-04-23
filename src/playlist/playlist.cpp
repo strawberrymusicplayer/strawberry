@@ -735,7 +735,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     else if (pid == own_pid) {
       // Drag from a different playlist
       PlaylistItemList items;
-      for (int row : source_rows) items << source_playlist->item_at(row);
+      for (const int i : source_rows) items << source_playlist->item_at(i);
 
       if (items.count() > kUndoItemLimit) {
         // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
@@ -748,8 +748,8 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
 
       // Remove the items from the source playlist if it was a move event
       if (action == Qt::MoveAction) {
-        for (int row : source_rows) {
-          source_playlist->undo_stack()->push(new PlaylistUndoCommands::RemoveItems(source_playlist, row, 1));
+        for (const int i : source_rows) {
+          source_playlist->undo_stack()->push(new PlaylistUndoCommands::RemoveItems(source_playlist, i, 1));
         }
       }
     }
@@ -1035,7 +1035,7 @@ void Playlist::UpdateItems(const SongList &songs) {
   QLinkedList<Song> songs_list;
   for (const Song &song : songs) songs_list.append(song);
 
-  for (int i = 0; i < items_.size(); i++) {
+  for (int i = 0;  i < items_.size() ; i++) {
     // Update current items list
     QMutableLinkedListIterator<Song> it(songs_list);
     while (it.hasNext()) {
@@ -1054,7 +1054,7 @@ void Playlist::UpdateItems(const SongList &songs) {
         items_[i] = new_item;
         emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
-        for (int i = 0; i < undo_stack_->count(); i++) {
+        for (int y = 0 ; y < undo_stack_->count() ; y++) {
           QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
           PlaylistUndoCommands::InsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommands::InsertItems*>(undo_action);
           if (undo_action_insert) {
@@ -1078,7 +1078,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   // We only want one index per row, but we can't just take column 0 because the user might have hidden it.
   const int first_column = indexes.first().column();
 
-  QMimeData *data = new QMimeData;
+  QMimeData *mimedata = new QMimeData;
 
   QList<QUrl> urls;
   QList<int> rows;
@@ -1101,10 +1101,10 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   stream.writeRawData((char*)&pid, sizeof(pid));
   buf.close();
 
-  data->setUrls(urls);
-  data->setData(kRowsMimetype, buf.data());
+  mimedata->setUrls(urls);
+  mimedata->setData(kRowsMimetype, buf.data());
 
-  return data;
+  return mimedata;
 
 }
 

@@ -220,20 +220,20 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverSearchResul
   for (const CoverSearchResult &result : results) {
     if (result.image_url.isEmpty()) continue;
 
-    quint64 id = app_->album_cover_loader()->LoadImageAsync(options_, result.image_url, QUrl());
+    quint64 new_id = app_->album_cover_loader()->LoadImageAsync(options_, result.image_url, QUrl());
 
     QStandardItem *item = new QStandardItem;
     item->setIcon(no_cover_icon_);
     item->setText(result.artist + " - " + result.album);
     item->setData(result.image_url, Role_ImageURL);
-    item->setData(id, Role_ImageRequestId);
+    item->setData(new_id, Role_ImageRequestId);
     item->setData(false, Role_ImageFetchFinished);
     item->setData(QVariant(Qt::AlignTop | Qt::AlignHCenter), Qt::TextAlignmentRole);
     item->setData(result.provider, GroupedIconView::Role_Group);
 
     model_->appendRow(item);
 
-    cover_loading_tasks_[id] = item;
+    cover_loading_tasks_[new_id] = item;
   }
 
   if (cover_loading_tasks_.isEmpty()) ui_->busy->hide();

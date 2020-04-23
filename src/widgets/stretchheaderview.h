@@ -39,32 +39,32 @@ class StretchHeaderView : public QHeaderView {
   Q_OBJECT
 
  public:
-  explicit StretchHeaderView(Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit StretchHeaderView(const Qt::Orientation orientation, QWidget* parent = nullptr);
 
   typedef double ColumnWidthType;
 
   static const int kMinimumColumnWidth;
   static const int kMagicNumber;
 
-  void setModel(QAbstractItemModel* model);
+  void setModel(QAbstractItemModel *model);
 
   // Serialises the proportional and actual column widths.
   // Use these instead of QHeaderView::restoreState and QHeaderView::saveState to persist the proportional values directly and avoid floating point errors over time.
-  bool RestoreState(const QByteArray& data);
+  bool RestoreState(const QByteArray &sdata);
   QByteArray SaveState() const;
 
   // Hides a section and resizes all other sections to fill the gap.  Does nothing if you try to hide the last section.
-  void HideSection(int logical);
+  void HideSection(const int logical);
 
   // Shows a section and resizes all other sections to make room.
-  void ShowSection(int logical);
+  void ShowSection(const int logical);
 
   // Calls either HideSection or ShowSection.
-  void SetSectionHidden(int logical, bool hidden);
+  void SetSectionHidden(const int logical, const bool hidden);
 
   // Sets the width of the given column and resizes other columns appropriately.
   // width is the proportion of the entire width from 0.0 to 1.0.
-  void SetColumnWidth(int logical, ColumnWidthType width);
+  void SetColumnWidth(const int logical, const ColumnWidthType width);
 
   bool is_stretch_enabled() const { return stretch_enabled_; }
 
@@ -72,16 +72,16 @@ class StretchHeaderView : public QHeaderView {
   // Changes the stretch mode.  Enabling stretch mode will initialise the
   // proportional column widths from the current state of the header.
   void ToggleStretchEnabled();
-  void SetStretchEnabled(bool enabled);
+  void SetStretchEnabled(const bool enabled);
 
  signals:
   // Emitted when the stretch mode is changed.
-  void StretchEnabledChanged(bool enabled);
+  void StretchEnabledChanged(const bool enabled);
 
  protected:
   // QWidget
-  void mouseMoveEvent(QMouseEvent* e);
-  void resizeEvent(QResizeEvent* event);
+  void mouseMoveEvent(QMouseEvent *e);
+  void resizeEvent(QResizeEvent *event);
 
  private:
   // Scales column_widths_ values so the total is 1.0.
@@ -91,7 +91,7 @@ class StretchHeaderView : public QHeaderView {
   void UpdateWidths(const QList<int>& sections = QList<int>());
 
  private slots:
-  void SectionResized(int logical, int old_size, int new_size);
+  void SectionResized(const int logical, const int old_size, const int new_size);
 
  private:
   bool stretch_enabled_;

@@ -78,17 +78,17 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
 
 MimeData *FileViewList::MimeDataFromSelection() const {
 
-  MimeData *data = new MimeData;
-  data->setUrls(UrlListFromSelection());
+  MimeData *mimedata = new MimeData;
+  mimedata->setUrls(UrlListFromSelection());
 
   QList<QString> filenames = FilenamesFromSelection();
   // if just one folder selected - use it's path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {
     if (filenames.first().length() > 20) {
-      data->name_for_new_playlist_ = QDir(filenames.first()).dirName();
+      mimedata->name_for_new_playlist_ = QDir(filenames.first()).dirName();
     }
     else {
-      data->name_for_new_playlist_ = filenames.first();
+      mimedata->name_for_new_playlist_ = filenames.first();
     }
   }
   // otherwise, use the current root path
@@ -97,18 +97,18 @@ MimeData *FileViewList::MimeDataFromSelection() const {
     if (path.length() > 20) {
       QFileInfo info(path);
       if (info.isDir()) {
-        data->name_for_new_playlist_ = QDir(info.filePath()).dirName();
+        mimedata->name_for_new_playlist_ = QDir(info.filePath()).dirName();
       }
       else {
-        data->name_for_new_playlist_ = info.baseName();
+        mimedata->name_for_new_playlist_ = info.baseName();
       }
     }
     else {
-      data->name_for_new_playlist_ = path;
+      mimedata->name_for_new_playlist_ = path;
     }
   }
 
-  return data;
+  return mimedata;
 
 }
 
@@ -124,9 +124,11 @@ QStringList FileViewList::FilenamesFromSelection() const {
 }
 
 void FileViewList::LoadSlot() {
-  MimeData *data = MimeDataFromSelection();
-  data->clear_first_ = true;
-  emit AddToPlaylist(data);
+
+  MimeData *mimedata = MimeDataFromSelection();
+  mimedata->clear_first_ = true;
+  emit AddToPlaylist(mimedata);
+
 }
 
 void FileViewList::AddToPlaylistSlot() {
@@ -134,9 +136,11 @@ void FileViewList::AddToPlaylistSlot() {
 }
 
 void FileViewList::OpenInNewPlaylistSlot() {
-  MimeData *data = MimeDataFromSelection();
-  data->open_in_new_playlist_ = true;
-  emit AddToPlaylist(data);
+
+  MimeData *mimedata = MimeDataFromSelection();
+  mimedata->open_in_new_playlist_ = true;
+  emit AddToPlaylist(mimedata);
+
 }
 
 void FileViewList::CopyToCollectionSlot() {
@@ -175,10 +179,10 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
       // we need to update the menu selection
       menu_selection_ = selectionModel()->selection();
 
-      MimeData *data = new MimeData;
-      data->setUrls(UrlListFromSelection());
-      data->enqueue_now_ = true;
-      emit AddToPlaylist(data);
+      MimeData *mimedata = new MimeData;
+      mimedata->setUrls(UrlListFromSelection());
+      mimedata->enqueue_now_ = true;
+      emit AddToPlaylist(mimedata);
       break;
     }
     default:

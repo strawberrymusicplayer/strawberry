@@ -587,10 +587,10 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   if (use_disk_cache_) {
     std::unique_ptr<QIODevice> cache(sIconCache->data(QUrl(cache_key)));
     if (cache) {
-      QImage cached_pixmap;
-      if (cached_pixmap.load(cache.get(), "XPM")) {
-        QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_pixmap));
-        return QPixmap::fromImage(cached_pixmap);
+      QImage cached_image;
+      if (cached_image.load(cache.get(), "XPM")) {
+        QPixmapCache::insert(cache_key, QPixmap::fromImage(cached_image));
+        return QPixmap::fromImage(cached_image);
       }
     }
   }

@@ -273,6 +273,8 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   return ret.space();
 }
 
+QString CXXDemangle(const QString &mangled_function);
+
 QString CXXDemangle(const QString &mangled_function) {
 
   int status;
@@ -286,6 +288,8 @@ QString CXXDemangle(const QString &mangled_function) {
 
 }
 
+QString DarwinDemangle(const QString &symbol);
+
 QString DarwinDemangle(const QString &symbol) {
 
   QStringList split = symbol.split(' ', QString::SkipEmptyParts);
@@ -293,6 +297,8 @@ QString DarwinDemangle(const QString &symbol) {
   return CXXDemangle(mangled_function);
 
 }
+
+QString LinuxDemangle(const QString &symbol);
 
 QString LinuxDemangle(const QString &symbol) {
 
@@ -304,6 +310,8 @@ QString LinuxDemangle(const QString &symbol) {
   return CXXDemangle(mangled_function);
 
 }
+
+QString DemangleSymbol(const QString &symbol);
 
 QString DemangleSymbol(const QString &symbol) {
 #ifdef Q_OS_MACOS

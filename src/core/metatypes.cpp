@@ -109,7 +109,7 @@ void RegisterMetaTypes() {
 #ifdef HAVE_DBUS
   qDBusRegisterMetaType<QList<QByteArray>>();
   qDBusRegisterMetaType<TrackMetadata>();
-  qDBusRegisterMetaType<TrackIds>();
+  qDBusRegisterMetaType<Track_Ids>();
   qDBusRegisterMetaType<MprisPlaylist>();
   qDBusRegisterMetaType<MprisPlaylistList>();
   qDBusRegisterMetaType<MaybePlaylist>();

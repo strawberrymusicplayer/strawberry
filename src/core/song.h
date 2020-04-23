@@ -150,6 +150,7 @@ class Song {
   static QString ImageCacheDir(const Song::Source source);
 
   // Sort songs alphabetically using their pretty title
+  static int CompareSongsName(const Song &song1, const Song &song2);
   static void SortSongsListAlphabetically(QList<Song> *songs);
 
   // Constructors

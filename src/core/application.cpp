@@ -114,8 +114,8 @@ class ApplicationImpl {
           CoverProviders *cover_providers = new CoverProviders(app);
           // Initialize the repository of cover providers.
           cover_providers->AddProvider(new LastFmCoverProvider(app, app));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
           cover_providers->AddProvider(new MusicbrainzCoverProvider(app, app));
+          cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
           cover_providers->AddProvider(new DeezerCoverProvider(app, app));
           cover_providers->AddProvider(new QobuzCoverProvider(app, app));
 #ifdef HAVE_TIDAL

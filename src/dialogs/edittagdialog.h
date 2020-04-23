@@ -156,7 +156,7 @@ class EditTagDialog : public QDialog {
 
   // Called by QtConcurrentRun
   QList<Data> LoadData(const SongList &songs) const;
-  void SaveData(const QList<Data> &data);
+  void SaveData(const QList<Data> &tag_data);
 
  private:
   Ui_EditTagDialog *ui_;

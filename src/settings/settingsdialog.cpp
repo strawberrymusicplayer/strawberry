@@ -180,8 +180,8 @@ void SettingsDialog::showEvent(QShowEvent *e) {
 
   // Load settings
   loading_settings_ = true;
-  for (const PageData &data : pages_.values()) {
-    data.page_->Load();
+  for (const PageData &page : pages_.values()) {
+    page.page_->Load();
   }
   loading_settings_ = false;
 
@@ -207,8 +207,8 @@ void SettingsDialog::accept() {
 void SettingsDialog::reject() {
 
   // Notify each page that user clicks on Cancel
-  for (const PageData &data : pages_.values()) {
-    data.page_->Cancel();
+  for (const PageData &page : pages_.values()) {
+    page.page_->Cancel();
   }
   SaveGeometry();
 
@@ -294,18 +294,18 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
   ui_->stacked_widget->addWidget(area);
 
   // Remember where the page is
-  PageData data;
-  data.item_ = item;
-  data.scroll_area_ = area;
-  data.page_ = page;
-  pages_[id] = data;
+  PageData page_data;
+  page_data.item_ = item;
+  page_data.scroll_area_ = area;
+  page_data.page_ = page;
+  pages_[id] = page_data;
 
 }
 
 void SettingsDialog::Save() {
 
-  for (const PageData &data : pages_.values()) {
-    data.page_->Save();
+  for (const PageData &page : pages_.values()) {
+    page.page_->Save();
   }
   emit ReloadSettings();
 
@@ -340,9 +340,9 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   ui_->title->setText("<b>" + item->text(0) + "</b>");
 
   // Display the right page
-  for (const PageData &data : pages_.values()) {
-    if (data.item_ == item) {
-      ui_->stacked_widget->setCurrentWidget(data.scroll_area_);
+  for (const PageData &page : pages_.values()) {
+    if (page.item_ == item) {
+      ui_->stacked_widget->setCurrentWidget(page.scroll_area_);
       break;
     }
   }

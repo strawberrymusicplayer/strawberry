@@ -103,9 +103,9 @@ void TrackSelectionDialog::Init(const SongList &songs) {
   data_.clear();
 
   for (const Song &song : songs) {
-    Data data;
-    data.original_song_ = song;
-    data_ << data;
+    Data tag_data;
+    tag_data.original_song_ = song;
+    data_ << tag_data;
 
     QListWidgetItem *item = new QListWidgetItem(ui_->song_list);
     item->setText(QFileInfo(song.url().toLocalFile()).fileName());
@@ -175,14 +175,14 @@ void TrackSelectionDialog::UpdateStack() {
   const int row = ui_->song_list->currentRow();
   if (row < 0 || row >= data_.count()) return;
 
-  const Data &data = data_[row];
+  const Data &tag_data = data_[row];
 
-  if (data.pending_) {
+  if (tag_data.pending_) {
     ui_->stack->setCurrentWidget(ui_->loading_page);
-    ui_->progress->set_text(data.progress_string_ + "...");
+    ui_->progress->set_text(tag_data.progress_string_ + "...");
     return;
   }
-  else if (data.results_.isEmpty()) {
+  else if (tag_data.results_.isEmpty()) {
     ui_->stack->setCurrentWidget(ui_->error_page);
     return;
   }
@@ -193,13 +193,13 @@ void TrackSelectionDialog::UpdateStack() {
 
   // Put the original tags at the top
   AddDivider(tr("Original tags"), ui_->results);
-  AddSong(data.original_song_, -1, ui_->results);
+  AddSong(tag_data.original_song_, -1, ui_->results);
 
   // Fill tree view with songs
   AddDivider(tr("Suggested tags"), ui_->results);
 
   int song_index = 0;
-  for (const Song &song : data.results_) {
+  for (const Song &song : tag_data.results_) {
     AddSong(song, song_index++, ui_->results);
   }
 
@@ -207,7 +207,7 @@ void TrackSelectionDialog::UpdateStack() {
   for (int i = 0; i < ui_->results->model()->rowCount(); ++i) {
     const QModelIndex index = ui_->results->model()->index(i, 0);
     const QVariant id = index.data(Qt::UserRole);
-    if (!id.isNull() && id.toInt() == data.selected_result_) {
+    if (!id.isNull() && id.toInt() == tag_data.selected_result_) {
       ui_->results->setCurrentIndex(index);
       break;
     }
@@ -301,13 +301,13 @@ void TrackSelectionDialog::accept() {
 
   QDialog::accept();
 
-  for (const Data &data : data_) {
-    if (data.pending_ || data.results_.isEmpty() || data.selected_result_ == -1)
+  for (const Data &tag_data : data_) {
+    if (tag_data.pending_ || tag_data.results_.isEmpty() || tag_data.selected_result_ == -1)
       continue;
 
-    const Song &new_metadata = data.results_[data.selected_result_];
+    const Song &new_metadata = tag_data.results_[tag_data.selected_result_];
 
-    emit SongChosen(data.original_song_, new_metadata);
+    emit SongChosen(tag_data.original_song_, new_metadata);
   }
 
 }

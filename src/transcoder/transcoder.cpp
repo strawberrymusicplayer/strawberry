@@ -105,15 +105,15 @@ GstElement *Transcoder::CreateElementForMimeType(const QString &element_type, co
   GstRegistry *registry = gst_registry_get();
   GList *const features = gst_registry_get_feature_list(registry, GST_TYPE_ELEMENT_FACTORY);
 
-  for (GList *p = features; p; p = g_list_next(p)) {
-    GstElementFactory *factory = GST_ELEMENT_FACTORY(p->data);
+  for (GList *f = features ; f ; f = g_list_next(f)) {
+    GstElementFactory *factory = GST_ELEMENT_FACTORY(f->data);
 
     // Is this the right type of plugin?
     if (QString(gst_element_factory_get_klass(factory)).contains(element_type)) {
       const GList *const templates = gst_element_factory_get_static_pad_templates(factory);
-      for (const GList *p = templates; p; p = g_list_next(p)) {
+      for (const GList *t = templates ; t ; t = g_list_next(t)) {
         // Only interested in source pads
-        GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate*>(p->data);
+        GstStaticPadTemplate *pad_template = reinterpret_cast<GstStaticPadTemplate*>(t->data);
         if (pad_template->direction != GST_PAD_SRC) continue;
 
         // Does this pad support the mime type we want?

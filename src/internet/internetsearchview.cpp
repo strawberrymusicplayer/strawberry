@@ -607,31 +607,31 @@ void InternetSearchView::AddSelectedToPlaylist() {
 
 void InternetSearchView::LoadSelected() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
 
-  data->clear_first_ = true;
-  emit AddToPlaylist(data);
+  mimedata->clear_first_ = true;
+  emit AddToPlaylist(mimedata);
 
 }
 
 void InternetSearchView::AddSelectedToPlaylistEnqueue() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
 
-  data->enqueue_now_ = true;
-  emit AddToPlaylist(data);
+  mimedata->enqueue_now_ = true;
+  emit AddToPlaylist(mimedata);
 
 }
 
 void InternetSearchView::OpenSelectedInNewPlaylist() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
 
-  data->open_in_new_playlist_ = true;
-  emit AddToPlaylist(data);
+  mimedata->open_in_new_playlist_ = true;
+  emit AddToPlaylist(mimedata);
 
 }
 
@@ -734,9 +734,9 @@ void InternetSearchView::SetSearchType(const InternetSearchView::SearchType type
 
 void InternetSearchView::AddArtists() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
-  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(mimedata)) {
     emit AddArtistsSignal(internet_song_data->songs);
   }
 
@@ -744,9 +744,9 @@ void InternetSearchView::AddArtists() {
 
 void InternetSearchView::AddAlbums() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
-  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(mimedata)) {
     emit AddAlbumsSignal(internet_song_data->songs);
   }
 
@@ -754,9 +754,9 @@ void InternetSearchView::AddAlbums() {
 
 void InternetSearchView::AddSongs() {
 
-  MimeData *data = SelectedMimeData();
-  if (!data) return;
-  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(data)) {
+  MimeData *mimedata = SelectedMimeData();
+  if (!mimedata) return;
+  if (const InternetSongMimeData *internet_song_data = qobject_cast<const InternetSongMimeData*>(mimedata)) {
     emit AddSongsSignal(internet_song_data->songs);
   }
 
@@ -844,6 +844,7 @@ void InternetSearchView::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoad
   if (!cover_loader_tasks_.contains(id)) {
     return;
   }
+
   QPair<QModelIndex, QString> cover_loader_task = cover_loader_tasks_.take(id);
   QModelIndex idx = cover_loader_task.first;
   QString key = cover_loader_task.second;

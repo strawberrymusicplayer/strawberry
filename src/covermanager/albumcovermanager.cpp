@@ -799,19 +799,19 @@ SongMimeData *AlbumCoverManager::GetMimeDataForAlbums(const QModelIndexList &ind
   SongList songs = GetSongsInAlbums(indexes);
   if (songs.isEmpty()) return nullptr;
 
-  SongMimeData *data = new SongMimeData;
-  data->backend = collection_backend_;
-  data->songs = songs;
-  return data;
+  SongMimeData *mimedata = new SongMimeData;
+  mimedata->backend = collection_backend_;
+  mimedata->songs = songs;
+  return mimedata;
 
 }
 
 void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &index) {
 
-  SongMimeData *data = GetMimeDataForAlbums(QModelIndexList() << index);
-  if (data) {
-    data->from_doubleclick_ = true;
-    emit AddToPlaylist(data);
+  SongMimeData *mimedata = GetMimeDataForAlbums(QModelIndexList() << index);
+  if (mimedata) {
+    mimedata->from_doubleclick_ = true;
+    emit AddToPlaylist(mimedata);
   }
 
 }
@@ -822,10 +822,10 @@ void AlbumCoverManager::AddSelectedToPlaylist() {
 
 void AlbumCoverManager::LoadSelectedToPlaylist() {
 
-  SongMimeData *data = GetMimeDataForAlbums(ui_->albums->selectionModel()->selectedIndexes());
-  if (data) {
-    data->clear_first_ = true;
-    emit AddToPlaylist(data);
+  SongMimeData *mimedata = GetMimeDataForAlbums(ui_->albums->selectionModel()->selectedIndexes());
+  if (mimedata) {
+    mimedata->clear_first_ = true;
+    emit AddToPlaylist(mimedata);
   }
 
 }

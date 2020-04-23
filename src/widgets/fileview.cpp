@@ -158,24 +158,24 @@ void FileView::ChangeFilePathWithoutUndo(const QString &new_path) {
 
 }
 
-void FileView::ItemActivated(const QModelIndex &index) {
-  if (model_->isDir(index))
-    ChangeFilePath(model_->filePath(index));
+void FileView::ItemActivated(const QModelIndex &idx) {
+  if (model_->isDir(idx))
+    ChangeFilePath(model_->filePath(idx));
 }
 
-void FileView::ItemDoubleClick(const QModelIndex &index) {
+void FileView::ItemDoubleClick(const QModelIndex &idx) {
 
-  if (model_->isDir(index))
+  if (model_->isDir(idx))
     return;
 
-  QString file_path = model_->filePath(index);
+  QString file_path = model_->filePath(idx);
 
-  MimeData *data = new MimeData;
-  data->from_doubleclick_ = true;
-  data->setUrls(QList<QUrl>() << QUrl::fromLocalFile(file_path));
-  data->name_for_new_playlist_ = file_path;
+  MimeData *mimedata = new MimeData;
+  mimedata->from_doubleclick_ = true;
+  mimedata->setUrls(QList<QUrl>() << QUrl::fromLocalFile(file_path));
+  mimedata->name_for_new_playlist_ = file_path;
 
-  emit AddToPlaylist(data);
+  emit AddToPlaylist(mimedata);
 
 }
 

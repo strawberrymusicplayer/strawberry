@@ -26,13 +26,16 @@ _MessageReplyBase::_MessageReplyBase(QObject *parent)
     : QObject(parent), finished_(false), success_(false) {}
 
 bool _MessageReplyBase::WaitForFinished() {
+
   qLog(Debug) << "Waiting on ID" << id();
   semaphore_.acquire();
   qLog(Debug) << "Acquired ID" << id();
   return success_;
+
 }
 
 void _MessageReplyBase::Abort() {
+
   Q_ASSERT(!finished_);
   finished_ = true;
   success_ = false;
@@ -40,4 +43,5 @@ void _MessageReplyBase::Abort() {
   emit Finished(success_);
   qLog(Debug) << "Releasing ID" << id() << "(aborted)";
   semaphore_.release();
+
 }

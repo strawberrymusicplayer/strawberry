@@ -29,6 +29,7 @@
 #include <QtDebug>
 
 #include "core/logging.h"
+#include "scangiomodulepath.h"
 
 void ScanGIOModulePath() {
 

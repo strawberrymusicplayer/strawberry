@@ -46,11 +46,6 @@ class SystemTrayIcon;
 
 class QDBusPendingCallWatcher;
 
-#ifdef HAVE_DBUS
-  QDBusArgument& operator<< (QDBusArgument &arg, const QImage &image);
-  const QDBusArgument &operator>> (const QDBusArgument &arg, QImage &image);
-#endif
-
 class OSD : public QObject {
   Q_OBJECT
 

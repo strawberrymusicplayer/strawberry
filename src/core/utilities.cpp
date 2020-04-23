@@ -332,6 +332,7 @@ QString ColorToRgba(const QColor &c) {
 }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+void OpenInFileManager(const QString &path);
 void OpenInFileManager(const QString &path) {
 
   QProcess proc;
