@@ -42,10 +42,10 @@
 #include "coverprovider.h"
 #include "coverproviders.h"
 
-const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 6000;
-const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 16000;
+const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 20000;
+const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 6000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
-const float AlbumCoverFetcherSearch::kGoodScore = 4;
+const float AlbumCoverFetcherSearch::kGoodScore = 4.0;
 
 AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
     const CoverSearchRequest &request, QNetworkAccessManager *network, QObject *parent)
