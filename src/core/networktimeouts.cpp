@@ -22,15 +22,12 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QUrl>
-#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimerEvent>
 
-#include "core/closure.h"
 #include "networktimeouts.h"
 
-NetworkTimeouts::NetworkTimeouts(int timeout_msec, QObject *parent)
+NetworkTimeouts::NetworkTimeouts(const int timeout_msec, QObject *parent)
     : QObject(parent), timeout_msec_(timeout_msec) {}
 
 void NetworkTimeouts::AddReply(QNetworkReply *reply) {
@@ -60,4 +57,3 @@ void NetworkTimeouts::timerEvent(QTimerEvent *e) {
   }
 
 }
-

@@ -34,7 +34,7 @@ class NetworkTimeouts : public QObject {
   Q_OBJECT
 
  public:
-  explicit NetworkTimeouts(int timeout_msec, QObject *parent = nullptr);
+  explicit NetworkTimeouts(const int timeout_msec, QObject *parent = nullptr);
 
   void AddReply(QNetworkReply *reply);
   void SetTimeout(int msec) { timeout_msec_ = msec; }
