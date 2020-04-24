@@ -622,9 +622,8 @@ void Player::CurrentMetadataChanged(const Song &metadata) {
   if (app_->scrobbler()->IsEnabled() && engine_->state() == Engine::Playing) {
     Playlist *playlist = app_->playlist_manager()->active();
     current_item_ = playlist->current_item();
-    if (playlist && current_item_ && !playlist->nowplaying() && current_item_->Metadata() == metadata && current_item_->Metadata().length_nanosec() > 0) {
-      app_->scrobbler()->UpdateNowPlaying(metadata);
-      playlist->set_nowplaying(true);
+    if (playlist && current_item_ && !playlist->nowplaying() && current_item_->Metadata() == metadata && current_item_->Metadata().is_metadata_good()) {
+      emit SendNowPlaying();
     }
   }
 

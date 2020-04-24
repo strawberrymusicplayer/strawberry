@@ -121,6 +121,7 @@ class PlayerInterface : public QObject {
   // The toggle parameter is true when user requests to toggle visibility for Pretty OSD
   void ForceShowOSD(Song, bool toggle);
 
+  void SendNowPlaying();
   void Authenticated();
 
 };

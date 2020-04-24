@@ -611,7 +611,6 @@ void Playlist::set_current_row(int i, bool is_stopping) {
 
   if (current_item_index_ == old_current_item_index) {
     UpdateScrobblePoint();
-    nowplaying_ = false;
     return;
   }
 
@@ -649,7 +648,6 @@ void Playlist::set_current_row(int i, bool is_stopping) {
   }
 
   UpdateScrobblePoint();
-  nowplaying_ = false;
 
 }
 
@@ -1503,7 +1501,7 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
 
   //qLog(Debug) << "Setting temporary metadata for" << url;
 
-  bool length_changed = song.length_nanosec() != current_item_metadata().length_nanosec();
+  bool update_scrobble_point = song.length_nanosec() != current_item_metadata().length_nanosec();
 
   current_item()->SetTemporaryMetadata(song);
 
@@ -1518,10 +1516,11 @@ void Playlist::SetStreamMetadata(const QUrl &url, const Song &song, const bool m
     }
   }
   else {
+    update_scrobble_point = true;
     InformOfCurrentSongChange();
   }
 
-  if (length_changed) UpdateScrobblePoint();
+  if (update_scrobble_point) UpdateScrobblePoint();
 
 }
 
@@ -2022,6 +2021,7 @@ void Playlist::UpdateScrobblePoint(const qint64 seek_point_nanosec) {
     }
   }
 
+  nowplaying_ = false;
   scrobbled_ = false;
 
 }

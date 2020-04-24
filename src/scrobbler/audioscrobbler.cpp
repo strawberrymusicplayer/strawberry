@@ -55,6 +55,10 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
 
   ReloadSettings();
 
+  for (ScrobblerService *service : scrobbler_services_->List()) {
+    connect(service, SIGNAL(ErrorMessage(QString)), SLOT(ErrorReceived(QString)));
+  }
+
 }
 
 AudioScrobbler::~AudioScrobbler() {}
@@ -116,53 +120,61 @@ void AudioScrobbler::ShowConfig() {
 }
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {
+
   qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->UpdateNowPlaying(song);
   }
+
 }
 
 void AudioScrobbler::ClearPlaying() {
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->ClearPlaying();
   }
+
 }
 
 void AudioScrobbler::Scrobble(const Song &song, const int scrobble_point) {
+
   qLog(Debug) << "Scrobbling song" << song.artist() << song.album() << song.title() << "at" << scrobble_point;
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->Scrobble(song);
   }
+
 }
 
 void AudioScrobbler::Love() {
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated()) continue;
     service->Love();
   }
+
 }
 
 void AudioScrobbler::Submit() {
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled() || !service->IsAuthenticated() || service->IsSubmitted()) continue;
     service->DoSubmit();
   }
+
 }
 
 void AudioScrobbler::WriteCache() {
+
   for (ScrobblerService *service : scrobbler_services_->List()) {
     if (!service->IsEnabled()) continue;
     service->WriteCache();
   }
-}
 
-void AudioScrobbler::ConnectError() {
-  for (ScrobblerService *service : scrobbler_services_->List()) {
-    connect(service, SIGNAL(ErrorMessage(QString)), SLOT(ErrorReceived(QString)));
-  }
 }
 
 void AudioScrobbler::ErrorReceived(QString error) {

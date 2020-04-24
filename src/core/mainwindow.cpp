@@ -510,6 +510,8 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(app_->player(), SIGNAL(VolumeChanged(int)), osd_, SLOT(VolumeChanged(int)));
   connect(app_->player(), SIGNAL(VolumeChanged(int)), ui_->volume, SLOT(setValue(int)));
   connect(app_->player(), SIGNAL(ForceShowOSD(Song, bool)), SLOT(ForceShowOSD(Song, bool)));
+  connect(app_->player(), SIGNAL(SendNowPlaying()), SLOT(SendNowPlaying()));
+
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), SLOT(SongChanged(Song)));
   connect(app_->playlist_manager(), SIGNAL(CurrentSongChanged(Song)), app_->player(), SLOT(CurrentMetadataChanged(Song)));
   connect(app_->playlist_manager(), SIGNAL(EditingFinished(QModelIndex)), SLOT(PlaylistEditFinished(QModelIndex)));
@@ -854,14 +856,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (!options.contains_play_options()) {
     LoadPlaybackStatus();
   }
+  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) app_->scrobbler()->Submit();
 
   RefreshStyleSheet();
 
   qLog(Debug) << "Started" << QThread::currentThread();
   initialised_ = true;
-
-  app_->scrobbler()->ConnectError();
-  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) app_->scrobbler()->Submit();
 
 }
 
@@ -1101,10 +1101,18 @@ void MainWindow::MediaPlaying() {
   track_position_timer_->start();
   track_slider_timer_->start();
   UpdateTrackPosition();
+  SendNowPlaying();
+
+}
+
+void MainWindow::SendNowPlaying() {
+
+  PlaylistItemPtr item(app_->player()->GetCurrentItem());
+  if (!item) return;
 
   // Send now playing to scrobble services
   Playlist *playlist = app_->playlist_manager()->active();
-  if (app_->scrobbler()->IsEnabled() && playlist && !playlist->nowplaying() && item->Metadata().is_metadata_good() && item->Metadata().length_nanosec() > 0) {
+  if (app_->scrobbler()->IsEnabled() && playlist && !playlist->nowplaying() && item->Metadata().is_metadata_good()) {
     app_->scrobbler()->UpdateNowPlaying(item->Metadata());
     playlist->set_nowplaying(true);
     ui_->action_love->setEnabled(true);
@@ -2039,7 +2047,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   if (!options.urls().empty()) {
 
 #ifdef HAVE_TIDAL
-    for (const QUrl url : options.urls()) {
+    for (const QUrl &url : options.urls()) {
       if (url.scheme() == "tidal" && url.host() == "login") {
         emit AuthorisationUrlReceived(url);
         return;
@@ -2671,7 +2679,7 @@ void MainWindow::LoveButtonVisibilityChanged(const bool value) {
 void MainWindow::SetToggleScrobblingIcon(const bool value) {
 
   if (value) {
-    if (app_->playlist_manager()->active()->scrobbled())
+    if (app_->playlist_manager()->active() && app_->playlist_manager()->active()->scrobbled())
       ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22));
     else 
       ui_->action_toggle_scrobbling->setIcon(IconLoader::Load("scrobble", 22)); // TODO: Create a faint version of the icon

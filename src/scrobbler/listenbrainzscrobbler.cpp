@@ -70,6 +70,7 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
   enabled_(false),
   expires_in_(-1),
   submitted_(false),
+  scrobbled_(false),
   timestamp_(0) {
 
   ReloadSettings();
@@ -345,7 +346,10 @@ QByteArray ListenBrainzScrobbler::GetReplyData(QNetworkReply *reply) {
 
 void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
+  CheckScrobblePrevSong();
+
   song_playing_ = song;
+  scrobbled_ = false;
   timestamp_ = QDateTime::currentDateTime().toTime_t();
 
   if (!song.is_metadata_good() || !IsAuthenticated() || app_->scrobbler()->IsOffline()) return;
@@ -418,12 +422,19 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
 }
 
 void ListenBrainzScrobbler::ClearPlaying() {
+
+  CheckScrobblePrevSong();
   song_playing_ = Song();
+  scrobbled_ = false;
+  timestamp_ = 0;
+
 }
 
 void ListenBrainzScrobbler::Scrobble(const Song &song) {
 
   if (song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
+
+  scrobbled_ = true;
 
   cache_->Add(song, timestamp_);
 
@@ -552,3 +563,12 @@ void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
 
 }
 
+void ListenBrainzScrobbler::CheckScrobblePrevSong() {
+
+  quint64 duration = QDateTime::currentDateTime().toTime_t() - timestamp_;
+
+  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && duration > 30) {
+    Scrobble(song_playing_);
+  }
+
+}

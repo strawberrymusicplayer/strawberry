@@ -88,6 +88,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void AuthError(const QString &error);
   void Error(const QString &error, const QVariant &debug = QVariant());
   void DoSubmit();
+  void CheckScrobblePrevSong();
 
   static const char *kAuthUrl;
   static const char *kAuthTokenUrl;
@@ -110,6 +111,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QString refresh_token_;
   bool submitted_;
   Song song_playing_;
+  bool scrobbled_;
   quint64 timestamp_;
 
 };

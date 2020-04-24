@@ -258,6 +258,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ScrobblingEnabledChanged(const bool value);
   void ScrobbleButtonVisibilityChanged(const bool value);
   void LoveButtonVisibilityChanged(const bool value);
+  void SendNowPlaying();
   void Love();
 
   void ExitFinished();

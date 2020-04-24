@@ -77,6 +77,7 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
   enabled_(false),
   subscriber_(false),
   submitted_(false),
+  scrobbled_(false),
   timestamp_(0) {}
 
 ScrobblingAPI20::~ScrobblingAPI20() {}
@@ -422,8 +423,11 @@ QByteArray ScrobblingAPI20::GetReplyData(QNetworkReply *reply) {
 
 void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
+  CheckScrobblePrevSong();
+
   song_playing_ = song;
   timestamp_ = QDateTime::currentDateTime().toTime_t();
+  scrobbled_ = false;
 
   if (!IsAuthenticated() || !song.is_metadata_good() || app_->scrobbler()->IsOffline()) return;
 
@@ -477,12 +481,20 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
 }
 
 void ScrobblingAPI20::ClearPlaying() {
+
+  CheckScrobblePrevSong();
+
   song_playing_ = Song();
+  scrobbled_ = false;
+  timestamp_ = 0;
+
 }
 
 void ScrobblingAPI20::Scrobble(const Song &song) {
 
   if (song.id() != song_playing_.id() || song.url() != song_playing_.url() || !song.is_metadata_good()) return;
+
+  scrobbled_ = true;
 
   cache()->Add(song, timestamp_);
 
@@ -595,15 +607,15 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
 
   cache()->Flush(list);
 
-  QJsonValue json_scrobbles = json_obj["scrobbles"];
-  if (!json_scrobbles.isObject()) {
+  QJsonValue value_scrobbles = json_obj["scrobbles"];
+  if (!value_scrobbles.isObject()) {
     Error("Json scrobbles is not an object.", json_obj);
     DoSubmit();
     return;
   }
-  json_obj = json_scrobbles.toObject();
+  json_obj = value_scrobbles.toObject();
   if (json_obj.isEmpty()) {
-    Error("Json scrobbles object is empty.", json_scrobbles);
+    Error("Json scrobbles object is empty.", value_scrobbles);
     DoSubmit();
     return;
   }
@@ -775,14 +787,14 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
   cache()->Remove(timestamp);
   item = nullptr;
 
-  QJsonValue json_scrobbles = json_obj["scrobbles"];
-  if (!json_scrobbles.isObject()) {
+  QJsonValue value_scrobbles = json_obj["scrobbles"];
+  if (!value_scrobbles.isObject()) {
     Error("Json scrobbles is not an object.", json_obj);
     return;
   }
-  json_obj = json_scrobbles.toObject();
+  json_obj = value_scrobbles.toObject();
   if (json_obj.isEmpty()) {
-    Error("Json scrobbles object is empty.", json_scrobbles);
+    Error("Json scrobbles object is empty.", value_scrobbles);
     return;
   }
   if (!json_obj.contains("@attr") || !json_obj.contains("scrobble")) {
@@ -977,6 +989,16 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) const {
       return QString("Rate limit exceeded - Your IP has made too many requests in a short period");
     default:
       return QString("Unknown error");
+  }
+
+}
+
+void ScrobblingAPI20::CheckScrobblePrevSong() {
+
+  quint64 time = QDateTime::currentDateTime().toTime_t() - timestamp_;
+
+  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && time > 30) {
+    Scrobble(song_playing_);
   }
 
 }

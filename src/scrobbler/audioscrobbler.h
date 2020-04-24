@@ -51,7 +51,6 @@ class AudioScrobbler : public QObject {
   void ClearPlaying();
   void Scrobble(const Song &song, const int scrobble_point);
   void ShowConfig();
-  void ConnectError();
 
   ScrobblerService *ServiceByName(const QString &name) const { return scrobbler_services_->ServiceByName(name); }
 
