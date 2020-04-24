@@ -69,6 +69,7 @@ class AlbumCoverFetcherSearch : public QObject {
   void TerminateSearch();
 
  private:
+  static bool CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b);
   void AllProvidersFinished();
 
   void FetchMoreImages();

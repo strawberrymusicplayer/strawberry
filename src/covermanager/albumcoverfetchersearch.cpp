@@ -24,6 +24,7 @@
 #include <cmath>
 
 #include <QObject>
+#include <QCoreApplication>
 #include <QTimer>
 #include <QList>
 #include <QString>
@@ -34,7 +35,6 @@
 #include <QNetworkReply>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/networktimeouts.h"
 #include "albumcoverfetcher.h"
@@ -42,8 +42,8 @@
 #include "coverprovider.h"
 #include "coverproviders.h"
 
-const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 25000;
-const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 3000;
+const int AlbumCoverFetcherSearch::kSearchTimeoutMs = 6000;
+const int AlbumCoverFetcherSearch::kImageLoadTimeoutMs = 16000;
 const int AlbumCoverFetcherSearch::kTargetSize = 500;
 const float AlbumCoverFetcherSearch::kGoodScore = 4;
 
@@ -76,11 +76,11 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
     // Skip provider if it does not have fetchall set, and we are doing fetchall - "Fetch Missing Covers".
     if (!provider->fetchall() && request_.fetchall) {
-	continue;
+      continue;
     }
     // If album is missing, check if we can still use this provider by searching using artist + title.
     if (!provider->allow_missing_album() && request_.album.isEmpty()) {
-	continue;
+      continue;
     }
 
     connect(provider, SIGNAL(SearchFinished(int, CoverSearchResults)), SLOT(ProviderSearchFinished(int, CoverSearchResults)));
@@ -98,10 +98,6 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
     TerminateSearch();
   }
 
-}
-
-static bool CompareProviders(const CoverSearchResult &a, const CoverSearchResult &b) {
-  return a.provider < b.provider;
 }
 
 void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSearchResults &results) {
@@ -157,35 +153,35 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
   }
 
   // Now we have to load some images and figure out which one is the best.
-  // We'll sort the list of results by category, then load the first few images from each category and use some heuristics to score them.
+  // We'll sort the list of results by current score, then load the first 3 images from each category and use some heuristics for additional score.
   // If no images are good enough we'll keep loading more images until we find one that is or we run out of results.
-  std::stable_sort(results_.begin(), results_.end(), CompareProviders);
+
+  std::stable_sort(results_.begin(), results_.end(), CoverSearchResultCompareScore);
+
   FetchMoreImages();
 
 }
 
 void AlbumCoverFetcherSearch::FetchMoreImages() {
 
-  // Try the first one in each category.
-  QString last_provider;
-  for (int i = 0 ; i < results_.count() ; ++i) {
-    if (results_[i].provider == last_provider) {
-      continue;
-    }
+  int i = 0;
+  while (!results_.isEmpty()) {
+    ++i;
+    CoverSearchResult result = results_.takeFirst();
 
-    CoverSearchResult result = results_.takeAt(i--);
-    last_provider = result.provider;
-
-    qLog(Debug) << "Loading" << result.image_url << "from" << result.provider;
+    qLog(Debug) << "Loading" << result.image_url << "from" << result.provider << "with current score" << result.score;
 
     QNetworkRequest req(result.image_url);
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     QNetworkReply *image_reply = network_->get(req);
-    NewClosure(image_reply, SIGNAL(finished()), this, SLOT(ProviderCoverFetchFinished(QNetworkReply*)), image_reply);
+    connect(image_reply, &QNetworkReply::finished, [=] { ProviderCoverFetchFinished(image_reply); });
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);
 
     ++statistics_.network_requests_made_;
+
+    if (i >= 3) break;
+
   }
 
   if (pending_image_loads_.isEmpty()) {
@@ -232,9 +228,9 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
     if (!candidate_images_.isEmpty()) {
       best_score = candidate_images_.keys().last();
+      qLog(Debug) << "Best image so far has a score of" << best_score;
     }
 
-    qLog(Debug) << "Best image so far has a score of" << best_score;
     if (best_score >= kGoodScore) {
       SendBestImage();
     }
@@ -301,4 +297,8 @@ void AlbumCoverFetcherSearch::Cancel() {
     pending_image_loads_.clear();
   }
 
+}
+
+bool AlbumCoverFetcherSearch::CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b) {
+  return a.score > b.score;
 }

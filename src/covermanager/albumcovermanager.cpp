@@ -943,4 +943,3 @@ QImage AlbumCoverManager::GenerateNoCoverImage(const QIcon &no_cover_icon) const
 bool AlbumCoverManager::ItemHasCover(const QListWidgetItem &item) const {
   return item.icon().cacheKey() != no_cover_item_icon_.cacheKey();
 }
-
