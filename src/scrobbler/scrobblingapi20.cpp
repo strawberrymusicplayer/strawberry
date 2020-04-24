@@ -995,10 +995,12 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) const {
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
 
-  quint64 time = QDateTime::currentDateTime().toTime_t() - timestamp_;
+  quint64 duration = QDateTime::currentDateTime().toTime_t() - timestamp_;
 
-  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && time > 30) {
-    Scrobble(song_playing_);
+  if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.source() == Song::Source_Stream && duration > 30) {
+    Song song(song_playing_);
+    song.set_length_nanosec(duration * kNsecPerSec);
+    Scrobble(song);
   }
 
 }
