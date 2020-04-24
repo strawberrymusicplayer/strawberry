@@ -6,7 +6,10 @@ include_directories(${CMAKE_SOURCE_DIR}/ext/libstrawberry-common)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_BINARY_DIR}/src)
 
+link_directories(${PROTOBUF_LIBRARY_DIRS})
 include_directories(${PROTOBUF_INCLUDE_DIRS})
+
+link_directories(${TAGLIB_LIBRARY_DIRS})
 include_directories(${TAGLIB_INCLUDE_DIRS})
 
 set(MESSAGES tagreadermessages.proto)
