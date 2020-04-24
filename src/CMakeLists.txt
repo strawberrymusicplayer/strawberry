@@ -36,10 +36,6 @@ if(HAVE_GSTREAMER)
   include_directories(${GSTREAMER_PBUTILS_INCLUDE_DIRS})
 endif(HAVE_GSTREAMER)
 
-if(HAVE_PHONON)
-  include_directories(${PHONON_INCLUDE_DIRS})
-endif(HAVE_PHONON)
-
 if(HAVE_CHROMAPRINT)
   link_directories(${CHROMAPRINT_LIBRARY_DIRS})
   include_directories(${CHROMAPRINT_INCLUDE_DIRS})
@@ -588,12 +584,6 @@ optional_source(HAVE_VLC
   HEADERS engine/vlcengine.h
 )
 
-# Phonon
-optional_source(HAVE_PHONON
-  SOURCES engine/phononengine.cpp
-  HEADERS engine/phononengine.h
-)
-
 # DBUS and MPRIS - Unix specific
 if(UNIX AND HAVE_DBUS)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dbus)
@@ -1021,10 +1011,6 @@ endif()
 
 if(HAVE_VLC)
   target_link_libraries(strawberry_lib ${LIBVLC_LIBRARIES})
-endif()
-
-if(HAVE_PHONON)
-  target_link_libraries(strawberry_lib ${PHONON_LIBRARIES})
 endif()
 
 if(HAVE_LIBGPOD)

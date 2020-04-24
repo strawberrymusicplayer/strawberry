@@ -63,7 +63,7 @@ To build Strawberry from source you need the following installed on your system 
 * [ALSA library (linux)](https://www.alsa-project.org/)
 * [DBus (linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [PulseAudio (linux optional)](https://www.freedesktop.org/wiki/Software/PulseAudio/?)
-* [GStreamer](https://gstreamer.freedesktop.org/), [Xine](https://www.xine-project.org), [VLC](https://www.videolan.org) or [Phonon](https://techbase.kde.org/Phonon)
+* [GStreamer](https://gstreamer.freedesktop.org/), [Xine](https://www.xine-project.org) or [VLC](https://www.videolan.org)
 * [GnuTLS](https://www.gnutls.org/)
 
 Optional dependencies:
@@ -74,7 +74,7 @@ Optional dependencies:
 * iPhone, iPod Touch, iPad and Apple TV devices: [libimobiledevice, libplist and libusbmuxd](https://www.libimobiledevice.org/)
 * Moodbar: [fftw3](http://www.fftw.org/)
 
-Either GStreamer, Xine, VLC or Phonon engine is required, but only GStreamer is fully implemented so far.
+Either GStreamer, Xine or VLC engine is required, but only GStreamer is fully implemented so far.
 You should also install the gstreamer plugins base and good, and optionally bad and ugly.
 
 ### :wrench:	Compiling from source

@@ -34,8 +34,6 @@ Files: src/core/main.h
        src/engine/devicefinder.h
        src/engine/enginedevice.cpp
        src/engine/enginedevice.h
-       src/engine/phononengine.cpp
-       src/engine/phononengine.h
        src/internet/internetservice.cpp
        src/internet/internetservice.h
        src/internet/internettabsview.cpp

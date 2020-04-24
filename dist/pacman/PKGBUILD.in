@@ -32,7 +32,6 @@ depends=(
   libusbmuxd
   libplist
   libimobiledevice
-  phonon-qt5
   fftw
 )
 optdepends=(
@@ -54,7 +53,6 @@ build() {
   cmake ../${pkgname}-@STRAWBERRY_VERSION_PACKAGE@ \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DUSE_SYSTEM_TAGLIB=ON \
-    -DENABLE_PHONON=ON \
     -DENABLE_TRANSLATIONS=ON
   make -j$(nproc)
 }

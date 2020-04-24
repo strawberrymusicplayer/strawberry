@@ -54,9 +54,6 @@
 #ifdef HAVE_XINE
 #  include "engine/xineengine.h"
 #endif
-#ifdef HAVE_PHONON
-#  include "engine/phononengine.h"
-#endif
 #ifdef HAVE_VLC
 #  include "engine/vlcengine.h"
 #endif
@@ -138,12 +135,6 @@ Engine::EngineType Player::CreateEngine(Engine::EngineType enginetype) {
       case Engine::VLC:
         use_enginetype=Engine::VLC;
         engine_.reset(new VLCEngine(app_->task_manager()));
-        break;
-#endif
-#ifdef HAVE_PHONON
-      case Engine::Phonon:
-        use_enginetype=Engine::Phonon;
-        engine_.reset(new PhononEngine(app_->task_manager()));
         break;
 #endif
       default:

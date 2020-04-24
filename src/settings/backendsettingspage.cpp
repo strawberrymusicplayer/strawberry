@@ -100,9 +100,6 @@ void BackendSettingsPage::Load() {
 #ifdef HAVE_VLC
   ui_->combobox_engine->addItem(IconLoader::Load("vlc"), EngineDescription(Engine::VLC), QVariant::fromValue(Engine::VLC));
 #endif
-#ifdef HAVE_PHONON
-  ui_->combobox_engine->addItem(IconLoader::Load("speaker"), EngineDescription(Engine::Phonon), QVariant::fromValue(Engine::Phonon));
-#endif
 
   enginetype_current_ = enginetype;
   output_current_ = s_.value("output", QString()).toString();
