@@ -35,7 +35,7 @@ commands:
           working_directory: build
       - run:
           name: Build RPM
-          command: rpmbuild -ba ../dist/rpm/strawberry.spec
+          command: rpmbuild -ba ../dist/unix/strawberry.spec
           working_directory: build
 
 

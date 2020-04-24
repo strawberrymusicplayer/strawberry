@@ -6,8 +6,8 @@
 override_dh_auto_clean:
 	rm -f dist/macos/Info.plist
 	rm -f dist/macos/create-dmg.sh
-	rm -f dist/pacman/PKGBUILD
-	rm -f dist/rpm/strawberry.spec
+	rm -f dist/unix/PKGBUILD
+	rm -f dist/unix/strawberry.spec
 	rm -f dist/scripts/maketarball.sh
 	rm -f dist/windows/strawberry.nsi
 	rm -f src/translations/translations.pot

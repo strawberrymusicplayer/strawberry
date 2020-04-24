@@ -36,7 +36,7 @@ tar -cJf $name-$version.tar.xz \
     --exclude="$root/.zanata-cache" \
     --exclude="$root/debian/changelog" \
     --exclude="$root/dist/scripts/maketarball.sh" \
-    --exclude="$root/dist/pacman/PKGBUILD" \
+    --exclude="$root/dist/unix/PKGBUILD" \
     --exclude="$root/dist/macos/create-dmg.sh" \
     --exclude="$root/dist/macos/Info.plist" \
     --exclude="$root/dist/windows/windres.rc" \

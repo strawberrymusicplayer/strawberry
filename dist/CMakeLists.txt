@@ -1,5 +1,5 @@
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh.in ${CMAKE_CURRENT_SOURCE_DIR}/scripts/maketarball.sh @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/pacman/PKGBUILD @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD.in ${CMAKE_CURRENT_SOURCE_DIR}/unix/PKGBUILD @ONLY)
 
 if (APPLE)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist.in ${CMAKE_CURRENT_SOURCE_DIR}/macos/Info.plist)
@@ -16,7 +16,7 @@ if (UNIX AND NOT APPLE)
   install(FILES ../data/icons/128x128/strawberry.png DESTINATION share/icons/hicolor/128x128/apps/)
   install(FILES unix/org.strawberrymusicplayer.strawberry.desktop DESTINATION share/applications)
   install(FILES unix/org.strawberrymusicplayer.strawberry.appdata.xml DESTINATION share/metainfo)
-  install(FILES man/strawberry.1 man/strawberry-tagreader.1 DESTINATION share/man/man1)
+  install(FILES unix/strawberry.1 unix/strawberry-tagreader.1 DESTINATION share/man/man1)
 endif (UNIX AND NOT APPLE)
 
 if (APPLE)
