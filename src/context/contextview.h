@@ -61,6 +61,7 @@ class ContextView : public QWidget {
   ContextAlbum *album_widget() const { return widget_album_; }
   ContextAlbumsView *albums_widget() const { return widget_albums_; }
   bool album_enabled() const { return widget_album_->isVisible(); }
+  Song song_playing() const { return song_playing_; }
 
  protected:
   void resizeEvent(QResizeEvent*);
@@ -76,6 +77,7 @@ class ContextView : public QWidget {
   void UpdateSong(const Song &song);
   void ResetSong();
   void GetCoverAutomatically();
+  void SearchLyrics();
 
  signals:
   void AlbumEnabledChanged();
@@ -86,6 +88,7 @@ class ContextView : public QWidget {
   void ActionShowOutput();
   void ActionShowAlbums();
   void ActionShowLyrics();
+  void ActionSearchLyrics();
   void UpdateNoSong();
   void Playing();
   void Stopped();
@@ -110,6 +113,7 @@ class ContextView : public QWidget {
   QAction *action_show_output_;
   QAction *action_show_albums_;
   QAction *action_show_lyrics_;
+  QAction *action_search_lyrics_;
 
   QVBoxLayout *layout_container_;
   QWidget *widget_scrollarea_;

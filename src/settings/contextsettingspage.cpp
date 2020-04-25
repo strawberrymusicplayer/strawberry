@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
+ * This code was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
@@ -47,6 +47,7 @@ const char *ContextSettingsPage::kSettingsGroupLabels[ContextSettingsOrder::NELE
   "Albums by Artist",
   "Song Lyrics",
   "Album",
+  "Automatically search for song lyrics",
 };
 const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELEMS] = {
   "TechnicalDataEnable",
@@ -54,6 +55,7 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
   "AlbumsByArtistEnable",
   "SongLyricsEnable",
   "AlbumEnable",
+  "SearchLyricsEnable",
 };
 
 ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
@@ -61,11 +63,12 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose"));
 
-  checkboxes[ContextSettingsOrder::ALBUM] = ui_->context_item1_enable;
-  checkboxes[ContextSettingsOrder::TECHNICAL_DATA] = ui_->context_item2_enable;
-  checkboxes[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->context_item3_enable;
-  checkboxes[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->context_item4_enable;
-  checkboxes[ContextSettingsOrder::SONG_LYRICS] = ui_->context_item5_enable;
+  checkboxes[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
+  checkboxes[ContextSettingsOrder::TECHNICAL_DATA] = ui_->checkbox_technical_data;
+  checkboxes[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;
+  checkboxes[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->checkbox_albums;
+  checkboxes[ContextSettingsOrder::SONG_LYRICS] = ui_->checkbox_song_lyrics;
+  checkboxes[ContextSettingsOrder::SEARCH_LYRICS] = ui_->checkbox_search_lyrics;
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);

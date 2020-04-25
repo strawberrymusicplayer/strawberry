@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
+ * This code was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2018-2019, Jonas Kvinge <jonas@jkvinge.net>
  *
@@ -48,6 +48,7 @@ public:
     ALBUMS_BY_ARTIST,
     SONG_LYRICS,
     ALBUM,
+    SEARCH_LYRICS,
     NELEMS
   };
 

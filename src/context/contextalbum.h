@@ -34,10 +34,12 @@
 
 #include "covermanager/albumcoverloaderoptions.h"
 
+class QMenu;
 class QTimeLine;
 class QPainter;
 class QPaintEvent;
 
+class ContextView;
 class AlbumCoverChoiceController;
 
 class ContextAlbum : public QWidget {
@@ -46,11 +48,13 @@ class ContextAlbum : public QWidget {
  public:
   explicit ContextAlbum(QWidget *parent = nullptr);
 
-  void Init(AlbumCoverChoiceController *album_cover_choice_controller);
+  void Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller);
   void SetImage(QImage image = QImage());
 
  protected:
   void paintEvent(QPaintEvent*);
+  void contextMenuEvent(QContextMenuEvent *e);
+  void mouseDoubleClickEvent(QMouseEvent *e);
 
  private:
   void DrawImage(QPainter *p);
@@ -67,6 +71,10 @@ class ContextAlbum : public QWidget {
 
  private:
   static const int kWidgetSpacing;
+
+ private:
+  QMenu *menu_;
+  ContextView *context_view_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
   AlbumCoverLoaderOptions cover_loader_options_;
   bool downloading_covers_;

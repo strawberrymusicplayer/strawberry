@@ -33,17 +33,22 @@
 #include <QTimeLine>
 #include <QPainter>
 #include <QSizePolicy>
+#include <QMenu>
+#include <QContextMenuEvent>
 #include <QPaintEvent>
 
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloader.h"
 
+#include "contextview.h"
 #include "contextalbum.h"
 
 const int ContextAlbum::kWidgetSpacing = 40;
 
 ContextAlbum::ContextAlbum(QWidget *parent) :
     QWidget(parent),
+    menu_(new QMenu(this)),
+    context_view_(nullptr),
     album_cover_choice_controller_(nullptr),
     downloading_covers_(false),
     timeline_fade_(new QTimeLine(1000, this)),
@@ -65,10 +70,30 @@ ContextAlbum::ContextAlbum(QWidget *parent) :
 
 }
 
-void ContextAlbum::Init(AlbumCoverChoiceController *album_cover_choice_controller) {
+void ContextAlbum::Init(ContextView *context_view, AlbumCoverChoiceController *album_cover_choice_controller) {
+
+  context_view_ = context_view;
 
   album_cover_choice_controller_ = album_cover_choice_controller;
   connect(album_cover_choice_controller_, SIGNAL(AutomaticCoverSearchDone()), this, SLOT(AutomaticCoverSearchDone()));
+
+  QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
+  cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
+  menu_->addActions(cover_actions);
+  menu_->addSeparator();
+
+}
+
+void ContextAlbum::contextMenuEvent(QContextMenuEvent *e) {
+  if (menu_ && image_original_ != image_strawberry_) menu_->popup(mapToGlobal(e->pos()));
+}
+
+void ContextAlbum::mouseDoubleClickEvent(QMouseEvent *e) {
+
+  // Same behaviour as right-click > Show Fullsize
+  if (image_original_ != image_strawberry_ && e->button() == Qt::LeftButton && context_view_->song_playing().is_valid()) {
+    album_cover_choice_controller_->ShowCover(context_view_->song_playing(), image_original_);
+  }
 
 }
 

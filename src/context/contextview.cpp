@@ -80,6 +80,7 @@ ContextView::ContextView(QWidget *parent) :
     action_show_output_(nullptr),
     action_show_albums_(nullptr),
     action_show_lyrics_(nullptr),
+    action_search_lyrics_(nullptr),
     layout_container_(new QVBoxLayout()),
     widget_scrollarea_(new QWidget(this)),
     layout_scrollarea_(new QVBoxLayout()),
@@ -271,7 +272,7 @@ void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCo
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
 
-  widget_album_->Init(album_cover_choice_controller_);
+  widget_album_->Init(this, album_cover_choice_controller_);
   widget_albums_->Init(app_);
   lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
 
@@ -300,22 +301,22 @@ void ContextView::AddActions() {
 
   action_show_albums_ = new QAction(tr("Show albums by artist"), this);
   action_show_albums_->setCheckable(true);
-  action_show_albums_->setChecked(true);
+  action_show_albums_->setChecked(false);
 
   action_show_lyrics_ = new QAction(tr("Show song lyrics"), this);
   action_show_lyrics_->setCheckable(true);
-  action_show_lyrics_->setChecked(false);
+  action_show_lyrics_->setChecked(true);
+
+  action_search_lyrics_ = new QAction(tr("Automatically search for song lyrics"), this);
+  action_search_lyrics_->setCheckable(true);
+  action_search_lyrics_->setChecked(true);
 
   menu_->addAction(action_show_album_);
   menu_->addAction(action_show_data_);
   menu_->addAction(action_show_output_);
   menu_->addAction(action_show_albums_);
   menu_->addAction(action_show_lyrics_);
-  menu_->addSeparator();
-
-  QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
-  cover_actions.append(album_cover_choice_controller_->search_cover_auto_action());
-  menu_->addActions(cover_actions);
+  menu_->addAction(action_search_lyrics_);
   menu_->addSeparator();
 
   ReloadSettings();
@@ -325,6 +326,7 @@ void ContextView::AddActions() {
   connect(action_show_output_, SIGNAL(triggered()), this, SLOT(ActionShowOutput()));
   connect(action_show_albums_, SIGNAL(triggered()), this, SLOT(ActionShowAlbums()));
   connect(action_show_lyrics_, SIGNAL(triggered()), this, SLOT(ActionShowLyrics()));
+  connect(action_search_lyrics_, SIGNAL(triggered()), this, SLOT(ActionSearchLyrics()));
 
 }
 
@@ -339,6 +341,7 @@ void ContextView::ReloadSettings() {
   action_show_output_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ENGINE_AND_DEVICE], true).toBool());
   action_show_albums_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::ALBUMS_BY_ARTIST], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], true).toBool());
+  action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], true).toBool());
   s.endGroup();
 
   if (widget_stacked_->currentWidget() == widget_stop_) {
@@ -356,7 +359,7 @@ void ContextView::Stopped() {
 
   song_playing_ = Song();
   song_prev_ = Song();
-  lyrics_ = QString();
+  lyrics_.clear();
   image_original_ = QImage();
   widget_album_->SetImage();
 
@@ -378,10 +381,16 @@ void ContextView::SongChanged(const Song &song) {
     SetSong();
   }
 
-  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song.artist().isEmpty() && !song.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
+  SearchLyrics();
+
+}
+
+void ContextView::SearchLyrics() {
+
+  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && action_search_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
     lyrics_fetcher_->Clear();
     lyrics_tried_ = true;
-    lyrics_id_ = lyrics_fetcher_->Search(song.effective_albumartist(), song.album(), song.title());
+    lyrics_id_ = lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.album(), song_playing_.title());
   }
 
 }
@@ -685,7 +694,7 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
 }
 
 void ContextView::contextMenuEvent(QContextMenuEvent *e) {
-  if (menu_ && widget_stacked_->currentWidget() == widget_play_) menu_->popup(mapToGlobal(e->pos()));
+  if (menu_) menu_->popup(mapToGlobal(e->pos()));
 }
 
 void ContextView::dragEnterEvent(QDragEnterEvent *e) {
@@ -764,11 +773,22 @@ void ContextView::ActionShowLyrics() {
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS], action_show_lyrics_->isChecked());
   s.endGroup();
+
   if (song_playing_.is_valid()) SetSong();
 
-  if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty()) {
-    lyrics_fetcher_->Clear();
-    lyrics_id_ = lyrics_fetcher_->Search(song_playing_.artist(), song_playing_.album(), song_playing_.title());
-  }
+  SearchLyrics();
+
+}
+
+void ContextView::ActionSearchLyrics() {
+
+  QSettings s;
+  s.beginGroup(ContextSettingsPage::kSettingsGroup);
+  s.setValue(ContextSettingsPage::kSettingsGroupEnable[ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS], action_search_lyrics_->isChecked());
+  s.endGroup();
+
+  if (song_playing_.is_valid()) SetSong();
+
+  SearchLyrics();
 
 }
