@@ -79,7 +79,9 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     QString album_composer;
     QString file;
     QString file_type;
+    QString album_genre;
     QString genre;
+    QString album_date;
     QString date;
     QString disc;
 
@@ -91,66 +93,46 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       if (splitted.size() < 2) {
         continue;
       }
-
       QString line_name = splitted[0].toLower();
       QString line_value = splitted[1];
 
-      // PERFORMER
       if (line_name == kPerformer) {
-
         album_artist = line_value;
-
-        // TITLE
       }
       else if (line_name == kTitle) {
-
         album = line_value;
-
-        // SONGWRITER
       }
       else if (line_name == kSongWriter) {
-
         album_composer = line_value;
-
-        // FILE
       }
       else if (line_name == kFile) {
-
         file = QDir::isAbsolutePath(line_value) ? line_value : dir.absoluteFilePath(line_value);
-
         if (splitted.size() > 2) {
           file_type = splitted[2];
         }
-
-        // REM
       }
       else if (line_name == kRem) {
         if (splitted.size() < 3) {
           break;
         }
-
-        // REM GENRE
         if (line_value.toLower() == kGenre) {
-          genre = splitted[2];
-
-          // REM DATE
-        } else if (line_value.toLower() == kDate) {
-          date = splitted[2];
-
-          // REM DISC
-        } else if (line_value.toLower() == kDisc) {
+          album_genre = splitted[2];
+        }
+        else if (line_value.toLower() == kDate) {
+          album_date = splitted[2];
+        }
+        else if (line_value.toLower() == kDisc) {
           disc = splitted[2];
         }
-
-        // end of the header -> go into the track mode
-      } else if (line_name == kTrack) {
-
+      }
+      // end of the header -> go into the track mode
+      else if (line_name == kTrack) {
         files++;
         break;
       }
-
       // just ignore the rest of possible field types for now...
-    } while (!(line = text_stream.readLine()).isNull());
+    }
+    while (!(line = text_stream.readLine()).isNull());
 
     if(line.isNull()) {
       qLog(Warning) << "the .cue file from " << dir_path << " defines no tracks!";
@@ -183,12 +165,12 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
         // the beginning of another track's definition - we're saving the current one for later (if it's valid of course)
         // please note that the same code is repeated just after this 'do-while' loop
-        if(valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
-          entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, genre, date, disc));
+        if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
+          entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, genre, (date.isEmpty() ? album_date : date), disc));
         }
 
         // clear the state
-        track_type = index = artist = title = "";
+        track_type = index = artist = composer = title = date = genre = "";
 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
@@ -207,18 +189,28 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
           }
         }
       }
-      else if (line_name == kPerformer) {
-        artist = line_value;
-      }
       else if (line_name == kTitle) {
         title = line_value;
+      }
+      else if (line_name == kDate) {
+        date = line_value;
+      }
+      else if (line_name == kPerformer) {
+        artist = line_value;
       }
       else if (line_name == kSongWriter) {
         composer = line_value;
         // End of track's for the current file -> parse next one
       }
+      else if (line_name == kRem && splitted.size() >= 3) {
+        if (line_value.toLower() == kGenre) {
+          genre = splitted[2];
+        }
+        else if (line_value.toLower() == kDate) {
+          date = splitted[2];
+        }
+      }
       else if (line_name == kFile) {
-
         break;
       }
 
@@ -227,8 +219,8 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     while (!(line = text_stream.readLine()).isNull());
 
     // We didn't add the last song yet...
-    if(valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
-      entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, genre, date, disc));
+    if (valid_file && !index.isEmpty() && (track_type.isEmpty() || track_type == kAudioTrackType)) {
+      entries.append(CueEntry(file, index, title, artist, album_artist, album, composer, album_composer, (genre.isEmpty() ? album_genre : genre), (date.isEmpty() ? album_date : date), disc));
     }
   }
 
@@ -259,7 +251,8 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       if (!UpdateSong(entry, entries.at(i + 1).index, &song)) {
         continue;
       }
-    } else {
+    }
+    else {
       // incorrect index?
       if (!UpdateLastSong(entry, &song)) {
         continue;
