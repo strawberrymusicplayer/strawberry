@@ -1234,8 +1234,9 @@ void MainWindow::ResumePlayback() {
     if (playback_state == Engine::Paused) {
       NewClosure(app_->player(), SIGNAL(Playing()), app_->player(), SLOT(PlayPause()));
     }
+    // Seek after we got song length.
+    NewClosure(track_position_timer_, SIGNAL(timeout()), this, SLOT(ResumePlaybackSeek(int)), playback_position);
     app_->player()->Play();
-    app_->player()->SeekTo(playback_position);
   }
 
   // Reset saved playback status so we don't resume again from the same position.
@@ -1244,6 +1245,14 @@ void MainWindow::ResumePlayback() {
   s.setValue("playback_playlist", -1);
   s.setValue("playback_position", 0);
   s.endGroup();
+
+}
+
+void MainWindow::ResumePlaybackSeek(const int playback_position) {
+
+  if (app_->player()->engine()->length_nanosec() > 0) {
+    app_->player()->SeekTo(playback_position);
+  }
 
 }
 

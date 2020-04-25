@@ -236,6 +236,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void SavePlaybackStatus();
   void LoadPlaybackStatus();
   void ResumePlayback();
+  void ResumePlaybackSeek(const int playback_position);
 
   void Raise();
 
