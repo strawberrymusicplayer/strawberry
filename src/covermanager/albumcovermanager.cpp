@@ -63,7 +63,6 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/utilities.h"
-#include "core/logging.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/qsearchfield.h"
 #include "collection/sqlrow.h"
