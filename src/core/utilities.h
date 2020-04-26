@@ -161,6 +161,8 @@ QString MacAddress();
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline);
 QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline);
 
+bool IsColorDark(const QColor &color);
+
 }  // namespace
 
 class ScopedWCharArray {

@@ -56,6 +56,7 @@
 #include <QPoint>
 #include <QRect>
 #include <QSize>
+#include <QColor>
 #include <QMetaEnum>
 #include <QXmlStreamReader>
 #include <QSettings>
@@ -982,6 +983,10 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
   //if the variable is not recognized, just return it
   return variable;
+}
+
+bool IsColorDark(const QColor &color) {
+  return ((30 * color.red() + 59 * color.green() + 11 * color.blue()) / 100) <= 130;
 }
 
 }  // namespace Utilities

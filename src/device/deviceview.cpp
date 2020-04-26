@@ -56,6 +56,7 @@
 #include "core/mergedproxymodel.h"
 #include "core/mimedata.h"
 #include "core/musicstorage.h"
+#include "core/utilities.h"
 #include "organise/organisedialog.h"
 #include "organise/organiseerrordialog.h"
 #include "collection/collectiondirectorymodel.h"
@@ -151,10 +152,17 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
   }
 
-  if (option.state & QStyle::State_Selected)
+  if (option.state & QStyle::State_Selected) {
     painter->setPen(option.palette.color(QPalette::HighlightedText));
-  else
-    painter->setPen(option.palette.color(QPalette::Dark));
+  }
+  else {
+    if (Utilities::IsColorDark(option.palette.color(QPalette::Window))) {
+      painter->setPen(option.palette.color(QPalette::Midlight).lighter().lighter());
+    }
+    else {
+      painter->setPen(option.palette.color(QPalette::Dark));
+    }
+  }
 
   painter->setFont(status_font);
   painter->drawText(line2, Qt::AlignLeft | Qt::AlignTop, status_text);
