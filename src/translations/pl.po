@@ -141,12 +141,12 @@ msgstr "%1 artyści(ów)"
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:142
+#: core/utilities.cpp:143
 #, qt-format
 msgid "%1 days"
 msgstr "%1 dni"
 
-#: core/utilities.cpp:162
+#: core/utilities.cpp:163
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 dni temu"
@@ -166,7 +166,7 @@ msgstr "zaznaczono %1 z"
 msgid "%1 song"
 msgstr "%1 utwór"
 
-#: device/deviceview.cpp:144
+#: device/deviceview.cpp:145
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 utwory(ów)%2"
@@ -176,7 +176,7 @@ msgstr "%1 utwory(ów)%2"
 msgid "%1 songs"
 msgstr "%1 utwory(ów)"
 
-#: core/utilities.cpp:418
+#: core/utilities.cpp:419
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "Zaznaczonych utworów: %1. Czy na pewno chcesz je wszystkie otworzyć?"
@@ -393,8 +393,8 @@ msgstr ""
 msgid "(different across multiple songs)"
 msgstr "(w zależności od utworu)"
 
+#: ../build/src/ui_albumcovermanager.h:221
 #: ../build/src/ui_albumcovermanager.h:222
-#: ../build/src/ui_albumcovermanager.h:223
 msgid "0"
 msgstr "0"
 
@@ -406,7 +406,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0 px"
 
-#: core/utilities.cpp:142
+#: core/utilities.cpp:143
 msgid "1 day"
 msgstr "1 dzień"
 
@@ -627,7 +627,7 @@ msgstr "Dodaj do innej listy odtwarzania"
 msgid "Add to artists"
 msgstr "Dodaj do artystów"
 
-#: ../build/src/ui_albumcovermanager.h:217
+#: ../build/src/ui_albumcovermanager.h:216
 msgid "Add to playlist"
 msgstr "Dodaj do listy odtwarzania"
 
@@ -814,7 +814,7 @@ msgstr "Dodaj pliki/adresy URL do listy odtwarzania"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
 #: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:305
-#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:226
+#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Dołącz do aktualnej listy odtwarzania"
 
@@ -1250,7 +1250,7 @@ msgid "Copy album cover artwork"
 msgstr "Skopiuj okładki albumów"
 
 #: core/mainwindow.cpp:625 widgets/fileviewlist.cpp:46
-#: device/deviceview.cpp:231
+#: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Skopiuj do kolekcji…"
 
@@ -1311,7 +1311,7 @@ msgstr ""
 "Nie można odnaleźć kodera dla %1. Sprawdź, czy masz zainstalowane właściwe "
 "wtyczki GStreamera"
 
-#: ../build/src/ui_albumcovermanager.h:214
+#: ../build/src/ui_albumcovermanager.h:213
 #: ../build/src/ui_albumcoversearcher.h:104
 msgid "Cover Manager"
 msgstr "Menedżer okładek"
@@ -1473,11 +1473,11 @@ msgstr "Domyślny ob&raz tła"
 msgid "Delete"
 msgstr "Usuń"
 
-#: widgets/fileview.cpp:221 device/deviceview.cpp:409
+#: widgets/fileview.cpp:221 device/deviceview.cpp:417
 msgid "Delete files"
 msgstr "Usuń pliki"
 
-#: device/deviceview.cpp:232
+#: device/deviceview.cpp:240
 msgid "Delete from device..."
 msgstr "Usuń z urządzenia…"
 
@@ -1522,7 +1522,7 @@ msgstr "Urządzenie"
 msgid "Device Properties"
 msgstr "Właściwości urządzenia"
 
-#: device/deviceview.cpp:223
+#: device/deviceview.cpp:231
 msgid "Device properties..."
 msgstr "Właściwości urządzenia…"
 
@@ -1599,7 +1599,7 @@ msgstr "Nie losuj"
 msgid "Don't stop!"
 msgstr "Nie zatrzymuj!"
 
-#: device/deviceview.cpp:137
+#: device/deviceview.cpp:138
 msgid "Double click to open"
 msgstr "Kliknij podwójnie, by otworzyć"
 
@@ -1730,7 +1730,7 @@ msgid "Enter search terms above to find music"
 msgstr "Wprowadź kryteria wyszukiwania, aby znaleźć muzykę"
 
 #: ../build/src/ui_collectionfilterwidget.h:103
-#: ../build/src/ui_albumcovermanager.h:218
+#: ../build/src/ui_albumcovermanager.h:217
 msgid "Enter search terms here"
 msgstr "Wpisz szukane wyrażenie tutaj"
 
@@ -1814,7 +1814,7 @@ msgstr "Istniejące okładki"
 msgid "Expires on %1"
 msgstr "Wygasa %1"
 
-#: ../build/src/ui_albumcovermanager.h:225
+#: ../build/src/ui_albumcovermanager.h:224
 msgid "Export Covers"
 msgstr "Eksportuj okładki"
 
@@ -1890,11 +1890,11 @@ msgstr "Czas przejścia"
 msgid "Fast"
 msgstr "Szybki"
 
-#: ../build/src/ui_albumcovermanager.h:224
+#: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
 msgstr "Pobierz brakujące okładki"
 
-#: ../build/src/ui_albumcovermanager.h:215
+#: ../build/src/ui_albumcovermanager.h:214
 msgid "Fetch automatically"
 msgstr "Pobierz automatycznie"
 
@@ -1982,12 +1982,12 @@ msgstr "Dopasuj okładkę do szerokości"
 msgid "Force mono encoding"
 msgstr "Wymuś kodowanie mono"
 
-#: device/deviceview.cpp:221 device/deviceview.cpp:328
-#: device/deviceview.cpp:331
+#: device/deviceview.cpp:229 device/deviceview.cpp:336
+#: device/deviceview.cpp:339
 msgid "Forget device"
 msgstr "Zapomnij urządzenie"
 
-#: device/deviceview.cpp:329
+#: device/deviceview.cpp:337
 msgid ""
 "Forgetting a device will remove it from this list and Strawberry will have "
 "to rescan all the songs again next time you connect it."
@@ -2233,12 +2233,12 @@ msgstr "Obrazy (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import..."
 msgstr "Importuj…"
 
-#: core/utilities.cpp:176
+#: core/utilities.cpp:177
 #, qt-format
 msgid "In %1 days"
 msgstr "W ciągu %1 dni(a)"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:180
 #, qt-format
 msgid "In %1 weeks"
 msgstr "W ciągu %1 tygodni(a)"
@@ -2366,7 +2366,7 @@ msgstr "Listenbrainz"
 msgid "Live"
 msgstr "Na żywo"
 
-#: ../build/src/ui_albumcovermanager.h:216
+#: ../build/src/ui_albumcovermanager.h:215
 msgid "Load"
 msgstr "Wczytaj"
 
@@ -2637,7 +2637,7 @@ msgstr "Nowe utwory"
 msgid "Next"
 msgstr "Dalej"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:178
 msgid "Next week"
 msgstr "W następnym tygodniu"
 
@@ -2703,11 +2703,11 @@ msgstr ""
 msgid "Not authenticated with Tidal."
 msgstr "Nie uwierzytelniono w Tidal."
 
-#: device/deviceview.cpp:129
+#: device/deviceview.cpp:130
 msgid "Not connected"
 msgstr "Nie podłączono"
 
-#: device/deviceview.cpp:133
+#: device/deviceview.cpp:134
 msgid "Not mounted - double click to mount"
 msgstr "Nie zamontowano - kliknij dwukrotnie, aby zamontować"
 
@@ -2765,7 +2765,7 @@ msgstr "Otwórz urządzenie"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:307
-#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:228
+#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
 msgstr "Otwórz w nowej liście odtwarzania"
@@ -3218,7 +3218,7 @@ msgstr "Powtarzaj utwór"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:306
-#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:227
+#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Zastąp aktualną listę odtwarzania"
 
@@ -3351,7 +3351,7 @@ msgstr "Losuj z listy odtwarzania"
 msgid "SOCKS proxy"
 msgstr "Serwer pośredniczący SOCKS"
 
-#: device/deviceview.cpp:220
+#: device/deviceview.cpp:228
 msgid "Safely remove device"
 msgstr "Bezpiecznie usuń urządzenie"
 
@@ -3636,7 +3636,7 @@ msgstr "Pokaż w pełnym rozmiarze…"
 msgid "Show in collection..."
 msgstr "Pokaż w kolekcji…"
 
-#: core/utilities.cpp:412 core/utilities.cpp:418
+#: core/utilities.cpp:413 core/utilities.cpp:419
 msgid "Show in file browser"
 msgstr "Pokaż w menedżerze plików"
 
@@ -4050,7 +4050,7 @@ msgid ""
 "These files will be deleted from disk, are you sure you want to continue?"
 msgstr "Pliki zostaną usunięte z dysku. Czy na pewno chcesz kontynuować?"
 
-#: device/deviceview.cpp:410
+#: device/deviceview.cpp:418
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4151,7 +4151,7 @@ msgstr "Strefa czasowa"
 msgid "Title"
 msgstr "Tytuł"
 
-#: core/utilities.cpp:160 core/utilities.cpp:174
+#: core/utilities.cpp:161 core/utilities.cpp:175
 msgid "Today"
 msgstr "Dzisiaj"
 
@@ -4171,15 +4171,15 @@ msgstr "Przełącz stan pominięcia"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Przełącz wyświetlanie ładnego menu ekranowego (OSD)"
 
-#: core/utilities.cpp:175
+#: core/utilities.cpp:176
 msgid "Tomorrow"
 msgstr "Jutro"
 
-#: core/utilities.cpp:412
+#: core/utilities.cpp:413
 msgid "Too many songs selected."
 msgstr "Zaznaczono za dużo utworów."
 
-#: ../build/src/ui_albumcovermanager.h:220
+#: ../build/src/ui_albumcovermanager.h:219
 msgid "Total albums:"
 msgstr "Całkowita liczba albumów:"
 
@@ -4269,7 +4269,7 @@ msgstr "Odświeżaj kolekcję przy uruchamianiu Strawberry"
 msgid "Updating %1"
 msgstr "Odświeżanie %1"
 
-#: device/deviceview.cpp:124
+#: device/deviceview.cpp:125
 #, qt-format
 msgid "Updating %1%..."
 msgstr "Odświeżanie %1%…"
@@ -4410,7 +4410,7 @@ msgstr "Weryfikuj certyfikat serwera"
 msgid "Version %1"
 msgstr "Wersja %1"
 
-#: ../build/src/ui_albumcovermanager.h:219
+#: ../build/src/ui_albumcovermanager.h:218
 msgid "View"
 msgstr "Pokaż"
 
@@ -4462,7 +4462,7 @@ msgstr "Adres MAC Wi-Fi"
 msgid "Wide band (WB)"
 msgstr "Szerokie pasmo (WB)"
 
-#: ../build/src/ui_albumcovermanager.h:221
+#: ../build/src/ui_albumcovermanager.h:220
 msgid "Without cover:"
 msgstr "Bez okładki:"
 
@@ -4504,7 +4504,7 @@ msgstr "Rok - Album"
 msgid "Year - Album - Disc"
 msgstr "Rok - Album - Płyta"
 
-#: core/utilities.cpp:161
+#: core/utilities.cpp:162
 msgid "Yesterday"
 msgstr "Wczoraj"
 

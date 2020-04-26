@@ -132,12 +132,12 @@ msgstr ""
 msgid "%1 dB"
 msgstr "%1 dB"
 
-#: core/utilities.cpp:142
+#: core/utilities.cpp:143
 #, qt-format
 msgid "%1 days"
 msgstr "%1 hari"
 
-#: core/utilities.cpp:162
+#: core/utilities.cpp:163
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
@@ -157,7 +157,7 @@ msgstr "%1 terpilih dari"
 msgid "%1 song"
 msgstr ""
 
-#: device/deviceview.cpp:144
+#: device/deviceview.cpp:145
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
@@ -167,7 +167,7 @@ msgstr "%1 lagu%2"
 msgid "%1 songs"
 msgstr ""
 
-#: core/utilities.cpp:418
+#: core/utilities.cpp:419
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 lagu terpilih, apakah Anda yakin ingin membuka semuanya?"
@@ -385,8 +385,8 @@ msgstr ""
 msgid "(different across multiple songs)"
 msgstr "(berbeda diantara berbagai lagu)"
 
+#: ../build/src/ui_albumcovermanager.h:221
 #: ../build/src/ui_albumcovermanager.h:222
-#: ../build/src/ui_albumcovermanager.h:223
 msgid "0"
 msgstr "0"
 
@@ -398,7 +398,7 @@ msgstr "0:00:00"
 msgid "0px"
 msgstr "0px"
 
-#: core/utilities.cpp:142
+#: core/utilities.cpp:143
 msgid "1 day"
 msgstr "1 hari"
 
@@ -618,7 +618,7 @@ msgstr "Tambahkan ke daftar putar lainnya"
 msgid "Add to artists"
 msgstr "Tambahkan ke artis"
 
-#: ../build/src/ui_albumcovermanager.h:217
+#: ../build/src/ui_albumcovermanager.h:216
 msgid "Add to playlist"
 msgstr "Tambahkan ke daftar putar"
 
@@ -805,7 +805,7 @@ msgstr "Tambahkan berkas/URL ke daftar putar"
 
 #: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
 #: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:305
-#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:226
+#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:234
 msgid "Append to current playlist"
 msgstr "Tambahkan ke daftar putar saat ini"
 
@@ -1238,7 +1238,7 @@ msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
 #: core/mainwindow.cpp:625 widgets/fileviewlist.cpp:46
-#: device/deviceview.cpp:231
+#: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
@@ -1297,7 +1297,7 @@ msgstr ""
 "Tidak dapat menemukan enkoder untuk %1, periksa apakah Anda memiliki plugin "
 "GStreamer yang benar terpasang"
 
-#: ../build/src/ui_albumcovermanager.h:214
+#: ../build/src/ui_albumcovermanager.h:213
 #: ../build/src/ui_albumcoversearcher.h:104
 msgid "Cover Manager"
 msgstr "Pengelola Sampul"
@@ -1459,11 +1459,11 @@ msgstr "Gambar latar bela&kang standar"
 msgid "Delete"
 msgstr "Hapus"
 
-#: widgets/fileview.cpp:221 device/deviceview.cpp:409
+#: widgets/fileview.cpp:221 device/deviceview.cpp:417
 msgid "Delete files"
 msgstr "Hapus berkas"
 
-#: device/deviceview.cpp:232
+#: device/deviceview.cpp:240
 msgid "Delete from device..."
 msgstr "Hapus dari perangkat..."
 
@@ -1508,7 +1508,7 @@ msgstr "Perangkat"
 msgid "Device Properties"
 msgstr "Properti Perangkat"
 
-#: device/deviceview.cpp:223
+#: device/deviceview.cpp:231
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
@@ -1585,7 +1585,7 @@ msgstr "Jangan karau"
 msgid "Don't stop!"
 msgstr "Jangan berhenti!"
 
-#: device/deviceview.cpp:137
+#: device/deviceview.cpp:138
 msgid "Double click to open"
 msgstr "Kilk ganda untuk membuka"
 
@@ -1714,7 +1714,7 @@ msgid "Enter search terms above to find music"
 msgstr "Masukkan kata pencarian di atas untuk mencari musik"
 
 #: ../build/src/ui_collectionfilterwidget.h:103
-#: ../build/src/ui_albumcovermanager.h:218
+#: ../build/src/ui_albumcovermanager.h:217
 msgid "Enter search terms here"
 msgstr "Masukkan lema pencarian di sini"
 
@@ -1798,7 +1798,7 @@ msgstr "Sampul yang tersedia"
 msgid "Expires on %1"
 msgstr "Kedaluwarsa pada %1"
 
-#: ../build/src/ui_albumcovermanager.h:225
+#: ../build/src/ui_albumcovermanager.h:224
 msgid "Export Covers"
 msgstr "Ekspor Sampul"
 
@@ -1874,11 +1874,11 @@ msgstr "Durasi lesap"
 msgid "Fast"
 msgstr "Cepat"
 
-#: ../build/src/ui_albumcovermanager.h:224
+#: ../build/src/ui_albumcovermanager.h:223
 msgid "Fetch Missing Covers"
 msgstr "Ambil Sampul yang Hilang"
 
-#: ../build/src/ui_albumcovermanager.h:215
+#: ../build/src/ui_albumcovermanager.h:214
 msgid "Fetch automatically"
 msgstr "Ambil secara otomatis"
 
@@ -1966,12 +1966,12 @@ msgstr "Paskan sampul ke lebar"
 msgid "Force mono encoding"
 msgstr "Paksa enkode mono"
 
-#: device/deviceview.cpp:221 device/deviceview.cpp:328
-#: device/deviceview.cpp:331
+#: device/deviceview.cpp:229 device/deviceview.cpp:336
+#: device/deviceview.cpp:339
 msgid "Forget device"
 msgstr "Lupakan perangkat"
 
-#: device/deviceview.cpp:329
+#: device/deviceview.cpp:337
 msgid ""
 "Forgetting a device will remove it from this list and Strawberry will have "
 "to rescan all the songs again next time you connect it."
@@ -2212,12 +2212,12 @@ msgstr "Gambar (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgid "Import..."
 msgstr "Impor..."
 
-#: core/utilities.cpp:176
+#: core/utilities.cpp:177
 #, qt-format
 msgid "In %1 days"
 msgstr "Dalam %1 hari"
 
-#: core/utilities.cpp:179
+#: core/utilities.cpp:180
 #, qt-format
 msgid "In %1 weeks"
 msgstr "Dalam %1 minggu"
@@ -2343,7 +2343,7 @@ msgstr "Listenbrainz"
 msgid "Live"
 msgstr "Langsung"
 
-#: ../build/src/ui_albumcovermanager.h:216
+#: ../build/src/ui_albumcovermanager.h:215
 msgid "Load"
 msgstr "Muat"
 
@@ -2614,7 +2614,7 @@ msgstr "Lagu baru"
 msgid "Next"
 msgstr "Lanjut"
 
-#: core/utilities.cpp:177
+#: core/utilities.cpp:178
 msgid "Next week"
 msgstr "Minggu depan"
 
@@ -2680,11 +2680,11 @@ msgstr ""
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
-#: device/deviceview.cpp:129
+#: device/deviceview.cpp:130
 msgid "Not connected"
 msgstr "Tidak terhubung"
 
-#: device/deviceview.cpp:133
+#: device/deviceview.cpp:134
 msgid "Not mounted - double click to mount"
 msgstr "Tidak terkait - klik ganda untuk mengait"
 
@@ -2742,7 +2742,7 @@ msgstr "Buka perangkat"
 
 #: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
 #: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:307
-#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:228
+#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:236
 #: ../build/src/ui_behavioursettingspage.h:274
 msgid "Open in new playlist"
 msgstr "Buka di daftar putar baru"
@@ -3186,7 +3186,7 @@ msgstr "Ulang trek"
 
 #: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
 #: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:306
-#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:227
+#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:235
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
 
@@ -3319,7 +3319,7 @@ msgstr "A&cak daftar putar"
 msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
-#: device/deviceview.cpp:220
+#: device/deviceview.cpp:228
 msgid "Safely remove device"
 msgstr "Secara aman melepas perangkat"
 
@@ -3604,7 +3604,7 @@ msgstr "Tampilkan ukuran penuh..."
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
-#: core/utilities.cpp:412 core/utilities.cpp:418
+#: core/utilities.cpp:413 core/utilities.cpp:419
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
@@ -4014,7 +4014,7 @@ msgid ""
 msgstr ""
 "Berkas ini akan dihapus dari diska, apakah Anda yakin ingin melanjutkan?"
 
-#: device/deviceview.cpp:410
+#: device/deviceview.cpp:418
 msgid ""
 "These files will be deleted from the device, are you sure you want to "
 "continue?"
@@ -4117,7 +4117,7 @@ msgstr "Zona waktu"
 msgid "Title"
 msgstr "Judul"
 
-#: core/utilities.cpp:160 core/utilities.cpp:174
+#: core/utilities.cpp:161 core/utilities.cpp:175
 msgid "Today"
 msgstr "Hari Ini"
 
@@ -4137,15 +4137,15 @@ msgstr "Alihkan status melewati"
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 
-#: core/utilities.cpp:175
+#: core/utilities.cpp:176
 msgid "Tomorrow"
 msgstr "Besok"
 
-#: core/utilities.cpp:412
+#: core/utilities.cpp:413
 msgid "Too many songs selected."
 msgstr "Terlalu banyak lagu yang terpilih."
 
-#: ../build/src/ui_albumcovermanager.h:220
+#: ../build/src/ui_albumcovermanager.h:219
 msgid "Total albums:"
 msgstr "Total album:"
 
@@ -4235,7 +4235,7 @@ msgstr "Perbarui pustaka ketika memulai Strawberry"
 msgid "Updating %1"
 msgstr "Memperbarui %1"
 
-#: device/deviceview.cpp:124
+#: device/deviceview.cpp:125
 #, qt-format
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
@@ -4374,7 +4374,7 @@ msgstr "Verifikasi sertifikat server"
 msgid "Version %1"
 msgstr ""
 
-#: ../build/src/ui_albumcovermanager.h:219
+#: ../build/src/ui_albumcovermanager.h:218
 msgid "View"
 msgstr "Tampilan"
 
@@ -4426,7 +4426,7 @@ msgstr "Alamat MAC WiFi"
 msgid "Wide band (WB)"
 msgstr "Pita lebar (WB)"
 
-#: ../build/src/ui_albumcovermanager.h:221
+#: ../build/src/ui_albumcovermanager.h:220
 msgid "Without cover:"
 msgstr "Tanpa sampul:"
 
@@ -4468,7 +4468,7 @@ msgstr "Tahun - Album"
 msgid "Year - Album - Disc"
 msgstr "Tahun - Album - Cakram"
 
-#: core/utilities.cpp:161
+#: core/utilities.cpp:162
 msgid "Yesterday"
 msgstr "Kemarin"
 
