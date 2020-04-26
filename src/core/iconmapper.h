@@ -26,10 +26,11 @@ namespace IconMapper {
 
 struct IconProperties {
   explicit IconProperties() : min_size(0), max_size(0) {}
-  IconProperties(const QStringList &_names, const int _min_size, const int _max_size) : names(_names), min_size(_min_size), max_size(_max_size) {}
+  IconProperties(const QStringList &_names, const int _min_size, const int _max_size, const bool _allow_system_icon = true) : names(_names), min_size(_min_size), max_size(_max_size), allow_system_icon(_allow_system_icon) {}
   QStringList names;
   int min_size;
   int max_size;
+  bool allow_system_icon;
 };
 
 static const QMap<QString, IconProperties> iconmapper_ = {
@@ -61,7 +62,7 @@ static const QMap<QString, IconProperties> iconmapper_ = {
     { "document-search",               { {}, 0, 0 } },
     { "download",                      { {"applications-internet", "network-workgroup"}, 0, 0 } },
     { "edit-clear-list",               { {}, 0, 0 } },
-    { "edit-clear-locationbar-ltr",    { {}, 0, 0 } },
+    { "edit-clear-locationbar-ltr",    { {}, 0, 0, false } },
     { "edit-copy",                     { {}, 0, 0 } },
     { "edit-delete",                   { {}, 0, 0 } },
     { "edit-find",                     { {}, 0, 0 } },

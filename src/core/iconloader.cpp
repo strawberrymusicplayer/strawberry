@@ -69,15 +69,17 @@ QIcon IconLoader::Load(const QString &name, const int size) {
     if (IconMapper::iconmapper_.contains(name)) {
       icon_prop = IconMapper::iconmapper_[name];
     }
-    ret = QIcon::fromTheme(name);
-    if (ret.isNull()) {
-      for (QString alt_name : icon_prop.names) {
-        ret = QIcon::fromTheme(alt_name);
-        if (!ret.isNull()) break;
+    if (icon_prop.allow_system_icon) {
+      ret = QIcon::fromTheme(name);
+      if (ret.isNull()) {
+        for (QString alt_name : icon_prop.names) {
+          ret = QIcon::fromTheme(alt_name);
+          if (!ret.isNull()) break;
+        }
       }
+      if (ret.isNull()) qLog(Warning) << "Couldn't load icon" << name << "from system theme icons.";
     }
     if (!ret.isNull()) return ret;
-    qLog(Warning) << "Couldn't load icon" << name << "from system theme icons.";
   }
 
   if (custom_icons_) {
