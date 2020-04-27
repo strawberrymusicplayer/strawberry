@@ -50,7 +50,7 @@ void IconLoader::Init() {
 
 }
 
-QIcon IconLoader::Load(const QString &name, const int size) {
+QIcon IconLoader::Load(const QString &name, const int fixed_size, const int min_size, const int max_size) {
 
   QIcon ret;
 
@@ -60,15 +60,16 @@ QIcon IconLoader::Load(const QString &name, const int size) {
   }
 
   QList<int> sizes;
-  sizes.clear();
-  if (size == 0) { sizes << 22 << 32 << 48 << 64; }
-  else sizes << size;
+  if (fixed_size == 0) { sizes << 22 << 32 << 48 << 64; }
+  else sizes << fixed_size;
 
   if (system_icons_) {
     IconMapper::IconProperties icon_prop;
     if (IconMapper::iconmapper_.contains(name)) {
       icon_prop = IconMapper::iconmapper_[name];
     }
+    if (min_size != 0) icon_prop.min_size = min_size;
+    if (max_size != 0) icon_prop.max_size = max_size;
     if (icon_prop.allow_system_icon) {
       ret = QIcon::fromTheme(name);
       if (ret.isNull()) {
@@ -76,8 +77,36 @@ QIcon IconLoader::Load(const QString &name, const int size) {
           ret = QIcon::fromTheme(alt_name);
           if (!ret.isNull()) break;
         }
+        if (ret.isNull()) {
+          qLog(Warning) << "Couldn't load icon" << name << "from system theme icons.";
+        }
       }
-      if (ret.isNull()) qLog(Warning) << "Couldn't load icon" << name << "from system theme icons.";
+      if (!ret.isNull()) {
+        if (fixed_size != 0 && !ret.availableSizes().contains(QSize(fixed_size, fixed_size))) {
+          qLog(Warning) << "Can't use system icon for" << name << "icon does not have fixed size." << fixed_size;
+          ret = QIcon();
+        }
+        else {
+          int size_smallest = 0;
+          int size_largest = 0;
+          for (const QSize &s : ret.availableSizes()) {
+            if (s.width() != s.height()) {
+              qLog(Warning) << "Can't use system icon for" << name << "icon is not proportional.";
+              ret = QIcon();
+            }
+            if (size_smallest == 0 || s.width() < size_smallest) size_smallest = s.width();
+            if (s.width() > size_largest) size_largest = s.width();
+          }
+          if (size_smallest != 0 && icon_prop.min_size != 0 && size_smallest < icon_prop.min_size) {
+            qLog(Warning) << "Can't use system icon for" << name << "icon too small." << size_smallest;
+            ret = QIcon();
+          }
+          else if (size_largest != 0 && icon_prop.max_size != 0 && size_largest > icon_prop.max_size) {
+            qLog(Warning) << "Can't use system icon for" << name << "icon too large." << size_largest;
+            ret = QIcon();
+          }
+        }
+      }
     }
     if (!ret.isNull()) return ret;
   }
