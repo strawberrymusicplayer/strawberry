@@ -57,16 +57,19 @@ public:
   static const char *kSettingsSummaryFmt;
   static const char *kSettingsGroupLabels[ContextSettingsOrder::NELEMS];
   static const char *kSettingsGroupEnable[ContextSettingsOrder::NELEMS];
+  static const qreal kDefaultFontSizeHeadline;
 
   void Load();
   void Save();
 
-private slots:
+ private slots:
   void InsertVariableFirstLine(QAction *action);
   void InsertVariableSecondLine(QAction *action);
   void ShowMenuTooltip(QAction *action);
+  void HeadlineFontChanged();
+  void NormalFontChanged();
 
-private:
+ private:
   Ui_ContextSettingsPage *ui_;
   QCheckBox *checkboxes[ContextSettingsOrder::NELEMS];
 };

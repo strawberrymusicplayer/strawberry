@@ -42,5 +42,6 @@
         <file>pictures/rainbowdash.png</file>
         <file>fonts/HumongousofEternitySt.ttf</file>
         <file>mood/sample.mood</file>
+        <file>text/ghosts.txt</file>
     </qresource>
 </RCC>

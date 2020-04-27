@@ -24,12 +24,17 @@
 #include <QtGlobal>
 #include <QAction>
 #include <QVariant>
+#include <QIODevice>
+#include <QFile>
+#include <QFont>
 #include <QMenu>
 #include <QCursor>
 #include <QCheckBox>
 #include <QToolButton>
 #include <QToolTip>
 #include <QLineEdit>
+#include <QTextEdit>
+#include <QFontComboBox>
 #include <QSettings>
 
 #include "core/iconloader.h"
@@ -57,6 +62,8 @@ const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELE
   "AlbumEnable",
   "SearchLyricsEnable",
 };
+
+const qreal ContextSettingsPage::kDefaultFontSizeHeadline = 11;
 
 ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(dialog), ui_(new Ui_ContextSettingsPage) {
 
@@ -103,6 +110,18 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(
   ui_->context_exp_chooser1->setIcon(IconLoader::Load("list-add"));
   ui_->context_exp_chooser2->setIcon(IconLoader::Load("list-add"));
 
+  connect(ui_->font_headline, SIGNAL(currentFontChanged(QFont)), SLOT(HeadlineFontChanged()));
+  connect(ui_->font_size_headline, SIGNAL(valueChanged(double)), SLOT(HeadlineFontChanged()));
+  connect(ui_->font_normal, SIGNAL(currentFontChanged(QFont)), SLOT(NormalFontChanged()));
+  connect(ui_->font_size_normal, SIGNAL(valueChanged(double)), SLOT(NormalFontChanged()));
+
+  QFile file(":/text/ghosts.txt");
+  if (file.open(QIODevice::ReadOnly)) {
+    QString text = file.readAll();
+    ui_->preview_headline->setText(text);
+    ui_->preview_normal->setText(text);
+  }
+
 }
 
 ContextSettingsPage::~ContextSettingsPage() { delete ui_; }
@@ -117,6 +136,21 @@ void ContextSettingsPage::Load() {
   for (int i = 0 ; i < ContextSettingsOrder::NELEMS ; ++i) {
     checkboxes[i]->setChecked(s.value(kSettingsGroupEnable[i], i != ContextSettingsOrder::ALBUMS_BY_ARTIST).toBool());
   }
+
+  // Fonts
+  QString default_font;
+  int i = ui_->font_headline->findText("Noto Sans");
+  if (i >= 0) {
+    default_font = "Noto Sans";
+  }
+  else {
+    default_font = QWidget().font().family();
+  }
+  ui_->font_headline->setCurrentFont(s.value("font_headline", default_font).toString());
+  ui_->font_normal->setCurrentFont(s.value("font_normal", default_font).toString());
+  ui_->font_size_headline->setValue(s.value("font_size_headline", kDefaultFontSizeHeadline).toReal());
+  ui_->font_size_normal->setValue(s.value("font_size_normal", font().pointSizeF()).toReal());
+
   s.endGroup();
 
 }
@@ -131,6 +165,10 @@ void ContextSettingsPage::Save() {
   for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
     s.setValue(kSettingsGroupEnable[i], checkboxes[i]->isChecked());
   }
+  s.setValue("font_headline", ui_->font_headline->currentFont().family());
+  s.setValue("font_normal", ui_->font_normal->currentFont().family());
+  s.setValue("font_size_headline", ui_->font_size_headline->value());
+  s.setValue("font_size_normal", ui_->font_size_normal->value());
   s.endGroup();
 
 }
@@ -147,4 +185,24 @@ void ContextSettingsPage::InsertVariableSecondLine(QAction* action) {
 
 void ContextSettingsPage::ShowMenuTooltip(QAction* action) {
   QToolTip::showText(QCursor::pos(), action->toolTip());
+}
+
+void ContextSettingsPage::HeadlineFontChanged() {
+
+  QFont font(ui_->font_headline->currentFont());
+  if (ui_->font_size_headline->value() > 0) {
+    font.setPointSizeF(ui_->font_size_headline->value());
+  }
+  ui_->preview_headline->setFont(font);
+
+}
+
+void ContextSettingsPage::NormalFontChanged() {
+
+  QFont font(ui_->font_normal->currentFont());
+  if (ui_->font_size_normal->value() > 0) {
+    font.setPointSizeF(ui_->font_size_normal->value());
+  }
+  ui_->preview_normal->setFont(font);
+
 }

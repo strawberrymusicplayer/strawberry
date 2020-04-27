@@ -25,6 +25,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
+#include <QList>
 #include <QString>
 #include <QImage>
 
@@ -78,6 +79,7 @@ class ContextView : public QWidget {
   void ResetSong();
   void GetCoverAutomatically();
   void SearchLyrics();
+  void UpdateFonts();
 
  signals:
   void AlbumEnabledChanged();
@@ -173,6 +175,15 @@ class ContextView : public QWidget {
   QString lyrics_;
   QString title_fmt_;
   QString summary_fmt_;
+  QString font_headline_;
+  QString font_normal_;
+  qreal font_size_headline_;
+  qreal font_size_normal_;
+
+  QList<QLabel*> labels_play_;
+  QList<QLabel*> labels_play_data_;
+  QList<QLabel*> labels_play_all_;
+
   int prev_width_;
 
 };
