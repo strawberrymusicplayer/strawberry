@@ -102,22 +102,22 @@ msgstr " secondi"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autenticazione Scrobbler"
 
-#: context/contextview.cpp:433
+#: context/contextview.cpp:434
 #, qt-format
 msgid "%1 album"
 msgstr "%1 album"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:435
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
-#: context/contextview.cpp:429
+#: context/contextview.cpp:430
 #, qt-format
 msgid "%1 artist"
 msgstr "%1 artista"
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:431
 #, qt-format
 msgid "%1 artists"
 msgstr "%1 artisti"
@@ -148,7 +148,7 @@ msgstr "%1 scalette (%2)"
 msgid "%1 selected of"
 msgstr "%1 selezionate di"
 
-#: context/contextview.cpp:425
+#: context/contextview.cpp:426
 #, qt-format
 msgid "%1 song"
 msgstr "%1 canzone"
@@ -158,7 +158,7 @@ msgstr "%1 canzone"
 msgid "%1 song%2"
 msgstr "%1 canzone%2"
 
-#: context/contextview.cpp:426
+#: context/contextview.cpp:427
 #, qt-format
 msgid "%1 songs"
 msgstr "%1 canzoni"
@@ -704,7 +704,7 @@ msgstr "Dimensione cover dell'album"
 msgid "Albums"
 msgstr "Album"
 
-#: context/contextview.cpp:566
+#: context/contextview.cpp:567
 #, qt-format
 msgid "Albums by %1"
 msgstr "Album di %1"
@@ -890,7 +890,7 @@ msgstr "Aggiornamento automatico"
 msgid "Automatically open single categories in the collection tree"
 msgstr "Apri automaticamente categorie singole nell'albero della raccolta"
 
-#: context/contextview.cpp:310 ../build/src/ui_contextsettingspage.h:317
+#: context/contextview.cpp:311 ../build/src/ui_contextsettingspage.h:317
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -950,7 +950,7 @@ msgstr "Comportamento"
 msgid "Best"
 msgstr "Migliore"
 
-#: context/contextview.cpp:214 collection/savedgroupingmanager.cpp:132
+#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:132
 #: playlist/playlist.cpp:1194 organise/organisedialog.cpp:114
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
@@ -961,7 +961,7 @@ msgstr "Profondità di bit"
 msgid "Bit rate"
 msgstr "Bitrate"
 
-#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:135
+#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:135
 #: playlist/playlist.cpp:1195 ../build/src/ui_groupbydialog.h:146
 #: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1500,7 +1500,7 @@ msgstr "Destinazione"
 msgid "Details..."
 msgstr "Dettagli..."
 
-#: context/contextview.cpp:182 device/giolister.cpp:188
+#: context/contextview.cpp:183 device/giolister.cpp:188
 #: ../build/src/ui_backendsettingspage.h:446
 msgid "Device"
 msgstr "Dispositivo"
@@ -1690,7 +1690,7 @@ msgstr "Qualità del motore di codifica"
 msgid "Encoding mode"
 msgstr "Modalità di codifica"
 
-#: context/contextview.cpp:181 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:182 ../build/src/ui_backendsettingspage.h:444
 msgid "Engine"
 msgstr "Engine"
 
@@ -1949,7 +1949,7 @@ msgstr "File"
 msgid "Files to transcode"
 msgstr "File da transcodificare"
 
-#: context/contextview.cpp:211
+#: context/contextview.cpp:212
 msgid "Filetype"
 msgstr "Tipo di file"
 
@@ -2331,7 +2331,7 @@ msgstr "Last.fm"
 msgid "Left"
 msgstr "Sinistra"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:212
+#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:213
 #: playlist/playlist.cpp:1180 organise/organisedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
@@ -2655,7 +2655,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Nessun blocco corto"
 
-#: context/contextview.cpp:422
+#: context/contextview.cpp:423
 msgid "No song playing"
 msgstr "Nessuna canzone in riproduzione"
 
@@ -3351,7 +3351,7 @@ msgstr "Rimuovi il dispositivo in sicurezza al termine della copia"
 msgid "Sample rate"
 msgstr "Campionamento"
 
-#: context/contextview.cpp:213
+#: context/contextview.cpp:214
 msgid "Samplerate"
 msgstr "Campionamento"
 
@@ -3592,7 +3592,7 @@ msgstr "Mostra un OSD gradevole"
 msgid "Show above status bar"
 msgstr "Mostra la barra di stato superiore"
 
-#: context/contextview.cpp:290
+#: context/contextview.cpp:291
 msgid "Show album cover"
 msgstr ""
 
@@ -3600,7 +3600,7 @@ msgstr ""
 msgid "Show album cover art in collection"
 msgstr "Mostra la copertina dell'album nella collezione"
 
-#: context/contextview.cpp:302
+#: context/contextview.cpp:303
 msgid "Show albums by artist"
 msgstr "Mostra gli album in base all'artista"
 
@@ -3612,7 +3612,7 @@ msgstr "Mostra tutti i brani"
 msgid "Show dividers"
 msgstr "Mostra separatori"
 
-#: context/contextview.cpp:298
+#: context/contextview.cpp:299
 msgid "Show engine and device"
 msgstr "Mostra l'engine ed il dispositivo"
 
@@ -3661,11 +3661,11 @@ msgstr "Mostra il widget in riproduzione"
 msgid "Show scrobble button"
 msgstr "Mostra il pulsante di scrobble"
 
-#: context/contextview.cpp:306
+#: context/contextview.cpp:307
 msgid "Show song lyrics"
 msgstr "Mostra il testo della canzone"
 
-#: context/contextview.cpp:294
+#: context/contextview.cpp:295
 msgid "Show song technical data"
 msgstr "Mostra i dati tecnici della canzone"
 
@@ -4610,7 +4610,7 @@ msgstr "disco %1"
 msgid "hw"
 msgstr "hw"
 
-#: context/contextview.cpp:501 context/contextview.cpp:653
+#: context/contextview.cpp:502 context/contextview.cpp:654
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
 msgid "kbps"
 msgstr "kbps"

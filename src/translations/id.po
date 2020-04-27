@@ -106,22 +106,22 @@ msgstr " detik"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
-#: context/contextview.cpp:433
+#: context/contextview.cpp:434
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:435
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:429
+#: context/contextview.cpp:430
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:431
 #, qt-format
 msgid "%1 artists"
 msgstr ""
@@ -152,7 +152,7 @@ msgstr "%1 daftar putar (%2)"
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
-#: context/contextview.cpp:425
+#: context/contextview.cpp:426
 #, qt-format
 msgid "%1 song"
 msgstr ""
@@ -162,7 +162,7 @@ msgstr ""
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
-#: context/contextview.cpp:426
+#: context/contextview.cpp:427
 #, qt-format
 msgid "%1 songs"
 msgstr ""
@@ -707,7 +707,7 @@ msgstr "Ukuran sampul album"
 msgid "Albums"
 msgstr "Album"
 
-#: context/contextview.cpp:566
+#: context/contextview.cpp:567
 #, qt-format
 msgid "Albums by %1"
 msgstr ""
@@ -892,7 +892,7 @@ msgstr "Pembaruan otomatis"
 msgid "Automatically open single categories in the collection tree"
 msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 
-#: context/contextview.cpp:310 ../build/src/ui_contextsettingspage.h:317
+#: context/contextview.cpp:311 ../build/src/ui_contextsettingspage.h:317
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -952,7 +952,7 @@ msgstr "Perilaku"
 msgid "Best"
 msgstr "Terbaik"
 
-#: context/contextview.cpp:214 collection/savedgroupingmanager.cpp:132
+#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:132
 #: playlist/playlist.cpp:1194 organise/organisedialog.cpp:114
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
@@ -963,7 +963,7 @@ msgstr "Kedalaman bit"
 msgid "Bit rate"
 msgstr "Laju bit"
 
-#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:135
+#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:135
 #: playlist/playlist.cpp:1195 ../build/src/ui_groupbydialog.h:146
 #: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1499,7 +1499,7 @@ msgstr "Tujuan"
 msgid "Details..."
 msgstr "Detail..."
 
-#: context/contextview.cpp:182 device/giolister.cpp:188
+#: context/contextview.cpp:183 device/giolister.cpp:188
 #: ../build/src/ui_backendsettingspage.h:446
 msgid "Device"
 msgstr "Perangkat"
@@ -1689,7 +1689,7 @@ msgstr "Kualitas mesin enkode"
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: context/contextview.cpp:181 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:182 ../build/src/ui_backendsettingspage.h:444
 msgid "Engine"
 msgstr "Mesin"
 
@@ -1946,7 +1946,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: context/contextview.cpp:211
+#: context/contextview.cpp:212
 msgid "Filetype"
 msgstr "Tipe berkas"
 
@@ -2321,7 +2321,7 @@ msgstr "Last.fm"
 msgid "Left"
 msgstr "Kiri"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:212
+#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:213
 #: playlist/playlist.cpp:1180 organise/organisedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
@@ -2645,7 +2645,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
 
-#: context/contextview.cpp:422
+#: context/contextview.cpp:423
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
@@ -3334,7 +3334,7 @@ msgstr "Secara aman melepas perangkat setelah menyalin"
 msgid "Sample rate"
 msgstr "Laju sampel"
 
-#: context/contextview.cpp:213
+#: context/contextview.cpp:214
 msgid "Samplerate"
 msgstr "Lajusampel"
 
@@ -3572,7 +3572,7 @@ msgstr "Tampilkan OSD cantik"
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
-#: context/contextview.cpp:290
+#: context/contextview.cpp:291
 msgid "Show album cover"
 msgstr ""
 
@@ -3580,7 +3580,7 @@ msgstr ""
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
-#: context/contextview.cpp:302
+#: context/contextview.cpp:303
 msgid "Show albums by artist"
 msgstr "Tampilkan album berdasarkan artis"
 
@@ -3592,7 +3592,7 @@ msgstr "Tampilkan semua lagu"
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
-#: context/contextview.cpp:298
+#: context/contextview.cpp:299
 msgid "Show engine and device"
 msgstr "Tampilkan mesin dan perangkat"
 
@@ -3641,11 +3641,11 @@ msgstr "Tampilkan widget berputar"
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
-#: context/contextview.cpp:306
+#: context/contextview.cpp:307
 msgid "Show song lyrics"
 msgstr "Tampilkan lirik lagu"
 
-#: context/contextview.cpp:294
+#: context/contextview.cpp:295
 msgid "Show song technical data"
 msgstr "Tampilkan data teknis lagu"
 
@@ -4579,7 +4579,7 @@ msgstr "cakram %1"
 msgid "hw"
 msgstr "hw"
 
-#: context/contextview.cpp:501 context/contextview.cpp:653
+#: context/contextview.cpp:502 context/contextview.cpp:654
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
 msgid "kbps"
 msgstr "kbps"
