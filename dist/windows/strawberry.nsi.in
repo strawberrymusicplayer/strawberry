@@ -201,7 +201,7 @@ Section "Strawberry" Strawberry
   File "libspeex-1.dll"
   File "libsqlite3-0.dll"
   File "libstdc++-6.dll"
-  ;File "libtag.dll"
+  File "libtag.dll"
   File "libunistring-2.dll"
   File "libvorbis-0.dll"
   File "libvorbisenc-2.dll"
