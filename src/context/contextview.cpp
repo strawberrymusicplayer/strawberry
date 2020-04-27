@@ -146,9 +146,10 @@ ContextView::ContextView(QWidget *parent) :
   widget_scrollarea_->setLayout(layout_scrollarea_);
   widget_scrollarea_->setContentsMargins(0, 0, 0, 0);
 
-  label_top_->setWordWrap(true);
   label_top_->setAlignment(Qt::AlignTop|Qt::AlignLeft);
+  label_top_->setWordWrap(true);
   label_top_->setMinimumHeight(50);
+  label_top_->setContentsMargins(0, 0, 40, 0);
 
   layout_scrollarea_->setObjectName("context-layout-scrollarea");
   layout_scrollarea_->setContentsMargins(15, 15, 15, 15);
