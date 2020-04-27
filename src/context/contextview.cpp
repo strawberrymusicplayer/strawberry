@@ -518,7 +518,7 @@ void ContextView::SetSong() {
     if (app_->player()->engine()) enginetype = app_->player()->engine()->type();
     QIcon icon_engine = IconLoader::Load(EngineName(enginetype), 32);
 
-    label_engine_icon_->setPixmap(icon_engine.pixmap(icon_engine.availableSizes().last()));
+    label_engine_icon_->setPixmap(icon_engine.pixmap(QSize(32, 32)));
     label_engine_->setText(EngineDescription(enginetype));
     spacer_play_output_->changeSize(20, 20, QSizePolicy::Fixed);
 
@@ -535,7 +535,7 @@ void ContextView::SetSong() {
       label_device_icon_->show();
       label_device_->show();
       QIcon icon_device = IconLoader::Load(device.iconname, 32);
-      label_device_icon_->setPixmap(icon_device.pixmap(icon_device.availableSizes().last()));
+      label_device_icon_->setPixmap(icon_device.pixmap(QSize(32, 32)));
       label_device_->setText(device.description);
     }
     else {
