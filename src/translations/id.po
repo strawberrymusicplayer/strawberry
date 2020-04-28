@@ -93,6 +93,11 @@ msgstr "menit"
 msgid " ms"
 msgstr " md"
 
+#: ../build/src/ui_contextsettingspage.h:425
+#: ../build/src/ui_contextsettingspage.h:430
+msgid " pt"
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
 msgstr " d"
@@ -106,22 +111,22 @@ msgstr " detik"
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:467
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:463
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artists"
 msgstr ""
@@ -152,7 +157,7 @@ msgstr "%1 daftar putar (%2)"
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
-#: context/contextview.cpp:426
+#: context/contextview.cpp:459
 #, qt-format
 msgid "%1 song"
 msgstr ""
@@ -162,7 +167,7 @@ msgstr ""
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 songs"
 msgstr ""
@@ -182,16 +187,16 @@ msgstr "%1 trek"
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
 
-#: ../build/src/ui_contextsettingspage.h:309
+#: ../build/src/ui_contextsettingspage.h:413
 msgid "%album%"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:382
+#: ../build/src/ui_collectionsettingspage.h:426
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:300
+#: ../build/src/ui_contextsettingspage.h:404
 #: ../build/src/ui_notificationssettingspage.h:458
 msgid "%filename%"
 msgstr "%filename%"
@@ -214,7 +219,7 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n tersisa"
 
-#: ../build/src/ui_contextsettingspage.h:305
+#: ../build/src/ui_contextsettingspage.h:409
 msgid "%title - %artist%"
 msgstr ""
 
@@ -482,7 +487,7 @@ msgstr "Tambah &folder..."
 msgid "Add Stream"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:298
+#: ../build/src/ui_contextsettingspage.h:402
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add a new line if supported by the notification type"
 msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
@@ -491,7 +496,7 @@ msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 
-#: settings/collectionsettingspage.cpp:90
+#: settings/collectionsettingspage.cpp:101
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
@@ -515,21 +520,21 @@ msgstr "Tambah berkas untuk ditranskode"
 msgid "Add folder"
 msgstr "Tambah folder"
 
-#: ../build/src/ui_collectionsettingspage.h:361
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Add new folder..."
 msgstr "Tambah folder baru..."
 
-#: ../build/src/ui_contextsettingspage.h:259
+#: ../build/src/ui_contextsettingspage.h:363
 #: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song album tag"
 msgstr "Tambahkan nama album"
 
-#: ../build/src/ui_contextsettingspage.h:265
+#: ../build/src/ui_contextsettingspage.h:369
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song albumartist tag"
 msgstr "Tambahkan nama album artis"
 
-#: ../build/src/ui_contextsettingspage.h:256
+#: ../build/src/ui_contextsettingspage.h:360
 #: ../build/src/ui_notificationssettingspage.h:408
 msgid "Add song artist tag"
 msgstr "Tambahkan nama artis"
@@ -538,42 +543,42 @@ msgstr "Tambahkan nama artis"
 msgid "Add song auto score"
 msgstr "Tambahkan nilai otomatis"
 
-#: ../build/src/ui_contextsettingspage.h:271
+#: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song composer tag"
 msgstr "Tambahkan nama komposer"
 
-#: ../build/src/ui_contextsettingspage.h:280
+#: ../build/src/ui_contextsettingspage.h:384
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song disc tag"
 msgstr "Tambahkan nomor cakram"
 
-#: ../build/src/ui_contextsettingspage.h:302
+#: ../build/src/ui_contextsettingspage.h:406
 #: ../build/src/ui_notificationssettingspage.h:460
 msgid "Add song filename"
 msgstr "Tambahkan nama berkas"
 
-#: ../build/src/ui_contextsettingspage.h:286
+#: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song genre tag"
 msgstr "Tambahkan genre"
 
-#: ../build/src/ui_contextsettingspage.h:277
+#: ../build/src/ui_contextsettingspage.h:381
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song grouping tag"
 msgstr "Tambahkan kelompok"
 
-#: ../build/src/ui_contextsettingspage.h:289
+#: ../build/src/ui_contextsettingspage.h:393
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song length tag"
 msgstr "Tambahkan durasi lagu"
 
-#: ../build/src/ui_contextsettingspage.h:274
+#: ../build/src/ui_contextsettingspage.h:378
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song performer tag"
 msgstr "Tambahkan nama penampil"
 
-#: ../build/src/ui_contextsettingspage.h:292
+#: ../build/src/ui_contextsettingspage.h:396
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song play count"
 msgstr "Tambahkan jumlah pemutaran"
@@ -582,22 +587,22 @@ msgstr "Tambahkan jumlah pemutaran"
 msgid "Add song rating"
 msgstr "Tambahkan peringkat"
 
-#: ../build/src/ui_contextsettingspage.h:295
+#: ../build/src/ui_contextsettingspage.h:399
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song skip count"
 msgstr "Tambahkan jumlah lewatan"
 
-#: ../build/src/ui_contextsettingspage.h:262
+#: ../build/src/ui_contextsettingspage.h:366
 #: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song title tag"
 msgstr "Tambahkan judul lagu"
 
-#: ../build/src/ui_contextsettingspage.h:283
+#: ../build/src/ui_contextsettingspage.h:387
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song track tag"
 msgstr "Tambahkan nomor trek"
 
-#: ../build/src/ui_contextsettingspage.h:268
+#: ../build/src/ui_contextsettingspage.h:372
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song year tag"
 msgstr "Tambahkan tahun rilis"
@@ -673,7 +678,7 @@ msgstr "Sa&mpul album"
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:312
+#: ../build/src/ui_contextsettingspage.h:416
 #: ../build/src/ui_edittagdialog.h:683
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
@@ -688,16 +693,16 @@ msgstr "Album (kenyaringan ideal untuk semua trek)"
 msgid "Album - Disc"
 msgstr "Album - Cakram"
 
-#: ../build/src/ui_collectionsettingspage.h:386
-msgid "Album art cache"
-msgstr ""
-
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1184
 #: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
 msgstr "Album artis"
+
+#: ../build/src/ui_collectionsettingspage.h:430
+msgid "Album cover pixmap cache"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -707,12 +712,12 @@ msgstr "Ukuran sampul album"
 msgid "Albums"
 msgstr "Album"
 
-#: context/contextview.cpp:567
+#: context/contextview.cpp:609
 #, qt-format
 msgid "Albums by %1"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:315
+#: ../build/src/ui_contextsettingspage.h:419
 msgid "Albums by Artist"
 msgstr ""
 
@@ -863,7 +868,7 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: tidal/tidalrequest.cpp:117
+#: tidal/tidalrequest.cpp:116
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
@@ -884,15 +889,15 @@ msgstr "Auto"
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: ../build/src/ui_collectionsettingspage.h:363
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Automatic updating"
 msgstr "Pembaruan otomatis"
 
-#: ../build/src/ui_collectionsettingspage.h:374
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Automatically open single categories in the collection tree"
 msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 
-#: context/contextview.cpp:311 ../build/src/ui_contextsettingspage.h:317
+#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:421
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -952,7 +957,7 @@ msgstr "Perilaku"
 msgid "Best"
 msgstr "Terbaik"
 
-#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:132
+#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
 #: playlist/playlist.cpp:1194 organise/organisedialog.cpp:114
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
@@ -963,7 +968,7 @@ msgstr "Kedalaman bit"
 msgid "Bit rate"
 msgstr "Laju bit"
 
-#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:135
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:135
 #: playlist/playlist.cpp:1195 ../build/src/ui_groupbydialog.h:146
 #: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1076,7 +1081,7 @@ msgstr "Klasik"
 msgid "Clear"
 msgstr "Bersihkan"
 
-#: ../build/src/ui_collectionsettingspage.h:389
+#: ../build/src/ui_collectionsettingspage.h:436
 msgid "Clear Disk Cache"
 msgstr ""
 
@@ -1132,7 +1137,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:359
+#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:403
 msgid "Collection"
 msgstr "Pustakascan"
 
@@ -1191,7 +1196,6 @@ msgstr "Konfigurasi tidak benar"
 
 #: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:334
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
-#: internet/internetcollectionview.cpp:326
 #, qt-format
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
@@ -1212,7 +1216,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:254
+#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:358
 msgid "Context"
 msgstr "Konteks"
 
@@ -1402,6 +1406,10 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
+#: ../build/src/ui_collectionsettingspage.h:434
+msgid "Current disk cache in use:"
+msgstr ""
+
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
 msgstr "Ubahsuai"
@@ -1414,7 +1422,7 @@ msgstr "Gambar ubahsuai:"
 msgid "Custom message settings"
 msgstr "Setelan pesan ubahsuai"
 
-#: ../build/src/ui_contextsettingspage.h:304
+#: ../build/src/ui_contextsettingspage.h:408
 msgid "Custom text settings"
 msgstr ""
 
@@ -1499,7 +1507,7 @@ msgstr "Tujuan"
 msgid "Details..."
 msgstr "Detail..."
 
-#: context/contextview.cpp:183 device/giolister.cpp:188
+#: context/contextview.cpp:184 device/giolister.cpp:188
 #: ../build/src/ui_backendsettingspage.h:446
 msgid "Device"
 msgstr "Perangkat"
@@ -1544,12 +1552,12 @@ msgstr "Cakram"
 msgid "Discontinuous transmission"
 msgstr "Transmisi putus-putus"
 
-#: ../build/src/ui_collectionsettingspage.h:390
+#: ../build/src/ui_collectionsettingspage.h:433
 msgid "Disk Cache Size"
 msgstr ""
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:373
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Display options"
 msgstr "Opsi tampilan"
 
@@ -1645,11 +1653,11 @@ msgstr "Sunting informasi trek..."
 msgid "Enable"
 msgstr "Fungsikan"
 
-#: ../build/src/ui_collectionsettingspage.h:388
+#: ../build/src/ui_collectionsettingspage.h:432
 msgid "Enable Disk Cache"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:311
+#: ../build/src/ui_contextsettingspage.h:415
 msgid "Enable Items"
 msgstr ""
 
@@ -1689,11 +1697,11 @@ msgstr "Kualitas mesin enkode"
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: context/contextview.cpp:182 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:444
 msgid "Engine"
 msgstr "Mesin"
 
-#: ../build/src/ui_contextsettingspage.h:314
+#: ../build/src/ui_contextsettingspage.h:418
 msgid "Engine and Device"
 msgstr ""
 
@@ -1934,7 +1942,7 @@ msgstr "Jenis berkas"
 msgid "Filename"
 msgstr "Nama berkas"
 
-#: ../build/src/ui_collectionsettingspage.h:379
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "Filename:"
 msgstr "Nama berkas:"
 
@@ -1946,7 +1954,7 @@ msgstr "Berkas"
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: context/contextview.cpp:212
+#: context/contextview.cpp:213
 msgid "Filetype"
 msgstr "Tipe berkas"
 
@@ -1961,6 +1969,24 @@ msgstr "Level pertama"
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
 msgstr "Paskan sampul ke lebar"
+
+#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:428
+msgid "Font"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:427
+msgid "Font for data and lyrics"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:422
+msgid "Font for headline"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:429
+msgid "Font size"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2321,7 +2347,7 @@ msgstr "Last.fm"
 msgid "Left"
 msgstr "Kiri"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:213
+#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
 #: playlist/playlist.cpp:1180 organise/organisedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
@@ -2375,7 +2401,7 @@ msgstr "Memuat perangkat MTP"
 msgid "Loading iPod database"
 msgstr "Memuat basis data iPod"
 
-#: collection/collectionmodel.cpp:213
+#: collection/collectionmodel.cpp:214
 msgid "Loading songs"
 msgstr "Memuat lagu"
 
@@ -2387,7 +2413,7 @@ msgstr "Memuat trek"
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:206 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "Memuat..."
 
@@ -2419,7 +2445,7 @@ msgstr "Rendah (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Profil kompleksitas rendah (LC)"
 
-#: ../build/src/ui_collectionsettingspage.h:384
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
@@ -2451,7 +2477,7 @@ msgstr "Produsen"
 msgid "Mark as listened"
 msgstr "Tandai sudah didengar"
 
-#: ../build/src/ui_collectionsettingspage.h:366
+#: ../build/src/ui_collectionsettingspage.h:410
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
@@ -2492,13 +2518,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:677 tidal/tidalservice.cpp:736
-#: tidal/tidalservice.cpp:793 tidal/tidalservice.cpp:859
-#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
+#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
+#: tidal/tidalservice.cpp:918 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:638
+#: tidal/tidalservice.cpp:637
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
@@ -2506,11 +2532,11 @@ msgstr "Token API Tidal tidak tersedia."
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:646
+#: tidal/tidalservice.cpp:645
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:642
+#: tidal/tidalservice.cpp:641
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
@@ -2518,7 +2544,7 @@ msgstr "Nama pengguna Tidal tidak tersedia."
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
-#: subsonic/subsonicservice.cpp:378
+#: subsonic/subsonicservice.cpp:377
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
@@ -2526,7 +2552,7 @@ msgstr "Nama pengguna atau kata sandi tidak tersedia."
 msgid "Model"
 msgstr "Model"
 
-#: ../build/src/ui_collectionsettingspage.h:365
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid "Monitor the collection for changes"
 msgstr "Monitor perubahan pustaka"
 
@@ -2630,7 +2656,7 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1220
+#: tidal/tidalrequest.cpp:1219
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
@@ -2645,7 +2671,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
 
-#: context/contextview.cpp:423
+#: context/contextview.cpp:456
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
@@ -2668,15 +2694,15 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: tidal/tidalservice.cpp:650
+#: tidal/tidalservice.cpp:649
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:672 tidal/tidalservice.cpp:731
-#: tidal/tidalservice.cpp:788 tidal/tidalservice.cpp:854
-#: tidal/tidalservice.cpp:915 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:671 tidal/tidalservice.cpp:730
+#: tidal/tidalservice.cpp:787 tidal/tidalservice.cpp:853
+#: tidal/tidalservice.cpp:914 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -2809,7 +2835,7 @@ msgstr "Keluaran"
 msgid "Output options"
 msgstr "Opsi keluaran"
 
-#: ../build/src/ui_collectionsettingspage.h:383
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Overwrite existing file"
 msgstr "Timpa berkas yang sudah ada"
 
@@ -2962,7 +2988,7 @@ msgstr "Kemukakan artis album saat scrobble"
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: ../build/src/ui_collectionsettingspage.h:368
+#: ../build/src/ui_collectionsettingspage.h:412
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 
@@ -3007,6 +3033,8 @@ msgstr "Menekan \"Sebelumnya\" pada pemutar akan..."
 msgid "Pretty OSD options"
 msgstr "Opsi Pretty OSD"
 
+#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_notificationssettingspage.h:479
 #: ../build/src/ui_organisedialog.h:282
 msgid "Preview"
@@ -3132,7 +3160,7 @@ msgstr "Buang &duplikat dari daftar putar"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "B&uang trek yang tidak tersedia dari daftar putar"
 
-#: ../build/src/ui_collectionsettingspage.h:362
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Remove folder"
 msgstr "Buang folder"
 
@@ -3190,7 +3218,7 @@ msgstr "Ulang trek"
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
 
-#: ../build/src/ui_collectionsettingspage.h:385
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Replace spaces with dashes"
 msgstr "Ganti spasi dengan garis strip"
 
@@ -3210,7 +3238,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
-#: tidal/tidalservice.cpp:348
+#: tidal/tidalservice.cpp:347
 msgid "Reply from Tidal is missing query items."
 msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
@@ -3253,45 +3281,45 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
+#: subsonic/subsonicrequest.cpp:671 tidal/tidalrequest.cpp:1080
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1082
+#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: tidal/tidalrequest.cpp:464
+#: tidal/tidalrequest.cpp:463
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr "Mengambil album untuk %1 artis..."
 
-#: tidal/tidalrequest.cpp:465
+#: tidal/tidalrequest.cpp:464
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr "Mengambil album untuk %1 artis..."
 
-#: subsonic/subsonicrequest.cpp:126 tidal/tidalrequest.cpp:200
+#: subsonic/subsonicrequest.cpp:125 tidal/tidalrequest.cpp:199
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
 
-#: tidal/tidalrequest.cpp:156
+#: tidal/tidalrequest.cpp:155
 msgid "Retrieving artists..."
 msgstr "Mengambil artis..."
 
-#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
+#: subsonic/subsonicrequest.cpp:315 tidal/tidalrequest.cpp:721
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:723
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: tidal/tidalrequest.cpp:244
+#: tidal/tidalrequest.cpp:243
 msgid "Retrieving songs..."
 msgstr "Mengambil lagu..."
 
@@ -3334,7 +3362,7 @@ msgstr "Secara aman melepas perangkat setelah menyalin"
 msgid "Sample rate"
 msgstr "Laju sampel"
 
-#: context/contextview.cpp:214
+#: context/contextview.cpp:215
 msgid "Samplerate"
 msgstr "Lajusampel"
 
@@ -3346,7 +3374,7 @@ msgstr "Simpan &daftar putar..."
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
-#: ../build/src/ui_collectionsettingspage.h:378
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Save album covers in album directory"
 msgstr "Simpan sampul album di direktori album"
 
@@ -3384,7 +3412,7 @@ msgstr "Simpan berkas .mood di folder lagu"
 msgid "Saved Grouping Manager"
 msgstr "Pengelola Pengelompokan Tersimpan"
 
-#: ../build/src/ui_collectionsettingspage.h:377
+#: ../build/src/ui_collectionsettingspage.h:421
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
@@ -3436,8 +3464,8 @@ msgstr "Cari sampul album..."
 msgid "Search for this"
 msgstr "Cari ini"
 
-#: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
-#: tidal/tidalrequest.cpp:316
+#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
+#: tidal/tidalrequest.cpp:315
 msgid "Searching..."
 msgstr "Mencari..."
 
@@ -3493,7 +3521,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:373 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:372 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -3572,15 +3600,15 @@ msgstr "Tampilkan OSD cantik"
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
-#: context/contextview.cpp:291
+#: context/contextview.cpp:318
 msgid "Show album cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:375
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
-#: context/contextview.cpp:303
+#: context/contextview.cpp:330
 msgid "Show albums by artist"
 msgstr "Tampilkan album berdasarkan artis"
 
@@ -3588,11 +3616,11 @@ msgstr "Tampilkan album berdasarkan artis"
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
-#: ../build/src/ui_collectionsettingspage.h:376
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
-#: context/contextview.cpp:299
+#: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Tampilkan mesin dan perangkat"
 
@@ -3641,11 +3669,11 @@ msgstr "Tampilkan widget berputar"
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
-#: context/contextview.cpp:307
+#: context/contextview.cpp:334
 msgid "Show song lyrics"
 msgstr "Tampilkan lirik lagu"
 
-#: context/contextview.cpp:295
+#: context/contextview.cpp:322
 msgid "Show song technical data"
 msgstr "Tampilkan data teknis lagu"
 
@@ -3678,7 +3706,7 @@ msgid "Signing in..."
 msgstr "Sedang masuk..."
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:387
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Size"
 msgstr "Ukuran"
 
@@ -3726,7 +3754,7 @@ msgstr "Soft"
 msgid "Soft Rock"
 msgstr "Soft Rock"
 
-#: ../build/src/ui_contextsettingspage.h:316
+#: ../build/src/ui_contextsettingspage.h:420
 msgid "Song Lyrics"
 msgstr ""
 
@@ -3883,7 +3911,7 @@ msgstr "Berhasil menulis %1"
 msgid "Suggested tags"
 msgstr "Tag yang disarankan"
 
-#: ../build/src/ui_contextsettingspage.h:308
+#: ../build/src/ui_contextsettingspage.h:412
 #: ../build/src/ui_notificationssettingspage.h:481
 #: ../build/src/ui_edittagdialog.h:678
 msgid "Summary"
@@ -3918,7 +3946,7 @@ msgstr "Pengambil tag"
 msgid "Target bitrate"
 msgstr "Target lajubit"
 
-#: ../build/src/ui_contextsettingspage.h:313
+#: ../build/src/ui_contextsettingspage.h:417
 msgid "Technical Data"
 msgstr ""
 
@@ -4022,7 +4050,7 @@ msgstr ""
 "Berkas-berkas ini akan dihapus dari perangkat, apakah Anda yakin ingin "
 "melanjutkan?"
 
-#: ../build/src/ui_collectionsettingspage.h:360
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Folder berikut akan dipindai untuk musik untuk membuat pustaka Anda"
 
@@ -4111,7 +4139,7 @@ msgid "Timezone"
 msgstr "Zona waktu"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1175
-#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:307
+#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:411
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4201,16 +4229,16 @@ msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
 #: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:432 collection/collectionmodel.cpp:437
-#: collection/collectionmodel.cpp:441 collection/collectionmodel.cpp:445
-#: collection/collectionmodel.cpp:449 collection/collectionmodel.cpp:1401
+#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
+#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
+#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1402
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
 #: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:812 tidal/tidalrequest.cpp:1226
+#: subsonic/subsonicrequest.cpp:811 tidal/tidalrequest.cpp:1225
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
@@ -4226,7 +4254,7 @@ msgstr "Taklewati trek yang dipilih"
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
-#: ../build/src/ui_collectionsettingspage.h:364
+#: ../build/src/ui_collectionsettingspage.h:408
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
@@ -4300,15 +4328,15 @@ msgstr "Gunakan warna kustom"
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
-#: ../build/src/ui_collectionsettingspage.h:380
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Use hash"
 msgstr "Gunakan hash"
 
-#: ../build/src/ui_collectionsettingspage.h:367
+#: ../build/src/ui_collectionsettingspage.h:411
 msgid "Use live scanning"
 msgstr "Gunakan pemindaian langsung"
 
-#: ../build/src/ui_collectionsettingspage.h:381
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Use pattern"
 msgstr "Gunakan pola"
 
@@ -4359,7 +4387,7 @@ msgstr "Menggunakan menu untuk menambah lagu akan..."
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:346 playlist/playlistmanager.cpp:559
+#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4403,7 +4431,7 @@ msgstr "Peringatkan saya ketika menutup tab daftar putar"
 msgid "WavPack"
 msgstr "WavPack"
 
-#: ../build/src/ui_collectionsettingspage.h:370
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -4579,7 +4607,7 @@ msgstr "cakram %1"
 msgid "hw"
 msgstr "hw"
 
-#: context/contextview.cpp:502 context/contextview.cpp:654
+#: context/contextview.cpp:544 context/contextview.cpp:695
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
 msgid "kbps"
 msgstr "kbps"

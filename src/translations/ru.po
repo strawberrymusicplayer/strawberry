@@ -112,6 +112,11 @@ msgstr "минуты"
 msgid " ms"
 msgstr " мс"
 
+#: ../build/src/ui_contextsettingspage.h:425
+#: ../build/src/ui_contextsettingspage.h:430
+msgid " pt"
+msgstr ""
+
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
 msgstr " с"
@@ -125,22 +130,22 @@ msgstr " секунд"
 msgid "%1 Scrobbler Authentication"
 msgstr "Аутентификация скроблерра %1"
 
-#: context/contextview.cpp:434
+#: context/contextview.cpp:467
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:435
+#: context/contextview.cpp:468
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:430
+#: context/contextview.cpp:463
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:431
+#: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artists"
 msgstr ""
@@ -171,7 +176,7 @@ msgstr "%1 плейлистов (%2)"
 msgid "%1 selected of"
 msgstr "%1 выбрано из"
 
-#: context/contextview.cpp:426
+#: context/contextview.cpp:459
 #, qt-format
 msgid "%1 song"
 msgstr ""
@@ -181,7 +186,7 @@ msgstr ""
 msgid "%1 song%2"
 msgstr "%1 песня%2"
 
-#: context/contextview.cpp:427
+#: context/contextview.cpp:460
 #, qt-format
 msgid "%1 songs"
 msgstr ""
@@ -201,16 +206,16 @@ msgstr "%1 треков"
 msgid "%1 transferred"
 msgstr "%1 передано"
 
-#: ../build/src/ui_contextsettingspage.h:309
+#: ../build/src/ui_contextsettingspage.h:413
 msgid "%album%"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:382
+#: ../build/src/ui_collectionsettingspage.h:426
 #, c-format
 msgid "%albumartist-%album"
 msgstr "%albumartist-%album"
 
-#: ../build/src/ui_contextsettingspage.h:300
+#: ../build/src/ui_contextsettingspage.h:404
 #: ../build/src/ui_notificationssettingspage.h:458
 msgid "%filename%"
 msgstr "%filename%"
@@ -233,7 +238,7 @@ msgctxt ""
 msgid "%n remaining"
 msgstr "%n осталось"
 
-#: ../build/src/ui_contextsettingspage.h:305
+#: ../build/src/ui_contextsettingspage.h:409
 msgid "%title - %artist%"
 msgstr ""
 
@@ -500,7 +505,7 @@ msgstr "Добавить &папку..."
 msgid "Add Stream"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:298
+#: ../build/src/ui_contextsettingspage.h:402
 #: ../build/src/ui_notificationssettingspage.h:456
 msgid "Add a new line if supported by the notification type"
 msgstr "Добавить новую строку, если поддерживается типом уведомления"
@@ -509,7 +514,7 @@ msgstr "Добавить новую строку, если поддержива�
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Добавить все треки из папки и её подпапки"
 
-#: settings/collectionsettingspage.cpp:90
+#: settings/collectionsettingspage.cpp:101
 msgid "Add directory..."
 msgstr "Добавить каталог…"
 
@@ -533,21 +538,21 @@ msgstr "Добавить файлы для конвертирования"
 msgid "Add folder"
 msgstr "Добавить папку"
 
-#: ../build/src/ui_collectionsettingspage.h:361
+#: ../build/src/ui_collectionsettingspage.h:405
 msgid "Add new folder..."
 msgstr "Добавить новую папку..."
 
-#: ../build/src/ui_contextsettingspage.h:259
+#: ../build/src/ui_contextsettingspage.h:363
 #: ../build/src/ui_notificationssettingspage.h:411
 msgid "Add song album tag"
 msgstr "Добавить тег \"Альбом\""
 
-#: ../build/src/ui_contextsettingspage.h:265
+#: ../build/src/ui_contextsettingspage.h:369
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song albumartist tag"
 msgstr "Добавить тег \"Исполнитель альбома\""
 
-#: ../build/src/ui_contextsettingspage.h:256
+#: ../build/src/ui_contextsettingspage.h:360
 #: ../build/src/ui_notificationssettingspage.h:408
 msgid "Add song artist tag"
 msgstr "Добавить тег \"Исполнитель\""
@@ -556,42 +561,42 @@ msgstr "Добавить тег \"Исполнитель\""
 msgid "Add song auto score"
 msgstr "Добавить автоподсчёт воспроизведений"
 
-#: ../build/src/ui_contextsettingspage.h:271
+#: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:423
 msgid "Add song composer tag"
 msgstr "Добавить тег \"Композитор\""
 
-#: ../build/src/ui_contextsettingspage.h:280
+#: ../build/src/ui_contextsettingspage.h:384
 #: ../build/src/ui_notificationssettingspage.h:432
 msgid "Add song disc tag"
 msgstr "Добавить тег \"Диск\""
 
-#: ../build/src/ui_contextsettingspage.h:302
+#: ../build/src/ui_contextsettingspage.h:406
 #: ../build/src/ui_notificationssettingspage.h:460
 msgid "Add song filename"
 msgstr "Добавить имя файла с композицией"
 
-#: ../build/src/ui_contextsettingspage.h:286
+#: ../build/src/ui_contextsettingspage.h:390
 #: ../build/src/ui_notificationssettingspage.h:438
 msgid "Add song genre tag"
 msgstr "Добавить тег \"Жанр\""
 
-#: ../build/src/ui_contextsettingspage.h:277
+#: ../build/src/ui_contextsettingspage.h:381
 #: ../build/src/ui_notificationssettingspage.h:429
 msgid "Add song grouping tag"
 msgstr "Добавить тег \"Группа\""
 
-#: ../build/src/ui_contextsettingspage.h:289
+#: ../build/src/ui_contextsettingspage.h:393
 #: ../build/src/ui_notificationssettingspage.h:441
 msgid "Add song length tag"
 msgstr "Добавить тег \"Длина\""
 
-#: ../build/src/ui_contextsettingspage.h:274
+#: ../build/src/ui_contextsettingspage.h:378
 #: ../build/src/ui_notificationssettingspage.h:426
 msgid "Add song performer tag"
 msgstr "Добавить тег \"Исполнитель\""
 
-#: ../build/src/ui_contextsettingspage.h:292
+#: ../build/src/ui_contextsettingspage.h:396
 #: ../build/src/ui_notificationssettingspage.h:444
 msgid "Add song play count"
 msgstr "Добавить число воспроизведений"
@@ -600,22 +605,22 @@ msgstr "Добавить число воспроизведений"
 msgid "Add song rating"
 msgstr "Добавить рейтинг"
 
-#: ../build/src/ui_contextsettingspage.h:295
+#: ../build/src/ui_contextsettingspage.h:399
 #: ../build/src/ui_notificationssettingspage.h:447
 msgid "Add song skip count"
 msgstr "Добавить число пропусков"
 
-#: ../build/src/ui_contextsettingspage.h:262
+#: ../build/src/ui_contextsettingspage.h:366
 #: ../build/src/ui_notificationssettingspage.h:414
 msgid "Add song title tag"
 msgstr "Добавить тег \"Название\""
 
-#: ../build/src/ui_contextsettingspage.h:283
+#: ../build/src/ui_contextsettingspage.h:387
 #: ../build/src/ui_notificationssettingspage.h:435
 msgid "Add song track tag"
 msgstr "Добавить тег \"Номер дорожки\""
 
-#: ../build/src/ui_contextsettingspage.h:268
+#: ../build/src/ui_contextsettingspage.h:372
 #: ../build/src/ui_notificationssettingspage.h:420
 msgid "Add song year tag"
 msgstr "Добавить тег \"Год\""
@@ -691,7 +696,7 @@ msgstr "О&бложка альбома"
 #: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
 #: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
 #: ../build/src/ui_albumcoversearcher.h:112
-#: ../build/src/ui_contextsettingspage.h:312
+#: ../build/src/ui_contextsettingspage.h:416
 #: ../build/src/ui_edittagdialog.h:683
 #: ../build/src/ui_trackselectiondialog.h:208
 msgid "Album"
@@ -706,16 +711,16 @@ msgstr "Альбом (идеальная громкость всех треко�
 msgid "Album - Disc"
 msgstr "raАльбом - Диск"
 
-#: ../build/src/ui_collectionsettingspage.h:386
-msgid "Album art cache"
-msgstr ""
-
 #: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1184
 #: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:129
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
 msgstr "Исполнитель альбома"
+
+#: ../build/src/ui_collectionsettingspage.h:430
+msgid "Album cover pixmap cache"
+msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -725,12 +730,12 @@ msgstr "Размер обложки альбома"
 msgid "Albums"
 msgstr "Альбомы"
 
-#: context/contextview.cpp:567
+#: context/contextview.cpp:609
 #, qt-format
 msgid "Albums by %1"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:315
+#: ../build/src/ui_contextsettingspage.h:419
 msgid "Albums by Artist"
 msgstr ""
 
@@ -881,7 +886,7 @@ msgstr "Вывод звука"
 msgid "Audio quality"
 msgstr "Качество звука"
 
-#: tidal/tidalrequest.cpp:117
+#: tidal/tidalrequest.cpp:116
 msgid "Authenticating..."
 msgstr "Аутентификация..."
 
@@ -902,15 +907,15 @@ msgstr "Авто"
 msgid "Automatic"
 msgstr "Автоматические"
 
-#: ../build/src/ui_collectionsettingspage.h:363
+#: ../build/src/ui_collectionsettingspage.h:407
 msgid "Automatic updating"
 msgstr "Автоматическое обновление"
 
-#: ../build/src/ui_collectionsettingspage.h:374
+#: ../build/src/ui_collectionsettingspage.h:418
 msgid "Automatically open single categories in the collection tree"
 msgstr "Автоматически раскрывать одиночные категории в дереве фонотеки"
 
-#: context/contextview.cpp:311 ../build/src/ui_contextsettingspage.h:317
+#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:421
 msgid "Automatically search for song lyrics"
 msgstr ""
 
@@ -970,7 +975,7 @@ msgstr "Поведение"
 msgid "Best"
 msgstr "Лучшее"
 
-#: context/contextview.cpp:215 collection/savedgroupingmanager.cpp:132
+#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
 #: playlist/playlist.cpp:1194 organise/organisedialog.cpp:114
 #: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
 #: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
@@ -981,7 +986,7 @@ msgstr "Разрядность"
 msgid "Bit rate"
 msgstr "Битрейт"
 
-#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:135
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:135
 #: playlist/playlist.cpp:1195 ../build/src/ui_groupbydialog.h:146
 #: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
 #: ../build/src/ui_transcoderoptionsaac.h:128
@@ -1094,7 +1099,7 @@ msgstr "Классический"
 msgid "Clear"
 msgstr "Очистить"
 
-#: ../build/src/ui_collectionsettingspage.h:389
+#: ../build/src/ui_collectionsettingspage.h:436
 msgid "Clear Disk Cache"
 msgstr ""
 
@@ -1151,7 +1156,7 @@ msgstr "Закрытие этого окна остановит поиск об�
 msgid "Club"
 msgstr "Клубный"
 
-#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:359
+#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:403
 msgid "Collection"
 msgstr "Фонотека"
 
@@ -1210,7 +1215,6 @@ msgstr "Некорректная конфигурация"
 
 #: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:334
 #: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
-#: internet/internetcollectionview.cpp:326
 #, qt-format
 msgid "Configure %1..."
 msgstr "Настроить %1…"
@@ -1231,7 +1235,7 @@ msgstr "Консоль"
 msgid "Constant bitrate"
 msgstr "Постоянный битрейт"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:254
+#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:358
 msgid "Context"
 msgstr "Контекст"
 
@@ -1422,6 +1426,10 @@ msgstr "Ctrl+T"
 msgid "Ctrl+Up"
 msgstr "Ctrl+Up"
 
+#: ../build/src/ui_collectionsettingspage.h:434
+msgid "Current disk cache in use:"
+msgstr ""
+
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
 msgstr "Пользовательский"
@@ -1434,7 +1442,7 @@ msgstr "Собственное изображение:"
 msgid "Custom message settings"
 msgstr "Настройки сообщения"
 
-#: ../build/src/ui_contextsettingspage.h:304
+#: ../build/src/ui_contextsettingspage.h:408
 msgid "Custom text settings"
 msgstr ""
 
@@ -1519,7 +1527,7 @@ msgstr "Назначение"
 msgid "Details..."
 msgstr "Подробнее…"
 
-#: context/contextview.cpp:183 device/giolister.cpp:188
+#: context/contextview.cpp:184 device/giolister.cpp:188
 #: ../build/src/ui_backendsettingspage.h:446
 msgid "Device"
 msgstr "Устройство"
@@ -1564,12 +1572,12 @@ msgstr "Диск"
 msgid "Discontinuous transmission"
 msgstr "Непрерывная передача"
 
-#: ../build/src/ui_collectionsettingspage.h:390
+#: ../build/src/ui_collectionsettingspage.h:433
 msgid "Disk Cache Size"
 msgstr ""
 
 #: collection/collectionfilterwidget.cpp:127
-#: ../build/src/ui_collectionsettingspage.h:373
+#: ../build/src/ui_collectionsettingspage.h:417
 msgid "Display options"
 msgstr "Настройки вида"
 
@@ -1665,11 +1673,11 @@ msgstr "Изменить информацию о треках"
 msgid "Enable"
 msgstr "Включить"
 
-#: ../build/src/ui_collectionsettingspage.h:388
+#: ../build/src/ui_collectionsettingspage.h:432
 msgid "Enable Disk Cache"
 msgstr ""
 
-#: ../build/src/ui_contextsettingspage.h:311
+#: ../build/src/ui_contextsettingspage.h:415
 msgid "Enable Items"
 msgstr ""
 
@@ -1709,11 +1717,11 @@ msgstr "Качество кодирования"
 msgid "Encoding mode"
 msgstr "Режим кодирования"
 
-#: context/contextview.cpp:182 ../build/src/ui_backendsettingspage.h:444
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:444
 msgid "Engine"
 msgstr "Движок"
 
-#: ../build/src/ui_contextsettingspage.h:314
+#: ../build/src/ui_contextsettingspage.h:418
 msgid "Engine and Device"
 msgstr ""
 
@@ -1954,7 +1962,7 @@ msgstr "Тип файла"
 msgid "Filename"
 msgstr "Имя файла"
 
-#: ../build/src/ui_collectionsettingspage.h:379
+#: ../build/src/ui_collectionsettingspage.h:423
 msgid "Filename:"
 msgstr "Имя файла:"
 
@@ -1966,7 +1974,7 @@ msgstr "Файлы"
 msgid "Files to transcode"
 msgstr "Файлы для конвертации"
 
-#: context/contextview.cpp:212
+#: context/contextview.cpp:213
 msgid "Filetype"
 msgstr "Тип файл"
 
@@ -1981,6 +1989,24 @@ msgstr "Первый уровень"
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
 msgstr "Подогнать обложку по ширине"
+
+#: ../build/src/ui_contextsettingspage.h:423
+#: ../build/src/ui_contextsettingspage.h:428
+msgid "Font"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:427
+msgid "Font for data and lyrics"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:422
+msgid "Font for headline"
+msgstr ""
+
+#: ../build/src/ui_contextsettingspage.h:424
+#: ../build/src/ui_contextsettingspage.h:429
+msgid "Font size"
+msgstr ""
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2344,7 +2370,7 @@ msgstr "Last.fm"
 msgid "Left"
 msgstr "Левый канал"
 
-#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:213
+#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
 #: playlist/playlist.cpp:1180 organise/organisedialog.cpp:111
 #: ../build/src/ui_edittagdialog.h:665
 msgid "Length"
@@ -2398,7 +2424,7 @@ msgstr "Загрузка устройства MTP"
 msgid "Loading iPod database"
 msgstr "Загрузка база данных iPod"
 
-#: collection/collectionmodel.cpp:213
+#: collection/collectionmodel.cpp:214
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
@@ -2410,7 +2436,7 @@ msgstr "Загрузка композиций"
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
-#: collection/collectionmodel.cpp:206 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "Загрузка…"
 
@@ -2442,7 +2468,7 @@ msgstr "Низкая (%1 fps)"
 msgid "Low complexity profile (LC)"
 msgstr "Профиль низкой сложности (LC)"
 
-#: ../build/src/ui_collectionsettingspage.h:384
+#: ../build/src/ui_collectionsettingspage.h:428
 msgid "Lowercase filename"
 msgstr "Строчные имена файлов"
 
@@ -2474,7 +2500,7 @@ msgstr "Производитель"
 msgid "Mark as listened"
 msgstr "Пометить как прослушанное"
 
-#: ../build/src/ui_collectionsettingspage.h:366
+#: ../build/src/ui_collectionsettingspage.h:410
 msgid "Mark disappeared songs unavailable"
 msgstr "Помечать пропавшие песни недоступными "
 
@@ -2515,13 +2541,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Отсутствует имя пользователя или пароль Subsonic."
 
-#: tidal/tidalservice.cpp:677 tidal/tidalservice.cpp:736
-#: tidal/tidalservice.cpp:793 tidal/tidalservice.cpp:859
-#: tidal/tidalservice.cpp:919 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
+#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
+#: tidal/tidalservice.cpp:918 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:638
+#: tidal/tidalservice.cpp:637
 msgid "Missing Tidal API token."
 msgstr "Отсутствует API токен Tidal."
 
@@ -2529,11 +2555,11 @@ msgstr "Отсутствует API токен Tidal."
 msgid "Missing Tidal client ID."
 msgstr "Отсутствует идентификатор клиента Tidal."
 
-#: tidal/tidalservice.cpp:646
+#: tidal/tidalservice.cpp:645
 msgid "Missing Tidal password."
 msgstr "Отсутствует Tidal пароль."
 
-#: tidal/tidalservice.cpp:642
+#: tidal/tidalservice.cpp:641
 msgid "Missing Tidal username."
 msgstr "Отсутствует имя пользователя Tidal."
 
@@ -2541,7 +2567,7 @@ msgstr "Отсутствует имя пользователя Tidal."
 msgid "Missing server url, username or password."
 msgstr "Отсутствует URL-адрес сервера, имя пользователя или пароль."
 
-#: subsonic/subsonicservice.cpp:378
+#: subsonic/subsonicservice.cpp:377
 msgid "Missing username or password."
 msgstr "Отсутствует имя пользователя или пароль."
 
@@ -2549,7 +2575,7 @@ msgstr "Отсутствует имя пользователя или парол
 msgid "Model"
 msgstr "Модель"
 
-#: ../build/src/ui_collectionsettingspage.h:365
+#: ../build/src/ui_collectionsettingspage.h:409
 msgid "Monitor the collection for changes"
 msgstr "Следить за изменениями фонотеки"
 
@@ -2653,7 +2679,7 @@ msgstr "Нет обложек для экспорта."
 msgid "No long blocks"
 msgstr "Без длинных блоков"
 
-#: tidal/tidalrequest.cpp:1220
+#: tidal/tidalrequest.cpp:1219
 msgid "No match."
 msgstr "Не совпадает."
 
@@ -2667,7 +2693,7 @@ msgstr ""
 msgid "No short blocks"
 msgstr "Без коротких блоков"
 
-#: context/contextview.cpp:423
+#: context/contextview.cpp:456
 msgid "No song playing"
 msgstr "Нет воспроизводимой песни"
 
@@ -2689,16 +2715,16 @@ msgstr "Нормальный"
 msgid "Normal block type"
 msgstr "Нормальный тип блоков"
 
-#: tidal/tidalservice.cpp:650
+#: tidal/tidalservice.cpp:649
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Не аутентифицирован с Tidal и достигнуто максимальное количества попыток "
 "входа в систему."
 
-#: tidal/tidalservice.cpp:672 tidal/tidalservice.cpp:731
-#: tidal/tidalservice.cpp:788 tidal/tidalservice.cpp:854
-#: tidal/tidalservice.cpp:915 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:671 tidal/tidalservice.cpp:730
+#: tidal/tidalservice.cpp:787 tidal/tidalservice.cpp:853
+#: tidal/tidalservice.cpp:914 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Не аутентифицировано с Tidal."
 
@@ -2831,7 +2857,7 @@ msgstr "Вывод"
 msgid "Output options"
 msgstr "Настройки вывода"
 
-#: ../build/src/ui_collectionsettingspage.h:383
+#: ../build/src/ui_collectionsettingspage.h:427
 msgid "Overwrite existing file"
 msgstr "Перезаписать существующий файл"
 
@@ -2984,7 +3010,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Настройки"
 
-#: ../build/src/ui_collectionsettingspage.h:368
+#: ../build/src/ui_collectionsettingspage.h:412
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Приоритетные имена файлов обложек (через запятые)"
 
@@ -3031,6 +3057,8 @@ msgstr "Нажатие кнопки «Предыдущий» осуществи�
 msgid "Pretty OSD options"
 msgstr "Настройки OSD"
 
+#: ../build/src/ui_contextsettingspage.h:426
+#: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_notificationssettingspage.h:479
 #: ../build/src/ui_organisedialog.h:282
 msgid "Preview"
@@ -3156,7 +3184,7 @@ msgstr "Удалить &дубликаты из плейлиста"
 msgid "Remove &unavailable tracks from playlist"
 msgstr "Удалить &недоступные треки из плейлиста"
 
-#: ../build/src/ui_collectionsettingspage.h:362
+#: ../build/src/ui_collectionsettingspage.h:406
 msgid "Remove folder"
 msgstr "Удалить папку"
 
@@ -3214,7 +3242,7 @@ msgstr "Повторять трек"
 msgid "Replace current playlist"
 msgstr "Заменить текущий плейлист"
 
-#: ../build/src/ui_collectionsettingspage.h:385
+#: ../build/src/ui_collectionsettingspage.h:429
 msgid "Replace spaces with dashes"
 msgstr "Заменить пробелы на тире"
 
@@ -3234,7 +3262,7 @@ msgstr "Нормализация громкости"
 msgid "Replay Gain mode"
 msgstr "Режим нормализации"
 
-#: tidal/tidalservice.cpp:348
+#: tidal/tidalservice.cpp:347
 msgid "Reply from Tidal is missing query items."
 msgstr "В ответе от Tidal отсутствуют элементы запроса."
 
@@ -3277,45 +3305,45 @@ msgstr "Ограничить разрешенными символами в фа
 msgid "Resume playback on start"
 msgstr "Продолжить воспроизведение при запуске"
 
-#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
+#: subsonic/subsonicrequest.cpp:671 tidal/tidalrequest.cpp:1080
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Получение обложки альбома для %1"
 
-#: subsonic/subsonicrequest.cpp:673 tidal/tidalrequest.cpp:1082
+#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1"
 
-#: tidal/tidalrequest.cpp:464
+#: tidal/tidalrequest.cpp:463
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr "Получение альбомов исполнителя %1..."
 
-#: tidal/tidalrequest.cpp:465
+#: tidal/tidalrequest.cpp:464
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr "Получение альбомов для исполнителей %1..."
 
-#: subsonic/subsonicrequest.cpp:126 tidal/tidalrequest.cpp:200
+#: subsonic/subsonicrequest.cpp:125 tidal/tidalrequest.cpp:199
 msgid "Retrieving albums..."
 msgstr "Получение альбомов..."
 
-#: tidal/tidalrequest.cpp:156
+#: tidal/tidalrequest.cpp:155
 msgid "Retrieving artists..."
 msgstr "Получение исполнителей..."
 
-#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
+#: subsonic/subsonicrequest.cpp:315 tidal/tidalrequest.cpp:721
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Получение песен для альбома %1..."
 
-#: subsonic/subsonicrequest.cpp:317 tidal/tidalrequest.cpp:723
+#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Получение песен для альбомов %1..."
 
-#: tidal/tidalrequest.cpp:244
+#: tidal/tidalrequest.cpp:243
 msgid "Retrieving songs..."
 msgstr "Получение песен..."
 
@@ -3358,7 +3386,7 @@ msgstr "Безопасно извлечь устройство после коп
 msgid "Sample rate"
 msgstr "Частота"
 
-#: context/contextview.cpp:214
+#: context/contextview.cpp:215
 msgid "Samplerate"
 msgstr "Частота"
 
@@ -3370,7 +3398,7 @@ msgstr "&Сохранить плейлист..."
 msgid "Save album cover"
 msgstr "Сохранить обложку альбома"
 
-#: ../build/src/ui_collectionsettingspage.h:378
+#: ../build/src/ui_collectionsettingspage.h:422
 msgid "Save album covers in album directory"
 msgstr "Сохранять обложки альбомов в каталоге альбомов"
 
@@ -3408,7 +3436,7 @@ msgstr "Сохранять файлы .mood в папках песен"
 msgid "Saved Grouping Manager"
 msgstr "Менеджер сохранённых групп"
 
-#: ../build/src/ui_collectionsettingspage.h:377
+#: ../build/src/ui_collectionsettingspage.h:421
 msgid "Saving album covers"
 msgstr "Сохранение обложек альбомов"
 
@@ -3460,8 +3488,8 @@ msgstr "Поиск обложек альбомов…"
 msgid "Search for this"
 msgstr "Поиск этого"
 
-#: tidal/tidalrequest.cpp:288 tidal/tidalrequest.cpp:302
-#: tidal/tidalrequest.cpp:316
+#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
+#: tidal/tidalrequest.cpp:315
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -3517,7 +3545,7 @@ msgstr "Серийный номер"
 msgid "Server URL"
 msgstr "URL сервера"
 
-#: subsonic/subsonicservice.cpp:373 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:372 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "URL сервера недействителен."
 
@@ -3596,15 +3624,15 @@ msgstr "Показывать OSD"
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 
-#: context/contextview.cpp:291
+#: context/contextview.cpp:318
 msgid "Show album cover"
 msgstr ""
 
-#: ../build/src/ui_collectionsettingspage.h:375
+#: ../build/src/ui_collectionsettingspage.h:419
 msgid "Show album cover art in collection"
 msgstr "Показать обложку альбома в коллекции"
 
-#: context/contextview.cpp:303
+#: context/contextview.cpp:330
 msgid "Show albums by artist"
 msgstr "Показать альбомы исполнителя"
 
@@ -3612,11 +3640,11 @@ msgstr "Показать альбомы исполнителя"
 msgid "Show all songs"
 msgstr "Показать все композиции"
 
-#: ../build/src/ui_collectionsettingspage.h:376
+#: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Показывать разделители"
 
-#: context/contextview.cpp:299
+#: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Показать движок и устройство"
 
@@ -3665,11 +3693,11 @@ msgstr "Показать виджет воспроизведения"
 msgid "Show scrobble button"
 msgstr "Показать кнопку скробблинга"
 
-#: context/contextview.cpp:307
+#: context/contextview.cpp:334
 msgid "Show song lyrics"
 msgstr "Показать текст песни"
 
-#: context/contextview.cpp:295
+#: context/contextview.cpp:322
 msgid "Show song technical data"
 msgstr "Показать технические данные песни"
 
@@ -3702,7 +3730,7 @@ msgid "Signing in..."
 msgstr "Выполняется вход…"
 
 #: ../build/src/ui_albumcoverexport.h:211
-#: ../build/src/ui_collectionsettingspage.h:387
+#: ../build/src/ui_collectionsettingspage.h:431
 msgid "Size"
 msgstr "Размер"
 
@@ -3750,7 +3778,7 @@ msgstr "Мягкий"
 msgid "Soft Rock"
 msgstr "Софт-рок"
 
-#: ../build/src/ui_contextsettingspage.h:316
+#: ../build/src/ui_contextsettingspage.h:420
 msgid "Song Lyrics"
 msgstr ""
 
@@ -3908,7 +3936,7 @@ msgstr "Успешно записано %1"
 msgid "Suggested tags"
 msgstr "Предлагаемые теги"
 
-#: ../build/src/ui_contextsettingspage.h:308
+#: ../build/src/ui_contextsettingspage.h:412
 #: ../build/src/ui_notificationssettingspage.h:481
 #: ../build/src/ui_edittagdialog.h:678
 msgid "Summary"
@@ -3943,7 +3971,7 @@ msgstr "Сборщик тегов"
 msgid "Target bitrate"
 msgstr "Целевой битрейт"
 
-#: ../build/src/ui_contextsettingspage.h:313
+#: ../build/src/ui_contextsettingspage.h:417
 msgid "Technical Data"
 msgstr ""
 
@@ -4044,7 +4072,7 @@ msgid ""
 msgstr ""
 "Эти файлы будут удалены с устройства. Вы действительно хотите продолжить?"
 
-#: ../build/src/ui_collectionsettingspage.h:360
+#: ../build/src/ui_collectionsettingspage.h:404
 msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 "В этих каталогах будет выполнен поиск музыки при создании вашей фонотеки"
@@ -4132,7 +4160,7 @@ msgid "Timezone"
 msgstr "Часовой пояс"
 
 #: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1175
-#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:307
+#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:411
 #: ../build/src/ui_edittagdialog.h:681
 #: ../build/src/ui_trackselectiondialog.h:210
 msgid "Title"
@@ -4222,16 +4250,16 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
 #: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:432 collection/collectionmodel.cpp:437
-#: collection/collectionmodel.cpp:441 collection/collectionmodel.cpp:445
-#: collection/collectionmodel.cpp:449 collection/collectionmodel.cpp:1401
+#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
+#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
+#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1402
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
 #: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: subsonic/subsonicrequest.cpp:812 tidal/tidalrequest.cpp:1226
+#: subsonic/subsonicrequest.cpp:811 tidal/tidalrequest.cpp:1225
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -4247,7 +4275,7 @@ msgstr "Не пропускать выбранные треки"
 msgid "Unskip track"
 msgstr "Не пропускать трек"
 
-#: ../build/src/ui_collectionsettingspage.h:364
+#: ../build/src/ui_collectionsettingspage.h:408
 msgid "Update the collection when Strawberry starts"
 msgstr "Обновлять фонотеку при запуске Strawberry"
 
@@ -4323,15 +4351,15 @@ msgstr "Использовать пользовательский цвет"
 msgid "Use gradient background"
 msgstr "Использовать градиентный фон"
 
-#: ../build/src/ui_collectionsettingspage.h:380
+#: ../build/src/ui_collectionsettingspage.h:424
 msgid "Use hash"
 msgstr "Использовать хэш"
 
-#: ../build/src/ui_collectionsettingspage.h:367
+#: ../build/src/ui_collectionsettingspage.h:411
 msgid "Use live scanning"
 msgstr "Использовать сканирование в реальном времени"
 
-#: ../build/src/ui_collectionsettingspage.h:381
+#: ../build/src/ui_collectionsettingspage.h:425
 msgid "Use pattern"
 msgstr "Использовать шаблон"
 
@@ -4382,7 +4410,7 @@ msgstr "После добавления песни через меню…"
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
-#: collection/collectionmodel.cpp:346 playlist/playlistmanager.cpp:559
+#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
@@ -4426,7 +4454,7 @@ msgstr "Оповещать при закрытии вкладки плейлис
 msgid "WavPack"
 msgstr "WavPack"
 
-#: ../build/src/ui_collectionsettingspage.h:370
+#: ../build/src/ui_collectionsettingspage.h:414
 msgid ""
 "When looking for album art Strawberry will first look for picture files that "
 "contain one of these words.\n"
@@ -4601,7 +4629,7 @@ msgstr "диск %1"
 msgid "hw"
 msgstr "hw"
 
-#: context/contextview.cpp:502 context/contextview.cpp:654
+#: context/contextview.cpp:544 context/contextview.cpp:695
 #: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
 msgid "kbps"
 msgstr "кбит/с"
