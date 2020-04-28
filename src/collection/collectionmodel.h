@@ -41,6 +41,7 @@
 #include <QImage>
 #include <QIcon>
 #include <QPixmap>
+#include <QNetworkDiskCache>
 
 #include "core/simpletreemodel.h"
 #include "core/song.h"
@@ -51,7 +52,6 @@
 #include "covermanager/albumcoverloaderoptions.h"
 
 class QSettings;
-class QNetworkDiskCache;
 
 class Application;
 class CollectionBackend;
@@ -177,7 +177,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString SortTextForYear(int year);
   static QString SortTextForBitrate(int bitrate);
 
-signals:
+  quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
+
+ signals:
   void TotalSongCountUpdated(int count);
   void TotalArtistCountUpdated(int count);
   void TotalAlbumCountUpdated(int count);
@@ -248,7 +250,7 @@ signals:
   QVariant AlbumIcon(const QModelIndex &idx);
   QVariant data(const CollectionItem *item, int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
-  int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const;
+  int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const;
 
  private:
   CollectionBackend *backend_;

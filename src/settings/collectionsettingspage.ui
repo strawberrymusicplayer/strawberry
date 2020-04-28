@@ -160,6 +160,9 @@ If there are no matches then it will use the largest image in the directory.</st
       <string>Saving album covers</string>
      </property>
      <layout class="QVBoxLayout" name="layout_albumcovers">
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QCheckBox" name="checkbox_cover_album_dir">
         <property name="text">
@@ -249,98 +252,176 @@ If there are no matches then it will use the largest image in the directory.</st
         </layout>
        </widget>
       </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_albumcovercache">
+     <property name="title">
+      <string>Album cover pixmap cache</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QGroupBox" name="albumArtGroupBox">
-        <property name="title">
-         <string>Album art cache</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_cache_size">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Size</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinbox_cache_size">
-               <property name="maximum">
-                <number>1048576</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="combobox_cache_size">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QCheckBox" name="checkbox_disk_cache">
-               <property name="text">
-                <string>Enable Disk Cache</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="button_disk_cache">
-               <property name="text">
-                <string>Clear Disk Cache</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLabel" name="label_disk_cache_size">
-               <property name="text">
-                <string>Disk Cache Size</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinbox_disk_cache_size">
-               <property name="maximum">
-                <number>1048576</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="combobox_disk_cache_size">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
+       <layout class="QGridLayout" name="layout_cache_size">
+        <item row="0" column="2">
+         <widget class="QSpinBox" name="spinbox_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>1048576</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Size</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QComboBox" name="combobox_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <spacer name="spacer_cache_size">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_disk_cache">
+        <item>
+         <widget class="QCheckBox" name="checkbox_disk_cache">
+          <property name="text">
+           <string>Enable Disk Cache</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_disk_cache">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="layout_disk_cache_size">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_disk_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Disk Cache Size</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QComboBox" name="combobox_disk_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="spinbox_disk_cache_size">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>1048576</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <spacer name="spacer_disk_cache_size">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_disk_cache_in_use">
+          <property name="text">
+           <string>Current disk cache in use:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="disk_cache_in_use">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_clear_disk_cache">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Clear Disk Cache</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer_disk_cache_in_use">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -369,9 +450,9 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>spinbox_cache_size</tabstop>
   <tabstop>combobox_cache_size</tabstop>
   <tabstop>checkbox_disk_cache</tabstop>
-  <tabstop>button_disk_cache</tabstop>
   <tabstop>spinbox_disk_cache_size</tabstop>
   <tabstop>combobox_disk_cache_size</tabstop>
+  <tabstop>button_clear_disk_cache</tabstop>
  </tabstops>
  <resources/>
  <connections/>

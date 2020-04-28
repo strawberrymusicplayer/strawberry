@@ -41,6 +41,8 @@
 
 #include "core/application.h"
 #include "core/iconloader.h"
+#include "core/utilities.h"
+#include "collection/collectionmodel.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collectionsettingspage.h"
 #include "playlist/playlistdelegates.h"
@@ -54,6 +56,8 @@ const char *CollectionSettingsPage::kSettingsCacheSizeUnit = "cache_size_unit";
 const char *CollectionSettingsPage::kSettingsDiskCacheEnable = "disk_cache_enable";
 const char *CollectionSettingsPage::kSettingsDiskCacheSize = "disk_cache_size";
 const char *CollectionSettingsPage::kSettingsDiskCacheSizeUnit = "disk_cache_size_unit";
+const int CollectionSettingsPage::kSettingsCacheSizeDefault = 160;
+const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 
 const QStringList CollectionSettingsPage::cacheUnitNames = { "KB", "MB", "GB", "TB" };
 
@@ -70,12 +74,19 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog)
   setWindowIcon(IconLoader::Load("library-music"));
   ui_->add->setIcon(IconLoader::Load("document-open-folder"));
 
+  ui_->combobox_cache_size->addItems(cacheUnitNames);
+  ui_->combobox_disk_cache_size->addItems(cacheUnitNames);
+
   connect(ui_->add, SIGNAL(clicked()), SLOT(Add()));
   connect(ui_->remove, SIGNAL(clicked()), SLOT(Remove()));
 
   connect(ui_->checkbox_cover_album_dir, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
   connect(ui_->radiobutton_cover_hash, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
   connect(ui_->radiobutton_cover_pattern, SIGNAL(toggled(bool)), SLOT(CoverSaveInAlbumDirChanged()));
+
+  connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
+  connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), dialog->app(), SIGNAL(ClearPixmapDiskCache()));
+  connect(ui_->button_clear_disk_cache, SIGNAL(clicked()), SLOT(ClearPixmapDiskCache()));
 
 }
 
@@ -104,12 +115,16 @@ void CollectionSettingsPage::CurrentRowChanged(const QModelIndex& index) {
   ui_->remove->setEnabled(index.isValid());
 }
 
-void CollectionSettingsPage::DiskCacheEnable(int state) {
+void CollectionSettingsPage::DiskCacheEnable(const int state) {
+
   bool checked = state == Qt::Checked;
-  ui_->button_disk_cache->setEnabled(checked);
   ui_->label_disk_cache_size->setEnabled(checked);
   ui_->spinbox_disk_cache_size->setEnabled(checked);
   ui_->combobox_disk_cache_size->setEnabled(checked);
+  ui_->label_disk_cache_in_use->setEnabled(checked);
+  ui_->disk_cache_in_use->setEnabled(checked);
+  ui_->button_clear_disk_cache->setEnabled(checked);
+
 }
 
 void CollectionSettingsPage::Load() {
@@ -151,21 +166,17 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_cover_lowercase->setChecked(s.value("cover_lowercase", true).toBool());
   ui_->checkbox_cover_replace_spaces->setChecked(s.value("cover_replace_spaces", true).toBool());
 
-  ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, 80).toInt());
-  ui_->combobox_cache_size->addItems(cacheUnitNames);
+  ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(s.value(kSettingsCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
   ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, false).toBool());
-  ui_->label_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
-  ui_->spinbox_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
-  ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, 80).toInt());
-  ui_->combobox_disk_cache_size->setEnabled(ui_->checkbox_disk_cache->isChecked());
-  ui_->combobox_disk_cache_size->addItems(cacheUnitNames);
+  ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
 
-  connect(ui_->checkbox_disk_cache, SIGNAL(stateChanged(int)), SLOT(DiskCacheEnable(int)));
-  connect(ui_->button_disk_cache, SIGNAL(clicked()), dialog()->app(), SIGNAL(ClearPixmapDiskCache()));
-
   s.endGroup();
+
+  DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
+
+  ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? "empty" : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
 
 }
 
@@ -230,5 +241,11 @@ void CollectionSettingsPage::CoverSaveInAlbumDirChanged() {
       ui_->groupbox_cover_filename->setEnabled(false);
     }
   }
+
+}
+
+void CollectionSettingsPage::ClearPixmapDiskCache() {
+
+  ui_->disk_cache_in_use->setText("empty");
 
 }

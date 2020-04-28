@@ -47,6 +47,8 @@ class CollectionSettingsPage : public SettingsPage {
   static const char *kSettingsDiskCacheEnable;
   static const char *kSettingsDiskCacheSize;
   static const char *kSettingsDiskCacheSizeUnit;
+  static const int kSettingsCacheSizeDefault;
+  static const int kSettingsDiskCacheSizeDefault;
 
   enum CacheSizeUnit {
     CacheSizeUnit_KB,
@@ -68,8 +70,9 @@ class CollectionSettingsPage : public SettingsPage {
   void Remove();
 
   void CurrentRowChanged(const QModelIndex &index);
-  void DiskCacheEnable(int state);
+  void DiskCacheEnable(const int state);
   void CoverSaveInAlbumDirChanged();
+  void ClearPixmapDiskCache();
 
  private:
   Ui_CollectionSettingsPage *ui_;

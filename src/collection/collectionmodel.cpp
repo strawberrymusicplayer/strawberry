@@ -74,7 +74,7 @@ using std::placeholders::_2;
 
 const char *CollectionModel::kSavedGroupingsSettingsGroup = "SavedGroupings";
 const int CollectionModel::kPrettyCoverSize = 32;
-const char *CollectionModel::kPixmapDiskCacheDir = "/pixmapcache";
+const char *CollectionModel::kPixmapDiskCacheDir = "pixmapcache";
 
 QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
 
@@ -114,17 +114,18 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   cover_loader_options_.pad_output_image_ = true;
   cover_loader_options_.scale_output_image_ = true;
 
-  if (app_)
+  if (app_) {
     connect(app_->album_cover_loader(), SIGNAL(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(quint64, AlbumCoverLoaderResult)));
+  }
 
   QIcon nocover = IconLoader::Load("cdcase");
   no_cover_icon_ = nocover.pixmap(nocover.availableSizes().last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   //no_cover_icon_ = QPixmap(":/pictures/noalbumart.png").scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  // When running under gdb, all calls to this constructor came from the same thread.
-  // If this ever changes, these two lines might need to be protected by a mutex.
-  if (sIconCache == nullptr)
+  if (sIconCache == nullptr) {
     sIconCache = new QNetworkDiskCache(this);
+    sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + kPixmapDiskCacheDir);
+  }
 
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
   connect(backend_, SIGNAL(SongsDeleted(SongList)), SLOT(SongsDeleted(SongList)));
@@ -186,16 +187,16 @@ void CollectionModel::ReloadSettings() {
 
   use_disk_cache_ = s.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
 
-  if (!use_disk_cache_) {
-    sIconCache->clear();
-  }
+  QPixmapCache::setCacheLimit(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit, CollectionSettingsPage::kSettingsCacheSizeDefault) / 1024);
 
-  sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + kPixmapDiskCacheDir);
-  sIconCache->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit));
-
-  QPixmapCache::setCacheLimit(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit) / 1024);
+  sIconCache->setMaximumCacheSize(MaximumCacheSize(&s, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit, CollectionSettingsPage::kSettingsDiskCacheSizeDefault));
 
   s.endGroup();
+
+  if (!use_disk_cache_) {
+    ClearDiskCache();
+  }
+
 }
 
 void CollectionModel::Init(bool async) {
@@ -642,7 +643,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
       QNetworkCacheMetaData item_metadata;
       item_metadata.setSaveToDisk(true);
       item_metadata.setUrl(QUrl(cache_key));
-      QIODevice* cache = sIconCache->prepare(item_metadata);
+      QIODevice *cache = sIconCache->prepare(item_metadata);
       if (cache) {
         result.image_scaled.save(cache, "XPM");
         sIconCache->insert(cache);
@@ -1538,9 +1539,9 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
 
 }
 
-int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id) const {
+int CollectionModel::MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const {
 
-  int size = s->value(size_id, 80).toInt();
+  int size = s->value(size_id, cache_size_default).toInt();
   int unit = s->value(size_unit_id, CollectionSettingsPage::CacheSizeUnit::CacheSizeUnit_MB).toInt() + 1;
 
   do {
