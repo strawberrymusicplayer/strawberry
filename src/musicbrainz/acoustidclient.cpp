@@ -43,7 +43,6 @@
 #include <QJsonValue>
 
 #include "acoustidclient.h"
-#include "core/closure.h"
 #include "core/network.h"
 #include "core/networktimeouts.h"
 #include "core/timeconstants.h"
@@ -79,7 +78,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, int)), reply, id);
+  connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, id); });
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);

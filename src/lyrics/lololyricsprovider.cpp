@@ -33,7 +33,6 @@
 #include <QXmlStreamReader>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "lyricsprovider.h"
@@ -61,7 +60,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "LoloLyrics: Sending request for" << url;
 

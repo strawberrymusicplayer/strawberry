@@ -44,7 +44,6 @@
 
 #include "core/application.h"
 #include "core/player.h"
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/database.h"
@@ -340,7 +339,7 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
     login_errors_.clear();
     QNetworkReply *reply = network_->post(request, query);
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AccessTokenRequestFinished(QNetworkReply*)), reply);
+    connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
   }
 
@@ -503,7 +502,7 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleAuthReply(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { HandleAuthReply(reply); });
 
   //qLog(Debug) << "Tidal: Sending request" << url << query;
 

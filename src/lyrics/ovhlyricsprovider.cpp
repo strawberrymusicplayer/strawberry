@@ -30,7 +30,6 @@
 #include <QJsonValue>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "lyricsfetcher.h"
@@ -49,7 +48,7 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, quint64, QString, QString)), reply, id, artist, title);
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "OVHLyrics: Sending request for" << url;
 

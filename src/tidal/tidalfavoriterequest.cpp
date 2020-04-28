@@ -36,7 +36,6 @@
 
 #include "core/logging.h"
 #include "core/network.h"
-#include "core/closure.h"
 #include "core/song.h"
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
@@ -142,7 +141,7 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AddFavoritesReply(QNetworkReply*, FavoriteType, SongList)), reply, type, songs);
+  connect(reply, &QNetworkReply::finished, [=] { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
   qLog(Debug) << "Tidal: Sending request" << url << query;
@@ -244,7 +243,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const QStrin
   if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
   if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
   QNetworkReply *reply = network_->deleteResource(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoveFavoritesReply(QNetworkReply*, FavoriteType, SongList)), reply, type, songs);
+  connect(reply, &QNetworkReply::finished, [=] { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
   qLog(Debug) << "Tidal: Sending request" << url << "with" << songs.count() << "songs";

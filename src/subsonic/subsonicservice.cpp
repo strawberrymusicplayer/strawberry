@@ -44,7 +44,6 @@
 
 #include "core/application.h"
 #include "core/player.h"
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/database.h"
@@ -179,7 +178,7 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandlePingSSLErrors(QList<QSslError>)));
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandlePingReply(QNetworkReply*, QUrl, QString, QString)), reply, url, username, password);
+  connect(reply, &QNetworkReply::finished, [=] { HandlePingReply(reply, url, username, password); });
 
   //qLog(Debug) << "Subsonic: Sending request" << url << query;
 
@@ -359,7 +358,7 @@ void SubsonicService::CheckConfiguration() {
 
 void SubsonicService::ResetSongsRequest() {
 
-  if (songs_request_.get()) {  // WARNING: Don't disconnect everything. NewClosure() relies on destroyed()!!!
+  if (songs_request_.get()) {
     disconnect(songs_request_.get(), 0, this, 0);
     disconnect(this, 0, songs_request_.get(), 0);
     songs_request_.reset();

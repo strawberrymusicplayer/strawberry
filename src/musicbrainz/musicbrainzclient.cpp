@@ -44,7 +44,6 @@
 #include <QTimer>
 #include <QtDebug>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/networktimeouts.h"
@@ -157,7 +156,7 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(DiscIdRequestFinished(QString, QNetworkReply*)), discid, reply);
+  connect(reply, &QNetworkReply::finished, [=] { DiscIdRequestFinished(discid, reply); });
 
   timeouts_->AddReply(reply);
 
@@ -179,7 +178,7 @@ void MusicBrainzClient::FlushRequests() {
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(RequestFinished(QNetworkReply*, int, int)), reply, request.id, request.number);
+  connect(reply, &QNetworkReply::finished, [=] { RequestFinished(reply, request.id, request.number); });
   requests_.insert(request.id, reply);
 
   timeouts_->AddReply(reply);

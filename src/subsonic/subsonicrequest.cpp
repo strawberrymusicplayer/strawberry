@@ -40,7 +40,6 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
@@ -153,7 +152,7 @@ void SubsonicRequest::FlushAlbumsRequests() {
     QNetworkReply *reply;
     reply = CreateGetRequest(QString("getAlbumList2"), params);
     replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumsReplyReceived(QNetworkReply*, int)), reply, request.offset);
+    connect(reply, &QNetworkReply::finished, [=] { AlbumsReplyReceived(reply, request.offset); });
 
   }
 
@@ -346,7 +345,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
     ParamList params = ParamList() << Param("id", request.album_id);
     QNetworkReply *reply = CreateGetRequest(QString("getAlbum"), params);
     replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumSongsReplyReceived(QNetworkReply*, QString, QString, QString)), reply, request.artist_id, request.album_id, request.album_artist);
+    connect(reply, &QNetworkReply::finished, [=] { AlbumSongsReplyReceived(reply, request.artist_id, request.album_id, request.album_artist); });
 
   }
 
@@ -717,7 +716,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
     QNetworkReply *reply = network_->get(req);
     album_cover_replies_ << reply;
-    NewClosure(reply, SIGNAL(finished()), this, SLOT(AlbumCoverReceived(QNetworkReply*, QString, QUrl, QString)), reply, request.album_id, request.url, request.filename);
+    connect(reply, &QNetworkReply::finished, [=] { AlbumCoverReceived(reply, request.album_id, request.url, request.filename); });
 
   }
 

@@ -41,7 +41,6 @@
 #include <QNetworkRequest>
 #include <QSettings>
 
-#include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"
@@ -359,7 +358,7 @@ AlbumCoverLoader::TryLoadResult AlbumCoverLoader::TryLoadImage(Task *task) {
       QNetworkRequest request(cover_url);
       request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
       QNetworkReply *reply = network_->get(request);
-      NewClosure(reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, QUrl)), reply, cover_url);
+      connect(reply, &QNetworkReply::finished, [=] { RemoteFetchFinished(reply, cover_url); });
 
       remote_tasks_.insert(reply, *task);
       return TryLoadResult(true, false, type, cover_url, QImage());
@@ -387,7 +386,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     request.setUrl(redirect.toUrl());
     QNetworkReply *redirected_reply = network_->get(request);
-    NewClosure(redirected_reply, SIGNAL(finished()), this, SLOT(RemoteFetchFinished(QNetworkReply*, QUrl)), redirected_reply, redirect.toUrl());
+    connect(redirected_reply, &QNetworkReply::finished, [=] { RemoteFetchFinished(redirected_reply, redirect.toUrl()); });
 
     remote_tasks_.insert(redirected_reply, task);
     return;

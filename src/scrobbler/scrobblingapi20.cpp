@@ -46,11 +46,11 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
+#include "core/closure.h"
 #include "internet/localredirectserver.h"
 #include "settings/scrobblersettingspage.h"
 
@@ -231,7 +231,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   QNetworkRequest req(session_url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network()->get(req);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AuthenticateReplyFinished(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { AuthenticateReplyFinished(reply); });
 
 }
 
@@ -447,7 +447,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
     params << Param("albumArtist", song.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(UpdateNowPlayingRequestFinished(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { UpdateNowPlayingRequestFinished(reply); });
 
 }
 
@@ -566,7 +566,7 @@ void ScrobblingAPI20::Submit() {
   if (!batch_ || i <= 0) return;
 
   QNetworkReply *reply = CreateRequest(params);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(ScrobbleRequestFinished(QNetworkReply*, QList<quint64>)), reply, list);
+  connect(reply, &QNetworkReply::finished, [=] { ScrobbleRequestFinished(reply, list); });
 
 }
 
@@ -743,7 +743,7 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItem *item) {
     params << Param("trackNumber", QString::number(item->track_));
 
   QNetworkReply *reply = CreateRequest(params);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(SingleScrobbleRequestFinished(QNetworkReply*, quint64)), reply, item->timestamp_);
+  connect(reply, &QNetworkReply::finished, [=] { SingleScrobbleRequestFinished(reply, item->timestamp_); });
 
 }
 
@@ -891,7 +891,7 @@ void ScrobblingAPI20::Love() {
     params << Param("albumArtist", song_playing_.albumartist());
 
   QNetworkReply *reply = CreateRequest(params);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(LoveRequestFinished(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { LoveRequestFinished(reply); });
 
 }
 

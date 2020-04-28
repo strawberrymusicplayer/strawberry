@@ -38,11 +38,11 @@
 #include <QtDebug>
 
 #include "core/application.h"
-#include "core/closure.h"
 #include "core/network.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
 #include "core/logging.h"
+#include "core/closure.h"
 #include "internet/localredirectserver.h"
 
 #include "audioscrobbler.h"
@@ -199,7 +199,7 @@ void ListenBrainzScrobbler::RequestSession(const QUrl &url, const QString &token
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(AuthenticateReplyFinished(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { AuthenticateReplyFinished(reply); });
 
 }
 
@@ -384,7 +384,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(UpdateNowPlayingRequestFinished(QNetworkReply*)), reply);
+  connect(reply, &QNetworkReply::finished, [=] { UpdateNowPlayingRequestFinished(reply); });
 
 }
 
@@ -511,7 +511,7 @@ void ListenBrainzScrobbler::Submit() {
 
   QUrl url(QString("%1/1/submit-listens").arg(kApiUrl));
   QNetworkReply *reply = CreateRequest(url, doc);
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(ScrobbleRequestFinished(QNetworkReply*, QList<quint64>)), reply, list);
+  connect(reply, &QNetworkReply::finished, [=] { ScrobbleRequestFinished(reply, list); });
 
 }
 
