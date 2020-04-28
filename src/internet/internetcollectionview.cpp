@@ -321,10 +321,6 @@ void InternetCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     if (filter_) context_menu_->addMenu(filter_->menu());
 
-    context_menu_->addSeparator();
-
-    context_menu_->addAction(IconLoader::Load("configure"), tr("Configure %1...").arg(Song::TextForSource(collection_backend_->Source())), this, SLOT(OpenSettingsDialog()));
-
   }
 
   context_menu_index_ = indexAt(e->pos());
