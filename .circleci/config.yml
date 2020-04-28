@@ -330,7 +330,7 @@ jobs:
 
   build_source:
     docker:
-      - image: opensuse/tumbleweed
+      - image: opensuse/leap:15.1
     steps:
       - install_opensuse_dependencies
       - checkout
