@@ -2,6 +2,43 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed Subsonic album covers not working for albums with non ASCII charcters.
+    * Fixed reading date and genre from individual tracks in CUE sheets.
+    * Fixed resume playback on startup for CUE songs.
+    * Fixed album cover manager not showing complete album titles in the list of album covers.
+    * Fixed save album cover to file saving "no cover" image instead of actual album cover.
+    * Fixed device state text color in devices not being visible when using a dark theme.
+    * Fixed engine and device in context using too large icons when icons were loaded from the system theme.
+    * Fixed "Secure connection setup failed" problem on Windows when playing streams.
+    * Fixed margin for song title text in context.
+
+  Enhancements:
+    * Allowing all characters except slash and backslash when organising music unless options to strip characters is checked.
+    * New option in organising music to remove problematic filename characters that removes less characters than the FAT option.
+    * General improvements to the album cover loader and album cover providers code.
+    * Fixed loading album cover images from album directory for songs added to the playlist from outside of the collection.
+    * Made automatic album cover search work for songs outside of the collection and for streams.
+    * Made album cover search work based on artist + title if album title is not present for providers supporting song/track search.
+    * Update art manual in playlist for local files, devices and CDDA to avoid loading covers multiple times.
+    * Made lyrics search work for streams.
+    * Added "add stream" to menu.
+    * Only showing song length in context when available.
+    * Sort album cover search results by score and pick the best 3 first before trying others to improve album cover search speed.
+    * Make scrobbler work for streams.
+    * Added search for lyrics as a seperate option in context.
+    * Made font and font sizes for context configurable.
+    * Splitting artist and song title to the relevant metadata when artist and song title is sent as title seperated by a dash in streams.
+
+  New features:
+    * Added back Tidal streaming support.
+    * Added Qobuz album cover provider.
+
+  Removed features:
+    * Removed Phonon engine support.
+
 Version 0.6.9:
 
   BugFixes:
