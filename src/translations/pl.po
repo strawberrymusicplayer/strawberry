@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-22 07:14-0400\n"
+"PO-Revision-Date: 2020-04-29 02:26-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -105,7 +105,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:425
 #: ../build/src/ui_contextsettingspage.h:430
 msgid " pt"
-msgstr ""
+msgstr " pkt"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
@@ -711,7 +711,7 @@ msgstr "Artysta albumu"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Pamięć podręczna pixmap okładek albumów"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -908,7 +908,7 @@ msgstr "Automatycznie rozwiń pojedyncze kategorie w drzewie kolekcji"
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:421
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Automatycznie szukaj tekstu utworu"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
@@ -1079,7 +1079,7 @@ msgstr "Wybierz kolor…"
 
 #: ../build/src/ui_notificationssettingspage.h:495
 msgid "Choose font..."
-msgstr "Wybierz czcionkę…"
+msgstr "Wybierz font…"
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1422,7 +1422,7 @@ msgstr "Ctrl+Góra"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Bieżące użycie pamięci podręcznej na dysku:"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
@@ -1989,20 +1989,20 @@ msgstr "Dopasuj okładkę do szerokości"
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_contextsettingspage.h:428
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Font danych i tekstu utworu"
 
 #: ../build/src/ui_contextsettingspage.h:422
 msgid "Font for headline"
-msgstr ""
+msgstr "Font nagłówka"
 
 #: ../build/src/ui_contextsettingspage.h:424
 #: ../build/src/ui_contextsettingspage.h:429
 msgid "Font size"
-msgstr ""
+msgstr "Rozmiar fontu"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"

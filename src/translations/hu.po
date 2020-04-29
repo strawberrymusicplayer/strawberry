@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-27 02:01-0400\n"
+"PO-Revision-Date: 2020-04-29 04:01-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -97,7 +97,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:425
 #: ../build/src/ui_contextsettingspage.h:430
 msgid " pt"
-msgstr ""
+msgstr "pt"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
@@ -705,7 +705,7 @@ msgstr "Albumelőadó"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Albumborító-gyorsítótár"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -1413,7 +1413,7 @@ msgstr "Ctrl+Fel"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Jelenlegi gyorsítótár használatban:"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
@@ -1979,20 +1979,20 @@ msgstr "Albumborító átméretezése szélesség szerint"
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_contextsettingspage.h:428
 msgid "Font"
-msgstr ""
+msgstr "Betűtípus"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Adatok és dalszöveg betűtípusa"
 
 #: ../build/src/ui_contextsettingspage.h:422
 msgid "Font for headline"
-msgstr ""
+msgstr "Cím betűtípusa"
 
 #: ../build/src/ui_contextsettingspage.h:424
 #: ../build/src/ui_contextsettingspage.h:429
 msgid "Font size"
-msgstr ""
+msgstr "Betűméret"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
