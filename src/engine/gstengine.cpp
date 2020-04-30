@@ -680,7 +680,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // Munge it back into a path that gstreamer will recognise.
   if (url.scheme() == "file" && !url.host().isEmpty()) {
     QString str = "file:////" + url.host() + url.path();
-    uri = str.toLocal8Bit();
+    uri = str.toUtf8();
   }
   else if (url.scheme() == "cdda") {
     QString str;
@@ -697,7 +697,7 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
       QString device = path.join("/");
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
-    uri = str.toLocal8Bit();
+    uri = str.toUtf8();
   }
   else {
     uri = url.toEncoded();
