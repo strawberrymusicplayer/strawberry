@@ -309,8 +309,13 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     return;
   }
 
-  if (!json_obj.contains("artists") || !json_obj.contains("title") || !json_obj.contains("images")) {
-    Error("Json reply object is missing artists, title or images.");
+  if (!json_obj.contains("artists") || !json_obj.contains("title")) {
+    Error("Json reply object is missing artists or title.", json_obj);
+    EndSearch(search, release);
+    return;
+  }
+
+  if (!json_obj.contains("images")) {
     EndSearch(search, release);
     return;
   }
