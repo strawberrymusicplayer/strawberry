@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.6.10:
 
   Bugfixes:
     * Fixed Subsonic album covers not working for albums with non ASCII charcters.
