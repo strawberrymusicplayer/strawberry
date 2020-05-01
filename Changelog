@@ -14,6 +14,7 @@ Unreleased:
     * Fixed engine and device in context using too large icons when icons were loaded from the system theme.
     * Fixed "Secure connection setup failed" problem on Windows when playing streams.
     * Fixed margin for song title text in context.
+    * Fixed UNC paths with non ASCII charcters not working.
 
   Enhancements:
     * Allowing all characters except slash and backslash when organising music unless options to strip characters is checked.
@@ -29,8 +30,10 @@ Unreleased:
     * Sort album cover search results by score and pick the best 3 first before trying others to improve album cover search speed.
     * Make scrobbler work for streams.
     * Added search for lyrics as a seperate option in context.
-    * Made font and font sizes for context configurable.
+    * Made font and font sizes in context configurable.
     * Splitting artist and song title to the relevant metadata when artist and song title is sent as title seperated by a dash in streams.
+    * Added label to show collection pixmap disk cache used in settings.
+    * Icreased default collection pixmap disk cache to 360.
 
   New features:
     * Added back Tidal streaming support.
