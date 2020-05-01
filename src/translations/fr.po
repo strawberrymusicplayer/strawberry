@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-21 04:57-0400\n"
+"PO-Revision-Date: 2020-05-01 05:09-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -120,7 +120,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:425
 #: ../build/src/ui_contextsettingspage.h:430
 msgid " pt"
-msgstr ""
+msgstr " pt"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
@@ -729,7 +729,7 @@ msgstr "Artiste de l'album"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Cache pixmap de pochette d'album"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -934,7 +934,7 @@ msgstr ""
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:421
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Rechercher automatiquement les paroles des morceaux"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
@@ -1447,7 +1447,7 @@ msgstr "Ctrl+Up"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Cache disque en cours d'utilisation :"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
@@ -2018,20 +2018,20 @@ msgstr "Ajuster la pochette sur la largeur"
 #: ../build/src/ui_contextsettingspage.h:423
 #: ../build/src/ui_contextsettingspage.h:428
 msgid "Font"
-msgstr ""
+msgstr "Police"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Police pour les données et les paroles"
 
 #: ../build/src/ui_contextsettingspage.h:422
 msgid "Font for headline"
-msgstr ""
+msgstr "Police pour le titre"
 
 #: ../build/src/ui_contextsettingspage.h:424
 #: ../build/src/ui_contextsettingspage.h:429
 msgid "Font size"
-msgstr ""
+msgstr "Taille de police"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
