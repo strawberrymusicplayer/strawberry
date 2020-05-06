@@ -1217,7 +1217,12 @@ CollectionItem *CollectionModel::ItemFromQuery(GroupBy type, bool signal, bool c
       item->metadata.InitFromQuery(row, true);
       item->key = item->metadata.title();
       item->display_text = item->metadata.TitleWithCompilationArtist();
-      item->sort_text = SortTextForSong(item->metadata);
+      if (item->container_level == 1 && !IsAlbumGrouping(group_by_[0])) {
+        item->sort_text = SortText(item->metadata.title());
+      }
+      else {
+        item->sort_text = SortTextForSong(item->metadata);
+      }
       break;
   }
 
@@ -1358,7 +1363,12 @@ CollectionItem *CollectionModel::ItemFromSong(GroupBy type, bool signal, bool cr
       item->metadata = s;
       item->key = s.title();
       item->display_text = s.TitleWithCompilationArtist();
-      item->sort_text = SortTextForSong(s);
+      if (item->container_level == 1 && !IsAlbumGrouping(group_by_[0])) {
+        item->sort_text = SortText(s.title());
+      }
+      else {
+        item->sort_text = SortTextForSong(s);
+      }
       break;
   }
 
