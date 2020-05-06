@@ -114,8 +114,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     GroupBy second;
     GroupBy third;
 
-    const GroupBy &operator[](int i) const;
-    GroupBy &operator[](int i);
+    const GroupBy &operator[](const int i) const;
+    GroupBy &operator[](const int i);
     bool operator==(const Grouping &other) const {
       return first == other.first && second == other.second && third == other.third;
     }
@@ -133,7 +133,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   CollectionDirectoryModel *directory_model() const { return dir_model_; }
 
   // Call before Init()
-  void set_show_various_artists(bool show_various_artists) { show_various_artists_ = show_various_artists; }
+  void set_show_various_artists(const bool show_various_artists) { show_various_artists_ = show_various_artists; }
 
   // Get information about the collection
   void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
@@ -146,18 +146,18 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count() const { return total_album_count_; }
 
   // QAbstractItemModel
-  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const;
   Qt::ItemFlags flags(const QModelIndex &idx) const;
   QStringList mimeTypes() const;
   QMimeData *mimeData(const QModelIndexList &indexes) const;
   bool canFetchMore(const QModelIndex &parent) const;
 
   // Whether or not to use album cover art, if it exists, in the collection view
-  void set_pretty_covers(bool use_pretty_covers);
+  void set_pretty_covers(const bool use_pretty_covers);
   bool use_pretty_covers() const { return use_pretty_covers_; }
 
   // Whether or not to show letters heading in the collection view
-  void set_show_dividers(bool show_dividers);
+  void set_show_dividers(const bool show_dividers);
 
   // Save the current grouping
   void SaveGrouping(QString name);
@@ -171,43 +171,43 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString SortText(QString text);
-  static QString SortTextForNumber(int year);
+  static QString SortTextForNumber(const int year);
   static QString SortTextForArtist(QString artist);
   static QString SortTextForSong(const Song &song);
-  static QString SortTextForYear(int year);
-  static QString SortTextForBitrate(int bitrate);
+  static QString SortTextForYear(const int year);
+  static QString SortTextForBitrate(const int bitrate);
 
   quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
 
  signals:
-  void TotalSongCountUpdated(int count);
-  void TotalArtistCountUpdated(int count);
-  void TotalAlbumCountUpdated(int count);
+  void TotalSongCountUpdated(const int count);
+  void TotalArtistCountUpdated(const int count);
+  void TotalAlbumCountUpdated(const int count);
   void GroupingChanged(const CollectionModel::Grouping &g);
 
  public slots:
-  void SetFilterAge(int age);
+  void SetFilterAge(const int age);
   void SetFilterText(const QString &text);
   void SetFilterQueryMode(QueryOptions::QueryMode query_mode);
 
   void SetGroupBy(const CollectionModel::Grouping &g);
   const CollectionModel::Grouping &GetGroupBy() const { return group_by_; }
-  void Init(bool async = true);
+  void Init(const bool async = true);
   void Reset();
   void ResetAsync();
 
  protected:
   void LazyPopulate(CollectionItem *item) { LazyPopulate(item, true); }
-  void LazyPopulate(CollectionItem *item, bool signal);
+  void LazyPopulate(CollectionItem *item, const bool signal);
 
  private slots:
   // From CollectionBackend
   void SongsDiscovered(const SongList &songs);
   void SongsDeleted(const SongList &songs);
   void SongsSlightlyChanged(const SongList &songs);
-  void TotalSongCountUpdatedSlot(int count);
-  void TotalArtistCountUpdatedSlot(int count);
-  void TotalAlbumCountUpdatedSlot(int count);
+  void TotalSongCountUpdatedSlot(const int count);
+  void TotalArtistCountUpdatedSlot(const int count);
+  void TotalAlbumCountUpdatedSlot(const int count);
   void ClearDiskCache();
 
   // Called after ResetAsync
@@ -219,7 +219,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Provides some optimisations for loading the list of items in the root.
   // This gets called a lot when filtering the playlist, so it's nice to be able to do it in a background thread.
   QueryResult RunQuery(CollectionItem *parent);
-  void PostQuery(CollectionItem *parent, const QueryResult &result, bool signal);
+  void PostQuery(CollectionItem *parent, const QueryResult &result, const bool signal);
 
   bool HasCompilations(const CollectionQuery &query);
 
@@ -228,27 +228,27 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   // Functions for working with queries and creating items.
   // When the model is reset or when a node is lazy-loaded the Collection constructs a database query to populate the items.
   // Filters are added for each parent item, restricting the songs returned to a particular album or artist for example.
-  static void InitQuery(GroupBy type, CollectionQuery *q);
-  void FilterQuery(GroupBy type, CollectionItem *item, CollectionQuery *q);
+  static void InitQuery(const GroupBy type, CollectionQuery *q);
+  void FilterQuery(const GroupBy type, CollectionItem *item, CollectionQuery *q);
 
   // Items can be created either from a query that's been run to populate a node, or by a spontaneous SongsDiscovered emission from the backend.
-  CollectionItem *ItemFromQuery(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const SqlRow &row, int container_level);
-  CollectionItem *ItemFromSong(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, const Song &s, int container_level);
+  CollectionItem *ItemFromQuery(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const SqlRow &row, const int container_level);
+  CollectionItem *ItemFromSong(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, const Song &s, const int container_level);
 
   // The "Various Artists" node is an annoying special case.
-  CollectionItem *CreateCompilationArtistNode(bool signal, CollectionItem *parent);
+  CollectionItem *CreateCompilationArtistNode(const bool signal, CollectionItem *parent);
 
   // Helpers for ItemFromQuery and ItemFromSong
-  CollectionItem *InitItem(GroupBy type, bool signal, CollectionItem *parent, int container_level);
-  void FinishItem(GroupBy type, bool signal, bool create_divider, CollectionItem *parent, CollectionItem *item);
+  CollectionItem *InitItem(const GroupBy type, const bool signal, CollectionItem *parent, const int container_level);
+  void FinishItem(const GroupBy type, const bool signal, const bool create_divider, CollectionItem *parent, CollectionItem *item);
 
-  QString DividerKey(GroupBy type, CollectionItem *item) const;
-  QString DividerDisplayText(GroupBy type, const QString &key) const;
+  QString DividerKey(const GroupBy type, CollectionItem *item) const;
+  QString DividerDisplayText(const GroupBy type, const QString &key) const;
 
   // Helpers
   QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
   QVariant AlbumIcon(const QModelIndex &idx);
-  QVariant data(const CollectionItem *item, int role) const;
+  QVariant data(const CollectionItem *item, const int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
   int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const;
   bool IsAlbumGrouping(const GroupBy group_by) const { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc; }
