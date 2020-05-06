@@ -670,11 +670,7 @@ QVariant CollectionModel::data(const QModelIndex &idx, const int role) const {
     bool is_album_node = false;
     if (role == Qt::DecorationRole && item->type == CollectionItem::Type_Container) {
       GroupBy container_type = group_by_[item->container_level];
-      is_album_node = container_type == GroupBy_Album ||
-                      container_type == GroupBy_AlbumDisc ||
-                      container_type == GroupBy_YearAlbum ||
-                      container_type == GroupBy_YearAlbumDisc ||
-                      container_type == GroupBy_OriginalYearAlbum;
+      is_album_node = IsAlbumGrouping(container_type);
     }
     if (is_album_node) {
       // It has const behaviour some of the time - that's ok right?

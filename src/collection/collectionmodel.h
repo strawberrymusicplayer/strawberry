@@ -179,6 +179,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
 
+  static bool IsAlbumGrouping(const GroupBy group_by) { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc; }
+
  signals:
   void TotalSongCountUpdated(const int count);
   void TotalArtistCountUpdated(const int count);
@@ -251,7 +253,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QVariant data(const CollectionItem *item, const int role) const;
   bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
   int MaximumCacheSize(QSettings *s, const char *size_id, const char *size_unit_id, const int cache_size_default) const;
-  bool IsAlbumGrouping(const GroupBy group_by) const { return group_by == GroupBy_Album || group_by == GroupBy_YearAlbum || group_by == GroupBy_OriginalYearAlbum || group_by == GroupBy_AlbumDisc || group_by == GroupBy_YearAlbumDisc; }
 
  private:
   CollectionBackend *backend_;
