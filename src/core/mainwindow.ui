@@ -506,6 +506,8 @@
     <addaction name="separator"/>
     <addaction name="action_settings"/>
     <addaction name="action_console"/>
+    <addaction name="separator"/>
+    <addaction name="action_toggle_show_sidebar"/>
    </widget>
    <addaction name="menu_music"/>
    <addaction name="menu_playlist"/>
@@ -831,6 +833,14 @@
   <action name="action_add_stream">
    <property name="text">
     <string>Add stream...</string>
+   </property>
+  </action>
+  <action name="action_toggle_show_sidebar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show sidebar</string>
    </property>
   </action>
  </widget>

@@ -427,6 +427,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_auto_complete_tags, SIGNAL(triggered()), SLOT(AutoCompleteTags()));
 #endif
   connect(ui_->action_settings, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
+  connect(ui_->action_toggle_show_sidebar, SIGNAL(toggled(bool)), ui_->sidebar_layout, SLOT(setVisible(bool)));
   connect(ui_->action_about_strawberry, SIGNAL(triggered()), SLOT(ShowAboutDialog()));
   connect(ui_->action_about_qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
   connect(ui_->action_shuffle, SIGNAL(triggered()), app_->playlist_manager(), SLOT(ShuffleCurrent()));
@@ -891,6 +892,9 @@ void MainWindow::ReloadSettings() {
   settings.endGroup();
 
   settings.beginGroup(kSettingsGroup);
+  bool show_sidebar = settings_.value("show_sidebar", true).toBool();
+  ui_->sidebar_layout->setVisible(show_sidebar);
+  ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
   album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings.value("search_for_cover_auto", true).toBool());
   settings.endGroup();
 
@@ -975,6 +979,7 @@ void MainWindow::SaveSettings() {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
+  s.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
   s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
   s.endGroup();
 
