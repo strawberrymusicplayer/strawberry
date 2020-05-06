@@ -31,9 +31,12 @@
 #include <QString>
 
 class QWidget;
+class QTimer;
 class QEvent;
 
 class StyleSheetLoader : public QObject {
+ Q_OBJECT
+
  public:
   explicit StyleSheetLoader(QObject *parent = nullptr);
 
@@ -46,12 +49,24 @@ class StyleSheetLoader : public QObject {
   bool eventFilter(QObject *obj, QEvent *event);
 
  private:
-  void UpdateStyleSheet(QWidget *widget);
-  void ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const;
+  struct StyleSheetData {
+    StyleSheetData() : count_(0) {}
+    QString filename_;
+    QString stylesheet_template_;
+    QString stylesheet_current_;
+    int count_;
+  };
 
  private:
-  QMap<QWidget*, QPair<QString, QString>> widgets_;
+  void UpdateStyleSheet(QWidget *widget, StyleSheetData styledata);
+  void ReplaceColor(QString *css, const QString name, const QPalette &palette, QPalette::ColorRole role) const;
+
+ private slots:
+  void ResetCounters();
+
+ private:
+  QMap<QWidget*, StyleSheetData> styledata_;
+  QTimer *timer_reset_counter_;
 };
 
 #endif  // STYLESHEETLOADER_H
-

@@ -758,7 +758,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   app_->appearance()->LoadUserTheme();
   StyleSheetLoader *css_loader = new StyleSheetLoader(this);
   css_loader->SetStyleSheet(this, ":/style/strawberry.css");
-  RefreshStyleSheet();
 
   // Load playlists
   app_->playlist_manager()->Init(app_->collection_backend(), app_->playlist_backend(), ui_->playlist_sequence, ui_->playlist);
@@ -858,8 +857,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
     LoadPlaybackStatus();
   }
   if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) app_->scrobbler()->Submit();
-
-  RefreshStyleSheet();
 
   qLog(Debug) << "Started" << QThread::currentThread();
   initialised_ = true;
@@ -964,7 +961,6 @@ void MainWindow::ReloadAllSettings() {
 
 void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
-  setStyleSheet("");
   setStyleSheet(contents);
 }
 

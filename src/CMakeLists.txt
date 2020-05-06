@@ -294,6 +294,7 @@ set(HEADERS
   core/standarditemiconloader.h
   core/systemtrayicon.h
   core/mimedata.h
+  core/stylesheetloader.h
 
   engine/enginebase.h
   engine/devicefinders.h
