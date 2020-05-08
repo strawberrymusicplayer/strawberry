@@ -106,7 +106,7 @@ msgstr " d"
 msgid " seconds"
 msgstr " detik"
 
-#: scrobbler/scrobblingapi20.cpp:152 scrobbler/scrobblingapi20.cpp:161
+#: scrobbler/scrobblingapi20.cpp:153 scrobbler/scrobblingapi20.cpp:162
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
@@ -500,7 +500,7 @@ msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:1900
+#: core/mainwindow.cpp:1902
 msgid "Add file"
 msgstr "Tambah berkas"
 
@@ -516,7 +516,7 @@ msgstr "Tambah berkas ke transkoder"
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:1925 transcoder/transcodedialog.cpp:413
+#: core/mainwindow.cpp:1927 transcoder/transcodedialog.cpp:413
 msgid "Add folder"
 msgstr "Tambah folder"
 
@@ -615,7 +615,7 @@ msgstr ""
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:1716
+#: core/mainwindow.cpp:1718
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
@@ -733,7 +733,7 @@ msgstr "Album dengan sampul"
 msgid "Albums without covers"
 msgstr "Album tanpa sampul"
 
-#: core/mainwindow.cpp:183
+#: core/mainwindow.cpp:184
 msgid "All Files (*)"
 msgstr "Semua Berkas (*)"
 
@@ -868,16 +868,21 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
+#: ../build/src/ui_lyricssettingspage.h:163
+msgid "Authenticate"
+msgstr ""
+
 #: tidal/tidalrequest.cpp:116
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
+#: ../build/src/ui_lyricssettingspage.h:161
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/tidalsettingspage.cpp:203
+#: settings/lyricssettingspage.cpp:242 settings/tidalsettingspage.cpp:203
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
@@ -1060,7 +1065,7 @@ msgstr "Ganti lagu yang diputar saat ini"
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:679
+#: core/mainwindow.cpp:680
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
@@ -1071,6 +1076,10 @@ msgstr "Pilih warna..."
 #: ../build/src/ui_notificationssettingspage.h:495
 msgid "Choose font..."
 msgstr "Pilih huruf..."
+
+#: ../build/src/ui_lyricssettingspage.h:158
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr ""
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1085,7 +1094,7 @@ msgstr "Bersihkan"
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: core/mainwindow.cpp:1987 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:1989 ../build/src/ui_mainwindow.h:633
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
@@ -1137,7 +1146,7 @@ msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:403
+#: core/mainwindow.cpp:285 ../build/src/ui_collectionsettingspage.h:403
 msgid "Collection"
 msgstr "Pustakascan"
 
@@ -1149,7 +1158,7 @@ msgstr ""
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2459
+#: core/mainwindow.cpp:2461
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
@@ -1200,7 +1209,7 @@ msgstr "Konfigurasi tidak benar"
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: core/mainwindow.cpp:569
+#: core/mainwindow.cpp:570
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
@@ -1216,7 +1225,7 @@ msgstr "Konsol"
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:358
+#: core/mainwindow.cpp:284 ../build/src/ui_contextsettingspage.h:358
 msgid "Context"
 msgstr "Konteks"
 
@@ -1241,12 +1250,12 @@ msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:626 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:627 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
-#: core/mainwindow.cpp:624 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
 #: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
@@ -1265,7 +1274,7 @@ msgstr ""
 "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua "
 "plugin GStreamer yang dibutuhkan terpasang"
 
-#: scrobbler/scrobblingapi20.cpp:161
+#: scrobbler/scrobblingapi20.cpp:162
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -1491,11 +1500,11 @@ msgstr "Hapus berkas yang asli"
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1641
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1640
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
@@ -1520,7 +1529,7 @@ msgstr "Properti Perangkat"
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
-#: core/mainwindow.cpp:289
+#: core/mainwindow.cpp:290
 msgid "Devices"
 msgstr "Perangkat"
 
@@ -1618,7 +1627,7 @@ msgstr "Mengunduh metadata"
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
-#: core/mainwindow.cpp:1680
+#: core/mainwindow.cpp:1682
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
@@ -1754,7 +1763,7 @@ msgstr "Setara dengan --log-level *: 1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2231 core/mainwindow.cpp:2353
+#: core/mainwindow.cpp:2233 core/mainwindow.cpp:2355
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Kesalahan"
@@ -1946,7 +1955,7 @@ msgstr "Nama berkas"
 msgid "Filename:"
 msgstr "Nama berkas:"
 
-#: core/mainwindow.cpp:285
+#: core/mainwindow.cpp:286
 msgid "Files"
 msgstr "Berkas"
 
@@ -2051,13 +2060,17 @@ msgstr "Bass + Treble Penuh"
 msgid "Full Treble"
 msgstr "Treble Penuh"
 
-#: settings/settingsdialog.cpp:127
+#: settings/settingsdialog.cpp:128
 msgid "General"
 msgstr "Umum"
 
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "General settings"
 msgstr "Setelan umum"
+
+#: lyrics/geniuslyricsprovider.cpp:115
+msgid "Genius Authentication"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
@@ -2284,7 +2297,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: scrobbler/scrobblingapi20.cpp:196
+#: scrobbler/scrobblingapi20.cpp:197
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
@@ -2357,7 +2370,7 @@ msgstr "Durasi"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: scrobbler/listenbrainzscrobbler.cpp:149
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
@@ -2449,9 +2462,13 @@ msgstr "Profil kompleksitas rendah (LC)"
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
-#: ../build/src/ui_edittagdialog.h:692
+#: ../build/src/ui_lyricssettingspage.h:156 ../build/src/ui_edittagdialog.h:692
 msgid "Lyrics"
 msgstr "Lirik"
+
+#: ../build/src/ui_lyricssettingspage.h:157
+msgid "Lyrics providers"
+msgstr ""
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2577,19 +2594,19 @@ msgstr "Titik kait"
 msgid "Mount points"
 msgstr "Titik kait"
 
-#: ../build/src/ui_queueview.h:125
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_lyricssettingspage.h:160
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:627 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:628 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
-#: ../build/src/ui_queueview.h:131
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_lyricssettingspage.h:159
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: core/mainwindow.cpp:1900 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1902 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musik"
 
@@ -2628,7 +2645,7 @@ msgstr "Jangan mulai memutar"
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:1732
+#: core/mainwindow.cpp:1734
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
@@ -2667,6 +2684,10 @@ msgstr ""
 "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi "
 "seluruh daftar putar."
 
+#: settings/lyricssettingspage.cpp:178
+msgid "No provider selected."
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
@@ -2680,7 +2701,7 @@ msgstr "Tidak ada lagu yang berputar"
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2231 core/mainwindow.cpp:2353
+#: core/mainwindow.cpp:2233 core/mainwindow.cpp:2355
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2750,7 +2771,7 @@ msgstr "Saat membuka"
 msgid "Opacity"
 msgstr "Kelegapan"
 
-#: scrobbler/scrobblingapi20.cpp:152
+#: scrobbler/scrobblingapi20.cpp:153
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -2798,7 +2819,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Atur Berkas"
 
-#: core/mainwindow.cpp:628 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:629 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organise files..."
 msgstr "Atur berkas..."
@@ -2869,7 +2890,7 @@ msgstr "Sandi"
 msgid "Password Protected"
 msgstr "Terlindungi dengan Kata Sandi"
 
-#: core/mainwindow.cpp:1088 core/mainwindow.cpp:1544
+#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1546
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Jeda"
@@ -2897,8 +2918,8 @@ msgstr "Piksel"
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1041 core/mainwindow.cpp:1070
-#: core/mainwindow.cpp:1548 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:599 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
+#: core/mainwindow.cpp:1550 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Putar"
@@ -2935,7 +2956,7 @@ msgstr "Daftar putar"
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:1987
+#: core/mainwindow.cpp:1989
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -2947,7 +2968,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
 
-#: core/mainwindow.cpp:286
+#: core/mainwindow.cpp:287
 msgid "Playlists"
 msgstr "Daftar putar"
 
@@ -2955,7 +2976,7 @@ msgstr "Daftar putar"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3009,7 +3030,7 @@ msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 msgid "Preset:"
 msgstr "Prasetel:"
 
-#: scrobbler/scrobblingapi20.cpp:152
+#: scrobbler/scrobblingapi20.cpp:153
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3072,24 +3093,24 @@ msgstr "Kualitas"
 msgid "Querying device..."
 msgstr "Meminta perangkat..."
 
-#: core/mainwindow.cpp:287
+#: core/mainwindow.cpp:288
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1643
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:604 core/mainwindow.cpp:1645
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1647
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1647 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1649 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:313
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:1640 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1642 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:310
 #: internet/internetcollectionview.cpp:312
 msgid "Queue track"
@@ -3111,11 +3132,11 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Benar-benar membatalkan?"
 
-#: scrobbler/listenbrainzscrobbler.cpp:174
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:200
+#: scrobbler/scrobblingapi20.cpp:201
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3123,7 +3144,11 @@ msgstr ""
 "Balasan yang tidak benar diterima dari peramban web. Coba opsi HTTPS, atau "
 "gunakan peramban web lain seperti Chromium atau Chrome."
 
-#: scrobbler/listenbrainzscrobbler.cpp:170
+#: lyrics/geniuslyricsprovider.cpp:191
+msgid "Redirect from Genius is missing query items code or state."
+msgstr ""
+
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
 msgid "Redirect missing token code!"
 msgstr "Alihkan kode token yang tidak tersedia!"
 
@@ -3432,7 +3457,7 @@ msgstr "Ukuran skala"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:504
+#: scrobbler/scrobblingapi20.cpp:505
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
@@ -3525,7 +3550,7 @@ msgstr "URL server"
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
-#: core/mainwindow.cpp:1679
+#: core/mainwindow.cpp:1681
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
@@ -3612,7 +3637,7 @@ msgstr "Tampilkan sampul album di pustaka"
 msgid "Show albums by artist"
 msgstr "Tampilkan album berdasarkan artis"
 
-#: core/mainwindow.cpp:558
+#: core/mainwindow.cpp:559
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
@@ -3628,7 +3653,7 @@ msgstr "Tampilkan mesin dan perangkat"
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:631
+#: core/mainwindow.cpp:632
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
@@ -3636,7 +3661,7 @@ msgstr "Tampilkan di pustaka..."
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:629 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:630 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:337 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
@@ -3653,11 +3678,11 @@ msgstr "Tampilkan tombol suka"
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:559
+#: core/mainwindow.cpp:560
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:560
+#: core/mainwindow.cpp:561
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
@@ -3734,11 +3759,11 @@ msgstr "Lewati hitungan"
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: core/mainwindow.cpp:1652
+#: core/mainwindow.cpp:1654
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1651
+#: core/mainwindow.cpp:1653
 msgid "Skip track"
 msgstr "Lewati trek"
 
@@ -3817,7 +3842,7 @@ msgstr "Berhenti setelah masing-masing trek"
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:600 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:601 ../build/src/ui_mainwindow.h:626
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
@@ -3882,7 +3907,7 @@ msgstr "Strawberry tidak dapat menemukan hasil untuk berkas ini"
 msgid "Stream URL method"
 msgstr "Metode URL Stream"
 
-#: settings/settingsdialog.cpp:152
+#: settings/settingsdialog.cpp:154
 msgid "Streaming"
 msgstr "Streaming"
 
@@ -3894,7 +3919,7 @@ msgstr "Regangkan gambar hingga memenuhi daftar putar"
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:293 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4012,7 +4037,7 @@ msgstr "Situs yang Anda minta tidak ada!"
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: core/mainwindow.cpp:2454
+#: core/mainwindow.cpp:2456
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4124,7 +4149,7 @@ msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:295 ../build/src/ui_tidalsettingspage.h:315
+#: core/mainwindow.cpp:296 ../build/src/ui_tidalsettingspage.h:315
 msgid "Tidal"
 msgstr "Tidal"
 
@@ -4153,7 +4178,7 @@ msgstr "Judul"
 msgid "Today"
 msgstr "Hari Ini"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:602 core/mainwindow.cpp:1644
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
@@ -4161,7 +4186,7 @@ msgstr "Alihkan status antrean"
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:607 core/mainwindow.cpp:1653
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1655
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
@@ -4250,11 +4275,11 @@ msgstr "Kesalahan tak terduga"
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:1650
+#: core/mainwindow.cpp:1652
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:1649
+#: core/mainwindow.cpp:1651
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
@@ -4360,7 +4385,7 @@ msgstr "Gunakan bawaan sistem"
 msgid "Used"
 msgstr "Bekas"
 
-#: settings/settingsdialog.cpp:138
+#: settings/settingsdialog.cpp:140
 msgid "User interface"
 msgstr "Antarmuka"
 
@@ -4474,7 +4499,7 @@ msgstr ""
 "Apakah Anda ingin memindahkan lagu lainnya di dalam album ini ke Artis "
 "Beragam?"
 
-#: core/mainwindow.cpp:2458
+#: core/mainwindow.cpp:2460
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 

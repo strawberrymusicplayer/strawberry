@@ -40,8 +40,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-01 05:09-0400\n"
-"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
+"PO-Revision-Date: 2020-05-08 02:14-0400\n"
+"Last-Translator: hatstand <john.maguire@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -130,7 +130,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " secondes"
 
-#: scrobbler/scrobblingapi20.cpp:152 scrobbler/scrobblingapi20.cpp:161
+#: scrobbler/scrobblingapi20.cpp:153 scrobbler/scrobblingapi20.cpp:162
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 authentification Scrobbler"
@@ -527,7 +527,7 @@ msgstr ""
 msgid "Add directory..."
 msgstr "Ajouter un dossier..."
 
-#: core/mainwindow.cpp:1900
+#: core/mainwindow.cpp:1902
 msgid "Add file"
 msgstr "Ajouter un fichier"
 
@@ -543,7 +543,7 @@ msgstr "Ajouter des fichiers à transcoder"
 msgid "Add files to transcode"
 msgstr "Ajouter des fichiers à transcoder"
 
-#: core/mainwindow.cpp:1925 transcoder/transcodedialog.cpp:413
+#: core/mainwindow.cpp:1927 transcoder/transcodedialog.cpp:413
 msgid "Add folder"
 msgstr "Ajouter un dossier"
 
@@ -642,7 +642,7 @@ msgstr "Ajouter un flux..."
 msgid "Add to albums"
 msgstr "Ajouter aux albums"
 
-#: core/mainwindow.cpp:1716
+#: core/mainwindow.cpp:1718
 msgid "Add to another playlist"
 msgstr "Ajouter à une autre liste de lecture"
 
@@ -760,7 +760,7 @@ msgstr "Albums ayant une pochette"
 msgid "Albums without covers"
 msgstr "Albums sans pochette"
 
-#: core/mainwindow.cpp:183
+#: core/mainwindow.cpp:184
 msgid "All Files (*)"
 msgstr "Tous les fichiers (*)"
 
@@ -902,16 +902,21 @@ msgstr "Sortie audio"
 msgid "Audio quality"
 msgstr "Qualité audio"
 
+#: ../build/src/ui_lyricssettingspage.h:163
+msgid "Authenticate"
+msgstr ""
+
 #: tidal/tidalrequest.cpp:116
 msgid "Authenticating..."
 msgstr "En cours d'authentification..."
 
+#: ../build/src/ui_lyricssettingspage.h:161
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Authentification"
 
-#: settings/tidalsettingspage.cpp:203
+#: settings/lyricssettingspage.cpp:242 settings/tidalsettingspage.cpp:203
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
@@ -1095,7 +1100,7 @@ msgstr "Changer le morceau en cours de lecture"
 msgid "Change the language"
 msgstr "Changer la langue"
 
-#: core/mainwindow.cpp:679
+#: core/mainwindow.cpp:680
 msgid "Check for updates..."
 msgstr "Vérifier les mises à jour..."
 
@@ -1106,6 +1111,10 @@ msgstr "Choisir une couleur..."
 #: ../build/src/ui_notificationssettingspage.h:495
 msgid "Choose font..."
 msgstr "Choisir une police de caractères..."
+
+#: ../build/src/ui_lyricssettingspage.h:158
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr ""
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1120,7 +1129,7 @@ msgstr "Effacer"
 msgid "Clear Disk Cache"
 msgstr "Vider le cache disque"
 
-#: core/mainwindow.cpp:1987 ../build/src/ui_mainwindow.h:633
+#: core/mainwindow.cpp:1989 ../build/src/ui_mainwindow.h:633
 msgid "Clear playlist"
 msgstr "Vider la liste de lecture"
 
@@ -1172,7 +1181,7 @@ msgstr "Fermer cette fenêtre arrêtera la recherche de pochette d'albums."
 msgid "Club"
 msgstr "Club"
 
-#: core/mainwindow.cpp:284 ../build/src/ui_collectionsettingspage.h:403
+#: core/mainwindow.cpp:285 ../build/src/ui_collectionsettingspage.h:403
 msgid "Collection"
 msgstr "Bibliothèque"
 
@@ -1184,7 +1193,7 @@ msgstr "Filtre de collection"
 msgid "Collection advanced grouping"
 msgstr "Groupement avancé de la bibliothèque"
 
-#: core/mainwindow.cpp:2459
+#: core/mainwindow.cpp:2461
 msgid "Collection rescan notice"
 msgstr "Avertissement de réanalyse de la bibliothèque"
 
@@ -1237,7 +1246,7 @@ msgstr "Configuration incorrecte"
 msgid "Configure %1..."
 msgstr "Configurer %1..."
 
-#: core/mainwindow.cpp:569
+#: core/mainwindow.cpp:570
 msgid "Configure collection..."
 msgstr "Configurer votre bibliothèque..."
 
@@ -1253,7 +1262,7 @@ msgstr "Console"
 msgid "Constant bitrate"
 msgstr "Débit constant"
 
-#: core/mainwindow.cpp:283 ../build/src/ui_contextsettingspage.h:358
+#: core/mainwindow.cpp:284 ../build/src/ui_contextsettingspage.h:358
 msgid "Context"
 msgstr "Contexte"
 
@@ -1279,12 +1288,12 @@ msgstr "Convertir la musique que le périphérique ne peut pas lire"
 msgid "Copy album cover artwork"
 msgstr "Copier la pochette de l'album"
 
-#: core/mainwindow.cpp:626 widgets/fileviewlist.cpp:46
+#: core/mainwindow.cpp:627 widgets/fileviewlist.cpp:46
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
 msgstr "Copier vers la bibliothèque..."
 
-#: core/mainwindow.cpp:624 context/contextalbumsview.cpp:262
+#: core/mainwindow.cpp:625 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
 #: widgets/fileviewlist.cpp:48
 msgid "Copy to device..."
@@ -1303,7 +1312,7 @@ msgstr ""
 "Impossible de créer l'élément GStreamer « %1 » - vérifier que les modules "
 "externes GStreamer nécessaires sont installés."
 
-#: scrobbler/scrobblingapi20.cpp:161
+#: scrobbler/scrobblingapi20.cpp:162
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 "Impossible d'ouvrir le lien. Veuillez ouvrir ce lien dans votre navigateur"
@@ -1530,11 +1539,11 @@ msgstr "Supprimer les fichiers originaux"
 msgid "Deleting files"
 msgstr "Suppression des fichiers"
 
-#: core/mainwindow.cpp:1639
+#: core/mainwindow.cpp:1641
 msgid "Dequeue selected tracks"
 msgstr "Enlever les pistes sélectionnées de la file d'attente"
 
-#: core/mainwindow.cpp:1638
+#: core/mainwindow.cpp:1640
 msgid "Dequeue track"
 msgstr "Enlever cette piste de la file d'attente"
 
@@ -1559,7 +1568,7 @@ msgstr "Propriétés du périphérique"
 msgid "Device properties..."
 msgstr "Propriétés du périphérique..."
 
-#: core/mainwindow.cpp:289
+#: core/mainwindow.cpp:290
 msgid "Devices"
 msgstr "Périphériques"
 
@@ -1659,7 +1668,7 @@ msgstr "Téléchargement des métadonnées"
 msgid "Drag to reposition"
 msgstr "Déplacer pour repositionner"
 
-#: core/mainwindow.cpp:1680
+#: core/mainwindow.cpp:1682
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Modifier le tag « %1 »..."
@@ -1799,7 +1808,7 @@ msgstr "Equivalent à --log-levels *:1"
 msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalent à --log-levels *:3"
 
-#: core/mainwindow.cpp:2231 core/mainwindow.cpp:2353
+#: core/mainwindow.cpp:2233 core/mainwindow.cpp:2355
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "Error"
 msgstr "Erreur"
@@ -1991,7 +2000,7 @@ msgstr "Nom du fichier"
 msgid "Filename:"
 msgstr "Nom de fichier :"
 
-#: core/mainwindow.cpp:285
+#: core/mainwindow.cpp:286
 msgid "Files"
 msgstr "Fichiers"
 
@@ -2097,13 +2106,17 @@ msgstr "Graves + Aigus Max."
 msgid "Full Treble"
 msgstr "Aigus Max."
 
-#: settings/settingsdialog.cpp:127
+#: settings/settingsdialog.cpp:128
 msgid "General"
 msgstr "Général"
 
 #: ../build/src/ui_notificationssettingspage.h:468
 msgid "General settings"
 msgstr "Configuration générale"
+
+#: lyrics/geniuslyricsprovider.cpp:115
+msgid "Genius Authentication"
+msgstr ""
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
@@ -2332,7 +2345,7 @@ msgstr "Affichage des onglets Internet"
 msgid "Intro tracks"
 msgstr "Introduction des pistes"
 
-#: scrobbler/scrobblingapi20.cpp:196
+#: scrobbler/scrobblingapi20.cpp:197
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Réponse invalide du navigateur. Jeton manquant."
 
@@ -2407,7 +2420,7 @@ msgstr "Durée"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: scrobbler/listenbrainzscrobbler.cpp:149
 msgid "ListenBrainz Authentication"
 msgstr "Authentification à ListenBrainz"
 
@@ -2499,9 +2512,13 @@ msgstr "Profile à faible complexité (FC)"
 msgid "Lowercase filename"
 msgstr "Nom de fichier en minuscule"
 
-#: ../build/src/ui_edittagdialog.h:692
+#: ../build/src/ui_lyricssettingspage.h:156 ../build/src/ui_edittagdialog.h:692
 msgid "Lyrics"
 msgstr "Paroles"
+
+#: ../build/src/ui_lyricssettingspage.h:157
+msgid "Lyrics providers"
+msgstr ""
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2631,19 +2648,19 @@ msgstr "Point de montage"
 msgid "Mount points"
 msgstr "Points de montage"
 
-#: ../build/src/ui_queueview.h:125
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_lyricssettingspage.h:160
 msgid "Move down"
 msgstr "Déplacer vers le bas"
 
-#: core/mainwindow.cpp:627 widgets/fileviewlist.cpp:47
+#: core/mainwindow.cpp:628 widgets/fileviewlist.cpp:47
 msgid "Move to collection..."
 msgstr "Déplacer vers la bibliothèque..."
 
-#: ../build/src/ui_queueview.h:131
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_lyricssettingspage.h:159
 msgid "Move up"
 msgstr "Déplacer vers le haut"
 
-#: core/mainwindow.cpp:1900 transcoder/transcodedialog.cpp:328
+#: core/mainwindow.cpp:1902 transcoder/transcodedialog.cpp:328
 msgid "Music"
 msgstr "Musique"
 
@@ -2682,7 +2699,7 @@ msgstr "Ne jamais commencer la lecture"
 msgid "New folder"
 msgstr "Nouveau dossier"
 
-#: core/mainwindow.cpp:1732
+#: core/mainwindow.cpp:1734
 msgid "New playlist"
 msgstr "Nouvelle liste de lecture"
 
@@ -2721,6 +2738,10 @@ msgstr ""
 "Aucune correspondance trouvée. Videz le champ de recherche pour afficher à "
 "nouveau la totalité de la liste de lecture."
 
+#: settings/lyricssettingspage.cpp:178
+msgid "No provider selected."
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
 msgstr "Aucun bloc court"
@@ -2734,7 +2755,7 @@ msgstr "Aucun morceau en cours de lecture"
 msgid "None"
 msgstr "Aucun"
 
-#: core/mainwindow.cpp:2231 core/mainwindow.cpp:2353
+#: core/mainwindow.cpp:2233 core/mainwindow.cpp:2355
 #: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr ""
@@ -2806,7 +2827,7 @@ msgstr "Au démarrage"
 msgid "Opacity"
 msgstr "Opacité"
 
-#: scrobbler/scrobblingapi20.cpp:152
+#: scrobbler/scrobblingapi20.cpp:153
 msgid "Open URL in web browser?"
 msgstr "Ouvrir le lien dans le navigateur internet ?"
 
@@ -2854,7 +2875,7 @@ msgstr "Opus"
 msgid "Organise Files"
 msgstr "Organiser les fichiers"
 
-#: core/mainwindow.cpp:628 context/contextalbumsview.cpp:260
+#: core/mainwindow.cpp:629 context/contextalbumsview.cpp:260
 #: collection/collectionview.cpp:328
 msgid "Organise files..."
 msgstr "Organisation des fichiers..."
@@ -2925,7 +2946,7 @@ msgstr "Mot de passe"
 msgid "Password Protected"
 msgstr "Protégé par mot de passe"
 
-#: core/mainwindow.cpp:1088 core/mainwindow.cpp:1544
+#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1546
 #: core/qtsystemtrayicon.cpp:207
 msgid "Pause"
 msgstr "Pause"
@@ -2953,8 +2974,8 @@ msgstr "Pixel"
 msgid "Plain sidebar"
 msgstr "Barre latérale simple"
 
-#: core/mainwindow.cpp:598 core/mainwindow.cpp:1041 core/mainwindow.cpp:1070
-#: core/mainwindow.cpp:1548 core/qtsystemtrayicon.cpp:194
+#: core/mainwindow.cpp:599 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
+#: core/mainwindow.cpp:1550 core/qtsystemtrayicon.cpp:194
 #: core/qtsystemtrayicon.cpp:219
 msgid "Play"
 msgstr "Lecture"
@@ -2991,7 +3012,7 @@ msgstr "Liste de lecture"
 msgid "Playlist finished"
 msgstr "Liste de lecture terminée"
 
-#: core/mainwindow.cpp:1987
+#: core/mainwindow.cpp:1989
 #, qt-format
 msgid ""
 "Playlist has %1 songs, too large to undo, are you sure you want to clear the "
@@ -3005,7 +3026,7 @@ msgstr ""
 msgid "Playlist options"
 msgstr "Options de la liste de lecture"
 
-#: core/mainwindow.cpp:286
+#: core/mainwindow.cpp:287
 msgid "Playlists"
 msgstr "Listes de lecture"
 
@@ -3013,7 +3034,7 @@ msgstr "Listes de lecture"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Merci de fermer votre navigateur et de retourner dans Strawberry."
 
-#: scrobbler/listenbrainzscrobbler.cpp:148
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
 msgid "Please open this URL in your browser"
 msgstr "Veuillez ouvrir ce lien dans votre navigateur"
 
@@ -3070,7 +3091,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Préréglage :"
 
-#: scrobbler/scrobblingapi20.cpp:152
+#: scrobbler/scrobblingapi20.cpp:153
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3135,26 +3156,26 @@ msgstr "Qualité"
 msgid "Querying device..."
 msgstr "Requête du périphérique..."
 
-#: core/mainwindow.cpp:287
+#: core/mainwindow.cpp:288
 msgid "Queue"
 msgstr "Liste d'attente"
 
-#: core/mainwindow.cpp:1641
+#: core/mainwindow.cpp:1643
 msgid "Queue selected tracks"
 msgstr "Mettre les pistes sélectionnées en liste d'attente"
 
-#: core/mainwindow.cpp:604 core/mainwindow.cpp:1645
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1647
 msgid "Queue selected tracks to play next"
 msgstr ""
 "Mettre les pistes sélectionnées en liste d'attente pour une lecture "
 "ultérieure"
 
-#: core/mainwindow.cpp:1647 collection/collectionview.cpp:325
+#: core/mainwindow.cpp:1649 collection/collectionview.cpp:325
 #: internet/internetcollectionview.cpp:313
 msgid "Queue to play next"
 msgstr "Mettre en liste d'attente pour une lecture ultérieure"
 
-#: core/mainwindow.cpp:1640 context/contextalbumsview.cpp:257
+#: core/mainwindow.cpp:1642 context/contextalbumsview.cpp:257
 #: collection/collectionview.cpp:324 internet/internetsearchview.cpp:310
 #: internet/internetcollectionview.cpp:312
 msgid "Queue track"
@@ -3176,11 +3197,11 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Êtes-vous sûr(e) de vouloir annuler ?"
 
-#: scrobbler/listenbrainzscrobbler.cpp:174
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
 msgid "Received invalid reply from web browser."
 msgstr "Réponse invalide du navigateur internet."
 
-#: scrobbler/scrobblingapi20.cpp:200
+#: scrobbler/scrobblingapi20.cpp:201
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3188,7 +3209,11 @@ msgstr ""
 "Réponse invalide du navigateur internet. Essayez avec l'option HTTPS, ou "
 "utilisez un autre navigateur tel que Chromium ou Chrome."
 
-#: scrobbler/listenbrainzscrobbler.cpp:170
+#: lyrics/geniuslyricsprovider.cpp:191
+msgid "Redirect from Genius is missing query items code or state."
+msgstr ""
+
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
 msgid "Redirect missing token code!"
 msgstr "Redirigé le code du jeton manquant !"
 
@@ -3497,7 +3522,7 @@ msgstr "Taille redimensionnée"
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:504
+#: scrobbler/scrobblingapi20.cpp:505
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 n'est pas authentifié !"
@@ -3590,7 +3615,7 @@ msgstr "L'URL du serveur"
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
-#: core/mainwindow.cpp:1679
+#: core/mainwindow.cpp:1681
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Définir %1 à la valeur « %2 »..."
@@ -3678,7 +3703,7 @@ msgstr "Afficher la pochette de l'album dans la bibliothèque"
 msgid "Show albums by artist"
 msgstr "Afficher les albums par artiste"
 
-#: core/mainwindow.cpp:558
+#: core/mainwindow.cpp:559
 msgid "Show all songs"
 msgstr "Afficher tous les morceaux"
 
@@ -3694,7 +3719,7 @@ msgstr "Afficher le moteur et le périphérique"
 msgid "Show fullsize..."
 msgstr "Afficher en taille réelle..."
 
-#: core/mainwindow.cpp:631
+#: core/mainwindow.cpp:632
 msgid "Show in collection..."
 msgstr "Afficher dans la bibliothèque..."
 
@@ -3702,7 +3727,7 @@ msgstr "Afficher dans la bibliothèque..."
 msgid "Show in file browser"
 msgstr "Afficher dans l'explorateur de fichiers"
 
-#: core/mainwindow.cpp:629 context/contextalbumsview.cpp:268
+#: core/mainwindow.cpp:630 context/contextalbumsview.cpp:268
 #: collection/collectionview.cpp:337 widgets/fileviewlist.cpp:53
 msgid "Show in file browser..."
 msgstr "Afficher dans le navigateur de fichiers..."
@@ -3719,11 +3744,11 @@ msgstr "Afficher le bouton J'aime"
 msgid "Show moodbar"
 msgstr "Afficher la barre d'humeur"
 
-#: core/mainwindow.cpp:559
+#: core/mainwindow.cpp:560
 msgid "Show only duplicates"
 msgstr "Afficher uniquement les doublons"
 
-#: core/mainwindow.cpp:560
+#: core/mainwindow.cpp:561
 msgid "Show only untagged"
 msgstr "Afficher uniquement les morceaux sans tag"
 
@@ -3737,7 +3762,7 @@ msgstr "Afficher le bouton scrobble"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
-msgstr ""
+msgstr "Afficher la barre latérale"
 
 #: context/contextview.cpp:334
 msgid "Show song lyrics"
@@ -3800,11 +3825,11 @@ msgstr "Compteur de morceaux sautés"
 msgid "Skip forwards in playlist"
 msgstr "Lire la piste suivante"
 
-#: core/mainwindow.cpp:1652
+#: core/mainwindow.cpp:1654
 msgid "Skip selected tracks"
 msgstr "Passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1651
+#: core/mainwindow.cpp:1653
 msgid "Skip track"
 msgstr "Passer la piste"
 
@@ -3883,7 +3908,7 @@ msgstr "Arrêter la lecture après chaque piste"
 msgid "Stop after every track"
 msgstr "Arrêter la lecture après chaque piste"
 
-#: core/mainwindow.cpp:600 ../build/src/ui_mainwindow.h:626
+#: core/mainwindow.cpp:601 ../build/src/ui_mainwindow.h:626
 msgid "Stop after this track"
 msgstr "Arrêter la lecture après cette piste"
 
@@ -3953,7 +3978,7 @@ msgstr "Strawberry n'a pu trouver aucun résultat pour ce fichier"
 msgid "Stream URL method"
 msgstr "Méthode des flux"
 
-#: settings/settingsdialog.cpp:152
+#: settings/settingsdialog.cpp:154
 msgid "Streaming"
 msgstr "Streaming"
 
@@ -3965,7 +3990,7 @@ msgstr "Étirer l'image pour remplir la liste de lecture"
 msgid "Submit scrobbles every"
 msgstr "Soumettre des scrobbles tous les"
 
-#: core/mainwindow.cpp:292 ../build/src/ui_subsonicsettingspage.h:185
+#: core/mainwindow.cpp:293 ../build/src/ui_subsonicsettingspage.h:185
 msgid "Subsonic"
 msgstr "Subsonic"
 
@@ -4083,7 +4108,7 @@ msgstr "Le site demandé n'existe pas !"
 msgid "The site you requested is not an image!"
 msgstr "Le site demandé n'est pas une image !"
 
-#: core/mainwindow.cpp:2454
+#: core/mainwindow.cpp:2456
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
@@ -4200,7 +4225,7 @@ msgstr ""
 msgid "This type of device is not supported: %1"
 msgstr "Ce type de périphérique n'est pas supporté : %1"
 
-#: core/mainwindow.cpp:295 ../build/src/ui_tidalsettingspage.h:315
+#: core/mainwindow.cpp:296 ../build/src/ui_tidalsettingspage.h:315
 msgid "Tidal"
 msgstr "Tidal"
 
@@ -4232,7 +4257,7 @@ msgstr "Titre"
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: core/mainwindow.cpp:601 core/mainwindow.cpp:1642
+#: core/mainwindow.cpp:602 core/mainwindow.cpp:1644
 msgid "Toggle queue status"
 msgstr "Basculer l'état de la file d'attente"
 
@@ -4240,7 +4265,7 @@ msgstr "Basculer l'état de la file d'attente"
 msgid "Toggle scrobbling"
 msgstr "Basculer le scrobbling"
 
-#: core/mainwindow.cpp:607 core/mainwindow.cpp:1653
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1655
 msgid "Toggle skip status"
 msgstr "Basculer le saut du statut"
 
@@ -4329,11 +4354,11 @@ msgstr "Erreur inconnue"
 msgid "Unset cover"
 msgstr "Enlever cette pochette"
 
-#: core/mainwindow.cpp:1650
+#: core/mainwindow.cpp:1652
 msgid "Unskip selected tracks"
 msgstr "Ne pas passer les pistes sélectionnées"
 
-#: core/mainwindow.cpp:1649
+#: core/mainwindow.cpp:1651
 msgid "Unskip track"
 msgstr "Ne pas passer la piste"
 
@@ -4441,7 +4466,7 @@ msgstr "Utiliser la langue par défaut du système"
 msgid "Used"
 msgstr "Utilisé"
 
-#: settings/settingsdialog.cpp:138
+#: settings/settingsdialog.cpp:140
 msgid "User interface"
 msgstr "Interface utilisateur"
 
@@ -4555,7 +4580,7 @@ msgstr ""
 "Voulez-vous aussi déplacer les autres morceaux de cet album dans la "
 "catégorie « Compilations d'artistes » ?"
 
-#: core/mainwindow.cpp:2458
+#: core/mainwindow.cpp:2460
 msgid "Would you like to run a full rescan right now?"
 msgstr ""
 "Souhaitez-vous effectuer une nouvelle analyse complète de la bibliothèque "
