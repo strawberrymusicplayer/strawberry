@@ -35,15 +35,11 @@
 #include <QtDebug>
 
 #include "core/logging.h"
-#include "core/utilities.h"
 #include "core/network.h"
-#include "internet/localredirectserver.h"
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
 #include "lyricsprovider.h"
 #include "musixmatchlyricsprovider.h"
-
-const char *MusixmatchLyricsProvider::kSettingsGroup = "MusixmatchLyrics";
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, parent), network_(new NetworkAccessManager(this)) {}
 

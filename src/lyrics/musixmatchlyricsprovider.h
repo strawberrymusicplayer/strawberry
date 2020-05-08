@@ -24,13 +24,8 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
-#include <QMap>
 #include <QVariant>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QJsonArray>
 
 #include "jsonlyricsprovider.h"
 #include "lyricsfetcher.h"
@@ -52,9 +47,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title);
-
- private:
-  static const char *kSettingsGroup;
 
  private:
   QNetworkAccessManager *network_;

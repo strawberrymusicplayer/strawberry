@@ -42,7 +42,7 @@
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "lyrics/lyricsproviders.h"
-#include "lyrics/geniuslyricsprovider.h"
+#include "lyrics/lyricsprovider.h"
 #include "widgets/loginstatewidget.h"
 
 const char *LyricsSettingsPage::kSettingsGroup = "Lyrics";
