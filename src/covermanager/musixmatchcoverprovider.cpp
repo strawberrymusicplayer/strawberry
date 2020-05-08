@@ -36,7 +36,6 @@
 
 #include "core/logging.h"
 #include "core/network.h"
-#include "coverprovider.h"
 #include "albumcoverfetcher.h"
 #include "coverprovider.h"
 #include "musixmatchcoverprovider.h"
