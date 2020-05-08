@@ -22,7 +22,7 @@
 
 #include "config.h"
 
-#include <memory.h>
+#include <memory>
 
 #include <QtGlobal>
 #include <QObject>

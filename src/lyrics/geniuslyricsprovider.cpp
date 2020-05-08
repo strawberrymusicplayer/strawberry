@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <memory.h>
+#include <memory>
 
 #include <QObject>
 #include <QPair>

@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <memory.h>
-
 #include <QObject>
 #include <QByteArray>
 #include <QVariant>
