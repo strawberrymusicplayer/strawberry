@@ -187,6 +187,7 @@ set(SOURCES
   covermanager/discogscoverprovider.cpp
   covermanager/deezercoverprovider.cpp
   covermanager/qobuzcoverprovider.cpp
+  covermanager/musixmatchcoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
@@ -379,6 +380,7 @@ set(HEADERS
   covermanager/discogscoverprovider.h
   covermanager/deezercoverprovider.h
   covermanager/qobuzcoverprovider.h
+  covermanager/musixmatchcoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h

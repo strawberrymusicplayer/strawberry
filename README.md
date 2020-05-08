@@ -32,7 +32,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Deezer](https://www.deezer.com/) and [Tidal](https://www.tidal.com/)
+  * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/) and [Qobuz](https://www.qobuz.com/)
   * Song lyrics from [AudD](https://audd.io/), [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/) and [lololyrics.com](https://www.lololyrics.com/)
   * Support for multiple backends
   * Audio analyzer

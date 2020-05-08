@@ -57,6 +57,7 @@
 #include "covermanager/musicbrainzcoverprovider.h"
 #include "covermanager/deezercoverprovider.h"
 #include "covermanager/qobuzcoverprovider.h"
+#include "covermanager/musixmatchcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/auddlyricsprovider.h"
@@ -121,6 +122,7 @@ class ApplicationImpl {
           cover_providers->AddProvider(new DiscogsCoverProvider(app, app));
           cover_providers->AddProvider(new DeezerCoverProvider(app, app));
           cover_providers->AddProvider(new QobuzCoverProvider(app, app));
+          cover_providers->AddProvider(new MusixmatchCoverProvider(app, app));
 #ifdef HAVE_TIDAL
           cover_providers->AddProvider(new TidalCoverProvider(app, app));
 #endif
