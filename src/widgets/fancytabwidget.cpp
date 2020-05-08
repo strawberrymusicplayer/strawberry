@@ -232,23 +232,23 @@ class FancyTabBar: public QTabBar {
         if (verticalTextTabs) {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.bottom());
           m.rotate(-90);
-          textFlags = Qt::AlignLeft | Qt::AlignVCenter ;
-          iconFlags = Qt::AlignLeft  | Qt::AlignVCenter;
+          textFlags = Qt::AlignLeft | Qt::AlignVCenter;
+          iconFlags = Qt::AlignLeft | Qt::AlignVCenter;
 
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
 
           tabrectText = tabrectLabel;
-          tabrectText.translate(30,0);
+          tabrectText.translate(30, 0);
         }
         else {
           m = QTransform::fromTranslate(tabrect.left(), tabrect.top());
-          textFlags = Qt::AlignHCenter | Qt::AlignBottom ;
+          textFlags = Qt::AlignHCenter | Qt::AlignBottom;
           iconFlags = Qt::AlignHCenter | Qt::AlignTop;
 
           tabrectLabel = QRect(QPoint(0, 0), m.mapRect(tabrect).size());
 
           tabrectText = tabrectLabel;
-          tabrectText.translate(0,-5);
+          tabrectText.translate(0, -5);
         }
 
         p.setTransform(m);
@@ -275,14 +275,14 @@ class FancyTabBar: public QTabBar {
         if (verticalTextTabs) {
           tabrectIcon = tabrectLabel;
           tabrectIcon.setSize(FancyTabWidget::IconSize_SmallSidebar);
-          tabrectIcon.translate(PADDING,PADDING);
+          tabrectIcon.translate(PADDING, PADDING);
         }
         else {
           tabrectIcon = tabrectLabel;
           tabrectIcon.setSize(FancyTabWidget::IconSize_LargeSidebar);
           // Center the icon
-          const int moveRight = (FancyTabWidget::TabSize_LargeSidebar.width() -  FancyTabWidget::IconSize_LargeSidebar.width() -1)/2;
-          tabrectIcon.translate(moveRight,PADDING);
+          const int moveRight = (FancyTabWidget::TabSize_LargeSidebar.width() -  FancyTabWidget::IconSize_LargeSidebar.width() -1) / 2;
+          tabrectIcon.translate(moveRight, PADDING);
         }
         tabIcon(index).paint(&p, tabrectIcon, iconFlags);
         p.restore();
