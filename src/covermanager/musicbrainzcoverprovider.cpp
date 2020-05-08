@@ -48,7 +48,7 @@ const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.o
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 

@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,12 +70,14 @@ class AlbumCoverFetcherSearch : public QObject {
   void TerminateSearch();
 
  private:
-  static bool CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b);
   void AllProvidersFinished();
 
   void FetchMoreImages();
   float ScoreImage(const QImage &image) const;
   void SendBestImage();
+
+  static bool ProviderCompareOrder(CoverProvider *a, CoverProvider *b);
+  static bool CoverSearchResultCompareScore(const CoverSearchResult &a, const CoverSearchResult &b);
 
  private:
   static const int kSearchTimeoutMs;

@@ -22,6 +22,7 @@
 #include <QObject>
 #include <QMutex>
 #include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QVariantList>
 #include <QString>
@@ -35,6 +36,8 @@
 
 #include "settings/lyricssettingspage.h"
 
+int LyricsProviders::NextOrderId = 0;
+
 LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent) {}
 
 LyricsProviders::~LyricsProviders() {
@@ -47,15 +50,15 @@ LyricsProviders::~LyricsProviders() {
 
 void LyricsProviders::ReloadSettings() {
 
-  QStringList all_providers;
+  QMap<int, QString> all_providers;
   for (LyricsProvider *provider : lyrics_providers_.keys()) {
     if (!provider->is_enabled()) continue;
-    all_providers << provider->name();
+    all_providers.insert(provider->order(), provider->name());
   }
 
   QSettings s;
   s.beginGroup(LyricsSettingsPage::kSettingsGroup);
-  QStringList providers_enabled = s.value("providers", all_providers).toStringList();
+  QStringList providers_enabled = s.value("providers", QStringList() << all_providers.values()).toStringList();
   s.endGroup();
 
   int i = 0;
@@ -94,6 +97,8 @@ void LyricsProviders::AddProvider(LyricsProvider *provider) {
     lyrics_providers_.insert(provider, provider->name());
     connect(provider, SIGNAL(destroyed()), SLOT(ProviderDestroyed()));
   }
+
+  provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered lyrics provider" << provider->name();
 

@@ -58,7 +58,7 @@ const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : CoverProvider("Discogs", 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : CoverProvider("Discogs", false, false, 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 DiscogsCoverProvider::~DiscogsCoverProvider() {
   requests_search_.clear();

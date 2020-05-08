@@ -58,6 +58,7 @@
 #include "covermanager/deezercoverprovider.h"
 #include "covermanager/qobuzcoverprovider.h"
 #include "covermanager/musixmatchcoverprovider.h"
+#include "covermanager/spotifycoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/auddlyricsprovider.h"
@@ -123,9 +124,11 @@ class ApplicationImpl {
           cover_providers->AddProvider(new DeezerCoverProvider(app, app));
           cover_providers->AddProvider(new QobuzCoverProvider(app, app));
           cover_providers->AddProvider(new MusixmatchCoverProvider(app, app));
+          cover_providers->AddProvider(new SpotifyCoverProvider(app, app));
 #ifdef HAVE_TIDAL
           cover_providers->AddProvider(new TidalCoverProvider(app, app));
 #endif
+          cover_providers->ReloadSettings();
           return cover_providers;
         }),
         album_cover_loader_([=]() {
@@ -136,6 +139,7 @@ class ApplicationImpl {
         current_albumcover_loader_([=]() { return new CurrentAlbumCoverLoader(app, app); }),
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
+          // Initialize the repository of lyrics providers.
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
           lyrics_providers->AddProvider(new GeniusLyricsProvider(app));
           lyrics_providers->AddProvider(new OVHLyricsProvider(app));

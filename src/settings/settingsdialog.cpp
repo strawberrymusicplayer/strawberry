@@ -61,6 +61,7 @@
 #include "backendsettingspage.h"
 #include "playlistsettingspage.h"
 #include "scrobblersettingspage.h"
+#include "coverssettingspage.h"
 #include "lyricssettingspage.h"
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
@@ -131,6 +132,7 @@ SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidge
   AddPage(Page_Backend, new BackendSettingsPage(this), general);
   AddPage(Page_Playlist, new PlaylistSettingsPage(this), general);
   AddPage(Page_Scrobbler, new ScrobblerSettingsPage(this), general);
+  AddPage(Page_Covers, new CoversSettingsPage(this), general);
   AddPage(Page_Lyrics, new LyricsSettingsPage(this), general);
 #ifdef HAVE_GSTREAMER
   AddPage(Page_Transcoding, new TranscoderSettingsPage(this), general);

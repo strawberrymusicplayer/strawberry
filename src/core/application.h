@@ -53,6 +53,7 @@ class DeviceManager;
 class CoverProviders;
 class AlbumCoverLoader;
 class CurrentAlbumCoverLoader;
+class CoverProviders;
 class LyricsProviders;
 class AudioScrobbler;
 class InternetServices;

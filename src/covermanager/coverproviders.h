@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +43,10 @@ class CoverProviders : public QObject {
   explicit CoverProviders(QObject *parent = nullptr);
   ~CoverProviders();
 
+  void ReloadSettings();
+
+  CoverProvider *ProviderByName(const QString &name) const;
+
   // Lets a cover provider register itself in the repository.
   void AddProvider(CoverProvider *provider);
   void RemoveProvider(CoverProvider *provider);
@@ -59,6 +64,8 @@ class CoverProviders : public QObject {
 
  private:
   Q_DISABLE_COPY(CoverProviders)
+
+  static int NextOrderId;
 
   QMap<CoverProvider*, QString> cover_providers_;
   QMutex mutex_;

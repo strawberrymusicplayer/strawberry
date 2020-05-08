@@ -54,6 +54,8 @@ class LyricsProviders : public QObject {
  private:
   Q_DISABLE_COPY(LyricsProviders)
 
+  static int NextOrderId;
+
   QMap<LyricsProvider*, QString> lyrics_providers_;
   QList<LyricsProvider*> ordered_providers_;
   QMutex mutex_;

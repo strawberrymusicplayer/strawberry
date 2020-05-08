@@ -188,6 +188,7 @@ set(SOURCES
   covermanager/deezercoverprovider.cpp
   covermanager/qobuzcoverprovider.cpp
   covermanager/musixmatchcoverprovider.cpp
+  covermanager/spotifycoverprovider.cpp
 
   lyrics/lyricsproviders.cpp
   lyrics/lyricsprovider.cpp
@@ -206,13 +207,14 @@ set(SOURCES
   settings/behavioursettingspage.cpp
   settings/collectionsettingspage.cpp
   settings/backendsettingspage.cpp
-  settings/contextsettingspage.cpp
   settings/playlistsettingspage.cpp
+  settings/scrobblersettingspage.cpp
+  settings/coverssettingspage.cpp
+  settings/lyricssettingspage.cpp
   settings/networkproxysettingspage.cpp
   settings/appearancesettingspage.cpp
+  settings/contextsettingspage.cpp
   settings/notificationssettingspage.cpp
-  settings/scrobblersettingspage.cpp
-  settings/lyricssettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -381,6 +383,7 @@ set(HEADERS
   covermanager/deezercoverprovider.h
   covermanager/qobuzcoverprovider.h
   covermanager/musixmatchcoverprovider.h
+  covermanager/spotifycoverprovider.h
 
   lyrics/lyricsproviders.h
   lyrics/lyricsprovider.h
@@ -399,13 +402,14 @@ set(HEADERS
   settings/behavioursettingspage.h
   settings/collectionsettingspage.h
   settings/backendsettingspage.h
-  settings/contextsettingspage.h
   settings/playlistsettingspage.h
+  settings/scrobblersettingspage.h
+  settings/coverssettingspage.h
+  settings/lyricssettingspage.h
   settings/networkproxysettingspage.h
   settings/appearancesettingspage.h
+  settings/contextsettingspage.h
   settings/notificationssettingspage.h
-  settings/scrobblersettingspage.h
-  settings/lyricssettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -498,11 +502,12 @@ set(UI
   settings/backendsettingspage.ui
   settings/contextsettingspage.ui
   settings/playlistsettingspage.ui
+  settings/scrobblersettingspage.ui
+  settings/coverssettingspage.ui
+  settings/lyricssettingspage.ui
   settings/networkproxysettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
-  settings/scrobblersettingspage.ui
-  settings/lyricssettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui

@@ -53,7 +53,7 @@ const char *TidalCoverProvider::kResourcesUrl = "https://resources.tidal.com";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 
-  CoverProvider("Tidal", 2.5, true, true, app, parent),
+  CoverProvider("Tidal", true, true, 2.5, true, true, app, parent),
   service_(app->internet_services()->Service<TidalService>()),
   network_(new NetworkAccessManager(this)) {
 

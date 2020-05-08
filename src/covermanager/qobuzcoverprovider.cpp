@@ -50,7 +50,7 @@ const char *QobuzCoverProvider::kApiUrl = "https://www.qobuz.com/api.json/0.2";
 const char *QobuzCoverProvider::kAppID = "OTQyODUyNTY3";
 const int QobuzCoverProvider::kLimit = 10;
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : CoverProvider("Qobuz", 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
+QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : CoverProvider("Qobuz", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 

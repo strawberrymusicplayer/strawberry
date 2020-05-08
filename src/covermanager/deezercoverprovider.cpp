@@ -51,7 +51,7 @@
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
