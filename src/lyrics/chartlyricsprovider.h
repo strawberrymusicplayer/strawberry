@@ -17,45 +17,40 @@
  *
  */
 
-#ifndef AUDDLYRICSPROVIDER_H
-#define AUDDLYRICSPROVIDER_H
+#ifndef CHARTLYRICSPROVIDER_H
+#define CHARTLYRICSPROVIDER_H
 
 #include "config.h"
 
-#include <QtGlobal>
 #include <QObject>
 #include <QVariant>
 #include <QString>
-#include <QJsonArray>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
-#include "jsonlyricsprovider.h"
+#include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 
-class QNetworkAccessManager;
-class QNetworkReply;
-
-class AuddLyricsProvider : public JsonLyricsProvider {
+class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit AuddLyricsProvider(QObject *parent = nullptr);
+  explicit ChartLyricsProvider(QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
-  void CancelSearch(const quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
+  void CancelSearch(quint64 id);
+
+ private:
+  void Error(const QString &error, QVariant debug = QVariant());
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
 
  private:
   static const char *kUrlSearch;
-  static const char *kAPITokenB64;
-  static const int kMaxLength;
-  QNetworkAccessManager *network_;
-  void Error(const QString &error, const QVariant &debug = QVariant());
 
-  QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
+  QNetworkAccessManager *network_;
 
 };
 
-#endif  // AUDDLYRICSPROVIDER_H
-
+#endif  // CHARTLYRICSPROVIDER_H

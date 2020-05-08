@@ -49,9 +49,10 @@
 #include <QSslSocket>
 #include <QDateTime>
 
-LocalRedirectServer::LocalRedirectServer(const bool https, QObject *parent)
+LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),
-      https_(https),
+      https_(false),
+      port_(0),
       socket_(nullptr)
       {}
 
@@ -232,7 +233,7 @@ bool LocalRedirectServer::Listen() {
   if (https_) {
     if (!GenerateCertificate()) return false;
   }
-  if (!listen(QHostAddress::LocalHost)) {
+  if (!listen(QHostAddress::LocalHost, port_)) {
     error_ = errorString();
     return false;
   }

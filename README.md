@@ -32,14 +32,14 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
   * Advanced audio output and device configuration for bit-perfect playback on Linux
   * Edit tags on music files
   * Fetch tags from MusicBrainz
-  * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/) and [Deezer](https://www.deezer.com/)
-  * Song lyrics from [AudD](https://audd.io/), [lyrics.ovh](https://lyrics.ovh/) and [lololyrics.com](https://www.lololyrics.com/)
+  * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Deezer](https://www.deezer.com/) and [Tidal](https://www.tidal.com/)
+  * Song lyrics from [AudD](https://audd.io/), [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/) and [lololyrics.com](https://www.lololyrics.com/)
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
   * Transfer music to iPod, iPhone, MTP or mass-storage USB player
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
-  * Subsonic streaming support
+  * Subsonic and Tidal streaming support
 
 
 It has so far been tested to work on Linux, OpenBSD and Windows.

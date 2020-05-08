@@ -39,6 +39,9 @@ class LyricsProviders : public QObject {
   explicit LyricsProviders(QObject *parent = nullptr);
   ~LyricsProviders();
 
+  void ReloadSettings();
+  LyricsProvider *ProviderByName(const QString &name) const;
+
   void AddProvider(LyricsProvider *provider);
   void RemoveProvider(LyricsProvider *provider);
   QList<LyricsProvider*> List() const { return lyrics_providers_.keys(); }
@@ -51,7 +54,8 @@ class LyricsProviders : public QObject {
  private:
   Q_DISABLE_COPY(LyricsProviders)
 
-  QMap<LyricsProvider *, QString> lyrics_providers_;
+  QMap<LyricsProvider*, QString> lyrics_providers_;
+  QList<LyricsProvider*> ordered_providers_;
   QMutex mutex_;
 
   QAtomicInt next_id_;

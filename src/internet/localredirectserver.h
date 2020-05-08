@@ -38,9 +38,11 @@ class LocalRedirectServer : public QTcpServer {
   Q_OBJECT
 
  public:
-  explicit LocalRedirectServer(const bool https, QObject* parent = nullptr);
+  explicit LocalRedirectServer(QObject *parent = nullptr);
   ~LocalRedirectServer();
 
+  void set_https(const bool https) { https_ = https; }
+  void set_port(const int port) { port_ = port; }
   bool Listen();
   const QUrl &url() const { return url_; }
   const QUrl &request_url() const { return request_url_; }
@@ -65,6 +67,7 @@ class LocalRedirectServer : public QTcpServer {
 
  private:
   bool https_;
+  int port_;
   QUrl url_;
   QUrl request_url_;
   QSslCertificate ssl_certificate_;

@@ -196,6 +196,9 @@ set(SOURCES
   lyrics/auddlyricsprovider.cpp
   lyrics/ovhlyricsprovider.cpp
   lyrics/lololyricsprovider.cpp
+  lyrics/geniuslyricsprovider.cpp
+  lyrics/musixmatchlyricsprovider.cpp
+  lyrics/chartlyricsprovider.cpp
 
   settings/settingsdialog.cpp
   settings/settingspage.cpp
@@ -208,6 +211,7 @@ set(SOURCES
   settings/appearancesettingspage.cpp
   settings/notificationssettingspage.cpp
   settings/scrobblersettingspage.cpp
+  settings/lyricssettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -384,6 +388,9 @@ set(HEADERS
   lyrics/auddlyricsprovider.h
   lyrics/ovhlyricsprovider.h
   lyrics/lololyricsprovider.h
+  lyrics/geniuslyricsprovider.h
+  lyrics/musixmatchlyricsprovider.h
+  lyrics/chartlyricsprovider.h
 
   settings/settingsdialog.h
   settings/settingspage.h
@@ -396,6 +403,7 @@ set(HEADERS
   settings/appearancesettingspage.h
   settings/notificationssettingspage.h
   settings/scrobblersettingspage.h
+  settings/lyricssettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -492,6 +500,7 @@ set(UI
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
   settings/scrobblersettingspage.ui
+  settings/lyricssettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui

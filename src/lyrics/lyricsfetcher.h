@@ -53,9 +53,9 @@ struct LyricsSearchResult {
   QString lyrics;
   float score;
 };
-Q_DECLARE_METATYPE(LyricsSearchResult)
-
 typedef QList<LyricsSearchResult> LyricsSearchResults;
+
+Q_DECLARE_METATYPE(LyricsSearchResult)
 Q_DECLARE_METATYPE(QList<LyricsSearchResult>)
 
 class LyricsFetcher : public QObject {
@@ -65,13 +65,13 @@ class LyricsFetcher : public QObject {
   explicit LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
   virtual ~LyricsFetcher() {}
 
-  static const int kMaxConcurrentRequests;
-  static const int kGoodLyricsLength;
-
   quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();
 
-signals:
+ private:
+  void AddRequest(const LyricsSearchRequest &req);
+
+ signals:
   void LyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics);
   void SearchFinished(const quint64 request_id, const LyricsSearchResults &results);
 
@@ -81,7 +81,7 @@ signals:
   void StartRequests();
 
  private:
-  void AddRequest(const LyricsSearchRequest &req);
+  static const int kMaxConcurrentRequests;
 
   LyricsProviders *lyrics_providers_;
   quint64 next_id_;

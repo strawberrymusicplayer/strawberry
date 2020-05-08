@@ -26,8 +26,8 @@
       <li>Advanced audio output and device configuration for bit-perfect playback on Linux</li>
       <li>Edit tags on music files</li>
       <li>Fetch tags from MusicBrainz</li>
-      <li>Album cover art from Last.fm, Musicbrainz and Discogs</li>
-      <li>Song lyrics from AudD, lyrics.ovh and lololyrics.com</li>
+      <li>Album cover art from Last.fm, Musicbrainz, Discogs, Deezer and Tidal</li>
+      <li>Song lyrics from AudD, Genius, Musixmatch, ChartLyrics, lyrics.ovh and lololyrics.com</li>
       <li>Support for multiple backends</li>
       <li>Audio analyzer and equalizer</li>
       <li>Transfer music to iPod, iPhone, MTP or mass-storage USB player</li>

@@ -29,7 +29,6 @@
 #include "lyricsfetchersearch.h"
 
 const int LyricsFetcher::kMaxConcurrentRequests = 5;
-const int LyricsFetcher::kGoodLyricsLength = 60;
 
 LyricsFetcher::LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent)
     : QObject(parent),
@@ -104,8 +103,9 @@ void LyricsFetcher::StartRequests() {
 
 void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsSearchResults &results) {
 
+  if (!active_requests_.contains(request_id)) return;
+
   LyricsFetcherSearch *search = active_requests_.take(request_id);
-  if (!search) return;
   search->deleteLater();
   emit SearchFinished(request_id, results);
 
@@ -113,8 +113,9 @@ void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsS
 
 void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
 
+  if (!active_requests_.contains(request_id)) return;
+
   LyricsFetcherSearch *search = active_requests_.take(request_id);
-  if (!search) return;
   search->deleteLater();
   emit LyricsFetched(request_id, provider, lyrics);
 

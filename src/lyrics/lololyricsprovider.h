@@ -47,7 +47,7 @@ class LoloLyricsProvider : public LyricsProvider {
  private:
   static const char *kUrlSearch;
   QNetworkAccessManager *network_;
-  void Error(const quint64 id, const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
 };
 

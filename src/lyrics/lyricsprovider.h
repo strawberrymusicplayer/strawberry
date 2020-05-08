@@ -34,22 +34,36 @@ class LyricsProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit LyricsProvider(const QString &name, QObject *parent);
+  explicit LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, QObject *parent);
 
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
   QString name() const { return name_; }
+  bool is_enabled() const { return enabled_; }
+  int order() const { return order_; }
+
+  void set_enabled(const bool enabled) { enabled_ = enabled; }
+  void set_order(const int order) { order_ = order; }
 
   virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) = 0;
   virtual void CancelSearch(const quint64 id) { Q_UNUSED(id); }
+  virtual bool AuthenticationRequired() { return authentication_required_; }
+  virtual void Authenticate() {}
+  virtual bool IsAuthenticated() { return !authentication_required_; }
+  virtual void Deauthenticate() {}
 
  signals:
+  void AuthenticationComplete(bool, QStringList = QStringList());
+  void AuthenticationSuccess();
+  void AuthenticationFailure(QStringList);
   void SearchFinished(const quint64 id, const LyricsSearchResults &results);
 
  private:
   QString name_;
-
+  bool enabled_;
+  int order_;
+  bool authentication_required_;
 };
 
 #endif // LYRICSPROVIDER_H

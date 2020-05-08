@@ -36,11 +36,14 @@ class JsonLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit JsonLyricsProvider(const QString &name, QObject *parent = nullptr);
-  QJsonObject ExtractJsonObj(QNetworkReply *reply, const quint64 id);
+  explicit JsonLyricsProvider(const QString &name, const bool enabled = true, const bool authentication_required = false, QObject *parent = nullptr);
+
+  QByteArray ExtractData(QNetworkReply *reply);
+  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonObject ExtractJsonObj(QNetworkReply *reply);
 
  private:
-  virtual void Error(const quint64 id, const QString &error, const QVariant &debug = QVariant()) = 0;
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
 };
 

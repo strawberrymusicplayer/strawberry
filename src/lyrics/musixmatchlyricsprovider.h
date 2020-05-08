@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +17,19 @@
  *
  */
 
-#ifndef AUDDLYRICSPROVIDER_H
-#define AUDDLYRICSPROVIDER_H
+#ifndef MUSIXMATCHLYRICSPROVIDER_H
+#define MUSIXMATCHLYRICSPROVIDER_H
 
 #include "config.h"
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
+#include <QMap>
 #include <QVariant>
 #include <QString>
+#include <QStringList>
+#include <QUrl>
 #include <QJsonArray>
 
 #include "jsonlyricsprovider.h"
@@ -34,28 +38,27 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class AuddLyricsProvider : public JsonLyricsProvider {
+class MusixmatchLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit AuddLyricsProvider(QObject *parent = nullptr);
+  explicit MusixmatchLyricsProvider(QObject *parent = nullptr);
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
   void CancelSearch(const quint64 id);
 
- private slots:
-  void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
-
  private:
-  static const char *kUrlSearch;
-  static const char *kAPITokenB64;
-  static const int kMaxLength;
-  QNetworkAccessManager *network_;
   void Error(const QString &error, const QVariant &debug = QVariant());
 
-  QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
+ private slots:
+  void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title);
+
+ private:
+  static const char *kSettingsGroup;
+
+ private:
+  QNetworkAccessManager *network_;
 
 };
 
-#endif  // AUDDLYRICSPROVIDER_H
-
+#endif  // MUSIXMATCHLYRICSPROVIDER_H

@@ -126,7 +126,8 @@ void ScrobblingAPI20::Logout() {
 void ScrobblingAPI20::Authenticate(const bool https) {
 
   if (!server_) {
-    server_ = new LocalRedirectServer(https, this);
+    server_ = new LocalRedirectServer(this);
+    server_->set_https(https);
     if (!server_->Listen()) {
       AuthError(server_->error());
       delete server_;

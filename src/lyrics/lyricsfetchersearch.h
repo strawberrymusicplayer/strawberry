@@ -51,11 +51,13 @@ class LyricsFetcherSearch : public QObject {
 
  private:
   void AllProvidersFinished();
-
-  void SendBestImage();
+  static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
+  static bool LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b);
 
  private:
   static const int kSearchTimeoutMs;
+  static const int kGoodLyricsLength;
+  static const float kHighScore;
 
   LyricsSearchRequest request_;
   LyricsSearchResults results_;

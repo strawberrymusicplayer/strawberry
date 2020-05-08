@@ -38,7 +38,7 @@
 
 const char *OVHLyricsProvider::kUrlSearch = "https://api.lyrics.ovh/v1/";
 
-OVHLyricsProvider::OVHLyricsProvider(QObject *parent) : JsonLyricsProvider("Lyrics.ovh", parent), network_(new NetworkAccessManager(this)) {}
+OVHLyricsProvider::OVHLyricsProvider(QObject *parent) : JsonLyricsProvider("Lyrics.ovh", true, false, parent), network_(new NetworkAccessManager(this)) {}
 
 bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
@@ -62,14 +62,14 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
 
   reply->deleteLater();
 
-  QJsonObject json_obj = ExtractJsonObj(reply, id);
+  QJsonObject json_obj = ExtractJsonObj(reply);
   if (json_obj.isEmpty()) {
     emit SearchFinished(id, LyricsSearchResults());
     return;
   }
 
   if (json_obj.contains("error")) {
-    Error(id, json_obj["error"].toString());
+    Error(json_obj["error"].toString());
     qLog(Debug) << "OVHLyrics: No lyrics for" << artist << title;
     emit SearchFinished(id, LyricsSearchResults());
     return;
@@ -82,19 +82,17 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id
 
   LyricsSearchResult result;
   result.lyrics = json_obj["lyrics"].toString();
-  if (result.lyrics.length() > LyricsFetcher::kGoodLyricsLength)
-    result.score += 1.0;
 
   qLog(Debug) << "OVHLyrics: Got lyrics for" << artist << title;
+
   emit SearchFinished(id, LyricsSearchResults() << result);
 
 }
 
 
-void OVHLyricsProvider::Error(const quint64 id, const QString &error, const QVariant &debug) {
+void OVHLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "OVHLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
-  emit SearchFinished(id, LyricsSearchResults());
 
 }

@@ -60,8 +60,11 @@
 
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/auddlyricsprovider.h"
+#include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
 #include "lyrics/lololyricsprovider.h"
+#include "lyrics/musixmatchlyricsprovider.h"
+#include "lyrics/chartlyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
 
@@ -132,8 +135,12 @@ class ApplicationImpl {
         lyrics_providers_([=]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           lyrics_providers->AddProvider(new AuddLyricsProvider(app));
+          lyrics_providers->AddProvider(new GeniusLyricsProvider(app));
           lyrics_providers->AddProvider(new OVHLyricsProvider(app));
           lyrics_providers->AddProvider(new LoloLyricsProvider(app));
+          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(app));
+          lyrics_providers->AddProvider(new ChartLyricsProvider(app));
+          lyrics_providers->ReloadSettings();
           return lyrics_providers;
         }),
         internet_services_([=]() {

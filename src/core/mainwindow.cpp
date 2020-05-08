@@ -134,6 +134,7 @@
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/currentalbumcoverloader.h"
+#include "lyrics/lyricsproviders.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
@@ -950,6 +951,7 @@ void MainWindow::ReloadAllSettings() {
   album_cover_choice_controller_->ReloadSettings();
   if (cover_manager_.get()) cover_manager_->ReloadSettings();
   context_view_->ReloadSettings();
+  app_->lyrics_providers()->ReloadSettings();
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif

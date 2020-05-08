@@ -56,17 +56,18 @@
 
 #include "settingsdialog.h"
 #include "settingspage.h"
-#include "appearancesettingspage.h"
-#include "backendsettingspage.h"
 #include "behavioursettingspage.h"
-#include "contextsettingspage.h"
 #include "collectionsettingspage.h"
-#include "notificationssettingspage.h"
+#include "backendsettingspage.h"
 #include "playlistsettingspage.h"
+#include "appearancesettingspage.h"
+#include "contextsettingspage.h"
+#include "scrobblersettingspage.h"
+#include "notificationssettingspage.h"
 #include "shortcutssettingspage.h"
 #include "transcodersettingspage.h"
 #include "networkproxysettingspage.h"
-#include "scrobblersettingspage.h"
+#include "lyricssettingspage.h"
 #ifdef HAVE_MOODBAR
 #  include "moodbarsettingspage.h"
 #endif
@@ -138,6 +139,7 @@ SettingsDialog::SettingsDialog(Application *app, QMainWindow *mainwindow, QWidge
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page_Appearance, new AppearanceSettingsPage(this), iface);
   AddPage(Page_Context, new ContextSettingsPage(this), iface);
+  AddPage(Page_Lyrics, new LyricsSettingsPage(this), iface);
   AddPage(Page_Notifications, new NotificationsSettingsPage(this), iface);
 
 #ifdef HAVE_GLOBALSHORTCUTS
