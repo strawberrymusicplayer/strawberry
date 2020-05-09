@@ -498,9 +498,7 @@ void GeniusLyricsProvider::AuthError(const QString &error, const QVariant &debug
 
   if (!error.isEmpty()) login_errors_ << error;
 
-  for (const QString &e : login_errors_) {
-    Error(0, e);
-  }
+  for (const QString &e : login_errors_) Error(e);
   if (debug.isValid()) qLog(Debug) << debug;
 
   emit AuthenticationFailure(login_errors_);
