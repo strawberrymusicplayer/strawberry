@@ -197,6 +197,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_search_cover">
+        <property name="text">
+         <string>Automatically search for album cover</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkbox_search_lyrics">
         <property name="text">
          <string>Automatically search for song lyrics</string>

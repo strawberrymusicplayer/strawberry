@@ -264,15 +264,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   // Initialise the UI
   ui_->setupUi(this);
 
-  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
   album_cover_choice_controller_->Init(app);
-  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
-  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
-  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
-  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
-  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
-  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
-  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
   context_view_->Init(app_, collection_view_->view(), album_cover_choice_controller_);
@@ -429,7 +421,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(ui_->action_auto_complete_tags, SIGNAL(triggered()), SLOT(AutoCompleteTags()));
 #endif
   connect(ui_->action_settings, SIGNAL(triggered()), SLOT(OpenSettingsDialog()));
-  connect(ui_->action_toggle_show_sidebar, SIGNAL(toggled(bool)), ui_->sidebar_layout, SLOT(setVisible(bool)));
+  connect(ui_->action_toggle_show_sidebar, SIGNAL(toggled(bool)), SLOT(ToggleSidebar(bool)));
   connect(ui_->action_about_strawberry, SIGNAL(triggered()), SLOT(ShowAboutDialog()));
   connect(ui_->action_about_qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
   connect(ui_->action_shuffle, SIGNAL(triggered()), app_->playlist_manager(), SLOT(ShuffleCurrent()));
@@ -548,6 +540,16 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 
   connect(app_->task_manager(), SIGNAL(PauseCollectionWatchers()), app_->collection(), SLOT(PauseWatcher()));
   connect(app_->task_manager(), SIGNAL(ResumeCollectionWatchers()), app_->collection(), SLOT(ResumeWatcher()));
+
+  connect(app_->current_albumcover_loader(), SIGNAL(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)), SLOT(AlbumCoverLoaded(Song, AlbumCoverLoaderResult)));
+  connect(album_cover_choice_controller_->cover_from_file_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromFile()));
+  connect(album_cover_choice_controller_->cover_to_file_action(), SIGNAL(triggered()), this, SLOT(SaveCoverToFile()));
+  connect(album_cover_choice_controller_->cover_from_url_action(), SIGNAL(triggered()), this, SLOT(LoadCoverFromURL()));
+  connect(album_cover_choice_controller_->search_for_cover_action(), SIGNAL(triggered()), this, SLOT(SearchForCover()));
+  connect(album_cover_choice_controller_->unset_cover_action(), SIGNAL(triggered()), this, SLOT(UnsetCover()));
+  connect(album_cover_choice_controller_->show_cover_action(), SIGNAL(triggered()), this, SLOT(ShowCover()));
+  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(triggered()), this, SLOT(SearchCoverAutomatically()));
+  connect(album_cover_choice_controller_->search_cover_auto_action(), SIGNAL(toggled(bool)), SLOT(ToggleSearchCoverAuto(bool)));
 
 #ifndef Q_OS_WIN
   // Devices connections
@@ -804,9 +806,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (tab_mode == FancyTabWidget::Mode_None) tab_mode = default_mode;
   ui_->tabs->SetMode(tab_mode);
 
-  file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
-
   TabSwitched();
+
+  file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
 
   // Users often collapse one side of the splitter by mistake and don't know how to restore it. This must be set after the state is restored above.
   ui_->splitter->setChildrenCollapsible(false);
@@ -822,10 +824,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #ifdef Q_OS_MACOS // Always show mainwindow on startup if on macos
   show();
 #else
-  QSettings settings;
-  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  StartupBehaviour behaviour = StartupBehaviour(settings.value("startupbehaviour", Startup_Remember).toInt());
-  settings.endGroup();
+  QSettings s;
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  StartupBehaviour behaviour = StartupBehaviour(s.value("startupbehaviour", Startup_Remember).toInt());
+  s.endGroup();
   bool hidden = settings_.value("hidden", false).toBool();
   if (hidden && (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible())) {
     hidden = false;
@@ -846,6 +848,10 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
     }
   }
 #endif
+
+  bool show_sidebar = settings_.value("show_sidebar", true).toBool();
+  ui_->sidebar_layout->setVisible(show_sidebar);
+  ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
   QShortcut *close_window_shortcut = new QShortcut(this);
   close_window_shortcut->setKey(Qt::CTRL + Qt::Key_W);
@@ -871,35 +877,28 @@ MainWindow::~MainWindow() {
 
 void MainWindow::ReloadSettings() {
 
-  QSettings settings;
+  QSettings s;
 
 #ifndef Q_OS_MACOS
-  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  bool showtrayicon = settings.value("showtrayicon", QSystemTrayIcon::isSystemTrayAvailable()).toBool();
-  settings.endGroup();
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  bool showtrayicon = s.value("showtrayicon", QSystemTrayIcon::isSystemTrayAvailable()).toBool();
+  s.endGroup();
   if (tray_icon_) tray_icon_->SetVisible(showtrayicon);
   if ((!showtrayicon || !QSystemTrayIcon::isSystemTrayAvailable()) && !isVisible()) show();
 #endif
 
-  settings.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  playing_widget_ = settings.value("playing_widget", true).toBool();
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  playing_widget_ = s.value("playing_widget", true).toBool();
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
-  doubleclick_addmode_ = BehaviourSettingsPage::AddBehaviour(settings.value("doubleclick_addmode", BehaviourSettingsPage::AddBehaviour_Append).toInt());
-  doubleclick_playmode_ = BehaviourSettingsPage::PlayBehaviour(settings.value("doubleclick_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
-  doubleclick_playlist_addmode_ = BehaviourSettingsPage::PlaylistAddBehaviour(settings.value("doubleclick_playlist_addmode", BehaviourSettingsPage::PlaylistAddBehaviour_Play).toInt());
-  menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(settings.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
-  settings.endGroup();
+  doubleclick_addmode_ = BehaviourSettingsPage::AddBehaviour(s.value("doubleclick_addmode", BehaviourSettingsPage::AddBehaviour_Append).toInt());
+  doubleclick_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("doubleclick_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
+  doubleclick_playlist_addmode_ = BehaviourSettingsPage::PlaylistAddBehaviour(s.value("doubleclick_playlist_addmode", BehaviourSettingsPage::PlaylistAddBehaviour_Play).toInt());
+  menu_playmode_ = BehaviourSettingsPage::PlayBehaviour(s.value("menu_playmode", BehaviourSettingsPage::PlayBehaviour_IfStopped).toInt());
+  s.endGroup();
 
-  settings.beginGroup(kSettingsGroup);
-  bool show_sidebar = settings_.value("show_sidebar", true).toBool();
-  ui_->sidebar_layout->setVisible(show_sidebar);
-  ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
-  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings.value("search_for_cover_auto", true).toBool());
-  settings.endGroup();
-
-  settings.beginGroup(BackendSettingsPage::kSettingsGroup);
-  bool volume_control = settings.value("volume_control", true).toBool();
-  settings.endGroup();
+  s.beginGroup(BackendSettingsPage::kSettingsGroup);
+  bool volume_control = s.value("volume_control", true).toBool();
+  s.endGroup();
   if (volume_control != ui_->volume->isEnabled()) {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
@@ -912,10 +911,12 @@ void MainWindow::ReloadSettings() {
     }
   }
 
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value("search_for_cover_auto", true).toBool());
+
 #ifdef HAVE_SUBSONIC
-  settings.beginGroup(SubsonicSettingsPage::kSettingsGroup);
-  bool enable_subsonic = settings.value("enabled", false).toBool();
-  settings.endGroup();
+  s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
+  bool enable_subsonic = s.value("enabled", false).toBool();
+  s.endGroup();
   if (enable_subsonic)
     ui_->tabs->EnableTab(subsonic_view_);
   else
@@ -923,9 +924,9 @@ void MainWindow::ReloadSettings() {
 #endif
 
 #ifdef HAVE_TIDAL
-  settings.beginGroup(TidalSettingsPage::kSettingsGroup);
-  bool enable_tidal = settings.value("enabled", false).toBool();
-  settings.endGroup();
+  s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  bool enable_tidal = s.value("enabled", false).toBool();
+  s.endGroup();
   if (enable_tidal)
     ui_->tabs->EnableTab(tidal_view_);
   else
@@ -977,11 +978,8 @@ void MainWindow::SaveSettings() {
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
-  QSettings s;
-  s.beginGroup(kSettingsGroup);
-  s.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
-  s.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
-  s.endGroup();
+  settings_.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
+  settings_.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
 
 }
 
@@ -1164,13 +1162,25 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
 void MainWindow::TabSwitched() {
 
-  if (playing_widget_ && (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context" || !context_view_->album_enabled())) {
+  if (playing_widget_ && ui_->sidebar_layout->isVisible() && (ui_->tabs->tabBar()->tabData(ui_->tabs->currentIndex()).toString().toLower() != "context" || !context_view_->album_enabled())) {
     ui_->widget_playing->SetEnabled();
   }
   else {
     ui_->widget_playing->SetDisabled();
   }
 
+}
+
+void MainWindow::ToggleSidebar(const bool checked) {
+
+  ui_->sidebar_layout->setVisible(checked);
+  TabSwitched();
+  settings_.setValue("show_sidebar", checked);
+
+}
+
+void MainWindow::ToggleSearchCoverAuto(const bool checked) {
+  settings_.setValue("search_for_cover_auto", checked);
 }
 
 void MainWindow::SaveGeometry() {
@@ -1896,7 +1906,7 @@ void MainWindow::EditValue() {
 void MainWindow::AddFile() {
 
   // Last used directory
-  QString directory =settings_.value("add_media_path", QDir::currentPath()).toString();
+  QString directory = settings_.value("add_media_path", QDir::currentPath()).toString();
 
   PlaylistParser parser(app_->collection_backend());
 
@@ -1923,7 +1933,7 @@ void MainWindow::AddFile() {
 void MainWindow::AddFolder() {
 
   // Last used directory
-  QString directory =settings_.value("add_folder_path", QDir::currentPath()).toString();
+  QString directory = settings_.value("add_folder_path", QDir::currentPath()).toString();
 
   // Show dialog
   directory = QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);

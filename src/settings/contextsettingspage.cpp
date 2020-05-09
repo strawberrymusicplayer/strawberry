@@ -38,6 +38,7 @@
 #include <QSettings>
 
 #include "core/iconloader.h"
+#include "core/mainwindow.h"
 #include "settingspage.h"
 #include "settingsdialog.h"
 #include "contextsettingspage.h"
@@ -46,20 +47,14 @@
 const char *ContextSettingsPage::kSettingsGroup = "Context";
 const char *ContextSettingsPage::kSettingsTitleFmt = "TitleFmt";
 const char *ContextSettingsPage::kSettingsSummaryFmt = "SummaryFmt";
-const char *ContextSettingsPage::kSettingsGroupLabels[ContextSettingsOrder::NELEMS] = {
-  "Technical Data",
-  "Engine and Device",
-  "Albums by Artist",
-  "Song Lyrics",
-  "Album",
-  "Automatically search for song lyrics",
-};
+
 const char *ContextSettingsPage::kSettingsGroupEnable[ContextSettingsOrder::NELEMS] = {
-  "TechnicalDataEnable",
+  "AlbumEnable",
   "EngineAndDeviceEnable",
+  "TechnicalDataEnable",
   "AlbumsByArtistEnable",
   "SongLyricsEnable",
-  "AlbumEnable",
+  "SearchCoverEnable",
   "SearchLyricsEnable",
 };
 
@@ -70,12 +65,13 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog* dialog) : SettingsPage(
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("view-choose"));
 
-  checkboxes[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
-  checkboxes[ContextSettingsOrder::TECHNICAL_DATA] = ui_->checkbox_technical_data;
-  checkboxes[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;
-  checkboxes[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->checkbox_albums;
-  checkboxes[ContextSettingsOrder::SONG_LYRICS] = ui_->checkbox_song_lyrics;
-  checkboxes[ContextSettingsOrder::SEARCH_LYRICS] = ui_->checkbox_search_lyrics;
+  checkboxes_[ContextSettingsOrder::ALBUM] = ui_->checkbox_album;
+  checkboxes_[ContextSettingsOrder::ENGINE_AND_DEVICE] = ui_->checkbox_engine_device;
+  checkboxes_[ContextSettingsOrder::TECHNICAL_DATA] = ui_->checkbox_technical_data;
+  checkboxes_[ContextSettingsOrder::ALBUMS_BY_ARTIST] = ui_->checkbox_albums;
+  checkboxes_[ContextSettingsOrder::SONG_LYRICS] = ui_->checkbox_song_lyrics;
+  checkboxes_[ContextSettingsOrder::SEARCH_COVER] = ui_->checkbox_search_cover;
+  checkboxes_[ContextSettingsOrder::SEARCH_LYRICS] = ui_->checkbox_search_lyrics;
 
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
@@ -133,8 +129,9 @@ void ContextSettingsPage::Load() {
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
   ui_->context_custom_text1->setText(s.value(kSettingsTitleFmt, "%title% - %artist%").toString());
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
+
   for (int i = 0 ; i < ContextSettingsOrder::NELEMS ; ++i) {
-    checkboxes[i]->setChecked(s.value(kSettingsGroupEnable[i], i != ContextSettingsOrder::ALBUMS_BY_ARTIST).toBool());
+    checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], i != ContextSettingsOrder::ALBUMS_BY_ARTIST).toBool());
   }
 
   // Fonts
@@ -153,6 +150,10 @@ void ContextSettingsPage::Load() {
 
   s.endGroup();
 
+  s.beginGroup(MainWindow::kSettingsGroup);
+  ui_->checkbox_search_cover->setChecked(s.value("search_for_cover_auto", true).toBool());
+  s.endGroup();
+
 }
 
 void ContextSettingsPage::Save() {
@@ -163,12 +164,16 @@ void ContextSettingsPage::Save() {
   s.setValue(kSettingsTitleFmt, ui_->context_custom_text1->text());
   s.setValue(kSettingsSummaryFmt, ui_->context_custom_text2->text());
   for (int i = 0; i < ContextSettingsOrder::NELEMS; ++i) {
-    s.setValue(kSettingsGroupEnable[i], checkboxes[i]->isChecked());
+    s.setValue(kSettingsGroupEnable[i], checkboxes_[i]->isChecked());
   }
   s.setValue("font_headline", ui_->font_headline->currentFont().family());
   s.setValue("font_normal", ui_->font_normal->currentFont().family());
   s.setValue("font_size_headline", ui_->font_size_headline->value());
   s.setValue("font_size_normal", ui_->font_size_normal->value());
+  s.endGroup();
+
+  s.beginGroup(MainWindow::kSettingsGroup);
+  s.setValue("search_for_cover_auto", ui_->checkbox_search_cover->isChecked());
   s.endGroup();
 
 }

@@ -43,11 +43,12 @@ public:
   ~ContextSettingsPage();
 
   enum ContextSettingsOrder {
-    TECHNICAL_DATA,
+    ALBUM,
     ENGINE_AND_DEVICE,
+    TECHNICAL_DATA,
     ALBUMS_BY_ARTIST,
     SONG_LYRICS,
-    ALBUM,
+    SEARCH_COVER,
     SEARCH_LYRICS,
     NELEMS
   };
@@ -55,7 +56,6 @@ public:
   static const char *kSettingsGroup;
   static const char *kSettingsTitleFmt;
   static const char *kSettingsSummaryFmt;
-  static const char *kSettingsGroupLabels[ContextSettingsOrder::NELEMS];
   static const char *kSettingsGroupEnable[ContextSettingsOrder::NELEMS];
   static const qreal kDefaultFontSizeHeadline;
 
@@ -71,7 +71,7 @@ public:
 
  private:
   Ui_ContextSettingsPage *ui_;
-  QCheckBox *checkboxes[ContextSettingsOrder::NELEMS];
+  QCheckBox *checkboxes_[ContextSettingsOrder::NELEMS];
 };
 
 #endif // CONTEXTSETTINGSPAGE_H
