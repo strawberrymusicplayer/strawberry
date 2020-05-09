@@ -131,7 +131,7 @@ void ContextSettingsPage::Load() {
   ui_->context_custom_text2->setText(s.value(kSettingsSummaryFmt, "%album%").toString());
 
   for (int i = 0 ; i < ContextSettingsOrder::NELEMS ; ++i) {
-    checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], i != ContextSettingsOrder::ALBUMS_BY_ARTIST).toBool());
+    checkboxes_[i]->setChecked(s.value(kSettingsGroupEnable[i], checkboxes_[i]->isChecked()).toBool());
   }
 
   // Fonts
