@@ -40,7 +40,6 @@
 #include "ui_coverssettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "covermanager/coverproviders.h"
 #include "covermanager/coverprovider.h"
 #include "widgets/loginstatewidget.h"
@@ -93,8 +92,6 @@ void CoversSettingsPage::Save() {
     const QListWidgetItem *item = ui_->providers->item(i);
     if (item->checkState() == Qt::Checked) providers << item->text();
   }
-  
-  qLog(Debug) << providers;
 
   QSettings s;
   s.beginGroup(kSettingsGroup);

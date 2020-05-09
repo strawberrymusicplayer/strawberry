@@ -40,7 +40,6 @@
 #include "ui_lyricssettingspage.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/lyricsprovider.h"
 #include "widgets/loginstatewidget.h"
@@ -93,8 +92,6 @@ void LyricsSettingsPage::Save() {
     const QListWidgetItem *item = ui_->providers->item(i);
     if (item->checkState() == Qt::Checked) providers << item->text();
   }
-  
-  qLog(Debug) << providers;
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
