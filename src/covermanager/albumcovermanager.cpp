@@ -250,6 +250,9 @@ void AlbumCoverManager::closeEvent(QCloseEvent *e) {
   // Cancel any outstanding requests
   CancelRequests();
 
+  ui_->artists->clear();
+  ui_->albums->clear();
+
 }
 
 void AlbumCoverManager::LoadGeometry() {
