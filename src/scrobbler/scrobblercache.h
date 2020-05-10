@@ -22,14 +22,17 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
 #include <QHash>
 #include <QString>
 
+#include "scrobblercacheitem.h"
+
 class Song;
-class ScrobblerCacheItem;
 
 class ScrobblerCache : public QObject {
   Q_OBJECT
@@ -40,14 +43,14 @@ class ScrobblerCache : public QObject {
 
   void ReadCache();
 
-  ScrobblerCacheItem *Add(const Song &song, const quint64 &timestamp);
-  ScrobblerCacheItem *Get(const quint64 hash);
+  ScrobblerCacheItemPtr Add(const Song &song, const quint64 &timestamp);
+  ScrobblerCacheItemPtr Get(const quint64 hash);
   void Remove(const quint64 hash);
-  void Remove(ScrobblerCacheItem &item);
+  void Remove(ScrobblerCacheItemPtr item);
   int Count() const { return scrobbler_cache_.size(); };
-  QList<ScrobblerCacheItem*> List() const { return scrobbler_cache_.values(); }
-  void ClearSent(const QList<quint64> list);
-  void Flush(const QList<quint64> list);
+  QList<ScrobblerCacheItemPtr> List() const { return scrobbler_cache_.values(); }
+  void ClearSent(const QList<quint64> &list);
+  void Flush(const QList<quint64> &list);
 
  public slots:
   void WriteCache();
@@ -55,7 +58,7 @@ class ScrobblerCache : public QObject {
  private:
   QString filename_;
   bool loaded_;
-  QHash <quint64, ScrobblerCacheItem*> scrobbler_cache_;
+  QHash<quint64, ScrobblerCacheItemPtr> scrobbler_cache_;
 
 };
 

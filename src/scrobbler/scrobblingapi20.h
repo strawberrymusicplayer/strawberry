@@ -32,13 +32,13 @@
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
+#include "scrobblercacheitem.h"
 
 class QNetworkReply;
 
 class Application;
 class NetworkAccessManager;
 class LocalRedirectServer;
-class ScrobblerCacheItem;
 
 class ScrobblingAPI20 : public ScrobblerService {
   Q_OBJECT
@@ -129,7 +129,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   void RequestSession(const QString &token);
   void AuthError(const QString &error);
-  void SendSingleScrobble(ScrobblerCacheItem *item);
+  void SendSingleScrobble(ScrobblerCacheItemPtr item);
   void Error(const QString &error, const QVariant &debug = QVariant());
   QString ErrorString(const ScrobbleErrorCode error) const;
   void DoSubmit();

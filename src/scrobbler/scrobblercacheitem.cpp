@@ -33,5 +33,3 @@ ScrobblerCacheItem::ScrobblerCacheItem(const QString &artist, const QString &alb
   duration_(duration),
   timestamp_(timestamp),
   sent_(false) {}
-
-ScrobblerCacheItem::~ScrobblerCacheItem() {}

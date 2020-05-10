@@ -542,7 +542,7 @@ void ScrobblingAPI20::Submit() {
 
   int i(0);
   QList<quint64> list;
-  for (ScrobblerCacheItem *item : cache()->List()) {
+  for (ScrobblerCacheItemPtr item : cache()->List()) {
     if (item->sent_) continue;
     item->sent_ = true;
     if (!batch_) {
@@ -727,7 +727,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint6
 
 }
 
-void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItem *item) {
+void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
   ParamList params = ParamList()
     << Param("method", "track.scrobble")
@@ -752,7 +752,7 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint6
 
   reply->deleteLater();
 
-  ScrobblerCacheItem *item = cache()->Get(timestamp);
+  ScrobblerCacheItemPtr item = cache()->Get(timestamp);
   if (!item) {
     Error(QString("Received reply for non-existing cache entry %1.").arg(timestamp));
     return;

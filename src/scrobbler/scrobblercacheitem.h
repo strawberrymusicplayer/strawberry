@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QString>
@@ -33,7 +35,6 @@ class ScrobblerCacheItem : public QObject {
 
  public:
   explicit ScrobblerCacheItem(const QString &artist, const QString &album, const QString &song, const QString &albumartist, const int track, const qint64 duration, const quint64 &timestamp);
-  ~ScrobblerCacheItem();
 
   QString effective_albumartist() const { return albumartist_.isEmpty() || albumartist_.toLower() == Song::kVariousArtists ? artist_ : albumartist_; }
 
@@ -48,5 +49,11 @@ class ScrobblerCacheItem : public QObject {
   bool sent_;
 
 };
+
+typedef std::shared_ptr<ScrobblerCacheItem> ScrobblerCacheItemPtr;
+typedef QList<ScrobblerCacheItemPtr> ScrobblerCacheItemList;
+
+Q_DECLARE_METATYPE(ScrobblerCacheItemPtr)
+Q_DECLARE_METATYPE(ScrobblerCacheItemList)
 
 #endif  // SCROBBLERCACHEITEM_H

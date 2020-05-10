@@ -481,7 +481,7 @@ void ListenBrainzScrobbler::Submit() {
   QJsonArray array;
   int i(0);
   QList<quint64> list;
-  for (ScrobblerCacheItem *item : cache_->List()) {
+  for (ScrobblerCacheItemPtr item : cache_->List()) {
     if (item->sent_) continue;
     item->sent_ = true;
     ++i;

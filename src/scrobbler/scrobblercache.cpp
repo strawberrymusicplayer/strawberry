@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include "memory"
+
 #include <QObject>
 #include <QStandardPaths>
 #include <QHash>
@@ -48,7 +50,9 @@ ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent) :
   loaded_ = true;
 }
 
-ScrobblerCache::~ScrobblerCache() {}
+ScrobblerCache::~ScrobblerCache() {
+  scrobbler_cache_.clear();
+}
 
 void ScrobblerCache::ReadCache() {
 
@@ -130,8 +134,7 @@ void ScrobblerCache::ReadCache() {
       continue;
     }
     if (scrobbler_cache_.contains(timestamp)) continue;
-    ScrobblerCacheItem *item = new ScrobblerCacheItem(artist, album, song, albumartist, track, duration, timestamp);
-    scrobbler_cache_.insert(timestamp, item);
+    scrobbler_cache_.insert(timestamp, std::make_shared<ScrobblerCacheItem>(artist, album, song, albumartist, track, duration, timestamp));
 
   }
 
@@ -143,11 +146,17 @@ void ScrobblerCache::WriteCache() {
 
   qLog(Debug) << "Writing scrobbler cache file" << filename_;
 
+  if (scrobbler_cache_.isEmpty()) {
+    QFile file(filename_);
+    if (file.exists()) file.remove();
+    return;
+  }
+
   QJsonArray array;
 
-  QHash <quint64, ScrobblerCacheItem*> ::iterator i;
+  QHash <quint64, std::shared_ptr<ScrobblerCacheItem>> ::iterator i;
   for (i = scrobbler_cache_.begin() ; i != scrobbler_cache_.end() ; ++i) {
-    ScrobblerCacheItem *item = i.value();
+    ScrobblerCacheItemPtr item = i.value();
     QJsonObject object;
     object.insert("timestamp", QJsonValue::fromVariant(item->timestamp_));
     object.insert("artist", QJsonValue::fromVariant(item->artist_));
@@ -176,7 +185,7 @@ void ScrobblerCache::WriteCache() {
 
 }
 
-ScrobblerCacheItem *ScrobblerCache::Add(const Song &song, const quint64 &timestamp) {
+ScrobblerCacheItemPtr ScrobblerCache::Add(const Song &song, const quint64 &timestamp) {
 
   if (scrobbler_cache_.contains(timestamp)) return nullptr;
 
@@ -187,7 +196,7 @@ ScrobblerCacheItem *ScrobblerCache::Add(const Song &song, const quint64 &timesta
   album.remove(Song::kAlbumRemoveMisc);
   title.remove(Song::kTitleRemoveMisc);
 
-  ScrobblerCacheItem *item = new ScrobblerCacheItem(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);
+  ScrobblerCacheItemPtr item = std::make_shared<ScrobblerCacheItem>(song.artist(), album, title, song.albumartist(), song.track(), song.length_nanosec(), timestamp);
   scrobbler_cache_.insert(timestamp, item);
 
   if (loaded_) DoInAMinuteOrSo(this, SLOT(WriteCache()));
@@ -196,7 +205,7 @@ ScrobblerCacheItem *ScrobblerCache::Add(const Song &song, const quint64 &timesta
 
 }
 
-ScrobblerCacheItem *ScrobblerCache::Get(const quint64 hash) {
+ScrobblerCacheItemPtr ScrobblerCache::Get(const quint64 hash) {
 
   if (scrobbler_cache_.contains(hash)) { return scrobbler_cache_.value(hash); }
   else return nullptr;
@@ -210,27 +219,29 @@ void ScrobblerCache::Remove(const quint64 hash) {
     return;
   }
 
-  delete scrobbler_cache_.take(hash);
+  scrobbler_cache_.remove(hash);
 
 }
 
-void ScrobblerCache::Remove(ScrobblerCacheItem &item) {
-  delete scrobbler_cache_.take(item.timestamp_);
+void ScrobblerCache::Remove(ScrobblerCacheItemPtr item) {
+  scrobbler_cache_.remove(item->timestamp_);
 }
 
-void ScrobblerCache::ClearSent(const QList<quint64> list) {
-  for (quint64 timestamp : list) {
+void ScrobblerCache::ClearSent(const QList<quint64> &list) {
+
+  for (const quint64 timestamp : list) {
     if (!scrobbler_cache_.contains(timestamp)) continue;
-    ScrobblerCacheItem *item = scrobbler_cache_.take(timestamp);
+    ScrobblerCacheItemPtr item = scrobbler_cache_.take(timestamp);
     item->sent_ = false;
   }
+
 }
 
-void ScrobblerCache::Flush(const QList<quint64> list) {
+void ScrobblerCache::Flush(const QList<quint64> &list) {
 
-  for (quint64 timestamp : list) {
+  for (const quint64 timestamp : list) {
     if (!scrobbler_cache_.contains(timestamp)) continue;
-    delete scrobbler_cache_.take(timestamp);
+    scrobbler_cache_.remove(timestamp);
   }
   DoInAMinuteOrSo(this, SLOT(WriteCache()));
 
