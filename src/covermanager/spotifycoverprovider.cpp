@@ -215,9 +215,9 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
     return;
   }
 
-  QUrlQuery new_url_query;
+  QUrlQuery url_query;
   for (const Param &param : params) {
-    new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
   }
 
   QUrl new_url(kOAuthAccessTokenUrl);
@@ -227,7 +227,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
   QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QString(":") + QByteArray::fromBase64(kClientSecretB64);
   req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
 
-  QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
+  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
 
   QNetworkReply *reply = network_->post(req, query);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
