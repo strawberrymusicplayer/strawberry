@@ -89,7 +89,7 @@ class AlbumCoverFetcher : public QObject {
 
  public:
   explicit AlbumCoverFetcher(CoverProviders *cover_providers, QObject *parent = nullptr, QNetworkAccessManager *network = 0);
-  virtual ~AlbumCoverFetcher() {}
+  ~AlbumCoverFetcher();
 
   static const int kMaxConcurrentRequests;
 

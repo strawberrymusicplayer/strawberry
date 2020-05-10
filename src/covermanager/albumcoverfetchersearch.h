@@ -49,6 +49,7 @@ class AlbumCoverFetcherSearch : public QObject {
 
  public:
   explicit AlbumCoverFetcherSearch(const CoverSearchRequest &request, QNetworkAccessManager *network, QObject *parent);
+  ~AlbumCoverFetcherSearch();
 
   void Start(CoverProviders *cover_providers);
 

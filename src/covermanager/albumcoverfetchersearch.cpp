@@ -61,6 +61,11 @@ AlbumCoverFetcherSearch::AlbumCoverFetcherSearch(
 
 }
 
+AlbumCoverFetcherSearch::~AlbumCoverFetcherSearch() {
+  pending_requests_.clear();
+  Cancel();
+}
+
 void AlbumCoverFetcherSearch::TerminateSearch() {
 
   for (quint64 id : pending_requests_.keys()) {
@@ -205,6 +210,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
 void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
+  disconnect(reply, &QNetworkReply::finished, this, nullptr);
   reply->deleteLater();
 
   if (!pending_image_loads_.contains(reply)) return;
@@ -280,7 +286,7 @@ void AlbumCoverFetcherSearch::SendBestImage() {
     cover_url = best_image.first.image_url;
     image = best_image.second;
 
-    qLog(Info) << "Using " << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score;
+    qLog(Info) << "Using" << best_image.first.image_url << "from" << best_image.first.provider << "with score" << best_image.first.score;
 
     statistics_.chosen_images_by_provider_[best_image.first.provider]++;
     statistics_.chosen_images_++;
@@ -304,7 +310,9 @@ void AlbumCoverFetcherSearch::Cancel() {
   }
   else if (!pending_image_loads_.isEmpty()) {
     for (QNetworkReply *reply : pending_image_loads_.keys()) {
+      disconnect(reply, &QNetworkReply::finished, this, nullptr);
       reply->abort();
+      reply->deleteLater();
     }
     pending_image_loads_.clear();
   }
