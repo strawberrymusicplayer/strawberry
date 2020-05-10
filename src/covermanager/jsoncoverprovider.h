@@ -29,8 +29,6 @@
 
 #include "coverprovider.h"
 
-class QNetworkAccessManager;
-class QNetworkReply;
 class Application;
 
 class JsonCoverProvider : public CoverProvider {
