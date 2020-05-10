@@ -395,6 +395,7 @@ void Player::NextItem(Engine::TrackChangeFlags change) {
   int i = active_playlist->next_row(ignore_repeat_track);
   if (i == -1) {
     app_->playlist_manager()->active()->set_current_row(i);
+    app_->playlist_manager()->active()->reset_last_played();
     emit PlaylistFinished();
     Stop();
     return;
