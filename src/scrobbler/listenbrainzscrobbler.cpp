@@ -35,6 +35,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QTimer>
 #include <QtDebug>
 
 #include "core/application.h"
@@ -53,12 +54,12 @@
 
 const char *ListenBrainzScrobbler::kName = "ListenBrainz";
 const char *ListenBrainzScrobbler::kSettingsGroup = "ListenBrainz";
-const char *ListenBrainzScrobbler::kAuthUrl = "https://musicbrainz.org/oauth2/authorize";
-const char *ListenBrainzScrobbler::kAuthTokenUrl = "https://musicbrainz.org/oauth2/token";
-const char *ListenBrainzScrobbler::kRedirectUrl = "http://localhost";
+const char *ListenBrainzScrobbler::kOAuthAuthorizeUrl = "https://musicbrainz.org/oauth2/authorize";
+const char *ListenBrainzScrobbler::kOAuthAccessTokenUrl = "https://musicbrainz.org/oauth2/token";
+const char *ListenBrainzScrobbler::kOAuthRedirectUrl = "http://localhost";
 const char *ListenBrainzScrobbler::kApiUrl = "https://api.listenbrainz.org";
-const char *ListenBrainzScrobbler::kClientID = "oeAUNwqSQer0er09Fiqi0Q";
-const char *ListenBrainzScrobbler::kClientSecret = "ROFghkeQ3F3oPyEhqiyWPA";
+const char *ListenBrainzScrobbler::kClientIDB64 = "b2VBVU53cVNRZXIwZXIwOUZpcWkwUQ==";
+const char *ListenBrainzScrobbler::kClientSecretB64 = "Uk9GZ2hrZVEzRjNvUHlFaHFpeVdQQQ==";
 const char *ListenBrainzScrobbler::kCacheFile = "listenbrainzscrobbler.cache";
 const int ListenBrainzScrobbler::kScrobblesPerRequest = 10;
 
@@ -69,9 +70,13 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
   server_(nullptr),
   enabled_(false),
   expires_in_(-1),
+  login_time_(0),
   submitted_(false),
   scrobbled_(false),
   timestamp_(0) {
+
+  refresh_login_timer_.setSingleShot(true);
+  connect(&refresh_login_timer_, SIGNAL(timeout()), SLOT(RequestAccessToken()));
 
   ReloadSettings();
   LoadSession();
@@ -98,16 +103,25 @@ void ListenBrainzScrobbler::LoadSession() {
   expires_in_ = s.value("expires_in", -1).toInt();
   token_type_ = s.value("token_type").toString();
   refresh_token_ = s.value("refresh_token").toString();
+  login_time_ = s.value("login_time").toLongLong();
   s.endGroup();
+
+  if (!refresh_token_.isEmpty()) {
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    if (time < 6) time = 6;
+    refresh_login_timer_.setInterval(time * kMsecPerSec);
+    refresh_login_timer_.start();
+  }
 
 }
 
 void ListenBrainzScrobbler::Logout() {
 
   access_token_.clear();
-  expires_in_ = -1;
   token_type_.clear();
   refresh_token_.clear();
+  expires_in_ = -1;
+  login_time_ = 0;
 
   QSettings settings;
   settings.beginGroup(kSettingsGroup);
@@ -133,15 +147,15 @@ void ListenBrainzScrobbler::Authenticate(const bool https) {
     connect(server_, SIGNAL(Finished()), this, SLOT(RedirectArrived()));
   }
 
-  QUrl redirect_url(kRedirectUrl);
+  QUrl redirect_url(kOAuthRedirectUrl);
   redirect_url.setPort(server_->url().port());
 
   QUrlQuery url_query;
   url_query.addQueryItem("response_type", "code");
-  url_query.addQueryItem("client_id", kClientID);
+  url_query.addQueryItem("client_id", QByteArray::fromBase64(kClientIDB64));
   url_query.addQueryItem("redirect_uri", redirect_url.toString());
   url_query.addQueryItem("scope", "profile;email;tag;rating;collection;submit_isrc;submit_barcode");
-  QUrl url(kAuthUrl);
+  QUrl url(kOAuthAuthorizeUrl);
   url.setQuery(url_query);
 
   bool result = QDesktopServices::openUrl(url);
@@ -165,7 +179,7 @@ void ListenBrainzScrobbler::RedirectArrived() {
         AuthError(QUrlQuery(url).queryItemValue("error"));
       }
       else if (url_query.hasQueryItem("code")) {
-        RequestSession(url, url_query.queryItemValue("code"));
+        RequestAccessToken(url, url_query.queryItemValue("code"));
       }
       else {
         AuthError(tr("Redirect missing token code!"));
@@ -185,15 +199,32 @@ void ListenBrainzScrobbler::RedirectArrived() {
 
 }
 
-void ListenBrainzScrobbler::RequestSession(const QUrl &url, const QString &token) {
+void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const QString &code) {
 
-  QUrl session_url(kAuthTokenUrl);
+  refresh_login_timer_.stop();
+
+  ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
+                                 << Param("client_secret", QByteArray::fromBase64(kClientSecretB64));
+
+  if (!code.isEmpty() && !redirect_url.isEmpty()) {
+    params << Param("grant_type", "authorization_code");
+    params << Param("code", code);
+    params << Param("redirect_uri", redirect_url.toString());
+  }
+  else if (!refresh_token_.isEmpty() && enabled_) {
+    params << Param("grant_type", "refresh_token");
+    params << Param("refresh_token", refresh_token_);
+  }
+  else {
+    return;
+  }
+
   QUrlQuery url_query;
-  url_query.addQueryItem("grant_type", "authorization_code");
-  url_query.addQueryItem("code", token);
-  url_query.addQueryItem("client_id", kClientID);
-  url_query.addQueryItem("client_secret", kClientSecret);
-  url_query.addQueryItem("redirect_uri", url.toString());
+  for (const Param &param : params) {
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+  }
+
+  QUrl session_url(kOAuthAccessTokenUrl);
 
   QNetworkRequest req(session_url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
@@ -257,7 +288,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in") || !json_obj.contains("token_type") || !json_obj.contains("refresh_token")) {
+  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in") || !json_obj.contains("token_type")) {
     AuthError("Json access_token, expires_in or token_type is missing.");
     return;
   }
@@ -265,7 +296,10 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   access_token_ = json_obj["access_token"].toString();
   expires_in_ = json_obj["expires_in"].toInt();
   token_type_ = json_obj["token_type"].toString();
-  refresh_token_ = json_obj["refresh_token"].toString();
+  if (json_obj.contains("refresh_token")) {
+    refresh_token_ = json_obj["refresh_token"].toString();
+  }
+  login_time_ = QDateTime::currentDateTime().toTime_t();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -273,9 +307,17 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
   s.setValue("expires_in", expires_in_);
   s.setValue("token_type", token_type_);
   s.setValue("refresh_token", refresh_token_);
+  s.setValue("login_time", login_time_);
   s.endGroup();
 
+  if (expires_in_ > 0) {
+    refresh_login_timer_.setInterval(expires_in_ * kMsecPerSec);
+    refresh_login_timer_.start();
+  }
+
   emit AuthenticationComplete(true);
+
+  qLog(Debug) << "ListenBrainz: Authentication was successful, got access token" << access_token_ << "expires in" << expires_in_;
 
   DoSubmit();
 
@@ -439,12 +481,7 @@ void ListenBrainzScrobbler::Scrobble(const Song &song) {
 
   cache_->Add(song, timestamp_);
 
-  if (app_->scrobbler()->IsOffline()) return;
-
-  if (!IsAuthenticated()) {
-    emit ErrorMessage("ListenBrainz is not authenticated!");
-    return;
-  }
+  if (app_->scrobbler()->IsOffline() || !IsAuthenticated()) return;
 
   if (!submitted_) {
     submitted_ = true;
@@ -472,7 +509,7 @@ void ListenBrainzScrobbler::DoSubmit() {
 
 void ListenBrainzScrobbler::Submit() {
 
-  qLog(Debug) << __PRETTY_FUNCTION__;
+  qLog(Debug) << "ListenBrainz: Submitting scrobbles.";
 
   submitted_ = false;
 

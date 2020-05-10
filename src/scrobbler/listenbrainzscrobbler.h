@@ -30,6 +30,7 @@
 #include <QString>
 #include <QUrl>
 #include <QJsonDocument>
+#include <QTimer>
 
 #include "core/song.h"
 #include "scrobblerservice.h"
@@ -77,6 +78,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
  private slots:
   void RedirectArrived();
   void AuthenticateReplyFinished(QNetworkReply *reply);
+  void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64>);
 
@@ -84,19 +86,18 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);
   QByteArray GetReplyData(QNetworkReply *reply);
 
-  void RequestSession(const QUrl &url, const QString &token);
   void AuthError(const QString &error);
   void Error(const QString &error, const QVariant &debug = QVariant());
   void DoSubmit();
   void CheckScrobblePrevSong();
 
-  static const char *kAuthUrl;
-  static const char *kAuthTokenUrl;
+  static const char *kOAuthAuthorizeUrl;
+  static const char *kOAuthAccessTokenUrl;
+  static const char *kOAuthRedirectUrl;
   static const char *kApiUrl;
-  static const char *kClientID;
-  static const char *kClientSecret;
+  static const char *kClientIDB64;
+  static const char *kClientSecretB64;
   static const char *kCacheFile;
-  static const char *kRedirectUrl;
   static const int kScrobblesPerRequest;
 
   Application *app_;
@@ -109,10 +110,12 @@ class ListenBrainzScrobbler : public ScrobblerService {
   qint64 expires_in_;
   QString token_type_;
   QString refresh_token_;
+  quint64 login_time_;
   bool submitted_;
   Song song_playing_;
   bool scrobbled_;
   quint64 timestamp_;
+  QTimer refresh_login_timer_;
 
 };
 
