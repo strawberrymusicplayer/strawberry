@@ -201,7 +201,7 @@ msgstr "Zaznaczonych utworów: %1. Czy na pewno chcesz je wszystkie otworzyć?"
 msgid "%1 tracks"
 msgstr "%1 ścieżki(ek)"
 
-#: covermanager/albumcovermanager.cpp:533
+#: covermanager/albumcovermanager.cpp:536
 #, qt-format
 msgid "%1 transferred"
 msgstr "pobrano: %1"
@@ -760,7 +760,7 @@ msgstr "Wszystkie pliki (*)"
 msgid "All albums"
 msgstr "Wszystkie albumy"
 
-#: covermanager/albumcovermanager.cpp:329
+#: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
 msgstr "Wszyscy artyści"
 
@@ -1876,12 +1876,12 @@ msgstr "Eksportuj pobrane okładki"
 msgid "Export embedded covers"
 msgstr "Eksportuj osadzone okładki"
 
-#: covermanager/albumcovermanager.cpp:885
-#: covermanager/albumcovermanager.cpp:911
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Eksportowanie zakończone"
 
-#: covermanager/albumcovermanager.cpp:896
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Wyodrębniono okładek: %1 z %2 (pominięto: %3)"
@@ -2133,7 +2133,7 @@ msgstr "Przejdź do kolejnej zakładki z listą odtwarzania"
 msgid "Go to previous playlist tab"
 msgstr "Przejdź do poprzedniej zakładki z listą odtwarzania"
 
-#: covermanager/albumcovermanager.cpp:527
+#: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2422,7 +2422,7 @@ msgstr "Długość"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:149
+#: scrobbler/listenbrainzscrobbler.cpp:163
 msgid "ListenBrainz Authentication"
 msgstr "Uwierzytelnianie ListenBrainz"
 
@@ -2719,7 +2719,7 @@ msgstr "W następnym tygodniu"
 msgid "No analyzer"
 msgstr "Bez analizatora"
 
-#: covermanager/albumcovermanager.cpp:886
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Brak okładek do wyeksportowania."
 
@@ -3032,8 +3032,8 @@ msgstr "Listy odtw."
 msgid "Please close your browser and return to Strawberry."
 msgstr "Proszę zamknąć przeglądarkę i powrócić do Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:122
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
+#: covermanager/spotifycoverprovider.cpp:135
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
 msgid "Please open this URL in your browser"
 msgstr "Proszę otworzyć ten adres URL w przeglądarce internetowej"
 
@@ -3196,8 +3196,8 @@ msgstr "Wzg&lędne"
 msgid "Really cancel?"
 msgstr "Na pewno anulować?"
 
-#: covermanager/spotifycoverprovider.cpp:161
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
+#: covermanager/spotifycoverprovider.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
 msgid "Received invalid reply from web browser."
 msgstr "Otrzymano niepoprawną odpowiedź z przeglądarki internetowej."
 
@@ -3213,12 +3213,11 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:212
-msgid "Redirect from Spotify is missing query items code or state."
+#: covermanager/spotifycoverprovider.cpp:181
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:157
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
 msgid "Redirect missing token code!"
 msgstr "Przekieruj brakujący kod tokenu!"
 
@@ -3887,7 +3886,7 @@ msgstr "Źródło"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:122
+#: covermanager/spotifycoverprovider.cpp:135
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -4499,7 +4498,7 @@ msgid "Variable bit rate"
 msgstr "Zmienna przepływność (VBR)"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
-#: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Różni artyści"

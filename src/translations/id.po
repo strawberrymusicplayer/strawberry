@@ -192,7 +192,7 @@ msgstr "%1 lagu terpilih, apakah Anda yakin ingin membuka semuanya?"
 msgid "%1 tracks"
 msgstr "%1 trek"
 
-#: covermanager/albumcovermanager.cpp:533
+#: covermanager/albumcovermanager.cpp:536
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
@@ -751,7 +751,7 @@ msgstr "Semua Berkas (*)"
 msgid "All albums"
 msgstr "Semua album"
 
-#: covermanager/albumcovermanager.cpp:329
+#: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
 msgstr "Semua artis"
 
@@ -1860,12 +1860,12 @@ msgstr "Ekspor sampul yang sudah diunduh"
 msgid "Export embedded covers"
 msgstr "Ekspor sampul yang tertanam"
 
-#: covermanager/albumcovermanager.cpp:885
-#: covermanager/albumcovermanager.cpp:911
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Ekspor selesai"
 
-#: covermanager/albumcovermanager.cpp:896
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Mengekspor %1 sampul dari %2 (%3 dilewati)"
@@ -2116,7 +2116,7 @@ msgstr "Buka tab daftar putar selanjutnya"
 msgid "Go to previous playlist tab"
 msgstr "Buka tab daftar putar sebelumnya"
 
-#: covermanager/albumcovermanager.cpp:527
+#: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2399,7 +2399,7 @@ msgstr "Durasi"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:149
+#: scrobbler/listenbrainzscrobbler.cpp:163
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
@@ -2696,7 +2696,7 @@ msgstr "Minggu depan"
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
-#: covermanager/albumcovermanager.cpp:886
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Tidak ada sampul untuk diekspor."
 
@@ -3007,8 +3007,8 @@ msgstr "Daftar putar"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:122
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
+#: covermanager/spotifycoverprovider.cpp:135
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3164,8 +3164,8 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Benar-benar membatalkan?"
 
-#: covermanager/spotifycoverprovider.cpp:161
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
+#: covermanager/spotifycoverprovider.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
@@ -3181,12 +3181,11 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:212
-msgid "Redirect from Spotify is missing query items code or state."
+#: covermanager/spotifycoverprovider.cpp:181
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:157
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
 msgid "Redirect missing token code!"
 msgstr "Alihkan kode token yang tidak tersedia!"
 
@@ -3855,7 +3854,7 @@ msgstr "Sumber"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:122
+#: covermanager/spotifycoverprovider.cpp:135
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -4463,7 +4462,7 @@ msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
-#: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Artis beraga"

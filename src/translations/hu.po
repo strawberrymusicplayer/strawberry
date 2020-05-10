@@ -193,7 +193,7 @@ msgstr "%1 dal van kiválasztva, biztos meg szeretné őket nyitni?"
 msgid "%1 tracks"
 msgstr "%1 szám"
 
-#: covermanager/albumcovermanager.cpp:533
+#: covermanager/albumcovermanager.cpp:536
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 átküldve"
@@ -754,7 +754,7 @@ msgstr "Minden fájl (*)"
 msgid "All albums"
 msgstr "Összes album"
 
-#: covermanager/albumcovermanager.cpp:329
+#: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
 msgstr "Összes előadó"
 
@@ -1866,12 +1866,12 @@ msgstr "Letöltött borítók exportálása"
 msgid "Export embedded covers"
 msgstr "Beágyazott borítók exportálása"
 
-#: covermanager/albumcovermanager.cpp:885
-#: covermanager/albumcovermanager.cpp:911
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Eportálás befejezve"
 
-#: covermanager/albumcovermanager.cpp:896
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 borító exportálva ennyiből %2 (%3 sikertelen)"
@@ -2122,7 +2122,7 @@ msgstr "Váltás a következő lejátszólista lapra"
 msgid "Go to previous playlist tab"
 msgstr "Váltás az előző lejátszólista lapra"
 
-#: covermanager/albumcovermanager.cpp:527
+#: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2408,7 +2408,7 @@ msgstr "Időtartam"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:149
+#: scrobbler/listenbrainzscrobbler.cpp:163
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
 
@@ -2705,7 +2705,7 @@ msgstr "Következő héten"
 msgid "No analyzer"
 msgstr "Kikapcsolva"
 
-#: covermanager/albumcovermanager.cpp:886
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Nincsenek exportálandó borítók"
 
@@ -3018,8 +3018,8 @@ msgstr "Lejátszólisták"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Zárja be a böngészőjét, és térjen vissza a Strawberry-be."
 
-#: covermanager/spotifycoverprovider.cpp:122
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
+#: covermanager/spotifycoverprovider.cpp:135
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
 msgid "Please open this URL in your browser"
 msgstr "Nyissa meg ezt az URL-t a böngészőben"
 
@@ -3182,8 +3182,8 @@ msgstr "Re&latív"
 msgid "Really cancel?"
 msgstr "Tényleg kilép?"
 
-#: covermanager/spotifycoverprovider.cpp:161
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
+#: covermanager/spotifycoverprovider.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
 
@@ -3199,12 +3199,11 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:212
-msgid "Redirect from Spotify is missing query items code or state."
+#: covermanager/spotifycoverprovider.cpp:181
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:157
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
 msgid "Redirect missing token code!"
 msgstr "Hiányzó token kód átirányítása!"
 
@@ -3872,7 +3871,7 @@ msgstr "Forrás"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:122
+#: covermanager/spotifycoverprovider.cpp:135
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -4487,7 +4486,7 @@ msgid "Variable bit rate"
 msgstr "Változó bitráta"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
-#: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Egyes előadók"

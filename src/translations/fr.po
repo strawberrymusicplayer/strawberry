@@ -40,8 +40,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-08 02:14-0400\n"
-"Last-Translator: hatstand <john.maguire@gmail.com>\n"
+"PO-Revision-Date: 2020-05-10 01:09-0400\n"
+"Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Language-Team: French\n"
@@ -174,12 +174,12 @@ msgstr "Il y a %1 jours"
 #: settings/coverssettingspage.cpp:130
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr ""
+msgstr "%1 ne nécessite pas une authentification."
 
 #: settings/coverssettingspage.cpp:125
 #, qt-format
 msgid "%1 needs authentication."
-msgstr ""
+msgstr "%1 nécessite une authentification."
 
 #: playlistparsers/playlistparser.cpp:110
 #, qt-format
@@ -217,7 +217,7 @@ msgstr ""
 msgid "%1 tracks"
 msgstr "%1 pistes"
 
-#: covermanager/albumcovermanager.cpp:533
+#: covermanager/albumcovermanager.cpp:536
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 transférés"
@@ -768,7 +768,7 @@ msgstr "Albums ayant une pochette"
 
 #: covermanager/albumcovermanager.cpp:166
 msgid "Albums without covers"
-msgstr "Albums sans pochette"
+msgstr "Albums n'ayant pas de pochette"
 
 #: core/mainwindow.cpp:185
 msgid "All Files (*)"
@@ -778,7 +778,7 @@ msgstr "Tous les fichiers (*)"
 msgid "All albums"
 msgstr "Tous les albums"
 
-#: covermanager/albumcovermanager.cpp:329
+#: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
 msgstr "Tous les artistes"
 
@@ -915,7 +915,7 @@ msgstr "Qualité audio"
 #: ../build/src/ui_coverssettingspage.h:163
 #: ../build/src/ui_lyricssettingspage.h:163
 msgid "Authenticate"
-msgstr ""
+msgstr "Authentifier"
 
 #: tidal/tidalrequest.cpp:116
 msgid "Authenticating..."
@@ -952,7 +952,7 @@ msgstr ""
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Rechercher automatiquement la pochette de l'album"
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
 msgid "Automatically search for song lyrics"
@@ -1132,10 +1132,14 @@ msgstr "Choisir une police de caractères..."
 #: ../build/src/ui_coverssettingspage.h:158
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
+"Choisissez les fournisseurs que vous souhaitez utiliser lors de la recherche "
+"des pochettes."
 
 #: ../build/src/ui_lyricssettingspage.h:158
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
+"Choisissez les fournisseurs que vous souhaitez utiliser lors de la recherche "
+"des paroles."
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1399,11 +1403,11 @@ msgstr "Pochette définie depuis %1"
 
 #: ../build/src/ui_coverssettingspage.h:157
 msgid "Cover providers"
-msgstr ""
+msgstr "Fournisseurs de pochette"
 
 #: ../build/src/ui_coverssettingspage.h:156
 msgid "Covers"
-msgstr ""
+msgstr "Pochettes"
 
 #: covermanager/albumcoversearcher.cpp:127
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1905,12 +1909,12 @@ msgstr "Exporter les pochettes téléchargées"
 msgid "Export embedded covers"
 msgstr "Exporter les pochettes intégrées"
 
-#: covermanager/albumcovermanager.cpp:885
-#: covermanager/albumcovermanager.cpp:911
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "Export terminé"
 
-#: covermanager/albumcovermanager.cpp:896
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "%1 pochettes exportées sur %2 (%3 ignorées)"
@@ -2145,7 +2149,7 @@ msgstr "Configuration générale"
 
 #: lyrics/geniuslyricsprovider.cpp:115
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Authentification Genius"
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
@@ -2162,7 +2166,7 @@ msgstr "Aller à la liste de lecture suivante"
 msgid "Go to previous playlist tab"
 msgstr "Aller à la liste de lecture précédente"
 
-#: covermanager/albumcovermanager.cpp:527
+#: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2449,7 +2453,7 @@ msgstr "Durée"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:149
+#: scrobbler/listenbrainzscrobbler.cpp:163
 msgid "ListenBrainz Authentication"
 msgstr "Authentification à ListenBrainz"
 
@@ -2547,7 +2551,7 @@ msgstr "Paroles"
 
 #: ../build/src/ui_lyricssettingspage.h:157
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Fournisseurs des paroles"
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2750,7 +2754,7 @@ msgstr "La semaine prochaine"
 msgid "No analyzer"
 msgstr "Désactiver le spectrogramme"
 
-#: covermanager/albumcovermanager.cpp:886
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "Aucune pochette à exporter."
 
@@ -2771,7 +2775,7 @@ msgstr ""
 
 #: settings/coverssettingspage.cpp:181 settings/lyricssettingspage.cpp:175
 msgid "No provider selected."
-msgstr ""
+msgstr "Aucun fournisseur sélectionné."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -3065,8 +3069,8 @@ msgstr "Listes de lecture"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Merci de fermer votre navigateur et de retourner dans Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:122
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
+#: covermanager/spotifycoverprovider.cpp:135
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
 msgid "Please open this URL in your browser"
 msgstr "Veuillez ouvrir ce lien dans votre navigateur"
 
@@ -3229,8 +3233,8 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Êtes-vous sûr(e) de vouloir annuler ?"
 
-#: covermanager/spotifycoverprovider.cpp:161
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
+#: covermanager/spotifycoverprovider.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
 msgid "Received invalid reply from web browser."
 msgstr "Réponse invalide du navigateur internet."
 
@@ -3246,12 +3250,11 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:212
-msgid "Redirect from Spotify is missing query items code or state."
+#: covermanager/spotifycoverprovider.cpp:181
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:157
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
 msgid "Redirect missing token code!"
 msgstr "Redirigé le code du jeton manquant !"
 
@@ -3921,9 +3924,9 @@ msgstr "Source"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:122
+#: covermanager/spotifycoverprovider.cpp:135
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Authentification Spotify"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "Standard"
@@ -4454,7 +4457,7 @@ msgstr "Utiliser la métadonnée Replay Gain si disponible"
 
 #: settings/coverssettingspage.cpp:118 settings/coverssettingspage.cpp:221
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Utiliser les paramètres de Tidal pour vous authentifier."
 
 #: ../build/src/ui_shortcutssettingspage.h:229
 msgid "Use X11's shortcut keys"
@@ -4544,7 +4547,7 @@ msgid "Variable bit rate"
 msgstr "Débit variable"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
-#: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "Compilations d'artistes"

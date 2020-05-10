@@ -187,7 +187,7 @@ msgstr "%1곡을 선택했습니다. 모두 여시겠습니까?"
 msgid "%1 tracks"
 msgstr "트랙 %1개"
 
-#: covermanager/albumcovermanager.cpp:533
+#: covermanager/albumcovermanager.cpp:536
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1개 전송됨"
@@ -742,7 +742,7 @@ msgstr "모든 파일 (*)"
 msgid "All albums"
 msgstr "모든 앨범"
 
-#: covermanager/albumcovermanager.cpp:329
+#: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
 msgstr "모든 음악가"
 
@@ -1844,12 +1844,12 @@ msgstr "다운로드한 표지 내보내기"
 msgid "Export embedded covers"
 msgstr "내장된 표지 내보내기"
 
-#: covermanager/albumcovermanager.cpp:885
-#: covermanager/albumcovermanager.cpp:911
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
 msgid "Export finished"
 msgstr "내보내기 완료"
 
-#: covermanager/albumcovermanager.cpp:896
+#: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "앨범 표지 %2개 중 %1개 내보냄(%3개 건너뜀)"
@@ -2099,7 +2099,7 @@ msgstr "다음 재생 목록 탭으로 이동"
 msgid "Go to previous playlist tab"
 msgstr "이전 재생 목록 탭으로 이동"
 
-#: covermanager/albumcovermanager.cpp:527
+#: covermanager/albumcovermanager.cpp:530
 #: covermanager/coversearchstatisticsdialog.cpp:69
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
@@ -2378,7 +2378,7 @@ msgstr "길이"
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:149
+#: scrobbler/listenbrainzscrobbler.cpp:163
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 인증"
 
@@ -2675,7 +2675,7 @@ msgstr "다음 주"
 msgid "No analyzer"
 msgstr "분석기 없음"
 
-#: covermanager/albumcovermanager.cpp:886
+#: covermanager/albumcovermanager.cpp:889
 msgid "No covers to export."
 msgstr "내보낼 표지가 없습니다."
 
@@ -2982,8 +2982,8 @@ msgstr "재생 목록"
 msgid "Please close your browser and return to Strawberry."
 msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
-#: covermanager/spotifycoverprovider.cpp:122
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:149
+#: covermanager/spotifycoverprovider.cpp:135
+#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
 msgid "Please open this URL in your browser"
 msgstr "웹 브라우저에서 다음 URL을 여십시오"
 
@@ -3139,8 +3139,8 @@ msgstr "상대 경로(&L)"
 msgid "Really cancel?"
 msgstr "정말로 취소하시겠습니까?"
 
-#: covermanager/spotifycoverprovider.cpp:161
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:175
+#: covermanager/spotifycoverprovider.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
@@ -3156,12 +3156,11 @@ msgstr ""
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:212
-msgid "Redirect from Spotify is missing query items code or state."
+#: covermanager/spotifycoverprovider.cpp:181
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:157
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:171
+#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
 msgid "Redirect missing token code!"
 msgstr "넘겨주기 응답에 토큰 코드가 없습니다!"
 
@@ -3827,7 +3826,7 @@ msgstr "출처"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:122
+#: covermanager/spotifycoverprovider.cpp:135
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -4413,7 +4412,7 @@ msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
 #: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
-#: covermanager/albumcovermanager.cpp:330 internet/internetsearchmodel.cpp:94
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
 msgstr "여러 음악가"
