@@ -41,14 +41,14 @@
 #include "core/network.h"
 #include "core/logging.h"
 #include "albumcoverfetcher.h"
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "musicbrainzcoverprovider.h"
 
 const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): CoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
@@ -215,33 +215,6 @@ QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject MusicbrainzCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server is missing Json data.", data);
-    return QJsonObject();
-  }
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", json_doc);
-    return QJsonObject();
-  }
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

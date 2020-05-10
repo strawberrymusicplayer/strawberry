@@ -44,13 +44,14 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "albumcoverfetcher.h"
+#include "jsoncoverprovider.h"
 #include "qobuzcoverprovider.h"
 
 const char *QobuzCoverProvider::kApiUrl = "https://www.qobuz.com/api.json/0.2";
 const char *QobuzCoverProvider::kAppID = "OTQyODUyNTY3";
 const int QobuzCoverProvider::kLimit = 10;
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : CoverProvider("Qobuz", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
+QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Qobuz", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
@@ -136,36 +137,6 @@ QByteArray QobuzCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject QobuzCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
-    return QJsonObject();
-  }
-
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

@@ -45,7 +45,7 @@
 #include "core/network.h"
 #include "core/logging.h"
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 #include "lastfmcoverprovider.h"
 
@@ -53,7 +53,7 @@ const char *LastFmCoverProvider::kUrl = "https://ws.audioscrobbler.com/2.0/";
 const char *LastFmCoverProvider::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 
-LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent) : CoverProvider("Last.fm", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Last.fm", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
@@ -300,33 +300,6 @@ QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject LastFmCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", json_doc);
-    return QJsonObject();
-  }
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

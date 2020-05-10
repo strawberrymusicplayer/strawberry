@@ -29,13 +29,13 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class DeezerCoverProvider : public CoverProvider {
+class DeezerCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
@@ -48,7 +48,6 @@ class DeezerCoverProvider : public CoverProvider {
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonValue ExtractData(const QByteArray &data);
   void Error(const QString &error, const QVariant &debug = QVariant());
 

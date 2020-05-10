@@ -34,14 +34,14 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class DiscogsCoverProvider : public CoverProvider {
+class DiscogsCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
@@ -77,7 +77,6 @@ class DiscogsCoverProvider : public CoverProvider {
 
   QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   void StartRelease(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
   void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const DiscogsCoverReleaseContext &release = DiscogsCoverReleaseContext());
   void Error(const QString &error, const QVariant &debug = QVariant());

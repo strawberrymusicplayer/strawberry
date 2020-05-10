@@ -32,14 +32,14 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "tidal/tidalservice.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class TidalCoverProvider : public CoverProvider {
+class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
@@ -55,7 +55,6 @@ class TidalCoverProvider : public CoverProvider {
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:

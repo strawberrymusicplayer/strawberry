@@ -49,7 +49,7 @@
 #include "core/utilities.h"
 #include "internet/localredirectserver.h"
 #include "albumcoverfetcher.h"
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "spotifycoverprovider.h"
 
 const char *SpotifyCoverProvider::kSettingsGroup = "Spotify";
@@ -61,7 +61,7 @@ const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZW
 const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : CoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr) {
+SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr) {
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
@@ -266,7 +266,7 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    AuthError("Authentication reply from server missing Json data.");
+    Error(QString("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
     return;
   }
 
@@ -391,36 +391,6 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject SpotifyCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse json data: %1").arg(json_error.errorString()));
-    return QJsonObject();
-  }
-
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
-    return QJsonObject();
-  }
-
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

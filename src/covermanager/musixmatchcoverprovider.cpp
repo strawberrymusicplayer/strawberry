@@ -37,10 +37,10 @@
 #include "core/logging.h"
 #include "core/network.h"
 #include "albumcoverfetcher.h"
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
-MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent): CoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 

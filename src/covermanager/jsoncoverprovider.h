@@ -17,53 +17,30 @@
  *
  */
 
-#ifndef LASTFMCOVERPROVIDER_H
-#define LASTFMCOVERPROVIDER_H
+#ifndef JSONCOVERPROVIDER_H
+#define JSONCOVERPROVIDER_H
 
 #include "config.h"
 
 #include <QObject>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>
 
-#include "jsoncoverprovider.h"
+#include "coverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class LastFmCoverProvider : public JsonCoverProvider {
+class JsonCoverProvider : public CoverProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
+  explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool fetchall, const bool allow_missing_album, Application *app, QObject *parent);
 
- private slots:
-  void QueryFinished(QNetworkReply *reply, const int id, const QString &type);
-
- private:
-  enum LastFmImageSize {
-    Unknown,
-    Small,
-    Medium,
-    Large,
-    ExtraLarge
-  };
-
-  QByteArray GetReplyData(QNetworkReply *reply);
-  LastFmImageSize ImageSizeFromString(const QString &size);
-  void Error(const QString &error, const QVariant &debug = QVariant());
-
- private:
-  static const char *kUrl;
-  static const char *kApiKey;
-  static const char *kSecret;
-
-  QNetworkAccessManager *network_;
+  QJsonObject ExtractJsonObj(const QByteArray &data);
 
 };
 
-#endif  // LASTFMCOVERPROVIDER_H
+#endif  // JSONCOVERPROVIDER_H

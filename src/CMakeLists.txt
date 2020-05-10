@@ -182,6 +182,7 @@ set(SOURCES
   covermanager/coverexportrunnable.cpp
   covermanager/currentalbumcoverloader.cpp
   covermanager/coverfromurldialog.cpp
+  covermanager/jsoncoverprovider.cpp
   covermanager/lastfmcoverprovider.cpp
   covermanager/musicbrainzcoverprovider.cpp
   covermanager/discogscoverprovider.cpp
@@ -377,6 +378,7 @@ set(HEADERS
   covermanager/coverexportrunnable.h
   covermanager/currentalbumcoverloader.h
   covermanager/coverfromurldialog.h
+  covermanager/jsoncoverprovider.h
   covermanager/lastfmcoverprovider.h
   covermanager/musicbrainzcoverprovider.h
   covermanager/discogscoverprovider.h

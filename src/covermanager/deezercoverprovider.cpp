@@ -45,13 +45,13 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "albumcoverfetcher.h"
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "deezercoverprovider.h"
 
 const char *DeezerCoverProvider::kApiUrl = "https://api.deezer.com";
 const int DeezerCoverProvider::kLimit = 10;
 
-DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): CoverProvider("Deezer", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
+DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
@@ -138,36 +138,6 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
 
   return data;
   
-}
-  
-QJsonObject DeezerCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", json_doc);
-    return QJsonObject();
-  }
-
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
-
 }
 
 QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {

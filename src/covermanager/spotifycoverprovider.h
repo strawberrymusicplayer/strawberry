@@ -33,14 +33,14 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 class LocalRedirectServer;
 
-class SpotifyCoverProvider : public CoverProvider {
+class SpotifyCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
@@ -61,7 +61,6 @@ class SpotifyCoverProvider : public CoverProvider {
  private:
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant());
 

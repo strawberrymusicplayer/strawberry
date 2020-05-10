@@ -28,13 +28,13 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class MusicbrainzCoverProvider : public CoverProvider {
+class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
@@ -46,7 +46,6 @@ class MusicbrainzCoverProvider : public CoverProvider {
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:

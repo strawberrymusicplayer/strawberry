@@ -27,12 +27,12 @@
 #include <QVariant>
 #include <QString>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class MusixmatchCoverProvider : public CoverProvider {
+class MusixmatchCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:

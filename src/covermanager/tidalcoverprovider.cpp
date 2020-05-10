@@ -45,7 +45,7 @@
 #include "internet/internetservices.h"
 #include "tidal/tidalservice.h"
 #include "albumcoverfetcher.h"
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 #include "tidalcoverprovider.h"
 
 const char *TidalCoverProvider::kApiUrl = "https://api.tidalhifi.com/v1";
@@ -53,7 +53,7 @@ const char *TidalCoverProvider::kResourcesUrl = "https://resources.tidal.com";
 const int TidalCoverProvider::kLimit = 10;
 
 TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) : 
-  CoverProvider("Tidal", true, true, 2.5, true, true, app, parent),
+  JsonCoverProvider("Tidal", true, true, 2.5, true, true, app, parent),
   service_(app->internet_services()->Service<TidalService>()),
   network_(new NetworkAccessManager(this)) {
 
@@ -149,36 +149,6 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject TidalCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", data);
-    return QJsonObject();
-  }
-
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

@@ -50,15 +50,15 @@
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
-#include "coverprovider.h"
 #include "albumcoverfetcher.h"
+#include "jsoncoverprovider.h"
 #include "discogscoverprovider.h"
 
 const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database/search";
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : CoverProvider("Discogs", false, false, 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 DiscogsCoverProvider::~DiscogsCoverProvider() {
   requests_search_.clear();
@@ -168,33 +168,6 @@ QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
   }
 
   return data;
-
-}
-
-QJsonObject DiscogsCoverProvider::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Error("Reply from server missing Json data.", data);
-    return QJsonObject();
-  }
-  if (json_doc.isEmpty()) {
-    Error("Received empty Json document.", json_doc);
-    return QJsonObject();
-  }
-  if (!json_doc.isObject()) {
-    Error("Json document is not an object.", json_doc);
-    return QJsonObject();
-  }
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error("Received empty Json object.", json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
 
 }
 

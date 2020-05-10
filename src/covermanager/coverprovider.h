@@ -26,6 +26,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QVariant>
 #include <QString>
 #include <QStringList>
 
@@ -62,6 +63,8 @@ class CoverProvider : public QObject {
   // The provider should remember the ID and emit it along with the result when it finishes.
   virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) = 0;
   virtual void CancelSearch(const int id) { Q_UNUSED(id); }
+
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
  signals:
   void AuthenticationComplete(bool, QStringList = QStringList());

@@ -28,13 +28,13 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "coverprovider.h"
+#include "jsoncoverprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class Application;
 
-class QobuzCoverProvider : public CoverProvider {
+class QobuzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
@@ -47,7 +47,6 @@ class QobuzCoverProvider : public CoverProvider {
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  private:
