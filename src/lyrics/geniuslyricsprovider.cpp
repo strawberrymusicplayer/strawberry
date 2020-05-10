@@ -244,7 +244,7 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    AuthError("Authentication reply from server missing Json data.");
+    Error(QString("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
     return;
   }
 
@@ -333,7 +333,7 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
   }
 
   if (!json_obj.contains("meta")) {
-    Error("Json reply is missing meta.", json_obj);
+    Error("Json reply is missing meta object.", json_obj);
     EndSearch(search);
     return;
   }

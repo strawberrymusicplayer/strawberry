@@ -54,11 +54,11 @@ QJsonObject JsonLyricsProvider::ExtractJsonObj(const QByteArray &data) {
     return QJsonObject();
   }
 
-  QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  QJsonParseError json_error;
+  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
-  if (error.error != QJsonParseError::NoError) {
-    Error(QString("Failed to parse json data: %1").arg(error.errorString()));
+  if (json_error.error != QJsonParseError::NoError) {
+    Error(QString("Failed to parse json data: %1").arg(json_error.errorString()));
     return QJsonObject();
   }
 

@@ -74,9 +74,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
 
   reply->deleteLater();
 
-  QByteArray data;
   QString failure_reason;
-
   if (reply->error() != QNetworkReply::NoError) {
     failure_reason = QString("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     if (reply->error() < 200) {
@@ -89,7 +87,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 i
     failure_reason = QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
   }
 
-  data = reply->readAll();
+  QByteArray data = reply->readAll();
   LyricsSearchResults results;
 
   if (!data.isEmpty()) {

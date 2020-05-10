@@ -85,11 +85,9 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
   LyricsSearchResults results;
 
   if (reply->error() != QNetworkReply::NoError) {
-    if (reply->error() < 200) {
-      Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-      emit SearchFinished(id, results);
-      return;
-    }
+    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    emit SearchFinished(id, results);
+    return;
   }
   else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QString("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
