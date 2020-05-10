@@ -29,6 +29,7 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QDateTime>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -47,6 +48,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/utilities.h"
+#include "core/timeconstants.h"
 #include "internet/localredirectserver.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -61,14 +63,25 @@ const char *SpotifyCoverProvider::kClientSecretB64 = "N2ZlMDMxODk1NTBlNDE3ZGI1ZW
 const char *SpotifyCoverProvider::kApiUrl = "https://api.spotify.com/v1";
 const int SpotifyCoverProvider::kLimit = 10;
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr) {
+SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Spotify", true, true, 2.5, true, true, app, parent), network_(new NetworkAccessManager(this)), server_(nullptr), expires_in_(0), login_time_(0) {
+
+  refresh_login_timer_.setSingleShot(true);
+  connect(&refresh_login_timer_, SIGNAL(timeout()), SLOT(RequestAccessToken()));
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
-  if (s.contains("access_token")) {
-    access_token_ = s.value("access_token").toString();
-  }
+  access_token_ = s.value("access_token").toString();
+  refresh_token_ = s.value("refresh_token").toString();
+  expires_in_ = s.value("expires_in").toLongLong();
+  login_time_ = s.value("login_time").toLongLong();
   s.endGroup();
+
+  if (!refresh_token_.isEmpty()) {
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    if (time < 6) time = 6;
+    refresh_login_timer_.setInterval(time * kMsecPerSec);
+    refresh_login_timer_.start();
+  }
 
 }
 
@@ -129,11 +142,19 @@ void SpotifyCoverProvider::Authenticate() {
 void SpotifyCoverProvider::Deauthenticate() {
 
   access_token_.clear();
+  refresh_token_.clear();
+  expires_in_ = 0;
+  login_time_ = 0;
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.remove("access_token");
+  s.remove("refresh_token");
+  s.remove("expires_in");
+  s.remove("login_time");
   s.endGroup();
+
+  refresh_login_timer_.stop();
 
 }
 
@@ -148,13 +169,16 @@ void SpotifyCoverProvider::RedirectArrived() {
       if (url_query.hasQueryItem("error")) {
         AuthError(QUrlQuery(url).queryItemValue("error"));
       }
-      else if (url_query.hasQueryItem("code")) {
+      else if (url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
+        qLog(Debug) << "Spotify: Authorization URL Received" << url;
+        QString code = url_query.queryItemValue("code");
+        QString state = url_query.queryItemValue("state");
         QUrl redirect_url(kOAuthRedirectUrl);
         redirect_url.setPort(server_->url().port());
-        RequestAccessToken(url, redirect_url);
+        RequestAccessToken(code, redirect_url);
       }
       else {
-        AuthError(tr("Redirect missing token code!"));
+        AuthError(tr("Redirect missing token code or state!"));
       }
     }
     else {
@@ -171,47 +195,43 @@ void SpotifyCoverProvider::RedirectArrived() {
 
 }
 
-void SpotifyCoverProvider::RequestAccessToken(const QUrl &url, const QUrl &redirect_url) {
+void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl redirect_url) {
 
-  qLog(Debug) << "Spotify: Authorization URL Received" << url;
+  refresh_login_timer_.stop();
 
-  QUrlQuery url_query(url);
+  ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
+                                 << Param("client_secret", QByteArray::fromBase64(kClientSecretB64));
 
-  if (url.hasQuery() && url_query.hasQueryItem("code") && url_query.hasQueryItem("state")) {
-
-    QString code = url_query.queryItemValue("code");
-    QString state = url_query.queryItemValue("state");
-
-    const ParamList params = ParamList() << Param("client_id", QByteArray::fromBase64(kClientIDB64))
-                                         << Param("client_secret", QByteArray::fromBase64(kClientSecretB64))
-                                         << Param("grant_type", "authorization_code")
-                                         << Param("code", code)
-                                         << Param("redirect_uri", redirect_url.toString());
-
-    QUrlQuery new_url_query;
-    for (const Param &param : params) {
-      new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    }
-
-    QUrl new_url(kOAuthAccessTokenUrl);
-    QNetworkRequest req = QNetworkRequest(new_url);
-    req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QString(":") + QByteArray::fromBase64(kClientSecretB64);
-    req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
-
-    QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
-
-    QNetworkReply *reply = network_->post(req, query);
-    connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-    connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
-
+  if (!code.isEmpty() && !redirect_url.isEmpty()) {
+    params << Param("grant_type", "authorization_code");
+    params << Param("code", code);
+    params << Param("redirect_uri", redirect_url.toString());
   }
-
+  else if (!refresh_token_.isEmpty() && is_enabled()) {
+    params << Param("grant_type", "refresh_token");
+    params << Param("refresh_token", refresh_token_);
+  }
   else {
-    AuthError(tr("Redirect from Spotify is missing query items code or state."));
     return;
   }
+
+  QUrlQuery new_url_query;
+  for (const Param &param : params) {
+    new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+  }
+
+  QUrl new_url(kOAuthAccessTokenUrl);
+  QNetworkRequest req = QNetworkRequest(new_url);
+  req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+  req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  QString auth_header_data = QByteArray::fromBase64(kClientIDB64) + QString(":") + QByteArray::fromBase64(kClientSecretB64);
+  req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
+
+  QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
+
+  QNetworkReply *reply = network_->post(req, query);
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
+  connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
 }
 
@@ -260,7 +280,6 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
   }
 
   QByteArray data = reply->readAll();
-  qLog(Debug) << data;
 
   QJsonParseError json_error;
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
@@ -286,19 +305,32 @@ void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("access_token")) {
-    AuthError("Authentication reply from server is missing access token.", json_obj);
+  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in")) {
+    AuthError("Authentication reply from server is missing access token or expires in.", json_obj);
     return;
   }
 
   access_token_ = json_obj["access_token"].toString();
+  if (json_obj.contains("refresh_token")) {
+    refresh_token_ = json_obj["refresh_token"].toString();
+  }
+  expires_in_ = json_obj["expires_in"].toInt();
+  login_time_ = QDateTime::currentDateTime().toTime_t();
 
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("access_token", access_token_);
+  s.setValue("refresh_token", refresh_token_);
+  s.setValue("expires_in", expires_in_);
+  s.setValue("login_time", login_time_);
   s.endGroup();
 
-  qLog(Debug) << "Spotify: Authentication was successful, got access token" << access_token_;
+  if (expires_in_ > 0) {
+    refresh_login_timer_.setInterval(expires_in_ * kMsecPerSec);
+    refresh_login_timer_.start();
+  }
+
+  qLog(Debug) << "Spotify: Authentication was successful, got access token" << access_token_ << "expires in" << expires_in_;
 
   emit AuthenticationComplete(true);
   emit AuthenticationSuccess();

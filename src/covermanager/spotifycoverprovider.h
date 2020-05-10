@@ -32,6 +32,7 @@
 #include <QSslError>
 #include <QJsonValue>
 #include <QJsonObject>
+#include <QTimer>
 
 #include "jsoncoverprovider.h"
 
@@ -55,11 +56,11 @@ class SpotifyCoverProvider : public JsonCoverProvider {
  private slots:
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void RedirectArrived();
+  void RequestAccessToken(const QString code = QString(), const QUrl redirect_url = QUrl());
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract);
 
  private:
-  void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   QByteArray GetReplyData(QNetworkReply *reply);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant());
@@ -83,6 +84,10 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   QString code_verifier_;
   QString code_challenge_;
   QString access_token_;
+  QString refresh_token_;
+  quint64 expires_in_;
+  quint64 login_time_;
+  QTimer refresh_login_timer_;
 
 };
 
