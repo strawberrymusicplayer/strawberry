@@ -179,7 +179,7 @@ void TidalRequest::FlushArtistsRequests() {
     if (type_ == QueryType_SearchArtists) parameters << Param("query", search_text_);
     if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply(nullptr);
     if (type_ == QueryType_Artists) {
       reply = CreateRequest(QString("users/%1/favorites/artists").arg(service_->user_id()), parameters);
     }
@@ -223,7 +223,7 @@ void TidalRequest::FlushAlbumsRequests() {
     if (type_ == QueryType_SearchAlbums) parameters << Param("query", search_text_);
     if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply(nullptr);
     if (type_ == QueryType_Albums) {
       reply = CreateRequest(QString("users/%1/favorites/albums").arg(service_->user_id()), parameters);
     }
@@ -267,7 +267,7 @@ void TidalRequest::FlushSongsRequests() {
     if (type_ == QueryType_SearchSongs) parameters << Param("query", search_text_);
     if (request.limit > 0) parameters << Param("limit", QString::number(request.limit));
     if (request.offset > 0) parameters << Param("offset", QString::number(request.offset));
-    QNetworkReply *reply;
+    QNetworkReply *reply(nullptr);
     if (type_ == QueryType_Songs) {
       reply = CreateRequest(QString("users/%1/favorites/tracks").arg(service_->user_id()), parameters);
     }
