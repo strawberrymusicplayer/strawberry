@@ -163,12 +163,15 @@ QString AlbumCoverLoader::CoverFilenameFromSource(const Song::Source source, con
 
   switch (source) {
     case Song::Source_Tidal:
-      filename = album_id + "-" + cover_url.fileName();
-      break;
+      if (!album_id.isEmpty()) {
+        filename = album_id + "-" + cover_url.fileName();
+        break;
+      }
+      // fallthrough
     case Song::Source_Subsonic:
     case Song::Source_Qobuz:
-      filename = AlbumCoverFilename(artist, album);
-      if (filename.length() > 8 && (filename.length() - 5) >= (artist.length() + album.length() - 2)) {
+      if (!album_id.isEmpty()) {
+        filename = album_id + ".jpg";
         break;
       }
       // fallthrough
