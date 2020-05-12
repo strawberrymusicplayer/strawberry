@@ -64,11 +64,11 @@ void LoginStateWidget::SetAccountTypeText(const QString &text) {
   ui_->account_type_label->setText(text);
 }
 
-void LoginStateWidget::SetAccountTypeVisible(bool visible) {
+void LoginStateWidget::SetAccountTypeVisible(const bool visible) {
   ui_->account_type->setVisible(visible);
 }
 
-void LoginStateWidget::SetLoggedIn(State state, const QString &account_name) {
+void LoginStateWidget::SetLoggedIn(const State state, const QString &account_name) {
 
   State last_state = state_;
   state_ = state;

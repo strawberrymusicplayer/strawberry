@@ -106,15 +106,21 @@
        </widget>
       </item>
       <item>
-       <widget class="LoginStateWidget" name="login_state" native="true"/>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_button_authenticate">
+       <layout class="QHBoxLayout" name="layout_authenticate">
         <item>
-         <widget class="QPushButton" name="button_authenticate">
-          <property name="text">
-           <string>Authenticate</string>
-          </property>
+         <widget class="LoginStateWidget" name="login_state" native="true"/>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget_authenticate" native="true">
+          <layout class="QHBoxLayout" name="layout_button_authenticate">
+           <item>
+            <widget class="QPushButton" name="button_authenticate">
+             <property name="text">
+              <string>Login</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>

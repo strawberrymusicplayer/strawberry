@@ -60,6 +60,8 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *parent) : SettingsPage(pa
   connect(ui_->button_authenticate, SIGNAL(clicked()), SLOT(AuthenticateClicked()));
   connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
 
+  ui_->login_state->AddCredentialGroup(ui_->widget_authenticate);
+
   NoProviderSelected();
   DisableAuthentication();
 
@@ -203,6 +205,7 @@ void CoversSettingsPage::AuthenticateClicked() {
   CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
+  ui_->login_state->SetLoggedIn(LoginStateWidget::LoginInProgress);
   connect(provider, SIGNAL(AuthenticationFailure(QStringList)), this, SLOT(AuthenticationFailure(QStringList)));
   connect(provider, SIGNAL(AuthenticationSuccess()), this, SLOT(AuthenticationSuccess()));
   provider->Authenticate();
