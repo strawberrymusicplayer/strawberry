@@ -61,12 +61,13 @@ class AlbumCoverLoader : public QObject {
   void ExitAsync();
   void Stop() { stop_requested_ = true; }
 
-  static QString AlbumCoverFilename(QString artist, QString album);
+  static QString AlbumCoverFilename(QString artist, QString album, const QString &extension);
 
-  QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id);
-  QString CoverFilenameFromVariable(const QString &artist, const QString &album);
-  QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url);
-  QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url);
+  QString CoverFilenameFromSource(const Song::Source source, const QUrl &cover_url, const QString &artist, const QString &album, const QString &album_id, const QString &extension);
+  QString CoverFilenameFromVariable(const QString &artist, const QString &album, const QString &extension = QString());
+  QString CoverFilePath(const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
+
+  QString CoverFilePath(const Song::Source source, const QString &artist, QString album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
 
   quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const Song &song);
   virtual quint64 LoadImageAsync(const AlbumCoverLoaderOptions &options, const QUrl &art_automatic, const QUrl &art_manual, const QUrl &song_url = QUrl(), const Song song = Song(), const QImage &embedded_image = QImage());

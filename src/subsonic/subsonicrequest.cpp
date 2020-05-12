@@ -29,6 +29,7 @@
 #include <QUrl>
 #include <QRegExp>
 #include <QImage>
+#include <QImageReader>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -748,32 +749,53 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString alb
   }
 
   if (reply->error() != QNetworkReply::NoError) {
-    Error(QString("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    album_covers_requests_sent_.remove(album_id);
+    Error(QString("%1 (%2) for %3").arg(reply->errorString()).arg(reply->error()).arg(url.toString()));
+    if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
   }
+
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    Error(QString("Received HTTP code %1 for %2.").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()).arg(url.toString()));
+    if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
+    AlbumCoverFinishCheck();
+    return;
+  }
+
+  QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+  if (!QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+    Error(QString("Unsupported mimetype for image reader %1 for %2").arg(mimetype).arg(url.toString()));
+    if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
+    AlbumCoverFinishCheck();
+    return;
+  }
+  QByteArray format = QImageReader::imageFormatsForMimeType(mimetype.toUtf8()).first();
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(QString("Received empty image data for %1").arg(url.toString()));
-    album_covers_requests_sent_.remove(album_id);
+    if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
   }
+  QString fullfilename = filename + "." + format.toLower();
 
   QImage image;
-  if (image.loadFromData(data)) {
-    if (image.save(filename, "JPG")) {
+  if (image.loadFromData(data, format)) {
+    if (image.save(fullfilename, format)) {
       while (album_covers_requests_sent_.contains(album_id)) {
         Song *song = album_covers_requests_sent_.take(album_id);
-        song->set_art_automatic(QUrl::fromLocalFile(filename));
+        song->set_art_automatic(QUrl::fromLocalFile(fullfilename));
       }
+    }
+    else {
+      Error(QString("Error saving image data to %1.").arg(fullfilename));
+      if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     }
   }
   else {
-    album_covers_requests_sent_.remove(album_id);
-    Error(QString("Error decoding image data from %1").arg(url.toString()));
+    Error(QString("Error decoding image data from %1.").arg(url.toString()));
+    if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
   }
 
   AlbumCoverFinishCheck();
