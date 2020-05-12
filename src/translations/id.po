@@ -83,7 +83,7 @@ msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
 msgid " kbps"
 msgstr " kbps"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:323
 msgid " minutes"
 msgstr "menit"
 
@@ -106,7 +106,7 @@ msgstr " d"
 msgid " seconds"
 msgstr " detik"
 
-#: scrobbler/scrobblingapi20.cpp:153 scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
@@ -147,12 +147,12 @@ msgstr "%1 hari"
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
 
-#: settings/coverssettingspage.cpp:130
+#: settings/coverssettingspage.cpp:132
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:125
+#: settings/coverssettingspage.cpp:127
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -386,7 +386,7 @@ msgstr "G&unakan set warna standar sistem"
 msgid "&Use the system proxy settings"
 msgstr "G&unakan pengaturan proxy sistem"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:325
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -878,23 +878,18 @@ msgstr "Keluaran audio"
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: ../build/src/ui_coverssettingspage.h:163
-#: ../build/src/ui_lyricssettingspage.h:163
-msgid "Authenticate"
-msgstr ""
-
-#: tidal/tidalrequest.cpp:116
+#: tidal/tidalrequest.cpp:118
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
-#: ../build/src/ui_coverssettingspage.h:161
-#: ../build/src/ui_lyricssettingspage.h:161
+#: ../build/src/ui_coverssettingspage.h:170
+#: ../build/src/ui_lyricssettingspage.h:170
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/coverssettingspage.cpp:251 settings/lyricssettingspage.cpp:239
+#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
 #: settings/tidalsettingspage.cpp:203
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
@@ -1094,11 +1089,11 @@ msgstr "Pilih warna..."
 msgid "Choose font..."
 msgstr "Pilih huruf..."
 
-#: ../build/src/ui_coverssettingspage.h:158
+#: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
-#: ../build/src/ui_lyricssettingspage.h:158
+#: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
 
@@ -1295,7 +1290,7 @@ msgstr ""
 "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua "
 "plugin GStreamer yang dibutuhkan terpasang"
 
-#: scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
@@ -1358,11 +1353,11 @@ msgstr "Sampul tidak diset"
 msgid "Cover art set from %1"
 msgstr "Sampul diset dari %1"
 
-#: ../build/src/ui_coverssettingspage.h:157
+#: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
 msgstr ""
 
-#: ../build/src/ui_coverssettingspage.h:156
+#: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
 msgstr ""
 
@@ -1682,10 +1677,10 @@ msgstr "Sunting informasi trek..."
 msgid "Edit tracks information..."
 msgstr "Sunting informasi trek..."
 
-#: ../build/src/ui_scrobblersettingspage.h:311
-#: ../build/src/ui_scrobblersettingspage.h:322
-#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:317
 #: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:336
 #: ../build/src/ui_subsonicsettingspage.h:186
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Enable"
@@ -2097,7 +2092,7 @@ msgstr "Umum"
 msgid "General settings"
 msgstr "Setelan umum"
 
-#: lyrics/geniuslyricsprovider.cpp:115
+#: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
 msgstr ""
 
@@ -2326,7 +2321,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: scrobbler/scrobblingapi20.cpp:197
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
@@ -2381,7 +2376,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Terakhir diputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:321
+#: ../build/src/ui_scrobblersettingspage.h:328
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2395,15 +2390,15 @@ msgstr "Kiri"
 msgid "Length"
 msgstr "Durasi"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:332
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:163
+#: scrobbler/listenbrainzscrobbler.cpp:178
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
+#: ../build/src/ui_scrobblersettingspage.h:335
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2463,9 +2458,11 @@ msgstr "Memuat..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
-#: ../build/src/ui_scrobblersettingspage.h:324
-#: ../build/src/ui_scrobblersettingspage.h:327
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:331
+#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_coverssettingspage.h:172
+#: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "Login"
 msgstr "Masuk"
@@ -2491,11 +2488,11 @@ msgstr "Profil kompleksitas rendah (LC)"
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
-#: ../build/src/ui_lyricssettingspage.h:156 ../build/src/ui_edittagdialog.h:692
+#: ../build/src/ui_lyricssettingspage.h:165 ../build/src/ui_edittagdialog.h:692
 msgid "Lyrics"
 msgstr "Lirik"
 
-#: ../build/src/ui_lyricssettingspage.h:157
+#: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
 msgstr ""
 
@@ -2564,13 +2561,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
-#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
-#: tidal/tidalservice.cpp:918 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:691 tidal/tidalservice.cpp:750
+#: tidal/tidalservice.cpp:807 tidal/tidalservice.cpp:873
+#: tidal/tidalservice.cpp:933 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:637
+#: tidal/tidalservice.cpp:652
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
@@ -2578,11 +2575,11 @@ msgstr "Token API Tidal tidak tersedia."
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:645
+#: tidal/tidalservice.cpp:660
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:641
+#: tidal/tidalservice.cpp:656
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
@@ -2590,7 +2587,7 @@ msgstr "Nama pengguna Tidal tidak tersedia."
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
-#: subsonic/subsonicservice.cpp:377
+#: subsonic/subsonicservice.cpp:390
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
@@ -2623,8 +2620,8 @@ msgstr "Titik kait"
 msgid "Mount points"
 msgstr "Titik kait"
 
-#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:160
-#: ../build/src/ui_lyricssettingspage.h:160
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_lyricssettingspage.h:169
 msgid "Move down"
 msgstr "Pindah turun"
 
@@ -2632,8 +2629,8 @@ msgstr "Pindah turun"
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
-#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:159
-#: ../build/src/ui_lyricssettingspage.h:159
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_lyricssettingspage.h:168
 msgid "Move up"
 msgstr "Pindah naik"
 
@@ -2704,7 +2701,7 @@ msgstr "Tidak ada sampul untuk diekspor."
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1219
+#: tidal/tidalrequest.cpp:1249
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
@@ -2715,7 +2712,7 @@ msgstr ""
 "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi "
 "seluruh daftar putar."
 
-#: settings/coverssettingspage.cpp:181 settings/lyricssettingspage.cpp:175
+#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
 msgid "No provider selected."
 msgstr ""
 
@@ -2746,15 +2743,15 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: tidal/tidalservice.cpp:649
+#: tidal/tidalservice.cpp:664
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:671 tidal/tidalservice.cpp:730
-#: tidal/tidalservice.cpp:787 tidal/tidalservice.cpp:853
-#: tidal/tidalservice.cpp:914 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:686 tidal/tidalservice.cpp:745
+#: tidal/tidalservice.cpp:802 tidal/tidalservice.cpp:868
+#: tidal/tidalservice.cpp:929 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
@@ -2802,7 +2799,7 @@ msgstr "Saat membuka"
 msgid "Opacity"
 msgstr "Kelegapan"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr ""
 
@@ -3007,8 +3004,8 @@ msgstr "Daftar putar"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:135
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
+#: covermanager/spotifycoverprovider.cpp:146
+#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:178
 msgid "Please open this URL in your browser"
 msgstr ""
 
@@ -3032,7 +3029,7 @@ msgstr "Posisi"
 msgid "Pre-amp"
 msgstr "Pre-amp"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:326
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Kemukakan artis album saat scrobble"
 
@@ -3062,7 +3059,7 @@ msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 msgid "Preset:"
 msgstr "Prasetel:"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3164,12 +3161,12 @@ msgstr "Re&latif"
 msgid "Really cancel?"
 msgstr "Benar-benar membatalkan?"
 
-#: covermanager/spotifycoverprovider.cpp:185
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
+#: covermanager/spotifycoverprovider.cpp:196
+#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:204
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:201
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3177,15 +3174,15 @@ msgstr ""
 "Balasan yang tidak benar diterima dari peramban web. Coba opsi HTTPS, atau "
 "gunakan peramban web lain seperti Chromium atau Chrome."
 
-#: lyrics/geniuslyricsprovider.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:203
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:181
+#: covermanager/spotifycoverprovider.cpp:192
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
 msgid "Redirect missing token code!"
 msgstr "Alihkan kode token yang tidak tersedia!"
 
@@ -3300,7 +3297,7 @@ msgstr "Replay Gain"
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
-#: tidal/tidalservice.cpp:347
+#: tidal/tidalservice.cpp:355
 msgid "Reply from Tidal is missing query items."
 msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
@@ -3343,45 +3340,45 @@ msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:671 tidal/tidalrequest.cpp:1080
+#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: tidal/tidalrequest.cpp:463
+#: tidal/tidalrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr "Mengambil album untuk %1 artis..."
 
-#: tidal/tidalrequest.cpp:464
+#: tidal/tidalrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr "Mengambil album untuk %1 artis..."
 
-#: subsonic/subsonicrequest.cpp:125 tidal/tidalrequest.cpp:199
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
 
-#: tidal/tidalrequest.cpp:155
+#: tidal/tidalrequest.cpp:157
 msgid "Retrieving artists..."
 msgstr "Mengambil artis..."
 
-#: subsonic/subsonicrequest.cpp:315 tidal/tidalrequest.cpp:721
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: tidal/tidalrequest.cpp:243
+#: tidal/tidalrequest.cpp:245
 msgid "Retrieving songs..."
 msgstr "Mengambil lagu..."
 
@@ -3490,11 +3487,11 @@ msgstr "Profil laju sampel terukur (LST)"
 msgid "Scale size"
 msgstr "Ukuran skala"
 
-#: ../build/src/ui_scrobblersettingspage.h:310
+#: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:505
+#: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
@@ -3526,8 +3523,8 @@ msgstr "Cari sampul album..."
 msgid "Search for this"
 msgstr "Cari ini"
 
-#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
-#: tidal/tidalrequest.cpp:315
+#: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
+#: tidal/tidalrequest.cpp:317
 msgid "Searching..."
 msgstr "Mencari..."
 
@@ -3583,7 +3580,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:372 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -3686,6 +3683,10 @@ msgstr "Tampilkan pembagi"
 msgid "Show engine and device"
 msgstr "Tampilkan mesin dan perangkat"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show error dialog if scrobbler is enabled without being authenticated"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
@@ -3707,7 +3708,7 @@ msgstr "Tampilkan di peramban berkas..."
 msgid "Show in various artists"
 msgstr "Tampilkan di artis beragam"
 
-#: ../build/src/ui_scrobblersettingspage.h:315
+#: ../build/src/ui_scrobblersettingspage.h:321
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
@@ -3727,7 +3728,7 @@ msgstr "Tampilkan hanya tidak bertag"
 msgid "Show playing widget"
 msgstr "Tampilkan widget berputar"
 
-#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:320
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
@@ -3828,7 +3829,7 @@ msgstr ""
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../build/src/ui_scrobblersettingspage.h:312
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3854,7 +3855,7 @@ msgstr "Sumber"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:135
+#: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -3956,7 +3957,7 @@ msgstr "Streaming"
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:322
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
@@ -4308,7 +4309,7 @@ msgstr "Pita ultra lebar (UWB)"
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:811 tidal/tidalrequest.cpp:1225
+#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
@@ -4358,7 +4359,7 @@ msgstr "Penggunaan"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Gunakan pintasan D-Bus Gnome (GSD)"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:330
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr "Gunakan HTTPS pada redirectserver lokal untuk mengatasi masalah masuk"
 
@@ -4370,7 +4371,7 @@ msgstr "Gunakan OAuth"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
-#: settings/coverssettingspage.cpp:118 settings/coverssettingspage.cpp:221
+#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4434,7 +4435,7 @@ msgstr "Bekas"
 msgid "User interface"
 msgstr "Antarmuka"
 
-#: ../build/src/ui_scrobblersettingspage.h:330
+#: ../build/src/ui_scrobblersettingspage.h:337
 msgid "User token:"
 msgstr "Token pengguna:"
 
@@ -4532,7 +4533,7 @@ msgstr "Pita lebar (WB)"
 msgid "Without cover:"
 msgstr "Tanpa sampul:"
 
-#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:319
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 

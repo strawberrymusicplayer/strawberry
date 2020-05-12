@@ -103,7 +103,7 @@ msgstr "Los atajos deberían configurarse en ajustes %1."
 msgid " kbps"
 msgstr " kb/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:323
 msgid " minutes"
 msgstr "minutos"
 
@@ -126,7 +126,7 @@ msgstr " s"
 msgid " seconds"
 msgstr " segundos"
 
-#: scrobbler/scrobblingapi20.cpp:153 scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "Inicio de sesión en el servicio de registro de reproducción %1"
@@ -167,12 +167,12 @@ msgstr "%1 días"
 msgid "%1 days ago"
 msgstr "hace %1 días"
 
-#: settings/coverssettingspage.cpp:130
+#: settings/coverssettingspage.cpp:132
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:125
+#: settings/coverssettingspage.cpp:127
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -406,7 +406,7 @@ msgstr "&Usar la combinación de colores del sistema"
 msgid "&Use the system proxy settings"
 msgstr "&Usar los ajustes de proxy del sistema"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:325
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -898,23 +898,18 @@ msgstr "Salida de audio"
 msgid "Audio quality"
 msgstr "Calidad de audio"
 
-#: ../build/src/ui_coverssettingspage.h:163
-#: ../build/src/ui_lyricssettingspage.h:163
-msgid "Authenticate"
-msgstr ""
-
-#: tidal/tidalrequest.cpp:116
+#: tidal/tidalrequest.cpp:118
 msgid "Authenticating..."
 msgstr "Iniciando sesión..."
 
-#: ../build/src/ui_coverssettingspage.h:161
-#: ../build/src/ui_lyricssettingspage.h:161
+#: ../build/src/ui_coverssettingspage.h:170
+#: ../build/src/ui_lyricssettingspage.h:170
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Inicio de sesión"
 
-#: settings/coverssettingspage.cpp:251 settings/lyricssettingspage.cpp:239
+#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
 #: settings/tidalsettingspage.cpp:203
 msgid "Authentication failed"
 msgstr "Fallo de inicio de sesión"
@@ -1114,11 +1109,11 @@ msgstr "Elegir color…"
 msgid "Choose font..."
 msgstr "Elegir tipo de letra…"
 
-#: ../build/src/ui_coverssettingspage.h:158
+#: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
-#: ../build/src/ui_lyricssettingspage.h:158
+#: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
 
@@ -1319,7 +1314,7 @@ msgstr ""
 "No se pudo crear el elemento «%1» de GStreamer. Asegúrate de tener "
 "instalados todos los complementos necesarios de GStreamer."
 
-#: scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "No se ha podido abrir URL. Por favor, ábrela en tu navegador"
 
@@ -1382,11 +1377,11 @@ msgstr "Portada no definida"
 msgid "Cover art set from %1"
 msgstr "Portada definida desde %1"
 
-#: ../build/src/ui_coverssettingspage.h:157
+#: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
 msgstr ""
 
-#: ../build/src/ui_coverssettingspage.h:156
+#: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
 msgstr ""
 
@@ -1706,10 +1701,10 @@ msgstr "Editar información de la pista…"
 msgid "Edit tracks information..."
 msgstr "Editar información de las pistas…"
 
-#: ../build/src/ui_scrobblersettingspage.h:311
-#: ../build/src/ui_scrobblersettingspage.h:322
-#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:317
 #: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:336
 #: ../build/src/ui_subsonicsettingspage.h:186
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Enable"
@@ -2123,7 +2118,7 @@ msgstr "General"
 msgid "General settings"
 msgstr "Configuración general"
 
-#: lyrics/geniuslyricsprovider.cpp:115
+#: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
 msgstr ""
 
@@ -2359,7 +2354,7 @@ msgstr ""
 msgid "Intro tracks"
 msgstr "Pistas de introducción"
 
-#: scrobbler/scrobblingapi20.cpp:197
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Respuesta inválida del servidor web. Falta token."
 
@@ -2416,7 +2411,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Última reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:321
+#: ../build/src/ui_scrobblersettingspage.h:328
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2430,15 +2425,15 @@ msgstr "Izquierda"
 msgid "Length"
 msgstr "Duración"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:332
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:163
+#: scrobbler/listenbrainzscrobbler.cpp:178
 msgid "ListenBrainz Authentication"
 msgstr "Inicio de sesión en ListenBrainz"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
+#: ../build/src/ui_scrobblersettingspage.h:335
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2498,9 +2493,11 @@ msgstr "Cargando…"
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Carga archivos/URL, reemplaza la lista de reproducción actual"
 
-#: ../build/src/ui_scrobblersettingspage.h:324
-#: ../build/src/ui_scrobblersettingspage.h:327
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:331
+#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_coverssettingspage.h:172
+#: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "Login"
 msgstr "Inicio de sesión"
@@ -2526,11 +2523,11 @@ msgstr "Perfil de baja complejidad (LC)"
 msgid "Lowercase filename"
 msgstr "Nombre de archivo en minúsculas"
 
-#: ../build/src/ui_lyricssettingspage.h:156 ../build/src/ui_edittagdialog.h:692
+#: ../build/src/ui_lyricssettingspage.h:165 ../build/src/ui_edittagdialog.h:692
 msgid "Lyrics"
 msgstr "Letras"
 
-#: ../build/src/ui_lyricssettingspage.h:157
+#: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
 msgstr ""
 
@@ -2599,13 +2596,13 @@ msgstr ""
 msgid "Missing Subsonic username or password."
 msgstr "Falta usuario o contraseña de Qobuz"
 
-#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
-#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
-#: tidal/tidalservice.cpp:918 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:691 tidal/tidalservice.cpp:750
+#: tidal/tidalservice.cpp:807 tidal/tidalservice.cpp:873
+#: tidal/tidalservice.cpp:933 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:637
+#: tidal/tidalservice.cpp:652
 msgid "Missing Tidal API token."
 msgstr "Falta tolen de API de Tidal."
 
@@ -2613,11 +2610,11 @@ msgstr "Falta tolen de API de Tidal."
 msgid "Missing Tidal client ID."
 msgstr "Falta ID de cliente de Tidal."
 
-#: tidal/tidalservice.cpp:645
+#: tidal/tidalservice.cpp:660
 msgid "Missing Tidal password."
 msgstr "Falta contraseña de Tidal."
 
-#: tidal/tidalservice.cpp:641
+#: tidal/tidalservice.cpp:656
 msgid "Missing Tidal username."
 msgstr "Falta usuario de Tidal."
 
@@ -2625,7 +2622,7 @@ msgstr "Falta usuario de Tidal."
 msgid "Missing server url, username or password."
 msgstr "Falta URL del servidor, usuario o contraseña."
 
-#: subsonic/subsonicservice.cpp:377
+#: subsonic/subsonicservice.cpp:390
 msgid "Missing username or password."
 msgstr "Falta usuario o contraseña."
 
@@ -2658,8 +2655,8 @@ msgstr "Punto de montaje"
 msgid "Mount points"
 msgstr "Puntos de montaje"
 
-#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:160
-#: ../build/src/ui_lyricssettingspage.h:160
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_lyricssettingspage.h:169
 msgid "Move down"
 msgstr "Bajar"
 
@@ -2667,8 +2664,8 @@ msgstr "Bajar"
 msgid "Move to collection..."
 msgstr "Mover a la colección…"
 
-#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:159
-#: ../build/src/ui_lyricssettingspage.h:159
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_lyricssettingspage.h:168
 msgid "Move up"
 msgstr "Subir"
 
@@ -2739,7 +2736,7 @@ msgstr "No hay ninguna portada que exportar."
 msgid "No long blocks"
 msgstr "Sin bloques largos"
 
-#: tidal/tidalrequest.cpp:1219
+#: tidal/tidalrequest.cpp:1249
 msgid "No match."
 msgstr "Sin coincidencias."
 
@@ -2750,7 +2747,7 @@ msgstr ""
 "No se encontraron coincidencias.  Borra el texto introducido en el cuadro de "
 "búsqueda para mostrar la lista completa de nuevo."
 
-#: settings/coverssettingspage.cpp:181 settings/lyricssettingspage.cpp:175
+#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
 msgid "No provider selected."
 msgstr ""
 
@@ -2781,16 +2778,16 @@ msgstr "Normal"
 msgid "Normal block type"
 msgstr "Tipo de bloque normal"
 
-#: tidal/tidalservice.cpp:649
+#: tidal/tidalservice.cpp:664
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Se ha alcanzado el número máximo de intentos sin lograr iniciar sesión en "
 "Tidal."
 
-#: tidal/tidalservice.cpp:671 tidal/tidalservice.cpp:730
-#: tidal/tidalservice.cpp:787 tidal/tidalservice.cpp:853
-#: tidal/tidalservice.cpp:914 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:686 tidal/tidalservice.cpp:745
+#: tidal/tidalservice.cpp:802 tidal/tidalservice.cpp:868
+#: tidal/tidalservice.cpp:929 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "No se ha iniciado sesión en Tidal."
 
@@ -2838,7 +2835,7 @@ msgstr "Al iniciar"
 msgid "Opacity"
 msgstr "Opacidad"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr "¿Abrir URL en navegador?"
 
@@ -3045,8 +3042,8 @@ msgstr "Listas"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Por favor, cierra el navegador y regresa a Strawberry."
 
-#: covermanager/spotifycoverprovider.cpp:135
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
+#: covermanager/spotifycoverprovider.cpp:146
+#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:178
 msgid "Please open this URL in your browser"
 msgstr "Por favor, abre este URL en tu navegador"
 
@@ -3070,7 +3067,7 @@ msgstr "Posición"
 msgid "Pre-amp"
 msgstr "Pre-amplificador"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:326
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Preferir artista del álbum al registrar reproducción"
 
@@ -3103,7 +3100,7 @@ msgstr ""
 msgid "Preset:"
 msgstr "Ajuste predefinido:"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3207,12 +3204,12 @@ msgstr "Re&lativo"
 msgid "Really cancel?"
 msgstr "¿Seguro que deseas cancelar?"
 
-#: covermanager/spotifycoverprovider.cpp:185
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
+#: covermanager/spotifycoverprovider.cpp:196
+#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:204
 msgid "Received invalid reply from web browser."
 msgstr "Recibida una respuesta inválida del navegador."
 
-#: scrobbler/scrobblingapi20.cpp:201
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3220,15 +3217,15 @@ msgstr ""
 "Se ha recibido una respuesta inválida del navegador. Prueba usando la opción "
 "de HTTPS o utiliza otro navegador como Chromium o Chrome."
 
-#: lyrics/geniuslyricsprovider.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:203
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:181
+#: covermanager/spotifycoverprovider.cpp:192
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
 msgid "Redirect missing token code!"
 msgstr "¡Falta código del token de redirección!"
 
@@ -3343,7 +3340,7 @@ msgstr "Ajuste de volumen en reproducción"
 msgid "Replay Gain mode"
 msgstr "Modo de ajuste de volumen en reproducción"
 
-#: tidal/tidalservice.cpp:347
+#: tidal/tidalservice.cpp:355
 msgid "Reply from Tidal is missing query items."
 msgstr "Faltan elementos en la respuesta de Tidal."
 
@@ -3386,45 +3383,45 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:671 tidal/tidalrequest.cpp:1080
+#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando carátula del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Buscando carátulas de %1 álbums."
 
-#: tidal/tidalrequest.cpp:463
+#: tidal/tidalrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr "Buscando álbumes de %1 artista..."
 
-#: tidal/tidalrequest.cpp:464
+#: tidal/tidalrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr "Buscando álbumes de %1 artistas..."
 
-#: subsonic/subsonicrequest.cpp:125 tidal/tidalrequest.cpp:199
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Buscando álbumes..."
 
-#: tidal/tidalrequest.cpp:155
+#: tidal/tidalrequest.cpp:157
 msgid "Retrieving artists..."
 msgstr "Buscando artistas..."
 
-#: subsonic/subsonicrequest.cpp:315 tidal/tidalrequest.cpp:721
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Buscando pistas de %1 álbum..."
 
-#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Buscando pistas de %1 álbumes..."
 
-#: tidal/tidalrequest.cpp:243
+#: tidal/tidalrequest.cpp:245
 msgid "Retrieving songs..."
 msgstr "Buscando pistas..."
 
@@ -3533,11 +3530,11 @@ msgstr "Perfil de tasa de muestreo escalable (SSR)"
 msgid "Scale size"
 msgstr "Tamaño de escala"
 
-#: ../build/src/ui_scrobblersettingspage.h:310
+#: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Registro de reproducción"
 
-#: scrobbler/scrobblingapi20.cpp:505
+#: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr ""
@@ -3570,8 +3567,8 @@ msgstr "Buscar portadas de álbumes…"
 msgid "Search for this"
 msgstr "Buscar esto"
 
-#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
-#: tidal/tidalrequest.cpp:315
+#: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
+#: tidal/tidalrequest.cpp:317
 msgid "Searching..."
 msgstr "Buscando..."
 
@@ -3627,7 +3624,7 @@ msgstr "Número de serie"
 msgid "Server URL"
 msgstr "URL del servidor"
 
-#: subsonic/subsonicservice.cpp:372 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "La dirección URL del servidor es inválida."
 
@@ -3730,6 +3727,10 @@ msgstr "Mostrar divisores"
 msgid "Show engine and device"
 msgstr "Mostrar motor y dispositivo"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show error dialog if scrobbler is enabled without being authenticated"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
 msgstr "Mostrar a tamaño completo…"
@@ -3751,7 +3752,7 @@ msgstr "Mostrar en el gestor de archivos…"
 msgid "Show in various artists"
 msgstr "Mostrar en Varios artistas"
 
-#: ../build/src/ui_scrobblersettingspage.h:315
+#: ../build/src/ui_scrobblersettingspage.h:321
 msgid "Show love button"
 msgstr "Mostrar el botón \"Me gusta\""
 
@@ -3771,7 +3772,7 @@ msgstr "Solo mostrar no etiquetadas"
 msgid "Show playing widget"
 msgstr "Mostrar mini aplicación de reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:320
 msgid "Show scrobble button"
 msgstr "Mostrar botón de registro de reproducción"
 
@@ -3872,7 +3873,7 @@ msgstr "Letra de la canción"
 msgid "Songs"
 msgstr "Pistas"
 
-#: ../build/src/ui_scrobblersettingspage.h:312
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3898,7 +3899,7 @@ msgstr "Origen"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:135
+#: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -4004,7 +4005,7 @@ msgstr "Transmitiendo"
 msgid "Stretch image to fill playlist"
 msgstr "Ajustar la imagen a la lista de reproducción"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:322
 msgid "Submit scrobbles every"
 msgstr "Emitir al servidor de registro cada"
 
@@ -4357,7 +4358,7 @@ msgstr "Banda ultraancha (UWB)"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:811 tidal/tidalrequest.cpp:1225
+#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -4407,7 +4408,7 @@ msgstr "Uso"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Usar atajos de teclado D-BUS de Gnome (GDS)"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:330
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr ""
 "Usar HTTPS para redirección de servidor local para evitar problemas de "
@@ -4422,7 +4423,7 @@ msgid "Use Replay Gain metadata if it is available"
 msgstr ""
 "Usar metadatos de ajuste de volumen en reproducción si están disponibles"
 
-#: settings/coverssettingspage.cpp:118 settings/coverssettingspage.cpp:221
+#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4486,7 +4487,7 @@ msgstr "En uso:"
 msgid "User interface"
 msgstr "Interfaz de usuario"
 
-#: ../build/src/ui_scrobblersettingspage.h:330
+#: ../build/src/ui_scrobblersettingspage.h:337
 msgid "User token:"
 msgstr "Token de usuario:"
 
@@ -4583,7 +4584,7 @@ msgstr "Banda ancha (WB)"
 msgid "Without cover:"
 msgstr "Sin portada:"
 
-#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:319
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Trabajar fuera de línea (solo registros de reproducción en caché)"
 

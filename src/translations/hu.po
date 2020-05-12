@@ -84,7 +84,7 @@ msgstr "A gyorsbillentyűket inkább a %1 beállításaiban kell konfigurálni."
 msgid " kbps"
 msgstr " kbit/s"
 
-#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:323
 msgid " minutes"
 msgstr " percben"
 
@@ -107,7 +107,7 @@ msgstr " mp"
 msgid " seconds"
 msgstr " másodperc"
 
-#: scrobbler/scrobblingapi20.cpp:153 scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 scrobbler hitelesítés"
@@ -148,12 +148,12 @@ msgstr "%1 nap"
 msgid "%1 days ago"
 msgstr "%1 nappal ezelőtt"
 
-#: settings/coverssettingspage.cpp:130
+#: settings/coverssettingspage.cpp:132
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:125
+#: settings/coverssettingspage.cpp:127
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -387,7 +387,7 @@ msgstr "&Rendszer alapértelmezett színkészletének használata"
 msgid "&Use the system proxy settings"
 msgstr "&A rendszer proxybeállításainak használata"
 
-#: ../build/src/ui_scrobblersettingspage.h:319
+#: ../build/src/ui_scrobblersettingspage.h:325
 msgid ""
 "(This is the delay between when a song is scrobbled and when scrobbles are "
 "submitted to the server. Setting the time to 0 minutes will submit scrobbles "
@@ -881,23 +881,18 @@ msgstr "Hang kimenet"
 msgid "Audio quality"
 msgstr "Hangminőség"
 
-#: ../build/src/ui_coverssettingspage.h:163
-#: ../build/src/ui_lyricssettingspage.h:163
-msgid "Authenticate"
-msgstr ""
-
-#: tidal/tidalrequest.cpp:116
+#: tidal/tidalrequest.cpp:118
 msgid "Authenticating..."
 msgstr "Hitelesítés..."
 
-#: ../build/src/ui_coverssettingspage.h:161
-#: ../build/src/ui_lyricssettingspage.h:161
+#: ../build/src/ui_coverssettingspage.h:170
+#: ../build/src/ui_lyricssettingspage.h:170
 #: ../build/src/ui_subsonicsettingspage.h:188
 #: ../build/src/ui_tidalsettingspage.h:318
 msgid "Authentication"
 msgstr "Hitelesítés"
 
-#: settings/coverssettingspage.cpp:251 settings/lyricssettingspage.cpp:239
+#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
 #: settings/tidalsettingspage.cpp:203
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
@@ -1097,11 +1092,11 @@ msgstr "Szín kiválasztása..."
 msgid "Choose font..."
 msgstr "Betűtípus választása..."
 
-#: ../build/src/ui_coverssettingspage.h:158
+#: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
-#: ../build/src/ui_lyricssettingspage.h:158
+#: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
 
@@ -1300,7 +1295,7 @@ msgstr ""
 "Nem hozható létre a \"%1\" GStreamer elem. Ellenőrizze, hogy telepített "
 "minden szükséges GStreamer modult."
 
-#: scrobbler/scrobblingapi20.cpp:162
+#: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "Nem lehet megnyitni az URL-t. Próbálja meg böngészőben megnyitni"
 
@@ -1363,11 +1358,11 @@ msgstr "Albumborító nincs beállítva"
 msgid "Cover art set from %1"
 msgstr "Albumborító beállítva %1 helyről"
 
-#: ../build/src/ui_coverssettingspage.h:157
+#: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
 msgstr ""
 
-#: ../build/src/ui_coverssettingspage.h:156
+#: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
 msgstr ""
 
@@ -1687,10 +1682,10 @@ msgstr "Száminformációk szerkesztése..."
 msgid "Edit tracks information..."
 msgstr "Száminformációk szerkesztése"
 
-#: ../build/src/ui_scrobblersettingspage.h:311
-#: ../build/src/ui_scrobblersettingspage.h:322
-#: ../build/src/ui_scrobblersettingspage.h:326
+#: ../build/src/ui_scrobblersettingspage.h:317
 #: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:336
 #: ../build/src/ui_subsonicsettingspage.h:186
 #: ../build/src/ui_tidalsettingspage.h:316
 msgid "Enable"
@@ -2103,7 +2098,7 @@ msgstr "Általános"
 msgid "General settings"
 msgstr "Általános beállítások"
 
-#: lyrics/geniuslyricsprovider.cpp:115
+#: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
 msgstr ""
 
@@ -2333,7 +2328,7 @@ msgstr "Internet lap nézet"
 msgid "Intro tracks"
 msgstr "Bevezető számok"
 
-#: scrobbler/scrobblingapi20.cpp:197
+#: scrobbler/scrobblingapi20.cpp:212
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
@@ -2390,7 +2385,7 @@ msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Utoljára lejátszva"
 
-#: ../build/src/ui_scrobblersettingspage.h:321
+#: ../build/src/ui_scrobblersettingspage.h:328
 msgid "Last.fm"
 msgstr "Last.fm"
 
@@ -2404,15 +2399,15 @@ msgstr "Bal"
 msgid "Length"
 msgstr "Időtartam"
 
-#: ../build/src/ui_scrobblersettingspage.h:325
+#: ../build/src/ui_scrobblersettingspage.h:332
 msgid "Libre.fm"
 msgstr "Libre.fm"
 
-#: scrobbler/listenbrainzscrobbler.cpp:163
+#: scrobbler/listenbrainzscrobbler.cpp:178
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz hitelesítés"
 
-#: ../build/src/ui_scrobblersettingspage.h:328
+#: ../build/src/ui_scrobblersettingspage.h:335
 msgid "Listenbrainz"
 msgstr "Listenbrainz"
 
@@ -2472,9 +2467,11 @@ msgstr "Betöltés..."
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Fájlok/URL-ek betöltése, lejátszólista cseréje"
 
-#: ../build/src/ui_scrobblersettingspage.h:324
-#: ../build/src/ui_scrobblersettingspage.h:327
-#: ../build/src/ui_scrobblersettingspage.h:332
+#: ../build/src/ui_scrobblersettingspage.h:331
+#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_coverssettingspage.h:172
+#: ../build/src/ui_lyricssettingspage.h:172
 #: ../build/src/ui_tidalsettingspage.h:324
 msgid "Login"
 msgstr "Bejelentkezés"
@@ -2500,11 +2497,11 @@ msgstr "Alacsony komplexitású profil (LC)"
 msgid "Lowercase filename"
 msgstr "Kisbetűs fájlnevek"
 
-#: ../build/src/ui_lyricssettingspage.h:156 ../build/src/ui_edittagdialog.h:692
+#: ../build/src/ui_lyricssettingspage.h:165 ../build/src/ui_edittagdialog.h:692
 msgid "Lyrics"
 msgstr "Dalszöveg"
 
-#: ../build/src/ui_lyricssettingspage.h:157
+#: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
 msgstr ""
 
@@ -2573,13 +2570,13 @@ msgstr "Hiányzó API token, felhasználónév vagy jelszó."
 msgid "Missing Subsonic username or password."
 msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:676 tidal/tidalservice.cpp:735
-#: tidal/tidalservice.cpp:792 tidal/tidalservice.cpp:858
-#: tidal/tidalservice.cpp:918 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:691 tidal/tidalservice.cpp:750
+#: tidal/tidalservice.cpp:807 tidal/tidalservice.cpp:873
+#: tidal/tidalservice.cpp:933 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr "Hiányzó Tidal API token, felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:637
+#: tidal/tidalservice.cpp:652
 msgid "Missing Tidal API token."
 msgstr "Hiányzó Tidal API token."
 
@@ -2587,11 +2584,11 @@ msgstr "Hiányzó Tidal API token."
 msgid "Missing Tidal client ID."
 msgstr "Hiányzó Tidal kliens azonosító."
 
-#: tidal/tidalservice.cpp:645
+#: tidal/tidalservice.cpp:660
 msgid "Missing Tidal password."
 msgstr "Hiányzó Tidal jelszó."
 
-#: tidal/tidalservice.cpp:641
+#: tidal/tidalservice.cpp:656
 msgid "Missing Tidal username."
 msgstr "Hiányzó Tidal felhasználónév."
 
@@ -2599,7 +2596,7 @@ msgstr "Hiányzó Tidal felhasználónév."
 msgid "Missing server url, username or password."
 msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
-#: subsonic/subsonicservice.cpp:377
+#: subsonic/subsonicservice.cpp:390
 msgid "Missing username or password."
 msgstr "Hiányzó felhasználónév vagy jelszó."
 
@@ -2632,8 +2629,8 @@ msgstr "Csatolási pont"
 msgid "Mount points"
 msgstr "Csatolási pontok"
 
-#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:160
-#: ../build/src/ui_lyricssettingspage.h:160
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_lyricssettingspage.h:169
 msgid "Move down"
 msgstr "Mozgatás lefelé"
 
@@ -2641,8 +2638,8 @@ msgstr "Mozgatás lefelé"
 msgid "Move to collection..."
 msgstr "Áthelyezés a gyűjteménybe..."
 
-#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:159
-#: ../build/src/ui_lyricssettingspage.h:159
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_lyricssettingspage.h:168
 msgid "Move up"
 msgstr "Mozgatás felfelé"
 
@@ -2713,7 +2710,7 @@ msgstr "Nincsenek exportálandó borítók"
 msgid "No long blocks"
 msgstr "Hosszú blokkok nélkül"
 
-#: tidal/tidalrequest.cpp:1219
+#: tidal/tidalrequest.cpp:1249
 msgid "No match."
 msgstr "Nincs egyezés."
 
@@ -2724,7 +2721,7 @@ msgstr ""
 "Nincs egyezés. Törölje a keresési feltételeket, hogy újra lássa a teljes "
 "lejátszólistát."
 
-#: settings/coverssettingspage.cpp:181 settings/lyricssettingspage.cpp:175
+#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
 msgid "No provider selected."
 msgstr ""
 
@@ -2754,16 +2751,16 @@ msgstr "Normál"
 msgid "Normal block type"
 msgstr "Normál blokkok"
 
-#: tidal/tidalservice.cpp:649
+#: tidal/tidalservice.cpp:664
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Nincs hitelesítve a Tidallal, és elérte a maximális bejelentkezési "
 "kísérletek számát."
 
-#: tidal/tidalservice.cpp:671 tidal/tidalservice.cpp:730
-#: tidal/tidalservice.cpp:787 tidal/tidalservice.cpp:853
-#: tidal/tidalservice.cpp:914 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:686 tidal/tidalservice.cpp:745
+#: tidal/tidalservice.cpp:802 tidal/tidalservice.cpp:868
+#: tidal/tidalservice.cpp:929 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Nincs hitelesítve Tidallal."
 
@@ -2811,7 +2808,7 @@ msgstr "Indulásnál"
 msgid "Opacity"
 msgstr "Átlátszóság"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid "Open URL in web browser?"
 msgstr "URL megnyitása böngészőben?"
 
@@ -3018,8 +3015,8 @@ msgstr "Lejátszólisták"
 msgid "Please close your browser and return to Strawberry."
 msgstr "Zárja be a böngészőjét, és térjen vissza a Strawberry-be."
 
-#: covermanager/spotifycoverprovider.cpp:135
-#: lyrics/geniuslyricsprovider.cpp:115 scrobbler/listenbrainzscrobbler.cpp:163
+#: covermanager/spotifycoverprovider.cpp:146
+#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:178
 msgid "Please open this URL in your browser"
 msgstr "Nyissa meg ezt az URL-t a böngészőben"
 
@@ -3043,7 +3040,7 @@ msgstr "Helyzet"
 msgid "Pre-amp"
 msgstr "Előerősítő"
 
-#: ../build/src/ui_scrobblersettingspage.h:320
+#: ../build/src/ui_scrobblersettingspage.h:326
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Albumelőadó előnyben részesítése scrobble-ok beküldésénél"
 
@@ -3077,7 +3074,7 @@ msgstr "Nem volt beállítva előtöltés funkció a blokkolás művelethez."
 msgid "Preset:"
 msgstr "Beállítás:"
 
-#: scrobbler/scrobblingapi20.cpp:153
+#: scrobbler/scrobblingapi20.cpp:168
 msgid ""
 "Press \"Save\" to copy the URL to clipboard and manually open it in a web "
 "browser."
@@ -3182,12 +3179,12 @@ msgstr "Re&latív"
 msgid "Really cancel?"
 msgstr "Tényleg kilép?"
 
-#: covermanager/spotifycoverprovider.cpp:185
-#: lyrics/geniuslyricsprovider.cpp:143 scrobbler/listenbrainzscrobbler.cpp:189
+#: covermanager/spotifycoverprovider.cpp:196
+#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:204
 msgid "Received invalid reply from web browser."
 msgstr "Érvénytelen válasz érkezett a böngészőből."
 
-#: scrobbler/scrobblingapi20.cpp:201
+#: scrobbler/scrobblingapi20.cpp:216
 msgid ""
 "Received invalid reply from web browser. Try the HTTPS option, or use "
 "another browser like Chromium or Chrome."
@@ -3195,15 +3192,15 @@ msgstr ""
 "Érvénytelen válasz érkezett a böngészőből. Próbálja ki a HTTPS lehetőséget, "
 "vagy használjon egy másik böngészőt, például Chromiumot vagy Chrome-ot."
 
-#: lyrics/geniuslyricsprovider.cpp:191
+#: lyrics/geniuslyricsprovider.cpp:203
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: covermanager/spotifycoverprovider.cpp:181
+#: covermanager/spotifycoverprovider.cpp:192
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:139 scrobbler/listenbrainzscrobbler.cpp:185
+#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
 msgid "Redirect missing token code!"
 msgstr "Hiányzó token kód átirányítása!"
 
@@ -3318,7 +3315,7 @@ msgstr "Visszhangerősítés (Replay Gain)"
 msgid "Replay Gain mode"
 msgstr "Visszhangerősítés módja"
 
-#: tidal/tidalservice.cpp:347
+#: tidal/tidalservice.cpp:355
 msgid "Reply from Tidal is missing query items."
 msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 
@@ -3360,45 +3357,45 @@ msgstr "Csak a FAT fájlrendszerekben engedélyezett karakterek használata"
 msgid "Resume playback on start"
 msgstr "Lejátszás folytatása induláskor"
 
-#: subsonic/subsonicrequest.cpp:671 tidal/tidalrequest.cpp:1080
+#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Albumborító lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:672 tidal/tidalrequest.cpp:1081
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Albumborítók lekérése %1 albumokhoz..."
 
-#: tidal/tidalrequest.cpp:463
+#: tidal/tidalrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
 msgstr "Dalok lekérése %1 előadótól..."
 
-#: tidal/tidalrequest.cpp:464
+#: tidal/tidalrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
 msgstr "Albumok lekérése %1 előadóktól..."
 
-#: subsonic/subsonicrequest.cpp:125 tidal/tidalrequest.cpp:199
+#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Albumok lekérésre..."
 
-#: tidal/tidalrequest.cpp:155
+#: tidal/tidalrequest.cpp:157
 msgid "Retrieving artists..."
 msgstr "Előadók lekérése..."
 
-#: subsonic/subsonicrequest.cpp:315 tidal/tidalrequest.cpp:721
+#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Dalok lekérése %1 albumhoz..."
 
-#: subsonic/subsonicrequest.cpp:316 tidal/tidalrequest.cpp:722
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Dalok lekérése %1 albumhoz..."
 
-#: tidal/tidalrequest.cpp:243
+#: tidal/tidalrequest.cpp:245
 msgid "Retrieving songs..."
 msgstr "Dalok lekérése..."
 
@@ -3507,11 +3504,11 @@ msgstr "Skálázható mintavételezési profil (SSR)"
 msgid "Scale size"
 msgstr "Skála méret"
 
-#: ../build/src/ui_scrobblersettingspage.h:310
+#: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Scrobbler"
 
-#: scrobbler/scrobblingapi20.cpp:505
+#: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "A %1 scrobbler nincs hitelesítve"
@@ -3543,8 +3540,8 @@ msgstr "Albumborítók keresése..."
 msgid "Search for this"
 msgstr "Keresés erre"
 
-#: tidal/tidalrequest.cpp:287 tidal/tidalrequest.cpp:301
-#: tidal/tidalrequest.cpp:315
+#: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
+#: tidal/tidalrequest.cpp:317
 msgid "Searching..."
 msgstr "Keresés..."
 
@@ -3600,7 +3597,7 @@ msgstr "Sorozatszám"
 msgid "Server URL"
 msgstr "Szerver URL"
 
-#: subsonic/subsonicservice.cpp:372 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
@@ -3703,6 +3700,10 @@ msgstr "Elválasztók megjelenítése"
 msgid "Show engine and device"
 msgstr "Motor és eszköz megjelenítése"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show error dialog if scrobbler is enabled without being authenticated"
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
 msgstr "Megjelenítés teljes méretben..."
@@ -3724,7 +3725,7 @@ msgstr "Megnyitás a fájlböngészőben..."
 msgid "Show in various artists"
 msgstr "Megjelenítés a különböző előadók között"
 
-#: ../build/src/ui_scrobblersettingspage.h:315
+#: ../build/src/ui_scrobblersettingspage.h:321
 msgid "Show love button"
 msgstr "Kedvenc gomb megjelenítése"
 
@@ -3744,7 +3745,7 @@ msgstr "Csak a címke nélküliek megjelenítése"
 msgid "Show playing widget"
 msgstr "Albumborító megjelenítése az oldalsávban"
 
-#: ../build/src/ui_scrobblersettingspage.h:314
+#: ../build/src/ui_scrobblersettingspage.h:320
 msgid "Show scrobble button"
 msgstr "Scrobble gomb megjelenítése"
 
@@ -3845,7 +3846,7 @@ msgstr "Dalszöveg"
 msgid "Songs"
 msgstr "Dalok"
 
-#: ../build/src/ui_scrobblersettingspage.h:312
+#: ../build/src/ui_scrobblersettingspage.h:318
 msgid ""
 "Songs are scrobbled if they have valid metadata and are longer than 30 "
 "seconds, have been playing for at least half its duration or for 4 minutes "
@@ -3871,7 +3872,7 @@ msgstr "Forrás"
 msgid "Speex"
 msgstr "Speex"
 
-#: covermanager/spotifycoverprovider.cpp:135
+#: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
 msgstr ""
 
@@ -3976,7 +3977,7 @@ msgstr "Internet"
 msgid "Stretch image to fill playlist"
 msgstr "Kép nyújtása a lejátszólista kitöltéséhez"
 
-#: ../build/src/ui_scrobblersettingspage.h:316
+#: ../build/src/ui_scrobblersettingspage.h:322
 msgid "Submit scrobbles every"
 msgstr "Scrobble-ok beküldése minden"
 
@@ -4330,7 +4331,7 @@ msgstr "Ultra szélessávú (UWB)"
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: subsonic/subsonicrequest.cpp:811 tidal/tidalrequest.cpp:1225
+#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -4380,7 +4381,7 @@ msgstr "Használat"
 msgid "Use Gnome (GSD) D-Bus shortcut keys"
 msgstr "Gnome (GSD) D-Bus gyorsbillentyűk használata"
 
-#: ../build/src/ui_scrobblersettingspage.h:323
+#: ../build/src/ui_scrobblersettingspage.h:330
 msgid "Use HTTPS for local redirectserver to bypass login problems"
 msgstr ""
 "A bejelentkezési problémák elkerülése érdekében használjon HTTPS-t a helyi "
@@ -4394,7 +4395,7 @@ msgstr "OAuth használata"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
-#: settings/coverssettingspage.cpp:118 settings/coverssettingspage.cpp:221
+#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4458,7 +4459,7 @@ msgstr "Használt"
 msgid "User interface"
 msgstr "Kezelőfelület"
 
-#: ../build/src/ui_scrobblersettingspage.h:330
+#: ../build/src/ui_scrobblersettingspage.h:337
 msgid "User token:"
 msgstr "Felhasználói token:"
 
@@ -4555,7 +4556,7 @@ msgstr "Szélessávú (WB)"
 msgid "Without cover:"
 msgstr "Borító nélkül:"
 
-#: ../build/src/ui_scrobblersettingspage.h:313
+#: ../build/src/ui_scrobblersettingspage.h:319
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Offline mód (mentés csak gyorsítótárba)"
 
