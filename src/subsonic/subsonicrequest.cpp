@@ -351,7 +351,7 @@ void SubsonicRequest::FlushAlbumSongsRequests() {
 
 }
 
-void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist) {
+void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QString artist_id, const QString album_id, const QString album_artist) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
