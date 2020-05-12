@@ -31,6 +31,7 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
+#include <QImageReader>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -225,18 +226,24 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
   if (reply->error() != QNetworkReply::NoError) {
     qLog(Error) << "Error requesting" << reply->url() << reply->errorString();
   }
+  else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    qLog(Error) << "Error requesting" << reply->url() << "received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  }
   else {
-    QImage image;
-    if (image.loadFromData(reply->readAll())) {
-
-      result.score += ScoreImage(image);
-      candidate_images_.insertMulti(result.score, CandidateImage(result, image));
-
-      qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score;
-
+    QString mimetype = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+    if (QImageReader::supportedMimeTypes().contains(mimetype.toUtf8())) {
+      QImage image;
+      if (image.loadFromData(reply->readAll())) {
+        result.score += ScoreImage(image);
+        candidate_images_.insertMulti(result.score, CandidateImage(result, image));
+        qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score;
+      }
+      else {
+        qLog(Error) << "Error decoding image data from" << reply->url();
+      }
     }
     else {
-      qLog(Error) << "Error decoding image data from" << reply->url();
+      qLog(Error) << "Unsupported mimetype for image reader:" << mimetype << "from" << reply->url();
     }
   }
 
