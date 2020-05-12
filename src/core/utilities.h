@@ -163,6 +163,8 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
 bool IsColorDark(const QColor &color);
 
+QList<QByteArray> ImageFormatsForMimeType(const QByteArray &mimetype);
+
 }  // namespace
 
 class ScopedWCharArray {

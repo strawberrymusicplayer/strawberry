@@ -44,6 +44,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/timeconstants.h"
+#include "core/utilities.h"
 #include "covermanager/albumcoverloader.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
@@ -769,15 +770,21 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString alb
     AlbumCoverFinishCheck();
     return;
   }
-  QByteArray format = QImageReader::imageFormatsForMimeType(mimetype.toUtf8()).first();
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+  QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
+#else
+  QList<QByteArray> format_list = Utilities::ImageFormatsForMimeType(mimetype.toUtf8());
+#endif
 
   QByteArray data = reply->readAll();
-  if (data.isEmpty()) {
+  if (format_list.isEmpty() || data.isEmpty()) {
     Error(QString("Received empty image data for %1").arg(url.toString()));
     if (album_covers_requests_sent_.contains(album_id)) album_covers_requests_sent_.remove(album_id);
     AlbumCoverFinishCheck();
     return;
   }
+  QByteArray format = format_list.first();
   QString fullfilename = filename + "." + format.toLower();
 
   QImage image;

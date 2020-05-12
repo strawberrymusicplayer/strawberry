@@ -989,6 +989,16 @@ bool IsColorDark(const QColor &color) {
   return ((30 * color.red() + 59 * color.green() + 11 * color.blue()) / 100) <= 130;
 }
 
+QList<QByteArray> ImageFormatsForMimeType(const QByteArray &mimetype) {
+
+  if (mimetype == "image/bmp") return QList<QByteArray>() << "BMP";
+  else if (mimetype == "image/gif") return QList<QByteArray>() << "GIF";
+  else if (mimetype == "image/jpeg") return QList<QByteArray>() << "JPG";
+  else if (mimetype == "image/png") return QList<QByteArray>() << "PNG";
+  else return QList<QByteArray>();
+
+}
+
 }  // namespace Utilities
 
 ScopedWCharArray::ScopedWCharArray(const QString &str)
