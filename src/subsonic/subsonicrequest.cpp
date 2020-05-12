@@ -80,14 +80,14 @@ SubsonicRequest::~SubsonicRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
 
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -355,6 +355,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   --album_songs_requests_active_;
@@ -722,10 +723,11 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
 }
 
-void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename) {
+void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const QString album_id, const QUrl url, const QString filename) {
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);
+    disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {

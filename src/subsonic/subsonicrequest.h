@@ -69,23 +69,24 @@ class SubsonicRequest : public SubsonicBaseRequest {
  private slots:
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
+  void AlbumCoverReceived(QNetworkReply *reply, const QString album_id, const QUrl url, const QString filename);
 
  private:
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
   struct Request {
-    QString artist_id = 0;
+    explicit Request() : offset(0), size(0) {}
+    QString artist_id;
     QString album_id;
-    QString song_id = 0;
-    int offset = 0;
-    int size = 0;
+    QString song_id;
+    int offset;
+    int size;
     QString album_artist;
   };
   struct AlbumCoverRequest {
-    QString artist_id = 0;
-    QString album_id = 0;
+    QString artist_id;
+    QString album_id;
     QUrl url;
     QString filename;
   };
