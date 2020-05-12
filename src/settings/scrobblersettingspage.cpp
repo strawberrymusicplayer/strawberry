@@ -94,6 +94,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_offline->setChecked(scrobbler_->IsOffline());
   ui_->spinbox_submit->setValue(scrobbler_->SubmitDelay());
   ui_->checkbox_albumartist->setChecked(scrobbler_->PreferAlbumArtist());
+  ui_->checkbox_show_auth_error->setChecked(scrobbler_->ShowAuthError());
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->IsEnabled());
   ui_->checkbox_lastfm_https->setChecked(lastfmscrobbler_->IsUseHTTPS());
@@ -119,6 +120,7 @@ void ScrobblerSettingsPage::Save() {
   s.setValue("offline", ui_->checkbox_offline->isChecked());
   s.setValue("submit", ui_->spinbox_submit->value());
   s.setValue("albumartist", ui_->checkbox_albumartist->isChecked());
+  s.setValue("show_auth_error", ui_->checkbox_show_auth_error->isChecked());
   s.endGroup();
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);

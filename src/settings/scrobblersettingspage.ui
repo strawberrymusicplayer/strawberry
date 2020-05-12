@@ -110,6 +110,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_show_auth_error">
+     <property name="text">
+      <string>Show error dialog if scrobbler is enabled without being authenticated</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_lastfm">
      <property name="title">
       <string>Last.fm</string>

@@ -525,7 +525,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
+    if (app_->scrobbler()->ShowAuthError()) { emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_)); }
     return;
   }
 
