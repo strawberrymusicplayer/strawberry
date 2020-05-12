@@ -411,6 +411,10 @@ void CollectionBackend::AddOrUpdateSubdirs(const SubdirectoryList &subdirs) {
 
 }
 
+void CollectionBackend::AddOrUpdateSongsAsync(const SongList &songs) {
+  metaObject()->invokeMethod(this, "AddOrUpdateSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+}
+
 void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
   QMutexLocker l(db_->Mutex());

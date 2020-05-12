@@ -231,7 +231,7 @@ void InternetTabsView::ArtistsFinished(const SongList &songs, const QString &err
     service_->artists_collection_backend()->DeleteAll();
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->internetcollection_page());
     ui_->artists_collection->status()->clear();
-    service_->artists_collection_backend()->AddOrUpdateSongs(songs);
+    service_->artists_collection_backend()->AddOrUpdateSongsAsync(songs);
   }
 
 }
@@ -274,7 +274,7 @@ void InternetTabsView::AlbumsFinished(const SongList &songs, const QString &erro
     service_->albums_collection_backend()->DeleteAll();
     ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->internetcollection_page());
     ui_->albums_collection->status()->clear();
-    service_->albums_collection_backend()->AddOrUpdateSongs(songs);
+    service_->albums_collection_backend()->AddOrUpdateSongsAsync(songs);
   }
 
 }
@@ -317,7 +317,7 @@ void InternetTabsView::SongsFinished(const SongList &songs, const QString &error
     service_->songs_collection_backend()->DeleteAll();
     ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->internetcollection_page());
     ui_->songs_collection->status()->clear();
-    service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+    service_->songs_collection_backend()->AddOrUpdateSongsAsync(songs);
   }
 
 }

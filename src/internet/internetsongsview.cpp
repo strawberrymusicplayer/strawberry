@@ -130,7 +130,7 @@ void InternetSongsView::SongsFinished(const SongList &songs, const QString &erro
     service_->songs_collection_backend()->DeleteAll();
     ui_->stacked->setCurrentWidget(ui_->internetcollection_page);
     ui_->status->clear();
-    service_->songs_collection_backend()->AddOrUpdateSongs(songs);
+    service_->songs_collection_backend()->AddOrUpdateSongsAsync(songs);
   }
 
 }
