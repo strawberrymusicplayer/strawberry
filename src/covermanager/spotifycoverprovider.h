@@ -46,6 +46,8 @@ class SpotifyCoverProvider : public JsonCoverProvider {
 
  public:
   explicit SpotifyCoverProvider(Application *app, QObject *parent = nullptr);
+  ~SpotifyCoverProvider();
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
 
@@ -88,6 +90,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
   quint64 expires_in_;
   quint64 login_time_;
   QTimer refresh_login_timer_;
+  QList<QNetworkReply*> replies_;
 
 };
 

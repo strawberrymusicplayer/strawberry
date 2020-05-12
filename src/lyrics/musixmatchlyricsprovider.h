@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QString>
 
@@ -38,6 +39,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit MusixmatchLyricsProvider(QObject *parent = nullptr);
+  ~MusixmatchLyricsProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
   void CancelSearch(const quint64 id);
@@ -50,6 +52,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private:
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

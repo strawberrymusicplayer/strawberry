@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QString>
 
@@ -37,9 +38,13 @@ class OVHLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit OVHLyricsProvider(QObject *parent = nullptr);
+  ~OVHLyricsProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
   void CancelSearch(const quint64 id);
+
+ private:
+  void Error(const QString &error, const QVariant &debug = QVariant());
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
@@ -47,7 +52,7 @@ class OVHLyricsProvider : public JsonLyricsProvider {
  private:
   static const char *kUrlSearch;
   QNetworkAccessManager *network_;
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  QList<QNetworkReply*> replies_;
 
 };
 

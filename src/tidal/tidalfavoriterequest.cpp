@@ -51,7 +51,7 @@ TidalFavoriteRequest::~TidalFavoriteRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     reply->abort();
     reply->deleteLater();
   }
@@ -152,6 +152,7 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {
@@ -254,6 +255,7 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {

@@ -85,6 +85,17 @@ SpotifyCoverProvider::SpotifyCoverProvider(Application *app, QObject *parent) : 
 
 }
 
+SpotifyCoverProvider::~SpotifyCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 void SpotifyCoverProvider::Authenticate() {
 
   QUrl redirect_url(kOAuthRedirectUrl);
@@ -230,6 +241,7 @@ void SpotifyCoverProvider::RequestAccessToken(const QString code, const QUrl red
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
 
   QNetworkReply *reply = network_->post(req, query);
+  replies_ << reply;
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
   connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
@@ -245,6 +257,9 @@ void SpotifyCoverProvider::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
 
 void SpotifyCoverProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
@@ -372,6 +387,7 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
 
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, extract); });
 
   return true;
@@ -429,6 +445,9 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

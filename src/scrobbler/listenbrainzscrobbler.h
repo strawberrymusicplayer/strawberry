@@ -117,6 +117,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   quint64 timestamp_;
   QTimer refresh_login_timer_;
 
+  QList<QNetworkReply*> replies_;
+
 };
 
 #endif  // LISTENBRAINZSCROBBLER_H

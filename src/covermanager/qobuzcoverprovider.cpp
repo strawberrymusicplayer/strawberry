@@ -53,6 +53,17 @@ const int QobuzCoverProvider::kLimit = 10;
 
 QobuzCoverProvider::QobuzCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Qobuz", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
+QobuzCoverProvider::~QobuzCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   typedef QPair<QString, QString> Param;
@@ -88,6 +99,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   req.setRawHeader("X-App-Id", kAppID);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
@@ -142,6 +154,9 @@ QByteArray QobuzCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

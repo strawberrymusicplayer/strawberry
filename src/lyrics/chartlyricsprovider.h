@@ -23,19 +23,22 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
+
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
   explicit ChartLyricsProvider(QObject *parent = nullptr);
+  ~ChartLyricsProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
   void CancelSearch(quint64 id);
@@ -50,6 +53,7 @@ class ChartLyricsProvider : public LyricsProvider {
   static const char *kUrlSearch;
 
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

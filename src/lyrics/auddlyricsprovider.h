@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QJsonArray>
@@ -39,9 +40,14 @@ class AuddLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit AuddLyricsProvider(QObject *parent = nullptr);
+  ~AuddLyricsProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
   void CancelSearch(const quint64 id);
+
+ private:
+  void Error(const QString &error, const QVariant &debug = QVariant());
+  QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);
@@ -51,9 +57,7 @@ class AuddLyricsProvider : public JsonLyricsProvider {
   static const char *kAPITokenB64;
   static const int kMaxLength;
   QNetworkAccessManager *network_;
-  void Error(const QString &error, const QVariant &debug = QVariant());
-
-  QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
+  QList<QNetworkReply*> replies_;
 
 };
 

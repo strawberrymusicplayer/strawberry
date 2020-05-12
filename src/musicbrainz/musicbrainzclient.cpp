@@ -69,6 +69,12 @@ MusicBrainzClient::MusicBrainzClient(QObject *parent, QNetworkAccessManager *net
 
 }
 
+MusicBrainzClient::~MusicBrainzClient() {
+
+  CancelAll();
+
+}
+
 QByteArray MusicBrainzClient::GetReplyData(QNetworkReply *reply, QString &error) {
 
   QByteArray data;
@@ -114,7 +120,7 @@ void MusicBrainzClient::Cancel(int id) {
 
   while (!requests_.isEmpty() && requests_.contains(id)) {
     QNetworkReply *reply = requests_.take(id);
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -187,6 +193,7 @@ void MusicBrainzClient::FlushRequests() {
 
 void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, const int request_number) {
 
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   const int nb_removed = requests_.remove(id, reply);
@@ -232,6 +239,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
 
 void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkReply *reply) {
 
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   ResultList ret;

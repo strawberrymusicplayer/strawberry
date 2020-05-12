@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -39,6 +40,8 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
  public:
   explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
+  ~LastFmCoverProvider();
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
 
  private slots:
@@ -63,6 +66,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
   static const char *kSecret;
 
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

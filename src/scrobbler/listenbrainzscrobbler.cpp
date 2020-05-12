@@ -83,7 +83,22 @@ ListenBrainzScrobbler::ListenBrainzScrobbler(Application *app, QObject *parent) 
 
 }
 
-ListenBrainzScrobbler::~ListenBrainzScrobbler() {}
+ListenBrainzScrobbler::~ListenBrainzScrobbler() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+  if (server_) {
+    disconnect(server_, nullptr, this, nullptr);
+    if (server_->isListening()) server_->close();
+    server_->deleteLater();
+  }
+
+}
 
 void ListenBrainzScrobbler::ReloadSettings() {
 
@@ -231,12 +246,16 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { AuthenticateReplyFinished(reply); });
 
 }
 
 void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data;
@@ -330,6 +349,7 @@ QNetworkReply *ListenBrainzScrobbler::CreateRequest(const QUrl &url, const QJson
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
   req.setRawHeader("Authorization", QString("Token %1").arg(user_token_).toUtf8());
   QNetworkReply *reply = network_->post(req, json_doc.toJson());
+  replies_ << reply;
 
   //qLog(Debug) << "ListenBrainz: Sending request" << json_doc.toJson();
 
@@ -433,6 +453,9 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
 void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -555,6 +578,9 @@ void ListenBrainzScrobbler::Submit() {
 
 void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64> list) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

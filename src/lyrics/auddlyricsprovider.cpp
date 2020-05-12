@@ -48,6 +48,17 @@ const int AuddLyricsProvider::kMaxLength = 6000;
 
 AuddLyricsProvider::AuddLyricsProvider(QObject *parent) : JsonLyricsProvider("AudD", true, false, parent), network_(new NetworkAccessManager(this)) {}
 
+AuddLyricsProvider::~AuddLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
   Q_UNUSED(album);
@@ -65,6 +76,7 @@ bool AuddLyricsProvider::StartSearch(const QString &artist, const QString &album
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "AudDLyrics: Sending request for" << url;
@@ -77,6 +89,9 @@ void AuddLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
 void AuddLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QJsonArray json_result = ExtractResult(reply, artist, title);

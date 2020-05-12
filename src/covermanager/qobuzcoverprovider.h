@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -39,6 +40,8 @@ class QobuzCoverProvider : public JsonCoverProvider {
 
  public:
   explicit QobuzCoverProvider(Application *app, QObject *parent = nullptr);
+  ~QobuzCoverProvider();
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
 
@@ -55,6 +58,7 @@ class QobuzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

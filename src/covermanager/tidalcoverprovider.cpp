@@ -59,6 +59,17 @@ TidalCoverProvider::TidalCoverProvider(Application *app, QObject *parent) :
 
 }
 
+TidalCoverProvider::~TidalCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   typedef QPair<QString, QString> Param;
@@ -95,6 +106,7 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
   if (!service_->session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", service_->session_id().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
@@ -154,6 +166,9 @@ QByteArray TidalCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

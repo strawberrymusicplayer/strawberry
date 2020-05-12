@@ -50,6 +50,17 @@ const int MusicbrainzCoverProvider::kLimit = 8;
 
 MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
+MusicbrainzCoverProvider::~MusicbrainzCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   Q_UNUSED(title);
@@ -66,6 +77,7 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
@@ -74,6 +86,9 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
 void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int search_id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

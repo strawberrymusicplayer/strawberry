@@ -48,6 +48,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit GeniusLyricsProvider(QObject *parent = nullptr);
+  ~GeniusLyricsProvider();
 
   bool IsAuthenticated() { return !access_token_.isEmpty(); }
   void Authenticate();
@@ -102,6 +103,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   QString access_token_;
   QStringList login_errors_;
   QMap<int, std::shared_ptr<GeniusLyricsSearchContext>> requests_search_;
+  QList<QNetworkReply*> replies_;
 
 };
 

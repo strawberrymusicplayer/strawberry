@@ -28,6 +28,8 @@
 
 #include <QObject>
 #include <QMetaType>
+#include <QPair>
+#include <QList>
 #include <QMap>
 #include <QVariant>
 #include <QByteArray>
@@ -88,6 +90,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
 
   QNetworkAccessManager *network_;
   QMap<int, std::shared_ptr<DiscogsCoverSearchContext>> requests_search_;
+  QList<QNetworkReply*> replies_;
 
 };
 

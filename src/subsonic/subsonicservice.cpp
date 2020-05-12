@@ -98,7 +98,16 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
 }
 
 SubsonicService::~SubsonicService() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    if (reply->isRunning()) reply->abort();
+    reply->deleteLater();
+  }
+
   collection_backend_->deleteLater();
+
 }
 
 void SubsonicService::Exit() {
@@ -177,6 +186,7 @@ void SubsonicService::SendPing(QUrl url, const QString &username, const QString 
 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandlePingSSLErrors(QList<QSslError>)));
   connect(reply, &QNetworkReply::finished, [=] { HandlePingReply(reply, url, username, password); });
 
@@ -196,6 +206,9 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
 
   Q_UNUSED(url);
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
@@ -359,8 +372,8 @@ void SubsonicService::CheckConfiguration() {
 void SubsonicService::ResetSongsRequest() {
 
   if (songs_request_.get()) {
-    disconnect(songs_request_.get(), 0, this, 0);
-    disconnect(this, 0, songs_request_.get(), 0);
+    disconnect(songs_request_.get(), nullptr, this, nullptr);
+    disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
 

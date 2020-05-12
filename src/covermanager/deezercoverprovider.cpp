@@ -53,6 +53,17 @@ const int DeezerCoverProvider::kLimit = 10;
 
 DeezerCoverProvider::DeezerCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Deezer", true, false, 2.0, true, true, app, parent), network_(new NetworkAccessManager(this)) {}
 
+DeezerCoverProvider::~DeezerCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   typedef QPair<QString, QString> Param;
@@ -83,6 +94,7 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
@@ -174,6 +186,9 @@ QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
 
 void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

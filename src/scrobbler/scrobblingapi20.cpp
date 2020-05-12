@@ -80,7 +80,22 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
   scrobbled_(false),
   timestamp_(0) {}
 
-ScrobblingAPI20::~ScrobblingAPI20() {}
+ScrobblingAPI20::~ScrobblingAPI20() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+  if (server_) {
+    disconnect(server_, nullptr, this, nullptr);
+    if (server_->isListening()) server_->close();
+    server_->deleteLater();
+  }
+
+}
 
 void ScrobblingAPI20::ReloadSettings() {
 
@@ -232,12 +247,16 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   QNetworkRequest req(session_url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network()->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { AuthenticateReplyFinished(reply); });
 
 }
 
 void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data;
@@ -362,6 +381,7 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network()->post(req, query);
+  replies_ << reply;
 
   //qLog(Debug) << name_ << "Sending request" << query;
 
@@ -454,6 +474,9 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
 
 void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -573,6 +596,9 @@ void ScrobblingAPI20::Submit() {
 
 void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, QList<quint64> list) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);
@@ -750,6 +776,9 @@ void ScrobblingAPI20::SendSingleScrobble(ScrobblerCacheItemPtr item) {
 
 void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, quint64 timestamp) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   ScrobblerCacheItemPtr item = cache()->Get(timestamp);
@@ -898,6 +927,9 @@ void ScrobblingAPI20::Love() {
 
 void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply);

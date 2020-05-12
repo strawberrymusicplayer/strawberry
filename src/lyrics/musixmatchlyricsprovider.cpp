@@ -41,6 +41,17 @@
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(QObject *parent) : JsonLyricsProvider("Musixmatch", true, false, parent), network_(new NetworkAccessManager(this)) {}
 
+MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
   QString artist_stripped = artist;
@@ -66,6 +77,7 @@ bool MusixmatchLyricsProvider::StartSearch(const QString &artist, const QString 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, album, title); });
 
   qLog(Debug) << "MusixmatchLyrics: Sending request for" << artist_stripped << title_stripped << url;
@@ -80,6 +92,9 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, const qui
 
   Q_UNUSED(album);
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   LyricsSearchResults results;

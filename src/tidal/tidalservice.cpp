@@ -179,9 +179,16 @@ TidalService::TidalService(Application *app, QObject *parent)
 
 TidalService::~TidalService() {
 
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
   while (!stream_url_requests_.isEmpty()) {
     TidalStreamURLRequest *stream_url_req = stream_url_requests_.takeFirst();
-    disconnect(stream_url_req, 0, this, 0);
+    disconnect(stream_url_req, nullptr, this, nullptr);
     stream_url_req->deleteLater();
   }
 
@@ -208,7 +215,7 @@ void TidalService::Exit() {
 void TidalService::ExitReceived() {
 
   QObject *obj = static_cast<QObject*>(sender());
-  disconnect(obj, 0, this, 0);
+  disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
@@ -338,6 +345,7 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
 
     login_errors_.clear();
     QNetworkReply *reply = network_->post(request, query);
+    replies_ << reply;
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
     connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
@@ -360,6 +368,9 @@ void TidalService::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
 
 void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   login_sent_ = false;
@@ -503,6 +514,7 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
   QNetworkReply *reply = network_->post(req, query);
   connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
   connect(reply, &QNetworkReply::finished, [=] { HandleAuthReply(reply); });
+  replies_ << reply;
 
   //qLog(Debug) << "Tidal: Sending request" << url << query;
 
@@ -510,6 +522,9 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
 
 void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   login_sent_ = false;
@@ -657,8 +672,8 @@ void TidalService::TryLogin() {
 void TidalService::ResetArtistsRequest() {
 
   if (artists_request_.get()) {
-    disconnect(artists_request_.get(), 0, this, 0);
-    disconnect(this, 0, artists_request_.get(), 0);
+    disconnect(artists_request_.get(), nullptr, this, nullptr);
+    disconnect(this, nullptr, artists_request_.get(), nullptr);
     artists_request_.reset();
   }
 
@@ -716,8 +731,8 @@ void TidalService::ArtistsUpdateProgressReceived(const int id, const int progres
 void TidalService::ResetAlbumsRequest() {
 
   if (albums_request_.get()) {
-    disconnect(albums_request_.get(), 0, this, 0);
-    disconnect(this, 0, albums_request_.get(), 0);
+    disconnect(albums_request_.get(), nullptr, this, nullptr);
+    disconnect(this, nullptr, albums_request_.get(), nullptr);
     albums_request_.reset();
   }
 
@@ -773,8 +788,8 @@ void TidalService::AlbumsUpdateProgressReceived(const int id, const int progress
 void TidalService::ResetSongsRequest() {
 
   if (songs_request_.get()) {
-    disconnect(songs_request_.get(), 0, this, 0);
-    disconnect(this, 0, songs_request_.get(), 0);
+    disconnect(songs_request_.get(), nullptr, this, nullptr);
+    disconnect(this, nullptr, songs_request_.get(), nullptr);
     songs_request_.reset();
   }
 

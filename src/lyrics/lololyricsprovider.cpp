@@ -43,6 +43,17 @@ const char *LoloLyricsProvider::kUrlSearch = "http://api.lololyrics.com/0.5/getL
 
 LoloLyricsProvider::LoloLyricsProvider(QObject *parent) : LyricsProvider("LoloLyrics", true, false, parent), network_(new NetworkAccessManager(this)) {}
 
+LoloLyricsProvider::~LoloLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
   Q_UNUSED(album);
@@ -60,6 +71,7 @@ bool LoloLyricsProvider::StartSearch(const QString &artist, const QString &album
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "LoloLyrics: Sending request for" << url;
@@ -72,6 +84,9 @@ void LoloLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
 void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QString failure_reason;

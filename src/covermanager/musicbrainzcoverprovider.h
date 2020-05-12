@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -38,6 +39,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
+  ~MusicbrainzCoverProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
 
@@ -54,6 +56,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

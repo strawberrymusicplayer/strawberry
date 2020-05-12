@@ -55,6 +55,17 @@ const char *LastFmCoverProvider::kSecret = "80fd738f49596e9709b1bf9319c444a8";
 
 LastFmCoverProvider::LastFmCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Last.fm", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
+LastFmCoverProvider::~LastFmCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   typedef QPair<QString, QString> Param;
@@ -100,6 +111,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { QueryFinished(reply, id, type); });
 
   return true;
@@ -108,6 +120,9 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
 
 void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, const QString &type) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;
@@ -305,7 +320,7 @@ QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 void LastFmCoverProvider::Error(const QString &error, const QVariant &debug) {
 
-  qLog(Error) << "LastFm:" << error;
+  qLog(Error) << "Last.fm:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
 }

@@ -61,7 +61,16 @@ const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZV
 DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
 DiscogsCoverProvider::~DiscogsCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
   requests_search_.clear();
+
 }
 
 bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
@@ -124,6 +133,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
 
   return reply;
 
@@ -173,6 +183,9 @@ QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
 
 void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(id)) {
@@ -258,6 +271,9 @@ void DiscogsCoverProvider::StartRelease(std::shared_ptr<DiscogsCoverSearchContex
 
 void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(search_id)) {

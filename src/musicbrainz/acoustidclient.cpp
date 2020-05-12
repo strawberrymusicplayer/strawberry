@@ -57,6 +57,12 @@ AcoustidClient::AcoustidClient(QObject *parent)
       network_(new NetworkAccessManager(this)),
       timeouts_(new NetworkTimeouts(kDefaultTimeout, this)) {}
 
+AcoustidClient::~AcoustidClient() {
+
+  CancelAll();
+
+}
+
 void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
 
 void AcoustidClient::Start(const int id, const QString &fingerprint, int duration_msec) {
@@ -82,10 +88,13 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   requests_[id] = reply;
 
   timeouts_->AddReply(reply);
+
 }
 
 void AcoustidClient::Cancel(const int id) {
+
   if (requests_.contains(id)) delete requests_.take(id);
+
 }
 
 void AcoustidClient::CancelAll() {
@@ -113,6 +122,7 @@ struct IdSource {
 
 void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id) {
 
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
   requests_.remove(request_id);
 

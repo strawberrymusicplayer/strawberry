@@ -164,6 +164,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   --albums_requests_active_;

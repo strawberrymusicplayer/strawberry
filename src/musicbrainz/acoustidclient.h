@@ -43,6 +43,7 @@ class AcoustidClient : public QObject {
 
  public:
   explicit AcoustidClient(QObject *parent = nullptr);
+  ~AcoustidClient();
 
   // Network requests will be aborted after this interval.
   void SetTimeout(const int msec);
@@ -70,6 +71,7 @@ class AcoustidClient : public QObject {
   QNetworkAccessManager *network_;
   NetworkTimeouts *timeouts_;
   QMap<int, QNetworkReply*> requests_;
+
 };
 
 #endif  // ACOUSTIDCLIENT_H

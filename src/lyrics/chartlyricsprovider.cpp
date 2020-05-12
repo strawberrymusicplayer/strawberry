@@ -32,7 +32,6 @@
 #include <QNetworkReply>
 #include <QXmlStreamReader>
 
-#include "core/closure.h"
 #include "core/logging.h"
 #include "core/network.h"
 #include "core/utilities.h"
@@ -43,6 +42,17 @@
 const char *ChartLyricsProvider::kUrlSearch = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 
 ChartLyricsProvider::ChartLyricsProvider(QObject *parent) : LyricsProvider("ChartLyrics", false, false, parent), network_(new NetworkAccessManager(this)) {}
+
+ChartLyricsProvider::~ChartLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
 
 bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, const QString &title, const quint64 id) {
 
@@ -57,7 +67,8 @@ bool ChartLyricsProvider::StartSearch(const QString &artist, const QString&, con
   QUrl url(kUrlSearch);
   url.setQuery(url_query);
   QNetworkReply *reply = network_->get(QNetworkRequest(url));
-  NewClosure(reply, SIGNAL(finished()), this, SLOT(HandleSearchReply(QNetworkReply*, const quint64, const QString&, const QString&)), reply, id, artist, title);
+  replies_ << reply;
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "ChartLyrics: Sending request for" << url;
 
@@ -69,6 +80,9 @@ void ChartLyricsProvider::CancelSearch(const quint64) {}
 
 void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {

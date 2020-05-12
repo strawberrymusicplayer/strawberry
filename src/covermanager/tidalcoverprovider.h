@@ -44,6 +44,8 @@ class TidalCoverProvider : public JsonCoverProvider {
 
  public:
   explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
+  ~TidalCoverProvider();
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
 
@@ -64,6 +66,7 @@ class TidalCoverProvider : public JsonCoverProvider {
 
   TidalService *service_;
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

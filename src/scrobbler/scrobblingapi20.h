@@ -157,6 +157,8 @@ class ScrobblingAPI20 : public ScrobblerService {
   bool scrobbled_;
   quint64 timestamp_;
 
+  QList<QNetworkReply*> replies_;
+
 };
 
 #endif  // SCROBBLINGAPI20_H

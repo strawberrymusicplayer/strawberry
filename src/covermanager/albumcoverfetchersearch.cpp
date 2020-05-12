@@ -211,7 +211,7 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
 void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
 
-  disconnect(reply, &QNetworkReply::finished, this, nullptr);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!pending_image_loads_.contains(reply)) return;

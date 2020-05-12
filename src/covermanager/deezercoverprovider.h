@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -40,6 +41,8 @@ class DeezerCoverProvider : public JsonCoverProvider {
 
  public:
   explicit DeezerCoverProvider(Application *app, QObject *parent = nullptr);
+  ~DeezerCoverProvider();
+
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
 
@@ -56,6 +59,7 @@ class DeezerCoverProvider : public JsonCoverProvider {
   static const int kLimit;
 
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 

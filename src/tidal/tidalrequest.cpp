@@ -84,14 +84,14 @@ TidalRequest::~TidalRequest() {
 
   while (!replies_.isEmpty()) {
     QNetworkReply *reply = replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
 
   while (!album_cover_replies_.isEmpty()) {
     QNetworkReply *reply = album_cover_replies_.takeFirst();
-    disconnect(reply, 0, this, 0);
+    disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
   }
@@ -330,6 +330,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, (offset_requested == 0));
@@ -521,6 +522,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const QString &artist_id
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
@@ -787,6 +789,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const QString &artist_id,
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QByteArray data = GetReplyData(reply, auto_login);
@@ -1127,6 +1130,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
 
   if (album_cover_replies_.contains(reply)) {
     album_cover_replies_.removeAll(reply);
+    disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {

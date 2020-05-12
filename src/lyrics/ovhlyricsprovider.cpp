@@ -40,6 +40,17 @@ const char *OVHLyricsProvider::kUrlSearch = "https://api.lyrics.ovh/v1/";
 
 OVHLyricsProvider::OVHLyricsProvider(QObject *parent) : JsonLyricsProvider("Lyrics.ovh", true, false, parent), network_(new NetworkAccessManager(this)) {}
 
+OVHLyricsProvider::~OVHLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) {
 
   Q_UNUSED(album);
@@ -48,6 +59,7 @@ bool OVHLyricsProvider::StartSearch(const QString &artist, const QString &album,
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, title); });
 
   //qLog(Debug) << "OVHLyrics: Sending request for" << url;
@@ -60,6 +72,9 @@ void OVHLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
 void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   QJsonObject json_obj = ExtractJsonObj(reply);

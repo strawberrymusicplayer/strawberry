@@ -126,6 +126,8 @@ class SubsonicService : public InternetService {
   QStringList errors_;
   int ping_redirects_;
 
+  QList<QNetworkReply*> replies_;
+
 };
 
 #endif  // SUBSONICSERVICE_H

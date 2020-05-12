@@ -42,6 +42,17 @@
 
 MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, QObject *parent): JsonCoverProvider("Musixmatch", true, false, 1.0, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
 
+MusixmatchCoverProvider::~MusixmatchCoverProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &album, const QString &title, const int id) {
 
   Q_UNUSED(title);
@@ -69,6 +80,7 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id, artist, album); });
 
   //qLog(Debug) << "Musixmatch: Sending request for" << artist_stripped << album_stripped << url;
@@ -81,6 +93,9 @@ void MusixmatchCoverProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id, const QString &artist, const QString &album) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   CoverSearchResults results;

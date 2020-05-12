@@ -73,6 +73,17 @@ GeniusLyricsProvider::GeniusLyricsProvider(QObject *parent) : JsonLyricsProvider
 
 }
 
+GeniusLyricsProvider::~GeniusLyricsProvider() {
+
+  while (!replies_.isEmpty()) {
+    QNetworkReply *reply = replies_.takeFirst();
+    disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
+
+}
+
 void GeniusLyricsProvider::Authenticate() {
 
   QUrl redirect_url(kOAuthRedirectUrl);
@@ -182,6 +193,7 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
     QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
 
     QNetworkReply *reply = network_->post(req, query);
+    replies_ << reply;
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
     connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
@@ -204,6 +216,9 @@ void GeniusLyricsProvider::HandleLoginSSLErrors(QList<QSslError> ssl_errors) {
 
 void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
@@ -309,6 +324,7 @@ bool GeniusLyricsProvider::StartSearch(const QString &artist, const QString &alb
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
   QNetworkReply *reply = network_->get(req);
+  replies_ << reply;
   connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   //qLog(Debug) << "GeniusLyrics: Sending request for" << url;
@@ -321,6 +337,9 @@ void GeniusLyricsProvider::CancelSearch(const quint64 id) { Q_UNUSED(id); }
 
 void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 id) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(id)) return;
@@ -422,6 +441,7 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
     QNetworkRequest req(url);
     req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     QNetworkReply *new_reply = network_->get(req);
+    replies_ << new_reply;
     connect(new_reply, &QNetworkReply::finished, [=] { HandleLyricReply(new_reply, search->id, url); });
 
   }
@@ -432,6 +452,9 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64
 
 void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url) {
 
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   if (!requests_search_.contains(search_id)) return;

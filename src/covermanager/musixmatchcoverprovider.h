@@ -24,6 +24,7 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QList>
 #include <QVariant>
 #include <QString>
 
@@ -37,6 +38,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
 
  public:
   explicit MusixmatchCoverProvider(Application *app, QObject *parent = nullptr);
+  ~MusixmatchCoverProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
   void CancelSearch(const int id);
@@ -49,6 +51,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider {
 
  private:
   QNetworkAccessManager *network_;
+  QList<QNetworkReply*> replies_;
 
 };
 
