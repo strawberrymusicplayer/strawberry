@@ -135,7 +135,7 @@ QString AlbumCoverLoader::CoverFilePath(const Song::Source source, const QString
     path = Song::ImageCacheDir(source);
   }
 
-  if (path.right(1) == QDir::separator() || path.right(1) == '/') {
+  if (path.right(1) == QDir::separator() || path.right(1) == "/") {
     path.chop(1);
   }
 
