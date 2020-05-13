@@ -83,7 +83,6 @@ class TidalService : public InternetService {
   QString username() { return username_; }
   QString password() { return password_; }
   QString quality() { return quality_; }
-  int search_delay() { return search_delay_; }
   int artistssearchlimit() { return artistssearchlimit_; }
   int albumssearchlimit() { return albumssearchlimit_; }
   int songssearchlimit() { return songssearchlimit_; }
@@ -137,8 +136,9 @@ class TidalService : public InternetService {
 
  private slots:
   void ExitReceived();
-  void StartAuthorisation();
-  void AuthorisationUrlReceived(const QUrl &url);
+  void StartAuthorization(const QString client_id);
+  void AuthorizationUrlReceived(const QUrl &url);
+  void RequestAccessToken(const QString &code = QString());
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
   void AccessTokenRequestFinished(QNetworkReply *reply);
   void SendLogin();
@@ -164,6 +164,7 @@ class TidalService : public InternetService {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
+  void LoadSession();
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
@@ -200,6 +201,7 @@ class TidalService : public InternetService {
 
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
+  QTimer *timer_refresh_login_;
 
   std::shared_ptr<TidalRequest> artists_request_;
   std::shared_ptr<TidalRequest> albums_request_;
@@ -207,6 +209,7 @@ class TidalService : public InternetService {
   std::shared_ptr<TidalRequest> search_request_;
   TidalFavoriteRequest *favorite_request_;
 
+  bool enabled_;
   bool oauth_;
   QString client_id_;
   QString api_token_;
@@ -215,7 +218,6 @@ class TidalService : public InternetService {
   QString username_;
   QString password_;
   QString quality_;
-  int search_delay_;
   int artistssearchlimit_;
   int albumssearchlimit_;
   int songssearchlimit_;
@@ -227,7 +229,8 @@ class TidalService : public InternetService {
   QString access_token_;
   QString refresh_token_;
   QString session_id_;
-  QDateTime expiry_time_;
+  quint64 expires_in_;
+  quint64 login_time_;
 
   int pending_search_id_;
   int next_pending_search_id_;

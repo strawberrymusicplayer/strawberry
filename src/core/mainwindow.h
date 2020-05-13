@@ -133,7 +133,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void IntroPointReached();
 
-  void AuthorisationUrlReceived(const QUrl &url);
+  void AuthorizationUrlReceived(const QUrl &url);
 
  private slots:
   void FilePathChanged(const QString& path);

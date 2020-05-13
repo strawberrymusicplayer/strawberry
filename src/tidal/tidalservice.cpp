@@ -49,6 +49,7 @@
 #include "core/database.h"
 #include "core/song.h"
 #include "core/utilities.h"
+#include "core/timeconstants.h"
 #include "internet/internetsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -93,14 +94,18 @@ TidalService::TidalService(Application *app, QObject *parent)
       songs_collection_sort_model_(new QSortFilterProxyModel(this)),
       timer_search_delay_(new QTimer(this)),
       timer_login_attempt_(new QTimer(this)),
+      timer_refresh_login_(new QTimer(this)),
       favorite_request_(new TidalFavoriteRequest(this, network_, this)),
+      enabled_(false),
+      oauth_(false),
       user_id_(0),
-      search_delay_(1500),
       artistssearchlimit_(1),
       albumssearchlimit_(1),
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
+      expires_in_(0),
+      login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
       search_id_(0),
@@ -152,7 +157,11 @@ TidalService::TidalService(Application *app, QObject *parent)
   connect(timer_search_delay_, SIGNAL(timeout()), SLOT(StartSearch()));
 
   timer_login_attempt_->setSingleShot(true);
+  timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
   connect(timer_login_attempt_, SIGNAL(timeout()), SLOT(ResetLoginAttempts()));
+
+  timer_refresh_login_->setSingleShot(true);
+  connect(timer_refresh_login_, SIGNAL(timeout()), SLOT(RequestAccessToken()));
 
   connect(this, SIGNAL(Login()), SLOT(SendLogin()));
   connect(this, SIGNAL(Login(QString, QString, QString)), SLOT(SendLogin(QString, QString, QString)));
@@ -174,6 +183,7 @@ TidalService::TidalService(Application *app, QObject *parent)
   connect(favorite_request_, SIGNAL(SongsRemoved(SongList)), songs_collection_backend_, SLOT(DeleteSongs(SongList)));
 
   ReloadSettings();
+  LoadSession();
 
 }
 
@@ -226,11 +236,34 @@ void TidalService::ShowConfig() {
   app_->OpenSettingsDialogAtPage(SettingsDialog::Page_Tidal);
 }
 
+void TidalService::LoadSession() {
+
+  QSettings s;
+  s.beginGroup(TidalSettingsPage::kSettingsGroup);
+  user_id_ = s.value("user_id").toInt();
+  country_code_ = s.value("country_code", "US").toString();
+  access_token_ = s.value("access_token").toString();
+  refresh_token_ = s.value("refresh_token").toString();
+  session_id_ = s.value("session_id").toString();
+  expires_in_ = s.value("expires_in").toLongLong();
+  login_time_ = s.value("login_time").toLongLong();
+  s.endGroup();
+
+  if (!refresh_token_.isEmpty()) {
+    qint64 time = expires_in_ - (QDateTime::currentDateTime().toTime_t() - login_time_);
+    if (time < 6) time = 6;
+    timer_refresh_login_->setInterval(time * kMsecPerSec);
+    timer_refresh_login_->start();
+  }
+
+}
+
 void TidalService::ReloadSettings() {
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
 
+  enabled_ = s.value("enabled", false).toBool();
   oauth_ = s.value("oauth", false).toBool();
   client_id_ = s.value("client_id").toString();
   api_token_ = s.value("api_token").toString();
@@ -241,7 +274,7 @@ void TidalService::ReloadSettings() {
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
   quality_ = s.value("quality", "LOSSLESS").toString();
-  search_delay_ = s.value("searchdelay", 1500).toInt();
+  quint64 search_delay = s.value("searchdelay", 1500).toInt();
   artistssearchlimit_ = s.value("artistssearchlimit", 4).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
@@ -250,25 +283,15 @@ void TidalService::ReloadSettings() {
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl").toInt());
 
-  user_id_ = s.value("user_id").toInt();
-  country_code_ = s.value("country_code", "US").toString();
-  access_token_ = s.value("access_token").toString();
-  refresh_token_ = s.value("refresh_token").toString();
-  session_id_ = s.value("session_id").toString();
-  expiry_time_ = s.value("expiry_time").toDateTime();
-
   s.endGroup();
+
+  timer_search_delay_->setInterval(search_delay);
 
 }
 
-void TidalService::StartAuthorisation() {
+void TidalService::StartAuthorization(const QString client_id) {
 
-  login_sent_ = true;
-  ++login_attempts_;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
-  timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
-  timer_login_attempt_->start();
-
+  client_id_ = client_id;
   code_verifier_ = Utilities::CryptographicRandomString(44);
   code_challenge_ = QString(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
 
@@ -294,29 +317,30 @@ void TidalService::StartAuthorisation() {
 
 }
 
-void TidalService::AuthorisationUrlReceived(const QUrl &url) {
+void TidalService::AuthorizationUrlReceived(const QUrl &url) {
 
-  qLog(Debug) << "Tidal: Authorisation URL Received" << url;
+  qLog(Debug) << "Tidal: Authorization URL Received" << url;
 
   QUrlQuery url_query(url);
 
   if (url_query.hasQueryItem("token_type") && url_query.hasQueryItem("expires_in") && url_query.hasQueryItem("access_token")) {
 
     access_token_ = url_query.queryItemValue("access_token").toUtf8();
-    int expires_in = url_query.queryItemValue("expires_in").toInt();
-    expiry_time_ = QDateTime::currentDateTime().addSecs(expires_in - 120);
+    if (url_query.hasQueryItem("refresh_token")) {
+      refresh_token_ = url_query.queryItemValue("refresh_token").toUtf8();
+    }
+    expires_in_ = url_query.queryItemValue("expires_in").toInt();
+    login_time_ = QDateTime::currentDateTime().toTime_t();
     session_id_.clear();
 
     QSettings s;
     s.beginGroup(TidalSettingsPage::kSettingsGroup);
     s.setValue("access_token", access_token_);
-    s.setValue("expiry_time", expiry_time_);
-    s.remove("refresh_token");
+    s.setValue("refresh_token", refresh_token_);
+    s.setValue("expires_in", expires_in_);
+    s.setValue("login_time", login_time_);
     s.remove("session_id");
     s.endGroup();
-
-    login_attempts_ = 0;
-    if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
 
     emit LoginComplete(true);
     emit LoginSuccess();
@@ -327,27 +351,7 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
     QString code = url_query.queryItemValue("code");
     QString state = url_query.queryItemValue("state");
 
-    const ParamList params = ParamList() << Param("code", code)
-                                         << Param("client_id", client_id_)
-                                         << Param("grant_type", "authorization_code")
-                                         << Param("redirect_uri", kOAuthRedirectUrl)
-                                         << Param("scope", "r_usr w_usr")
-                                         << Param("code_verifier", code_verifier_);
-
-    QUrlQuery new_url_query;
-    for (const Param &param : params) {
-      new_url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
-    }
-
-    QUrl new_url(kOAuthAccessTokenUrl);
-    QNetworkRequest request = QNetworkRequest(new_url);
-    QByteArray query = new_url_query.toString(QUrl::FullyEncoded).toUtf8();
-
-    login_errors_.clear();
-    QNetworkReply *reply = network_->post(request, query);
-    replies_ << reply;
-    connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
-    connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
+    RequestAccessToken(code);
 
   }
 
@@ -355,6 +359,44 @@ void TidalService::AuthorisationUrlReceived(const QUrl &url) {
     LoginError(tr("Reply from Tidal is missing query items."));
     return;
   }
+
+}
+
+void TidalService::RequestAccessToken(const QString &code) {
+
+  timer_refresh_login_->stop();
+
+  ParamList params = ParamList() << Param("client_id", client_id_);
+
+  if (!code.isEmpty()) {
+    params << Param("grant_type", "authorization_code");
+    params << Param("code", code);
+    params << Param("code_verifier", code_verifier_);
+    params << Param("redirect_uri", kOAuthRedirectUrl);
+    params << Param("scope", "r_usr w_usr");
+  }
+  else if (!refresh_token_.isEmpty() && enabled_ && oauth_) {
+    params << Param("grant_type", "refresh_token");
+    params << Param("refresh_token", refresh_token_);
+  }
+  else {
+    return;
+  }
+
+  QUrlQuery url_query;
+  for (const Param &param : params) {
+    url_query.addQueryItem(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
+  }
+
+  QUrl url(kOAuthAccessTokenUrl);
+  QNetworkRequest request = QNetworkRequest(url);
+  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
+
+  login_errors_.clear();
+  QNetworkReply *reply = network_->post(request, query);
+  replies_ << reply;
+  connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(HandleLoginSSLErrors(QList<QSslError>)));
+  connect(reply, &QNetworkReply::finished, [=] { AccessTokenRequestFinished(reply); });
 
 }
 
@@ -372,8 +414,6 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   replies_.removeAll(reply);
   disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
-
-  login_sent_ = false;
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
@@ -433,49 +473,45 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("access_token") ||
-      !json_obj.contains("refresh_token") ||
-      !json_obj.contains("expires_in") ||
-      !json_obj.contains("user")
-  ) {
-    LoginError("Authentication reply from server is missing access_token, refresh_token, expires_in or user", json_obj);
+  if (!json_obj.contains("access_token") || !json_obj.contains("expires_in")) {
+    LoginError("Authentication reply from server is missing access_token or expires_in", json_obj);
     return;
   }
 
   access_token_ = json_obj["access_token"].toString();
-  refresh_token_ = json_obj["refresh_token"].toString();
-  int expires_in = json_obj["expires_in"].toInt();
-  expiry_time_ = QDateTime::currentDateTime().addSecs(expires_in - 120);
-
-  QJsonValue json_user = json_obj["user"];
-  if (!json_user.isObject()) {
-    LoginError("Authentication reply from server has Json user that is not an object.", json_doc);
-    return;
+  expires_in_ = json_obj["expires_in"].toInt();
+  if (json_obj.contains("refresh_token")) {
+    refresh_token_ = json_obj["refresh_token"].toString();
   }
-  QJsonObject json_obj_user = json_user.toObject();
-  if (json_obj_user.isEmpty()) {
-    LoginError("Authentication reply from server has empty Json user object.", json_doc);
-    return;
+  login_time_ = QDateTime::currentDateTime().toTime_t();
+
+  if (json_obj.contains("user") && json_obj["user"].isObject()) {
+    QJsonObject obj_user = json_obj["user"].toObject();
+    if (obj_user.contains("countryCode") && obj_user.contains("userId")) {
+      country_code_ = obj_user["countryCode"].toString();
+      user_id_ = obj_user["userId"].toInt();
+    }
   }
 
-  country_code_ = json_obj_user["countryCode"].toString();
-  user_id_ = json_obj_user["userId"].toInt();
   session_id_.clear();
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   s.setValue("access_token", access_token_);
   s.setValue("refresh_token", refresh_token_);
-  s.setValue("expiry_time", expiry_time_);
+  s.setValue("expires_in", expires_in_);
+  s.setValue("login_time", login_time_);
   s.setValue("country_code", country_code_);
   s.setValue("user_id", user_id_);
   s.remove("session_id");
   s.endGroup();
 
-  qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "access token" << access_token_;
+  if (expires_in_ > 0) {
+    timer_refresh_login_->setInterval(expires_in_ * kMsecPerSec);
+    timer_refresh_login_->start();
+  }
 
-  login_attempts_ = 0;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
+  qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "access token" << access_token_;
 
   emit LoginComplete(true);
   emit LoginSuccess();
@@ -490,9 +526,8 @@ void TidalService::SendLogin(const QString &api_token, const QString &username, 
 
   login_sent_ = true;
   ++login_attempts_;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
-  timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
   timer_login_attempt_->start();
+  timer_refresh_login_->stop();
 
   const ParamList params = ParamList() << Param("token", (api_token.isEmpty() ? api_token_ : api_token))
                                        << Param("username", username)
@@ -601,13 +636,13 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   user_id_ = json_obj["userId"].toInt();
   access_token_.clear();
   refresh_token_.clear();
-  expiry_time_ = QDateTime();
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   s.remove("access_token");
   s.remove("refresh_token");
-  s.remove("expiry_time");
+  s.remove("expires_in");
+  s.remove("login_time");
   s.setValue("user_id", user_id_);
   s.setValue("session_id", session_id_);
   s.setValue("country_code", country_code_);
@@ -616,7 +651,7 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   qLog(Debug) << "Tidal: Login successful" << "user id" << user_id_ << "session id" << session_id_ << "country code" << country_code_;
 
   login_attempts_ = 0;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
+  timer_login_attempt_->stop();
 
   emit LoginComplete(true);
   emit LoginSuccess();
@@ -625,9 +660,12 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
 
 void TidalService::Logout() {
 
+  user_id_ = 0;
+  country_code_.clear();
   access_token_.clear();
   session_id_.clear();
-  expiry_time_ = QDateTime();
+  expires_in_ = 0;
+  login_time_ = 0;
 
   QSettings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
@@ -635,8 +673,11 @@ void TidalService::Logout() {
   s.remove("country_code");
   s.remove("access_token");
   s.remove("session_id");
-  s.remove("expiry_time");
+  s.remove("expires_in");
+  s.remove("login_time");
   s.endGroup();
+
+  timer_refresh_login_->stop();
 
 }
 
@@ -854,7 +895,6 @@ int TidalService::Search(const QString &text, InternetSearchView::SearchType typ
     timer_search_delay_->stop();
     return pending_search_id_;
   }
-  timer_search_delay_->setInterval(search_delay_);
   timer_search_delay_->start();
 
   return pending_search_id_;

@@ -55,7 +55,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *parent)
   connect(ui_->login_state, SIGNAL(LogoutClicked()), SLOT(LogoutClicked()));
   connect(ui_->oauth, SIGNAL(toggled(bool)), SLOT(OAuthClicked(bool)));
 
-  connect(this, SIGNAL(Login()), service_, SLOT(StartAuthorisation()));
+  connect(this, SIGNAL(Authorize(QString)), service_, SLOT(StartAuthorization(QString)));
   connect(this, SIGNAL(Login(QString, QString, QString)), service_, SLOT(SendLogin(QString, QString, QString)));
 
   connect(service_, SIGNAL(LoginFailure(QString)), SLOT(LoginFailure(QString)));
@@ -153,7 +153,7 @@ void TidalSettingsPage::LoginClicked() {
       QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
       return;
     }
-    emit Login();
+    emit Authorize(ui_->client_id->text());
   }
   else {
     if (ui_->api_token->text().isEmpty() || ui_->username->text().isEmpty() || ui_->password->text().isEmpty()) {

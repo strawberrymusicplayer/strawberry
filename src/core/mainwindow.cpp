@@ -594,7 +594,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   connect(tidal_view_->songs_collection_view(), SIGNAL(AddToPlaylistSignal(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   connect(tidal_view_->search_view(), SIGNAL(AddToPlaylist(QMimeData*)), SLOT(AddToPlaylist(QMimeData*)));
   if (TidalService *tidalservice = qobject_cast<TidalService*> (app_->internet_services()->ServiceBySource(Song::Source_Tidal)))
-    connect(this, SIGNAL(AuthorisationUrlReceived(QUrl)), tidalservice, SLOT(AuthorisationUrlReceived(QUrl)));
+    connect(this, SIGNAL(AuthorizationUrlReceived(QUrl)), tidalservice, SLOT(AuthorizationUrlReceived(QUrl)));
 #endif
 
   // Playlist menu
@@ -2073,7 +2073,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 #ifdef HAVE_TIDAL
     for (const QUrl &url : options.urls()) {
       if (url.scheme() == "tidal" && url.host() == "login") {
-        emit AuthorisationUrlReceived(url);
+        emit AuthorizationUrlReceived(url);
         return;
       }
     }
