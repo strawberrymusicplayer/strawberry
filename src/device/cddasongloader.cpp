@@ -77,9 +77,7 @@ void CddaSongLoader::LoadSongs() {
   if (error) {
     Error(QString("%1: %2").arg(error->code).arg(error->message));
   }
-  if (cdda_ == nullptr) {
-    return;
-  }
+  if (!cdda_) return;
 
   if (!url_.isEmpty()) {
     g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
@@ -242,7 +240,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
 
 bool CddaSongLoader::HasChanged() {
 
-  if ((cdio_ && cdda_) && cdio_get_media_changed(cdio_) != 1) {
+  if (cdio_ && cdio_get_media_changed(cdio_) != 1) {
     return false;
   }
   // Check if mutex is already token (i.e. init is already taking place)
@@ -250,6 +248,7 @@ bool CddaSongLoader::HasChanged() {
     return false;
   }
   mutex_load_.unlock();
+
   return true;
 
 }
