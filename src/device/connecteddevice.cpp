@@ -58,7 +58,9 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   backend_->moveToThread(app_->database()->thread());
   qLog(Debug) << backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
-  connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(BackendTotalSongCountUpdated(int)));
+  if (url_.scheme() != "cdda") {
+    connect(backend_, SIGNAL(TotalSongCountUpdated(int)), SLOT(BackendTotalSongCountUpdated(int)));
+  }
 
   backend_->Init(app_->database(),
                  Song::Source_Device,
