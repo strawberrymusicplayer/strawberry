@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-08 06:19-0400\n"
+"PO-Revision-Date: 2020-05-13 02:00-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -151,12 +151,12 @@ msgstr "%1 nappal ezelőtt"
 #: settings/coverssettingspage.cpp:132
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr ""
+msgstr "A(z) %1 nem igényel hitelesítést."
 
 #: settings/coverssettingspage.cpp:127
 #, qt-format
 msgid "%1 needs authentication."
-msgstr ""
+msgstr "A(z) %1 hitelesítést igényel."
 
 #: playlistparsers/playlistparser.cpp:110
 #, qt-format
@@ -915,7 +915,7 @@ msgstr "Egyelemű kategóriák automatikus listázása a gyűjteményben"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Albumborító automatikus keresése"
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
 msgid "Automatically search for song lyrics"
@@ -1095,10 +1095,14 @@ msgstr "Betűtípus választása..."
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
+"Válassza ki azokat a szolgáltatókat, amelyeket használni szeretne "
+"albumborítók keresésénél."
 
 #: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
+"Válassza ki azokat a szolgáltatókat, amelyeket használni szeretne "
+"dalszövegek keresésénél."
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1360,11 +1364,11 @@ msgstr "Albumborító beállítva %1 helyről"
 
 #: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
-msgstr ""
+msgstr "Borító szolgáltatók"
 
 #: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
-msgstr ""
+msgstr "Borítók"
 
 #: covermanager/albumcoversearcher.cpp:127
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1820,15 +1824,15 @@ msgstr "Hiba %1: %2 feldolgozásakor"
 msgid "Error while loading audio CD."
 msgstr "Hiba a CD betöltése közben."
 
-#: device/cddasongloader.cpp:116 device/cddasongloader.cpp:125
+#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
 msgid "Error while querying CDDA tracks."
 msgstr "Hiba történt a CDDA számok lekérdezése során."
 
-#: device/cddasongloader.cpp:104
+#: device/cddasongloader.cpp:102
 msgid "Error while setting CDDA device to pause state."
 msgstr "Hiba történt a CDDA-eszköz szünetre állításakor."
 
-#: device/cddasongloader.cpp:96
+#: device/cddasongloader.cpp:94
 msgid "Error while setting CDDA device to ready state."
 msgstr "Hiba történt a CDDA eszköz készre állításakor."
 
@@ -2100,7 +2104,7 @@ msgstr "Általános beállítások"
 
 #: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius hitelesítés"
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1183
 #: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
@@ -2503,7 +2507,7 @@ msgstr "Dalszöveg"
 
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Dalszöveg szolgáltatók"
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2570,13 +2574,13 @@ msgstr "Hiányzó API token, felhasználónév vagy jelszó."
 msgid "Missing Subsonic username or password."
 msgstr "Hiányzó Subsonic felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:691 tidal/tidalservice.cpp:750
-#: tidal/tidalservice.cpp:807 tidal/tidalservice.cpp:873
-#: tidal/tidalservice.cpp:933 tidal/tidalstreamurlrequest.cpp:89
+#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
+#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
+#: tidal/tidalservice.cpp:973 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
 msgstr "Hiányzó Tidal API token, felhasználónév vagy jelszó."
 
-#: tidal/tidalservice.cpp:652
+#: tidal/tidalservice.cpp:693
 msgid "Missing Tidal API token."
 msgstr "Hiányzó Tidal API token."
 
@@ -2584,11 +2588,11 @@ msgstr "Hiányzó Tidal API token."
 msgid "Missing Tidal client ID."
 msgstr "Hiányzó Tidal kliens azonosító."
 
-#: tidal/tidalservice.cpp:660
+#: tidal/tidalservice.cpp:701
 msgid "Missing Tidal password."
 msgstr "Hiányzó Tidal jelszó."
 
-#: tidal/tidalservice.cpp:656
+#: tidal/tidalservice.cpp:697
 msgid "Missing Tidal username."
 msgstr "Hiányzó Tidal felhasználónév."
 
@@ -2723,7 +2727,7 @@ msgstr ""
 
 #: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
 msgid "No provider selected."
-msgstr ""
+msgstr "Nincsenek szolgáltatók kiválasztva."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -2751,16 +2755,16 @@ msgstr "Normál"
 msgid "Normal block type"
 msgstr "Normál blokkok"
 
-#: tidal/tidalservice.cpp:664
+#: tidal/tidalservice.cpp:705
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
 "Nincs hitelesítve a Tidallal, és elérte a maximális bejelentkezési "
 "kísérletek számát."
 
-#: tidal/tidalservice.cpp:686 tidal/tidalservice.cpp:745
-#: tidal/tidalservice.cpp:802 tidal/tidalservice.cpp:868
-#: tidal/tidalservice.cpp:929 tidal/tidalstreamurlrequest.cpp:85
+#: tidal/tidalservice.cpp:727 tidal/tidalservice.cpp:786
+#: tidal/tidalservice.cpp:843 tidal/tidalservice.cpp:908
+#: tidal/tidalservice.cpp:969 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
 msgstr "Nincs hitelesítve Tidallal."
 
@@ -3315,7 +3319,7 @@ msgstr "Visszhangerősítés (Replay Gain)"
 msgid "Replay Gain mode"
 msgstr "Visszhangerősítés módja"
 
-#: tidal/tidalservice.cpp:355
+#: tidal/tidalservice.cpp:359
 msgid "Reply from Tidal is missing query items."
 msgstr "A Tidal válaszából hiányoznak a lekérdezett elemek."
 
@@ -3703,6 +3707,8 @@ msgstr "Motor és eszköz megjelenítése"
 #: ../build/src/ui_scrobblersettingspage.h:327
 msgid "Show error dialog if scrobbler is enabled without being authenticated"
 msgstr ""
+"Hiba párbeszédpanel megjelenítése, ha a scrobbler engedélyezve van a "
+"hitelesítés nélkül"
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -3874,7 +3880,7 @@ msgstr "Speex"
 
 #: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Spotify hitelesítés"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "Standard"
@@ -4397,7 +4403,7 @@ msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
 #: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Tidal beállítások használata hitelesítéshez."
 
 #: ../build/src/ui_shortcutssettingspage.h:229
 msgid "Use X11's shortcut keys"
