@@ -70,6 +70,7 @@ class CoverProvider : public QObject {
   void AuthenticationComplete(bool, QStringList = QStringList());
   void AuthenticationSuccess();
   void AuthenticationFailure(QStringList);
+  void SearchResults(int, CoverSearchResults);
   void SearchFinished(int, CoverSearchResults);
 
  private:

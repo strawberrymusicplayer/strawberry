@@ -66,6 +66,8 @@ class AlbumCoverFetcherSearch : public QObject {
   void AlbumCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
 
  private slots:
+  void ProviderSearchResults(const int id, const CoverSearchResults &results);
+  void ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results);
   void ProviderSearchFinished(const int id, const CoverSearchResults &results);
   void ProviderCoverFetchFinished(QNetworkReply *reply);
   void TerminateSearch();

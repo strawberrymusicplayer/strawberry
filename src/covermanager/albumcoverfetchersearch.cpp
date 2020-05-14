@@ -101,6 +101,7 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
       continue;
     }
 
+    connect(provider, SIGNAL(SearchResults(int, CoverSearchResults)), SLOT(ProviderSearchResults(int, CoverSearchResults)));
     connect(provider, SIGNAL(SearchFinished(int, CoverSearchResults)), SLOT(ProviderSearchFinished(int, CoverSearchResults)));
     const int id = cover_providers->NextId();
     const bool success = provider->StartSearch(request_.artist, request_.album, request_.title, id);
@@ -118,10 +119,15 @@ void AlbumCoverFetcherSearch::Start(CoverProviders *cover_providers) {
 
 }
 
-void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSearchResults &results) {
+void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
-  CoverProvider *provider = pending_requests_.take(id);
+  CoverProvider *provider = pending_requests_[id];
+  ProviderSearchResults(provider, results);
+
+}
+
+void AlbumCoverFetcherSearch::ProviderSearchResults(CoverProvider *provider, const CoverSearchResults &results) {
 
   CoverSearchResults results_copy(results);
   for (int i = 0 ; i < results_copy.count() ; ++i) {
@@ -141,6 +147,15 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSe
   // Add results from the current provider to our pool
   results_.append(results_copy);
   statistics_.total_images_by_provider_[provider->name()]++;
+
+}
+
+void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverSearchResults &results) {
+
+  if (!pending_requests_.contains(id)) return;
+
+  CoverProvider *provider = pending_requests_.take(id);
+  ProviderSearchResults(provider, results);
 
   // Do we have more providers left?
   if (!pending_requests_.isEmpty()) {
