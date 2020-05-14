@@ -2671,8 +2671,8 @@ void MainWindow::GetCoverAutomatically() {
                 !song_.effective_album().isEmpty();
 
   if (search) {
-    album_cover_choice_controller_->SearchCoverAutomatically(song_);
     emit SearchCoverInProgress();
+    album_cover_choice_controller_->SearchCoverAutomatically(song_);
   }
 
 }
