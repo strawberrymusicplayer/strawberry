@@ -156,17 +156,21 @@ void PlayingWidget::SetEnabled(bool enabled) {
 }
 
 void PlayingWidget::SetEnabled() {
+
   enabled_ = true;
   if (active_ && (!visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() <= 2))) {
     SetVisible(true);
   }
+
 }
 
 void PlayingWidget::SetDisabled() {
+
   enabled_ = false;
   if (visible_ || (timeline_show_hide_->state() == QTimeLine::Running && timeline_show_hide_->currentFrame() > 2 && total_height_ - timeline_show_hide_->currentFrame() <= 2)) {
     SetVisible(false);
   }
+
 }
 
 void PlayingWidget::SetVisible(bool visible) {
@@ -236,25 +240,31 @@ void PlayingWidget::FitCoverWidth(bool fit) {
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("fit_cover_width", fit_width_);
+  s.endGroup();
+
 }
 
 void PlayingWidget::ShowAboveStatusBar(bool above) {
+
   QSettings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("above_status_bar", above);
-  emit ShowAboveStatusBarChanged(above);
   s.endGroup();
+
+  emit ShowAboveStatusBarChanged(above);
+
 }
 
-void PlayingWidget::Playing() {
-}
+void PlayingWidget::Playing() {}
 
 void PlayingWidget::Stopped() {
+
   playing_ = false;
   active_ = false;
-  song_playing_ = song_empty_;
-  song_ = song_empty_;
+  song_playing_ = Song();
+  song_ = Song();
   SetVisible(false);
+
 }
 
 void PlayingWidget::Error() {
@@ -262,9 +272,15 @@ void PlayingWidget::Error() {
 }
 
 void PlayingWidget::SongChanged(const Song &song) {
+
+  bool changed = (song.artist() != song_playing_.artist() || song.album() != song_playing_.album() || song.title() != song_playing_.title());
+
   playing_ = true;
   song_playing_ = song;
   song_ = song;
+
+  if (changed) UpdateDetailsText();
+
 }
 
 void PlayingWidget::AlbumCoverLoaded(const Song &song, const QImage &image) {
@@ -362,7 +378,7 @@ void PlayingWidget::UpdateHeight() {
 
 void PlayingWidget::UpdateDetailsText() {
 
-  QString html("");
+  QString html;
   details_->setDefaultStyleSheet("p { font-size: small; font-weight: bold; }");
   switch (mode_) {
     case SmallSongDetails:
@@ -376,8 +392,8 @@ void PlayingWidget::UpdateDetailsText() {
   }
 
   html += QString("%1<br/>%2<br/>%3").arg(song_.PrettyTitle().toHtmlEscaped(), song_.artist().toHtmlEscaped(), song_.album().toHtmlEscaped());
-
   html += "</p>";
+
   details_->setHtml(html);
 
   // if something spans multiple lines the height needs to change
