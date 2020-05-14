@@ -2,6 +2,31 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed MPRIS missing art url when playing albums with embedded cover.
+    * Fixed updating local non collection songs when manually unsetting cover.
+    * Fixed infinite loop and preceding crash when CSS background-color was set in qt5ct.
+    * Fixed UI freeze when updating the database from a large Subsonic or Tidal collection.
+    * Fixed crash when CD loading fails in devices.
+    * Fixed CD devices showing up with having 0 songs after loading.
+    * Fixed the album cover loading indicator being stuck if no cover providers were available.
+    * Fixed the playing widget not updating artist, album or title after metadata has changed for a song when no album cover was loaded.
+
+  Enhancements:
+    * Sort songs in collection by song title instead of track if previous grouping is not the album.
+    * Added option to switch on/off automatically searching for album covers to context settings.
+    * Reset last played song when playlist is finished.
+    * Checking content type of received HTTP request for image when receiving album covers.
+    * Added option to scrobbler setting for turning off login error popup.
+
+  New features:
+    * Added option to show/hide sidebar.
+    * Added settings for selecting album cover and lyrics providers.
+    * Added album covers from Musixmatch and Spotify.
+    * Added lyrics from Genius, Musixmatch and ChartLyrics.
+
 0.6.10:
 
   Bugfixes:
