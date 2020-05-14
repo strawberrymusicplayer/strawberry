@@ -30,6 +30,7 @@
 #include <QMetaType>
 #include <QPair>
 #include <QList>
+#include <QQueue>
 #include <QMap>
 #include <QVariant>
 #include <QByteArray>
@@ -41,6 +42,7 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
+class QTimer;
 class Application;
 
 class DiscogsCoverProvider : public JsonCoverProvider {
@@ -51,24 +53,25 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   ~DiscogsCoverProvider();
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
-
   void CancelSearch(const int id);
 
- private slots:
-  void HandleSearchReply(QNetworkReply *reply, const int id);
-  void HandleReleaseReply(QNetworkReply *reply, const int id, const quint64 release_id);
+  enum DiscogsCoverType {
+    DiscogsCoverType_Master,
+    DiscogsCoverType_Release,
+  };
 
- public:
   struct DiscogsCoverReleaseContext {
-    explicit DiscogsCoverReleaseContext(const quint64 _id = 0, const QUrl &_url = QUrl()) : id(_id), url(_url) {}
+    explicit DiscogsCoverReleaseContext(const quint64 _search_id = 0, const quint64 _id = 0, const QUrl &_url = QUrl()) : search_id(_search_id), id(_id), url(_url) {}
+    quint64 search_id;
     quint64 id;
     QUrl url;
   };
   struct DiscogsCoverSearchContext {
-    explicit DiscogsCoverSearchContext() : id(-1) {}
+    explicit DiscogsCoverSearchContext(const int _id = 0, const QString &_artist = QString(), const QString &_album = QString(), const DiscogsCoverType _type = DiscogsCoverType_Master) : id(_id), artist(_artist), album(_album), type(_type) {}
     int id;
     QString artist;
     QString album;
+    DiscogsCoverType type;
     QMap<quint64, DiscogsCoverReleaseContext> requests_release_;
     CoverSearchResults results;
   };
@@ -77,18 +80,29 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;
 
+  void SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search);
+  void SendReleaseRequest(const DiscogsCoverReleaseContext release);
   QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
   QByteArray GetReplyData(QNetworkReply *reply);
-  void StartRelease(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
-  void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const DiscogsCoverReleaseContext &release = DiscogsCoverReleaseContext());
+  void StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
+  void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
   void Error(const QString &error, const QVariant &debug = QVariant());
+
+ private slots:
+  void FlushRequests();
+  void HandleSearchReply(QNetworkReply *reply, const int id);
+  void HandleReleaseReply(QNetworkReply *reply, const int id, const quint64 release_id);
 
  private:
   static const char *kUrlSearch;
   static const char *kAccessKeyB64;
   static const char *kSecretKeyB64;
+  static const int kRequestsDelay;
 
   QNetworkAccessManager *network_;
+  QTimer *timer_flush_requests_;
+  QQueue<std::shared_ptr<DiscogsCoverSearchContext>> queue_search_requests_;
+  QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
   QMap<int, std::shared_ptr<DiscogsCoverSearchContext>> requests_search_;
   QList<QNetworkReply*> replies_;
 

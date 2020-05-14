@@ -32,11 +32,13 @@
 #include <QPair>
 #include <QSet>
 #include <QMap>
+#include <QQueue>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QTimer>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -57,8 +59,17 @@
 const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database/search";
 const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
+const int DiscogsCoverProvider::kRequestsDelay = 1000;
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) : JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent), network_(new NetworkAccessManager(this)) {}
+DiscogsCoverProvider::DiscogsCoverProvider(Application *app, QObject *parent) :
+  JsonCoverProvider("Discogs", false, false, 0.0, false, false, app, parent),
+  network_(new NetworkAccessManager(this)), timer_flush_requests_(new QTimer(this)) {
+
+  timer_flush_requests_->setInterval(kRequestsDelay);
+  timer_flush_requests_->setSingleShot(false);
+  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+
+}
 
 DiscogsCoverProvider::~DiscogsCoverProvider() {
 
@@ -69,6 +80,9 @@ DiscogsCoverProvider::~DiscogsCoverProvider() {
     reply->deleteLater();
   }
 
+  timer_flush_requests_->stop();
+  queue_search_requests_.clear();
+  queue_release_requests_.clear();
   requests_search_.clear();
 
 }
@@ -77,23 +91,14 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
 
   Q_UNUSED(title);
 
-  std::shared_ptr<DiscogsCoverSearchContext> search = std::make_shared<DiscogsCoverSearchContext>();
+  std::shared_ptr<DiscogsCoverSearchContext> search = std::make_shared<DiscogsCoverSearchContext>(id, artist, album);
 
-  search->id = id;
-  search->artist = artist;
-  search->album = album;
-  requests_search_.insert(id, search);
+  requests_search_.insert(search->id, search);
+  queue_search_requests_.enqueue(search);
 
-  ParamList params = ParamList() << Param("type", "release");
-  if (!search->artist.isEmpty()) {
-    params.append(Param("artist", search->artist.toLower()));
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
   }
-  if (!search->album.isEmpty()) {
-    params.append(Param("release_title", search->album.toLower()));
-  }
-
-  QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
 
   return true;
 
@@ -102,6 +107,42 @@ bool DiscogsCoverProvider::StartSearch(const QString &artist, const QString &alb
 void DiscogsCoverProvider::CancelSearch(const int id) {
 
   if (requests_search_.contains(id)) requests_search_.remove(id);
+
+}
+
+void DiscogsCoverProvider::FlushRequests() {
+
+  if (!queue_release_requests_.isEmpty()) {
+    SendReleaseRequest(queue_release_requests_.dequeue());
+    return;
+  }
+
+  if (!queue_search_requests_.isEmpty()) {
+    SendSearchRequest(queue_search_requests_.dequeue());
+    return;
+  }
+
+  timer_flush_requests_->stop();
+
+}
+
+void DiscogsCoverProvider::SendSearchRequest(std::shared_ptr<DiscogsCoverSearchContext> search) {
+
+  ParamList params = ParamList() << Param("format", "album")
+                                 << Param("artist", search->artist.toLower())
+                                 << Param("release_title", search->album.toLower());
+
+  switch (search->type) {
+    case DiscogsCoverType_Master:
+      params << Param("type", "master");
+      break;
+    case DiscogsCoverType_Release:
+      params << Param("type", "release");
+      break;
+  }
+
+  QNetworkReply *reply = CreateRequest(QUrl(kUrlSearch), params);
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, search->id); });
 
 }
 
@@ -134,6 +175,8 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
+
+  qLog(Debug) << "Discogs: Sending request" << url;
 
   return reply;
 
@@ -188,9 +231,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  if (!requests_search_.contains(id)) {
-    return;
-  }
+  if (!requests_search_.contains(id)) return;
   std::shared_ptr<DiscogsCoverSearchContext> search = requests_search_.value(id);
 
   QByteArray data = GetReplyData(reply);
@@ -221,18 +262,13 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     return;
   }
 
-  if (!value_results.isArray()) {
-    EndSearch(search);
-    return;
-  }
-
-  QJsonArray array_results = value_results.toArray();
-  if (array_results.isEmpty()) {
-    EndSearch(search);
-    return;
+  QJsonArray array_results;
+  if (value_results.isArray()) {
+    array_results = value_results.toArray();
   }
 
   for (const QJsonValue &value_result : array_results) {
+
     if (!value_result.isObject()) {
       Error("Invalid Json reply, results value is not a object.", value_result);
       continue;
@@ -244,28 +280,52 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     }
     quint64 release_id = obj_result["id"].toDouble();
     QUrl resource_url(obj_result["resource_url"].toString());
-    if (!resource_url.isValid()) {
-      continue;
+    QString title = obj_result["title"].toString();
+
+    if (title.contains(" - ")) {
+      QStringList title_splitted = title.split(" - ");
+      if (title_splitted.count() == 2) {
+        QString artist = title_splitted.first();
+        title = title_splitted.last();
+        if (artist.toLower() != search->artist.toLower() && title.toLower() != search->album.toLower()) continue;
+      }
     }
+
+    if (!resource_url.isValid()) continue;
     if (search->requests_release_.contains(release_id)) {
       continue;
     }
-    StartRelease(search, release_id, resource_url);
+    StartReleaseRequest(search, release_id, resource_url);
   }
 
-  if (search->requests_release_.count() <= 0) {
-    EndSearch(search);
+  if (search->requests_release_.count() == 0) {
+    if (search->type == DiscogsCoverType_Master) {
+      search->type = DiscogsCoverType_Release;
+      queue_search_requests_.enqueue(search);
+    }
+    else {
+      EndSearch(search);
+    }
   }
 
 }
 
-void DiscogsCoverProvider::StartRelease(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url) {
+void DiscogsCoverProvider::StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url) {
 
-  DiscogsCoverReleaseContext release(release_id, url);
+  DiscogsCoverReleaseContext release(search->id, release_id, url);
   search->requests_release_.insert(release_id, release);
+  queue_release_requests_.enqueue(release);
+
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
+  }
+
+}
+
+void DiscogsCoverProvider::SendReleaseRequest(const DiscogsCoverReleaseContext release) {
 
   QNetworkReply *reply = CreateRequest(release.url);
-  connect(reply, &QNetworkReply::finished, [=] { HandleReleaseReply(reply, search->id, release.id); });
+  connect(reply, &QNetworkReply::finished, [=] { HandleReleaseReply(reply, release.search_id, release.id); });
 
 }
 
@@ -276,43 +336,39 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  if (!requests_search_.contains(search_id)) {
-    return;
-  }
+  if (!requests_search_.contains(search_id)) return;
   std::shared_ptr<DiscogsCoverSearchContext> search = requests_search_.value(search_id);
 
-  if (!search->requests_release_.contains(release_id)) {
-    return;
-  }
+  if (!search->requests_release_.contains(release_id)) return;
   const DiscogsCoverReleaseContext &release = search->requests_release_.value(release_id);
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
   if (!json_obj.contains("artists") || !json_obj.contains("title")) {
     Error("Json reply object is missing artists or title.", json_obj);
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
   if (!json_obj.contains("images")) {
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
   QJsonValue value_artists = json_obj["artists"];
   if (!value_artists.isArray()) {
     Error("Json reply object artists is not a array.", value_artists);
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
   QJsonArray array_artists = value_artists.toArray();
@@ -334,28 +390,28 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   }
 
   if (artist.isEmpty()) {
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
   if (i > 1 && artist != search->artist) artist = "Various artists";
 
   QString album = json_obj["title"].toString();
   if (artist != search->artist && album != search->album) {
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
   QJsonValue value_images = json_obj["images"];
   if (!value_images.isArray()) {
     Error("Json images is not an array.");
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
   QJsonArray array_images = value_images.toArray();
 
   if (array_images.isEmpty()) {
     Error("Invalid Json reply, images array is empty.");
-    EndSearch(search, release);
+    EndSearch(search, release.id);
     return;
   }
 
@@ -379,26 +435,33 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     if (width < 300 || height < 300) continue;
     const float aspect_score = 1.0 - float(std::max(width, height) - std::min(width, height)) / std::max(height, width);
     if (aspect_score < 0.85) continue;
-    CoverSearchResult cover_result;
-    cover_result.artist = artist;
-    cover_result.album = album;
-    cover_result.image_url = QUrl(obj_image["resource_url"].toString());
-    if (cover_result.image_url.isEmpty()) continue;
-    search->results.append(cover_result);
+    CoverSearchResult result;
+    result.artist = artist;
+    result.album = album;
+    result.image_url = QUrl(obj_image["resource_url"].toString());
+    if (result.image_url.isEmpty()) continue;
+    search->results.append(result);
   }
 
-  EndSearch(search, release);
+  emit SearchResults(search->id, search->results);
+  search->results.clear();
+
+  EndSearch(search, release.id);
 
 }
 
-void DiscogsCoverProvider::EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const DiscogsCoverReleaseContext &release) {
+void DiscogsCoverProvider::EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id) {
 
-  if (search->requests_release_.contains(release.id)) {
-    search->requests_release_.remove(release.id);
+  if (search->requests_release_.contains(release_id)) {
+    search->requests_release_.remove(release_id);
   }
   if (search->requests_release_.count() <= 0) {
     requests_search_.remove(search->id);
     emit SearchFinished(search->id, search->results);
+  }
+
+  if (queue_release_requests_.isEmpty() && queue_search_requests_.isEmpty()) {
+    timer_flush_requests_->stop();
   }
 
 }
