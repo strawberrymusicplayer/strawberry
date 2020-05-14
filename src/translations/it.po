@@ -178,7 +178,7 @@ msgstr "%1 canzone%2"
 msgid "%1 songs"
 msgstr "%1 canzoni"
 
-#: core/utilities.cpp:419
+#: core/utilities.cpp:423
 #, qt-format
 msgid "%1 songs selected, are you sure you want to open them all?"
 msgstr "%1 canzoni selezionate, sei sicuro di volerle aprire tutte?"
@@ -3715,7 +3715,7 @@ msgstr "Mostra a dimensioni originali..."
 msgid "Show in collection..."
 msgstr "Mostra nella raccolta..."
 
-#: core/utilities.cpp:413 core/utilities.cpp:419
+#: core/utilities.cpp:417 core/utilities.cpp:423
 msgid "Show in file browser"
 msgstr "Mostra nel browser di file"
 
@@ -4270,7 +4270,7 @@ msgstr "Commuta la visibilità di Pretty OSD"
 msgid "Tomorrow"
 msgstr "Domani"
 
-#: core/utilities.cpp:413
+#: core/utilities.cpp:417
 msgid "Too many songs selected."
 msgstr "Troppe canzoni selezionate."
 
