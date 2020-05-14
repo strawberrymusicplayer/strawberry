@@ -367,6 +367,10 @@ void OpenInFileManager(const QString &path) {
     command_params.removeAt(command_params.indexOf("%U"));
   }
 
+  if (command.startsWith("/usr/bin/")) {
+    command = command.split("/").last();
+  }
+
   if (command.isEmpty() || command == "exo-open") {
     QFileInfo info(path);
     if (!info.exists()) return;
