@@ -49,11 +49,6 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Gavin D. Howard", "yzena.tech@gmail.com")
            << Person("Martin Delille", "martin@delille.org");
 
-  strawberry_thanks_ \
-           << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
-           << Person("Thomas Pierson", "contact@thomaspierson.fr")
-           << Person("Fabio Loli", "fabio.lolix@gmail.com");
-
   clementine_authors_
            << Person("David Sansome", "me@davidsansome.com")
            << Person("John Maguire", "john.maguire@gmail.com")
@@ -61,13 +56,10 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Arnaud Bienner", "arnaud.bienner@gmail.com");
 
   clementine_contributors_ \
-           << Person("Mark Kretschmann", "kretschmann@kde.org")
-           << Person("Max Howell", "max.howell@methylblue.com")
            << Person("Jakub Stachowski", "qbast@go2.pl")
            << Person("Paul Cifarelli", "paul@cifarelli.net")
            << Person("Felipe Rivera", "liebremx@users.sourceforge.net")
            << Person("Alexander Peitz")
-           << Person("Artur Rona", "artur.rona@gmail.com")
            << Person("Andreas Muttscheller", "asfa194@gmail.com")
            << Person("Mark Furneaux", "mark@furneaux.ca")
            << Person("Florian Bigard", "florian.bigard@gmail.com")
@@ -85,6 +77,14 @@ About::About(QWidget *parent):QDialog(parent) {
            << Person("Valeriy Malov", "jazzvoid@gmail.com")
            << Person("Nick Lanham", "nick@afternight.org");
 
+  strawberry_thanks_ \
+           << Person("Mark Kretschmann", "kretschmann@kde.org")
+           << Person("Max Howell", "max.howell@methylblue.com")
+           << Person("Artur Rona", "artur.rona@gmail.com")
+           << Person("Robert-André Mauchin", "eclipseo@fedoraproject.org")
+           << Person("Thomas Pierson", "contact@thomaspierson.fr")
+           << Person("Fabio Loli", "fabio.lolix@gmail.com");
+
   QString Title(tr("About Strawberry"));
 
   QFont title_font;
@@ -95,13 +95,25 @@ About::About(QWidget *parent):QDialog(parent) {
 
   ui_.label_title->setFont(title_font);
   ui_.label_title->setText(Title);
+  ui_.label_title->adjustSize();
 
   ui_.label_text->setText(MainHtml());
+  ui_.label_text->adjustSize();
+
   ui_.text_contributors->setText(ContributorsHtml());
-  ui_.text_contributors->updateGeometry();
-  updateGeometry();
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
+
+}
+
+void About::showEvent(QShowEvent*) {
+
+  setMinimumHeight(0);
+  setMaximumHeight(9000);
+  adjustSize();
+  // Set fixed height and workaround bottom spacer taking up to much space.
+  setFixedHeight(height() - ui_.spacer_bottom->geometry().height() + 15);
+  adjustSize();
 
 }
 
@@ -116,12 +128,19 @@ QString About::MainHtml() const {
   ret += "<p>";
   ret += tr("Strawberry is a music player and music collection organizer.");
   ret += "<br />";
-  ret += tr("It is a fork of Clementine released in 2018 aimed at music collectors, audio enthusiasts and audiophiles.");
-  ret += "<br />";
-  ret += tr("The name is inspired by the band Strawbs. It's based on a heavily modified version of Clementine created in 2012-2013. It's written in C++ and Qt 5.");
+  ret += tr("It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.");
   ret += "</p>";
+
   ret += "<p>";
-  ret += tr("Strawberry is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.");
+  ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg("<a href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.");
+  ret += "<br />";
+  ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg("<a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>");
+  ret += "</p>";
+
+  ret += "<p>";
+  ret += tr("If you like this Strawberry and can make use of it, consider sponsoring or donating.");
+  ret += "<br />";
+  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg("<a href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>.").arg("<a href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>");
   ret += "</p>";
 
   return ret;
@@ -134,7 +153,7 @@ QString About::ContributorsHtml() const {
 
   ret += "<p>";
   ret += "<b>";
-  ret += tr("Maintainer");
+  ret += tr("Author and maintainer");
   ret += "</b>";
   for (const Person &person : strawberry_authors_) {
     ret += "<br />" + PersonToHtml(person);
@@ -146,15 +165,6 @@ QString About::ContributorsHtml() const {
   ret += tr("Contributors");
   ret += "</b>";
   for (const Person &person : strawberry_contributors_) {
-    ret += "<br />" + PersonToHtml(person);
-  }
-  ret += "</p>";
-
-  ret += "<p>";
-  ret += "<b>";
-  ret += tr("Thanks to");
-  ret += "</b>";
-  for (const Person &person : strawberry_thanks_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";
@@ -173,6 +183,15 @@ QString About::ContributorsHtml() const {
   ret += tr("Clementine contributors");
   ret += "</b>";
   for (const Person &person : clementine_contributors_) {
+    ret += "<br />" + PersonToHtml(person);
+  }
+  ret += "</p>";
+
+  ret += "<p>";
+  ret += "<b>";
+  ret += tr("Thanks to");
+  ret += "</b>";
+  for (const Person &person : strawberry_thanks_) {
     ret += "<br />" + PersonToHtml(person);
   }
   ret += "</p>";

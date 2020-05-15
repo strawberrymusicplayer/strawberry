@@ -32,6 +32,7 @@
 #include "ui_about.h"
 
 class QWidget;
+class QShowEvent;
 
 class About : public QDialog {
   Q_OBJECT
@@ -39,6 +40,10 @@ class About : public QDialog {
  public:
   explicit About(QWidget *parent = nullptr);
 
+ protected:
+  void showEvent(QShowEvent*);
+
+ private:
   struct Person {
     Person(const QString &n, const QString &e = QString()) : name(n), email(e) {}
     bool operator<(const Person &other) const { return name < other.name; }
@@ -46,7 +51,6 @@ class About : public QDialog {
     QString email;
   };
 
- private:
   QString MainHtml() const;
   QString ContributorsHtml() const;
   QString PersonToHtml(const Person& person) const;
