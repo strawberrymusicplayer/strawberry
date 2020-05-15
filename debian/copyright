@@ -24,6 +24,8 @@ Files: src/core/main.h
        src/version.h.in
        src/context/contextview.cpp
        src/context/contextview.h
+       src/context/contextalbum.cpp
+       src/context/contextalbum.h
        src/engine/enginetype.cpp
        src/engine/enginetype.h
        src/engine/alsadevicefinder.cpp
@@ -38,16 +40,36 @@ Files: src/core/main.h
        src/internet/internetservice.h
        src/internet/internettabsview.cpp
        src/internet/internettabsview.h
+       src/internet/internetsongsview.cpp
+       src/internet/internetsongsview.h
        src/settings/backendsettingspage.cpp
        src/settings/backendsettingspage.h
+       src/settings/coverssettingspage.cpp
+       src/settings/coverssettingspage.h
+       src/settings/lyricssettingspage.cpp
+       src/settings/lyricssettingspage.h
        src/settings/scrobblersettingspage.cpp
        src/settings/scrobblersettingspage.h
+       src/settings/subsonicsettingspage.cpp
+       src/settings/subsonicsettingspage.h
+       src/settings/tidalsettingspage.cpp
+       src/settings/tidalsettingspage.h
+       src/covermanager/jsoncoverprovider.cpp
+       src/covermanager/jsoncoverprovider.h
        src/covermanager/lastfmcoverprovider.cpp
        src/covermanager/lastfmcoverprovider.h
        src/covermanager/musicbrainzcoverprovider.cpp
        src/covermanager/musicbrainzcoverprovider.h
        src/covermanager/deezercoverprovider.cpp
        src/covermanager/deezercoverprovider.h
+       src/covermanager/tidalcoverprovider.cpp
+       src/covermanager/tidalcoverprovider.h
+       src/covermanager/qobuzcoverprovider.cpp
+       src/covermanager/qobuzcoverprovider.h
+       src/covermanager/spotifycoverprovider.cpp
+       src/covermanager/spotifycoverprovider.h
+       src/covermanager/musixmatchcoverprovider.cpp
+       src/covermanager/musixmatchcoverprovider.h
        src/globalshortcuts/globalshortcutbackend-system.cpp
        src/globalshortcuts/globalshortcutbackend-system.h
        src/globalshortcuts/globalshortcut.cpp
@@ -59,9 +81,10 @@ Files: src/core/main.h
        src/lyrics/*
        src/scrobbler/*
        src/subsonic/*
+       src/tidal/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
-Copyright: 2012-2014, 2017-2019, Jonas Kvinge <jonas@jkvinge.net>
+Copyright: 2012-2014, 2017-2020, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/core/main.cpp
@@ -158,8 +181,20 @@ Files: src/core/main.cpp
        src/transcoder/transcoder.h
        src/musicbrainz/musicbrainzclient.cpp
        src/musicbrainz/musicbrainzclient.h
+       src/covermanager/albumcoverloader.cpp
+       src/covermanager/albumcoverloader.h
+       src/covermanager/currentalbumcoverloader.cpp
+       src/covermanager/currentalbumcoverloader.h
+       src/covermanager/albumcoverchoicecontroller.cpp
+       src/covermanager/albumcoverchoicecontroller.h
+       src/covermanager/albumcoverfetchersearch.cpp
+       src/covermanager/albumcoverfetchersearch.h
+       src/covermanager/coverproviders.cpp
+       src/covermanager/coverproviders.h
+       src/covermanager/coverprovider.cpp
+       src/covermanager/coverprovider.h
 Copyright: 2010, 2012-2014 David Sansome <me@davidsansome.com>
-           2012-2014, 2017-2019 Jonas Kvinge <jonas@jkvinge.net>
+           2012-2014, 2017-2020 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/engine/enginebase.cpp
