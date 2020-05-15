@@ -20,6 +20,7 @@ Unreleased:
     * Reset last played song when playlist is finished.
     * Checking content type of received HTTP request for image when receiving album covers.
     * Added option to scrobbler setting for turning off login error popup.
+    * Made MusicBrainz and Discogs cover providers respect rate limiting.
 
   New features:
     * Added option to show/hide sidebar.
