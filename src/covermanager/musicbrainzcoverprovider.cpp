@@ -23,11 +23,13 @@
 
 #include <QtGlobal>
 #include <QObject>
+#include <QQueue>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QTimer>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -47,8 +49,15 @@
 const char *MusicbrainzCoverProvider::kReleaseSearchUrl = "https://musicbrainz.org/ws/2/release/";
 const char *MusicbrainzCoverProvider::kAlbumCoverUrl = "https://coverartarchive.org/release/%1/front";
 const int MusicbrainzCoverProvider::kLimit = 8;
+const int MusicbrainzCoverProvider::kRequestsDelay = 1000;
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)) {}
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, QObject *parent): JsonCoverProvider("MusicBrainz", true, false, 1.5, true, false, app, parent), network_(new NetworkAccessManager(this)), timer_flush_requests_(new QTimer(this)) {
+
+  timer_flush_requests_->setInterval(kRequestsDelay);
+  timer_flush_requests_->setSingleShot(false);
+  connect(timer_flush_requests_, SIGNAL(timeout()), this, SLOT(FlushRequests()));
+
+}
 
 MusicbrainzCoverProvider::~MusicbrainzCoverProvider() {
 
@@ -65,7 +74,20 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
 
   Q_UNUSED(title);
 
-  QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(album.trimmed().replace('"', "\\\"")).arg(artist.trimmed().replace('"', "\\\""));
+  SearchRequest request(id, artist, album);
+  queue_search_requests_ << request;
+
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
+  }
+
+  return true;
+
+}
+
+void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
+
+  QString query = QString("release:\"%1\" AND artist:\"%2\"").arg(request.album.trimmed().replace('"', "\\\"")).arg(request.artist.trimmed().replace('"', "\\\""));
 
   QUrlQuery url_query;
   url_query.addQueryItem("query", query);
@@ -78,9 +100,18 @@ bool MusicbrainzCoverProvider::StartSearch(const QString &artist, const QString 
   req.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, id); });
+  connect(reply, &QNetworkReply::finished, [=] { HandleSearchReply(reply, request.id); });
 
-  return true;
+}
+
+void MusicbrainzCoverProvider::FlushRequests() {
+
+  if (!queue_search_requests_.isEmpty()) {
+    SendSearchRequest(queue_search_requests_.dequeue());
+    return;
+  }
+
+  timer_flush_requests_->stop();
 
 }
 

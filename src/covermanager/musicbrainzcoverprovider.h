@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QQueue>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -33,10 +34,12 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
+class QTimer;
 class Application;
 
 class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
+
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
   ~MusicbrainzCoverProvider();
@@ -44,9 +47,18 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
 
  private slots:
+  void FlushRequests();
   void HandleSearchReply(QNetworkReply *reply, const int search_id);
 
  private:
+  struct SearchRequest {
+    explicit SearchRequest(const int _id, const QString &_artist, const QString &_album) : id(_id), artist(_artist), album(_album) {}
+    int id;
+    QString artist;
+    QString album;
+  };
+
+  void SendSearchRequest(const SearchRequest &request);
   QByteArray GetReplyData(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
@@ -54,8 +66,11 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
   static const char *kReleaseSearchUrl;
   static const char *kAlbumCoverUrl;
   static const int kLimit;
+  static const int kRequestsDelay;
 
   QNetworkAccessManager *network_;
+  QTimer *timer_flush_requests_;
+  QQueue<SearchRequest> queue_search_requests_;
   QList<QNetworkReply*> replies_;
 
 };
