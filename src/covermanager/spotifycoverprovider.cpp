@@ -421,7 +421,7 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
             int status = obj_error["status"].toInt();
             QString message = obj_error["message"].toString();
             error = QString("%1 (%2)").arg(message).arg(status);
-            if (reply->error() == 401) access_token_.clear();
+            if (status == 401) access_token_.clear();
           }
         }
       }
