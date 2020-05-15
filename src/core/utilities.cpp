@@ -930,6 +930,9 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
     pos += variable_replacer.matchedLength();
   }
 
+  int index_of = copy.indexOf(QRegExp(" - (>|$)"));
+  if (index_of >= 0) copy = copy.remove(index_of, 3);
+
   return copy;
 }
 
