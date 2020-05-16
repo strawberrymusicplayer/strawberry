@@ -69,7 +69,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
  private slots:
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString artist_id, const QString album_id, const QString album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const QString album_id, const QUrl url, const QString filename);
+  void AlbumCoverReceived(QNetworkReply *reply, const QUrl url, const QString filename);
 
  private:
   typedef QPair<QString, QString> Param;
@@ -128,7 +128,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   QQueue<AlbumCoverRequest> album_cover_requests_queue_;
 
   QHash<QString, Request> album_songs_requests_pending_;
-  QMultiMap<QString, Song*> album_covers_requests_sent_;
+  QMultiMap<QUrl, Song*> album_covers_requests_sent_;
 
   int albums_requests_active_;
 
