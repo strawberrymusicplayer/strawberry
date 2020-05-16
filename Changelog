@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+0.6.11:
 
   Bugfixes:
     * Fixed MPRIS missing art url when playing albums with embedded cover.
