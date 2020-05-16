@@ -126,6 +126,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   if (app_ && !sIconCache) {
     sIconCache = new QNetworkDiskCache(this);
     sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + kPixmapDiskCacheDir);
+    connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
   }
 
   connect(backend_, SIGNAL(SongsDiscovered(SongList)), SLOT(SongsDiscovered(SongList)));
@@ -139,10 +140,6 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   backend_->UpdateTotalSongCountAsync();
   backend_->UpdateTotalArtistCountAsync();
   backend_->UpdateTotalAlbumCountAsync();
-
-  if (app_) {
-    connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
-  }
 
   ReloadSettings();
 
