@@ -2471,7 +2471,7 @@ msgstr "Загрузка устройства MTP"
 msgid "Loading iPod database"
 msgstr "Загрузка база данных iPod"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:216
 msgid "Loading songs"
 msgstr "Загрузка песен"
 
@@ -2483,7 +2483,7 @@ msgstr "Загрузка композиций"
 msgid "Loading tracks info"
 msgstr "Загрузка информации о треках"
 
-#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "Загрузка…"
 
@@ -3370,12 +3370,12 @@ msgstr "Ограничить разрешенными символами в фа
 msgid "Resume playback on start"
 msgstr "Продолжить воспроизведение при запуске"
 
-#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Получение обложки альбома для %1"
 
-#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:677 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1"
@@ -3390,7 +3390,7 @@ msgstr "Получение альбомов исполнителя %1..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Получение альбомов для исполнителей %1..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Получение альбомов..."
 
@@ -3398,12 +3398,12 @@ msgstr "Получение альбомов..."
 msgid "Retrieving artists..."
 msgstr "Получение исполнителей..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Получение песен для альбома %1..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Получение песен для альбомов %1..."
@@ -4318,16 +4318,16 @@ msgid "Ultra wide band (UWB)"
 msgstr "Ультраширокая полоса пропускания (UWB)"
 
 #: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
-#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
-#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1408
+#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
+#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
+#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
 #: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
+#: subsonic/subsonicrequest.cpp:846 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -4482,7 +4482,7 @@ msgstr "После добавления песни через меню…"
 msgid "Variable bit rate"
 msgstr "Переменный битрейт"
 
-#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
+#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"

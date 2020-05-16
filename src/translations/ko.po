@@ -2427,7 +2427,7 @@ msgstr "MTP 장치 불러오는 중"
 msgid "Loading iPod database"
 msgstr "iPod 데이터베이스 불러오는 중"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:216
 msgid "Loading songs"
 msgstr "노래 불러오는 중"
 
@@ -2439,7 +2439,7 @@ msgstr "트랙 불러오는 중"
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
-#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "불러오는 중..."
 
@@ -3319,12 +3319,12 @@ msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범 표지 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:677 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "앨범 %1개의 앨범 표지 가져오는 중..."
@@ -3339,7 +3339,7 @@ msgstr "음악가 %1명의 앨범 가져오는 중..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "음악가 %1명의 앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
 
@@ -3347,12 +3347,12 @@ msgstr "앨범 가져오는 중..."
 msgid "Retrieving artists..."
 msgstr "음악가 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
@@ -4247,16 +4247,16 @@ msgid "Ultra wide band (UWB)"
 msgstr "초광대역(UWB)"
 
 #: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
-#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
-#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1408
+#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
+#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
+#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
 #: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
+#: subsonic/subsonicrequest.cpp:846 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
@@ -4407,7 +4407,7 @@ msgstr "메뉴에서 음악을 추가했을 때..."
 msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
-#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
+#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"

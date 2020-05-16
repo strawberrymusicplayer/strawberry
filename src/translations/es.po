@@ -2481,7 +2481,7 @@ msgstr "Cargando el dispositivo MTP"
 msgid "Loading iPod database"
 msgstr "Cargando la base de datos del iPod"
 
-#: collection/collectionmodel.cpp:214
+#: collection/collectionmodel.cpp:216
 msgid "Loading songs"
 msgstr "Cargando pistas"
 
@@ -2493,7 +2493,7 @@ msgstr "Cargando pistas"
 msgid "Loading tracks info"
 msgstr "Cargando información de pistas"
 
-#: collection/collectionmodel.cpp:207 ../build/src/ui_organisedialog.h:283
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -3387,12 +3387,12 @@ msgstr "Limitar a caracteres permitidos en sistemas de archivos FAT"
 msgid "Resume playback on start"
 msgstr "Reanudar la reproducción al iniciar"
 
-#: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1085
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Buscando carátula del álbum %1..."
 
-#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1086
+#: subsonic/subsonicrequest.cpp:677 tidal/tidalrequest.cpp:1086
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Buscando carátulas de %1 álbums."
@@ -3407,7 +3407,7 @@ msgstr "Buscando álbumes de %1 artista..."
 msgid "Retrieving albums for %1 artists..."
 msgstr "Buscando álbumes de %1 artistas..."
 
-#: subsonic/subsonicrequest.cpp:127 tidal/tidalrequest.cpp:201
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
 msgstr "Buscando álbumes..."
 
@@ -3415,12 +3415,12 @@ msgstr "Buscando álbumes..."
 msgid "Retrieving artists..."
 msgstr "Buscando artistas..."
 
-#: subsonic/subsonicrequest.cpp:318 tidal/tidalrequest.cpp:725
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Buscando pistas de %1 álbum..."
 
-#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:726
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Buscando pistas de %1 álbumes..."
@@ -4339,16 +4339,16 @@ msgid "Ultra wide band (UWB)"
 msgstr "Banda ultraancha (UWB)"
 
 #: core/song.cpp:523 context/contextalbumsmodel.cpp:360
-#: collection/collectionmodel.cpp:433 collection/collectionmodel.cpp:438
-#: collection/collectionmodel.cpp:442 collection/collectionmodel.cpp:446
-#: collection/collectionmodel.cpp:450 collection/collectionmodel.cpp:1408
+#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
+#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
+#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
 #: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
 #: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
 #: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: subsonic/subsonicrequest.cpp:843 tidal/tidalrequest.cpp:1255
+#: subsonic/subsonicrequest.cpp:846 tidal/tidalrequest.cpp:1255
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -4504,7 +4504,7 @@ msgstr "Al usar el menú para añadir una canción…"
 msgid "Variable bit rate"
 msgstr "Tasa de bits variable"
 
-#: collection/collectionmodel.cpp:347 playlist/playlistmanager.cpp:559
+#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:559
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
