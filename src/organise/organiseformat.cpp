@@ -35,6 +35,7 @@
 #include <QPalette>
 #include <QValidator>
 #include <QTextEdit>
+#include <QTextDocument>
 #include <QTextFormat>
 
 #include "core/arraysize.h"
@@ -43,8 +44,6 @@
 #include "core/song.h"
 
 #include "organiseformat.h"
-
-class QTextDocument;
 
 const char *OrganiseFormat::kTagPattern = "\\%([a-zA-Z]*)";
 const char *OrganiseFormat::kBlockPattern = "\\{([^{}]+)\\}";
@@ -145,7 +144,12 @@ QString OrganiseFormat::GetFilenameForSong(const Song &song) const {
 
   QFileInfo info(filename);
   QString extension = info.suffix();
-  QString filepath = info.path() + "/" + info.completeBaseName();
+  QString filepath;
+  if (!info.path().isEmpty() && info.path() != ".") {
+    filepath.append(info.path());
+    filepath.append("/");
+  }
+  filepath.append(info.completeBaseName());
 
   // Fix any parts of the path that start with dots.
   QStringList parts_old = filepath.split("/");

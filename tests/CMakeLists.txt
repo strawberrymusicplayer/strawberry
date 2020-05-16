@@ -87,7 +87,6 @@ if(Qt5Test_FOUND AND GTEST_FOUND AND GMOCK_LIBRARY)
   add_test_file(src/song_test.cpp false)
   add_test_file(src/collectionbackend_test.cpp false)
   add_test_file(src/collectionmodel_test.cpp true)
-  add_test_file(src/playlist_test.cpp true)
   add_test_file(src/songplaylistitem_test.cpp false)
   add_test_file(src/organiseformat_test.cpp false)
 
