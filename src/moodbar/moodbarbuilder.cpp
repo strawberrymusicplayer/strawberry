@@ -175,11 +175,8 @@ QByteArray MoodbarBuilder::Finish(int width) {
 
   for (int i = 0; i < width; ++i) {
     Rgb rgb;
-    int start = i * frames_.count() / width;
-    int end = (i + 1) * frames_.count() / width;
-    if (start == end) {
-      end = start + 1;
-    }
+    const int start = i * frames_.count() / width;
+    const int end = std::max((i + 1) * frames_.count() / width, start + 1);
 
     for (int j = start; j < end; j++) {
       const Rgb& frame = frames_[j];

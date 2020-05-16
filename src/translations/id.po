@@ -894,6 +894,10 @@ msgstr "Otentikasi"
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
+#: dialogs/about.cpp:156
+msgid "Author and maintainer"
+msgstr ""
+
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
 msgstr "Auto"
@@ -1114,11 +1118,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
-#: dialogs/about.cpp:164
+#: dialogs/about.cpp:174
 msgid "Clementine authors"
 msgstr ""
 
-#: dialogs/about.cpp:173
+#: dialogs/about.cpp:183
 msgid "Clementine contributors"
 msgstr ""
 
@@ -1250,7 +1254,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
 
-#: dialogs/about.cpp:146
+#: dialogs/about.cpp:165
 msgid "Contributors"
 msgstr ""
 
@@ -2263,6 +2267,12 @@ msgstr ""
 "Jika Anda lanjutkan, perangkat ini akan bekerja lambat dan lagu-lagu yang "
 "disalin mungkin tidak bekerja."
 
+#: dialogs/about.cpp:141
+msgid ""
+"If you like this Strawberry and can make use of it, consider sponsoring or "
+"donating."
+msgstr ""
+
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "Gambar (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2325,10 +2335,10 @@ msgstr "Trek intro"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
-#: dialogs/about.cpp:119
+#: dialogs/about.cpp:131
 msgid ""
-"It is a fork of Clementine released in 2018 aimed at music collectors, audio "
-"enthusiasts and audiophiles."
+"It is a fork of Clementine released in 2018 aimed at music collectors and "
+"audiophiles."
 msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:266
@@ -2503,10 +2513,6 @@ msgstr "MP3"
 #: ../build/src/ui_transcoderoptionsaac.h:133
 msgid "Main profile (MAIN)"
 msgstr "Profil utama (MAIN)"
-
-#: dialogs/about.cpp:137
-msgid "Maintainer"
-msgstr ""
 
 #: ../build/src/ui_collectionfilterwidget.h:102
 msgid "Manage saved groupings"
@@ -3929,16 +3935,15 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry dapat menampilkan pesan ketika trek berubah."
 
-#: dialogs/about.cpp:117
+#: dialogs/about.cpp:129
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 
-#: dialogs/about.cpp:124
+#: dialogs/about.cpp:135
+#, qt-format
 msgid ""
-"Strawberry is free software: you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation, either version 3 of the License, or (at your option) "
-"any later version."
+"Strawberry is free software released under GPL. The source code is available "
+"on %1"
 msgstr ""
 
 #: ../build/src/ui_trackselectiondialog.h:205
@@ -4041,11 +4046,11 @@ msgstr "Tes berhasil!"
 msgid "Text options"
 msgstr "Opsi teks"
 
-#: dialogs/about.cpp:155
+#: dialogs/about.cpp:192
 msgid "Thanks to"
 msgstr ""
 
-#: dialogs/about.cpp:181
+#: dialogs/about.cpp:200
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
@@ -4061,15 +4066,6 @@ msgstr "Sampul album dari lagu yang diputar saat ini"
 #: internet/internetcollectionview.cpp:279
 msgid "The internet collection is empty!"
 msgstr "Koleksi internet kosong!"
-
-#: dialogs/about.cpp:121
-msgid ""
-"The name is inspired by the band Strawbs. It's based on a heavily modified "
-"version of Clementine created in 2012-2013. It's written in C++ and Qt 5."
-msgstr ""
-"Namanya terinspirasi oleh band Strawbs. Ini didasarkan versi Clementine yang "
-"sangat dimodifikasi yang dibuat pada 2012-2013. Ini ditulis dalam C++ dan Qt "
-"5."
 
 #: covermanager/coverfromurldialog.cpp:83
 msgid "The site you requested does not exist!"
@@ -4472,7 +4468,7 @@ msgstr "Artis beraga"
 msgid "Verify server certificate"
 msgstr "Verifikasi sertifikat server"
 
-#: dialogs/about.cpp:113
+#: dialogs/about.cpp:125
 #, qt-format
 msgid "Version %1"
 msgstr ""
@@ -4609,6 +4605,13 @@ msgstr "Anda sudah masuk."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Anda dapat mengubah cara pengaturan lagu dalam pustaka."
 
+#: dialogs/about.cpp:143
+#, qt-format
+msgid ""
+"You can sponsor the author on %1. You can also make a one-time payment "
+"through %2."
+msgstr ""
+
 #: core/songloader.cpp:134 core/songloader.cpp:139
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
@@ -4632,6 +4635,13 @@ msgstr ""
 "Anda perlu meluncurkan Preferensi Sistem dan aktfikan \"<span style=\"font-"
 "style:italic;\">Perbolehkan akses untuk perangkat pembantu</span>\" untuk "
 "menggunakan pintasan global di Strawberry."
+
+#: dialogs/about.cpp:137
+#, qt-format
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see %1"
+msgstr ""
 
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
