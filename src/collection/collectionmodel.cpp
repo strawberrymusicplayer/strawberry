@@ -139,7 +139,9 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   backend_->UpdateTotalArtistCountAsync();
   backend_->UpdateTotalAlbumCountAsync();
 
-  connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
+  if (app_) {
+    connect(app_, SIGNAL(ClearPixmapDiskCache()), SLOT(ClearDiskCache()));
+  }
 
   ReloadSettings();
 
