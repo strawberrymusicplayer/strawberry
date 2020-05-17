@@ -889,7 +889,7 @@ msgstr "Autentisering"
 msgid "Authentication failed"
 msgstr "Identitetsbekreftelse feilet"
 
-#: dialogs/about.cpp:156
+#: dialogs/about.cpp:152
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1113,11 +1113,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Tøm spillelisten"
 
-#: dialogs/about.cpp:174
+#: dialogs/about.cpp:170
 msgid "Clementine authors"
 msgstr "Clementine authors"
 
-#: dialogs/about.cpp:183
+#: dialogs/about.cpp:179
 msgid "Clementine contributors"
 msgstr "Clementine contributors"
 
@@ -1249,7 +1249,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Fortsett til neste sang i stillelisten dersom en sang ikke er tilgjengelig"
 
-#: dialogs/about.cpp:165
+#: dialogs/about.cpp:161
 msgid "Contributors"
 msgstr "Bidragsytere"
 
@@ -2261,7 +2261,7 @@ msgstr ""
 "Hvis du fortsetter, vil enheten bli treg, og du vil kanskje ikke kunne "
 "spille av sanger kopiert til den."
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:137
 msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2329,7 +2329,7 @@ msgstr "Introspor"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Ugyldig svar fra nettleseren. Mangler token."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:127
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3926,11 +3926,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry kan vise en melding ved sporendring."
 
-#: dialogs/about.cpp:129
+#: dialogs/about.cpp:125
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry is a music player and music collection organizer."
 
-#: dialogs/about.cpp:135
+#: dialogs/about.cpp:131
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4037,11 +4037,11 @@ msgstr "Test successful!"
 msgid "Text options"
 msgstr "Tekstinnstillinger"
 
-#: dialogs/about.cpp:192
+#: dialogs/about.cpp:188
 msgid "Thanks to"
 msgstr "Takk til"
 
-#: dialogs/about.cpp:200
+#: dialogs/about.cpp:196
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
@@ -4455,7 +4455,7 @@ msgstr "Diverse artister"
 msgid "Verify server certificate"
 msgstr "Verifiser server sertifikat"
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:121
 #, qt-format
 msgid "Version %1"
 msgstr "Versjon %1"
@@ -4588,7 +4588,7 @@ msgstr "Du er innlogget"
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Du kan velge hvordan sangene i biblioteket er organisert."
 
-#: dialogs/about.cpp:143
+#: dialogs/about.cpp:139
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4619,7 +4619,7 @@ msgstr ""
 "access for assistive devices</span>\" for å bruke globale snarveier i "
 "Strawberry."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:133
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

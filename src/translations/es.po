@@ -914,7 +914,7 @@ msgstr "Inicio de sesión"
 msgid "Authentication failed"
 msgstr "Fallo de inicio de sesión"
 
-#: dialogs/about.cpp:156
+#: dialogs/about.cpp:152
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1138,11 +1138,11 @@ msgstr "Inicializar caché de disco"
 msgid "Clear playlist"
 msgstr "Vaciar lista de reproducción"
 
-#: dialogs/about.cpp:174
+#: dialogs/about.cpp:170
 msgid "Clementine authors"
 msgstr "Autores de Clementine"
 
-#: dialogs/about.cpp:183
+#: dialogs/about.cpp:179
 msgid "Clementine contributors"
 msgstr "Colaboradores de Clementine"
 
@@ -1278,7 +1278,7 @@ msgstr ""
 "Salta al siguiente elemento en la lista de reproducción si una canción no "
 "está disponible"
 
-#: dialogs/about.cpp:165
+#: dialogs/about.cpp:161
 msgid "Contributors"
 msgstr "Colaboradores"
 
@@ -2299,7 +2299,7 @@ msgstr ""
 "Si continúas este dispositivo funcionará con lentitud y las pistas que se "
 "copien en él podrían no funcionar."
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:137
 msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2368,7 +2368,7 @@ msgstr "Pistas de introducción"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Respuesta inválida del servidor web. Falta token."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:127
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3977,11 +3977,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry puede mostrar un mensaje cuando la pista cambie."
 
-#: dialogs/about.cpp:129
+#: dialogs/about.cpp:125
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry es un reproductor y catalogador de colecciones musicales."
 
-#: dialogs/about.cpp:135
+#: dialogs/about.cpp:131
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4088,11 +4088,11 @@ msgstr "¡Prueba correcta!"
 msgid "Text options"
 msgstr "Opciones del texto"
 
-#: dialogs/about.cpp:192
+#: dialogs/about.cpp:188
 msgid "Thanks to"
 msgstr "Gracias a"
 
-#: dialogs/about.cpp:200
+#: dialogs/about.cpp:196
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Gracias al resto de colaboradores de Amarok y Clementine"
 
@@ -4514,7 +4514,7 @@ msgstr "Varios artistas"
 msgid "Verify server certificate"
 msgstr "Verificar el certificado del servidor"
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:121
 #, qt-format
 msgid "Version %1"
 msgstr "Versión %1"
@@ -4651,7 +4651,7 @@ msgid "You can change the way the songs in the collection are organised."
 msgstr ""
 "Puedes modificar el modo en que se organizan las canciones en la colección."
 
-#: dialogs/about.cpp:143
+#: dialogs/about.cpp:139
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4682,7 +4682,7 @@ msgstr ""
 "style:italic;\">Habilitar dispositivos de accesibilidad</span>\" para "
 "utilizar atajos globales en Strawberry."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:133
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

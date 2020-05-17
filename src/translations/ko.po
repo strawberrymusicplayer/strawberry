@@ -885,7 +885,7 @@ msgstr "인증"
 msgid "Authentication failed"
 msgstr "인증 실패"
 
-#: dialogs/about.cpp:156
+#: dialogs/about.cpp:152
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1109,11 +1109,11 @@ msgstr "디스크 캐시 비우기"
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
-#: dialogs/about.cpp:174
+#: dialogs/about.cpp:170
 msgid "Clementine authors"
 msgstr "Clementine 작성자"
 
-#: dialogs/about.cpp:183
+#: dialogs/about.cpp:179
 msgid "Clementine contributors"
 msgstr "Clementine 기여자"
 
@@ -1243,7 +1243,7 @@ msgstr "콘텍스트"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "재생 목록에 있는 노래를 사용할 수 없을 때 다음 곡으로 진행"
 
-#: dialogs/about.cpp:165
+#: dialogs/about.cpp:161
 msgid "Contributors"
 msgstr "기여자"
 
@@ -2246,7 +2246,7 @@ msgid ""
 "work."
 msgstr "계속 진행하면 이 장치가 느리게 작동하거나 복사된 음악을 재생하지 못할 수도 있습니다."
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:137
 msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
@@ -2314,7 +2314,7 @@ msgstr "인트로 트랙"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:127
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3905,11 +3905,11 @@ msgstr "Strawberry는 장치로 곡을 복사할 때 장치에서 재생 가능�
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시할 수 있습니다."
 
-#: dialogs/about.cpp:129
+#: dialogs/about.cpp:125
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry는 음악 재생기 및 음악 모음집 관리 도구입니다."
 
-#: dialogs/about.cpp:135
+#: dialogs/about.cpp:131
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4016,11 +4016,11 @@ msgstr "테스트 성공!"
 msgid "Text options"
 msgstr "텍스트 옵션"
 
-#: dialogs/about.cpp:192
+#: dialogs/about.cpp:188
 msgid "Thanks to"
 msgstr "감사"
 
-#: dialogs/about.cpp:200
+#: dialogs/about.cpp:196
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
@@ -4417,7 +4417,7 @@ msgstr "여러 음악가"
 msgid "Verify server certificate"
 msgstr "서버 인증서 확인"
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:121
 #, qt-format
 msgid "Version %1"
 msgstr "버전 %1"
@@ -4547,7 +4547,7 @@ msgstr "로그인했습니다."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "모음집의 곡을 정리하는 방법을 변경할 수 있습니다."
 
-#: dialogs/about.cpp:143
+#: dialogs/about.cpp:139
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4576,7 +4576,7 @@ msgstr ""
 "시스템 설정을 실행한 다음 \"<span style=\" font-style:italic;\">보조 기술 지원 장치 접근 허용</"
 "span>\"을 활성화해야 Strawberry에서 전역 단축키를 사용할 수 있습니다."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:133
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

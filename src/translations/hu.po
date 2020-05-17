@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-13 02:00-0400\n"
+"PO-Revision-Date: 2020-05-17 04:43-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -897,9 +897,9 @@ msgstr "Hitelesítés"
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
 
-#: dialogs/about.cpp:156
+#: dialogs/about.cpp:152
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Szerző és karbantartó"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -1125,11 +1125,11 @@ msgstr "Lemezgyorsítótár törlése"
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
-#: dialogs/about.cpp:174
+#: dialogs/about.cpp:170
 msgid "Clementine authors"
 msgstr "A Clementine szerzői"
 
-#: dialogs/about.cpp:183
+#: dialogs/about.cpp:179
 msgid "Clementine contributors"
 msgstr "A Clementine közreműködői"
 
@@ -1263,7 +1263,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Folytatás a következő elemtől a lejátszólistában, ha a dal nem elérhető"
 
-#: dialogs/about.cpp:165
+#: dialogs/about.cpp:161
 msgid "Contributors"
 msgstr "Közreműködők"
 
@@ -2278,11 +2278,13 @@ msgstr ""
 "Ha folytatja, az eszköz lassan fog működni és a rá másolt számok "
 "használhatatlanok lehetnek."
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:137
 msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Ha tetszik a Strawberry, és ki tudja használni, fontolja meg a szponzorálást "
+"vagy az adományozást."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2346,11 +2348,13 @@ msgstr "Bevezető számok"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:127
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
 msgstr ""
+"Ez a Clementine egy forkja, amely 2018-ban jelent meg, megcélozva a "
+"zenegyűjtőket és audiofileket."
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -3201,12 +3205,16 @@ msgstr ""
 "vagy használjon egy másik böngészőt, például Chromiumot vagy Chrome-ot."
 
 #: lyrics/geniuslyricsprovider.cpp:203
+#, fuzzy
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
+"A Genius-től való átirányításnál hiányzik a lekérdezett elemek kódja vagy "
+"állapota."
 
 #: covermanager/spotifycoverprovider.cpp:192
+#, fuzzy
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "A hiányzó token kód vagy állapot átirányítása!"
 
 #: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
 msgid "Redirect missing token code!"
@@ -3956,16 +3964,18 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
-#: dialogs/about.cpp:129
+#: dialogs/about.cpp:125
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "A Strawberry egy zenelejátszó és egy zenegyűjtemény kezelő."
 
-#: dialogs/about.cpp:135
+#: dialogs/about.cpp:131
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
 msgstr ""
+"A Strawberry szabad szoftver a GPL alatt kiadva. A forráskód elérhető itt: "
+"%1"
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -4067,11 +4077,11 @@ msgstr "Teszt sikeres!"
 msgid "Text options"
 msgstr "Szövegopciók"
 
-#: dialogs/about.cpp:192
+#: dialogs/about.cpp:188
 msgid "Thanks to"
 msgstr "Köszönet még"
 
-#: dialogs/about.cpp:200
+#: dialogs/about.cpp:196
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
@@ -4493,7 +4503,7 @@ msgstr "Egyes előadók"
 msgid "Verify server certificate"
 msgstr "Szerver tanúsítványának ellenőrzése"
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:121
 #, qt-format
 msgid "Version %1"
 msgstr "Verzió: %1"
@@ -4628,12 +4638,13 @@ msgstr "Be van jelentkezve."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Megváltoztathatja a dalok gyűjteményben való rendezésének módját."
 
-#: dialogs/about.cpp:143
-#, qt-format
+#: dialogs/about.cpp:139
+#, fuzzy, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
+"A szerzőt támogathatja a %1-on. Egyszeri összeggel pedig a %2-n keresztül."
 
 #: core/songloader.cpp:134 core/songloader.cpp:139
 msgid "You need GStreamer for this URL."
@@ -4659,12 +4670,14 @@ msgstr ""
 "italic;\">Hozzáférés a kisegítő lehetőségekhez</span>\" a globális "
 "gyorsbillentyűk használatához a Strawberry-ben."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:133
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
+"A programmal meg kellett kapnia a GNU General Public License egy példányát "
+"is. Ha nem látogassa meg: %1"
 
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."

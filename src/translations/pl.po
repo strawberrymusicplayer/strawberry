@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-13 03:51-0400\n"
+"PO-Revision-Date: 2020-05-16 10:39-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -903,9 +903,9 @@ msgstr "Uwierzytelnianie"
 msgid "Authentication failed"
 msgstr "Błąd uwierzytelniania"
 
-#: dialogs/about.cpp:156
+#: dialogs/about.cpp:152
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Autor i opiekun"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -1127,11 +1127,11 @@ msgstr "Wyczyść pamięć podręczną na dysku"
 msgid "Clear playlist"
 msgstr "Wyczyść listę odtwarzania"
 
-#: dialogs/about.cpp:174
+#: dialogs/about.cpp:170
 msgid "Clementine authors"
 msgstr "Autorzy Clementine"
 
-#: dialogs/about.cpp:183
+#: dialogs/about.cpp:179
 msgid "Clementine contributors"
 msgstr "Współautorzy Clementine"
 
@@ -1266,7 +1266,7 @@ msgstr "Kontekst"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "Jeśli utwór jest niedostępny, przechodź do następnego"
 
-#: dialogs/about.cpp:165
+#: dialogs/about.cpp:161
 msgid "Contributors"
 msgstr "Współautorzy"
 
@@ -2288,11 +2288,13 @@ msgstr ""
 "Jeśli będziesz kontynuował, urządzenie będzie działać wolniej i skopiowane "
 "na nie utwory mogą nie działać."
 
-#: dialogs/about.cpp:141
+#: dialogs/about.cpp:137
 msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Jeśli lubisz ten program i uważasz go za użyteczny, możesz rozważyć "
+"sponsoring lub donację."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2356,11 +2358,13 @@ msgstr "Czołówki"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Niepoprawna odpowiedź z przeglądarki internetowej. Brakuje tokenu."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:127
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
 msgstr ""
+"To jest fork Clementine, wydany w 2018 roku z myślą o kolekcjonerach muzyki "
+"i audiofilach."
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -3966,16 +3970,18 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry może pokazywać powiadomienia, gdy zmienia się ścieżka."
 
-#: dialogs/about.cpp:129
+#: dialogs/about.cpp:125
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry to odtwarzacz muzyki i menedżer kolekcji utworów."
 
-#: dialogs/about.cpp:135
+#: dialogs/about.cpp:131
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
 msgstr ""
+"Strawberry to wolne oprogramowanie wydane na zasadach GPL. Kod źródłowy "
+"dostępny jest na %1"
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -4077,11 +4083,11 @@ msgstr "Test zakończył się powodzeniem!"
 msgid "Text options"
 msgstr "Opcje tekstu"
 
-#: dialogs/about.cpp:192
+#: dialogs/about.cpp:188
 msgid "Thanks to"
 msgstr "Podziękowania"
 
-#: dialogs/about.cpp:200
+#: dialogs/about.cpp:196
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 "Podziękowania dla wszystkich innych współautorów Amaroka i Clementine."
@@ -4499,7 +4505,7 @@ msgstr "Różni artyści"
 msgid "Verify server certificate"
 msgstr "Weryfikuj certyfikat serwera"
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:121
 #, qt-format
 msgid "Version %1"
 msgstr "Wersja %1"
@@ -4635,12 +4641,14 @@ msgstr "Zalogowano."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Możesz zmienić sposób, w jaki prezentowane są utwory w kolekcji."
 
-#: dialogs/about.cpp:143
+#: dialogs/about.cpp:139
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
+"Możesz sponsorować autora na %1. Możesz także dokonać jednorazowej wpłaty "
+"poprzez %2."
 
 #: core/songloader.cpp:134 core/songloader.cpp:139
 msgid "You need GStreamer for this URL."
@@ -4666,12 +4674,14 @@ msgstr ""
 "Preferencje systemowe i zaznaczyć „<span style=\" font-style:italic;\">Włącz "
 "dostęp do urządzeń wspomagających</span>”."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:133
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
+"Powinieneś otrzymać kopię GNU General Public License wraz z tym programem. "
+"Jeśli nie, zobacz %1"
 
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
