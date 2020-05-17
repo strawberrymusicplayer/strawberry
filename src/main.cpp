@@ -175,7 +175,7 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-#if defined(Q_OS_MACOS) && defined(USE_BUNDLE)
+#if defined(USE_BUNDLE) && (defined(Q_OS_LINUX) || defined(Q_OS_MACOS))
   qLog(Debug) << "Looking for resources in" << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR;
   QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath() + "/" + USE_BUNDLE_DIR);
 #endif
