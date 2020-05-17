@@ -96,10 +96,8 @@ About::About(QWidget *parent):QDialog(parent) {
   ui_.label_title->setFont(title_font);
   ui_.label_title->setText(Title);
   ui_.label_title->adjustSize();
-
   ui_.label_text->setText(MainHtml());
   ui_.label_text->adjustSize();
-
   ui_.text_contributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
@@ -111,9 +109,7 @@ void About::showEvent(QShowEvent*) {
   setMinimumHeight(0);
   setMaximumHeight(9000);
   adjustSize();
-  // Set fixed height and workaround bottom spacer taking up to much space.
-  setFixedHeight(height() - ui_.spacer_bottom->geometry().height() + 15);
-  adjustSize();
+  setFixedHeight(height() + 40);
 
 }
 
