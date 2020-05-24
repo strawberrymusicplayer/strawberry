@@ -799,7 +799,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   int domain = error->domain;
   int code = error->code;
   g_error_free(error);
-  free(debugs);
+  g_free(debugs);
 
   if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == (int)GST_RESOURCE_ERROR || domain == (int)GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
