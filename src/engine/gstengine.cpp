@@ -419,6 +419,7 @@ void GstEngine::ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QS
   // Schedule this to run in the GUI thread.  The buffer gets added to the queue and unreffed by UpdateScope.
   if (!QMetaObject::invokeMethod(this, "AddBufferToScope", Q_ARG(GstBuffer*, buffer), Q_ARG(int, pipeline_id), Q_ARG(QString, format))) {
     qLog(Warning) << "Failed to invoke AddBufferToScope on GstEngine";
+    gst_buffer_unref(buffer);
   }
 
 }
@@ -802,6 +803,7 @@ void GstEngine::UpdateScope(const int chunk_length) {
   // In case a buffer doesn't arrive in time
   if (scope_chunk_ >= scope_chunks_) {
     scope_chunk_ = 0;
+    gst_buffer_unmap(latest_buffer_, &map);
     return;
   }
 
