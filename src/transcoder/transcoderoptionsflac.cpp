@@ -43,15 +43,19 @@ TranscoderOptionsFLAC::~TranscoderOptionsFLAC() {
 }
 
 void TranscoderOptionsFLAC::Load() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
-
   ui_->quality->setValue(s.value("quality", 5).toInt());
+  s.endGroup();
+
 }
 
 void TranscoderOptionsFLAC::Save() {
+
   QSettings s;
   s.beginGroup(kSettingsGroup + settings_postfix_);
-
   s.setValue("quality", ui_->quality->value());
+  s.endGroup();
+
 }

@@ -196,6 +196,8 @@ void BehaviourSettingsPage::Load() {
 
   s.endGroup();
 
+  Init(ui_->layout_behavioursettingspage->parentWidget());
+
 }
 
 void BehaviourSettingsPage::Save() {

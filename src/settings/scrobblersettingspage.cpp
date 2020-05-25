@@ -107,6 +107,8 @@ void ScrobblerSettingsPage::Load() {
   ui_->lineedit_listenbrainz_user_token->setText(listenbrainzscrobbler_->user_token());
   ListenBrainz_RefreshControls(listenbrainzscrobbler_->IsAuthenticated());
 
+  Init(ui_->layout_scrobblersettingspage->parentWidget());
+
 }
 
 void ScrobblerSettingsPage::Save() {

@@ -105,15 +105,15 @@
      <property name="title">
       <string>Preferences</string>
      </property>
-     <layout class="QFormLayout" name="layout_preferences">
-      <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
        <widget class="QCheckBox" name="checkbox_verify_certificate">
         <property name="text">
          <string>Verify server certificate</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item>
        <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
          <string>Download album covers</string>

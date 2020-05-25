@@ -85,6 +85,8 @@ void PlaylistSettingsPage::Load() {
 
   s.endGroup();
 
+  Init(ui_->layout_playlistsettingspage->parentWidget());
+
 }
 
 void PlaylistSettingsPage::Save() {

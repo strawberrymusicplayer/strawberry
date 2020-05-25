@@ -75,21 +75,27 @@ TranscoderOptionsDialog::~TranscoderOptionsDialog() {
 }
 
 void TranscoderOptionsDialog::showEvent(QShowEvent *e) {
+
   Q_UNUSED(e);
   if (options_) {
     options_->Load();
   }
+
 }
 
 void TranscoderOptionsDialog::accept() {
+
   if (options_) {
     options_->Save();
   }
   QDialog::accept();
+
 }
 
 void TranscoderOptionsDialog::set_settings_postfix(const QString &settings_postfix) {
+
   if (options_) {
     options_->settings_postfix_ = settings_postfix;
   }
+
 }

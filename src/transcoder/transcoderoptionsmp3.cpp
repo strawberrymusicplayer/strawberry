@@ -56,7 +56,8 @@ void TranscoderOptionsMP3::Load() {
 
   if (s.value("target", 1).toInt() == 0) {
     ui_->target_quality->setChecked(true);
-  } else {
+  }
+  else {
     ui_->target_bitrate->setChecked(true);
   }
 
@@ -65,6 +66,8 @@ void TranscoderOptionsMP3::Load() {
   ui_->cbr->setChecked(s.value("cbr", false).toBool());
   ui_->encoding_engine_quality->setCurrentIndex(s.value("encoding-engine-quality", 1).toInt());
   ui_->mono->setChecked(s.value("mono", false).toBool());
+
+  s.endGroup();
 
 }
 
@@ -79,6 +82,8 @@ void TranscoderOptionsMP3::Save() {
   s.setValue("cbr", ui_->cbr->isChecked());
   s.setValue("encoding-engine-quality", ui_->encoding_engine_quality->currentIndex());
   s.setValue("mono", ui_->mono->isChecked());
+
+  s.endGroup();
 
 }
 

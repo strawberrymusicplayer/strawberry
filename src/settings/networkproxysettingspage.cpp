@@ -77,6 +77,8 @@ void NetworkProxySettingsPage::Load() {
   ui_->proxy_password->setText(s.value("password").toString());
   s.endGroup();
 
+  Init(ui_->layout_networkproxysettingspage->parentWidget());
+
 }
 
 void NetworkProxySettingsPage::Save() {

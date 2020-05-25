@@ -188,6 +188,8 @@ void AppearanceSettingsPage::Load() {
 
   s.endGroup();
 
+  Init(ui_->layout_appearancesettingspage->parentWidget());
+
 }
 
 void AppearanceSettingsPage::Save() {
@@ -269,6 +271,8 @@ void AppearanceSettingsPage::SelectForegroundColor() {
 
   UpdateColorSelectorColor(ui_->select_foreground_color, color_selected);
 
+  set_changed();
+
 }
 
 void AppearanceSettingsPage::SelectBackgroundColor() {
@@ -280,6 +284,8 @@ void AppearanceSettingsPage::SelectBackgroundColor() {
   dialog()->appearance()->ChangeBackgroundColor(color_selected);
 
   UpdateColorSelectorColor(ui_->select_background_color, color_selected);
+
+  set_changed();
 
 }
 

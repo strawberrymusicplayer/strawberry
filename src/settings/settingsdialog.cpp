@@ -201,7 +201,11 @@ void SettingsDialog::closeEvent(QCloseEvent*) {
 
 void SettingsDialog::accept() {
 
-  Save();
+  for (const PageData &page : pages_.values()) {
+    page.page_->Accept();
+  }
+  emit ReloadSettings();
+
   SaveGeometry();
 
   QDialog::accept();
@@ -212,7 +216,7 @@ void SettingsDialog::reject() {
 
   // Notify each page that user clicks on Cancel
   for (const PageData &page : pages_.values()) {
-    page.page_->Cancel();
+    page.page_->Reject();
   }
   SaveGeometry();
 
@@ -309,18 +313,23 @@ void SettingsDialog::AddPage(Page id, SettingsPage *page, QTreeWidgetItem *paren
 void SettingsDialog::Save() {
 
   for (const PageData &page : pages_.values()) {
-    page.page_->Save();
+    page.page_->Apply();
   }
   emit ReloadSettings();
 
 }
 
+
 void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
 
   // While we only connect Apply at the moment, this might change in the future
   if (ui_->buttonBox->button(QDialogButtonBox::Apply) == button) {
-    Save();
+    for (const PageData &page : pages_.values()) {
+      page.page_->Apply();
+    }
+    emit ReloadSettings();
   }
+
 }
 
 void SettingsDialog::OpenAtPage(Page page) {

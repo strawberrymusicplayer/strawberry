@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Scrobbler</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="layout_scrobblersettingspage">
    <item>
     <widget class="QCheckBox" name="checkbox_enable">
      <property name="enabled">

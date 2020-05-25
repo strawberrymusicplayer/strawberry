@@ -43,6 +43,9 @@ class TranscoderSettingsPage : public SettingsPage {
   void Load();
   void Save();
 
+ protected:
+  void showEvent(QShowEvent *e);
+
  private:
   Ui_TranscoderSettingsPage* ui_;
 };

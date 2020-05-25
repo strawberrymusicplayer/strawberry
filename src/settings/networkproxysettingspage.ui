@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Network Proxy</string>
   </property>
-  <layout class="QVBoxLayout" name="layout_networkproxysettingsPage">
+  <layout class="QVBoxLayout" name="layout_networkproxysettingspage">
    <item>
     <widget class="QRadioButton" name="proxy_system">
      <property name="text">

@@ -77,6 +77,8 @@ void SubsonicSettingsPage::Load() {
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
   s.endGroup();
 
+  Init(ui_->layout_subsonicsettingspage->parentWidget());
+
 }
 
 void SubsonicSettingsPage::Save() {

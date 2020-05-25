@@ -75,6 +75,8 @@ void MoodbarSettingsPage::Load() {
 
   InitMoodbarPreviews();
 
+  Init(ui_->layout_moodbarsettingspage->parentWidget());
+
 }
 
 void MoodbarSettingsPage::Save() {

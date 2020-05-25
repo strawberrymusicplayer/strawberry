@@ -182,6 +182,8 @@ void BackendSettingsPage::Load() {
   FadingOptionsChanged();
   RgPreampChanged(ui_->stickslider_replaygainpreamp->value());
 
+  Init(ui_->layout_backendsettings->parentWidget());
+
 }
 
 bool BackendSettingsPage::EngineInitialised() {

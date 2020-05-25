@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Covers</string>
   </property>
-  <layout class="QVBoxLayout" name="layout_tidalsettingspage">
+  <layout class="QVBoxLayout" name="layout_coverssettingspage">
    <item>
     <widget class="QGroupBox" name="groupbox_providers">
      <property name="sizePolicy">

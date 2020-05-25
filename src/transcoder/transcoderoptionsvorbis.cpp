@@ -63,6 +63,8 @@ void TranscoderOptionsVorbis::Load() {
   ui_->min_bitrate_slider->setValue(min_bitrate);
   ui_->bitrate_slider->setValue(bitrate);
 
+  s.endGroup();
+
 }
 
 void TranscoderOptionsVorbis::Save() {
@@ -84,5 +86,7 @@ void TranscoderOptionsVorbis::Save() {
   s.setValue("bitrate", bitrate);
   s.setValue("min-bitrate", min_bitrate);
   s.setValue("max-bitrate", max_bitrate);
+
+  s.endGroup();
 
 }

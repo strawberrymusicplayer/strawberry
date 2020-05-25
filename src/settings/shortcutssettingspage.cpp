@@ -174,6 +174,8 @@ void GlobalShortcutsSettingsPage::Load() {
   ui_->label_macos_mavericks->setVisible(macos_version >= 9);
 #endif  // Q_OS_MACOS
 
+  Init(ui_->layout_globalshortcutssettingspage->parentWidget());
+
 }
 
 void GlobalShortcutsSettingsPage::Save() {
@@ -279,11 +281,17 @@ void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
 }
 
 void GlobalShortcutsSettingsPage::NoneClicked() {
+
   SetShortcut(current_id_, QKeySequence());
+  set_changed();
+
 }
 
 void GlobalShortcutsSettingsPage::DefaultClicked() {
+
   SetShortcut(current_id_, shortcuts_[current_id_].s.default_key);
+  set_changed();
+
 }
 
 void GlobalShortcutsSettingsPage::ChangeClicked() {
@@ -302,6 +310,8 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 
   ui_->radio_custom->setChecked(true);
   SetShortcut(current_id_, key);
+
+  set_changed();
 
 }
 

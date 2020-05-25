@@ -133,6 +133,7 @@ class SettingsDialog : public QDialog {
   QTreeWidgetItem *AddCategory(const QString &name);
   void AddPage(Page id, SettingsPage *page, QTreeWidgetItem *parent = nullptr);
 
+  void Apply();
   void Save();
 
  signals:

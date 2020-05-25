@@ -117,6 +117,8 @@ void TidalSettingsPage::Load() {
   OAuthClicked(ui_->oauth->isChecked());
   if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::LoggedIn);
 
+  Init(ui_->layout_tidalsettingspage->parentWidget());
+
 }
 
 void TidalSettingsPage::Save() {

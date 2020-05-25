@@ -60,6 +60,8 @@ void TranscoderOptionsSpeex::Load() {
   ui_->complexity->setValue(s.value("complexity", 3).toInt());
   ui_->nframes->setValue(s.value("nframes", 1).toInt());
 
+  s.endGroup();
+
 }
 
 void TranscoderOptionsSpeex::Save() {
@@ -76,5 +78,7 @@ void TranscoderOptionsSpeex::Save() {
   s.setValue("dtx", ui_->dtx->isChecked());
   s.setValue("complexity", ui_->complexity->value());
   s.setValue("nframes", ui_->nframes->value());
+
+  s.endGroup();
 
 }

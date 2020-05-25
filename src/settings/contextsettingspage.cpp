@@ -154,6 +154,8 @@ void ContextSettingsPage::Load() {
   ui_->checkbox_search_cover->setChecked(s.value("search_for_cover_auto", true).toBool());
   s.endGroup();
 
+  Init(ui_->layout_contextsettingspage->parentWidget());
+
 }
 
 void ContextSettingsPage::Save() {

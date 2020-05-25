@@ -105,10 +105,16 @@ void CollectionSettingsPage::Add() {
   }
 
   settings.setValue("last_path", path);
+
+  set_changed();
+
 }
 
 void CollectionSettingsPage::Remove() {
+
   dialog()->collection_directory_model()->RemoveDirectory(ui_->list->currentIndex());
+  set_changed();
+
 }
 
 void CollectionSettingsPage::CurrentRowChanged(const QModelIndex& index) {
@@ -177,6 +183,8 @@ void CollectionSettingsPage::Load() {
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
 
   ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? "empty" : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
+
+  Init(ui_->layout_collectionsettingspage->parentWidget());
 
 }
 

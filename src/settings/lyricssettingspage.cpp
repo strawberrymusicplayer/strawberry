@@ -85,6 +85,8 @@ void LyricsSettingsPage::Load() {
     item->setForeground(provider->is_enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
   }
 
+  Init(ui_->layout_lyricssettingspage->parentWidget());
+
 }
 
 void LyricsSettingsPage::Save() {
@@ -165,11 +167,15 @@ void LyricsSettingsPage::ProvidersMove(const int d) {
   ui_->providers->insertItem(row + d, item);
   ui_->providers->setCurrentRow(row + d);
 
+  set_changed();
+
 }
 
 void LyricsSettingsPage::ItemChanged(QListWidgetItem *item) {
 
   item->setForeground((item->checkState() == Qt::Checked) ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
+
+  set_changed();
 
 }
 

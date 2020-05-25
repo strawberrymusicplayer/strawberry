@@ -196,6 +196,8 @@ void NotificationsSettingsPage::Load() {
   ui_->notifications_disable_duration->setChecked(pretty_popup_->disable_duration());
   UpdatePopupVisible();
 
+  Init(ui_->layout_notificationssettingspage->parentWidget());
+
 }
 
 void NotificationsSettingsPage::Save() {

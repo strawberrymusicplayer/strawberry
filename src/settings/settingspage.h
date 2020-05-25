@@ -25,9 +25,20 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QPair>
+#include <QList>
+#include <QVariant>
 #include <QString>
 
 #include "widgets/osd.h"
+
+class QCheckBox;
+class QComboBox;
+class QRadioButton;
+class QSpinBox;
+class QSlider;
+class QLineEdit;
+class QShowEvent;
 
 class SettingsDialog;
 
@@ -37,23 +48,42 @@ class SettingsPage : public QWidget {
  public:
   explicit SettingsPage(SettingsDialog *dialog);
 
+  void Init(QWidget *ui_widget);
+
   // Return false to grey out the page's item in the list.
   virtual bool IsEnabled() const { return true; }
 
-  // Load is called when the dialog is shown, Save when the user clicks OK, and
-  // Cancel when the user clicks on Cancel
   virtual void Load() = 0;
-  virtual void Save() = 0;
-  virtual void Cancel() {}
+
+  void Accept();
+  void Reject();
+  void Apply();
 
   // The dialog that this page belongs to.
   SettingsDialog *dialog() const { return dialog_; }
+
+  void set_changed() { changed_ = true; }
+
+ protected:
+  virtual void showEvent(QShowEvent *e);
+
+ private:
+  virtual void Save() = 0;
+  virtual void Cancel() {}
 
  signals:
   void NotificationPreview(OSD::Behaviour, QString, QString);
 
  private:
   SettingsDialog *dialog_;
+  QWidget *ui_widget_;
+  bool changed_;
+  QList<QPair<QCheckBox*, Qt::CheckState>> checkboxes_;
+  QList<QPair<QRadioButton*, bool>> radiobuttons_;
+  QList<QPair<QComboBox*, QString>> comboboxes_;
+  QList<QPair<QSpinBox*, int>> spinboxes_;
+  QList<QPair<QSlider*, int>> sliders_;
+  QList<QPair<QLineEdit*, QString>> lineedits_;
 };
 
 #endif // SETTINGSPAGE_H
