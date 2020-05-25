@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Backend</string>
   </property>
-  <layout class="QVBoxLayout" name="layout_backendsettings">
+  <layout class="QVBoxLayout" name="layout_backendsettingspage">
    <item>
     <widget class="QGroupBox" name="groupbox_audio_output">
      <property name="title">
