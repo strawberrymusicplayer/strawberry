@@ -350,9 +350,6 @@ jobs:
       - run:
           name: Upgrade packages
           command: zypper --non-interactive --gpg-auto-import-keys dup
-      - run:
-          name: Remove problematic packages
-          command: zypper --non-interactive --gpg-auto-import-keys rm busybox-xz
       - install_opensuse_dependencies
       - checkout
       - cmake
