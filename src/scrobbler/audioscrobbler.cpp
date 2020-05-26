@@ -48,7 +48,7 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
   love_button_(false),
   submit_delay_(0),
   prefer_albumartist_(false),
-  show_auth_error_(false)
+  show_error_dialog_(false)
   {
 
   scrobbler_services_->AddService(new LastFMScrobbler(app_, scrobbler_services_));
@@ -75,7 +75,7 @@ void AudioScrobbler::ReloadSettings() {
   love_button_ = s.value("love_button", false).toBool();
   submit_delay_ = s.value("submit", 0).toInt();
   prefer_albumartist_ = s.value("albumartist", false).toBool();
-  show_auth_error_ = s.value("show_auth_error", true).toBool();
+  show_error_dialog_ = s.value("show_error_dialog", true).toBool();
   s.endGroup();
 
   emit ScrobblingEnabledChanged(enabled_);

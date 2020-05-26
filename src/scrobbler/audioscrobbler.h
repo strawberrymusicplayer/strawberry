@@ -46,7 +46,7 @@ class AudioScrobbler : public QObject {
   bool LoveButton() const { return love_button_; }
   int SubmitDelay() const { return submit_delay_; }
   bool PreferAlbumArtist() const { return prefer_albumartist_; }
-  bool ShowAuthError() const { return show_auth_error_; }
+  bool ShowErrorDialog() const { return show_error_dialog_; }
 
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
@@ -86,7 +86,7 @@ class AudioScrobbler : public QObject {
   bool love_button_;
   int submit_delay_;
   bool prefer_albumartist_;
-  bool show_auth_error_;
+  bool show_error_dialog_;
 
 };
 

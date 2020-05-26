@@ -525,7 +525,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   if (app_->scrobbler()->IsOffline()) return;
 
   if (!IsAuthenticated()) {
-    if (app_->scrobbler()->ShowAuthError()) { emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_)); }
+    if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_)); }
     return;
   }
 
@@ -986,6 +986,8 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << name_ << error;
   if (debug.isValid()) qLog(Debug) << debug;
+
+  if (app_->scrobbler()->ShowErrorDialog()) { emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_).arg(error)); }
 
 }
 

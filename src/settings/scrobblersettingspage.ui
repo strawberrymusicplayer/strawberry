@@ -110,9 +110,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkbox_show_auth_error">
+    <widget class="QCheckBox" name="checkbox_show_error_dialog">
      <property name="text">
-      <string>Show error dialog if scrobbler is enabled without being authenticated</string>
+      <string>Show dialog for errors</string>
      </property>
     </widget>
    </item>
