@@ -58,7 +58,7 @@ msgstr ""
 "\n"
 "Избранные плейлисты хранятся тут"
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -67,7 +67,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через GSD D-Bus и должны быть "
 "настроены в cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -76,7 +76,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через GSD D-Bus и должны быть "
 "настроены в gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:313
+#: settings/shortcutssettingspage.cpp:323
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -85,7 +85,7 @@ msgstr ""
 "Горячие клавиши на %1 обычно используются через MPRIS D-Bus и должны быть "
 "выбранны в настройках %1."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Горячие клавиши должны быть настроены в настройках %1."
@@ -166,12 +166,12 @@ msgstr "%1 дней"
 msgid "%1 days ago"
 msgstr "%1 дней назад"
 
-#: settings/coverssettingspage.cpp:132
+#: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:127
+#: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -907,8 +907,8 @@ msgstr "Аутентификация..."
 msgid "Authentication"
 msgstr "Аутентификация"
 
-#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
-#: settings/tidalsettingspage.cpp:203
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
 msgid "Authentication failed"
 msgstr "Ошибка аутентификации"
 
@@ -1067,7 +1067,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:629
+#: engine/gstengine.cpp:630
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -1233,12 +1233,12 @@ msgstr "Заполнить теги автоматически..."
 msgid "Composer"
 msgstr "Композитор"
 
-#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
-#: settings/tidalsettingspage.cpp:160
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
 msgid "Configuration incomplete"
 msgstr "Конфигурация не завершена"
 
-#: settings/subsonicsettingspage.cpp:107
+#: settings/subsonicsettingspage.cpp:109
 msgid "Configuration incorrect"
 msgstr "Некорректная конфигурация"
 
@@ -1738,7 +1738,7 @@ msgstr ""
 msgid "Enable volume control"
 msgstr "Включить управление громкостью"
 
-#: ../build/src/ui_moodbarsettingspage.h:94
+#: ../build/src/ui_moodbarsettingspage.h:100
 msgid "Enabled"
 msgstr "Включено"
 
@@ -2582,7 +2582,7 @@ msgstr "Минимальный битрейт"
 msgid "Minimum buffer fill"
 msgstr "Наим. заполнение буфера"
 
-#: settings/tidalsettingspage.cpp:160
+#: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
 msgstr ""
 
@@ -2600,7 +2600,7 @@ msgstr ""
 msgid "Missing Tidal API token."
 msgstr "Отсутствует API токен Tidal."
 
-#: settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
 msgstr "Отсутствует идентификатор клиента Tidal."
 
@@ -2612,7 +2612,7 @@ msgstr "Отсутствует Tidal пароль."
 msgid "Missing Tidal username."
 msgstr "Отсутствует имя пользователя Tidal."
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
 msgstr "Отсутствует URL-адрес сервера, имя пользователя или пароль."
 
@@ -2632,12 +2632,12 @@ msgstr "Следить за изменениями фонотеки"
 msgid "Mood"
 msgstr "Mood"
 
-#: ../build/src/ui_moodbarsettingspage.h:89
-#: ../build/src/ui_moodbarsettingspage.h:90
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:92
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Стиль Moodbar"
 
@@ -2740,7 +2740,7 @@ msgid ""
 msgstr ""
 "Совпадений не найдено. Очистите строку поиска, чтобы увидеть плейлист снова."
 
-#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
 msgstr ""
 
@@ -3493,7 +3493,7 @@ msgstr "Сохранить плейлист…"
 msgid "Save preset"
 msgstr "Сохранить профиль"
 
-#: ../build/src/ui_moodbarsettingspage.h:93
+#: ../build/src/ui_moodbarsettingspage.h:99
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Сохранять файлы .mood в папках песен"
 
@@ -3520,6 +3520,11 @@ msgstr "Размер масштабирования"
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Скробблер"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3582,7 +3587,7 @@ msgstr "Перемотка с помощью горячих клавиш кла�
 msgid "Select background color:"
 msgstr "Выбрать цвет фона:"
 
-#: settings/appearancesettingspage.cpp:319
+#: settings/appearancesettingspage.cpp:325
 msgid "Select background image"
 msgstr "Выбрать фоновое изображение"
 
@@ -3610,7 +3615,7 @@ msgstr "Серийный номер"
 msgid "Server URL"
 msgstr "URL сервера"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "URL сервера недействителен."
 
@@ -3635,7 +3640,7 @@ msgstr "Настройки"
 msgid "Shortcut"
 msgstr "Сочетание клавиш"
 
-#: settings/shortcutssettingspage.cpp:270
+#: settings/shortcutssettingspage.cpp:272
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
@@ -3657,7 +3662,7 @@ msgstr "Показать системные уведомления на рабо
 msgid "Show a glowing animation on the current track"
 msgstr "Подсвечивать проигрываемый трек"
 
-#: ../build/src/ui_moodbarsettingspage.h:91
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Show a moodbar in the track progress bar"
 msgstr "Показать moodbar в индикаторе прогресса трека"
 
@@ -3705,6 +3710,10 @@ msgstr "Показать альбомы исполнителя"
 msgid "Show all songs"
 msgstr "Показать все композиции"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Показывать разделители"
@@ -3712,10 +3721,6 @@ msgstr "Показывать разделители"
 #: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Показать движок и устройство"
-
-#: ../build/src/ui_scrobblersettingspage.h:327
-msgid "Show error dialog if scrobbler is enabled without being authenticated"
-msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -4059,11 +4064,11 @@ msgstr "Техно"
 msgid "Test"
 msgstr "Тест"
 
-#: settings/subsonicsettingspage.cpp:141
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test failed!"
 msgstr "Тест не пройден!"
 
-#: settings/subsonicsettingspage.cpp:132
+#: settings/subsonicsettingspage.cpp:134
 msgid "Test successful!"
 msgstr "Тест пройден успешно!"
 
@@ -4079,7 +4084,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/shortcutssettingspage.cpp:247
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Команда «%1» не может быть выполнена"
@@ -4391,7 +4396,7 @@ msgstr "Использовать OAuth"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Использовать значения из тегов по возможности"
 
-#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4465,7 +4470,7 @@ msgstr "Пользовательский токен:"
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: settings/shortcutssettingspage.cpp:311
+#: settings/shortcutssettingspage.cpp:321
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

@@ -40,7 +40,7 @@ msgstr ""
 "\n"
 "A kedvenc lejátszólisták ide lesznek elmentve"
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:327
 #, fuzzy, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -49,7 +49,7 @@ msgstr ""
 "A %1 gyorsbillentyűk általában a GSD D-Bus-on keresztül vannak használva, "
 "ezeket inkább a cinnamon-settings-daemon-ban kell konfigurálni."
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:325
 #, fuzzy, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -58,7 +58,7 @@ msgstr ""
 "A %1 gyorsbillentyűk általában a GSD D-Bus-on keresztül vannak használva, "
 "ezeket inkább a gnome-settings-daemon-ban kell konfigurálni."
 
-#: settings/shortcutssettingspage.cpp:313
+#: settings/shortcutssettingspage.cpp:323
 #, fuzzy, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -67,7 +67,7 @@ msgstr ""
 "A %1 gyorsbillentyűk általában a MPRIS D-Bus-on keresztül vannak használva, "
 "ezeket inkább a %1 beállításaiban kell konfigurálni."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "A gyorsbillentyűket inkább a %1 beállításaiban kell konfigurálni."
@@ -148,12 +148,12 @@ msgstr "%1 nap"
 msgid "%1 days ago"
 msgstr "%1 nappal ezelőtt"
 
-#: settings/coverssettingspage.cpp:132
+#: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr "A(z) %1 nem igényel hitelesítést."
 
-#: settings/coverssettingspage.cpp:127
+#: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
 msgstr "A(z) %1 hitelesítést igényel."
@@ -892,8 +892,8 @@ msgstr "Hitelesítés..."
 msgid "Authentication"
 msgstr "Hitelesítés"
 
-#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
-#: settings/tidalsettingspage.cpp:203
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
 
@@ -1052,7 +1052,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
-#: engine/gstengine.cpp:629
+#: engine/gstengine.cpp:630
 msgid "Buffering"
 msgstr "Pufferelés"
 
@@ -1223,12 +1223,12 @@ msgstr "Címkék automatikus kiegészítése"
 msgid "Composer"
 msgstr "Zeneszerző"
 
-#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
-#: settings/tidalsettingspage.cpp:160
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
 msgid "Configuration incomplete"
 msgstr "A konfiguráció hiányos"
 
-#: settings/subsonicsettingspage.cpp:107
+#: settings/subsonicsettingspage.cpp:109
 msgid "Configuration incorrect"
 msgstr "A konfiguráció hibás"
 
@@ -1727,7 +1727,7 @@ msgstr "Hangbalansz engedélyezése"
 msgid "Enable volume control"
 msgstr "Hangerőszabályzás engedélyezése"
 
-#: ../build/src/ui_moodbarsettingspage.h:94
+#: ../build/src/ui_moodbarsettingspage.h:100
 msgid "Enabled"
 msgstr "Engedélyezve"
 
@@ -2574,7 +2574,7 @@ msgstr "Minimális bitráta"
 msgid "Minimum buffer fill"
 msgstr "Minimum puffer"
 
-#: settings/tidalsettingspage.cpp:160
+#: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
 msgstr "Hiányzó API token, felhasználónév vagy jelszó."
 
@@ -2592,7 +2592,7 @@ msgstr "Hiányzó Tidal API token, felhasználónév vagy jelszó."
 msgid "Missing Tidal API token."
 msgstr "Hiányzó Tidal API token."
 
-#: settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
 msgstr "Hiányzó Tidal kliens azonosító."
 
@@ -2604,7 +2604,7 @@ msgstr "Hiányzó Tidal jelszó."
 msgid "Missing Tidal username."
 msgstr "Hiányzó Tidal felhasználónév."
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
 msgstr "Hiányzó szerver URL, felhasználónév vagy jelszó."
 
@@ -2624,12 +2624,12 @@ msgstr "Gyűjtemény figyelése változások után"
 msgid "Mood"
 msgstr "Hangulat"
 
-#: ../build/src/ui_moodbarsettingspage.h:89
-#: ../build/src/ui_moodbarsettingspage.h:90
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar"
 msgstr "Hangulatsáv"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:92
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Hangulatsáv stílusa"
 
@@ -2733,7 +2733,7 @@ msgstr ""
 "Nincs egyezés. Törölje a keresési feltételeket, hogy újra lássa a teljes "
 "lejátszólistát."
 
-#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
 msgstr "Nincsenek szolgáltatók kiválasztva."
 
@@ -3496,7 +3496,7 @@ msgstr "Lejátszólista mentése..."
 msgid "Save preset"
 msgstr "Beállítás mentése"
 
-#: ../build/src/ui_moodbarsettingspage.h:93
+#: ../build/src/ui_moodbarsettingspage.h:99
 msgid "Save the .mood files directly in the songs folders"
 msgstr "A .mood fájlok mentése a dalok mappájába"
 
@@ -3523,6 +3523,11 @@ msgstr "Skála méret"
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Scrobbler"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3585,7 +3590,7 @@ msgstr "Léptetés billentyűparanccsal, vagy egérgörgővel"
 msgid "Select background color:"
 msgstr "Háttérszín kiválasztása:"
 
-#: settings/appearancesettingspage.cpp:319
+#: settings/appearancesettingspage.cpp:325
 msgid "Select background image"
 msgstr "Háttérkép kiválasztása"
 
@@ -3613,7 +3618,7 @@ msgstr "Sorozatszám"
 msgid "Server URL"
 msgstr "Szerver URL"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "A szerver URL-je érvénytelen."
 
@@ -3638,7 +3643,7 @@ msgstr "Beállítások"
 msgid "Shortcut"
 msgstr "Kombináció"
 
-#: settings/shortcutssettingspage.cpp:270
+#: settings/shortcutssettingspage.cpp:272
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
@@ -3660,7 +3665,7 @@ msgstr "&Alapértelmezett értesítés"
 msgid "Show a glowing animation on the current track"
 msgstr "Ragyogás animáció megjelenítése a játszott számon a lejátszólistában"
 
-#: ../build/src/ui_moodbarsettingspage.h:91
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Show a moodbar in the track progress bar"
 msgstr "Hangulatsáv megjelenítése folyamatjelző sávként"
 
@@ -3708,6 +3713,10 @@ msgstr "Albumok megjelenítése az előadótól"
 msgid "Show all songs"
 msgstr "Összes dal megjelenítése"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Elválasztók megjelenítése"
@@ -3715,12 +3724,6 @@ msgstr "Elválasztók megjelenítése"
 #: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Motor és eszköz megjelenítése"
-
-#: ../build/src/ui_scrobblersettingspage.h:327
-msgid "Show error dialog if scrobbler is enabled without being authenticated"
-msgstr ""
-"Hiba párbeszédpanel megjelenítése, ha a scrobbler engedélyezve van a "
-"hitelesítés nélkül"
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -4065,11 +4068,11 @@ msgstr "Techno"
 msgid "Test"
 msgstr "Teszt"
 
-#: settings/subsonicsettingspage.cpp:141
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test failed!"
 msgstr "Teszt sikertelen!"
 
-#: settings/subsonicsettingspage.cpp:132
+#: settings/subsonicsettingspage.cpp:134
 msgid "Test successful!"
 msgstr "Teszt sikeres!"
 
@@ -4085,7 +4088,7 @@ msgstr "Köszönet még"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/shortcutssettingspage.cpp:247
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "A \"%1\" parancs nem végrehajtható."
@@ -4402,7 +4405,7 @@ msgstr "OAuth használata"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Visszhangerősítés metaadatok használata, ha elérhetőek"
 
-#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
 msgstr "Tidal beállítások használata hitelesítéshez."
 
@@ -4476,7 +4479,7 @@ msgstr "Felhasználói token:"
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: settings/shortcutssettingspage.cpp:311
+#: settings/shortcutssettingspage.cpp:321
 #, fuzzy, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-17 04:03-0400\n"
+"PO-Revision-Date: 2020-05-21 02:21-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -62,7 +62,7 @@ msgstr ""
 "\n"
 "Les listes de lecture favorites seront sauvegardées ici"
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -71,7 +71,7 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via le D-Bus GSD et "
 "doivent être configurés dans cinnamon-settings-daemon à la place."
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -80,7 +80,7 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via le D-Bus GSD et "
 "doivent être configurés dans gnome-settings-daemon à la place."
 
-#: settings/shortcutssettingspage.cpp:313
+#: settings/shortcutssettingspage.cpp:323
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -89,11 +89,11 @@ msgstr ""
 " Les raccourcis sur %1 sont généralement utilisés via MPRIS D-Bus et doivent "
 "être configurés avec les réglages %1 à la place."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr ""
-"Les raccourcis doivent être configurés avec les réglages de %1 à la place."
+" Les raccourcis doivent être configurés avec les réglages de %1 à la place."
 
 #: ../build/src/ui_transcoderoptionsaac.h:129
 #: ../build/src/ui_transcoderoptionsvorbis.h:204
@@ -171,12 +171,12 @@ msgstr "%1 jours"
 msgid "%1 days ago"
 msgstr "Il y a %1 jours"
 
-#: settings/coverssettingspage.cpp:132
+#: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr "%1 ne nécessite pas une authentification."
 
-#: settings/coverssettingspage.cpp:127
+#: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
 msgstr "%1 nécessite une authentification."
@@ -868,7 +868,7 @@ msgstr "Appliquer une compression pour prévenir les coupures"
 #: equalizer/equalizer.cpp:227
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "Êtes-vous sûr(e) de vouloir supprimer la valeur prédéfinie « %1 »"
+msgstr "Êtes-vous sûr(e) de vouloir supprimer la valeur prédéfinie « %1 » ?"
 
 #: dialogs/edittagdialog.cpp:833
 msgid "Are you sure you want to reset this song's statistics?"
@@ -923,8 +923,8 @@ msgstr "En cours d'authentification..."
 msgid "Authentication"
 msgstr "Authentification"
 
-#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
-#: settings/tidalsettingspage.cpp:203
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
@@ -1084,7 +1084,7 @@ msgstr "Tampon"
 msgid "Buffer duration"
 msgstr "Durée du tampon"
 
-#: engine/gstengine.cpp:629
+#: engine/gstengine.cpp:630
 msgid "Buffering"
 msgstr "Mise en mémoire tampon"
 
@@ -1255,12 +1255,12 @@ msgstr "Compléter les tags automatiquement..."
 msgid "Composer"
 msgstr "Compositeur"
 
-#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
-#: settings/tidalsettingspage.cpp:160
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
 msgid "Configuration incomplete"
 msgstr "Configuration incomplète"
 
-#: settings/subsonicsettingspage.cpp:107
+#: settings/subsonicsettingspage.cpp:109
 msgid "Configuration incorrect"
 msgstr "Configuration incorrecte"
 
@@ -1334,7 +1334,7 @@ msgid ""
 "required GStreamer plugins installed"
 msgstr ""
 "Impossible de créer l'élément GStreamer « %1 » - vérifier que les modules "
-"externes GStreamer nécessaires sont installés."
+"externes GStreamer nécessaires sont installés"
 
 #: scrobbler/scrobblingapi20.cpp:177
 msgid "Could not open URL. Please open this URL in your browser"
@@ -1362,7 +1362,7 @@ msgid ""
 "installed"
 msgstr ""
 "Impossible de trouver un multiplexeur pour %1, vérifiez que les bons modules "
-"externes GStreamer sont installés."
+"externes GStreamer sont installés"
 
 #: transcoder/transcoder.cpp:435
 #, qt-format
@@ -1371,7 +1371,7 @@ msgid ""
 "plugins installed"
 msgstr ""
 "Impossible de trouver un encodeur pour %1, vérifiez que les bons modules "
-"externes GStreamer sont installés."
+"externes GStreamer sont installés"
 
 #: ../build/src/ui_albumcovermanager.h:213
 #: ../build/src/ui_albumcoversearcher.h:104
@@ -1765,7 +1765,7 @@ msgstr "Activer la balance stéréo"
 msgid "Enable volume control"
 msgstr "Activer le contrôle du volume"
 
-#: ../build/src/ui_moodbarsettingspage.h:94
+#: ../build/src/ui_moodbarsettingspage.h:100
 msgid "Enabled"
 msgstr "Activé"
 
@@ -1791,7 +1791,7 @@ msgstr "Moteur et périphérique"
 
 #: ../build/src/ui_coverfromurldialog.h:102
 msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Saisissez une URL pour télécharger une pochette depuis Internet"
+msgstr "Saisissez une URL pour télécharger une pochette depuis Internet :"
 
 #: ../build/src/ui_albumcoverexport.h:204
 msgid "Enter a filename for exported covers (no extension):"
@@ -2128,15 +2128,15 @@ msgstr "Gelé"
 
 #: equalizer/equalizer.cpp:141
 msgid "Full Bass"
-msgstr "Graves Max."
+msgstr "Graves Max"
 
 #: equalizer/equalizer.cpp:143
 msgid "Full Bass + Treble"
-msgstr "Graves + Aigus Max."
+msgstr "Graves + Aigus Max"
 
 #: equalizer/equalizer.cpp:142
 msgid "Full Treble"
-msgstr "Aigus Max."
+msgstr "Aigus Max"
 
 #: settings/settingsdialog.cpp:129
 msgid "General"
@@ -2615,7 +2615,7 @@ msgstr "Débit minimum"
 msgid "Minimum buffer fill"
 msgstr "Remplissage minimum du tampon"
 
-#: settings/tidalsettingspage.cpp:160
+#: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
 msgstr ""
 "Le jeton de l'API, le nom d'utilisateur ou le mot de passe est manquant."
@@ -2636,7 +2636,7 @@ msgstr ""
 msgid "Missing Tidal API token."
 msgstr "Le jeton de l'API Tidal est manquant."
 
-#: settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
 msgstr "L'ID du client Tidal est manquant."
 
@@ -2648,7 +2648,7 @@ msgstr "Le mot de passe de Tidal est manquant."
 msgid "Missing Tidal username."
 msgstr "Le nom d'utilisateur de Tidal est manquant."
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
 msgstr ""
 "L'URL du serveur, le nom d'utilisateur ou le mot de passe est manquant."
@@ -2669,12 +2669,12 @@ msgstr "Surveiller les modifications de la bibliothèque"
 msgid "Mood"
 msgstr "Humeur"
 
-#: ../build/src/ui_moodbarsettingspage.h:89
-#: ../build/src/ui_moodbarsettingspage.h:90
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar"
 msgstr "Barre d'humeur"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:92
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Style de la barre d'humeur"
 
@@ -2778,7 +2778,7 @@ msgstr ""
 "Aucune correspondance trouvée. Videz le champ de recherche pour afficher à "
 "nouveau la totalité de la liste de lecture."
 
-#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
 msgstr "Aucun fournisseur sélectionné."
 
@@ -3253,7 +3253,7 @@ msgstr ""
 
 #: lyrics/geniuslyricsprovider.cpp:203
 msgid "Redirect from Genius is missing query items code or state."
-msgstr ""
+msgstr "Are you sure you want to"
 
 #: covermanager/spotifycoverprovider.cpp:192
 msgid "Redirect missing token code or state!"
@@ -3540,7 +3540,7 @@ msgstr "Enregistrer la liste de lecture..."
 msgid "Save preset"
 msgstr "Enregistrer le pré-réglage"
 
-#: ../build/src/ui_moodbarsettingspage.h:93
+#: ../build/src/ui_moodbarsettingspage.h:99
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Sauvegarder les fichiers .mood dans les dossiers des morceaux"
 
@@ -3567,6 +3567,11 @@ msgstr "Taille redimensionnée"
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Scrobbler"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3629,7 +3634,7 @@ msgstr "Rechercher avec un raccourci clavier ou avec la roulette de la souris"
 msgid "Select background color:"
 msgstr "Sélectionner la couleur d'arrière-plan :"
 
-#: settings/appearancesettingspage.cpp:319
+#: settings/appearancesettingspage.cpp:325
 msgid "Select background image"
 msgstr "Sélectionner une image d'arrière-plan"
 
@@ -3657,7 +3662,7 @@ msgstr "Numéro de série"
 msgid "Server URL"
 msgstr "L'URL du serveur"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
 
@@ -3682,7 +3687,7 @@ msgstr "Paramètres"
 msgid "Shortcut"
 msgstr "Raccourci"
 
-#: settings/shortcutssettingspage.cpp:270
+#: settings/shortcutssettingspage.cpp:272
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
@@ -3704,7 +3709,7 @@ msgstr "Afficher une notification native au bureau"
 msgid "Show a glowing animation on the current track"
 msgstr "Mettre en surbrillance la piste en cours de lecture"
 
-#: ../build/src/ui_moodbarsettingspage.h:91
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Show a moodbar in the track progress bar"
 msgstr "Afficher une barre d'humeur sur la barre de progression de la piste"
 
@@ -3753,6 +3758,10 @@ msgstr "Afficher les albums par artiste"
 msgid "Show all songs"
 msgstr "Afficher tous les morceaux"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Afficher les séparateurs"
@@ -3760,12 +3769,6 @@ msgstr "Afficher les séparateurs"
 #: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Afficher le moteur et le périphérique"
-
-#: ../build/src/ui_scrobblersettingspage.h:327
-msgid "Show error dialog if scrobbler is enabled without being authenticated"
-msgstr ""
-"Afficher la boîte de dialogue d'erreur si Scrobbler est activé sans être "
-"authentifié"
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -4111,11 +4114,11 @@ msgstr "Techno"
 msgid "Test"
 msgstr "Test"
 
-#: settings/subsonicsettingspage.cpp:141
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test failed!"
 msgstr "Test échoué !"
 
-#: settings/subsonicsettingspage.cpp:132
+#: settings/subsonicsettingspage.cpp:134
 msgid "Test successful!"
 msgstr "Test réussi !"
 
@@ -4131,7 +4134,7 @@ msgstr "Remerciements à"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Remerciements à tous les autres contributeurs d'Amarok et Clementine."
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/shortcutssettingspage.cpp:247
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "La commande « %1 » n'a pas pu être démarrée."
@@ -4454,7 +4457,7 @@ msgstr "Utiliser OAuth"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Utiliser la métadonnée Replay Gain si disponible"
 
-#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
 msgstr "Utiliser les paramètres de Tidal pour vous authentifier."
 
@@ -4528,7 +4531,7 @@ msgstr "Jeton utilisateur :"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: settings/shortcutssettingspage.cpp:311
+#: settings/shortcutssettingspage.cpp:321
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
@@ -4845,4 +4848,4 @@ msgstr "piste %1"
 
 #: covermanager/albumcoverchoicecontroller.cpp:164
 msgid "unknown"
-msgstr "Inconnu"
+msgstr "inconnu"

@@ -39,7 +39,7 @@ msgstr ""
 "\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -48,7 +48,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di cinnamon-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
@@ -57,7 +57,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus GSD sehingga harus "
 "dikonfigurasi di gnome-settings-daemon."
 
-#: settings/shortcutssettingspage.cpp:313
+#: settings/shortcutssettingspage.cpp:323
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
@@ -66,7 +66,7 @@ msgstr ""
 " Pintasan di %1 biasanya digunakan melalui D-Bus MPRIS sehingga harus "
 "dikonfigurasi di pengaturan %1."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr "Pintasan harus dikonfigurasi di pengaturan %1."
@@ -147,12 +147,12 @@ msgstr "%1 hari"
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
 
-#: settings/coverssettingspage.cpp:132
+#: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:127
+#: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -889,8 +889,8 @@ msgstr "Mengautentikasi..."
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
-#: settings/tidalsettingspage.cpp:203
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
@@ -1049,7 +1049,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:629
+#: engine/gstengine.cpp:630
 msgid "Buffering"
 msgstr "Membufer..."
 
@@ -1214,12 +1214,12 @@ msgstr "Lengkapi tag secara otomatis..."
 msgid "Composer"
 msgstr "Komposer"
 
-#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
-#: settings/tidalsettingspage.cpp:160
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
-#: settings/subsonicsettingspage.cpp:107
+#: settings/subsonicsettingspage.cpp:109
 msgid "Configuration incorrect"
 msgstr "Konfigurasi tidak benar"
 
@@ -1718,7 +1718,7 @@ msgstr "Fungsikan penyeimbang stereo"
 msgid "Enable volume control"
 msgstr "Fungsikan kontrol volume"
 
-#: ../build/src/ui_moodbarsettingspage.h:94
+#: ../build/src/ui_moodbarsettingspage.h:100
 msgid "Enabled"
 msgstr "Terfungsikan"
 
@@ -2559,7 +2559,7 @@ msgstr "Lajubit minimum"
 msgid "Minimum buffer fill"
 msgstr "Minimum pengisian bufer"
 
-#: settings/tidalsettingspage.cpp:160
+#: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
 msgstr ""
 
@@ -2577,7 +2577,7 @@ msgstr ""
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
-#: settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
@@ -2589,7 +2589,7 @@ msgstr "Kata sandi Tidal tidak tersedia."
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
@@ -2609,12 +2609,12 @@ msgstr "Monitor perubahan pustaka"
 msgid "Mood"
 msgstr "Mood"
 
-#: ../build/src/ui_moodbarsettingspage.h:89
-#: ../build/src/ui_moodbarsettingspage.h:90
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:92
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Gaya moodbar"
 
@@ -2718,7 +2718,7 @@ msgstr ""
 "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi "
 "seluruh daftar putar."
 
-#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
 msgstr ""
 
@@ -3469,7 +3469,7 @@ msgstr "Simpan daftar putar..."
 msgid "Save preset"
 msgstr "Simpan prasetel"
 
-#: ../build/src/ui_moodbarsettingspage.h:93
+#: ../build/src/ui_moodbarsettingspage.h:99
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Simpan berkas .mood di folder lagu"
 
@@ -3496,6 +3496,11 @@ msgstr "Ukuran skala"
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "Scrobbler"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3558,7 +3563,7 @@ msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 msgid "Select background color:"
 msgstr "Pilih warna latar belakang:"
 
-#: settings/appearancesettingspage.cpp:319
+#: settings/appearancesettingspage.cpp:325
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
@@ -3586,7 +3591,7 @@ msgstr "Nomor seri"
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
@@ -3611,7 +3616,7 @@ msgstr "Setelan"
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/shortcutssettingspage.cpp:270
+#: settings/shortcutssettingspage.cpp:272
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
@@ -3633,7 +3638,7 @@ msgstr "Tampilkan &notifikasi desktop asli"
 msgid "Show a glowing animation on the current track"
 msgstr "Tampilkan animasi bersinar di trek saat ini"
 
-#: ../build/src/ui_moodbarsettingspage.h:91
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Show a moodbar in the track progress bar"
 msgstr "Tampilkan moodbar di bilah kemajuan trek"
 
@@ -3681,6 +3686,10 @@ msgstr "Tampilkan album berdasarkan artis"
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
@@ -3688,10 +3697,6 @@ msgstr "Tampilkan pembagi"
 #: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "Tampilkan mesin dan perangkat"
-
-#: ../build/src/ui_scrobblersettingspage.h:327
-msgid "Show error dialog if scrobbler is enabled without being authenticated"
-msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -4034,11 +4039,11 @@ msgstr "Tekno"
 msgid "Test"
 msgstr "Tes"
 
-#: settings/subsonicsettingspage.cpp:141
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test failed!"
 msgstr "Tes gagal!"
 
-#: settings/subsonicsettingspage.cpp:132
+#: settings/subsonicsettingspage.cpp:134
 msgid "Test successful!"
 msgstr "Tes berhasil!"
 
@@ -4054,7 +4059,7 @@ msgstr ""
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/shortcutssettingspage.cpp:247
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
@@ -4367,7 +4372,7 @@ msgstr "Gunakan OAuth"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
-#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4441,7 +4446,7 @@ msgstr "Token pengguna:"
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/shortcutssettingspage.cpp:311
+#: settings/shortcutssettingspage.cpp:321
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "

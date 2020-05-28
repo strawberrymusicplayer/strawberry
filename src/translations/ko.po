@@ -40,28 +40,28 @@ msgstr "\n"
 "\n"
 "즐겨찾는 재생 목록은 여기에 저장됩니다"
 
-#: settings/shortcutssettingspage.cpp:317
+#: settings/shortcutssettingspage.cpp:327
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
 "in cinnamon-settings-daemon instead."
 msgstr " %1의 단축키는 GSD D-Bus로 관리되며 cinamon-settings-daemon 설정에서 변경해야 합니다."
 
-#: settings/shortcutssettingspage.cpp:315
+#: settings/shortcutssettingspage.cpp:325
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
 "in gnome-settings-daemon instead."
 msgstr " %1의 단축키는 GSD D-Bus로 관리되며 gnome-settings-daemon 설정에서 변경해야 합니다."
 
-#: settings/shortcutssettingspage.cpp:313
+#: settings/shortcutssettingspage.cpp:323
 #, qt-format
 msgid ""
 " Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
 "configured in %1 settings instead."
 msgstr " %1의 단축키는 MPRIS D-Bus로 관리되며 %1 설정에서 변경해야 합니다."
 
-#: settings/shortcutssettingspage.cpp:319
+#: settings/shortcutssettingspage.cpp:329
 #, qt-format
 msgid " Shortcuts should be configured in %1 settings instead."
 msgstr " %1 설정에서 단축키를 설정하십시오."
@@ -142,12 +142,12 @@ msgstr "%1일"
 msgid "%1 days ago"
 msgstr "%1일 전"
 
-#: settings/coverssettingspage.cpp:132
+#: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:127
+#: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
@@ -880,8 +880,8 @@ msgstr "인증 중..."
 msgid "Authentication"
 msgstr "인증"
 
-#: settings/coverssettingspage.cpp:254 settings/lyricssettingspage.cpp:242
-#: settings/tidalsettingspage.cpp:203
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
 msgid "Authentication failed"
 msgstr "인증 실패"
 
@@ -1040,7 +1040,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:629
+#: engine/gstengine.cpp:630
 msgid "Buffering"
 msgstr "버퍼링"
 
@@ -1204,12 +1204,12 @@ msgstr "자동으로 태그 완성..."
 msgid "Composer"
 msgstr "작곡가"
 
-#: settings/subsonicsettingspage.cpp:101 settings/tidalsettingspage.cpp:153
-#: settings/tidalsettingspage.cpp:160
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
 msgid "Configuration incomplete"
 msgstr "설정이 불완전함"
 
-#: settings/subsonicsettingspage.cpp:107
+#: settings/subsonicsettingspage.cpp:109
 msgid "Configuration incorrect"
 msgstr "설정이 잘못됨"
 
@@ -1702,7 +1702,7 @@ msgstr "스테레오 균형 맞추기 활성화"
 msgid "Enable volume control"
 msgstr "음량 제어 활성화"
 
-#: ../build/src/ui_moodbarsettingspage.h:94
+#: ../build/src/ui_moodbarsettingspage.h:100
 msgid "Enabled"
 msgstr "활성화"
 
@@ -2538,7 +2538,7 @@ msgstr "최소 비트 전송률"
 msgid "Minimum buffer fill"
 msgstr "최소 버퍼 크기"
 
-#: settings/tidalsettingspage.cpp:160
+#: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
 msgstr ""
 
@@ -2556,7 +2556,7 @@ msgstr ""
 msgid "Missing Tidal API token."
 msgstr "Tidal API 토큰이 없습니다."
 
-#: settings/tidalsettingspage.cpp:153
+#: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
 msgstr "Tidal 클라이언트 ID가 없습니다."
 
@@ -2568,7 +2568,7 @@ msgstr "Tidal 암호가 없습니다."
 msgid "Missing Tidal username."
 msgstr "Tidal 사용자 이름이 없습니다."
 
-#: settings/subsonicsettingspage.cpp:101
+#: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
@@ -2588,12 +2588,12 @@ msgstr "모음집 변화 감지"
 msgid "Mood"
 msgstr "무드"
 
-#: ../build/src/ui_moodbarsettingspage.h:89
-#: ../build/src/ui_moodbarsettingspage.h:90
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar"
 msgstr "무드바"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:92
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "무드바 스타일"
 
@@ -2695,7 +2695,7 @@ msgid ""
 "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
 
-#: settings/coverssettingspage.cpp:183 settings/lyricssettingspage.cpp:177
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
 msgstr ""
 
@@ -3442,7 +3442,7 @@ msgstr "재생 목록 저장..."
 msgid "Save preset"
 msgstr "사전 설정 저장"
 
-#: ../build/src/ui_moodbarsettingspage.h:93
+#: ../build/src/ui_moodbarsettingspage.h:99
 msgid "Save the .mood files directly in the songs folders"
 msgstr "노래 폴더에 .mood 파일 직접 저장"
 
@@ -3469,6 +3469,11 @@ msgstr "크기 조정"
 #: ../build/src/ui_scrobblersettingspage.h:316
 msgid "Scrobbler"
 msgstr "스크로블러"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3531,7 +3536,7 @@ msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 msgid "Select background color:"
 msgstr "배경 색상 선택:"
 
-#: settings/appearancesettingspage.cpp:319
+#: settings/appearancesettingspage.cpp:325
 msgid "Select background image"
 msgstr "배경 그림 선택"
 
@@ -3559,7 +3564,7 @@ msgstr "일련 번호"
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:107
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
@@ -3584,7 +3589,7 @@ msgstr "설정"
 msgid "Shortcut"
 msgstr "단축키"
 
-#: settings/shortcutssettingspage.cpp:270
+#: settings/shortcutssettingspage.cpp:272
 #: ../build/src/ui_shortcutssettingspage.h:238
 #, qt-format
 msgid "Shortcut for %1"
@@ -3606,7 +3611,7 @@ msgstr "네이티브 데스크톱 알림 표시(&N)"
 msgid "Show a glowing animation on the current track"
 msgstr "현재 트랙에 빛나는 애니메이션 표시"
 
-#: ../build/src/ui_moodbarsettingspage.h:91
+#: ../build/src/ui_moodbarsettingspage.h:97
 msgid "Show a moodbar in the track progress bar"
 msgstr "트랙 진행 표시줄에 무드바 표시"
 
@@ -3654,6 +3659,10 @@ msgstr "음악가별로 앨범 표시"
 msgid "Show all songs"
 msgstr "모든 곡 표시"
 
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
 msgstr "구분자 표시"
@@ -3661,10 +3670,6 @@ msgstr "구분자 표시"
 #: context/contextview.cpp:326
 msgid "Show engine and device"
 msgstr "엔진과 장치 표시"
-
-#: ../build/src/ui_scrobblersettingspage.h:327
-msgid "Show error dialog if scrobbler is enabled without being authenticated"
-msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:92
 msgid "Show fullsize..."
@@ -4004,11 +4009,11 @@ msgstr "테크노"
 msgid "Test"
 msgstr "테스트"
 
-#: settings/subsonicsettingspage.cpp:141
+#: settings/subsonicsettingspage.cpp:143
 msgid "Test failed!"
 msgstr "테스트 실패!"
 
-#: settings/subsonicsettingspage.cpp:132
+#: settings/subsonicsettingspage.cpp:134
 msgid "Test successful!"
 msgstr "테스트 성공!"
 
@@ -4024,7 +4029,7 @@ msgstr "감사"
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
-#: settings/shortcutssettingspage.cpp:245
+#: settings/shortcutssettingspage.cpp:247
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
@@ -4318,7 +4323,7 @@ msgstr "OAuth 사용"
 msgid "Use Replay Gain metadata if it is available"
 msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
-#: settings/coverssettingspage.cpp:120 settings/coverssettingspage.cpp:224
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
@@ -4392,7 +4397,7 @@ msgstr "사용자 토큰:"
 msgid "Username"
 msgstr "사용자 이름"
 
-#: settings/shortcutssettingspage.cpp:311
+#: settings/shortcutssettingspage.cpp:321
 #, qt-format
 msgid ""
 "Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
