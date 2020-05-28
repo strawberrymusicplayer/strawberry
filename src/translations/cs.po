@@ -1,0 +1,4794 @@
+# Strawberry
+# 
+# Translators:
+# Jiří Vírava <appukonrad@gmail.com>, 2012
+# arnaudbienner <arnaud.bienner@gmail.com>, 2011
+# David Kolibáč <david@kolibac.cz>, 2011,2013
+# mandarinki <this.mail.sucks@mail.bg>, 2011
+# Miroslav Kucera <vvendigo@seznam.cz>, 2016
+# Pavel Fric <fripohled@blogspot.com>, 2010
+# Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Rostislav Medvěd <rostik.medved@gmail.com>, 2020. #zanata
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"PO-Revision-Date: 2020-05-26 04:28-0400\n"
+"Last-Translator: Rostislav Medvěd <rostik.medved@gmail.com>\n"
+"Language-Team: Czech\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <="
+" 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Generator: Zanata 4.6.2\n"
+
+#: playlist/playlistlistview.cpp:50
+msgid ""
+"\n"
+"\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n"
+"\n"
+"Favorited playlists will be saved here"
+msgstr ""
+"\n"
+"\n"
+"Seznamy skladeb můžete označit jako oblíbené klepnutím na hvězdičku vedle "
+"názvu seznamu skladeb\n"
+"\n"
+"Oblíbené seznamy skladeb budou uloženy zde"
+
+#: settings/shortcutssettingspage.cpp:327
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
+"in cinnamon-settings-daemon instead."
+msgstr ""
+"Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
+"přes cinnamon-settings-daemon."
+
+#: settings/shortcutssettingspage.cpp:325
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through GSD D-Bus and should be configured "
+"in gnome-settings-daemon instead."
+msgstr ""
+"Zkratky na %1 jsou většinou používány přes GSD D-Bus a měly by se nastavovat "
+"přes gnome-settings-daemon."
+
+#: settings/shortcutssettingspage.cpp:323
+#, qt-format
+msgid ""
+" Shortcuts on %1 are usually used through MPRIS D-Bus and should be "
+"configured in %1 settings instead."
+msgstr ""
+"Zkratky na %1 jsou většinou používány přes MPRIS D-Bus a měly by se "
+"nastavovat přes nastavení %1."
+
+#: settings/shortcutssettingspage.cpp:329
+#, qt-format
+msgid " Shortcuts should be configured in %1 settings instead."
+msgstr "Zkratky se by se měly nastavovat v nastavení %1."
+
+#: ../build/src/ui_transcoderoptionsaac.h:129
+#: ../build/src/ui_transcoderoptionsvorbis.h:204
+#: ../build/src/ui_transcoderoptionsvorbis.h:207
+#: ../build/src/ui_transcoderoptionsvorbis.h:210
+#: ../build/src/ui_transcoderoptionsopus.h:80
+#: ../build/src/ui_transcoderoptionsspeex.h:219
+#: ../build/src/ui_transcoderoptionsspeex.h:222
+#: ../build/src/ui_transcoderoptionsasf.h:79
+#: ../build/src/ui_transcoderoptionsmp3.h:194
+msgid " kbps"
+msgstr " kb/s"
+
+#: ../build/src/ui_scrobblersettingspage.h:323
+msgid " minutes"
+msgstr " minut"
+
+#: ../build/src/ui_backendsettingspage.h:454
+#: ../build/src/ui_backendsettingspage.h:473
+#: ../build/src/ui_backendsettingspage.h:476
+msgid " ms"
+msgstr " ms"
+
+#: ../build/src/ui_contextsettingspage.h:432
+#: ../build/src/ui_contextsettingspage.h:437
+#, fuzzy
+msgid " pt"
+msgstr " bodů"
+
+#: ../build/src/ui_behavioursettingspage.h:291
+msgid " s"
+msgstr " s"
+
+#: ../build/src/ui_notificationssettingspage.h:470
+msgid " seconds"
+msgstr " sekund"
+
+#: scrobbler/scrobblingapi20.cpp:168 scrobbler/scrobblingapi20.cpp:177
+#, fuzzy, qt-format
+msgid "%1 Scrobbler Authentication"
+msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
+
+#: context/contextview.cpp:467
+#, qt-format
+msgid "%1 album"
+msgstr "%1 album"
+
+#: context/contextview.cpp:468
+#, qt-format
+msgid "%1 albums"
+msgstr "%1 alba"
+
+#: context/contextview.cpp:463
+#, qt-format
+msgid "%1 artist"
+msgstr "%1 umělec"
+
+#: context/contextview.cpp:464
+#, qt-format
+msgid "%1 artists"
+msgstr "%1 umělci"
+
+#: equalizer/equalizerslider.cpp:42 equalizer/equalizerslider.cpp:44
+#: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
+#, qt-format
+msgid "%1 dB"
+msgstr "%1 dB"
+
+#: core/utilities.cpp:143
+#, qt-format
+msgid "%1 days"
+msgstr "%1 dnů"
+
+#: core/utilities.cpp:163
+#, qt-format
+msgid "%1 days ago"
+msgstr "před %1 dny"
+
+#: settings/coverssettingspage.cpp:134
+#, qt-format
+msgid "%1 does not need authentication."
+msgstr "%1 nevyžaduje ověření."
+
+#: settings/coverssettingspage.cpp:129
+#, qt-format
+msgid "%1 needs authentication."
+msgstr "%1 vyžaduje ověření."
+
+#: playlistparsers/playlistparser.cpp:110
+#, qt-format
+msgid "%1 playlists (%2)"
+msgstr "%1 seznamů skladeb (%2)"
+
+#: playlist/playlistmanager.cpp:445
+#, qt-format
+msgid "%1 selected of"
+msgstr "%1 vybráno z"
+
+#: context/contextview.cpp:459
+#, qt-format
+msgid "%1 song"
+msgstr "%1 skladba"
+
+#: device/deviceview.cpp:145
+#, qt-format
+msgid "%1 song%2"
+msgstr "%1 skladba%2"
+
+#: context/contextview.cpp:460
+#, qt-format
+msgid "%1 songs"
+msgstr "%1 skladby"
+
+#: core/utilities.cpp:423
+#, qt-format
+msgid "%1 songs selected, are you sure you want to open them all?"
+msgstr "Je vybráno %1 skladeb, chcete je všechny otevřít?"
+
+#: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
+#, qt-format
+msgid "%1 tracks"
+msgstr "%1 skladeb"
+
+#: covermanager/albumcovermanager.cpp:536
+#, qt-format
+msgid "%1 transferred"
+msgstr "%1 přeneseno"
+
+#: ../build/src/ui_contextsettingspage.h:419
+msgid "%album%"
+msgstr "%album%"
+
+#: ../build/src/ui_collectionsettingspage.h:426
+#, c-format
+msgid "%albumartist-%album"
+msgstr "%albumartist-%album"
+
+#: ../build/src/ui_contextsettingspage.h:410
+#: ../build/src/ui_notificationssettingspage.h:458
+msgid "%filename%"
+msgstr "%filename%"
+
+#: transcoder/transcodedialog.cpp:313
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n failed"
+msgstr "nepodařilo se %n"
+
+#: transcoder/transcodedialog.cpp:309
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n finished"
+msgstr "dokončeno %n"
+
+#: transcoder/transcodedialog.cpp:305
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n remaining"
+msgstr "zůstávají %n"
+
+#: ../build/src/ui_contextsettingspage.h:415
+msgid "%title - %artist%"
+msgstr "%title - %artist%"
+
+#: ../build/src/ui_mainwindow.h:652
+msgid "&About Strawberry"
+msgstr "&O Strawberry"
+
+#: ../build/src/ui_mainwindow.h:660
+msgid "&Add file..."
+msgstr "&Přidat soubor..."
+
+#: playlist/playlistheader.cpp:48
+msgid "&Align text"
+msgstr "&Zarovnat text"
+
+#: playlist/playlistheader.cpp:51
+msgid "&Center"
+msgstr "&Na střed"
+
+#: ../build/src/ui_mainwindow.h:631
+msgid "&Clear playlist"
+msgstr "&Vyčistit seznam skladeb"
+
+#: ../build/src/ui_mainwindow.h:666
+msgid "&Cover Manager"
+msgstr "&Správce obalů"
+
+#: ../build/src/ui_shortcutssettingspage.h:241
+msgid "&Custom"
+msgstr "Vl&astní"
+
+#: ../build/src/ui_shortcutssettingspage.h:240
+msgid "&Default"
+msgstr "&Výchozí"
+
+#: ../build/src/ui_mainwindow.h:698
+msgid "&Do a full collection rescan"
+msgstr "&Provést úplné nové prohledání sbírky"
+
+#: ../build/src/ui_mainwindow.h:671
+msgid "&Equalizer"
+msgstr "&Ekvalizér"
+
+#: playlist/playlistheader.cpp:81
+#, qt-format
+msgid "&Hide %1"
+msgstr "Skrýt %1"
+
+#: playlist/playlistheader.cpp:43
+msgid "&Hide..."
+msgstr "Skrýt..."
+
+#: ../build/src/ui_mainwindow.h:674
+msgid "&Jump to the currently playing track"
+msgstr "&Skočit na aktuálně přehrávanou skladbu"
+
+#: playlist/playlistheader.cpp:50
+msgid "&Left"
+msgstr "&Vlevo"
+
+#: ../build/src/ui_mainwindow.h:686
+msgid "&Load playlist..."
+msgstr "&Načíst seznam skladeb"
+
+#: ../build/src/ui_networkproxysettingspage.h:167
+msgid "&Manual proxy configuration"
+msgstr "&Ruční nastavení proxy"
+
+#: ../build/src/ui_mainwindow.h:715
+msgid "&Music"
+msgstr "Hudba"
+
+#: ../build/src/ui_mainwindow.h:694
+msgid "&Mute"
+msgstr "&Ztlumit"
+
+#: ../build/src/ui_mainwindow.h:678
+msgid "&New playlist"
+msgstr "&Nový seznam skladeb"
+
+#: ../build/src/ui_mainwindow.h:618
+msgid "&Next track"
+msgstr "&Další skladba"
+
+#: ../build/src/ui_appearancesettingspage.h:402
+msgid "&No background image"
+msgstr "&Chybějící obrázek na pozadí"
+
+#: ../build/src/ui_shortcutssettingspage.h:239
+msgid "&None"
+msgstr "Žád&né"
+
+#: ../build/src/ui_mainwindow.h:664
+msgid "&Open file..."
+msgstr "&Otevřít soubor"
+
+#: ../build/src/ui_mainwindow.h:610
+msgid "&Play"
+msgstr "&Přehrát"
+
+#: ../build/src/ui_mainwindow.h:622
+msgid "&Quit"
+msgstr "&Ukončit"
+
+#: ../build/src/ui_mainwindow.h:669
+msgid "&Repeat mode"
+msgstr "Režim opakování"
+
+#: playlist/playlistheader.cpp:45
+msgid "&Reset columns to default"
+msgstr "&Původní nastavení sloupců"
+
+#: playlist/playlistheader.cpp:52
+msgid "&Right"
+msgstr "&Vpravo"
+
+#: ../build/src/ui_mainwindow.h:648
+msgid "&Settings..."
+msgstr "&Nastavení"
+
+#: ../build/src/ui_mainwindow.h:668
+msgid "&Shuffle mode"
+msgstr "Režim míchání"
+
+#: ../build/src/ui_mainwindow.h:614
+msgid "&Stop"
+msgstr "&Zastavit"
+
+#: playlist/playlistheader.cpp:44
+msgid "&Stretch columns to fit window"
+msgstr "Roztáhnout sloupce tak, aby se vešly do okna"
+
+#: ../build/src/ui_mainwindow.h:718
+msgid "&Tools"
+msgstr "Nástroje"
+
+#: ../build/src/ui_mainwindow.h:672
+msgid "&Transcode Music"
+msgstr "&Převést hudbu"
+
+#: ../build/src/ui_mainwindow.h:692
+msgid "&Update changed collection folders"
+msgstr "&Aktualizovat změny ve složkách kolekce"
+
+#: ../build/src/ui_appearancesettingspage.h:395
+msgid "&Use the system default color"
+msgstr "&Použít nastavení barvu systému"
+
+#: ../build/src/ui_appearancesettingspage.h:388
+msgid "&Use the system default color set"
+msgstr "&Použít systémový motiv barev"
+
+#: ../build/src/ui_networkproxysettingspage.h:165
+msgid "&Use the system proxy settings"
+msgstr "&Použít nastavení systému"
+
+#: ../build/src/ui_scrobblersettingspage.h:325
+#, fuzzy
+msgid ""
+"(This is the delay between when a song is scrobbled and when scrobbles are "
+"submitted to the server. Setting the time to 0 minutes will submit scrobbles "
+"immediately)."
+msgstr ""
+"(Toto je doba mezi přehráním skladby a odesláním seznamu přehraných skladeb "
+"na server. Nastavení 0 odešle přehrané skladby hned po jejich přehrání)."
+
+#: dialogs/edittagdialog.cpp:92
+msgid "(different across multiple songs)"
+msgstr "(liší se u jednotlivých písní)"
+
+#: ../build/src/ui_albumcovermanager.h:221
+#: ../build/src/ui_albumcovermanager.h:222
+msgid "0"
+msgstr "0"
+
+#: ../build/src/ui_trackslider.h:69 ../build/src/ui_trackslider.h:73
+msgid "0:00:00"
+msgstr "0:00:00"
+
+#: ../build/src/ui_appearancesettingspage.h:423
+msgid "0px"
+msgstr "0 px"
+
+#: core/utilities.cpp:143
+msgid "1 day"
+msgstr "1 den"
+
+#: playlist/playlistmanager.cpp:452 queue/queue.cpp:249
+msgid "1 track"
+msgstr "1 stopa"
+
+#: ../build/src/ui_appearancesettingspage.h:425
+msgid "40%"
+msgstr "40%"
+
+#: ../build/src/ui_organisedialog.h:269
+msgid ""
+"<p>Tokens start with %, for example: %artist %album %title </p>\n"
+"\n"
+"<p>If you surround sections of text that contain a token with curly-braces, "
+"that section will be hidden if the token is empty.</p>"
+msgstr ""
+"<p>Symboly začínají %, například: %artist %album %title </p>\n"
+"\n"
+"<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato "
+"část bude skryta, je-li symbol prázdný.</p>"
+
+#: ../build/src/ui_playlistsettingspage.h:158
+msgid "A&utomatic"
+msgstr "A&utomaticky"
+
+#: ../build/src/ui_transcodersettingspage.h:195
+msgid "AAC"
+msgstr "AAC"
+
+#: ../build/src/ui_backendsettingspage.h:448
+msgid "ALSA plugin"
+msgstr "ALSA plugin"
+
+#: ../build/src/ui_tidalsettingspage.h:321
+msgid "API Token"
+msgstr "API Token"
+
+#: ../build/src/ui_transcodersettingspage.h:196
+msgid "ASF (WMA)"
+msgstr "ASF (WMA)"
+
+#: covermanager/albumcovermanager.cpp:132
+#: covermanager/albumcoversearcher.cpp:190
+#: ../build/src/ui_internetcollectionviewcontainer.h:141
+msgid "Abort"
+msgstr "Přerušit"
+
+#: ../build/src/ui_mainwindow.h:699
+msgid "Abort collection scan"
+msgstr "Zrušit aktualizaci kolekce"
+
+#: ../build/src/ui_mainwindow.h:693
+msgid "About &Qt"
+msgstr "O &Qt"
+
+#: dialogs/about.cpp:88
+msgid "About Strawberry"
+msgstr "O Strawberry"
+
+#: ../build/src/ui_playlistsettingspage.h:159
+msgid "Absolu&te"
+msgstr "Absolut&ní"
+
+#: playlist/playlistsaveoptionsdialog.cpp:42
+msgid "Absolute"
+msgstr "Absolutní"
+
+#: ../build/src/ui_shortcutssettingspage.h:237
+msgctxt "Category label"
+msgid "Action"
+msgstr "Činnost"
+
+#: ../build/src/ui_mainwindow.h:673
+msgid "Add &folder..."
+msgstr "Přidat &složku"
+
+#: ../build/src/ui_addstreamdialog.h:77
+msgid "Add Stream"
+msgstr "Přidat přenos"
+
+#: ../build/src/ui_contextsettingspage.h:408
+#: ../build/src/ui_notificationssettingspage.h:456
+msgid "Add a new line if supported by the notification type"
+msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
+
+#: ../build/src/ui_transcodedialog.h:223
+msgid "Add all tracks from a directory and all its subdirectories"
+msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
+
+#: settings/collectionsettingspage.cpp:101
+msgid "Add directory..."
+msgstr "Přidat složku..."
+
+#: core/mainwindow.cpp:1914
+msgid "Add file"
+msgstr "Přidat soubor"
+
+#: ../build/src/ui_mainwindow.h:709
+msgid "Add file to transcoder"
+msgstr "Přidat soubor k překódování"
+
+#: ../build/src/ui_mainwindow.h:707
+msgid "Add file(s) to transcoder"
+msgstr "Přidat soubor(y) k překódování"
+
+#: transcoder/transcodedialog.cpp:327
+msgid "Add files to transcode"
+msgstr "Přidat soubory pro překódování"
+
+#: core/mainwindow.cpp:1939 transcoder/transcodedialog.cpp:413
+msgid "Add folder"
+msgstr "Přidat složku"
+
+#: ../build/src/ui_collectionsettingspage.h:405
+msgid "Add new folder..."
+msgstr "Přidat novou složku..."
+
+#: ../build/src/ui_contextsettingspage.h:369
+#: ../build/src/ui_notificationssettingspage.h:411
+msgid "Add song album tag"
+msgstr "Přidat značku album písně"
+
+#: ../build/src/ui_contextsettingspage.h:375
+#: ../build/src/ui_notificationssettingspage.h:417
+msgid "Add song albumartist tag"
+msgstr "Přidat značku umělec alba písně"
+
+#: ../build/src/ui_contextsettingspage.h:366
+#: ../build/src/ui_notificationssettingspage.h:408
+msgid "Add song artist tag"
+msgstr "Přidat značku umělec písně"
+
+#: ../build/src/ui_notificationssettingspage.h:453
+msgid "Add song auto score"
+msgstr "Přidat automatický výsledek písně"
+
+#: ../build/src/ui_contextsettingspage.h:381
+#: ../build/src/ui_notificationssettingspage.h:423
+msgid "Add song composer tag"
+msgstr "Přidat značku skladatel písně"
+
+#: ../build/src/ui_contextsettingspage.h:390
+#: ../build/src/ui_notificationssettingspage.h:432
+msgid "Add song disc tag"
+msgstr "Přidat značku disk písně"
+
+#: ../build/src/ui_contextsettingspage.h:412
+#: ../build/src/ui_notificationssettingspage.h:460
+msgid "Add song filename"
+msgstr "Přidat název souboru písně"
+
+#: ../build/src/ui_contextsettingspage.h:396
+#: ../build/src/ui_notificationssettingspage.h:438
+msgid "Add song genre tag"
+msgstr "Přidat značku žánr písně"
+
+#: ../build/src/ui_contextsettingspage.h:387
+#: ../build/src/ui_notificationssettingspage.h:429
+msgid "Add song grouping tag"
+msgstr "Přidat značku seskupení písně"
+
+#: ../build/src/ui_contextsettingspage.h:399
+#: ../build/src/ui_notificationssettingspage.h:441
+msgid "Add song length tag"
+msgstr "Přidat značku délka písně"
+
+#: ../build/src/ui_contextsettingspage.h:384
+#: ../build/src/ui_notificationssettingspage.h:426
+msgid "Add song performer tag"
+msgstr "Přidat značku účinkující písně"
+
+#: ../build/src/ui_contextsettingspage.h:402
+#: ../build/src/ui_notificationssettingspage.h:444
+msgid "Add song play count"
+msgstr "Přidat počet přehrání písně"
+
+#: ../build/src/ui_notificationssettingspage.h:450
+msgid "Add song rating"
+msgstr "Přidat hodnocení písně"
+
+#: ../build/src/ui_contextsettingspage.h:405
+#: ../build/src/ui_notificationssettingspage.h:447
+msgid "Add song skip count"
+msgstr "Přidat počet přeskočení písně"
+
+#: ../build/src/ui_contextsettingspage.h:372
+#: ../build/src/ui_notificationssettingspage.h:414
+msgid "Add song title tag"
+msgstr "Přidat značku název písně"
+
+#: ../build/src/ui_contextsettingspage.h:393
+#: ../build/src/ui_notificationssettingspage.h:435
+msgid "Add song track tag"
+msgstr "Přidat značku pořadí písně"
+
+#: ../build/src/ui_contextsettingspage.h:378
+#: ../build/src/ui_notificationssettingspage.h:420
+msgid "Add song year tag"
+msgstr "Přidat značku rok písně"
+
+#: ../build/src/ui_mainwindow.h:712
+msgid "Add stream..."
+msgstr "Přidat přenos..."
+
+#: internet/internetsearchview.cpp:319
+msgid "Add to albums"
+msgstr "Přidat do alb"
+
+#: core/mainwindow.cpp:1730
+msgid "Add to another playlist"
+msgstr "Přidat do jiného seznamu skladeb"
+
+#: internet/internetsearchview.cpp:316
+msgid "Add to artists"
+msgstr "Přidat k umělcům"
+
+#: ../build/src/ui_albumcovermanager.h:216
+msgid "Add to playlist"
+msgstr "Přidat do seznamu skladeb"
+
+#: internet/internetsearchview.cpp:322
+msgid "Add to songs"
+msgstr "Přidat ke skladbám"
+
+#: ../build/src/ui_behavioursettingspage.h:275
+#: ../build/src/ui_behavioursettingspage.h:287
+msgid "Add to the queue"
+msgstr "Přidat do řady"
+
+#: ../build/src/ui_transcodedialog.h:220
+msgid "Add..."
+msgstr "Přidat..."
+
+#: ../build/src/ui_collectionfilterwidget.h:100
+msgid "Added this month"
+msgstr "Přidána tento měsíc"
+
+#: ../build/src/ui_collectionfilterwidget.h:94
+msgid "Added this week"
+msgstr "Přidána tento týden"
+
+#: ../build/src/ui_collectionfilterwidget.h:99
+msgid "Added this year"
+msgstr "Přidána tento rok"
+
+#: ../build/src/ui_collectionfilterwidget.h:93
+msgid "Added today"
+msgstr "Přidána dnes"
+
+#: ../build/src/ui_collectionfilterwidget.h:95
+#: ../build/src/ui_collectionfilterwidget.h:97
+msgid "Added within three months"
+msgstr "Přidána během tří měsíců"
+
+#: collection/collectionfilterwidget.cpp:216
+msgid "Advanced grouping..."
+msgstr "Pokročilé seskupování..."
+
+#: ../build/src/ui_organisedialog.h:261
+msgid "After copying..."
+msgstr "Po zkopírování..."
+
+#: ../build/src/ui_appearancesettingspage.h:406
+msgid "Albu&m cover"
+msgstr "Obal alb&a"
+
+#: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
+#: playlist/playlist.cpp:1177 organise/organisedialog.cpp:98
+#: ../build/src/ui_groupbydialog.h:130 ../build/src/ui_groupbydialog.h:154
+#: ../build/src/ui_groupbydialog.h:178 ../build/src/ui_albumcoversearcher.h:110
+#: ../build/src/ui_albumcoversearcher.h:112
+#: ../build/src/ui_contextsettingspage.h:422
+#: ../build/src/ui_edittagdialog.h:683
+#: ../build/src/ui_trackselectiondialog.h:208
+msgid "Album"
+msgstr "Album"
+
+#: ../build/src/ui_backendsettingspage.h:463
+msgid "Album (ideal loudness for all tracks)"
+msgstr "Album (ideální hlasitost pro všechny skladby)"
+
+#: collection/savedgroupingmanager.cpp:90 ../build/src/ui_groupbydialog.h:131
+#: ../build/src/ui_groupbydialog.h:155 ../build/src/ui_groupbydialog.h:179
+msgid "Album - Disc"
+msgstr "Album - Disk"
+
+#: collection/savedgroupingmanager.cpp:84 playlist/playlist.cpp:1184
+#: organise/organisedialog.cpp:101 ../build/src/ui_groupbydialog.h:129
+#: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
+#: ../build/src/ui_edittagdialog.h:685
+msgid "Album artist"
+msgstr "Umělec alba"
+
+#: ../build/src/ui_collectionsettingspage.h:430
+msgid "Album cover pixmap cache"
+msgstr "Mezipaměť obalů alb"
+
+#: ../build/src/ui_tidalsettingspage.h:334
+msgid "Album cover size"
+msgstr "Velikost obalu alba"
+
+#: ../build/src/ui_internettabsview.h:117
+msgid "Albums"
+msgstr "Alba"
+
+#: context/contextview.cpp:609
+#, qt-format
+msgid "Albums by %1"
+msgstr "Alba od %1"
+
+#: ../build/src/ui_contextsettingspage.h:425
+msgid "Albums by Artist"
+msgstr "Alba dle Umělce"
+
+#: ../build/src/ui_tidalsettingspage.h:330
+#, fuzzy
+msgid "Albums search limit"
+msgstr "Limit vyhledávaných alb"
+
+#: covermanager/albumcovermanager.cpp:165
+msgid "Albums with covers"
+msgstr "Alba s obaly"
+
+#: covermanager/albumcovermanager.cpp:166
+msgid "Albums without covers"
+msgstr "Alba bez obalů"
+
+#: core/mainwindow.cpp:185
+msgid "All Files (*)"
+msgstr "Všechny soubory (*)"
+
+#: covermanager/albumcovermanager.cpp:164
+msgid "All albums"
+msgstr "Všechna alba"
+
+#: covermanager/albumcovermanager.cpp:332
+msgid "All artists"
+msgstr "Všichni umělci"
+
+#: covermanager/albumcoverchoicecontroller.cpp:69
+msgid "All files (*)"
+msgstr "Všechny soubory (*)"
+
+#: playlistparsers/playlistparser.cpp:96
+#, qt-format
+msgid "All playlists (%1)"
+msgstr "Všechny seznamy skladeb (%1)"
+
+#: ../build/src/ui_organisedialog.h:277
+msgid "Allow extended ASCII characters"
+msgstr "Povolit rozšířené ASCII znaky"
+
+#: ../build/src/ui_transcoderoptionsaac.h:139
+msgid "Allow mid/side encoding"
+msgstr "Povolit kódování střed/kraj"
+
+#: ../build/src/ui_transcodedialog.h:232
+msgid "Alongside the originals"
+msgstr "Vedle původních"
+
+#: ../build/src/ui_behavioursettingspage.h:248
+msgid "Alwa&ys hide the main window"
+msgstr "Vždy &skrýt hlavní okno"
+
+#: ../build/src/ui_behavioursettingspage.h:247
+msgid "Always show &the main window"
+msgstr "Vždy &zobrazit hlavní okno"
+
+#: ../build/src/ui_behavioursettingspage.h:261
+#: ../build/src/ui_behavioursettingspage.h:281
+msgid "Always start playing"
+msgstr "Vždy začít přehrávat"
+
+#: device/afcdevice.cpp:72
+msgid "An error occurred copying the iTunes database from the device"
+msgstr "Vyskytla se chyba při kopírování iTunes databáze ze zařízení"
+
+#: device/afcdevice.cpp:173
+msgid "An error occurred copying the iTunes database onto the device"
+msgstr "Vyskytla se chyba při nahrávání iTunes databáze na zařízení"
+
+#: device/gpodloader.cpp:79
+msgid "An error occurred loading the iTunes database"
+msgstr "Při nahrávání databáze iTunes nastala chyba"
+
+#: playlist/playlist.cpp:397 dialogs/edittagdialog.cpp:914
+#, qt-format
+msgid "An error occurred writing metadata to '%1'"
+msgstr "Při zápisu údajů do '%1' se vyskytla chyba"
+
+#: moodbar/moodbarrenderer.cpp:172
+msgid "Angry"
+msgstr "Naštvaný"
+
+#: ../build/src/ui_appearancesettingspage.h:386
+msgid "Appearance"
+msgstr "Vzhled"
+
+#: core/commandlineoptions.cpp:180
+msgid "Append files/URLs to the playlist"
+msgstr "Přidat soubory/adresy do seznamu skladeb"
+
+#: context/contextalbumsview.cpp:252 collection/collectionview.cpp:319
+#: widgets/fileviewlist.cpp:42 internet/internetsearchview.cpp:305
+#: internet/internetcollectionview.cpp:307 device/deviceview.cpp:234
+msgid "Append to current playlist"
+msgstr "Přidat do současného seznamu skladeb"
+
+#: ../build/src/ui_behavioursettingspage.h:272
+msgid "Append to the playlist"
+msgstr "Přidat do seznamu skladeb"
+
+#: ../build/src/ui_backendsettingspage.h:466
+msgid "Apply compression to prevent clipping"
+msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
+
+#: equalizer/equalizer.cpp:227
+#, qt-format
+msgid "Are you sure you want to delete the \"%1\" preset?"
+msgstr "Opravdu chcete smazat nastavení \"%1\"?"
+
+#: dialogs/edittagdialog.cpp:833
+msgid "Are you sure you want to reset this song's statistics?"
+msgstr "Opravdu chcete nastavit statistiku této písně znovu?"
+
+#: core/qtsystemtrayicon.cpp:257 collection/savedgroupingmanager.cpp:81
+#: playlist/playlist.cpp:1176 organise/organisedialog.cpp:99
+#: ../build/src/ui_groupbydialog.h:128 ../build/src/ui_groupbydialog.h:152
+#: ../build/src/ui_groupbydialog.h:176 ../build/src/ui_albumcoversearcher.h:106
+#: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:689
+#: ../build/src/ui_trackselectiondialog.h:209
+msgid "Artist"
+msgstr "Umělec"
+
+#: organise/organisedialog.cpp:100
+msgid "Artist's initial"
+msgstr "Začáteční písmena umělce"
+
+#: ../build/src/ui_internettabsview.h:116
+msgid "Artists"
+msgstr "Umělci"
+
+#: ../build/src/ui_tidalsettingspage.h:329
+#, fuzzy
+msgid "Artists search limit"
+msgstr "Limit vyhledávaných umělců"
+
+#: ../build/src/ui_playlistsettingspage.h:161
+msgid "As&k when saving"
+msgstr "Ze&ptat se při ukládání"
+
+#: ../build/src/ui_transcodedialog.h:227
+msgid "Audio format"
+msgstr "Zvukový formát"
+
+#: ../build/src/ui_backendsettingspage.h:443
+msgid "Audio output"
+msgstr "Zvukový výstup"
+
+#: ../build/src/ui_tidalsettingspage.h:326
+msgid "Audio quality"
+msgstr "Kvalita zvuku"
+
+#: tidal/tidalrequest.cpp:118
+msgid "Authenticating..."
+msgstr "Probíhá ověření..."
+
+#: ../build/src/ui_coverssettingspage.h:170
+#: ../build/src/ui_lyricssettingspage.h:170
+#: ../build/src/ui_subsonicsettingspage.h:188
+#: ../build/src/ui_tidalsettingspage.h:318
+msgid "Authentication"
+msgstr "Ověření"
+
+#: settings/coverssettingspage.cpp:260 settings/lyricssettingspage.cpp:248
+#: settings/tidalsettingspage.cpp:205
+msgid "Authentication failed"
+msgstr "Ověření selhalo"
+
+#: dialogs/about.cpp:152
+msgid "Author and maintainer"
+msgstr "Autor a vedoucí"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:226
+msgid "Auto"
+msgstr "Automaticky"
+
+#: playlist/playlistsaveoptionsdialog.cpp:40
+msgid "Automatic"
+msgstr "Automaticky"
+
+#: ../build/src/ui_collectionsettingspage.h:407
+msgid "Automatic updating"
+msgstr "Automatická aktualizace"
+
+#: ../build/src/ui_collectionsettingspage.h:418
+msgid "Automatically open single categories in the collection tree"
+msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
+
+#: ../build/src/ui_contextsettingspage.h:427
+msgid "Automatically search for album cover"
+msgstr "Automaticky vyhledat obal alba"
+
+#: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
+msgid "Automatically search for song lyrics"
+msgstr "Automaticky najít texty skladeb"
+
+#: ../build/src/ui_playlistsettingspage.h:155
+msgid "Automatically select current playing track"
+msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
+
+#: widgets/freespacebar.cpp:68
+msgid "Available"
+msgstr "Dostupné"
+
+#: collection/collectionfilterwidget.cpp:80
+msgid "Available fields"
+msgstr "Dostupná pole"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:220
+msgid "Average bitrate"
+msgstr "Průměrný datový tok"
+
+#: covermanager/coversearchstatisticsdialog.cpp:83
+msgid "Average image size"
+msgstr "Průměrná velikost obrázku"
+
+#: ../build/src/ui_backendsettingspage.h:442
+msgid "Backend"
+msgstr "Backend"
+
+#: ../build/src/ui_notificationssettingspage.h:486
+msgid "Background color"
+msgstr "Barva pozadí"
+
+#: ../build/src/ui_appearancesettingspage.h:400
+msgid "Background image"
+msgstr "Obrázek na pozadí"
+
+#: ../build/src/ui_notificationssettingspage.h:485
+msgid "Background opacity"
+msgstr "Neprůhlednost pozadí"
+
+#: core/database.cpp:550
+msgid "Backing up database"
+msgstr "Záloha databáze"
+
+#: ../build/src/ui_equalizer.h:179
+msgid "Balance"
+msgstr "Vyvážení"
+
+#: ../build/src/ui_notificationssettingspage.h:489
+msgid "Basic Blue"
+msgstr "Jednoduchá modrá"
+
+#: ../build/src/ui_behavioursettingspage.h:240
+msgid "Behavior"
+msgstr "Chování"
+
+#: ../build/src/ui_transcoderoptionsflac.h:82
+msgid "Best"
+msgstr "Nejlepší"
+
+#: context/contextview.cpp:216 collection/savedgroupingmanager.cpp:132
+#: playlist/playlist.cpp:1194 organise/organisedialog.cpp:114
+#: ../build/src/ui_groupbydialog.h:145 ../build/src/ui_groupbydialog.h:169
+#: ../build/src/ui_groupbydialog.h:193 ../build/src/ui_edittagdialog.h:671
+#, fuzzy
+msgid "Bit depth"
+msgstr "Bitová hloubka"
+
+#: ../build/src/ui_edittagdialog.h:668
+msgid "Bit rate"
+msgstr "Datový tok"
+
+#: context/contextview.cpp:217 collection/savedgroupingmanager.cpp:135
+#: playlist/playlist.cpp:1195 ../build/src/ui_groupbydialog.h:146
+#: ../build/src/ui_groupbydialog.h:170 ../build/src/ui_groupbydialog.h:194
+#: ../build/src/ui_transcoderoptionsaac.h:128
+#: ../build/src/ui_transcoderoptionsopus.h:79
+#: ../build/src/ui_transcoderoptionsspeex.h:217
+#: ../build/src/ui_transcoderoptionsasf.h:78
+#: ../build/src/ui_transcoderoptionsmp3.h:193
+msgid "Bitrate"
+msgstr "Datový tok"
+
+#: organise/organisedialog.cpp:112
+msgctxt "Refers to bitrate in file organise dialog."
+msgid "Bitrate"
+msgstr "Datový tok"
+
+#: analyzer/blockanalyzer.cpp:45
+msgid "Block analyzer"
+msgstr "Blokový analyzátor"
+
+#: ../build/src/ui_transcoderoptionsaac.h:140
+msgid "Block type"
+msgstr "Typ bloku"
+
+#: device/ilister.cpp:138
+msgid "Bluetooth MAC Address"
+msgstr "MAC adresa Bluetooth"
+
+#: ../build/src/ui_appearancesettingspage.h:422
+msgid "Blur amount"
+msgstr "Velikost rozmazání"
+
+#: ../build/src/ui_notificationssettingspage.h:482
+msgid "Body"
+msgstr "Tělo"
+
+#: analyzer/boomanalyzer.cpp:46
+msgid "Boom analyzer"
+msgstr "Růstový analyzátor"
+
+#: ../build/src/ui_appearancesettingspage.h:415
+msgid "Bottom Left"
+msgstr "Vlevo dole"
+
+#: ../build/src/ui_appearancesettingspage.h:416
+msgid "Bottom Right"
+msgstr "Vpravo dole"
+
+#: ../build/src/ui_appearancesettingspage.h:408
+msgid "Browse..."
+msgstr "Procházet…"
+
+#: ../build/src/ui_backendsettingspage.h:452
+msgid "Buffer"
+msgstr "Mezipaměť"
+
+#: ../build/src/ui_backendsettingspage.h:453
+msgid "Buffer duration"
+msgstr "Délka vyrovnávací paměti"
+
+#: engine/gstengine.cpp:630
+msgid "Buffering"
+msgstr "Ukládá se do vyrovnávací paměti"
+
+#: ../build/src/ui_mainwindow.h:667
+#, fuzzy
+msgid "C&onsole"
+msgstr "&Konzola"
+
+#: core/songloader.cpp:192
+#, fuzzy
+msgid "CD playback is only available with the GStreamer engine."
+msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
+
+#: tidal/tidalstreamurlrequest.cpp:107
+msgid "Cancelled."
+msgstr "Zrušeno."
+
+#: ../build/src/ui_edittagdialog.h:663
+msgid "Change cover art"
+msgstr "Změnit obal"
+
+#: ../build/src/ui_shortcutssettingspage.h:242
+msgid "Change shortcut..."
+msgstr "Změnit klávesovou zkratku..."
+
+#: ../build/src/ui_behavioursettingspage.h:286
+msgid "Change the currently playing song"
+msgstr "Změnit nyní přehrávanou píseň"
+
+#: core/commandlineoptions.cpp:185
+msgid "Change the language"
+msgstr "Změnit jazyk"
+
+#: core/mainwindow.cpp:683
+msgid "Check for updates..."
+msgstr "Zkontrolovat aktualizace"
+
+#: ../build/src/ui_notificationssettingspage.h:494
+msgid "Choose color..."
+msgstr "Vybrat barvu..."
+
+#: ../build/src/ui_notificationssettingspage.h:495
+msgid "Choose font..."
+msgstr "Vybrat písmo..."
+
+#: ../build/src/ui_coverssettingspage.h:167
+msgid "Choose the providers you want to use when searching for covers."
+msgstr "Vyberte poskytovatele vyhledávání obalů alb."
+
+#: ../build/src/ui_lyricssettingspage.h:167
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr "Vyberte poskytovatele vyhledávání textů skladeb."
+
+#: equalizer/equalizer.cpp:138
+msgid "Classical"
+msgstr "Klasická"
+
+#: widgets/lineedit.cpp:60 transcoder/transcodedialog.cpp:99
+#: ../build/src/ui_queueview.h:141
+msgid "Clear"
+msgstr "Smazat"
+
+#: ../build/src/ui_collectionsettingspage.h:436
+msgid "Clear Disk Cache"
+msgstr "Vyčistit mezipaměť na disku"
+
+#: core/mainwindow.cpp:2001 ../build/src/ui_mainwindow.h:633
+msgid "Clear playlist"
+msgstr "Vyprázdnit seznam skladeb"
+
+#: dialogs/about.cpp:170
+msgid "Clementine authors"
+msgstr "Autoři Clementine"
+
+#: dialogs/about.cpp:179
+msgid "Clementine contributors"
+msgstr "Přispěvatelé Clementine"
+
+#: collection/collectionview.cpp:297
+msgid "Click here to add some music"
+msgstr "Klepněte sem pro přidání nějaké hudby"
+
+#: playlist/playlisttabbar.cpp:327
+msgid ""
+"Click here to favorite this playlist so it will be saved and remain "
+"accessiblethrough the \"Playlists\" panel on the left side bar"
+msgstr ""
+"Klikněte zde pro přidání seznamu skladeb mezi oblíbené. Bude uložen v "
+"záložce \"Seznamy skladeb\" na levém panelu."
+
+#: internet/internetcollectionview.cpp:285
+msgid "Click here to retrieve music"
+msgstr "Klikněte zde pro načtení hudby"
+
+#: ../build/src/ui_trackslider.h:71
+msgid "Click to toggle between remaining time and total time"
+msgstr "Klepněte pro přepnutí mezi zbývajícím časem a celkovým časem"
+
+#: ../build/src/ui_tidalsettingspage.h:320
+msgid "Client ID"
+msgstr "ID Klienta"
+
+#: ../build/src/ui_internetcollectionviewcontainer.h:140
+msgid "Close"
+msgstr "Zavřít"
+
+#: playlist/playlisttabbar.cpp:73
+msgid "Close playlist"
+msgstr "Zavřít seznam skladeb"
+
+#: covermanager/albumcovermanager.cpp:239
+msgid "Closing this window will stop searching for album covers."
+msgstr "Zavření tohoto okna zastaví hledání obalů alb."
+
+#: equalizer/equalizer.cpp:139
+msgid "Club"
+msgstr "Klub"
+
+#: core/mainwindow.cpp:278 ../build/src/ui_collectionsettingspage.h:403
+msgid "Collection"
+msgstr "Sbírka"
+
+#: ../build/src/ui_collectionfilterwidget.h:91
+msgid "Collection Filter"
+msgstr "Filtr Kolekce"
+
+#: ../build/src/ui_groupbydialog.h:121
+msgid "Collection advanced grouping"
+msgstr "Pokročilé seskupování sbírky"
+
+#: core/mainwindow.cpp:2473
+msgid "Collection rescan notice"
+msgstr "Zpráva o prohledání sbírky"
+
+#: device/ilister.cpp:133
+msgid "Color"
+msgstr "Barva"
+
+#: ../build/src/ui_appearancesettingspage.h:387
+msgid "Colors"
+msgstr "Barvy"
+
+#: core/commandlineoptions.cpp:188
+msgid "Comma separated list of class:level, level is 0-3"
+msgstr "Čárkou oddělený seznam class:level, level je 0-3"
+
+#: playlist/playlist.cpp:1204 organise/organisedialog.cpp:110
+#: ../build/src/ui_edittagdialog.h:687
+msgid "Comment"
+msgstr "Poznámka"
+
+#: ../build/src/ui_edittagdialog.h:679
+msgid "Complete tags automatically"
+msgstr "Doplnit značky automaticky"
+
+#: ../build/src/ui_mainwindow.h:700
+msgid "Complete tags automatically..."
+msgstr "Doplnit značky automaticky..."
+
+#: collection/savedgroupingmanager.cpp:117 playlist/playlist.cpp:1185
+#: organise/organisedialog.cpp:102 ../build/src/ui_groupbydialog.h:140
+#: ../build/src/ui_groupbydialog.h:164 ../build/src/ui_groupbydialog.h:188
+#: ../build/src/ui_edittagdialog.h:686
+msgid "Composer"
+msgstr "Skladatel"
+
+#: settings/subsonicsettingspage.cpp:103 settings/tidalsettingspage.cpp:155
+#: settings/tidalsettingspage.cpp:162
+msgid "Configuration incomplete"
+msgstr "Konfigurace není hotová"
+
+#: settings/subsonicsettingspage.cpp:109
+msgid "Configuration incorrect"
+msgstr "Konfigurace není správná"
+
+#: internet/internetsearchview.cpp:187 internet/internetsearchview.cpp:334
+#: internet/internetsongsview.cpp:61 internet/internettabsview.cpp:63
+#, qt-format
+msgid "Configure %1..."
+msgstr "Nastavit %1..."
+
+#: core/mainwindow.cpp:573
+msgid "Configure collection..."
+msgstr "Nastavit sbírku..."
+
+#: device/devicemanager.cpp:355 device/devicemanager.cpp:356
+msgid "Connect device"
+msgstr "Připojit zařízení"
+
+#: ../build/src/ui_console.h:79
+msgid "Console"
+msgstr "Konzole"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:195
+msgid "Constant bitrate"
+msgstr "Stálý datový tok"
+
+#: core/mainwindow.cpp:277 ../build/src/ui_contextsettingspage.h:364
+msgid "Context"
+msgstr "Kontext"
+
+#: ../build/src/ui_playlistsettingspage.h:152
+msgid "Continue to the next item in the playlist if a song is unavailable"
+msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
+
+#: dialogs/about.cpp:161
+msgid "Contributors"
+msgstr "Přispěvatelé"
+
+#: ../build/src/ui_deviceproperties.h:381
+msgid "Convert all music"
+msgstr "Převést všechnu hudbu"
+
+#: ../build/src/ui_deviceproperties.h:380
+msgid "Convert any music that the device can't play"
+msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
+
+#: ../build/src/ui_organisedialog.h:281
+msgid "Copy album cover artwork"
+msgstr "Kopírovat obrázek alba"
+
+#: core/mainwindow.cpp:630 widgets/fileviewlist.cpp:46
+#: device/deviceview.cpp:239
+msgid "Copy to collection..."
+msgstr "Zkopírovat do sbírky..."
+
+#: core/mainwindow.cpp:628 context/contextalbumsview.cpp:262
+#: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
+#: widgets/fileviewlist.cpp:48
+msgid "Copy to device..."
+msgstr "Zkopírovat do zařízení..."
+
+#: device/afctransfer.cpp:55
+msgid "Copying iPod database"
+msgstr "Kopírování iPod databáze"
+
+#: transcoder/transcoder.cpp:66
+#, qt-format
+msgid ""
+"Could not create the GStreamer element \"%1\" - make sure you have all the "
+"required GStreamer plugins installed"
+msgstr ""
+"Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte "
+"nainstalovány všechny požadované přídavné moduly GStreamer"
+
+#: scrobbler/scrobblingapi20.cpp:177
+msgid "Could not open URL. Please open this URL in your browser"
+msgstr ""
+"Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
+
+#: core/songloader.cpp:263
+#, qt-format
+msgid "Could not open file %1"
+msgstr "Nelze otevřít soubor %1"
+
+#: core/songloader.cpp:439
+#, qt-format
+msgid "Couldn't create gstreamer source element for %1"
+msgstr "Nelze vytvořit vstupní prvek GStreamer pro %1"
+
+#: playlist/playlistmanager.cpp:196
+msgid "Couldn't create playlist"
+msgstr "Nepodařilo se vytvořit seznam skladeb"
+
+#: transcoder/transcoder.cpp:440
+#, qt-format
+msgid ""
+"Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
+"installed"
+msgstr ""
+"Nepodařilo se najít multiplexer pro \"%1\" - ujistěte se, že máte "
+"nainstalovány správné přídavné moduly GStreamer"
+
+#: transcoder/transcoder.cpp:435
+#, qt-format
+msgid ""
+"Couldn't find an encoder for %1, check you have the correct GStreamer "
+"plugins installed"
+msgstr ""
+"Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány "
+"správné přídavné moduly GStreamer"
+
+#: ../build/src/ui_albumcovermanager.h:213
+#: ../build/src/ui_albumcoversearcher.h:104
+msgid "Cover Manager"
+msgstr "Správce obalů"
+
+#: dialogs/edittagdialog.cpp:516
+msgid "Cover art from embedded image"
+msgstr "Obal z vloženého obrázku"
+
+#: dialogs/edittagdialog.cpp:519
+#, qt-format
+msgid "Cover art loaded automatically from %1"
+msgstr "Obal nahraný automaticky z %1"
+
+#: dialogs/edittagdialog.cpp:509
+msgid "Cover art manually unset"
+msgstr "Obal zrušený ručně"
+
+#: dialogs/edittagdialog.cpp:522
+msgid "Cover art not set"
+msgstr "Obal nenastaven"
+
+#: dialogs/edittagdialog.cpp:513
+#, qt-format
+msgid "Cover art set from %1"
+msgstr "Obal nastaven z %1"
+
+#: ../build/src/ui_coverssettingspage.h:166
+msgid "Cover providers"
+msgstr "Poskytovatel obalů alb"
+
+#: ../build/src/ui_coverssettingspage.h:165
+msgid "Covers"
+msgstr "Obaly alb"
+
+#: covermanager/albumcoversearcher.cpp:127
+#: covermanager/coversearchstatisticsdialog.cpp:75
+#, qt-format
+msgid "Covers from %1"
+msgstr "Obaly od %1"
+
+#: core/commandlineoptions.cpp:179
+msgid "Create a new playlist with files"
+msgstr "Vytvořit nový seznam skladeb se soubory"
+
+#: ../build/src/ui_backendsettingspage.h:470
+msgid "Cross-fade when changing tracks automatically"
+msgstr "Prolínání při automatické změně skladby"
+
+#: ../build/src/ui_backendsettingspage.h:469
+msgid "Cross-fade when changing tracks manually"
+msgstr "Prolínání při ruční změně skladby"
+
+#: ../build/src/ui_mainwindow.h:628
+msgid "Ctrl+Alt+V"
+msgstr "Ctrl+Alt+V"
+
+#: ../build/src/ui_queueview.h:134
+msgid "Ctrl+Down"
+msgstr "Ctrl+Šipka dolů"
+
+#: ../build/src/ui_mainwindow.h:640
+msgid "Ctrl+E"
+msgstr "Ctrl+E"
+
+#: ../build/src/ui_mainwindow.h:658
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: ../build/src/ui_mainwindow.h:676
+msgid "Ctrl+J"
+msgstr "Ctrl+J"
+
+#: ../build/src/ui_mainwindow.h:636 ../build/src/ui_queueview.h:144
+msgid "Ctrl+K"
+msgstr "Ctrl+K"
+
+#: ../build/src/ui_mainwindow.h:696
+msgid "Ctrl+M"
+msgstr "Ctrl+M"
+
+#: ../build/src/ui_mainwindow.h:680
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../build/src/ui_mainwindow.h:650
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: ../build/src/ui_mainwindow.h:624
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../build/src/ui_mainwindow.h:684
+msgid "Ctrl+S"
+msgstr "Ctrl+S"
+
+#: ../build/src/ui_mainwindow.h:662
+msgid "Ctrl+Shift+A"
+msgstr "Ctrl+Shift+A"
+
+#: ../build/src/ui_mainwindow.h:688
+msgid "Ctrl+Shift+O"
+msgstr "Ctrl+Shift+O"
+
+#: ../build/src/ui_mainwindow.h:702
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: ../build/src/ui_savedgroupingmanager.h:106 ../build/src/ui_queueview.h:128
+msgid "Ctrl+Up"
+msgstr "Ctrl+Up"
+
+#: ../build/src/ui_collectionsettingspage.h:434
+msgid "Current disk cache in use:"
+msgstr "Využití mezipaměti na disku:"
+
+#: equalizer/equalizer.cpp:137
+msgid "Custom"
+msgstr "Vlastní"
+
+#: ../build/src/ui_appearancesettingspage.h:407
+msgid "Custom image:"
+msgstr "Vlastní obrázek:"
+
+#: ../build/src/ui_notificationssettingspage.h:477
+msgid "Custom message settings"
+msgstr "Nastavení vlastní zprávy"
+
+#: ../build/src/ui_contextsettingspage.h:414
+msgid "Custom text settings"
+msgstr "Vlastní nastavení textu"
+
+#: ../build/src/ui_notificationssettingspage.h:491
+msgid "Custom..."
+msgstr "Vlastní..."
+
+#: device/udisks2lister.cpp:108
+msgid "D-Bus path"
+msgstr "Cesta k D-Bus"
+
+#: equalizer/equalizer.cpp:140
+msgid "Dance"
+msgstr "Taneční hudba"
+
+#: core/database.cpp:503
+msgid "Database corruption detected."
+msgstr "Databáze je poškozená."
+
+#: playlist/playlist.cpp:1202 ../build/src/ui_edittagdialog.h:676
+msgid "Date created"
+msgstr "Datum vytvoření"
+
+#: playlist/playlist.cpp:1201 ../build/src/ui_edittagdialog.h:675
+msgid "Date modified"
+msgstr "Datum změny"
+
+#: core/commandlineoptions.cpp:172
+msgid "Decrease the volume by 4 percent"
+msgstr "Snížit hlasitost o 4 procenta"
+
+#: core/commandlineoptions.cpp:174
+msgid "Decrease the volume by <value> percent"
+msgstr "Snížit hlasitost o <value> procent"
+
+#: ../build/src/ui_appearancesettingspage.h:401
+msgid "Default bac&kground image"
+msgstr "Výchozí obrázek poza&dí"
+
+#: playlist/playlistlistcontainer.cpp:98
+#: ../build/src/ui_playlistlistcontainer.h:130
+msgid "Delete"
+msgstr "Smazat"
+
+#: widgets/fileview.cpp:221 device/deviceview.cpp:417
+msgid "Delete files"
+msgstr "Smazat soubory"
+
+#: device/deviceview.cpp:240
+msgid "Delete from device..."
+msgstr "Smazat ze zařízení..."
+
+#: widgets/fileviewlist.cpp:49
+msgid "Delete from disk..."
+msgstr "Smazat z disku..."
+
+#: equalizer/equalizer.cpp:226 ../build/src/ui_equalizer.h:174
+msgid "Delete preset"
+msgstr "Smazat předvolbu"
+
+#: ../build/src/ui_organisedialog.h:265
+msgid "Delete the original files"
+msgstr "Smazat původní soubory"
+
+#: core/deletefiles.cpp:55
+msgid "Deleting files"
+msgstr "Probíhá mazání souborů"
+
+#: core/mainwindow.cpp:1653
+msgid "Dequeue selected tracks"
+msgstr "Odstranit vybrané skladby z řady"
+
+#: core/mainwindow.cpp:1652
+msgid "Dequeue track"
+msgstr "Odstranit skladbu z řady"
+
+#: ../build/src/ui_organisedialog.h:260 ../build/src/ui_transcodedialog.h:229
+msgid "Destination"
+msgstr "Cíl"
+
+#: ../build/src/ui_transcodedialog.h:236
+msgid "Details..."
+msgstr "Podrobnosti..."
+
+#: context/contextview.cpp:184 device/giolister.cpp:188
+#: ../build/src/ui_backendsettingspage.h:446
+msgid "Device"
+msgstr "Zařízení"
+
+#: ../build/src/ui_deviceproperties.h:370
+msgid "Device Properties"
+msgstr "Vlastnosti zařízení"
+
+#: device/deviceview.cpp:231
+msgid "Device properties..."
+msgstr "Vlastnosti zařízení..."
+
+#: core/mainwindow.cpp:283
+msgid "Devices"
+msgstr "Zařízení"
+
+#: ../build/src/ui_networkproxysettingspage.h:166
+msgid "Direct internet connection"
+msgstr "Přímé připojení k internetu"
+
+#: ../build/src/ui_transcodedialog.h:218
+msgid "Directory"
+msgstr "Složka"
+
+#: ../build/src/ui_notificationssettingspage.h:471
+msgid "Disable duration"
+msgstr "Zakázat délku"
+
+#: ../build/src/ui_notificationssettingspage.h:464
+msgctxt "Refers to a disabled notification type in Notification settings."
+msgid "Disabled"
+msgstr "Zakázáno"
+
+#: collection/savedgroupingmanager.cpp:93 playlist/playlist.cpp:1179
+#: organise/organisedialog.cpp:106 ../build/src/ui_groupbydialog.h:132
+#: ../build/src/ui_groupbydialog.h:156 ../build/src/ui_groupbydialog.h:180
+#: ../build/src/ui_edittagdialog.h:684
+msgid "Disc"
+msgstr "Disk"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:233
+msgid "Discontinuous transmission"
+msgstr "Nesouvislý přenos"
+
+#: ../build/src/ui_collectionsettingspage.h:433
+msgid "Disk Cache Size"
+msgstr "Velikost mezipaměti na disku"
+
+#: collection/collectionfilterwidget.cpp:127
+#: ../build/src/ui_collectionsettingspage.h:417
+msgid "Display options"
+msgstr "Volby zobrazení"
+
+#: core/commandlineoptions.cpp:183
+msgid "Display the on-screen-display"
+msgstr "Zobrazovat informace na obrazovce (OSD)"
+
+#: ../build/src/ui_deviceproperties.h:379
+msgid "Do not convert any music"
+msgstr "Nepřevádět žádnou hudbu"
+
+#: ../build/src/ui_appearancesettingspage.h:421
+msgid "Do not cut image"
+msgstr "Neořezávat obrázek"
+
+#: ../build/src/ui_albumcoverexport.h:208
+msgid "Do not overwrite"
+msgstr "Nepřepisovat"
+
+#: widgets/osd.cpp:262 ../build/src/ui_playlistsequence.h:110
+msgid "Don't repeat"
+msgstr "Neopakovat"
+
+#: collection/collectionview.cpp:345
+msgid "Don't show in various artists"
+msgstr "Nezobrazovat pod různými umělci"
+
+#: widgets/osd.cpp:249 ../build/src/ui_playlistsequence.h:116
+msgid "Don't shuffle"
+msgstr "Nemíchat"
+
+#: covermanager/albumcovermanager.cpp:240
+msgid "Don't stop!"
+msgstr "Nezastavovat!"
+
+#: device/deviceview.cpp:138
+msgid "Double click to open"
+msgstr "Klepnout dvakrát pro otevření"
+
+#: ../build/src/ui_behavioursettingspage.h:283
+msgid "Double clicking a song in the playlist will..."
+msgstr "Dvojité klepnutí na píseň v seznamu skladeb způsobí..."
+
+#: ../build/src/ui_behavioursettingspage.h:269
+msgid "Double clicking a song will..."
+msgstr "Dvojité klepnutí na píseň..."
+
+#: ../build/src/ui_subsonicsettingspage.h:194
+#: ../build/src/ui_tidalsettingspage.h:332
+msgid "Download album covers"
+msgstr "Stahovat obaly alb"
+
+#: musicbrainz/tagfetcher.cpp:116
+msgid "Downloading metadata"
+msgstr "Stahují se popisná data"
+
+#: settings/notificationssettingspage.cpp:66
+msgid "Drag to reposition"
+msgstr "Tažením přemístěte"
+
+#: core/mainwindow.cpp:1694
+#, qt-format
+msgid "Edit tag \"%1\"..."
+msgstr "Upravit značku \"%1\"..."
+
+#: ../build/src/ui_mainwindow.h:644
+msgid "Edit tag..."
+msgstr "Upravit značku..."
+
+#: ../build/src/ui_edittagdialog.h:693
+msgid "Edit tags"
+msgstr "Upravit značky"
+
+#: ../build/src/ui_edittagdialog.h:661
+msgid "Edit track information"
+msgstr "Upravit informace o skladbě"
+
+#: context/contextalbumsview.cpp:266 collection/collectionview.cpp:335
+#: widgets/fileviewlist.cpp:52 ../build/src/ui_mainwindow.h:638
+msgid "Edit track information..."
+msgstr "Upravit informace o skladbě..."
+
+#: context/contextalbumsview.cpp:267 collection/collectionview.cpp:336
+msgid "Edit tracks information..."
+msgstr "Upravit informace o skladbách..."
+
+#: ../build/src/ui_scrobblersettingspage.h:317
+#: ../build/src/ui_scrobblersettingspage.h:329
+#: ../build/src/ui_scrobblersettingspage.h:333
+#: ../build/src/ui_scrobblersettingspage.h:336
+#: ../build/src/ui_subsonicsettingspage.h:186
+#: ../build/src/ui_tidalsettingspage.h:316
+msgid "Enable"
+msgstr "Povolit"
+
+#: ../build/src/ui_collectionsettingspage.h:432
+msgid "Enable Disk Cache"
+msgstr "Povolit mezipaměť na disku"
+
+#: ../build/src/ui_contextsettingspage.h:421
+msgid "Enable Items"
+msgstr "Povolit Položky"
+
+#: ../build/src/ui_equalizer.h:176
+msgid "Enable equalizer"
+msgstr "Povolit ekvalizér"
+
+#: ../build/src/ui_playlistsettingspage.h:156
+msgid "Enable playlist clear button"
+msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
+
+#: ../build/src/ui_playlistsettingspage.h:166
+msgid "Enable song metadata inline edition with click"
+msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
+
+#: ../build/src/ui_equalizer.h:177
+#, fuzzy
+msgid "Enable stereo balancer"
+msgstr "Zapnout vyrovnávání sterea"
+
+#: ../build/src/ui_backendsettingspage.h:451
+msgid "Enable volume control"
+msgstr "Povolit ovládání hlasitosti"
+
+#: ../build/src/ui_moodbarsettingspage.h:100
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:234
+msgid "Encoding complexity"
+msgstr "Složitost kódování"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:196
+msgid "Encoding engine quality"
+msgstr "Kvalita kódovacího stroje"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:223
+msgid "Encoding mode"
+msgstr "Režim kódování"
+
+#: context/contextview.cpp:183 ../build/src/ui_backendsettingspage.h:444
+msgid "Engine"
+msgstr "Engine"
+
+#: ../build/src/ui_contextsettingspage.h:424
+msgid "Engine and Device"
+msgstr "Engine a zařízení"
+
+#: ../build/src/ui_coverfromurldialog.h:102
+msgid "Enter a URL to download a cover from the Internet:"
+msgstr "Zadejte adresu (URL) ke stažení obalu z internetu:"
+
+#: ../build/src/ui_albumcoverexport.h:204
+msgid "Enter a filename for exported covers (no extension):"
+msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
+
+#: playlist/playlisttabbar.cpp:173
+msgid "Enter a new name for this playlist"
+msgstr "Zadejte název tohoto seznamu skladeb"
+
+#: internet/internetsearchview.cpp:391 ../build/src/ui_internetsearchview.h:230
+msgid "Enter search terms above to find music"
+msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
+
+#: ../build/src/ui_collectionfilterwidget.h:103
+#: ../build/src/ui_albumcovermanager.h:217
+msgid "Enter search terms here"
+msgstr "Zde zadejte hledané výrazy"
+
+#: ../build/src/ui_addstreamdialog.h:78
+msgid "Enter the URL of a stream:"
+msgstr "Zadejte URL streamu:"
+
+#: playlist/playlistlistcontainer.cpp:195
+msgid "Enter the name of the folder"
+msgstr "Zadejte název složky"
+
+#: settings/scrobblersettingspage.cpp:81
+msgid "Enter your user token from"
+msgstr "Zadejte uživatelský token z"
+
+#: ../build/src/ui_collectionfilterwidget.h:92
+msgid "Entire collection"
+msgstr "Celá sbírka"
+
+#: ../build/src/ui_equalizer.h:168 ../build/src/ui_equalizerslider.h:98
+msgid "Equalizer"
+msgstr "Ekvalizér"
+
+#: core/commandlineoptions.cpp:186
+msgid "Equivalent to --log-levels *:1"
+msgstr "Rovnocenné s --log-levels *:1"
+
+#: core/commandlineoptions.cpp:187
+msgid "Equivalent to --log-levels *:3"
+msgstr "Rovnocenné s --log-levels *:3"
+
+#: core/mainwindow.cpp:2245 core/mainwindow.cpp:2367
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+msgid "Error"
+msgstr "Chyba"
+
+#: device/mtploader.cpp:67
+#, qt-format
+msgid "Error connecting MTP device %1"
+msgstr "Chyba při připojování k MTP zařízení %1"
+
+#: organise/organiseerrordialog.cpp:71
+msgid "Error copying songs"
+msgstr "Chyba při kopírování písní"
+
+#: organise/organiseerrordialog.cpp:76
+msgid "Error deleting songs"
+msgstr "Chyba při mazání písní"
+
+#: transcoder/transcoder.cpp:408
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Chyba při zpracovávání %1: %2"
+
+#: playlist/songloaderinserter.cpp:109
+msgid "Error while loading audio CD."
+msgstr "Chyba při načítání zvukového CD"
+
+#: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
+msgid "Error while querying CDDA tracks."
+msgstr "Chyba při dotazování na CDDA stopy."
+
+#: device/cddasongloader.cpp:102
+msgid "Error while setting CDDA device to pause state."
+msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
+
+#: device/cddasongloader.cpp:94
+msgid "Error while setting CDDA device to ready state."
+msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
+
+#: ../build/src/ui_backendsettingspage.h:471
+msgid "Except between tracks on the same album or in the same CUE sheet"
+msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
+
+#: ../build/src/ui_albumcoverexport.h:207
+msgid "Existing covers"
+msgstr "Stávající obaly"
+
+#: widgets/loginstatewidget.cpp:149
+#, qt-format
+msgid "Expires on %1"
+msgstr "Vyprší %1"
+
+#: ../build/src/ui_albumcovermanager.h:224
+msgid "Export Covers"
+msgstr "Uložit obaly"
+
+#: ../build/src/ui_albumcoverexport.h:202
+msgid "Export covers"
+msgstr "Uložit obaly"
+
+#: ../build/src/ui_albumcoverexport.h:205
+msgid "Export downloaded covers"
+msgstr "Uložit stažené obaly"
+
+#: ../build/src/ui_albumcoverexport.h:206
+msgid "Export embedded covers"
+msgstr "Uložit vložené obaly"
+
+#: covermanager/albumcovermanager.cpp:888
+#: covermanager/albumcovermanager.cpp:914
+msgid "Export finished"
+msgstr "Uložení dokončeno"
+
+#: covermanager/albumcovermanager.cpp:899
+#, qt-format
+msgid "Exported %1 covers out of %2 (%3 skipped)"
+msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
+
+#: ../build/src/ui_mainwindow.h:654
+msgid "F1"
+msgstr "F1"
+
+#: ../build/src/ui_mainwindow.h:646
+msgid "F2"
+msgstr "F2"
+
+#: ../build/src/ui_mainwindow.h:608
+msgid "F5"
+msgstr "F5"
+
+#: ../build/src/ui_mainwindow.h:612
+msgid "F6"
+msgstr "F6"
+
+#: ../build/src/ui_mainwindow.h:616
+msgid "F7"
+msgstr "F7"
+
+#: ../build/src/ui_mainwindow.h:620
+msgid "F8"
+msgstr "F8"
+
+#: ../build/src/ui_transcodersettingspage.h:190
+msgid "FLAC"
+msgstr "FLAC"
+
+#: ../build/src/ui_backendsettingspage.h:474
+msgid "Fade out on pause / fade in on resume"
+msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
+
+#: ../build/src/ui_backendsettingspage.h:468
+msgid "Fade out when stopping a track"
+msgstr "Zeslabit při zastavování skladby"
+
+#: ../build/src/ui_backendsettingspage.h:467
+msgid "Fading"
+msgstr "Slábnutí"
+
+#: ../build/src/ui_backendsettingspage.h:472
+#: ../build/src/ui_backendsettingspage.h:475
+msgid "Fading duration"
+msgstr "Doba slábnutí"
+
+#: ../build/src/ui_transcoderoptionsflac.h:81
+#: ../build/src/ui_transcoderoptionsmp3.h:199
+msgid "Fast"
+msgstr "Rychlý"
+
+#: ../build/src/ui_albumcovermanager.h:223
+msgid "Fetch Missing Covers"
+msgstr "Stáhnout chybějící obaly"
+
+#: ../build/src/ui_albumcovermanager.h:214
+msgid "Fetch automatically"
+msgstr "Stáhnout automaticky"
+
+#: ../build/src/ui_coversearchstatisticsdialog.h:74
+msgid "Fetch completed"
+msgstr "Stahování dokončeno"
+
+#: ../build/src/ui_tidalsettingspage.h:333
+msgid "Fetch entire albums when searching songs"
+msgstr "Načítat celá alba při vyhledávání"
+
+#: covermanager/coverfromurldialog.cpp:83
+#: covermanager/coverfromurldialog.cpp:95
+msgid "Fetching cover error"
+msgstr "Chyba při stahování obalu"
+
+#: core/song.cpp:1019
+#, qt-format
+msgid "File %1 is not recognized as a valid audio file."
+msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
+
+#: organise/organisedialog.cpp:115
+msgid "File extension"
+msgstr "Přípona souboru"
+
+#: ../build/src/ui_deviceproperties.h:386
+msgid "File formats"
+msgstr "Formáty souborů"
+
+#: playlist/playlist.cpp:1197 ../build/src/ui_edittagdialog.h:677
+msgid "File name"
+msgstr "Název souboru"
+
+#: playlist/playlist.cpp:1198
+msgid "File name (without path)"
+msgstr "Název souboru bez cesty"
+
+#: ../build/src/ui_playlistsaveoptionsdialog.h:95
+msgid "File paths"
+msgstr "Souborové cesty"
+
+#: playlist/playlist.cpp:1199 ../build/src/ui_edittagdialog.h:672
+msgid "File size"
+msgstr "Velikost souboru"
+
+#: collection/savedgroupingmanager.cpp:126 playlist/playlist.cpp:1200
+#: ../build/src/ui_groupbydialog.h:143 ../build/src/ui_groupbydialog.h:167
+#: ../build/src/ui_groupbydialog.h:191 ../build/src/ui_edittagdialog.h:673
+msgid "File type"
+msgstr "Typ souboru"
+
+#: ../build/src/ui_transcodedialog.h:219
+msgid "Filename"
+msgstr "Název souboru"
+
+#: ../build/src/ui_collectionsettingspage.h:423
+msgid "Filename:"
+msgstr "Název souboru:"
+
+#: core/mainwindow.cpp:279
+msgid "Files"
+msgstr "Soubory"
+
+#: ../build/src/ui_transcodedialog.h:216
+msgid "Files to transcode"
+msgstr "Soubory k překódování"
+
+#: context/contextview.cpp:213
+msgid "Filetype"
+msgstr "Typ souboru"
+
+#: musicbrainz/tagfetcher.cpp:63
+msgid "Fingerprinting song"
+msgstr "Určení písně"
+
+#: collection/savedgroupingmanager.cpp:56 ../build/src/ui_groupbydialog.h:124
+msgid "First level"
+msgstr "První úroveň"
+
+#: widgets/playingwidget.cpp:106
+msgid "Fit cover to width"
+msgstr "Přizpůsobit obal šířce"
+
+#: ../build/src/ui_contextsettingspage.h:430
+#: ../build/src/ui_contextsettingspage.h:435
+msgid "Font"
+msgstr "Font"
+
+#: ../build/src/ui_contextsettingspage.h:434
+msgid "Font for data and lyrics"
+msgstr "Font pro data a texty skladeb"
+
+#: ../build/src/ui_contextsettingspage.h:429
+msgid "Font for headline"
+msgstr "Font nadpisu"
+
+#: ../build/src/ui_contextsettingspage.h:431
+#: ../build/src/ui_contextsettingspage.h:436
+msgid "Font size"
+msgstr "Velikost fontu"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:203
+msgid "Force mono encoding"
+msgstr "Vynutit jednokanálové kódování"
+
+#: device/deviceview.cpp:229 device/deviceview.cpp:336
+#: device/deviceview.cpp:339
+msgid "Forget device"
+msgstr "Zapomenout zařízení"
+
+#: device/deviceview.cpp:337
+msgid ""
+"Forgetting a device will remove it from this list and Strawberry will have "
+"to rescan all the songs again next time you connect it."
+msgstr ""
+"Zařízení bude odstraněno z tohoto seznamu. Po opětovném připojení je "
+"Strawberry bude muset znovu celé prohledat."
+
+#: ../build/src/ui_collectionviewcontainer.h:58
+#: ../build/src/ui_playlistcontainer.h:150
+#: ../build/src/ui_playlistlistcontainer.h:125 ../build/src/ui_trackslider.h:68
+#: ../build/src/ui_fileview.h:106 ../build/src/ui_loginstatewidget.h:167
+#: ../build/src/ui_internetcollectionviewcontainer.h:138
+#: ../build/src/ui_deviceviewcontainer.h:51
+#: ../build/src/ui_transcoderoptionsaac.h:127
+#: ../build/src/ui_transcoderoptionsflac.h:79
+#: ../build/src/ui_transcoderoptionswavpack.h:49
+#: ../build/src/ui_transcoderoptionsvorbis.h:200
+#: ../build/src/ui_transcoderoptionsopus.h:78
+#: ../build/src/ui_transcoderoptionsspeex.h:215
+#: ../build/src/ui_transcoderoptionsasf.h:77
+#: ../build/src/ui_transcoderoptionsmp3.h:189
+msgid "Form"
+msgstr "Formulář"
+
+#: collection/savedgroupingmanager.cpp:96 ../build/src/ui_groupbydialog.h:133
+#: ../build/src/ui_groupbydialog.h:157 ../build/src/ui_groupbydialog.h:181
+msgid "Format"
+msgstr "Formát"
+
+#: analyzer/analyzercontainer.cpp:60
+msgid "Framerate"
+msgstr "Počet snímků"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:235
+msgid "Frames per buffer"
+msgstr "Snímků na vyrovnávací paměť"
+
+#: moodbar/moodbarrenderer.cpp:174
+#, fuzzy
+msgid "Frozen"
+msgstr "Zamrznutý"
+
+#: equalizer/equalizer.cpp:141
+msgid "Full Bass"
+msgstr "Plné basy"
+
+#: equalizer/equalizer.cpp:143
+msgid "Full Bass + Treble"
+msgstr "Plné basy + výšky"
+
+#: equalizer/equalizer.cpp:142
+msgid "Full Treble"
+msgstr "Plné výšky"
+
+#: settings/settingsdialog.cpp:129
+msgid "General"
+msgstr "Obecné"
+
+#: ../build/src/ui_notificationssettingspage.h:468
+msgid "General settings"
+msgstr "Obecná nastavení"
+
+#: lyrics/geniuslyricsprovider.cpp:126
+#, fuzzy
+msgid "Genius Authentication"
+msgstr "Ověření Genius"
+
+#: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1183
+#: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
+#: ../build/src/ui_groupbydialog.h:158 ../build/src/ui_groupbydialog.h:182
+#: ../build/src/ui_edittagdialog.h:680
+msgid "Genre"
+msgstr "Žánr"
+
+#: ../build/src/ui_mainwindow.h:690
+msgid "Go to next playlist tab"
+msgstr "Jít na další kartu seznamu skladeb"
+
+#: ../build/src/ui_mainwindow.h:691
+msgid "Go to previous playlist tab"
+msgstr "Jít na předchozí kartu seznamu skladeb"
+
+#: covermanager/albumcovermanager.cpp:530
+#: covermanager/coversearchstatisticsdialog.cpp:69
+#: ../build/src/ui_coversearchstatisticsdialog.h:75
+#, qt-format
+msgid "Got %1 covers out of %2 (%3 failed)"
+msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
+
+#: ../build/src/ui_playlistsettingspage.h:153
+#, fuzzy
+msgid "Grey out unavailable songs in playlists on playback"
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při přehrávání"
+
+#: ../build/src/ui_playlistsettingspage.h:154
+#, fuzzy
+msgid "Grey out unavailable songs in playlists on startup"
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
+
+#: ../build/src/ui_groupbydialog.h:123
+msgid "Group Collection by..."
+msgstr "Seskupovat v hudební sbírce podle..."
+
+#: collection/collectionfilterwidget.cpp:119
+#: internet/internetsearchview.cpp:332
+msgid "Group by"
+msgstr "Seskupovat podle"
+
+#: collection/collectionfilterwidget.cpp:193
+msgid "Group by Album"
+msgstr "Seskupovat podle alba"
+
+#: collection/collectionfilterwidget.cpp:190
+msgid "Group by Album Artist"
+msgstr "Seskupit dle Autora alba"
+
+#: collection/collectionfilterwidget.cpp:177
+msgid "Group by Album artist/Album"
+msgstr "Seskupovat podle umělce alba/alba"
+
+#: collection/collectionfilterwidget.cpp:178
+msgid "Group by Album artist/Album - Disc"
+msgstr "Seskupit jako Autor alba/Album - Disk"
+
+#: collection/collectionfilterwidget.cpp:179
+msgid "Group by Album artist/Year - Album"
+msgstr "Seskupit jako Autor alba/Rok - Album"
+
+#: collection/collectionfilterwidget.cpp:180
+msgid "Group by Album artist/Year - Album - Disc"
+msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
+
+#: collection/collectionfilterwidget.cpp:191
+msgid "Group by Artist"
+msgstr "Seskupovat podle umělce"
+
+#: collection/collectionfilterwidget.cpp:182
+msgid "Group by Artist/Album"
+msgstr "Seskupovat podle umělce/alba"
+
+#: collection/collectionfilterwidget.cpp:183
+msgid "Group by Artist/Album - Disc"
+msgstr "Seskupit jako Umělec/Album - Disk"
+
+#: collection/collectionfilterwidget.cpp:184
+msgid "Group by Artist/Year - Album"
+msgstr "Seskupovat podle umělce/roku - alba"
+
+#: collection/collectionfilterwidget.cpp:185
+msgid "Group by Artist/Year - Album - Disc"
+msgstr "Seskupit jako Umělec/Rok - Album - Disk"
+
+#: collection/collectionfilterwidget.cpp:194
+msgid "Group by Genre/Album"
+msgstr "Seskupovat podle žánru/alba"
+
+#: collection/collectionfilterwidget.cpp:187
+msgid "Group by Genre/Album artist/Album"
+msgstr "Seskupit jako Žánr/Autor alba/Album"
+
+#: collection/collectionfilterwidget.cpp:188
+msgid "Group by Genre/Artist/Album"
+msgstr "Seskupovat podle žánru/umělce/alba"
+
+#: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1187
+#: organise/organisedialog.cpp:104 ../build/src/ui_groupbydialog.h:142
+#: ../build/src/ui_groupbydialog.h:166 ../build/src/ui_groupbydialog.h:190
+#: ../build/src/ui_edittagdialog.h:682
+msgid "Grouping"
+msgstr "Seskupení"
+
+#: collection/collectionfilterwidget.cpp:237
+msgid "Grouping Name"
+msgstr "Název seskupení"
+
+#: collection/collectionfilterwidget.cpp:237
+msgid "Grouping name:"
+msgstr "Název seskupení:"
+
+#: ../build/src/ui_networkproxysettingspage.h:170
+msgid "HTTP proxy"
+msgstr "Proxy HTTP"
+
+#: moodbar/moodbarrenderer.cpp:176
+msgid "Happy"
+msgstr "Šťastný"
+
+#: ../build/src/ui_deviceproperties.h:373
+msgid "Hardware information"
+msgstr "Informace o vybavení"
+
+#: ../build/src/ui_deviceproperties.h:374
+msgid "Hardware information is only available while the device is connected."
+msgstr ""
+"Informace o vybavení jsou dostupné pouze tehdy, když je zařízení připojeno."
+
+#: ../build/src/ui_mainwindow.h:717
+msgid "Help"
+msgstr "Pomoc"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:201
+msgid "High"
+msgstr "Vysoká"
+
+#: analyzer/analyzercontainer.cpp:75
+#, qt-format
+msgid "High (%1 fps)"
+msgstr "Vysoký (%1 fps)"
+
+#: ../build/src/ui_deviceproperties.h:372
+msgid "Icon"
+msgstr "Ikona"
+
+#: widgets/fancytabwidget.cpp:605
+msgid "Icons on top"
+msgstr "Ikony nahoře"
+
+#: musicbrainz/tagfetcher.cpp:98
+msgid "Identifying song"
+msgstr "Určuje se píseň"
+
+#: ../build/src/ui_playlistsettingspage.h:164
+msgid ""
+"If activated, clicking a selected song in the playlist view will let you "
+"edit the tag value directly"
+msgstr ""
+"Pokud je zapnuto, po klepnutí na vybranou píseň v seznamu skladeb můžete "
+"upravit hodnotu značky přímo"
+
+#: device/devicemanager.cpp:613 device/devicemanager.cpp:621
+msgid ""
+"If you continue, this device will work slowly and songs copied to it may not "
+"work."
+msgstr ""
+"Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj "
+"kopírované nemusí fungovat."
+
+#: dialogs/about.cpp:137
+msgid ""
+"If you like this Strawberry and can make use of it, consider sponsoring or "
+"donating."
+msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
+
+#: covermanager/albumcoverchoicecontroller.cpp:67
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr ""
+"Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+
+#: covermanager/albumcoverchoicecontroller.cpp:68
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+
+#: ../build/src/ui_transcodedialog.h:225
+msgid "Import..."
+msgstr "Importovat..."
+
+#: core/utilities.cpp:177
+#, qt-format
+msgid "In %1 days"
+msgstr "Za %1 dny(ů)"
+
+#: core/utilities.cpp:180
+#, qt-format
+msgid "In %1 weeks"
+msgstr "Za %1 týdny(ů)"
+
+#: ../build/src/ui_notificationssettingspage.h:476
+msgid "Include album art in the notification"
+msgstr "Zahrnout obal alba do oznámení"
+
+#: core/commandlineoptions.cpp:171
+msgid "Increase the volume by 4 percent"
+msgstr "Zvýšit hlasitost o 4 procenta"
+
+#: core/commandlineoptions.cpp:173
+msgid "Increase the volume by <value> percent"
+msgstr "Zvýšit hlasitost o <value> procent"
+
+#: ../build/src/ui_deviceproperties.h:375
+msgid "Information"
+msgstr "Informace"
+
+#: ../build/src/ui_organisedialog.h:273
+msgid "Insert..."
+msgstr "Vložit..."
+
+#: core/database.cpp:488
+msgid "Integrity check"
+msgstr "Ověření celistvosti"
+
+#: ../build/src/ui_internetsearchview.h:224
+#, fuzzy
+msgid "Internet Search View"
+msgstr "Zobrazení vyhledávání na internetu"
+
+#: ../build/src/ui_internettabsview.h:115
+#, fuzzy
+msgid "Internet Tabs View"
+msgstr "Zobrazení karet Internetu"
+
+#: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
+msgid "Intro tracks"
+msgstr "Skladby úvodu"
+
+#: scrobbler/scrobblingapi20.cpp:212
+#, fuzzy
+msgid "Invalid reply from web browser. Missing token."
+msgstr "Špatná odpověď od prohlížeče. Token chybí."
+
+#: dialogs/about.cpp:127
+msgid ""
+"It is a fork of Clementine released in 2018 aimed at music collectors and "
+"audiophiles."
+msgstr ""
+"Je to větev přehrávače Clementine z roku 2018 zaměřený na sběratele hudby a "
+"audiofily."
+
+#: ../build/src/ui_behavioursettingspage.h:266
+msgid "Jump to previous song right away"
+msgstr "Skočit ihned na předchozí píseň"
+
+#: ../build/src/ui_appearancesettingspage.h:420
+msgid "Keep aspect ratio"
+msgstr "Zachovat poměr stran"
+
+#: ../build/src/ui_behavioursettingspage.h:242
+msgid "Keep running in the background when the window is closed"
+msgstr "Při zavření okna nechat běžet na pozadí"
+
+#: ../build/src/ui_organisedialog.h:264
+msgid "Keep the original files"
+msgstr "Zachovat původní soubory"
+
+#: ../build/src/ui_behavioursettingspage.h:250
+msgid "Language"
+msgstr "Jazyk"
+
+#: equalizer/equalizer.cpp:144
+msgid "Laptop/Headphones"
+msgstr "Přenosný počítač/Sluchátka"
+
+#: equalizer/equalizer.cpp:145
+msgid "Large Hall"
+msgstr "Velký sál"
+
+#: widgets/playingwidget.cpp:103
+msgid "Large album cover"
+msgstr "Velký obal alba"
+
+#: widgets/fancytabwidget.cpp:601
+msgid "Large sidebar"
+msgstr "Velký postranní panel"
+
+#: playlist/playlist.cpp:1191
+msgid "Last played"
+msgstr "Naposledy hrané"
+
+#: ../build/src/ui_edittagdialog.h:669
+msgctxt "A playlist's tag."
+msgid "Last played"
+msgstr "Naposledy hráno"
+
+#: ../build/src/ui_scrobblersettingspage.h:328
+msgid "Last.fm"
+msgstr "Last.fm"
+
+#: ../build/src/ui_equalizer.h:178
+msgid "Left"
+msgstr "Vlevo"
+
+#: core/qtsystemtrayicon.cpp:262 context/contextview.cpp:214
+#: playlist/playlist.cpp:1180 organise/organisedialog.cpp:111
+#: ../build/src/ui_edittagdialog.h:665
+msgid "Length"
+msgstr "Délka"
+
+#: ../build/src/ui_scrobblersettingspage.h:332
+msgid "Libre.fm"
+msgstr "Libre.fm"
+
+#: scrobbler/listenbrainzscrobbler.cpp:178
+msgid "ListenBrainz Authentication"
+msgstr "Přihlášení na ListenBrainz"
+
+#: ../build/src/ui_scrobblersettingspage.h:335
+msgid "Listenbrainz"
+msgstr "Listenbrainz"
+
+#: equalizer/equalizer.cpp:146
+msgid "Live"
+msgstr "Živě"
+
+#: ../build/src/ui_albumcovermanager.h:215
+msgid "Load"
+msgstr "Načíst"
+
+#: ../build/src/ui_coverfromurldialog.h:101
+msgid "Load cover from URL"
+msgstr "Nahrát obal z adresy (URL)"
+
+#: covermanager/albumcoverchoicecontroller.cpp:89
+msgid "Load cover from URL..."
+msgstr "Nahrát obal z adresy (URL)..."
+
+#: covermanager/albumcoverchoicecontroller.cpp:139
+msgid "Load cover from disk"
+msgstr "Nahrát obal z disku"
+
+#: covermanager/albumcoverchoicecontroller.cpp:87
+msgid "Load cover from disk..."
+msgstr "Nahrát obal na disku..."
+
+#: playlist/playlistcontainer.cpp:307
+msgid "Load playlist"
+msgstr "Nahrát seznam skladeb"
+
+#: device/mtploader.cpp:50
+msgid "Loading MTP device"
+msgstr "Nahrává se zařízení MTP"
+
+#: device/gpodloader.cpp:53
+msgid "Loading iPod database"
+msgstr "Nahrává se databáze iPod"
+
+#: collection/collectionmodel.cpp:216
+msgid "Loading songs"
+msgstr "Nahrávají se písně"
+
+#: playlist/songloaderinserter.cpp:164 dialogs/edittagdialog.cpp:282
+msgid "Loading tracks"
+msgstr "Nahrávají se skladby"
+
+#: playlist/songloaderinserter.cpp:194
+msgid "Loading tracks info"
+msgstr "Nahrávají se informace o skladbě"
+
+#: collection/collectionmodel.cpp:209 ../build/src/ui_organisedialog.h:283
+msgid "Loading..."
+msgstr "Nahrává se..."
+
+#: core/commandlineoptions.cpp:181
+msgid "Loads files/URLs, replacing current playlist"
+msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
+
+#: ../build/src/ui_scrobblersettingspage.h:331
+#: ../build/src/ui_scrobblersettingspage.h:334
+#: ../build/src/ui_scrobblersettingspage.h:339
+#: ../build/src/ui_coverssettingspage.h:172
+#: ../build/src/ui_lyricssettingspage.h:172
+#: ../build/src/ui_tidalsettingspage.h:324
+msgid "Login"
+msgstr "Přihlášení"
+
+#: ../build/src/ui_transcoderoptionsaac.h:136
+msgid "Long term prediction profile (LTP)"
+msgstr "Dlouhodobý předpověďní profil"
+
+#: ../build/src/ui_mainwindow.h:630
+msgid "Love"
+msgstr "To Miluju!"
+
+#: analyzer/analyzercontainer.cpp:73
+#, qt-format
+msgid "Low (%1 fps)"
+msgstr "Nízký (%1 fps)"
+
+#: ../build/src/ui_transcoderoptionsaac.h:134
+msgid "Low complexity profile (LC)"
+msgstr "Nízkosložitostní profil"
+
+#: ../build/src/ui_collectionsettingspage.h:428
+msgid "Lowercase filename"
+msgstr "Název souboru malými písmeny"
+
+#: ../build/src/ui_lyricssettingspage.h:165 ../build/src/ui_edittagdialog.h:692
+msgid "Lyrics"
+msgstr "Texty"
+
+#: ../build/src/ui_lyricssettingspage.h:166
+msgid "Lyrics providers"
+msgstr "Poskytovatelé textů"
+
+#: ../build/src/ui_transcodersettingspage.h:197
+msgid "MP3"
+msgstr "MP3"
+
+#: ../build/src/ui_transcoderoptionsaac.h:133
+msgid "Main profile (MAIN)"
+msgstr "Hlavní profil"
+
+#: ../build/src/ui_collectionfilterwidget.h:102
+msgid "Manage saved groupings"
+msgstr "Spravovat uložená seskupení"
+
+#: device/deviceproperties.cpp:176
+msgid "Manufacturer"
+msgstr "Výrobce"
+
+#: ../build/src/ui_organisedialog.h:280
+msgid "Mark as listened"
+msgstr "Označit jako poslechnuté"
+
+#: ../build/src/ui_collectionsettingspage.h:410
+msgid "Mark disappeared songs unavailable"
+msgstr "Označit zmizelé skladby jako nedostupné"
+
+#: ../build/src/ui_appearancesettingspage.h:418
+msgid "Max cover size"
+msgstr "Maximální velikost obalu alba"
+
+#: ../build/src/ui_transcoderoptionsvorbis.h:208
+msgid "Maximum bitrate"
+msgstr "Nejvyšší datový tok"
+
+#: analyzer/analyzercontainer.cpp:74
+#, qt-format
+msgid "Medium (%1 fps)"
+msgstr "Střední (%1 fps)"
+
+#: ../build/src/ui_playlistsettingspage.h:162
+msgid "Metadata"
+msgstr "Metadata"
+
+#: ../build/src/ui_appearancesettingspage.h:414
+msgid "Middle"
+msgstr "Střed"
+
+#: ../build/src/ui_transcoderoptionsvorbis.h:205
+msgid "Minimum bitrate"
+msgstr "Nejnižší datový tok"
+
+#: ../build/src/ui_backendsettingspage.h:455
+msgid "Minimum buffer fill"
+msgstr "Nejmenší naplnění vyrovnávací paměti"
+
+#: settings/tidalsettingspage.cpp:162
+msgid "Missing API token, username or password."
+msgstr "Chybějící API token, uživatelské jméno nebo heslo."
+
+#: subsonic/subsonicurlhandler.cpp:45
+msgid "Missing Subsonic username or password."
+msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
+
+#: tidal/tidalservice.cpp:732 tidal/tidalservice.cpp:791
+#: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
+#: tidal/tidalservice.cpp:973 tidal/tidalstreamurlrequest.cpp:89
+msgid "Missing Tidal API token, username or password."
+msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
+
+#: tidal/tidalservice.cpp:693
+msgid "Missing Tidal API token."
+msgstr "Chybějící API token pro Tidal."
+
+#: settings/tidalsettingspage.cpp:155
+msgid "Missing Tidal client ID."
+msgstr "Chybějící ID klienta pro Tidal."
+
+#: tidal/tidalservice.cpp:701
+msgid "Missing Tidal password."
+msgstr "Chybějící heslo k Tidal."
+
+#: tidal/tidalservice.cpp:697
+msgid "Missing Tidal username."
+msgstr "Chybějící uživatelské jméno k Tidal."
+
+#: settings/subsonicsettingspage.cpp:103
+msgid "Missing server url, username or password."
+msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
+
+#: subsonic/subsonicservice.cpp:390
+msgid "Missing username or password."
+msgstr "Chybějící uživatelské jméno nebo heslo."
+
+#: device/deviceproperties.cpp:175
+msgid "Model"
+msgstr "Model"
+
+#: ../build/src/ui_collectionsettingspage.h:409
+msgid "Monitor the collection for changes"
+msgstr "Sledovat změny ve sbírce"
+
+#: playlist/playlist.cpp:1206
+msgid "Mood"
+msgstr "Nálada"
+
+#: ../build/src/ui_moodbarsettingspage.h:95
+#: ../build/src/ui_moodbarsettingspage.h:96
+msgid "Moodbar"
+msgstr "Ukazatel nálady"
+
+#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+msgid "Moodbar style"
+msgstr "Styl Ukazatele nálady"
+
+#: device/giolister.cpp:187
+msgid "Mount point"
+msgstr "Přípojný bod"
+
+#: device/udisks2lister.cpp:110
+msgid "Mount points"
+msgstr "Přípojné body"
+
+#: ../build/src/ui_queueview.h:125 ../build/src/ui_coverssettingspage.h:169
+#: ../build/src/ui_lyricssettingspage.h:169
+msgid "Move down"
+msgstr "Posunout dolů"
+
+#: core/mainwindow.cpp:631 widgets/fileviewlist.cpp:47
+msgid "Move to collection..."
+msgstr "Přesunout do sbírky..."
+
+#: ../build/src/ui_queueview.h:131 ../build/src/ui_coverssettingspage.h:168
+#: ../build/src/ui_lyricssettingspage.h:168
+msgid "Move up"
+msgstr "Posunout nahoru"
+
+#: core/mainwindow.cpp:1914 transcoder/transcodedialog.cpp:328
+msgid "Music"
+msgstr "Hudba"
+
+#: globalshortcuts/globalshortcuts.cpp:72
+msgid "Mute"
+msgstr "Ztlumit"
+
+#: equalizer/equalizer.cpp:209 collection/savedgroupingmanager.cpp:55
+#: ../build/src/ui_deviceproperties.h:371
+msgid "Name"
+msgstr "Název"
+
+#: ../build/src/ui_organisedialog.h:267
+msgid "Naming options"
+msgstr "Volby pro pojmenování"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:229
+msgid "Narrow band (NB)"
+msgstr "Úzké pásmo"
+
+#: ../build/src/ui_networkproxysettingspage.h:164
+msgid "Network Proxy"
+msgstr "Síťová proxy"
+
+#: playlist/playlistdelegates.cpp:341 dialogs/edittagdialog.cpp:563
+msgid "Never"
+msgstr "Nikdy"
+
+#: ../build/src/ui_behavioursettingspage.h:259
+#: ../build/src/ui_behavioursettingspage.h:279
+msgid "Never start playing"
+msgstr "Nikdy nezačít přehrávání"
+
+#: playlist/playlistlistcontainer.cpp:97 playlist/playlistlistcontainer.cpp:195
+#: ../build/src/ui_playlistlistcontainer.h:127
+msgid "New folder"
+msgstr "Nová složka"
+
+#: core/mainwindow.cpp:1746
+msgid "New playlist"
+msgstr "Nový seznam skladeb"
+
+#: widgets/freespacebar.cpp:69
+msgid "New songs"
+msgstr "Nové písně"
+
+#: dialogs/edittagdialog.cpp:204 dialogs/trackselectiondialog.cpp:73
+msgid "Next"
+msgstr "Další"
+
+#: core/utilities.cpp:178
+msgid "Next week"
+msgstr "Příští týden"
+
+#: analyzer/analyzercontainer.cpp:86
+msgid "No analyzer"
+msgstr "Žádný analyzátor"
+
+#: covermanager/albumcovermanager.cpp:889
+msgid "No covers to export."
+msgstr "Žádné obaly k uložení"
+
+#: ../build/src/ui_transcoderoptionsaac.h:145
+msgid "No long blocks"
+msgstr "Žádné dlouhé bloky"
+
+#: tidal/tidalrequest.cpp:1249
+msgid "No match."
+msgstr "Žádná shoda."
+
+#: playlist/playlistcontainer.cpp:388
+msgid ""
+"No matches found.  Clear the search box to show the whole playlist again."
+msgstr ""
+"Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu "
+"zobrazil celý seznam skladeb."
+
+#: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
+msgid "No provider selected."
+msgstr "Žádný poskytovatel nebyl zvolen."
+
+#: ../build/src/ui_transcoderoptionsaac.h:144
+msgid "No short blocks"
+msgstr "Žádné krátké bloky"
+
+#: context/contextview.cpp:456
+msgid "No song playing"
+msgstr "Žádná skladba se nepřehrává"
+
+#: collection/savedgroupingmanager.cpp:78 ../build/src/ui_groupbydialog.h:127
+#: ../build/src/ui_groupbydialog.h:151 ../build/src/ui_groupbydialog.h:175
+msgid "None"
+msgstr "Žádná"
+
+#: core/mainwindow.cpp:2245 core/mainwindow.cpp:2367
+#: context/contextalbumsview.cpp:382 collection/collectionview.cpp:542
+msgid "None of the selected songs were suitable for copying to a device"
+msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
+
+#: moodbar/moodbarrenderer.cpp:170
+msgid "Normal"
+msgstr "Normální"
+
+#: ../build/src/ui_transcoderoptionsaac.h:143
+msgid "Normal block type"
+msgstr "Běžný typ bloku"
+
+#: tidal/tidalservice.cpp:705
+msgid ""
+"Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr ""
+"Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
+
+#: tidal/tidalservice.cpp:727 tidal/tidalservice.cpp:786
+#: tidal/tidalservice.cpp:843 tidal/tidalservice.cpp:908
+#: tidal/tidalservice.cpp:969 tidal/tidalstreamurlrequest.cpp:85
+msgid "Not authenticated with Tidal."
+msgstr "Nejste přihlášeni k Tidal."
+
+#: device/deviceview.cpp:130
+msgid "Not connected"
+msgstr "Nepřipojeno"
+
+#: device/deviceview.cpp:134
+msgid "Not mounted - double click to mount"
+msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
+
+#: ../build/src/ui_notificationssettingspage.h:463
+msgid "Notification type"
+msgstr "Druh oznámení"
+
+#: ../build/src/ui_notificationssettingspage.h:406
+msgid "Notifications"
+msgstr "Oznámení"
+
+#: core/macsystemtrayicon.mm:69
+msgid "Now Playing"
+msgstr "Právě se přehrává"
+
+#: ../build/src/ui_albumcoverexport.h:209
+msgid "O&verwrite all"
+msgstr "Přeps&at vše"
+
+#: settings/notificationssettingspage.cpp:66
+msgid "OSD Preview"
+msgstr "Náhled OSD"
+
+#: widgets/osd.cpp:184
+msgid "Off"
+msgstr "Vypnuto"
+
+#: widgets/osd.cpp:184
+msgid "On"
+msgstr "Zapnuto"
+
+#: ../build/src/ui_behavioursettingspage.h:246
+msgid "On startup"
+msgstr "Při startu"
+
+#: ../build/src/ui_appearancesettingspage.h:424
+msgid "Opacity"
+msgstr "Neprůhlednost"
+
+#: scrobbler/scrobblingapi20.cpp:168
+msgid "Open URL in web browser?"
+msgstr "Otevřít URL v prohlížeči?"
+
+#: transcoder/transcodedialog.cpp:344
+msgid "Open a directory to import music from"
+msgstr "Otevřít adresář a zavést hudbu v něm"
+
+#: ../build/src/ui_mainwindow.h:665
+msgid "Open audio &CD..."
+msgstr "Otevřít zvukové CD"
+
+#: ../build/src/ui_deviceproperties.h:384
+msgid "Open device"
+msgstr "Otevřít zařízení"
+
+#: context/contextalbumsview.cpp:254 collection/collectionview.cpp:321
+#: widgets/fileviewlist.cpp:44 internet/internetsearchview.cpp:307
+#: internet/internetcollectionview.cpp:309 device/deviceview.cpp:236
+#: ../build/src/ui_behavioursettingspage.h:274
+msgid "Open in new playlist"
+msgstr "Otevřít v novém seznamu skladeb"
+
+#: ../build/src/ui_shortcutssettingspage.h:228
+#: ../build/src/ui_shortcutssettingspage.h:234
+msgid "Open..."
+msgstr "Otevřít..."
+
+#: ../build/src/ui_transcoderoptionsmp3.h:192
+msgid "Opti&mize for bitrate"
+msgstr "Optimal&izovat pro datový tok"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:190
+msgid "Optimize for &quality"
+msgstr "Optimalizovat pro &kvalitu"
+
+#: ../build/src/ui_transcodedialog.h:228
+msgid "Options..."
+msgstr "Volby..."
+
+#: ../build/src/ui_transcodersettingspage.h:193
+msgid "Opus"
+msgstr "Opus"
+
+#: ../build/src/ui_organisedialog.h:259
+msgid "Organise Files"
+msgstr "Uspořádat soubory"
+
+#: core/mainwindow.cpp:632 context/contextalbumsview.cpp:260
+#: collection/collectionview.cpp:328
+msgid "Organise files..."
+msgstr "Uspořádat soubory..."
+
+#: organise/organise.cpp:94
+msgid "Organising files"
+msgstr "Uspořádávají se soubory"
+
+#: dialogs/trackselectiondialog.cpp:195
+msgid "Original tags"
+msgstr "Původní značky"
+
+#: collection/savedgroupingmanager.cpp:111 playlist/playlist.cpp:1182
+#: organise/organisedialog.cpp:108 ../build/src/ui_groupbydialog.h:138
+#: ../build/src/ui_groupbydialog.h:162 ../build/src/ui_groupbydialog.h:186
+msgid "Original year"
+msgstr "Původní rok"
+
+#: collection/savedgroupingmanager.cpp:114 ../build/src/ui_groupbydialog.h:139
+#: ../build/src/ui_groupbydialog.h:163 ../build/src/ui_groupbydialog.h:187
+msgid "Original year - Album"
+msgstr "Původní rok - Album"
+
+#: core/commandlineoptions.cpp:183
+msgid "Other options"
+msgstr "Další volby"
+
+#: ../build/src/ui_albumcoverexport.h:203
+#: ../build/src/ui_backendsettingspage.h:445
+msgid "Output"
+msgstr "Výstup"
+
+#: ../build/src/ui_transcodedialog.h:226
+msgid "Output options"
+msgstr "Možnosti výstupu"
+
+#: ../build/src/ui_collectionsettingspage.h:427
+msgid "Overwrite existing file"
+msgstr "Přepsat existující soubor"
+
+#: ../build/src/ui_organisedialog.h:279
+msgid "Overwrite existing files"
+msgstr "Přepsat existující soubory"
+
+#: ../build/src/ui_albumcoverexport.h:210
+msgid "Overwrite s&maller ones only"
+msgstr "Přepsat pouze menší"
+
+#: ../build/src/ui_mainwindow.h:716
+msgid "P&laylist"
+msgstr "Seznam sklad&eb"
+
+#: device/udisks2lister.cpp:111
+msgid "Partition label"
+msgstr "Štítek oddílu"
+
+#: equalizer/equalizer.cpp:147
+msgid "Party"
+msgstr "Oslava"
+
+#: ../build/src/ui_networkproxysettingspage.h:176
+#: ../build/src/ui_subsonicsettingspage.h:190
+#: ../build/src/ui_tidalsettingspage.h:323
+msgid "Password"
+msgstr "Heslo"
+
+#: device/ilister.cpp:135
+msgid "Password Protected"
+msgstr "Chráněno heslem"
+
+#: core/mainwindow.cpp:1090 core/mainwindow.cpp:1558
+#: core/qtsystemtrayicon.cpp:207
+msgid "Pause"
+msgstr "Pozastavit"
+
+#: core/commandlineoptions.cpp:166
+msgid "Pause playback"
+msgstr "Pozastavit přehrávání"
+
+#: widgets/osd.cpp:163
+msgid "Paused"
+msgstr "Pozastaveno"
+
+#: collection/savedgroupingmanager.cpp:120 playlist/playlist.cpp:1186
+#: organise/organisedialog.cpp:103 ../build/src/ui_groupbydialog.h:141
+#: ../build/src/ui_groupbydialog.h:165 ../build/src/ui_groupbydialog.h:189
+#: ../build/src/ui_edittagdialog.h:691
+msgid "Performer"
+msgstr "Účinkující"
+
+#: ../build/src/ui_albumcoverexport.h:214
+msgid "Pixel"
+msgstr "Pixel"
+
+#: widgets/fancytabwidget.cpp:603
+msgid "Plain sidebar"
+msgstr "Prostý postranní panel"
+
+#: core/mainwindow.cpp:602 core/mainwindow.cpp:1043 core/mainwindow.cpp:1072
+#: core/mainwindow.cpp:1562 core/qtsystemtrayicon.cpp:194
+#: core/qtsystemtrayicon.cpp:219
+msgid "Play"
+msgstr "Přehrát"
+
+#: playlist/playlist.cpp:1189 ../build/src/ui_edittagdialog.h:666
+msgid "Play count"
+msgstr "Počet přehrání"
+
+#: core/commandlineoptions.cpp:165
+msgid "Play if stopped, pause if playing"
+msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
+
+#: ../build/src/ui_behavioursettingspage.h:260
+#: ../build/src/ui_behavioursettingspage.h:280
+msgid "Play if there is nothing already playing"
+msgstr "Hrát, pokud se již něco nepřehrává"
+
+#: core/commandlineoptions.cpp:182
+msgid "Play the <n>th track in the playlist"
+msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
+
+#: core/commandlineoptions.cpp:163
+msgid "Player options"
+msgstr "Nastavení přehrávače"
+
+#: playlist/playlistcontainer.cpp:302 playlist/playlistlistcontainer.cpp:257
+#: playlist/playlistlistcontainer.cpp:345 playlist/playlistmanager.cpp:105
+#: playlist/playlistmanager.cpp:183 playlist/playlistmanager.cpp:540
+#: playlist/playlisttabbar.cpp:396 ../build/src/ui_playlistsettingspage.h:149
+msgid "Playlist"
+msgstr "Seznam skladeb"
+
+#: widgets/osd.cpp:191
+msgid "Playlist finished"
+msgstr "Seznam skladeb dokončen"
+
+#: core/mainwindow.cpp:2001
+#, qt-format
+msgid ""
+"Playlist has %1 songs, too large to undo, are you sure you want to clear the "
+"playlist?"
+msgstr ""
+"Seznam skladeb obsahuje %1 skladeb. Jste si jisti že chcete seznam vyčistit? "
+"Nelze to vrátit zpátky!"
+
+#: core/commandlineoptions.cpp:178
+#: ../build/src/ui_playlistsaveoptionsdialog.h:94
+msgid "Playlist options"
+msgstr "Nastavení seznamu skladeb"
+
+#: core/mainwindow.cpp:280
+msgid "Playlists"
+msgstr "Seznamy skladeb"
+
+#: ../data/html/oauthsuccess.html:38
+msgid "Please close your browser and return to Strawberry."
+msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
+
+#: covermanager/spotifycoverprovider.cpp:146
+#: lyrics/geniuslyricsprovider.cpp:126 scrobbler/listenbrainzscrobbler.cpp:178
+msgid "Please open this URL in your browser"
+msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
+
+#: equalizer/equalizer.cpp:148
+msgid "Pop"
+msgstr "Pop"
+
+#: ../build/src/ui_notificationssettingspage.h:469
+msgid "Popup duration"
+msgstr "Doba zobrazení oznámení"
+
+#: ../build/src/ui_networkproxysettingspage.h:173
+msgid "Port"
+msgstr "Port"
+
+#: ../build/src/ui_appearancesettingspage.h:409
+msgid "Position"
+msgstr "Pozice"
+
+#: equalizer/equalizer.cpp:65 ../build/src/ui_backendsettingspage.h:465
+msgid "Pre-amp"
+msgstr "Předzesílení"
+
+#: ../build/src/ui_scrobblersettingspage.h:326
+msgid "Prefer album artist when sending scrobbles"
+msgstr "Preferovat autory alb při odesílání na server"
+
+#: ../build/src/ui_subsonicsettingspage.h:192
+#: ../build/src/ui_tidalsettingspage.h:325
+msgid "Preferences"
+msgstr "Nastavení"
+
+#: ../build/src/ui_collectionsettingspage.h:412
+msgid "Preferred album art filenames (comma separated)"
+msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
+
+#: ../build/src/ui_deviceproperties.h:382
+msgid "Preferred format"
+msgstr "Upřednostňovaný formát"
+
+#: collection/collectionfilterwidget.cpp:69
+msgid ""
+"Prefix a word with a field name to limit the search to that field, e.g.:"
+msgstr ""
+"Zadejte jméno pole před slovo abyste limitovali vyhledávání na zadané pole, "
+"např.:"
+
+#: core/songloader.cpp:153
+msgid "Preload function was not set for blocking operation."
+msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
+
+#: ../build/src/ui_equalizer.h:169
+msgid "Preset:"
+msgstr "Předvolba:"
+
+#: scrobbler/scrobblingapi20.cpp:168
+msgid ""
+"Press \"Save\" to copy the URL to clipboard and manually open it in a web "
+"browser."
+msgstr ""
+"Klikněte na \"Uložit\" pro zkopírování URL do schránky a ruční otevření v "
+"prohlížeči."
+
+#: ../build/src/ui_globalshortcutgrabber.h:70
+msgid "Press a key"
+msgstr "Stiskněte klávesu"
+
+#: globalshortcuts/globalshortcutgrabber.cpp:54
+#: ../build/src/ui_globalshortcutgrabber.h:71
+#, qt-format
+msgid "Press a key combination to use for %1..."
+msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
+
+#: ../build/src/ui_behavioursettingspage.h:263
+msgid "Pressing \"Previous\" in player will..."
+msgstr "Po stisknutí Předchozí v přehrávači nastane..."
+
+#: ../build/src/ui_notificationssettingspage.h:484
+msgid "Pretty OSD options"
+msgstr "Možnosti vzhledu OSD"
+
+#: ../build/src/ui_contextsettingspage.h:433
+#: ../build/src/ui_contextsettingspage.h:438
+#: ../build/src/ui_notificationssettingspage.h:479
+#: ../build/src/ui_organisedialog.h:282
+msgid "Preview"
+msgstr "Náhled"
+
+#: dialogs/edittagdialog.cpp:203 dialogs/trackselectiondialog.cpp:72
+msgid "Previous"
+msgstr "Předchozí"
+
+#: ../build/src/ui_mainwindow.h:606
+msgid "Previous track"
+msgstr "Předchozí skladba"
+
+#: core/commandlineoptions.cpp:189
+msgid "Print out version information"
+msgstr "Vypsat informaci o verzi"
+
+#: ../build/src/ui_transcoderoptionsaac.h:130
+msgid "Profile"
+msgstr "Profil"
+
+#: ../build/src/ui_transcodedialog.h:235
+msgid "Progress"
+msgstr "Průběh"
+
+#: ../build/src/ui_transcoderoptionsflac.h:80
+#: ../build/src/ui_transcoderoptionsvorbis.h:201
+#: ../build/src/ui_transcoderoptionsspeex.h:216
+#: ../build/src/ui_transcoderoptionsmp3.h:191
+msgctxt "Sound quality"
+msgid "Quality"
+msgstr "Kvalita"
+
+#: ../build/src/ui_deviceproperties.h:385
+msgid "Querying device..."
+msgstr "Dotazování se zařízení..."
+
+#: core/mainwindow.cpp:281
+msgid "Queue"
+msgstr "Fronta"
+
+#: core/mainwindow.cpp:1655
+msgid "Queue selected tracks"
+msgstr "Přidat vybrané skladby do řady"
+
+#: core/mainwindow.cpp:608 core/mainwindow.cpp:1659
+msgid "Queue selected tracks to play next"
+msgstr "Přidat vybrané skladby do fronty"
+
+#: core/mainwindow.cpp:1661 collection/collectionview.cpp:325
+#: internet/internetcollectionview.cpp:313
+msgid "Queue to play next"
+msgstr "Do fronty jako další"
+
+#: core/mainwindow.cpp:1654 context/contextalbumsview.cpp:257
+#: collection/collectionview.cpp:324 internet/internetsearchview.cpp:310
+#: internet/internetcollectionview.cpp:312
+msgid "Queue track"
+msgstr "Přidat skladbu do řady"
+
+#: ../build/src/ui_queueview.h:123
+msgid "QueueView"
+msgstr "Zobrazení fronty"
+
+#: ../build/src/ui_backendsettingspage.h:462
+msgid "Radio (equal loudness for all tracks)"
+msgstr "Rádio (shodná hlasitost pro všechny skladby)"
+
+#: ../build/src/ui_playlistsettingspage.h:160
+msgid "Re&lative"
+msgstr "Re&lativní"
+
+#: covermanager/albumcovermanager.cpp:239
+msgid "Really cancel?"
+msgstr "Opravdu zrušit?"
+
+#: covermanager/spotifycoverprovider.cpp:196
+#: lyrics/geniuslyricsprovider.cpp:154 scrobbler/listenbrainzscrobbler.cpp:204
+msgid "Received invalid reply from web browser."
+msgstr "Obdržena špatná odpověď od prohlížeče."
+
+#: scrobbler/scrobblingapi20.cpp:216
+msgid ""
+"Received invalid reply from web browser. Try the HTTPS option, or use "
+"another browser like Chromium or Chrome."
+msgstr ""
+"Obdržena špatná odpověď od prohlížeče. Zkuste možnost HTTPS, jiný prohlížeč "
+"jako Chromium nebo Chrome."
+
+#: lyrics/geniuslyricsprovider.cpp:203
+#, fuzzy
+msgid "Redirect from Genius is missing query items code or state."
+msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
+
+#: covermanager/spotifycoverprovider.cpp:192
+msgid "Redirect missing token code or state!"
+msgstr "Přesměrování chybí kód tokenu nebo stav!"
+
+#: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
+msgid "Redirect missing token code!"
+msgstr "Přesměrování chybí kód tokenu!"
+
+#: ../build/src/ui_internetcollectionviewcontainer.h:142
+msgid "Refresh catalogue"
+msgstr "Obnovit katalog"
+
+#: equalizer/equalizer.cpp:149
+msgid "Reggae"
+msgstr "Reggae"
+
+#: playlist/playlistsaveoptionsdialog.cpp:41
+msgid "Relative"
+msgstr "Relativní"
+
+#: ../build/src/ui_behavioursettingspage.h:249
+msgid "Remember from &last time"
+msgstr "&Obnovit předchozí stav"
+
+#: ../build/src/ui_playlistsaveoptionsdialog.h:99
+msgid "Remember my choice"
+msgstr "Zapamatovat si moji volbu"
+
+#: ../build/src/ui_savedgroupingmanager.h:103 ../build/src/ui_queueview.h:137
+#: ../build/src/ui_transcodedialog.h:221
+msgid "Remove"
+msgstr "Odstranit"
+
+#: ../build/src/ui_mainwindow.h:705
+msgid "Remove &duplicates from playlist"
+msgstr "Odstranit &duplikáty ze seznamu skladeb"
+
+#: ../build/src/ui_mainwindow.h:706
+msgid "Remove &unavailable tracks from playlist"
+msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
+
+#: ../build/src/ui_collectionsettingspage.h:406
+msgid "Remove folder"
+msgstr "Odstranit složku"
+
+#: internet/internetcollectionview.cpp:318
+msgid "Remove from favorites"
+msgstr "Odstranit z oblíbených"
+
+#: ../build/src/ui_mainwindow.h:670
+msgid "Remove from playlist"
+msgstr "Odstranit ze seznamu skladeb"
+
+#: playlist/playlisttabbar.cpp:210
+msgid "Remove playlist"
+msgstr "Odstranit seznam skladeb"
+
+#: playlist/playlistlistcontainer.cpp:379
+msgid "Remove playlists"
+msgstr "Odstranit seznamy skladeb"
+
+#: ../build/src/ui_organisedialog.h:274
+msgid "Remove problematic characters from filenames"
+msgstr "Odstranit problémové znaky z názvů souborů"
+
+#: playlist/playlisttabbar.cpp:173
+msgid "Rename playlist"
+msgstr "Přejmenovat seznam skladeb"
+
+#: playlist/playlisttabbar.cpp:74
+msgid "Rename playlist..."
+msgstr "Přejmenovat seznam skladeb..."
+
+#: ../build/src/ui_mainwindow.h:642
+msgid "Renumber tracks in this order..."
+msgstr "Přečíslovat skladby v tomto pořadí..."
+
+#: ../build/src/ui_playlistsequence.h:121
+msgid "Repeat"
+msgstr "Opakovat"
+
+#: widgets/osd.cpp:264 ../build/src/ui_playlistsequence.h:112
+msgid "Repeat album"
+msgstr "Opakovat album"
+
+#: widgets/osd.cpp:265 ../build/src/ui_playlistsequence.h:113
+msgid "Repeat playlist"
+msgstr "Opakovat seznam skladeb"
+
+#: widgets/osd.cpp:263 ../build/src/ui_playlistsequence.h:111
+msgid "Repeat track"
+msgstr "Opakovat skladbu"
+
+#: context/contextalbumsview.cpp:253 collection/collectionview.cpp:320
+#: widgets/fileviewlist.cpp:43 internet/internetsearchview.cpp:306
+#: internet/internetcollectionview.cpp:308 device/deviceview.cpp:235
+msgid "Replace current playlist"
+msgstr "Nahradit současný seznam skladeb"
+
+#: ../build/src/ui_collectionsettingspage.h:429
+msgid "Replace spaces with dashes"
+msgstr "Nahradit mezery pomlčkami"
+
+#: ../build/src/ui_organisedialog.h:278
+msgid "Replace spaces with underscores"
+msgstr "Nahradit mezery podtržítky"
+
+#: ../build/src/ui_behavioursettingspage.h:273
+msgid "Replace the playlist"
+msgstr "Nahradit seznam skladeb"
+
+#: ../build/src/ui_backendsettingspage.h:457
+msgid "Replay Gain"
+msgstr "Zesílení přehrávaných skladeb"
+
+#: ../build/src/ui_backendsettingspage.h:459
+msgid "Replay Gain mode"
+msgstr "Režim zesílení přehrávaných skladeb"
+
+#: tidal/tidalservice.cpp:359
+msgid "Reply from Tidal is missing query items."
+msgstr "Odpověď od Tidal neobsahuje dotazové položky."
+
+#: collection/collectionview.cpp:341
+msgid "Rescan song(s)"
+msgstr "Prohledat skladbu"
+
+#: ../build/src/ui_mainwindow.h:711
+msgid "Rescan songs(s)"
+msgstr "Prohledat skladby"
+
+#: widgets/lineedit.cpp:70
+msgid "Reset"
+msgstr "Obnovit výchozí"
+
+#: dialogs/edittagdialog.cpp:833 ../build/src/ui_edittagdialog.h:664
+msgid "Reset play counts"
+msgstr "Vynulovat počty přehrání"
+
+#: ../build/src/ui_behavioursettingspage.h:267
+msgid "Restart song, then jump to previous if pressed again"
+msgstr ""
+"Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit "
+"na předchozí"
+
+#: core/commandlineoptions.cpp:177
+msgid ""
+"Restart the track, or play the previous track if within 8 seconds of start."
+msgstr ""
+"Spustit znovu přehrávání skladby, nebo přehrávat předchozí skladbu, jestliže "
+"ještě neuběhlo osm sekund od začátku skladby."
+
+#: ../build/src/ui_organisedialog.h:276
+msgid "Restrict characters to ASCII"
+msgstr "Omezit na ASCII znaky"
+
+#: ../build/src/ui_organisedialog.h:275
+msgid "Restrict to characters allowed on FAT filesystems"
+msgstr "Omezit na znaky dostupné na FAT systémech souborů"
+
+#: ../build/src/ui_behavioursettingspage.h:243
+msgid "Resume playback on start"
+msgstr "Obnovit přehrávání při spuštění"
+
+#: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
+#, qt-format
+msgid "Retrieving album cover for %1 album..."
+msgstr "Načítání obalů alb pro %1 album..."
+
+#: subsonic/subsonicrequest.cpp:677 tidal/tidalrequest.cpp:1086
+#, qt-format
+msgid "Retrieving album covers for %1 albums..."
+msgstr "Načítání obalů alb pro %1 alb..."
+
+#: tidal/tidalrequest.cpp:466
+#, qt-format
+msgid "Retrieving albums for %1 artist..."
+msgstr "Načítání alb od %1 umělce..."
+
+#: tidal/tidalrequest.cpp:467
+#, qt-format
+msgid "Retrieving albums for %1 artists..."
+msgstr "Načítání alb od %1 umělců..."
+
+#: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
+msgid "Retrieving albums..."
+msgstr "Načítání alb..."
+
+#: tidal/tidalrequest.cpp:157
+msgid "Retrieving artists..."
+msgstr "Načítání umělců..."
+
+#: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
+#, qt-format
+msgid "Retrieving songs for %1 album..."
+msgstr "Načítání skladeb z %1 alba..."
+
+#: subsonic/subsonicrequest.cpp:320 tidal/tidalrequest.cpp:726
+#, qt-format
+msgid "Retrieving songs for %1 albums..."
+msgstr "Načítání skladeb z %1 alb..."
+
+#: tidal/tidalrequest.cpp:245
+msgid "Retrieving songs..."
+msgstr "Načítání skladeb..."
+
+#: ../data/html/oauthsuccess.html:5
+msgid "Return to Strawberry"
+msgstr "Návrat do Strawberry"
+
+#: ../build/src/ui_equalizer.h:180
+msgid "Right"
+msgstr "Vpravo"
+
+#: equalizer/equalizer.cpp:150
+msgid "Rock"
+msgstr "Rock"
+
+#: ../build/src/ui_console.h:80
+msgid "Run"
+msgstr "Spustit"
+
+#: ../build/src/ui_mainwindow.h:656
+msgid "S&huffle playlist"
+msgstr "Z&amíchat seznam skladeb"
+
+#: ../build/src/ui_networkproxysettingspage.h:171
+msgid "SOCKS proxy"
+msgstr "Proxy SOCKS"
+
+#: device/deviceview.cpp:228
+msgid "Safely remove device"
+msgstr "Bezpečně odebrat zařízení"
+
+#: ../build/src/ui_organisedialog.h:284
+msgid "Safely remove the device after copying"
+msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
+
+#: collection/savedgroupingmanager.cpp:129 playlist/playlist.cpp:1193
+#: organise/organisedialog.cpp:113 ../build/src/ui_groupbydialog.h:144
+#: ../build/src/ui_groupbydialog.h:168 ../build/src/ui_groupbydialog.h:192
+#: ../build/src/ui_edittagdialog.h:670
+msgid "Sample rate"
+msgstr "Vzorkovací kmitočet"
+
+#: context/contextview.cpp:215
+msgid "Samplerate"
+msgstr "Vzorkovací frekvence"
+
+#: ../build/src/ui_mainwindow.h:682
+msgid "Save &playlist..."
+msgstr "Uložit seznam skladeb..."
+
+#: covermanager/albumcoverchoicecontroller.cpp:169
+msgid "Save album cover"
+msgstr "Uložit obal alba"
+
+#: ../build/src/ui_collectionsettingspage.h:422
+msgid "Save album covers in album directory"
+msgstr "Ukládat obaly alb ve složce alba"
+
+#: covermanager/albumcoverchoicecontroller.cpp:88
+msgid "Save cover to disk..."
+msgstr "Uložit obal na disk..."
+
+#: ../build/src/ui_collectionfilterwidget.h:101
+msgid "Save current grouping"
+msgstr "Uložit nynější seskupení"
+
+#: playlist/playlistlistcontainer.cpp:99
+msgctxt "Save playlist menu action."
+msgid "Save playlist"
+msgstr "Uložit seznam skladeb"
+
+#: playlist/playlistmanager.cpp:258
+msgctxt "Title of the playlist save dialog."
+msgid "Save playlist"
+msgstr "Uložit seznam skladeb"
+
+#: playlist/playlisttabbar.cpp:75
+msgid "Save playlist..."
+msgstr "Uložit seznam skladeb..."
+
+#: equalizer/equalizer.cpp:209 ../build/src/ui_equalizer.h:171
+msgid "Save preset"
+msgstr "Uložit předvolbu"
+
+#: ../build/src/ui_moodbarsettingspage.h:99
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
+
+#: ../build/src/ui_savedgroupingmanager.h:101
+msgid "Saved Grouping Manager"
+msgstr "Spravce uložených seskupení"
+
+#: ../build/src/ui_collectionsettingspage.h:421
+msgid "Saving album covers"
+msgstr "Ukládání obalů alb"
+
+#: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
+msgid "Saving tracks"
+msgstr "Ukládají se skladby"
+
+#: ../build/src/ui_transcoderoptionsaac.h:135
+msgid "Scalable sampling rate profile (SSR)"
+msgstr "Profil škálovatelného vzorkovacího kmitočtu"
+
+#: ../build/src/ui_albumcoverexport.h:212
+msgid "Scale size"
+msgstr "Velikost měřítka"
+
+#: ../build/src/ui_scrobblersettingspage.h:316
+msgid "Scrobbler"
+msgstr "doporučování hudby"
+
+#: scrobbler/scrobblingapi20.cpp:990
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
+
+#: scrobbler/scrobblingapi20.cpp:528
+#, qt-format
+msgid "Scrobbler %1 is not authenticated!"
+msgstr "Systém pro doporučování hudby %1 není přihlášen!"
+
+#: ../build/src/ui_behavioursettingspage.h:245
+msgid "Scroll over icon to change track"
+msgstr "Pohybováním kolečkem myši nad ikonou změníte skladbu"
+
+#: covermanager/albumcoversearcher.cpp:198
+#: covermanager/albumcoversearcher.cpp:217
+#: ../build/src/ui_albumcoversearcher.h:113
+#: ../build/src/ui_internettabsview.h:119
+msgid "Search"
+msgstr "Hledat"
+
+#: covermanager/albumcoverchoicecontroller.cpp:94
+msgid "Search automatically"
+msgstr "Hledat automaticky"
+
+#: ../build/src/ui_tidalsettingspage.h:327
+msgid "Search delay"
+msgstr "Zpožděné vyhledávání"
+
+#: covermanager/albumcoverchoicecontroller.cpp:90
+msgid "Search for album covers..."
+msgstr "Hledat obaly alb..."
+
+#: internet/internetsearchview.cpp:328
+msgid "Search for this"
+msgstr "Hledat toto"
+
+#: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
+#: tidal/tidalrequest.cpp:317
+msgid "Searching..."
+msgstr "Vyhlevávání..."
+
+#: collection/savedgroupingmanager.cpp:57
+msgid "Second Level"
+msgstr "Druhá úroveň"
+
+#: ../build/src/ui_groupbydialog.h:148
+msgid "Second level"
+msgstr "Druhá úroveň"
+
+#: core/commandlineoptions.cpp:176
+msgid "Seek the currently playing track by a relative amount"
+msgstr "Přetočit v nyní přehrávané skladbě"
+
+#: core/commandlineoptions.cpp:175
+msgid "Seek the currently playing track to an absolute position"
+msgstr "Skočit v nyní přehrávané skladbě na určité místo"
+
+#: ../build/src/ui_behavioursettingspage.h:289
+msgid "Seeking using a keyboard shortcut or mouse wheel"
+msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
+
+#: ../build/src/ui_appearancesettingspage.h:392
+msgid "Select background color:"
+msgstr "Vybrat barvu pozadí:"
+
+#: settings/appearancesettingspage.cpp:325
+msgid "Select background image"
+msgstr "Vybrat obrázek na pozadí"
+
+#: ../build/src/ui_trackselectiondialog.h:206
+msgid "Select best possible match"
+msgstr "Vyberte nejlepší možnou shodu"
+
+#: ../build/src/ui_appearancesettingspage.h:390
+msgid "Select foreground color:"
+msgstr "Vybrat barvu popředí:"
+
+#: ../build/src/ui_appearancesettingspage.h:398
+#, fuzzy
+msgid "Select tabbar color:"
+msgstr "Vybrat barvu tabbar:"
+
+#: ../build/src/ui_transcodedialog.h:234
+msgid "Select..."
+msgstr "Vybrat..."
+
+#: device/udisks2lister.cpp:109
+msgid "Serial number"
+msgstr "Sériové číslo"
+
+#: ../build/src/ui_subsonicsettingspage.h:187
+msgid "Server URL"
+msgstr "URL serveru"
+
+#: subsonic/subsonicservice.cpp:385 settings/subsonicsettingspage.cpp:109
+msgid "Server URL is invalid."
+msgstr "Adresa serveru není správná."
+
+#: core/mainwindow.cpp:1693
+#, qt-format
+msgid "Set %1 to \"%2\"..."
+msgstr "Nastavit %1 na \"%2\"..."
+
+#: core/commandlineoptions.cpp:170
+msgid "Set the volume to <value> percent"
+msgstr "Nastavit hlasitost na <value> procent"
+
+#: ../build/src/ui_mainwindow.h:643
+msgid "Set value for all selected tracks..."
+msgstr "Nastavit hodnotu pro vybrané skladby..."
+
+#: ../build/src/ui_settingsdialog.h:115
+msgid "Settings"
+msgstr "Nastavení"
+
+#: ../build/src/ui_shortcutssettingspage.h:236
+msgid "Shortcut"
+msgstr "Klávesová zkratka"
+
+#: settings/shortcutssettingspage.cpp:272
+#: ../build/src/ui_shortcutssettingspage.h:238
+#, qt-format
+msgid "Shortcut for %1"
+msgstr "Klávesová zkratka pro %1"
+
+#: ../build/src/ui_shortcutssettingspage.h:226
+msgid "Shortcuts"
+msgstr "Zkratky"
+
+#: collection/collectionfilterwidget.cpp:106
+msgid "Show"
+msgstr "Ukázat"
+
+#: ../build/src/ui_notificationssettingspage.h:465
+msgid "Show a &native desktop notification"
+msgstr "Zobrazit &nativní upozornění na ploše"
+
+#: ../build/src/ui_playlistsettingspage.h:150
+msgid "Show a glowing animation on the current track"
+msgstr "Ukazovat zářící animaci nyní přehrávané skladby"
+
+#: ../build/src/ui_moodbarsettingspage.h:97
+#, fuzzy
+msgid "Show a moodbar in the track progress bar"
+msgstr "Zobrazit Ukazatel nálady v progress baru"
+
+#: ../build/src/ui_notificationssettingspage.h:473
+msgid "Show a notification when I change the repeat/shuffle mode"
+msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
+
+#: ../build/src/ui_notificationssettingspage.h:472
+msgid "Show a notification when I change the volume"
+msgstr "Zobrazovat oznámení při změně hlasitosti"
+
+#: ../build/src/ui_notificationssettingspage.h:474
+msgid "Show a notification when I pause playback"
+msgstr "Ukazovat oznámení při pozastavení přehrávání"
+
+#: ../build/src/ui_notificationssettingspage.h:475
+#, fuzzy
+msgid "Show a notification when I resume playback"
+msgstr "Zobrazit upozornění při pokračování v přehrávání"
+
+#: ../build/src/ui_notificationssettingspage.h:467
+#, fuzzy
+msgid "Show a popup fro&m the system tray"
+msgstr "Ukázat popup &ze systémové lišty"
+
+#: ../build/src/ui_notificationssettingspage.h:466
+msgid "Show a pretty OSD"
+msgstr "Ukazovat OSD"
+
+#: widgets/playingwidget.cpp:141
+msgid "Show above status bar"
+msgstr "Ukazovat nad stavovým řádkem"
+
+#: context/contextview.cpp:318
+msgid "Show album cover"
+msgstr "Ukazovat obal alba"
+
+#: ../build/src/ui_collectionsettingspage.h:419
+msgid "Show album cover art in collection"
+msgstr "Ukazovat obaly alb v kolekci"
+
+#: context/contextview.cpp:330
+msgid "Show albums by artist"
+msgstr "Zobrazit alba od umělce"
+
+#: core/mainwindow.cpp:562
+msgid "Show all songs"
+msgstr "Ukázat všechny písně"
+
+#: ../build/src/ui_scrobblersettingspage.h:327
+msgid "Show dialog for errors"
+msgstr ""
+
+#: ../build/src/ui_collectionsettingspage.h:420
+msgid "Show dividers"
+msgstr "Ukazovat oddělovače"
+
+#: context/contextview.cpp:326
+msgid "Show engine and device"
+msgstr "Zobrazit engine a zařízení"
+
+#: covermanager/albumcoverchoicecontroller.cpp:92
+msgid "Show fullsize..."
+msgstr "Ukázat v plné velikosti..."
+
+#: core/mainwindow.cpp:635
+msgid "Show in collection..."
+msgstr "Ukazovat ve sbírce..."
+
+#: core/utilities.cpp:417 core/utilities.cpp:423
+msgid "Show in file browser"
+msgstr "Zobrazit v průzkumníku souborů"
+
+#: core/mainwindow.cpp:633 context/contextalbumsview.cpp:268
+#: collection/collectionview.cpp:337 widgets/fileviewlist.cpp:53
+msgid "Show in file browser..."
+msgstr "Ukázat v prohlížeči souborů..."
+
+#: collection/collectionview.cpp:344
+msgid "Show in various artists"
+msgstr "Ukázat pod různými umělci"
+
+#: ../build/src/ui_scrobblersettingspage.h:321
+msgid "Show love button"
+msgstr "Zobrazit tlačítko To Miluju!"
+
+#: moodbar/moodbarproxystyle.cpp:375
+msgid "Show moodbar"
+msgstr "Zobrazit ukazatel nálady"
+
+#: core/mainwindow.cpp:563
+msgid "Show only duplicates"
+msgstr "Ukázat pouze zdvojené"
+
+#: core/mainwindow.cpp:564
+msgid "Show only untagged"
+msgstr "Ukázat pouze neoznačené"
+
+#: ../build/src/ui_behavioursettingspage.h:244
+#, fuzzy
+msgid "Show playing widget"
+msgstr "Zobrazit widget s přehráváním"
+
+#: ../build/src/ui_scrobblersettingspage.h:320
+msgid "Show scrobble button"
+msgstr "Zobrazit tlačítko pro doporučování hudby"
+
+#: ../build/src/ui_mainwindow.h:713
+msgid "Show sidebar"
+msgstr "Zobrazovat boční panel"
+
+#: context/contextview.cpp:334
+msgid "Show song lyrics"
+msgstr "Zobrazovat texty skladeb"
+
+#: context/contextview.cpp:322
+msgid "Show song technical data"
+msgstr "Zobrazovat technická data"
+
+#: ../build/src/ui_behavioursettingspage.h:241
+msgid "Show system tray icon"
+msgstr "Zobrazovat ikonu v systémové oblasti"
+
+#: ../build/src/ui_playlistsequence.h:124
+msgid "Shuffle"
+msgstr "Zamíchat"
+
+#: widgets/osd.cpp:252 ../build/src/ui_playlistsequence.h:119
+msgid "Shuffle albums"
+msgstr "Zamíchat alba"
+
+#: widgets/osd.cpp:250 ../build/src/ui_playlistsequence.h:118
+msgid "Shuffle all"
+msgstr "Zamíchat vše"
+
+#: widgets/osd.cpp:251 ../build/src/ui_playlistsequence.h:117
+msgid "Shuffle tracks in this album"
+msgstr "Zamíchat skladby na tomto albu"
+
+#: ../build/src/ui_loginstatewidget.h:169
+msgid "Sign out"
+msgstr "Odhlásit"
+
+#: ../build/src/ui_loginstatewidget.h:171
+msgid "Signing in..."
+msgstr "Přihlašuje se..."
+
+#: ../build/src/ui_albumcoverexport.h:211
+#: ../build/src/ui_collectionsettingspage.h:431
+msgid "Size"
+msgstr "Velikost"
+
+#: ../build/src/ui_albumcoverexport.h:213
+msgid "Size:"
+msgstr "Velikost:"
+
+#: equalizer/equalizer.cpp:152
+msgid "Ska"
+msgstr "Ska"
+
+#: core/commandlineoptions.cpp:168
+msgid "Skip backwards in playlist"
+msgstr "Předchozí skladba v seznamu skladeb"
+
+#: playlist/playlist.cpp:1190 ../build/src/ui_edittagdialog.h:667
+msgid "Skip count"
+msgstr "Počet přeskočení"
+
+#: core/commandlineoptions.cpp:169
+msgid "Skip forwards in playlist"
+msgstr "Další skladba v seznamu skladeb"
+
+#: core/mainwindow.cpp:1666
+msgid "Skip selected tracks"
+msgstr "Přeskočit vybrané skladby"
+
+#: core/mainwindow.cpp:1665
+msgid "Skip track"
+msgstr "Přeskočit skladbu"
+
+#: widgets/playingwidget.cpp:102
+msgid "Small album cover"
+msgstr "Malý obal alba"
+
+#: widgets/fancytabwidget.cpp:602
+msgid "Small sidebar"
+msgstr "Malý postranní panel"
+
+#: equalizer/equalizer.cpp:151
+msgid "Soft"
+msgstr "Měkké"
+
+#: equalizer/equalizer.cpp:153
+msgid "Soft Rock"
+msgstr "Soft rock"
+
+#: ../build/src/ui_contextsettingspage.h:426
+msgid "Song Lyrics"
+msgstr "Texty skladeb"
+
+#: ../build/src/ui_internettabsview.h:118
+msgid "Songs"
+msgstr "Skladby"
+
+#: ../build/src/ui_scrobblersettingspage.h:318
+#, fuzzy
+msgid ""
+"Songs are scrobbled if they have valid metadata and are longer than 30 "
+"seconds, have been playing for at least half its duration or for 4 minutes "
+"(whichever occurs earlier)."
+msgstr ""
+"Přehrané skladby jsou odeslány pokud mají správná metadata, jsou delší než "
+"30 sekund a byly přehrávány alespoň do poloviny."
+
+#: ../build/src/ui_tidalsettingspage.h:331
+#, fuzzy
+msgid "Songs search limit"
+msgstr "Limit vyhledaných skladeb"
+
+#: ../build/src/ui_trackselectiondialog.h:204
+msgid "Sorry"
+msgstr "Promiňte"
+
+#: playlist/playlist.cpp:1205
+msgid "Source"
+msgstr "Zdroj"
+
+#: ../build/src/ui_transcodersettingspage.h:194
+msgid "Speex"
+msgstr "Speex"
+
+#: covermanager/spotifycoverprovider.cpp:146
+msgid "Spotify Authentication"
+msgstr "Přihlášení ke Spotify"
+
+#: ../build/src/ui_transcoderoptionsmp3.h:200
+msgid "Standard"
+msgstr "Obvyklý"
+
+#: core/commandlineoptions.cpp:164
+msgid "Start the playlist currently playing"
+msgstr "Přehrát současnou skladbu v seznamu skladeb"
+
+#: transcoder/transcodedialog.cpp:125
+msgid "Start transcoding"
+msgstr "Převést"
+
+#: transcoder/transcoder.cpp:416
+#, qt-format
+msgid "Starting %1"
+msgstr "Spouští se %1"
+
+#: ../build/src/ui_playlistsequence.h:114
+msgid "Stop after each track"
+msgstr "Zastavit po každé skladbě"
+
+#: widgets/osd.cpp:266
+msgid "Stop after every track"
+msgstr "Zastavit po každé skladbě"
+
+#: core/mainwindow.cpp:604 ../build/src/ui_mainwindow.h:626
+msgid "Stop after this track"
+msgstr "Zastavit po této skladbě"
+
+#: core/commandlineoptions.cpp:166
+msgid "Stop playback"
+msgstr "Zastavit přehrávání"
+
+#: core/commandlineoptions.cpp:167
+msgid "Stop playback after current track"
+msgstr "Zastavit přehrávání po současné skladbě"
+
+#: widgets/osd.cpp:184
+#, qt-format
+msgid "Stop playing after track: %1"
+msgstr "Zastavit přehrávání po skladbě: %1"
+
+#: widgets/osd.cpp:180
+msgid "Stopped"
+msgstr "Zastaveno"
+
+#: ../build/src/ui_errordialog.h:92
+msgid "Strawberry Error"
+msgstr "Chyba Clemetine"
+
+#: ../build/src/ui_mainwindow.h:605
+msgid "Strawberry Music Player"
+msgstr "Přehrávač hudby Strawberry"
+
+#: ../build/src/ui_notificationssettingspage.h:490
+msgid "Strawberry Red"
+msgstr "Jahodově Červená"
+
+#: ../build/src/ui_deviceproperties.h:378
+msgid ""
+"Strawberry can automatically convert the music you copy to this device into "
+"a format that it can play."
+msgstr ""
+"Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do "
+"formátu, který dokáže přehrát."
+
+#: ../build/src/ui_notificationssettingspage.h:462
+msgid "Strawberry can show a message when the track changes."
+msgstr "Strawberry může při změně skladby ukázat zprávu."
+
+#: dialogs/about.cpp:125
+msgid "Strawberry is a music player and music collection organizer."
+msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
+
+#: dialogs/about.cpp:131
+#, qt-format
+msgid ""
+"Strawberry is free software released under GPL. The source code is available "
+"on %1"
+msgstr ""
+"Strawberry je svobodný software vydávaný pod licencí GPL. Zdrojový kód je "
+"dostupný na %1"
+
+#: ../build/src/ui_trackselectiondialog.h:205
+msgid "Strawberry was unable to find results for this file"
+msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
+
+#: ../build/src/ui_tidalsettingspage.h:335
+#, fuzzy
+msgid "Stream URL method"
+msgstr "Metoda URL streamu"
+
+#: settings/settingsdialog.cpp:156
+msgid "Streaming"
+msgstr "Streamování"
+
+#: ../build/src/ui_appearancesettingspage.h:419
+msgid "Stretch image to fill playlist"
+msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
+
+#: ../build/src/ui_scrobblersettingspage.h:322
+msgid "Submit scrobbles every"
+msgstr "Odeslat přehrané skladby každých"
+
+#: core/mainwindow.cpp:286 ../build/src/ui_subsonicsettingspage.h:185
+msgid "Subsonic"
+msgstr "Subsonic"
+
+#: subsonic/subsonicurlhandler.cpp:41
+msgid "Subsonic server URL is invalid."
+msgstr "Adresa serveru Subsonic není správná."
+
+#: ../data/html/oauthsuccess.html:36
+msgid "Success!"
+msgstr "Úspěch"
+
+#: transcoder/transcoder.cpp:193
+#, qt-format
+msgid "Successfully written %1"
+msgstr "%1 úspěšně zapsán"
+
+#: dialogs/trackselectiondialog.cpp:199
+msgid "Suggested tags"
+msgstr "Navrhované značky"
+
+#: ../build/src/ui_contextsettingspage.h:418
+#: ../build/src/ui_notificationssettingspage.h:481
+#: ../build/src/ui_edittagdialog.h:678
+msgid "Summary"
+msgstr "Shrnutí"
+
+#: analyzer/analyzercontainer.cpp:76
+#, qt-format
+msgid "Super high (%1 fps)"
+msgstr "Nadmíru vysoké (%1 fps)"
+
+#: ../build/src/ui_deviceproperties.h:376
+msgid "Supported formats"
+msgstr "Podporované formáty"
+
+#: moodbar/moodbarrenderer.cpp:178
+msgid "System colors"
+msgstr "Systémové barvy"
+
+#: ../build/src/ui_appearancesettingspage.h:394
+#, fuzzy
+msgid "Tabbar colors"
+msgstr "Barvy tabbaru"
+
+#: widgets/fancytabwidget.cpp:604
+msgid "Tabs on top"
+msgstr "Karty nahoře"
+
+#: ../build/src/ui_trackselectiondialog.h:203
+msgid "Tag fetcher"
+msgstr "Stahování značek"
+
+#: ../build/src/ui_transcoderoptionsvorbis.h:203
+msgid "Target bitrate"
+msgstr "Cílový datový tok"
+
+#: ../build/src/ui_contextsettingspage.h:423
+msgid "Technical Data"
+msgstr "Technická data"
+
+#: equalizer/equalizer.cpp:154
+msgid "Techno"
+msgstr "Techno"
+
+#: ../build/src/ui_subsonicsettingspage.h:191
+msgid "Test"
+msgstr "Test"
+
+#: settings/subsonicsettingspage.cpp:143
+msgid "Test failed!"
+msgstr "Test selhal!"
+
+#: settings/subsonicsettingspage.cpp:134
+msgid "Test successful!"
+msgstr "Test uspěl!"
+
+#: ../build/src/ui_notificationssettingspage.h:493
+msgid "Text options"
+msgstr "Volby pro text"
+
+#: dialogs/about.cpp:188
+msgid "Thanks to"
+msgstr "Díky"
+
+#: dialogs/about.cpp:196
+msgid "Thanks to all the other Amarok and Clementine contributors."
+msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
+
+#: settings/shortcutssettingspage.cpp:247
+#, qt-format
+msgid "The \"%1\" command could not be started."
+msgstr "Příkaz \"%1\" se nepodařilo provést."
+
+#: ../build/src/ui_appearancesettingspage.h:404
+msgid "The album cover of the currently playing song"
+msgstr "Obal alba nyní přehrávané písně"
+
+#: internet/internetcollectionview.cpp:279
+msgid "The internet collection is empty!"
+msgstr "Internetová kolekce je prázdná!"
+
+#: covermanager/coverfromurldialog.cpp:83
+msgid "The site you requested does not exist!"
+msgstr "Požadovaná stránka neexistuje!"
+
+#: covermanager/coverfromurldialog.cpp:95
+msgid "The site you requested is not an image!"
+msgstr "Požadovaná stránka není obrázek!"
+
+#: core/mainwindow.cpp:2468
+msgid ""
+"The version of Strawberry you've just updated to requires a full collection "
+"rescan because of the new features listed below:"
+msgstr ""
+"Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových "
+"vlastností vypsaných níže úplné nové prohledání sbírky:"
+
+#: collection/collectionview.cpp:441
+msgid "There are other songs in this album"
+msgstr "Na tomto albu jsou další písně"
+
+#: organise/organiseerrordialog.cpp:72
+msgid ""
+"There were problems copying some songs.  The following files could not be "
+"copied:"
+msgstr ""
+"Při kopírování některých písní nastaly potíže. Nepodařilo se zkopírovat "
+"následující soubory:"
+
+#: organise/organiseerrordialog.cpp:77
+msgid ""
+"There were problems deleting some songs.  The following files could not be "
+"deleted:"
+msgstr ""
+"Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující "
+"soubory:"
+
+#: widgets/fileview.cpp:222
+msgid ""
+"These files will be deleted from disk, are you sure you want to continue?"
+msgstr "Tyto soubory budou smazány z disku, jste si jisti?"
+
+#: device/deviceview.cpp:418
+msgid ""
+"These files will be deleted from the device, are you sure you want to "
+"continue?"
+msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
+
+#: ../build/src/ui_collectionsettingspage.h:404
+msgid "These folders will be scanned for music to make up your collection"
+msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
+
+#: ../build/src/ui_transcodersettingspage.h:189
+msgid ""
+"These settings are used in the \"Transcode Music\" dialog, and when "
+"converting music before copying it to a device."
+msgstr ""
+"Tato nastavení se používají v dialogu pro překódování hudby a když je hudba "
+"před kopírováním do zařízení převáděna."
+
+#: collection/savedgroupingmanager.cpp:58
+msgid "Third Level"
+msgstr "Třetí úroveň"
+
+#: ../build/src/ui_groupbydialog.h:172
+msgid "Third level"
+msgstr "Třetí úroveň"
+
+#: ../build/src/ui_playlistsaveoptionsdialog.h:97
+msgid "This can be changed later through the preferences"
+msgstr "Toto lze změnit později v nastavení"
+
+#: ../build/src/ui_deviceproperties.h:383
+msgid ""
+"This device must be connected and opened before Strawberry can see what file "
+"formats it supports."
+msgstr ""
+"Pro zjištění podporovaných formátů souborů je zařízení nejdřív nutno "
+"připojit a otevřít."
+
+#: ../build/src/ui_deviceproperties.h:377
+msgid "This device supports the following file formats:"
+msgstr "Toto zařízení podporuje následující formáty souborů:"
+
+#: device/devicemanager.cpp:611 device/devicemanager.cpp:619
+msgid "This device will not work properly"
+msgstr "Toto zařízení nebude pracovat správně"
+
+#: device/devicemanager.cpp:612
+msgid ""
+"This is an MTP device, but you compiled Strawberry without libmtp support."
+msgstr ""
+"Toto je zařízení MTP, ale Strawberry byl sestaven bez podpory pro libmtp."
+
+#: device/devicemanager.cpp:620
+msgid "This is an iPod, but you compiled Strawberry without libgpod support."
+msgstr ""
+"Toto je zařízení iPod, ale Strawberry byl sestaven bez podpory pro libgpod."
+
+#: device/devicemanager.cpp:355
+msgid ""
+"This is the first time you have connected this device.  Strawberry will now "
+"scan the device to find music files - this may take some time."
+msgstr ""
+"Toto zařízení bylo připojeno poprvé. Strawberry na něm nyní hledá hudební "
+"soubory - může to chvíli trvat."
+
+#: playlist/playlisttabbar.cpp:222
+msgid "This option can be changed in the \"Behavior\" preferences"
+msgstr "Tuto volbu lze změnit v nastavení Chování"
+
+#: device/devicemanager.cpp:634
+#, qt-format
+msgid "This type of device is not supported: %1"
+msgstr "Tento typ zařízení není podporován: %1"
+
+#: core/mainwindow.cpp:289 ../build/src/ui_tidalsettingspage.h:315
+msgid "Tidal"
+msgstr "Tidal"
+
+#: ../build/src/ui_tidalsettingspage.h:317
+msgid ""
+"Tidal support is not official and requires a API token from a registered "
+"application to work. We can't help you getting these."
+msgstr ""
+"Podpora Tidal není oficiální a vyžaduje API token z registrované aplikace. S "
+"tímto vám nemůžeme pomoct."
+
+#: ../build/src/ui_behavioursettingspage.h:290
+msgid "Time step"
+msgstr "Časový krok"
+
+#: device/ilister.cpp:136
+msgid "Timezone"
+msgstr "Časová zóna"
+
+#: core/qtsystemtrayicon.cpp:255 playlist/playlist.cpp:1175
+#: organise/organisedialog.cpp:97 ../build/src/ui_contextsettingspage.h:417
+#: ../build/src/ui_edittagdialog.h:681
+#: ../build/src/ui_trackselectiondialog.h:210
+msgid "Title"
+msgstr "Název"
+
+#: core/utilities.cpp:161 core/utilities.cpp:175
+msgid "Today"
+msgstr "Dnes"
+
+#: core/mainwindow.cpp:605 core/mainwindow.cpp:1656
+msgid "Toggle queue status"
+msgstr "Přepnout stav řady"
+
+#: ../build/src/ui_mainwindow.h:704
+msgid "Toggle scrobbling"
+msgstr "Přepnout odesílání informací o přehrávání"
+
+#: core/mainwindow.cpp:611 core/mainwindow.cpp:1667
+#, fuzzy
+msgid "Toggle skip status"
+msgstr "Přepnout stav přeskakování"
+
+#: core/commandlineoptions.cpp:184
+msgid "Toggle visibility for the pretty on-screen-display"
+msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
+
+#: core/utilities.cpp:176
+msgid "Tomorrow"
+msgstr "Zítra"
+
+#: core/utilities.cpp:417
+msgid "Too many songs selected."
+msgstr "Je vybráno příliš mnoho skladeb."
+
+#: ../build/src/ui_albumcovermanager.h:219
+msgid "Total albums:"
+msgstr "Alb celkem:"
+
+#: covermanager/coversearchstatisticsdialog.cpp:84
+msgid "Total bytes transferred"
+msgstr "Celkem přeneseno bajtů"
+
+#: covermanager/coversearchstatisticsdialog.cpp:82
+msgid "Total network requests made"
+msgstr "Celkem uskutečněno síťových požadavků"
+
+#: playlist/playlist.cpp:1178 organise/organisedialog.cpp:105
+#: ../build/src/ui_edittagdialog.h:688
+#: ../build/src/ui_trackselectiondialog.h:212
+msgid "Track"
+msgstr "Skladba"
+
+#: ../build/src/ui_transcodedialog.h:215
+msgid "Transcode Music"
+msgstr "Převést hudbu"
+
+#: ../build/src/ui_transcodelogdialog.h:62
+msgid "Transcoder Log"
+msgstr "Záznam o převodu"
+
+#: ../build/src/ui_transcodersettingspage.h:188
+msgid "Transcoding"
+msgstr "Překódování"
+
+#: transcoder/transcoder.cpp:331
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Převádí se %1 souborů s %2 procesy"
+
+#: ../build/src/ui_transcoderoptionsdialog.h:53
+msgid "Transcoding options"
+msgstr "Volby překódování"
+
+#: device/giolister.cpp:189
+msgid "URI"
+msgstr "URI"
+
+#: core/commandlineoptions.cpp:162
+msgid "URL(s)"
+msgstr "Adresa (URL)"
+
+#: device/udisks2lister.cpp:112
+msgid "UUID"
+msgstr "UUID"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:227
+msgid "Ultra wide band (UWB)"
+msgstr "Ultra široké pásmo"
+
+#: core/song.cpp:523 context/contextalbumsmodel.cpp:360
+#: collection/collectionmodel.cpp:435 collection/collectionmodel.cpp:440
+#: collection/collectionmodel.cpp:444 collection/collectionmodel.cpp:448
+#: collection/collectionmodel.cpp:452 collection/collectionmodel.cpp:1410
+#: collection/savedgroupingmanager.cpp:137 playlist/playlistdelegates.cpp:354
+#: playlist/playlistmanager.cpp:547 playlist/playlistmanager.cpp:548
+#: dialogs/edittagdialog.cpp:493 dialogs/edittagdialog.cpp:541
+msgid "Unknown"
+msgstr "Neznámý"
+
+#: subsonic/subsonicrequest.cpp:846 tidal/tidalrequest.cpp:1255
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+#: covermanager/albumcoverchoicecontroller.cpp:91
+msgid "Unset cover"
+msgstr "Odebrat obal"
+
+#: core/mainwindow.cpp:1664
+msgid "Unskip selected tracks"
+msgstr "Zrušit přeskočení vybraných skladeb"
+
+#: core/mainwindow.cpp:1663
+msgid "Unskip track"
+msgstr "Zrušit přeskočení skladby"
+
+#: ../build/src/ui_collectionsettingspage.h:408
+msgid "Update the collection when Strawberry starts"
+msgstr "Při spuštění Strawberry obnovit hudební sbírku"
+
+#: collection/collectionwatcher.cpp:134
+#, qt-format
+msgid "Updating %1"
+msgstr "Obnovuje se %1"
+
+#: device/deviceview.cpp:125
+#, qt-format
+msgid "Updating %1%..."
+msgstr "Obnovuje se %1%..."
+
+#: collection/collectionwatcher.cpp:132
+msgid "Updating collection"
+msgstr "Obnovuje se hudební sbírka"
+
+#: ../build/src/ui_appearancesettingspage.h:412
+msgid "Upper Left"
+msgstr "Vlevo nahoře"
+
+#: ../build/src/ui_appearancesettingspage.h:413
+msgid "Upper Right"
+msgstr "Vpravo nahoře"
+
+#: core/commandlineoptions.cpp:162
+msgid "Usage"
+msgstr "Zacházení"
+
+#: ../build/src/ui_shortcutssettingspage.h:227
+msgid "Use Gnome (GSD) D-Bus shortcut keys"
+msgstr "Použíte klávesové zkratky GNOME (GSD) D-Bus"
+
+#: ../build/src/ui_scrobblersettingspage.h:330
+msgid "Use HTTPS for local redirectserver to bypass login problems"
+msgstr ""
+"Použijte HTTPS pro místní server přesměrování abyste obešli problémy s "
+"přihlášením"
+
+#: ../build/src/ui_tidalsettingspage.h:319
+msgid "Use OAuth"
+msgstr "Použijte OAuth"
+
+#: ../build/src/ui_backendsettingspage.h:458
+msgid "Use Replay Gain metadata if it is available"
+msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
+
+#: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
+msgid "Use Tidal settings to authenticate."
+msgstr "Použijte nastavení Tidal pro přihlášení."
+
+#: ../build/src/ui_shortcutssettingspage.h:229
+msgid "Use X11's shortcut keys"
+msgstr "Použijte zkratkové klávesy X11"
+
+#: ../build/src/ui_appearancesettingspage.h:389
+msgid "Use a custom color set"
+msgstr "Použít vlastní sadu barev:"
+
+#: ../build/src/ui_notificationssettingspage.h:478
+msgid "Use a custom message for notifications"
+msgstr "Použít vlastní zprávu pro oznámení"
+
+#: ../build/src/ui_networkproxysettingspage.h:174
+msgid "Use authentication"
+msgstr "Použít ověření"
+
+#: ../build/src/ui_transcoderoptionsvorbis.h:202
+msgid "Use bitrate management engine"
+msgstr "Použít stroj na správu datového toku"
+
+#: ../build/src/ui_appearancesettingspage.h:396
+msgid "Use custom color"
+msgstr "Použít vlastní barvy"
+
+#: ../build/src/ui_appearancesettingspage.h:397
+msgid "Use gradient background"
+msgstr "Použít gradientu"
+
+#: ../build/src/ui_collectionsettingspage.h:424
+msgid "Use hash"
+msgstr "Použít hash"
+
+#: ../build/src/ui_collectionsettingspage.h:411
+#, fuzzy
+msgid "Use live scanning"
+msgstr "Aktualizovat kolekci za chodu"
+
+#: ../build/src/ui_collectionsettingspage.h:425
+msgid "Use pattern"
+msgstr "Použít vzor"
+
+#: ../build/src/ui_appearancesettingspage.h:426
+msgid "Use system theme icons"
+msgstr "Použít ikony ze systémového motivu"
+
+#: ../build/src/ui_transcoderoptionsaac.h:138
+msgid "Use temporal noise shaping"
+msgstr "Použít časové tvarování šumu"
+
+#: ../build/src/ui_behavioursettingspage.h:253
+msgid "Use the system default"
+msgstr "Použít výchozí nastavení systému"
+
+#: widgets/freespacebar.cpp:70
+msgid "Used"
+msgstr "Použito"
+
+#: settings/settingsdialog.cpp:142
+msgid "User interface"
+msgstr "Uživatelské rozhraní"
+
+#: ../build/src/ui_scrobblersettingspage.h:337
+msgid "User token:"
+msgstr "Uživatelský token:"
+
+#: ../build/src/ui_networkproxysettingspage.h:175
+#: ../build/src/ui_subsonicsettingspage.h:189
+#: ../build/src/ui_tidalsettingspage.h:322
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: settings/shortcutssettingspage.cpp:321
+#, qt-format
+msgid ""
+"Using X11 shortcuts on %1 is not recommended and can cause keyboard to "
+"become unresponsive!"
+msgstr ""
+"Použití klávesových zkratek X11 na %1 není doporučeno a může zapříčinit "
+"nereagující klávesnici!"
+
+#: ../build/src/ui_behavioursettingspage.h:256
+msgid "Using the menu to add a song will..."
+msgstr "Použití nabídky pro přidání písně..."
+
+#: ../build/src/ui_transcoderoptionsspeex.h:231
+msgid "Variable bit rate"
+msgstr "Proměnlivý datový tok"
+
+#: collection/collectionmodel.cpp:349 playlist/playlistmanager.cpp:559
+#: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
+#: internet/internetsearchmodel.cpp:106
+msgid "Various artists"
+msgstr "Různí umělci"
+
+#: ../build/src/ui_subsonicsettingspage.h:193
+msgid "Verify server certificate"
+msgstr "Ověřovat certifikát serveru"
+
+#: dialogs/about.cpp:121
+#, qt-format
+msgid "Version %1"
+msgstr "Verze %1"
+
+#: ../build/src/ui_albumcovermanager.h:218
+msgid "View"
+msgstr "Pohled"
+
+#: core/dbusscreensaver.cpp:37
+msgid "Visualizations"
+msgstr "Vizualizace"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:232
+msgid "Voice activity detection"
+msgstr "Zjištění hlasové činnosti"
+
+#: widgets/osd.cpp:197
+#, qt-format
+msgid "Volume %1%"
+msgstr "Hlasitost %1 %"
+
+#: ../build/src/ui_transcodersettingspage.h:192
+msgid "Vorbis"
+msgstr "Vorbis"
+
+#: playlist/playlisttabbar.cpp:219 ../build/src/ui_playlistsettingspage.h:151
+msgid "Warn me when closing a playlist tab"
+msgstr "Varovat při zavření karty se seznamem skladeb"
+
+#: ../build/src/ui_transcodersettingspage.h:191
+msgid "WavPack"
+msgstr "WavPack"
+
+#: ../build/src/ui_collectionsettingspage.h:414
+msgid ""
+"When looking for album art Strawberry will first look for picture files that "
+"contain one of these words.\n"
+"If there are no matches then it will use the largest image in the directory."
+msgstr ""
+"Při hledání obalu alba se Strawberry nejprve podívá po obrázkových "
+"souborech, jež obsahují jedno z těchto slov.\n"
+"Pokud nenajde žádné, které by se shodovaly, potom použije největší obrázek v "
+"adresáři."
+
+#: ../build/src/ui_playlistsettingspage.h:157
+msgid "When saving a playlist, file paths should be"
+msgstr "Při ukládání seznamu skladeb mají být cesty k souborům"
+
+#: device/ilister.cpp:137
+msgid "WiFi MAC Address"
+msgstr "MAC adresa WiFi"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:228
+msgid "Wide band (WB)"
+msgstr "Široké pásmo"
+
+#: ../build/src/ui_albumcovermanager.h:220
+msgid "Without cover:"
+msgstr "Bez obalu:"
+
+#: ../build/src/ui_scrobblersettingspage.h:319
+msgid "Work in offline mode (Only cache scrobbles)"
+msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
+
+#: collection/collectionview.cpp:442
+msgid ""
+"Would you like to move the other songs in this album to Various Artists as "
+"well?"
+msgstr "Chcete další písně na tomto albu přesunout do Různí umělci?"
+
+#: core/mainwindow.cpp:2472
+msgid "Would you like to run a full rescan right now?"
+msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
+
+#: ../build/src/ui_playlistsettingspage.h:167
+msgid "Write metadata when saving playlists"
+msgstr "Zapisovat metadata při ukládání seznamů skladeb"
+
+#: collection/savedgroupingmanager.cpp:102 playlist/playlist.cpp:1181
+#: organise/organisedialog.cpp:107 ../build/src/ui_groupbydialog.h:135
+#: ../build/src/ui_groupbydialog.h:159 ../build/src/ui_groupbydialog.h:183
+#: ../build/src/ui_edittagdialog.h:690
+#: ../build/src/ui_trackselectiondialog.h:211
+msgid "Year"
+msgstr "Rok"
+
+#: collection/savedgroupingmanager.cpp:105 ../build/src/ui_groupbydialog.h:136
+#: ../build/src/ui_groupbydialog.h:160 ../build/src/ui_groupbydialog.h:184
+msgid "Year - Album"
+msgstr "Rok - Album"
+
+#: collection/savedgroupingmanager.cpp:108 ../build/src/ui_groupbydialog.h:137
+#: ../build/src/ui_groupbydialog.h:161 ../build/src/ui_groupbydialog.h:185
+msgid "Year - Album - Disc"
+msgstr "Rok - Album - Disk"
+
+#: core/utilities.cpp:162
+msgid "Yesterday"
+msgstr "Včera"
+
+#: playlist/playlistlistcontainer.cpp:379
+#, qt-format
+msgid ""
+"You are about to remove %1 playlists from your favorites, are you sure?"
+msgstr ""
+"Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
+
+#: playlist/playlisttabbar.cpp:213
+msgid ""
+"You are about to remove a playlist which is not part of your favorite "
+"playlists: the playlist will be deleted (this action cannot be undone). \n"
+"Are you sure you want to continue?"
+msgstr ""
+"Chystáte se odstranit seznam skladeb, který není součástí vašich oblíbených "
+"seznamů skladeb: Seznam skladeb bude nenávratně odstraněn (tento krok nelze "
+"vrátit zpět). \n"
+"Opravdu chcete pokračovat?"
+
+#: ../build/src/ui_loginstatewidget.h:168
+msgid "You are not signed in."
+msgstr "Nejste přihlášen."
+
+#: widgets/loginstatewidget.cpp:81
+#, qt-format
+msgid "You are signed in as %1."
+msgstr "Jste přihlášen jako %1."
+
+#: widgets/loginstatewidget.cpp:80
+msgid "You are signed in."
+msgstr "Jste přihlášen."
+
+#: ../build/src/ui_groupbydialog.h:122
+msgid "You can change the way the songs in the collection are organised."
+msgstr "Můžete změnit způsob uspořádání písní v hudební sbírce."
+
+#: dialogs/about.cpp:139
+#, qt-format
+msgid ""
+"You can sponsor the author on %1. You can also make a one-time payment "
+"through %2."
+msgstr ""
+"Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
+
+#: core/songloader.cpp:134 core/songloader.cpp:139
+msgid "You need GStreamer for this URL."
+msgstr "Pro tento odkaz je potřeba GStreamer."
+
+#: ../build/src/ui_shortcutssettingspage.h:233
+msgid ""
+"You need to launch System Preferences and allow Strawberry to \"<span style="
+"\"font-style:italic\">control your computer</span>\" to use global shortcuts "
+"in Strawberry."
+msgstr ""
+"Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
+"spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:"
+"italic\">ovládat váš počítač</span>\"."
+
+#: ../build/src/ui_shortcutssettingspage.h:232
+msgid ""
+"You need to launch System Preferences and turn on \"<span style=\" font-"
+"style:italic;\">Enable access for assistive devices</span>\" to use global "
+"shortcuts in Strawberry."
+msgstr ""
+"Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné "
+"spustit Nastavení Systému a zapnout \"<span style=\" font-style:"
+"italic;\">Povolit přístup pro pomocná zařízení</span>\"."
+
+#: dialogs/about.cpp:133
+#, qt-format
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see %1"
+msgstr ""
+"S tímto programem jste měli obdržet kopii licence GNU GPL. Pokud ne, "
+"navštivte %1"
+
+#: ../build/src/ui_behavioursettingspage.h:255
+msgid "You will need to restart Strawberry if you change the language."
+msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
+
+#: collection/collectionview.cpp:291
+msgid "Your collection is empty!"
+msgstr "Vaše hudební sbírka je prázdná!"
+
+#: equalizer/equalizer.cpp:155
+msgid "Zero"
+msgstr "Vynulovat"
+
+#: playlist/playlistundocommands.cpp:47
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "add %n songs"
+msgstr "přidat %n skladeb"
+
+#: ../build/src/ui_internetsearchview.h:227
+msgid "albums"
+msgstr "alba"
+
+#: collection/collectionfilterwidget.cpp:72
+msgid "artist"
+msgstr "umělec"
+
+#: ../build/src/ui_internetsearchview.h:226
+msgid "artists"
+msgstr "umělci"
+
+#: ../build/src/ui_transcoderoptionsspeex.h:218
+msgid "automatic"
+msgstr "automatický"
+
+#: ../build/src/ui_transcoderoptionsvorbis.h:206
+#: ../build/src/ui_transcoderoptionsvorbis.h:209
+#: ../build/src/ui_transcoderoptionsspeex.h:221
+msgid "disabled"
+msgstr "zakázáno"
+
+#: widgets/osd.cpp:138
+#, qt-format
+msgid "disc %1"
+msgstr "disk %1"
+
+#: ../build/src/ui_backendsettingspage.h:449
+#, fuzzy
+msgid "hw"
+msgstr "hardware"
+
+#: context/contextview.cpp:544 context/contextview.cpp:695
+#: playlist/playlistview.cpp:250 dialogs/edittagdialog.cpp:536
+msgid "kbps"
+msgstr "kb/s"
+
+#: playlist/playlistundocommands.cpp:104
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "move %n songs"
+msgstr "Přesunout %n skladeb"
+
+#: ../build/src/ui_tidalsettingspage.h:328
+msgid "ms"
+msgstr "ms"
+
+#: core/commandlineoptions.cpp:162
+msgid "options"
+msgstr "volby"
+
+#: ../build/src/ui_backendsettingspage.h:450
+#, fuzzy
+msgid "p&lughw"
+msgstr "p&lughw"
+
+#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "remove %n songs"
+msgstr "odstranit %n skladeb"
+
+#: collection/collectionfilterwidget.cpp:76
+msgid "searches the collection for all artists that contain the word"
+msgstr "vyhledá umělce obsahující slovo"
+
+#: playlist/playlistundocommands.cpp:136
+msgid "shuffle songs"
+msgstr "Zamíchat skladby"
+
+#: ../build/src/ui_internetsearchview.h:228
+msgid "songs"
+msgstr "skladby"
+
+#: playlist/playlistundocommands.cpp:128
+msgid "sort songs"
+msgstr "Třídit skladby"
+
+#: playlist/playlistdelegates.cpp:223
+msgid "stop"
+msgstr "zastavit"
+
+#: widgets/osd.cpp:140
+#, qt-format
+msgid "track %1"
+msgstr "skladba %1"
+
+#: covermanager/albumcoverchoicecontroller.cpp:164
+msgid "unknown"
+msgstr "neznámý"
