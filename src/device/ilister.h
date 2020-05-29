@@ -37,6 +37,7 @@
 
 class iLister : public DeviceLister {
   Q_OBJECT
+
  public:
   explicit iLister();
   ~iLister();
@@ -58,7 +59,7 @@ class iLister : public DeviceLister {
 
  private:
   struct DeviceInfo {
-    DeviceInfo() : valid(false), free_bytes(0), total_bytes(0) {}
+    DeviceInfo() : valid(false), free_bytes(0), total_bytes(0), password_protected(false) {}
 
     bool valid;
 
@@ -83,16 +84,16 @@ class iLister : public DeviceLister {
 
   static void EventCallback(const idevice_event_t *event, void *context);
 
-  void DeviceAddedCallback(const char *uuid);
-  void DeviceRemovedCallback(const char *uuid);
+  void DeviceAddedCallback(const QString uuid);
+  void DeviceRemovedCallback(const QString uuid);
 
-  DeviceInfo ReadDeviceInfo(const char *uuid);
-  static QString UniqueId(const char *uuid);
+  DeviceInfo ReadDeviceInfo(const QString uuid);
+  static QString UniqueId(const QString uuid);
 
   template <typename T>
   T LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field);
 
-private:
+ private:
   QMutex mutex_;
   QMap<QString, DeviceInfo> devices_;
 };

@@ -47,13 +47,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE GPodDevice(
-      const QUrl &url, DeviceLister *lister,
-      const QString &unique_id,
-      DeviceManager *manager,
-      Application *app,
-      int database_id,
-      bool first_time);
+  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
   ~GPodDevice();
 
   bool Init();

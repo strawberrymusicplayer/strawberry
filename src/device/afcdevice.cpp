@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <QThread>
 #include <QFile>
 #include <QList>
@@ -28,6 +30,7 @@
 
 #include "core/application.h"
 #include "core/utilities.h"
+#include "core/song.h"
 #include "afcdevice.h"
 #include "afcfile.h"
 #include "afctransfer.h"
@@ -35,13 +38,23 @@
 #include "gpodloader.h"
 #include "imobiledeviceconnection.h"
 
-AfcDevice::AfcDevice(const QUrl &url, DeviceLister* lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time)
-      : GPodDevice(url, lister, unique_id, manager, app, database_id, first_time), transfer_(nullptr)
-{
-}
+AfcDevice::AfcDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time) : GPodDevice(url, lister, unique_id, manager, app, database_id, first_time), transfer_(nullptr) {}
 
 AfcDevice::~AfcDevice() {
+
   Utilities::RemoveRecursive(local_path_);
+
+  if (loader_) {
+    loader_->deleteLater();
+    loader_ = nullptr;
+  }
+
+  if (loader_thread_) {
+    loader_thread_->exit();
+    loader_thread_->deleteLater();
+    loader_thread_ = nullptr;
+  }
+
 }
 
 bool AfcDevice::Init() {
@@ -51,11 +64,16 @@ bool AfcDevice::Init() {
   InitBackendDirectory(local_path_, first_time_, false);
   model_->Init();
 
+  if (!loader_thread_) loader_thread_ = new QThread();
+
+  if (url_.isEmpty() || url_.path().isEmpty()) return false;
+
   transfer_ = new AfcTransfer(url_.host(), local_path_, app_->task_manager(), shared_from_this());
   transfer_->moveToThread(loader_thread_);
 
   connect(transfer_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
   connect(transfer_, SIGNAL(CopyFinished(bool)), SLOT(CopyFinished(bool)));
+
   connect(loader_thread_, SIGNAL(started()), transfer_, SLOT(CopyFromDevice()));
   loader_thread_->start();
 
@@ -63,7 +81,7 @@ bool AfcDevice::Init() {
 
 }
 
-void AfcDevice::CopyFinished(bool success) {
+void AfcDevice::CopyFinished(const bool success) {
 
   transfer_->deleteLater();
   transfer_ = nullptr;
@@ -76,12 +94,12 @@ void AfcDevice::CopyFinished(bool success) {
   // Now load the songs from the local database
   loader_ = new GPodLoader(local_path_, app_->task_manager(), backend_, shared_from_this());
   loader_->set_music_path_prefix("afc://" + url_.host());
-  //loader_->set_song_type(Song::Type_Stream);
+  loader_->set_song_type(Song::FileType_Stream);
   loader_->moveToThread(loader_thread_);
 
-  connect(loader_, SIGNAL(Error(QString)), SIGNAL(Error(QString)));
+  connect(loader_, SIGNAL(Error(QString)), SLOT(LoaderError(QString)));
   connect(loader_, SIGNAL(TaskStarted(int)), SIGNAL(TaskStarted(int)));
-  connect(loader_, SIGNAL(LoadFinished(Itdb_iTunesDB*)), SLOT(LoadFinished(Itdb_iTunesDB*)));
+  connect(loader_, SIGNAL(LoadFinished(Itdb_iTunesDB*, bool)), SLOT(LoadFinished(Itdb_iTunesDB*, bool)));
   QMetaObject::invokeMethod(loader_, "LoadDatabase");
 
 }

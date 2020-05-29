@@ -40,7 +40,6 @@ class AfcTransfer : public QObject {
 
  public:
   explicit AfcTransfer(const QString &uuid, const QString &local_destination, TaskManager *task_manager, std::shared_ptr<ConnectedDevice> device);
-  ~AfcTransfer();
 
   bool CopyToDevice(iMobileDeviceConnection *connection);
 

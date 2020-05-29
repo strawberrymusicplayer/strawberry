@@ -45,9 +45,6 @@ AfcTransfer::AfcTransfer(const QString &uuid, const QString &local_destination, 
 
 }
 
-AfcTransfer::~AfcTransfer() {
-}
-
 void AfcTransfer::CopyFromDevice() {
 
   int task_id = 0;
@@ -57,6 +54,7 @@ void AfcTransfer::CopyFromDevice() {
   }
 
   // Connect to the device
+
   iMobileDeviceConnection c(uuid_);
 
   // Copy directories.  If one fails we stop.

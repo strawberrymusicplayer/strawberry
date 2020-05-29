@@ -79,7 +79,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   void CloseFinished(const QString& id);
 
  protected:
-  void InitBackendDirectory(const QString &mount_point, bool first_time, bool rewrite_path = true);
+  void InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path = true);
 
  protected:
   Application *app_;

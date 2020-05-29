@@ -51,7 +51,7 @@ class MtpDevice : public ConnectedDevice {
   Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
   ~MtpDevice();
 
-  static QStringList url_schemes() { return QStringList() << "mtp" << "gphoto2"; }
+  static QStringList url_schemes() { return QStringList() << "mtp"; }
 
   bool Init();
   void ConnectAsync();

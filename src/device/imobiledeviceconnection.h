@@ -38,7 +38,7 @@
 
 class iMobileDeviceConnection {
 public:
-  explicit iMobileDeviceConnection(const QString &uuid);
+  explicit iMobileDeviceConnection(const QString uuid);
   ~iMobileDeviceConnection();
 
   afc_client_t afc() { return afc_; }

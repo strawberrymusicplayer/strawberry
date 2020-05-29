@@ -22,6 +22,11 @@
 
 #include <plist/plist.h>
 
+#include <libimobiledevice/afc.h>
+#include <libimobiledevice/libimobiledevice.h>
+#include <libimobiledevice/mobileactivation.h>
+#include <libimobiledevice/lockdown.h>
+
 #include <QCoreApplication>
 #include <QDir>
 #include <QByteArray>
@@ -29,15 +34,18 @@
 #include <QStringList>
 #include <QUrl>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#endif
 
 #include "core/logging.h"
 #include "imobiledeviceconnection.h"
 
-iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(nullptr), afc_(nullptr) {
+iMobileDeviceConnection::iMobileDeviceConnection(const QString uuid) : device_(nullptr), afc_(nullptr) {
 
   idevice_error_t err = idevice_new(&device_, uuid.toUtf8().constData());
   if (err != IDEVICE_E_SUCCESS) {
-    qLog(Warning) << "idevice error:" << err;
+    qLog(Warning) << "idevice_new error:" << err;
     return;
   }
 
@@ -47,27 +55,25 @@ iMobileDeviceConnection::iMobileDeviceConnection(const QString &uuid) : device_(
   lockdownd_client_t lockdown;
   lockdownd_error_t lockdown_err = lockdownd_client_new_with_handshake(device_, &lockdown, label);
   if (lockdown_err != LOCKDOWN_E_SUCCESS) {
-    qLog(Warning) << "lockdown error:" << lockdown_err;
+    qLog(Warning) << "lockdownd_client_new_with_handshake error:" << lockdown_err;
     return;
   }
 
   lockdownd_service_descriptor_t lockdown_service_desc;
   lockdown_err = lockdownd_start_service(lockdown, "com.apple.afc", &lockdown_service_desc);
   if (lockdown_err != LOCKDOWN_E_SUCCESS) {
-    qLog(Warning) << "lockdown error:" << lockdown_err;
+    qLog(Warning) << "lockdownd_start_service error:" << lockdown_err;
     lockdownd_client_free(lockdown);
     return;
   }
 
   afc_error_t afc_err = afc_client_new(device_, lockdown_service_desc, &afc_);
   if (afc_err != AFC_E_SUCCESS) {
-    qLog(Warning) << "afc error:" << afc_err;
-    lockdownd_service_descriptor_free(lockdown_service_desc);
+    qLog(Warning) << "afc_client_new error:" << afc_err;
     lockdownd_client_free(lockdown);
     return;
   }
 
-  lockdownd_service_descriptor_free(lockdown_service_desc);
   lockdownd_client_free(lockdown);
 
 }
@@ -187,6 +193,7 @@ QString iMobileDeviceConnection::GetFileInfo(const QString &path, const QString 
   char **infolist = nullptr;
   afc_error_t err = afc_get_file_info(afc_, path.toUtf8().constData(), &infolist);
   if (err != AFC_E_SUCCESS || !infolist) {
+    qLog(Debug) << "afc_get_file_info error:" << path << err;
     return ret;
   }
 
@@ -232,7 +239,12 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
   }
 
   // Pick one at random
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+  const int dir_num = QRandomGenerator::global()->bounded(total_musicdirs);
+#else
   const int dir_num = qrand() % total_musicdirs;
+#endif
+
   QString dir = QString::asprintf("/iTunes_Control/Music/F%02d", dir_num);
 
   if (!Exists(dir)) {

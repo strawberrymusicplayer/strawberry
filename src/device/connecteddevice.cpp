@@ -78,7 +78,7 @@ ConnectedDevice::~ConnectedDevice() {
   backend_->deleteLater();
 }
 
-void ConnectedDevice::InitBackendDirectory(const QString &mount_point, bool first_time, bool rewrite_path) {
+void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path) {
 
   if (first_time || backend_->GetAllDirectories().isEmpty()) {
     backend_->AddDirectory(mount_point);

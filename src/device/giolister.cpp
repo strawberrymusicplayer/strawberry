@@ -283,6 +283,10 @@ void GioLister::VolumeAdded(GVolume *volume) {
 
   DeviceInfo info;
   info.ReadVolumeInfo(volume);
+  if (info.volume_root_uri.startsWith("afc://") || info.volume_root_uri.startsWith("gphoto2://")) {
+    // Handled by iLister.
+    return;
+  }
 #ifdef HAVE_AUDIOCD
   if (info.volume_root_uri.startsWith("cdda"))
     // Audio CD devices are already handled by CDDA lister
@@ -322,6 +326,10 @@ void GioLister::MountAdded(GMount *mount) {
 
   DeviceInfo info;
   info.ReadVolumeInfo(g_mount_get_volume(mount));
+  if (info.volume_root_uri.startsWith("afc://") || info.volume_root_uri.startsWith("gphoto2://")) {
+    // Handled by iLister.
+    return;
+  }
 #ifdef HAVE_AUDIOCD
   if (info.volume_root_uri.startsWith("cdda"))
     // Audio CD devices are already handled by CDDA lister
@@ -566,7 +574,7 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 bool GioLister::DeviceNeedsMount(const QString &id) {
 
   QMutexLocker l(&mutex_);
-  return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith("mtp://");
+  return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith("mtp://") && !devices_[id].volume_root_uri.startsWith("gphoto2://");
 
 }
 

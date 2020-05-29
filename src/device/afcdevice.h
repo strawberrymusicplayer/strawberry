@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <memory>
+
 #include <gpod/itdb.h>
 
 #include <QObject>
@@ -41,7 +43,7 @@ class AfcDevice : public GPodDevice {
   Q_OBJECT
 
 public:
-  Q_INVOKABLE AfcDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
+  Q_INVOKABLE AfcDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
   ~AfcDevice();
 
   bool Init();
@@ -50,20 +52,20 @@ public:
 
   bool StartCopy(QList<Song::FileType> *supported_types);
   bool CopyToStorage(const CopyJob &job);
-  void FinishCopy(bool success);
+  void FinishCopy(const bool success);
 
   bool DeleteFromStorage(const DeleteJob &job);
 
-protected:
+ protected:
   void FinaliseDatabase();
 
-private slots:
+ private slots:
   void CopyFinished(bool success);
 
-private:
+ private:
   void RemoveRecursive(const QString &path);
 
-private:
+ private:
   AfcTransfer *transfer_;
   std::shared_ptr<iMobileDeviceConnection> connection_;
 

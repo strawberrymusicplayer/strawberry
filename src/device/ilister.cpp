@@ -36,15 +36,17 @@ iLister::iLister() {}
 iLister::~iLister() {}
 
 bool iLister::Init() {
+
   idevice_event_subscribe(&EventCallback, reinterpret_cast<void*>(this));
   return true;
+
 }
 
 void iLister::EventCallback(const idevice_event_t *event, void *context) {
 
   iLister *me = reinterpret_cast<iLister*>(context);
 
-  const char *uuid = event->udid;
+  QString uuid = QString::fromUtf8(event->udid);
 
   switch (event->event) {
     case IDEVICE_DEVICE_ADD:
@@ -60,7 +62,7 @@ void iLister::EventCallback(const idevice_event_t *event, void *context) {
 }
 
 
-void iLister::DeviceAddedCallback(const char *uuid) {
+void iLister::DeviceAddedCallback(const QString uuid) {
 
   DeviceInfo info = ReadDeviceInfo(uuid);
   if (!info.valid) return;
@@ -82,9 +84,10 @@ void iLister::DeviceAddedCallback(const char *uuid) {
 
 }
 
-void iLister::DeviceRemovedCallback(const char *uuid) {
+void iLister::DeviceRemovedCallback(const QString uuid) {
 
   QString id = UniqueId(uuid);
+
   {
     QMutexLocker l(&mutex_);
     if (!devices_.contains(id))
@@ -97,8 +100,8 @@ void iLister::DeviceRemovedCallback(const char *uuid) {
 
 }
 
-QString iLister::UniqueId(const char *uuid) {
-  return "ithing/" + QString::fromUtf8(uuid);
+QString iLister::UniqueId(const QString uuid) {
+  return "ithing/" + uuid;
 }
 
 QStringList iLister::DeviceUniqueIDs() {
@@ -191,12 +194,13 @@ QList<QUrl> iLister::MakeDeviceUrls(const QString &id) {
 
 }
 
-iLister::DeviceInfo iLister::ReadDeviceInfo(const char *uuid) {
+iLister::DeviceInfo iLister::ReadDeviceInfo(const QString uuid) {
 
   DeviceInfo ret;
 
   iMobileDeviceConnection conn(uuid);
   if (!conn.is_valid()) return ret;
+
   ret.valid = conn.is_valid();
   ret.uuid = uuid;
   ret.product_type = conn.GetProperty("ProductType").toString();

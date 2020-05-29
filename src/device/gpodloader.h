@@ -52,7 +52,7 @@ class GPodLoader : public QObject {
   void LoadDatabase();
 
  signals:
-  void Error(const QString &message);
+  void Error(QString message);
   void TaskStarted(int task_id);
   void LoadFinished(Itdb_iTunesDB *db, bool success);
 
