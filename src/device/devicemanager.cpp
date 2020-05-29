@@ -353,9 +353,9 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
         if (info->database_id_ == -1 && !info->BestBackend()->lister_->DeviceNeedsMount(info->BestBackend()->unique_id_)) {
           if (info->BestBackend()->lister_->AskForScan(info->BestBackend()->unique_id_)) {
             std::unique_ptr<QMessageBox> dialog(new QMessageBox(QMessageBox::Information, tr("Connect device"), tr("This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."), QMessageBox::Cancel));
-            QPushButton *connect = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
+            QPushButton *pushbutton = dialog->addButton(tr("Connect device"), QMessageBox::AcceptRole);
             dialog->exec();
-            if (dialog->clickedButton() != connect) return QVariant();
+            if (dialog->clickedButton() != pushbutton) return QVariant();
           }
         }
         const_cast<DeviceManager*>(this)->Connect(info);
