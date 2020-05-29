@@ -453,9 +453,8 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
 
   for (Song &song : songs) {
     if (compilation) song.set_compilation_detected(true);
-    if (multidisc) {
-      QString album_full(QString("%1 - (Disc %2)").arg(song.album()).arg(song.disc()));
-      song.set_album(album_full);
+    if (!multidisc) {
+      song.set_disc(0);
     }
     songs_ << song;
   }
