@@ -45,7 +45,11 @@ CollectionQuery::CollectionQuery(const QueryOptions &options)
     //  3) Remove colons which don't correspond to column names.
 
     // Split on whitespace
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    QStringList tokens(options.filter().split(QRegExp("\\s+"), Qt::SkipEmptyParts));
+#else
     QStringList tokens(options.filter().split(QRegExp("\\s+"), QString::SkipEmptyParts));
+#endif
     QString query;
     for (QString token : tokens) {
       token.remove('(');

@@ -202,7 +202,13 @@ void CollectionSettingsPage::Save() {
   s.setValue("live_scanning", ui_->live_scanning->isChecked());
 
   QString filter_text = ui_->cover_art_patterns->text();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+  QStringList filters = filter_text.split(',', Qt::SkipEmptyParts);
+#else
   QStringList filters = filter_text.split(',', QString::SkipEmptyParts);
+#endif
+
   s.setValue("cover_art_patterns", filters);
 
   s.setValue("cover_album_dir", ui_->checkbox_cover_album_dir->isChecked());
