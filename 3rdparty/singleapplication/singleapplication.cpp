@@ -40,9 +40,13 @@
 #include <QSharedMemory>
 #include <QLocalSocket>
 #include <QByteArray>
-#include <QDateTime>
 #include <QElapsedTimer>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#else
+#  include <QDateTime>
+#endif
 
 #include "singleapplication.h"
 #include "singleapplication_p.h"
@@ -110,8 +114,12 @@ SingleApplication::SingleApplication(int &argc, char *argv[], bool allowSecondar
     d->memory->unlock();
 
     // Random sleep here limits the probability of a collision between two racing apps
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    QThread::sleep(QRandomGenerator::global()->bounded(8u, 18u));
+#else
     qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
-    QThread::sleep(8 + static_cast <unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+    QThread::sleep(8 + static_cast<unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+#endif
   }
 
   if (inst->primary == false) {

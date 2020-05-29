@@ -46,9 +46,11 @@ int main(int argc, char **argv) {
   }
 
   // Seed random number generator
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
   timeval time;
   gettimeofday(&time, nullptr);
   qsrand((time.tv_sec * 1000) + (time.tv_usec / 1000));
+#endif
 
   logging::Init();
   qLog(Info) << "TagReader worker connecting to" << args[1];
@@ -61,7 +63,9 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
   QSslSocket::addDefaultCaCertificates(QSslCertificate::fromPath(":/certs/godaddy-root.pem", QSsl::Pem));
+#endif
 
   TagReaderWorker worker(&socket);
 

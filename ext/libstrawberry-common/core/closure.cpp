@@ -19,6 +19,9 @@
 #include <QList>
 #include <QTimer>
 #include <QGenericArgument>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#endif
 
 #include "closure.h"
 
@@ -72,6 +75,13 @@ void DoAfter(QObject *receiver, const char *slot, int msec) {
 }
 
 void DoInAMinuteOrSo(QObject *receiver, const char *slot) {
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+  int msec = (60 + QRandomGenerator::global()->bounded(1, 60)) * kMsecPerSec;
+#else
   int msec = (60 + (qrand() % 60)) * kMsecPerSec;
+#endif
+
   DoAfter(receiver, slot, msec);
+
 }

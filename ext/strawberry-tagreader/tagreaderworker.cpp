@@ -35,14 +35,6 @@ void TagReaderWorker::MessageArrived(const pb::tagreader::Message& message) {
 
   pb::tagreader::Message reply;
 
-#if 0
-  // Crash every few requests
-  if (qrand() % 10 == 0) {
-    qLog(Debug) << "Crashing on request ID" << message.id();
-    abort();
-  }
-#endif
-
   if (message.has_read_file_request()) {
     tag_reader_.ReadFile(QStringFromStdString(message.read_file_request().filename()), reply.mutable_read_file_response()->mutable_metadata());
   }

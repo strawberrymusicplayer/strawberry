@@ -33,6 +33,9 @@
 #include <QString>
 #include <QStringList>
 #include <QAtomicInt>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#endif
 
 #include "core/logging.h"
 
@@ -264,7 +267,11 @@ void WorkerPool<HandlerType>::StartOneWorker(Worker *worker) {
 
   // Create a server, find an unused name and start listening
   forever {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    const int unique_number = QRandomGenerator::global()->bounded((int)(quint64(this) & 0xFFFFFFFF));
+#else
     const int unique_number = qrand() ^ ((int)(quint64(this) & 0xFFFFFFFF));
+#endif
     const QString name = QString("%1_%2").arg(local_server_name_).arg(unique_number);
 
     if (worker->local_server_->listen(name)) {

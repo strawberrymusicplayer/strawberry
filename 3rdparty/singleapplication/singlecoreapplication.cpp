@@ -40,9 +40,13 @@
 #include <QSharedMemory>
 #include <QLocalSocket>
 #include <QByteArray>
-#include <QDateTime>
 #include <QElapsedTimer>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#else
+#  include <QDateTime>
+#endif
 
 #include "singlecoreapplication.h"
 #include "singlecoreapplication_p.h"
@@ -62,8 +66,7 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
   // Store the current mode of the program
   d->options = options;
 
-  // Generating an application ID used for identifying the shared memory
-  // block and QLocalServer
+  // Generating an application ID used for identifying the shared memory block and QLocalServer
   d->genBlockServerName();
 
 #ifdef Q_OS_UNIX
@@ -111,8 +114,12 @@ SingleCoreApplication::SingleCoreApplication(int &argc, char *argv[], bool allow
     d->memory->unlock();
 
     // Random sleep here limits the probability of a collision between two racing apps
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    QThread::sleep(QRandomGenerator::global()->bounded(8u, 18u));
+#else
     qsrand(QDateTime::currentMSecsSinceEpoch() % std::numeric_limits<uint>::max());
-    QThread::sleep(8 + static_cast <unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+    QThread::sleep(8 + static_cast<unsigned long>(static_cast <float>(qrand()) / RAND_MAX * 10));
+#endif
   }
 
   if (inst->primary == false) {

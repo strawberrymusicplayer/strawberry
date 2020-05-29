@@ -64,6 +64,9 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#endif
 
 #include <stdio.h>
 
@@ -540,7 +543,11 @@ bool IsMouseEventInWidget(const QMouseEvent *e, const QWidget *widget) {
 quint16 PickUnusedPort() {
 
   forever {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    const quint64 port = QRandomGenerator::global()->bounded(49152, 65535);
+#else
     const quint16 port = 49152 + qrand() % 16384;
+#endif
 
     QTcpServer server;
     if (server.listen(QHostAddress::Any, port)) {
@@ -821,8 +828,12 @@ QString CryptographicRandomString(const int len) {
 QString GetRandomString(const int len, const QString &UseCharacters) {
 
    QString randstr;
-   for(int i=0 ; i < len ; ++i) {
-     int index = qrand() % UseCharacters.length();
+   for(int i = 0 ; i < len ; ++i) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+     const int index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
+#else
+     const int index = qrand() % UseCharacters.length();
+#endif
      QChar nextchar = UseCharacters.at(index);
      randstr.append(nextchar);
    }

@@ -48,6 +48,9 @@
 #include <QTcpSocket>
 #include <QSslSocket>
 #include <QDateTime>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#  include <QRandomGenerator>
+#endif
 
 LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),
@@ -152,7 +155,12 @@ bool LocalRedirectServer::GenerateCertificate() {
     return false;
   }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+  quint64 serial = 9999999 + QRandomGenerator::global()->bounded(1000000);
+#else
   quint64 serial = (9999999 + qrand() % 1000000);
+#endif
+
   QByteArray q_serial;
   q_serial.setNum(serial);
 
