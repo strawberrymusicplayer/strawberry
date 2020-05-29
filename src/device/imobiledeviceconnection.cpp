@@ -24,7 +24,6 @@
 
 #include <libimobiledevice/afc.h>
 #include <libimobiledevice/libimobiledevice.h>
-#include <libimobiledevice/mobileactivation.h>
 #include <libimobiledevice/lockdown.h>
 
 #include <QCoreApplication>
