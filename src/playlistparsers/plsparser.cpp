@@ -81,15 +81,15 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
 
   QTextStream s(device);
-  s << "[playlist]" << endl;
-  s << "Version=2" << endl;
-  s << "NumberOfEntries=" << songs.count() << endl;
+  s << "[playlist]" << Qt::endl;
+  s << "Version=2" << Qt::endl;
+  s << "NumberOfEntries=" << songs.count() << Qt::endl;
 
   int n = 1;
   for (const Song &song : songs) {
-    s << "File" << n << "=" << URLOrFilename(song.url(), dir, path_type) << endl;
-    s << "Title" << n << "=" << song.title() << endl;
-    s << "Length" << n << "=" << song.length_nanosec() / kNsecPerSec << endl;
+    s << "File" << n << "=" << URLOrFilename(song.url(), dir, path_type) << Qt::endl;
+    s << "Title" << n << "=" << song.title() << Qt::endl;
+    s << "Length" << n << "=" << song.length_nanosec() / kNsecPerSec << Qt::endl;
     ++n;
   }
 
