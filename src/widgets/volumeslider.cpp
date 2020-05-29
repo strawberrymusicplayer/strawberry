@@ -65,7 +65,7 @@ void SliderSlider::wheelEvent(QWheelEvent* e) {
   }
 
   // Position Slider (horizontal)
-  int step = e->delta() * 1500 / 18;
+  int step = e->angleDelta().y() * 1500 / 18;
   int nval = qBound(minimum(), QSlider::value() + step, maximum());
 
   QSlider::setValue(nval);
@@ -303,7 +303,7 @@ void VolumeSlider::slideEvent(QMouseEvent* e) {
 
 void VolumeSlider::wheelEvent(QWheelEvent* e) {
 
-  const uint step = e->delta() / (e->orientation() == Qt::Vertical ? 30 : -30);
+  const uint step = e->angleDelta().y() / (e->angleDelta().x() == 0 ? 30 : -30);
   QSlider::setValue(QSlider::value() + step);
   emit sliderReleased(value());
 

@@ -93,7 +93,7 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
   if (event->type() == QEvent::Wheel) {
     QWheelEvent *e = static_cast<QWheelEvent*>(event);
     if (e->modifiers() == Qt::ShiftModifier) {
-      if (e->delta() > 0) {
+      if (e->angleDelta().y() > 0) {
         emit SeekForward();
       }
       else {
@@ -101,7 +101,7 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
       }
     }
     else if (e->modifiers() == Qt::ControlModifier) {
-      if (e->delta() < 0) {
+      if (e->angleDelta().y() < 0) {
         emit NextTrack();
       }
       else {
@@ -114,7 +114,7 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
       bool prev_next_track = s.value("scrolltrayicon").toBool();
       s.endGroup();
       if (prev_next_track) {
-        if (e->delta() < 0) {
+        if (e->angleDelta().y() < 0) {
           emit NextTrack();
         }
         else {
@@ -122,7 +122,7 @@ bool QtSystemTrayIcon::eventFilter(QObject *object, QEvent *event) {
         }
       }
       else {
-        emit ChangeVolume(e->delta());
+        emit ChangeVolume(e->angleDelta().y());
       }
     }
     return true;
