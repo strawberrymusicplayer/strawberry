@@ -108,14 +108,14 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     // Create the taskbar list
     hr = CoCreateInstance(CLSID_ITaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&taskbar_list_);
     if (hr != S_OK) {
-      qLog(Warning) << "Error creating the ITaskbarList3 interface" << hex << DWORD (hr);
+      qLog(Warning) << "Error creating the ITaskbarList3 interface" << Qt::hex << DWORD (hr);
       return;
     }
 
     ITaskbarList3 *taskbar_list = reinterpret_cast<ITaskbarList3*>(taskbar_list_);
     hr = taskbar_list->HrInit();
     if (hr != S_OK) {
-      qLog(Warning) << "Error initialising taskbar list" << hex << DWORD (hr);
+      qLog(Warning) << "Error initialising taskbar list" << Qt::hex << DWORD (hr);
       taskbar_list->Release();
       taskbar_list_ = nullptr;
       return;
@@ -134,7 +134,7 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     qLog(Debug) << "Adding buttons";
     hr = taskbar_list->ThumbBarAddButtons((HWND)widget_->winId(), actions_.count(), buttons);
     if (hr != S_OK)
-      qLog(Debug) << "Failed to add buttons" << hex << DWORD (hr);
+      qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD (hr);
     for (int i = 0; i < actions_.count(); i++) {
       if (buttons[i].hIcon)
         DestroyIcon (buttons[i].hIcon);
