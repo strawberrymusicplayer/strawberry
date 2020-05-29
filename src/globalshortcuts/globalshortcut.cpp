@@ -122,7 +122,7 @@ bool GlobalShortcut::unsetShortcut() {
   }
 
   qt_key_ = Qt::Key(0);
-  qt_mods_ = Qt::KeyboardModifiers(0);
+  qt_mods_ = Qt::KeyboardModifiers();
   native_key_ = 0;
   native_mods_ = 0;
 
