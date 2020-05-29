@@ -28,6 +28,8 @@
 #include <QCoreApplication>
 #include <QTimer>
 #include <QList>
+#include <QMap>
+#include <QMultiMap>
 #include <QString>
 #include <QUrl>
 #include <QImage>
@@ -250,7 +252,7 @@ void AlbumCoverFetcherSearch::ProviderCoverFetchFinished(QNetworkReply *reply) {
       QImage image;
       if (image.loadFromData(reply->readAll())) {
         result.score += ScoreImage(image);
-        candidate_images_.insertMulti(result.score, CandidateImage(result, image));
+        candidate_images_.insert(result.score, CandidateImage(result, image));
         qLog(Debug) << reply->url() << "from" << result.provider << "scored" << result.score;
       }
       else {

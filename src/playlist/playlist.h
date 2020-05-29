@@ -32,6 +32,7 @@
 #include <QFuture>
 #include <QList>
 #include <QMap>
+#include <QMultiMap>
 #include <QMetaType>
 #include <QVariant>
 #include <QString>

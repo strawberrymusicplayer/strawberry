@@ -1092,7 +1092,7 @@ void TidalRequest::GetAlbumCovers() {
 void TidalRequest::AddAlbumCoverRequest(Song &song) {
 
   if (album_covers_requests_sent_.contains(song.album_id())) {
-    album_covers_requests_sent_.insertMulti(song.album_id(), &song);
+    album_covers_requests_sent_.insert(song.album_id(), &song);
     return;
   }
 
@@ -1102,7 +1102,7 @@ void TidalRequest::AddAlbumCoverRequest(Song &song) {
   request.filename = app_->album_cover_loader()->CoverFilePath(song.source(), song.effective_albumartist(), song.effective_album(), song.album_id(), QString(), request.url);
   if (request.filename.isEmpty()) return;
 
-  album_covers_requests_sent_.insertMulti(song.album_id(), &song);
+  album_covers_requests_sent_.insert(song.album_id(), &song);
   ++album_covers_requested_;
 
   album_cover_requests_queue_.enqueue(request);

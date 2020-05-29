@@ -217,7 +217,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
         break;
     }
     if (!ids.contains(id)) ids << id;
-    songs_map.insertMulti(id, song);
+    songs_map.insert(id, song);
   }
 
   for (const QString &id : ids) {
