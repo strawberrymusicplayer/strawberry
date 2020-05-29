@@ -31,6 +31,12 @@
 
 class CollectionBackendInterface;
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#  define qt_endl Qt::endl
+#else
+#  define qt_endl std::endl
+#endif
+
 AsxIniParser::AsxIniParser(CollectionBackendInterface *collection, QObject *parent)
     : ParserBase(collection, parent) {}
 
@@ -65,11 +71,11 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
 void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, Playlist::Path path_type) const {
 
   QTextStream s(device);
-  s << "[Reference]" << Qt::endl;
+  s << "[Reference]" << qt_endl;
 
   int n = 1;
   for (const Song &song : songs) {
-    s << "Ref" << n << "=" << URLOrFilename(song.url(), dir, path_type) << Qt::endl;
+    s << "Ref" << n << "=" << URLOrFilename(song.url(), dir, path_type) << qt_endl;
     ++n;
   }
 
