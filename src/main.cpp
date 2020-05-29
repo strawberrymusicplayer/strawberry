@@ -160,7 +160,9 @@ int main(int argc, char* argv[]) {
   // Seed the random number generators.
   time_t t = time(nullptr);
   srand(t);
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
   qsrand(t);
+#endif
 
   Utilities::IncreaseFDLimit();
 
