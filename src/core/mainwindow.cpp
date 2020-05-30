@@ -226,10 +226,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
+#ifdef HAVE_GSTREAMER
       transcode_dialog_([=]() {
         TranscodeDialog *dialog = new TranscodeDialog(this);
         return dialog;
       }),
+#endif
       add_stream_dialog_([=]() {
         AddStreamDialog *add_stream_dialog = new AddStreamDialog;
         connect(add_stream_dialog, SIGNAL(accepted()), this, SLOT(AddStreamAccepted()));
