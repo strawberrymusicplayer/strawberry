@@ -3,49 +3,1141 @@ on: [push, pull_request]
 
 jobs:
 
-  build-linux:
+  build_source:
+    name: Create source tarball
     runs-on: ubuntu-latest
     container:
       image: opensuse/leap:15.1
     steps:
-    - uses: actions/checkout@v1
-    - name: Update Packages
-      run: zypper ref
-    - name: Install Packages
-      run: zypper --non-interactive --gpg-auto-import-keys install lsb-release rpm-build git tar make cmake gcc gcc-c++ gettext-tools glibc-devel libboost_headers-devel boost-devel glib2-devel glib2-tools dbus-1-devel alsa-devel libnotify-devel libgnutls-devel protobuf-devel sqlite3-devel libpulse-devel gstreamer-devel gstreamer-plugins-base-devel libxine-devel vlc-devel taglib-devel libQt5Core-devel libQt5Gui-devel libQt5Widgets-devel libQt5Concurrent-devel libQt5Network-devel libQt5Sql-devel libQt5DBus-devel libQt5Test-devel libqt5-qtx11extras-devel libqt5-qtbase-common-devel libQt5Sql5-sqlite libqt5-linguist-devel libcdio-devel libgpod-devel libplist-devel libmtp-devel libusbmuxd-devel libchromaprint-devel desktop-file-utils update-desktop-files appstream-glib hicolor-icon-theme
-    - name: Create Build Environment
-      run: mkdir -p build
-    - name: Configure CMake
-      working-directory: build
-      shell: bash
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-    - name: Build
-      working-directory: build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE
+      - uses: actions/checkout@v1.2.0
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            libxine-devel
+            vlc-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+
+
+  build_opensuse_lp151:
+    name: Build openSUSE Leap 15.1
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:15.1
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            libxine-devel
+            vlc-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_opensuse_lp152:
+    name: Build openSUSE Leap 15.2
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/leap:15.2
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            libxine-devel
+            vlc-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_opensuse_tumbleweed:
+    name: Build openSUSE Tumbleweed
+    runs-on: ubuntu-latest
+    container:
+      image: opensuse/tumbleweed
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
+      - name: Upgrade packages
+        run: zypper --non-interactive --gpg-auto-import-keys dup
+      - name: Install openSUSE dependencies
+        run: >
+            zypper --non-interactive --gpg-auto-import-keys install
+            lsb-release
+            rpm-build
+            git
+            tar
+            make
+            cmake
+            gcc
+            gcc-c++
+            gettext-tools
+            glibc-devel
+            libboost_headers-devel
+            boost-devel
+            glib2-devel
+            glib2-tools
+            dbus-1-devel
+            alsa-devel
+            libnotify-devel
+            libgnutls-devel
+            protobuf-devel
+            sqlite3-devel
+            libpulse-devel
+            gstreamer-devel
+            gstreamer-plugins-base-devel
+            libxine-devel
+            vlc-devel
+            libQt5Core-devel
+            libQt5Gui-devel
+            libQt5Widgets-devel
+            libQt5Concurrent-devel
+            libQt5Network-devel
+            libQt5Sql-devel
+            libQt5DBus-devel
+            libQt5Test-devel
+            libqt5-qtx11extras-devel
+            libqt5-qtbase-common-devel
+            libQt5Sql5-sqlite
+            libqt5-linguist-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libmtp-devel
+            libusbmuxd-devel
+            libchromaprint-devel
+            desktop-file-utils
+            update-desktop-files
+            appstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_fedora_32:
+    name: Build Fedora 32
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:32
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Update packages
+        run: yum update --assumeyes
+
+      - name: Upgrade packages
+        run: yum upgrade --assumeyes
+
+      - name: Install Fedora dependencies
+        run: >
+            dnf install --assumeyes
+            @development-tools
+            redhat-lsb-core
+            git
+            glibc
+            gcc-c++
+            rpmdevtools
+            make
+            cmake
+            pkgconfig
+            glib
+            man
+            tar
+            gettext
+            openssh
+            boost-devel
+            dbus-devel
+            protobuf-devel
+            protobuf-compiler
+            sqlite-devel
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            libnotify-devel
+            gnutls-devel
+            qt5-devel
+            qt5-qtbase-devel
+            qt5-qtx11extras-devel
+            qt5-qttools-devel
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+            taglib-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libusbmuxd-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw-devel
+            desktop-file-utils
+            libappstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_fedora_33:
+    name: Build Fedora 33
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:33
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Update packages
+        run: yum update --assumeyes
+
+      - name: Upgrade packages
+        run: yum upgrade --assumeyes
+
+      - name: Install Fedora dependencies
+        run: >
+            dnf install --assumeyes
+            @development-tools
+            redhat-lsb-core
+            git
+            glibc
+            gcc-c++
+            rpmdevtools
+            make
+            cmake
+            pkgconfig
+            glib
+            man
+            tar
+            gettext
+            openssh
+            boost-devel
+            dbus-devel
+            protobuf-devel
+            protobuf-compiler
+            sqlite-devel
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            libnotify-devel
+            gnutls-devel
+            qt5-qtbase-devel
+            qt5-qtx11extras-devel
+            qt5-qttools-devel
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+            taglib-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libusbmuxd-devel
+            libmtp-devel
+            libchromaprint-devel
+            fftw-devel
+            desktop-file-utils
+            libappstream-glib
+            hicolor-icon-theme
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_centos_8:
+    name: Build CentOS 8
+    runs-on: ubuntu-latest
+    container:
+      image: centos:8
+    env:
+      RPM_BUILD_NCPUS: "2"
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Install epel-release
+        run: dnf install -y epel-release
+      - name: Install epel-release-latest-8.noarch.rpm
+        run: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+      - name:  Install config-manager
+        run: dnf install -y 'dnf-command(config-manager)'
+      - name: Enable PowerTools
+        run: dnf config-manager --set-enabled PowerTools
+      - name: DNF Clean All
+        run: dnf clean all
+      - name: DNF Update
+        run: dnf update -y
+
+      - name: Install CentOS dependencies
+        run: >
+            dnf install -y
+            glibc
+            gcc-c++
+            make
+            libtool
+            cmake3
+            rpmdevtools
+            redhat-lsb-core
+            git
+            wget
+            curl
+            man
+            tar
+            gettext
+            boost-devel
+            fuse-devel
+            dbus-devel
+            libnotify-devel
+            gnutls-devel
+            sqlite-devel
+            protobuf-devel
+            protobuf-compiler
+            alsa-lib-devel
+            pulseaudio-libs-devel
+            qt5-devel
+            qt5-qtbase-devel
+            qt5-qtx11extras-devel
+            qt5-qttools-devel
+            fftw-devel
+            libchromaprint-devel
+            libcdio-devel
+            libgpod-devel
+            libplist-devel
+            libusbmuxd-devel
+            libmtp-devel
+            libjpeg-devel
+            cairo-devel
+            dbus-x11
+            xorg-x11-server-Xvfb
+            xorg-x11-xauth
+            vim-common
+            desktop-file-utils
+            libappstream-glib
+            appstream-data
+            hicolor-icon-theme
+            gstreamer1-devel
+            gstreamer1-plugins-base-devel
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_mageia_7:
+    name: Build Mageia 7
+    runs-on: ubuntu-latest
+    container:
+      image: mageia:7
+    steps:
+      - uses: actions/checkout@v1.2.0
+
+      - name: Add extra media
+        run: urpmi.addmedia --distrib http://www.mirrorservice.org/sites/mageia.org/pub/mageia/distrib/7/x86_64
+
+      - name: Update packages
+        run: urpmi.update -a
+
+      - name: Configure auto update
+        run: urpmi --auto-update
+
+      - name: Install Mageia dependencies
+        run: >
+            urpmi --force
+            urpmi-debuginfo-install
+            git
+            tar
+            rpmdevtools
+            make
+            cmake
+            glibc
+            binutils
+            gcc-c++
+            man
+            gettext
+            notification-daemon
+            dbus-devel
+            libgnutls-devel
+            lib64boost-devel
+            lib64protobuf-devel
+            protobuf-compiler
+            lib64sqlite3-devel
+            lib64alsa2-devel
+            lib64pulseaudio-devel
+            lib64notify-devel
+            lib64qt5core-devel
+            lib64qt5gui-devel
+            lib64qt5widgets-devel
+            lib64qt5network-devel
+            lib64qt5concurrent-devel
+            lib64qt5sql-devel
+            lib64qt5dbus-devel
+            lib64qt5x11extras-devel
+            lib64qt5help-devel
+            libqt5test-devel
+            lib64gstreamer1.0-devel
+            lib64gstreamer-plugins-base1.0-devel
+            lib64cdio-devel
+            lib64gpod-devel
+            lib64plist-devel
+            lib64usbmuxd-devel
+            lib64mtp-devel
+            lib64raw1394-devel
+            lib64chromaprint-devel
+            libfftw-devel
+            desktop-file-utils
+            appstream-util
+            libappstream-glib8
+            hicolor-icon-theme
+            qt5ct
+            lib64mesaegl1
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Create source tarball
+        working-directory: build
+        run: ../dist/scripts/maketarball.sh
+      - name: Create RPM build sources directories
+        working-directory: build
+        run: mkdir -p ~/rpmbuild/SOURCES /usr/src/packages/SOURCES
+      - name: Copy source tarball
+        working-directory: build
+        run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
+      - name: Build RPM
+        working-directory: build
+        run: rpmbuild -ba ../dist/unix/strawberry.spec
+
+
+  build_debian_stretch:
+    name: Build Debian Stretch
+    runs-on: ubuntu-latest
+    container:
+      image: debian:stretch
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Debian dependencies
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            gcc
+            pkg-config
+            fakeroot
+            gettext
+            lsb-release
+            libglib2.0-dev
+            dpkg-dev
+            libdbus-1-dev
+            libboost-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_debian_buster:
+    name: Build Debian Buster
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Debian dependencies
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            gcc
+            pkg-config
+            fakeroot
+            gettext
+            lsb-release
+            libglib2.0-dev
+            dpkg-dev
+            libdbus-1-dev
+            libboost-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_debian_bullseye:
+    name: Build Debian Bullseye
+    runs-on: ubuntu-latest
+    container:
+      image: debian:bullseye
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Debian dependencies
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            gcc
+            pkg-config
+            fakeroot
+            gettext
+            lsb-release
+            libglib2.0-dev
+            dpkg-dev
+            libdbus-1-dev
+            libboost-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_ubuntu_bionic:
+    name: Build Ubuntu Bionic
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:bionic
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Ubuntu dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_ubuntu_eoan:
+    name: Build Ubuntu Eoan
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:eoan
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Ubuntu dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_ubuntu_focal:
+    name: Build Ubuntu Focal
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:focal
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Ubuntu dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
+
+  build_ubuntu_groovy:
+    name: Build Ubuntu Groovy
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:groovy
+    steps:
+      - uses: actions/checkout@v1.2.0
+      - name: Install Ubuntu dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: >
+            apt-get update && apt-get install -y
+            build-essential
+            ssh
+            git
+            make
+            cmake
+            pkg-config
+            gcc
+            fakeroot
+            wget
+            curl
+            gettext
+            lsb-release
+            dpkg-dev
+            libglib2.0-dev
+            libboost-dev
+            libdbus-1-dev
+            libprotobuf-dev
+            protobuf-compiler
+            libsqlite3-dev
+            libgnutls28-dev
+            libasound2-dev
+            libpulse-dev
+            qtbase5-dev
+            qtbase5-dev-tools
+            qtbase5-private-dev
+            libqt5x11extras5-dev
+            qttools5-dev
+            libgstreamer1.0-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer-plugins-good1.0-dev
+            gstreamer1.0-alsa
+            gstreamer1.0-pulseaudio
+            libchromaprint-dev
+            libfftw3-dev
+            libcdio-dev
+            libmtp-dev
+            libgpod-dev
+            libimobiledevice-dev
+            libplist-dev
+            libusbmuxd-dev
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: make deb
+        shell: bash
+        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+
 
   build-macos:
+    name: Build macOS
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Unlink python
-      run: brew unlink python@2
-    - name: Install Packages
-      run: brew install glib pkgconfig boost libffi protobuf protobuf-c qt gettext gnutls fftw sqlite chromaprint gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav libcdio libmtp libimobiledevice libplist create-dmg taglib
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
-    - name: Configure CMake
-      env:
-        Qt5_DIR: /usr/local/opt/qt5/lib/cmake
-        Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=ON
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE
-    - name: Install
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: make install
+      - uses: actions/checkout@v1.2.0
+      - name: Unlink python
+        run: brew unlink python@2
+      - name: Install packages
+        run: >
+          brew install
+          glib
+          pkgconfig
+          boost
+          libffi
+          protobuf
+          protobuf-c
+          qt
+          gettext
+          gnutls
+          fftw
+          sqlite
+          chromaprint
+          gstreamer
+          gst-plugins-base
+          gst-plugins-good
+          gst-plugins-bad
+          gst-plugins-ugly
+          gst-libav
+          libcdio
+          libmtp
+          libimobiledevice
+          libplist
+          create-dmg
+          taglib
+
+      - name: Create Build Environment
+        shell: bash
+        run: cmake -E make_directory build
+      - name: Configure CMake
+        shell: bash
+        env:
+          PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+          Qt5_DIR: /usr/local/opt/qt5/lib/cmake
+          Qt5LinguistTools_DIR: /usr/local/opt/qt5/lib/cmake/Qt5LinguistTools
+          GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
+          GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
+        working-directory: build
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=ON
+      - name: Build
+        working-directory: build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
+      - name: Install
+        working-directory: build
+        shell: bash
+        run: make install
+      #- name: Create DMG
+      #  working-directory: build
+      #  shell: bash
+      #  run: make dmg
