@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #include <QWidget>
 #include <QAbstractItemModel>
 #include <QFileInfo>
@@ -72,6 +74,8 @@ QList<QUrl> FileViewList::UrlListFromSelection() const {
     if (index.column() == 0)
       urls << QUrl::fromLocalFile(static_cast<QFileSystemModel*>(model())->fileInfo(index).canonicalFilePath());
   }
+  std::sort(urls.begin(), urls.end());
+
   return urls;
 
 }
@@ -82,6 +86,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   mimedata->setUrls(UrlListFromSelection());
 
   QList<QString> filenames = FilenamesFromSelection();
+
   // if just one folder selected - use it's path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {
     if (filenames.first().length() > 20) {
