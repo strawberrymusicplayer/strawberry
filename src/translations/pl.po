@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-26 04:34-0400\n"
+"PO-Revision-Date: 2020-06-02 08:03-0400\n"
 "Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -3535,7 +3535,7 @@ msgstr "Scrobbler"
 #: scrobbler/scrobblingapi20.cpp:990
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Błąd scrobblera %1: %2"
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3723,7 +3723,7 @@ msgstr "Pokazuj wszystkie utwory"
 
 #: ../build/src/ui_scrobblersettingspage.h:327
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "Pokazuj okna z błędami"
 
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
