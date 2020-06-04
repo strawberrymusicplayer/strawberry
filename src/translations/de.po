@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-04-08 08:37-0400\n"
+"PO-Revision-Date: 2020-06-04 07:41-0400\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -122,7 +122,7 @@ msgstr " ms"
 #: ../build/src/ui_contextsettingspage.h:432
 #: ../build/src/ui_contextsettingspage.h:437
 msgid " pt"
-msgstr ""
+msgstr ".pt"
 
 #: ../build/src/ui_behavioursettingspage.h:291
 msgid " s"
@@ -176,12 +176,12 @@ msgstr "vor %1 Tagen"
 #: settings/coverssettingspage.cpp:134
 #, qt-format
 msgid "%1 does not need authentication."
-msgstr ""
+msgstr "%1 braucht keine Authentifizierung."
 
 #: settings/coverssettingspage.cpp:129
 #, qt-format
 msgid "%1 needs authentication."
-msgstr ""
+msgstr "%1 muss sich authentifizieren."
 
 #: playlistparsers/playlistparser.cpp:110
 #, qt-format
@@ -520,7 +520,7 @@ msgstr "&Ordner hinzufügen..."
 
 #: ../build/src/ui_addstreamdialog.h:77
 msgid "Add Stream"
-msgstr ""
+msgstr "Datenstrom hinzufügen"
 
 #: ../build/src/ui_contextsettingspage.h:408
 #: ../build/src/ui_notificationssettingspage.h:456
@@ -646,7 +646,7 @@ msgstr "Titelerscheinungsjahr hinzufügen"
 
 #: ../build/src/ui_mainwindow.h:712
 msgid "Add stream..."
-msgstr ""
+msgstr "Datenstrom hinzufügen..."
 
 #: internet/internetsearchview.cpp:319
 msgid "Add to albums"
@@ -739,7 +739,7 @@ msgstr "Album-Interpret"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "Album cover pixmap cache"
-msgstr ""
+msgstr "Alben Titelbilder Cache"
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
@@ -928,7 +928,7 @@ msgstr "Legitimierung fehlgeschlagen"
 
 #: dialogs/about.cpp:152
 msgid "Author and maintainer"
-msgstr ""
+msgstr "Autor und Betreuer"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:226
 msgid "Auto"
@@ -948,11 +948,11 @@ msgstr "Im Bibliotheksbaum automatisch Einzelkategorien öffnen"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "Automatisch nach Titelbildern suchen"
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "Automatisch nach Liedtexten suchen"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
@@ -1127,11 +1127,12 @@ msgstr "Schriftart wählen …"
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
+msgstr "Wähle die Anbieter aus, die du für die Titelbildsuche nutzen willst. "
 
 #: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
+"Wähle die Anbieter aus, die du für die Suche nach Liedtexten nutzen willst. "
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1393,11 +1394,11 @@ msgstr "Das Titelbild wurde von %1 eingestellt"
 
 #: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
-msgstr ""
+msgstr "Anbieter für Titelbilder"
 
 #: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
-msgstr ""
+msgstr "Titelbilder"
 
 #: covermanager/albumcoversearcher.cpp:127
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1479,7 +1480,7 @@ msgstr "Strg+Oben"
 
 #: ../build/src/ui_collectionsettingspage.h:434
 msgid "Current disk cache in use:"
-msgstr ""
+msgstr "Aktuell wird dieser Cache genutzt:"
 
 #: equalizer/equalizer.cpp:137
 msgid "Custom"
@@ -1802,7 +1803,7 @@ msgstr "Sammlung durchsuchen"
 
 #: ../build/src/ui_addstreamdialog.h:78
 msgid "Enter the URL of a stream:"
-msgstr ""
+msgstr "Gebe die URL eines Datenstromes ein:"
 
 #: playlist/playlistlistcontainer.cpp:195
 msgid "Enter the name of the folder"
@@ -1857,15 +1858,15 @@ msgstr "Fehler beim Laden der Audio-CD"
 
 #: device/cddasongloader.cpp:114 device/cddasongloader.cpp:123
 msgid "Error while querying CDDA tracks."
-msgstr ""
+msgstr "Fehler beim Abfragen von CDDA-Titeln."
 
 #: device/cddasongloader.cpp:102
 msgid "Error while setting CDDA device to pause state."
-msgstr ""
+msgstr "Fehler beim Einstellen des CDDA-Geräts in den Pausenzustand."
 
 #: device/cddasongloader.cpp:94
 msgid "Error while setting CDDA device to ready state."
-msgstr ""
+msgstr "Fehler beim Einstellen des CDDA-Geräts in die Bereitschaft. "
 
 #: ../build/src/ui_backendsettingspage.h:471
 msgid "Except between tracks on the same album or in the same CUE sheet"
@@ -2047,20 +2048,20 @@ msgstr "Titelbild an Breite anpassen"
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_contextsettingspage.h:435
 msgid "Font"
-msgstr ""
+msgstr "Schriftart"
 
 #: ../build/src/ui_contextsettingspage.h:434
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "Schriftart für Daten und Liedtexte"
 
 #: ../build/src/ui_contextsettingspage.h:429
 msgid "Font for headline"
-msgstr ""
+msgstr "Schriftart für die Überschrift"
 
 #: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Font size"
-msgstr ""
+msgstr "Schriftgröße"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2135,7 +2136,7 @@ msgstr "Allgemeine Einstellungen"
 
 #: lyrics/geniuslyricsprovider.cpp:126
 msgid "Genius Authentication"
-msgstr ""
+msgstr "Genius Authentifizierung"
 
 #: collection/savedgroupingmanager.cpp:99 playlist/playlist.cpp:1184
 #: organise/organisedialog.cpp:109 ../build/src/ui_groupbydialog.h:134
@@ -2311,6 +2312,8 @@ msgid ""
 "If you like this Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Wenn Ihnen Strawberry gefällt und Sie es nutzen können, sollten Sie sponsern "
+"oder spenden."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2360,11 +2363,11 @@ msgstr "Integritätsprüfung"
 
 #: ../build/src/ui_internetsearchview.h:224
 msgid "Internet Search View"
-msgstr ""
+msgstr "Internet Suchansicht"
 
 #: ../build/src/ui_internettabsview.h:115
 msgid "Internet Tabs View"
-msgstr ""
+msgstr "Internet Registerkartenansicht"
 
 #: widgets/osd.cpp:267 ../build/src/ui_playlistsequence.h:115
 msgid "Intro tracks"
@@ -2379,6 +2382,8 @@ msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
 msgstr ""
+"Es ist ein Fork von Clementine, die 2018 veröffentlicht wurde und sich an "
+"Musiksammler und Audiophile richtet."
 
 #: ../build/src/ui_behavioursettingspage.h:266
 msgid "Jump to previous song right away"
@@ -2544,7 +2549,7 @@ msgstr "Songtexte"
 
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
-msgstr ""
+msgstr "Anbieter für Songtexte"
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2601,7 +2606,7 @@ msgstr "Mindestpufferfüllung"
 
 #: settings/tidalsettingspage.cpp:162
 msgid "Missing API token, username or password."
-msgstr ""
+msgstr "API Zeichen fehlt, Nutzername oder Passwort."
 
 #: subsonic/subsonicurlhandler.cpp:45
 msgid "Missing Subsonic username or password."
@@ -2611,23 +2616,23 @@ msgstr "Subsonic Benutzername oder Passwort fehlt"
 #: tidal/tidalservice.cpp:848 tidal/tidalservice.cpp:913
 #: tidal/tidalservice.cpp:973 tidal/tidalstreamurlrequest.cpp:89
 msgid "Missing Tidal API token, username or password."
-msgstr ""
+msgstr "Tidal API Zeichen fehlt, Nutzername oder Passwort."
 
 #: tidal/tidalservice.cpp:693
 msgid "Missing Tidal API token."
-msgstr ""
+msgstr "Tidal API Zeichen fehlt."
 
 #: settings/tidalsettingspage.cpp:155
 msgid "Missing Tidal client ID."
-msgstr ""
+msgstr "Tidal Kunden ID fehlt."
 
 #: tidal/tidalservice.cpp:701
 msgid "Missing Tidal password."
-msgstr ""
+msgstr "Tidal Passwort fehlt. "
 
 #: tidal/tidalservice.cpp:697
 msgid "Missing Tidal username."
-msgstr ""
+msgstr "Tidal Benutzername fehlt."
 
 #: settings/subsonicsettingspage.cpp:103
 msgid "Missing server url, username or password."
@@ -2749,7 +2754,7 @@ msgstr "Keine langen Blöcke"
 
 #: tidal/tidalrequest.cpp:1248
 msgid "No match."
-msgstr ""
+msgstr "Keine Übereinstimmung."
 
 #: playlist/playlistcontainer.cpp:388
 msgid ""
@@ -2760,7 +2765,7 @@ msgstr ""
 
 #: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
-msgstr ""
+msgstr "Kein Anbieter ausgewählt. "
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -2792,12 +2797,14 @@ msgstr "Normaler Blocktyp"
 msgid ""
 "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr ""
+"Nicht bei Tidal authentifiziert und maximale Anzahl von Anmeldeversuchen "
+"erreicht."
 
 #: tidal/tidalservice.cpp:727 tidal/tidalservice.cpp:786
 #: tidal/tidalservice.cpp:843 tidal/tidalservice.cpp:908
 #: tidal/tidalservice.cpp:969 tidal/tidalstreamurlrequest.cpp:85
 msgid "Not authenticated with Tidal."
-msgstr ""
+msgstr "Nicht bei Tidal authentifiziert."
 
 #: device/deviceview.cpp:130
 msgid "Not connected"
@@ -3231,10 +3238,12 @@ msgstr ""
 #: lyrics/geniuslyricsprovider.cpp:203
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
+"Bei der Umleitung von Genius fehlt der Code oder Status der abgefragten "
+"Elemente."
 
 #: covermanager/spotifycoverprovider.cpp:192
 msgid "Redirect missing token code or state!"
-msgstr ""
+msgstr "Umleitung Zeichen Code oder Status fehlen!"
 
 #: lyrics/geniuslyricsprovider.cpp:150 scrobbler/listenbrainzscrobbler.cpp:200
 msgid "Redirect missing token code!"
@@ -3295,7 +3304,7 @@ msgstr "Wiedergabeliste entfernen"
 
 #: ../build/src/ui_organisedialog.h:274
 msgid "Remove problematic characters from filenames"
-msgstr ""
+msgstr "Entferne problematische Zeichen von Dateinamen"
 
 #: playlist/playlisttabbar.cpp:173
 msgid "Rename playlist"
@@ -3353,7 +3362,7 @@ msgstr "Replay Gain"
 
 #: tidal/tidalservice.cpp:359
 msgid "Reply from Tidal is missing query items."
-msgstr ""
+msgstr "Bei der Antwort von Tidal fehlen Abfrageelemente."
 
 #: collection/collectionview.cpp:341
 msgid "Rescan song(s)"
@@ -3408,12 +3417,12 @@ msgstr "Empfange Albencover für %1 Alben"
 #: tidal/tidalrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
-msgstr ""
+msgstr "Empfange Alben von %1 Künstler..."
 
 #: tidal/tidalrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
-msgstr ""
+msgstr "Empfange Alben von %1 Künstlern..."
 
 #: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
@@ -3421,7 +3430,7 @@ msgstr "Empfange Alben..."
 
 #: tidal/tidalrequest.cpp:157
 msgid "Retrieving artists..."
-msgstr ""
+msgstr "Empfange Künstler..."
 
 #: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
@@ -3435,7 +3444,7 @@ msgstr "Empfange Lieder für %1 Alben..."
 
 #: tidal/tidalrequest.cpp:245
 msgid "Retrieving songs..."
-msgstr ""
+msgstr "Empfange Lieder..."
 
 #: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
@@ -3549,7 +3558,7 @@ msgstr "Scrobbler"
 #: scrobbler/scrobblingapi20.cpp:990
 #, qt-format
 msgid "Scrobbler %1 error: %2"
-msgstr ""
+msgstr "Scrobbler %1 Fehler: %2"
 
 #: scrobbler/scrobblingapi20.cpp:528
 #, qt-format
@@ -3573,7 +3582,7 @@ msgstr "Automatisch suchen"
 
 #: ../build/src/ui_tidalsettingspage.h:327
 msgid "Search delay"
-msgstr ""
+msgstr "Suche verzögert"
 
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
@@ -3586,7 +3595,7 @@ msgstr "Nach diesem suchen"
 #: tidal/tidalrequest.cpp:289 tidal/tidalrequest.cpp:303
 #: tidal/tidalrequest.cpp:317
 msgid "Searching..."
-msgstr ""
+msgstr "Suche..."
 
 #: collection/savedgroupingmanager.cpp:57
 msgid "Second Level"
@@ -3739,7 +3748,7 @@ msgstr "Alle Titel anzeigen"
 
 #: ../build/src/ui_scrobblersettingspage.h:327
 msgid "Show dialog for errors"
-msgstr ""
+msgstr "Dialogfeld für Fehler anzeigen"
 
 #: ../build/src/ui_collectionsettingspage.h:420
 msgid "Show dividers"
@@ -3796,7 +3805,7 @@ msgstr "Zeige den Knopf fürs Scrobbeln"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
-msgstr ""
+msgstr "Seitenleiste anzeigen"
 
 #: context/contextview.cpp:334
 msgid "Show song lyrics"
@@ -3903,7 +3912,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:331
 msgid "Songs search limit"
-msgstr ""
+msgstr "Liedersuche Limit"
 
 #: ../build/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
@@ -3919,7 +3928,7 @@ msgstr "Speex"
 
 #: covermanager/spotifycoverprovider.cpp:146
 msgid "Spotify Authentication"
-msgstr ""
+msgstr "Spotify Authentifizierung"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:200
 msgid "Standard"
@@ -4001,6 +4010,8 @@ msgid ""
 "Strawberry is free software released under GPL. The source code is available "
 "on %1"
 msgstr ""
+"Strawberry ist eine kostenlose Software, die unter der GPL veröffentlicht "
+"wird. Der Quellcode ist auf% 1 verfügbar"
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -4008,7 +4019,7 @@ msgstr "Strawberry konnte keine Ergebnisse für diese Datei finden."
 
 #: ../build/src/ui_tidalsettingspage.h:335
 msgid "Stream URL method"
-msgstr ""
+msgstr "Datenstrom URL Methode"
 
 #: settings/settingsdialog.cpp:156
 msgid "Streaming"
@@ -4248,13 +4259,16 @@ msgstr "Diese Geräteart wird nicht unterstützt: %1"
 
 #: core/mainwindow.cpp:291 ../build/src/ui_tidalsettingspage.h:315
 msgid "Tidal"
-msgstr ""
+msgstr "Tidal"
 
 #: ../build/src/ui_tidalsettingspage.h:317
 msgid ""
 "Tidal support is not official and requires a API token from a registered "
 "application to work. We can't help you getting these."
 msgstr ""
+"Der Tidal-Support ist nicht offiziell und erfordert ein API-Token aus einer "
+"registrierten Anwendung, um zu funktionieren. Wir können Ihnen nicht helfen, "
+"diese zu bekommen."
 
 #: ../build/src/ui_behavioursettingspage.h:290
 msgid "Time step"
@@ -4422,7 +4436,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:319
 msgid "Use OAuth"
-msgstr ""
+msgstr "Benutze OAuth"
 
 #: ../build/src/ui_backendsettingspage.h:458
 msgid "Use Replay Gain metadata if it is available"
@@ -4430,7 +4444,7 @@ msgstr "Replay Gain Metadaten benutzen, wenn verfügbar"
 
 #: settings/coverssettingspage.cpp:122 settings/coverssettingspage.cpp:230
 msgid "Use Tidal settings to authenticate."
-msgstr ""
+msgstr "Benutze Tidal Einstellungen zum Authentifizieren. "
 
 #: ../build/src/ui_shortcutssettingspage.h:229
 msgid "Use X11's shortcut keys"
@@ -4672,6 +4686,8 @@ msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
 "through %2."
 msgstr ""
+"Sie können den Autor auf% 1 sponsern. Sie können auch eine einmalige Zahlung "
+"über% 2 vornehmen."
 
 #: core/songloader.cpp:134 core/songloader.cpp:139
 msgid "You need GStreamer for this URL."
@@ -4703,6 +4719,8 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program.  If not, see %1"
 msgstr ""
+"Sie sollten zusammen mit diesem Programm eine Kopie der GNU General Public "
+"License erhalten haben. Wenn nicht, siehe% 1"
 
 #: ../build/src/ui_behavioursettingspage.h:255
 msgid "You will need to restart Strawberry if you change the language."
@@ -4724,7 +4742,7 @@ msgstr "%n Titel hinzufügen"
 
 #: ../build/src/ui_internetsearchview.h:227
 msgid "albums"
-msgstr ""
+msgstr "Alben\n"
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
@@ -4732,7 +4750,7 @@ msgstr "Künstler"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "artists"
-msgstr ""
+msgstr "Künstler"
 
 #: ../build/src/ui_transcoderoptionsspeex.h:218
 msgid "automatic"
@@ -4766,7 +4784,7 @@ msgstr "Verschiebe %n Titel"
 
 #: ../build/src/ui_tidalsettingspage.h:328
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: core/commandlineoptions.cpp:162
 msgid "options"
@@ -4793,7 +4811,7 @@ msgstr "Titel mischen"
 
 #: ../build/src/ui_internetsearchview.h:228
 msgid "songs"
-msgstr ""
+msgstr "Lieder"
 
 #: playlist/playlistundocommands.cpp:128
 msgid "sort songs"
