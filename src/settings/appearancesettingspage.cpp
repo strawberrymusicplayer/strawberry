@@ -346,6 +346,8 @@ void AppearanceSettingsPage::TabBarSystemColor(bool checked) {
   ui_->layout_tabbar_color->setEnabled(!checked);
   ui_->select_tabbar_color->setEnabled(!checked);
 
+  set_changed();
+
 }
 
 void AppearanceSettingsPage::TabBarSelectBGColor() {
@@ -356,5 +358,7 @@ void AppearanceSettingsPage::TabBarSelectBGColor() {
   if (!color_selected.isValid()) return;
   current_tabbar_bg_color_ = color_selected;
   UpdateColorSelectorColor(ui_->select_tabbar_color, current_tabbar_bg_color_);
+
+  set_changed();
 
 }
