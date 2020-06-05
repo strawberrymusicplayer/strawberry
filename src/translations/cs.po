@@ -1654,7 +1654,7 @@ msgstr "Stahovat obaly alb"
 msgid "Downloading metadata"
 msgstr "Stahují se popisná data"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Tažením přemístěte"
 
@@ -2799,7 +2799,7 @@ msgstr "Právě se přehrává"
 msgid "O&verwrite all"
 msgstr "Přeps&at vše"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Náhled OSD"
 

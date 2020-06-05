@@ -1665,7 +1665,7 @@ msgstr "Pobieraj okładki albumów"
 msgid "Downloading metadata"
 msgstr "Pobieranie metadanych"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Przeciągnij, aby zmienić pozycję"
 
@@ -2810,7 +2810,7 @@ msgstr "Teraz odtwarzane"
 msgid "O&verwrite all"
 msgstr "Nadp&isz wszystkie"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Podgląd menu ekranowego (OSD)"
 

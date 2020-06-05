@@ -1635,7 +1635,7 @@ msgstr "앨범 표지 다운로드 중"
 msgid "Downloading metadata"
 msgstr "메타데이터 다운로드 중"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "위치를 바꾸려면 드래그하십시오"
 
@@ -2760,7 +2760,7 @@ msgstr "지금 재생 중"
 msgid "O&verwrite all"
 msgstr "모두 덮어쓰기(&V)"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "OSD 미리 보기"
 

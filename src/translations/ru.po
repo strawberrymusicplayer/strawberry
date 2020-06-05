@@ -1671,7 +1671,7 @@ msgstr "Скачать обложки альбомов"
 msgid "Downloading metadata"
 msgstr "Загрузка метаданных"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Тащите для перемещения"
 
@@ -2807,7 +2807,7 @@ msgstr "Сейчас проигрывается"
 msgid "O&verwrite all"
 msgstr "&Перезаписать все"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Предпросмотр OSD"
 

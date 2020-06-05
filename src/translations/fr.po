@@ -1696,7 +1696,7 @@ msgstr "Télécharger des pochettes d'albums"
 msgid "Downloading metadata"
 msgstr "Téléchargement des métadonnées"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Déplacer pour repositionner"
 
@@ -2847,7 +2847,7 @@ msgstr "Lecture en cours"
 msgid "O&verwrite all"
 msgstr "To&ut écraser"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Prévisualisation de l'affichage à l'écran (OSD)"
 

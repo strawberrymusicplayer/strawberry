@@ -1660,7 +1660,7 @@ msgstr "Albumborítók letöltése"
 msgid "Downloading metadata"
 msgstr "Metaadatok letöltése"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Húzza el az áthelyezéshez"
 
@@ -2800,7 +2800,7 @@ msgstr "Most játszott"
 msgid "O&verwrite all"
 msgstr "&Összes felülírása"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "OSD Előnézet"
 

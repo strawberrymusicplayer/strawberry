@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-04 07:41-0400\n"
+"PO-Revision-Date: 2020-06-04 10:39-0400\n"
 "Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1686,7 +1686,7 @@ msgstr "Titelbilder herunterladen"
 msgid "Downloading metadata"
 msgstr "Metadaten werden heruntergeladen "
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Klicken und ziehen um die Position zu ändern"
 
@@ -1981,7 +1981,7 @@ msgstr "Abrufen des Titelbildes ist fehlgeschlagen"
 #: core/song.cpp:1019
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
-msgstr "Datei %1 kann nicht als korrekte Audio datei erkannt werden."
+msgstr "Datei %1 kann nicht als korrekte Audiodatei erkannt werden."
 
 #: organise/organisedialog.cpp:115
 msgid "File extension"
@@ -2162,11 +2162,11 @@ msgstr "%1 Titelbilder von %2 wurden gefunden (%3 fehlgeschlagen)"
 
 #: ../build/src/ui_playlistsettingspage.h:153
 msgid "Grey out unavailable songs in playlists on playback"
-msgstr "Ausgrauen von Lieder die nicht verfügbar sind während des abspielens"
+msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Abspielens"
 
 #: ../build/src/ui_playlistsettingspage.h:154
 msgid "Grey out unavailable songs in playlists on startup"
-msgstr "Ausgrauen von Lieder die nicht verfügbar sind während des startens"
+msgstr "Ausgrauen von Lieder, die nicht verfügbar sind während des Startens"
 
 #: ../build/src/ui_groupbydialog.h:123
 msgid "Group Collection by..."
@@ -2831,7 +2831,7 @@ msgstr "Aktueller Musiktitel"
 msgid "O&verwrite all"
 msgstr "O&alles überschreiben"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Vorschau der Bildschirmanzeige"
 
@@ -3407,12 +3407,12 @@ msgstr "Wiedergabe beim Start fortsetzten"
 #: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1084
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr "Empfange Albumcover für %1 Album "
+msgstr "Empfange Albumcover für %1 Album... "
 
 #: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "Empfange Albencover für %1 Alben"
+msgstr "Empfange Albencover für %1 Alben..."
 
 #: tidal/tidalrequest.cpp:466
 #, qt-format
@@ -4011,7 +4011,7 @@ msgid ""
 "on %1"
 msgstr ""
 "Strawberry ist eine kostenlose Software, die unter der GPL veröffentlicht "
-"wird. Der Quellcode ist auf% 1 verfügbar"
+"wird. Der Quellcode ist auf %1 verfügbar."
 
 #: ../build/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
@@ -4791,9 +4791,8 @@ msgid "options"
 msgstr "Einstellungen"
 
 #: ../build/src/ui_backendsettingspage.h:450
-#, fuzzy
 msgid "p&lughw"
-msgstr "p&lughw"
+msgstr "p&lughw Plugin"
 
 #: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
 #, c-format, qt-plural-format

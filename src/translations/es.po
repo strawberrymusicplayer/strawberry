@@ -1675,7 +1675,7 @@ msgstr "Descargar las carátulas de los álbumes"
 msgid "Downloading metadata"
 msgstr "Descargando los metadatos"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Arrastre para reposicionar"
 
@@ -2819,7 +2819,7 @@ msgstr "En reproducción"
 msgid "O&verwrite all"
 msgstr "&Sobrescribir todo"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Previsualización del panel de información en pantalla"
 

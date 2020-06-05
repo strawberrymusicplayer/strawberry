@@ -1646,7 +1646,7 @@ msgstr "Last ned album kover"
 msgid "Downloading metadata"
 msgstr "Laster ned metadata"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Dra for å endre posisjon"
 
@@ -2775,7 +2775,7 @@ msgstr "Nå spilles"
 msgid "O&verwrite all"
 msgstr "O&verskriv alle"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Forhåndsvisning av skjermbildeoverlegg"
 

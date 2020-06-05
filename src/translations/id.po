@@ -1651,7 +1651,7 @@ msgstr "Unduh sampul album"
 msgid "Downloading metadata"
 msgstr "Mengunduh metadata"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
@@ -2785,7 +2785,7 @@ msgstr "Sekarang Diputar"
 msgid "O&verwrite all"
 msgstr "T&impa semua"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Pratinjau OSD"
 

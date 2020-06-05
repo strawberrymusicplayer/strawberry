@@ -1652,7 +1652,7 @@ msgstr "Scarica le copertine dell'album"
 msgid "Downloading metadata"
 msgstr "Scaricamento metadati in corso"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "Drag to reposition"
 msgstr "Trascina per riposizionare"
 
@@ -2794,7 +2794,7 @@ msgstr "In riproduzione"
 msgid "O&verwrite all"
 msgstr "Sov&rascrivi tutto"
 
-#: settings/notificationssettingspage.cpp:66
+#: settings/notificationssettingspage.cpp:67
 msgid "OSD Preview"
 msgstr "Anteprima OSD"
 
