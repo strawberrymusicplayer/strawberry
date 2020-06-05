@@ -67,6 +67,8 @@ class NotificationsSettingsPage : public SettingsPage {
 
   void UpdatePopupVisible();
 
+  void PrettyOSDChanged();
+
  private:
   Ui_NotificationsSettingsPage *ui_;
   OSDPretty *pretty_popup_;

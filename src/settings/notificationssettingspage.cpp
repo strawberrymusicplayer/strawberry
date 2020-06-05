@@ -60,6 +60,7 @@ const char *NotificationsSettingsPage::kSettingsGroup = "Notifications";
 
 NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
     : SettingsPage(dialog), ui_(new Ui_NotificationsSettingsPage), pretty_popup_(new OSDPretty(OSDPretty::Mode_Draggable)) {
+
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load("help-hint"));
 
@@ -120,6 +121,8 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog* dialog)
   // Icons
   ui_->notifications_exp_chooser1->setIcon(IconLoader::Load("list-add"));
   ui_->notifications_exp_chooser2->setIcon(IconLoader::Load("list-add"));
+
+  connect(pretty_popup_, SIGNAL(PositionChanged()), SLOT(PrettyOSDChanged()));
 
 }
 
@@ -236,11 +239,16 @@ void NotificationsSettingsPage::Save() {
 }
 
 void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
+
   pretty_popup_->set_background_opacity(qreal(value) / 100.0);
+  set_changed();
+
 }
 
 void NotificationsSettingsPage::UpdatePopupVisible() {
+
   pretty_popup_->setVisible(isVisible() && ui_->notifications_pretty->isChecked());
+
 }
 
 void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
@@ -262,6 +270,8 @@ void NotificationsSettingsPage::PrettyColorPresetChanged(int index) {
       break;
   }
 
+  set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseBgColor() {
@@ -273,6 +283,8 @@ void NotificationsSettingsPage::ChooseBgColor() {
   pretty_popup_->set_background_color(color.rgb());
   ui_->notifications_bg_preset->setItemData(2, color, Qt::DecorationRole);
 
+  set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseFgColor() {
@@ -283,13 +295,18 @@ void NotificationsSettingsPage::ChooseFgColor() {
 
   pretty_popup_->set_foreground_color(color.rgb());
 
+  set_changed();
+
 }
 
 void NotificationsSettingsPage::ChooseFont() {
 
   bool ok;
   QFont font = QFontDialog::getFont(&ok, pretty_popup_->font(), this);
-  if (ok) pretty_popup_->set_font(font);
+  if (ok) {
+    pretty_popup_->set_font(font);
+    set_changed();
+  }
 
 }
 
@@ -354,4 +371,8 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
   ui_->notifications_duration->setEnabled(!pretty || !ui_->notifications_disable_duration->isChecked());
   ui_->notifications_disable_duration->setEnabled(pretty);
 
+}
+
+void NotificationsSettingsPage::PrettyOSDChanged() {
+  set_changed();
 }
