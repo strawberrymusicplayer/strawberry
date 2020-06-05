@@ -242,7 +242,7 @@ void GlobalShortcutsSettingsPage::GSDChanged(bool) {
 }
 void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
-  if (!QProcess::startDetached("gnome-keybinding-properties")) {
+  if (!QProcess::startDetached("gnome-keybinding-properties", QStringList())) {
     if (!QProcess::startDetached("gnome-control-center", QStringList() << "keyboard")) {
       QMessageBox::warning(this, "Error", tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"));
     }
