@@ -1267,6 +1267,7 @@ jobs:
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstspeex.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstlame.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstaiff.dll
+          /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaac.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstfaad.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstisomp4.dll
           /usr/src/strawberry-mxe/usr/x86_64-w64-mingw32.shared/bin/gstreamer-1.0/libgstasf.dll
