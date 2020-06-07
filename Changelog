@@ -2,6 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+0.6.12:
+
+  Bugfixes:
+    * Fixed height of about dialog.
+
+  Enhancements:
+    * Only save settings for pages that actually has been changed.
+    * Replaced use of deprecated Qt functionality as of 5.15.
+    * Made scrobbler show error dialog for all errors when show error dialog option is on.
+    * Dont append disc to album titles for Subsonic and Tidal.
+    * Sort folders added from file view.
+    * Changed default collection grouping to album - disc.
+
 0.6.11:
 
   Bugfixes:
