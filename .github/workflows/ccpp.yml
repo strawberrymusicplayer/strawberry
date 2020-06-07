@@ -1151,18 +1151,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1.2.0
 
-      - name: Add mingw repository
-        shell: bash
-        run:  zypper -n ar -c -f -n 'repo-mingw' https://download.opensuse.org/repositories/windows:/mingw:/win32/openSUSE_Tumbleweed/ repo-mingw
-
-      - name: Update packages
-        shell: bash
-        run:  zypper --non-interactive --gpg-auto-import-keys ref
-
-      - name: Install nsis
-        shell: bash
-        run:  zypper --non-interactive --gpg-auto-import-keys in mingw32-cross-nsis
-
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
