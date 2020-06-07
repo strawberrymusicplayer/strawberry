@@ -290,7 +290,7 @@ void CollectionFilterWidget::SetCollectionModel(CollectionModel *model) {
     s.beginGroup(settings_group_);
     model_->SetGroupBy(CollectionModel::Grouping(
         CollectionModel::GroupBy(s.value(group_by(1), int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-        CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_Album)).toInt()),
+        CollectionModel::GroupBy(s.value(group_by(2), int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
         CollectionModel::GroupBy(s.value(group_by(3), int(CollectionModel::GroupBy_None)).toInt())));
   }
 

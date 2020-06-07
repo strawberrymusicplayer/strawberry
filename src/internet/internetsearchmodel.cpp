@@ -48,7 +48,7 @@ InternetSearchModel::InternetSearchModel(InternetService *service, QObject *pare
       {
 
   group_by_[0] = CollectionModel::GroupBy_AlbumArtist;
-  group_by_[1] = CollectionModel::GroupBy_Album;
+  group_by_[1] = CollectionModel::GroupBy_AlbumDisc;
   group_by_[2] = CollectionModel::GroupBy_None;
 
   no_cover_icon_ = album_icon_.pixmap(album_icon_.availableSizes().last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);

@@ -107,7 +107,7 @@ CollectionModel::CollectionModel(CollectionBackend *backend, Application *app, Q
   root_->lazy_loaded = true;
 
   group_by_[0] = GroupBy_AlbumArtist;
-  group_by_[1] = GroupBy_Album;
+  group_by_[1] = GroupBy_AlbumDisc;
   group_by_[2] = GroupBy_None;
 
   cover_loader_options_.desired_height_ = kPrettyCoverSize;

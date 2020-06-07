@@ -241,7 +241,7 @@ void InternetSearchView::ReloadSettings() {
 
   SetGroupBy(CollectionModel::Grouping(
       CollectionModel::GroupBy(s.value("search_group_by1", int(CollectionModel::GroupBy_AlbumArtist)).toInt()),
-      CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_Album)).toInt()),
+      CollectionModel::GroupBy(s.value("search_group_by2", int(CollectionModel::GroupBy_AlbumDisc)).toInt()),
       CollectionModel::GroupBy(s.value("search_group_by3", int(CollectionModel::GroupBy_None)).toInt())));
   s.endGroup();
 
