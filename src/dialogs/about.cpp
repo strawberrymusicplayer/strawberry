@@ -95,21 +95,10 @@ About::About(QWidget *parent):QDialog(parent) {
 
   ui_.label_title->setFont(title_font);
   ui_.label_title->setText(Title);
-  ui_.label_title->adjustSize();
   ui_.label_text->setText(MainHtml());
-  ui_.label_text->adjustSize();
   ui_.text_contributors->setText(ContributorsHtml());
 
   ui_.buttonBox->button(QDialogButtonBox::Close)->setShortcut(QKeySequence::Close);
-
-}
-
-void About::showEvent(QShowEvent*) {
-
-  setMinimumHeight(0);
-  setMaximumHeight(9000);
-  adjustSize();
-  setFixedHeight(height() + 40);
 
 }
 
@@ -134,9 +123,9 @@ QString About::MainHtml() const {
   ret += "</p>";
 
   ret += "<p>";
-  ret += tr("If you like this Strawberry and can make use of it, consider sponsoring or donating.");
+  ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
   ret += "<br />";
-  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg("<a href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>.").arg("<a href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>");
+  ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg("<a href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg("<a href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>");
   ret += "</p>";
 
   return ret;

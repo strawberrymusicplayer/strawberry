@@ -32,16 +32,12 @@
 #include "ui_about.h"
 
 class QWidget;
-class QShowEvent;
 
 class About : public QDialog {
   Q_OBJECT
 
  public:
   explicit About(QWidget *parent = nullptr);
-
- protected:
-  void showEvent(QShowEvent*);
 
  private:
   struct Person {
