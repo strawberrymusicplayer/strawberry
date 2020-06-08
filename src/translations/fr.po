@@ -493,6 +493,10 @@ msgstr "Abandonner"
 msgid "Abort collection scan"
 msgstr "Abandonner l'analyse de la bibliothèque"
 
+#: ../build/src/ui_about.h:155
+msgid "About"
+msgstr ""
+
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
 msgstr "À propos de &Qt"
@@ -928,7 +932,7 @@ msgstr "Authentification"
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
-#: dialogs/about.cpp:152
+#: dialogs/about.cpp:141
 msgid "Author and maintainer"
 msgstr "Auteur et mainteneur"
 
@@ -1157,11 +1161,11 @@ msgstr "Vider le cache disque"
 msgid "Clear playlist"
 msgstr "Vider la liste de lecture"
 
-#: dialogs/about.cpp:170
+#: dialogs/about.cpp:159
 msgid "Clementine authors"
 msgstr "Auteurs de Clementine"
 
-#: dialogs/about.cpp:179
+#: dialogs/about.cpp:168
 msgid "Clementine contributors"
 msgstr "Contributeurs de Clementine"
 
@@ -1296,7 +1300,7 @@ msgstr ""
 "Passer à la piste suivante de la liste de lecture si un morceau est "
 "indisponible"
 
-#: dialogs/about.cpp:161
+#: dialogs/about.cpp:150
 msgid "Contributors"
 msgstr "Contributeurs"
 
@@ -2319,13 +2323,11 @@ msgstr ""
 "Si vous continuez, ce périphérique fonctionnera lentement et les morceaux "
 "que vous y copiez pourraient ne pas fonctionner."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:126
 msgid ""
-"If you like this Strawberry and can make use of it, consider sponsoring or "
+"If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
-"Si vous aimez ce logiciel Strawberry et que pouvez en faire usage, envisagez "
-"de sponsoriser ou de faire un don."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2389,7 +2391,7 @@ msgstr "Introduction des pistes"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Réponse invalide du navigateur. Jeton manquant."
 
-#: dialogs/about.cpp:127
+#: dialogs/about.cpp:116
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -4012,12 +4014,12 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry peut afficher un message lors des changements de pistes."
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 "Strawberry est un lecteur audio et un organisateur de collections musicales."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4126,11 +4128,11 @@ msgstr "Test réussi !"
 msgid "Text options"
 msgstr "Options du texte"
 
-#: dialogs/about.cpp:188
+#: dialogs/about.cpp:177
 msgid "Thanks to"
 msgstr "Remerciements à"
 
-#: dialogs/about.cpp:196
+#: dialogs/about.cpp:185
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Remerciements à tous les autres contributeurs d'Amarok et Clementine."
 
@@ -4558,7 +4560,7 @@ msgstr "Compilations d'artistes"
 msgid "Verify server certificate"
 msgstr "Vérifier le certificat du serveur"
 
-#: dialogs/about.cpp:121
+#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr "Version %1"
@@ -4700,7 +4702,7 @@ msgstr ""
 "Vous pouvez changer la manière dont les morceaux de la bibliothèque sont "
 "organisés."
 
-#: dialogs/about.cpp:139
+#: dialogs/about.cpp:128
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4733,7 +4735,7 @@ msgstr ""
 "font-style:italic;\">Permettre l'accès aux dispositifs d'assistance</span> » "
 "pour utiliser l'ensemble des raccourcis de Strawberry."
 
-#: dialogs/about.cpp:133
+#: dialogs/about.cpp:122
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

@@ -469,6 +469,10 @@ msgstr "Megszakít"
 msgid "Abort collection scan"
 msgstr "Gyűjtemény ellenőrzésének megszakítása"
 
+#: ../build/src/ui_about.h:155
+msgid "About"
+msgstr ""
+
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
 msgstr "A &Qt névjegye"
@@ -897,7 +901,7 @@ msgstr "Hitelesítés"
 msgid "Authentication failed"
 msgstr "A hitelesítés meghiúsult"
 
-#: dialogs/about.cpp:152
+#: dialogs/about.cpp:141
 msgid "Author and maintainer"
 msgstr "Szerző és karbantartó"
 
@@ -1125,11 +1129,11 @@ msgstr "Lemezgyorsítótár törlése"
 msgid "Clear playlist"
 msgstr "Lejátszólista törlése"
 
-#: dialogs/about.cpp:170
+#: dialogs/about.cpp:159
 msgid "Clementine authors"
 msgstr "A Clementine szerzői"
 
-#: dialogs/about.cpp:179
+#: dialogs/about.cpp:168
 msgid "Clementine contributors"
 msgstr "A Clementine közreműködői"
 
@@ -1263,7 +1267,7 @@ msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr ""
 "Folytatás a következő elemtől a lejátszólistában, ha a dal nem elérhető"
 
-#: dialogs/about.cpp:161
+#: dialogs/about.cpp:150
 msgid "Contributors"
 msgstr "Közreműködők"
 
@@ -2278,13 +2282,11 @@ msgstr ""
 "Ha folytatja, az eszköz lassan fog működni és a rá másolt számok "
 "használhatatlanok lehetnek."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:126
 msgid ""
-"If you like this Strawberry and can make use of it, consider sponsoring or "
+"If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
-"Ha tetszik a Strawberry, és ki tudja használni, fontolja meg a szponzorálást "
-"vagy az adományozást."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2348,7 +2350,7 @@ msgstr "Bevezető számok"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Érvénytelen válasz a böngészőből. Hiányzó token."
 
-#: dialogs/about.cpp:127
+#: dialogs/about.cpp:116
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3967,11 +3969,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "A Strawberry felbukkanó üzenetben tudja jelezni, ha számot vált."
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "A Strawberry egy zenelejátszó és egy zenegyűjtemény kezelő."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4080,11 +4082,11 @@ msgstr "Teszt sikeres!"
 msgid "Text options"
 msgstr "Szövegopciók"
 
-#: dialogs/about.cpp:188
+#: dialogs/about.cpp:177
 msgid "Thanks to"
 msgstr "Köszönet még"
 
-#: dialogs/about.cpp:196
+#: dialogs/about.cpp:185
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Köszönet az Amarok-hoz és a Clementine-hez hozzájárulóknak."
 
@@ -4506,7 +4508,7 @@ msgstr "Egyes előadók"
 msgid "Verify server certificate"
 msgstr "Szerver tanúsítványának ellenőrzése"
 
-#: dialogs/about.cpp:121
+#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr "Verzió: %1"
@@ -4641,7 +4643,7 @@ msgstr "Be van jelentkezve."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Megváltoztathatja a dalok gyűjteményben való rendezésének módját."
 
-#: dialogs/about.cpp:139
+#: dialogs/about.cpp:128
 #, fuzzy, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4673,7 +4675,7 @@ msgstr ""
 "italic;\">Hozzáférés a kisegítő lehetőségekhez</span>\" a globális "
 "gyorsbillentyűk használatához a Strawberry-ben."
 
-#: dialogs/about.cpp:133
+#: dialogs/about.cpp:122
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

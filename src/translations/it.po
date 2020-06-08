@@ -464,6 +464,10 @@ msgstr "Interrompi"
 msgid "Abort collection scan"
 msgstr "Annulla lo scan della collezione"
 
+#: ../build/src/ui_about.h:155
+msgid "About"
+msgstr ""
+
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
 msgstr "Circa &Qt"
@@ -892,7 +896,7 @@ msgstr "Autenticazione"
 msgid "Authentication failed"
 msgstr "Autenticazione non riuscita"
 
-#: dialogs/about.cpp:152
+#: dialogs/about.cpp:141
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1117,11 +1121,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Svuota la scaletta"
 
-#: dialogs/about.cpp:170
+#: dialogs/about.cpp:159
 msgid "Clementine authors"
 msgstr "Autori di Clementine"
 
-#: dialogs/about.cpp:179
+#: dialogs/about.cpp:168
 msgid "Clementine contributors"
 msgstr "Contributori di Clementine"
 
@@ -1255,7 +1259,7 @@ msgstr ""
 "Continua verso il prossimo elemento della playlist se una canzone non è "
 "disponibile"
 
-#: dialogs/about.cpp:161
+#: dialogs/about.cpp:150
 msgid "Contributors"
 msgstr "Contributori"
 
@@ -2274,9 +2278,9 @@ msgstr ""
 "Se continui, il dispositivo funzionerà lentamente e i brani copiati su di "
 "esso potrebbero non essere riproducibili."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:126
 msgid ""
-"If you like this Strawberry and can make use of it, consider sponsoring or "
+"If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
 
@@ -2343,7 +2347,7 @@ msgstr "Tracce di introduzione"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Risposta non valida dal browser web. Token mancante."
 
-#: dialogs/about.cpp:127
+#: dialogs/about.cpp:116
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3959,12 +3963,12 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry può mostrare un messaggio al cambiamento di traccia."
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 "Strawberry è un player musicale ed un organizzatore di collezioni musicali."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4071,11 +4075,11 @@ msgstr "Test riuscito!"
 msgid "Text options"
 msgstr "Opzioni testo"
 
-#: dialogs/about.cpp:188
+#: dialogs/about.cpp:177
 msgid "Thanks to"
 msgstr "Grazie a"
 
-#: dialogs/about.cpp:196
+#: dialogs/about.cpp:185
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Grazie a tutti gli altri contributori di Amarok e Clementine"
 
@@ -4499,7 +4503,7 @@ msgstr "Artisti vari"
 msgid "Verify server certificate"
 msgstr "Verifica il certificato del server"
 
-#: dialogs/about.cpp:121
+#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr "Versione %1"
@@ -4634,7 +4638,7 @@ msgstr "Sei registrato."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Puoi modificare l'organizzazione dei brani nella raccolta."
 
-#: dialogs/about.cpp:139
+#: dialogs/about.cpp:128
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4666,7 +4670,7 @@ msgstr ""
 "assistenza</span>\" per usare le scorciatoie da tastiera globali su "
 "Strawberry."
 
-#: dialogs/about.cpp:133
+#: dialogs/about.cpp:122
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

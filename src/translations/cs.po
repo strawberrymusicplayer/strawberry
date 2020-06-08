@@ -466,6 +466,10 @@ msgstr "Přerušit"
 msgid "Abort collection scan"
 msgstr "Zrušit aktualizaci kolekce"
 
+#: ../build/src/ui_about.h:155
+msgid "About"
+msgstr ""
+
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
 msgstr "O &Qt"
@@ -894,7 +898,7 @@ msgstr "Ověření"
 msgid "Authentication failed"
 msgstr "Ověření selhalo"
 
-#: dialogs/about.cpp:152
+#: dialogs/about.cpp:141
 msgid "Author and maintainer"
 msgstr "Autor a vedoucí"
 
@@ -1121,11 +1125,11 @@ msgstr "Vyčistit mezipaměť na disku"
 msgid "Clear playlist"
 msgstr "Vyprázdnit seznam skladeb"
 
-#: dialogs/about.cpp:170
+#: dialogs/about.cpp:159
 msgid "Clementine authors"
 msgstr "Autoři Clementine"
 
-#: dialogs/about.cpp:179
+#: dialogs/about.cpp:168
 msgid "Clementine contributors"
 msgstr "Přispěvatelé Clementine"
 
@@ -1256,7 +1260,7 @@ msgstr "Kontext"
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
 
-#: dialogs/about.cpp:161
+#: dialogs/about.cpp:150
 msgid "Contributors"
 msgstr "Přispěvatelé"
 
@@ -2276,11 +2280,11 @@ msgstr ""
 "Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj "
 "kopírované nemusí fungovat."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:126
 msgid ""
-"If you like this Strawberry and can make use of it, consider sponsoring or "
+"If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
+msgstr ""
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
@@ -2348,7 +2352,7 @@ msgstr "Skladby úvodu"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Špatná odpověď od prohlížeče. Token chybí."
 
-#: dialogs/about.cpp:127
+#: dialogs/about.cpp:116
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3969,11 +3973,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry může při změně skladby ukázat zprávu."
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4084,11 +4088,11 @@ msgstr "Test uspěl!"
 msgid "Text options"
 msgstr "Volby pro text"
 
-#: dialogs/about.cpp:188
+#: dialogs/about.cpp:177
 msgid "Thanks to"
 msgstr "Díky"
 
-#: dialogs/about.cpp:196
+#: dialogs/about.cpp:185
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
 
@@ -4507,7 +4511,7 @@ msgstr "Různí umělci"
 msgid "Verify server certificate"
 msgstr "Ověřovat certifikát serveru"
 
-#: dialogs/about.cpp:121
+#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr "Verze %1"
@@ -4643,7 +4647,7 @@ msgstr "Jste přihlášen."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Můžete změnit způsob uspořádání písní v hudební sbírce."
 
-#: dialogs/about.cpp:139
+#: dialogs/about.cpp:128
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4675,7 +4679,7 @@ msgstr ""
 "spustit Nastavení Systému a zapnout \"<span style=\" font-style:"
 "italic;\">Povolit přístup pro pomocná zařízení</span>\"."
 
-#: dialogs/about.cpp:133
+#: dialogs/about.cpp:122
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "

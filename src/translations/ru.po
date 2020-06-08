@@ -486,6 +486,10 @@ msgstr "Прервать"
 msgid "Abort collection scan"
 msgstr "Прервать сканирование коллекции"
 
+#: ../build/src/ui_about.h:155
+msgid "About"
+msgstr ""
+
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
 msgstr "О &Qt"
@@ -912,7 +916,7 @@ msgstr "Аутентификация"
 msgid "Authentication failed"
 msgstr "Ошибка аутентификации"
 
-#: dialogs/about.cpp:152
+#: dialogs/about.cpp:141
 msgid "Author and maintainer"
 msgstr ""
 
@@ -1136,11 +1140,11 @@ msgstr ""
 msgid "Clear playlist"
 msgstr "Очистить плейлист"
 
-#: dialogs/about.cpp:170
+#: dialogs/about.cpp:159
 msgid "Clementine authors"
 msgstr ""
 
-#: dialogs/about.cpp:179
+#: dialogs/about.cpp:168
 msgid "Clementine contributors"
 msgstr ""
 
@@ -1274,7 +1278,7 @@ msgstr ""
 "Переход к следующему элементу в списке воспроизведения, если песня "
 "недоступна"
 
-#: dialogs/about.cpp:161
+#: dialogs/about.cpp:150
 msgid "Contributors"
 msgstr ""
 
@@ -2289,9 +2293,9 @@ msgstr ""
 "При продолжении, устройство будет работать медленно и скопированные песни не "
 "будут работать."
 
-#: dialogs/about.cpp:137
+#: dialogs/about.cpp:126
 msgid ""
-"If you like this Strawberry and can make use of it, consider sponsoring or "
+"If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
 
@@ -2358,7 +2362,7 @@ msgstr "Вступительные треки"
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Неверный ответ от веб-браузера. Отсутствует токен."
 
-#: dialogs/about.cpp:127
+#: dialogs/about.cpp:116
 msgid ""
 "It is a fork of Clementine released in 2018 aimed at music collectors and "
 "audiophiles."
@@ -3965,11 +3969,11 @@ msgstr ""
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry может показывать уведомление при смене трека."
 
-#: dialogs/about.cpp:125
+#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 
-#: dialogs/about.cpp:131
+#: dialogs/about.cpp:120
 #, qt-format
 msgid ""
 "Strawberry is free software released under GPL. The source code is available "
@@ -4076,11 +4080,11 @@ msgstr "Тест пройден успешно!"
 msgid "Text options"
 msgstr "Свойства текста"
 
-#: dialogs/about.cpp:188
+#: dialogs/about.cpp:177
 msgid "Thanks to"
 msgstr ""
 
-#: dialogs/about.cpp:196
+#: dialogs/about.cpp:185
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
@@ -4497,7 +4501,7 @@ msgstr "Различные исполнители"
 msgid "Verify server certificate"
 msgstr "Проверить сертификат сервера"
 
-#: dialogs/about.cpp:121
+#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr ""
@@ -4633,7 +4637,7 @@ msgstr "Вы вошли в систему."
 msgid "You can change the way the songs in the collection are organised."
 msgstr "Можно изменить способ организации композиций в фонотеке."
 
-#: dialogs/about.cpp:139
+#: dialogs/about.cpp:128
 #, qt-format
 msgid ""
 "You can sponsor the author on %1. You can also make a one-time payment "
@@ -4664,7 +4668,7 @@ msgstr ""
 "style:italic;\">Включить доступ для вспомогательных устройств</span>\", "
 "чтобы использовать глобальные горячие клавиши в Strawberry."
 
-#: dialogs/about.cpp:133
+#: dialogs/about.cpp:122
 #, qt-format
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
