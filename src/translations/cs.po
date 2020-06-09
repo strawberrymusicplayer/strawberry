@@ -8,14 +8,15 @@
 # Miroslav Kucera <vvendigo@seznam.cz>, 2016
 # Pavel Fric <fripohled@blogspot.com>, 2010
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Rostislav Medvěd <rostik.medved@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-26 04:28-0400\n"
-"Last-Translator: Rostislav Medvěd <rostik.medved@gmail.com>\n"
+"PO-Revision-Date: 2020-06-09 06:02-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <="
@@ -2284,7 +2285,7 @@ msgstr ""
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr ""
+msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"

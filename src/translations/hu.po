@@ -12,14 +12,15 @@
 # Sándor Balikó <vo101sanyo@gmail.com>, 2011
 # ulysses <ulysses@kubuntu.org>, 2012
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Ács Zoltán <acszoltan111@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-05-30 01:43-0400\n"
-"Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
+"PO-Revision-Date: 2020-06-09 06:06-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2287,6 +2288,8 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Ha tetszik a Strawberry, és ki tudja használni, fontolja meg a szponzorálást "
+"vagy az adományozást."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"

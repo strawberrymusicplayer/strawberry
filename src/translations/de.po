@@ -38,13 +38,14 @@
 # Achim Schaefer <translate.zanata.org@schaefer-home.eu>, 2019. #zanata
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
 # Guido T. <GuidoTelscher@web.de>, 2020. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-04 10:39-0400\n"
-"Last-Translator: Guido T. <GuidoTelscher@web.de>\n"
+"PO-Revision-Date: 2020-06-09 06:03-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -2315,7 +2316,7 @@ msgstr ""
 msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
-msgstr ""
+msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"

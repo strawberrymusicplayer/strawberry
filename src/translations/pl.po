@@ -18,14 +18,15 @@
 # Piotr Wojcik <pwwpww@gmail.com>, 2016
 # Szymon Mróz <predek00@gmail.com>, 2013,2016
 # Jonas Kvinge <jonas@jkvinge.net>, 2019. #zanata
+# Jonas Kvinge <jonas@jkvinge.net>, 2020. #zanata
 # Piotr Orzechowski <piotr@orzechowski.tech>, 2020. #zanata
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-02 08:03-0400\n"
-"Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
+"PO-Revision-Date: 2020-06-09 06:07-0400\n"
+"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
@@ -2297,6 +2298,8 @@ msgid ""
 "If you like Strawberry and can make use of it, consider sponsoring or "
 "donating."
 msgstr ""
+"Jeśli lubisz ten program i uważasz go za użyteczny, możesz rozważyć "
+"sponsoring lub donację."
 
 #: covermanager/albumcoverchoicecontroller.cpp:67
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
