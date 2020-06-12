@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-02-15 10:36-0500\n"
+"PO-Revision-Date: 2020-06-12 05:39-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Korean\n"
 "Language: ko\n"
@@ -119,12 +119,12 @@ msgstr "앨범 %1개"
 #: context/contextview.cpp:463
 #, qt-format
 msgid "%1 artist"
-msgstr "음악가 %1명"
+msgstr "아티스트 %1명"
 
 #: context/contextview.cpp:464
 #, qt-format
 msgid "%1 artists"
-msgstr "음악가 %1명"
+msgstr "아티스트 %1명"
 
 #: equalizer/equalizerslider.cpp:42 equalizer/equalizerslider.cpp:44
 #: equalizer/equalizerslider.cpp:47 equalizer/equalizerslider.cpp:64
@@ -262,7 +262,7 @@ msgstr "기본값(&D)"
 
 #: ../build/src/ui_mainwindow.h:698
 msgid "&Do a full collection rescan"
-msgstr "전체 모음집 재탐색(&D)"
+msgstr "전체 라이브러리 재탐색(&D)"
 
 #: ../build/src/ui_mainwindow.h:671
 msgid "&Equalizer"
@@ -367,7 +367,7 @@ msgstr "음악 변환(&T)"
 
 #: ../build/src/ui_mainwindow.h:692
 msgid "&Update changed collection folders"
-msgstr "변경된 모음집 폴더 업데이트(&U)"
+msgstr "라이브러리 변경 사항 업데이트(&U)"
 
 #: ../build/src/ui_appearancesettingspage.h:395
 msgid "&Use the system default color"
@@ -457,7 +457,7 @@ msgstr "중지"
 
 #: ../build/src/ui_mainwindow.h:699
 msgid "Abort collection scan"
-msgstr "모음집 검색 중지"
+msgstr "라이브러리 검색 중지"
 
 #: ../build/src/ui_about.h:155
 msgid "About"
@@ -537,12 +537,12 @@ msgstr "앨범 태그 추가"
 #: ../build/src/ui_contextsettingspage.h:375
 #: ../build/src/ui_notificationssettingspage.h:417
 msgid "Add song albumartist tag"
-msgstr "앨범 음악가 태그 추가"
+msgstr "앨범 아티스트 태그 추가"
 
 #: ../build/src/ui_contextsettingspage.h:366
 #: ../build/src/ui_notificationssettingspage.h:408
 msgid "Add song artist tag"
-msgstr "음악가 태그 추가"
+msgstr "아티스트 태그 추가"
 
 #: ../build/src/ui_notificationssettingspage.h:453
 msgid "Add song auto score"
@@ -626,7 +626,7 @@ msgstr "다른 재생 목록에 추가"
 
 #: internet/internetsearchview.cpp:316
 msgid "Add to artists"
-msgstr "음악가에 추가"
+msgstr "아티스트에 추가"
 
 #: ../build/src/ui_albumcovermanager.h:216
 msgid "Add to playlist"
@@ -676,7 +676,7 @@ msgstr "복사한 후..."
 
 #: ../build/src/ui_appearancesettingspage.h:406
 msgid "Albu&m cover"
-msgstr "앨범 표지(&M)"
+msgstr "앨범아트(&M)"
 
 #: core/qtsystemtrayicon.cpp:259 collection/savedgroupingmanager.cpp:87
 #: playlist/playlist.cpp:1178 organise/organisedialog.cpp:98
@@ -703,7 +703,7 @@ msgstr "앨범 - 디스크"
 #: ../build/src/ui_groupbydialog.h:153 ../build/src/ui_groupbydialog.h:177
 #: ../build/src/ui_edittagdialog.h:685
 msgid "Album artist"
-msgstr "앨범 음악가"
+msgstr "앨범 아티스트"
 
 #: ../build/src/ui_collectionsettingspage.h:430
 msgid "Album cover pixmap cache"
@@ -711,7 +711,7 @@ msgstr ""
 
 #: ../build/src/ui_tidalsettingspage.h:334
 msgid "Album cover size"
-msgstr "앨범 표지 크기"
+msgstr "앨범아트 크기"
 
 #: ../build/src/ui_internettabsview.h:117
 msgid "Albums"
@@ -724,7 +724,7 @@ msgstr "%1의 앨범"
 
 #: ../build/src/ui_contextsettingspage.h:425
 msgid "Albums by Artist"
-msgstr "음악가별 앨범"
+msgstr "아티스트별 앨범"
 
 #: ../build/src/ui_tidalsettingspage.h:330
 msgid "Albums search limit"
@@ -732,11 +732,11 @@ msgstr "앨범 검색 제한"
 
 #: covermanager/albumcovermanager.cpp:165
 msgid "Albums with covers"
-msgstr "앨범 표지가 있는 앨범"
+msgstr "앨범아트가 있는 앨범"
 
 #: covermanager/albumcovermanager.cpp:166
 msgid "Albums without covers"
-msgstr "앨범 표지가 없는 앨범"
+msgstr "앨범아트가 없는 앨범"
 
 #: core/mainwindow.cpp:185
 msgid "All Files (*)"
@@ -748,7 +748,7 @@ msgstr "모든 앨범"
 
 #: covermanager/albumcovermanager.cpp:332
 msgid "All artists"
-msgstr "모든 음악가"
+msgstr "모든 아티스트"
 
 #: covermanager/albumcoverchoicecontroller.cpp:69
 msgid "All files (*)"
@@ -843,19 +843,19 @@ msgstr "이 곡의 통계를 초기화하시겠습니까?"
 #: ../build/src/ui_albumcoversearcher.h:108 ../build/src/ui_edittagdialog.h:689
 #: ../build/src/ui_trackselectiondialog.h:209
 msgid "Artist"
-msgstr "음악가"
+msgstr "아티스트"
 
 #: organise/organisedialog.cpp:100
 msgid "Artist's initial"
-msgstr "음악가 이니셜"
+msgstr "아티스트 이니셜"
 
 #: ../build/src/ui_internettabsview.h:116
 msgid "Artists"
-msgstr "음악가"
+msgstr "아티스트"
 
 #: ../build/src/ui_tidalsettingspage.h:329
 msgid "Artists search limit"
-msgstr "음악가 검색 제한"
+msgstr "아티스트 검색 제한"
 
 #: ../build/src/ui_playlistsettingspage.h:161
 msgid "As&k when saving"
@@ -907,15 +907,15 @@ msgstr "자동 업데이트 중"
 
 #: ../build/src/ui_collectionsettingspage.h:418
 msgid "Automatically open single categories in the collection tree"
-msgstr "모음집 트리의 단일 분류 자동으로 열기"
+msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
 #: ../build/src/ui_contextsettingspage.h:427
 msgid "Automatically search for album cover"
-msgstr ""
+msgstr "자동으로 앨범아트 찾기"
 
 #: context/contextview.cpp:338 ../build/src/ui_contextsettingspage.h:428
 msgid "Automatically search for song lyrics"
-msgstr ""
+msgstr "자동으로 가사 찾기"
 
 #: ../build/src/ui_playlistsettingspage.h:155
 msgid "Automatically select current playing track"
@@ -1090,11 +1090,11 @@ msgstr "글꼴 선택..."
 
 #: ../build/src/ui_coverssettingspage.h:167
 msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
+msgstr "앨범 아트를 검색할 때 가져올 곳을 선택해 주세요."
 
 #: ../build/src/ui_lyricssettingspage.h:167
 msgid "Choose the providers you want to use when searching for lyrics."
-msgstr ""
+msgstr "가사를 검색할 때 가져올 곳을 선택해 주세요."
 
 #: equalizer/equalizer.cpp:138
 msgid "Classical"
@@ -1154,7 +1154,7 @@ msgstr "재생 목록 닫기"
 
 #: covermanager/albumcovermanager.cpp:239
 msgid "Closing this window will stop searching for album covers."
-msgstr "이 창을 닫으면 앨범 표지 검색을 정지합니다."
+msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 
 #: equalizer/equalizer.cpp:139
 msgid "Club"
@@ -1166,11 +1166,11 @@ msgstr "모음집"
 
 #: ../build/src/ui_collectionfilterwidget.h:91
 msgid "Collection Filter"
-msgstr "모음집 필터"
+msgstr "라이브러리 필터"
 
 #: ../build/src/ui_groupbydialog.h:121
 msgid "Collection advanced grouping"
-msgstr "모음집 고급 그룹"
+msgstr "라이브러리 고급 그룹"
 
 #: core/mainwindow.cpp:2475
 msgid "Collection rescan notice"
@@ -1241,7 +1241,7 @@ msgstr "고정 비트 전송률"
 
 #: core/mainwindow.cpp:279 ../build/src/ui_contextsettingspage.h:364
 msgid "Context"
-msgstr "콘텍스트"
+msgstr "지금 재생"
 
 #: ../build/src/ui_playlistsettingspage.h:152
 msgid "Continue to the next item in the playlist if a song is unavailable"
@@ -1261,12 +1261,12 @@ msgstr "장치에서 재생할 수 없는 곡 변환"
 
 #: ../build/src/ui_organisedialog.h:281
 msgid "Copy album cover artwork"
-msgstr "앨범 표지 그림 복사"
+msgstr "앨범아트 복사"
 
 #: core/mainwindow.cpp:632 widgets/fileviewlist.cpp:48
 #: device/deviceview.cpp:239
 msgid "Copy to collection..."
-msgstr "모음집으로 복사..."
+msgstr "라이브러리로 복사..."
 
 #: core/mainwindow.cpp:630 context/contextalbumsview.cpp:262
 #: collection/collectionview.cpp:330 playlist/playlistlistcontainer.cpp:100
@@ -1347,11 +1347,11 @@ msgstr "%1에서 표지 그림을 설정함"
 
 #: ../build/src/ui_coverssettingspage.h:166
 msgid "Cover providers"
-msgstr ""
+msgstr "앨범 아트 가져오기"
 
 #: ../build/src/ui_coverssettingspage.h:165
 msgid "Covers"
-msgstr ""
+msgstr "앨범아트"
 
 #: covermanager/albumcoversearcher.cpp:127
 #: covermanager/coversearchstatisticsdialog.cpp:75
@@ -1608,7 +1608,7 @@ msgstr "반복하지 않기"
 
 #: collection/collectionview.cpp:345
 msgid "Don't show in various artists"
-msgstr "여러 음악가로 표시하지 않기"
+msgstr "여러 아티스로 표시하지 않기"
 
 #: widgets/osd.cpp:249 ../build/src/ui_playlistsequence.h:116
 msgid "Don't shuffle"
@@ -1633,7 +1633,7 @@ msgstr "노래를 두 번 클릭했을 때..."
 #: ../build/src/ui_subsonicsettingspage.h:194
 #: ../build/src/ui_tidalsettingspage.h:332
 msgid "Download album covers"
-msgstr "앨범 표지 다운로드 중"
+msgstr "앨범아트 다운로드 중"
 
 #: musicbrainz/tagfetcher.cpp:116
 msgid "Downloading metadata"
@@ -1765,7 +1765,7 @@ msgstr "다음에 있는 사용자 토큰 입력: "
 
 #: ../build/src/ui_collectionfilterwidget.h:92
 msgid "Entire collection"
-msgstr "전체 모음집"
+msgstr "전체 라이브러리"
 
 #: ../build/src/ui_equalizer.h:168 ../build/src/ui_equalizerslider.h:98
 msgid "Equalizer"
@@ -1855,7 +1855,7 @@ msgstr "내보내기 완료"
 #: covermanager/albumcovermanager.cpp:899
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "앨범 표지 %2개 중 %1개 내보냄(%3개 건너뜀)"
+msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
 
 #: ../build/src/ui_mainwindow.h:654
 msgid "F1"
@@ -1993,25 +1993,25 @@ msgstr "첫 단계"
 
 #: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
-msgstr "앨범 표지를 너비에 맞춤"
+msgstr "앨범아트를 너비에 맞춤"
 
 #: ../build/src/ui_contextsettingspage.h:430
 #: ../build/src/ui_contextsettingspage.h:435
 msgid "Font"
-msgstr ""
+msgstr "폰트"
 
 #: ../build/src/ui_contextsettingspage.h:434
 msgid "Font for data and lyrics"
-msgstr ""
+msgstr "내용과 가사 폰트 설정"
 
 #: ../build/src/ui_contextsettingspage.h:429
 msgid "Font for headline"
-msgstr ""
+msgstr "제목 폰트 설정"
 
 #: ../build/src/ui_contextsettingspage.h:431
 #: ../build/src/ui_contextsettingspage.h:436
 msgid "Font size"
-msgstr ""
+msgstr "글자 크기"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:203
 msgid "Force mono encoding"
@@ -2107,7 +2107,7 @@ msgstr "이전 재생 목록 탭으로 이동"
 #: ../build/src/ui_coversearchstatisticsdialog.h:75
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "앨범 표지 %2개 중 %1개 가져옴(%3개 실패)"
+msgstr "앨범아트 %2개 중 %1개 가져옴(%3개 실패)"
 
 #: ../build/src/ui_playlistsettingspage.h:153
 msgid "Grey out unavailable songs in playlists on playback"
@@ -2132,43 +2132,43 @@ msgstr "앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:190
 msgid "Group by Album Artist"
-msgstr "앨범 음악가로 그룹"
+msgstr "앨범 아티스트로 그룹"
 
 #: collection/collectionfilterwidget.cpp:177
 msgid "Group by Album artist/Album"
-msgstr "앨범 음악가/앨범으로 그룹"
+msgstr "앨범 아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:178
 msgid "Group by Album artist/Album - Disc"
-msgstr "앨범 음악가/앨범 - 디스크로 그룹"
+msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:179
 msgid "Group by Album artist/Year - Album"
-msgstr "앨범 음악가/년도 - 앨범으로 그룹"
+msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:180
 msgid "Group by Album artist/Year - Album - Disc"
-msgstr "앨범 음악가/년도 - 앨범 - 디스크로 그룹"
+msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:191
 msgid "Group by Artist"
-msgstr "음악가로 그룹"
+msgstr "아티스트로 그룹"
 
 #: collection/collectionfilterwidget.cpp:182
 msgid "Group by Artist/Album"
-msgstr "음악가/앨범으로 그룹"
+msgstr "아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:183
 msgid "Group by Artist/Album - Disc"
-msgstr "음악가/앨범 - 디스크로 그룹"
+msgstr "아티스트/앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:184
 msgid "Group by Artist/Year - Album"
-msgstr "음악가/년도 - 앨범으로 그룹"
+msgstr "아티스트/년도 - 앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:185
 msgid "Group by Artist/Year - Album - Disc"
-msgstr "음악가/년도 - 앨범 - 디스크로 그룹"
+msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
 #: collection/collectionfilterwidget.cpp:194
 msgid "Group by Genre/Album"
@@ -2176,11 +2176,11 @@ msgstr "장르/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:187
 msgid "Group by Genre/Album artist/Album"
-msgstr "장르/앨범 음악가/앨범으로 그룹"
+msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
 #: collection/collectionfilterwidget.cpp:188
 msgid "Group by Genre/Artist/Album"
-msgstr "장르/음악가/앨범으로 그룹"
+msgstr "장르/아티스트/앨범으로 그룹"
 
 #: collection/savedgroupingmanager.cpp:123 playlist/playlist.cpp:1188
 #: organise/organisedialog.cpp:104 ../build/src/ui_groupbydialog.h:142
@@ -2354,7 +2354,7 @@ msgstr "거대한 홀"
 
 #: widgets/playingwidget.cpp:103
 msgid "Large album cover"
-msgstr "큰 앨범 표지"
+msgstr "큰 앨범아트"
 
 #: widgets/fancytabwidget.cpp:601
 msgid "Large sidebar"
@@ -2487,7 +2487,7 @@ msgstr "가사"
 
 #: ../build/src/ui_lyricssettingspage.h:166
 msgid "Lyrics providers"
-msgstr ""
+msgstr "가사 가져오기"
 
 #: ../build/src/ui_transcodersettingspage.h:197
 msgid "MP3"
@@ -2586,7 +2586,7 @@ msgstr "모델"
 
 #: ../build/src/ui_collectionsettingspage.h:409
 msgid "Monitor the collection for changes"
-msgstr "모음집 변화 감지"
+msgstr "라이브러리 변화 감지"
 
 #: playlist/playlist.cpp:1207
 msgid "Mood"
@@ -2701,7 +2701,7 @@ msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 �
 
 #: settings/coverssettingspage.cpp:189 settings/lyricssettingspage.cpp:183
 msgid "No provider selected."
-msgstr ""
+msgstr "아무 곳도 선택되지 않았습니다."
 
 #: ../build/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
@@ -3016,7 +3016,7 @@ msgstr "프리앰프"
 
 #: ../build/src/ui_scrobblersettingspage.h:326
 msgid "Prefer album artist when sending scrobbles"
-msgstr "스크로블을 보낼 때 앨범 음악가 선호"
+msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 
 #: ../build/src/ui_subsonicsettingspage.h:192
 #: ../build/src/ui_tidalsettingspage.h:325
@@ -3025,7 +3025,7 @@ msgstr "설정"
 
 #: ../build/src/ui_collectionsettingspage.h:412
 msgid "Preferred album art filenames (comma separated)"
-msgstr "선호하는 앨범 표지 파일 이름(쉼표로 구분)"
+msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 
 #: ../build/src/ui_deviceproperties.h:382
 msgid "Preferred format"
@@ -3326,22 +3326,22 @@ msgstr "시작할 때 재생 다시 시작"
 #: subsonic/subsonicrequest.cpp:675 tidal/tidalrequest.cpp:1084
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
-msgstr "앨범 %1개의 앨범 표지 가져오는 중..."
+msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:676 tidal/tidalrequest.cpp:1085
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr "앨범 %1개의 앨범 표지 가져오는 중..."
+msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
 #: tidal/tidalrequest.cpp:466
 #, qt-format
 msgid "Retrieving albums for %1 artist..."
-msgstr "음악가 %1명의 앨범 가져오는 중..."
+msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
 #: tidal/tidalrequest.cpp:467
 #, qt-format
 msgid "Retrieving albums for %1 artists..."
-msgstr "음악가 %1명의 앨범 가져오는 중..."
+msgstr "아티스트 %1명의 앨범 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:128 tidal/tidalrequest.cpp:201
 msgid "Retrieving albums..."
@@ -3349,7 +3349,7 @@ msgstr "앨범 가져오는 중..."
 
 #: tidal/tidalrequest.cpp:157
 msgid "Retrieving artists..."
-msgstr "음악가 가져오는 중..."
+msgstr "아티스트 가져오는 중..."
 
 #: subsonic/subsonicrequest.cpp:319 tidal/tidalrequest.cpp:725
 #, qt-format
@@ -3414,11 +3414,11 @@ msgstr "재생 목록 저장(&P)..."
 
 #: covermanager/albumcoverchoicecontroller.cpp:169
 msgid "Save album cover"
-msgstr "앨범 표지 저장"
+msgstr "앨범아트 저장"
 
 #: ../build/src/ui_collectionsettingspage.h:422
 msgid "Save album covers in album directory"
-msgstr "앨범 표지를 앨범 디렉터리에 저장"
+msgstr "앨범아트를 앨범 디렉터리에 저장"
 
 #: covermanager/albumcoverchoicecontroller.cpp:88
 msgid "Save cover to disk..."
@@ -3456,7 +3456,7 @@ msgstr "그룹 관리자 저장됨"
 
 #: ../build/src/ui_collectionsettingspage.h:421
 msgid "Saving album covers"
-msgstr "앨범 표지 저장 중"
+msgstr "앨범아트 저장 중"
 
 #: dialogs/edittagdialog.cpp:755 dialogs/trackselectiondialog.cpp:291
 msgid "Saving tracks"
@@ -3505,7 +3505,7 @@ msgstr "검색 지연 시간"
 
 #: covermanager/albumcoverchoicecontroller.cpp:90
 msgid "Search for album covers..."
-msgstr "앨범 표지 검색..."
+msgstr "앨범아트 검색..."
 
 #: internet/internetsearchview.cpp:328
 msgid "Search for this"
@@ -3621,7 +3621,7 @@ msgstr "트랙 진행 표시줄에 무드바 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:473
 msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr "반복/무순서 재생 모드 변경 시 알림 표시"
+msgstr "반복/셔플 모드 변경 시 알림 표시"
 
 #: ../build/src/ui_notificationssettingspage.h:472
 msgid "Show a notification when I change the volume"
@@ -3653,11 +3653,11 @@ msgstr ""
 
 #: ../build/src/ui_collectionsettingspage.h:419
 msgid "Show album cover art in collection"
-msgstr "모음집에 앨범 표지 아트 표시"
+msgstr "앨범 목록에 앨범아트 표시"
 
 #: context/contextview.cpp:330
 msgid "Show albums by artist"
-msgstr "음악가별로 앨범 표시"
+msgstr "아티스트별로 앨범 표시"
 
 #: core/mainwindow.cpp:564
 msgid "Show all songs"
@@ -3681,7 +3681,7 @@ msgstr "전체 크기 표시..."
 
 #: core/mainwindow.cpp:637
 msgid "Show in collection..."
-msgstr "모음집에 표시..."
+msgstr "라이브러리에 표시..."
 
 #: core/utilities.cpp:420 core/utilities.cpp:426
 msgid "Show in file browser"
@@ -3694,7 +3694,7 @@ msgstr "파일 탐색기에 표시..."
 
 #: collection/collectionview.cpp:344
 msgid "Show in various artists"
-msgstr "여러 음악가에 표시"
+msgstr "편집 음반으로 표시"
 
 #: ../build/src/ui_scrobblersettingspage.h:321
 msgid "Show love button"
@@ -3722,7 +3722,7 @@ msgstr "스크로블 단추 표시"
 
 #: ../build/src/ui_mainwindow.h:713
 msgid "Show sidebar"
-msgstr ""
+msgstr "사이드바 표시"
 
 #: context/contextview.cpp:334
 msgid "Show song lyrics"
@@ -3738,19 +3738,19 @@ msgstr "시스템 트레이 아이콘 표시"
 
 #: ../build/src/ui_playlistsequence.h:124
 msgid "Shuffle"
-msgstr "무순서 재생"
+msgstr "셔플 재생"
 
 #: widgets/osd.cpp:252 ../build/src/ui_playlistsequence.h:119
 msgid "Shuffle albums"
-msgstr "앨범 무순서 재생"
+msgstr "앨범 셔플"
 
 #: widgets/osd.cpp:250 ../build/src/ui_playlistsequence.h:118
 msgid "Shuffle all"
-msgstr "모두 무순서 재생"
+msgstr "모두 셔플"
 
 #: widgets/osd.cpp:251 ../build/src/ui_playlistsequence.h:117
 msgid "Shuffle tracks in this album"
-msgstr "이 앨범에 있는 곡만 무순서 재생"
+msgstr "이 앨범에 있는 곡만 셔플"
 
 #: ../build/src/ui_loginstatewidget.h:169
 msgid "Sign out"
@@ -3795,7 +3795,7 @@ msgstr "트랙 건너뛰기"
 
 #: widgets/playingwidget.cpp:102
 msgid "Small album cover"
-msgstr "작은 앨범 표지"
+msgstr "작은 앨범아트"
 
 #: widgets/fancytabwidget.cpp:602
 msgid "Small sidebar"
@@ -3916,7 +3916,7 @@ msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시�
 
 #: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
-msgstr "Strawberry는 음악 재생기 및 음악 모음집 관리 도구입니다."
+msgstr "Strawberry는 음악 재생기 및 음악 라이브러리 관리 도구입니다."
 
 #: dialogs/about.cpp:120
 #, qt-format
@@ -4040,7 +4040,7 @@ msgstr "\"%1\" 명령을 시작할 수 없습니다."
 
 #: ../build/src/ui_appearancesettingspage.h:404
 msgid "The album cover of the currently playing song"
-msgstr "재생 중인 음악의 앨범 표지"
+msgstr "재생 중인 음악의 앨범아트"
 
 #: internet/internetcollectionview.cpp:279
 msgid "The internet collection is empty!"
@@ -4058,7 +4058,7 @@ msgstr "요청한 사이트는 이미지가 아닙니다!"
 msgid ""
 "The version of Strawberry you've just updated to requires a full collection "
 "rescan because of the new features listed below:"
-msgstr "Strawberry의 업데이트한 버전에 다음 기능이 추가되어 전체 모음집을 재검색해야 합니다:"
+msgstr "Strawberry의 업데이트한 버전에 다음 기능이 추가되어 전체 라이브러리를 재검색해야 합니다:"
 
 #: collection/collectionview.cpp:441
 msgid "There are other songs in this album"
@@ -4089,7 +4089,7 @@ msgstr "장치에서 다음 파일을 삭제합니다. 계속 진행하시겠습
 
 #: ../build/src/ui_collectionsettingspage.h:404
 msgid "These folders will be scanned for music to make up your collection"
-msgstr "모음집을 생성할 때 다음 폴더를 검색합니다"
+msgstr "라이브러리를 생성할 때 다음 폴더를 검색합니다"
 
 #: ../build/src/ui_transcodersettingspage.h:189
 msgid ""
@@ -4283,7 +4283,7 @@ msgstr "트랙 건너뛰기 해제"
 
 #: ../build/src/ui_collectionsettingspage.h:408
 msgid "Update the collection when Strawberry starts"
-msgstr "Strawberry 시작 시 모음집 업데이트"
+msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
 #: collection/collectionwatcher.cpp:134
 #, qt-format
@@ -4420,7 +4420,7 @@ msgstr "가변 비트 전송률"
 #: covermanager/albumcovermanager.cpp:333 internet/internetsearchmodel.cpp:94
 #: internet/internetsearchmodel.cpp:106
 msgid "Various artists"
-msgstr "여러 음악가"
+msgstr "편집 음반"
 
 #: ../build/src/ui_subsonicsettingspage.h:193
 msgid "Verify server certificate"
@@ -4493,7 +4493,7 @@ msgstr "오프라인 모드로 작업(스크로블을 캐시에만 추가)"
 msgid ""
 "Would you like to move the other songs in this album to Various Artists as "
 "well?"
-msgstr "이 앨범의 다른 곡도 여러 음악가로 이동하시겠습니까?"
+msgstr "이 앨범의 다른 곡도 편집 음반으로 이동하시겠습니까?"
 
 #: core/mainwindow.cpp:2474
 msgid "Would you like to run a full rescan right now?"
@@ -4554,7 +4554,7 @@ msgstr "로그인했습니다."
 
 #: ../build/src/ui_groupbydialog.h:122
 msgid "You can change the way the songs in the collection are organised."
-msgstr "모음집의 곡을 정리하는 방법을 변경할 수 있습니다."
+msgstr "라이브러리의 곡을 정리하는 방법을 변경할 수 있습니다."
 
 #: dialogs/about.cpp:128
 #, qt-format
@@ -4598,7 +4598,7 @@ msgstr "언어를 변경한 후에는 Strawberry를 다시 시작해야 합니�
 
 #: collection/collectionview.cpp:291
 msgid "Your collection is empty!"
-msgstr "모음집이 비어 있습니다!"
+msgstr "라이브러리가 비어 있습니다!"
 
 #: equalizer/equalizer.cpp:155
 msgid "Zero"
@@ -4616,7 +4616,7 @@ msgstr ""
 
 #: collection/collectionfilterwidget.cpp:72
 msgid "artist"
-msgstr "음악가"
+msgstr "아티스트"
 
 #: ../build/src/ui_internetsearchview.h:226
 msgid "artists"
@@ -4672,7 +4672,7 @@ msgstr "%n곡 삭제"
 
 #: collection/collectionfilterwidget.cpp:76
 msgid "searches the collection for all artists that contain the word"
-msgstr "모음집에서 해당 단어를 포함하는 모든 음악가 검색"
+msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 검색"
 
 #: playlist/playlistundocommands.cpp:136
 msgid "shuffle songs"

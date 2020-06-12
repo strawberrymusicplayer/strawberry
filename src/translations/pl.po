@@ -25,8 +25,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-09 06:07-0400\n"
-"Last-Translator: Jonas Kvinge <jonas@jkvinge.net>\n"
+"PO-Revision-Date: 2020-06-12 09:53-0400\n"
+"Last-Translator: Piotr Orzechowski <piotr@orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
@@ -479,7 +479,7 @@ msgstr "Przerwij skanowanie kolekcji"
 
 #: ../build/src/ui_about.h:155
 msgid "About"
-msgstr ""
+msgstr "O programie"
 
 #: ../build/src/ui_mainwindow.h:693
 msgid "About &Qt"
