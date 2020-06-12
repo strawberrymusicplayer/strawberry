@@ -10,6 +10,8 @@ jobs:
       image: opensuse/leap:15.1
     steps:
       - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
         run: >
             zypper --non-interactive --gpg-auto-import-keys install
@@ -79,6 +81,8 @@ jobs:
       image: opensuse/leap:15.1
     steps:
       - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
         run: >
             zypper --non-interactive --gpg-auto-import-keys install
@@ -156,6 +160,8 @@ jobs:
       image: opensuse/leap:15.2
     steps:
       - uses: actions/checkout@v1.2.0
+      - name: Update packages
+        run: zypper --non-interactive --gpg-auto-import-keys ref
       - name: Install openSUSE dependencies
         run: >
             zypper --non-interactive --gpg-auto-import-keys install
@@ -478,8 +484,6 @@ jobs:
 
       - name: Install epel-release
         run: dnf install -y epel-release
-      - name: Install epel-release-latest-8.noarch.rpm
-        run: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
       - name:  Install config-manager
         run: dnf install -y 'dnf-command(config-manager)'
       - name: Enable PowerTools
