@@ -31,102 +31,101 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace DSDIFF {
+namespace DSDIFF {
 
-    namespace DIIN {
+namespace DIIN {
 
-      /*!
+/*!
        * Tags from the Edited Master Chunk Info
        *
        * Only Title and Artist tags are supported
        */
-      class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
-      {
-      public:
-        Tag();
-        virtual ~Tag();
+class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
+ public:
+  Tag();
+  virtual ~Tag();
 
-        /*!
+  /*!
          * Returns the track name; if no track name is present in the tag
          * String() will be returned.
          */
-        String title() const;
+  String title() const;
 
-        /*!
+  /*!
          * Returns the artist name; if no artist name is present in the tag
          * String() will be returned.
          */
-        String artist() const;
+  String artist() const;
 
-        /*!
+  /*!
          * Not supported.  Therefore always returns String().
          */
-        String album() const;
+  String album() const;
 
-        /*!
+  /*!
          * Not supported.  Therefore always returns String().
          */
-        String comment() const;
+  String comment() const;
 
-        /*!
+  /*!
          * Not supported.  Therefore always returns String().
          */
-        String genre() const;
+  String genre() const;
 
-        /*!
+  /*!
          * Not supported.  Therefore always returns 0.
          */
-        unsigned int year() const;
+  unsigned int year() const;
 
-        /*!
+  /*!
          * Not supported.  Therefore always returns 0.
          */
-        unsigned int track() const;
+  unsigned int track() const;
 
-        /*!
+  /*!
          * Sets the title to \a title.  If \a title is String() then this
          * value will be cleared.
          */
-        void setTitle(const String &title);
+  void setTitle(const String &title);
 
-        /*!
+  /*!
          * Sets the artist to \a artist.  If \a artist is String() then this
          * value will be cleared.
          */
-        void setArtist(const String &artist);
+  void setArtist(const String &artist);
 
-        /*!
+  /*!
          * Not supported and therefore ignored.
          */
-        void setAlbum(const String &album);
+  void setAlbum(const String &album);
 
-        /*!
+  /*!
          * Not supported and therefore ignored.
          */
-        void setComment(const String &comment);
+  void setComment(const String &comment);
 
-        /*!
+  /*!
          * Not supported and therefore ignored.
          */
-        void setGenre(const String &genre);
+  void setGenre(const String &genre);
 
-        /*!
+  /*!
          * Not supported and therefore ignored.
          */
-        void setYear(unsigned int year);
+  void setYear(unsigned int year);
 
-        /*!
+  /*!
          * Not supported and therefore ignored.
          */
-        void setTrack(unsigned int track);
+  void setTrack(unsigned int track);
 
-        /*!
+  /*!
          * Implements the unified property interface -- export function.
          * Since the DIIN tag is very limited, the exported map is as well.
          */
-        PropertyMap properties() const;
+  PropertyMap properties() const;
 
-        /*!
+  /*!
          * Implements the unified property interface -- import function.
          * Because of the limitations of the DIIN file tag, any tags besides
          * TITLE and ARTIST, will be
@@ -134,19 +133,18 @@ namespace TagLib {
          * all but the first will be contained in the returned map of unsupported
          * properties.
          */
-        PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      private:
-        Tag(const Tag &);
-        Tag &operator=(const Tag &);
+ private:
+  Tag(const Tag &);
+  Tag &operator=(const Tag &);
 
-        class TagPrivate;
-        TagPrivate *d;
-      };
-    }
-  }
-}
-}
+  class TagPrivate;
+  TagPrivate *d;
+};
+}  // namespace DIIN
+}  // namespace DSDIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
-

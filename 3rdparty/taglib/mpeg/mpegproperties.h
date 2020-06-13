@@ -34,33 +34,32 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace MPEG {
+namespace MPEG {
 
-    class File;
-    class XingHeader;
+class File;
+class XingHeader;
 
-    //! An implementation of audio property reading for MP3
+//! An implementation of audio property reading for MP3
 
-    /*!
+/*!
      * This reads the data from an MPEG Layer III stream found in the
      * AudioProperties API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of MPEG::Properties with the data read from the
        * MPEG::File \a file.
        */
-      Properties(File *file, ReadStyle style = Average);
+  Properties(File *file, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this MPEG Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -68,87 +67,87 @@ namespace TagLib {
        *
        * \deprecated
        */
-      virtual int length() const;
+  virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns a pointer to the Xing/VBRI header if one exists or null if no
        * Xing/VBRI header was found.
        */
-      const XingHeader *xingHeader() const;
+  const XingHeader *xingHeader() const;
 
-      /*!
+  /*!
        * Returns the MPEG Version of the file.
        */
-      Header::Version version() const;
+  Header::Version version() const;
 
-      /*!
+  /*!
        * Returns the layer version.  This will be between the values 1-3.
        */
-      int layer() const;
+  int layer() const;
 
-      /*!
+  /*!
        * Returns true if the MPEG protection bit is enabled.
        */
-      bool protectionEnabled() const;
+  bool protectionEnabled() const;
 
-      /*!
+  /*!
        * Returns the channel mode for this frame.
        */
-      Header::ChannelMode channelMode() const;
+  Header::ChannelMode channelMode() const;
 
-      /*!
+  /*!
        * Returns true if the copyrighted bit is set.
        */
-      bool isCopyrighted() const;
+  bool isCopyrighted() const;
 
-      /*!
+  /*!
        * Returns true if the "original" bit is set.
        */
-      bool isOriginal() const;
+  bool isOriginal() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(File *file);
+  void read(File *file);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace MPEG
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

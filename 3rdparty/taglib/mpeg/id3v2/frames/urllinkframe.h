@@ -34,97 +34,95 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! ID3v2 URL frame
-    /*!
+//! ID3v2 URL frame
+/*!
      * An implementation of ID3v2 URL link frames.
      */
-    class TAGLIB_EXPORT UrlLinkFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT UrlLinkFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * This is a dual purpose constructor.  \a data can either be binary data
        * that should be parsed or (at a minimum) the frame ID.
        */
-      explicit UrlLinkFrame(const ByteVector &data);
+  explicit UrlLinkFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys this UrlLinkFrame instance.
        */
-      virtual ~UrlLinkFrame();
+  virtual ~UrlLinkFrame();
 
-      /*!
+  /*!
        * Returns the URL.
        */
-      virtual String url() const;
+  virtual String url() const;
 
-      /*!
+  /*!
        * Sets the URL to \a s.
        */
-      virtual void setUrl(const String &s);
+  virtual void setUrl(const String &s);
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual void setText(const String &s);
-      virtual String toString() const;
-      PropertyMap asProperties() const;
+  virtual void setText(const String &s);
+  virtual String toString() const;
+  PropertyMap asProperties() const;
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-      /*!
+  /*!
        * The constructor used by the FrameFactory.
        */
-      UrlLinkFrame(const ByteVector &data, Header *h);
+  UrlLinkFrame(const ByteVector &data, Header *h);
 
-    private:
-      UrlLinkFrame(const UrlLinkFrame &);
-      UrlLinkFrame &operator=(const UrlLinkFrame &);
+ private:
+  UrlLinkFrame(const UrlLinkFrame &);
+  UrlLinkFrame &operator=(const UrlLinkFrame &);
 
-      class UrlLinkFramePrivate;
-      UrlLinkFramePrivate *d;
-    };
+  class UrlLinkFramePrivate;
+  UrlLinkFramePrivate *d;
+};
 
-    //! ID3v2 User defined URL frame
+//! ID3v2 User defined URL frame
 
-    /*!
+/*!
      * This is a specialization of URL link frames that allows for
      * user defined entries.  Each entry has a description in addition to the
      * normal list of fields that a URL link frame has.
      *
      * This description identifies the frame and must be unique.
      */
-    class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * Constructs an empty user defined URL link frame.  For this to be
        * a useful frame both a description and text must be set.
        */
-      explicit UserUrlLinkFrame(String::Type encoding = String::Latin1);
+  explicit UserUrlLinkFrame(String::Type encoding = String::Latin1);
 
-      /*!
+  /*!
        * This is a dual purpose constructor.  \a data can either be binary data
        * that should be parsed or (at a minimum) the frame ID.
        */
-      explicit UserUrlLinkFrame(const ByteVector &data);
+  explicit UserUrlLinkFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys this UserUrlLinkFrame instance.
        */
-      virtual ~UserUrlLinkFrame();
+  virtual ~UserUrlLinkFrame();
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns the text encoding that will be used in rendering this frame.
        * This defaults to the type that was either specified in the constructor
        * or read from the frame when parsed.
@@ -132,28 +130,28 @@ namespace TagLib {
        * \see setTextEncoding()
        * \see render()
        */
-      String::Type textEncoding() const;
+  String::Type textEncoding() const;
 
-      /*!
+  /*!
        * Sets the text encoding to be used when rendering this frame to
        * \a encoding.
        *
        * \see textEncoding()
        * \see render()
        */
-      void setTextEncoding(String::Type encoding);
+  void setTextEncoding(String::Type encoding);
 
-      /*!
+  /*!
        * Returns the description for this frame.
        */
-      String description() const;
+  String description() const;
 
-      /*!
+  /*!
        * Sets the description of the frame to \a s.  \a s must be unique.
        */
-      void setDescription(const String &s);
+  void setDescription(const String &s);
 
-      /*!
+  /*!
        * Parses the UserUrlLinkFrame as PropertyMap. The description() is taken as key,
        * and the URL as single value.
        * - if description() is empty, the key will be "URL".
@@ -161,32 +159,32 @@ namespace TagLib {
        *   characters), the returned map will contain an entry "WXXX/<description>"
        *   in its unsupportedData() list.
        */
-      PropertyMap asProperties() const;
+  PropertyMap asProperties() const;
 
-      /*!
+  /*!
        * Searches for the user defined url frame with the description \a description
        * in \a tag.  This returns null if no matching frames were found.
        */
-      static UserUrlLinkFrame *find(Tag *tag, const String &description);
+  static UserUrlLinkFrame *find(Tag *tag, const String &description);
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-      /*!
+  /*!
        * The constructor used by the FrameFactory.
        */
-      UserUrlLinkFrame(const ByteVector &data, Header *h);
+  UserUrlLinkFrame(const ByteVector &data, Header *h);
 
-    private:
-      UserUrlLinkFrame(const UserUrlLinkFrame &);
-      UserUrlLinkFrame &operator=(const UserUrlLinkFrame &);
+ private:
+  UserUrlLinkFrame(const UserUrlLinkFrame &);
+  UserUrlLinkFrame &operator=(const UserUrlLinkFrame &);
 
-      class UserUrlLinkFramePrivate;
-      UserUrlLinkFramePrivate *d;
-    };
+  class UserUrlLinkFramePrivate;
+  UserUrlLinkFramePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

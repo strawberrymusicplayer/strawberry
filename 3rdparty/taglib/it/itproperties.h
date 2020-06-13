@@ -31,79 +31,80 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-  namespace IT {
-    class TAGLIB_EXPORT Properties : public AudioProperties {
-      friend class File;
-    public:
-      /*! Flag bits. */
-      enum {
-        Stereo                  =   1,
-        Vol0MixOptimizations    =   2,
-        UseInstruments          =   4,
-        LinearSlides            =   8,
-        OldEffects              =  16,
-        LinkEffects             =  32,
-        UseMidiPitchController  =  64,
-        RequestEmbeddedMidiConf = 128
-      };
+namespace IT {
+class TAGLIB_EXPORT Properties : public AudioProperties {
+  friend class File;
 
-      /*! Special bits. */
-      enum {
-        MessageAttached  = 1,
-        MidiConfEmbedded = 8
-      };
+ public:
+  /*! Flag bits. */
+  enum {
+    Stereo = 1,
+    Vol0MixOptimizations = 2,
+    UseInstruments = 4,
+    LinearSlides = 8,
+    OldEffects = 16,
+    LinkEffects = 32,
+    UseMidiPitchController = 64,
+    RequestEmbeddedMidiConf = 128
+  };
 
-      Properties(AudioProperties::ReadStyle propertiesStyle);
-      virtual ~Properties();
+  /*! Special bits. */
+  enum {
+    MessageAttached = 1,
+    MidiConfEmbedded = 8
+  };
 
-      int length()               const;
-      int lengthInSeconds()      const;
-      int lengthInMilliseconds() const;
-      int bitrate()              const;
-      int sampleRate()           const;
-      int channels()             const;
+  Properties(AudioProperties::ReadStyle propertiesStyle);
+  virtual ~Properties();
 
-      unsigned short lengthInPatterns()  const;
-      bool           stereo()            const;
-      unsigned short instrumentCount()   const;
-      unsigned short sampleCount()       const;
-      unsigned short patternCount()      const;
-      unsigned short version()           const;
-      unsigned short compatibleVersion() const;
-      unsigned short flags()             const;
-      unsigned short special()           const;
-      unsigned char  globalVolume()      const;
-      unsigned char  mixVolume()         const;
-      unsigned char  tempo()             const;
-      unsigned char  bpmSpeed()          const;
-      unsigned char  panningSeparation() const;
-      unsigned char  pitchWheelDepth()   const;
+  int length() const;
+  int lengthInSeconds() const;
+  int lengthInMilliseconds() const;
+  int bitrate() const;
+  int sampleRate() const;
+  int channels() const;
 
-      void setChannels(int channels);
-      void setLengthInPatterns(unsigned short lengthInPatterns);
-      void setInstrumentCount(unsigned short instrumentCount);
-      void setSampleCount (unsigned short sampleCount);
-      void setPatternCount(unsigned short patternCount);
-      void setVersion     (unsigned short version);
-      void setCompatibleVersion(unsigned short compatibleVersion);
-      void setFlags       (unsigned short flags);
-      void setSpecial     (unsigned short special);
-      void setGlobalVolume(unsigned char globalVolume);
-      void setMixVolume   (unsigned char mixVolume);
-      void setTempo       (unsigned char tempo);
-      void setBpmSpeed    (unsigned char bpmSpeed);
-      void setPanningSeparation(unsigned char panningSeparation);
-      void setPitchWheelDepth  (unsigned char pitchWheelDepth);
+  unsigned short lengthInPatterns() const;
+  bool stereo() const;
+  unsigned short instrumentCount() const;
+  unsigned short sampleCount() const;
+  unsigned short patternCount() const;
+  unsigned short version() const;
+  unsigned short compatibleVersion() const;
+  unsigned short flags() const;
+  unsigned short special() const;
+  unsigned char globalVolume() const;
+  unsigned char mixVolume() const;
+  unsigned char tempo() const;
+  unsigned char bpmSpeed() const;
+  unsigned char panningSeparation() const;
+  unsigned char pitchWheelDepth() const;
 
-    private:
-      Properties(const Properties&);
-      Properties &operator=(const Properties&);
+  void setChannels(int channels);
+  void setLengthInPatterns(unsigned short lengthInPatterns);
+  void setInstrumentCount(unsigned short instrumentCount);
+  void setSampleCount(unsigned short sampleCount);
+  void setPatternCount(unsigned short patternCount);
+  void setVersion(unsigned short version);
+  void setCompatibleVersion(unsigned short compatibleVersion);
+  void setFlags(unsigned short flags);
+  void setSpecial(unsigned short special);
+  void setGlobalVolume(unsigned char globalVolume);
+  void setMixVolume(unsigned char mixVolume);
+  void setTempo(unsigned char tempo);
+  void setBpmSpeed(unsigned char bpmSpeed);
+  void setPanningSeparation(unsigned char panningSeparation);
+  void setPitchWheelDepth(unsigned char pitchWheelDepth);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
+
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace IT
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

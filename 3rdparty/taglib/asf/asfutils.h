@@ -31,75 +31,67 @@
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
-  namespace ASF
-  {
-    namespace
-    {
+namespace TagLib {
+namespace ASF {
+namespace {
 
-      inline unsigned short readWORD(File *file, bool *ok = 0)
-      {
-        const ByteVector v = file->readBlock(2);
-        if(v.size() != 2) {
-          if(ok) *ok = false;
-          return 0;
-        }
-        if(ok) *ok = true;
-        return v.toUShort(false);
-      }
-
-      inline unsigned int readDWORD(File *file, bool *ok = 0)
-      {
-        const ByteVector v = file->readBlock(4);
-        if(v.size() != 4) {
-          if(ok) *ok = false;
-          return 0;
-        }
-        if(ok) *ok = true;
-        return v.toUInt(false);
-      }
-
-      inline long long readQWORD(File *file, bool *ok = 0)
-      {
-        const ByteVector v = file->readBlock(8);
-        if(v.size() != 8) {
-          if(ok) *ok = false;
-          return 0;
-        }
-        if(ok) *ok = true;
-        return v.toLongLong(false);
-      }
-
-      inline String readString(File *file, int length)
-      {
-        ByteVector data = file->readBlock(length);
-        unsigned int size = data.size();
-        while (size >= 2) {
-          if(data[size - 1] != '\0' || data[size - 2] != '\0') {
-            break;
-          }
-          size -= 2;
-        }
-        if(size != data.size()) {
-          data.resize(size);
-        }
-        return String(data, String::UTF16LE);
-      }
-
-      inline ByteVector renderString(const String &str, bool includeLength = false)
-      {
-        ByteVector data = str.data(String::UTF16LE) + ByteVector::fromShort(0, false);
-        if(includeLength) {
-          data = ByteVector::fromShort(data.size(), false) + data;
-        }
-        return data;
-      }
-
-    }
+inline unsigned short readWORD(File *file, bool *ok = 0) {
+  const ByteVector v = file->readBlock(2);
+  if (v.size() != 2) {
+    if (ok) *ok = false;
+    return 0;
   }
+  if (ok) *ok = true;
+  return v.toUShort(false);
 }
+
+inline unsigned int readDWORD(File *file, bool *ok = 0) {
+  const ByteVector v = file->readBlock(4);
+  if (v.size() != 4) {
+    if (ok) *ok = false;
+    return 0;
+  }
+  if (ok) *ok = true;
+  return v.toUInt(false);
 }
+
+inline long long readQWORD(File *file, bool *ok = 0) {
+  const ByteVector v = file->readBlock(8);
+  if (v.size() != 8) {
+    if (ok) *ok = false;
+    return 0;
+  }
+  if (ok) *ok = true;
+  return v.toLongLong(false);
+}
+
+inline String readString(File *file, int length) {
+  ByteVector data = file->readBlock(length);
+  unsigned int size = data.size();
+  while (size >= 2) {
+    if (data[size - 1] != '\0' || data[size - 2] != '\0') {
+      break;
+    }
+    size -= 2;
+  }
+  if (size != data.size()) {
+    data.resize(size);
+  }
+  return String(data, String::UTF16LE);
+}
+
+inline ByteVector renderString(const String &str, bool includeLength = false) {
+  ByteVector data = str.data(String::UTF16LE) + ByteVector::fromShort(0, false);
+  if (includeLength) {
+    data = ByteVector::fromShort(data.size(), false) + data;
+  }
+  return data;
+}
+
+}  // namespace
+}  // namespace ASF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 

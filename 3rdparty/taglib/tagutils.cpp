@@ -33,64 +33,60 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-long Utils::findID3v1(File *file)
-{
-  if(!file->isValid())
+long Utils::findID3v1(File *file) {
+  if (!file->isValid())
     return -1;
 
   file->seek(-128, File::End);
   const long p = file->tell();
 
-  if(file->readBlock(3) == ID3v1::Tag::fileIdentifier())
+  if (file->readBlock(3) == ID3v1::Tag::fileIdentifier())
     return p;
 
   return -1;
 }
 
-long Utils::findID3v2(File *file)
-{
-  if(!file->isValid())
+long Utils::findID3v2(File *file) {
+  if (!file->isValid())
     return -1;
 
   file->seek(0);
 
-  if(file->readBlock(3) == ID3v2::Header::fileIdentifier())
+  if (file->readBlock(3) == ID3v2::Header::fileIdentifier())
     return 0;
 
   return -1;
 }
 
-long Utils::findAPE(File *file, long id3v1Location)
-{
-  if(!file->isValid())
+long Utils::findAPE(File *file, long id3v1Location) {
+  if (!file->isValid())
     return -1;
 
-  if(id3v1Location >= 0)
+  if (id3v1Location >= 0)
     file->seek(id3v1Location - 32, File::Beginning);
   else
     file->seek(-32, File::End);
 
   const long p = file->tell();
 
-  if(file->readBlock(8) == APE::Tag::fileIdentifier())
+  if (file->readBlock(8) == APE::Tag::fileIdentifier())
     return p;
 
   return -1;
 }
 
 ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsigned int length,
-                                     bool skipID3v2, long *headerOffset)
-{
-  if(!stream || !stream->isOpen())
+  bool skipID3v2, long *headerOffset) {
+  if (!stream || !stream->isOpen())
     return ByteVector();
 
   const long originalPosition = stream->tell();
   long bufferOffset = 0;
 
-  if(skipID3v2) {
+  if (skipID3v2) {
     stream->seek(0);
     const ByteVector data = stream->readBlock(ID3v2::Header::size());
-    if(data.startsWith(ID3v2::Header::fileIdentifier()))
+    if (data.startsWith(ID3v2::Header::fileIdentifier()))
       bufferOffset = ID3v2::Header(data).completeTagSize();
   }
 
@@ -98,7 +94,7 @@ ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsign
   const ByteVector header = stream->readBlock(length);
   stream->seek(originalPosition);
 
-  if(headerOffset)
+  if (headerOffset)
     *headerOffset = bufferOffset;
 
   return header;

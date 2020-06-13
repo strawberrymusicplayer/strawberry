@@ -42,23 +42,20 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-namespace
-{
-  enum { TrueAudioID3v2Index = 0, TrueAudioID3v1Index = 1 };
+namespace {
+enum { TrueAudioID3v2Index = 0,
+  TrueAudioID3v1Index = 1 };
 }
 
-class TrueAudio::File::FilePrivate
-{
-public:
-  explicit FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) :
-    ID3v2FrameFactory(frameFactory),
-    ID3v2Location(-1),
-    ID3v2OriginalSize(0),
-    ID3v1Location(-1),
-    properties(0) {}
+class TrueAudio::File::FilePrivate {
+ public:
+  explicit FilePrivate(const ID3v2::FrameFactory *frameFactory = ID3v2::FrameFactory::instance()) : ID3v2FrameFactory(frameFactory),
+                                                                                                    ID3v2Location(-1),
+                                                                                                    ID3v2OriginalSize(0),
+                                                                                                    ID3v1Location(-1),
+                                                                                                    properties(0) {}
 
-  ~FilePrivate()
-  {
+  ~FilePrivate() {
     delete properties;
   }
 
@@ -77,8 +74,7 @@ public:
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool TrueAudio::File::isSupported(IOStream *stream)
-{
+bool TrueAudio::File::isSupported(IOStream *stream) {
   // A TrueAudio file has to start with "TTA". An ID3v2 tag may precede.
 
   const ByteVector id = Utils::readHeader(stream, 3, true);
@@ -89,98 +85,82 @@ bool TrueAudio::File::isSupported(IOStream *stream)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  Strawberry_TagLib::TagLib::File(file),
-  d(new FilePrivate())
-{
-  if(isOpen())
+TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
+                                                                                   d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties);
 }
 
 TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
-                      bool readProperties, Properties::ReadStyle) :
-  Strawberry_TagLib::TagLib::File(file),
-  d(new FilePrivate(frameFactory))
-{
-  if(isOpen())
+  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
+                                                d(new FilePrivate(frameFactory)) {
+  if (isOpen())
     read(readProperties);
 }
 
-TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) :
-  Strawberry_TagLib::TagLib::File(stream),
-  d(new FilePrivate())
-{
-  if(isOpen())
+TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
+                                                                                      d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties);
 }
 
 TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
-                      bool readProperties, Properties::ReadStyle) :
-  Strawberry_TagLib::TagLib::File(stream),
-  d(new FilePrivate(frameFactory))
-{
-  if(isOpen())
+  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
+                                                d(new FilePrivate(frameFactory)) {
+  if (isOpen())
     read(readProperties);
 }
 
-TrueAudio::File::~File()
-{
+TrueAudio::File::~File() {
   delete d;
 }
 
-Strawberry_TagLib::TagLib::Tag *TrueAudio::File::tag() const
-{
+Strawberry_TagLib::TagLib::Tag *TrueAudio::File::tag() const {
   return &d->tag;
 }
 
-PropertyMap TrueAudio::File::properties() const
-{
+PropertyMap TrueAudio::File::properties() const {
   return d->tag.properties();
 }
 
-void TrueAudio::File::removeUnsupportedProperties(const StringList &unsupported)
-{
+void TrueAudio::File::removeUnsupportedProperties(const StringList &unsupported) {
   d->tag.removeUnsupportedProperties(unsupported);
 }
 
-PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties)
-{
-  if(ID3v1Tag())
+PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties) {
+  if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return ID3v2Tag(true)->setProperties(properties);
 }
 
-TrueAudio::Properties *TrueAudio::File::audioProperties() const
-{
+TrueAudio::Properties *TrueAudio::File::audioProperties() const {
   return d->properties;
 }
 
-void TrueAudio::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory)
-{
+void TrueAudio::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory) {
   d->ID3v2FrameFactory = factory;
 }
 
-bool TrueAudio::File::save()
-{
-  if(readOnly()) {
+bool TrueAudio::File::save() {
+  if (readOnly()) {
     debug("TrueAudio::File::save() -- File is read only.");
     return false;
   }
 
   // Update ID3v2 tag
 
-  if(ID3v2Tag() && !ID3v2Tag()->isEmpty()) {
+  if (ID3v2Tag() && !ID3v2Tag()->isEmpty()) {
 
     // ID3v2 tag is not empty. Update the old one or create a new one.
 
-    if(d->ID3v2Location < 0)
+    if (d->ID3v2Location < 0)
       d->ID3v2Location = 0;
 
     const ByteVector data = ID3v2Tag()->render();
     insert(data, d->ID3v2Location, d->ID3v2OriginalSize);
 
-    if(d->ID3v1Location >= 0)
+    if (d->ID3v1Location >= 0)
       d->ID3v1Location += (static_cast<long>(data.size()) - d->ID3v2OriginalSize);
 
     d->ID3v2OriginalSize = data.size();
@@ -189,10 +169,10 @@ bool TrueAudio::File::save()
 
     // ID3v2 tag is empty. Remove the old one.
 
-    if(d->ID3v2Location >= 0) {
+    if (d->ID3v2Location >= 0) {
       removeBlock(d->ID3v2Location, d->ID3v2OriginalSize);
 
-      if(d->ID3v1Location >= 0)
+      if (d->ID3v1Location >= 0)
         d->ID3v1Location -= d->ID3v2OriginalSize;
 
       d->ID3v2Location = -1;
@@ -202,11 +182,11 @@ bool TrueAudio::File::save()
 
   // Update ID3v1 tag
 
-  if(ID3v1Tag() && !ID3v1Tag()->isEmpty()) {
+  if (ID3v1Tag() && !ID3v1Tag()->isEmpty()) {
 
     // ID3v1 tag is not empty. Update the old one or create a new one.
 
-    if(d->ID3v1Location >= 0) {
+    if (d->ID3v1Location >= 0) {
       seek(d->ID3v1Location);
     }
     else {
@@ -220,7 +200,7 @@ bool TrueAudio::File::save()
 
     // ID3v1 tag is empty. Remove the old one.
 
-    if(d->ID3v1Location >= 0) {
+    if (d->ID3v1Location >= 0) {
       truncate(d->ID3v1Location);
       d->ID3v1Location = -1;
     }
@@ -229,35 +209,30 @@ bool TrueAudio::File::save()
   return true;
 }
 
-ID3v1::Tag *TrueAudio::File::ID3v1Tag(bool create)
-{
+ID3v1::Tag *TrueAudio::File::ID3v1Tag(bool create) {
   return d->tag.access<ID3v1::Tag>(TrueAudioID3v1Index, create);
 }
 
-ID3v2::Tag *TrueAudio::File::ID3v2Tag(bool create)
-{
+ID3v2::Tag *TrueAudio::File::ID3v2Tag(bool create) {
   return d->tag.access<ID3v2::Tag>(TrueAudioID3v2Index, create);
 }
 
-void TrueAudio::File::strip(int tags)
-{
-  if(tags & ID3v1)
+void TrueAudio::File::strip(int tags) {
+  if (tags & ID3v1)
     d->tag.set(TrueAudioID3v1Index, 0);
 
-  if(tags & ID3v2)
+  if (tags & ID3v2)
     d->tag.set(TrueAudioID3v2Index, 0);
 
-  if(!ID3v1Tag())
+  if (!ID3v1Tag())
     ID3v2Tag(true);
 }
 
-bool TrueAudio::File::hasID3v1Tag() const
-{
+bool TrueAudio::File::hasID3v1Tag() const {
   return (d->ID3v1Location >= 0);
 }
 
-bool TrueAudio::File::hasID3v2Tag() const
-{
+bool TrueAudio::File::hasID3v2Tag() const {
   return (d->ID3v2Location >= 0);
 }
 
@@ -265,13 +240,12 @@ bool TrueAudio::File::hasID3v2Tag() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void TrueAudio::File::read(bool readProperties)
-{
+void TrueAudio::File::read(bool readProperties) {
   // Look for an ID3v2 tag
 
   d->ID3v2Location = Utils::findID3v2(this);
 
-  if(d->ID3v2Location >= 0) {
+  if (d->ID3v2Location >= 0) {
     d->tag.set(TrueAudioID3v2Index, new ID3v2::Tag(this, d->ID3v2Location, d->ID3v2FrameFactory));
     d->ID3v2OriginalSize = ID3v2Tag()->header()->completeTagSize();
   }
@@ -280,24 +254,24 @@ void TrueAudio::File::read(bool readProperties)
 
   d->ID3v1Location = Utils::findID3v1(this);
 
-  if(d->ID3v1Location >= 0)
+  if (d->ID3v1Location >= 0)
     d->tag.set(TrueAudioID3v1Index, new ID3v1::Tag(this, d->ID3v1Location));
 
-  if(d->ID3v1Location < 0)
+  if (d->ID3v1Location < 0)
     ID3v2Tag(true);
 
   // Look for TrueAudio metadata
 
-  if(readProperties) {
+  if (readProperties) {
 
     long streamLength;
 
-    if(d->ID3v1Location >= 0)
+    if (d->ID3v1Location >= 0)
       streamLength = d->ID3v1Location;
     else
       streamLength = length();
 
-    if(d->ID3v2Location >= 0) {
+    if (d->ID3v2Location >= 0) {
       seek(d->ID3v2Location + d->ID3v2OriginalSize);
       streamLength -= (d->ID3v2Location + d->ID3v2OriginalSize);
     }

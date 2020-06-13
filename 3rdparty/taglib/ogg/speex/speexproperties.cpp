@@ -38,18 +38,16 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Strawberry_TagLib::TagLib::Ogg;
 
-class Speex::Properties::PropertiesPrivate
-{
-public:
-  PropertiesPrivate() :
-    length(0),
-    bitrate(0),
-    bitrateNominal(0),
-    sampleRate(0),
-    channels(0),
-    speexVersion(0),
-    vbr(false),
-    mode(0) {}
+class Speex::Properties::PropertiesPrivate {
+ public:
+  PropertiesPrivate() : length(0),
+                        bitrate(0),
+                        bitrateNominal(0),
+                        sampleRate(0),
+                        channels(0),
+                        speexVersion(0),
+                        vbr(false),
+                        mode(0) {}
 
   int length;
   int bitrate;
@@ -65,55 +63,44 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Speex::Properties::Properties(File *file, ReadStyle style) :
-  AudioProperties(style),
-  d(new PropertiesPrivate())
-{
+Speex::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
+                                                             d(new PropertiesPrivate()) {
   read(file);
 }
 
-Speex::Properties::~Properties()
-{
+Speex::Properties::~Properties() {
   delete d;
 }
 
-int Speex::Properties::length() const
-{
+int Speex::Properties::length() const {
   return lengthInSeconds();
 }
 
-int Speex::Properties::lengthInSeconds() const
-{
+int Speex::Properties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int Speex::Properties::lengthInMilliseconds() const
-{
+int Speex::Properties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int Speex::Properties::bitrate() const
-{
+int Speex::Properties::bitrate() const {
   return d->bitrate;
 }
 
-int Speex::Properties::bitrateNominal() const
-{
+int Speex::Properties::bitrateNominal() const {
   return d->bitrateNominal;
 }
 
-int Speex::Properties::sampleRate() const
-{
+int Speex::Properties::sampleRate() const {
   return d->sampleRate;
 }
 
-int Speex::Properties::channels() const
-{
+int Speex::Properties::channels() const {
   return d->channels;
 }
 
-int Speex::Properties::speexVersion() const
-{
+int Speex::Properties::speexVersion() const {
   return d->speexVersion;
 }
 
@@ -121,12 +108,11 @@ int Speex::Properties::speexVersion() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Speex::Properties::read(File *file)
-{
+void Speex::Properties::read(File *file) {
   // Get the identification header from the Ogg implementation.
 
   const ByteVector data = file->packet(0);
-  if(data.size() < 64) {
+  if (data.size() < 64) {
     debug("Speex::Properties::read() -- data is too short.");
     return;
   }
@@ -171,16 +157,16 @@ void Speex::Properties::read(File *file)
   // unsigned int framesPerPacket = data.mid(pos, 4).toUInt(false);
 
   const Ogg::PageHeader *first = file->firstPageHeader();
-  const Ogg::PageHeader *last  = file->lastPageHeader();
+  const Ogg::PageHeader *last = file->lastPageHeader();
 
-  if(first && last) {
+  if (first && last) {
     const long long start = first->absoluteGranularPosition();
-    const long long end   = last->absoluteGranularPosition();
+    const long long end = last->absoluteGranularPosition();
 
-    if(start >= 0 && end >= 0 && d->sampleRate > 0) {
+    if (start >= 0 && end >= 0 && d->sampleRate > 0) {
       const long long frameCount = end - start;
 
-      if(frameCount > 0) {
+      if (frameCount > 0) {
         const double length = frameCount * 1000.0 / d->sampleRate;
         long fileLengthWithoutOverhead = file->length();
         // Ignore the two header packets, see "Ogg file format" in
@@ -188,7 +174,7 @@ void Speex::Properties::read(File *file)
         for (unsigned int i = 0; i < 2; ++i) {
           fileLengthWithoutOverhead -= file->packet(i).size();
         }
-        d->length  = static_cast<int>(length + 0.5);
+        d->length = static_cast<int>(length + 0.5);
         d->bitrate = static_cast<int>(fileLengthWithoutOverhead * 8.0 / length + 0.5);
       }
     }
@@ -202,6 +188,6 @@ void Speex::Properties::read(File *file)
 
   // Alternative to the actual average bitrate.
 
-  if(d->bitrate == 0 && d->bitrateNominal > 0)
+  if (d->bitrate == 0 && d->bitrateNominal > 0)
     d->bitrate = static_cast<int>(d->bitrateNominal / 1000.0 + 0.5);
 }

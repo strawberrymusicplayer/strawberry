@@ -34,15 +34,12 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class Vorbis::File::FilePrivate
-{
-public:
-  FilePrivate() :
-    comment(0),
-    properties(0) {}
+class Vorbis::File::FilePrivate {
+ public:
+  FilePrivate() : comment(0),
+                  properties(0) {}
 
-  ~FilePrivate()
-  {
+  ~FilePrivate() {
     delete comment;
     delete properties;
   }
@@ -53,20 +50,19 @@ public:
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-  /*!
+/*!
    * Vorbis headers can be found with one type ID byte and the string "vorbis" in
    * an Ogg stream.  0x03 indicates the comment header.
    */
-  static const char vorbisCommentHeaderID[] = { 0x03, 'v', 'o', 'r', 'b', 'i', 's', 0 };
-}
-}
+static const char vorbisCommentHeaderID[] = { 0x03, 'v', 'o', 'r', 'b', 'i', 's', 0 };
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 ////////////////////////////////////////////////////////////////////////////////
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Vorbis::File::isSupported(IOStream *stream)
-{
+bool Vorbis::File::isSupported(IOStream *stream) {
   // An Ogg Vorbis file has IDs "OggS" and "\x01vorbis" somewhere.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), false);
@@ -77,52 +73,42 @@ bool Vorbis::File::isSupported(IOStream *stream)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Vorbis::File::File(FileName file, bool readProperties, Properties::ReadStyle) :
-  Ogg::File(file),
-  d(new FilePrivate())
-{
-  if(isOpen())
+Vorbis::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file),
+                                                                                d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties);
 }
 
-Vorbis::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) :
-  Ogg::File(stream),
-  d(new FilePrivate())
-{
-  if(isOpen())
+Vorbis::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream),
+                                                                                   d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties);
 }
 
-Vorbis::File::~File()
-{
+Vorbis::File::~File() {
   delete d;
 }
 
-Ogg::XiphComment *Vorbis::File::tag() const
-{
+Ogg::XiphComment *Vorbis::File::tag() const {
   return d->comment;
 }
 
-PropertyMap Vorbis::File::properties() const
-{
+PropertyMap Vorbis::File::properties() const {
   return d->comment->properties();
 }
 
-PropertyMap Vorbis::File::setProperties(const PropertyMap &properties)
-{
+PropertyMap Vorbis::File::setProperties(const PropertyMap &properties) {
   return d->comment->setProperties(properties);
 }
 
-Vorbis::Properties *Vorbis::File::audioProperties() const
-{
+Vorbis::Properties *Vorbis::File::audioProperties() const {
   return d->properties;
 }
 
-bool Vorbis::File::save()
-{
+bool Vorbis::File::save() {
   ByteVector v(vorbisCommentHeaderID);
 
-  if(!d->comment)
+  if (!d->comment)
     d->comment = new Ogg::XiphComment();
   v.append(d->comment->render());
 
@@ -135,11 +121,10 @@ bool Vorbis::File::save()
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vorbis::File::read(bool readProperties)
-{
+void Vorbis::File::read(bool readProperties) {
   ByteVector commentHeaderData = packet(1);
 
-  if(commentHeaderData.mid(0, 7) != vorbisCommentHeaderID) {
+  if (commentHeaderData.mid(0, 7) != vorbisCommentHeaderID) {
     debug("Vorbis::File::read() - Could not find the Vorbis comment header.");
     setValid(false);
     return;
@@ -147,6 +132,6 @@ void Vorbis::File::read(bool readProperties)
 
   d->comment = new Ogg::XiphComment(commentHeaderData.mid(7));
 
-  if(readProperties)
+  if (readProperties)
     d->properties = new Properties(this);
 }

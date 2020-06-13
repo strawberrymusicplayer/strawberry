@@ -33,81 +33,80 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! An implementation of ID3v2 privateframe
+//! An implementation of ID3v2 privateframe
 
-    class TAGLIB_EXPORT PrivateFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT PrivateFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * Construct an empty private frame.
        */
-      PrivateFrame();
+  PrivateFrame();
 
-      /*!
+  /*!
        * Construct a private frame based on the data in \a data.
        *
        * \note This is the constructor used when parsing the frame from a file.
        */
-      explicit PrivateFrame(const ByteVector &data);
+  explicit PrivateFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys this private frame instance.
        */
-      virtual ~PrivateFrame();
+  virtual ~PrivateFrame();
 
-      /*!
+  /*!
        * Returns the text of this private frame, currently just the owner.
        *
        * \see text()
        */
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * \return The owner of the private frame.
        * \note This should contain an email address or link to a website.
        */
-      String owner() const;
+  String owner() const;
 
-      /*!
+  /*!
        *
        */
-      ByteVector data() const;
+  ByteVector data() const;
 
-      /*!
+  /*!
        * Sets the owner of the frame to \a s.
        * \note This should contain an email address or link to a website.
        */
-      void setOwner(const String &s);
+  void setOwner(const String &s);
 
-      /*!
+  /*!
        *
        */
-      void setData(const ByteVector &v);
+  void setData(const ByteVector &v);
 
-    protected:
-      // Reimplementations.
+ protected:
+  // Reimplementations.
 
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-    private:
-      /*!
+ private:
+  /*!
        * The constructor used by the FrameFactory.
        */
-      PrivateFrame(const ByteVector &data, Header *h);
+  PrivateFrame(const ByteVector &data, Header *h);
 
-      PrivateFrame(const PrivateFrame &);
-      PrivateFrame &operator=(const PrivateFrame &);
+  PrivateFrame(const PrivateFrame &);
+  PrivateFrame &operator=(const PrivateFrame &);
 
-      class PrivateFramePrivate;
-      PrivateFramePrivate *d;
-    };
+  class PrivateFramePrivate;
+  PrivateFramePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

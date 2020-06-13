@@ -32,56 +32,57 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-  namespace XM {
-    class TAGLIB_EXPORT Properties : public AudioProperties {
-      friend class File;
-    public:
-      /*! Flag bits. */
-      enum {
-        LinearFreqTable = 1 // otherwise its the amiga freq. table
-      };
+namespace XM {
+class TAGLIB_EXPORT Properties : public AudioProperties {
+  friend class File;
 
-      Properties(AudioProperties::ReadStyle propertiesStyle);
-      virtual ~Properties();
+ public:
+  /*! Flag bits. */
+  enum {
+    LinearFreqTable = 1  // otherwise its the amiga freq. table
+  };
 
-      int length()               const;
-      int lengthInSeconds()      const;
-      int lengthInMilliseconds() const;
-      int bitrate()              const;
-      int sampleRate()           const;
-      int channels()             const;
+  Properties(AudioProperties::ReadStyle propertiesStyle);
+  virtual ~Properties();
 
-      unsigned short lengthInPatterns() const;
-      unsigned short version()          const;
-      unsigned short restartPosition()  const;
-      unsigned short patternCount()     const;
-      unsigned short instrumentCount()  const;
-      unsigned int   sampleCount()      const;
-      unsigned short flags()            const;
-      unsigned short tempo()            const;
-      unsigned short bpmSpeed()         const;
+  int length() const;
+  int lengthInSeconds() const;
+  int lengthInMilliseconds() const;
+  int bitrate() const;
+  int sampleRate() const;
+  int channels() const;
 
-      void setChannels(int channels);
+  unsigned short lengthInPatterns() const;
+  unsigned short version() const;
+  unsigned short restartPosition() const;
+  unsigned short patternCount() const;
+  unsigned short instrumentCount() const;
+  unsigned int sampleCount() const;
+  unsigned short flags() const;
+  unsigned short tempo() const;
+  unsigned short bpmSpeed() const;
 
-      void setLengthInPatterns(unsigned short lengthInPatterns);
-      void setVersion(unsigned short version);
-      void setRestartPosition(unsigned short restartPosition);
-      void setPatternCount(unsigned short patternCount);
-      void setInstrumentCount(unsigned short instrumentCount);
-      void setSampleCount(unsigned int sampleCount);
-      void setFlags(unsigned short flags);
-      void setTempo(unsigned short tempo);
-      void setBpmSpeed(unsigned short bpmSpeed);
+  void setChannels(int channels);
 
-    private:
-      Properties(const Properties&);
-      Properties &operator=(const Properties&);
+  void setLengthInPatterns(unsigned short lengthInPatterns);
+  void setVersion(unsigned short version);
+  void setRestartPosition(unsigned short restartPosition);
+  void setPatternCount(unsigned short patternCount);
+  void setInstrumentCount(unsigned short instrumentCount);
+  void setSampleCount(unsigned int sampleCount);
+  void setFlags(unsigned short flags);
+  void setTempo(unsigned short tempo);
+  void setBpmSpeed(unsigned short bpmSpeed);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
+
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace XM
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

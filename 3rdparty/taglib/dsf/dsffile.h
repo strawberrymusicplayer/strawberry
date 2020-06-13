@@ -33,98 +33,96 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! An implementation of DSF metadata
+//! An implementation of DSF metadata
 
-  /*!
+/*!
    * This is implementation of DSF metadata.
    *
    * This supports an ID3v2 tag as well as properties from the file.
    */
 
-  namespace DSF {
+namespace DSF {
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with DSF specific methods
+//! An implementation of Strawberry_TagLib::TagLib::File with DSF specific methods
 
-    /*!
+/*!
      * This implements and provides an interface for DSF files to the
      * Strawberry_TagLib::TagLib::Tag and Strawberry_TagLib::TagLib::AudioProperties interfaces by way of implementing
      * the abstract Strawberry_TagLib::TagLib::File API as well as providing some additional
      * information specific to DSF files.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * Constructs an DSF file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read using \a propertiesStyle.  If
        * false, \a propertiesStyle is ignored.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an DSF file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read using \a propertiesStyle.  If
        * false, \a propertiesStyle is ignored.
        */
-      File(IOStream *stream, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns the Tag for this file.
        */
-      ID3v2::Tag *tag() const;
+  ID3v2::Tag *tag() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * This method forwards to ID3v2::Tag::properties().
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * This method forwards to ID3v2::Tag::setProperties().
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the DSF::AudioProperties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Saves the file.
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Returns whether or not the given \a stream can be opened as a DSF
        * file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-      static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read(bool readProperties, Properties::ReadStyle propertiesStyle);
+  void read(bool readProperties, Properties::ReadStyle propertiesStyle);
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace DSF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
-

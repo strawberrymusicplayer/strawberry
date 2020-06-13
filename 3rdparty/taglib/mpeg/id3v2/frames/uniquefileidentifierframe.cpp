@@ -33,9 +33,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class UniqueFileIdentifierFrame::UniqueFileIdentifierFramePrivate
-{
-public:
+class UniqueFileIdentifierFrame::UniqueFileIdentifierFramePrivate {
+ public:
   String owner;
   ByteVector identifier;
 };
@@ -44,55 +43,44 @@ public:
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const ByteVector &data) :
-  ID3v2::Frame(data),
-  d(new UniqueFileIdentifierFramePrivate())
-{
+UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const ByteVector &data) : ID3v2::Frame(data),
+                                                                               d(new UniqueFileIdentifierFramePrivate()) {
   setData(data);
 }
 
-UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const String &owner, const ByteVector &id) :
-  ID3v2::Frame("UFID"),
-  d(new UniqueFileIdentifierFramePrivate())
-{
+UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const String &owner, const ByteVector &id) : ID3v2::Frame("UFID"),
+                                                                                                  d(new UniqueFileIdentifierFramePrivate()) {
   d->owner = owner;
   d->identifier = id;
 }
 
-UniqueFileIdentifierFrame::~UniqueFileIdentifierFrame()
-{
+UniqueFileIdentifierFrame::~UniqueFileIdentifierFrame() {
   delete d;
 }
 
-String UniqueFileIdentifierFrame::owner() const
-{
-    return d->owner;
+String UniqueFileIdentifierFrame::owner() const {
+  return d->owner;
 }
 
-ByteVector UniqueFileIdentifierFrame::identifier() const
-{
+ByteVector UniqueFileIdentifierFrame::identifier() const {
   return d->identifier;
 }
 
-void UniqueFileIdentifierFrame::setOwner(const String &s)
-{
+void UniqueFileIdentifierFrame::setOwner(const String &s) {
   d->owner = s;
 }
 
-void UniqueFileIdentifierFrame::setIdentifier(const ByteVector &v)
-{
+void UniqueFileIdentifierFrame::setIdentifier(const ByteVector &v) {
   d->identifier = v;
 }
 
-String UniqueFileIdentifierFrame::toString() const
-{
+String UniqueFileIdentifierFrame::toString() const {
   return String();
 }
 
-PropertyMap UniqueFileIdentifierFrame::asProperties() const
-{
+PropertyMap UniqueFileIdentifierFrame::asProperties() const {
   PropertyMap map;
-  if(d->owner == "http://musicbrainz.org") {
+  if (d->owner == "http://musicbrainz.org") {
     map.insert("MUSICBRAINZ_TRACKID", String(d->identifier));
   }
   else {
@@ -101,25 +89,23 @@ PropertyMap UniqueFileIdentifierFrame::asProperties() const
   return map;
 }
 
-UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::Tag *tag, const String &o) // static
+UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::Tag *tag, const String &o)  // static
 {
   ID3v2::FrameList comments = tag->frameList("UFID");
 
-  for(ID3v2::FrameList::ConstIterator it = comments.begin();
-      it != comments.end();
-      ++it)
-  {
+  for (ID3v2::FrameList::ConstIterator it = comments.begin();
+       it != comments.end();
+       ++it) {
     UniqueFileIdentifierFrame *frame = dynamic_cast<UniqueFileIdentifierFrame *>(*it);
-    if(frame && frame->owner() == o)
+    if (frame && frame->owner() == o)
       return frame;
   }
 
   return nullptr;
 }
 
-void UniqueFileIdentifierFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 1) {
+void UniqueFileIdentifierFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 1) {
     debug("An UFID frame must contain at least 1 byte.");
     return;
   }
@@ -129,8 +115,7 @@ void UniqueFileIdentifierFrame::parseFields(const ByteVector &data)
   d->identifier = data.mid(pos);
 }
 
-ByteVector UniqueFileIdentifierFrame::renderFields() const
-{
+ByteVector UniqueFileIdentifierFrame::renderFields() const {
   ByteVector data;
 
   data.append(d->owner.data(String::Latin1));
@@ -140,9 +125,7 @@ ByteVector UniqueFileIdentifierFrame::renderFields() const
   return data;
 }
 
-UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new UniqueFileIdentifierFramePrivate())
-{
+UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                                          d(new UniqueFileIdentifierFramePrivate()) {
   parseFields(fieldData(data));
 }

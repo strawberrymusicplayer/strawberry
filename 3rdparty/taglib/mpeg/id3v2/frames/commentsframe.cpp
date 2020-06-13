@@ -34,9 +34,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class CommentsFrame::CommentsFramePrivate
-{
-public:
+class CommentsFrame::CommentsFramePrivate {
+ public:
   CommentsFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   ByteVector language;
@@ -48,91 +47,75 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-CommentsFrame::CommentsFrame(String::Type encoding) :
-  Frame("COMM"),
-  d(new CommentsFramePrivate())
-{
+CommentsFrame::CommentsFrame(String::Type encoding) : Frame("COMM"),
+                                                      d(new CommentsFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-CommentsFrame::CommentsFrame(const ByteVector &data) :
-  Frame(data),
-  d(new CommentsFramePrivate())
-{
+CommentsFrame::CommentsFrame(const ByteVector &data) : Frame(data),
+                                                       d(new CommentsFramePrivate()) {
   setData(data);
 }
 
-CommentsFrame::~CommentsFrame()
-{
+CommentsFrame::~CommentsFrame() {
   delete d;
 }
 
-String CommentsFrame::toString() const
-{
+String CommentsFrame::toString() const {
   return d->text;
 }
 
-ByteVector CommentsFrame::language() const
-{
+ByteVector CommentsFrame::language() const {
   return d->language;
 }
 
-String CommentsFrame::description() const
-{
+String CommentsFrame::description() const {
   return d->description;
 }
 
-String CommentsFrame::text() const
-{
+String CommentsFrame::text() const {
   return d->text;
 }
 
-void CommentsFrame::setLanguage(const ByteVector &languageEncoding)
-{
+void CommentsFrame::setLanguage(const ByteVector &languageEncoding) {
   d->language = languageEncoding.mid(0, 3);
 }
 
-void CommentsFrame::setDescription(const String &s)
-{
+void CommentsFrame::setDescription(const String &s) {
   d->description = s;
 }
 
-void CommentsFrame::setText(const String &s)
-{
+void CommentsFrame::setText(const String &s) {
   d->text = s;
 }
 
-String::Type CommentsFrame::textEncoding() const
-{
+String::Type CommentsFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-void CommentsFrame::setTextEncoding(String::Type encoding)
-{
+void CommentsFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
-PropertyMap CommentsFrame::asProperties() const
-{
+PropertyMap CommentsFrame::asProperties() const {
   String key = description().upper();
   PropertyMap map;
-  if(key.isEmpty() || key == "COMMENT")
+  if (key.isEmpty() || key == "COMMENT")
     map.insert("COMMENT", text());
   else
     map.insert("COMMENT:" + key, text());
   return map;
 }
 
-CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const String &d) // static
+CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const String &d)  // static
 {
   ID3v2::FrameList comments = tag->frameList("COMM");
 
-  for(ID3v2::FrameList::ConstIterator it = comments.begin();
-      it != comments.end();
-      ++it)
-  {
+  for (ID3v2::FrameList::ConstIterator it = comments.begin();
+       it != comments.end();
+       ++it) {
     CommentsFrame *frame = dynamic_cast<CommentsFrame *>(*it);
-    if(frame && frame->description() == d)
+    if (frame && frame->description() == d)
       return frame;
   }
 
@@ -143,9 +126,8 @@ CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const Str
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void CommentsFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 5) {
+void CommentsFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 5) {
     debug("A comment frame must contain at least 5 bytes.");
     return;
   }
@@ -157,19 +139,19 @@ void CommentsFrame::parseFields(const ByteVector &data)
 
   ByteVectorList l = ByteVectorList::split(data.mid(4), textDelimiter(d->textEncoding), byteAlign, 2);
 
-  if(l.size() == 2) {
-    if(d->textEncoding == String::Latin1) {
+  if (l.size() == 2) {
+    if (d->textEncoding == String::Latin1) {
       d->description = Tag::latin1StringHandler()->parse(l.front());
       d->text = Tag::latin1StringHandler()->parse(l.back());
-    } else {
+    }
+    else {
       d->description = String(l.front(), d->textEncoding);
       d->text = String(l.back(), d->textEncoding);
     }
   }
 }
 
-ByteVector CommentsFrame::renderFields() const
-{
+ByteVector CommentsFrame::renderFields() const {
   ByteVector v;
 
   String::Type encoding = d->textEncoding;
@@ -190,9 +172,7 @@ ByteVector CommentsFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-CommentsFrame::CommentsFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new CommentsFramePrivate())
-{
+CommentsFrame::CommentsFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                  d(new CommentsFramePrivate()) {
   parseFields(fieldData(data));
 }

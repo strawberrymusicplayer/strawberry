@@ -32,42 +32,41 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace Mod {
+namespace Mod {
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      Properties(AudioProperties::ReadStyle propertiesStyle);
-      virtual ~Properties();
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  Properties(AudioProperties::ReadStyle propertiesStyle);
+  virtual ~Properties();
 
-      int length()               const;
-      int lengthInSeconds()      const;
-      int lengthInMilliseconds() const;
-      int bitrate()              const;
-      int sampleRate()           const;
-      int channels()             const;
+  int length() const;
+  int lengthInSeconds() const;
+  int lengthInMilliseconds() const;
+  int bitrate() const;
+  int sampleRate() const;
+  int channels() const;
 
-      unsigned int  instrumentCount()  const;
-      unsigned char lengthInPatterns() const;
+  unsigned int instrumentCount() const;
+  unsigned char lengthInPatterns() const;
 
-      void setChannels(int channels);
+  void setChannels(int channels);
 
-      void setInstrumentCount(unsigned int sampleCount);
-      void setLengthInPatterns(unsigned char lengthInPatterns);
+  void setInstrumentCount(unsigned int sampleCount);
+  void setLengthInPatterns(unsigned char lengthInPatterns);
 
-    private:
-      friend class File;
+ private:
+  friend class File;
 
-      Properties(const Properties&);
-      Properties &operator=(const Properties&);
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
 
-  }
+}  // namespace Mod
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

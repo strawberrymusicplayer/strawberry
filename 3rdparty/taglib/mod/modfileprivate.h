@@ -24,44 +24,43 @@
 
 // some helper-macros only used internally by (s3m|it|xm)file.cpp
 #define READ_ASSERT(cond) \
-  if(!(cond)) \
-  { \
-    setValid(false); \
-    return; \
+  if (!(cond)) {          \
+    setValid(false);      \
+    return;               \
   }
 
-#define READ(setter,type,read) \
-  { \
-    type number; \
-    READ_ASSERT(read(number)); \
-    setter(number); \
+#define READ(setter, type, read) \
+  {                              \
+    type number;                 \
+    READ_ASSERT(read(number));   \
+    setter(number);              \
   }
 
-#define READ_BYTE(setter) READ(setter,unsigned char,readByte)
-#define READ_U16L(setter) READ(setter,unsigned short,readU16L)
-#define READ_U32L(setter) READ(setter,unsigned long,readU32L)
-#define READ_U16B(setter) READ(setter,unsigned short,readU16B)
-#define READ_U32B(setter) READ(setter,unsigned long,readU32B)
+#define READ_BYTE(setter) READ(setter, unsigned char, readByte)
+#define READ_U16L(setter) READ(setter, unsigned short, readU16L)
+#define READ_U32L(setter) READ(setter, unsigned long, readU32L)
+#define READ_U16B(setter) READ(setter, unsigned short, readU16B)
+#define READ_U32B(setter) READ(setter, unsigned long, readU32B)
 
-#define READ_STRING(setter,size) \
-  { \
-    String s; \
+#define READ_STRING(setter, size)     \
+  {                                   \
+    String s;                         \
     READ_ASSERT(readString(s, size)); \
-    setter(s); \
+    setter(s);                        \
   }
 
-#define READ_AS(type,name,read) \
-  type name = 0; \
+#define READ_AS(type, name, read) \
+  type name = 0;                  \
   READ_ASSERT(read(name));
 
-#define READ_BYTE_AS(name) READ_AS(unsigned char,name,readByte)
-#define READ_U16L_AS(name) READ_AS(unsigned short,name,readU16L)
-#define READ_U32L_AS(name) READ_AS(unsigned long,name,readU32L)
-#define READ_U16B_AS(name) READ_AS(unsigned short,name,readU16B)
-#define READ_U32B_AS(name) READ_AS(unsigned long,name,readU32B)
+#define READ_BYTE_AS(name) READ_AS(unsigned char, name, readByte)
+#define READ_U16L_AS(name) READ_AS(unsigned short, name, readU16L)
+#define READ_U32L_AS(name) READ_AS(unsigned long, name, readU32L)
+#define READ_U16B_AS(name) READ_AS(unsigned short, name, readU16B)
+#define READ_U32B_AS(name) READ_AS(unsigned long, name, readU32B)
 
-#define READ_STRING_AS(name,size) \
-  String name; \
+#define READ_STRING_AS(name, size) \
+  String name;                     \
   READ_ASSERT(readString(name, size));
 
 #endif

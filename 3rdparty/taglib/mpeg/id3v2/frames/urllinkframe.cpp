@@ -35,15 +35,13 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class UrlLinkFrame::UrlLinkFramePrivate
-{
-public:
+class UrlLinkFrame::UrlLinkFramePrivate {
+ public:
   String url;
 };
 
-class UserUrlLinkFrame::UserUrlLinkFramePrivate
-{
-public:
+class UserUrlLinkFrame::UserUrlLinkFramePrivate {
+ public:
   UserUrlLinkFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   String description;
@@ -53,43 +51,35 @@ public:
 // UrlLinkFrame public members
 ////////////////////////////////////////////////////////////////////////////////
 
-UrlLinkFrame::UrlLinkFrame(const ByteVector &data) :
-  Frame(data),
-  d(new UrlLinkFramePrivate())
-{
+UrlLinkFrame::UrlLinkFrame(const ByteVector &data) : Frame(data),
+                                                     d(new UrlLinkFramePrivate()) {
   setData(data);
 }
 
-UrlLinkFrame::~UrlLinkFrame()
-{
+UrlLinkFrame::~UrlLinkFrame() {
   delete d;
 }
 
-void UrlLinkFrame::setUrl(const String &s)
-{
+void UrlLinkFrame::setUrl(const String &s) {
   d->url = s;
 }
 
-String UrlLinkFrame::url() const
-{
+String UrlLinkFrame::url() const {
   return d->url;
 }
 
-void UrlLinkFrame::setText(const String &s)
-{
+void UrlLinkFrame::setText(const String &s) {
   setUrl(s);
 }
 
-String UrlLinkFrame::toString() const
-{
+String UrlLinkFrame::toString() const {
   return url();
 }
 
-PropertyMap UrlLinkFrame::asProperties() const
-{
+PropertyMap UrlLinkFrame::asProperties() const {
   String key = frameIDToKey(frameID());
   PropertyMap map;
-  if(key.isEmpty())
+  if (key.isEmpty())
     // unknown W*** frame - this normally shouldn't happen
     map.unsupportedData().append(frameID());
   else
@@ -101,20 +91,16 @@ PropertyMap UrlLinkFrame::asProperties() const
 // UrlLinkFrame protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void UrlLinkFrame::parseFields(const ByteVector &data)
-{
+void UrlLinkFrame::parseFields(const ByteVector &data) {
   d->url = String(data);
 }
 
-ByteVector UrlLinkFrame::renderFields() const
-{
+ByteVector UrlLinkFrame::renderFields() const {
   return d->url.data(String::Latin1);
 }
 
-UrlLinkFrame::UrlLinkFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new UrlLinkFramePrivate())
-{
+UrlLinkFrame::UrlLinkFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                d(new UrlLinkFramePrivate()) {
   parseFields(fieldData(data));
 }
 
@@ -122,67 +108,56 @@ UrlLinkFrame::UrlLinkFrame(const ByteVector &data, Header *h) :
 // UserUrlLinkFrame public members
 ////////////////////////////////////////////////////////////////////////////////
 
-UserUrlLinkFrame::UserUrlLinkFrame(String::Type encoding) :
-  UrlLinkFrame("WXXX"),
-  d(new UserUrlLinkFramePrivate())
-{
+UserUrlLinkFrame::UserUrlLinkFrame(String::Type encoding) : UrlLinkFrame("WXXX"),
+                                                            d(new UserUrlLinkFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-UserUrlLinkFrame::UserUrlLinkFrame(const ByteVector &data) :
-  UrlLinkFrame(data),
-  d(new UserUrlLinkFramePrivate())
-{
+UserUrlLinkFrame::UserUrlLinkFrame(const ByteVector &data) : UrlLinkFrame(data),
+                                                             d(new UserUrlLinkFramePrivate()) {
   setData(data);
 }
 
-UserUrlLinkFrame::~UserUrlLinkFrame()
-{
+UserUrlLinkFrame::~UserUrlLinkFrame() {
   delete d;
 }
 
-String UserUrlLinkFrame::toString() const
-{
+String UserUrlLinkFrame::toString() const {
   return "[" + description() + "] " + url();
 }
 
-String::Type UserUrlLinkFrame::textEncoding() const
-{
+String::Type UserUrlLinkFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-void UserUrlLinkFrame::setTextEncoding(String::Type encoding)
-{
+void UserUrlLinkFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
-String UserUrlLinkFrame::description() const
-{
+String UserUrlLinkFrame::description() const {
   return d->description;
 }
 
-void UserUrlLinkFrame::setDescription(const String &s)
-{
+void UserUrlLinkFrame::setDescription(const String &s) {
   d->description = s;
 }
 
-PropertyMap UserUrlLinkFrame::asProperties() const
-{
+PropertyMap UserUrlLinkFrame::asProperties() const {
   PropertyMap map;
   String key = description().upper();
-  if(key.isEmpty() || key == "URL")
+  if (key.isEmpty() || key == "URL")
     map.insert("URL", url());
   else
     map.insert("URL:" + key, url());
   return map;
 }
 
-UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &description) // static
+UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &description)  // static
 {
   FrameList l = tag->frameList("WXXX");
-  for(FrameList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+  for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it) {
     UserUrlLinkFrame *f = dynamic_cast<UserUrlLinkFrame *>(*it);
-    if(f && f->description() == description)
+    if (f && f->description() == description)
       return f;
   }
   return nullptr;
@@ -192,9 +167,8 @@ UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &descript
 // UserUrlLinkFrame protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void UserUrlLinkFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 2) {
+void UserUrlLinkFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 2) {
     debug("A user URL link frame must contain at least 2 bytes.");
     return;
   }
@@ -204,9 +178,9 @@ void UserUrlLinkFrame::parseFields(const ByteVector &data)
   d->textEncoding = String::Type(data[0]);
   pos += 1;
 
-  if(d->textEncoding == String::Latin1 || d->textEncoding == String::UTF8) {
+  if (d->textEncoding == String::Latin1 || d->textEncoding == String::UTF8) {
     int offset = data.find(textDelimiter(d->textEncoding), pos);
-    if(offset < pos)
+    if (offset < pos)
       return;
 
     d->description = String(data.mid(pos, offset - pos), d->textEncoding);
@@ -214,7 +188,7 @@ void UserUrlLinkFrame::parseFields(const ByteVector &data)
   }
   else {
     int len = data.mid(pos).find(textDelimiter(d->textEncoding), 0, 2);
-    if(len < 0)
+    if (len < 0)
       return;
 
     d->description = String(data.mid(pos, len), d->textEncoding);
@@ -224,8 +198,7 @@ void UserUrlLinkFrame::parseFields(const ByteVector &data)
   setUrl(String(data.mid(pos)));
 }
 
-ByteVector UserUrlLinkFrame::renderFields() const
-{
+ByteVector UserUrlLinkFrame::renderFields() const {
   ByteVector v;
 
   String::Type encoding = checkTextEncoding(d->description, d->textEncoding);
@@ -238,9 +211,7 @@ ByteVector UserUrlLinkFrame::renderFields() const
   return v;
 }
 
-UserUrlLinkFrame::UserUrlLinkFrame(const ByteVector &data, Header *h) :
-  UrlLinkFrame(data, h),
-  d(new UserUrlLinkFramePrivate())
-{
+UserUrlLinkFrame::UserUrlLinkFrame(const ByteVector &data, Header *h) : UrlLinkFrame(data, h),
+                                                                        d(new UserUrlLinkFramePrivate()) {
   parseFields(fieldData(data));
 }

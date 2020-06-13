@@ -32,13 +32,11 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class SynchronizedLyricsFrame::SynchronizedLyricsFramePrivate
-{
-public:
-  SynchronizedLyricsFramePrivate() :
-    textEncoding(String::Latin1),
-    timestampFormat(SynchronizedLyricsFrame::AbsoluteMilliseconds),
-    type(SynchronizedLyricsFrame::Lyrics) {}
+class SynchronizedLyricsFrame::SynchronizedLyricsFramePrivate {
+ public:
+  SynchronizedLyricsFramePrivate() : textEncoding(String::Latin1),
+                                     timestampFormat(SynchronizedLyricsFrame::AbsoluteMilliseconds),
+                                     type(SynchronizedLyricsFrame::Lyrics) {}
   String::Type textEncoding;
   ByteVector language;
   SynchronizedLyricsFrame::TimestampFormat timestampFormat;
@@ -51,90 +49,72 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-SynchronizedLyricsFrame::SynchronizedLyricsFrame(String::Type encoding) :
-  Frame("SYLT"),
-  d(new SynchronizedLyricsFramePrivate())
-{
+SynchronizedLyricsFrame::SynchronizedLyricsFrame(String::Type encoding) : Frame("SYLT"),
+                                                                          d(new SynchronizedLyricsFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-SynchronizedLyricsFrame::SynchronizedLyricsFrame(const ByteVector &data) :
-  Frame(data),
-  d(new SynchronizedLyricsFramePrivate())
-{
+SynchronizedLyricsFrame::SynchronizedLyricsFrame(const ByteVector &data) : Frame(data),
+                                                                           d(new SynchronizedLyricsFramePrivate()) {
   setData(data);
 }
 
-SynchronizedLyricsFrame::~SynchronizedLyricsFrame()
-{
+SynchronizedLyricsFrame::~SynchronizedLyricsFrame() {
   delete d;
 }
 
-String SynchronizedLyricsFrame::toString() const
-{
+String SynchronizedLyricsFrame::toString() const {
   return d->description;
 }
 
-String::Type SynchronizedLyricsFrame::textEncoding() const
-{
+String::Type SynchronizedLyricsFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-ByteVector SynchronizedLyricsFrame::language() const
-{
+ByteVector SynchronizedLyricsFrame::language() const {
   return d->language;
 }
 
 SynchronizedLyricsFrame::TimestampFormat
-SynchronizedLyricsFrame::timestampFormat() const
-{
+SynchronizedLyricsFrame::timestampFormat() const {
   return d->timestampFormat;
 }
 
-SynchronizedLyricsFrame::Type SynchronizedLyricsFrame::type() const
-{
+SynchronizedLyricsFrame::Type SynchronizedLyricsFrame::type() const {
   return d->type;
 }
 
-String SynchronizedLyricsFrame::description() const
-{
+String SynchronizedLyricsFrame::description() const {
   return d->description;
 }
 
 SynchronizedLyricsFrame::SynchedTextList
-SynchronizedLyricsFrame::synchedText() const
-{
+SynchronizedLyricsFrame::synchedText() const {
   return d->synchedText;
 }
 
-void SynchronizedLyricsFrame::setTextEncoding(String::Type encoding)
-{
+void SynchronizedLyricsFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
-void SynchronizedLyricsFrame::setLanguage(const ByteVector &languageEncoding)
-{
+void SynchronizedLyricsFrame::setLanguage(const ByteVector &languageEncoding) {
   d->language = languageEncoding.mid(0, 3);
 }
 
-void SynchronizedLyricsFrame::setTimestampFormat(SynchronizedLyricsFrame::TimestampFormat f)
-{
+void SynchronizedLyricsFrame::setTimestampFormat(SynchronizedLyricsFrame::TimestampFormat f) {
   d->timestampFormat = f;
 }
 
-void SynchronizedLyricsFrame::setType(SynchronizedLyricsFrame::Type t)
-{
+void SynchronizedLyricsFrame::setType(SynchronizedLyricsFrame::Type t) {
   d->type = t;
 }
 
-void SynchronizedLyricsFrame::setDescription(const String &s)
-{
+void SynchronizedLyricsFrame::setDescription(const String &s) {
   d->description = s;
 }
 
 void SynchronizedLyricsFrame::setSynchedText(
-    const SynchronizedLyricsFrame::SynchedTextList &t)
-{
+  const SynchronizedLyricsFrame::SynchedTextList &t) {
   d->synchedText = t;
 }
 
@@ -142,10 +122,9 @@ void SynchronizedLyricsFrame::setSynchedText(
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void SynchronizedLyricsFrame::parseFields(const ByteVector &data)
-{
+void SynchronizedLyricsFrame::parseFields(const ByteVector &data) {
   const int end = data.size();
-  if(end < 7) {
+  if (end < 7) {
     debug("A synchronized lyrics frame must contain at least 7 bytes.");
     return;
   }
@@ -158,7 +137,7 @@ void SynchronizedLyricsFrame::parseFields(const ByteVector &data)
   int pos = 6;
 
   d->description = readStringField(data, d->textEncoding, &pos);
-  if(pos == 6)
+  if (pos == 6)
     return;
 
   /*
@@ -169,27 +148,28 @@ void SynchronizedLyricsFrame::parseFields(const ByteVector &data)
    * case of strings without BOM so that readStringField() will work.
    */
   String::Type encWithEndianness = d->textEncoding;
-  if(d->textEncoding == String::UTF16) {
+  if (d->textEncoding == String::UTF16) {
     unsigned short bom = data.toUShort(6, true);
-    if(bom == 0xfffe) {
+    if (bom == 0xfffe) {
       encWithEndianness = String::UTF16LE;
-    } else if(bom == 0xfeff) {
+    }
+    else if (bom == 0xfeff) {
       encWithEndianness = String::UTF16BE;
     }
   }
 
   d->synchedText.clear();
-  while(pos < end) {
+  while (pos < end) {
     String::Type enc = d->textEncoding;
     // If a UTF16 string has no BOM, use the encoding found above.
-    if(enc == String::UTF16 && pos + 1 < end) {
+    if (enc == String::UTF16 && pos + 1 < end) {
       unsigned short bom = data.toUShort(pos, true);
-      if(bom != 0xfffe && bom != 0xfeff) {
+      if (bom != 0xfffe && bom != 0xfeff) {
         enc = encWithEndianness;
       }
     }
     String text = readStringField(data, enc, &pos);
-    if(pos + 4 > end)
+    if (pos + 4 > end)
       return;
 
     unsigned int time = data.toUInt(pos, true);
@@ -199,16 +179,15 @@ void SynchronizedLyricsFrame::parseFields(const ByteVector &data)
   }
 }
 
-ByteVector SynchronizedLyricsFrame::renderFields() const
-{
+ByteVector SynchronizedLyricsFrame::renderFields() const {
   ByteVector v;
 
   String::Type encoding = d->textEncoding;
 
   encoding = checkTextEncoding(d->description, encoding);
-  for(SynchedTextList::ConstIterator it = d->synchedText.begin();
-      it != d->synchedText.end();
-      ++it) {
+  for (SynchedTextList::ConstIterator it = d->synchedText.begin();
+       it != d->synchedText.end();
+       ++it) {
     encoding = checkTextEncoding(it->text, encoding);
   }
 
@@ -218,9 +197,9 @@ ByteVector SynchronizedLyricsFrame::renderFields() const
   v.append(char(d->type));
   v.append(d->description.data(encoding));
   v.append(textDelimiter(encoding));
-  for(SynchedTextList::ConstIterator it = d->synchedText.begin();
-      it != d->synchedText.end();
-      ++it) {
+  for (SynchedTextList::ConstIterator it = d->synchedText.begin();
+       it != d->synchedText.end();
+       ++it) {
     const SynchedText &entry = *it;
     v.append(entry.text.data(encoding));
     v.append(textDelimiter(encoding));
@@ -234,9 +213,7 @@ ByteVector SynchronizedLyricsFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-SynchronizedLyricsFrame::SynchronizedLyricsFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new SynchronizedLyricsFramePrivate())
-{
+SynchronizedLyricsFrame::SynchronizedLyricsFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                                      d(new SynchronizedLyricsFramePrivate()) {
   parseFields(fieldData(data));
 }

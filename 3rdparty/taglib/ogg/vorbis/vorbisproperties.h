@@ -40,35 +40,34 @@ namespace TagLib {
  */
 
 #ifdef DOXYGEN
-  namespace Ogg {
+namespace Ogg {
 #endif
 
-  namespace Vorbis {
+namespace Vorbis {
 
-    class File;
+class File;
 
-    //! An implementation of audio property reading for Ogg Vorbis
+//! An implementation of audio property reading for Ogg Vorbis
 
-    /*!
+/*!
      * This reads the data from an Ogg Vorbis stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of Vorbis::Properties with the data read from the
        * Vorbis::File \a file.
        */
-      Properties(File *file, ReadStyle style = Average);
+  Properties(File *file, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this VorbisProperties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -76,73 +75,73 @@ namespace TagLib {
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns the Vorbis version, currently "0" (as specified by the spec).
        */
-      int vorbisVersion() const;
+  int vorbisVersion() const;
 
-      /*!
+  /*!
        * Returns the maximum bitrate as read from the Vorbis identification
        * header.
        */
-      int bitrateMaximum() const;
+  int bitrateMaximum() const;
 
-      /*!
+  /*!
        * Returns the nominal bitrate as read from the Vorbis identification
        * header.
        */
-      int bitrateNominal() const;
+  int bitrateNominal() const;
 
-      /*!
+  /*!
        * Returns the minimum bitrate as read from the Vorbis identification
        * header.
        */
-      int bitrateMinimum() const;
+  int bitrateMinimum() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(File *file);
+  void read(File *file);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace Vorbis
 
 /*
  * To keep compatibility with the current version put Vorbis in the Ogg namespace
@@ -151,12 +150,16 @@ namespace TagLib {
  */
 
 #ifdef DOXYGEN
-  }
+}
 #else
-  namespace Ogg { namespace Vorbis { typedef Strawberry_TagLib::TagLib::AudioProperties AudioProperties; } }
+namespace Ogg {
+namespace Vorbis {
+typedef Strawberry_TagLib::TagLib::AudioProperties AudioProperties;
+}
+}  // namespace Ogg
 #endif
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

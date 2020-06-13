@@ -34,9 +34,8 @@ using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 
-class PrivateFrame::PrivateFramePrivate
-{
-public:
+class PrivateFrame::PrivateFramePrivate {
+ public:
   ByteVector data;
   String owner;
 };
@@ -45,46 +44,36 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PrivateFrame::PrivateFrame() :
-  Frame("PRIV"),
-  d(new PrivateFramePrivate())
-{
+PrivateFrame::PrivateFrame() : Frame("PRIV"),
+                               d(new PrivateFramePrivate()) {
 }
 
-PrivateFrame::PrivateFrame(const ByteVector &data) :
-  Frame(data),
-  d(new PrivateFramePrivate())
-{
+PrivateFrame::PrivateFrame(const ByteVector &data) : Frame(data),
+                                                     d(new PrivateFramePrivate()) {
   setData(data);
 }
 
-PrivateFrame::~PrivateFrame()
-{
+PrivateFrame::~PrivateFrame() {
   delete d;
 }
 
-String PrivateFrame::toString() const
-{
+String PrivateFrame::toString() const {
   return d->owner;
 }
 
-String PrivateFrame::owner() const
-{
+String PrivateFrame::owner() const {
   return d->owner;
 }
 
-ByteVector PrivateFrame::data() const
-{
+ByteVector PrivateFrame::data() const {
   return d->data;
 }
 
-void PrivateFrame::setOwner(const String &s)
-{
+void PrivateFrame::setOwner(const String &s) {
   d->owner = s;
 }
 
-void PrivateFrame::setData(const ByteVector & data)
-{
+void PrivateFrame::setData(const ByteVector &data) {
   d->data = data;
 }
 
@@ -92,24 +81,22 @@ void PrivateFrame::setData(const ByteVector & data)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void PrivateFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 2) {
+void PrivateFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 2) {
     debug("A private frame must contain at least 2 bytes.");
     return;
   }
 
   // Owner identifier is assumed to be Latin1
 
-  const int byteAlign =  1;
+  const int byteAlign = 1;
   const int endOfOwner = data.find(textDelimiter(String::Latin1), 0, byteAlign);
 
-  d->owner =  String(data.mid(0, endOfOwner));
+  d->owner = String(data.mid(0, endOfOwner));
   d->data = data.mid(endOfOwner + 1);
 }
 
-ByteVector PrivateFrame::renderFields() const
-{
+ByteVector PrivateFrame::renderFields() const {
   ByteVector v;
 
   v.append(d->owner.data(String::Latin1));
@@ -123,9 +110,7 @@ ByteVector PrivateFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PrivateFrame::PrivateFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new PrivateFramePrivate())
-{
+PrivateFrame::PrivateFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                d(new PrivateFramePrivate()) {
   parseFields(fieldData(data));
 }

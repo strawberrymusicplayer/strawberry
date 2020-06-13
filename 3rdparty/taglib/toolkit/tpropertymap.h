@@ -32,11 +32,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  typedef Map<String,StringList> SimplePropertyMap;
+typedef Map<String, StringList> SimplePropertyMap;
 
-  //! A map for format-independent <key,valuelist> tag representations.
+//! A map for format-independent <key,valuelist> tag representations.
 
-  /*!
+/*!
    * This map implements a generic representation of textual audio metadata
    * ("tags") realized as pairs of a case-insensitive key
    * and a nonempty list of corresponding values, each value being an arbitrary
@@ -106,108 +106,106 @@ namespace TagLib {
    *
    */
 
-  class TAGLIB_EXPORT PropertyMap: public SimplePropertyMap
-  {
-  public:
+class TAGLIB_EXPORT PropertyMap : public SimplePropertyMap {
+ public:
+  typedef SimplePropertyMap::Iterator Iterator;
+  typedef SimplePropertyMap::ConstIterator ConstIterator;
 
-    typedef SimplePropertyMap::Iterator Iterator;
-    typedef SimplePropertyMap::ConstIterator ConstIterator;
+  PropertyMap();
 
-    PropertyMap();
-
-    /*!
+  /*!
      * Creates a PropertyMap initialized from a SimplePropertyMap. Copies all
      * entries from \a m that have valid keys.
      * Invalid keys will be appended to the unsupportedData() list.
      */
-    PropertyMap(const SimplePropertyMap &m);
+  PropertyMap(const SimplePropertyMap &m);
 
-    virtual ~PropertyMap();
+  virtual ~PropertyMap();
 
-    /*!
+  /*!
      * Inserts \a values under \a key in the map.  If \a key already exists,
      * then \a values will be appended to the existing StringList.
      * The returned value indicates success, i.e. whether \a key is a
      * valid key.
      */
-    bool insert(const String &key, const StringList &values);
+  bool insert(const String &key, const StringList &values);
 
-    /*!
+  /*!
      * Replaces any existing values for \a key with the given \a values,
      * and simply insert them if \a key did not exist before.
      * The returned value indicates success, i.e. whether \a key is a
      * valid key.
      */
-    bool replace(const String &key, const StringList &values);
+  bool replace(const String &key, const StringList &values);
 
-    /*!
+  /*!
      * Find the first occurrence of \a key.
      */
-    Iterator find(const String &key);
+  Iterator find(const String &key);
 
-    /*!
+  /*!
      * Find the first occurrence of \a key.
      */
-    ConstIterator find(const String &key) const;
+  ConstIterator find(const String &key) const;
 
-    /*!
+  /*!
      * Returns true if the map contains values for \a key.
      */
-    bool contains(const String &key) const;
+  bool contains(const String &key) const;
 
-    /*!
+  /*!
      * Returns true if this map contains all keys of \a other
      * and the values coincide for that keys. Does not take
      * the unsupportedData list into account.
      */
-    bool contains(const PropertyMap &other) const;
+  bool contains(const PropertyMap &other) const;
 
-    /*!
+  /*!
      * Erase the \a key and its values from the map.
      */
-    PropertyMap &erase(const String &key);
+  PropertyMap &erase(const String &key);
 
-    /*!
+  /*!
      * Erases from this map all keys that appear in \a other.
      */
-    PropertyMap &erase(const PropertyMap &other);
+  PropertyMap &erase(const PropertyMap &other);
 
-    /*!
+  /*!
      * Merge the contents of \a other into this PropertyMap.
      * If a key is contained in both maps, the values of the second
      * are appended to that of the first.
      * The unsupportedData() lists are concatenated as well.
      */
-    PropertyMap &merge(const PropertyMap &other);
+  PropertyMap &merge(const PropertyMap &other);
 
-    /*!
+  /*!
      * Returns a reference to the value associated with \a key.
      *
      * \note: If \a key is not contained in the map, an empty
      * StringList is returned without error.
      */
-    const StringList &operator[](const String &key) const;
+  const StringList &operator[](const String &key) const;
 
-    /*!
+  /*!
      * Returns a reference to the value associated with \a key.
      *
      * \note: If \a key is not contained in the map, an empty
      * StringList is returned. You can also directly add entries
      * by using this function as an lvalue.
      */
-    StringList &operator[](const String &key);
+  StringList &operator[](const String &key);
 
-    /*!
+  /*!
      * Returns true if and only if \other has the same contents as this map.
      */
-    bool operator==(const PropertyMap &other) const;
+  bool operator==(const PropertyMap &other) const;
 
-    /*!
+  /*!
      * Returns false if and only \other has the same contents as this map.
      */
-    bool operator!=(const PropertyMap &other) const;
+  bool operator!=(const PropertyMap &other) const;
 
-    /*!
+  /*!
      * If a PropertyMap is read from a File object using File::properties(),
      * the StringList returned from this function will represent metadata
      * that could not be parsed into the PropertyMap representation. This could
@@ -216,22 +214,20 @@ namespace TagLib {
      * those unsupported elements if you call File::setProperties() with the
      * same PropertyMap as argument.
      */
-    StringList &unsupportedData();
-    const StringList &unsupportedData() const;
+  StringList &unsupportedData();
+  const StringList &unsupportedData() const;
 
-    /*!
+  /*!
      * Removes all entries which have an empty value list.
      */
-    void removeEmpty();
+  void removeEmpty();
 
-    String toString() const;
+  String toString() const;
 
-  private:
+ private:
+  StringList unsupported;
+};
 
-
-    StringList unsupported;
-  };
-
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif /* TAGLIB_PROPERTYMAP_H_ */

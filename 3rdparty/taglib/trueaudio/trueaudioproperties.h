@@ -35,34 +35,33 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace TrueAudio {
+namespace TrueAudio {
 
-    class File;
+class File;
 
-    static const unsigned int HeaderSize = 18;
+static const unsigned int HeaderSize = 18;
 
-    //! An implementation of audio property reading for TrueAudio
+//! An implementation of audio property reading for TrueAudio
 
-    /*!
+/*!
      * This reads the data from an TrueAudio stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of TrueAudio::Properties with the data read from the
        * ByteVector \a data.
        */
-      Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
+  Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this TrueAudio::Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -70,66 +69,66 @@ namespace TagLib {
        *
        * \deprecated
        */
-      virtual int length() const;
+  virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns the number of bits per audio sample.
        */
-      int bitsPerSample() const;
+  int bitsPerSample() const;
 
-      /*!
+  /*!
        * Returns the total number of sample frames
        */
-      unsigned int sampleFrames() const;
+  unsigned int sampleFrames() const;
 
-      /*!
+  /*!
        * Returns the major version number.
        */
-      int ttaVersion() const;
+  int ttaVersion() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(const ByteVector &data, long streamLength);
+  void read(const ByteVector &data, long streamLength);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace TrueAudio
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

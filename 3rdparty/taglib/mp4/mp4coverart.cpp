@@ -30,12 +30,10 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MP4::CoverArt::CoverArtPrivate : public RefCounter
-{
-public:
-  CoverArtPrivate() :
-    RefCounter(),
-    format(MP4::CoverArt::JPEG) {}
+class MP4::CoverArt::CoverArtPrivate : public RefCounter {
+ public:
+  CoverArtPrivate() : RefCounter(),
+                      format(MP4::CoverArt::JPEG) {}
 
   Format format;
   ByteVector data;
@@ -45,49 +43,39 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::CoverArt::CoverArt(Format format, const ByteVector &data) :
-  d(new CoverArtPrivate())
-{
+MP4::CoverArt::CoverArt(Format format, const ByteVector &data) : d(new CoverArtPrivate()) {
   d->format = format;
   d->data = data;
 }
 
-MP4::CoverArt::CoverArt(const CoverArt &item) :
-  d(item.d)
-{
+MP4::CoverArt::CoverArt(const CoverArt &item) : d(item.d) {
   d->ref();
 }
 
 MP4::CoverArt &
-MP4::CoverArt::operator=(const CoverArt &item)
-{
+MP4::CoverArt::operator=(const CoverArt &item) {
   CoverArt(item).swap(*this);
   return *this;
 }
 
-void
-MP4::CoverArt::swap(CoverArt &item)
-{
+void MP4::CoverArt::swap(CoverArt &item) {
   using std::swap;
 
   swap(d, item.d);
 }
 
-MP4::CoverArt::~CoverArt()
-{
-  if(d->deref()) {
+MP4::CoverArt::~CoverArt() {
+  if (d->deref()) {
     delete d;
   }
 }
 
 MP4::CoverArt::Format
-MP4::CoverArt::format() const
-{
+MP4::CoverArt::format() const {
   return d->format;
 }
 
 ByteVector
-MP4::CoverArt::data() const
-{
+MP4::CoverArt::data() const {
   return d->data;
 }

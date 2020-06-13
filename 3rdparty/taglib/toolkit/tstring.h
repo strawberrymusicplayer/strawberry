@@ -43,9 +43,9 @@
  */
 
 #if defined(QT_VERSION) && (QT_VERSION >= 0x040000)
-#define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.toUtf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
+#  define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.toUtf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
 #else
-#define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.utf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
+#  define QStringToTString(s) Strawberry_TagLib::TagLib::String(s.utf8().data(), Strawberry_TagLib::TagLib::String::UTF8)
 #endif
 
 /*!
@@ -63,11 +63,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class StringList;
+class StringList;
 
-  //! A \e wide string class suitable for unicode.
+//! A \e wide string class suitable for unicode.
 
-  /*!
+/*!
    * This is an implicitly shared \e wide string.  For storage it uses
    * TagLib::wstring, but as this is an <i>implementation detail</i> this of
    * course could change.  Strings are stored internally as UTF-16(without BOM/
@@ -82,130 +82,128 @@ namespace TagLib {
    * possible encodings, which are the four supported by the ID3v2 standard.
    */
 
-  class TAGLIB_EXPORT String
-  {
-  public:
-
+class TAGLIB_EXPORT String {
+ public:
 #ifndef DO_NOT_DOCUMENT
-    typedef Strawberry_TagLib::TagLib::wstring::iterator Iterator;
-    typedef Strawberry_TagLib::TagLib::wstring::const_iterator ConstIterator;
+  typedef Strawberry_TagLib::TagLib::wstring::iterator Iterator;
+  typedef Strawberry_TagLib::TagLib::wstring::const_iterator ConstIterator;
 #endif
 
-    /**
+  /**
      * The four types of string encodings supported by the ID3v2 specification.
      * ID3v1 is assumed to be Latin1 and Ogg Vorbis comments use UTF8.
      */
-    enum Type {
-      /*!
+  enum Type {
+    /*!
        * IS08859-1, or <i>Latin1</i> encoding.  8 bit characters.
        */
-      Latin1 = 0,
-      /*!
+    Latin1 = 0,
+    /*!
        * UTF16 with a <i>byte order mark</i>.  16 bit characters.
        */
-      UTF16 = 1,
-      /*!
+    UTF16 = 1,
+    /*!
        * UTF16 <i>big endian</i>.  16 bit characters.  This is the encoding used
        * internally by TagLib.
        */
-      UTF16BE = 2,
-      /*!
+    UTF16BE = 2,
+    /*!
        * UTF8 encoding.  Characters are usually 8 bits but can be up to 32.
        */
-      UTF8 = 3,
-      /*!
+    UTF8 = 3,
+    /*!
        * UTF16 <i>little endian</i>.  16 bit characters.
        */
-      UTF16LE = 4
-    };
+    UTF16LE = 4
+  };
 
-    /*!
+  /*!
      * Constructs an empty String.
      */
-    String();
+  String();
 
-    /*!
+  /*!
      * Make a shallow, implicitly shared, copy of \a s.  Because this is
      * implicitly shared, this method is lightweight and suitable for
      * pass-by-value usage.
      */
-    String(const String &s);
+  String(const String &s);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a s.
      *
      * \note This should only be used with the 8-bit codecs Latin1 and UTF8, when
      * used with other codecs it will simply print a warning and exit.
      */
-    String(const std::string &s, Type t = Latin1);
+  String(const std::string &s, Type t = Latin1);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a s.
      *
      * /note If \a t is UTF16LE, the byte order of \a s will be swapped regardless
      * of the CPU byte order.  If UTF16BE, it will not be swapped.  This behavior
      * will be changed in TagLib2.0.
      */
-    String(const wstring &s, Type t = UTF16BE);
+  String(const wstring &s, Type t = UTF16BE);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a s.
      *
      * /note If \a t is UTF16LE, the byte order of \a s will be swapped regardless
      * of the CPU byte order.  If UTF16BE, it will not be swapped.  This behavior
      * will be changed in TagLib2.0.
      */
-    String(const wchar_t *s, Type t = UTF16BE);
+  String(const wchar_t *s, Type t = UTF16BE);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a c.
      *
      * \note This should only be used with the 8-bit codecs Latin1 and UTF8, when
      * used with other codecs it will simply print a warning and exit.
      */
-    String(char c, Type t = Latin1);
+  String(char c, Type t = Latin1);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a c.
      */
-    String(wchar_t c, Type t = Latin1);
+  String(wchar_t c, Type t = Latin1);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a s.
      *
      * \note This should only be used with the 8-bit codecs Latin1 and UTF8, when
      * used with other codecs it will simply print a warning and exit.
      */
-    String(const char *s, Type t = Latin1);
+  String(const char *s, Type t = Latin1);
 
-    /*!
+  /*!
      * Makes a deep copy of the data in \a v.
      */
-    String(const ByteVector &v, Type t = Latin1);
+  String(const ByteVector &v, Type t = Latin1);
 
-    /*!
+  /*!
      * Destroys this String instance.
      */
-    virtual ~String();
+  virtual ~String();
 
-    /*!
+  /*!
      * Returns a deep copy of this String as an std::string.  The returned string
      * is encoded in UTF8 if \a unicode is true, otherwise Latin1.
      *
      * \see toCString()
      */
-    std::string to8Bit(bool unicode = false) const;
+  std::string to8Bit(bool unicode = false) const;
 
-    /*!
+  /*!
      * Returns a deep copy of this String as a wstring.  The returned string is
      * encoded in UTF-16 (without BOM/CPU byte order), not UTF-32 even if wchar_t
      * is 32-bit wide.
      *
      * \see toCWString()
      */
-    wstring toWString() const;
+  wstring toWString() const;
 
-    /*!
+  /*!
      * Creates and returns a standard C-style (null-terminated) version of this
      * String.  The returned string is encoded in UTF8 if \a unicode is true,
      * otherwise Latin1.
@@ -223,9 +221,9 @@ namespace TagLib {
      *
      * \see to8Bit()
      */
-    const char *toCString(bool unicode = false) const;
+  const char *toCString(bool unicode = false) const;
 
-    /*!
+  /*!
      * Returns a standard C-style (null-terminated) wide character version of
      * this String.  The returned string is encoded in UTF-16 (without BOM/CPU byte
      * order), not UTF-32 even if wchar_t is 32-bit wide.
@@ -241,95 +239,95 @@ namespace TagLib {
      *
      * \see toWString()
      */
-    const wchar_t *toCWString() const;
+  const wchar_t *toCWString() const;
 
-    /*!
+  /*!
      * Returns an iterator pointing to the beginning of the string.
      */
-    Iterator begin();
+  Iterator begin();
 
-    /*!
+  /*!
      * Returns a const iterator pointing to the beginning of the string.
      */
-    ConstIterator begin() const;
+  ConstIterator begin() const;
 
-    /*!
+  /*!
      * Returns an iterator pointing to the end of the string (the position
      * after the last character).
      */
-    Iterator end();
+  Iterator end();
 
-    /*!
+  /*!
      * Returns a const iterator pointing to the end of the string (the position
      * after the last character).
      */
-    ConstIterator end() const;
+  ConstIterator end() const;
 
-    /*!
+  /*!
      * Finds the first occurrence of pattern \a s in this string starting from
      * \a offset.  If the pattern is not found, -1 is returned.
      */
-    int find(const String &s, int offset = 0) const;
+  int find(const String &s, int offset = 0) const;
 
-    /*!
+  /*!
      * Finds the last occurrence of pattern \a s in this string, searched backwards,
      * either from the end of the string or starting from \a offset. If the pattern
      * is not found, -1 is returned.
      */
-    int rfind(const String &s, int offset = -1) const;
+  int rfind(const String &s, int offset = -1) const;
 
-    /*!
+  /*!
      * Splits the string on each occurrence of \a separator.
      */
-    StringList split(const String &separator = " ") const;
+  StringList split(const String &separator = " ") const;
 
-    /*!
+  /*!
      * Returns true if the strings starts with the substring \a s.
      */
-    bool startsWith(const String &s) const;
+  bool startsWith(const String &s) const;
 
-    /*!
+  /*!
      * Extract a substring from this string starting at \a position and
      * continuing for \a n characters.
      */
-    String substr(unsigned int position, unsigned int n = 0xffffffff) const;
+  String substr(unsigned int position, unsigned int n = 0xffffffff) const;
 
-    /*!
+  /*!
      * Append \a s to the current string and return a reference to the current
      * string.
      */
-    String &append(const String &s);
+  String &append(const String &s);
 
-    /*!
+  /*!
      * Clears the string.
      */
-    String &clear();
+  String &clear();
 
-    /*!
+  /*!
      * Returns an upper case version of the string.
      *
      * \warning This only works for the characters in US-ASCII, i.e. A-Z.
      */
-    String upper() const;
+  String upper() const;
 
-    /*!
+  /*!
      * Returns the size of the string.
      */
-    unsigned int size() const;
+  unsigned int size() const;
 
-    /*!
+  /*!
      * Returns the length of the string.  Equivalent to size().
      */
-    unsigned int length() const;
+  unsigned int length() const;
 
-    /*!
+  /*!
      * Returns true if the string is empty.
      *
      * \see isNull()
      */
-    bool isEmpty() const;
+  bool isEmpty() const;
 
-    /*!
+  /*!
      * Returns true if this string is null -- i.e. it is a copy of the
      * String::null string.
      *
@@ -340,10 +338,10 @@ namespace TagLib {
      *
      * \deprecated
      */
-     // BIC: remove
-    bool isNull() const;
+  // BIC: remove
+  bool isNull() const;
 
-    /*!
+  /*!
      * Returns a ByteVector containing the string's data.  If \a t is Latin1 or
      * UTF8, this will return a vector of 8 bit characters, otherwise it will use
      * 16 bit characters.
@@ -353,171 +351,171 @@ namespace TagLib {
      *
      * \note The returned data is not null terminated.
      */
-    ByteVector data(Type t) const;
+  ByteVector data(Type t) const;
 
-    /*!
+  /*!
      * Convert the string to an integer.
      *
      * Returns the integer if the conversion was successful or 0 if the
      * string does not represent a number.
      */
-    // BIC: merge with the method below
-    int toInt() const;
+  // BIC: merge with the method below
+  int toInt() const;
 
-    /*!
+  /*!
      * Convert the string to an integer.
      *
      * If the conversion was successful, it sets the value of \a *ok to
      * true and returns the integer. Otherwise it sets \a *ok to false
      * and the result is undefined.
      */
-    int toInt(bool *ok) const;
+  int toInt(bool *ok) const;
 
-    /*!
+  /*!
      * Returns a string with the leading and trailing whitespace stripped.
      */
-    String stripWhiteSpace() const;
+  String stripWhiteSpace() const;
 
-    /*!
+  /*!
      * Returns true if the file only uses characters required by Latin1.
      */
-    bool isLatin1() const;
+  bool isLatin1() const;
 
-    /*!
+  /*!
      * Returns true if the file only uses characters required by (7-bit) ASCII.
      */
-    bool isAscii() const;
+  bool isAscii() const;
 
-    /*!
+  /*!
      * Converts the base-10 integer \a n to a string.
      */
-    static String number(int n);
+  static String number(int n);
 
-    /*!
+  /*!
      * Returns a reference to the character at position \a i.
      */
-    wchar_t &operator[](int i);
+  wchar_t &operator[](int i);
 
-    /*!
+  /*!
      * Returns a const reference to the character at position \a i.
      */
-    const wchar_t &operator[](int i) const;
+  const wchar_t &operator[](int i) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns true if the strings match.
      */
-    bool operator==(const String &s) const;
+  bool operator==(const String &s) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns false if the strings match.
      */
-    bool operator!=(const String &s) const;
+  bool operator!=(const String &s) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns true if the strings match.
      */
-    bool operator==(const char *s) const;
+  bool operator==(const char *s) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns false if the strings match.
      */
-    bool operator!=(const char *s) const;
+  bool operator!=(const char *s) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns true if the strings match.
      */
-    bool operator==(const wchar_t *s) const;
+  bool operator==(const wchar_t *s) const;
 
-    /*!
+  /*!
      * Compares each character of the String with each character of \a s and
      * returns false if the strings match.
      */
-    bool operator!=(const wchar_t *s) const;
+  bool operator!=(const wchar_t *s) const;
 
-    /*!
+  /*!
      * Appends \a s to the end of the String.
      */
-    String &operator+=(const String &s);
+  String &operator+=(const String &s);
 
-    /*!
+  /*!
      * Appends \a s to the end of the String.
      */
-    String &operator+=(const wchar_t* s);
+  String &operator+=(const wchar_t *s);
 
-    /*!
+  /*!
      * Appends \a s to the end of the String.
      */
-    String &operator+=(const char* s);
+  String &operator+=(const char *s);
 
-    /*!
+  /*!
      * Appends \a s to the end of the String.
      */
-    String &operator+=(wchar_t c);
+  String &operator+=(wchar_t c);
 
-    /*!
+  /*!
      * Appends \a c to the end of the String.
      */
-    String &operator+=(char c);
+  String &operator+=(char c);
 
-    /*!
+  /*!
      * Performs a shallow, implicitly shared, copy of \a s, overwriting the
      * String's current data.
      */
-    String &operator=(const String &s);
+  String &operator=(const String &s);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(const std::string &s);
+  String &operator=(const std::string &s);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(const wstring &s);
+  String &operator=(const wstring &s);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(const wchar_t *s);
+  String &operator=(const wchar_t *s);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(char c);
+  String &operator=(char c);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(wchar_t c);
+  String &operator=(wchar_t c);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a s.
      */
-    String &operator=(const char *s);
+  String &operator=(const char *s);
 
-    /*!
+  /*!
      * Performs a deep copy of the data in \a v.
      */
-    String &operator=(const ByteVector &v);
+  String &operator=(const ByteVector &v);
 
-    /*!
+  /*!
      * Exchanges the content of the String by the content of \a s.
      */
-    void swap(String &s);
+  void swap(String &s);
 
-    /*!
+  /*!
      * To be able to use this class in a Map, this operator needed to be
      * implemented.  Returns true if \a s is less than this string in a byte-wise
      * comparison.
      */
-    bool operator<(const String &s) const;
+  bool operator<(const String &s) const;
 
-    /*!
+  /*!
      * A null string provided for convenience.
      *
      * \warning Do not modify this variable.  It will mess up the internal state
@@ -525,31 +523,31 @@ namespace TagLib {
      *
      * \deprecated
      */
-     // BIC: remove
-    static String null;
+  // BIC: remove
+  static String null;
 
-  protected:
-    /*!
+ protected:
+  /*!
      * If this String is being shared via implicit sharing, do a deep copy of the
      * data and separate from the shared members.  This should be called by all
      * non-const subclass members.
      */
-    void detach();
+  void detach();
 
-  private:
-    /*!
+ private:
+  /*!
      * \deprecated This variable is no longer used, but NEVER remove this. It
      * may lead to a linkage error.
      */
-     // BIC: remove
-    TAGLIB_DEPRECATED static const Type WCharByteOrder;
+  // BIC: remove
+  TAGLIB_DEPRECATED static const Type WCharByteOrder;
 
-    class StringPrivate;
-    StringPrivate *d;
-  };
+  class StringPrivate;
+  StringPrivate *d;
+};
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 /*!
  * \relates TagLib::String

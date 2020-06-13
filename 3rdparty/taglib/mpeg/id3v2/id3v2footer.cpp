@@ -29,26 +29,20 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class Footer::FooterPrivate
-{
+class Footer::FooterPrivate {
 };
 
-Footer::Footer() :
-  d(0)
-{
+Footer::Footer() : d(0) {
 }
 
-Footer::~Footer()
-{
+Footer::~Footer() {
 }
 
-unsigned int Footer::size()
-{
+unsigned int Footer::size() {
   return 10;
 }
 
-ByteVector Footer::render(const Header *header) const
-{
+ByteVector Footer::render(const Header *header) const {
   ByteVector headerData = header->render();
   headerData[0] = '3';
   headerData[1] = 'D';

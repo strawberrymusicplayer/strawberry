@@ -33,11 +33,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! An implementation of ID3v2 headers
+//! An implementation of ID3v2 headers
 
-    /*!
+/*!
      * This class implements ID3v2 headers.  It attempts to follow, both
      * semantically and programmatically, the structure specified in
      * the ID3v2 standard.  The API is based on the properties of ID3v2 headers
@@ -46,32 +46,31 @@ namespace TagLib {
      * (Structure, <a href="id3v2-structure.html#3.1">3.1</a>)
      */
 
-    class TAGLIB_EXPORT Header
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Header {
+ public:
+  /*!
        * Constructs an empty ID3v2 header.
        */
-      Header();
+  Header();
 
-      /*!
+  /*!
        * Constructs an ID3v2 header based on \a data.  parse() is called
        * immediately.
        */
-      Header(const ByteVector &data);
+  Header(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys the header.
        */
-      virtual ~Header();
+  virtual ~Header();
 
-      /*!
+  /*!
        * Returns the major version number.  (Note: This is the 4, not the 2 in
        * ID3v2.4.0.  The 2 is implied.)
        */
-      unsigned int majorVersion() const;
+  unsigned int majorVersion() const;
 
-      /*!
+  /*!
        * Set the the major version number to \a version.  (Note: This is
        * the 4, not the 2 in ID3v2.4.0.  The 2 is implied.)
        * \see majorVersion()
@@ -80,34 +79,34 @@ namespace TagLib {
        * version which is written and in general should not be called by API
        * users.
        */
-      void setMajorVersion(unsigned int version);
+  void setMajorVersion(unsigned int version);
 
-      /*!
+  /*!
        * Returns the revision number.  (Note: This is the 0, not the 4 in
        * ID3v2.4.0.  The 2 is implied.)
        */
-      unsigned int revisionNumber() const;
+  unsigned int revisionNumber() const;
 
-      /*!
+  /*!
        * Returns true if unsynchronisation has been applied to all frames.
        */
-      bool unsynchronisation() const;
+  bool unsynchronisation() const;
 
-      /*!
+  /*!
        * Returns true if an extended header is present in the tag.
        */
-      bool extendedHeader() const;
+  bool extendedHeader() const;
 
-      /*!
+  /*!
        * Returns true if the experimental indicator flag is set.
        */
-      bool experimentalIndicator() const;
+  bool experimentalIndicator() const;
 
-      /*!
+  /*!
        * Returns true if a footer is present in the tag.
        */
-      bool footerPresent() const;
-      /*!
+  bool footerPresent() const;
+  /*!
        * Returns the tag size in bytes.  This is the size of the frame content.
        * The size of the \e entire tag will be this plus the header size (10
        * bytes) and, if present, the footer size (potentially another 10 bytes).
@@ -118,61 +117,61 @@ namespace TagLib {
        *
        * \see completeTagSize()
        */
-      unsigned int tagSize() const;
+  unsigned int tagSize() const;
 
-      /*!
+  /*!
        * Returns the tag size, including the header and, if present, the footer
        * size.
        *
        * \see tagSize()
        */
-      unsigned int completeTagSize() const;
+  unsigned int completeTagSize() const;
 
-      /*!
+  /*!
        * Set the tag size to \a s.
        * \see tagSize()
        */
-      void setTagSize(unsigned int s);
+  void setTagSize(unsigned int s);
 
-      /*!
+  /*!
        * Returns the size of the header.  Presently this is always 10 bytes.
        */
-      static unsigned int size();
+  static unsigned int size();
 
-      /*!
+  /*!
        * Returns the string used to identify and ID3v2 tag inside of a file.
        * Presently this is always "ID3".
        */
-      static ByteVector fileIdentifier();
+  static ByteVector fileIdentifier();
 
-      /*!
+  /*!
        * Sets the data that will be used as the header.  10 bytes, starting from
        * the beginning of \a data are used.
        */
-      void setData(const ByteVector &data);
+  void setData(const ByteVector &data);
 
-      /*!
+  /*!
        * Renders the Header back to binary format.
        */
-      ByteVector render() const;
+  ByteVector render() const;
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Called by setData() to parse the header data.  It makes this information
        * available through the public API.
        */
-      void parse(const ByteVector &data);
+  void parse(const ByteVector &data);
 
-    private:
-      Header(const Header &);
-      Header &operator=(const Header &);
+ private:
+  Header(const Header &);
+  Header &operator=(const Header &);
 
-      class HeaderPrivate;
-      HeaderPrivate *d;
-    };
+  class HeaderPrivate;
+  HeaderPrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

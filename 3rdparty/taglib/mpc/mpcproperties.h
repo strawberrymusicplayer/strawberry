@@ -32,42 +32,41 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace MPC {
+namespace MPC {
 
-    class File;
+class File;
 
-    static const unsigned int HeaderSize = 8 * 7;
+static const unsigned int HeaderSize = 8 * 7;
 
-    //! An implementation of audio property reading for MPC
+//! An implementation of audio property reading for MPC
 
-    /*!
+/*!
      * This reads the data from an MPC stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of MPC::Properties with the data read from the
        * ByteVector \a data.
        *
        * This constructor is deprecated. It only works for MPC version up to 7.
        */
-      Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
+  Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Create an instance of MPC::Properties with the data read directly
        * from a MPC::File.
        */
-      Properties(File *file, long streamLength, ReadStyle style = Average);
+  Properties(File *file, long streamLength, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this MPC::Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -75,86 +74,86 @@ namespace TagLib {
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns the version of the bitstream (SV4-SV8)
        */
-      int mpcVersion() const;
+  int mpcVersion() const;
 
-      unsigned int totalFrames() const;
-      unsigned int sampleFrames() const;
+  unsigned int totalFrames() const;
+  unsigned int sampleFrames() const;
 
-      /*!
+  /*!
       * Returns the track gain as an integer value,
       * to convert to dB: trackGain in dB = 64.82 - (trackGain / 256)
       */
-      int trackGain() const;
+  int trackGain() const;
 
-      /*!
+  /*!
       * Returns the track peak as an integer value,
       * to convert to dB: trackPeak in dB = trackPeak / 256
       * to convert to floating [-1..1]: trackPeak = 10^(trackPeak / 256 / 20)/32768
       */
-      int trackPeak() const;
+  int trackPeak() const;
 
-      /*!
+  /*!
       * Returns the album gain as an integer value,
       * to convert to dB: albumGain in dB = 64.82 - (albumGain / 256)
       */
-      int albumGain() const;
+  int albumGain() const;
 
-      /*!
+  /*!
       * Returns the album peak as an integer value,
       * to convert to dB: albumPeak in dB = albumPeak / 256
       * to convert to floating [-1..1]: albumPeak = 10^(albumPeak / 256 / 20)/32768
       */
-      int albumPeak() const;
+  int albumPeak() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void readSV7(const ByteVector &data, long streamLength);
-      void readSV8(File *file, long streamLength);
+  void readSV7(const ByteVector &data, long streamLength);
+  void readSV8(File *file, long streamLength);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace MPC
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -31,31 +31,27 @@
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
-  namespace RIFF
-  {
-    namespace
-    {
+namespace TagLib {
+namespace RIFF {
+namespace {
 
-      inline bool isValidChunkName(const ByteVector &name)
-      {
-        if(name.size() != 4)
-          return false;
+inline bool isValidChunkName(const ByteVector &name) {
+  if (name.size() != 4)
+    return false;
 
-        for(ByteVector::ConstIterator it = name.begin(); it != name.end(); ++it) {
-          const int c = static_cast<unsigned char>(*it);
-          if(c < 32 || 127 < c)
-            return false;
-        }
-
-        return true;
-      }
-
-    }
+  for (ByteVector::ConstIterator it = name.begin(); it != name.end(); ++it) {
+    const int c = static_cast<unsigned char>(*it);
+    if (c < 32 || 127 < c)
+      return false;
   }
+
+  return true;
 }
-}
+
+}  // namespace
+}  // namespace RIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 

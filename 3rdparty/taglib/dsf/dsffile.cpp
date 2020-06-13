@@ -36,19 +36,15 @@ using namespace Strawberry_TagLib::TagLib;
 
 // The DSF specification is located at http://dsd-guide.com/sites/default/files/white-papers/DSFFileFormatSpec_E.pdf
 
-class DSF::File::FilePrivate
-{
-public:
-  FilePrivate() :
-  fileSize(0),
-  metadataOffset(0),
-  properties(nullptr),
-  tag(nullptr)
-  {
+class DSF::File::FilePrivate {
+ public:
+  FilePrivate() : fileSize(0),
+                  metadataOffset(0),
+                  properties(nullptr),
+                  tag(nullptr) {
   }
 
-  ~FilePrivate()
-  {
+  ~FilePrivate() {
     delete properties;
     delete tag;
   }
@@ -63,11 +59,10 @@ public:
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool DSF::File::isSupported(IOStream *stream)
-{
-    // A DSF file has to start with "DSD "
-    const ByteVector id = Utils::readHeader(stream, 4, false);
-    return id.startsWith("DSD ");
+bool DSF::File::isSupported(IOStream *stream) {
+  // A DSF file has to start with "DSD "
+  const ByteVector id = Utils::readHeader(stream, 4, false);
+  return id.startsWith("DSD ");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,73 +70,63 @@ bool DSF::File::isSupported(IOStream *stream)
 ////////////////////////////////////////////////////////////////////////////////
 
 DSF::File::File(FileName file, bool readProperties,
-                Properties::ReadStyle propertiesStyle) :
-  Strawberry_TagLib::TagLib::File(file),
-  d(new FilePrivate())
-{
-  if(isOpen())
+  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file),
+                                           d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties, propertiesStyle);
 }
 
 DSF::File::File(IOStream *stream, bool readProperties,
-                Properties::ReadStyle propertiesStyle) :
-  Strawberry_TagLib::TagLib::File(stream),
-  d(new FilePrivate())
-{
-  if(isOpen())
+  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream),
+                                           d(new FilePrivate()) {
+  if (isOpen())
     read(readProperties, propertiesStyle);
 }
 
-DSF::File::~File()
-{
+DSF::File::~File() {
   delete d;
 }
 
-ID3v2::Tag *DSF::File::tag() const
-{
+ID3v2::Tag *DSF::File::tag() const {
   return d->tag;
 }
 
-PropertyMap DSF::File::properties() const
-{
+PropertyMap DSF::File::properties() const {
   return d->tag->properties();
 }
 
-PropertyMap DSF::File::setProperties(const PropertyMap &properties)
-{
+PropertyMap DSF::File::setProperties(const PropertyMap &properties) {
   return d->tag->setProperties(properties);
 }
 
-DSF::Properties *DSF::File::audioProperties() const
-{
+DSF::Properties *DSF::File::audioProperties() const {
   return d->properties;
 }
 
-bool DSF::File::save()
-{
-  if(readOnly()) {
+bool DSF::File::save() {
+  if (readOnly()) {
     debug("DSF::File::save() -- File is read only.");
     return false;
   }
 
-  if(!isValid()) {
+  if (!isValid()) {
     debug("DSF::File::save() -- Trying to save invalid file.");
     return false;
   }
 
   // Three things must be updated: the file size, the tag data, and the metadata offset
 
-  if(d->tag->isEmpty()) {
+  if (d->tag->isEmpty()) {
     long long newFileSize = d->metadataOffset ? d->metadataOffset : d->fileSize;
 
     // Update the file size
-    if(d->fileSize != newFileSize) {
+    if (d->fileSize != newFileSize) {
       insert(ByteVector::fromLongLong(newFileSize, false), 12, 8);
       d->fileSize = newFileSize;
     }
 
     // Update the metadata offset to 0 since there is no longer a tag
-    if(d->metadataOffset) {
+    if (d->metadataOffset) {
       insert(ByteVector::fromLongLong(0ULL, false), 20, 8);
       d->metadataOffset = 0;
     }
@@ -157,13 +142,13 @@ bool DSF::File::save()
     long long oldTagSize = d->fileSize - newMetadataOffset;
 
     // Update the file size
-    if(d->fileSize != newFileSize) {
+    if (d->fileSize != newFileSize) {
       insert(ByteVector::fromLongLong(newFileSize, false), 12, 8);
       d->fileSize = newFileSize;
     }
 
     // Update the metadata offset
-    if(d->metadataOffset != newMetadataOffset) {
+    if (d->metadataOffset != newMetadataOffset) {
       insert(ByteVector::fromLongLong(newMetadataOffset, false), 20, 8);
       d->metadataOffset = newMetadataOffset;
     }
@@ -180,14 +165,13 @@ bool DSF::File::save()
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
-{
+void DSF::File::read(bool, Properties::ReadStyle propertiesStyle) {
   // A DSF file consists of four chunks: DSD chunk, format chunk, data chunk, and metadata chunk
   // The file format is not chunked in the sense of a RIFF File, though
 
   // DSD chunk
   ByteVector chunkName = readBlock(4);
-  if(chunkName != "DSD ") {
+  if (chunkName != "DSD ") {
     debug("DSF::File::read() -- Not a DSF file.");
     setValid(false);
     return;
@@ -196,7 +180,7 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
   long long chunkSize = readBlock(8).toLongLong(false);
 
   // Integrity check
-  if(28 != chunkSize) {
+  if (28 != chunkSize) {
     debug("DSF::File::read() -- File is corrupted, wrong chunk size");
     setValid(false);
     return;
@@ -205,7 +189,7 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
   d->fileSize = readBlock(8).toLongLong(false);
 
   // File is malformed or corrupted
-  if(d->fileSize != length()) {
+  if (d->fileSize != length()) {
     debug("DSF::File::read() -- File is corrupted wrong length");
     setValid(false);
     return;
@@ -214,7 +198,7 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
   d->metadataOffset = readBlock(8).toLongLong(false);
 
   // File is malformed or corrupted
-  if(d->metadataOffset > d->fileSize) {
+  if (d->metadataOffset > d->fileSize) {
     debug("DSF::File::read() -- Invalid metadata offset.");
     setValid(false);
     return;
@@ -222,7 +206,7 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
 
   // Format chunk
   chunkName = readBlock(4);
-  if(chunkName != "fmt ") {
+  if (chunkName != "fmt ") {
     debug("DSF::File::read() -- Missing 'fmt ' chunk.");
     setValid(false);
     return;
@@ -235,9 +219,8 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle)
   // Skip the data chunk
 
   // A metadata offset of 0 indicates the absence of an ID3v2 tag
-  if(0 == d->metadataOffset)
+  if (0 == d->metadataOffset)
     d->tag = new ID3v2::Tag();
   else
     d->tag = new ID3v2::Tag(this, d->metadataOffset);
 }
-

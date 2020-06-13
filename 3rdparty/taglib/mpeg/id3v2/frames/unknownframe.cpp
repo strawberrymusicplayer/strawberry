@@ -28,9 +28,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class UnknownFrame::UnknownFramePrivate
-{
-public:
+class UnknownFrame::UnknownFramePrivate {
+ public:
   ByteVector fieldData;
 };
 
@@ -38,25 +37,20 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-UnknownFrame::UnknownFrame(const ByteVector &data) :
-  Frame(data),
-  d(new UnknownFramePrivate())
-{
+UnknownFrame::UnknownFrame(const ByteVector &data) : Frame(data),
+                                                     d(new UnknownFramePrivate()) {
   setData(data);
 }
 
-UnknownFrame::~UnknownFrame()
-{
+UnknownFrame::~UnknownFrame() {
   delete d;
 }
 
-String UnknownFrame::toString() const
-{
+String UnknownFrame::toString() const {
   return String();
 }
 
-ByteVector UnknownFrame::data() const
-{
+ByteVector UnknownFrame::data() const {
   return d->fieldData;
 }
 
@@ -64,13 +58,11 @@ ByteVector UnknownFrame::data() const
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void UnknownFrame::parseFields(const ByteVector &data)
-{
+void UnknownFrame::parseFields(const ByteVector &data) {
   d->fieldData = data;
 }
 
-ByteVector UnknownFrame::renderFields() const
-{
+ByteVector UnknownFrame::renderFields() const {
   return d->fieldData;
 }
 
@@ -78,9 +70,7 @@ ByteVector UnknownFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-UnknownFrame::UnknownFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new UnknownFramePrivate())
-{
+UnknownFrame::UnknownFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                d(new UnknownFramePrivate()) {
   parseFields(fieldData(data));
 }

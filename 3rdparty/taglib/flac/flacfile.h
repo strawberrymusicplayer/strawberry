@@ -37,14 +37,21 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class Tag;
-  namespace ID3v2 { class FrameFactory; class Tag; }
-  namespace ID3v1 { class Tag; }
-  namespace Ogg { class XiphComment; }
+class Tag;
+namespace ID3v2 {
+class FrameFactory;
+class Tag;
+}  // namespace ID3v2
+namespace ID3v1 {
+class Tag;
+}
+namespace Ogg {
+class XiphComment;
+}
 
-  //! An implementation of FLAC metadata
+//! An implementation of FLAC metadata
 
-  /*!
+/*!
    * This is implementation of FLAC metadata for non-Ogg FLAC files.  At some
    * point when Ogg / FLAC is more common there will be a similar implementation
    * under the Ogg hierarchy.
@@ -53,38 +60,37 @@ namespace TagLib {
    * properties from the file.
    */
 
-  namespace FLAC {
+namespace FLAC {
 
-    //! An implementation of TagLib::File with FLAC specific methods
+//! An implementation of TagLib::File with FLAC specific methods
 
-    /*!
+/*!
      * This implements and provides an interface for FLAC files to the
      * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
      * the abstract TagLib::File API as well as providing some additional
      * information specific to FLAC files.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * This set of flags is used for various operations and is suitable for
        * being OR-ed together.
        */
-      enum TagTypes {
-        //! Empty set.  Matches no tag types.
-        NoTags      = 0x0000,
-        //! Matches Vorbis comments.
-        XiphComment = 0x0001,
-        //! Matches ID3v1 tags.
-        ID3v1       = 0x0002,
-        //! Matches ID3v2 tags.
-        ID3v2       = 0x0004,
-        //! Matches all tag types.
-        AllTags     = 0xffff
-      };
+  enum TagTypes {
+    //! Empty set.  Matches no tag types.
+    NoTags = 0x0000,
+    //! Matches Vorbis comments.
+    XiphComment = 0x0001,
+    //! Matches ID3v1 tags.
+    ID3v1 = 0x0002,
+    //! Matches ID3v2 tags.
+    ID3v2 = 0x0004,
+    //! Matches all tag types.
+    AllTags = 0xffff
+  };
 
-      /*!
+  /*!
        * Constructs a FLAC file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -93,10 +99,10 @@ namespace TagLib {
        * \deprecated This constructor will be dropped in favor of the one below
        * in a future version.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an FLAC file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -105,12 +111,12 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      // BIC: merge with the above constructor
-      File(FileName file, ID3v2::FrameFactory *frameFactory,
-           bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  // BIC: merge with the above constructor
+  File(FileName file, ID3v2::FrameFactory *frameFactory,
+    bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs a FLAC file from \a stream.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -122,17 +128,17 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      // BIC: merge with the above constructor
-      File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
-           bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  // BIC: merge with the above constructor
+  File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
+    bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns the Tag for this file.  This will be a union of XiphComment,
        * ID3v1 and ID3v2 tags.
        *
@@ -140,43 +146,43 @@ namespace TagLib {
        * \see ID3v1Tag()
        * \see XiphComment()
        */
-      virtual Strawberry_TagLib::TagLib::Tag *tag() const;
+  virtual Strawberry_TagLib::TagLib::Tag *tag() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * If the file contains more than one tag (e.g. XiphComment and ID3v1),
        * only the first one (in the order XiphComment, ID3v2, ID3v1) will be
        * converted to the PropertyMap.
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      void removeUnsupportedProperties(const StringList &);
+  void removeUnsupportedProperties(const StringList &);
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * This always creates a Xiph comment, if none exists. The return value
        * relates to the Xiph comment only.
        * Ignores any changes to ID3v1 or ID3v2 comments since they are not allowed
        * in the FLAC specification.
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the FLAC::Properties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Save the file.  This will primarily save the XiphComment, but
        * will also keep any old ID3-tags up to date. If the file
        * has no XiphComment, one will be constructed from the ID3-tags.
        *
        * This returns true if the save was successful.
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Returns a pointer to the ID3v2 tag of the file.
        *
        * If \a create is false (the default) this returns a null pointer
@@ -193,9 +199,9 @@ namespace TagLib {
        *
        * \see hasID3v2Tag()
        */
-      ID3v2::Tag *ID3v2Tag(bool create = false);
+  ID3v2::Tag *ID3v2Tag(bool create = false);
 
-      /*!
+  /*!
        * Returns a pointer to the ID3v1 tag of the file.
        *
        * If \a create is false (the default) this returns a null pointer
@@ -212,9 +218,9 @@ namespace TagLib {
        *
        * \see hasID3v1Tag()
        */
-      ID3v1::Tag *ID3v1Tag(bool create = false);
+  ID3v1::Tag *ID3v1Tag(bool create = false);
 
-      /*!
+  /*!
        * Returns a pointer to the XiphComment for the file.
        *
        * If \a create is false (the default) this returns a null pointer
@@ -231,9 +237,9 @@ namespace TagLib {
        *
        * \see hasXiphComment()
        */
-      Ogg::XiphComment *xiphComment(bool create = false);
+  Ogg::XiphComment *xiphComment(bool create = false);
 
-      /*!
+  /*!
        * Set the ID3v2::FrameFactory to something other than the default.  This
        * can be used to specify the way that ID3v2 frames will be interpreted
        * when
@@ -241,49 +247,49 @@ namespace TagLib {
        * \see ID3v2FrameFactory
        * \deprecated This value should be passed in via the constructor
        */
-      TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
+  TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
 
-      /*!
+  /*!
        * Returns the block of data used by FLAC::Properties for parsing the
        * stream properties.
        *
        * \deprecated Always returns an empty vector.
        */
-      TAGLIB_DEPRECATED ByteVector streamInfoData(); // BIC: remove
+  TAGLIB_DEPRECATED ByteVector streamInfoData();  // BIC: remove
 
-      /*!
+  /*!
        * Returns the length of the audio-stream, used by FLAC::Properties for
        * calculating the bitrate.
        *
        * \deprecated Always returns zero.
        */
-      TAGLIB_DEPRECATED long streamLength();  // BIC: remove
+  TAGLIB_DEPRECATED long streamLength();  // BIC: remove
 
-      /*!
+  /*!
        * Returns a list of pictures attached to the FLAC file.
        */
-      List<Picture *> pictureList();
+  List<Picture *> pictureList();
 
-      /*!
+  /*!
        * Removes an attached picture. If \a del is true the picture's memory
        * will be freed; if it is false, it must be deleted by the user.
        */
-      void removePicture(Picture *picture, bool del = true);
+  void removePicture(Picture *picture, bool del = true);
 
-      /*!
+  /*!
        * Remove all attached images.
        */
-      void removePictures();
+  void removePictures();
 
-      /*!
+  /*!
        * Add a new picture to the file. The file takes ownership of the
        * picture and will handle freeing its memory.
        *
        * \note The file will be saved only after calling save().
        */
-      void addPicture(Picture *picture);
+  void addPicture(Picture *picture);
 
-      /*!
+  /*!
        * This will remove the tags that match the OR-ed together TagTypes from
        * the file.  By default it removes all tags.
        *
@@ -296,50 +302,50 @@ namespace TagLib {
        * \note This won't remove the Vorbis comment block completely.  The
        * vendor ID will be preserved.
        */
-      void strip(int tags = AllTags);
+  void strip(int tags = AllTags);
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has a XiphComment.
        *
        * \see xiphComment()
        */
-      bool hasXiphComment() const;
+  bool hasXiphComment() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v1 tag.
        *
        * \see ID3v1Tag()
        */
-      bool hasID3v1Tag() const;
+  bool hasID3v1Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v2 tag.
        *
        * \see ID3v2Tag()
        */
-      bool hasID3v2Tag() const;
+  bool hasID3v2Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the given \a stream can be opened as a FLAC
        * file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-      static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read(bool readProperties);
-      void scan();
+  void read(bool readProperties);
+  void scan();
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace FLAC
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

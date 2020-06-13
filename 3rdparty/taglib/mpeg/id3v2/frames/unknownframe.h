@@ -32,11 +32,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! A frame type \e unknown to TagLib.
+//! A frame type \e unknown to TagLib.
 
-    /*!
+/*!
      * This class represents a frame type not known (or more often simply
      * unimplemented) in TagLib.  This is here provide a basic API for
      * manipulating the binary data of unknown frames and to provide a means
@@ -47,35 +47,34 @@ namespace TagLib {
      * to have your frame type supported through the standard ID3v2 mechanism.
      */
 
-    class TAGLIB_EXPORT UnknownFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT UnknownFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-      UnknownFrame(const ByteVector &data);
-      virtual ~UnknownFrame();
+ public:
+  UnknownFrame(const ByteVector &data);
+  virtual ~UnknownFrame();
 
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns the field data (everything but the header) for this frame.
        */
-      ByteVector data() const;
+  ByteVector data() const;
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-    private:
-      UnknownFrame(const ByteVector &data, Header *h);
-      UnknownFrame(const UnknownFrame &);
-      UnknownFrame &operator=(const UnknownFrame &);
+ private:
+  UnknownFrame(const ByteVector &data, Header *h);
+  UnknownFrame(const UnknownFrame &);
+  UnknownFrame &operator=(const UnknownFrame &);
 
-      class UnknownFramePrivate;
-      UnknownFramePrivate *d;
-    };
+  class UnknownFramePrivate;
+  UnknownFramePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

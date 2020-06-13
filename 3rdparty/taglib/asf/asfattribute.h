@@ -32,48 +32,44 @@
 #include "asfpicture.h"
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
+namespace TagLib {
 
-  namespace ASF
-  {
+namespace ASF {
 
-    class File;
-    class Picture;
+class File;
+class Picture;
 
-    class TAGLIB_EXPORT Attribute
-    {
-    public:
-
-      /*!
+class TAGLIB_EXPORT Attribute {
+ public:
+  /*!
        * Enum of types an Attribute can have.
        */
-      enum AttributeTypes {
-        UnicodeType = 0,
-        BytesType   = 1,
-        BoolType    = 2,
-        DWordType   = 3,
-        QWordType   = 4,
-        WordType    = 5,
-        GuidType    = 6
-      };
+  enum AttributeTypes {
+    UnicodeType = 0,
+    BytesType = 1,
+    BoolType = 2,
+    DWordType = 3,
+    QWordType = 4,
+    WordType = 5,
+    GuidType = 6
+  };
 
-      /*!
+  /*!
        * Constructs an empty attribute.
        */
-      Attribute();
+  Attribute();
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a UnicodeType \a value.
        */
-      Attribute(const String &value);
+  Attribute(const String &value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a BytesType \a value.
        */
-      Attribute(const ByteVector &value);
+  Attribute(const ByteVector &value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a Picture \a value.
        *
        * This attribute is compatible with the ID3 frame, APIC. The ID3 specification for the APIC frame stipulates that,
@@ -84,127 +80,127 @@ namespace TagLib
        * WM/Picture attributes added with TagLib::ASF are not automatically validated to conform to ID3 specifications.
        * You must add code in your application to perform validations if you want to maintain complete compatibility with ID3.
        */
-      Attribute(const Picture &value);
+  Attribute(const Picture &value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a DWordType \a value.
        */
-      Attribute(unsigned int value);
+  Attribute(unsigned int value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a QWordType \a value.
        */
-      Attribute(unsigned long long value);
+  Attribute(unsigned long long value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a WordType \a value.
        */
-      Attribute(unsigned short value);
+  Attribute(unsigned short value);
 
-      /*!
+  /*!
        * Constructs an attribute with \a key and a BoolType \a value.
        */
-      Attribute(bool value);
+  Attribute(bool value);
 
-      /*!
+  /*!
        * Construct an attribute as a copy of \a other.
        */
-      Attribute(const Attribute &item);
+  Attribute(const Attribute &item);
 
-      /*!
+  /*!
        * Copies the contents of \a other into this item.
        */
-      Attribute &operator=(const Attribute &other);
+  Attribute &operator=(const Attribute &other);
 
-      /*!
+  /*!
        * Exchanges the content of the Attribute by the content of \a other.
        */
-      void swap(Attribute &other);
+  void swap(Attribute &other);
 
-      /*!
+  /*!
        * Destroys the attribute.
        */
-      virtual ~Attribute();
+  virtual ~Attribute();
 
-      /*!
+  /*!
        * Returns type of the value.
        */
-      AttributeTypes type() const;
+  AttributeTypes type() const;
 
-      /*!
+  /*!
        * Returns the BoolType \a value.
        */
-      unsigned short toBool() const;
+  unsigned short toBool() const;
 
-      /*!
+  /*!
        * Returns the WordType \a value.
        */
-      unsigned short toUShort() const;
+  unsigned short toUShort() const;
 
-      /*!
+  /*!
        * Returns the DWordType \a value.
        */
-      unsigned int toUInt() const;
+  unsigned int toUInt() const;
 
-      /*!
+  /*!
        * Returns the QWordType \a value.
        */
-      unsigned long long toULongLong() const;
+  unsigned long long toULongLong() const;
 
-      /*!
+  /*!
        * Returns the UnicodeType \a value.
        */
-      String toString() const;
+  String toString() const;
 
-      /*!
+  /*!
        * Returns the BytesType \a value.
        */
-      ByteVector toByteVector() const;
+  ByteVector toByteVector() const;
 
-      /*!
+  /*!
        * Returns the Picture \a value.
        */
-      Picture toPicture() const;
+  Picture toPicture() const;
 
-      /*!
+  /*!
        * Returns the language number, or 0 is no stream number was set.
        */
-      int language() const;
+  int language() const;
 
-      /*!
+  /*!
        * Sets the language number.
        */
-      void setLanguage(int value);
+  void setLanguage(int value);
 
-      /*!
+  /*!
        * Returns the stream number, or 0 is no stream number was set.
        */
-      int stream() const;
+  int stream() const;
 
-      /*!
+  /*!
        * Sets the stream number.
        */
-      void setStream(int value);
+  void setStream(int value);
 
 #ifndef DO_NOT_DOCUMENT
-      /* THIS IS PRIVATE, DON'T TOUCH IT! */
-      String parse(ASF::File &file, int kind = 0);
+  /* THIS IS PRIVATE, DON'T TOUCH IT! */
+  String parse(ASF::File &file, int kind = 0);
 #endif
 
-      //! Returns the size of the stored data
-      int dataSize() const;
+  //! Returns the size of the stored data
+  int dataSize() const;
 
-    private:
-      friend class File;
+ private:
+  friend class File;
 
-      ByteVector render(const String &name, int kind = 0) const;
+  ByteVector render(const String &name, int kind = 0) const;
 
-      class AttributePrivate;
-      AttributePrivate *d;
-    };
-  }
+  class AttributePrivate;
+  AttributePrivate *d;
+};
+}  // namespace ASF
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

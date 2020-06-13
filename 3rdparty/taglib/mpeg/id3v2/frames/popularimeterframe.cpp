@@ -30,9 +30,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class PopularimeterFrame::PopularimeterFramePrivate
-{
-public:
+class PopularimeterFrame::PopularimeterFramePrivate {
+ public:
   PopularimeterFramePrivate() : rating(0), counter(0) {}
   String email;
   int rating;
@@ -43,56 +42,44 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PopularimeterFrame::PopularimeterFrame() :
-  Frame("POPM"),
-  d(new PopularimeterFramePrivate())
-{
+PopularimeterFrame::PopularimeterFrame() : Frame("POPM"),
+                                           d(new PopularimeterFramePrivate()) {
 }
 
-PopularimeterFrame::PopularimeterFrame(const ByteVector &data) :
-  Frame(data),
-  d(new PopularimeterFramePrivate())
-{
+PopularimeterFrame::PopularimeterFrame(const ByteVector &data) : Frame(data),
+                                                                 d(new PopularimeterFramePrivate()) {
   setData(data);
 }
 
-PopularimeterFrame::~PopularimeterFrame()
-{
+PopularimeterFrame::~PopularimeterFrame() {
   delete d;
 }
 
-String PopularimeterFrame::toString() const
-{
+String PopularimeterFrame::toString() const {
   return d->email + " rating=" + String::number(d->rating) + " counter=" + String::number(d->counter);
 }
 
-String PopularimeterFrame::email() const
-{
+String PopularimeterFrame::email() const {
   return d->email;
 }
 
-void PopularimeterFrame::setEmail(const String &s)
-{
+void PopularimeterFrame::setEmail(const String &s) {
   d->email = s;
 }
 
-int PopularimeterFrame::rating() const
-{
+int PopularimeterFrame::rating() const {
   return d->rating;
 }
 
-void PopularimeterFrame::setRating(int s)
-{
+void PopularimeterFrame::setRating(int s) {
   d->rating = s;
 }
 
-unsigned int PopularimeterFrame::counter() const
-{
+unsigned int PopularimeterFrame::counter() const {
   return d->counter;
 }
 
-void PopularimeterFrame::setCounter(unsigned int s)
-{
+void PopularimeterFrame::setCounter(unsigned int s) {
   d->counter = s;
 }
 
@@ -100,24 +87,22 @@ void PopularimeterFrame::setCounter(unsigned int s)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void PopularimeterFrame::parseFields(const ByteVector &data)
-{
+void PopularimeterFrame::parseFields(const ByteVector &data) {
   int pos = 0, size = int(data.size());
 
   d->email = readStringField(data, String::Latin1, &pos);
 
   d->rating = 0;
   d->counter = 0;
-  if(pos < size) {
+  if (pos < size) {
     d->rating = (unsigned char)(data[pos++]);
-    if(pos < size) {
+    if (pos < size) {
       d->counter = data.toUInt(static_cast<unsigned int>(pos));
     }
   }
 }
 
-ByteVector PopularimeterFrame::renderFields() const
-{
+ByteVector PopularimeterFrame::renderFields() const {
   ByteVector data;
 
   data.append(d->email.data(String::Latin1));
@@ -132,9 +117,7 @@ ByteVector PopularimeterFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PopularimeterFrame::PopularimeterFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new PopularimeterFramePrivate())
-{
+PopularimeterFrame::PopularimeterFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                            d(new PopularimeterFramePrivate()) {
   parseFields(fieldData(data));
 }

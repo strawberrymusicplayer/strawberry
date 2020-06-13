@@ -34,65 +34,63 @@ namespace Strawberry_TagLib {
 namespace TagLib {
 
 #ifdef _WIN32
-  class TAGLIB_EXPORT FileName
-  {
-  public:
-    FileName(const wchar_t *name);
-    FileName(const char *name);
+class TAGLIB_EXPORT FileName {
+ public:
+  FileName(const wchar_t *name);
+  FileName(const char *name);
 
-    FileName(const FileName &name);
+  FileName(const FileName &name);
 
-    operator const wchar_t *() const;
-    operator const char *() const;
+  operator const wchar_t *() const;
+  operator const char *() const;
 
-    const std::wstring &wstr() const;
-    const std::string  &str() const;
+  const std::wstring &wstr() const;
+  const std::string &str() const;
 
-    String toString() const;
+  String toString() const;
 
-  private:
-    const std::string  m_name;
-    const std::wstring m_wname;
-  };
+ private:
+  const std::string m_name;
+  const std::wstring m_wname;
+};
 #else
-  typedef const char *FileName;
+typedef const char *FileName;
 #endif
 
-  //! An abstract class that provides operations on a sequence of bytes
+//! An abstract class that provides operations on a sequence of bytes
 
-  class TAGLIB_EXPORT IOStream
-  {
-  public:
-    /*!
+class TAGLIB_EXPORT IOStream {
+ public:
+  /*!
      * Position in the file used for seeking.
      */
-    enum Position {
-      //! Seek from the beginning of the file.
-      Beginning,
-      //! Seek from the current position in the file.
-      Current,
-      //! Seek from the end of the file.
-      End
-    };
+  enum Position {
+    //! Seek from the beginning of the file.
+    Beginning,
+    //! Seek from the current position in the file.
+    Current,
+    //! Seek from the end of the file.
+    End
+  };
 
-    IOStream();
+  IOStream();
 
-    /*!
+  /*!
      * Destroys this IOStream instance.
      */
-    virtual ~IOStream();
+  virtual ~IOStream();
 
-    /*!
+  /*!
      * Returns the stream name in the local file system encoding.
      */
-    virtual FileName name() const = 0;
+  virtual FileName name() const = 0;
 
-    /*!
+  /*!
      * Reads a block of size \a length at the current get pointer.
      */
-    virtual ByteVector readBlock(unsigned long length) = 0;
+  virtual ByteVector readBlock(unsigned long length) = 0;
 
-    /*!
+  /*!
      * Attempts to write the block \a data at the current get pointer.  If the
      * file is currently only opened read only -- i.e. readOnly() returns true --
      * this attempts to reopen the file in read/write mode.
@@ -101,72 +99,72 @@ namespace TagLib {
      * for a ByteVector.  And even this function is significantly slower than
      * doing output with a char[].
      */
-    virtual void writeBlock(const ByteVector &data) = 0;
+  virtual void writeBlock(const ByteVector &data) = 0;
 
-    /*!
+  /*!
      * Insert \a data at position \a start in the file overwriting \a replace
      * bytes of the original content.
      *
      * \note This method is slow since it requires rewriting all of the file
      * after the insertion point.
      */
-    virtual void insert(const ByteVector &data,
-                        unsigned long start = 0, unsigned long replace = 0) = 0;
+  virtual void insert(const ByteVector &data,
+    unsigned long start = 0, unsigned long replace = 0) = 0;
 
-    /*!
+  /*!
      * Removes a block of the file starting a \a start and continuing for
      * \a length bytes.
      *
      * \note This method is slow since it involves rewriting all of the file
      * after the removed portion.
      */
-    virtual void removeBlock(unsigned long start = 0, unsigned long length = 0) = 0;
+  virtual void removeBlock(unsigned long start = 0, unsigned long length = 0) = 0;
 
-    /*!
+  /*!
      * Returns true if the file is read only (or if the file can not be opened).
      */
-    virtual bool readOnly() const = 0;
+  virtual bool readOnly() const = 0;
 
-    /*!
+  /*!
      * Since the file can currently only be opened as an argument to the
      * constructor (sort-of by design), this returns if that open succeeded.
      */
-    virtual bool isOpen() const = 0;
+  virtual bool isOpen() const = 0;
 
-    /*!
+  /*!
      * Move the I/O pointer to \a offset in the stream from position \a p.  This
      * defaults to seeking from the beginning of the stream.
      *
      * \see Position
      */
-    virtual void seek(long offset, Position p = Beginning) = 0;
+  virtual void seek(long offset, Position p = Beginning) = 0;
 
-    /*!
+  /*!
      * Reset the end-of-stream and error flags on the stream.
      */
-    virtual void clear();
+  virtual void clear();
 
-    /*!
+  /*!
      * Returns the current offset within the stream.
      */
-    virtual long tell() const = 0;
+  virtual long tell() const = 0;
 
-    /*!
+  /*!
      * Returns the length of the stream.
      */
-    virtual long length() = 0;
+  virtual long length() = 0;
 
-    /*!
+  /*!
      * Truncates the stream to a \a length.
      */
-    virtual void truncate(long length) = 0;
+  virtual void truncate(long length) = 0;
 
-  private:
-    IOStream(const IOStream &);
-    IOStream &operator=(const IOStream &);
-  };
+ private:
+  IOStream(const IOStream &);
+  IOStream &operator=(const IOStream &);
+};
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -38,15 +38,13 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Strawberry_TagLib::TagLib::Ogg;
 
-class Opus::Properties::PropertiesPrivate
-{
-public:
-  PropertiesPrivate() :
-    length(0),
-    bitrate(0),
-    inputSampleRate(0),
-    channels(0),
-    opusVersion(0) {}
+class Opus::Properties::PropertiesPrivate {
+ public:
+  PropertiesPrivate() : length(0),
+                        bitrate(0),
+                        inputSampleRate(0),
+                        channels(0),
+                        opusVersion(0) {}
 
   int length;
   int bitrate;
@@ -59,58 +57,47 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Opus::Properties::Properties(File *file, ReadStyle style) :
-  AudioProperties(style),
-  d(new PropertiesPrivate())
-{
+Opus::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
+                                                            d(new PropertiesPrivate()) {
   read(file);
 }
 
-Opus::Properties::~Properties()
-{
+Opus::Properties::~Properties() {
   delete d;
 }
 
-int Opus::Properties::length() const
-{
+int Opus::Properties::length() const {
   return lengthInSeconds();
 }
 
-int Ogg::Opus::Properties::lengthInSeconds() const
-{
+int Ogg::Opus::Properties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int Ogg::Opus::Properties::lengthInMilliseconds() const
-{
+int Ogg::Opus::Properties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int Opus::Properties::bitrate() const
-{
+int Opus::Properties::bitrate() const {
   return d->bitrate;
 }
 
-int Opus::Properties::sampleRate() const
-{
+int Opus::Properties::sampleRate() const {
   // Opus can decode any stream at a sample rate of 8, 12, 16, 24, or 48 kHz,
   // so there is no single sample rate. Let's assume it's the highest
   // possible.
   return 48000;
 }
 
-int Opus::Properties::channels() const
-{
+int Opus::Properties::channels() const {
   return d->channels;
 }
 
-int Opus::Properties::inputSampleRate() const
-{
+int Opus::Properties::inputSampleRate() const {
   return d->inputSampleRate;
 }
 
-int Opus::Properties::opusVersion() const
-{
+int Opus::Properties::opusVersion() const {
   return d->opusVersion;
 }
 
@@ -118,8 +105,7 @@ int Opus::Properties::opusVersion() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Opus::Properties::read(File *file)
-{
+void Opus::Properties::read(File *file) {
   // Get the identification header from the Ogg implementation.
 
   // http://tools.ietf.org/html/draft-terriberry-oggopus-01#section-5.1
@@ -152,16 +138,16 @@ void Opus::Properties::read(File *file)
   pos += 1;
 
   const Ogg::PageHeader *first = file->firstPageHeader();
-  const Ogg::PageHeader *last  = file->lastPageHeader();
+  const Ogg::PageHeader *last = file->lastPageHeader();
 
-  if(first && last) {
+  if (first && last) {
     const long long start = first->absoluteGranularPosition();
-    const long long end   = last->absoluteGranularPosition();
+    const long long end = last->absoluteGranularPosition();
 
-    if(start >= 0 && end >= 0) {
+    if (start >= 0 && end >= 0) {
       const long long frameCount = (end - start - preSkip);
 
-      if(frameCount > 0) {
+      if (frameCount > 0) {
         const double length = frameCount * 1000.0 / 48000.0;
         long fileLengthWithoutOverhead = file->length();
         // Ignore the two mandatory header packets, see "3. Packet Organization"
@@ -169,7 +155,7 @@ void Opus::Properties::read(File *file)
         for (unsigned int i = 0; i < 2; ++i) {
           fileLengthWithoutOverhead -= file->packet(i).size();
         }
-        d->length  = static_cast<int>(length + 0.5);
+        d->length = static_cast<int>(length + 0.5);
         d->bitrate = static_cast<int>(fileLengthWithoutOverhead * 8.0 / length + 0.5);
       }
     }

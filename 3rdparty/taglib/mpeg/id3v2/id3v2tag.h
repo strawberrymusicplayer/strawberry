@@ -39,20 +39,20 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class File;
+class File;
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    class Header;
-    class ExtendedHeader;
-    class Footer;
+class Header;
+class ExtendedHeader;
+class Footer;
 
-    typedef List<Frame *> FrameList;
-    typedef Map<ByteVector, FrameList> FrameListMap;
+typedef List<Frame *> FrameList;
+typedef Map<ByteVector, FrameList> FrameListMap;
 
-    //! An abstraction for the ISO-8859-1 string to data encoding in ID3v2 tags.
+//! An abstraction for the ISO-8859-1 string to data encoding in ID3v2 tags.
 
-    /*!
+/*!
      * ID3v2 tag can store strings in ISO-8859-1 (Latin1), and TagLib only
      * supports genuine ISO-8859-1 by default.  However, in practice, non
      * ISO-8859-1 encodings are often used instead of ISO-8859-1, such as
@@ -67,22 +67,21 @@ namespace TagLib {
      *
      * \see ID3v2::Tag::setStringHandler()
      */
-    class TAGLIB_EXPORT Latin1StringHandler
-    {
-    public:
-      Latin1StringHandler();
-      virtual ~Latin1StringHandler();
+class TAGLIB_EXPORT Latin1StringHandler {
+ public:
+  Latin1StringHandler();
+  virtual ~Latin1StringHandler();
 
-      /*!
+  /*!
        * Decode a string from \a data.  The default implementation assumes that
        * \a data is an ISO-8859-1 (Latin1) character array.
        */
-      virtual String parse(const ByteVector &data) const;
-    };
+  virtual String parse(const ByteVector &data) const;
+};
 
-    //! The main class in the ID3v2 implementation
+//! The main class in the ID3v2 implementation
 
-    /*!
+/*!
      * This is the main class in the ID3v2 implementation.  It serves two
      * functions.  This first, as is obvious from the public API, is to provide a
      * container for the other ID3v2 related classes.  In addition, through the
@@ -125,17 +124,16 @@ namespace TagLib {
      * working knowledge of ID3v2 structure.  You're been warned.
      */
 
-    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
+ public:
+  /*!
        * Constructs an empty ID3v2 tag.
        *
        * \note You must create at least one frame for this tag to be valid.
        */
-      Tag();
+  Tag();
 
-      /*!
+  /*!
        * Constructs an ID3v2 tag read from \a file starting at \a tagOffset.
        * \a factory specifies which FrameFactory will be used for the
        * construction of new frames.
@@ -147,46 +145,46 @@ namespace TagLib {
        *
        * \see FrameFactory
        */
-      Tag(File *file, long tagOffset,
-          const FrameFactory *factory = FrameFactory::instance());
+  Tag(File *file, long tagOffset,
+    const FrameFactory *factory = FrameFactory::instance());
 
-      /*!
+  /*!
        * Destroys this Tag instance.
        */
-      virtual ~Tag();
+  virtual ~Tag();
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual String title() const;
-      virtual String artist() const;
-      virtual String album() const;
-      virtual String comment() const;
-      virtual String genre() const;
-      virtual unsigned int year() const;
-      virtual unsigned int track() const;
+  virtual String title() const;
+  virtual String artist() const;
+  virtual String album() const;
+  virtual String comment() const;
+  virtual String genre() const;
+  virtual unsigned int year() const;
+  virtual unsigned int track() const;
 
-      virtual void setTitle(const String &s);
-      virtual void setArtist(const String &s);
-      virtual void setAlbum(const String &s);
-      virtual void setComment(const String &s);
-      virtual void setGenre(const String &s);
-      virtual void setYear(unsigned int i);
-      virtual void setTrack(unsigned int i);
+  virtual void setTitle(const String &s);
+  virtual void setArtist(const String &s);
+  virtual void setAlbum(const String &s);
+  virtual void setComment(const String &s);
+  virtual void setGenre(const String &s);
+  virtual void setYear(unsigned int i);
+  virtual void setTrack(unsigned int i);
 
-      virtual bool isEmpty() const;
+  virtual bool isEmpty() const;
 
-      /*!
+  /*!
        * Returns a pointer to the tag's header.
        */
-      Header *header() const;
+  Header *header() const;
 
-      /*!
+  /*!
        * Returns a pointer to the tag's extended header or null if there is no
        * extended header.
        */
-      ExtendedHeader *extendedHeader() const;
+  ExtendedHeader *extendedHeader() const;
 
-      /*!
+  /*!
        * Returns a pointer to the tag's footer or null if there is no footer.
        *
        * \deprecated I don't see any reason to keep this around since there's
@@ -194,9 +192,9 @@ namespace TagLib {
        * prone to change my mind, so this gets to stay around until near a
        * release.
        */
-      TAGLIB_DEPRECATED Footer *footer() const;
+  TAGLIB_DEPRECATED Footer *footer() const;
 
-      /*!
+  /*!
        * Returns a reference to the frame list map.  This is an FrameListMap of
        * all of the frames in the tag.
        *
@@ -230,9 +228,9 @@ namespace TagLib {
        *
        * \see frameList()
        */
-      const FrameListMap &frameListMap() const;
+  const FrameListMap &frameListMap() const;
 
-      /*!
+  /*!
        * Returns a reference to the frame list.  This is an FrameList of all of
        * the frames in the tag in the order that they were parsed.
        *
@@ -242,9 +240,9 @@ namespace TagLib {
        * \warning You should not modify this data structure directly, instead
        * use addFrame() and removeFrame().
        */
-      const FrameList &frameList() const;
+  const FrameList &frameList() const;
 
-      /*!
+  /*!
        * Returns the frame list for frames with the id \a frameID or an empty
        * list if there are no frames of that type.  This is just a convenience
        * and is equivalent to:
@@ -255,35 +253,35 @@ namespace TagLib {
        *
        * \see frameListMap()
        */
-      const FrameList &frameList(const ByteVector &frameID) const;
+  const FrameList &frameList(const ByteVector &frameID) const;
 
-      /*!
+  /*!
        * Add a frame to the tag.  At this point the tag takes ownership of
        * the frame and will handle freeing its memory.
        *
        * \note Using this method will invalidate any pointers on the list
        * returned by frameList()
        */
-      void addFrame(Frame *frame);
+  void addFrame(Frame *frame);
 
-      /*!
+  /*!
        * Remove a frame from the tag.  If \a del is true the frame's memory
        * will be freed; if it is false, it must be deleted by the user.
        *
        * \note Using this method will invalidate any pointers on the list
        * returned by frameList()
        */
-      void removeFrame(Frame *frame, bool del = true);
+  void removeFrame(Frame *frame, bool del = true);
 
-      /*!
+  /*!
        * Remove all frames of type \a id from the tag and free their memory.
        *
        * \note Using this method will invalidate any pointers on the list
        * returned by frameList()
        */
-      void removeFrames(const ByteVector &id);
+  void removeFrames(const ByteVector &id);
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * This function does some work to translate the hard-specified ID3v2
        * frame types into a free-form string-to-stringlist PropertyMap:
@@ -312,9 +310,9 @@ namespace TagLib {
        *  once, the description, separated by a "/".
        *
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      /*!
+  /*!
        * Removes unsupported frames given by \a properties. The elements of
        * \a properties must be taken from properties().unsupportedData(); they
        * are of one of the following forms:
@@ -325,41 +323,41 @@ namespace TagLib {
        *  - "UNKNOWN/" + frameID, for frames that could not be parsed by TagLib.
        *    In that case, *all* unknown frames with the given ID will be removed.
        */
-      void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * See the comments in properties().
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Render the tag back to binary data, suitable to be written to disk.
        */
-      ByteVector render() const;
+  ByteVector render() const;
 
-      /*!
+  /*!
        * \deprecated
        */
-      TAGLIB_DEPRECATED ByteVector render(int version) const;
+  TAGLIB_DEPRECATED ByteVector render(int version) const;
 
-      /*!
+  /*!
        * Render the tag back to binary data, suitable to be written to disk.
        *
        * The \a version parameter specifies whether ID3v2.4 (default) or ID3v2.3
        * should be used.
        */
-      ByteVector render(Version version) const;
+  ByteVector render(Version version) const;
 
-      /*!
+  /*!
        * Gets the current string handler that decides how the "Latin-1" data
        * will be converted to and from binary data.
        *
        * \see Latin1StringHandler
        */
-      static Latin1StringHandler const *latin1StringHandler();
+  static Latin1StringHandler const *latin1StringHandler();
 
-      /*!
+  /*!
        * Sets the string handler that decides how the "Latin-1" data will be
        * converted to and from binary data.
        * If the parameter \a handler is null, the previous handler is
@@ -370,44 +368,44 @@ namespace TagLib {
        *
        * \see Latin1StringHandler
        */
-      static void setLatin1StringHandler(const Latin1StringHandler *handler);
+  static void setLatin1StringHandler(const Latin1StringHandler *handler);
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Reads data from the file specified in the constructor.  It does basic
        * parsing of the data in the largest chunks.  It partitions the tag into
        * the Header, the body of the tag  (which contains the ExtendedHeader and
        * frames) and Footer.
        */
-      void read();
+  void read();
 
-      /*!
+  /*!
        * This is called by read to parse the body of the tag.  It determines if an
        * extended header exists and adds frames to the FrameListMap.
        */
-      void parse(const ByteVector &data);
+  void parse(const ByteVector &data);
 
-      /*!
+  /*!
        * Sets the value of the text frame with the Frame ID \a id to \a value.
        * If the frame does not exist, it is created.
        */
-      void setTextFrame(const ByteVector &id, const String &value);
+  void setTextFrame(const ByteVector &id, const String &value);
 
-      /*!
+  /*!
        * Dowgrade frames from ID3v2.4 (used internally and by default) to ID3v2.3
        */
-      void downgradeFrames(FrameList *existingFrames, FrameList *newFrames) const;
+  void downgradeFrames(FrameList *existingFrames, FrameList *newFrames) const;
 
-    private:
-      Tag(const Tag &);
-      Tag &operator=(const Tag &);
+ private:
+  Tag(const Tag &);
+  Tag &operator=(const Tag &);
 
-      class TagPrivate;
-      TagPrivate *d;
-    };
+  class TagPrivate;
+  TagPrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

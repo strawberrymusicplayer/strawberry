@@ -35,11 +35,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class Tag;
+class Tag;
 
-  //! This class provides a simple abstraction for creating and handling files
+//! This class provides a simple abstraction for creating and handling files
 
-  /*!
+/*!
    * FileRef exists to provide a minimal, generic and value-based wrapper around
    * a File.  It is lightweight and implicitly shared, and as such suitable for
    * pass-by-value use.  This hides some of the uglier details of TagLib::File
@@ -57,10 +57,8 @@ namespace TagLib {
    * \see addFileTypeResolver()
    */
 
-  class TAGLIB_EXPORT FileRef
-  {
-  public:
-
+class TAGLIB_EXPORT FileRef {
+ public:
   //! A class for pluggable file type resolution.
 
   /*!
@@ -90,11 +88,10 @@ namespace TagLib {
    * to TagLib.
    */
 
-    class TAGLIB_EXPORT FileTypeResolver
-    {
-    public:
-      virtual ~FileTypeResolver();
-      /*!
+  class TAGLIB_EXPORT FileTypeResolver {
+   public:
+    virtual ~FileTypeResolver();
+    /*!
        * This method must be overridden to provide an additional file type
        * resolver.  If the resolver is able to determine the file type it should
        * return a valid File object; if not it should return 0.
@@ -103,18 +100,18 @@ namespace TagLib {
        * deleted.  Deletion will happen automatically when the FileRef passes
        * out of scope.
        */
-      virtual File *createFile(FileName fileName,
-                               bool readAudioProperties = true,
-                               AudioProperties::ReadStyle
-                               audioPropertiesStyle = AudioProperties::Average) const = 0;
-    };
+    virtual File *createFile(FileName fileName,
+      bool readAudioProperties = true,
+      AudioProperties::ReadStyle
+        audioPropertiesStyle = AudioProperties::Average) const = 0;
+  };
 
-    /*!
+  /*!
      * Creates a null FileRef.
      */
-    FileRef();
+  FileRef();
 
-    /*!
+  /*!
      * Create a FileRef from \a fileName.  If \a readAudioProperties is true then
      * the audio properties will be read using \a audioPropertiesStyle.  If
      * \a readAudioProperties is false then \a audioPropertiesStyle will be
@@ -123,12 +120,12 @@ namespace TagLib {
      * Also see the note in the class documentation about why you may not want to
      * use this method in your application.
      */
-    explicit FileRef(FileName fileName,
-                     bool readAudioProperties = true,
-                     AudioProperties::ReadStyle
-                     audioPropertiesStyle = AudioProperties::Average);
+  explicit FileRef(FileName fileName,
+    bool readAudioProperties = true,
+    AudioProperties::ReadStyle
+      audioPropertiesStyle = AudioProperties::Average);
 
-    /*!
+  /*!
      * Construct a FileRef from an opened \a IOStream.  If \a readAudioProperties
      * is true then the audio properties will be read using \a audioPropertiesStyle.
      * If \a readAudioProperties is false then \a audioPropertiesStyle will be
@@ -140,28 +137,28 @@ namespace TagLib {
      * \note TagLib will *not* take ownership of the stream, the caller is
      * responsible for deleting it after the File object.
      */
-    explicit FileRef(IOStream* stream,
-                     bool readAudioProperties = true,
-                     AudioProperties::ReadStyle
-                     audioPropertiesStyle = AudioProperties::Average);
+  explicit FileRef(IOStream *stream,
+    bool readAudioProperties = true,
+    AudioProperties::ReadStyle
+      audioPropertiesStyle = AudioProperties::Average);
 
-    /*!
+  /*!
      * Construct a FileRef using \a file.  The FileRef now takes ownership of the
      * pointer and will delete the File when it passes out of scope.
      */
-    explicit FileRef(File *file);
+  explicit FileRef(File *file);
 
-    /*!
+  /*!
      * Make a copy of \a ref.
      */
-    FileRef(const FileRef &ref);
+  FileRef(const FileRef &ref);
 
-    /*!
+  /*!
      * Destroys this FileRef instance.
      */
-    virtual ~FileRef();
+  virtual ~FileRef();
 
-    /*!
+  /*!
      * Returns a pointer to represented file's tag.
      *
      * \warning This pointer will become invalid when this FileRef and all
@@ -172,15 +169,15 @@ namespace TagLib {
      *
      * \see File::tag()
      */
-    Tag *tag() const;
+  Tag *tag() const;
 
-    /*!
+  /*!
      * Returns the audio properties for this FileRef.  If no audio properties
      * were read then this will returns a null pointer.
      */
-    AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const;
 
-    /*!
+  /*!
      * Returns a pointer to the file represented by this handler class.
      *
      * As a general rule this call should be avoided since if you need to work
@@ -195,14 +192,14 @@ namespace TagLib {
      * \warning This pointer will become invalid when this FileRef and all
      * copies pass out of scope.
      */
-    File *file() const;
+  File *file() const;
 
-    /*!
+  /*!
      * Saves the file.  Returns true on success.
      */
-    bool save();
+  bool save();
 
-    /*!
+  /*!
      * Adds a FileTypeResolver to the list of those used by TagLib.  Each
      * additional FileTypeResolver is added to the front of a list of resolvers
      * that are tried.  If the FileTypeResolver returns zero the next resolver
@@ -214,9 +211,9 @@ namespace TagLib {
      *
      * \see FileTypeResolver
      */
-    static const FileTypeResolver *addFileTypeResolver(const FileTypeResolver *resolver);
+  static const FileTypeResolver *addFileTypeResolver(const FileTypeResolver *resolver);
 
-    /*!
+  /*!
      * As is mentioned elsewhere in this class's documentation, the default file
      * type resolution code provided by TagLib only works by comparing file
      * extensions.
@@ -232,35 +229,35 @@ namespace TagLib {
      *
      * \see FileTypeResolver
      */
-    static StringList defaultFileExtensions();
+  static StringList defaultFileExtensions();
 
-    /*!
+  /*!
      * Returns true if the file (and as such other pointers) are null.
      */
-    bool isNull() const;
+  bool isNull() const;
 
-    /*!
+  /*!
      * Assign the file pointed to by \a ref to this FileRef.
      */
-    FileRef &operator=(const FileRef &ref);
+  FileRef &operator=(const FileRef &ref);
 
-    /*!
+  /*!
      * Exchanges the content of the FileRef by the content of \a ref.
      */
-    void swap(FileRef &ref);
+  void swap(FileRef &ref);
 
-    /*!
+  /*!
      * Returns true if this FileRef and \a ref point to the same File object.
      */
-    bool operator==(const FileRef &ref) const;
+  bool operator==(const FileRef &ref) const;
 
-    /*!
+  /*!
      * Returns true if this FileRef and \a ref do not point to the same File
      * object.
      */
-    bool operator!=(const FileRef &ref) const;
+  bool operator!=(const FileRef &ref) const;
 
-    /*!
+  /*!
      * A simple implementation of file type guessing.  If \a readAudioProperties
      * is true then the audio properties will be read using
      * \a audioPropertiesStyle.  If \a readAudioProperties is false then
@@ -271,19 +268,19 @@ namespace TagLib {
      *
      * \deprecated
      */
-    static File *create(FileName fileName,
-                        bool readAudioProperties = true,
-                        AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
+  static File *create(FileName fileName,
+    bool readAudioProperties = true,
+    AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
-  private:
-    void parse(FileName fileName, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);
-    void parse(IOStream *stream, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);
+ private:
+  void parse(FileName fileName, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);
+  void parse(IOStream *stream, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);
 
-    class FileRefPrivate;
-    FileRefPrivate *d;
-  };
+  class FileRefPrivate;
+  FileRefPrivate *d;
+};
 
-}
-} // namespace Strawberry_TagLib::TagLib
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif  // TAGLIB_FILEREF_H

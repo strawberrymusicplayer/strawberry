@@ -31,55 +31,53 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace DSDIFF {
+namespace DSDIFF {
 
-    class File;
+class File;
 
-    //! An implementation of audio property reading for DSDIFF
+//! An implementation of audio property reading for DSDIFF
 
-    /*!
+/*!
      * This reads the data from an DSDIFF stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of DSDIFF::Properties with the data read from the
        * ByteVector \a data.
        */
-      Properties(const unsigned int sampleRate, const unsigned short channels,
-                 const unsigned long long samplesCount, const int bitrate,
-                 ReadStyle style);
+  Properties(const unsigned int sampleRate, const unsigned short channels,
+    const unsigned long long samplesCount, const int bitrate,
+    ReadStyle style);
 
-      /*!
+  /*!
        * Destroys this DSDIFF::Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual int length() const;
-      virtual int lengthInSeconds() const;
-      virtual int lengthInMilliseconds() const;
-      virtual int bitrate() const;
-      virtual int sampleRate() const;
-      virtual int channels() const;
+  virtual int length() const;
+  virtual int lengthInSeconds() const;
+  virtual int lengthInMilliseconds() const;
+  virtual int bitrate() const;
+  virtual int sampleRate() const;
+  virtual int channels() const;
 
-      int bitsPerSample() const;
-      long long sampleCount() const;
+  int bitsPerSample() const;
+  long long sampleCount() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace DSDIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
-

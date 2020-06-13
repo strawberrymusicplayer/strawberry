@@ -33,63 +33,62 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace MP4 {
+namespace MP4 {
 
-    class TAGLIB_EXPORT Item
-    {
-    public:
-      struct IntPair {
-        int first, second;
-      };
+class TAGLIB_EXPORT Item {
+ public:
+  struct IntPair {
+    int first, second;
+  };
 
-      Item();
-      Item(const Item &item);
+  Item();
+  Item(const Item &item);
 
-      /*!
+  /*!
        * Copies the contents of \a item into this Item.
        */
-      Item &operator=(const Item &item);
+  Item &operator=(const Item &item);
 
-      /*!
+  /*!
        * Exchanges the content of the Item by the content of \a item.
        */
-      void swap(Item &item);
+  void swap(Item &item);
 
-      ~Item();
+  ~Item();
 
-      Item(int value);
-      Item(unsigned char value);
-      Item(unsigned int value);
-      Item(long long value);
-      Item(bool value);
-      Item(int first, int second);
-      Item(const StringList &value);
-      Item(const ByteVectorList &value);
-      Item(const CoverArtList &value);
+  Item(int value);
+  Item(unsigned char value);
+  Item(unsigned int value);
+  Item(long long value);
+  Item(bool value);
+  Item(int first, int second);
+  Item(const StringList &value);
+  Item(const ByteVectorList &value);
+  Item(const CoverArtList &value);
 
-      void setAtomDataType(AtomDataType type);
-      AtomDataType atomDataType() const;
+  void setAtomDataType(AtomDataType type);
+  AtomDataType atomDataType() const;
 
-      int toInt() const;
-      unsigned char toByte() const;
-      unsigned int toUInt() const;
-      long long toLongLong() const;
-      bool toBool() const;
-      IntPair toIntPair() const;
-      StringList toStringList() const;
-      ByteVectorList toByteVectorList() const;
-      CoverArtList toCoverArtList() const;
+  int toInt() const;
+  unsigned char toByte() const;
+  unsigned int toUInt() const;
+  long long toLongLong() const;
+  bool toBool() const;
+  IntPair toIntPair() const;
+  StringList toStringList() const;
+  ByteVectorList toByteVectorList() const;
+  CoverArtList toCoverArtList() const;
 
-      bool isValid() const;
+  bool isValid() const;
 
-    private:
-      class ItemPrivate;
-      ItemPrivate *d;
-    };
+ private:
+  class ItemPrivate;
+  ItemPrivate *d;
+};
 
-  }
+}  // namespace MP4
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

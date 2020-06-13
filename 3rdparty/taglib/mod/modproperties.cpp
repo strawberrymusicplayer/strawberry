@@ -29,83 +29,66 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
-class Mod::Properties::PropertiesPrivate
-{
-public:
-  PropertiesPrivate() :
-    channels(0),
-    instrumentCount(0),
-    lengthInPatterns(0)
-  {
+class Mod::Properties::PropertiesPrivate {
+ public:
+  PropertiesPrivate() : channels(0),
+                        instrumentCount(0),
+                        lengthInPatterns(0) {
   }
 
-  int           channels;
-  unsigned int  instrumentCount;
+  int channels;
+  unsigned int instrumentCount;
   unsigned char lengthInPatterns;
 };
 
-Mod::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) :
-  AudioProperties(propertiesStyle),
-  d(new PropertiesPrivate())
-{
+Mod::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
+                                                                          d(new PropertiesPrivate()) {
 }
 
-Mod::Properties::~Properties()
-{
+Mod::Properties::~Properties() {
   delete d;
 }
 
-int Mod::Properties::length() const
-{
+int Mod::Properties::length() const {
   return 0;
 }
 
-int Mod::Properties::lengthInSeconds() const
-{
+int Mod::Properties::lengthInSeconds() const {
   return 0;
 }
 
-int Mod::Properties::lengthInMilliseconds() const
-{
+int Mod::Properties::lengthInMilliseconds() const {
   return 0;
 }
 
-int Mod::Properties::bitrate() const
-{
+int Mod::Properties::bitrate() const {
   return 0;
 }
 
-int Mod::Properties::sampleRate() const
-{
+int Mod::Properties::sampleRate() const {
   return 0;
 }
 
-int Mod::Properties::channels() const
-{
+int Mod::Properties::channels() const {
   return d->channels;
 }
 
-unsigned int Mod::Properties::instrumentCount() const
-{
+unsigned int Mod::Properties::instrumentCount() const {
   return d->instrumentCount;
 }
 
-unsigned char Mod::Properties::lengthInPatterns() const
-{
+unsigned char Mod::Properties::lengthInPatterns() const {
   return d->lengthInPatterns;
 }
 
-void Mod::Properties::setChannels(int channels)
-{
+void Mod::Properties::setChannels(int channels) {
   d->channels = channels;
 }
 
-void Mod::Properties::setInstrumentCount(unsigned int instrumentCount)
-{
+void Mod::Properties::setInstrumentCount(unsigned int instrumentCount) {
   d->instrumentCount = instrumentCount;
 }
 
-void Mod::Properties::setLengthInPatterns(unsigned char lengthInPatterns)
-{
+void Mod::Properties::setLengthInPatterns(unsigned char lengthInPatterns) {
   d->lengthInPatterns = lengthInPatterns;
 }

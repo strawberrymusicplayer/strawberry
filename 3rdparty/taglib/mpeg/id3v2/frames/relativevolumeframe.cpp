@@ -31,8 +31,7 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-struct ChannelData
-{
+struct ChannelData {
   ChannelData() : channelType(RelativeVolumeFrame::Other), volumeAdjustment(0) {}
 
   RelativeVolumeFrame::ChannelType channelType;
@@ -40,9 +39,8 @@ struct ChannelData
   RelativeVolumeFrame::PeakVolume peakVolume;
 };
 
-class RelativeVolumeFrame::RelativeVolumeFramePrivate
-{
-public:
+class RelativeVolumeFrame::RelativeVolumeFramePrivate {
+ public:
   String identification;
   Map<ChannelType, ChannelData> channels;
 };
@@ -51,35 +49,28 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RelativeVolumeFrame::RelativeVolumeFrame() :
-  Frame("RVA2"),
-  d(new RelativeVolumeFramePrivate())
-{
+RelativeVolumeFrame::RelativeVolumeFrame() : Frame("RVA2"),
+                                             d(new RelativeVolumeFramePrivate()) {
 }
 
-RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data) :
-  Frame(data),
-  d(new RelativeVolumeFramePrivate())
-{
+RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data) : Frame(data),
+                                                                   d(new RelativeVolumeFramePrivate()) {
   setData(data);
 }
 
-RelativeVolumeFrame::~RelativeVolumeFrame()
-{
+RelativeVolumeFrame::~RelativeVolumeFrame() {
   delete d;
 }
 
-String RelativeVolumeFrame::toString() const
-{
+String RelativeVolumeFrame::toString() const {
   return d->identification;
 }
 
-List<RelativeVolumeFrame::ChannelType> RelativeVolumeFrame::channels() const
-{
+List<RelativeVolumeFrame::ChannelType> RelativeVolumeFrame::channels() const {
   List<ChannelType> l;
 
   Map<ChannelType, ChannelData>::ConstIterator it = d->channels.begin();
-  for(; it != d->channels.end(); ++it)
+  for (; it != d->channels.end(); ++it)
     l.append((*it).first);
 
   return l;
@@ -87,85 +78,68 @@ List<RelativeVolumeFrame::ChannelType> RelativeVolumeFrame::channels() const
 
 // deprecated
 
-RelativeVolumeFrame::ChannelType RelativeVolumeFrame::channelType() const
-{
+RelativeVolumeFrame::ChannelType RelativeVolumeFrame::channelType() const {
   return MasterVolume;
 }
 
 // deprecated
 
-void RelativeVolumeFrame::setChannelType(ChannelType)
-{
-
+void RelativeVolumeFrame::setChannelType(ChannelType) {
 }
 
-short RelativeVolumeFrame::volumeAdjustmentIndex(ChannelType type) const
-{
+short RelativeVolumeFrame::volumeAdjustmentIndex(ChannelType type) const {
   return d->channels.contains(type) ? d->channels[type].volumeAdjustment : 0;
 }
 
-short RelativeVolumeFrame::volumeAdjustmentIndex() const
-{
+short RelativeVolumeFrame::volumeAdjustmentIndex() const {
   return volumeAdjustmentIndex(MasterVolume);
 }
 
-void RelativeVolumeFrame::setVolumeAdjustmentIndex(short index, ChannelType type)
-{
+void RelativeVolumeFrame::setVolumeAdjustmentIndex(short index, ChannelType type) {
   d->channels[type].volumeAdjustment = index;
 }
 
-void RelativeVolumeFrame::setVolumeAdjustmentIndex(short index)
-{
+void RelativeVolumeFrame::setVolumeAdjustmentIndex(short index) {
   setVolumeAdjustmentIndex(index, MasterVolume);
 }
 
-float RelativeVolumeFrame::volumeAdjustment(ChannelType type) const
-{
+float RelativeVolumeFrame::volumeAdjustment(ChannelType type) const {
   return d->channels.contains(type) ? float(d->channels[type].volumeAdjustment) / float(512) : 0;
 }
 
-float RelativeVolumeFrame::volumeAdjustment() const
-{
+float RelativeVolumeFrame::volumeAdjustment() const {
   return volumeAdjustment(MasterVolume);
 }
 
-void RelativeVolumeFrame::setVolumeAdjustment(float adjustment, ChannelType type)
-{
+void RelativeVolumeFrame::setVolumeAdjustment(float adjustment, ChannelType type) {
   d->channels[type].volumeAdjustment = short(adjustment * float(512));
 }
 
-void RelativeVolumeFrame::setVolumeAdjustment(float adjustment)
-{
+void RelativeVolumeFrame::setVolumeAdjustment(float adjustment) {
   setVolumeAdjustment(adjustment, MasterVolume);
 }
 
-RelativeVolumeFrame::PeakVolume RelativeVolumeFrame::peakVolume(ChannelType type) const
-{
+RelativeVolumeFrame::PeakVolume RelativeVolumeFrame::peakVolume(ChannelType type) const {
   return d->channels.contains(type) ? d->channels[type].peakVolume : PeakVolume();
 }
 
-RelativeVolumeFrame::PeakVolume RelativeVolumeFrame::peakVolume() const
-{
+RelativeVolumeFrame::PeakVolume RelativeVolumeFrame::peakVolume() const {
   return peakVolume(MasterVolume);
 }
 
-void RelativeVolumeFrame::setPeakVolume(const PeakVolume &peak, ChannelType type)
-{
+void RelativeVolumeFrame::setPeakVolume(const PeakVolume &peak, ChannelType type) {
   d->channels[type].peakVolume = peak;
 }
 
-void RelativeVolumeFrame::setPeakVolume(const PeakVolume &peak)
-{
+void RelativeVolumeFrame::setPeakVolume(const PeakVolume &peak) {
   setPeakVolume(peak, MasterVolume);
 }
 
-String RelativeVolumeFrame::identification() const
-{
+String RelativeVolumeFrame::identification() const {
   return d->identification;
 }
 
-void RelativeVolumeFrame::setIdentification(const String &s)
-{
+void RelativeVolumeFrame::setIdentification(const String &s) {
   d->identification = s;
 }
 
@@ -173,14 +147,13 @@ void RelativeVolumeFrame::setIdentification(const String &s)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void RelativeVolumeFrame::parseFields(const ByteVector &data)
-{
+void RelativeVolumeFrame::parseFields(const ByteVector &data) {
   int pos = 0;
   d->identification = readStringField(data, String::Latin1, &pos);
 
   // Each channel is at least 4 bytes.
 
-  while(pos <= (int)data.size() - 4) {
+  while (pos <= (int)data.size() - 4) {
 
     ChannelType type = ChannelType(data[pos]);
     pos += 1;
@@ -199,8 +172,7 @@ void RelativeVolumeFrame::parseFields(const ByteVector &data)
   }
 }
 
-ByteVector RelativeVolumeFrame::renderFields() const
-{
+ByteVector RelativeVolumeFrame::renderFields() const {
   ByteVector data;
 
   data.append(d->identification.data(String::Latin1));
@@ -208,7 +180,7 @@ ByteVector RelativeVolumeFrame::renderFields() const
 
   Map<ChannelType, ChannelData>::ConstIterator it = d->channels.begin();
 
-  for(; it != d->channels.end(); ++it) {
+  for (; it != d->channels.end(); ++it) {
     ChannelType type = (*it).first;
     const ChannelData &channel = (*it).second;
 
@@ -225,9 +197,7 @@ ByteVector RelativeVolumeFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new RelativeVolumeFramePrivate())
-{
+RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                              d(new RelativeVolumeFramePrivate()) {
   parseFields(fieldData(data));
 }

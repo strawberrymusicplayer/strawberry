@@ -34,37 +34,36 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class String;
-  class Tag;
-  class AudioProperties;
+class String;
+class Tag;
+class AudioProperties;
 
-  //! In-memory Stream class using ByteVector for its storage.
+//! In-memory Stream class using ByteVector for its storage.
 
-  class TAGLIB_EXPORT ByteVectorStream : public IOStream
-  {
-  public:
-    /*!
+class TAGLIB_EXPORT ByteVectorStream : public IOStream {
+ public:
+  /*!
      * Construct a File object and opens the \a file.  \a file should be a
      * be a C-string in the local file system encoding.
      */
-    ByteVectorStream(const ByteVector &data);
+  ByteVectorStream(const ByteVector &data);
 
-    /*!
+  /*!
      * Destroys this ByteVectorStream instance.
      */
-    virtual ~ByteVectorStream();
+  virtual ~ByteVectorStream();
 
-    /*!
+  /*!
      * Returns the file name in the local file system encoding.
      */
-    FileName name() const;
+  FileName name() const;
 
-    /*!
+  /*!
      * Reads a block of size \a length at the current get pointer.
      */
-    ByteVector readBlock(unsigned long length);
+  ByteVector readBlock(unsigned long length);
 
-    /*!
+  /*!
      * Attempts to write the block \a data at the current get pointer.  If the
      * file is currently only opened read only -- i.e. readOnly() returns true --
      * this attempts to reopen the file in read/write mode.
@@ -73,75 +72,74 @@ namespace TagLib {
      * for a ByteVector.  And even this function is significantly slower than
      * doing output with a char[].
      */
-    void writeBlock(const ByteVector &data);
+  void writeBlock(const ByteVector &data);
 
-    /*!
+  /*!
      * Insert \a data at position \a start in the file overwriting \a replace
      * bytes of the original content.
      *
      * \note This method is slow since it requires rewriting all of the file
      * after the insertion point.
      */
-    void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
+  void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
 
-    /*!
+  /*!
      * Removes a block of the file starting a \a start and continuing for
      * \a length bytes.
      *
      * \note This method is slow since it involves rewriting all of the file
      * after the removed portion.
      */
-    void removeBlock(unsigned long start = 0, unsigned long length = 0);
+  void removeBlock(unsigned long start = 0, unsigned long length = 0);
 
-    /*!
+  /*!
      * Returns true if the file is read only (or if the file can not be opened).
      */
-    bool readOnly() const;
+  bool readOnly() const;
 
-    /*!
+  /*!
      * Since the file can currently only be opened as an argument to the
      * constructor (sort-of by design), this returns if that open succeeded.
      */
-    bool isOpen() const;
+  bool isOpen() const;
 
-    /*!
+  /*!
      * Move the I/O pointer to \a offset in the file from position \a p.  This
      * defaults to seeking from the beginning of the file.
      *
      * \see Position
      */
-    void seek(long offset, Position p = Beginning);
+  void seek(long offset, Position p = Beginning);
 
-    /*!
+  /*!
      * Reset the end-of-file and error flags on the file.
      */
-    void clear();
+  void clear();
 
-    /*!
+  /*!
      * Returns the current offset within the file.
      */
-    long tell() const;
+  long tell() const;
 
-    /*!
+  /*!
      * Returns the length of the file.
      */
-    long length();
+  long length();
 
-    /*!
+  /*!
      * Truncates the file to a \a length.
      */
-    void truncate(long length);
+  void truncate(long length);
 
-    ByteVector *data();
+  ByteVector *data();
 
-  protected:
+ protected:
+ private:
+  class ByteVectorStreamPrivate;
+  ByteVectorStreamPrivate *d;
+};
 
-  private:
-    class ByteVectorStreamPrivate;
-    ByteVectorStreamPrivate *d;
-  };
-
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

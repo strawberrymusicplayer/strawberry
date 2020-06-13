@@ -29,59 +29,52 @@
 #include <bitset>
 
 #ifdef _WIN32
-# include <windows.h>
+#  include <windows.h>
 #endif
 
 using namespace Strawberry_TagLib::TagLib;
 
-namespace
-{
-  class DefaultListener : public DebugListener
-  {
-  public:
-    virtual void printMessage(const String &msg)
-    {
+namespace {
+class DefaultListener : public DebugListener {
+ public:
+  virtual void printMessage(const String &msg) {
 #ifdef _WIN32
 
-      const wstring wstr = msg.toWString();
-      const int len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
-      if(len != 0) {
-        std::vector<char> buf(len);
-        WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, &buf[0], len, NULL, NULL);
+    const wstring wstr = msg.toWString();
+    const int len = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+    if (len != 0) {
+      std::vector<char> buf(len);
+      WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, &buf[0], len, NULL, NULL);
 
-        std::cerr << std::string(&buf[0]);
-      }
+      std::cerr << std::string(&buf[0]);
+    }
 
 #else
 
-      std::cerr << msg;
+    std::cerr << msg;
 
-#endif 
-    }
-  };
+#endif
+  }
+};
 
-  DefaultListener defaultListener;
-}
+DefaultListener defaultListener;
+}  // namespace
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
-  DebugListener *debugListener = &defaultListener;
+namespace TagLib {
+DebugListener *debugListener = &defaultListener;
 
-  DebugListener::DebugListener()
-  {
-  }
-
-  DebugListener::~DebugListener()
-  {
-  }
-
-  void setDebugListener(DebugListener *listener)
-  {
-    if(listener)
-      debugListener = listener;
-    else
-      debugListener = &defaultListener;
-  }
+DebugListener::DebugListener() {
 }
+
+DebugListener::~DebugListener() {
 }
+
+void setDebugListener(DebugListener *listener) {
+  if (listener)
+    debugListener = listener;
+  else
+    debugListener = &defaultListener;
+}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib

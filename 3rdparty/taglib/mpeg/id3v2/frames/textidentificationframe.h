@@ -35,14 +35,14 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    class Tag;
-    typedef Map<String, String> KeyConversionMap;
+class Tag;
+typedef Map<String, String> KeyConversionMap;
 
-    //! An ID3v2 text identification frame implementation
+//! An ID3v2 text identification frame implementation
 
-    /*!
+/*!
      * This is an implementation of the most common type of ID3v2 frame -- text
      * identification frames.  There are a number of variations on this.  Those
      * enumerated in the ID3v2.4 standard are:
@@ -104,12 +104,11 @@ namespace TagLib {
      * (with the encoding flag appropriately set in the output).
      */
 
-    class TAGLIB_EXPORT TextIdentificationFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * Construct an empty frame of type \a type.  Uses \a encoding as the
        * default text encoding.
        *
@@ -118,34 +117,34 @@ namespace TagLib {
        *
        * \note Please see the note in the class description regarding Latin1.
        */
-      TextIdentificationFrame(const ByteVector &type, String::Type encoding);
+  TextIdentificationFrame(const ByteVector &type, String::Type encoding);
 
-      /*!
+  /*!
        * This is a dual purpose constructor.  \a data can either be binary data
        * that should be parsed or (at a minimum) the frame ID.
        */
-      explicit TextIdentificationFrame(const ByteVector &data);
+  explicit TextIdentificationFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * This is a special factory method to create a TIPL (involved people list)
        * frame from the given \a properties. Will parse key=[list of values] data
        * into the TIPL format as specified in the ID3 standard.
        */
-      static TextIdentificationFrame *createTIPLFrame(const PropertyMap &properties);
+  static TextIdentificationFrame *createTIPLFrame(const PropertyMap &properties);
 
-      /*!
+  /*!
        * This is a special factory method to create a TMCL (musician credits list)
        * frame from the given \a properties. Will parse key=[list of values] data
        * into the TMCL format as specified in the ID3 standard, where key should be
        * of the form instrumentPrefix:instrument.
        */
-      static TextIdentificationFrame *createTMCLFrame(const PropertyMap &properties);
-      /*!
+  static TextIdentificationFrame *createTMCLFrame(const PropertyMap &properties);
+  /*!
        * Destroys this TextIdentificationFrame instance.
        */
-      virtual ~TextIdentificationFrame();
+  virtual ~TextIdentificationFrame();
 
-      /*!
+  /*!
        * Text identification frames are a list of string fields.
        *
        * This function will accept either a StringList or a String (using the
@@ -155,14 +154,14 @@ namespace TagLib {
        * strings passed in are not of the same encoding.  Please use
        * setEncoding(s.type()) if you wish to change the encoding of the frame.
        */
-      void setText(const StringList &l);
+  void setText(const StringList &l);
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual void setText(const String &s);
-      virtual String toString() const;
+  virtual void setText(const String &s);
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns the text encoding that will be used in rendering this frame.
        * This defaults to the type that was either specified in the constructor
        * or read from the frame when parsed.
@@ -172,9 +171,9 @@ namespace TagLib {
        * \see setTextEncoding()
        * \see render()
        */
-      String::Type textEncoding() const;
+  String::Type textEncoding() const;
 
-      /*!
+  /*!
        * Sets the text encoding to be used when rendering this frame to
        * \a encoding.
        *
@@ -183,51 +182,51 @@ namespace TagLib {
        * \see textEncoding()
        * \see render()
        */
-      void setTextEncoding(String::Type encoding);
+  void setTextEncoding(String::Type encoding);
 
-      /*!
+  /*!
        * Returns a list of the strings in this frame.
        */
-      StringList fieldList() const;
+  StringList fieldList() const;
 
-      /*!
+  /*!
        * Returns a KeyConversionMap mapping a role as it would be  used in a PropertyMap
        * to the corresponding key used in a TIPL ID3 frame to describe that role.
        */
-      static const KeyConversionMap &involvedPeopleMap();
+  static const KeyConversionMap &involvedPeopleMap();
 
-      PropertyMap asProperties() const;
+  PropertyMap asProperties() const;
 
-    protected:
-      // Reimplementations.
+ protected:
+  // Reimplementations.
 
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-      /*!
+  /*!
        * The constructor used by the FrameFactory.
        */
-      TextIdentificationFrame(const ByteVector &data, Header *h);
+  TextIdentificationFrame(const ByteVector &data, Header *h);
 
-    private:
-      TextIdentificationFrame(const TextIdentificationFrame &);
-      TextIdentificationFrame &operator=(const TextIdentificationFrame &);
+ private:
+  TextIdentificationFrame(const TextIdentificationFrame &);
+  TextIdentificationFrame &operator=(const TextIdentificationFrame &);
 
-      /*!
+  /*!
        * Parses the special structure of a TIPL frame
        * Only the whitelisted roles "ARRANGER", "ENGINEER", "PRODUCER",
        * "DJMIXER" (ID3: "DJ-MIX") and "MIXER" (ID3: "MIX") are allowed.
        */
-      PropertyMap makeTIPLProperties() const;
-      /*!
+  PropertyMap makeTIPLProperties() const;
+  /*!
        * Parses the special structure of a TMCL frame.
        */
-      PropertyMap makeTMCLProperties() const;
-      class TextIdentificationFramePrivate;
-      TextIdentificationFramePrivate *d;
-    };
+  PropertyMap makeTMCLProperties() const;
+  class TextIdentificationFramePrivate;
+  TextIdentificationFramePrivate *d;
+};
 
-    /*!
+/*!
      * This is a specialization of text identification frames that allows for
      * user defined entries.  Each entry has a description in addition to the
      * normal list of fields that a text identification frame has.
@@ -235,49 +234,48 @@ namespace TagLib {
      * This description identifies the frame and must be unique.
      */
 
-    //! An ID3v2 custom text identification frame implementation
+//! An ID3v2 custom text identification frame implementation
 
-    class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * Constructs an empty user defined text identification frame.  For this to be
        * a useful frame both a description and text must be set.
        */
-      explicit UserTextIdentificationFrame(String::Type encoding = String::Latin1);
+  explicit UserTextIdentificationFrame(String::Type encoding = String::Latin1);
 
-      /*!
+  /*!
        * Creates a frame based on \a data.
        */
-      explicit UserTextIdentificationFrame(const ByteVector &data);
+  explicit UserTextIdentificationFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Creates a user defined text identification frame with the given \a description
        * and \a values.
        */
-      UserTextIdentificationFrame(const String &description, const StringList &values, String::Type encoding = String::UTF8);
+  UserTextIdentificationFrame(const String &description, const StringList &values, String::Type encoding = String::UTF8);
 
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns the description for this frame.
        */
-      String description() const;
+  String description() const;
 
-      /*!
+  /*!
        * Sets the description of the frame to \a s.  \a s must be unique.  You can
        * check for the presence of another user defined text frame of the same type
        * using find() and testing for null.
        */
-      void setDescription(const String &s);
+  void setDescription(const String &s);
 
-      StringList fieldList() const;
-      void setText(const String &text);
-      void setText(const StringList &fields);
+  StringList fieldList() const;
+  void setText(const String &text);
+  void setText(const StringList &fields);
 
-      /*!
+  /*!
        * A UserTextIdentificationFrame is parsed into a PropertyMap as follows:
        * - the key is the frame's description, uppercased
        * - if the description contains '::', only the substring after that
@@ -290,26 +288,26 @@ namespace TagLib {
        *   in the value list, in order to be compatible with TagLib which copies
        *   the description() into the fieldList().
        */
-      PropertyMap asProperties() const;
+  PropertyMap asProperties() const;
 
-      /*!
+  /*!
        * Searches for the user defined text frame with the description \a description
        * in \a tag.  This returns null if no matching frames were found.
        */
-      static UserTextIdentificationFrame *find(Tag *tag, const String &description);
+  static UserTextIdentificationFrame *find(Tag *tag, const String &description);
 
-    private:
-      UserTextIdentificationFrame(const ByteVector &data, Header *h);
-      UserTextIdentificationFrame(const TextIdentificationFrame &);
-      UserTextIdentificationFrame &operator=(const UserTextIdentificationFrame &);
+ private:
+  UserTextIdentificationFrame(const ByteVector &data, Header *h);
+  UserTextIdentificationFrame(const TextIdentificationFrame &);
+  UserTextIdentificationFrame &operator=(const UserTextIdentificationFrame &);
 
-      void checkFields();
+  void checkFields();
 
-      class UserTextIdentificationFramePrivate;
-      UserTextIdentificationFramePrivate *d;
-    };
+  class UserTextIdentificationFramePrivate;
+  UserTextIdentificationFramePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

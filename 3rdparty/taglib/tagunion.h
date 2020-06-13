@@ -33,68 +33,66 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  /*!
+/*!
    * \internal
    */
 
-  class TagUnion : public Tag
-  {
-  public:
+class TagUnion : public Tag {
+ public:
+  enum AccessType { Read,
+    Write };
 
-    enum AccessType { Read, Write };
-
-    /*!
+  /*!
      * Creates a TagLib::Tag that is the union of \a first, \a second, and
      * \a third.  The TagUnion takes ownership of these tags and will handle
      * their deletion.
      */
-    TagUnion(Tag *first = 0, Tag *second = 0, Tag *third = 0);
+  TagUnion(Tag *first = 0, Tag *second = 0, Tag *third = 0);
 
-    virtual ~TagUnion();
+  virtual ~TagUnion();
 
-    Tag *operator[](int index) const;
-    Tag *tag(int index) const;
+  Tag *operator[](int index) const;
+  Tag *tag(int index) const;
 
-    void set(int index, Tag *tag);
+  void set(int index, Tag *tag);
 
-    PropertyMap properties() const;
-    void removeUnsupportedProperties(const StringList &unsupported);
+  PropertyMap properties() const;
+  void removeUnsupportedProperties(const StringList &unsupported);
 
-    virtual String title() const;
-    virtual String artist() const;
-    virtual String album() const;
-    virtual String comment() const;
-    virtual String genre() const;
-    virtual unsigned int year() const;
-    virtual unsigned int track() const;
+  virtual String title() const;
+  virtual String artist() const;
+  virtual String album() const;
+  virtual String comment() const;
+  virtual String genre() const;
+  virtual unsigned int year() const;
+  virtual unsigned int track() const;
 
-    virtual void setTitle(const String &s);
-    virtual void setArtist(const String &s);
-    virtual void setAlbum(const String &s);
-    virtual void setComment(const String &s);
-    virtual void setGenre(const String &s);
-    virtual void setYear(unsigned int i);
-    virtual void setTrack(unsigned int i);
-    virtual bool isEmpty() const;
+  virtual void setTitle(const String &s);
+  virtual void setArtist(const String &s);
+  virtual void setAlbum(const String &s);
+  virtual void setComment(const String &s);
+  virtual void setGenre(const String &s);
+  virtual void setYear(unsigned int i);
+  virtual void setTrack(unsigned int i);
+  virtual bool isEmpty() const;
 
-    template <class T> T *access(int index, bool create)
-    {
-      if(!create || tag(index))
-        return static_cast<T *>(tag(index));
-
-      set(index, new T);
+  template<class T> T *access(int index, bool create) {
+    if (!create || tag(index))
       return static_cast<T *>(tag(index));
-    }
 
-  private:
-    TagUnion(const Tag &);
-    TagUnion &operator=(const Tag &);
+    set(index, new T);
+    return static_cast<T *>(tag(index));
+  }
 
-    class TagUnionPrivate;
-    TagUnionPrivate *d;
-  };
-}
-}
+ private:
+  TagUnion(const Tag &);
+  TagUnion &operator=(const Tag &);
+
+  class TagUnionPrivate;
+  TagUnionPrivate *d;
+};
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 #endif

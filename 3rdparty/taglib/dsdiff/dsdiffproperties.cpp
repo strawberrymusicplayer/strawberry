@@ -30,17 +30,14 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class DSDIFF::Properties::PropertiesPrivate
-{
-public:
-  PropertiesPrivate() :
-  length(0),
-  bitrate(0),
-  sampleRate(0),
-  channels(0),
-  sampleWidth(0),
-  sampleCount(0)
-  {
+class DSDIFF::Properties::PropertiesPrivate {
+ public:
+  PropertiesPrivate() : length(0),
+                        bitrate(0),
+                        sampleRate(0),
+                        channels(0),
+                        sampleWidth(0),
+                        sampleCount(0) {
   }
 
   int length;
@@ -56,65 +53,52 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 DSDIFF::Properties::Properties(const unsigned int sampleRate,
-                               const unsigned short channels,
-                               const unsigned long long samplesCount,
-                               const int bitrate,
-                               ReadStyle style) : AudioProperties(style)
-{
+  const unsigned short channels,
+  const unsigned long long samplesCount,
+  const int bitrate,
+  ReadStyle style) : AudioProperties(style) {
   d = new PropertiesPrivate;
 
-  d->channels    = channels;
+  d->channels = channels;
   d->sampleCount = samplesCount;
   d->sampleWidth = 1;
-  d->sampleRate  = sampleRate;
-  d->bitrate     = bitrate;
-  d->length      = d->sampleRate > 0
-    ? static_cast<int>((d->sampleCount * 1000.0) / d->sampleRate + 0.5)
-    : 0;
+  d->sampleRate = sampleRate;
+  d->bitrate = bitrate;
+  d->length = d->sampleRate > 0 ? static_cast<int>((d->sampleCount * 1000.0) / d->sampleRate + 0.5) : 0;
 }
 
-DSDIFF::Properties::~Properties()
-{
+DSDIFF::Properties::~Properties() {
   delete d;
 }
 
-int DSDIFF::Properties::length() const
-{
+int DSDIFF::Properties::length() const {
   return lengthInSeconds();
 }
 
-int DSDIFF::Properties::lengthInSeconds() const
-{
+int DSDIFF::Properties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int DSDIFF::Properties::lengthInMilliseconds() const
-{
+int DSDIFF::Properties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int DSDIFF::Properties::bitrate() const
-{
+int DSDIFF::Properties::bitrate() const {
   return d->bitrate;
 }
 
-int DSDIFF::Properties::sampleRate() const
-{
+int DSDIFF::Properties::sampleRate() const {
   return d->sampleRate;
 }
 
-int DSDIFF::Properties::channels() const
-{
+int DSDIFF::Properties::channels() const {
   return d->channels;
 }
 
-int DSDIFF::Properties::bitsPerSample() const
-{
+int DSDIFF::Properties::bitsPerSample() const {
   return d->sampleWidth;
 }
 
-long long DSDIFF::Properties::sampleCount() const
-{
+long long DSDIFF::Properties::sampleCount() const {
   return d->sampleCount;
 }
-

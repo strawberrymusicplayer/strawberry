@@ -24,43 +24,40 @@
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#  include <config.h>
 #endif
 
 #if !defined(NDEBUG) || defined(TRACE_IN_RELEASE)
 
-#include "tdebug.h"
-#include "tstring.h"
-#include "tdebuglistener.h"
-#include "tutils.h"
+#  include "tdebug.h"
+#  include "tstring.h"
+#  include "tdebuglistener.h"
+#  include "tutils.h"
 
-#include <bitset>
-#include <cstdio>
-#include <cstdarg>
+#  include <bitset>
+#  include <cstdio>
+#  include <cstdarg>
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
-  // The instance is defined in tdebuglistener.cpp.
-  extern DebugListener *debugListener;
+namespace TagLib {
+// The instance is defined in tdebuglistener.cpp.
+extern DebugListener *debugListener;
 
-  void debug(const String &s)
-  {
-    debugListener->printMessage("TagLib: " + s + "\n");
-  }
+void debug(const String &s) {
+  debugListener->printMessage("TagLib: " + s + "\n");
+}
 
-  void debugData(const ByteVector &v)
-  {
-    for(unsigned int i = 0; i < v.size(); ++i) {
-      const std::string bits = std::bitset<8>(v[i]).to_string();
-      const String msg = Utils::formatString(
-        "*** [%u] - char '%c' - int %d, 0x%02x, 0b%s\n",
-        i, v[i], v[i], v[i], bits.c_str());
+void debugData(const ByteVector &v) {
+  for (unsigned int i = 0; i < v.size(); ++i) {
+    const std::string bits = std::bitset<8>(v[i]).to_string();
+    const String msg = Utils::formatString(
+      "*** [%u] - char '%c' - int %d, 0x%02x, 0b%s\n",
+      i, v[i], v[i], v[i], bits.c_str());
 
-      debugListener->printMessage(msg);
-    }
+    debugListener->printMessage(msg);
   }
 }
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

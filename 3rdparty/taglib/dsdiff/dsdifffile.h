@@ -34,9 +34,9 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! An implementation of DSDIFF metadata
+//! An implementation of DSDIFF metadata
 
-  /*!
+/*!
    * This is implementation of DSDIFF metadata.
    *
    * This supports an ID3v2 tag as well as reading stream from the ID3 RIFF
@@ -48,46 +48,44 @@ namespace TagLib {
    * In addition, title and artist info are stored as part of the standard
    */
 
-  namespace DSDIFF {
+namespace DSDIFF {
 
-    //! An implementation of TagLib::File with DSDIFF specific methods
+//! An implementation of TagLib::File with DSDIFF specific methods
 
-    /*!
+/*!
      * This implements and provides an interface for DSDIFF files to the
      * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
      * the abstract TagLib::File API as well as providing some additional
      * information specific to DSDIFF files.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * This set of flags is used for various operations and is suitable for
        * being OR-ed together.
        */
-      enum TagTypes {
-        //! Empty set.  Matches no tag types.
-        NoTags  = 0x0000,
-        //! Matches DIIN tags.
-        DIIN   = 0x0002,
-        //! Matches ID3v1 tags.
-        ID3v2   = 0x0002,
-        //! Matches all tag types.
-        AllTags = 0xffff
-      };
+  enum TagTypes {
+    //! Empty set.  Matches no tag types.
+    NoTags = 0x0000,
+    //! Matches DIIN tags.
+    DIIN = 0x0002,
+    //! Matches ID3v1 tags.
+    ID3v2 = 0x0002,
+    //! Matches all tag types.
+    AllTags = 0xffff
+  };
 
-      /*!
+  /*!
        * Constructs an DSDIFF file from \a file.  If \a readProperties is true
        * the file's audio properties will also be read.
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an DSDIFF file from \a stream.  If \a readProperties is true
        * the file's audio properties will also be read.
        *
@@ -96,15 +94,15 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(IOStream *stream, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns a pointer to a tag that is the union of the ID3v2 and DIIN
        * tags. The ID3v2 tag is given priority in reading the information -- if
        * requested information exists in both the ID3v2 tag and the ID3v1 tag,
@@ -120,9 +118,9 @@ namespace TagLib {
        * \see ID3v2Tag()
        * \see DIINTag()
        */
-      virtual Tag *tag() const;
+  virtual Tag *tag() const;
 
-      /*!
+  /*!
        * Returns the ID3V2 Tag for this file.
        *
        * \note This always returns a valid pointer regardless of whether or not
@@ -131,35 +129,35 @@ namespace TagLib {
        *
        * \see hasID3v2Tag()
        */
-      ID3v2::Tag *ID3v2Tag(bool create = false) const;
+  ID3v2::Tag *ID3v2Tag(bool create = false) const;
 
-      /*!
+  /*!
        * Returns the DSDIFF DIIN Tag for this file
        *
        */
-      DSDIFF::DIIN::Tag *DIINTag(bool create = false) const;
+  DSDIFF::DIIN::Tag *DIINTag(bool create = false) const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * This method forwards to ID3v2::Tag::properties().
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * This method forwards to ID3v2::Tag::setProperties().
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the AIFF::Properties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Save the file.  If at least one tag -- ID3v1 or DIIN -- exists this
        * will duplicate its content into the other tag.  This returns true
        * if saving was successful.
@@ -174,71 +172,72 @@ namespace TagLib {
        *
        * \see save(int tags)
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Save the file.  If \a strip is specified, it is possible to choose if
        * tags not specified in \a tags should be stripped from the file or
        * retained.  With \a version, it is possible to specify whether ID3v2.4
        * or ID3v2.3 should be used.
        */
-      bool save(TagTypes tags, StripTags strip = StripOthers, ID3v2::Version version = ID3v2::v4);
+  bool save(TagTypes tags, StripTags strip = StripOthers, ID3v2::Version version = ID3v2::v4);
 
-      /*!
+  /*!
        * This will strip the tags that match the OR-ed together TagTypes from the
        * file.  By default it strips all tags.  It returns true if the tags are
        * successfully stripped.
        *
        * \note This will update the file immediately.
        */
-      void strip(TagTypes tags = AllTags);
+  void strip(TagTypes tags = AllTags);
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v2 tag.
        *
        * \see ID3v2Tag()
        */
-      bool hasID3v2Tag() const;
+  bool hasID3v2Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has the DSDIFF
        * title and artist tags.
        *
        * \see DIINTag()
        */
-      bool hasDIINTag() const;
+  bool hasDIINTag() const;
 
-      /*!
+  /*!
        * Returns whether or not the given \a stream can be opened as a DSDIFF
        * file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-       static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    protected:
-      enum Endianness { BigEndian, LittleEndian };
+ protected:
+  enum Endianness { BigEndian,
+    LittleEndian };
 
-      File(FileName file, Endianness endianness);
-      File(IOStream *stream, Endianness endianness);
+  File(FileName file, Endianness endianness);
+  File(IOStream *stream, Endianness endianness);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void removeRootChunk(const ByteVector &id);
-      void removeRootChunk(unsigned int chunk);
-      void removeChildChunk(unsigned int i, unsigned int chunk);
+  void removeRootChunk(const ByteVector &id);
+  void removeRootChunk(unsigned int chunk);
+  void removeChildChunk(unsigned int i, unsigned int chunk);
 
-      /*!
+  /*!
        * Sets the data for the the specified chunk at root level to \a data.
        *
        * \warning This will update the file immediately.
        */
-      void setRootChunkData(unsigned int i, const ByteVector &data);
+  void setRootChunkData(unsigned int i, const ByteVector &data);
 
-      /*!
+  /*!
        * Sets the data for the root-level chunk \a name to \a data.
        * If a root-level chunk with the given name already exists
        * it will be overwritten, otherwise it will be
@@ -246,19 +245,19 @@ namespace TagLib {
        *
        * \warning This will update the file immediately.
        */
-      void setRootChunkData(const ByteVector &name, const ByteVector &data);
+  void setRootChunkData(const ByteVector &name, const ByteVector &data);
 
-      /*!
+  /*!
        * Sets the data for the the specified child chunk to \a data.
        *
        * If data is null, then remove the chunk
        *
        * \warning This will update the file immediately.
        */
-      void setChildChunkData(unsigned int i, const ByteVector &data,
-                             unsigned int childChunkNum);
+  void setChildChunkData(unsigned int i, const ByteVector &data,
+    unsigned int childChunkNum);
 
-      /*!
+  /*!
        * Sets the data for the child chunk \a name to \a data.  If a chunk with
        * the given name already exists it will be overwritten, otherwise it will
        * be created after the existing chunks inside child chunk.
@@ -267,22 +266,21 @@ namespace TagLib {
        *
        * \warning This will update the file immediately.
        */
-      void setChildChunkData(const ByteVector &name, const ByteVector &data,
-                             unsigned int childChunkNum);
+  void setChildChunkData(const ByteVector &name, const ByteVector &data,
+    unsigned int childChunkNum);
 
-      void updateRootChunksStructure(unsigned int startingChunk);
+  void updateRootChunksStructure(unsigned int startingChunk);
 
-      void read(bool readProperties, Properties::ReadStyle propertiesStyle);
-      void writeChunk(const ByteVector &name, const ByteVector &data,
-                      unsigned long long offset, unsigned long replace = 0,
-                      unsigned int leadingPadding = 0);
+  void read(bool readProperties, Properties::ReadStyle propertiesStyle);
+  void writeChunk(const ByteVector &name, const ByteVector &data,
+    unsigned long long offset, unsigned long replace = 0,
+    unsigned int leadingPadding = 0);
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace DSDIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
-

@@ -41,59 +41,62 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class Tag;
+class Tag;
 
-  namespace ID3v1 { class Tag; }
-  namespace APE { class Tag; }
+namespace ID3v1 {
+class Tag;
+}
+namespace APE {
+class Tag;
+}
 
-  //! An implementation of APE metadata
+//! An implementation of APE metadata
 
-  /*!
+/*!
    * This is implementation of APE metadata.
    *
    * This supports ID3v1 and APE (v1 and v2) style comments as well as reading stream
    * properties from the file.
    */
 
-  namespace APE {
+namespace APE {
 
-    //! An implementation of TagLib::File with APE specific methods
+//! An implementation of TagLib::File with APE specific methods
 
-    /*!
+/*!
      * This implements and provides an interface for APE files to the
      * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
      * the abstract TagLib::File API as well as providing some additional
      * information specific to APE files.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * This set of flags is used for various operations and is suitable for
        * being OR-ed together.
        */
-      enum TagTypes {
-        //! Empty set.  Matches no tag types.
-        NoTags  = 0x0000,
-        //! Matches ID3v1 tags.
-        ID3v1   = 0x0001,
-        //! Matches APE tags.
-        APE     = 0x0002,
-        //! Matches all tag types.
-        AllTags = 0xffff
-      };
+  enum TagTypes {
+    //! Empty set.  Matches no tag types.
+    NoTags = 0x0000,
+    //! Matches ID3v1 tags.
+    ID3v1 = 0x0001,
+    //! Matches APE tags.
+    APE = 0x0002,
+    //! Matches all tag types.
+    AllTags = 0xffff
+  };
 
-      /*!
+  /*!
        * Constructs an APE file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an APE file from \a stream.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -102,55 +105,55 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(IOStream *stream, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns the Tag for this file.  This will be an APE tag, an ID3v1 tag
        * or a combination of the two.
        */
-      virtual Strawberry_TagLib::TagLib::Tag *tag() const;
+  virtual Strawberry_TagLib::TagLib::Tag *tag() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * If the file contains both an APE and an ID3v1 tag, only APE
        * will be converted to the PropertyMap.
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      /*!
+  /*!
        * Removes unsupported properties. Forwards to the actual Tag's
        * removeUnsupportedProperties() function.
        */
-      void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * Creates an APEv2 tag if necessary. A potentially existing ID3v1
        * tag will be updated as well.
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the APE::Properties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Saves the file.
        *
        * \note According to the official Monkey's Audio SDK, an APE file
        * can only have either ID3V1 or APE tags, so a parameter is used here.
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Returns a pointer to the ID3v1 tag of the file.
        *
        * If \a create is false (the default) this may return a null pointer
@@ -167,9 +170,9 @@ namespace TagLib {
        *
        * \see hasID3v1Tag()
        */
-      ID3v1::Tag *ID3v1Tag(bool create = false);
+  ID3v1::Tag *ID3v1Tag(bool create = false);
 
-      /*!
+  /*!
        * Returns a pointer to the APE tag of the file.
        *
        * If \a create is false (the default) this may return a null pointer
@@ -186,9 +189,9 @@ namespace TagLib {
        *
        * \see hasAPETag()
        */
-      APE::Tag *APETag(bool create = false);
+  APE::Tag *APETag(bool create = false);
 
-      /*!
+  /*!
        * This will remove the tags that match the OR-ed together TagTypes from the
        * file.  By default it removes all tags.
        *
@@ -196,42 +199,42 @@ namespace TagLib {
        * as their memory will be freed.
        * \note In order to make the removal permanent save() still needs to be called
        */
-      void strip(int tags = AllTags);
+  void strip(int tags = AllTags);
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an APE tag.
        *
        * \see APETag()
        */
-      bool hasAPETag() const;
+  bool hasAPETag() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v1 tag.
        *
        * \see ID3v1Tag()
        */
-      bool hasID3v1Tag() const;
+  bool hasID3v1Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the given \a stream can be opened as an APE
        * file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-      static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read(bool readProperties);
+  void read(bool readProperties);
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace APE
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

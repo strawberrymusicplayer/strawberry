@@ -36,17 +36,17 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class File;
+class File;
 
-  //! A RIFF INFO tag implementation.
-  namespace RIFF {
-  namespace Info {
+//! A RIFF INFO tag implementation.
+namespace RIFF {
+namespace Info {
 
-    typedef Map<ByteVector, String> FieldListMap;
+typedef Map<ByteVector, String> FieldListMap;
 
-    //! A abstraction for the string to data encoding in Info tags.
+//! A abstraction for the string to data encoding in Info tags.
 
-    /*!
+/*!
      * RIFF INFO tag has no clear definitions about character encodings.
      * In practice, local encoding of each system is largely used and UTF-8 is
      * popular too.
@@ -58,70 +58,68 @@ namespace TagLib {
      * \see ID3v1::Tag::setStringHandler()
      */
 
-    class TAGLIB_EXPORT StringHandler
-    {
-    public:
-      StringHandler();
-      ~StringHandler();
+class TAGLIB_EXPORT StringHandler {
+ public:
+  StringHandler();
+  ~StringHandler();
 
-      /*!
+  /*!
        * Decode a string from \a data.  The default implementation assumes that
        * \a data is an UTF-8 character array.
        */
-      virtual String parse(const ByteVector &data) const;
+  virtual String parse(const ByteVector &data) const;
 
-      /*!
+  /*!
        * Encode a ByteVector with the data from \a s.  The default implementation
        * assumes that \a s is an UTF-8 string.
        */
-      virtual ByteVector render(const String &s) const;
-    };
+  virtual ByteVector render(const String &s) const;
+};
 
-    //! The main class in the ID3v2 implementation
+//! The main class in the ID3v2 implementation
 
-    /*!
+/*!
      * This is the main class in the INFO tag implementation.  RIFF INFO tag is a
      * metadata format found in WAV audio and AVI video files.  Though it is a part
      * of Microsoft/IBM's RIFF specification, the author could not find the official
      * documents about it.  So, this implementation is referring to unofficial documents
      * online and some applications' behaviors especially Windows Explorer.
      */
-    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
+ public:
+  /*!
        * Constructs an empty INFO tag.
        */
-      Tag();
+  Tag();
 
-      /*!
+  /*!
        * Constructs an INFO tag read from \a data which is contents of "LIST" chunk.
        */
-      Tag(const ByteVector &data);
+  Tag(const ByteVector &data);
 
-      virtual ~Tag();
+  virtual ~Tag();
 
-      // Reimplementations
+  // Reimplementations
 
-      virtual String title() const;
-      virtual String artist() const;
-      virtual String album() const;
-      virtual String comment() const;
-      virtual String genre() const;
-      virtual unsigned int year() const;
-      virtual unsigned int track() const;
+  virtual String title() const;
+  virtual String artist() const;
+  virtual String album() const;
+  virtual String comment() const;
+  virtual String genre() const;
+  virtual unsigned int year() const;
+  virtual unsigned int track() const;
 
-      virtual void setTitle(const String &s);
-      virtual void setArtist(const String &s);
-      virtual void setAlbum(const String &s);
-      virtual void setComment(const String &s);
-      virtual void setGenre(const String &s);
-      virtual void setYear(unsigned int i);
-      virtual void setTrack(unsigned int i);
+  virtual void setTitle(const String &s);
+  virtual void setArtist(const String &s);
+  virtual void setAlbum(const String &s);
+  virtual void setComment(const String &s);
+  virtual void setGenre(const String &s);
+  virtual void setYear(unsigned int i);
+  virtual void setTrack(unsigned int i);
 
-      virtual bool isEmpty() const;
+  virtual bool isEmpty() const;
 
-      /*!
+  /*!
        * Returns a copy of the internal fields of the tag.  The returned map directly
        * reflects the contents of the "INFO" chunk.
        *
@@ -131,14 +129,14 @@ namespace TagLib {
        * \see setFieldText()
        * \see removeField()
        */
-      FieldListMap fieldListMap() const;
+  FieldListMap fieldListMap() const;
 
-      /*
+  /*
        * Gets the value of the field with the ID \a id.
        */
-      String fieldText(const ByteVector &id) const;
+  String fieldText(const ByteVector &id) const;
 
-      /*
+  /*
         * Sets the value of the field with the ID \a id to \a s.
         * If the field does not exist, it is created.
         * If \s is empty, the field is removed.
@@ -146,21 +144,21 @@ namespace TagLib {
         * \note fieldId must be four-byte long pure ASCII string.  This function
         * performs nothing if fieldId is invalid.
         */
-      void setFieldText(const ByteVector &id, const String &s);
+  void setFieldText(const ByteVector &id, const String &s);
 
-      /*
+  /*
        * Removes the field with the ID \a id.
        */
-      void removeField(const ByteVector &id);
+  void removeField(const ByteVector &id);
 
-      /*!
+  /*!
        * Render the tag back to binary data, suitable to be written to disk.
        *
        * \note Returns empty ByteVector is the tag contains no fields.
        */
-      ByteVector render() const;
+  ByteVector render() const;
 
-      /*!
+  /*!
        * Sets the string handler that decides how the text data will be
        * converted to and from binary data.
        * If the parameter \a handler is null, the previous handler is
@@ -171,24 +169,25 @@ namespace TagLib {
        *
        * \see StringHandler
        */
-      static void setStringHandler(const StringHandler *handler);
+  static void setStringHandler(const StringHandler *handler);
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Pareses the body of the tag in \a data.
        */
-      void parse(const ByteVector &data);
+  void parse(const ByteVector &data);
 
 
-    private:
-      Tag(const Tag &);
-      Tag &operator=(const Tag &);
+ private:
+  Tag(const Tag &);
+  Tag &operator=(const Tag &);
 
-      class TagPrivate;
-      TagPrivate *d;
-    };
-  }}
-}
-}
+  class TagPrivate;
+  TagPrivate *d;
+};
+}  // namespace Info
+}  // namespace RIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

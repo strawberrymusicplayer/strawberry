@@ -31,42 +31,41 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace RIFF {
+namespace RIFF {
 
-    namespace AIFF {
+namespace AIFF {
 
-      class File;
+class File;
 
-      //! An implementation of audio property reading for AIFF
+//! An implementation of audio property reading for AIFF
 
-      /*!
+/*!
        * This reads the data from an AIFF stream found in the AudioProperties
        * API.
        */
 
-      class TAGLIB_EXPORT Properties : public AudioProperties
-      {
-      public:
-        /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
          * Create an instance of AIFF::Properties with the data read from the
          * ByteVector \a data.
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
+  TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
 
-        /*!
+  /*!
          * Create an instance of AIFF::Properties with the data read from the
          * AIFF::File \a file.
          */
-        Properties(File *file, ReadStyle style);
+  Properties(File *file, ReadStyle style);
 
-        /*!
+  /*!
          * Destroys this AIFF::Properties instance.
          */
-        virtual ~Properties();
+  virtual ~Properties();
 
-        /*!
+  /*!
          * Returns the length of the file in seconds.  The length is rounded down to
          * the nearest whole second.
          *
@@ -74,65 +73,65 @@ namespace TagLib {
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-        /*!
+  /*!
          * Returns the length of the file in seconds.  The length is rounded down to
          * the nearest whole second.
          *
          * \see lengthInMilliseconds()
          */
-        // BIC: make virtual
-        int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-        /*!
+  /*!
          * Returns the length of the file in milliseconds.
          *
          * \see lengthInSeconds()
          */
-        // BIC: make virtual
-        int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-        /*!
+  /*!
          * Returns the average bit rate of the file in kb/s.
          */
-        virtual int bitrate() const;
+  virtual int bitrate() const;
 
-        /*!
+  /*!
          * Returns the sample rate in Hz.
          */
-        virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-        /*!
+  /*!
          * Returns the number of audio channels.
          */
-        virtual int channels() const;
+  virtual int channels() const;
 
-        /*!
+  /*!
          * Returns the number of bits per audio sample.
          */
-        int bitsPerSample() const;
+  int bitsPerSample() const;
 
-        /*!
+  /*!
          * Returns the number of bits per audio sample.
          *
          * \note This method is just an alias of bitsPerSample().
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED int sampleWidth() const;
+  TAGLIB_DEPRECATED int sampleWidth() const;
 
-        /*!
+  /*!
          * Returns the number of sample frames
          */
-        unsigned int sampleFrames() const;
+  unsigned int sampleFrames() const;
 
-        /*!
+  /*!
          * Returns true if the file is in AIFF-C format, false if AIFF format.
          */
-        bool isAiffC() const;
+  bool isAiffC() const;
 
-        /*!
+  /*!
          * Returns the compression type of the AIFF-C file.  For example, "NONE" for
          * not compressed, "ACE2" for ACE 2-to-1.
          *
@@ -140,29 +139,29 @@ namespace TagLib {
          *
          * \see isAiffC()
          */
-        ByteVector compressionType() const;
+  ByteVector compressionType() const;
 
-        /*!
+  /*!
          * Returns the concrete compression name of the AIFF-C file.
          *
          * If the file is in AIFF format, always returns an empty string.
          *
          * \see isAiffC()
          */
-        String compressionName() const;
+  String compressionName() const;
 
-      private:
-        Properties(const Properties &);
-        Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-        void read(File *file);
+  void read(File *file);
 
-        class PropertiesPrivate;
-        PropertiesPrivate *d;
-      };
-    }
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace AIFF
+}  // namespace RIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -33,11 +33,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! An ID3v2 relative volume adjustment frame implementation
+//! An ID3v2 relative volume adjustment frame implementation
 
-    /*!
+/*!
      * This is an implementation of ID3v2 relative volume adjustment.  The
      * presence of this frame makes it possible to specify an increase in volume
      * for an audio file or specific audio tracks in that file.
@@ -47,99 +47,96 @@ namespace TagLib {
      * different channel types.
      */
 
-    class TAGLIB_EXPORT RelativeVolumeFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-
-      /*!
+ public:
+  /*!
        * This indicates the type of volume adjustment that should be applied.
        */
-      enum ChannelType {
-        //! A type not enumerated below
-        Other        = 0x00,
-        //! The master volume for the track
-        MasterVolume = 0x01,
-        //! The front right audio channel
-        FrontRight   = 0x02,
-        //! The front left audio channel
-        FrontLeft    = 0x03,
-        //! The back right audio channel
-        BackRight    = 0x04,
-        //! The back left audio channel
-        BackLeft     = 0x05,
-        //! The front center audio channel
-        FrontCentre  = 0x06,
-        //! The back center audio channel
-        BackCentre   = 0x07,
-        //! The subwoofer audio channel
-        Subwoofer    = 0x08
-      };
+  enum ChannelType {
+    //! A type not enumerated below
+    Other = 0x00,
+    //! The master volume for the track
+    MasterVolume = 0x01,
+    //! The front right audio channel
+    FrontRight = 0x02,
+    //! The front left audio channel
+    FrontLeft = 0x03,
+    //! The back right audio channel
+    BackRight = 0x04,
+    //! The back left audio channel
+    BackLeft = 0x05,
+    //! The front center audio channel
+    FrontCentre = 0x06,
+    //! The back center audio channel
+    BackCentre = 0x07,
+    //! The subwoofer audio channel
+    Subwoofer = 0x08
+  };
 
-      //! Struct that stores the relevant values for ID3v2 peak volume
+  //! Struct that stores the relevant values for ID3v2 peak volume
 
-      /*!
+  /*!
        * The peak volume is described as a series of bits that is padded to fill
        * a block of bytes.  These two values should always be updated in tandem.
        */
-      struct PeakVolume
-      {
-        /*!
+  struct PeakVolume {
+    /*!
          * Constructs an empty peak volume description.
          */
-        PeakVolume() : bitsRepresentingPeak(0) {}
-        /*!
+    PeakVolume() : bitsRepresentingPeak(0) {}
+    /*!
          * The number of bits (in the range of 0 to 255) used to describe the
          * peak volume.
          */
-        unsigned char bitsRepresentingPeak;
-        /*!
+    unsigned char bitsRepresentingPeak;
+    /*!
          * The array of bits (represented as a series of bytes) used to describe
          * the peak volume.
          */
-        ByteVector peakVolume;
-      };
+    ByteVector peakVolume;
+  };
 
-      /*!
+  /*!
        * Constructs a RelativeVolumeFrame.  The relevant data should be set
        * manually.
        */
-      RelativeVolumeFrame();
+  RelativeVolumeFrame();
 
-      /*!
+  /*!
        * Constructs a RelativeVolumeFrame based on the contents of \a data.
        */
-      RelativeVolumeFrame(const ByteVector &data);
+  RelativeVolumeFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys the RelativeVolumeFrame instance.
        */
-      virtual ~RelativeVolumeFrame();
+  virtual ~RelativeVolumeFrame();
 
-      /*!
+  /*!
        * Returns the frame's identification.
        *
        * \see identification()
        */
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns a list of channels with information currently in the frame.
        */
-      List<ChannelType> channels() const;
+  List<ChannelType> channels() const;
 
-      /*!
+  /*!
        * \deprecated Always returns master volume.
        */
-      TAGLIB_DEPRECATED ChannelType channelType() const;
+  TAGLIB_DEPRECATED ChannelType channelType() const;
 
-      /*!
+  /*!
        * \deprecated This method no longer has any effect.
        */
-      TAGLIB_DEPRECATED void setChannelType(ChannelType t);
+  TAGLIB_DEPRECATED void setChannelType(ChannelType t);
 
-      /*
+  /*
        * There was a terrible API goof here, and while this can't be changed to
        * the way it appears below for binary compatibility reasons, let's at
        * least pretend that it looks clean.
@@ -147,7 +144,7 @@ namespace TagLib {
 
 #ifdef DOXYGEN
 
-      /*!
+  /*!
        * Returns the relative volume adjustment "index".  As indicated by the
        * ID3v2 standard this is a 16-bit signed integer that reflects the
        * decibels of adjustment when divided by 512.
@@ -158,9 +155,9 @@ namespace TagLib {
        * \see setVolumeAdjustmentIndex()
        * \see volumeAjustment()
        */
-      short volumeAdjustmentIndex(ChannelType type = MasterVolume) const;
+  short volumeAdjustmentIndex(ChannelType type = MasterVolume) const;
 
-      /*!
+  /*!
        * Set the volume adjustment to \a index.  As indicated by the ID3v2
        * standard this is a 16-bit signed integer that reflects the decibels of
        * adjustment when divided by 512.
@@ -170,9 +167,9 @@ namespace TagLib {
        * \see volumeAdjustmentIndex()
        * \see setVolumeAjustment()
        */
-      void setVolumeAdjustmentIndex(short index, ChannelType type = MasterVolume);
+  void setVolumeAdjustmentIndex(short index, ChannelType type = MasterVolume);
 
-      /*!
+  /*!
        * Returns the relative volume adjustment in decibels.
        *
        * \note Because this is actually stored internally as an "index" to this
@@ -185,9 +182,9 @@ namespace TagLib {
        * \see setVolumeAdjustment()
        * \see volumeAdjustmentIndex()
        */
-      float volumeAdjustment(ChannelType type = MasterVolume) const;
+  float volumeAdjustment(ChannelType type = MasterVolume) const;
 
-      /*!
+  /*!
        * Set the relative volume adjustment in decibels to \a adjustment.
        *
        * By default this sets the value for the master volume.
@@ -199,9 +196,9 @@ namespace TagLib {
        * \see setVolumeAdjustment()
        * \see volumeAdjustmentIndex()
        */
-      void setVolumeAdjustment(float adjustment, ChannelType type = MasterVolume);
+  void setVolumeAdjustment(float adjustment, ChannelType type = MasterVolume);
 
-      /*!
+  /*!
        * Returns the peak volume (represented as a length and a string of bits).
        *
        * This defaults to returning the value for the master volume channel if
@@ -209,68 +206,68 @@ namespace TagLib {
        *
        * \see setPeakVolume()
        */
-      PeakVolume peakVolume(ChannelType type = MasterVolume) const;
+  PeakVolume peakVolume(ChannelType type = MasterVolume) const;
 
-      /*!
+  /*!
        * Sets the peak volume to \a peak.
        *
        * By default this sets the value for the master volume.
        *
        * \see peakVolume()
        */
-      void setPeakVolume(const PeakVolume &peak, ChannelType type = MasterVolume);
+  void setPeakVolume(const PeakVolume &peak, ChannelType type = MasterVolume);
 
 #else
 
-      // BIC: Combine each of the following pairs of functions (or maybe just
-      // rework this junk altogether).
+  // BIC: Combine each of the following pairs of functions (or maybe just
+  // rework this junk altogether).
 
-      short volumeAdjustmentIndex(ChannelType type) const;
-      short volumeAdjustmentIndex() const;
+  short volumeAdjustmentIndex(ChannelType type) const;
+  short volumeAdjustmentIndex() const;
 
-      void setVolumeAdjustmentIndex(short index, ChannelType type);
-      void setVolumeAdjustmentIndex(short index);
+  void setVolumeAdjustmentIndex(short index, ChannelType type);
+  void setVolumeAdjustmentIndex(short index);
 
-      float volumeAdjustment(ChannelType type) const;
-      float volumeAdjustment() const;
+  float volumeAdjustment(ChannelType type) const;
+  float volumeAdjustment() const;
 
-      void setVolumeAdjustment(float adjustment, ChannelType type);
-      void setVolumeAdjustment(float adjustment);
+  void setVolumeAdjustment(float adjustment, ChannelType type);
+  void setVolumeAdjustment(float adjustment);
 
-      PeakVolume peakVolume(ChannelType type) const;
-      PeakVolume peakVolume() const;
+  PeakVolume peakVolume(ChannelType type) const;
+  PeakVolume peakVolume() const;
 
-      void setPeakVolume(const PeakVolume &peak, ChannelType type);
-      void setPeakVolume(const PeakVolume &peak);
+  void setPeakVolume(const PeakVolume &peak, ChannelType type);
+  void setPeakVolume(const PeakVolume &peak);
 
 #endif
 
-      /*!
+  /*!
        * Returns the identification for this frame.
        */
-      String identification() const;
+  String identification() const;
 
-      /*!
+  /*!
        * Sets the identification of the frame to \a s. The string
        * is used to identify the situation and/or device where this
        * adjustment should apply.
        */
-      void setIdentification(const String &s);
+  void setIdentification(const String &s);
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-    private:
-      RelativeVolumeFrame(const ByteVector &data, Header *h);
-      RelativeVolumeFrame(const RelativeVolumeFrame &);
-      RelativeVolumeFrame &operator=(const RelativeVolumeFrame &);
+ private:
+  RelativeVolumeFrame(const ByteVector &data, Header *h);
+  RelativeVolumeFrame(const RelativeVolumeFrame &);
+  RelativeVolumeFrame &operator=(const RelativeVolumeFrame &);
 
-      class RelativeVolumeFramePrivate;
-      RelativeVolumeFramePrivate *d;
-    };
+  class RelativeVolumeFramePrivate;
+  RelativeVolumeFramePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

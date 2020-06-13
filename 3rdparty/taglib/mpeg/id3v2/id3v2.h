@@ -3,24 +3,24 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-  //! An ID3v2 implementation
+//! An ID3v2 implementation
 
-  /*!
+/*!
    * This is a relatively complete and flexible framework for working with ID3v2
    * tags.
    *
    * \see ID3v2::Tag
    */
-  namespace ID3v2 {
-    /*!
+namespace ID3v2 {
+/*!
      * Used to specify which version of the ID3 standard to use when saving tags.
      */
-    enum Version {
-      v3 = 3, //<! ID3v2.3
-      v4 = 4  //<! ID3v2.4
-    };
-  }
-}
-}
+enum Version {
+  v3 = 3,  //<! ID3v2.3
+  v4 = 4   //<! ID3v2.4
+};
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

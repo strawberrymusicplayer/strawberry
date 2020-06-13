@@ -33,25 +33,25 @@
 #define TAGLIB_PATCH_VERSION 1
 
 #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 1)) || defined(__clang__)
-#define TAGLIB_IGNORE_MISSING_DESTRUCTOR _Pragma("GCC diagnostic ignored \"-Wnon-virtual-dtor\"")
+#  define TAGLIB_IGNORE_MISSING_DESTRUCTOR _Pragma("GCC diagnostic ignored \"-Wnon-virtual-dtor\"")
 #else
-#define TAGLIB_IGNORE_MISSING_DESTRUCTOR
+#  define TAGLIB_IGNORE_MISSING_DESTRUCTOR
 #endif
 
 #if (defined(_MSC_VER) && _MSC_VER >= 1600)
-#define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long long>(x)
+#  define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long long>(x)
 #else
-#define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long>(x)
+#  define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long>(x)
 #endif
 
 #if __cplusplus >= 201402
-#define TAGLIB_DEPRECATED [[deprecated]]
+#  define TAGLIB_DEPRECATED [[deprecated]]
 #elif defined(__GNUC__) || defined(__clang__)
-#define TAGLIB_DEPRECATED __attribute__((deprecated))
+#  define TAGLIB_DEPRECATED __attribute__((deprecated))
 #elif defined(_MSC_VER)
-#define TAGLIB_DEPRECATED __declspec(deprecated)
+#  define TAGLIB_DEPRECATED __declspec(deprecated)
 #else
-#define TAGLIB_DEPRECATED
+#  define TAGLIB_DEPRECATED
 #endif
 
 #include <string>
@@ -69,24 +69,24 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class String;
+class String;
 
-  // These integer types are deprecated. Do not use them.
+// These integer types are deprecated. Do not use them.
 
-  typedef wchar_t            wchar;   // Assumed to be sufficient to store a UTF-16 char.
-  typedef unsigned char      uchar;
-  typedef unsigned short     ushort;
-  typedef unsigned int       uint;
-  typedef unsigned long      ulong;
-  typedef unsigned long long ulonglong;
+typedef wchar_t wchar;  // Assumed to be sufficient to store a UTF-16 char.
+typedef unsigned char uchar;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef unsigned long long ulonglong;
 
-  /*!
+/*!
    * Unfortunately std::wstring isn't defined on some systems, (i.e. GCC < 3)
    * so I'm providing something here that should be constant.
    */
-  typedef std::basic_string<wchar_t> wstring;
-}
-}
+typedef std::basic_string<wchar_t> wstring;
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 /*!
  * \mainpage TagLib

@@ -34,14 +34,12 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class Ogg::Page::PagePrivate
-{
-public:
-  PagePrivate(File *f = 0, long pageOffset = -1) :
-    file(f),
-    fileOffset(pageOffset),
-    header(f, pageOffset),
-    firstPacketIndex(-1) {}
+class Ogg::Page::PagePrivate {
+ public:
+  PagePrivate(File *f = 0, long pageOffset = -1) : file(f),
+                                                   fileOffset(pageOffset),
+                                                   header(f, pageOffset),
+                                                   firstPacketIndex(-1) {}
 
   File *file;
   long fileOffset;
@@ -54,66 +52,55 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::Page::Page(Ogg::File *file, long pageOffset) :
-  d(new PagePrivate(file, pageOffset))
-{
+Ogg::Page::Page(Ogg::File *file, long pageOffset) : d(new PagePrivate(file, pageOffset)) {
 }
 
-Ogg::Page::~Page()
-{
+Ogg::Page::~Page() {
   delete d;
 }
 
-long Ogg::Page::fileOffset() const
-{
+long Ogg::Page::fileOffset() const {
   return d->fileOffset;
 }
 
-const Ogg::PageHeader *Ogg::Page::header() const
-{
+const Ogg::PageHeader *Ogg::Page::header() const {
   return &d->header;
 }
 
-int Ogg::Page::pageSequenceNumber() const
-{
+int Ogg::Page::pageSequenceNumber() const {
   return d->header.pageSequenceNumber();
 }
 
-void Ogg::Page::setPageSequenceNumber(int sequenceNumber)
-{
+void Ogg::Page::setPageSequenceNumber(int sequenceNumber) {
   d->header.setPageSequenceNumber(sequenceNumber);
 }
 
-int Ogg::Page::firstPacketIndex() const
-{
+int Ogg::Page::firstPacketIndex() const {
   return d->firstPacketIndex;
 }
 
-void Ogg::Page::setFirstPacketIndex(int index)
-{
+void Ogg::Page::setFirstPacketIndex(int index) {
   d->firstPacketIndex = index;
 }
 
-Ogg::Page::ContainsPacketFlags Ogg::Page::containsPacket(int index) const
-{
+Ogg::Page::ContainsPacketFlags Ogg::Page::containsPacket(int index) const {
   const int lastPacketIndex = d->firstPacketIndex + packetCount() - 1;
-  if(index < d->firstPacketIndex || index > lastPacketIndex)
+  if (index < d->firstPacketIndex || index > lastPacketIndex)
     return DoesNotContainPacket;
 
   ContainsPacketFlags flags = DoesNotContainPacket;
 
-  if(index == d->firstPacketIndex)
+  if (index == d->firstPacketIndex)
     flags = ContainsPacketFlags(flags | BeginsWithPacket);
 
-  if(index == lastPacketIndex)
+  if (index == lastPacketIndex)
     flags = ContainsPacketFlags(flags | EndsWithPacket);
 
   // If there's only one page and it's complete:
 
-  if(packetCount() == 1 &&
-     !d->header.firstPacketContinued() &&
-     d->header.lastPacketCompleted())
-  {
+  if (packetCount() == 1 &&
+    !d->header.firstPacketContinued() &&
+    d->header.lastPacketCompleted()) {
     flags = ContainsPacketFlags(flags | CompletePacket);
   }
 
@@ -121,37 +108,34 @@ Ogg::Page::ContainsPacketFlags Ogg::Page::containsPacket(int index) const
   // (a) the first page and it's complete or
   // (b) the last page and it's complete or
   // (c) a page in the middle.
-  else if(packetCount() > 1 &&
-          ((flags & BeginsWithPacket && !d->header.firstPacketContinued()) ||
-           (flags & EndsWithPacket && d->header.lastPacketCompleted()) ||
-           (!(flags & BeginsWithPacket) && !(flags & EndsWithPacket))))
-  {
+  else if (packetCount() > 1 &&
+    ((flags & BeginsWithPacket && !d->header.firstPacketContinued()) ||
+      (flags & EndsWithPacket && d->header.lastPacketCompleted()) ||
+      (!(flags & BeginsWithPacket) && !(flags & EndsWithPacket)))) {
     flags = ContainsPacketFlags(flags | CompletePacket);
   }
 
   return flags;
 }
 
-unsigned int Ogg::Page::packetCount() const
-{
+unsigned int Ogg::Page::packetCount() const {
   return d->header.packetSizes().size();
 }
 
-ByteVectorList Ogg::Page::packets() const
-{
-  if(!d->packets.isEmpty())
+ByteVectorList Ogg::Page::packets() const {
+  if (!d->packets.isEmpty())
     return d->packets;
 
   ByteVectorList l;
 
-  if(d->file && d->header.isValid()) {
+  if (d->file && d->header.isValid()) {
 
     d->file->seek(d->fileOffset + d->header.size());
 
     List<int> packetSizes = d->header.packetSizes();
 
     List<int>::ConstIterator it = packetSizes.begin();
-    for(; it != packetSizes.end(); ++it)
+    for (; it != packetSizes.end(); ++it)
       l.append(d->file->readBlock(*it));
   }
   else
@@ -160,19 +144,17 @@ ByteVectorList Ogg::Page::packets() const
   return l;
 }
 
-int Ogg::Page::size() const
-{
+int Ogg::Page::size() const {
   return d->header.size() + d->header.dataSize();
 }
 
-ByteVector Ogg::Page::render() const
-{
+ByteVector Ogg::Page::render() const {
   ByteVector data;
 
   data.append(d->header.render());
 
-  if(d->packets.isEmpty()) {
-    if(d->file) {
+  if (d->packets.isEmpty()) {
+    if (d->file) {
       d->file->seek(d->fileOffset + d->header.size());
       data.append(d->file->readBlock(d->header.dataSize()));
     }
@@ -181,7 +163,7 @@ ByteVector Ogg::Page::render() const
   }
   else {
     ByteVectorList::ConstIterator it = d->packets.begin();
-    for(; it != d->packets.end(); ++it)
+    for (; it != d->packets.end(); ++it)
       data.append(*it);
   }
 
@@ -196,13 +178,12 @@ ByteVector Ogg::Page::render() const
 }
 
 List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
-                                      PaginationStrategy strategy,
-                                      unsigned int streamSerialNumber,
-                                      int firstPage,
-                                      bool firstPacketContinued,
-                                      bool lastPacketCompleted,
-                                      bool containsLastPacket)
-{
+  PaginationStrategy strategy,
+  unsigned int streamSerialNumber,
+  int firstPage,
+  bool firstPacketContinued,
+  bool lastPacketCompleted,
+  bool containsLastPacket) {
   // SplitSize must be a multiple of 255 in order to get the lacing values right
   // create pages of about 8KB each
 
@@ -210,13 +191,13 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
 
   // Force repagination if the segment table will exceed the size limit.
 
-  if(strategy != Repaginate) {
+  if (strategy != Repaginate) {
 
     size_t tableSize = 0;
-    for(ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it)
+    for (ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it)
       tableSize += it->size() / 255 + 1;
 
-    if(tableSize > 255)
+    if (tableSize > 255)
       strategy = Repaginate;
   }
 
@@ -224,11 +205,11 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
 
   // Handle creation of multiple pages with appropriate pagination.
 
-  if(strategy == Repaginate) {
+  if (strategy == Repaginate) {
 
     int pageIndex = firstPage;
 
-    for(ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it) {
+    for (ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it) {
 
       const bool lastPacketInList = (it == --packets.end());
 
@@ -237,7 +218,7 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
       bool continued = (firstPacketContinued && it == packets.begin());
       unsigned int pos = 0;
 
-      while(pos < it->size()) {
+      while (pos < it->size()) {
 
         const bool lastSplit = (pos + SplitSize >= it->size());
 
@@ -245,11 +226,11 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
         packetList.append(it->mid(pos, SplitSize));
 
         l.append(new Page(packetList,
-                          streamSerialNumber,
-                          pageIndex,
-                          continued,
-                          lastSplit && (lastPacketInList ? lastPacketCompleted : true),
-                          lastSplit && (containsLastPacket && lastPacketInList)));
+          streamSerialNumber,
+          pageIndex,
+          continued,
+          lastSplit && (lastPacketInList ? lastPacketCompleted : true),
+          lastSplit && (containsLastPacket && lastPacketInList)));
         pageIndex++;
         continued = true;
 
@@ -259,18 +240,17 @@ List<Ogg::Page *> Ogg::Page::paginate(const ByteVectorList &packets,
   }
   else {
     l.append(new Page(packets,
-                      streamSerialNumber,
-                      firstPage,
-                      firstPacketContinued,
-                      lastPacketCompleted,
-                      containsLastPacket));
+      streamSerialNumber,
+      firstPage,
+      firstPacketContinued,
+      lastPacketCompleted,
+      containsLastPacket));
   }
 
   return l;
 }
 
-Ogg::Page* Ogg::Page::getCopyWithNewPageSequenceNumber(int /*sequenceNumber*/)
-{
+Ogg::Page *Ogg::Page::getCopyWithNewPageSequenceNumber(int /*sequenceNumber*/) {
   debug("Ogg::Page::getCopyWithNewPageSequenceNumber() -- This function is obsolete. Returning null.");
   return nullptr;
 }
@@ -280,13 +260,11 @@ Ogg::Page* Ogg::Page::getCopyWithNewPageSequenceNumber(int /*sequenceNumber*/)
 ////////////////////////////////////////////////////////////////////////////////
 
 Ogg::Page::Page(const ByteVectorList &packets,
-                unsigned int streamSerialNumber,
-                int pageNumber,
-                bool firstPacketContinued,
-                bool lastPacketCompleted,
-                bool containsLastPacket) :
-  d(new PagePrivate())
-{
+  unsigned int streamSerialNumber,
+  int pageNumber,
+  bool firstPacketContinued,
+  bool lastPacketCompleted,
+  bool containsLastPacket) : d(new PagePrivate()) {
   d->header.setFirstPageOfStream(pageNumber == 0 && !firstPacketContinued);
   d->header.setLastPageOfStream(containsLastPacket);
   d->header.setFirstPacketContinued(firstPacketContinued);
@@ -299,7 +277,7 @@ Ogg::Page::Page(const ByteVectorList &packets,
   ByteVector data;
   List<int> packetSizes;
 
-  for(ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it) {
+  for (ByteVectorList::ConstIterator it = packets.begin(); it != packets.end(); ++it) {
     packetSizes.append((*it).size());
     data.append(*it);
   }

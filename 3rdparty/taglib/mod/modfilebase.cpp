@@ -30,28 +30,23 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
-Mod::FileBase::FileBase(FileName file) : Strawberry_TagLib::TagLib::File(file)
-{
+Mod::FileBase::FileBase(FileName file) : Strawberry_TagLib::TagLib::File(file) {
 }
 
-Mod::FileBase::FileBase(IOStream *stream) : Strawberry_TagLib::TagLib::File(stream)
-{
+Mod::FileBase::FileBase(IOStream *stream) : Strawberry_TagLib::TagLib::File(stream) {
 }
 
-void Mod::FileBase::writeString(const String &s, unsigned long size, char padding)
-{
+void Mod::FileBase::writeString(const String &s, unsigned long size, char padding) {
   ByteVector data(s.data(String::Latin1));
   data.resize(size, padding);
   writeBlock(data);
 }
 
-bool Mod::FileBase::readString(String &s, unsigned long size)
-{
+bool Mod::FileBase::readString(String &s, unsigned long size) {
   ByteVector data(readBlock(size));
-  if(data.size() < size) return false;
-  int index = data.find((char) 0);
-  if(index > -1)
-  {
+  if (data.size() < size) return false;
+  int index = data.find((char)0);
+  if (index > -1) {
     data.resize(index);
   }
   data.replace('\xff', ' ');
@@ -60,66 +55,58 @@ bool Mod::FileBase::readString(String &s, unsigned long size)
   return true;
 }
 
-void Mod::FileBase::writeByte(unsigned char _byte)
-{
+void Mod::FileBase::writeByte(unsigned char _byte) {
   ByteVector data(1, _byte);
   writeBlock(data);
 }
 
-void Mod::FileBase::writeU16L(unsigned short number)
-{
+void Mod::FileBase::writeU16L(unsigned short number) {
   writeBlock(ByteVector::fromShort(number, false));
 }
 
-void Mod::FileBase::writeU32L(unsigned long number)
-{
+void Mod::FileBase::writeU32L(unsigned long number) {
   writeBlock(ByteVector::fromUInt(number, false));
 }
 
-void Mod::FileBase::writeU16B(unsigned short number)
-{
+void Mod::FileBase::writeU16B(unsigned short number) {
   writeBlock(ByteVector::fromShort(number, true));
 }
 
-void Mod::FileBase::writeU32B(unsigned long number)
-{
+void Mod::FileBase::writeU32B(unsigned long number) {
   writeBlock(ByteVector::fromUInt(number, true));
 }
 
-bool Mod::FileBase::readByte(unsigned char &_byte)
-{
+bool Mod::FileBase::readByte(unsigned char &_byte) {
   ByteVector data(readBlock(1));
-  if(data.size() < 1) return false;
+  if (data.size() < 1) return false;
   _byte = data[0];
   return true;
 }
 
-bool Mod::FileBase::readU16L(unsigned short &number)
-{
+bool Mod::FileBase::readU16L(unsigned short &number) {
   ByteVector data(readBlock(2));
-  if(data.size() < 2) return false;
+  if (data.size() < 2) return false;
   number = data.toUShort(false);
   return true;
 }
 
 bool Mod::FileBase::readU32L(unsigned long &number) {
   ByteVector data(readBlock(4));
-  if(data.size() < 4) return false;
+  if (data.size() < 4) return false;
   number = data.toUInt(false);
   return true;
 }
 
-bool Mod::FileBase::readU16B(unsigned short &number)
-{
+bool Mod::FileBase::readU16B(unsigned short &number) {
   ByteVector data(readBlock(2));
-  if(data.size() < 2) return false;
+  if (data.size() < 2) return false;
   number = data.toUShort(true);
   return true;
 }
 
 bool Mod::FileBase::readU32B(unsigned long &number) {
   ByteVector data(readBlock(4));
-  if(data.size() < 4) return false;
+  if (data.size() < 4) return false;
   number = data.toUInt(true);
   return true;
 }

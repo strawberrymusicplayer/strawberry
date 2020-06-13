@@ -27,9 +27,7 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class ByteVectorListPrivate
-{
-
+class ByteVectorListPrivate {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,22 +35,19 @@ class ByteVectorListPrivate
 ////////////////////////////////////////////////////////////////////////////////
 
 ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &pattern,
-                                     int byteAlign)
-{
+  int byteAlign) {
   return split(v, pattern, byteAlign, 0);
 }
 
 ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &pattern,
-                                     int byteAlign, int max)
-{
+  int byteAlign, int max) {
   ByteVectorList l;
 
   unsigned int previousOffset = 0;
-  for(int offset = v.find(pattern, 0, byteAlign);
-      offset != -1 && (max == 0 || max > int(l.size()) + 1);
-      offset = v.find(pattern, offset + pattern.size(), byteAlign))
-  {
-    if(offset - previousOffset >= 1)
+  for (int offset = v.find(pattern, 0, byteAlign);
+       offset != -1 && (max == 0 || max > int(l.size()) + 1);
+       offset = v.find(pattern, offset + pattern.size(), byteAlign)) {
+    if (offset - previousOffset >= 1)
       l.append(v.mid(previousOffset, offset - previousOffset));
     else
       l.append(ByteVector());
@@ -60,7 +55,7 @@ ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &patt
     previousOffset = offset + pattern.size();
   }
 
-  if(previousOffset < v.size())
+  if (previousOffset < v.size())
     l.append(v.mid(previousOffset, v.size() - previousOffset));
 
   return l;
@@ -70,28 +65,22 @@ ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &patt
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorList::ByteVectorList() :
-  List<ByteVector>(),
-  d(nullptr)
-{
-
+ByteVectorList::ByteVectorList() : List<ByteVector>(),
+                                   d(nullptr) {
 }
 
-ByteVectorList::~ByteVectorList()
-{
-
+ByteVectorList::~ByteVectorList() {
 }
 
-ByteVector ByteVectorList::toByteVector(const ByteVector &separator) const
-{
+ByteVector ByteVectorList::toByteVector(const ByteVector &separator) const {
   ByteVector v;
 
   ConstIterator it = begin();
 
-  while(it != end()) {
+  while (it != end()) {
     v.append(*it);
     it++;
-    if(it != end())
+    if (it != end())
       v.append(separator);
   }
 

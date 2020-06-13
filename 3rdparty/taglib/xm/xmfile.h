@@ -36,22 +36,22 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace XM {
+namespace XM {
 
-    class TAGLIB_EXPORT File : public Mod::FileBase {
-      public:
-        /*!
+class TAGLIB_EXPORT File : public Mod::FileBase {
+ public:
+  /*!
          * Constructs an Extended Module file from \a file.
          *
          * \note In the current implementation, both \a readProperties and
          * \a propertiesStyle are ignored.  The audio properties are always
          * read.
          */
-        File(FileName file, bool readProperties = true,
-             AudioProperties::ReadStyle propertiesStyle =
-             AudioProperties::Average);
+  File(FileName file, bool readProperties = true,
+    AudioProperties::ReadStyle propertiesStyle =
+      AudioProperties::Average);
 
-        /*!
+  /*!
          * Constructs an Extended Module file from \a stream.
          *
          * \note In the current implementation, both \a readProperties and
@@ -61,54 +61,54 @@ namespace TagLib {
          * \note TagLib will *not* take ownership of the stream, the caller is
          * responsible for deleting it after the File object.
          */
-        File(IOStream *stream, bool readProperties = true,
-             AudioProperties::ReadStyle propertiesStyle =
-             AudioProperties::Average);
+  File(IOStream *stream, bool readProperties = true,
+    AudioProperties::ReadStyle propertiesStyle =
+      AudioProperties::Average);
 
-        /*!
+  /*!
          * Destroys this instance of the File.
          */
-        virtual ~File();
+  virtual ~File();
 
-        Mod::Tag *tag() const;
+  Mod::Tag *tag() const;
 
-        /*!
+  /*!
          * Implements the unified property interface -- export function.
          * Forwards to Mod::Tag::properties().
          */
-        PropertyMap properties() const;
+  PropertyMap properties() const;
 
-        /*!
+  /*!
          * Implements the unified property interface -- import function.
          * Forwards to Mod::Tag::setProperties().
          */
-        PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-        /*!
+  /*!
          * Returns the XM::Properties for this file. If no audio properties
          * were read then this will return a null pointer.
          */
-        XM::Properties *audioProperties() const;
+  XM::Properties *audioProperties() const;
 
-        /*!
+  /*!
          * Save the file.
          * This is the same as calling save(AllTags);
          *
          * \note Saving Extended Module tags is not supported.
          */
-        bool save();
+  bool save();
 
-      private:
-        File(const File &);
-        File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-        void read(bool readProperties);
+  void read(bool readProperties);
 
-        class FilePrivate;
-        FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace XM
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

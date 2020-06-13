@@ -38,19 +38,19 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace Ogg {
+namespace Ogg {
 
-    /*!
+/*!
      * A mapping between a list of field names, or keys, and a list of values
      * associated with that field.
      *
      * \see XiphComment::fieldListMap()
      */
-    typedef Map<String, StringList> FieldListMap;
+typedef Map<String, StringList> FieldListMap;
 
-    //! Ogg Vorbis comment implementation
+//! Ogg Vorbis comment implementation
 
-    /*!
+/*!
      * This class is an implementation of the Ogg Vorbis comment specification,
      * to be found in section 5 of the Ogg Vorbis specification.  Because this
      * format is also used in other (currently unsupported) Xiph.org formats, it
@@ -63,48 +63,47 @@ namespace TagLib {
      * \see fieldListMap()
      */
 
-    class TAGLIB_EXPORT XiphComment : public Strawberry_TagLib::TagLib::Tag
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT XiphComment : public Strawberry_TagLib::TagLib::Tag {
+ public:
+  /*!
        * Constructs an empty Vorbis comment.
        */
-      XiphComment();
+  XiphComment();
 
-      /*!
+  /*!
        * Constructs a Vorbis comment from \a data.
        */
-      XiphComment(const ByteVector &data);
+  XiphComment(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys this instance of the XiphComment.
        */
-      virtual ~XiphComment();
+  virtual ~XiphComment();
 
-      virtual String title() const;
-      virtual String artist() const;
-      virtual String album() const;
-      virtual String comment() const;
-      virtual String genre() const;
-      virtual unsigned int year() const;
-      virtual unsigned int track() const;
+  virtual String title() const;
+  virtual String artist() const;
+  virtual String album() const;
+  virtual String comment() const;
+  virtual String genre() const;
+  virtual unsigned int year() const;
+  virtual unsigned int track() const;
 
-      virtual void setTitle(const String &s);
-      virtual void setArtist(const String &s);
-      virtual void setAlbum(const String &s);
-      virtual void setComment(const String &s);
-      virtual void setGenre(const String &s);
-      virtual void setYear(unsigned int i);
-      virtual void setTrack(unsigned int i);
+  virtual void setTitle(const String &s);
+  virtual void setArtist(const String &s);
+  virtual void setAlbum(const String &s);
+  virtual void setComment(const String &s);
+  virtual void setGenre(const String &s);
+  virtual void setYear(unsigned int i);
+  virtual void setTrack(unsigned int i);
 
-      virtual bool isEmpty() const;
+  virtual bool isEmpty() const;
 
-      /*!
+  /*!
        * Returns the number of fields present in the comment.
        */
-      unsigned int fieldCount() const;
+  unsigned int fieldCount() const;
 
-      /*!
+  /*!
        * Returns a reference to the map of field lists.  Because Xiph comments
        * support multiple fields with the same key, a pure Map would not work.
        * As such this is a Map of string lists, keyed on the comment field name.
@@ -140,138 +139,138 @@ namespace TagLib {
        * \warning You should not modify this data structure directly, instead
        * use addField() and removeField().
        */
-      const FieldListMap &fieldListMap() const;
+  const FieldListMap &fieldListMap() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * The result is a one-to-one match of the Xiph comment, since it is
        * completely compatible with the property interface (in fact, a Xiph
        * comment is nothing more than a map from tag names to list of values,
        * as is the dict interface).
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      /*!
+  /*!
        * Implements the unified property interface -- import function.
        * The tags from the given map will be stored one-to-one in the file,
        * except for invalid keys (less than one character, non-ASCII, or
        * containing '=' or '~') in which case the according values will
        * be contained in the returned PropertyMap.
        */
-      PropertyMap setProperties(const PropertyMap&);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Check if the given String is a valid Xiph comment key.
        */
-      static bool checkKey(const String&);
+  static bool checkKey(const String &);
 
-      /*!
+  /*!
        * Returns the vendor ID of the Ogg Vorbis encoder.  libvorbis 1.0 as the
        * most common case always returns "Xiph.Org libVorbis I 20020717".
        */
-      String vendorID() const;
+  String vendorID() const;
 
-      /*!
+  /*!
        * Add the field specified by \a key with the data \a value.  If \a replace
        * is true, then all of the other fields with the same key will be removed
        * first.
        *
        * If the field value is empty, the field will be removed.
        */
-      void addField(const String &key, const String &value, bool replace = true);
+  void addField(const String &key, const String &value, bool replace = true);
 
-      /*!
+  /*!
        * Remove the field specified by \a key with the data \a value.  If
        * \a value is null, all of the fields with the given key will be removed.
        *
        * \deprecated Using this method may lead to a linkage error.
        */
-      // BIC: remove and merge with below
-      TAGLIB_DEPRECATED void removeField(const String &key, const String &value = String());
+  // BIC: remove and merge with below
+  TAGLIB_DEPRECATED void removeField(const String &key, const String &value = String());
 
-      /*!
+  /*!
        * Remove all the fields specified by \a key.
        *
        * \see removeAllFields()
        */
-      void removeFields(const String &key);
+  void removeFields(const String &key);
 
-      /*!
+  /*!
        * Remove all the fields specified by \a key with the data \a value.
        *
        * \see removeAllFields()
        */
-      void removeFields(const String &key, const String &value);
+  void removeFields(const String &key, const String &value);
 
-      /*!
+  /*!
        * Remove all the fields in the comment.
        *
        * \see removeFields()
        */
-      void removeAllFields();
+  void removeAllFields();
 
-      /*!
+  /*!
        * Returns true if the field is contained within the comment.
        *
        * \note This is safer than checking for membership in the FieldListMap.
        */
-      bool contains(const String &key) const;
+  bool contains(const String &key) const;
 
-      /*!
+  /*!
        * Renders the comment to a ByteVector suitable for inserting into a file.
        */
-      ByteVector render() const; // BIC: remove and merge with below
+  ByteVector render() const;  // BIC: remove and merge with below
 
-      /*!
+  /*!
        * Renders the comment to a ByteVector suitable for inserting into a file.
        *
        * If \a addFramingBit is true the standard Vorbis comment framing bit will
        * be appended.  However some formats (notably FLAC) do not work with this
        * in place.
        */
-      ByteVector render(bool addFramingBit) const;
+  ByteVector render(bool addFramingBit) const;
 
 
-      /*!
+  /*!
        * Returns a list of pictures attached to the xiph comment.
        */
-      List<FLAC::Picture *> pictureList();
+  List<FLAC::Picture *> pictureList();
 
-      /*!
+  /*!
        * Removes an picture. If \a del is true the picture's memory
        * will be freed; if it is false, it must be deleted by the user.
        */
-      void removePicture(FLAC::Picture *picture, bool del = true);
+  void removePicture(FLAC::Picture *picture, bool del = true);
 
-      /*!
+  /*!
        * Remove all pictures.
        */
-      void removeAllPictures();
+  void removeAllPictures();
 
-      /*!
+  /*!
        * Add a new picture to the comment block. The comment block takes ownership of the
        * picture and will handle freeing its memory.
        *
        * \note The file will be saved only after calling save().
        */
-      void addPicture(FLAC::Picture *picture);
+  void addPicture(FLAC::Picture *picture);
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Reads the tag from the file specified in the constructor and fills the
        * FieldListMap.
        */
-      void parse(const ByteVector &data);
+  void parse(const ByteVector &data);
 
-    private:
-      XiphComment(const XiphComment &);
-      XiphComment &operator=(const XiphComment &);
+ private:
+  XiphComment(const XiphComment &);
+  XiphComment &operator=(const XiphComment &);
 
-      class XiphCommentPrivate;
-      XiphCommentPrivate *d;
-    };
-  }
-}
-}
+  class XiphCommentPrivate;
+  XiphCommentPrivate *d;
+};
+}  // namespace Ogg
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

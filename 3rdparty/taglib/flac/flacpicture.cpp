@@ -29,16 +29,14 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class FLAC::Picture::PicturePrivate
-{
-public:
-  PicturePrivate() :
-    type(FLAC::Picture::Other),
-    width(0),
-    height(0),
-    colorDepth(0),
-    numColors(0)
-    {}
+class FLAC::Picture::PicturePrivate {
+ public:
+  PicturePrivate() : type(FLAC::Picture::Other),
+                     width(0),
+                     height(0),
+                     colorDepth(0),
+                     numColors(0) {
+  }
 
   Type type;
   String mimeType;
@@ -50,30 +48,23 @@ public:
   ByteVector data;
 };
 
-FLAC::Picture::Picture() :
-  d(new PicturePrivate())
-{
+FLAC::Picture::Picture() : d(new PicturePrivate()) {
 }
 
-FLAC::Picture::Picture(const ByteVector &data) :
-  d(new PicturePrivate())
-{
+FLAC::Picture::Picture(const ByteVector &data) : d(new PicturePrivate()) {
   parse(data);
 }
 
-FLAC::Picture::~Picture()
-{
+FLAC::Picture::~Picture() {
   delete d;
 }
 
-int FLAC::Picture::code() const
-{
+int FLAC::Picture::code() const {
   return FLAC::MetadataBlock::Picture;
 }
 
-bool FLAC::Picture::parse(const ByteVector &data)
-{
-  if(data.size() < 32) {
+bool FLAC::Picture::parse(const ByteVector &data) {
+  if (data.size() < 32) {
     debug("A picture block must contain at least 5 bytes.");
     return false;
   }
@@ -83,7 +74,7 @@ bool FLAC::Picture::parse(const ByteVector &data)
   pos += 4;
   unsigned int mimeTypeLength = data.toUInt(pos);
   pos += 4;
-  if(pos + mimeTypeLength + 24 > data.size()) {
+  if (pos + mimeTypeLength + 24 > data.size()) {
     debug("Invalid picture block.");
     return false;
   }
@@ -91,7 +82,7 @@ bool FLAC::Picture::parse(const ByteVector &data)
   pos += mimeTypeLength;
   unsigned int descriptionLength = data.toUInt(pos);
   pos += 4;
-  if(pos + descriptionLength + 20 > data.size()) {
+  if (pos + descriptionLength + 20 > data.size()) {
     debug("Invalid picture block.");
     return false;
   }
@@ -107,7 +98,7 @@ bool FLAC::Picture::parse(const ByteVector &data)
   pos += 4;
   unsigned int dataLength = data.toUInt(pos);
   pos += 4;
-  if(pos + dataLength > data.size()) {
+  if (pos + dataLength > data.size()) {
     debug("Invalid picture block.");
     return false;
   }
@@ -116,8 +107,7 @@ bool FLAC::Picture::parse(const ByteVector &data)
   return true;
 }
 
-ByteVector FLAC::Picture::render() const
-{
+ByteVector FLAC::Picture::render() const {
   ByteVector result;
   result.append(ByteVector::fromUInt(d->type));
   ByteVector mimeTypeData = d->mimeType.data(String::UTF8);
@@ -135,83 +125,66 @@ ByteVector FLAC::Picture::render() const
   return result;
 }
 
-FLAC::Picture::Type FLAC::Picture::type() const
-{
+FLAC::Picture::Type FLAC::Picture::type() const {
   return d->type;
 }
 
-void FLAC::Picture::setType(FLAC::Picture::Type type)
-{
+void FLAC::Picture::setType(FLAC::Picture::Type type) {
   d->type = type;
 }
 
-String FLAC::Picture::mimeType() const
-{
+String FLAC::Picture::mimeType() const {
   return d->mimeType;
 }
 
-void FLAC::Picture::setMimeType(const String &mimeType)
-{
+void FLAC::Picture::setMimeType(const String &mimeType) {
   d->mimeType = mimeType;
 }
 
-String FLAC::Picture::description() const
-{
+String FLAC::Picture::description() const {
   return d->description;
 }
 
-void FLAC::Picture::setDescription(const String &description)
-{
+void FLAC::Picture::setDescription(const String &description) {
   d->description = description;
 }
 
-int FLAC::Picture::width() const
-{
+int FLAC::Picture::width() const {
   return d->width;
 }
 
-void FLAC::Picture::setWidth(int width)
-{
+void FLAC::Picture::setWidth(int width) {
   d->width = width;
 }
 
-int FLAC::Picture::height() const
-{
+int FLAC::Picture::height() const {
   return d->height;
 }
 
-void FLAC::Picture::setHeight(int height)
-{
+void FLAC::Picture::setHeight(int height) {
   d->height = height;
 }
 
-int FLAC::Picture::colorDepth() const
-{
+int FLAC::Picture::colorDepth() const {
   return d->colorDepth;
 }
 
-void FLAC::Picture::setColorDepth(int colorDepth)
-{
+void FLAC::Picture::setColorDepth(int colorDepth) {
   d->colorDepth = colorDepth;
 }
 
-int FLAC::Picture::numColors() const
-{
+int FLAC::Picture::numColors() const {
   return d->numColors;
 }
 
-void FLAC::Picture::setNumColors(int numColors)
-{
+void FLAC::Picture::setNumColors(int numColors) {
   d->numColors = numColors;
 }
 
-ByteVector FLAC::Picture::data() const
-{
+ByteVector FLAC::Picture::data() const {
   return d->data;
 }
 
-void FLAC::Picture::setData(const ByteVector &data)
-{
+void FLAC::Picture::setData(const ByteVector &data) {
   d->data = data;
 }
-

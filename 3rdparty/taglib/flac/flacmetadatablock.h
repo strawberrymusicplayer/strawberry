@@ -33,45 +33,44 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace FLAC {
+namespace FLAC {
 
-    class TAGLIB_EXPORT MetadataBlock
-    {
-    public:
-      MetadataBlock();
-      virtual ~MetadataBlock();
+class TAGLIB_EXPORT MetadataBlock {
+ public:
+  MetadataBlock();
+  virtual ~MetadataBlock();
 
-      enum BlockType {
-        StreamInfo = 0,
-        Padding,
-        Application,
-        SeekTable,
-        VorbisComment,
-        CueSheet,
-        Picture
-      };
+  enum BlockType {
+    StreamInfo = 0,
+    Padding,
+    Application,
+    SeekTable,
+    VorbisComment,
+    CueSheet,
+    Picture
+  };
 
-      /*!
+  /*!
        * Returns the FLAC metadata block type.
        */
-      virtual int code() const = 0;
+  virtual int code() const = 0;
 
-      /*!
+  /*!
        * Render the content of the block.
        */
-      virtual ByteVector render() const = 0;
+  virtual ByteVector render() const = 0;
 
-    private:
-      MetadataBlock(const MetadataBlock &item);
-      MetadataBlock &operator=(const MetadataBlock &item);
+ private:
+  MetadataBlock(const MetadataBlock &item);
+  MetadataBlock &operator=(const MetadataBlock &item);
 
-      class MetadataBlockPrivate;
-      MetadataBlockPrivate *d;
-    };
+  class MetadataBlockPrivate;
+  MetadataBlockPrivate *d;
+};
 
-  }
+}  // namespace FLAC
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

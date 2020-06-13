@@ -35,21 +35,21 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace zlib {
+namespace zlib {
 
-     /*!
+/*!
       * Returns whether or not zlib is installed and ready to use.
       */
-     bool isAvailable();
+bool isAvailable();
 
-     /*!
+/*!
       * Decompress \a data by zlib.
       */
-     ByteVector decompress(const ByteVector &data);
+ByteVector decompress(const ByteVector &data);
 
-  }
-}
-}
+}  // namespace zlib
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 

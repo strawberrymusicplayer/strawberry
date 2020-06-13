@@ -32,9 +32,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class OwnershipFrame::OwnershipFramePrivate
-{
-public:
+class OwnershipFrame::OwnershipFramePrivate {
+ public:
   String pricePaid;
   String datePurchased;
   String seller;
@@ -45,67 +44,53 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-OwnershipFrame::OwnershipFrame(String::Type encoding) :
-  Frame("OWNE"),
-  d(new OwnershipFramePrivate())
-{
+OwnershipFrame::OwnershipFrame(String::Type encoding) : Frame("OWNE"),
+                                                        d(new OwnershipFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-OwnershipFrame::OwnershipFrame(const ByteVector &data) :
-  Frame(data),
-  d(new OwnershipFramePrivate())
-{
+OwnershipFrame::OwnershipFrame(const ByteVector &data) : Frame(data),
+                                                         d(new OwnershipFramePrivate()) {
   setData(data);
 }
 
-OwnershipFrame::~OwnershipFrame()
-{
+OwnershipFrame::~OwnershipFrame() {
   delete d;
 }
 
-String OwnershipFrame::toString() const
-{
+String OwnershipFrame::toString() const {
   return "pricePaid=" + d->pricePaid + " datePurchased=" + d->datePurchased + " seller=" + d->seller;
 }
 
-String OwnershipFrame::pricePaid() const
-{
+String OwnershipFrame::pricePaid() const {
   return d->pricePaid;
 }
 
-void OwnershipFrame::setPricePaid(const String &s)
-{
+void OwnershipFrame::setPricePaid(const String &s) {
   d->pricePaid = s;
 }
 
-String OwnershipFrame::datePurchased() const
-{
+String OwnershipFrame::datePurchased() const {
   return d->datePurchased;
 }
 
-void OwnershipFrame::setDatePurchased(const String &s)
-{
+void OwnershipFrame::setDatePurchased(const String &s) {
   d->datePurchased = s;
 }
 
-String OwnershipFrame::seller() const
-{
+String OwnershipFrame::seller() const {
   return d->seller;
 }
 
-void OwnershipFrame::setSeller(const String &s)
-{
+void OwnershipFrame::setSeller(const String &s) {
   d->seller = s;
 }
 
-String::Type OwnershipFrame::textEncoding() const
-{
+String::Type OwnershipFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-void OwnershipFrame::setTextEncoding(String::Type encoding)
-{
+void OwnershipFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
@@ -113,8 +98,7 @@ void OwnershipFrame::setTextEncoding(String::Type encoding)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void OwnershipFrame::parseFields(const ByteVector &data)
-{
+void OwnershipFrame::parseFields(const ByteVector &data) {
   int pos = 0;
 
   // Get the text encoding
@@ -126,7 +110,7 @@ void OwnershipFrame::parseFields(const ByteVector &data)
 
   // If we don't have at least 8 bytes left then don't parse the rest of the
   // data
-  if(data.size() - pos < 8) {
+  if (data.size() - pos < 8) {
     return;
   }
 
@@ -135,14 +119,13 @@ void OwnershipFrame::parseFields(const ByteVector &data)
   pos += 8;
 
   // Read the seller
-  if(d->textEncoding == String::Latin1)
+  if (d->textEncoding == String::Latin1)
     d->seller = Tag::latin1StringHandler()->parse(data.mid(pos));
   else
     d->seller = String(data.mid(pos), d->textEncoding);
 }
 
-ByteVector OwnershipFrame::renderFields() const
-{
+ByteVector OwnershipFrame::renderFields() const {
   StringList sl;
   sl.append(d->seller);
 
@@ -163,9 +146,7 @@ ByteVector OwnershipFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-OwnershipFrame::OwnershipFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new OwnershipFramePrivate())
-{
+OwnershipFrame::OwnershipFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                    d(new OwnershipFramePrivate()) {
   parseFields(fieldData(data));
 }

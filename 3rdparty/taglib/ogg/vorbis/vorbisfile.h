@@ -43,36 +43,35 @@ namespace TagLib {
  */
 
 #ifdef DOXYGEN
-  namespace Ogg {
+namespace Ogg {
 #endif
 
-  //! A namespace containing classes for Vorbis metadata
+//! A namespace containing classes for Vorbis metadata
 
-  namespace Vorbis {
+namespace Vorbis {
 
 
-    //! An implementation of Ogg::File with Vorbis specific methods
+//! An implementation of Ogg::File with Vorbis specific methods
 
-    /*!
+/*!
      * This is the central class in the Ogg Vorbis metadata processing collection
      * of classes.  It's built upon Ogg::File which handles processing of the Ogg
      * logical bitstream and breaking it down into pages which are handled by
      * the codec implementations, in this case Vorbis specifically.
      */
 
-    class TAGLIB_EXPORT File : public Ogg::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Ogg::File {
+ public:
+  /*!
        * Constructs a Vorbis file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs a Vorbis file from \a stream.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -81,65 +80,65 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(IOStream *stream, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns the XiphComment for this file.  XiphComment implements the tag
        * interface, so this serves as the reimplementation of
        * TagLib::File::tag().
        */
-      virtual Ogg::XiphComment *tag() const;
+  virtual Ogg::XiphComment *tag() const;
 
 
-      /*!
+  /*!
        * Implements the unified property interface -- export function.
        * This forwards directly to XiphComment::properties().
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      /*!
+  /*!
        * Implements the unified tag dictionary interface -- import function.
        * Like properties(), this is a forwarder to the file's XiphComment.
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the Vorbis::Properties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Save the file.
        *
        * This returns true if the save was successful.
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Check if the given \a stream can be opened as an Ogg Vorbis file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-      static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read(bool readProperties);
+  void read(bool readProperties);
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace Vorbis
 
 /*
  * To keep compatibility with the current version put Vorbis in the Ogg namespace
@@ -148,12 +147,16 @@ namespace TagLib {
  */
 
 #ifdef DOXYGEN
-  }
+}
 #else
-  namespace Ogg { namespace Vorbis { typedef Strawberry_TagLib::TagLib::Vorbis::File File; } }
+namespace Ogg {
+namespace Vorbis {
+typedef Strawberry_TagLib::TagLib::Vorbis::File File;
+}
+}  // namespace Ogg
 #endif
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -24,21 +24,20 @@
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-# include <config.h>
+#  include <config.h>
 #endif
 
 #ifdef HAVE_ZLIB
-# include <zlib.h>
-# include <tstring.h>
-# include <tdebug.h>
+#  include <zlib.h>
+#  include <tstring.h>
+#  include <tdebug.h>
 #endif
 
 #include "tzlib.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
-bool zlib::isAvailable()
-{
+bool zlib::isAvailable() {
 #ifdef HAVE_ZLIB
 
   return true;
@@ -50,13 +49,12 @@ bool zlib::isAvailable()
 #endif
 }
 
-ByteVector zlib::decompress(const ByteVector &data)
-{
+ByteVector zlib::decompress(const ByteVector &data) {
 #ifdef HAVE_ZLIB
 
   z_stream stream = {};
 
-  if(inflateInit(&stream) != Z_OK) {
+  if (inflateInit(&stream) != Z_OK) {
     debug("zlib::decompress() - Failed to initizlize zlib.");
     return ByteVector();
   }
@@ -64,7 +62,7 @@ ByteVector zlib::decompress(const ByteVector &data)
   ByteVector inData = data;
 
   stream.avail_in = static_cast<uInt>(inData.size());
-  stream.next_in  = reinterpret_cast<Bytef *>(inData.data());
+  stream.next_in = reinterpret_cast<Bytef *>(inData.data());
 
   const unsigned int chunkSize = 1024;
 
@@ -75,16 +73,15 @@ ByteVector zlib::decompress(const ByteVector &data)
     outData.resize(outData.size() + chunkSize);
 
     stream.avail_out = static_cast<uInt>(chunkSize);
-    stream.next_out  = reinterpret_cast<Bytef *>(outData.data() + offset);
+    stream.next_out = reinterpret_cast<Bytef *>(outData.data() + offset);
 
     const int result = inflate(&stream, Z_NO_FLUSH);
 
-    if(result == Z_STREAM_ERROR ||
-       result == Z_NEED_DICT ||
-       result == Z_DATA_ERROR ||
-       result == Z_MEM_ERROR)
-    {
-      if(result != Z_STREAM_ERROR)
+    if (result == Z_STREAM_ERROR ||
+      result == Z_NEED_DICT ||
+      result == Z_DATA_ERROR ||
+      result == Z_MEM_ERROR) {
+      if (result != Z_STREAM_ERROR)
         inflateEnd(&stream);
 
       debug("zlib::decompress() - Error reading compressed stream.");
@@ -92,7 +89,7 @@ ByteVector zlib::decompress(const ByteVector &data)
     }
 
     outData.resize(outData.size() - stream.avail_out);
-  } while(stream.avail_out == 0);
+  } while (stream.avail_out == 0);
 
   inflateEnd(&stream);
 

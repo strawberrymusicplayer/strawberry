@@ -39,17 +39,14 @@
 #  endif
 #  include <windows.h>
 #  define TAGLIB_ATOMIC_WIN
-#elif defined (__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ >= 401)    \
-      && (defined(__i386__) || defined(__i486__) || defined(__i586__) || \
-          defined(__i686__) || defined(__x86_64) || defined(__ia64)) \
-      && !defined(__INTEL_COMPILER)
+#elif defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ >= 401) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__x86_64) || defined(__ia64)) && !defined(__INTEL_COMPILER)
 #  define TAGLIB_ATOMIC_GCC
 #elif defined(__ia64) && defined(__INTEL_COMPILER)
 #  include <ia64intrin.h>
 #  define TAGLIB_ATOMIC_GCC
 #endif
 
-#ifndef DO_NOT_DOCUMENT // Tell Doxygen to skip this class.
+#ifndef DO_NOT_DOCUMENT  // Tell Doxygen to skip this class.
 /*!
   * \internal
   * This is just used as a base class for shared classes in TagLib.
@@ -57,60 +54,68 @@
   * \warning This <b>is not</b> part of the TagLib public API!
   */
 namespace Strawberry_TagLib {
-namespace TagLib
-{
+namespace TagLib {
 
-  class TAGLIB_EXPORT RefCounter
-  {
-  public:
-    RefCounter();
-    virtual ~RefCounter();
+class TAGLIB_EXPORT RefCounter {
+ public:
+  RefCounter();
+  virtual ~RefCounter();
 
-    void ref();
-    bool deref();
-    int count() const;
+  void ref();
+  bool deref();
+  int count() const;
 
-  private:
-    class RefCounterPrivate;
-    RefCounterPrivate *d;
-  };
+ private:
+  class RefCounterPrivate;
+  RefCounterPrivate *d;
+};
 
-  // BIC this old class is needed by tlist.tcc and tmap.tcc
-  class RefCounterOld
-  {
-  public:
-    RefCounterOld() : refCount(1) {}
+// BIC this old class is needed by tlist.tcc and tmap.tcc
+class RefCounterOld {
+ public:
+  RefCounterOld() : refCount(1) {}
 
-#ifdef TAGLIB_ATOMIC_MAC
-    void ref() { OSAtomicIncrement32Barrier(const_cast<int32_t*>(&refCount)); }
-    bool deref() { return ! OSAtomicDecrement32Barrier(const_cast<int32_t*>(&refCount)); }
-    int32_t count() { return refCount; }
-  private:
-    volatile int32_t refCount;
-#elif defined(TAGLIB_ATOMIC_WIN)
-    void ref() { InterlockedIncrement(&refCount); }
-    bool deref() { return ! InterlockedDecrement(&refCount); }
-    long count() { return refCount; }
-  private:
-    volatile long refCount;
-#elif defined(TAGLIB_ATOMIC_GCC)
-    void ref() { __sync_add_and_fetch(&refCount, 1); }
-    bool deref() { return ! __sync_sub_and_fetch(&refCount, 1); }
-    int count() { return refCount; }
-  private:
-    volatile int refCount;
-#else
-    void ref() { refCount++; }
-    bool deref() { return ! --refCount; }
-    int count() { return refCount; }
-  private:
-    unsigned int refCount;
+#  ifdef TAGLIB_ATOMIC_MAC
+  void ref() {
+    OSAtomicIncrement32Barrier(const_cast<int32_t *>(&refCount));
+  }
+  bool deref() { return !OSAtomicDecrement32Barrier(const_cast<int32_t *>(&refCount)); }
+  int32_t count() { return refCount; }
+
+ private:
+  volatile int32_t refCount;
+#  elif defined(TAGLIB_ATOMIC_WIN)
+  void ref() {
+    InterlockedIncrement(&refCount);
+  }
+  bool deref() { return !InterlockedDecrement(&refCount); }
+  long count() { return refCount; }
+
+ private:
+  volatile long refCount;
+#  elif defined(TAGLIB_ATOMIC_GCC)
+  void ref() {
+    __sync_add_and_fetch(&refCount, 1);
+  }
+  bool deref() { return !__sync_sub_and_fetch(&refCount, 1); }
+  int count() { return refCount; }
+
+ private:
+  volatile int refCount;
+#  else
+  void ref() {
+    refCount++;
+  }
+  bool deref() { return !--refCount; }
+  int count() { return refCount; }
+
+ private:
+  unsigned int refCount;
+#  endif
+};
+
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
+
+#endif  // DO_NOT_DOCUMENT
 #endif
-  };
-
-}
-}
-
-#endif // DO_NOT_DOCUMENT
-#endif
-

@@ -24,8 +24,8 @@
  ***************************************************************************/
 
 #ifdef _WIN32
-# include <windows.h>
-# include <tstring.h>
+#  include <windows.h>
+#  include <tstring.h>
 #endif
 
 #include "tiostream.h"
@@ -34,63 +34,50 @@ using namespace Strawberry_TagLib::TagLib;
 
 #ifdef _WIN32
 
-namespace
-{
-  std::wstring ansiToUnicode(const char *str)
-  {
-    const int len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
-    if(len == 0)
-      return std::wstring();
+namespace {
+std::wstring ansiToUnicode(const char *str) {
+  const int len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+  if (len == 0)
+    return std::wstring();
 
-    std::wstring wstr(len - 1, L'\0');
-    MultiByteToWideChar(CP_ACP, 0, str, -1, &wstr[0], len);
+  std::wstring wstr(len - 1, L'\0');
+  MultiByteToWideChar(CP_ACP, 0, str, -1, &wstr[0], len);
 
-    return wstr;
-  }
+  return wstr;
 }
+}  // namespace
 
 // m_name is no longer used, but kept for backward compatibility.
 
-FileName::FileName(const wchar_t *name) :
-  m_name(),
-  m_wname(name)
-{
+FileName::FileName(const wchar_t *name) : m_name(),
+                                          m_wname(name) {
 }
 
-FileName::FileName(const char *name) :
-  m_name(),
-  m_wname(ansiToUnicode(name))
-{
+FileName::FileName(const char *name) : m_name(),
+                                       m_wname(ansiToUnicode(name)) {
 }
 
-FileName::FileName(const FileName &name) :
-  m_name(),
-  m_wname(name.m_wname)
-{
+FileName::FileName(const FileName &name) : m_name(),
+                                           m_wname(name.m_wname) {
 }
 
-FileName::operator const wchar_t *() const
-{
+FileName::operator const wchar_t *() const {
   return m_wname.c_str();
 }
 
-FileName::operator const char *() const
-{
+FileName::operator const char *() const {
   return m_name.c_str();
 }
 
-const std::wstring &FileName::wstr() const
-{
+const std::wstring &FileName::wstr() const {
   return m_wname;
 }
 
-const std::string &FileName::str() const
-{
+const std::string &FileName::str() const {
   return m_name;
 }
 
-String FileName::toString() const
-{
+String FileName::toString() const {
   return String(m_wname.c_str());
 }
 
@@ -100,15 +87,11 @@ String FileName::toString() const
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-IOStream::IOStream()
-{
+IOStream::IOStream() {
 }
 
-IOStream::~IOStream()
-{
+IOStream::~IOStream() {
 }
 
-void IOStream::clear()
-{
+void IOStream::clear() {
 }
-

@@ -34,9 +34,8 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class ASF::Picture::PicturePrivate : public RefCounter
-{
-public:
+class ASF::Picture::PicturePrivate : public RefCounter {
+ public:
   bool valid;
   Type type;
   String mimeType;
@@ -48,126 +47,107 @@ public:
 // Picture class members
 ////////////////////////////////////////////////////////////////////////////////
 
-ASF::Picture::Picture() :
-  d(new PicturePrivate())
-{
+ASF::Picture::Picture() : d(new PicturePrivate()) {
   d->valid = true;
 }
 
-ASF::Picture::Picture(const Picture& other) :
-  d(other.d)
-{
+ASF::Picture::Picture(const Picture& other) : d(other.d) {
   d->ref();
 }
 
-ASF::Picture::~Picture()
-{
-  if(d->deref())
+ASF::Picture::~Picture() {
+  if (d->deref())
     delete d;
 }
 
-bool ASF::Picture::isValid() const
-{
+bool ASF::Picture::isValid() const {
   return d->valid;
 }
 
-String ASF::Picture::mimeType() const
-{
+String ASF::Picture::mimeType() const {
   return d->mimeType;
 }
 
-void ASF::Picture::setMimeType(const String &value)
-{
+void ASF::Picture::setMimeType(const String& value) {
   d->mimeType = value;
 }
 
-ASF::Picture::Type ASF::Picture::type() const
-{
+ASF::Picture::Type ASF::Picture::type() const {
   return d->type;
 }
 
-void ASF::Picture::setType(const ASF::Picture::Type& t)
-{
+void ASF::Picture::setType(const ASF::Picture::Type& t) {
   d->type = t;
 }
 
-String ASF::Picture::description() const
-{
+String ASF::Picture::description() const {
   return d->description;
 }
 
-void ASF::Picture::setDescription(const String &desc)
-{
+void ASF::Picture::setDescription(const String& desc) {
   d->description = desc;
 }
 
-ByteVector ASF::Picture::picture() const
-{
+ByteVector ASF::Picture::picture() const {
   return d->picture;
 }
 
-void ASF::Picture::setPicture(const ByteVector &p)
-{
+void ASF::Picture::setPicture(const ByteVector& p) {
   d->picture = p;
 }
 
-int ASF::Picture::dataSize() const
-{
-  return
-    9 + (d->mimeType.length() + d->description.length()) * 2 +
+int ASF::Picture::dataSize() const {
+  return 9 + (d->mimeType.length() + d->description.length()) * 2 +
     d->picture.size();
 }
 
-ASF::Picture& ASF::Picture::operator=(const ASF::Picture& other)
-{
+ASF::Picture& ASF::Picture::operator=(const ASF::Picture& other) {
   Picture(other).swap(*this);
   return *this;
 }
 
-void ASF::Picture::swap(Picture &other)
-{
+void ASF::Picture::swap(Picture& other) {
   using std::swap;
 
   swap(d, other.d);
 }
 
-ByteVector ASF::Picture::render() const
-{
-  if(!isValid())
+ByteVector ASF::Picture::render() const {
+  if (!isValid())
     return ByteVector();
 
-  return
-    ByteVector((char)d->type) +
+  return ByteVector((char)d->type) +
     ByteVector::fromUInt(d->picture.size(), false) +
     renderString(d->mimeType) +
     renderString(d->description) +
     d->picture;
 }
 
-void ASF::Picture::parse(const ByteVector& bytes)
-{
+void ASF::Picture::parse(const ByteVector& bytes) {
   d->valid = false;
-  if(bytes.size() < 9)
+  if (bytes.size() < 9)
     return;
   int pos = 0;
-  d->type = (Type)bytes[0]; ++pos;
-  const unsigned int dataLen = bytes.toUInt(pos, false); pos+=4;
+  d->type = (Type)bytes[0];
+  ++pos;
+  const unsigned int dataLen = bytes.toUInt(pos, false);
+  pos += 4;
 
   const ByteVector nullStringTerminator(2, 0);
 
   int endPos = bytes.find(nullStringTerminator, pos, 2);
-  if(endPos < 0)
+  if (endPos < 0)
     return;
   d->mimeType = String(bytes.mid(pos, endPos - pos), String::UTF16LE);
-  pos = endPos+2;
+  pos = endPos + 2;
 
   endPos = bytes.find(nullStringTerminator, pos, 2);
-  if(endPos < 0)
+  if (endPos < 0)
     return;
   d->description = String(bytes.mid(pos, endPos - pos), String::UTF16LE);
-  pos = endPos+2;
+  pos = endPos + 2;
 
-  if(dataLen + pos != bytes.size())
+  if (dataLen + pos != bytes.size())
     return;
 
   d->picture = bytes.mid(pos, dataLen);
@@ -175,8 +155,7 @@ void ASF::Picture::parse(const ByteVector& bytes)
   return;
 }
 
-ASF::Picture ASF::Picture::fromInvalid()
-{
+ASF::Picture ASF::Picture::fromInvalid() {
   Picture ret;
   ret.d->valid = false;
   return ret;

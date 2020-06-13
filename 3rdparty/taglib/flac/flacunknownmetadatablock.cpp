@@ -30,49 +30,39 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class FLAC::UnknownMetadataBlock::UnknownMetadataBlockPrivate
-{
-public:
+class FLAC::UnknownMetadataBlock::UnknownMetadataBlockPrivate {
+ public:
   UnknownMetadataBlockPrivate() : code(0) {}
 
   int code;
   ByteVector data;
 };
 
-FLAC::UnknownMetadataBlock::UnknownMetadataBlock(int code, const ByteVector &data) :
-  d(new UnknownMetadataBlockPrivate())
-{
+FLAC::UnknownMetadataBlock::UnknownMetadataBlock(int code, const ByteVector &data) : d(new UnknownMetadataBlockPrivate()) {
   d->code = code;
   d->data = data;
 }
 
-FLAC::UnknownMetadataBlock::~UnknownMetadataBlock()
-{
+FLAC::UnknownMetadataBlock::~UnknownMetadataBlock() {
   delete d;
 }
 
-int FLAC::UnknownMetadataBlock::code() const
-{
+int FLAC::UnknownMetadataBlock::code() const {
   return d->code;
 }
 
-void FLAC::UnknownMetadataBlock::setCode(int code)
-{
+void FLAC::UnknownMetadataBlock::setCode(int code) {
   d->code = code;
 }
 
-ByteVector FLAC::UnknownMetadataBlock::data() const
-{
+ByteVector FLAC::UnknownMetadataBlock::data() const {
   return d->data;
 }
 
-void FLAC::UnknownMetadataBlock::setData(const ByteVector &data)
-{
+void FLAC::UnknownMetadataBlock::setData(const ByteVector &data) {
   d->data = data;
 }
 
-ByteVector FLAC::UnknownMetadataBlock::render() const
-{
+ByteVector FLAC::UnknownMetadataBlock::render() const {
   return d->data;
 }
-

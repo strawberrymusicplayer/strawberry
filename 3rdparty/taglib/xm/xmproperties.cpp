@@ -29,167 +29,136 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace XM;
 
-class XM::Properties::PropertiesPrivate
-{
-public:
-  PropertiesPrivate() :
-    lengthInPatterns(0),
-    channels(0),
-    version(0),
-    restartPosition(0),
-    patternCount(0),
-    instrumentCount(0),
-    sampleCount(0),
-    flags(0),
-    tempo(0),
-    bpmSpeed(0)
-  {
+class XM::Properties::PropertiesPrivate {
+ public:
+  PropertiesPrivate() : lengthInPatterns(0),
+                        channels(0),
+                        version(0),
+                        restartPosition(0),
+                        patternCount(0),
+                        instrumentCount(0),
+                        sampleCount(0),
+                        flags(0),
+                        tempo(0),
+                        bpmSpeed(0) {
   }
 
   unsigned short lengthInPatterns;
-  int            channels;
+  int channels;
   unsigned short version;
   unsigned short restartPosition;
   unsigned short patternCount;
   unsigned short instrumentCount;
-  unsigned int   sampleCount;
+  unsigned int sampleCount;
   unsigned short flags;
   unsigned short tempo;
   unsigned short bpmSpeed;
 };
 
-XM::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) :
-  AudioProperties(propertiesStyle),
-  d(new PropertiesPrivate())
-{
+XM::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
+                                                                         d(new PropertiesPrivate()) {
 }
 
-XM::Properties::~Properties()
-{
+XM::Properties::~Properties() {
   delete d;
 }
 
-int XM::Properties::length() const
-{
+int XM::Properties::length() const {
   return 0;
 }
 
-int XM::Properties::lengthInSeconds() const
-{
+int XM::Properties::lengthInSeconds() const {
   return 0;
 }
 
-int XM::Properties::lengthInMilliseconds() const
-{
+int XM::Properties::lengthInMilliseconds() const {
   return 0;
 }
 
-int XM::Properties::bitrate() const
-{
+int XM::Properties::bitrate() const {
   return 0;
 }
 
-int XM::Properties::sampleRate() const
-{
+int XM::Properties::sampleRate() const {
   return 0;
 }
 
-int XM::Properties::channels() const
-{
+int XM::Properties::channels() const {
   return d->channels;
 }
 
-unsigned short XM::Properties::lengthInPatterns() const
-{
+unsigned short XM::Properties::lengthInPatterns() const {
   return d->lengthInPatterns;
 }
 
-unsigned short XM::Properties::version() const
-{
+unsigned short XM::Properties::version() const {
   return d->version;
 }
 
-unsigned short XM::Properties::restartPosition() const
-{
+unsigned short XM::Properties::restartPosition() const {
   return d->restartPosition;
 }
 
-unsigned short XM::Properties::patternCount() const
-{
+unsigned short XM::Properties::patternCount() const {
   return d->patternCount;
 }
 
-unsigned short XM::Properties::instrumentCount() const
-{
+unsigned short XM::Properties::instrumentCount() const {
   return d->instrumentCount;
 }
 
-unsigned int XM::Properties::sampleCount() const
-{
+unsigned int XM::Properties::sampleCount() const {
   return d->sampleCount;
 }
 
-unsigned short XM::Properties::flags() const
-{
+unsigned short XM::Properties::flags() const {
   return d->flags;
 }
 
-unsigned short XM::Properties::tempo() const
-{
+unsigned short XM::Properties::tempo() const {
   return d->tempo;
 }
 
-unsigned short XM::Properties::bpmSpeed() const
-{
+unsigned short XM::Properties::bpmSpeed() const {
   return d->bpmSpeed;
 }
 
-void XM::Properties::setLengthInPatterns(unsigned short lengthInPatterns)
-{
+void XM::Properties::setLengthInPatterns(unsigned short lengthInPatterns) {
   d->lengthInPatterns = lengthInPatterns;
 }
 
-void XM::Properties::setChannels(int channels)
-{
+void XM::Properties::setChannels(int channels) {
   d->channels = channels;
 }
 
-void XM::Properties::setVersion(unsigned short version)
-{
+void XM::Properties::setVersion(unsigned short version) {
   d->version = version;
 }
 
-void XM::Properties::setRestartPosition(unsigned short restartPosition)
-{
+void XM::Properties::setRestartPosition(unsigned short restartPosition) {
   d->restartPosition = restartPosition;
 }
 
-void XM::Properties::setPatternCount(unsigned short patternCount)
-{
+void XM::Properties::setPatternCount(unsigned short patternCount) {
   d->patternCount = patternCount;
 }
 
-void XM::Properties::setInstrumentCount(unsigned short instrumentCount)
-{
+void XM::Properties::setInstrumentCount(unsigned short instrumentCount) {
   d->instrumentCount = instrumentCount;
 }
 
-void XM::Properties::setSampleCount(unsigned int sampleCount)
-{
+void XM::Properties::setSampleCount(unsigned int sampleCount) {
   d->sampleCount = sampleCount;
 }
 
-void XM::Properties::setFlags(unsigned short flags)
-{
+void XM::Properties::setFlags(unsigned short flags) {
   d->flags = flags;
 }
 
-void XM::Properties::setTempo(unsigned short tempo)
-{
+void XM::Properties::setTempo(unsigned short tempo) {
   d->tempo = tempo;
 }
 
-void XM::Properties::setBpmSpeed(unsigned short bpmSpeed)
-{
+void XM::Properties::setBpmSpeed(unsigned short bpmSpeed) {
   d->bpmSpeed = bpmSpeed;
 }

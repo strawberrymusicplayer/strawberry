@@ -36,40 +36,39 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace APE {
+namespace APE {
 
-    class File;
+class File;
 
-    //! An implementation of audio property reading for APE
+//! An implementation of audio property reading for APE
 
-    /*!
+/*!
      * This reads the data from an APE stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of APE::Properties with the data read from the
        * APE::File \a file.
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED Properties(File *file, ReadStyle style = Average);
+  TAGLIB_DEPRECATED Properties(File *file, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Create an instance of APE::Properties with the data read from the
        * APE::File \a file.
        */
-      Properties(File *file, long streamLength, ReadStyle style = Average);
+  Properties(File *file, long streamLength, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this APE::Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -77,69 +76,69 @@ namespace TagLib {
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns the number of bits per audio sample.
        */
-      int bitsPerSample() const;
+  int bitsPerSample() const;
 
-      /*!
+  /*!
        * Returns the total number of audio samples in file.
        */
-      unsigned int sampleFrames() const;
+  unsigned int sampleFrames() const;
 
-      /*!
+  /*!
        * Returns APE version.
        */
-      int version() const;
+  int version() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(File *file, long streamLength);
+  void read(File *file, long streamLength);
 
-      void analyzeCurrent(File *file);
-      void analyzeOld(File *file);
+  void analyzeCurrent(File *file);
+  void analyzeOld(File *file);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace APE
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

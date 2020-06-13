@@ -37,74 +37,73 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class File;
+class File;
 
-  //! An implementation of the APE tagging format
+//! An implementation of the APE tagging format
 
-  namespace APE {
+namespace APE {
 
-    class Footer;
+class Footer;
 
-    /*!
+/*!
      * A mapping between a list of item names, or keys, and the associated item.
      *
      * \see APE::Tag::itemListMap()
      */
-    typedef Map<const String, Item> ItemListMap;
+typedef Map<const String, Item> ItemListMap;
 
 
-    //! An APE tag implementation
+//! An APE tag implementation
 
-    class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
+ public:
+  /*!
        * Create an APE tag with default values.
        */
-      Tag();
+  Tag();
 
-      /*!
+  /*!
        * Create an APE tag and parse the data in \a file with APE footer at
        * \a tagOffset.
        */
-      Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
+  Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
 
-      /*!
+  /*!
        * Destroys this Tag instance.
        */
-      virtual ~Tag();
+  virtual ~Tag();
 
-      /*!
+  /*!
        * Renders the in memory values to a ByteVector suitable for writing to
        * the file.
        */
-      ByteVector render() const;
+  ByteVector render() const;
 
-      /*!
+  /*!
        * Returns the string "APETAGEX" suitable for usage in locating the tag in a
        * file.
        */
-      static ByteVector fileIdentifier();
+  static ByteVector fileIdentifier();
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual String title() const;
-      virtual String artist() const;
-      virtual String album() const;
-      virtual String comment() const;
-      virtual String genre() const;
-      virtual unsigned int year() const;
-      virtual unsigned int track() const;
+  virtual String title() const;
+  virtual String artist() const;
+  virtual String album() const;
+  virtual String comment() const;
+  virtual String genre() const;
+  virtual unsigned int year() const;
+  virtual unsigned int track() const;
 
-      virtual void setTitle(const String &s);
-      virtual void setArtist(const String &s);
-      virtual void setAlbum(const String &s);
-      virtual void setComment(const String &s);
-      virtual void setGenre(const String &s);
-      virtual void setYear(unsigned int i);
-      virtual void setTrack(unsigned int i);
+  virtual void setTitle(const String &s);
+  virtual void setArtist(const String &s);
+  virtual void setAlbum(const String &s);
+  virtual void setComment(const String &s);
+  virtual void setGenre(const String &s);
+  virtual void setYear(unsigned int i);
+  virtual void setTrack(unsigned int i);
 
-      /*!
+  /*!
        * Implements the unified tag dictionary interface -- export function.
        * APE tags are perfectly compatible with the dictionary interface because they
        * support both arbitrary tag names and multiple values. Currently only
@@ -118,29 +117,29 @@ namespace TagLib {
        * TRACK to TRACKNUMBER, YEAR to DATE, and ALBUM ARTIST to ALBUMARTIST, respectively,
        * in order to be compliant with the names used in other formats.
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-      /*!
+  /*!
        * Implements the unified tag dictionary interface -- import function. The same
        * comments as for the export function apply; additionally note that the APE tag
        * specification requires keys to have between 2 and 16 printable ASCII characters
        * with the exception of the fixed strings "ID3", "TAG", "OGGS", and "MP+".
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Check if the given String is a valid APE tag key.
        */
-      static bool checkKey(const String&);
+  static bool checkKey(const String &);
 
-      /*!
+  /*!
        * Returns a pointer to the tag's footer.
        */
-      Footer *footer() const;
+  Footer *footer() const;
 
-      /*!
+  /*!
        * Returns a reference to the item list map.  This is an ItemListMap of
        * all of the items in the tag.
        *
@@ -152,59 +151,58 @@ namespace TagLib {
        * \warning You should not modify this data structure directly, instead
        * use setItem() and removeItem().
        */
-      const ItemListMap &itemListMap() const;
+  const ItemListMap &itemListMap() const;
 
-      /*!
+  /*!
        * Removes the \a key item from the tag
        */
-      void removeItem(const String &key);
+  void removeItem(const String &key);
 
-      /*!
+  /*!
        * Adds to the text item specified by \a key the data \a value.  If \a replace
        * is true, then all of the other values on the same key will be removed
        * first.  If a binary item exists for \a key it will be removed first.
        */
-      void addValue(const String &key, const String &value, bool replace = true);
+  void addValue(const String &key, const String &value, bool replace = true);
 
-     /*!
+  /*!
       * Set the binary data for the key specified by \a item to \a value
       * This will convert the item to type \a Binary if it isn't already and
       * all of the other values on the same key will be removed.
       */
-      void setData(const String &key, const ByteVector &value);
+  void setData(const String &key, const ByteVector &value);
 
-      /*!
+  /*!
        * Sets the \a key item to the value of \a item. If an item with the \a key is already
        * present, it will be replaced.
        */
-      void setItem(const String &key, const Item &item);
+  void setItem(const String &key, const Item &item);
 
-      /*!
+  /*!
        * Returns true if the tag does not contain any data.
        */
-      bool isEmpty() const;
+  bool isEmpty() const;
 
-    protected:
-
-      /*!
+ protected:
+  /*!
        * Reads from the file specified in the constructor.
        */
-      void read();
+  void read();
 
-      /*!
+  /*!
        * Parses the body of the tag in \a data.
        */
-      void parse(const ByteVector &data);
+  void parse(const ByteVector &data);
 
-    private:
-      Tag(const Tag &);
-      Tag &operator=(const Tag &);
+ private:
+  Tag(const Tag &);
+  Tag &operator=(const Tag &);
 
-      class TagPrivate;
-      TagPrivate *d;
-    };
-  }
-}
-}
+  class TagPrivate;
+  TagPrivate *d;
+};
+}  // namespace APE
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -28,9 +28,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class PodcastFrame::PodcastFramePrivate
-{
-public:
+class PodcastFrame::PodcastFramePrivate {
+ public:
   ByteVector fieldData;
 };
 
@@ -38,20 +37,16 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PodcastFrame::PodcastFrame() :
-  Frame("PCST"),
-  d(new PodcastFramePrivate())
-{
+PodcastFrame::PodcastFrame() : Frame("PCST"),
+                               d(new PodcastFramePrivate()) {
   d->fieldData = ByteVector(4, '\0');
 }
 
-PodcastFrame::~PodcastFrame()
-{
+PodcastFrame::~PodcastFrame() {
   delete d;
 }
 
-String PodcastFrame::toString() const
-{
+String PodcastFrame::toString() const {
   return String();
 }
 
@@ -59,13 +54,11 @@ String PodcastFrame::toString() const
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void PodcastFrame::parseFields(const ByteVector &data)
-{
+void PodcastFrame::parseFields(const ByteVector &data) {
   d->fieldData = data;
 }
 
-ByteVector PodcastFrame::renderFields() const
-{
+ByteVector PodcastFrame::renderFields() const {
   return d->fieldData;
 }
 
@@ -73,9 +66,7 @@ ByteVector PodcastFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PodcastFrame::PodcastFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new PodcastFramePrivate())
-{
+PodcastFrame::PodcastFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                d(new PodcastFramePrivate()) {
   parseFields(fieldData(data));
 }

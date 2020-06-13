@@ -35,68 +35,67 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class String;
-  class Tag;
-  class AudioProperties;
-  class PropertyMap;
+class String;
+class Tag;
+class AudioProperties;
+class PropertyMap;
 
-  //! A file class with some useful methods for tag manipulation
+//! A file class with some useful methods for tag manipulation
 
-  /*!
+/*!
    * This class is a basic file class with some methods that are particularly
    * useful for tag editors.  It has methods to take advantage of
    * ByteVector and a binary search method for finding patterns in a file.
    */
 
-  class TAGLIB_EXPORT File
-  {
-  public:
-    /*!
+class TAGLIB_EXPORT File {
+ public:
+  /*!
      * Position in the file used for seeking.
      */
-    enum Position {
-      //! Seek from the beginning of the file.
-      Beginning,
-      //! Seek from the current position in the file.
-      Current,
-      //! Seek from the end of the file.
-      End
-    };
+  enum Position {
+    //! Seek from the beginning of the file.
+    Beginning,
+    //! Seek from the current position in the file.
+    Current,
+    //! Seek from the end of the file.
+    End
+  };
 
-    /*!
+  /*!
      * Specify which tags to strip either explicitly, or on save.
      */
-    enum StripTags {
-      StripNone,  //<! Don't strip any tags
-      StripOthers //<! Strip all tags not explicitly referenced in method call
-    };
+  enum StripTags {
+    StripNone,   //<! Don't strip any tags
+    StripOthers  //<! Strip all tags not explicitly referenced in method call
+  };
 
-    /*!
+  /*!
      * Used to specify if when saving files, if values between different tag
      * types should be syncronized.
      */
-    enum DuplicateTags {
-      Duplicate,     //<! Syncronize values between different tag types
-      DoNotDuplicate //<! Do not syncronize values between different tag types
-    };
+  enum DuplicateTags {
+    Duplicate,      //<! Syncronize values between different tag types
+    DoNotDuplicate  //<! Do not syncronize values between different tag types
+  };
 
-    /*!
+  /*!
      * Destroys this File instance.
      */
-    virtual ~File();
+  virtual ~File();
 
-    /*!
+  /*!
      * Returns the file name in the local file system encoding.
      */
-    FileName name() const;
+  FileName name() const;
 
-    /*!
+  /*!
      * Returns a pointer to this file's tag.  This should be reimplemented in
      * the concrete subclasses.
      */
-    virtual Tag *tag() const = 0;
+  virtual Tag *tag() const = 0;
 
-    /*!
+  /*!
      * Exports the tags of the file as dictionary mapping (human readable) tag
      * names (uppercase Strings) to StringLists of tag values. Calls the according
      * specialization in the File subclasses.
@@ -108,17 +107,17 @@ namespace TagLib {
      * tag) only the most "modern" one will be exported (ID3v2 in this case).
      * BIC: Will be made virtual in future releases.
      */
-    PropertyMap properties() const;
+  PropertyMap properties() const;
 
-    /*!
+  /*!
      * Removes unsupported properties, or a subset of them, from the file's metadata.
      * The parameter \a properties must contain only entries from
      * properties().unsupportedData().
      * BIC: Will be mad virtual in future releases.
      */
-    void removeUnsupportedProperties(const StringList& properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-    /*!
+  /*!
      * Sets the tags of this File to those specified in \a properties. Calls the
      * according specialization method in the subclasses of File to do the translation
      * into the format-specific details.
@@ -132,16 +131,16 @@ namespace TagLib {
      * See the documentation of the subclass implementations for detailed descriptions.
      * BIC: will become pure virtual in the future
      */
-    PropertyMap setProperties(const PropertyMap &properties);
+  PropertyMap setProperties(const PropertyMap &properties);
 
-    /*!
+  /*!
      * Returns a pointer to this file's audio properties.  This should be
      * reimplemented in the concrete subclasses.  If no audio properties were
      * read then this will return a null pointer.
      */
-    virtual AudioProperties *audioProperties() const = 0;
+  virtual AudioProperties *audioProperties() const = 0;
 
-    /*!
+  /*!
      * Save the file and its associated tags.  This should be reimplemented in
      * the concrete subclasses.  Returns true if the save succeeds.
      *
@@ -151,14 +150,14 @@ namespace TagLib {
      * must insure that you are only doing writes to a particular file from one
      * of them.
      */
-    virtual bool save() = 0;
+  virtual bool save() = 0;
 
-    /*!
+  /*!
      * Reads a block of size \a length at the current get pointer.
      */
-    ByteVector readBlock(unsigned long length);
+  ByteVector readBlock(unsigned long length);
 
-    /*!
+  /*!
      * Attempts to write the block \a data at the current get pointer.  If the
      * file is currently only opened read only -- i.e. readOnly() returns true --
      * this attempts to reopen the file in read/write mode.
@@ -167,9 +166,9 @@ namespace TagLib {
      * for a ByteVector.  And even this function is significantly slower than
      * doing output with a char[].
      */
-    void writeBlock(const ByteVector &data);
+  void writeBlock(const ByteVector &data);
 
-    /*!
+  /*!
      * Returns the offset in the file that \a pattern occurs at or -1 if it can
      * not be found.  If \a before is set, the search will only continue until the
      * pattern \a before is found.  This is useful for tagging purposes to search
@@ -181,11 +180,11 @@ namespace TagLib {
      * \note This has the practical limitation that \a pattern can not be longer
      * than the buffer size used by readBlock().  Currently this is 1024 bytes.
      */
-    long find(const ByteVector &pattern,
-              long fromOffset = 0,
-              const ByteVector &before = ByteVector());
+  long find(const ByteVector &pattern,
+    long fromOffset = 0,
+    const ByteVector &before = ByteVector());
 
-    /*!
+  /*!
      * Returns the offset in the file that \a pattern occurs at or -1 if it can
      * not be found.  If \a before is set, the search will only continue until the
      * pattern \a before is found.  This is useful for tagging purposes to search
@@ -197,93 +196,93 @@ namespace TagLib {
      * \note This has the practical limitation that \a pattern can not be longer
      * than the buffer size used by readBlock().  Currently this is 1024 bytes.
      */
-    long rfind(const ByteVector &pattern,
-               long fromOffset = 0,
-               const ByteVector &before = ByteVector());
+  long rfind(const ByteVector &pattern,
+    long fromOffset = 0,
+    const ByteVector &before = ByteVector());
 
-    /*!
+  /*!
      * Insert \a data at position \a start in the file overwriting \a replace
      * bytes of the original content.
      *
      * \note This method is slow since it requires rewriting all of the file
      * after the insertion point.
      */
-    void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
+  void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
 
-    /*!
+  /*!
      * Removes a block of the file starting a \a start and continuing for
      * \a length bytes.
      *
      * \note This method is slow since it involves rewriting all of the file
      * after the removed portion.
      */
-    void removeBlock(unsigned long start = 0, unsigned long length = 0);
+  void removeBlock(unsigned long start = 0, unsigned long length = 0);
 
-    /*!
+  /*!
      * Returns true if the file is read only (or if the file can not be opened).
      */
-    bool readOnly() const;
+  bool readOnly() const;
 
-    /*!
+  /*!
      * Since the file can currently only be opened as an argument to the
      * constructor (sort-of by design), this returns if that open succeeded.
      */
-    bool isOpen() const;
+  bool isOpen() const;
 
-    /*!
+  /*!
      * Returns true if the file is open and readable.
      */
-    bool isValid() const;
+  bool isValid() const;
 
-    /*!
+  /*!
      * Move the I/O pointer to \a offset in the file from position \a p.  This
      * defaults to seeking from the beginning of the file.
      *
      * \see Position
      */
-    void seek(long offset, Position p = Beginning);
+  void seek(long offset, Position p = Beginning);
 
-    /*!
+  /*!
      * Reset the end-of-file and error flags on the file.
      */
-    void clear();
+  void clear();
 
-    /*!
+  /*!
      * Returns the current offset within the file.
      */
-    long tell() const;
+  long tell() const;
 
-    /*!
+  /*!
      * Returns the length of the file.
      */
-    long length();
+  long length();
 
-    /*!
+  /*!
      * Returns true if \a file can be opened for reading.  If the file does not
      * exist, this will return false.
      *
      * \deprecated
      */
-    TAGLIB_DEPRECATED static bool isReadable(const char *file);
+  TAGLIB_DEPRECATED static bool isReadable(const char *file);
 
-    /*!
+  /*!
      * Returns true if \a file can be opened for writing.
      *
      * \deprecated
      */
-    TAGLIB_DEPRECATED static bool isWritable(const char *name);
+  TAGLIB_DEPRECATED static bool isWritable(const char *name);
 
-  protected:
-    /*!
+ protected:
+  /*!
      * Construct a File object and opens the \a file.  \a file should be a
      * be a C-string in the local file system encoding.
      *
      * \note Constructor is protected since this class should only be
      * instantiated through subclasses.
      */
-    File(FileName file);
+  File(FileName file);
 
-    /*!
+  /*!
      * Construct a File object and use the \a stream instance.
      *
      * \note TagLib will *not* take ownership of the stream, the caller is
@@ -292,34 +291,34 @@ namespace TagLib {
      * \note Constructor is protected since this class should only be
      * instantiated through subclasses.
      */
-    File(IOStream *stream);
+  File(IOStream *stream);
 
-    /*!
+  /*!
      * Marks the file as valid or invalid.
      *
      * \see isValid()
      */
-    void setValid(bool valid);
+  void setValid(bool valid);
 
-    /*!
+  /*!
      * Truncates the file to a \a length.
      */
-    void truncate(long length);
+  void truncate(long length);
 
-    /*!
+  /*!
      * Returns the buffer size that is used for internal buffering.
      */
-    static unsigned int bufferSize();
+  static unsigned int bufferSize();
 
-  private:
-    File(const File &);
-    File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-    class FilePrivate;
-    FilePrivate *d;
-  };
+  class FilePrivate;
+  FilePrivate *d;
+};
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

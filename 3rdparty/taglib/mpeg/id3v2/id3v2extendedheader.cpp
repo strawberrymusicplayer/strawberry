@@ -29,9 +29,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class ExtendedHeader::ExtendedHeaderPrivate
-{
-public:
+class ExtendedHeader::ExtendedHeaderPrivate {
+ public:
   ExtendedHeaderPrivate() : size(0) {}
 
   unsigned int size;
@@ -41,23 +40,18 @@ public:
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ExtendedHeader::ExtendedHeader() :
-  d(new ExtendedHeaderPrivate())
-{
+ExtendedHeader::ExtendedHeader() : d(new ExtendedHeaderPrivate()) {
 }
 
-ExtendedHeader::~ExtendedHeader()
-{
+ExtendedHeader::~ExtendedHeader() {
   delete d;
 }
 
-unsigned int ExtendedHeader::size() const
-{
+unsigned int ExtendedHeader::size() const {
   return d->size;
 }
 
-void ExtendedHeader::setData(const ByteVector &data)
-{
+void ExtendedHeader::setData(const ByteVector &data) {
   parse(data);
 }
 
@@ -65,7 +59,6 @@ void ExtendedHeader::setData(const ByteVector &data)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void ExtendedHeader::parse(const ByteVector &data)
-{
-  d->size = SynchData::toUInt(data.mid(0, 4)); // (structure 3.2 "Extended header size")
+void ExtendedHeader::parse(const ByteVector &data) {
+  d->size = SynchData::toUInt(data.mid(0, 4));  // (structure 3.2 "Extended header size")
 }

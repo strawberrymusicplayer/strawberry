@@ -34,43 +34,35 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class ByteVectorStream::ByteVectorStreamPrivate
-{
-public:
+class ByteVectorStream::ByteVectorStreamPrivate {
+ public:
   explicit ByteVectorStreamPrivate(const ByteVector &data);
 
   ByteVector data;
   long position;
 };
 
-ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &_data) :
-  data(_data),
-  position(0)
-{
+ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &_data) : data(_data),
+                                                                                              position(0) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorStream::ByteVectorStream(const ByteVector &data) :
-  d(new ByteVectorStreamPrivate(data))
-{
+ByteVectorStream::ByteVectorStream(const ByteVector &data) : d(new ByteVectorStreamPrivate(data)) {
 }
 
-ByteVectorStream::~ByteVectorStream()
-{
+ByteVectorStream::~ByteVectorStream() {
   delete d;
 }
 
-FileName ByteVectorStream::name() const
-{
-  return FileName(""); // XXX do we need a name?
+FileName ByteVectorStream::name() const {
+  return FileName("");  // XXX do we need a name?
 }
 
-ByteVector ByteVectorStream::readBlock(unsigned long length)
-{
-  if(length == 0)
+ByteVector ByteVectorStream::readBlock(unsigned long length) {
+  if (length == 0)
     return ByteVector();
 
   ByteVector v = d->data.mid(d->position, length);
@@ -78,25 +70,23 @@ ByteVector ByteVectorStream::readBlock(unsigned long length)
   return v;
 }
 
-void ByteVectorStream::writeBlock(const ByteVector &data)
-{
+void ByteVectorStream::writeBlock(const ByteVector &data) {
   unsigned int size = data.size();
-  if(long(d->position + size) > length()) {
+  if (long(d->position + size) > length()) {
     truncate(d->position + size);
   }
   memcpy(d->data.data() + d->position, data.data(), size);
   d->position += size;
 }
 
-void ByteVectorStream::insert(const ByteVector &data, unsigned long start, unsigned long replace)
-{
+void ByteVectorStream::insert(const ByteVector &data, unsigned long start, unsigned long replace) {
   long sizeDiff = data.size() - replace;
-  if(sizeDiff < 0) {
+  if (sizeDiff < 0) {
     removeBlock(start + data.size(), -sizeDiff);
   }
-  else if(sizeDiff > 0) {
+  else if (sizeDiff > 0) {
     truncate(length() + sizeDiff);
-    unsigned long readPosition  = start + replace;
+    unsigned long readPosition = start + replace;
     unsigned long writePosition = start + data.size();
     memmove(d->data.data() + writePosition, d->data.data() + readPosition, length() - sizeDiff - readPosition);
   }
@@ -104,11 +94,10 @@ void ByteVectorStream::insert(const ByteVector &data, unsigned long start, unsig
   writeBlock(data);
 }
 
-void ByteVectorStream::removeBlock(unsigned long start, unsigned long length)
-{
+void ByteVectorStream::removeBlock(unsigned long start, unsigned long length) {
   unsigned long readPosition = start + length;
   unsigned long writePosition = start;
-  if(readPosition < static_cast<unsigned long>(ByteVectorStream::length())) {
+  if (readPosition < static_cast<unsigned long>(ByteVectorStream::length())) {
     unsigned long bytesToMove = ByteVectorStream::length() - readPosition;
     memmove(d->data.data() + writePosition, d->data.data() + readPosition, bytesToMove);
     writePosition += bytesToMove;
@@ -117,51 +106,43 @@ void ByteVectorStream::removeBlock(unsigned long start, unsigned long length)
   truncate(writePosition);
 }
 
-bool ByteVectorStream::readOnly() const
-{
+bool ByteVectorStream::readOnly() const {
   return false;
 }
 
-bool ByteVectorStream::isOpen() const
-{
+bool ByteVectorStream::isOpen() const {
   return true;
 }
 
-void ByteVectorStream::seek(long offset, Position p)
-{
-  switch(p) {
-  case Beginning:
-    d->position = offset;
-    break;
-  case Current:
-    d->position += offset;
-    break;
-  case End:
-    d->position = length() + offset; // offset is expected to be negative
-    break;
+void ByteVectorStream::seek(long offset, Position p) {
+  switch (p) {
+    case Beginning:
+      d->position = offset;
+      break;
+    case Current:
+      d->position += offset;
+      break;
+    case End:
+      d->position = length() + offset;  // offset is expected to be negative
+      break;
   }
 }
 
-void ByteVectorStream::clear()
-{
+void ByteVectorStream::clear() {
 }
 
-long ByteVectorStream::tell() const
-{
+long ByteVectorStream::tell() const {
   return d->position;
 }
 
-long ByteVectorStream::length()
-{
+long ByteVectorStream::length() {
   return d->data.size();
 }
 
-void ByteVectorStream::truncate(long length)
-{
+void ByteVectorStream::truncate(long length) {
   d->data.resize(length);
 }
 
-ByteVector *ByteVectorStream::data()
-{
+ByteVector *ByteVectorStream::data() {
   return &d->data;
 }

@@ -35,9 +35,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class UnsynchronizedLyricsFrame::UnsynchronizedLyricsFramePrivate
-{
-public:
+class UnsynchronizedLyricsFrame::UnsynchronizedLyricsFramePrivate {
+ public:
   UnsynchronizedLyricsFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   ByteVector language;
@@ -49,89 +48,74 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(String::Type encoding) :
-  Frame("USLT"),
-  d(new UnsynchronizedLyricsFramePrivate())
-{
+UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(String::Type encoding) : Frame("USLT"),
+                                                                              d(new UnsynchronizedLyricsFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(const ByteVector &data) :
-  Frame(data),
-  d(new UnsynchronizedLyricsFramePrivate())
-{
+UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(const ByteVector &data) : Frame(data),
+                                                                               d(new UnsynchronizedLyricsFramePrivate()) {
   setData(data);
 }
 
-UnsynchronizedLyricsFrame::~UnsynchronizedLyricsFrame()
-{
+UnsynchronizedLyricsFrame::~UnsynchronizedLyricsFrame() {
   delete d;
 }
 
-String UnsynchronizedLyricsFrame::toString() const
-{
+String UnsynchronizedLyricsFrame::toString() const {
   return d->text;
 }
 
-ByteVector UnsynchronizedLyricsFrame::language() const
-{
+ByteVector UnsynchronizedLyricsFrame::language() const {
   return d->language;
 }
 
-String UnsynchronizedLyricsFrame::description() const
-{
+String UnsynchronizedLyricsFrame::description() const {
   return d->description;
 }
 
-String UnsynchronizedLyricsFrame::text() const
-{
+String UnsynchronizedLyricsFrame::text() const {
   return d->text;
 }
 
-void UnsynchronizedLyricsFrame::setLanguage(const ByteVector &languageEncoding)
-{
+void UnsynchronizedLyricsFrame::setLanguage(const ByteVector &languageEncoding) {
   d->language = languageEncoding.mid(0, 3);
 }
 
-void UnsynchronizedLyricsFrame::setDescription(const String &s)
-{
+void UnsynchronizedLyricsFrame::setDescription(const String &s) {
   d->description = s;
 }
 
-void UnsynchronizedLyricsFrame::setText(const String &s)
-{
+void UnsynchronizedLyricsFrame::setText(const String &s) {
   d->text = s;
 }
 
 
-String::Type UnsynchronizedLyricsFrame::textEncoding() const
-{
+String::Type UnsynchronizedLyricsFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-void UnsynchronizedLyricsFrame::setTextEncoding(String::Type encoding)
-{
+void UnsynchronizedLyricsFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
-PropertyMap UnsynchronizedLyricsFrame::asProperties() const
-{
+PropertyMap UnsynchronizedLyricsFrame::asProperties() const {
   PropertyMap map;
   String key = description().upper();
-  if(key.isEmpty() || key == "LYRICS")
+  if (key.isEmpty() || key == "LYRICS")
     map.insert("LYRICS", text());
   else
     map.insert("LYRICS:" + key, text());
   return map;
 }
 
-UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID3v2::Tag *tag, const String &d) // static
+UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID3v2::Tag *tag, const String &d)  // static
 {
   ID3v2::FrameList lyrics = tag->frameList("USLT");
 
-  for(ID3v2::FrameList::ConstIterator it = lyrics.begin(); it != lyrics.end(); ++it){
+  for (ID3v2::FrameList::ConstIterator it = lyrics.begin(); it != lyrics.end(); ++it) {
     UnsynchronizedLyricsFrame *frame = dynamic_cast<UnsynchronizedLyricsFrame *>(*it);
-    if(frame && frame->description() == d)
+    if (frame && frame->description() == d)
       return frame;
   }
   return nullptr;
@@ -140,9 +124,8 @@ UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void UnsynchronizedLyricsFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 5) {
+void UnsynchronizedLyricsFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 5) {
     debug("An unsynchronized lyrics frame must contain at least 5 bytes.");
     return;
   }
@@ -150,25 +133,24 @@ void UnsynchronizedLyricsFrame::parseFields(const ByteVector &data)
   d->textEncoding = String::Type(data[0]);
   d->language = data.mid(1, 3);
 
-  int byteAlign
-    = d->textEncoding == String::Latin1 || d->textEncoding == String::UTF8 ? 1 : 2;
+  int byteAlign = d->textEncoding == String::Latin1 || d->textEncoding == String::UTF8 ? 1 : 2;
 
   ByteVectorList l =
     ByteVectorList::split(data.mid(4), textDelimiter(d->textEncoding), byteAlign, 2);
 
-  if(l.size() == 2) {
-    if(d->textEncoding == String::Latin1) {
+  if (l.size() == 2) {
+    if (d->textEncoding == String::Latin1) {
       d->description = Tag::latin1StringHandler()->parse(l.front());
       d->text = Tag::latin1StringHandler()->parse(l.back());
-    } else {
+    }
+    else {
       d->description = String(l.front(), d->textEncoding);
       d->text = String(l.back(), d->textEncoding);
     }
   }
 }
 
-ByteVector UnsynchronizedLyricsFrame::renderFields() const
-{
+ByteVector UnsynchronizedLyricsFrame::renderFields() const {
   StringList sl;
   sl.append(d->description);
   sl.append(d->text);
@@ -190,9 +172,7 @@ ByteVector UnsynchronizedLyricsFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new UnsynchronizedLyricsFramePrivate())
-{
+UnsynchronizedLyricsFrame::UnsynchronizedLyricsFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                                          d(new UnsynchronizedLyricsFramePrivate()) {
   parseFields(fieldData(data));
 }

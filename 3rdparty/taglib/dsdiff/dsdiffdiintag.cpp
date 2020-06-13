@@ -30,128 +30,110 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace DSDIFF::DIIN;
 
-class DSDIFF::DIIN::Tag::TagPrivate
-{
-public:
-  TagPrivate()
-  {
+class DSDIFF::DIIN::Tag::TagPrivate {
+ public:
+  TagPrivate() {
   }
 
   String title;
   String artist;
 };
 
-DSDIFF::DIIN::Tag::Tag() : Strawberry_TagLib::TagLib::Tag()
-{
+DSDIFF::DIIN::Tag::Tag() : Strawberry_TagLib::TagLib::Tag() {
   d = new TagPrivate;
 }
 
-DSDIFF::DIIN::Tag::~Tag()
-{
+DSDIFF::DIIN::Tag::~Tag() {
   delete d;
 }
 
-String DSDIFF::DIIN::Tag::title() const
-{
+String DSDIFF::DIIN::Tag::title() const {
   return d->title;
 }
 
-String DSDIFF::DIIN::Tag::artist() const
-{
+String DSDIFF::DIIN::Tag::artist() const {
   return d->artist;
 }
 
-String DSDIFF::DIIN::Tag::album() const
-{
+String DSDIFF::DIIN::Tag::album() const {
   return String();
 }
 
-String DSDIFF::DIIN::Tag::comment() const
-{
+String DSDIFF::DIIN::Tag::comment() const {
   return String();
 }
 
-String DSDIFF::DIIN::Tag::genre() const
-{
+String DSDIFF::DIIN::Tag::genre() const {
   return String();
 }
 
-unsigned int DSDIFF::DIIN::Tag::year() const
-{
+unsigned int DSDIFF::DIIN::Tag::year() const {
   return 0;
 }
 
-unsigned int DSDIFF::DIIN::Tag::track() const
-{
+unsigned int DSDIFF::DIIN::Tag::track() const {
   return 0;
 }
 
-void DSDIFF::DIIN::Tag::setTitle(const String &title)
-{
-  if(title.isNull() || title.isEmpty())
+void DSDIFF::DIIN::Tag::setTitle(const String &title) {
+  if (title.isNull() || title.isEmpty())
     d->title = String();
   else
     d->title = title;
 }
 
-void DSDIFF::DIIN::Tag::setArtist(const String &artist)
-{
-  if(artist.isNull() || artist.isEmpty())
+void DSDIFF::DIIN::Tag::setArtist(const String &artist) {
+  if (artist.isNull() || artist.isEmpty())
     d->artist = String();
   else
     d->artist = artist;
 }
 
-void DSDIFF::DIIN::Tag::setAlbum(const String &)
-{
+void DSDIFF::DIIN::Tag::setAlbum(const String &) {
 }
 
-void DSDIFF::DIIN::Tag::setComment(const String &)
-{
+void DSDIFF::DIIN::Tag::setComment(const String &) {
 }
 
-void DSDIFF::DIIN::Tag::setGenre(const String &)
-{
+void DSDIFF::DIIN::Tag::setGenre(const String &) {
 }
 
-void DSDIFF::DIIN::Tag::setYear(unsigned int)
-{
+void DSDIFF::DIIN::Tag::setYear(unsigned int) {
 }
 
-void DSDIFF::DIIN::Tag::setTrack(unsigned int)
-{
+void DSDIFF::DIIN::Tag::setTrack(unsigned int) {
 }
 
-PropertyMap DSDIFF::DIIN::Tag::properties() const
-{
+PropertyMap DSDIFF::DIIN::Tag::properties() const {
   PropertyMap properties;
   properties["TITLE"] = d->title;
   properties["ARTIST"] = d->artist;
   return properties;
 }
 
-PropertyMap DSDIFF::DIIN::Tag::setProperties(const PropertyMap &origProps)
-{
+PropertyMap DSDIFF::DIIN::Tag::setProperties(const PropertyMap &origProps) {
   PropertyMap properties(origProps);
   properties.removeEmpty();
   StringList oneValueSet;
 
-  if(properties.contains("TITLE")) {
+  if (properties.contains("TITLE")) {
     d->title = properties["TITLE"].front();
     oneValueSet.append("TITLE");
-  } else
+  }
+  else
     d->title = String();
 
-  if(properties.contains("ARTIST")) {
+  if (properties.contains("ARTIST")) {
     d->artist = properties["ARTIST"].front();
     oneValueSet.append("ARTIST");
-  } else
+  }
+  else
     d->artist = String();
 
   // for each tag that has been set above, remove the first entry in the corresponding
   // value list. The others will be returned as unsupported by this format.
-  for(StringList::Iterator it = oneValueSet.begin(); it != oneValueSet.end(); ++it) {
-    if(properties[*it].size() == 1)
+  for (StringList::Iterator it = oneValueSet.begin(); it != oneValueSet.end(); ++it) {
+    if (properties[*it].size() == 1)
       properties.erase(*it);
     else
       properties[*it].erase(properties[*it].begin());
@@ -159,4 +141,3 @@ PropertyMap DSDIFF::DIIN::Tag::setProperties(const PropertyMap &origProps)
 
   return properties;
 }
-

@@ -34,53 +34,52 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace MP4 {
+namespace MP4 {
 
-    class TAGLIB_EXPORT CoverArt
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT CoverArt {
+ public:
+  /*!
        * This describes the image type.
        */
-      enum Format {
-        JPEG    = TypeJPEG,
-        PNG     = TypePNG,
-        BMP     = TypeBMP,
-        GIF     = TypeGIF,
-        Unknown = TypeImplicit,
-      };
+  enum Format {
+    JPEG = TypeJPEG,
+    PNG = TypePNG,
+    BMP = TypeBMP,
+    GIF = TypeGIF,
+    Unknown = TypeImplicit,
+  };
 
-      CoverArt(Format format, const ByteVector &data);
-      ~CoverArt();
+  CoverArt(Format format, const ByteVector &data);
+  ~CoverArt();
 
-      CoverArt(const CoverArt &item);
+  CoverArt(const CoverArt &item);
 
-      /*!
+  /*!
        * Copies the contents of \a item into this CoverArt.
        */
-      CoverArt &operator=(const CoverArt &item);
+  CoverArt &operator=(const CoverArt &item);
 
-      /*!
+  /*!
        * Exchanges the content of the CoverArt by the content of \a item.
        */
-      void swap(CoverArt &item);
+  void swap(CoverArt &item);
 
-      //! Format of the image
-      Format format() const;
+  //! Format of the image
+  Format format() const;
 
-      //! The image data
-      ByteVector data() const;
+  //! The image data
+  ByteVector data() const;
 
-    private:
-      class CoverArtPrivate;
-      CoverArtPrivate *d;
-    };
+ private:
+  class CoverArtPrivate;
+  CoverArtPrivate *d;
+};
 
-    typedef List<CoverArt> CoverArtList;
+typedef List<CoverArt> CoverArtList;
 
-  }
+}  // namespace MP4
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

@@ -32,13 +32,13 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    class Header;
+class Header;
 
-    //! ID3v2 footer implementation
+//! ID3v2 footer implementation
 
-    /*!
+/*!
      * Per the ID3v2 specification, the tag's footer is just a copy of the
      * information in the header.  As such there is no API for reading the
      * data from the header, it can just as easily be done from the header.
@@ -48,37 +48,36 @@ namespace TagLib {
      * has been set in the ID3v2::Tag, TagLib will render a footer.
      */
 
-    class TAGLIB_EXPORT Footer
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Footer {
+ public:
+  /*!
        * Constructs an empty ID3v2 footer.
        */
-      Footer();
-      /*!
+  Footer();
+  /*!
        * Destroys the footer.
        */
-      virtual ~Footer();
+  virtual ~Footer();
 
-      /*!
+  /*!
        * Returns the size of the footer.  Presently this is always 10 bytes.
        */
-      static unsigned int size();
+  static unsigned int size();
 
-      /*!
+  /*!
        * Renders the footer based on the data in \a header.
        */
-      ByteVector render(const Header *header) const;
+  ByteVector render(const Header *header) const;
 
-    private:
-      Footer(const Footer &);
-      Footer &operator=(const Footer &);
+ private:
+  Footer(const Footer &);
+  Footer &operator=(const Footer &);
 
-      class FooterPrivate;
-      FooterPrivate *d;
-    };
+  class FooterPrivate;
+  FooterPrivate *d;
+};
 
-  }
-}
-}
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

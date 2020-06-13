@@ -31,14 +31,11 @@
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
 namespace Strawberry_TagLib {
-namespace TagLib
-{
-  namespace MPEG
-  {
-    namespace
-    {
+namespace TagLib {
+namespace MPEG {
+namespace {
 
-      /*!
+/*!
        * MPEG frames can be recognized by the bit pattern 11111111 111, so the
        * first byte is easy to check for, however checking to see if the second byte
        * starts with \e 111 is a bit more tricky, hence these functions.
@@ -46,19 +43,18 @@ namespace TagLib
        * \note This does not check the length of the vector, since this is an
        * internal utility function.
        */
-      inline bool isFrameSync(const ByteVector &bytes, unsigned int offset = 0)
-      {
-        // 0xFF in the second byte is possible in theory, but it's very unlikely.
+inline bool isFrameSync(const ByteVector &bytes, unsigned int offset = 0) {
+  // 0xFF in the second byte is possible in theory, but it's very unlikely.
 
-        const unsigned char b1 = bytes[offset + 0];
-        const unsigned char b2 = bytes[offset + 1];
-        return (b1 == 0xFF && b2 != 0xFF && (b2 & 0xE0) == 0xE0);
-      }
+  const unsigned char b1 = bytes[offset + 0];
+  const unsigned char b2 = bytes[offset + 1];
+  return (b1 == 0xFF && b2 != 0xFF && (b2 & 0xE0) == 0xE0);
+}
 
-    }
-  }
-}
-}
+}  // namespace
+}  // namespace MPEG
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 

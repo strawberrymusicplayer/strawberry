@@ -32,14 +32,14 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace Ogg {
+namespace Ogg {
 
-    class File;
-    class PageHeader;
+class File;
+class PageHeader;
 
-    //! An implementation of Ogg pages
+//! An implementation of Ogg pages
 
-    /*!
+/*!
      * This is an implementation of the pages that make up an Ogg stream.
      * This handles parsing pages and breaking them down into packets and handles
      * the details of packets spanning multiple pages and pages that contain
@@ -50,43 +50,42 @@ namespace TagLib {
      * could potentially be useful for non-meta data purposes.
      */
 
-    class TAGLIB_EXPORT Page
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Page {
+ public:
+  /*!
        * Read an Ogg page from the \a file at the position \a pageOffset.
        */
-      Page(File *file, long pageOffset);
+  Page(File *file, long pageOffset);
 
-      virtual ~Page();
+  virtual ~Page();
 
-      /*!
+  /*!
        * Returns the page's position within the file (in bytes).
        */
-      long fileOffset() const;
+  long fileOffset() const;
 
-      /*!
+  /*!
        * Returns a pointer to the header for this page.  This pointer will become
        * invalid when the page is deleted.
        */
-      const PageHeader *header() const;
+  const PageHeader *header() const;
 
-      /*!
+  /*!
        * Returns the index of the page within the Ogg stream.  This helps make it
        * possible to determine if pages have been lost.
        *
        * \see setPageSequenceNumber()
        */
-      int pageSequenceNumber() const;
+  int pageSequenceNumber() const;
 
-      /*!
+  /*!
        * Sets the page's position in the stream to \a sequenceNumber.
        *
        * \see pageSequenceNumber()
        */
-      void setPageSequenceNumber(int sequenceNumber);
+  void setPageSequenceNumber(int sequenceNumber);
 
-      /*!
+  /*!
        * Returns a copy of the page with \a sequenceNumber set as sequence number.
        *
        * \see header()
@@ -94,91 +93,91 @@ namespace TagLib {
        *
        * \deprecated Always returns null.
        */
-      TAGLIB_DEPRECATED Page *getCopyWithNewPageSequenceNumber(int sequenceNumber);
+  TAGLIB_DEPRECATED Page *getCopyWithNewPageSequenceNumber(int sequenceNumber);
 
-      /*!
+  /*!
        * Returns the index of the first packet wholly or partially contained in
        * this page.
        *
        * \see setFirstPacketIndex()
        */
-      int firstPacketIndex() const;
+  int firstPacketIndex() const;
 
-      /*!
+  /*!
        * Sets the index of the first packet in the page.
        *
        * \see firstPacketIndex()
        */
-      void setFirstPacketIndex(int index);
+  void setFirstPacketIndex(int index);
 
-      /*!
+  /*!
        * When checking to see if a page contains a given packet this set of flags
        * represents the possible values for that packets status in the page.
        *
        * \see containsPacket()
        */
-      enum ContainsPacketFlags {
-        //! No part of the packet is contained in the page
-        DoesNotContainPacket = 0x0000,
-        //! The packet is wholly contained in the page
-        CompletePacket       = 0x0001,
-        //! The page starts with the given packet
-        BeginsWithPacket     = 0x0002,
-        //! The page ends with the given packet
-        EndsWithPacket       = 0x0004
-      };
+  enum ContainsPacketFlags {
+    //! No part of the packet is contained in the page
+    DoesNotContainPacket = 0x0000,
+    //! The packet is wholly contained in the page
+    CompletePacket = 0x0001,
+    //! The page starts with the given packet
+    BeginsWithPacket = 0x0002,
+    //! The page ends with the given packet
+    EndsWithPacket = 0x0004
+  };
 
-      /*!
+  /*!
        * Checks to see if the specified \a packet is contained in the current
        * page.
        *
        * \see ContainsPacketFlags
        */
-      ContainsPacketFlags containsPacket(int index) const;
+  ContainsPacketFlags containsPacket(int index) const;
 
-      /*!
+  /*!
        * Returns the number of packets (whole or partial) in this page.
        */
-      unsigned int packetCount() const;
+  unsigned int packetCount() const;
 
-      /*!
+  /*!
        * Returns a list of the packets in this page.
        *
        * \note Either or both the first and last packets may be only partial.
        * \see PageHeader::firstPacketContinued()
        */
-      ByteVectorList packets() const;
+  ByteVectorList packets() const;
 
-      /*!
+  /*!
        * Returns the size of the page in bytes.
        */
-      int size() const;
+  int size() const;
 
-      ByteVector render() const;
+  ByteVector render() const;
 
-      /*!
+  /*!
        * Defines a strategy for pagination, or grouping pages into Ogg packets,
        * for use with pagination methods.
        *
        * \note Yes, I'm aware that this is not a canonical "Strategy Pattern",
        * the term was simply convenient.
        */
-      enum PaginationStrategy {
-        /*!
+  enum PaginationStrategy {
+    /*!
          * Attempt to put the specified set of packets into a single Ogg packet.
          * If the sum of the packet data is greater than will fit into a single
          * Ogg page -- 65280 bytes -- this will fall back to repagination using
          * the recommended page sizes.
          */
-        SinglePagePerGroup,
-        /*!
+    SinglePagePerGroup,
+    /*!
          * Split the packet or group of packets into pages that conform to the
          * sizes recommended in the Ogg standard.
          */
-        Repaginate
-      };
+    Repaginate
+  };
 
-      /*!
+  /*!
        * Pack \a packets into Ogg pages using the \a strategy for pagination.
        * The page number indicator inside of the rendered packets will start
        * with \a firstPage and be incremented for each page rendered.
@@ -197,34 +196,34 @@ namespace TagLib {
        * \see PaginationStrategy
        * \see List::setAutoDelete()
        */
-      static List<Page *> paginate(const ByteVectorList &packets,
-                                   PaginationStrategy strategy,
-                                   unsigned int streamSerialNumber,
-                                   int firstPage,
-                                   bool firstPacketContinued = false,
-                                   bool lastPacketCompleted = true,
-                                   bool containsLastPacket = false);
+  static List<Page *> paginate(const ByteVectorList &packets,
+    PaginationStrategy strategy,
+    unsigned int streamSerialNumber,
+    int firstPage,
+    bool firstPacketContinued = false,
+    bool lastPacketCompleted = true,
+    bool containsLastPacket = false);
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Creates an Ogg packet based on the data in \a packets.  The page number
        * for each page will be set to \a pageNumber.
        */
-      Page(const ByteVectorList &packets,
-           unsigned int streamSerialNumber,
-           int pageNumber,
-           bool firstPacketContinued = false,
-           bool lastPacketCompleted = true,
-           bool containsLastPacket = false);
+  Page(const ByteVectorList &packets,
+    unsigned int streamSerialNumber,
+    int pageNumber,
+    bool firstPacketContinued = false,
+    bool lastPacketCompleted = true,
+    bool containsLastPacket = false);
 
-    private:
-      Page(const Page &);
-      Page &operator=(const Page &);
+ private:
+  Page(const Page &);
+  Page &operator=(const Page &);
 
-      class PagePrivate;
-      PagePrivate *d;
-    };
-  }
-}
-}
+  class PagePrivate;
+  PagePrivate *d;
+};
+}  // namespace Ogg
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 #endif

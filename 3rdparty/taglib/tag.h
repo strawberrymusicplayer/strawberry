@@ -32,9 +32,9 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! A simple, generic interface to common audio meta data fields
+//! A simple, generic interface to common audio meta data fields
 
-  /*!
+/*!
    * This is an attempt to abstract away the difference in the meta data formats
    * of various audio codecs and tagging schemes.  As such it is generally a
    * subset of what is available in the specific formats but should be suitable
@@ -42,26 +42,24 @@ namespace TagLib {
    * in TagLib::AudioProperties, TagLib::File and TagLib::FileRef.
    */
 
-  class PropertyMap;
+class PropertyMap;
 
-  class TAGLIB_EXPORT Tag
-  {
-  public:
-
-    /*!
+class TAGLIB_EXPORT Tag {
+ public:
+  /*!
      * Destroys this Tag instance.
      */
-    virtual ~Tag();
+  virtual ~Tag();
 
-    /*!
+  /*!
      * Exports the tags of the file as dictionary mapping (human readable) tag
      * names (Strings) to StringLists of tag values.
      * The default implementation in this class considers only the usual built-in
      * tags (artist, album, ...) and only one value per key.
      */
-    PropertyMap properties() const;
+  PropertyMap properties() const;
 
-    /*!
+  /*!
      * Removes unsupported properties, or a subset of them, from the tag.
      * The parameter \a properties must contain only entries from
      * properties().unsupportedData().
@@ -69,108 +67,108 @@ namespace TagLib {
      * standard implementation of TagLib::Tag does nothing, since there are
      * no unsupported elements.
      */
-    void removeUnsupportedProperties(const StringList& properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-    /*!
+  /*!
      * Sets the tags of this File to those specified in \a properties. This default
      * implementation sets only the tags for which setter methods exist in this class
      * (artist, album, ...), and only one value per key; the rest will be contained
      * in the returned PropertyMap.
      */
-    PropertyMap setProperties(const PropertyMap &properties);
+  PropertyMap setProperties(const PropertyMap &properties);
 
-    /*!
+  /*!
      * Returns the track name; if no track name is present in the tag
      * String::null will be returned.
      */
-    virtual String title() const = 0;
+  virtual String title() const = 0;
 
-    /*!
+  /*!
      * Returns the artist name; if no artist name is present in the tag
      * String::null will be returned.
      */
-    virtual String artist() const = 0;
+  virtual String artist() const = 0;
 
-    /*!
+  /*!
      * Returns the album name; if no album name is present in the tag
      * String::null will be returned.
      */
-    virtual String album() const = 0;
+  virtual String album() const = 0;
 
-    /*!
+  /*!
      * Returns the track comment; if no comment is present in the tag
      * String::null will be returned.
      */
-    virtual String comment() const = 0;
+  virtual String comment() const = 0;
 
-    /*!
+  /*!
      * Returns the genre name; if no genre is present in the tag String::null
      * will be returned.
      */
-    virtual String genre() const = 0;
+  virtual String genre() const = 0;
 
-    /*!
+  /*!
      * Returns the year; if there is no year set, this will return 0.
      */
-    virtual unsigned int year() const = 0;
+  virtual unsigned int year() const = 0;
 
-    /*!
+  /*!
      * Returns the track number; if there is no track number set, this will
      * return 0.
      */
-    virtual unsigned int track() const = 0;
+  virtual unsigned int track() const = 0;
 
-    /*!
+  /*!
      * Sets the title to \a s.  If \a s is String::null then this value will be
      * cleared.
      */
-    virtual void setTitle(const String &s) = 0;
+  virtual void setTitle(const String &s) = 0;
 
-    /*!
+  /*!
      * Sets the artist to \a s.  If \a s is String::null then this value will be
      * cleared.
      */
-    virtual void setArtist(const String &s) = 0;
+  virtual void setArtist(const String &s) = 0;
 
-    /*!
+  /*!
      * Sets the album to \a s.  If \a s is String::null then this value will be
      * cleared.
      */
-    virtual void setAlbum(const String &s) = 0;
+  virtual void setAlbum(const String &s) = 0;
 
-    /*!
+  /*!
      * Sets the comment to \a s.  If \a s is String::null then this value will be
      * cleared.
      */
-    virtual void setComment(const String &s) = 0;
+  virtual void setComment(const String &s) = 0;
 
-    /*!
+  /*!
      * Sets the genre to \a s.  If \a s is String::null then this value will be
      * cleared.  For tag formats that use a fixed set of genres, the appropriate
      * value will be selected based on a string comparison.  A list of available
      * genres for those formats should be available in that type's
      * implementation.
      */
-    virtual void setGenre(const String &s) = 0;
+  virtual void setGenre(const String &s) = 0;
 
-    /*!
+  /*!
      * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
      */
-    virtual void setYear(unsigned int i) = 0;
+  virtual void setYear(unsigned int i) = 0;
 
-    /*!
+  /*!
      * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
      */
-    virtual void setTrack(unsigned int i) = 0;
+  virtual void setTrack(unsigned int i) = 0;
 
-    /*!
+  /*!
      * Returns true if the tag does not contain any data.  This should be
      * reimplemented in subclasses that provide more than the basic tagging
      * abilities in this class.
      */
-    virtual bool isEmpty() const;
+  virtual bool isEmpty() const;
 
-    /*!
+  /*!
      * Copies the generic data from one tag to another.
      *
      * \note This will no affect any of the lower level details of the tag.  For
@@ -181,23 +179,23 @@ namespace TagLib {
      * If \a overwrite is true then the values will be unconditionally copied.
      * If false only empty values will be overwritten.
      */
-    static void duplicate(const Tag *source, Tag *target, bool overwrite = true);
+  static void duplicate(const Tag *source, Tag *target, bool overwrite = true);
 
-  protected:
-    /*!
+ protected:
+  /*!
      * Construct a Tag.  This is protected since tags should only be instantiated
      * through subclasses.
      */
-    Tag();
+  Tag();
 
-  private:
-    Tag(const Tag &);
-    Tag &operator=(const Tag &);
+ private:
+  Tag(const Tag &);
+  Tag &operator=(const Tag &);
 
-    class TagPrivate;
-    TagPrivate *d;
-  };
-}
-}
+  class TagPrivate;
+  TagPrivate *d;
+};
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

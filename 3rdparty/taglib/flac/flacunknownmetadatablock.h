@@ -34,50 +34,49 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace FLAC {
+namespace FLAC {
 
-    class TAGLIB_EXPORT UnknownMetadataBlock : public MetadataBlock
-    {
-    public:
-      UnknownMetadataBlock(int blockType, const ByteVector &data);
-      ~UnknownMetadataBlock();
+class TAGLIB_EXPORT UnknownMetadataBlock : public MetadataBlock {
+ public:
+  UnknownMetadataBlock(int blockType, const ByteVector &data);
+  ~UnknownMetadataBlock();
 
-      /*!
+  /*!
        * Returns the FLAC metadata block type.
        */
-      int code() const;
+  int code() const;
 
-      /*!
+  /*!
        * Sets the FLAC metadata block type.
        */
-      void setCode(int code);
+  void setCode(int code);
 
-      /*!
+  /*!
        * Returns the FLAC metadata block type.
        */
-      ByteVector data() const;
+  ByteVector data() const;
 
-      /*!
+  /*!
        * Sets the FLAC metadata block type.
        */
-      void setData(const ByteVector &data);
+  void setData(const ByteVector &data);
 
-      /*!
+  /*!
        * Render the content of the block.
        */
-      ByteVector render() const;
+  ByteVector render() const;
 
-    private:
-      UnknownMetadataBlock(const MetadataBlock &item);
-      UnknownMetadataBlock &operator=(const MetadataBlock &item);
+ private:
+  UnknownMetadataBlock(const MetadataBlock &item);
+  UnknownMetadataBlock &operator=(const MetadataBlock &item);
 
-      class UnknownMetadataBlockPrivate;
-      UnknownMetadataBlockPrivate *d;
-    };
+  class UnknownMetadataBlockPrivate;
+  UnknownMetadataBlockPrivate *d;
+};
 
-  }
+}  // namespace FLAC
 
-}
-}
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

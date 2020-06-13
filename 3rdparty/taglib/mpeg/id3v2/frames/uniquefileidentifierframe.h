@@ -31,38 +31,37 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    /*!
+/*!
      * This is an implementation of ID3v2 unique file identifier frames.  This
      * frame is used to identify the file in an arbitrary database identified
      * by the owner field.
      */
 
-    //! An implementation of ID3v2 unique identifier frames
+//! An implementation of ID3v2 unique identifier frames
 
-    class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
+  friend class FrameFactory;
 
-    public:
-      /*!
+ public:
+  /*!
        * Creates a unique file identifier frame based on \a data.
        */
-      UniqueFileIdentifierFrame(const ByteVector &data);
+  UniqueFileIdentifierFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Creates a unique file identifier frame with the owner \a owner and
        * the identification \a id.
        */
-      UniqueFileIdentifierFrame(const String &owner, const ByteVector &id);
+  UniqueFileIdentifierFrame(const String &owner, const ByteVector &id);
 
-      /*!
+  /*!
        * Destroys the frame.
        */
-      ~UniqueFileIdentifierFrame();
+  ~UniqueFileIdentifierFrame();
 
-      /*!
+  /*!
        * Returns the owner for the frame; essentially this is the key for
        * determining which identification scheme this key belongs to.  This
        * will usually either be an email address or URL for the person or tool
@@ -70,56 +69,56 @@ namespace TagLib {
        *
        * \see setOwner()
        */
-      String owner() const;
+  String owner() const;
 
-      /*!
+  /*!
        * Returns the unique identifier.  Though sometimes this is a text string
        * it also may be binary data and as much should be assumed when handling
        * it.
        */
-      ByteVector identifier() const;
+  ByteVector identifier() const;
 
-      /*!
+  /*!
        * Sets the owner of the identification scheme to \a s.
        *
        * \see owner()
        */
-      void setOwner(const String &s);
+  void setOwner(const String &s);
 
-      /*!
+  /*!
        * Sets the unique file identifier to \a v.
        *
        * \see identifier()
        */
-      void setIdentifier(const ByteVector &v);
+  void setIdentifier(const ByteVector &v);
 
-      virtual String toString() const;
+  virtual String toString() const;
 
-      PropertyMap asProperties() const;
+  PropertyMap asProperties() const;
 
-      /*!
+  /*!
        * UFID frames each have a unique owner. This searches for a UFID
        * frame with the owner \a o and returns a pointer to it.
        *
        * \see owner()
        */
-      static UniqueFileIdentifierFrame *findByOwner(const Tag *tag, const String &o);
+  static UniqueFileIdentifierFrame *findByOwner(const Tag *tag, const String &o);
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-    private:
-      UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame &);
-      UniqueFileIdentifierFrame &operator=(const UniqueFileIdentifierFrame &);
+ private:
+  UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame &);
+  UniqueFileIdentifierFrame &operator=(const UniqueFileIdentifierFrame &);
 
-      UniqueFileIdentifierFrame(const ByteVector &data, Header *h);
+  UniqueFileIdentifierFrame(const ByteVector &data, Header *h);
 
-      class UniqueFileIdentifierFramePrivate;
-      UniqueFileIdentifierFramePrivate *d;
-    };
-  }
-}
-}
+  class UniqueFileIdentifierFramePrivate;
+  UniqueFileIdentifierFramePrivate *d;
+};
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

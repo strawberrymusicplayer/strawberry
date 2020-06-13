@@ -32,13 +32,11 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MPEG::XingHeader::XingHeaderPrivate
-{
-public:
-  XingHeaderPrivate() :
-    frames(0),
-    size(0),
-    type(MPEG::XingHeader::Invalid) {}
+class MPEG::XingHeader::XingHeaderPrivate {
+ public:
+  XingHeaderPrivate() : frames(0),
+                        size(0),
+                        type(MPEG::XingHeader::Invalid) {}
 
   unsigned int frames;
   unsigned int size;
@@ -50,40 +48,32 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::XingHeader::XingHeader(const ByteVector &data) :
-  d(new XingHeaderPrivate())
-{
+MPEG::XingHeader::XingHeader(const ByteVector &data) : d(new XingHeaderPrivate()) {
   parse(data);
 }
 
-MPEG::XingHeader::~XingHeader()
-{
+MPEG::XingHeader::~XingHeader() {
   delete d;
 }
 
-bool MPEG::XingHeader::isValid() const
-{
+bool MPEG::XingHeader::isValid() const {
   return (d->type != Invalid && d->frames > 0 && d->size > 0);
 }
 
-unsigned int MPEG::XingHeader::totalFrames() const
-{
+unsigned int MPEG::XingHeader::totalFrames() const {
   return d->frames;
 }
 
-unsigned int MPEG::XingHeader::totalSize() const
-{
+unsigned int MPEG::XingHeader::totalSize() const {
   return d->size;
 }
 
-MPEG::XingHeader::HeaderType MPEG::XingHeader::type() const
-{
+MPEG::XingHeader::HeaderType MPEG::XingHeader::type() const {
   return d->type;
 }
 
 int MPEG::XingHeader::xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version /*v*/,
-                                       Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode /*c*/)
-{
+  Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode /*c*/) {
   return 0;
 }
 
@@ -91,31 +81,30 @@ int MPEG::XingHeader::xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void MPEG::XingHeader::parse(const ByteVector &data)
-{
+void MPEG::XingHeader::parse(const ByteVector &data) {
   // Look for a Xing header.
 
   long offset = data.find("Xing");
-  if(offset < 0)
+  if (offset < 0)
     offset = data.find("Info");
 
-  if(offset >= 0) {
+  if (offset >= 0) {
 
     // Xing header found.
 
-    if(data.size() < static_cast<unsigned long>(offset + 16)) {
+    if (data.size() < static_cast<unsigned long>(offset + 16)) {
       debug("MPEG::XingHeader::parse() -- Xing header found but too short.");
       return;
     }
 
-    if((data[offset + 7] & 0x03) != 0x03) {
+    if ((data[offset + 7] & 0x03) != 0x03) {
       debug("MPEG::XingHeader::parse() -- Xing header doesn't contain the required information.");
       return;
     }
 
-    d->frames = data.toUInt(offset + 8,  true);
-    d->size   = data.toUInt(offset + 12, true);
-    d->type   = Xing;
+    d->frames = data.toUInt(offset + 8, true);
+    d->size = data.toUInt(offset + 12, true);
+    d->type = Xing;
   }
   else {
 
@@ -123,18 +112,18 @@ void MPEG::XingHeader::parse(const ByteVector &data)
 
     offset = data.find("VBRI");
 
-    if(offset >= 0) {
+    if (offset >= 0) {
 
       // VBRI header found.
 
-      if(data.size() < static_cast<unsigned long>(offset + 32)) {
+      if (data.size() < static_cast<unsigned long>(offset + 32)) {
         debug("MPEG::XingHeader::parse() -- VBRI header found but too short.");
         return;
       }
 
       d->frames = data.toUInt(offset + 14, true);
-      d->size   = data.toUInt(offset + 10, true);
-      d->type   = VBRI;
+      d->size = data.toUInt(offset + 10, true);
+      d->type = VBRI;
     }
   }
 }

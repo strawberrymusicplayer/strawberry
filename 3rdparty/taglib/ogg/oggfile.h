@@ -28,70 +28,69 @@
 #include "tbytevectorlist.h"
 
 #ifndef TAGLIB_OGGFILE_H
-#define TAGLIB_OGGFILE_H
+#  define TAGLIB_OGGFILE_H
 
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! A namespace for the classes used by Ogg-based metadata files
+//! A namespace for the classes used by Ogg-based metadata files
 
-  namespace Ogg {
+namespace Ogg {
 
-    class PageHeader;
+class PageHeader;
 
-    //! An implementation of Strawberry_TagLib::TagLib::File with some helpers for Ogg based formats
+//! An implementation of Strawberry_TagLib::TagLib::File with some helpers for Ogg based formats
 
-    /*!
+/*!
      * This is an implementation of Ogg file page and packet rendering and is of
      * use to Ogg based formats.  While the API is small this handles the
      * non-trivial details of breaking up an Ogg stream into packets and makes
      * these available (via subclassing) to the codec meta data implementations.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      virtual ~File();
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns the packet contents for the i-th packet (starting from zero)
        * in the Ogg bitstream.
        *
        * \warning This requires reading at least the packet header for every page
        * up to the requested page.
        */
-      ByteVector packet(unsigned int i);
+  ByteVector packet(unsigned int i);
 
-      /*!
+  /*!
        * Sets the packet with index \a i to the value \a p.
        */
-      void setPacket(unsigned int i, const ByteVector &p);
+  void setPacket(unsigned int i, const ByteVector &p);
 
-      /*!
+  /*!
        * Returns a pointer to the PageHeader for the first page in the stream or
        * null if the page could not be found.
        */
-      const PageHeader *firstPageHeader();
+  const PageHeader *firstPageHeader();
 
-      /*!
+  /*!
        * Returns a pointer to the PageHeader for the last page in the stream or
        * null if the page could not be found.
        */
-      const PageHeader *lastPageHeader();
+  const PageHeader *lastPageHeader();
 
-      virtual bool save();
+  virtual bool save();
 
-    protected:
-      /*!
+ protected:
+  /*!
        * Constructs an Ogg file from \a file.
        *
        * \note This constructor is protected since Ogg::File shouldn't be
        * instantiated directly but rather should be used through the codec
        * specific subclasses.
        */
-      File(FileName file);
+  File(FileName file);
 
-      /*!
+  /*!
        * Constructs an Ogg file from \a stream.
        *
        * \note This constructor is protected since Ogg::File shouldn't be
@@ -101,29 +100,29 @@ namespace TagLib {
        * \note TagLib will *not* take ownership of the stream, the caller is
        * responsible for deleting it after the File object.
        */
-      File(IOStream *stream);
+  File(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      /*!
+  /*!
        * Reads the pages from the beginning of the file until enough to compose
        * the requested packet.
        */
-      bool readPages(unsigned int i);
+  bool readPages(unsigned int i);
 
-      /*!
+  /*!
        * Writes the requested packet to the file.
        */
-      void writePacket(unsigned int i, const ByteVector &packet);
+  void writePacket(unsigned int i, const ByteVector &packet);
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
+  class FilePrivate;
+  FilePrivate *d;
+};
 
-  }
-}
-}
+}  // namespace Ogg
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

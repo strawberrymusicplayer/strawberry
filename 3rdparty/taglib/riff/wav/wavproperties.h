@@ -32,52 +32,51 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class ByteVector;
+class ByteVector;
 
-  namespace RIFF {
+namespace RIFF {
 
-    namespace WAV {
+namespace WAV {
 
-      class File;
+class File;
 
-      //! An implementation of audio property reading for WAV
+//! An implementation of audio property reading for WAV
 
-      /*!
+/*!
        * This reads the data from an WAV stream found in the AudioProperties
        * API.
        */
 
-      class TAGLIB_EXPORT Properties : public AudioProperties
-      {
-      public:
-        /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
          * Create an instance of WAV::Properties with the data read from the
          * ByteVector \a data.
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
+  TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
 
-        /*!
+  /*!
          * Create an instance of WAV::Properties with the data read from the
          * ByteVector \a data and the length calculated using \a streamLength.
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED Properties(const ByteVector &data, unsigned int streamLength, ReadStyle style);
+  TAGLIB_DEPRECATED Properties(const ByteVector &data, unsigned int streamLength, ReadStyle style);
 
-        /*!
+  /*!
          * Create an instance of WAV::Properties with the data read from the
          * WAV::File \a file.
          */
-        Properties(File *file, ReadStyle style);
+  Properties(File *file, ReadStyle style);
 
-        /*!
+  /*!
          * Destroys this WAV::Properties instance.
          */
-        virtual ~Properties();
+  virtual ~Properties();
 
-        /*!
+  /*!
          * Returns the length of the file in seconds.  The length is rounded down to
          * the nearest whole second.
          *
@@ -85,60 +84,60 @@ namespace TagLib {
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-        /*!
+  /*!
          * Returns the length of the file in seconds.  The length is rounded down to
          * the nearest whole second.
          *
          * \see lengthInMilliseconds()
          */
-        // BIC: make virtual
-        int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-        /*!
+  /*!
          * Returns the length of the file in milliseconds.
          *
          * \see lengthInSeconds()
          */
-        // BIC: make virtual
-        int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-        /*!
+  /*!
          * Returns the average bit rate of the file in kb/s.
          */
-        virtual int bitrate() const;
+  virtual int bitrate() const;
 
-        /*!
+  /*!
          * Returns the sample rate in Hz.
          */
-        virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-        /*!
+  /*!
          * Returns the number of audio channels.
          */
-        virtual int channels() const;
+  virtual int channels() const;
 
-        /*!
+  /*!
          * Returns the number of bits per audio sample.
          */
-        int bitsPerSample() const;
+  int bitsPerSample() const;
 
-        /*!
+  /*!
          * Returns the number of bits per audio sample.
          *
          * \note This method is just an alias of bitsPerSample().
          *
          * \deprecated
          */
-        TAGLIB_DEPRECATED int sampleWidth() const;
+  TAGLIB_DEPRECATED int sampleWidth() const;
 
-        /*!
+  /*!
          * Returns the number of sample frames.
          */
-        unsigned int sampleFrames() const;
+  unsigned int sampleFrames() const;
 
-        /*!
+  /*!
          * Returns the format ID of the file.
          * 0 for unknown, 1 for PCM, 2 for ADPCM, 3 for 32/64-bit IEEE754, and
          * so forth.
@@ -146,20 +145,20 @@ namespace TagLib {
          * \note For further information, refer to the WAVE Form Registration
          * Numbers in RFC 2361.
          */
-        int format() const;
+  int format() const;
 
-      private:
-        Properties(const Properties &);
-        Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-        void read(File *file);
+  void read(File *file);
 
-        class PropertiesPrivate;
-        PropertiesPrivate *d;
-      };
-    }
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace WAV
+}  // namespace RIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

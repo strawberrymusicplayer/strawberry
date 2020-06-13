@@ -36,11 +36,11 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 {
+namespace ID3v2 {
 
-    //! An ID3v2 general encapsulated object frame implementation
+//! An ID3v2 general encapsulated object frame implementation
 
-    /*!
+/*!
      * This is an implementation of ID3v2 general encapsulated objects.
      * Arbitrary binary data may be included in tags, stored in GEOB frames.
      * There may be multiple GEOB frames in a single tag.  Each GEOB it
@@ -49,79 +49,77 @@ namespace TagLib {
      * uniquely identifies the GEOB frame in the tag.
      */
 
-    class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame
-    {
-      friend class FrameFactory;
+class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame {
+  friend class FrameFactory;
 
-    public:
-
-      /*!
+ public:
+  /*!
        * Constructs an empty object frame.  The description, file name and text
        * encoding should be set manually.
        */
-      GeneralEncapsulatedObjectFrame();
+  GeneralEncapsulatedObjectFrame();
 
-      /*!
+  /*!
        * Constructs a GeneralEncapsulatedObjectFrame frame based on \a data.
        *
        * \warning This is \em not data for the encapsulated object, for that use
        * setObject().  This constructor is used when reading the frame from the
        * disk.
        */
-      explicit GeneralEncapsulatedObjectFrame(const ByteVector &data);
+  explicit GeneralEncapsulatedObjectFrame(const ByteVector &data);
 
-      /*!
+  /*!
        * Destroys the GeneralEncapsulatedObjectFrame instance.
        */
-      virtual ~GeneralEncapsulatedObjectFrame();
+  virtual ~GeneralEncapsulatedObjectFrame();
 
-      /*!
+  /*!
        * Returns a string containing the description, file name and mime-type
        */
-      virtual String toString() const;
+  virtual String toString() const;
 
-      /*!
+  /*!
        * Returns the text encoding used for the description and file name.
        *
        * \see setTextEncoding()
        * \see description()
        * \see fileName()
        */
-      String::Type textEncoding() const;
+  String::Type textEncoding() const;
 
-      /*!
+  /*!
        * Set the text encoding used for the description and file name.
        *
        * \see description()
        * \see fileName()
        */
-      void setTextEncoding(String::Type encoding);
+  void setTextEncoding(String::Type encoding);
 
-      /*!
+  /*!
        * Returns the mime type of the object.
        */
-      String mimeType() const;
+  String mimeType() const;
 
-      /*!
+  /*!
        * Sets the mime type of the object.
        */
-      void setMimeType(const String &type);
+  void setMimeType(const String &type);
 
-      /*!
+  /*!
        * Returns the file name of the object.
        *
        * \see setFileName()
        */
-      String fileName() const;
+  String fileName() const;
 
-      /*!
+  /*!
        * Sets the file name for the object.
        *
        * \see fileName()
        */
-      void setFileName(const String &name);
+  void setFileName(const String &name);
 
-      /*!
+  /*!
        * Returns the content description of the object.
        *
        * \see setDescription()
@@ -129,9 +127,9 @@ namespace TagLib {
        * \see setTextEncoding()
        */
 
-      String description() const;
+  String description() const;
 
-      /*!
+  /*!
        * Sets the content description of the object to \a desc.
        *
        * \see description()
@@ -139,9 +137,9 @@ namespace TagLib {
        * \see setTextEncoding()
        */
 
-      void setDescription(const String &desc);
+  void setDescription(const String &desc);
 
-      /*!
+  /*!
        * Returns the object data as a ByteVector.
        *
        * \note ByteVector has a data() method that returns a const char * which
@@ -150,9 +148,9 @@ namespace TagLib {
        * \see setObject()
        * \see mimeType()
        */
-      ByteVector object() const;
+  ByteVector object() const;
 
-      /*!
+  /*!
        * Sets the object data to \a data.  \a data should be of the type specified in
        * this frame's mime-type specification.
        *
@@ -160,22 +158,22 @@ namespace TagLib {
        * \see mimeType()
        * \see setMimeType()
        */
-      void setObject(const ByteVector &object);
+  void setObject(const ByteVector &object);
 
-    protected:
-      virtual void parseFields(const ByteVector &data);
-      virtual ByteVector renderFields() const;
+ protected:
+  virtual void parseFields(const ByteVector &data);
+  virtual ByteVector renderFields() const;
 
-    private:
-      GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h);
-      GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame &);
-      GeneralEncapsulatedObjectFrame &operator=(const GeneralEncapsulatedObjectFrame &);
+ private:
+  GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h);
+  GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame &);
+  GeneralEncapsulatedObjectFrame &operator=(const GeneralEncapsulatedObjectFrame &);
 
-      class GeneralEncapsulatedObjectFramePrivate;
-      GeneralEncapsulatedObjectFramePrivate *d;
-    };
-  }
-}
-}
+  class GeneralEncapsulatedObjectFramePrivate;
+  GeneralEncapsulatedObjectFramePrivate *d;
+};
+}  // namespace ID3v2
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

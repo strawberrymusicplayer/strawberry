@@ -34,9 +34,8 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFramePrivate
-{
-public:
+class GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFramePrivate {
+ public:
   GeneralEncapsulatedObjectFramePrivate() : textEncoding(String::Latin1) {}
 
   String::Type textEncoding;
@@ -50,84 +49,68 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame() :
-  Frame("GEOB"),
-  d(new GeneralEncapsulatedObjectFramePrivate())
-{
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame() : Frame("GEOB"),
+                                                                   d(new GeneralEncapsulatedObjectFramePrivate()) {
 }
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data) :
-  Frame(data),
-  d(new GeneralEncapsulatedObjectFramePrivate())
-{
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data) : Frame(data),
+                                                                                         d(new GeneralEncapsulatedObjectFramePrivate()) {
   setData(data);
 }
 
-GeneralEncapsulatedObjectFrame::~GeneralEncapsulatedObjectFrame()
-{
+GeneralEncapsulatedObjectFrame::~GeneralEncapsulatedObjectFrame() {
   delete d;
 }
 
-String GeneralEncapsulatedObjectFrame::toString() const
-{
+String GeneralEncapsulatedObjectFrame::toString() const {
   String text = "[" + d->mimeType + "]";
 
-  if(!d->fileName.isEmpty())
+  if (!d->fileName.isEmpty())
     text += " " + d->fileName;
 
-  if(!d->description.isEmpty())
+  if (!d->description.isEmpty())
     text += " \"" + d->description + "\"";
 
   return text;
 }
 
-String::Type GeneralEncapsulatedObjectFrame::textEncoding() const
-{
+String::Type GeneralEncapsulatedObjectFrame::textEncoding() const {
   return d->textEncoding;
 }
 
-void GeneralEncapsulatedObjectFrame::setTextEncoding(String::Type encoding)
-{
+void GeneralEncapsulatedObjectFrame::setTextEncoding(String::Type encoding) {
   d->textEncoding = encoding;
 }
 
-String GeneralEncapsulatedObjectFrame::mimeType() const
-{
+String GeneralEncapsulatedObjectFrame::mimeType() const {
   return d->mimeType;
 }
 
-void GeneralEncapsulatedObjectFrame::setMimeType(const String &type)
-{
+void GeneralEncapsulatedObjectFrame::setMimeType(const String &type) {
   d->mimeType = type;
 }
 
-String GeneralEncapsulatedObjectFrame::fileName() const
-{
+String GeneralEncapsulatedObjectFrame::fileName() const {
   return d->fileName;
 }
 
-void GeneralEncapsulatedObjectFrame::setFileName(const String &name)
-{
+void GeneralEncapsulatedObjectFrame::setFileName(const String &name) {
   d->fileName = name;
 }
 
-String GeneralEncapsulatedObjectFrame::description() const
-{
+String GeneralEncapsulatedObjectFrame::description() const {
   return d->description;
 }
 
-void GeneralEncapsulatedObjectFrame::setDescription(const String &desc)
-{
+void GeneralEncapsulatedObjectFrame::setDescription(const String &desc) {
   d->description = desc;
 }
 
-ByteVector GeneralEncapsulatedObjectFrame::object() const
-{
+ByteVector GeneralEncapsulatedObjectFrame::object() const {
   return d->data;
 }
 
-void GeneralEncapsulatedObjectFrame::setObject(const ByteVector &data)
-{
+void GeneralEncapsulatedObjectFrame::setObject(const ByteVector &data) {
   d->data = data;
 }
 
@@ -135,9 +118,8 @@ void GeneralEncapsulatedObjectFrame::setObject(const ByteVector &data)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data)
-{
-  if(data.size() < 4) {
+void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data) {
+  if (data.size() < 4) {
     debug("An object frame must contain at least 4 bytes.");
     return;
   }
@@ -153,8 +135,7 @@ void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data)
   d->data = data.mid(pos);
 }
 
-ByteVector GeneralEncapsulatedObjectFrame::renderFields() const
-{
+ByteVector GeneralEncapsulatedObjectFrame::renderFields() const {
   StringList sl;
   sl.append(d->fileName);
   sl.append(d->description);
@@ -179,9 +160,7 @@ ByteVector GeneralEncapsulatedObjectFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new GeneralEncapsulatedObjectFramePrivate())
-{
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                                                    d(new GeneralEncapsulatedObjectFramePrivate()) {
   parseFields(fieldData(data));
 }

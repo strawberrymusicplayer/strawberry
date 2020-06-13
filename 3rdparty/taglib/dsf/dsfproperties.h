@@ -31,64 +31,62 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace DSF {
+namespace DSF {
 
-    class File;
+class File;
 
-    //! An implementation of audio property reading for DSF
+//! An implementation of audio property reading for DSF
 
-    /*!
+/*!
      * This reads the data from a DSF stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties {
+ public:
+  /*!
        * Create an instance of DSF::AudioProperties with the data read from the
        * ByteVector \a data.
        */
-      Properties(const ByteVector &data, ReadStyle style);
+  Properties(const ByteVector &data, ReadStyle style);
 
-      /*!
+  /*!
        * Destroys this DSF::AudioProperties instance.
         */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      // Reimplementations.
+  // Reimplementations.
 
-      virtual int length() const;
-      virtual int lengthInSeconds() const;
-      virtual int lengthInMilliseconds() const;
-      virtual int bitrate() const;
-      virtual int sampleRate() const;
-      virtual int channels() const;
+  virtual int length() const;
+  virtual int lengthInSeconds() const;
+  virtual int lengthInMilliseconds() const;
+  virtual int bitrate() const;
+  virtual int sampleRate() const;
+  virtual int channels() const;
 
-      int formatVersion() const;
-      int formatID() const;
+  int formatVersion() const;
+  int formatID() const;
 
-      /*!
+  /*!
        * Channel type values: 1 = mono, 2 = stereo, 3 = 3 channels, 
        * 4 = quad, 5 = 4 channels, 6 = 5 channels, 7 = 5.1 channels
        */
-      int channelType() const;
-      int bitsPerSample() const;
-      long long sampleCount() const;
-      int blockSizePerChannel() const;
+  int channelType() const;
+  int bitsPerSample() const;
+  long long sampleCount() const;
+  int blockSizePerChannel() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(const ByteVector &data);
+  void read(const ByteVector &data);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace DSF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
-

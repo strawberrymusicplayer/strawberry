@@ -32,40 +32,39 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace FLAC {
+namespace FLAC {
 
-    class File;
+class File;
 
-    //! An implementation of audio property reading for FLAC
+//! An implementation of audio property reading for FLAC
 
-    /*!
+/*!
      * This reads the data from an FLAC stream found in the AudioProperties
      * API.
      */
 
-    class TAGLIB_EXPORT Properties : public AudioProperties
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT Properties : public AudioProperties {
+ public:
+  /*!
        * Create an instance of FLAC::Properties with the data read from the
        * ByteVector \a data.
        */
-       // BIC: switch to const reference
-      Properties(ByteVector data, long streamLength, ReadStyle style = Average);
+  // BIC: switch to const reference
+  Properties(ByteVector data, long streamLength, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Create an instance of FLAC::Properties with the data read from the
        * FLAC::File \a file.
        */
-       // BIC: remove
-      Properties(File *file, ReadStyle style = Average);
+  // BIC: remove
+  Properties(File *file, ReadStyle style = Average);
 
-      /*!
+  /*!
        * Destroys this FLAC::Properties instance.
        */
-      virtual ~Properties();
+  virtual ~Properties();
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
@@ -73,47 +72,47 @@ namespace TagLib {
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED virtual int length() const;
+  TAGLIB_DEPRECATED virtual int length() const;
 
-      /*!
+  /*!
        * Returns the length of the file in seconds.  The length is rounded down to
        * the nearest whole second.
        *
        * \see lengthInMilliseconds()
        */
-      // BIC: make virtual
-      int lengthInSeconds() const;
+  // BIC: make virtual
+  int lengthInSeconds() const;
 
-      /*!
+  /*!
        * Returns the length of the file in milliseconds.
        *
        * \see lengthInSeconds()
        */
-      // BIC: make virtual
-      int lengthInMilliseconds() const;
+  // BIC: make virtual
+  int lengthInMilliseconds() const;
 
-      /*!
+  /*!
        * Returns the average bit rate of the file in kb/s.
        */
-      virtual int bitrate() const;
+  virtual int bitrate() const;
 
-      /*!
+  /*!
        * Returns the sample rate in Hz.
        */
-      virtual int sampleRate() const;
+  virtual int sampleRate() const;
 
-      /*!
+  /*!
        * Returns the number of audio channels.
        */
-      virtual int channels() const;
+  virtual int channels() const;
 
-      /*!
+  /*!
        * Returns the number of bits per audio sample as read from the FLAC
        * identification header.
        */
-      int bitsPerSample() const;
+  int bitsPerSample() const;
 
-      /*!
+  /*!
        * Returns the sample width as read from the FLAC identification
        * header.
        *
@@ -121,30 +120,30 @@ namespace TagLib {
        *
        * \deprecated
        */
-      TAGLIB_DEPRECATED int sampleWidth() const;
+  TAGLIB_DEPRECATED int sampleWidth() const;
 
-      /*!
+  /*!
        * Return the number of sample frames.
        */
-      unsigned long long sampleFrames() const;
+  unsigned long long sampleFrames() const;
 
-      /*!
+  /*!
        * Returns the MD5 signature of the uncompressed audio stream as read
        * from the stream info header.
        */
-      ByteVector signature() const;
+  ByteVector signature() const;
 
-    private:
-      Properties(const Properties &);
-      Properties &operator=(const Properties &);
+ private:
+  Properties(const Properties &);
+  Properties &operator=(const Properties &);
 
-      void read(const ByteVector &data, long streamLength);
+  void read(const ByteVector &data, long streamLength);
 
-      class PropertiesPrivate;
-      PropertiesPrivate *d;
-    };
-  }
-}
-}
+  class PropertiesPrivate;
+  PropertiesPrivate *d;
+};
+}  // namespace FLAC
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

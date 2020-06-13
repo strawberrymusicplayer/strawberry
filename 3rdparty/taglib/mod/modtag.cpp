@@ -31,11 +31,9 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
-class Mod::Tag::TagPrivate
-{
-public:
-  TagPrivate()
-  {
+class Mod::Tag::TagPrivate {
+ public:
+  TagPrivate() {
   }
 
   String title;
@@ -43,132 +41,114 @@ public:
   String trackerName;
 };
 
-Mod::Tag::Tag() :
-  Strawberry_TagLib::TagLib::Tag(),
-  d(new TagPrivate())
-{
+Mod::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(),
+                  d(new TagPrivate()) {
 }
 
-Mod::Tag::~Tag()
-{
+Mod::Tag::~Tag() {
   delete d;
 }
 
-String Mod::Tag::title() const
-{
+String Mod::Tag::title() const {
   return d->title;
 }
 
-String Mod::Tag::artist() const
-{
+String Mod::Tag::artist() const {
   return String();
 }
 
-String Mod::Tag::album() const
-{
+String Mod::Tag::album() const {
   return String();
 }
 
-String Mod::Tag::comment() const
-{
+String Mod::Tag::comment() const {
   return d->comment;
 }
 
-String Mod::Tag::genre() const
-{
+String Mod::Tag::genre() const {
   return String();
 }
 
-unsigned int Mod::Tag::year() const
-{
+unsigned int Mod::Tag::year() const {
   return 0;
 }
 
-unsigned int Mod::Tag::track() const
-{
+unsigned int Mod::Tag::track() const {
   return 0;
 }
 
-String Mod::Tag::trackerName() const
-{
+String Mod::Tag::trackerName() const {
   return d->trackerName;
 }
 
-void Mod::Tag::setTitle(const String &title)
-{
+void Mod::Tag::setTitle(const String &title) {
   d->title = title;
 }
 
-void Mod::Tag::setArtist(const String &)
-{
+void Mod::Tag::setArtist(const String &) {
 }
 
-void Mod::Tag::setAlbum(const String &)
-{
+void Mod::Tag::setAlbum(const String &) {
 }
 
-void Mod::Tag::setComment(const String &comment)
-{
+void Mod::Tag::setComment(const String &comment) {
   d->comment = comment;
 }
 
-void Mod::Tag::setGenre(const String &)
-{
+void Mod::Tag::setGenre(const String &) {
 }
 
-void Mod::Tag::setYear(unsigned int)
-{
+void Mod::Tag::setYear(unsigned int) {
 }
 
-void Mod::Tag::setTrack(unsigned int)
-{
+void Mod::Tag::setTrack(unsigned int) {
 }
 
-void Mod::Tag::setTrackerName(const String &trackerName)
-{
+void Mod::Tag::setTrackerName(const String &trackerName) {
   d->trackerName = trackerName;
 }
 
-PropertyMap Mod::Tag::properties() const
-{
+PropertyMap Mod::Tag::properties() const {
   PropertyMap properties;
   properties["TITLE"] = d->title;
   properties["COMMENT"] = d->comment;
-  if(!(d->trackerName.isEmpty()))
+  if (!(d->trackerName.isEmpty()))
     properties["TRACKERNAME"] = d->trackerName;
   return properties;
 }
 
-PropertyMap Mod::Tag::setProperties(const PropertyMap &origProps)
-{
+PropertyMap Mod::Tag::setProperties(const PropertyMap &origProps) {
   PropertyMap properties(origProps);
   properties.removeEmpty();
   StringList oneValueSet;
-  if(properties.contains("TITLE")) {
+  if (properties.contains("TITLE")) {
     d->title = properties["TITLE"].front();
     oneValueSet.append("TITLE");
-  } else
+  }
+  else
     d->title.clear();
 
-  if(properties.contains("COMMENT")) {
+  if (properties.contains("COMMENT")) {
     d->comment = properties["COMMENT"].front();
     oneValueSet.append("COMMENT");
-  } else
+  }
+  else
     d->comment.clear();
 
-  if(properties.contains("TRACKERNAME")) {
+  if (properties.contains("TRACKERNAME")) {
     d->trackerName = properties["TRACKERNAME"].front();
     oneValueSet.append("TRACKERNAME");
-  } else
+  }
+  else
     d->trackerName.clear();
 
   // for each tag that has been set above, remove the first entry in the corresponding
   // value list. The others will be returned as unsupported by this format.
-  for(StringList::ConstIterator it = oneValueSet.begin(); it != oneValueSet.end(); ++it) {
-    if(properties[*it].size() == 1)
+  for (StringList::ConstIterator it = oneValueSet.begin(); it != oneValueSet.end(); ++it) {
+    if (properties[*it].size() == 1)
       properties.erase(*it);
     else
-      properties[*it].erase( properties[*it].begin() );
+      properties[*it].erase(properties[*it].begin());
   }
   return properties;
 }

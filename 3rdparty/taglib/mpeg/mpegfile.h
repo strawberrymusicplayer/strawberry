@@ -37,43 +37,49 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  namespace ID3v2 { class Tag; class FrameFactory; }
-  namespace ID3v1 { class Tag; }
-  namespace APE { class Tag; }
+namespace ID3v2 {
+class Tag;
+class FrameFactory;
+}  // namespace ID3v2
+namespace ID3v1 {
+class Tag;
+}
+namespace APE {
+class Tag;
+}
 
-  //! An implementation of TagLib::File with MPEG (MP3) specific methods
+//! An implementation of TagLib::File with MPEG (MP3) specific methods
 
-  namespace MPEG {
+namespace MPEG {
 
-    //! An MPEG file class with some useful methods specific to MPEG
+//! An MPEG file class with some useful methods specific to MPEG
 
-    /*!
+/*!
      * This implements the generic TagLib::File API and additionally provides
      * access to properties that are distinct to MPEG files, notably access
      * to the different ID3 tags.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * This set of flags is used for various operations and is suitable for
        * being OR-ed together.
        */
-      enum TagTypes {
-        //! Empty set.  Matches no tag types.
-        NoTags  = 0x0000,
-        //! Matches ID3v1 tags.
-        ID3v1   = 0x0001,
-        //! Matches ID3v2 tags.
-        ID3v2   = 0x0002,
-        //! Matches APE tags.
-        APE     = 0x0004,
-        //! Matches all tag types.
-        AllTags = 0xffff
-      };
+  enum TagTypes {
+    //! Empty set.  Matches no tag types.
+    NoTags = 0x0000,
+    //! Matches ID3v1 tags.
+    ID3v1 = 0x0001,
+    //! Matches ID3v2 tags.
+    ID3v2 = 0x0002,
+    //! Matches APE tags.
+    APE = 0x0004,
+    //! Matches all tag types.
+    AllTags = 0xffff
+  };
 
-      /*!
+  /*!
        * Constructs an MPEG file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -82,10 +88,10 @@ namespace TagLib {
        * \deprecated This constructor will be dropped in favor of the one below
        * in a future version.
        */
-      File(FileName file, bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an MPEG file from \a file.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -94,12 +100,12 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      // BIC: merge with the above constructor
-      File(FileName file, ID3v2::FrameFactory *frameFactory,
-           bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  // BIC: merge with the above constructor
+  File(FileName file, ID3v2::FrameFactory *frameFactory,
+    bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Constructs an MPEG file from \a stream.  If \a readProperties is true the
        * file's audio properties will also be read.
        *
@@ -111,16 +117,16 @@ namespace TagLib {
        *
        * \note In the current implementation, \a propertiesStyle is ignored.
        */
-      File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
-           bool readProperties = true,
-           Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
+    bool readProperties = true,
+    Properties::ReadStyle propertiesStyle = Properties::Average);
 
-      /*!
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-      /*!
+  /*!
        * Returns a pointer to a tag that is the union of the ID3v2 and ID3v1
        * tags. The ID3v2 tag is given priority in reading the information -- if
        * requested information exists in both the ID3v2 tag and the ID3v1 tag,
@@ -137,19 +143,19 @@ namespace TagLib {
        * \see ID3v2Tag()
        * \see APETag()
        */
-      virtual Tag *tag() const;
+  virtual Tag *tag() const;
 
-      /*!
+  /*!
        * Implements the reading part of the unified property interface.
        * If the file contains more than one tag, only the
        * first one (in the order ID3v2, APE, ID3v1) will be converted to the
        * PropertyMap.
        */
-      PropertyMap properties() const;
+  PropertyMap properties() const;
 
-      void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties);
 
-      /*!
+  /*!
        * Implements the writing part of the unified tag dictionary interface.
        * In order to avoid problems with deprecated tag formats, this method
        * always creates an ID3v2 tag if necessary.
@@ -157,15 +163,15 @@ namespace TagLib {
        * limitations of that format.
        * The returned PropertyMap refers to the ID3v2 tag only.
        */
-      PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &);
 
-      /*!
+  /*!
        * Returns the MPEG::Properties for this file.  If no audio properties
        * were read then this will return a null pointer.
        */
-      virtual Properties *audioProperties() const;
+  virtual Properties *audioProperties() const;
 
-      /*!
+  /*!
        * Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this
        * will duplicate its content into the other tag.  This returns true
        * if saving was successful.
@@ -180,9 +186,9 @@ namespace TagLib {
        *
        * \see save(int tags)
        */
-      virtual bool save();
+  virtual bool save();
 
-      /*!
+  /*!
        * Save the file.  This will attempt to save all of the tag types that are
        * specified by OR-ing together TagTypes values.  The save() method above
        * uses AllTags.  This returns true if saving was successful.
@@ -191,27 +197,27 @@ namespace TagLib {
        * in memory, so later calls to save() which make use of these tags will
        * remain valid.  This also strips empty tags.
        */
-      bool save(int tags);
+  bool save(int tags);
 
-      /*!
+  /*!
        * \deprecated
        */
-      // BIC: combine with the above method
-      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers);
+  // BIC: combine with the above method
+  TAGLIB_DEPRECATED bool save(int tags, bool stripOthers);
 
-      /*!
+  /*!
        * \deprecated
        */
-      // BIC: combine with the above method
-      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version);
+  // BIC: combine with the above method
+  TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version);
 
-      /*!
+  /*!
        * \deprecated
        */
-      // BIC: combine with the above method
-      TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version, bool duplicateTags);
+  // BIC: combine with the above method
+  TAGLIB_DEPRECATED bool save(int tags, bool stripOthers, int id3v2Version, bool duplicateTags);
 
-      /*!
+  /*!
        * Save the file.  This will attempt to save all of the tag types that are
        * specified by OR-ing together TagTypes values.
        *
@@ -224,11 +230,11 @@ namespace TagLib {
        * If \a duplicate is set to DuplicateTags and at least one tag -- ID3v1
        * or ID3v2 -- exists this will duplicate its content into the other tag.
        */
-      bool save(int tags, StripTags strip,
-                ID3v2::Version version = ID3v2::v4,
-                DuplicateTags duplicate = Duplicate);
+  bool save(int tags, StripTags strip,
+    ID3v2::Version version = ID3v2::v4,
+    DuplicateTags duplicate = Duplicate);
 
-      /*!
+  /*!
        * Returns a pointer to the ID3v2 tag of the file.
        *
        * If \a create is false (the default) this may return a null pointer
@@ -245,9 +251,9 @@ namespace TagLib {
        *
        * \see hasID3v2Tag()
        */
-      ID3v2::Tag *ID3v2Tag(bool create = false);
+  ID3v2::Tag *ID3v2Tag(bool create = false);
 
-      /*!
+  /*!
        * Returns a pointer to the ID3v1 tag of the file.
        *
        * If \a create is false (the default) this may return a null pointer
@@ -264,9 +270,9 @@ namespace TagLib {
        *
        * \see hasID3v1Tag()
        */
-      ID3v1::Tag *ID3v1Tag(bool create = false);
+  ID3v1::Tag *ID3v1Tag(bool create = false);
 
-      /*!
+  /*!
        * Returns a pointer to the APE tag of the file.
        *
        * If \a create is false (the default) this may return a null pointer
@@ -283,9 +289,9 @@ namespace TagLib {
        *
        * \see hasAPETag()
        */
-      APE::Tag *APETag(bool create = false);
+  APE::Tag *APETag(bool create = false);
 
-      /*!
+  /*!
        * This will strip the tags that match the OR-ed together TagTypes from the
        * file.  By default it strips all tags.  It returns true if the tags are
        * successfully stripped.
@@ -297,9 +303,9 @@ namespace TagLib {
        *
        * \note This will update the file immediately.
        */
-      bool strip(int tags = AllTags);
+  bool strip(int tags = AllTags);
 
-      /*!
+  /*!
        * This will strip the tags that match the OR-ed together TagTypes from the
        * file.  By default it strips all tags.  It returns true if the tags are
        * successfully stripped.
@@ -309,81 +315,81 @@ namespace TagLib {
        *
        * \note This will update the file immediately.
        */
-      // BIC: merge with the method above
-      bool strip(int tags, bool freeMemory);
+  // BIC: merge with the method above
+  bool strip(int tags, bool freeMemory);
 
-      /*!
+  /*!
        * Set the ID3v2::FrameFactory to something other than the default.
        *
        * \see ID3v2FrameFactory
        * \deprecated This value should be passed in via the constructor
        */
-      TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
+  TAGLIB_DEPRECATED void setID3v2FrameFactory(const ID3v2::FrameFactory *factory);
 
-      /*!
+  /*!
        * Returns the position in the file of the first MPEG frame.
        */
-      long firstFrameOffset();
+  long firstFrameOffset();
 
-      /*!
+  /*!
        * Returns the position in the file of the next MPEG frame,
        * using the current position as start
        */
-      long nextFrameOffset(long position);
+  long nextFrameOffset(long position);
 
-      /*!
+  /*!
        * Returns the position in the file of the previous MPEG frame,
        * using the current position as start
        */
-      long previousFrameOffset(long position);
+  long previousFrameOffset(long position);
 
-      /*!
+  /*!
        * Returns the position in the file of the last MPEG frame.
        */
-      long lastFrameOffset();
+  long lastFrameOffset();
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v1 tag.
        *
        * \see ID3v1Tag()
        */
-      bool hasID3v1Tag() const;
+  bool hasID3v1Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an ID3v2 tag.
        *
        * \see ID3v2Tag()
        */
-      bool hasID3v2Tag() const;
+  bool hasID3v2Tag() const;
 
-      /*!
+  /*!
        * Returns whether or not the file on disk actually has an APE tag.
        *
        * \see APETag()
        */
-      bool hasAPETag() const;
+  bool hasAPETag() const;
 
-      /*!
+  /*!
        * Returns whether or not the given \a stream can be opened as an MPEG
        * file.
        *
        * \note This method is designed to do a quick check.  The result may
        * not necessarily be correct.
        */
-      static bool isSupported(IOStream *stream);
+  static bool isSupported(IOStream *stream);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read(bool readProperties);
-      long findID3v2();
+  void read(bool readProperties);
+  long findID3v2();
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace MPEG
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

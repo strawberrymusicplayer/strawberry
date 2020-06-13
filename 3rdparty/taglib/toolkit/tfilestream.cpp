@@ -28,112 +28,96 @@
 #include "tdebug.h"
 
 #ifdef _WIN32
-# include <windows.h>
+#  include <windows.h>
 #else
-# include <stdio.h>
-# include <unistd.h>
+#  include <stdio.h>
+#  include <unistd.h>
 #endif
 
 using namespace Strawberry_TagLib::TagLib;
 
-namespace
-{
+namespace {
 #ifdef _WIN32
 
-  // Uses Win32 native API instead of POSIX API to reduce the resource consumption.
+// Uses Win32 native API instead of POSIX API to reduce the resource consumption.
 
-  typedef FileName FileNameHandle;
-  typedef HANDLE FileHandle;
+typedef FileName FileNameHandle;
+typedef HANDLE FileHandle;
 
-  const FileHandle InvalidFileHandle = INVALID_HANDLE_VALUE;
+const FileHandle InvalidFileHandle = INVALID_HANDLE_VALUE;
 
-  FileHandle openFile(const FileName &path, bool readOnly)
-  {
-    const DWORD access = readOnly ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE);
+FileHandle openFile(const FileName &path, bool readOnly) {
+  const DWORD access = readOnly ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE);
 
-#if defined (PLATFORM_WINRT)
-    return CreateFile2(path.wstr().c_str(), access, FILE_SHARE_READ, OPEN_EXISTING, NULL);
-#else
-    return CreateFileW(path.wstr().c_str(), access, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-#endif
-  }
-
-  FileHandle openFile(const int, bool)
-  {
-    return InvalidFileHandle;
-  }
-
-  void closeFile(FileHandle file)
-  {
-    CloseHandle(file);
-  }
-
-  size_t readFile(FileHandle file, ByteVector &buffer)
-  {
-    DWORD length;
-    if(ReadFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
-      return static_cast<size_t>(length);
-    else
-      return 0;
-  }
-
-  size_t writeFile(FileHandle file, const ByteVector &buffer)
-  {
-    DWORD length;
-    if(WriteFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
-      return static_cast<size_t>(length);
-    else
-      return 0;
-  }
-
-#else   // _WIN32
-
-  struct FileNameHandle : public std::string
-  {
-    explicit FileNameHandle(FileName name) : std::string(name) {}
-    operator FileName () const { return c_str(); }
-  };
-
-  typedef FILE* FileHandle;
-
-  const FileHandle InvalidFileHandle = 0;
-
-  FileHandle openFile(const FileName &path, bool readOnly)
-  {
-    return fopen(path, readOnly ? "rb" : "rb+");
-  }
-
-  FileHandle openFile(const int fileDescriptor, bool readOnly)
-  {
-    return fdopen(fileDescriptor, readOnly ? "rb" : "rb+");
-  }
-
-  void closeFile(FileHandle file)
-  {
-    fclose(file);
-  }
-
-  size_t readFile(FileHandle file, ByteVector &buffer)
-  {
-    return fread(buffer.data(), sizeof(char), buffer.size(), file);
-  }
-
-  size_t writeFile(FileHandle file, const ByteVector &buffer)
-  {
-    return fwrite(buffer.data(), sizeof(char), buffer.size(), file);
-  }
-
-#endif  // _WIN32
+#  if defined(PLATFORM_WINRT)
+  return CreateFile2(path.wstr().c_str(), access, FILE_SHARE_READ, OPEN_EXISTING, NULL);
+#  else
+  return CreateFileW(path.wstr().c_str(), access, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+#  endif
 }
 
-class FileStream::FileStreamPrivate
-{
-public:
+FileHandle openFile(const int, bool) {
+  return InvalidFileHandle;
+}
+
+void closeFile(FileHandle file) {
+  CloseHandle(file);
+}
+
+size_t readFile(FileHandle file, ByteVector &buffer) {
+  DWORD length;
+  if (ReadFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
+    return static_cast<size_t>(length);
+  else
+    return 0;
+}
+
+size_t writeFile(FileHandle file, const ByteVector &buffer) {
+  DWORD length;
+  if (WriteFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
+    return static_cast<size_t>(length);
+  else
+    return 0;
+}
+
+#else  // _WIN32
+
+struct FileNameHandle : public std::string {
+  explicit FileNameHandle(FileName name) : std::string(name) {}
+  operator FileName() const { return c_str(); }
+};
+
+typedef FILE *FileHandle;
+
+const FileHandle InvalidFileHandle = 0;
+
+FileHandle openFile(const FileName &path, bool readOnly) {
+  return fopen(path, readOnly ? "rb" : "rb+");
+}
+
+FileHandle openFile(const int fileDescriptor, bool readOnly) {
+  return fdopen(fileDescriptor, readOnly ? "rb" : "rb+");
+}
+
+void closeFile(FileHandle file) {
+  fclose(file);
+}
+
+size_t readFile(FileHandle file, ByteVector &buffer) {
+  return fread(buffer.data(), sizeof(char), buffer.size(), file);
+}
+
+size_t writeFile(FileHandle file, const ByteVector &buffer) {
+  return fwrite(buffer.data(), sizeof(char), buffer.size(), file);
+}
+
+#endif  // _WIN32
+}  // namespace
+
+class FileStream::FileStreamPrivate {
+ public:
   explicit FileStreamPrivate(const FileName &fileName)
-    : file(InvalidFileHandle)
-    , name(fileName)
-    , readOnly(true)
-  {
+      : file(InvalidFileHandle), name(fileName), readOnly(true) {
   }
 
   FileHandle file;
@@ -146,68 +130,63 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 FileStream::FileStream(FileName fileName, bool openReadOnly)
-  : d(new FileStreamPrivate(fileName))
-{
+    : d(new FileStreamPrivate(fileName)) {
   // First try with read / write mode, if that fails, fall back to read only.
 
-  if(!openReadOnly)
+  if (!openReadOnly)
     d->file = openFile(fileName, false);
 
-  if(d->file != InvalidFileHandle)
+  if (d->file != InvalidFileHandle)
     d->readOnly = false;
   else
     d->file = openFile(fileName, true);
 
-  if(d->file == InvalidFileHandle)
-# ifdef _WIN32
+  if (d->file == InvalidFileHandle)
+#ifdef _WIN32
     debug("Could not open file " + fileName.toString());
-# else
+#else
     debug("Could not open file " + String(static_cast<const char *>(d->name)));
-# endif
+#endif
 }
 
 FileStream::FileStream(int fileDescriptor, bool openReadOnly)
-  : d(new FileStreamPrivate(""))
-{
+    : d(new FileStreamPrivate("")) {
   // First try with read / write mode, if that fails, fall back to read only.
 
-  if(!openReadOnly)
+  if (!openReadOnly)
     d->file = openFile(fileDescriptor, false);
 
-  if(d->file != InvalidFileHandle)
+  if (d->file != InvalidFileHandle)
     d->readOnly = false;
   else
     d->file = openFile(fileDescriptor, true);
 
-  if(d->file == InvalidFileHandle)
+  if (d->file == InvalidFileHandle)
     debug("Could not open file using file descriptor");
 }
 
-FileStream::~FileStream()
-{
-  if(isOpen())
+FileStream::~FileStream() {
+  if (isOpen())
     closeFile(d->file);
 
   delete d;
 }
 
-FileName FileStream::name() const
-{
+FileName FileStream::name() const {
   return d->name;
 }
 
-ByteVector FileStream::readBlock(unsigned long length)
-{
-  if(!isOpen()) {
+ByteVector FileStream::readBlock(unsigned long length) {
+  if (!isOpen()) {
     debug("FileStream::readBlock() -- invalid file.");
     return ByteVector();
   }
 
-  if(length == 0)
+  if (length == 0)
     return ByteVector();
 
   const unsigned long streamLength = static_cast<unsigned long>(FileStream::length());
-  if(length > bufferSize() && length > streamLength)
+  if (length > bufferSize() && length > streamLength)
     length = streamLength;
 
   ByteVector buffer(static_cast<unsigned int>(length));
@@ -218,14 +197,13 @@ ByteVector FileStream::readBlock(unsigned long length)
   return buffer;
 }
 
-void FileStream::writeBlock(const ByteVector &data)
-{
-  if(!isOpen()) {
+void FileStream::writeBlock(const ByteVector &data) {
+  if (!isOpen()) {
     debug("FileStream::writeBlock() -- invalid file.");
     return;
   }
 
-  if(readOnly()) {
+  if (readOnly()) {
     debug("FileStream::writeBlock() -- read only file.");
     return;
   }
@@ -233,24 +211,23 @@ void FileStream::writeBlock(const ByteVector &data)
   writeFile(d->file, data);
 }
 
-void FileStream::insert(const ByteVector &data, unsigned long start, unsigned long replace)
-{
-  if(!isOpen()) {
+void FileStream::insert(const ByteVector &data, unsigned long start, unsigned long replace) {
+  if (!isOpen()) {
     debug("FileStream::insert() -- invalid file.");
     return;
   }
 
-  if(readOnly()) {
+  if (readOnly()) {
     debug("FileStream::insert() -- read only file.");
     return;
   }
 
-  if(data.size() == replace) {
+  if (data.size() == replace) {
     seek(start);
     writeBlock(data);
     return;
   }
-  else if(data.size() < replace) {
+  else if (data.size() < replace) {
     seek(start);
     writeBlock(data);
     removeBlock(start + data.size(), replace - data.size());
@@ -269,7 +246,7 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
 
   unsigned long bufferLength = bufferSize();
 
-  while(data.size() - replace > bufferLength)
+  while (data.size() - replace > bufferLength)
     bufferLength += bufferSize();
 
   // Set where to start the reading and writing.
@@ -280,7 +257,7 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
   ByteVector buffer = data;
   ByteVector aboutToOverwrite(static_cast<unsigned int>(bufferLength));
 
-  while(true) {
+  while (true) {
     // Seek to the current read position and read the data that we're about
     // to overwrite.  Appropriately increment the readPosition.
 
@@ -292,7 +269,7 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
     // Check to see if we just read the last block.  We need to call clear()
     // if we did so that the last write succeeds.
 
-    if(bytesRead < bufferLength)
+    if (bytesRead < bufferLength)
       clear();
 
     // Seek to the write position and write our buffer.  Increment the
@@ -303,7 +280,7 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
 
     // We hit the end of the file.
 
-    if(bytesRead == 0)
+    if (bytesRead == 0)
       break;
 
     writePosition += buffer.size();
@@ -314,9 +291,8 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
   }
 }
 
-void FileStream::removeBlock(unsigned long start, unsigned long length)
-{
-  if(!isOpen()) {
+void FileStream::removeBlock(unsigned long start, unsigned long length) {
+  if (!isOpen()) {
     debug("FileStream::removeBlock() -- invalid file.");
     return;
   }
@@ -328,7 +304,7 @@ void FileStream::removeBlock(unsigned long start, unsigned long length)
 
   ByteVector buffer(static_cast<unsigned int>(bufferLength));
 
-  for(unsigned int bytesRead = -1; bytesRead != 0;) {
+  for (unsigned int bytesRead = -1; bytesRead != 0;) {
     seek(readPosition);
     bytesRead = static_cast<unsigned int>(readFile(d->file, buffer));
     readPosition += bytesRead;
@@ -336,7 +312,7 @@ void FileStream::removeBlock(unsigned long start, unsigned long length)
     // Check to see if we just read the last block.  We need to call clear()
     // if we did so that the last write succeeds.
 
-    if(bytesRead < buffer.size()) {
+    if (bytesRead < buffer.size()) {
       clear();
       buffer.resize(bytesRead);
     }
@@ -350,26 +326,23 @@ void FileStream::removeBlock(unsigned long start, unsigned long length)
   truncate(writePosition);
 }
 
-bool FileStream::readOnly() const
-{
+bool FileStream::readOnly() const {
   return d->readOnly;
 }
 
-bool FileStream::isOpen() const
-{
+bool FileStream::isOpen() const {
   return (d->file != InvalidFileHandle);
 }
 
-void FileStream::seek(long offset, Position p)
-{
-  if(!isOpen()) {
+void FileStream::seek(long offset, Position p) {
+  if (!isOpen()) {
     debug("FileStream::seek() -- invalid file.");
     return;
   }
 
 #ifdef _WIN32
 
-  if(p != Beginning && p != Current && p != End) {
+  if (p != Beginning && p != Current && p != End) {
     debug("FileStream::seek() -- Invalid Position value.");
     return;
   }
@@ -377,26 +350,26 @@ void FileStream::seek(long offset, Position p)
   LARGE_INTEGER liOffset;
   liOffset.QuadPart = offset;
 
-  if(!SetFilePointerEx(d->file, liOffset, NULL, static_cast<DWORD>(p))) {
+  if (!SetFilePointerEx(d->file, liOffset, NULL, static_cast<DWORD>(p))) {
     debug("FileStream::seek() -- Failed to set the file pointer.");
   }
 
 #else
 
   int whence;
-  switch(p) {
-  case Beginning:
-    whence = SEEK_SET;
-    break;
-  case Current:
-    whence = SEEK_CUR;
-    break;
-  case End:
-    whence = SEEK_END;
-    break;
-  default:
-    debug("FileStream::seek() -- Invalid Position value.");
-    return;
+  switch (p) {
+    case Beginning:
+      whence = SEEK_SET;
+      break;
+    case Current:
+      whence = SEEK_CUR;
+      break;
+    case End:
+      whence = SEEK_END;
+      break;
+    default:
+      debug("FileStream::seek() -- Invalid Position value.");
+      return;
   }
 
   fseek(d->file, offset, whence);
@@ -404,8 +377,7 @@ void FileStream::seek(long offset, Position p)
 #endif
 }
 
-void FileStream::clear()
-{
+void FileStream::clear() {
 #ifdef _WIN32
 
   // NOP
@@ -417,15 +389,14 @@ void FileStream::clear()
 #endif
 }
 
-long FileStream::tell() const
-{
+long FileStream::tell() const {
 #ifdef _WIN32
 
   const LARGE_INTEGER zero = {};
   LARGE_INTEGER position;
 
-  if(SetFilePointerEx(d->file, zero, &position, FILE_CURRENT) &&
-     position.QuadPart <= LONG_MAX) {
+  if (SetFilePointerEx(d->file, zero, &position, FILE_CURRENT) &&
+    position.QuadPart <= LONG_MAX) {
     return static_cast<long>(position.QuadPart);
   }
   else {
@@ -440,9 +411,8 @@ long FileStream::tell() const
 #endif
 }
 
-long FileStream::length()
-{
-  if(!isOpen()) {
+long FileStream::length() {
+  if (!isOpen()) {
     debug("FileStream::length() -- invalid file.");
     return 0;
   }
@@ -451,7 +421,7 @@ long FileStream::length()
 
   LARGE_INTEGER fileSize;
 
-  if(GetFileSizeEx(d->file, &fileSize) && fileSize.QuadPart <= LONG_MAX) {
+  if (GetFileSizeEx(d->file, &fileSize) && fileSize.QuadPart <= LONG_MAX) {
     return static_cast<long>(fileSize.QuadPart);
   }
   else {
@@ -477,15 +447,14 @@ long FileStream::length()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void FileStream::truncate(long length)
-{
+void FileStream::truncate(long length) {
 #ifdef _WIN32
 
   const long currentPos = tell();
 
   seek(length);
 
-  if(!SetEndOfFile(d->file)) {
+  if (!SetEndOfFile(d->file)) {
     debug("FileStream::truncate() -- Failed to truncate the file.");
   }
 
@@ -495,13 +464,12 @@ void FileStream::truncate(long length)
 
   fflush(d->file);
   const int error = ftruncate(fileno(d->file), length);
-  if(error != 0)
+  if (error != 0)
     debug("FileStream::truncate() -- Coundn't truncate the file.");
 
 #endif
 }
 
-unsigned int FileStream::bufferSize()
-{
+unsigned int FileStream::bufferSize() {
   return 1024;
 }

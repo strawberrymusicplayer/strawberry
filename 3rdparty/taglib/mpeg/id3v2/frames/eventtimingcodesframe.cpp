@@ -32,11 +32,9 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class EventTimingCodesFrame::EventTimingCodesFramePrivate
-{
-public:
-  EventTimingCodesFramePrivate() :
-    timestampFormat(EventTimingCodesFrame::AbsoluteMilliseconds) {}
+class EventTimingCodesFrame::EventTimingCodesFramePrivate {
+ public:
+  EventTimingCodesFramePrivate() : timestampFormat(EventTimingCodesFrame::AbsoluteMilliseconds) {}
   EventTimingCodesFrame::TimestampFormat timestampFormat;
   EventTimingCodesFrame::SynchedEventList synchedEvents;
 };
@@ -45,50 +43,40 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-EventTimingCodesFrame::EventTimingCodesFrame() :
-  Frame("ETCO"),
-  d(new EventTimingCodesFramePrivate())
-{
+EventTimingCodesFrame::EventTimingCodesFrame() : Frame("ETCO"),
+                                                 d(new EventTimingCodesFramePrivate()) {
 }
 
-EventTimingCodesFrame::EventTimingCodesFrame(const ByteVector &data) :
-  Frame(data),
-  d(new EventTimingCodesFramePrivate())
-{
+EventTimingCodesFrame::EventTimingCodesFrame(const ByteVector &data) : Frame(data),
+                                                                       d(new EventTimingCodesFramePrivate()) {
   setData(data);
 }
 
-EventTimingCodesFrame::~EventTimingCodesFrame()
-{
+EventTimingCodesFrame::~EventTimingCodesFrame() {
   delete d;
 }
 
-String EventTimingCodesFrame::toString() const
-{
+String EventTimingCodesFrame::toString() const {
   return String();
 }
 
 EventTimingCodesFrame::TimestampFormat
-EventTimingCodesFrame::timestampFormat() const
-{
+EventTimingCodesFrame::timestampFormat() const {
   return d->timestampFormat;
 }
 
 EventTimingCodesFrame::SynchedEventList
-EventTimingCodesFrame::synchedEvents() const
-{
+EventTimingCodesFrame::synchedEvents() const {
   return d->synchedEvents;
 }
 
 void EventTimingCodesFrame::setTimestampFormat(
-    EventTimingCodesFrame::TimestampFormat f)
-{
+  EventTimingCodesFrame::TimestampFormat f) {
   d->timestampFormat = f;
 }
 
 void EventTimingCodesFrame::setSynchedEvents(
-    const EventTimingCodesFrame::SynchedEventList &e)
-{
+  const EventTimingCodesFrame::SynchedEventList &e) {
   d->synchedEvents = e;
 }
 
@@ -96,10 +84,9 @@ void EventTimingCodesFrame::setSynchedEvents(
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void EventTimingCodesFrame::parseFields(const ByteVector &data)
-{
+void EventTimingCodesFrame::parseFields(const ByteVector &data) {
   const int end = data.size();
-  if(end < 1) {
+  if (end < 1) {
     debug("An event timing codes frame must contain at least 1 byte.");
     return;
   }
@@ -108,7 +95,7 @@ void EventTimingCodesFrame::parseFields(const ByteVector &data)
 
   int pos = 1;
   d->synchedEvents.clear();
-  while(pos + 4 < end) {
+  while (pos + 4 < end) {
     EventType type = static_cast<EventType>(static_cast<unsigned char>(data[pos++]));
     unsigned int time = data.toUInt(pos, true);
     pos += 4;
@@ -116,14 +103,13 @@ void EventTimingCodesFrame::parseFields(const ByteVector &data)
   }
 }
 
-ByteVector EventTimingCodesFrame::renderFields() const
-{
+ByteVector EventTimingCodesFrame::renderFields() const {
   ByteVector v;
 
   v.append(char(d->timestampFormat));
-  for(SynchedEventList::ConstIterator it = d->synchedEvents.begin();
-      it != d->synchedEvents.end();
-      ++it) {
+  for (SynchedEventList::ConstIterator it = d->synchedEvents.begin();
+       it != d->synchedEvents.end();
+       ++it) {
     const SynchedEvent &entry = *it;
     v.append(char(entry.type));
     v.append(ByteVector::fromUInt(entry.time));
@@ -136,9 +122,7 @@ ByteVector EventTimingCodesFrame::renderFields() const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-EventTimingCodesFrame::EventTimingCodesFrame(const ByteVector &data, Header *h) :
-  Frame(h),
-  d(new EventTimingCodesFramePrivate())
-{
+EventTimingCodesFrame::EventTimingCodesFrame(const ByteVector &data, Header *h) : Frame(h),
+                                                                                  d(new EventTimingCodesFramePrivate()) {
   parseFields(fieldData(data));
 }

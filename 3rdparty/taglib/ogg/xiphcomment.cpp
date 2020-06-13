@@ -32,21 +32,18 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-namespace
-{
-  typedef Ogg::FieldListMap::Iterator FieldIterator;
-  typedef Ogg::FieldListMap::ConstIterator FieldConstIterator;
+namespace {
+typedef Ogg::FieldListMap::Iterator FieldIterator;
+typedef Ogg::FieldListMap::ConstIterator FieldConstIterator;
 
-  typedef List<FLAC::Picture *> PictureList;
-  typedef PictureList::Iterator PictureIterator;
-  typedef PictureList::Iterator PictureConstIterator;
-}
+typedef List<FLAC::Picture *> PictureList;
+typedef PictureList::Iterator PictureIterator;
+typedef PictureList::Iterator PictureConstIterator;
+}  // namespace
 
-class Ogg::XiphComment::XiphCommentPrivate
-{
-public:
-  XiphCommentPrivate()
-  {
+class Ogg::XiphComment::XiphCommentPrivate {
+ public:
+  XiphCommentPrivate() {
     pictureList.setAutoDelete(true);
   }
 
@@ -60,53 +57,44 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::XiphComment::XiphComment() :
-  Strawberry_TagLib::TagLib::Tag(),
-  d(new XiphCommentPrivate())
-{
+Ogg::XiphComment::XiphComment() : Strawberry_TagLib::TagLib::Tag(),
+                                  d(new XiphCommentPrivate()) {
 }
 
-Ogg::XiphComment::XiphComment(const ByteVector &data) :
-  Strawberry_TagLib::TagLib::Tag(),
-  d(new XiphCommentPrivate())
-{
+Ogg::XiphComment::XiphComment(const ByteVector &data) : Strawberry_TagLib::TagLib::Tag(),
+                                                        d(new XiphCommentPrivate()) {
   parse(data);
 }
 
-Ogg::XiphComment::~XiphComment()
-{
+Ogg::XiphComment::~XiphComment() {
   delete d;
 }
 
-String Ogg::XiphComment::title() const
-{
-  if(d->fieldListMap["TITLE"].isEmpty())
+String Ogg::XiphComment::title() const {
+  if (d->fieldListMap["TITLE"].isEmpty())
     return String();
   return d->fieldListMap["TITLE"].toString();
 }
 
-String Ogg::XiphComment::artist() const
-{
-  if(d->fieldListMap["ARTIST"].isEmpty())
+String Ogg::XiphComment::artist() const {
+  if (d->fieldListMap["ARTIST"].isEmpty())
     return String();
   return d->fieldListMap["ARTIST"].toString();
 }
 
-String Ogg::XiphComment::album() const
-{
-  if(d->fieldListMap["ALBUM"].isEmpty())
+String Ogg::XiphComment::album() const {
+  if (d->fieldListMap["ALBUM"].isEmpty())
     return String();
   return d->fieldListMap["ALBUM"].toString();
 }
 
-String Ogg::XiphComment::comment() const
-{
-  if(!d->fieldListMap["DESCRIPTION"].isEmpty()) {
+String Ogg::XiphComment::comment() const {
+  if (!d->fieldListMap["DESCRIPTION"].isEmpty()) {
     d->commentField = "DESCRIPTION";
     return d->fieldListMap["DESCRIPTION"].toString();
   }
 
-  if(!d->fieldListMap["COMMENT"].isEmpty()) {
+  if (!d->fieldListMap["COMMENT"].isEmpty()) {
     d->commentField = "COMMENT";
     return d->fieldListMap["COMMENT"].toString();
   }
@@ -114,50 +102,43 @@ String Ogg::XiphComment::comment() const
   return String();
 }
 
-String Ogg::XiphComment::genre() const
-{
-  if(d->fieldListMap["GENRE"].isEmpty())
+String Ogg::XiphComment::genre() const {
+  if (d->fieldListMap["GENRE"].isEmpty())
     return String();
   return d->fieldListMap["GENRE"].toString();
 }
 
-unsigned int Ogg::XiphComment::year() const
-{
-  if(!d->fieldListMap["DATE"].isEmpty())
+unsigned int Ogg::XiphComment::year() const {
+  if (!d->fieldListMap["DATE"].isEmpty())
     return d->fieldListMap["DATE"].front().toInt();
-  if(!d->fieldListMap["YEAR"].isEmpty())
+  if (!d->fieldListMap["YEAR"].isEmpty())
     return d->fieldListMap["YEAR"].front().toInt();
   return 0;
 }
 
-unsigned int Ogg::XiphComment::track() const
-{
-  if(!d->fieldListMap["TRACKNUMBER"].isEmpty())
+unsigned int Ogg::XiphComment::track() const {
+  if (!d->fieldListMap["TRACKNUMBER"].isEmpty())
     return d->fieldListMap["TRACKNUMBER"].front().toInt();
-  if(!d->fieldListMap["TRACKNUM"].isEmpty())
+  if (!d->fieldListMap["TRACKNUM"].isEmpty())
     return d->fieldListMap["TRACKNUM"].front().toInt();
   return 0;
 }
 
-void Ogg::XiphComment::setTitle(const String &s)
-{
+void Ogg::XiphComment::setTitle(const String &s) {
   addField("TITLE", s);
 }
 
-void Ogg::XiphComment::setArtist(const String &s)
-{
+void Ogg::XiphComment::setArtist(const String &s) {
   addField("ARTIST", s);
 }
 
-void Ogg::XiphComment::setAlbum(const String &s)
-{
+void Ogg::XiphComment::setAlbum(const String &s) {
   addField("ALBUM", s);
 }
 
-void Ogg::XiphComment::setComment(const String &s)
-{
-  if(d->commentField.isEmpty()) {
-    if(!d->fieldListMap["DESCRIPTION"].isEmpty())
+void Ogg::XiphComment::setComment(const String &s) {
+  if (d->commentField.isEmpty()) {
+    if (!d->fieldListMap["DESCRIPTION"].isEmpty())
       d->commentField = "DESCRIPTION";
     else
       d->commentField = "COMMENT";
@@ -166,44 +147,39 @@ void Ogg::XiphComment::setComment(const String &s)
   addField(d->commentField, s);
 }
 
-void Ogg::XiphComment::setGenre(const String &s)
-{
+void Ogg::XiphComment::setGenre(const String &s) {
   addField("GENRE", s);
 }
 
-void Ogg::XiphComment::setYear(unsigned int i)
-{
+void Ogg::XiphComment::setYear(unsigned int i) {
   removeFields("YEAR");
-  if(i == 0)
+  if (i == 0)
     removeFields("DATE");
   else
     addField("DATE", String::number(i));
 }
 
-void Ogg::XiphComment::setTrack(unsigned int i)
-{
+void Ogg::XiphComment::setTrack(unsigned int i) {
   removeFields("TRACKNUM");
-  if(i == 0)
+  if (i == 0)
     removeFields("TRACKNUMBER");
   else
     addField("TRACKNUMBER", String::number(i));
 }
 
-bool Ogg::XiphComment::isEmpty() const
-{
-  for(FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it) {
-    if(!(*it).second.isEmpty())
+bool Ogg::XiphComment::isEmpty() const {
+  for (FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it) {
+    if (!(*it).second.isEmpty())
       return false;
   }
 
   return true;
 }
 
-unsigned int Ogg::XiphComment::fieldCount() const
-{
+unsigned int Ogg::XiphComment::fieldCount() const {
   unsigned int count = 0;
 
-  for(FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it)
+  for (FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it)
     count += (*it).second.size();
 
   count += d->pictureList.size();
@@ -211,37 +187,33 @@ unsigned int Ogg::XiphComment::fieldCount() const
   return count;
 }
 
-const Ogg::FieldListMap &Ogg::XiphComment::fieldListMap() const
-{
+const Ogg::FieldListMap &Ogg::XiphComment::fieldListMap() const {
   return d->fieldListMap;
 }
 
-PropertyMap Ogg::XiphComment::properties() const
-{
+PropertyMap Ogg::XiphComment::properties() const {
   return d->fieldListMap;
 }
 
-PropertyMap Ogg::XiphComment::setProperties(const PropertyMap &properties)
-{
+PropertyMap Ogg::XiphComment::setProperties(const PropertyMap &properties) {
   // check which keys are to be deleted
   StringList toRemove;
-  for(FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it)
+  for (FieldConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it)
     if (!properties.contains(it->first))
       toRemove.append(it->first);
 
-  for(StringList::ConstIterator it = toRemove.begin(); it != toRemove.end(); ++it)
-      removeFields(*it);
+  for (StringList::ConstIterator it = toRemove.begin(); it != toRemove.end(); ++it)
+    removeFields(*it);
 
   // now go through keys in \a properties and check that the values match those in the xiph comment
   PropertyMap invalid;
   PropertyMap::ConstIterator it = properties.begin();
-  for(; it != properties.end(); ++it)
-  {
-    if(!checkKey(it->first))
+  for (; it != properties.end(); ++it) {
+    if (!checkKey(it->first))
       invalid.insert(it->first, it->second);
-    else if(!d->fieldListMap.contains(it->first) || !(it->second == d->fieldListMap[it->first])) {
+    else if (!d->fieldListMap.contains(it->first) || !(it->second == d->fieldListMap[it->first])) {
       const StringList &sl = it->second;
-      if(sl.isEmpty())
+      if (sl.isEmpty())
         // zero size string list -> remove the tag with all values
         removeFields(it->first);
       else {
@@ -249,7 +221,7 @@ PropertyMap Ogg::XiphComment::setProperties(const PropertyMap &properties)
         StringList::ConstIterator valueIterator = sl.begin();
         addField(it->first, *valueIterator, true);
         ++valueIterator;
-        for(; valueIterator != sl.end(); ++valueIterator)
+        for (; valueIterator != sl.end(); ++valueIterator)
           addField(it->first, *valueIterator, false);
       }
     }
@@ -257,108 +229,94 @@ PropertyMap Ogg::XiphComment::setProperties(const PropertyMap &properties)
   return invalid;
 }
 
-bool Ogg::XiphComment::checkKey(const String &key)
-{
-  if(key.size() < 1)
+bool Ogg::XiphComment::checkKey(const String &key) {
+  if (key.size() < 1)
     return false;
 
   // A key may consist of ASCII 0x20 through 0x7D, 0x3D ('=') excluded.
 
-  for(String::ConstIterator it = key.begin(); it != key.end(); it++) {
-      if(*it < 0x20 || *it > 0x7D || *it == 0x3D)
-        return false;
+  for (String::ConstIterator it = key.begin(); it != key.end(); it++) {
+    if (*it < 0x20 || *it > 0x7D || *it == 0x3D)
+      return false;
   }
 
   return true;
 }
 
-String Ogg::XiphComment::vendorID() const
-{
+String Ogg::XiphComment::vendorID() const {
   return d->vendorID;
 }
 
-void Ogg::XiphComment::addField(const String &key, const String &value, bool replace)
-{
-  if(!checkKey(key)) {
+void Ogg::XiphComment::addField(const String &key, const String &value, bool replace) {
+  if (!checkKey(key)) {
     debug("Ogg::XiphComment::addField() - Invalid key. Field not added.");
     return;
   }
 
   const String upperKey = key.upper();
 
-  if(replace)
+  if (replace)
     removeFields(upperKey);
 
-  if(!key.isEmpty() && !value.isEmpty())
+  if (!key.isEmpty() && !value.isEmpty())
     d->fieldListMap[upperKey].append(value);
 }
 
-void Ogg::XiphComment::removeField(const String &key, const String &value)
-{
-  if(!value.isNull())
+void Ogg::XiphComment::removeField(const String &key, const String &value) {
+  if (!value.isNull())
     removeFields(key, value);
   else
     removeFields(key);
 }
 
-void Ogg::XiphComment::removeFields(const String &key)
-{
+void Ogg::XiphComment::removeFields(const String &key) {
   d->fieldListMap.erase(key.upper());
 }
 
-void Ogg::XiphComment::removeFields(const String &key, const String &value)
-{
+void Ogg::XiphComment::removeFields(const String &key, const String &value) {
   StringList &fields = d->fieldListMap[key.upper()];
-  for(StringList::Iterator it = fields.begin(); it != fields.end(); ) {
-    if(*it == value)
+  for (StringList::Iterator it = fields.begin(); it != fields.end();) {
+    if (*it == value)
       it = fields.erase(it);
     else
       ++it;
   }
 }
 
-void Ogg::XiphComment::removeAllFields()
-{
+void Ogg::XiphComment::removeAllFields() {
   d->fieldListMap.clear();
 }
 
-bool Ogg::XiphComment::contains(const String &key) const
-{
+bool Ogg::XiphComment::contains(const String &key) const {
   return !d->fieldListMap[key.upper()].isEmpty();
 }
 
-void Ogg::XiphComment::removePicture(FLAC::Picture *picture, bool del)
-{
+void Ogg::XiphComment::removePicture(FLAC::Picture *picture, bool del) {
   PictureIterator it = d->pictureList.find(picture);
-  if(it != d->pictureList.end())
+  if (it != d->pictureList.end())
     d->pictureList.erase(it);
 
-  if(del)
+  if (del)
     delete picture;
 }
 
-void Ogg::XiphComment::removeAllPictures()
-{
+void Ogg::XiphComment::removeAllPictures() {
   d->pictureList.clear();
 }
 
-void Ogg::XiphComment::addPicture(FLAC::Picture * picture)
-{
+void Ogg::XiphComment::addPicture(FLAC::Picture *picture) {
   d->pictureList.append(picture);
 }
 
-List<FLAC::Picture *> Ogg::XiphComment::pictureList()
-{
+List<FLAC::Picture *> Ogg::XiphComment::pictureList() {
   return d->pictureList;
 }
 
-ByteVector Ogg::XiphComment::render() const
-{
+ByteVector Ogg::XiphComment::render() const {
   return render(true);
 }
 
-ByteVector Ogg::XiphComment::render(bool addFramingBit) const
-{
+ByteVector Ogg::XiphComment::render(bool addFramingBit) const {
   ByteVector data;
 
   // Add the vendor ID length and the vendor ID.  It's important to use the
@@ -379,7 +337,7 @@ ByteVector Ogg::XiphComment::render(bool addFramingBit) const
   // std::pair<String, StringList> where the first String is the field name and
   // the StringList is the values associated with that field.
 
-  for(FieldListMap::ConstIterator it = d->fieldListMap.begin() ; it != d->fieldListMap.end() ; ++it) {
+  for (FieldListMap::ConstIterator it = d->fieldListMap.begin(); it != d->fieldListMap.end(); ++it) {
 
     // And now iterate over the values of the current list.
 
@@ -387,7 +345,7 @@ ByteVector Ogg::XiphComment::render(bool addFramingBit) const
     StringList values = (*it).second;
 
     StringList::ConstIterator valuesIt = values.begin();
-    for(; valuesIt != values.end(); ++valuesIt) {
+    for (; valuesIt != values.end(); ++valuesIt) {
       ByteVector fieldData = fieldName.data(String::UTF8);
       fieldData.append('=');
       fieldData.append((*valuesIt).data(String::UTF8));
@@ -406,7 +364,7 @@ ByteVector Ogg::XiphComment::render(bool addFramingBit) const
 
   // Append the "framing bit".
 
-  if(addFramingBit)
+  if (addFramingBit)
     data.append(char(1));
 
   return data;
@@ -416,8 +374,7 @@ ByteVector Ogg::XiphComment::render(bool addFramingBit) const
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ogg::XiphComment::parse(const ByteVector &data)
-{
+void Ogg::XiphComment::parse(const ByteVector &data) {
   // The first thing in the comment data is the vendor ID length, followed by a
   // UTF8 string with the vendor ID.
 
@@ -434,11 +391,11 @@ void Ogg::XiphComment::parse(const ByteVector &data)
   const unsigned int commentFields = data.toUInt(pos, false);
   pos += 4;
 
-  if(commentFields > (data.size() - 8) / 4) {
+  if (commentFields > (data.size() - 8) / 4) {
     return;
   }
 
-  for(unsigned int i = 0; i < commentFields; i++) {
+  for (unsigned int i = 0; i < commentFields; i++) {
 
     // Each comment field is in the format "KEY=value" in a UTF8 string and has
     // 4 bytes before the text starts that gives the length.
@@ -451,13 +408,13 @@ void Ogg::XiphComment::parse(const ByteVector &data)
 
     // Don't go past data end
 
-    if(pos > data.size())
+    if (pos > data.size())
       break;
 
     // Check for field separator
 
     const int sep = entry.find('=');
-    if(sep < 1) {
+    if (sep < 1) {
       debug("Ogg::XiphComment::parse() - Discarding a field. Separator not found.");
       continue;
     }
@@ -465,27 +422,27 @@ void Ogg::XiphComment::parse(const ByteVector &data)
     // Parse the key
 
     const String key = String(entry.mid(0, sep), String::UTF8).upper();
-    if(!checkKey(key)) {
+    if (!checkKey(key)) {
       debug("Ogg::XiphComment::parse() - Discarding a field. Invalid key.");
       continue;
     }
 
-    if(key == "METADATA_BLOCK_PICTURE" || key == "COVERART") {
+    if (key == "METADATA_BLOCK_PICTURE" || key == "COVERART") {
 
       // Handle Pictures separately
 
       const ByteVector picturedata = ByteVector::fromBase64(entry.mid(sep + 1));
-      if(picturedata.isEmpty()) {
+      if (picturedata.isEmpty()) {
         debug("Ogg::XiphComment::parse() - Discarding a field. Invalid base64 data");
         continue;
       }
 
-      if(key[0] == L'M') {
+      if (key[0] == L'M') {
 
         // Decode FLAC Picture
 
-        FLAC::Picture * picture = new FLAC::Picture();
-        if(picture->parse(picturedata)) {
+        FLAC::Picture *picture = new FLAC::Picture();
+        if (picture->parse(picturedata)) {
           d->pictureList.append(picture);
         }
         else {
@@ -497,7 +454,7 @@ void Ogg::XiphComment::parse(const ByteVector &data)
 
         // Assume it's some type of image file
 
-        FLAC::Picture * picture = new FLAC::Picture();
+        FLAC::Picture *picture = new FLAC::Picture();
         picture->setData(picturedata);
         picture->setMimeType("image/");
         picture->setType(FLAC::Picture::Other);

@@ -30,27 +30,27 @@
 
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
-#include <tbytevector.h>
+#  include <tbytevector.h>
 
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  class File;
-  class IOStream;
+class File;
+class IOStream;
 
-  namespace Utils {
+namespace Utils {
 
-    long findID3v1(File *file);
+long findID3v1(File *file);
 
-    long findID3v2(File *file);
+long findID3v2(File *file);
 
-    long findAPE(File *file, long id3v1Location);
+long findAPE(File *file, long id3v1Location);
 
-    ByteVector readHeader(IOStream *stream, unsigned int length, bool skipID3v2,
-                          long *headerOffset = 0);
-  }
-}
-}
+ByteVector readHeader(IOStream *stream, unsigned int length, bool skipID3v2,
+  long *headerOffset = 0);
+}  // namespace Utils
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif
 

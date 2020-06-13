@@ -29,19 +29,14 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class FLAC::MetadataBlock::MetadataBlockPrivate
-{
-public:
+class FLAC::MetadataBlock::MetadataBlockPrivate {
+ public:
   MetadataBlockPrivate() {}
-
 };
 
-FLAC::MetadataBlock::MetadataBlock()
-{
+FLAC::MetadataBlock::MetadataBlock() {
   d = 0;
 }
 
-FLAC::MetadataBlock::~MetadataBlock()
-{
+FLAC::MetadataBlock::~MetadataBlock() {
 }
-

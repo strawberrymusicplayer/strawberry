@@ -32,87 +32,86 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 
-  //! An implementation of TagLib::File with RIFF specific methods
+//! An implementation of TagLib::File with RIFF specific methods
 
-  namespace RIFF {
+namespace RIFF {
 
-    //! An RIFF file class with some useful methods specific to RIFF
+//! An RIFF file class with some useful methods specific to RIFF
 
-    /*!
+/*!
      * This implements the generic TagLib::File API and additionally provides
      * access to properties that are distinct to RIFF files, notably access
      * to the different ID3 tags.
      */
 
-    class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File
-    {
-    public:
-      /*!
+class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
+ public:
+  /*!
        * Destroys this instance of the File.
        */
-      virtual ~File();
+  virtual ~File();
 
-    protected:
+ protected:
+  enum Endianness { BigEndian,
+    LittleEndian };
 
-      enum Endianness { BigEndian, LittleEndian };
+  File(FileName file, Endianness endianness);
+  File(IOStream *stream, Endianness endianness);
 
-      File(FileName file, Endianness endianness);
-      File(IOStream *stream, Endianness endianness);
-
-      /*!
+  /*!
        * \return The size of the main RIFF chunk.
        */
-      unsigned int riffSize() const;
+  unsigned int riffSize() const;
 
-      /*!
+  /*!
        * \return The number of chunks in the file.
        */
-      unsigned int chunkCount() const;
+  unsigned int chunkCount() const;
 
-      /*!
+  /*!
        * \return The offset within the file for the selected chunk number.
        */
-      unsigned int chunkOffset(unsigned int i) const;
+  unsigned int chunkOffset(unsigned int i) const;
 
-      /*!
+  /*!
        * \return The size of the chunk data.
        */
-      unsigned int chunkDataSize(unsigned int i) const;
+  unsigned int chunkDataSize(unsigned int i) const;
 
-      /*!
+  /*!
        * \return The size of the padding after the chunk (can be either 0 or 1).
        */
-      unsigned int chunkPadding(unsigned int i) const;
+  unsigned int chunkPadding(unsigned int i) const;
 
-      /*!
+  /*!
        * \return The name of the specified chunk, for instance, "COMM" or "ID3 "
        */
-      ByteVector chunkName(unsigned int i) const;
+  ByteVector chunkName(unsigned int i) const;
 
-      /*!
+  /*!
        * Reads the chunk data from the file and returns it.
        *
        * \note This \e will move the read pointer for the file.
        */
-      ByteVector chunkData(unsigned int i);
+  ByteVector chunkData(unsigned int i);
 
-      /*!
+  /*!
        * Sets the data for the specified chunk to \a data.
        *
        * \warning This will update the file immediately.
        */
-      void setChunkData(unsigned int i, const ByteVector &data);
+  void setChunkData(unsigned int i, const ByteVector &data);
 
-      /*!
+  /*!
        * Sets the data for the chunk \a name to \a data.  If a chunk with the
        * given name already exists it will be overwritten, otherwise it will be
        * created after the existing chunks.
        *
        * \warning This will update the file immediately.
        */
-      void setChunkData(const ByteVector &name, const ByteVector &data);
+  void setChunkData(const ByteVector &name, const ByteVector &data);
 
-      /*!
+  /*!
        * Sets the data for the chunk \a name to \a data.  If a chunk with the
        * given name already exists it will be overwritten, otherwise it will be
        * created after the existing chunks.
@@ -123,41 +122,41 @@ namespace TagLib {
        *
        * \warning This will update the file immediately.
        */
-      void setChunkData(const ByteVector &name, const ByteVector &data, bool alwaysCreate);
+  void setChunkData(const ByteVector &name, const ByteVector &data, bool alwaysCreate);
 
-      /*!
+  /*!
        * Removes the specified chunk.
        *
        * \warning This will update the file immediately.
        */
-      void removeChunk(unsigned int i);
+  void removeChunk(unsigned int i);
 
-      /*!
+  /*!
        * Removes the chunk \a name.
        *
        * \warning This will update the file immediately.
        * \warning This removes all the chunks with the given name.
        */
-      void removeChunk(const ByteVector &name);
+  void removeChunk(const ByteVector &name);
 
-    private:
-      File(const File &);
-      File &operator=(const File &);
+ private:
+  File(const File &);
+  File &operator=(const File &);
 
-      void read();
-      void writeChunk(const ByteVector &name, const ByteVector &data,
-                      unsigned long offset, unsigned long replace = 0);
+  void read();
+  void writeChunk(const ByteVector &name, const ByteVector &data,
+    unsigned long offset, unsigned long replace = 0);
 
-      /*!
+  /*!
        * Update the global RIFF size based on the current internal structure.
        */
-      void updateGlobalSize();
+  void updateGlobalSize();
 
-      class FilePrivate;
-      FilePrivate *d;
-    };
-  }
-}
-}
+  class FilePrivate;
+  FilePrivate *d;
+};
+}  // namespace RIFF
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

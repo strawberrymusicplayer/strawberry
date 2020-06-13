@@ -47,30 +47,25 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-namespace
-{
-  const ID3v2::Latin1StringHandler defaultStringHandler;
-  const ID3v2::Latin1StringHandler *stringHandler = &defaultStringHandler;
+namespace {
+const ID3v2::Latin1StringHandler defaultStringHandler;
+const ID3v2::Latin1StringHandler *stringHandler = &defaultStringHandler;
 
-  const long MinPaddingSize = 1024;
-  const long MaxPaddingSize = 1024 * 1024;
-}
+const long MinPaddingSize = 1024;
+const long MaxPaddingSize = 1024 * 1024;
+}  // namespace
 
-class ID3v2::Tag::TagPrivate
-{
-public:
-  TagPrivate() :
-    factory(0),
-    file(0),
-    tagOffset(0),
-    extendedHeader(0),
-    footer(0)
-  {
+class ID3v2::Tag::TagPrivate {
+ public:
+  TagPrivate() : factory(0),
+                 file(0),
+                 tagOffset(0),
+                 extendedHeader(0),
+                 footer(0) {
     frameList.setAutoDelete(true);
   }
 
-  ~TagPrivate()
-  {
+  ~TagPrivate() {
     delete extendedHeader;
     delete footer;
   }
@@ -92,16 +87,13 @@ public:
 // StringHandler implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-Latin1StringHandler::Latin1StringHandler()
-{
+Latin1StringHandler::Latin1StringHandler() {
 }
 
-Latin1StringHandler::~Latin1StringHandler()
-{
+Latin1StringHandler::~Latin1StringHandler() {
 }
 
-String Latin1StringHandler::parse(const ByteVector &data) const
-{
+String Latin1StringHandler::parse(const ByteVector &data) const {
   return String(data, String::Latin1);
 }
 
@@ -109,17 +101,13 @@ String Latin1StringHandler::parse(const ByteVector &data) const
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3v2::Tag::Tag() :
-  Strawberry_TagLib::TagLib::Tag(),
-  d(new TagPrivate())
-{
+ID3v2::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(),
+                    d(new TagPrivate()) {
   d->factory = FrameFactory::instance();
 }
 
-ID3v2::Tag::Tag(File *file, long tagOffset, const FrameFactory *factory) :
-  Strawberry_TagLib::TagLib::Tag(),
-  d(new TagPrivate())
-{
+ID3v2::Tag::Tag(File *file, long tagOffset, const FrameFactory *factory) : Strawberry_TagLib::TagLib::Tag(),
+                                                                           d(new TagPrivate()) {
   d->factory = factory;
   d->file = file;
   d->tagOffset = tagOffset;
@@ -127,59 +115,51 @@ ID3v2::Tag::Tag(File *file, long tagOffset, const FrameFactory *factory) :
   read();
 }
 
-ID3v2::Tag::~Tag()
-{
+ID3v2::Tag::~Tag() {
   delete d;
 }
 
-String ID3v2::Tag::title() const
-{
-  if(!d->frameListMap["TIT2"].isEmpty())
+String ID3v2::Tag::title() const {
+  if (!d->frameListMap["TIT2"].isEmpty())
     return d->frameListMap["TIT2"].front()->toString();
   return String();
 }
 
-String ID3v2::Tag::artist() const
-{
-  if(!d->frameListMap["TPE1"].isEmpty())
+String ID3v2::Tag::artist() const {
+  if (!d->frameListMap["TPE1"].isEmpty())
     return d->frameListMap["TPE1"].front()->toString();
   return String();
 }
 
-String ID3v2::Tag::album() const
-{
-  if(!d->frameListMap["TALB"].isEmpty())
+String ID3v2::Tag::album() const {
+  if (!d->frameListMap["TALB"].isEmpty())
     return d->frameListMap["TALB"].front()->toString();
   return String();
 }
 
-String ID3v2::Tag::comment() const
-{
+String ID3v2::Tag::comment() const {
   const FrameList &comments = d->frameListMap["COMM"];
 
-  if(comments.isEmpty())
+  if (comments.isEmpty())
     return String();
 
-  for(FrameList::ConstIterator it = comments.begin(); it != comments.end(); ++it)
-  {
+  for (FrameList::ConstIterator it = comments.begin(); it != comments.end(); ++it) {
     CommentsFrame *frame = dynamic_cast<CommentsFrame *>(*it);
 
-    if(frame && frame->description().isEmpty())
+    if (frame && frame->description().isEmpty())
       return (*it)->toString();
   }
 
   return comments.front()->toString();
 }
 
-String ID3v2::Tag::genre() const
-{
+String ID3v2::Tag::genre() const {
   // TODO: In the next major version (TagLib 2.0) a list of multiple genres
   // should be separated by " / " instead of " ".  For the moment to keep
   // the behavior the same as released versions it is being left with " ".
 
-  if(d->frameListMap["TCON"].isEmpty() ||
-     !dynamic_cast<TextIdentificationFrame *>(d->frameListMap["TCON"].front()))
-  {
+  if (d->frameListMap["TCON"].isEmpty() ||
+    !dynamic_cast<TextIdentificationFrame *>(d->frameListMap["TCON"].front())) {
     return String();
   }
 
@@ -196,61 +176,55 @@ String ID3v2::Tag::genre() const
 
   StringList genres;
 
-  for(StringList::Iterator it = fields.begin(); it != fields.end(); ++it) {
+  for (StringList::Iterator it = fields.begin(); it != fields.end(); ++it) {
 
-    if((*it).isEmpty())
+    if ((*it).isEmpty())
       continue;
 
     bool ok;
     int number = (*it).toInt(&ok);
-    if(ok && number >= 0 && number <= 255) {
+    if (ok && number >= 0 && number <= 255) {
       *it = ID3v1::genre(number);
     }
 
-    if(std::find(genres.begin(), genres.end(), *it) == genres.end())
+    if (std::find(genres.begin(), genres.end(), *it) == genres.end())
       genres.append(*it);
   }
 
   return genres.toString();
 }
 
-unsigned int ID3v2::Tag::year() const
-{
-  if(!d->frameListMap["TDRC"].isEmpty())
+unsigned int ID3v2::Tag::year() const {
+  if (!d->frameListMap["TDRC"].isEmpty())
     return d->frameListMap["TDRC"].front()->toString().substr(0, 4).toInt();
   return 0;
 }
 
-unsigned int ID3v2::Tag::track() const
-{
-  if(!d->frameListMap["TRCK"].isEmpty())
+unsigned int ID3v2::Tag::track() const {
+  if (!d->frameListMap["TRCK"].isEmpty())
     return d->frameListMap["TRCK"].front()->toString().toInt();
   return 0;
 }
 
-void ID3v2::Tag::setTitle(const String &s)
-{
+void ID3v2::Tag::setTitle(const String &s) {
   setTextFrame("TIT2", s);
 }
 
-void ID3v2::Tag::setArtist(const String &s)
-{
+void ID3v2::Tag::setArtist(const String &s) {
   setTextFrame("TPE1", s);
 }
 
-void ID3v2::Tag::setAlbum(const String &s)
-{
+void ID3v2::Tag::setAlbum(const String &s) {
   setTextFrame("TALB", s);
 }
 
-void ID3v2::Tag::setComment(const String &s)
-{
-  if(s.isEmpty()) {
+void ID3v2::Tag::setComment(const String &s) {
+  if (s.isEmpty()) {
     removeFrames("COMM");
     return;
   }
 
-  if(!d->frameListMap["COMM"].isEmpty())
+  if (!d->frameListMap["COMM"].isEmpty())
     d->frameListMap["COMM"].front()->setText(s);
   else {
     CommentsFrame *f = new CommentsFrame(d->factory->defaultTextEncoding());
@@ -259,9 +233,8 @@ void ID3v2::Tag::setComment(const String &s)
   }
 }
 
-void ID3v2::Tag::setGenre(const String &s)
-{
-  if(s.isEmpty()) {
+void ID3v2::Tag::setGenre(const String &s) {
+  if (s.isEmpty()) {
     removeFrames("TCON");
     return;
   }
@@ -273,7 +246,7 @@ void ID3v2::Tag::setGenre(const String &s)
 
   int index = ID3v1::genreIndex(s);
 
-  if(index != 255)
+  if (index != 255)
     setTextFrame("TCON", String::number(index));
   else
     setTextFrame("TCON", s);
@@ -285,67 +258,56 @@ void ID3v2::Tag::setGenre(const String &s)
 #endif
 }
 
-void ID3v2::Tag::setYear(unsigned int i)
-{
-  if(i == 0) {
+void ID3v2::Tag::setYear(unsigned int i) {
+  if (i == 0) {
     removeFrames("TDRC");
     return;
   }
   setTextFrame("TDRC", String::number(i));
 }
 
-void ID3v2::Tag::setTrack(unsigned int i)
-{
-  if(i == 0) {
+void ID3v2::Tag::setTrack(unsigned int i) {
+  if (i == 0) {
     removeFrames("TRCK");
     return;
   }
   setTextFrame("TRCK", String::number(i));
 }
 
-bool ID3v2::Tag::isEmpty() const
-{
+bool ID3v2::Tag::isEmpty() const {
   return d->frameList.isEmpty();
 }
 
-Header *ID3v2::Tag::header() const
-{
+Header *ID3v2::Tag::header() const {
   return &(d->header);
 }
 
-ExtendedHeader *ID3v2::Tag::extendedHeader() const
-{
+ExtendedHeader *ID3v2::Tag::extendedHeader() const {
   return d->extendedHeader;
 }
 
-Footer *ID3v2::Tag::footer() const
-{
+Footer *ID3v2::Tag::footer() const {
   return d->footer;
 }
 
-const FrameListMap &ID3v2::Tag::frameListMap() const
-{
+const FrameListMap &ID3v2::Tag::frameListMap() const {
   return d->frameListMap;
 }
 
-const FrameList &ID3v2::Tag::frameList() const
-{
+const FrameList &ID3v2::Tag::frameList() const {
   return d->frameList;
 }
 
-const FrameList &ID3v2::Tag::frameList(const ByteVector &frameID) const
-{
+const FrameList &ID3v2::Tag::frameList(const ByteVector &frameID) const {
   return d->frameListMap[frameID];
 }
 
-void ID3v2::Tag::addFrame(Frame *frame)
-{
+void ID3v2::Tag::addFrame(Frame *frame) {
   d->frameList.append(frame);
   d->frameListMap[frame->frameID()].append(frame);
 }
 
-void ID3v2::Tag::removeFrame(Frame *frame, bool del)
-{
+void ID3v2::Tag::removeFrame(Frame *frame, bool del) {
   // remove the frame from the frame list
   FrameList::Iterator it = d->frameList.find(frame);
   d->frameList.erase(it);
@@ -355,69 +317,65 @@ void ID3v2::Tag::removeFrame(Frame *frame, bool del)
   d->frameListMap[frame->frameID()].erase(it);
 
   // ...and delete as desired
-  if(del)
+  if (del)
     delete frame;
 }
 
-void ID3v2::Tag::removeFrames(const ByteVector &id)
-{
+void ID3v2::Tag::removeFrames(const ByteVector &id) {
   FrameList l = d->frameListMap[id];
-  for(FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
+  for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
     removeFrame(*it, true);
 }
 
-PropertyMap ID3v2::Tag::properties() const
-{
+PropertyMap ID3v2::Tag::properties() const {
   PropertyMap properties;
-  for(FrameList::ConstIterator it = frameList().begin(); it != frameList().end(); ++it) {
+  for (FrameList::ConstIterator it = frameList().begin(); it != frameList().end(); ++it) {
     PropertyMap props = (*it)->asProperties();
     properties.merge(props);
   }
   return properties;
 }
 
-void ID3v2::Tag::removeUnsupportedProperties(const StringList &properties)
-{
-  for(StringList::ConstIterator it = properties.begin(); it != properties.end(); ++it){
-    if(it->startsWith("UNKNOWN/")) {
+void ID3v2::Tag::removeUnsupportedProperties(const StringList &properties) {
+  for (StringList::ConstIterator it = properties.begin(); it != properties.end(); ++it) {
+    if (it->startsWith("UNKNOWN/")) {
       String frameID = it->substr(String("UNKNOWN/").size());
-      if(frameID.size() != 4)
-        continue; // invalid specification
+      if (frameID.size() != 4)
+        continue;  // invalid specification
       ByteVector id = frameID.data(String::Latin1);
       // delete all unknown frames of given type
       FrameList l = frameList(id);
-      for(FrameList::ConstIterator fit = l.begin(); fit != l.end(); fit++)
+      for (FrameList::ConstIterator fit = l.begin(); fit != l.end(); fit++)
         if (dynamic_cast<const UnknownFrame *>(*fit) != 0)
           removeFrame(*fit);
     }
-    else if(it->size() == 4){
+    else if (it->size() == 4) {
       ByteVector id = it->data(String::Latin1);
       removeFrames(id);
     }
     else {
-      ByteVector id = it->substr(0,4).data(String::Latin1);
-      if(it->size() <= 5)
-        continue; // invalid specification
+      ByteVector id = it->substr(0, 4).data(String::Latin1);
+      if (it->size() <= 5)
+        continue;  // invalid specification
       String description = it->substr(5);
       Frame *frame = 0;
-      if(id == "TXXX")
+      if (id == "TXXX")
         frame = UserTextIdentificationFrame::find(this, description);
-      else if(id == "WXXX")
+      else if (id == "WXXX")
         frame = UserUrlLinkFrame::find(this, description);
-      else if(id == "COMM")
+      else if (id == "COMM")
         frame = CommentsFrame::findByDescription(this, description);
-      else if(id == "USLT")
+      else if (id == "USLT")
         frame = UnsynchronizedLyricsFrame::findByDescription(this, description);
-      else if(id == "UFID")
+      else if (id == "UFID")
         frame = UniqueFileIdentifierFrame::findByOwner(this, description);
-      if(frame)
+      if (frame)
         removeFrame(frame);
     }
   }
 }
 
-PropertyMap ID3v2::Tag::setProperties(const PropertyMap &origProps)
-{
+PropertyMap ID3v2::Tag::setProperties(const PropertyMap &origProps) {
   FrameList framesToDelete;
   // we split up the PropertyMap into the "normal" keys and the "complicated" ones,
   // which are those according to TIPL or TMCL frames.
@@ -425,48 +383,48 @@ PropertyMap ID3v2::Tag::setProperties(const PropertyMap &origProps)
   PropertyMap tiplProperties;
   PropertyMap tmclProperties;
   Frame::splitProperties(origProps, properties, tiplProperties, tmclProperties);
-  for(FrameListMap::ConstIterator it = frameListMap().begin(); it != frameListMap().end(); ++it){
-    for(FrameList::ConstIterator lit = it->second.begin(); lit != it->second.end(); ++lit){
+  for (FrameListMap::ConstIterator it = frameListMap().begin(); it != frameListMap().end(); ++it) {
+    for (FrameList::ConstIterator lit = it->second.begin(); lit != it->second.end(); ++lit) {
       PropertyMap frameProperties = (*lit)->asProperties();
-      if(it->first == "TIPL") {
+      if (it->first == "TIPL") {
         if (tiplProperties != frameProperties)
           framesToDelete.append(*lit);
         else
           tiplProperties.erase(frameProperties);
-      } else if(it->first == "TMCL") {
+      }
+      else if (it->first == "TMCL") {
         if (tmclProperties != frameProperties)
           framesToDelete.append(*lit);
         else
           tmclProperties.erase(frameProperties);
-      } else if(!properties.contains(frameProperties))
+      }
+      else if (!properties.contains(frameProperties))
         framesToDelete.append(*lit);
       else
         properties.erase(frameProperties);
     }
   }
-  for(FrameList::ConstIterator it = framesToDelete.begin(); it != framesToDelete.end(); ++it)
+  for (FrameList::ConstIterator it = framesToDelete.begin(); it != framesToDelete.end(); ++it)
     removeFrame(*it);
 
   // now create remaining frames:
   // start with the involved people list (TIPL)
-  if(!tiplProperties.isEmpty())
-      addFrame(TextIdentificationFrame::createTIPLFrame(tiplProperties));
+  if (!tiplProperties.isEmpty())
+    addFrame(TextIdentificationFrame::createTIPLFrame(tiplProperties));
   // proceed with the musician credit list (TMCL)
-  if(!tmclProperties.isEmpty())
-      addFrame(TextIdentificationFrame::createTMCLFrame(tmclProperties));
+  if (!tmclProperties.isEmpty())
+    addFrame(TextIdentificationFrame::createTMCLFrame(tmclProperties));
   // now create the "one key per frame" frames
-  for(PropertyMap::ConstIterator it = properties.begin(); it != properties.end(); ++it)
+  for (PropertyMap::ConstIterator it = properties.begin(); it != properties.end(); ++it)
     addFrame(Frame::createTextualFrame(it->first, it->second));
-  return PropertyMap(); // ID3 implements the complete PropertyMap interface, so an empty map is returned
+  return PropertyMap();  // ID3 implements the complete PropertyMap interface, so an empty map is returned
 }
 
-ByteVector ID3v2::Tag::render() const
-{
+ByteVector ID3v2::Tag::render() const {
   return render(ID3v2::v4);
 }
 
-void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const
-{
+void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const {
 #ifdef NO_ITUNES_HACKS
   const char *unsupportedFrames[] = {
     "ASPI", "EQU2", "RVA2", "SEEK", "SIGN", "TDRL", "TDTG",
@@ -483,59 +441,58 @@ void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const
   ID3v2::TextIdentificationFrame *frameTDRC = 0;
   ID3v2::TextIdentificationFrame *frameTIPL = 0;
   ID3v2::TextIdentificationFrame *frameTMCL = 0;
-  for(FrameList::ConstIterator it = d->frameList.begin(); it != d->frameList.end(); it++) {
+  for (FrameList::ConstIterator it = d->frameList.begin(); it != d->frameList.end(); it++) {
     ID3v2::Frame *frame = *it;
     ByteVector frameID = frame->header()->frameID();
-    for(int i = 0; unsupportedFrames[i]; i++) {
-      if(frameID == unsupportedFrames[i]) {
-        debug("A frame that is not supported in ID3v2.3 \'"
-          + String(frameID) + "\' has been discarded");
+    for (int i = 0; unsupportedFrames[i]; i++) {
+      if (frameID == unsupportedFrames[i]) {
+        debug("A frame that is not supported in ID3v2.3 \'" + String(frameID) + "\' has been discarded");
         frame = 0;
         break;
       }
     }
-    if(frame && frameID == "TDOR") {
+    if (frame && frameID == "TDOR") {
       frameTDOR = dynamic_cast<ID3v2::TextIdentificationFrame *>(frame);
       frame = 0;
     }
-    if(frame && frameID == "TDRC") {
+    if (frame && frameID == "TDRC") {
       frameTDRC = dynamic_cast<ID3v2::TextIdentificationFrame *>(frame);
       frame = 0;
     }
-    if(frame && frameID == "TIPL") {
+    if (frame && frameID == "TIPL") {
       frameTIPL = dynamic_cast<ID3v2::TextIdentificationFrame *>(frame);
       frame = 0;
     }
-    if(frame && frameID == "TMCL") {
+    if (frame && frameID == "TMCL") {
       frameTMCL = dynamic_cast<ID3v2::TextIdentificationFrame *>(frame);
       frame = 0;
     }
-    if(frame) {
+    if (frame) {
       frames->append(frame);
     }
   }
-  if(frameTDOR) {
+  if (frameTDOR) {
     String content = frameTDOR->toString();
-    if(content.size() >= 4) {
+    if (content.size() >= 4) {
       ID3v2::TextIdentificationFrame *frameTORY = new ID3v2::TextIdentificationFrame("TORY", String::Latin1);
       frameTORY->setText(content.substr(0, 4));
       frames->append(frameTORY);
       newFrames->append(frameTORY);
     }
   }
-  if(frameTDRC) {
+  if (frameTDRC) {
     String content = frameTDRC->toString();
-    if(content.size() >= 4) {
+    if (content.size() >= 4) {
       ID3v2::TextIdentificationFrame *frameTYER = new ID3v2::TextIdentificationFrame("TYER", String::Latin1);
       frameTYER->setText(content.substr(0, 4));
       frames->append(frameTYER);
       newFrames->append(frameTYER);
-      if(content.size() >= 10 && content[4] == '-' && content[7] == '-') {
+      if (content.size() >= 10 && content[4] == '-' && content[7] == '-') {
         ID3v2::TextIdentificationFrame *frameTDAT = new ID3v2::TextIdentificationFrame("TDAT", String::Latin1);
         frameTDAT->setText(content.substr(8, 2) + content.substr(5, 2));
         frames->append(frameTDAT);
         newFrames->append(frameTDAT);
-        if(content.size() >= 16 && content[10] == 'T' && content[13] == ':') {
+        if (content.size() >= 16 && content[10] == 'T' && content[13] == ':') {
           ID3v2::TextIdentificationFrame *frameTIME = new ID3v2::TextIdentificationFrame("TIME", String::Latin1);
           frameTIME->setText(content.substr(11, 2) + content.substr(14, 2));
           frames->append(frameTIME);
@@ -544,21 +501,21 @@ void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const
       }
     }
   }
-  if(frameTIPL || frameTMCL) {
+  if (frameTIPL || frameTMCL) {
     ID3v2::TextIdentificationFrame *frameIPLS = new ID3v2::TextIdentificationFrame("IPLS", String::Latin1);
     StringList people;
-    if(frameTMCL) {
+    if (frameTMCL) {
       StringList v24People = frameTMCL->fieldList();
-      for(unsigned int i = 0; i + 1 < v24People.size(); i += 2) {
+      for (unsigned int i = 0; i + 1 < v24People.size(); i += 2) {
         people.append(v24People[i]);
-        people.append(v24People[i+1]);
+        people.append(v24People[i + 1]);
       }
     }
-    if(frameTIPL) {
+    if (frameTIPL) {
       StringList v24People = frameTIPL->fieldList();
-      for(unsigned int i = 0; i + 1 < v24People.size(); i += 2) {
+      for (unsigned int i = 0; i + 1 < v24People.size(); i += 2) {
         people.append(v24People[i]);
-        people.append(v24People[i+1]);
+        people.append(v24People[i + 1]);
       }
     }
     frameIPLS->setText(people);
@@ -567,13 +524,11 @@ void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const
   }
 }
 
-ByteVector ID3v2::Tag::render(int version) const
-{
+ByteVector ID3v2::Tag::render(int version) const {
   return render(version == 3 ? v3 : v4);
 }
 
-ByteVector ID3v2::Tag::render(Version version) const
-{
+ByteVector ID3v2::Tag::render(Version version) const {
   // We need to render the "tag data" first so that we have to correct size to
   // render in the tag's header.  The "tag data" -- everything that is included
   // in ID3v2::Header::tagSize() -- includes the extended header, frames and
@@ -587,7 +542,7 @@ ByteVector ID3v2::Tag::render(Version version) const
   newFrames.setAutoDelete(true);
 
   FrameList frameList;
-  if(version == v4) {
+  if (version == v4) {
     frameList = d->frameList;
   }
   else {
@@ -600,18 +555,16 @@ ByteVector ID3v2::Tag::render(Version version) const
 
   // Loop through the frames rendering them and adding them to the tagData.
 
-  for(FrameList::ConstIterator it = frameList.begin(); it != frameList.end(); it++) {
+  for (FrameList::ConstIterator it = frameList.begin(); it != frameList.end(); it++) {
     (*it)->header()->setVersion(version == v3 ? 3 : 4);
-    if((*it)->header()->frameID().size() != 4) {
-      debug("An ID3v2 frame of unsupported or unknown type \'"
-          + String((*it)->header()->frameID()) + "\' has been discarded");
+    if ((*it)->header()->frameID().size() != 4) {
+      debug("An ID3v2 frame of unsupported or unknown type \'" + String((*it)->header()->frameID()) + "\' has been discarded");
       continue;
     }
-    if(!(*it)->header()->tagAlterPreservation()) {
+    if (!(*it)->header()->tagAlterPreservation()) {
       const ByteVector frameData = (*it)->render();
-      if(frameData.size() == Frame::headerSize((*it)->header()->version())) {
-        debug("An empty ID3v2 frame \'"
-          + String((*it)->header()->frameID()) + "\' has been discarded");
+      if (frameData.size() == Frame::headerSize((*it)->header()->version())) {
+        debug("An empty ID3v2 frame \'" + String((*it)->header()->frameID()) + "\' has been discarded");
         continue;
       }
       tagData.append(frameData);
@@ -623,7 +576,7 @@ ByteVector ID3v2::Tag::render(Version version) const
   long originalSize = d->header.tagSize();
   long paddingSize = originalSize - (tagData.size() - Header::size());
 
-  if(paddingSize <= 0) {
+  if (paddingSize <= 0) {
     paddingSize = MinPaddingSize;
   }
   else {
@@ -633,7 +586,7 @@ ByteVector ID3v2::Tag::render(Version version) const
     threshold = std::max(threshold, MinPaddingSize);
     threshold = std::min(threshold, MaxPaddingSize);
 
-    if(paddingSize > threshold)
+    if (paddingSize > threshold)
       paddingSize = MinPaddingSize;
   }
 
@@ -650,14 +603,12 @@ ByteVector ID3v2::Tag::render(Version version) const
   return tagData;
 }
 
-Latin1StringHandler const *ID3v2::Tag::latin1StringHandler()
-{
+Latin1StringHandler const *ID3v2::Tag::latin1StringHandler() {
   return stringHandler;
 }
 
-void ID3v2::Tag::setLatin1StringHandler(const Latin1StringHandler *handler)
-{
-  if(handler)
+void ID3v2::Tag::setLatin1StringHandler(const Latin1StringHandler *handler) {
+  if (handler)
     stringHandler = handler;
   else
     stringHandler = &defaultStringHandler;
@@ -667,12 +618,11 @@ void ID3v2::Tag::setLatin1StringHandler(const Latin1StringHandler *handler)
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void ID3v2::Tag::read()
-{
-  if(!d->file)
+void ID3v2::Tag::read() {
+  if (!d->file)
     return;
 
-  if(!d->file->isOpen())
+  if (!d->file->isOpen())
     return;
 
   d->file->seek(d->tagOffset);
@@ -681,7 +631,7 @@ void ID3v2::Tag::read()
   // If the tag size is 0, then this is an invalid tag (tags must contain at
   // least one frame)
 
-  if(d->header.tagSize() != 0)
+  if (d->header.tagSize() != 0)
     parse(d->file->readBlock(d->header.tagSize()));
 
   // Look for duplicate ID3v2 tags and treat them as an extra blank of this one.
@@ -692,28 +642,27 @@ void ID3v2::Tag::read()
 
   unsigned int extraSize = 0;
 
-  while(true) {
+  while (true) {
 
     d->file->seek(d->tagOffset + d->header.completeTagSize() + extraSize);
 
     const ByteVector data = d->file->readBlock(Header::size());
-    if(data.size() < Header::size() || !data.startsWith(Header::fileIdentifier()))
+    if (data.size() < Header::size() || !data.startsWith(Header::fileIdentifier()))
       break;
 
     extraSize += Header(data).completeTagSize();
   }
 
-  if(extraSize != 0) {
+  if (extraSize != 0) {
     debug("ID3v2::Tag::read() - Duplicate ID3v2 tags found.");
     d->header.setTagSize(d->header.tagSize() + extraSize);
   }
 }
 
-void ID3v2::Tag::parse(const ByteVector &origData)
-{
+void ID3v2::Tag::parse(const ByteVector &origData) {
   ByteVector data = origData;
 
-  if(d->header.unsynchronisation() && d->header.majorVersion() <= 3)
+  if (d->header.unsynchronisation() && d->header.majorVersion() <= 3)
     data = SynchData::decode(data);
 
   unsigned int frameDataPosition = 0;
@@ -721,11 +670,11 @@ void ID3v2::Tag::parse(const ByteVector &origData)
 
   // check for extended header
 
-  if(d->header.extendedHeader()) {
-    if(!d->extendedHeader)
+  if (d->header.extendedHeader()) {
+    if (!d->extendedHeader)
       d->extendedHeader = new ExtendedHeader();
     d->extendedHeader->setData(data);
-    if(d->extendedHeader->size() <= data.size()) {
+    if (d->extendedHeader->size() <= data.size()) {
       frameDataPosition += d->extendedHeader->size();
       frameDataLength -= d->extendedHeader->size();
     }
@@ -735,7 +684,7 @@ void ID3v2::Tag::parse(const ByteVector &origData)
   // contain the same data as the header, but we do need to account for its
   // size.
 
-  if(d->header.footerPresent() && Footer::size() <= frameDataLength)
+  if (d->header.footerPresent() && Footer::size() <= frameDataLength)
     frameDataLength -= Footer::size();
 
   // parse frames
@@ -743,13 +692,13 @@ void ID3v2::Tag::parse(const ByteVector &origData)
   // Make sure that there is at least enough room in the remaining frame data for
   // a frame header.
 
-  while(frameDataPosition < frameDataLength - Frame::headerSize(d->header.majorVersion())) {
+  while (frameDataPosition < frameDataLength - Frame::headerSize(d->header.majorVersion())) {
 
     // If the next data is position is 0, assume that we've hit the padding
     // portion of the frame data.
 
-    if(data.at(frameDataPosition) == 0) {
-      if(d->header.footerPresent()) {
+    if (data.at(frameDataPosition) == 0) {
+      if (d->header.footerPresent()) {
         debug("Padding *and* a footer found.  This is not allowed by the spec.");
       }
 
@@ -757,14 +706,14 @@ void ID3v2::Tag::parse(const ByteVector &origData)
     }
 
     Frame *frame = d->factory->createFrame(data.mid(frameDataPosition),
-                                           &d->header);
+      &d->header);
 
-    if(!frame)
+    if (!frame)
       return;
 
     // Checks to make sure that frame parsed correctly.
 
-    if(frame->size() <= 0) {
+    if (frame->size() <= 0) {
       delete frame;
       return;
     }
@@ -776,14 +725,13 @@ void ID3v2::Tag::parse(const ByteVector &origData)
   d->factory->rebuildAggregateFrames(this);
 }
 
-void ID3v2::Tag::setTextFrame(const ByteVector &id, const String &value)
-{
-  if(value.isEmpty()) {
+void ID3v2::Tag::setTextFrame(const ByteVector &id, const String &value) {
+  if (value.isEmpty()) {
     removeFrames(id);
     return;
   }
 
-  if(!d->frameListMap[id].isEmpty())
+  if (!d->frameListMap[id].isEmpty())
     d->frameListMap[id].front()->setText(value);
   else {
     const String::Type encoding = d->factory->defaultTextEncoding();
