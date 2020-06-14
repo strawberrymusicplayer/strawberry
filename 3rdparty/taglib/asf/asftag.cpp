@@ -38,8 +38,7 @@ class ASF::Tag::TagPrivate {
   AttributeListMap attributeListMap;
 };
 
-ASF::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(),
-                  d(new TagPrivate()) {
+ASF::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
 }
 
 ASF::Tag::~Tag() {
@@ -55,9 +54,11 @@ String ASF::Tag::artist() const {
 }
 
 String ASF::Tag::album() const {
+
   if (d->attributeListMap.contains("WM/AlbumTitle"))
     return d->attributeListMap["WM/AlbumTitle"][0].toString();
   return String();
+
 }
 
 String ASF::Tag::copyright() const {
@@ -73,12 +74,15 @@ String ASF::Tag::rating() const {
 }
 
 unsigned int ASF::Tag::year() const {
+
   if (d->attributeListMap.contains("WM/Year"))
     return d->attributeListMap["WM/Year"][0].toString().toInt();
   return 0;
+
 }
 
 unsigned int ASF::Tag::track() const {
+
   if (d->attributeListMap.contains("WM/TrackNumber")) {
     const ASF::Attribute attr = d->attributeListMap["WM/TrackNumber"][0];
     if (attr.type() == ASF::Attribute::DWordType)
@@ -89,12 +93,15 @@ unsigned int ASF::Tag::track() const {
   if (d->attributeListMap.contains("WM/Track"))
     return d->attributeListMap["WM/Track"][0].toUInt();
   return 0;
+
 }
 
 String ASF::Tag::genre() const {
+
   if (d->attributeListMap.contains("WM/Genre"))
     return d->attributeListMap["WM/Genre"][0].toString();
   return String();
+
 }
 
 void ASF::Tag::setTitle(const String &value) {
@@ -133,11 +140,7 @@ void ASF::Tag::setTrack(unsigned int value) {
   setAttribute("WM/TrackNumber", String::number(value));
 }
 
-ASF::AttributeListMap &ASF::Tag::attributeListMap() {
-  return d->attributeListMap;
-}
-
-const ASF::AttributeListMap &ASF::Tag::attributeListMap() const {
+const ASF::AttributeListMap ASF::Tag::attributeListMap() const {
   return d->attributeListMap;
 }
 
@@ -154,9 +157,11 @@ ASF::AttributeList ASF::Tag::attribute(const String &name) const {
 }
 
 void ASF::Tag::setAttribute(const String &name, const Attribute &attribute) {
+
   AttributeList value;
   value.append(attribute);
   d->attributeListMap.insert(name, value);
+
 }
 
 void ASF::Tag::setAttribute(const String &name, const AttributeList &values) {
@@ -164,19 +169,23 @@ void ASF::Tag::setAttribute(const String &name, const AttributeList &values) {
 }
 
 void ASF::Tag::addAttribute(const String &name, const Attribute &attribute) {
+
   if (d->attributeListMap.contains(name)) {
     d->attributeListMap[name].append(attribute);
   }
   else {
     setAttribute(name, attribute);
   }
+
 }
 
 bool ASF::Tag::isEmpty() const {
+
   return Strawberry_TagLib::TagLib::Tag::isEmpty() &&
     copyright().isEmpty() &&
     rating().isEmpty() &&
     d->attributeListMap.isEmpty();
+
 }
 
 namespace {
@@ -224,16 +233,19 @@ const char *keyTranslation[][2] = {
 const size_t keyTranslationSize = sizeof(keyTranslation) / sizeof(keyTranslation[0]);
 
 String translateKey(const String &key) {
+
   for (size_t i = 0; i < keyTranslationSize; ++i) {
     if (key == keyTranslation[i][0])
       return keyTranslation[i][1];
   }
 
   return String();
+
 }
 }  // namespace
 
 PropertyMap ASF::Tag::properties() const {
+
   PropertyMap props;
 
   if (!d->title.isEmpty()) {
@@ -271,15 +283,19 @@ PropertyMap ASF::Tag::properties() const {
     }
   }
   return props;
+
 }
 
 void ASF::Tag::removeUnsupportedProperties(const StringList &props) {
+
   StringList::ConstIterator it = props.begin();
   for (; it != props.end(); ++it)
     d->attributeListMap.erase(*it);
+
 }
 
 PropertyMap ASF::Tag::setProperties(const PropertyMap &props) {
+
   static Map<String, String> reverseKeyMap;
   if (reverseKeyMap.isEmpty()) {
     int numKeys = sizeof(keyTranslation) / sizeof(keyTranslation[0]);
@@ -339,4 +355,5 @@ PropertyMap ASF::Tag::setProperties(const PropertyMap &props) {
   }
 
   return ignoredProps;
+
 }

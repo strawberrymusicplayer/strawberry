@@ -57,17 +57,12 @@ class Opus::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Opus::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                            d(new PropertiesPrivate()) {
+Opus::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file);
 }
 
 Opus::Properties::~Properties() {
   delete d;
-}
-
-int Opus::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int Ogg::Opus::Properties::lengthInSeconds() const {
@@ -83,10 +78,12 @@ int Opus::Properties::bitrate() const {
 }
 
 int Opus::Properties::sampleRate() const {
+
   // Opus can decode any stream at a sample rate of 8, 12, 16, 24, or 48 kHz,
   // so there is no single sample rate. Let's assume it's the highest
   // possible.
   return 48000;
+
 }
 
 int Opus::Properties::channels() const {
@@ -106,6 +103,7 @@ int Opus::Properties::opusVersion() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Opus::Properties::read(File *file) {
+
   // Get the identification header from the Ogg implementation.
 
   // http://tools.ietf.org/html/draft-terriberry-oggopus-01#section-5.1
@@ -166,4 +164,5 @@ void Opus::Properties::read(File *file) {
   }
   else
     debug("Opus::Properties::read() -- Could not find valid first and last Ogg pages.");
+
 }

@@ -37,7 +37,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace Ogg {
 
 //! A namespace containing classes for Opus metadata
@@ -47,79 +46,74 @@ namespace Opus {
 //! An implementation of Ogg::File with Opus specific methods
 
 /*!
-       * This is the central class in the Ogg Opus metadata processing collection
-       * of classes.  It's built upon Ogg::File which handles processing of the Ogg
-       * logical bitstream and breaking it down into pages which are handled by
-       * the codec implementations, in this case Opus specifically.
-       */
+ * This is the central class in the Ogg Opus metadata processing collection of classes.
+ * It's built upon Ogg::File which handles processing of the Ogg logical bitstream and
+ * breaking it down into pages which are handled by the codec implementations,
+ * in this case Opus specifically.
+ *
+ */
 
 class TAGLIB_EXPORT File : public Ogg::File {
  public:
   /*!
-         * Constructs an Opus file from \a file.  If \a readProperties is true the
-         * file's audio properties will also be read.
-         *
-         * \note In the current implementation, \a propertiesStyle is ignored.
-         */
-  File(FileName file, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+   * Constructs an Opus file from \a file.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
+  File(FileName file, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
 
   /*!
-         * Constructs an Opus file from \a stream.  If \a readProperties is true the
-         * file's audio properties will also be read.
-         *
-         * \note TagLib will *not* take ownership of the stream, the caller is
-         * responsible for deleting it after the File object.
-         *
-         * \note In the current implementation, \a propertiesStyle is ignored.
-         */
-  File(IOStream *stream, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+   * Constructs an Opus file from \a stream.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
+  File(IOStream *stream, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
 
   /*!
-         * Destroys this instance of the File.
-         */
+   * Destroys this instance of the File.
+   */
   virtual ~File();
 
   /*!
-         * Returns the XiphComment for this file.  XiphComment implements the tag
-         * interface, so this serves as the reimplementation of
-         * TagLib::File::tag().
-         */
+   * Returns the XiphComment for this file.
+   * XiphComment implements the tag interface, so this serves as the reimplementation of TagLib::File::tag().
+   */
   virtual Ogg::XiphComment *tag() const;
 
   /*!
-         * Implements the unified property interface -- export function.
-         * This forwards directly to XiphComment::properties().
-         */
+   * Implements the unified property interface -- export function.
+   * This forwards directly to XiphComment::properties().
+   */
   PropertyMap properties() const;
 
   /*!
-         * Implements the unified tag dictionary interface -- import function.
-         * Like properties(), this is a forwarder to the file's XiphComment.
-         */
+   * Implements the unified tag dictionary interface -- import function.
+   * Like properties(), this is a forwarder to the file's XiphComment.
+   */
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-         * Returns the Opus::Properties for this file.  If no audio properties
-         * were read then this will return a null pointer.
-         */
+   * Returns the Opus::Properties for this file.
+   * If no audio properties were read then this will return a null pointer.
+   */
   virtual Properties *audioProperties() const;
 
   /*!
-         * Save the file.
-         *
-         * This returns true if the save was successful.
-         */
+   * Save the file.
+   *
+   * This returns true if the save was successful.
+   */
   virtual bool save();
 
   /*!
-         * Returns whether or not the given \a stream can be opened as an Opus
-         * file.
-         *
-         * \note This method is designed to do a quick check.  The result may
-         * not necessarily be correct.
-         */
+   * Returns whether or not the given \a stream can be opened as an Opus file.
+   *
+   * \note This method is designed to do a quick check.  The result may not necessarily be correct.
+   */
   static bool isSupported(IOStream *stream);
 
  private:
@@ -131,6 +125,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   class FilePrivate;
   FilePrivate *d;
 };
+
 }  // namespace Opus
 }  // namespace Ogg
 }  // namespace TagLib

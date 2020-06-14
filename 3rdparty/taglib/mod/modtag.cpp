@@ -33,17 +33,14 @@ using namespace Mod;
 
 class Mod::Tag::TagPrivate {
  public:
-  TagPrivate() {
-  }
+  TagPrivate() {}
 
   String title;
   String comment;
   String trackerName;
 };
 
-Mod::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(),
-                  d(new TagPrivate()) {
-}
+Mod::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
 
 Mod::Tag::~Tag() {
   delete d;
@@ -109,15 +106,18 @@ void Mod::Tag::setTrackerName(const String &trackerName) {
 }
 
 PropertyMap Mod::Tag::properties() const {
+
   PropertyMap properties;
   properties["TITLE"] = d->title;
   properties["COMMENT"] = d->comment;
   if (!(d->trackerName.isEmpty()))
     properties["TRACKERNAME"] = d->trackerName;
   return properties;
+
 }
 
 PropertyMap Mod::Tag::setProperties(const PropertyMap &origProps) {
+
   PropertyMap properties(origProps);
   properties.removeEmpty();
   StringList oneValueSet;
@@ -151,4 +151,5 @@ PropertyMap Mod::Tag::setProperties(const PropertyMap &origProps) {
       properties[*it].erase(properties[*it].begin());
   }
   return properties;
+
 }

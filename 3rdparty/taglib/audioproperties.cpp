@@ -89,8 +89,7 @@ class AudioProperties::AudioPropertiesPrivate {
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-AudioProperties::~AudioProperties() {
-}
+AudioProperties::~AudioProperties() {}
 
 int AudioProperties::lengthInSeconds() const {
   VIRTUAL_FUNCTION_WORKAROUND(lengthInSeconds, 0)
@@ -104,5 +103,4 @@ int AudioProperties::lengthInMilliseconds() const {
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-AudioProperties::AudioProperties(ReadStyle) : d(0) {
-}
+AudioProperties::AudioProperties(ReadStyle) : d(nullptr) {}

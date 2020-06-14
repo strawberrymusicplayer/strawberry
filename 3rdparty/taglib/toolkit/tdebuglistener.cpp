@@ -64,17 +64,17 @@ namespace Strawberry_TagLib {
 namespace TagLib {
 DebugListener *debugListener = &defaultListener;
 
-DebugListener::DebugListener() {
-}
+DebugListener::DebugListener() {}
 
-DebugListener::~DebugListener() {
-}
+DebugListener::~DebugListener() {}
 
 void setDebugListener(DebugListener *listener) {
+
   if (listener)
     debugListener = listener;
   else
     debugListener = &defaultListener;
+
 }
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

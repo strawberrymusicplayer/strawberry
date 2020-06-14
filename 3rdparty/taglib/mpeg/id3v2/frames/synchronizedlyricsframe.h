@@ -31,20 +31,19 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! ID3v2 synchronized lyrics frame
 /*!
-     * An implementation of ID3v2 synchronized lyrics.
-     */
+ * An implementation of ID3v2 synchronized lyrics.
+ */
 class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Specifies the timestamp format used.
-       */
+   * Specifies the timestamp format used.
+   */
   enum TimestampFormat {
     //! The timestamp is of unknown format.
     Unknown = 0x00,
@@ -57,8 +56,8 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
   };
 
   /*!
-       * Specifies the type of text contained.
-       */
+   * Specifies the type of text contained.
+   */
   enum Type {
     //! The text is some other type of text.
     Other = 0x00,
@@ -81,8 +80,8 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
   };
 
   /*!
-       * Single entry of time stamp and lyrics text.
-       */
+   * Single entry of time stamp and lyrics text.
+   */
   struct SynchedText {
     SynchedText(unsigned int ms, String str) : time(ms), text(str) {}
     unsigned int time;
@@ -90,121 +89,117 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
   };
 
   /*!
-       * List of synchronized lyrics.
-       */
+   * List of synchronized lyrics.
+   */
   typedef Strawberry_TagLib::TagLib::List<SynchedText> SynchedTextList;
 
   /*!
-       * Construct an empty synchronized lyrics frame that will use the text
-       * encoding \a encoding.
-       */
+   * Construct an empty synchronized lyrics frame that will use the text encoding \a encoding.
+   */
   explicit SynchronizedLyricsFrame(String::Type encoding = String::Latin1);
 
   /*!
-       * Construct a synchronized lyrics frame based on the data in \a data.
-       */
+   * Construct a synchronized lyrics frame based on the data in \a data.
+   */
   explicit SynchronizedLyricsFrame(const ByteVector &data);
 
   /*!
-       * Destroys this SynchronizedLyricsFrame instance.
-       */
+   * Destroys this SynchronizedLyricsFrame instance.
+   */
   virtual ~SynchronizedLyricsFrame();
 
   /*!
-       * Returns the description of this synchronized lyrics frame.
-       *
-       * \see description()
-       */
+   * Returns the description of this synchronized lyrics frame.
+   *
+   * \see description()
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the text encoding that will be used in rendering this frame.
-       * This defaults to the type that was either specified in the constructor
-       * or read from the frame when parsed.
-       *
-       * \see setTextEncoding()
-       * \see render()
-       */
+   * Returns the text encoding that will be used in rendering this frame.
+   * This defaults to the type that was either specified in the constructor or read from the frame when parsed.
+   *
+   * \see setTextEncoding()
+   * \see render()
+   */
   String::Type textEncoding() const;
 
   /*!
-       * Returns the language encoding as a 3 byte encoding as specified by
-       * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a>.
-       *
-       * \note Most taggers simply ignore this value.
-       *
-       * \see setLanguage()
-       */
+   * Returns the language encoding as a 3 byte encoding as specified by
+   * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a>.
+   *
+   * \note Most taggers simply ignore this value.
+   *
+   * \see setLanguage()
+   */
   ByteVector language() const;
 
   /*!
-       * Returns the timestamp format.
-       */
+   * Returns the timestamp format.
+   */
   TimestampFormat timestampFormat() const;
 
   /*!
-       * Returns the type of text contained.
-       */
+   * Returns the type of text contained.
+   */
   Type type() const;
 
   /*!
-       * Returns the description of this synchronized lyrics frame.
-       *
-       * \note Most taggers simply ignore this value.
-       *
-       * \see setDescription()
-       */
+   * Returns the description of this synchronized lyrics frame.
+   *
+   * \note Most taggers simply ignore this value.
+   *
+   * \see setDescription()
+   */
   String description() const;
 
   /*!
-       * Returns the text with the time stamps.
-       */
+   * Returns the text with the time stamps.
+   */
   SynchedTextList synchedText() const;
 
   /*!
-       * Sets the text encoding to be used when rendering this frame to
-       * \a encoding.
-       *
-       * \see textEncoding()
-       * \see render()
-       */
+   * Sets the text encoding to be used when rendering this frame to \a encoding.
+   *
+   * \see textEncoding()
+   * \see render()
+   */
   void setTextEncoding(String::Type encoding);
 
   /*!
-       * Set the language using the 3 byte language code from
-       * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a> to
-       * \a languageCode.
-       *
-       * \see language()
-       */
+   * Set the language using the 3 byte language code from
+   * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a> to \a languageCode.
+   *
+   * \see language()
+   */
   void setLanguage(const ByteVector &languageCode);
 
   /*!
-       * Set the timestamp format.
-       *
-       * \see timestampFormat()
-       */
+   * Set the timestamp format.
+   *
+   * \see timestampFormat()
+   */
   void setTimestampFormat(TimestampFormat f);
 
   /*!
-       * Set the type of text contained.
-       *
-       * \see type()
-       */
+   * Set the type of text contained.
+   *
+   * \see type()
+   */
   void setType(Type t);
 
   /*!
-       * Sets the description of the synchronized lyrics frame to \a s.
-       *
-       * \see description()
-       */
+   * Sets the description of the synchronized lyrics frame to \a s.
+   *
+   * \see description()
+   */
   void setDescription(const String &s);
 
   /*!
-       * Sets the text with the time stamps.
-       *
-       * \see text()
-       */
+   * Sets the text with the time stamps.
+   *
+   * \see text()
+   */
   void setSynchedText(const SynchedTextList &t);
 
  protected:
@@ -215,8 +210,8 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   SynchronizedLyricsFrame(const ByteVector &data, Header *h);
   SynchronizedLyricsFrame(const SynchronizedLyricsFrame &);
   SynchronizedLyricsFrame &operator=(const SynchronizedLyricsFrame &);
@@ -228,4 +223,5 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

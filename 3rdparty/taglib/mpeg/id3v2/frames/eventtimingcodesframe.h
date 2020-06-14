@@ -31,20 +31,19 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! ID3v2 event timing codes frame
 /*!
-     * An implementation of ID3v2 event timing codes.
-     */
+ * An implementation of ID3v2 event timing codes.
+ */
 class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Specifies the timestamp format used.
-       */
+   * Specifies the timestamp format used.
+   */
   enum TimestampFormat {
     //! The timestamp is of unknown format.
     Unknown = 0x00,
@@ -57,8 +56,8 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
   };
 
   /*!
-       * Event types defined in id3v2.4.0-frames.txt 4.5. Event timing codes.
-       */
+   * Event types defined in id3v2.4.0-frames.txt 4.5. Event timing codes.
+   */
   enum EventType {
     Padding = 0x00,
     EndOfInitialSilence = 0x01,
@@ -104,8 +103,8 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
   };
 
   /*!
-       * Single entry of time stamp and event.
-       */
+   * Single entry of time stamp and event.
+   */
   struct SynchedEvent {
     SynchedEvent(unsigned int ms, EventType t) : time(ms), type(t) {}
     unsigned int time;
@@ -113,52 +112,52 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
   };
 
   /*!
-       * List of synchronized events.
-       */
+   * List of synchronized events.
+   */
   typedef Strawberry_TagLib::TagLib::List<SynchedEvent> SynchedEventList;
 
   /*!
-       * Construct an empty event timing codes frame.
-       */
+   * Construct an empty event timing codes frame.
+   */
   explicit EventTimingCodesFrame();
 
   /*!
-       * Construct a event timing codes frame based on the data in \a data.
-       */
+   * Construct a event timing codes frame based on the data in \a data.
+   */
   explicit EventTimingCodesFrame(const ByteVector &data);
 
   /*!
-       * Destroys this EventTimingCodesFrame instance.
-       */
+   * Destroys this EventTimingCodesFrame instance.
+   */
   virtual ~EventTimingCodesFrame();
 
   /*!
-       * Returns a null string.
-       */
+   * Returns a null string.
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the timestamp format.
-       */
+   * Returns the timestamp format.
+   */
   TimestampFormat timestampFormat() const;
 
   /*!
-       * Returns the events with the time stamps.
-       */
+   * Returns the events with the time stamps.
+   */
   SynchedEventList synchedEvents() const;
 
   /*!
-       * Set the timestamp format.
-       *
-       * \see timestampFormat()
-       */
+   * Set the timestamp format.
+   *
+   * \see timestampFormat()
+   */
   void setTimestampFormat(TimestampFormat f);
 
   /*!
-       * Sets the text with the time stamps.
-       *
-       * \see text()
-       */
+   * Sets the text with the time stamps.
+   *
+   * \see text()
+   */
   void setSynchedEvents(const SynchedEventList &e);
 
  protected:
@@ -169,8 +168,8 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   EventTimingCodesFrame(const ByteVector &data, Header *h);
   EventTimingCodesFrame(const EventTimingCodesFrame &);
   EventTimingCodesFrame &operator=(const EventTimingCodesFrame &);
@@ -182,4 +181,5 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

@@ -37,15 +37,15 @@
 using namespace Strawberry_TagLib::TagLib;
 
 namespace {
-enum { ID3v2Index = 0,
-  InfoIndex = 1 };
+enum {
+  ID3v2Index = 0,
+  InfoIndex = 1
+};
 }
 
 class RIFF::WAV::File::FilePrivate {
  public:
-  FilePrivate() : properties(0),
-                  hasID3v2(false),
-                  hasInfo(false) {}
+  FilePrivate() : properties(nullptr), hasID3v2(false), hasInfo(false) {}
 
   ~FilePrivate() {
     delete properties;
@@ -63,26 +63,30 @@ class RIFF::WAV::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool RIFF::WAV::File::isSupported(IOStream *stream) {
+
   // A WAV file has to start with "RIFF????WAVE".
 
   const ByteVector id = Utils::readHeader(stream, 12, false);
   return (id.startsWith("RIFF") && id.containsAt("WAVE", 8));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::WAV::File::File(FileName file, bool readProperties, Properties::ReadStyle) : RIFF::File(file, LittleEndian),
-                                                                                   d(new FilePrivate()) {
+RIFF::WAV::File::File(FileName file, bool readProperties, Properties::ReadStyle) : RIFF::File(file, LittleEndian), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-RIFF::WAV::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : RIFF::File(stream, LittleEndian),
-                                                                                      d(new FilePrivate()) {
+RIFF::WAV::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : RIFF::File(stream, LittleEndian), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 RIFF::WAV::File::~File() {
@@ -102,6 +106,7 @@ RIFF::Info::Tag *RIFF::WAV::File::InfoTag() const {
 }
 
 void RIFF::WAV::File::strip(TagTypes tags) {
+
   removeTagChunks(tags);
 
   if (tags & ID3v2)
@@ -109,6 +114,7 @@ void RIFF::WAV::File::strip(TagTypes tags) {
 
   if (tags & Info)
     d->tag.set(InfoIndex, new RIFF::Info::Tag());
+
 }
 
 PropertyMap RIFF::WAV::File::properties() const {
@@ -120,8 +126,10 @@ void RIFF::WAV::File::removeUnsupportedProperties(const StringList &unsupported)
 }
 
 PropertyMap RIFF::WAV::File::setProperties(const PropertyMap &properties) {
+
   InfoTag()->setProperties(properties);
   return ID3v2Tag()->setProperties(properties);
+
 }
 
 RIFF::WAV::Properties *RIFF::WAV::File::audioProperties() const {
@@ -132,13 +140,8 @@ bool RIFF::WAV::File::save() {
   return RIFF::WAV::File::save(AllTags);
 }
 
-bool RIFF::WAV::File::save(TagTypes tags, bool stripOthers, int id3v2Version) {
-  return save(tags,
-    stripOthers ? StripOthers : StripNone,
-    id3v2Version == 3 ? ID3v2::v3 : ID3v2::v4);
-}
-
 bool RIFF::WAV::File::save(TagTypes tags, StripTags strip, ID3v2::Version version) {
+
   if (readOnly()) {
     debug("RIFF::WAV::File::save() -- File is read only.");
     return false;
@@ -171,6 +174,7 @@ bool RIFF::WAV::File::save(TagTypes tags, StripTags strip, ID3v2::Version versio
   }
 
   return true;
+
 }
 
 bool RIFF::WAV::File::hasID3v2Tag() const {
@@ -186,6 +190,7 @@ bool RIFF::WAV::File::hasInfoTag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void RIFF::WAV::File::read(bool readProperties) {
+
   for (unsigned int i = 0; i < chunkCount(); ++i) {
     const ByteVector name = chunkName(i);
     if (name == "ID3 " || name == "id3 ") {
@@ -222,6 +227,7 @@ void RIFF::WAV::File::read(bool readProperties) {
 }
 
 void RIFF::WAV::File::removeTagChunks(TagTypes tags) {
+
   if ((tags & ID3v2) && d->hasID3v2) {
     removeChunk("ID3 ");
     removeChunk("id3 ");
@@ -237,4 +243,5 @@ void RIFF::WAV::File::removeTagChunks(TagTypes tags) {
 
     d->hasInfo = false;
   }
+
 }

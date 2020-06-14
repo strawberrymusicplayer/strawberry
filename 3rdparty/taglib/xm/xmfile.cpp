@@ -70,8 +70,7 @@ class Reader {
   }
 
   /*!
-   * Reads associated values from \a file, but never reads more
-   * then \a limit bytes.
+   * Reads associated values from \a file, but never reads more then \a limit bytes.
    */
   virtual unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) = 0;
 
@@ -112,10 +111,10 @@ class ValueReader : public Reader {
 
 class StringReader : public ValueReader<String> {
  public:
-  StringReader(String &string, unsigned int size) : ValueReader<String>(string), m_size(size) {
-  }
+  StringReader(String &string, unsigned int size) : ValueReader<String>(string), m_size(size) {}
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+
     ByteVector data = file.readBlock(std::min(m_size, limit));
     unsigned int count = data.size();
     int index = data.find((char)0);
@@ -125,6 +124,7 @@ class StringReader : public ValueReader<String> {
     data.replace('\xff', ' ');
     value = data;
     return count;
+
   }
 
   unsigned int size() const {
@@ -349,6 +349,7 @@ XM::Properties *XM::File::audioProperties() const {
 }
 
 bool XM::File::save() {
+
   if (readOnly()) {
     debug("XM::File::save() - Cannot save to a read only file.");
     return false;
@@ -440,9 +441,11 @@ bool XM::File::save() {
   }
 
   return true;
+
 }
 
 void XM::File::read(bool) {
+
   if (!isOpen())
     return;
 
@@ -589,4 +592,5 @@ void XM::File::read(bool) {
     comment += sampleNames.toString("\n");
   }
   d->tag.setComment(comment);
+
 }

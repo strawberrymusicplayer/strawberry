@@ -41,13 +41,10 @@ class IOStream;
 namespace Utils {
 
 long findID3v1(File *file);
-
 long findID3v2(File *file);
-
 long findAPE(File *file, long id3v1Location);
 
-ByteVector readHeader(IOStream *stream, unsigned int length, bool skipID3v2,
-  long *headerOffset = 0);
+ByteVector readHeader(IOStream *stream, unsigned int length, bool skipID3v2, long *headerOffset = 0);
 }  // namespace Utils
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

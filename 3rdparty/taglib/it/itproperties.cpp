@@ -65,9 +65,7 @@ class IT::Properties::PropertiesPrivate {
   unsigned char pitchWheelDepth;
 };
 
-IT::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
-                                                                         d(new PropertiesPrivate()) {
-}
+IT::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle), d(new PropertiesPrivate()) {}
 
 IT::Properties::~Properties() {
   delete d;

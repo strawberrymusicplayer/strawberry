@@ -32,25 +32,23 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! An ID3v2 attached picture frame implementation
 
 /*!
-     * This is an implementation of ID3v2 attached pictures.  Pictures may be
-     * included in tags, one per APIC frame (but there may be multiple APIC
-     * frames in a single tag).  These pictures are usually in either JPEG or
-     * PNG format.
-     */
+ * This is an implementation of ID3v2 attached pictures.
+ * Pictures may be included in tags, one per APIC frame (but there may be multiple APIC frames in a single tag).
+ * These pictures are usually in either JPEG or PNG format.
+ */
 
 class TAGLIB_EXPORT AttachedPictureFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * This describes the function or content of the picture.
-       */
+   * This describes the function or content of the picture.
+   */
   enum Type {
     //! A type not enumerated below
     Other = 0x00,
@@ -97,108 +95,106 @@ class TAGLIB_EXPORT AttachedPictureFrame : public Frame {
   };
 
   /*!
-       * Constructs an empty picture frame.  The description, content and text
-       * encoding should be set manually.
-       */
+   * Constructs an empty picture frame.
+   * The description, content and text encoding should be set manually.
+   */
   AttachedPictureFrame();
 
   /*!
-       * Constructs an AttachedPicture frame based on \a data.
-       */
+   * Constructs an AttachedPicture frame based on \a data.
+   */
   explicit AttachedPictureFrame(const ByteVector &data);
 
   /*!
-       * Destroys the AttahcedPictureFrame instance.
-       */
+   * Destroys the AttahcedPictureFrame instance.
+   */
   virtual ~AttachedPictureFrame();
 
   /*!
-       * Returns a string containing the description and mime-type
-       */
+   * Returns a string containing the description and mime-type
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the text encoding used for the description.
-       *
-       * \see setTextEncoding()
-       * \see description()
-       */
+   * Returns the text encoding used for the description.
+   *
+   * \see setTextEncoding()
+   * \see description()
+   */
   String::Type textEncoding() const;
 
   /*!
-       * Set the text encoding used for the description.
-       *
-       * \see description()
-       */
+   * Set the text encoding used for the description.
+   *
+   * \see description()
+   */
   void setTextEncoding(String::Type t);
 
   /*!
-       * Returns the mime type of the image.  This should in most cases be
-       * "image/png" or "image/jpeg".
-       */
+   * Returns the mime type of the image.
+   * This should in most cases be "image/png" or "image/jpeg".
+   */
   String mimeType() const;
 
   /*!
-       * Sets the mime type of the image.  This should in most cases be
-       * "image/png" or "image/jpeg".
-       */
+   * Sets the mime type of the image.
+   * This should in most cases be "image/png" or "image/jpeg".
+   */
   void setMimeType(const String &m);
 
   /*!
-       * Returns the type of the image.
-       *
-       * \see Type
-       * \see setType()
-       */
+   * Returns the type of the image.
+   *
+   * \see Type
+   * \see setType()
+   */
   Type type() const;
 
   /*!
-       * Sets the type for the image.
-       *
-       * \see Type
-       * \see type()
-       */
+   * Sets the type for the image.
+   *
+   * \see Type
+   * \see type()
+   */
   void setType(Type t);
 
   /*!
-       * Returns a text description of the image.
-       *
-       * \see setDescription()
-       * \see textEncoding()
-       * \see setTextEncoding()
-       */
+   * Returns a text description of the image.
+   *
+   * \see setDescription()
+   * \see textEncoding()
+   * \see setTextEncoding()
+   */
 
   String description() const;
 
   /*!
-       * Sets a textual description of the image to \a desc.
-       *
-       * \see description()
-       * \see textEncoding()
-       * \see setTextEncoding()
-       */
+   * Sets a textual description of the image to \a desc.
+   *
+   * \see description()
+   * \see textEncoding()
+   * \see setTextEncoding()
+   */
 
   void setDescription(const String &desc);
 
   /*!
-       * Returns the image data as a ByteVector.
-       *
-       * \note ByteVector has a data() method that returns a const char * which
-       * should make it easy to export this data to external programs.
-       *
-       * \see setPicture()
-       * \see mimeType()
-       */
+   * Returns the image data as a ByteVector.
+   *
+   * \note ByteVector has a data() method that returns a const char * which should make it easy to export this data to external programs.
+   *
+   * \see setPicture()
+   * \see mimeType()
+   */
   ByteVector picture() const;
 
   /*!
-       * Sets the image data to \a p.  \a p should be of the type specified in
-       * this frame's mime-type specification.
-       *
-       * \see picture()
-       * \see mimeType()
-       * \see setMimeType()
-       */
+   * Sets the image data to \a p.  \a p should be of the type specified in this frame's mime-type specification.
+   *
+   * \see picture()
+   * \see mimeType()
+   * \see setMimeType()
+   */
   void setPicture(const ByteVector &p);
 
  protected:
@@ -222,6 +218,7 @@ class TAGLIB_EXPORT AttachedPictureFrameV22 : public AttachedPictureFrame {
   AttachedPictureFrameV22(const ByteVector &data, Header *h);
   friend class FrameFactory;
 };
+
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

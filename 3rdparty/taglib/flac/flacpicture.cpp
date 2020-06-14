@@ -64,6 +64,7 @@ int FLAC::Picture::code() const {
 }
 
 bool FLAC::Picture::parse(const ByteVector &data) {
+
   if (data.size() < 32) {
     debug("A picture block must contain at least 5 bytes.");
     return false;
@@ -105,9 +106,11 @@ bool FLAC::Picture::parse(const ByteVector &data) {
   d->data = data.mid(pos, dataLength);
 
   return true;
+
 }
 
 ByteVector FLAC::Picture::render() const {
+
   ByteVector result;
   result.append(ByteVector::fromUInt(d->type));
   ByteVector mimeTypeData = d->mimeType.data(String::UTF8);
@@ -123,6 +126,7 @@ ByteVector FLAC::Picture::render() const {
   result.append(ByteVector::fromUInt(d->data.size()));
   result.append(d->data);
   return result;
+
 }
 
 FLAC::Picture::Type FLAC::Picture::type() const {

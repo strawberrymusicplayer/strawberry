@@ -33,8 +33,7 @@ using namespace ID3v2;
 
 class AttachedPictureFrame::AttachedPictureFramePrivate {
  public:
-  AttachedPictureFramePrivate() : textEncoding(String::Latin1),
-                                  type(AttachedPictureFrame::Other) {}
+  AttachedPictureFramePrivate() : textEncoding(String::Latin1), type(AttachedPictureFrame::Other) {}
 
   String::Type textEncoding;
   String mimeType;
@@ -47,12 +46,9 @@ class AttachedPictureFrame::AttachedPictureFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-AttachedPictureFrame::AttachedPictureFrame() : Frame("APIC"),
-                                               d(new AttachedPictureFramePrivate()) {
-}
+AttachedPictureFrame::AttachedPictureFrame() : Frame("APIC"), d(new AttachedPictureFramePrivate()) {}
 
-AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data) : Frame(data),
-                                                                     d(new AttachedPictureFramePrivate()) {
+AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data) : Frame(data), d(new AttachedPictureFramePrivate()) {
   setData(data);
 }
 
@@ -110,6 +106,7 @@ void AttachedPictureFrame::setPicture(const ByteVector &p) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void AttachedPictureFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 5) {
     debug("A picture frame must contain at least 5 bytes.");
     return;
@@ -130,9 +127,11 @@ void AttachedPictureFrame::parseFields(const ByteVector &data) {
   d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);
+
 }
 
 ByteVector AttachedPictureFrame::renderFields() const {
+
   ByteVector data;
 
   String::Type encoding = checkTextEncoding(d->description, d->textEncoding);
@@ -146,14 +145,14 @@ ByteVector AttachedPictureFrame::renderFields() const {
   data.append(d->data);
 
   return data;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                                d(new AttachedPictureFramePrivate()) {
+AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data, Header *h) : Frame(h), d(new AttachedPictureFramePrivate()) {
   parseFields(fieldData(data));
 }
 
@@ -162,6 +161,7 @@ AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data, Header *h) : 
 ////////////////////////////////////////////////////////////////////////////////
 
 void AttachedPictureFrameV22::parseFields(const ByteVector &data) {
+
   if (data.size() < 5) {
     debug("A picture frame must contain at least 5 bytes.");
     return;
@@ -189,9 +189,11 @@ void AttachedPictureFrameV22::parseFields(const ByteVector &data) {
   d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);
+
 }
 
 AttachedPictureFrameV22::AttachedPictureFrameV22(const ByteVector &data, Header *h) {
+
   // set v2.2 header to make fieldData work correctly
   setHeader(h, true);
 
@@ -201,4 +203,5 @@ AttachedPictureFrameV22::AttachedPictureFrameV22(const ByteVector &data, Header 
   Frame::Header *newHeader = new Frame::Header("APIC");
   newHeader->setFrameSize(h->frameSize());
   setHeader(newHeader, true);
+
 }

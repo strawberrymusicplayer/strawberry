@@ -59,9 +59,7 @@ class S3M::Properties::PropertiesPrivate {
   unsigned char bpmSpeed;
 };
 
-S3M::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
-                                                                          d(new PropertiesPrivate()) {
-}
+S3M::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle), d(new PropertiesPrivate()) {}
 
 S3M::Properties::~Properties() {
   delete d;

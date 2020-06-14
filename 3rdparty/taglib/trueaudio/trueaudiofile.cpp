@@ -43,8 +43,10 @@
 using namespace Strawberry_TagLib::TagLib;
 
 namespace {
-enum { TrueAudioID3v2Index = 0,
-  TrueAudioID3v1Index = 1 };
+enum {
+  TrueAudioID3v2Index = 0,
+  TrueAudioID3v1Index = 1
+};
 }
 
 class TrueAudio::File::FilePrivate {
@@ -53,7 +55,7 @@ class TrueAudio::File::FilePrivate {
                                                                                                     ID3v2Location(-1),
                                                                                                     ID3v2OriginalSize(0),
                                                                                                     ID3v1Location(-1),
-                                                                                                    properties(0) {}
+                                                                                                    properties(nullptr) {}
 
   ~FilePrivate() {
     delete properties;
@@ -75,40 +77,44 @@ class TrueAudio::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool TrueAudio::File::isSupported(IOStream *stream) {
+
   // A TrueAudio file has to start with "TTA". An ID3v2 tag may precede.
 
   const ByteVector id = Utils::readHeader(stream, 3, true);
   return (id == "TTA");
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                                   d(new FilePrivate()) {
+TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
-  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                d(new FilePrivate(frameFactory)) {
+TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                                                      d(new FilePrivate()) {
+TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
-  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                d(new FilePrivate(frameFactory)) {
+TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 TrueAudio::File::~File() {
@@ -128,21 +134,20 @@ void TrueAudio::File::removeUnsupportedProperties(const StringList &unsupported)
 }
 
 PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties) {
+
   if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return ID3v2Tag(true)->setProperties(properties);
+
 }
 
 TrueAudio::Properties *TrueAudio::File::audioProperties() const {
   return d->properties;
 }
 
-void TrueAudio::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory) {
-  d->ID3v2FrameFactory = factory;
-}
-
 bool TrueAudio::File::save() {
+
   if (readOnly()) {
     debug("TrueAudio::File::save() -- File is read only.");
     return false;
@@ -207,6 +212,7 @@ bool TrueAudio::File::save() {
   }
 
   return true;
+
 }
 
 ID3v1::Tag *TrueAudio::File::ID3v1Tag(bool create) {
@@ -218,14 +224,16 @@ ID3v2::Tag *TrueAudio::File::ID3v2Tag(bool create) {
 }
 
 void TrueAudio::File::strip(int tags) {
+
   if (tags & ID3v1)
-    d->tag.set(TrueAudioID3v1Index, 0);
+    d->tag.set(TrueAudioID3v1Index, nullptr);
 
   if (tags & ID3v2)
-    d->tag.set(TrueAudioID3v2Index, 0);
+    d->tag.set(TrueAudioID3v2Index, nullptr);
 
   if (!ID3v1Tag())
     ID3v2Tag(true);
+
 }
 
 bool TrueAudio::File::hasID3v1Tag() const {
@@ -241,6 +249,7 @@ bool TrueAudio::File::hasID3v2Tag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void TrueAudio::File::read(bool readProperties) {
+
   // Look for an ID3v2 tag
 
   d->ID3v2Location = Utils::findID3v2(this);
@@ -281,4 +290,5 @@ void TrueAudio::File::read(bool readProperties) {
 
     d->properties = new Properties(readBlock(TrueAudio::HeaderSize), streamLength);
   }
+
 }

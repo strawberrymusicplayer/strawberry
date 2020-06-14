@@ -134,10 +134,12 @@ ByteVector APE::Footer::renderFooter() const {
 }
 
 ByteVector APE::Footer::renderHeader() const {
+
   if (!d->headerPresent)
     return ByteVector();
   else
     return render(true);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +147,7 @@ ByteVector APE::Footer::renderHeader() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void APE::Footer::parse(const ByteVector &data) {
+
   if (data.size() < size())
     return;
 
@@ -169,9 +172,11 @@ void APE::Footer::parse(const ByteVector &data) {
   d->headerPresent = flags[31];
   d->footerPresent = !flags[30];
   d->isHeader = flags[29];
+
 }
 
 ByteVector APE::Footer::render(bool isHeader) const {
+
   ByteVector v;
 
   // add the file identifier -- "APETAGEX"
@@ -206,4 +211,5 @@ ByteVector APE::Footer::render(bool isHeader) const {
   v.append(ByteVector::fromLongLong(0));
 
   return v;
+
 }

@@ -77,6 +77,7 @@ String UrlLinkFrame::toString() const {
 }
 
 PropertyMap UrlLinkFrame::asProperties() const {
+
   String key = frameIDToKey(frameID());
   PropertyMap map;
   if (key.isEmpty())
@@ -85,6 +86,7 @@ PropertyMap UrlLinkFrame::asProperties() const {
   else
     map.insert(key, url());
   return map;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +145,7 @@ void UserUrlLinkFrame::setDescription(const String &s) {
 }
 
 PropertyMap UserUrlLinkFrame::asProperties() const {
+
   PropertyMap map;
   String key = description().upper();
   if (key.isEmpty() || key == "URL")
@@ -150,10 +153,11 @@ PropertyMap UserUrlLinkFrame::asProperties() const {
   else
     map.insert("URL:" + key, url());
   return map;
+
 }
 
-UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &description)  // static
-{
+UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &description) {  // static
+
   FrameList l = tag->frameList("WXXX");
   for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it) {
     UserUrlLinkFrame *f = dynamic_cast<UserUrlLinkFrame *>(*it);
@@ -161,6 +165,7 @@ UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &descript
       return f;
   }
   return nullptr;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +173,7 @@ UserUrlLinkFrame *UserUrlLinkFrame::find(ID3v2::Tag *tag, const String &descript
 ////////////////////////////////////////////////////////////////////////////////
 
 void UserUrlLinkFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 2) {
     debug("A user URL link frame must contain at least 2 bytes.");
     return;
@@ -196,9 +202,11 @@ void UserUrlLinkFrame::parseFields(const ByteVector &data) {
   }
 
   setUrl(String(data.mid(pos)));
+
 }
 
 ByteVector UserUrlLinkFrame::renderFields() const {
+
   ByteVector v;
 
   String::Type encoding = checkTextEncoding(d->description, d->textEncoding);
@@ -209,6 +217,7 @@ ByteVector UserUrlLinkFrame::renderFields() const {
   v.append(url().data(String::Latin1));
 
   return v;
+
 }
 
 UserUrlLinkFrame::UserUrlLinkFrame(const ByteVector &data, Header *h) : UrlLinkFrame(data, h),

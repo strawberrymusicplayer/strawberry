@@ -100,6 +100,7 @@ void UnsynchronizedLyricsFrame::setTextEncoding(String::Type encoding) {
 }
 
 PropertyMap UnsynchronizedLyricsFrame::asProperties() const {
+
   PropertyMap map;
   String key = description().upper();
   if (key.isEmpty() || key == "LYRICS")
@@ -107,10 +108,11 @@ PropertyMap UnsynchronizedLyricsFrame::asProperties() const {
   else
     map.insert("LYRICS:" + key, text());
   return map;
+
 }
 
-UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID3v2::Tag *tag, const String &d)  // static
-{
+UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID3v2::Tag *tag, const String &d) {  // static
+
   ID3v2::FrameList lyrics = tag->frameList("USLT");
 
   for (ID3v2::FrameList::ConstIterator it = lyrics.begin(); it != lyrics.end(); ++it) {
@@ -119,12 +121,14 @@ UnsynchronizedLyricsFrame *UnsynchronizedLyricsFrame::findByDescription(const ID
       return frame;
   }
   return nullptr;
+
 }
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
 void UnsynchronizedLyricsFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 5) {
     debug("An unsynchronized lyrics frame must contain at least 5 bytes.");
     return;
@@ -148,9 +152,11 @@ void UnsynchronizedLyricsFrame::parseFields(const ByteVector &data) {
       d->text = String(l.back(), d->textEncoding);
     }
   }
+
 }
 
 ByteVector UnsynchronizedLyricsFrame::renderFields() const {
+
   StringList sl;
   sl.append(d->description);
   sl.append(d->text);
@@ -166,6 +172,7 @@ ByteVector UnsynchronizedLyricsFrame::renderFields() const {
   v.append(d->text.data(encoding));
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

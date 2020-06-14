@@ -34,83 +34,65 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace Ogg {
-
 namespace Speex {
 
 class File;
 
 //! An implementation of audio property reading for Ogg Speex
-
-/*!
-       * This reads the data from an Ogg Speex stream found in the AudioProperties
-       * API.
-       */
+//! This reads the data from an Ogg Speex stream found in the AudioProperties API.
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
   /*!
-         * Create an instance of Speex::Properties with the data read from the
-         * Speex::File \a file.
-         */
+   * Create an instance of Speex::Properties with the data read from the Speex::File \a file.
+   */
   Properties(File *file, ReadStyle style = Average);
 
   /*!
-         * Destroys this Speex::Properties instance.
-         */
+   * Destroys this Speex::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-         * Returns the length of the file in seconds.  The length is rounded down to
-         * the nearest whole second.
-         *
-         * \note This method is just an alias of lengthInSeconds().
-         *
-         * \deprecated
-         */
-  TAGLIB_DEPRECATED virtual int length() const;
-
-  /*!
-         * Returns the length of the file in seconds.  The length is rounded down to
-         * the nearest whole second.
-         *
-         * \see lengthInMilliseconds()
-         */
+   * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-         * Returns the length of the file in milliseconds.
-         *
-         * \see lengthInSeconds()
-         */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-         * Returns the average bit rate of the file in kb/s.
-         */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-         * Returns the nominal bit rate as read from the Speex header in kb/s.
-         */
+   * Returns the nominal bit rate as read from the Speex header in kb/s.
+   */
   int bitrateNominal() const;
 
   /*!
-         * Returns the sample rate in Hz.
-         */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-         * Returns the number of audio channels.
-         */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-         * Returns the Speex version, currently "0" (as specified by the spec).
-         */
+   * Returns the Speex version, currently "0" (as specified by the spec).
+   */
   int speexVersion() const;
 
  private:
@@ -122,6 +104,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace Speex
 }  // namespace Ogg
 }  // namespace TagLib

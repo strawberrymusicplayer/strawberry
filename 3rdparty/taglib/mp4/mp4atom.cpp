@@ -31,13 +31,10 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-const char *MP4::Atom::containers[11] = {
-  "moov", "udta", "mdia", "meta", "ilst",
-  "stbl", "minf", "moof", "traf", "trak",
-  "stsd"
-};
+const char *MP4::Atom::containers[11] = { "moov", "udta", "mdia", "meta", "ilst", "stbl", "minf", "moof", "traf", "trak", "stsd" };
 
 MP4::Atom::Atom(File *file) {
+
   children.setAutoDelete(true);
 
   offset = file->tell();
@@ -100,14 +97,14 @@ MP4::Atom::Atom(File *file) {
   }
 
   file->seek(offset + length);
+
 }
 
-MP4::Atom::~Atom() {
-}
+MP4::Atom::~Atom() {}
 
-MP4::Atom *
-MP4::Atom::find(const char *name1, const char *name2, const char *name3, const char *name4) {
-  if (name1 == 0) {
+MP4::Atom *MP4::Atom::find(const char *name1, const char *name2, const char *name3, const char *name4) {
+
+  if (!name1) {
     return this;
   }
   for (AtomList::ConstIterator it = children.begin(); it != children.end(); ++it) {
@@ -116,10 +113,11 @@ MP4::Atom::find(const char *name1, const char *name2, const char *name3, const c
     }
   }
   return nullptr;
+
 }
 
-MP4::AtomList
-MP4::Atom::findall(const char *_name, bool recursive) {
+MP4::AtomList MP4::Atom::findall(const char *_name, bool recursive) {
+
   MP4::AtomList result;
   for (AtomList::ConstIterator it = children.begin(); it != children.end(); ++it) {
     if ((*it)->name == _name) {
@@ -130,11 +128,13 @@ MP4::Atom::findall(const char *_name, bool recursive) {
     }
   }
   return result;
+
 }
 
 bool MP4::Atom::path(MP4::AtomList &path, const char *name1, const char *name2, const char *name3) {
+
   path.append(this);
-  if (name1 == 0) {
+  if (!name1) {
     return true;
   }
   for (AtomList::ConstIterator it = children.begin(); it != children.end(); ++it) {
@@ -143,9 +143,11 @@ bool MP4::Atom::path(MP4::AtomList &path, const char *name1, const char *name2, 
     }
   }
   return false;
+
 }
 
 MP4::Atoms::Atoms(File *file) {
+
   atoms.setAutoDelete(true);
 
   file->seek(0, File::End);
@@ -157,23 +159,24 @@ MP4::Atoms::Atoms(File *file) {
     if (atom->length == 0)
       break;
   }
+
 }
 
-MP4::Atoms::~Atoms() {
-}
+MP4::Atoms::~Atoms() {}
 
-MP4::Atom *
-MP4::Atoms::find(const char *name1, const char *name2, const char *name3, const char *name4) {
+MP4::Atom *MP4::Atoms::find(const char *name1, const char *name2, const char *name3, const char *name4) {
+
   for (AtomList::ConstIterator it = atoms.begin(); it != atoms.end(); ++it) {
     if ((*it)->name == name1) {
       return (*it)->find(name2, name3, name4);
     }
   }
   return nullptr;
+
 }
 
-MP4::AtomList
-MP4::Atoms::path(const char *name1, const char *name2, const char *name3, const char *name4) {
+MP4::AtomList MP4::Atoms::path(const char *name1, const char *name2, const char *name3, const char *name4) {
+
   MP4::AtomList path;
   for (AtomList::ConstIterator it = atoms.begin(); it != atoms.end(); ++it) {
     if ((*it)->name == name1) {
@@ -184,4 +187,5 @@ MP4::Atoms::path(const char *name1, const char *name2, const char *name3, const 
     }
   }
   return path;
+
 }

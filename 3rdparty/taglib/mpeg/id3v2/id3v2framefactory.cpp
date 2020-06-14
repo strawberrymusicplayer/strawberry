@@ -53,6 +53,7 @@ using namespace ID3v2;
 
 namespace {
 void updateGenre(TextIdentificationFrame *frame) {
+
   StringList fields = frame->fieldList();
   StringList newfields;
 
@@ -80,13 +81,13 @@ void updateGenre(TextIdentificationFrame *frame) {
     fields.append(String());
 
   frame->setText(newfields);
+
 }
 }  // namespace
 
 class FrameFactory::FrameFactoryPrivate {
  public:
-  FrameFactoryPrivate() : defaultEncoding(String::Latin1),
-                          useDefaultEncoding(false) {}
+  FrameFactoryPrivate() : defaultEncoding(String::Latin1), useDefaultEncoding(false) {}
 
   String::Type defaultEncoding;
   bool useDefaultEncoding;
@@ -107,21 +108,8 @@ FrameFactory *FrameFactory::instance() {
   return &factory;
 }
 
-Frame *FrameFactory::createFrame(const ByteVector &data, bool synchSafeInts) const {
-  return createFrame(data, static_cast<unsigned int>(synchSafeInts ? 4 : 3));
-}
-
-Frame *FrameFactory::createFrame(const ByteVector &data, unsigned int version) const {
-  Header tagHeader;
-  tagHeader.setMajorVersion(version);
-  return createFrame(data, &tagHeader);
-}
-
-Frame *FrameFactory::createFrame(const ByteVector &origData, Header *tagHeader) const {
-  return createFrame(origData, const_cast<const Header *>(tagHeader));
-}
-
 Frame *FrameFactory::createFrame(const ByteVector &origData, const Header *tagHeader) const {
+
   ByteVector data = origData;
   unsigned int version = tagHeader->majorVersion();
   Frame::Header *header = new Frame::Header(data, version);
@@ -317,9 +305,11 @@ Frame *FrameFactory::createFrame(const ByteVector &origData, const Header *tagHe
     return new PodcastFrame(data, header);
 
   return new UnknownFrame(data, header);
+
 }
 
 void FrameFactory::rebuildAggregateFrames(ID3v2::Tag *tag) const {
+
   if (tag->header()->majorVersion() < 4 &&
     tag->frameList("TDRC").size() == 1 &&
     tag->frameList("TDAT").size() == 1) {
@@ -346,6 +336,7 @@ void FrameFactory::rebuildAggregateFrames(ID3v2::Tag *tag) const {
       }
     }
   }
+
 }
 
 String::Type FrameFactory::defaultTextEncoding() const {
@@ -456,6 +447,7 @@ const size_t frameConversion3Size = sizeof(frameConversion3) / sizeof(frameConve
 }  // namespace
 
 bool FrameFactory::updateFrame(Frame::Header *header) const {
+
   const ByteVector frameID = header->frameID();
 
   switch (header->version()) {
@@ -522,4 +514,5 @@ bool FrameFactory::updateFrame(Frame::Header *header) const {
   }
 
   return true;
+
 }

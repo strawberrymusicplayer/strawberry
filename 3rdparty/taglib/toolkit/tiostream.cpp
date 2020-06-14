@@ -36,6 +36,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 namespace {
 std::wstring ansiToUnicode(const char *str) {
+
   const int len = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
   if (len == 0)
     return std::wstring();
@@ -44,22 +45,17 @@ std::wstring ansiToUnicode(const char *str) {
   MultiByteToWideChar(CP_ACP, 0, str, -1, &wstr[0], len);
 
   return wstr;
+
 }
 }  // namespace
 
 // m_name is no longer used, but kept for backward compatibility.
 
-FileName::FileName(const wchar_t *name) : m_name(),
-                                          m_wname(name) {
-}
+FileName::FileName(const wchar_t *name) : m_name(), m_wname(name) {}
 
-FileName::FileName(const char *name) : m_name(),
-                                       m_wname(ansiToUnicode(name)) {
-}
+FileName::FileName(const char *name) : m_name(), m_wname(ansiToUnicode(name)) {}
 
-FileName::FileName(const FileName &name) : m_name(),
-                                           m_wname(name.m_wname) {
-}
+FileName::FileName(const FileName &name) : m_name(), m_wname(name.m_wname) {}
 
 FileName::operator const wchar_t *() const {
   return m_wname.c_str();
@@ -87,11 +83,8 @@ String FileName::toString() const {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-IOStream::IOStream() {
-}
+IOStream::IOStream() {}
 
-IOStream::~IOStream() {
-}
+IOStream::~IOStream() {}
 
-void IOStream::clear() {
-}
+void IOStream::clear() {}

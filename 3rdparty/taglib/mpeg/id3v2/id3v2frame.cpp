@@ -46,8 +46,7 @@ using namespace ID3v2;
 
 class Frame::FramePrivate {
  public:
-  FramePrivate() : header(0) {
-  }
+  FramePrivate() : header(nullptr) {}
 
   ~FramePrivate() {
     delete header;
@@ -58,6 +57,7 @@ class Frame::FramePrivate {
 
 namespace {
 bool isValidFrameID(const ByteVector &frameID) {
+
   if (frameID.size() != 4)
     return false;
 
@@ -67,6 +67,7 @@ bool isValidFrameID(const ByteVector &frameID) {
     }
   }
   return true;
+
 }
 }  // namespace
 
@@ -98,8 +99,8 @@ const String Frame::urlPrefix("URL:");
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Frame *Frame::createTextualFrame(const String &key, const StringList &values)  //static
-{
+Frame *Frame::createTextualFrame(const String &key, const StringList &values) {  //static
+
   // check if the key is contained in the key<=>frameID mapping
   ByteVector frameID = keyToFrameID(key);
   if (!frameID.isEmpty()) {
@@ -145,6 +146,7 @@ Frame *Frame::createTextualFrame(const String &key, const StringList &values)  /
   }
   // if non of the above cases apply, we use a TXXX frame with the key as description
   return new UserTextIdentificationFrame(keyToTXXX(key), values, String::UTF8);
+
 }
 
 Frame::~Frame() {
@@ -152,17 +154,21 @@ Frame::~Frame() {
 }
 
 ByteVector Frame::frameID() const {
+
   if (d->header)
     return d->header->frameID();
   else
     return ByteVector();
+
 }
 
 unsigned int Frame::size() const {
+
   if (d->header)
     return d->header->frameSize();
   else
     return 0;
+
 }
 
 void Frame::setData(const ByteVector &data) {
@@ -173,11 +179,13 @@ void Frame::setText(const String &) {
 }
 
 ByteVector Frame::render() const {
+
   ByteVector fieldData = renderFields();
   d->header->setFrameSize(fieldData.size());
   ByteVector headerData = d->header->render();
 
   return headerData + fieldData;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -213,6 +221,7 @@ void Frame::parse(const ByteVector &data) {
 }
 
 ByteVector Frame::fieldData(const ByteVector &frameData) const {
+
   unsigned int headerSize = Header::size(d->header->version());
 
   unsigned int frameDataOffset = headerSize;
@@ -238,9 +247,11 @@ ByteVector Frame::fieldData(const ByteVector &frameData) const {
   }
 
   return frameData.mid(frameDataOffset, frameDataLength);
+
 }
 
 String Frame::readStringField(const ByteVector &data, String::Type encoding, int *position) {
+
   int start = 0;
 
   if (!position)
@@ -262,15 +273,16 @@ String Frame::readStringField(const ByteVector &data, String::Type encoding, int
   *position = end + delimiter.size();
 
   return str;
+
 }
 
-String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding)  // static
-{
+String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding) {  // static
+
   return checkEncoding(fields, encoding, 4);
 }
 
-String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding, unsigned int version)  // static
-{
+String::Type Frame::checkEncoding(const StringList &fields, String::Type encoding, unsigned int version) {  // static
+
   if ((encoding == String::UTF8 || encoding == String::UTF16BE) && version != 4)
     return String::UTF16;
 
@@ -291,6 +303,7 @@ String::Type Frame::checkEncoding(const StringList &fields, String::Type encodin
   }
 
   return String::Latin1;
+
 }
 
 String::Type Frame::checkTextEncoding(const StringList &fields, String::Type encoding) const {
@@ -438,6 +451,7 @@ String Frame::keyToTXXX(const String &s) {
 }
 
 PropertyMap Frame::asProperties() const {
+
   if (dynamic_cast<const UnknownFrame *>(this)) {
     PropertyMap m;
     m.unsupportedData().append("UNKNOWN/" + frameID());
@@ -463,10 +477,11 @@ PropertyMap Frame::asProperties() const {
   PropertyMap m;
   m.unsupportedData().append(id);
   return m;
+
 }
 
-void Frame::splitProperties(const PropertyMap &original, PropertyMap &singleFrameProperties,
-  PropertyMap &tiplProperties, PropertyMap &tmclProperties) {
+void Frame::splitProperties(const PropertyMap &original, PropertyMap &singleFrameProperties, PropertyMap &tiplProperties, PropertyMap &tmclProperties) {
+
   singleFrameProperties.clear();
   tiplProperties.clear();
   tmclProperties.clear();
@@ -478,6 +493,7 @@ void Frame::splitProperties(const PropertyMap &original, PropertyMap &singleFram
     else
       singleFrameProperties.insert(it->first, it->second);
   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -539,10 +555,6 @@ unsigned int Frame::Header::size(unsigned int version) {
 // public members (Frame::Header)
 ////////////////////////////////////////////////////////////////////////////////
 
-Frame::Header::Header(const ByteVector &data, bool synchSafeInts) : d(new HeaderPrivate()) {
-  setData(data, synchSafeInts);
-}
-
 Frame::Header::Header(const ByteVector &data, unsigned int version) : d(new HeaderPrivate()) {
   setData(data, version);
 }
@@ -556,6 +568,7 @@ void Frame::Header::setData(const ByteVector &data, bool synchSafeInts) {
 }
 
 void Frame::Header::setData(const ByteVector &data, unsigned int version) {
+
   d->version = version;
 
   switch (version) {
@@ -680,6 +693,7 @@ void Frame::Header::setData(const ByteVector &data, unsigned int version) {
       break;
     }
   }
+
 }
 
 ByteVector Frame::Header::frameID() const {
@@ -747,6 +761,7 @@ bool Frame::Header::dataLengthIndicator() const {
 }
 
 ByteVector Frame::Header::render() const {
+
   ByteVector flags(2, char(0));  // just blank for the moment
 
   ByteVector v = d->frameID +
@@ -754,8 +769,5 @@ ByteVector Frame::Header::render() const {
     flags;
 
   return v;
-}
 
-bool Frame::Header::frameAlterPreservation() const {
-  return fileAlterPreservation();
 }

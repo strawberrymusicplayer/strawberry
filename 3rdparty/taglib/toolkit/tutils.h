@@ -55,8 +55,8 @@ namespace Utils {
 namespace {
 
 /*!
-       * Reverses the order of bytes in an 16-bit integer.
-       */
+ * Reverses the order of bytes in an 16-bit integer.
+ */
 inline unsigned short byteSwap(unsigned short x) {
 #  if defined(HAVE_GCC_BYTESWAP)
 
@@ -86,8 +86,8 @@ inline unsigned short byteSwap(unsigned short x) {
 }
 
 /*!
-       * Reverses the order of bytes in an 32-bit integer.
-       */
+ * Reverses the order of bytes in an 32-bit integer.
+ */
 inline unsigned int byteSwap(unsigned int x) {
 #  if defined(HAVE_GCC_BYTESWAP)
 
@@ -117,8 +117,8 @@ inline unsigned int byteSwap(unsigned int x) {
 }
 
 /*!
-       * Reverses the order of bytes in an 64-bit integer.
-       */
+ * Reverses the order of bytes in an 64-bit integer.
+ */
 inline unsigned long long byteSwap(unsigned long long x) {
 #  if defined(HAVE_GCC_BYTESWAP)
 
@@ -148,9 +148,8 @@ inline unsigned long long byteSwap(unsigned long long x) {
 }
 
 /*!
-       * Returns a formatted string just like standard sprintf(), but makes use of
-       * safer functions such as snprintf() if available.
-       */
+ * Returns a formatted string just like standard sprintf(), but makes use of safer functions such as snprintf() if available.
+ */
 inline String formatString(const char *format, ...) {
   // Sufficient buffer size for the current internal uses.
   // Consider changing this value when you use this function.
@@ -192,8 +191,8 @@ inline String formatString(const char *format, ...) {
 }
 
 /*!
-       * The types of byte order of the running system.
-       */
+ * The types of byte order of the running system.
+ */
 enum ByteOrder {
   //! Little endian systems.
   LittleEndian,
@@ -202,8 +201,8 @@ enum ByteOrder {
 };
 
 /*!
-       * Returns the byte order of the system.
-       */
+ * Returns the byte order of the system.
+ */
 inline ByteOrder systemByteOrder() {
   union {
     int i;

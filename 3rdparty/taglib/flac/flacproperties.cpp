@@ -53,22 +53,12 @@ class FLAC::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FLAC::Properties::Properties(ByteVector data, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                                    d(new PropertiesPrivate()) {
+FLAC::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(data, streamLength);
-}
-
-FLAC::Properties::Properties(File *, ReadStyle style) : AudioProperties(style),
-                                                        d(new PropertiesPrivate()) {
-  debug("FLAC::Properties::Properties() - This constructor is no longer used.");
 }
 
 FLAC::Properties::~Properties() {
   delete d;
-}
-
-int FLAC::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int FLAC::Properties::lengthInSeconds() const {
@@ -91,10 +81,6 @@ int FLAC::Properties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-int FLAC::Properties::sampleWidth() const {
-  return bitsPerSample();
-}
-
 int FLAC::Properties::channels() const {
   return d->channels;
 }
@@ -112,6 +98,7 @@ ByteVector FLAC::Properties::signature() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void FLAC::Properties::read(const ByteVector &data, long streamLength) {
+
   if (data.size() < 18) {
     debug("FLAC::Properties::read() - FLAC properties must contain at least 18 bytes.");
     return;
@@ -155,4 +142,5 @@ void FLAC::Properties::read(const ByteVector &data, long streamLength) {
 
   if (data.size() >= pos + 16)
     d->signature = data.mid(pos, 16);
+
 }

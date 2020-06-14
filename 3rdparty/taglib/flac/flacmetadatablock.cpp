@@ -34,9 +34,6 @@ class FLAC::MetadataBlock::MetadataBlockPrivate {
   MetadataBlockPrivate() {}
 };
 
-FLAC::MetadataBlock::MetadataBlock() {
-  d = 0;
-}
+FLAC::MetadataBlock::MetadataBlock() : d(nullptr) {}
 
-FLAC::MetadataBlock::~MetadataBlock() {
-}
+FLAC::MetadataBlock::~MetadataBlock() {}

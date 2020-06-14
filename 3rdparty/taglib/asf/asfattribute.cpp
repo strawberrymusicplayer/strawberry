@@ -35,10 +35,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class ASF::Attribute::AttributePrivate : public RefCounter {
  public:
-  AttributePrivate() : pictureValue(ASF::Picture::fromInvalid()),
-                       numericValue(0),
-                       stream(0),
-                       language(0) {}
+  AttributePrivate() : pictureValue(ASF::Picture::fromInvalid()), numericValue(0), stream(0), language(0) {}
   AttributeTypes type;
   String stringValue;
   ByteVector byteVectorValue;
@@ -146,6 +143,7 @@ ASF::Picture ASF::Attribute::toPicture() const {
 }
 
 String ASF::Attribute::parse(ASF::File &f, int kind) {
+
   unsigned int size, nameLength;
   String name;
   d->pictureValue = Picture::fromInvalid();
@@ -214,9 +212,11 @@ String ASF::Attribute::parse(ASF::File &f, int kind) {
   }
 
   return name;
+
 }
 
 int ASF::Attribute::dataSize() const {
+
   switch (d->type) {
     case WordType:
       return 2;
@@ -236,9 +236,11 @@ int ASF::Attribute::dataSize() const {
       return d->byteVectorValue.size();
   }
   return 0;
+
 }
 
 ByteVector ASF::Attribute::render(const String &name, int kind) const {
+
   ByteVector data;
 
   switch (d->type) {
@@ -296,6 +298,7 @@ ByteVector ASF::Attribute::render(const String &name, int kind) const {
   }
 
   return data;
+
 }
 
 int ASF::Attribute::language() const {

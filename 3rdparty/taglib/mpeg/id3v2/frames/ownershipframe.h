@@ -31,101 +31,98 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! An implementation of ID3v2 "ownership"
 
 /*!
-     * This implements the ID3v2 ownership (OWNE frame).  It consists of
-     * a price paid, a date purchased (YYYYMMDD) and the name of the seller.
-     */
+ * This implements the ID3v2 ownership (OWNE frame).
+ * It consists of a price paid, a date purchased (YYYYMMDD) and the name of the seller.
+ */
 
 class TAGLIB_EXPORT OwnershipFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Construct an empty ownership frame.
-       */
+   * Construct an empty ownership frame.
+   */
   explicit OwnershipFrame(String::Type encoding = String::Latin1);
 
   /*!
-       * Construct a ownership based on the data in \a data.
-       */
+   * Construct a ownership based on the data in \a data.
+   */
   explicit OwnershipFrame(const ByteVector &data);
 
   /*!
-       * Destroys this OwnershipFrame instance.
-       */
+   * Destroys this OwnershipFrame instance.
+   */
   virtual ~OwnershipFrame();
 
   /*!
-       * Returns the text of this popularimeter.
-       *
-       * \see text()
-       */
+   * Returns the text of this popularimeter.
+   *
+   * \see text()
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the date purchased.
-       *
-       * \see setDatePurchased()
-       */
+   * Returns the date purchased.
+   *
+   * \see setDatePurchased()
+   */
   String datePurchased() const;
 
   /*!
-       * Set the date purchased.
-       *
-       * \see datePurchased()
-       */
+   * Set the date purchased.
+   *
+   * \see datePurchased()
+   */
   void setDatePurchased(const String &datePurchased);
 
   /*!
-       * Returns the price paid.
-       *
-       * \see setPricePaid()
-       */
+   * Returns the price paid.
+   *
+   * \see setPricePaid()
+   */
   String pricePaid() const;
 
   /*!
-       * Set the price paid.
-       *
-       * \see pricePaid()
-       */
+   * Set the price paid.
+   *
+   * \see pricePaid()
+   */
   void setPricePaid(const String &pricePaid);
 
   /*!
-       * Returns the seller.
-       *
-       * \see setSeller()
-       */
+   * Returns the seller.
+   *
+   * \see setSeller()
+   */
   String seller() const;
 
   /*!
-       * Set the seller.
-       *
-       * \see seller()
-       */
+   * Set the seller.
+   *
+   * \see seller()
+   */
   void setSeller(const String &seller);
 
   /*!
-       * Returns the text encoding that will be used in rendering this frame.
-       * This defaults to the type that was either specified in the constructor
-       * or read from the frame when parsed.
-       *
-       * \see setTextEncoding()
-       * \see render()
-       */
+   * Returns the text encoding that will be used in rendering this frame.
+   * This defaults to the type that was either specified in the constructor or read from the frame when parsed.
+   *
+   * \see setTextEncoding()
+   * \see render()
+   */
   String::Type textEncoding() const;
 
   /*!
-       * Sets the text encoding to be used when rendering this frame to
-       * \a encoding.
-       *
-       * \see textEncoding()
-       * \see render()
-       */
+   * Sets the text encoding to be used when rendering this frame to \a encoding.
+   *
+   * \see textEncoding()
+   * \see render()
+   */
   void setTextEncoding(String::Type encoding);
 
  protected:
@@ -136,8 +133,8 @@ class TAGLIB_EXPORT OwnershipFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   OwnershipFrame(const ByteVector &data, Header *h);
   OwnershipFrame(const OwnershipFrame &);
   OwnershipFrame &operator=(const OwnershipFrame &);
@@ -149,4 +146,5 @@ class TAGLIB_EXPORT OwnershipFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

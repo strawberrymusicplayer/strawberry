@@ -39,7 +39,7 @@ const ID3v1::StringHandler *stringHandler = &defaultStringHandler;
 
 class ID3v1::Tag::TagPrivate {
  public:
-  TagPrivate() : file(0),
+  TagPrivate() : file(nullptr),
                  tagOffset(0),
                  track(0),
                  genre(255) {}
@@ -68,22 +68,22 @@ String ID3v1::StringHandler::parse(const ByteVector &data) const {
 }
 
 ByteVector ID3v1::StringHandler::render(const String &s) const {
+
   if (s.isLatin1())
     return s.data(String::Latin1);
   else
     return ByteVector();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3v1::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(),
-                    d(new TagPrivate()) {
-}
+ID3v1::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
 
-ID3v1::Tag::Tag(File *file, long tagOffset) : Strawberry_TagLib::TagLib::Tag(),
-                                              d(new TagPrivate()) {
+ID3v1::Tag::Tag(File *file, long tagOffset) : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+
   d->file = file;
   d->tagOffset = tagOffset;
 
@@ -95,6 +95,7 @@ ID3v1::Tag::~Tag() {
 }
 
 ByteVector ID3v1::Tag::render() const {
+
   ByteVector data;
 
   data.append(fileIdentifier());
@@ -108,6 +109,7 @@ ByteVector ID3v1::Tag::render() const {
   data.append(char(d->genre));
 
   return data;
+
 }
 
 ByteVector ID3v1::Tag::fileIdentifier() {
@@ -190,6 +192,7 @@ void ID3v1::Tag::setStringHandler(const StringHandler *handler) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void ID3v1::Tag::read() {
+
   if (d->file && d->file->isValid()) {
     d->file->seek(d->tagOffset);
     // read the tag -- always 128 bytes
@@ -201,9 +204,11 @@ void ID3v1::Tag::read() {
     else
       debug("ID3v1 tag is not valid or could not be read at the specified offset.");
   }
+
 }
 
 void ID3v1::Tag::parse(const ByteVector &data) {
+
   int offset = 3;
 
   d->title = stringHandler->parse(data.mid(offset, 30));
@@ -235,4 +240,5 @@ void ID3v1::Tag::parse(const ByteVector &data) {
   offset += 30;
 
   d->genre = static_cast<unsigned char>(data[offset]);
+
 }

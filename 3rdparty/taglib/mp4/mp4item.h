@@ -32,7 +32,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace MP4 {
 
 class TAGLIB_EXPORT Item {
@@ -45,13 +44,13 @@ class TAGLIB_EXPORT Item {
   Item(const Item &item);
 
   /*!
-       * Copies the contents of \a item into this Item.
-       */
+   * Copies the contents of \a item into this Item.
+   */
   Item &operator=(const Item &item);
 
   /*!
-       * Exchanges the content of the Item by the content of \a item.
-       */
+   * Exchanges the content of the Item by the content of \a item.
+   */
   void swap(Item &item);
 
   ~Item();
@@ -87,7 +86,6 @@ class TAGLIB_EXPORT Item {
 };
 
 }  // namespace MP4
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

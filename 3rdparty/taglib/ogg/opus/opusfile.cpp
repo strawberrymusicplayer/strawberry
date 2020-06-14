@@ -39,8 +39,7 @@ using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Opus::File::FilePrivate {
  public:
-  FilePrivate() : comment(0),
-                  properties(0) {}
+  FilePrivate() : comment(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete comment;
@@ -56,26 +55,30 @@ class Opus::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool Ogg::Opus::File::isSupported(IOStream *stream) {
+
   // An Opus file has IDs "OggS" and "OpusHead" somewhere.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), false);
   return (buffer.find("OggS") >= 0 && buffer.find("OpusHead") >= 0);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Opus::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file),
-                                                                              d(new FilePrivate()) {
+Opus::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-Opus::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream),
-                                                                                 d(new FilePrivate()) {
+Opus::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 Opus::File::~File() {
@@ -99,12 +102,14 @@ Opus::Properties *Opus::File::audioProperties() const {
 }
 
 bool Opus::File::save() {
+
   if (!d->comment)
     d->comment = new Ogg::XiphComment();
 
   setPacket(1, ByteVector("OpusTags", 8) + d->comment->render(false));
 
   return Ogg::File::save();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +117,7 @@ bool Opus::File::save() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Opus::File::read(bool readProperties) {
+
   ByteVector opusHeaderData = packet(0);
 
   if (!opusHeaderData.startsWith("OpusHead")) {
@@ -132,4 +138,5 @@ void Opus::File::read(bool readProperties) {
 
   if (readProperties)
     d->properties = new Properties(this);
+
 }

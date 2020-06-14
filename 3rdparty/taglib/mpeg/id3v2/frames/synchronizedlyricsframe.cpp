@@ -123,6 +123,7 @@ void SynchronizedLyricsFrame::setSynchedText(
 ////////////////////////////////////////////////////////////////////////////////
 
 void SynchronizedLyricsFrame::parseFields(const ByteVector &data) {
+
   const int end = data.size();
   if (end < 7) {
     debug("A synchronized lyrics frame must contain at least 7 bytes.");
@@ -177,9 +178,11 @@ void SynchronizedLyricsFrame::parseFields(const ByteVector &data) {
 
     d->synchedText.append(SynchedText(time, text));
   }
+
 }
 
 ByteVector SynchronizedLyricsFrame::renderFields() const {
+
   ByteVector v;
 
   String::Type encoding = d->textEncoding;
@@ -207,6 +210,7 @@ ByteVector SynchronizedLyricsFrame::renderFields() const {
   }
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

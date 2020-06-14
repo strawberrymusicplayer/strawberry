@@ -61,22 +61,12 @@ class APE::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::Properties::Properties(File *, ReadStyle style) : AudioProperties(style),
-                                                       d(new PropertiesPrivate()) {
-  debug("APE::Properties::Properties() -- This constructor is no longer used.");
-}
-
-APE::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                              d(new PropertiesPrivate()) {
+APE::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file, streamLength);
 }
 
 APE::Properties::~Properties() {
   delete d;
-}
-
-int APE::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int APE::Properties::lengthInSeconds() const {
@@ -125,6 +115,7 @@ int headerVersion(const ByteVector &header) {
 }  // namespace
 
 void APE::Properties::read(File *file, long streamLength) {
+
   // First, we assume that the file pointer is set at the first descriptor.
   long offset = file->tell();
   int version = headerVersion(file->readBlock(6));
@@ -153,9 +144,11 @@ void APE::Properties::read(File *file, long streamLength) {
     d->length = static_cast<int>(length + 0.5);
     d->bitrate = static_cast<int>(streamLength * 8.0 / length + 0.5);
   }
+
 }
 
 void APE::Properties::analyzeCurrent(File *file) {
+
   // Read the descriptor
   file->seek(2, File::Current);
   const ByteVector descriptor = file->readBlock(44);
@@ -188,9 +181,11 @@ void APE::Properties::analyzeCurrent(File *file) {
   const unsigned int blocksPerFrame = header.toUInt(4, false);
   const unsigned int finalFrameBlocks = header.toUInt(8, false);
   d->sampleFrames = (totalFrames - 1) * blocksPerFrame + finalFrameBlocks;
+
 }
 
 void APE::Properties::analyzeOld(File *file) {
+
   const ByteVector header = file->readBlock(26);
   if (header.size() < 26) {
     debug("APE::Properties::analyzeOld() -- MAC header is too short.");
@@ -228,4 +223,5 @@ void APE::Properties::analyzeOld(File *file) {
   }
 
   d->bitsPerSample = fmt.toShort(26, false);
+
 }

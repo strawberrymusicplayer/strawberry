@@ -44,13 +44,11 @@ class OwnershipFrame::OwnershipFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-OwnershipFrame::OwnershipFrame(String::Type encoding) : Frame("OWNE"),
-                                                        d(new OwnershipFramePrivate()) {
+OwnershipFrame::OwnershipFrame(String::Type encoding) : Frame("OWNE"),d(new OwnershipFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-OwnershipFrame::OwnershipFrame(const ByteVector &data) : Frame(data),
-                                                         d(new OwnershipFramePrivate()) {
+OwnershipFrame::OwnershipFrame(const ByteVector &data) : Frame(data),d(new OwnershipFramePrivate()) {
   setData(data);
 }
 
@@ -99,6 +97,7 @@ void OwnershipFrame::setTextEncoding(String::Type encoding) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void OwnershipFrame::parseFields(const ByteVector &data) {
+
   int pos = 0;
 
   // Get the text encoding
@@ -123,9 +122,11 @@ void OwnershipFrame::parseFields(const ByteVector &data) {
     d->seller = Tag::latin1StringHandler()->parse(data.mid(pos));
   else
     d->seller = String(data.mid(pos), d->textEncoding);
+
 }
 
 ByteVector OwnershipFrame::renderFields() const {
+
   StringList sl;
   sl.append(d->seller);
 
@@ -140,13 +141,13 @@ ByteVector OwnershipFrame::renderFields() const {
   v.append(d->seller.data(encoding));
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-OwnershipFrame::OwnershipFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                    d(new OwnershipFramePrivate()) {
+OwnershipFrame::OwnershipFrame(const ByteVector &data, Header *h) : Frame(h), d(new OwnershipFramePrivate()) {
   parseFields(fieldData(data));
 }

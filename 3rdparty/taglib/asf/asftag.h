@@ -50,150 +50,135 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   virtual ~Tag();
 
   /*!
-       * Returns the track name.
-       */
+   * Returns the track name.
+   */
   virtual String title() const;
 
   /*!
-       * Returns the artist name.
-       */
+   * Returns the artist name.
+   */
   virtual String artist() const;
 
   /*!
-       * Returns the album name; if no album name is present in the tag
-       * String::null will be returned.
-       */
+   * Returns the album name; if no album name is present in the tag String::null will be returned.
+   */
   virtual String album() const;
 
   /*!
-       * Returns the track comment.
-       */
+   * Returns the track comment.
+   */
   virtual String comment() const;
 
   /*!
-       * Returns the genre name; if no genre is present in the tag String::null
-       * will be returned.
-       */
+   * Returns the genre name; if no genre is present in the tag String::null will be returned.
+   */
   virtual String genre() const;
 
   /*!
-       * Returns the rating.
-       */
+   * Returns the rating.
+   */
   virtual String rating() const;
 
   /*!
-       * Returns the genre name; if no genre is present in the tag String::null
-       * will be returned.
-       */
+   * Returns the genre name; if no genre is present in the tag String::null will be returned.
+   */
   virtual String copyright() const;
 
   /*!
-       * Returns the year; if there is no year set, this will return 0.
-       */
+   * Returns the year; if there is no year set, this will return 0.
+   */
   virtual unsigned int year() const;
 
   /*!
-       * Returns the track number; if there is no track number set, this will
-       * return 0.
-       */
+   * Returns the track number; if there is no track number set, this will return 0.
+   */
   virtual unsigned int track() const;
 
   /*!
-       * Sets the title to \a s.
-       */
+   * Sets the title to \a s.
+   */
   virtual void setTitle(const String &s);
 
   /*!
-       * Sets the artist to \a s.
-       */
+   * Sets the artist to \a s.
+   */
   virtual void setArtist(const String &s);
 
   /*!
-       * Sets the album to \a s.  If \a s is String::null then this value will be
-       * cleared.
-       */
+   * Sets the album to \a s.  If \a s is String::null then this value will be cleared.
+   */
   virtual void setAlbum(const String &s);
 
   /*!
-       * Sets the comment to \a s.
-       */
+   * Sets the comment to \a s.
+   */
   virtual void setComment(const String &s);
 
   /*!
-       * Sets the rating to \a s.
-       */
+   * Sets the rating to \a s.
+   */
   virtual void setRating(const String &s);
 
   /*!
-       * Sets the copyright to \a s.
-       */
+   * Sets the copyright to \a s.
+   */
   virtual void setCopyright(const String &s);
 
   /*!
-       * Sets the genre to \a s.
-       */
+   * Sets the genre to \a s.
+   */
   virtual void setGenre(const String &s);
 
   /*!
-       * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
-       */
+   * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
+   */
   virtual void setYear(unsigned int i);
 
   /*!
-       * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
-       */
+   * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
+   */
   virtual void setTrack(unsigned int i);
 
   /*!
-       * Returns true if the tag does not contain any data.  This should be
-       * reimplemented in subclasses that provide more than the basic tagging
-       * abilities in this class.
-       */
+   * Returns true if the tag does not contain any data.
+   * This should be reimplemented in subclasses that provide more than the basic tagging abilities in this class.
+   */
   virtual bool isEmpty() const;
 
   /*!
-       * \deprecated
-       */
-  AttributeListMap &attributeListMap();
+   * Returns a reference to the item list map.  This is an AttributeListMap of all of the items in the tag.
+   */
+  const AttributeListMap attributeListMap() const;
 
   /*!
-       * Returns a reference to the item list map.  This is an AttributeListMap of
-       * all of the items in the tag.
-       */
-  // BIC: return by value
-  const AttributeListMap &attributeListMap() const;
-
-  /*!
-       * \return True if a value for \a attribute is currently set.
-       */
+   * \return True if a value for \a attribute is currently set.
+   */
   bool contains(const String &name) const;
 
   /*!
-       * Removes the \a key attribute from the tag
-       */
+   * Removes the \a key attribute from the tag
+   */
   void removeItem(const String &name);
 
   /*!
-       * \return The list of values for the key \a name, or an empty list if no
-       * values have been set.
-       */
+   * \return The list of values for the key \a name, or an empty list if no values have been set.
+   */
   AttributeList attribute(const String &name) const;
 
   /*!
-       * Sets the \a key attribute to the value of \a attribute. If an attribute
-       * with the \a key is already present, it will be replaced.
-       */
+   * Sets the \a key attribute to the value of \a attribute. If an attribute with the \a key is already present, it will be replaced.
+   */
   void setAttribute(const String &name, const Attribute &attribute);
 
   /*!
-       * Sets multiple \a values to the key \a name.
-       */
+   * Sets multiple \a values to the key \a name.
+   */
   void setAttribute(const String &name, const AttributeList &values);
 
   /*!
-       * Sets the \a key attribute to the value of \a attribute. If an attribute
-       * with the \a key is already present, it will be added to the list.
-       */
+   * Sets the \a key attribute to the value of \a attribute. If an attribute
+   * with the \a key is already present, it will be added to the list.
+   */
   void addAttribute(const String &name, const Attribute &attribute);
 
   PropertyMap properties() const;

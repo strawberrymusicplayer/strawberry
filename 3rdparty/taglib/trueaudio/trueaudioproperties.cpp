@@ -59,17 +59,12 @@ class TrueAudio::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TrueAudio::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                                                d(new PropertiesPrivate()) {
+TrueAudio::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(data, streamLength);
 }
 
 TrueAudio::Properties::~Properties() {
   delete d;
-}
-
-int TrueAudio::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int TrueAudio::Properties::lengthInSeconds() const {
@@ -109,6 +104,7 @@ int TrueAudio::Properties::ttaVersion() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void TrueAudio::Properties::read(const ByteVector &data, long streamLength) {
+
   if (data.size() < 4) {
     debug("TrueAudio::Properties::read() -- data is too short.");
     return;
@@ -152,4 +148,5 @@ void TrueAudio::Properties::read(const ByteVector &data, long streamLength) {
       d->bitrate = static_cast<int>(streamLength * 8.0 / length + 0.5);
     }
   }
+
 }

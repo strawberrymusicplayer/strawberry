@@ -43,8 +43,10 @@
 using namespace Strawberry_TagLib::TagLib;
 
 namespace {
-enum { WavAPEIndex,
-  WavID3v1Index };
+enum {
+  WavAPEIndex,
+  WavID3v1Index
+};
 }
 
 class WavPack::File::FilePrivate {
@@ -52,7 +54,7 @@ class WavPack::File::FilePrivate {
   FilePrivate() : APELocation(-1),
                   APESize(0),
                   ID3v1Location(-1),
-                  properties(0) {}
+                  properties(nullptr) {}
 
   ~FilePrivate() {
     delete properties;
@@ -73,26 +75,30 @@ class WavPack::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool WavPack::File::isSupported(IOStream *stream) {
+
   // A WavPack file has to start with "wvpk".
 
   const ByteVector id = Utils::readHeader(stream, 4, false);
   return (id == "wvpk");
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-WavPack::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                                 d(new FilePrivate()) {
+WavPack::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-WavPack::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                                                    d(new FilePrivate()) {
+WavPack::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 WavPack::File::~File() {
@@ -112,10 +118,12 @@ void WavPack::File::removeUnsupportedProperties(const StringList &unsupported) {
 }
 
 PropertyMap WavPack::File::setProperties(const PropertyMap &properties) {
+
   if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return APETag(true)->setProperties(properties);
+
 }
 
 WavPack::Properties *WavPack::File::audioProperties() const {
@@ -123,6 +131,7 @@ WavPack::Properties *WavPack::File::audioProperties() const {
 }
 
 bool WavPack::File::save() {
+
   if (readOnly()) {
     debug("WavPack::File::save() -- File is read only.");
     return false;
@@ -191,6 +200,7 @@ bool WavPack::File::save() {
   }
 
   return true;
+
 }
 
 ID3v1::Tag *WavPack::File::ID3v1Tag(bool create) {
@@ -202,14 +212,16 @@ APE::Tag *WavPack::File::APETag(bool create) {
 }
 
 void WavPack::File::strip(int tags) {
+
   if (tags & ID3v1)
-    d->tag.set(WavID3v1Index, 0);
+    d->tag.set(WavID3v1Index, nullptr);
 
   if (tags & APE)
-    d->tag.set(WavAPEIndex, 0);
+    d->tag.set(WavAPEIndex, nullptr);
 
   if (!ID3v1Tag())
     APETag(true);
+
 }
 
 bool WavPack::File::hasID3v1Tag() const {
@@ -225,6 +237,7 @@ bool WavPack::File::hasAPETag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void WavPack::File::read(bool readProperties) {
+
   // Look for an ID3v1 tag
 
   d->ID3v1Location = Utils::findID3v1(this);
@@ -260,4 +273,5 @@ void WavPack::File::read(bool readProperties) {
 
     d->properties = new Properties(this, streamLength);
   }
+
 }

@@ -64,13 +64,12 @@ class MPC::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPC::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                                          d(new PropertiesPrivate()) {
+MPC::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   readSV7(data, streamLength);
 }
 
-MPC::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                              d(new PropertiesPrivate()) {
+MPC::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+
   ByteVector magic = file->readBlock(4);
   if (magic == "MPCK") {
     // Musepack version 8
@@ -80,14 +79,11 @@ MPC::Properties::Properties(File *file, long streamLength, ReadStyle style) : Au
     // Musepack version 7 or older, fixed size header
     readSV7(magic + file->readBlock(MPC::HeaderSize - 4), streamLength);
   }
+
 }
 
 MPC::Properties::~Properties() {
   delete d;
-}
-
-int MPC::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int MPC::Properties::lengthInSeconds() const {
@@ -144,6 +140,7 @@ int MPC::Properties::albumPeak() const {
 
 namespace {
 unsigned long readSize(File *file, unsigned int &sizeLength, bool &eof) {
+
   sizeLength = 0;
   eof = false;
 
@@ -160,19 +157,26 @@ unsigned long readSize(File *file, unsigned int &sizeLength, bool &eof) {
     tmp = b[0];
     size = (size << 7) | (tmp & 0x7F);
     sizeLength++;
-  } while ((tmp & 0x80));
+  }
+  while ((tmp & 0x80));
+
   return size;
+
 }
 
 unsigned long readSize(const ByteVector &data, unsigned int &pos) {
+
   unsigned char tmp;
   unsigned long size = 0;
 
   do {
     tmp = data[pos++];
     size = (size << 7) | (tmp & 0x7F);
-  } while ((tmp & 0x80) && (pos < data.size()));
+  }
+  while ((tmp & 0x80) && (pos < data.size()));
+
   return size;
+
 }
 
 // This array looks weird, but the same as original MusePack code found at:
@@ -181,6 +185,7 @@ const unsigned short sftable[8] = { 44100, 48000, 37800, 32000, 0, 0, 0, 0 };
 }  // namespace
 
 void MPC::Properties::readSV8(File *file, long streamLength) {
+
   bool readSH = false, readRG = false;
 
   while (!readSH && !readRG) {
@@ -269,9 +274,11 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
       file->seek(dataSize, File::Current);
     }
   }
+
 }
 
 void MPC::Properties::readSV7(const ByteVector &data, long streamLength) {
+
   if (data.startsWith("MP+")) {
     d->version = data[3] & 15;
     if (d->version < 7)
@@ -340,4 +347,5 @@ void MPC::Properties::readSV7(const ByteVector &data, long streamLength) {
     if (d->bitrate == 0)
       d->bitrate = static_cast<int>(streamLength * 8.0 / length + 0.5);
   }
+
 }

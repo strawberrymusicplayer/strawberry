@@ -36,9 +36,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class RIFF::AIFF::File::FilePrivate {
  public:
-  FilePrivate() : properties(0),
-                  tag(0),
-                  hasID3v2(false) {}
+  FilePrivate() : properties(nullptr), tag(nullptr), hasID3v2(false) {}
 
   ~FilePrivate() {
     delete properties;
@@ -56,24 +54,26 @@ class RIFF::AIFF::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool RIFF::AIFF::File::isSupported(IOStream *stream) {
+
   // An AIFF file has to start with "FORM????AIFF" or "FORM????AIFC".
 
   const ByteVector id = Utils::readHeader(stream, 12, false);
   return (id.startsWith("FORM") && (id.containsAt("AIFF", 8) || id.containsAt("AIFC", 8)));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::AIFF::File::File(FileName file, bool readProperties, Properties::ReadStyle) : RIFF::File(file, BigEndian),
-                                                                                    d(new FilePrivate()) {
+RIFF::AIFF::File::File(FileName file, bool readProperties, Properties::ReadStyle) : RIFF::File(file, BigEndian), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
 }
 
-RIFF::AIFF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : RIFF::File(stream, BigEndian),
-                                                                                       d(new FilePrivate()) {
+RIFF::AIFF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : RIFF::File(stream, BigEndian), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
 }
@@ -107,6 +107,7 @@ bool RIFF::AIFF::File::save() {
 }
 
 bool RIFF::AIFF::File::save(ID3v2::Version version) {
+
   if (readOnly()) {
     debug("RIFF::AIFF::File::save() -- File is read only.");
     return false;
@@ -129,6 +130,7 @@ bool RIFF::AIFF::File::save(ID3v2::Version version) {
   }
 
   return true;
+
 }
 
 bool RIFF::AIFF::File::hasID3v2Tag() const {
@@ -140,6 +142,7 @@ bool RIFF::AIFF::File::hasID3v2Tag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void RIFF::AIFF::File::read(bool readProperties) {
+
   for (unsigned int i = 0; i < chunkCount(); ++i) {
     const ByteVector name = chunkName(i);
     if (name == "ID3 " || name == "id3 ") {
@@ -158,4 +161,5 @@ void RIFF::AIFF::File::read(bool readProperties) {
 
   if (readProperties)
     d->properties = new Properties(this, Properties::Average);
+
 }

@@ -37,29 +37,25 @@ namespace ID3v1 {
 typedef Map<String, int> GenreMap;
 
 /*!
-     * Returns the list of canonical ID3v1 genre names in the order that they
-     * are listed in the standard.
-     */
+ * Returns the list of canonical ID3v1 genre names in the order that they are listed in the standard.
+ */
 StringList TAGLIB_EXPORT genreList();
 
 /*!
-     * A "reverse mapping" that goes from the canonical ID3v1 genre name to the
-     * respective genre number.   genreMap()["Rock"] ==
-     */
+ * A "reverse mapping" that goes from the canonical ID3v1 genre name to the respective genre number.   genreMap()["Rock"] ==
+ */
 GenreMap TAGLIB_EXPORT genreMap();
 
 /*!
-     * Returns the name of the genre at \a index in the ID3v1 genre list.  If
-     * \a index is out of range -- less than zero or greater than 191 -- a null
-     * string will be returned.
-     */
+ * Returns the name of the genre at \a index in the ID3v1 genre list.
+ * If \a index is out of range -- less than zero or greater than 191 -- a null string will be returned.
+ */
 String TAGLIB_EXPORT genre(int index);
 
 /*!
-     * Returns the genre index for the (case sensitive) genre \a name.  If the
-     * genre is not in the list 255 (which signifies an unknown genre in ID3v1)
-     * will be returned.
-     */
+ * Returns the genre index for the (case sensitive) genre \a name.
+ * If the genre is not in the list 255 (which signifies an unknown genre in ID3v1) will be returned.
+ */
 int TAGLIB_EXPORT genreIndex(const String &name);
 }  // namespace ID3v1
 }  // namespace TagLib

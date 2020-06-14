@@ -37,8 +37,7 @@ class PodcastFrame::PodcastFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PodcastFrame::PodcastFrame() : Frame("PCST"),
-                               d(new PodcastFramePrivate()) {
+PodcastFrame::PodcastFrame() : Frame("PCST"), d(new PodcastFramePrivate()) {
   d->fieldData = ByteVector(4, '\0');
 }
 
@@ -66,7 +65,6 @@ ByteVector PodcastFrame::renderFields() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PodcastFrame::PodcastFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                d(new PodcastFramePrivate()) {
+PodcastFrame::PodcastFrame(const ByteVector &data, Header *h) : Frame(h), d(new PodcastFramePrivate()) {
   parseFields(fieldData(data));
 }

@@ -39,8 +39,7 @@ using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Speex::File::FilePrivate {
  public:
-  FilePrivate() : comment(0),
-                  properties(0) {}
+  FilePrivate() : comment(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete comment;
@@ -56,24 +55,24 @@ class Speex::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool Ogg::Speex::File::isSupported(IOStream *stream) {
+
   // A Speex file has IDs "OggS" and "Speex   " somewhere.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), false);
   return (buffer.find("OggS") >= 0 && buffer.find("Speex   ") >= 0);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Speex::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file),
-                                                                               d(new FilePrivate()) {
+Speex::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
 }
 
-Speex::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream),
-                                                                                  d(new FilePrivate()) {
+Speex::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
 }
@@ -99,12 +98,14 @@ Speex::Properties *Speex::File::audioProperties() const {
 }
 
 bool Speex::File::save() {
+
   if (!d->comment)
     d->comment = new Ogg::XiphComment();
 
   setPacket(1, d->comment->render());
 
   return Ogg::File::save();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,7 @@ bool Speex::File::save() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Speex::File::read(bool readProperties) {
+
   ByteVector speexHeaderData = packet(0);
 
   if (!speexHeaderData.startsWith("Speex   ")) {
@@ -126,4 +128,5 @@ void Speex::File::read(bool readProperties) {
 
   if (readProperties)
     d->properties = new Properties(this);
+
 }

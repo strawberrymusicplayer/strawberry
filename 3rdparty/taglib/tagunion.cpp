@@ -63,8 +63,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class TagUnion::TagUnionPrivate {
  public:
-  TagUnionPrivate() : tags(3, static_cast<Tag *>(0)) {
-  }
+  TagUnionPrivate() : tags(3, static_cast<Tag *>(nullptr)) {}
 
   ~TagUnionPrivate() {
     delete tags[0];
@@ -99,6 +98,7 @@ void TagUnion::set(int index, Tag *tag) {
 }
 
 PropertyMap TagUnion::properties() const {
+
   // This is an ugly workaround but we can't add a virtual function.
   // Should be virtual in taglib2.
 
@@ -124,9 +124,11 @@ PropertyMap TagUnion::properties() const {
   }
 
   return PropertyMap();
+
 }
 
 void TagUnion::removeUnsupportedProperties(const StringList &unsupported) {
+
   // This is an ugly workaround but we can't add a virtual function.
   // Should be virtual in taglib2.
 
@@ -150,6 +152,7 @@ void TagUnion::removeUnsupportedProperties(const StringList &unsupported) {
         dynamic_cast<RIFF::Info::Tag *>(d->tags[i])->removeUnsupportedProperties(unsupported);
     }
   }
+
 }
 
 String TagUnion::title() const {
@@ -209,6 +212,7 @@ void TagUnion::setTrack(unsigned int i) {
 }
 
 bool TagUnion::isEmpty() const {
+
   if (d->tags[0] && !d->tags[0]->isEmpty())
     return false;
   if (d->tags[1] && !d->tags[1]->isEmpty())
@@ -217,4 +221,5 @@ bool TagUnion::isEmpty() const {
     return false;
 
   return true;
+
 }

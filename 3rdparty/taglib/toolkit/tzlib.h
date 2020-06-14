@@ -38,8 +38,8 @@ namespace TagLib {
 namespace zlib {
 
 /*!
-      * Returns whether or not zlib is installed and ready to use.
-      */
+ * Returns whether or not zlib is installed and ready to use.
+ */
 bool isAvailable();
 
 /*!

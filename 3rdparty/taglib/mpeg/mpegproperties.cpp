@@ -36,7 +36,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MPEG::Properties::PropertiesPrivate {
  public:
-  PropertiesPrivate() : xingHeader(0),
+  PropertiesPrivate() : xingHeader(nullptr),
                         length(0),
                         bitrate(0),
                         sampleRate(0),
@@ -69,8 +69,7 @@ class MPEG::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                            d(new PropertiesPrivate()) {
+MPEG::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file);
 }
 
@@ -135,6 +134,7 @@ bool MPEG::Properties::isOriginal() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void MPEG::Properties::read(File *file) {
+
   // Only the first valid frame is required if we have a VBR header.
 
   const long firstFrameOffset = file->firstFrameOffset();
@@ -152,7 +152,7 @@ void MPEG::Properties::read(File *file) {
   d->xingHeader = new XingHeader(file->readBlock(firstHeader.frameLength()));
   if (!d->xingHeader->isValid()) {
     delete d->xingHeader;
-    d->xingHeader = 0;
+    d->xingHeader = nullptr;
   }
 
   if (d->xingHeader && firstHeader.samplesPerFrame() > 0 && firstHeader.sampleRate() > 0) {
@@ -197,4 +197,5 @@ void MPEG::Properties::read(File *file) {
   d->channelMode = firstHeader.channelMode();
   d->isCopyrighted = firstHeader.isCopyrighted();
   d->isOriginal = firstHeader.isOriginal();
+
 }

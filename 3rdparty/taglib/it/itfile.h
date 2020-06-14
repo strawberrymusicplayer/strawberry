@@ -31,67 +31,63 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace IT {
 
 class TAGLIB_EXPORT File : public Mod::FileBase {
  public:
   /*!
-         * Constructs a Impulse Tracker file from \a file.
-         *
-         * \note In the current implementation, both \a readProperties and
-         * \a propertiesStyle are ignored.  The audio properties are always
-         * read.
-         */
+   * Constructs a Impulse Tracker file from \a file.
+   *
+   * \note In the current implementation, both \a readProperties and \a propertiesStyle are ignored.
+   * The audio properties are always read.
+   */
   File(FileName file, bool readProperties = true,
     AudioProperties::ReadStyle propertiesStyle =
       AudioProperties::Average);
 
   /*!
-         * Constructs a Impulse Tracker file from \a stream.
-         *
-         * \note In the current implementation, both \a readProperties and
-         * \a propertiesStyle are ignored.  The audio properties are always
-         * read.
-         *
-         * \note TagLib will *not* take ownership of the stream, the caller is
-         * responsible for deleting it after the File object.
-         */
+   * Constructs a Impulse Tracker file from \a stream.
+   *
+   * \note In the current implementation, both \a readProperties and \a propertiesStyle are ignored.
+   * The audio properties are always read.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
+   */
   File(IOStream *stream, bool readProperties = true,
     AudioProperties::ReadStyle propertiesStyle =
       AudioProperties::Average);
 
   /*!
-         * Destroys this instance of the File.
-         */
+   * Destroys this instance of the File.
+   */
   virtual ~File();
 
   Mod::Tag *tag() const;
 
   /*!
-         * Forwards to Mod::Tag::properties().
-         * BIC: will be removed once File::toDict() is made virtual
-         */
+   * Forwards to Mod::Tag::properties().
+   * BIC: will be removed once File::toDict() is made virtual
+   */
   PropertyMap properties() const;
 
   /*!
-         * Forwards to Mod::Tag::setProperties().
-         * BIC: will be removed once File::setProperties() is made virtual
-         */
+   * Forwards to Mod::Tag::setProperties().
+   * BIC: will be removed once File::setProperties() is made virtual
+   */
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-         * Returns the IT::Properties for this file. If no audio properties
-         * were read then this will return a null pointer.
-         */
+   * Returns the IT::Properties for this file. If no audio properties
+   * were read then this will return a null pointer.
+   */
   IT::Properties *audioProperties() const;
 
   /*!
-         * Save the file.
-         * This is the same as calling save(AllTags);
-         *
-         * \note Saving Impulse Tracker tags is not supported.
-         */
+   * Save the file.
+   * This is the same as calling save(AllTags);
+   *
+   * \note Saving Impulse Tracker tags is not supported.
+   */
   bool save();
 
 
@@ -104,6 +100,7 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   class FilePrivate;
   FilePrivate *d;
 };
+
 }  // namespace IT
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

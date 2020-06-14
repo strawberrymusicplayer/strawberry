@@ -37,8 +37,8 @@ using Strawberry_TagLib::TagLib::FLAC::Properties;
 
 class Ogg::FLAC::File::FilePrivate {
  public:
-  FilePrivate() : comment(0),
-                  properties(0),
+  FilePrivate() : comment(nullptr),
+                  properties(nullptr),
                   streamStart(0),
                   streamLength(0),
                   scanned(false),
@@ -78,18 +78,18 @@ bool Ogg::FLAC::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::FLAC::File::File(FileName file, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Ogg::File(file),
-                                           d(new FilePrivate()) {
+Ogg::FLAC::File::File(FileName file, bool readProperties, Properties::ReadStyle propertiesStyle) : Ogg::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
-Ogg::FLAC::File::File(IOStream *stream, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Ogg::File(stream),
-                                           d(new FilePrivate()) {
+Ogg::FLAC::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Ogg::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
 Ogg::FLAC::File::~File() {
@@ -114,6 +114,7 @@ Properties *Ogg::FLAC::File::audioProperties() const {
 
 
 bool Ogg::FLAC::File::save() {
+
   d->xiphCommentData = d->comment->render(false);
 
   // Create FLAC metadata-block:
@@ -136,6 +137,7 @@ bool Ogg::FLAC::File::save() {
   setPacket(d->commentPacket, v);
 
   return Ogg::File::save();
+
 }
 
 bool Ogg::FLAC::File::hasXiphComment() const {
@@ -147,6 +149,7 @@ bool Ogg::FLAC::File::hasXiphComment() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Ogg::FLAC::File::read(bool readProperties, Properties::ReadStyle propertiesStyle) {
+
   // Sanity: Check if we really have an Ogg/FLAC file
 
   /*
@@ -176,6 +179,7 @@ void Ogg::FLAC::File::read(bool readProperties, Properties::ReadStyle properties
 
   if (readProperties)
     d->properties = new Properties(streamInfoData(), streamLength(), propertiesStyle);
+
 }
 
 ByteVector Ogg::FLAC::File::streamInfoData() {
@@ -194,6 +198,7 @@ long Ogg::FLAC::File::streamLength() {
 }
 
 void Ogg::FLAC::File::scan() {
+
   // Scan the metadata pages
 
   if (d->scanned)
@@ -298,4 +303,5 @@ void Ogg::FLAC::File::scan() {
   d->streamLength = File::length() - d->streamStart;
 
   d->scanned = true;
+
 }

@@ -51,7 +51,7 @@ const unsigned int MaxKeyLength = 255;
 
 bool isKeyValid(const ByteVector &key) {
 
-  const char *invalidKeys[] = { "ID3", "TAG", "OGGS", "MP+", 0 };
+  const char *invalidKeys[] = { "ID3", "TAG", "OGGS", "MP+", nullptr };
 
   // only allow printable ASCII including space (32..126)
 
@@ -62,7 +62,7 @@ bool isKeyValid(const ByteVector &key) {
   }
 
   const String upperKey = String(key).upper();
-  for (size_t i = 0; invalidKeys[i] != 0; ++i) {
+  for (size_t i = 0; invalidKeys[i] != nullptr; ++i) {
     if (upperKey == invalidKeys[i])
       return false;
   }
@@ -73,7 +73,7 @@ bool isKeyValid(const ByteVector &key) {
 
 class APE::Tag::TagPrivate {
  public:
-  TagPrivate() : file(0), footerLocation(0) {}
+  TagPrivate() : file(nullptr), footerLocation(0) {}
 
   File *file;
   long footerLocation;
@@ -207,6 +207,7 @@ const size_t keyConversionsSize = sizeof(keyConversions) / sizeof(keyConversions
 }  // namespace
 
 PropertyMap APE::Tag::properties() const {
+
   PropertyMap properties;
   ItemListMap::ConstIterator it = itemListMap().begin();
   for (; it != itemListMap().end(); ++it) {
@@ -226,15 +227,19 @@ PropertyMap APE::Tag::properties() const {
     }
   }
   return properties;
+
 }
 
 void APE::Tag::removeUnsupportedProperties(const StringList &properties) {
+
   StringList::ConstIterator it = properties.begin();
   for (; it != properties.end(); ++it)
     removeItem(*it);
+
 }
 
 PropertyMap APE::Tag::setProperties(const PropertyMap &origProps) {
+
   PropertyMap properties(origProps);  // make a local copy that can be modified
 
   // see comment in properties()
@@ -280,10 +285,12 @@ PropertyMap APE::Tag::setProperties(const PropertyMap &origProps) {
 }
 
 bool APE::Tag::checkKey(const String &key) {
+
   if (key.size() < MinKeyLength || key.size() > MaxKeyLength)
     return false;
 
   return isKeyValid(key.data(String::UTF8));
+
 }
 
 APE::Footer *APE::Tag::footer() const {
@@ -299,6 +306,7 @@ void APE::Tag::removeItem(const String &key) {
 }
 
 void APE::Tag::addValue(const String &key, const String &value, bool replace) {
+
   if (replace)
     removeItem(key);
 
@@ -314,24 +322,29 @@ void APE::Tag::addValue(const String &key, const String &value, bool replace) {
     it->second.appendValue(value);
   else
     setItem(key, Item(key, value));
+
 }
 
 void APE::Tag::setData(const String &key, const ByteVector &value) {
+
   removeItem(key);
 
   if (value.isEmpty())
     return;
 
   setItem(key, Item(key, value, true));
+
 }
 
 void APE::Tag::setItem(const String &key, const Item &item) {
+
   if (!checkKey(key)) {
     debug("APE::Tag::setItem() - Couldn't set an item due to an invalid key.");
     return;
   }
 
   d->itemListMap[key.upper()] = item;
+
 }
 
 bool APE::Tag::isEmpty() const {
@@ -343,6 +356,7 @@ bool APE::Tag::isEmpty() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void APE::Tag::read() {
+
   if (d->file && d->file->isValid()) {
 
     d->file->seek(d->footerLocation);
@@ -355,9 +369,11 @@ void APE::Tag::read() {
     d->file->seek(d->footerLocation + Footer::size() - d->footer.tagSize());
     parse(d->file->readBlock(d->footer.tagSize() - Footer::size()));
   }
+
 }
 
 ByteVector APE::Tag::render() const {
+
   ByteVector data;
   unsigned int itemCount = 0;
 
@@ -371,9 +387,11 @@ ByteVector APE::Tag::render() const {
   d->footer.setHeaderPresent(true);
 
   return d->footer.renderHeader() + data + d->footer.renderFooter();
+
 }
 
 void APE::Tag::parse(const ByteVector &data) {
+
   // 11 bytes is the minimum size for an APE item
 
   if (data.size() < 11)
@@ -404,4 +422,5 @@ void APE::Tag::parse(const ByteVector &data) {
 
     pos += keyLength + valLegnth + 9;
   }
+
 }

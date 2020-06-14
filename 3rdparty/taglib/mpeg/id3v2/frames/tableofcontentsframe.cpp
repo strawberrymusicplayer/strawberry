@@ -34,9 +34,7 @@ using namespace ID3v2;
 
 class TableOfContentsFrame::TableOfContentsFramePrivate {
  public:
-  TableOfContentsFramePrivate() : tagHeader(0),
-                                  isTopLevel(false),
-                                  isOrdered(false) {
+  TableOfContentsFramePrivate() : tagHeader(nullptr), isTopLevel(false), isOrdered(false) {
     embeddedFrameList.setAutoDelete(true);
   }
 
@@ -69,6 +67,7 @@ ByteVectorList &strip(ByteVectorList &l) {
   }
   return l;
 }
+
 }  // namespace
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,16 +80,15 @@ TableOfContentsFrame::TableOfContentsFrame(const ID3v2::Header *tagHeader, const
   setData(data);
 }
 
-TableOfContentsFrame::TableOfContentsFrame(const ByteVector &elementID,
-  const ByteVectorList &children,
-  const FrameList &embeddedFrames) : ID3v2::Frame("CTOC"),
-                                     d(new TableOfContentsFramePrivate()) {
+TableOfContentsFrame::TableOfContentsFrame(const ByteVector &elementID, const ByteVectorList &children, const FrameList &embeddedFrames) : ID3v2::Frame("CTOC"), d(new TableOfContentsFramePrivate()) {
+
   d->elementID = elementID;
   strip(d->elementID);
   d->childElements = children;
 
   for (FrameList::ConstIterator it = embeddedFrames.begin(); it != embeddedFrames.end(); ++it)
     addEmbeddedFrame(*it);
+
 }
 
 TableOfContentsFrame::~TableOfContentsFrame() {
@@ -167,6 +165,7 @@ void TableOfContentsFrame::addEmbeddedFrame(Frame *frame) {
 }
 
 void TableOfContentsFrame::removeEmbeddedFrame(Frame *frame, bool del) {
+
   // remove the frame from the frame list
   FrameList::Iterator it = d->embeddedFrameList.find(frame);
   d->embeddedFrameList.erase(it);
@@ -178,15 +177,19 @@ void TableOfContentsFrame::removeEmbeddedFrame(Frame *frame, bool del) {
   // ...and delete as desired
   if (del)
     delete frame;
+
 }
 
 void TableOfContentsFrame::removeEmbeddedFrames(const ByteVector &id) {
+
   FrameList l = d->embeddedFrameListMap[id];
   for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
     removeEmbeddedFrame(*it, true);
+
 }
 
 String TableOfContentsFrame::toString() const {
+
   String s = String(d->elementID) +
     ": top level: " + (d->isTopLevel ? "true" : "false") +
     ", ordered: " + (d->isOrdered ? "true" : "false");
@@ -205,19 +208,21 @@ String TableOfContentsFrame::toString() const {
   }
 
   return s;
+
 }
 
 PropertyMap TableOfContentsFrame::asProperties() const {
+
   PropertyMap map;
 
   map.unsupportedData().append(frameID() + String("/") + d->elementID);
 
   return map;
+
 }
 
-TableOfContentsFrame *TableOfContentsFrame::findByElementID(const ID3v2::Tag *tag,
-  const ByteVector &eID)  // static
-{
+TableOfContentsFrame *TableOfContentsFrame::findByElementID(const ID3v2::Tag *tag, const ByteVector &eID) {  // static
+
   ID3v2::FrameList tablesOfContents = tag->frameList("CTOC");
 
   for (ID3v2::FrameList::ConstIterator it = tablesOfContents.begin();
@@ -229,10 +234,11 @@ TableOfContentsFrame *TableOfContentsFrame::findByElementID(const ID3v2::Tag *ta
   }
 
   return nullptr;
+
 }
 
-TableOfContentsFrame *TableOfContentsFrame::findTopLevel(const ID3v2::Tag *tag)  // static
-{
+TableOfContentsFrame *TableOfContentsFrame::findTopLevel(const ID3v2::Tag *tag) {  // static
+
   ID3v2::FrameList tablesOfContents = tag->frameList("CTOC");
 
   for (ID3v2::FrameList::ConstIterator it = tablesOfContents.begin();
@@ -244,9 +250,11 @@ TableOfContentsFrame *TableOfContentsFrame::findTopLevel(const ID3v2::Tag *tag) 
   }
 
   return nullptr;
+
 }
 
 void TableOfContentsFrame::parseFields(const ByteVector &data) {
+
   unsigned int size = data.size();
   if (size < 6) {
     debug("A CTOC frame must contain at least 6 bytes (1 byte element ID terminated by "
@@ -286,9 +294,11 @@ void TableOfContentsFrame::parseFields(const ByteVector &data) {
     embPos += frame->size() + header()->size();
     addEmbeddedFrame(frame);
   }
+
 }
 
 ByteVector TableOfContentsFrame::renderFields() const {
+
   ByteVector data;
 
   data.append(d->elementID);
@@ -311,11 +321,10 @@ ByteVector TableOfContentsFrame::renderFields() const {
     data.append((*it2)->render());
 
   return data;
+
 }
 
-TableOfContentsFrame::TableOfContentsFrame(const ID3v2::Header *tagHeader,
-  const ByteVector &data, Header *h) : Frame(h),
-                                       d(new TableOfContentsFramePrivate()) {
+TableOfContentsFrame::TableOfContentsFrame(const ID3v2::Header *tagHeader, const ByteVector &data, Header *h) : Frame(h), d(new TableOfContentsFramePrivate()) {
   d->tagHeader = tagHeader;
   parseFields(fieldData(data));
 }

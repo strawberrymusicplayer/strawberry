@@ -34,9 +34,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MPEG::XingHeader::XingHeaderPrivate {
  public:
-  XingHeaderPrivate() : frames(0),
-                        size(0),
-                        type(MPEG::XingHeader::Invalid) {}
+  XingHeaderPrivate() : frames(0), size(0), type(MPEG::XingHeader::Invalid) {}
 
   unsigned int frames;
   unsigned int size;
@@ -72,16 +70,12 @@ MPEG::XingHeader::HeaderType MPEG::XingHeader::type() const {
   return d->type;
 }
 
-int MPEG::XingHeader::xingHeaderOffset(Strawberry_TagLib::TagLib::MPEG::Header::Version /*v*/,
-  Strawberry_TagLib::TagLib::MPEG::Header::ChannelMode /*c*/) {
-  return 0;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
 void MPEG::XingHeader::parse(const ByteVector &data) {
+
   // Look for a Xing header.
 
   long offset = data.find("Xing");
@@ -126,4 +120,5 @@ void MPEG::XingHeader::parse(const ByteVector &data) {
       d->type = VBRI;
     }
   }
+
 }

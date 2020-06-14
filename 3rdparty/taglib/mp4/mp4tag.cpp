@@ -34,18 +34,17 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MP4::Tag::TagPrivate {
  public:
-  TagPrivate() : file(0),
-                 atoms(0) {}
+  TagPrivate() : file(nullptr), atoms(nullptr) {}
 
   Strawberry_TagLib::TagLib::File *file;
   Atoms *atoms;
   ItemMap items;
 };
 
-MP4::Tag::Tag() : d(new TagPrivate()) {
-}
+MP4::Tag::Tag() : d(new TagPrivate()) {}
 
 MP4::Tag::Tag(Strawberry_TagLib::TagLib::File *file, MP4::Atoms *atoms) : d(new TagPrivate()) {
+
   d->file = file;
   d->atoms = atoms;
 
@@ -113,8 +112,8 @@ MP4::Tag::~Tag() {
   delete d;
 }
 
-MP4::AtomDataList
-MP4::Tag::parseData2(const MP4::Atom *atom, int expectedFlags, bool freeForm) {
+MP4::AtomDataList MP4::Tag::parseData2(const MP4::Atom *atom, int expectedFlags, bool freeForm) {
+
   AtomDataList result;
   ByteVector data = d->file->readBlock(atom->length - 8);
   int i = 0;
@@ -152,47 +151,58 @@ MP4::Tag::parseData2(const MP4::Atom *atom, int expectedFlags, bool freeForm) {
     i++;
   }
   return result;
+
 }
 
-ByteVectorList
-MP4::Tag::parseData(const MP4::Atom *atom, int expectedFlags, bool freeForm) {
+ByteVectorList MP4::Tag::parseData(const MP4::Atom *atom, int expectedFlags, bool freeForm) {
+
   AtomDataList data = parseData2(atom, expectedFlags, freeForm);
   ByteVectorList result;
   for (AtomDataList::ConstIterator it = data.begin(); it != data.end(); ++it) {
     result.append(it->data);
   }
   return result;
+
 }
 
 void MP4::Tag::parseInt(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     addItem(atom->name, (int)data[0].toShort());
   }
+
 }
 
 void MP4::Tag::parseUInt(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     addItem(atom->name, data[0].toUInt());
   }
+
 }
 
 void MP4::Tag::parseLongLong(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     addItem(atom->name, data[0].toLongLong());
   }
+
 }
 
 void MP4::Tag::parseByte(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     addItem(atom->name, static_cast<unsigned char>(data[0].at(0)));
   }
+
 }
 
 void MP4::Tag::parseGnre(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     int idx = (int)data[0].toShort();
@@ -200,26 +210,32 @@ void MP4::Tag::parseGnre(const MP4::Atom *atom) {
       addItem("\251gen", StringList(ID3v1::genre(idx - 1)));
     }
   }
+
 }
 
 void MP4::Tag::parseIntPair(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     const int a = data[0].toShort(2U);
     const int b = data[0].toShort(4U);
     addItem(atom->name, MP4::Item(a, b));
   }
+
 }
 
 void MP4::Tag::parseBool(const MP4::Atom *atom) {
+
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
     bool value = data[0].size() ? data[0][0] != '\0' : false;
     addItem(atom->name, value);
   }
+
 }
 
 void MP4::Tag::parseText(const MP4::Atom *atom, int expectedFlags) {
+
   ByteVectorList data = parseData(atom, expectedFlags);
   if (!data.isEmpty()) {
     StringList value;
@@ -228,9 +244,11 @@ void MP4::Tag::parseText(const MP4::Atom *atom, int expectedFlags) {
     }
     addItem(atom->name, value);
   }
+
 }
 
 void MP4::Tag::parseFreeForm(const MP4::Atom *atom) {
+
   AtomDataList data = parseData2(atom, -1, true);
   if (data.size() > 2) {
     AtomDataList::ConstIterator itBegin = data.begin();
@@ -267,9 +285,11 @@ void MP4::Tag::parseFreeForm(const MP4::Atom *atom) {
       addItem(name, item);
     }
   }
+
 }
 
 void MP4::Tag::parseCovr(const MP4::Atom *atom) {
+
   MP4::CoverArtList value;
   ByteVector data = d->file->readBlock(atom->length - 8);
   unsigned int pos = 0;
@@ -299,106 +319,117 @@ void MP4::Tag::parseCovr(const MP4::Atom *atom) {
   }
   if (!value.isEmpty())
     addItem(atom->name, value);
+
 }
 
-ByteVector
-MP4::Tag::padIlst(const ByteVector &data, int length) const {
+ByteVector MP4::Tag::padIlst(const ByteVector &data, int length) const {
+
   if (length == -1) {
     length = ((data.size() + 1023) & ~1023) - data.size();
   }
   return renderAtom("free", ByteVector(length, '\1'));
+
 }
 
-ByteVector
-MP4::Tag::renderAtom(const ByteVector &name, const ByteVector &data) const {
+ByteVector MP4::Tag::renderAtom(const ByteVector &name, const ByteVector &data) const {
   return ByteVector::fromUInt(data.size() + 8) + name + data;
 }
 
-ByteVector
-MP4::Tag::renderData(const ByteVector &name, int flags, const ByteVectorList &data) const {
+ByteVector MP4::Tag::renderData(const ByteVector &name, int flags, const ByteVectorList &data) const {
+
   ByteVector result;
   for (ByteVectorList::ConstIterator it = data.begin(); it != data.end(); ++it) {
     result.append(renderAtom("data", ByteVector::fromUInt(flags) + ByteVector(4, '\0') + *it));
   }
   return renderAtom(name, result);
+
 }
 
-ByteVector
-MP4::Tag::renderBool(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderBool(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector(1, item.toBool() ? '\1' : '\0'));
   return renderData(name, TypeInteger, data);
+
 }
 
-ByteVector
-MP4::Tag::renderInt(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderInt(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector::fromShort(item.toInt()));
   return renderData(name, TypeInteger, data);
+
 }
 
-ByteVector
-MP4::Tag::renderUInt(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderUInt(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector::fromUInt(item.toUInt()));
   return renderData(name, TypeInteger, data);
+
 }
 
-ByteVector
-MP4::Tag::renderLongLong(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderLongLong(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector::fromLongLong(item.toLongLong()));
   return renderData(name, TypeInteger, data);
+
 }
 
-ByteVector
-MP4::Tag::renderByte(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderByte(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector(1, item.toByte()));
   return renderData(name, TypeInteger, data);
+
 }
 
-ByteVector
-MP4::Tag::renderIntPair(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderIntPair(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector(2, '\0') +
     ByteVector::fromShort(item.toIntPair().first) +
     ByteVector::fromShort(item.toIntPair().second) +
     ByteVector(2, '\0'));
   return renderData(name, TypeImplicit, data);
+
 }
 
-ByteVector
-MP4::Tag::renderIntPairNoTrailing(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderIntPairNoTrailing(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVectorList data;
   data.append(ByteVector(2, '\0') +
     ByteVector::fromShort(item.toIntPair().first) +
     ByteVector::fromShort(item.toIntPair().second));
   return renderData(name, TypeImplicit, data);
+
 }
 
-ByteVector
-MP4::Tag::renderText(const ByteVector &name, const MP4::Item &item, int flags) const {
+ByteVector MP4::Tag::renderText(const ByteVector &name, const MP4::Item &item, int flags) const {
+
   ByteVectorList data;
   StringList value = item.toStringList();
   for (StringList::ConstIterator it = value.begin(); it != value.end(); ++it) {
     data.append(it->data(String::UTF8));
   }
   return renderData(name, flags, data);
+
 }
 
-ByteVector
-MP4::Tag::renderCovr(const ByteVector &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderCovr(const ByteVector &name, const MP4::Item &item) const {
+
   ByteVector data;
   MP4::CoverArtList value = item.toCoverArtList();
   for (MP4::CoverArtList::ConstIterator it = value.begin(); it != value.end(); ++it) {
     data.append(renderAtom("data", ByteVector::fromUInt(it->format()) + ByteVector(4, '\0') + it->data()));
   }
   return renderAtom(name, data);
+
 }
 
-ByteVector
-MP4::Tag::renderFreeForm(const String &name, const MP4::Item &item) const {
+ByteVector MP4::Tag::renderFreeForm(const String &name, const MP4::Item &item) const {
+
   StringList header = StringList::split(name, ":");
   if (header.size() != 3) {
     debug("MP4: Invalid free-form item name \"" + name + "\"");
@@ -429,9 +460,11 @@ MP4::Tag::renderFreeForm(const String &name, const MP4::Item &item) const {
     }
   }
   return renderAtom("----", data);
+
 }
 
 bool MP4::Tag::save() {
+
   ByteVector data;
   for (MP4::ItemMap::ConstIterator it = d->items.begin(); it != d->items.end(); ++it) {
     const String name = it->first;
@@ -496,9 +529,11 @@ bool MP4::Tag::save() {
   }
 
   return true;
+
 }
 
 void MP4::Tag::updateParents(const AtomList &path, long delta, int ignore) {
+
   if (static_cast<int>(path.size()) <= ignore)
     return;
 
@@ -525,6 +560,7 @@ void MP4::Tag::updateParents(const AtomList &path, long delta, int ignore) {
 }
 
 void MP4::Tag::updateOffsets(long delta, long offset) {
+
   MP4::Atom *moov = d->atoms->find("moov");
   if (moov) {
     MP4::AtomList stco = moov->findall("stco", true);
@@ -591,9 +627,11 @@ void MP4::Tag::updateOffsets(long delta, long offset) {
       }
     }
   }
+
 }
 
 void MP4::Tag::saveNew(ByteVector data) {
+
   data = renderAtom("meta", ByteVector(4, '\0') + renderAtom("hdlr", ByteVector(8, '\0') + ByteVector("mdirappl") + ByteVector(9, '\0')) + data + padIlst(data));
 
   AtomList path = d->atoms->path("moov", "udta");
@@ -612,9 +650,11 @@ void MP4::Tag::saveNew(ByteVector data) {
 
   d->file->seek(offset);
   path.back()->children.prepend(new Atom(d->file));
+
 }
 
 void MP4::Tag::saveExisting(ByteVector data, const AtomList &path) {
+
   AtomList::ConstIterator it = path.end();
 
   MP4::Atom *ilst = *(--it);
@@ -660,52 +700,46 @@ void MP4::Tag::saveExisting(ByteVector data, const AtomList &path) {
     updateParents(path, delta, 1);
     updateOffsets(delta, offset);
   }
+
 }
 
-String
-MP4::Tag::title() const {
+String MP4::Tag::title() const {
   if (d->items.contains("\251nam"))
     return d->items["\251nam"].toStringList().toString(", ");
   return String();
 }
 
-String
-MP4::Tag::artist() const {
+String MP4::Tag::artist() const {
   if (d->items.contains("\251ART"))
     return d->items["\251ART"].toStringList().toString(", ");
   return String();
 }
 
-String
-MP4::Tag::album() const {
+String MP4::Tag::album() const {
   if (d->items.contains("\251alb"))
     return d->items["\251alb"].toStringList().toString(", ");
   return String();
 }
 
-String
-MP4::Tag::comment() const {
+String MP4::Tag::comment() const {
   if (d->items.contains("\251cmt"))
     return d->items["\251cmt"].toStringList().toString(", ");
   return String();
 }
 
-String
-MP4::Tag::genre() const {
+String MP4::Tag::genre() const {
   if (d->items.contains("\251gen"))
     return d->items["\251gen"].toStringList().toString(", ");
   return String();
 }
 
-unsigned int
-MP4::Tag::year() const {
+unsigned int MP4::Tag::year() const {
   if (d->items.contains("\251day"))
     return d->items["\251day"].toStringList().toString().toInt();
   return 0;
 }
 
-unsigned int
-MP4::Tag::track() const {
+unsigned int MP4::Tag::track() const {
   if (d->items.contains("trkn"))
     return d->items["trkn"].toIntPair().first;
   return 0;
@@ -732,29 +766,29 @@ void MP4::Tag::setGenre(const String &value) {
 }
 
 void MP4::Tag::setYear(unsigned int value) {
+
   if (value == 0) {
     d->items.erase("\251day");
   }
   else {
     d->items["\251day"] = StringList(String::number(value));
   }
+
 }
 
 void MP4::Tag::setTrack(unsigned int value) {
+
   if (value == 0) {
     d->items.erase("trkn");
   }
   else {
     d->items["trkn"] = MP4::Item(value, 0);
   }
+
 }
 
 bool MP4::Tag::isEmpty() const {
   return d->items.isEmpty();
-}
-
-MP4::ItemMap &MP4::Tag::itemListMap() {
-  return d->items;
 }
 
 const MP4::ItemMap &MP4::Tag::itemMap() const {
@@ -835,16 +869,19 @@ const char *keyTranslation[][2] = {
 const size_t keyTranslationSize = sizeof(keyTranslation) / sizeof(keyTranslation[0]);
 
 String translateKey(const String &key) {
+
   for (size_t i = 0; i < keyTranslationSize; ++i) {
     if (key == keyTranslation[i][0])
       return keyTranslation[i][1];
   }
 
   return String();
+
 }
 }  // namespace
 
 PropertyMap MP4::Tag::properties() const {
+
   PropertyMap props;
   for (MP4::ItemMap::ConstIterator it = d->items.begin(); it != d->items.end(); ++it) {
     const String key = translateKey(it->first);
@@ -872,14 +909,18 @@ PropertyMap MP4::Tag::properties() const {
     }
   }
   return props;
+
 }
 
 void MP4::Tag::removeUnsupportedProperties(const StringList &props) {
+
   for (StringList::ConstIterator it = props.begin(); it != props.end(); ++it)
     d->items.erase(*it);
+
 }
 
 PropertyMap MP4::Tag::setProperties(const PropertyMap &props) {
+
   static Map<String, String> reverseKeyMap;
   if (reverseKeyMap.isEmpty()) {
     int numKeys = sizeof(keyTranslation) / sizeof(keyTranslation[0]);
@@ -928,13 +969,16 @@ PropertyMap MP4::Tag::setProperties(const PropertyMap &props) {
   }
 
   return ignoredProps;
+
 }
 
 void MP4::Tag::addItem(const String &name, const Item &value) {
+
   if (!d->items.contains(name)) {
     d->items.insert(name, value);
   }
   else {
     debug("MP4: Ignoring duplicate atom \"" + name + "\"");
   }
+
 }

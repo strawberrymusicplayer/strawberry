@@ -76,7 +76,7 @@ ASF::Picture::Type ASF::Picture::type() const {
   return d->type;
 }
 
-void ASF::Picture::setType(const ASF::Picture::Type& t) {
+void ASF::Picture::setType(const ASF::Picture::Type &t) {
   d->type = t;
 }
 
@@ -92,7 +92,7 @@ ByteVector ASF::Picture::picture() const {
   return d->picture;
 }
 
-void ASF::Picture::setPicture(const ByteVector& p) {
+void ASF::Picture::setPicture(const ByteVector &p) {
   d->picture = p;
 }
 
@@ -113,6 +113,7 @@ void ASF::Picture::swap(Picture& other) {
 }
 
 ByteVector ASF::Picture::render() const {
+
   if (!isValid())
     return ByteVector();
 
@@ -121,9 +122,11 @@ ByteVector ASF::Picture::render() const {
     renderString(d->mimeType) +
     renderString(d->description) +
     d->picture;
+
 }
 
-void ASF::Picture::parse(const ByteVector& bytes) {
+void ASF::Picture::parse(const ByteVector &bytes) {
+
   d->valid = false;
   if (bytes.size() < 9)
     return;
@@ -152,11 +155,13 @@ void ASF::Picture::parse(const ByteVector& bytes) {
 
   d->picture = bytes.mid(pos, dataLen);
   d->valid = true;
-  return;
+
 }
 
 ASF::Picture ASF::Picture::fromInvalid() {
+
   Picture ret;
   ret.d->valid = false;
   return ret;
+
 }

@@ -40,34 +40,41 @@ using namespace Strawberry_TagLib::TagLib;
 
 // Returns the native format of std::wstring.
 String::Type wcharByteOrder() {
+
   if (Utils::systemByteOrder() == Utils::LittleEndian)
     return String::UTF16LE;
   else
     return String::UTF16BE;
+
 }
 
 // Converts a Latin-1 string into UTF-16(without BOM/CPU byte order)
 // and copies it to the internal buffer.
 void copyFromLatin1(std::wstring &data, const char *s, size_t length) {
+
   data.resize(length);
 
   for (size_t i = 0; i < length; ++i)
     data[i] = static_cast<unsigned char>(s[i]);
+
 }
 
 // Converts a UTF-8 string into UTF-16(without BOM/CPU byte order)
 // and copies it to the internal buffer.
 void copyFromUTF8(std::wstring &data, const char *s, size_t length) {
+
   data.resize(length);
 
   try {
     const std::wstring::iterator dstEnd = utf8::utf8to16(s, s + length, data.begin());
     data.resize(dstEnd - data.begin());
-  } catch (const utf8::exception &e) {
+  }
+  catch (const utf8::exception &e) {
     const String message(e.what());
     debug("String::copyFromUTF8() - UTF8-CPP error: " + message);
     data.clear();
   }
+
 }
 
 // Helper functions to read a UTF-16 character from an array.
@@ -81,6 +88,7 @@ unsigned short nextUTF16<wchar_t>(const wchar_t **p) {
 
 template<>
 unsigned short nextUTF16<char>(const char **p) {
+
   union {
     unsigned short w;
     char c[2];
@@ -88,12 +96,14 @@ unsigned short nextUTF16<char>(const char **p) {
   u.c[0] = *(*p)++;
   u.c[1] = *(*p)++;
   return u.w;
+
 }
 
 // Converts a UTF-16 (with BOM), UTF-16LE or UTF16-BE string into
 // UTF-16(without BOM/CPU byte order) and copies it to the internal buffer.
 template<typename T>
 void copyFromUTF16(std::wstring &data, const T *s, size_t length, String::Type t) {
+
   bool swap;
   if (t == String::UTF16) {
     if (length < 1) {
@@ -125,7 +135,9 @@ void copyFromUTF16(std::wstring &data, const T *s, size_t length, String::Type t
     else
       data[i] = c;
   }
+
 }
+
 }  // namespace
 
 namespace Strawberry_TagLib {
@@ -160,16 +172,19 @@ String::String(const String &s) : d(s.d) {
 }
 
 String::String(const std::string &s, Type t) : d(new StringPrivate()) {
+
   if (t == Latin1)
     copyFromLatin1(d->data, s.c_str(), s.length());
   else if (t == String::UTF8)
     copyFromUTF8(d->data, s.c_str(), s.length());
   else {
     debug("String::String() -- std::string should not contain UTF16.");
+
   }
 }
 
 String::String(const wstring &s, Type t) : d(new StringPrivate()) {
+
   if (t == UTF16 || t == UTF16BE || t == UTF16LE) {
     // This looks ugly but needed for the compatibility with TagLib1.8.
     // Should be removed in TabLib2.0.
@@ -183,9 +198,11 @@ String::String(const wstring &s, Type t) : d(new StringPrivate()) {
   else {
     debug("String::String() -- TagLib::wstring should not contain Latin1 or UTF-8.");
   }
+
 }
 
 String::String(const wchar_t *s, Type t) : d(new StringPrivate()) {
+
   if (t == UTF16 || t == UTF16BE || t == UTF16LE) {
     // This looks ugly but needed for the compatibility with TagLib1.8.
     // Should be removed in TabLib2.0.
@@ -199,9 +216,11 @@ String::String(const wchar_t *s, Type t) : d(new StringPrivate()) {
   else {
     debug("String::String() -- const wchar_t * should not contain Latin1 or UTF-8.");
   }
+
 }
 
 String::String(const char *s, Type t) : d(new StringPrivate()) {
+
   if (t == Latin1)
     copyFromLatin1(d->data, s, ::strlen(s));
   else if (t == String::UTF8)
@@ -209,17 +228,21 @@ String::String(const char *s, Type t) : d(new StringPrivate()) {
   else {
     debug("String::String() -- const char * should not contain UTF16.");
   }
+
 }
 
 String::String(wchar_t c, Type t) : d(new StringPrivate()) {
+
   if (t == UTF16 || t == UTF16BE || t == UTF16LE)
     copyFromUTF16(d->data, &c, 1, t);
   else {
     debug("String::String() -- wchar_t should not contain Latin1 or UTF-8.");
   }
+
 }
 
 String::String(char c, Type t) : d(new StringPrivate()) {
+
   if (t == Latin1)
     copyFromLatin1(d->data, &c, 1);
   else if (t == String::UTF8)
@@ -227,9 +250,11 @@ String::String(char c, Type t) : d(new StringPrivate()) {
   else {
     debug("String::String() -- char should not contain UTF16.");
   }
+
 }
 
 String::String(const ByteVector &v, Type t) : d(new StringPrivate()) {
+
   if (v.isEmpty())
     return;
 
@@ -242,6 +267,7 @@ String::String(const ByteVector &v, Type t) : d(new StringPrivate()) {
 
   // If we hit a null in the ByteVector, shrink the string again.
   d->data.resize(::wcslen(d->data.c_str()));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,8 +278,10 @@ String::~String() {
 }
 
 std::string String::to8Bit(bool unicode) const {
+
   const ByteVector v = data(unicode ? UTF8 : Latin1);
   return std::string(v.data(), v.size());
+
 }
 
 Strawberry_TagLib::TagLib::wstring String::toWString() const {
@@ -296,6 +324,7 @@ int String::rfind(const String &s, int offset) const {
 }
 
 StringList String::split(const String &separator) const {
+
   StringList list;
   for (int index = 0;;) {
     int sep = find(separator, index);
@@ -309,6 +338,7 @@ StringList String::split(const String &separator) const {
     }
   }
   return list;
+
 }
 
 bool String::startsWith(const String &s) const {
@@ -319,24 +349,31 @@ bool String::startsWith(const String &s) const {
 }
 
 String String::substr(unsigned int position, unsigned int n) const {
+
   if (position == 0 && n >= size())
     return *this;
   else
     return String(d->data.substr(position, n));
+
 }
 
 String &String::append(const String &s) {
+
   detach();
   d->data += s.d->data;
   return *this;
+
 }
 
 String &String::clear() {
+
   *this = String();
   return *this;
+
 }
 
 String String::upper() const {
+
   String s;
   s.d->data.reserve(size());
 
@@ -348,6 +385,7 @@ String String::upper() const {
   }
 
   return s;
+
 }
 
 unsigned int String::size() const {
@@ -367,6 +405,7 @@ bool String::isNull() const {
 }
 
 ByteVector String::data(Type t) const {
+
   switch (t) {
     case Latin1: {
       ByteVector v(size(), 0);
@@ -434,13 +473,15 @@ ByteVector String::data(Type t) const {
       return ByteVector();
     }
   }
+
 }
 
 int String::toInt() const {
-  return toInt(0);
+  return toInt(nullptr);
 }
 
 int String::toInt(bool *ok) const {
+
   const wchar_t *begin = d->data.c_str();
   wchar_t *end;
   errno = 0;
@@ -453,9 +494,11 @@ int String::toInt(bool *ok) const {
   }
 
   return static_cast<int>(value);
+
 }
 
 String String::stripWhiteSpace() const {
+
   static const wchar_t *WhiteSpaceChars = L"\t\n\f\r ";
 
   const size_t pos1 = d->data.find_first_not_of(WhiteSpaceChars);
@@ -464,26 +507,30 @@ String String::stripWhiteSpace() const {
 
   const size_t pos2 = d->data.find_last_not_of(WhiteSpaceChars);
   return substr(static_cast<unsigned int>(pos1), static_cast<unsigned int>(pos2 - pos1 + 1));
+
 }
 
 bool String::isLatin1() const {
+
   for (ConstIterator it = begin(); it != end(); ++it) {
     if (*it >= 256)
       return false;
   }
   return true;
+
 }
 
 bool String::isAscii() const {
+
   for (ConstIterator it = begin(); it != end(); ++it) {
     if (*it >= 128)
       return false;
   }
   return true;
+
 }
 
-String String::number(int n)  // static
-{
+String String::number(int n) {  // static
   return Utils::formatString("%d", n);
 }
 
@@ -505,6 +552,7 @@ bool String::operator!=(const String &s) const {
 }
 
 bool String::operator==(const char *s) const {
+
   const wchar_t *p = toCWString();
 
   while (*p != L'\0' || *s != '\0') {
@@ -512,6 +560,7 @@ bool String::operator==(const char *s) const {
       return false;
   }
   return true;
+
 }
 
 bool String::operator!=(const char *s) const {
@@ -621,11 +670,6 @@ void String::detach() {
     String(d->data.c_str()).swap(*this);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private members
-////////////////////////////////////////////////////////////////////////////////
-
-const String::Type String::WCharByteOrder = wcharByteOrder();
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

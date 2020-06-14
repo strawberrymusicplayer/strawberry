@@ -33,7 +33,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace FLAC {
 
 class TAGLIB_EXPORT UnknownMetadataBlock : public MetadataBlock {
@@ -42,28 +41,28 @@ class TAGLIB_EXPORT UnknownMetadataBlock : public MetadataBlock {
   ~UnknownMetadataBlock();
 
   /*!
-       * Returns the FLAC metadata block type.
-       */
+   * Returns the FLAC metadata block type.
+   */
   int code() const;
 
   /*!
-       * Sets the FLAC metadata block type.
-       */
+   * Sets the FLAC metadata block type.
+   */
   void setCode(int code);
 
   /*!
-       * Returns the FLAC metadata block type.
-       */
+   * Returns the FLAC metadata block type.
+   */
   ByteVector data() const;
 
   /*!
-       * Sets the FLAC metadata block type.
-       */
+   * Sets the FLAC metadata block type.
+   */
   void setData(const ByteVector &data);
 
   /*!
-       * Render the content of the block.
-       */
+   * Render the content of the block.
+   */
   ByteVector render() const;
 
  private:
@@ -75,7 +74,6 @@ class TAGLIB_EXPORT UnknownMetadataBlock : public MetadataBlock {
 };
 
 }  // namespace FLAC
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

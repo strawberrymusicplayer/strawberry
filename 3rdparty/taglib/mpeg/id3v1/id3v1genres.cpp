@@ -226,35 +226,43 @@ const int genresSize = sizeof(genres) / sizeof(genres[0]);
 }  // namespace
 
 StringList ID3v1::genreList() {
+
   StringList l;
   for (int i = 0; i < genresSize; i++) {
     l.append(genres[i]);
   }
 
   return l;
+
 }
 
 ID3v1::GenreMap ID3v1::genreMap() {
+
   GenreMap m;
   for (int i = 0; i < genresSize; i++) {
     m.insert(genres[i], i);
   }
 
   return m;
+
 }
 
 String ID3v1::genre(int i) {
+
   if (i >= 0 && i < genresSize)
     return String(genres[i]);  // always make a copy
   else
     return String();
+
 }
 
 int ID3v1::genreIndex(const String &name) {
+
   for (int i = 0; i < genresSize; ++i) {
     if (name == genres[i])
       return i;
   }
 
   return 255;
+
 }

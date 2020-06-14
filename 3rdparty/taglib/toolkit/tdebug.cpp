@@ -48,6 +48,7 @@ void debug(const String &s) {
 }
 
 void debugData(const ByteVector &v) {
+
   for (unsigned int i = 0; i < v.size(); ++i) {
     const std::string bits = std::bitset<8>(v[i]).to_string();
     const String msg = Utils::formatString(
@@ -56,6 +57,7 @@ void debugData(const ByteVector &v) {
 
     debugListener->printMessage(msg);
   }
+
 }
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

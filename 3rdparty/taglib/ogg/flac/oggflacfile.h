@@ -55,100 +55,93 @@ using Strawberry_TagLib::TagLib::FLAC::Properties;
 //! An implementation of TagLib::File with Ogg/FLAC specific methods
 
 /*!
-     * This implements and provides an interface for Ogg/FLAC files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
-     * information specific to Ogg FLAC files.
-     */
+ * This implements and provides an interface for Ogg/FLAC files to the
+ * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+ * the abstract TagLib::File API as well as providing some additional
+ * information specific to Ogg FLAC files.
+ */
 
 class TAGLIB_EXPORT File : public Ogg::File {
  public:
   /*!
-       * Constructs an Ogg/FLAC file from \a file.  If \a readProperties is true
-       * the file's audio properties will also be read.
-       *
-       * \note In the current implementation, \a propertiesStyle is ignored.
-       */
-  File(FileName file, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+   * Constructs an Ogg/FLAC file from \a file.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
+  File(FileName file, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
 
   /*!
-       * Constructs an Ogg/FLAC file from \a stream.  If \a readProperties is true
-       * the file's audio properties will also be read.
-       *
-       * \note TagLib will *not* take ownership of the stream, the caller is
-       * responsible for deleting it after the File object.
-       *
-       * \note In the current implementation, \a propertiesStyle is ignored.
-       */
-  File(IOStream *stream, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+   * Constructs an Ogg/FLAC file from \a stream.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
+  File(IOStream *stream, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
 
   /*!
-       * Destroys this instance of the File.
-       */
+   * Destroys this instance of the File.
+   */
   virtual ~File();
 
   /*!
-       * Returns the Tag for this file.  This will always be a XiphComment.
-       *
-       * \note This always returns a valid pointer regardless of whether or not
-       * the file on disk has a XiphComment.  Use hasXiphComment() to check if
-       * the file on disk actually has a XiphComment.
-       *
-       * \note The Tag <b>is still</b> owned by the FLAC::File and should not be
-       * deleted by the user.  It will be deleted when the file (object) is
-       * destroyed.
-       *
-       * \see hasXiphComment()
-       */
+   * Returns the Tag for this file.  This will always be a XiphComment.
+   *
+   * \note This always returns a valid pointer regardless of whether or not the file on disk has a XiphComment.
+   * Use hasXiphComment() to check if the file on disk actually has a XiphComment.
+   *
+   * \note The Tag <b>is still</b> owned by the FLAC::File and should not be deleted by the user.
+   * It will be deleted when the file (object) is destroyed.
+   *
+   * \see hasXiphComment()
+   */
   virtual XiphComment *tag() const;
 
   /*!
-       * Returns the FLAC::Properties for this file.  If no audio properties
-       * were read then this will return a null pointer.
-       */
+   * Returns the FLAC::Properties for this file.
+   * If no audio properties were read then this will return a null pointer.
+   */
   virtual Properties *audioProperties() const;
 
 
   /*!
-       * Implements the unified property interface -- export function.
-       * This forwards directly to XiphComment::properties().
-       */
+   * Implements the unified property interface -- export function.
+   * This forwards directly to XiphComment::properties().
+   */
   PropertyMap properties() const;
 
   /*!
-       * Implements the unified tag dictionary interface -- import function.
-       * Like properties(), this is a forwarder to the file's XiphComment.
-       */
+   * Implements the unified tag dictionary interface -- import function.
+   * Like properties(), this is a forwarder to the file's XiphComment.
+   */
   PropertyMap setProperties(const PropertyMap &);
 
 
   /*!
-       * Save the file.  This will primarily save and update the XiphComment.
-       * Returns true if the save is successful.
-       */
+   * Save the file.  This will primarily save and update the XiphComment.
+   * Returns true if the save is successful.
+   */
   virtual bool save();
 
   /*!
-       * Returns the length of the audio-stream, used by FLAC::Properties for
-       * calculating the bitrate.
-       */
+   * Returns the length of the audio-stream, used by FLAC::Properties for calculating the bitrate.
+   */
   long streamLength();
 
   /*!
-       * Returns whether or not the file on disk actually has a XiphComment.
-       *
-       * \see tag()
-       */
+   * Returns whether or not the file on disk actually has a XiphComment.
+   *
+   * \see tag()
+   */
   bool hasXiphComment() const;
 
   /*!
-       * Check if the given \a stream can be opened as an Ogg FLAC file.
-       *
-       * \note This method is designed to do a quick check.  The result may
-       * not necessarily be correct.
-       */
+   * Check if the given \a stream can be opened as an Ogg FLAC file.
+   *
+   * \note This method is designed to do a quick check.  The result may not necessarily be correct.
+   */
   static bool isSupported(IOStream *stream);
 
  private:
@@ -163,6 +156,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   class FilePrivate;
   FilePrivate *d;
 };
+
 }  // namespace FLAC
 }  // namespace Ogg
 }  // namespace TagLib

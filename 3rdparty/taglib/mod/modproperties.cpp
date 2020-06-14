@@ -31,18 +31,14 @@ using namespace Mod;
 
 class Mod::Properties::PropertiesPrivate {
  public:
-  PropertiesPrivate() : channels(0),
-                        instrumentCount(0),
-                        lengthInPatterns(0) {
-  }
+  PropertiesPrivate() : channels(0), instrumentCount(0), lengthInPatterns(0) {}
 
   int channels;
   unsigned int instrumentCount;
   unsigned char lengthInPatterns;
 };
 
-Mod::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
-                                                                          d(new PropertiesPrivate()) {
+Mod::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle), d(new PropertiesPrivate()) {
 }
 
 Mod::Properties::~Properties() {

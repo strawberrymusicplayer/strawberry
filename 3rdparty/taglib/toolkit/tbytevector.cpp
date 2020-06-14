@@ -39,18 +39,16 @@
 
 // This is a bit ugly to keep writing over and over again.
 
-// A rather obscure feature of the C++ spec that I hadn't thought of that makes
-// working with C libs much more efficient.  There's more here:
-//
+// A rather obscure feature of the C++ spec that I hadn't thought of that makes working with C libs much more efficient.
+// There's more here:
 // http://www.informit.com/isapi/product_id~{9C84DAB4-FE6E-49C5-BB0A-FB50331233EA}/content/index.asp
 
 namespace Strawberry_TagLib {
 namespace TagLib {
 
 template<class TIterator>
-int findChar(
-  const TIterator dataBegin, const TIterator dataEnd,
-  char c, unsigned int offset, int byteAlign) {
+int findChar(const TIterator dataBegin, const TIterator dataEnd, char c, unsigned int offset, int byteAlign) {
+
   const size_t dataSize = dataEnd - dataBegin;
   if (offset + 1 > dataSize)
     return -1;
@@ -66,13 +64,12 @@ int findChar(
   }
 
   return -1;
+
 }
 
 template<class TIterator>
-int findVector(
-  const TIterator dataBegin, const TIterator dataEnd,
-  const TIterator patternBegin, const TIterator patternEnd,
-  unsigned int offset, int byteAlign) {
+int findVector(const TIterator dataBegin, const TIterator dataEnd, const TIterator patternBegin, const TIterator patternEnd, unsigned int offset, int byteAlign) {
+
   const size_t dataSize = dataEnd - dataBegin;
   const size_t patternSize = patternEnd - patternBegin;
   if (patternSize == 0 || offset + patternSize > dataSize)
@@ -108,10 +105,12 @@ int findVector(
   }
 
   return -1;
+
 }
 
 template<class T>
 T toNumber(const ByteVector &v, size_t offset, size_t length, bool mostSignificantByteFirst) {
+
   if (offset >= v.size()) {
     debug("toNumber<T>() -- No data to convert. Returning 0.");
     return 0;
@@ -126,10 +125,12 @@ T toNumber(const ByteVector &v, size_t offset, size_t length, bool mostSignifica
   }
 
   return sum;
+
 }
 
 template<class T>
 T toNumber(const ByteVector &v, size_t offset, bool mostSignificantByteFirst) {
+
   const bool isBigEndian = (Utils::systemByteOrder() == Utils::BigEndian);
   const bool swap = (mostSignificantByteFirst != isBigEndian);
 
@@ -144,10 +145,12 @@ T toNumber(const ByteVector &v, size_t offset, bool mostSignificantByteFirst) {
     return Utils::byteSwap(tmp);
   else
     return tmp;
+
 }
 
 template<class T>
 ByteVector fromNumber(T value, bool mostSignificantByteFirst) {
+
   const bool isBigEndian = (Utils::systemByteOrder() == Utils::BigEndian);
   const bool swap = (mostSignificantByteFirst != isBigEndian);
 
@@ -155,10 +158,12 @@ ByteVector fromNumber(T value, bool mostSignificantByteFirst) {
     value = Utils::byteSwap(value);
 
   return ByteVector(reinterpret_cast<const char *>(&value), sizeof(T));
+
 }
 
 template<typename TFloat, typename TInt, Utils::ByteOrder ENDIAN>
 TFloat toFloat(const ByteVector &v, size_t offset) {
+
   if (offset > v.size() - sizeof(TInt)) {
     debug("toFloat() - offset is out of range. Returning 0.");
     return 0.0;
@@ -174,10 +179,12 @@ TFloat toFloat(const ByteVector &v, size_t offset) {
     tmp.i = Utils::byteSwap(tmp.i);
 
   return tmp.f;
+
 }
 
 template<typename TFloat, typename TInt, Utils::ByteOrder ENDIAN>
 ByteVector fromFloat(TFloat value) {
+
   union {
     TInt i;
     TFloat f;
@@ -188,10 +195,12 @@ ByteVector fromFloat(TFloat value) {
     tmp.i = Utils::byteSwap(tmp.i);
 
   return ByteVector(reinterpret_cast<char *>(&tmp), sizeof(TInt));
+
 }
 
 template<Utils::ByteOrder ENDIAN>
 long double toFloat80(const ByteVector &v, size_t offset) {
+
   using std::swap;
 
   if (offset > v.size() - 10) {
@@ -235,6 +244,7 @@ long double toFloat80(const ByteVector &v, size_t offset) {
     return -val;
   else
     return val;
+
 }
 
 class ByteVector::ByteVectorPrivate {
@@ -351,18 +361,20 @@ ByteVector &ByteVector::setData(const char *data) {
 
 char *ByteVector::data() {
   detach();
-  return (size() > 0) ? (&(*d->data)[d->offset]) : 0;
+  return (size() > 0) ? (&(*d->data)[d->offset]) : nullptr;
 }
 
 const char *ByteVector::data() const {
-  return (size() > 0) ? (&(*d->data)[d->offset]) : 0;
+  return (size() > 0) ? (&(*d->data)[d->offset]) : nullptr;
 }
 
 ByteVector ByteVector::mid(unsigned int index, unsigned int length) const {
+
   index = std::min(index, size());
   length = std::min(length, size() - index);
 
   return ByteVector(*this, index, length);
+
 }
 
 char ByteVector::at(unsigned int index) const {
@@ -370,8 +382,10 @@ char ByteVector::at(unsigned int index) const {
 }
 
 int ByteVector::find(const ByteVector &pattern, unsigned int offset, int byteAlign) const {
+
   return findVector<ConstIterator>(
     begin(), end(), pattern.begin(), pattern.end(), offset, byteAlign);
+
 }
 
 int ByteVector::find(char c, unsigned int offset, int byteAlign) const {
@@ -395,6 +409,7 @@ int ByteVector::rfind(const ByteVector &pattern, unsigned int offset, int byteAl
 }
 
 bool ByteVector::containsAt(const ByteVector &pattern, unsigned int offset, unsigned int patternOffset, unsigned int patternLength) const {
+
   if (pattern.size() < patternLength)
     patternLength = pattern.size();
 
@@ -404,6 +419,7 @@ bool ByteVector::containsAt(const ByteVector &pattern, unsigned int offset, unsi
     return false;
 
   return (::memcmp(data() + offset, pattern.data() + patternOffset, compareLength) == 0);
+
 }
 
 bool ByteVector::startsWith(const ByteVector &pattern) const {
@@ -415,6 +431,7 @@ bool ByteVector::endsWith(const ByteVector &pattern) const {
 }
 
 ByteVector &ByteVector::replace(char oldByte, char newByte) {
+
   detach();
 
   for (ByteVector::Iterator it = begin(); it != end(); ++it) {
@@ -423,9 +440,11 @@ ByteVector &ByteVector::replace(char oldByte, char newByte) {
   }
 
   return *this;
+
 }
 
 ByteVector &ByteVector::replace(const ByteVector &pattern, const ByteVector &with) {
+
   if (pattern.size() == 1 && with.size() == 1)
     return replace(pattern[0], with[0]);
 
@@ -481,9 +500,11 @@ ByteVector &ByteVector::replace(const ByteVector &pattern, const ByteVector &wit
   }
 
   return *this;
+
 }
 
 int ByteVector::endsWithPartialMatch(const ByteVector &pattern) const {
+
   if (pattern.size() > size())
     return -1;
 
@@ -498,9 +519,11 @@ int ByteVector::endsWithPartialMatch(const ByteVector &pattern) const {
   }
 
   return -1;
+
 }
 
 ByteVector &ByteVector::append(const ByteVector &v) {
+
   if (v.isEmpty())
     return *this;
 
@@ -513,6 +536,7 @@ ByteVector &ByteVector::append(const ByteVector &v) {
   ::memcpy(data() + originalSize, v.data(), appendSize);
 
   return *this;
+
 }
 
 ByteVector &ByteVector::append(char c) {
@@ -530,6 +554,7 @@ unsigned int ByteVector::size() const {
 }
 
 ByteVector &ByteVector::resize(unsigned int size, char padding) {
+
   if (size != d->length) {
     detach();
 
@@ -544,6 +569,7 @@ ByteVector &ByteVector::resize(unsigned int size, char padding) {
   }
 
   return *this;
+
 }
 
 ByteVector::Iterator ByteVector::begin() {
@@ -570,10 +596,12 @@ ByteVector::ReverseIterator ByteVector::rbegin() {
 }
 
 ByteVector::ConstReverseIterator ByteVector::rbegin() const {
+
   // Workaround for the Solaris Studio 12.4 compiler.
   // We need a const reference to the data vector so we can ensure the const version of rbegin() is called.
   const std::vector<char> &v = *d->data;
   return v.rbegin() + (v.size() - (d->offset + d->length));
+
 }
 
 ByteVector::ReverseIterator ByteVector::rend() {
@@ -582,10 +610,12 @@ ByteVector::ReverseIterator ByteVector::rend() {
 }
 
 ByteVector::ConstReverseIterator ByteVector::rend() const {
+
   // Workaround for the Solaris Studio 12.4 compiler.
   // We need a const reference to the data vector so we can ensure the const version of rbegin() is called.
   const std::vector<char> &v = *d->data;
   return v.rbegin() + (v.size() - d->offset);
+
 }
 
 bool ByteVector::isNull() const {
@@ -876,6 +906,7 @@ ByteVector ByteVector::fromBase64(const ByteVector &input) {
 }
 
 ByteVector ByteVector::toBase64() const {
+
   static const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   if (!isEmpty()) {
     unsigned int len = size();
@@ -906,6 +937,7 @@ ByteVector ByteVector::toBase64() const {
     return output;
   }
   return ByteVector();
+
 }
 
 

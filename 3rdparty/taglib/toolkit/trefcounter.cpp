@@ -72,8 +72,7 @@ class RefCounter::RefCounterPrivate {
   volatile ATOMIC_INT refCount;
 };
 
-RefCounter::RefCounter() : d(new RefCounterPrivate()) {
-}
+RefCounter::RefCounter() : d(new RefCounterPrivate()) {}
 
 RefCounter::~RefCounter() {
   delete d;

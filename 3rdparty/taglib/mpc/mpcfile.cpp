@@ -48,10 +48,10 @@ class MPC::File::FilePrivate {
   FilePrivate() : APELocation(-1),
                   APESize(0),
                   ID3v1Location(-1),
-                  ID3v2Header(0),
+                  ID3v2Header(nullptr),
                   ID3v2Location(-1),
                   ID3v2Size(0),
-                  properties(0) {}
+                  properties(nullptr) {}
 
   ~FilePrivate() {
     delete ID3v2Header;
@@ -77,27 +77,31 @@ class MPC::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool MPC::File::isSupported(IOStream *stream) {
+
   // A newer MPC file has to start with "MPCK" or "MP+", but older files don't
   // have keys to do a quick check.
 
   const ByteVector id = Utils::readHeader(stream, 4, false);
   return (id == "MPCK" || id.startsWith("MP+"));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPC::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                             d(new FilePrivate()) {
+MPC::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-MPC::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                                                d(new FilePrivate()) {
+MPC::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 MPC::File::~File() {
@@ -128,6 +132,7 @@ MPC::Properties *MPC::File::audioProperties() const {
 }
 
 bool MPC::File::save() {
+
   if (readOnly()) {
     debug("MPC::File::save() -- File is read only.");
     return false;
@@ -211,6 +216,7 @@ bool MPC::File::save() {
   }
 
   return true;
+
 }
 
 ID3v1::Tag *MPC::File::ID3v1Tag(bool create) {
@@ -222,23 +228,21 @@ APE::Tag *MPC::File::APETag(bool create) {
 }
 
 void MPC::File::strip(int tags) {
+
   if (tags & ID3v1)
-    d->tag.set(MPCID3v1Index, 0);
+    d->tag.set(MPCID3v1Index, nullptr);
 
   if (tags & APE)
-    d->tag.set(MPCAPEIndex, 0);
+    d->tag.set(MPCAPEIndex, nullptr);
 
   if (!ID3v1Tag())
     APETag(true);
 
   if (tags & ID3v2) {
     delete d->ID3v2Header;
-    d->ID3v2Header = 0;
+    d->ID3v2Header = nullptr;
   }
-}
 
-void MPC::File::remove(int tags) {
-  strip(tags);
 }
 
 bool MPC::File::hasID3v1Tag() const {
@@ -254,6 +258,7 @@ bool MPC::File::hasAPETag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void MPC::File::read(bool readProperties) {
+
   // Look for an ID3v2 tag
 
   d->ID3v2Location = Utils::findID3v2(this);
@@ -307,4 +312,5 @@ void MPC::File::read(bool readProperties) {
 
     d->properties = new Properties(this, streamLength);
   }
+
 }

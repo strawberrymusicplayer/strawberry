@@ -36,8 +36,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class Vorbis::File::FilePrivate {
  public:
-  FilePrivate() : comment(0),
-                  properties(0) {}
+  FilePrivate() : comment(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete comment;
@@ -106,6 +105,7 @@ Vorbis::Properties *Vorbis::File::audioProperties() const {
 }
 
 bool Vorbis::File::save() {
+
   ByteVector v(vorbisCommentHeaderID);
 
   if (!d->comment)
@@ -115,6 +115,7 @@ bool Vorbis::File::save() {
   setPacket(1, v);
 
   return Ogg::File::save();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +123,7 @@ bool Vorbis::File::save() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Vorbis::File::read(bool readProperties) {
+
   ByteVector commentHeaderData = packet(1);
 
   if (commentHeaderData.mid(0, 7) != vorbisCommentHeaderID) {
@@ -134,4 +136,5 @@ void Vorbis::File::read(bool readProperties) {
 
   if (readProperties)
     d->properties = new Properties(this);
+
 }

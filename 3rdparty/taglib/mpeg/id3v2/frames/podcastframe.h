@@ -31,30 +31,29 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! ID3v2 podcast frame
 /*!
-     * An implementation of ID3v2 podcast flag, a frame with four zero bytes.
-     */
+ * An implementation of ID3v2 podcast flag, a frame with four zero bytes.
+ */
 class TAGLIB_EXPORT PodcastFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Construct a podcast frame.
-       */
+   * Construct a podcast frame.
+   */
   PodcastFrame();
 
   /*!
-       * Destroys this PodcastFrame instance.
-       */
+   * Destroys this PodcastFrame instance.
+   */
   virtual ~PodcastFrame();
 
   /*!
-       * Returns a null string.
-       */
+   * Returns a null string.
+   */
   virtual String toString() const;
 
  protected:
@@ -65,8 +64,8 @@ class TAGLIB_EXPORT PodcastFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   PodcastFrame(const ByteVector &data, Header *h);
   PodcastFrame(const PodcastFrame &);
   PodcastFrame &operator=(const PodcastFrame &);
@@ -78,4 +77,5 @@ class TAGLIB_EXPORT PodcastFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

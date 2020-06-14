@@ -52,13 +52,16 @@ bool PropertyMap::insert(const String &key, const StringList &values) {
   else
     SimplePropertyMap::operator[](realKey).append(values);
   return true;
+
 }
 
 bool PropertyMap::replace(const String &key, const StringList &values) {
+
   String realKey = key.upper();
   SimplePropertyMap::erase(realKey);
   SimplePropertyMap::insert(realKey, values);
   return true;
+
 }
 
 PropertyMap::Iterator PropertyMap::find(const String &key) {
@@ -74,13 +77,16 @@ bool PropertyMap::contains(const String &key) const {
 }
 
 bool PropertyMap::contains(const PropertyMap &other) const {
+
   for (ConstIterator it = other.begin(); it != other.end(); ++it) {
     if (!SimplePropertyMap::contains(it->first))
       return false;
     if ((*this)[it->first] != it->second)
       return false;
   }
+
   return true;
+
 }
 
 PropertyMap &PropertyMap::erase(const String &key) {
@@ -95,10 +101,12 @@ PropertyMap &PropertyMap::erase(const PropertyMap &other) {
 }
 
 PropertyMap &PropertyMap::merge(const PropertyMap &other) {
+
   for (PropertyMap::ConstIterator it = other.begin(); it != other.end(); ++it)
     insert(it->first, it->second);
   unsupported.append(other.unsupported);
   return *this;
+
 }
 
 const StringList &PropertyMap::operator[](const String &key) const {
@@ -110,6 +118,7 @@ StringList &PropertyMap::operator[](const String &key) {
 }
 
 bool PropertyMap::operator==(const PropertyMap &other) const {
+
   for (ConstIterator it = other.begin(); it != other.end(); ++it) {
     ConstIterator thisFind = find(it->first);
     if (thisFind == end() || (thisFind->second != it->second))
@@ -121,6 +130,7 @@ bool PropertyMap::operator==(const PropertyMap &other) const {
       return false;
   }
   return unsupported == other.unsupported;
+
 }
 
 bool PropertyMap::operator!=(const PropertyMap &other) const {
@@ -128,6 +138,7 @@ bool PropertyMap::operator!=(const PropertyMap &other) const {
 }
 
 String PropertyMap::toString() const {
+
   String ret;
 
   for (ConstIterator it = begin(); it != end(); ++it)
@@ -135,15 +146,18 @@ String PropertyMap::toString() const {
   if (!unsupported.isEmpty())
     ret += "Unsupported Data: " + unsupported.toString(", ") + "\n";
   return ret;
+
 }
 
 void PropertyMap::removeEmpty() {
+
   PropertyMap m;
   for (ConstIterator it = begin(); it != end(); ++it) {
     if (!it->second.isEmpty())
       m.insert(it->first, it->second);
   }
   *this = m;
+
 }
 
 StringList &PropertyMap::unsupportedData() {

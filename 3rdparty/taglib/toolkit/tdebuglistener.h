@@ -34,21 +34,21 @@ namespace TagLib {
 //! An abstraction for the listener to the debug messages.
 
 /*!
-   * This class enables you to handle the debug messages in your preferred
-   * way by subclassing this class, reimplementing printMessage() and setting
-   * your reimplementation as the default with setDebugListener().
-   *
-   * \see setDebugListener()
-   */
+ * This class enables you to handle the debug messages in your preferred
+ * way by subclassing this class, reimplementing printMessage() and setting
+ * your reimplementation as the default with setDebugListener().
+ *
+ * \see setDebugListener()
+ */
 class TAGLIB_EXPORT DebugListener {
  public:
   DebugListener();
   virtual ~DebugListener();
 
   /*!
-     * When overridden in a derived class, redirects \a msg to your preferred
-     * channel such as stderr, Windows debugger or so forth.
-     */
+   * When overridden in a derived class, redirects \a msg to your preferred
+   * channel such as stderr, Windows debugger or so forth.
+   */
   virtual void printMessage(const String &msg) = 0;
 
  private:
@@ -58,15 +58,13 @@ class TAGLIB_EXPORT DebugListener {
 };
 
 /*!
-   * Sets the listener that decides how the debug messages are redirected.
-   * If the parameter \a listener is null, the previous listener is released
-   * and default stderr listener is restored.
-   *
-   * \note The caller is responsible for deleting the previous listener
-   * as needed after it is released.
-   *
-   * \see DebugListener
-   */
+ * Sets the listener that decides how the debug messages are redirected.
+ * If the parameter \a listener is null, the previous listener is released and default stderr listener is restored.
+ *
+ * \note The caller is responsible for deleting the previous listener as needed after it is released.
+ *
+ * \see DebugListener
+ */
 TAGLIB_EXPORT void setDebugListener(DebugListener *listener);
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

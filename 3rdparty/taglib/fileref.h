@@ -40,18 +40,15 @@ class Tag;
 //! This class provides a simple abstraction for creating and handling files
 
 /*!
-   * FileRef exists to provide a minimal, generic and value-based wrapper around
-   * a File.  It is lightweight and implicitly shared, and as such suitable for
-   * pass-by-value use.  This hides some of the uglier details of TagLib::File
-   * and the non-generic portions of the concrete file implementations.
+   * FileRef exists to provide a minimal, generic and value-based wrapper around a File.
+   * It is lightweight and implicitly shared, and as such suitable for pass-by-value use.
+   * This hides some of the uglier details of TagLib::File and the non-generic portions of the concrete file implementations.
    *
    * This class is useful in a "simple usage" situation where it is desirable
-   * to be able to get and set some of the tag information that is similar
-   * across file types.
+   * to be able to get and set some of the tag information that is similar across file types.
    *
    * Also note that it is probably a good idea to plug this into your mime
-   * type system rather than using the constructor that accepts a file name using
-   * the FileTypeResolver.
+   * type system rather than using the constructor that accepts a file name using the FileTypeResolver.
    *
    * \see FileTypeResolver
    * \see addFileTypeResolver()
@@ -62,8 +59,7 @@ class TAGLIB_EXPORT FileRef {
   //! A class for pluggable file type resolution.
 
   /*!
-   * This class is used to add extend TagLib's very basic file name based file
-   * type resolution.
+   * This class is used to add extend TagLib's very basic file name based file type resolution.
    *
    * This can be accomplished with:
    *
@@ -83,191 +79,177 @@ class TAGLIB_EXPORT FileRef {
    *
    * \endcode
    *
-   * Naturally a less contrived example would be slightly more complex.  This
-   * can be used to plug in mime-type detection systems or to add new file types
-   * to TagLib.
+   * Naturally a less contrived example would be slightly more complex.
+   * This can be used to plug in mime-type detection systems or to add new file types to TagLib.
    */
 
   class TAGLIB_EXPORT FileTypeResolver {
    public:
     virtual ~FileTypeResolver();
     /*!
-       * This method must be overridden to provide an additional file type
-       * resolver.  If the resolver is able to determine the file type it should
-       * return a valid File object; if not it should return 0.
-       *
-       * \note The created file is then owned by the FileRef and should not be
-       * deleted.  Deletion will happen automatically when the FileRef passes
-       * out of scope.
-       */
+     * This method must be overridden to provide an additional file type resolver.
+     * If the resolver is able to determine the file type it should return a valid File object; if not it should return 0.
+     *
+     * \note The created file is then owned by the FileRef and should not be deleted.
+     * Deletion will happen automatically when the FileRef passes out of scope.
+     */
     virtual File *createFile(FileName fileName,
       bool readAudioProperties = true,
-      AudioProperties::ReadStyle
-        audioPropertiesStyle = AudioProperties::Average) const = 0;
+      AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average) const = 0;
   };
 
   /*!
-     * Creates a null FileRef.
-     */
+   * Creates a null FileRef.
+   */
   FileRef();
 
   /*!
-     * Create a FileRef from \a fileName.  If \a readAudioProperties is true then
-     * the audio properties will be read using \a audioPropertiesStyle.  If
-     * \a readAudioProperties is false then \a audioPropertiesStyle will be
-     * ignored.
-     *
-     * Also see the note in the class documentation about why you may not want to
-     * use this method in your application.
-     */
+   * Create a FileRef from \a fileName.
+   * If \a readAudioProperties is true then the audio properties will be read using \a audioPropertiesStyle.
+   * If \a readAudioProperties is false then \a audioPropertiesStyle will be ignored.
+   *
+   * Also see the note in the class documentation about why you may not want to
+   * use this method in your application.
+   */
   explicit FileRef(FileName fileName,
     bool readAudioProperties = true,
     AudioProperties::ReadStyle
       audioPropertiesStyle = AudioProperties::Average);
 
   /*!
-     * Construct a FileRef from an opened \a IOStream.  If \a readAudioProperties
-     * is true then the audio properties will be read using \a audioPropertiesStyle.
-     * If \a readAudioProperties is false then \a audioPropertiesStyle will be
-     * ignored.
-     *
-     * Also see the note in the class documentation about why you may not want to
-     * use this method in your application.
-     *
-     * \note TagLib will *not* take ownership of the stream, the caller is
-     * responsible for deleting it after the File object.
-     */
+   * Construct a FileRef from an opened \a IOStream.
+   * If \a readAudioProperties is true then the audio properties will be read using \a audioPropertiesStyle.
+   * If \a readAudioProperties is false then \a audioPropertiesStyle will be ignored.
+   *
+   * Also see the note in the class documentation about why you may not want to use this method in your application.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
+   */
   explicit FileRef(IOStream *stream,
     bool readAudioProperties = true,
     AudioProperties::ReadStyle
       audioPropertiesStyle = AudioProperties::Average);
 
   /*!
-     * Construct a FileRef using \a file.  The FileRef now takes ownership of the
-     * pointer and will delete the File when it passes out of scope.
-     */
+   * Construct a FileRef using \a file.
+   * The FileRef now takes ownership of the pointer and will delete the File when it passes out of scope.
+   */
   explicit FileRef(File *file);
 
   /*!
-     * Make a copy of \a ref.
-     */
+   * Make a copy of \a ref.
+   */
   FileRef(const FileRef &ref);
 
   /*!
-     * Destroys this FileRef instance.
-     */
+   * Destroys this FileRef instance.
+   */
   virtual ~FileRef();
 
   /*!
-     * Returns a pointer to represented file's tag.
-     *
-     * \warning This pointer will become invalid when this FileRef and all
-     * copies pass out of scope.
-     *
-     * \warning Do not cast it to any subclasses of \class Tag.
-     * Use tag returning methods of appropriate subclasses of \class File instead.
-     *
-     * \see File::tag()
-     */
+   * Returns a pointer to represented file's tag.
+   *
+   * \warning This pointer will become invalid when this FileRef and all
+   * copies pass out of scope.
+   *
+   * \warning Do not cast it to any subclasses of \class Tag.
+   * Use tag returning methods of appropriate subclasses of \class File instead.
+   *
+   * \see File::tag()
+   */
   Tag *tag() const;
 
   /*!
-     * Returns the audio properties for this FileRef.  If no audio properties
-     * were read then this will returns a null pointer.
-     */
+   * Returns the audio properties for this FileRef.
+   * If no audio properties were read then this will returns a null pointer.
+   */
   AudioProperties *audioProperties() const;
 
   /*!
-     * Returns a pointer to the file represented by this handler class.
-     *
-     * As a general rule this call should be avoided since if you need to work
-     * with file objects directly, you are probably better served instantiating
-     * the File subclasses (i.e. MPEG::File) manually and working with their APIs.
-     *
-     * This <i>handle</i> exists to provide a minimal, generic and value-based
-     * wrapper around a File.  Accessing the file directly generally indicates
-     * a moving away from this simplicity (and into things beyond the scope of
-     * FileRef).
-     *
-     * \warning This pointer will become invalid when this FileRef and all
-     * copies pass out of scope.
-     */
+   * Returns a pointer to the file represented by this handler class.
+   *
+   * As a general rule this call should be avoided since if you need to work
+   * with file objects directly, you are probably better served instantiating
+   * the File subclasses (i.e. MPEG::File) manually and working with their APIs.
+   *
+   * This <i>handle</i> exists to provide a minimal, generic and value-based
+   * wrapper around a File.  Accessing the file directly generally indicates
+   * a moving away from this simplicity (and into things beyond the scope of
+   * FileRef).
+   *
+   * \warning This pointer will become invalid when this FileRef and all
+   * copies pass out of scope.
+   */
   File *file() const;
 
   /*!
-     * Saves the file.  Returns true on success.
-     */
+   * Saves the file.  Returns true on success.
+   */
   bool save();
 
   /*!
-     * Adds a FileTypeResolver to the list of those used by TagLib.  Each
-     * additional FileTypeResolver is added to the front of a list of resolvers
-     * that are tried.  If the FileTypeResolver returns zero the next resolver
-     * is tried.
-     *
-     * Returns a pointer to the added resolver (the same one that's passed in --
-     * this is mostly so that static initializers have something to use for
-     * assignment).
-     *
-     * \see FileTypeResolver
-     */
+   * Adds a FileTypeResolver to the list of those used by TagLib.
+   * Each additional FileTypeResolver is added to the front of a list of resolvers that are tried.
+   * If the FileTypeResolver returns zero the next resolver is tried.
+   *
+   * Returns a pointer to the added resolver (the same one that's passed in --
+   * this is mostly so that static initializers have something to use for assignment).
+   *
+   * \see FileTypeResolver
+   */
   static const FileTypeResolver *addFileTypeResolver(const FileTypeResolver *resolver);
 
   /*!
-     * As is mentioned elsewhere in this class's documentation, the default file
-     * type resolution code provided by TagLib only works by comparing file
-     * extensions.
-     *
-     * This method returns the list of file extensions that are used by default.
-     *
-     * The extensions are all returned in lowercase, though the comparison used
-     * by TagLib for resolution is case-insensitive.
-     *
-     * \note This does not account for any additional file type resolvers that
-     * are plugged in.  Also note that this is not intended to replace a proper
-     * mime-type resolution system, but is just here for reference.
-     *
-     * \see FileTypeResolver
-     */
+   * As is mentioned elsewhere in this class's documentation, the default file
+   * type resolution code provided by TagLib only works by comparing file extensions.
+   *
+   * This method returns the list of file extensions that are used by default.
+   *
+   * The extensions are all returned in lowercase, though the comparison used
+   * by TagLib for resolution is case-insensitive.
+   *
+   * \note This does not account for any additional file type resolvers that
+   * are plugged in.  Also note that this is not intended to replace a proper
+   * mime-type resolution system, but is just here for reference.
+   *
+   * \see FileTypeResolver
+   */
   static StringList defaultFileExtensions();
 
   /*!
-     * Returns true if the file (and as such other pointers) are null.
-     */
+   * Returns true if the file (and as such other pointers) are null.
+   */
   bool isNull() const;
 
   /*!
-     * Assign the file pointed to by \a ref to this FileRef.
-     */
+   * Assign the file pointed to by \a ref to this FileRef.
+   */
   FileRef &operator=(const FileRef &ref);
 
   /*!
-     * Exchanges the content of the FileRef by the content of \a ref.
-     */
+   * Exchanges the content of the FileRef by the content of \a ref.
+   */
   void swap(FileRef &ref);
 
   /*!
-     * Returns true if this FileRef and \a ref point to the same File object.
-     */
+   * Returns true if this FileRef and \a ref point to the same File object.
+   */
   bool operator==(const FileRef &ref) const;
 
   /*!
-     * Returns true if this FileRef and \a ref do not point to the same File
-     * object.
-     */
+   * Returns true if this FileRef and \a ref do not point to the same File object.
+   */
   bool operator!=(const FileRef &ref) const;
 
   /*!
-     * A simple implementation of file type guessing.  If \a readAudioProperties
-     * is true then the audio properties will be read using
-     * \a audioPropertiesStyle.  If \a readAudioProperties is false then
-     * \a audioPropertiesStyle will be ignored.
-     *
-     * \note You generally shouldn't use this method, but instead the constructor
-     * directly.
-     *
-     * \deprecated
-     */
+   * A simple implementation of file type guessing.
+   * If \a readAudioProperties is true then the audio properties will be read using \a audioPropertiesStyle.
+   * If \a readAudioProperties is false then \a audioPropertiesStyle will be ignored.
+   *
+   * \note You generally shouldn't use this method, but instead the constructor directly.
+   *
+   * \deprecated
+   */
   static File *create(FileName fileName,
     bool readAudioProperties = true,
     AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);

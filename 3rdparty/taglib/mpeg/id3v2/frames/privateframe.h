@@ -32,7 +32,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! An implementation of ID3v2 privateframe
@@ -42,49 +41,49 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
 
  public:
   /*!
-       * Construct an empty private frame.
-       */
+   * Construct an empty private frame.
+   */
   PrivateFrame();
 
   /*!
-       * Construct a private frame based on the data in \a data.
-       *
-       * \note This is the constructor used when parsing the frame from a file.
-       */
+   * Construct a private frame based on the data in \a data.
+   *
+   * \note This is the constructor used when parsing the frame from a file.
+   */
   explicit PrivateFrame(const ByteVector &data);
 
   /*!
-       * Destroys this private frame instance.
-       */
+   * Destroys this private frame instance.
+   */
   virtual ~PrivateFrame();
 
   /*!
-       * Returns the text of this private frame, currently just the owner.
-       *
-       * \see text()
-       */
+   * Returns the text of this private frame, currently just the owner.
+   *
+   * \see text()
+   */
   virtual String toString() const;
 
   /*!
-       * \return The owner of the private frame.
-       * \note This should contain an email address or link to a website.
-       */
+   * \return The owner of the private frame.
+   * \note This should contain an email address or link to a website.
+   */
   String owner() const;
 
   /*!
-       *
-       */
+   *
+   */
   ByteVector data() const;
 
   /*!
-       * Sets the owner of the frame to \a s.
-       * \note This should contain an email address or link to a website.
-       */
+   * Sets the owner of the frame to \a s.
+   * \note This should contain an email address or link to a website.
+   */
   void setOwner(const String &s);
 
   /*!
-       *
-       */
+   *
+   */
   void setData(const ByteVector &v);
 
  protected:
@@ -95,8 +94,8 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   PrivateFrame(const ByteVector &data, Header *h);
 
   PrivateFrame(const PrivateFrame &);
@@ -109,4 +108,5 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

@@ -33,8 +33,7 @@ using namespace APE;
 
 class APE::Item::ItemPrivate {
  public:
-  ItemPrivate() : type(Text),
-                  readOnly(false) {}
+  ItemPrivate() : type(Text), readOnly(false) {}
 
   Item::ItemTypes type;
   String key;
@@ -47,8 +46,7 @@ class APE::Item::ItemPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::Item::Item() : d(new ItemPrivate()) {
-}
+APE::Item::Item() : d(new ItemPrivate()) {}
 
 APE::Item::Item(const String &key, const String &value) : d(new ItemPrivate()) {
   d->key = key;
@@ -61,6 +59,7 @@ APE::Item::Item(const String &key, const StringList &values) : d(new ItemPrivate
 }
 
 APE::Item::Item(const String &key, const ByteVector &value, bool binary) : d(new ItemPrivate()) {
+
   d->key = key;
   if (binary) {
     d->type = Binary;
@@ -69,24 +68,28 @@ APE::Item::Item(const String &key, const ByteVector &value, bool binary) : d(new
   else {
     d->text.append(value);
   }
+
 }
 
-APE::Item::Item(const Item &item) : d(new ItemPrivate(*item.d)) {
-}
+APE::Item::Item(const Item &item) : d(new ItemPrivate(*item.d)) {}
 
 APE::Item::~Item() {
   delete d;
 }
 
 Item &APE::Item::operator=(const Item &item) {
+
   Item(item).swap(*this);
   return *this;
+
 }
 
 void APE::Item::swap(Item &item) {
+
   using std::swap;
 
   swap(d, item.d);
+
 }
 
 void APE::Item::setReadOnly(bool readOnly) {
@@ -114,14 +117,16 @@ ByteVector APE::Item::binaryData() const {
 }
 
 void APE::Item::setBinaryData(const ByteVector &value) {
+
   d->type = Binary;
   d->value = value;
   d->text.clear();
+
 }
 
 ByteVector APE::Item::value() const {
-  // This seems incorrect as it won't be actually rendering the value to keep it
-  // up to date.
+
+  // This seems incorrect as it won't be actually rendering the value to keep it up to date.
 
   return d->value;
 }
@@ -131,30 +136,39 @@ void APE::Item::setKey(const String &key) {
 }
 
 void APE::Item::setValue(const String &value) {
+
   d->type = Text;
   d->text = value;
   d->value.clear();
+
 }
 
 void APE::Item::setValues(const StringList &value) {
+
   d->type = Text;
   d->text = value;
   d->value.clear();
+
 }
 
 void APE::Item::appendValue(const String &value) {
+
   d->type = Text;
   d->text.append(value);
   d->value.clear();
+
 }
 
 void APE::Item::appendValues(const StringList &values) {
+
   d->type = Text;
   d->text.append(values);
   d->value.clear();
+
 }
 
 int APE::Item::size() const {
+
   int result = 8 + d->key.size() + 1;
   switch (d->type) {
     case Text:
@@ -174,6 +188,7 @@ int APE::Item::size() const {
       break;
   }
   return result;
+
 }
 
 StringList APE::Item::toStringList() const {
@@ -185,13 +200,16 @@ StringList APE::Item::values() const {
 }
 
 String APE::Item::toString() const {
+
   if (d->type == Text && !isEmpty())
     return d->text.front();
   else
     return String();
+
 }
 
 bool APE::Item::isEmpty() const {
+
   switch (d->type) {
     case Text:
       if (d->text.isEmpty())
@@ -205,9 +223,11 @@ bool APE::Item::isEmpty() const {
     default:
       return false;
   }
+
 }
 
 void APE::Item::parse(const ByteVector &data) {
+
   // 11 bytes is the minimum size for an APE item
 
   if (data.size() < 11) {
@@ -232,9 +252,11 @@ void APE::Item::parse(const ByteVector &data) {
     d->text = StringList(ByteVectorList::split(value, '\0'), String::UTF8);
   else
     d->value = value;
+
 }
 
 ByteVector APE::Item::render() const {
+
   ByteVector data;
   unsigned int flags = ((d->readOnly) ? 1 : 0) | (d->type << 1);
   ByteVector value;
@@ -263,4 +285,5 @@ ByteVector APE::Item::render() const {
   data.append(value);
 
   return data;
+
 }

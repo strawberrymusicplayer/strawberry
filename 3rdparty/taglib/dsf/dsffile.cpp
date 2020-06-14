@@ -60,9 +60,11 @@ class DSF::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool DSF::File::isSupported(IOStream *stream) {
+
   // A DSF file has to start with "DSD "
   const ByteVector id = Utils::readHeader(stream, 4, false);
   return id.startsWith("DSD ");
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,17 +72,18 @@ bool DSF::File::isSupported(IOStream *stream) {
 ////////////////////////////////////////////////////////////////////////////////
 
 DSF::File::File(FileName file, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file),
-                                           d(new FilePrivate()) {
+  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
-DSF::File::File(IOStream *stream, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                           d(new FilePrivate()) {
+DSF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
 DSF::File::~File() {
@@ -104,6 +107,7 @@ DSF::Properties *DSF::File::audioProperties() const {
 }
 
 bool DSF::File::save() {
+
   if (readOnly()) {
     debug("DSF::File::save() -- File is read only.");
     return false;
@@ -158,6 +162,7 @@ bool DSF::File::save() {
   }
 
   return true;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,6 +171,7 @@ bool DSF::File::save() {
 
 
 void DSF::File::read(bool, Properties::ReadStyle propertiesStyle) {
+
   // A DSF file consists of four chunks: DSD chunk, format chunk, data chunk, and metadata chunk
   // The file format is not chunked in the sense of a RIFF File, though
 
@@ -223,4 +229,5 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle) {
     d->tag = new ID3v2::Tag();
   else
     d->tag = new ID3v2::Tag(this, d->metadataOffset);
+
 }

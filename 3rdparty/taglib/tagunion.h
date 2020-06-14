@@ -43,11 +43,10 @@ class TagUnion : public Tag {
     Write };
 
   /*!
-     * Creates a TagLib::Tag that is the union of \a first, \a second, and
-     * \a third.  The TagUnion takes ownership of these tags and will handle
-     * their deletion.
-     */
-  TagUnion(Tag *first = 0, Tag *second = 0, Tag *third = 0);
+   * Creates a TagLib::Tag that is the union of \a first, \a second, and \a third.
+   * The TagUnion takes ownership of these tags and will handle their deletion.
+   */
+  TagUnion(Tag *first = nullptr, Tag *second = nullptr, Tag *third = nullptr);
 
   virtual ~TagUnion();
 
@@ -77,11 +76,13 @@ class TagUnion : public Tag {
   virtual bool isEmpty() const;
 
   template<class T> T *access(int index, bool create) {
+
     if (!create || tag(index))
       return static_cast<T *>(tag(index));
 
     set(index, new T);
     return static_cast<T *>(tag(index));
+
   }
 
  private:

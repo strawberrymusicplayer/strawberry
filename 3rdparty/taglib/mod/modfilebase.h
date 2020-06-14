@@ -36,7 +36,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace Mod {
 
 class TAGLIB_EXPORT FileBase : public Strawberry_TagLib::TagLib::File {
@@ -60,7 +59,6 @@ class TAGLIB_EXPORT FileBase : public Strawberry_TagLib::TagLib::File {
 };
 
 }  // namespace Mod
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

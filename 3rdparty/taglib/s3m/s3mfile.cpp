@@ -37,26 +37,24 @@ using namespace S3M;
 
 class S3M::File::FilePrivate {
  public:
-  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
-      : properties(propertiesStyle) {
-  }
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
   S3M::Properties properties;
 };
 
-S3M::File::File(FileName file, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file),
-                                                d(new FilePrivate(propertiesStyle)) {
+S3M::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-S3M::File::File(IOStream *stream, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream),
-                                                d(new FilePrivate(propertiesStyle)) {
+S3M::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 S3M::File::~File() {
@@ -80,6 +78,7 @@ S3M::Properties *S3M::File::audioProperties() const {
 }
 
 bool S3M::File::save() {
+
   if (readOnly()) {
     debug("S3M::File::save() - Cannot save to a read only file.");
     return false;
@@ -132,9 +131,11 @@ bool S3M::File::save() {
     writeByte(0);
   }
   return true;
+
 }
 
 void S3M::File::read(bool) {
+
   if (!isOpen())
     return;
 
@@ -232,4 +233,5 @@ void S3M::File::read(bool) {
 
   d->tag.setComment(comment.toString("\n"));
   d->tag.setTrackerName("ScreamTracker III");
+
 }

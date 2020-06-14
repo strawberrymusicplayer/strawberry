@@ -63,22 +63,12 @@ class WavPack::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-WavPack::Properties::Properties(const ByteVector &, long, ReadStyle style) : AudioProperties(style),
-                                                                             d(new PropertiesPrivate()) {
-  debug("WavPack::Properties::Properties() -- This constructor is no longer used.");
-}
-
-WavPack::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style),
-                                                                                  d(new PropertiesPrivate()) {
+WavPack::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file, streamLength);
 }
 
 WavPack::Properties::~Properties() {
   delete d;
-}
-
-int WavPack::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int WavPack::Properties::lengthInSeconds() const {
@@ -144,6 +134,7 @@ const unsigned int sample_rates[] = {
 #define FINAL_BLOCK 0x1000
 
 void WavPack::Properties::read(File *file, long streamLength) {
+
   long offset = 0;
 
   while (true) {
@@ -190,9 +181,11 @@ void WavPack::Properties::read(File *file, long streamLength) {
     d->length = static_cast<int>(length + 0.5);
     d->bitrate = static_cast<int>(streamLength * 8.0 / length + 0.5);
   }
+
 }
 
 unsigned int WavPack::Properties::seekFinalIndex(File *file, long streamLength) {
+
   const long offset = file->rfind("wvpk", streamLength);
   if (offset == -1)
     return 0;
@@ -214,4 +207,5 @@ unsigned int WavPack::Properties::seekFinalIndex(File *file, long streamLength) 
   const unsigned int blockSamples = data.toUInt(20, false);
 
   return blockIndex + blockSamples;
+
 }

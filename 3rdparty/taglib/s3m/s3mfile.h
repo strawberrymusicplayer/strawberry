@@ -35,67 +35,59 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace S3M {
 
 class TAGLIB_EXPORT File : public Mod::FileBase {
  public:
   /*!
-         * Constructs a ScreamTracker III from \a file.
-         *
-         * \note In the current implementation, both \a readProperties and
-         * \a propertiesStyle are ignored.  The audio properties are always
-         * read.
-         */
-  File(FileName file, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle =
-      AudioProperties::Average);
+    * Constructs a ScreamTracker III from \a file.
+   *
+   * \note In the current implementation, both \a readProperties and
+   * \a propertiesStyle are ignored.  The audio properties are always read.
+   */
+  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
-         * Constructs a ScreamTracker III file from \a stream.
-         *
-         * \note In the current implementation, both \a readProperties and
-         * \a propertiesStyle are ignored.  The audio properties are always
-         * read.
-         *
-         * \note TagLib will *not* take ownership of the stream, the caller is
-         * responsible for deleting it after the File object.
-         */
-  File(IOStream *stream, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle =
-      AudioProperties::Average);
+   * Constructs a ScreamTracker III file from \a stream.
+   *
+   * \note In the current implementation, both \a readProperties and \a propertiesStyle are ignored.
+   * The audio properties are always read.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
+   */
+  File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
-         * Destroys this instance of the File.
-         */
+   * Destroys this instance of the File.
+   */
   virtual ~File();
 
   Mod::Tag *tag() const;
 
   /*!
-         * Implements the unified property interface -- export function.
-         * Forwards to Mod::Tag::properties().
-         */
+   * Implements the unified property interface -- export function.
+   * Forwards to Mod::Tag::properties().
+   */
   PropertyMap properties() const;
 
   /*!
-         * Implements the unified property interface -- import function.
-         * Forwards to Mod::Tag::setProperties().
-         */
+   * Implements the unified property interface -- import function.
+   * Forwards to Mod::Tag::setProperties().
+   */
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-         * Returns the S3M::Properties for this file. If no audio properties
-         * were read then this will return a null pointer.
-         */
+   * Returns the S3M::Properties for this file. If no audio properties
+   * were read then this will return a null pointer.
+   */
   S3M::Properties *audioProperties() const;
 
   /*!
-         * Save the file.
-         * This is the same as calling save(AllTags);
-         *
-         * \note Saving ScreamTracker III tags is not supported.
-         */
+   * Save the file.
+   * This is the same as calling save(AllTags);
+   *
+   * \note Saving ScreamTracker III tags is not supported.
+   */
   bool save();
 
  private:
@@ -107,6 +99,7 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   class FilePrivate;
   FilePrivate *d;
 };
+
 }  // namespace S3M
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

@@ -35,26 +35,26 @@ using namespace IT;
 
 class IT::File::FilePrivate {
  public:
-  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
-      : tag(), properties(propertiesStyle) {
-  }
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : tag(), properties(propertiesStyle) {}
 
   Mod::Tag tag;
   IT::Properties properties;
 };
 
 IT::File::File(FileName file, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file),
-                                                d(new FilePrivate(propertiesStyle)) {
+  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 IT::File::File(IOStream *stream, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream),
-                                                d(new FilePrivate(propertiesStyle)) {
+  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 IT::File::~File() {
@@ -78,6 +78,7 @@ IT::Properties *IT::File::audioProperties() const {
 }
 
 bool IT::File::save() {
+
   if (readOnly()) {
     debug("IT::File::save() - Cannot save to a read only file.");
     return false;
@@ -317,4 +318,5 @@ void IT::File::read(bool) {
     comment.append(message);
   d->tag.setComment(comment.toString("\n"));
   d->tag.setTrackerName("Impulse Tracker");
+
 }

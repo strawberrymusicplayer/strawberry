@@ -31,7 +31,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace MP4 {
 
 class Atoms;
@@ -50,60 +49,49 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   virtual ~Properties();
 
   /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \note This method is just an alias of lengthInSeconds().
-       *
-       * \deprecated
-       */
-  TAGLIB_DEPRECATED virtual int length() const;
-
-  /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \see lengthInMilliseconds()
-       */
+   * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-       * Returns the length of the file in milliseconds.
-       *
-       * \see lengthInSeconds()
-       */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-       * Returns the average bit rate of the file in kb/s.
-       */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-       * Returns the sample rate in Hz.
-       */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-       * Returns the number of audio channels.
-       */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-       * Returns the number of bits per audio sample.
-       */
+   * Returns the number of bits per audio sample.
+   */
   virtual int bitsPerSample() const;
 
   /*!
-       * Returns whether or not the file is encrypted.
-       */
+   * Returns whether or not the file is encrypted.
+   */
   bool isEncrypted() const;
 
   /*!
-       * Returns the codec used in the file.
-       */
+   * Returns the codec used in the file.
+   */
   Codec codec() const;
 
  private:
@@ -114,7 +102,6 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
 };
 
 }  // namespace MP4
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

@@ -42,12 +42,9 @@ class PopularimeterFrame::PopularimeterFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PopularimeterFrame::PopularimeterFrame() : Frame("POPM"),
-                                           d(new PopularimeterFramePrivate()) {
-}
+PopularimeterFrame::PopularimeterFrame() : Frame("POPM"), d(new PopularimeterFramePrivate()) {}
 
-PopularimeterFrame::PopularimeterFrame(const ByteVector &data) : Frame(data),
-                                                                 d(new PopularimeterFramePrivate()) {
+PopularimeterFrame::PopularimeterFrame(const ByteVector &data) : Frame(data), d(new PopularimeterFramePrivate()) {
   setData(data);
 }
 
@@ -88,6 +85,7 @@ void PopularimeterFrame::setCounter(unsigned int s) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void PopularimeterFrame::parseFields(const ByteVector &data) {
+
   int pos = 0, size = int(data.size());
 
   d->email = readStringField(data, String::Latin1, &pos);
@@ -100,9 +98,11 @@ void PopularimeterFrame::parseFields(const ByteVector &data) {
       d->counter = data.toUInt(static_cast<unsigned int>(pos));
     }
   }
+
 }
 
 ByteVector PopularimeterFrame::renderFields() const {
+
   ByteVector data;
 
   data.append(d->email.data(String::Latin1));
@@ -111,13 +111,13 @@ ByteVector PopularimeterFrame::renderFields() const {
   data.append(ByteVector::fromUInt(d->counter));
 
   return data;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PopularimeterFrame::PopularimeterFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                            d(new PopularimeterFramePrivate()) {
+PopularimeterFrame::PopularimeterFrame(const ByteVector &data, Header *h) : Frame(h), d(new PopularimeterFramePrivate()) {
   parseFields(fieldData(data));
 }

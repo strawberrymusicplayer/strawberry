@@ -54,8 +54,7 @@ class MP4::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::Properties::Properties(File *file, MP4::Atoms *atoms, ReadStyle style) : AudioProperties(style),
-                                                                              d(new PropertiesPrivate()) {
+MP4::Properties::Properties(File *file, MP4::Atoms *atoms, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file, atoms);
 }
 
@@ -69,10 +68,6 @@ int MP4::Properties::channels() const {
 
 int MP4::Properties::sampleRate() const {
   return d->sampleRate;
-}
-
-int MP4::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int MP4::Properties::lengthInSeconds() const {
@@ -105,13 +100,14 @@ MP4::Properties::codec() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void MP4::Properties::read(File *file, Atoms *atoms) {
+
   MP4::Atom *moov = atoms->find("moov");
   if (!moov) {
     debug("MP4: Atom 'moov' not found");
     return;
   }
 
-  MP4::Atom *trak = 0;
+  MP4::Atom *trak = nullptr;
   ByteVector data;
 
   const MP4::AtomList trakList = moov->findall("trak");
@@ -127,7 +123,7 @@ void MP4::Properties::read(File *file, Atoms *atoms) {
     if (data.containsAt("soun", 16)) {
       break;
     }
-    trak = 0;
+    trak = nullptr;
   }
   if (!trak) {
     debug("MP4: No audio tracks");
@@ -207,4 +203,5 @@ void MP4::Properties::read(File *file, Atoms *atoms) {
   if (drms) {
     d->encrypted = true;
   }
+
 }

@@ -31,7 +31,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace Mod {
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
@@ -65,7 +64,6 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
 };
 
 }  // namespace Mod
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

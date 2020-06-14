@@ -33,16 +33,14 @@ namespace TagLib {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-// The functionality of List<T>::setAutoDelete() is implemented here partial
-// template specialization.  This is implemented in such a way that calling
-// setAutoDelete() on non-pointer types will simply have no effect.
+// The functionality of List<T>::setAutoDelete() is implemented here partial template specialization.
+// This is implemented in such a way that calling setAutoDelete() on non-pointer types will simply have no effect.
 
-// A base for the generic and specialized private class types.  New
-// non-templatized members should be added here.
+// A base for the generic and specialized private class types.
+// New non-templatized members should be added here.
 
 // BIC change to RefCounter
-class ListPrivateBase : public RefCounterOld
-{
+class ListPrivateBase : public RefCounterOld {
 public:
   ListPrivateBase() : autoDelete(false) {}
   bool autoDelete;
@@ -62,8 +60,7 @@ public:
   std::list<TP> list;
 };
 
-// A partial specialization for all pointer types that implements the
-// setAutoDelete() functionality.
+// A partial specialization for all pointer types that implements the setAutoDelete() functionality.
 
 template <class T>
 template <class TP> class List<T>::ListPrivate<TP *>  : public ListPrivateBase
@@ -90,60 +87,49 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-List<T>::List() :
-  d(new ListPrivate<T>())
-{
-}
+List<T>::List() : d(new ListPrivate<T>()){}
 
 template <class T>
-List<T>::List(const List<T> &l) : d(l.d)
-{
+List<T>::List(const List<T> &l) : d(l.d) {
   d->ref();
 }
 
 template <class T>
-List<T>::~List()
-{
+List<T>::~List() {
   if(d->deref())
     delete d;
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::begin()
-{
+typename List<T>::Iterator List<T>::begin() {
   detach();
   return d->list.begin();
 }
 
 template <class T>
-typename List<T>::ConstIterator List<T>::begin() const
-{
+typename List<T>::ConstIterator List<T>::begin() const {
   return d->list.begin();
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::end()
-{
+typename List<T>::Iterator List<T>::end() {
   detach();
   return d->list.end();
 }
 
 template <class T>
-typename List<T>::ConstIterator List<T>::end() const
-{
+typename List<T>::ConstIterator List<T>::end() const {
   return d->list.end();
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::insert(Iterator it, const T &item)
-{
+typename List<T>::Iterator List<T>::insert(Iterator it, const T &item) {
   detach();
   return d->list.insert(it, item);
 }
 
 template <class T>
-List<T> &List<T>::sortedInsert(const T &value, bool unique)
-{
+List<T> &List<T>::sortedInsert(const T &value, bool unique) {
   detach();
   Iterator it = begin();
   while(it != end() && *it < value)
@@ -155,117 +141,100 @@ List<T> &List<T>::sortedInsert(const T &value, bool unique)
 }
 
 template <class T>
-List<T> &List<T>::append(const T &item)
-{
+List<T> &List<T>::append(const T &item) {
   detach();
   d->list.push_back(item);
   return *this;
 }
 
 template <class T>
-List<T> &List<T>::append(const List<T> &l)
-{
+List<T> &List<T>::append(const List<T> &l) {
   detach();
   d->list.insert(d->list.end(), l.begin(), l.end());
   return *this;
 }
 
 template <class T>
-List<T> &List<T>::prepend(const T &item)
-{
+List<T> &List<T>::prepend(const T &item) {
   detach();
   d->list.push_front(item);
   return *this;
 }
 
 template <class T>
-List<T> &List<T>::prepend(const List<T> &l)
-{
+List<T> &List<T>::prepend(const List<T> &l) {
   detach();
   d->list.insert(d->list.begin(), l.begin(), l.end());
   return *this;
 }
 
 template <class T>
-List<T> &List<T>::clear()
-{
+List<T> &List<T>::clear() {
   detach();
   d->clear();
   return *this;
 }
 
 template <class T>
-unsigned int List<T>::size() const
-{
+unsigned int List<T>::size() const {
   return static_cast<unsigned int>(d->list.size());
 }
 
 template <class T>
-bool List<T>::isEmpty() const
-{
+bool List<T>::isEmpty() const {
   return d->list.empty();
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::find(const T &value)
-{
+typename List<T>::Iterator List<T>::find(const T &value) {
   detach();
   return std::find(d->list.begin(), d->list.end(), value);
 }
 
 template <class T>
-typename List<T>::ConstIterator List<T>::find(const T &value) const
-{
+typename List<T>::ConstIterator List<T>::find(const T &value) const {
   return std::find(d->list.begin(), d->list.end(), value);
 }
 
 template <class T>
-bool List<T>::contains(const T &value) const
-{
+bool List<T>::contains(const T &value) const {
   return std::find(d->list.begin(), d->list.end(), value) != d->list.end();
 }
 
 template <class T>
-typename List<T>::Iterator List<T>::erase(Iterator it)
-{
+typename List<T>::Iterator List<T>::erase(Iterator it) {
   return d->list.erase(it);
 }
 
 template <class T>
-const T &List<T>::front() const
-{
+const T &List<T>::front() const {
   return d->list.front();
 }
 
 template <class T>
-T &List<T>::front()
-{
+T &List<T>::front() {
   detach();
   return d->list.front();
 }
 
 template <class T>
-const T &List<T>::back() const
-{
+const T &List<T>::back() const {
   return d->list.back();
 }
 
 template <class T>
-void List<T>::setAutoDelete(bool autoDelete)
-{
+void List<T>::setAutoDelete(bool autoDelete) {
   d->autoDelete = autoDelete;
 }
 
 template <class T>
-T &List<T>::back()
-{
+T &List<T>::back() {
   detach();
   return d->list.back();
 }
 
 template <class T>
-T &List<T>::operator[](unsigned int i)
-{
+T &List<T>::operator[](unsigned int i) {
   Iterator it = d->list.begin();
   std::advance(it, i);
 
@@ -273,8 +242,7 @@ T &List<T>::operator[](unsigned int i)
 }
 
 template <class T>
-const T &List<T>::operator[](unsigned int i) const
-{
+const T &List<T>::operator[](unsigned int i) const {
   ConstIterator it = d->list.begin();
   std::advance(it, i);
 
@@ -282,29 +250,25 @@ const T &List<T>::operator[](unsigned int i) const
 }
 
 template <class T>
-List<T> &List<T>::operator=(const List<T> &l)
-{
+List<T> &List<T>::operator=(const List<T> &l) {
   List<T>(l).swap(*this);
   return *this;
 }
 
 template <class T>
-void List<T>::swap(List<T> &l)
-{
+void List<T>::swap(List<T> &l) {
   using std::swap;
 
   swap(d, l.d);
 }
 
 template <class T>
-bool List<T>::operator==(const List<T> &l) const
-{
+bool List<T>::operator==(const List<T> &l) const {
   return d->list == l.d->list;
 }
 
 template <class T>
-bool List<T>::operator!=(const List<T> &l) const
-{
+bool List<T>::operator!=(const List<T> &l) const {
   return d->list != l.d->list;
 }
 
@@ -313,8 +277,7 @@ bool List<T>::operator!=(const List<T> &l) const
 ////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
-void List<T>::detach()
-{
+void List<T>::detach() {
   if(d->count() > 1) {
     d->deref();
     d = new ListPrivate<T>(d->list);

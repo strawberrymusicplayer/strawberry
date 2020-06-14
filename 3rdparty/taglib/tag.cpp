@@ -29,14 +29,11 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class Tag::TagPrivate {
-};
+class Tag::TagPrivate {};
 
-Tag::Tag() : d(nullptr) {
-}
+Tag::Tag() : d(nullptr) {}
 
-Tag::~Tag() {
-}
+Tag::~Tag() {}
 
 bool Tag::isEmpty() const {
   return (title().isEmpty() &&
@@ -49,6 +46,7 @@ bool Tag::isEmpty() const {
 }
 
 PropertyMap Tag::properties() const {
+
   PropertyMap map;
   if (!(title().isEmpty()))
     map["TITLE"].append(title());
@@ -65,12 +63,13 @@ PropertyMap Tag::properties() const {
   if (!(track() == 0))
     map["TRACKNUMBER"].append(String::number(track()));
   return map;
+
 }
 
-void Tag::removeUnsupportedProperties(const StringList &) {
-}
+void Tag::removeUnsupportedProperties(const StringList &) {}
 
 PropertyMap Tag::setProperties(const PropertyMap &origProps) {
+
   PropertyMap properties(origProps);
   properties.removeEmpty();
   StringList oneValueSet;
@@ -145,10 +144,11 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps) {
       properties[*it].erase(properties[*it].begin());
   }
   return properties;
+
 }
 
-void Tag::duplicate(const Tag *source, Tag *target, bool overwrite)  // static
-{
+void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) {  // static
+
   if (overwrite) {
     target->setTitle(source->title());
     target->setArtist(source->artist());
@@ -174,4 +174,5 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite)  // static
     if (target->track() == 0)
       target->setTrack(source->track());
   }
+
 }

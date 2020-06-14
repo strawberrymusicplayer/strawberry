@@ -40,8 +40,8 @@ namespace FLAC {
 class TAGLIB_EXPORT Picture : public MetadataBlock {
  public:
   /*!
-       * This describes the function or content of the picture.
-       */
+   * This describes the function or content of the picture.
+   */
   enum Type {
     //! A type not enumerated below
     Other = 0x00,
@@ -92,102 +92,100 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
   ~Picture();
 
   /*!
-       * Returns the type of the image.
-       */
+   * Returns the type of the image.
+   */
   Type type() const;
 
   /*!
-       * Sets the type of the image.
-       */
+   * Sets the type of the image.
+   */
   void setType(Type type);
 
   /*!
-       * Returns the mime type of the image.  This should in most cases be
-       * "image/png" or "image/jpeg".
-       */
+   * Returns the mime type of the image.  This should in most cases be "image/png" or "image/jpeg".
+   */
   String mimeType() const;
 
   /*!
-       * Sets the mime type of the image.  This should in most cases be
-       * "image/png" or "image/jpeg".
-       */
+   * Sets the mime type of the image.  This should in most cases be "image/png" or "image/jpeg".
+   */
   void setMimeType(const String &m);
 
   /*!
-       * Returns a text description of the image.
-       */
+   * Returns a text description of the image.
+   */
 
   String description() const;
 
   /*!
-       * Sets a textual description of the image to \a desc.
-       */
+   * Sets a textual description of the image to \a desc.
+   */
 
   void setDescription(const String &desc);
 
   /*!
-       * Returns the width of the image.
-       */
+   * Returns the width of the image.
+   */
   int width() const;
 
   /*!
-       * Sets the width of the image.
-       */
+   * Sets the width of the image.
+   */
   void setWidth(int w);
 
   /*!
-       * Returns the height of the image.
-       */
+   * Returns the height of the image.
+   */
   int height() const;
 
   /*!
-       * Sets the height of the image.
-       */
+   * Sets the height of the image.
+   */
   void setHeight(int h);
 
   /*!
-       * Returns the color depth (in bits-per-pixel) of the image.
-       */
+   * Returns the color depth (in bits-per-pixel) of the image.
+   */
   int colorDepth() const;
 
   /*!
-       * Sets the color depth (in bits-per-pixel) of the image.
-       */
+   * Sets the color depth (in bits-per-pixel) of the image.
+   */
   void setColorDepth(int depth);
 
   /*!
-       * Returns the number of colors used on the image..
-       */
+   * Returns the number of colors used on the image..
+   */
   int numColors() const;
 
   /*!
-       * Sets the number of colors used on the image (for indexed images).
-       */
+   * Sets the number of colors used on the image (for indexed images).
+   */
   void setNumColors(int numColors);
 
   /*!
-       * Returns the image data.
-       */
+   * Returns the image data.
+   */
   ByteVector data() const;
 
   /*!
-       * Sets the image data.
-       */
+   * Sets the image data.
+   */
   void setData(const ByteVector &data);
 
   /*!
-       * Returns the FLAC metadata block type.
-       */
+   * Returns the FLAC metadata block type.
+   */
   int code() const;
 
   /*!
-       * Render the content to the FLAC picture block format.
-       */
+   * Render the content to the FLAC picture block format.
+   */
   ByteVector render() const;
 
   /*!
-       * Parse the picture data in the FLAC picture block format.
-       */
+   * Parse the picture data in the FLAC picture block format.
+   */
   bool parse(const ByteVector &rawData);
 
  private:
@@ -201,7 +199,6 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
 typedef List<Picture> PictureList;
 
 }  // namespace FLAC
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

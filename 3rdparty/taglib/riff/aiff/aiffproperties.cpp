@@ -55,22 +55,12 @@ class RIFF::AIFF::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::AIFF::Properties::Properties(const ByteVector &, ReadStyle style) : AudioProperties(style),
-                                                                          d(new PropertiesPrivate()) {
-  debug("RIFF::AIFF::Properties::Properties() - This constructor is no longer used.");
-}
-
-RIFF::AIFF::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                                  d(new PropertiesPrivate()) {
+RIFF::AIFF::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file);
 }
 
 RIFF::AIFF::Properties::~Properties() {
   delete d;
-}
-
-int RIFF::AIFF::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int RIFF::AIFF::Properties::lengthInSeconds() const {
@@ -97,10 +87,6 @@ int RIFF::AIFF::Properties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-int RIFF::AIFF::Properties::sampleWidth() const {
-  return bitsPerSample();
-}
-
 unsigned int RIFF::AIFF::Properties::sampleFrames() const {
   return d->sampleFrames;
 }
@@ -122,6 +108,7 @@ String RIFF::AIFF::Properties::compressionName() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void RIFF::AIFF::Properties::read(File *file) {
+
   ByteVector data;
   unsigned int streamLength = 0;
   for (unsigned int i = 0; i < file->chunkCount(); i++) {
@@ -168,4 +155,5 @@ void RIFF::AIFF::Properties::read(File *file) {
     d->compressionType = data.mid(18, 4);
     d->compressionName = String(data.mid(23, static_cast<unsigned char>(data[22])), String::Latin1);
   }
+
 }

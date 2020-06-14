@@ -56,10 +56,10 @@ class APE::File::FilePrivate {
   FilePrivate() : APELocation(-1),
                   APESize(0),
                   ID3v1Location(-1),
-                  ID3v2Header(0),
+                  ID3v2Header(nullptr),
                   ID3v2Location(-1),
                   ID3v2Size(0),
-                  properties(0) {}
+                  properties(nullptr) {}
 
   ~FilePrivate() {
     delete ID3v2Header;
@@ -98,16 +98,18 @@ bool APE::File::isSupported(IOStream *) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                             d(new FilePrivate()) {
+APE::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-APE::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                                                d(new FilePrivate()) {
+APE::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 APE::File::~File() {
@@ -127,10 +129,12 @@ void APE::File::removeUnsupportedProperties(const StringList &properties) {
 }
 
 PropertyMap APE::File::setProperties(const PropertyMap &properties) {
+
   if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return APETag(true)->setProperties(properties);
+
 }
 
 APE::Properties *APE::File::audioProperties() const {
@@ -138,6 +142,7 @@ APE::Properties *APE::File::audioProperties() const {
 }
 
 bool APE::File::save() {
+
   if (readOnly()) {
     debug("APE::File::save() -- File is read only.");
     return false;
@@ -206,6 +211,7 @@ bool APE::File::save() {
   }
 
   return true;
+
 }
 
 ID3v1::Tag *APE::File::ID3v1Tag(bool create) {
@@ -217,14 +223,16 @@ APE::Tag *APE::File::APETag(bool create) {
 }
 
 void APE::File::strip(int tags) {
+
   if (tags & ID3v1)
-    d->tag.set(ApeID3v1Index, 0);
+    d->tag.set(ApeID3v1Index, nullptr);
 
   if (tags & APE)
-    d->tag.set(ApeAPEIndex, 0);
+    d->tag.set(ApeAPEIndex, nullptr);
 
   if (!ID3v1Tag())
     APETag(true);
+
 }
 
 bool APE::File::hasAPETag() const {
@@ -240,6 +248,7 @@ bool APE::File::hasID3v1Tag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void APE::File::read(bool readProperties) {
+
   // Look for an ID3v2 tag
 
   d->ID3v2Location = Utils::findID3v2(this);
@@ -293,4 +302,5 @@ void APE::File::read(bool readProperties) {
 
     d->properties = new Properties(this, streamLength);
   }
+
 }

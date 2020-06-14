@@ -36,8 +36,8 @@ namespace TagLib {
 //! A generic, implicitly shared list.
 
 /*!
-   * This is basic generic list that's somewhere between a std::list and a
-   * QValueList.  This class is implicitly shared.  For example:
+   * This is basic generic list that's somewhere between a std::list and a QValueList.
+   * This class is implicitly shared.  For example:
    *
    * \code
    *
@@ -45,10 +45,10 @@ namespace TagLib {
    *
    * \endcode
    *
-   * The above example is very cheap.  This also makes lists suitable for the
-   * return types of functions.  The above example will just copy a pointer rather
-   * than copying the data in the list.  When your \e shared list's data changes,
-   * only \e then will the data be copied.
+   * The above example is very cheap.
+   * This also makes lists suitable for the return types of functions.
+   * The above example will just copy a pointer rather than copying the data in the list.
+   * When your \e shared list's data changes, only \e then will the data be copied.
    */
 
 template<class T> class List {
@@ -59,198 +59,185 @@ template<class T> class List {
 #endif
 
   /*!
-     * Constructs an empty list.
-     */
+   * Constructs an empty list.
+   */
   List();
 
   /*!
-     * Make a shallow, implicitly shared, copy of \a l.  Because this is
-     * implicitly shared, this method is lightweight and suitable for
-     * pass-by-value usage.
-     */
+   * Make a shallow, implicitly shared, copy of \a l.
+   * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
+   */
   List(const List<T> &l);
 
   /*!
-     * Destroys this List instance.  If auto deletion is enabled and this list
-     * contains a pointer type all of the members are also deleted.
-     */
+   * Destroys this List instance.  If auto deletion is enabled and this list contains a pointer type all of the members are also deleted.
+   */
   virtual ~List();
 
   /*!
-     * Returns an STL style iterator to the beginning of the list.  See
-     * std::list::const_iterator for the semantics.
-     */
+   * Returns an STL style iterator to the beginning of the list.
+   * See std::list::const_iterator for the semantics.
+   */
   Iterator begin();
 
   /*!
-     * Returns an STL style constant iterator to the beginning of the list.  See
-     * std::list::iterator for the semantics.
-     */
+   * Returns an STL style constant iterator to the beginning of the list.
+   * See std::list::iterator for the semantics.
+   */
   ConstIterator begin() const;
 
   /*!
-     * Returns an STL style iterator to the end of the list.  See
-     * std::list::iterator for the semantics.
-     */
+   * Returns an STL style iterator to the end of the list.
+   * See std::list::iterator for the semantics.
+   */
   Iterator end();
 
   /*!
-     * Returns an STL style constant iterator to the end of the list.  See
-     * std::list::const_iterator for the semantics.
-     */
+   * Returns an STL style constant iterator to the end of the list.
+   * See std::list::const_iterator for the semantics.
+   */
   ConstIterator end() const;
 
   /*!
-     * Inserts a copy of \a value before \a it.
-     */
+   * Inserts a copy of \a value before \a it.
+   */
   Iterator insert(Iterator it, const T &value);
 
   /*!
-     * Inserts the \a value into the list.  This assumes that the list is
-     * currently sorted.  If \a unique is true then the value will not
-     * be inserted if it is already in the list.
-     */
+   * Inserts the \a value into the list.  This assumes that the list is currently sorted.
+   * If \a unique is true then the value will not be inserted if it is already in the list.
+   */
   List<T> &sortedInsert(const T &value, bool unique = false);
 
   /*!
-     * Appends \a item to the end of the list and returns a reference to the
-     * list.
-     */
+   * Appends \a item to the end of the list and returns a reference to the list.
+   */
   List<T> &append(const T &item);
 
   /*!
-     * Appends all of the values in \a l to the end of the list and returns a
-     * reference to the list.
-     */
+   * Appends all of the values in \a l to the end of the list and returns a reference to the list.
+   */
   List<T> &append(const List<T> &l);
 
   /*!
-     * Prepends \a item to the beginning list and returns a reference to the
-     * list.
-     */
+   * Prepends \a item to the beginning list and returns a reference to the list.
+   */
   List<T> &prepend(const T &item);
 
   /*!
-     * Prepends all of the items in \a l to the beginning list and returns a
-     * reference to the list.
-     */
+   * Prepends all of the items in \a l to the beginning list and returns a reference to the list.
+   */
   List<T> &prepend(const List<T> &l);
 
   /*!
-     * Clears the list.  If auto deletion is enabled and this list contains a
-     * pointer type the members are also deleted.
-     *
-     * \see setAutoDelete()
-     */
+   * Clears the list.  If auto deletion is enabled and this list contains a pointer type the members are also deleted.
+   *
+   * \see setAutoDelete()
+   */
   List<T> &clear();
 
   /*!
-     * Returns the number of elements in the list.
-     *
-     * \see isEmpty()
-     */
+   * Returns the number of elements in the list.
+   *
+   * \see isEmpty()
+   */
   unsigned int size() const;
 
   /*!
-     * Returns whether or not the list is empty.
-     *
-     * \see size()
-     */
+   * Returns whether or not the list is empty.
+   *
+   * \see size()
+   */
   bool isEmpty() const;
 
   /*!
-     * Find the first occurrence of \a value.
-     */
+   * Find the first occurrence of \a value.
+   */
   Iterator find(const T &value);
 
   /*!
-     * Find the first occurrence of \a value.
-     */
+   * Find the first occurrence of \a value.
+   */
   ConstIterator find(const T &value) const;
 
   /*!
-     * Returns true if the list contains \a value.
-     */
+   * Returns true if the list contains \a value.
+   */
   bool contains(const T &value) const;
 
   /*!
-     * Erase the item at \a it from the list.
-     */
+   * Erase the item at \a it from the list.
+   */
   Iterator erase(Iterator it);
 
   /*!
-     * Returns a reference to the first item in the list.
-     */
+   * Returns a reference to the first item in the list.
+   */
   const T &front() const;
 
   /*!
-     * Returns a reference to the first item in the list.
-     */
+   * Returns a reference to the first item in the list.
+   */
   T &front();
 
   /*!
-     * Returns a reference to the last item in the list.
-     */
+   * Returns a reference to the last item in the list.
+   */
   const T &back() const;
 
   /*!
-     * Returns a reference to the last item in the list.
-     */
+   * Returns a reference to the last item in the list.
+   */
   T &back();
 
   /*!
-     * Auto delete the members of the list when the last reference to the list
-     * passes out of scope.  This will have no effect on lists which do not
-     * contain a pointer type.
-     *
-     * \note This relies on partial template instantiation -- most modern C++
-     * compilers should now support this.
-     */
+   * Auto delete the members of the list when the last reference to the list passes out of scope.
+   * This will have no effect on lists which do not contain a pointer type.
+   *
+   * \note This relies on partial template instantiation -- most modern C++ compilers should now support this.
+   */
   void setAutoDelete(bool autoDelete);
 
   /*!
-     * Returns a reference to item \a i in the list.
-     *
-     * \warning This method is slow.  Use iterators to loop through the list.
-     */
+   * Returns a reference to item \a i in the list.
+   *
+   * \warning This method is slow.  Use iterators to loop through the list.
+   */
   T &operator[](unsigned int i);
 
   /*!
-     * Returns a const reference to item \a i in the list.
-     *
-     * \warning This method is slow.  Use iterators to loop through the list.
-     */
+   * Returns a const reference to item \a i in the list.
+   *
+   * \warning This method is slow.  Use iterators to loop through the list.
+   */
   const T &operator[](unsigned int i) const;
 
   /*!
-     * Make a shallow, implicitly shared, copy of \a l.  Because this is
-     * implicitly shared, this method is lightweight and suitable for
-     * pass-by-value usage.
-     */
+   * Make a shallow, implicitly shared, copy of \a l.
+   * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
+   */
   List<T> &operator=(const List<T> &l);
 
   /*!
-     * Exchanges the content of this list by the content of \a l.
-     */
+   * Exchanges the content of this list by the content of \a l.
+   */
   void swap(List<T> &l);
 
   /*!
-     * Compares this list with \a l and returns true if all of the elements are
-     * the same.
-     */
+   * Compares this list with \a l and returns true if all of the elements are the same.
+   */
   bool operator==(const List<T> &l) const;
 
   /*!
-     * Compares this list with \a l and returns true if the lists differ.
-     */
+   * Compares this list with \a l and returns true if the lists differ.
+   */
   bool operator!=(const List<T> &l) const;
 
  protected:
   /*
-     * If this List is being shared via implicit sharing, do a deep copy of the
-     * data and separate from the shared members.  This should be called by all
-     * non-const subclass members.
-     */
+   * If this List is being shared via implicit sharing, do a deep copy of the data and separate from the shared members.
+   * This should be called by all non-const subclass members.
+   */
   void detach();
 
  private:
@@ -263,8 +250,7 @@ template<class T> class List {
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 
-// Since GCC doesn't support the "export" keyword, we have to include the
-// implementation.
+// Since GCC doesn't support the "export" keyword, we have to include the implementation.
 
 #include "tlist.tcc"
 

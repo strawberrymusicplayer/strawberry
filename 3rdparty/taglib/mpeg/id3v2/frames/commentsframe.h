@@ -31,129 +31,124 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! An implementation of ID3v2 comments
 
 /*!
-     * This implements the ID3v2 comment format.  An ID3v2 comment consists of
-     * a language encoding, a description and a single text field.
-     */
+ * This implements the ID3v2 comment format.  An ID3v2 comment consists of
+ * a language encoding, a description and a single text field.
+ */
 
 class TAGLIB_EXPORT CommentsFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Construct an empty comment frame that will use the text encoding
-       * \a encoding.
-       */
+   * Construct an empty comment frame that will use the text encoding \a encoding.
+   */
   explicit CommentsFrame(String::Type encoding = String::Latin1);
 
   /*!
-       * Construct a comment based on the data in \a data.
-       */
+   * Construct a comment based on the data in \a data.
+   */
   explicit CommentsFrame(const ByteVector &data);
 
   /*!
-       * Destroys this CommentFrame instance.
-       */
+   * Destroys this CommentFrame instance.
+   */
   virtual ~CommentsFrame();
 
   /*!
-       * Returns the text of this comment.
-       *
-       * \see text()
-       */
+   * Returns the text of this comment.
+   *
+   * \see text()
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the language encoding as a 3 byte encoding as specified by
-       * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a>.
-       *
-       * \note Most taggers simply ignore this value.
-       *
-       * \see setLanguage()
-       */
+   * Returns the language encoding as a 3 byte encoding as specified by
+   * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a>.
+   *
+   * \note Most taggers simply ignore this value.
+   *
+   * \see setLanguage()
+   */
   ByteVector language() const;
 
   /*!
-       * Returns the description of this comment.
-       *
-       * \note Most taggers simply ignore this value.
-       *
-       * \see setDescription()
-       */
+   * Returns the description of this comment.
+   *
+   * \note Most taggers simply ignore this value.
+   *
+   * \see setDescription()
+   */
   String description() const;
 
   /*!
-       * Returns the text of this comment.
-       *
-       * \see setText()
-       */
+   * Returns the text of this comment.
+   *
+   * \see setText()
+   */
   String text() const;
 
   /*!
-       * Set the language using the 3 byte language code from
-       * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a> to
-       * \a languageCode.
-       *
-       * \see language()
-       */
+   * Set the language using the 3 byte language code from
+   * <a href="http://en.wikipedia.org/wiki/ISO_639">ISO-639-2</a> to \a languageCode.
+   *
+   * \see language()
+   */
   void setLanguage(const ByteVector &languageCode);
 
   /*!
-       * Sets the description of the comment to \a s.
-       *
-       * \see description()
-       */
+   * Sets the description of the comment to \a s.
+   *
+   * \see description()
+   */
   void setDescription(const String &s);
 
   /*!
-       * Sets the text portion of the comment to \a s.
-       *
-       * \see text()
-       */
+   * Sets the text portion of the comment to \a s.
+   *
+   * \see text()
+   */
   virtual void setText(const String &s);
 
   /*!
-       * Returns the text encoding that will be used in rendering this frame.
-       * This defaults to the type that was either specified in the constructor
-       * or read from the frame when parsed.
-       *
-       * \see setTextEncoding()
-       * \see render()
-       */
+   * Returns the text encoding that will be used in rendering this frame.
+   * This defaults to the type that was either specified in the constructor or read from the frame when parsed.
+   *
+   * \see setTextEncoding()
+   * \see render()
+   */
   String::Type textEncoding() const;
 
   /*!
-       * Sets the text encoding to be used when rendering this frame to
-       * \a encoding.
-       *
-       * \see textEncoding()
-       * \see render()
-       */
+   * Sets the text encoding to be used when rendering this frame to \a encoding.
+   *
+   * \see textEncoding()
+   * \see render()
+   */
   void setTextEncoding(String::Type encoding);
 
   /*!
-       * Parses this frame as PropertyMap with a single key.
-       * - if description() is empty or "COMMENT", the key will be "COMMENT"
-       * - if description() is not a valid PropertyMap key, the frame will be
-       *   marked unsupported by an entry "COMM/<description>" in the unsupportedData()
-       *   attribute of the returned map.
-       * - otherwise, the key will be "COMMENT:<description>"
-       * - The single value will be the frame's text().
-       */
+   * Parses this frame as PropertyMap with a single key.
+   * - if description() is empty or "COMMENT", the key will be "COMMENT"
+   * - if description() is not a valid PropertyMap key, the frame will be
+   *   marked unsupported by an entry "COMM/<description>" in the unsupportedData()
+   *   attribute of the returned map.
+   * - otherwise, the key will be "COMMENT:<description>"
+   * - The single value will be the frame's text().
+   */
   PropertyMap asProperties() const;
 
   /*!
-       * Comments each have a unique description.  This searches for a comment
-       * frame with the description \a d and returns a pointer to it.  If no
-       * frame is found that matches the given description null is returned.
-       *
-       * \see description()
-       */
+   * Comments each have a unique description.
+   * This searches for a comment frame with the description \a d and returns a pointer to it.
+   * If no frame is found that matches the given description null is returned.
+   *
+   * \see description()
+   */
   static CommentsFrame *findByDescription(const Tag *tag, const String &d);
 
  protected:
@@ -164,8 +159,8 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   CommentsFrame(const ByteVector &data, Header *h);
   CommentsFrame(const CommentsFrame &);
   CommentsFrame &operator=(const CommentsFrame &);
@@ -177,4 +172,5 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

@@ -89,8 +89,8 @@ PropertyMap UniqueFileIdentifierFrame::asProperties() const {
   return map;
 }
 
-UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::Tag *tag, const String &o)  // static
-{
+UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::Tag *tag, const String &o) {  // static
+
   ID3v2::FrameList comments = tag->frameList("UFID");
 
   for (ID3v2::FrameList::ConstIterator it = comments.begin();
@@ -102,9 +102,11 @@ UniqueFileIdentifierFrame *UniqueFileIdentifierFrame::findByOwner(const ID3v2::T
   }
 
   return nullptr;
+
 }
 
 void UniqueFileIdentifierFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 1) {
     debug("An UFID frame must contain at least 1 byte.");
     return;
@@ -113,9 +115,11 @@ void UniqueFileIdentifierFrame::parseFields(const ByteVector &data) {
   int pos = 0;
   d->owner = readStringField(data, String::Latin1, &pos);
   d->identifier = data.mid(pos);
+
 }
 
 ByteVector UniqueFileIdentifierFrame::renderFields() const {
+
   ByteVector data;
 
   data.append(d->owner.data(String::Latin1));
@@ -123,6 +127,7 @@ ByteVector UniqueFileIdentifierFrame::renderFields() const {
   data.append(d->identifier);
 
   return data;
+
 }
 
 UniqueFileIdentifierFrame::UniqueFileIdentifierFrame(const ByteVector &data, Header *h) : Frame(h),

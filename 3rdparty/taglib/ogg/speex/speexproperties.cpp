@@ -63,17 +63,12 @@ class Speex::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Speex::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                             d(new PropertiesPrivate()) {
+Speex::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file);
 }
 
 Speex::Properties::~Properties() {
   delete d;
-}
-
-int Speex::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int Speex::Properties::lengthInSeconds() const {
@@ -109,6 +104,7 @@ int Speex::Properties::speexVersion() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Speex::Properties::read(File *file) {
+
   // Get the identification header from the Ogg implementation.
 
   const ByteVector data = file->packet(0);
@@ -190,4 +186,5 @@ void Speex::Properties::read(File *file) {
 
   if (d->bitrate == 0 && d->bitrateNominal > 0)
     d->bitrate = static_cast<int>(d->bitrateNominal / 1000.0 + 0.5);
+
 }

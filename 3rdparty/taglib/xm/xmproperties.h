@@ -81,6 +81,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace XM
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

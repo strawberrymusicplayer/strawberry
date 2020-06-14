@@ -32,9 +32,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MP4::Item::ItemPrivate : public RefCounter {
  public:
-  ItemPrivate() : RefCounter(),
-                  valid(true),
-                  atomDataType(TypeUndefined) {}
+  ItemPrivate() : RefCounter(), valid(true), atomDataType(TypeUndefined) {}
 
   bool valid;
   AtomDataType atomDataType;
@@ -59,8 +57,7 @@ MP4::Item::Item(const Item &item) : d(item.d) {
   d->ref();
 }
 
-MP4::Item &
-MP4::Item::operator=(const Item &item) {
+MP4::Item &MP4::Item::operator=(const Item &item) {
   Item(item).swap(*this);
   return *this;
 }
@@ -129,38 +126,31 @@ int MP4::Item::toInt() const {
   return d->m_int;
 }
 
-unsigned char
-MP4::Item::toByte() const {
+unsigned char MP4::Item::toByte() const {
   return d->m_byte;
 }
 
-unsigned int
-MP4::Item::toUInt() const {
+unsigned int MP4::Item::toUInt() const {
   return d->m_uint;
 }
 
-long long
-MP4::Item::toLongLong() const {
+long long MP4::Item::toLongLong() const {
   return d->m_longlong;
 }
 
-MP4::Item::IntPair
-MP4::Item::toIntPair() const {
+MP4::Item::IntPair MP4::Item::toIntPair() const {
   return d->m_intPair;
 }
 
-StringList
-MP4::Item::toStringList() const {
+StringList MP4::Item::toStringList() const {
   return d->m_stringList;
 }
 
-ByteVectorList
-MP4::Item::toByteVectorList() const {
+ByteVectorList MP4::Item::toByteVectorList() const {
   return d->m_byteVectorList;
 }
 
-MP4::CoverArtList
-MP4::Item::toCoverArtList() const {
+MP4::CoverArtList MP4::Item::toCoverArtList() const {
   return d->m_coverArtList;
 }
 

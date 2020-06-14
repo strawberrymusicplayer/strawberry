@@ -47,13 +47,11 @@ class CommentsFrame::CommentsFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-CommentsFrame::CommentsFrame(String::Type encoding) : Frame("COMM"),
-                                                      d(new CommentsFramePrivate()) {
+CommentsFrame::CommentsFrame(String::Type encoding) : Frame("COMM"), d(new CommentsFramePrivate()) {
   d->textEncoding = encoding;
 }
 
-CommentsFrame::CommentsFrame(const ByteVector &data) : Frame(data),
-                                                       d(new CommentsFramePrivate()) {
+CommentsFrame::CommentsFrame(const ByteVector &data) : Frame(data), d(new CommentsFramePrivate()) {
   setData(data);
 }
 
@@ -98,6 +96,7 @@ void CommentsFrame::setTextEncoding(String::Type encoding) {
 }
 
 PropertyMap CommentsFrame::asProperties() const {
+
   String key = description().upper();
   PropertyMap map;
   if (key.isEmpty() || key == "COMMENT")
@@ -105,10 +104,11 @@ PropertyMap CommentsFrame::asProperties() const {
   else
     map.insert("COMMENT:" + key, text());
   return map;
+
 }
 
-CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const String &d)  // static
-{
+CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const String &d) {  // static
+
   ID3v2::FrameList comments = tag->frameList("COMM");
 
   for (ID3v2::FrameList::ConstIterator it = comments.begin();
@@ -120,6 +120,7 @@ CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const Str
   }
 
   return nullptr;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,6 +128,7 @@ CommentsFrame *CommentsFrame::findByDescription(const ID3v2::Tag *tag, const Str
 ////////////////////////////////////////////////////////////////////////////////
 
 void CommentsFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 5) {
     debug("A comment frame must contain at least 5 bytes.");
     return;
@@ -149,9 +151,11 @@ void CommentsFrame::parseFields(const ByteVector &data) {
       d->text = String(l.back(), d->textEncoding);
     }
   }
+
 }
 
 ByteVector CommentsFrame::renderFields() const {
+
   ByteVector v;
 
   String::Type encoding = d->textEncoding;
@@ -166,13 +170,13 @@ ByteVector CommentsFrame::renderFields() const {
   v.append(d->text.data(encoding));
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-CommentsFrame::CommentsFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                  d(new CommentsFramePrivate()) {
+CommentsFrame::CommentsFrame(const ByteVector &data, Header *h) : Frame(h), d(new CommentsFramePrivate()) {
   parseFields(fieldData(data));
 }

@@ -35,7 +35,6 @@ namespace TagLib {
 class ByteVector;
 
 namespace RIFF {
-
 namespace WAV {
 
 class File;
@@ -43,108 +42,70 @@ class File;
 //! An implementation of audio property reading for WAV
 
 /*!
-       * This reads the data from an WAV stream found in the AudioProperties
-       * API.
-       */
+ * This reads the data from an WAV stream found in the AudioProperties
+ * API.
+ */
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
   /*!
-         * Create an instance of WAV::Properties with the data read from the
-         * ByteVector \a data.
-         *
-         * \deprecated
-         */
-  TAGLIB_DEPRECATED Properties(const ByteVector &data, ReadStyle style);
-
-  /*!
-         * Create an instance of WAV::Properties with the data read from the
-         * ByteVector \a data and the length calculated using \a streamLength.
-         *
-         * \deprecated
-         */
-  TAGLIB_DEPRECATED Properties(const ByteVector &data, unsigned int streamLength, ReadStyle style);
-
-  /*!
-         * Create an instance of WAV::Properties with the data read from the
-         * WAV::File \a file.
-         */
+   * Create an instance of WAV::Properties with the data read from the WAV::File \a file.
+   */
   Properties(File *file, ReadStyle style);
 
   /*!
-         * Destroys this WAV::Properties instance.
-         */
+   * Destroys this WAV::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-         * Returns the length of the file in seconds.  The length is rounded down to
-         * the nearest whole second.
-         *
-         * \note This method is just an alias of lengthInSeconds().
-         *
-         * \deprecated
-         */
-  TAGLIB_DEPRECATED virtual int length() const;
-
-  /*!
-         * Returns the length of the file in seconds.  The length is rounded down to
-         * the nearest whole second.
-         *
-         * \see lengthInMilliseconds()
-         */
+   * Returns the length of the file in seconds.
+   * The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-         * Returns the length of the file in milliseconds.
-         *
-         * \see lengthInSeconds()
-         */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-         * Returns the average bit rate of the file in kb/s.
-         */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-         * Returns the sample rate in Hz.
-         */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-         * Returns the number of audio channels.
-         */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-         * Returns the number of bits per audio sample.
-         */
+   * Returns the number of bits per audio sample.
+   */
   int bitsPerSample() const;
 
   /*!
-         * Returns the number of bits per audio sample.
-         *
-         * \note This method is just an alias of bitsPerSample().
-         *
-         * \deprecated
-         */
-  TAGLIB_DEPRECATED int sampleWidth() const;
-
-  /*!
-         * Returns the number of sample frames.
-         */
+   * Returns the number of sample frames.
+   */
   unsigned int sampleFrames() const;
 
   /*!
-         * Returns the format ID of the file.
-         * 0 for unknown, 1 for PCM, 2 for ADPCM, 3 for 32/64-bit IEEE754, and
-         * so forth.
-         *
-         * \note For further information, refer to the WAVE Form Registration
-         * Numbers in RFC 2361.
-         */
+   * Returns the format ID of the file.
+   * 0 for unknown, 1 for PCM, 2 for ADPCM, 3 for 32/64-bit IEEE754, and so forth.
+   *
+   * \note For further information, refer to the WAVE Form Registration Numbers in RFC 2361.
+   */
   int format() const;
 
  private:
@@ -156,6 +117,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace WAV
 }  // namespace RIFF
 }  // namespace TagLib

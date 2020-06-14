@@ -62,10 +62,6 @@ ASF::Properties::~Properties() {
   delete d;
 }
 
-int ASF::Properties::length() const {
-  return lengthInSeconds();
-}
-
 int ASF::Properties::lengthInSeconds() const {
   return d->length / 1000;
 }
@@ -135,6 +131,7 @@ void ASF::Properties::setBitsPerSample(int value) {
 }
 
 void ASF::Properties::setCodec(int value) {
+
   switch (value) {
     case 0x0160:
       d->codec = WMA1;
@@ -152,6 +149,7 @@ void ASF::Properties::setCodec(int value) {
       d->codec = Unknown;
       break;
   }
+
 }
 
 void ASF::Properties::setCodecName(const String &value) {

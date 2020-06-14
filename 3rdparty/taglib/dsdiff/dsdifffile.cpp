@@ -23,6 +23,7 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
+#include <tstring.h>
 #include <tbytevector.h>
 #include <tdebug.h>
 #include <id3v2tag.h>
@@ -48,15 +49,18 @@ struct Chunk64 {
 typedef std::vector<Chunk64> ChunkList;
 
 int chunkIndex(const ChunkList &chunks, const ByteVector &id) {
+
   for (unsigned long int i = 0; i < chunks.size(); i++) {
     if (chunks[i].name == id)
       return i;
   }
 
   return -1;
+
 }
 
 bool isValidChunkID(const ByteVector &name) {
+
   if (name.size() != 4)
     return false;
 
@@ -66,6 +70,7 @@ bool isValidChunkID(const ByteVector &name) {
   }
 
   return true;
+
 }
 
 enum {
@@ -84,7 +89,7 @@ class DSDIFF::File::FilePrivate {
                   size(0),
                   isID3InPropChunk(false),
                   duplicateID3V2chunkIndex(-1),
-                  properties(0),
+                  properties(nullptr),
                   id3v2TagChunkID("ID3 "),
                   hasID3v2(false),
                   hasDiin(false) {
@@ -128,30 +133,34 @@ class DSDIFF::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool DSDIFF::File::isSupported(IOStream *stream) {
+
   // A DSDIFF file has to start with "FRM8????????DSD ".
 
   const ByteVector id = Utils::readHeader(stream, 16, false);
   return (id.startsWith("FRM8") && id.containsAt("DSD ", 12));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-DSDIFF::File::File(FileName file, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file) {
+DSDIFF::File::File(FileName file, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file) {
+
   d = new FilePrivate;
   d->endianness = BigEndian;
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
-DSDIFF::File::File(IOStream *stream, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream) {
+DSDIFF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream) {
+
   d = new FilePrivate;
   d->endianness = BigEndian;
   if (isOpen())
     read(readProperties, propertiesStyle);
+
 }
 
 DSDIFF::File::~File() {
@@ -179,18 +188,22 @@ bool DSDIFF::File::hasDIINTag() const {
 }
 
 PropertyMap DSDIFF::File::properties() const {
+
   if (d->hasID3v2)
     return d->tag.access<ID3v2::Tag>(ID3v2Index, false)->properties();
 
   return PropertyMap();
+
 }
 
 void DSDIFF::File::removeUnsupportedProperties(const StringList &unsupported) {
+
   if (d->hasID3v2)
     d->tag.access<ID3v2::Tag>(ID3v2Index, false)->removeUnsupportedProperties(unsupported);
 
   if (d->hasDiin)
     d->tag.access<DSDIFF::DIIN::Tag>(DIINIndex, false)->removeUnsupportedProperties(unsupported);
+
 }
 
 PropertyMap DSDIFF::File::setProperties(const PropertyMap &properties) {
@@ -206,6 +219,7 @@ bool DSDIFF::File::save() {
 }
 
 bool DSDIFF::File::save(TagTypes tags, StripTags, ID3v2::Version version) {
+
   if (readOnly()) {
     debug("DSDIFF::File::save() -- File is read only.");
     return false;
@@ -279,9 +293,11 @@ bool DSDIFF::File::save(TagTypes tags, StripTags, ID3v2::Version version) {
   }
 
   return true;
+
 }
 
 void DSDIFF::File::strip(TagTypes tags) {
+
   if (tags & ID3v2) {
     removeRootChunk("ID3 ");
     removeRootChunk("id3 ");
@@ -296,6 +312,7 @@ void DSDIFF::File::strip(TagTypes tags) {
     d->hasDiin = false;
     d->tag.set(DIINIndex, new DIIN::Tag);
   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -303,6 +320,7 @@ void DSDIFF::File::strip(TagTypes tags) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void DSDIFF::File::removeRootChunk(unsigned int i) {
+
   unsigned long long chunkSize = d->chunks[i].size + d->chunks[i].padding + 12;
 
   d->size -= chunkSize;
@@ -316,16 +334,20 @@ void DSDIFF::File::removeRootChunk(unsigned int i) {
     d->chunks[r].offset = d->chunks[r - 1].offset + 12 + d->chunks[r - 1].size + d->chunks[r - 1].padding;
 
   d->chunks.erase(d->chunks.begin() + i);
+
 }
 
 void DSDIFF::File::removeRootChunk(const ByteVector &id) {
+
   int i = chunkIndex(d->chunks, id);
 
   if (i >= 0)
     removeRootChunk(i);
+
 }
 
 void DSDIFF::File::setRootChunkData(unsigned int i, const ByteVector &data) {
+
   if (data.isEmpty()) {
     removeRootChunk(i);
     return;
@@ -350,9 +372,11 @@ void DSDIFF::File::setRootChunkData(unsigned int i, const ByteVector &data) {
   // Finally update the internal offsets
 
   updateRootChunksStructure(i + 1);
+
 }
 
 void DSDIFF::File::setRootChunkData(const ByteVector &name, const ByteVector &data) {
+
   if (d->chunks.size() == 0) {
     debug("DSDIFF::File::setPropChunkData - No valid chunks found.");
     return;
@@ -387,9 +411,11 @@ void DSDIFF::File::setRootChunkData(const ByteVector &name, const ByteVector &da
   chunk.padding = (data.size() & 0x01) ? 1 : 0;
 
   d->chunks.push_back(chunk);
+
 }
 
 void DSDIFF::File::removeChildChunk(unsigned int i, unsigned int childChunkNum) {
+
   ChunkList &childChunks = d->childChunks[childChunkNum];
 
   // Update global size
@@ -424,11 +450,11 @@ void DSDIFF::File::removeChildChunk(unsigned int i, unsigned int childChunkNum) 
     d->chunks[i].offset = d->chunks[i - 1].offset + 12 + d->chunks[i - 1].size + d->chunks[i - 1].padding;
 
   childChunks.erase(childChunks.begin() + i);
+
 }
 
-void DSDIFF::File::setChildChunkData(unsigned int i,
-  const ByteVector &data,
-  unsigned int childChunkNum) {
+void DSDIFF::File::setChildChunkData(unsigned int i, const ByteVector &data, unsigned int childChunkNum) {
+
   ChunkList &childChunks = d->childChunks[childChunkNum];
 
   if (data.isEmpty()) {
@@ -445,11 +471,8 @@ void DSDIFF::File::setChildChunkData(unsigned int i,
 
   // And the PROP chunk size
 
-  d->chunks[d->childChunkIndex[childChunkNum]].size +=
-    ((data.size() + 1) & ~1) - (childChunks[i].size + childChunks[i].padding);
-  insert(ByteVector::fromLongLong(d->chunks[d->childChunkIndex[childChunkNum]].size,
-           d->endianness == BigEndian),
-    d->chunks[d->childChunkIndex[childChunkNum]].offset - 8, 8);
+  d->chunks[d->childChunkIndex[childChunkNum]].size += ((data.size() + 1) & ~1) - (childChunks[i].size + childChunks[i].padding);
+  insert(ByteVector::fromLongLong(d->chunks[d->childChunkIndex[childChunkNum]].size, d->endianness == BigEndian), d->chunks[d->childChunkIndex[childChunkNum]].offset - 8, 8);
 
   // Now update the specific chunk
 
@@ -468,11 +491,11 @@ void DSDIFF::File::setChildChunkData(unsigned int i,
 
   // And for root chunks
   updateRootChunksStructure(d->childChunkIndex[childChunkNum] + 1);
+
 }
 
-void DSDIFF::File::setChildChunkData(const ByteVector &name,
-  const ByteVector &data,
-  unsigned int childChunkNum) {
+void DSDIFF::File::setChildChunkData(const ByteVector &name, const ByteVector &data, unsigned int childChunkNum) {
+
   ChunkList &childChunks = d->childChunks[childChunkNum];
 
   if (childChunks.size() == 0) {
@@ -530,9 +553,11 @@ void DSDIFF::File::setChildChunkData(const ByteVector &name,
   chunk.padding = (data.size() & 0x01) ? 1 : 0;
 
   childChunks.push_back(chunk);
+
 }
 
 void DSDIFF::File::updateRootChunksStructure(unsigned int startingChunk) {
+
   for (unsigned int i = startingChunk; i < d->chunks.size(); i++)
     d->chunks[i].offset = d->chunks[i - 1].offset + 12 + d->chunks[i - 1].size + d->chunks[i - 1].padding;
 
@@ -554,9 +579,11 @@ void DSDIFF::File::updateRootChunksStructure(unsigned int startingChunk) {
         childChunksToUpdate[i].offset = childChunksToUpdate[i - 1].offset + 12 + childChunksToUpdate[i - 1].size + childChunksToUpdate[i - 1].padding;
     }
   }
+
 }
 
 void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesStyle) {
+
   bool bigEndian = (d->endianness == BigEndian);
 
   d->type = readBlock(4);
@@ -856,11 +883,11 @@ void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesSty
     d->isID3InPropChunk = false;
     d->hasID3v2 = false;
   }
+
 }
 
-void DSDIFF::File::writeChunk(const ByteVector &name, const ByteVector &data,
-  unsigned long long offset, unsigned long replace,
-  unsigned int leadingPadding) {
+void DSDIFF::File::writeChunk(const ByteVector &name, const ByteVector &data, unsigned long long offset, unsigned long replace, unsigned int leadingPadding) {
+
   ByteVector combined;
   if (leadingPadding)
     combined.append(ByteVector(leadingPadding, '\x00'));
@@ -872,4 +899,5 @@ void DSDIFF::File::writeChunk(const ByteVector &name, const ByteVector &data,
     combined.append('\x00');
 
   insert(combined, offset, replace);
+
 }

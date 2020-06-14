@@ -32,129 +32,116 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ASF {
 
 //! An implementation of ASF audio properties
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
   /*!
-       * Audio codec types can be used in ASF file.
-       */
+   * Audio codec types can be used in ASF file.
+   */
   enum Codec {
     /*!
-         * Couldn't detect the codec.
-         */
+     * Couldn't detect the codec.
+     */
     Unknown = 0,
 
     /*!
-         * Windows Media Audio 1
-         */
+     * Windows Media Audio 1
+     */
     WMA1,
 
     /*!
-         * Windows Media Audio 2 or above
-         */
+     * Windows Media Audio 2 or above
+     */
     WMA2,
 
     /*!
-         * Windows Media Audio 9 Professional
-         */
+     * Windows Media Audio 9 Professional
+     */
     WMA9Pro,
 
     /*!
-         * Windows Media Audio 9 Lossless
-         */
+     * Windows Media Audio 9 Lossless
+     */
     WMA9Lossless,
   };
 
   /*!
-       * Creates an instance of ASF::Properties.
-       */
+   * Creates an instance of ASF::Properties.
+   */
   Properties();
 
   /*!
-       * Destroys this ASF::Properties instance.
-       */
+   * Destroys this ASF::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \note This method is just an alias of lengthInSeconds().
-       *
-       * \deprecated
-       */
-  virtual int length() const;
-
-  /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \see lengthInMilliseconds()
-       */
+   * Returns the length of the file in seconds.  The length is rounded down to
+   * the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-       * Returns the length of the file in milliseconds.
-       *
-       * \see lengthInSeconds()
-       */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-       * Returns the average bit rate of the file in kb/s.
-       */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-       * Returns the sample rate in Hz.
-       */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-       * Returns the number of audio channels.
-       */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-       * Returns the number of bits per audio sample.
-       */
+   * Returns the number of bits per audio sample.
+   */
   int bitsPerSample() const;
 
   /*!
-       * Returns the codec used in the file.
-       *
-       * \see codecName()
-       * \see codecDescription()
-       */
+   * Returns the codec used in the file.
+   *
+   * \see codecName()
+   * \see codecDescription()
+   */
   Codec codec() const;
 
   /*!
-       * Returns the concrete codec name, for example "Windows Media Audio 9.1"
-       * used in the file if available, otherwise an empty string.
-       *
-       * \see codec()
-       * \see codecDescription()
-       */
+   * Returns the concrete codec name, for example "Windows Media Audio 9.1" used in the file if available, otherwise an empty string.
+   *
+   * \see codec()
+   * \see codecDescription()
+   */
   String codecName() const;
 
   /*!
-       * Returns the codec description, typically contains the encoder settings,
-       * for example "VBR Quality 50, 44kHz, stereo 1-pass VBR" if available,
-       * otherwise an empty string.
-       *
-       * \see codec()
-       * \see codecName()
-       */
+   * Returns the codec description, typically contains the encoder settings,
+   * for example "VBR Quality 50, 44kHz, stereo 1-pass VBR" if available, otherwise an empty string.
+   *
+   * \see codec()
+   * \see codecName()
+   */
   String codecDescription() const;
 
   /*!
-       * Returns whether or not the file is encrypted.
-       */
+   * Returns whether or not the file is encrypted.
+   */
   bool isEncrypted() const;
 
 #ifndef DO_NOT_DOCUMENT

@@ -49,12 +49,9 @@ class GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame() : Frame("GEOB"),
-                                                                   d(new GeneralEncapsulatedObjectFramePrivate()) {
-}
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame() : Frame("GEOB"), d(new GeneralEncapsulatedObjectFramePrivate()) {}
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data) : Frame(data),
-                                                                                         d(new GeneralEncapsulatedObjectFramePrivate()) {
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data) : Frame(data), d(new GeneralEncapsulatedObjectFramePrivate()) {
   setData(data);
 }
 
@@ -63,6 +60,7 @@ GeneralEncapsulatedObjectFrame::~GeneralEncapsulatedObjectFrame() {
 }
 
 String GeneralEncapsulatedObjectFrame::toString() const {
+
   String text = "[" + d->mimeType + "]";
 
   if (!d->fileName.isEmpty())
@@ -72,6 +70,7 @@ String GeneralEncapsulatedObjectFrame::toString() const {
     text += " \"" + d->description + "\"";
 
   return text;
+
 }
 
 String::Type GeneralEncapsulatedObjectFrame::textEncoding() const {
@@ -119,6 +118,7 @@ void GeneralEncapsulatedObjectFrame::setObject(const ByteVector &data) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 4) {
     debug("An object frame must contain at least 4 bytes.");
     return;
@@ -133,9 +133,11 @@ void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data) {
   d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);
+
 }
 
 ByteVector GeneralEncapsulatedObjectFrame::renderFields() const {
+
   StringList sl;
   sl.append(d->fileName);
   sl.append(d->description);
@@ -154,13 +156,13 @@ ByteVector GeneralEncapsulatedObjectFrame::renderFields() const {
   data.append(d->data);
 
   return data;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                                                    d(new GeneralEncapsulatedObjectFramePrivate()) {
+GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h) : Frame(h), d(new GeneralEncapsulatedObjectFramePrivate()) {
   parseFields(fieldData(data));
 }

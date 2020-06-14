@@ -37,13 +37,8 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace MP4 {
 
-/*!
-     * \deprecated
-     */
-TAGLIB_DEPRECATED typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemListMap;
 typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemMap;
 
 class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
@@ -70,36 +65,29 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   virtual void setTrack(unsigned int value);
 
   virtual bool isEmpty() const;
-
   /*!
-         * \deprecated Use the item() and setItem() API instead
-         */
-  TAGLIB_DEPRECATED ItemMap &itemListMap();
-
-  /*!
-         * Returns a string-keyed map of the MP4::Items for this tag.
-         */
+   * Returns a string-keyed map of the MP4::Items for this tag.
+   */
   const ItemMap &itemMap() const;
 
   /*!
-         * \return The item, if any, corresponding to \a key.
-         */
+   * \return The item, if any, corresponding to \a key.
+   */
   Item item(const String &key) const;
 
   /*!
-         * Sets the value of \a key to \a value, overwriting any previous value.
-         */
+   * Sets the value of \a key to \a value, overwriting any previous value.
+   */
   void setItem(const String &key, const Item &value);
 
   /*!
-         * Removes the entry with \a key from the tag, or does nothing if it does
-         * not exist.
-         */
+   * Removes the entry with \a key from the tag, or does nothing if it does not exist.
+   */
   void removeItem(const String &key);
 
   /*!
-         * \return True if the tag contains an entry for \a key.
-         */
+   * \return True if the tag contains an entry for \a key.
+   */
   bool contains(const String &key) const;
 
   PropertyMap properties() const;
@@ -107,10 +95,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   PropertyMap setProperties(const PropertyMap &properties);
 
  private:
-  AtomDataList parseData2(const Atom *atom, int expectedFlags = -1,
-    bool freeForm = false);
-  ByteVectorList parseData(const Atom *atom, int expectedFlags = -1,
-    bool freeForm = false);
+  AtomDataList parseData2(const Atom *atom, int expectedFlags = -1, bool freeForm = false);
+  ByteVectorList parseData(const Atom *atom, int expectedFlags = -1, bool freeForm = false);
   void parseText(const Atom *atom, int expectedFlags = 1);
   void parseFreeForm(const Atom *atom);
   void parseInt(const Atom *atom);
@@ -124,10 +110,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 
   ByteVector padIlst(const ByteVector &data, int length = -1) const;
   ByteVector renderAtom(const ByteVector &name, const ByteVector &data) const;
-  ByteVector renderData(const ByteVector &name, int flags,
-    const ByteVectorList &data) const;
-  ByteVector renderText(const ByteVector &name, const Item &item,
-    int flags = TypeUTF8) const;
+  ByteVector renderData(const ByteVector &name, int flags, const ByteVectorList &data) const;
+  ByteVector renderText(const ByteVector &name, const Item &item, int flags = TypeUTF8) const;
   ByteVector renderFreeForm(const String &name, const Item &item) const;
   ByteVector renderBool(const ByteVector &name, const Item &item) const;
   ByteVector renderInt(const ByteVector &name, const Item &item) const;
@@ -151,7 +135,6 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 };
 
 }  // namespace MP4
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

@@ -41,92 +41,85 @@ namespace MP4 {
 class Atoms;
 
 /*!
-     * This implements and provides an interface for MP4 files to the
-     * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
-     * the abstract TagLib::File API as well as providing some additional
-     * information specific to MP4 files.
-     */
+ * This implements and provides an interface for MP4 files to the
+ * TagLib::Tag and TagLib::AudioProperties interfaces by way of implementing
+ * the abstract TagLib::File API as well as providing some additional
+ * information specific to MP4 files.
+ */
 class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
  public:
   /*!
-       * Constructs an MP4 file from \a file.  If \a readProperties is true the
-       * file's audio properties will also be read.
-       *
-       * \note In the current implementation, \a propertiesStyle is ignored.
-       */
-  File(FileName file, bool readProperties = true,
-    Properties::ReadStyle audioPropertiesStyle = Properties::Average);
+   * Constructs an MP4 file from \a file.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
+  File(FileName file, bool readProperties = true, Properties::ReadStyle audioPropertiesStyle = Properties::Average);
 
   /*!
-       * Constructs an MP4 file from \a stream.  If \a readProperties is true the
-       * file's audio properties will also be read.
-       *
-       * \note TagLib will *not* take ownership of the stream, the caller is
-       * responsible for deleting it after the File object.
-       *
-       * \note In the current implementation, \a propertiesStyle is ignored.
-       */
+   * Constructs an MP4 file from \a stream.
+   * If \a readProperties is true the file's audio properties will also be read.
+   *
+   * \note TagLib will *not* take ownership of the stream, the caller is
+   * responsible for deleting it after the File object.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   */
   File(IOStream *stream, bool readProperties = true,
     Properties::ReadStyle audioPropertiesStyle = Properties::Average);
 
   /*!
-       * Destroys this instance of the File.
-       */
+   * Destroys this instance of the File.
+   */
   virtual ~File();
 
   /*!
-       * Returns a pointer to the MP4 tag of the file.
-       *
-       * MP4::Tag implements the tag interface, so this serves as the
-       * reimplementation of TagLib::File::tag().
-       *
-       * \note The Tag <b>is still</b> owned by the MP4::File and should not be
-       * deleted by the user.  It will be deleted when the file (object) is
-       * destroyed.
-       */
+   * Returns a pointer to the MP4 tag of the file.
+   *
+   * MP4::Tag implements the tag interface, so this serves as the reimplementation of TagLib::File::tag().
+   *
+   * \note The Tag <b>is still</b> owned by the MP4::File and should not be deleted by the user.
+   * It will be deleted when the file (object) is destroyed.
+   */
   Tag *tag() const;
 
   /*!
-       * Implements the unified property interface -- export function.
-       */
+   * Implements the unified property interface -- export function.
+   */
   PropertyMap properties() const;
 
   /*!
-       * Removes unsupported properties. Forwards to the actual Tag's
-       * removeUnsupportedProperties() function.
-       */
+   * Removes unsupported properties. Forwards to the actual Tag's removeUnsupportedProperties() function.
+   */
   void removeUnsupportedProperties(const StringList &properties);
 
   /*!
-       * Implements the unified property interface -- import function.
-       */
+   * Implements the unified property interface -- import function.
+   */
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-       * Returns the MP4 audio properties for this file.
-       */
+   * Returns the MP4 audio properties for this file.
+   */
   Properties *audioProperties() const;
 
   /*!
-       * Save the file.
-       *
-       * This returns true if the save was successful.
-       */
+   * Save the file.
+   *
+   * This returns true if the save was successful.
+   */
   bool save();
 
   /*!
-       * Returns whether or not the file on disk actually has an MP4 tag, or the
-       * file has a Metadata Item List (ilst) atom.
-       */
+   * Returns whether or not the file on disk actually has an MP4 tag, or the file has a Metadata Item List (ilst) atom.
+   */
   bool hasMP4Tag() const;
 
   /*!
-       * Returns whether or not the given \a stream can be opened as an ASF
-       * file.
-       *
-       * \note This method is designed to do a quick check.  The result may
-       * not necessarily be correct.
-       */
+   * Returns whether or not the given \a stream can be opened as an ASF file.
+   *
+   * \note This method is designed to do a quick check.  The result may not necessarily be correct.
+   */
   static bool isSupported(IOStream *stream);
 
  private:
@@ -137,7 +130,6 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
 };
 
 }  // namespace MP4
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

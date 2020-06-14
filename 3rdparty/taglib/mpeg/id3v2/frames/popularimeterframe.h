@@ -31,82 +31,81 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace ID3v2 {
 
 //! An implementation of ID3v2 "popularimeter"
 
 /*!
-     * This implements the ID3v2 popularimeter (POPM frame).  It consists of
-     * an email, a rating and an optional counter.
-     */
+ * This implements the ID3v2 popularimeter (POPM frame).
+ * It consists of an email, a rating and an optional counter.
+ */
 
 class TAGLIB_EXPORT PopularimeterFrame : public Frame {
   friend class FrameFactory;
 
  public:
   /*!
-       * Construct an empty popularimeter frame.
-       */
+   * Construct an empty popularimeter frame.
+   */
   explicit PopularimeterFrame();
 
   /*!
-       * Construct a popularimeter based on the data in \a data.
-       */
+   * Construct a popularimeter based on the data in \a data.
+   */
   explicit PopularimeterFrame(const ByteVector &data);
 
   /*!
-       * Destroys this PopularimeterFrame instance.
-       */
+   * Destroys this PopularimeterFrame instance.
+   */
   virtual ~PopularimeterFrame();
 
   /*!
-       * Returns the text of this popularimeter.
-       *
-       * \see text()
-       */
+   * Returns the text of this popularimeter.
+   *
+   * \see text()
+   */
   virtual String toString() const;
 
   /*!
-       * Returns the email.
-       *
-       * \see setEmail()
-       */
+   * Returns the email.
+   *
+   * \see setEmail()
+   */
   String email() const;
 
   /*!
-       * Set the email.
-       *
-       * \see email()
-       */
+   * Set the email.
+   *
+   * \see email()
+   */
   void setEmail(const String &email);
 
   /*!
-       * Returns the rating.
-       *
-       * \see setRating()
-       */
+   * Returns the rating.
+   *
+   * \see setRating()
+   */
   int rating() const;
 
   /*!
-       * Set the rating.
-       *
-       * \see rating()
-       */
+   * Set the rating.
+   *
+   * \see rating()
+   */
   void setRating(int rating);
 
   /*!
-       * Returns the counter.
-       *
-       * \see setCounter()
-       */
+   * Returns the counter.
+   *
+   * \see setCounter()
+   */
   unsigned int counter() const;
 
   /*!
-       * Set the counter.
-       *
-       * \see counter()
-       */
+   * Set the counter.
+   *
+   * \see counter()
+   */
   void setCounter(unsigned int counter);
 
  protected:
@@ -117,8 +116,8 @@ class TAGLIB_EXPORT PopularimeterFrame : public Frame {
 
  private:
   /*!
-       * The constructor used by the FrameFactory.
-       */
+   * The constructor used by the FrameFactory.
+   */
   PopularimeterFrame(const ByteVector &data, Header *h);
   PopularimeterFrame(const PopularimeterFrame &);
   PopularimeterFrame &operator=(const PopularimeterFrame &);
@@ -130,4 +129,5 @@ class TAGLIB_EXPORT PopularimeterFrame : public Frame {
 }  // namespace ID3v2
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

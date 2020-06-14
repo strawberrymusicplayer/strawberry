@@ -132,19 +132,18 @@ void Header::setData(const ByteVector &data) {
 }
 
 ByteVector Header::render() const {
+
   ByteVector v;
 
   // add the file identifier -- "ID3"
   v.append(fileIdentifier());
 
-  // add the version number -- we always render a 2.4.0 tag regardless of what
-  // the tag originally was.
+  // add the version number -- we always render a 2.4.0 tag regardless of what the tag originally was.
 
   v.append(char(majorVersion()));
   v.append(char(0));
 
-  // Currently we don't actually support writing extended headers, footers or
-  // unsynchronized tags, make sure that the flags are set accordingly.
+  // Currently we don't actually support writing extended headers, footers or unsynchronized tags, make sure that the flags are set accordingly.
 
   d->extendedHeader = false;
   d->footerPresent = false;
@@ -164,6 +163,7 @@ ByteVector Header::render() const {
   v.append(SynchData::fromUInt(d->tagSize));
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,15 +171,14 @@ ByteVector Header::render() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Header::parse(const ByteVector &data) {
+
   if (data.size() < size())
     return;
 
-  // do some sanity checking -- even in ID3v2.3.0 and less the tag size is a
-  // synch-safe integer, so all bytes must be less than 128.  If this is not
-  // true then this is an invalid tag.
+  // do some sanity checking -- even in ID3v2.3.0 and less the tag size is a synch-safe integer, so all bytes must be less than 128.
+  // If this is not true then this is an invalid tag.
 
-  // note that we're doing things a little out of order here -- the size is
-  // later in the bytestream than the version
+  // note that we're doing things a little out of order here -- the size is later in the bytestream than the version
 
   ByteVector sizeData = data.mid(6, 4);
 
@@ -214,4 +213,5 @@ void Header::parse(const ByteVector &data) {
   // Get the size from the remaining four bytes (read above)
 
   d->tagSize = SynchData::toUInt(sizeData);  // (structure 3.1 "size")
+
 }

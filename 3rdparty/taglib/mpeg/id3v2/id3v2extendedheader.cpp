@@ -40,8 +40,7 @@ class ExtendedHeader::ExtendedHeaderPrivate {
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ExtendedHeader::ExtendedHeader() : d(new ExtendedHeaderPrivate()) {
-}
+ExtendedHeader::ExtendedHeader() : d(new ExtendedHeaderPrivate()) {}
 
 ExtendedHeader::~ExtendedHeader() {
   delete d;

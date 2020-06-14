@@ -65,8 +65,10 @@ class Ogg::PageHeader::PageHeaderPrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 Ogg::PageHeader::PageHeader(Ogg::File *file, long pageOffset) : d(new PageHeaderPrivate()) {
+
   if (file && pageOffset >= 0)
     read(file, pageOffset);
+
 }
 
 Ogg::PageHeader::~PageHeader() {
@@ -150,6 +152,7 @@ int Ogg::PageHeader::dataSize() const {
 }
 
 ByteVector Ogg::PageHeader::render() const {
+
   ByteVector data;
 
   // capture pattern
@@ -194,6 +197,7 @@ ByteVector Ogg::PageHeader::render() const {
   data.append(pageSegments);
 
   return data;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,6 +205,7 @@ ByteVector Ogg::PageHeader::render() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Ogg::PageHeader::read(Ogg::File *file, long pageOffset) {
+
   file->seek(pageOffset);
 
   // An Ogg page header is at least 27 bytes, so we'll go ahead and read that
@@ -263,9 +268,11 @@ void Ogg::PageHeader::read(Ogg::File *file, long pageOffset) {
     d->lastPacketCompleted = true;
 
   d->isValid = true;
+
 }
 
 ByteVector Ogg::PageHeader::lacingValues() const {
+
   ByteVector data;
 
   for (List<int>::ConstIterator it = d->packetSizes.begin(); it != d->packetSizes.end(); ++it) {
@@ -282,4 +289,5 @@ ByteVector Ogg::PageHeader::lacingValues() const {
   }
 
   return data;
+
 }

@@ -38,18 +38,17 @@ namespace ASF {
 //! An ASF attached picture interface implementation
 
 /*!
-     * This is an implementation of ASF attached pictures interface.  Pictures may be
-     * included in attributes, one per WM/Picture attribute (but there may be multiple WM/Picture
-     * attribute in a single tag).  These pictures are usually in either JPEG or
-     * PNG format.
-     * \see Attribute::toPicture()
-     * \see Attribute::Attribute(const Picture& picture)
-     */
+ * This is an implementation of ASF attached pictures interface.
+ * Pictures may be included in attributes, one per WM/Picture attribute (but there may be multiple WM/Picture attribute in a single tag).
+ * These pictures are usually in either JPEG or PNG format.
+ * \see Attribute::toPicture()
+ * \see Attribute::Attribute(const Picture& picture)
+ */
 class TAGLIB_EXPORT Picture {
  public:
   /*!
-       * This describes the function or content of the picture.
-       */
+   * This describes the function or content of the picture.
+   */
   enum Type {
     //! A type not enumerated below
     Other = 0x00,
@@ -96,112 +95,109 @@ class TAGLIB_EXPORT Picture {
   };
 
   /*!
-       * Constructs an empty picture.
-       */
+   * Constructs an empty picture.
+   */
   Picture();
 
   /*!
-       * Construct an picture as a copy of \a other.
-       */
+   * Construct an picture as a copy of \a other.
+   */
   Picture(const Picture& other);
 
   /*!
-       * Destroys the picture.
-       */
+   * Destroys the picture.
+   */
   virtual ~Picture();
 
   /*!
-       * Copies the contents of \a other into this picture.
-       */
+   * Copies the contents of \a other into this picture.
+   */
   Picture& operator=(const Picture& other);
 
   /*!
-       * Exchanges the content of the Picture by the content of \a other.
-       */
+   * Exchanges the content of the Picture by the content of \a other.
+   */
   void swap(Picture& other);
 
   /*!
-       * Returns true if Picture stores valid picture
-       */
+   * Returns true if Picture stores valid picture
+   */
   bool isValid() const;
 
   /*!
-       * Returns the mime type of the image. This should in most cases be
-       * "image/png" or "image/jpeg".
-       * \see setMimeType(const String &)
-       * \see picture()
-       * \see setPicture(const ByteArray&)
-       */
+   * Returns the mime type of the image. This should in most cases be "image/png" or "image/jpeg".
+   * \see setMimeType(const String &)
+   * \see picture()
+   * \see setPicture(const ByteArray&)
+   */
   String mimeType() const;
 
   /*!
-       * Sets the mime type of the image.  This should in most cases be
-       * "image/png" or "image/jpeg".
-       * \see setMimeType(const String &)
-       * \see picture()
-       * \see setPicture(const ByteArray&)
-       */
+   * Sets the mime type of the image.  This should in most cases be "image/png" or "image/jpeg".
+   * \see setMimeType(const String &)
+   * \see picture()
+   * \see setPicture(const ByteArray&)
+   */
   void setMimeType(const String& value);
 
   /*!
-       * Returns the type of the image.
-       *
-       * \see Type
-       * \see setType()
-       */
+   * Returns the type of the image.
+   *
+   * \see Type
+   * \see setType()
+   */
   Type type() const;
 
   /*!
-       * Sets the type for the image.
-       *
-       * \see Type
-       * \see type()
-       */
+   * Sets the type for the image.
+   *
+   * \see Type
+   * \see type()
+   */
   void setType(const ASF::Picture::Type& t);
 
   /*!
-       * Returns a text description of the image.
-       *
-       * \see setDescription()
-       */
+   * Returns a text description of the image.
+   *
+   * \see setDescription()
+   */
   String description() const;
 
   /*!
-       * Sets a textual description of the image to \a desc.
-       *
-       * \see description()
-       */
+   * Sets a textual description of the image to \a desc.
+   *
+   * \see description()
+   */
   void setDescription(const String& desc);
 
   /*!
-       * Returns the image data as a ByteVector.
-       *
-       * \note ByteVector has a data() method that returns a const char * which
-       * should make it easy to export this data to external programs.
-       *
-       * \see setPicture()
-       * \see mimeType()
-       */
+   * Returns the image data as a ByteVector.
+   *
+   * \note ByteVector has a data() method that returns a const char * which should make it easy to export this data to external programs.
+   *
+   * \see setPicture()
+   * \see mimeType()
+   */
   ByteVector picture() const;
 
   /*!
-       * Sets the image data to \a p.  \a p should be of the type specified in
-       * this frame's mime-type specification.
-       *
-       * \see picture()
-       * \see mimeType()
-       * \see setMimeType()
-       */
+   * Sets the image data to \a p.
+   * \a p should be of the type specified in this frame's mime-type specification.
+   *
+   * \see picture()
+   * \see mimeType()
+   * \see setMimeType()
+   */
   void setPicture(const ByteVector& p);
 
   /*!
-       * Returns picture as binary raw data \a value
-       */
+   * Returns picture as binary raw data \a value
+   */
   ByteVector render() const;
 
   /*!
-       * Returns picture as binary raw data \a value
-       */
+   * Returns picture as binary raw data \a value
+   */
   int dataSize() const;
 
 #ifndef DO_NOT_DOCUMENT

@@ -55,9 +55,7 @@ class XM::Properties::PropertiesPrivate {
   unsigned short bpmSpeed;
 };
 
-XM::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle),
-                                                                         d(new PropertiesPrivate()) {
-}
+XM::Properties::Properties(AudioProperties::ReadStyle propertiesStyle) : AudioProperties(propertiesStyle), d(new PropertiesPrivate()) {}
 
 XM::Properties::~Properties() {
   delete d;

@@ -49,12 +49,9 @@ class RelativeVolumeFrame::RelativeVolumeFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RelativeVolumeFrame::RelativeVolumeFrame() : Frame("RVA2"),
-                                             d(new RelativeVolumeFramePrivate()) {
-}
+RelativeVolumeFrame::RelativeVolumeFrame() : Frame("RVA2"), d(new RelativeVolumeFramePrivate()) {}
 
-RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data) : Frame(data),
-                                                                   d(new RelativeVolumeFramePrivate()) {
+RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data) : Frame(data), d(new RelativeVolumeFramePrivate()) {
   setData(data);
 }
 
@@ -67,6 +64,7 @@ String RelativeVolumeFrame::toString() const {
 }
 
 List<RelativeVolumeFrame::ChannelType> RelativeVolumeFrame::channels() const {
+
   List<ChannelType> l;
 
   Map<ChannelType, ChannelData>::ConstIterator it = d->channels.begin();
@@ -74,17 +72,7 @@ List<RelativeVolumeFrame::ChannelType> RelativeVolumeFrame::channels() const {
     l.append((*it).first);
 
   return l;
-}
 
-// deprecated
-
-RelativeVolumeFrame::ChannelType RelativeVolumeFrame::channelType() const {
-  return MasterVolume;
-}
-
-// deprecated
-
-void RelativeVolumeFrame::setChannelType(ChannelType) {
 }
 
 short RelativeVolumeFrame::volumeAdjustmentIndex(ChannelType type) const {
@@ -148,6 +136,7 @@ void RelativeVolumeFrame::setIdentification(const String &s) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void RelativeVolumeFrame::parseFields(const ByteVector &data) {
+
   int pos = 0;
   d->identification = readStringField(data, String::Latin1, &pos);
 
@@ -170,9 +159,11 @@ void RelativeVolumeFrame::parseFields(const ByteVector &data) {
     channel.peakVolume.peakVolume = data.mid(pos, bytes);
     pos += bytes;
   }
+
 }
 
 ByteVector RelativeVolumeFrame::renderFields() const {
+
   ByteVector data;
 
   data.append(d->identification.data(String::Latin1));
@@ -191,13 +182,13 @@ ByteVector RelativeVolumeFrame::renderFields() const {
   }
 
   return data;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                              d(new RelativeVolumeFramePrivate()) {
+RelativeVolumeFrame::RelativeVolumeFrame(const ByteVector &data, Header *h) : Frame(h), d(new RelativeVolumeFramePrivate()) {
   parseFields(fieldData(data));
 }

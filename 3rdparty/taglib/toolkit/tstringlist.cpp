@@ -35,6 +35,7 @@ class StringListPrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 StringList StringList::split(const String &s, const String &pattern) {
+
   StringList l;
 
   int previousOffset = 0;
@@ -46,32 +47,32 @@ StringList StringList::split(const String &s, const String &pattern) {
   l.append(s.substr(previousOffset, s.size() - previousOffset));
 
   return l;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-StringList::StringList() : List<String>(),
-                           d(nullptr) {
-}
+StringList::StringList() : List<String>(), d(nullptr) {}
 
-StringList::StringList(const String &s) : List<String>(),
-                                          d(nullptr) {
+StringList::StringList(const String &s) : List<String>(), d(nullptr) {
   append(s);
 }
 
 StringList::StringList(const ByteVectorList &bl, String::Type t) : List<String>() {
+
   ByteVectorList::ConstIterator i = bl.begin();
   for (; i != bl.end(); i++) {
     append(String(*i, t));
   }
+
 }
 
-StringList::~StringList() {
-}
+StringList::~StringList() {}
 
 String StringList::toString(const String &separator) const {
+
   String s;
 
   ConstIterator it = begin();
@@ -85,16 +86,21 @@ String StringList::toString(const String &separator) const {
   }
 
   return s;
+
 }
 
 StringList &StringList::append(const String &s) {
+
   List<String>::append(s);
   return *this;
+
 }
 
 StringList &StringList::append(const StringList &l) {
+
   List<String>::append(l);
   return *this;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

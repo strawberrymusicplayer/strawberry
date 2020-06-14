@@ -33,14 +33,13 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace MP4 {
 
 class TAGLIB_EXPORT CoverArt {
  public:
   /*!
-       * This describes the image type.
-       */
+   * This describes the image type.
+   */
   enum Format {
     JPEG = TypeJPEG,
     PNG = TypePNG,
@@ -55,13 +54,13 @@ class TAGLIB_EXPORT CoverArt {
   CoverArt(const CoverArt &item);
 
   /*!
-       * Copies the contents of \a item into this CoverArt.
-       */
+   * Copies the contents of \a item into this CoverArt.
+   */
   CoverArt &operator=(const CoverArt &item);
 
   /*!
-       * Exchanges the content of the CoverArt by the content of \a item.
-       */
+   * Exchanges the content of the CoverArt by the content of \a item.
+   */
   void swap(CoverArt &item);
 
   //! Format of the image
@@ -78,7 +77,6 @@ class TAGLIB_EXPORT CoverArt {
 typedef List<CoverArt> CoverArtList;
 
 }  // namespace MP4
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

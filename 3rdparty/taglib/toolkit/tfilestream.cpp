@@ -47,6 +47,7 @@ typedef HANDLE FileHandle;
 const FileHandle InvalidFileHandle = INVALID_HANDLE_VALUE;
 
 FileHandle openFile(const FileName &path, bool readOnly) {
+
   const DWORD access = readOnly ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE);
 
 #  if defined(PLATFORM_WINRT)
@@ -65,19 +66,23 @@ void closeFile(FileHandle file) {
 }
 
 size_t readFile(FileHandle file, ByteVector &buffer) {
+
   DWORD length;
   if (ReadFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
     return static_cast<size_t>(length);
   else
     return 0;
+
 }
 
 size_t writeFile(FileHandle file, const ByteVector &buffer) {
+
   DWORD length;
   if (WriteFile(file, buffer.data(), static_cast<DWORD>(buffer.size()), &length, NULL))
     return static_cast<size_t>(length);
   else
     return 0;
+
 }
 
 #else  // _WIN32
@@ -89,7 +94,7 @@ struct FileNameHandle : public std::string {
 
 typedef FILE *FileHandle;
 
-const FileHandle InvalidFileHandle = 0;
+const FileHandle InvalidFileHandle = nullptr;
 
 FileHandle openFile(const FileName &path, bool readOnly) {
   return fopen(path, readOnly ? "rb" : "rb+");
@@ -131,6 +136,7 @@ class FileStream::FileStreamPrivate {
 
 FileStream::FileStream(FileName fileName, bool openReadOnly)
     : d(new FileStreamPrivate(fileName)) {
+
   // First try with read / write mode, if that fails, fall back to read only.
 
   if (!openReadOnly)
@@ -147,10 +153,11 @@ FileStream::FileStream(FileName fileName, bool openReadOnly)
 #else
     debug("Could not open file " + String(static_cast<const char *>(d->name)));
 #endif
+
 }
 
-FileStream::FileStream(int fileDescriptor, bool openReadOnly)
-    : d(new FileStreamPrivate("")) {
+FileStream::FileStream(int fileDescriptor, bool openReadOnly) : d(new FileStreamPrivate("")) {
+
   // First try with read / write mode, if that fails, fall back to read only.
 
   if (!openReadOnly)
@@ -163,13 +170,16 @@ FileStream::FileStream(int fileDescriptor, bool openReadOnly)
 
   if (d->file == InvalidFileHandle)
     debug("Could not open file using file descriptor");
+
 }
 
 FileStream::~FileStream() {
+
   if (isOpen())
     closeFile(d->file);
 
   delete d;
+
 }
 
 FileName FileStream::name() const {
@@ -177,6 +187,7 @@ FileName FileStream::name() const {
 }
 
 ByteVector FileStream::readBlock(unsigned long length) {
+
   if (!isOpen()) {
     debug("FileStream::readBlock() -- invalid file.");
     return ByteVector();
@@ -195,9 +206,11 @@ ByteVector FileStream::readBlock(unsigned long length) {
   buffer.resize(static_cast<unsigned int>(count));
 
   return buffer;
+
 }
 
 void FileStream::writeBlock(const ByteVector &data) {
+
   if (!isOpen()) {
     debug("FileStream::writeBlock() -- invalid file.");
     return;
@@ -209,9 +222,11 @@ void FileStream::writeBlock(const ByteVector &data) {
   }
 
   writeFile(d->file, data);
+
 }
 
 void FileStream::insert(const ByteVector &data, unsigned long start, unsigned long replace) {
+
   if (!isOpen()) {
     debug("FileStream::insert() -- invalid file.");
     return;
@@ -289,9 +304,11 @@ void FileStream::insert(const ByteVector &data, unsigned long start, unsigned lo
 
     buffer = aboutToOverwrite;
   }
+
 }
 
 void FileStream::removeBlock(unsigned long start, unsigned long length) {
+
   if (!isOpen()) {
     debug("FileStream::removeBlock() -- invalid file.");
     return;
@@ -324,6 +341,7 @@ void FileStream::removeBlock(unsigned long start, unsigned long length) {
   }
 
   truncate(writePosition);
+
 }
 
 bool FileStream::readOnly() const {
@@ -335,6 +353,7 @@ bool FileStream::isOpen() const {
 }
 
 void FileStream::seek(long offset, Position p) {
+
   if (!isOpen()) {
     debug("FileStream::seek() -- invalid file.");
     return;
@@ -375,6 +394,7 @@ void FileStream::seek(long offset, Position p) {
   fseek(d->file, offset, whence);
 
 #endif
+
 }
 
 void FileStream::clear() {
@@ -412,6 +432,7 @@ long FileStream::tell() const {
 }
 
 long FileStream::length() {
+
   if (!isOpen()) {
     debug("FileStream::length() -- invalid file.");
     return 0;

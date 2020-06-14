@@ -41,105 +41,92 @@ static const unsigned int HeaderSize = 8 * 7;
 //! An implementation of audio property reading for MPC
 
 /*!
-     * This reads the data from an MPC stream found in the AudioProperties
-     * API.
-     */
+ * This reads the data from an MPC stream found in the AudioProperties API.
+ */
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
   /*!
-       * Create an instance of MPC::Properties with the data read from the
-       * ByteVector \a data.
-       *
-       * This constructor is deprecated. It only works for MPC version up to 7.
-       */
+   * Create an instance of MPC::Properties with the data read from the ByteVector \a data.
+   *
+   * This constructor is deprecated. It only works for MPC version up to 7.
+   */
   Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
 
   /*!
-       * Create an instance of MPC::Properties with the data read directly
-       * from a MPC::File.
-       */
+   * Create an instance of MPC::Properties with the data read directly from a MPC::File.
+   */
   Properties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
-       * Destroys this MPC::Properties instance.
-       */
+   * Destroys this MPC::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \note This method is just an alias of lengthInSeconds().
-       *
-       * \deprecated
-       */
-  TAGLIB_DEPRECATED virtual int length() const;
-
-  /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \see lengthInMilliseconds()
-       */
+   * Returns the length of the file in seconds.
+   * The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-       * Returns the length of the file in milliseconds.
-       *
-       * \see lengthInSeconds()
-       */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-       * Returns the average bit rate of the file in kb/s.
-       */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-       * Returns the sample rate in Hz.
-       */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-       * Returns the number of audio channels.
-       */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-       * Returns the version of the bitstream (SV4-SV8)
-       */
+   * Returns the version of the bitstream (SV4-SV8)
+   */
   int mpcVersion() const;
 
   unsigned int totalFrames() const;
   unsigned int sampleFrames() const;
 
   /*!
-      * Returns the track gain as an integer value,
-      * to convert to dB: trackGain in dB = 64.82 - (trackGain / 256)
-      */
+  * Returns the track gain as an integer value,
+  * to convert to dB: trackGain in dB = 64.82 - (trackGain / 256)
+  */
   int trackGain() const;
 
   /*!
-      * Returns the track peak as an integer value,
-      * to convert to dB: trackPeak in dB = trackPeak / 256
-      * to convert to floating [-1..1]: trackPeak = 10^(trackPeak / 256 / 20)/32768
-      */
+  * Returns the track peak as an integer value,
+  * to convert to dB: trackPeak in dB = trackPeak / 256
+  * to convert to floating [-1..1]: trackPeak = 10^(trackPeak / 256 / 20)/32768
+  */
   int trackPeak() const;
 
   /*!
-      * Returns the album gain as an integer value,
-      * to convert to dB: albumGain in dB = 64.82 - (albumGain / 256)
-      */
+  * Returns the album gain as an integer value,
+  * to convert to dB: albumGain in dB = 64.82 - (albumGain / 256)
+  */
   int albumGain() const;
 
   /*!
-      * Returns the album peak as an integer value,
-      * to convert to dB: albumPeak in dB = albumPeak / 256
-      * to convert to floating [-1..1]: albumPeak = 10^(albumPeak / 256 / 20)/32768
-      */
+  * Returns the album peak as an integer value,
+  * to convert to dB: albumPeak in dB = albumPeak / 256
+  * to convert to floating [-1..1]: albumPeak = 10^(albumPeak / 256 / 20)/32768
+  */
   int albumPeak() const;
 
  private:

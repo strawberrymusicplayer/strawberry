@@ -67,10 +67,6 @@ class MPEG::Header::HeaderPrivate : public RefCounter {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::Header::Header(const ByteVector &) : d(new HeaderPrivate()) {
-  debug("MPEG::Header::Header() - This constructor is no longer used.");
-}
-
 MPEG::Header::Header(File *file, long offset, bool checkLength) : d(new HeaderPrivate()) {
   parse(file, offset, checkLength);
 }
@@ -133,6 +129,7 @@ int MPEG::Header::samplesPerFrame() const {
 }
 
 MPEG::Header &MPEG::Header::operator=(const Header &h) {
+
   if (&h == this)
     return *this;
 
@@ -142,6 +139,7 @@ MPEG::Header &MPEG::Header::operator=(const Header &h) {
   d = h.d;
   d->ref();
   return *this;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,6 +147,7 @@ MPEG::Header &MPEG::Header::operator=(const Header &h) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void MPEG::Header::parse(File *file, long offset, bool checkLength) {
+
   file->seek(offset);
   const ByteVector data = file->readBlock(4);
 
@@ -298,4 +297,5 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
   // Now that we're done parsing, set this to be a valid frame.
 
   d->isValid = true;
+
 }

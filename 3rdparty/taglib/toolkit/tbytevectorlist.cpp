@@ -27,26 +27,18 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class ByteVectorListPrivate {
-};
+class ByteVectorListPrivate {};
 
 ////////////////////////////////////////////////////////////////////////////////
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &pattern,
-  int byteAlign) {
-  return split(v, pattern, byteAlign, 0);
-}
+ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &pattern, int byteAlign, int max) {
 
-ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &pattern,
-  int byteAlign, int max) {
   ByteVectorList l;
 
   unsigned int previousOffset = 0;
-  for (int offset = v.find(pattern, 0, byteAlign);
-       offset != -1 && (max == 0 || max > int(l.size()) + 1);
-       offset = v.find(pattern, offset + pattern.size(), byteAlign)) {
+  for (int offset = v.find(pattern, 0, byteAlign); offset != -1 && (max == 0 || max > int(l.size()) + 1); offset = v.find(pattern, offset + pattern.size(), byteAlign)) {
     if (offset - previousOffset >= 1)
       l.append(v.mid(previousOffset, offset - previousOffset));
     else
@@ -59,20 +51,19 @@ ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &patt
     l.append(v.mid(previousOffset, v.size() - previousOffset));
 
   return l;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorList::ByteVectorList() : List<ByteVector>(),
-                                   d(nullptr) {
-}
+ByteVectorList::ByteVectorList() : List<ByteVector>(), d(nullptr) {}
 
-ByteVectorList::~ByteVectorList() {
-}
+ByteVectorList::~ByteVectorList() {}
 
 ByteVector ByteVectorList::toByteVector(const ByteVector &separator) const {
+
   ByteVector v;
 
   ConstIterator it = begin();
@@ -80,9 +71,9 @@ ByteVector ByteVectorList::toByteVector(const ByteVector &separator) const {
   while (it != end()) {
     v.append(*it);
     it++;
-    if (it != end())
-      v.append(separator);
+    if (it != end()) v.append(separator);
   }
 
   return v;
+
 }

@@ -68,17 +68,12 @@ static const char vorbisSetupHeaderID[] = { 0x01, 'v', 'o', 'r', 'b', 'i', 's', 
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Vorbis::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                              d(new PropertiesPrivate()) {
+Vorbis::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
   read(file);
 }
 
 Vorbis::Properties::~Properties() {
   delete d;
-}
-
-int Vorbis::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int Vorbis::Properties::lengthInSeconds() const {
@@ -122,6 +117,7 @@ int Vorbis::Properties::bitrateMinimum() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void Vorbis::Properties::read(File *file) {
+
   // Get the identification header from the Ogg implementation.
 
   const ByteVector data = file->packet(0);
@@ -194,4 +190,5 @@ void Vorbis::Properties::read(File *file) {
 
   if (d->bitrate == 0 && d->bitrateNominal > 0)
     d->bitrate = static_cast<int>(d->bitrateNominal / 1000.0 + 0.5);
+
 }

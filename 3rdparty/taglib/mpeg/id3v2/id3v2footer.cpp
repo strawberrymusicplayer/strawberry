@@ -29,14 +29,11 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
-class Footer::FooterPrivate {
-};
+class Footer::FooterPrivate {};
 
-Footer::Footer() : d(0) {
-}
+Footer::Footer() : d(nullptr) {}
 
-Footer::~Footer() {
-}
+Footer::~Footer() {}
 
 unsigned int Footer::size() {
   return 10;

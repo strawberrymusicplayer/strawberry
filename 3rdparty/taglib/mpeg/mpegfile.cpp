@@ -53,7 +53,7 @@ class MPEG::File::FilePrivate {
                                                                                                     APELocation(-1),
                                                                                                     APEOriginalSize(0),
                                                                                                     ID3v1Location(-1),
-                                                                                                    properties(0) {}
+                                                                                                    properties(nullptr) {}
 
   ~FilePrivate() {
     delete properties;
@@ -92,6 +92,7 @@ class AdapterFile : public Strawberry_TagLib::TagLib::File {
 }  // namespace
 
 bool MPEG::File::isSupported(IOStream *stream) {
+
   if (!stream || !stream->isOpen())
     return false;
 
@@ -121,30 +122,25 @@ bool MPEG::File::isSupported(IOStream *stream) {
 
   stream->seek(originalPosition);
   return false;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                              d(new FilePrivate()) {
+MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
-  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                d(new FilePrivate(frameFactory)) {
-  if (isOpen())
-    read(readProperties);
-}
+MPEG::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
 
-MPEG::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
-  bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                d(new FilePrivate(frameFactory)) {
   if (isOpen())
     read(readProperties);
+
 }
 
 MPEG::File::~File() {
@@ -164,12 +160,14 @@ void MPEG::File::removeUnsupportedProperties(const StringList &properties) {
 }
 
 PropertyMap MPEG::File::setProperties(const PropertyMap &properties) {
+
   // update ID3v1 tag if it exists, but ignore the return value
 
   if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
 
   return ID3v2Tag(true)->setProperties(properties);
+
 }
 
 MPEG::Properties *MPEG::File::audioProperties() const {
@@ -184,24 +182,8 @@ bool MPEG::File::save(int tags) {
   return save(tags, StripOthers);
 }
 
-bool MPEG::File::save(int tags, bool stripOthers) {
-  return save(tags, stripOthers ? StripOthers : StripNone, ID3v2::v4);
-}
-
-bool MPEG::File::save(int tags, bool stripOthers, int id3v2Version) {
-  return save(tags,
-    stripOthers ? StripOthers : StripNone,
-    id3v2Version == 3 ? ID3v2::v3 : ID3v2::v4);
-}
-
-bool MPEG::File::save(int tags, bool stripOthers, int id3v2Version, bool duplicateTags) {
-  return save(tags,
-    stripOthers ? StripOthers : StripNone,
-    id3v2Version == 3 ? ID3v2::v3 : ID3v2::v4,
-    duplicateTags ? Duplicate : DoNotDuplicate);
-}
-
 bool MPEG::File::save(int tags, StripTags strip, ID3v2::Version version, DuplicateTags duplicate) {
+
   if (readOnly()) {
     debug("MPEG::File::save() -- File is read only.");
     return false;
@@ -308,6 +290,7 @@ bool MPEG::File::save(int tags, StripTags strip, ID3v2::Version version, Duplica
   }
 
   return true;
+
 }
 
 ID3v2::Tag *MPEG::File::ID3v2Tag(bool create) {
@@ -327,6 +310,7 @@ bool MPEG::File::strip(int tags) {
 }
 
 bool MPEG::File::strip(int tags, bool freeMemory) {
+
   if (readOnly()) {
     debug("MPEG::File::strip() - Cannot strip tags from a read only file.");
     return false;
@@ -345,7 +329,7 @@ bool MPEG::File::strip(int tags, bool freeMemory) {
     d->ID3v2OriginalSize = 0;
 
     if (freeMemory)
-      d->tag.set(ID3v2Index, 0);
+      d->tag.set(ID3v2Index, nullptr);
   }
 
   if ((tags & ID3v1) && d->ID3v1Location >= 0) {
@@ -354,7 +338,7 @@ bool MPEG::File::strip(int tags, bool freeMemory) {
     d->ID3v1Location = -1;
 
     if (freeMemory)
-      d->tag.set(ID3v1Index, 0);
+      d->tag.set(ID3v1Index, nullptr);
   }
 
   if ((tags & APE) && d->APELocation >= 0) {
@@ -367,17 +351,15 @@ bool MPEG::File::strip(int tags, bool freeMemory) {
     d->APEOriginalSize = 0;
 
     if (freeMemory)
-      d->tag.set(APEIndex, 0);
+      d->tag.set(APEIndex, nullptr);
   }
 
   return true;
-}
 
-void MPEG::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory) {
-  d->ID3v2FrameFactory = factory;
 }
 
 long MPEG::File::nextFrameOffset(long position) {
+
   ByteVector frameSyncBytes(2, '\0');
 
   while (true) {
@@ -398,9 +380,11 @@ long MPEG::File::nextFrameOffset(long position) {
 
     position += bufferSize();
   }
+
 }
 
 long MPEG::File::previousFrameOffset(long position) {
+
   ByteVector frameSyncBytes(2, '\0');
 
   while (position > 0) {
@@ -422,18 +406,22 @@ long MPEG::File::previousFrameOffset(long position) {
   }
 
   return -1;
+
 }
 
 long MPEG::File::firstFrameOffset() {
+
   long position = 0;
 
   if (hasID3v2Tag())
     position = d->ID3v2Location + ID3v2Tag()->header()->completeTagSize();
 
   return nextFrameOffset(position);
+
 }
 
 long MPEG::File::lastFrameOffset() {
+
   long position;
 
   if (hasAPETag())
@@ -444,6 +432,7 @@ long MPEG::File::lastFrameOffset() {
     position = length();
 
   return previousFrameOffset(position);
+
 }
 
 bool MPEG::File::hasID3v1Tag() const {
@@ -463,6 +452,7 @@ bool MPEG::File::hasAPETag() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void MPEG::File::read(bool readProperties) {
+
   // Look for an ID3v2 tag
 
   d->ID3v2Location = findID3v2();
@@ -496,9 +486,11 @@ void MPEG::File::read(bool readProperties) {
 
   ID3v2Tag(true);
   ID3v1Tag(true);
+
 }
 
 long MPEG::File::findID3v2() {
+
   if (!isValid())
     return -1;
 
@@ -544,4 +536,5 @@ long MPEG::File::findID3v2() {
 
     position += bufferSize();
   }
+
 }

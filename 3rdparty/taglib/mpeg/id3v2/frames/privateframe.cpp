@@ -44,12 +44,9 @@ class PrivateFrame::PrivateFramePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PrivateFrame::PrivateFrame() : Frame("PRIV"),
-                               d(new PrivateFramePrivate()) {
-}
+PrivateFrame::PrivateFrame() : Frame("PRIV"), d(new PrivateFramePrivate()) {}
 
-PrivateFrame::PrivateFrame(const ByteVector &data) : Frame(data),
-                                                     d(new PrivateFramePrivate()) {
+PrivateFrame::PrivateFrame(const ByteVector &data) : Frame(data), d(new PrivateFramePrivate()) {
   setData(data);
 }
 
@@ -82,6 +79,7 @@ void PrivateFrame::setData(const ByteVector &data) {
 ////////////////////////////////////////////////////////////////////////////////
 
 void PrivateFrame::parseFields(const ByteVector &data) {
+
   if (data.size() < 2) {
     debug("A private frame must contain at least 2 bytes.");
     return;
@@ -94,9 +92,11 @@ void PrivateFrame::parseFields(const ByteVector &data) {
 
   d->owner = String(data.mid(0, endOfOwner));
   d->data = data.mid(endOfOwner + 1);
+
 }
 
 ByteVector PrivateFrame::renderFields() const {
+
   ByteVector v;
 
   v.append(d->owner.data(String::Latin1));
@@ -104,13 +104,13 @@ ByteVector PrivateFrame::renderFields() const {
   v.append(d->data);
 
   return v;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-PrivateFrame::PrivateFrame(const ByteVector &data, Header *h) : Frame(h),
-                                                                d(new PrivateFramePrivate()) {
+PrivateFrame::PrivateFrame(const ByteVector &data, Header *h) : Frame(h), d(new PrivateFramePrivate()) {
   parseFields(fieldData(data));
 }

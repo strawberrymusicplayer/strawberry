@@ -1,5 +1,6 @@
 include(CheckLibraryExists)
 include(CheckTypeSize)
+include(CheckCXXCompilerFlag)
 include(CheckCXXSourceCompiles)
 
 # Check if the size of numeric types are suitable.

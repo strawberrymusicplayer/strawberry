@@ -70,9 +70,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class File::FilePrivate {
  public:
-  FilePrivate(IOStream* _stream, bool _owner) : stream(_stream),
-                                                streamOwner(_owner),
-                                                valid(true) {}
+  FilePrivate(IOStream* _stream, bool _owner) : stream(_stream), streamOwner(_owner), valid(true) {}
 
   ~FilePrivate() {
     if (streamOwner)
@@ -88,11 +86,9 @@ class File::FilePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-File::File(const FileName fileName) : d(new FilePrivate(new FileStream(fileName), true)) {
-}
+File::File(const FileName fileName) : d(new FilePrivate(new FileStream(fileName), true)) {}
 
-File::File(IOStream* stream) : d(new FilePrivate(stream, false)) {
-}
+File::File(IOStream* stream) : d(new FilePrivate(stream, false)) {}
 
 File::~File() {
   delete d;
@@ -103,6 +99,7 @@ FileName File::name() const {
 }
 
 PropertyMap File::properties() const {
+
   // ugly workaround until this method is virtual
   if (dynamic_cast<const APE::File*>(this))
     return dynamic_cast<const APE::File*>(this)->properties();
@@ -145,11 +142,12 @@ PropertyMap File::properties() const {
   if (dynamic_cast<const DSDIFF::File*>(this))
     return dynamic_cast<const DSDIFF::File*>(this)->properties();
   return tag()->properties();
+
 }
 
 void File::removeUnsupportedProperties(const StringList& properties) {
-  // here we only consider those formats that could possibly contain
-  // unsupported properties
+
+  // here we only consider those formats that could possibly contain unsupported properties
   if (dynamic_cast<APE::File*>(this))
     dynamic_cast<APE::File*>(this)->removeUnsupportedProperties(properties);
   else if (dynamic_cast<FLAC::File*>(this))
@@ -178,9 +176,11 @@ void File::removeUnsupportedProperties(const StringList& properties) {
     dynamic_cast<DSDIFF::File*>(this)->removeUnsupportedProperties(properties);
   else
     tag()->removeUnsupportedProperties(properties);
+
 }
 
 PropertyMap File::setProperties(const PropertyMap& properties) {
+
   if (dynamic_cast<APE::File*>(this))
     return dynamic_cast<APE::File*>(this)->setProperties(properties);
   else if (dynamic_cast<FLAC::File*>(this))
@@ -223,6 +223,7 @@ PropertyMap File::setProperties(const PropertyMap& properties) {
     return dynamic_cast<DSDIFF::File*>(this)->setProperties(properties);
   else
     return tag()->setProperties(properties);
+
 }
 
 ByteVector File::readBlock(unsigned long length) {
@@ -234,6 +235,7 @@ void File::writeBlock(const ByteVector& data) {
 }
 
 long File::find(const ByteVector& pattern, long fromOffset, const ByteVector& before) {
+
   if (!d->stream || pattern.size() > bufferSize())
     return -1;
 
@@ -325,10 +327,12 @@ long File::find(const ByteVector& pattern, long fromOffset, const ByteVector& be
   seek(originalPosition);
 
   return -1;
+
 }
 
 
 long File::rfind(const ByteVector& pattern, long fromOffset, const ByteVector& before) {
+
   if (!d->stream || pattern.size() > bufferSize())
     return -1;
 
@@ -399,6 +403,7 @@ long File::rfind(const ByteVector& pattern, long fromOffset, const ByteVector& b
   seek(originalPosition);
 
   return -1;
+
 }
 
 void File::insert(const ByteVector& data, unsigned long start, unsigned long replace) {
@@ -439,32 +444,6 @@ long File::tell() const {
 
 long File::length() {
   return d->stream->length();
-}
-
-bool File::isReadable(const char* file) {
-
-#if defined(_MSC_VER) && (_MSC_VER >= 1400)  // VC++2005 or later
-
-  return _access_s(file, R_OK) == 0;
-
-#else
-
-  return access(file, R_OK) == 0;
-
-#endif
-}
-
-bool File::isWritable(const char* file) {
-
-#if defined(_MSC_VER) && (_MSC_VER >= 1400)  // VC++2005 or later
-
-  return _access_s(file, W_OK) == 0;
-
-#else
-
-  return access(file, W_OK) == 0;
-
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -60,27 +60,12 @@ class RIFF::WAV::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::WAV::Properties::Properties(const ByteVector &, ReadStyle style) : AudioProperties(style),
-                                                                         d(new PropertiesPrivate()) {
-  debug("RIFF::WAV::Properties::Properties() -- This constructor is no longer used.");
-}
-
-RIFF::WAV::Properties::Properties(const ByteVector &, unsigned int, ReadStyle style) : AudioProperties(style),
-                                                                                       d(new PropertiesPrivate()) {
-  debug("RIFF::WAV::Properties::Properties() -- This constructor is no longer used.");
-}
-
-Strawberry_TagLib::TagLib::RIFF::WAV::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),
-                                                                                            d(new PropertiesPrivate()) {
+Strawberry_TagLib::TagLib::RIFF::WAV::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style),d(new PropertiesPrivate()) {
   read(file);
 }
 
 RIFF::WAV::Properties::~Properties() {
   delete d;
-}
-
-int RIFF::WAV::Properties::length() const {
-  return lengthInSeconds();
 }
 
 int RIFF::WAV::Properties::lengthInSeconds() const {
@@ -107,10 +92,6 @@ int RIFF::WAV::Properties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-int RIFF::WAV::Properties::sampleWidth() const {
-  return bitsPerSample();
-}
-
 unsigned int RIFF::WAV::Properties::sampleFrames() const {
   return d->sampleFrames;
 }
@@ -124,6 +105,7 @@ int RIFF::WAV::Properties::format() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 void RIFF::WAV::Properties::read(File *file) {
+
   ByteVector data;
   unsigned int streamLength = 0;
   unsigned int totalSamples = 0;
@@ -187,4 +169,5 @@ void RIFF::WAV::Properties::read(File *file) {
       d->bitrate = static_cast<int>(byteRate * 8.0 / 1000.0 + 0.5);
     }
   }
+
 }

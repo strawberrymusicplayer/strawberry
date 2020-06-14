@@ -42,16 +42,13 @@ class ByteVectorStream::ByteVectorStreamPrivate {
   long position;
 };
 
-ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &_data) : data(_data),
-                                                                                              position(0) {
-}
+ByteVectorStream::ByteVectorStreamPrivate::ByteVectorStreamPrivate(const ByteVector &_data) : data(_data), position(0) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorStream::ByteVectorStream(const ByteVector &data) : d(new ByteVectorStreamPrivate(data)) {
-}
+ByteVectorStream::ByteVectorStream(const ByteVector &data) : d(new ByteVectorStreamPrivate(data)) {}
 
 ByteVectorStream::~ByteVectorStream() {
   delete d;
@@ -62,24 +59,29 @@ FileName ByteVectorStream::name() const {
 }
 
 ByteVector ByteVectorStream::readBlock(unsigned long length) {
+
   if (length == 0)
     return ByteVector();
 
   ByteVector v = d->data.mid(d->position, length);
   d->position += v.size();
   return v;
+
 }
 
 void ByteVectorStream::writeBlock(const ByteVector &data) {
+
   unsigned int size = data.size();
   if (long(d->position + size) > length()) {
     truncate(d->position + size);
   }
   memcpy(d->data.data() + d->position, data.data(), size);
   d->position += size;
+
 }
 
 void ByteVectorStream::insert(const ByteVector &data, unsigned long start, unsigned long replace) {
+
   long sizeDiff = data.size() - replace;
   if (sizeDiff < 0) {
     removeBlock(start + data.size(), -sizeDiff);
@@ -92,9 +94,11 @@ void ByteVectorStream::insert(const ByteVector &data, unsigned long start, unsig
   }
   seek(start);
   writeBlock(data);
+
 }
 
 void ByteVectorStream::removeBlock(unsigned long start, unsigned long length) {
+
   unsigned long readPosition = start + length;
   unsigned long writePosition = start;
   if (readPosition < static_cast<unsigned long>(ByteVectorStream::length())) {
@@ -104,6 +108,7 @@ void ByteVectorStream::removeBlock(unsigned long start, unsigned long length) {
   }
   d->position = writePosition;
   truncate(writePosition);
+
 }
 
 bool ByteVectorStream::readOnly() const {
@@ -115,6 +120,7 @@ bool ByteVectorStream::isOpen() const {
 }
 
 void ByteVectorStream::seek(long offset, Position p) {
+
   switch (p) {
     case Beginning:
       d->position = offset;
@@ -126,10 +132,10 @@ void ByteVectorStream::seek(long offset, Position p) {
       d->position = length() + offset;  // offset is expected to be negative
       break;
   }
+
 }
 
-void ByteVectorStream::clear() {
-}
+void ByteVectorStream::clear() {}
 
 long ByteVectorStream::tell() const {
   return d->position;

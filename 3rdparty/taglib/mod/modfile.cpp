@@ -35,26 +35,24 @@ using namespace Mod;
 
 class Mod::File::FilePrivate {
  public:
-  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
-      : properties(propertiesStyle) {
-  }
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
   Mod::Properties properties;
 };
 
-Mod::File::File(FileName file, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file),
-                                                d(new FilePrivate(propertiesStyle)) {
+Mod::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-Mod::File::File(IOStream *stream, bool readProperties,
-  AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream),
-                                                d(new FilePrivate(propertiesStyle)) {
+Mod::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(stream), d(new FilePrivate(propertiesStyle)) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 Mod::File::~File() {
@@ -78,6 +76,7 @@ PropertyMap Mod::File::setProperties(const PropertyMap &properties) {
 }
 
 bool Mod::File::save() {
+
   if (readOnly()) {
     debug("Mod::File::save() - Cannot save to a read only file.");
     return false;
@@ -96,9 +95,11 @@ bool Mod::File::save() {
     seek(8, Current);
   }
   return true;
+
 }
 
 void Mod::File::read(bool) {
+
   if (!isOpen())
     return;
 
@@ -176,4 +177,5 @@ void Mod::File::read(bool) {
   READ_BYTE(d->properties.setLengthInPatterns);
 
   d->tag.setComment(comment.toString("\n"));
+
 }

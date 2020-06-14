@@ -76,42 +76,44 @@ unsigned int DSDIFF::DIIN::Tag::track() const {
 }
 
 void DSDIFF::DIIN::Tag::setTitle(const String &title) {
+
   if (title.isNull() || title.isEmpty())
     d->title = String();
   else
     d->title = title;
+
 }
 
 void DSDIFF::DIIN::Tag::setArtist(const String &artist) {
+
   if (artist.isNull() || artist.isEmpty())
     d->artist = String();
   else
     d->artist = artist;
+
 }
 
-void DSDIFF::DIIN::Tag::setAlbum(const String &) {
-}
+void DSDIFF::DIIN::Tag::setAlbum(const String &) {}
 
-void DSDIFF::DIIN::Tag::setComment(const String &) {
-}
+void DSDIFF::DIIN::Tag::setComment(const String &) {}
 
-void DSDIFF::DIIN::Tag::setGenre(const String &) {
-}
+void DSDIFF::DIIN::Tag::setGenre(const String &) {}
 
-void DSDIFF::DIIN::Tag::setYear(unsigned int) {
-}
+void DSDIFF::DIIN::Tag::setYear(unsigned int) {}
 
-void DSDIFF::DIIN::Tag::setTrack(unsigned int) {
-}
+void DSDIFF::DIIN::Tag::setTrack(unsigned int) {}
 
 PropertyMap DSDIFF::DIIN::Tag::properties() const {
+
   PropertyMap properties;
   properties["TITLE"] = d->title;
   properties["ARTIST"] = d->artist;
   return properties;
+
 }
 
 PropertyMap DSDIFF::DIIN::Tag::setProperties(const PropertyMap &origProps) {
+
   PropertyMap properties(origProps);
   properties.removeEmpty();
   StringList oneValueSet;
@@ -140,4 +142,5 @@ PropertyMap DSDIFF::DIIN::Tag::setProperties(const PropertyMap &origProps) {
   }
 
   return properties;
+
 }

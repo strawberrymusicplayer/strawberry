@@ -36,13 +36,13 @@ namespace MPEG {
 namespace {
 
 /*!
-       * MPEG frames can be recognized by the bit pattern 11111111 111, so the
-       * first byte is easy to check for, however checking to see if the second byte
-       * starts with \e 111 is a bit more tricky, hence these functions.
-       *
-       * \note This does not check the length of the vector, since this is an
-       * internal utility function.
-       */
+ * MPEG frames can be recognized by the bit pattern 11111111 111, so the
+ * first byte is easy to check for, however checking to see if the second byte
+ * starts with \e 111 is a bit more tricky, hence these functions.
+ *
+ * \note This does not check the length of the vector, since this is an
+ * internal utility function.
+ */
 inline bool isFrameSync(const ByteVector &bytes, unsigned int offset = 0) {
   // 0xFF in the second byte is possible in theory, but it's very unlikely.
 

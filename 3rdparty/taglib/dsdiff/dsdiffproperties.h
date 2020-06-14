@@ -30,7 +30,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace DSDIFF {
 
 class File;
@@ -38,23 +37,19 @@ class File;
 //! An implementation of audio property reading for DSDIFF
 
 /*!
-     * This reads the data from an DSDIFF stream found in the AudioProperties
-     * API.
-     */
+ * This reads the data from an DSDIFF stream found in the AudioProperties API.
+ */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-       * Create an instance of DSDIFF::Properties with the data read from the
-       * ByteVector \a data.
-       */
-  Properties(const unsigned int sampleRate, const unsigned short channels,
-    const unsigned long long samplesCount, const int bitrate,
-    ReadStyle style);
+   * Create an instance of DSDIFF::Properties with the data read from the ByteVector \a data.
+   */
+  Properties(const unsigned int sampleRate, const unsigned short channels, const unsigned long long samplesCount, const int bitrate, ReadStyle style);
 
   /*!
-       * Destroys this DSDIFF::Properties instance.
-       */
+   * Destroys this DSDIFF::Properties instance.
+   */
   virtual ~Properties();
 
   // Reimplementations.
@@ -76,6 +71,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace DSDIFF
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

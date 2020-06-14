@@ -34,7 +34,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace TrueAudio {
 
 class File;
@@ -44,78 +43,65 @@ static const unsigned int HeaderSize = 18;
 //! An implementation of audio property reading for TrueAudio
 
 /*!
-     * This reads the data from an TrueAudio stream found in the AudioProperties
-     * API.
-     */
+ * This reads the data from an TrueAudio stream found in the AudioProperties API.
+ */
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
   /*!
-       * Create an instance of TrueAudio::Properties with the data read from the
-       * ByteVector \a data.
-       */
+   * Create an instance of TrueAudio::Properties with the data read from the ByteVector \a data.
+   */
   Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
 
   /*!
-       * Destroys this TrueAudio::Properties instance.
-       */
+   * Destroys this TrueAudio::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \note This method is just an alias of lengthInSeconds().
-       *
-       * \deprecated
-       */
-  virtual int length() const;
-
-  /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \see lengthInMilliseconds()
-       */
+   * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-       * Returns the length of the file in milliseconds.
-       *
-       * \see lengthInSeconds()
-       */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-       * Returns the average bit rate of the file in kb/s.
-       */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-       * Returns the sample rate in Hz.
-       */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-       * Returns the number of audio channels.
-       */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-       * Returns the number of bits per audio sample.
-       */
+   * Returns the number of bits per audio sample.
+   */
   int bitsPerSample() const;
 
   /*!
-       * Returns the total number of sample frames
-       */
+   * Returns the total number of sample frames
+   */
   unsigned int sampleFrames() const;
 
   /*!
-       * Returns the major version number.
-       */
+   * Returns the major version number.
+   */
   int ttaVersion() const;
 
  private:
@@ -127,6 +113,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace TrueAudio
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

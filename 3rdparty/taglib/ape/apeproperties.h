@@ -35,7 +35,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace APE {
 
 class File;
@@ -43,86 +42,66 @@ class File;
 //! An implementation of audio property reading for APE
 
 /*!
-     * This reads the data from an APE stream found in the AudioProperties
-     * API.
-     */
+ * This reads the data from an APE stream found in the AudioProperties API.
+ */
 
 class TAGLIB_EXPORT Properties : public AudioProperties {
  public:
-  /*!
-       * Create an instance of APE::Properties with the data read from the
-       * APE::File \a file.
-       *
-       * \deprecated
-       */
-  TAGLIB_DEPRECATED Properties(File *file, ReadStyle style = Average);
 
   /*!
-       * Create an instance of APE::Properties with the data read from the
-       * APE::File \a file.
-       */
+  * Create an instance of APE::Properties with the data read from the APE::File \a file.
+   */
   Properties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
-       * Destroys this APE::Properties instance.
-       */
+   * Destroys this APE::Properties instance.
+   */
   virtual ~Properties();
 
   /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \note This method is just an alias of lengthInSeconds().
-       *
-       * \deprecated
-       */
-  TAGLIB_DEPRECATED virtual int length() const;
-
-  /*!
-       * Returns the length of the file in seconds.  The length is rounded down to
-       * the nearest whole second.
-       *
-       * \see lengthInMilliseconds()
-       */
+   * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
+   *
+   * \see lengthInMilliseconds()
+   */
   // BIC: make virtual
   int lengthInSeconds() const;
 
   /*!
-       * Returns the length of the file in milliseconds.
-       *
-       * \see lengthInSeconds()
-       */
+   * Returns the length of the file in milliseconds.
+   *
+   * \see lengthInSeconds()
+   */
   // BIC: make virtual
   int lengthInMilliseconds() const;
 
   /*!
-       * Returns the average bit rate of the file in kb/s.
-       */
+   * Returns the average bit rate of the file in kb/s.
+   */
   virtual int bitrate() const;
 
   /*!
-       * Returns the sample rate in Hz.
-       */
+   * Returns the sample rate in Hz.
+   */
   virtual int sampleRate() const;
 
   /*!
-       * Returns the number of audio channels.
-       */
+   * Returns the number of audio channels.
+   */
   virtual int channels() const;
 
   /*!
-       * Returns the number of bits per audio sample.
-       */
+   * Returns the number of bits per audio sample.
+   */
   int bitsPerSample() const;
 
   /*!
-       * Returns the total number of audio samples in file.
-       */
+   * Returns the total number of audio samples in file.
+   */
   unsigned int sampleFrames() const;
 
   /*!
-       * Returns APE version.
-       */
+   * Returns APE version.
+   */
   int version() const;
 
  private:

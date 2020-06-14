@@ -36,6 +36,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 namespace {
 bool checkValid(const MP4::AtomList &list) {
+
   for (MP4::AtomList::ConstIterator it = list.begin(); it != list.end(); ++it) {
 
     if ((*it)->length == 0)
@@ -46,14 +47,13 @@ bool checkValid(const MP4::AtomList &list) {
   }
 
   return true;
+
 }
 }  // namespace
 
 class MP4::File::FilePrivate {
  public:
-  FilePrivate() : tag(0),
-                  atoms(0),
-                  properties(0) {}
+  FilePrivate() : tag(nullptr), atoms(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete atoms;
@@ -71,26 +71,30 @@ class MP4::File::FilePrivate {
 ////////////////////////////////////////////////////////////////////////////////
 
 bool MP4::File::isSupported(IOStream *stream) {
+
   // An MP4 file has to have an "ftyp" box first.
 
   const ByteVector id = Utils::readHeader(stream, 8, false);
   return id.containsAt("ftyp", 4);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file),
-                                                                                  d(new FilePrivate()) {
+MP4::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
-MP4::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream),
-                                                                                     d(new FilePrivate()) {
+MP4::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+
   if (isOpen())
     read(readProperties);
+
 }
 
 MP4::File::~File() {
@@ -120,6 +124,7 @@ MP4::File::audioProperties() const {
 }
 
 void MP4::File::read(bool readProperties) {
+
   if (!isValid())
     return;
 
@@ -139,9 +144,11 @@ void MP4::File::read(bool readProperties) {
   if (readProperties) {
     d->properties = new Properties(this, d->atoms);
   }
+
 }
 
 bool MP4::File::save() {
+
   if (readOnly()) {
     debug("MP4::File::save() -- File is read only.");
     return false;
@@ -153,8 +160,9 @@ bool MP4::File::save() {
   }
 
   return d->tag->save();
+
 }
 
 bool MP4::File::hasMP4Tag() const {
-  return (d->atoms->find("moov", "udta", "meta", "ilst") != 0);
+  return (d->atoms->find("moov", "udta", "meta", "ilst") != nullptr);
 }

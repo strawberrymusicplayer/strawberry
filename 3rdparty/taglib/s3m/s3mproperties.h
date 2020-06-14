@@ -32,6 +32,7 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 namespace S3M {
+
 class TAGLIB_EXPORT Properties : public AudioProperties {
   friend class File;
 
@@ -90,6 +91,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   class PropertiesPrivate;
   PropertiesPrivate *d;
 };
+
 }  // namespace S3M
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

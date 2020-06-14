@@ -34,6 +34,7 @@
 using namespace Strawberry_TagLib::TagLib;
 
 long Utils::findID3v1(File *file) {
+
   if (!file->isValid())
     return -1;
 
@@ -44,9 +45,11 @@ long Utils::findID3v1(File *file) {
     return p;
 
   return -1;
+
 }
 
 long Utils::findID3v2(File *file) {
+
   if (!file->isValid())
     return -1;
 
@@ -56,9 +59,11 @@ long Utils::findID3v2(File *file) {
     return 0;
 
   return -1;
+
 }
 
 long Utils::findAPE(File *file, long id3v1Location) {
+
   if (!file->isValid())
     return -1;
 
@@ -73,10 +78,11 @@ long Utils::findAPE(File *file, long id3v1Location) {
     return p;
 
   return -1;
+
 }
 
-ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsigned int length,
-  bool skipID3v2, long *headerOffset) {
+ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsigned int length, bool skipID3v2, long *headerOffset) {
+
   if (!stream || !stream->isOpen())
     return ByteVector();
 
@@ -98,4 +104,5 @@ ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsign
     *headerOffset = bufferOffset;
 
   return header;
+
 }

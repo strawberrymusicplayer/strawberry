@@ -32,7 +32,6 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
 namespace FLAC {
 
 class TAGLIB_EXPORT MetadataBlock {
@@ -69,7 +68,6 @@ class TAGLIB_EXPORT MetadataBlock {
 };
 
 }  // namespace FLAC
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 
