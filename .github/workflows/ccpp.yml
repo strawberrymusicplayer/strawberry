@@ -572,9 +572,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1.2.0
 
-      - name: Add extra media
-        run: urpmi.addmedia --distrib http://www.mirrorservice.org/sites/mageia.org/pub/mageia/distrib/7/x86_64
-
       - name: Update packages
         run: urpmi.update -a
 

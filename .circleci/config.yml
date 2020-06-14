@@ -237,9 +237,6 @@ commands:
     description: Install Mageia dependencies
     steps:
       - run:
-          name: Add extra media
-          command: urpmi.addmedia --distrib http://www.mirrorservice.org/sites/mageia.org/pub/mageia/distrib/7/x86_64
-      - run:
           name: Update packages
           command: urpmi.update -a
       - run:
