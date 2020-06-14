@@ -23,7 +23,7 @@
 
 #include <glib.h>
 #include <glib/gtypes.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <algorithm>
 #include <gst/gst.h>

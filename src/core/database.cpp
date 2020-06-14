@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <stddef.h>
-#include <assert.h>
+#include <cstddef>
+#include <cassert>
 #include <sqlite3.h>
 #include <boost/scope_exit.hpp>
 

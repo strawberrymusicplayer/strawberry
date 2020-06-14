@@ -21,7 +21,7 @@
 #include "config.h"
 
 #include <string>
-#include <assert.h>
+#include <cassert>
 
 #include <QtGlobal>
 #include <QObject>

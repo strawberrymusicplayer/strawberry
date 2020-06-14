@@ -26,7 +26,7 @@
 #include <tstring.h>
 #include <tdebug.h>
 #include <bitset>
-#include <math.h>
+#include <cmath>
 
 #include "mpcproperties.h"
 #include "mpcfile.h"

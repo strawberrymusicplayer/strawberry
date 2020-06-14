@@ -25,9 +25,9 @@
 #include <QtGlobal>
 
 #include <glib.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
-#include <time.h>
+#include <ctime>
 
 #ifdef Q_OS_UNIX
 #  include <unistd.h>

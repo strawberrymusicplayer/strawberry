@@ -22,7 +22,7 @@
 #include "config.h"
 
 #include <memory>
-#include <stdlib.h>
+#include <cstdlib>
 #include <iconv.h>
 
 #include <QtGlobal>
@@ -68,7 +68,7 @@
 #  include <QRandomGenerator>
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 #ifdef Q_OS_LINUX
 #  include <unistd.h>

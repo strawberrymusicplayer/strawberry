@@ -22,8 +22,8 @@
 #include "config.h"
 
 #include <libmtp.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 #include <QThread>
 #include <QMutex>

@@ -33,7 +33,7 @@
 #  include <windows.h>
 #  include <io.h>
 #else
-#  include <stdio.h>
+#  include <cstdio>
 #  include <unistd.h>
 #endif
 

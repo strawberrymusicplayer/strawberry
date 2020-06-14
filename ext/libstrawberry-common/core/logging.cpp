@@ -18,9 +18,9 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <cxxabi.h>

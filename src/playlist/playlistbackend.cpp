@@ -23,7 +23,7 @@
 
 #include <memory>
 #include <functional>
-#include <assert.h>
+#include <cassert>
 
 #include <QObject>
 #include <QApplication>

@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <QObject>
 #include <QThread>

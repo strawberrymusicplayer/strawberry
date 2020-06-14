@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <stdlib.h>
-#include <stdint.h>
+#include <cstdlib>
+#include <cstdint>
 
 #include <QList>
 #include <QByteArray>

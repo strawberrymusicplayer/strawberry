@@ -19,8 +19,8 @@
 
 #include "config.h"
 
-#include <stdio.h>
-#include <errno.h>
+#include <cstdio>
+#include <cerrno>
 #include <alsa/asoundlib.h>
 #include <boost/scope_exit.hpp>
 

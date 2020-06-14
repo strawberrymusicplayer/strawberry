@@ -27,7 +27,7 @@
 #include <gio/gio.h>
 #include <memory>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <string>
 
 #include <gst/gst.h>

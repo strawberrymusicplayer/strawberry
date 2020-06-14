@@ -4,7 +4,7 @@
 
 // From Chromium src/base/macros.h
 
-#include <stddef.h>  // For size_t.
+#include <cstddef>  // For size_t.
 
 // The arraysize(arr) macro returns the # of elements in an array arr.
 // The expression is a compile-time constant, and therefore can be

@@ -29,7 +29,7 @@
 #include "modfileprivate.h"
 #include "tpropertymap.h"
 
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 
 using namespace Strawberry_TagLib::TagLib;

@@ -35,7 +35,7 @@
 #  endif
 
 #  if defined(HAVE_MSC_BYTESWAP)
-#    include <stdlib.h>
+#    include <cstdlib>
 #  elif defined(HAVE_GLIBC_BYTESWAP)
 #    include <byteswap.h>
 #  elif defined(HAVE_MAC_BYTESWAP)

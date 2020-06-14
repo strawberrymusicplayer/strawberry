@@ -23,7 +23,7 @@
 #endif
 
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 #include <sys/types.h>
 #include <xine.h>
 

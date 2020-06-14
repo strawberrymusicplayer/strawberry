@@ -23,11 +23,11 @@
 #  define METRONOM_INTERNAL
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 #include <sys/types.h>
-#include <time.h>
+#include <ctime>
 #include <unistd.h>
-#include <errno.h>
+#include <cerrno>
 #include <xine.h>
 #ifdef XINE_ANALYZER
 #  include <xine/metronom.h>

@@ -23,14 +23,13 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+
 #include "tbytevectorstream.h"
 #include "tstring.h"
 #include "tdebug.h"
-
-#include <stdio.h>
-#include <string.h>
-
-#include <stdlib.h>
 
 using namespace Strawberry_TagLib::TagLib;
 

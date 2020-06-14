@@ -21,9 +21,9 @@
 
 #include "config.h"
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <string>
+#include <cstdlib>
+#include <cstdint>
+#include <cstring>
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>

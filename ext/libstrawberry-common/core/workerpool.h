@@ -18,7 +18,7 @@
 #ifndef WORKERPOOL_H
 #define WORKERPOOL_H
 
-#include <stddef.h>
+#include <cstddef>
 
 #include <QtGlobal>
 #include <QObject>

@@ -17,7 +17,7 @@
 
 #include "moodbarpipeline.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <glib-object.h>
 
 #include <QObject>

@@ -23,10 +23,11 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
+#include <cstdio>
+
 #include <tbytevectorlist.h>
 #include <tpropertymap.h>
 #include <tdebug.h>
-#include <stdio.h>
 
 #include "chapterframe.h"
 

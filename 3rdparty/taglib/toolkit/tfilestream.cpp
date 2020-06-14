@@ -30,7 +30,7 @@
 #ifdef _WIN32
 #  include <windows.h>
 #else
-#  include <stdio.h>
+#  include <cstdio>
 #  include <unistd.h>
 #endif
 

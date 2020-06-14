@@ -31,7 +31,7 @@
 //
 //
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <limits>
 
 #include <QtGlobal>

@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <glib.h>
 #include <glib/gtypes.h>
 #include <glib-object.h>

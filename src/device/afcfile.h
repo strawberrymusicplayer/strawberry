@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-#include <stdint.h>
+#include <cstdint>
 #include <libimobiledevice/afc.h>
 
 #include <QtGlobal>
