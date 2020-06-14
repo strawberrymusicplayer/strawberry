@@ -192,7 +192,7 @@ void TagReader::ReadFile(const QString &filename, pb::tagreader::SongMetadata *s
   if (fileref->audioProperties()) {
     song->set_bitrate(fileref->audioProperties()->bitrate());
     song->set_samplerate(fileref->audioProperties()->sampleRate());
-    song->set_length_nanosec(fileref->audioProperties()->length() * kNsecPerSec);
+    song->set_length_nanosec(fileref->audioProperties()->lengthInMilliseconds() * kNsecPerMsec);
   }
 
   TagLib::Tag *tag = fileref->tag();
