@@ -278,7 +278,7 @@ void Application::Exit() {
 void Application::ExitReceived() {
 
   QObject *obj = static_cast<QObject*>(sender());
-  disconnect(obj, 0, this, 0);
+  disconnect(obj, nullptr, this, nullptr);
 
   qLog(Debug) << obj << "successfully exited.";
 

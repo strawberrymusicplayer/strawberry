@@ -42,7 +42,7 @@ const char *Screensaver::kKdeService     = "org.kde.ScreenSaver";
 const char *Screensaver::kKdePath        = "/ScreenSaver/";
 const char *Screensaver::kKdeInterface   = "org.freedesktop.ScreenSaver";
 
-Screensaver *Screensaver::screensaver_ = 0;
+Screensaver *Screensaver::screensaver_ = nullptr;
 
 Screensaver *Screensaver::GetScreensaver() {
   if (!screensaver_) {

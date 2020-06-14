@@ -335,7 +335,7 @@ static void input_data_mixed_int16_max (const guint8 * _in, double * out, guint 
 static gboolean gst_fastspectrum_setup (GstAudioFilter * base, const GstAudioInfo * info) {
 
   GstFastSpectrum *spectrum = GST_FASTSPECTRUM (base);
-  GstFastSpectrumInputData input_data = NULL;
+  GstFastSpectrumInputData input_data = nullptr;
 
   g_mutex_lock (&spectrum->lock);
   switch (GST_AUDIO_INFO_FORMAT (info)) {

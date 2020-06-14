@@ -386,7 +386,7 @@ void BlockAnalyzer::drawBackground() {
 
   QPainter p(&background_);
 
-  if (p.paintEngine() == 0) return;
+  if (!p.paintEngine()) return;
 
   for (int x = 0; (uint)x < columns_; ++x)
     for (int y = 0; (uint)y < rows_; ++y)

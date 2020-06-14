@@ -88,8 +88,8 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent)
 
 void PlaylistTabBar::SetActions(QAction *new_playlist, QAction *load_playlist) {
 
-  menu_->insertAction(0, new_playlist);
-  menu_->insertAction(0, load_playlist);
+  menu_->insertAction(nullptr, new_playlist);
+  menu_->insertAction(nullptr, load_playlist);
 
   new_ = new_playlist;
 

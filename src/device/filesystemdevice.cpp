@@ -93,8 +93,8 @@ void FilesystemDevice::Close() {
 
   wait_for_exit_ << backend_ << watcher_;
 
-  disconnect(backend_, 0, watcher_, 0);
-  disconnect(watcher_, 0, backend_, 0);
+  disconnect(backend_, nullptr, watcher_, nullptr);
+  disconnect(watcher_, nullptr, backend_, nullptr);
 
   connect(backend_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
   connect(watcher_, SIGNAL(ExitFinished()), this, SLOT(ExitFinished()));
@@ -107,7 +107,7 @@ void FilesystemDevice::ExitFinished() {
 
   QObject *obj = static_cast<QObject*>(sender());
   if (!obj) return;
-  disconnect(obj, 0, this, 0);
+  disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) {

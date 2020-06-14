@@ -737,10 +737,10 @@ void TidalRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requ
 
   --songs_requests_active_;
   if (type_ == QueryType_SearchSongs && fetchalbums_) {
-    AlbumsReceived(reply, 0, limit_requested, offset_requested, (offset_requested == 0));
+    AlbumsReceived(reply, QString(), limit_requested, offset_requested, (offset_requested == 0));
   }
   else {
-    SongsReceived(reply, 0, 0, limit_requested, offset_requested, (offset_requested == 0));
+    SongsReceived(reply, QString(), QString(), limit_requested, offset_requested, (offset_requested == 0));
   }
 
 }

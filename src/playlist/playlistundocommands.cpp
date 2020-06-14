@@ -34,8 +34,7 @@
 
 namespace PlaylistUndoCommands {
 
-Base::Base(Playlist* playlist) : QUndoCommand(0), playlist_(playlist) {}
-
+Base::Base(Playlist* playlist) : QUndoCommand(nullptr), playlist_(playlist) {}
 
 InsertItems::InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue, bool enqueue_next)
   : Base(playlist),

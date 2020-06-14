@@ -40,8 +40,8 @@ OrganiseErrorDialog::OrganiseErrorDialog(QWidget *parent) : QDialog(parent), ui_
 
   ui_->setupUi(this);
 
-  const int icon_size = style()->pixelMetric(QStyle::PM_MessageBoxIconSize, 0, this);
-  QIcon icon = style()->standardIcon(QStyle::SP_MessageBoxCritical, 0, this);
+  const int icon_size = style()->pixelMetric(QStyle::PM_MessageBoxIconSize, nullptr, this);
+  QIcon icon = style()->standardIcon(QStyle::SP_MessageBoxCritical, nullptr, this);
 
   ui_->icon->setPixmap(icon.pixmap(icon_size));
 

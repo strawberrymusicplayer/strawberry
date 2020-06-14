@@ -68,7 +68,7 @@ class FancyTabBar: public QTabBar {
   QMap<int, QWidget*> spacers;
 
  public:
-  explicit FancyTabBar(QWidget* parent=0) : QTabBar(parent) {
+  explicit FancyTabBar(QWidget *parent = nullptr) : QTabBar(parent) {
     setMouseTracking(true);
   }
 

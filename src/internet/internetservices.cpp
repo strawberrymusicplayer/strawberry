@@ -54,7 +54,7 @@ void InternetServices::RemoveService(InternetService *service) {
 
   if (!services_.contains(service->source())) return;
   services_.remove(service->source());
-  disconnect(service, 0, this, 0);
+  disconnect(service, nullptr, this, nullptr);
 
   qLog(Debug) << "Removed internet service" << service->name();
 

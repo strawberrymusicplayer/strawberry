@@ -657,7 +657,7 @@ const char *EnumToString(const QMetaObject &meta, const char *name, int value) {
   if (index == -1) return "[UnknownEnum]";
   QMetaEnum metaenum = meta.enumerator(index);
   const char *result = metaenum.valueToKey(value);
-  if (result == 0) return "[UnknownEnumValue]";
+  if (!result) return "[UnknownEnumValue]";
   return result;
 
 }

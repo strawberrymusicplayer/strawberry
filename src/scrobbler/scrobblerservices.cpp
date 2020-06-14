@@ -57,7 +57,7 @@ void ScrobblerServices::RemoveService(ScrobblerService *service) {
   {
     QMutexLocker locker(&mutex_);
     scrobbler_services_.remove(service->name());
-    disconnect(service, 0, this, 0);
+    disconnect(service, nullptr, this, nullptr);
   }
 
   qLog(Debug) << "Unregistered scrobbler service" << service->name();

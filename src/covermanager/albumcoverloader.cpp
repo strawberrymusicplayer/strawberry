@@ -416,7 +416,7 @@ void AlbumCoverLoader::RemoteFetchFinished(QNetworkReply *reply, const QUrl &cov
   if (reply->error() == QNetworkReply::NoError) {
     // Try to load the image
     QImage image;
-    if (image.load(reply, 0)) {
+    if (image.load(reply, nullptr)) {
       QPair<QImage, QImage> images = ScaleAndPad(task.options, image);
       emit AlbumCoverLoaded(task.id, AlbumCoverLoaderResult(task.type, cover_url, image, images.first, images.second, task.art_updated));
       return;

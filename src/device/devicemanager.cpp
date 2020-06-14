@@ -206,7 +206,7 @@ void DeviceManager::CloseBackend() {
 void DeviceManager::BackendClosed() {
 
   QObject *obj = static_cast<QObject*>(sender());
-  disconnect(obj, 0, this, 0);
+  disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) emit ExitFinished();
@@ -218,7 +218,7 @@ void DeviceManager::ListerClosed() {
   DeviceLister *lister = static_cast<DeviceLister*>(sender());
   if (!lister) return;
 
-  disconnect(lister, 0, this, 0);
+  disconnect(lister, nullptr, this, nullptr);
   qLog(Debug) << lister << "successfully closed.";
   wait_for_exit_.removeAll(lister);
 
