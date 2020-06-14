@@ -34,8 +34,8 @@
 
 class QIODevice;
 
-#define QStringFromStdString(x) QString::fromUtf8(x.data(), x.size())
-#define DataCommaSizeFromQString(x) x.toUtf8().constData(), x.toUtf8().length()
+#define QStringFromStdString(x) QString::fromUtf8((x).data(), (x).size())
+#define DataCommaSizeFromQString(x) (x).toUtf8().constData(), (x).toUtf8().length()
 
 // Reads and writes uint32 length encoded protobufs to a socket.
 // This base QObject is separate from AbstractMessageHandler because moc can't handle templated classes.

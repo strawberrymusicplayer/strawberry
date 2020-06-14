@@ -1273,9 +1273,9 @@ bool Song::MergeFromSimpleMetaBundle(const Engine::SimpleMetaBundle &bundle) {
 
 void Song::BindToQuery(QSqlQuery *query) const {
 
-#define strval(x) (x.isNull() ? "" : x)
-#define intval(x) (x <= 0 ? -1 : x)
-#define notnullintval(x) (x == -1 ? QVariant() : x)
+#define strval(x) ((x).isNull() ? "" : (x))
+#define intval(x) ((x) <= 0 ? -1 : (x))
+#define notnullintval(x) ((x) == -1 ? QVariant() : (x))
 
   // Remember to bind these in the same order as kBindSpec
 

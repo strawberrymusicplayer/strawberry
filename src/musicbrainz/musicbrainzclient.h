@@ -58,8 +58,8 @@ class MusicBrainzClient : public QObject {
 
     bool operator<(const Result& other) const {
 #define cmp(field)                      \
-  if (field < other.field) return true; \
-  if (field > other.field) return false;
+  if ((field) < other.field) return true; \
+  if ((field) > other.field) return false;
 
       cmp(track_);
       cmp(year_);
