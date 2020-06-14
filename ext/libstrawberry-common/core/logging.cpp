@@ -97,8 +97,8 @@ class DebugBase : public QDebug {
 // Debug message will be stored in a buffer.
 class BufferedDebug : public DebugBase<BufferedDebug> {
  public:
-  BufferedDebug() : DebugBase() {}
-  BufferedDebug(QtMsgType) : DebugBase(), buf_(new QBuffer, later_deleter) {
+  BufferedDebug() {}
+  BufferedDebug(QtMsgType) : buf_(new QBuffer, later_deleter) {
     buf_->open(QIODevice::WriteOnly);
 
     // QDebug doesn't have a method to set a new io device, but swap() allows the devices to be swapped between two instances.
@@ -116,7 +116,7 @@ class BufferedDebug : public DebugBase<BufferedDebug> {
 // Debug message will be logged immediately.
 class LoggedDebug : public DebugBase<LoggedDebug> {
  public:
-  LoggedDebug() : DebugBase() {}
+  LoggedDebug() {}
   LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
 };
 

@@ -62,11 +62,11 @@ ByteVector RIFF::Info::StringHandler::render(const String &s) const {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::Info::Tag::Tag(const ByteVector &data) : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+RIFF::Info::Tag::Tag(const ByteVector &data) : d(new TagPrivate()) {
   parse(data);
 }
 
-RIFF::Info::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
+RIFF::Info::Tag::Tag() : d(new TagPrivate()) {}
 
 RIFF::Info::Tag::~Tag() {
   delete d;

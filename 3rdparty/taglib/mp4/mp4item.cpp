@@ -32,7 +32,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MP4::Item::ItemPrivate : public RefCounter {
  public:
-  ItemPrivate() : RefCounter(), valid(true), atomDataType(TypeUndefined) {}
+  ItemPrivate() : valid(true), atomDataType(TypeUndefined) {}
 
   bool valid;
   AtomDataType atomDataType;

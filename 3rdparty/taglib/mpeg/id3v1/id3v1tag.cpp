@@ -80,9 +80,9 @@ ByteVector ID3v1::StringHandler::render(const String &s) const {
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3v1::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
+ID3v1::Tag::Tag() : d(new TagPrivate()) {}
 
-ID3v1::Tag::Tag(File *file, long tagOffset) : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+ID3v1::Tag::Tag(File *file, long tagOffset) : d(new TagPrivate()) {
 
   d->file = file;
   d->tagOffset = tagOffset;

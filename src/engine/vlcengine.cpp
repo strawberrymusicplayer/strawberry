@@ -39,8 +39,7 @@
 #include "vlcscopedref.h"
 
 VLCEngine::VLCEngine(TaskManager *task_manager)
-  : EngineBase(),
-    instance_(nullptr),
+  : instance_(nullptr),
     player_(nullptr),
     state_(Engine::Empty) {
 

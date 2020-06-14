@@ -39,7 +39,7 @@ class DSDIFF::DIIN::Tag::TagPrivate {
   String artist;
 };
 
-DSDIFF::DIIN::Tag::Tag() : Strawberry_TagLib::TagLib::Tag() {
+DSDIFF::DIIN::Tag::Tag() {
   d = new TagPrivate;
 }
 

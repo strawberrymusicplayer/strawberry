@@ -274,7 +274,7 @@ File *createInternal(FileName fileName, bool readAudioProperties, AudioPropertie
 
 class FileRef::FileRefPrivate : public RefCounter {
  public:
-  FileRefPrivate() : RefCounter(), file(nullptr), stream(nullptr) {}
+  FileRefPrivate() : file(nullptr), stream(nullptr) {}
 
   ~FileRefPrivate() {
     delete file;

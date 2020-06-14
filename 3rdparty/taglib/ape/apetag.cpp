@@ -86,9 +86,9 @@ class APE::Tag::TagPrivate {
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
+APE::Tag::Tag() : d(new TagPrivate()) {}
 
-APE::Tag::Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation) : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+APE::Tag::Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation) : d(new TagPrivate()) {
 
   d->file = file;
   d->footerLocation = footerLocation;

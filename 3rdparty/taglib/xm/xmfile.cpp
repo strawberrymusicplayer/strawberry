@@ -82,8 +82,7 @@ class Reader {
 
 class SkipReader : public Reader {
  public:
-  explicit SkipReader(unsigned int size) : m_size(size) {
-  }
+  explicit SkipReader(unsigned int size) : m_size(size) {}
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
     unsigned int count = std::min(m_size, limit);
@@ -102,8 +101,7 @@ class SkipReader : public Reader {
 template<typename T>
 class ValueReader : public Reader {
  public:
-  explicit ValueReader(T &_value) : value(_value) {
-  }
+  explicit ValueReader(T &_value) : value(_value) {}
 
  protected:
   T &value;
@@ -306,9 +304,7 @@ class StructReader : public Reader {
 
 class XM::File::FilePrivate {
  public:
-  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle)
-      : tag(), properties(propertiesStyle) {
-  }
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
   XM::Properties properties;

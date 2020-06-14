@@ -363,7 +363,7 @@ QWidget *TextItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
   return new QLineEdit(parent);
 }
 
-TagCompletionModel::TagCompletionModel(CollectionBackend *backend, Playlist::Column column) : QStringListModel() {
+TagCompletionModel::TagCompletionModel(CollectionBackend *backend, Playlist::Column column) {
 
   QString col = database_column(column);
   if (!col.isEmpty()) {

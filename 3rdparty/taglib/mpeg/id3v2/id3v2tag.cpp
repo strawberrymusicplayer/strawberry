@@ -99,11 +99,11 @@ String Latin1StringHandler::parse(const ByteVector &data) const {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3v2::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+ID3v2::Tag::Tag() : d(new TagPrivate()) {
   d->factory = FrameFactory::instance();
 }
 
-ID3v2::Tag::Tag(File *file, long tagOffset, const FrameFactory *factory) : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+ID3v2::Tag::Tag(File *file, long tagOffset, const FrameFactory *factory) : d(new TagPrivate()) {
   d->factory = factory;
   d->file = file;
   d->tagOffset = tagOffset;

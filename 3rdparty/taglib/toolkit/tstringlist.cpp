@@ -54,13 +54,13 @@ StringList StringList::split(const String &s, const String &pattern) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-StringList::StringList() : List<String>(), d(nullptr) {}
+StringList::StringList() : d(nullptr) {}
 
-StringList::StringList(const String &s) : List<String>(), d(nullptr) {
+StringList::StringList(const String &s) : d(nullptr) {
   append(s);
 }
 
-StringList::StringList(const ByteVectorList &bl, String::Type t) : List<String>() {
+StringList::StringList(const ByteVectorList &bl, String::Type t) {
 
   ByteVectorList::ConstIterator i = bl.begin();
   for (; i != bl.end(); i++) {

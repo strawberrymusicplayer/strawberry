@@ -58,7 +58,7 @@ ByteVectorList ByteVectorList::split(const ByteVector &v, const ByteVector &patt
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ByteVectorList::ByteVectorList() : List<ByteVector>(), d(nullptr) {}
+ByteVectorList::ByteVectorList() : d(nullptr) {}
 
 ByteVectorList::~ByteVectorList() {}
 

@@ -32,7 +32,7 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MP4::CoverArt::CoverArtPrivate : public RefCounter {
  public:
-  CoverArtPrivate() : RefCounter(), format(MP4::CoverArt::JPEG) {}
+  CoverArtPrivate() : format(MP4::CoverArt::JPEG) {}
 
   Format format;
   ByteVector data;

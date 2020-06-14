@@ -38,7 +38,7 @@ class ASF::Tag::TagPrivate {
   AttributeListMap attributeListMap;
 };
 
-ASF::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {
+ASF::Tag::Tag() : d(new TagPrivate()) {
 }
 
 ASF::Tag::~Tag() {

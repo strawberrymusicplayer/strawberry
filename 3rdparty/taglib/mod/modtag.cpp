@@ -40,7 +40,7 @@ class Mod::Tag::TagPrivate {
   String trackerName;
 };
 
-Mod::Tag::Tag() : Strawberry_TagLib::TagLib::Tag(), d(new TagPrivate()) {}
+Mod::Tag::Tag() : d(new TagPrivate()) {}
 
 Mod::Tag::~Tag() {
   delete d;

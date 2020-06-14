@@ -72,8 +72,7 @@ const char *GstEngine::kDirectSoundSink = "directsoundsink";
 const char *GstEngine::kOSXAudioSink = "osxaudiosink";
 
 GstEngine::GstEngine(TaskManager *task_manager)
-    : Engine::Base(),
-      task_manager_(task_manager),
+    : task_manager_(task_manager),
       buffering_task_id_(-1),
       latest_buffer_(nullptr),
       stereo_balancer_enabled_(false),

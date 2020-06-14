@@ -28,7 +28,7 @@
 using namespace Strawberry_TagLib::TagLib;
 
 
-PropertyMap::PropertyMap() : SimplePropertyMap() {}
+PropertyMap::PropertyMap() {}
 
 PropertyMap::PropertyMap(const SimplePropertyMap &m) {
 

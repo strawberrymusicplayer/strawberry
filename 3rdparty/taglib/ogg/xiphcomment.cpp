@@ -57,9 +57,9 @@ class Ogg::XiphComment::XiphCommentPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::XiphComment::XiphComment() : Strawberry_TagLib::TagLib::Tag(), d(new XiphCommentPrivate()) {}
+Ogg::XiphComment::XiphComment() : d(new XiphCommentPrivate()) {}
 
-Ogg::XiphComment::XiphComment(const ByteVector &data) : Strawberry_TagLib::TagLib::Tag(), d(new XiphCommentPrivate()) {
+Ogg::XiphComment::XiphComment(const ByteVector &data) : d(new XiphCommentPrivate()) {
   parse(data);
 }
 

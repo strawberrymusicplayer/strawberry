@@ -35,7 +35,7 @@ using namespace IT;
 
 class IT::File::FilePrivate {
  public:
-  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : tag(), properties(propertiesStyle) {}
+  explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
   IT::Properties properties;
