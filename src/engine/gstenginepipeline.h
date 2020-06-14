@@ -65,7 +65,7 @@ class GstEnginePipeline : public QObject {
   int id() const { return id_; }
 
   // Call these setters before Init
-  void set_output_device(const QString &sink, const QVariant &device);
+  void set_output_device(const QString &output, const QVariant &device);
   void set_volume_enabled(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
@@ -147,8 +147,8 @@ class GstEnginePipeline : public QObject {
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
   static void TaskEnterCallback(GstTask*, GThread*, gpointer);
-  static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *err, gpointer instance);
-  static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer instance);
+  static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
+  static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
   void TagMessageReceived(GstMessage*);

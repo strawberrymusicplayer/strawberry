@@ -66,7 +66,7 @@ class TAGLIB_EXPORT StringList : public List<String> {
    * \note This should only be used with the 8-bit codecs Latin1 and UTF8,
    * when used with other codecs it will simply print a warning and exit.
    */
-  StringList(const ByteVectorList &vl, String::Type t = String::Latin1);
+  StringList(const ByteVectorList &bl, String::Type t = String::Latin1);
 
   /*!
    * Destroys this StringList instance.

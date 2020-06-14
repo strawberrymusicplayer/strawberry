@@ -32,7 +32,7 @@
 
 const int FavoriteWidget::kStarSize = 15;
 
-FavoriteWidget::FavoriteWidget(int tab_index, bool favorite, QWidget *parent)
+FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget *parent)
     : QWidget(parent),
       tab_index_(tab_index),
       favorite_(favorite),

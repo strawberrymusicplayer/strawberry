@@ -113,8 +113,8 @@ PropertyMap WavPack::File::properties() const {
   return d->tag.properties();
 }
 
-void WavPack::File::removeUnsupportedProperties(const StringList &unsupported) {
-  d->tag.removeUnsupportedProperties(unsupported);
+void WavPack::File::removeUnsupportedProperties(const StringList &properties) {
+  d->tag.removeUnsupportedProperties(properties);
 }
 
 PropertyMap WavPack::File::setProperties(const PropertyMap &properties) {

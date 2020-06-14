@@ -97,47 +97,47 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Sets the title to \a s.
    */
-  virtual void setTitle(const String &s);
+  virtual void setTitle(const String &value);
 
   /*!
    * Sets the artist to \a s.
    */
-  virtual void setArtist(const String &s);
+  virtual void setArtist(const String &value);
 
   /*!
    * Sets the album to \a s.  If \a s is String::null then this value will be cleared.
    */
-  virtual void setAlbum(const String &s);
+  virtual void setAlbum(const String &value);
 
   /*!
    * Sets the comment to \a s.
    */
-  virtual void setComment(const String &s);
+  virtual void setComment(const String &value);
 
   /*!
    * Sets the rating to \a s.
    */
-  virtual void setRating(const String &s);
+  virtual void setRating(const String &value);
 
   /*!
    * Sets the copyright to \a s.
    */
-  virtual void setCopyright(const String &s);
+  virtual void setCopyright(const String &value);
 
   /*!
    * Sets the genre to \a s.
    */
-  virtual void setGenre(const String &s);
+  virtual void setGenre(const String &value);
 
   /*!
    * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
    */
-  virtual void setYear(unsigned int i);
+  virtual void setYear(unsigned int value);
 
   /*!
    * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
    */
-  virtual void setTrack(unsigned int i);
+  virtual void setTrack(unsigned int value);
 
   /*!
    * Returns true if the tag does not contain any data.
@@ -153,12 +153,12 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * \return True if a value for \a attribute is currently set.
    */
-  bool contains(const String &name) const;
+  bool contains(const String &key) const;
 
   /*!
    * Removes the \a key attribute from the tag
    */
-  void removeItem(const String &name);
+  void removeItem(const String &key);
 
   /*!
    * \return The list of values for the key \a name, or an empty list if no values have been set.
@@ -182,8 +182,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void addAttribute(const String &name, const Attribute &attribute);
 
   PropertyMap properties() const;
-  void removeUnsupportedProperties(const StringList &properties);
-  PropertyMap setProperties(const PropertyMap &properties);
+  void removeUnsupportedProperties(const StringList &props);
+  PropertyMap setProperties(const PropertyMap &props);
 
  private:
   class TagPrivate;

@@ -35,7 +35,7 @@
 #include "collection/sqlrow.h"
 #include "playlist/playlistbackend.h"
 
-InternetPlaylistItem::InternetPlaylistItem(const Song::Source &source)
+InternetPlaylistItem::InternetPlaylistItem(const Song::Source source)
     : PlaylistItem(source) {}
 
 InternetPlaylistItem::InternetPlaylistItem(InternetService *service, const Song &metadata)

@@ -121,8 +121,8 @@ PropertyMap RIFF::WAV::File::properties() const {
   return d->tag.properties();
 }
 
-void RIFF::WAV::File::removeUnsupportedProperties(const StringList &unsupported) {
-  d->tag.removeUnsupportedProperties(unsupported);
+void RIFF::WAV::File::removeUnsupportedProperties(const StringList &properties) {
+  d->tag.removeUnsupportedProperties(properties);
 }
 
 PropertyMap RIFF::WAV::File::setProperties(const PropertyMap &properties) {

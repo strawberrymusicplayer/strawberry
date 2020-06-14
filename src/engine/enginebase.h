@@ -97,7 +97,7 @@ public:
 
   // Plays a media stream represented with the URL 'u' from the given 'beginning' to the given 'end' (usually from 0 to a song's length).
   // Both markers should be passed in nanoseconds. 'end' can be negative, indicating that the real length of 'u' stream is unknown.
-  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags c, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
+  bool Play(const QUrl &stream_url, const QUrl &original_url, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
   void SetVolume(const uint value);
   static uint MakeVolumeLogarithmic(const uint volume);
 

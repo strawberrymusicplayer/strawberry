@@ -1221,7 +1221,7 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info
 
 }
 
-void GstEnginePipeline::StreamDiscoveryFinished(GstDiscoverer *, gpointer) {}
+void GstEnginePipeline::StreamDiscoveryFinished(GstDiscoverer*, gpointer) {}
 
 QString GstEnginePipeline::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 

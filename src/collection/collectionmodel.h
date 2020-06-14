@@ -171,7 +171,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString SortText(QString text);
-  static QString SortTextForNumber(const int year);
+  static QString SortTextForNumber(const int number);
   static QString SortTextForArtist(QString artist);
   static QString SortTextForSong(const Song &song);
   static QString SortTextForYear(const int year);
@@ -200,7 +200,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
  protected:
   void LazyPopulate(CollectionItem *item) { LazyPopulate(item, true); }
-  void LazyPopulate(CollectionItem *item, const bool signal);
+  void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:
   // From CollectionBackend

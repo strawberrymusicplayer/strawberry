@@ -53,7 +53,7 @@ class MoodbarPipeline : public QObject {
  private:
   GstElement* CreateElement(const QString& factory_name);
 
-  void ReportError(GstMessage* message);
+  void ReportError(GstMessage *msg);
   void Stop(bool success);
   void Cleanup();
 

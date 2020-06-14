@@ -70,7 +70,7 @@ class OrganiseFormat {
   class Validator : public QValidator {
    public:
     explicit Validator(QObject *parent = nullptr);
-    QValidator::State validate(QString &format, int &pos) const;
+    QValidator::State validate(QString &input, int&) const;
   };
 
   class SyntaxHighlighter : public QSyntaxHighlighter {
@@ -85,7 +85,7 @@ class OrganiseFormat {
     explicit SyntaxHighlighter(QObject *parent = nullptr);
     explicit SyntaxHighlighter(QTextEdit *parent);
     explicit SyntaxHighlighter(QTextDocument *parent);
-    void highlightBlock(const QString &format);
+    void highlightBlock(const QString &text);
   };
 
  private:

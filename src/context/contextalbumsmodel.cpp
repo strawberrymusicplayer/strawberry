@@ -304,7 +304,7 @@ void ContextAlbumsModel::PostQuery(CollectionItem *parent, const ContextAlbumsMo
 
 }
 
-void ContextAlbumsModel::LazyPopulate(CollectionItem *parent, bool signal) {
+void ContextAlbumsModel::LazyPopulate(CollectionItem *parent, const bool signal) {
 
   if (parent->lazy_loaded) return;
   parent->lazy_loaded = true;

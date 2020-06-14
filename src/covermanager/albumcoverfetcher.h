@@ -104,7 +104,7 @@ class AlbumCoverFetcher : public QObject {
 
  private slots:
   void SingleSearchFinished(const quint64, const CoverSearchResults results);
-  void SingleCoverFetched(const quint64, const QUrl &cover_url, const QImage &cover);
+  void SingleCoverFetched(const quint64, const QUrl &cover_url, const QImage &image);
   void StartRequests();
 
  private:

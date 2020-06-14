@@ -68,7 +68,7 @@ class TidalService : public InternetService {
   void ReloadSettings();
 
   void Logout();
-  int Search(const QString &query, InternetSearchView::SearchType type);
+  int Search(const QString &text, InternetSearchView::SearchType type);
   void CancelSearch();
 
   int max_login_attempts() { return kLoginAttempts; }

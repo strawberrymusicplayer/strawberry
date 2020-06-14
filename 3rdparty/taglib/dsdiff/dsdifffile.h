@@ -141,7 +141,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * Implements the unified property interface -- import function.
    * This method forwards to ID3v2::Tag::setProperties().
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &properties);
 
   /*!
    * Returns the AIFF::Properties for this file.
@@ -214,8 +214,8 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   File &operator=(const File &);
 
   void removeRootChunk(const ByteVector &id);
-  void removeRootChunk(unsigned int chunk);
-  void removeChildChunk(unsigned int i, unsigned int chunk);
+  void removeRootChunk(unsigned int i);
+  void removeChildChunk(unsigned int i, unsigned int childChunkNum);
 
   /*!
    * Sets the data for the the specified chunk at root level to \a data.

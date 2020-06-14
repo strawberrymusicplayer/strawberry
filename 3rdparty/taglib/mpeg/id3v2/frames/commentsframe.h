@@ -98,7 +98,7 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
    *
    * \see language()
    */
-  void setLanguage(const ByteVector &languageCode);
+  void setLanguage(const ByteVector &languageEncoding);
 
   /*!
    * Sets the description of the comment to \a s.

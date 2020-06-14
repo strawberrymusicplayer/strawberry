@@ -91,8 +91,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   bool contains(const String &key) const;
 
   PropertyMap properties() const;
-  void removeUnsupportedProperties(const StringList &properties);
-  PropertyMap setProperties(const PropertyMap &properties);
+  void removeUnsupportedProperties(const StringList &props);
+  PropertyMap setProperties(const PropertyMap &props);
 
  private:
   AtomDataList parseData2(const Atom *atom, int expectedFlags = -1, bool freeForm = false);

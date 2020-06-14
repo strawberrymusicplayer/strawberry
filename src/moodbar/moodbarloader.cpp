@@ -160,7 +160,7 @@ void MoodbarLoader::MaybeTakeNextRequest() {
 
 }
 
-void MoodbarLoader::RequestFinished(MoodbarPipeline* request, const QUrl& url) {
+void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
 
   Q_ASSERT(QThread::currentThread() == qApp->thread());
 

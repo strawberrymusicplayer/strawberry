@@ -36,7 +36,7 @@ class ScrobblerSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit ScrobblerSettingsPage(SettingsDialog *dialog);
+  explicit ScrobblerSettingsPage(SettingsDialog *parent);
   ~ScrobblerSettingsPage();
 
   static const char *kSettingsGroup;

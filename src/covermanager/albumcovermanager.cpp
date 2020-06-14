@@ -892,7 +892,7 @@ void AlbumCoverManager::ExportCovers() {
 
 }
 
-void AlbumCoverManager::UpdateExportStatus(int exported, int skipped, int max) {
+void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped, const int max) {
 
   progress_bar_->setValue(exported);
 

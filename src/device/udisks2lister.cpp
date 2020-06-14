@@ -245,8 +245,8 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
   }
 }
 
-void Udisks2Lister::DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &ifaces) {
-  Q_UNUSED(ifaces);
+void Udisks2Lister::DBusInterfaceRemoved(const QDBusObjectPath &path, const QStringList &interfaces) {
+  Q_UNUSED(interfaces);
   if (!isPendingJob(path)) RemoveDevice(path);
 }
 

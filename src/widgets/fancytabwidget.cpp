@@ -361,7 +361,7 @@ void FancyTabWidget::setCurrentIndex(int idx) {
 
 }
 
-void FancyTabWidget::currentTabChanged(int idx) {
+void FancyTabWidget::currentTabChanged(const int idx) {
 
   QWidget *currentPage = currentWidget();
   QLayout *layout = currentPage->layout();
@@ -406,7 +406,7 @@ void FancyTabWidget::Load(const QString &kSettingsGroup) {
 
 }
 
-int FancyTabWidget::insertTab(int idx, QWidget *page, const QIcon &icon, const QString &label) {
+int FancyTabWidget::insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label) {
   return QTabWidget::insertTab(idx, page, icon, label);
 }
 

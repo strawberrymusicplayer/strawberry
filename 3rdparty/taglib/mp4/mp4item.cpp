@@ -93,9 +93,9 @@ MP4::Item::Item(long long value) : d(new ItemPrivate()) {
   d->m_longlong = value;
 }
 
-MP4::Item::Item(int value1, int value2) : d(new ItemPrivate()) {
-  d->m_intPair.first = value1;
-  d->m_intPair.second = value2;
+MP4::Item::Item(int first, int second) : d(new ItemPrivate()) {
+  d->m_intPair.first = first;
+  d->m_intPair.second = second;
 }
 
 MP4::Item::Item(const ByteVectorList &value) : d(new ItemPrivate()) {

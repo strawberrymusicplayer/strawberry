@@ -82,6 +82,6 @@ extern const char *kDefaultLogLevels;
 
 }  // namespace logging
 
-QDebug operator<<(QDebug debug, std::chrono::seconds secs);
+QDebug operator<<(QDebug dbg, std::chrono::seconds secs);
 
 #endif  // LOGGING_H

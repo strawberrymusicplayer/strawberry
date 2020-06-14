@@ -57,7 +57,7 @@ class UrlHandler : public QObject {
       Error,
     };
 
-    LoadResult(const QUrl &original_url = QUrl(), const Type type = NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType_Stream, const int samplerate = -1, const int bitdepth = -1, const qint64 length_nanosec_ = -1, const QString error = QString());
+    LoadResult(const QUrl &original_url = QUrl(), const Type type = NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType_Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString error = QString());
 
     // The url that the playlist item has in Url().
     // Might be something unplayable like lastfm://...

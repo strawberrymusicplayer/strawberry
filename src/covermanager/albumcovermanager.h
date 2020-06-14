@@ -156,7 +156,7 @@ class AlbumCoverManager : public QMainWindow {
   void LoadSelectedToPlaylist();
 
   void UpdateCoverInList(QListWidgetItem *item, const QUrl &cover);
-  void UpdateExportStatus(int exported, int bad, int count);
+  void UpdateExportStatus(const int exported, const int skipped, const int max);
 
  private:
   Ui_CoverManager *ui_;

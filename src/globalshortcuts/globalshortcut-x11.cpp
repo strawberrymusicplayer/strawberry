@@ -49,16 +49,16 @@ quint32 GlobalShortcut::nativeModifiers(Qt::KeyboardModifiers qt_mods) {
 
 }
 
-quint32 GlobalShortcut::nativeKeycode(Qt::Key key) {
+quint32 GlobalShortcut::nativeKeycode(Qt::Key qt_key) {
 
   if (!QX11Info::display()) return 0;
 
   quint32 keysym = 0;
-  if (KeyMapperX11::keymapper_x11_.contains(key)) {
-    keysym = KeyMapperX11::keymapper_x11_.value(key);
+  if (KeyMapperX11::keymapper_x11_.contains(qt_key)) {
+    keysym = KeyMapperX11::keymapper_x11_.value(qt_key);
   }
   else {
-    keysym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
+    keysym = XStringToKeysym(QKeySequence(qt_key).toString().toLatin1().data());
     if (keysym == NoSymbol) return 0;
   }
   return XKeysymToKeycode(QX11Info::display(), keysym);

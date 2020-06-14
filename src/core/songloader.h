@@ -116,7 +116,7 @@ class SongLoader : public QObject {
 
   // GStreamer callbacks
   static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
-  static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *buf, gpointer self);
+  static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *info, gpointer self);
   static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
   static gboolean BusCallback(GstBus*, GstMessage*, gpointer);
 

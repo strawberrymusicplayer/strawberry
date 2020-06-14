@@ -52,7 +52,7 @@ class FancyTabWidget : public QTabWidget {
     void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
     bool EnableTab(QWidget *widget_view);
     bool DisableTab(QWidget *widget_view);
-    int insertTab(int index, QWidget *page, const QIcon &icon, const QString &label);
+    int insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
     void addBottomWidget(QWidget* widget_view);
 
     void setBackgroundPixmap(const QPixmap& pixmap);
@@ -84,7 +84,7 @@ class FancyTabWidget : public QTabWidget {
     void CurrentChanged(int);
 
   public slots:
-    void setCurrentIndex(int index);
+    void setCurrentIndex(int idx);
     void SetMode(Mode mode);
     // Mapper mapped signal needs this convenience function 
     void SetMode(int mode) { SetMode(Mode(mode)); }

@@ -229,11 +229,11 @@ class Playlist : public QAbstractListModel {
   void UpdateScrobblePoint(const qint64 seek_point_nanosec = 0);
 
   // Changing the playlist
-  void InsertItems (const PlaylistItemList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
-  void InsertCollectionItems (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
-  void InsertSongs (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
-  void InsertSongsOrCollectionItems (const SongList &items, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
-  void InsertInternetItems(InternetService* service, const SongList& songs, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
+  void InsertItems(const PlaylistItemList &itemsIn, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertSongsOrCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertInternetItems(InternetService* service, const SongList& songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
 
   void ReshuffleIndices();
 
@@ -265,7 +265,7 @@ class Playlist : public QAbstractListModel {
   // QAbstractListModel
   int rowCount(const QModelIndex& = QModelIndex()) const { return items_.count(); }
   int columnCount(const QModelIndex& = QModelIndex()) const { return ColumnCount; }
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
   bool setData(const QModelIndex &index, const QVariant &value, int role);
   QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
   Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -301,7 +301,7 @@ class Playlist : public QAbstractListModel {
 
   void InsertUrls(const QList<QUrl> &urls, int pos = -1, bool play_now = false, bool enqueue = false, bool enqueue_next = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
-  void RemoveItemsWithoutUndo(const QList<int> &indices);
+  void RemoveItemsWithoutUndo(const QList<int> &indicesIn);
 
  signals:
   void RestoreFinished();
@@ -331,7 +331,7 @@ class Playlist : public QAbstractListModel {
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
-  PlaylistItemList RemoveItemsWithoutUndo(int pos, int count);
+  PlaylistItemList RemoveItemsWithoutUndo(const int row, const int count);
   void MoveItemsWithoutUndo(const QList<int> &source_rows, int pos);
   void MoveItemWithoutUndo(int source, int dest);
   void MoveItemsWithoutUndo(int start, const QList<int> &dest_rows);

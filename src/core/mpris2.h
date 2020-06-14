@@ -143,9 +143,9 @@ class Mpris2 : public QObject {
   QString LoopStatus() const;
   void SetLoopStatus(const QString &value);
   double Rate() const;
-  void SetRate(double value);
+  void SetRate(double rate);
   bool Shuffle() const;
-  void SetShuffle(bool value);
+  void SetShuffle(bool enable);
   QVariantMap Metadata() const;
   double Volume() const;
   void SetVolume(double value);

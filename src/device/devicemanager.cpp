@@ -920,7 +920,7 @@ void DeviceManager::DeviceSongCountUpdated(int count) {
 
 }
 
-void DeviceManager::LazyPopulate(DeviceInfo *parent, bool signal) {
+void DeviceManager::LazyPopulate(DeviceInfo *parent, const bool signal) {
 
   Q_UNUSED(signal);
   if (parent->lazy_loaded) return;

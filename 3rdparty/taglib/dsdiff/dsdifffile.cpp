@@ -196,13 +196,13 @@ PropertyMap DSDIFF::File::properties() const {
 
 }
 
-void DSDIFF::File::removeUnsupportedProperties(const StringList &unsupported) {
+void DSDIFF::File::removeUnsupportedProperties(const StringList &properties) {
 
   if (d->hasID3v2)
-    d->tag.access<ID3v2::Tag>(ID3v2Index, false)->removeUnsupportedProperties(unsupported);
+    d->tag.access<ID3v2::Tag>(ID3v2Index, false)->removeUnsupportedProperties(properties);
 
   if (d->hasDiin)
-    d->tag.access<DSDIFF::DIIN::Tag>(DIINIndex, false)->removeUnsupportedProperties(unsupported);
+    d->tag.access<DSDIFF::DIIN::Tag>(DIINIndex, false)->removeUnsupportedProperties(properties);
 
 }
 

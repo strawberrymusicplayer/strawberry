@@ -60,24 +60,24 @@ String PopularimeterFrame::email() const {
   return d->email;
 }
 
-void PopularimeterFrame::setEmail(const String &s) {
-  d->email = s;
+void PopularimeterFrame::setEmail(const String &email) {
+  d->email = email;
 }
 
 int PopularimeterFrame::rating() const {
   return d->rating;
 }
 
-void PopularimeterFrame::setRating(int s) {
-  d->rating = s;
+void PopularimeterFrame::setRating(int rating) {
+  d->rating = rating;
 }
 
 unsigned int PopularimeterFrame::counter() const {
   return d->counter;
 }
 
-void PopularimeterFrame::setCounter(unsigned int s) {
-  d->counter = s;
+void PopularimeterFrame::setCounter(unsigned int counter) {
+  d->counter = counter;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -172,7 +172,7 @@ class TAGLIB_EXPORT SynchronizedLyricsFrame : public Frame {
    *
    * \see language()
    */
-  void setLanguage(const ByteVector &languageCode);
+  void setLanguage(const ByteVector &languageEncoding);
 
   /*!
    * Set the timestamp format.

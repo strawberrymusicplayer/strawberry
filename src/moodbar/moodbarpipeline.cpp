@@ -132,7 +132,7 @@ void MoodbarPipeline::Start() {
 
 }
 
-void MoodbarPipeline::ReportError(GstMessage* msg) {
+void MoodbarPipeline::ReportError(GstMessage *msg) {
 
   GError* error;
   gchar* debugs;

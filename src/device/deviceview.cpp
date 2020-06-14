@@ -456,7 +456,7 @@ void DeviceView::DeleteFinished(const SongList &songs_with_errors) {
 
 }
 
-bool DeviceView::CanRecursivelyExpand(const QModelIndex &index) const {
+bool DeviceView::CanRecursivelyExpand(const QModelIndex &idx) const {
   // Never expand devices
-  return index.parent().isValid();
+  return idx.parent().isValid();
 }

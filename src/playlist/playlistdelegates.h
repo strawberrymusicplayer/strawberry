@@ -128,7 +128,7 @@ class FileTypeItemDelegate : public PlaylistDelegateBase {
 class TextItemDelegate : public PlaylistDelegateBase {
  public:
   explicit TextItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
-  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &idx) const;
 };
 
 class TagCompletionModel : public QStringListModel {
@@ -177,7 +177,7 @@ class SongSourceDelegate : public PlaylistDelegateBase {
   void paint(QPainter *paint, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
  private:
-  QPixmap LookupPixmap(const Song::Source &type, const QSize &size) const;
+  QPixmap LookupPixmap(const Song::Source &source, const QSize &size) const;
 
   mutable QPixmapCache cache_;
 };

@@ -113,7 +113,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void SetDeviceOptions(QModelIndex idx, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
 
   // QAbstractItemModel
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
 
  public slots:
   void Unmount(QModelIndex idx);
@@ -141,7 +141,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  protected:
   void LazyPopulate(DeviceInfo *item) { LazyPopulate(item, true); }
-  void LazyPopulate(DeviceInfo *item, bool signal);
+  void LazyPopulate(DeviceInfo *parent, const bool signal);
 
  private:
 

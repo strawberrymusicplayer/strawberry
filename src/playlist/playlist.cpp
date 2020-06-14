@@ -987,15 +987,15 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemList &items, int pos, bo
 
 }
 
-void Playlist::InsertCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+void Playlist::InsertCollectionItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
   InsertSongItems<CollectionPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongs(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+void Playlist::InsertSongs(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
   InsertSongItems<SongPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongsOrCollectionItems(const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList items;
   for (const Song &song : songs) {
@@ -1010,7 +1010,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, int pos, bool
 
 }
 
-void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, int pos, bool play_now, bool enqueue, bool enqueue_next) {
+void Playlist::InsertInternetItems(InternetService *service, const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
   PlaylistItemList playlist_items;
   for (const Song &song : songs) {
@@ -1433,7 +1433,7 @@ bool Playlist::removeRows(QList<int> &rows) {
 
 }
 
-PlaylistItemList Playlist::RemoveItemsWithoutUndo(int row, int count) {
+PlaylistItemList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
 
   if (row < 0 || row >= items_.size() || row + count > items_.size()) {
     return PlaylistItemList();

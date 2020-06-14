@@ -129,8 +129,8 @@ PropertyMap TrueAudio::File::properties() const {
   return d->tag.properties();
 }
 
-void TrueAudio::File::removeUnsupportedProperties(const StringList &unsupported) {
-  d->tag.removeUnsupportedProperties(unsupported);
+void TrueAudio::File::removeUnsupportedProperties(const StringList &properties) {
+  d->tag.removeUnsupportedProperties(properties);
 }
 
 PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties) {

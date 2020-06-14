@@ -461,7 +461,7 @@ void OpenInFileBrowser(const QList<QUrl> &urls) {
 
 }
 
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, HashFunction method) {
+QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunction method) {
 
   const int kBlockSize = 64;  // bytes
   Q_ASSERT(key.length() <= kBlockSize);

@@ -65,7 +65,7 @@ static void gst_fastspectrum_set_property (GObject * object, guint prop_id, cons
 static void gst_fastspectrum_get_property (GObject * object, guint prop_id, GValue * value, GParamSpec * pspec);
 static gboolean gst_fastspectrum_start (GstBaseTransform * trans);
 static gboolean gst_fastspectrum_stop (GstBaseTransform * trans);
-static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform * trans, GstBuffer * in);
+static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, GstBuffer *buffer);
 static gboolean gst_fastspectrum_setup (GstAudioFilter * base, const GstAudioInfo * info);
 
 static void gst_fastspectrum_class_init (GstFastSpectrumClass * klass) {
@@ -390,7 +390,7 @@ static void gst_fastspectrum_run_fft (GstFastSpectrum * spectrum, guint input_po
 
 }
 
-static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform * trans, GstBuffer * buffer) {
+static GstFlowReturn gst_fastspectrum_transform_ip (GstBaseTransform *trans, GstBuffer *buffer) {
 
   GstFastSpectrum *spectrum = GST_FASTSPECTRUM (trans);
   guint rate = GST_AUDIO_FILTER_RATE (spectrum);

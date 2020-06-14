@@ -100,8 +100,8 @@ bool APE::Item::isReadOnly() const {
   return d->readOnly;
 }
 
-void APE::Item::setType(APE::Item::ItemTypes val) {
-  d->type = val;
+void APE::Item::setType(APE::Item::ItemTypes type) {
+  d->type = type;
 }
 
 APE::Item::ItemTypes APE::Item::type() const {

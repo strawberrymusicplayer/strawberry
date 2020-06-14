@@ -90,8 +90,8 @@ PropertyMap RIFF::AIFF::File::properties() const {
   return d->tag->properties();
 }
 
-void RIFF::AIFF::File::removeUnsupportedProperties(const StringList &unsupported) {
-  d->tag->removeUnsupportedProperties(unsupported);
+void RIFF::AIFF::File::removeUnsupportedProperties(const StringList &properties) {
+  d->tag->removeUnsupportedProperties(properties);
 }
 
 PropertyMap RIFF::AIFF::File::setProperties(const PropertyMap &properties) {

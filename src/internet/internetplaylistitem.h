@@ -35,7 +35,7 @@ class InternetService;
 class InternetPlaylistItem : public PlaylistItem {
 
  public:
-  explicit InternetPlaylistItem(const Song::Source &type);
+  explicit InternetPlaylistItem(const Song::Source source);
   explicit InternetPlaylistItem(InternetService *service, const Song &metadata);
   bool InitFromQuery(const SqlRow &query);
   Song Metadata() const;

@@ -34,7 +34,7 @@ class FavoriteWidget : public QWidget {
   Q_OBJECT
 
  public:
-  explicit FavoriteWidget(int tab_id, bool favorite = false, QWidget *parent = nullptr);
+  explicit FavoriteWidget(const int tab_index, const bool favorite = false, QWidget *parent = nullptr);
 
   // Change the value if different from the current one and then update display and emit FavoriteStateChanged signal
   void SetFavorite(bool favorite);

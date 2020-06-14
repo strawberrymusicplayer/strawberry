@@ -29,9 +29,7 @@
 
 namespace _detail {
 
-ClosureBase::ClosureBase(ObjectHelper *helper)
-    : helper_(helper) {
-}
+ClosureBase::ClosureBase(ObjectHelper *helper) : helper_(helper) {}
 
 ClosureBase::~ClosureBase() {}
 

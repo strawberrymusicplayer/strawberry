@@ -349,8 +349,8 @@ ByteVector::~ByteVector() {
   delete d;
 }
 
-ByteVector &ByteVector::setData(const char *s, unsigned int length) {
-  ByteVector(s, length).swap(*this);
+ByteVector &ByteVector::setData(const char *data, unsigned int length) {
+  ByteVector(data, length).swap(*this);
   return *this;
 }
 

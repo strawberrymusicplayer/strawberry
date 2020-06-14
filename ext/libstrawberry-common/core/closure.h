@@ -64,7 +64,7 @@ class ClosureBase {
 class ObjectHelper : public QObject {
   Q_OBJECT
  public:
-  ObjectHelper(QObject *parent, const char *signal, ClosureBase *closure);
+  ObjectHelper(QObject *sender, const char *signal, ClosureBase *closure);
   ~ObjectHelper();
 
  private slots:

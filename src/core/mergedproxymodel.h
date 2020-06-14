@@ -60,9 +60,9 @@ class MergedProxyModel : public QAbstractProxyModel {
   QModelIndex parent(const QModelIndex &child) const;
   int rowCount(const QModelIndex &parent) const;
   int columnCount(const QModelIndex &parent) const;
-  QVariant data(const QModelIndex &proxyIndex, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex &proxy_index, int role = Qt::DisplayRole) const;
   bool hasChildren(const QModelIndex &parent) const;
-  QMap<int, QVariant> itemData(const QModelIndex &proxyIndex) const;
+  QMap<int, QVariant> itemData(const QModelIndex &proxy_index) const;
   Qt::ItemFlags flags(const QModelIndex &index) const;
   bool setData(const QModelIndex &index, const QVariant &value, int role);
   QStringList mimeTypes() const;
@@ -74,9 +74,9 @@ class MergedProxyModel : public QAbstractProxyModel {
   // QAbstractProxyModel
   // Note that these implementations of map{To,From}Source will not always give you an index in sourceModel(),
   // you might get an index in one of the child models instead.
-  QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
-  QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
-  void setSourceModel(QAbstractItemModel *sourceModel);
+  QModelIndex mapFromSource(const QModelIndex &source_index) const;
+  QModelIndex mapToSource(const QModelIndex &proxy_index) const;
+  void setSourceModel(QAbstractItemModel *source_model);
 
   // Convenience functions that call map{To,From}Source multiple times.
   QModelIndexList mapFromSource(const QModelIndexList &source_indexes) const;

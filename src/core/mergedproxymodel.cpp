@@ -370,9 +370,9 @@ bool MergedProxyModel::hasChildren(const QModelIndex &parent) const {
 
 }
 
-QVariant MergedProxyModel::data(const QModelIndex &proxyIndex, int role) const {
+QVariant MergedProxyModel::data(const QModelIndex &proxy_index, int role) const {
 
-  QModelIndex source_index = mapToSource(proxyIndex);
+  QModelIndex source_index = mapToSource(proxy_index);
   if (!IsKnownModel(source_index.model())) return QVariant();
 
   return source_index.model()->data(source_index, role);

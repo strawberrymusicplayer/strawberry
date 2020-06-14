@@ -64,16 +64,16 @@ String OwnershipFrame::pricePaid() const {
   return d->pricePaid;
 }
 
-void OwnershipFrame::setPricePaid(const String &s) {
-  d->pricePaid = s;
+void OwnershipFrame::setPricePaid(const String &pricePaid) {
+  d->pricePaid = pricePaid;
 }
 
 String OwnershipFrame::datePurchased() const {
   return d->datePurchased;
 }
 
-void OwnershipFrame::setDatePurchased(const String &s) {
-  d->datePurchased = s;
+void OwnershipFrame::setDatePurchased(const String &datePurchased) {
+  d->datePurchased = datePurchased;
 }
 
 String OwnershipFrame::seller() const {

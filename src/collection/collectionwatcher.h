@@ -150,7 +150,7 @@ class CollectionWatcher : public QObject {
 
  private slots:
   void Exit();
-  void DirectoryChanged(const QString &path);
+  void DirectoryChanged(const QString &subdir);
   void IncrementalScanNow();
   void FullScanNow();
   void RescanTracksNow();

@@ -68,14 +68,14 @@ bool RemoveRecursive(const QString &path);
 bool CopyRecursive(const QString &source, const QString &destination);
 bool Copy(QIODevice *source, QIODevice *destination);
 
-void OpenInFileBrowser(const QList<QUrl> &filenames);
+void OpenInFileBrowser(const QList<QUrl> &urls);
 
   enum HashFunction {
     Md5_Algo,
     Sha256_Algo,
     Sha1_Algo,
   };
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, HashFunction algo);
+QByteArray Hmac(const QByteArray &key, const QByteArray &data, const HashFunction method);
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);

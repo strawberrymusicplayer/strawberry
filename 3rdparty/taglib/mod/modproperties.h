@@ -50,7 +50,7 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
 
   void setChannels(int channels);
 
-  void setInstrumentCount(unsigned int sampleCount);
+  void setInstrumentCount(unsigned int instrumentCount);
   void setLengthInPatterns(unsigned char lengthInPatterns);
 
  private:

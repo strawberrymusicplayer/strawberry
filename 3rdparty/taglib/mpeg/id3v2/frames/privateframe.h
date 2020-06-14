@@ -84,7 +84,7 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
   /*!
    *
    */
-  void setData(const ByteVector &v);
+  void setData(const ByteVector &data);
 
  protected:
   // Reimplementations.

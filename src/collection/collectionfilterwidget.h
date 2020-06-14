@@ -80,7 +80,7 @@ class CollectionFilterWidget : public QWidget {
   QString group_by(const int number);
 
  public slots:
-  void SetQueryMode(QueryOptions::QueryMode view);
+  void SetQueryMode(QueryOptions::QueryMode query_mode);
   void FocusOnFilter(QKeyEvent *e);
 
 signals:

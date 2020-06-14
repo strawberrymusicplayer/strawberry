@@ -103,7 +103,7 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
   void SetEqualizerEnabled(const bool);
 
   // Set equalizer preamp and gains, range -100..100. Gains are 10 values.
-  void SetEqualizerParameters(const int preamp, const QList<int> &bandGains);
+  void SetEqualizerParameters(const int preamp, const QList<int> &band_gains);
 
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);

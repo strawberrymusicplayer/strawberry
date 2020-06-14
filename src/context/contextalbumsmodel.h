@@ -97,7 +97,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
 
  protected:
   void LazyPopulate(CollectionItem *item) { LazyPopulate(item, true); }
-  void LazyPopulate(CollectionItem *item, bool signal);
+  void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
