@@ -44,23 +44,23 @@ class NetworkAccessManager : public QNetworkAccessManager {
   explicit NetworkAccessManager(QObject *parent = nullptr);
 
  protected:
-  QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData);
+  QNetworkReply *createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) override;
 };
 
 class ThreadSafeNetworkDiskCache : public QAbstractNetworkCache {
  public:
   explicit ThreadSafeNetworkDiskCache(QObject *parent);
-  ~ThreadSafeNetworkDiskCache();
+  ~ThreadSafeNetworkDiskCache() override;
 
-  qint64 cacheSize() const;
-  QIODevice *data(const QUrl &url);
-  void insert(QIODevice *device);
-  QNetworkCacheMetaData metaData(const QUrl &url);
-  QIODevice *prepare(const QNetworkCacheMetaData &metaData);
-  bool remove(const QUrl &url);
-  void updateMetaData(const QNetworkCacheMetaData &metaData);
+  qint64 cacheSize() const override;
+  QIODevice *data(const QUrl &url) override;
+  void insert(QIODevice *device) override;
+  QNetworkCacheMetaData metaData(const QUrl &url) override;
+  QIODevice *prepare(const QNetworkCacheMetaData &metaData) override;
+  bool remove(const QUrl &url) override;
+  void updateMetaData(const QNetworkCacheMetaData &metaData) override;
 
-  void clear();
+  void clear() override;
 
  private:
   static QMutex sMutex;

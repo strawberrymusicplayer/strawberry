@@ -39,7 +39,7 @@ class CollectionSettingsPage : public SettingsPage {
 
  public:
   explicit CollectionSettingsPage(SettingsDialog *dialog);
-  ~CollectionSettingsPage();
+  ~CollectionSettingsPage() override;
 
   static const char *kSettingsGroup;
   static const char *kSettingsCacheSize;
@@ -62,8 +62,8 @@ class CollectionSettingsPage : public SettingsPage {
     SaveCover_Pattern = 2
   };
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private slots:
   void Add();

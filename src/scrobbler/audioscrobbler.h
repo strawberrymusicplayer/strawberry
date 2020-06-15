@@ -36,7 +36,6 @@ class AudioScrobbler : public QObject {
 
  public:
   explicit AudioScrobbler(Application *app, QObject *parent = nullptr);
-  ~AudioScrobbler();
 
   void ReloadSettings();
 

@@ -48,14 +48,14 @@ class GlobalShortcutGrabber : public QDialog {
 
  public:
   explicit GlobalShortcutGrabber(QWidget *parent = nullptr);
-  ~GlobalShortcutGrabber();
+  ~GlobalShortcutGrabber() override;
 
   QKeySequence GetKey(const QString &name);
 
  protected:
-  bool event(QEvent *);
-  void showEvent(QShowEvent *);
-  void hideEvent(QHideEvent *);
+  bool event(QEvent *e) override;
+  void showEvent(QShowEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
   void grabKeyboard();
   void releaseKeyboard();
 

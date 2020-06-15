@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QPair>
 #include <QList>
+#include <QVariant>
 #include <QString>
 
 #include "lyricsfetcher.h"
@@ -48,10 +49,12 @@ class LyricsProvider : public QObject {
 
   virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) = 0;
   virtual void CancelSearch(const quint64 id) { Q_UNUSED(id); }
-  virtual bool AuthenticationRequired() { return authentication_required_; }
+  virtual bool AuthenticationRequired() const { return authentication_required_; }
   virtual void Authenticate() {}
-  virtual bool IsAuthenticated() { return !authentication_required_; }
+  virtual bool IsAuthenticated() const { return !authentication_required_; }
   virtual void Deauthenticate() {}
+
+  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
  signals:
   void AuthenticationComplete(bool, QStringList = QStringList());

@@ -41,7 +41,7 @@ class TrackSliderSlider : public QSlider {
   Q_OBJECT
 
  public:
-  explicit TrackSliderSlider(QWidget* parent = nullptr);
+  explicit TrackSliderSlider(QWidget *parent = nullptr);
 
  signals:
   void SeekForward();
@@ -50,13 +50,13 @@ class TrackSliderSlider : public QSlider {
   void Next();
 
  protected:
-  void mousePressEvent(QMouseEvent* e);
-  void mouseReleaseEvent(QMouseEvent* e);
-  void mouseMoveEvent(QMouseEvent* e);
-  void wheelEvent(QWheelEvent *e);
-  void enterEvent(QEvent*);
-  void leaveEvent(QEvent*);
-  void keyPressEvent(QKeyEvent* event);
+  void mousePressEvent(QMouseEvent* e) override;
+  void mouseReleaseEvent(QMouseEvent* e) override;
+  void mouseMoveEvent(QMouseEvent* e) override;
+  void wheelEvent(QWheelEvent *e) override;
+  void enterEvent(QEvent*) override;
+  void leaveEvent(QEvent*) override;
+  void keyPressEvent(QKeyEvent* event) override;
 
  private slots:
   void UpdateDeltaTime();

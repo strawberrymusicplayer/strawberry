@@ -42,22 +42,21 @@ class TrackSlider : public QWidget {
 
  public:
   explicit TrackSlider(QWidget* parent = nullptr);
-  ~TrackSlider();
+  ~TrackSlider() override;
 
   void SetApplication(Application* app);
 
   // QWidget
-  QSize sizeHint() const;
+  QSize sizeHint() const override;
 
   // QObject
-  bool event(QEvent *);
+  bool event(QEvent*) override;
 
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_style() const { return moodbar_style_; }
 #endif
 
-
-  static const char* kSettingsGroup;
+  static const char *kSettingsGroup;
 
  public slots:
   void SetValue(int elapsed, int total);

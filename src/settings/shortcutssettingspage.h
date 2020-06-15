@@ -45,13 +45,14 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
  public:
   explicit GlobalShortcutsSettingsPage(SettingsDialog *dialog);
-  ~GlobalShortcutsSettingsPage();
+  ~GlobalShortcutsSettingsPage() override;
+
   static const char *kSettingsGroup;
 
-  bool IsEnabled() const;
+  bool IsEnabled() const override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private slots:
 

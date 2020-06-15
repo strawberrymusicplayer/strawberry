@@ -62,13 +62,13 @@ class LineEditInterface {
 class ExtendedEditor : public LineEditInterface {
  public:
   explicit ExtendedEditor(QWidget *widget, int extra_right_padding = 0, bool draw_hint = true);
-  virtual ~ExtendedEditor() {}
+  ~ExtendedEditor() override {}
 
   virtual bool is_empty() const { return text().isEmpty(); }
 
-  QString hint() const { return hint_; }
-  void set_hint(const QString& hint);
-  void clear_hint() { set_hint(QString()); }
+  QString hint() const override { return hint_; }
+  void set_hint(const QString& hint) override;
+  void clear_hint() override { set_hint(QString()); }
 
   bool has_clear_button() const { return has_clear_button_; }
   void set_clear_button(bool visible);
@@ -111,14 +111,14 @@ class LineEdit : public QLineEdit, public ExtendedEditor {
   explicit LineEdit(QWidget *parent = nullptr);
 
   // ExtendedEditor
-  void set_focus() { QLineEdit::setFocus(); }
-  QString text() const { return QLineEdit::text(); }
-  void set_text(const QString& text) { QLineEdit::setText(text); }
-  void set_enabled(bool enabled) { QLineEdit::setEnabled(enabled); }
+  void set_focus() override { QLineEdit::setFocus(); }
+  QString text() const override { return QLineEdit::text(); }
+  void set_text(const QString& text) override { QLineEdit::setText(text); }
+  void set_enabled(bool enabled) override { QLineEdit::setEnabled(enabled); }
 
  protected:
-  void paintEvent(QPaintEvent*);
-  void resizeEvent(QResizeEvent*);
+  void paintEvent(QPaintEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
 
  private:
   bool is_rtl() const { return is_rtl_; }
@@ -141,14 +141,14 @@ class TextEdit : public QPlainTextEdit, public ExtendedEditor {
   explicit TextEdit(QWidget *parent = nullptr);
 
   // ExtendedEditor
-  void set_focus() { QPlainTextEdit::setFocus(); }
-  QString text() const { return QPlainTextEdit::toPlainText(); }
-  void set_text(const QString& text) { QPlainTextEdit::setPlainText(text); }
-  void set_enabled(bool enabled) { QPlainTextEdit::setEnabled(enabled); }
+  void set_focus() override { QPlainTextEdit::setFocus(); }
+  QString text() const override { return QPlainTextEdit::toPlainText(); }
+  void set_text(const QString& text) override { QPlainTextEdit::setPlainText(text); }
+  void set_enabled(bool enabled) override { QPlainTextEdit::setEnabled(enabled); }
 
  protected:
-  void paintEvent(QPaintEvent*);
-  void resizeEvent(QResizeEvent*);
+  void paintEvent(QPaintEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
 
  signals:
   void Reset();
@@ -164,18 +164,18 @@ class SpinBox : public QSpinBox, public ExtendedEditor {
   explicit SpinBox(QWidget *parent = nullptr);
 
   // QSpinBox
-  QString textFromValue(int val) const;
+  QString textFromValue(int val) const override;
 
   // ExtendedEditor
-  bool is_empty() const { return text().isEmpty() || text() == "0"; }
-  void set_focus() { QSpinBox::setFocus(); }
-  QString text() const { return QSpinBox::text(); }
-  void set_text(const QString& text) { QSpinBox::setValue(text.toInt()); }
-  void set_enabled(bool enabled) { QSpinBox::setEnabled(enabled); }
+  bool is_empty() const override { return text().isEmpty() || text() == "0"; }
+  void set_focus() override { QSpinBox::setFocus(); }
+  QString text() const override { return QSpinBox::text(); }
+  void set_text(const QString& text) override { QSpinBox::setValue(text.toInt()); }
+  void set_enabled(bool enabled) override { QSpinBox::setEnabled(enabled); }
 
  protected:
-  void paintEvent(QPaintEvent*);
-  void resizeEvent(QResizeEvent*);
+  void paintEvent(QPaintEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
 
  signals:
   void Reset();

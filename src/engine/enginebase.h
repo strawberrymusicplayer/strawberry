@@ -57,7 +57,7 @@ protected:
 
 public:
 
-  virtual ~Base();
+  ~Base() override;
 
   struct OutputDetails {
     QString name;

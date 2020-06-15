@@ -41,7 +41,7 @@ class CoverProviders : public QObject {
 
  public:
   explicit CoverProviders(QObject *parent = nullptr);
-  ~CoverProviders();
+  ~CoverProviders() override;
 
   void ReloadSettings();
 

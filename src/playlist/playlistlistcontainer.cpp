@@ -64,7 +64,7 @@ public:
     : QSortFilterProxyModel(parent) {
   }
 
-  bool lessThan(const QModelIndex &left, const QModelIndex &right) const {
+  bool lessThan(const QModelIndex &left, const QModelIndex &right) const override {
     // Compare the display text first.
     const int ret = left.data().toString().localeAwareCompare(right.data().toString());
     if (ret < 0) return true;

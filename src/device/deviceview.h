@@ -57,7 +57,7 @@ class DeviceItemDelegate : public CollectionItemDelegate {
 
   static const int kIconPadding;
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 };
 
@@ -66,13 +66,13 @@ class DeviceView : public AutoExpandingTreeView {
 
  public:
   explicit DeviceView(QWidget *parent = nullptr);
-  ~DeviceView();
+  ~DeviceView() override;
 
   void SetApplication(Application *app);
 
  protected:
-  void contextMenuEvent(QContextMenuEvent*);
-  void mouseDoubleClickEvent(QMouseEvent *event);
+  void contextMenuEvent(QContextMenuEvent*) override;
+  void mouseDoubleClickEvent(QMouseEvent *event) override;
 
  private slots:
   // Device menu actions
@@ -94,7 +94,7 @@ class DeviceView : public AutoExpandingTreeView {
   void DeleteFinished(const SongList &songs_with_errors);
 
   // AutoExpandingTreeView
-  bool CanRecursivelyExpand(const QModelIndex &idx) const;
+  bool CanRecursivelyExpand(const QModelIndex &idx) const override;
 
  private:
   QModelIndex MapToDevice(const QModelIndex &merged_model_index) const;

@@ -58,7 +58,7 @@ class SongLoader : public QObject {
   Q_OBJECT
  public:
   explicit SongLoader(CollectionBackendInterface *collection, const Player *player, QObject *parent = nullptr);
-  ~SongLoader();
+  ~SongLoader() override;
 
   enum Result {
     Success,

@@ -36,11 +36,10 @@ class PlaylistListView : public AutoExpandingTreeView {
 
  public:
   explicit PlaylistListView(QWidget *parent = nullptr);
-  ~PlaylistListView() {}
 
  protected:
   // QWidget
-  void paintEvent(QPaintEvent *event);
+  void paintEvent(QPaintEvent *event) override;
 };
 
 #endif  // PLAYLISTVIEW_H

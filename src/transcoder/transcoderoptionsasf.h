@@ -32,10 +32,10 @@ class Ui_TranscoderOptionsASF;
 class TranscoderOptionsASF : public TranscoderOptionsInterface {
  public:
   explicit TranscoderOptionsASF(QWidget *parent = nullptr);
-  ~TranscoderOptionsASF();
+  ~TranscoderOptionsASF() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
 private:
   static const char *kSettingsGroup;

@@ -37,7 +37,7 @@
 class MtpConnection : public QObject, public std::enable_shared_from_this<MtpConnection> {
  public:
   explicit MtpConnection(const QUrl &url);
-  ~MtpConnection();
+  ~MtpConnection() override;
 
   bool is_valid() const { return device_; }
   LIBMTP_mtpdevice_t *device() const { return device_; }

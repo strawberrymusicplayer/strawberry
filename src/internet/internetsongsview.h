@@ -41,7 +41,7 @@ class InternetSongsView : public QWidget {
 
  public:
   explicit InternetSongsView(Application *app, InternetService *service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
-  ~InternetSongsView();
+  ~InternetSongsView() override;
 
   void ReloadSettings();
 

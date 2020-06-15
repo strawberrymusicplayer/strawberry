@@ -28,8 +28,10 @@
 
 class FileSystemWatcherInterface : public QObject {
   Q_OBJECT
+
  public:
   explicit FileSystemWatcherInterface(QObject *parent = nullptr);
+
   virtual void Init() {}
   virtual void AddPath(const QString &path) = 0;
   virtual void RemovePath(const QString &path) = 0;
@@ -37,7 +39,7 @@ class FileSystemWatcherInterface : public QObject {
 
   static FileSystemWatcherInterface *Create(QObject *parent = nullptr);
 
-signals:
+ signals:
   void PathChanged(const QString &path);
 };
 

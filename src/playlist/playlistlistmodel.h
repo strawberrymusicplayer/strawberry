@@ -49,7 +49,7 @@ class PlaylistListModel : public QStandardItemModel {
     Role_PlaylistId
   };
 
-  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
   // These icons will be used for newly created playlists and folders.
   // The caller will need to set these icons on existing items if there are any.
@@ -77,7 +77,7 @@ class PlaylistListModel : public QStandardItemModel {
   QStandardItem *NewPlaylist(const QString &name, int id) const;
 
   // QStandardItemModel
-  bool setData(const QModelIndex &index, const QVariant &value, int role);
+  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
 signals:
   void PlaylistPathChanged(int id, const QString &new_path);

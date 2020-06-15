@@ -46,14 +46,14 @@ class SpotifyCoverProvider : public JsonCoverProvider {
 
  public:
   explicit SpotifyCoverProvider(Application *app, QObject *parent = nullptr);
-  ~SpotifyCoverProvider();
+  ~SpotifyCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
-  void CancelSearch(const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
-  void Authenticate();
-  void Deauthenticate();
-  bool IsAuthenticated() const { return !access_token_.isEmpty(); }
+  void Authenticate() override;
+  void Deauthenticate() override;
+  bool IsAuthenticated() const override { return !access_token_.isEmpty(); }
 
  private slots:
   void HandleLoginSSLErrors(QList<QSslError> ssl_errors);
@@ -65,7 +65,7 @@ class SpotifyCoverProvider : public JsonCoverProvider {
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   typedef QPair<QString, QString> Param;

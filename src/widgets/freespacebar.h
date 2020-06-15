@@ -64,10 +64,10 @@ class FreeSpaceBar : public QWidget {
   void set_additional_text(const QString& text) { additional_text_ = text; update(); }
   void set_used_text(const QString& text) { used_text_ = text; update(); }
 
-  QSize sizeHint() const;
+  QSize sizeHint() const override;
 
  protected:
-  void paintEvent(QPaintEvent*);
+  void paintEvent(QPaintEvent*) override;
 
  private:
   struct Label {

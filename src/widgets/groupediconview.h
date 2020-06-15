@@ -78,8 +78,8 @@ class GroupedIconView : public QListView {
   void set_header_text(const QString &value) { header_text_ = value; }
 
   // QAbstractItemView
-  QModelIndex moveCursor(CursorAction action, Qt::KeyboardModifiers modifiers);
-  void setModel(QAbstractItemModel *model);
+  QModelIndex moveCursor(CursorAction action, Qt::KeyboardModifiers modifiers) override;
+  void setModel(QAbstractItemModel *model) override;
 
   static void DrawHeader(QPainter *painter, const QRect &rect, const QFont &font, const QPalette &palette, const QString &text);
 
@@ -87,16 +87,16 @@ class GroupedIconView : public QListView {
   virtual int header_height() const;
 
   // QWidget
-  void paintEvent(QPaintEvent *e);
-  void resizeEvent(QResizeEvent *e);
+  void paintEvent(QPaintEvent *e) override;
+  void resizeEvent(QResizeEvent *e) override;
 
   // QAbstractItemView
-  void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& = QVector<int>());
-  QModelIndex indexAt(const QPoint &p) const;
-  void rowsInserted(const QModelIndex &parent, int start, int end);
-  void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
-  QRect visualRect(const QModelIndex &index) const;
-  QRegion visualRegionForSelection(const QItemSelection &selection) const;
+  void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& = QVector<int>()) override;
+  QModelIndex indexAt(const QPoint &p) const override;
+  void rowsInserted(const QModelIndex &parent, int start, int end) override;
+  void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) override;
+  QRect visualRect(const QModelIndex &index) const override;
+  QRegion visualRegionForSelection(const QItemSelection &selection) const override;
 
  private slots:
   void LayoutItems();

@@ -32,7 +32,7 @@ class GstStartup : public QObject {
 
  public:
   explicit GstStartup(QObject *parent = nullptr);
-  ~GstStartup();
+  ~GstStartup() override;
 
   void EnsureInitialised() { initialising_.waitForFinished(); }
 

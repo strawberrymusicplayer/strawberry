@@ -43,8 +43,8 @@ class PlaylistHeader : public StretchHeaderView {
   explicit PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent = nullptr);
 
   // QWidget
-  void contextMenuEvent(QContextMenuEvent *e);
-  void enterEvent(QEvent *);
+  void contextMenuEvent(QContextMenuEvent *e) override;
+  void enterEvent(QEvent *) override;
 
  signals:
   void SectionVisibilityChanged(int logical, bool visible);

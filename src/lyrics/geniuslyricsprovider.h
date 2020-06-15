@@ -48,14 +48,14 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit GeniusLyricsProvider(QObject *parent = nullptr);
-  ~GeniusLyricsProvider();
+  ~GeniusLyricsProvider() override;
 
-  bool IsAuthenticated() { return !access_token_.isEmpty(); }
-  void Authenticate();
-  void Deauthenticate() { access_token_.clear(); }
+  bool IsAuthenticated() const override { return !access_token_.isEmpty(); }
+  void Authenticate() override;
+  void Deauthenticate() override { access_token_.clear(); }
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
-  void CancelSearch(const quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) override;
+  void CancelSearch(const quint64 id) override;
 
  public:
   struct GeniusLyricsLyricContext {
@@ -76,7 +76,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
  private:
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   void EndSearch(std::shared_ptr<GeniusLyricsSearchContext> search, const GeniusLyricsLyricContext lyric = GeniusLyricsLyricContext());
 
  private slots:

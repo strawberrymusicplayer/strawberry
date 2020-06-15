@@ -38,9 +38,9 @@ class Ui_AppearanceSettingsPage;
 class AppearanceSettingsPage : public SettingsPage {
   Q_OBJECT
 
-public:
+ public:
   explicit AppearanceSettingsPage(SettingsDialog *dialog);
-  ~AppearanceSettingsPage();
+  ~AppearanceSettingsPage() override;
 
   static const char *kSettingsGroup;
 
@@ -83,9 +83,9 @@ public:
     BackgroundImagePosition_BottomRight = 5
   };
 
-  void Load();
-  void Save();
-  void Cancel();
+  void Load() override;
+  void Save() override;
+  void Cancel() override;
 
  private slots:
   void SelectForegroundColor();

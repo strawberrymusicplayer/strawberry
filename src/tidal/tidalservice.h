@@ -60,22 +60,22 @@ class TidalService : public InternetService {
 
  public:
   TidalService(Application *app, QObject *parent);
-  ~TidalService();
+  ~TidalService() override;
 
   static const Song::Source kSource;
 
-  void Exit();
-  void ReloadSettings();
+  void Exit() override;
+  void ReloadSettings() override;
 
   void Logout();
-  int Search(const QString &text, InternetSearchView::SearchType type);
-  void CancelSearch();
+  int Search(const QString &text, InternetSearchView::SearchType type) override;
+  void CancelSearch() override;
 
   int max_login_attempts() { return kLoginAttempts; }
 
   Application *app() { return app_; }
 
-  bool oauth() { return oauth_; }
+  bool oauth() override { return oauth_; }
   QString client_id() { return client_id_; }
   QString api_token() { return api_token_; }
   quint64 user_id() { return user_id_; }
@@ -94,23 +94,23 @@ class TidalService : public InternetService {
   QString access_token() { return access_token_; }
   QString session_id() { return session_id_; }
 
-  bool authenticated() { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
+  bool authenticated() override { return (!access_token_.isEmpty() || !session_id_.isEmpty()); }
   bool login_sent() { return login_sent_; }
   bool login_attempts() { return login_attempts_; }
 
   void GetStreamURL(const QUrl &url);
 
-  CollectionBackend *artists_collection_backend() { return artists_collection_backend_; }
-  CollectionBackend *albums_collection_backend() { return albums_collection_backend_; }
-  CollectionBackend *songs_collection_backend() { return songs_collection_backend_; }
+  CollectionBackend *artists_collection_backend() override { return artists_collection_backend_; }
+  CollectionBackend *albums_collection_backend() override { return albums_collection_backend_; }
+  CollectionBackend *songs_collection_backend() override { return songs_collection_backend_; }
 
-  CollectionModel *artists_collection_model() { return artists_collection_model_; }
-  CollectionModel *albums_collection_model() { return albums_collection_model_; }
-  CollectionModel *songs_collection_model() { return songs_collection_model_; }
+  CollectionModel *artists_collection_model() override { return artists_collection_model_; }
+  CollectionModel *albums_collection_model() override { return albums_collection_model_; }
+  CollectionModel *songs_collection_model() override { return songs_collection_model_; }
 
-  QSortFilterProxyModel *artists_collection_sort_model() { return artists_collection_sort_model_; }
-  QSortFilterProxyModel *albums_collection_sort_model() { return albums_collection_sort_model_; }
-  QSortFilterProxyModel *songs_collection_sort_model() { return songs_collection_sort_model_; }
+  QSortFilterProxyModel *artists_collection_sort_model() override { return artists_collection_sort_model_; }
+  QSortFilterProxyModel *albums_collection_sort_model() override { return albums_collection_sort_model_; }
+  QSortFilterProxyModel *songs_collection_sort_model() override { return songs_collection_sort_model_; }
 
   enum QueryType {
     QueryType_Artists,
@@ -124,15 +124,15 @@ class TidalService : public InternetService {
  signals:
 
  public slots:
-  void ShowConfig();
+  void ShowConfig() override;
   void TryLogin();
   void SendLogin(const QString &api_token, const QString &username, const QString &password);
-  void GetArtists();
-  void GetAlbums();
-  void GetSongs();
-  void ResetArtistsRequest();
-  void ResetAlbumsRequest();
-  void ResetSongsRequest();
+  void GetArtists() override;
+  void GetAlbums() override;
+  void GetSongs() override;
+  void ResetArtistsRequest() override;
+  void ResetAlbumsRequest() override;
+  void ResetSongsRequest() override;
 
  private slots:
   void ExitReceived();

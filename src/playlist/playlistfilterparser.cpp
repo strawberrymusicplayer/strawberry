@@ -43,7 +43,7 @@ class SearchTermComparator {
 class DefaultComparator : public SearchTermComparator {
  public:
   explicit DefaultComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element.contains(search_term_);
   }
  private:
@@ -53,7 +53,7 @@ class DefaultComparator : public SearchTermComparator {
 class EqComparator : public SearchTermComparator {
  public:
   explicit EqComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return search_term_ == element;
   }
  private:
@@ -63,7 +63,7 @@ class EqComparator : public SearchTermComparator {
 class NeComparator : public SearchTermComparator {
  public:
   explicit NeComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return search_term_ != element;
   }
  private:
@@ -73,7 +73,7 @@ class NeComparator : public SearchTermComparator {
 class LexicalGtComparator : public SearchTermComparator {
  public:
   explicit LexicalGtComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element > search_term_;
   }
  private:
@@ -83,7 +83,7 @@ class LexicalGtComparator : public SearchTermComparator {
 class LexicalGeComparator : public SearchTermComparator {
  public:
   explicit LexicalGeComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element >= search_term_;
   }
  private:
@@ -93,7 +93,7 @@ class LexicalGeComparator : public SearchTermComparator {
 class LexicalLtComparator : public SearchTermComparator {
  public:
   explicit LexicalLtComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element < search_term_;
   }
  private:
@@ -103,7 +103,7 @@ class LexicalLtComparator : public SearchTermComparator {
 class LexicalLeComparator : public SearchTermComparator {
  public:
   explicit LexicalLeComparator(const QString &value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element <= search_term_;
   }
  private:
@@ -113,7 +113,7 @@ class LexicalLeComparator : public SearchTermComparator {
 class GtComparator : public SearchTermComparator {
  public:
   explicit GtComparator(int value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element.toInt() > search_term_;
   }
  private:
@@ -123,7 +123,7 @@ class GtComparator : public SearchTermComparator {
 class GeComparator : public SearchTermComparator {
  public:
   explicit GeComparator(int value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element.toInt() >= search_term_;
   }
  private:
@@ -133,7 +133,7 @@ class GeComparator : public SearchTermComparator {
 class LtComparator : public SearchTermComparator {
  public:
   explicit LtComparator(int value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element.toInt() < search_term_;
   }
  private:
@@ -143,7 +143,7 @@ class LtComparator : public SearchTermComparator {
 class LeComparator : public SearchTermComparator {
  public:
   explicit LeComparator(int value) : search_term_(value) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return element.toInt() <= search_term_;
   }
  private:
@@ -157,7 +157,7 @@ class DropTailComparatorDecorator : public SearchTermComparator {
  public:
   explicit DropTailComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
 
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     if (element.length() > 9)
       return cmp_->Matches(element.left(element.length() - 9));
     else
@@ -170,7 +170,7 @@ class DropTailComparatorDecorator : public SearchTermComparator {
 class RatingComparatorDecorator : public SearchTermComparator {
  public:
   explicit RatingComparatorDecorator(SearchTermComparator *cmp) : cmp_(cmp) {}
-  virtual bool Matches(const QString &element) const {
+  bool Matches(const QString &element) const override {
     return cmp_->Matches(
         QString::number(static_cast<int>(element.toDouble() * 10.0 + 0.5)));
   }
@@ -183,14 +183,14 @@ class FilterTerm : public FilterTree {
  public:
   explicit FilterTerm(SearchTermComparator *comparator, const QList<int> &columns) : cmp_(comparator), columns_(columns) {}
 
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     for (int i : columns_) {
       QModelIndex idx(model->index(row, i, parent));
       if (cmp_->Matches(idx.data().toString().toLower())) return true;
     }
     return false;
   }
-  virtual FilterType type() { return Term; }
+  FilterType type() override { return Term; }
  private:
   QScopedPointer<SearchTermComparator> cmp_;
   QList<int> columns_;
@@ -201,11 +201,11 @@ class FilterColumnTerm : public FilterTree {
  public:
   FilterColumnTerm(int column, SearchTermComparator *comparator) : col(column), cmp_(comparator) {}
 
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     QModelIndex idx(model->index(row, col, parent));
     return cmp_->Matches(idx.data().toString().toLower());
   }
-  virtual FilterType type() { return Column; }
+  FilterType type() override { return Column; }
  private:
   int col;
   QScopedPointer<SearchTermComparator> cmp_;
@@ -215,40 +215,40 @@ class NotFilter : public FilterTree {
  public:
   explicit NotFilter(const FilterTree *inv) : child_(inv) {}
 
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     return !child_->accept(row, parent, model);
   }
-  virtual FilterType type() { return Not; }
+  FilterType type() override { return Not; }
  private:
   QScopedPointer<const FilterTree> child_;
 };
 
 class OrFilter : public FilterTree {
  public:
-  ~OrFilter() { qDeleteAll(children_); }
+  ~OrFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     for (FilterTree *child : children_) {
       if (child->accept(row, parent, model)) return true;
     }
     return false;
   }
-  FilterType type() { return Or; }
+  FilterType type() override { return Or; }
  private:
   QList<FilterTree*> children_;
 };
 
 class AndFilter : public FilterTree {
  public:
-  virtual ~AndFilter() { qDeleteAll(children_); }
+  ~AndFilter() override { qDeleteAll(children_); }
   virtual void add(FilterTree *child) { children_.append(child); }
-  virtual bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const {
+  bool accept(int row, const QModelIndex &parent, const QAbstractItemModel *const model) const override {
     for (FilterTree *child : children_) {
       if (!child->accept(row, parent, model)) return false;
     }
     return true;
   }
-  FilterType type() { return And; }
+  FilterType type() override { return And; }
  private:
   QList<FilterTree*> children_;
 };

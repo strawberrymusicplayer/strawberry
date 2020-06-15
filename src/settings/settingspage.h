@@ -65,7 +65,7 @@ class SettingsPage : public QWidget {
   void set_changed() { changed_ = true; }
 
  protected:
-  virtual void showEvent(QShowEvent *e);
+  void showEvent(QShowEvent *e) override;
 
  private:
   virtual void Save() = 0;

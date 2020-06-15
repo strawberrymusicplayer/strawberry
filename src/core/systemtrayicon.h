@@ -50,7 +50,7 @@ class SystemTrayIcon : public QObject {
   virtual void SetNowPlaying(const Song &song, const QUrl &cover_url) { Q_UNUSED(song); Q_UNUSED(cover_url); }
   virtual void ClearNowPlaying() {}
 
-  virtual bool MuteEnabled() { return false; }
+  virtual bool MuteEnabled() const { return false; }
   virtual void SetMuteEnabled(bool enabled) { Q_UNUSED(enabled); }
 
   static SystemTrayIcon *CreateSystemTrayIcon(QObject *parent = nullptr);

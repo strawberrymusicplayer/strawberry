@@ -37,7 +37,7 @@ class LoginStateWidget : public QWidget {
 
  public:
   explicit LoginStateWidget(QWidget *parent = nullptr);
-  ~LoginStateWidget();
+  ~LoginStateWidget() override;
 
   enum State { LoggedIn, LoginInProgress, LoggedOut };
 
@@ -49,7 +49,7 @@ class LoginStateWidget : public QWidget {
   void AddCredentialGroup(QWidget *widget);
 
   // QObject
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  public slots:
   // Changes the "You are logged in/out" label, shows/hides any QGroupBoxes added with AddCredentialGroup.

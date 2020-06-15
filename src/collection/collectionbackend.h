@@ -46,7 +46,6 @@ class CollectionBackendInterface : public QObject {
 
  public:
   explicit CollectionBackendInterface(QObject *parent = nullptr) : QObject(parent) {}
-  virtual ~CollectionBackendInterface() {}
 
   struct Album {
     Album() {}
@@ -120,8 +119,7 @@ class CollectionBackend : public CollectionBackendInterface {
  public:
   static const char *kSettingsGroup;
 
-  Q_INVOKABLE CollectionBackend(QObject *parent = nullptr);
-  ~CollectionBackend();
+  Q_INVOKABLE explicit CollectionBackend(QObject *parent = nullptr);
 
   void Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table);
   void Close();
@@ -130,49 +128,49 @@ class CollectionBackend : public CollectionBackendInterface {
 
   Database *db() const { return db_; }
 
-  QString songs_table() const { return songs_table_; }
+  QString songs_table() const override { return songs_table_; }
   QString dirs_table() const { return dirs_table_; }
   QString subdirs_table() const { return subdirs_table_; }
 
   // Get a list of directories in the collection.  Emits DirectoriesDiscovered.
-  void LoadDirectoriesAsync();
+  void LoadDirectoriesAsync() override;
 
-  void UpdateTotalSongCountAsync();
-  void UpdateTotalArtistCountAsync();
-  void UpdateTotalAlbumCountAsync();
+  void UpdateTotalSongCountAsync() override;
+  void UpdateTotalArtistCountAsync() override;
+  void UpdateTotalAlbumCountAsync() override;
 
-  SongList FindSongsInDirectory(const int id);
-  SubdirectoryList SubdirsInDirectory(const int id);
-  DirectoryList GetAllDirectories();
-  void ChangeDirPath(const int id, const QString &old_path, const QString &new_path);
+  SongList FindSongsInDirectory(const int id) override;
+  SubdirectoryList SubdirsInDirectory(const int id) override;
+  DirectoryList GetAllDirectories() override;
+  void ChangeDirPath(const int id, const QString &old_path, const QString &new_path) override;
 
   QStringList GetAll(const QString &column, const QueryOptions &opt = QueryOptions());
-  QStringList GetAllArtists(const QueryOptions &opt = QueryOptions());
-  QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions());
-  SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions());
-  SongList GetSongs(const QString &artist, const QString &album, const QueryOptions &opt = QueryOptions());
+  QStringList GetAllArtists(const QueryOptions &opt = QueryOptions()) override;
+  QStringList GetAllArtistsWithAlbums(const QueryOptions &opt = QueryOptions()) override;
+  SongList GetSongsByAlbum(const QString &album, const QueryOptions &opt = QueryOptions()) override;
+  SongList GetSongs(const QString &artist, const QString &album, const QueryOptions &opt = QueryOptions()) override;
 
-  SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions());
+  SongList GetCompilationSongs(const QString &album, const QueryOptions &opt = QueryOptions()) override;
 
-  AlbumList GetAllAlbums(const QueryOptions &opt = QueryOptions());
-  AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions());
-  AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions());
+  AlbumList GetAllAlbums(const QueryOptions &opt = QueryOptions()) override;
+  AlbumList GetCompilationAlbums(const QueryOptions &opt = QueryOptions()) override;
+  AlbumList GetAlbumsByArtist(const QString &artist, const QueryOptions &opt = QueryOptions()) override;
 
-  void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url);
-  Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album);
+  void UpdateManualAlbumArtAsync(const QString &artist, const QString &albumartist, const QString &album, const QUrl &cover_url) override;
+  Album GetAlbumArt(const QString &artist, const QString &albumartist, const QString &album) override;
 
-  Song GetSongById(const int id);
+  Song GetSongById(const int id) override;
   SongList GetSongsById(const QList<int> &ids);
   SongList GetSongsById(const QStringList &ids);
   SongList GetSongsByForeignId(const QStringList &ids, const QString &table, const QString &column);
 
-  SongList GetSongsByUrl(const QUrl &url);
-  Song GetSongByUrl(const QUrl &url, qint64 beginning = 0);
+  SongList GetSongsByUrl(const QUrl &url) override;
+  Song GetSongByUrl(const QUrl &url, qint64 beginning = 0) override;
 
-  void AddDirectory(const QString &path);
-  void RemoveDirectory(const Directory &dir);
+  void AddDirectory(const QString &path) override;
+  void RemoveDirectory(const Directory &dir) override;
 
-  bool ExecQuery(CollectionQuery *q);
+  bool ExecQuery(CollectionQuery *q) override;
   SongList ExecCollectionQuery(CollectionQuery *query);
 
   void IncrementPlayCountAsync(const int id);

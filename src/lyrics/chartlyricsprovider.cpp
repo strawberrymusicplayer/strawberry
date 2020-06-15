@@ -135,7 +135,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const quint64 
 
 }
 
-void ChartLyricsProvider::Error(const QString &error, QVariant debug) {
+void ChartLyricsProvider::Error(const QString &error, const QVariant &debug) {
 
   qLog(Error) << "ChartLyrics:" << error;
   if (debug.isValid()) qLog(Debug) << debug;

@@ -37,7 +37,7 @@
 class MusicStorage {
  public:
   explicit MusicStorage();
-  virtual ~MusicStorage() {}
+  virtual ~MusicStorage() = default;
 
   enum Role {
     Role_Storage = Qt::UserRole + 100,

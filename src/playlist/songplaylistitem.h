@@ -37,15 +37,15 @@ class SongPlaylistItem : public PlaylistItem {
 
   // Restores a stream- or file-related playlist item using query row.
   // If it's a file related playlist item, this will restore it's CUE attributes (if any) but won't parse the CUE!
-  bool InitFromQuery(const SqlRow& query);
-  void Reload();
+  bool InitFromQuery(const SqlRow& query) override;
+  void Reload() override;
 
-  Song Metadata() const;
+  Song Metadata() const override;
 
-  QUrl Url() const;
+  QUrl Url() const override;
 
-  Song DatabaseSongMetadata() const { return song_; }
-  void SetArtManual(const QUrl &cover_url);
+  Song DatabaseSongMetadata() const override { return song_; }
+  void SetArtManual(const QUrl &cover_url) override;
 
  private:
   Song song_;

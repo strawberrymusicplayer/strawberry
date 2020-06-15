@@ -57,11 +57,11 @@ class OrganiseDialog : public QDialog {
 
  public:
   explicit OrganiseDialog(TaskManager *task_manager, CollectionBackend *backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
-  ~OrganiseDialog();
+  ~OrganiseDialog() override;
 
   static const char *kDefaultFormat;
 
-  QSize sizeHint() const;
+  QSize sizeHint() const override;
 
   void SetDestinationModel(QAbstractItemModel *model, bool devices = false);
 
@@ -78,8 +78,8 @@ class OrganiseDialog : public QDialog {
   void SetPlaylist(const QString &playlist);
 
  protected:
-  void showEvent(QShowEvent*);
-  void closeEvent(QCloseEvent*);
+  void showEvent(QShowEvent*) override;
+  void closeEvent(QCloseEvent*) override;
 
  private:
   void LoadGeometry();
@@ -93,8 +93,8 @@ class OrganiseDialog : public QDialog {
   void FileCopied(int);
 
  public slots:
-  void accept();
-  void reject();
+  void accept() override;
+  void reject() override;
 
  private slots:
   void SaveSettings();

@@ -57,7 +57,7 @@ class OSDPretty : public QWidget {
   };
 
   explicit OSDPretty(Mode mode, QWidget *parent = nullptr);
-  ~OSDPretty();
+  ~OSDPretty() override;
 
   static const char *kSettingsGroup;
 
@@ -102,7 +102,7 @@ class OSDPretty : public QWidget {
   QPoint current_pos() const;
 
   // QWidget
-  void setVisible(bool visible);
+  void setVisible(bool visible) override;
 
   bool toggle_mode() const { return toggle_mode_; }
   void set_toggle_mode(bool toggle_mode) { toggle_mode_ = toggle_mode; }
@@ -114,13 +114,13 @@ class OSDPretty : public QWidget {
   void ReloadSettings();
 
  protected:
-  void paintEvent(QPaintEvent *e);
-  void enterEvent(QEvent *e);
-  void leaveEvent(QEvent *e);
-  void mousePressEvent(QMouseEvent *e);
-  void showEvent(QShowEvent *e);
-  void mouseMoveEvent(QMouseEvent *e);
-  void mouseReleaseEvent(QMouseEvent *e);
+  void paintEvent(QPaintEvent *e) override;
+  void enterEvent(QEvent *e) override;
+  void leaveEvent(QEvent *e) override;
+  void mousePressEvent(QMouseEvent *e) override;
+  void showEvent(QShowEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
 
  private:
   void Reposition();

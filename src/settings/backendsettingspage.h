@@ -43,13 +43,13 @@ class BackendSettingsPage : public SettingsPage {
 
 public:
   explicit BackendSettingsPage(SettingsDialog *dialog);
-  ~BackendSettingsPage();
+  ~BackendSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
-  void Cancel();
+  void Load() override;
+  void Save() override;
+  void Cancel() override;
 
   EngineBase *engine() const { return dialog()->app()->player()->engine(); }
 

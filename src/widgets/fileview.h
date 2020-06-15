@@ -51,15 +51,16 @@ class FileView : public QWidget {
 
  public:
   explicit FileView(QWidget *parent = nullptr);
-  ~FileView();
+  ~FileView() override;
 
   static const char *kFileFilter;
 
   void SetPath(const QString &path);
   void SetTaskManager(TaskManager *task_manager);
 
-  void showEvent(QShowEvent*);
-  void keyPressEvent(QKeyEvent *e);
+ protected:
+  void showEvent(QShowEvent*) override;
+  void keyPressEvent(QKeyEvent *e) override;
 
  signals:
   void PathChanged(const QString &path);
@@ -90,8 +91,8 @@ class FileView : public QWidget {
 
     QString undo_path() const { return old_state_.path; }
 
-    void undo();
-    void redo();
+    void undo() override;
+    void redo() override;
 
    private:
     struct State {

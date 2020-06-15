@@ -71,7 +71,7 @@ class InternetSearchView : public QWidget {
 
  public:
   explicit InternetSearchView(QWidget *parent = nullptr);
-  ~InternetSearchView();
+  ~InternetSearchView() override;
 
   enum SearchType {
     SearchType_Artists = 1,
@@ -104,9 +104,9 @@ class InternetSearchView : public QWidget {
     }
   };
 
-  void showEvent(QShowEvent *e);
-  bool eventFilter(QObject *object, QEvent *e);
-  void timerEvent(QTimerEvent *e);
+  void showEvent(QShowEvent *e) override;
+  bool eventFilter(QObject *object, QEvent *e) override;
+  void timerEvent(QTimerEvent *e) override;
 
   // These functions treat queries in the same way as CollectionQuery.
   // They're useful for figuring out whether you got a result because it matched in the song title or the artist/album name.

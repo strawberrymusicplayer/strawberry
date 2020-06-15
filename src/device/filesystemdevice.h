@@ -47,15 +47,15 @@ public:
       const QString &unique_id, DeviceManager *manager,
       Application *app,
       int database_id, bool first_time);
-  ~FilesystemDevice();
+  ~FilesystemDevice() override;
 
-  bool Init();
+  bool Init() override;
   void CloseAsync();
 
   static QStringList url_schemes() { return QStringList() << "file"; }
 
  private slots:
-  void Close();
+  void Close() override;
   void ExitFinished();
 
 private:

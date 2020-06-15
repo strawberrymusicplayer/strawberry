@@ -35,7 +35,7 @@ class DeviceViewContainer : public QWidget {
 
  public:
   explicit DeviceViewContainer(QWidget *parent = nullptr);
-  ~DeviceViewContainer();
+  ~DeviceViewContainer() override;
 
   DeviceView *view() const;
 

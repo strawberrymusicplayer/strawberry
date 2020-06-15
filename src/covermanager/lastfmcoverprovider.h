@@ -40,9 +40,9 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
  public:
   explicit LastFmCoverProvider(Application *app, QObject *parent = nullptr);
-  ~LastFmCoverProvider();
+  ~LastFmCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
  private slots:
   void QueryFinished(QNetworkReply *reply, const int id, const QString &type);
@@ -58,7 +58,7 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
   QByteArray GetReplyData(QNetworkReply *reply);
   LastFmImageSize ImageSizeFromString(const QString &size);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   static const char *kUrl;

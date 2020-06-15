@@ -45,7 +45,7 @@ class FileViewList : public QListView {
  public:
   explicit FileViewList(QWidget *parent = nullptr);
 
-  void mousePressEvent(QMouseEvent *e);
+  void mousePressEvent(QMouseEvent *e) override;
 
  signals:
   void AddToPlaylist(QMimeData *data);
@@ -58,7 +58,7 @@ class FileViewList : public QListView {
   void Forward();
 
  protected:
-  void contextMenuEvent(QContextMenuEvent *e);
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private slots:
   void LoadSlot();

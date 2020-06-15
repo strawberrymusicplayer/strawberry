@@ -67,8 +67,6 @@ PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
 
 }
 
-PlaylistBackend::~PlaylistBackend() {}
-
 void PlaylistBackend::Close() {
 
   if (db_) {

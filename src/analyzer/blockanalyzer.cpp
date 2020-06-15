@@ -67,8 +67,6 @@ BlockAnalyzer::BlockAnalyzer(QWidget *parent)
 
 }
 
-BlockAnalyzer::~BlockAnalyzer() {}
-
 void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);

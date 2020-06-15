@@ -71,7 +71,7 @@ class InternetSearchModel : public QStandardItemModel {
   InternetSearchView::ResultList GetChildResults(const QModelIndexList &indexes) const;
   InternetSearchView::ResultList GetChildResults(const QList<QStandardItem*> &items) const;
 
-  QMimeData *mimeData(const QModelIndexList &indexes) const;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Loads tracks for results that were previously emitted by ResultsAvailable.
   // The implementation creates a SongMimeData with one Song for each Result.

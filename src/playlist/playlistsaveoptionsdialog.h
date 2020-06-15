@@ -40,9 +40,9 @@ class PlaylistSaveOptionsDialog : public QDialog {
 
  public:
   explicit PlaylistSaveOptionsDialog(QWidget *parent = 0);
-  ~PlaylistSaveOptionsDialog();
+  ~PlaylistSaveOptionsDialog() override;
 
-  void accept();
+  void accept() override;
   Playlist::Path path_type() const;
 
  private:

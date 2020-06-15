@@ -53,8 +53,6 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
 
 }
 
-SubsonicBaseRequest::~SubsonicBaseRequest() {}
-
 QUrl SubsonicBaseRequest::CreateUrl(const QString &ressource_name, const QList<Param> &params_provided) {
 
   ParamList params = ParamList() << params_provided

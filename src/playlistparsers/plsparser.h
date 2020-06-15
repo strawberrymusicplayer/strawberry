@@ -41,14 +41,14 @@ class PLSParser : public ParserBase {
  public:
   explicit PLSParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
-  QString name() const { return "PLS"; }
-  QStringList file_extensions() const { return QStringList() << "pls"; }
-  QString mime_type() const { return "audio/x-scpls"; }
+  QString name() const override { return "PLS"; }
+  QStringList file_extensions() const override { return QStringList() << "pls"; }
+  QString mime_type() const override { return "audio/x-scpls"; }
 
-  bool TryMagic(const QByteArray &data) const;
+  bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const;
+  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
 };
 
 #endif  // PLSPARSER_H

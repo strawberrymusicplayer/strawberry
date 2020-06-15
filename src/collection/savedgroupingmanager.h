@@ -40,7 +40,7 @@ class SavedGroupingManager : public QDialog {
 
  public:
   explicit SavedGroupingManager(QWidget *parent = nullptr);
-  ~SavedGroupingManager();
+  ~SavedGroupingManager() override;
 
   void UpdateModel();
   void SetFilter(CollectionFilterWidget* filter) { filter_ = filter; }

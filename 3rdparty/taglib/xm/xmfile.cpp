@@ -84,13 +84,13 @@ class SkipReader : public Reader {
  public:
   explicit SkipReader(unsigned int size) : m_size(size) {}
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     unsigned int count = std::min(m_size, limit);
     file.seek(count, Strawberry_TagLib::TagLib::File::Current);
     return count;
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     return m_size;
   }
 
@@ -111,7 +111,7 @@ class StringReader : public ValueReader<String> {
  public:
   StringReader(String &string, unsigned int size) : ValueReader<String>(string), m_size(size) {}
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
 
     ByteVector data = file.readBlock(std::min(m_size, limit));
     unsigned int count = data.size();
@@ -125,7 +125,7 @@ class StringReader : public ValueReader<String> {
 
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     return m_size;
   }
 
@@ -137,7 +137,7 @@ class ByteReader : public ValueReader<unsigned char> {
  public:
   explicit ByteReader(unsigned char &_byte) : ValueReader<unsigned char>(_byte) {}
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(1U, limit));
     if (data.size() > 0) {
       value = data[0];
@@ -145,7 +145,7 @@ class ByteReader : public ValueReader<unsigned char> {
     return data.size();
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     return 1;
   }
 };
@@ -165,13 +165,13 @@ class U16Reader : public NumberReader<unsigned short> {
   U16Reader(unsigned short &_value, bool _bigEndian)
       : NumberReader<unsigned short>(_value, _bigEndian) {}
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(2U, limit));
     value = data.toUShort(bigEndian);
     return data.size();
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     return 2;
   }
 };
@@ -181,13 +181,13 @@ class U32Reader : public NumberReader<unsigned long> {
   U32Reader(unsigned long &_value, bool _bigEndian = true) : NumberReader<unsigned long>(_value, _bigEndian) {
   }
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(4U, limit));
     value = data.toUInt(bigEndian);
     return data.size();
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     return 4;
   }
 };
@@ -276,7 +276,7 @@ class StructReader : public Reader {
     return u32(number, true);
   }
 
-  unsigned int size() const {
+  unsigned int size() const override {
     unsigned int size = 0;
     for (List<Reader *>::ConstIterator i = m_readers.begin();
          i != m_readers.end();
@@ -286,7 +286,7 @@ class StructReader : public Reader {
     return size;
   }
 
-  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) {
+  unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     unsigned int sumcount = 0;
     for (List<Reader *>::ConstIterator i = m_readers.begin();
          limit > 0 && i != m_readers.end();

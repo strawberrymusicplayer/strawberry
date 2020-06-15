@@ -49,14 +49,13 @@ class MoodbarProxyStyle : public QProxyStyle {
 
  public:
   explicit MoodbarProxyStyle(Application* app, QSlider* slider);
-  ~MoodbarProxyStyle();
 
   // QProxyStyle
-  void drawComplexControl(ComplexControl control, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget) const;
-  QRect subControlRect(ComplexControl cc, const QStyleOptionComplex* opt, SubControl sc, const QWidget* widget) const;
+  void drawComplexControl(ComplexControl control, const QStyleOptionComplex* option, QPainter* painter, const QWidget* widget) const override;
+  QRect subControlRect(ComplexControl cc, const QStyleOptionComplex* opt, SubControl sc, const QWidget* widget) const override;
 
   // QObject
-  bool eventFilter(QObject* object, QEvent* event);
+  bool eventFilter(QObject* object, QEvent* event) override;
 
  public slots:
   // An empty byte array means there's no moodbar, so just show a normal slider.

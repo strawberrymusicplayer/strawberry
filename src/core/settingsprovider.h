@@ -46,17 +46,17 @@ class DefaultSettingsProvider : public SettingsProvider {
  public:
   DefaultSettingsProvider();
 
-  void set_group(const char* group);
+  void set_group(const char* group) override;
 
-  QVariant value(const QString &key, const QVariant &default_value = QVariant()) const;
-  void setValue(const QString &key, const QVariant &value);
-  int beginReadArray(const QString &prefix);
-  void beginWriteArray(const QString &prefix, int size = -1);
-  void setArrayIndex(int i);
-  void endArray();
+  QVariant value(const QString &key, const QVariant &default_value = QVariant()) const override;
+  void setValue(const QString &key, const QVariant &value) override;
+  int beginReadArray(const QString &prefix) override;
+  void beginWriteArray(const QString &prefix, int size = -1) override;
+  void setArrayIndex(int i) override;
+  void endArray() override;
 
  private:
   QSettings backend_;
 };
 
-#endif // SETTINGSPROVIDER_H
+#endif  // SETTINGSPROVIDER_H

@@ -40,13 +40,13 @@ class AuddLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit AuddLyricsProvider(QObject *parent = nullptr);
-  ~AuddLyricsProvider();
+  ~AuddLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id);
-  void CancelSearch(const quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, quint64 id) override;
+  void CancelSearch(const quint64 id) override;
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   QJsonArray ExtractResult(QNetworkReply *reply, const QString &artist, const QString &title);
 
  private slots:

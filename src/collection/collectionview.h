@@ -52,7 +52,7 @@ class CollectionView : public AutoExpandingTreeView {
 
  public:
   explicit CollectionView(QWidget *parent = nullptr);
-  ~CollectionView();
+  ~CollectionView() override;
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
@@ -62,8 +62,8 @@ class CollectionView : public AutoExpandingTreeView {
   void SetFilter(CollectionFilterWidget *filter);
 
   // QTreeView
-  void keyboardSearch(const QString &search);
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
+  void keyboardSearch(const QString &search) override;
+  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
 
   int TotalSongs();
   int TotalArtists();
@@ -92,9 +92,9 @@ class CollectionView : public AutoExpandingTreeView {
 
  protected:
   // QWidget
-  void paintEvent(QPaintEvent *event);
-  void mouseReleaseEvent(QMouseEvent *e);
-  void contextMenuEvent(QContextMenuEvent *e);
+  void paintEvent(QPaintEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private slots:
   void Load();

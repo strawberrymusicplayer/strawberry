@@ -58,58 +58,58 @@ class GstEngine : public Engine::Base, public GstBufferConsumer {
 
  public:
   explicit GstEngine(TaskManager *task_manager);
-  ~GstEngine();
+  ~GstEngine() override;
 
-  bool Init();
-  Engine::State state() const;
-  void StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec);
-  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
-  bool Play(const quint64 offset_nanosec);
-  void Stop(const bool stop_after = false);
-  void Pause();
-  void Unpause();
-  void Seek(const quint64 offset_nanosec);
+  bool Init() override;
+  Engine::State state() const override;
+  void StartPreloading(const QUrl &stream_url, const QUrl &original_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;
+  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) override;
+  bool Play(const quint64 offset_nanosec) override;
+  void Stop(const bool stop_after = false) override;
+  void Pause() override;
+  void Unpause() override;
+  void Seek(const quint64 offset_nanosec) override;
 
  protected:
-  void SetVolumeSW(const uint percent);
+  void SetVolumeSW(const uint percent) override;
 
  public:
-  qint64 position_nanosec() const;
-  qint64 length_nanosec() const;
-  const Engine::Scope &scope(const int chunk_length);
+  qint64 position_nanosec() const override;
+  qint64 length_nanosec() const override;
+  const Engine::Scope &scope(const int chunk_length) override;
 
-  OutputDetailsList GetOutputsList() const;
-  bool ValidOutput(const QString &output);
-  QString DefaultOutput() { return kAutoSink; }
-  bool CustomDeviceSupport(const QString &output);
-  bool ALSADeviceSupport(const QString &output);
+  OutputDetailsList GetOutputsList() const override;
+  bool ValidOutput(const QString &output) override;
+  QString DefaultOutput() override { return kAutoSink; }
+  bool CustomDeviceSupport(const QString &output) override;
+  bool ALSADeviceSupport(const QString &output) override;
 
   void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
   void EnsureInitialised() { gst_startup_->EnsureInitialised(); }
 
   GstElement *CreateElement(const QString &factoryName, GstElement *bin = nullptr, const bool showerror = true);
-  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format);
+  void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
 
  public slots:
-  void ReloadSettings();
+  void ReloadSettings() override;
 
   // Set whether stereo balancer is enabled
-  void SetStereoBalancerEnabled(const bool enabled);
+  void SetStereoBalancerEnabled(const bool enabled) override;
 
   // Set Stereo balance, range -1.0f..1.0f
-  void SetStereoBalance(const float value);
+  void SetStereoBalance(const float value) override;
 
   // Set whether equalizer is enabled
-  void SetEqualizerEnabled(const bool);
+  void SetEqualizerEnabled(const bool) override;
 
   // Set equalizer preamp and gains, range -100..100. Gains are 10 values.
-  void SetEqualizerParameters(const int preamp, const QList<int> &band_gains);
+  void SetEqualizerParameters(const int preamp, const QList<int> &band_gains) override;
 
   void AddBufferConsumer(GstBufferConsumer *consumer);
   void RemoveBufferConsumer(GstBufferConsumer *consumer);
 
  protected:
-  void timerEvent(QTimerEvent*);
+  void timerEvent(QTimerEvent *e) override;
 
  private slots:
   void EndOfStreamReached(const int pipeline_id, const bool has_next_track);

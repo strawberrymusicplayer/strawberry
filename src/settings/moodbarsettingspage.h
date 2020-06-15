@@ -34,13 +34,13 @@ class MoodbarSettingsPage : public SettingsPage {
 
  public:
   explicit MoodbarSettingsPage(SettingsDialog* dialog);
-  ~MoodbarSettingsPage();
+  ~MoodbarSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
-  void Cancel();
+  void Load() override;
+  void Save() override;
+  void Cancel() override;
 
  private:
   static const int kMoodbarPreviewWidth;

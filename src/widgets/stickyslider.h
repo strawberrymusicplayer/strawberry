@@ -44,7 +44,7 @@ class StickySlider : public QSlider {
   void set_sticky_threshold(int threshold) { sticky_threshold_ = threshold; }
 
  protected:
-  void mouseMoveEvent(QMouseEvent* e);
+  void mouseMoveEvent(QMouseEvent* e) override;
 
  private:
   int sticky_center_;

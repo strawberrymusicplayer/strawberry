@@ -46,7 +46,7 @@ class StyleSheetLoader : public QObject {
   void SetStyleSheet(QWidget *widget, const QString& filename);
 
  protected:
-  bool eventFilter(QObject *obj, QEvent *event);
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
  private:
   struct StyleSheetData {

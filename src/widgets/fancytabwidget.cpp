@@ -72,7 +72,7 @@ class FancyTabBar: public QTabBar {
     setMouseTracking(true);
   }
 
-  QSize sizeHint() const {
+  QSize sizeHint() const override {
 
     QSize size(QTabBar::sizeHint());
 
@@ -93,7 +93,7 @@ class FancyTabBar: public QTabBar {
   }
 
  protected:
-  QSize tabSizeHint(int index) const {
+  QSize tabSizeHint(int index) const override {
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
     QSize size = FancyTabWidget::TabSize_LargeSidebar;
@@ -107,13 +107,13 @@ class FancyTabBar: public QTabBar {
 
   }
 
-  void leaveEvent(QEvent *event) {
+  void leaveEvent(QEvent *event) override {
     Q_UNUSED(event);
     mouseHoverTabIndex = -1;
     update();
   }
 
-  void mouseMoveEvent(QMouseEvent *event) {
+  void mouseMoveEvent(QMouseEvent *event) override {
 
     QPoint pos = event->pos();
 
@@ -124,7 +124,7 @@ class FancyTabBar: public QTabBar {
 
   }
 
-  void paintEvent(QPaintEvent *pe) {
+  void paintEvent(QPaintEvent *pe) override {
 
     FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
@@ -309,7 +309,7 @@ class TabData : public QObject {
     layout->addWidget(widget_view_);
     page_->setLayout(layout);
   }
-  ~TabData() {
+  ~TabData() override {
     //delete page_;
   }
 
@@ -329,8 +329,6 @@ class TabData : public QObject {
   QWidget *page_;
 
 };
-
-FancyTabWidget::~FancyTabWidget() {}
 
 // Spacers are just disabled pages
 void FancyTabWidget::addSpacer() {

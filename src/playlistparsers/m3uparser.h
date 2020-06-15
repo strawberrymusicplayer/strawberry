@@ -43,14 +43,14 @@ class M3UParser : public ParserBase {
  public:
   explicit M3UParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
-  QString name() const { return "M3U"; }
-  QStringList file_extensions() const { return QStringList() << "m3u" << "m3u8"; }
-  QString mime_type() const { return "text/uri-list"; }
+  QString name() const override { return "M3U"; }
+  QStringList file_extensions() const override { return QStringList() << "m3u" << "m3u8"; }
+  QString mime_type() const override { return "text/uri-list"; }
 
-  bool TryMagic(const QByteArray &data) const;
+  bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const;
+  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
 
  private:
   enum M3UType {

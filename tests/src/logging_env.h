@@ -27,7 +27,7 @@
 
 class LoggingEnvironment : public ::testing::Environment {
 public:
-  void SetUp() {
+  void SetUp() override {
     logging::Init();
     logging::SetLevels("*:4");
   }

@@ -50,10 +50,10 @@ class DiscogsCoverProvider : public JsonCoverProvider {
 
  public:
   explicit DiscogsCoverProvider(Application *app, QObject *parent = nullptr);
-  ~DiscogsCoverProvider();
+  ~DiscogsCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
-  void CancelSearch(const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
   enum DiscogsCoverType {
     DiscogsCoverType_Master,
@@ -86,7 +86,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   QByteArray GetReplyData(QNetworkReply *reply);
   void StartReleaseRequest(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
   void EndSearch(std::shared_ptr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
   void FlushRequests();

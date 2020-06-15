@@ -59,7 +59,7 @@ class Organise : public QObject {
   typedef QList<NewSongInfo> NewSongInfoList;
 
   explicit Organise(TaskManager *task_manager, std::shared_ptr<MusicStorage> destination, const OrganiseFormat &format, bool copy, bool overwrite, bool mark_as_listened, bool albumcover, const NewSongInfoList &songs, bool eject_after, const QString &playlist = QString());
-  ~Organise();
+  ~Organise() override;
 
   static const int kBatchSize;
 #ifdef HAVE_GSTREAMER
@@ -74,7 +74,7 @@ class Organise : public QObject {
   void SongPathChanged(const Song &song, const QFileInfo &new_file);
 
  protected:
-  void timerEvent(QTimerEvent *e);
+  void timerEvent(QTimerEvent *e) override;
 
  private slots:
   void ProcessSomeFiles();

@@ -36,15 +36,15 @@ class PlaylistSettingsPage : public SettingsPage {
 
  public:
   explicit PlaylistSettingsPage(SettingsDialog* dialog);
-  ~PlaylistSettingsPage();
+  ~PlaylistSettingsPage() override;
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   Ui_PlaylistSettingsPage* ui_;
 
 };
 
-#endif // PLAYLISTSETTINGSPAGE_H
+#endif  // PLAYLISTSETTINGSPAGE_H

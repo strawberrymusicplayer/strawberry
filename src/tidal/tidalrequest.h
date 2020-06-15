@@ -52,12 +52,12 @@ class TidalRequest : public TidalBaseRequest {
  public:
 
   TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, NetworkAccessManager *network, QueryType type, QObject *parent);
-  ~TidalRequest();
+  ~TidalRequest() override;
 
   void ReloadSettings();
 
   void Process();
-  void NeedLogin() { need_login_ = true; }
+  void NeedLogin() override { need_login_ = true; }
   void Search(const int query_id, const QString &search_text);
 
  signals:
@@ -142,7 +142,7 @@ class TidalRequest : public TidalBaseRequest {
 
   void FinishCheck();
   void Warn(const QString &error, const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   static const char *kResourcesUrl;
   static const int kMaxConcurrentArtistsRequests;

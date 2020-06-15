@@ -39,7 +39,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
 
  public:
   TidalFavoriteRequest(TidalService *service, NetworkAccessManager *network, QObject *parent);
-  ~TidalFavoriteRequest();
+  ~TidalFavoriteRequest() override;
 
   enum FavoriteType {
     FavoriteType_Artists,
@@ -49,7 +49,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
 
   bool need_login() { return need_login_; }
 
-  void NeedLogin() { need_login_ = true; }
+  void NeedLogin() override { need_login_ = true; }
 
  signals:
   void ArtistsAdded(const SongList &songs);
@@ -72,7 +72,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void RemoveFavoritesReply(QNetworkReply *reply, const FavoriteType type, const SongList &songs);
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList songs);

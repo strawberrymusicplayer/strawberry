@@ -44,7 +44,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
 
  public:
   explicit ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
-  ~ConnectedDevice();
+  ~ConnectedDevice() override;
 
   virtual bool Init() = 0;
   virtual bool IsLoading() { return false; }
@@ -54,8 +54,8 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   // we can call this method to refresh device's state
   virtual void Refresh() {}
 
-  virtual TranscodeMode GetTranscodeMode() const;
-  virtual Song::FileType GetTranscodeFormat() const;
+  TranscodeMode GetTranscodeMode() const override;
+  Song::FileType GetTranscodeFormat() const override;
 
   DeviceLister *lister() const { return lister_; }
   QString unique_id() const { return unique_id_; }
@@ -63,10 +63,10 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public std:
   QUrl url() const { return url_; }
   int song_count() const { return song_count_; }
 
-  virtual void FinishCopy(bool success);
-  virtual void FinishDelete(bool success);
+  void FinishCopy(bool success) override;
+  void FinishDelete(bool success) override;
 
-  virtual void Eject();
+  void Eject() override;
   virtual void Close();
 
  public slots:

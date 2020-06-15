@@ -42,7 +42,7 @@ class InternetService : public QObject {
  public:
   explicit InternetService(Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
 
-  virtual ~InternetService() {}
+  ~InternetService() override {}
   virtual void Exit() {}
 
   virtual Song::Source source() const { return source_; }

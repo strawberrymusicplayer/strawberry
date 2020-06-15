@@ -51,8 +51,8 @@ class MockNetworkReply : public QNetworkReply {
 
  protected:
   MOCK_METHOD0(abort, void());
-  virtual qint64 readData(char* data, qint64);
-  virtual qint64 writeData(const char* data, qint64);
+  qint64 readData(char* data, qint64) override;
+  qint64 writeData(const char* data, qint64) override;
 
   QByteArray data_;
   qint64 pos_;

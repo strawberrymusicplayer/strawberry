@@ -32,10 +32,10 @@ class Ui_TranscoderOptionsSpeex;
 class TranscoderOptionsSpeex : public TranscoderOptionsInterface {
  public:
   explicit TranscoderOptionsSpeex(QWidget *parent = nullptr);
-  ~TranscoderOptionsSpeex();
+  ~TranscoderOptionsSpeex() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   static const char *kSettingsGroup;

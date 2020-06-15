@@ -44,7 +44,7 @@ DeleteFiles::DeleteFiles(TaskManager *task_manager, std::shared_ptr<MusicStorage
   original_thread_ = thread();
 }
 
-DeleteFiles::~DeleteFiles() {}
+DeleteFiles::~DeleteFiles() = default;
 
 void DeleteFiles::Start(const SongList &songs) {
 

@@ -46,8 +46,7 @@ class PlaylistBackend : public QObject {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE PlaylistBackend(Application *app, QObject *parent = nullptr);
-  ~PlaylistBackend();
+  Q_INVOKABLE explicit PlaylistBackend(Application *app, QObject *parent = nullptr);
 
   struct Playlist {
     Playlist() : id(-1), favorite(false), last_played(0) {}

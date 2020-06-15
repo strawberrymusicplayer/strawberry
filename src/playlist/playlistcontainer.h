@@ -48,7 +48,7 @@ class PlaylistContainer : public QWidget {
 
  public:
   explicit PlaylistContainer(QWidget *parent = nullptr);
-  ~PlaylistContainer();
+  ~PlaylistContainer() override;
 
   static const char *kSettingsGroup;
 
@@ -58,9 +58,9 @@ class PlaylistContainer : public QWidget {
 
   PlaylistView *view() const;
 
-  bool eventFilter(QObject *objectWatched, QEvent *event);
+  bool eventFilter(QObject *objectWatched, QEvent *event) override;
 
-signals:
+ signals:
   void TabChanged(int id);
   void Rename(int id, const QString &new_name);
 
@@ -69,7 +69,7 @@ signals:
 
  protected:
   // QWidget
-  void resizeEvent(QResizeEvent*);
+  void resizeEvent(QResizeEvent*) override;
 
  private slots:
   void NewPlaylist();

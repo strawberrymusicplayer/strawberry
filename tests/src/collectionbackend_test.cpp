@@ -41,7 +41,7 @@ namespace {
 
 class CollectionBackendTest : public ::testing::Test {
  protected:
-  virtual void SetUp() {
+  void SetUp() override {
     database_.reset(new MemoryDatabase(nullptr));
     backend_.reset(new CollectionBackend);
     backend_->Init(database_.get(), Song::Source_Collection, SCollection::kSongsTable, SCollection::kDirsTable, SCollection::kSubdirsTable, SCollection::kFtsTable);
@@ -146,7 +146,7 @@ TEST_F(CollectionBackendTest, GetAlbumArtNonExistent) {
 // Test adding a single song to the database, then getting various information back about it.
 class SingleSong : public CollectionBackendTest {
  protected:
-  virtual void SetUp() {
+  void SetUp() override {
     CollectionBackendTest::SetUp();
 
     // Add a directory - this will get ID 1

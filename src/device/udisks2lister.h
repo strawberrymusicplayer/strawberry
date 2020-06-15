@@ -50,7 +50,7 @@ class Udisks2Lister : public DeviceLister {
 
  public:
   explicit Udisks2Lister();
-  ~Udisks2Lister();
+  ~Udisks2Lister() override;
 
   QStringList DeviceUniqueIDs() override;
   QVariantList DeviceIcons(const QString &id) override;

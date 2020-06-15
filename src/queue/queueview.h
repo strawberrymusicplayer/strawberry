@@ -36,11 +36,11 @@ class QueueView : public QWidget {
 
  public:
   explicit QueueView(QWidget *parent = nullptr);
-  ~QueueView();
+  ~QueueView() override;
 
   void SetPlaylistManager(PlaylistManager *manager);
 
-private slots:
+ private slots:
   void CurrentPlaylistChanged(Playlist *playlist);
   void PlaylistDestroyed();
   void UpdateButtonState();
@@ -50,7 +50,7 @@ private slots:
   void Remove();
   void Clear();
 
-private:
+ private:
   Ui_QueueView *ui_;
 
   PlaylistManager *playlists_;

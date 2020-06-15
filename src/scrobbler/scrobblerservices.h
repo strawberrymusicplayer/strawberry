@@ -37,7 +37,7 @@ class ScrobblerServices : public QObject {
 
  public:
   explicit ScrobblerServices(QObject *parent = nullptr);
-  ~ScrobblerServices();
+  ~ScrobblerServices() override;
 
   void AddService(ScrobblerService *service);
   void RemoveService(ScrobblerService *service);

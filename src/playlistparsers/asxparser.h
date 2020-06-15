@@ -43,13 +43,13 @@ class ASXParser : public XMLParser {
  public:
   explicit ASXParser(CollectionBackendInterface *collection, QObject *parent = nullptr);
 
-  QString name() const { return "ASX"; }
-  QStringList file_extensions() const { return QStringList() << "asx"; }
+  QString name() const override { return "ASX"; }
+  QStringList file_extensions() const override { return QStringList() << "asx"; }
 
-  bool TryMagic(const QByteArray &data) const;
+  bool TryMagic(const QByteArray &data) const override;
 
-  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const;
+  SongList Load(QIODevice *device, const QString &playlist_path = "", const QDir &dir = QDir()) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), Playlist::Path path_type = Playlist::Path_Automatic) const override;
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir) const;

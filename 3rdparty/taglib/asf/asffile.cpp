@@ -108,65 +108,65 @@ class ASF::File::FilePrivate::UnknownObject : public ASF::File::FilePrivate::Bas
 
  public:
   explicit UnknownObject(const ByteVector &guid);
-  ByteVector guid() const;
+  ByteVector guid() const override;
 };
 
 class ASF::File::FilePrivate::FilePropertiesObject : public ASF::File::FilePrivate::BaseObject {
  public:
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
 };
 
 class ASF::File::FilePrivate::StreamPropertiesObject : public ASF::File::FilePrivate::BaseObject {
  public:
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
 };
 
 class ASF::File::FilePrivate::ContentDescriptionObject : public ASF::File::FilePrivate::BaseObject {
  public:
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
-  ByteVector render(ASF::File *file);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
+  ByteVector render(ASF::File *file) override;
 };
 
 class ASF::File::FilePrivate::ExtendedContentDescriptionObject : public ASF::File::FilePrivate::BaseObject {
  public:
   ByteVectorList attributeData;
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
-  ByteVector render(ASF::File *file);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
+  ByteVector render(ASF::File *file) override;
 };
 
 class ASF::File::FilePrivate::MetadataObject : public ASF::File::FilePrivate::BaseObject {
  public:
   ByteVectorList attributeData;
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
-  ByteVector render(ASF::File *file);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
+  ByteVector render(ASF::File *file) override;
 };
 
 class ASF::File::FilePrivate::MetadataLibraryObject : public ASF::File::FilePrivate::BaseObject {
  public:
   ByteVectorList attributeData;
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
-  ByteVector render(ASF::File *file);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
+  ByteVector render(ASF::File *file) override;
 };
 
 class ASF::File::FilePrivate::HeaderExtensionObject : public ASF::File::FilePrivate::BaseObject {
  public:
   List<ASF::File::FilePrivate::BaseObject *> objects;
   HeaderExtensionObject();
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
-  ByteVector render(ASF::File *file);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
+  ByteVector render(ASF::File *file) override;
 };
 
 class ASF::File::FilePrivate::CodecListObject : public ASF::File::FilePrivate::BaseObject {
  public:
-  ByteVector guid() const;
-  void parse(ASF::File *file, unsigned int size);
+  ByteVector guid() const override;
+  void parse(ASF::File *file, unsigned int size) override;
 
  private:
   enum CodecType {

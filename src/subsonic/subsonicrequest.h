@@ -53,7 +53,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
  public:
   explicit SubsonicRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent);
-  ~SubsonicRequest();
+  ~SubsonicRequest() override;
 
   void ReloadSettings();
 
@@ -109,7 +109,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
   void FinishCheck();
   void Warn(const QString &error, const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   static const int kMaxConcurrentAlbumsRequests;
   static const int kMaxConcurrentArtistAlbumsRequests;

@@ -50,29 +50,29 @@ class GioLister : public DeviceLister {
 
  public:
   explicit GioLister() {}
-  ~GioLister();
+  ~GioLister() override;
 
-  int priority() const { return 50; }
+  int priority() const override { return 50; }
 
-  QStringList DeviceUniqueIDs();
-  QVariantList DeviceIcons(const QString &id);
-  QString DeviceManufacturer(const QString &id);
-  QString DeviceModel(const QString &id);
-  quint64 DeviceCapacity(const QString &id);
-  quint64 DeviceFreeSpace(const QString &id);
-  QVariantMap DeviceHardwareInfo(const QString &id);
-  bool DeviceNeedsMount(const QString &id);
+  QStringList DeviceUniqueIDs() override;
+  QVariantList DeviceIcons(const QString &id) override;
+  QString DeviceManufacturer(const QString &id) override;
+  QString DeviceModel(const QString &id) override;
+  quint64 DeviceCapacity(const QString &id) override;
+  quint64 DeviceFreeSpace(const QString &id) override;
+  QVariantMap DeviceHardwareInfo(const QString &id) override;
+  bool DeviceNeedsMount(const QString &id) override;
 
-  QString MakeFriendlyName(const QString &id);
-  QList<QUrl> MakeDeviceUrls(const QString &id);
+  QString MakeFriendlyName(const QString &id) override;
+  QList<QUrl> MakeDeviceUrls(const QString &id) override;
 
  public slots:
-  void MountDevice(const QString &id, const int request_id);
-  void UnmountDevice(const QString &id);
-  void UpdateDeviceFreeSpace(const QString &id);
+  void MountDevice(const QString &id, const int request_id) override;
+  void UnmountDevice(const QString &id) override;
+  void UpdateDeviceFreeSpace(const QString &id) override;
 
  protected:
-  bool Init();
+  bool Init() override;
 
  private:
   struct DeviceInfo {

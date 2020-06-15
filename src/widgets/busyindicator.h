@@ -40,14 +40,14 @@ class BusyIndicator : public QWidget {
  public:
   explicit BusyIndicator(const QString &text, QWidget *parent = nullptr);
   explicit BusyIndicator(QWidget *parent = nullptr);
-  ~BusyIndicator();
+  ~BusyIndicator() override;
 
   QString text() const;
   void set_text(const QString &text);
 
  protected:
-  void showEvent(QShowEvent *event);
-  void hideEvent(QHideEvent *event);
+  void showEvent(QShowEvent *event) override;
+  void hideEvent(QHideEvent *event) override;
 
  private:
   void Init(const QString &text);

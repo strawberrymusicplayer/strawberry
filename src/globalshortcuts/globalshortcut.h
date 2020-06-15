@@ -40,7 +40,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
  public:
   explicit GlobalShortcut(QObject *parent = nullptr);
   explicit GlobalShortcut(QKeySequence shortcut, GlobalShortcutBackend *backend, QObject *parent = nullptr);
-  ~GlobalShortcut();
+  ~GlobalShortcut() override;
 
   GlobalShortcutBackend *backend() const { return backend_; }
   QKeySequence shortcut() const { return shortcut_; }
@@ -61,7 +61,7 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   bool registerShortcut(quint32 native_key, quint32 native_mods);
   bool unregisterShortcut(quint32 native_key, quint32 native_mods);
 
-  bool nativeEventFilter(const QByteArray &eventtype, void *message, long *result);
+  bool nativeEventFilter(const QByteArray &eventtype, void *message, long *result) override;
 
   static GlobalShortcut *initialized_;
   static QHash<QPair<quint32, quint32>, GlobalShortcut*> internal_shortcuts_;

@@ -35,7 +35,7 @@ class ForceScrollPerPixel : public QObject {
   explicit ForceScrollPerPixel(QAbstractItemView *item_view, QObject *parent = nullptr);
 
  protected:
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  private:
   QAbstractItemView *item_view_;

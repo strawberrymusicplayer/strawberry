@@ -45,70 +45,70 @@ namespace Internal {
 class FancyTabWidget : public QTabWidget {
   Q_OBJECT
 
-  ~FancyTabWidget();
+ public:
+  explicit FancyTabWidget(QWidget *parent = nullptr);
 
-  public:
-    explicit FancyTabWidget(QWidget *parent = nullptr);
-    void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
-    bool EnableTab(QWidget *widget_view);
-    bool DisableTab(QWidget *widget_view);
-    int insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
-    void addBottomWidget(QWidget* widget_view);
+  void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
+   bool EnableTab(QWidget *widget_view);
+   bool DisableTab(QWidget *widget_view);
+   int insertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
+   void addBottomWidget(QWidget* widget_view);
 
-    void setBackgroundPixmap(const QPixmap& pixmap);
-    void addSpacer();
+   void setBackgroundPixmap(const QPixmap& pixmap);
+   void addSpacer();
 
-    void Load(const QString &kSettingsGroup);
-    void SaveSettings(const QString &kSettingsGroup);
-    void ReloadSettings();
+   void Load(const QString &kSettingsGroup);
+   void SaveSettings(const QString &kSettingsGroup);
+   void ReloadSettings();
 
-    // Values are persisted - only add to the end
-    enum Mode {
-      Mode_None = 0,
-      Mode_LargeSidebar,
-      Mode_SmallSidebar,
-      Mode_Tabs,
-      Mode_IconOnlyTabs,
-      Mode_PlainSidebar,
-    };
+   // Values are persisted - only add to the end
+  enum Mode {
+    Mode_None = 0,
+    Mode_LargeSidebar,
+    Mode_SmallSidebar,
+    Mode_Tabs,
+    Mode_IconOnlyTabs,
+    Mode_PlainSidebar,
+   };
 
-    static const QSize TabSize_LargeSidebar;
+   static const QSize TabSize_LargeSidebar;
 
-    static const QSize IconSize_LargeSidebar;
-    static const QSize IconSize_SmallSidebar;
+   static const QSize IconSize_LargeSidebar;
+   static const QSize IconSize_SmallSidebar;
 
-    Mode mode() { return mode_; }
+   Mode mode() { return mode_; }
 
   signals:
-    void ModeChanged(FancyTabWidget::Mode mode);
-    void CurrentChanged(int);
+   void ModeChanged(FancyTabWidget::Mode mode);
+   void CurrentChanged(int);
 
   public slots:
-    void setCurrentIndex(int idx);
-    void SetMode(Mode mode);
-    // Mapper mapped signal needs this convenience function 
-    void SetMode(int mode) { SetMode(Mode(mode)); }
+   void setCurrentIndex(int idx);
+   void SetMode(Mode mode);
+   // Mapper mapped signal needs this convenience function
+   void SetMode(int mode) { SetMode(Mode(mode)); }
 
   private slots:
-    void tabBarUpdateGeometry();
-    void currentTabChanged(int);
+   void tabBarUpdateGeometry();
+   void currentTabChanged(int);
 
   protected:
-    void paintEvent(QPaintEvent *);
-    void contextMenuEvent(QContextMenuEvent* e);
+   void paintEvent(QPaintEvent*) override;
+   void contextMenuEvent(QContextMenuEvent* e) override;
+
   private:
-    void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
+   void addMenuItem(QActionGroup* group, const QString& text, Mode mode);
 
-    QPixmap background_pixmap_;
-    QMenu* menu_;
-    Mode mode_;
-    QWidget *bottom_widget_;
+   QPixmap background_pixmap_;
+   QMenu* menu_;
+   Mode mode_;
+   QWidget *bottom_widget_;
 
-    QMap <QWidget*, TabData*> tabs_;
+   QMap <QWidget*, TabData*> tabs_;
 
-    bool bg_color_system_;
-    bool bg_gradient_;
-    QColor bg_color_;
+   bool bg_color_system_;
+   bool bg_gradient_;
+   QColor bg_color_;
 
 };
 

@@ -38,7 +38,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
  protected:
   SongPlaylistItemTest() : temp_file_(GetParam()) {}
 
-  void SetUp() {
+  void SetUp() override {
     // SongPlaylistItem::Url() checks if the file exists, so we need a real file
     temp_file_.open();
 

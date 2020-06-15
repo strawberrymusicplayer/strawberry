@@ -28,7 +28,7 @@
 
 class MergedProxyModelTest : public ::testing::Test {
  protected:
-  void SetUp() {
+  void SetUp() override {
     merged_.setSourceModel(&source_);
   }
 

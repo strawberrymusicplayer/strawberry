@@ -39,7 +39,7 @@ class ScrobblerCache : public QObject {
 
  public:
   explicit ScrobblerCache(const QString &filename, QObject *parent);
-  ~ScrobblerCache();
+  ~ScrobblerCache() override;
 
   void ReadCache();
 

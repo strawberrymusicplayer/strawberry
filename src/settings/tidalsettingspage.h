@@ -37,7 +37,7 @@ class TidalSettingsPage : public SettingsPage {
 
  public:
   explicit TidalSettingsPage(SettingsDialog* parent = nullptr);
-  ~TidalSettingsPage();
+  ~TidalSettingsPage() override;
 
   static const char *kSettingsGroup;
 
@@ -47,10 +47,10 @@ class TidalSettingsPage : public SettingsPage {
     StreamUrlMethod_PlaybackInfoPostPaywall,
   };
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  signals:
   void Authorize(QString client_id);
@@ -68,4 +68,4 @@ class TidalSettingsPage : public SettingsPage {
   TidalService *service_;
 };
 
-#endif
+#endif  // TIDALSETTINGSPAGE_H

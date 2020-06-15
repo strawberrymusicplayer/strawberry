@@ -40,7 +40,7 @@ class ContextSettingsPage : public SettingsPage {
 
 public:
   explicit ContextSettingsPage(SettingsDialog *dialog);
-  ~ContextSettingsPage();
+  ~ContextSettingsPage() override;
 
   enum ContextSettingsOrder {
     ALBUM,
@@ -59,8 +59,8 @@ public:
   static const char *kSettingsGroupEnable[ContextSettingsOrder::NELEMS];
   static const qreal kDefaultFontSizeHeadline;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private slots:
   void InsertVariableFirstLine(QAction *action);

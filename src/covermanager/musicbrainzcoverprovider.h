@@ -42,9 +42,9 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
 
  public:
   explicit MusicbrainzCoverProvider(Application *app, QObject *parent = nullptr);
-  ~MusicbrainzCoverProvider();
+  ~MusicbrainzCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
  private slots:
   void FlushRequests();
@@ -60,7 +60,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
 
   void SendSearchRequest(const SearchRequest &request);
   QByteArray GetReplyData(QNetworkReply *reply);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   static const char *kReleaseSearchUrl;

@@ -47,33 +47,33 @@ class ListenBrainzScrobbler : public ScrobblerService {
 
  public:
   explicit ListenBrainzScrobbler(Application *app, QObject *parent = nullptr);
-  ~ListenBrainzScrobbler();
+  ~ListenBrainzScrobbler() override;
 
   static const char *kName;
   static const char *kSettingsGroup;
 
-  void ReloadSettings();
+  void ReloadSettings() override;
   void LoadSession();
 
-  bool IsEnabled() const { return enabled_; }
-  bool IsAuthenticated() const { return !access_token_.isEmpty() && !user_token_.isEmpty(); }
-  bool IsSubmitted() const { return submitted_; }
-  void Submitted() { submitted_ = true; }
+  bool IsEnabled() const override { return enabled_; }
+  bool IsAuthenticated() const override { return !access_token_.isEmpty() && !user_token_.isEmpty(); }
+  bool IsSubmitted() const override { return submitted_; }
+  void Submitted() override { submitted_ = true; }
   QString user_token() const { return user_token_; }
 
   void Authenticate(const bool https = false);
   void Logout();
   void ShowConfig();
-  void Submit();
-  void UpdateNowPlaying(const Song &song);
-  void ClearPlaying();
-  void Scrobble(const Song &song);
+  void Submit() override;
+  void UpdateNowPlaying(const Song &song) override;
+  void ClearPlaying() override;
+  void Scrobble(const Song &song) override;
 
  signals:
   void AuthenticationComplete(bool success, QString error = QString());
 
  public slots:
-  void WriteCache() { cache_->WriteCache(); }
+  void WriteCache() override { cache_->WriteCache(); }
 
  private slots:
   void RedirectArrived();
@@ -87,8 +87,8 @@ class ListenBrainzScrobbler : public ScrobblerService {
   QByteArray GetReplyData(QNetworkReply *reply);
 
   void AuthError(const QString &error);
-  void Error(const QString &error, const QVariant &debug = QVariant());
-  void DoSubmit();
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void DoSubmit() override;
   void CheckScrobblePrevSong();
 
   static const char *kOAuthAuthorizeUrl;

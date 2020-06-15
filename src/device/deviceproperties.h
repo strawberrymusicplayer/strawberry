@@ -43,13 +43,13 @@ class DeviceProperties : public QDialog {
 
  public:
   explicit DeviceProperties(QWidget *parent = nullptr);
-  ~DeviceProperties();
+  ~DeviceProperties() override;
 
   void SetDeviceManager(DeviceManager *manager);
   void ShowDevice(QModelIndex idx);
 
  public slots:
-  void accept();
+  void accept() override;
 
  private:
   void UpdateHardwareInfo();

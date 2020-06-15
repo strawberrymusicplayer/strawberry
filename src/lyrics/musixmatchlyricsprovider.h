@@ -39,13 +39,13 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit MusixmatchLyricsProvider(QObject *parent = nullptr);
-  ~MusixmatchLyricsProvider();
+  ~MusixmatchLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
-  void CancelSearch(const quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
+  void CancelSearch(const quint64 id) override;
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &album, const QString &title);

@@ -38,14 +38,14 @@ class SubsonicSettingsPage : public SettingsPage {
 
  public:
   explicit SubsonicSettingsPage(SettingsDialog* parent = nullptr);
-  ~SubsonicSettingsPage();
+  ~SubsonicSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
-  bool eventFilter(QObject *object, QEvent *event);
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  signals:
   void Test();

@@ -39,9 +39,9 @@ class QResizeEvent;
 
 class BlockAnalyzer : public Analyzer::Base {
   Q_OBJECT
+
  public:
   Q_INVOKABLE BlockAnalyzer(QWidget*);
-  ~BlockAnalyzer();
 
   static const uint kHeight;
   static const uint kWidth;
@@ -53,11 +53,11 @@ class BlockAnalyzer : public Analyzer::Base {
   static const char *kName;
 
  protected:
-  virtual void transform(Analyzer::Scope&);
-  virtual void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame);
-  virtual void resizeEvent(QResizeEvent*);
+  void transform(Analyzer::Scope&) override;
+  void analyze(QPainter &p, const Analyzer::Scope&, bool new_frame) override;
+  void resizeEvent(QResizeEvent*) override;
   virtual void paletteChange(const QPalette&);
-  virtual void framerateChanged();
+  void framerateChanged() override;
 
   void drawBackground();
   void determineStep();

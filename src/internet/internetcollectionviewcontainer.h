@@ -43,7 +43,7 @@ class InternetCollectionViewContainer : public QWidget {
 
  public:
   explicit InternetCollectionViewContainer(QWidget *parent = nullptr);
-  ~InternetCollectionViewContainer();
+  ~InternetCollectionViewContainer() override;
 
   QStackedWidget *stacked() const { return ui_->stacked; }
   QWidget *help_page() const { return ui_->help_page; }
@@ -58,7 +58,7 @@ class InternetCollectionViewContainer : public QWidget {
   void ReloadSettings() { view()->ReloadSettings(); }
 
  private slots:
-  void contextMenuEvent(QContextMenuEvent *e);
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
   Ui_InternetCollectionViewContainer *ui_;

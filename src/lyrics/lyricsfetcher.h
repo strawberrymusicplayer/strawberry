@@ -63,7 +63,7 @@ class LyricsFetcher : public QObject {
 
  public:
   explicit LyricsFetcher(LyricsProviders *lyrics_providers, QObject *parent = nullptr);
-  virtual ~LyricsFetcher() {}
+  ~LyricsFetcher() override {}
 
   quint64 Search(const QString &artist, const QString &album, const QString &title);
   void Clear();

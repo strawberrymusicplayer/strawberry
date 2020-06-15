@@ -28,7 +28,7 @@ class QTranslator;
 class Translations : public QObject {
  public:
   explicit Translations();
-  ~Translations();
+  ~Translations() override;
   void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 
  private:

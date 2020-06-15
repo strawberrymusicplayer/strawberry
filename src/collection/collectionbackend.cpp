@@ -61,8 +61,6 @@ CollectionBackend::CollectionBackend(QObject *parent) :
 
 }
 
-CollectionBackend::~CollectionBackend() {}
-
 void CollectionBackend::Init(Database *db, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table, const QString &fts_table) {
   db_ = db;
   source_ = source;

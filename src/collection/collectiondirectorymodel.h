@@ -43,13 +43,13 @@ class CollectionDirectoryModel : public QStandardItemModel {
 
  public:
   explicit CollectionDirectoryModel(CollectionBackend* backend, QObject *parent = nullptr);
-  ~CollectionDirectoryModel();
+  ~CollectionDirectoryModel() override;
 
   // To be called by GUIs
   void AddDirectory(const QString &path);
   void RemoveDirectory(const QModelIndex &index);
 
-  QVariant data(const QModelIndex &index, int role) const;
+  QVariant data(const QModelIndex &index, int role) const override;
 
  private slots:
   // To be called by the backend

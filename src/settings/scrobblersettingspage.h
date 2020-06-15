@@ -37,12 +37,12 @@ class ScrobblerSettingsPage : public SettingsPage {
 
  public:
   explicit ScrobblerSettingsPage(SettingsDialog *parent);
-  ~ScrobblerSettingsPage();
+  ~ScrobblerSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private slots:
   void LastFM_Login();

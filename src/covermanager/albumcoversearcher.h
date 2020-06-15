@@ -60,7 +60,7 @@ class SizeOverlayDelegate : public QStyledItemDelegate {
 
   explicit SizeOverlayDelegate(QObject *parent = nullptr);
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 // This is a dialog that lets the user search for album covers
@@ -69,7 +69,7 @@ class AlbumCoverSearcher : public QDialog {
 
  public:
   explicit AlbumCoverSearcher(const QIcon &no_cover_icon, Application *app, QWidget *parent);
-  ~AlbumCoverSearcher();
+  ~AlbumCoverSearcher() override;
 
   enum Role {
     Role_ImageURL = Qt::UserRole + 1,
@@ -84,7 +84,7 @@ class AlbumCoverSearcher : public QDialog {
   QImage Exec(const QString &artist, const QString &album);
 
  protected:
-  void keyPressEvent(QKeyEvent*);
+  void keyPressEvent(QKeyEvent*) override;
 
  private slots:
   void Search();

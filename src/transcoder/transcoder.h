@@ -80,7 +80,7 @@ class Transcoder : public QObject {
   void AllJobsComplete();
 
  protected:
-  bool event(QEvent *e);
+  bool event(QEvent *e) override;
 
  private:
   // The description of a file to transcode - lives in the main thread.

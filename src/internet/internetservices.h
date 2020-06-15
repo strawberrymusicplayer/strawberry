@@ -38,7 +38,7 @@ class InternetServices : public QObject {
 
  public:
   explicit InternetServices(QObject *parent = nullptr);
-  ~InternetServices();
+  ~InternetServices() override;
 
   InternetService *ServiceBySource(const Song::Source &source);
   template <typename T>

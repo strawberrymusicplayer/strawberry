@@ -43,7 +43,7 @@ class CurrentAlbumCoverLoader : public QObject {
 
  public:
   explicit CurrentAlbumCoverLoader(Application *app, QObject *parent = nullptr);
-  ~CurrentAlbumCoverLoader();
+  ~CurrentAlbumCoverLoader() override;
 
   const AlbumCoverLoaderOptions &options() const { return options_; }
   const Song &last_song() const { return last_song_; }

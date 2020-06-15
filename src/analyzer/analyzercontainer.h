@@ -44,7 +44,7 @@ class AnalyzerContainer : public QWidget {
   Q_OBJECT
 
  public:
-  AnalyzerContainer(QWidget* parent);
+  explicit AnalyzerContainer(QWidget *parent);
 
   void SetEngine(EngineBase *engine);
   void SetActions(QAction *visualisation);
@@ -52,12 +52,12 @@ class AnalyzerContainer : public QWidget {
   static const char *kSettingsGroup;
   static const char *kSettingsFramerate;
 
-signals:
+ signals:
   void WheelEvent(int delta);
 
  protected:
-  void mouseReleaseEvent(QMouseEvent*);
-  void wheelEvent(QWheelEvent *e);
+  void mouseReleaseEvent(QMouseEvent*) override;
+  void wheelEvent(QWheelEvent *e) override;
 
  private slots:
   void ChangeAnalyzer(int id);

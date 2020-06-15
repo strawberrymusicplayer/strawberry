@@ -41,7 +41,7 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
 
   // These methods are thread-safe
   void ReloadSettings();
-  QList<QNetworkProxy> queryProxy(const QNetworkProxyQuery &query);
+  QList<QNetworkProxy> queryProxy(const QNetworkProxyQuery &query) override;
 
  private:
   explicit NetworkProxyFactory();

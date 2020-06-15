@@ -38,13 +38,13 @@ class ChartLyricsProvider : public LyricsProvider {
 
  public:
   explicit ChartLyricsProvider(QObject *parent = nullptr);
-  ~ChartLyricsProvider();
+  ~ChartLyricsProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id);
-  void CancelSearch(quint64 id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const quint64 id) override;
+  void CancelSearch(quint64 id) override;
 
  private:
-  void Error(const QString &error, QVariant debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const quint64 id, const QString &artist, const QString &title);

@@ -43,7 +43,7 @@ class AcoustidClient : public QObject {
 
  public:
   explicit AcoustidClient(QObject *parent = nullptr);
-  ~AcoustidClient();
+  ~AcoustidClient() override;
 
   // Network requests will be aborted after this interval.
   void SetTimeout(const int msec);

@@ -82,8 +82,8 @@ class PlaylistProxyStyle : public QProxyStyle {
  public:
   explicit PlaylistProxyStyle();
 
-  void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
-  void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
+  void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
+  void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const override;
 
  private:
   std::unique_ptr<QCommonStyle> common_style_;
@@ -91,10 +91,10 @@ class PlaylistProxyStyle : public QProxyStyle {
 
 class PlaylistView : public QTreeView {
   Q_OBJECT
- public:
 
+ public:
   explicit PlaylistView(QWidget *parent = nullptr);
-  ~PlaylistView();
+  ~PlaylistView() override;
 
   static ColumnAlignmentMap DefaultColumnAlignment();
 
@@ -109,12 +109,10 @@ class PlaylistView : public QTreeView {
   AppearanceSettingsPage::BackgroundImageType background_image_type() const { return background_image_type_; }
   Qt::Alignment column_alignment(int section) const;
 
-  // QTreeView
-  void drawTree(QPainter *painter, const QRegion &region) const;
-  void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  void setModel(QAbstractItemModel *model);
-
   void ResetColumns();
+
+  // QTreeView
+  void setModel(QAbstractItemModel *model) override;
 
  public slots:
   void ReloadSettings();
@@ -136,29 +134,33 @@ class PlaylistView : public QTreeView {
 
  protected:
   // QWidget
-  void keyPressEvent(QKeyEvent *event);
-  void contextMenuEvent(QContextMenuEvent *e);
-  void hideEvent(QHideEvent *event);
-  void showEvent(QShowEvent *event);
-  void timerEvent(QTimerEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void mousePressEvent(QMouseEvent *event);
-  void leaveEvent(QEvent*);
-  void paintEvent(QPaintEvent *event);
-  void dragMoveEvent(QDragMoveEvent *event);
-  void dragEnterEvent(QDragEnterEvent *event);
-  void dragLeaveEvent(QDragLeaveEvent *event);
-  void dropEvent(QDropEvent *event);
-  bool eventFilter(QObject *object, QEvent *event);
-  void focusInEvent(QFocusEvent *event);
+  void keyPressEvent(QKeyEvent *event) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
+  void hideEvent(QHideEvent *event) override;
+  void showEvent(QShowEvent *event) override;
+  void timerEvent(QTimerEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void leaveEvent(QEvent*) override;
+  void paintEvent(QPaintEvent *event) override;
+  void dragMoveEvent(QDragMoveEvent *event) override;
+  void dragEnterEvent(QDragEnterEvent *event) override;
+  void dragLeaveEvent(QDragLeaveEvent *event) override;
+  void dropEvent(QDropEvent *event) override;
+  bool eventFilter(QObject *object, QEvent *event) override;
+  void focusInEvent(QFocusEvent *event) override;
+
+  // QTreeView
+  void drawTree(QPainter *painter, const QRegion &region) const;
+  void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
   // QAbstractScrollArea
-  void scrollContentsBy(int dx, int dy);
+  void scrollContentsBy(int dx, int dy) override;
 
   // QAbstractItemView
-  void rowsInserted(const QModelIndex &parent, int start, int end);
-  bool edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event);
-  void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
+  void rowsInserted(const QModelIndex &parent, int start, int end) override;
+  bool edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event) override;
+  void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
 
  private slots:
   void InhibitAutoscrollTimeout();

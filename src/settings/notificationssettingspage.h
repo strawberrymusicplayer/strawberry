@@ -41,15 +41,16 @@ class NotificationsSettingsPage : public SettingsPage {
 
  public:
   explicit NotificationsSettingsPage(SettingsDialog *dialog);
-  ~NotificationsSettingsPage();
+  ~NotificationsSettingsPage() override;
+
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  protected:
-  void hideEvent(QHideEvent*);
-  void showEvent(QShowEvent*);
+  void hideEvent(QHideEvent*) override;
+  void showEvent(QShowEvent*) override;
 
  private slots:
   void NotificationTypeChanged();
@@ -74,4 +75,4 @@ class NotificationsSettingsPage : public SettingsPage {
   OSDPretty *pretty_popup_;
 };
 
-#endif // NOTIFICATIONSSETTINGSPAGE_H
+#endif  // NOTIFICATIONSSETTINGSPAGE_H

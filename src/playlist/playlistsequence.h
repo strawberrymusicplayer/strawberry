@@ -41,8 +41,8 @@ class PlaylistSequence : public QWidget {
   Q_OBJECT
 
  public:
-  explicit PlaylistSequence(QWidget *parent = nullptr, SettingsProvider *settings = 0);
-  ~PlaylistSequence();
+  explicit PlaylistSequence(QWidget *parent = nullptr, SettingsProvider *settings = nullptr);
+  ~PlaylistSequence() override;
 
   enum RepeatMode {
     Repeat_Off = 0,

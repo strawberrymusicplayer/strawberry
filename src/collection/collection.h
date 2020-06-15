@@ -44,7 +44,7 @@ class SCollection : public QObject {
 
  public:
   explicit SCollection(Application *app, QObject *parent);
-  ~SCollection();
+  ~SCollection() override;
 
   static const char *kSongsTable;
   static const char *kDirsTable;

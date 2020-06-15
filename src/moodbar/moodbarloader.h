@@ -37,7 +37,7 @@ class MoodbarLoader : public QObject {
 
  public:
   explicit MoodbarLoader(Application* app, QObject* parent = nullptr);
-  ~MoodbarLoader();
+  ~MoodbarLoader() override;
 
   enum Result {
     // The URL isn't a local file or the moodbar plugin was not available -

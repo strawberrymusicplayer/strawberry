@@ -37,7 +37,7 @@ class MultiSortFilterProxy : public QSortFilterProxyModel {
   void AddSortSpec(int role, Qt::SortOrder order = Qt::AscendingOrder);
 
  protected:
-  bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+  bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
  private:
   int Compare(const QVariant &left, const QVariant &right) const;

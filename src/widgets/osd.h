@@ -51,7 +51,7 @@ class OSD : public QObject {
 
  public:
   explicit OSD(SystemTrayIcon *tray_icon, Application *app, QObject *parent = nullptr);
-  ~OSD();
+  ~OSD() override;
 
   static const char *kSettingsGroup;
 

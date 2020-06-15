@@ -39,14 +39,14 @@ class FavoriteWidget : public QWidget {
   // Change the value if different from the current one and then update display and emit FavoriteStateChanged signal
   void SetFavorite(bool favorite);
 
-  QSize sizeHint() const;
+  QSize sizeHint() const override;
 
  signals:
   void FavoriteStateChanged(int, bool);
 
  protected:
-  void paintEvent(QPaintEvent *e);
-  void mouseReleaseEvent(QMouseEvent *e);
+  void paintEvent(QPaintEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
 
  private:
   static const int kStarSize;

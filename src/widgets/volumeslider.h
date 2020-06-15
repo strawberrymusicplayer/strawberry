@@ -50,15 +50,15 @@ class SliderSlider : public QSlider {
   // WARNING non-virtual - and thus only really intended for internal use this is a major flaw in the class presently, however it suits our current needs fine
   int value() const { return adjustValue(QSlider::value()); }
 
-signals:
+ signals:
   // we emit this when the user has specifically changed the slider so connect to it if valueChanged() is too generic Qt also emits valueChanged(int)
   void sliderReleased(int);
 
  protected:
-  virtual void wheelEvent(QWheelEvent*);
-  virtual void mouseMoveEvent(QMouseEvent*);
-  virtual void mouseReleaseEvent(QMouseEvent*);
-  virtual void mousePressEvent(QMouseEvent*);
+  void wheelEvent(QWheelEvent*) override;
+  void mouseMoveEvent(QMouseEvent*) override;
+  void mouseReleaseEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent*) override;
   virtual void slideEvent(QMouseEvent*);
 
   bool m_sliding;
@@ -89,8 +89,8 @@ class PrettySlider : public SliderSlider {
   explicit PrettySlider(Qt::Orientation orientation, SliderMode mode, QWidget* parent, uint max = 0);
 
  protected:
-  virtual void slideEvent(QMouseEvent*);
-  virtual void mousePressEvent(QMouseEvent*);
+  void slideEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent*) override;
 
  private:
   PrettySlider(const PrettySlider&);             // undefined
@@ -107,14 +107,14 @@ class VolumeSlider : public SliderSlider {
   void SetEnabled(const bool enabled);
 
  protected:
-  virtual void paintEvent(QPaintEvent*);
-  virtual void enterEvent(QEvent*);
-  virtual void leaveEvent(QEvent*);
+  void paintEvent(QPaintEvent*) override;
+  void enterEvent(QEvent*) override;
+  void leaveEvent(QEvent*) override;
   virtual void paletteChange(const QPalette&);
-  virtual void slideEvent(QMouseEvent*);
-  virtual void mousePressEvent(QMouseEvent*);
-  virtual void contextMenuEvent(QContextMenuEvent*);
-  virtual void wheelEvent(QWheelEvent* e);
+  void slideEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent*) override;
+  void contextMenuEvent(QContextMenuEvent*) override;
+  void wheelEvent(QWheelEvent* e) override;
 
  private slots:
   virtual void slotAnimTimer();

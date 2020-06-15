@@ -79,15 +79,15 @@ class PlaylistTabBar : public QTabBar {
   void PlaylistFavorited(int id, bool favorite);
 
  protected:
-  void contextMenuEvent(QContextMenuEvent *e);
-  void mouseReleaseEvent(QMouseEvent *e);
-  void mouseDoubleClickEvent(QMouseEvent *e);
-  void dragEnterEvent(QDragEnterEvent *e);
-  void dragMoveEvent(QDragMoveEvent *e);
-  void dragLeaveEvent(QDragLeaveEvent *e);
-  void dropEvent(QDropEvent *e);
-  void timerEvent(QTimerEvent *e);
-  bool event(QEvent *e);
+  void contextMenuEvent(QContextMenuEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void mouseDoubleClickEvent(QMouseEvent *e) override;
+  void dragEnterEvent(QDragEnterEvent *e) override;
+  void dragMoveEvent(QDragMoveEvent *e) override;
+  void dragLeaveEvent(QDragLeaveEvent *e) override;
+  void dropEvent(QDropEvent *e) override;
+  void timerEvent(QTimerEvent *e) override;
+  bool event(QEvent *e) override;
 
  private slots:
   void CurrentIndexChanged(int index);

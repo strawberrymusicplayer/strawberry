@@ -40,16 +40,16 @@ class TranscoderOptionsDialog : public QDialog {
 
  public:
   explicit TranscoderOptionsDialog(Song::FileType type, QWidget *parent = nullptr);
-  ~TranscoderOptionsDialog();
+  ~TranscoderOptionsDialog() override;
 
   bool is_valid() const { return options_; }
 
-  void accept();
+  void accept() override;
 
   void set_settings_postfix(const QString &settings_postfix);
 
  protected:
-  void showEvent(QShowEvent *e);
+  void showEvent(QShowEvent *e) override;
 
  private:
   Ui_TranscoderOptionsDialog *ui_;

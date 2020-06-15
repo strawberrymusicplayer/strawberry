@@ -38,13 +38,13 @@ class LastFMScrobbler : public ScrobblingAPI20 {
 
  public:
   explicit LastFMScrobbler(Application *app, QObject *parent = nullptr);
-  ~LastFMScrobbler();
+  ~LastFMScrobbler() override;
 
   static const char *kName;
   static const char *kSettingsGroup;
 
-  NetworkAccessManager *network() { return network_; }
-  ScrobblerCache *cache() { return cache_; }
+  NetworkAccessManager *network() const override { return network_; }
+  ScrobblerCache *cache() const override { return cache_; }
 
  private:
   static const char *kAuthUrl;

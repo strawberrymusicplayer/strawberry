@@ -39,13 +39,13 @@ class CoverFromURLDialog : public QDialog {
 
  public:
   explicit CoverFromURLDialog(QWidget *parent = nullptr);
-  ~CoverFromURLDialog();
+  ~CoverFromURLDialog() override;
 
   // Opens the dialog. This returns an image found at the URL chosen by user or null image if the dialog got rejected.
   QImage Exec();
 
  private slots:
-  void accept();
+  void accept() override;
   void LoadCoverFromURLFinished();
 
  private:

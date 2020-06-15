@@ -40,7 +40,7 @@ class MtpLoader : public QObject {
 
  public:
   explicit MtpLoader(const QUrl &url, TaskManager *task_manager, CollectionBackend *backend);
-  ~MtpLoader();
+  ~MtpLoader() override;
 
   bool Init();
   void Abort() { abort_ = true; }

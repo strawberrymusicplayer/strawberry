@@ -101,7 +101,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  public:
   explicit MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, const CommandlineOptions& options, QWidget *parent = nullptr);
-  ~MainWindow();
+  ~MainWindow() override;
 
   static const char *kSettingsGroup;
   static const char *kAllFilesFilterSpec;
@@ -117,13 +117,13 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const CommandlineOptions& options);
 
  protected:
-  void keyPressEvent(QKeyEvent *event);
-  void closeEvent(QCloseEvent *event);
-  bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+  void keyPressEvent(QKeyEvent *event) override;
+  void closeEvent(QCloseEvent *event) override;
+  bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 
   // PlatformInterface
-  void Activate();
-  bool LoadUrl(const QString& url);
+  void Activate() override;
+  bool LoadUrl(const QString& url) override;
 
  signals:
   void AlbumCoverReady(const Song &song, const QImage &image);

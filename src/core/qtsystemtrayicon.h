@@ -44,32 +44,32 @@ class QtSystemTrayIcon : public SystemTrayIcon {
 
  public:
   QtSystemTrayIcon(QObject *parent = nullptr);
-  ~QtSystemTrayIcon();
+  ~QtSystemTrayIcon() override;
 
-  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit);
-  bool IsVisible() const;
-  void SetVisible(bool visible);
+  void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) override;
+  bool IsVisible() const override;
+  void SetVisible(bool visible) override;
 
-  void ShowPopup(const QString &summary, const QString &message, int timeout);
+  void ShowPopup(const QString &summary, const QString &message, int timeout) override;
 
-  void SetNowPlaying(const Song &song, const QUrl &cover_url);
-  void ClearNowPlaying();
+  void SetNowPlaying(const Song &song, const QUrl &cover_url) override;
+  void ClearNowPlaying() override;
 
-  bool MuteEnabled() { return action_mute_->isVisible(); }
-  void SetMuteEnabled(bool enabled) { action_mute_->setVisible(enabled); }
+  bool MuteEnabled() const override { return action_mute_->isVisible(); }
+  void SetMuteEnabled(bool enabled) override { action_mute_->setVisible(enabled); }
 
  protected:
   // SystemTrayIcon
-  void UpdateIcon();
-  void SetPaused();
-  void SetPlaying(bool enable_play_pause = false);
-  void SetStopped();
-  void MuteButtonStateChanged(bool value);
-  void LoveVisibilityChanged(bool value);
-  void LoveStateChanged(bool value);
+  void UpdateIcon() override;
+  void SetPaused() override;
+  void SetPlaying(bool enable_play_pause = false) override;
+  void SetStopped() override;
+  void MuteButtonStateChanged(bool value) override;
+  void LoveVisibilityChanged(bool value) override;
+  void LoveStateChanged(bool value) override;
 
   // QObject
-  bool eventFilter(QObject *, QEvent *);
+  bool eventFilter(QObject*, QEvent*) override;
 
  private slots:
   void Clicked(QSystemTrayIcon::ActivationReason);

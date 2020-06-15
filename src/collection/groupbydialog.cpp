@@ -108,7 +108,7 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(new Ui_Grou
 
 }
 
-GroupByDialog::~GroupByDialog() {}
+GroupByDialog::~GroupByDialog() = default;
 
 void GroupByDialog::Reset() {
   ui_->combobox_first->setCurrentIndex(2);   // Album Artist

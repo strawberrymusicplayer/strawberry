@@ -133,72 +133,72 @@ class PlaylistManager : public PlaylistManagerInterface {
 
  public:
   explicit PlaylistManager(Application *app, QObject *parent = nullptr);
-  ~PlaylistManager();
+  ~PlaylistManager() override;
 
-  int current_id() const { return current_; }
-  int active_id() const { return active_; }
+  int current_id() const override { return current_; }
+  int active_id() const override { return active_; }
 
-  Playlist *playlist(int id) const { return playlists_[id].p; }
-  Playlist *current() const { return playlist(current_id()); }
-  Playlist *active() const { return playlist(active_id()); }
+  Playlist *playlist(int id) const override { return playlists_[id].p; }
+  Playlist *current() const override { return playlist(current_id()); }
+  Playlist *active() const override { return playlist(active_id()); }
 
   // Returns the collection of playlists managed by this PlaylistManager.
-  QList<Playlist*> GetAllPlaylists() const;
+  QList<Playlist*> GetAllPlaylists() const override;
   // Grays out and reloads all deleted songs in all playlists.
-  void InvalidateDeletedSongs();
+  void InvalidateDeletedSongs() override;
   // Removes all deleted songs from all playlists.
-  void RemoveDeletedSongs();
+  void RemoveDeletedSongs() override;
   // Returns true if the playlist is open
   bool IsPlaylistOpen(int id);
 
   // Returns a pretty automatic name for playlist created from the given list of songs.
   static QString GetNameForNewPlaylist(const SongList& songs);
 
-  QItemSelection selection(int id) const;
-  QItemSelection current_selection() const { return selection(current_id()); }
-  QItemSelection active_selection() const { return selection(active_id()); }
+  QItemSelection selection(int id) const override;
+  QItemSelection current_selection() const override { return selection(current_id()); }
+  QItemSelection active_selection() const override { return selection(active_id()); }
 
-  QString GetPlaylistName(int index) const { return playlists_[index].name; }
+  QString GetPlaylistName(int index) const override { return playlists_[index].name; }
   bool IsPlaylistFavorite(int index) const { return playlists_[index].p->is_favorite(); }
 
   void Init(CollectionBackend *collection_backend, PlaylistBackend *playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
 
-  CollectionBackend *collection_backend() const { return collection_backend_; }
-  PlaylistBackend *playlist_backend() const { return playlist_backend_; }
-  PlaylistSequence *sequence() const { return sequence_; }
-  PlaylistParser *parser() const { return parser_; }
-  PlaylistContainer *playlist_container() const { return playlist_container_; }
+  CollectionBackend *collection_backend() const override { return collection_backend_; }
+  PlaylistBackend *playlist_backend() const override { return playlist_backend_; }
+  PlaylistSequence *sequence() const override { return sequence_; }
+  PlaylistParser *parser() const override { return parser_; }
+  PlaylistContainer *playlist_container() const override { return playlist_container_; }
 
  public slots:
-  void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString());
-  void Load(const QString &filename);
-  void Save(int id, const QString &filename, Playlist::Path path_type);
+  void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
+  void Load(const QString &filename) override;
+  void Save(int id, const QString &filename, Playlist::Path path_type) override;
   // Display a file dialog to let user choose a file before saving the file
   void SaveWithUI(int id, const QString &playlist_name);
-  void Rename(int id, const QString &new_name);
+  void Rename(int id, const QString &new_name) override;
   void Favorite(int id, bool favorite);
-  void Delete(int id);
-  bool Close(int id);
-  void Open(int id);
-  void ChangePlaylistOrder(const QList<int>& ids);
+  void Delete(int id) override;
+  bool Close(int id) override;
+  void Open(int id) override;
+  void ChangePlaylistOrder(const QList<int>& ids) override;
 
-  void SetCurrentPlaylist(int id);
-  void SetActivePlaylist(int id);
-  void SetActiveToCurrent();
+  void SetCurrentPlaylist(int id) override;
+  void SetActivePlaylist(int id) override;
+  void SetActiveToCurrent() override;
 
-  void SelectionChanged(const QItemSelection &selection);
+  void SelectionChanged(const QItemSelection &selection) override;
 
   // Makes a playlist current if it's open already, or opens it and makes it current if it is hidden.
   void SetCurrentOrOpen(int id);
 
   // Convenience slots that defer to either current() or active()
-  void ClearCurrent();
-  void ShuffleCurrent();
-  void RemoveDuplicatesCurrent();
-  void RemoveUnavailableCurrent();
+  void ClearCurrent() override;
+  void ShuffleCurrent() override;
+  void RemoveDuplicatesCurrent() override;
+  void RemoveUnavailableCurrent() override;
   //void SetActiveStreamMetadata(const QUrl& url, const Song& song);
 
-  void SongChangeRequestProcessed(const QUrl& url, bool valid);
+  void SongChangeRequestProcessed(const QUrl& url, bool valid) override;
 
   void InsertUrls(int id, const QList<QUrl>& urls, int pos = -1, bool play_now = false, bool enqueue = false);
   void InsertSongs(int id, const SongList& songs, int pos = -1, bool play_now = false, bool enqueue = false);
@@ -208,9 +208,9 @@ class PlaylistManager : public PlaylistManagerInterface {
   void RemoveCurrentSong();
 
  private slots:
-  void SetActivePlaying();
-  void SetActivePaused();
-  void SetActiveStopped();
+  void SetActivePlaying() override;
+  void SetActivePaused() override;
+  void SetActiveStopped() override;
 
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();

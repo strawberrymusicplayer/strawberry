@@ -189,7 +189,7 @@ DeviceView::DeviceView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
-DeviceView::~DeviceView() {}
+DeviceView::~DeviceView() = default;
 
 void DeviceView::SetApplication(Application *app) {
 

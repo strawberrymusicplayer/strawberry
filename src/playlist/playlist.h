@@ -94,7 +94,7 @@ class Playlist : public QAbstractListModel {
 
  public:
   explicit Playlist(PlaylistBackend *backend, TaskManager *task_manager, CollectionBackend *collection, int id, const QString &special_type = QString(), bool favorite = false, QObject *parent = nullptr);
-  ~Playlist();
+  ~Playlist() override;
 
   void SkipTracks(const QModelIndexList &source_indexes);
 
@@ -263,18 +263,18 @@ class Playlist : public QAbstractListModel {
 #endif
 
   // QAbstractListModel
-  int rowCount(const QModelIndex& = QModelIndex()) const { return items_.count(); }
-  int columnCount(const QModelIndex& = QModelIndex()) const { return ColumnCount; }
-  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
-  bool setData(const QModelIndex &index, const QVariant &value, int role);
-  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-  Qt::ItemFlags flags(const QModelIndex &index) const;
-  QStringList mimeTypes() const;
-  Qt::DropActions supportedDropActions() const;
-  QMimeData *mimeData(const QModelIndexList &indexes) const;
-  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-  void sort(int column, Qt::SortOrder order);
-  bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
+  int rowCount(const QModelIndex& = QModelIndex()) const override { return items_.count(); }
+  int columnCount(const QModelIndex& = QModelIndex()) const override { return ColumnCount; }
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
+  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  QStringList mimeTypes() const override;
+  Qt::DropActions supportedDropActions() const override;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+  void sort(int column, Qt::SortOrder order) override;
+  bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
   static bool ComparePathDepths(Qt::SortOrder, PlaylistItemPtr, PlaylistItemPtr);
 

@@ -45,7 +45,7 @@ CollectionDirectoryModel::CollectionDirectoryModel(CollectionBackend *backend, Q
 
 }
 
-CollectionDirectoryModel::~CollectionDirectoryModel() {}
+CollectionDirectoryModel::~CollectionDirectoryModel() = default;
 
 void CollectionDirectoryModel::DirectoryDiscovered(const Directory &dir) {
 

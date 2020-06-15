@@ -37,11 +37,11 @@ class LineTextEdit : public QTextEdit {
  public:
   explicit LineTextEdit(QWidget *parent = nullptr);
 
-  QSize sizeHint() const;
-  QSize minimumSizeHint() const;
+  QSize sizeHint() const override;
+  QSize minimumSizeHint() const override;
 
  protected:
-  void keyPressEvent(QKeyEvent *e);
+  void keyPressEvent(QKeyEvent *e) override;
 };
 
 #endif  // LINETEXTEDIT_H

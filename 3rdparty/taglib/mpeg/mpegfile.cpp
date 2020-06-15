@@ -85,9 +85,9 @@ class AdapterFile : public Strawberry_TagLib::TagLib::File {
  public:
   explicit AdapterFile(IOStream *stream) : File(stream) {}
 
-  Tag *tag() const { return nullptr; }
-  AudioProperties *audioProperties() const { return nullptr; }
-  bool save() { return false; }
+  Tag *tag() const override { return nullptr; }
+  AudioProperties *audioProperties() const override { return nullptr; }
+  bool save() override { return false; }
 };
 }  // namespace
 

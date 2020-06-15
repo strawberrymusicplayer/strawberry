@@ -43,7 +43,7 @@ class Database : public QObject {
 
  public:
   explicit Database(Application *app, QObject *parent = nullptr, const QString &database_name = QString());
-  ~Database();
+  ~Database() override;
 
   struct AttachedDatabase {
     AttachedDatabase() {}
@@ -131,7 +131,7 @@ class MemoryDatabase : public Database {
  public:
   MemoryDatabase(Application *app, QObject *parent = nullptr)
       : Database(app, parent, ":memory:") {}
-  ~MemoryDatabase() {
+  ~MemoryDatabase() override {
     // Make sure Qt doesn't reuse the same database
     QSqlDatabase::removeDatabase(Connect().connectionName());
   }

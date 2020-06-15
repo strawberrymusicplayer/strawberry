@@ -39,7 +39,7 @@ class OrganiseErrorDialog : public QDialog {
 
  public:
   explicit OrganiseErrorDialog(QWidget *parent = nullptr);
-  ~OrganiseErrorDialog();
+  ~OrganiseErrorDialog() override;
 
   enum OperationType {
     Type_Copy,

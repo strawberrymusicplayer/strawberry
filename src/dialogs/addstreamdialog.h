@@ -32,13 +32,13 @@ class AddStreamDialog : public QDialog {
 
  public:
   AddStreamDialog(QWidget *parent = nullptr);
-  ~AddStreamDialog();
+  ~AddStreamDialog() override;
 
   QUrl url() const { return QUrl(ui_->url->text()); }
   void set_url(const QUrl &url) { ui_->url->setText(url.toString());}
 
  protected:
-  void showEvent(QShowEvent*);
+  void showEvent(QShowEvent*) override;
 
  private slots:
   void TextChanged(const QString &text);

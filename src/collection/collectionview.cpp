@@ -88,7 +88,7 @@ CollectionView::CollectionView(QWidget *parent)
 
 }
 
-CollectionView::~CollectionView() {}
+CollectionView::~CollectionView() = default;
 
 void CollectionView::SaveFocus() {
 

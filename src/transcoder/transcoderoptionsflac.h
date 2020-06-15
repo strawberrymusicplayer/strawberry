@@ -32,10 +32,10 @@ class Ui_TranscoderOptionsFLAC;
 class TranscoderOptionsFLAC : public TranscoderOptionsInterface {
  public:
   explicit TranscoderOptionsFLAC(QWidget *parent = nullptr);
-  ~TranscoderOptionsFLAC();
+  ~TranscoderOptionsFLAC() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
 private:
   static const char *kSettingsGroup;

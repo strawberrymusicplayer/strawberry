@@ -134,7 +134,7 @@ ContextAlbumsView::ContextAlbumsView(QWidget *parent)
 
 }
 
-ContextAlbumsView::~ContextAlbumsView() {}
+ContextAlbumsView::~ContextAlbumsView() = default;
 
 void ContextAlbumsView::SaveFocus() {
 

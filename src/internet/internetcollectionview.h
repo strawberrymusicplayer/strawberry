@@ -62,8 +62,8 @@ class InternetCollectionView : public AutoExpandingTreeView {
   void SetFilter(CollectionFilterWidget *filter);
 
   // QTreeView
-  void keyboardSearch(const QString &search);
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
+  void keyboardSearch(const QString &search) override;
+  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
 
   int TotalSongs();
   int TotalArtists();
@@ -90,9 +90,9 @@ class InternetCollectionView : public AutoExpandingTreeView {
 
  protected:
   // QWidget
-  void paintEvent(QPaintEvent *event);
-  void mouseReleaseEvent(QMouseEvent *e);
-  void contextMenuEvent(QContextMenuEvent *e);
+  void paintEvent(QPaintEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private slots:
   void Load();

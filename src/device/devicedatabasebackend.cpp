@@ -49,8 +49,6 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent) :
 
 }
 
-DeviceDatabaseBackend::~DeviceDatabaseBackend() {}
-
 void DeviceDatabaseBackend::Init(Database* db) { db_ = db; }
 
 void DeviceDatabaseBackend::Close() {

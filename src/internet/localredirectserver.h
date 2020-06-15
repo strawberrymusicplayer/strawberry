@@ -39,7 +39,7 @@ class LocalRedirectServer : public QTcpServer {
 
  public:
   explicit LocalRedirectServer(QObject *parent = nullptr);
-  ~LocalRedirectServer();
+  ~LocalRedirectServer() override;
 
   void set_https(const bool https) { https_ = https; }
   void set_port(const int port) { port_ = port; }
@@ -53,7 +53,7 @@ class LocalRedirectServer : public QTcpServer {
 
  public slots:
   void NewConnection();
-  void incomingConnection(qintptr socket_descriptor);
+  void incomingConnection(qintptr socket_descriptor) override;
   void SSLErrors(const QList<QSslError> &errors);
   void Encrypted();
   void Connected();

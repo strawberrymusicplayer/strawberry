@@ -47,7 +47,7 @@ public:
   void SetPopupPosition(const QPoint& pos);
 
  protected:
-  void paintEvent(QPaintEvent*);
+  void paintEvent(QPaintEvent*) override;
 
  private:
   static const int kTextMargin;

@@ -58,7 +58,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
 
  public:
   explicit ContextAlbumsModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
-  ~ContextAlbumsModel();
+  ~ContextAlbumsModel() override;
 
   static const int kPrettyCoverSize;
 
@@ -81,11 +81,11 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   SongList GetChildSongs(const QModelIndex &index) const;
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-  Qt::ItemFlags flags(const QModelIndex &index) const;
-  QStringList mimeTypes() const;
-  QMimeData *mimeData(const QModelIndexList &indexes) const;
-  bool canFetchMore(const QModelIndex &parent) const;
+  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  QStringList mimeTypes() const override;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  bool canFetchMore(const QModelIndex &parent) const override;
 
   static QString TextOrUnknown(const QString &text);
   static QString SortText(QString text);
@@ -96,7 +96,7 @@ class ContextAlbumsModel : public SimpleTreeModel<CollectionItem> {
   void AddSongs(const SongList &songs);
 
  protected:
-  void LazyPopulate(CollectionItem *item) { LazyPopulate(item, true); }
+  void LazyPopulate(CollectionItem *item) override { LazyPopulate(item, true); }
   void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:

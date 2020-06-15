@@ -46,9 +46,9 @@ class QMouseEvent;
 class QPaintEvent;
 
 class Application;
+class ContextAlbumsModel;
 class EditTagDialog;
 class OrganiseDialog;
-class ContextAlbumsModel;
 
 class ContextItemDelegate : public QStyledItemDelegate {
   Q_OBJECT
@@ -57,7 +57,7 @@ class ContextItemDelegate : public QStyledItemDelegate {
   explicit ContextItemDelegate(QObject *parent);
 
  public slots:
-  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index);
+  bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override;
 };
 
 class ContextAlbumsView : public AutoExpandingTreeView {
@@ -65,7 +65,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
 
  public:
   ContextAlbumsView(QWidget *parent = nullptr);
-  ~ContextAlbumsView();
+  ~ContextAlbumsView() override;
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
@@ -74,7 +74,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   void Init(Application *app);
 
   // QTreeView
-  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible);
+  void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) override;
 
   ContextAlbumsModel *albums_model() { return model_; }
 
@@ -84,9 +84,9 @@ class ContextAlbumsView : public AutoExpandingTreeView {
 
  protected:
   // QWidget
-  void paintEvent(QPaintEvent *event);
-  void mouseReleaseEvent(QMouseEvent *e);
-  void contextMenuEvent(QContextMenuEvent *e);
+  void paintEvent(QPaintEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
  private slots:
   void Load();

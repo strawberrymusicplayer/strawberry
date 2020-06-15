@@ -29,7 +29,7 @@
 class TranscoderOptionsInterface : public QWidget {
  public:
   explicit TranscoderOptionsInterface(QWidget *parent) : QWidget(parent) {}
-  virtual ~TranscoderOptionsInterface() {}
+  ~TranscoderOptionsInterface() override {}
 
   virtual void Load() = 0;
   virtual void Save() = 0;

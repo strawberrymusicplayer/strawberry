@@ -35,7 +35,7 @@ class CollectionViewContainer : public QWidget {
 
  public:
   explicit CollectionViewContainer(QWidget *parent = nullptr);
-  ~CollectionViewContainer();
+  ~CollectionViewContainer() override;
 
   CollectionFilterWidget *filter() const;
   CollectionView *view() const;

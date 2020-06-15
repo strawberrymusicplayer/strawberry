@@ -42,7 +42,7 @@ class Equalizer : public QDialog {
 
  public:
   explicit Equalizer(QWidget *parent = nullptr);
-  ~Equalizer();
+  ~Equalizer() override;
 
   static const int kBands = 10;
   static const char *kGainText[kBands];
@@ -73,7 +73,7 @@ class Equalizer : public QDialog {
   void EqualizerParametersChanged(const int preamp, const QList<int> &band_gains);
 
  protected:
-  void closeEvent(QCloseEvent*);
+  void closeEvent(QCloseEvent*) override;
 
  private slots:
   void StereoBalancerEnabledChangedSlot(const bool enabled);

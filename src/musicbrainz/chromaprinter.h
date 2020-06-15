@@ -39,7 +39,6 @@ class Chromaprinter {
 
  public:
   explicit Chromaprinter(const QString &filename);
-  ~Chromaprinter();
 
   // Creates a fingerprint from the song.
   // This method is blocking, so you want to call it in another thread.

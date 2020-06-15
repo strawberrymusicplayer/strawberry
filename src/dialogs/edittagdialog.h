@@ -62,7 +62,7 @@ class EditTagDialog : public QDialog {
 
  public:
   explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
-  ~EditTagDialog();
+  ~EditTagDialog() override;
 
   static const char *kHintText;
   static const char *kSettingsGroup;
@@ -71,15 +71,15 @@ class EditTagDialog : public QDialog {
 
   PlaylistItemList playlist_items() const { return playlist_items_; }
 
-  void accept();
+  void accept() override;
 
  signals:
   void Error(const QString &message);
 
  protected:
-  bool eventFilter(QObject *o, QEvent *e);
-  void showEvent(QShowEvent*);
-  void hideEvent(QHideEvent*);
+  bool eventFilter(QObject *o, QEvent *e) override;
+  void showEvent(QShowEvent*) override;
+  void hideEvent(QHideEvent*) override;
 
  private:
   struct Data {

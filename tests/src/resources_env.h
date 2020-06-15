@@ -27,7 +27,7 @@
 
 class ResourcesEnvironment : public ::testing::Environment {
 public:
-  void SetUp() {
+  void SetUp() override {
     Q_INIT_RESOURCE(data);
     Q_INIT_RESOURCE(translations);
     Q_INIT_RESOURCE(testdata);

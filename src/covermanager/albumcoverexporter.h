@@ -38,7 +38,6 @@ class AlbumCoverExporter : public QObject {
 
  public:
   explicit AlbumCoverExporter(QObject *parent = nullptr);
-  virtual ~AlbumCoverExporter() {}
 
   static const int kMaxConcurrentRequests;
 

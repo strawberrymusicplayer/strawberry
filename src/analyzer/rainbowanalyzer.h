@@ -53,11 +53,11 @@ class RainbowAnalyzer : public Analyzer::Base {
   RainbowAnalyzer(const RainbowType& rbtype, QWidget* parent);
 
  protected:
-  void transform(Analyzer::Scope&);
-  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame);
+  void transform(Analyzer::Scope&) override;
+  void analyze(QPainter& p, const Analyzer::Scope&, bool new_frame) override;
 
-  void timerEvent(QTimerEvent* e);
-  void resizeEvent(QResizeEvent* e);
+  void timerEvent(QTimerEvent* e) override;
+  void resizeEvent(QResizeEvent* e) override;
 
  private:
   static const int kHeight[];

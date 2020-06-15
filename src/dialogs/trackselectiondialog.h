@@ -39,7 +39,7 @@ class TrackSelectionDialog : public QDialog {
 
  public:
   explicit TrackSelectionDialog(QWidget *parent = nullptr);
-  ~TrackSelectionDialog();
+  ~TrackSelectionDialog() override;
 
   void set_save_on_close(bool save_on_close) { save_on_close_ = save_on_close; }
 
@@ -50,7 +50,7 @@ class TrackSelectionDialog : public QDialog {
   void FetchTagFinished(const Song &original_song, const SongList &songs_guessed);
 
   // QDialog
-  void accept();
+  void accept() override;
 
  signals:
   void Error(const QString&);

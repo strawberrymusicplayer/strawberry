@@ -64,7 +64,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
  public:
   explicit CollectionModel(CollectionBackend *backend, Application *app, QObject *parent = nullptr);
-  ~CollectionModel();
+  ~CollectionModel() override;
 
   static const char *kSavedGroupingsSettingsGroup;
 
@@ -146,11 +146,11 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count() const { return total_album_count_; }
 
   // QAbstractItemModel
-  QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const;
-  Qt::ItemFlags flags(const QModelIndex &idx) const;
-  QStringList mimeTypes() const;
-  QMimeData *mimeData(const QModelIndexList &indexes) const;
-  bool canFetchMore(const QModelIndex &parent) const;
+  QVariant data(const QModelIndex &idx, const int role = Qt::DisplayRole) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
+  QStringList mimeTypes() const override;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  bool canFetchMore(const QModelIndex &parent) const override;
 
   // Whether or not to use album cover art, if it exists, in the collection view
   void set_pretty_covers(const bool use_pretty_covers);
@@ -199,7 +199,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void ResetAsync();
 
  protected:
-  void LazyPopulate(CollectionItem *item) { LazyPopulate(item, true); }
+  void LazyPopulate(CollectionItem *item) override { LazyPopulate(item, true); }
   void LazyPopulate(CollectionItem *parent, const bool signal);
 
  private slots:

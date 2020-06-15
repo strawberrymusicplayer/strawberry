@@ -37,7 +37,6 @@ class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
 
  public:
   explicit GlobalShortcutBackendGSD(GlobalShortcuts *parent);
-  ~GlobalShortcutBackendGSD();
 
   static const char *kGsdService;
   static const char *kGsdService2;
@@ -45,8 +44,8 @@ class GlobalShortcutBackendGSD : public GlobalShortcutBackend {
 
  protected:
   bool RegisterInNewThread() const { return true; }
-  bool DoRegister();
-  void DoUnregister();
+  bool DoRegister() override;
+  void DoUnregister() override;
 
  private slots:
   void RegisterFinished(QDBusPendingCallWatcher *watcher);

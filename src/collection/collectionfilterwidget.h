@@ -49,7 +49,7 @@ class CollectionFilterWidget : public QWidget {
 
  public:
   explicit CollectionFilterWidget(QWidget *parent = nullptr);
-  ~CollectionFilterWidget();
+  ~CollectionFilterWidget() override;
 
   static const int kFilterDelay = 500;  // msec
 
@@ -83,14 +83,14 @@ class CollectionFilterWidget : public QWidget {
   void SetQueryMode(QueryOptions::QueryMode query_mode);
   void FocusOnFilter(QKeyEvent *e);
 
-signals:
+ signals:
   void UpPressed();
   void DownPressed();
   void ReturnPressed();
   void Filter(const QString &text);
 
  protected:
-  void keyReleaseEvent(QKeyEvent *e);
+  void keyReleaseEvent(QKeyEvent *e) override;
 
  private slots:
   void GroupingChanged(const CollectionModel::Grouping &g);

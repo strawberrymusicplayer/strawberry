@@ -45,37 +45,37 @@ class ScrobblingAPI20 : public ScrobblerService {
 
  public:
   explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, Application *app, QObject *parent = nullptr);
-  ~ScrobblingAPI20();
+  ~ScrobblingAPI20() override;
 
   static const char *kRedirectUrl;
 
-  void ReloadSettings();
+  void ReloadSettings() override;
   void LoadSession();
   
-  virtual NetworkAccessManager *network() = 0;
-  virtual ScrobblerCache *cache() = 0;
+  virtual NetworkAccessManager *network() const = 0;
+  virtual ScrobblerCache *cache() const = 0;
 
-  bool IsEnabled() const { return enabled_; }
+  bool IsEnabled() const override { return enabled_; }
   bool IsUseHTTPS() const { return https_; }
-  bool IsAuthenticated() const { return !username_.isEmpty() && !session_key_.isEmpty(); }
+  bool IsAuthenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
   bool IsSubscriber() const { return subscriber_; }
-  bool IsSubmitted() const { return submitted_; }
-  void Submitted() { submitted_ = true; }
+  bool IsSubmitted() const override { return submitted_; }
+  void Submitted() override { submitted_ = true; }
   QString username() const { return username_; }
 
   void Authenticate(const bool https = false);
   void Logout();
-  void UpdateNowPlaying(const Song &song);
-  void ClearPlaying();
-  void Scrobble(const Song &song);
-  void Submit();
-  void Love();
+  void UpdateNowPlaying(const Song &song) override;
+  void ClearPlaying() override;
+  void Scrobble(const Song &song) override;
+  void Submit() override;
+  void Love() override;
 
  signals:
   void AuthenticationComplete(bool success, QString error = QString());
 
  public slots:
-  void WriteCache() { cache()->WriteCache(); }
+  void WriteCache() override { cache()->WriteCache(); }
 
  private slots:
   void RedirectArrived();
@@ -130,9 +130,9 @@ class ScrobblingAPI20 : public ScrobblerService {
   void RequestSession(const QString &token);
   void AuthError(const QString &error);
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   QString ErrorString(const ScrobbleErrorCode error) const;
-  void DoSubmit();
+  void DoSubmit() override;
   void CheckScrobblePrevSong();
 
   QString name_;

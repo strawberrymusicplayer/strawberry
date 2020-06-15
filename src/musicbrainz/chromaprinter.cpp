@@ -55,8 +55,6 @@ Chromaprinter::Chromaprinter(const QString &filename)
     : filename_(filename),
       convert_element_(nullptr) {}
 
-Chromaprinter::~Chromaprinter() {}
-
 GstElement *Chromaprinter::CreateElement(const QString &factory_name, GstElement *bin) {
 
   GstElement *ret = gst_element_factory_make( factory_name.toLatin1().constData(), factory_name.toLatin1().constData());

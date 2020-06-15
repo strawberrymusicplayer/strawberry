@@ -45,17 +45,16 @@ class CddaDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
-  ~CddaDevice();
+  Q_INVOKABLE explicit CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
 
-  bool Init();
-  void Refresh();
-  bool CopyToStorage(const MusicStorage::CopyJob&) { return false; }
-  bool DeleteFromStorage(const MusicStorage::DeleteJob&) { return false; }
+  bool Init() override;
+  void Refresh() override;
+  bool CopyToStorage(const MusicStorage::CopyJob&) override { return false; }
+  bool DeleteFromStorage(const MusicStorage::DeleteJob&) override { return false; }
 
   static QStringList url_schemes() { return QStringList() << "cdda"; }
 
-signals:
+ signals:
   void SongsDiscovered(const SongList &songs);
 
  private slots:

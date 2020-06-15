@@ -39,8 +39,8 @@ class TidalUrlHandler : public UrlHandler {
  public:
   TidalUrlHandler(Application *app, TidalService *service);
 
-  QString scheme() const { return service_->url_scheme(); }
-  LoadResult StartLoading(const QUrl &url);
+  QString scheme() const override { return service_->url_scheme(); }
+  LoadResult StartLoading(const QUrl &url) override;
 
   void CancelTask();
 

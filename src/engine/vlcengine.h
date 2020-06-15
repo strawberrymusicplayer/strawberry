@@ -43,27 +43,29 @@ class VLCEngine : public Engine::Base {
 
  public:
   explicit VLCEngine(TaskManager *task_manager);
-  ~VLCEngine();
+  ~VLCEngine() override;
 
-  bool Init();
-  Engine::State state() const { return state_; }
-  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec);
-  bool Play(const quint64 offset_nanosec);
-  void Stop(const bool stop_after = false);
-  void Pause();
-  void Unpause();
-  void Seek(const quint64 offset_nanosec);
+  bool Init() override;
+  Engine::State state() const override { return state_; }
+  bool Load(const QUrl &stream_url, const QUrl &original_url, const Engine::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec) override;
+  bool Play(const quint64 offset_nanosec) override;
+  void Stop(const bool stop_after = false) override;
+  void Pause() override;
+  void Unpause() override;
+  void Seek(const quint64 offset_nanosec) override;
+
  protected:
-  void SetVolumeSW(const uint percent);
- public:
-  virtual qint64 position_nanosec() const;
-  virtual qint64 length_nanosec() const;
+  void SetVolumeSW(const uint percent) override;
 
-  OutputDetailsList GetOutputsList() const;
-  bool ValidOutput(const QString &output);
-  QString DefaultOutput() { return ""; }
-  bool CustomDeviceSupport(const QString &output);
-  bool ALSADeviceSupport(const QString &output);
+ public:
+  qint64 position_nanosec() const override;
+  qint64 length_nanosec() const override;
+
+  OutputDetailsList GetOutputsList() const override;
+  bool ValidOutput(const QString &output) override;
+  QString DefaultOutput() override { return ""; }
+  bool CustomDeviceSupport(const QString &output) override;
+  bool ALSADeviceSupport(const QString &output) override;
 
  private:
   libvlc_instance_t *instance_;

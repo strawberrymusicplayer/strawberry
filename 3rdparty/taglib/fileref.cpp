@@ -276,7 +276,7 @@ class FileRef::FileRefPrivate : public RefCounter {
  public:
   FileRefPrivate() : file(nullptr), stream(nullptr) {}
 
-  ~FileRefPrivate() {
+  ~FileRefPrivate() override {
     delete file;
     delete stream;
   }

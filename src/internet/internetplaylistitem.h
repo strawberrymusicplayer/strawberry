@@ -37,14 +37,15 @@ class InternetPlaylistItem : public PlaylistItem {
  public:
   explicit InternetPlaylistItem(const Song::Source source);
   explicit InternetPlaylistItem(InternetService *service, const Song &metadata);
-  bool InitFromQuery(const SqlRow &query);
-  Song Metadata() const;
-  QUrl Url() const;
-  void SetArtManual(const QUrl &cover_url);
+
+  bool InitFromQuery(const SqlRow &query) override;
+  Song Metadata() const override;
+  QUrl Url() const override;
+  void SetArtManual(const QUrl &cover_url) override;
 
  protected:
-  QVariant DatabaseValue(DatabaseColumn) const;
-  Song DatabaseSongMetadata() const { return metadata_; }
+  QVariant DatabaseValue(DatabaseColumn) const override;
+  Song DatabaseSongMetadata() const override { return metadata_; }
 
  private:
   void InitMetadata();

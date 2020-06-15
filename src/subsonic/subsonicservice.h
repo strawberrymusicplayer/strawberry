@@ -33,13 +33,13 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QNetworkAccessManager>
 #include <QSslError>
 
 #include "core/song.h"
 #include "internet/internetservice.h"
 
 class QSortFilterProxyModel;
-class QNetworkAccessManager;
 class QNetworkReply;
 
 class Application;
@@ -53,12 +53,12 @@ class SubsonicService : public InternetService {
 
  public:
   explicit SubsonicService(Application *app, QObject *parent);
-  ~SubsonicService();
+  ~SubsonicService() override;
 
   static const Song::Source kSource;
 
-  void ReloadSettings();
-  void Exit();
+  void ReloadSettings() override;
+  void Exit() override;
 
   Application *app() { return app_; }
 
@@ -74,18 +74,18 @@ class SubsonicService : public InternetService {
   CollectionModel *collection_model() { return collection_model_; }
   QSortFilterProxyModel *collection_sort_model() { return collection_sort_model_; }
 
-  CollectionBackend *songs_collection_backend() { return collection_backend_; }
-  CollectionModel *songs_collection_model() { return collection_model_; }
-  QSortFilterProxyModel *songs_collection_sort_model() { return collection_sort_model_; }
+  CollectionBackend *songs_collection_backend() override { return collection_backend_; }
+  CollectionModel *songs_collection_model() override { return collection_model_; }
+  QSortFilterProxyModel *songs_collection_sort_model() override { return collection_sort_model_; }
 
   void CheckConfiguration();
 
  public slots:
-  void ShowConfig();
+  void ShowConfig() override;
   void SendPing();
   void SendPing(QUrl url, const QString &username, const QString &password, const bool redirect = false);
-  void GetSongs();
-  void ResetSongsRequest();
+  void GetSongs() override;
+  void ResetSongsRequest() override;
 
  private slots:
   void HandlePingSSLErrors(QList<QSslError> ssl_errors);

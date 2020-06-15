@@ -39,20 +39,20 @@ class CddaLister : public DeviceLister {
  public:
   explicit CddaLister() {}
 
-  QStringList DeviceUniqueIDs();
-  QVariantList DeviceIcons(const QString &id);
-  QString DeviceManufacturer(const QString &id);
-  QString DeviceModel(const QString &id);
-  quint64 DeviceCapacity(const QString &id);
-  quint64 DeviceFreeSpace(const QString &id);
-  QVariantMap DeviceHardwareInfo(const QString &id);
-  bool AskForScan(const QString&) const { return false; }
-  QString MakeFriendlyName(const QString&);
-  QList<QUrl> MakeDeviceUrls(const QString&);
-  void UnmountDevice(const QString&);
-  void UpdateDeviceFreeSpace(const QString&);
-  bool Init();
-  bool CopyMusic() { return false; }
+  QStringList DeviceUniqueIDs() override;
+  QVariantList DeviceIcons(const QString &id) override;
+  QString DeviceManufacturer(const QString &id) override;
+  QString DeviceModel(const QString &id) override;
+  quint64 DeviceCapacity(const QString &id) override;
+  quint64 DeviceFreeSpace(const QString &id) override;
+  QVariantMap DeviceHardwareInfo(const QString &id) override;
+  bool AskForScan(const QString&) const override { return false; }
+  QString MakeFriendlyName(const QString&) override;
+  QList<QUrl> MakeDeviceUrls(const QString&) override;
+  void UnmountDevice(const QString&) override;
+  void UpdateDeviceFreeSpace(const QString&) override;
+  bool Init() override;
+  bool CopyMusic() override { return false; }
 
  private:
   QStringList devices_list_;

@@ -58,7 +58,6 @@ class TidalBaseRequest : public QObject {
   };
 
   TidalBaseRequest(TidalService *service, NetworkAccessManager *network, QObject *parent);
-  ~TidalBaseRequest();
 
   typedef QPair<QString, QString> Param;
   typedef QList<Param> ParamList;

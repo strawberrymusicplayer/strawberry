@@ -130,23 +130,23 @@ class Player : public PlayerInterface {
   Q_OBJECT
 
  public:
-  Player(Application *app, QObject *parent);
-  ~Player();
+  explicit Player(Application *app, QObject *parent);
+  ~Player() override;
 
   static const char *kSettingsGroup;
 
   Engine::EngineType CreateEngine(Engine::EngineType enginetype);
   void Init();
 
-  EngineBase *engine() const { return engine_.get(); }
-  Engine::State GetState() const { return last_state_; }
-  int GetVolume() const;
+  EngineBase *engine() const override { return engine_.get(); }
+  Engine::State GetState() const override{ return last_state_; }
+  int GetVolume() const override;
 
-  PlaylistItemPtr GetCurrentItem() const { return current_item_; }
-  PlaylistItemPtr GetItemAt(int pos) const;
+  PlaylistItemPtr GetCurrentItem() const override { return current_item_; }
+  PlaylistItemPtr GetItemAt(int pos) const override;
 
-  void RegisterUrlHandler(UrlHandler *handler);
-  void UnregisterUrlHandler(UrlHandler *handler);
+  void RegisterUrlHandler(UrlHandler *handler) override;
+  void UnregisterUrlHandler(UrlHandler *handler) override;
 
   const UrlHandler *HandlerForUrl(const QUrl &url) const;
 
@@ -156,29 +156,29 @@ class Player : public PlayerInterface {
   void SetEqualizer(Equalizer *equalizer) { equalizer_ = equalizer; }
 
  public slots:
-  void ReloadSettings();
+  void ReloadSettings() override;
 
-  void PlayAt(int i, Engine::TrackChangeFlags change, bool reshuffle);
-  void PlayPause();
-  void RestartOrPrevious();
-  void Next();
-  void Previous();
-  void SetVolume(int value);
-  void VolumeUp() { SetVolume(GetVolume() + 5); }
-  void VolumeDown() { SetVolume(GetVolume() - 5); }
-  void SeekTo(int seconds);
-  void SeekForward();
-  void SeekBackward();
+  void PlayAt(int i, Engine::TrackChangeFlags change, bool reshuffle) override;
+  void PlayPause() override;
+  void RestartOrPrevious() override;
+  void Next() override;
+  void Previous() override;
+  void SetVolume(int value) override;
+  void VolumeUp() override { SetVolume(GetVolume() + 5); }
+  void VolumeDown() override { SetVolume(GetVolume() - 5); }
+  void SeekTo(int seconds) override;
+  void SeekForward() override;
+  void SeekBackward() override;
 
-  void CurrentMetadataChanged(const Song &metadata);
+  void CurrentMetadataChanged(const Song &metadata) override;
 
-  void Mute();
-  void Pause();
-  void Stop(bool stop_after = false);
+  void Mute() override;
+  void Pause() override;
+  void Stop(bool stop_after = false) override;
   void StopAfterCurrent();
   void IntroPointReached();
-  void Play();
-  void ShowOSD();
+  void Play() override;
+  void ShowOSD() override;
   void TogglePrettyOSD();
 
   void HandleAuthentication();

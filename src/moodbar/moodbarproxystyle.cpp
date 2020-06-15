@@ -74,8 +74,6 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application* app, QSlider* slider)
 
 }
 
-MoodbarProxyStyle::~MoodbarProxyStyle() {}
-
 void MoodbarProxyStyle::ReloadSettings() {
 
   QSettings s;

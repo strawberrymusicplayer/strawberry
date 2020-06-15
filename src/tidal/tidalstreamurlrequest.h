@@ -42,11 +42,11 @@ class TidalStreamURLRequest : public TidalBaseRequest {
 
  public:
   TidalStreamURLRequest(TidalService *service, NetworkAccessManager *network, const QUrl &original_url, QObject *parent);
-  ~TidalStreamURLRequest();
+  ~TidalStreamURLRequest() override;
 
   void GetStreamURL();
   void Process();
-  void NeedLogin() { need_login_ = true; }
+  void NeedLogin() override { need_login_ = true; }
   void Cancel();
 
   bool oauth() { return service_->oauth(); }
@@ -64,7 +64,7 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void StreamURLReceived();
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   TidalService *service_;
   QNetworkReply *reply_;

@@ -36,10 +36,10 @@ class TranscoderOptionsMP3 : public TranscoderOptionsInterface {
 
  public:
   explicit TranscoderOptionsMP3(QWidget *parent = nullptr);
-  ~TranscoderOptionsMP3();
+  ~TranscoderOptionsMP3() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private slots:
   void QualitySliderChanged(int value);

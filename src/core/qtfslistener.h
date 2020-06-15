@@ -31,11 +31,12 @@
 
 class QtFSListener : public FileSystemWatcherInterface {
   Q_OBJECT
+
  public:
   explicit QtFSListener(QObject *parent);
-  virtual void AddPath(const QString &path);
-  virtual void RemovePath(const QString &path);
-  virtual void Clear();
+  void AddPath(const QString &path) override;
+  void RemovePath(const QString &path) override;
+  void Clear() override;
 
  private:
   QFileSystemWatcher watcher_;

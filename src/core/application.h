@@ -67,7 +67,7 @@ class Application : public QObject {
 
  public:
   explicit Application(QObject *parent = nullptr);
-  ~Application();
+  ~Application() override;
 
   TagReaderClient *tag_reader_client() const;
   Database *database() const;

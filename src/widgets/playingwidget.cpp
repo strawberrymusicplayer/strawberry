@@ -125,8 +125,6 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
 }
 
-PlayingWidget::~PlayingWidget() {}
-
 void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller) {
 
   app_ = app;

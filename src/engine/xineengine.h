@@ -47,37 +47,37 @@ class XineEngine : public Engine::Base {
 
  public:
   explicit XineEngine(TaskManager *task_manager);
-  ~XineEngine();
+  ~XineEngine() override;
 
-  bool Init();
-  Engine::State state() const;
-  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec);
-  bool Play(quint64 offset_nanosec);
-  void Stop(bool stop_after = false);
-  void Pause();
-  void Unpause();
-  void Seek(quint64 offset_nanosec);
-  void SetVolumeSW(uint );
+  bool Init() override;
+  Engine::State state() const override;
+  bool Load(const QUrl &stream_url, const QUrl &original_url, Engine::TrackChangeFlags change, bool force_stop_at_end, quint64 beginning_nanosec, qint64 end_nanosec) override;
+  bool Play(quint64 offset_nanosec) override;
+  void Stop(bool stop_after = false) override;
+  void Pause() override;
+  void Unpause() override;
+  void Seek(quint64 offset_nanosec) override;
+  void SetVolumeSW(uint) override;
 
-  qint64 position_nanosec() const;
-  qint64 length_nanosec() const;
+  qint64 position_nanosec() const override;
+  qint64 length_nanosec() const override;
 
 #ifdef XINE_ANALYZER
   const Engine::Scope& scope(int chunk_length);
 #endif
 
-  OutputDetailsList GetOutputsList() const;
-  bool ValidOutput(const QString &output);
-  QString DefaultOutput() { return "auto"; }
-  bool CustomDeviceSupport(const QString &output);
-  bool ALSADeviceSupport(const QString &output);
+  OutputDetailsList GetOutputsList() const override;
+  bool ValidOutput(const QString &output) override;
+  QString DefaultOutput() override { return "auto"; }
+  bool CustomDeviceSupport(const QString &output) override;
+  bool ALSADeviceSupport(const QString &output) override;
 
-  void ReloadSettings();
+  void ReloadSettings() override;
 
   bool CanDecode(const QUrl &);
 
-  void SetEqualizerEnabled(bool enabled);
-  void SetEqualizerParameters(int preamp, const QList<int>&);
+  void SetEqualizerEnabled(bool enabled) override;
+  void SetEqualizerParameters(int preamp, const QList<int>&) override;
 
   // Simple accessors
 

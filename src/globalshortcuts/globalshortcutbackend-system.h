@@ -39,11 +39,11 @@ class GlobalShortcutBackendSystem : public GlobalShortcutBackend {
 
  public:
   explicit GlobalShortcutBackendSystem(GlobalShortcuts *parent = nullptr);
-  ~GlobalShortcutBackendSystem();
+  ~GlobalShortcutBackendSystem() override;
 
  protected:
-  bool DoRegister();
-  void DoUnregister();
+  bool DoRegister() override;
+  void DoUnregister() override;
 
  private:
 

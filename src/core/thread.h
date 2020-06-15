@@ -34,7 +34,7 @@ class Thread : public QThread {
   void SetIoPriority(Utilities::IoPriority priority) {
     io_priority_ = priority;
   }
-  virtual void run() override;
+  void run() override;
 
  private:
   Utilities::IoPriority io_priority_;

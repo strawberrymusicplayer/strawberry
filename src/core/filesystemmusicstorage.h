@@ -31,12 +31,11 @@
 class FilesystemMusicStorage : public virtual MusicStorage {
  public:
   explicit FilesystemMusicStorage(const QString &root);
-  ~FilesystemMusicStorage() {}
 
-  QString LocalPath() const { return root_; }
+  QString LocalPath() const override { return root_; }
 
-  bool CopyToStorage(const CopyJob &job);
-  bool DeleteFromStorage(const DeleteJob &job);
+  bool CopyToStorage(const CopyJob &job) override;
+  bool DeleteFromStorage(const DeleteJob &job) override;
 
  private:
   QString root_;

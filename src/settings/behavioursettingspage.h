@@ -37,7 +37,7 @@ class BehaviourSettingsPage : public SettingsPage {
 
 public:
   explicit BehaviourSettingsPage(SettingsDialog *dialog);
-  ~BehaviourSettingsPage();
+  ~BehaviourSettingsPage() override;
 
   static const char *kSettingsGroup;
 
@@ -64,8 +64,8 @@ public:
     PlaylistAddBehaviour_Enqueue = 2,
   };
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
 private slots:
   void ShowTrayIconToggled(bool on);

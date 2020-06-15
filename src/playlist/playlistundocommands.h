@@ -51,8 +51,8 @@ namespace PlaylistUndoCommands {
    public:
     explicit InsertItems(Playlist *playlist, const PlaylistItemList &items, int pos, bool enqueue = false, bool enqueue_next = false);
 
-    void undo();
-    void redo();
+    void undo() override;
+    void redo() override;
     // When load is async, items have already been pushed, so we need to update them.
     // This function try to find the equivalent item, and replace it with the new (completely loaded) one.
     // Return true if the was found (and updated), false otherwise
@@ -69,11 +69,11 @@ namespace PlaylistUndoCommands {
    public:
     explicit RemoveItems(Playlist *playlist, int pos, int count);
 
-    int id() const { return Type_RemoveItems; }
+    int id() const override { return Type_RemoveItems; }
 
-    void undo();
-    void redo();
-    bool mergeWith(const QUndoCommand *other);
+    void undo() override;
+    void redo() override;
+    bool mergeWith(const QUndoCommand *other) override;
 
    private:
     struct Range {
@@ -90,8 +90,8 @@ namespace PlaylistUndoCommands {
    public:
     explicit MoveItems(Playlist *playlist, const QList<int> &source_rows, int pos);
 
-    void undo();
-    void redo();
+    void undo() override;
+    void redo() override;
 
    private:
     QList<int> source_rows_;
@@ -102,8 +102,8 @@ namespace PlaylistUndoCommands {
    public:
     explicit ReOrderItems(Playlist *playlist, const PlaylistItemList &new_items);
 
-    void undo();
-    void redo();
+    void undo() override;
+    void redo() override;
 
    private:
     PlaylistItemList old_items_;

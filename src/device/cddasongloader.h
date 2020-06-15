@@ -45,7 +45,7 @@ class CddaSongLoader : public QObject {
 
  public:
   explicit CddaSongLoader(const QUrl &url = QUrl(), QObject *parent = nullptr);
-  ~CddaSongLoader();
+  ~CddaSongLoader() override;
 
   // Load songs. Signals declared below will be emitted anytime new information will be available.
   void LoadSongs();

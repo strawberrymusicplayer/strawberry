@@ -45,7 +45,7 @@ class MergedProxyModel : public QAbstractProxyModel {
 
  public:
   explicit MergedProxyModel(QObject *parent = nullptr);
-  ~MergedProxyModel();
+  ~MergedProxyModel() override;
 
   // Make another model appear as a child of the given item in the source model.
   void AddSubModel(const QModelIndex &source_parent, QAbstractItemModel *submodel);
@@ -56,33 +56,33 @@ class MergedProxyModel : public QAbstractProxyModel {
   QModelIndex FindSourceParent(const QModelIndex &proxy_index) const;
 
   // QAbstractItemModel
-  QModelIndex index(int row, int column, const QModelIndex &parent) const;
-  QModelIndex parent(const QModelIndex &child) const;
-  int rowCount(const QModelIndex &parent) const;
-  int columnCount(const QModelIndex &parent) const;
-  QVariant data(const QModelIndex &proxy_index, int role = Qt::DisplayRole) const;
-  bool hasChildren(const QModelIndex &parent) const;
-  QMap<int, QVariant> itemData(const QModelIndex &proxy_index) const;
-  Qt::ItemFlags flags(const QModelIndex &index) const;
-  bool setData(const QModelIndex &index, const QVariant &value, int role);
-  QStringList mimeTypes() const;
-  QMimeData *mimeData(const QModelIndexList &indexes) const;
-  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-  bool canFetchMore(const QModelIndex &parent) const;
-  void fetchMore(const QModelIndex &parent);
+  QModelIndex index(int row, int column, const QModelIndex &parent) const override;
+  QModelIndex parent(const QModelIndex &child) const override;
+  int rowCount(const QModelIndex &parent) const override;
+  int columnCount(const QModelIndex &parent) const override;
+  QVariant data(const QModelIndex &proxy_index, int role = Qt::DisplayRole) const override;
+  bool hasChildren(const QModelIndex &parent) const override;
+  QMap<int, QVariant> itemData(const QModelIndex &proxy_index) const override;
+  Qt::ItemFlags flags(const QModelIndex &index) const override;
+  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+  QStringList mimeTypes() const override;
+  QMimeData *mimeData(const QModelIndexList &indexes) const override;
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+  bool canFetchMore(const QModelIndex &parent) const override;
+  void fetchMore(const QModelIndex &parent) override;
 
   // QAbstractProxyModel
   // Note that these implementations of map{To,From}Source will not always give you an index in sourceModel(),
   // you might get an index in one of the child models instead.
-  QModelIndex mapFromSource(const QModelIndex &source_index) const;
-  QModelIndex mapToSource(const QModelIndex &proxy_index) const;
-  void setSourceModel(QAbstractItemModel *source_model);
+  QModelIndex mapFromSource(const QModelIndex &source_index) const override;
+  QModelIndex mapToSource(const QModelIndex &proxy_index) const override;
+  void setSourceModel(QAbstractItemModel *source_model) override;
 
   // Convenience functions that call map{To,From}Source multiple times.
   QModelIndexList mapFromSource(const QModelIndexList &source_indexes) const;
   QModelIndexList mapToSource(const QModelIndexList &proxy_indexes) const;
 
-signals:
+ signals:
   void SubModelReset(const QModelIndex &root, QAbstractItemModel *model);
 
  private slots:

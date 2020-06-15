@@ -32,7 +32,7 @@
 
 class MetatypesEnvironment : public ::testing::Environment {
 public:
-  void SetUp() {
+  void SetUp() override {
     qRegisterMetaType<Directory>("Directory");
     qRegisterMetaType<DirectoryList>("DirectoryList");
     qRegisterMetaType<Subdirectory>("Subdirectory");

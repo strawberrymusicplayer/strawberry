@@ -59,7 +59,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  public:
   explicit DeviceManager(Application *app, QObject *parent = nullptr);
-  ~DeviceManager();
+  ~DeviceManager() override;
 
   enum Role {
     Role_State = CollectionModel::LastRole,
@@ -113,7 +113,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void SetDeviceOptions(QModelIndex idx, const QString &friendly_name, const QString &icon_name, MusicStorage::TranscodeMode mode, Song::FileType format);
 
   // QAbstractItemModel
-  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
 
  public slots:
   void Unmount(QModelIndex idx);
@@ -140,11 +140,10 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void DeviceDestroyed();
 
  protected:
-  void LazyPopulate(DeviceInfo *item) { LazyPopulate(item, true); }
+  void LazyPopulate(DeviceInfo *item) override { LazyPopulate(item, true); }
   void LazyPopulate(DeviceInfo *parent, const bool signal);
 
  private:
-
   void AddLister(DeviceLister *lister);
   template <typename T> void AddDeviceClass();
 

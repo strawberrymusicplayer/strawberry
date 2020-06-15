@@ -38,14 +38,14 @@ class PlaylistFilter : public QSortFilterProxyModel {
 
  public:
   explicit PlaylistFilter(QObject *parent = nullptr);
-  ~PlaylistFilter();
+  ~PlaylistFilter() override;
 
   // QAbstractItemModel
-  void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+  void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
   // QSortFilterProxyModel
   // public so Playlist::NextVirtualIndex and friends can get at it
-  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+  bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:
   // Mutable because they're modified from filterAcceptsRow() const

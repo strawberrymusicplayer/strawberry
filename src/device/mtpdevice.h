@@ -49,26 +49,26 @@ class MtpDevice : public ConnectedDevice {
 
  public:
   Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, int database_id, bool first_time);
-  ~MtpDevice();
+  ~MtpDevice() override;
 
   static QStringList url_schemes() { return QStringList() << "mtp"; }
 
-  bool Init();
-  void ConnectAsync();
-  void Close();
-  bool IsLoading() { return loader_; }
+  bool Init() override;
+  void ConnectAsync() override;
+  void Close() override;
+  bool IsLoading() override { return loader_; }
 
-  bool GetSupportedFiletypes(QList<Song::FileType>* ret);
+  bool GetSupportedFiletypes(QList<Song::FileType>* ret) override;
   int GetFreeSpace();
   int GetCapacity();
 
-  bool StartCopy(QList<Song::FileType>* supported_types);
-  bool CopyToStorage(const CopyJob& job);
-  void FinishCopy(bool success);
+  bool StartCopy(QList<Song::FileType>* supported_types) override;
+  bool CopyToStorage(const CopyJob& job) override;
+  void FinishCopy(bool success) override;
 
-  void StartDelete();
-  bool DeleteFromStorage(const DeleteJob& job);
-  void FinishDelete(bool success);
+  void StartDelete() override;
+  bool DeleteFromStorage(const DeleteJob& job) override;
+  void FinishDelete(bool success) override;
 
  private slots:
   void LoadFinished(bool success, MtpConnection *connection);

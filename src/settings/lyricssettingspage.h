@@ -39,12 +39,12 @@ class LyricsSettingsPage : public SettingsPage {
 
  public:
   explicit LyricsSettingsPage(SettingsDialog *parent = nullptr);
-  ~LyricsSettingsPage();
+  ~LyricsSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   void NoProviderSelected();

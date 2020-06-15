@@ -65,10 +65,10 @@ class ContextView : public QWidget {
   Song song_playing() const { return song_playing_; }
 
  protected:
-  void resizeEvent(QResizeEvent*);
-  void contextMenuEvent(QContextMenuEvent*);
-  void dragEnterEvent(QDragEnterEvent*);
-  void dropEvent(QDropEvent*);
+  void resizeEvent(QResizeEvent*) override;
+  void contextMenuEvent(QContextMenuEvent*) override;
+  void dragEnterEvent(QDragEnterEvent*) override;
+  void dropEvent(QDropEvent*) override;
 
  private:
   void AddActions();

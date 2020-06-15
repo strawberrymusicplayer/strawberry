@@ -37,15 +37,15 @@ class ErrorDialog : public QDialog {
 
  public:
   explicit ErrorDialog(QWidget *parent = nullptr);
-  ~ErrorDialog();
+  ~ErrorDialog() override;
 
-public slots:
+ public slots:
   void ShowMessage(const QString &message);
 
-protected:
-  void hideEvent(QHideEvent *);
+ protected:
+  void hideEvent(QHideEvent*) override;
 
-private:
+ private:
   void UpdateContent();
 
   Ui_ErrorDialog *ui_;

@@ -63,8 +63,6 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent) :
 
 }
 
-AudioScrobbler::~AudioScrobbler() {}
-
 void AudioScrobbler::ReloadSettings() {
 
   QSettings s;

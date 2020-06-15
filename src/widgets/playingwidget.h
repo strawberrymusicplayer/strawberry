@@ -60,7 +60,6 @@ class PlayingWidget : public QWidget {
 
  public:
   explicit PlayingWidget(QWidget *parent = nullptr);
-  ~PlayingWidget();
 
   void Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller);
   bool IsEnabled() { return enabled_; }
@@ -68,7 +67,7 @@ class PlayingWidget : public QWidget {
   void SetEnabled();
   void SetDisabled();
   void set_ideal_height(int height);
-  QSize sizeHint() const;
+  QSize sizeHint() const override;
   bool show_above_status_bar() const { return above_statusbar_action_->isChecked(); }
 
  signals:
@@ -82,12 +81,12 @@ class PlayingWidget : public QWidget {
   void SearchCoverInProgress();
 
  protected:
-  void paintEvent(QPaintEvent *e);
-  void resizeEvent(QResizeEvent*);
-  void contextMenuEvent(QContextMenuEvent *e);
-  void mouseDoubleClickEvent(QMouseEvent*);
-  void dragEnterEvent(QDragEnterEvent *e);
-  void dropEvent(QDropEvent *e);
+  void paintEvent(QPaintEvent *e) override;
+  void resizeEvent(QResizeEvent*) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
+  void mouseDoubleClickEvent(QMouseEvent*) override;
+  void dragEnterEvent(QDragEnterEvent *e) override;
+  void dropEvent(QDropEvent *e) override;
 
  private slots:
   void SetMode(int mode);

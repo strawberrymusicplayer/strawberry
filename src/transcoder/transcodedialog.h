@@ -45,7 +45,7 @@ class TranscodeDialog : public QDialog {
 
  public:
   explicit TranscodeDialog(QMainWindow *mainwindow, QWidget *parent = nullptr);
-  ~TranscodeDialog();
+  ~TranscodeDialog() override;
 
   static const char *kSettingsGroup;
   static const int kProgressInterval;
@@ -54,9 +54,9 @@ class TranscodeDialog : public QDialog {
   void SetFilenames(const QStringList &filenames);
 
  protected:
-  void showEvent(QShowEvent*);
-  void closeEvent(QCloseEvent*);
-  void timerEvent(QTimerEvent *e);
+  void showEvent(QShowEvent*) override;
+  void closeEvent(QCloseEvent*) override;
+  void timerEvent(QTimerEvent *e) override;
 
  private:
   void LoadGeometry();
@@ -78,8 +78,8 @@ class TranscodeDialog : public QDialog {
   void LogLine(const QString message);
   void Options();
   void AddDestination();
-  void accept();
-  void reject();
+  void accept() override;
+  void reject() override;
 
  private:
   QMainWindow *mainwindow_;

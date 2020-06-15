@@ -37,7 +37,7 @@ class LyricsProviders : public QObject {
 
  public:
   explicit LyricsProviders(QObject *parent = nullptr);
-  ~LyricsProviders();
+  ~LyricsProviders() override;
 
   void ReloadSettings();
   LyricsProvider *ProviderByName(const QString &name) const;

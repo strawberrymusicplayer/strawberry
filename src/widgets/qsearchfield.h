@@ -32,8 +32,8 @@ signals:
   void returnPressed();
 
 protected:
-  void resizeEvent(QResizeEvent*);
-  bool eventFilter(QObject*, QEvent*);
+  void resizeEvent(QResizeEvent*) override;
+  bool eventFilter(QObject*, QEvent*) override;
 
 private:
   friend class QSearchFieldPrivate;

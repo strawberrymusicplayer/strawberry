@@ -36,7 +36,7 @@ class AlbumCoverExport : public QDialog {
 
  public:
   explicit AlbumCoverExport(QWidget *parent = nullptr);
-  ~AlbumCoverExport();
+  ~AlbumCoverExport() override;
 
   enum OverwriteMode {
     OverwriteMode_None = 0,

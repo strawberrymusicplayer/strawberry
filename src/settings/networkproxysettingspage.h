@@ -36,14 +36,15 @@ class NetworkProxySettingsPage : public SettingsPage {
 
  public:
   explicit NetworkProxySettingsPage(SettingsDialog* dialog);
-  ~NetworkProxySettingsPage();
+  ~NetworkProxySettingsPage() override;
+
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   Ui_NetworkProxySettingsPage* ui_;
 };
 
-#endif // NETWORKPROXYSETTINGSPAGE_H
+#endif  // NETWORKPROXYSETTINGSPAGE_H

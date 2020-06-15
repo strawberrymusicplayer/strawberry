@@ -59,7 +59,7 @@ class GstEnginePipeline : public QObject {
 
  public:
   explicit GstEnginePipeline(GstEngine *engine);
-  ~GstEnginePipeline();
+  ~GstEnginePipeline() override;
 
   // Globally unique across all pipelines.
   int id() const { return id_; }
@@ -132,7 +132,7 @@ class GstEnginePipeline : public QObject {
   void BufferingFinished();
 
  protected:
-  void timerEvent(QTimerEvent*);
+  void timerEvent(QTimerEvent*) override;
 
  private:
   bool InitAudioBin();

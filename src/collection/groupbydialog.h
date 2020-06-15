@@ -30,24 +30,24 @@
 #include <QString>
 
 #include "collectionmodel.h"
+#include "ui_groupbydialog.h"
 
 class QWidget;
 
 class GroupByDialogPrivate;
-class Ui_GroupByDialog;
 
 class GroupByDialog : public QDialog {
   Q_OBJECT
 
  public:
   explicit GroupByDialog(QWidget *parent = nullptr);
-  ~GroupByDialog();
+  ~GroupByDialog() override;
 
  public slots:
   void CollectionGroupingChanged(const CollectionModel::Grouping &g);
-  void accept();
+  void accept() override;
 
-signals:
+ signals:
   void Accepted(const CollectionModel::Grouping &g);
 
  private slots:

@@ -33,7 +33,7 @@ class DeviceFinders : public QObject {
 
  public:
   explicit DeviceFinders(QObject *parent = nullptr);
-  ~DeviceFinders();
+  ~DeviceFinders() override;
 
   void Init();
   QList<DeviceFinder*> ListFinders() { return device_finders_; }

@@ -44,20 +44,20 @@ class TidalCoverProvider : public JsonCoverProvider {
 
  public:
   explicit TidalCoverProvider(Application *app, QObject *parent = nullptr);
-  ~TidalCoverProvider();
+  ~TidalCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
-  void CancelSearch(const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
-  bool IsAuthenticated() const { return service_ && service_->authenticated(); }
-  void Deauthenticate() { if (service_) service_->Logout(); }
+  bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
+  void Deauthenticate() override { if (service_) service_->Logout(); }
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   static const char *kApiUrl;

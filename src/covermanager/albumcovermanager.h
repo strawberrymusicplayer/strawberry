@@ -64,7 +64,7 @@ class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
  public:
   explicit AlbumCoverManager(Application *app, CollectionBackend *collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
-  ~AlbumCoverManager();
+  ~AlbumCoverManager() override;
 
   static const char *kSettingsGroup;
 
@@ -83,11 +83,11 @@ class AlbumCoverManager : public QMainWindow {
   SongMimeData *GetMimeDataForAlbums(const QModelIndexList &indexes) const;
 
  protected:
-  void showEvent(QShowEvent*);
-  void closeEvent(QCloseEvent*);
+  void showEvent(QShowEvent*) override;
+  void closeEvent(QCloseEvent*) override;
 
   // For the album view context menu events
-  bool eventFilter(QObject *obj, QEvent *event);
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
  private:
   enum ArtistItemType {

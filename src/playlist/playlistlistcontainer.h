@@ -49,15 +49,15 @@ class PlaylistListContainer : public QWidget {
 
  public:
   explicit PlaylistListContainer(QWidget *parent = nullptr);
-  ~PlaylistListContainer();
+  ~PlaylistListContainer() override;
 
   void SetApplication(Application *app);
 
-protected:
-  void showEvent(QShowEvent *e);
-  void contextMenuEvent(QContextMenuEvent *e);
+ protected:
+  void showEvent(QShowEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
-private slots:
+ private slots:
   // From the UI
   void NewFolderClicked();
   void DeleteClicked();

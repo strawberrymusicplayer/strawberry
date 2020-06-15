@@ -32,10 +32,10 @@ class Ui_TranscoderOptionsOpus;
 class TranscoderOptionsOpus : public TranscoderOptionsInterface {
  public:
   explicit TranscoderOptionsOpus(QWidget *parent = nullptr);
-  ~TranscoderOptionsOpus();
+  ~TranscoderOptionsOpus() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   static const char* kSettingsGroup;

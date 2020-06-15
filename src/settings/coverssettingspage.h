@@ -39,12 +39,12 @@ class CoversSettingsPage : public SettingsPage {
 
  public:
   explicit CoversSettingsPage(SettingsDialog *parent = nullptr);
-  ~CoversSettingsPage();
+  ~CoversSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  private:
   void NoProviderSelected();

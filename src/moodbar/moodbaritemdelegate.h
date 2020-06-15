@@ -46,7 +46,7 @@ class MoodbarItemDelegate : public QItemDelegate {
  public:
   explicit MoodbarItemDelegate(Application* app, PlaylistView* view, QObject* parent = nullptr);
 
-  void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+  void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
  private slots:
   void ReloadSettings();

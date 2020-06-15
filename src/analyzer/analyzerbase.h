@@ -55,7 +55,7 @@ class Base : public QWidget {
   Q_OBJECT
 
  public:
-  ~Base() { delete fht_; }
+  ~Base() override { delete fht_; }
 
   uint timeout() const { return timeout_; }
 
@@ -74,10 +74,10 @@ class Base : public QWidget {
  protected:
   explicit Base(QWidget*, uint scopeSize = 7);
 
-  void hideEvent(QHideEvent*);
-  void showEvent(QShowEvent*);
-  void paintEvent(QPaintEvent*);
-  void timerEvent(QTimerEvent*);
+  void hideEvent(QHideEvent*) override;
+  void showEvent(QShowEvent*) override;
+  void paintEvent(QPaintEvent*) override;
+  void timerEvent(QTimerEvent*) override;
 
   void polishEvent();
 

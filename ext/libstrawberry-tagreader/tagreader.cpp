@@ -101,7 +101,7 @@ class FileRefFactory {
 
 class TagLibFileRefFactory : public FileRefFactory {
  public:
-  virtual TagLib::FileRef *GetFileRef(const QString &filename) {
+  TagLib::FileRef *GetFileRef(const QString &filename) override {
 #ifdef Q_OS_WIN32
     return new TagLib::FileRef(filename.toStdWString().c_str());
 #else

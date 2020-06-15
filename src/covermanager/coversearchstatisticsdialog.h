@@ -38,7 +38,7 @@ class CoverSearchStatisticsDialog : public QDialog {
 
  public:
   explicit CoverSearchStatisticsDialog(QWidget *parent = nullptr);
-  ~CoverSearchStatisticsDialog();
+  ~CoverSearchStatisticsDialog() override;
 
   void Show(const CoverSearchStatistics& statistics);
 

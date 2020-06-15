@@ -36,15 +36,15 @@ class TranscoderSettingsPage : public SettingsPage {
 
  public:
   explicit TranscoderSettingsPage(SettingsDialog* dialog);
-  ~TranscoderSettingsPage();
+  ~TranscoderSettingsPage() override;
 
   static const char *kSettingsGroup;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
  protected:
-  void showEvent(QShowEvent *e);
+  void showEvent(QShowEvent *e) override;
 
  private:
   Ui_TranscoderSettingsPage* ui_;

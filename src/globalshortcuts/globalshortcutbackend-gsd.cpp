@@ -48,8 +48,6 @@ GlobalShortcutBackendGSD::GlobalShortcutBackendGSD(GlobalShortcuts *parent)
       interface_(nullptr),
       is_connected_(false) {}
 
-GlobalShortcutBackendGSD::~GlobalShortcutBackendGSD(){}
-
 bool GlobalShortcutBackendGSD::DoRegister() {
 
   qLog(Debug) << "Registering";

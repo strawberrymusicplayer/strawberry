@@ -32,8 +32,8 @@ class DBusScreensaver : public Screensaver {
  public:
   explicit DBusScreensaver(const QString &service, const QString &path, const QString &interface);
 
-  void Inhibit();
-  void Uninhibit();
+  void Inhibit() override;
+  void Uninhibit() override;
 
 private:
   QString service_;

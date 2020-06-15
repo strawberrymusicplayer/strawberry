@@ -32,10 +32,10 @@ class Ui_TranscoderOptionsAAC;
 class TranscoderOptionsAAC : public TranscoderOptionsInterface {
  public:
   explicit TranscoderOptionsAAC(QWidget *parent = nullptr);
-  ~TranscoderOptionsAAC();
+  ~TranscoderOptionsAAC() override;
 
-  void Load();
-  void Save();
+  void Load() override;
+  void Save() override;
 
 private:
   static const char *kSettingsGroup;

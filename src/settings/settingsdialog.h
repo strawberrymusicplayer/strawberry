@@ -60,8 +60,8 @@ class Ui_SettingsDialog;
 class SettingsItemDelegate : public QStyledItemDelegate {
  public:
   explicit SettingsItemDelegate(QObject *parent);
-  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 
@@ -70,7 +70,7 @@ class SettingsDialog : public QDialog {
 
  public:
   explicit SettingsDialog(Application *app, QMainWindow *mainwindow, QWidget *parent = nullptr);
-  ~SettingsDialog();
+  ~SettingsDialog() override;
 
   enum Page {
     Page_Behaviour,
@@ -113,8 +113,8 @@ class SettingsDialog : public QDialog {
   void ComboBoxLoadFromSettings(const QSettings &s, QComboBox *combobox, const QString &setting, const int default_value);
 
  protected:
-  void showEvent(QShowEvent *e);
-  void closeEvent(QCloseEvent*);
+  void showEvent(QShowEvent *e) override;
+  void closeEvent(QCloseEvent*) override;
 
  private:
   struct PageData {
@@ -124,8 +124,8 @@ class SettingsDialog : public QDialog {
   };
 
   // QDialog
-  void accept();
-  void reject();
+  void accept() override;
+  void reject() override;
 
   void LoadGeometry();
   void SaveGeometry();

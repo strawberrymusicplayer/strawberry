@@ -34,7 +34,7 @@ class InternetSearchItemDelegate : public CollectionItemDelegate {
  public:
   explicit InternetSearchItemDelegate(InternetSearchView *view);
 
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const;
+  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
  private:
   InternetSearchView *view_;

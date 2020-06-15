@@ -41,10 +41,10 @@ class DeezerCoverProvider : public JsonCoverProvider {
 
  public:
   explicit DeezerCoverProvider(Application *app, QObject *parent = nullptr);
-  ~DeezerCoverProvider();
+  ~DeezerCoverProvider() override;
 
-  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id);
-  void CancelSearch(const int id);
+  bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
+  void CancelSearch(const int id) override;
 
  private slots:
   void HandleSearchReply(QNetworkReply *reply, const int id);
@@ -52,7 +52,7 @@ class DeezerCoverProvider : public JsonCoverProvider {
  private:
   QByteArray GetReplyData(QNetworkReply *reply);
   QJsonValue ExtractData(const QByteArray &data);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   static const char *kApiUrl;

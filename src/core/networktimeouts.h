@@ -40,7 +40,7 @@ class NetworkTimeouts : public QObject {
   void SetTimeout(int msec) { timeout_msec_ = msec; }
 
  protected:
-  void timerEvent(QTimerEvent *e);
+  void timerEvent(QTimerEvent *e) override;
 
  private slots:
   void ReplyFinished();

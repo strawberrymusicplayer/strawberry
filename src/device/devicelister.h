@@ -38,7 +38,7 @@ class DeviceLister : public QObject {
 
  public:
   DeviceLister();
-  virtual ~DeviceLister();
+  ~DeviceLister() override;
 
   // Tries to start the thread and initialise the engine.  This object will be moved to the new thread.
   void Start();

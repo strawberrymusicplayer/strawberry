@@ -29,17 +29,17 @@
 template <typename T>
 class SimpleTreeModel : public QAbstractItemModel {
  public:
-  explicit SimpleTreeModel(T *root = 0, QObject *parent = nullptr);
-  virtual ~SimpleTreeModel() {}
+  explicit SimpleTreeModel(T *root = nullptr, QObject *parent = nullptr);
+  ~SimpleTreeModel() override {}
 
   // QAbstractItemModel
-  int columnCount(const QModelIndex &parent) const;
-  QModelIndex index(int row, int, const QModelIndex &parent = QModelIndex()) const;
-  QModelIndex parent(const QModelIndex &index) const;
-  int rowCount(const QModelIndex &parent) const;
-  bool hasChildren(const QModelIndex &parent) const;
-  bool canFetchMore(const QModelIndex &parent) const;
-  void fetchMore(const QModelIndex &parent);
+  int columnCount(const QModelIndex &parent) const override;
+  QModelIndex index(int row, int, const QModelIndex &parent = QModelIndex()) const override;
+  QModelIndex parent(const QModelIndex &index) const override;
+  int rowCount(const QModelIndex &parent) const override;
+  bool hasChildren(const QModelIndex &parent) const override;
+  bool canFetchMore(const QModelIndex &parent) const override;
+  void fetchMore(const QModelIndex &parent) override;
 
   T *IndexToItem(const QModelIndex &index) const;
   QModelIndex ItemToIndex(T *item) const;
