@@ -72,7 +72,7 @@ void Analyzer::Base::showEvent(QShowEvent*) { timer_.start(timeout(), this); }
 void Analyzer::Base::transform(Scope& scope) {
 
   QVector<float> aux(fht_->size());
-  if ((long unsigned int)aux.size() >= scope.size()) {
+  if (static_cast<long unsigned int>(aux.size()) >= scope.size()) {
     std::copy(scope.begin(), scope.end(), aux.begin());
   }
   else {
@@ -97,7 +97,7 @@ void Analyzer::Base::paintEvent(QPaintEvent *e) {
       int i = 0;
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
-      for (uint x = 0; (int)x < fht_->size(); ++x) {
+      for (uint x = 0; static_cast<int>(x) < fht_->size(); ++x) {
         lastscope_[x] = double(thescope[i] + thescope[i + 1]) / (2 * (1 << 15));
         i += 2;
       }
@@ -188,11 +188,11 @@ void Analyzer::Base::polishEvent() {
 void Analyzer::interpolate(const Scope& inVec, Scope& outVec) {
 
   double pos = 0.0;
-  const double step = (double)inVec.size() / outVec.size();
+  const double step = static_cast<double>(inVec.size()) / outVec.size();
 
   for (uint i = 0; i < outVec.size(); ++i, pos += step) {
     const double error = pos - std::floor(pos);
-    const uint64_t offset = (uint64_t)pos;
+    const uint64_t offset = static_cast<uint64_t>(pos);
 
     uint64_t indexLeft = offset + 0;
 

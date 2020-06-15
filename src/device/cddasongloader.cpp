@@ -152,7 +152,7 @@ void CddaSongLoader::LoadSongs() {
   GstMessage *msg = nullptr;
   GstMessage *msg_toc = nullptr;
   GstMessage *msg_tag = nullptr;
-  while ((msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND, (GstMessageType)(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
+  while ((msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
     if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TOC) {
       if (msg_toc) gst_message_unref(msg_toc); // Shouldn't happen, but just in case
       msg_toc = msg;
@@ -169,7 +169,7 @@ void CddaSongLoader::LoadSongs() {
     gst_message_parse_toc (msg_toc, &toc, nullptr);
     if (toc) {
       GList *entries = gst_toc_get_entries(toc);
-      if (entries && (guint)songs.size() <= g_list_length(entries)) {
+      if (entries && static_cast<guint>(songs.size()) <= g_list_length(entries)) {
         int i = 0;
         for (GList *node = entries; node != nullptr; node = node->next) {
           GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);

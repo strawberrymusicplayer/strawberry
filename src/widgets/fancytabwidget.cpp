@@ -76,7 +76,7 @@ class FancyTabBar: public QTabBar {
 
     QSize size(QTabBar::sizeHint());
 
-    FancyTabWidget *tabWidget = (FancyTabWidget*) parentWidget();
+    FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
     if (tabWidget->mode() == FancyTabWidget::Mode_Tabs || tabWidget->mode() == FancyTabWidget::Mode_IconOnlyTabs) return size;
 
     QSize tabSize(tabSizeHint(0));
@@ -95,7 +95,7 @@ class FancyTabBar: public QTabBar {
  protected:
   QSize tabSizeHint(int index) const {
 
-    FancyTabWidget *tabWidget = (FancyTabWidget*) parentWidget();
+    FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
     QSize size = FancyTabWidget::TabSize_LargeSidebar;
 
     if (tabWidget->mode() != FancyTabWidget::Mode_LargeSidebar) {
@@ -126,7 +126,7 @@ class FancyTabBar: public QTabBar {
 
   void paintEvent(QPaintEvent *pe) {
 
-    FancyTabWidget *tabWidget = (FancyTabWidget*) parentWidget();
+    FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
     bool verticalTextTabs = false;
 

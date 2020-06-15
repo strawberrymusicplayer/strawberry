@@ -321,7 +321,7 @@ const Engine::Scope &GstEngine::scope(const int chunk_length) {
   // The new buffer could have a different size
   if (have_new_buffer_) {
     if (latest_buffer_) {
-      scope_chunks_ = ceil(((double)GST_BUFFER_DURATION(latest_buffer_) / (double)(chunk_length * kNsecPerMsec)));
+      scope_chunks_ = ceil((static_cast<double>(GST_BUFFER_DURATION(latest_buffer_) / static_cast<double>(chunk_length * kNsecPerMsec))));
     }
 
     // if the buffer is shorter than the chunk length
@@ -514,7 +514,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const QString &messag
   BufferingFinished();
   emit StateChanged(Engine::Error);
 
-  if (domain == (int)GST_RESOURCE_ERROR && (error_code == (int)GST_RESOURCE_ERROR_NOT_FOUND || error_code == (int)GST_RESOURCE_ERROR_NOT_AUTHORIZED)) {
+  if (domain == static_cast<int>(GST_RESOURCE_ERROR) && (error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_FOUND) || error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED))) {
      emit InvalidSongRequested(stream_url_);
    }
   else {

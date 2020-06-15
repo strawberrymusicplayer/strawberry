@@ -848,8 +848,8 @@ ByteVector ByteVector::fromBase64(const ByteVector &input) {
 
   ByteVector output(len);
 
-  const unsigned char *src = (const unsigned char *)input.data();
-  unsigned char *dst = (unsigned char *)output.data();
+  const unsigned char *src = reinterpret_cast<const unsigned char*>(input.data());
+  unsigned char *dst = reinterpret_cast<unsigned char*>(output.data());
 
   while (4 <= len) {
 
@@ -899,7 +899,7 @@ ByteVector ByteVector::fromBase64(const ByteVector &input) {
 
   // Only return output if we processed all bytes
   if (len == 0) {
-    output.resize(static_cast<unsigned int>(dst - (unsigned char *)output.data()));
+    output.resize(static_cast<unsigned int>(dst - reinterpret_cast<unsigned char*>(output.data())));
     return output;
   }
   return ByteVector();

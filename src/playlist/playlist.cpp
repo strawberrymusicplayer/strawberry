@@ -177,7 +177,7 @@ QVariant Playlist::headerData(int section, Qt::Orientation, int role) const {
 
   if (role != Qt::DisplayRole && role != Qt::ToolTipRole) return QVariant();
 
-  const QString name = column_name((Playlist::Column)section);
+  const QString name = column_name(static_cast<Playlist::Column>(section));
   if (!name.isEmpty()) return name;
 
   return QVariant();
@@ -375,7 +375,7 @@ bool Playlist::setData(const QModelIndex &index, const QVariant &value, int role
 
   if (index.data() == value) return false;
 
-  if (!set_column_value(song, (Column)index.column(), value)) return false;
+  if (!set_column_value(song, static_cast<Column>(index.column()), value)) return false;
 
   TagReaderReply *reply = TagReaderClient::Instance()->SaveFile(song.url().toLocalFile(), song);
   NewClosure(reply, SIGNAL(Finished(bool)), this, SLOT(SongSaveComplete(TagReaderReply*, QPersistentModelIndex)), reply, QPersistentModelIndex(index));
@@ -655,7 +655,7 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &index) const {
 
   Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-  if (column_is_editable((Column)index.column())) flags |= Qt::ItemIsEditable;
+  if (column_is_editable(static_cast<Column>(index.column()))) flags |= Qt::ItemIsEditable;
 
   if (index.isValid()) return flags | Qt::ItemIsDragEnabled;
 
@@ -718,7 +718,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, int ro
     stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));
     stream >> source_rows;
     if (!stream.atEnd()) {
-      stream.readRawData((char*)&pid, sizeof(pid));
+      stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
     }
     else {
       pid = !own_pid;
@@ -1097,7 +1097,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
   stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));
   stream << rows;
-  stream.writeRawData((char*)&pid, sizeof(pid));
+  stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
   buf.close();
 
   mimedata->setUrls(urls);

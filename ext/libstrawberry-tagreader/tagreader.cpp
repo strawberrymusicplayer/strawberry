@@ -803,7 +803,7 @@ QByteArray TagReader::LoadEmbeddedArt(const QString &filename) const {
 
     TagLib::ID3v2::AttachedPictureFrame *pic = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
 
-    return QByteArray((const char*) pic->picture().data(), pic->picture().size());
+    return QByteArray(reinterpret_cast<const char*>(pic->picture().data()), pic->picture().size());
   }
 
   // MP4/AAC
@@ -834,7 +834,7 @@ QByteArray TagReader::LoadEmbeddedAPEArt(const TagLib::APE::ItemListMap &map) co
     TagLib::ByteVector data = it->second.binaryData();
 
     int pos = data.find('\0') + 1;
-    if ((pos > 0) && ((uint)pos < data.size())) {
+    if ((pos > 0) && (static_cast<uint>(pos) < data.size())) {
       ret = QByteArray(data.data() + pos, data.size() - pos);
     }
   }

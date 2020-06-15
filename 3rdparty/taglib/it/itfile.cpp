@@ -101,7 +101,7 @@ bool IT::File::save() {
   // write comment as instrument and sample names:
   StringList lines = d->tag.comment().split("\n");
   for (unsigned short i = 0; i < instrumentCount; ++i) {
-    seek(192L + length + ((long)i << 2));
+    seek(192L + length + (static_cast<long>(i) << 2));
     unsigned long instrumentOffset = 0;
     if (!readU32L(instrumentOffset))
       return false;
@@ -116,14 +116,14 @@ bool IT::File::save() {
   }
 
   for (unsigned short i = 0; i < sampleCount; ++i) {
-    seek(192L + length + ((long)instrumentCount << 2) + ((long)i << 2));
+    seek(192L + length + (static_cast<long>(instrumentCount) << 2) + (static_cast<long>(i) << 2));
     unsigned long sampleOffset = 0;
     if (!readU32L(sampleOffset))
       return false;
 
     seek(sampleOffset + 20);
 
-    if ((unsigned int)(i + instrumentCount) < lines.size())
+    if (static_cast<unsigned int>(i + instrumentCount) < lines.size())
       writeString(lines[i + instrumentCount], 25);
     else
       writeString(String(), 25);
@@ -140,7 +140,7 @@ bool IT::File::save() {
   // terminating NUL but it does not hurt to add one:
   if (message.size() > 7999)
     message.resize(7999);
-  message.append((char)0);
+  message.append(static_cast<char>(0));
 
   unsigned short special = 0;
   unsigned short messageLength = 0;
@@ -225,7 +225,7 @@ void IT::File::read(bool) {
     seek(messageOffset);
     ByteVector messageBytes = readBlock(messageLength);
     READ_ASSERT(messageBytes.size() == messageLength);
-    int index = messageBytes.find((char)0);
+    int index = messageBytes.find(static_cast<char>(0));
     if (index > -1)
       messageBytes.resize(index, 0);
     messageBytes.replace('\r', '\n');
@@ -244,7 +244,7 @@ void IT::File::read(bool) {
     // But this always gives 64 channels for all my files anyway.
     // Strangely VLC does report other values. I wonder how VLC
     // gets it's values.
-    if ((unsigned char)pannings[i] < 128 && volumes[i] > 0)
+    if (static_cast<unsigned char>(pannings[i]) < 128 && volumes[i] > 0)
       ++channels;
   }
   d->properties.setChannels(channels);
@@ -266,7 +266,7 @@ void IT::File::read(bool) {
   //       e.g. VLC seems to interpret a nil as a space. I
   //       don't know what is the proper behaviour.
   for (unsigned short i = 0; i < instrumentCount; ++i) {
-    seek(192L + length + ((long)i << 2));
+    seek(192L + length + (static_cast<long>(i) << 2));
     READ_U32L_AS(instrumentOffset);
     seek(instrumentOffset);
 
@@ -282,7 +282,7 @@ void IT::File::read(bool) {
   }
 
   for (unsigned short i = 0; i < sampleCount; ++i) {
-    seek(192L + length + ((long)instrumentCount << 2) + ((long)i << 2));
+    seek(192L + length + (static_cast<long>(instrumentCount) << 2) + (static_cast<long>(i) << 2));
     READ_U32L_AS(sampleOffset);
 
     seek(sampleOffset);

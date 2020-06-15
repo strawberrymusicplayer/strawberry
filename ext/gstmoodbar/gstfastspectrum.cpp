@@ -265,7 +265,7 @@ static void input_data_mixed_float(const guint8* _in, double* out, guint len, do
   Q_UNUSED(max_value);
 
   guint j, ip = 0;
-  gfloat *in = (gfloat *) _in;
+  const gfloat *in = reinterpret_cast<const gfloat*>(_in);
 
   for (j = 0; j < len; j++) {
     out[op] = in[ip++];
@@ -279,7 +279,7 @@ static void input_data_mixed_double (const guint8 * _in, double* out, guint len,
   Q_UNUSED(max_value);
 
   guint j, ip = 0;
-  gdouble *in = (gdouble *) _in;
+  const gdouble *in = reinterpret_cast<const gdouble*>(_in);
 
   for (j = 0; j < len; j++) {
     out[op] = in[ip++];
@@ -291,7 +291,7 @@ static void input_data_mixed_double (const guint8 * _in, double* out, guint len,
 static void input_data_mixed_int32_max (const guint8 * _in, double* out, guint len, double max_value, guint op, guint nfft) {
 
   guint j, ip = 0;
-  gint32 *in = (gint32 *) _in;
+  const gint32 *in = reinterpret_cast<const gint32*>(_in);
 
   for (j = 0; j < len; j++) {
     out[op] = in[ip++] / max_value;
@@ -323,7 +323,7 @@ static void input_data_mixed_int24_max (const guint8 * _in, double* out, guint l
 static void input_data_mixed_int16_max (const guint8 * _in, double * out, guint len, double max_value, guint op, guint nfft) {
 
   guint j, ip = 0;
-  gint16 *in = (gint16 *) _in;
+  const gint16 *in = reinterpret_cast<const gint16*>(_in);
 
   for (j = 0; j < len; j++) {
     out[op] = in[ip++] / max_value;

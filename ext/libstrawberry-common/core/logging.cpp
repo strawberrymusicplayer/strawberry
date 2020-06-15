@@ -196,10 +196,10 @@ void SetLevels(const QString &levels) {
     }
 
     if (class_name.isEmpty() || class_name == "*") {
-      sDefaultLevel = (Level) level;
+      sDefaultLevel = static_cast<Level>(level);
     }
     else {
-      sClassLevels->insert(class_name, (Level) level);
+      sClassLevels->insert(class_name, static_cast<Level>(level));
     }
   }
 

@@ -115,7 +115,7 @@ class StringReader : public ValueReader<String> {
 
     ByteVector data = file.readBlock(std::min(m_size, limit));
     unsigned int count = data.size();
-    int index = data.find((char)0);
+    int index = data.find(static_cast<char>(0));
     if (index > -1) {
       data.resize(index);
     }
@@ -481,7 +481,7 @@ void XM::File::read(bool) {
     .u16L(bpmSpeed);
 
   unsigned int count = header.read(*this, headerSize - 4U);
-  unsigned int size = std::min(headerSize - 4U, (unsigned long)header.size());
+  unsigned int size = std::min(headerSize - 4U, static_cast<unsigned long>(header.size()));
 
   READ_ASSERT(count == size);
 

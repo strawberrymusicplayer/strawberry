@@ -212,7 +212,7 @@ bool XineEngine::CreateStream() {
 
   if (eventqueue_) xine_event_dispose_queue(eventqueue_);
   eventqueue_ = xine_event_new_queue(stream_);
-  xine_event_create_listener_thread(eventqueue_, &XineEngine::XineEventListener, (void*)this);
+  xine_event_create_listener_thread(eventqueue_, &XineEngine::XineEventListener, reinterpret_cast<void*>(this));
 
 #ifndef XINE_SAFE_MODE
   xine_set_param(stream_, XINE_PARAM_METRONOM_PREBUFFER, 6000);
@@ -644,7 +644,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
 
     case XINE_EVENT_PROGRESS:
       {
-        xine_progress_data_t *pd = (xine_progress_data_t*)event->data;
+        xine_progress_data_t *pd = reinterpret_cast<xine_progress_data_t*>(event->data);
         QString msg = QString("%1 %2%").arg(QString::fromUtf8(pd->description)).arg(QString::number(pd->percent) + QLocale::system().percent());
         //qLog(Debug) << "Xine:" << msg;
       }
@@ -664,7 +664,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
     {
       qLog(Debug) << "XINE_EVENT_UI_MESSAGE";
 
-      xine_ui_message_data_t *data = (xine_ui_message_data_t *)event->data;
+      xine_ui_message_data_t *data = reinterpret_cast<xine_ui_message_data_t*>(event->data);
       QString message;
 
       switch (data->type) {
@@ -685,7 +685,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Source is encrypted.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -694,7 +694,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "The host is unknown.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -703,7 +703,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "The device name you specified seems invalid.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -712,7 +712,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "The network appears unreachable.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -721,7 +721,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Audio output unavailable; the device is busy.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->FatalError();
@@ -730,7 +730,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Connection refused.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -739,7 +739,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "File not found.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -748,7 +748,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Access denied.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -757,7 +757,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Read error.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->InvalidSongRequested(engine->stream_url_);
@@ -766,7 +766,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "A problem occurred while loading a library or decoder.";
           if (data->explanation) {
             message += " : ";
-            message += QString::fromUtf8((char*)data + data->parameters);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->parameters);
           }
           emit engine->StateChanged(Engine::Error);
           emit engine->FatalError();
@@ -775,7 +775,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "General Warning";
           if (data->explanation) {
             message += ": ";
-            message += QString::fromUtf8((char*)data + data->explanation);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->explanation);
           }
           else message += ".";
           break;
@@ -783,7 +783,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Security Warning";
           if (data->explanation) {
             message += ": ";
-            message += QString::fromUtf8((char*)data + data->explanation);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->explanation);
           }
           else message += ".";
           break;
@@ -791,7 +791,7 @@ void XineEngine::XineEventListener(void *p, const xine_event_t *event) {
           message = "Unknown Error";
           if (data->explanation) {
             message += ": ";
-            message += QString::fromUtf8((char*)data + data->explanation);
+            message += QString::fromUtf8(reinterpret_cast<char*>(data) + data->explanation);
           }
           else message += ".";
           break;

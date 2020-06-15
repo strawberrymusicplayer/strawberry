@@ -309,7 +309,7 @@ ByteVector TableOfContentsFrame::renderFields() const {
   if (d->isOrdered)
     flags += 1;
   data.append(flags);
-  data.append((char)(entryCount()));
+  data.append(static_cast<char>(entryCount()));
   ByteVectorList::ConstIterator it = d->childElements.begin();
   while (it != d->childElements.end()) {
     data.append(*it);

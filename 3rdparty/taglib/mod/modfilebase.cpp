@@ -44,7 +44,7 @@ bool Mod::FileBase::readString(String &s, unsigned long size) {
 
   ByteVector data(readBlock(size));
   if (data.size() < size) return false;
-  int index = data.find((char)0);
+  int index = data.find(static_cast<char>(0));
   if (index > -1) {
     data.resize(index);
   }

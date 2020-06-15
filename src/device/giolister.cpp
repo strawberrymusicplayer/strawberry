@@ -52,7 +52,7 @@ QString GioLister::DeviceInfo::unique_id() const {
   if (mount_ptr)
     return QString("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
   else
-    return QString("Gio/unmounted/%1").arg((qulonglong)volume_ptr.get());
+    return QString("Gio/unmounted/%1").arg(reinterpret_cast<qulonglong>(volume_ptr.get()));
 
 }
 
@@ -609,7 +609,7 @@ void GioLister::UnmountDevice(const QString &id) {
 
   if (info.volume_ptr) {
     if (g_volume_can_eject(info.volume_ptr)) {
-      g_volume_eject_with_operation(info.volume_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)VolumeEjectFinished, nullptr);
+      g_volume_eject_with_operation(info.volume_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, reinterpret_cast<GAsyncReadyCallback>(VolumeEjectFinished), nullptr);
       g_object_unref(info.volume_ptr);
       return;
     }
@@ -617,10 +617,10 @@ void GioLister::UnmountDevice(const QString &id) {
   else return;
 
   if (g_mount_can_eject(info.mount_ptr)) {
-    g_mount_eject_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountEjectFinished, nullptr);
+    g_mount_eject_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, reinterpret_cast<GAsyncReadyCallback>(MountEjectFinished), nullptr);
   }
   else if (g_mount_can_unmount(info.mount_ptr)) {
-    g_mount_unmount_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, (GAsyncReadyCallback)MountUnmountFinished, nullptr);
+    g_mount_unmount_with_operation(info.mount_ptr, G_MOUNT_UNMOUNT_NONE, nullptr, nullptr, reinterpret_cast<GAsyncReadyCallback>(MountUnmountFinished), nullptr);
   }
 
 }

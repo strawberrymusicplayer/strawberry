@@ -306,7 +306,7 @@ void SingleApplicationPrivate::readInitMessageHeader(QLocalSocket *sock) {
     return;
   }
 
-  if (sock->bytesAvailable() < (qint64) sizeof(quint64)) {
+  if (sock->bytesAvailable() < static_cast<qint64>(sizeof(quint64))) {
     return;
   }
 
@@ -321,7 +321,7 @@ void SingleApplicationPrivate::readInitMessageHeader(QLocalSocket *sock) {
   info.stage = StageBody;
   info.msgLen = msgLen;
 
-  if (sock->bytesAvailable() >= (qint64) msgLen) {
+  if (sock->bytesAvailable() >= static_cast<qint64>(msgLen)) {
     readInitMessageBody(sock);
   }
 
@@ -336,7 +336,7 @@ void SingleApplicationPrivate::readInitMessageBody(QLocalSocket *sock) {
   }
 
   ConnectionInfo &info = connectionMap[sock];
-  if (sock->bytesAvailable() < (qint64)info.msgLen) {
+  if (sock->bytesAvailable() < static_cast<qint64>(info.msgLen)) {
     return;
   }
 

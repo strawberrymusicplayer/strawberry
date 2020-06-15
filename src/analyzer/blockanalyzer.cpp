@@ -388,8 +388,8 @@ void BlockAnalyzer::drawBackground() {
 
   if (!p.paintEngine()) return;
 
-  for (int x = 0; (uint)x < columns_; ++x)
-    for (int y = 0; (uint)y < rows_; ++y)
+  for (int x = 0; static_cast<uint>(x) < columns_; ++x)
+    for (int y = 0; static_cast<uint>(y) < rows_; ++y)
       p.fillRect(x * (kWidth + 1), y * (kHeight + 1) + y_, kWidth, kHeight, bgdark);
 
 }

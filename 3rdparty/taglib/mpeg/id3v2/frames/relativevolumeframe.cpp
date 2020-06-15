@@ -142,7 +142,7 @@ void RelativeVolumeFrame::parseFields(const ByteVector &data) {
 
   // Each channel is at least 4 bytes.
 
-  while (pos <= (int)data.size() - 4) {
+  while (pos <= static_cast<int>(data.size()) - 4) {
 
     ChannelType type = ChannelType(data[pos]);
     pos += 1;

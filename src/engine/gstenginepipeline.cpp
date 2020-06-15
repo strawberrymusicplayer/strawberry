@@ -581,13 +581,13 @@ GstPadProbeReturn GstEnginePipeline::HandoffCallback(GstPad *pad, GstPadProbeInf
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
 
-    int32_t *s = (int32_t*) map_info.data;
+    int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
     int samples = (map_info.size / sizeof(int32_t)) / channels;
     int buf16_size = samples * sizeof(int16_t) * channels;
-    int16_t *d = (int16_t*) g_malloc(buf16_size);
+    int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
     memset(d, 0, buf16_size);
     for (int i = 0 ; i < (samples * channels) ; ++i) {
-      d[i] = (int16_t) (s[i] >> 16);
+      d[i] = static_cast<int16_t>((s[i] >> 16));
     }
     gst_buffer_unmap(buf, &map_info);
     buf16 = gst_buffer_new_wrapped(d, buf16_size);
@@ -801,7 +801,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   g_error_free(error);
   g_free(debugs);
 
-  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == (int)GST_RESOURCE_ERROR || domain == (int)GST_STREAM_ERROR)) {
+  if (state() == GST_STATE_PLAYING && pipeline_is_initialised_ && next_uri_set_ && (domain == static_cast<int>(GST_RESOURCE_ERROR) || domain == static_cast<int>(GST_STREAM_ERROR))) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Debug) << "Ignoring error when loading next track";
@@ -1187,7 +1187,7 @@ void GstEnginePipeline::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info
   GList *audio_streams = gst_discoverer_info_get_audio_streams(info);
   if (audio_streams) {
 
-    GstDiscovererStreamInfo *stream_info = (GstDiscovererStreamInfo*) g_list_first(audio_streams)->data;
+    GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
 
     Engine::SimpleMetaBundle bundle;
     if (discovered_url == instance->stream_url_) {

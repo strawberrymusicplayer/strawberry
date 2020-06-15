@@ -173,10 +173,10 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_cover_replace_spaces->setChecked(s.value("cover_replace_spaces", true).toBool());
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
-  ui_->combobox_cache_size->setCurrentIndex(s.value(kSettingsCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
+  ui_->combobox_cache_size->setCurrentIndex(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
   ui_->checkbox_disk_cache->setChecked(s.value(kSettingsDiskCacheEnable, false).toBool());
   ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
-  ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, (int) CacheSizeUnit_MB).toInt());
+  ui_->combobox_disk_cache_size->setCurrentIndex(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit_MB)).toInt());
 
   s.endGroup();
 

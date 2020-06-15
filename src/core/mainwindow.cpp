@@ -1682,7 +1682,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   }
   else {
 
-    Playlist::Column column = (Playlist::Column)index.column();
+    Playlist::Column column = static_cast<Playlist::Column>(index.column());
     bool column_is_editable = Playlist::column_is_editable(column) && editable;
 
     ui_->action_selection_set_value->setVisible(ui_->action_selection_set_value->isVisible() && column_is_editable);
@@ -1867,7 +1867,7 @@ void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelI
 
 void MainWindow::SelectionSetValue() {
 
-  Playlist::Column column = (Playlist::Column)playlist_menu_index_.column();
+  Playlist::Column column = static_cast<Playlist::Column>(playlist_menu_index_.column());
   QVariant column_value = app_->playlist_manager()->current()->data(playlist_menu_index_);
 
   for (const QModelIndex &proxy_index : ui_->playlist->view()->selectionModel()->selectedRows()) {

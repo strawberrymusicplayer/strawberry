@@ -855,9 +855,7 @@ void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesSty
     if (lengthDSDSamplesTimeChannels == 0) {
       // DST compressed signal : need to compute length of DSD uncompressed frames
       if (dstFrameRate > 0)
-        lengthDSDSamplesTimeChannels = (unsigned long long)dstNumFrames *
-          (unsigned long long)sampleRate /
-          (unsigned long long)dstFrameRate;
+        lengthDSDSamplesTimeChannels = static_cast<unsigned long long>(dstNumFrames) * static_cast<unsigned long long>(sampleRate) / static_cast<unsigned long long>(dstFrameRate);
       else
         lengthDSDSamplesTimeChannels = 0;
     }
@@ -870,11 +868,7 @@ void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesSty
     if (lengthDSDSamplesTimeChannels > 0)
       bitrate = (audioDataSizeinBytes * 8 * sampleRate) / lengthDSDSamplesTimeChannels / 1000;
 
-    d->properties = new Properties(sampleRate,
-      channels,
-      lengthDSDSamplesTimeChannels,
-      bitrate,
-      propertiesStyle);
+    d->properties = new Properties(sampleRate, channels, lengthDSDSamplesTimeChannels, bitrate, propertiesStyle);
   }
 
   if (!ID3v2Tag()) {

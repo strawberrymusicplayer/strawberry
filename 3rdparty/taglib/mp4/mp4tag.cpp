@@ -78,7 +78,7 @@ MP4::Tag::Tag(Strawberry_TagLib::TagLib::File *file, MP4::Atoms *atoms) : d(new 
           addItem(atom->name, StringList(String(val.data, String::UTF8)));
         }
         else {
-          addItem(atom->name, (int)(val.data.toShort()));
+          addItem(atom->name, static_cast<int>((val.data.toShort())));
         }
       }
     }
@@ -169,7 +169,7 @@ void MP4::Tag::parseInt(const MP4::Atom *atom) {
 
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
-    addItem(atom->name, (int)data[0].toShort());
+    addItem(atom->name, static_cast<int>(data[0].toShort()));
   }
 
 }
@@ -205,7 +205,7 @@ void MP4::Tag::parseGnre(const MP4::Atom *atom) {
 
   ByteVectorList data = parseData(atom);
   if (!data.isEmpty()) {
-    int idx = (int)data[0].toShort();
+    int idx = static_cast<int>(data[0].toShort());
     if (idx > 0) {
       addItem("\251gen", StringList(ID3v1::genre(idx - 1)));
     }

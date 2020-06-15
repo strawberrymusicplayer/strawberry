@@ -294,13 +294,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
 
   // Resize differently if monitor is in portrait mode
   if (desktop_width < desktop_height) {
-    const int new_width = (double)desktop_width * 0.95;
+    const int new_width = static_cast<double>(desktop_width) * 0.95;
     if (new_width < pixmap.width()) {
       label->setPixmap(pixmap.scaledToWidth(new_width, Qt::SmoothTransformation));
     }
   }
   else {
-    const int new_height = (double)desktop_height * 0.85;
+    const int new_height = static_cast<double>(desktop_height) * 0.85;
     if (new_height < pixmap.height()) {
       label->setPixmap(pixmap.scaledToHeight(new_height, Qt::SmoothTransformation));
     }

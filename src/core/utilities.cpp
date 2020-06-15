@@ -875,7 +875,7 @@ QString UnicodeToAscii(const QString &unicode) {
 #endif
 
   iconv_t conv = iconv_open("ASCII//TRANSLIT", "UTF-8");
-  if (conv == (iconv_t) -1) return unicode;
+  if (conv == reinterpret_cast<iconv_t>(-1)) return unicode;
 
   QByteArray utf8 = unicode.toUtf8();
 

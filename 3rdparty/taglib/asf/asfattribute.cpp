@@ -282,7 +282,7 @@ ByteVector ASF::Attribute::render(const String &name, int kind) const {
 
   if (kind == 0) {
     data = renderString(name, true) +
-      ByteVector::fromShort((int)d->type, false) +
+      ByteVector::fromShort(static_cast<int>(d->type), false) +
       ByteVector::fromShort(data.size(), false) +
       data;
   }
@@ -291,7 +291,7 @@ ByteVector ASF::Attribute::render(const String &name, int kind) const {
     data = ByteVector::fromShort(kind == 2 ? d->language : 0, false) +
       ByteVector::fromShort(d->stream, false) +
       ByteVector::fromShort(nameData.size(), false) +
-      ByteVector::fromShort((int)d->type, false) +
+      ByteVector::fromShort(static_cast<int>(d->type), false) +
       ByteVector::fromUInt(data.size(), false) +
       nameData +
       data;

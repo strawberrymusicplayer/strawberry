@@ -299,22 +299,22 @@ void MPC::Properties::readSV7(const ByteVector &data, long streamLength) {
 
     // convert gain info
     if (d->trackGain != 0) {
-      int tmp = (int)((64.82 - (short)d->trackGain / 100.) * 256. + .5);
+      int tmp = static_cast<int>((64.82 - static_cast<short>(d->trackGain) / 100.) * 256. + .5);
       if (tmp >= (1 << 16) || tmp < 0) tmp = 0;
       d->trackGain = tmp;
     }
 
     if (d->albumGain != 0) {
-      int tmp = (int)((64.82 - d->albumGain / 100.) * 256. + .5);
+      int tmp = static_cast<int>((64.82 - d->albumGain / 100.) * 256. + .5);
       if (tmp >= (1 << 16) || tmp < 0) tmp = 0;
       d->albumGain = tmp;
     }
 
     if (d->trackPeak != 0)
-      d->trackPeak = (int)(log10((double)d->trackPeak) * 20 * 256 + .5);
+      d->trackPeak = static_cast<int>(log10(static_cast<double>(d->trackPeak)) * 20 * 256 + .5);
 
     if (d->albumPeak != 0)
-      d->albumPeak = (int)(log10((double)d->albumPeak) * 20 * 256 + .5);
+      d->albumPeak = static_cast<int>(log10(static_cast<double>(d->albumPeak)) * 20 * 256 + .5);
 
     bool trueGapless = (gapless >> 31) & 0x0001;
     if (trueGapless) {

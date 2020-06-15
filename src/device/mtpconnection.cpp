@@ -60,7 +60,7 @@ MtpConnection::MtpConnection(const QUrl &url) : device_(nullptr) {
   }
 
   if (url_query.hasQueryItem("vendor")) {
-    LIBMTP_raw_device_t *raw_device = (LIBMTP_raw_device_t*)malloc(sizeof(LIBMTP_raw_device_t));
+    LIBMTP_raw_device_t *raw_device = static_cast<LIBMTP_raw_device_t*>(malloc(sizeof(LIBMTP_raw_device_t)));
     raw_device->device_entry.vendor = url_query.queryItemValue("vendor").toLatin1().data();
     raw_device->device_entry.product = url_query.queryItemValue("product").toLatin1().data();
     raw_device->device_entry.vendor_id = url_query.queryItemValue("vendor_id").toUShort();
