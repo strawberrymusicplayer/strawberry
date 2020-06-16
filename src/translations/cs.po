@@ -1055,7 +1055,7 @@ msgstr "Mezipaměť"
 msgid "Buffer duration"
 msgstr "Délka vyrovnávací paměti"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Ukládá se do vyrovnávací paměti"
 
@@ -2257,7 +2257,7 @@ msgstr "Vysoký (%1 fps)"
 msgid "Icon"
 msgstr "Ikona"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Ikony nahoře"
 
@@ -2393,7 +2393,7 @@ msgstr "Velký sál"
 msgid "Large album cover"
 msgstr "Velký obal alba"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Velký postranní panel"
 
@@ -2634,7 +2634,7 @@ msgstr "Nálada"
 msgid "Moodbar"
 msgstr "Ukazatel nálady"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Styl Ukazatele nálady"
 
@@ -2967,7 +2967,7 @@ msgstr "Účinkující"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Prostý postranní panel"
 
@@ -3698,7 +3698,7 @@ msgstr "Ukázat popup &ze systémové lišty"
 msgid "Show a pretty OSD"
 msgstr "Ukazovat OSD"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Ukazovat nad stavovým řádkem"
 
@@ -3755,7 +3755,7 @@ msgstr "Ukázat pod různými umělci"
 msgid "Show love button"
 msgstr "Zobrazit tlačítko To Miluju!"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Zobrazit ukazatel nálady"
 
@@ -3853,7 +3853,7 @@ msgstr "Přeskočit skladbu"
 msgid "Small album cover"
 msgstr "Malý obal alba"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Malý postranní panel"
 
@@ -4053,7 +4053,7 @@ msgstr "Systémové barvy"
 msgid "Tabbar colors"
 msgstr "Barvy tabbaru"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Karty nahoře"
 
@@ -4701,7 +4701,7 @@ msgstr "Vaše hudební sbírka je prázdná!"
 msgid "Zero"
 msgstr "Vynulovat"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4744,7 +4744,7 @@ msgstr "hardware"
 msgid "kbps"
 msgstr "kb/s"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4763,7 +4763,7 @@ msgstr "volby"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4773,7 +4773,7 @@ msgstr "odstranit %n skladeb"
 msgid "searches the collection for all artists that contain the word"
 msgstr "vyhledá umělce obsahující slovo"
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "Zamíchat skladby"
 
@@ -4781,7 +4781,7 @@ msgstr "Zamíchat skladby"
 msgid "songs"
 msgstr "skladby"
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "Třídit skladby"
 

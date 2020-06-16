@@ -1071,7 +1071,7 @@ msgstr "Буфер"
 msgid "Buffer duration"
 msgstr "Размер буфера"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Буферизация"
 
@@ -2269,7 +2269,7 @@ msgstr "Высокая (%1 fps)"
 msgid "Icon"
 msgstr "Значок"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Значки сверху"
 
@@ -2400,7 +2400,7 @@ msgstr "Большой зал"
 msgid "Large album cover"
 msgstr "Большая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
 
@@ -2641,7 +2641,7 @@ msgstr "Mood"
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Стиль Moodbar"
 
@@ -2974,7 +2974,7 @@ msgstr "Исполнитель"
 msgid "Pixel"
 msgstr "Пиксель"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Нормальная боковая панель"
 
@@ -3694,7 +3694,7 @@ msgstr "&Показать всплывающее окно для панели з
 msgid "Show a pretty OSD"
 msgstr "Показывать OSD"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Показать над строкой состояния"
 
@@ -3751,7 +3751,7 @@ msgstr "Показать в «Различных исполнителях»"
 msgid "Show love button"
 msgstr "Показать кнопку нравится"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Показать moodbar"
 
@@ -3848,7 +3848,7 @@ msgstr "Пропустить трек"
 msgid "Small album cover"
 msgstr "Маленькая обложка альбома"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
 
@@ -4044,7 +4044,7 @@ msgstr "Системные цвета"
 msgid "Tabbar colors"
 msgstr "Цвета вкладок"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Вкладки вверху"
 
@@ -4687,7 +4687,7 @@ msgstr "Ваша фонотека пуста!"
 msgid "Zero"
 msgstr "По-умолчанию"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4729,7 +4729,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "кбит/с"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4747,7 +4747,7 @@ msgstr "настройки"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4757,7 +4757,7 @@ msgstr "удалить %n композиций"
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "перемешать песни"
 
@@ -4765,7 +4765,7 @@ msgstr "перемешать песни"
 msgid "songs"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "сортировать песни"
 

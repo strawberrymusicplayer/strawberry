@@ -1044,7 +1044,7 @@ msgstr "버퍼"
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "버퍼링"
 
@@ -2230,7 +2230,7 @@ msgstr "높음(%1 fps)"
 msgid "Icon"
 msgstr "아이콘"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
@@ -2356,7 +2356,7 @@ msgstr "거대한 홀"
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
@@ -2597,7 +2597,7 @@ msgstr "무드"
 msgid "Moodbar"
 msgstr "무드바"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "무드바 스타일"
 
@@ -2927,7 +2927,7 @@ msgstr "연주가"
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
@@ -3643,7 +3643,7 @@ msgstr "시스템 트레이에서 팝업 표시(&M)"
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 
@@ -3700,7 +3700,7 @@ msgstr "편집 음반으로 표시"
 msgid "Show love button"
 msgstr "좋아요 단추 표시"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "무드바 표시"
 
@@ -3797,7 +3797,7 @@ msgstr "트랙 건너뛰기"
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
@@ -3989,7 +3989,7 @@ msgstr "시스템 색상"
 msgid "Tabbar colors"
 msgstr "탭 표시줄 색상"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
@@ -4604,7 +4604,7 @@ msgstr "라이브러리가 비어 있습니다!"
 msgid "Zero"
 msgstr "제로"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4646,7 +4646,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "kbps"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4664,7 +4664,7 @@ msgstr "옵션"
 msgid "p&lughw"
 msgstr "plughw(&L)"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4674,7 +4674,7 @@ msgstr "%n곡 삭제"
 msgid "searches the collection for all artists that contain the word"
 msgstr "라이브러리에서 해당 단어를 포함하는 모든 아티스트 검색"
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "노래 섞기"
 
@@ -4682,7 +4682,7 @@ msgstr "노래 섞기"
 msgid "songs"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "음악 정렬"
 

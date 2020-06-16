@@ -1086,7 +1086,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Pufferdauer"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Puffern"
 
@@ -2288,7 +2288,7 @@ msgstr "Hoch (%1 fps)"
 msgid "Icon"
 msgstr "Symbol"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Symbole oben"
 
@@ -2421,7 +2421,7 @@ msgstr "Großer Raum"
 msgid "Large album cover"
 msgstr "Großes Titelbild"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Große Seitenleiste"
 
@@ -2662,7 +2662,7 @@ msgstr "Stimmung"
 msgid "Moodbar"
 msgstr "Stimmungsbarometer"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Stil des Stimmungsbarometers"
 
@@ -2997,7 +2997,7 @@ msgstr "Besetzung"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Einfache Seitenleiste"
 
@@ -3729,7 +3729,7 @@ msgstr "Zeige ein Popup vo&n der Systemleiste"
 msgid "Show a pretty OSD"
 msgstr "Strawberry-Bildschirmanzeige anzeigen"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Oberhalb der Statusleiste anzeigen"
 
@@ -3786,7 +3786,7 @@ msgstr "Unter »Verschiedene Interpreten« anzeigen"
 msgid "Show love button"
 msgstr "Zeige den Knopf für Lieben"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Zeige Stimmungsbarometer"
 
@@ -3883,7 +3883,7 @@ msgstr "Titel überspringen"
 msgid "Small album cover"
 msgstr "Kleines Titelbild"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Schmale Seitenleiste"
 
@@ -4080,7 +4080,7 @@ msgstr "Systemfarben"
 msgid "Tabbar colors"
 msgstr "Farben der Reiterleiste"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Reiter oben"
 
@@ -4737,7 +4737,7 @@ msgstr "Ihre Bibliothek ist leer!"
 msgid "Zero"
 msgstr "Null"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4779,7 +4779,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "Kb/s"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4797,7 +4797,7 @@ msgstr "Einstellungen"
 msgid "p&lughw"
 msgstr "p&lughw Plugin"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4807,7 +4807,7 @@ msgstr "%n Titel entfernen"
 msgid "searches the collection for all artists that contain the word"
 msgstr "durchsucht die Sammlung nach allen Künstlern, die das Wort enthalten"
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "Titel mischen"
 
@@ -4815,7 +4815,7 @@ msgstr "Titel mischen"
 msgid "songs"
 msgstr "Lieder"
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "Titel sortieren"
 

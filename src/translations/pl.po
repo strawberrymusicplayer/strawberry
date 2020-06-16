@@ -1063,7 +1063,7 @@ msgstr "Bufor"
 msgid "Buffer duration"
 msgstr "Długość bufora"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Buforowanie"
 
@@ -2269,7 +2269,7 @@ msgstr "Dużo (%1 kl./s)"
 msgid "Icon"
 msgstr "Ikona"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Ikony na górze"
 
@@ -2403,7 +2403,7 @@ msgstr "Duża sala"
 msgid "Large album cover"
 msgstr "Duża okładka albumu"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Duży pasek boczny"
 
@@ -2644,7 +2644,7 @@ msgstr "Nastrój"
 msgid "Moodbar"
 msgstr "Pasek nastroju"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Styl paska nastroju"
 
@@ -2978,7 +2978,7 @@ msgstr "Wykonawca"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Pasek boczny bez efektów"
 
@@ -3706,7 +3706,7 @@ msgstr "Pokazuj powiadomienia z ikony zaso&bnika"
 msgid "Show a pretty OSD"
 msgstr "Pokazuj ładne menu ekranowe (OSD)"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Pokazuj ponad paskiem stanu"
 
@@ -3763,7 +3763,7 @@ msgstr "Pokaż w „różni artyści”"
 msgid "Show love button"
 msgstr "Pokazuj przycisk ulubionych"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Pokazuj pasek nastroju"
 
@@ -3860,7 +3860,7 @@ msgstr "Pomiń ścieżkę"
 msgid "Small album cover"
 msgstr "Mała okładka albumu"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Mały pasek boczny"
 
@@ -4057,7 +4057,7 @@ msgstr "Kolory systemowe"
 msgid "Tabbar colors"
 msgstr "Kolory paska zakładek"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Zakładki na górze"
 
@@ -4705,7 +4705,7 @@ msgstr "Twoja kolekcja jest pusta!"
 msgid "Zero"
 msgstr "Zero"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4747,7 +4747,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "kb/s"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4765,7 +4765,7 @@ msgstr "opcje"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4775,7 +4775,7 @@ msgstr "usuń utworów: %n"
 msgid "searches the collection for all artists that contain the word"
 msgstr "szuka w kolekcji wszystkich artystów, mających w nazwie słowo"
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "losuj utwory"
 
@@ -4783,7 +4783,7 @@ msgstr "losuj utwory"
 msgid "songs"
 msgstr "utwory"
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "sortuj utwory"
 

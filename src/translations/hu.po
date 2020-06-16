@@ -1057,7 +1057,7 @@ msgstr "Puffer"
 msgid "Buffer duration"
 msgstr "Puffer hossza"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Pufferelés"
 
@@ -2259,7 +2259,7 @@ msgstr "Magas (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Ikonok felül"
 
@@ -2393,7 +2393,7 @@ msgstr "Nagy terem"
 msgid "Large album cover"
 msgstr "Nagy albumborító"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Nagy oldalsáv"
 
@@ -2634,7 +2634,7 @@ msgstr "Hangulat"
 msgid "Moodbar"
 msgstr "Hangulatsáv"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Hangulatsáv stílusa"
 
@@ -2968,7 +2968,7 @@ msgstr "Előadó"
 msgid "Pixel"
 msgstr "Pixel"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Egyszerű oldalsáv"
 
@@ -3698,7 +3698,7 @@ msgstr "&Felugró értesítés megjelenítése a rendszertálcáról"
 msgid "Show a pretty OSD"
 msgstr "Saját OSD megjelenítése"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Megjelenítés az állapotsáv felett"
 
@@ -3755,7 +3755,7 @@ msgstr "Megjelenítés a különböző előadók között"
 msgid "Show love button"
 msgstr "Kedvenc gomb megjelenítése"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Hangulatsáv megjelenítése"
 
@@ -3852,7 +3852,7 @@ msgstr "Szám kihagyása"
 msgid "Small album cover"
 msgstr "Kis albumborító"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Kis oldalsáv"
 
@@ -4049,7 +4049,7 @@ msgstr "Rendszerszínek"
 msgid "Tabbar colors"
 msgstr "Lapsáv színei"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Fülek felül"
 
@@ -4699,7 +4699,7 @@ msgstr "Az ön gyűjteménye üres!"
 msgid "Zero"
 msgstr "Nulla"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4741,7 +4741,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "kb/s"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4759,7 +4759,7 @@ msgstr "beállítások"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4769,7 +4769,7 @@ msgstr "%n dal eltávolítása"
 msgid "searches the collection for all artists that contain the word"
 msgstr "a szót tartalmazó előadók keresése a gyűjteményben"
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "dalok keverése"
 
@@ -4777,7 +4777,7 @@ msgstr "dalok keverése"
 msgid "songs"
 msgstr "dalok"
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "dalok rendezése"
 

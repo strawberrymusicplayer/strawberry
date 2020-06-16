@@ -1053,7 +1053,7 @@ msgstr "Buffer"
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:630
+#: engine/gstengine.cpp:629
 msgid "Buffering"
 msgstr "Membufer..."
 
@@ -2247,7 +2247,7 @@ msgstr "Tinggi (%1 fps)"
 msgid "Icon"
 msgstr "Ikon"
 
-#: widgets/fancytabwidget.cpp:605
+#: widgets/fancytabwidget.cpp:603
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
@@ -2377,7 +2377,7 @@ msgstr "Balai Besar"
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:601
+#: widgets/fancytabwidget.cpp:599
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
@@ -2618,7 +2618,7 @@ msgstr "Mood"
 msgid "Moodbar"
 msgstr "Moodbar"
 
-#: moodbar/moodbarproxystyle.cpp:380 ../build/src/ui_moodbarsettingspage.h:98
+#: moodbar/moodbarproxystyle.cpp:378 ../build/src/ui_moodbarsettingspage.h:98
 msgid "Moodbar style"
 msgstr "Gaya moodbar"
 
@@ -2952,7 +2952,7 @@ msgstr "Penampil"
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:603
+#: widgets/fancytabwidget.cpp:601
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
@@ -3670,7 +3670,7 @@ msgstr "Tampilkan popup dari baki siste&m"
 msgid "Show a pretty OSD"
 msgstr "Tampilkan OSD cantik"
 
-#: widgets/playingwidget.cpp:141
+#: widgets/playingwidget.cpp:139
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
@@ -3727,7 +3727,7 @@ msgstr "Tampilkan di artis beragam"
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
-#: moodbar/moodbarproxystyle.cpp:375
+#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
@@ -3824,7 +3824,7 @@ msgstr "Lewati trek"
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:602
+#: widgets/fancytabwidget.cpp:600
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
@@ -4019,7 +4019,7 @@ msgstr "Warna sistem"
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: widgets/fancytabwidget.cpp:604
+#: widgets/fancytabwidget.cpp:602
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
@@ -4664,7 +4664,7 @@ msgstr "Pustaka Anda kosong!"
 msgid "Zero"
 msgstr "Nol"
 
-#: playlist/playlistundocommands.cpp:47
+#: playlist/playlistundocommands.cpp:46
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "add %n songs"
@@ -4706,7 +4706,7 @@ msgstr "hw"
 msgid "kbps"
 msgstr "kbps"
 
-#: playlist/playlistundocommands.cpp:104
+#: playlist/playlistundocommands.cpp:103
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "move %n songs"
@@ -4724,7 +4724,7 @@ msgstr "opsi"
 msgid "p&lughw"
 msgstr "p&lughw"
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:93
+#: playlist/playlistundocommands.cpp:71 playlist/playlistundocommands.cpp:92
 #, c-format, qt-plural-format
 msgctxt ""
 msgid "remove %n songs"
@@ -4734,7 +4734,7 @@ msgstr "buang %n lagu"
 msgid "searches the collection for all artists that contain the word"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:136
+#: playlist/playlistundocommands.cpp:135
 msgid "shuffle songs"
 msgstr "karau lagu"
 
@@ -4742,7 +4742,7 @@ msgstr "karau lagu"
 msgid "songs"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:128
+#: playlist/playlistundocommands.cpp:127
 msgid "sort songs"
 msgstr "urutkan lagu"
 
