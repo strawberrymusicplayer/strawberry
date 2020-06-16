@@ -1,23 +1,26 @@
 cmake_minimum_required(VERSION 3.0)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${GLIB_INCLUDE_DIRS})
-include_directories(${GOBJECT_INCLUDE_DIRS})
-include_directories(${GSTREAMER_INCLUDE_DIRS})
-include_directories(${GSTREAMER_AUDIO_INCLUDE_DIRS})
-include_directories(${FFTW3_INCLUDE_DIR})
-
 set(SOURCES gstfastspectrum.cpp gstmoodbarplugin.cpp)
 
 add_library(gstmoodbar STATIC ${SOURCES})
 
-target_link_libraries(gstmoodbar
-  ${GOBJECT_LIBRARIES}
-  ${GLIB_LIBRARIES}
-  ${GSTREAMER_LIBRARIES}
-  ${GSTREAMER_AUDIO_LIBRARIES}
-  ${GSTREAMER_BASE_LIBRARIES}
-  ${FFTW3_FFTW_LIBRARY}
+target_include_directories(gstmoodbar PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${GLIB_INCLUDE_DIRS}
+  ${GOBJECT_INCLUDE_DIRS}
+  ${GSTREAMER_INCLUDE_DIRS}
+  ${GSTREAMER_BASE_INCLUDE_DIRS}
+  ${GSTREAMER_AUDIO_INCLUDE_DIRS}
+  ${FFTW3_INCLUDE_DIR}
+  ${Qt5Core_INCLUDE_DIRS}
 )
 
-target_link_libraries(gstmoodbar Qt5::Core)
+target_link_libraries(gstmoodbar PRIVATE
+  ${GLIB_LIBRARIES}
+  ${GOBJECT_LIBRARIES}
+  ${GSTREAMER_LIBRARIES}
+  ${GSTREAMER_BASE_LIBRARIES}
+  ${GSTREAMER_AUDIO_LIBRARIES}
+  ${FFTW3_FFTW_LIBRARY}
+  ${Qt5Core_LIBRARIES}
+)

@@ -26,8 +26,6 @@
 #ifndef TAGLIB_H
 #define TAGLIB_H
 
-#include "taglib_config.h"
-
 #define TAGLIB_MAJOR_VERSION 1
 #define TAGLIB_MINOR_VERSION 11
 #define TAGLIB_PATCH_VERSION 1

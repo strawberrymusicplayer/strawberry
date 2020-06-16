@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 
 #include <taglib/taglib.h>
-#include <taglib/taglib_config.h>
 #include <taglib/fileref.h>
 #include <taglib/tbytevector.h>
 #include <taglib/tfile.h>
