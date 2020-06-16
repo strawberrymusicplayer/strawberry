@@ -1117,6 +1117,10 @@ jobs:
           create-dmg
           taglib
 
+      - name: pkg-config --libs glib-2.0
+        shell: bash
+        run: pkg-config --libs glib-2.0
+
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
