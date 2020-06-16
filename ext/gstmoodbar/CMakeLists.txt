@@ -2,6 +2,16 @@ cmake_minimum_required(VERSION 3.0)
 
 set(SOURCES gstfastspectrum.cpp gstmoodbarplugin.cpp)
 
+link_directories(
+  ${GLIB_LIBRARY_DIRS}
+  ${GOBJECT_LIBRARY_DIRS}
+  ${GSTREAMER_LIBRARY_DIRS}
+  ${GSTREAMER_BASE_LIBRARY_DIRS}
+  ${GSTREAMER_AUDIO_LIBRARY_DIRS}
+  ${FFTW3_LIBRARY_DIRS}
+  ${Qt5Core_LIBRARY_DIRS}
+)
+
 add_library(gstmoodbar STATIC ${SOURCES})
 
 target_include_directories(gstmoodbar PRIVATE
