@@ -8,6 +8,7 @@ protobuf_generate_cpp(PROTO_SOURCES PROTO_HEADERS ${MESSAGES})
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
 target_include_directories(libstrawberry-tagreader PRIVATE
+  ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
   ${TAGLIB_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
@@ -20,12 +21,14 @@ target_include_directories(libstrawberry-tagreader PRIVATE
 )
 
 link_directories(
+  ${GLIB_LIBRARY_DIRS}
   ${PROTOBUF_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
   ${Qt5Core_LIBRARY_DIRS}
 )
 
 target_link_libraries(libstrawberry-tagreader PRIVATE
+  ${GLIB_LIBRARIES}
   ${PROTOBUF_LIBRARY}
   ${TAGLIB_LIBRARIES}
   ${Qt5Core_LIBRARIES}

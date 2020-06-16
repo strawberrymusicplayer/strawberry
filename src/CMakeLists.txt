@@ -949,7 +949,6 @@ target_include_directories(strawberry_lib PUBLIC
 link_directories(
   ${Boost_LIBRARY_DIRS}
   ${GLIB_LIBRARY_DIRS}
-  ${GIO_LIBRARY_DIRS}
   ${GOBJECT_LIBRARY_DIRS}
   ${GNUTLS_LIBRARY_DIRS}
   ${SQLITE_LIBRARY_DIRS}
@@ -962,7 +961,6 @@ link_directories(
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   ${GLIB_LIBRARIES}
-  ${GIO_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${GNUTLS_LIBRARIES}
   ${SQLITE_LIBRARIES}

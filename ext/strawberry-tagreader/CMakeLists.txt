@@ -10,6 +10,7 @@ qt5_add_resources(QRC data/data.qrc)
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 
 target_include_directories(strawberry-tagreader PRIVATE
+  ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
   ${TAGLIB_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
@@ -21,13 +22,13 @@ target_include_directories(strawberry-tagreader PRIVATE
 )
 
 link_directories(
-  ${PROTOBUF_LIBRARY_DIRS}
-  ${TAGLIB_LIBRARY_DIRS}
+  ${GLIB_LIBRARY_DIRS}
   ${Qt5Core_LIBRARY_DIRS}
   ${Qt5Network_LIBRARY_DIRS}
 )
 
 target_link_libraries(strawberry-tagreader PRIVATE
+  ${GLIB_LIBRARIES}
   ${Qt5Core_LIBRARIES}
   ${Qt5Network_LIBRARIES}
   libstrawberry-common
