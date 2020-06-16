@@ -20,7 +20,7 @@ target_include_directories(strawberry-tagreader PRIVATE
   ${CMAKE_BINARY_DIR}/src
 )
 
-target_link_directories(strawberry-tagreader PRIVATE
+link_directories(
   ${PROTOBUF_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
   ${Qt5Core_LIBRARY_DIRS}

@@ -34,7 +34,7 @@ target_include_directories(libstrawberry-common PRIVATE
   ${Qt5Network_INCLUDE_DIRS}
 )
 
-target_link_directories(libstrawberry-common PRIVATE
+link_directories(
   ${GLIB_LIBRARY_DIRS}
   ${Qt5Core_LIBRARY_DIRS}
   ${Qt5Network_LIBRARY_DIRS}
