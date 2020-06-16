@@ -39,7 +39,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 
 if(APPLE)
-  target_link_libraries(strawberry-tagreader /System/Library/Frameworks/Foundation.framework)
+  target_link_libraries(strawberry-tagreader PRIVATE /System/Library/Frameworks/Foundation.framework)
 endif(APPLE)
 
 install(TARGETS strawberry-tagreader RUNTIME DESTINATION bin)
