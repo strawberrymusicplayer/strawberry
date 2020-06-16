@@ -22,6 +22,12 @@ endif(APPLE)
 
 qt5_wrap_cpp(MOC ${HEADERS})
 
+link_directories(
+  ${GLIB_LIBRARY_DIRS}
+  ${Qt5Core_LIBRARY_DIRS}
+  ${Qt5Network_LIBRARY_DIRS}
+)
+
 add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
 target_include_directories(libstrawberry-common PRIVATE
@@ -32,12 +38,6 @@ target_include_directories(libstrawberry-common PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
-)
-
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${Qt5Core_LIBRARY_DIRS}
-  ${Qt5Network_LIBRARY_DIRS}
 )
 
 target_link_libraries(libstrawberry-common PRIVATE

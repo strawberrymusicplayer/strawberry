@@ -7,6 +7,12 @@ set(SOURCES main.cpp tagreaderworker.cpp)
 qt5_wrap_cpp(MOC ${HEADERS})
 qt5_add_resources(QRC data/data.qrc)
 
+link_directories(
+  ${GLIB_LIBRARY_DIRS}
+  ${Qt5Core_LIBRARY_DIRS}
+  ${Qt5Network_LIBRARY_DIRS}
+)
+
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 
 target_include_directories(strawberry-tagreader PRIVATE
@@ -19,12 +25,6 @@ target_include_directories(strawberry-tagreader PRIVATE
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
   ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
   ${CMAKE_BINARY_DIR}/src
-)
-
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${Qt5Core_LIBRARY_DIRS}
-  ${Qt5Network_LIBRARY_DIRS}
 )
 
 target_link_libraries(strawberry-tagreader PRIVATE

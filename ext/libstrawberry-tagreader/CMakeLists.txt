@@ -5,6 +5,13 @@ set(SOURCES fmpsparser.cpp tagreader.cpp)
 
 protobuf_generate_cpp(PROTO_SOURCES PROTO_HEADERS ${MESSAGES})
 
+link_directories(
+  ${GLIB_LIBRARY_DIRS}
+  ${PROTOBUF_LIBRARY_DIRS}
+  ${TAGLIB_LIBRARY_DIRS}
+  ${Qt5Core_LIBRARY_DIRS}
+)
+
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
 target_include_directories(libstrawberry-tagreader PRIVATE
@@ -18,13 +25,6 @@ target_include_directories(libstrawberry-tagreader PRIVATE
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_BINARY_DIR}/src
-)
-
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${PROTOBUF_LIBRARY_DIRS}
-  ${TAGLIB_LIBRARY_DIRS}
-  ${Qt5Core_LIBRARY_DIRS}
 )
 
 target_link_libraries(libstrawberry-tagreader PRIVATE
