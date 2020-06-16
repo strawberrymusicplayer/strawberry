@@ -1011,7 +1011,6 @@ target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
   ${Boost_INCLUDE_DIRS}
   ${GLIB_INCLUDE_DIRS}
-  ${GIO_INCLUDE_DIRS}
   ${GOBJECT_INCLUDE_DIRS}
   ${GNUTLS_INCLUDE_DIRS}
   ${SQLITE_INCLUDE_DIRS}
