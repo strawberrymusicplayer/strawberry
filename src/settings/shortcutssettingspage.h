@@ -55,16 +55,9 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   void Save() override;
 
  private slots:
-
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
-#ifdef HAVE_X11
   void X11Changed(bool);
-#endif
-#ifdef HAVE_DBUS
   void GSDChanged(bool);
   void OpenGnomeKeybindingProperties();
-#endif
-#endif
 
   void ItemClicked(QTreeWidgetItem*);
   void NoneClicked();

@@ -193,8 +193,6 @@ void GlobalShortcutsSettingsPage::Save() {
 
 }
 
-#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
-#ifdef HAVE_X11
 void GlobalShortcutsSettingsPage::X11Changed(bool) {
 
   if (!ui_->widget_x11->isVisibleTo(this)) return;
@@ -211,8 +209,7 @@ void GlobalShortcutsSettingsPage::X11Changed(bool) {
   }
 
 }
-#endif  // HAVE_X11
-#ifdef HAVE_DBUS
+
 void GlobalShortcutsSettingsPage::GSDChanged(bool) {
 
   if (!ui_->widget_gsd->isVisibleTo(this)) return;
@@ -249,9 +246,6 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
   }
 
 }
-#endif  // HAVE_DBUS
-
-#endif  // !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
 
 void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySequence &key) {
 
