@@ -1117,6 +1117,10 @@ jobs:
           create-dmg
           taglib
 
+      - name: Delete conflicting taglib system headers
+        shell: bash
+        run: rm -rf /usr/local/include/taglib
+
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
