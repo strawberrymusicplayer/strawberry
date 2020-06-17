@@ -98,9 +98,8 @@ class OSD : public QObject {
  private slots:
 #ifdef HAVE_DBUS
   void CallFinished(QDBusPendingCallWatcher *watcher);
-#else
-  void CallFinished();
 #endif
+  void CallFinished();
   void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
 
  private:

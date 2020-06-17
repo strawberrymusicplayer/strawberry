@@ -1117,6 +1117,10 @@ jobs:
           create-dmg
           taglib
 
+      - name: Delete conflicting taglib system headers
+        shell: bash
+        run: rm -rf /usr/local/include/taglib
+
       - name: Create Build Environment
         shell: bash
         run: cmake -E make_directory build
@@ -1129,7 +1133,7 @@ jobs:
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=ON
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=OFF
       - name: Build
         working-directory: build
         shell: bash

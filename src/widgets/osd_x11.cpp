@@ -184,6 +184,6 @@ void OSD::CallFinished(QDBusPendingCallWatcher *watcher) {
     last_notification_time_ = QDateTime::currentDateTime();
   }
 }
-#else
-void OSD::CallFinished() {}
 #endif
+void OSD::CallFinished() {}
+
