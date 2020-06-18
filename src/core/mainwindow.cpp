@@ -249,8 +249,9 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
       collection_sort_model_(new QSortFilterProxyModel(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
-      initialised_(false),
+      initialized_(false),
       was_maximized_(true),
+      was_minimized_(false),
       playing_widget_(true),
       doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour_Append),
       doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour_Never),
@@ -794,8 +795,6 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (settings_.contains("geometry")) {
     restoreGeometry(settings_.value("geometry").toByteArray());
   }
-  was_maximized_ = settings_.value("maximized", true).toBool();
-  if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
 
   if (!ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
     ui_->splitter->setSizes(QList<int>() << 250 << width() - 250);
@@ -828,7 +827,7 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
 #else
   QSettings s;
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  StartupBehaviour behaviour = StartupBehaviour(s.value("startupbehaviour", Startup_Remember).toInt());
+  BehaviourSettingsPage::StartupBehaviour behaviour = BehaviourSettingsPage::StartupBehaviour(s.value("startupbehaviour", BehaviourSettingsPage::Startup_Remember).toInt());
   s.endGroup();
   bool hidden = settings_.value("hidden", false).toBool();
   if (hidden && (!QSystemTrayIcon::isSystemTrayAvailable() || !tray_icon_ || !tray_icon_->IsVisible())) {
@@ -838,14 +837,26 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   }
   else {
     switch (behaviour) {
-      case Startup_AlwaysHide:
-        hide();
+      case BehaviourSettingsPage::Startup_Remember:
+        was_maximized_ = settings_.value("maximized", true).toBool();
+        if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
+        was_minimized_ = settings_.value("minimized", false).toBool();
+        if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
+        setVisible(!hidden);
         break;
-      case Startup_AlwaysShow:
+      case BehaviourSettingsPage::Startup_Show:
         show();
         break;
-      case Startup_Remember:
-        setVisible(!hidden);
+      case BehaviourSettingsPage::Startup_Hide:
+        hide();
+        break;
+      case BehaviourSettingsPage::Startup_ShowMaximized:
+        setWindowState(windowState() | Qt::WindowMaximized);
+        show();
+        break;
+      case BehaviourSettingsPage::Startup_ShowMinimized:
+        setWindowState(windowState() | Qt::WindowMinimized);
+        show();
         break;
     }
   }
@@ -866,10 +877,12 @@ MainWindow::MainWindow(Application *app, SystemTrayIcon *tray_icon, OSD *osd, co
   if (!options.contains_play_options()) {
     LoadPlaybackStatus();
   }
-  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) app_->scrobbler()->Submit();
+  if (app_->scrobbler()->IsEnabled() && !app_->scrobbler()->IsOffline()) {
+    app_->scrobbler()->Submit();
+  }
 
   qLog(Debug) << "Started" << QThread::currentThread();
-  initialised_ = true;
+  initialized_ = true;
 
 }
 
@@ -1187,9 +1200,10 @@ void MainWindow::ToggleSearchCoverAuto(const bool checked) {
 
 void MainWindow::SaveGeometry() {
 
-  if (!initialised_) return;
+  if (!initialized_) return;
 
   settings_.setValue("maximized", isMaximized());
+  settings_.setValue("minimized", isMinimized());
   settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
 
@@ -1375,10 +1389,12 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
   // Some window managers don't remember maximized state between calls to hide() and show(), so we have to remember it ourself.
   if (hidden) {
     was_maximized_ = isMaximized();
+    was_minimized_ = isMinimized();
     hide();
   }
   else {
-    if (was_maximized_) showMaximized();
+    if (was_minimized_) { showMinimized(); }
+    else if (was_maximized_) showMaximized();
     else show();
   }
 

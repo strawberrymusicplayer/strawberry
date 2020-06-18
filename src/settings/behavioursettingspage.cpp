@@ -169,11 +169,13 @@ void BehaviourSettingsPage::Load() {
   ui_->checkbox_resumeplayback->setChecked(s.value("resumeplayback", false).toBool());
   ui_->checkbox_playingwidget->setChecked(s.value("playing_widget", true).toBool());
 
-  MainWindow::StartupBehaviour behaviour = MainWindow::StartupBehaviour(s.value("startupbehaviour", MainWindow::Startup_Remember).toInt());
+  StartupBehaviour behaviour = StartupBehaviour(s.value("startupbehaviour", Startup_Remember).toInt());
   switch (behaviour) {
-    case MainWindow::Startup_AlwaysHide: ui_->radiobutton_alwayshide->setChecked(true); break;
-    case MainWindow::Startup_AlwaysShow: ui_->radiobutton_alwaysshow->setChecked(true); break;
-    case MainWindow::Startup_Remember:   ui_->radiobutton_remember->setChecked(true); break;
+    case Startup_Remember:   ui_->radiobutton_remember->setChecked(true); break;
+    case Startup_Show:   ui_->radiobutton_show->setChecked(true); break;
+    case Startup_Hide: ui_->radiobutton_hide->setChecked(true); break;
+    case Startup_ShowMaximized: ui_->radiobutton_show_maximized->setChecked(true); break;
+    case Startup_ShowMinimized: ui_->radiobutton_show_minimized->setChecked(true); break;
   }
 
   QString name = language_map_.key(s.value("language").toString());
@@ -211,10 +213,12 @@ void BehaviourSettingsPage::Save() {
   s.setValue("playing_widget", ui_->checkbox_playingwidget->isChecked());
   s.setValue("scrolltrayicon", ui_->checkbox_scrolltrayicon->isChecked());
 
-  MainWindow::StartupBehaviour behaviour = MainWindow::Startup_Remember;
-  if (ui_->radiobutton_alwayshide->isChecked()) behaviour = MainWindow::Startup_AlwaysHide;
-  if (ui_->radiobutton_alwaysshow->isChecked()) behaviour = MainWindow::Startup_AlwaysShow;
-  if (ui_->radiobutton_remember->isChecked()) behaviour = MainWindow::Startup_Remember;
+  StartupBehaviour behaviour = Startup_Remember;
+  if (ui_->radiobutton_remember->isChecked()) behaviour = Startup_Remember;
+  if (ui_->radiobutton_show->isChecked()) behaviour = Startup_Show;
+  if (ui_->radiobutton_hide->isChecked()) behaviour = Startup_Hide;
+  if (ui_->radiobutton_show_maximized->isChecked()) behaviour = Startup_ShowMaximized;
+  if (ui_->radiobutton_show_minimized->isChecked()) behaviour = Startup_ShowMinimized;
   s.setValue("startupbehaviour", int(behaviour));
 
   s.setValue("language", language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
@@ -242,8 +246,8 @@ void BehaviourSettingsPage::Save() {
 
 void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
 
-  ui_->radiobutton_alwayshide->setEnabled(on);
-  if (!on && ui_->radiobutton_alwayshide->isChecked()) ui_->radiobutton_remember->setChecked(true);
+  ui_->radiobutton_hide->setEnabled(on);
+  if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
   ui_->checkbox_keeprunning->setEnabled(on);
   ui_->checkbox_scrolltrayicon->setEnabled(on);
 

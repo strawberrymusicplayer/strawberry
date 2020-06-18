@@ -68,26 +68,40 @@
      </property>
      <layout class="QVBoxLayout" name="layout_startup">
       <item>
-       <widget class="QRadioButton" name="radiobutton_alwaysshow">
-        <property name="text">
-         <string>Always show &amp;the main window</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radiobutton_alwayshide">
-        <property name="text">
-         <string>Alwa&amp;ys hide the main window</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QRadioButton" name="radiobutton_remember">
         <property name="text">
          <string>Remember from &amp;last time</string>
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radiobutton_show">
+        <property name="text">
+         <string>Show the main window</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radiobutton_hide">
+        <property name="text">
+         <string>Hide the main window</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radiobutton_show_maximized">
+        <property name="text">
+         <string>Show the main window maximized</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radiobutton_show_minimized">
+        <property name="text">
+         <string>Show the main window minimized</string>
         </property>
        </widget>
       </item>
@@ -323,6 +337,25 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>checkbox_showtrayicon</tabstop>
+  <tabstop>checkbox_keeprunning</tabstop>
+  <tabstop>checkbox_resumeplayback</tabstop>
+  <tabstop>checkbox_playingwidget</tabstop>
+  <tabstop>checkbox_scrolltrayicon</tabstop>
+  <tabstop>radiobutton_remember</tabstop>
+  <tabstop>radiobutton_show</tabstop>
+  <tabstop>radiobutton_hide</tabstop>
+  <tabstop>radiobutton_show_maximized</tabstop>
+  <tabstop>radiobutton_show_minimized</tabstop>
+  <tabstop>combobox_language</tabstop>
+  <tabstop>combobox_menuplaymode</tabstop>
+  <tabstop>combobox_previousmode</tabstop>
+  <tabstop>combobox_doubleclickaddmode</tabstop>
+  <tabstop>combobox_doubleclickplaymode</tabstop>
+  <tabstop>combobox_doubleclickplaylistaddmode</tabstop>
+  <tabstop>spinbox_seekstepsec</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

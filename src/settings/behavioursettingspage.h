@@ -41,6 +41,15 @@ public:
 
   static const char *kSettingsGroup;
 
+  // Don't change the values
+  enum StartupBehaviour {
+    Startup_Remember = 1,
+    Startup_Show = 2,
+    Startup_Hide = 3,
+    Startup_ShowMaximized = 4,
+    Startup_ShowMinimized = 5,
+  };
+
   enum PlayBehaviour {
     PlayBehaviour_Never = 1,
     PlayBehaviour_IfStopped = 2,
