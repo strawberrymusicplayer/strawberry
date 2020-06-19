@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-17 10:22-0400\n"
+"PO-Revision-Date: 2020-06-19 09:25-0400\n"
 "Last-Translator: David Geiger <geiger.david68210@gmail.com>\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -2281,7 +2281,7 @@ msgstr "Aide"
 
 #: ../build/src/ui_behavioursettingspage.h:277
 msgid "Hide the main window"
-msgstr ""
+msgstr "Masquer la fenêtre principale"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "High"
@@ -3834,15 +3834,15 @@ msgstr "Afficher l'icône dans la barre de tâche"
 
 #: ../build/src/ui_behavioursettingspage.h:276
 msgid "Show the main window"
-msgstr ""
+msgstr "Afficher la fenêtre principale"
 
 #: ../build/src/ui_behavioursettingspage.h:278
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "Afficher la fenêtre principale en plein écran"
 
 #: ../build/src/ui_behavioursettingspage.h:279
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "Afficher la fenêtre principale en réduit"
 
 #: ../build/src/ui_playlistsequence.h:124
 msgid "Shuffle"

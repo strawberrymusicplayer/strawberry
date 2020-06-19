@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "MIME-Version: 1.0\n"
-"PO-Revision-Date: 2020-06-11 02:48-0400\n"
+"PO-Revision-Date: 2020-06-19 02:58-0400\n"
 "Last-Translator: Ács Zoltán <acszoltan111@gmail.com>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -2240,7 +2240,7 @@ msgstr "&Súgó"
 
 #: ../build/src/ui_behavioursettingspage.h:277
 msgid "Hide the main window"
-msgstr ""
+msgstr "Főablak elrejtése"
 
 #: ../build/src/ui_transcoderoptionsmp3.h:201
 msgid "High"
@@ -3789,15 +3789,15 @@ msgstr "Tálcaikon megjelenítése"
 
 #: ../build/src/ui_behavioursettingspage.h:276
 msgid "Show the main window"
-msgstr ""
+msgstr "Főablak megjelenítése"
 
 #: ../build/src/ui_behavioursettingspage.h:278
 msgid "Show the main window maximized"
-msgstr ""
+msgstr "Főablak megjelenítése maximalizálva"
 
 #: ../build/src/ui_behavioursettingspage.h:279
 msgid "Show the main window minimized"
-msgstr ""
+msgstr "Főablak megjelenítése minimalizálva"
 
 #: ../build/src/ui_playlistsequence.h:124
 msgid "Shuffle"
