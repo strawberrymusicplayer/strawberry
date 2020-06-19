@@ -28,12 +28,12 @@
 #include <QList>
 #include <QString>
 #include <QImage>
+#include <QAction>
 
 #include "core/song.h"
 #include "contextalbum.h"
 
 class QMenu;
-class QAction;
 class QLabel;
 class QStackedWidget;
 class QVBoxLayout;
@@ -61,7 +61,7 @@ class ContextView : public QWidget {
 
   ContextAlbum *album_widget() const { return widget_album_; }
   ContextAlbumsView *albums_widget() const { return widget_albums_; }
-  bool album_enabled() const { return widget_album_->isVisible(); }
+  bool album_enabled() const { return action_show_album_->isChecked(); }
   Song song_playing() const { return song_playing_; }
 
  protected:
