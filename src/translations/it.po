@@ -2934,7 +2934,7 @@ msgid "Password Protected"
 msgstr "Protetto da Password"
 
 #: core/mainwindow.cpp:1105 core/mainwindow.cpp:1576
-#: core/qtsystemtrayicon.cpp:207
+#: core/qtsystemtrayicon.cpp:202
 msgid "Pause"
 msgstr "Pausa"
 
@@ -2962,8 +2962,8 @@ msgid "Plain sidebar"
 msgstr "Barra laterale semplice"
 
 #: core/mainwindow.cpp:605 core/mainwindow.cpp:1058 core/mainwindow.cpp:1087
-#: core/mainwindow.cpp:1580 core/qtsystemtrayicon.cpp:194
-#: core/qtsystemtrayicon.cpp:219
+#: core/mainwindow.cpp:1580 core/qtsystemtrayicon.cpp:189
+#: core/qtsystemtrayicon.cpp:214
 msgid "Play"
 msgstr "Riproduci"
 
