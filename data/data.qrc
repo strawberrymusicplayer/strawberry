@@ -15,8 +15,7 @@
         <file>schema/schema-12.sql</file>
         <file>schema/device-schema.sql</file>
         <file>style/strawberry.css</file>
-        <file>html/playing-tooltip-plain.html</file>
-        <file>html/playing-tooltip-table.html</file>
+        <file>html/playing-tooltip.html</file>
         <file>html/oauthsuccess.html</file>
         <file>pictures/strawberry.png</file>
         <file>pictures/strawberry-faded.png</file>
