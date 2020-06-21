@@ -324,7 +324,9 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=libgsttypefindfunctions.dll" "gstreamer-plugins\libgsttypefindfunctions.dll"
   File "/oname=libgstgio.dll" "gstreamer-plugins\libgstgio.dll"
   File "/oname=libgstdirectsound.dll" "gstreamer-plugins\libgstdirectsound.dll"
-  ;File "/oname=libgstwasapi.dll" "gstreamer-plugins\libgstwasapi.dll"
+!ifdef debug
+  File "/oname=libgstwasapi.dll" "gstreamer-plugins\libgstwasapi.dll"
+!endif
   File "/oname=libgstapetag.dll" "gstreamer-plugins\libgstapetag.dll"
   File "/oname=libgsticydemux.dll" "gstreamer-plugins\libgsticydemux.dll"
   File "/oname=libgstid3demux.dll" "gstreamer-plugins\libgstid3demux.dll"
