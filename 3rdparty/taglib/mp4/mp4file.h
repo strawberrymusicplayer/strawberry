@@ -54,7 +54,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, Properties::ReadStyle audioPropertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an MP4 file from \a stream.
@@ -66,7 +66,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   File(IOStream *stream, bool readProperties = true,
-    Properties::ReadStyle audioPropertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -101,7 +101,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Returns the MP4 audio properties for this file.
    */
-  Properties *audioProperties() const;
+  AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.

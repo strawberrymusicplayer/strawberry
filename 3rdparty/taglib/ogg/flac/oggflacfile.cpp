@@ -33,7 +33,7 @@
 #include "oggflacfile.h"
 
 using namespace Strawberry_TagLib::TagLib;
-using Strawberry_TagLib::TagLib::FLAC::Properties;
+using Strawberry_TagLib::TagLib::FLAC::AudioProperties;
 
 class Ogg::FLAC::File::FilePrivate {
  public:
@@ -52,7 +52,7 @@ class Ogg::FLAC::File::FilePrivate {
 
   Ogg::XiphComment *comment;
 
-  Properties *properties;
+  AudioProperties *properties;
   ByteVector streamInfoData;
   ByteVector xiphCommentData;
   long streamStart;
@@ -78,14 +78,14 @@ bool Ogg::FLAC::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::FLAC::File::File(FileName file, bool readProperties, Properties::ReadStyle propertiesStyle) : Ogg::File(file), d(new FilePrivate()) {
+Ogg::FLAC::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Ogg::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties, propertiesStyle);
 
 }
 
-Ogg::FLAC::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Ogg::File(stream), d(new FilePrivate()) {
+Ogg::FLAC::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Ogg::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties, propertiesStyle);
@@ -108,7 +108,7 @@ PropertyMap Ogg::FLAC::File::setProperties(const PropertyMap &properties) {
   return d->comment->setProperties(properties);
 }
 
-Properties *Ogg::FLAC::File::audioProperties() const {
+FLAC::AudioProperties *Ogg::FLAC::File::audioProperties() const {
   return d->properties;
 }
 
@@ -148,7 +148,7 @@ bool Ogg::FLAC::File::hasXiphComment() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ogg::FLAC::File::read(bool readProperties, Properties::ReadStyle propertiesStyle) {
+void Ogg::FLAC::File::read(bool readProperties, AudioProperties::ReadStyle propertiesStyle) {
 
   // Sanity: Check if we really have an Ogg/FLAC file
 
@@ -178,7 +178,7 @@ void Ogg::FLAC::File::read(bool readProperties, Properties::ReadStyle properties
 
 
   if (readProperties)
-    d->properties = new Properties(streamInfoData(), streamLength(), propertiesStyle);
+    d->properties = new AudioProperties(streamInfoData(), streamLength(), propertiesStyle);
 
 }
 

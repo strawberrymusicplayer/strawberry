@@ -77,7 +77,7 @@ class APE::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,14 +98,14 @@ bool APE::File::isSupported(IOStream *) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+APE::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-APE::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+APE::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
@@ -137,7 +137,7 @@ PropertyMap APE::File::setProperties(const PropertyMap &properties) {
 
 }
 
-APE::Properties *APE::File::audioProperties() const {
+APE::AudioProperties *APE::File::audioProperties() const {
   return d->properties;
 }
 
@@ -300,7 +300,7 @@ void APE::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new Properties(this, streamLength);
+    d->properties = new AudioProperties(this, streamLength);
   }
 
 }

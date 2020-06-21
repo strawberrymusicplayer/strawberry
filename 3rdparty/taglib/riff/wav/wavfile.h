@@ -75,7 +75,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a WAV file from \a stream.
@@ -85,7 +85,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -142,10 +142,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-   * Returns the WAV::Properties for this file.  If no audio properties
+   * Returns the WAV::AudioProperties for this file.  If no audio properties
    * were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
   /*!
    * Saves the file.
@@ -187,7 +187,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
   void read(bool readProperties);
   void removeTagChunks(TagTypes tags);
 
-  friend class Properties;
+  friend class AudioProperties;
 
   class FilePrivate;
   FilePrivate *d;

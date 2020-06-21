@@ -38,7 +38,7 @@ class Mod::File::FilePrivate {
   explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
-  Mod::Properties properties;
+  Mod::AudioProperties properties;
 };
 
 Mod::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file), d(new FilePrivate(propertiesStyle)) {
@@ -63,7 +63,7 @@ Mod::Tag *Mod::File::tag() const {
   return &d->tag;
 }
 
-Mod::Properties *Mod::File::audioProperties() const {
+Mod::AudioProperties *Mod::File::audioProperties() const {
   return &d->properties;
 }
 

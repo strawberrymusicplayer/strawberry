@@ -35,7 +35,7 @@ namespace TagLib {
 namespace ASF {
 
 //! An implementation of ASF audio properties
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
    * Audio codec types can be used in ASF file.
@@ -70,12 +70,12 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   /*!
    * Creates an instance of ASF::Properties.
    */
-  Properties();
+  AudioProperties();
 
   /*!
-   * Destroys this ASF::Properties instance.
+   * Destroys this ASF::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to
@@ -160,8 +160,8 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
 #endif
 
  private:
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 
 }  // namespace ASF

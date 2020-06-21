@@ -68,7 +68,7 @@ class ASF::File::FilePrivate {
   unsigned long long headerSize;
 
   ASF::Tag *tag;
-  ASF::Properties *properties;
+  ASF::AudioProperties *properties;
 
   List<BaseObject *> objects;
 
@@ -474,12 +474,12 @@ bool ASF::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ASF::File::File(FileName file, bool, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+ASF::File::File(FileName file, bool, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
   if (isOpen())
     read();
 }
 
-ASF::File::File(IOStream *stream, bool, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+ASF::File::File(IOStream *stream, bool, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
   if (isOpen())
     read();
 }
@@ -504,7 +504,7 @@ PropertyMap ASF::File::setProperties(const PropertyMap &properties) {
   return d->tag->setProperties(properties);
 }
 
-ASF::Properties *ASF::File::audioProperties() const {
+ASF::AudioProperties *ASF::File::audioProperties() const {
   return d->properties;
 }
 
@@ -609,7 +609,7 @@ void ASF::File::read() {
   }
 
   d->tag = new ASF::Tag();
-  d->properties = new ASF::Properties();
+  d->properties = new ASF::AudioProperties();
 
   bool ok;
   d->headerSize = readQWORD(this, &ok);

@@ -33,7 +33,7 @@ namespace Strawberry_TagLib {
 namespace TagLib {
 namespace S3M {
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
   friend class File;
 
  public:
@@ -48,10 +48,9 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
     CustomData = 128
   };
 
-  Properties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~Properties();
+  AudioProperties(AudioProperties::ReadStyle propertiesStyle);
+  virtual ~AudioProperties();
 
-  int length() const;
   int lengthInSeconds() const;
   int lengthInMilliseconds() const;
   int bitrate() const;
@@ -85,11 +84,11 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   void setBpmSpeed(unsigned char bpmSpeed);
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 
 }  // namespace S3M

@@ -97,7 +97,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a FLAC file from \a stream.  If \a readProperties is true the file's audio properties will also be read.
@@ -109,7 +109,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   // BIC: merge with the above constructor
-  File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -141,9 +141,9 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-   * Returns the FLAC::Properties for this file.  If no audio properties were read then this will return a null pointer.
+   * Returns the FLAC::AudioProperties for this file.  If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.  This will primarily save the XiphComment, but will also keep any old ID3-tags up to date.

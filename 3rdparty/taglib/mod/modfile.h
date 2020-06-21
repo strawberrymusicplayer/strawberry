@@ -77,9 +77,9 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::Mod::FileBase {
    */
   PropertyMap setProperties(const PropertyMap &);
   /*!
-   * Returns the Mod::Properties for this file. If no audio properties were read then this will return a null pointer.
+   * Returns the Mod::AudioProperties for this file. If no audio properties were read then this will return a null pointer.
    */
-  Mod::Properties *audioProperties() const;
+  Mod::AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.

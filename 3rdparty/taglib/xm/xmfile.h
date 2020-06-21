@@ -77,10 +77,10 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-   * Returns the XM::Properties for this file.
+   * Returns the XM::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  XM::Properties *audioProperties() const;
+  XM::AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.

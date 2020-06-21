@@ -44,7 +44,7 @@ class Vorbis::File::FilePrivate {
   }
 
   Ogg::XiphComment *comment;
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 namespace Strawberry_TagLib {
@@ -72,13 +72,13 @@ bool Vorbis::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Vorbis::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file),
+Vorbis::File::File(FileName file, bool readProperties, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle) : Ogg::File(file),
                                                                                 d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
 }
 
-Vorbis::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream),
+Vorbis::File::File(IOStream *stream, bool readProperties, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle) : Ogg::File(stream),
                                                                                    d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
@@ -100,7 +100,7 @@ PropertyMap Vorbis::File::setProperties(const PropertyMap &properties) {
   return d->comment->setProperties(properties);
 }
 
-Vorbis::Properties *Vorbis::File::audioProperties() const {
+Vorbis::AudioProperties *Vorbis::File::audioProperties() const {
   return d->properties;
 }
 
@@ -135,6 +135,6 @@ void Vorbis::File::read(bool readProperties) {
   d->comment = new Ogg::XiphComment(commentHeaderData.mid(7));
 
   if (readProperties)
-    d->properties = new Properties(this);
+    d->properties = new AudioProperties(this);
 
 }

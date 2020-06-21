@@ -31,9 +31,9 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class FLAC::Properties::PropertiesPrivate {
+class FLAC::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : length(0),
+  AudioPropertiesPrivate() : length(0),
                         bitrate(0),
                         sampleRate(0),
                         bitsPerSample(0),
@@ -53,43 +53,43 @@ class FLAC::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FLAC::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+FLAC::AudioProperties::AudioProperties(const ByteVector &data, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   read(data, streamLength);
 }
 
-FLAC::Properties::~Properties() {
+FLAC::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int FLAC::Properties::lengthInSeconds() const {
+int FLAC::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int FLAC::Properties::lengthInMilliseconds() const {
+int FLAC::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int FLAC::Properties::bitrate() const {
+int FLAC::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int FLAC::Properties::sampleRate() const {
+int FLAC::AudioProperties::sampleRate() const {
   return d->sampleRate;
 }
 
-int FLAC::Properties::bitsPerSample() const {
+int FLAC::AudioProperties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-int FLAC::Properties::channels() const {
+int FLAC::AudioProperties::channels() const {
   return d->channels;
 }
 
-unsigned long long FLAC::Properties::sampleFrames() const {
+unsigned long long FLAC::AudioProperties::sampleFrames() const {
   return d->sampleFrames;
 }
 
-ByteVector FLAC::Properties::signature() const {
+ByteVector FLAC::AudioProperties::signature() const {
   return d->signature;
 }
 
@@ -97,10 +97,10 @@ ByteVector FLAC::Properties::signature() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void FLAC::Properties::read(const ByteVector &data, long streamLength) {
+void FLAC::AudioProperties::read(const ByteVector &data, long streamLength) {
 
   if (data.size() < 18) {
-    debug("FLAC::Properties::read() - FLAC properties must contain at least 18 bytes.");
+    debug("FLAC::AudioProperties::read() - FLAC properties must contain at least 18 bytes.");
     return;
   }
 

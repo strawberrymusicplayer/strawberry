@@ -71,7 +71,7 @@ class MPEG::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,14 +129,14 @@ bool MPEG::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
+MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-MPEG::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
+MPEG::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
@@ -170,7 +170,7 @@ PropertyMap MPEG::File::setProperties(const PropertyMap &properties) {
 
 }
 
-MPEG::Properties *MPEG::File::audioProperties() const {
+MPEG::AudioProperties *MPEG::File::audioProperties() const {
   return d->properties;
 }
 
@@ -480,7 +480,7 @@ void MPEG::File::read(bool readProperties) {
   }
 
   if (readProperties)
-    d->properties = new Properties(this);
+    d->properties = new AudioProperties(this);
 
   // Make sure that we have our default tag types available.
 

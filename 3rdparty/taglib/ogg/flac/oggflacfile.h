@@ -50,7 +50,7 @@ namespace Ogg {
    */
 namespace FLAC {
 
-using Strawberry_TagLib::TagLib::FLAC::Properties;
+using Strawberry_TagLib::TagLib::FLAC::AudioProperties;
 
 //! An implementation of TagLib::File with Ogg/FLAC specific methods
 
@@ -69,7 +69,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an Ogg/FLAC file from \a stream.
@@ -79,7 +79,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -100,10 +100,10 @@ class TAGLIB_EXPORT File : public Ogg::File {
   virtual XiphComment *tag() const;
 
   /*!
-   * Returns the FLAC::Properties for this file.
+   * Returns the FLAC::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
 
   /*!
@@ -126,7 +126,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   virtual bool save();
 
   /*!
-   * Returns the length of the audio-stream, used by FLAC::Properties for calculating the bitrate.
+   * Returns the length of the audio-stream, used by FLAC::AudioProperties for calculating the bitrate.
    */
   long streamLength();
 
@@ -148,7 +148,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   File(const File &);
   File &operator=(const File &);
 
-  void read(bool readProperties, Properties::ReadStyle propertiesStyle);
+  void read(bool readProperties, AudioProperties::ReadStyle propertiesStyle);
   void scan();
   ByteVector streamInfoData();
   ByteVector xiphCommentData();

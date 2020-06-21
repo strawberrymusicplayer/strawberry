@@ -48,18 +48,18 @@ static const unsigned int HeaderSize = 32;
  * API.
  */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
 
   /*!
    * Create an instance of WavPack::Properties.
    */
-  Properties(File *file, long streamLength, ReadStyle style = Average);
+  AudioProperties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
-   * Destroys this WavPack::Properties instance.
+   * Destroys this WavPack::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.
@@ -114,14 +114,14 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   int version() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void read(File *file, long streamLength);
   unsigned int seekFinalIndex(File *file, long streamLength);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 
 }  // namespace WavPack

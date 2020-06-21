@@ -69,7 +69,7 @@ class TrueAudio::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,28 +89,28 @@ bool TrueAudio::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TrueAudio::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+TrueAudio::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
+TrueAudio::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-TrueAudio::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+TrueAudio::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
+TrueAudio::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
@@ -142,7 +142,7 @@ PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties) {
 
 }
 
-TrueAudio::Properties *TrueAudio::File::audioProperties() const {
+TrueAudio::AudioProperties *TrueAudio::File::audioProperties() const {
   return d->properties;
 }
 
@@ -288,7 +288,7 @@ void TrueAudio::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new Properties(readBlock(TrueAudio::HeaderSize), streamLength);
+    d->properties = new AudioProperties(readBlock(TrueAudio::HeaderSize), streamLength);
   }
 
 }

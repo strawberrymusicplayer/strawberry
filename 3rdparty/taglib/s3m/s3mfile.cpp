@@ -40,7 +40,7 @@ class S3M::File::FilePrivate {
   explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
-  S3M::Properties properties;
+  S3M::AudioProperties properties;
 };
 
 S3M::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Mod::FileBase(file), d(new FilePrivate(propertiesStyle)) {
@@ -73,7 +73,7 @@ PropertyMap S3M::File::setProperties(const PropertyMap &properties) {
   return d->tag.setProperties(properties);
 }
 
-S3M::Properties *S3M::File::audioProperties() const {
+S3M::AudioProperties *S3M::File::audioProperties() const {
   return &d->properties;
 }
 

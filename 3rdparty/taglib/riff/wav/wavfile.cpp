@@ -51,7 +51,7 @@ class RIFF::WAV::File::FilePrivate {
     delete properties;
   }
 
-  Properties *properties;
+  AudioProperties *properties;
   TagUnion tag;
 
   bool hasID3v2;
@@ -75,14 +75,14 @@ bool RIFF::WAV::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::WAV::File::File(FileName file, bool readProperties, Properties::ReadStyle) : RIFF::File(file, LittleEndian), d(new FilePrivate()) {
+RIFF::WAV::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : RIFF::File(file, LittleEndian), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-RIFF::WAV::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : RIFF::File(stream, LittleEndian), d(new FilePrivate()) {
+RIFF::WAV::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : RIFF::File(stream, LittleEndian), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
@@ -132,7 +132,7 @@ PropertyMap RIFF::WAV::File::setProperties(const PropertyMap &properties) {
 
 }
 
-RIFF::WAV::Properties *RIFF::WAV::File::audioProperties() const {
+RIFF::WAV::AudioProperties *RIFF::WAV::File::audioProperties() const {
   return d->properties;
 }
 
@@ -223,7 +223,7 @@ void RIFF::WAV::File::read(bool readProperties) {
     d->tag.set(InfoIndex, new RIFF::Info::Tag());
 
   if (readProperties)
-    d->properties = new Properties(this, Properties::Average);
+    d->properties = new AudioProperties(this, AudioProperties::Average);
 }
 
 void RIFF::WAV::File::removeTagChunks(TagTypes tags) {

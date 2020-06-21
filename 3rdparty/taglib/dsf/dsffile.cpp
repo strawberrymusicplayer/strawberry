@@ -51,7 +51,7 @@ class DSF::File::FilePrivate {
 
   long long fileSize;
   long long metadataOffset;
-  Properties *properties;
+  AudioProperties *properties;
   ID3v2::Tag *tag;
 };
 
@@ -72,14 +72,14 @@ bool DSF::File::isSupported(IOStream *stream) {
 ////////////////////////////////////////////////////////////////////////////////
 
 DSF::File::File(FileName file, bool readProperties,
-  Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+  AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties, propertiesStyle);
 
 }
 
-DSF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+DSF::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties, propertiesStyle);
@@ -102,7 +102,7 @@ PropertyMap DSF::File::setProperties(const PropertyMap &properties) {
   return d->tag->setProperties(properties);
 }
 
-DSF::Properties *DSF::File::audioProperties() const {
+DSF::AudioProperties *DSF::File::audioProperties() const {
   return d->properties;
 }
 
@@ -170,7 +170,7 @@ bool DSF::File::save() {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void DSF::File::read(bool, Properties::ReadStyle propertiesStyle) {
+void DSF::File::read(bool, AudioProperties::ReadStyle propertiesStyle) {
 
   // A DSF file consists of four chunks: DSD chunk, format chunk, data chunk, and metadata chunk
   // The file format is not chunked in the sense of a RIFF File, though
@@ -220,7 +220,7 @@ void DSF::File::read(bool, Properties::ReadStyle propertiesStyle) {
 
   chunkSize = readBlock(8).toLongLong(false);
 
-  d->properties = new Properties(readBlock(chunkSize), propertiesStyle);
+  d->properties = new AudioProperties(readBlock(chunkSize), propertiesStyle);
 
   // Skip the data chunk
 

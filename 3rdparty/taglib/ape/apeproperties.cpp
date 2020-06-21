@@ -38,9 +38,9 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class APE::Properties::PropertiesPrivate {
+class APE::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : length(0),
+  AudioPropertiesPrivate() : length(0),
                         bitrate(0),
                         sampleRate(0),
                         channels(0),
@@ -61,43 +61,43 @@ class APE::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-APE::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+APE::AudioProperties::AudioProperties(File *file, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   read(file, streamLength);
 }
 
-APE::Properties::~Properties() {
+APE::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int APE::Properties::lengthInSeconds() const {
+int APE::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int APE::Properties::lengthInMilliseconds() const {
+int APE::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int APE::Properties::bitrate() const {
+int APE::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int APE::Properties::sampleRate() const {
+int APE::AudioProperties::sampleRate() const {
   return d->sampleRate;
 }
 
-int APE::Properties::channels() const {
+int APE::AudioProperties::channels() const {
   return d->channels;
 }
 
-int APE::Properties::version() const {
+int APE::AudioProperties::version() const {
   return d->version;
 }
 
-int APE::Properties::bitsPerSample() const {
+int APE::AudioProperties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-unsigned int APE::Properties::sampleFrames() const {
+unsigned int APE::AudioProperties::sampleFrames() const {
   return d->sampleFrames;
 }
 
@@ -114,7 +114,7 @@ int headerVersion(const ByteVector &header) {
 }
 }  // namespace
 
-void APE::Properties::read(File *file, long streamLength) {
+void APE::AudioProperties::read(File *file, long streamLength) {
 
   // First, we assume that the file pointer is set at the first descriptor.
   long offset = file->tell();
@@ -128,7 +128,7 @@ void APE::Properties::read(File *file, long streamLength) {
   }
 
   if (version < 0) {
-    debug("APE::Properties::read() -- APE descriptor not found");
+    debug("APE::AudioProperties::read() -- APE descriptor not found");
     return;
   }
 
@@ -147,13 +147,13 @@ void APE::Properties::read(File *file, long streamLength) {
 
 }
 
-void APE::Properties::analyzeCurrent(File *file) {
+void APE::AudioProperties::analyzeCurrent(File *file) {
 
   // Read the descriptor
   file->seek(2, File::Current);
   const ByteVector descriptor = file->readBlock(44);
   if (descriptor.size() < 44) {
-    debug("APE::Properties::analyzeCurrent() -- descriptor is too short.");
+    debug("APE::AudioProperties::analyzeCurrent() -- descriptor is too short.");
     return;
   }
 
@@ -165,7 +165,7 @@ void APE::Properties::analyzeCurrent(File *file) {
   // Read the header
   const ByteVector header = file->readBlock(24);
   if (header.size() < 24) {
-    debug("APE::Properties::analyzeCurrent() -- MAC header is too short.");
+    debug("APE::AudioProperties::analyzeCurrent() -- MAC header is too short.");
     return;
   }
 
@@ -184,11 +184,11 @@ void APE::Properties::analyzeCurrent(File *file) {
 
 }
 
-void APE::Properties::analyzeOld(File *file) {
+void APE::AudioProperties::analyzeOld(File *file) {
 
   const ByteVector header = file->readBlock(26);
   if (header.size() < 26) {
-    debug("APE::Properties::analyzeOld() -- MAC header is too short.");
+    debug("APE::AudioProperties::analyzeOld() -- MAC header is too short.");
     return;
   }
 
@@ -218,7 +218,7 @@ void APE::Properties::analyzeOld(File *file) {
   file->seek(16, File::Current);
   const ByteVector fmt = file->readBlock(28);
   if (fmt.size() < 28 || !fmt.startsWith("WAVEfmt ")) {
-    debug("APE::Properties::analyzeOld() -- fmt header is too short.");
+    debug("APE::AudioProperties::analyzeOld() -- fmt header is too short.");
     return;
   }
 

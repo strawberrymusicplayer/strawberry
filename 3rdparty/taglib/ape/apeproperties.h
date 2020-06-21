@@ -45,18 +45,18 @@ class File;
  * This reads the data from an APE stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
 
   /*!
-  * Create an instance of APE::Properties with the data read from the APE::File \a file.
+  * Create an instance of APE::AudioProperties with the data read from the APE::File \a file.
    */
-  Properties(File *file, long streamLength, ReadStyle style = Average);
+  AudioProperties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
-   * Destroys this APE::Properties instance.
+   * Destroys this APE::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
@@ -105,16 +105,16 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   int version() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void read(File *file, long streamLength);
 
   void analyzeCurrent(File *file);
   void analyzeOld(File *file);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 }  // namespace APE
 }  // namespace TagLib

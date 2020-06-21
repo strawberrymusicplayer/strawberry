@@ -63,7 +63,7 @@ class MP4::File::FilePrivate {
 
   MP4::Tag *tag;
   MP4::Atoms *atoms;
-  MP4::Properties *properties;
+  MP4::AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ PropertyMap MP4::File::setProperties(const PropertyMap &properties) {
   return d->tag->setProperties(properties);
 }
 
-MP4::Properties *
+MP4::AudioProperties *
 MP4::File::audioProperties() const {
   return d->properties;
 }
@@ -142,7 +142,7 @@ void MP4::File::read(bool readProperties) {
 
   d->tag = new Tag(this, d->atoms);
   if (readProperties) {
-    d->properties = new Properties(this, d->atoms);
+    d->properties = new AudioProperties(this, d->atoms);
   }
 
 }

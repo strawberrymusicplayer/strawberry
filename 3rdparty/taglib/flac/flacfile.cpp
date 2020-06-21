@@ -83,7 +83,7 @@ class FLAC::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
   ByteVector xiphCommentData;
   BlockList blocks;
 
@@ -109,14 +109,14 @@ bool FLAC::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FLAC::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
+FLAC::File::File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-FLAC::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
+FLAC::File::File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(frameFactory)) {
 
   if (isOpen())
     read(readProperties);
@@ -143,7 +143,7 @@ PropertyMap FLAC::File::setProperties(const PropertyMap &properties) {
   return xiphComment(true)->setProperties(properties);
 }
 
-FLAC::Properties *FLAC::File::audioProperties() const {
+FLAC::AudioProperties *FLAC::File::audioProperties() const {
   return d->properties;
 }
 
@@ -416,7 +416,7 @@ void FLAC::File::read(bool readProperties) {
     else
       streamLength = length() - d->streamStart;
 
-    d->properties = new Properties(infoData, streamLength);
+    d->properties = new AudioProperties(infoData, streamLength);
   }
 
 }

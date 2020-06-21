@@ -87,7 +87,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   File(FileName file, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a TrueAudio file from \a file.
@@ -97,7 +97,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a TrueAudio file from \a stream.
@@ -107,7 +107,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a TrueAudio file from \a stream.
@@ -119,7 +119,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -146,10 +146,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   void removeUnsupportedProperties(const StringList &properties);
 
   /*!
-   * Returns the TrueAudio::Properties for this file.
+   * Returns the TrueAudio::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
   /*!
    * Saves the file.
    */

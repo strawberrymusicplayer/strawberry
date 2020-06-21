@@ -38,7 +38,7 @@ class IT::File::FilePrivate {
   explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
-  IT::Properties properties;
+  IT::AudioProperties properties;
 };
 
 IT::File::File(FileName file, bool readProperties,
@@ -73,7 +73,7 @@ PropertyMap IT::File::setProperties(const PropertyMap &properties) {
   return d->tag.setProperties(properties);
 }
 
-IT::Properties *IT::File::audioProperties() const {
+IT::AudioProperties *IT::File::audioProperties() const {
   return &d->properties;
 }
 
@@ -151,7 +151,7 @@ bool IT::File::save() {
     return false;
 
   unsigned long fileSize = File::length();
-  if (special & Properties::MessageAttached) {
+  if (special & AudioProperties::MessageAttached) {
     seek(54);
     if (!readU16L(messageLength) || !readU32L(messageOffset))
       return false;
@@ -219,7 +219,7 @@ void IT::File::read(bool) {
   // sample/instrument names are abused as comments so
   // I just add all together.
   String message;
-  if (special & Properties::MessageAttached) {
+  if (special & AudioProperties::MessageAttached) {
     READ_U16L_AS(messageLength);
     READ_U32L_AS(messageOffset);
     seek(messageOffset);

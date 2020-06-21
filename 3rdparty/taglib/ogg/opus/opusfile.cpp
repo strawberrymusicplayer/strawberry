@@ -47,7 +47,7 @@ class Opus::File::FilePrivate {
   }
 
   Ogg::XiphComment *comment;
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,14 +67,14 @@ bool Ogg::Opus::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Opus::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
+Opus::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-Opus::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
+Opus::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
@@ -97,7 +97,7 @@ PropertyMap Opus::File::setProperties(const PropertyMap &properties) {
   return d->comment->setProperties(properties);
 }
 
-Opus::Properties *Opus::File::audioProperties() const {
+Opus::AudioProperties *Opus::File::audioProperties() const {
   return d->properties;
 }
 
@@ -137,6 +137,6 @@ void Opus::File::read(bool readProperties) {
   d->comment = new Ogg::XiphComment(commentHeaderData.mid(8));
 
   if (readProperties)
-    d->properties = new Properties(this);
+    d->properties = new AudioProperties(this);
 
 }

@@ -38,9 +38,9 @@
 using namespace Strawberry_TagLib::TagLib;
 using namespace Strawberry_TagLib::TagLib::Ogg;
 
-class Opus::Properties::PropertiesPrivate {
+class Opus::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : length(0),
+  AudioPropertiesPrivate() : length(0),
                         bitrate(0),
                         inputSampleRate(0),
                         channels(0),
@@ -57,27 +57,27 @@ class Opus::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Opus::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+Opus::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
-Opus::Properties::~Properties() {
+Opus::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int Ogg::Opus::Properties::lengthInSeconds() const {
+int Ogg::Opus::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int Ogg::Opus::Properties::lengthInMilliseconds() const {
+int Ogg::Opus::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int Opus::Properties::bitrate() const {
+int Opus::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int Opus::Properties::sampleRate() const {
+int Opus::AudioProperties::sampleRate() const {
 
   // Opus can decode any stream at a sample rate of 8, 12, 16, 24, or 48 kHz,
   // so there is no single sample rate. Let's assume it's the highest
@@ -86,15 +86,15 @@ int Opus::Properties::sampleRate() const {
 
 }
 
-int Opus::Properties::channels() const {
+int Opus::AudioProperties::channels() const {
   return d->channels;
 }
 
-int Opus::Properties::inputSampleRate() const {
+int Opus::AudioProperties::inputSampleRate() const {
   return d->inputSampleRate;
 }
 
-int Opus::Properties::opusVersion() const {
+int Opus::AudioProperties::opusVersion() const {
   return d->opusVersion;
 }
 
@@ -102,7 +102,7 @@ int Opus::Properties::opusVersion() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Opus::Properties::read(File *file) {
+void Opus::AudioProperties::read(File *file) {
 
   // Get the identification header from the Ogg implementation.
 
@@ -158,11 +158,11 @@ void Opus::Properties::read(File *file) {
       }
     }
     else {
-      debug("Opus::Properties::read() -- The PCM values for the start or "
+      debug("Opus::AudioProperties::read() -- The PCM values for the start or "
             "end of this file was incorrect.");
     }
   }
   else
-    debug("Opus::Properties::read() -- Could not find valid first and last Ogg pages.");
+    debug("Opus::AudioProperties::read() -- Could not find valid first and last Ogg pages.");
 
 }

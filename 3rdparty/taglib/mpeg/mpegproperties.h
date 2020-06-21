@@ -44,27 +44,17 @@ class XingHeader;
  * This reads the data from an MPEG Layer III stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-   * Create an instance of MPEG::Properties with the data read from the MPEG::File \a file.
+   * Create an instance of MPEG::AudioProperties with the data read from the MPEG::File \a file.
    */
-  Properties(File *file, ReadStyle style = Average);
+  AudioProperties(File *file, ReadStyle style = Average);
 
   /*!
-   * Destroys this MPEG Properties instance.
+   * Destroys this MPEG AudioProperties instance.
    */
-  virtual ~Properties();
-
-  /*!
-   * Returns the length of the file in seconds.
-   * The length is rounded down to the nearest whole second.
-   *
-   * \note This method is just an alias of lengthInSeconds().
-   *
-   * \deprecated
-   */
-  virtual int length() const;
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
@@ -133,13 +123,13 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   bool isOriginal() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void read(File *file);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 
 }  // namespace MPEG

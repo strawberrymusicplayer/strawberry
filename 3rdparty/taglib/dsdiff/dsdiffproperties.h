@@ -40,21 +40,20 @@ class File;
  * This reads the data from an DSDIFF stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-   * Create an instance of DSDIFF::Properties with the data read from the ByteVector \a data.
+   * Create an instance of DSDIFF::AudioProperties with the data read from the ByteVector \a data.
    */
-  Properties(const unsigned int sampleRate, const unsigned short channels, const unsigned long long samplesCount, const int bitrate, ReadStyle style);
+  AudioProperties(const unsigned int sampleRate, const unsigned short channels, const unsigned long long samplesCount, const int bitrate, ReadStyle style);
 
   /*!
-   * Destroys this DSDIFF::Properties instance.
+   * Destroys this DSDIFF::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   // Reimplementations.
 
-  virtual int length() const;
   virtual int lengthInSeconds() const;
   virtual int lengthInMilliseconds() const;
   virtual int bitrate() const;
@@ -65,11 +64,11 @@ class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperti
   long long sampleCount() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 
 }  // namespace DSDIFF

@@ -69,7 +69,7 @@ class MPC::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,14 +90,14 @@ bool MPC::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPC::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+MPC::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-MPC::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+MPC::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
@@ -127,7 +127,7 @@ PropertyMap MPC::File::setProperties(const PropertyMap &properties) {
   return APETag(true)->setProperties(properties);
 }
 
-MPC::Properties *MPC::File::audioProperties() const {
+MPC::AudioProperties *MPC::File::audioProperties() const {
   return d->properties;
 }
 
@@ -310,7 +310,7 @@ void MPC::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new Properties(this, streamLength);
+    d->properties = new AudioProperties(this, streamLength);
   }
 
 }

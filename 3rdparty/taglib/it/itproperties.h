@@ -32,7 +32,7 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 namespace IT {
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
   friend class File;
 
  public:
@@ -54,10 +54,9 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
     MidiConfEmbedded = 8
   };
 
-  Properties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~Properties();
+  AudioProperties(AudioProperties::ReadStyle propertiesStyle);
+  virtual ~AudioProperties();
 
-  int length() const;
   int lengthInSeconds() const;
   int lengthInMilliseconds() const;
   int bitrate() const;
@@ -97,11 +96,11 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   void setPitchWheelDepth(unsigned char pitchWheelDepth);
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 }  // namespace IT
 }  // namespace TagLib

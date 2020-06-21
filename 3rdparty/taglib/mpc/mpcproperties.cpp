@@ -33,9 +33,9 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MPC::Properties::PropertiesPrivate {
+class MPC::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : version(0),
+  AudioPropertiesPrivate() : version(0),
                         length(0),
                         bitrate(0),
                         sampleRate(0),
@@ -64,11 +64,11 @@ class MPC::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPC::Properties::Properties(const ByteVector &data, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+MPC::AudioProperties::AudioProperties(const ByteVector &data, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   readSV7(data, streamLength);
 }
 
-MPC::Properties::Properties(File *file, long streamLength, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+MPC::AudioProperties::AudioProperties(File *file, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
 
   ByteVector magic = file->readBlock(4);
   if (magic == "MPCK") {
@@ -82,55 +82,55 @@ MPC::Properties::Properties(File *file, long streamLength, ReadStyle style) : Au
 
 }
 
-MPC::Properties::~Properties() {
+MPC::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int MPC::Properties::lengthInSeconds() const {
+int MPC::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int MPC::Properties::lengthInMilliseconds() const {
+int MPC::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int MPC::Properties::bitrate() const {
+int MPC::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int MPC::Properties::sampleRate() const {
+int MPC::AudioProperties::sampleRate() const {
   return d->sampleRate;
 }
 
-int MPC::Properties::channels() const {
+int MPC::AudioProperties::channels() const {
   return d->channels;
 }
 
-int MPC::Properties::mpcVersion() const {
+int MPC::AudioProperties::mpcVersion() const {
   return d->version;
 }
 
-unsigned int MPC::Properties::totalFrames() const {
+unsigned int MPC::AudioProperties::totalFrames() const {
   return d->totalFrames;
 }
 
-unsigned int MPC::Properties::sampleFrames() const {
+unsigned int MPC::AudioProperties::sampleFrames() const {
   return d->sampleFrames;
 }
 
-int MPC::Properties::trackGain() const {
+int MPC::AudioProperties::trackGain() const {
   return d->trackGain;
 }
 
-int MPC::Properties::trackPeak() const {
+int MPC::AudioProperties::trackPeak() const {
   return d->trackPeak;
 }
 
-int MPC::Properties::albumGain() const {
+int MPC::AudioProperties::albumGain() const {
   return d->albumGain;
 }
 
-int MPC::Properties::albumPeak() const {
+int MPC::AudioProperties::albumPeak() const {
   return d->albumPeak;
 }
 
@@ -184,7 +184,7 @@ unsigned long readSize(const ByteVector &data, unsigned int &pos) {
 const unsigned short sftable[8] = { 44100, 48000, 37800, 32000, 0, 0, 0, 0 };
 }  // namespace
 
-void MPC::Properties::readSV8(File *file, long streamLength) {
+void MPC::AudioProperties::readSV8(File *file, long streamLength) {
 
   bool readSH = false, readRG = false;
 
@@ -195,7 +195,7 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
     bool eof;
     const unsigned long packetSize = readSize(file, packetSizeLength, eof);
     if (eof) {
-      debug("MPC::Properties::readSV8() - Reached to EOF.");
+      debug("MPC::AudioProperties::readSV8() - Reached to EOF.");
       break;
     }
 
@@ -203,7 +203,7 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
 
     const ByteVector data = file->readBlock(dataSize);
     if (data.size() != dataSize) {
-      debug("MPC::Properties::readSV8() - dataSize doesn't match the actual data size.");
+      debug("MPC::AudioProperties::readSV8() - dataSize doesn't match the actual data size.");
       break;
     }
 
@@ -212,7 +212,7 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
       // http://trac.musepack.net/wiki/SV8Specification#StreamHeaderPacket
 
       if (dataSize <= 5) {
-        debug("MPC::Properties::readSV8() - \"SH\" packet is too short to parse.");
+        debug("MPC::AudioProperties::readSV8() - \"SH\" packet is too short to parse.");
         break;
       }
 
@@ -223,13 +223,13 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
       pos += 1;
       d->sampleFrames = readSize(data, pos);
       if (pos > dataSize - 3) {
-        debug("MPC::Properties::readSV8() - \"SH\" packet is corrupt.");
+        debug("MPC::AudioProperties::readSV8() - \"SH\" packet is corrupt.");
         break;
       }
 
       const unsigned long begSilence = readSize(data, pos);
       if (pos > dataSize - 2) {
-        debug("MPC::Properties::readSV8() - \"SH\" packet is corrupt.");
+        debug("MPC::AudioProperties::readSV8() - \"SH\" packet is corrupt.");
         break;
       }
 
@@ -251,7 +251,7 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
       // http://trac.musepack.net/wiki/SV8Specification#ReplaygainPacket
 
       if (dataSize <= 9) {
-        debug("MPC::Properties::readSV8() - \"RG\" packet is too short to parse.");
+        debug("MPC::AudioProperties::readSV8() - \"RG\" packet is too short to parse.");
         break;
       }
 
@@ -277,7 +277,7 @@ void MPC::Properties::readSV8(File *file, long streamLength) {
 
 }
 
-void MPC::Properties::readSV7(const ByteVector &data, long streamLength) {
+void MPC::AudioProperties::readSV7(const ByteVector &data, long streamLength) {
 
   if (data.startsWith("MP+")) {
     d->version = data[3] & 15;

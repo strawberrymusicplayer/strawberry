@@ -40,21 +40,20 @@ class File;
  * This reads the data from a DSF stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
    * Create an instance of DSF::AudioProperties with the data read from the ByteVector \a data.
    */
-  Properties(const ByteVector &data, ReadStyle style);
+  AudioProperties(const ByteVector &data, ReadStyle style);
 
   /*!
    * Destroys this DSF::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   // Reimplementations.
 
-  virtual int length() const;
   virtual int lengthInSeconds() const;
   virtual int lengthInMilliseconds() const;
   virtual int bitrate() const;
@@ -80,13 +79,13 @@ class TAGLIB_EXPORT Properties : public Strawberry_TagLib::TagLib::AudioProperti
   int blockSizePerChannel() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void read(const ByteVector &data);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 }  // namespace DSF
 }  // namespace TagLib

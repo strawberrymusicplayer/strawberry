@@ -80,7 +80,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an DSDIFF file from \a stream.
@@ -91,7 +91,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   File(IOStream *stream, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -144,10 +144,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   PropertyMap setProperties(const PropertyMap &properties);
 
   /*!
-   * Returns the AIFF::Properties for this file.
+   * Returns the AIFF::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.  If at least one tag -- ID3v1 or DIIN -- exists this will duplicate its content into the other tag.
@@ -254,7 +254,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
 
   void updateRootChunksStructure(unsigned int startingChunk);
 
-  void read(bool readProperties, Properties::ReadStyle propertiesStyle);
+  void read(bool readProperties, AudioProperties::ReadStyle propertiesStyle);
   void writeChunk(const ByteVector &name, const ByteVector &data, unsigned long long offset, unsigned long replace = 0, unsigned int leadingPadding = 0);
 
   class FilePrivate;

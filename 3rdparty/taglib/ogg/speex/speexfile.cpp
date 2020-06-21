@@ -47,7 +47,7 @@ class Speex::File::FilePrivate {
   }
 
   Ogg::XiphComment *comment;
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,12 +67,12 @@ bool Ogg::Speex::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Speex::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
+Speex::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Ogg::File(file), d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
 }
 
-Speex::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
+Speex::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Ogg::File(stream), d(new FilePrivate()) {
   if (isOpen())
     read(readProperties);
 }
@@ -93,7 +93,7 @@ PropertyMap Speex::File::setProperties(const PropertyMap &properties) {
   return d->comment->setProperties(properties);
 }
 
-Speex::Properties *Speex::File::audioProperties() const {
+Speex::AudioProperties *Speex::File::audioProperties() const {
   return d->properties;
 }
 
@@ -127,6 +127,6 @@ void Speex::File::read(bool readProperties) {
   d->comment = new Ogg::XiphComment(commentHeaderData);
 
   if (readProperties)
-    d->properties = new Properties(this);
+    d->properties = new AudioProperties(this);
 
 }

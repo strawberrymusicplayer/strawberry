@@ -52,17 +52,17 @@ class File;
  * This reads the data from an Ogg Vorbis stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-   * Create an instance of Vorbis::Properties with the data read from the Vorbis::File \a file.
+   * Create an instance of Vorbis::AudioProperties with the data read from the Vorbis::File \a file.
    */
-  Properties(File *file, ReadStyle style = Average);
+  AudioProperties(File *file, ReadStyle style = Average);
 
   /*!
    * Destroys this VorbisProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
@@ -116,13 +116,13 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   int bitrateMinimum() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void read(File *file);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 }  // namespace Vorbis
 

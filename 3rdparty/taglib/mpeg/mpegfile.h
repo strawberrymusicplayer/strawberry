@@ -88,7 +88,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   // BIC: merge with the above constructor
-  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, Properties::ReadStyle propertiesStyle = Properties::Average);
+  File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an MPEG file from \a stream.
@@ -102,7 +102,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    */
   File(IOStream *stream, ID3v2::FrameFactory *frameFactory,
     bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -145,10 +145,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-   * Returns the MPEG::Properties for this file.
+   * Returns the MPEG::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
   /*!
    * Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this will duplicate its content into the other tag.

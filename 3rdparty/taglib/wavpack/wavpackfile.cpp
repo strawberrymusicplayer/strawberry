@@ -67,7 +67,7 @@ class WavPack::File::FilePrivate {
 
   TagUnion tag;
 
-  Properties *properties;
+  AudioProperties *properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,14 +87,14 @@ bool WavPack::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-WavPack::File::File(FileName file, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
+WavPack::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
 
 }
 
-WavPack::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
+WavPack::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate()) {
 
   if (isOpen())
     read(readProperties);
@@ -126,7 +126,7 @@ PropertyMap WavPack::File::setProperties(const PropertyMap &properties) {
 
 }
 
-WavPack::Properties *WavPack::File::audioProperties() const {
+WavPack::AudioProperties *WavPack::File::audioProperties() const {
   return d->properties;
 }
 
@@ -271,7 +271,7 @@ void WavPack::File::read(bool readProperties) {
     else
       streamLength = length();
 
-    d->properties = new Properties(this, streamLength);
+    d->properties = new AudioProperties(this, streamLength);
   }
 
 }

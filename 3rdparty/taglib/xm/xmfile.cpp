@@ -307,7 +307,7 @@ class XM::File::FilePrivate {
   explicit FilePrivate(AudioProperties::ReadStyle propertiesStyle) : properties(propertiesStyle) {}
 
   Mod::Tag tag;
-  XM::Properties properties;
+  XM::AudioProperties properties;
 };
 
 XM::File::File(FileName file, bool readProperties,
@@ -340,7 +340,7 @@ PropertyMap XM::File::setProperties(const PropertyMap &properties) {
   return d->tag.setProperties(properties);
 }
 
-XM::Properties *XM::File::audioProperties() const {
+XM::AudioProperties *XM::File::audioProperties() const {
   return &d->properties;
 }
 

@@ -44,24 +44,24 @@ static const unsigned int HeaderSize = 8 * 7;
  * This reads the data from an MPC stream found in the AudioProperties API.
  */
 
-class TAGLIB_EXPORT Properties : public AudioProperties {
+class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-   * Create an instance of MPC::Properties with the data read from the ByteVector \a data.
+   * Create an instance of MPC::AudioProperties with the data read from the ByteVector \a data.
    *
    * This constructor is deprecated. It only works for MPC version up to 7.
    */
-  Properties(const ByteVector &data, long streamLength, ReadStyle style = Average);
+  AudioProperties(const ByteVector &data, long streamLength, ReadStyle style = Average);
 
   /*!
-   * Create an instance of MPC::Properties with the data read directly from a MPC::File.
+   * Create an instance of MPC::AudioProperties with the data read directly from a MPC::File.
    */
-  Properties(File *file, long streamLength, ReadStyle style = Average);
+  AudioProperties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
-   * Destroys this MPC::Properties instance.
+   * Destroys this MPC::AudioProperties instance.
    */
-  virtual ~Properties();
+  virtual ~AudioProperties();
 
   /*!
    * Returns the length of the file in seconds.
@@ -130,14 +130,14 @@ class TAGLIB_EXPORT Properties : public AudioProperties {
   int albumPeak() const;
 
  private:
-  Properties(const Properties &);
-  Properties &operator=(const Properties &);
+  AudioProperties(const AudioProperties &);
+  AudioProperties &operator=(const AudioProperties &);
 
   void readSV7(const ByteVector &data, long streamLength);
   void readSV8(File *file, long streamLength);
 
-  class PropertiesPrivate;
-  PropertiesPrivate *d;
+  class AudioPropertiesPrivate;
+  AudioPropertiesPrivate *d;
 };
 }  // namespace MPC
 }  // namespace TagLib

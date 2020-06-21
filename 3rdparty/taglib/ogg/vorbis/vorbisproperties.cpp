@@ -33,9 +33,9 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class Vorbis::Properties::PropertiesPrivate {
+class Vorbis::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : length(0),
+  AudioPropertiesPrivate() : length(0),
                         bitrate(0),
                         sampleRate(0),
                         channels(0),
@@ -68,47 +68,47 @@ static const char vorbisSetupHeaderID[] = { 0x01, 'v', 'o', 'r', 'b', 'i', 's', 
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Vorbis::Properties::Properties(File *file, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+Vorbis::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
-Vorbis::Properties::~Properties() {
+Vorbis::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int Vorbis::Properties::lengthInSeconds() const {
+int Vorbis::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int Vorbis::Properties::lengthInMilliseconds() const {
+int Vorbis::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int Vorbis::Properties::bitrate() const {
+int Vorbis::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int Vorbis::Properties::sampleRate() const {
+int Vorbis::AudioProperties::sampleRate() const {
   return d->sampleRate;
 }
 
-int Vorbis::Properties::channels() const {
+int Vorbis::AudioProperties::channels() const {
   return d->channels;
 }
 
-int Vorbis::Properties::vorbisVersion() const {
+int Vorbis::AudioProperties::vorbisVersion() const {
   return d->vorbisVersion;
 }
 
-int Vorbis::Properties::bitrateMaximum() const {
+int Vorbis::AudioProperties::bitrateMaximum() const {
   return d->bitrateMaximum;
 }
 
-int Vorbis::Properties::bitrateNominal() const {
+int Vorbis::AudioProperties::bitrateNominal() const {
   return d->bitrateNominal;
 }
 
-int Vorbis::Properties::bitrateMinimum() const {
+int Vorbis::AudioProperties::bitrateMinimum() const {
   return d->bitrateMinimum;
 }
 
@@ -116,20 +116,20 @@ int Vorbis::Properties::bitrateMinimum() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vorbis::Properties::read(File *file) {
+void Vorbis::AudioProperties::read(File *file) {
 
   // Get the identification header from the Ogg implementation.
 
   const ByteVector data = file->packet(0);
   if (data.size() < 28) {
-    debug("Vorbis::Properties::read() -- data is too short.");
+    debug("Vorbis::AudioProperties::read() -- data is too short.");
     return;
   }
 
   unsigned int pos = 0;
 
   if (data.mid(pos, 7) != vorbisSetupHeaderID) {
-    debug("Vorbis::Properties::read() -- invalid Vorbis identification header");
+    debug("Vorbis::AudioProperties::read() -- invalid Vorbis identification header");
     return;
   }
 
@@ -179,12 +179,12 @@ void Vorbis::Properties::read(File *file) {
       }
     }
     else {
-      debug("Vorbis::Properties::read() -- Either the PCM values for the start or "
+      debug("Vorbis::AudioProperties::read() -- Either the PCM values for the start or "
             "end of this file was incorrect or the sample rate is zero.");
     }
   }
   else
-    debug("Vorbis::Properties::read() -- Could not find valid first and last Ogg pages.");
+    debug("Vorbis::AudioProperties::read() -- Could not find valid first and last Ogg pages.");
 
   // Alternative to the actual average bitrate.
 

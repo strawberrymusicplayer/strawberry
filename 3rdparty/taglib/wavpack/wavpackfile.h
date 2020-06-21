@@ -90,7 +90,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * If false, \a propertiesStyle is ignored
    */
   File(FileName file, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an WavPack file from \a file.
@@ -101,7 +101,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * responsible for deleting it after the File object.
    */
   File(IOStream *stream, bool readProperties = true,
-    Properties::ReadStyle propertiesStyle = Properties::Average);
+    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -131,10 +131,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   PropertyMap setProperties(const PropertyMap &);
 
   /*!
-   * Returns the MPC::Properties for this file.
+   * Returns the MPC::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual Properties *audioProperties() const;
+  virtual AudioProperties *audioProperties() const;
 
   /*!
    * Saves the file.

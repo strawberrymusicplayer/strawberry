@@ -63,11 +63,6 @@ class TAGLIB_EXPORT AudioProperties {
   virtual ~AudioProperties();
 
   /*!
-   * Returns the length of the file in seconds.
-   */
-  //virtual int length() const = 0;
-
-  /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
    *
    * \see lengthInMilliseconds()

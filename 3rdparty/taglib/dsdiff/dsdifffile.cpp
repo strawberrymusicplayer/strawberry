@@ -118,7 +118,7 @@ class DSDIFF::File::FilePrivate {
    */
   int duplicateID3V2chunkIndex;
 
-  Properties *properties;
+  AudioProperties *properties;
 
   TagUnion tag;
 
@@ -145,7 +145,7 @@ bool DSDIFF::File::isSupported(IOStream *stream) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-DSDIFF::File::File(FileName file, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file) {
+DSDIFF::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(file) {
 
   d = new FilePrivate;
   d->endianness = BigEndian;
@@ -154,7 +154,7 @@ DSDIFF::File::File(FileName file, bool readProperties, Properties::ReadStyle pro
 
 }
 
-DSDIFF::File::File(IOStream *stream, bool readProperties, Properties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream) {
+DSDIFF::File::File(IOStream *stream, bool readProperties, AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::File(stream) {
 
   d = new FilePrivate;
   d->endianness = BigEndian;
@@ -210,7 +210,7 @@ PropertyMap DSDIFF::File::setProperties(const PropertyMap &properties) {
   return d->tag.access<ID3v2::Tag>(ID3v2Index, true)->setProperties(properties);
 }
 
-DSDIFF::Properties *DSDIFF::File::audioProperties() const {
+DSDIFF::AudioProperties *DSDIFF::File::audioProperties() const {
   return d->properties;
 }
 
@@ -582,7 +582,7 @@ void DSDIFF::File::updateRootChunksStructure(unsigned int startingChunk) {
 
 }
 
-void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesStyle) {
+void DSDIFF::File::read(bool readProperties, AudioProperties::ReadStyle propertiesStyle) {
 
   bool bigEndian = (d->endianness == BigEndian);
 
@@ -868,7 +868,7 @@ void DSDIFF::File::read(bool readProperties, Properties::ReadStyle propertiesSty
     if (lengthDSDSamplesTimeChannels > 0)
       bitrate = (audioDataSizeinBytes * 8 * sampleRate) / lengthDSDSamplesTimeChannels / 1000;
 
-    d->properties = new Properties(sampleRate, channels, lengthDSDSamplesTimeChannels, bitrate, propertiesStyle);
+    d->properties = new AudioProperties(sampleRate, channels, lengthDSDSamplesTimeChannels, bitrate, propertiesStyle);
   }
 
   if (!ID3v2Tag()) {

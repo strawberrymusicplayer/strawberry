@@ -31,15 +31,15 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MP4::Properties::PropertiesPrivate {
+class MP4::AudioProperties::AudioPropertiesPrivate {
  public:
-  PropertiesPrivate() : length(0),
+  AudioPropertiesPrivate() : length(0),
                         bitrate(0),
                         sampleRate(0),
                         channels(0),
                         bitsPerSample(0),
                         encrypted(false),
-                        codec(MP4::Properties::Unknown) {}
+                        codec(MP4::AudioProperties::Unknown) {}
 
   int length;
   int bitrate;
@@ -54,44 +54,44 @@ class MP4::Properties::PropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::Properties::Properties(File *file, MP4::Atoms *atoms, ReadStyle style) : AudioProperties(style), d(new PropertiesPrivate()) {
+MP4::AudioProperties::AudioProperties(File *file, MP4::Atoms *atoms, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
   read(file, atoms);
 }
 
-MP4::Properties::~Properties() {
+MP4::AudioProperties::~AudioProperties() {
   delete d;
 }
 
-int MP4::Properties::channels() const {
+int MP4::AudioProperties::channels() const {
   return d->channels;
 }
 
-int MP4::Properties::sampleRate() const {
+int MP4::AudioProperties::sampleRate() const {
   return d->sampleRate;
 }
 
-int MP4::Properties::lengthInSeconds() const {
+int MP4::AudioProperties::lengthInSeconds() const {
   return d->length / 1000;
 }
 
-int MP4::Properties::lengthInMilliseconds() const {
+int MP4::AudioProperties::lengthInMilliseconds() const {
   return d->length;
 }
 
-int MP4::Properties::bitrate() const {
+int MP4::AudioProperties::bitrate() const {
   return d->bitrate;
 }
 
-int MP4::Properties::bitsPerSample() const {
+int MP4::AudioProperties::bitsPerSample() const {
   return d->bitsPerSample;
 }
 
-bool MP4::Properties::isEncrypted() const {
+bool MP4::AudioProperties::isEncrypted() const {
   return d->encrypted;
 }
 
-MP4::Properties::Codec
-MP4::Properties::codec() const {
+MP4::AudioProperties::Codec
+MP4::AudioProperties::codec() const {
   return d->codec;
 }
 
@@ -99,7 +99,7 @@ MP4::Properties::codec() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void MP4::Properties::read(File *file, Atoms *atoms) {
+void MP4::AudioProperties::read(File *file, Atoms *atoms) {
 
   MP4::Atom *moov = atoms->find("moov");
   if (!moov) {
