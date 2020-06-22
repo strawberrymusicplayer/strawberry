@@ -67,14 +67,14 @@ class TAGLIB_EXPORT AudioProperties {
    *
    * \see lengthInMilliseconds()
    */
-  virtual int lengthInSeconds() const;
+  virtual int lengthInSeconds() const = 0;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  virtual int lengthInMilliseconds() const;
+  virtual int lengthInMilliseconds() const = 0;
 
   /*!
    * Returns the most appropriate bit rate for the file in kb/s.  For constant bitrate formats this is simply the bitrate of the file.
@@ -91,6 +91,11 @@ class TAGLIB_EXPORT AudioProperties {
    * Returns the number of audio channels.
    */
   virtual int channels() const = 0;
+
+  /*!
+   * Returns description of the audio file.
+   */
+  virtual String toString() const;
 
  protected:
   /*!
