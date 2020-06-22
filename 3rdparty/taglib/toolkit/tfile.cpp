@@ -70,14 +70,14 @@ using namespace Strawberry_TagLib::TagLib;
 
 class File::FilePrivate {
  public:
-  FilePrivate(IOStream* _stream, bool _owner) : stream(_stream), streamOwner(_owner), valid(true) {}
+  FilePrivate(IOStream *_stream, bool _owner) : stream(_stream), streamOwner(_owner), valid(true) {}
 
   ~FilePrivate() {
     if (streamOwner)
       delete stream;
   }
 
-  IOStream* stream;
+  IOStream *stream;
   bool streamOwner;
   bool valid;
 };
@@ -88,7 +88,7 @@ class File::FilePrivate {
 
 File::File(const FileName fileName) : d(new FilePrivate(new FileStream(fileName), true)) {}
 
-File::File(IOStream* stream) : d(new FilePrivate(stream, false)) {}
+File::File(IOStream *stream) : d(new FilePrivate(stream, false)) {}
 
 File::~File() {
   delete d;
@@ -234,7 +234,7 @@ void File::writeBlock(const ByteVector& data) {
   d->stream->writeBlock(data);
 }
 
-long File::find(const ByteVector& pattern, long fromOffset, const ByteVector& before) {
+long File::find(const ByteVector &pattern, long fromOffset, const ByteVector &before) {
 
   if (!d->stream || pattern.size() > bufferSize())
     return -1;
@@ -331,7 +331,7 @@ long File::find(const ByteVector& pattern, long fromOffset, const ByteVector& be
 }
 
 
-long File::rfind(const ByteVector& pattern, long fromOffset, const ByteVector& before) {
+long File::rfind(const ByteVector &pattern, long fromOffset, const ByteVector &before) {
 
   if (!d->stream || pattern.size() > bufferSize())
     return -1;

@@ -184,9 +184,7 @@ class TAGLIB_EXPORT File {
    * \note This has the practical limitation that \a pattern can not be longer
    * than the buffer size used by readBlock().  Currently this is 1024 bytes.
    */
-  long rfind(const ByteVector &pattern,
-    long fromOffset = 0,
-    const ByteVector &before = ByteVector());
+  long rfind(const ByteVector &pattern, long fromOffset = 0, const ByteVector &before = ByteVector());
 
   /*!
    * Insert \a data at position \a start in the file overwriting \a replace bytes of the original content.
@@ -248,7 +246,7 @@ class TAGLIB_EXPORT File {
    *
    * \note Constructor is protected since this class should only be instantiated through subclasses.
    */
-  explicit File(FileName file);
+  explicit File(const FileName fileName);
 
   /*!
    * Construct a File object and use the \a stream instance.

@@ -40,9 +40,11 @@
 using namespace Strawberry_TagLib::TagLib;
 
 namespace {
-enum { ID3v2Index = 0,
+enum {
+  ID3v2Index = 0,
   APEIndex = 1,
-  ID3v1Index = 2 };
+  ID3v1Index = 2
+};
 }
 
 class MPEG::File::FilePrivate {
