@@ -261,7 +261,11 @@ QString iMobileDeviceConnection::GetUnusedFilename(Itdb_iTunesDB *itdb, const So
   static const int kRandMax = 999999;
   QString filename;
   forever {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    filename = QString::asprintf("libgpod%06d", QRandomGenerator::global()->bounded(kRandMax));
+#else
     filename = QString::asprintf("libgpod%06d", qrand() % kRandMax);
+#endif
     filename += "." + extension;
 
     if (!Exists(dir + "/" + filename))
