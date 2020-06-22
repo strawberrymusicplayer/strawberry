@@ -68,7 +68,7 @@ typedef Map<ByteVector, FrameList> FrameListMap;
  */
 class TAGLIB_EXPORT Latin1StringHandler {
  public:
-  Latin1StringHandler();
+  explicit Latin1StringHandler();
   virtual ~Latin1StringHandler();
 
   /*!
@@ -121,7 +121,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *
    * \note You must create at least one frame for this tag to be valid.
    */
-  Tag();
+  explicit Tag();
 
   /*!
    * Constructs an ID3v2 tag read from \a file starting at \a tagOffset.
@@ -133,8 +133,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *
    * \see FrameFactory
    */
-  Tag(File *file, long tagOffset,
-    const FrameFactory *factory = FrameFactory::instance());
+  explicit Tag(File *file, long tagOffset, const FrameFactory *factory = FrameFactory::instance());
 
   /*!
    * Destroys this Tag instance.
@@ -349,8 +348,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void downgradeFrames(FrameList *existingFrames, FrameList *newFrames) const;
 
  private:
-  Tag(const Tag &);
-  Tag &operator=(const Tag &);
+  explicit Tag(const Tag&);
+  Tag &operator=(const Tag&);
 
   class TagPrivate;
   TagPrivate *d;

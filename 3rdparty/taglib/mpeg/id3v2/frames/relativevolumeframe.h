@@ -95,12 +95,12 @@ class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
   /*!
    * Constructs a RelativeVolumeFrame.  The relevant data should be set manually.
    */
-  RelativeVolumeFrame();
+  explicit RelativeVolumeFrame();
 
   /*!
    * Constructs a RelativeVolumeFrame based on the contents of \a data.
    */
-  RelativeVolumeFrame(const ByteVector &data);
+  explicit RelativeVolumeFrame(const ByteVector &data);
 
   /*!
    * Destroys the RelativeVolumeFrame instance.
@@ -230,9 +230,9 @@ class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
   virtual ByteVector renderFields() const;
 
  private:
-  RelativeVolumeFrame(const ByteVector &data, Header *h);
-  RelativeVolumeFrame(const RelativeVolumeFrame &);
-  RelativeVolumeFrame &operator=(const RelativeVolumeFrame &);
+  explicit RelativeVolumeFrame(const ByteVector &data, Header *h);
+  explicit RelativeVolumeFrame(const RelativeVolumeFrame&);
+  RelativeVolumeFrame &operator=(const RelativeVolumeFrame&);
 
   class RelativeVolumeFramePrivate;
   RelativeVolumeFramePrivate *d;

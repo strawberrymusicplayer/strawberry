@@ -161,9 +161,9 @@ class TAGLIB_EXPORT UnsynchronizedLyricsFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  UnsynchronizedLyricsFrame(const ByteVector &data, Header *h);
-  UnsynchronizedLyricsFrame(const UnsynchronizedLyricsFrame &);
-  UnsynchronizedLyricsFrame &operator=(const UnsynchronizedLyricsFrame &);
+  explicit UnsynchronizedLyricsFrame(const ByteVector &data, Header *h);
+  explicit UnsynchronizedLyricsFrame(const UnsynchronizedLyricsFrame&);
+  UnsynchronizedLyricsFrame &operator=(const UnsynchronizedLyricsFrame&);
 
   class UnsynchronizedLyricsFramePrivate;
   UnsynchronizedLyricsFramePrivate *d;

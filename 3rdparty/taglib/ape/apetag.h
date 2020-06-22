@@ -60,13 +60,13 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Create an APE tag with default values.
    */
-  Tag();
+  explicit Tag();
 
   /*!
    * Create an APE tag and parse the data in \a file with APE footer at
    * \a tagOffset.
    */
-  Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
+  explicit Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
 
   /*!
    * Destroys this Tag instance.
@@ -190,7 +190,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void parse(const ByteVector &data);
 
  private:
-  Tag(const Tag &);
+  explicit Tag(const Tag &);
   Tag &operator=(const Tag &);
 
   class TagPrivate;

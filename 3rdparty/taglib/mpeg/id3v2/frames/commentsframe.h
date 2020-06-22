@@ -161,8 +161,8 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  CommentsFrame(const ByteVector &data, Header *h);
-  CommentsFrame(const CommentsFrame &);
+  explicit CommentsFrame(const ByteVector &data, Header *h);
+  explicit CommentsFrame(const CommentsFrame &);
   CommentsFrame &operator=(const CommentsFrame &);
 
   class CommentsFramePrivate;

@@ -41,9 +41,7 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
    * \note In the current implementation, both \a readProperties and \a propertiesStyle are ignored.
    * The audio properties are always read.
    */
-  File(FileName file, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle =
-      AudioProperties::Average);
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs a Impulse Tracker file from \a stream.
@@ -53,9 +51,7 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
    *
    * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
    */
-  File(IOStream *stream, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle =
-      AudioProperties::Average);
+  explicit File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -63,18 +59,6 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   virtual ~File();
 
   Mod::Tag *tag() const;
-
-  /*!
-   * Forwards to Mod::Tag::properties().
-   * BIC: will be removed once File::toDict() is made virtual
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Forwards to Mod::Tag::setProperties().
-   * BIC: will be removed once File::setProperties() is made virtual
-   */
-  PropertyMap setProperties(const PropertyMap &);
 
   /*!
    * Returns the IT::AudioProperties for this file. If no audio properties
@@ -90,10 +74,9 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
    */
   bool save();
 
-
  private:
-  File(const File &);
-  File &operator=(const File &);
+  explicit File(const File&);
+  File &operator=(const File&);
 
   void read(bool readProperties);
 

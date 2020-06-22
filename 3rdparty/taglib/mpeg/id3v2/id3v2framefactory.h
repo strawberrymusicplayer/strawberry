@@ -63,15 +63,13 @@ class TAGLIB_EXPORT FrameFactory {
   /*!
    * Create a frame based on \a data.  \a tagHeader should be a valid ID3v2::Header instance.
    */
-  // BIC: make virtual
-  Frame *createFrame(const ByteVector &data, const Header *tagHeader) const;
+  virtual Frame *createFrame(const ByteVector &data, const Header *tagHeader) const;
 
   /*!
    * After a tag has been read, this tries to rebuild some of them information,
    * most notably the recording date, from frames that have been deprecated and can't be upgraded directly.
    */
-  // BIC: Make virtual
-  void rebuildAggregateFrames(ID3v2::Tag *tag) const;
+  virtual void rebuildAggregateFrames(ID3v2::Tag *tag) const;
 
   /*!
    * Returns the default text encoding for text frames.
@@ -97,7 +95,7 @@ class TAGLIB_EXPORT FrameFactory {
   /*!
    * Constructs a frame factory.  Because this is a singleton this method is protected, but may be used for subclasses.
    */
-  FrameFactory();
+  explicit FrameFactory();
 
   /*!
    * Destroys the frame factory.
@@ -116,8 +114,8 @@ class TAGLIB_EXPORT FrameFactory {
   virtual bool updateFrame(Frame::Header *header) const;
 
  private:
-  FrameFactory(const FrameFactory &);
-  FrameFactory &operator=(const FrameFactory &);
+  explicit FrameFactory(const FrameFactory&);
+  FrameFactory &operator=(const FrameFactory&);
 
   static FrameFactory factory;
 

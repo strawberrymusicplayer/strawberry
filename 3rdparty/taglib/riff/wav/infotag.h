@@ -58,7 +58,7 @@ typedef Map<ByteVector, String> FieldListMap;
 
 class TAGLIB_EXPORT StringHandler {
  public:
-  StringHandler();
+  explicit StringHandler();
   ~StringHandler();
 
   /*!
@@ -89,12 +89,12 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
     * Constructs an empty INFO tag.
     */
-  Tag();
+  explicit Tag();
 
   /*!
     * Constructs an INFO tag read from \a data which is contents of "LIST" chunk.
     */
-  Tag(const ByteVector &data);
+  explicit Tag(const ByteVector &data);
 
   virtual ~Tag();
 
@@ -174,10 +174,9 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
     */
   void parse(const ByteVector &data);
 
-
  private:
-  Tag(const Tag &);
-  Tag &operator=(const Tag &);
+  explicit Tag(const Tag&);
+  Tag &operator=(const Tag&);
 
   class TagPrivate;
   TagPrivate *d;

@@ -117,7 +117,7 @@ class TAGLIB_EXPORT String {
   /*!
    * Constructs an empty String.
    */
-  String();
+  explicit String();
 
   /*!
    * Make a shallow, implicitly shared, copy of \a s.
@@ -307,18 +307,6 @@ class TAGLIB_EXPORT String {
   bool isEmpty() const;
 
   /*!
-   * Returns true if this string is null -- i.e. it is a copy of the String::null string.
-   *
-   * \note A string can be empty and not null.  So do not use this method to check if the string is empty.
-   *
-   * \see isEmpty()
-   *
-   * \deprecated
-   */
-  // BIC: remove
-  bool isNull() const;
-
-  /*!
    * Returns a ByteVector containing the string's data.
    * If \a t is Latin1 or UTF8, this will return a vector of 8 bit characters, otherwise it will use 16 bit characters.
    *
@@ -331,18 +319,10 @@ class TAGLIB_EXPORT String {
   /*!
    * Convert the string to an integer.
    *
-   * Returns the integer if the conversion was successful or 0 if the string does not represent a number.
-   */
-  // BIC: merge with the method below
-  int toInt() const;
-
-  /*!
-   * Convert the string to an integer.
-   *
    * If the conversion was successful, it sets the value of \a *ok to true and returns the integer.
    * Otherwise it sets \a *ok to false and the result is undefined.
    */
-  int toInt(bool *ok) const;
+  int toInt(bool *ok = nullptr) const;
 
   /*!
    * Returns a string with the leading and trailing whitespace stripped.
@@ -479,16 +459,6 @@ class TAGLIB_EXPORT String {
    * Returns true if \a s is less than this string in a byte-wise comparison.
    */
   bool operator<(const String &s) const;
-
-  /*!
-   * A null string provided for convenience.
-   *
-   * \warning Do not modify this variable.  It will mess up the internal state of TagLib.
-   *
-   * \deprecated
-   */
-  // BIC: remove
-  static String null;
 
  protected:
   /*!

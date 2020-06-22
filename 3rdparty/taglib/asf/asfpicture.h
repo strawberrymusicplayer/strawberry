@@ -97,7 +97,7 @@ class TAGLIB_EXPORT Picture {
   /*!
    * Constructs an empty picture.
    */
-  Picture();
+  explicit Picture();
 
   /*!
    * Construct an picture as a copy of \a other.

@@ -64,9 +64,9 @@ class TAGLIB_EXPORT UnknownFrame : public Frame {
   virtual ByteVector renderFields() const;
 
  private:
-  UnknownFrame(const ByteVector &data, Header *h);
-  UnknownFrame(const UnknownFrame &);
-  UnknownFrame &operator=(const UnknownFrame &);
+  explicit UnknownFrame(const ByteVector &data, Header *h);
+  explicit UnknownFrame(const UnknownFrame&);
+  UnknownFrame &operator=(const UnknownFrame&);
 
   class UnknownFramePrivate;
   UnknownFramePrivate *d;

@@ -46,7 +46,7 @@ namespace Mod {
  */
 class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
  public:
-  Tag();
+  explicit Tag();
   virtual ~Tag();
 
   /*!
@@ -168,8 +168,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   PropertyMap setProperties(const PropertyMap &);
 
  private:
-  Tag(const Tag &);
-  Tag &operator=(const Tag &);
+  explicit Tag(const Tag&);
+  Tag &operator=(const Tag&);
 
   class TagPrivate;
   TagPrivate *d;

@@ -158,8 +158,6 @@ class String::StringPrivate : public RefCounter {
   std::string cstring;
 };
 
-String String::null;
-
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
@@ -400,10 +398,6 @@ bool String::isEmpty() const {
   return d->data.empty();
 }
 
-bool String::isNull() const {
-  return d == null.d;
-}
-
 ByteVector String::data(Type t) const {
 
   switch (t) {
@@ -474,10 +468,6 @@ ByteVector String::data(Type t) const {
     }
   }
 
-}
-
-int String::toInt() const {
-  return toInt(nullptr);
 }
 
 int String::toInt(bool *ok) const {

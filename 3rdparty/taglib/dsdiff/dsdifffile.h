@@ -80,7 +80,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an DSDIFF file from \a stream.
@@ -90,8 +90,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -210,7 +209,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   File(IOStream *stream, Endianness endianness);
 
  private:
-  File(const File &);
+  explicit File(const File &);
   File &operator=(const File &);
 
   void removeRootChunk(const ByteVector &id);
@@ -249,8 +248,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \warning This will update the file immediately.
    */
-  void setChildChunkData(const ByteVector &name, const ByteVector &data,
-    unsigned int childChunkNum);
+  void setChildChunkData(const ByteVector &name, const ByteVector &data, unsigned int childChunkNum);
 
   void updateRootChunksStructure(unsigned int startingChunk);
 

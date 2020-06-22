@@ -43,8 +43,8 @@ typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemMap;
 
 class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
  public:
-  Tag();
-  Tag(Strawberry_TagLib::TagLib::File *file, Atoms *atoms);
+  explicit Tag();
+  explicit Tag(Strawberry_TagLib::TagLib::File *file, Atoms *atoms);
   virtual ~Tag();
   bool save();
 

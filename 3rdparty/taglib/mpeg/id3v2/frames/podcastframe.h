@@ -44,7 +44,7 @@ class TAGLIB_EXPORT PodcastFrame : public Frame {
   /*!
    * Construct a podcast frame.
    */
-  PodcastFrame();
+  explicit PodcastFrame();
 
   /*!
    * Destroys this PodcastFrame instance.
@@ -66,8 +66,8 @@ class TAGLIB_EXPORT PodcastFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  PodcastFrame(const ByteVector &data, Header *h);
-  PodcastFrame(const PodcastFrame &);
+  explicit PodcastFrame(const ByteVector &data, Header *h);
+  explicit PodcastFrame(const PodcastFrame &);
   PodcastFrame &operator=(const PodcastFrame &);
 
   class PodcastFramePrivate;

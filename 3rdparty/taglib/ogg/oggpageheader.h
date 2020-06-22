@@ -48,7 +48,7 @@ class TAGLIB_EXPORT PageHeader {
    * Reads a PageHeader from \a file starting at \a pageOffset.
    * The defaults create a page with no (and as such, invalid) data that must be set later.
    */
-  PageHeader(File *file = 0, long pageOffset = -1);
+  explicit PageHeader(File *file = 0, long pageOffset = -1);
 
   /*!
    * Deletes this instance of the PageHeader.
@@ -200,8 +200,8 @@ class TAGLIB_EXPORT PageHeader {
   ByteVector render() const;
 
  private:
-  PageHeader(const PageHeader &);
-  PageHeader &operator=(const PageHeader &);
+  explicit PageHeader(const PageHeader&);
+  PageHeader &operator=(const PageHeader&);
 
   void read(Ogg::File *file, long pageOffset);
   ByteVector lacingValues() const;

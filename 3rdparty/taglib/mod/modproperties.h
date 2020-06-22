@@ -35,7 +35,7 @@ namespace Mod {
 
 class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
-  AudioProperties(AudioProperties::ReadStyle propertiesStyle);
+  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
   virtual ~AudioProperties();
 
   int lengthInSeconds() const;
@@ -55,8 +55,8 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
  private:
   friend class File;
 
-  AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties&);
+  AudioProperties &operator=(const AudioProperties&);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

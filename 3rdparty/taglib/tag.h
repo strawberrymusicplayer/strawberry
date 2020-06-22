@@ -53,22 +53,20 @@ class TAGLIB_EXPORT Tag {
    * Exports the tags of the file as dictionary mapping (human readable) tag names (Strings) to StringLists of tag values.
    * The default implementation in this class considers only the usual built-in tags (artist, album, ...) and only one value per key.
    */
-  PropertyMap properties() const;
+  virtual PropertyMap properties() const;
 
   /*!
    * Removes unsupported properties, or a subset of them, from the tag.
    * The parameter \a properties must contain only entries from properties().unsupportedData().
-   * BIC: Will become virtual in future releases. Currently the non-virtual
-   * standard implementation of TagLib::Tag does nothing, since there are no unsupported elements.
    */
-  void removeUnsupportedProperties(const StringList &properties);
+  virtual void removeUnsupportedProperties(const StringList &properties);
 
   /*!
    * Sets the tags of this File to those specified in \a properties.
    * This default implementation sets only the tags for which setter methods exist in this class
    * (artist, album, ...), and only one value per key; the rest will be contained in the returned PropertyMap.
    */
-  PropertyMap setProperties(const PropertyMap &origProps);
+  virtual PropertyMap setProperties(const PropertyMap &origProps);
 
   /*!
    * Returns the track name; if no track name is present in the tag String::null will be returned.
@@ -166,11 +164,11 @@ class TAGLIB_EXPORT Tag {
   /*!
    * Construct a Tag.  This is protected since tags should only be instantiated through subclasses.
    */
-  Tag();
+  explicit Tag();
 
  private:
-  Tag(const Tag &);
-  Tag &operator=(const Tag &);
+  explicit Tag(const Tag&);
+  Tag &operator=(const Tag&);
 
   class TagPrivate;
   TagPrivate *d;

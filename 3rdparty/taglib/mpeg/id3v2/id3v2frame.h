@@ -86,7 +86,7 @@ class TAGLIB_EXPORT Frame {
    * Please use the call below which accepts an ID3v2 version number.
    * In the next non-binary compatible release this will be made into a non-static member that checks the internal ID3v2 version.
    */
-  static unsigned int headerSize();  // BIC: make non-static
+  unsigned int headerSize();
 
   /*!
    * Returns the size of the frame header for the given ID3v2 version.
@@ -271,8 +271,8 @@ class TAGLIB_EXPORT Frame {
   static void splitProperties(const PropertyMap &original, PropertyMap &singleFrameProperties, PropertyMap &tiplProperties, PropertyMap &tmclProperties);
 
  private:
-  Frame(const Frame &);
-  Frame &operator=(const Frame &);
+  explicit Frame(const Frame&);
+  Frame &operator=(const Frame&);
 
   class FramePrivate;
   friend class FramePrivate;
@@ -455,8 +455,8 @@ class TAGLIB_EXPORT Frame::Header {
   ByteVector render() const;
 
  private:
-  Header(const Header &);
-  Header &operator=(const Header &);
+  explicit Header(const Header&);
+  Header &operator=(const Header&);
 
   class HeaderPrivate;
   HeaderPrivate *d;

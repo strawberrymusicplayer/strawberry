@@ -135,8 +135,8 @@ class TAGLIB_EXPORT OwnershipFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  OwnershipFrame(const ByteVector &data, Header *h);
-  OwnershipFrame(const OwnershipFrame &);
+  explicit OwnershipFrame(const ByteVector &data, Header *h);
+  explicit OwnershipFrame(const OwnershipFrame&);
   OwnershipFrame &operator=(const OwnershipFrame &);
 
   class OwnershipFramePrivate;

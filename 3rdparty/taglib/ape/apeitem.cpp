@@ -48,11 +48,6 @@ class APE::Item::ItemPrivate {
 
 APE::Item::Item() : d(new ItemPrivate()) {}
 
-APE::Item::Item(const String &key, const String &value) : d(new ItemPrivate()) {
-  d->key = key;
-  d->text.append(value);
-}
-
 APE::Item::Item(const String &key, const StringList &values) : d(new ItemPrivate()) {
   d->key = key;
   d->text = values;
@@ -122,13 +117,6 @@ void APE::Item::setBinaryData(const ByteVector &value) {
   d->value = value;
   d->text.clear();
 
-}
-
-ByteVector APE::Item::value() const {
-
-  // This seems incorrect as it won't be actually rendering the value to keep it up to date.
-
-  return d->value;
 }
 
 void APE::Item::setKey(const String &key) {

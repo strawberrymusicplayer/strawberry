@@ -118,9 +118,9 @@ class TAGLIB_EXPORT PopularimeterFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  PopularimeterFrame(const ByteVector &data, Header *h);
-  PopularimeterFrame(const PopularimeterFrame &);
-  PopularimeterFrame &operator=(const PopularimeterFrame &);
+  explicit PopularimeterFrame(const ByteVector &data, Header *h);
+  explicit PopularimeterFrame(const PopularimeterFrame&);
+  PopularimeterFrame &operator=(const PopularimeterFrame&);
 
   class PopularimeterFramePrivate;
   PopularimeterFramePrivate *d;

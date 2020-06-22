@@ -56,7 +56,7 @@ class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame {
    * Constructs an empty object frame.
    * The description, file name and text encoding should be set manually.
    */
-  GeneralEncapsulatedObjectFrame();
+  explicit GeneralEncapsulatedObjectFrame();
 
   /*!
    * Constructs a GeneralEncapsulatedObjectFrame frame based on \a data.
@@ -164,9 +164,9 @@ class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame {
   virtual ByteVector renderFields() const;
 
  private:
-  GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h);
-  GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame &);
-  GeneralEncapsulatedObjectFrame &operator=(const GeneralEncapsulatedObjectFrame &);
+  explicit GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h);
+  explicit GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame&);
+  GeneralEncapsulatedObjectFrame &operator=(const GeneralEncapsulatedObjectFrame&);
 
   class GeneralEncapsulatedObjectFramePrivate;
   GeneralEncapsulatedObjectFramePrivate *d;

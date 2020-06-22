@@ -37,12 +37,12 @@ template <class Key, class T>
 template <class KeyP, class TP>
 class Map<Key, T>::MapPrivate : public RefCounterOld {
 public:
-  MapPrivate() : RefCounterOld() {}
+  explicit MapPrivate() : RefCounterOld() {}
 #ifdef WANT_CLASS_INSTANTIATION_OF_MAP
-  MapPrivate(const std::map<class KeyP, class TP>& m) : RefCounterOld(), map(m) {}
+  explicit MapPrivate(const std::map<class KeyP, class TP>& m) : RefCounterOld(), map(m) {}
   std::map<class KeyP, class TP> map;
 #else
-  MapPrivate(const std::map<KeyP, TP>& m) : RefCounterOld(), map(m) {}
+  explicit MapPrivate(const std::map<KeyP, TP>& m) : RefCounterOld(), map(m) {}
   std::map<KeyP, TP> map;
 #endif
 };

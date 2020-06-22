@@ -39,14 +39,16 @@ namespace TagLib {
 
 class TagUnion : public Tag {
  public:
-  enum AccessType { Read,
-    Write };
+  enum AccessType {
+    Read,
+    Write
+  };
 
   /*!
    * Creates a TagLib::Tag that is the union of \a first, \a second, and \a third.
    * The TagUnion takes ownership of these tags and will handle their deletion.
    */
-  TagUnion(Tag *first = nullptr, Tag *second = nullptr, Tag *third = nullptr);
+  explicit TagUnion(Tag *first = nullptr, Tag *second = nullptr, Tag *third = nullptr);
 
   virtual ~TagUnion();
 
@@ -86,8 +88,8 @@ class TagUnion : public Tag {
   }
 
  private:
-  TagUnion(const Tag &);
-  TagUnion &operator=(const Tag &);
+  explicit TagUnion(const Tag&);
+  TagUnion &operator=(const Tag&);
 
   class TagUnionPrivate;
   TagUnionPrivate *d;

@@ -40,7 +40,7 @@ class TAGLIB_EXPORT Item {
     int first, second;
   };
 
-  Item();
+  explicit Item();
   Item(const Item &item);
 
   /*!

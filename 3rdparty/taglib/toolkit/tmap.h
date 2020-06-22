@@ -60,7 +60,7 @@ template<class Key, class T> class Map {
   /*!
    * Constructs an empty Map.
    */
-  Map();
+  explicit Map();
 
   /*!
    * Make a shallow, implicitly shared, copy of \a m.

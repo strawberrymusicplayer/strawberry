@@ -53,8 +53,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \a propertiesStyle are ignored.  The audio properties are always
    * read.
    */
-  File(FileName file, bool readProperties = true,
-    AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an ASF file from \a stream.
@@ -66,7 +65,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note TagLib will *not* take ownership of the stream, the caller is
    * responsible for deleting it after the File object.
    */
-  File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.

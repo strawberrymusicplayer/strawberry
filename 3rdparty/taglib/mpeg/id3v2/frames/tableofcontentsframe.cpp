@@ -56,16 +56,20 @@ namespace {
 // BIC: remove these
 
 ByteVector &strip(ByteVector &b) {
+
   if (b.endsWith('\0'))
     b.resize(b.size() - 1);
   return b;
+
 }
 
 ByteVectorList &strip(ByteVectorList &l) {
+
   for (ByteVectorList::Iterator it = l.begin(); it != l.end(); ++it) {
     strip(*it);
   }
   return l;
+
 }
 
 }  // namespace

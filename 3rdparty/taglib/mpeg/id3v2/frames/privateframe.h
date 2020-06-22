@@ -43,7 +43,7 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
   /*!
    * Construct an empty private frame.
    */
-  PrivateFrame();
+  explicit PrivateFrame();
 
   /*!
    * Construct a private frame based on the data in \a data.
@@ -96,10 +96,10 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  PrivateFrame(const ByteVector &data, Header *h);
+  explicit PrivateFrame(const ByteVector &data, Header *h);
 
-  PrivateFrame(const PrivateFrame &);
-  PrivateFrame &operator=(const PrivateFrame &);
+  explicit PrivateFrame(const PrivateFrame&);
+  PrivateFrame &operator=(const PrivateFrame&);
 
   class PrivateFramePrivate;
   PrivateFramePrivate *d;

@@ -98,7 +98,7 @@ class TAGLIB_EXPORT AttachedPictureFrame : public Frame {
    * Constructs an empty picture frame.
    * The description, content and text encoding should be set manually.
    */
-  AttachedPictureFrame();
+  explicit AttachedPictureFrame();
 
   /*!
    * Constructs an AttachedPicture frame based on \a data.
@@ -204,9 +204,9 @@ class TAGLIB_EXPORT AttachedPictureFrame : public Frame {
   AttachedPictureFramePrivate *d;
 
  private:
-  AttachedPictureFrame(const AttachedPictureFrame &);
-  AttachedPictureFrame &operator=(const AttachedPictureFrame &);
-  AttachedPictureFrame(const ByteVector &data, Header *h);
+  explicit AttachedPictureFrame(const AttachedPictureFrame&);
+  AttachedPictureFrame &operator=(const AttachedPictureFrame&);
+  explicit AttachedPictureFrame(const ByteVector &data, Header *h);
 };
 
 //! support for ID3v2.2 PIC frames
@@ -215,7 +215,7 @@ class TAGLIB_EXPORT AttachedPictureFrameV22 : public AttachedPictureFrame {
   virtual void parseFields(const ByteVector &data);
 
  private:
-  AttachedPictureFrameV22(const ByteVector &data, Header *h);
+  explicit AttachedPictureFrameV22(const ByteVector &data, Header *h);
   friend class FrameFactory;
 };
 

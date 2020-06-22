@@ -49,7 +49,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Create an instance of MPEG::AudioProperties with the data read from the MPEG::File \a file.
    */
-  AudioProperties(File *file, ReadStyle style = Average);
+  explicit AudioProperties(File *file, ReadStyle style = Average);
 
   /*!
    * Destroys this MPEG AudioProperties instance.
@@ -61,16 +61,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    *
    * \see lengthInMilliseconds()
    */
-  // BIC: make virtual
-  int lengthInSeconds() const;
+  virtual int lengthInSeconds() const;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  // BIC: make virtual
-  int lengthInMilliseconds() const;
+  virtual int lengthInMilliseconds() const;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
@@ -123,8 +121,8 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   bool isOriginal() const;
 
  private:
-  AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties&);
+  AudioProperties &operator=(const AudioProperties&);
 
   void read(File *file);
 

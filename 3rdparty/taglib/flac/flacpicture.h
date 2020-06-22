@@ -87,8 +87,8 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
     PublisherLogo = 0x14
   };
 
-  Picture();
-  Picture(const ByteVector &data);
+  explicit Picture();
+  explicit Picture(const ByteVector &data);
   ~Picture();
 
   /*!
@@ -189,7 +189,7 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
   bool parse(const ByteVector &rawData);
 
  private:
-  Picture(const Picture &item);
+  explicit Picture(const Picture &item);
   Picture &operator=(const Picture &item);
 
   class PicturePrivate;

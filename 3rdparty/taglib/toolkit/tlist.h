@@ -61,7 +61,7 @@ template<class T> class List {
   /*!
    * Constructs an empty list.
    */
-  List();
+  explicit List();
 
   /*!
    * Make a shallow, implicitly shared, copy of \a l.

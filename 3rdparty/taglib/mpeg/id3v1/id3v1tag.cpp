@@ -39,10 +39,10 @@ const ID3v1::StringHandler *stringHandler = &defaultStringHandler;
 
 class ID3v1::Tag::TagPrivate {
  public:
-  TagPrivate() : file(nullptr),
-                 tagOffset(0),
-                 track(0),
-                 genre(255) {}
+  explicit TagPrivate() : file(nullptr),
+                          tagOffset(0),
+                          track(0),
+                          genre(255) {}
 
   File *file;
   long tagOffset;
@@ -60,8 +60,7 @@ class ID3v1::Tag::TagPrivate {
 // StringHandler implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-StringHandler::StringHandler() {
-}
+StringHandler::StringHandler() {}
 
 String ID3v1::StringHandler::parse(const ByteVector &data) const {
   return String(data, String::Latin1).stripWhiteSpace();

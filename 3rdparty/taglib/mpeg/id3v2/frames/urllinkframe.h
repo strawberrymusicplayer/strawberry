@@ -173,8 +173,8 @@ class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
   UserUrlLinkFrame(const ByteVector &data, Header *h);
 
  private:
-  UserUrlLinkFrame(const UserUrlLinkFrame &);
-  UserUrlLinkFrame &operator=(const UserUrlLinkFrame &);
+  explicit UserUrlLinkFrame(const UserUrlLinkFrame&);
+  UserUrlLinkFrame &operator=(const UserUrlLinkFrame&);
 
   class UserUrlLinkFramePrivate;
   UserUrlLinkFramePrivate *d;

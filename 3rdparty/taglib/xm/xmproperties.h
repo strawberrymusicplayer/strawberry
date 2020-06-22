@@ -42,7 +42,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     LinearFreqTable = 1  // otherwise its the amiga freq. table
   };
 
-  AudioProperties(AudioProperties::ReadStyle propertiesStyle);
+  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
   virtual ~AudioProperties();
 
   int lengthInSeconds() const;
@@ -74,8 +74,8 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setBpmSpeed(unsigned short bpmSpeed);
 
  private:
-  AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties&);
+  AudioProperties &operator=(const AudioProperties&);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

@@ -50,7 +50,7 @@ class TAGLIB_EXPORT ExtendedHeader {
   /*!
    * Constructs an empty ID3v2 extended header.
    */
-  ExtendedHeader();
+  explicit ExtendedHeader();
 
   /*!
    * Destroys the extended header.
@@ -78,8 +78,8 @@ class TAGLIB_EXPORT ExtendedHeader {
   void parse(const ByteVector &data);
 
  private:
-  ExtendedHeader(const ExtendedHeader &);
-  ExtendedHeader &operator=(const ExtendedHeader &);
+  explicit ExtendedHeader(const ExtendedHeader&);
+  ExtendedHeader &operator=(const ExtendedHeader&);
 
   class ExtendedHeaderPrivate;
   ExtendedHeaderPrivate *d;

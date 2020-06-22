@@ -54,7 +54,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Create an instance of WavPack::Properties.
    */
-  AudioProperties(File *file, long streamLength, ReadStyle style = Average);
+  explicit AudioProperties(File *file, long streamLength, ReadStyle style = Average);
 
   /*!
    * Destroys this WavPack::AudioProperties instance.
@@ -67,16 +67,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    *
    * \see lengthInMilliseconds()
    */
-  // BIC: make virtual
-  int lengthInSeconds() const;
+  virtual int lengthInSeconds() const;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  // BIC: make virtual
-  int lengthInMilliseconds() const;
+  virtual int lengthInMilliseconds() const;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
@@ -114,8 +112,8 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   int version() const;
 
  private:
-  AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties&);
+  AudioProperties &operator=(const AudioProperties&);
 
   void read(File *file, long streamLength);
   unsigned int seekFinalIndex(File *file, long streamLength);

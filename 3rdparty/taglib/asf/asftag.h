@@ -45,7 +45,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   friend class File;
 
  public:
-  Tag();
+  explicit Tag();
 
   virtual ~Tag();
 

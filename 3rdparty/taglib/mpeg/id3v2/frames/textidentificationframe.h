@@ -114,7 +114,7 @@ class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
    *
    * \note Please see the note in the class description regarding Latin1.
    */
-  TextIdentificationFrame(const ByteVector &type, String::Type encoding);
+  explicit TextIdentificationFrame(const ByteVector &type, String::Type encoding);
 
   /*!
    * This is a dual purpose constructor.
@@ -279,9 +279,9 @@ class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
   static UserTextIdentificationFrame *find(Tag *tag, const String &description);
 
  private:
-  UserTextIdentificationFrame(const ByteVector &data, Header *h);
-  UserTextIdentificationFrame(const TextIdentificationFrame &);
-  UserTextIdentificationFrame &operator=(const UserTextIdentificationFrame &);
+  explicit UserTextIdentificationFrame(const ByteVector &data, Header *h);
+  explicit UserTextIdentificationFrame(const TextIdentificationFrame&);
+  UserTextIdentificationFrame &operator=(const UserTextIdentificationFrame&);
 
   void checkFields();
 

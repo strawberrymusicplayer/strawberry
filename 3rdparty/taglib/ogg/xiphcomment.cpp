@@ -336,10 +336,6 @@ List<FLAC::Picture *> Ogg::XiphComment::pictureList() {
   return d->pictureList;
 }
 
-ByteVector Ogg::XiphComment::render() const {
-  return render(true);
-}
-
 ByteVector Ogg::XiphComment::render(bool addFramingBit) const {
 
   ByteVector data;

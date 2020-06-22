@@ -67,16 +67,14 @@ class TAGLIB_EXPORT AudioProperties {
    *
    * \see lengthInMilliseconds()
    */
-  // BIC: make virtual
-  int lengthInSeconds() const;
+  virtual int lengthInSeconds() const;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  // BIC: make virtual
-  int lengthInMilliseconds() const;
+  virtual int lengthInMilliseconds() const;
 
   /*!
    * Returns the most appropriate bit rate for the file in kb/s.  For constant bitrate formats this is simply the bitrate of the file.
@@ -102,11 +100,11 @@ class TAGLIB_EXPORT AudioProperties {
    *
    * \see ReadStyle
    */
-  AudioProperties(ReadStyle style);
+  explicit AudioProperties(ReadStyle style);
 
  private:
-  AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties&);
+  AudioProperties &operator=(const AudioProperties&);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

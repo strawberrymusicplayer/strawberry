@@ -104,16 +104,14 @@ class TAGLIB_EXPORT File {
    * to remove (a subset of) them.
    * For files that contain more than one tag (e.g. an MP3 with both an ID3v1 and an ID3v2
    * tag) only the most "modern" one will be exported (ID3v2 in this case).
-   * BIC: Will be made virtual in future releases.
    */
-  PropertyMap properties() const;
+  virtual PropertyMap properties() const;
 
   /*!
    * Removes unsupported properties, or a subset of them, from the file's metadata.
    * The parameter \a properties must contain only entries from properties().unsupportedData().
-   * BIC: Will be mad virtual in future releases.
    */
-  void removeUnsupportedProperties(const StringList &properties);
+  virtual void removeUnsupportedProperties(const StringList &properties);
 
   /*!
    * Sets the tags of this File to those specified in \a properties. Calls the
@@ -127,9 +125,8 @@ class TAGLIB_EXPORT File {
    * (ID3v2 for MP3 files). Older formats will be updated as well, if they exist, but won't
    * be taken into account for the return value of this function.
    * See the documentation of the subclass implementations for detailed descriptions.
-   * BIC: will become pure virtual in the future
    */
-  PropertyMap setProperties(const PropertyMap &properties);
+  virtual PropertyMap setProperties(const PropertyMap &properties);
 
   /*!
    * Returns a pointer to this file's audio properties.
@@ -251,7 +248,7 @@ class TAGLIB_EXPORT File {
    *
    * \note Constructor is protected since this class should only be instantiated through subclasses.
    */
-  File(FileName file);
+  explicit File(FileName file);
 
   /*!
    * Construct a File object and use the \a stream instance.
@@ -260,7 +257,7 @@ class TAGLIB_EXPORT File {
    *
    * \note Constructor is protected since this class should only be instantiated through subclasses.
    */
-  File(IOStream *stream);
+  explicit File(IOStream *stream);
 
   /*!
    * Marks the file as valid or invalid.
@@ -280,8 +277,8 @@ class TAGLIB_EXPORT File {
   static unsigned int bufferSize();
 
  private:
-  File(const File &);
-  File &operator=(const File &);
+  explicit File(const File&);
+  File &operator=(const File&);
 
   class FilePrivate;
   FilePrivate *d;

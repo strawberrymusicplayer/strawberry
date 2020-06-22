@@ -55,11 +55,10 @@ namespace ID3v1 {
  */
 
 class TAGLIB_EXPORT StringHandler {
-  TAGLIB_IGNORE_MISSING_DESTRUCTOR
 
  public:
-  // BIC: Add virtual destructor.
-  StringHandler();
+  explicit StringHandler();
+  virtual ~StringHandler() = default;
 
   /*!
    * Decode a string from \a data.
@@ -102,12 +101,12 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Create an ID3v1 tag with default values.
    */
-  Tag();
+  explicit Tag();
 
   /*!
    * Create an ID3v1 tag and parse the data in \a file starting at \a tagOffset.
    */
-  Tag(File *file, long tagOffset);
+  explicit Tag(File *file, long tagOffset);
 
   /*!
    * Destroys this Tag instance.
@@ -177,8 +176,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void parse(const ByteVector &data);
 
  private:
-  Tag(const Tag &);
-  Tag &operator=(const Tag &);
+  explicit Tag(const Tag&);
+  Tag &operator=(const Tag&);
 
   class TagPrivate;
   TagPrivate *d;

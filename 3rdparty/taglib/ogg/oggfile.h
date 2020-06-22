@@ -81,7 +81,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note This constructor is protected since Ogg::File shouldn't be instantiated directly but rather should be used through the codec specific subclasses.
    */
-  File(FileName file);
+  explicit File(FileName file);
 
   /*!
    * Constructs an Ogg file from \a stream.
@@ -93,7 +93,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   File(IOStream *stream);
 
  private:
-  File(const File &);
+  explicit File(const File &);
   File &operator=(const File &);
 
   /*!

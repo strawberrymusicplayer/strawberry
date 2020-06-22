@@ -40,8 +40,8 @@ namespace Mod {
 
 class TAGLIB_EXPORT FileBase : public Strawberry_TagLib::TagLib::File {
  protected:
-  FileBase(FileName file);
-  FileBase(IOStream *stream);
+  explicit FileBase(FileName file);
+  explicit FileBase(IOStream *stream);
 
   void writeString(const String &s, unsigned long size, char padding = 0);
   void writeByte(unsigned char byte);

@@ -170,9 +170,9 @@ class TAGLIB_EXPORT EventTimingCodesFrame : public Frame {
   /*!
    * The constructor used by the FrameFactory.
    */
-  EventTimingCodesFrame(const ByteVector &data, Header *h);
-  EventTimingCodesFrame(const EventTimingCodesFrame &);
-  EventTimingCodesFrame &operator=(const EventTimingCodesFrame &);
+  explicit EventTimingCodesFrame(const ByteVector &data, Header *h);
+  explicit EventTimingCodesFrame(const EventTimingCodesFrame&);
+  EventTimingCodesFrame &operator=(const EventTimingCodesFrame&);
 
   class EventTimingCodesFramePrivate;
   EventTimingCodesFramePrivate *d;

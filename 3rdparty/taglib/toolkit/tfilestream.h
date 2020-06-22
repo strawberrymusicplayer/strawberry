@@ -51,12 +51,12 @@ class TAGLIB_EXPORT FileStream : public IOStream {
    * Construct a File object and opens the \a file.
    * \a file should be a be a C-string in the local file system encoding.
    */
-  FileStream(FileName file, bool openReadOnly = false);
+  explicit FileStream(FileName file, bool openReadOnly = false);
 
   /*!
    * Construct a File object and opens the \a file using file descriptor.
    */
-  FileStream(int fileDescriptor, bool openReadOnly = false);
+  explicit FileStream(int fileDescriptor, bool openReadOnly = false);
 
   /*!
    * Destroys this FileStream instance.

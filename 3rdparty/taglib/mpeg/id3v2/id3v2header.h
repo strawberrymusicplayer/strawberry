@@ -49,12 +49,12 @@ class TAGLIB_EXPORT Header {
   /*!
    * Constructs an empty ID3v2 header.
    */
-  Header();
+  explicit Header();
 
   /*!
    * Constructs an ID3v2 header based on \a data.  parse() is called immediately.
    */
-  Header(const ByteVector &data);
+  explicit Header(const ByteVector &data);
 
   /*!
    * Destroys the header.
@@ -151,8 +151,8 @@ class TAGLIB_EXPORT Header {
   void parse(const ByteVector &data);
 
  private:
-  Header(const Header &);
-  Header &operator=(const Header &);
+  explicit Header(const Header&);
+  Header &operator=(const Header&);
 
   class HeaderPrivate;
   HeaderPrivate *d;

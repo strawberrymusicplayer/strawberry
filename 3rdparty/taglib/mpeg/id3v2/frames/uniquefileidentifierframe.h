@@ -46,12 +46,12 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
   /*!
    * Creates a unique file identifier frame based on \a data.
    */
-  UniqueFileIdentifierFrame(const ByteVector &data);
+  explicit UniqueFileIdentifierFrame(const ByteVector &data);
 
   /*!
    * Creates a unique file identifier frame with the owner \a owner and the identification \a id.
    */
-  UniqueFileIdentifierFrame(const String &owner, const ByteVector &id);
+  explicit UniqueFileIdentifierFrame(const String &owner, const ByteVector &id);
 
   /*!
    * Destroys the frame.
@@ -103,10 +103,10 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
   virtual ByteVector renderFields() const;
 
  private:
-  UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame &);
-  UniqueFileIdentifierFrame &operator=(const UniqueFileIdentifierFrame &);
+  explicit UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame&);
+  UniqueFileIdentifierFrame &operator=(const UniqueFileIdentifierFrame&);
 
-  UniqueFileIdentifierFrame(const ByteVector &data, Header *h);
+  explicit UniqueFileIdentifierFrame(const ByteVector &data, Header *h);
 
   class UniqueFileIdentifierFramePrivate;
   UniqueFileIdentifierFramePrivate *d;

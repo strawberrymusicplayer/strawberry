@@ -58,7 +58,7 @@ namespace TagLib {
 
 class TAGLIB_EXPORT RefCounter {
  public:
-  RefCounter();
+  explicit RefCounter();
   virtual ~RefCounter();
 
   void ref();
@@ -73,7 +73,7 @@ class TAGLIB_EXPORT RefCounter {
 // BIC this old class is needed by tlist.tcc and tmap.tcc
 class RefCounterOld {
  public:
-  RefCounterOld() : refCount(1) {}
+  explicit RefCounterOld() : refCount(1) {}
 
 #  ifdef TAGLIB_ATOMIC_MAC
   void ref() {

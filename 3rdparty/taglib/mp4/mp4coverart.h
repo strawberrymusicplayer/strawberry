@@ -48,10 +48,10 @@ class TAGLIB_EXPORT CoverArt {
     Unknown = TypeImplicit,
   };
 
-  CoverArt(Format format, const ByteVector &data);
+  explicit CoverArt(Format format, const ByteVector &data);
   ~CoverArt();
 
-  CoverArt(const CoverArt &item);
+  explicit CoverArt(const CoverArt &item);
 
   /*!
    * Copies the contents of \a item into this CoverArt.

@@ -36,10 +36,10 @@ namespace TagLib {
 #ifdef _WIN32
 class TAGLIB_EXPORT FileName {
  public:
-  FileName(const wchar_t *name);
-  FileName(const char *name);
+  explicit FileName(const wchar_t *name);
+  explicit FileName(const char *name);
 
-  FileName(const FileName &name);
+  explicit FileName(const FileName &name);
 
   operator const wchar_t *() const;
   operator const char *() const;
@@ -73,7 +73,7 @@ class TAGLIB_EXPORT IOStream {
     End
   };
 
-  IOStream();
+  explicit IOStream();
 
   /*!
    * Destroys this IOStream instance.
@@ -153,8 +153,8 @@ class TAGLIB_EXPORT IOStream {
   virtual void truncate(long length) = 0;
 
  private:
-  IOStream(const IOStream &);
-  IOStream &operator=(const IOStream &);
+  explicit IOStream(const IOStream&);
+  IOStream &operator=(const IOStream&);
 };
 
 }  // namespace TagLib

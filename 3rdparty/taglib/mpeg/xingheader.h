@@ -75,7 +75,7 @@ class TAGLIB_EXPORT XingHeader {
   /*!
    * Parses an Xing/VBRI header based on \a data which contains the entire first MPEG frame.
    */
-  XingHeader(const ByteVector &data);
+  explicit XingHeader(const ByteVector &data);
 
   /*!
    * Destroy this XingHeader instance.
@@ -103,8 +103,8 @@ class TAGLIB_EXPORT XingHeader {
   HeaderType type() const;
 
  private:
-  XingHeader(const XingHeader &);
-  XingHeader &operator=(const XingHeader &);
+  explicit XingHeader(const XingHeader&);
+  XingHeader &operator=(const XingHeader&);
 
   void parse(const ByteVector &data);
 

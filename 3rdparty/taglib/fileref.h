@@ -93,15 +93,13 @@ class TAGLIB_EXPORT FileRef {
      * \note The created file is then owned by the FileRef and should not be deleted.
      * Deletion will happen automatically when the FileRef passes out of scope.
      */
-    virtual File *createFile(FileName fileName,
-      bool readAudioProperties = true,
-      AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average) const = 0;
+    virtual File *createFile(FileName fileName, bool readAudioProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average) const = 0;
   };
 
   /*!
    * Creates a null FileRef.
    */
-  FileRef();
+  explicit FileRef();
 
   /*!
    * Create a FileRef from \a fileName.
@@ -111,10 +109,7 @@ class TAGLIB_EXPORT FileRef {
    * Also see the note in the class documentation about why you may not want to
    * use this method in your application.
    */
-  explicit FileRef(FileName fileName,
-    bool readAudioProperties = true,
-    AudioProperties::ReadStyle
-      audioPropertiesStyle = AudioProperties::Average);
+  explicit FileRef(FileName fileName, bool readAudioProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
   /*!
    * Construct a FileRef from an opened \a IOStream.
@@ -125,10 +120,7 @@ class TAGLIB_EXPORT FileRef {
    *
    * \note TagLib will *not* take ownership of the stream, the caller is responsible for deleting it after the File object.
    */
-  explicit FileRef(IOStream *stream,
-    bool readAudioProperties = true,
-    AudioProperties::ReadStyle
-      audioPropertiesStyle = AudioProperties::Average);
+  explicit FileRef(IOStream *stream, bool readAudioProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
   /*!
    * Construct a FileRef using \a file.
@@ -250,9 +242,7 @@ class TAGLIB_EXPORT FileRef {
    *
    * \deprecated
    */
-  static File *create(FileName fileName,
-    bool readAudioProperties = true,
-    AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
+  static File *create(FileName fileName, bool readAudioProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
  private:
   void parse(FileName fileName, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);

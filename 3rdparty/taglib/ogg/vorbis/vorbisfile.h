@@ -64,7 +64,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(FileName file, bool readProperties = true, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle propertiesStyle = Strawberry_TagLib::TagLib::AudioProperties::Average);
+  explicit File(FileName file, bool readProperties = true, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle propertiesStyle = Strawberry_TagLib::TagLib::AudioProperties::Average);
 
   /*!
    * Constructs a Vorbis file from \a stream.
@@ -74,7 +74,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  File(IOStream *stream, bool readProperties = true, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle propertiesStyle = Strawberry_TagLib::TagLib::AudioProperties::Average);
+  explicit File(IOStream *stream, bool readProperties = true, Strawberry_TagLib::TagLib::AudioProperties::ReadStyle propertiesStyle = Strawberry_TagLib::TagLib::AudioProperties::Average);
 
   /*!
    * Destroys this instance of the File.
@@ -120,8 +120,8 @@ class TAGLIB_EXPORT File : public Ogg::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  File(const File &);
-  File &operator=(const File &);
+  explicit File(const File&);
+  File &operator=(const File&);
 
   void read(bool readProperties);
 

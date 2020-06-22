@@ -36,7 +36,7 @@ namespace FLAC {
 
 class TAGLIB_EXPORT MetadataBlock {
  public:
-  MetadataBlock();
+  explicit MetadataBlock();
   virtual ~MetadataBlock();
 
   enum BlockType {
@@ -50,17 +50,17 @@ class TAGLIB_EXPORT MetadataBlock {
   };
 
   /*!
-       * Returns the FLAC metadata block type.
-       */
+   * Returns the FLAC metadata block type.
+   */
   virtual int code() const = 0;
 
   /*!
-       * Render the content of the block.
-       */
+   * Render the content of the block.
+   */
   virtual ByteVector render() const = 0;
 
  private:
-  MetadataBlock(const MetadataBlock &item);
+  explicit MetadataBlock(const MetadataBlock &item);
   MetadataBlock &operator=(const MetadataBlock &item);
 
   class MetadataBlockPrivate;

@@ -54,12 +54,12 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Constructs an empty byte vector.
    */
-  ByteVector();
+  explicit ByteVector();
 
   /*!
    * Construct a vector of size \a size with all values set to \a value by default.
    */
-  ByteVector(unsigned int size, char value = 0);
+  explicit ByteVector(unsigned int size, char value = 0);
 
   /*!
    * Constructs a byte vector that is a copy of \a v.
@@ -69,7 +69,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Constructs a byte vector that is a copy of \a v.
    */
-  ByteVector(const ByteVector &v, unsigned int offset, unsigned int length);
+  explicit ByteVector(const ByteVector &v, unsigned int offset, unsigned int length);
 
   /*!
    * Constructs a byte vector that contains \a c.
@@ -79,7 +79,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Constructs a byte vector that copies \a data for up to \a length bytes.
    */
-  ByteVector(const char *data, unsigned int length);
+  explicit ByteVector(const char *data, unsigned int length);
 
   /*!
    * Constructs a byte vector that copies \a data up to the first null byte.
@@ -158,8 +158,7 @@ class TAGLIB_EXPORT ByteVector {
    * Optionally, if you only want to search for part of the pattern you can specify an offset within the pattern to start from.
    * Also, you can specify to only check for the first \a patternLength bytes of \a pattern with the \a patternLength argument.
    */
-  bool containsAt(const ByteVector &pattern, unsigned int offset,
-    unsigned int patternOffset = 0, unsigned int patternLength = 0xffffffff) const;
+  bool containsAt(const ByteVector &pattern, unsigned int offset, unsigned int patternOffset = 0, unsigned int patternLength = 0xffffffff) const;
 
   /*!
    * Returns true if the vector starts with \a pattern.
@@ -259,32 +258,12 @@ class TAGLIB_EXPORT ByteVector {
   ConstReverseIterator rend() const;
 
   /*!
-   * Returns true if the vector is null.
-   *
-   * \note A vector may be empty without being null.  So do not use this method to check if the vector is empty.
-   *
-   * \see isEmpty()
-   *
-   * \deprecated
-   */
-  // BIC: remove
-  bool isNull() const;
-
-  /*!
    * Returns true if the ByteVector is empty.
    *
    * \see size()
    * \see isNull()
    */
   bool isEmpty() const;
-
-  /*!
-   * Returns a CRC checksum of the byte vector's data.
-   *
-   * \note This uses an uncommon variant of CRC32 specializes in Ogg.
-   */
-  // BIC: Remove or make generic.
-  unsigned int checksum() const;
 
   /*!
    * Converts the first 4 bytes of the vector to an unsigned integer.
@@ -545,17 +524,6 @@ class TAGLIB_EXPORT ByteVector {
    * Exchanges the content of the ByteVector by the content of \a v.
    */
   void swap(ByteVector &v);
-
-  /*!
-   * A static, empty ByteVector which is convenient and fast (since returning an empty or "null" value does not require instantiating a new ByteVector).
-   *
-   * \warning Do not modify this variable.  It will mess up the internal state
-   * of TagLib.
-   *
-   * \deprecated
-   */
-  // BIC: remove
-  static ByteVector null;
 
   /*!
    * Returns a hex-encoded copy of the byte vector.

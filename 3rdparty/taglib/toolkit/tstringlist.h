@@ -47,7 +47,7 @@ class TAGLIB_EXPORT StringList : public List<String> {
   /*!
    * Constructs an empty StringList.
    */
-  StringList();
+  explicit StringList();
 
   /*!
    * Make a shallow, implicitly shared, copy of \a l.

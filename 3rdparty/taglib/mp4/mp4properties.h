@@ -45,7 +45,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     ALAC
   };
 
-  AudioProperties(File *file, Atoms *atoms, ReadStyle style = Average);
+  explicit AudioProperties(File *file, Atoms *atoms, ReadStyle style = Average);
   virtual ~AudioProperties();
 
   /*!
@@ -53,16 +53,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    *
    * \see lengthInMilliseconds()
    */
-  // BIC: make virtual
-  int lengthInSeconds() const;
+  virtual int lengthInSeconds() const;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  // BIC: make virtual
-  int lengthInMilliseconds() const;
+  virtual int lengthInMilliseconds() const;
 
   /*!
    * Returns the average bit rate of the file in kb/s.

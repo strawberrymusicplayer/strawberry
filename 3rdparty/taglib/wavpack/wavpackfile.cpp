@@ -51,10 +51,10 @@ enum {
 
 class WavPack::File::FilePrivate {
  public:
-  FilePrivate() : APELocation(-1),
-                  APESize(0),
-                  ID3v1Location(-1),
-                  properties(nullptr) {}
+  explicit FilePrivate() : APELocation(-1),
+                           APESize(0),
+                           ID3v1Location(-1),
+                           properties(nullptr) {}
 
   ~FilePrivate() {
     delete properties;

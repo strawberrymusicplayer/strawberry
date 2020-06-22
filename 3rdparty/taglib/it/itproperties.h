@@ -54,7 +54,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     MidiConfEmbedded = 8
   };
 
-  AudioProperties(AudioProperties::ReadStyle propertiesStyle);
+  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
   virtual ~AudioProperties();
 
   int lengthInSeconds() const;
@@ -96,7 +96,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setPitchWheelDepth(unsigned char pitchWheelDepth);
 
  private:
-  AudioProperties(const AudioProperties &);
+  explicit AudioProperties(const AudioProperties &);
   AudioProperties &operator=(const AudioProperties &);
 
   class AudioPropertiesPrivate;

@@ -44,7 +44,7 @@ class TAGLIB_EXPORT ByteVectorList : public List<ByteVector> {
   /*!
    * Construct an empty ByteVectorList.
    */
-  ByteVectorList();
+  explicit ByteVectorList();
 
   /*!
    * Destroys this ByteVectorList instance.

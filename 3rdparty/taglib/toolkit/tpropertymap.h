@@ -107,7 +107,7 @@ class TAGLIB_EXPORT PropertyMap : public SimplePropertyMap {
   typedef SimplePropertyMap::Iterator Iterator;
   typedef SimplePropertyMap::ConstIterator ConstIterator;
 
-  PropertyMap();
+  explicit PropertyMap();
 
   /*!
    * Creates a PropertyMap initialized from a SimplePropertyMap.

@@ -51,7 +51,7 @@ class TAGLIB_EXPORT Footer {
   /*!
    * Constructs an empty ID3v2 footer.
    */
-  Footer();
+  explicit Footer();
   /*!
    * Destroys the footer.
    */
@@ -68,8 +68,8 @@ class TAGLIB_EXPORT Footer {
   ByteVector render(const Header *header) const;
 
  private:
-  Footer(const Footer &);
-  Footer &operator=(const Footer &);
+  explicit Footer(const Footer&);
+  Footer &operator=(const Footer&);
 
   class FooterPrivate;
   FooterPrivate *d;

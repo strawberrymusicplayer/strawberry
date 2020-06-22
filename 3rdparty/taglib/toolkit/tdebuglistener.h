@@ -42,7 +42,7 @@ namespace TagLib {
  */
 class TAGLIB_EXPORT DebugListener {
  public:
-  DebugListener();
+  explicit DebugListener();
   virtual ~DebugListener();
 
   /*!
@@ -53,8 +53,8 @@ class TAGLIB_EXPORT DebugListener {
 
  private:
   // Noncopyable
-  DebugListener(const DebugListener &);
-  DebugListener &operator=(const DebugListener &);
+  explicit DebugListener(const DebugListener&);
+  DebugListener &operator=(const DebugListener&);
 };
 
 /*!
