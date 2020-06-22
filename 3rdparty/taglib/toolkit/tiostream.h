@@ -36,10 +36,10 @@ namespace TagLib {
 #ifdef _WIN32
 class TAGLIB_EXPORT FileName {
  public:
-  explicit FileName(const wchar_t *name);
-  explicit FileName(const char *name);
+  FileName(const wchar_t *name);
+  FileName(const char *name);
 
-  explicit FileName(const FileName &name);
+  FileName(const FileName &name);
 
   operator const wchar_t *() const;
   operator const char *() const;
