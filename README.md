@@ -19,7 +19,7 @@ Resources:
 
 ### :bangbang: Opening an issue:
 
-* Search for the issue to see if it is already solved, or if there is an open issue for it already. If there is an open issue already, you can comment on it if you have addtional information that could be useful to us.
+* Search for the issue to see if it is already solved, or if there is an open issue for it already. If there is an open issue already, you can comment on it if you have additional information that could be useful to us.
 * For technical problems, questions and feature requests please use our forum on https://forum.strawberrymusicplayer.org/ that is better suited for discussion. It also better allows answers from the community instead of just the developers on GitHub.
 
 ### :moneybag:	Sponsoring:
