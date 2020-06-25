@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include "memory"
+#include <memory>
 
 #include <QObject>
 #include <QStandardPaths>
