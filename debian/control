@@ -48,7 +48,7 @@ Description: Audio player and music collection organizer
  .
  Features:
   - Play and organize music
-  - Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
+  - Supports WAV, FLAC, WavPack, Ogg Vorbis, Speex, MPC, TrueAudio, AIFF, MP4, MP3 and ASF
   - Audio CD playback
   - Native desktop notifications
   - Playlists in multiple formats
