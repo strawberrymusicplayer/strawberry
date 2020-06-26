@@ -56,15 +56,15 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
-  Mod::Tag *tag() const;
+  Mod::Tag *tag() const override;
 
   /*!
    * Returns the IT::AudioProperties for this file. If no audio properties
    * were read then this will return a null pointer.
    */
-  IT::AudioProperties *audioProperties() const;
+  IT::AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
@@ -72,10 +72,10 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
    *
    * \note Saving Impulse Tracker tags is not supported.
    */
-  bool save();
+  bool save() override;
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties);

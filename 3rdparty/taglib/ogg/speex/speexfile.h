@@ -77,37 +77,25 @@ class TAGLIB_EXPORT File : public Ogg::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the XiphComment for this file.  XiphComment implements the tag interface, so this serves as the reimplementation of TagLib::File::tag().
    */
-  virtual Ogg::XiphComment *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * This forwards directly to XiphComment::properties().
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Implements the unified tag dictionary interface -- import function.
-   * Like properties(), this is a forwarder to the file's XiphComment.
-   */
-  PropertyMap setProperties(const PropertyMap &);
+  Ogg::XiphComment *tag() const override;
 
   /*!
    * Returns the Speex::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
    *
    * This returns true if the save was successful.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns whether or not the given \a stream can be opened as a Speex file.
@@ -117,7 +105,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties);

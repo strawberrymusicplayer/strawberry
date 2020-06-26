@@ -57,14 +57,14 @@ class TAGLIB_EXPORT OwnershipFrame : public Frame {
   /*!
    * Destroys this OwnershipFrame instance.
    */
-  virtual ~OwnershipFrame();
+  ~OwnershipFrame() override;
 
   /*!
    * Returns the text of this popularimeter.
    *
    * \see text()
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the date purchased.
@@ -128,15 +128,15 @@ class TAGLIB_EXPORT OwnershipFrame : public Frame {
  protected:
   // Reimplementations.
 
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   /*!
    * The constructor used by the FrameFactory.
    */
   explicit OwnershipFrame(const ByteVector &data, Header *h);
-  explicit OwnershipFrame(const OwnershipFrame&);
+  OwnershipFrame(const OwnershipFrame&);
   OwnershipFrame &operator=(const OwnershipFrame &);
 
   class OwnershipFramePrivate;

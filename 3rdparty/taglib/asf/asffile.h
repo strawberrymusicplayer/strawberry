@@ -70,7 +70,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns a pointer to the ASF tag of the file.
@@ -82,34 +82,19 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * deleted by the user.  It will be deleted when the file (object) is
    * destroyed.
    */
-  virtual Tag *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Removes unsupported properties. Forwards to the actual Tag's removeUnsupportedProperties() function.
-   */
-  void removeUnsupportedProperties(const StringList &properties);
-
-  /*!
-   * Implements the unified property interface -- import function.
-   */
-  PropertyMap setProperties(const PropertyMap &);
+  Tag *tag() const override;
 
   /*!
    * Returns the ASF audio properties for this file.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
    *
    * This returns true if the save was successful.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns whether or not the given \a stream can be opened as an ASF file.

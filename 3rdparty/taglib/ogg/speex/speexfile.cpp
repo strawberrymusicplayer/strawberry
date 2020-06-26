@@ -27,10 +27,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include "tstring.h"
+#include "tdebug.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "speexfile.h"
 
@@ -39,7 +39,7 @@ using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Speex::File::FilePrivate {
  public:
-  FilePrivate() : comment(nullptr), properties(nullptr) {}
+  explicit FilePrivate() : comment(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete comment;
@@ -59,7 +59,7 @@ bool Ogg::Speex::File::isSupported(IOStream *stream) {
   // A Speex file has IDs "OggS" and "Speex   " somewhere.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), false);
-  return (buffer.find("OggS") >= 0 && buffer.find("Speex   ") >= 0);
+  return (buffer.find("OggS") != ByteVector::npos() && buffer.find("Speex   ") != ByteVector::npos());
 
 }
 
@@ -83,14 +83,6 @@ Speex::File::~File() {
 
 Ogg::XiphComment *Speex::File::tag() const {
   return d->comment;
-}
-
-PropertyMap Speex::File::properties() const {
-  return d->comment->properties();
-}
-
-PropertyMap Speex::File::setProperties(const PropertyMap &properties) {
-  return d->comment->setProperties(properties);
 }
 
 Speex::AudioProperties *Speex::File::audioProperties() const {

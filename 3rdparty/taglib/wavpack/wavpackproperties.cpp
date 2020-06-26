@@ -27,8 +27,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "wavpackproperties.h"
 #include "wavpackfile.h"
@@ -40,14 +40,14 @@ using namespace Strawberry_TagLib::TagLib;
 
 class WavPack::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        version(0),
-                        bitsPerSample(0),
-                        lossless(false),
-                        sampleFrames(0) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      version(0),
+                                      bitsPerSample(0),
+                                      lossless(false),
+                                      sampleFrames(0) {}
 
   int length;
   int bitrate;
@@ -63,7 +63,7 @@ class WavPack::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-WavPack::AudioProperties::AudioProperties(File *file, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+WavPack::AudioProperties::AudioProperties(File *file, long long streamLength, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file, streamLength);
 }
 
@@ -133,7 +133,7 @@ const unsigned int sample_rates[] = {
 
 #define FINAL_BLOCK 0x1000
 
-void WavPack::AudioProperties::read(File *file, long streamLength) {
+void WavPack::AudioProperties::read(File *file, long long streamLength) {
 
   long offset = 0;
 
@@ -151,17 +151,17 @@ void WavPack::AudioProperties::read(File *file, long streamLength) {
       break;
     }
 
-    const unsigned int flags = data.toUInt(24, false);
+    const unsigned int flags = data.toUInt32LE(24);
 
     if (offset == 0) {
-      d->version = data.toShort(8, false);
+      d->version = data.toUInt16LE(8);
       if (d->version < MIN_STREAM_VERS || d->version > MAX_STREAM_VERS)
         break;
 
       d->bitsPerSample = ((flags & BYTES_STORED) + 1) * 8 - ((flags & SHIFT_MASK) >> SHIFT_LSB);
       d->sampleRate = sample_rates[(flags & SRATE_MASK) >> SRATE_LSB];
       d->lossless = !(flags & LOSSLESS_FLAG);
-      d->sampleFrames = data.toUInt(12, false);
+      d->sampleFrames = data.toUInt32LE(12);
     }
 
     d->channels += (flags & MONO_FLAG) ? 1 : 2;
@@ -169,7 +169,7 @@ void WavPack::AudioProperties::read(File *file, long streamLength) {
     if (flags & FINAL_BLOCK)
       break;
 
-    const unsigned int blockSize = data.toUInt(4, false);
+    const unsigned int blockSize = data.toUInt32LE(4);
     offset += blockSize + 8;
   }
 
@@ -184,9 +184,9 @@ void WavPack::AudioProperties::read(File *file, long streamLength) {
 
 }
 
-unsigned int WavPack::AudioProperties::seekFinalIndex(File *file, long streamLength) {
+unsigned int WavPack::AudioProperties::seekFinalIndex(File *file, long long streamLength) {
 
-  const long offset = file->rfind("wvpk", streamLength);
+  const long long offset = file->rfind("wvpk", streamLength);
   if (offset == -1)
     return 0;
 
@@ -195,16 +195,16 @@ unsigned int WavPack::AudioProperties::seekFinalIndex(File *file, long streamLen
   if (data.size() < 32)
     return 0;
 
-  const int version = data.toShort(8, false);
+  const int version = data.toUInt16LE(8);
   if (version < MIN_STREAM_VERS || version > MAX_STREAM_VERS)
     return 0;
 
-  const unsigned int flags = data.toUInt(24, false);
+  const unsigned int flags = data.toUInt32LE(24);
   if (!(flags & FINAL_BLOCK))
     return 0;
 
-  const unsigned int blockIndex = data.toUInt(16, false);
-  const unsigned int blockSamples = data.toUInt(20, false);
+  const unsigned int blockIndex = data.toUInt32LE(16);
+  const unsigned int blockSamples = data.toUInt32LE(20);
 
   return blockIndex + blockSamples;
 

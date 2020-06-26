@@ -95,7 +95,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns a pointer to a tag that is the union of the ID3v2 and DIIN tags.
@@ -110,7 +110,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \see ID3v2Tag()
    * \see DIINTag()
    */
-  virtual Tag *tag() const;
+  Tag *tag() const override;
 
   /*!
    * Returns the ID3V2 Tag for this file.
@@ -132,21 +132,21 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * Implements the unified property interface -- export function.
    * This method forwards to ID3v2::Tag::properties().
    */
-  PropertyMap properties() const;
+  PropertyMap properties() const override;
 
-  void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties) override;
 
   /*!
    * Implements the unified property interface -- import function.
    * This method forwards to ID3v2::Tag::setProperties().
    */
-  PropertyMap setProperties(const PropertyMap &properties);
+  PropertyMap setProperties(const PropertyMap &properties) override;
 
   /*!
    * Returns the AIFF::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.  If at least one tag -- ID3v1 or DIIN -- exists this will duplicate its content into the other tag.
@@ -161,7 +161,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \see save(int tags)
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Save the file.  If \a strip is specified,
@@ -209,7 +209,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   File(IOStream *stream, Endianness endianness);
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void removeRootChunk(const ByteVector &id);

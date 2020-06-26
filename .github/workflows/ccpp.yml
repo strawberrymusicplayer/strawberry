@@ -1133,7 +1133,7 @@ jobs:
           GST_SCANNER_PATH: /usr/local/opt/gstreamer/libexec/gstreamer-1.0/gst-plugin-scanner
           GST_PLUGIN_PATH: /usr/local/lib/gstreamer-1.0
         working-directory: build
-        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON -DUSE_SYSTEM_TAGLIB=OFF
+        run: cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DUSE_BUNDLE=ON
       - name: Build
         working-directory: build
         shell: bash
@@ -1180,8 +1180,6 @@ jobs:
           -DENABLE_IMOBILEDEVICE=OFF
           -DENABLE_LIBMTP=OFF
           -DENABLE_XINE=OFF
-          -DUSE_SYSTEM_SINGLEAPPLICATION=OFF
-          -DUSE_SYSTEM_TAGLIB=OFF
           -DProtobuf_PROTOC_EXECUTABLE=/usr/src/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc
 
       - name: Run Make

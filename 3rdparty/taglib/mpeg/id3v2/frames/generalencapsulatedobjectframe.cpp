@@ -26,8 +26,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstringlist.h>
+#include "tdebug.h"
+#include "tstringlist.h"
 
 #include "generalencapsulatedobjectframe.h"
 
@@ -36,7 +36,7 @@ using namespace ID3v2;
 
 class GeneralEncapsulatedObjectFrame::GeneralEncapsulatedObjectFramePrivate {
  public:
-  GeneralEncapsulatedObjectFramePrivate() : textEncoding(String::Latin1) {}
+  explicit GeneralEncapsulatedObjectFramePrivate() : textEncoding(String::Latin1) {}
 
   String::Type textEncoding;
   String mimeType;
@@ -126,11 +126,11 @@ void GeneralEncapsulatedObjectFrame::parseFields(const ByteVector &data) {
 
   d->textEncoding = String::Type(data[0]);
 
-  int pos = 1;
+  size_t pos = 1;
 
-  d->mimeType = readStringField(data, String::Latin1, &pos);
-  d->fileName = readStringField(data, d->textEncoding, &pos);
-  d->description = readStringField(data, d->textEncoding, &pos);
+  d->mimeType = readStringField(data, String::Latin1, pos);
+  d->fileName = readStringField(data, d->textEncoding, pos);
+  d->description = readStringField(data, d->textEncoding, pos);
 
   d->data = data.mid(pos);
 

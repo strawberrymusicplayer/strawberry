@@ -36,6 +36,8 @@ namespace ASF {
 
 //! An implementation of ASF audio properties
 class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
+  friend class File;
+
  public:
   /*!
    * Audio codec types can be used in ASF file.
@@ -75,7 +77,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Destroys this ASF::AudioProperties instance.
    */
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to
@@ -83,29 +85,29 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    *
    * \see lengthInMilliseconds()
    */
-  virtual int lengthInSeconds() const;
+  int lengthInSeconds() const override;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  virtual int lengthInMilliseconds() const;
+  int lengthInMilliseconds() const override;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
    */
-  virtual int bitrate() const;
+  int bitrate() const override;
 
   /*!
    * Returns the sample rate in Hz.
    */
-  virtual int sampleRate() const;
+  int sampleRate() const override;
 
   /*!
    * Returns the number of audio channels.
    */
-  virtual int channels() const;
+  int channels() const override;
 
   /*!
    * Returns the number of bits per audio sample.
@@ -142,7 +144,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    */
   bool isEncrypted() const;
 
-#ifndef DO_NOT_DOCUMENT
+ private:
   void setLengthInMilliseconds(int value);
   void setBitrate(int value);
   void setSampleRate(int value);
@@ -152,7 +154,6 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setCodecName(const String &value);
   void setCodecDescription(const String &value);
   void setEncrypted(bool value);
-#endif
 
  private:
   class AudioPropertiesPrivate;

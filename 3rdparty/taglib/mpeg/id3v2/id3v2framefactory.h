@@ -114,7 +114,7 @@ class TAGLIB_EXPORT FrameFactory {
   virtual bool updateFrame(Frame::Header *header) const;
 
  private:
-  explicit FrameFactory(const FrameFactory&);
+  FrameFactory(const FrameFactory&);
   FrameFactory &operator=(const FrameFactory&);
 
   static FrameFactory factory;

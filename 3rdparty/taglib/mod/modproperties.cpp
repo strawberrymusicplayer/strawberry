@@ -31,14 +31,18 @@ using namespace Mod;
 
 class Mod::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : channels(0), instrumentCount(0), lengthInPatterns(0) {}
+  explicit AudioPropertiesPrivate() : channels(0), instrumentCount(0), lengthInPatterns(0) {}
 
   int channels;
   unsigned int instrumentCount;
   unsigned char lengthInPatterns;
 };
 
-Mod::AudioProperties::AudioProperties(AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::AudioProperties(propertiesStyle), d(new AudioPropertiesPrivate()) {
+////////////////////////////////////////////////////////////////////////////////
+// public members
+////////////////////////////////////////////////////////////////////////////////
+
+Mod::AudioProperties::AudioProperties(AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
 }
 
 Mod::AudioProperties::~AudioProperties() {
@@ -72,6 +76,10 @@ unsigned int Mod::AudioProperties::instrumentCount() const {
 unsigned char Mod::AudioProperties::lengthInPatterns() const {
   return d->lengthInPatterns;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
 
 void Mod::AudioProperties::setChannels(int channels) {
   d->channels = channels;

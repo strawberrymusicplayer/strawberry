@@ -23,23 +23,25 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <taglib.h>
-#include <tdebug.h>
-#include "trefcounter.h"
+#include <memory>
+
+#include "taglib.h"
+#include "tdebug.h"
 #include "mp4item.h"
+#include "tutils.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MP4::Item::ItemPrivate : public RefCounter {
- public:
-  ItemPrivate() : valid(true), atomDataType(TypeUndefined) {}
+namespace {
+struct ItemData {
 
   bool valid;
-  AtomDataType atomDataType;
+  MP4::AtomDataType atomDataType;
+  MP4::Item::ItemType type;
   union {
     bool m_bool;
     int m_int;
-    IntPair m_intPair;
+    MP4::Item::IntPair m_intPair;
     unsigned char m_byte;
     unsigned int m_uint;
     long long m_longlong;
@@ -48,14 +50,24 @@ class MP4::Item::ItemPrivate : public RefCounter {
   ByteVectorList m_byteVectorList;
   MP4::CoverArtList m_coverArtList;
 };
+}  // namespace
+
+class MP4::Item::ItemPrivate {
+ public:
+  explicit ItemPrivate() : data(new ItemData()) {
+    data->valid = true;
+    data->atomDataType = MP4::TypeUndefined;
+    data->type = MP4::Item::TypeUndefined;
+  }
+
+  std::shared_ptr<ItemData> data;
+};
 
 MP4::Item::Item() : d(new ItemPrivate()) {
-  d->valid = false;
+  d->data->valid = false;
 }
 
-MP4::Item::Item(const Item &item) : d(item.d) {
-  d->ref();
-}
+MP4::Item::Item(const Item &item) : d(new ItemPrivate(*item.d)) {}
 
 MP4::Item &MP4::Item::operator=(const Item &item) {
   Item(item).swap(*this);
@@ -69,91 +81,135 @@ void MP4::Item::swap(Item &item) {
 }
 
 MP4::Item::~Item() {
-  if (d->deref())
-    delete d;
+  delete d;
 }
 
 MP4::Item::Item(bool value) : d(new ItemPrivate()) {
-  d->m_bool = value;
+  d->data->m_bool = value;
+  d->data->type = TypeBool;
 }
 
 MP4::Item::Item(int value) : d(new ItemPrivate()) {
-  d->m_int = value;
+  d->data->m_int = value;
+  d->data->type = TypeInt;
 }
 
 MP4::Item::Item(unsigned char value) : d(new ItemPrivate()) {
-  d->m_byte = value;
+  d->data->m_byte = value;
+  d->data->type = TypeByte;
 }
 
 MP4::Item::Item(unsigned int value) : d(new ItemPrivate()) {
-  d->m_uint = value;
+  d->data->m_uint = value;
+  d->data->type = TypeUInt;
 }
 
 MP4::Item::Item(long long value) : d(new ItemPrivate()) {
-  d->m_longlong = value;
+  d->data->m_longlong = value;
+  d->data->type = TypeLongLong;
 }
 
-MP4::Item::Item(int first, int second) : d(new ItemPrivate()) {
-  d->m_intPair.first = first;
-  d->m_intPair.second = second;
+MP4::Item::Item(int value1, int value2) : d(new ItemPrivate()) {
+  d->data->m_intPair.first = value1;
+  d->data->m_intPair.second = value2;
+  d->data->type = TypeIntPair;
 }
 
 MP4::Item::Item(const ByteVectorList &value) : d(new ItemPrivate()) {
-  d->m_byteVectorList = value;
+  d->data->m_byteVectorList = value;
+  d->data->type = TypeByteVectorList;
 }
 
 MP4::Item::Item(const StringList &value) : d(new ItemPrivate()) {
-  d->m_stringList = value;
+  d->data->m_stringList = value;
+  d->data->type = TypeStringList;
 }
 
 MP4::Item::Item(const MP4::CoverArtList &value) : d(new ItemPrivate()) {
-  d->m_coverArtList = value;
+  d->data->m_coverArtList = value;
+  d->data->type = TypeCoverArtList;
 }
 
 void MP4::Item::setAtomDataType(MP4::AtomDataType type) {
-  d->atomDataType = type;
+  d->data->atomDataType = type;
 }
 
 MP4::AtomDataType MP4::Item::atomDataType() const {
-  return d->atomDataType;
+  return d->data->atomDataType;
 }
 
 bool MP4::Item::toBool() const {
-  return d->m_bool;
+  return d->data->m_bool;
 }
 
 int MP4::Item::toInt() const {
-  return d->m_int;
+  return d->data->m_int;
 }
 
 unsigned char MP4::Item::toByte() const {
-  return d->m_byte;
+  return d->data->m_byte;
 }
 
 unsigned int MP4::Item::toUInt() const {
-  return d->m_uint;
+  return d->data->m_uint;
 }
 
 long long MP4::Item::toLongLong() const {
-  return d->m_longlong;
+  return d->data->m_longlong;
 }
 
 MP4::Item::IntPair MP4::Item::toIntPair() const {
-  return d->m_intPair;
+  return d->data->m_intPair;
 }
 
 StringList MP4::Item::toStringList() const {
-  return d->m_stringList;
+  return d->data->m_stringList;
 }
 
 ByteVectorList MP4::Item::toByteVectorList() const {
-  return d->m_byteVectorList;
+  return d->data->m_byteVectorList;
 }
 
 MP4::CoverArtList MP4::Item::toCoverArtList() const {
-  return d->m_coverArtList;
+  return d->data->m_coverArtList;
 }
 
 bool MP4::Item::isValid() const {
-  return d->valid;
+  return d->data->valid;
+}
+
+String MP4::Item::toString() const {
+
+  StringList desc;
+  switch (d->data->type) {
+    case TypeBool:
+      return d->data->m_bool ? "true" : "false";
+    case TypeInt:
+      return Utils::formatString("%d", d->data->m_int);
+    case TypeIntPair:
+      return Utils::formatString("%d/%d", d->data->m_intPair.first, d->data->m_intPair.second);
+    case TypeByte:
+      return Utils::formatString("%d", d->data->m_byte);
+    case TypeUInt:
+      return Utils::formatString("%u", d->data->m_uint);
+    case TypeLongLong:
+      return Utils::formatString("%lld", d->data->m_longlong);
+    case TypeStringList:
+      return d->data->m_stringList.toString(" / ");
+    case TypeByteVectorList:
+      for (size_t i = 0; i < d->data->m_byteVectorList.size(); i++) {
+        desc.append(Utils::formatString(
+          "[%d bytes of data]", static_cast<int>(d->data->m_byteVectorList[i].size())));
+      }
+      return desc.toString(", ");
+    case TypeCoverArtList:
+      for (size_t i = 0; i < d->data->m_coverArtList.size(); i++) {
+        desc.append(Utils::formatString("[%d bytes of data]", static_cast<int>(d->data->m_coverArtList[i].data().size())));
+      }
+      return desc.toString(", ");
+    case TypeUndefined:
+      return "[unknown]";
+  }
+  return String();
+
 }

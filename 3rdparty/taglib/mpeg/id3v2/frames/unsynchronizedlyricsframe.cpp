@@ -27,17 +27,17 @@
  ***************************************************************************/
 
 #include "unsynchronizedlyricsframe.h"
-#include <tbytevectorlist.h>
-#include <id3v2tag.h>
-#include <tdebug.h>
-#include <tpropertymap.h>
+#include "tbytevectorlist.h"
+#include "id3v2tag.h"
+#include "tdebug.h"
+#include "tpropertymap.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class UnsynchronizedLyricsFrame::UnsynchronizedLyricsFramePrivate {
  public:
-  UnsynchronizedLyricsFramePrivate() : textEncoding(String::Latin1) {}
+  explicit UnsynchronizedLyricsFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   ByteVector language;
   String description;

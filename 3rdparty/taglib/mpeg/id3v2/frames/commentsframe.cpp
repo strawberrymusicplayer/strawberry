@@ -23,10 +23,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevectorlist.h>
-#include <id3v2tag.h>
-#include <tdebug.h>
-#include <tstringlist.h>
+#include "tbytevectorlist.h"
+#include "id3v2tag.h"
+#include "tdebug.h"
+#include "tstringlist.h"
 
 #include "commentsframe.h"
 #include "tpropertymap.h"
@@ -36,7 +36,7 @@ using namespace ID3v2;
 
 class CommentsFrame::CommentsFramePrivate {
  public:
-  CommentsFramePrivate() : textEncoding(String::Latin1) {}
+  explicit CommentsFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   ByteVector language;
   String description;

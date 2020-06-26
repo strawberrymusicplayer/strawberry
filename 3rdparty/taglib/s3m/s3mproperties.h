@@ -48,14 +48,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     CustomData = 128
   };
 
-  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~AudioProperties();
+  explicit AudioProperties(AudioProperties::ReadStyle);
+  ~AudioProperties() override;
 
-  int lengthInSeconds() const;
-  int lengthInMilliseconds() const;
-  int bitrate() const;
-  int sampleRate() const;
-  int channels() const;
+  int lengthInSeconds() const override;
+  int lengthInMilliseconds() const override;
+  int bitrate() const override;
+  int sampleRate() const override;
+  int channels() const override;
 
   unsigned short lengthInPatterns() const;
   bool stereo() const;
@@ -69,6 +69,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   unsigned char tempo() const;
   unsigned char bpmSpeed() const;
 
+ private:
   void setChannels(int channels);
 
   void setLengthInPatterns(unsigned short lengthInPatterns);
@@ -84,9 +85,6 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setBpmSpeed(unsigned char bpmSpeed);
 
  private:
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
-
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;
 };

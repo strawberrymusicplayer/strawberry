@@ -23,9 +23,9 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstringlist.h>
-#include <id3v2tag.h>
+#include "tdebug.h"
+#include "tstringlist.h"
+#include "id3v2tag.h"
 
 #include "ownershipframe.h"
 
@@ -98,14 +98,14 @@ void OwnershipFrame::setTextEncoding(String::Type encoding) {
 
 void OwnershipFrame::parseFields(const ByteVector &data) {
 
-  int pos = 0;
+  size_t pos = 0;
 
   // Get the text encoding
   d->textEncoding = String::Type(data[0]);
   pos += 1;
 
   // Read the price paid this is a null terminate string
-  d->pricePaid = readStringField(data, String::Latin1, &pos);
+  d->pricePaid = readStringField(data, String::Latin1, pos);
 
   // If we don't have at least 8 bytes left then don't parse the rest of the
   // data

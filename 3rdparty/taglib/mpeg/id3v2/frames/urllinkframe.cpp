@@ -28,9 +28,9 @@
 
 #include "urllinkframe.h"
 #include "id3v2tag.h"
-#include <tdebug.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
+#include "tdebug.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
@@ -42,7 +42,7 @@ class UrlLinkFrame::UrlLinkFramePrivate {
 
 class UserUrlLinkFrame::UserUrlLinkFramePrivate {
  public:
-  UserUrlLinkFramePrivate() : textEncoding(String::Latin1) {}
+  explicit UserUrlLinkFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   String description;
 };
@@ -179,22 +179,22 @@ void UserUrlLinkFrame::parseFields(const ByteVector &data) {
     return;
   }
 
-  int pos = 0;
+  size_t pos = 0;
 
   d->textEncoding = String::Type(data[0]);
   pos += 1;
 
   if (d->textEncoding == String::Latin1 || d->textEncoding == String::UTF8) {
-    int offset = data.find(textDelimiter(d->textEncoding), pos);
-    if (offset < pos)
+    const size_t offset = data.find(textDelimiter(d->textEncoding), pos);
+    if (offset == ByteVector::npos() || offset < pos)
       return;
 
     d->description = String(data.mid(pos, offset - pos), d->textEncoding);
     pos = offset + 1;
   }
   else {
-    int len = data.mid(pos).find(textDelimiter(d->textEncoding), 0, 2);
-    if (len < 0)
+    const size_t len = data.mid(pos).find(textDelimiter(d->textEncoding), 0, 2);
+    if (len == ByteVector::npos())
       return;
 
     d->description = String(data.mid(pos, len), d->textEncoding);

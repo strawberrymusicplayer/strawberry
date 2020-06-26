@@ -33,8 +33,10 @@
 namespace Strawberry_TagLib {
 namespace TagLib {
 namespace XM {
+
+class File;
+
 class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
-  friend class File;
 
  public:
   /*! Flag bits. */
@@ -42,14 +44,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     LinearFreqTable = 1  // otherwise its the amiga freq. table
   };
 
-  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~AudioProperties();
+  explicit AudioProperties(AudioProperties::ReadStyle);
+  ~AudioProperties() override;
 
-  int lengthInSeconds() const;
-  int lengthInMilliseconds() const;
-  int bitrate() const;
-  int sampleRate() const;
-  int channels() const;
+  int lengthInSeconds() const override;
+  int lengthInMilliseconds() const override;
+  int bitrate() const override;
+  int sampleRate() const override;
+  int channels() const override;
 
   unsigned short lengthInPatterns() const;
   unsigned short version() const;
@@ -61,6 +63,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   unsigned short tempo() const;
   unsigned short bpmSpeed() const;
 
+ private:
   void setChannels(int channels);
 
   void setLengthInPatterns(unsigned short lengthInPatterns);
@@ -74,9 +77,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setBpmSpeed(unsigned short bpmSpeed);
 
  private:
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
-
+  friend class File;
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;
 };

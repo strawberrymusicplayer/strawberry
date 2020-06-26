@@ -30,6 +30,7 @@
 #include "tmap.h"
 #include "tstring.h"
 #include "tstringlist.h"
+#include "tstringhandler.h"
 #include "tbytevector.h"
 #include "taglib_export.h"
 
@@ -42,39 +43,9 @@ class File;
 namespace RIFF {
 namespace Info {
 
-typedef Map<ByteVector, String> FieldListMap;
+typedef Map<ByteVector, String> FieldMap;
 
-//! A abstraction for the string to data encoding in Info tags.
-
-/*!
-  * RIFF INFO tag has no clear definitions about character encodings.
-  * In practice, local encoding of each system is largely used and UTF-8 is popular too.
-  *
-  * Here is an option to read and write tags in your preferred encoding by subclassing this class,
-  * reimplementing parse() and render() and setting your reimplementation as the default with Info::Tag::setStringHandler().
-  *
-  * \see ID3v1::Tag::setStringHandler()
-  */
-
-class TAGLIB_EXPORT StringHandler {
- public:
-  explicit StringHandler();
-  ~StringHandler();
-
-  /*!
-    * Decode a string from \a data.
-    * The default implementation assumes that \a data is an UTF-8 character array.
-    */
-  virtual String parse(const ByteVector &data) const;
-
-  /*!
-    * Encode a ByteVector with the data from \a s.
-    * The default implementation assumes that \a s is an UTF-8 string.
-    */
-  virtual ByteVector render(const String &s) const;
-};
-
-//! The main class in the ID3v2 implementation
+//! The main class in the RIFF INFO tag implementation
 
 /*!
   * This is the main class in the INFO tag implementation.
@@ -96,27 +67,29 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
     */
   explicit Tag(const ByteVector &data);
 
-  virtual ~Tag();
+  ~Tag() override;
 
   // Reimplementations
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
+  PictureMap pictures() const override;
 
-  virtual void setTitle(const String &s);
-  virtual void setArtist(const String &s);
-  virtual void setAlbum(const String &s);
-  virtual void setComment(const String &s);
-  virtual void setGenre(const String &s);
-  virtual void setYear(unsigned int i);
-  virtual void setTrack(unsigned int i);
+  void setTitle(const String &s) override;
+  void setArtist(const String &s) override;
+  void setAlbum(const String &s) override;
+  void setComment(const String &s) override;
+  void setGenre(const String &s) override;
+  void setYear(unsigned int i) override;
+  void setTrack(unsigned int i) override;
+  void setPictures(const PictureMap&) override;
 
-  virtual bool isEmpty() const;
+  bool isEmpty() const override;
 
   /*!
     * Returns a copy of the internal fields of the tag.
@@ -128,7 +101,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
     * \see setFieldText()
     * \see removeField()
     */
-  FieldListMap fieldListMap() const;
+  FieldMap fieldMap() const;
 
   /*
    * Gets the value of the field with the ID \a id.
@@ -164,9 +137,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
     *
     * \note The caller is responsible for deleting the previous handler as needed after it is released.
     *
-    * \see StringHandler
     */
-  static void setStringHandler(const StringHandler *handler);
+  static void setStringHandler(const Strawberry_TagLib::TagLib::StringHandler *handler);
 
  protected:
   /*!
@@ -175,7 +147,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void parse(const ByteVector &data);
 
  private:
-  explicit Tag(const Tag&);
+  Tag(const Tag&);
   Tag &operator=(const Tag&);
 
   class TagPrivate;

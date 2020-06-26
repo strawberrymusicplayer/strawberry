@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 #include "aifffile.h"
 #include "aiffproperties.h"
 
@@ -55,7 +55,7 @@ class RIFF::AIFF::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::AIFF::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+RIFF::AIFF::AudioProperties::AudioProperties(File *file, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
@@ -137,9 +137,9 @@ void RIFF::AIFF::AudioProperties::read(File *file) {
     return;
   }
 
-  d->channels = data.toShort(0U);
-  d->sampleFrames = data.toUInt(2U);
-  d->bitsPerSample = data.toShort(6U);
+  d->channels = data.toUInt16BE(0);
+  d->sampleFrames = data.toUInt32BE(2);
+  d->bitsPerSample = data.toUInt16BE(6);
 
   const long double sampleRate = data.toFloat80BE(8);
   if (sampleRate >= 1.0)

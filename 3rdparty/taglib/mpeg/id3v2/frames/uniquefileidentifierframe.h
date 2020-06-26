@@ -56,7 +56,7 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
   /*!
    * Destroys the frame.
    */
-  ~UniqueFileIdentifierFrame();
+  ~UniqueFileIdentifierFrame() override;
 
   /*!
    * Returns the owner for the frame; essentially this is the key for determining which identification scheme this key belongs to.
@@ -87,7 +87,7 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
    */
   void setIdentifier(const ByteVector &v);
 
-  virtual String toString() const;
+  String toString() const override;
 
   PropertyMap asProperties() const;
 
@@ -99,11 +99,11 @@ class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame {
   static UniqueFileIdentifierFrame *findByOwner(const Tag *tag, const String &o);
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
-  explicit UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame&);
+  UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame&);
   UniqueFileIdentifierFrame &operator=(const UniqueFileIdentifierFrame&);
 
   explicit UniqueFileIdentifierFrame(const ByteVector &data, Header *h);

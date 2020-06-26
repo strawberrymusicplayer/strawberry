@@ -41,6 +41,7 @@ namespace TagLib {
    */
 
 class PropertyMap;
+class PictureMap;
 
 class TAGLIB_EXPORT Tag {
  public:
@@ -105,6 +106,12 @@ class TAGLIB_EXPORT Tag {
   virtual unsigned int track() const = 0;
 
   /*!
+   * Returns a list of pictures available; if there is no picture, the list
+   * will be empty
+   */
+  virtual PictureMap pictures() const = 0;
+
+  /*!
    * Sets the title to \a s.  If \a s is String::null then this value will be cleared.
    */
   virtual void setTitle(const String &s) = 0;
@@ -142,6 +149,11 @@ class TAGLIB_EXPORT Tag {
   virtual void setTrack(unsigned int i) = 0;
 
   /*!
+     *  Sets the list of pictures
+     */
+  virtual void setPictures(const PictureMap &l) = 0;
+
+  /*!
    * Returns true if the tag does not contain any data.
    * This should be reimplemented in subclasses that provide more than the basic tagging abilities in this class.
    */
@@ -160,6 +172,11 @@ class TAGLIB_EXPORT Tag {
    */
   static void duplicate(const Tag *source, Tag *target, bool overwrite = true);
 
+  /*!
+     * Returns description of the tag.
+     */
+  virtual String toString() const;
+
  protected:
   /*!
    * Construct a Tag.  This is protected since tags should only be instantiated through subclasses.
@@ -167,7 +184,7 @@ class TAGLIB_EXPORT Tag {
   explicit Tag();
 
  private:
-  explicit Tag(const Tag&);
+  Tag(const Tag&);
   Tag &operator=(const Tag&);
 
   class TagPrivate;

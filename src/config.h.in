@@ -55,7 +55,6 @@
 #cmakedefine HAVE_KEYSYMDEF_H
 #cmakedefine HAVE_XF86KEYSYM_H
 
-#cmakedefine USE_SYSTEM_TAGLIB
 #cmakedefine USE_BUNDLE
 
 #define USE_BUNDLE_DIR "${USE_BUNDLE_DIR}"

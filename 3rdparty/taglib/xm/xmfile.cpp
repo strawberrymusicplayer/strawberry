@@ -64,6 +64,8 @@ using namespace XM;
  * Maybe if this is useful to other formats these classes can be moved to
  * their own public files.
  */
+
+namespace {
 class Reader {
  public:
   virtual ~Reader() {
@@ -114,9 +116,9 @@ class StringReader : public ValueReader<String> {
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
 
     ByteVector data = file.readBlock(std::min(m_size, limit));
-    unsigned int count = data.size();
-    int index = data.find(static_cast<char>(0));
-    if (index > -1) {
+    size_t count = data.size();
+    size_t index = data.find('\0');
+    if (index != ByteVector::npos()) {
       data.resize(index);
     }
     data.replace('\xff', ' ');
@@ -135,7 +137,7 @@ class StringReader : public ValueReader<String> {
 
 class ByteReader : public ValueReader<unsigned char> {
  public:
-  explicit ByteReader(unsigned char &_byte) : ValueReader<unsigned char>(_byte) {}
+  explicit ByteReader(unsigned char _byte) : ValueReader<unsigned char>(_byte) {}
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(1U, limit));
@@ -167,8 +169,13 @@ class U16Reader : public NumberReader<unsigned short> {
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(2U, limit));
-    value = data.toUShort(bigEndian);
-    return data.size();
+
+    if (bigEndian)
+      value = data.toUInt16BE(0);
+    else
+      value = data.toUInt16LE(0);
+
+    return static_cast<unsigned int>(data.size());
   }
 
   unsigned int size() const override {
@@ -176,15 +183,20 @@ class U16Reader : public NumberReader<unsigned short> {
   }
 };
 
-class U32Reader : public NumberReader<unsigned long> {
+class U32Reader : public NumberReader<unsigned int> {
  public:
-  U32Reader(unsigned long &_value, bool _bigEndian = true) : NumberReader<unsigned long>(_value, _bigEndian) {
+  explicit U32Reader(unsigned int _value, bool _bigEndian = true) : NumberReader<unsigned int>(_value, _bigEndian) {
   }
 
   unsigned int read(Strawberry_TagLib::TagLib::File &file, unsigned int limit) override {
     ByteVector data = file.readBlock(std::min(4U, limit));
-    value = data.toUInt(bigEndian);
-    return data.size();
+
+    if (bigEndian)
+      value = data.toUInt32BE(0);
+    else
+      value = data.toUInt32LE(0);
+
+    return static_cast<unsigned int>(data.size());
   }
 
   unsigned int size() const override {
@@ -257,7 +269,7 @@ class StructReader : public Reader {
    * Read a unsigned 32 Bit integer into \a number. The byte order
    * is controlled by \a bigEndian.
    */
-  StructReader &u32(unsigned long &number, bool bigEndian) {
+  StructReader &u32(unsigned int number, bool bigEndian) {
     m_readers.append(new U32Reader(number, bigEndian));
     return *this;
   }
@@ -265,14 +277,14 @@ class StructReader : public Reader {
   /*!
    * Read a unsigned 32 Bit little endian integer into \a number.
    */
-  StructReader &u32L(unsigned long &number) {
+  StructReader &u32L(unsigned int number) {
     return u32(number, false);
   }
 
   /*!
    * Read a unsigned 32 Bit big endian integer into \a number.
    */
-  StructReader &u32B(unsigned long &number) {
+  StructReader &u32B(unsigned int number) {
     return u32(number, true);
   }
 
@@ -301,6 +313,7 @@ class StructReader : public Reader {
  private:
   List<Reader *> m_readers;
 };
+}  // namespace
 
 class XM::File::FilePrivate {
  public:
@@ -332,14 +345,6 @@ Mod::Tag *XM::File::tag() const {
   return &d->tag;
 }
 
-PropertyMap XM::File::properties() const {
-  return d->tag.properties();
-}
-
-PropertyMap XM::File::setProperties(const PropertyMap &properties) {
-  return d->tag.setProperties(properties);
-}
-
 XM::AudioProperties *XM::File::audioProperties() const {
   return &d->properties;
 }
@@ -358,7 +363,7 @@ bool XM::File::save() {
   writeString(d->tag.trackerName(), 20);
 
   seek(60);
-  unsigned long headerSize = 0;
+  unsigned int headerSize = 0;
   if (!readU32L(headerSize))
     return false;
 
@@ -373,7 +378,7 @@ bool XM::File::save() {
   // need to read patterns again in order to seek to the instruments:
   for (unsigned short i = 0; i < patternCount; ++i) {
     seek(pos);
-    unsigned long patternHeaderLength = 0;
+    unsigned int patternHeaderLength = 0;
     if (!readU32L(patternHeaderLength) || patternHeaderLength < 4)
       return false;
 
@@ -389,12 +394,12 @@ bool XM::File::save() {
   unsigned int sampleNameIndex = instrumentCount;
   for (unsigned short i = 0; i < instrumentCount; ++i) {
     seek(pos);
-    unsigned long instrumentHeaderSize = 0;
+    unsigned int instrumentHeaderSize = 0;
     if (!readU32L(instrumentHeaderSize) || instrumentHeaderSize < 4)
       return false;
 
     seek(pos + 4);
-    const unsigned int len = std::min(22UL, instrumentHeaderSize - 4U);
+    const unsigned int len = std::min(22U, instrumentHeaderSize - 4U);
     if (i >= lines.size())
       writeString(String(), len);
     else
@@ -407,7 +412,7 @@ bool XM::File::save() {
         return false;
     }
 
-    unsigned long sampleHeaderSize = 0;
+    unsigned int sampleHeaderSize = 0;
     if (sampleCount > 0) {
       seek(pos + 29);
       if (instrumentHeaderSize < 33U || !readU32L(sampleHeaderSize))
@@ -419,13 +424,13 @@ bool XM::File::save() {
     for (unsigned short j = 0; j < sampleCount; ++j) {
       if (sampleHeaderSize > 4U) {
         seek(pos);
-        unsigned long sampleLength = 0;
+        unsigned int sampleLength = 0;
         if (!readU32L(sampleLength))
           return false;
 
         if (sampleHeaderSize > 18U) {
           seek(pos + 18);
-          const unsigned int len2 = std::min(sampleHeaderSize - 18U, 22UL);
+          const unsigned int len2 = std::min(sampleHeaderSize - 18U, 22U);
           if (sampleNameIndex >= lines.size())
             writeString(String(), len2);
           else
@@ -481,7 +486,7 @@ void XM::File::read(bool) {
     .u16L(bpmSpeed);
 
   unsigned int count = header.read(*this, headerSize - 4U);
-  unsigned int size = std::min(headerSize - 4U, static_cast<unsigned long>(header.size()));
+  unsigned int size = std::min(headerSize - 4U, header.size());
 
   READ_ASSERT(count == size);
 
@@ -508,7 +513,7 @@ void XM::File::read(bool) {
     pattern.byte(packingType).u16L(rowCount).u16L(dataSize);
 
     unsigned int count2 = pattern.read(*this, patternHeaderLength - 4U);
-    READ_ASSERT(count2 == std::min(patternHeaderLength - 4U, (unsigned long)pattern.size()));
+    READ_ASSERT(count2 == std::min(patternHeaderLength - 4U, pattern.size()));
 
     seek(patternHeaderLength - (4 + count2) + dataSize, Current);
   }
@@ -531,11 +536,11 @@ void XM::File::read(bool) {
 
     // 4 for instrumentHeaderSize
     unsigned int count2 = 4 + instrument.read(*this, instrumentHeaderSize - 4U);
-    READ_ASSERT(count2 == std::min(instrumentHeaderSize, (unsigned long)instrument.size() + 4));
+    READ_ASSERT(count2 == std::min(instrumentHeaderSize, instrument.size() + 4));
 
     long offset = 0;
     if (sampleCount > 0) {
-      unsigned long sampleHeaderSize = 0;
+      unsigned int sampleHeaderSize = 0;
       sumSampleCount += sampleCount;
       // wouldn't know which header size to assume otherwise:
       READ_ASSERT(instrumentHeaderSize >= count2 + 4 && readU32L(sampleHeaderSize));
@@ -543,9 +548,9 @@ void XM::File::read(bool) {
       seek(instrumentHeaderSize - count2 - 4, Current);
 
       for (unsigned short j = 0; j < sampleCount; ++j) {
-        unsigned long sampleLength = 0;
-        unsigned long loopStart = 0;
-        unsigned long loopLength = 0;
+        unsigned int sampleLength = 0;
+        unsigned int loopStart = 0;
+        unsigned int loopLength = 0;
         unsigned char volume = 0;
         unsigned char finetune = 0;
         unsigned char sampleType = 0;
@@ -566,7 +571,7 @@ void XM::File::read(bool) {
           .string(sampleName, 22);
 
         unsigned int count3 = sample.read(*this, sampleHeaderSize);
-        READ_ASSERT(count3 == std::min(sampleHeaderSize, (unsigned long)sample.size()));
+        READ_ASSERT(count3 == std::min(sampleHeaderSize, sample.size()));
         // skip unhandled header proportion:
         seek(sampleHeaderSize - count3, Current);
 

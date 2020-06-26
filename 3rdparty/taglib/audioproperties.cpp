@@ -50,4 +50,4 @@ String AudioProperties::toString() const {
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-AudioProperties::AudioProperties(ReadStyle) : d(nullptr) {}
+AudioProperties::AudioProperties() : d(nullptr) {}

@@ -30,9 +30,7 @@
 
 #ifndef DO_NOT_DOCUMENT  // tell Doxygen not to document this header
 
-#  ifdef HAVE_CONFIG_H
-#    include <config.h>
-#  endif
+#include "taglib-config.h"
 
 #  if defined(HAVE_MSC_BYTESWAP)
 #    include <cstdlib>
@@ -175,7 +173,7 @@ inline String formatString(const char *format, ...) {
   // The last resort. May cause a buffer overflow.
 
   length = vsprintf(buf, format, args);
-  if (length >= (int)BufferSize) {
+  if (length >= BufferSize) {
     debug("Utils::formatString() - Buffer overflow! Returning an empty string.");
     length = -1;
   }
@@ -189,16 +187,6 @@ inline String formatString(const char *format, ...) {
   else
     return String();
 }
-
-/*!
- * The types of byte order of the running system.
- */
-enum ByteOrder {
-  //! Little endian systems.
-  LittleEndian,
-  //! Big endian systems.
-  BigEndian
-};
 
 /*!
  * Returns the byte order of the system.

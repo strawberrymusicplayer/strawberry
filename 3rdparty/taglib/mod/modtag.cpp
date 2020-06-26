@@ -27,13 +27,14 @@
 #include "modtag.h"
 #include "tstringlist.h"
 #include "tpropertymap.h"
+#include "tpicturemap.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace Mod;
 
 class Mod::Tag::TagPrivate {
  public:
-  TagPrivate() {}
+  explicit TagPrivate() {}
 
   String title;
   String comment;
@@ -74,6 +75,10 @@ unsigned int Mod::Tag::track() const {
   return 0;
 }
 
+Strawberry_TagLib::TagLib::PictureMap Mod::Tag::pictures() const {
+  return PictureMap();
+}
+
 String Mod::Tag::trackerName() const {
   return d->trackerName;
 }
@@ -100,6 +105,8 @@ void Mod::Tag::setYear(unsigned int) {
 
 void Mod::Tag::setTrack(unsigned int) {
 }
+
+void Mod::Tag::setPictures(const PictureMap&) {}
 
 void Mod::Tag::setTrackerName(const String &trackerName) {
   d->trackerName = trackerName;

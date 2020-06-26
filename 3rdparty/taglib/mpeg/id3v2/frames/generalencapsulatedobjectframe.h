@@ -70,12 +70,12 @@ class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame {
   /*!
    * Destroys the GeneralEncapsulatedObjectFrame instance.
    */
-  virtual ~GeneralEncapsulatedObjectFrame();
+  ~GeneralEncapsulatedObjectFrame() override;
 
   /*!
    * Returns a string containing the description, file name and mime-type
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the text encoding used for the description and file name.
@@ -160,12 +160,12 @@ class TAGLIB_EXPORT GeneralEncapsulatedObjectFrame : public Frame {
   void setObject(const ByteVector &data);
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   explicit GeneralEncapsulatedObjectFrame(const ByteVector &data, Header *h);
-  explicit GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame&);
+  GeneralEncapsulatedObjectFrame(const GeneralEncapsulatedObjectFrame&);
   GeneralEncapsulatedObjectFrame &operator=(const GeneralEncapsulatedObjectFrame&);
 
   class GeneralEncapsulatedObjectFramePrivate;

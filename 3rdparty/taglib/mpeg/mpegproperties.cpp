@@ -23,8 +23,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstring.h>
+#include <memory>
+
+#include "tdebug.h"
+#include "tstring.h"
 
 #include "audioproperties.h"
 #include "mpegproperties.h"
@@ -37,23 +39,18 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MPEG::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : xingHeader(nullptr),
-                        length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        layer(0),
-                        version(Header::Version1),
-                        channelMode(Header::Stereo),
-                        protectionEnabled(false),
-                        isCopyrighted(false),
-                        isOriginal(false) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      layer(0),
+                                      version(Header::Version1),
+                                      channelMode(Header::Stereo),
+                                      protectionEnabled(false),
+                                      isCopyrighted(false),
+                                      isOriginal(false) {}
 
-  ~AudioPropertiesPrivate() {
-    delete xingHeader;
-  }
-
-  XingHeader *xingHeader;
+  std::unique_ptr<XingHeader> xingHeader;
   int length;
   int bitrate;
   int sampleRate;
@@ -70,7 +67,7 @@ class MPEG::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+MPEG::AudioProperties::AudioProperties(File *file, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
@@ -99,7 +96,7 @@ int MPEG::AudioProperties::channels() const {
 }
 
 const MPEG::XingHeader *MPEG::AudioProperties::xingHeader() const {
-  return d->xingHeader;
+  return d->xingHeader.get();
 }
 
 MPEG::Header::Version MPEG::AudioProperties::version() const {
@@ -134,7 +131,7 @@ void MPEG::AudioProperties::read(File *file) {
 
   // Only the first valid frame is required if we have a VBR header.
 
-  const long firstFrameOffset = file->firstFrameOffset();
+  const long long firstFrameOffset = file->firstFrameOffset();
   if (firstFrameOffset < 0) {
     debug("MPEG::AudioProperties::read() -- Could not find an MPEG frame in the stream.");
     return;
@@ -146,11 +143,9 @@ void MPEG::AudioProperties::read(File *file) {
   // VBR stream.
 
   file->seek(firstFrameOffset);
-  d->xingHeader = new XingHeader(file->readBlock(firstHeader.frameLength()));
-  if (!d->xingHeader->isValid()) {
-    delete d->xingHeader;
-    d->xingHeader = nullptr;
-  }
+  d->xingHeader.reset(new XingHeader(file->readBlock(firstHeader.frameLength())));
+  if (!d->xingHeader->isValid())
+    d->xingHeader.reset();
 
   if (d->xingHeader && firstHeader.samplesPerFrame() > 0 && firstHeader.sampleRate() > 0) {
 
@@ -174,14 +169,14 @@ void MPEG::AudioProperties::read(File *file) {
 
     // Look for the last MPEG audio frame to calculate the stream length.
 
-    const long lastFrameOffset = file->lastFrameOffset();
+    const long long lastFrameOffset = file->lastFrameOffset();
     if (lastFrameOffset < 0) {
       debug("MPEG::AudioProperties::read() -- Could not find an MPEG frame in the stream.");
       return;
     }
 
     const Header lastHeader(file, lastFrameOffset, false);
-    const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
+    const long long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
     if (streamLength > 0)
       d->length = static_cast<int>(streamLength * 8.0 / d->bitrate + 0.5);
   }

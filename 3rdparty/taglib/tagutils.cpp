@@ -33,13 +33,13 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-long Utils::findID3v1(File *file) {
+long long Utils::findID3v1(File *file) {
 
   if (!file->isValid())
     return -1;
 
   file->seek(-128, File::End);
-  const long p = file->tell();
+  const long long p = file->tell();
 
   if (file->readBlock(3) == ID3v1::Tag::fileIdentifier())
     return p;
@@ -48,7 +48,7 @@ long Utils::findID3v1(File *file) {
 
 }
 
-long Utils::findID3v2(File *file) {
+long long Utils::findID3v2(File *file) {
 
   if (!file->isValid())
     return -1;
@@ -62,7 +62,7 @@ long Utils::findID3v2(File *file) {
 
 }
 
-long Utils::findAPE(File *file, long id3v1Location) {
+long long Utils::findAPE(File *file, long long id3v1Location) {
 
   if (!file->isValid())
     return -1;
@@ -72,7 +72,7 @@ long Utils::findAPE(File *file, long id3v1Location) {
   else
     file->seek(-32, File::End);
 
-  const long p = file->tell();
+  const long long p = file->tell();
 
   if (file->readBlock(8) == APE::Tag::fileIdentifier())
     return p;
@@ -81,13 +81,13 @@ long Utils::findAPE(File *file, long id3v1Location) {
 
 }
 
-ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, unsigned int length, bool skipID3v2, long *headerOffset) {
+ByteVector Strawberry_TagLib::TagLib::Utils::readHeader(IOStream *stream, size_t length, bool skipID3v2, long long *headerOffset) {
 
   if (!stream || !stream->isOpen())
     return ByteVector();
 
-  const long originalPosition = stream->tell();
-  long bufferOffset = 0;
+  const long long originalPosition = stream->tell();
+  long long bufferOffset = 0;
 
   if (skipID3v2) {
     stream->seek(0);

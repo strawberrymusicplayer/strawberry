@@ -23,21 +23,21 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstring.h>
+#include "tdebug.h"
+#include "tstring.h"
 #include "asfproperties.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
 class ASF::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        bitsPerSample(0),
-                        codec(ASF::AudioProperties::Unknown),
-                        encrypted(false) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                       bitrate(0),
+                                       sampleRate(0),
+                                       channels(0),
+                                       bitsPerSample(0),
+                                       codec(ASF::AudioProperties::Unknown),
+                                       encrypted(false) {}
 
   int length;
   int bitrate;
@@ -54,8 +54,7 @@ class ASF::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ASF::AudioProperties::AudioProperties() : Strawberry_TagLib::TagLib::AudioProperties(AudioProperties::Average),
-                                d(new AudioPropertiesPrivate()) {
+ASF::AudioProperties::AudioProperties() : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
 }
 
 ASF::AudioProperties::~AudioProperties() {

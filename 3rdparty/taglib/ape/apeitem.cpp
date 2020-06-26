@@ -23,17 +23,18 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevectorlist.h>
-#include <tdebug.h>
+#include <memory>
+
+#include "tbytevectorlist.h"
+#include "tdebug.h"
 
 #include "apeitem.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace APE;
 
-class APE::Item::ItemPrivate {
- public:
-  ItemPrivate() : type(Text), readOnly(false) {}
+struct ItemData {
+  ItemData() : type(Item::Text), readOnly(false) {}
 
   Item::ItemTypes type;
   String key;
@@ -42,26 +43,37 @@ class APE::Item::ItemPrivate {
   bool readOnly;
 };
 
+class APE::Item::ItemPrivate {
+ public:
+  ItemPrivate() : data(new ItemData()) {}
+
+  std::shared_ptr<ItemData> data;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
 APE::Item::Item() : d(new ItemPrivate()) {}
 
+APE::Item::Item(const String &key, const String &value) : d(new ItemPrivate()) {
+  d->data->key = key;
+  d->data->text.append(value);
+}
+
 APE::Item::Item(const String &key, const StringList &values) : d(new ItemPrivate()) {
-  d->key = key;
-  d->text = values;
+  d->data->key = key;
+  d->data->text = values;
 }
 
 APE::Item::Item(const String &key, const ByteVector &value, bool binary) : d(new ItemPrivate()) {
-
-  d->key = key;
+  d->data->key = key;
   if (binary) {
-    d->type = Binary;
-    d->value = value;
+    d->data->type = Binary;
+    d->data->value = value;
   }
   else {
-    d->text.append(value);
+    d->data->text.append(value);
   }
 
 }
@@ -88,126 +100,109 @@ void APE::Item::swap(Item &item) {
 }
 
 void APE::Item::setReadOnly(bool readOnly) {
-  d->readOnly = readOnly;
+  d->data->readOnly = readOnly;
 }
 
 bool APE::Item::isReadOnly() const {
-  return d->readOnly;
+  return d->data->readOnly;
 }
 
-void APE::Item::setType(APE::Item::ItemTypes type) {
-  d->type = type;
+void APE::Item::setType(APE::Item::ItemTypes val) {
+  d->data->type = val;
 }
 
 APE::Item::ItemTypes APE::Item::type() const {
-  return d->type;
+  return d->data->type;
 }
 
 String APE::Item::key() const {
-  return d->key;
+  return d->data->key;
 }
 
 ByteVector APE::Item::binaryData() const {
-  return d->value;
+  return d->data->value;
 }
 
 void APE::Item::setBinaryData(const ByteVector &value) {
-
-  d->type = Binary;
-  d->value = value;
-  d->text.clear();
-
+  d->data->type = Binary;
+  d->data->value = value;
+  d->data->text.clear();
 }
 
 void APE::Item::setKey(const String &key) {
-  d->key = key;
+  d->data->key = key;
 }
 
 void APE::Item::setValue(const String &value) {
-
-  d->type = Text;
-  d->text = value;
-  d->value.clear();
-
+  d->data->type = Text;
+  d->data->text = value;
+  d->data->value.clear();
 }
 
 void APE::Item::setValues(const StringList &value) {
-
-  d->type = Text;
-  d->text = value;
-  d->value.clear();
-
+  d->data->type = Text;
+  d->data->text = value;
+  d->data->value.clear();
 }
 
 void APE::Item::appendValue(const String &value) {
-
-  d->type = Text;
-  d->text.append(value);
-  d->value.clear();
-
+  d->data->type = Text;
+  d->data->text.append(value);
+  d->data->value.clear();
 }
 
 void APE::Item::appendValues(const StringList &values) {
-
-  d->type = Text;
-  d->text.append(values);
-  d->value.clear();
-
+  d->data->type = Text;
+  d->data->text.append(values);
+  d->data->value.clear();
 }
 
 int APE::Item::size() const {
-
-  int result = 8 + d->key.size() + 1;
-  switch (d->type) {
+  size_t result = 8 + d->data->key.size() + 1;
+  switch (d->data->type) {
     case Text:
-      if (!d->text.isEmpty()) {
-        StringList::ConstIterator it = d->text.begin();
+      if (!d->data->text.isEmpty()) {
+        StringList::ConstIterator it = d->data->text.begin();
 
         result += it->data(String::UTF8).size();
         it++;
-        for (; it != d->text.end(); ++it)
+        for (; it != d->data->text.end(); ++it)
           result += 1 + it->data(String::UTF8).size();
       }
       break;
 
     case Binary:
     case Locator:
-      result += d->value.size();
+      result += d->data->value.size();
       break;
   }
   return result;
 
 }
 
-StringList APE::Item::toStringList() const {
-  return d->text;
-}
-
 StringList APE::Item::values() const {
-  return d->text;
+  return d->data->text;
 }
 
 String APE::Item::toString() const {
-
-  if (d->type == Text && !isEmpty())
-    return d->text.front();
+  if (d->data->type == Text && !isEmpty())
+    return d->data->text.front();
   else
     return String();
 
 }
 
 bool APE::Item::isEmpty() const {
-
-  switch (d->type) {
+  switch (d->data->type) {
     case Text:
-      if (d->text.isEmpty())
+      if (d->data->text.isEmpty())
         return true;
-      if (d->text.size() == 1 && d->text.front().isEmpty())
+      if (d->data->text.size() == 1 && d->data->text.front().isEmpty())
         return true;
       return false;
     case Binary:
     case Locator:
-      return d->value.isEmpty();
+      return d->data->value.isEmpty();
     default:
       return false;
   }
@@ -223,52 +218,51 @@ void APE::Item::parse(const ByteVector &data) {
     return;
   }
 
-  const unsigned int valueLength = data.toUInt(0, false);
-  const unsigned int flags = data.toUInt(4, false);
+  const unsigned int valueLength = data.toUInt32LE(0);
+  const unsigned int flags = data.toUInt32LE(4);
 
   // An item key can contain ASCII characters from 0x20 up to 0x7E, not UTF-8.
   // We assume that the validity of the given key has been checked.
 
-  d->key = String(&data[8], String::Latin1);
+  d->data->key = String(&data[8], String::Latin1);
 
-  const ByteVector value = data.mid(8 + d->key.size() + 1, valueLength);
+  const ByteVector value = data.mid(8 + d->data->key.size() + 1, valueLength);
 
   setReadOnly(flags & 1);
   setType(ItemTypes((flags >> 1) & 3));
 
-  if (Text == d->type)
-    d->text = StringList(ByteVectorList::split(value, '\0'), String::UTF8);
+  if (Text == d->data->type)
+    d->data->text = StringList(ByteVectorList::split(value, '\0'), String::UTF8);
   else
-    d->value = value;
-
+    d->data->value = value;
 }
 
 ByteVector APE::Item::render() const {
 
   ByteVector data;
-  unsigned int flags = ((d->readOnly) ? 1 : 0) | (d->type << 1);
+  unsigned int flags = ((d->data->readOnly) ? 1 : 0) | (d->data->type << 1);
   ByteVector value;
 
   if (isEmpty())
     return data;
 
-  if (d->type == Text) {
-    StringList::ConstIterator it = d->text.begin();
+  if (d->data->type == Text) {
+    StringList::ConstIterator it = d->data->text.begin();
 
     value.append(it->data(String::UTF8));
     it++;
-    for (; it != d->text.end(); ++it) {
+    for (; it != d->data->text.end(); ++it) {
       value.append('\0');
       value.append(it->data(String::UTF8));
     }
-    d->value = value;
+    d->data->value = value;
   }
   else
-    value.append(d->value);
+    value.append(d->data->value);
 
-  data.append(ByteVector::fromUInt(value.size(), false));
-  data.append(ByteVector::fromUInt(flags, false));
-  data.append(d->key.data(String::Latin1));
+  data.append(ByteVector::fromUInt32LE(value.size()));
+  data.append(ByteVector::fromUInt32LE(flags));
+  data.append(d->data->key.data(String::Latin1));
   data.append(ByteVector('\0'));
   data.append(value);
 

@@ -61,7 +61,7 @@ class TAGLIB_EXPORT TableOfContentsFrame : public ID3v2::Frame {
   /*!
    * Destroys the frame.
    */
-  ~TableOfContentsFrame();
+  ~TableOfContentsFrame() override;
 
   /*!
    * Returns the elementID of the frame.
@@ -200,7 +200,7 @@ class TAGLIB_EXPORT TableOfContentsFrame : public ID3v2::Frame {
    */
   void removeEmbeddedFrames(const ByteVector &id);
 
-  virtual String toString() const;
+  String toString() const override;
 
   PropertyMap asProperties() const;
 
@@ -223,12 +223,12 @@ class TAGLIB_EXPORT TableOfContentsFrame : public ID3v2::Frame {
   static TableOfContentsFrame *findTopLevel(const Tag *tag);
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   explicit TableOfContentsFrame(const ID3v2::Header *tagHeader, const ByteVector &data, Header *h);
-  explicit TableOfContentsFrame(const TableOfContentsFrame&);
+  TableOfContentsFrame(const TableOfContentsFrame&);
   TableOfContentsFrame &operator=(const TableOfContentsFrame&);
 
   class TableOfContentsFramePrivate;

@@ -52,7 +52,7 @@ class TAGLIB_EXPORT UrlLinkFrame : public Frame {
   /*!
    * Destroys this UrlLinkFrame instance.
    */
-  virtual ~UrlLinkFrame();
+  ~UrlLinkFrame() override;
 
   /*!
    * Returns the URL.
@@ -66,13 +66,13 @@ class TAGLIB_EXPORT UrlLinkFrame : public Frame {
 
   // Reimplementations.
 
-  virtual void setText(const String &s);
-  virtual String toString() const;
+  void setText(const String &s) override;
+  String toString() const override;
   PropertyMap asProperties() const;
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
   /*!
    * The constructor used by the FrameFactory.
@@ -114,11 +114,11 @@ class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
   /*!
    * Destroys this UserUrlLinkFrame instance.
    */
-  virtual ~UserUrlLinkFrame();
+  ~UserUrlLinkFrame() override;
 
   // Reimplementations.
 
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the text encoding that will be used in rendering this frame.
@@ -164,8 +164,8 @@ class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
   static UserUrlLinkFrame *find(Tag *tag, const String &description);
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
   /*!
    * The constructor used by the FrameFactory.
@@ -173,7 +173,7 @@ class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame {
   UserUrlLinkFrame(const ByteVector &data, Header *h);
 
  private:
-  explicit UserUrlLinkFrame(const UserUrlLinkFrame&);
+  UserUrlLinkFrame(const UserUrlLinkFrame&);
   UserUrlLinkFrame &operator=(const UserUrlLinkFrame&);
 
   class UserUrlLinkFramePrivate;

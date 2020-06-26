@@ -23,10 +23,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstring.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include "tdebug.h"
+#include "tstring.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "mp4atom.h"
 #include "mp4tag.h"
@@ -53,7 +53,7 @@ bool checkValid(const MP4::AtomList &list) {
 
 class MP4::File::FilePrivate {
  public:
-  FilePrivate() : tag(nullptr), atoms(nullptr), properties(nullptr) {}
+  explicit FilePrivate() : tag(nullptr), atoms(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete atoms;
@@ -104,18 +104,6 @@ MP4::File::~File() {
 MP4::Tag *
 MP4::File::tag() const {
   return d->tag;
-}
-
-PropertyMap MP4::File::properties() const {
-  return d->tag->properties();
-}
-
-void MP4::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag->removeUnsupportedProperties(properties);
-}
-
-PropertyMap MP4::File::setProperties(const PropertyMap &properties) {
-  return d->tag->setProperties(properties);
 }
 
 MP4::AudioProperties *

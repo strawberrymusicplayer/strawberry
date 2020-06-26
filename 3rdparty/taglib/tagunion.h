@@ -26,6 +26,8 @@
 #ifndef TAGLIB_TAGUNION_H
 #define TAGLIB_TAGUNION_H
 
+// This file is not a part of TagLib public interface. This is not installed.
+
 #include "tag.h"
 
 #ifndef DO_NOT_DOCUMENT
@@ -34,9 +36,10 @@ namespace Strawberry_TagLib {
 namespace TagLib {
 
 /*!
-   * \internal
-   */
+ * \internal
+ */
 
+template<size_t COUNT>
 class TagUnion : public Tag {
  public:
   enum AccessType {
@@ -45,39 +48,42 @@ class TagUnion : public Tag {
   };
 
   /*!
-   * Creates a TagLib::Tag that is the union of \a first, \a second, and \a third.
-   * The TagUnion takes ownership of these tags and will handle their deletion.
+   * Creates a TagLib::Tag that is the union of \a count tags.
    */
-  explicit TagUnion(Tag *first = nullptr, Tag *second = nullptr, Tag *third = nullptr);
+  TagUnion();
 
-  virtual ~TagUnion();
+  ~TagUnion() override;
 
-  Tag *operator[](int index) const;
-  Tag *tag(int index) const;
+  Tag *operator[](size_t index) const;
+  Tag *tag(size_t index) const;
 
-  void set(int index, Tag *tag);
+  void set(size_t index, Tag *tag);
 
-  PropertyMap properties() const;
-  void removeUnsupportedProperties(const StringList &unsupported);
+  PropertyMap properties() const override;
+  void removeUnsupportedProperties(const StringList &unsupported) override;
+  PropertyMap setProperties(const PropertyMap &properties) override;
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
+  PictureMap pictures() const override;
 
-  virtual void setTitle(const String &s);
-  virtual void setArtist(const String &s);
-  virtual void setAlbum(const String &s);
-  virtual void setComment(const String &s);
-  virtual void setGenre(const String &s);
-  virtual void setYear(unsigned int i);
-  virtual void setTrack(unsigned int i);
-  virtual bool isEmpty() const;
+  void setTitle(const String &s) override;
+  void setArtist(const String &s) override;
+  void setAlbum(const String &s) override;
+  void setComment(const String &s) override;
+  void setGenre(const String &s) override;
+  void setYear(unsigned int i) override;
+  void setTrack(unsigned int i) override;
+  void setPictures(const PictureMap &l) override;
 
-  template<class T> T *access(int index, bool create) {
+  bool isEmpty() const override;
+
+  template<class T> T *access(size_t index, bool create) {
 
     if (!create || tag(index))
       return static_cast<T *>(tag(index));
@@ -88,12 +94,14 @@ class TagUnion : public Tag {
   }
 
  private:
-  explicit TagUnion(const Tag&);
-  TagUnion &operator=(const Tag&);
-
   class TagUnionPrivate;
   TagUnionPrivate *d;
 };
+
+// If you add a new typedef here, add a corresponding explicit instantiation at the end of tagunion.cpp as well.
+
+typedef TagUnion<2> DoubleTagUnion;
+typedef TagUnion<3> TripleTagUnion;
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

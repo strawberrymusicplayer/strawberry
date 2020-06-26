@@ -103,7 +103,7 @@ class TAGLIB_EXPORT XingHeader {
   HeaderType type() const;
 
  private:
-  explicit XingHeader(const XingHeader&);
+  XingHeader(const XingHeader&);
   XingHeader &operator=(const XingHeader&);
 
   void parse(const ByteVector &data);

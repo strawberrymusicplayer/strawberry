@@ -27,9 +27,6 @@
 
 using namespace Strawberry_TagLib::TagLib;
 
-class StringListPrivate {
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 // static members
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,8 +35,8 @@ StringList StringList::split(const String &s, const String &pattern) {
 
   StringList l;
 
-  int previousOffset = 0;
-  for (int offset = s.find(pattern); offset != -1; offset = s.find(pattern, offset + 1)) {
+  size_t previousOffset = 0;
+  for (size_t offset = s.find(pattern); offset != String::npos(); offset = s.find(pattern, offset + 1)) {
     l.append(s.substr(previousOffset, offset - previousOffset));
     previousOffset = offset + 1;
   }
@@ -54,9 +51,11 @@ StringList StringList::split(const String &s, const String &pattern) {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-StringList::StringList() : d(nullptr) {}
+StringList::StringList() {}
 
-StringList::StringList(const String &s) : d(nullptr) {
+StringList::StringList(const StringList &l) : List<String>(l) {}
+
+StringList::StringList(const String &s) {
   append(s);
 }
 
@@ -68,8 +67,6 @@ StringList::StringList(const ByteVectorList &bl, String::Type t) {
   }
 
 }
-
-StringList::~StringList() {}
 
 String StringList::toString(const String &separator) const {
 
@@ -103,11 +100,16 @@ StringList &StringList::append(const StringList &l) {
 
 }
 
+StringList &StringList::operator=(const StringList &l) {
+  List<String>::operator=(l);
+  return *this;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // related functions
 ////////////////////////////////////////////////////////////////////////////////
 
-std::ostream &operator<<(std::ostream &s, const StringList &l) {
+std::ostream &Strawberry_TagLib::TagLib::operator<<(std::ostream &s, const StringList &l) {
   s << l.toString();
   return s;
 }

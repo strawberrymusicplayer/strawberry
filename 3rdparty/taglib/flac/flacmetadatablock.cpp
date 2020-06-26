@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <taglib.h>
-#include <tdebug.h>
+#include "taglib.h"
+#include "tdebug.h"
 #include "flacmetadatablock.h"
 
 using namespace Strawberry_TagLib::TagLib;

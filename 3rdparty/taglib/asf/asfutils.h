@@ -35,39 +35,40 @@ namespace TagLib {
 namespace ASF {
 namespace {
 
-inline unsigned short readWORD(File *file, bool *ok = 0) {
+inline unsigned short readWORD(File *file, bool *ok = nullptr) {
   const ByteVector v = file->readBlock(2);
   if (v.size() != 2) {
     if (ok) *ok = false;
     return 0;
   }
   if (ok) *ok = true;
-  return v.toUShort(false);
+  return v.toUInt16LE(0);
 }
 
-inline unsigned int readDWORD(File *file, bool *ok = 0) {
+inline unsigned int readDWORD(File *file, bool *ok = nullptr) {
   const ByteVector v = file->readBlock(4);
   if (v.size() != 4) {
     if (ok) *ok = false;
     return 0;
   }
   if (ok) *ok = true;
-  return v.toUInt(false);
+  return v.toUInt32LE(0);
 }
 
-inline long long readQWORD(File *file, bool *ok = 0) {
+inline long long readQWORD(File *file, bool *ok = nullptr) {
   const ByteVector v = file->readBlock(8);
   if (v.size() != 8) {
     if (ok) *ok = false;
     return 0;
   }
   if (ok) *ok = true;
-  return v.toLongLong(false);
+  return v.toInt64LE(0);
 }
 
 inline String readString(File *file, int length) {
+
   ByteVector data = file->readBlock(length);
-  unsigned int size = data.size();
+  size_t size = data.size();
   while (size >= 2) {
     if (data[size - 1] != '\0' || data[size - 2] != '\0') {
       break;
@@ -78,12 +79,13 @@ inline String readString(File *file, int length) {
     data.resize(size);
   }
   return String(data, String::UTF16LE);
+
 }
 
 inline ByteVector renderString(const String &str, bool includeLength = false) {
-  ByteVector data = str.data(String::UTF16LE) + ByteVector::fromShort(0, false);
+  ByteVector data = str.data(String::UTF16LE) + ByteVector::fromUInt16LE(0);
   if (includeLength) {
-    data = ByteVector::fromShort(data.size(), false) + data;
+    data = ByteVector::fromUInt16LE(data.size()) + data;
   }
   return data;
 }

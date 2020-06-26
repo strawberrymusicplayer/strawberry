@@ -40,31 +40,34 @@ namespace TagLib {
 namespace MP4 {
 
 typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemMap;
+typedef Strawberry_TagLib::TagLib::Map<String, Item> ItemListMap;
 
 class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
  public:
   explicit Tag();
   explicit Tag(Strawberry_TagLib::TagLib::File *file, Atoms *atoms);
-  virtual ~Tag();
+  ~Tag() override;
   bool save();
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
+  PictureMap pictures() const override;
 
-  virtual void setTitle(const String &value);
-  virtual void setArtist(const String &value);
-  virtual void setAlbum(const String &value);
-  virtual void setComment(const String &value);
-  virtual void setGenre(const String &value);
-  virtual void setYear(unsigned int value);
-  virtual void setTrack(unsigned int value);
+  void setTitle(const String &value) override;
+  void setArtist(const String &value) override;
+  void setAlbum(const String &value) override;
+  void setComment(const String &value) override;
+  void setGenre(const String &value) override;
+  void setYear(unsigned int value) override;
+  void setTrack(unsigned int value) override;
+  void setPictures(const PictureMap &l) override;
 
-  virtual bool isEmpty() const;
+  bool isEmpty() const override;
   /*!
    * Returns a string-keyed map of the MP4::Items for this tag.
    */
@@ -90,9 +93,11 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    */
   bool contains(const String &key) const;
 
-  PropertyMap properties() const;
-  void removeUnsupportedProperties(const StringList &props);
-  PropertyMap setProperties(const PropertyMap &props);
+  String toString() const override;
+
+  PropertyMap properties() const override;
+  void removeUnsupportedProperties(const StringList &props) override;
+  PropertyMap setProperties(const PropertyMap &props) override;
 
  private:
   AtomDataList parseData2(const Atom *atom, int expectedFlags = -1, bool freeForm = false);
@@ -123,7 +128,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   ByteVector renderCovr(const ByteVector &name, const Item &item) const;
 
   void updateParents(const AtomList &path, long delta, int ignore = 0);
-  void updateOffsets(long delta, long offset);
+  void updateOffsets(long delta, long long offset);
 
   void saveNew(ByteVector data);
   void saveExisting(ByteVector data, const AtomList &path);

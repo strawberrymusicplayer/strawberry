@@ -49,10 +49,10 @@ class TAGLIB_EXPORT UnknownFrame : public Frame {
   friend class FrameFactory;
 
  public:
-  UnknownFrame(const ByteVector &data);
-  virtual ~UnknownFrame();
+  explicit UnknownFrame(const ByteVector &data);
+  ~UnknownFrame() override;
 
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the field data (everything but the header) for this frame.
@@ -60,12 +60,12 @@ class TAGLIB_EXPORT UnknownFrame : public Frame {
   ByteVector data() const;
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   explicit UnknownFrame(const ByteVector &data, Header *h);
-  explicit UnknownFrame(const UnknownFrame&);
+  UnknownFrame(const UnknownFrame&);
   UnknownFrame &operator=(const UnknownFrame&);
 
   class UnknownFramePrivate;

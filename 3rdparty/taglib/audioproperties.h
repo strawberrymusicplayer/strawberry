@@ -27,6 +27,7 @@
 #define TAGLIB_AUDIOPROPERTIES_H
 
 #include "taglib_export.h"
+#include "tstring.h"
 
 namespace Strawberry_TagLib {
 namespace TagLib {
@@ -102,13 +103,11 @@ class TAGLIB_EXPORT AudioProperties {
    * Construct an audio properties instance.
    * This is protected as this class should not be instantiated directly,
    * but should be instantiated via its subclasses and can be fetched from the FileRef or File APIs.
-   *
-   * \see ReadStyle
    */
-  explicit AudioProperties(ReadStyle style);
+  explicit AudioProperties();
 
  private:
-  explicit AudioProperties(const AudioProperties&);
+  AudioProperties(const AudioProperties&);
   AudioProperties &operator=(const AudioProperties&);
 
   class AudioPropertiesPrivate;

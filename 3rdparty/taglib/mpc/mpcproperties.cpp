@@ -23,29 +23,35 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+
 #include <bitset>
 #include <cmath>
+
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "mpcproperties.h"
 #include "mpcfile.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
+namespace {
+const unsigned int HeaderSize = 56;
+}
+
 class MPC::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : version(0),
-                        length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        totalFrames(0),
-                        sampleFrames(0),
-                        trackGain(0),
-                        trackPeak(0),
-                        albumGain(0),
-                        albumPeak(0) {}
+  explicit AudioPropertiesPrivate() : version(0),
+                                      length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      totalFrames(0),
+                                      sampleFrames(0),
+                                      trackGain(0),
+                                      trackPeak(0),
+                                      albumGain(0),
+                                      albumPeak(0) {}
 
   int version;
   int length;
@@ -54,21 +60,17 @@ class MPC::AudioProperties::AudioPropertiesPrivate {
   int channels;
   unsigned int totalFrames;
   unsigned int sampleFrames;
-  int trackGain;
-  int trackPeak;
-  int albumGain;
-  int albumPeak;
+  unsigned int trackGain;
+  unsigned int trackPeak;
+  unsigned int albumGain;
+  unsigned int albumPeak;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPC::AudioProperties::AudioProperties(const ByteVector &data, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
-  readSV7(data, streamLength);
-}
-
-MPC::AudioProperties::AudioProperties(File *file, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+MPC::AudioProperties::AudioProperties(File *file, long long streamLength, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
 
   ByteVector magic = file->readBlock(4);
   if (magic == "MPCK") {
@@ -77,7 +79,7 @@ MPC::AudioProperties::AudioProperties(File *file, long streamLength, ReadStyle s
   }
   else {
     // Musepack version 7 or older, fixed size header
-    readSV7(magic + file->readBlock(MPC::HeaderSize - 4), streamLength);
+    readSV7(magic + file->readBlock(HeaderSize - 4), streamLength);
   }
 
 }
@@ -139,7 +141,7 @@ int MPC::AudioProperties::albumPeak() const {
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace {
-unsigned long readSize(File *file, unsigned int &sizeLength, bool &eof) {
+unsigned long readSize(File *file, size_t &sizeLength, bool &eof) {
 
   sizeLength = 0;
   eof = false;
@@ -164,7 +166,7 @@ unsigned long readSize(File *file, unsigned int &sizeLength, bool &eof) {
 
 }
 
-unsigned long readSize(const ByteVector &data, unsigned int &pos) {
+unsigned long readSize(const ByteVector &data, size_t &pos) {
 
   unsigned char tmp;
   unsigned long size = 0;
@@ -184,22 +186,22 @@ unsigned long readSize(const ByteVector &data, unsigned int &pos) {
 const unsigned short sftable[8] = { 44100, 48000, 37800, 32000, 0, 0, 0, 0 };
 }  // namespace
 
-void MPC::AudioProperties::readSV8(File *file, long streamLength) {
+void MPC::AudioProperties::readSV8(File *file, long long streamLength) {
 
   bool readSH = false, readRG = false;
 
   while (!readSH && !readRG) {
     const ByteVector packetType = file->readBlock(2);
 
-    unsigned int packetSizeLength;
+    size_t packetSizeLength;
     bool eof;
-    const unsigned long packetSize = readSize(file, packetSizeLength, eof);
+    const size_t packetSize = readSize(file, packetSizeLength, eof);
     if (eof) {
       debug("MPC::AudioProperties::readSV8() - Reached to EOF.");
       break;
     }
 
-    const unsigned long dataSize = packetSize - 2 - packetSizeLength;
+    const size_t dataSize = packetSize - 2 - packetSizeLength;
 
     const ByteVector data = file->readBlock(dataSize);
     if (data.size() != dataSize) {
@@ -218,7 +220,7 @@ void MPC::AudioProperties::readSV8(File *file, long streamLength) {
 
       readSH = true;
 
-      unsigned int pos = 4;
+      size_t pos = 4;
       d->version = data[pos];
       pos += 1;
       d->sampleFrames = readSize(data, pos);
@@ -233,7 +235,7 @@ void MPC::AudioProperties::readSV8(File *file, long streamLength) {
         break;
       }
 
-      const unsigned short flags = data.toUShort(pos, true);
+      const unsigned short flags = data.toUInt16BE(pos);
       pos += 2;
 
       d->sampleRate = sftable[(flags >> 13) & 0x07];
@@ -259,10 +261,10 @@ void MPC::AudioProperties::readSV8(File *file, long streamLength) {
 
       const int replayGainVersion = data[0];
       if (replayGainVersion == 1) {
-        d->trackGain = data.toShort(1, true);
-        d->trackPeak = data.toShort(3, true);
-        d->albumGain = data.toShort(5, true);
-        d->albumPeak = data.toShort(7, true);
+        d->trackGain = data.toUInt16BE(1);
+        d->trackPeak = data.toUInt16BE(3);
+        d->albumGain = data.toUInt16BE(5);
+        d->albumPeak = data.toUInt16BE(7);
       }
     }
 
@@ -277,25 +279,25 @@ void MPC::AudioProperties::readSV8(File *file, long streamLength) {
 
 }
 
-void MPC::AudioProperties::readSV7(const ByteVector &data, long streamLength) {
+void MPC::AudioProperties::readSV7(const ByteVector &data, long long streamLength) {
 
   if (data.startsWith("MP+")) {
     d->version = data[3] & 15;
     if (d->version < 7)
       return;
 
-    d->totalFrames = data.toUInt(4, false);
+    d->totalFrames = data.toUInt32LE(4);
 
-    const unsigned int flags = data.toUInt(8, false);
+    const unsigned int flags = data.toUInt32LE(8);
     d->sampleRate = sftable[(flags >> 16) & 0x03];
     d->channels = 2;
 
-    const unsigned int gapless = data.toUInt(5, false);
+    const unsigned int gapless = data.toUInt32LE(5);
 
-    d->trackGain = data.toShort(14, false);
-    d->trackPeak = data.toUShort(12, false);
-    d->albumGain = data.toShort(18, false);
-    d->albumPeak = data.toUShort(16, false);
+    d->trackGain = data.toUInt16LE(14);
+    d->trackPeak = data.toUInt16LE(12);
+    d->albumGain = data.toUInt16LE(18);
+    d->albumPeak = data.toUInt16LE(16);
 
     // convert gain info
     if (d->trackGain != 0) {
@@ -325,7 +327,7 @@ void MPC::AudioProperties::readSV7(const ByteVector &data, long streamLength) {
       d->sampleFrames = d->totalFrames * 1152 - 576;
   }
   else {
-    const unsigned int headerData = data.toUInt(0, false);
+    const unsigned int headerData = data.toUInt32LE(0);
 
     d->bitrate = (headerData >> 23) & 0x01ff;
     d->version = (headerData >> 11) & 0x03ff;
@@ -333,9 +335,9 @@ void MPC::AudioProperties::readSV7(const ByteVector &data, long streamLength) {
     d->channels = 2;
 
     if (d->version >= 5)
-      d->totalFrames = data.toUInt(4, false);
+      d->totalFrames = data.toUInt32LE(4);
     else
-      d->totalFrames = data.toUShort(6, false);
+      d->totalFrames = data.toUInt16LE(6);
 
     d->sampleFrames = d->totalFrames * 1152 - 576;
   }

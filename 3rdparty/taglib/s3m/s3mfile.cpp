@@ -65,14 +65,6 @@ Mod::Tag *S3M::File::tag() const {
   return &d->tag;
 }
 
-PropertyMap S3M::File::properties() const {
-  return d->tag.properties();
-}
-
-PropertyMap S3M::File::setProperties(const PropertyMap &properties) {
-  return d->tag.setProperties(properties);
-}
-
 S3M::AudioProperties *S3M::File::audioProperties() const {
   return &d->properties;
 }

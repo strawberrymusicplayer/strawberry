@@ -151,7 +151,7 @@ class TAGLIB_EXPORT Header {
   void parse(const ByteVector &data);
 
  private:
-  explicit Header(const Header&);
+  Header(const Header&);
   Header &operator=(const Header&);
 
   class HeaderPrivate;

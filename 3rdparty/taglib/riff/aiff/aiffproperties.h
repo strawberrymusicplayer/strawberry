@@ -52,36 +52,36 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Destroys this AIFF::AudioProperties instance.
    */
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
    *
    * \see lengthInMilliseconds()
    */
-  virtual int lengthInSeconds() const;
+  int lengthInSeconds() const override;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  virtual int lengthInMilliseconds() const;
+  int lengthInMilliseconds() const override;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
    */
-  virtual int bitrate() const;
+  int bitrate() const override;
 
   /*!
    * Returns the sample rate in Hz.
    */
-  virtual int sampleRate() const;
+  int sampleRate() const override;
 
   /*!
    * Returns the number of audio channels.
    */
-  virtual int channels() const;
+  int channels() const override;
 
   /*!
    * Returns the number of bits per audio sample.
@@ -117,9 +117,6 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   String compressionName() const;
 
  private:
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
-
   void read(File *file);
 
   class AudioPropertiesPrivate;

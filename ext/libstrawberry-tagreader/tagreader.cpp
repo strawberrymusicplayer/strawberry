@@ -25,53 +25,51 @@
 #include <map>
 #include <sys/stat.h>
 
-#include <taglib/taglib.h>
-#include <taglib/fileref.h>
-#include <taglib/tbytevector.h>
-#include <taglib/tfile.h>
-#include <taglib/tlist.h>
-#include <taglib/tstring.h>
-#include <taglib/tstringlist.h>
-#include <taglib/audioproperties.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/textidentificationframe.h>
-#include <taglib/unsynchronizedlyricsframe.h>
-#include <taglib/xiphcomment.h>
-#include <taglib/commentsframe.h>
-#include <taglib/tag.h>
-#include <taglib/apetag.h>
-#include <taglib/apeitem.h>
-#include <taglib/apeproperties.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/id3v2frame.h>
-#include <taglib/flacfile.h>
-#include <taglib/oggflacfile.h>
-#include <taglib/flacproperties.h>
-#include <taglib/flacpicture.h>
-#include <taglib/vorbisfile.h>
-#include <taglib/speexfile.h>
-#include <taglib/wavfile.h>
-#include <taglib/wavpackfile.h>
-#include <taglib/wavpackproperties.h>
-#include <taglib/aifffile.h>
-#include <taglib/asffile.h>
-#include <taglib/asftag.h>
-#include <taglib/asfattribute.h>
-#include <taglib/asfproperties.h>
-#include <taglib/mp4file.h>
-#include <taglib/mp4tag.h>
-#include <taglib/mp4item.h>
-#include <taglib/mp4coverart.h>
-#include <taglib/mp4properties.h>
-#include <taglib/mpcfile.h>
-#include <taglib/mpegfile.h>
-#include <taglib/opusfile.h>
-#include <taglib/trueaudiofile.h>
-#include <taglib/apefile.h>
-#ifdef HAVE_TAGLIB_DSFFILE
-#  include <taglib/dsffile.h>
-#  include <taglib/dsdifffile.h>
-#endif
+#include "taglib/taglib.h"
+#include "taglib/fileref.h"
+#include "taglib/tbytevector.h"
+#include "taglib/tfile.h"
+#include "taglib/tlist.h"
+#include "taglib/tstring.h"
+#include "taglib/tstringlist.h"
+#include "taglib/audioproperties.h"
+#include "taglib/attachedpictureframe.h"
+#include "taglib/textidentificationframe.h"
+#include "taglib/unsynchronizedlyricsframe.h"
+#include "taglib/xiphcomment.h"
+#include "taglib/commentsframe.h"
+#include "taglib/tag.h"
+#include "taglib/apetag.h"
+#include "taglib/apeitem.h"
+#include "taglib/apeproperties.h"
+#include "taglib/id3v2tag.h"
+#include "taglib/id3v2frame.h"
+#include "taglib/flacfile.h"
+#include "taglib/oggflacfile.h"
+#include "taglib/flacproperties.h"
+#include "taglib/flacpicture.h"
+#include "taglib/vorbisfile.h"
+#include "taglib/speexfile.h"
+#include "taglib/wavfile.h"
+#include "taglib/wavpackfile.h"
+#include "taglib/wavpackproperties.h"
+#include "taglib/aifffile.h"
+#include "taglib/asffile.h"
+#include "taglib/asftag.h"
+#include "taglib/asfattribute.h"
+#include "taglib/asfproperties.h"
+#include "taglib/mp4file.h"
+#include "taglib/mp4tag.h"
+#include "taglib/mp4item.h"
+#include "taglib/mp4coverart.h"
+#include "taglib/mp4properties.h"
+#include "taglib/mpcfile.h"
+#include "taglib/mpegfile.h"
+#include "taglib/opusfile.h"
+#include "taglib/trueaudiofile.h"
+#include "taglib/apefile.h"
+#include "taglib/dsffile.h"
+#include "taglib/dsdifffile.h"
 
 #include <QtGlobal>
 #include <QFile>
@@ -119,14 +117,14 @@ TagLib::String QStringToTaglibString(const QString &s) {
   return TagLib::String(s.toUtf8().constData(), TagLib::String::UTF8);
 }
 
-}
+}  // namespace
 
 namespace {
 // Tags containing the year the album was originally released (in contrast to other tags that contain the release year of the current edition)
 const char *kMP4_OriginalYear_ID = "----:com.apple.iTunes:ORIGINAL YEAR";
 const char *kASF_OriginalDate_ID = "WM/OriginalReleaseTime";
 const char *kASF_OriginalYear_ID = "WM/OriginalReleaseYear";
-}
+}  // namespace
 
 
 TagReader::TagReader() :
@@ -154,10 +152,8 @@ pb::tagreader::SongMetadata_FileType TagReader::GuessFileType(TagLib::FileRef *f
   if (dynamic_cast<TagLib::MPC::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_MPC;
   if (dynamic_cast<TagLib::TrueAudio::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_TRUEAUDIO;
   if (dynamic_cast<TagLib::APE::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_APE;
-#ifdef HAVE_TAGLIB_DSFFILE
   if (dynamic_cast<TagLib::DSF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSF;
   if (dynamic_cast<TagLib::DSDIFF::File*>(fileref->file())) return pb::tagreader::SongMetadata_FileType_DSDIFF;
-#endif
 
   return pb::tagreader::SongMetadata_FileType_UNKNOWN;
 
@@ -472,7 +468,7 @@ void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCode
 
   TagLib::APE::ItemListMap::ConstIterator it = map.find("ALBUM ARTIST");
   if (it != map.end()) {
-    TagLib::StringList album_artists = it->second.toStringList();
+    TagLib::StringList album_artists = it->second.values();
     if (!album_artists.isEmpty()) {
       Decode(album_artists.front(), nullptr, song->mutable_albumartist());
     }
@@ -488,15 +484,15 @@ void TagReader::ParseAPETag(const TagLib::APE::ItemListMap &map, const QTextCode
   }
 
   if (map.contains("PERFORMER")) {
-    Decode(map["PERFORMER"].toStringList().toString(", "), nullptr, song->mutable_performer());
+    Decode(map["PERFORMER"].values().toString(", "), nullptr, song->mutable_performer());
   }
 
   if (map.contains("COMPOSER")) {
-    Decode(map["COMPOSER"].toStringList().toString(", "), nullptr, song->mutable_composer());
+    Decode(map["COMPOSER"].values().toString(", "), nullptr, song->mutable_composer());
   }
 
   if (map.contains("GROUPING")) {
-    Decode(map["GROUPING"].toStringList().toString(" "), nullptr, song->mutable_grouping());
+    Decode(map["GROUPING"].values().toString(" "), nullptr, song->mutable_grouping());
   }
 
   if (map.contains("LYRICS")) {

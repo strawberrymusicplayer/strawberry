@@ -31,18 +31,18 @@ using namespace S3M;
 
 class S3M::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : lengthInPatterns(0),
-                        channels(0),
-                        stereo(false),
-                        sampleCount(0),
-                        patternCount(0),
-                        flags(0),
-                        trackerVersion(0),
-                        fileFormatVersion(0),
-                        globalVolume(0),
-                        masterVolume(0),
-                        tempo(0),
-                        bpmSpeed(0) {
+  explicit AudioPropertiesPrivate() : lengthInPatterns(0),
+                                      channels(0),
+                                      stereo(false),
+                                      sampleCount(0),
+                                      patternCount(0),
+                                      flags(0),
+                                      trackerVersion(0),
+                                      fileFormatVersion(0),
+                                      globalVolume(0),
+                                      masterVolume(0),
+                                      tempo(0),
+                                      bpmSpeed(0) {
   }
 
   unsigned short lengthInPatterns;
@@ -59,7 +59,7 @@ class S3M::AudioProperties::AudioPropertiesPrivate {
   unsigned char bpmSpeed;
 };
 
-S3M::AudioProperties::AudioProperties(AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::AudioProperties(propertiesStyle), d(new AudioPropertiesPrivate()) {}
+S3M::AudioProperties::AudioProperties(AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {}
 
 S3M::AudioProperties::~AudioProperties() {
   delete d;
@@ -128,6 +128,10 @@ unsigned char S3M::AudioProperties::tempo() const {
 unsigned char S3M::AudioProperties::bpmSpeed() const {
   return d->bpmSpeed;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
 
 void S3M::AudioProperties::setLengthInPatterns(unsigned short lengthInPatterns) {
   d->lengthInPatterns = lengthInPatterns;

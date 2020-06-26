@@ -34,16 +34,7 @@
 
 namespace Strawberry_TagLib {
 namespace TagLib {
-
-/*
- * This is just to make this appear to be in the Ogg namespace in the documentation.
- * The typedef below will make this work with the current code.
- * In the next BIC version of TagLib this will be really moved into the Ogg namespace.
- */
-
-#ifdef DOXYGEN
 namespace Ogg {
-#endif
 
 //! A namespace containing classes for Vorbis metadata
 
@@ -79,38 +70,25 @@ class TAGLIB_EXPORT File : public Ogg::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the XiphComment for this file.
    * XiphComment implements the tag interface, so this serves as the reimplementation of TagLib::File::tag().
    */
-  virtual Ogg::XiphComment *tag() const;
-
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * This forwards directly to XiphComment::properties().
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Implements the unified tag dictionary interface -- import function.
-   * Like properties(), this is a forwarder to the file's XiphComment.
-   */
-  PropertyMap setProperties(const PropertyMap &);
+  Ogg::XiphComment *tag() const override;
 
   /*!
    * Returns the Vorbis::AudioProperties for this file.  If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
    *
    * This returns true if the save was successful.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Check if the given \a stream can be opened as an Ogg Vorbis file.
@@ -120,7 +98,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties);
@@ -128,23 +106,9 @@ class TAGLIB_EXPORT File : public Ogg::File {
   class FilePrivate;
   FilePrivate *d;
 };
+
 }  // namespace Vorbis
-
-/*
- * To keep compatibility with the current version put Vorbis in the Ogg namespace only in the docs and provide a typedef to make it work.
- * In the next BIC version this will be removed and it will only exist in the Ogg namespace.
- */
-
-#ifdef DOXYGEN
-}
-#else
-namespace Ogg {
-namespace Vorbis {
-typedef Strawberry_TagLib::TagLib::Vorbis::File File;
-}
 }  // namespace Ogg
-#endif
-
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
 

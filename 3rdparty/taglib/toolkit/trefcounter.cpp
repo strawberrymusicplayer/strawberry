@@ -23,9 +23,7 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
+#include "taglib-config.h"
 
 #include "trefcounter.h"
 
@@ -36,26 +34,26 @@
 #  define ATOMIC_DEC(x) (--(x))
 #elif defined(HAVE_GCC_ATOMIC)
 #  define ATOMIC_INT    int
-#  define ATOMIC_INC(x) __sync_add_and_fetch(&x, 1)
-#  define ATOMIC_DEC(x) __sync_sub_and_fetch(&x, 1)
+#  define ATOMIC_INC(x) ::__sync_add_and_fetch(&x, 1)
+#  define ATOMIC_DEC(x) ::__sync_sub_and_fetch(&x, 1)
 #elif defined(HAVE_WIN_ATOMIC)
 #  if !defined(NOMINMAX)
 #    define NOMINMAX
 #  endif
 #  include <windows.h>
-#  define ATOMIC_INT    long
-#  define ATOMIC_INC(x) InterlockedIncrement(&x)
-#  define ATOMIC_DEC(x) InterlockedDecrement(&x)
+#  define ATOMIC_INT    volatile LONG
+#  define ATOMIC_INC(x) ::InterlockedIncrement(&x)
+#  define ATOMIC_DEC(x) ::InterlockedDecrement(&x)
 #elif defined(HAVE_MAC_ATOMIC)
 #  include <libkern/OSAtomic.h>
 #  define ATOMIC_INT    int32_t
-#  define ATOMIC_INC(x) OSAtomicIncrement32Barrier(&x)
-#  define ATOMIC_DEC(x) OSAtomicDecrement32Barrier(&x)
+#  define ATOMIC_INC(x) ::OSAtomicIncrement32Barrier(&x)
+#  define ATOMIC_DEC(x) ::OSAtomicDecrement32Barrier(&x)
 #elif defined(HAVE_IA64_ATOMIC)
 #  include <ia64intrin.h>
 #  define ATOMIC_INT    int
-#  define ATOMIC_INC(x) __sync_add_and_fetch(&x, 1)
-#  define ATOMIC_DEC(x) __sync_sub_and_fetch(&x, 1)
+#  define ATOMIC_INC(x) ::__sync_add_and_fetch(&x, 1)
+#  define ATOMIC_DEC(x) ::__sync_sub_and_fetch(&x, 1)
 #else
 #  define ATOMIC_INT    int
 #  define ATOMIC_INC(x) (++(x))
@@ -69,7 +67,7 @@ class RefCounter::RefCounterPrivate {
  public:
   RefCounterPrivate() : refCount(1) {}
 
-  volatile ATOMIC_INT refCount;
+  ATOMIC_INT refCount;
 };
 
 RefCounter::RefCounter() : d(new RefCounterPrivate()) {}
@@ -88,6 +86,10 @@ bool RefCounter::deref() {
 
 int RefCounter::count() const {
   return static_cast<int>(d->refCount);
+}
+
+bool RefCounter::unique() const {
+  return (d->refCount == 1);
 }
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib

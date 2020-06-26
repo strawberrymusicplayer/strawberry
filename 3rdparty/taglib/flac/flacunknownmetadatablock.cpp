@@ -23,16 +23,16 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <taglib.h>
-#include <tdebug.h>
-#include <tstring.h>
+#include "taglib.h"
+#include "tdebug.h"
+#include "tstring.h"
 #include "flacunknownmetadatablock.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::UnknownMetadataBlock::UnknownMetadataBlockPrivate {
  public:
-  UnknownMetadataBlockPrivate() : code(0) {}
+  explicit UnknownMetadataBlockPrivate() : code(0) {}
 
   int code;
   ByteVector data;

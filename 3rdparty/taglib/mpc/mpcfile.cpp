@@ -23,12 +23,14 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tagunion.h>
-#include <tdebug.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tagunion.h"
+#include "tdebug.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "mpcfile.h"
 #include "id3v1tag.h"
@@ -45,31 +47,24 @@ enum { MPCAPEIndex = 0,
 
 class MPC::File::FilePrivate {
  public:
-  FilePrivate() : APELocation(-1),
-                  APESize(0),
-                  ID3v1Location(-1),
-                  ID3v2Header(nullptr),
-                  ID3v2Location(-1),
-                  ID3v2Size(0),
-                  properties(nullptr) {}
+  explicit FilePrivate() : APELocation(-1),
+                           APESize(0),
+                           ID3v1Location(-1),
+                           ID3v2Location(-1),
+                           ID3v2Size(0) {}
 
-  ~FilePrivate() {
-    delete ID3v2Header;
-    delete properties;
-  }
+  long long APELocation;
+  long long APESize;
 
-  long APELocation;
-  long APESize;
+  long long ID3v1Location;
 
-  long ID3v1Location;
+  std::unique_ptr<ID3v2::Header> ID3v2Header;
+  long long ID3v2Location;
+  long long ID3v2Size;
 
-  ID3v2::Header *ID3v2Header;
-  long ID3v2Location;
-  long ID3v2Size;
+  DoubleTagUnion tag;
 
-  TagUnion tag;
-
-  AudioProperties *properties;
+  std::unique_ptr<AudioProperties> properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,14 +107,6 @@ Strawberry_TagLib::TagLib::Tag *MPC::File::tag() const {
   return &d->tag;
 }
 
-PropertyMap MPC::File::properties() const {
-  return d->tag.properties();
-}
-
-void MPC::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag.removeUnsupportedProperties(properties);
-}
-
 PropertyMap MPC::File::setProperties(const PropertyMap &properties) {
   if (ID3v1Tag())
     ID3v1Tag()->setProperties(properties);
@@ -128,7 +115,7 @@ PropertyMap MPC::File::setProperties(const PropertyMap &properties) {
 }
 
 MPC::AudioProperties *MPC::File::audioProperties() const {
-  return d->properties;
+  return d->properties.get();
 }
 
 bool MPC::File::save() {
@@ -238,11 +225,8 @@ void MPC::File::strip(int tags) {
   if (!ID3v1Tag())
     APETag(true);
 
-  if (tags & ID3v2) {
-    delete d->ID3v2Header;
-    d->ID3v2Header = nullptr;
-  }
-
+  if (tags & ID3v2)
+    d->ID3v2Header.reset();
 }
 
 bool MPC::File::hasID3v1Tag() const {
@@ -265,7 +249,7 @@ void MPC::File::read(bool readProperties) {
 
   if (d->ID3v2Location >= 0) {
     seek(d->ID3v2Location);
-    d->ID3v2Header = new ID3v2::Header(readBlock(ID3v2::Header::size()));
+    d->ID3v2Header.reset(new ID3v2::Header(readBlock(ID3v2::Header::size())));
     d->ID3v2Size = d->ID3v2Header->completeTagSize();
   }
 
@@ -293,7 +277,7 @@ void MPC::File::read(bool readProperties) {
 
   if (readProperties) {
 
-    long streamLength;
+    long long streamLength;
 
     if (d->APELocation >= 0)
       streamLength = d->APELocation;
@@ -310,7 +294,7 @@ void MPC::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new AudioProperties(this, streamLength);
+    d->properties.reset(new AudioProperties(this, streamLength));
   }
 
 }

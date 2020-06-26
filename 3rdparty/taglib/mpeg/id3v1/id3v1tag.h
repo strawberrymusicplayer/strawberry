@@ -28,6 +28,7 @@
 
 #include "tag.h"
 #include "tbytevector.h"
+#include "tstringhandler.h"
 #include "taglib_export.h"
 
 namespace Strawberry_TagLib {
@@ -38,44 +39,6 @@ class File;
 //! An ID3v1 implementation
 
 namespace ID3v1 {
-
-//! A abstraction for the string to data encoding in ID3v1 tags.
-
-/*!
- * ID3v1 should in theory always contain ISO-8859-1 (Latin1) data. In practice it does not.
- * TagLib by default only supports ISO-8859-1 data in ID3v1 tags.
- *
- * However by subclassing this class and reimplementing parse() and render() and setting your reimplementation as the default with
- * ID3v1::Tag::setStringHandler() you can define how you would like these transformations to be done.
- *
- * \warning It is advisable <b>not</b> to write non-ISO-8859-1 data to ID3v1 tags.
- * Please consider disabling the writing of ID3v1 tags in the case that the data is not ISO-8859-1.
- *
- * \see ID3v1::Tag::setStringHandler()
- */
-
-class TAGLIB_EXPORT StringHandler {
-
- public:
-  explicit StringHandler();
-  virtual ~StringHandler() = default;
-
-  /*!
-   * Decode a string from \a data.
-   * The default implementation assumes that \a data is an ISO-8859-1 (Latin1) character array.
-   */
-  virtual String parse(const ByteVector &data) const;
-
-  /*!
-   * Encode a ByteVector with the data from \a s.
-   * The default implementation assumes that \a s is an ISO-8859-1 (Latin1) string.
-   * If the string is does not conform to ISO-8859-1, no value is written.
-   *
-   * \warning It is recommended that you <b>not</b> override this method, but
-   * instead do not write an ID3v1 tag in the case that the data is not ISO-8859-1.
-   */
-  virtual ByteVector render(const String &s) const;
-};
 
 //! The main class in the ID3v1 implementation
 
@@ -106,12 +69,12 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Create an ID3v1 tag and parse the data in \a file starting at \a tagOffset.
    */
-  explicit Tag(File *file, long tagOffset);
+  explicit Tag(File *file, long long tagOffset);
 
   /*!
    * Destroys this Tag instance.
    */
-  virtual ~Tag();
+  ~Tag() override;
 
   /*!
    * Renders the in memory values to a ByteVector suitable for writing to the file.
@@ -125,21 +88,23 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 
   // Reimplementations.
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
+  PictureMap pictures() const override;
 
-  virtual void setTitle(const String &s);
-  virtual void setArtist(const String &s);
-  virtual void setAlbum(const String &s);
-  virtual void setComment(const String &s);
-  virtual void setGenre(const String &s);
-  virtual void setYear(unsigned int i);
-  virtual void setTrack(unsigned int i);
+  void setTitle(const String &s) override;
+  void setArtist(const String &s) override;
+  void setAlbum(const String &s) override;
+  void setComment(const String &s) override;
+  void setGenre(const String &s) override;
+  void setYear(unsigned int i) override;
+  void setTrack(unsigned int i) override;
+  void setPictures(const PictureMap&) override;
 
   /*!
    * Returns the genre in number.
@@ -161,9 +126,8 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *
    * \note The caller is responsible for deleting the previous handler as needed after it is released.
    *
-   * \see StringHandler
    */
-  static void setStringHandler(const StringHandler *handler);
+  static void setStringHandler(const Strawberry_TagLib::TagLib::StringHandler *handler);
 
  protected:
   /*!
@@ -176,7 +140,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void parse(const ByteVector &data);
 
  private:
-  explicit Tag(const Tag&);
+  Tag(const Tag&);
   Tag &operator=(const Tag&);
 
   class TagPrivate;

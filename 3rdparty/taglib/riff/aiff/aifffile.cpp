@@ -23,12 +23,14 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tdebug.h>
-#include <id3v2tag.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tdebug.h"
+#include "id3v2tag.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "aifffile.h"
 
@@ -36,15 +38,10 @@ using namespace Strawberry_TagLib::TagLib;
 
 class RIFF::AIFF::File::FilePrivate {
  public:
-  FilePrivate() : properties(nullptr), tag(nullptr), hasID3v2(false) {}
+  FilePrivate() : hasID3v2(false) {}
 
-  ~FilePrivate() {
-    delete properties;
-    delete tag;
-  }
-
-  AudioProperties *properties;
-  ID3v2::Tag *tag;
+  std::unique_ptr<AudioProperties> properties;
+  std::unique_ptr<ID3v2::Tag> tag;
 
   bool hasID3v2;
 };
@@ -83,23 +80,11 @@ RIFF::AIFF::File::~File() {
 }
 
 ID3v2::Tag *RIFF::AIFF::File::tag() const {
-  return d->tag;
-}
-
-PropertyMap RIFF::AIFF::File::properties() const {
-  return d->tag->properties();
-}
-
-void RIFF::AIFF::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag->removeUnsupportedProperties(properties);
-}
-
-PropertyMap RIFF::AIFF::File::setProperties(const PropertyMap &properties) {
-  return d->tag->setProperties(properties);
+  return d->tag.get();
 }
 
 RIFF::AIFF::AudioProperties *RIFF::AIFF::File::audioProperties() const {
-  return d->properties;
+  return d->properties.get();
 }
 
 bool RIFF::AIFF::File::save() {
@@ -147,7 +132,7 @@ void RIFF::AIFF::File::read(bool readProperties) {
     const ByteVector name = chunkName(i);
     if (name == "ID3 " || name == "id3 ") {
       if (!d->tag) {
-        d->tag = new ID3v2::Tag(this, chunkOffset(i));
+        d->tag.reset(new ID3v2::Tag(this, chunkOffset(i)));
         d->hasID3v2 = true;
       }
       else {
@@ -157,9 +142,9 @@ void RIFF::AIFF::File::read(bool readProperties) {
   }
 
   if (!d->tag)
-    d->tag = new ID3v2::Tag();
+    d->tag.reset(new ID3v2::Tag());
 
   if (readProperties)
-    d->properties = new AudioProperties(this, AudioProperties::Average);
+    d->properties.reset(new AudioProperties(this, AudioProperties::Average));
 
 }

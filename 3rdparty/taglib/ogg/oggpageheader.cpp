@@ -25,9 +25,9 @@
 
 #include <bitset>
 
-#include <tstring.h>
-#include <tdebug.h>
-#include <taglib.h>
+#include "tstring.h"
+#include "tdebug.h"
+#include "taglib.h"
 
 #include "oggpageheader.h"
 #include "oggfile.h"
@@ -36,16 +36,16 @@ using namespace Strawberry_TagLib::TagLib;
 
 class Ogg::PageHeader::PageHeaderPrivate {
  public:
-  PageHeaderPrivate() : isValid(false),
-                        firstPacketContinued(false),
-                        lastPacketCompleted(false),
-                        firstPageOfStream(false),
-                        lastPageOfStream(false),
-                        absoluteGranularPosition(0),
-                        streamSerialNumber(0),
-                        pageSequenceNumber(-1),
-                        size(0),
-                        dataSize(0) {}
+  explicit PageHeaderPrivate() : isValid(false),
+                                 firstPacketContinued(false),
+                                 lastPacketCompleted(false),
+                                 firstPageOfStream(false),
+                                 lastPageOfStream(false),
+                                 absoluteGranularPosition(0),
+                                 streamSerialNumber(0),
+                                 pageSequenceNumber(-1),
+                                 size(0),
+                                 dataSize(0) {}
 
   bool isValid;
   List<int> packetSizes;
@@ -64,7 +64,7 @@ class Ogg::PageHeader::PageHeaderPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::PageHeader::PageHeader(Ogg::File *file, long pageOffset) : d(new PageHeaderPrivate()) {
+Ogg::PageHeader::PageHeader(Ogg::File *file, long long pageOffset) : d(new PageHeaderPrivate()) {
 
   if (file && pageOffset >= 0)
     read(file, pageOffset);
@@ -174,15 +174,15 @@ ByteVector Ogg::PageHeader::render() const {
 
   // absolute granular position
 
-  data.append(ByteVector::fromLongLong(d->absoluteGranularPosition, false));
+  data.append(ByteVector::fromUInt64LE(d->absoluteGranularPosition));
 
   // stream serial number
 
-  data.append(ByteVector::fromUInt(d->streamSerialNumber, false));
+  data.append(ByteVector::fromUInt32LE(d->streamSerialNumber));
 
   // page sequence number
 
-  data.append(ByteVector::fromUInt(d->pageSequenceNumber, false));
+  data.append(ByteVector::fromUInt32LE(d->pageSequenceNumber));
 
   // checksum -- this is left empty and should be filled in by the Ogg::Page
   // class
@@ -204,7 +204,7 @@ ByteVector Ogg::PageHeader::render() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ogg::PageHeader::read(Ogg::File *file, long pageOffset) {
+void Ogg::PageHeader::read(Ogg::File *file, long long pageOffset) {
 
   file->seek(pageOffset);
 
@@ -227,9 +227,9 @@ void Ogg::PageHeader::read(Ogg::File *file, long pageOffset) {
   d->firstPageOfStream = flags.test(1);
   d->lastPageOfStream = flags.test(2);
 
-  d->absoluteGranularPosition = data.toLongLong(6, false);
-  d->streamSerialNumber = data.toUInt(14, false);
-  d->pageSequenceNumber = data.toUInt(18, false);
+  d->absoluteGranularPosition = data.toInt64LE(6);
+  d->streamSerialNumber = data.toUInt32LE(14);
+  d->pageSequenceNumber = data.toUInt32LE(18);
 
   // Byte number 27 is the number of page segments, which is the only variable
   // length portion of the page header.  After reading the number of page

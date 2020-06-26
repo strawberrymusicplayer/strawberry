@@ -23,8 +23,9 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tfile.h>
+#include "tdebug.h"
+#include "tfile.h"
+#include "tpicturemap.h"
 
 #include "id3v1tag.h"
 #include "id3v1genres.h"
@@ -33,8 +34,24 @@ using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v1;
 
 namespace {
-const ID3v1::StringHandler defaultStringHandler;
-const ID3v1::StringHandler *stringHandler = &defaultStringHandler;
+class DefaultStringHandler : public Strawberry_TagLib::TagLib::StringHandler {
+ public:
+  explicit DefaultStringHandler() : Strawberry_TagLib::TagLib::StringHandler() {}
+
+  String parse(const ByteVector &data) const override {
+    return String(data, String::Latin1).stripWhiteSpace();
+  }
+
+  ByteVector render(const String &s) const override {
+    if (s.isLatin1())
+      return s.data(String::Latin1);
+    else
+      return ByteVector();
+  }
+};
+
+const DefaultStringHandler defaultStringHandler;
+const Strawberry_TagLib::TagLib::StringHandler *stringHandler = &defaultStringHandler;
 }  // namespace
 
 class ID3v1::Tag::TagPrivate {
@@ -45,7 +62,7 @@ class ID3v1::Tag::TagPrivate {
                           genre(255) {}
 
   File *file;
-  long tagOffset;
+  long long tagOffset;
 
   String title;
   String artist;
@@ -57,31 +74,12 @@ class ID3v1::Tag::TagPrivate {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// StringHandler implementation
-////////////////////////////////////////////////////////////////////////////////
-
-StringHandler::StringHandler() {}
-
-String ID3v1::StringHandler::parse(const ByteVector &data) const {
-  return String(data, String::Latin1).stripWhiteSpace();
-}
-
-ByteVector ID3v1::StringHandler::render(const String &s) const {
-
-  if (s.isLatin1())
-    return s.data(String::Latin1);
-  else
-    return ByteVector();
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 ID3v1::Tag::Tag() : d(new TagPrivate()) {}
 
-ID3v1::Tag::Tag(File *file, long tagOffset) : d(new TagPrivate()) {
+ID3v1::Tag::Tag(File *file, long long tagOffset) : d(new TagPrivate()) {
 
   d->file = file;
   d->tagOffset = tagOffset;
@@ -143,6 +141,10 @@ unsigned int ID3v1::Tag::track() const {
   return d->track;
 }
 
+Strawberry_TagLib::TagLib::PictureMap ID3v1::Tag::pictures() const {
+  return PictureMap();
+}
+
 void ID3v1::Tag::setTitle(const String &s) {
   d->title = s;
 }
@@ -171,6 +173,8 @@ void ID3v1::Tag::setTrack(unsigned int i) {
   d->track = i < 256 ? i : 0;
 }
 
+void ID3v1::Tag::setPictures(const PictureMap&) {}
+
 unsigned int ID3v1::Tag::genreNumber() const {
   return d->genre;
 }
@@ -179,7 +183,7 @@ void ID3v1::Tag::setGenreNumber(unsigned int i) {
   d->genre = i < 256 ? i : 255;
 }
 
-void ID3v1::Tag::setStringHandler(const StringHandler *handler) {
+void ID3v1::Tag::setStringHandler(const Strawberry_TagLib::TagLib::StringHandler *handler) {
   if (handler)
     stringHandler = handler;
   else

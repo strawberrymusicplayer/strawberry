@@ -50,17 +50,17 @@ class TAGLIB_EXPORT ByteVectorStream : public IOStream {
   /*!
    * Destroys this ByteVectorStream instance.
    */
-  virtual ~ByteVectorStream();
+  ~ByteVectorStream() override;
 
   /*!
    * Returns the file name in the local file system encoding.
    */
-  FileName name() const;
+  FileName name() const override;
 
   /*!
    * Reads a block of size \a length at the current get pointer.
    */
-  ByteVector readBlock(unsigned long length);
+  ByteVector readBlock(size_t length) override;
 
   /*!
    * Attempts to write the block \a data at the current get pointer.
@@ -69,31 +69,31 @@ class TAGLIB_EXPORT ByteVectorStream : public IOStream {
    * \note This should be used instead of using the streaming output operator for a ByteVector.
    * And even this function is significantly slower than doing output with a char[].
    */
-  void writeBlock(const ByteVector &data);
+  void writeBlock(const ByteVector &data) override;
 
   /*!
    * Insert \a data at position \a start in the file overwriting \a replace bytes of the original content.
    *
    * \note This method is slow since it requires rewriting all of the file after the insertion point.
    */
-  void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
+  void insert(const ByteVector &data, long long start = 0, size_t replace = 0) override;
 
   /*!
    * Removes a block of the file starting a \a start and continuing for \a length bytes.
    *
    * \note This method is slow since it involves rewriting all of the file after the removed portion.
    */
-  void removeBlock(unsigned long start = 0, unsigned long length = 0);
+  void removeBlock(long long start = 0, size_t length = 0) override;
 
   /*!
    * Returns true if the file is read only (or if the file can not be opened).
    */
-  bool readOnly() const;
+  bool readOnly() const override;
 
   /*!
    * Since the file can currently only be opened as an argument to the constructor (sort-of by design), this returns if that open succeeded.
    */
-  bool isOpen() const;
+  bool isOpen() const override;
 
   /*!
    * Move the I/O pointer to \a offset in the file from position \a p.
@@ -101,27 +101,27 @@ class TAGLIB_EXPORT ByteVectorStream : public IOStream {
    *
    * \see Position
    */
-  void seek(long offset, Position p = Beginning);
+  void seek(long long offset, Position p = Beginning) override;
 
   /*!
    * Reset the end-of-file and error flags on the file.
    */
-  void clear();
+  void clear() override;
 
   /*!
    * Returns the current offset within the file.
    */
-  long tell() const;
+  long long tell() const override;
 
   /*!
    * Returns the length of the file.
    */
-  long length();
+  long long length() override;
 
   /*!
    * Truncates the file to a \a length.
    */
-  void truncate(long length);
+  void truncate(long long length) override;
 
   ByteVector *data();
 

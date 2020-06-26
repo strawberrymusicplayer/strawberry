@@ -78,11 +78,11 @@ class Atom {
   explicit Atom(File *file);
   ~Atom();
 
-  Atom *find(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
-  bool path(AtomList &path, const char *name1, const char *name2 = 0, const char *name3 = 0);
+  Atom *find(const char *name1, const char *name2 = nullptr, const char *name3 = nullptr, const char *name4 = nullptr);
+  bool path(AtomList &path, const char *name1, const char *name2 = nullptr, const char *name3 = nullptr);
   AtomList findall(const char *name, bool recursive = false);
-  long offset;
-  long length;
+  long long offset;
+  long long length;
   Strawberry_TagLib::TagLib::ByteVector name;
   AtomList children;
 
@@ -97,8 +97,8 @@ class Atoms {
   explicit Atoms(File *file);
   ~Atoms();
 
-  Atom *find(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
-  AtomList path(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
+  Atom *find(const char *name1, const char *name2 = nullptr, const char *name3 = nullptr, const char *name4 = nullptr);
+  AtomList path(const char *name1, const char *name2 = nullptr, const char *name3 = nullptr, const char *name4 = nullptr);
   AtomList atoms;
 };
 

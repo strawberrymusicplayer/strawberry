@@ -26,6 +26,7 @@
 #ifndef TAGLIB_MAP_H
 #define TAGLIB_MAP_H
 
+#include <cstddef>
 #include <map>
 
 #include "taglib.h"
@@ -41,7 +42,7 @@ namespace TagLib {
  */
 
 template<class Key, class T> class Map {
- public:
+ private:
 #ifndef DO_NOT_DOCUMENT
 #  ifdef WANT_CLASS_INSTANTIATION_OF_MAP
   // Some STL implementations get snippy over the use of the class keyword to distinguish different templates; Sun Studio
@@ -49,12 +50,16 @@ template<class Key, class T> class Map {
   // GCC doesn't seem to mind, and uses the typedefs further below without the class keyword.
   // Not all the specializations of Map can use the class keyword (when T is not actually a class type),
   // so don't apply this generally.
-  typedef typename std::map<class Key, class T>::iterator Iterator;
-  typedef typename std::map<class Key, class T>::const_iterator ConstIterator;
+  typedef std::map<class Key, class T> MapType;
 #  else
-  typedef typename std::map<Key, T>::iterator Iterator;
-  typedef typename std::map<Key, T>::const_iterator ConstIterator;
+  typedef std::map<Key, T> MapType;
 #  endif
+#endif
+
+ public:
+#ifndef DO_NOT_DOCUMENT
+  typedef typename MapType::iterator Iterator;
+  typedef typename MapType::const_iterator ConstIterator;
 #endif
 
   /*!
@@ -114,7 +119,7 @@ template<class Key, class T> class Map {
    *
    * \see isEmpty()
    */
-  unsigned int size() const;
+  size_t size() const;
 
   /*!
    * Returns true if the map is empty.

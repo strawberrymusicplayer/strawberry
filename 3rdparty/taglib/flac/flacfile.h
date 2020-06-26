@@ -26,6 +26,8 @@
 #ifndef TAGLIB_FLACFILE_H
 #define TAGLIB_FLACFILE_H
 
+#include <memory>
+
 #include "taglib_export.h"
 #include "tfile.h"
 #include "tlist.h"
@@ -97,7 +99,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
-  explicit File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average, ID3v2::FrameFactory *frameFactory = nullptr);
 
   /*!
    * Constructs a FLAC file from \a stream.  If \a readProperties is true the file's audio properties will also be read.
@@ -109,12 +111,12 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   // BIC: merge with the above constructor
-  explicit File(IOStream *stream, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(IOStream *stream, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average, ID3v2::FrameFactory *frameFactory = nullptr);
 
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the Tag for this file.  This will be a union of XiphComment, ID3v1 and ID3v2 tags.
@@ -123,27 +125,19 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \see ID3v1Tag()
    * \see XiphComment()
    */
-  virtual Strawberry_TagLib::TagLib::Tag *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * If the file contains more than one tag (e.g. XiphComment and ID3v1), only the first one (in the order XiphComment, ID3v2, ID3v1) will be converted to the PropertyMap.
-   */
-  PropertyMap properties() const;
-
-  void removeUnsupportedProperties(const StringList &);
+  Strawberry_TagLib::TagLib::Tag *tag() const override;
 
   /*!
    * Implements the unified property interface -- import function.
    * This always creates a Xiph comment, if none exists. The return value relates to the Xiph comment only.
    * Ignores any changes to ID3v1 or ID3v2 comments since they are not allowed in the FLAC specification.
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &) override;
 
   /*!
    * Returns the FLAC::AudioProperties for this file.  If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.  This will primarily save the XiphComment, but will also keep any old ID3-tags up to date.
@@ -151,7 +145,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * This returns true if the save was successful.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns a pointer to the ID3v2 tag of the file.
@@ -208,10 +202,9 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   List<Picture *> pictureList();
 
   /*!
-   * Removes an attached picture.
-   * If \a del is true the picture's memory will be freed; if it is false, it must be deleted by the user.
+   * Removes an attached picture. The picture's memory will be freed.
    */
-  void removePicture(Picture *picture, bool del = true);
+  void removePicture(Picture *picture);
 
   /*!
    * Remove all attached images.
@@ -269,7 +262,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties);

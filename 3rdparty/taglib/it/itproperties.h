@@ -54,14 +54,14 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
     MidiConfEmbedded = 8
   };
 
-  explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~AudioProperties();
+  explicit AudioProperties(AudioProperties::ReadStyle);
+  ~AudioProperties() override;
 
-  int lengthInSeconds() const;
-  int lengthInMilliseconds() const;
-  int bitrate() const;
-  int sampleRate() const;
-  int channels() const;
+  int lengthInSeconds() const override;
+  int lengthInMilliseconds() const override;
+  int bitrate() const override;
+  int sampleRate() const override;
+  int channels() const override;
 
   unsigned short lengthInPatterns() const;
   bool stereo() const;
@@ -79,6 +79,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   unsigned char panningSeparation() const;
   unsigned char pitchWheelDepth() const;
 
+ private:
   void setChannels(int channels);
   void setLengthInPatterns(unsigned short lengthInPatterns);
   void setInstrumentCount(unsigned short instrumentCount);
@@ -96,9 +97,6 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   void setPitchWheelDepth(unsigned char pitchWheelDepth);
 
  private:
-  explicit AudioProperties(const AudioProperties &);
-  AudioProperties &operator=(const AudioProperties &);
-
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;
 };

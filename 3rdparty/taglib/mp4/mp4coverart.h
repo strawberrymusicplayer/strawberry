@@ -51,7 +51,7 @@ class TAGLIB_EXPORT CoverArt {
   explicit CoverArt(Format format, const ByteVector &data);
   ~CoverArt();
 
-  explicit CoverArt(const CoverArt &item);
+  CoverArt(const CoverArt &item);
 
   /*!
    * Copies the contents of \a item into this CoverArt.

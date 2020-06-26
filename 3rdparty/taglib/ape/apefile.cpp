@@ -31,14 +31,16 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tdebug.h>
-#include <tagunion.h>
-#include <id3v1tag.h>
-#include <id3v2header.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tdebug.h"
+#include "tagunion.h"
+#include "id3v1tag.h"
+#include "id3v2header.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "apefile.h"
 #include "apetag.h"
@@ -56,42 +58,33 @@ class APE::File::FilePrivate {
   FilePrivate() : APELocation(-1),
                   APESize(0),
                   ID3v1Location(-1),
-                  ID3v2Header(nullptr),
                   ID3v2Location(-1),
-                  ID3v2Size(0),
-                  properties(nullptr) {}
+                  ID3v2Size(0) {}
 
-  ~FilePrivate() {
-    delete ID3v2Header;
-    delete properties;
-  }
+  long long APELocation;
+  long long APESize;
 
-  long APELocation;
-  long APESize;
+  long long ID3v1Location;
 
-  long ID3v1Location;
+  std::unique_ptr<ID3v2::Header> ID3v2Header;
+  long long ID3v2Location;
+  long long ID3v2Size;
 
-  ID3v2::Header *ID3v2Header;
-  long ID3v2Location;
-  long ID3v2Size;
+  DoubleTagUnion tag;
 
-  TagUnion tag;
-
-  AudioProperties *properties;
+  std::unique_ptr<AudioProperties> properties;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool APE::File::isSupported(IOStream *) {
+bool APE::File::isSupported(IOStream *stream) {
   // An APE file has an ID "MAC " somewhere. An ID3v2 tag may precede.
 
-  // FIXME:
-  //const ByteVector buffer = Utils::readHeader(stream, bufferSize(), true);
-  //return (buffer.find("MAC ") >= 0);
+  const ByteVector buffer = Utils::readHeader(stream, bufferSize(), true);
+  return (buffer.find("MAC ") != ByteVector::npos());
 
-  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,14 +113,6 @@ Strawberry_TagLib::TagLib::Tag *APE::File::tag() const {
   return &d->tag;
 }
 
-PropertyMap APE::File::properties() const {
-  return d->tag.properties();
-}
-
-void APE::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag.removeUnsupportedProperties(properties);
-}
-
 PropertyMap APE::File::setProperties(const PropertyMap &properties) {
 
   if (ID3v1Tag())
@@ -138,7 +123,7 @@ PropertyMap APE::File::setProperties(const PropertyMap &properties) {
 }
 
 APE::AudioProperties *APE::File::audioProperties() const {
-  return d->properties;
+  return d->properties.get();
 }
 
 bool APE::File::save() {
@@ -255,7 +240,7 @@ void APE::File::read(bool readProperties) {
 
   if (d->ID3v2Location >= 0) {
     seek(d->ID3v2Location);
-    d->ID3v2Header = new ID3v2::Header(readBlock(ID3v2::Header::size()));
+    d->ID3v2Header.reset(new ID3v2::Header(readBlock(ID3v2::Header::size())));
     d->ID3v2Size = d->ID3v2Header->completeTagSize();
   }
 
@@ -283,7 +268,7 @@ void APE::File::read(bool readProperties) {
 
   if (readProperties) {
 
-    long streamLength;
+    long long streamLength;
 
     if (d->APELocation >= 0)
       streamLength = d->APELocation;
@@ -300,7 +285,7 @@ void APE::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new AudioProperties(this, streamLength);
+    d->properties.reset(new AudioProperties(this, streamLength));
   }
 
 }

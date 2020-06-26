@@ -54,14 +54,14 @@ class TAGLIB_EXPORT Page {
   /*!
    * Read an Ogg page from the \a file at the position \a pageOffset.
    */
-  explicit Page(File *file, long pageOffset);
+  explicit Page(File *file, long long pageOffset);
 
   virtual ~Page();
 
   /*!
    * Returns the page's position within the file (in bytes).
    */
-  long fileOffset() const;
+  long long fileOffset() const;
 
   /*!
    * Returns a pointer to the header for this page.  This pointer will become invalid when the page is deleted.
@@ -193,7 +193,7 @@ class TAGLIB_EXPORT Page {
     bool containsLastPacket = false);
 
  private:
-  explicit Page(const Page &);
+  Page(const Page &);
   Page &operator=(const Page &);
 
   class PagePrivate;

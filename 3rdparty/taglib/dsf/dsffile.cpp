@@ -23,12 +23,14 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tdebug.h>
-#include <id3v2tag.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tdebug.h"
+#include "id3v2tag.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "dsffile.h"
 
@@ -39,20 +41,13 @@ using namespace Strawberry_TagLib::TagLib;
 class DSF::File::FilePrivate {
  public:
   FilePrivate() : fileSize(0),
-                  metadataOffset(0),
-                  properties(nullptr),
-                  tag(nullptr) {
-  }
-
-  ~FilePrivate() {
-    delete properties;
-    delete tag;
-  }
+                  metadataOffset(0) {}
 
   long long fileSize;
   long long metadataOffset;
-  AudioProperties *properties;
-  ID3v2::Tag *tag;
+
+  std::unique_ptr<AudioProperties> properties;
+  std::unique_ptr<ID3v2::Tag> tag;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +86,11 @@ DSF::File::~File() {
 }
 
 ID3v2::Tag *DSF::File::tag() const {
-  return d->tag;
+  return d->tag.get();
+}
+
+DSF::AudioProperties *DSF::File::audioProperties() const {
+  return d->properties.get();
 }
 
 PropertyMap DSF::File::properties() const {
@@ -100,10 +99,6 @@ PropertyMap DSF::File::properties() const {
 
 PropertyMap DSF::File::setProperties(const PropertyMap &properties) {
   return d->tag->setProperties(properties);
-}
-
-DSF::AudioProperties *DSF::File::audioProperties() const {
-  return d->properties;
 }
 
 bool DSF::File::save() {
@@ -125,13 +120,13 @@ bool DSF::File::save() {
 
     // Update the file size
     if (d->fileSize != newFileSize) {
-      insert(ByteVector::fromLongLong(newFileSize, false), 12, 8);
+      insert(ByteVector::fromUInt64LE(newFileSize), 12, 8);
       d->fileSize = newFileSize;
     }
 
     // Update the metadata offset to 0 since there is no longer a tag
     if (d->metadataOffset) {
-      insert(ByteVector::fromLongLong(0ULL, false), 20, 8);
+      insert(ByteVector::fromUInt64LE(0ULL), 20, 8);
       d->metadataOffset = 0;
     }
 
@@ -147,13 +142,13 @@ bool DSF::File::save() {
 
     // Update the file size
     if (d->fileSize != newFileSize) {
-      insert(ByteVector::fromLongLong(newFileSize, false), 12, 8);
+      insert(ByteVector::fromUInt64LE(newFileSize), 12, 8);
       d->fileSize = newFileSize;
     }
 
     // Update the metadata offset
     if (d->metadataOffset != newMetadataOffset) {
-      insert(ByteVector::fromLongLong(newMetadataOffset, false), 20, 8);
+      insert(ByteVector::fromUInt64LE(newMetadataOffset), 20, 8);
       d->metadataOffset = newMetadataOffset;
     }
 
@@ -183,7 +178,7 @@ void DSF::File::read(bool, AudioProperties::ReadStyle propertiesStyle) {
     return;
   }
 
-  long long chunkSize = readBlock(8).toLongLong(false);
+  long long chunkSize = readBlock(8).toInt64LE(0);
 
   // Integrity check
   if (28 != chunkSize) {
@@ -192,7 +187,7 @@ void DSF::File::read(bool, AudioProperties::ReadStyle propertiesStyle) {
     return;
   }
 
-  d->fileSize = readBlock(8).toLongLong(false);
+  d->fileSize = readBlock(8).toInt64LE(0);
 
   // File is malformed or corrupted
   if (d->fileSize != length()) {
@@ -201,7 +196,7 @@ void DSF::File::read(bool, AudioProperties::ReadStyle propertiesStyle) {
     return;
   }
 
-  d->metadataOffset = readBlock(8).toLongLong(false);
+  d->metadataOffset = readBlock(8).toInt64LE(0);
 
   // File is malformed or corrupted
   if (d->metadataOffset > d->fileSize) {
@@ -218,16 +213,16 @@ void DSF::File::read(bool, AudioProperties::ReadStyle propertiesStyle) {
     return;
   }
 
-  chunkSize = readBlock(8).toLongLong(false);
+  chunkSize = readBlock(8).toInt64LE(0);
 
-  d->properties = new AudioProperties(readBlock(chunkSize), propertiesStyle);
+  d->properties.reset(new AudioProperties(readBlock(chunkSize), propertiesStyle));
 
   // Skip the data chunk
 
   // A metadata offset of 0 indicates the absence of an ID3v2 tag
   if (0 == d->metadataOffset)
-    d->tag = new ID3v2::Tag();
+    d->tag.reset(new ID3v2::Tag());
   else
-    d->tag = new ID3v2::Tag(this, d->metadataOffset);
+    d->tag.reset(new ID3v2::Tag(this, d->metadataOffset));
 
 }

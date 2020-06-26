@@ -45,20 +45,20 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Create an instance of DSF::AudioProperties with the data read from the ByteVector \a data.
    */
-  explicit AudioProperties(const ByteVector &data, ReadStyle style);
+  explicit AudioProperties(const ByteVector &data, ReadStyle);
 
   /*!
    * Destroys this DSF::AudioProperties instance.
    */
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
   // Reimplementations.
 
-  virtual int lengthInSeconds() const;
-  virtual int lengthInMilliseconds() const;
-  virtual int bitrate() const;
-  virtual int sampleRate() const;
-  virtual int channels() const;
+  int lengthInSeconds() const override;
+  int lengthInMilliseconds() const override;
+  int bitrate() const override;
+  int sampleRate() const override;
+  int channels() const override;
 
   int formatVersion() const;
   int formatID() const;
@@ -79,7 +79,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   int blockSizePerChannel() const;
 
  private:
-  explicit AudioProperties(const AudioProperties&);
+  AudioProperties(const AudioProperties&);
   AudioProperties &operator=(const AudioProperties&);
 
   void read(const ByteVector &data);

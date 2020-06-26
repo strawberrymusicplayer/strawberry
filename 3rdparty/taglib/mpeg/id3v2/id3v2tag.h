@@ -29,6 +29,7 @@
 #include "tag.h"
 #include "tbytevector.h"
 #include "tstring.h"
+#include "tstringhandler.h"
 #include "tlist.h"
 #include "tmap.h"
 #include "taglib_export.h"
@@ -49,34 +50,6 @@ class Footer;
 
 typedef List<Frame *> FrameList;
 typedef Map<ByteVector, FrameList> FrameListMap;
-
-//! An abstraction for the ISO-8859-1 string to data encoding in ID3v2 tags.
-
-/*!
- * ID3v2 tag can store strings in ISO-8859-1 (Latin1), and TagLib only supports genuine ISO-8859-1 by default.
- * However, in practice, non ISO-8859-1 encodings are often used instead of ISO-8859-1,
- * such as Windows-1252 for western languages, Shift_JIS for Japanese and so on.
- *
- * Here is an option to read such tags by subclassing this class,
- * reimplementing parse() and setting your reimplementation as the default
- * with ID3v2::Tag::setStringHandler().
- *
- * \note Writing non-ISO-8859-1 tags is not implemented intentionally.
- * Use UTF-16 or UTF-8 instead.
- *
- * \see ID3v2::Tag::setStringHandler()
- */
-class TAGLIB_EXPORT Latin1StringHandler {
- public:
-  explicit Latin1StringHandler();
-  virtual ~Latin1StringHandler();
-
-  /*!
-   * Decode a string from \a data.  The default implementation assumes that
-   * \a data is an ISO-8859-1 (Latin1) character array.
-   */
-  virtual String parse(const ByteVector &data) const;
-};
 
 //! The main class in the ID3v2 implementation
 
@@ -133,32 +106,34 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *
    * \see FrameFactory
    */
-  explicit Tag(File *file, long tagOffset, const FrameFactory *factory = FrameFactory::instance());
+  explicit Tag(File *file, long long tagOffset, const FrameFactory *factory = FrameFactory::instance());
 
   /*!
    * Destroys this Tag instance.
    */
-  virtual ~Tag();
+  ~Tag() override;
 
   // Reimplementations.
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
+  PictureMap pictures() const override;
 
-  virtual void setTitle(const String &s);
-  virtual void setArtist(const String &s);
-  virtual void setAlbum(const String &s);
-  virtual void setComment(const String &s);
-  virtual void setGenre(const String &s);
-  virtual void setYear(unsigned int i);
-  virtual void setTrack(unsigned int i);
+  void setTitle(const String &s) override;
+  void setArtist(const String &s) override;
+  void setAlbum(const String &s) override;
+  void setComment(const String &s) override;
+  void setGenre(const String &s) override;
+  void setYear(unsigned int i) override;
+  void setTrack(unsigned int i) override;
+  void setPictures(const PictureMap &l) override;
 
-  virtual bool isEmpty() const;
+  bool isEmpty() const override;
 
   /*!
    * Returns a pointer to the tag's header.
@@ -271,7 +246,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *  once, the description, separated by a "/".
    *
    */
-  PropertyMap properties() const;
+  PropertyMap properties() const override;
 
   /*!
    * Removes unsupported frames given by \a properties. The elements of
@@ -284,32 +259,26 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *  - "UNKNOWN/" + frameID, for frames that could not be parsed by TagLib.
    *    In that case, *all* unknown frames with the given ID will be removed.
    */
-  void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties) override;
 
   /*!
    * Implements the unified property interface -- import function.
    * See the comments in properties().
    */
-  PropertyMap setProperties(const PropertyMap &);
-
-  /*!
-   * Render the tag back to binary data, suitable to be written to disk.
-   */
-  ByteVector render() const;
+  PropertyMap setProperties(const PropertyMap &) override;
 
   /*!
    * Render the tag back to binary data, suitable to be written to disk.
    *
    * The \a version parameter specifies whether ID3v2.4 (default) or ID3v2.3 should be used.
    */
-  ByteVector render(Version version) const;
+  ByteVector render(Version version = ID3v2::v4) const;
 
   /*!
    * Gets the current string handler that decides how the "Latin-1" data will be converted to and from binary data.
    *
-   * \see Latin1StringHandler
    */
-  static Latin1StringHandler const *latin1StringHandler();
+  static Strawberry_TagLib::TagLib::StringHandler const *latin1StringHandler();
 
   /*!
    * Sets the string handler that decides how the "Latin-1" data will be converted to and from binary data.
@@ -319,7 +288,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    *
    * \see Latin1StringHandler
    */
-  static void setLatin1StringHandler(const Latin1StringHandler *handler);
+  static void setLatin1StringHandler(const Strawberry_TagLib::TagLib::StringHandler *handler);
 
  protected:
   /*!
@@ -348,7 +317,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void downgradeFrames(FrameList *existingFrames, FrameList *newFrames) const;
 
  private:
-  explicit Tag(const Tag&);
+  Tag(const Tag&);
   Tag &operator=(const Tag&);
 
   class TagPrivate;

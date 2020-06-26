@@ -26,8 +26,8 @@
 #include <iostream>
 #include <bitset>
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "id3v2header.h"
 #include "id3v2footer.h"
@@ -38,13 +38,13 @@ using namespace ID3v2;
 
 class Header::HeaderPrivate {
  public:
-  HeaderPrivate() : majorVersion(4),
-                    revisionNumber(0),
-                    unsynchronisation(false),
-                    extendedHeader(false),
-                    experimentalIndicator(false),
-                    footerPresent(false),
-                    tagSize(0) {}
+  explicit HeaderPrivate() : majorVersion(4),
+                             revisionNumber(0),
+                             unsynchronisation(false),
+                             extendedHeader(false),
+                             experimentalIndicator(false),
+                             footerPresent(false),
+                             tagSize(0) {}
 
   unsigned int majorVersion;
   unsigned int revisionNumber;

@@ -26,30 +26,46 @@
 #include <algorithm>
 #include <vector>
 
-#include <tbytevector.h>
-#include <tdebug.h>
-#include <tstring.h>
+#include "tbytevector.h"
+#include "tdebug.h"
+#include "tstring.h"
 
 #include "rifffile.h"
 #include "riffutils.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
+namespace {
 struct Chunk {
   ByteVector name;
-  unsigned int offset;
+  long long offset;
   unsigned int size;
   unsigned int padding;
 };
 
+unsigned int toUInt32(const ByteVector &v, size_t offset, ByteOrder endian) {
+  if (endian == BigEndian)
+    return v.toUInt32BE(offset);
+  else
+    return v.toUInt32LE(offset);
+}
+
+ByteVector fromUInt32(size_t value, ByteOrder endian) {
+  if (endian == BigEndian)
+    return ByteVector::fromUInt32BE(value);
+  else
+    return ByteVector::fromUInt32LE(value);
+}
+}  // namespace
+
 class RIFF::File::FilePrivate {
  public:
-  explicit FilePrivate(Endianness _endianness) : endianness(_endianness), size(0), sizeOffset(0) {}
+  explicit FilePrivate(ByteOrder _endianness) : endianness(_endianness), size(0), sizeOffset(0) {}
 
-  const Endianness endianness;
+  const ByteOrder endianness;
 
   unsigned int size;
-  long sizeOffset;
+  long long sizeOffset;
 
   std::vector<Chunk> chunks;
 };
@@ -66,12 +82,12 @@ RIFF::File::~File() {
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-RIFF::File::File(FileName file, Endianness endianness) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(endianness)) {
+RIFF::File::File(FileName file, ByteOrder endianness) : Strawberry_TagLib::TagLib::File(file), d(new FilePrivate(endianness)) {
   if (isOpen())
     read();
 }
 
-RIFF::File::File(IOStream *stream, Endianness endianness) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(endianness)) {
+RIFF::File::File(IOStream *stream, ByteOrder endianness) : Strawberry_TagLib::TagLib::File(stream), d(new FilePrivate(endianness)) {
   if (isOpen())
     read();
 }
@@ -80,8 +96,8 @@ unsigned int RIFF::File::riffSize() const {
   return d->size;
 }
 
-unsigned int RIFF::File::chunkCount() const {
-  return static_cast<unsigned int>(d->chunks.size());
+size_t RIFF::File::chunkCount() const {
+  return d->chunks.size();
 }
 
 unsigned int RIFF::File::chunkDataSize(unsigned int i) const {
@@ -95,7 +111,7 @@ unsigned int RIFF::File::chunkDataSize(unsigned int i) const {
 
 }
 
-unsigned int RIFF::File::chunkOffset(unsigned int i) const {
+long long RIFF::File::chunkOffset(unsigned int i) const {
 
   if (i >= d->chunks.size()) {
     debug("RIFF::File::chunkOffset() - Index out of range. Returning 0.");
@@ -164,7 +180,7 @@ void RIFF::File::setChunkData(unsigned int i, const ByteVector &data) {
   // Now update the internal offsets
 
   for (++it; it != d->chunks.end(); ++it)
-    it->offset += static_cast<int>(diff);
+    it->offset += diff;
 
   // Update the global size.
 
@@ -203,7 +219,7 @@ void RIFF::File::setChunkData(const ByteVector &name, const ByteVector &data, bo
 
   Chunk &last = d->chunks.back();
 
-  long offset = last.offset + last.size + last.padding;
+  long long offset = last.offset + last.size + last.padding;
   if (offset & 1) {
     if (last.padding == 1) {
       last.padding = 0;  // This should not happen unless the file is corrupted.
@@ -247,7 +263,7 @@ void RIFF::File::removeChunk(unsigned int i) {
   std::vector<Chunk>::iterator it = d->chunks.begin();
   std::advance(it, i);
 
-  const unsigned int removeSize = it->size + it->padding + 8;
+  const size_t removeSize = it->size + it->padding + 8;
   removeBlock(it->offset - 8, removeSize);
   it = d->chunks.erase(it);
 
@@ -275,15 +291,13 @@ void RIFF::File::removeChunk(const ByteVector &name) {
 
 void RIFF::File::read() {
 
-  const bool bigEndian = (d->endianness == BigEndian);
-
-  long offset = tell();
+  long long offset = tell();
 
   offset += 4;
   d->sizeOffset = offset;
 
   seek(offset);
-  d->size = readBlock(4).toUInt(bigEndian);
+  d->size = toUInt32(readBlock(4), 0, d->endianness);
 
   offset += 8;
 
@@ -292,7 +306,7 @@ void RIFF::File::read() {
 
     seek(offset);
     const ByteVector chunkName = readBlock(4);
-    const unsigned int chunkSize = readBlock(4).toUInt(bigEndian);
+    const unsigned int chunkSize = toUInt32(readBlock(4), 0, d->endianness);
 
     if (!isValidChunkName(chunkName)) {
       debug("RIFF::File::read() -- Chunk '" + chunkName + "' has invalid ID");
@@ -300,7 +314,7 @@ void RIFF::File::read() {
       break;
     }
 
-    if (static_cast<long long>(offset) + 8 + chunkSize > length()) {
+    if (offset + 8 + chunkSize > length()) {
       debug("RIFF::File::read() -- Chunk '" + chunkName + "' has invalid size (larger than the file size)");
       setValid(false);
       break;
@@ -341,12 +355,12 @@ void RIFF::File::read() {
 
 }
 
-void RIFF::File::writeChunk(const ByteVector &name, const ByteVector &data, unsigned long offset, unsigned long replace) {
+void RIFF::File::writeChunk(const ByteVector &name, const ByteVector &data, long long offset, size_t replace) {
 
   ByteVector combined;
 
   combined.append(name);
-  combined.append(ByteVector::fromUInt(data.size(), d->endianness == BigEndian));
+  combined.append(fromUInt32(data.size(), d->endianness));
   combined.append(data);
 
   if (data.size() & 1)
@@ -362,7 +376,7 @@ void RIFF::File::updateGlobalSize() {
   const Chunk last = d->chunks.back();
   d->size = last.offset + last.size + last.padding - first.offset + 12;
 
-  const ByteVector data = ByteVector::fromUInt(d->size, d->endianness == BigEndian);
+  const ByteVector data = fromUInt32(d->size, d->endianness);
   insert(data, d->sizeOffset, 4);
 
 }

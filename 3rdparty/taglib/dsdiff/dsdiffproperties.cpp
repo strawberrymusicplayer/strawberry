@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "dsdiffproperties.h"
 
@@ -32,12 +32,12 @@ using namespace Strawberry_TagLib::TagLib;
 
 class DSDIFF::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        sampleWidth(0),
-                        sampleCount(0) {
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      sampleWidth(0),
+                                      sampleCount(0) {
   }
 
   int length;
@@ -52,9 +52,7 @@ class DSDIFF::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-DSDIFF::AudioProperties::AudioProperties(const unsigned int sampleRate, const unsigned short channels, const unsigned long long samplesCount, const int bitrate, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style) {
-
-  d = new AudioPropertiesPrivate;
+DSDIFF::AudioProperties::AudioProperties(const unsigned int sampleRate, const unsigned short channels, const unsigned long long samplesCount, const int bitrate, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate) {
 
   d->channels = channels;
   d->sampleCount = samplesCount;

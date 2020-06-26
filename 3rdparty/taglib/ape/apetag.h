@@ -34,6 +34,9 @@
 
 #include "apeitem.h"
 
+#define FRONT_COVER "COVER ART (FRONT)"
+#define BACK_COVER  "COVER ART (BACK)"
+
 namespace Strawberry_TagLib {
 namespace TagLib {
 
@@ -50,7 +53,7 @@ class Footer;
  *
  * \see APE::Tag::itemListMap()
  */
-typedef Map<const String, Item> ItemListMap;
+typedef Map<String, Item> ItemListMap;
 
 
 //! An APE tag implementation
@@ -66,12 +69,12 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    * Create an APE tag and parse the data in \a file with APE footer at
    * \a tagOffset.
    */
-  explicit Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation);
+  explicit Tag(Strawberry_TagLib::TagLib::File *file, long long footerLocation);
 
   /*!
    * Destroys this Tag instance.
    */
-  virtual ~Tag();
+  ~Tag() override;
 
   /*!
    * Renders the in memory values to a ByteVector suitable for writing to the file.
@@ -85,21 +88,31 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
 
   // Reimplementations.
 
-  virtual String title() const;
-  virtual String artist() const;
-  virtual String album() const;
-  virtual String comment() const;
-  virtual String genre() const;
-  virtual unsigned int year() const;
-  virtual unsigned int track() const;
+  String title() const override;
+  String artist() const override;
+  String album() const override;
+  String comment() const override;
+  String genre() const override;
+  unsigned int year() const override;
+  unsigned int track() const override;
 
-  virtual void setTitle(const String &s);
-  virtual void setArtist(const String &s);
-  virtual void setAlbum(const String &s);
-  virtual void setComment(const String &s);
-  virtual void setGenre(const String &s);
-  virtual void setYear(unsigned int i);
-  virtual void setTrack(unsigned int i);
+  /**
+   * @brief pictures
+   * According to :
+   * http://www.hydrogenaud.io/forums/index.php?showtopic=40603&st=50&p=504669&#entry504669
+   * http://git.videolan.org/?p=vlc.git;a=blob;f=modules/meta_engine/taglib.cpp
+   * @return
+   */
+  PictureMap pictures() const override;
+
+  void setTitle(const String &s) override;
+  void setArtist(const String &s) override;
+  void setAlbum(const String &s) override;
+  void setComment(const String &s) override;
+  void setGenre(const String &s) override;
+  void setYear(unsigned int i) override;
+  void setTrack(unsigned int i) override;
+  void setPictures(const PictureMap &l) override;
 
   /*!
    * Implements the unified tag dictionary interface -- export function.
@@ -114,9 +127,9 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    * TRACK to TRACKNUMBER, YEAR to DATE, and ALBUM ARTIST to ALBUMARTIST,
    * respectively, in order to be compliant with the names used in other formats.
    */
-  PropertyMap properties() const;
+  PropertyMap properties() const override;
 
-  void removeUnsupportedProperties(const StringList &properties);
+  void removeUnsupportedProperties(const StringList &properties) override;
 
   /*!
    * Implements the unified tag dictionary interface -- import function.
@@ -124,7 +137,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    * specification requires keys to have between 2 and 16 printable ASCII characters
    * with the exception of the fixed strings "ID3", "TAG", "OGGS", and "MP+".
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &) override;
 
   /*!
    * Check if the given String is a valid APE tag key.
@@ -176,7 +189,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Returns true if the tag does not contain any data.
    */
-  bool isEmpty() const;
+  bool isEmpty() const override;
 
  protected:
   /*!
@@ -190,7 +203,7 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   void parse(const ByteVector &data);
 
  private:
-  explicit Tag(const Tag &);
+  Tag(const Tag &);
   Tag &operator=(const Tag &);
 
   class TagPrivate;

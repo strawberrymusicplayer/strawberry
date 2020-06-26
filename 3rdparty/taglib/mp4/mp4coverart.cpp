@@ -23,33 +23,40 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <taglib.h>
-#include <tdebug.h>
-#include "trefcounter.h"
+#include <memory>
+
+#include "taglib.h"
+#include "tdebug.h"
 #include "mp4coverart.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MP4::CoverArt::CoverArtPrivate : public RefCounter {
- public:
-  CoverArtPrivate() : format(MP4::CoverArt::JPEG) {}
+namespace {
 
-  Format format;
+struct CoverArtData {
+  MP4::CoverArt::Format format;
   ByteVector data;
+};
+
+}  // namespace
+
+class MP4::CoverArt::CoverArtPrivate {
+ public:
+  explicit CoverArtPrivate(Format f, const ByteVector &v) : data(new CoverArtData()) {
+    data->format = f;
+    data->data = v;
+  }
+
+  std::shared_ptr<CoverArtData> data;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::CoverArt::CoverArt(Format format, const ByteVector &data) : d(new CoverArtPrivate()) {
-  d->format = format;
-  d->data = data;
-}
+MP4::CoverArt::CoverArt(Format format, const ByteVector &data) : d(new CoverArtPrivate(format, data)) {}
 
-MP4::CoverArt::CoverArt(const CoverArt &item) : d(item.d) {
-  d->ref();
-}
+MP4::CoverArt::CoverArt(const CoverArt &item) : d(new CoverArtPrivate(*item.d)) {}
 
 MP4::CoverArt &
 MP4::CoverArt::operator=(const CoverArt &item) {
@@ -64,17 +71,15 @@ void MP4::CoverArt::swap(CoverArt &item) {
 }
 
 MP4::CoverArt::~CoverArt() {
-  if (d->deref()) {
-    delete d;
-  }
+  delete d;
 }
 
 MP4::CoverArt::Format
 MP4::CoverArt::format() const {
-  return d->format;
+  return d->data->format;
 }
 
 ByteVector
 MP4::CoverArt::data() const {
-  return d->data;
+  return d->data->data;
 }

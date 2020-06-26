@@ -56,7 +56,7 @@ class TAGLIB_EXPORT Attribute {
   /*!
    * Constructs an empty attribute.
    */
-  explicit Attribute();
+  Attribute();
 
   /*!
    * Constructs an attribute with \a key and a UnicodeType \a value.
@@ -66,7 +66,7 @@ class TAGLIB_EXPORT Attribute {
   /*!
    * Constructs an attribute with \a key and a BytesType \a value.
    */
-  explicit Attribute(const ByteVector &value);
+  Attribute(const ByteVector &value);
 
   /*!
    * Constructs an attribute with \a key and a Picture \a value.
@@ -79,27 +79,27 @@ class TAGLIB_EXPORT Attribute {
    * WM/Picture attributes added with TagLib::ASF are not automatically validated to conform to ID3 specifications.
    * You must add code in your application to perform validations if you want to maintain complete compatibility with ID3.
    */
-  explicit Attribute(const Picture &value);
+  Attribute(const Picture &value);
 
   /*!
    * Constructs an attribute with \a key and a DWordType \a value.
    */
-  explicit Attribute(unsigned int value);
+  Attribute(unsigned int value);
 
   /*!
    * Constructs an attribute with \a key and a QWordType \a value.
    */
-  explicit Attribute(unsigned long long value);
+  Attribute(unsigned long long value);
 
   /*!
    * Constructs an attribute with \a key and a WordType \a value.
    */
-  explicit Attribute(unsigned short value);
+  Attribute(unsigned short value);
 
   /*!
    * Constructs an attribute with \a key and a BoolType \a value.
    */
-  explicit Attribute(bool value);
+  Attribute(bool value);
 
   /*!
    * Construct an attribute as a copy of \a other.
@@ -181,17 +181,13 @@ class TAGLIB_EXPORT Attribute {
    */
   void setStream(int value);
 
-#ifndef DO_NOT_DOCUMENT
-  /* THIS IS PRIVATE, DON'T TOUCH IT! */
-  String parse(ASF::File &file, int kind = 0);
-#endif
-
   //! Returns the size of the stored data
   int dataSize() const;
 
  private:
   friend class File;
 
+  String parse(ASF::File &file, int kind = 0);
   ByteVector render(const String &name, int kind = 0) const;
 
   class AttributePrivate;

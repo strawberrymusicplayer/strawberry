@@ -38,8 +38,6 @@ namespace TrueAudio {
 
 class File;
 
-static const unsigned int HeaderSize = 18;
-
 //! An implementation of audio property reading for TrueAudio
 
 /*!
@@ -51,41 +49,41 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   /*!
    * Create an instance of TrueAudio::AudioProperties with the data read from the ByteVector \a data.
    */
-  explicit AudioProperties(const ByteVector &data, long streamLength, ReadStyle style = Average);
+  explicit AudioProperties(const ByteVector &data, long long streamLength, ReadStyle style = Average);
 
   /*!
    * Destroys this TrueAudio::AudioProperties instance.
    */
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
   /*!
    * Returns the length of the file in seconds.  The length is rounded down to the nearest whole second.
    *
    * \see lengthInMilliseconds()
    */
-  virtual int lengthInSeconds() const;
+  int lengthInSeconds() const override;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  virtual int lengthInMilliseconds() const;
+  int lengthInMilliseconds() const override;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
    */
-  virtual int bitrate() const;
+  int bitrate() const override;
 
   /*!
    * Returns the sample rate in Hz.
    */
-  virtual int sampleRate() const;
+  int sampleRate() const override;
 
   /*!
    * Returns the number of audio channels.
    */
-  virtual int channels() const;
+  int channels() const override;
 
   /*!
    * Returns the number of bits per audio sample.
@@ -103,10 +101,7 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   int ttaVersion() const;
 
  private:
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
-
-  void read(const ByteVector &data, long streamLength);
+  void read(const ByteVector &data, long long streamLength);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

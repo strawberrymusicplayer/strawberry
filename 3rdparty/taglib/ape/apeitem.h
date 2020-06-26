@@ -60,6 +60,11 @@ class TAGLIB_EXPORT Item {
   /*!
    * Constructs a text item with \a key and \a values.
    */
+  explicit Item(const String &key, const String &values);
+
+  /*!
+   * Constructs a text item with \a key and \a values.
+   */
   explicit Item(const String &key, const StringList &values);
 
   /*!
@@ -71,7 +76,7 @@ class TAGLIB_EXPORT Item {
   /*!
    * Construct an item as a copy of \a item.
    */
-  explicit Item(const Item &item);
+  Item(const Item &item);
 
   /*!
    * Destroys the item.
@@ -148,7 +153,6 @@ class TAGLIB_EXPORT Item {
    * If the data type is not \a Text, always returns an empty String.
    */
   String toString() const;
-  StringList toStringList() const;
 
   /*!
    * Returns the list of text values.  If the data type is not \a Text, always returns an empty StringList.

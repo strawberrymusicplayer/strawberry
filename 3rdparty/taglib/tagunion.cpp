@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
     copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
@@ -23,203 +23,229 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
+#include <memory>
+
 #include <tagunion.h>
 #include <tstringlist.h>
 #include <tpropertymap.h>
+#include <tpicturemap.h>
 
-#include "id3v1tag.h"
-#include "id3v2tag.h"
-#include "apetag.h"
-#include "xiphcomment.h"
-#include "infotag.h"
-
-using namespace Strawberry_TagLib::TagLib;
-
-#define stringUnion(method)                  \
-  if (tag(0) && !tag(0)->method().isEmpty()) \
-    return tag(0)->method();                 \
-  if (tag(1) && !tag(1)->method().isEmpty()) \
-    return tag(1)->method();                 \
-  if (tag(2) && !tag(2)->method().isEmpty()) \
-    return tag(2)->method();                 \
+#define stringUnion(method)                                    \
+  for (size_t j = 0; j < COUNT; ++j) {                         \
+    String val = d->tags[j] ? d->tags[j]->method() : String(); \
+    if (!val.isEmpty())                                        \
+      return val;                                              \
+  }                                                            \
   return String();
 
-#define numberUnion(method)           \
-  if (tag(0) && tag(0)->method() > 0) \
-    return tag(0)->method();          \
-  if (tag(1) && tag(1)->method() > 0) \
-    return tag(1)->method();          \
-  if (tag(2) && tag(2)->method() > 0) \
-    return tag(2)->method();          \
-  return 0
+#define numberUnion(method)                                   \
+  for (size_t j = 0; j < COUNT; ++j) {                        \
+    unsigned int val = d->tags[j] ? d->tags[j]->method() : 0; \
+    if (val > 0)                                              \
+      return val;                                             \
+  }                                                           \
+  return 0;
 
-#define setUnion(method, value) \
-  if (tag(0))                   \
-    tag(0)->set##method(value); \
-  if (tag(1))                   \
-    tag(1)->set##method(value); \
-  if (tag(2))                   \
-    tag(2)->set##method(value);
+#define pictureMapUnion(method)                                        \
+  for (size_t j = 0; j < COUNT; ++j) {                                 \
+    PictureMap val = d->tags[j] ? d->tags[j]->method() : PictureMap(); \
+    if (!val.isEmpty())                                                \
+      return val;                                                      \
+  }                                                                    \
+  return PictureMap();
 
-class TagUnion::TagUnionPrivate {
- public:
-  TagUnionPrivate() : tags(3, static_cast<Tag *>(nullptr)) {}
-
-  ~TagUnionPrivate() {
-    delete tags[0];
-    delete tags[1];
-    delete tags[2];
+#define setUnion(method, value)        \
+  for (size_t j = 0; j < COUNT; ++j) { \
+    if (d->tags[j])                    \
+      d->tags[j]->set##method(value);  \
   }
 
-  std::vector<Tag *> tags;
+namespace Strawberry_TagLib {
+namespace TagLib {
+template<size_t COUNT>
+class TagUnion<COUNT>::TagUnionPrivate {
+ public:
+  std::unique_ptr<Tag> tags[COUNT];
 };
 
-TagUnion::TagUnion(Tag *first, Tag *second, Tag *third) : d(new TagUnionPrivate()) {
-  d->tags[0] = first;
-  d->tags[1] = second;
-  d->tags[2] = third;
-}
+template<size_t COUNT>
+TagUnion<COUNT>::TagUnion() : d(new TagUnionPrivate()) {}
 
-TagUnion::~TagUnion() {
+template<size_t COUNT>
+TagUnion<COUNT>::~TagUnion() {
   delete d;
 }
 
-Tag *TagUnion::operator[](int index) const {
+template<size_t COUNT>
+Tag *TagUnion<COUNT>::operator[](size_t index) const {
   return tag(index);
 }
 
-Tag *TagUnion::tag(int index) const {
-  return d->tags[index];
+template<size_t COUNT>
+Tag *TagUnion<COUNT>::tag(size_t index) const {
+  return d->tags[index].get();
 }
 
-void TagUnion::set(int index, Tag *tag) {
-  delete d->tags[index];
-  d->tags[index] = tag;
+template<size_t COUNT>
+void TagUnion<COUNT>::set(size_t index, Tag *tag) {
+  d->tags[index].reset(tag);
 }
 
-PropertyMap TagUnion::properties() const {
+template<size_t COUNT>
+PropertyMap TagUnion<COUNT>::properties() const {
 
-  // This is an ugly workaround but we can't add a virtual function.
-  // Should be virtual in taglib2.
-
-  for (size_t i = 0; i < 3; ++i) {
-
-    if (d->tags[i] && !d->tags[i]->isEmpty()) {
-
-      if (dynamic_cast<const ID3v1::Tag *>(d->tags[i]))
-        return dynamic_cast<const ID3v1::Tag *>(d->tags[i])->properties();
-
-      else if (dynamic_cast<const ID3v2::Tag *>(d->tags[i]))
-        return dynamic_cast<const ID3v2::Tag *>(d->tags[i])->properties();
-
-      else if (dynamic_cast<const APE::Tag *>(d->tags[i]))
-        return dynamic_cast<const APE::Tag *>(d->tags[i])->properties();
-
-      else if (dynamic_cast<const Ogg::XiphComment *>(d->tags[i]))
-        return dynamic_cast<const Ogg::XiphComment *>(d->tags[i])->properties();
-
-      else if (dynamic_cast<const RIFF::Info::Tag *>(d->tags[i]))
-        return dynamic_cast<const RIFF::Info::Tag *>(d->tags[i])->properties();
-    }
+  for (size_t i = 0; i < COUNT; ++i) {
+    if (d->tags[i] && !d->tags[i]->isEmpty())
+      return d->tags[i]->properties();
   }
 
   return PropertyMap();
 
 }
 
-void TagUnion::removeUnsupportedProperties(const StringList &unsupported) {
+template<size_t COUNT>
+void TagUnion<COUNT>::removeUnsupportedProperties(const StringList &unsupported) {
 
-  // This is an ugly workaround but we can't add a virtual function.
-  // Should be virtual in taglib2.
-
-  for (size_t i = 0; i < 3; ++i) {
-
-    if (d->tags[i]) {
-
-      if (dynamic_cast<ID3v1::Tag *>(d->tags[i]))
-        dynamic_cast<ID3v1::Tag *>(d->tags[i])->removeUnsupportedProperties(unsupported);
-
-      else if (dynamic_cast<ID3v2::Tag *>(d->tags[i]))
-        dynamic_cast<ID3v2::Tag *>(d->tags[i])->removeUnsupportedProperties(unsupported);
-
-      else if (dynamic_cast<APE::Tag *>(d->tags[i]))
-        dynamic_cast<APE::Tag *>(d->tags[i])->removeUnsupportedProperties(unsupported);
-
-      else if (dynamic_cast<Ogg::XiphComment *>(d->tags[i]))
-        dynamic_cast<Ogg::XiphComment *>(d->tags[i])->removeUnsupportedProperties(unsupported);
-
-      else if (dynamic_cast<RIFF::Info::Tag *>(d->tags[i]))
-        dynamic_cast<RIFF::Info::Tag *>(d->tags[i])->removeUnsupportedProperties(unsupported);
-    }
+  for (size_t i = 0; i < COUNT; ++i) {
+    if (d->tags[i])
+      d->tags[i]->removeUnsupportedProperties(unsupported);
   }
 
 }
 
-String TagUnion::title() const {
+template<size_t COUNT>
+PropertyMap TagUnion<COUNT>::setProperties(const PropertyMap &properties) {
+
+  // Record unassigned properties for each tag in the union
+  std::vector<PropertyMap> returnCandidates;
+  for (size_t i = 0; i < COUNT; ++i) {
+    if (d->tags[i])
+      returnCandidates.insert(returnCandidates.end(), d->tags[i]->setProperties(properties));
+  }
+
+  if (!returnCandidates.empty()) {
+    // Only one tag present, return its unassigned properties
+    if (returnCandidates.size() == 1) {
+      return returnCandidates.front();
+    }
+
+    // Multiple tags in union:
+    // if a property has been assigned in any member tag
+    // remove it from ignored properties to return
+    PropertyMap propertiesCopy(properties);
+    for (std::vector<PropertyMap>::iterator i = returnCandidates.begin(); i != returnCandidates.end(); i++) {
+      for (PropertyMap::Iterator j = propertiesCopy.begin(); j != propertiesCopy.end();) {
+        if (!i->contains(j->first)) {
+          j = propertiesCopy.erase(j->first).begin();
+        }
+        else {
+          j++;
+        }
+      }
+    }
+  }
+
+  // No assignments made by union member tags.
+  // Return input (this should not happen)
+  return properties;
+}
+
+template<size_t COUNT>
+String TagUnion<COUNT>::title() const {
   stringUnion(title);
 }
 
-String TagUnion::artist() const {
+template<size_t COUNT>
+String TagUnion<COUNT>::artist() const {
   stringUnion(artist);
 }
 
-String TagUnion::album() const {
+template<size_t COUNT>
+String TagUnion<COUNT>::album() const {
   stringUnion(album);
 }
 
-String TagUnion::comment() const {
+template<size_t COUNT>
+String TagUnion<COUNT>::comment() const {
   stringUnion(comment);
 }
 
-String TagUnion::genre() const {
+template<size_t COUNT>
+String TagUnion<COUNT>::genre() const {
   stringUnion(genre);
 }
 
-unsigned int TagUnion::year() const {
+template<size_t COUNT>
+unsigned int TagUnion<COUNT>::year() const {
   numberUnion(year);
 }
 
-unsigned int TagUnion::track() const {
+template<size_t COUNT>
+unsigned int TagUnion<COUNT>::track() const {
   numberUnion(track);
 }
 
-void TagUnion::setTitle(const String &s) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setTitle(const String &s) {
   setUnion(Title, s);
 }
 
-void TagUnion::setArtist(const String &s) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setArtist(const String &s) {
   setUnion(Artist, s);
 }
 
-void TagUnion::setAlbum(const String &s) {
+template<size_t COUNT>
+Strawberry_TagLib::TagLib::PictureMap TagUnion<COUNT>::pictures() const {
+  pictureMapUnion(pictures);
+}
+
+template<size_t COUNT>
+void TagUnion<COUNT>::setAlbum(const String &s) {
   setUnion(Album, s);
 }
 
-void TagUnion::setComment(const String &s) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setComment(const String &s) {
   setUnion(Comment, s);
 }
 
-void TagUnion::setGenre(const String &s) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setGenre(const String &s) {
   setUnion(Genre, s);
 }
 
-void TagUnion::setYear(unsigned int i) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setYear(unsigned int i) {
   setUnion(Year, i);
 }
 
-void TagUnion::setTrack(unsigned int i) {
+template<size_t COUNT>
+void TagUnion<COUNT>::setTrack(unsigned int i) {
   setUnion(Track, i);
 }
 
-bool TagUnion::isEmpty() const {
+template<size_t COUNT>
+void TagUnion<COUNT>::setPictures(const PictureMap &l) {
+  setUnion(Pictures, l);
+}
 
-  if (d->tags[0] && !d->tags[0]->isEmpty())
-    return false;
-  if (d->tags[1] && !d->tags[1]->isEmpty())
-    return false;
-  if (d->tags[2] && !d->tags[2]->isEmpty())
-    return false;
+template<size_t COUNT>
+bool TagUnion<COUNT>::isEmpty() const {
+
+  for (size_t i = 0; i < COUNT; ++i) {
+    if (d->tags[i] && !d->tags[i]->isEmpty())
+      return false;
+  }
 
   return true;
 
 }
+
+// All the versions of TagUnion should be explicitly instantiated here.
+
+template class TagUnion<2>;
+template class TagUnion<3>;
+
+}  // namespace TagLib
+}  // namepsace Strawberry_TagLib

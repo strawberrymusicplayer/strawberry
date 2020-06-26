@@ -52,6 +52,7 @@ list(APPEND COMPILE_OPTIONS
   -Wformat=2
   -Wdisabled-optimization
   -Wno-sign-conversion
+  -Wno-bool-conversion
   $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
   $<$<COMPILE_LANGUAGE:CXX>:-Wno-old-style-cast>
   $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
@@ -193,68 +194,21 @@ if(X11_FOUND)
 endif(X11_FOUND)
 
 # TAGLIB
-pkg_check_modules(TAGLIB taglib)
-# Only use system taglib if it's greater than 1.11.1
-# There is a bug in version 1.11.1 corrupting Ogg files, see: https://github.com/taglib/taglib/issues/864
-# If you decide to use the systems taglib, make sure it has been patched with the following commit:
-# https://github.com/taglib/taglib/commit/9336c82da3a04552168f208cd7a5fa4646701ea4
-# The current taglib in 3rdparty also has the following features used by strawberry:
-# - Audio file detection by content.
-# - DSF and DSDIFF support
-#
-# Some distros create their own version numbers for taglib so versions are not reliable anymore.
-# Force to use our own copy of taglib unless USE_SYSTEM_TAGLIB is set.
-
-option(USE_SYSTEM_TAGLIB "Use system taglib" OFF)
-if (TAGLIB_FOUND AND USE_SYSTEM_TAGLIB)
-  if (TAGLIB_VERSION VERSION_GREATER 1.11.1)
-    message(STATUS "Using system taglib library")
-  else()
-    message(WARNING "Using system taglib library. Version 1.11.1 or less has a bug corrupting Ogg files, make sure your systems version has been patched!")
-  endif()
-  find_path(HAVE_TAGLIB_DSFFILE_H taglib/dsffile.h)
-  if(HAVE_TAGLIB_DSFFILE_H)
-    set(HAVE_TAGLIB_DSFFILE ON)
-  endif(HAVE_TAGLIB_DSFFILE_H)
-else()
-  message(STATUS "Using builtin taglib library")
-  set(TAGLIB_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/taglib/;${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/")
-  set(TAGLIB_LIBRARY_DIRS "")
-  set(TAGLIB_LIBRARIES tag)
-  add_subdirectory(3rdparty/utf8-cpp)
-  add_subdirectory(3rdparty/taglib)
-  set(HAVE_TAGLIB_DSFFILE ON)
-  add_definitions(-DTAGLIB_STATIC)
-endif()
+set(TAGLIB_INCLUDE_DIRS "${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/taglib/;${CMAKE_BINARY_DIR}/3rdparty/taglib/headers/")
+set(TAGLIB_LIBRARY_DIRS "")
+set(TAGLIB_LIBRARIES tag)
+add_subdirectory(3rdparty/utf8-cpp)
+add_subdirectory(3rdparty/taglib)
+set(HAVE_TAGLIB_DSFFILE ON)
+add_definitions(-DTAGLIB_STATIC)
 
 # SingleApplication
-pkg_check_modules(SINGLEAPPLICATION singleapplication)
-if (NOT SINGLEAPPLICATION_FOUND)
-  pkg_check_modules(SINGLEAPPLICATION libsingleapplication)
-endif()
-pkg_check_modules(SINGLECOREAPPLICATION singlecoreapplication)
-if (NOT SINGLECOREAPPLICATION_FOUND)
-  pkg_check_modules(SINGLECOREAPPLICATION libsinglecoreapplication)
-endif()
-if (SINGLEAPPLICATION_FOUND AND SINGLECOREAPPLICATION_FOUND)
-  option(USE_SYSTEM_SINGLEAPPLICATION "Use system SingleApplication/SingleCoreApplication libraries" ON)
-else(SINGLEAPPLICATION_FOUND AND SINGLECOREAPPLICATION_FOUND)
-  option(USE_SYSTEM_SINGLEAPPLICATION "Use system SingleApplication/SingleCoreApplication libraries" OFF)
-endif(SINGLEAPPLICATION_FOUND AND SINGLECOREAPPLICATION_FOUND)
-if(USE_SYSTEM_SINGLEAPPLICATION)
-  if (NOT SINGLEAPPLICATION_FOUND OR NOT SINGLECOREAPPLICATION_FOUND)
-    message(FATAL_ERROR "Missing SingleApplication or SingleCoreApplication")
-  endif()
-  message(STATUS "Using system SingleApplication and SingleCoreApplication libraries")
-else(USE_SYSTEM_SINGLEAPPLICATION)
-  message(STATUS "Using builtin SingleApplication and SingleCoreApplication libraries")
-  add_subdirectory(3rdparty/singleapplication)
-  set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
-  set(SINGLEAPPLICATION_LIBRARIES singleapplication)
-  set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
-  unset(SINGLEAPPLICATION_LIBRARY_DIRS)
-  unset(SINGLECOREAPPLICATION_LIBRARY_DIRS)
-endif(USE_SYSTEM_SINGLEAPPLICATION)
+add_subdirectory(3rdparty/singleapplication)
+set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/singleapplication)
+set(SINGLEAPPLICATION_LIBRARIES singleapplication)
+set(SINGLECOREAPPLICATION_LIBRARIES singlecoreapplication)
+unset(SINGLEAPPLICATION_LIBRARY_DIRS)
+unset(SINGLECOREAPPLICATION_LIBRARY_DIRS)
 
 if (APPLE)
   find_library(SPARKLE Sparkle)
@@ -422,13 +376,22 @@ add_definitions(-DQT_NO_CAST_TO_ASCII)
 # Subdirectories
 add_subdirectory(src)
 add_subdirectory(dist)
-add_subdirectory(tests)
 add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
 add_subdirectory(ext/strawberry-tagreader)
 if(HAVE_MOODBAR)
   add_subdirectory(ext/gstmoodbar)
 endif()
+
+option(BUILD_TESTS "Build the test suite" OFF)
+option(BUILD_TAGLIB_TESTS "Build the test suite" OFF)
+
+if(BUILD_TESTS)
+  add_subdirectory(tests)
+endif(BUILD_TESTS)
+if(BUILD_TAGLIB_TESTS)
+  add_subdirectory(tests/taglib)
+endif(BUILD_TAGLIB_TESTS)
 
 # Uninstall support
 configure_file(

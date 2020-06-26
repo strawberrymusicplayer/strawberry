@@ -40,6 +40,19 @@ class TAGLIB_EXPORT Item {
     int first, second;
   };
 
+  enum ItemType {
+    TypeUndefined = 0,
+    TypeBool,
+    TypeInt,
+    TypeIntPair,
+    TypeByte,
+    TypeUInt,
+    TypeLongLong,
+    TypeStringList,
+    TypeByteVectorList,
+    TypeCoverArtList,
+  };
+
   explicit Item();
   Item(const Item &item);
 
@@ -78,7 +91,11 @@ class TAGLIB_EXPORT Item {
   ByteVectorList toByteVectorList() const;
   CoverArtList toCoverArtList() const;
 
+  ItemType type() const;
+
   bool isValid() const;
+
+  String toString() const;
 
  private:
   class ItemPrivate;

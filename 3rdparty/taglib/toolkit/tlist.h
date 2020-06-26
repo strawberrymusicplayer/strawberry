@@ -28,6 +28,7 @@
 
 #include "taglib.h"
 
+#include <cstddef>
 #include <list>
 
 namespace Strawberry_TagLib {
@@ -141,7 +142,7 @@ template<class T> class List {
    *
    * \see isEmpty()
    */
-  unsigned int size() const;
+  size_t size() const;
 
   /*!
    * Returns whether or not the list is empty.
@@ -153,17 +154,20 @@ template<class T> class List {
   /*!
    * Find the first occurrence of \a value.
    */
-  Iterator find(const T &value);
+  template<class U>
+  Iterator find(const U &value);
 
   /*!
    * Find the first occurrence of \a value.
    */
-  ConstIterator find(const T &value) const;
+  template<class U>
+  ConstIterator find(const U &value) const;
 
   /*!
    * Returns true if the list contains \a value.
    */
-  bool contains(const T &value) const;
+  template<class U>
+  bool contains(const U &value) const;
 
   /*!
    * Erase the item at \a it from the list.
@@ -203,14 +207,14 @@ template<class T> class List {
    *
    * \warning This method is slow.  Use iterators to loop through the list.
    */
-  T &operator[](unsigned int i);
+  T &operator[](size_t i);
 
   /*!
    * Returns a const reference to item \a i in the list.
    *
    * \warning This method is slow.  Use iterators to loop through the list.
    */
-  const T &operator[](unsigned int i) const;
+  const T &operator[](size_t i) const;
 
   /*!
    * Make a shallow, implicitly shared, copy of \a l.

@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevectorlist.h>
-#include <id3v2tag.h>
+#include "tbytevectorlist.h"
+#include "id3v2tag.h"
 #include "textidentificationframe.h"
 #include "tpropertymap.h"
 #include "id3v1genres.h"
@@ -34,7 +34,7 @@ using namespace ID3v2;
 
 class TextIdentificationFrame::TextIdentificationFramePrivate {
  public:
-  TextIdentificationFramePrivate() : textEncoding(String::Latin1) {}
+  explicit TextIdentificationFramePrivate() : textEncoding(String::Latin1) {}
   String::Type textEncoding;
   StringList fieldList;
 };
@@ -159,8 +159,8 @@ PropertyMap TextIdentificationFrame::asProperties() const {
     for (StringList::Iterator it = values.begin(); it != values.end(); ++it) {
       // ID3v2 specifies ISO8601 timestamps which contain a 'T' as separator between date and time.
       // Since this is unusual in other formats, the T is removed.
-      int tpos = it->find("T");
-      if (tpos != -1)
+      const size_t tpos = it->find("T");
+      if (tpos != String::npos())
         (*it)[tpos] = ' ';
     }
   }
@@ -405,7 +405,7 @@ UserTextIdentificationFrame::UserTextIdentificationFrame(const ByteVector &data,
 
 void UserTextIdentificationFrame::checkFields() {
 
-  int fields = fieldList().size();
+  const size_t fields = fieldList().size();
 
   if (fields == 0)
     setDescription(String());

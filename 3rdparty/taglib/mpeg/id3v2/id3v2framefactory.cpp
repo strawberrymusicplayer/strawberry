@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tzlib.h>
+#include "tdebug.h"
+#include "tzlib.h"
 
 #include "id3v2framefactory.h"
 #include "id3v2synchdata.h"
@@ -59,7 +59,7 @@ void updateGenre(TextIdentificationFrame *frame) {
 
   for (StringList::ConstIterator it = fields.begin(); it != fields.end(); ++it) {
     String s = *it;
-    int end = s.find(")");
+    size_t end = s.find(")");
 
     if (s.startsWith("(") && end > 0) {
       // "(12)Genre"
@@ -87,7 +87,7 @@ void updateGenre(TextIdentificationFrame *frame) {
 
 class FrameFactory::FrameFactoryPrivate {
  public:
-  FrameFactoryPrivate() : defaultEncoding(String::Latin1), useDefaultEncoding(false) {}
+  explicit FrameFactoryPrivate() : defaultEncoding(String::Latin1), useDefaultEncoding(false) {}
 
   String::Type defaultEncoding;
   bool useDefaultEncoding;

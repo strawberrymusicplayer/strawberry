@@ -55,14 +55,14 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
   /*!
    * Destroys this private frame instance.
    */
-  virtual ~PrivateFrame();
+  ~PrivateFrame() override;
 
   /*!
    * Returns the text of this private frame, currently just the owner.
    *
    * \see text()
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * \return The owner of the private frame.
@@ -89,8 +89,8 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
  protected:
   // Reimplementations.
 
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   /*!
@@ -98,7 +98,7 @@ class TAGLIB_EXPORT PrivateFrame : public Frame {
    */
   explicit PrivateFrame(const ByteVector &data, Header *h);
 
-  explicit PrivateFrame(const PrivateFrame&);
+  PrivateFrame(const PrivateFrame&);
   PrivateFrame &operator=(const PrivateFrame&);
 
   class PrivateFramePrivate;

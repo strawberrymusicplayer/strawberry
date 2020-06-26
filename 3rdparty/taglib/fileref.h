@@ -30,6 +30,7 @@
 #include "tstringlist.h"
 
 #include "taglib_export.h"
+#include "tpropertymap.h"
 #include "audioproperties.h"
 
 namespace Strawberry_TagLib {
@@ -85,7 +86,7 @@ class TAGLIB_EXPORT FileRef {
 
   class TAGLIB_EXPORT FileTypeResolver {
    public:
-    virtual ~FileTypeResolver();
+    virtual ~FileTypeResolver() {}
     /*!
      * This method must be overridden to provide an additional file type resolver.
      * If the resolver is able to determine the file type it should return a valid File object; if not it should return 0.
@@ -152,6 +153,34 @@ class TAGLIB_EXPORT FileRef {
   Tag *tag() const;
 
   /*!
+   * Exports the tags of the file as dictionary mapping (human readable) tag names (uppercase Strings) to StringLists of tag values.
+   * Calls the according specialization in the File subclasses.
+   * For each metadata object of the file that could not be parsed into the PropertyMap format,
+   * the returend map's unsupportedData() list will contain one entry identifying that object (e.g. the frame type for ID3v2 tags).
+   * Use removeUnsupportedProperties() to remove (a subset of) them.
+   * For files that contain more than one tag (e.g. an MP3 with both an ID3v1 and an ID3v2 tag) only the most "modern" one will be exported (ID3v2 in this case).
+   */
+  PropertyMap properties() const;
+
+  /*!
+   * Removes unsupported properties, or a subset of them, from the file's metadata.
+   * The parameter \a properties must contain only entries from properties().unsupportedData().
+   */
+  void removeUnsupportedProperties(const StringList &properties);
+
+  /*!
+   * Sets the tags of this File to those specified in \a properties.
+   * Calls the according specialization method in the subclasses of File to do the translation into the format-specific details.
+   * If some value(s) could not be written imported to the specific metadata format,
+   * the returned PropertyMap will contain those value(s). Otherwise it will be empty, indicating that no problems occured.
+   * With file types that support several tag formats (for instance, MP3 files can have ID3v1, ID3v2, and APEv2 tags),
+   * this function will create the most appropriate one (ID3v2 for MP3 files). Older formats will be updated as well,
+   * if they exist, but won't be taken into account for the return value of this function.
+   * See the documentation of the subclass implementations for detailed descriptions.
+   */
+  PropertyMap setProperties(const PropertyMap &properties);
+
+  /*!
    * Returns the audio properties for this FileRef.
    * If no audio properties were read then this will returns a null pointer.
    */
@@ -209,6 +238,13 @@ class TAGLIB_EXPORT FileRef {
   static StringList defaultFileExtensions();
 
   /*!
+   * Returns true if the file is open and readable.
+   *
+   * \note Just a negative of isNull().
+   */
+  bool isValid() const;
+
+  /*!
    * Returns true if the file (and as such other pointers) are null.
    */
   bool isNull() const;
@@ -232,17 +268,6 @@ class TAGLIB_EXPORT FileRef {
    * Returns true if this FileRef and \a ref do not point to the same File object.
    */
   bool operator!=(const FileRef &ref) const;
-
-  /*!
-   * A simple implementation of file type guessing.
-   * If \a readAudioProperties is true then the audio properties will be read using \a audioPropertiesStyle.
-   * If \a readAudioProperties is false then \a audioPropertiesStyle will be ignored.
-   *
-   * \note You generally shouldn't use this method, but instead the constructor directly.
-   *
-   * \deprecated
-   */
-  static File *create(FileName fileName, bool readAudioProperties = true, AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 
  private:
   void parse(FileName fileName, bool readAudioProperties, AudioProperties::ReadStyle audioPropertiesStyle);

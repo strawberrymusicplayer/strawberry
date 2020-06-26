@@ -26,6 +26,7 @@
 #include "dsdiffdiintag.h"
 #include "tstringlist.h"
 #include "tpropertymap.h"
+#include "tpicturemap.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace DSDIFF::DIIN;
@@ -75,21 +76,19 @@ unsigned int DSDIFF::DIIN::Tag::track() const {
   return 0;
 }
 
+PictureMap DSDIFF::DIIN::Tag::pictures() const {
+  return PictureMap();
+}
+
 void DSDIFF::DIIN::Tag::setTitle(const String &title) {
 
-  if (title.isEmpty())
-    d->title = String();
-  else
-    d->title = title;
+  d->title = title;
 
 }
 
 void DSDIFF::DIIN::Tag::setArtist(const String &artist) {
 
-  if (artist.isEmpty())
-    d->artist = String();
-  else
-    d->artist = artist;
+  d->artist = artist;
 
 }
 
@@ -102,6 +101,8 @@ void DSDIFF::DIIN::Tag::setGenre(const String &) {}
 void DSDIFF::DIIN::Tag::setYear(unsigned int) {}
 
 void DSDIFF::DIIN::Tag::setTrack(unsigned int) {}
+
+void DSDIFF::DIIN::Tag::setPictures(const PictureMap&) {}
 
 PropertyMap DSDIFF::DIIN::Tag::properties() const {
 

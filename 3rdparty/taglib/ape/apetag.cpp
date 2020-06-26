@@ -31,12 +31,13 @@
 #  define WANT_CLASS_INSTANTIATION_OF_MAP (1)
 #endif
 
-#include <tfile.h>
-#include <tstring.h>
-#include <tmap.h>
-#include <tpropertymap.h>
-#include <tdebug.h>
-#include <tutils.h>
+#include "tfile.h"
+#include "tstring.h"
+#include "tmap.h"
+#include "tpicturemap.h"
+#include "tpropertymap.h"
+#include "tdebug.h"
+#include "tutils.h"
 
 #include "apetag.h"
 #include "apefooter.h"
@@ -76,7 +77,7 @@ class APE::Tag::TagPrivate {
   TagPrivate() : file(nullptr), footerLocation(0) {}
 
   File *file;
-  long footerLocation;
+  long long footerLocation;
 
   Footer footer;
   ItemListMap itemListMap;
@@ -88,7 +89,7 @@ class APE::Tag::TagPrivate {
 
 APE::Tag::Tag() : d(new TagPrivate()) {}
 
-APE::Tag::Tag(Strawberry_TagLib::TagLib::File *file, long footerLocation) : d(new TagPrivate()) {
+APE::Tag::Tag(Strawberry_TagLib::TagLib::File *file, long long footerLocation) : d(new TagPrivate()) {
 
   d->file = file;
   d->footerLocation = footerLocation;
@@ -160,6 +161,43 @@ unsigned int APE::Tag::track() const {
 
 }
 
+Strawberry_TagLib::TagLib::PictureMap APE::Tag::pictures() const {
+
+  PictureMap map;
+  if (d->itemListMap.contains(FRONT_COVER)) {
+    Item front = d->itemListMap[FRONT_COVER];
+    if (Item::Binary == front.type()) {
+      ByteVector picture = front.binaryData();
+      const size_t index = picture.find('\0');
+      if (index < picture.size()) {
+        ByteVector desc = picture.mid(0, index + 1);
+        String mime = "image/jpeg";
+        ByteVector data = picture.mid(index + 1);
+        Picture p(data, Picture::FrontCover, mime, desc);
+        map.insert(p);
+      }
+    }
+  }
+
+  if (d->itemListMap.contains(BACK_COVER)) {
+    Item back = d->itemListMap[BACK_COVER];
+    if (Item::Binary == back.type()) {
+      ByteVector picture = back.binaryData();
+      const size_t index = picture.find('\0');
+      if (index < picture.size()) {
+        ByteVector desc = picture.mid(0, index + 1);
+        String mime = "image/jpeg";
+        ByteVector data = picture.mid(index + 1);
+        Picture p(data, Picture::BackCover, mime, desc);
+        map.insert(p);
+      }
+    }
+  }
+
+  return PictureMap(map);
+
+}
+
 void APE::Tag::setTitle(const String &s) {
   addValue("TITLE", s, true);
 }
@@ -181,17 +219,72 @@ void APE::Tag::setGenre(const String &s) {
 }
 
 void APE::Tag::setYear(unsigned int i) {
+
   if (i == 0)
     removeItem("YEAR");
   else
     addValue("YEAR", String::number(i), true);
+
 }
 
 void APE::Tag::setTrack(unsigned int i) {
+
   if (i == 0)
     removeItem("TRACK");
   else
     addValue("TRACK", String::number(i), true);
+
+}
+
+void APE::Tag::setPictures(const PictureMap &l) {
+
+  removeItem(FRONT_COVER);
+  removeItem(BACK_COVER);
+
+  for (PictureMap::ConstIterator pictureMapIt = l.begin(); pictureMapIt != l.end(); ++pictureMapIt) {
+    Picture::Type type = pictureMapIt->first;
+    if (Picture::FrontCover != type && Picture::BackCover != type) {
+      std::cout << "APE: Trying to add a picture with wrong type" << std::endl;
+      continue;
+    }
+
+    const char *id;
+    switch (type) {
+      case Picture::FrontCover:
+        id = FRONT_COVER;
+        break;
+      case Picture::BackCover:
+        id = BACK_COVER;
+        break;
+      default:
+        id = FRONT_COVER;
+        break;
+    }
+
+    PictureList list = pictureMapIt->second;
+    for (PictureList::ConstIterator pictureListIt = list.begin(); pictureListIt != list.end(); ++pictureListIt) {
+      Picture picture = *pictureListIt;
+      if (d->itemListMap.contains(id)) {
+        std::cout << "APE: Already added a picture of type "
+                  << id
+                  << " '"
+                  << picture.description()
+                  << "' "
+                  << "and next are being ignored"
+                  << std::endl;
+        break;
+      }
+
+      ByteVector data = picture.description().data(String::Latin1).append('\0').append(picture.data());
+
+      Item item;
+      item.setKey(id);
+      item.setType(Item::Binary);
+      item.setBinaryData(data);
+      setItem(item.key(), item);
+    }
+  }
+
 }
 
 namespace {
@@ -223,7 +316,7 @@ PropertyMap APE::Tag::properties() const {
         if (tagName == keyConversions[i][1])
           tagName = keyConversions[i][0];
       }
-      properties[tagName].append(it->second.toStringList());
+      properties[tagName].append(it->second.values());
     }
   }
   return properties;
@@ -397,18 +490,18 @@ void APE::Tag::parse(const ByteVector &data) {
   if (data.size() < 11)
     return;
 
-  unsigned int pos = 0;
+  size_t pos = 0;
 
   for (unsigned int i = 0; i < d->footer.itemCount() && pos <= data.size() - 11; i++) {
 
-    const int nullPos = data.find('\0', pos + 8);
-    if (nullPos < 0) {
+    const size_t nullPos = data.find('\0', pos + 8);
+    if (nullPos == ByteVector::npos()) {
       debug("APE::Tag::parse() - Couldn't find a key/value separator. Stopped parsing.");
       return;
     }
 
-    const unsigned int keyLength = nullPos - pos - 8;
-    const unsigned int valLegnth = data.toUInt(pos, false);
+    const size_t keyLength = nullPos - pos - 8;
+    const size_t valLegnth = data.toUInt32LE(pos);
 
     if (keyLength >= MinKeyLength && keyLength <= MaxKeyLength && isKeyValid(data.mid(pos + 8, keyLength))) {
       APE::Item item;

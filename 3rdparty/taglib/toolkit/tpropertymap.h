@@ -116,7 +116,7 @@ class TAGLIB_EXPORT PropertyMap : public SimplePropertyMap {
    */
   PropertyMap(const SimplePropertyMap &m);
 
-  virtual ~PropertyMap();
+  ~PropertyMap() override;
 
   /*!
    * Inserts \a values under \a key in the map.

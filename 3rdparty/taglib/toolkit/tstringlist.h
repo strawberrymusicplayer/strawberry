@@ -53,7 +53,7 @@ class TAGLIB_EXPORT StringList : public List<String> {
    * Make a shallow, implicitly shared, copy of \a l.
    * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
    */
-  StringList(const StringList &l) = default;
+  StringList(const StringList &l);
 
   /*!
    * Constructs a StringList with \a s as a member.
@@ -67,11 +67,6 @@ class TAGLIB_EXPORT StringList : public List<String> {
    * when used with other codecs it will simply print a warning and exit.
    */
   StringList(const ByteVectorList &bl, String::Type t = String::Latin1);
-
-  /*!
-   * Destroys this StringList instance.
-   */
-  virtual ~StringList();
 
   /*!
    * Concatenate the list of strings into one string separated by \a separator.
@@ -89,23 +84,25 @@ class TAGLIB_EXPORT StringList : public List<String> {
   StringList &append(const StringList &l);
 
   /*!
+   * Make a shallow, implicitly shared, copy of \a l.
+   * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
+   */
+  StringList &operator=(const StringList &l);
+
+  /*!
    * Splits the String \a s into several strings at \a pattern.
    * This will not include the pattern in the returned strings.
    */
   static StringList split(const String &s, const String &pattern);
-
- private:
-  class StringListPrivate;
-  StringListPrivate *d;
 };
-
-}  // namespace TagLib
-}  // namespace Strawberry_TagLib
 
 /*!
  * \related Strawberry_TagLib::TagLib::StringList
  * Send the StringList to an output stream.
  */
-std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::StringList &l);
+TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::StringList &l);
+
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

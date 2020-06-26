@@ -25,9 +25,9 @@
 
 #include <bitset>
 
-#include <tdebug.h>
-#include <tstringlist.h>
-#include <tzlib.h>
+#include "tdebug.h"
+#include "tstringlist.h"
+#include "tzlib.h"
 
 #include "id3v2tag.h"
 #include "id3v2frame.h"
@@ -46,7 +46,7 @@ using namespace ID3v2;
 
 class Frame::FramePrivate {
  public:
-  FramePrivate() : header(nullptr) {}
+  explicit FramePrivate() : header(nullptr) {}
 
   ~FramePrivate() {
     delete header;
@@ -222,10 +222,10 @@ void Frame::parse(const ByteVector &data) {
 
 ByteVector Frame::fieldData(const ByteVector &frameData) const {
 
-  unsigned int headerSize = Header::size(d->header->version());
+  const size_t headerSize = Header::size(d->header->version());
 
-  unsigned int frameDataOffset = headerSize;
-  unsigned int frameDataLength = size();
+  size_t frameDataOffset = headerSize;
+  size_t frameDataLength = size();
 
   if (d->header->compression() || d->header->dataLengthIndicator()) {
     frameDataLength = SynchData::toUInt(frameData.mid(headerSize, 4));
@@ -250,27 +250,22 @@ ByteVector Frame::fieldData(const ByteVector &frameData) const {
 
 }
 
-String Frame::readStringField(const ByteVector &data, String::Type encoding, int *position) {
-
-  int start = 0;
-
-  if (!position)
-    position = &start;
+String Frame::readStringField(const ByteVector &data, String::Type encoding, size_t &position) {
 
   ByteVector delimiter = textDelimiter(encoding);
 
-  int end = data.find(delimiter, *position, delimiter.size());
+  const size_t end = data.find(delimiter, position, delimiter.size());
 
-  if (end < *position)
+  if (end == ByteVector::npos() || end < position)
     return String();
 
   String str;
   if (encoding == String::Latin1)
-    str = Tag::latin1StringHandler()->parse(data.mid(*position, end - *position));
+    str = Tag::latin1StringHandler()->parse(data.mid(position, end - position));
   else
-    str = String(data.mid(*position, end - *position), encoding);
+    str = String(data.mid(position, end - position), encoding);
 
-  *position = end + delimiter.size();
+  position = end + delimiter.size();
 
   return str;
 
@@ -594,7 +589,7 @@ void Frame::Header::setData(const ByteVector &data, unsigned int version) {
         return;
       }
 
-      d->frameSize = data.toUInt(3, 3, true);
+      d->frameSize = data.toUInt24BE(3);
 
       break;
     }
@@ -621,7 +616,7 @@ void Frame::Header::setData(const ByteVector &data, unsigned int version) {
       // Set the size -- the frame size is the four bytes starting at byte four in
       // the frame header (structure 4)
 
-      d->frameSize = data.toUInt(4U);
+      d->frameSize = data.toUInt32BE(4);
 
       {  // read the first byte of flags
         std::bitset<8> flags(data[8]);
@@ -667,7 +662,7 @@ void Frame::Header::setData(const ByteVector &data, unsigned int version) {
       // iTunes writes v2.4 tags with v2.3-like frame sizes
       if (d->frameSize > 127) {
         if (!isValidFrameID(data.mid(d->frameSize + 10, 4))) {
-          unsigned int uintSize = data.toUInt(4U);
+          const unsigned int uintSize = data.toUInt32BE(4);
           if (isValidFrameID(data.mid(uintSize + 10, 4))) {
             d->frameSize = uintSize;
           }
@@ -765,7 +760,7 @@ ByteVector Frame::Header::render() const {
   ByteVector flags(2, char(0));  // just blank for the moment
 
   ByteVector v = d->frameID +
-    (d->version == 3 ? ByteVector::fromUInt(d->frameSize) : SynchData::fromUInt(d->frameSize)) +
+    (d->version == 3 ? ByteVector::fromUInt32BE(d->frameSize) : SynchData::fromUInt(d->frameSize)) +
     flags;
 
   return v;

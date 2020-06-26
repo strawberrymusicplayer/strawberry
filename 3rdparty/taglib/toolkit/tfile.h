@@ -150,7 +150,7 @@ class TAGLIB_EXPORT File {
   /*!
    * Reads a block of size \a length at the current get pointer.
    */
-  ByteVector readBlock(unsigned long length);
+  ByteVector readBlock(size_t length);
 
   /*!
    * Attempts to write the block \a data at the current get pointer.
@@ -171,7 +171,7 @@ class TAGLIB_EXPORT File {
    * \note This has the practical limitation that \a pattern can not be longer
    * than the buffer size used by readBlock().  Currently this is 1024 bytes.
    */
-  long find(const ByteVector &pattern, long fromOffset = 0, const ByteVector &before = ByteVector());
+  long long find(const ByteVector &pattern, long long fromOffset = 0, const ByteVector &before = ByteVector());
 
   /*!
    * Returns the offset in the file that \a pattern occurs at or -1 if it can not be found.
@@ -184,21 +184,21 @@ class TAGLIB_EXPORT File {
    * \note This has the practical limitation that \a pattern can not be longer
    * than the buffer size used by readBlock().  Currently this is 1024 bytes.
    */
-  long rfind(const ByteVector &pattern, long fromOffset = 0, const ByteVector &before = ByteVector());
+  long long rfind(const ByteVector &pattern, long long fromOffset = 0, const ByteVector &before = ByteVector());
 
   /*!
    * Insert \a data at position \a start in the file overwriting \a replace bytes of the original content.
    *
    * \note This method is slow since it requires rewriting all of the file after the insertion point.
    */
-  void insert(const ByteVector &data, unsigned long start = 0, unsigned long replace = 0);
+  void insert(const ByteVector &data, long long start = 0, size_t replace = 0);
 
   /*!
    * Removes a block of the file starting a \a start and continuing for \a length bytes.
    *
    * \note This method is slow since it involves rewriting all of the file after the removed portion.
    */
-  void removeBlock(unsigned long start = 0, unsigned long length = 0);
+  void removeBlock(long long start = 0, size_t length = 0);
 
   /*!
    * Returns true if the file is read only (or if the file can not be opened).
@@ -222,7 +222,7 @@ class TAGLIB_EXPORT File {
    *
    * \see Position
    */
-  void seek(long offset, Position p = Beginning);
+  void seek(long long offset, Position p = Beginning);
 
   /*!
    * Reset the end-of-file and error flags on the file.
@@ -232,12 +232,17 @@ class TAGLIB_EXPORT File {
   /*!
    * Returns the current offset within the file.
    */
-  long tell() const;
+  long long tell() const;
 
   /*!
    * Returns the length of the file.
    */
-  long length();
+  long long length();
+
+  /*!
+   * Returns description of the audio file and its tags.
+   */
+  virtual String toString() const;
 
  protected:
   /*!
@@ -246,7 +251,7 @@ class TAGLIB_EXPORT File {
    *
    * \note Constructor is protected since this class should only be instantiated through subclasses.
    */
-  explicit File(const FileName fileName);
+  explicit File(const FileName &fileName);
 
   /*!
    * Construct a File object and use the \a stream instance.
@@ -267,15 +272,15 @@ class TAGLIB_EXPORT File {
   /*!
    * Truncates the file to a \a length.
    */
-  void truncate(long length);
+  void truncate(long long length);
 
   /*!
    * Returns the buffer size that is used for internal buffering.
    */
-  static unsigned int bufferSize();
+  static size_t bufferSize();
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   class FilePrivate;

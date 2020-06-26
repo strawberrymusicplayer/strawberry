@@ -23,7 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tpropertymap.h>
+#include "tpicturemap.h"
+#include "tpropertymap.h"
 #include "asftag.h"
 
 using namespace Strawberry_TagLib::TagLib;
@@ -38,8 +39,7 @@ class ASF::Tag::TagPrivate {
   AttributeListMap attributeListMap;
 };
 
-ASF::Tag::Tag() : d(new TagPrivate()) {
-}
+ASF::Tag::Tag() : d(new TagPrivate()) {}
 
 ASF::Tag::~Tag() {
   delete d;
@@ -104,6 +104,87 @@ String ASF::Tag::genre() const {
 
 }
 
+PictureMap ASF::Tag::pictures() const {
+
+  PictureMap map;
+  if (d->attributeListMap.contains("WM/Picture")) {
+    AttributeList list = d->attributeListMap["WM/Picture"];
+    for (AttributeList::ConstIterator it = list.begin(); it != list.end(); ++it) {
+      ASF::Picture asfPicture = (*it).toPicture();
+      TagLib::Picture::Type type;
+      switch (asfPicture.type()) {
+        case ASF::Picture::FileIcon:
+          type = TagLib::Picture::FileIcon;
+          break;
+        case ASF::Picture::OtherFileIcon:
+          type = TagLib::Picture::OtherFileIcon;
+          break;
+        case ASF::Picture::FrontCover:
+          type = TagLib::Picture::FrontCover;
+          break;
+        case ASF::Picture::BackCover:
+          type = TagLib::Picture::BackCover;
+          break;
+        case ASF::Picture::LeafletPage:
+          type = TagLib::Picture::LeafletPage;
+          break;
+        case ASF::Picture::Media:
+          type = TagLib::Picture::Media;
+          break;
+        case ASF::Picture::LeadArtist:
+          type = TagLib::Picture::LeadArtist;
+          break;
+        case ASF::Picture::Artist:
+          type = TagLib::Picture::Artist;
+          break;
+        case ASF::Picture::Conductor:
+          type = TagLib::Picture::Conductor;
+          break;
+        case ASF::Picture::Band:
+          type = TagLib::Picture::Band;
+          break;
+        case ASF::Picture::Composer:
+          type = TagLib::Picture::Composer;
+          break;
+        case ASF::Picture::Lyricist:
+          type = TagLib::Picture::Lyricist;
+          break;
+        case ASF::Picture::RecordingLocation:
+          type = TagLib::Picture::RecordingLocation;
+          break;
+        case ASF::Picture::DuringRecording:
+          type = TagLib::Picture::DuringRecording;
+          break;
+        case ASF::Picture::DuringPerformance:
+          type = TagLib::Picture::DuringPerformance;
+          break;
+        case ASF::Picture::MovieScreenCapture:
+          type = TagLib::Picture::MovieScreenCapture;
+          break;
+        case ASF::Picture::ColouredFish:
+          type = TagLib::Picture::ColouredFish;
+          break;
+        case ASF::Picture::Illustration:
+          type = TagLib::Picture::Illustration;
+          break;
+        case ASF::Picture::BandLogo:
+          type = TagLib::Picture::BandLogo;
+          break;
+        case ASF::Picture::PublisherLogo:
+          type = TagLib::Picture::PublisherLogo;
+          break;
+        default:
+          type = TagLib::Picture::Other;
+          break;
+      }
+      TagLib::Picture picture(asfPicture.picture(), type, asfPicture.mimeType(), asfPicture.description());
+      map.insert(picture);
+    }
+  }
+  return PictureMap(map);
+
+}
+
 void ASF::Tag::setTitle(const String &value) {
   d->title = value;
 }
@@ -140,7 +221,89 @@ void ASF::Tag::setTrack(unsigned int value) {
   setAttribute("WM/TrackNumber", String::number(value));
 }
 
-const ASF::AttributeListMap ASF::Tag::attributeListMap() const {
+void ASF::Tag::setPictures(const PictureMap &l) {
+
+  removeItem("WM/Picture");
+  for (PictureMap::ConstIterator pictureMapIt = l.begin(); pictureMapIt != l.end(); ++pictureMapIt) {
+    PictureList list = pictureMapIt->second;
+    for (PictureList::ConstIterator pictureListIt = list.begin(); pictureListIt != list.end(); ++pictureListIt) {
+      const TagLib::Picture picture = (*pictureListIt);
+      ASF::Picture asfPicture;
+      asfPicture.setPicture(picture.data());
+      asfPicture.setMimeType(picture.mime());
+      asfPicture.setDescription(picture.description());
+      switch (picture.type()) {
+        case TagLib::Picture::Other:
+          asfPicture.setType(ASF::Picture::Other);
+          break;
+        case TagLib::Picture::FileIcon:
+          asfPicture.setType(ASF::Picture::FileIcon);
+          break;
+        case TagLib::Picture::OtherFileIcon:
+          asfPicture.setType(ASF::Picture::OtherFileIcon);
+          break;
+        case TagLib::Picture::FrontCover:
+          asfPicture.setType(ASF::Picture::FrontCover);
+          break;
+        case TagLib::Picture::BackCover:
+          asfPicture.setType(ASF::Picture::BackCover);
+          break;
+        case TagLib::Picture::LeafletPage:
+          asfPicture.setType(ASF::Picture::LeafletPage);
+          break;
+        case TagLib::Picture::Media:
+          asfPicture.setType(ASF::Picture::Media);
+          break;
+        case TagLib::Picture::LeadArtist:
+          asfPicture.setType(ASF::Picture::LeadArtist);
+          break;
+        case TagLib::Picture::Artist:
+          asfPicture.setType(ASF::Picture::Artist);
+          break;
+        case TagLib::Picture::Conductor:
+          asfPicture.setType(ASF::Picture::Conductor);
+          break;
+        case TagLib::Picture::Band:
+          asfPicture.setType(ASF::Picture::Band);
+          break;
+        case TagLib::Picture::Composer:
+          asfPicture.setType(ASF::Picture::Composer);
+          break;
+        case TagLib::Picture::Lyricist:
+          asfPicture.setType(ASF::Picture::Lyricist);
+          break;
+        case TagLib::Picture::RecordingLocation:
+          asfPicture.setType(ASF::Picture::RecordingLocation);
+          break;
+        case TagLib::Picture::DuringRecording:
+          asfPicture.setType(ASF::Picture::DuringRecording);
+          break;
+        case TagLib::Picture::DuringPerformance:
+          asfPicture.setType(ASF::Picture::DuringPerformance);
+          break;
+        case TagLib::Picture::MovieScreenCapture:
+          asfPicture.setType(ASF::Picture::MovieScreenCapture);
+          break;
+        case TagLib::Picture::ColouredFish:
+          asfPicture.setType(ASF::Picture::ColouredFish);
+          break;
+        case TagLib::Picture::Illustration:
+          asfPicture.setType(ASF::Picture::Illustration);
+          break;
+        case TagLib::Picture::BandLogo:
+          asfPicture.setType(ASF::Picture::BandLogo);
+          break;
+        case TagLib::Picture::PublisherLogo:
+          asfPicture.setType(ASF::Picture::PublisherLogo);
+          break;
+      }
+      addAttribute("WM/Picture", Attribute(asfPicture));
+    }
+  }
+
+}
+
+const ASF::AttributeListMap &ASF::Tag::attributeListMap() const {
   return d->attributeListMap;
 }
 

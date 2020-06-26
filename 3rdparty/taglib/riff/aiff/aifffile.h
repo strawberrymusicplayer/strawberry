@@ -78,7 +78,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the Tag for this file.
@@ -88,32 +88,18 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
    *
    * \see hasID3v2Tag()
    */
-  virtual ID3v2::Tag *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * This method forwards to ID3v2::Tag::properties().
-   */
-  PropertyMap properties() const;
-
-  void removeUnsupportedProperties(const StringList &properties);
-
-  /*!
-   * Implements the unified property interface -- import function.
-   * This method forwards to ID3v2::Tag::setProperties().
-   */
-  PropertyMap setProperties(const PropertyMap &);
+  ID3v2::Tag *tag() const override;
 
   /*!
    * Returns the AIFF::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Saves the file.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Save using a specific ID3v2 version (e.g. v3)
@@ -136,7 +122,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::RIFF::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void read(bool readProperties);

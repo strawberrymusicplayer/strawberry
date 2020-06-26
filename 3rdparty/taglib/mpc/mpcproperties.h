@@ -36,8 +36,6 @@ namespace MPC {
 
 class File;
 
-static const unsigned int HeaderSize = 8 * 7;
-
 //! An implementation of audio property reading for MPC
 
 /*!
@@ -47,21 +45,14 @@ static const unsigned int HeaderSize = 8 * 7;
 class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
  public:
   /*!
-   * Create an instance of MPC::AudioProperties with the data read from the ByteVector \a data.
-   *
-   * This constructor is deprecated. It only works for MPC version up to 7.
-   */
-  explicit AudioProperties(const ByteVector &data, long streamLength, ReadStyle style = Average);
-
-  /*!
    * Create an instance of MPC::AudioProperties with the data read directly from a MPC::File.
    */
-  explicit AudioProperties(File *file, long streamLength, ReadStyle style = Average);
+  explicit AudioProperties(File *file, long long streamLength, ReadStyle style = Average);
 
   /*!
    * Destroys this MPC::AudioProperties instance.
    */
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
   /*!
    * Returns the length of the file in seconds.
@@ -69,29 +60,29 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
    *
    * \see lengthInMilliseconds()
    */
-  virtual int lengthInSeconds() const;
+  int lengthInSeconds() const override;
 
   /*!
    * Returns the length of the file in milliseconds.
    *
    * \see lengthInSeconds()
    */
-  virtual int lengthInMilliseconds() const;
+  int lengthInMilliseconds() const override;
 
   /*!
    * Returns the average bit rate of the file in kb/s.
    */
-  virtual int bitrate() const;
+  int bitrate() const override;
 
   /*!
    * Returns the sample rate in Hz.
    */
-  virtual int sampleRate() const;
+  int sampleRate() const override;
 
   /*!
    * Returns the number of audio channels.
    */
-  virtual int channels() const;
+  int channels() const override;
 
   /*!
    * Returns the version of the bitstream (SV4-SV8)
@@ -128,11 +119,8 @@ class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioPro
   int albumPeak() const;
 
  private:
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
-
-  void readSV7(const ByteVector &data, long streamLength);
-  void readSV8(File *file, long streamLength);
+  void readSV7(const ByteVector &data, long long streamLength);
+  void readSV8(File *file, long long streamLength);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

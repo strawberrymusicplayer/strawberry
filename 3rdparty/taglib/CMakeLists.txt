@@ -8,17 +8,9 @@ math(EXPR TAGLIB_SOVERSION_MAJOR "${TAGLIB_SOVERSION_CURRENT} - ${TAGLIB_SOVERSI
 math(EXPR TAGLIB_SOVERSION_MINOR "${TAGLIB_SOVERSION_AGE}")
 math(EXPR TAGLIB_SOVERSION_PATCH "${TAGLIB_SOVERSION_REVISION}")
 
-include(TestBigEndian)
-test_big_endian(IS_BIG_ENDIAN)
-
-if(NOT IS_BIG_ENDIAN)
-  add_definitions(-DSYSTEM_BYTEORDER=1)
-else()
-  add_definitions(-DSYSTEM_BYTEORDER=2)
-endif()
-
 include(ConfigureChecks.cmake)
-configure_file(config.h.cmake "${CMAKE_CURRENT_BINARY_DIR}/config.h")
+set(TESTS_DIR "${CMAKE_SOURCE_DIR}/tests/taglib/")
+configure_file(taglib-config.h.cmake "${CMAKE_CURRENT_BINARY_DIR}/taglib-config.h")
 
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-DTAGLIB_STATIC)
@@ -33,6 +25,7 @@ set(tag_HDRS
   toolkit/tlist.h
   toolkit/tlist.tcc
   toolkit/tstringlist.h
+  toolkit/tstringhandler.h
   toolkit/tbytevector.h
   toolkit/tbytevectorlist.h
   toolkit/tbytevectorstream.h
@@ -41,6 +34,8 @@ set(tag_HDRS
   toolkit/tfilestream.h
   toolkit/tmap.h
   toolkit/tmap.tcc
+  toolkit/tpicture.h
+  toolkit/tpicturemap.h
   toolkit/tpropertymap.h
   toolkit/trefcounter.h
   toolkit/tdebuglistener.h
@@ -300,8 +295,10 @@ set(dsdiff_SRCS
 )
 
 set(toolkit_SRCS
+  toolkit/taglib.cpp
   toolkit/tstring.cpp
   toolkit/tstringlist.cpp
+  toolkit/tstringhandler.cpp
   toolkit/tbytevector.cpp
   toolkit/tbytevectorlist.cpp
   toolkit/tbytevectorstream.cpp
@@ -309,6 +306,8 @@ set(toolkit_SRCS
   toolkit/tfile.cpp
   toolkit/tfilestream.cpp
   toolkit/tdebug.cpp
+  toolkit/tpicture.cpp
+  toolkit/tpicturemap.cpp
   toolkit/tpropertymap.cpp
   toolkit/trefcounter.cpp
   toolkit/tdebuglistener.cpp

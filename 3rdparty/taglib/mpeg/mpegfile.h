@@ -79,6 +79,17 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   };
 
   /*!
+   * Constructs an MPEG file from \a file.  If \a readProperties is true the
+   * file's audio properties will also be read.
+   *
+   * \note In the current implementation, \a propertiesStyle is ignored.
+   *
+   * \deprecated This constructor will be dropped in favor of the one below
+   * in a future version.
+   */
+  explicit File(FileName file, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+
+  /*!
    * Constructs an MPEG file from \a file.
    * If \a readProperties is true the file's audio properties will also be read.
    *
@@ -88,7 +99,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note In the current implementation, \a propertiesStyle is ignored.
    */
   // BIC: merge with the above constructor
-  explicit File(FileName file, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
+  explicit File(FileName fileName, ID3v2::FrameFactory *frameFactory, bool readProperties = true, AudioProperties::ReadStyle propertiesStyle = AudioProperties::Average);
 
   /*!
    * Constructs an MPEG file from \a stream.
@@ -105,7 +116,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns a pointer to a tag that is the union of the ID3v2 and ID3v1 tags.
@@ -122,16 +133,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \see ID3v2Tag()
    * \see APETag()
    */
-  virtual Tag *tag() const;
-
-  /*!
-   * Implements the reading part of the unified property interface.
-   * If the file contains more than one tag,
-   * only the first one (in the order ID3v2, APE, ID3v1) will be converted to the PropertyMap.
-   */
-  PropertyMap properties() const;
-
-  void removeUnsupportedProperties(const StringList &properties);
+  Tag *tag() const override;
 
   /*!
    * Implements the writing part of the unified tag dictionary interface.
@@ -140,13 +142,13 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * If an ID3v1 tag  exists, it will be updated as well, within the limitations of that format.
    * The returned PropertyMap refers to the ID3v2 tag only.
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap&) override;
 
   /*!
    * Returns the MPEG::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this will duplicate its content into the other tag.
@@ -161,18 +163,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    *
    * \see save(int tags)
    */
-  virtual bool save();
-
-  /*!
-   * Save the file.
-   * This will attempt to save all of the tag types that are specified by OR-ing together TagTypes values.
-   * The save() method above uses AllTags.  This returns true if saving was successful.
-   *
-   * This strips all tags not included in the mask, but does not modify them
-   * in memory, so later calls to save() which make use of these tags will remain valid.
-   * This also strips empty tags.
-   */
-  bool save(int tags);
+  bool save() override;
 
   /*!
    * Save the file.  This will attempt to save all of the tag types that are
@@ -187,7 +178,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * If \a duplicate is set to DuplicateTags and at least one tag -- ID3v1
    * or ID3v2 -- exists this will duplicate its content into the other tag.
    */
-  bool save(int tags, StripTags strip, ID3v2::Version version = ID3v2::v4, DuplicateTags duplicate = Duplicate);
+  bool save(int tags, StripTags strip = StripOthers, ID3v2::Version version = ID3v2::v4, DuplicateTags duplicate = Duplicate);
 
   /*!
    * Returns a pointer to the ID3v2 tag of the file.
@@ -266,22 +257,22 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Returns the position in the file of the first MPEG frame.
    */
-  long firstFrameOffset();
+  long long firstFrameOffset();
 
   /*!
    * Returns the position in the file of the next MPEG frame, using the current position as start
    */
-  long nextFrameOffset(long position);
+  long long nextFrameOffset(long long position);
 
   /*!
    * Returns the position in the file of the previous MPEG frame, using the current position as start
    */
-  long previousFrameOffset(long position);
+  long long previousFrameOffset(long long position);
 
   /*!
    * Returns the position in the file of the last MPEG frame.
    */
-  long lastFrameOffset();
+  long long lastFrameOffset();
 
   /*!
    * Returns whether or not the file on disk actually has an ID3v1 tag.
@@ -312,11 +303,11 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties);
-  long findID3v2();
+  long long findID3v2();
 
   class FilePrivate;
   FilePrivate *d;

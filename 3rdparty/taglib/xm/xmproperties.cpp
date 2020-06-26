@@ -31,16 +31,16 @@ using namespace XM;
 
 class XM::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : lengthInPatterns(0),
-                        channels(0),
-                        version(0),
-                        restartPosition(0),
-                        patternCount(0),
-                        instrumentCount(0),
-                        sampleCount(0),
-                        flags(0),
-                        tempo(0),
-                        bpmSpeed(0) {
+  explicit AudioPropertiesPrivate() : lengthInPatterns(0),
+                                      channels(0),
+                                      version(0),
+                                      restartPosition(0),
+                                      patternCount(0),
+                                      instrumentCount(0),
+                                      sampleCount(0),
+                                      flags(0),
+                                      tempo(0),
+                                      bpmSpeed(0) {
   }
 
   unsigned short lengthInPatterns;
@@ -55,7 +55,7 @@ class XM::AudioProperties::AudioPropertiesPrivate {
   unsigned short bpmSpeed;
 };
 
-XM::AudioProperties::AudioProperties(AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::AudioProperties(propertiesStyle), d(new AudioPropertiesPrivate()) {}
+XM::AudioProperties::AudioProperties(AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {}
 
 XM::AudioProperties::~AudioProperties() {
   delete d;
@@ -116,6 +116,10 @@ unsigned short XM::AudioProperties::tempo() const {
 unsigned short XM::AudioProperties::bpmSpeed() const {
   return d->bpmSpeed;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
 
 void XM::AudioProperties::setLengthInPatterns(unsigned short lengthInPatterns) {
   d->lengthInPatterns = lengthInPatterns;

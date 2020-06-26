@@ -47,32 +47,32 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
  public:
   explicit Tag();
 
-  virtual ~Tag();
+  ~Tag() override;
 
   /*!
    * Returns the track name.
    */
-  virtual String title() const;
+  String title() const override;
 
   /*!
    * Returns the artist name.
    */
-  virtual String artist() const;
+  String artist() const override;
 
   /*!
    * Returns the album name; if no album name is present in the tag String::null will be returned.
    */
-  virtual String album() const;
+  String album() const override;
 
   /*!
    * Returns the track comment.
    */
-  virtual String comment() const;
+  String comment() const override;
 
   /*!
    * Returns the genre name; if no genre is present in the tag String::null will be returned.
    */
-  virtual String genre() const;
+  String genre() const override;
 
   /*!
    * Returns the rating.
@@ -87,32 +87,34 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Returns the year; if there is no year set, this will return 0.
    */
-  virtual unsigned int year() const;
+  unsigned int year() const override;
 
   /*!
    * Returns the track number; if there is no track number set, this will return 0.
    */
-  virtual unsigned int track() const;
+  unsigned int track() const override;
+
+  PictureMap pictures() const override;
 
   /*!
    * Sets the title to \a s.
    */
-  virtual void setTitle(const String &value);
+  void setTitle(const String &value) override;
 
   /*!
    * Sets the artist to \a s.
    */
-  virtual void setArtist(const String &value);
+  void setArtist(const String &value) override;
 
   /*!
    * Sets the album to \a s.  If \a s is String::null then this value will be cleared.
    */
-  virtual void setAlbum(const String &value);
+  void setAlbum(const String &value) override;
 
   /*!
    * Sets the comment to \a s.
    */
-  virtual void setComment(const String &value);
+  void setComment(const String &value) override;
 
   /*!
    * Sets the rating to \a s.
@@ -127,28 +129,30 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
   /*!
    * Sets the genre to \a s.
    */
-  virtual void setGenre(const String &value);
+  void setGenre(const String &value) override;
 
   /*!
    * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
    */
-  virtual void setYear(unsigned int value);
+  void setYear(unsigned int value) override;
 
   /*!
    * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
    */
-  virtual void setTrack(unsigned int value);
+  void setTrack(unsigned int value) override;
+
+  void setPictures(const PictureMap&) override;
 
   /*!
    * Returns true if the tag does not contain any data.
    * This should be reimplemented in subclasses that provide more than the basic tagging abilities in this class.
    */
-  virtual bool isEmpty() const;
+  bool isEmpty() const override;
 
   /*!
    * Returns a reference to the item list map.  This is an AttributeListMap of all of the items in the tag.
    */
-  const AttributeListMap attributeListMap() const;
+  const AttributeListMap &attributeListMap() const;
 
   /*!
    * \return True if a value for \a attribute is currently set.
@@ -181,15 +185,17 @@ class TAGLIB_EXPORT Tag : public Strawberry_TagLib::TagLib::Tag {
    */
   void addAttribute(const String &name, const Attribute &attribute);
 
-  PropertyMap properties() const;
-  void removeUnsupportedProperties(const StringList &props);
-  PropertyMap setProperties(const PropertyMap &props);
+  PropertyMap properties() const override;
+  void removeUnsupportedProperties(const StringList &props) override;
+  PropertyMap setProperties(const PropertyMap &props) override;
 
  private:
   class TagPrivate;
   TagPrivate *d;
 };
+
 }  // namespace ASF
 }  // namespace TagLib
 }  // namespace Strawberry_TagLib
+
 #endif

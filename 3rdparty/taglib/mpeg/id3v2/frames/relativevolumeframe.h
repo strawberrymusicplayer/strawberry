@@ -105,25 +105,19 @@ class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
   /*!
    * Destroys the RelativeVolumeFrame instance.
    */
-  virtual ~RelativeVolumeFrame();
+  ~RelativeVolumeFrame() override;
 
   /*!
    * Returns the frame's identification.
    *
    * \see identification()
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns a list of channels with information currently in the frame.
    */
   List<ChannelType> channels() const;
-
-  /*
-   * There was a terrible API goof here, and while this can't be changed to the way it appears below for binary compatibility reasons, let's at least pretend that it looks clean.
-   */
-
-#ifdef DOXYGEN
 
   /*!
    * Returns the relative volume adjustment "index".
@@ -190,30 +184,6 @@ class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
    */
   void setPeakVolume(const PeakVolume &peak, ChannelType type = MasterVolume);
 
-#else
-
-  // BIC: Combine each of the following pairs of functions (or maybe just rework this junk altogether).
-
-  short volumeAdjustmentIndex(ChannelType type) const;
-  short volumeAdjustmentIndex() const;
-
-  void setVolumeAdjustmentIndex(short index, ChannelType type);
-  void setVolumeAdjustmentIndex(short index);
-
-  float volumeAdjustment(ChannelType type) const;
-  float volumeAdjustment() const;
-
-  void setVolumeAdjustment(float adjustment, ChannelType type);
-  void setVolumeAdjustment(float adjustment);
-
-  PeakVolume peakVolume(ChannelType type) const;
-  PeakVolume peakVolume() const;
-
-  void setPeakVolume(const PeakVolume &peak, ChannelType type);
-  void setPeakVolume(const PeakVolume &peak);
-
-#endif
-
   /*!
    * Returns the identification for this frame.
    */
@@ -226,12 +196,12 @@ class TAGLIB_EXPORT RelativeVolumeFrame : public Frame {
   void setIdentification(const String &s);
 
  protected:
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   explicit RelativeVolumeFrame(const ByteVector &data, Header *h);
-  explicit RelativeVolumeFrame(const RelativeVolumeFrame&);
+  RelativeVolumeFrame(const RelativeVolumeFrame&);
   RelativeVolumeFrame &operator=(const RelativeVolumeFrame&);
 
   class RelativeVolumeFramePrivate;

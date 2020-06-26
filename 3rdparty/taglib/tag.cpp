@@ -25,6 +25,7 @@
 
 #include "tag.h"
 #include "tstringlist.h"
+#include "tpicturemap.h"
 #include "tpropertymap.h"
 
 using namespace Strawberry_TagLib::TagLib;
@@ -42,7 +43,8 @@ bool Tag::isEmpty() const {
     comment().isEmpty() &&
     genre().isEmpty() &&
     year() == 0 &&
-    track() == 0);
+    track() == 0 &&
+    pictures().isEmpty());
 }
 
 PropertyMap Tag::properties() const {
@@ -157,6 +159,7 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) {  // static
     target->setGenre(source->genre());
     target->setYear(source->year());
     target->setTrack(source->track());
+    target->setPictures(source->pictures());
   }
   else {
     if (target->title().isEmpty())
@@ -169,10 +172,24 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) {  // static
       target->setComment(source->comment());
     if (target->genre().isEmpty())
       target->setGenre(source->genre());
-    if (target->year() == 0)
+    if (target->year() <= 0)
       target->setYear(source->year());
-    if (target->track() == 0)
+    if (target->track() <= 0)
       target->setTrack(source->track());
+    if (target->pictures().isEmpty())
+      target->setPictures(source->pictures());
   }
 
+}
+
+String Tag::toString() const {
+  StringList desc;
+  desc.append("title=" + title());
+  desc.append("artist=" + artist());
+  desc.append("album=" + album());
+  desc.append("comment=" + comment());
+  desc.append("genre=" + genre());
+  desc.append("year=" + String::number(year()));
+  desc.append("track=" + String::number(track()));
+  return desc.toString("\n");
 }

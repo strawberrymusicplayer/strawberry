@@ -71,35 +71,35 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the Tag for this file.
    */
-  ID3v2::Tag *tag() const;
+  ID3v2::Tag *tag() const override;
 
   /*!
    * Implements the unified property interface -- export function.
    * This method forwards to ID3v2::Tag::properties().
    */
-  PropertyMap properties() const;
+  PropertyMap properties() const override;
 
   /*!
    * Implements the unified property interface -- import function.
    * This method forwards to ID3v2::Tag::setProperties().
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap &) override;
 
   /*!
    * Returns the DSF::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Saves the file.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns whether or not the given \a stream can be opened as a DSF file.
@@ -110,7 +110,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void read(bool readProperties, AudioProperties::ReadStyle propertiesStyle);

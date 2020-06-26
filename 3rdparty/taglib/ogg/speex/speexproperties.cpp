@@ -27,10 +27,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
-#include <oggpageheader.h>
+#include "oggpageheader.h"
 
 #include "speexproperties.h"
 #include "speexfile.h"
@@ -40,14 +40,14 @@ using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Speex::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        bitrateNominal(0),
-                        sampleRate(0),
-                        channels(0),
-                        speexVersion(0),
-                        vbr(false),
-                        mode(0) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      bitrateNominal(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      speexVersion(0),
+                                      vbr(false),
+                                      mode(0) {}
 
   int length;
   int bitrate;
@@ -63,7 +63,7 @@ class Speex::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Speex::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+Speex::AudioProperties::AudioProperties(File *file, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
@@ -113,32 +113,32 @@ void Speex::AudioProperties::read(File *file) {
     return;
   }
 
-  unsigned int pos = 28;
+  size_t pos = 28;
 
   // speex_version_id;       /**< Version for Speex (for checking compatibility) */
-  d->speexVersion = data.toUInt(pos, false);
+  d->speexVersion = data.toUInt32LE(pos);
   pos += 4;
 
   // header_size;            /**< Total size of the header ( sizeof(SpeexHeader) ) */
   pos += 4;
 
   // rate;                   /**< Sampling rate used */
-  d->sampleRate = data.toUInt(pos, false);
+  d->sampleRate = data.toUInt32LE(pos);
   pos += 4;
 
   // mode;                   /**< Mode used (0 for narrowband, 1 for wideband) */
-  d->mode = data.toUInt(pos, false);
+  d->mode = data.toUInt32LE(pos);
   pos += 4;
 
   // mode_bitstream_version; /**< Version ID of the bit-stream */
   pos += 4;
 
   // nb_channels;            /**< Number of channels encoded */
-  d->channels = data.toUInt(pos, false);
+  d->channels = data.toUInt32LE(pos);
   pos += 4;
 
   // bitrate;                /**< Bit-rate used */
-  d->bitrateNominal = data.toUInt(pos, false);
+  d->bitrateNominal = data.toUInt32LE(pos);
   pos += 4;
 
   // frame_size;             /**< Size of frames */
@@ -146,7 +146,7 @@ void Speex::AudioProperties::read(File *file) {
   pos += 4;
 
   // vbr;                    /**< 1 for a VBR encoding, 0 otherwise */
-  d->vbr = data.toUInt(pos, false) == 1;
+  d->vbr = data.toUInt32LE(pos) == 1;
   pos += 4;
 
   // frames_per_packet;      /**< Number of frames stored per Ogg packet */

@@ -27,13 +27,13 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tdebug.h>
-#include <tagunion.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tdebug.h"
+#include "tagunion.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "trueaudiofile.h"
 #include "id3v1tag.h"
@@ -47,7 +47,8 @@ enum {
   TrueAudioID3v2Index = 0,
   TrueAudioID3v1Index = 1
 };
-}
+const unsigned int HeaderSize = 18;
+}  // namespace
 
 class TrueAudio::File::FilePrivate {
  public:
@@ -62,12 +63,12 @@ class TrueAudio::File::FilePrivate {
   }
 
   const ID3v2::FrameFactory *ID3v2FrameFactory;
-  long ID3v2Location;
-  long ID3v2OriginalSize;
+  long long ID3v2Location;
+  long long ID3v2OriginalSize;
 
-  long ID3v1Location;
+  long long ID3v1Location;
 
-  TagUnion tag;
+  DoubleTagUnion tag;
 
   AudioProperties *properties;
 };
@@ -123,14 +124,6 @@ TrueAudio::File::~File() {
 
 Strawberry_TagLib::TagLib::Tag *TrueAudio::File::tag() const {
   return &d->tag;
-}
-
-PropertyMap TrueAudio::File::properties() const {
-  return d->tag.properties();
-}
-
-void TrueAudio::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag.removeUnsupportedProperties(properties);
 }
 
 PropertyMap TrueAudio::File::setProperties(const PropertyMap &properties) {
@@ -273,7 +266,7 @@ void TrueAudio::File::read(bool readProperties) {
 
   if (readProperties) {
 
-    long streamLength;
+    long long streamLength;
 
     if (d->ID3v1Location >= 0)
       streamLength = d->ID3v1Location;
@@ -288,7 +281,7 @@ void TrueAudio::File::read(bool readProperties) {
       seek(0);
     }
 
-    d->properties = new AudioProperties(readBlock(TrueAudio::HeaderSize), streamLength);
+    d->properties = new AudioProperties(readBlock(HeaderSize), streamLength);
   }
 
 }

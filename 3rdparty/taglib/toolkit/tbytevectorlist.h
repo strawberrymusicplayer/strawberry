@@ -47,9 +47,16 @@ class TAGLIB_EXPORT ByteVectorList : public List<ByteVector> {
   explicit ByteVectorList();
 
   /*!
-   * Destroys this ByteVectorList instance.
+   * Make a shallow, implicitly shared, copy of \a l.
+   * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
    */
-  virtual ~ByteVectorList();
+  ByteVectorList(const ByteVectorList &l);
+
+  /*!
+   * Make a shallow, implicitly shared, copy of \a l.
+   * Because this is implicitly shared, this method is lightweight and suitable for pass-by-value usage.
+   */
+  ByteVectorList &operator=(const ByteVectorList &l);
 
   /*!
    * Convert the ByteVectorList to a ByteVector separated by \a separator.  By default a space is used.
@@ -63,11 +70,8 @@ class TAGLIB_EXPORT ByteVectorList : public List<ByteVector> {
    * If \a max for instance is 2 then a maximum of 1 match will be found and the vector will be split on that match.
    */
 
-  static ByteVectorList split(const ByteVector &v, const ByteVector &pattern, int byteAlign = 1, int max = 0);
+  static ByteVectorList split(const ByteVector &v, const ByteVector &pattern, size_t byteAlign = 1, size_t max = 0);
 
- private:
-  class ByteVectorListPrivate;
-  ByteVectorListPrivate *d;
 };
 
 }  // namespace TagLib

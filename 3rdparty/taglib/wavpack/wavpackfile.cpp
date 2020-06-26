@@ -27,12 +27,12 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tdebug.h>
-#include <tagunion.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tdebug.h"
+#include "tagunion.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "wavpackfile.h"
 #include "id3v1tag.h"
@@ -60,12 +60,12 @@ class WavPack::File::FilePrivate {
     delete properties;
   }
 
-  long APELocation;
-  long APESize;
+  long long APELocation;
+  long long APESize;
 
-  long ID3v1Location;
+  long long ID3v1Location;
 
-  TagUnion tag;
+  DoubleTagUnion tag;
 
   AudioProperties *properties;
 };
@@ -107,14 +107,6 @@ WavPack::File::~File() {
 
 Strawberry_TagLib::TagLib::Tag *WavPack::File::tag() const {
   return &d->tag;
-}
-
-PropertyMap WavPack::File::properties() const {
-  return d->tag.properties();
-}
-
-void WavPack::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag.removeUnsupportedProperties(properties);
 }
 
 PropertyMap WavPack::File::setProperties(const PropertyMap &properties) {
@@ -262,7 +254,7 @@ void WavPack::File::read(bool readProperties) {
 
   if (readProperties) {
 
-    long streamLength;
+    long long streamLength;
 
     if (d->APELocation >= 0)
       streamLength = d->APELocation;

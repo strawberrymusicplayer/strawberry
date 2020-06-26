@@ -89,7 +89,7 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
 
   explicit Picture();
   explicit Picture(const ByteVector &data);
-  ~Picture();
+  ~Picture() override;
 
   /*!
    * Returns the type of the image.
@@ -176,12 +176,12 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
   /*!
    * Returns the FLAC metadata block type.
    */
-  int code() const;
+  int code() const override;
 
   /*!
    * Render the content to the FLAC picture block format.
    */
-  ByteVector render() const;
+  ByteVector render() const override;
 
   /*!
    * Parse the picture data in the FLAC picture block format.
@@ -189,14 +189,12 @@ class TAGLIB_EXPORT Picture : public MetadataBlock {
   bool parse(const ByteVector &rawData);
 
  private:
-  explicit Picture(const Picture &item);
+  Picture(const Picture &item);
   Picture &operator=(const Picture &item);
 
   class PicturePrivate;
   PicturePrivate *d;
 };
-
-typedef List<Picture> PictureList;
 
 }  // namespace FLAC
 }  // namespace TagLib

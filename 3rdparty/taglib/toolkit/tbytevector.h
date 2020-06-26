@@ -59,7 +59,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Construct a vector of size \a size with all values set to \a value by default.
    */
-  explicit ByteVector(unsigned int size, char value = 0);
+  explicit ByteVector(size_t size, char value = 0);
 
   /*!
    * Constructs a byte vector that is a copy of \a v.
@@ -69,7 +69,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Constructs a byte vector that is a copy of \a v.
    */
-  explicit ByteVector(const ByteVector &v, unsigned int offset, unsigned int length);
+  explicit ByteVector(const ByteVector &v, size_t offset, size_t length);
 
   /*!
    * Constructs a byte vector that contains \a c.
@@ -79,7 +79,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Constructs a byte vector that copies \a data for up to \a length bytes.
    */
-  explicit ByteVector(const char *data, unsigned int length);
+  explicit ByteVector(const char *data, size_t length);
 
   /*!
    * Constructs a byte vector that copies \a data up to the first null byte.
@@ -97,7 +97,7 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Sets the data for the byte array using the first \a length bytes of \a data
    */
-  ByteVector &setData(const char *data, unsigned int length);
+  ByteVector &setData(const char *data, size_t length);
 
   /*!
    * Sets the data for the byte array copies \a data up to the first null byte.
@@ -122,13 +122,13 @@ class TAGLIB_EXPORT ByteVector {
    * Returns a byte vector made up of the bytes starting at \a index and for \a length bytes.
    * If \a length is not specified it will return the bytes from \a index to the end of the vector.
    */
-  ByteVector mid(unsigned int index, unsigned int length = 0xffffffff) const;
+  ByteVector mid(size_t index, size_t length = npos()) const;
 
   /*!
    * This essentially performs the same as operator[](), but instead of causing
    * a runtime error if the index is out of bounds, it will return a null byte.
    */
-  char at(unsigned int index) const;
+  char at(size_t index) const;
 
   /*!
    * Searches the ByteVector for \a pattern starting at \a offset and returns
@@ -136,7 +136,7 @@ class TAGLIB_EXPORT ByteVector {
    * If \a byteAlign is specified the pattern will only be matched if it starts on a byte divisible
    * by \a byteAlign (starting from \a offset).
    */
-  int find(const ByteVector &pattern, unsigned int offset = 0, int byteAlign = 1) const;
+  size_t find(const ByteVector &pattern, size_t offset = 0, size_t byteAlign = 1) const;
 
   /*!
    * Searches the char for \a c starting at \a offset and returns the offset.
@@ -144,21 +144,21 @@ class TAGLIB_EXPORT ByteVector {
    * If \a byteAlign is specified the pattern will only be matched if it starts on a byte divisible
    * by \a byteAlign (starting from \a offset).
    */
-  int find(char c, unsigned int offset = 0, int byteAlign = 1) const;
+  size_t find(char c, size_t offset = 0, size_t byteAlign = 1) const;
 
   /*!
    * Searches the ByteVector for \a pattern starting from either the end of the vector or \a offset and returns the offset.
    * Returns -1 if the pattern was not found.
    * If \a byteAlign is specified the pattern will only be matched if it starts on a byte divisible by \a byteAlign (starting from \a offset).
    */
-  int rfind(const ByteVector &pattern, unsigned int offset = 0, int byteAlign = 1) const;
+  size_t rfind(const ByteVector &pattern, size_t offset = 0, size_t byteAlign = 1) const;
 
   /*!
    * Checks to see if the vector contains the \a pattern starting at position \a offset.
    * Optionally, if you only want to search for part of the pattern you can specify an offset within the pattern to start from.
    * Also, you can specify to only check for the first \a patternLength bytes of \a pattern with the \a patternLength argument.
    */
-  bool containsAt(const ByteVector &pattern, unsigned int offset, unsigned int patternOffset = 0, unsigned int patternLength = 0xffffffff) const;
+  bool containsAt(const ByteVector &pattern, size_t offset, size_t patternOffset = 0, size_t patternLength = npos()) const;
 
   /*!
    * Returns true if the vector starts with \a pattern.
@@ -188,7 +188,7 @@ class TAGLIB_EXPORT ByteVector {
    *
    * \note This will not match the complete pattern at the end of the string; use endsWith() for that.
    */
-  int endsWithPartialMatch(const ByteVector &pattern) const;
+  size_t endsWithPartialMatch(const ByteVector &pattern) const;
 
   /*!
    * Appends \a v to the end of the ByteVector.
@@ -208,14 +208,14 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Returns the size of the array.
    */
-  unsigned int size() const;
+  size_t size() const;
 
   /*!
    * Resize the vector to \a size.
    * If the vector is currently less than \a size, pad the remaining spaces with \a padding.
    * Returns a reference to the resized vector.
    */
-  ByteVector &resize(unsigned int size, char padding = 0);
+  ByteVector &resize(size_t size, char padding = 0);
 
   /*!
    * Returns an Iterator that points to the front of the vector.
@@ -261,104 +261,74 @@ class TAGLIB_EXPORT ByteVector {
    * Returns true if the ByteVector is empty.
    *
    * \see size()
-   * \see isNull()
    */
   bool isEmpty() const;
 
   /*!
-   * Converts the first 4 bytes of the vector to an unsigned integer.
+   * Converts the 2 bytes at \a offset of the vector to a short as a signed 16-bit little-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is
-   * true then $00 $00 $00 $01 == 0x00000001 == 1, if false, $01 00 00 00 == 0x01000000 == 1.
-   *
-   * \see fromUInt()
+   * \see fromUInt16LE()
    */
-  unsigned int toUInt(bool mostSignificantByteFirst = true) const;
+  short toInt16LE(size_t offset) const;
 
   /*!
-   * Converts the 4 bytes at \a offset of the vector to an unsigned integer.
+   * Converts the 2 bytes at \a offset of the vector to a short as a signed 16-bit big-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $00 $00 $01 == 0x00000001 == 1, if false, $01 00 00 00 == 0x01000000 == 1.
-   *
-   * \see fromUInt()
+   * \see fromUInt16BE()
    */
-  unsigned int toUInt(unsigned int offset, bool mostSignificantByteFirst = true) const;
+  short toInt16BE(size_t offset) const;
 
   /*!
-   * Converts the \a length bytes at \a offset of the vector to an unsigned integer.
-   * If \a length is larger than 4, the excess is ignored.
+   * Converts the 2 bytes at \a offset of the vector to a unsigned short as an unsigned 16-bit little-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $00 $00 $01 == 0x00000001 == 1, if false, $01 00 00 00 == 0x01000000 == 1.
-   *
-   * \see fromUInt()
+   * \see fromUInt16LE()
    */
-  unsigned int toUInt(unsigned int offset, unsigned int length,
-    bool mostSignificantByteFirst = true) const;
+  unsigned short toUInt16LE(size_t offset) const;
 
   /*!
-   * Converts the first 2 bytes of the vector to a (signed) short.
+   * Converts the 2 bytes at \a offset of the vector to a unsigned short as an unsigned 16-bit big-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $01 == 0x0001 == 1, if false, $01 00 == 0x01000000 == 1.
-   *
-   * \see fromShort()
+   * \see fromUInt16BE()
    */
-  short toShort(bool mostSignificantByteFirst = true) const;
+  unsigned short toUInt16BE(size_t offset) const;
 
   /*!
-   * Converts the 2 bytes at \a offset of the vector to a (signed) short.
-   *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $01 == 0x0001 == 1, if false, $01 00 == 0x01000000 == 1.
-   *
-   * \see fromShort()
+   * Converts the 3 bytes at \a offset of the vector to a unsigned int as an unsigned 24-bit little-endian integer.
    */
-  short toShort(unsigned int offset, bool mostSignificantByteFirst = true) const;
+  unsigned int toUInt24LE(size_t offset) const;
 
   /*!
-   * Converts the first 2 bytes of the vector to a unsigned short.
-   *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $01 == 0x0001 == 1, if false, $01 00 == 0x01000000 == 1.
-   *
-   * \see fromShort()
+   * Converts the 3 bytes at \a offset of the vector to a unsigned int as an unsigned 24-bit big-endian integer.
    */
-  unsigned short toUShort(bool mostSignificantByteFirst = true) const;
+  unsigned int toUInt24BE(size_t offset) const;
 
   /*!
-   * Converts the 2 bytes at \a offset of the vector to a unsigned short.
+   * Converts the 4 bytes at \a offset of the vector to a unsigned int as an unsigned 32-bit little-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 $01 == 0x0001 == 1, if false, $01 00 == 0x01000000 == 1.
-   *
-   * \see fromShort()
+   * \see fromUInt32LE()
    */
-  unsigned short toUShort(unsigned int offset, bool mostSignificantByteFirst = true) const;
+  unsigned int toUInt32LE(size_t offset) const;
 
   /*!
-   * Converts the first 8 bytes of the vector to a (signed) long long.
+   * Converts the 4 bytes at \a offset of the vector to a unsigned int as an unsigned 32-bit big-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 00 00 00 00 00 00 01 == 0x0000000000000001 == 1,
-   * if false, $01 00 00 00 00 00 00 00 == 0x0100000000000000 == 1.
-   *
-   * \see fromUInt()
+   * \see fromUInt32BE()
    */
-  long long toLongLong(bool mostSignificantByteFirst = true) const;
+  unsigned int toUInt32BE(size_t offset) const;
 
   /*!
-   * Converts the 8 bytes at \a offset of the vector to a (signed) long long.
+   * Converts the 8 bytes at \a offset of the vector to a long long as a signed 64-bit little-endian integer.
    *
-   * If \a mostSignificantByteFirst is true this will operate left to right evaluating the integer.
-   * For example if \a mostSignificantByteFirst is true then $00 00 00 00 00 00 00 01 == 0x0000000000000001 == 1,
-   * if false, $01 00 00 00 00 00 00 00 == 0x0100000000000000 == 1.
-   *
-   * \see fromUInt()
+   * \see fromUInt64LE()
    */
-  long long toLongLong(unsigned int offset, bool mostSignificantByteFirst = true) const;
+  long long toInt64LE(size_t offset) const;
+
+  /*!
+   * Converts the 8 bytes at \a offset of the vector to a long long as a signed 64-bit big-endian integer.
+   *
+   * \see fromUInt64BE()
+   */
+  long long toInt64BE(size_t offset) const;
 
   /*
    * Converts the 4 bytes at \a offset of the vector to a float as an IEEE754 32-bit little-endian floating point number.
@@ -395,33 +365,50 @@ class TAGLIB_EXPORT ByteVector {
   long double toFloat80BE(size_t offset) const;
 
   /*!
-   * Creates a 4 byte ByteVector based on \a value.
-   * If \a mostSignificantByteFirst is true, then this will operate left to right
-   * in building the ByteVector.
-   * For example if \a mostSignificantByteFirst is true then $00 00 00 01 == 0x00000001 == 1, if false, $01 00 00 00 == 0x01000000 == 1.
+   * Creates a 2 byte ByteVector based on \a value as an unsigned 16-bit little-endian integer.
    *
-   * \see toUInt()
+   * \note If \a value is larger than 16-bit, the lowest 16 bits are used.
+   * \see toUInt16LE()
    */
-  static ByteVector fromUInt(unsigned int value, bool mostSignificantByteFirst = true);
+  static ByteVector fromUInt16LE(size_t value);
 
   /*!
-   * Creates a 2 byte ByteVector based on \a value.
-   * If \a mostSignificantByteFirst is true, then this will operate left to right in building the ByteVector.
-   * For example if \a mostSignificantByteFirst is true then $00 01 == 0x0001 == 1, if false, $01 00 == 0x0100 == 1.
+   * Creates a 2 byte ByteVector based on \a value as an unsigned 16-bit big-endian integer.
    *
-   * \see toShort()
+   * \note If \a value is larger than 16-bit, the lowest 16 bits are used.
+   * \see toUInt16BE()
    */
-  static ByteVector fromShort(short value, bool mostSignificantByteFirst = true);
+  static ByteVector fromUInt16BE(size_t value);
 
   /*!
-   * Creates a 8 byte ByteVector based on \a value.
-   * If \a mostSignificantByteFirst is true, then this will operate left to right in building the ByteVector.
-   * For example if \a mostSignificantByteFirst is true then $00 00 00 01 == 0x0000000000000001 == 1,
-   * if false, $01 00 00 00 00 00 00 00 == 0x0100000000000000 == 1.
+   * Creates a 4 byte ByteVector based on \a value as an unsigned 32-bit little-endian integer.
    *
-   * \see toLongLong()
+   * \note If \a value is larger than 32-bit, the lowest 32 bits are used.
+   * \see toUInt32LE()
    */
-  static ByteVector fromLongLong(long long value, bool mostSignificantByteFirst = true);
+  static ByteVector fromUInt32LE(size_t value);
+
+  /*!
+   * Creates a 4 byte ByteVector based on \a value as an unsigned 32-bit big-endian integer.
+   *
+   * \note If \a value is larger than 32-bit, the lowest 32 bits are used.
+   * \see toUInt32BE()
+   */
+  static ByteVector fromUInt32BE(size_t value);
+
+  /*!
+   * Creates a 8 byte ByteVector based on \a value as an unsigned 64-bit little-endian integer.
+   *
+   * \see toUInt64LE()
+   */
+  static ByteVector fromUInt64LE(unsigned long long value);
+
+  /*!
+   * Creates a 8 byte ByteVector based on \a value as an unsigned 64-bit big-endian integer.
+   *
+   * \see toUInt64BE()
+   */
+  static ByteVector fromUInt64BE(unsigned long long value);
 
   /*!
    * Creates a 4 byte ByteVector based on \a value as an IEEE754 32-bit little-endian floating point number.
@@ -454,17 +441,17 @@ class TAGLIB_EXPORT ByteVector {
   /*!
    * Returns a ByteVector based on the CString \a s.
    */
-  static ByteVector fromCString(const char *s, unsigned int length = 0xffffffff);
+  static ByteVector fromCString(const char *s, size_t length = npos());
 
   /*!
    * Returns a const reference to the byte at \a index.
    */
-  const char &operator[](int index) const;
+  const char &operator[](size_t index) const;
 
   /*!
    * Returns a reference to the byte at \a index.
    */
-  char &operator[](int index);
+  char &operator[](size_t index);
 
   /*!
    * Returns true if this ByteVector and \a v are equal.
@@ -526,6 +513,13 @@ class TAGLIB_EXPORT ByteVector {
   void swap(ByteVector &v);
 
   /*!
+   * Returns a special value used for \a length or \a patternLength parameters
+   * of ByteVector's member functions, means "until the end of the data".
+   * As a return value, it is usually used to indicate no matches.
+   */
+  static size_t npos();
+
+  /*!
    * Returns a hex-encoded copy of the byte vector.
    */
   ByteVector toHex() const;
@@ -551,13 +545,14 @@ class TAGLIB_EXPORT ByteVector {
   class ByteVectorPrivate;
   ByteVectorPrivate *d;
 };
-}  // namespace TagLib
-}  // namespace Strawberry_TagLib
 
 /*!
  * \relates Strawberry_TagLib::TagLib::ByteVector
  * Streams the ByteVector \a v to the output stream \a s.
  */
 TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const Strawberry_TagLib::TagLib::ByteVector &v);
+
+}  // namespace TagLib
+}  // namespace Strawberry_TagLib
 
 #endif

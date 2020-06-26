@@ -49,16 +49,11 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
  protected:
-  enum Endianness {
-    BigEndian,
-    LittleEndian
-  };
-
-  explicit File(FileName file, Endianness endianness);
-  explicit File(IOStream *stream, Endianness endianness);
+  explicit File(FileName file, ByteOrder endianness);
+  explicit File(IOStream *stream, ByteOrder endianness);
 
   /*!
    * \return The size of the main RIFF chunk.
@@ -68,12 +63,12 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * \return The number of chunks in the file.
    */
-  unsigned int chunkCount() const;
+  size_t chunkCount() const;
 
   /*!
    * \return The offset within the file for the selected chunk number.
    */
-  unsigned int chunkOffset(unsigned int i) const;
+  long long chunkOffset(unsigned int i) const;
 
   /*!
    * \return The size of the chunk data.
@@ -140,11 +135,11 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   void removeChunk(const ByteVector &name);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read();
-  void writeChunk(const ByteVector &name, const ByteVector &data, unsigned long offset, unsigned long replace = 0);
+  void writeChunk(const ByteVector &name, const ByteVector &data, long long offset, size_t replace = 0);
 
   /*!
    * Update the global RIFF size based on the current internal structure.

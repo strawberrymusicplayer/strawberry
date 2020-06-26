@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tstring.h>
+#include "tdebug.h"
+#include "tstring.h"
 #include "mp4file.h"
 #include "mp4atom.h"
 #include "mp4properties.h"
@@ -33,13 +33,13 @@ using namespace Strawberry_TagLib::TagLib;
 
 class MP4::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        bitsPerSample(0),
-                        encrypted(false),
-                        codec(MP4::AudioProperties::Unknown) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      bitsPerSample(0),
+                                      encrypted(false),
+                                      codec(MP4::AudioProperties::Unknown) {}
 
   int length;
   int bitrate;
@@ -54,7 +54,7 @@ class MP4::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::AudioProperties::AudioProperties(File *file, MP4::Atoms *atoms, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+MP4::AudioProperties::AudioProperties(File *file, MP4::Atoms *atoms, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file, atoms);
 }
 
@@ -93,6 +93,26 @@ bool MP4::AudioProperties::isEncrypted() const {
 MP4::AudioProperties::Codec
 MP4::AudioProperties::codec() const {
   return d->codec;
+}
+
+String MP4::AudioProperties::toString() const {
+
+  String format;
+  if (d->codec == AAC) {
+    format = "AAC";
+  }
+  else if (d->codec == ALAC) {
+    format = "ALAC";
+  }
+  else {
+    format = "Unknown";
+  }
+  StringList desc;
+  desc.append("MPEG-4 audio (" + format + ")");
+  desc.append(String::number(lengthInSeconds()) + " seconds");
+  desc.append(String::number(bitrate()) + " kbps");
+  return desc.toString(", ");
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,16 +167,16 @@ void MP4::AudioProperties::read(File *file, Atoms *atoms) {
       debug("MP4: Atom 'trak.mdia.mdhd' is smaller than expected");
       return;
     }
-    unit = data.toUInt(28U);
-    length = data.toLongLong(32U);
+    unit = data.toUInt32BE(28);
+    length = data.toInt64BE(32);
   }
   else {
     if (data.size() < 24 + 8) {
       debug("MP4: Atom 'trak.mdia.mdhd' is smaller than expected");
       return;
     }
-    unit = data.toUInt(20U);
-    length = data.toUInt(24U);
+    unit = data.toUInt32BE(20);
+    length = data.toUInt32BE(24);
   }
   if (unit > 0 && length > 0)
     d->length = static_cast<int>(length * 1000.0 / unit + 0.5);
@@ -170,9 +190,9 @@ void MP4::AudioProperties::read(File *file, Atoms *atoms) {
   data = file->readBlock(atom->length);
   if (data.containsAt("mp4a", 20)) {
     d->codec = AAC;
-    d->channels = data.toShort(40U);
-    d->bitsPerSample = data.toShort(42U);
-    d->sampleRate = data.toUInt(46U);
+    d->channels = data.toUInt16BE(40);
+    d->bitsPerSample = data.toUInt16BE(42);
+    d->sampleRate = data.toUInt32BE(46);
     if (data.containsAt("esds", 56) && data[64] == 0x03) {
       unsigned int pos = 65;
       if (data.containsAt("\x80\x80\x80", pos)) {
@@ -185,7 +205,7 @@ void MP4::AudioProperties::read(File *file, Atoms *atoms) {
           pos += 3;
         }
         pos += 10;
-        d->bitrate = static_cast<int>((data.toUInt(pos) + 500) / 1000.0 + 0.5);
+        d->bitrate = static_cast<int>((data.toUInt32BE(pos) + 500) / 1000.0 + 0.5);
       }
     }
   }
@@ -194,8 +214,8 @@ void MP4::AudioProperties::read(File *file, Atoms *atoms) {
       d->codec = ALAC;
       d->bitsPerSample = data.at(69);
       d->channels = data.at(73);
-      d->bitrate = static_cast<int>(data.toUInt(80U) / 1000.0 + 0.5);
-      d->sampleRate = data.toUInt(84U);
+      d->bitrate = static_cast<int>(data.toUInt32BE(80) / 1000.0 + 0.5);
+      d->sampleRate = data.toUInt32BE(84);
     }
   }
 

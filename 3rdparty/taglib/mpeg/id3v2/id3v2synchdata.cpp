@@ -34,7 +34,7 @@ unsigned int SynchData::toUInt(const ByteVector &data) {
 
   unsigned int sum = 0;
   bool notSynchSafe = false;
-  int last = data.size() > 4 ? 3 : data.size() - 1;
+  const int last = data.size() > 4 ? 3 : data.size() - 1;
 
   for (int i = 0; i <= last; i++) {
     if (data[i] & 0x80) {
@@ -49,12 +49,12 @@ unsigned int SynchData::toUInt(const ByteVector &data) {
     // Invalid data; assume this was created by some buggy software that just
     // put normal integers here rather than syncsafe ones, and try it that way.
     if (data.size() >= 4) {
-      sum = data.toUInt(0, true);
+      sum = data.toUInt32BE(0);
     }
     else {
       ByteVector tmp(data);
       tmp.resize(4);
-      sum = tmp.toUInt(0, true);
+      sum = tmp.toUInt32BE(0);
     }
   }
 

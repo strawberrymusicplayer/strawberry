@@ -34,29 +34,26 @@ namespace TagLib {
 namespace Mod {
 
 class TAGLIB_EXPORT AudioProperties : public Strawberry_TagLib::TagLib::AudioProperties {
+  friend class File;
+
  public:
   explicit AudioProperties(AudioProperties::ReadStyle propertiesStyle);
-  virtual ~AudioProperties();
+  ~AudioProperties() override;
 
-  int lengthInSeconds() const;
-  int lengthInMilliseconds() const;
-  int bitrate() const;
-  int sampleRate() const;
-  int channels() const;
+  int lengthInSeconds() const override;
+  int lengthInMilliseconds() const override;
+  int bitrate() const override;
+  int sampleRate() const override;
+  int channels() const override;
 
   unsigned int instrumentCount() const;
   unsigned char lengthInPatterns() const;
 
+ private:
   void setChannels(int channels);
 
   void setInstrumentCount(unsigned int instrumentCount);
   void setLengthInPatterns(unsigned char lengthInPatterns);
-
- private:
-  friend class File;
-
-  explicit AudioProperties(const AudioProperties&);
-  AudioProperties &operator=(const AudioProperties&);
 
   class AudioPropertiesPrivate;
   AudioPropertiesPrivate *d;

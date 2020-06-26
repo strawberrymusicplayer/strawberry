@@ -23,14 +23,12 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#  include <config.h>
-#endif
+#include "taglib-config.h"
 
 #ifdef HAVE_ZLIB
 #  include <zlib.h>
-#  include <tstring.h>
-#  include <tdebug.h>
+#  include "tstring.h"
+#  include "tdebug.h"
 #endif
 
 #include "tzlib.h"

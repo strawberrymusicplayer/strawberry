@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "flacproperties.h"
 #include "flacfile.h"
@@ -33,12 +33,12 @@ using namespace Strawberry_TagLib::TagLib;
 
 class FLAC::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        bitsPerSample(0),
-                        channels(0),
-                        sampleFrames(0) {}
+  explicit AudioPropertiesPrivate() : length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      bitsPerSample(0),
+                                      channels(0),
+                                      sampleFrames(0) {}
 
   int length;
   int bitrate;
@@ -53,7 +53,7 @@ class FLAC::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FLAC::AudioProperties::AudioProperties(const ByteVector &data, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+FLAC::AudioProperties::AudioProperties(const ByteVector &data, long long streamLength, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(data, streamLength);
 }
 
@@ -97,14 +97,14 @@ ByteVector FLAC::AudioProperties::signature() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void FLAC::AudioProperties::read(const ByteVector &data, long streamLength) {
+void FLAC::AudioProperties::read(const ByteVector &data, long long streamLength) {
 
   if (data.size() < 18) {
     debug("FLAC::AudioProperties::read() - FLAC properties must contain at least 18 bytes.");
     return;
   }
 
-  unsigned int pos = 0;
+  size_t pos = 0;
 
   // Minimum block size (in samples)
   pos += 2;
@@ -118,7 +118,7 @@ void FLAC::AudioProperties::read(const ByteVector &data, long streamLength) {
   // Maximum frame size (in bytes)
   pos += 3;
 
-  const unsigned int flags = data.toUInt(pos, true);
+  const unsigned int flags = data.toUInt32BE(pos);
   pos += 4;
 
   d->sampleRate = flags >> 12;
@@ -129,7 +129,7 @@ void FLAC::AudioProperties::read(const ByteVector &data, long streamLength) {
   // stream length in samples. (Audio files measured in days)
 
   const unsigned long long hi = flags & 0xf;
-  const unsigned long long lo = data.toUInt(pos, true);
+  const unsigned long long lo = data.toUInt32BE(pos);
   pos += 4;
 
   d->sampleFrames = (hi << 32) | lo;

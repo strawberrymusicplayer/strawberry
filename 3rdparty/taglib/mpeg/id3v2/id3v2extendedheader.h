@@ -78,7 +78,7 @@ class TAGLIB_EXPORT ExtendedHeader {
   void parse(const ByteVector &data);
 
  private:
-  explicit ExtendedHeader(const ExtendedHeader&);
+  ExtendedHeader(const ExtendedHeader&);
   ExtendedHeader &operator=(const ExtendedHeader&);
 
   class ExtendedHeaderPrivate;

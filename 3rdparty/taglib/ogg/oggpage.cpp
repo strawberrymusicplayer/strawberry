@@ -25,8 +25,8 @@
 
 #include <algorithm>
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "oggpage.h"
 #include "oggpageheader.h"
@@ -86,16 +86,16 @@ ByteVector checksum(const ByteVector &v) {
   for (ByteVector::ConstIterator it = v.begin(); it != v.end(); ++it)
     sum = (sum << 8) ^ crcTable[((sum >> 24) & 0xff) ^ static_cast<unsigned char>(*it)];
 
-  return ByteVector::fromUInt(sum);
+  return ByteVector::fromUInt32LE(sum);
 }
 }  // namespace
 
 class Ogg::Page::PagePrivate {
  public:
-  PagePrivate(File *f = nullptr, long pageOffset = -1) : file(f), fileOffset(pageOffset), header(f, pageOffset), firstPacketIndex(-1) {}
+  explicit PagePrivate(File *f = nullptr, long long pageOffset = -1) : file(f), fileOffset(pageOffset), header(f, pageOffset), firstPacketIndex(-1) {}
 
   File *file;
-  long fileOffset;
+  long long fileOffset;
   PageHeader header;
   int firstPacketIndex;
   ByteVectorList packets;
@@ -105,13 +105,13 @@ class Ogg::Page::PagePrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::Page::Page(Ogg::File *file, long pageOffset) : d(new PagePrivate(file, pageOffset)) {}
+Ogg::Page::Page(Ogg::File *file, long long pageOffset) : d(new PagePrivate(file, pageOffset)) {}
 
 Ogg::Page::~Page() {
   delete d;
 }
 
-long Ogg::Page::fileOffset() const {
+long long Ogg::Page::fileOffset() const {
   return d->fileOffset;
 }
 

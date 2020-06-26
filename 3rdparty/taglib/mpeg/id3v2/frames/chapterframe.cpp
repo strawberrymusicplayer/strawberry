@@ -25,9 +25,9 @@
 
 #include <cstdio>
 
-#include <tbytevectorlist.h>
-#include <tpropertymap.h>
-#include <tdebug.h>
+#include "tbytevectorlist.h"
+#include "tpropertymap.h"
+#include "tdebug.h"
 
 #include "chapterframe.h"
 
@@ -36,11 +36,11 @@ using namespace ID3v2;
 
 class ChapterFrame::ChapterFramePrivate {
  public:
-  ChapterFramePrivate() : tagHeader(nullptr),
-                          startTime(0),
-                          endTime(0),
-                          startOffset(0),
-                          endOffset(0) {
+  explicit ChapterFramePrivate() : tagHeader(nullptr),
+                                    startTime(0),
+                                    endTime(0),
+                                    startOffset(0),
+                                    endOffset(0) {
     embeddedFrameList.setAutoDelete(true);
   }
 
@@ -224,23 +224,23 @@ ChapterFrame *ChapterFrame::findByElementID(const ID3v2::Tag *tag, const ByteVec
 
 void ChapterFrame::parseFields(const ByteVector &data) {
 
-  unsigned int size = data.size();
+  size_t size = data.size();
   if (size < 18) {
     debug("A CHAP frame must contain at least 18 bytes (1 byte element ID "
           "terminated by null and 4x4 bytes for start and end time and offset).");
     return;
   }
 
-  int pos = 0;
-  unsigned int embPos = 0;
-  d->elementID = readStringField(data, String::Latin1, &pos).data(String::Latin1);
-  d->startTime = data.toUInt(pos, true);
+  size_t pos = 0;
+  size_t embPos = 0;
+  d->elementID = readStringField(data, String::Latin1, pos).data(String::Latin1);
+  d->startTime = data.toUInt32BE(pos);
   pos += 4;
-  d->endTime = data.toUInt(pos, true);
+  d->endTime = data.toUInt32BE(pos);
   pos += 4;
-  d->startOffset = data.toUInt(pos, true);
+  d->startOffset = data.toUInt32BE(pos);
   pos += 4;
-  d->endOffset = data.toUInt(pos, true);
+  d->endOffset = data.toUInt32BE(pos);
   pos += 4;
   size -= pos;
 
@@ -273,10 +273,10 @@ ByteVector ChapterFrame::renderFields() const {
 
   data.append(d->elementID);
   data.append('\0');
-  data.append(ByteVector::fromUInt(d->startTime, true));
-  data.append(ByteVector::fromUInt(d->endTime, true));
-  data.append(ByteVector::fromUInt(d->startOffset, true));
-  data.append(ByteVector::fromUInt(d->endOffset, true));
+  data.append(ByteVector::fromUInt32BE(d->startTime));
+  data.append(ByteVector::fromUInt32BE(d->endTime));
+  data.append(ByteVector::fromUInt32BE(d->startOffset));
+  data.append(ByteVector::fromUInt32BE(d->endOffset));
   FrameList l = d->embeddedFrameList;
   for (FrameList::ConstIterator it = l.begin(); it != l.end(); ++it)
     data.append((*it)->render());

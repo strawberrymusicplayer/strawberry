@@ -53,7 +53,7 @@ class TAGLIB_EXPORT DebugListener {
 
  private:
   // Noncopyable
-  explicit DebugListener(const DebugListener&);
+  DebugListener(const DebugListener&);
   DebugListener &operator=(const DebugListener&);
 };
 

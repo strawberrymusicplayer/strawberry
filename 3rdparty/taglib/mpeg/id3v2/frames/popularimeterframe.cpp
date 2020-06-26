@@ -23,7 +23,7 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
+#include "tdebug.h"
 
 #include "popularimeterframe.h"
 
@@ -32,7 +32,7 @@ using namespace ID3v2;
 
 class PopularimeterFrame::PopularimeterFramePrivate {
  public:
-  PopularimeterFramePrivate() : rating(0), counter(0) {}
+  explicit PopularimeterFramePrivate() : rating(0), counter(0) {}
   String email;
   int rating;
   unsigned int counter;
@@ -86,16 +86,17 @@ void PopularimeterFrame::setCounter(unsigned int counter) {
 
 void PopularimeterFrame::parseFields(const ByteVector &data) {
 
-  int pos = 0, size = int(data.size());
+  size_t pos = 0;
+  const size_t size = data.size();
 
-  d->email = readStringField(data, String::Latin1, &pos);
+  d->email = readStringField(data, String::Latin1, pos);
 
   d->rating = 0;
   d->counter = 0;
   if (pos < size) {
     d->rating = static_cast<unsigned char>(data[pos++]);
     if (pos < size) {
-      d->counter = data.toUInt(static_cast<unsigned int>(pos));
+      d->counter = data.toUInt32BE(pos);
     }
   }
 
@@ -108,7 +109,7 @@ ByteVector PopularimeterFrame::renderFields() const {
   data.append(d->email.data(String::Latin1));
   data.append(textDelimiter(String::Latin1));
   data.append(char(d->rating));
-  data.append(ByteVector::fromUInt(d->counter));
+  data.append(ByteVector::fromUInt32BE(d->counter));
 
   return data;
 

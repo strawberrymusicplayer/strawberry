@@ -68,7 +68,7 @@ class TAGLIB_EXPORT Footer {
   ByteVector render(const Header *header) const;
 
  private:
-  explicit Footer(const Footer&);
+  Footer(const Footer&);
   Footer &operator=(const Footer&);
 
   class FooterPrivate;

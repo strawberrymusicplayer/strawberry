@@ -136,7 +136,7 @@ class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
   /*!
    * Destroys this TextIdentificationFrame instance.
    */
-  virtual ~TextIdentificationFrame();
+  ~TextIdentificationFrame() override;
 
   /*!
    * Text identification frames are a list of string fields.
@@ -151,8 +151,8 @@ class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
 
   // Reimplementations.
 
-  virtual void setText(const String &s);
-  virtual String toString() const;
+  void setText(const String &s) override;
+  String toString() const override;
 
   /*!
    * Returns the text encoding that will be used in rendering this frame.
@@ -190,8 +190,8 @@ class TAGLIB_EXPORT TextIdentificationFrame : public Frame {
  protected:
   // Reimplementations.
 
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
   /*!
    * The constructor used by the FrameFactory.
@@ -245,7 +245,7 @@ class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
    */
   UserTextIdentificationFrame(const String &description, const StringList &values, String::Type encoding = String::UTF8);
 
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the description for this frame.
@@ -259,7 +259,7 @@ class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
   void setDescription(const String &s);
 
   StringList fieldList() const;
-  void setText(const String &text);
+  void setText(const String &text) override;
   void setText(const StringList &fields);
 
   /*!

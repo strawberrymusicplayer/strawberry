@@ -23,9 +23,9 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevectorlist.h>
-#include <tpropertymap.h>
-#include <tdebug.h>
+#include "tbytevectorlist.h"
+#include "tpropertymap.h"
+#include "tdebug.h"
 
 #include "id3v2tag.h"
 #include "uniquefileidentifierframe.h"
@@ -112,8 +112,8 @@ void UniqueFileIdentifierFrame::parseFields(const ByteVector &data) {
     return;
   }
 
-  int pos = 0;
-  d->owner = readStringField(data, String::Latin1, &pos);
+  size_t pos = 0;
+  d->owner = readStringField(data, String::Latin1, pos);
   d->identifier = data.mid(pos);
 
 }

@@ -25,15 +25,15 @@
 
 #include "attachedpictureframe.h"
 
-#include <tstringlist.h>
-#include <tdebug.h>
+#include "tstringlist.h"
+#include "tdebug.h"
 
 using namespace Strawberry_TagLib::TagLib;
 using namespace ID3v2;
 
 class AttachedPictureFrame::AttachedPictureFramePrivate {
  public:
-  AttachedPictureFramePrivate() : textEncoding(String::Latin1), type(AttachedPictureFrame::Other) {}
+  explicit AttachedPictureFramePrivate() : textEncoding(String::Latin1), type(AttachedPictureFrame::Other) {}
 
   String::Type textEncoding;
   String mimeType;
@@ -114,17 +114,17 @@ void AttachedPictureFrame::parseFields(const ByteVector &data) {
 
   d->textEncoding = String::Type(data[0]);
 
-  int pos = 1;
+  size_t pos = 1;
 
-  d->mimeType = readStringField(data, String::Latin1, &pos);
+  d->mimeType = readStringField(data, String::Latin1, pos);
   /* Now we need at least two more bytes available */
-  if (static_cast<unsigned int>(pos) + 1 >= data.size()) {
+  if (pos + 1 >= data.size()) {
     debug("Truncated picture frame.");
     return;
   }
 
   d->type = static_cast<ID3v2::AttachedPictureFrame::Type>(data[pos++]);
-  d->description = readStringField(data, d->textEncoding, &pos);
+  d->description = readStringField(data, d->textEncoding, pos);
 
   d->data = data.mid(pos);
 
@@ -169,7 +169,7 @@ void AttachedPictureFrameV22::parseFields(const ByteVector &data) {
 
   d->textEncoding = String::Type(data[0]);
 
-  int pos = 1;
+  size_t pos = 1;
 
   String fixedString = String(data.mid(pos, 3), String::Latin1);
   pos += 3;
@@ -186,7 +186,7 @@ void AttachedPictureFrameV22::parseFields(const ByteVector &data) {
   }
 
   d->type = static_cast<ID3v2::AttachedPictureFrame::Type>(data[pos++]);
-  d->description = readStringField(data, d->textEncoding, &pos);
+  d->description = readStringField(data, d->textEncoding, pos);
 
   d->data = data.mid(pos);
 

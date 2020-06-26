@@ -57,14 +57,14 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
   /*!
    * Destroys this CommentFrame instance.
    */
-  virtual ~CommentsFrame();
+  ~CommentsFrame() override;
 
   /*!
    * Returns the text of this comment.
    *
    * \see text()
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the language encoding as a 3 byte encoding as specified by
@@ -112,7 +112,7 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
    *
    * \see text()
    */
-  virtual void setText(const String &s);
+  void setText(const String &s) override;
 
   /*!
    * Returns the text encoding that will be used in rendering this frame.
@@ -154,15 +154,15 @@ class TAGLIB_EXPORT CommentsFrame : public Frame {
  protected:
   // Reimplementations.
 
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   /*!
    * The constructor used by the FrameFactory.
    */
   explicit CommentsFrame(const ByteVector &data, Header *h);
-  explicit CommentsFrame(const CommentsFrame &);
+  CommentsFrame(const CommentsFrame &);
   CommentsFrame &operator=(const CommentsFrame &);
 
   class CommentsFramePrivate;

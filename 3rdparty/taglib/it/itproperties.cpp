@@ -31,21 +31,21 @@ using namespace IT;
 
 class IT::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : channels(0),
-                        lengthInPatterns(0),
-                        instrumentCount(0),
-                        sampleCount(0),
-                        patternCount(0),
-                        version(0),
-                        compatibleVersion(0),
-                        flags(0),
-                        special(0),
-                        globalVolume(0),
-                        mixVolume(0),
-                        tempo(0),
-                        bpmSpeed(0),
-                        panningSeparation(0),
-                        pitchWheelDepth(0) {
+  explicit AudioPropertiesPrivate() : channels(0),
+                                      lengthInPatterns(0),
+                                      instrumentCount(0),
+                                      sampleCount(0),
+                                      patternCount(0),
+                                      version(0),
+                                      compatibleVersion(0),
+                                      flags(0),
+                                      special(0),
+                                      globalVolume(0),
+                                      mixVolume(0),
+                                      tempo(0),
+                                      bpmSpeed(0),
+                                      panningSeparation(0),
+                                      pitchWheelDepth(0) {
   }
 
   int channels;
@@ -65,7 +65,7 @@ class IT::AudioProperties::AudioPropertiesPrivate {
   unsigned char pitchWheelDepth;
 };
 
-IT::AudioProperties::AudioProperties(AudioProperties::ReadStyle propertiesStyle) : Strawberry_TagLib::TagLib::AudioProperties(propertiesStyle), d(new AudioPropertiesPrivate()) {}
+IT::AudioProperties::AudioProperties(AudioProperties::ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {}
 
 IT::AudioProperties::~AudioProperties() {
   delete d;
@@ -150,6 +150,10 @@ unsigned char IT::AudioProperties::panningSeparation() const {
 unsigned char IT::AudioProperties::pitchWheelDepth() const {
   return d->pitchWheelDepth;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
 
 void IT::AudioProperties::setChannels(int channels) {
   d->channels = channels;

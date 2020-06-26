@@ -84,7 +84,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the Tag for this file.  This will always be a XiphComment.
@@ -97,38 +97,24 @@ class TAGLIB_EXPORT File : public Ogg::File {
    *
    * \see hasXiphComment()
    */
-  virtual XiphComment *tag() const;
+  XiphComment *tag() const override;
 
   /*!
    * Returns the FLAC::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
-
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * This forwards directly to XiphComment::properties().
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Implements the unified tag dictionary interface -- import function.
-   * Like properties(), this is a forwarder to the file's XiphComment.
-   */
-  PropertyMap setProperties(const PropertyMap &);
-
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.  This will primarily save and update the XiphComment.
    * Returns true if the save is successful.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns the length of the audio-stream, used by FLAC::AudioProperties for calculating the bitrate.
    */
-  long streamLength();
+  long long streamLength();
 
   /*!
    * Returns whether or not the file on disk actually has a XiphComment.
@@ -145,7 +131,7 @@ class TAGLIB_EXPORT File : public Ogg::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File&);
+  File(const File&);
   File &operator=(const File&);
 
   void read(bool readProperties, AudioProperties::ReadStyle propertiesStyle);

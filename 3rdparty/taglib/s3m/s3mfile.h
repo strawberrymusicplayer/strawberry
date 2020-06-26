@@ -60,27 +60,15 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
-  Mod::Tag *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * Forwards to Mod::Tag::properties().
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Implements the unified property interface -- import function.
-   * Forwards to Mod::Tag::setProperties().
-   */
-  PropertyMap setProperties(const PropertyMap &);
+  Mod::Tag *tag() const override;
 
   /*!
    * Returns the S3M::AudioProperties for this file. If no audio properties
    * were read then this will return a null pointer.
    */
-  S3M::AudioProperties *audioProperties() const;
+  S3M::AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
@@ -88,10 +76,10 @@ class TAGLIB_EXPORT File : public Mod::FileBase {
    *
    * \note Saving ScreamTracker III tags is not supported.
    */
-  bool save();
+  bool save() override;
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void read(bool readProperties);

@@ -27,10 +27,10 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include "tstring.h"
+#include "tdebug.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "opusfile.h"
 
@@ -39,7 +39,7 @@ using namespace Strawberry_TagLib::TagLib::Ogg;
 
 class Opus::File::FilePrivate {
  public:
-  FilePrivate() : comment(nullptr), properties(nullptr) {}
+  explicit FilePrivate() : comment(nullptr), properties(nullptr) {}
 
   ~FilePrivate() {
     delete comment;
@@ -59,7 +59,7 @@ bool Ogg::Opus::File::isSupported(IOStream *stream) {
   // An Opus file has IDs "OggS" and "OpusHead" somewhere.
 
   const ByteVector buffer = Utils::readHeader(stream, bufferSize(), false);
-  return (buffer.find("OggS") >= 0 && buffer.find("OpusHead") >= 0);
+  return (buffer.find("OggS") != ByteVector::npos() && buffer.find("OpusHead") != ByteVector::npos());
 
 }
 
@@ -87,14 +87,6 @@ Opus::File::~File() {
 
 Ogg::XiphComment *Opus::File::tag() const {
   return d->comment;
-}
-
-PropertyMap Opus::File::properties() const {
-  return d->comment->properties();
-}
-
-PropertyMap Opus::File::setProperties(const PropertyMap &properties) {
-  return d->comment->setProperties(properties);
 }
 
 Opus::AudioProperties *Opus::File::audioProperties() const {

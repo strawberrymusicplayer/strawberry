@@ -61,25 +61,14 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::Mod::FileBase {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
-  Mod::Tag *tag() const;
+  Mod::Tag *tag() const override;
 
-  /*!
-   * Implements the unified property interface -- export function.
-   * Forwards to Mod::Tag::properties().
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Implements the unified property interface -- import function.
-   * Forwards to Mod::Tag::setProperties().
-   */
-  PropertyMap setProperties(const PropertyMap &);
   /*!
    * Returns the Mod::AudioProperties for this file. If no audio properties were read then this will return a null pointer.
    */
-  Mod::AudioProperties *audioProperties() const;
+  Mod::AudioProperties *audioProperties() const override;
 
   /*!
    * Save the file.
@@ -87,10 +76,10 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::Mod::FileBase {
    *
    * \note Saving Protracker tags is not supported.
    */
-  bool save();
+  bool save() override;
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void read(bool readProperties);

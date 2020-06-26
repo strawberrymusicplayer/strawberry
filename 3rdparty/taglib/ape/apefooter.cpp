@@ -27,8 +27,8 @@
 #include <iostream>
 #include <bitset>
 
-#include <tstring.h>
-#include <tdebug.h>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "apefooter.h"
 
@@ -155,19 +155,19 @@ void APE::Footer::parse(const ByteVector &data) {
 
   // Read the version number
 
-  d->version = data.toUInt(8, false);
+  d->version = data.toUInt32LE(8);
 
   // Read the tag size
 
-  d->tagSize = data.toUInt(12, false);
+  d->tagSize = data.toUInt32LE(12);
 
   // Read the item count
 
-  d->itemCount = data.toUInt(16, false);
+  d->itemCount = data.toUInt32LE(16);
 
   // Read the flags
 
-  std::bitset<32> flags(TAGLIB_CONSTRUCT_BITSET(data.toUInt(20, false)));
+  std::bitset<32> flags(TAGLIB_CONSTRUCT_BITSET(data.toUInt32LE(20)));
 
   d->headerPresent = flags[31];
   d->footerPresent = !flags[30];
@@ -186,15 +186,15 @@ ByteVector APE::Footer::render(bool isHeader) const {
   // add the version number -- we always render a 2.000 tag regardless of what
   // the tag originally was.
 
-  v.append(ByteVector::fromUInt(2000, false));
+  v.append(ByteVector::fromUInt32LE(2000));
 
   // add the tag size
 
-  v.append(ByteVector::fromUInt(d->tagSize, false));
+  v.append(ByteVector::fromUInt32LE(d->tagSize));
 
   // add the item count
 
-  v.append(ByteVector::fromUInt(d->itemCount, false));
+  v.append(ByteVector::fromUInt32LE(d->itemCount));
 
   // render and add the flags
 
@@ -204,11 +204,11 @@ ByteVector APE::Footer::render(bool isHeader) const {
   flags[30] = false;  // footer is always present
   flags[29] = isHeader;
 
-  v.append(ByteVector::fromUInt(flags.to_ulong(), false));
+  v.append(ByteVector::fromUInt32LE(flags.to_ulong()));
 
   // add the reserved 64bit
 
-  v.append(ByteVector::fromLongLong(0));
+  v.append(ByteVector::fromUInt64BE(0));
 
   return v;
 

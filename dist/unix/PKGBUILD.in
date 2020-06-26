@@ -50,10 +50,7 @@ prepare() {
 
 build() {
   cd build
-  cmake ../${pkgname}-@STRAWBERRY_VERSION_PACKAGE@ \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DUSE_SYSTEM_TAGLIB=ON \
-    -DENABLE_TRANSLATIONS=ON
+  cmake ../${pkgname}-@STRAWBERRY_VERSION_PACKAGE@ -DCMAKE_INSTALL_PREFIX=/usr
   make -j$(nproc)
 }
 

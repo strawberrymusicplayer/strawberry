@@ -23,11 +23,13 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tdebug.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
-#include <tagutils.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tdebug.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
+#include "tagutils.h"
 
 #include "wavfile.h"
 #include "id3v2tag.h"
@@ -45,14 +47,10 @@ enum {
 
 class RIFF::WAV::File::FilePrivate {
  public:
-  FilePrivate() : properties(nullptr), hasID3v2(false), hasInfo(false) {}
+  explicit FilePrivate() : hasID3v2(false), hasInfo(false) {}
 
-  ~FilePrivate() {
-    delete properties;
-  }
-
-  AudioProperties *properties;
-  TagUnion tag;
+  std::unique_ptr<AudioProperties> properties;
+  DoubleTagUnion tag;
 
   bool hasID3v2;
   bool hasInfo;
@@ -93,8 +91,8 @@ RIFF::WAV::File::~File() {
   delete d;
 }
 
-ID3v2::Tag *RIFF::WAV::File::tag() const {
-  return ID3v2Tag();
+Strawberry_TagLib::TagLib::Tag *RIFF::WAV::File::tag() const {
+  return &d->tag;
 }
 
 ID3v2::Tag *RIFF::WAV::File::ID3v2Tag() const {
@@ -117,14 +115,6 @@ void RIFF::WAV::File::strip(TagTypes tags) {
 
 }
 
-PropertyMap RIFF::WAV::File::properties() const {
-  return d->tag.properties();
-}
-
-void RIFF::WAV::File::removeUnsupportedProperties(const StringList &properties) {
-  d->tag.removeUnsupportedProperties(properties);
-}
-
 PropertyMap RIFF::WAV::File::setProperties(const PropertyMap &properties) {
 
   InfoTag()->setProperties(properties);
@@ -133,7 +123,7 @@ PropertyMap RIFF::WAV::File::setProperties(const PropertyMap &properties) {
 }
 
 RIFF::WAV::AudioProperties *RIFF::WAV::File::audioProperties() const {
-  return d->properties;
+  return d->properties.get();
 }
 
 bool RIFF::WAV::File::save() {
@@ -223,7 +213,7 @@ void RIFF::WAV::File::read(bool readProperties) {
     d->tag.set(InfoIndex, new RIFF::Info::Tag());
 
   if (readProperties)
-    d->properties = new AudioProperties(this, AudioProperties::Average);
+    d->properties.reset(new AudioProperties(this, AudioProperties::Average));
 }
 
 void RIFF::WAV::File::removeTagChunks(TagTypes tags) {

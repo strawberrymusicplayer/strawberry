@@ -27,9 +27,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstring.h>
-#include <tdebug.h>
-#include <bitset>
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "trueaudioproperties.h"
 #include "trueaudiofile.h"
@@ -38,13 +37,13 @@ using namespace Strawberry_TagLib::TagLib;
 
 class TrueAudio::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : version(0),
-                        length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        bitsPerSample(0),
-                        sampleFrames(0) {}
+  explicit AudioPropertiesPrivate() : version(0),
+                                      length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      bitsPerSample(0),
+                                      sampleFrames(0) {}
 
   int version;
   int length;
@@ -59,7 +58,7 @@ class TrueAudio::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TrueAudio::AudioProperties::AudioProperties(const ByteVector &data, long streamLength, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style), d(new AudioPropertiesPrivate()) {
+TrueAudio::AudioProperties::AudioProperties(const ByteVector &data, long long streamLength, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(data, streamLength);
 }
 
@@ -103,7 +102,7 @@ int TrueAudio::AudioProperties::ttaVersion() const {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void TrueAudio::AudioProperties::read(const ByteVector &data, long streamLength) {
+void TrueAudio::AudioProperties::read(const ByteVector &data, long long streamLength) {
 
   if (data.size() < 4) {
     debug("TrueAudio::AudioProperties::read() -- data is too short.");
@@ -115,7 +114,7 @@ void TrueAudio::AudioProperties::read(const ByteVector &data, long streamLength)
     return;
   }
 
-  unsigned int pos = 3;
+  size_t pos = 3;
 
   d->version = data[pos] - '0';
   pos += 1;
@@ -131,16 +130,16 @@ void TrueAudio::AudioProperties::read(const ByteVector &data, long streamLength)
     // Skip the audio format
     pos += 2;
 
-    d->channels = data.toShort(pos, false);
+    d->channels = data.toUInt16LE(pos);
     pos += 2;
 
-    d->bitsPerSample = data.toShort(pos, false);
+    d->bitsPerSample = data.toUInt16LE(pos);
     pos += 2;
 
-    d->sampleRate = data.toUInt(pos, false);
+    d->sampleRate = data.toUInt32LE(pos);
     pos += 4;
 
-    d->sampleFrames = data.toUInt(pos, false);
+    d->sampleFrames = data.toUInt32LE(pos);
 
     if (d->sampleFrames > 0 && d->sampleRate > 0) {
       const double length = d->sampleFrames * 1000.0 / d->sampleRate;

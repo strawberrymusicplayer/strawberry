@@ -23,7 +23,7 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
+#include "tdebug.h"
 #include "wavfile.h"
 #include "wavproperties.h"
 
@@ -39,13 +39,13 @@ enum WaveFormat {
 
 class RIFF::WAV::AudioProperties::AudioPropertiesPrivate {
  public:
-  AudioPropertiesPrivate() : format(0),
-                        length(0),
-                        bitrate(0),
-                        sampleRate(0),
-                        channels(0),
-                        bitsPerSample(0),
-                        sampleFrames(0) {}
+  explicit AudioPropertiesPrivate() : format(0),
+                                      length(0),
+                                      bitrate(0),
+                                      sampleRate(0),
+                                      channels(0),
+                                      bitsPerSample(0),
+                                      sampleFrames(0) {}
 
   int format;
   int length;
@@ -60,7 +60,7 @@ class RIFF::WAV::AudioProperties::AudioPropertiesPrivate {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Strawberry_TagLib::TagLib::RIFF::WAV::AudioProperties::AudioProperties(File *file, ReadStyle style) : Strawberry_TagLib::TagLib::AudioProperties(style),d(new AudioPropertiesPrivate()) {
+Strawberry_TagLib::TagLib::RIFF::WAV::AudioProperties::AudioProperties(File *file, ReadStyle) : Strawberry_TagLib::TagLib::AudioProperties(), d(new AudioPropertiesPrivate()) {
   read(file);
 }
 
@@ -126,7 +126,7 @@ void RIFF::WAV::AudioProperties::read(File *file) {
     }
     else if (name == "fact") {
       if (totalSamples == 0)
-        totalSamples = file->chunkData(i).toUInt(0, false);
+        totalSamples = file->chunkData(i).toUInt32LE(0);
       else
         debug("RIFF::WAV::AudioProperties::read() - Duplicate 'fact' chunk found.");
     }
@@ -142,15 +142,15 @@ void RIFF::WAV::AudioProperties::read(File *file) {
     return;
   }
 
-  d->format = data.toShort(0, false);
+  d->format = data.toUInt16LE(0);
   if (d->format != FORMAT_PCM && totalSamples == 0) {
     debug("RIFF::WAV::AudioProperties::read() - Non-PCM format, but 'fact' chunk not found.");
     return;
   }
 
-  d->channels = data.toShort(2, false);
-  d->sampleRate = data.toUInt(4, false);
-  d->bitsPerSample = data.toShort(14, false);
+  d->channels = data.toUInt16LE(2);
+  d->sampleRate = data.toUInt32LE(4);
+  d->bitsPerSample = data.toUInt16LE(14);
 
   if (d->format != FORMAT_PCM)
     d->sampleFrames = totalSamples;
@@ -163,7 +163,7 @@ void RIFF::WAV::AudioProperties::read(File *file) {
     d->bitrate = static_cast<int>(streamLength * 8.0 / length + 0.5);
   }
   else {
-    const unsigned int byteRate = data.toUInt(8, false);
+    const unsigned int byteRate = data.toUInt32LE(8);
     if (byteRate > 0) {
       d->length = static_cast<int>(streamLength * 1000.0 / byteRate + 0.5);
       d->bitrate = static_cast<int>(byteRate * 8.0 / 1000.0 + 0.5);

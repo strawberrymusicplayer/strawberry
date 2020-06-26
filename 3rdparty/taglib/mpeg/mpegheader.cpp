@@ -23,121 +23,118 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tfile.h>
-#include <tdebug.h>
-#include <trefcounter.h>
+#include <memory>
+
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tfile.h"
+#include "tdebug.h"
 
 #include "mpegheader.h"
 #include "mpegutils.h"
 
 using namespace Strawberry_TagLib::TagLib;
 
-class MPEG::Header::HeaderPrivate : public RefCounter {
- public:
-  HeaderPrivate() : isValid(false),
-                    version(Version1),
-                    layer(0),
-                    protectionEnabled(false),
-                    bitrate(0),
-                    sampleRate(0),
-                    isPadded(false),
-                    channelMode(Stereo),
-                    isCopyrighted(false),
-                    isOriginal(false),
-                    frameLength(0),
-                    samplesPerFrame(0) {}
-
+namespace {
+struct HeaderData {
   bool isValid;
-  Version version;
+  MPEG::Header::Version version;
   int layer;
   bool protectionEnabled;
   int bitrate;
   int sampleRate;
   bool isPadded;
-  ChannelMode channelMode;
+  MPEG::Header::ChannelMode channelMode;
   bool isCopyrighted;
   bool isOriginal;
   int frameLength;
   int samplesPerFrame;
+};
+}  // namespace
+
+class MPEG::Header::HeaderPrivate {
+ public:
+  explicit HeaderPrivate() : data(new HeaderData()) {
+    data->isValid = false;
+    data->layer = 0;
+    data->version = Version1;
+    data->protectionEnabled = false;
+    data->sampleRate = 0;
+    data->isPadded = false;
+    data->channelMode = Stereo;
+    data->isCopyrighted = false;
+    data->isOriginal = false;
+    data->frameLength = 0;
+    data->samplesPerFrame = 0;
+  }
+  std::shared_ptr<HeaderData> data;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::Header::Header(File *file, long offset, bool checkLength) : d(new HeaderPrivate()) {
+MPEG::Header::Header(File *file, long long offset, bool checkLength) : d(new HeaderPrivate()) {
   parse(file, offset, checkLength);
 }
 
-MPEG::Header::Header(const Header &h) : d(h.d) {
-  d->ref();
-}
+MPEG::Header::Header(const Header &h) : d(new HeaderPrivate(*h.d)) {}
 
 MPEG::Header::~Header() {
-  if (d->deref())
-    delete d;
+  delete d;
 }
 
 bool MPEG::Header::isValid() const {
-  return d->isValid;
+  return d->data->isValid;
 }
 
 MPEG::Header::Version MPEG::Header::version() const {
-  return d->version;
+  return d->data->version;
 }
 
 int MPEG::Header::layer() const {
-  return d->layer;
+  return d->data->layer;
 }
 
 bool MPEG::Header::protectionEnabled() const {
-  return d->protectionEnabled;
+  return d->data->protectionEnabled;
 }
 
 int MPEG::Header::bitrate() const {
-  return d->bitrate;
+  return d->data->bitrate;
 }
 
 int MPEG::Header::sampleRate() const {
-  return d->sampleRate;
+  return d->data->sampleRate;
 }
 
 bool MPEG::Header::isPadded() const {
-  return d->isPadded;
+  return d->data->isPadded;
 }
 
 MPEG::Header::ChannelMode MPEG::Header::channelMode() const {
-  return d->channelMode;
+  return d->data->channelMode;
 }
 
 bool MPEG::Header::isCopyrighted() const {
-  return d->isCopyrighted;
+  return d->data->isCopyrighted;
 }
 
 bool MPEG::Header::isOriginal() const {
-  return d->isOriginal;
+  return d->data->isOriginal;
 }
 
 int MPEG::Header::frameLength() const {
-  return d->frameLength;
+  return d->data->frameLength;
 }
 
 int MPEG::Header::samplesPerFrame() const {
-  return d->samplesPerFrame;
+  return d->data->samplesPerFrame;
 }
 
 MPEG::Header &MPEG::Header::operator=(const Header &h) {
 
-  if (&h == this)
-    return *this;
-
-  if (d->deref())
-    delete d;
-
-  d = h.d;
-  d->ref();
+  *d = *h.d;
   return *this;
 
 }
@@ -146,7 +143,7 @@ MPEG::Header &MPEG::Header::operator=(const Header &h) {
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void MPEG::Header::parse(File *file, long offset, bool checkLength) {
+void MPEG::Header::parse(File *file, long long offset, bool checkLength) {
 
   file->seek(offset);
   const ByteVector data = file->readBlock(4);
@@ -168,11 +165,11 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
   const int versionBits = (static_cast<unsigned char>(data[1]) >> 3) & 0x03;
 
   if (versionBits == 0)
-    d->version = Version2_5;
+    d->data->version = Version2_5;
   else if (versionBits == 2)
-    d->version = Version2;
+    d->data->version = Version2;
   else if (versionBits == 3)
-    d->version = Version1;
+    d->data->version = Version1;
   else
     return;
 
@@ -181,15 +178,15 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
   const int layerBits = (static_cast<unsigned char>(data[1]) >> 1) & 0x03;
 
   if (layerBits == 1)
-    d->layer = 3;
+    d->data->layer = 3;
   else if (layerBits == 2)
-    d->layer = 2;
+    d->data->layer = 2;
   else if (layerBits == 3)
-    d->layer = 1;
+    d->data->layer = 1;
   else
     return;
 
-  d->protectionEnabled = (static_cast<unsigned char>(data[1] & 0x01) == 0);
+  d->data->protectionEnabled = (static_cast<unsigned char>(data[1] & 0x01) == 0);
 
   // Set the bitrate
 
@@ -208,17 +205,17 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
     }
   };
 
-  const int versionIndex = (d->version == Version1) ? 0 : 1;
-  const int layerIndex = (d->layer > 0) ? d->layer - 1 : 0;
+  const int versionIndex = (d->data->version == Version1) ? 0 : 1;
+  const int layerIndex = (d->data->layer > 0) ? d->data->layer - 1 : 0;
 
   // The bitrate index is encoded as the first 4 bits of the 3rd byte,
   // i.e. 1111xxxx
 
   const int bitrateIndex = (static_cast<unsigned char>(data[2]) >> 4) & 0x0F;
 
-  d->bitrate = bitrates[versionIndex][layerIndex][bitrateIndex];
+  d->data->bitrate = bitrates[versionIndex][layerIndex][bitrateIndex];
 
-  if (d->bitrate == 0)
+  if (d->data->bitrate == 0)
     return;
 
   // Set the sample rate
@@ -233,22 +230,22 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
 
   const int samplerateIndex = (static_cast<unsigned char>(data[2]) >> 2) & 0x03;
 
-  d->sampleRate = sampleRates[d->version][samplerateIndex];
+  d->data->sampleRate = sampleRates[d->data->version][samplerateIndex];
 
-  if (d->sampleRate == 0) {
+  if (d->data->sampleRate == 0) {
     return;
   }
 
   // The channel mode is encoded as a 2 bit value at the end of the 3nd byte,
   // i.e. xxxxxx11
 
-  d->channelMode = static_cast<ChannelMode>((static_cast<unsigned char>(data[3]) >> 6) & 0x03);
+  d->data->channelMode = static_cast<ChannelMode>((static_cast<unsigned char>(data[3]) >> 6) & 0x03);
 
   // TODO: Add mode extension for completeness
 
-  d->isOriginal = ((static_cast<unsigned char>(data[3]) & 0x04) != 0);
-  d->isCopyrighted = ((static_cast<unsigned char>(data[3]) & 0x08) != 0);
-  d->isPadded = ((static_cast<unsigned char>(data[2]) & 0x02) != 0);
+  d->data->isOriginal = ((static_cast<unsigned char>(data[3]) & 0x04) != 0);
+  d->data->isCopyrighted = ((static_cast<unsigned char>(data[3]) & 0x08) != 0);
+  d->data->isPadded = ((static_cast<unsigned char>(data[2]) & 0x02) != 0);
 
   // Samples per frame
 
@@ -259,16 +256,16 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
     { 1152, 576 }    // Layer III
   };
 
-  d->samplesPerFrame = samplesPerFrame[layerIndex][versionIndex];
+  d->data->samplesPerFrame = samplesPerFrame[layerIndex][versionIndex];
 
   // Calculate the frame length
 
   static const int paddingSize[3] = { 4, 1, 1 };
 
-  d->frameLength = d->samplesPerFrame * d->bitrate * 125 / d->sampleRate;
+  d->data->frameLength = d->data->samplesPerFrame * d->data->bitrate * 125 / d->data->sampleRate;
 
-  if (d->isPadded)
-    d->frameLength += paddingSize[layerIndex];
+  if (d->data->isPadded)
+    d->data->frameLength += paddingSize[layerIndex];
 
   if (checkLength) {
 
@@ -279,7 +276,7 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
     // consistent. Otherwise, we assume that either or both of the frames are
     // broken.
 
-    file->seek(offset + d->frameLength);
+    file->seek(offset + d->data->frameLength);
     const ByteVector nextData = file->readBlock(4);
 
     if (nextData.size() < 4)
@@ -287,8 +284,8 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
 
     const unsigned int HeaderMask = 0xfffe0c00;
 
-    const unsigned int header = data.toUInt(0, true) & HeaderMask;
-    const unsigned int nextHeader = nextData.toUInt(0, true) & HeaderMask;
+    const unsigned int header = data.toUInt32BE(0) & HeaderMask;
+    const unsigned int nextHeader = nextData.toUInt32BE(0) & HeaderMask;
 
     if (header != nextHeader)
       return;
@@ -296,6 +293,6 @@ void MPEG::Header::parse(File *file, long offset, bool checkLength) {
 
   // Now that we're done parsing, set this to be a valid frame.
 
-  d->isValid = true;
+  d->data->isValid = true;
 
 }

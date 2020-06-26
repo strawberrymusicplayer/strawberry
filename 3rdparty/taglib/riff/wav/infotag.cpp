@@ -23,9 +23,11 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tdebug.h>
-#include <tfile.h>
+#include "tdebug.h"
+#include "tfile.h"
+#include "tpicturemap.h"
 
+#include "rifffile.h"
 #include "infotag.h"
 #include "riffutils.h"
 
@@ -33,30 +35,27 @@ using namespace Strawberry_TagLib::TagLib;
 using namespace RIFF::Info;
 
 namespace {
-const RIFF::Info::StringHandler defaultStringHandler;
-const RIFF::Info::StringHandler *stringHandler = &defaultStringHandler;
+class DefaultStringHandler : public Strawberry_TagLib::TagLib::StringHandler {
+ public:
+  explicit DefaultStringHandler() : Strawberry_TagLib::TagLib::StringHandler() {}
+
+  String parse(const ByteVector &data) const override {
+    return String(data, String::UTF8);
+  }
+
+  ByteVector render(const String &s) const override {
+    return s.data(String::UTF8);
+  }
+};
+
+const DefaultStringHandler defaultStringHandler;
+const Strawberry_TagLib::TagLib::StringHandler *stringHandler = &defaultStringHandler;
 }  // namespace
 
 class RIFF::Info::Tag::TagPrivate {
  public:
-  FieldListMap fieldListMap;
+  FieldMap fieldMap;
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// StringHandler implementation
-////////////////////////////////////////////////////////////////////////////////
-
-StringHandler::StringHandler() {}
-
-StringHandler::~StringHandler() {}
-
-String RIFF::Info::StringHandler::parse(const ByteVector &data) const {
-  return String(data, String::UTF8);
-}
-
-ByteVector RIFF::Info::StringHandler::render(const String &s) const {
-  return s.data(String::UTF8);
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -100,6 +99,10 @@ unsigned int RIFF::Info::Tag::track() const {
   return fieldText("IPRT").toInt();
 }
 
+Strawberry_TagLib::TagLib::PictureMap RIFF::Info::Tag::pictures() const {
+  return PictureMap();
+}
+
 void RIFF::Info::Tag::setTitle(const String &s) {
   setFieldText("INAM", s);
 }
@@ -124,28 +127,30 @@ void RIFF::Info::Tag::setYear(unsigned int i) {
   if (i != 0)
     setFieldText("ICRD", String::number(i));
   else
-    d->fieldListMap.erase("ICRD");
+    d->fieldMap.erase("ICRD");
 }
 
 void RIFF::Info::Tag::setTrack(unsigned int i) {
   if (i != 0)
     setFieldText("IPRT", String::number(i));
   else
-    d->fieldListMap.erase("IPRT");
+    d->fieldMap.erase("IPRT");
 }
+
+void RIFF::Info::Tag::setPictures(const PictureMap&) {}
 
 bool RIFF::Info::Tag::isEmpty() const {
-  return d->fieldListMap.isEmpty();
+  return d->fieldMap.isEmpty();
 }
 
-FieldListMap RIFF::Info::Tag::fieldListMap() const {
-  return d->fieldListMap;
+FieldMap RIFF::Info::Tag::fieldMap() const {
+  return d->fieldMap;
 }
 
 String RIFF::Info::Tag::fieldText(const ByteVector &id) const {
 
-  if (d->fieldListMap.contains(id))
-    return String(d->fieldListMap[id]);
+  if (d->fieldMap.contains(id))
+    return String(d->fieldMap[id]);
   else
     return String();
 
@@ -158,7 +163,7 @@ void RIFF::Info::Tag::setFieldText(const ByteVector &id, const String &s) {
     return;
 
   if (!s.isEmpty())
-    d->fieldListMap[id] = s;
+    d->fieldMap[id] = s;
   else
     removeField(id);
 
@@ -166,8 +171,8 @@ void RIFF::Info::Tag::setFieldText(const ByteVector &id, const String &s) {
 
 void RIFF::Info::Tag::removeField(const ByteVector &id) {
 
-  if (d->fieldListMap.contains(id))
-    d->fieldListMap.erase(id);
+  if (d->fieldMap.contains(id))
+    d->fieldMap.erase(id);
 
 }
 
@@ -175,14 +180,13 @@ ByteVector RIFF::Info::Tag::render() const {
 
   ByteVector data("INFO");
 
-  FieldListMap::ConstIterator it = d->fieldListMap.begin();
-  for (; it != d->fieldListMap.end(); ++it) {
+  for (FieldMap::ConstIterator it = d->fieldMap.begin(); it != d->fieldMap.end(); ++it) {
     ByteVector text = stringHandler->render(it->second);
     if (text.isEmpty())
       continue;
 
     data.append(it->first);
-    data.append(ByteVector::fromUInt(text.size() + 1, false));
+    data.append(ByteVector::fromUInt32LE(text.size() + 1));
     data.append(text);
 
     do {
@@ -197,7 +201,7 @@ ByteVector RIFF::Info::Tag::render() const {
 
 }
 
-void RIFF::Info::Tag::setStringHandler(const StringHandler *handler) {
+void RIFF::Info::Tag::setStringHandler(const Strawberry_TagLib::TagLib::StringHandler *handler) {
 
   if (handler)
     stringHandler = handler;
@@ -212,16 +216,16 @@ void RIFF::Info::Tag::setStringHandler(const StringHandler *handler) {
 
 void RIFF::Info::Tag::parse(const ByteVector &data) {
 
-  unsigned int p = 4;
+  size_t p = 4;
   while (p < data.size()) {
-    const unsigned int size = data.toUInt(p + 4, false);
+    const unsigned int size = data.toUInt32LE(p + 4);
     if (size > data.size() - p - 8)
       break;
 
     const ByteVector id = data.mid(p, 4);
     if (isValidChunkName(id)) {
       const String text = stringHandler->parse(data.mid(p + 8, size));
-      d->fieldListMap[id] = text;
+      d->fieldMap[id] = text;
     }
 
     p += ((size + 1) & ~1) + 8;

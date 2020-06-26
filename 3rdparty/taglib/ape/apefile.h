@@ -107,36 +107,25 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   /*!
    * Destroys this instance of the File.
    */
-  virtual ~File();
+  ~File() override;
 
   /*!
    * Returns the Tag for this file.  This will be an APE tag, an ID3v1 tag or a combination of the two.
    */
-  virtual Strawberry_TagLib::TagLib::Tag *tag() const;
-
-  /*!
-   * Implements the unified property interface -- export function.
-   * If the file contains both an APE and an ID3v1 tag, only APE will be converted to the PropertyMap.
-   */
-  PropertyMap properties() const;
-
-  /*!
-   * Removes unsupported properties. Forwards to the actual Tag's removeUnsupportedProperties() function.
-   */
-  void removeUnsupportedProperties(const StringList &properties);
+  Strawberry_TagLib::TagLib::Tag *tag() const override;
 
   /*!
    * Implements the unified property interface -- import function.
    * Creates an APEv2 tag if necessary.
    * A potentially existing ID3v1 tag will be updated as well.
    */
-  PropertyMap setProperties(const PropertyMap &);
+  PropertyMap setProperties(const PropertyMap&) override;
 
   /*!
    * Returns the APE::AudioProperties for this file.
    * If no audio properties were read then this will return a null pointer.
    */
-  virtual AudioProperties *audioProperties() const;
+  AudioProperties *audioProperties() const override;
 
   /*!
    * Saves the file.
@@ -144,7 +133,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
    * \note According to the official Monkey's Audio SDK, an APE file
    * can only have either ID3V1 or APE tags, so a parameter is used here.
    */
-  virtual bool save();
+  bool save() override;
 
   /*!
    * Returns a pointer to the ID3v1 tag of the file.
@@ -210,7 +199,7 @@ class TAGLIB_EXPORT File : public Strawberry_TagLib::TagLib::File {
   static bool isSupported(IOStream *stream);
 
  private:
-  explicit File(const File &);
+  File(const File &);
   File &operator=(const File &);
 
   void read(bool readProperties);

@@ -55,14 +55,14 @@ class TAGLIB_EXPORT UnsynchronizedLyricsFrame : public Frame {
   /*!
    * Destroys this UnsynchronizedLyricsFrame instance.
    */
-  virtual ~UnsynchronizedLyricsFrame();
+  ~UnsynchronizedLyricsFrame() override;
 
   /*!
    * Returns the text of this unsynchronized lyrics frame.
    *
    * \see text()
    */
-  virtual String toString() const;
+  String toString() const override;
 
   /*!
    * Returns the language encoding as a 3 byte encoding as specified by
@@ -111,7 +111,7 @@ class TAGLIB_EXPORT UnsynchronizedLyricsFrame : public Frame {
    *
    * \see text()
    */
-  virtual void setText(const String &s);
+  void setText(const String &s) override;
 
   /*!
    * Returns the text encoding that will be used in rendering this frame.
@@ -154,15 +154,15 @@ class TAGLIB_EXPORT UnsynchronizedLyricsFrame : public Frame {
  protected:
   // Reimplementations.
 
-  virtual void parseFields(const ByteVector &data);
-  virtual ByteVector renderFields() const;
+  void parseFields(const ByteVector &data) override;
+  ByteVector renderFields() const override;
 
  private:
   /*!
    * The constructor used by the FrameFactory.
    */
   explicit UnsynchronizedLyricsFrame(const ByteVector &data, Header *h);
-  explicit UnsynchronizedLyricsFrame(const UnsynchronizedLyricsFrame&);
+  UnsynchronizedLyricsFrame(const UnsynchronizedLyricsFrame&);
   UnsynchronizedLyricsFrame &operator=(const UnsynchronizedLyricsFrame&);
 
   class UnsynchronizedLyricsFramePrivate;
