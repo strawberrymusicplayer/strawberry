@@ -14,12 +14,15 @@ link_directories(
 
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
-target_include_directories(libstrawberry-tagreader PRIVATE
+target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${TAGLIB_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
+)
+
+target_include_directories(libstrawberry-tagreader PRIVATE
+  ${TAGLIB_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common

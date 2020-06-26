@@ -30,14 +30,17 @@ link_directories(
 
 add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
+target_include_directories(libstrawberry-common SYSTEM PRIVATE
+  ${GLIB_INCLUDE_DIRS}
+  ${Qt5Core_INCLUDE_DIRS}
+  ${Qt5Network_INCLUDE_DIRS}
+)
+
 target_include_directories(libstrawberry-common PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_BINARY_DIR}/src
-  ${GLIB_INCLUDE_DIRS}
-  ${Qt5Core_INCLUDE_DIRS}
-  ${Qt5Network_INCLUDE_DIRS}
 )
 
 target_link_libraries(libstrawberry-common PRIVATE

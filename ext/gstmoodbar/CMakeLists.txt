@@ -14,8 +14,7 @@ link_directories(
 
 add_library(gstmoodbar STATIC ${SOURCES})
 
-target_include_directories(gstmoodbar PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}
+target_include_directories(gstmoodbar SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${GOBJECT_INCLUDE_DIRS}
   ${GSTREAMER_INCLUDE_DIRS}
@@ -24,6 +23,8 @@ target_include_directories(gstmoodbar PRIVATE
   ${FFTW3_INCLUDE_DIR}
   ${Qt5Core_INCLUDE_DIRS}
 )
+
+target_include_directories(gstmoodbar PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(gstmoodbar PRIVATE
   ${GLIB_LIBRARIES}

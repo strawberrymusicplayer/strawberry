@@ -16,12 +16,15 @@ link_directories(
 
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 
-target_include_directories(strawberry-tagreader PRIVATE
+target_include_directories(strawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
-  ${TAGLIB_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
+)
+
+target_include_directories(strawberry-tagreader PRIVATE
+  ${TAGLIB_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
   ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
