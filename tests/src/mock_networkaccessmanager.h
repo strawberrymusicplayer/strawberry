@@ -40,7 +40,7 @@ class MockNetworkReply : public QNetworkReply {
   Q_OBJECT
  public:
   MockNetworkReply();
-  explicit explicit MockNetworkReply(const QByteArray& data);
+  explicit MockNetworkReply(const QByteArray& data);
 
   // Use these to set expectations.
   void SetData(const QByteArray& data);
