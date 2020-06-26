@@ -23,8 +23,8 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tbytevector.h>
-#include <tdebug.h>
+#include "tbytevector.h"
+#include "tdebug.h"
 
 #include "flacpicture.h"
 #include "xiphcomment.h"

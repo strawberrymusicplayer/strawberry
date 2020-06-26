@@ -26,7 +26,7 @@
 #ifndef TAGLIB_TZLIB_H
 #define TAGLIB_TZLIB_H
 
-#include <tbytevector.h>
+#include "tbytevector.h"
 
 // THIS FILE IS NOT A PART OF THE TAGLIB API
 

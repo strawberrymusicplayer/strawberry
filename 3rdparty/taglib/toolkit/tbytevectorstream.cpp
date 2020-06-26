@@ -26,6 +26,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <cstddef>
 
 #include "tbytevectorstream.h"
 #include "tstring.h"

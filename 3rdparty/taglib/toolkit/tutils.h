@@ -32,20 +32,20 @@
 
 #include "taglib-config.h"
 
-#  if defined(HAVE_MSC_BYTESWAP)
-#    include <cstdlib>
-#  elif defined(HAVE_GLIBC_BYTESWAP)
-#    include <byteswap.h>
-#  elif defined(HAVE_MAC_BYTESWAP)
-#    include <libkern/OSByteOrder.h>
-#  elif defined(HAVE_OPENBSD_BYTESWAP)
-#    include <sys/endian.h>
-#  endif
+#if defined(HAVE_MSC_BYTESWAP)
+#  include <cstdlib>
+#elif defined(HAVE_GLIBC_BYTESWAP)
+#  include <byteswap.h>
+#elif defined(HAVE_MAC_BYTESWAP)
+#  include <libkern/OSByteOrder.h>
+#elif defined(HAVE_OPENBSD_BYTESWAP)
+#  include <sys/endian.h>
+#endif
 
-#  include <tstring.h>
-#  include <cstdio>
-#  include <cstdarg>
-#  include <cstring>
+#include "tstring.h"
+#include <cstdio>
+#include <cstdarg>
+#include <cstring>
 
 namespace Strawberry_TagLib {
 namespace TagLib {

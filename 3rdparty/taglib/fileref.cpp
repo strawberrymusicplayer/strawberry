@@ -29,10 +29,10 @@
 
 #include <memory>
 
-#include <tfile.h>
-#include <tfilestream.h>
-#include <tstring.h>
-#include <tdebug.h>
+#include "tfile.h"
+#include "tfilestream.h"
+#include "tstring.h"
+#include "tdebug.h"
 
 #include "fileref.h"
 #include "asffile.h"

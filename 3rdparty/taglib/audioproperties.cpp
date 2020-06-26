@@ -23,7 +23,7 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tstringlist.h>
+#include "tstringlist.h"
 
 #include "audioproperties.h"
 

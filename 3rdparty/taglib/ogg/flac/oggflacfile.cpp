@@ -29,7 +29,7 @@
 #include "tpropertymap.h"
 #include "tagutils.h"
 
-#include <xiphcomment.h>
+#include "xiphcomment.h"
 #include "oggflacfile.h"
 
 using namespace Strawberry_TagLib::TagLib;

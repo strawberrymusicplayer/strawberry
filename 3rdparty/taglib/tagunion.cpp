@@ -25,10 +25,10 @@
 
 #include <memory>
 
-#include <tagunion.h>
-#include <tstringlist.h>
-#include <tpropertymap.h>
-#include <tpicturemap.h>
+#include "tagunion.h"
+#include "tstringlist.h"
+#include "tpropertymap.h"
+#include "tpicturemap.h"
 
 #define stringUnion(method)                                    \
   for (size_t j = 0; j < COUNT; ++j) {                         \
