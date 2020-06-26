@@ -39,7 +39,7 @@ class PlaylistSaveOptionsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit PlaylistSaveOptionsDialog(QWidget *parent = 0);
+  explicit PlaylistSaveOptionsDialog(QWidget *parent = nullptr);
   ~PlaylistSaveOptionsDialog() override;
 
   void accept() override;

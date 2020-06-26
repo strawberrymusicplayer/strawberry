@@ -68,7 +68,7 @@ public:
 class TestQObject : public QObject {
   Q_OBJECT
  public:
-  TestQObject(QObject* parent = 0);
+  TestQObject(QObject* parent = nullptr);
 
   void Emit();
 

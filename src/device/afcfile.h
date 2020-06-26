@@ -17,7 +17,7 @@ class AfcFile : public QIODevice {
   Q_OBJECT
 
  public:
-  explicit AfcFile(iMobileDeviceConnection* connection, const QString &path, QObject *parent = 0);
+  explicit AfcFile(iMobileDeviceConnection* connection, const QString &path, QObject *parent = nullptr);
   ~AfcFile();
 
   // QIODevice
