@@ -1600,6 +1600,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   int not_in_queue = 0;
   int in_skipped = 0;
   int not_in_skipped = 0;
+  int local_songs = 0;
 
   for (const QModelIndex &idx : selection) {
 
@@ -1609,18 +1610,20 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(src_idx.row());
     if (!item) continue;
 
+    if (item->Metadata().url().isLocalFile()) ++local_songs;
+
     if (item->Metadata().has_cue()) {
       cue_selected = true;
     }
     else if (item->Metadata().IsEditable()) {
-      editable++;
+      ++editable;
     }
 
-    if (src_idx.data(Playlist::Role_QueuePosition).toInt() == -1) not_in_queue++;
-    else in_queue++;
+    if (src_idx.data(Playlist::Role_QueuePosition).toInt() == -1) ++not_in_queue;
+    else ++in_queue;
 
-    if (item->GetShouldSkip()) in_skipped++;
-    else not_in_skipped++;
+    if (item->GetShouldSkip()) ++in_skipped;
+    else ++not_in_skipped;
 
   }
 
@@ -1641,7 +1644,7 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   // the rest of the read / write actions work only when there are no CUEs involved
   if (cue_selected) editable = 0;
 
-  if (selected > 0) playlist_open_in_browser_->setVisible(true);
+  playlist_open_in_browser_->setVisible(local_songs == selected);
 
   bool track_column = (index.column() == Playlist::Column_Track);
   ui_->action_renumber_tracks->setVisible(editable >= 2 && track_column);
@@ -1656,7 +1659,6 @@ void MainWindow::PlaylistRightClick(const QPoint &global_pos, const QModelIndex 
   playlist_copy_to_device_->setVisible(false);
 #endif
   playlist_organise_->setVisible(false);
-  playlist_open_in_browser_->setVisible(false);
 
   if (selected < 1) {
     playlist_queue_->setVisible(false);
