@@ -531,7 +531,6 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   }
 
   QString title = json_obj["title"].toString();
-  title.remove(Song::kTitleRemoveMisc);
 
   QString album;
   if (json_obj.contains("album")) {
