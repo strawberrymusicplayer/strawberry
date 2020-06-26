@@ -174,7 +174,7 @@ class ScopedWCharArray {
   QString ToString() const { return QString::fromWCharArray(data_.get()); }
 
   wchar_t *get() const { return data_.get(); }
-  operator wchar_t*() const { return get(); }
+  explicit operator wchar_t*() const { return get(); }
 
   int characters() const { return chars_; }
   int bytes() const { return (chars_ + 1)  *sizeof(wchar_t); }

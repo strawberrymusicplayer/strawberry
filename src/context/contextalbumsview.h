@@ -64,7 +64,7 @@ class ContextAlbumsView : public AutoExpandingTreeView {
   Q_OBJECT
 
  public:
-  ContextAlbumsView(QWidget *parent = nullptr);
+  explicit ContextAlbumsView(QWidget *parent = nullptr);
   ~ContextAlbumsView() override;
 
   // Returns Songs currently selected in the collection view.

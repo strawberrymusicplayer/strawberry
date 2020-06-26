@@ -31,7 +31,7 @@ class MimeData : public QMimeData {
   Q_OBJECT
 
  public:
-  MimeData(bool clear = false, bool play_now = false, bool enqueue = false, bool enqueue_next_now = false, bool open_in_new_playlist = false)
+  explicit MimeData(bool clear = false, bool play_now = false, bool enqueue = false, bool enqueue_next_now = false, bool open_in_new_playlist = false)
       : override_user_settings_(false),
         clear_first_(clear),
         play_now_(play_now),

@@ -32,7 +32,7 @@ class ScopedGObject {
  public:
   ScopedGObject() : object_(nullptr) {}
 
-  explicit ScopedGObject(const ScopedGObject& other) : object_(nullptr) {
+  ScopedGObject(const ScopedGObject& other) : object_(nullptr) {
     reset(other.object_);
   }
 

@@ -74,7 +74,7 @@ class SingleCoreApplicationPrivate : public QObject {
   };
   Q_DECLARE_PUBLIC(SingleCoreApplication)
 
-  SingleCoreApplicationPrivate(SingleCoreApplication *_q_ptr);
+  explicit SingleCoreApplicationPrivate(SingleCoreApplication *_q_ptr);
   ~SingleCoreApplicationPrivate();
 
   void genBlockServerName();

@@ -36,7 +36,7 @@ class VlcScopedRef {
   T* operator ->() const { return ptr_; }
 
  private:
-  explicit VlcScopedRef(VlcScopedRef&) {}
+  VlcScopedRef(VlcScopedRef&) {}
   VlcScopedRef& operator =(const VlcScopedRef&) { return *this; }
 
   T* ptr_;

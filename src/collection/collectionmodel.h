@@ -107,7 +107,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   };
 
   struct Grouping {
-    Grouping(GroupBy f = GroupBy_None, GroupBy s = GroupBy_None, GroupBy t = GroupBy_None)
+    explicit Grouping(GroupBy f = GroupBy_None, GroupBy s = GroupBy_None, GroupBy t = GroupBy_None)
         : first(f), second(s), third(t) {}
 
     GroupBy first;

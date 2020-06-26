@@ -38,7 +38,7 @@ class DeviceDatabaseBackend : public QObject {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE DeviceDatabaseBackend(QObject *parent = nullptr);
+  Q_INVOKABLE explicit DeviceDatabaseBackend(QObject *parent = nullptr);
 
   struct Device {
     Device() : id_(-1) {}

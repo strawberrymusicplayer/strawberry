@@ -57,7 +57,7 @@ class Player;
 
 class QueuedItemDelegate : public QStyledItemDelegate {
 public:
-  QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
+  explicit QueuedItemDelegate(QObject *parent, int indicator_column = Playlist::Column_Title);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
   void DrawBox(QPainter *painter, const QRect &line_rect, const QFont &font, const QString &text, int width = -1) const;
@@ -118,13 +118,13 @@ class DateItemDelegate : public PlaylistDelegateBase {
 
 class LastPlayedItemDelegate : public PlaylistDelegateBase {
  public:
-  LastPlayedItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit LastPlayedItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 
 class FileTypeItemDelegate : public PlaylistDelegateBase {
  public:
-  FileTypeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
+  explicit FileTypeItemDelegate(QObject *parent) : PlaylistDelegateBase(parent) {}
   QString displayText(const QVariant &value, const QLocale &locale) const override;
 };
 

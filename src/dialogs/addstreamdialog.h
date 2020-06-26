@@ -31,7 +31,7 @@ class AddStreamDialog : public QDialog {
   Q_OBJECT
 
  public:
-  AddStreamDialog(QWidget *parent = nullptr);
+  explicit AddStreamDialog(QWidget *parent = nullptr);
   ~AddStreamDialog() override;
 
   QUrl url() const { return QUrl(ui_->url->text()); }

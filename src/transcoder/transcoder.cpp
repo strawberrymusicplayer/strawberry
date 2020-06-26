@@ -75,7 +75,7 @@ GstElement *Transcoder::CreateElement(const QString &factory_name, GstElement *b
 
 struct SuitableElement {
 
-  SuitableElement(const QString &name = QString(), int rank = 0) : name_(name), rank_(rank) {}
+  explicit SuitableElement(const QString &name = QString(), int rank = 0) : name_(name), rank_(rank) {}
 
   bool operator<(const SuitableElement &other) const {
     return rank_ < other.rank_;

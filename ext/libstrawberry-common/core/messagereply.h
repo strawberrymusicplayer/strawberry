@@ -31,7 +31,7 @@ class _MessageReplyBase : public QObject {
   Q_OBJECT
 
  public:
-  _MessageReplyBase(QObject *parent = nullptr);
+  explicit _MessageReplyBase(QObject *parent = nullptr);
 
   virtual int id() const = 0;
   bool is_finished() const { return finished_; }
@@ -57,7 +57,7 @@ class _MessageReplyBase : public QObject {
 template <typename MessageType>
 class MessageReply : public _MessageReplyBase {
  public:
-  MessageReply(const MessageType& request_message, QObject *parent = nullptr);
+  explicit MessageReply(const MessageType& request_message, QObject *parent = nullptr);
 
   int id() const { return request_message_.id(); }
   const MessageType& request_message() const { return request_message_; }

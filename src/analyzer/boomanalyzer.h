@@ -40,7 +40,7 @@ class BoomAnalyzer : public Analyzer::Base {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE BoomAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BoomAnalyzer(QWidget*);
 
   static const char* kName;
 

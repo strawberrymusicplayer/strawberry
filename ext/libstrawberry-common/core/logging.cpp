@@ -89,7 +89,7 @@ template <class T>
 class DebugBase : public QDebug {
  public:
   DebugBase() : QDebug(sNullDevice) {}
-  DebugBase(QtMsgType t) : QDebug(t) {}
+  explicit DebugBase(QtMsgType t) : QDebug(t) {}
   T& space() { return static_cast<T&>(QDebug::space()); }
   T& noSpace() { return static_cast<T&>(QDebug::nospace()); }
 };
@@ -98,7 +98,7 @@ class DebugBase : public QDebug {
 class BufferedDebug : public DebugBase<BufferedDebug> {
  public:
   BufferedDebug() {}
-  BufferedDebug(QtMsgType) : buf_(new QBuffer, later_deleter) {
+  explicit BufferedDebug(QtMsgType) : buf_(new QBuffer, later_deleter) {
     buf_->open(QIODevice::WriteOnly);
 
     // QDebug doesn't have a method to set a new io device, but swap() allows the devices to be swapped between two instances.
@@ -117,7 +117,7 @@ class BufferedDebug : public DebugBase<BufferedDebug> {
 class LoggedDebug : public DebugBase<LoggedDebug> {
  public:
   LoggedDebug() {}
-  LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
+  explicit LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
 };
 
 static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QString &message) {

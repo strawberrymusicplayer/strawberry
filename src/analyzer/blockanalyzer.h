@@ -41,7 +41,7 @@ class BlockAnalyzer : public Analyzer::Base {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE BlockAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BlockAnalyzer(QWidget*);
 
   static const uint kHeight;
   static const uint kWidth;

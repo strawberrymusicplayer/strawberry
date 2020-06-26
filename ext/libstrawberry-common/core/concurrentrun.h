@@ -65,7 +65,7 @@ class ThreadFunctorBase : public QFutureInterface<ReturnType>, public QRunnable 
 template <typename ReturnType, typename... Args>
 class ThreadFunctor : public ThreadFunctorBase<ReturnType> {
  public:
-  ThreadFunctor(std::function<ReturnType (Args...)> function, Args... args)
+  explicit ThreadFunctor(std::function<ReturnType (Args...)> function, Args... args)
       : function_(std::bind(function, args...)) {
   }
 
@@ -82,7 +82,7 @@ class ThreadFunctor : public ThreadFunctorBase<ReturnType> {
 template <typename... Args>
 class ThreadFunctor <void, Args...> : public ThreadFunctorBase<void> {
  public:
-  ThreadFunctor(std::function<void (Args...)> function, Args... args)
+  explicit ThreadFunctor(std::function<void (Args...)> function, Args... args)
       : function_(std::bind(function, args...)) {
   }
 

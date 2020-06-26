@@ -43,7 +43,7 @@ class QtSystemTrayIcon : public SystemTrayIcon {
   Q_OBJECT
 
  public:
-  QtSystemTrayIcon(QObject *parent = nullptr);
+  explicit QtSystemTrayIcon(QObject *parent = nullptr);
   ~QtSystemTrayIcon() override;
 
   void SetupMenu(QAction *previous, QAction *play, QAction *stop, QAction *stop_after, QAction *next, QAction *mute, QAction *love, QAction *quit) override;

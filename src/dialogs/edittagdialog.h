@@ -83,7 +83,7 @@ class EditTagDialog : public QDialog {
 
  private:
   struct Data {
-    Data(const Song &song = Song()) : original_(song), current_(song) {}
+    explicit Data(const Song &song = Song()) : original_(song), current_(song) {}
 
     static QVariant value(const Song &song, const QString &id);
     QVariant original_value(const QString &id) const {
@@ -127,7 +127,7 @@ class EditTagDialog : public QDialog {
 
  private:
   struct FieldData {
-    FieldData(QLabel *label = nullptr, QWidget *editor = nullptr, const QString &id = QString())
+    explicit FieldData(QLabel *label = nullptr, QWidget *editor = nullptr, const QString &id = QString())
         : label_(label), editor_(editor), id_(id) {}
 
     QLabel *label_;

@@ -129,7 +129,7 @@ class NyanCatAnalyzer : public RainbowAnalyzer {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE NyanCatAnalyzer(QWidget* parent);
+  Q_INVOKABLE explicit NyanCatAnalyzer(QWidget* parent);
   
   static const char* kName;
 };
@@ -138,7 +138,7 @@ class RainbowDashAnalyzer : public RainbowAnalyzer {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE RainbowDashAnalyzer(QWidget* parent);
+  Q_INVOKABLE explicit RainbowDashAnalyzer(QWidget* parent);
 
   static const char* kName;
 };

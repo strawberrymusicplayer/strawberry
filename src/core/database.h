@@ -129,7 +129,7 @@ class Database : public QObject {
 
 class MemoryDatabase : public Database {
  public:
-  MemoryDatabase(Application *app, QObject *parent = nullptr)
+  explicit MemoryDatabase(Application *app, QObject *parent = nullptr)
       : Database(app, parent, ":memory:") {}
   ~MemoryDatabase() override {
     // Make sure Qt doesn't reuse the same database
