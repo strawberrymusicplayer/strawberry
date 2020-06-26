@@ -32,7 +32,7 @@ You can also make a one-time payment through [paypal.me/jonaskvinge](https://pay
 ### :heavy_check_mark: Features:
 
   * Play and organize music
-  * Supports WAV, FLAC, WavPack, DSF, DSDIFF, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
+  * Supports WAV, FLAC, WavPack, Ogg FLAC, Ogg Vorbis, Ogg Opus, Ogg Speex, MPC, TrueAudio, AIFF, MP4, MP3, ASF and Monkey's Audio.
   * Audio CD playback
   * Native desktop notifications
   * Playlists in multiple formats
