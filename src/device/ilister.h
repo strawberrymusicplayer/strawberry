@@ -40,22 +40,22 @@ class iLister : public DeviceLister {
 
  public:
   explicit iLister();
-  ~iLister();
+  ~iLister() override;
 
-  int priority() const { return 120; }
+  int priority() const override { return 120; }
 
-  virtual QStringList DeviceUniqueIDs();
-  virtual QVariantList DeviceIcons(const QString &id);
-  virtual QString DeviceManufacturer(const QString &id);
-  virtual QString DeviceModel(const QString &id);
-  virtual quint64 DeviceCapacity(const QString &id);
-  virtual quint64 DeviceFreeSpace(const QString &id);
-  virtual QVariantMap DeviceHardwareInfo(const QString &id);
-  virtual QString MakeFriendlyName(const QString &id);
-  virtual QList<QUrl> MakeDeviceUrls(const QString &id);
+  QStringList DeviceUniqueIDs() override;
+  QVariantList DeviceIcons(const QString &id) override;
+  QString DeviceManufacturer(const QString &id) override;
+  QString DeviceModel(const QString &id) override;
+  quint64 DeviceCapacity(const QString &id) override;
+  quint64 DeviceFreeSpace(const QString &id) override;
+  QVariantMap DeviceHardwareInfo(const QString &id) override;
+  QString MakeFriendlyName(const QString &id) override;
+  QList<QUrl> MakeDeviceUrls(const QString &id) override;
 
  public slots:
-  virtual void UpdateDeviceFreeSpace(const QString &id);
+  void UpdateDeviceFreeSpace(const QString &id) override;
 
  private:
   struct DeviceInfo {
@@ -80,7 +80,7 @@ class iLister : public DeviceLister {
     QString bt_mac;
   };
 
-  virtual bool Init();
+  bool Init() override;
 
   static void EventCallback(const idevice_event_t *event, void *context);
 

@@ -92,7 +92,7 @@ public:
    * @see See the corresponding QAPPLICATION_CLASS constructor for reference
    */
   explicit SingleApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 1000 );
-  ~SingleApplication();
+  ~SingleApplication() override;
 
   /**
    * @brief Returns if the instance is the primary instance

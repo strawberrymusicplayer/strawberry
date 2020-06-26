@@ -44,20 +44,20 @@ class AfcDevice : public GPodDevice {
 
 public:
   Q_INVOKABLE AfcDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
-  ~AfcDevice();
+  ~AfcDevice() override;
 
-  bool Init();
+  bool Init() override;
 
   static QStringList url_schemes() { return QStringList() << "afc"; }
 
-  bool StartCopy(QList<Song::FileType> *supported_types);
-  bool CopyToStorage(const CopyJob &job);
-  void FinishCopy(const bool success);
+  bool StartCopy(QList<Song::FileType> *supported_types) override;
+  bool CopyToStorage(const CopyJob &job) override;
+  void FinishCopy(const bool success) override;
 
-  bool DeleteFromStorage(const DeleteJob &job);
+  bool DeleteFromStorage(const DeleteJob &job) override;
 
  protected:
-  void FinaliseDatabase();
+  void FinaliseDatabase() override;
 
  private slots:
   void CopyFinished(bool success);

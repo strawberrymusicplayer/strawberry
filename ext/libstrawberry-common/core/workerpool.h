@@ -68,7 +68,7 @@ template <typename HandlerType>
 class WorkerPool : public _WorkerPoolBase {
  public:
   explicit WorkerPool(QObject *parent = nullptr);
-  ~WorkerPool();
+  ~WorkerPool() override;
 
   typedef typename HandlerType::MessageType MessageType;
   typedef typename HandlerType::ReplyType ReplyType;
@@ -95,10 +95,10 @@ class WorkerPool : public _WorkerPoolBase {
 
 protected:
   // These are all reimplemented slots, they are called on the WorkerPool's thread.
-  void DoStart();
-  void NewConnection();
-  void ProcessError(QProcess::ProcessError error);
-  void SendQueuedMessages();
+  void DoStart() override;
+  void NewConnection() override;
+  void ProcessError(QProcess::ProcessError error) override;
+  void SendQueuedMessages() override;
 
 private:
   struct Worker {

@@ -33,8 +33,8 @@ public:
   explicit TagReaderWorker(QIODevice *socket, QObject *parent = nullptr);
 
 protected:
-  void MessageArrived(const pb::tagreader::Message &message);
-  void DeviceClosed();
+  void MessageArrived(const pb::tagreader::Message &message) override;
+  void DeviceClosed() override;
 
 private:
   TagReader tag_reader_;

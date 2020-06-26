@@ -59,7 +59,7 @@ class ThreadFunctorBase : public QFutureInterface<ReturnType>, public QRunnable 
     return future;
   }
 
-  virtual void run() = 0;
+  void run() override = 0;
 };
 
 template <typename ReturnType, typename... Args>
@@ -69,7 +69,7 @@ class ThreadFunctor : public ThreadFunctorBase<ReturnType> {
       : function_(std::bind(function, args...)) {
   }
 
-  virtual void run() {
+  void run() override {
     this->reportResult(function_());
     this->reportFinished();
   }
@@ -86,7 +86,7 @@ class ThreadFunctor <void, Args...> : public ThreadFunctorBase<void> {
       : function_(std::bind(function, args...)) {
   }
 
-  virtual void run() {
+  void run() override {
     function_();
     this->reportFinished();
   }

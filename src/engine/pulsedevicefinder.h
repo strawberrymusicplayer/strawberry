@@ -34,10 +34,10 @@
 class PulseDeviceFinder : public DeviceFinder {
  public:
   explicit PulseDeviceFinder();
-  ~PulseDeviceFinder();
+  ~PulseDeviceFinder() override;
 
-  virtual bool Initialise();
-  virtual QList<Device> ListDevices();
+  bool Initialise() override;
+  QList<Device> ListDevices() override;
 
  private:
   struct ListDevicesState {

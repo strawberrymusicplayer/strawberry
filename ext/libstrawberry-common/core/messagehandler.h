@@ -82,7 +82,7 @@ template <typename MT>
 class AbstractMessageHandler : public _MessageHandlerBase {
 public:
   AbstractMessageHandler(QIODevice *device, QObject *parent);
-  ~AbstractMessageHandler() { AbortAll(); }
+  ~AbstractMessageHandler() override { AbortAll(); }
 
   typedef MT MessageType;
   typedef MessageReply<MT> ReplyType;
@@ -107,8 +107,8 @@ protected:
   virtual void MessageArrived(const MessageType &message) { Q_UNUSED(message); }
 
   // _MessageHandlerBase
-  bool RawMessageArrived(const QByteArray &data);
-  void AbortAll();
+  bool RawMessageArrived(const QByteArray &data) override;
+  void AbortAll() override;
 
 private:
   QMap<int, ReplyType*> pending_replies_;

@@ -48,25 +48,25 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
 
  public:
   Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, DeviceManager *manager, Application *app, const int database_id, const bool first_time);
-  ~GPodDevice();
+  ~GPodDevice() override;
 
-  bool Init();
-  void ConnectAsync();
-  void Close();
-  bool IsLoading() { return loader_; }
+  bool Init() override;
+  void ConnectAsync() override;
+  void Close() override;
+  bool IsLoading() override { return loader_; }
   QObject *Loader() { return loader_; }
 
   static QStringList url_schemes() { return QStringList() << "ipod"; }
 
-  bool GetSupportedFiletypes(QList<Song::FileType> *ret);
+  bool GetSupportedFiletypes(QList<Song::FileType> *ret) override;
 
-  bool StartCopy(QList<Song::FileType> *supported_types);
-  bool CopyToStorage(const CopyJob &job);
-  void FinishCopy(bool success);
+  bool StartCopy(QList<Song::FileType> *supported_types) override;
+  bool CopyToStorage(const CopyJob &job) override;
+  void FinishCopy(bool success) override;
 
-  void StartDelete();
-  bool DeleteFromStorage(const DeleteJob &job);
-  void FinishDelete(bool success);
+  void StartDelete() override;
+  bool DeleteFromStorage(const DeleteJob &job) override;
+  void FinishDelete(bool success) override;
 
  protected slots:
   void LoadFinished(Itdb_iTunesDB *db, bool success);

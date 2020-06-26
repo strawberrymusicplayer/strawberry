@@ -59,7 +59,7 @@ class MessageReply : public _MessageReplyBase {
  public:
   explicit MessageReply(const MessageType& request_message, QObject *parent = nullptr);
 
-  int id() const { return request_message_.id(); }
+  int id() const override { return request_message_.id(); }
   const MessageType& request_message() const { return request_message_; }
   const MessageType& message() const { return reply_message_; }
 

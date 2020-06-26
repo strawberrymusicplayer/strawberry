@@ -41,7 +41,7 @@ class GPodLoader : public QObject {
 
  public:
   explicit GPodLoader(const QString &mount_point, TaskManager *task_manager, CollectionBackend *backend, std::shared_ptr<ConnectedDevice> device);
-  ~GPodLoader();
+  ~GPodLoader() override;
 
   void set_music_path_prefix(const QString &prefix) { path_prefix_ = prefix; }
   void set_song_type(Song::FileType type) { type_ = type; }

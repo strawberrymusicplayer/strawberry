@@ -65,7 +65,7 @@ class ObjectHelper : public QObject {
   Q_OBJECT
  public:
   ObjectHelper(QObject *sender, const char *signal, ClosureBase *closure);
-  ~ObjectHelper();
+  ~ObjectHelper() override;
 
  private slots:
   void Invoked();
@@ -113,7 +113,7 @@ class Closure : public ClosureBase {
     QObject::connect(receiver_, SIGNAL(destroyed()), helper_, SLOT(deleteLater()));
   }
 
-  virtual void Invoke() {
+  void Invoke() override {
     function_();
   }
 
@@ -167,7 +167,7 @@ class CallbackClosure : public ClosureBase {
  public:
   CallbackClosure(QObject *sender, const char *signal, std::function<void()> callback);
 
-  virtual void Invoke();
+  void Invoke() override;
 
  private:
   std::function<void()> callback_;
