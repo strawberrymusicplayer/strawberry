@@ -88,16 +88,17 @@ class TidalRequest : public TidalBaseRequest {
 
  private:
   struct Request {
-    QString artist_id = 0;
-    QString album_id = 0;
-    QString song_id = 0;
-    int offset = 0;
-    int limit = 0;
+    Request() : offset(0), limit(0) {}
+    QString artist_id;
+    QString album_id;
+    QString song_id;
+    int offset;
+    int limit;
     QString album_artist;
   };
   struct AlbumCoverRequest {
-    qint64 artist_id = 0;
-    QString album_id = 0;
+    QString artist_id;
+    QString album_id;
     QUrl url;
     QString filename;
   };
