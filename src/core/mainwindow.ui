@@ -18,7 +18,7 @@
     <normaloff>:/icons/64x64/strawberry.png</normaloff>:/icons/64x64/strawberry.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <layout class="QVBoxLayout" name="layout_centralWidget">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -83,7 +83,7 @@
           </item>
           <item>
            <widget class="QWidget" name="player_controls_container" native="true">
-            <layout class="QVBoxLayout" name="player_controls_layout">
+            <layout class="QVBoxLayout" name="layout_player_controls_container">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -104,7 +104,7 @@
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <layout class="QHBoxLayout" name="layout_player_controls">
                 <property name="spacing">
                  <number>1</number>
                 </property>
@@ -180,7 +180,7 @@
                 </item>
                 <item>
                  <widget class="QWidget" name="widget_love" native="true">
-                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <layout class="QHBoxLayout" name="layout_widget_love">
                    <property name="spacing">
                     <number>1</number>
                    </property>
@@ -205,6 +205,12 @@
                    </item>
                    <item>
                     <widget class="QToolButton" name="button_love">
+                     <property name="iconSize">
+                      <size>
+                       <width>22</width>
+                       <height>22</height>
+                      </size>
+                     </property>
                      <property name="autoRaise">
                       <bool>true</bool>
                      </property>
@@ -286,7 +292,7 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <layout class="QVBoxLayout" name="status_bar_layout">
+               <layout class="QVBoxLayout" name="layout_status_bar">
                 <property name="spacing">
                  <number>0</number>
                 </property>
@@ -317,7 +323,7 @@
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout">
+                  <layout class="QHBoxLayout" name="layout_status_bar_internal">
                    <property name="spacing">
                     <number>3</number>
                    </property>
@@ -336,11 +342,11 @@
                    <item>
                     <widget class="QStackedWidget" name="status_bar_stack">
                      <property name="currentIndex">
-                      <number>0</number>
+                      <number>1</number>
                      </property>
                      <widget class="MultiLoadingIndicator" name="multi_loading_indicator"/>
                      <widget class="QWidget" name="playlist_summary_page">
-                      <layout class="QVBoxLayout" name="playlist_summary_layout">
+                      <layout class="QVBoxLayout" name="layout_playlist_summary">
                        <property name="spacing">
                         <number>0</number>
                        </property>
@@ -442,7 +448,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
